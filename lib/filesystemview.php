@@ -195,7 +195,7 @@ class OC_FilesystemView {
 		return $this->basicOperation('filesize', $path);
 	}
 	public function readfile($path) {
-		@ob_end_clean();
+		OC_Util::obEnd();
 		$handle=$this->fopen($path, 'rb');
 		if ($handle) {
 			$chunkSize = 8192;// 8 MB chunks

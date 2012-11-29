@@ -594,20 +594,29 @@ class OC_Util {
 		$connected = @fsockopen("www.owncloud.org", 80); 
 		if ($connected) {
 			fclose($connected);
-			return true; 
+			return true;
 		}else{
 
 			// second try in case one server is down
 			$connected = @fsockopen("apps.owncloud.com", 80); 
 			if ($connected) {
 				fclose($connected);
-				return true; 
+				return true;
 			}else{
-				return false; 
+				return false;
 			}
 
 		}
 
+	}
+
+	/**
+	 * clear all levels of output buffering
+	 */
+	public static function obEnd(){
+		while (ob_get_level()) {
+			ob_end_clean();
+		}
 	}
 
 
