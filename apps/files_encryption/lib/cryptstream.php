@@ -23,8 +23,9 @@
 /**
  * transparently encrypted filestream
  *
- * you can use it as wrapper around an existing stream by setting OC_CryptStream::$sourceStreams['foo']=array('path'=>$path, 'stream'=>$stream)
- *   and then fopen('crypt://streams/foo');
+ * you can use it as wrapper around an existing stream by setting
+ * OC_CryptStream::$sourceStreams['foo']=array('path'=>$path, 'stream'=>$stream)
+ * and then fopen('crypt://streams/foo');
  */
 
 class OC_CryptStream{
@@ -37,29 +38,29 @@ class OC_CryptStream{
 	private static $rootView;
 
 	public function stream_open($path, $mode, $options, &$opened_path) {
-		if(!self::$rootView) {
+		if ( ! self::$rootView) {
 			self::$rootView=new OC_FilesystemView('');
 		}
 		$path=str_replace('crypt://', '', $path);
-		if(dirname($path)=='streams' and isset(self::$sourceStreams[basename($path)])) {
+		if (dirname($path)=='streams' and isset(self::$sourceStreams[basename($path)])) {
 			$this->source=self::$sourceStreams[basename($path)]['stream'];
 			$this->path=self::$sourceStreams[basename($path)]['path'];
 			$this->size=self::$sourceStreams[basename($path)]['size'];
-		}else{
+		} else {
 			$this->path=$path;
-			if($mode=='w' or $mode=='w+' or $mode=='wb' or $mode=='wb+') {
+			if ($mode=='w' or $mode=='w+' or $mode=='wb' or $mode=='wb+') {
 				$this->size=0;
-			}else{
+			} else {
 				$this->size=self::$rootView->filesize($path, $mode);
 			}
 			OC_FileProxy::$enabled=false;//disable fileproxies so we can open the source file
 			$this->source=self::$rootView->fopen($path, $mode);
 			OC_FileProxy::$enabled=true;
-			if(!is_resource($this->source)) {
+			if ( ! is_resource($this->source)) {
 				OCP\Util::writeLog('files_encryption', 'failed to open '.$path, OCP\Util::ERROR);
 			}
 		}
-		if(is_resource($this->source)) {
+		if (is_resource($this->source)) {
 			$this->meta=stream_get_meta_data($this->source);
 		}
 		return is_resource($this->source);
@@ -78,19 +79,21 @@ class OC_CryptStream{
 		//$count will always be 8192 https://bugs.php.net/bug.php?id=21641
 		//This makes this function a lot simpler but will breake everything the moment it's fixed
 		$this->writeCache='';
-		if($count!=8192) {
-			OCP\Util::writeLog('files_encryption', 'php bug 21641 no longer holds, decryption will not work', OCP\Util::FATAL);
+		if ($count!=8192) {
+			OCP\Util::writeLog('files_encryption',
+							   'php bug 21641 no longer holds, decryption will not work',
+							   OCP\Util::FATAL);
 			die();
 		}
 		$pos=ftell($this->source);
 		$data=fread($this->source, 8192);
-		if(strlen($data)) {
+		if (strlen($data)) {
 			$result=OC_Crypt::decrypt($data);
-		}else{
+		} else {
 			$result='';
 		}
 		$length=$this->size-$pos;
-		if($length<8192) {
+		if ($length<8192) {
 			$result=substr($result, 0, $length);
 		}
 		return $result;
@@ -99,11 +102,11 @@ class OC_CryptStream{
 	public function stream_write($data) {
 		$length=strlen($data);
 		$currentPos=ftell($this->source);
-		if($this->writeCache) {
+		if ($this->writeCache) {
 			$data=$this->writeCache.$data;
 			$this->writeCache='';
 		}
-		if($currentPos%8192!=0) {
+		if ($currentPos%8192!=0) {
 			//make sure we always start on a block start
 			fseek($this->source, -($currentPos%8192), SEEK_CUR);
 			$encryptedBlock=fread($this->source, 8192);
@@ -113,11 +116,11 @@ class OC_CryptStream{
 			fseek($this->source, -($currentPos%8192), SEEK_CUR);
 		}
 		$currentPos=ftell($this->source);
-		while($remainingLength=strlen($data)>0) {
-			if($remainingLength<8192) {
+		while ($remainingLength=strlen($data)>0) {
+			if ($remainingLength<8192) {
 				$this->writeCache=$data;
 				$data='';
-			}else{
+			} else {
 				$encrypted=OC_Crypt::encrypt(substr($data, 0, 8192));
 				fwrite($this->source, $encrypted);
 				$data=substr($data, 8192);
@@ -157,7 +160,7 @@ class OC_CryptStream{
 	}
 
 	private function flush() {
-		if($this->writeCache) {
+		if ($this->writeCache) {
 			$encrypted=OC_Crypt::encrypt($this->writeCache);
 			fwrite($this->source, $encrypted);
 			$this->writeCache='';
@@ -166,7 +169,7 @@ class OC_CryptStream{
 
 	public function stream_close() {
 		$this->flush();
-		if($this->meta['mode']!='r' and $this->meta['mode']!='rb') {
+		if ($this->meta['mode']!='r' and $this->meta['mode']!='rb') {
 			OC_FileCache::put($this->path, array('encrypted'=>true, 'size'=>$this->size), '');
 		}
 		return fclose($this->source);

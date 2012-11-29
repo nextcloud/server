@@ -27,7 +27,8 @@
 //  - Setting if crypto should be on by default
 //  - Add a setting "Don´t encrypt files larger than xx because of performance reasons"
 //  - Transparent decrypt/encrypt in filesystem.php. Autodetect if a file is encrypted (.encrypted extension)
-//  - Don't use a password directly as encryption key. but a key which is stored on the server and encrypted with the user password. -> password change faster
+//  - Don't use a password directly as encryption key, but a key which is stored on the server and encrypted with the
+//    user password. -> password change faster
 //  - IMPORTANT! Check if the block lenght of the encrypted data stays the same
 
 
@@ -45,12 +46,12 @@ class OC_Crypt {
 
 	public static function init($login, $password) {
 		$view=new OC_FilesystemView('/');
-		if(!$view->file_exists('/'.$login)) {
+		if ( ! $view->file_exists('/'.$login)) {
 			$view->mkdir('/'.$login);
 		}
 
 		OC_FileProxy::$enabled=false;
-		if(!$view->file_exists('/'.$login.'/encryption.key')) {// does key exist?
+		if ( ! $view->file_exists('/'.$login.'/encryption.key')) {// does key exist?
 			OC_Crypt::createkey($login, $password);
 		}
 		$key=$view->file_get_contents('/'.$login.'/encryption.key');
@@ -67,13 +68,13 @@ class OC_Crypt {
 	 * if the key is left out, the default handeler will be used
 	 */
 	public static function getBlowfish($key='') {
-		if($key) {
+		if ($key) {
 			return new Crypt_Blowfish($key);
-		}else{
-			if(!isset($_SESSION['enckey'])) {
+		} else {
+			if ( ! isset($_SESSION['enckey'])) {
 				return false;
 			}
-			if(!self::$bf) {
+			if ( ! self::$bf) {
 				self::$bf=new Crypt_Blowfish($_SESSION['enckey']);
 			}
 			return self::$bf;
@@ -96,7 +97,7 @@ class OC_Crypt {
 	}
 
 	public static function changekeypasscode($oldPassword, $newPassword) {
-		if(OCP\User::isLoggedIn()) {
+		if (OCP\User::isLoggedIn()) {
 			$username=OCP\USER::getUser();
 			$view=new OC_FilesystemView('/'.$username);
 
@@ -151,7 +152,7 @@ class OC_Crypt {
 	*/
 	public static function encryptFile( $source, $target, $key='') {
 		$handleread  = fopen($source, "rb");
-		if($handleread!=false) {
+		if ($handleread!=false) {
 			$handlewrite = fopen($target, "wb");
 			while (!feof($handleread)) {
 				$content = fread($handleread, 8192);
@@ -174,12 +175,12 @@ class OC_Crypt {
 		*/
 	public static function decryptFile( $source, $target, $key='') {
 		$handleread  = fopen($source, "rb");
-		if($handleread!=false) {
+		if ($handleread!=false) {
 			$handlewrite = fopen($target, "wb");
 			while (!feof($handleread)) {
 				$content = fread($handleread, 8192);
 				$enccontent=OC_CRYPT::decrypt( $content, $key);
-				if(feof($handleread)) {
+				if (feof($handleread)) {
 					$enccontent=rtrim($enccontent, "\0");
 				}
 				fwrite($handlewrite, $enccontent);
@@ -194,7 +195,7 @@ class OC_Crypt {
 	 */
 	public static function blockEncrypt($data, $key='') {
 		$result='';
-		while(strlen($data)) {
+		while (strlen($data)) {
 			$result.=self::encrypt(substr($data, 0, 8192), $key);
 			$data=substr($data, 8192);
 		}
@@ -206,13 +207,13 @@ class OC_Crypt {
 	 */
 	public static function blockDecrypt($data, $key='', $maxLength=0) {
 		$result='';
-		while(strlen($data)) {
+		while (strlen($data)) {
 			$result.=self::decrypt(substr($data, 0, 8192), $key);
 			$data=substr($data, 8192);
 		}
-		if($maxLength>0) {
+		if ($maxLength>0) {
 			return substr($result, 0, $maxLength);
-		}else{
+		} else {
 			return rtrim($result, "\0");
 		}
 	}

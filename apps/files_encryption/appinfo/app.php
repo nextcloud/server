@@ -10,7 +10,9 @@ OCP\Util::connectHook('OC_User', 'post_login', 'OC_Crypt', 'loginListener');
 
 stream_wrapper_register('crypt', 'OC_CryptStream');
 
-if(!isset($_SESSION['enckey']) and OCP\User::isLoggedIn()) {//force the user to re-loggin if the encryption key isn't unlocked (happens when a user is logged in before the encryption app is enabled)
+// force the user to re-loggin if the encryption key isn't unlocked
+// (happens when a user is logged in before the encryption app is enabled)
+if ( ! isset($_SESSION['enckey']) and OCP\User::isLoggedIn()) {
 	OCP\User::logout();
 	header("Location: ".OC::$WEBROOT.'/');
 	exit();
