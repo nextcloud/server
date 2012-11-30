@@ -253,6 +253,8 @@ class OC_App{
 	 * highlighting the current position of the user.
 	 */
 	public static function setActiveNavigationEntry( $id ) {
+		// load all the apps, to make sure we have all the navigation entries
+		self::loadApps();
 		self::$activeapp = $id;
 		return true;
 	}
