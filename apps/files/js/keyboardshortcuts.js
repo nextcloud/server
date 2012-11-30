@@ -26,7 +26,7 @@ var keyCodes = {
 	cmdOpera: 17,
 	leftCmdWebKit: 91,
 	rightCmdWebKit: 93,
-	ctrl: 16,
+	ctrl: 17,
 	esc: 27,
 	downArrow: 40,
 	upArrow: 38,
