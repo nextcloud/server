@@ -36,16 +36,13 @@ class Storage {
 	const DEFAULTMAXVERSIONS=50;
 
 	private static function getUidAndFilename($filename)
-	{
+	{		
 		if (\OCP\App::isEnabled('files_sharing')
 		    && substr($filename, 0, 7) == '/Shared'
-		    && $source = \OCP\Share::getItemSharedWith('file',
-					substr($filename, 7),
-					\OC_Share_Backend_File::FORMAT_SHARED_STORAGE)) {
-			$filename = $source['path'];
-			$pos = strpos($filename, '/files', 1);
-			$uid = substr($filename, 1, $pos - 1);
-			$filename = substr($filename, $pos + 6);
+		    && $source = \OC_Files_Sharing_Util::getSourcePath(substr($filename, 8))) {
+			$pos = strpos($source, '/files', 1);
+			$uid = substr($source, 1, $pos - 1);
+			$filename = substr($source, $pos + 6);
 		} else {
 			$uid = \OCP\User::getUser();
 		}
@@ -60,7 +57,6 @@ class Storage {
 			list($uid, $filename) = self::getUidAndFilename($filename);
 			$files_view = new \OC_FilesystemView('/'. $uid .'/files');
 			$users_view = new \OC_FilesystemView('/'.$uid);
-
 			//check if source file already exist as version to avoid recursions.
 			// todo does this check work?
 			if ($users_view->file_exists($filename)) {
@@ -91,12 +87,12 @@ class Storage {
 				return false;
 			}
 
-
+			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
+			$versionsFolderName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('');
+			
 			// check mininterval if the file is being modified by the owner (all shared files should be versioned despite mininterval)
 			if ($uid == \OCP\User::getUser()) {
-				$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
 				$versionsName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
-				$versionsFolderName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('');
 				$matches=glob($versionsName.'.v*');
 				sort($matches);
 				$parts=explode('.v',end($matches));
