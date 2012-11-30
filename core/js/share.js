@@ -146,7 +146,7 @@ OC.Share={
 	showDropDown:function(itemType, itemSource, appendTo, link, possiblePermissions) {
 		var data = OC.Share.loadItem(itemType, itemSource);
 		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-source="'+itemSource+'">';
-		if (data.reshare) {
+		if (data !== false && data.reshare !== false && data.reshare.uid_owner !== undefined) {
 			if (data.reshare.share_type == OC.Share.SHARE_TYPE_GROUP) {
 				html += '<span class="reshare">'+t('core', 'Shared with you and the group {group} by {owner}', {group: data.reshare.share_with, owner: data.reshare.uid_owner})+'</span>';
 			} else {
