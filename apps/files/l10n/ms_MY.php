@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Tiada ralat, fail berjaya dimuat naik.",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Fail yang dimuat naik melebihi penyata upload_max_filesize dalam php.ini",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Fail yang dimuat naik melebihi MAX_FILE_SIZE yang dinyatakan dalam form HTML ",
 "The uploaded file was only partially uploaded" => "Sebahagian daripada fail telah dimuat naik. ",
 "No file was uploaded" => "Tiada fail yang dimuat naik",
@@ -33,7 +32,6 @@
 "Upload" => "Muat naik",
 "Cancel upload" => "Batal muat naik",
 "Nothing in here. Upload something!" => "Tiada apa-apa di sini. Muat naik sesuatu!",
-"Share" => "Kongsi",
 "Download" => "Muat turun",
 "Upload too large" => "Muat naik terlalu besar",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Fail yang cuba dimuat naik melebihi saiz maksimum fail upload server",

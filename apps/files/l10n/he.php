@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "לא אירעה תקלה, הקבצים הועלו בהצלחה",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "הקובץ שהועלה חרג מההנחיה upload_max_filesize בקובץ php.ini",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "הקובץ שהועלה חרג מההנחיה MAX_FILE_SIZE שצוינה בטופס ה־HTML",
 "The uploaded file was only partially uploaded" => "הקובץ שהועלה הועלה בצורה חלקית",
 "No file was uploaded" => "לא הועלו קבצים",
@@ -32,7 +31,6 @@
 "Upload" => "העלאה",
 "Cancel upload" => "ביטול ההעלאה",
 "Nothing in here. Upload something!" => "אין כאן שום דבר. אולי ברצונך להעלות משהו?",
-"Share" => "שיתוף",
 "Download" => "הורדה",
 "Upload too large" => "העלאה גדולה מידי",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "הקבצים שניסית להעלות חרגו מהגודל המקסימלי להעלאת קבצים על שרת זה.",

@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "නිවැරදි ව ගොනුව උඩුගත කෙරිනි",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "php.ini හි upload_max_filesize නියමයට වඩා උඩුගත කළ ගොනුව විශාලයි",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "උඩුගත කළ ගොනුවේ විශාලත්වය HTML පෝරමයේ නියම කළ ඇති MAX_FILE_SIZE විශාලත්වයට වඩා වැඩිය",
 "The uploaded file was only partially uploaded" => "උඩුගත කළ ගොනුවේ කොටසක් පමණක් උඩුගත විය",
 "No file was uploaded" => "කිසිදු ගොනවක් උඩුගත නොවිනි",
@@ -41,7 +40,6 @@
 "Upload" => "උඩුගත කිරීම",
 "Cancel upload" => "උඩුගත කිරීම අත් හරින්න",
 "Nothing in here. Upload something!" => "මෙහි කිසිවක් නොමැත. යමක් උඩුගත කරන්න",
-"Share" => "බෙදාහදාගන්න",
 "Download" => "බාගත කිරීම",
 "Upload too large" => "උඩුගත කිරීම විශාල වැඩිය",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "ඔබ උඩුගත කිරීමට තැත් කරන ගොනු මෙම සේවාදායකයා උඩුගත කිරීමට ඉඩදී ඇති උපරිම ගොනු විශාලත්වයට වඩා වැඩිය",

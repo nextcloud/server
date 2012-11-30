@@ -11,6 +11,7 @@
 "Authentication error" => "Помилка автентифікації",
 "Unable to delete user" => "Не вдалося видалити користувача",
 "Language changed" => "Мова змінена",
+"Admins can't remove themself from the admin group" => "Адміністратор не може видалити себе з групи адмінів",
 "Unable to add user to group %s" => "Не вдалося додати користувача у групу %s",
 "Unable to remove user from group %s" => "Не вдалося видалити користувача із групи %s",
 "Disable" => "Вимкнути",

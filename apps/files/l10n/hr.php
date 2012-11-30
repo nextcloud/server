@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Datoteka je poslana uspješno i bez pogrešaka",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Poslana datoteka izlazi iz okvira upload_max_size direktive postavljene u php.ini konfiguracijskoj datoteci",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Poslana datoteka izlazi iz okvira MAX_FILE_SIZE direktive postavljene u HTML obrascu",
 "The uploaded file was only partially uploaded" => "Datoteka je poslana samo djelomično",
 "No file was uploaded" => "Ni jedna datoteka nije poslana",
@@ -40,7 +39,6 @@
 "Upload" => "Pošalji",
 "Cancel upload" => "Prekini upload",
 "Nothing in here. Upload something!" => "Nema ničega u ovoj mapi. Pošalji nešto!",
-"Share" => "podjeli",
 "Download" => "Preuzmi",
 "Upload too large" => "Prijenos je preobiman",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Datoteke koje pokušavate prenijeti prelaze maksimalnu veličinu za prijenos datoteka na ovom poslužitelju.",

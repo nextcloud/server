@@ -11,6 +11,7 @@
 "Authentication error" => "Authenticatie fout",
 "Unable to delete user" => "Niet in staat om gebruiker te verwijderen",
 "Language changed" => "Taal aangepast",
+"Admins can't remove themself from the admin group" => "Admins kunnen zichzelf niet uit de admin groep verwijderen",
 "Unable to add user to group %s" => "Niet in staat om gebruiker toe te voegen aan groep %s",
 "Unable to remove user from group %s" => "Niet in staat om gebruiker te verwijderen uit groep %s",
 "Disable" => "Uitschakelen",

@@ -21,6 +21,7 @@
 "Answer" => "پاسخ",
 "Desktop and Mobile Syncing Clients" => " ابزار مدیریت با دسکتاپ و موبایل",
 "Download" => "بارگیری",
+"Your password was changed" => "رمز عبور شما تغییر یافت",
 "Unable to change your password" => "ناتوان در تغییر گذرواژه",
 "Current password" => "گذرواژه کنونی",
 "New password" => "گذرواژه جدید",

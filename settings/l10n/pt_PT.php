@@ -11,6 +11,7 @@
 "Authentication error" => "Erro de autenticação",
 "Unable to delete user" => "Impossível apagar utilizador",
 "Language changed" => "Idioma alterado",
+"Admins can't remove themself from the admin group" => "Os administradores não se podem remover a eles mesmos do grupo admin.",
 "Unable to add user to group %s" => "Impossível acrescentar utilizador ao grupo %s",
 "Unable to remove user from group %s" => "Impossível apagar utilizador do grupo %s",
 "Disable" => "Desactivar",

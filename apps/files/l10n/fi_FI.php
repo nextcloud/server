@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Ei virheitä, tiedosto lähetettiin onnistuneesti",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Lähetetty tiedosto ylittää upload_max_filesize-arvon rajan php.ini-tiedostossa",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Lähetetty tiedosto ylittää HTML-lomakkeessa määritetyn MAX_FILE_SIZE-arvon ylärajan",
 "The uploaded file was only partially uploaded" => "Tiedoston lähetys onnistui vain osittain",
 "No file was uploaded" => "Yhtäkään tiedostoa ei lähetetty",
@@ -44,7 +43,6 @@
 "Upload" => "Lähetä",
 "Cancel upload" => "Peru lähetys",
 "Nothing in here. Upload something!" => "Täällä ei ole mitään. Lähetä tänne jotakin!",
-"Share" => "Jaa",
 "Download" => "Lataa",
 "Upload too large" => "Lähetettävä tiedosto on liian suuri",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan.",

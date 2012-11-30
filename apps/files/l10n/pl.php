@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Przesłano plik",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Rozmiar przesłanego pliku przekracza maksymalną wartość dyrektywy upload_max_filesize, zawartą w pliku php.ini",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Rozmiar przesłanego pliku przekracza maksymalną wartość dyrektywy upload_max_filesize, zawartą formularzu HTML",
 "The uploaded file was only partially uploaded" => "Plik przesłano tylko częściowo",
 "No file was uploaded" => "Nie przesłano żadnego pliku",
@@ -54,7 +53,6 @@
 "Upload" => "Prześlij",
 "Cancel upload" => "Przestań wysyłać",
 "Nothing in here. Upload something!" => "Brak zawartości. Proszę wysłać pliki!",
-"Share" => "Współdziel",
 "Download" => "Pobiera element",
 "Upload too large" => "Wysyłany plik ma za duży rozmiar",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Pliki które próbujesz przesłać, przekraczają maksymalną, dopuszczalną wielkość.",

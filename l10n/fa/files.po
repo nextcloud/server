@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-24 00:01+0100\n"
-"PO-Revision-Date: 2012-11-23 23:02+0000\n"
+"POT-Creation-Date: 2012-12-01 00:01+0100\n"
+"PO-Revision-Date: 2012-11-30 23:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -25,40 +25,41 @@ msgid "There is no error, the file uploaded with success"
 msgstr "هیچ خطایی وجود ندارد فایل با موفقیت بار گذاری شد"
 
 #: ajax/upload.php:21
-msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr "حداکثر حجم تعیین شده برای بارگذاری در php.ini قابل ویرایش است"
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+msgstr ""
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "حداکثر حجم مجاز برای بارگذاری از طریق HTML \nMAX_FILE_SIZE"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:25
 msgid "The uploaded file was only partially uploaded"
 msgstr "مقدار کمی از فایل بارگذاری شده"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:26
 msgid "No file was uploaded"
 msgstr "هیچ فایلی بارگذاری نشده"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:27
 msgid "Missing a temporary folder"
 msgstr "یک پوشه موقت گم شده است"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:28
 msgid "Failed to write to disk"
 msgstr "نوشتن بر روی دیسک سخت ناموفق بود"
 
-#: appinfo/app.php:6
+#: appinfo/app.php:10
 msgid "Files"
 msgstr "فایل ها"
 
-#: js/fileactions.js:117 templates/index.php:64
+#: js/fileactions.js:117 templates/index.php:83 templates/index.php:84
 msgid "Unshare"
 msgstr ""
 
-#: js/fileactions.js:119 templates/index.php:66
+#: js/fileactions.js:119 templates/index.php:89 templates/index.php:90
 msgid "Delete"
 msgstr "پاک کردن"
 
@@ -157,15 +158,15 @@ msgstr ""
 msgid "error while scanning"
 msgstr ""
 
-#: js/files.js:785 templates/index.php:50
+#: js/files.js:785 templates/index.php:65
 msgid "Name"
 msgstr "نام"
 
-#: js/files.js:786 templates/index.php:58
+#: js/files.js:786 templates/index.php:76
 msgid "Size"
 msgstr "اندازه"
 
-#: js/files.js:787 templates/index.php:60
+#: js/files.js:787 templates/index.php:78
 msgid "Modified"
 msgstr "تغییر یافته"
 
@@ -193,27 +194,27 @@ msgstr "اداره پرونده ها"
 msgid "Maximum upload size"
 msgstr "حداکثر اندازه بارگزاری"
 
-#: templates/admin.php:7
+#: templates/admin.php:9
 msgid "max. possible: "
 msgstr "حداکثرمقدارممکن:"
 
-#: templates/admin.php:9
+#: templates/admin.php:12
 msgid "Needed for multi-file and folder downloads."
 msgstr "احتیاج پیدا خواهد شد برای چند پوشه و پرونده"
 
-#: templates/admin.php:9
+#: templates/admin.php:14
 msgid "Enable ZIP-download"
 msgstr "فعال سازی بارگیری پرونده های فشرده"
 
-#: templates/admin.php:11
+#: templates/admin.php:17
 msgid "0 is unlimited"
 msgstr "0 نامحدود است"
 
-#: templates/admin.php:12
+#: templates/admin.php:19
 msgid "Maximum input size for ZIP files"
 msgstr "حداکثرمقدار برای بار گزاری پرونده های فشرده"
 
-#: templates/admin.php:15
+#: templates/admin.php:23
 msgid "Save"
 msgstr "ذخیره"
 
@@ -221,52 +222,48 @@ msgstr "ذخیره"
 msgid "New"
 msgstr "جدید"
 
-#: templates/index.php:9
+#: templates/index.php:10
 msgid "Text file"
 msgstr "فایل متنی"
 
-#: templates/index.php:10
+#: templates/index.php:12
 msgid "Folder"
 msgstr "پوشه"
 
-#: templates/index.php:11
+#: templates/index.php:14
 msgid "From link"
 msgstr ""
 
-#: templates/index.php:22
+#: templates/index.php:35
 msgid "Upload"
 msgstr "بارگذاری"
 
-#: templates/index.php:29
+#: templates/index.php:43
 msgid "Cancel upload"
 msgstr "متوقف کردن بار گذاری"
 
-#: templates/index.php:42
+#: templates/index.php:57
 msgid "Nothing in here. Upload something!"
 msgstr "اینجا هیچ چیز نیست."
 
-#: templates/index.php:52
-msgid "Share"
-msgstr "به اشتراک گذاری"
-
-#: templates/index.php:54
+#: templates/index.php:71
 msgid "Download"
 msgstr "بارگیری"
 
-#: templates/index.php:77
+#: templates/index.php:103
 msgid "Upload too large"
 msgstr "حجم بارگذاری بسیار زیاد است"
 
-#: templates/index.php:79
+#: templates/index.php:105
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد"
 
-#: templates/index.php:84
+#: templates/index.php:110
 msgid "Files are being scanned, please wait."
 msgstr "پرونده ها در حال بازرسی هستند لطفا صبر کنید"
 
-#: templates/index.php:87
+#: templates/index.php:113
 msgid "Current scanning"
 msgstr "بازرسی کنونی"

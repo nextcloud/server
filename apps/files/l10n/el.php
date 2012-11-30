@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Δεν υπάρχει σφάλμα, το αρχείο εστάλει επιτυχώς",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Το αρχείο που εστάλει υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους \"upload_max_filesize\" του php.ini",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Το αρχείο υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους \"MAX_FILE_SIZE\" που έχει οριστεί στην HTML φόρμα",
 "The uploaded file was only partially uploaded" => "Το αρχείο εστάλει μόνο εν μέρει",
 "No file was uploaded" => "Κανένα αρχείο δεν στάλθηκε",
@@ -54,7 +53,6 @@
 "Upload" => "Αποστολή",
 "Cancel upload" => "Ακύρωση αποστολής",
 "Nothing in here. Upload something!" => "Δεν υπάρχει τίποτα εδώ. Ανέβασε κάτι!",
-"Share" => "Διαμοιρασμός",
 "Download" => "Λήψη",
 "Upload too large" => "Πολύ μεγάλο αρχείο προς αποστολή",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος αποστολής αρχείων σε αυτόν το διακομιστή.",

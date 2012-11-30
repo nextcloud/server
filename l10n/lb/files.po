@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-24 00:01+0100\n"
-"PO-Revision-Date: 2012-11-23 23:02+0000\n"
+"POT-Creation-Date: 2012-12-01 00:01+0100\n"
+"PO-Revision-Date: 2012-11-30 23:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Luxembourgish (http://www.transifex.com/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
@@ -23,40 +23,41 @@ msgid "There is no error, the file uploaded with success"
 msgstr "Keen Feeler, Datei ass komplett ropgelueden ginn"
 
 #: ajax/upload.php:21
-msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr "Déi ropgelueden Datei ass méi grouss wei d'upload_max_filesize Eegenschaft an der php.ini"
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+msgstr ""
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Déi ropgelueden Datei ass méi grouss wei d'MAX_FILE_SIZE Eegenschaft déi an der HTML form uginn ass"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:25
 msgid "The uploaded file was only partially uploaded"
 msgstr "Déi ropgelueden Datei ass nëmmen hallef ropgelueden ginn"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:26
 msgid "No file was uploaded"
 msgstr "Et ass keng Datei ropgelueden ginn"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:27
 msgid "Missing a temporary folder"
 msgstr "Et feelt en temporären Dossier"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:28
 msgid "Failed to write to disk"
 msgstr "Konnt net op den Disk schreiwen"
 
-#: appinfo/app.php:6
+#: appinfo/app.php:10
 msgid "Files"
 msgstr "Dateien"
 
-#: js/fileactions.js:117 templates/index.php:64
+#: js/fileactions.js:117 templates/index.php:83 templates/index.php:84
 msgid "Unshare"
 msgstr ""
 
-#: js/fileactions.js:119 templates/index.php:66
+#: js/fileactions.js:119 templates/index.php:89 templates/index.php:90
 msgid "Delete"
 msgstr "Läschen"
 
@@ -155,15 +156,15 @@ msgstr ""
 msgid "error while scanning"
 msgstr ""
 
-#: js/files.js:785 templates/index.php:50
+#: js/files.js:785 templates/index.php:65
 msgid "Name"
 msgstr "Numm"
 
-#: js/files.js:786 templates/index.php:58
+#: js/files.js:786 templates/index.php:76
 msgid "Size"
 msgstr "Gréisst"
 
-#: js/files.js:787 templates/index.php:60
+#: js/files.js:787 templates/index.php:78
 msgid "Modified"
 msgstr "Geännert"
 
@@ -191,27 +192,27 @@ msgstr "Fichier handling"
 msgid "Maximum upload size"
 msgstr "Maximum Upload Gréisst "
 
-#: templates/admin.php:7
+#: templates/admin.php:9
 msgid "max. possible: "
 msgstr "max. méiglech:"
 
-#: templates/admin.php:9
+#: templates/admin.php:12
 msgid "Needed for multi-file and folder downloads."
 msgstr "Gett gebraucht fir multi-Fichier an Dossier Downloads."
 
-#: templates/admin.php:9
+#: templates/admin.php:14
 msgid "Enable ZIP-download"
 msgstr "ZIP-download erlaben"
 
-#: templates/admin.php:11
+#: templates/admin.php:17
 msgid "0 is unlimited"
 msgstr "0 ass onlimitéiert"
 
-#: templates/admin.php:12
+#: templates/admin.php:19
 msgid "Maximum input size for ZIP files"
 msgstr "Maximal Gréisst fir ZIP Fichieren"
 
-#: templates/admin.php:15
+#: templates/admin.php:23
 msgid "Save"
 msgstr "Späicheren"
 
@@ -219,52 +220,48 @@ msgstr "Späicheren"
 msgid "New"
 msgstr "Nei"
 
-#: templates/index.php:9
+#: templates/index.php:10
 msgid "Text file"
 msgstr "Text Fichier"
 
-#: templates/index.php:10
+#: templates/index.php:12
 msgid "Folder"
 msgstr "Dossier"
 
-#: templates/index.php:11
+#: templates/index.php:14
 msgid "From link"
 msgstr ""
 
-#: templates/index.php:22
+#: templates/index.php:35
 msgid "Upload"
 msgstr "Eroplueden"
 
-#: templates/index.php:29
+#: templates/index.php:43
 msgid "Cancel upload"
 msgstr "Upload ofbriechen"
 
-#: templates/index.php:42
+#: templates/index.php:57
 msgid "Nothing in here. Upload something!"
 msgstr "Hei ass näischt. Lued eppes rop!"
 
-#: templates/index.php:52
-msgid "Share"
-msgstr "Share"
-
-#: templates/index.php:54
+#: templates/index.php:71
 msgid "Download"
 msgstr "Eroflueden"
 
-#: templates/index.php:77
+#: templates/index.php:103
 msgid "Upload too large"
 msgstr "Upload ze grouss"
 
-#: templates/index.php:79
+#: templates/index.php:105
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Déi Dateien déi Dir probéiert erop ze lueden sinn méi grouss wei déi Maximal Gréisst déi op dësem Server erlaabt ass."
 
-#: templates/index.php:84
+#: templates/index.php:110
 msgid "Files are being scanned, please wait."
 msgstr "Fichieren gi gescannt, war weg."
 
-#: templates/index.php:87
+#: templates/index.php:113
 msgid "Current scanning"
 msgstr "Momentane Scan"

@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Keen Feeler, Datei ass komplett ropgelueden ginn",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Déi ropgelueden Datei ass méi grouss wei d'upload_max_filesize Eegenschaft an der php.ini",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Déi ropgelueden Datei ass méi grouss wei d'MAX_FILE_SIZE Eegenschaft déi an der HTML form uginn ass",
 "The uploaded file was only partially uploaded" => "Déi ropgelueden Datei ass nëmmen hallef ropgelueden ginn",
 "No file was uploaded" => "Et ass keng Datei ropgelueden ginn",
@@ -34,7 +33,6 @@
 "Upload" => "Eroplueden",
 "Cancel upload" => "Upload ofbriechen",
 "Nothing in here. Upload something!" => "Hei ass näischt. Lued eppes rop!",
-"Share" => "Share",
 "Download" => "Eroflueden",
 "Upload too large" => "Upload ze grouss",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Déi Dateien déi Dir probéiert erop ze lueden sinn méi grouss wei déi Maximal Gréisst déi op dësem Server erlaabt ass.",

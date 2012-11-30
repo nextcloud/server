@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Không có lỗi, các tập tin đã được tải lên thành công",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Những tập tin được tải lên vượt quá upload_max_filesize được chỉ định trong php.ini",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Kích thước những tập tin tải lên vượt quá MAX_FILE_SIZE đã được quy định",
 "The uploaded file was only partially uploaded" => "Tập tin tải lên mới chỉ tải lên được một phần",
 "No file was uploaded" => "Không có tập tin nào được tải lên",
@@ -54,7 +53,6 @@
 "Upload" => "Tải lên",
 "Cancel upload" => "Hủy upload",
 "Nothing in here. Upload something!" => "Không có gì ở đây .Hãy tải lên một cái gì đó !",
-"Share" => "Chia sẻ",
 "Download" => "Tải xuống",
 "Upload too large" => "Tập tin tải lên quá lớn",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Các tập tin bạn đang tải lên vượt quá kích thước tối đa cho phép trên máy chủ .",

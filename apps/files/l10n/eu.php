@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Ez da arazorik izan, fitxategia ongi igo da",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Igotako fitxategiaren tamaina php.ini-ko upload_max_filesize direktiban adierazitakoa  baino handiagoa da",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Igotako fitxategiaren tamaina HTML inprimakiko MAX_FILESIZE direktiban adierazitakoa baino handiagoa da",
 "The uploaded file was only partially uploaded" => "Igotako fitxategiaren zati bat baino gehiago ez da igo",
 "No file was uploaded" => "Ez da fitxategirik igo",
@@ -54,7 +53,6 @@
 "Upload" => "Igo",
 "Cancel upload" => "Ezeztatu igoera",
 "Nothing in here. Upload something!" => "Ez dago ezer. Igo zerbait!",
-"Share" => "Elkarbanatu",
 "Download" => "Deskargatu",
 "Upload too large" => "Igotakoa handiegia da",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Igotzen saiatzen ari zaren fitxategiak zerbitzari honek igotzeko onartzen duena baino handiagoak dira.",

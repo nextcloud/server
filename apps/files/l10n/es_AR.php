@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "No se han producido errores, el archivo se ha subido con éxito",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "El archivo que intentás subir sobrepasa el tamaño definido por la variable upload_max_filesize en php.ini",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "El archivo que intentás subir sobrepasa el tamaño definido por la variable MAX_FILE_SIZE especificada en el formulario HTML",
 "The uploaded file was only partially uploaded" => "El archivo que intentás subir solo se subió parcialmente",
 "No file was uploaded" => "El archivo no fue subido",
@@ -53,7 +52,6 @@
 "Upload" => "Subir",
 "Cancel upload" => "Cancelar subida",
 "Nothing in here. Upload something!" => "No hay nada. ¡Subí contenido!",
-"Share" => "Compartir",
 "Download" => "Descargar",
 "Upload too large" => "El archivo es demasiado grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Los archivos que intentás subir sobrepasan el tamaño máximo ",

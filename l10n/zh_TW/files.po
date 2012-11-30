@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-28 00:10+0100\n"
-"PO-Revision-Date: 2012-11-27 14:11+0000\n"
-"Last-Translator: dw4dev <dw4dev@gmail.com>\n"
+"POT-Creation-Date: 2012-12-01 00:01+0100\n"
+"PO-Revision-Date: 2012-11-30 23:02+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,40 +26,41 @@ msgid "There is no error, the file uploaded with success"
 msgstr "無錯誤，檔案上傳成功"
 
 #: ajax/upload.php:21
-msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr "上傳的檔案超過了 php.ini 中的 upload_max_filesize 設定"
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+msgstr ""
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "上傳黨案的超過 HTML 表單中指定 MAX_FILE_SIZE 限制"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:25
 msgid "The uploaded file was only partially uploaded"
 msgstr "只有部分檔案被上傳"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:26
 msgid "No file was uploaded"
 msgstr "無已上傳檔案"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:27
 msgid "Missing a temporary folder"
 msgstr "遺失暫存資料夾"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:28
 msgid "Failed to write to disk"
 msgstr "寫入硬碟失敗"
 
-#: appinfo/app.php:6
+#: appinfo/app.php:10
 msgid "Files"
 msgstr "檔案"
 
-#: js/fileactions.js:117 templates/index.php:64
+#: js/fileactions.js:117 templates/index.php:83 templates/index.php:84
 msgid "Unshare"
 msgstr "取消共享"
 
-#: js/fileactions.js:119 templates/index.php:66
+#: js/fileactions.js:119 templates/index.php:89 templates/index.php:90
 msgid "Delete"
 msgstr "刪除"
 
@@ -158,15 +159,15 @@ msgstr ""
 msgid "error while scanning"
 msgstr "掃描時發生錯誤"
 
-#: js/files.js:785 templates/index.php:50
+#: js/files.js:785 templates/index.php:65
 msgid "Name"
 msgstr "名稱"
 
-#: js/files.js:786 templates/index.php:58
+#: js/files.js:786 templates/index.php:76
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:787 templates/index.php:60
+#: js/files.js:787 templates/index.php:78
 msgid "Modified"
 msgstr "修改"
 
@@ -194,27 +195,27 @@ msgstr "檔案處理"
 msgid "Maximum upload size"
 msgstr "最大上傳容量"
 
-#: templates/admin.php:7
+#: templates/admin.php:9
 msgid "max. possible: "
 msgstr "最大允許: "
 
-#: templates/admin.php:9
+#: templates/admin.php:12
 msgid "Needed for multi-file and folder downloads."
 msgstr "針對多檔案和目錄下載是必填的"
 
-#: templates/admin.php:9
+#: templates/admin.php:14
 msgid "Enable ZIP-download"
 msgstr "啟用 Zip 下載"
 
-#: templates/admin.php:11
+#: templates/admin.php:17
 msgid "0 is unlimited"
 msgstr "0代表沒有限制"
 
-#: templates/admin.php:12
+#: templates/admin.php:19
 msgid "Maximum input size for ZIP files"
 msgstr "針對ZIP檔案最大輸入大小"
 
-#: templates/admin.php:15
+#: templates/admin.php:23
 msgid "Save"
 msgstr "儲存"
 
@@ -222,52 +223,48 @@ msgstr "儲存"
 msgid "New"
 msgstr "新增"
 
-#: templates/index.php:9
+#: templates/index.php:10
 msgid "Text file"
 msgstr "文字檔"
 
-#: templates/index.php:10
+#: templates/index.php:12
 msgid "Folder"
 msgstr "資料夾"
 
-#: templates/index.php:11
+#: templates/index.php:14
 msgid "From link"
 msgstr ""
 
-#: templates/index.php:22
+#: templates/index.php:35
 msgid "Upload"
 msgstr "上傳"
 
-#: templates/index.php:29
+#: templates/index.php:43
 msgid "Cancel upload"
 msgstr "取消上傳"
 
-#: templates/index.php:42
+#: templates/index.php:57
 msgid "Nothing in here. Upload something!"
 msgstr "沒有任何東西。請上傳內容!"
 
-#: templates/index.php:52
-msgid "Share"
-msgstr "分享"
-
-#: templates/index.php:54
+#: templates/index.php:71
 msgid "Download"
 msgstr "下載"
 
-#: templates/index.php:77
+#: templates/index.php:103
 msgid "Upload too large"
 msgstr "上傳過大"
 
-#: templates/index.php:79
+#: templates/index.php:105
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "你試圖上傳的檔案已超過伺服器的最大容量限制。　"
 
-#: templates/index.php:84
+#: templates/index.php:110
 msgid "Files are being scanned, please wait."
 msgstr "正在掃描檔案，請稍等。"
 
-#: templates/index.php:87
+#: templates/index.php:113
 msgid "Current scanning"
 msgstr "目前掃描"

@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Файл успішно відвантажено без помилок.",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Розмір відвантаженого файлу перевищує директиву upload_max_filesize в php.ini",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Розмір відвантаженого файлу перевищує директиву MAX_FILE_SIZE вказану в HTML формі",
 "The uploaded file was only partially uploaded" => "Файл відвантажено лише частково",
 "No file was uploaded" => "Не відвантажено жодного файлу",
@@ -54,7 +53,6 @@
 "Upload" => "Відвантажити",
 "Cancel upload" => "Перервати завантаження",
 "Nothing in here. Upload something!" => "Тут нічого немає. Відвантажте що-небудь!",
-"Share" => "Поділитися",
 "Download" => "Завантажити",
 "Upload too large" => "Файл занадто великий",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Файли,що ви намагаєтесь відвантажити перевищують максимальний дозволений розмір файлів на цьому сервері.",

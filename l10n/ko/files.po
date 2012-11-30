@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-24 00:01+0100\n"
-"PO-Revision-Date: 2012-11-23 23:02+0000\n"
+"POT-Creation-Date: 2012-12-01 00:01+0100\n"
+"PO-Revision-Date: 2012-11-30 23:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -25,40 +25,41 @@ msgid "There is no error, the file uploaded with success"
 msgstr "업로드에 성공하였습니다."
 
 #: ajax/upload.php:21
-msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr "업로드한 파일이 php.ini에서 지정한 upload_max_filesize보다 더 큼"
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+msgstr ""
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "업로드한 파일이 HTML 문서에 지정한 MAX_FILE_SIZE보다 더 큼"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:25
 msgid "The uploaded file was only partially uploaded"
 msgstr "파일이 부분적으로 업로드됨"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:26
 msgid "No file was uploaded"
 msgstr "업로드된 파일 없음"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:27
 msgid "Missing a temporary folder"
 msgstr "임시 폴더가 사라짐"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:28
 msgid "Failed to write to disk"
 msgstr "디스크에 쓰지 못했습니다"
 
-#: appinfo/app.php:6
+#: appinfo/app.php:10
 msgid "Files"
 msgstr "파일"
 
-#: js/fileactions.js:117 templates/index.php:64
+#: js/fileactions.js:117 templates/index.php:83 templates/index.php:84
 msgid "Unshare"
 msgstr "공유해제"
 
-#: js/fileactions.js:119 templates/index.php:66
+#: js/fileactions.js:119 templates/index.php:89 templates/index.php:90
 msgid "Delete"
 msgstr "삭제"
 
@@ -157,15 +158,15 @@ msgstr "{count} 파일 스캔되었습니다."
 msgid "error while scanning"
 msgstr "스캔하는 도중 에러"
 
-#: js/files.js:785 templates/index.php:50
+#: js/files.js:785 templates/index.php:65
 msgid "Name"
 msgstr "이름"
 
-#: js/files.js:786 templates/index.php:58
+#: js/files.js:786 templates/index.php:76
 msgid "Size"
 msgstr "크기"
 
-#: js/files.js:787 templates/index.php:60
+#: js/files.js:787 templates/index.php:78
 msgid "Modified"
 msgstr "수정됨"
 
@@ -193,27 +194,27 @@ msgstr "파일 처리"
 msgid "Maximum upload size"
 msgstr "최대 업로드 크기"
 
-#: templates/admin.php:7
+#: templates/admin.php:9
 msgid "max. possible: "
 msgstr "최대. 가능한:"
 
-#: templates/admin.php:9
+#: templates/admin.php:12
 msgid "Needed for multi-file and folder downloads."
 msgstr "멀티 파일 및 폴더 다운로드에 필요."
 
-#: templates/admin.php:9
+#: templates/admin.php:14
 msgid "Enable ZIP-download"
 msgstr "ZIP- 다운로드 허용"
 
-#: templates/admin.php:11
+#: templates/admin.php:17
 msgid "0 is unlimited"
 msgstr "0은 무제한 입니다"
 
-#: templates/admin.php:12
+#: templates/admin.php:19
 msgid "Maximum input size for ZIP files"
 msgstr "ZIP 파일에 대한 최대 입력 크기"
 
-#: templates/admin.php:15
+#: templates/admin.php:23
 msgid "Save"
 msgstr "저장"
 
@@ -221,52 +222,48 @@ msgstr "저장"
 msgid "New"
 msgstr "새로 만들기"
 
-#: templates/index.php:9
+#: templates/index.php:10
 msgid "Text file"
 msgstr "텍스트 파일"
 
-#: templates/index.php:10
+#: templates/index.php:12
 msgid "Folder"
 msgstr "폴더"
 
-#: templates/index.php:11
+#: templates/index.php:14
 msgid "From link"
 msgstr "From link"
 
-#: templates/index.php:22
+#: templates/index.php:35
 msgid "Upload"
 msgstr "업로드"
 
-#: templates/index.php:29
+#: templates/index.php:43
 msgid "Cancel upload"
 msgstr "업로드 취소"
 
-#: templates/index.php:42
+#: templates/index.php:57
 msgid "Nothing in here. Upload something!"
 msgstr "내용이 없습니다. 업로드할 수 있습니다!"
 
-#: templates/index.php:52
-msgid "Share"
-msgstr "공유"
-
-#: templates/index.php:54
+#: templates/index.php:71
 msgid "Download"
 msgstr "다운로드"
 
-#: templates/index.php:77
+#: templates/index.php:103
 msgid "Upload too large"
 msgstr "업로드 용량 초과"
 
-#: templates/index.php:79
+#: templates/index.php:105
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다."
 
-#: templates/index.php:84
+#: templates/index.php:110
 msgid "Files are being scanned, please wait."
 msgstr "파일을 검색중입니다, 기다려 주십시오."
 
-#: templates/index.php:87
+#: templates/index.php:113
 msgid "Current scanning"
 msgstr "커런트 스캐닝"

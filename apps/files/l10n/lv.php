@@ -33,7 +33,6 @@
 "Upload" => "Augšuplādet",
 "Cancel upload" => "Atcelt augšuplādi",
 "Nothing in here. Upload something!" => "Te vēl nekas nav. Rīkojies, sāc augšuplādēt",
-"Share" => "Līdzdalīt",
 "Download" => "Lejuplādēt",
 "Upload too large" => "Fails ir par lielu lai to augšuplādetu",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Jūsu augšuplādējamie faili pārsniedz servera pieļaujamo failu augšupielādes apjomu",

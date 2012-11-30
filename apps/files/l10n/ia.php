@@ -15,7 +15,6 @@
 "Folder" => "Dossier",
 "Upload" => "Incargar",
 "Nothing in here. Upload something!" => "Nihil hic. Incarga alcun cosa!",
-"Share" => "Compartir",
 "Download" => "Discargar",
 "Upload too large" => "Incargamento troppo longe"
 );

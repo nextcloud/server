@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "没有任何错误,文件上传成功了",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "上传的文件超过了php.ini指定的upload_max_filesize",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "上传的文件超过了HTML表单指定的MAX_FILE_SIZE",
 "The uploaded file was only partially uploaded" => "文件只有部分被上传",
 "No file was uploaded" => "没有上传完成的文件",
@@ -52,7 +51,6 @@
 "Upload" => "上传",
 "Cancel upload" => "取消上传",
 "Nothing in here. Upload something!" => "这里没有东西.上传点什么!",
-"Share" => "分享",
 "Download" => "下载",
 "Upload too large" => "上传的文件太大了",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "你正在试图上传的文件超过了此服务器支持的最大的文件大小.",

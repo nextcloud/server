@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Nincs hiba, a fájl sikeresen feltöltve.",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "A feltöltött file meghaladja az upload_max_filesize direktívát a php.ini-ben.",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "A feltöltött fájl meghaladja a MAX_FILE_SIZE direktívát ami meghatározott a HTML form-ban.",
 "The uploaded file was only partially uploaded" => "Az eredeti fájl csak részlegesen van feltöltve.",
 "No file was uploaded" => "Nem lett fájl feltöltve.",
@@ -35,7 +34,6 @@
 "Upload" => "Feltöltés",
 "Cancel upload" => "Feltöltés megszakítása",
 "Nothing in here. Upload something!" => "Töltsön fel egy fájlt.",
-"Share" => "Megosztás",
 "Download" => "Letöltés",
 "Upload too large" => "Feltöltés túl nagy",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "A fájlokat amit próbálsz feltölteni meghaladta a legnagyobb fájlméretet ezen a szerveren.",

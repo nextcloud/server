@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "업로드에 성공하였습니다.",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "업로드한 파일이 php.ini에서 지정한 upload_max_filesize보다 더 큼",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "업로드한 파일이 HTML 문서에 지정한 MAX_FILE_SIZE보다 더 큼",
 "The uploaded file was only partially uploaded" => "파일이 부분적으로 업로드됨",
 "No file was uploaded" => "업로드된 파일 없음",
@@ -52,7 +51,6 @@
 "Upload" => "업로드",
 "Cancel upload" => "업로드 취소",
 "Nothing in here. Upload something!" => "내용이 없습니다. 업로드할 수 있습니다!",
-"Share" => "공유",
 "Download" => "다운로드",
 "Upload too large" => "업로드 용량 초과",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다.",
