@@ -39,14 +39,64 @@ class OC_Mount_Config {
 	*/
 	public static function getBackends() {
 		return array(
-			'OC_Filestorage_Local' => array('backend' => 'Local', 'configuration' => array('datadir' => 'Location')),
-			'OC_Filestorage_AmazonS3' => array('backend' => 'Amazon S3', 'configuration' => array('key' => 'Key', 'secret' => '*Secret', 'bucket' => 'Bucket')),
-			'OC_Filestorage_Dropbox' => array('backend' => 'Dropbox', 'configuration' => array('configured' => '#configured','app_key' => 'App key', 'app_secret' => 'App secret', 'token' => '#token', 'token_secret' => '#token_secret'), 'custom' => 'dropbox'),
-			'OC_Filestorage_FTP' => array('backend' => 'FTP', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'root' => '&Root', 'secure' => '!Secure ftps://')),
-			'OC_Filestorage_Google' => array('backend' => 'Google Drive', 'configuration' => array('configured' => '#configured', 'token' => '#token', 'token_secret' => '#token secret'), 'custom' => 'google'),
-			'OC_Filestorage_SWIFT' => array('backend' => 'OpenStack Swift', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'token' => '*Token', 'root' => '&Root', 'secure' => '!Secure ftps://')),
-			'OC_Filestorage_SMB' => array('backend' => 'SMB', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'share' => 'Share', 'root' => '&Root')),
-			'OC_Filestorage_DAV' => array('backend' => 'WebDAV', 'configuration' => array('host' => 'URL', 'user' => 'Username', 'password' => '*Password', 'root' => '&Root', 'secure' => '!Secure https://'))
+			'OC_Filestorage_Local' => array(
+				'backend' => 'Local',
+				'configuration' => array(
+					'datadir' => 'Location')),
+			'OC_Filestorage_AmazonS3' => array(
+				'backend' => 'Amazon S3',
+				'configuration' => array(
+					'key' => 'Key',
+					'secret' => '*Secret',
+					'bucket' => 'Bucket')),
+			'OC_Filestorage_Dropbox' => array(
+				'backend' => 'Dropbox',
+				'configuration' => array(
+					'configured' => '#configured',
+					'app_key' => 'App key',
+					'app_secret' => 'App secret',
+					'token' => '#token',
+					'token_secret' => '#token_secret'),
+				'custom' => 'dropbox'),
+			'OC_Filestorage_FTP' => array(
+				'backend' => 'FTP',
+				'configuration' => array(
+					'host' => 'URL',
+					'user' => 'Username',
+					'password' => '*Password',
+					'root' => '&Root',
+					'secure' => '!Secure ftps://')),
+			'OC_Filestorage_Google' => array(
+				'backend' => 'Google Drive',
+				'configuration' => array(
+					'configured' => '#configured',
+					'token' => '#token',
+					'token_secret' => '#token secret'),
+				'custom' => 'google'),
+			'OC_Filestorage_SWIFT' => array(
+				'backend' => 'OpenStack Swift',
+				'configuration' => array(
+					'host' => 'URL',
+					'user' => 'Username',
+					'token' => '*Token',
+					'root' => '&Root',
+					'secure' => '!Secure ftps://')),
+			'OC_Filestorage_SMB' => array(
+				'backend' => 'SMB',
+				'configuration' => array(
+					'host' => 'URL',
+					'user' => 'Username',
+					'password' => '*Password',
+					'share' => 'Share',
+					'root' => '&Root')),
+			'OC_Filestorage_DAV' => array(
+				'backend' => 'WebDAV',
+				'configuration' => array(
+					'host' => 'URL',
+					'user' => 'Username',
+					'password' => '*Password',
+					'root' => '&Root',
+					'secure' => '!Secure https://'))
 		);
 	}
 
@@ -66,9 +116,14 @@ class OC_Mount_Config {
 					$mountPoint = substr($mountPoint, 13);
 					// Merge the mount point into the current mount points
 					if (isset($system[$mountPoint]) && $system[$mountPoint]['configuration'] == $mount['options']) {
-						$system[$mountPoint]['applicable']['groups'] = array_merge($system[$mountPoint]['applicable']['groups'], array($group));
+						$system[$mountPoint]['applicable']['groups']
+							= array_merge($system[$mountPoint]['applicable']['groups'], array($group));
 					} else {
-						$system[$mountPoint] = array('class' => $mount['class'], 'backend' => $backends[$mount['class']]['backend'], 'configuration' => $mount['options'], 'applicable' => array('groups' => array($group), 'users' => array()));
+						$system[$mountPoint] = array(
+							'class' => $mount['class'],
+							'backend' => $backends[$mount['class']]['backend'],
+							'configuration' => $mount['options'],
+							'applicable' => array('groups' => array($group), 'users' => array()));
 					}
 				}
 			}
@@ -80,9 +135,13 @@ class OC_Mount_Config {
 					$mountPoint = substr($mountPoint, 13);
 					// Merge the mount point into the current mount points
 					if (isset($system[$mountPoint]) && $system[$mountPoint]['configuration'] == $mount['options']) {
-						$system[$mountPoint]['applicable']['users'] = array_merge($system[$mountPoint]['applicable']['users'], array($user));
+						$system[$mountPoint]['applicable']['users']
+							= array_merge($system[$mountPoint]['applicable']['users'], array($user));
 					} else {
-						$system[$mountPoint] = array('class' => $mount['class'], 'backend' => $backends[$mount['class']]['backend'], 'configuration' => $mount['options'], 'applicable' => array('groups' => array(), 'users' => array($user)));
+						$system[$mountPoint] = array('class' => $mount['class'],
+							'backend' => $backends[$mount['class']]['backend'],
+							'configuration' => $mount['options'],
+							'applicable' => array('groups' => array(), 'users' => array($user)));
 					}
 				}
 			}
@@ -103,7 +162,9 @@ class OC_Mount_Config {
 		if (isset($mountPoints[self::MOUNT_TYPE_USER][$uid])) {
 			foreach ($mountPoints[self::MOUNT_TYPE_USER][$uid] as $mountPoint => $mount) {
 				// Remove '/uid/files/' from mount point
-				$personal[substr($mountPoint, strlen($uid) + 8)] = array('class' => $mount['class'], 'backend' => $backends[$mount['class']]['backend'], 'configuration' => $mount['options']);
+				$personal[substr($mountPoint, strlen($uid) + 8)] = array('class' => $mount['class'],
+																'backend' => $backends[$mount['class']]['backend'],
+																'configuration' => $mount['options']);
 			}
 		}
 		return $personal;
@@ -135,7 +196,12 @@ class OC_Mount_Config {
 	* @param bool Personal or system mount point i.e. is this being called from the personal or admin page
 	* @return bool
 	*/
-	public static function addMountPoint($mountPoint, $class, $classOptions, $mountType, $applicable, $isPersonal = false) {
+	public static function addMountPoint($mountPoint,
+										 $class,
+										 $classOptions,
+										 $mountType,
+										 $applicable,
+										 $isPersonal = false) {
 		if ($isPersonal) {
 			// Verify that the mount point applies for the current user
 			// Prevent non-admin users from mounting local storage
@@ -176,7 +242,8 @@ class OC_Mount_Config {
 		// Merge the new mount point into the current mount points
 		if (isset($mountPoints[$mountType])) {
 			if (isset($mountPoints[$mountType][$applicable])) {
-				$mountPoints[$mountType][$applicable] = array_merge($mountPoints[$mountType][$applicable], $mount[$applicable]);
+				$mountPoints[$mountType][$applicable]
+					= array_merge($mountPoints[$mountType][$applicable], $mount[$applicable]);
 			} else {
 				$mountPoints[$mountType] = array_merge($mountPoints[$mountType], $mount);
 			}
@@ -286,18 +353,18 @@ class OC_Mount_Config {
 		$view = \OCP\Files::getStorage('files_external');
 		$path=\OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath("").'uploads/';
 		\OCP\Util::writeLog('files_external', 'checking path '.$path, \OCP\Util::INFO);
-		if(!is_dir($path)) {
+		if ( ! is_dir($path)) {
 			//path might not exist (e.g. non-standard OC_User::getHome() value)
 			//in this case create full path using 3rd (recursive=true) parameter.
 			mkdir($path, 0777, true);
 		}
 		$result = array();
 		$handle = opendir($path);
-		if (!$handle) {
+		if ( ! $handle) {
 			return array();
 		}
 		while (false !== ($file = readdir($handle))) {
-			if($file != '.' && $file != '..') $result[] = $file;
+			if ($file != '.' && $file != '..') $result[] = $file;
 		}
 		return $result;
 	}

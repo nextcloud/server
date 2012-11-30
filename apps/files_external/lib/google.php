@@ -32,7 +32,10 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 	private static $tempFiles = array();
 
 	public function __construct($params) {
-		if (isset($params['configured']) && $params['configured'] == 'true' && isset($params['token']) && isset($params['token_secret'])) {
+		if (isset($params['configured']) && $params['configured'] == 'true'
+			&& isset($params['token'])
+			&& isset($params['token_secret'])
+		) {
 			$consumer_key = isset($params['consumer_key']) ? $params['consumer_key'] : 'anonymous';
 			$consumer_secret = isset($params['consumer_secret']) ? $params['consumer_secret'] : 'anonymous';
 			$this->consumer = new OAuthConsumer($consumer_key, $consumer_secret);
@@ -44,7 +47,14 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		}
 	}
 
-	private function sendRequest($uri, $httpMethod, $postData = null, $extraHeaders = null, $isDownload = false, $returnHeaders = false, $isContentXML = true, $returnHTTPCode = false) {
+	private function sendRequest($uri,
+								 $httpMethod,
+								 $postData = null,
+								 $extraHeaders = null,
+								 $isDownload = false,
+								 $returnHeaders = false,
+								 $isContentXML = true,
+								 $returnHTTPCode = false) {
 		$uri = trim($uri);
 		// create an associative array from each key/value url query param pair.
 		$params = array();
@@ -58,7 +68,11 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			$tempStr .= '&' . urlencode($key) . '=' . urlencode($value);
 		}
 		$uri = preg_replace('/&/', '?', $tempStr, 1);
-		$request = OAuthRequest::from_consumer_and_token($this->consumer, $this->oauth_token, $httpMethod, $uri, $params);
+		$request = OAuthRequest::from_consumer_and_token($this->consumer,
+														 $this->oauth_token,
+														 $httpMethod,
+														 $uri,
+														 $params);
 		$request->sign_request($this->sig_method, $this->consumer, $this->oauth_token);
 		$auth_header = $request->to_header();
 		$headers = array($auth_header, 'GData-Version: 3.0');
@@ -132,6 +146,11 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		return false;
 	}
 
+	/**
+	 * Base url for google docs feeds
+	 */
+	const BASE_URI='https://docs.google.com/feeds';
+
 	private function getResource($path) {
 		$file = basename($path);
 		if (array_key_exists($file, $this->entries)) {
@@ -140,14 +159,14 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			// Strip the file extension; file could be a native Google Docs resource
 			if ($pos = strpos($file, '.')) {
 				$title = substr($file, 0, $pos);
-				$dom = $this->getFeed('https://docs.google.com/feeds/default/private/full?showfolders=true&title='.$title, 'GET');
+				$dom = $this->getFeed(self::BASE_URI.'/default/private/full?showfolders=true&title='.$title, 'GET');
 				// Check if request was successful and entry exists
 				if ($dom && $entry = $dom->getElementsByTagName('entry')->item(0)) {
 					$this->entries[$file] = $entry;
 					return $entry;
 				}
 			}
-			$dom = $this->getFeed('https://docs.google.com/feeds/default/private/full?showfolders=true&title='.$file, 'GET');
+			$dom = $this->getFeed(self::BASE_URI.'/default/private/full?showfolders=true&title='.$file, 'GET');
 			// Check if request was successful and entry exists
 			if ($dom && $entry = $dom->getElementsByTagName('entry')->item(0)) {
 				$this->entries[$file] = $entry;
@@ -180,20 +199,25 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		$collection = dirname($path);
 		// Check if path parent is root directory
 		if ($collection == '/' || $collection == '\.' || $collection == '.') {
-			$uri = 'https://docs.google.com/feeds/default/private/full';
-		// Get parent content link
-		} else if ($dom = $this->getResource(basename($collection))) {
-			$uri = $dom->getElementsByTagName('content')->item(0)->getAttribute('src');
+			$uri = self::BASE_URI.'/default/private/full';
+		} else {
+			// Get parent content link
+			$dom = $this->getResource(basename($collection));
+			if ($dom) {
+				$uri = $dom->getElementsByTagName('content')->item(0)->getAttribute('src');
+			}
 		}
 		if (isset($uri)) {
 			$title = basename($path);
 			// Construct post data
 			$postData = '<?xml version="1.0" encoding="UTF-8"?>';
 			$postData .= '<entry xmlns="http://www.w3.org/2005/Atom">';
-			$postData .= '<category scheme="http://schemas.google.com/g/2005#kind" term="http://schemas.google.com/docs/2007#folder"/>';
+			$postData .= '<category scheme="http://schemas.google.com/g/2005#kind"';
+			$postData .=          ' term="http://schemas.google.com/docs/2007#folder"/>';
 			$postData .= '<title>'.$title.'</title>';
 			$postData .= '</entry>';
-			if ($dom = $this->sendRequest($uri, 'POST', $postData)) {
+			$dom = $this->sendRequest($uri, 'POST', $postData);
+			if ($dom) {
 				return true;
 			}
 		}
@@ -206,9 +230,10 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 
 	public function opendir($path) {
 		if ($path == '' || $path == '/') {
-			$next = 'https://docs.google.com/feeds/default/private/full/folder%3Aroot/contents';
+			$next = self::BASE_URI.'/default/private/full/folder%3Aroot/contents';
 		} else {
-			if ($entry = $this->getResource($path)) {
+			$entry = $this->getResource($path);
+			if ($entry) {
 				$next = $entry->getElementsByTagName('content')->item(0)->getAttribute('src');
 			} else {
 				return false;
@@ -230,7 +255,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			foreach ($entries as $entry) {
 				$name = $entry->getElementsByTagName('title')->item(0)->nodeValue;
 				// Google Docs resources don't always include extensions in title
-				if (!strpos($name, '.')) {
+				if ( ! strpos($name, '.')) {
 					$extension = $this->getExtension($entry);
 					if ($extension != '') {
 						$name .= '.'.$extension;
@@ -251,13 +276,19 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			$stat['atime'] = time();
 			$stat['mtime'] = time();
 			$stat['ctime'] = time();
-		} else if ($entry = $this->getResource($path)) {
-			// NOTE: Native resources don't have a file size
-			$stat['size'] = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'quotaBytesUsed')->item(0)->nodeValue;
-// 			if (isset($atime = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'lastViewed')->item(0)->nodeValue))
-// 			$stat['atime'] = strtotime($entry->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'lastViewed')->item(0)->nodeValue);
-			$stat['mtime'] = strtotime($entry->getElementsByTagName('updated')->item(0)->nodeValue);
-			$stat['ctime'] = strtotime($entry->getElementsByTagName('published')->item(0)->nodeValue);
+		} else {
+			$entry = $this->getResource($path);
+			if ($entry) {
+				// NOTE: Native resources don't have a file size
+				$stat['size'] = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005',
+															   'quotaBytesUsed')->item(0)->nodeValue;
+				//if (isset($atime = $entry->getElementsByTagNameNS('http://schemas.google.com/g/2005',
+				//													'lastViewed')->item(0)->nodeValue))
+				//$stat['atime'] = strtotime($entry->getElementsByTagNameNS('http://schemas.google.com/g/2005',
+				//															'lastViewed')->item(0)->nodeValue);
+				$stat['mtime'] = strtotime($entry->getElementsByTagName('updated')->item(0)->nodeValue);
+				$stat['ctime'] = strtotime($entry->getElementsByTagName('published')->item(0)->nodeValue);
+			}
 		}
 		if (isset($stat)) {
 			return $stat;
@@ -268,15 +299,18 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 	public function filetype($path) {
 		if ($path == '' || $path == '/') {
 			return 'dir';
-		} else if ($entry = $this->getResource($path)) {
-			$categories = $entry->getElementsByTagName('category');
-			foreach ($categories as $category) {
-				if ($category->getAttribute('scheme') == 'http://schemas.google.com/g/2005#kind') {
-					$type = $category->getAttribute('label');
-					if (strlen(strstr($type, 'folder')) > 0) {
-						return 'dir';
-					} else {
-						return 'file';
+		} else {
+			$entry = $this->getResource($path);
+			if ($entry) {
+				$categories = $entry->getElementsByTagName('category');
+				foreach ($categories as $category) {
+					if ($category->getAttribute('scheme') == 'http://schemas.google.com/g/2005#kind') {
+						$type = $category->getAttribute('label');
+						if (strlen(strstr($type, 'folder')) > 0) {
+							return 'dir';
+						} else {
+							return 'file';
+						}
 					}
 				}
 			}
@@ -291,14 +325,17 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 	public function isUpdatable($path) {
 		if ($path == '' || $path == '/') {
 			return true;
-		} else if ($entry = $this->getResource($path)) {
-			// Check if edit or edit-media links exist
-			$links = $entry->getElementsByTagName('link');
-			foreach ($links as $link) {
-				if ($link->getAttribute('rel') == 'edit') {
-					return true;
-				} else if ($link->getAttribute('rel') == 'edit-media') {
-					return true;
+		} else {
+			$entry = $this->getResource($path);
+			if ($entry) {
+				// Check if edit or edit-media links exist
+				$links = $entry->getElementsByTagName('link');
+				foreach ($links as $link) {
+					if ($link->getAttribute('rel') == 'edit') {
+						return true;
+					} else if ($link->getAttribute('rel') == 'edit-media') {
+						return true;
+					}
 				}
 			}
 		}
@@ -316,7 +353,8 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 
 	public function unlink($path) {
 		// Get resource self link to trash resource
-		if ($entry = $this->getResource($path)) {
+		$entry = $this->getResource($path);
+		if ($entry) {
 			$links = $entry->getElementsByTagName('link');
 			foreach ($links as $link) {
 				if ($link->getAttribute('rel') == 'self') {
@@ -333,7 +371,8 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 	}
 
 	public function rename($path1, $path2) {
-		if ($entry = $this->getResource($path1)) {
+		$entry = $this->getResource($path1);
+		if ($entry) {
 			$collection = dirname($path2);
 			if (dirname($path1) == $collection) {
 				// Get resource edit link to rename resource
@@ -348,14 +387,18 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 				$title = basename($path2);
 				// Construct post data
 				$postData = '<?xml version="1.0" encoding="UTF-8"?>';
-				$postData .= '<entry xmlns="http://www.w3.org/2005/Atom" xmlns:docs="http://schemas.google.com/docs/2007" xmlns:gd="http://schemas.google.com/g/2005" gd:etag='.$etag.'>';
+				$postData .= '<entry xmlns="http://www.w3.org/2005/Atom"';
+				$postData .=       ' xmlns:docs="http://schemas.google.com/docs/2007"';
+				$postData .=       ' xmlns:gd="http://schemas.google.com/g/2005"';
+				$postData .=       ' gd:etag='.$etag.'>';
 				$postData .= '<title>'.$title.'</title>';
 				$postData .= '</entry>';
 				$this->sendRequest($uri, 'PUT', $postData);
 				return true;
 			} else {
 				// Move to different collection
-				if ($collectionEntry = $this->getResource($collection)) {
+				$collectionEntry = $this->getResource($collection);
+				if ($collectionEntry) {
 					$feedUri = $collectionEntry->getElementsByTagName('content')->item(0)->getAttribute('src');
 					// Construct post data
 					$postData = '<?xml version="1.0" encoding="UTF-8"?>';
@@ -374,7 +417,8 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		switch ($mode) {
 			case 'r':
 			case 'rb':
-				if ($entry = $this->getResource($path)) {
+				$entry = $this->getResource($path);
+				if ($entry) {
 					$extension = $this->getExtension($entry);
 					$downloadUri = $entry->getElementsByTagName('content')->item(0)->getAttribute('src');
 					// TODO Non-native documents don't need these additional parameters
@@ -420,14 +464,14 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 
 	private function uploadFile($path, $target) {
 		$entry = $this->getResource($target);
-		if (!$entry) {
+		if ( ! $entry) {
 			if (dirname($target) == '.' || dirname($target) == '/') {
-				$uploadUri = 'https://docs.google.com/feeds/upload/create-session/default/private/full/folder%3Aroot/contents';
+				$uploadUri = self::BASE_URI.'/upload/create-session/default/private/full/folder%3Aroot/contents';
 			} else {
 				$entry = $this->getResource(dirname($target));
 			}
 		}
-		if (!isset($uploadUri) && $entry) {
+		if ( ! isset($uploadUri) && $entry) {
 			$links = $entry->getElementsByTagName('link');
 			foreach ($links as $link) {
 				if ($link->getAttribute('rel') == 'http://schemas.google.com/g/2005#resumable-create-media') {
@@ -466,7 +510,9 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 					}
 				}
 				$end = $i + $chunkSize - 1;
-				$headers = array('Content-Length: '.$chunkSize, 'Content-Type: '.$mimetype, 'Content-Range: bytes '.$i.'-'.$end.'/'.$size);
+				$headers = array('Content-Length: '.$chunkSize,
+								 'Content-Type: '.$mimetype,
+								 'Content-Range: bytes '.$i.'-'.$end.'/'.$size);
 				$postData = fread($handle, $chunkSize);
 				$result = $this->sendRequest($uploadUri, 'PUT', $postData, $headers, false, true, false, true);
 				if ($result['code'] == '308') {
@@ -484,7 +530,8 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 	}
 
 	public function getMimeType($path, $entry = null) {
-		// Entry can be passed, because extension is required for opendir and the entry can't be cached without the extension
+		// Entry can be passed, because extension is required for opendir
+		// and the entry can't be cached without the extension
 		if ($entry == null) {
 			if ($path == '' || $path == '/') {
 				return 'httpd/unix-directory';
@@ -494,8 +541,10 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		}
 		if ($entry) {
 			$mimetype = $entry->getElementsByTagName('content')->item(0)->getAttribute('type');
-			// Native Google Docs resources often default to text/html, but it may be more useful to default to a corresponding ODF mimetype
-			// Collections get reported as application/atom+xml, make sure it actually is a folder and fix the mimetype
+			// Native Google Docs resources often default to text/html,
+			// but it may be more useful to default to a corresponding ODF mimetype
+			// Collections get reported as application/atom+xml,
+			// make sure it actually is a folder and fix the mimetype
 			if ($mimetype == 'text/html' || $mimetype == 'application/atom+xml;type=feed') {
 				$categories = $entry->getElementsByTagName('category');
 				foreach ($categories as $category) {
@@ -512,7 +561,8 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 						} else if (strlen(strstr($type, 'drawing')) > 0) {
 							return 'application/vnd.oasis.opendocument.graphics';
 						} else {
-							// If nothing matches return text/html, all native Google Docs resources can be exported as text/html
+							// If nothing matches return text/html,
+							// all native Google Docs resources can be exported as text/html
 							return 'text/html';
 						}
 					}
@@ -524,10 +574,13 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 	}
 
 	public function free_space($path) {
-		if ($dom = $this->getFeed('https://docs.google.com/feeds/metadata/default', 'GET')) {
+		$dom = $this->getFeed(self::BASE_URI.'/metadata/default', 'GET');
+		if ($dom) {
 			// NOTE: Native Google Docs resources don't count towards quota
-			$total = $dom->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'quotaBytesTotal')->item(0)->nodeValue;
-			$used = $dom->getElementsByTagNameNS('http://schemas.google.com/g/2005', 'quotaBytesUsed')->item(0)->nodeValue;
+			$total = $dom->getElementsByTagNameNS('http://schemas.google.com/g/2005',
+												  'quotaBytesTotal')->item(0)->nodeValue;
+			$used = $dom->getElementsByTagNameNS('http://schemas.google.com/g/2005',
+												  'quotaBytesUsed')->item(0)->nodeValue;
 			return $total - $used;
 		}
 		return false;
