@@ -5,7 +5,7 @@ OCP\JSON::callCheck();
 
 $success = true;
 $username = $_POST["username"];
-$group = OC_Util::sanitizeHTML($_POST["group"]);
+$group = $_POST["group"];
 
 if($username == OC_User::getUser() && $group == "admin" &&  OC_Group::inGroup($username, 'admin')){
 	$l = OC_L10N::get('core');
