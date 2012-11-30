@@ -16,7 +16,14 @@ class Upgrade {
 			VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 
 		$oldEntriesQuery = \OC_DB::prepare('SELECT * FROM `*PREFIX*fscache` ORDER BY `id` ASC'); //sort ascending to ensure the parent gets inserted before a child
-		$oldEntriesResult = $oldEntriesQuery->execute();
+		try{
+			$oldEntriesResult = $oldEntriesQuery->execute();
+		}catch(\Exception $e){
+			return;
+		}
+		if(!$oldEntriesResult){
+			return;
+		}
 
 		while ($row = $oldEntriesResult->fetchRow()) {
 			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($row['path']);
