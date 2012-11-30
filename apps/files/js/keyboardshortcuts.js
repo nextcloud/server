@@ -148,7 +148,8 @@ Files.bindKeyboardShortcuts = function (document, $) {
 			|| $.inArray(keyCodes.cmdOpera, keys) !== -1
 			|| $.inArray(keyCodes.leftCmdWebKit, keys) !== -1
 			|| $.inArray(keyCodes.rightCmdWebKit, keys) !== -1
-			|| $.inArray(keyCodes.ctrl, keys) !== -1)
+			|| $.inArray(keyCodes.ctrl, keys) !== -1
+			|| event.ctrlKey)
 			&& $.inArray(keyCodes.shift, keys) !== -1
 		){
 			$("#fileList tr").each(function(index){//prevent default when renaming file/folder
@@ -172,7 +173,9 @@ Files.bindKeyboardShortcuts = function (document, $) {
 			|| $.inArray(keyCodes.cmdOpera, keys) !== -1
 			|| $.inArray(keyCodes.leftCmdWebKit, keys) !== -1
 			|| $.inArray(keyCodes.rightCmdWebKit, keys) !== -1
-			|| $.inArray(keyCodes.ctrl, keys) !== -1)){
+			|| $.inArray(keyCodes.ctrl, keys) !== -1
+			|| event.ctrlKey
+		)){
 			if($.inArray(keyCodes.shift, keys) !== -1
 		){ //16=shift, New File
 				newFile();
@@ -204,7 +207,8 @@ Files.bindKeyboardShortcuts = function (document, $) {
 			|| $.inArray(keyCodes.cmdOpera, keys) !== -1
 			|| $.inArray(keyCodes.leftCmdWebKit, keys) !== -1
 			|| $.inArray(keyCodes.rightCmdWebKit, keys) !== -1
-			|| $.inArray(keyCodes.ctrl, keys) !== -1)
+			|| $.inArray(keyCodes.ctrl, keys) !== -1
+			|| event.ctrlKey)
 			&& $.inArray(keyCodes.shift, keys) !== -1
 		){//rename file
 			rename();
