@@ -6,13 +6,14 @@
 #   <intense.feel@gmail.com>, 2012.
 #   <martin.babik@gmail.com>, 2012.
 # Roman Priesol <roman@priesol.net>, 2012.
+#   <zatroch.martin@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-01 00:01+0100\n"
-"PO-Revision-Date: 2012-11-30 23:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-02 00:02+0100\n"
+"PO-Revision-Date: 2012-12-01 16:18+0000\n"
+"Last-Translator: martin <zatroch.martin@gmail.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,7 +28,7 @@ msgstr "Nenastala žiadna chyba, súbor bol úspešne nahraný"
 #: ajax/upload.php:21
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr ""
+msgstr "Nahraný súbor predčil  konfiguračnú direktívu upload_max_filesize v súbore php.ini:"
 
 #: ajax/upload.php:23
 msgid ""
@@ -107,7 +108,7 @@ msgstr "zmazané {files}"
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Nesprávne meno, '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nie sú povolené hodnoty."
 
 #: js/files.js:183
 msgid "generating ZIP-file, it may take some time."
@@ -148,7 +149,7 @@ msgstr "Opustenie stránky zruší práve prebiehajúce odosielanie súboru."
 
 #: js/files.js:523
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
-msgstr ""
+msgstr "Nesprávne meno adresára. Použitie slova \"Shared\" (Zdieľané) je vyhradené službou ownCloud."
 
 #: js/files.js:704
 msgid "{count} files scanned"

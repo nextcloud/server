@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-01 00:01+0100\n"
-"PO-Revision-Date: 2012-11-30 23:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-02 00:02+0100\n"
+"PO-Revision-Date: 2012-12-01 06:37+0000\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +28,7 @@ msgstr "לא אירעה תקלה, הקבצים הועלו בהצלחה"
 #: ajax/upload.php:21
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr ""
+msgstr "הקבצים שנשלחו חורגים מהגודל שצוין בהגדרה upload_max_filesize שבקובץ php.ini:"
 
 #: ajax/upload.php:23
 msgid ""
@@ -66,49 +66,49 @@ msgstr "מחיקה"
 
 #: js/fileactions.js:181
 msgid "Rename"
-msgstr ""
+msgstr "שינוי שם"
 
 #: js/filelist.js:201 js/filelist.js:203
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} כבר קיים"
 
 #: js/filelist.js:201 js/filelist.js:203
 msgid "replace"
-msgstr ""
+msgstr "החלפה"
 
 #: js/filelist.js:201
 msgid "suggest name"
-msgstr ""
+msgstr "הצעת שם"
 
 #: js/filelist.js:201 js/filelist.js:203
 msgid "cancel"
-msgstr ""
+msgstr "ביטול"
 
 #: js/filelist.js:250
 msgid "replaced {new_name}"
-msgstr ""
+msgstr "{new_name} הוחלף"
 
 #: js/filelist.js:250 js/filelist.js:252 js/filelist.js:284 js/filelist.js:286
 msgid "undo"
-msgstr ""
+msgstr "ביטול"
 
 #: js/filelist.js:252
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "{new_name} הוחלף ב־{old_name}"
 
 #: js/filelist.js:284
 msgid "unshared {files}"
-msgstr ""
+msgstr "בוטל שיתופם של {files}"
 
 #: js/filelist.js:286
 msgid "deleted {files}"
-msgstr ""
+msgstr "{files} נמחקו"
 
 #: js/files.js:33
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "השם שגוי, אסור להשתמש בתווים '\\', '/', '<', '>', ':', '\"', '|', '?' ו־'*'."
 
 #: js/files.js:183
 msgid "generating ZIP-file, it may take some time."
@@ -132,11 +132,11 @@ msgstr "ממתין"
 
 #: js/files.js:274
 msgid "1 file uploading"
-msgstr ""
+msgstr "קובץ אחד נשלח"
 
 #: js/files.js:277 js/files.js:331 js/files.js:346
 msgid "{count} files uploading"
-msgstr ""
+msgstr "{count} קבצים נשלחים"
 
 #: js/files.js:349 js/files.js:382
 msgid "Upload cancelled."
@@ -145,19 +145,19 @@ msgstr "ההעלאה בוטלה."
 #: js/files.js:451
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "מתבצעת כעת העלאת קבצים. עזיבה של העמוד תבטל את ההעלאה."
 
 #: js/files.js:523
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
-msgstr ""
+msgstr "שם התיקייה שגוי. השימוש בשם „Shared“ שמור לטובת Owncloud"
 
 #: js/files.js:704
 msgid "{count} files scanned"
-msgstr ""
+msgstr "{count} קבצים נסרקו"
 
 #: js/files.js:712
 msgid "error while scanning"
-msgstr ""
+msgstr "אירעה שגיאה במהלך הסריקה"
 
 #: js/files.js:785 templates/index.php:65
 msgid "Name"
@@ -173,19 +173,19 @@ msgstr "זמן שינוי"
 
 #: js/files.js:814
 msgid "1 folder"
-msgstr ""
+msgstr "תיקייה אחת"
 
 #: js/files.js:816
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} תיקיות"
 
 #: js/files.js:824
 msgid "1 file"
-msgstr ""
+msgstr "קובץ אחד"
 
 #: js/files.js:826
 msgid "{count} files"
-msgstr ""
+msgstr "{count} קבצים"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -233,7 +233,7 @@ msgstr "תיקייה"
 
 #: templates/index.php:14
 msgid "From link"
-msgstr ""
+msgstr "מקישור"
 
 #: templates/index.php:35
 msgid "Upload"

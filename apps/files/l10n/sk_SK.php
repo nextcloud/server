@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Nenastala žiadna chyba, súbor bol úspešne nahraný",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Nahraný súbor predčil  konfiguračnú direktívu upload_max_filesize v súbore php.ini:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Nahrávaný súbor presiahol MAX_FILE_SIZE direktívu, ktorá bola špecifikovaná v HTML formulári",
 "The uploaded file was only partially uploaded" => "Nahrávaný súbor bol iba čiastočne nahraný",
 "No file was uploaded" => "Žiaden súbor nebol nahraný",
@@ -18,6 +19,7 @@
 "replaced {new_name} with {old_name}" => "prepísaný {new_name} súborom {old_name}",
 "unshared {files}" => "zdieľanie zrušené pre {files}",
 "deleted {files}" => "zmazané {files}",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nesprávne meno, '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nie sú povolené hodnoty.",
 "generating ZIP-file, it may take some time." => "generujem ZIP-súbor, môže to chvíľu trvať.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nemôžem nahrať súbor lebo je to priečinok alebo má 0 bajtov.",
 "Upload Error" => "Chyba odosielania",
@@ -27,6 +29,7 @@
 "{count} files uploading" => "{count} súborov odosielaných",
 "Upload cancelled." => "Odosielanie zrušené",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Opustenie stránky zruší práve prebiehajúce odosielanie súboru.",
+"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Nesprávne meno adresára. Použitie slova \"Shared\" (Zdieľané) je vyhradené službou ownCloud.",
 "{count} files scanned" => "{count} súborov prehľadaných",
 "error while scanning" => "chyba počas kontroly",
 "Name" => "Meno",

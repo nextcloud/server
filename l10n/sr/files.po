@@ -5,13 +5,14 @@
 # Translators:
 # Ivan Petrović <ivan@ipplusstudio.com>, 2012.
 # Slobodan Terzić <githzerai06@gmail.com>, 2011, 2012.
+#   <theranchcowboy@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-01 00:01+0100\n"
-"PO-Revision-Date: 2012-11-30 23:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-02 00:02+0100\n"
+"PO-Revision-Date: 2012-12-01 18:27+0000\n"
+"Last-Translator: Rancher <theranchcowboy@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,26 +22,26 @@ msgstr ""
 
 #: ajax/upload.php:20
 msgid "There is no error, the file uploaded with success"
-msgstr "Нема грешке, фајл је успешно послат"
+msgstr "Није дошло до грешке. Датотека је успешно отпремљена."
 
 #: ajax/upload.php:21
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr ""
+msgstr "Отпремљена датотека прелази смерницу upload_max_filesize у датотеци php.ini:"
 
 #: ajax/upload.php:23
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Послати фајл превазилази директиву MAX_FILE_SIZE која је наведена у ХТМЛ форми"
+msgstr "Отпремљена датотека прелази смерницу MAX_FILE_SIZE која је наведена у HTML обрасцу"
 
 #: ajax/upload.php:25
 msgid "The uploaded file was only partially uploaded"
-msgstr "Послати фајл је само делимично отпремљен!"
+msgstr "Датотека је делимично отпремљена"
 
 #: ajax/upload.php:26
 msgid "No file was uploaded"
-msgstr "Ниједан фајл није послат"
+msgstr "Датотека није отпремљена"
 
 #: ajax/upload.php:27
 msgid "Missing a temporary folder"
@@ -48,11 +49,11 @@ msgstr "Недостаје привремена фасцикла"
 
 #: ajax/upload.php:28
 msgid "Failed to write to disk"
-msgstr "Није успело записивање на диск"
+msgstr "Не могу да пишем на диск"
 
 #: appinfo/app.php:10
 msgid "Files"
-msgstr "Фајлови"
+msgstr "Датотеке"
 
 #: js/fileactions.js:117 templates/index.php:83 templates/index.php:84
 msgid "Unshare"
@@ -80,15 +81,15 @@ msgstr "предложи назив"
 
 #: js/filelist.js:201 js/filelist.js:203
 msgid "cancel"
-msgstr "поништи"
+msgstr "откажи"
 
 #: js/filelist.js:250
 msgid "replaced {new_name}"
-msgstr "замењена са {new_name}"
+msgstr "замењено {new_name}"
 
 #: js/filelist.js:250 js/filelist.js:252 js/filelist.js:284 js/filelist.js:286
 msgid "undo"
-msgstr "врати"
+msgstr "опозови"
 
 #: js/filelist.js:252
 msgid "replaced {new_name} with {old_name}"
@@ -96,29 +97,29 @@ msgstr "замењено {new_name} са {old_name}"
 
 #: js/filelist.js:284
 msgid "unshared {files}"
-msgstr "укинуто дељење над {files}"
+msgstr "укинуто дељење {files}"
 
 #: js/filelist.js:286
 msgid "deleted {files}"
-msgstr "обриши {files}"
+msgstr "обрисано {files}"
 
 #: js/files.js:33
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Неисправан назив. Следећи знакови нису дозвољени: \\, /, <, >, :, \", |, ? и *."
 
 #: js/files.js:183
 msgid "generating ZIP-file, it may take some time."
-msgstr "генерисање ЗИП датотеке, потрајаће неко време."
+msgstr "правим ZIP датотеку…"
 
 #: js/files.js:218
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Није могуће послати датотеку или зато што је директоријуму или јој је величина 0 бајта"
+msgstr "Не могу да отпремим датотеку као фасциклу или она има 0 бајтова"
 
 #: js/files.js:218
 msgid "Upload Error"
-msgstr "Грешка у слању"
+msgstr "Грешка при отпремању"
 
 #: js/files.js:235
 msgid "Close"
@@ -130,36 +131,36 @@ msgstr "На чекању"
 
 #: js/files.js:274
 msgid "1 file uploading"
-msgstr "1 датотека се шаље"
+msgstr "Отпремам 1 датотеку"
 
 #: js/files.js:277 js/files.js:331 js/files.js:346
 msgid "{count} files uploading"
-msgstr "Шаље се {count} датотека"
+msgstr "Отпремам {count} датотеке/а"
 
 #: js/files.js:349 js/files.js:382
 msgid "Upload cancelled."
-msgstr "Слање је прекинуто."
+msgstr "Отпремање је прекинуто."
 
 #: js/files.js:451
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Слање датотеке је у току. Ако сада напустите страну слање ће бити прекинуто."
+msgstr "Отпремање датотеке је у току. Ако сада напустите страницу, прекинућете отпремање."
 
 #: js/files.js:523
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
-msgstr ""
+msgstr "Неисправан назив фасцикле. „Дељено“ користи Оунклауд."
 
 #: js/files.js:704
 msgid "{count} files scanned"
-msgstr "{count} датотека се скенира"
+msgstr "Скенирано датотека: {count}"
 
 #: js/files.js:712
 msgid "error while scanning"
-msgstr "грешка у скенирању"
+msgstr "грешка при скенирању"
 
 #: js/files.js:785 templates/index.php:65
 msgid "Name"
-msgstr "Име"
+msgstr "Назив"
 
 #: js/files.js:786 templates/index.php:76
 msgid "Size"
@@ -167,15 +168,15 @@ msgstr "Величина"
 
 #: js/files.js:787 templates/index.php:78
 msgid "Modified"
-msgstr "Задња измена"
+msgstr "Измењено"
 
 #: js/files.js:814
 msgid "1 folder"
-msgstr "1 директоријум"
+msgstr "1 фасцикла"
 
 #: js/files.js:816
 msgid "{count} folders"
-msgstr "{count} директоријума"
+msgstr "{count} фасцикле/и"
 
 #: js/files.js:824
 msgid "1 file"
@@ -183,27 +184,27 @@ msgstr "1 датотека"
 
 #: js/files.js:826
 msgid "{count} files"
-msgstr "{count} датотека"
+msgstr "{count} датотеке/а"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr "Рад са датотекама"
+msgstr "Управљање датотекама"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr "Максимална величина пошиљке"
+msgstr "Највећа величина датотеке"
 
 #: templates/admin.php:9
 msgid "max. possible: "
-msgstr "макс. величина:"
+msgstr "највећа величина:"
 
 #: templates/admin.php:12
 msgid "Needed for multi-file and folder downloads."
-msgstr "Неопходно за вишеструко преузимања датотека и директоријума."
+msgstr "Неопходно за преузимање вишеделних датотека и фасцикли."
 
 #: templates/admin.php:14
 msgid "Enable ZIP-download"
-msgstr "Укључи преузимање у ЗИП-у"
+msgstr "Омогући преузимање у ZIP-у"
 
 #: templates/admin.php:17
 msgid "0 is unlimited"
@@ -211,19 +212,19 @@ msgstr "0 је неограничено"
 
 #: templates/admin.php:19
 msgid "Maximum input size for ZIP files"
-msgstr "Максимална величина ЗИП датотека"
+msgstr "Највећа величина ZIP датотека"
 
 #: templates/admin.php:23
 msgid "Save"
-msgstr "Сними"
+msgstr "Сачувај"
 
 #: templates/index.php:7
 msgid "New"
-msgstr "Нови"
+msgstr "Нова"
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr "текстуални фајл"
+msgstr "текстуална датотека"
 
 #: templates/index.php:12
 msgid "Folder"
@@ -231,19 +232,19 @@ msgstr "фасцикла"
 
 #: templates/index.php:14
 msgid "From link"
-msgstr "Са линка"
+msgstr "Са везе"
 
 #: templates/index.php:35
 msgid "Upload"
-msgstr "Пошаљи"
+msgstr "Отпреми"
 
 #: templates/index.php:43
 msgid "Cancel upload"
-msgstr "Прекини слање"
+msgstr "Прекини отпремање"
 
 #: templates/index.php:57
 msgid "Nothing in here. Upload something!"
-msgstr "Овде нема ничег. Пошаљите нешто!"
+msgstr "Овде нема ничег. Отпремите нешто!"
 
 #: templates/index.php:71
 msgid "Download"
@@ -251,18 +252,18 @@ msgstr "Преузми"
 
 #: templates/index.php:103
 msgid "Upload too large"
-msgstr "Пошиљка је превелика"
+msgstr "Датотека је превелика"
 
 #: templates/index.php:105
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Фајлови које желите да пошаљете превазилазе ограничење максималне величине пошиљке на овом серверу."
+msgstr "Датотеке које желите да отпремите прелазе ограничење у величини."
 
 #: templates/index.php:110
 msgid "Files are being scanned, please wait."
-msgstr "Скенирање датотека у току, молим вас сачекајте."
+msgstr "Скенирам датотеке…"
 
 #: templates/index.php:113
 msgid "Current scanning"
-msgstr "Тренутно се скенира"
+msgstr "Тренутно скенирање"
