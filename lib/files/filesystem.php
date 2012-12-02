@@ -143,8 +143,8 @@ class Filesystem {
 	 * @return string
 	 */
 	static public function getMountPoint($path) {
-		\OC_Hook::emit(self::CLASSNAME, 'get_mountpoint', array('path' => $path));
 		$path = self::normalizePath($path) . '/';
+		\OC_Hook::emit(self::CLASSNAME, 'get_mountpoint', array('path' => $path));
 		$foundMountPoint = '';
 		$mountPoints = array_keys(self::$mounts);
 		foreach ($mountPoints as $mountpoint) {
@@ -205,7 +205,7 @@ class Filesystem {
 		$mountpoint = self::getMountPoint($path);
 		if ($mountpoint) {
 			$storage = self::getStorage($mountpoint);
-			if ($mountpoint === $path) {
+			if ($mountpoint === $path or $mountpoint . '/' === $path) {
 				$internalPath = '';
 			} else {
 				$internalPath = substr($path, strlen($mountpoint));

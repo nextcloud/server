@@ -71,7 +71,7 @@ class Scanner {
 		\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
 		$data = $this->getData($file);
 		if ($data) {
-			if ($file !== '') {
+			if ($file) {
 				$parent = dirname($file);
 				if ($parent === '.') {
 					$parent = '';
@@ -101,7 +101,7 @@ class Scanner {
 		if ($dh = $this->storage->opendir($path)) {
 			while ($file = readdir($dh)) {
 				if ($file !== '.' and $file !== '..') {
-					$child = ($path !== '') ? $path . '/' . $file : $file;
+					$child = ($path) ? $path . '/' . $file : $file;
 					$data = $this->scanFile($child);
 					if ($data) {
 						if ($data['mimetype'] === 'httpd/unix-directory') {
