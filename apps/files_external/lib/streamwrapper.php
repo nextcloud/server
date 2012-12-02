@@ -15,11 +15,11 @@ abstract class OC_FileStorage_StreamWrapper extends OC_Filestorage_Common{
 	}
 
 	public function rmdir($path) {
-		if($this->file_exists($path)) {
-			$succes=rmdir($this->constructUrl($path));
+		if ($this->file_exists($path)) {
+			$succes = rmdir($this->constructUrl($path));
 			clearstatcache();
 			return $succes;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -45,7 +45,7 @@ abstract class OC_FileStorage_StreamWrapper extends OC_Filestorage_Common{
 	}
 
 	public function unlink($path) {
-		$succes=unlink($this->constructUrl($path));
+		$succes = unlink($this->constructUrl($path));
 		clearstatcache();
 		return $succes;
 	}
@@ -58,12 +58,12 @@ abstract class OC_FileStorage_StreamWrapper extends OC_Filestorage_Common{
 		return 0;
 	}
 
-	public function touch($path, $mtime=null) {
-		if(is_null($mtime)) {
-			$fh=$this->fopen($path, 'a');
+	public function touch($path, $mtime = null) {
+		if (is_null($mtime)) {
+			$fh = $this->fopen($path, 'a');
 			fwrite($fh, '');
 			fclose($fh);
-		}else{
+		} else {
 			return false;//not supported
 		}
 	}
@@ -83,7 +83,5 @@ abstract class OC_FileStorage_StreamWrapper extends OC_Filestorage_Common{
 	public function stat($path) {
 		return stat($this->constructUrl($path));
 	}
-
-
 
 }

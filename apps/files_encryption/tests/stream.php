@@ -41,13 +41,13 @@ class Test_CryptStream extends UnitTestCase {
 	 * @return resource
 	 */
 	function getStream($id, $mode, $size) {
-		if($id==='') {
+		if ($id==='') {
 			$id=uniqid();
 		}
-		if(!isset($this->tmpFiles[$id])) {
+		if ( ! isset($this->tmpFiles[$id])) {
 			$file=OCP\Files::tmpFile();
 			$this->tmpFiles[$id]=$file;
-		}else{
+		} else {
 			$file=$this->tmpFiles[$id];
 		}
 		$stream=fopen($file, $mode);

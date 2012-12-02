@@ -42,7 +42,7 @@ class Test_CryptProxy extends UnitTestCase {
 
 	public function tearDown() {
 		OCP\Config::setAppValue('files_encryption', 'enable_encryption', $this->oldConfig);
-		if(!is_null($this->oldKey)) {
+		if ( ! is_null($this->oldKey)) {
 			$_SESSION['enckey']=$this->oldKey;
 		}
 	}

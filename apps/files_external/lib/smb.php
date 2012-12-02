@@ -21,45 +21,46 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 		$this->password=$params['password'];
 		$this->share=$params['share'];
 		$this->root=isset($params['root'])?$params['root']:'/';
-		if(!$this->root || $this->root[0]!='/') {
+		if ( ! $this->root || $this->root[0]!='/') {
 			$this->root='/'.$this->root;
 		}
-		if(substr($this->root, -1, 1)!='/') {
+		if (substr($this->root, -1, 1)!='/') {
 			$this->root.='/';
 		}
-		if(!$this->share || $this->share[0]!='/') {
+		if ( ! $this->share || $this->share[0]!='/') {
 			$this->share='/'.$this->share;
 		}
-		if(substr($this->share, -1, 1)=='/') {
+		if (substr($this->share, -1, 1)=='/') {
 			$this->share=substr($this->share, 0, -1);
 		}
 
 		//create the root folder if necesary
-		if(!$this->is_dir('')) {
+		if ( ! $this->is_dir('')) {
 			$this->mkdir('');
 		}
 	}
 
 	public function constructUrl($path) {
-		if(substr($path, -1)=='/') {
+		if (substr($path, -1)=='/') {
 			$path=substr($path, 0, -1);
 		}
 		return 'smb://'.$this->user.':'.$this->password.'@'.$this->host.$this->share.$this->root.$path;
 	}
 
 	public function stat($path) {
-		if(!$path and $this->root=='/') {//mtime doesn't work for shares
+		if ( ! $path and $this->root=='/') {//mtime doesn't work for shares
 			$mtime=$this->shareMTime();
 			$stat=stat($this->constructUrl($path));
 			$stat['mtime']=$mtime;
 			return $stat;
-		}else{
+		} else {
 			return stat($this->constructUrl($path));
 		}
 	}
 
 	public function filetype($path) {
-		return (bool)@$this->opendir($path) ? 'dir' : 'file';//using opendir causes the same amount of requests and caches the content of the folder in one go
+		// using opendir causes the same amount of requests and caches the content of the folder in one go
+		return (bool)@$this->opendir($path) ? 'dir' : 'file';
 	}
 
 	/**
@@ -68,10 +69,11 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 	 * @return bool
 	 */
 	public function hasUpdated($path, $time) {
-		if(!$path and $this->root=='/') {
-			//mtime doesn't work for shares, but giving the nature of the backend, doing a full update is still just fast enough
+		if ( ! $path and $this->root=='/') {
+			// mtime doesn't work for shares, but giving the nature of the backend,
+			// doing a full update is still just fast enough
 			return true;
-		}else{
+		} else {
 			$actualTime=$this->filemtime($path);
 			return $actualTime>$time;
 		}
@@ -84,9 +86,9 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 		$dh=$this->opendir('');
 		$lastCtime=0;
 		while($file=readdir($dh)) {
-			if($file!='.' and $file!='..') {
+			if ($file!='.' and $file!='..') {
 				$ctime=$this->filemtime($file);
-				if($ctime>$lastCtime) {
+				if ($ctime>$lastCtime) {
 					$lastCtime=$ctime;
 				}
 			}
