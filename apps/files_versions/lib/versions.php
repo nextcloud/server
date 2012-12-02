@@ -94,7 +94,7 @@ class Storage {
 
 			// check mininterval if the file is being modified by the owner (all shared files should be versioned despite mininterval)
 			if ($uid == \OCP\User::getUser()) {
-				$versions_fileview = new \OC_FilesystemView('/'.uid.'/files_versions');
+				$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
 				$versionsName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
 				$versionsFolderName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('');
 				$matches=glob($versionsName.'.v*');
