@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-28 00:10+0100\n"
-"PO-Revision-Date: 2012-11-27 01:43+0000\n"
-"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
+"POT-Creation-Date: 2012-12-01 00:01+0100\n"
+"PO-Revision-Date: 2012-11-30 23:02+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,40 +24,41 @@ msgid "There is no error, the file uploaded with success"
 msgstr "ไม่มีข้อผิดพลาดใดๆ ไฟล์ถูกอัพโหลดเรียบร้อยแล้ว"
 
 #: ajax/upload.php:21
-msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr "ไฟล์ที่อัพโหลดมีขนาดเกินคำสั่ง upload_max_filesize ที่ระบุเอาไว้ในไฟล์ php.ini"
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+msgstr ""
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "ไฟล์ที่อัพโหลดมีขนาดเกินคำสั่ง MAX_FILE_SIZE ที่ระบุเอาไว้ในรูปแบบคำสั่งในภาษา HTML"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:25
 msgid "The uploaded file was only partially uploaded"
 msgstr "ไฟล์ที่อัพโหลดยังไม่ได้ถูกอัพโหลดอย่างสมบูรณ์"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:26
 msgid "No file was uploaded"
 msgstr "ยังไม่มีไฟล์ที่ถูกอัพโหลด"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:27
 msgid "Missing a temporary folder"
 msgstr "แฟ้มเอกสารชั่วคราวเกิดการสูญหาย"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:28
 msgid "Failed to write to disk"
 msgstr "เขียนข้อมูลลงแผ่นดิสก์ล้มเหลว"
 
-#: appinfo/app.php:6
+#: appinfo/app.php:10
 msgid "Files"
 msgstr "ไฟล์"
 
-#: js/fileactions.js:117 templates/index.php:64
+#: js/fileactions.js:117 templates/index.php:83 templates/index.php:84
 msgid "Unshare"
 msgstr "ยกเลิกการแชร์ข้อมูล"
 
-#: js/fileactions.js:119 templates/index.php:66
+#: js/fileactions.js:119 templates/index.php:89 templates/index.php:90
 msgid "Delete"
 msgstr "ลบ"
 
@@ -156,15 +157,15 @@ msgstr "สแกนไฟล์แล้ว {count} ไฟล์"
 msgid "error while scanning"
 msgstr "พบข้อผิดพลาดในระหว่างการสแกนไฟล์"
 
-#: js/files.js:785 templates/index.php:50
+#: js/files.js:785 templates/index.php:65
 msgid "Name"
 msgstr "ชื่อ"
 
-#: js/files.js:786 templates/index.php:58
+#: js/files.js:786 templates/index.php:76
 msgid "Size"
 msgstr "ขนาด"
 
-#: js/files.js:787 templates/index.php:60
+#: js/files.js:787 templates/index.php:78
 msgid "Modified"
 msgstr "ปรับปรุงล่าสุด"
 
@@ -192,27 +193,27 @@ msgstr "การจัดกาไฟล์"
 msgid "Maximum upload size"
 msgstr "ขนาดไฟล์สูงสุดที่อัพโหลดได้"
 
-#: templates/admin.php:7
+#: templates/admin.php:9
 msgid "max. possible: "
 msgstr "จำนวนสูงสุดที่สามารถทำได้: "
 
-#: templates/admin.php:9
+#: templates/admin.php:12
 msgid "Needed for multi-file and folder downloads."
 msgstr "จำเป็นต้องใช้สำหรับการดาวน์โหลดไฟล์พร้อมกันหลายๆไฟล์หรือดาวน์โหลดทั้งโฟลเดอร์"
 
-#: templates/admin.php:9
+#: templates/admin.php:14
 msgid "Enable ZIP-download"
 msgstr "อนุญาตให้ดาวน์โหลดเป็นไฟล์ ZIP ได้"
 
-#: templates/admin.php:11
+#: templates/admin.php:17
 msgid "0 is unlimited"
 msgstr "0 หมายถึงไม่จำกัด"
 
-#: templates/admin.php:12
+#: templates/admin.php:19
 msgid "Maximum input size for ZIP files"
 msgstr "ขนาดไฟล์ ZIP สูงสุด"
 
-#: templates/admin.php:15
+#: templates/admin.php:23
 msgid "Save"
 msgstr "บันทึก"
 
@@ -220,52 +221,48 @@ msgstr "บันทึก"
 msgid "New"
 msgstr "อัพโหลดไฟล์ใหม่"
 
-#: templates/index.php:9
+#: templates/index.php:10
 msgid "Text file"
 msgstr "ไฟล์ข้อความ"
 
-#: templates/index.php:10
+#: templates/index.php:12
 msgid "Folder"
 msgstr "แฟ้มเอกสาร"
 
-#: templates/index.php:11
+#: templates/index.php:14
 msgid "From link"
 msgstr "จากลิงก์"
 
-#: templates/index.php:22
+#: templates/index.php:35
 msgid "Upload"
 msgstr "อัพโหลด"
 
-#: templates/index.php:29
+#: templates/index.php:43
 msgid "Cancel upload"
 msgstr "ยกเลิกการอัพโหลด"
 
-#: templates/index.php:42
+#: templates/index.php:57
 msgid "Nothing in here. Upload something!"
 msgstr "ยังไม่มีไฟล์ใดๆอยู่ที่นี่ กรุณาอัพโหลดไฟล์!"
 
-#: templates/index.php:52
-msgid "Share"
-msgstr "แชร์"
-
-#: templates/index.php:54
+#: templates/index.php:71
 msgid "Download"
 msgstr "ดาวน์โหลด"
 
-#: templates/index.php:77
+#: templates/index.php:103
 msgid "Upload too large"
 msgstr "ไฟล์ที่อัพโหลดมีขนาดใหญ่เกินไป"
 
-#: templates/index.php:79
+#: templates/index.php:105
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "ไฟล์ที่คุณพยายามที่จะอัพโหลดมีขนาดเกินกว่าขนาดสูงสุดที่กำหนดไว้ให้อัพโหลดได้สำหรับเซิร์ฟเวอร์นี้"
 
-#: templates/index.php:84
+#: templates/index.php:110
 msgid "Files are being scanned, please wait."
 msgstr "ไฟล์กำลังอยู่ระหว่างการสแกน, กรุณารอสักครู่."
 
-#: templates/index.php:87
+#: templates/index.php:113
 msgid "Current scanning"
 msgstr "ไฟล์ที่กำลังสแกนอยู่ขณะนี้"

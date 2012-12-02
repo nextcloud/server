@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-11 00:01+0100\n"
-"PO-Revision-Date: 2012-11-10 10:16+0000\n"
+"POT-Creation-Date: 2012-12-01 00:01+0100\n"
+"PO-Revision-Date: 2012-11-30 06:45+0000\n"
 "Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +59,7 @@ msgstr "Neplatný požadavek"
 msgid "Unable to delete group"
 msgstr "Nelze smazat skupinu"
 
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
 msgid "Authentication error"
 msgstr "Chyba ověření"
 
@@ -71,12 +71,16 @@ msgstr "Nelze smazat uživatele"
 msgid "Language changed"
 msgstr "Jazyk byl změněn"
 
-#: ajax/togglegroups.php:22
+#: ajax/togglegroups.php:12
+msgid "Admins can't remove themself from the admin group"
+msgstr "Správci se nemohou odebrat sami ze skupiny správců"
+
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to add user to group %s"
 msgstr "Nelze přidat uživatele do skupiny %s"
 
-#: ajax/togglegroups.php:28
+#: ajax/togglegroups.php:34
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr "Nelze odstranit uživatele ze skupiny %s"

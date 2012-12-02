@@ -11,6 +11,7 @@
 "Authentication error" => "Lỗi xác thực",
 "Unable to delete user" => "Không thể xóa người dùng",
 "Language changed" => "Ngôn ngữ đã được thay đổi",
+"Admins can't remove themself from the admin group" => "Quản trị viên không thể loại bỏ chính họ khỏi nhóm quản lý",
 "Unable to add user to group %s" => "Không thể thêm người dùng vào nhóm %s",
 "Unable to remove user from group %s" => "Không thể xóa người dùng từ nhóm %s",
 "Disable" => "Tắt",

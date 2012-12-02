@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-27 00:10+0100\n"
-"PO-Revision-Date: 2012-11-26 15:30+0000\n"
-"Last-Translator: skoptev <skoptev@ukr.net>\n"
+"POT-Creation-Date: 2012-12-01 00:01+0100\n"
+"PO-Revision-Date: 2012-11-30 09:53+0000\n"
+"Last-Translator: volodya327 <volodya327@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +55,7 @@ msgstr "Помилковий запит"
 msgid "Unable to delete group"
 msgstr "Не вдалося видалити групу"
 
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
 msgid "Authentication error"
 msgstr "Помилка автентифікації"
 
@@ -67,12 +67,16 @@ msgstr "Не вдалося видалити користувача"
 msgid "Language changed"
 msgstr "Мова змінена"
 
-#: ajax/togglegroups.php:22
+#: ajax/togglegroups.php:12
+msgid "Admins can't remove themself from the admin group"
+msgstr "Адміністратор не може видалити себе з групи адмінів"
+
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to add user to group %s"
 msgstr "Не вдалося додати користувача у групу %s"
 
-#: ajax/togglegroups.php:28
+#: ajax/togglegroups.php:34
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr "Не вдалося видалити користувача із групи %s"

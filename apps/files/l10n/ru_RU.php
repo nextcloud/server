@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Ошибка отсутствует, файл загружен успешно.",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Размер загруженного файла превышает заданный в директиве upload_max_filesize в php.ini",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Размер загруженного",
 "The uploaded file was only partially uploaded" => "Загружаемый файл был загружен частично",
 "No file was uploaded" => "Файл не был загружен",
@@ -54,7 +53,6 @@
 "Upload" => "Загрузить ",
 "Cancel upload" => "Отмена загрузки",
 "Nothing in here. Upload something!" => "Здесь ничего нет. Загрузите что-нибудь!",
-"Share" => "Сделать общим",
 "Download" => "Загрузить",
 "Upload too large" => "Загрузка слишком велика",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Размер файлов, которые Вы пытаетесь загрузить, превышает максимально допустимый размер для загрузки на данный сервер.",

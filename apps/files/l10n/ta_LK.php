@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "இங்கு வழு இல்லை, கோப்பு வெற்றிகரமாக பதிவேற்றப்பட்டது",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "பதிவேற்றப்பட்ட கோப்பானது php.ini இலுள்ள upload_max_filesize  directive ஐ விட கூடியது",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "பதிவேற்றப்பட்ட கோப்பானது HTML  படிவத்தில் குறிப்பிடப்பட்டுள்ள MAX_FILE_SIZE  directive ஐ விட கூடியது",
 "The uploaded file was only partially uploaded" => "பதிவேற்றப்பட்ட கோப்பானது பகுதியாக மட்டுமே பதிவேற்றப்பட்டுள்ளது",
 "No file was uploaded" => "எந்த கோப்பும் பதிவேற்றப்படவில்லை",
@@ -54,7 +53,6 @@
 "Upload" => "பதிவேற்றுக",
 "Cancel upload" => "பதிவேற்றலை இரத்து செய்க",
 "Nothing in here. Upload something!" => "இங்கு ஒன்றும் இல்லை. ஏதாவது பதிவேற்றுக!",
-"Share" => "பகிர்வு",
 "Download" => "பதிவிறக்குக",
 "Upload too large" => "பதிவேற்றல் மிகப்பெரியது",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "நீங்கள் பதிவேற்ற முயற்சிக்கும் கோப்புகளானது இந்த சேவையகத்தில் கோப்பு பதிவேற்றக்கூடிய ஆகக்கூடிய அளவிலும் கூடியது.",

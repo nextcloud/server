@@ -11,6 +11,7 @@
 "Authentication error" => "認証エラー",
 "Unable to delete user" => "ユーザを削除できません",
 "Language changed" => "言語が変更されました",
+"Admins can't remove themself from the admin group" => "管理者は自身を管理者グループから削除できません。",
 "Unable to add user to group %s" => "ユーザをグループ %s に追加できません",
 "Unable to remove user from group %s" => "ユーザをグループ %s から削除できません",
 "Disable" => "無効",

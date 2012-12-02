@@ -11,6 +11,7 @@
 "Authentication error" => "Chyba ověření",
 "Unable to delete user" => "Nelze smazat uživatele",
 "Language changed" => "Jazyk byl změněn",
+"Admins can't remove themself from the admin group" => "Správci se nemohou odebrat sami ze skupiny správců",
 "Unable to add user to group %s" => "Nelze přidat uživatele do skupiny %s",
 "Unable to remove user from group %s" => "Nelze odstranit uživatele ze skupiny %s",
 "Disable" => "Zakázat",

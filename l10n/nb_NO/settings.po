@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-10 00:01+0100\n"
-"PO-Revision-Date: 2012-11-09 23:01+0000\n"
+"POT-Creation-Date: 2012-11-30 00:04+0100\n"
+"PO-Revision-Date: 2012-11-29 23:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -60,7 +60,7 @@ msgstr "Ugyldig forespørsel"
 msgid "Unable to delete group"
 msgstr "Kan ikke slette gruppe"
 
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
 msgid "Authentication error"
 msgstr "Autentikasjonsfeil"
 
@@ -72,12 +72,16 @@ msgstr "Kan ikke slette bruker"
 msgid "Language changed"
 msgstr "Språk endret"
 
-#: ajax/togglegroups.php:22
+#: ajax/togglegroups.php:12
+msgid "Admins can't remove themself from the admin group"
+msgstr ""
+
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to add user to group %s"
 msgstr "Kan ikke legge bruker til gruppen %s"
 
-#: ajax/togglegroups.php:28
+#: ajax/togglegroups.php:34
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr "Kan ikke slette bruker fra gruppen %s"

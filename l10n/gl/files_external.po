@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <mbouzada@gmail.com>, 2012.
 # Xosé M. Lamas <correo.xmgz@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-21 00:01+0100\n"
-"PO-Revision-Date: 2012-11-20 22:21+0000\n"
-"Last-Translator: Miguel Branco <mgl.branco@gmail.com>\n"
+"POT-Creation-Date: 2012-11-30 00:03+0100\n"
+"PO-Revision-Date: 2012-11-29 16:06+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr "Concedeuse acceso"
 
 #: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
 msgid "Error configuring Dropbox storage"
-msgstr "Erro configurando o almacenamento en Dropbox"
+msgstr "Produciuse un erro ao configurar o almacenamento en Dropbox"
 
 #: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
 msgid "Grant access"
@@ -36,11 +37,11 @@ msgstr "Cubrir todos os campos obrigatorios"
 
 #: js/dropbox.js:85
 msgid "Please provide a valid Dropbox app key and secret."
-msgstr "Dá o segredo e a clave correcta do aplicativo de Dropbox."
+msgstr "Dá o segredo e a chave correcta do aplicativo de Dropbox."
 
 #: js/google.js:26 js/google.js:73 js/google.js:78
 msgid "Error configuring Google Drive storage"
-msgstr "Erro configurando o almacenamento en Google Drive"
+msgstr "Produciuse un erro ao configurar o almacenamento en Google Drive"
 
 #: templates/settings.php:3
 msgid "External Storage"
@@ -64,7 +65,7 @@ msgstr "Opcións"
 
 #: templates/settings.php:11
 msgid "Applicable"
-msgstr "Aplicable"
+msgstr "Aplicábel"
 
 #: templates/settings.php:23
 msgid "Add mount point"
@@ -76,7 +77,7 @@ msgstr "Ningún definido"
 
 #: templates/settings.php:63
 msgid "All Users"
-msgstr "Tódolos usuarios"
+msgstr "Todos os usuarios"
 
 #: templates/settings.php:64
 msgid "Groups"

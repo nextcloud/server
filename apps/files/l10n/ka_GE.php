@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "ჭოცდომა არ დაფიქსირდა, ფაილი წარმატებით აიტვირთა",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "ატვირთული ფაილი აჭარბებს upload_max_filesize დირექტივას php.ini ფაილში",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "ატვირთული ფაილი აჭარბებს  MAX_FILE_SIZE დირექტივას, რომელიც მითითებულია HTML ფორმაში",
 "The uploaded file was only partially uploaded" => "ატვირთული ფაილი მხოლოდ ნაწილობრივ აიტვირთა",
 "No file was uploaded" => "ფაილი არ აიტვირთა",
@@ -51,7 +50,6 @@
 "Upload" => "ატვირთვა",
 "Cancel upload" => "ატვირთვის გაუქმება",
 "Nothing in here. Upload something!" => "აქ არაფერი არ არის. ატვირთე რამე!",
-"Share" => "გაზიარება",
 "Download" => "ჩამოტვირთვა",
 "Upload too large" => "ასატვირთი ფაილი ძალიან დიდია",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "ფაილის ზომა რომლის ატვირთვასაც თქვენ აპირებთ, აჭარბებს სერვერზე დაშვებულ მაქსიმუმს.",

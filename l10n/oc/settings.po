@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-10 00:01+0100\n"
-"PO-Revision-Date: 2012-11-09 23:01+0000\n"
+"POT-Creation-Date: 2012-11-30 00:04+0100\n"
+"PO-Revision-Date: 2012-11-29 23:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Occitan (post 1500) (http://www.transifex.com/projects/p/owncloud/language/oc/)\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgstr "Demanda invalida"
 msgid "Unable to delete group"
 msgstr "Pas capable d'escafar un grop"
 
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:12
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
 msgid "Authentication error"
 msgstr "Error d'autentificacion"
 
@@ -66,12 +66,16 @@ msgstr "Pas capable d'escafar un usancièr"
 msgid "Language changed"
 msgstr "Lengas cambiadas"
 
-#: ajax/togglegroups.php:22
+#: ajax/togglegroups.php:12
+msgid "Admins can't remove themself from the admin group"
+msgstr ""
+
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to add user to group %s"
 msgstr "Pas capable d'apondre un usancièr al grop %s"
 
-#: ajax/togglegroups.php:28
+#: ajax/togglegroups.php:34
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr "Pas capable de tira un usancièr del grop %s"

@@ -4,7 +4,7 @@ OC_JSON::checkAdminUser();
 OCP\JSON::callCheck();
 
 $username = $_POST["username"];
-$group = OC_Util::sanitizeHTML($_POST["group"]);
+$group = $_POST["group"];
 
 // Toggle group
 if(OC_SubAdmin::isSubAdminofGroup($username, $group)) {

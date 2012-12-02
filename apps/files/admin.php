@@ -49,7 +49,8 @@ if($_POST && OC_Util::isCallRegistered()) {
 		OCP\Config::setSystemValue('allowZipDownload', isset($_POST['allowZipDownload']));
 	}
 }
-$maxZipInputSize = OCP\Util::humanFileSize(OCP\Config::getSystemValue('maxZipInputSize', OCP\Util::computerFileSize('800 MB')));
+$maxZipInputSizeDefault = OCP\Util::computerFileSize('800 MB');
+$maxZipInputSize = OCP\Util::humanFileSize(OCP\Config::getSystemValue('maxZipInputSize', $maxZipInputSizeDefault));
 $allowZipDownload = intval(OCP\Config::getSystemValue('allowZipDownload', true));
 
 OCP\App::setActiveNavigationEntry( "files_administration" );

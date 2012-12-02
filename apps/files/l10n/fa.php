@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "هیچ خطایی وجود ندارد فایل با موفقیت بار گذاری شد",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "حداکثر حجم تعیین شده برای بارگذاری در php.ini قابل ویرایش است",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "حداکثر حجم مجاز برای بارگذاری از طریق HTML \nMAX_FILE_SIZE",
 "The uploaded file was only partially uploaded" => "مقدار کمی از فایل بارگذاری شده",
 "No file was uploaded" => "هیچ فایلی بارگذاری نشده",
@@ -35,7 +34,6 @@
 "Upload" => "بارگذاری",
 "Cancel upload" => "متوقف کردن بار گذاری",
 "Nothing in here. Upload something!" => "اینجا هیچ چیز نیست.",
-"Share" => "به اشتراک گذاری",
 "Download" => "بارگیری",
 "Upload too large" => "حجم بارگذاری بسیار زیاد است",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد",

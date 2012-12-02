@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-24 00:01+0100\n"
-"PO-Revision-Date: 2012-11-23 23:02+0000\n"
+"POT-Creation-Date: 2012-12-01 00:01+0100\n"
+"PO-Revision-Date: 2012-11-30 23:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -24,40 +24,41 @@ msgid "There is no error, the file uploaded with success"
 msgstr "නිවැරදි ව ගොනුව උඩුගත කෙරිනි"
 
 #: ajax/upload.php:21
-msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr "php.ini හි upload_max_filesize නියමයට වඩා උඩුගත කළ ගොනුව විශාලයි"
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+msgstr ""
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "උඩුගත කළ ගොනුවේ විශාලත්වය HTML පෝරමයේ නියම කළ ඇති MAX_FILE_SIZE විශාලත්වයට වඩා වැඩිය"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:25
 msgid "The uploaded file was only partially uploaded"
 msgstr "උඩුගත කළ ගොනුවේ කොටසක් පමණක් උඩුගත විය"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:26
 msgid "No file was uploaded"
 msgstr "කිසිදු ගොනවක් උඩුගත නොවිනි"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:27
 msgid "Missing a temporary folder"
 msgstr "තාවකාලික ෆොල්ඩරයක් සොයාගත නොහැක"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:28
 msgid "Failed to write to disk"
 msgstr "තැටිගත කිරීම අසාර්ථකයි"
 
-#: appinfo/app.php:6
+#: appinfo/app.php:10
 msgid "Files"
 msgstr "ගොනු"
 
-#: js/fileactions.js:117 templates/index.php:64
+#: js/fileactions.js:117 templates/index.php:83 templates/index.php:84
 msgid "Unshare"
 msgstr "නොබෙදු"
 
-#: js/fileactions.js:119 templates/index.php:66
+#: js/fileactions.js:119 templates/index.php:89 templates/index.php:90
 msgid "Delete"
 msgstr "මකන්න"
 
@@ -156,15 +157,15 @@ msgstr ""
 msgid "error while scanning"
 msgstr "පරීක්ෂා කිරීමේදී දෝෂයක්"
 
-#: js/files.js:785 templates/index.php:50
+#: js/files.js:785 templates/index.php:65
 msgid "Name"
 msgstr "නම"
 
-#: js/files.js:786 templates/index.php:58
+#: js/files.js:786 templates/index.php:76
 msgid "Size"
 msgstr "ප්‍රමාණය"
 
-#: js/files.js:787 templates/index.php:60
+#: js/files.js:787 templates/index.php:78
 msgid "Modified"
 msgstr "වෙනස් කළ"
 
@@ -192,27 +193,27 @@ msgstr "ගොනු පරිහරණය"
 msgid "Maximum upload size"
 msgstr "උඩුගත කිරීමක උපරිම ප්‍රමාණය"
 
-#: templates/admin.php:7
+#: templates/admin.php:9
 msgid "max. possible: "
 msgstr "හැකි උපරිමය:"
 
-#: templates/admin.php:9
+#: templates/admin.php:12
 msgid "Needed for multi-file and folder downloads."
 msgstr "බහු-ගොනු හා ෆොල්ඩර බාගත කිරීමට අවශ්‍යයි"
 
-#: templates/admin.php:9
+#: templates/admin.php:14
 msgid "Enable ZIP-download"
 msgstr "ZIP-බාගත කිරීම් සක්‍රිය කරන්න"
 
-#: templates/admin.php:11
+#: templates/admin.php:17
 msgid "0 is unlimited"
 msgstr "0 යනු සීමාවක් නැති බවය"
 
-#: templates/admin.php:12
+#: templates/admin.php:19
 msgid "Maximum input size for ZIP files"
 msgstr "ZIP ගොනු සඳහා දැමිය හැකි උපරිම විශාලතවය"
 
-#: templates/admin.php:15
+#: templates/admin.php:23
 msgid "Save"
 msgstr "සුරකින්න"
 
@@ -220,52 +221,48 @@ msgstr "සුරකින්න"
 msgid "New"
 msgstr "නව"
 
-#: templates/index.php:9
+#: templates/index.php:10
 msgid "Text file"
 msgstr "පෙළ ගොනුව"
 
-#: templates/index.php:10
+#: templates/index.php:12
 msgid "Folder"
 msgstr "ෆෝල්ඩරය"
 
-#: templates/index.php:11
+#: templates/index.php:14
 msgid "From link"
 msgstr "යොමුවෙන්"
 
-#: templates/index.php:22
+#: templates/index.php:35
 msgid "Upload"
 msgstr "උඩුගත කිරීම"
 
-#: templates/index.php:29
+#: templates/index.php:43
 msgid "Cancel upload"
 msgstr "උඩුගත කිරීම අත් හරින්න"
 
-#: templates/index.php:42
+#: templates/index.php:57
 msgid "Nothing in here. Upload something!"
 msgstr "මෙහි කිසිවක් නොමැත. යමක් උඩුගත කරන්න"
 
-#: templates/index.php:52
-msgid "Share"
-msgstr "බෙදාහදාගන්න"
-
-#: templates/index.php:54
+#: templates/index.php:71
 msgid "Download"
 msgstr "බාගත කිරීම"
 
-#: templates/index.php:77
+#: templates/index.php:103
 msgid "Upload too large"
 msgstr "උඩුගත කිරීම විශාල වැඩිය"
 
-#: templates/index.php:79
+#: templates/index.php:105
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "ඔබ උඩුගත කිරීමට තැත් කරන ගොනු මෙම සේවාදායකයා උඩුගත කිරීමට ඉඩදී ඇති උපරිම ගොනු විශාලත්වයට වඩා වැඩිය"
 
-#: templates/index.php:84
+#: templates/index.php:110
 msgid "Files are being scanned, please wait."
 msgstr "ගොනු පරික්ෂා කෙරේ. මඳක් රැඳී සිටින්න"
 
-#: templates/index.php:87
+#: templates/index.php:113
 msgid "Current scanning"
 msgstr "වර්තමාන පරික්ෂාව"

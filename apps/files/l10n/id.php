@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Tidak ada galat, berkas sukses diunggah",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "File yang diunggah melampaui directive upload_max_filesize di php.ini",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "File yang diunggah melampaui directive MAX_FILE_SIZE yang disebutan dalam form HTML.",
 "The uploaded file was only partially uploaded" => "Berkas hanya diunggah sebagian",
 "No file was uploaded" => "Tidak ada berkas yang diunggah",
@@ -35,7 +34,6 @@
 "Upload" => "Unggah",
 "Cancel upload" => "Batal mengunggah",
 "Nothing in here. Upload something!" => "Tidak ada apa-apa di sini. Unggah sesuatu!",
-"Share" => "Bagikan",
 "Download" => "Unduh",
 "Upload too large" => "Unggahan terlalu besar",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Berkas yang anda coba unggah melebihi ukuran maksimum untuk pengunggahan berkas di server ini.",

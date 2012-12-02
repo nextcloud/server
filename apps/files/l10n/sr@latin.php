@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Nema greške, fajl je uspešno poslat",
-"The uploaded file exceeds the upload_max_filesize directive in php.ini" => "Poslati fajl prevazilazi direktivu upload_max_filesize iz ",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Poslati fajl prevazilazi direktivu MAX_FILE_SIZE koja je navedena u HTML formi",
 "The uploaded file was only partially uploaded" => "Poslati fajl je samo delimično otpremljen!",
 "No file was uploaded" => "Nijedan fajl nije poslat",
