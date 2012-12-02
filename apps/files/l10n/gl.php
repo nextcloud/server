@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Non hai erros. O ficheiro enviouse correctamente",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "O ficheiro subido excede a directiva indicada polo tamaño_máximo_de_subida de php.ini",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "O ficheiro enviado supera a directiva MAX_FILE_SIZE que foi indicada no formulario HTML",
 "The uploaded file was only partially uploaded" => "O ficheiro enviado foi só parcialmente enviado",
 "No file was uploaded" => "Non se enviou ningún ficheiro",
@@ -18,6 +19,7 @@
 "replaced {new_name} with {old_name}" => "substituír {new_name} polo {old_name}",
 "unshared {files}" => "{files} sen compartir",
 "deleted {files}" => "{files} eliminados",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nome non válido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' non se permiten.",
 "generating ZIP-file, it may take some time." => "xerando un ficheiro ZIP, o que pode levar un anaco.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Non se puido subir o ficheiro pois ou é un directorio ou ten 0 bytes",
 "Upload Error" => "Erro na subida",
@@ -27,6 +29,7 @@
 "{count} files uploading" => "{count} ficheiros subíndose",
 "Upload cancelled." => "Subida cancelada.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "A subida do ficheiro está en curso. Saír agora da páxina cancelará a subida.",
+"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Nome de cartafol non válido. O uso de \"compartido\" está reservado exclusivamente para ownCloud",
 "{count} files scanned" => "{count} ficheiros escaneados",
 "error while scanning" => "erro mentres analizaba",
 "Name" => "Nome",

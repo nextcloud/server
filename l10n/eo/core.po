@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-24 00:01+0100\n"
-"PO-Revision-Date: 2012-11-23 20:03+0000\n"
+"POT-Creation-Date: 2012-12-03 00:04+0100\n"
+"PO-Revision-Date: 2012-12-02 23:00+0000\n"
 "Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr "Ne proviziĝis ID-on de %s."
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Eraro dum aldono de %s al favoratoj."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -56,7 +56,7 @@ msgstr "Neniu kategorio elektiĝis por forigo."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Eraro dum forigo de %s el favoratoj."
 
 #: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
@@ -140,8 +140,8 @@ msgid "The object type is not specified."
 msgstr "Ne indikiĝis tipo de la objekto."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
-#: js/share.js:539
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:533
+#: js/share.js:545
 msgid "Error"
 msgstr "Eraro"
 
@@ -242,15 +242,15 @@ msgstr "forigi"
 msgid "share"
 msgstr "kunhavigi"
 
-#: js/share.js:343 js/share.js:514 js/share.js:516
+#: js/share.js:349 js/share.js:520 js/share.js:522
 msgid "Password protected"
 msgstr "Protektita per pasvorto"
 
-#: js/share.js:527
+#: js/share.js:533
 msgid "Error unsetting expiration date"
 msgstr "Eraro dum malagordado de limdato"
 
-#: js/share.js:539
+#: js/share.js:545
 msgid "Error setting expiration date"
 msgstr "Eraro dum agordado de limdato"
 
@@ -343,7 +343,7 @@ msgstr "Sekureca averto"
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Ne disponeblas sekura generilo de hazardaj numeroj; bonvolu kapabligi la OpenSSL-kromaĵon por PHP."
 
 #: templates/installation.php:26
 msgid ""

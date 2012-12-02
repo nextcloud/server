@@ -5,6 +5,7 @@
 # Translators:
 #   <dudanogueira@gmail.com>, 2012.
 #   <duda.nogueira@metasys.com.br>, 2011.
+#   <fred.maranhao@gmail.com>, 2012.
 #   <glauber.guimaraes@poli.ufrj.br>, 2012.
 # Guilherme Maluf Balzana <guimalufb@gmail.com>, 2012.
 #   <henrique@meira.net>, 2012.
@@ -16,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-02 00:02+0100\n"
-"PO-Revision-Date: 2012-12-01 18:48+0000\n"
-"Last-Translator: Schopfer <glauber.guimaraes@poli.ufrj.br>\n"
+"POT-Creation-Date: 2012-12-03 00:04+0100\n"
+"PO-Revision-Date: 2012-12-01 23:28+0000\n"
+"Last-Translator: FredMaranhao <fred.maranhao@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +29,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "Tipo de categoria não fornecido."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -42,18 +43,18 @@ msgstr "Essa categoria já existe"
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "tipo de objeto não fornecido."
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "%s ID não fornecido(s)."
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Erro ao adicionar %s aos favoritos."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -62,7 +63,7 @@ msgstr "Nenhuma categoria selecionada para deletar."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Erro ao remover %s dos favoritos."
 
 #: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
@@ -143,7 +144,7 @@ msgstr "Ok"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "O tipo de objeto não foi especificado."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:533
@@ -153,11 +154,11 @@ msgstr "Erro"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "O nome do app não foi especificado."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "O arquivo {file} necessário não está instalado!"
 
 #: js/share.js:124
 msgid "Error while sharing"

@@ -5,6 +5,7 @@
 "Language changed" => "Језик је измењен",
 "__language_name__" => "__language_name__",
 "Select an App" => "Изаберите програм",
+"Documentation" => "Документација",
 "Ask a question" => "Поставите питање",
 "Problems connecting to help database." => "Проблем у повезивању са базом помоћи",
 "Go there manually." => "Отиђите тамо ручно.",

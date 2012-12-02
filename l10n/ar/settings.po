@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-30 00:04+0100\n"
-"PO-Revision-Date: 2012-11-29 23:04+0000\n"
+"POT-Creation-Date: 2012-12-03 00:04+0100\n"
+"PO-Revision-Date: 2012-12-02 03:18+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -91,7 +91,7 @@ msgstr ""
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "حفظ"
 
 #: personal.php:42 personal.php:43
 msgid "__language_name__"
@@ -119,7 +119,7 @@ msgstr ""
 
 #: templates/help.php:9
 msgid "Documentation"
-msgstr ""
+msgstr "التوثيق"
 
 #: templates/help.php:10
 msgid "Managing Big Files"

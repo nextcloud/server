@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-02 00:02+0100\n"
+"POT-Creation-Date: 2012-12-03 00:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -45,7 +45,7 @@ msgstr ""
 msgid "External Storage"
 msgstr ""
 
-#: templates/settings.php:7 templates/settings.php:19
+#: templates/settings.php:7 templates/settings.php:21
 msgid "Mount point"
 msgstr ""
 
@@ -65,42 +65,43 @@ msgstr ""
 msgid "Applicable"
 msgstr ""
 
-#: templates/settings.php:23
+#: templates/settings.php:26
 msgid "Add mount point"
 msgstr ""
 
-#: templates/settings.php:54 templates/settings.php:62
+#: templates/settings.php:84
 msgid "None set"
 msgstr ""
 
-#: templates/settings.php:63
+#: templates/settings.php:85
 msgid "All Users"
 msgstr ""
 
-#: templates/settings.php:64
+#: templates/settings.php:86
 msgid "Groups"
 msgstr ""
 
-#: templates/settings.php:69
+#: templates/settings.php:94
 msgid "Users"
 msgstr ""
 
-#: templates/settings.php:77 templates/settings.php:107
+#: templates/settings.php:107 templates/settings.php:108
+#: templates/settings.php:148 templates/settings.php:149
 msgid "Delete"
 msgstr ""
 
-#: templates/settings.php:87
+#: templates/settings.php:123
 msgid "Enable User External Storage"
 msgstr ""
 
-#: templates/settings.php:88
+#: templates/settings.php:124
 msgid "Allow users to mount their own external storage"
 msgstr ""
 
-#: templates/settings.php:99
+#: templates/settings.php:138
 msgid "SSL root certificates"
 msgstr ""
 
-#: templates/settings.php:113
+#: templates/settings.php:157
 msgid "Import Root Certificate"
 msgstr ""
