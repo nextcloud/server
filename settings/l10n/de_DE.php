@@ -11,6 +11,7 @@
 "Authentication error" => "Fehler bei der Anmeldung",
 "Unable to delete user" => "Der Benutzer konnte nicht gelöscht werden",
 "Language changed" => "Sprache geändert",
+"Admins can't remove themself from the admin group" => "Administratoren können sich nicht selbst aus der admin-Gruppe löschen",
 "Unable to add user to group %s" => "Der Benutzer konnte nicht zur Gruppe %s hinzugefügt werden",
 "Unable to remove user from group %s" => "Der Benutzer konnte nicht aus der Gruppe %s entfernt werden",
 "Disable" => "Deaktivieren",

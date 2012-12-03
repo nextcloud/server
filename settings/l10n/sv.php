@@ -11,6 +11,7 @@
 "Authentication error" => "Autentiseringsfel",
 "Unable to delete user" => "Kan inte radera användare",
 "Language changed" => "Språk ändrades",
+"Admins can't remove themself from the admin group" => "Administratörer kan inte ta bort sig själva från admingruppen",
 "Unable to add user to group %s" => "Kan inte lägga till användare i gruppen %s",
 "Unable to remove user from group %s" => "Kan inte radera användare från gruppen %s",
 "Disable" => "Deaktivera",

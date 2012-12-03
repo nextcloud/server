@@ -11,6 +11,7 @@
 "Authentication error" => "认证错误",
 "Unable to delete user" => "无法删除用户",
 "Language changed" => "语言已修改",
+"Admins can't remove themself from the admin group" => "管理员不能将自己移出管理组。",
 "Unable to add user to group %s" => "无法把用户添加到组 %s",
 "Unable to remove user from group %s" => "无法从组%s中移除用户",
 "Disable" => "禁用",

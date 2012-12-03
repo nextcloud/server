@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Geen fout opgetreden, bestand successvol geupload.",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Het geüploade bestand overscheidt de upload_max_filesize optie in php.ini:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Het geüploade bestand is groter dan de MAX_FILE_SIZE richtlijn die is opgegeven in de HTML-formulier",
 "The uploaded file was only partially uploaded" => "Het bestand is slechts gedeeltelijk geupload",
 "No file was uploaded" => "Geen bestand geüpload",
