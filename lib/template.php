@@ -484,16 +484,13 @@ class OC_Template{
 	}
 
 	/**
-	 * @brief Print a fatal error page and terminates the script
-	 * @param string $error The error message to show
-	 * @param string $hint An option hint message
-	*/
-	public static function printErrorPage( $error, $hint = '' ) {
-		$error['error']=$error;
-		$error['hint']=$hint;
-		$errors[]=$error;
+		* @brief Print a fatal error page and terminates the script
+		* @param string $error The error message to show
+		* @param string $hint An option hint message
+		*/
+	public static function printErrorPage( $error_msg, $hint = '' ) {
+		$errors = array(array('error' => $error_msg, 'hint' => $hint));
 		OC_Template::printGuestPage("", "error", array("errors" => $errors));
 		die();
 	}
-
 }
