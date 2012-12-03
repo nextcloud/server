@@ -58,8 +58,8 @@ class Storage {
 	public function store($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$files_view = new \OC_FilesystemView('/'.\OCP\User::getUser() .'/files');
-			$users_view = new \OC_FilesystemView('/'.\OCP\User::getUser());
+			$files_view = new \OC_FilesystemView('/'.$uid .'/files');
+			$users_view = new \OC_FilesystemView('/'.$uid);
 
 			//check if source file already exist as version to avoid recursions.
 			// todo does this check work?
@@ -94,7 +94,7 @@ class Storage {
 
 			// check mininterval if the file is being modified by the owner (all shared files should be versioned despite mininterval)
 			if ($uid == \OCP\User::getUser()) {
-				$versions_fileview = new \OC_FilesystemView('/'.\OCP\User::getUser().'/files_versions');
+				$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
 				$versionsName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
 				$versionsFolderName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('');
 				$matches=glob($versionsName.'.v*');
@@ -128,7 +128,7 @@ class Storage {
 
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$users_view = new \OC_FilesystemView('/'.\OCP\User::getUser());
+			$users_view = new \OC_FilesystemView('/'.$uid);
 
 			// rollback
 			if( @$users_view->copy('files_versions'.$filename.'.v'.$revision, 'files'.$filename) ) {
@@ -151,7 +151,7 @@ class Storage {
 	public static function isversioned($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$versions_fileview = new \OC_FilesystemView('/'.\OCP\User::getUser().'/files_versions');
+			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
 
 			$versionsName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
 
@@ -178,7 +178,7 @@ class Storage {
 	public static function getVersions( $filename, $count = 0 ) {
 		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$versions_fileview = new \OC_FilesystemView('/'.\OCP\User::getUser().'/files_versions');
+			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
 
 			$versionsName = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
 			$versions = array();
