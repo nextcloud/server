@@ -117,7 +117,7 @@
 							});
 						}
 						element.attr('selected','selected');
-						if(settings.oncheck){
+						if(typeof settings.oncheck === 'function'){
 							if(settings.oncheck(value)===false){
 								$(this).attr('checked', false);
 								return;
@@ -128,7 +128,7 @@
 					}else{
 						var index=settings.checked.indexOf(value);
 						element.attr('selected',null);
-						if(settings.onuncheck){
+						if(typeof settings.onuncheck === 'function'){
 							if(settings.onuncheck(value)===false){
 								$(this).attr('checked',true);
 								return;
