@@ -7,7 +7,9 @@
  */
 
 $tmpl = new OCP\Template( 'files_encryption', 'settings');
-$blackList=explode(',', OCP\Config::getAppValue('files_encryption', 'type_blacklist', 'jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg'));
+$blackList=explode(',', OCP\Config::getAppValue('files_encryption',
+												'type_blacklist',
+												'jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg'));
 $enabled=(OCP\Config::getAppValue('files_encryption', 'enable_encryption', 'true')=='true');
 $tmpl->assign('blacklist', $blackList);
 $tmpl->assign('encryption_enabled', $enabled);

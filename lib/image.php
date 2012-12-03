@@ -753,7 +753,7 @@ class OC_Image {
 	* @param $x Horizontal position
 	* @param $y Vertical position
 	* @param $w Width
-	* @param $h Hight
+	* @param $h Height
 	* @returns bool for success or failure
 	*/
 	public function crop($x, $y, $w, $h) {

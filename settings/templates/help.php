@@ -17,7 +17,7 @@
 		}
 	?>
 </diV>
-<?php if(is_null($_["kbe"])):?>
+<?php if(!is_array($_["kbe"]) || !count($_["kbe"])):?>
 	<div class="helpblock">
 		<p><?php echo $l->t('Problems connecting to help database.');?></p>
 		<p><a href="http://apps.owncloud.com/kb"><?php echo $l->t('Go there manually.');?></a></p>

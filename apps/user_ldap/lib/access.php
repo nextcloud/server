@@ -123,10 +123,17 @@ abstract class Access {
 		//escape DN values according to RFC 2253 – this is already done by ldap_explode_dn
 		//to use the DN in search filters, \ needs to be escaped to \5c additionally
 		//to use them in bases, we convert them back to simple backslashes in readAttribute()
-		$aDN = ldap_explode_dn($dn, false);
-		unset($aDN['count']);
-		$dn = implode(',', $aDN);
-		$dn = str_replace('\\', '\\5c', $dn);
+		$replacements = array(
+			'\,' => '\5c2C',
+			'\=' => '\5c3D',
+			'\+' => '\5c2B',
+			'\<' => '\5c3C',
+			'\>' => '\5c3E',
+			'\;' => '\5c3B',
+			'\"' => '\5c22',
+			'\#' => '\5c23',
+		);
+		$dn = str_replace(array_keys($replacements),array_values($replacements), $dn);
 
 		return $dn;
 	}

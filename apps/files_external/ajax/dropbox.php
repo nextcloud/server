@@ -16,9 +16,13 @@ if (isset($_POST['app_key']) && isset($_POST['app_secret'])) {
 						$callback = null;
 					}
 					$token = $oauth->getRequestToken();
-					OCP\JSON::success(array('data' => array('url' => $oauth->getAuthorizeUrl($callback), 'request_token' => $token['token'], 'request_token_secret' => $token['token_secret'])));
+					OCP\JSON::success(array('data' => array('url' => $oauth->getAuthorizeUrl($callback),
+															'request_token' => $token['token'],
+															'request_token_secret' => $token['token_secret'])));
 				} catch (Exception $exception) {
-					OCP\JSON::error(array('data' => array('message' => 'Fetching request tokens failed. Verify that your Dropbox app key and secret are correct.')));
+					OCP\JSON::error(array('data' => array('message' =>
+						'Fetching request tokens failed. Verify that your Dropbox app key and secret are correct.')
+						));
 				}
 				break;
 			case 2:
@@ -26,9 +30,12 @@ if (isset($_POST['app_key']) && isset($_POST['app_secret'])) {
 					try {
 						$oauth->setToken($_POST['request_token'], $_POST['request_token_secret']);
 						$token = $oauth->getAccessToken();
-						OCP\JSON::success(array('access_token' => $token['token'], 'access_token_secret' => $token['token_secret']));
+						OCP\JSON::success(array('access_token' => $token['token'],
+												'access_token_secret' => $token['token_secret']));
 					} catch (Exception $exception) {
-						OCP\JSON::error(array('data' => array('message' => 'Fetching access tokens failed. Verify that your Dropbox app key and secret are correct.')));
+						OCP\JSON::error(array('data' => array('message' =>
+							'Fetching access tokens failed. Verify that your Dropbox app key and secret are correct.')
+							));
 					}
 				}
 				break;

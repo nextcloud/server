@@ -49,7 +49,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			if ($response) {
 				$this->objects[$path] = $response;
 				return $response;
-			// This object could be a folder, a '/' must be at the end of the path
+				// This object could be a folder, a '/' must be at the end of the path
 			} else if (substr($path, -1) != '/') {
 				$response = $this->s3->get_object_metadata($this->bucket, $path.'/');
 				if ($response) {
@@ -129,12 +129,15 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function filetype($path) {
 		if ($path == '' || $path == '/') {
 			return 'dir';
-		} else if ($object = $this->getObject($path)) {
-			// Amazon S3 doesn't have typical folders, this is an alternative method to detect a folder
-			if (substr($object['Key'], -1) == '/' && $object['Size'] == 0) {
-				return 'dir';
-			} else {
-				return 'file';
+		} else {
+			$object = $this->getObject($path);
+			if ($object) {
+				// Amazon S3 doesn't have typical folders, this is an alternative method to detect a folder
+				if (substr($object['Key'], -1) == '/' && $object['Size'] == 0) {
+					return 'dir';
+				} else {
+					return 'file';
+				}
 			}
 		}
 		return false;
@@ -205,7 +208,9 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function writeBack($tmpFile) {
 		if (isset(self::$tempFiles[$tmpFile])) {
 			$handle = fopen($tmpFile, 'r');
-			$response = $this->s3->create_object($this->bucket, self::$tempFiles[$tmpFile], array('fileUpload' => $handle));
+			$response = $this->s3->create_object($this->bucket,
+												 self::$tempFiles[$tmpFile],
+												 array('fileUpload' => $handle));
 			if ($response->isOK()) {
 				unlink($tmpFile);
 			}
@@ -215,8 +220,11 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	public function getMimeType($path) {
 		if ($this->filetype($path) == 'dir') {
 			return 'httpd/unix-directory';
-		} else if ($object = $this->getObject($path)) {
-			return $object['ContentType'];
+		} else {
+			$object = $this->getObject($path);
+			if ($object) {
+				return $object['ContentType'];
+			}
 		}
 		return false;
 	}

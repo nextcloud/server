@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Não houve nenhum erro, o arquivo foi transferido com sucesso",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "O arquivo enviado excede a diretiva upload_max_filesize no php.ini: ",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "O arquivo carregado excede o MAX_FILE_SIZE que foi especificado no formulário HTML",
 "The uploaded file was only partially uploaded" => "O arquivo foi transferido parcialmente",
 "No file was uploaded" => "Nenhum arquivo foi transferido",
@@ -18,6 +19,7 @@
 "replaced {new_name} with {old_name}" => "Substituído {old_name} por {new_name} ",
 "unshared {files}" => "{files} não compartilhados",
 "deleted {files}" => "{files} apagados",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nome inválido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são permitidos.",
 "generating ZIP-file, it may take some time." => "gerando arquivo ZIP, isso pode levar um tempo.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Impossível enviar seus arquivo como diretório ou ele tem 0 bytes.",
 "Upload Error" => "Erro de envio",
@@ -27,6 +29,7 @@
 "{count} files uploading" => "Enviando {count} arquivos",
 "Upload cancelled." => "Envio cancelado.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Upload em andamento. Sair da página agora resultará no cancelamento do envio.",
+"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Nome de pasta inválido. O nome \"Shared\" é reservado pelo Owncloud",
 "{count} files scanned" => "{count} arquivos scaneados",
 "error while scanning" => "erro durante verificação",
 "Name" => "Nome",

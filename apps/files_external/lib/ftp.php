@@ -21,21 +21,21 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 		$this->host=$params['host'];
 		$this->user=$params['user'];
 		$this->password=$params['password'];
-		if(isset($params['secure'])) {
-			if(is_string($params['secure'])) {
+		if (isset($params['secure'])) {
+			if (is_string($params['secure'])) {
 				$this->secure = ($params['secure'] === 'true');
-			}else{
+			} else {
 				$this->secure = (bool)$params['secure'];
 			}
-		}else{
+		} else {
 			$this->secure = false;
 		}
 		$this->root=isset($params['root'])?$params['root']:'/';
-		if(!$this->root || $this->root[0]!='/') {
+		if ( ! $this->root || $this->root[0]!='/') {
 			$this->root='/'.$this->root;
 		}
-		//create the root folder if necessary
-		if (!$this->is_dir('')) {
+		//create the root folder if necesary
+		if ( ! $this->is_dir('')) {
 			$this->mkdir('');
 		}
 	}
@@ -51,7 +51,7 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 	 */
 	public function constructUrl($path) {
 		$url='ftp';
-		if($this->secure) {
+		if ($this->secure) {
 			$url.='s';
 		}
 		$url.='://'.$this->user.':'.$this->password.'@'.$this->host.$this->root.$path;
@@ -78,15 +78,15 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 			case 'c':
 			case 'c+':
 				//emulate these
-				if(strrpos($path,'.')!==false) {
-					$ext=substr($path, strrpos($path,'.'));
-				}else{
+				if (strrpos($path, '.')!==false) {
+					$ext=substr($path, strrpos($path, '.'));
+				} else {
 					$ext='';
 				}
-				$tmpFile=\OCP\Files::tmpFile($ext);
-				\OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this,'writeBack');
-				if($this->file_exists($path)) {
-					$this->getFile($path,$tmpFile);
+				$tmpFile=OCP\Files::tmpFile($ext);
+				OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this, 'writeBack');
+				if ($this->file_exists($path)) {
+					$this->getFile($path, $tmpFile);
 				}
 				self::$tempFiles[$tmpFile]=$path;
 				return fopen('close://'.$tmpFile,$mode);
@@ -96,7 +96,7 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 
 	public function writeBack($tmpFile) {
 		$this->init();
-		if(isset(self::$tempFiles[$tmpFile])) {
+		if (isset(self::$tempFiles[$tmpFile])) {
 			$this->uploadFile($tmpFile, self::$tempFiles[$tmpFile]);
 			unlink($tmpFile);
 		}

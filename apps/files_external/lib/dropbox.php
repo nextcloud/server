@@ -34,7 +34,12 @@ class Dropbox extends \OC\Files\Storage\Common {
 	private static $tempFiles = array();
 
 	public function __construct($params) {
-		if (isset($params['configured']) && $params['configured'] == 'true' && isset($params['app_key']) && isset($params['app_secret']) && isset($params['token']) && isset($params['token_secret'])) {
+		if (isset($params['configured']) && $params['configured'] == 'true'
+			&& isset($params['app_key'])
+			&& isset($params['app_secret'])
+			&& isset($params['token'])
+			&& isset($params['token_secret'])
+		) {
 			$this->id = 'dropbox::'.$params['app_key'] . $params['token']. '/' . $params['root'];
 			$this->root=isset($params['root'])?$params['root']:'';
 			$oauth = new \Dropbox_OAuth_Curl($params['app_key'], $params['app_secret']);
@@ -48,7 +53,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 
 	private function getMetaData($path, $list = false) {
 		$path = $this->root.$path;
-		if (!$list && isset($this->metaData[$path])) {
+		if ( ! $list && isset($this->metaData[$path])) {
 			return $this->metaData[$path];
 		} else {
 			if ($list) {
@@ -103,7 +108,8 @@ class Dropbox extends \OC\Files\Storage\Common {
 	}
 
 	public function opendir($path) {
-		if ($contents = $this->getMetaData($path, true)) {
+		$contents = $this->getMetaData($path, true);
+		if ($contents) {
 			$files = array();
 			foreach ($contents as $file) {
 				$files[] = basename($file['path']);
@@ -115,7 +121,8 @@ class Dropbox extends \OC\Files\Storage\Common {
 	}
 
 	public function stat($path) {
-		if ($metaData = $this->getMetaData($path)) {
+		$metaData = $this->getMetaData($path);
+		if ($metaData) {
 			$stat['size'] = $metaData['bytes'];
 			$stat['atime'] = time();
 			$stat['mtime'] = (isset($metaData['modified'])) ? strtotime($metaData['modified']) : time();
@@ -127,11 +134,14 @@ class Dropbox extends \OC\Files\Storage\Common {
 	public function filetype($path) {
 		if ($path == '' || $path == '/') {
 			return 'dir';
-		} else if ($metaData = $this->getMetaData($path)) {
-			if ($metaData['is_dir'] == 'true') {
-				return 'dir';
-			} else {
-				return 'file';
+		} else {
+			$metaData = $this->getMetaData($path);
+			if ($metaData) {
+				if ($metaData['is_dir'] == 'true') {
+					return 'dir';
+				} else {
+					return 'file';
+				}
 			}
 		}
 		return false;
@@ -248,8 +258,11 @@ class Dropbox extends \OC\Files\Storage\Common {
 	public function getMimeType($path) {
 		if ($this->filetype($path) == 'dir') {
 			return 'httpd/unix-directory';
-		} else if ($metaData = $this->getMetaData($path)) {
-			return $metaData['mime_type'];
+		} else {
+			$metaData = $this->getMetaData($path);
+			if ($metaData) {
+				return $metaData['mime_type'];
+			}
 		}
 		return false;
 	}

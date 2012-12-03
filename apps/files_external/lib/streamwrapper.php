@@ -33,10 +33,10 @@ abstract class StreamWrapper extends \OC\Files\Storage\Common{
 	public function rmdir($path) {
 		$this->init();
 		if($this->file_exists($path)) {
-			$succes=rmdir($this->constructUrl($path));
+			$succes = rmdir($this->constructUrl($path));
 			clearstatcache();
 			return $succes;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -66,7 +66,7 @@ abstract class StreamWrapper extends \OC\Files\Storage\Common{
 
 	public function unlink($path) {
 		$this->init();
-		$succes=unlink($this->constructUrl($path));
+		$succes = unlink($this->constructUrl($path));
 		clearstatcache();
 		return $succes;
 	}
@@ -83,10 +83,10 @@ abstract class StreamWrapper extends \OC\Files\Storage\Common{
 	public function touch($path,$mtime=null) {
 		$this->init();
 		if(is_null($mtime)) {
-			$fh=$this->fopen($path,'a');
+			$fh = $this->fopen($path,'a');
 			fwrite($fh,'');
 			fclose($fh);
-		}else{
+		} else {
 			return false;//not supported
 		}
 	}

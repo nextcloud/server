@@ -11,6 +11,7 @@
 "Authentication error" => "Σφάλμα πιστοποίησης",
 "Unable to delete user" => "Αδυναμία διαγραφής χρήστη",
 "Language changed" => "Η γλώσσα άλλαξε",
+"Admins can't remove themself from the admin group" => "Οι διαχειριστές δεν μπορούν να αφαιρέσουν τους εαυτούς τους από την ομάδα των διαχειριστών",
 "Unable to add user to group %s" => "Αδυναμία προσθήκη χρήστη στην ομάδα %s",
 "Unable to remove user from group %s" => "Αδυναμία αφαίρεσης χρήστη από την ομάδα %s",
 "Disable" => "Απενεργοποίηση",
