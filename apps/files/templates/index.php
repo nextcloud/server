@@ -14,7 +14,8 @@
 						data-type='web'><p><?php echo $l->t('From link');?></p></li>
 				</ul>
 			</div>
-			<div class="file_upload_wrapper svg">
+			<div id="upload" class="button">
+			<!--div class="file_upload_wrapper"-->
 				<form data-upload-id='1'
 					  id="data-upload-form"
 					  class="file_upload_form"
@@ -30,15 +31,15 @@
 					<input type="hidden" class="max_human_file_size"
 						   value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
 					<input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
-					<a id="upload" class="button"></a>
 					<input class="file_upload_start" type="file" name='files[]'/>
 					<a href="#" class="file_upload_button_wrapper" onclick="return false;"
-					   title="<?php echo $l->t('Upload'); echo ' max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
+					   title="<?php echo $l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
 					
 					<iframe name="file_upload_target_1" class='file_upload_target' src=""></iframe>
 				</form>
+			<!--/div-->
 			</div>
-			<div id="upload">
+			<div id="uploadprogresswrapper">
 				<div id="uploadprogressbar"></div>
 				<input type="button" class="stop" style="display:none"
 					value="<?php echo $l->t('Cancel upload');?>"

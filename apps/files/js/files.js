@@ -46,10 +46,6 @@ $(document).ready(function() {
 		$(this).attr('data-file',decodeURIComponent($(this).attr('data-file')));
 	});
 
-	if($('tr[data-file]').length==0){
-		$('.file_upload_filename').addClass('highlight');
-	}
-
 	$('#file_action_panel').attr('activeAction', false);
 
 	//drag/drop of files
@@ -482,7 +478,6 @@ $(document).ready(function() {
 	$(window).click(function(){
 		$('#new>ul').hide();
 		$('#new').removeClass('active');
-		$('button.file_upload_filename').removeClass('active');
 		$('#new li').each(function(i,element){
 			if($(element).children('p').length==0){
 				$(element).children('input').remove();
@@ -496,7 +491,6 @@ $(document).ready(function() {
 	$('#new>a').click(function(){
 		$('#new>ul').toggle();
 		$('#new').toggleClass('active');
-		$('button.file_upload_filename').toggleClass('active');
 	});
 	$('#new li').click(function(){
 		if($(this).children('p').length==0){
