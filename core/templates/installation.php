@@ -32,7 +32,7 @@
 		<span><?php echo $l->t('Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.');?></span>		
 	</fieldset>
 	<?php endif; ?>
-	<fieldset>
+	<fieldset id="adminaccount">
 		<legend><?php echo $l->t( 'Create an <strong>admin account</strong>' ); ?></legend>
 		<p class="infield grouptop">
 			<label for="adminlogin" class="infield"><?php echo $l->t( 'Username' ); ?></label>
