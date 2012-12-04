@@ -9,6 +9,8 @@
  	box-shadow:0 1px 1px #ddd;
  	padding-top:.5em;
  	position:absolute;
+	max-height: 20em;
+	overflow-y: auto;
  	z-index:49;
  }
 
