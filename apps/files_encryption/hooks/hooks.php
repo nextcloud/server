@@ -67,7 +67,9 @@ class Hooks {
 			
 			$_SESSION['enckey'] = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
 			
-// 			trigger_error( "\$_SESSION['enckey'] = {$_SESSION['enckey']}" );
+			\OC_FileProxy::$enabled = false;
+ 			file_put_contents( '/home/samtuke/enckey', $_SESSION['enckey'] );
+			\OC_FileProxy::$enabled = true;
 			
 			$view1 = new \OC_FilesystemView( '/' . $params['uid'] );
 			

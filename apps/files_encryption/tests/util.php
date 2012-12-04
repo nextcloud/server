@@ -9,9 +9,10 @@
 require_once "PHPUnit/Framework/TestCase.php";
 require_once realpath( dirname(__FILE__).'/../../../lib/base.php' );
 require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery.php' );
-require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/Container.php' );
 require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/Generator.php' );
 require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/MockInterface.php' );
+require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/Mock.php' );
+require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/Container.php' );
 require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/Configuration.php' );
 require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/CompositeExpectation.php' );
 require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/ExpectationDirector.php' );

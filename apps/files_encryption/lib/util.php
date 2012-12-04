@@ -39,33 +39,51 @@ namespace OCA\Encryption;
  */
 
 class Util {
-
-	# DONE: add method to check if file is encrypted using new system
-	# DONE: add method to check if file is encrypted using old system
-	# DONE: add method to fetch legacy key
-	# DONE: add method to decrypt legacy encrypted data
-	# DONE: fix / test the crypt stream proxy class	
-	# DONE: replace cryptstream wrapper new AES based system
-	# DONE: Encryption works for writing new text files in web ui
-	# DONE: reading unencrypted files when encryption is enabled works via webdav
 	
-	# TODO: file uploaded via web ui get encrypted
-	# TODO: new files created and uploaded via webdav get encrypted
 	
-	# TODO: add support for optional recovery user in case of lost passphrase / keys
-	# TODO: add admin optional required long passphrase for users
-	# TODO: implement flag system to allow user to specify encryption by folder, subfolder, etc.
-	# TODO: add UI buttons for encrypt / decrypt everything?
+	# Web UI:
 	
-	# TODO: add method to encrypt all user files using new system
-	# TODO: add method to decrypt all user files using new system
-	# TODO: add method to encrypt all user files using old system
-	# TODO: add method to decrypt all user files using old system
+	## DONE: files created via web ui are encrypted
+	## DONE: file created & encrypted via web ui are readable in web ui
 	
-	# TODO: test new encryption with webdav
-	# TODO: test new encryption with versioning
-	# TODO: test new encryption with sharing
-	# TODO: test new encryption with proxies
+	
+	# WebDAV:
+	
+	## DONE: new data filled files added via webdav get encrypted
+	## DONE: new data filled files added via webdav are readable via webdav
+	## DONE: reading unencrypted files when encryption is enabled works via webdav
+	
+	# TODO: files created & encrypted via web ui are readable via webdav
+	
+	
+	# Legacy support:
+	
+	## DONE: add method to check if file is encrypted using new system
+	## DONE: add method to check if file is encrypted using old system
+	## DONE: add method to fetch legacy key
+	## DONE: add method to decrypt legacy encrypted data
+	
+	## TODO: add method to encrypt all user files using new system
+	## TODO: add method to decrypt all user files using new system
+	## TODO: add method to encrypt all user files using old system
+	## TODO: add method to decrypt all user files using old system
+	
+	
+	# Admin UI:
+	
+	## TODO: add support for optional recovery in case of lost passphrase / keys
+	## TODO: add admin optional required long passphrase for users
+	## TODO: add UI buttons for encrypt / decrypt everything
+	## TODO: implement flag system to allow user to specify encryption by folder, subfolder, etc.
+	
+	
+	# Integration testing:
+	
+	## TODO: test new encryption with webdav
+	## TODO: test new encryption with versioning
+	## TODO: test new encryption with sharing
+	## TODO: test new encryption with proxies
+	
 	
 	# NOTE: Curretly code on line 206 onwards in lib/proxy.php needs work. This code is executed when webdav writes take place, and appears to need to convert streams into fopen resources. Currently code within the if statement on 215 is not executing. Investigate the paths (handled there (which appear to be blank), and whether oc_fsv is borking them during processing.
 	
@@ -73,6 +91,7 @@ class Util {
 	
 	# NOTE: for some reason file_get_contents is not working in proxy class postfopen. The same line works in sscce, but always returns an empty string in proxy.php. this is the same regardless of whether oc_fs, oc_fsv, or direct use of phps file_get_contents is used
 
+	
 	private $view; // OC_FilesystemView object for filesystem operations
 	private $pwd; // User Password
 	private $client; // Client side encryption mode flag
@@ -241,7 +260,13 @@ class Util {
          */
 	public function isEncryptedPath( $path ) {
 	
+		// Disable encryption proxy so data retreived is in its 
+		// original form
+		\OC_FileProxy::$enabled = false;
+	
 		$data = $this->view->file_get_contents( $path );
+		
+		\OC_FileProxy::$enabled = true;
 		
 		return Crypt::isEncryptedContent( $data );
 	

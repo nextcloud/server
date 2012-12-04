@@ -142,14 +142,15 @@ class Proxy extends \OC_FileProxy {
 		Crypt::mode() == 'server' 
 		&& Crypt::isEncryptedContent( $data ) 
 		) {
-		
+			//trigger_error("bong");
+			
 			$filePath = explode( '/', $path );
 			
 			$filePath = array_slice( $filePath, 3 );
 			
 			$filePath = '/' . implode( '/', $filePath );
 			
-			$cached = \OC_FileCache_Cached::get( $path, '' );
+			//$cached = \OC_FileCache_Cached::get( $path, '' );
 			
 			$keyFile = Keymanager::getFileKey( $filePath );
 			
@@ -158,8 +159,9 @@ class Proxy extends \OC_FileProxy {
 		} elseif (
 		Crypt::mode() == 'server' 
 		&& isset( $_SESSION['legacyenckey'] )
-		//&& Crypt::isEncryptedMeta( $path ) 
+		&& Crypt::isEncryptedMeta( $path ) 
 		) {
+			trigger_error("mong");
 			
 			$data = Crypt::legacyDecrypt( $data, $_SESSION['legacyenckey'] );
 			//trigger_error($data);
@@ -180,6 +182,10 @@ class Proxy extends \OC_FileProxy {
 			
 		}
 		
+		// Reformat path for use with OC_FSV
+		$path_split = explode( '/', $path );
+		$path_f = implode( array_slice( $path_split, 3 ) );
+		
 		// Disable encryption proxy to prevent recursive calls
 		\OC_FileProxy::$enabled = false;
 		
@@ -192,14 +198,17 @@ class Proxy extends \OC_FileProxy {
 		$util = new Util( $view, \OCP\USER::getUser());
 		
 		// If file is already encrypted, decrypt using crypto protocol
-		if ( Crypt::mode() == 'server' && $util->isEncryptedPath( $path ) ) {
+		if ( 
+		Crypt::mode() == 'server' 
+		&& $util->isEncryptedPath( $path ) 
+		) {
 			
 			// Close the original encrypted file
 			fclose( $result );
 			
-			// Open the file using the crypto protocol and let
-			// it do the decryption work instead
-			$result = fopen( 'crypt://' . $path, $meta['mode'] );
+			// Open the file using the crypto stream wrapper 
+			// protocol and let it do the decryption work instead
+			$result = fopen( 'crypt://' . $path_f, $meta['mode'] );
 			
 			
 		} elseif ( 
@@ -207,14 +216,10 @@ class Proxy extends \OC_FileProxy {
 		and $meta ['mode'] != 'r' 
 		and $meta['mode'] != 'rb' 
 		) {
-		// If the file should be encrypted and has been opened for 
-		// reading only
+		// If the file is not yet encrypted, but should be 
+		// encrypted when it's saved (it's not read only)
 		
-			// Reformat path for use with OC_FSV
-			$path_split = explode( '/', $path );
-			$path_f = implode( array_slice( $path_split, 3 ) );
-			
-// 			trigger_error("$path_f = ".var_export($path_f, 1));
+		// NOTE: this is the case for new files saved via WebDAV
 		
 			if ( 
 			$view->file_exists( $path ) 
@@ -222,7 +227,7 @@ class Proxy extends \OC_FileProxy {
 			) {
 				$x = $view->file_get_contents( $path );
 				
-				trigger_error( "size = ".var_export( $x, 1 ) );
+				//trigger_error( "size = ".var_export( $x, 1 ) );
 				
 				$tmp = tmpfile();
 				
