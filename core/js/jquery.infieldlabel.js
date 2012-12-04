@@ -7,7 +7,7 @@
  * Uses the same license as jQuery, see:
  * http://docs.jquery.com/License
  *
- * @version 0.1.2
+ * @version 0.1.6
  */
 (function ($) {
 
@@ -31,10 +31,13 @@
       base.options = $.extend({}, $.InFieldLabels.defaultOptions, options);
 
       // Check if the field is already filled in
-      if (base.$field.val() !== "") {
-        base.$label.hide();
-        base.showing = false;
-      }
+      // add a short delay to handle autocomplete
+      setTimeout(function() {
+        if (base.$field.val() !== "") {
+          base.$label.hide();
+          base.showing = false;
+        }
+      }, 200);
 
       base.$field.focus(function () {
         base.fadeOnFocus();
@@ -52,7 +55,15 @@
         base.checkForEmpty();
       }).bind('onPropertyChange', function () {
         base.checkForEmpty();
+      }).bind('keyup.infieldlabel', function () {
+        base.checkForEmpty()
       });
+      setInterval(function(){
+          if(base.$field.val() != ""){
+               base.$label.hide();
+               base.showing = false;
+        };
+      },100);
     };
 
     // If the label is currently showing
