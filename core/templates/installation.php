@@ -47,7 +47,7 @@
 	<fieldset id="datadirField">
 		<legend><a id="showAdvanced"><?php echo $l->t( 'Advanced' ); ?> ▾</a></legend>
 		<div id="datadirContent">
-			<label for="directory"><?php echo $l->t( 'Data folder' ); ?>:</label><br/>
+			<label for="directory"><?php echo $l->t( 'Data folder' ); ?></label><br/>
 			<input type="text" name="directory" id="directory" value="<?php print OC_Helper::init_var('directory', $_['directory']); ?>" />
 		</div>
 	</fieldset>
