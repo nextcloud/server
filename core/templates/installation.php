@@ -34,11 +34,11 @@
 	<?php endif; ?>
 	<fieldset>
 		<legend><?php echo $l->t( 'Create an <strong>admin account</strong>' ); ?></legend>
-		<p class="infield">
+		<p class="infield grouptop">
 			<label for="adminlogin" class="infield"><?php echo $l->t( 'Username' ); ?></label>
 			<input type="text" name="adminlogin" id="adminlogin" value="<?php print OC_Helper::init_var('adminlogin'); ?>" autocomplete="off" autofocus required />
 		</p>
-		<p class="infield">
+		<p class="infield groupbottom">
 			<label for="adminpass" class="infield"><?php echo $l->t( 'Password' ); ?></label>
 			<input type="password" name="adminpass" id="adminpass" value="<?php print OC_Helper::init_var('adminpass'); ?>" required />
 		</p>
@@ -101,15 +101,15 @@
 
 		<?php if($hasOtherDB): ?>
 		<div id="use_other_db">
-			<p class="infield">
+			<p class="infield grouptop">
 				<label for="dbuser" class="infield"><?php echo $l->t( 'Database user' ); ?></label>
 				<input type="text" name="dbuser" id="dbuser" value="<?php print OC_Helper::init_var('dbuser'); ?>" autocomplete="off" />
 			</p>
-			<p class="infield">
+			<p class="infield groupmiddle">
 				<label for="dbpass" class="infield"><?php echo $l->t( 'Database password' ); ?></label>
 				<input type="password" name="dbpass" id="dbpass" value="<?php print OC_Helper::init_var('dbpass'); ?>" />
 			</p>
-			<p class="infield">
+			<p class="infield groupmiddle">
 				<label for="dbname" class="infield"><?php echo $l->t( 'Database name' ); ?></label>
 				<input type="text" name="dbname" id="dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" autocomplete="off" pattern="[0-9a-zA-Z$_]+" />
 			</p>
@@ -117,13 +117,13 @@
 		<?php endif; ?>
 		<?php if($_['hasOracle']): ?>
 		<div id="use_oracle_db">
-			<p class="infield">
+			<p class="infield groupmiddle">
 				<label for="dbtablespace" class="infield"><?php echo $l->t( 'Database tablespace' ); ?></label>
 				<input type="text" name="dbtablespace" id="dbtablespace" value="<?php print OC_Helper::init_var('dbtablespace'); ?>" autocomplete="off" />
 			</p>
 		</div>
 		<?php endif; ?>
-		<p class="infield">
+		<p class="infield groupbottom">
 			<label for="dbhost" class="infield"><?php echo $l->t( 'Database host' ); ?></label>
 			<input type="text" name="dbhost" id="dbhost" value="<?php print OC_Helper::init_var('dbhost', 'localhost'); ?>" />
 		</p>

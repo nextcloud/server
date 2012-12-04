@@ -16,11 +16,11 @@
 			</li></a>
 		<?php endif; ?>
 		</ul>
-		<p class="infield">
+		<p class="infield grouptop">
 			<label for="user" class="infield"><?php echo $l->t( 'Username' ); ?></label>
 			<input type="text" name="user" id="user" value="<?php echo $_['username']; ?>"<?php echo $_['user_autofocus']?' autofocus':''; ?> autocomplete="on" required />
 		</p>
-		<p class="infield">
+		<p class="infield groupbottom">
 			<label for="password" class="infield"><?php echo $l->t( 'Password' ); ?></label>
 			<input type="password" name="password" id="password" value="" required<?php echo $_['user_autofocus']?'':' autofocus'; ?> />
 		</p>
