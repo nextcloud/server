@@ -58,6 +58,26 @@ input[type="submit"] img, input[type="button"] img, button img, .button img { cu
 input[type="checkbox"] { width:auto; }
 #quota { cursor:default; }
 
+
+/* PRIMARY ACTION BUTTON, use sparingly */
+.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary {
+	border:1px solid #1d2d44;
+	background:#35537a; color:#ddd; text-shadow:#000 0 -1px 0;
+	-moz-box-shadow:0 0 1px #000,0 1px 1px #6d7d94 inset; -webkit-box-shadow:0 0 1px #000,0 1px 1px #6d7d94 inset; box-shadow:0 0 1px #000,0 1px 1px #6d7d94 inset;
+}
+	.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,
+	.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {
+		border:1px solid #1d2d44;
+		background:#2d3d54; color:#fff; text-shadow:#000 0 -1px 0;
+		-moz-box-shadow:0 0 1px #000,0 1px 1px #5d6d84 inset; -webkit-box-shadow:0 0 1px #000,0 1px 1px #5d6d84 inset; box-shadow:0 0 1px #000,0 1px 1px #5d6d84 inset;
+	}
+	.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {
+		border:1px solid #1d2d44;
+		background:#1d2d42; color:#bbb; text-shadow:#000 0 -1px 0;
+		-moz-box-shadow:0 1px 1px #fff,0 1px 1px 0 rgba(0,0,0,.2) inset; -webkit-box-shadow:0 1px 1px #fff,0 1px 1px 0 rgba(0,0,0,.2) inset; box-shadow:0 1px 1px #fff,0 1px 1px 0 rgba(0,0,0,.2) inset;
+	}
+
+
 #body-login input { font-size:1.5em; }
 #body-login input[type="text"], #body-login input[type="password"] { width: 13em; }
 #body-login input.login { width: auto; float: right; }

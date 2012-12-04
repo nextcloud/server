@@ -129,5 +129,5 @@
 		</p>
 	</fieldset>
 
-	<div class="buttons"><input type="submit" value="<?php echo $l->t( 'Finish setup' ); ?>" /></div>
+	<div class="buttons"><input type="submit" class="primary" value="<?php echo $l->t( 'Finish setup' ); ?>" /></div>
 </form>
