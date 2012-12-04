@@ -142,7 +142,7 @@ Files.bindKeyboardShortcuts = function (document, $) {
 		){
 			preventDefault = true;//new file/folder prevent browser from responding
 		}
-		if(
+		/*if(
 			!$("#new").hasClass("active")
 			&& $.inArray(keyCodes.r, keys) !== -1
 			&& ($.inArray(keyCodes.cmdFirefox, keys) !== -1
@@ -158,7 +158,7 @@ Files.bindKeyboardShortcuts = function (document, $) {
 			        preventDefault = true;
 		        }
 			});
-		}
+		}*/
 		if(preventDefault){
 			event.preventDefault(); //Prevent web browser from responding
 			event.stopPropagation();
@@ -201,7 +201,7 @@ Files.bindKeyboardShortcuts = function (document, $) {
 		else if(!$("#new").hasClass("active") && $.inArray(keyCodes.del, keys) !== -1) {//delete file
 			del();
 		}
-		else if(
+		/*else if(
 			!$("#new").hasClass("active")
 			&& $.inArray(keyCodes.r, keys) !== -1
 			&& ($.inArray(keyCodes.cmdFirefox, keys) !== -1
@@ -213,7 +213,7 @@ Files.bindKeyboardShortcuts = function (document, $) {
 			&& $.inArray(keyCodes.shift, keys) !== -1
 		){//rename file
 			rename();
-		}
+		}*/
 		
 		removeA(keys, event.keyCode);
 	});
