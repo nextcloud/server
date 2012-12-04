@@ -19,7 +19,7 @@
 	</ul>
 	<?php endif; ?>
 	<?php if(!$_['secureRNG']): ?>
-	<fieldset style="color: #B94A48; background-color: #F2DEDE; border-color: #EED3D7; border-style:solid; border-radius: 5px; border-width:1px; padding:0.5em;">
+	<fieldset class="warning">
 		<legend><strong><?php echo $l->t('Security Warning');?></strong></legend>
 		<span><?php echo $l->t('No secure random number generator is available, please enable the PHP OpenSSL extension.');?></span>		
 		<br/>
@@ -27,7 +27,7 @@
 	</fieldset>
 	<?php endif; ?>
 	<?php if(!$_['htaccessWorking']): ?>
-	<fieldset style="color: #B94A48; background-color: #F2DEDE; border-color: #EED3D7; border-style:solid; border-radius: 5px; border-width:1px; padding:0.5em;">
+	<fieldset class="warning">
 		<legend><strong><?php echo $l->t('Security Warning');?></strong></legend>
 		<span><?php echo $l->t('Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.');?></span>		
 	</fieldset>
@@ -47,7 +47,7 @@
 	<fieldset id="datadirField">
 		<legend><a id="showAdvanced"><?php echo $l->t( 'Advanced' ); ?> ▾</a></legend>
 		<div id="datadirContent">
-			<label for="directory"><?php echo $l->t( 'Data folder' ); ?></label><br/>
+			<label for="directory"><?php echo $l->t( 'Data folder' ); ?></label>
 			<input type="text" name="directory" id="directory" value="<?php print OC_Helper::init_var('directory', $_['directory']); ?>" />
 		</div>
 	</fieldset>
