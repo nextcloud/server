@@ -1,5 +1,7 @@
 /**
- * @param 'createCallback' A function to be called when a new entry is created. Only argument to the function is the value of the option.
+ * @param 'createCallback' A function to be called when a new entry is created. Two arguments are supplied to this function:
+ *	The select element used and the value of the option. If the function returns false addition will be cancelled. If it returns
+ * 	anything else it will be used as the value of the newly added option.
  * @param 'createText' The placeholder text for the create action.
  * @param 'title' The title to show if no options are selected.
  * @param 'checked' An array containing values for options that should be checked. Any options which are already selected will be added to this array.
@@ -23,6 +25,7 @@
 			'onuncheck':false,
 			'minWidth': 'default;',
 		};
+		$(this).attr('data-msid', multiSelectId);
 		$.extend(settings,options);
 		$.each(this.children(),function(i,option) {
 			// If the option is selected, but not in the checked array, add it.
@@ -189,30 +192,36 @@
 							if (exists) {
 								return false;
 							}
+							var li=$(this).parent();
+							var val = $(this).val()
+							var select=button.parent().next();
+							if(typeof settings.createCallback === 'function') {
+								var response = settings.createCallback(select, val);
+								if(response === false) {
+									return false;
+								} else if(typeof response !== 'undefined') {
+									val = response;
+								}
+							}
 							if(settings.singleSelect) {
 								$.each(select.find('option:selected'), function() {
 									$(this).removeAttr('selected');
 								});
 							}
-							var li=$(this).parent();
 							$(this).remove();
 							li.text('+ '+settings.createText);
 							li.before(createItem(this));
-							if(self.menuDirection === 'up') {
-								var list = li.parent();
-								list.css('top', list.position().top-li.outerHeight());
-							}
-							var select=button.parent().next();
 							var option=$('<option selected="selected"/>');
+							option.text($(this).val()).val(val).attr('selected', 'selected');
 							select.append(option);
-							option.text($(this).val()).val($(this).val()).attr('selected', 'selected');
 							li.prev().children('input').prop('checked', true).trigger('change');
 							button.parent().data('preventHide',false);
 							button.children('span').first().text(settings.labels.length > 0 
 								? settings.labels.join(', ')
 								: settings.title);
-							if(typeof settings.createCallback === 'function') {
-								settings.createCallback($(this).val());
+							if(self.menuDirection === 'up') {
+								var list = li.parent();
+								list.css('top', list.position().top-li.outerHeight());
 							}
 						}
 					});
