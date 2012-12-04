@@ -10,7 +10,7 @@
  */
 (function( $ ){
 	var multiSelectId=-1;
-	$.fn.multiSelect=function(options){
+	$.fn.multiSelect=function(options) {
 		multiSelectId++;
 		var settings = {
 			'createCallback':false,
@@ -24,14 +24,14 @@
 			'minWidth': 'default;',
 		};
 		$.extend(settings,options);
-		$.each(this.children(),function(i,option){
+		$.each(this.children(),function(i,option) {
 			// If the option is selected, but not in the checked array, add it.
-			if($(option).attr('selected') && settings.checked.indexOf($(option).val()) == -1){
+			if($(option).attr('selected') && settings.checked.indexOf($(option).val()) === -1) {
 				settings.checked.push($(option).val());
 				settings.labels.push($(option).text().trim());
 			}
 			// If the option is in the checked array but not selected, select it.
-			else if(settings.checked.indexOf($(option).val()) !== -1 && !$(option).attr('selected')){
+			else if(settings.checked.indexOf($(option).val()) !== -1 && !$(option).attr('selected')) {
 				$(option).attr('selected', 'selected');
 				settings.labels.push($(option).text().trim());
 			}
@@ -43,15 +43,14 @@
 		button.selectedItems=[];
 		this.hide();
 		this.before(span);
-		if(settings.minWidth=='default'){
+		if(settings.minWidth=='default') {
 			settings.minWidth=button.width();
 		}
 		button.css('min-width',settings.minWidth);
 		settings.minOuterWidth=button.outerWidth()-2;
 		button.data('settings',settings);
 
-		if(!settings.singleSelect && settings.checked.length>0){
-			//button.children('span').first().text(settings.checked.join(', '));
+		if(!settings.singleSelect && settings.checked.length>0) {
 			button.children('span').first().text(settings.labels.join(', '));
 		} else if(settings.singleSelect) {
 			button.children('span').first().text(this.find(':selected').text());
@@ -62,14 +61,14 @@
 		button.click(function(event){
 			
 			var button=$(this);
-			if(button.parent().children('ul').length>0){
+			if(button.parent().children('ul').length>0) {
 				if(self.menuDirection === 'down') {
-					button.parent().children('ul').slideUp(400,function(){
+					button.parent().children('ul').slideUp(400,function() {
 						button.parent().children('ul').remove();
 						button.removeClass('active');
 					});
 				} else {
-					button.parent().children('ul').fadeOut(400,function(){
+					button.parent().children('ul').fadeOut(400,function() {
 						button.parent().children('ul').remove();
 						button.removeClass('active').removeClass('up');
 					});
@@ -87,7 +86,7 @@
 			var options=$(this).parent().next().children();
 			var list=$('<ul class="multiselectoptions"/>').hide().appendTo($(this).parent());
 			var inputType = settings.singleSelect ? 'radio' : 'checkbox';
-			function createItem(element,checked){
+			function createItem(element, checked){
 				element=$(element);
 				var item=element.val();
 				var id='ms'+multiSelectId+'-option-'+item;
@@ -99,16 +98,22 @@
 				var label=$('<label/>');
 				label.attr('for',id);
 				label.text(element.text() || item);
-				if(settings.checked.indexOf(item)!=-1 || checked){
-					input.attr('checked',true);
+				if(settings.checked.indexOf(item)!=-1 || checked) {
+					input.attr('checked', true);
 				}
 				if(checked){
-					settings.checked.push(item);
+					if(settings.singleSelect) {
+						settings.checked = [item];
+						settings.labels = [item];
+					} else {
+						settings.checked.push(item);
+						settings.labels.push(item);
+					}
 				}
 				input.change(function(){
 					var value = $(this).attr('id').substring(String('ms'+multiSelectId+'-option').length+1);
 					var label = $(this).next().text().trim();
-					if($(this).is(':checked')){
+					if($(this).is(':checked')) {
 						if(settings.singleSelect) {
 							settings.checked = [];
 							settings.labels = [];
@@ -117,19 +122,19 @@
 							});
 						}
 						element.attr('selected','selected');
-						if(typeof settings.oncheck === 'function'){
-							if(settings.oncheck(value)===false){
+						if(typeof settings.oncheck === 'function') {
+							if(settings.oncheck(value)===false) {
 								$(this).attr('checked', false);
 								return;
 							}
 						}
 						settings.checked.push(value);
 						settings.labels.push(label);
-					}else{
+					} else {
 						var index=settings.checked.indexOf(value);
 						element.attr('selected',null);
-						if(typeof settings.onuncheck === 'function'){
-							if(settings.onuncheck(value)===false){
+						if(typeof settings.onuncheck === 'function') {
+							if(settings.onuncheck(value)===false) {
 								$(this).attr('checked',true);
 								return;
 							}
@@ -184,26 +189,34 @@
 							if (exists) {
 								return false;
 							}
+							if(settings.singleSelect) {
+								$.each(select.find('option:selected'), function() {
+									$(this).removeAttr('selected');
+								});
+							}
 							var li=$(this).parent();
 							$(this).remove();
 							li.text('+ '+settings.createText);
-							li.before(createItem(this, true));
+							li.before(createItem(this));
 							if(self.menuDirection === 'up') {
-							var list = li.parent();
+								var list = li.parent();
 								list.css('top', list.position().top-li.outerHeight());
 							}
 							var select=button.parent().next();
 							var option=$('<option selected="selected"/>');
 							select.append(option);
-							option.text($(this).val());
-							li.prev().children('input').trigger('click');
+							option.text($(this).val()).val($(this).val()).attr('selected', 'selected');
+							li.prev().children('input').prop('checked', true).trigger('change');
 							button.parent().data('preventHide',false);
-							if(typeof settings.createCallback === 'function'){
+							button.children('span').first().text(settings.labels.length > 0 
+								? settings.labels.join(', ')
+								: settings.title);
+							if(typeof settings.createCallback === 'function') {
 								settings.createCallback($(this).val());
 							}
 						}
 					});
-					input.blur(function(){
+					input.blur(function() {
 						event.preventDefault();
 						event.stopPropagation();
 						$(this).remove();
@@ -233,20 +246,20 @@
 				list.fadeIn();
 				self.menuDirection = 'up';
 			}
-			list.click(function(event){
+			list.click(function(event) {
 				event.stopPropagation();
 			});
 		});
-		$(window).click(function(){
-			if(!button.parent().data('preventHide')){
+		$(window).click(function() {
+			if(!button.parent().data('preventHide')) {
 				// How can I save the effect in a var?
 				if(self.menuDirection === 'down') {
-					button.parent().children('ul').slideUp(400,function(){
+					button.parent().children('ul').slideUp(400,function() {
 						button.parent().children('ul').remove();
 						button.removeClass('active').removeClass('down');
 					});
 				} else {
-					button.parent().children('ul').fadeOut(400,function(){
+					button.parent().children('ul').fadeOut(400,function() {
 						button.parent().children('ul').remove();
 						button.removeClass('active').removeClass('up');
 					});
