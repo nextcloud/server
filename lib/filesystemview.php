@@ -174,7 +174,7 @@ class OC_FilesystemView {
 		return $fsLocal->readdir( $handle );
 	}
 	public function is_dir($path) {
-		if($path=='/') {
+		if($path=='/' || $path == '/Shared') {
 			return true;
 		}
 		return $this->basicOperation('is_dir', $path);

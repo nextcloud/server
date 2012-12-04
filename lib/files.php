@@ -165,7 +165,7 @@ class OC_Files {
 			}
 			$zip->close();
 			set_time_limit($executionTime);
-		}elseif(OC_Filesystem::is_dir($dir.'/'.$files)) {
+		}elseif(OC_Filesystem::is_dir(OC_Files::normalizePath($dir.'/'.$files))) {
 			self::validateZipDownload($dir,$files);
 			$executionTime = intval(ini_get('max_execution_time'));
 			set_time_limit(0);
