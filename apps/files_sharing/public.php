@@ -233,7 +233,7 @@ if ($linkItem) {
 			$breadcrumb[] = array('dir' => '/', 'name' => basename($basePath));
 
 			//add subdir breadcrumbs
-			foreach (explode('/', urldecode($_GET['path'])) as $i) {
+			foreach (explode('/', urldecode($getPath)) as $i) {
 				if ($i != '') {
 					$pathtohere .= '/'.$i;
 					$breadcrumb[] = array('dir' => $pathtohere, 'name' => $i);
@@ -251,6 +251,7 @@ if ($linkItem) {
 			$folder = new OCP\Template('files', 'index', '');
 			$folder->assign('fileList', $list->fetchPage(), false);
 			$folder->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
+			$folder->assign('dir', basename($dir));
 			$folder->assign('isCreatable', false);
 			$folder->assign('permissions', 0);
 			$folder->assign('files', $files);
