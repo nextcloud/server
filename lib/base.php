@@ -260,7 +260,7 @@ class OC{
 		OC_Util::addScript( "jquery-1.7.2.min" );
 		OC_Util::addScript( "jquery-ui-1.8.16.custom.min" );
 		OC_Util::addScript( "jquery-showpassword" );
-		OC_Util::addScript( "jquery.infieldlabel.min" );
+		OC_Util::addScript( "jquery.infieldlabel" );
 		OC_Util::addScript( "jquery-tipsy" );
 		OC_Util::addScript( "oc-dialogs" );
 		OC_Util::addScript( "js" );
