@@ -45,6 +45,7 @@ class Util {
 	
 	## DONE: files created via web ui are encrypted
 	## DONE: file created & encrypted via web ui are readable in web ui
+	## DONE: file created & encrypted via web ui are readable via webdav
 	
 	
 	# WebDAV:
@@ -52,8 +53,7 @@ class Util {
 	## DONE: new data filled files added via webdav get encrypted
 	## DONE: new data filled files added via webdav are readable via webdav
 	## DONE: reading unencrypted files when encryption is enabled works via webdav
-	
-	# TODO: files created & encrypted via web ui are readable via webdav
+	## DONE: files created & encrypted via web ui are readable via webdav
 	
 	
 	# Legacy support:

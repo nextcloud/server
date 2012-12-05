@@ -46,11 +46,19 @@ class Keymanager {
 	 * @brief retrieve public key for a specified user
 	 * @return string public key or false
 	 */
-	public static function getPublicKey() {
+	public static function getPublicKey( $userId = NULL ) {
 	
-		$user = \OCP\User::getUser();	
+		// If the username wasn't specified, fetch it
+		if ( ! $userId ) {
+		
+			$userId = \OCP\User::getUser();	
+		
+		}
+		
+		// Create new view with the right
 		$view = new \OC_FilesystemView( '/public-keys/' );
-		return $view->file_get_contents( '/' . $user . '.public.key' );
+		
+		return $view->file_get_contents( '/' . $userId . '.public.key' );
 		
 	}
 	
@@ -119,10 +127,12 @@ class Keymanager {
 	}
 	
 	/**
-	 * @brief retrieve file encryption key
+	 * @brief retrieve keyfile for an encrypted file
 	 *
 	 * @param string file name
 	 * @return string file key or false
+	 * @note The keyfile returned is asymmetrically encrypted. Decryption
+	 * of the keyfile must be performed by client code
 	 */
 	public static function getFileKey( $path, $staticUserClass = 'OCP\User' ) {
 		
@@ -228,6 +238,8 @@ class Keymanager {
 	 * @param string $path relative path of the file, including filename
 	 * @param string $key
 	 * @return bool true/false
+	 * @note The keyfile is not encrypted here. Client code must 
+	 * asymmetrically encrypt the keyfile before passing it to this method
 	 */
 	public static function setFileKey( $path, $key, $view = Null, $dbClassName = '\OC_DB') {
 
