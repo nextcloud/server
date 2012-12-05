@@ -12,7 +12,7 @@ if( file_exists( $autosetup_file )) {
 
 OC_Util::addScript('setup');
 
-$hasSQLite = (is_callable('sqlite_open') or class_exists('SQLite3'));
+$hasSQLite = class_exists('SQLite3');
 $hasMySQL = is_callable('mysql_connect');
 $hasPostgreSQL = is_callable('pg_connect');
 $hasOracle = is_callable('oci_connect');
