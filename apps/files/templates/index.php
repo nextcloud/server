@@ -31,7 +31,7 @@
 					<input type="hidden" class="max_human_file_size"
 						   value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
 					<input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
-					<input class="file_upload_start" type="file" name='files[]'/>
+					<input  type="file" id="file_upload_start" name='files[]'/>
 					<a href="#" class="file_upload_button_wrapper" onclick="return false;"
 					   title="<?php echo $l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
 					

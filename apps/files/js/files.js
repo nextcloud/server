@@ -67,7 +67,7 @@ $(document).ready(function() {
 
 	// Triggers invisible file input
 	$('.file_upload_button_wrapper').live('click', function() {
-		$(this).parent().children('.file_upload_start').trigger('click');
+		$(this).parent().children('#file_upload_start').trigger('click');
 		return false;
 	});
 
@@ -201,9 +201,9 @@ $(document).ready(function() {
 			e.preventDefault(); // prevent browser from doing anything, if file isn't dropped in dropZone
 	});
 
-	if ( document.getElementById("data-upload-form") ) {
+	if ( document.getElementById('data-upload-form') ) {
 	$(function() {
-		$('.file_upload_start').fileupload({
+		$('#file_upload_start').fileupload({
 			dropZone: $('#content'), // restrict dropZone to content div
 			add: function(e, data) {
 				var files = data.files;
@@ -218,7 +218,7 @@ $(document).ready(function() {
 						totalSize+=files[i].size;
 						if(FileList.deleteFiles && FileList.deleteFiles.indexOf(files[i].name)!=-1){//finish delete if we are uploading a deleted file
 							FileList.finishDelete(function(){
-								$('.file_upload_start').change();
+								$('#file_upload_start').change();
 							});
 							return;
 						}
@@ -292,7 +292,7 @@ $(document).ready(function() {
 							var dropTarget = $(e.originalEvent.target).closest('tr');
 							if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
 								var dirName = dropTarget.attr('data-file')
-								var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i],
+								var jqXHR =  $('#file_upload_start').fileupload('send', {files: files[i],
 										formData: function(form) {
 											var formArray = form.serializeArray();
                                             // array index 0 contains the max files size
@@ -353,7 +353,7 @@ $(document).ready(function() {
 								}
 								uploadingFiles[dirName][fileName] = jqXHR;
 							} else {
-								var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i]})
+								var jqXHR =  $('#file_upload_start').fileupload('send', {files: files[i]})
 										.success(function(result, textStatus, jqXHR) {
 											var response;
 											response=jQuery.parseJSON(result);
@@ -450,7 +450,7 @@ $(document).ready(function() {
 
 	//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
 	if(navigator.userAgent.search(/konqueror/i)==-1){
-		$('.file_upload_start').attr('multiple','multiple')
+		$('#file_upload_start').attr('multiple','multiple')
 	}
 
 	//if the breadcrumb is to long, start by replacing foldernames with '...' except for the current folder
