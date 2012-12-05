@@ -363,10 +363,10 @@ class OC_FileCache{
 		while($id!=-1) {//walk up the filetree increasing the size of all parent folders
 			$query=OC_DB::prepare('UPDATE `*PREFIX*fscache` SET `size`=`size`+? WHERE `id`=?');
 			$query->execute(array($sizeDiff, $id));
+			$path=dirname($path);
 			if($path == '' or $path =='/'){
 				return;
 			}
-			$path=dirname($path);
 			$parent = OC_FileCache_Cached::get($path);
 			$id = $parent['id'];
 			//stop walking up the filetree if we hit a non-folder
