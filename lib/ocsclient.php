@@ -222,43 +222,36 @@ class OC_OCSClient{
 	 *
 	 * This function returns a list of all the knowledgebase entries from the OCS server
 	 */
-	public static function getKnownledgebaseEntries($page,$pagesize,$search='') {
-		if(OC_Config::getValue('knowledgebaseenabled', true)==false) {
-			$kbe=array();
-			$kbe['totalitems']=0;
-			return $kbe;
+	public static function getKnownledgebaseEntries($page, $pagesize, $search='') {
+		$kbe = array('totalitems' => 0);
+		if(OC_Config::getValue('knowledgebaseenabled', true)) {
+			$p = (int) $page;
+			$s = (int) $pagesize;
+			$searchcmd = '';
+			if ($search) {
+				$searchcmd = '&search='.urlencode($search);
+			}
+			$url = OC_OCSClient::getKBURL().'/knowledgebase/data?type=150&page='. $p .'&pagesize='. $s . $searchcmd;
+			$xml = OC_OCSClient::getOCSresponse($url);
+			$data = @simplexml_load_string($xml);
+			if($data===false) {
+				OC_Log::write('core', 'Unable to parse knowledgebase content', OC_Log::FATAL);
+				return null;
+			}
+			$tmp = $data->data->content;
+			for($i = 0; $i < count($tmp); $i++) {
+				$kbe[] = array(
+					'id' => $tmp[$i]->id,
+					'name' => $tmp[$i]->name,
+					'description' => $tmp[$i]->description,
+					'answer' => $tmp[$i]->answer,
+					'preview1' => $tmp[$i]->smallpreviewpic1,
+					'detailpage' => $tmp[$i]->detailpage
+				);
+			}
+			$kbe['totalitems'] = $data->meta->totalitems;
 		}
-
-		$p= (int) $page;
-		$s= (int) $pagesize;
-		if($search<>'') $searchcmd='&search='.urlencode($search); else $searchcmd='';
-		$url=OC_OCSClient::getKBURL().'/knowledgebase/data?type=150&page='.$p.'&pagesize='.$s.$searchcmd;
-
-		$kbe=array();
-		$xml=OC_OCSClient::getOCSresponse($url);
-
-		if($xml==FALSE) {
-			OC_Log::write('core','Unable to parse knowledgebase content',OC_Log::FATAL);
-			return NULL;
-		}
-		$data=simplexml_load_string($xml);
-
-		$tmp=$data->data->content;
-		for($i = 0; $i < count($tmp); $i++) {
-			$kb=array();
-			$kb['id']=$tmp[$i]->id;
-			$kb['name']=$tmp[$i]->name;
-			$kb['description']=$tmp[$i]->description;
-			$kb['answer']=$tmp[$i]->answer;
-			$kb['preview1']=$tmp[$i]->smallpreviewpic1;
-			$kb['detailpage']=$tmp[$i]->detailpage;
-			$kbe[]=$kb;
-		}
-		$total=$data->meta->totalitems;
-		$kbe['totalitems']=$total;
-                return $kbe;
+		return $kbe;
 	}
-
-
 
 }
