@@ -512,7 +512,6 @@ class OC{
 			return;
 		}
 		try {
-			OC_App::loadApps();
 			OC::getRouter()->match(OC_Request::getPathInfo());
 			return;
 		} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
