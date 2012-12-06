@@ -354,8 +354,8 @@ class OC_FileCache{
 	public static function increaseSize($path, $sizeDiff, $root=false) {
 		if($sizeDiff==0) return;
 		$item = OC_FileCache_Cached::get($path);
-		//stop walking up the filetree if we hit a non-folder
-		if($item['mimetype'] !== 'httpd/unix-directory'){
+		//stop walking up the filetree if we hit a non-folder or reached to root folder
+		if($path == '/' || $path=='' || $item['mimetype'] !== 'httpd/unix-directory'){
 			return;
 		}
 		$id = $item['id'];
