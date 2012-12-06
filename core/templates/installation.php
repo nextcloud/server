@@ -124,7 +124,7 @@
 		</div>
 		<?php endif; ?>
 		<p class="infield groupbottom">
-			<label for="dbhost" class="infield"><?php echo $l->t( 'Database host' ); ?></label>
+			<label for="dbhost" class="infield" id="dbhostlabel"><?php echo $l->t( 'Database host' ); ?></label>
 			<input type="text" name="dbhost" id="dbhost" value="<?php print OC_Helper::init_var('dbhost', 'localhost'); ?>" />
 		</p>
 	</fieldset>
