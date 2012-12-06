@@ -56,6 +56,7 @@ input[type="submit"], input[type="button"], button, .button, #quota, div.jp-prog
 input[type="submit"]:hover, input[type="submit"]:focus, input[type="button"]:hover, select:hover, select:focus, select:active, input[type="button"]:focus, .button:hover { background:#fff; color:#333; }
 input[type="submit"] img, input[type="button"] img, button img, .button img { cursor:pointer; }
 input[type="checkbox"] { width:auto; }
+input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
 #quota { cursor:default; }
 
 
