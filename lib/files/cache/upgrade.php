@@ -15,13 +15,17 @@ class Upgrade {
 		$insertQuery = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache`( `fileid`, `storage`, `path`, `path_hash`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted` )
 			VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 
-		$oldEntriesQuery = \OC_DB::prepare('SELECT * FROM `*PREFIX*fscache` ORDER BY `id` ASC'); //sort ascending to ensure the parent gets inserted before a child
-		try{
-			$oldEntriesResult = $oldEntriesQuery->execute();
-		}catch(\Exception $e){
+		try {
+			$oldEntriesQuery = \OC_DB::prepare('SELECT * FROM `*PREFIX*fscache` ORDER BY `id` ASC'); //sort ascending to ensure the parent gets inserted before a child
+		} catch (\Exception $e) {
 			return;
 		}
-		if(!$oldEntriesResult){
+		try {
+			$oldEntriesResult = $oldEntriesQuery->execute();
+		} catch (\Exception $e) {
+			return;
+		}
+		if (!$oldEntriesResult) {
 			return;
 		}
 
