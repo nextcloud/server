@@ -11,6 +11,7 @@
 "Authentication error" => "Todennusvirhe",
 "Unable to delete user" => "Käyttäjän poisto epäonnistui",
 "Language changed" => "Kieli on vaihdettu",
+"Admins can't remove themself from the admin group" => "Ylläpitäjät eivät poistaa omia tunnuksiaan ylläpitäjien ryhmästä",
 "Unable to add user to group %s" => "Käyttäjän tai ryhmän %s lisääminen ei onnistu",
 "Unable to remove user from group %s" => "Käyttäjän poistaminen ryhmästä %s ei onnistu",
 "Disable" => "Poista käytöstä",

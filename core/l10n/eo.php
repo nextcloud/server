@@ -108,6 +108,7 @@
 "December" => "Decembro",
 "web services under your control" => "TTT-servoj sub via kontrolo",
 "Log out" => "Elsaluti",
+"If you did not change your password recently, your account may be compromised!" => "Se vi ne ŝanĝis vian pasvorton lastatempe, via konto eble kompromitas!",
 "Please change your password to secure your account again." => "Bonvolu ŝanĝi vian pasvorton por sekurigi vian konton ree.",
 "Lost your password?" => "Ĉu vi perdis vian pasvorton?",
 "remember" => "memori",

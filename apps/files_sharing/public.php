@@ -245,7 +245,7 @@ if ($linkItem) {
 			$breadcrumb[] = array('dir' => '/', 'name' => basename($basePath));
 
 			//add subdir breadcrumbs
-			foreach (explode('/', urldecode($_GET['path'])) as $i) {
+			foreach (explode('/', urldecode($getPath)) as $i) {
 				if ($i != '') {
 					$pathtohere .= '/' . $i;
 					$breadcrumb[] = array('dir' => $pathtohere, 'name' => $i);
@@ -379,7 +379,28 @@ if ($linkItem) {
 				}
 				$tmpl->printPage();
 			}
-			exit();
+
+			$list = new OCP\Template('files', 'part.list', '');
+			$list->assign('files', $files, false);
+			$list->assign('publicListView', true);
+			$list->assign('baseURL', OCP\Util::linkToPublic('files').$urlLinkIdentifiers.'&path=', false);
+			$list->assign('downloadURL', OCP\Util::linkToPublic('files').$urlLinkIdentifiers.'&download&path=', false);
+			$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '' );
+			$breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
+			$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files').$urlLinkIdentifiers.'&path=', false);
+			$folder = new OCP\Template('files', 'index', '');
+			$folder->assign('fileList', $list->fetchPage(), false);
+			$folder->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
+			$folder->assign('dir', basename($dir));
+			$folder->assign('isCreatable', false);
+			$folder->assign('permissions', 0);
+			$folder->assign('files', $files);
+			$folder->assign('uploadMaxFilesize', 0);
+			$folder->assign('uploadMaxHumanFilesize', 0);
+			$folder->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
+			$tmpl->assign('folder', $folder->fetchPage(), false);
+			$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
+			$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').$urlLinkIdentifiers.'&download&path='.urlencode($getPath));
 		} else {
 			OCP\Util::writeLog('share', 'could not resolve linkItem', \OCP\Util::DEBUG);
 		}
