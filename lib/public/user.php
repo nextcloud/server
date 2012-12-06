@@ -65,12 +65,12 @@ class User {
 	/**
 	 * @brief check if a user exists
 	 * @param string $uid the username
+	 * @param string $excludingBackend (default none) 
 	 * @return boolean
 	 */
-	public static function userExists( $uid ) {
-		return \OC_USER::userExists( $uid );
+	public static function userExists( $uid, $excludingBackend = null ) {
+		return \OC_USER::userExists( $uid, $excludingBackend );
 	}
-
 	/**
 	 * @brief Loggs the user out including all the session data
 	 * @returns true
