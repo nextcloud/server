@@ -59,7 +59,9 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 	}
 
 	public function filetype($path) {
-		return (bool)@$this->opendir($path) ? 'dir' : 'file';//using opendir causes the same amount of requests and caches the content of the folder in one go
+		// filetype uses stat of the stream wrapper implementation to determine the file type
+		// see: http://php.net/manual/de/streamwrapper.url-stat.php
+		return filetype($this->constructUrl($path));
 	}
 
 	/**
