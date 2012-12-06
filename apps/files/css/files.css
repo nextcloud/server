@@ -4,7 +4,7 @@
 
 /* FILE MENU */
 .actions { padding:.3em; float:left; height:2em; }
-.actions input, .actions button, .actions .button { margin:0; float:left; overflow:hidden; }
+.actions input, .actions button, .actions .button { margin:0; float:left; }
 #file_menu { right:0; position:absolute; top:0; }
 #file_menu a { display:block; float:left; background-image:none; text-decoration:none; }
 .file_upload_form, #file_newfolder_form { display:inline; float: left; margin:0; padding:0; }
@@ -17,7 +17,8 @@
 #new.active { border-bottom-left-radius:0; border-bottom-right-radius:0; border-bottom:none; }
 #new>a { padding:.5em 1.2em .3em; color:#fff; text-shadow:0 1px 0 #51a351; }
 #new>ul { display:none; position:fixed; text-align:left; padding:.5em; background:#f8f8f8; margin-top:0.075em; border:1px solid #ddd; min-width:7em; margin-left:-.5em; z-index:-1; }
-#new>ul>li { margin:.3em; padding-left:2em; background-repeat:no-repeat; cursor:pointer; padding-bottom:0.1em }
+#new>ul>li { height:20px; margin:.3em; padding-left:2em; padding-bottom:0.1em;
+		background-repeat:no-repeat; cursor:pointer; }
 #new>ul>li>p { cursor:pointer; }
 #new>ul>li>input { padding:0.3em; margin:-0.3em; }
 #new { border:1px solid; border-color:#51a351 #419341 #387038; -moz-box-shadow:0 1px 1px #f8f8f8, 1px 1px 1px #ada inset; -webkit-box-shadow:0 1px 1px #f8f8f8, 1px 1px 1px #ada inset; box-shadow:0 1px 1px #f8f8f8, 1px 1px 1px #ada inset; }
@@ -33,6 +34,7 @@
 	background-color:#5bb75b;
 	margin-left:0.2em;
 	height:27px;
+	overflow:hidden;
 }
 
 #file_newfolder_name { background-image:url('%webroot%/core/img/places/folder.svg'); font-weight:normal; width:7em; }
