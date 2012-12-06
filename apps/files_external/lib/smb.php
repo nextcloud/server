@@ -59,11 +59,6 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 		}
 	}
 
-	public function filetype($path) {
-		// using opendir causes the same amount of requests and caches the content of the folder in one go
-		return (bool)@$this->opendir($path) ? 'dir' : 'file';
-	}
-
 	/**
 	 * check if a file or folder has been updated since $time
 	 * @param string $path
