@@ -58,12 +58,6 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 		}
 	}
 
-	public function filetype($path) {
-		// filetype uses stat of the stream wrapper implementation to determine the file type
-		// see: http://php.net/manual/de/streamwrapper.url-stat.php
-		return filetype($this->constructUrl($path));
-	}
-
 	/**
 	 * check if a file or folder has been updated since $time
 	 * @param int $time
