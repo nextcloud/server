@@ -31,6 +31,7 @@ OCP\Util::addscript( 'files', 'jquery.fileupload' );
 OCP\Util::addscript( 'files', 'files' );
 OCP\Util::addscript( 'files', 'filelist' );
 OCP\Util::addscript( 'files', 'fileactions' );
+OCP\Util::addscript( 'files', 'keyboardshortcuts' ); 
 if(!isset($_SESSION['timezone'])) {
 	OCP\Util::addscript( 'files', 'timezone' );
 }
