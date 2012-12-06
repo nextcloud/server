@@ -115,7 +115,7 @@ input[type="submit"].highlight{ background:#ffc100; border:1px solid #db0; text-
 	font-weight:bold; color:#999; text-shadow:0 1px 0 white;
 }
 #login form fieldset legend a { color:#999; }
-#login #datadirContent label { color:#999; display:block; }
+#login #datadirContent label { display:block; margin:0; color:#999;  }
 #login form #datadirField legend { margin-bottom:15px; }
 
 /* Nicely grouping input field sets */
