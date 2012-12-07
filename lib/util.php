@@ -340,8 +340,8 @@ class OC_Util {
 		}
 		if (isset($_REQUEST['redirect_url'])) {
 			$redirect_url = OC_Util::sanitizeHTML($_REQUEST['redirect_url']);
+			$parameters['redirect_url'] = urlencode($redirect_url);
 		} 
-		$parameters['redirect_url'] = urlencode($redirect_url);
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
