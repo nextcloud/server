@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "No category to add?" => "無分類添加?",
 "This category already exists: " => "此分類已經存在:",
+"Object type not provided." => "不支援的物件類型",
 "No categories selected for deletion." => "沒選擇要刪除的分類",
 "Settings" => "設定",
 "seconds ago" => "幾秒前",
@@ -22,7 +23,9 @@
 "Yes" => "Yes",
 "Ok" => "Ok",
 "Error" => "錯誤",
+"The app name is not specified." => "沒有詳述APP名稱.",
 "Error while sharing" => "分享時發生錯誤",
+"Error while unsharing" => "取消分享時發生錯誤",
 "Shared with you by {owner}" => "{owner} 已經和您分享",
 "Share with" => "與分享",
 "Share with link" => "使用連結分享",

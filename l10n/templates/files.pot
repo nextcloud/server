@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-06 00:11+0100\n"
+"POT-Creation-Date: 2012-12-08 00:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,80 +106,80 @@ msgid ""
 "allowed."
 msgstr ""
 
-#: js/files.js:183
+#: js/files.js:184
 msgid "generating ZIP-file, it may take some time."
 msgstr ""
 
-#: js/files.js:218
+#: js/files.js:219
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr ""
 
-#: js/files.js:218
+#: js/files.js:219
 msgid "Upload Error"
 msgstr ""
 
-#: js/files.js:235
+#: js/files.js:236
 msgid "Close"
 msgstr ""
 
-#: js/files.js:254 js/files.js:368 js/files.js:398
+#: js/files.js:255 js/files.js:369 js/files.js:399
 msgid "Pending"
 msgstr ""
 
-#: js/files.js:274
+#: js/files.js:275
 msgid "1 file uploading"
 msgstr ""
 
-#: js/files.js:277 js/files.js:331 js/files.js:346
+#: js/files.js:278 js/files.js:332 js/files.js:347
 msgid "{count} files uploading"
 msgstr ""
 
-#: js/files.js:349 js/files.js:382
+#: js/files.js:350 js/files.js:383
 msgid "Upload cancelled."
 msgstr ""
 
-#: js/files.js:451
+#: js/files.js:452
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/files.js:523
+#: js/files.js:524
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:704
+#: js/files.js:705
 msgid "{count} files scanned"
 msgstr ""
 
-#: js/files.js:712
+#: js/files.js:713
 msgid "error while scanning"
 msgstr ""
 
-#: js/files.js:785 templates/index.php:65
+#: js/files.js:786 templates/index.php:65
 msgid "Name"
 msgstr ""
 
-#: js/files.js:786 templates/index.php:76
+#: js/files.js:787 templates/index.php:76
 msgid "Size"
 msgstr ""
 
-#: js/files.js:787 templates/index.php:78
+#: js/files.js:788 templates/index.php:78
 msgid "Modified"
 msgstr ""
 
-#: js/files.js:814
+#: js/files.js:815
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:816
+#: js/files.js:817
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:824
+#: js/files.js:825
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:826
+#: js/files.js:827
 msgid "{count} files"
 msgstr ""
 
