@@ -66,7 +66,7 @@ $(document).ready(function() {
 	}
 
 	// Triggers invisible file input
-	$('.file_upload_button_wrapper').live('click', function() {
+	$('#upload a').live('click', function() {
 		$(this).parent().children('#file_upload_start').trigger('click');
 		return false;
 	});
@@ -166,12 +166,6 @@ $(document).ready(function() {
 			}
 		}
 		procesSelection();
-	});
-
-	$('#file_newfolder_name').click(function(){
-		if($('#file_newfolder_name').val() == 'New Folder'){
-			$('#file_newfolder_name').val('');
-		}
 	});
 
 	$('.download').click('click',function(event) {

@@ -615,7 +615,7 @@ $(document).ready(function(){
 	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
 	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
-	$('.file_upload_button_wrapper').tipsy({gravity:'w', fade:true});
+	$('#upload a').tipsy({gravity:'w', fade:true});
 	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
 	$('a.delete').tipsy({gravity: 'e', fade:true, live:true});
 	$('a.action').tipsy({gravity:'s', fade:true, live:true});
