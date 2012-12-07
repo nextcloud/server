@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# 남자사람  <cessnagi@gmail.com>, 2012.
 #   <limonade83@gmail.com>, 2012.
 # Shinjo Park <kde@peremen.name>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-09 02:03+0200\n"
-"PO-Revision-Date: 2012-10-09 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-03 00:04+0100\n"
+"PO-Revision-Date: 2012-12-02 03:18+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,70 +20,73 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/apps/ocs.php:23
+#: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "앱 스토어에서 목록을 가져올 수 없습니다"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "인증 오류"
+#: ajax/creategroup.php:10
+msgid "Group already exists"
+msgstr "그룹이 이미 존재합니다."
 
 #: ajax/creategroup.php:19
-msgid "Group already exists"
-msgstr ""
-
-#: ajax/creategroup.php:28
 msgid "Unable to add group"
-msgstr ""
+msgstr "그룹추가가 불가능합니다."
 
-#: ajax/enableapp.php:14
+#: ajax/enableapp.php:12
 msgid "Could not enable app. "
-msgstr ""
+msgstr "응용프로그램 가능하지 않습니다."
 
-#: ajax/lostpassword.php:14
+#: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "이메일 저장"
 
-#: ajax/lostpassword.php:16
+#: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "잘못된 이메일"
 
-#: ajax/openid.php:16
+#: ajax/openid.php:13
 msgid "OpenID Changed"
 msgstr "OpenID 변경됨"
 
-#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
+#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
 msgstr "잘못된 요청"
 
-#: ajax/removegroup.php:16
+#: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "그룹 삭제가 불가능합니다."
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "인증 오류"
+
+#: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr ""
+msgstr "사용자 삭제가 불가능합니다."
 
-#: ajax/setlanguage.php:18
+#: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "언어가 변경되었습니다"
 
-#: ajax/togglegroups.php:25
+#: ajax/togglegroups.php:12
+msgid "Admins can't remove themself from the admin group"
+msgstr ""
+
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "%s 그룹에 사용자 추가가 불가능합니다."
 
-#: ajax/togglegroups.php:31
+#: ajax/togglegroups.php:34
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "%s 그룹으로부터 사용자 제거가 불가능합니다."
 
-#: js/apps.js:28 js/apps.js:65
+#: js/apps.js:28 js/apps.js:67
 msgid "Disable"
 msgstr "비활성화"
 
-#: js/apps.js:28 js/apps.js:54
+#: js/apps.js:28 js/apps.js:55
 msgid "Enable"
 msgstr "활성화"
 
@@ -90,96 +94,9 @@ msgstr "활성화"
 msgid "Saving..."
 msgstr "저장..."
 
-#: personal.php:47 personal.php:48
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "한국어"
-
-#: templates/admin.php:14
-msgid "Security Warning"
-msgstr "보안 경고"
-
-#: templates/admin.php:17
-msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr ""
-
-#: templates/admin.php:31
-msgid "Cron"
-msgstr "크론"
-
-#: templates/admin.php:37
-msgid "Execute one task with each page loaded"
-msgstr ""
-
-#: templates/admin.php:43
-msgid ""
-"cron.php is registered at a webcron service. Call the cron.php page in the "
-"owncloud root once a minute over http."
-msgstr ""
-
-#: templates/admin.php:49
-msgid ""
-"Use systems cron service. Call the cron.php file in the owncloud folder via "
-"a system cronjob once a minute."
-msgstr ""
-
-#: templates/admin.php:56
-msgid "Sharing"
-msgstr ""
-
-#: templates/admin.php:61
-msgid "Enable Share API"
-msgstr ""
-
-#: templates/admin.php:62
-msgid "Allow apps to use the Share API"
-msgstr ""
-
-#: templates/admin.php:67
-msgid "Allow links"
-msgstr ""
-
-#: templates/admin.php:68
-msgid "Allow users to share items to the public with links"
-msgstr ""
-
-#: templates/admin.php:73
-msgid "Allow resharing"
-msgstr ""
-
-#: templates/admin.php:74
-msgid "Allow users to share items shared with them again"
-msgstr ""
-
-#: templates/admin.php:79
-msgid "Allow users to share with anyone"
-msgstr ""
-
-#: templates/admin.php:81
-msgid "Allow users to only share with users in their groups"
-msgstr ""
-
-#: templates/admin.php:88
-msgid "Log"
-msgstr "로그"
-
-#: templates/admin.php:116
-msgid "More"
-msgstr "더"
-
-#: templates/admin.php:124
-msgid ""
-"Developed by the <a href=\"http://ownCloud.org/contact\" "
-"target=\"_blank\">ownCloud community</a>, the <a "
-"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
-"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
-"target=\"_blank\"><abbr title=\"Affero General Public "
-"License\">AGPL</abbr></a>."
-msgstr ""
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -187,7 +104,7 @@ msgstr "앱 추가"
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr ""
+msgstr "더많은 응용프로그램들"
 
 #: templates/apps.php:27
 msgid "Select an App"
@@ -199,7 +116,7 @@ msgstr "application page at apps.owncloud.com을 보시오."
 
 #: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-licensed by <span class=\"저자\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"
@@ -213,22 +130,22 @@ msgstr "큰 파일 관리"
 msgid "Ask a question"
 msgstr "질문하기"
 
-#: templates/help.php:23
+#: templates/help.php:22
 msgid "Problems connecting to help database."
 msgstr "데이터베이스에 연결하는 데 문제가 발생하였습니다."
 
-#: templates/help.php:24
+#: templates/help.php:23
 msgid "Go there manually."
 msgstr "직접 갈 수 있습니다."
 
-#: templates/help.php:32
+#: templates/help.php:31
 msgid "Answer"
 msgstr "대답"
 
 #: templates/personal.php:8
 #, php-format
-msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr ""
+msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
+msgstr "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -240,7 +157,7 @@ msgstr "다운로드"
 
 #: templates/personal.php:19
 msgid "Your password was changed"
-msgstr ""
+msgstr "당신의 비밀번호가 변경되었습니다."
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
@@ -285,6 +202,16 @@ msgstr "번역 돕기"
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "파일 관리자에서 내 ownCloud에 연결할 때 이 주소를 사용하십시오"
+
+#: templates/personal.php:61
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>에 의해서 개발되었습니다. <a href=\"https://github.com/owncloud\" target=\"_blank\">소스코드</a>는 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>에 따라 사용이 허가됩니다."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"

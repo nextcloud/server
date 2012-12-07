@@ -11,46 +11,46 @@ class Test_Encryption extends UnitTestCase {
 		$key=uniqid();
 		$file=OC::$SERVERROOT.'/3rdparty/MDB2.php';
 		$source=file_get_contents($file); //nice large text file
-		$encrypted=OC_Crypt::encrypt($source,$key);
-		$decrypted=OC_Crypt::decrypt($encrypted,$key);
+		$encrypted=OC_Crypt::encrypt($source, $key);
+		$decrypted=OC_Crypt::decrypt($encrypted, $key);
 		$decrypted=rtrim($decrypted, "\0");
-		$this->assertNotEqual($encrypted,$source);
-		$this->assertEqual($decrypted,$source);
+		$this->assertNotEqual($encrypted, $source);
+		$this->assertEqual($decrypted, $source);
 
-		$chunk=substr($source,0,8192);
-		$encrypted=OC_Crypt::encrypt($chunk,$key);
-		$this->assertEqual(strlen($chunk),strlen($encrypted));
-		$decrypted=OC_Crypt::decrypt($encrypted,$key);
+		$chunk=substr($source, 0, 8192);
+		$encrypted=OC_Crypt::encrypt($chunk, $key);
+		$this->assertEqual(strlen($chunk), strlen($encrypted));
+		$decrypted=OC_Crypt::decrypt($encrypted, $key);
 		$decrypted=rtrim($decrypted, "\0");
-		$this->assertEqual($decrypted,$chunk);
+		$this->assertEqual($decrypted, $chunk);
 
-		$encrypted=OC_Crypt::blockEncrypt($source,$key);
-		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key);
-		$this->assertNotEqual($encrypted,$source);
-		$this->assertEqual($decrypted,$source);
+		$encrypted=OC_Crypt::blockEncrypt($source, $key);
+		$decrypted=OC_Crypt::blockDecrypt($encrypted, $key);
+		$this->assertNotEqual($encrypted, $source);
+		$this->assertEqual($decrypted, $source);
 
 		$tmpFileEncrypted=OCP\Files::tmpFile();
-		OC_Crypt::encryptfile($file,$tmpFileEncrypted,$key);
+		OC_Crypt::encryptfile($file, $tmpFileEncrypted, $key);
 		$encrypted=file_get_contents($tmpFileEncrypted);
-		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key);
-		$this->assertNotEqual($encrypted,$source);
-		$this->assertEqual($decrypted,$source);
+		$decrypted=OC_Crypt::blockDecrypt($encrypted, $key);
+		$this->assertNotEqual($encrypted, $source);
+		$this->assertEqual($decrypted, $source);
 
 		$tmpFileDecrypted=OCP\Files::tmpFile();
-		OC_Crypt::decryptfile($tmpFileEncrypted,$tmpFileDecrypted,$key);
+		OC_Crypt::decryptfile($tmpFileEncrypted, $tmpFileDecrypted, $key);
 		$decrypted=file_get_contents($tmpFileDecrypted);
-		$this->assertEqual($decrypted,$source);
+		$this->assertEqual($decrypted, $source);
 
 		$file=OC::$SERVERROOT.'/core/img/weather-clear.png';
 		$source=file_get_contents($file); //binary file
-		$encrypted=OC_Crypt::encrypt($source,$key);
-		$decrypted=OC_Crypt::decrypt($encrypted,$key);
+		$encrypted=OC_Crypt::encrypt($source, $key);
+		$decrypted=OC_Crypt::decrypt($encrypted, $key);
 		$decrypted=rtrim($decrypted, "\0");
-		$this->assertEqual($decrypted,$source);
+		$this->assertEqual($decrypted, $source);
 
-		$encrypted=OC_Crypt::blockEncrypt($source,$key);
-		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key);
-		$this->assertEqual($decrypted,$source);
+		$encrypted=OC_Crypt::blockEncrypt($source, $key);
+		$decrypted=OC_Crypt::blockDecrypt($encrypted, $key);
+		$this->assertEqual($decrypted, $source);
 
 	}
 
@@ -59,14 +59,14 @@ class Test_Encryption extends UnitTestCase {
 
 		$file=__DIR__.'/binary';
 		$source=file_get_contents($file); //binary file
-		$encrypted=OC_Crypt::encrypt($source,$key);
-		$decrypted=OC_Crypt::decrypt($encrypted,$key);
+		$encrypted=OC_Crypt::encrypt($source, $key);
+		$decrypted=OC_Crypt::decrypt($encrypted, $key);
 
 		$decrypted=rtrim($decrypted, "\0");
-		$this->assertEqual($decrypted,$source);
+		$this->assertEqual($decrypted, $source);
 
-		$encrypted=OC_Crypt::blockEncrypt($source,$key);
-		$decrypted=OC_Crypt::blockDecrypt($encrypted,$key,strlen($source));
-		$this->assertEqual($decrypted,$source);
+		$encrypted=OC_Crypt::blockEncrypt($source, $key);
+		$decrypted=OC_Crypt::blockDecrypt($encrypted, $key, strlen($source));
+		$this->assertEqual($decrypted, $source);
 	}
 }

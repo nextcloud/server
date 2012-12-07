@@ -9,7 +9,7 @@ if(!OC_User::isLoggedIn()) {
 
 session_write_close();
 // Get the params
-$dir = isset( $_REQUEST['dir'] ) ? trim($_REQUEST['dir'], '/\\') : '';
+$dir = isset( $_REQUEST['dir'] ) ? '/'.trim($_REQUEST['dir'], '/\\') : '';
 $filename = isset( $_REQUEST['filename'] ) ? trim($_REQUEST['filename'], '/\\') : '';
 $content = isset( $_REQUEST['content'] ) ? $_REQUEST['content'] : '';
 $source = isset( $_REQUEST['source'] ) ? trim($_REQUEST['source'], '/\\') : '';
@@ -65,6 +65,7 @@ if($source) {
 	$target=$dir.'/'.$filename;
 	$result=OC_Filesystem::file_put_contents($target, $sourceStream);
 	if($result) {
+		$target = OC_Filesystem::normalizePath($target);
 		$meta = OC_FileCache::get($target);
 		$mime=$meta['mimetype'];
 		$id = OC_FileCache::getId($target);

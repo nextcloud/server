@@ -42,9 +42,30 @@ class DB {
 	 * SQL query via MDB2 prepare(), needs to be execute()'d!
 	 */
 	static public function prepare( $query, $limit=null, $offset=null ) {
-		return(\OC_DB::prepare($query,$limit,$offset));
+		return(\OC_DB::prepare($query, $limit, $offset));
 	}
 
+	/**
+	 * @brief Insert a row if a matching row doesn't exists.
+	 * @param $table string The table name (will replace *PREFIX*) to perform the replace on.
+	 * @param $input array
+	 * 
+	 * The input array if in the form:
+	 * 
+	 * array ( 'id' => array ( 'value' => 6,
+	 *	'key' => true
+	 *	),
+	 *	'name' => array ('value' => 'Stoyan'),
+	 *	'family' => array ('value' => 'Stefanov'),
+	 *	'birth_date' => array ('value' => '1975-06-20')
+	 *	);
+	 * @returns true/false
+	 *
+	 */
+	public static function insertIfNotExist($table, $input) {
+		return(\OC_DB::insertIfNotExist($table, $input));
+	}
+	
 	/**
 	 * @brief gets last value of autoincrement
 	 * @param $table string The optional table name (will replace *PREFIX*) and add sequence suffix

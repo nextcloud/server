@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-12 02:04+0200\n"
-"PO-Revision-Date: 2012-10-11 08:16+0000\n"
+"POT-Creation-Date: 2012-11-16 00:02+0100\n"
+"PO-Revision-Date: 2012-11-15 09:27+0000\n"
 "Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -42,19 +42,19 @@ msgstr "Приложения"
 msgid "Admin"
 msgstr "Админ"
 
-#: files.php:328
+#: files.php:332
 msgid "ZIP download is turned off."
 msgstr "Загрузка ZIP выключена."
 
-#: files.php:329
+#: files.php:333
 msgid "Files need to be downloaded one by one."
 msgstr "Файлы должны быть загружены один за другим."
 
-#: files.php:329 files.php:354
+#: files.php:333 files.php:358
 msgid "Back to Files"
 msgstr "Обратно к файлам"
 
-#: files.php:353
+#: files.php:357
 msgid "Selected files too large to generate zip file."
 msgstr "Выбранные файлы слишком велики для генерации zip-архива."
 
@@ -62,7 +62,7 @@ msgstr "Выбранные файлы слишком велики для ген�
 msgid "Application is not enabled"
 msgstr "Приложение не запущено"
 
-#: json.php:39 json.php:63 json.php:75
+#: json.php:39 json.php:64 json.php:77 json.php:89
 msgid "Authentication error"
 msgstr "Ошибка аутентификации"
 
@@ -70,45 +70,67 @@ msgstr "Ошибка аутентификации"
 msgid "Token expired. Please reload page."
 msgstr "Маркер истек. Пожалуйста, перезагрузите страницу."
 
-#: template.php:87
+#: search/provider/file.php:17 search/provider/file.php:35
+msgid "Files"
+msgstr "Файлы"
+
+#: search/provider/file.php:26 search/provider/file.php:33
+msgid "Text"
+msgstr "Текст"
+
+#: search/provider/file.php:29
+msgid "Images"
+msgstr "Изображения"
+
+#: template.php:103
 msgid "seconds ago"
 msgstr "секунд назад"
 
-#: template.php:88
+#: template.php:104
 msgid "1 minute ago"
 msgstr "1 минуту назад"
 
-#: template.php:89
+#: template.php:105
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d минут назад"
 
-#: template.php:92
+#: template.php:106
+msgid "1 hour ago"
+msgstr "1 час назад"
+
+#: template.php:107
+#, php-format
+msgid "%d hours ago"
+msgstr "%d часов назад"
+
+#: template.php:108
 msgid "today"
 msgstr "сегодня"
 
-#: template.php:93
+#: template.php:109
 msgid "yesterday"
 msgstr "вчера"
 
-#: template.php:94
+#: template.php:110
 #, php-format
 msgid "%d days ago"
 msgstr "%d дней назад"
 
-#: template.php:95
+#: template.php:111
 msgid "last month"
 msgstr "в прошлом месяце"
 
-#: template.php:96
-msgid "months ago"
-msgstr "месяц назад"
+#: template.php:112
+#, php-format
+msgid "%d months ago"
+msgstr "%d месяцев назад"
 
-#: template.php:97
+#: template.php:113
 msgid "last year"
 msgstr "в прошлом году"
 
-#: template.php:98
+#: template.php:114
 msgid "years ago"
 msgstr "год назад"
 
@@ -124,3 +146,8 @@ msgstr "до настоящего времени"
 #: updater.php:80
 msgid "updates check is disabled"
 msgstr "Проверка обновлений отключена"
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "Не удалось найти категорию \"%s\""

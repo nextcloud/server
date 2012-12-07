@@ -3,6 +3,7 @@
 "Invalid email" => "Неправилна е-поща",
 "OpenID Changed" => "OpenID е сменено",
 "Invalid request" => "Невалидна заявка",
+"Authentication error" => "Проблем с идентификацията",
 "Language changed" => "Езика е сменен",
 "Disable" => "Изключване",
 "Enable" => "Включване",
@@ -30,6 +31,7 @@
 "Groups" => "Групи",
 "Create" => "Ново",
 "Default Quota" => "Квота по подразбиране",
+"Other" => "Друго",
 "Quota" => "Квота",
 "Delete" => "Изтриване"
 );

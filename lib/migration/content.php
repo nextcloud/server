@@ -48,16 +48,16 @@ class OC_Migration_Content{
 	// @brief prepares the db
 	// @param $query the sql query to prepare
 	public function prepare( $query ) {
-		
+
 		// Only add database to tmpfiles if actually used
 		if( !is_null( $this->db ) ) {
 			// Get db path
 			$db = $this->db->getDatabase();
-			if(!in_array($db, $this->tmpfiles)){
+			if(!in_array($db, $this->tmpfiles)) {
 				$this->tmpfiles[] = $db;
 			}
 		}
-		
+
 		// Optimize the query
 		$query = $this->processQuery( $query );
 
@@ -152,7 +152,7 @@ class OC_Migration_Content{
 			$sql = "INSERT INTO `" . $options['table'] . '` ( `';
 			$fieldssql = implode( '`, `', $fields );
 			$sql .= $fieldssql . "` ) VALUES( ";
-			$valuessql = substr( str_repeat( '?, ', count( $fields ) ),0,-2 );
+			$valuessql = substr( str_repeat( '?, ', count( $fields ) ), 0, -2 );
 			$sql .= $valuessql . " )";
 			// Make the query
 			$query = $this->prepare( $sql );
@@ -205,7 +205,7 @@ class OC_Migration_Content{
 			}
 			closedir($dirhandle);
 	    } else {
-			OC_Log::write('admin_export',"Was not able to open directory: " . $dir,OC_Log::ERROR);
+			OC_Log::write('admin_export', "Was not able to open directory: " . $dir, OC_Log::ERROR);
 			return false;
 	    }
 	    return true;

@@ -5,7 +5,7 @@
  */?>
 
 <div id="quota" class="personalblock"><div style="width:<?php echo $_['usage_relative'];?>%;">
-	<p id="quotatext"><?php echo $l->t('You have used <strong>%s</strong> of the available <strong>%s<strong>', array($_['usage'], $_['total_space']));?></p>
+	<p id="quotatext"><?php echo $l->t('You have used <strong>%s</strong> of the available <strong>%s</strong>', array($_['usage'], $_['total_space']));?></p>
 </div></div>
 
 <div class="personalblock">
@@ -55,5 +55,10 @@
 	echo $form;
 };?>
 
+
+<p class="personalblock">
+	<strong>ownCloud</strong> <?php echo(OC_Util::getVersionString()); ?> <?php echo(OC_Util::getEditionString()); ?> <br />
+    <?php echo $l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.'); ?>
+</p>
 
 

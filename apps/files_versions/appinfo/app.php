@@ -5,7 +5,7 @@ OC::$CLASSPATH['OCA_Versions\Storage'] = 'apps/files_versions/lib/versions.php';
 OC::$CLASSPATH['OCA_Versions\Hooks'] = 'apps/files_versions/lib/hooks.php';
 
 OCP\App::registerAdmin('files_versions', 'settings');
-OCP\App::registerPersonal('files_versions','settings-personal');
+OCP\App::registerPersonal('files_versions', 'settings-personal');
 
 OCP\Util::addscript('files_versions', 'versions');
 

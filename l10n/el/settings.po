@@ -6,18 +6,21 @@
 # Dimitris M. <monopatis@gmail.com>, 2012.
 # Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012.
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
+# <icewind1991@gmail.com>, 2012.
 #   <icewind1991@gmail.com>, 2012.
 # Marios Bekatoros <>, 2012.
 # Nisok Kosin <nikos.efthimiou@gmail.com>, 2012.
+# <petros.kyladitis@gmail.com>, 2011.
 #   <petros.kyladitis@gmail.com>, 2011.
 # Petros Kyladitis <petros.kyladitis@gmail.com>, 2011-2012.
+# Γιάννης Ανθυμίδης <yannanth@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-09 02:03+0200\n"
-"PO-Revision-Date: 2012-10-09 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-03 00:04+0100\n"
+"PO-Revision-Date: 2012-12-02 11:21+0000\n"
+"Last-Translator: Efstathios Iosifidis <diamond_gr@freemail.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,70 +28,73 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/apps/ocs.php:23
+#: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "Σφάλμα στην φόρτωση της λίστας από το App Store"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "Σφάλμα πιστοποίησης"
-
-#: ajax/creategroup.php:19
+#: ajax/creategroup.php:10
 msgid "Group already exists"
 msgstr "Η ομάδα υπάρχει ήδη"
 
-#: ajax/creategroup.php:28
+#: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "Αδυναμία προσθήκης ομάδας"
 
-#: ajax/enableapp.php:14
+#: ajax/enableapp.php:12
 msgid "Could not enable app. "
 msgstr "Αδυναμία ενεργοποίησης εφαρμογής "
 
-#: ajax/lostpassword.php:14
+#: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "Το Email αποθηκεύτηκε "
+msgstr "Το email αποθηκεύτηκε "
 
-#: ajax/lostpassword.php:16
+#: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "Μη έγκυρο email"
 
-#: ajax/openid.php:16
+#: ajax/openid.php:13
 msgid "OpenID Changed"
 msgstr "Το OpenID άλλαξε"
 
-#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
+#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
 msgstr "Μη έγκυρο αίτημα"
 
-#: ajax/removegroup.php:16
+#: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "Αδυναμία διαγραφής ομάδας"
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "Σφάλμα πιστοποίησης"
+
+#: ajax/removeuser.php:24
 msgid "Unable to delete user"
 msgstr "Αδυναμία διαγραφής χρήστη"
 
-#: ajax/setlanguage.php:18
+#: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Η γλώσσα άλλαξε"
 
-#: ajax/togglegroups.php:25
+#: ajax/togglegroups.php:12
+msgid "Admins can't remove themself from the admin group"
+msgstr "Οι διαχειριστές δεν μπορούν να αφαιρέσουν τους εαυτούς τους από την ομάδα των διαχειριστών"
+
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to add user to group %s"
 msgstr "Αδυναμία προσθήκη χρήστη στην ομάδα %s"
 
-#: ajax/togglegroups.php:31
+#: ajax/togglegroups.php:34
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr "Αδυναμία αφαίρεσης χρήστη από την ομάδα %s"
 
-#: js/apps.js:28 js/apps.js:65
+#: js/apps.js:28 js/apps.js:67
 msgid "Disable"
 msgstr "Απενεργοποίηση"
 
-#: js/apps.js:28 js/apps.js:54
+#: js/apps.js:28 js/apps.js:55
 msgid "Enable"
 msgstr "Ενεργοποίηση"
 
@@ -96,112 +102,25 @@ msgstr "Ενεργοποίηση"
 msgid "Saving..."
 msgstr "Αποθήκευση..."
 
-#: personal.php:47 personal.php:48
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "__όνομα_γλώσσας__"
 
-#: templates/admin.php:14
-msgid "Security Warning"
-msgstr "Προειδοποίηση Ασφαλείας"
-
-#: templates/admin.php:17
-msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "Ο κατάλογος δεδομένων και τα αρχεία σας είναι πιθανότατα προσβάσιμα από το διαδίκτυο. Το αρχείο .htaccess που παρέχει το owncloud, δεν λειτουργεί. Σας συνιστούμε να ρυθμίσετε τον εξυπηρετητή σας έτσι ώστε ο κατάλογος δεδομένων να μην είναι πλεον προσβάσιμος ή μετακινήστε τον κατάλογο δεδομένων εκτός του καταλόγου document του εξυπηρετητή σας."
-
-#: templates/admin.php:31
-msgid "Cron"
-msgstr "Cron"
-
-#: templates/admin.php:37
-msgid "Execute one task with each page loaded"
-msgstr "Εκτέλεση μιας εργασίας με κάθε σελίδα που φορτώνεται"
-
-#: templates/admin.php:43
-msgid ""
-"cron.php is registered at a webcron service. Call the cron.php page in the "
-"owncloud root once a minute over http."
-msgstr "Το cron.php είναι καταχωρημένο στην υπηρεσία webcron. Να καλείται μια φορά το λεπτό η σελίδα cron.php από τον root του owncloud μέσω http"
-
-#: templates/admin.php:49
-msgid ""
-"Use systems cron service. Call the cron.php file in the owncloud folder via "
-"a system cronjob once a minute."
-msgstr "Χρήση υπηρεσίας συστήματος cron. Να καλείται μια φορά το λεπτό, το αρχείο cron.php από τον φάκελο του owncloud μέσω του cronjob του συστήματος."
-
-#: templates/admin.php:56
-msgid "Sharing"
-msgstr "Διαμοιρασμός"
-
-#: templates/admin.php:61
-msgid "Enable Share API"
-msgstr "Ενεργοποίηση API Διαμοιρασμού"
-
-#: templates/admin.php:62
-msgid "Allow apps to use the Share API"
-msgstr "Να επιτρέπεται στις εφαρμογές να χρησιμοποιούν το API Διαμοιρασμού"
-
-#: templates/admin.php:67
-msgid "Allow links"
-msgstr "Να επιτρέπονται σύνδεσμοι"
-
-#: templates/admin.php:68
-msgid "Allow users to share items to the public with links"
-msgstr "Να επιτρέπεται στους χρήστες να διαμοιράζονται δημόσια με συνδέσμους"
-
-#: templates/admin.php:73
-msgid "Allow resharing"
-msgstr "Να επιτρέπεται ο επαναδιαμοιρασμός"
-
-#: templates/admin.php:74
-msgid "Allow users to share items shared with them again"
-msgstr "Να επιτρέπεται στους χρήστες να διαμοιράζουν ότι τους έχει διαμοιραστεί"
-
-#: templates/admin.php:79
-msgid "Allow users to share with anyone"
-msgstr "Να επιτρέπεται ο διαμοιρασμός με οποιονδήποτε"
-
-#: templates/admin.php:81
-msgid "Allow users to only share with users in their groups"
-msgstr "Να επιτρέπεται ο διαμοιρασμός μόνο με χρήστες της ίδιας ομάδας"
-
-#: templates/admin.php:88
-msgid "Log"
-msgstr "Αρχείο καταγραφής"
-
-#: templates/admin.php:116
-msgid "More"
-msgstr "Περισσότερο"
-
-#: templates/admin.php:124
-msgid ""
-"Developed by the <a href=\"http://ownCloud.org/contact\" "
-"target=\"_blank\">ownCloud community</a>, the <a "
-"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
-"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
-"target=\"_blank\"><abbr title=\"Affero General Public "
-"License\">AGPL</abbr></a>."
-msgstr "Αναπτύχθηκε από την <a href=\"http://ownCloud.org/contact\" target=\"_blank\">κοινότητα ownCloud</a>, ο <a href=\"https://github.com/owncloud\" target=\"_blank\">πηγαίος κώδικας</a> είναι υπό άδεια χρήσης <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
-
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr "Πρόσθεσε τη δικιά σου εφαρμογή "
+msgstr "Πρόσθεστε τη Δικιά σας Εφαρμογή"
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr ""
+msgstr "Περισσότερες Εφαρμογές"
 
 #: templates/apps.php:27
 msgid "Select an App"
-msgstr "Επιλέξτε μια εφαρμογή"
+msgstr "Επιλέξτε μια Εφαρμογή"
 
 #: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
-msgstr "Η σελίδα εφαρμογών στο apps.owncloud.com"
+msgstr "Δείτε την σελίδα εφαρμογών στο apps.owncloud.com"
 
 #: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -213,28 +132,28 @@ msgstr "Τεκμηρίωση"
 
 #: templates/help.php:10
 msgid "Managing Big Files"
-msgstr "Διαχείριση μεγάλων αρχείων"
+msgstr "Διαχείριση Μεγάλων Αρχείων"
 
 #: templates/help.php:11
 msgid "Ask a question"
 msgstr "Ρωτήστε μια ερώτηση"
 
-#: templates/help.php:23
+#: templates/help.php:22
 msgid "Problems connecting to help database."
 msgstr "Προβλήματα κατά τη σύνδεση με τη βάση δεδομένων βοήθειας."
 
-#: templates/help.php:24
+#: templates/help.php:23
 msgid "Go there manually."
 msgstr "Χειροκίνητη μετάβαση."
 
-#: templates/help.php:32
+#: templates/help.php:31
 msgid "Answer"
 msgstr "Απάντηση"
 
 #: templates/personal.php:8
 #, php-format
-msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr "Έχετε χρησιμοποιήσει <strong>%s</strong> από τα διαθέσιμα <strong>%s<strong>"
+msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
+msgstr "Χρησιμοποιήσατε <strong>%s</strong> από διαθέσιμα <strong>%s</strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -274,7 +193,7 @@ msgstr "Email"
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr "Διεύθυνση ηλεκτρονικού ταχυδρομείου σας"
+msgstr "Η διεύθυνση ηλεκτρονικού ταχυδρομείου σας"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
@@ -286,11 +205,21 @@ msgstr "Γλώσσα"
 
 #: templates/personal.php:44
 msgid "Help translate"
-msgstr "Βοηθήστε στην μετάφραση"
+msgstr "Βοηθήστε στη μετάφραση"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "χρησιμοποιήστε αυτή τη διεύθυνση για να συνδεθείτε στο ownCloud σας από το διαχειριστή αρχείων σας"
+msgstr "χρησιμοποιήστε αυτήν τη διεύθυνση για να συνδεθείτε στο ownCloud σας από το διαχειριστή αρχείων σας"
+
+#: templates/personal.php:61
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Αναπτύχθηκε από την <a href=\"http://ownCloud.org/contact\" target=\"_blank\">κοινότητα ownCloud</a>, ο <a href=\"https://github.com/owncloud\" target=\"_blank\">πηγαίος κώδικας</a> είναι υπό άδεια χρήσης <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"
@@ -310,7 +239,7 @@ msgstr "Δημιουργία"
 
 #: templates/users.php:35
 msgid "Default Quota"
-msgstr "Προεπιλεγμένο όριο"
+msgstr "Προεπιλεγμένο Όριο"
 
 #: templates/users.php:55 templates/users.php:138
 msgid "Other"
@@ -322,7 +251,7 @@ msgstr "Ομάδα Διαχειριστών"
 
 #: templates/users.php:82
 msgid "Quota"
-msgstr "Σύνολο χώρου"
+msgstr "Σύνολο Χώρου"
 
 #: templates/users.php:146
 msgid "Delete"

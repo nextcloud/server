@@ -67,7 +67,7 @@ $breadcrumb = array();
 $pathtohere = '';
 foreach( explode( '/', $dir ) as $i ) {
 	if( $i != '' ) {
-		$pathtohere .= '/'.str_replace('+','%20', urlencode($i));
+		$pathtohere .= '/'.$i;
 		$breadcrumb[] = array( 'dir' => $pathtohere, 'name' => $i );
 	}
 }
@@ -75,29 +75,29 @@ foreach( explode( '/', $dir ) as $i ) {
 // make breadcrumb und filelist markup
 $list = new OCP\Template( 'files', 'part.list', '' );
 $list->assign( 'files', $files, false );
-$list->assign( 'baseURL', OCP\Util::linkTo('files', 'index.php').'&dir=', false);
+$list->assign( 'baseURL', OCP\Util::linkTo('files', 'index.php').'?dir=', false);
 $list->assign( 'downloadURL', OCP\Util::linkTo('files', 'download.php').'?file=', false);
 $breadcrumbNav = new OCP\Template( 'files', 'part.breadcrumb', '' );
 $breadcrumbNav->assign( 'breadcrumb', $breadcrumb, false );
-$breadcrumbNav->assign( 'baseURL', OCP\Util::linkTo('files', 'index.php').'&dir=', false);
+$breadcrumbNav->assign( 'baseURL', OCP\Util::linkTo('files', 'index.php').'?dir=', false);
 
 $upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
 $post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
 $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
-$freeSpace=OC_Filesystem::free_space('/');
-$freeSpace=max($freeSpace,0);
-$maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
+$freeSpace=OC_Filesystem::free_space($dir);
+$freeSpace=max($freeSpace, 0);
+$maxUploadFilesize = min($maxUploadFilesize, $freeSpace);
 
-$permissions = OCP\Share::PERMISSION_READ;
+$permissions = OCP\PERMISSION_READ;
 if (OC_Filesystem::isUpdatable($dir.'/')) {
-	$permissions |= OCP\Share::PERMISSION_UPDATE;
+	$permissions |= OCP\PERMISSION_UPDATE;
 }
 if (OC_Filesystem::isDeletable($dir.'/')) {
-	$permissions |= OCP\Share::PERMISSION_DELETE;
+	$permissions |= OCP\PERMISSION_DELETE;
 }
 if (OC_Filesystem::isSharable($dir.'/')) {
-	$permissions |= OCP\Share::PERMISSION_SHARE;
+	$permissions |= OCP\PERMISSION_SHARE;
 }
 
 $tmpl = new OCP\Template( 'files', 'index', 'user' );

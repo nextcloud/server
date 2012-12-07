@@ -32,13 +32,13 @@ class OC_EventSource{
 	private $fallBackId=0;
 
 	public function __construct() {
-		@ob_end_clean();
+		OC_Util::obEnd();
 		header('Cache-Control: no-cache');
 		$this->fallback=isset($_GET['fallback']) and $_GET['fallback']=='true';
 		if($this->fallback) {
 			$this->fallBackId=$_GET['fallback_id'];
 			header("Content-Type: text/html");
-			echo str_repeat('<span></span>'.PHP_EOL,10); //dummy data to keep IE happy
+			echo str_repeat('<span></span>'.PHP_EOL, 10); //dummy data to keep IE happy
 		}else{
 			header("Content-Type: text/event-stream");
 		}
@@ -56,7 +56,7 @@ class OC_EventSource{
 	 *
 	 * if only one paramater is given, a typeless message will be send with that paramater as data
 	 */
-	public function send($type,$data=null) {
+	public function send($type, $data=null) {
 		if(is_null($data)) {
 			$data=$type;
 			$type=null;
@@ -78,6 +78,6 @@ class OC_EventSource{
 	 * close the connection of the even source
 	 */
 	public function close() {
-		$this->send('__internal__','close');//server side closing can be an issue, let the client do it
+		$this->send('__internal__', 'close');//server side closing can be an issue, let the client do it
 	}
 }

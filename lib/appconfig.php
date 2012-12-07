@@ -107,7 +107,7 @@ class OC_Appconfig{
 	 * @param string $key
 	 * @return bool
 	 */
-	public static function hasKey($app,$key) {
+	public static function hasKey($app, $key) {
 		$exists = self::getKeys( $app );
 		return in_array( $key, $exists );
 	}
@@ -123,7 +123,7 @@ class OC_Appconfig{
 	 */
 	public static function setValue( $app, $key, $value ) {
 		// Does the key exist? yes: update. No: insert
-		if(! self::hasKey($app,$key)) {
+		if(! self::hasKey($app, $key)) {
 			$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*appconfig` ( `appid`, `configkey`, `configvalue` ) VALUES( ?, ?, ? )' );
 			$query->execute( array( $app, $key, $value ));
 		}
@@ -170,7 +170,7 @@ class OC_Appconfig{
 	 * @param key
 	 * @return array
 	 */
-	public static function getValues($app,$key) {
+	public static function getValues($app, $key) {
 		if($app!==false and $key!==false) {
 			return false;
 		}

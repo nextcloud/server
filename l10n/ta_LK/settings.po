@@ -1,0 +1,248 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <suganthi@nic.lk>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2012-12-03 00:04+0100\n"
+"PO-Revision-Date: 2012-12-02 03:18+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ta_LK\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/apps/ocs.php:20
+msgid "Unable to load list from App Store"
+msgstr "செயலி சேமிப்பிலிருந்து பட்டியலை ஏற்றமுடியாதுள்ளது"
+
+#: ajax/creategroup.php:10
+msgid "Group already exists"
+msgstr "குழு ஏற்கனவே உள்ளது"
+
+#: ajax/creategroup.php:19
+msgid "Unable to add group"
+msgstr "குழுவை சேர்க்க முடியாது"
+
+#: ajax/enableapp.php:12
+msgid "Could not enable app. "
+msgstr "செயலியை இயலுமைப்படுத்த முடியாது"
+
+#: ajax/lostpassword.php:12
+msgid "Email saved"
+msgstr "மின்னஞ்சல் சேமிக்கப்பட்டது"
+
+#: ajax/lostpassword.php:14
+msgid "Invalid email"
+msgstr "செல்லுபடியற்ற மின்னஞ்சல்"
+
+#: ajax/openid.php:13
+msgid "OpenID Changed"
+msgstr "OpenID மாற்றப்பட்டது"
+
+#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "செல்லுபடியற்ற வேண்டுகோள்"
+
+#: ajax/removegroup.php:13
+msgid "Unable to delete group"
+msgstr "குழுவை நீக்க முடியாது"
+
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "அத்தாட்சிப்படுத்தலில் வழு"
+
+#: ajax/removeuser.php:24
+msgid "Unable to delete user"
+msgstr "பயனாளரை நீக்க முடியாது"
+
+#: ajax/setlanguage.php:15
+msgid "Language changed"
+msgstr "மொழி மாற்றப்பட்டது"
+
+#: ajax/togglegroups.php:12
+msgid "Admins can't remove themself from the admin group"
+msgstr ""
+
+#: ajax/togglegroups.php:28
+#, php-format
+msgid "Unable to add user to group %s"
+msgstr "குழு %s இல் பயனாளரை சேர்க்க முடியாது"
+
+#: ajax/togglegroups.php:34
+#, php-format
+msgid "Unable to remove user from group %s"
+msgstr "குழு %s இலிருந்து பயனாளரை நீக்கமுடியாது"
+
+#: js/apps.js:28 js/apps.js:67
+msgid "Disable"
+msgstr "இயலுமைப்ப"
+
+#: js/apps.js:28 js/apps.js:55
+msgid "Enable"
+msgstr "செயலற்றதாக்குக"
+
+#: js/personal.js:69
+msgid "Saving..."
+msgstr "இயலுமைப்படுத்துக"
+
+#: personal.php:42 personal.php:43
+msgid "__language_name__"
+msgstr "_மொழி_பெயர்_"
+
+#: templates/apps.php:10
+msgid "Add your App"
+msgstr "உங்களுடைய செயலியை சேர்க்க"
+
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "மேலதிக செயலிகள்"
+
+#: templates/apps.php:27
+msgid "Select an App"
+msgstr "செயலி ஒன்றை தெரிவுசெய்க"
+
+#: templates/apps.php:31
+msgid "See application page at apps.owncloud.com"
+msgstr "apps.owncloud.com இல் செயலி பக்கத்தை பார்க்க"
+
+#: templates/apps.php:32
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr "<span class=\"அனுமதிப்பத்திரம்\"></span>-அனுமதி பெற்ற <span class=\"ஆசிரியர்\"></span>"
+
+#: templates/help.php:9
+msgid "Documentation"
+msgstr "ஆவணமாக்கல்"
+
+#: templates/help.php:10
+msgid "Managing Big Files"
+msgstr "பெரிய கோப்புகளை முகாமைப்படுத்தல்"
+
+#: templates/help.php:11
+msgid "Ask a question"
+msgstr "வினா ஒன்றை கேட்க"
+
+#: templates/help.php:22
+msgid "Problems connecting to help database."
+msgstr "தரவுதளத்தை இணைக்கும் உதவியில் பிரச்சினைகள்"
+
+#: templates/help.php:23
+msgid "Go there manually."
+msgstr "கைமுறையாக அங்கு செல்க"
+
+#: templates/help.php:31
+msgid "Answer"
+msgstr "விடை"
+
+#: templates/personal.php:8
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
+msgstr "நீங்கள் <strong>%s</strong> இலுள்ள <strong>%s</strong>பயன்படுத்தியுள்ளீர்கள்"
+
+#: templates/personal.php:12
+msgid "Desktop and Mobile Syncing Clients"
+msgstr "desktop மற்றும் Mobile ஒத்திசைவு சேவைப் பயனாளர்"
+
+#: templates/personal.php:13
+msgid "Download"
+msgstr "பதிவிறக்குக"
+
+#: templates/personal.php:19
+msgid "Your password was changed"
+msgstr "உங்களுடைய கடவுச்சொல் மாற்றப்பட்டுள்ளது"
+
+#: templates/personal.php:20
+msgid "Unable to change your password"
+msgstr "உங்களுடைய கடவுச்சொல்லை மாற்றமுடியாது"
+
+#: templates/personal.php:21
+msgid "Current password"
+msgstr "தற்போதைய கடவுச்சொல்"
+
+#: templates/personal.php:22
+msgid "New password"
+msgstr "புதிய கடவுச்சொல்"
+
+#: templates/personal.php:23
+msgid "show"
+msgstr "காட்டு"
+
+#: templates/personal.php:24
+msgid "Change password"
+msgstr "கடவுச்சொல்லை மாற்றுக"
+
+#: templates/personal.php:30
+msgid "Email"
+msgstr "மின்னஞ்சல்"
+
+#: templates/personal.php:31
+msgid "Your email address"
+msgstr "உங்களுடைய மின்னஞ்சல் முகவரி"
+
+#: templates/personal.php:32
+msgid "Fill in an email address to enable password recovery"
+msgstr "கடவுச்சொல் மீள் பெறுவதை இயலுமைப்படுத்துவதற்கு மின்னஞ்சல் முகவரியை இயலுமைப்படுத்துக"
+
+#: templates/personal.php:38 templates/personal.php:39
+msgid "Language"
+msgstr "மொழி"
+
+#: templates/personal.php:44
+msgid "Help translate"
+msgstr "மொழிபெயர்க்க உதவி"
+
+#: templates/personal.php:51
+msgid "use this address to connect to your ownCloud in your file manager"
+msgstr "உங்களுடைய கோப்பு முகாமையில் உள்ள உங்களுடைய ownCloud உடன் இணைக்க இந்த முகவரியை பயன்படுத்தவும்"
+
+#: templates/personal.php:61
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+
+#: templates/users.php:21 templates/users.php:76
+msgid "Name"
+msgstr "பெயர்"
+
+#: templates/users.php:23 templates/users.php:77
+msgid "Password"
+msgstr "கடவுச்சொல்"
+
+#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+msgid "Groups"
+msgstr "குழுக்கள்"
+
+#: templates/users.php:32
+msgid "Create"
+msgstr "உருவாக்குக"
+
+#: templates/users.php:35
+msgid "Default Quota"
+msgstr "பொது இருப்பு பங்கு"
+
+#: templates/users.php:55 templates/users.php:138
+msgid "Other"
+msgstr "மற்றவை"
+
+#: templates/users.php:80 templates/users.php:112
+msgid "Group Admin"
+msgstr "குழு நிர்வாகி"
+
+#: templates/users.php:82
+msgid "Quota"
+msgstr "பங்கு"
+
+#: templates/users.php:146
+msgid "Delete"
+msgstr "அழிக்க"

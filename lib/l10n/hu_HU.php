@@ -12,6 +12,8 @@
 "Application is not enabled" => "Az alkalmazás nincs engedélyezve",
 "Authentication error" => "Hitelesítési hiba",
 "Token expired. Please reload page." => "A token lejárt. Frissítsd az oldalt.",
+"Files" => "Fájlok",
+"Text" => "Szöveg",
 "seconds ago" => "másodperccel ezelőtt",
 "1 minute ago" => "1 perccel ezelőtt",
 "%d minutes ago" => "%d perccel ezelőtt",
@@ -19,7 +21,6 @@
 "yesterday" => "tegnap",
 "%d days ago" => "%d évvel ezelőtt",
 "last month" => "múlt hónapban",
-"months ago" => "hónappal ezelőtt",
 "last year" => "tavaly",
 "years ago" => "évvel ezelőtt"
 );

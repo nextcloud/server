@@ -108,6 +108,14 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		return $internalPath;
 	}
 
+	public function getOwner($target) {
+		$shared_item = OCP\Share::getItemSharedWith('folder', $target, OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
+		if ($shared_item) {
+			return $shared_item[0]["uid_owner"];
+		}
+		return null;
+	}
+
 	public function mkdir($path) {
 		if ($path == '' || $path == '/' || !$this->isCreatable(dirname($path))) {
 			return false;
@@ -193,7 +201,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		if ($path == '') {
 			return false;
 		}
-		return ($this->getPermissions($path) & OCP\Share::PERMISSION_CREATE);
+		return ($this->getPermissions($path) & OCP\PERMISSION_CREATE);
 	}
 
 	public function isReadable($path) {
@@ -204,21 +212,21 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		if ($path == '') {
 			return false;
 		}
-		return ($this->getPermissions($path) & OCP\Share::PERMISSION_UPDATE);
+		return ($this->getPermissions($path) & OCP\PERMISSION_UPDATE);
 	}
 
 	public function isDeletable($path) {
 		if ($path == '') {
 			return true;
 		}
-		return ($this->getPermissions($path) & OCP\Share::PERMISSION_DELETE);
+		return ($this->getPermissions($path) & OCP\PERMISSION_DELETE);
 	}
 
 	public function isSharable($path) {
 		if ($path == '') {
 			return false;
 		}
-		return ($this->getPermissions($path) & OCP\Share::PERMISSION_SHARE);
+		return ($this->getPermissions($path) & OCP\PERMISSION_SHARE);
 	}
 
 	public function file_exists($path) {
@@ -443,7 +451,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	 * @param int $time
 	 * @return bool
 	 */
-	public function hasUpdated($path,$time) {
+	public function hasUpdated($path, $time) {
 		//TODO
 		return false;
 	}

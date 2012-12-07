@@ -68,12 +68,11 @@ function createVersionsDropdown(filename, files) {
 		data: { source: files },
 		async: false,
 		success: function( versions ) {
-			
+
 			if (versions) {
 				$.each( versions, function(index, row ) {
 					addVersion( row );
 				});
-				$('#found_versions').chosen();
 			} else {
 				$('#found_versions').hide();
 				$('#makelink').hide();
@@ -128,7 +127,7 @@ function createVersionsDropdown(filename, files) {
 
 		version.appendTo('#found_versions');
 	}
-	
+
 	$('tr').filterAttr('data-file',filename).addClass('mouseOver');
 	$('#dropdown').show('blind');
 
@@ -144,6 +143,6 @@ $(this).click(
 		});
 	}
 
-	
+
 	}
 );

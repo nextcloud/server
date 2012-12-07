@@ -58,22 +58,24 @@ class OC_L10N{
 	 * Localization
 	 */
 	private $localizations = array(
-		'date' => 'd.m.Y',
-		'datetime' => 'd.m.Y H:i:s',
-		'time' => 'H:i:s');
+		'jsdate' => 'dd.mm.yy',
+		'date' => '%d.%m.%Y',
+		'datetime' => '%d.%m.%Y %H:%M:%S',
+		'time' => '%H:%M:%S',
+		'firstday' => 0);
 
 	/**
 	 * get an L10N instance
 	 * @return OC_L10N
 	 */
-	public static function get($app,$lang=null) {
+	public static function get($app, $lang=null) {
 		if(is_null($lang)) {
 			if(!isset(self::$instances[$app])) {
 				self::$instances[$app]=new OC_L10N($app);
 			}
 			return self::$instances[$app];
 		}else{
-			return new OC_L10N($app,$lang);
+			return new OC_L10N($app, $lang);
 		}
 	}
 
@@ -118,7 +120,7 @@ class OC_L10N{
 				OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/lib/l10n/') ||
 				OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/settings')) && file_exists($i18ndir.$lang.'.php')) {
 				// Include the file, save the data from $CONFIG
-				include(strip_tags($i18ndir).strip_tags($lang).'.php');
+				include strip_tags($i18ndir).strip_tags($lang).'.php';
 				if(isset($TRANSLATIONS) && is_array($TRANSLATIONS)) {
 					$this->translations = $TRANSLATIONS;
 				}
@@ -126,7 +128,7 @@ class OC_L10N{
 
 			if(file_exists(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php')) {
 				// Include the file, save the data from $CONFIG
-				include(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php');
+				include OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php';
 				if(isset($LOCALIZATIONS) && is_array($LOCALIZATIONS)) {
 					$this->localizations = array_merge($this->localizations, $LOCALIZATIONS);
 				}
@@ -165,7 +167,7 @@ class OC_L10N{
 	 *
 	 */
 	public function tA($textArray) {
-		OC_Log::write('core', 'DEPRECATED: the method tA is deprecated and will be removed soon.',OC_Log::WARN);
+		OC_Log::write('core', 'DEPRECATED: the method tA is deprecated and will be removed soon.', OC_Log::WARN);
 		$result = array();
 		foreach($textArray as $key => $text) {
 			$result[$key] = (string)$this->t($text);
@@ -216,8 +218,21 @@ class OC_L10N{
 			case 'time':
 				if($data instanceof DateTime) return $data->format($this->localizations[$type]);
 				elseif(is_string($data)) $data = strtotime($data);
-				return date($this->localizations[$type], $data);
+				$locales = array(self::findLanguage());
+				if (strlen($locales[0]) == 2) {
+					$locales[] = $locales[0].'_'.strtoupper($locales[0]);
+				}
+				setlocale(LC_TIME, $locales);
+				$format = $this->localizations[$type];
+				// Check for Windows to find and replace the %e modifier correctly
+				if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+					$format = preg_replace('#(?<!%)((?:%%)*)%e#', '\1%#d', $format);
+				}
+				return strftime($format, $data);
 				break;
+			case 'firstday':
+			case 'jsdate':
+				return $this->localizations[$type];
 			default:
 				return false;
 		}

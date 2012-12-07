@@ -47,11 +47,8 @@ class OC_FilesystemView {
 		$this->fakeRoot=$root;
 	}
 
-	public function getAbsolutePath($path) {
-		if(!$path) {
-			$path='/';
-		}
-		if($path[0]!=='/') {
+	public function getAbsolutePath($path = '/') {
+		if(!$path || $path[0]!=='/') {
 			$path='/'.$path;
 		}
 		return $this->fakeRoot.$path;
@@ -142,7 +139,7 @@ class OC_FilesystemView {
 	* @return string
 	*/
 	public function getLocalFile($path) {
-		$parent=substr($path, 0, strrpos($path,'/'));
+		$parent=substr($path, 0, strrpos($path, '/'));
 		if(OC_Filesystem::isValidPath($parent) and $storage=$this->getStorage($path)) {
 			return $storage->getLocalFile($this->getInternalPath($path));
 		}
@@ -152,7 +149,7 @@ class OC_FilesystemView {
 	 * @return string
 	 */
 	public function getLocalFolder($path) {
-		$parent=substr($path, 0, strrpos($path,'/'));
+		$parent=substr($path, 0, strrpos($path, '/'));
 		if(OC_Filesystem::isValidPath($parent) and $storage=$this->getStorage($path)) {
 			return $storage->getLocalFolder($this->getInternalPath($path));
 		}
@@ -198,7 +195,7 @@ class OC_FilesystemView {
 		return $this->basicOperation('filesize', $path);
 	}
 	public function readfile($path) {
-		@ob_end_clean();
+		OC_Util::obEnd();
 		$handle=$this->fopen($path, 'rb');
 		if ($handle) {
 			$chunkSize = 8192;// 8 MB chunks
@@ -215,13 +212,13 @@ class OC_FilesystemView {
 	* @deprecated Replaced by isReadable() as part of CRUDS
 	*/
 	public function is_readable($path) {
-		return $this->basicOperation('isReadable',$path);
+		return $this->basicOperation('isReadable', $path);
 	}
 	/**
 	* @deprecated Replaced by isCreatable(), isUpdatable(), isDeletable() as part of CRUDS
 	*/
 	public function is_writable($path) {
-		return $this->basicOperation('isUpdatable',$path);
+		return $this->basicOperation('isUpdatable', $path);
 	}
 	public function isCreatable($path) {
 		return $this->basicOperation('isCreatable', $path);
@@ -251,6 +248,9 @@ class OC_FilesystemView {
 		return $this->basicOperation('filemtime', $path);
 	}
 	public function touch($path, $mtime=null) {
+		if(!is_null($mtime) and !is_numeric($mtime)) {
+			$mtime = strtotime($mtime);
+		}
 		return $this->basicOperation('touch', $path, array('write'), $mtime);
 	}
 	public function file_get_contents($path) {
@@ -263,7 +263,7 @@ class OC_FilesystemView {
 				$path = $this->getRelativePath($absolutePath);
 				$exists = $this->file_exists($path);
 				$run = true;
-				if( $this->fakeRoot==OC_Filesystem::getRoot() ){
+				if( $this->fakeRoot==OC_Filesystem::getRoot() ) {
 					if(!$exists) {
 						OC_Hook::emit(
 							OC_Filesystem::CLASSNAME,
@@ -291,7 +291,7 @@ class OC_FilesystemView {
 					$count=OC_Helper::streamCopy($data, $target);
 					fclose($target);
 					fclose($data);
-					if( $this->fakeRoot==OC_Filesystem::getRoot() ){
+					if( $this->fakeRoot==OC_Filesystem::getRoot() ) {
 						if(!$exists) {
 							OC_Hook::emit(
 								OC_Filesystem::CLASSNAME,
@@ -322,8 +322,8 @@ class OC_FilesystemView {
 		return $this->basicOperation( 'deleteAll', $directory, array('delete'), $empty );
 	}
 	public function rename($path1, $path2) {
-		$postFix1=(substr($path1,-1,1)==='/')?'/':'';
-		$postFix2=(substr($path2,-1,1)==='/')?'/':'';
+		$postFix1=(substr($path1, -1, 1)==='/')?'/':'';
+		$postFix2=(substr($path2, -1, 1)==='/')?'/':'';
 		$absolutePath1 = OC_Filesystem::normalizePath($this->getAbsolutePath($path1));
 		$absolutePath2 = OC_Filesystem::normalizePath($this->getAbsolutePath($path2));
 		if(OC_FileProxy::runPreProxies('rename', $absolutePath1, $absolutePath2) and OC_Filesystem::isValidPath($path2)) {
@@ -334,7 +334,7 @@ class OC_FilesystemView {
 				return false;
 			}
 			$run=true;
-			if( $this->fakeRoot==OC_Filesystem::getRoot() ){
+			if( $this->fakeRoot==OC_Filesystem::getRoot() ) {
 				OC_Hook::emit(
 					OC_Filesystem::CLASSNAME, OC_Filesystem::signal_rename,
 						array(
@@ -359,7 +359,7 @@ class OC_FilesystemView {
 					$storage1->unlink($this->getInternalPath($path1.$postFix1));
 					$result = $count>0;
 				}
-				if( $this->fakeRoot==OC_Filesystem::getRoot() ){
+				if( $this->fakeRoot==OC_Filesystem::getRoot() ) {
 					OC_Hook::emit(
 						OC_Filesystem::CLASSNAME,
 						OC_Filesystem::signal_post_rename,
@@ -374,8 +374,8 @@ class OC_FilesystemView {
 		}
 	}
 	public function copy($path1, $path2) {
-		$postFix1=(substr($path1,-1,1)==='/')?'/':'';
-		$postFix2=(substr($path2,-1,1)==='/')?'/':'';
+		$postFix1=(substr($path1, -1, 1)==='/')?'/':'';
+		$postFix2=(substr($path2, -1, 1)==='/')?'/':'';
 		$absolutePath1 = OC_Filesystem::normalizePath($this->getAbsolutePath($path1));
 		$absolutePath2 = OC_Filesystem::normalizePath($this->getAbsolutePath($path2));
 		if(OC_FileProxy::runPreProxies('copy', $absolutePath1, $absolutePath2) and OC_Filesystem::isValidPath($path2)) {
@@ -386,7 +386,7 @@ class OC_FilesystemView {
 				return false;
 			}
 			$run=true;
-			if( $this->fakeRoot==OC_Filesystem::getRoot() ){
+			if( $this->fakeRoot==OC_Filesystem::getRoot() ) {
 				OC_Hook::emit(
 					OC_Filesystem::CLASSNAME,
 					OC_Filesystem::signal_copy,
@@ -430,7 +430,10 @@ class OC_FilesystemView {
 					$target = $this->fopen($path2.$postFix2, 'w');
 					$result = OC_Helper::streamCopy($source, $target);
 				}
-				if( $this->fakeRoot==OC_Filesystem::getRoot() ){
+				if( $this->fakeRoot==OC_Filesystem::getRoot() ) { 
+				// If the file to be copied originates within 
+				// the user's data directory
+				
 					OC_Hook::emit(
 						OC_Filesystem::CLASSNAME,
 						OC_Filesystem::signal_post_copy,
@@ -451,11 +454,33 @@ class OC_FilesystemView {
 						OC_Filesystem::signal_post_write,
 						array( OC_Filesystem::signal_param_path => $path2)
 					);
-				} else { // no real copy, file comes from somewhere else, e.g. version rollback -> just update the file cache and the webdav properties without all the other post_write actions
-					OC_FileCache_Update::update($path2, $this->fakeRoot);
+					
+				} else { 
+				// If this is not a normal file copy operation 
+				// and the file originates somewhere else 
+				// (e.g. a version rollback operation), do not 
+				// perform all the other post_write actions
+					
+					// Update webdav properties
 					OC_Filesystem::removeETagHook(array("path" => $path2), $this->fakeRoot);
+					
+					$splitPath2 = explode( '/', $path2 );
+					
+					// Only cache information about files 
+					// that are being copied from within 
+					// the user files directory. Caching 
+					// other files, like VCS backup files,
+					// serves no purpose
+					if ( $splitPath2[1] == 'files' ) {
+						
+						OC_FileCache_Update::update($path2, $this->fakeRoot);
+						
+					}
+				
 				}
+				
 				return $result;
+			
 			}
 		}
 	}
@@ -486,7 +511,7 @@ class OC_FilesystemView {
 				$hooks[]='write';
 				break;
 			default:
-				OC_Log::write('core','invalid mode ('.$mode.') for '.$path,OC_Log::ERROR);
+				OC_Log::write('core', 'invalid mode ('.$mode.') for '.$path, OC_Log::ERROR);
 		}
 
 		return $this->basicOperation('fopen', $path, $hooks, $mode);
@@ -498,7 +523,7 @@ class OC_FilesystemView {
 				$extension='';
 				$extOffset=strpos($path, '.');
 				if($extOffset !== false) {
-					$extension=substr($path, strrpos($path,'.'));
+					$extension=substr($path, strrpos($path, '.'));
 				}
 				$tmpFile = OC_Helper::tmpFile($extension);
 				file_put_contents($tmpFile, $source);
@@ -527,7 +552,7 @@ class OC_FilesystemView {
 		return $this->basicOperation('getMimeType', $path);
 	}
 	public function hash($type, $path, $raw = false) {
-		$postFix=(substr($path,-1,1)==='/')?'/':'';
+		$postFix=(substr($path, -1, 1)==='/')?'/':'';
 		$absolutePath = OC_Filesystem::normalizePath($this->getAbsolutePath($path));
 		if (OC_FileProxy::runPreProxies('hash', $absolutePath) && OC_Filesystem::isValidPath($path)) {
 			$path = $this->getRelativePath($absolutePath);
@@ -567,7 +592,7 @@ class OC_FilesystemView {
 	 * OC_Filestorage for delegation to a storage backend for execution
 	 */
 	private function basicOperation($operation, $path, $hooks=array(), $extraParam=null) {
-		$postFix=(substr($path,-1,1)==='/')?'/':'';
+		$postFix=(substr($path, -1, 1)==='/')?'/':'';
 		$absolutePath = OC_Filesystem::normalizePath($this->getAbsolutePath($path));
 		if(OC_FileProxy::runPreProxies($operation, $absolutePath, $extraParam) and OC_Filesystem::isValidPath($path)) {
 			$path = $this->getRelativePath($absolutePath);
@@ -575,7 +600,7 @@ class OC_FilesystemView {
 				return false;
 			}
 			$internalPath = $this->getInternalPath($path.$postFix);
-			$run=$this->runHooks($hooks,$path);
+			$run=$this->runHooks($hooks, $path);
 			if($run and $storage = $this->getStorage($path.$postFix)) {
 				if(!is_null($extraParam)) {
 					$result = $storage->$operation($internalPath, $extraParam);
@@ -585,7 +610,7 @@ class OC_FilesystemView {
 				$result = OC_FileProxy::runPostProxies($operation, $this->getAbsolutePath($path), $result);
 				if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()) {
 					if($operation!='fopen') {//no post hooks for fopen, the file stream is still open
-						$this->runHooks($hooks,$path,true);
+						$this->runHooks($hooks, $path, true);
 					}
 				}
 				return $result;
@@ -594,7 +619,7 @@ class OC_FilesystemView {
 		return null;
 	}
 
-	private function runHooks($hooks,$path,$post=false) {
+	private function runHooks($hooks, $path, $post=false) {
 		$prefix=($post)?'post_':'';
 		$run=true;
 		if(OC_Filesystem::$loaded and $this->fakeRoot==OC_Filesystem::getRoot()) {

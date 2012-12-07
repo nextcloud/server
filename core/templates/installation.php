@@ -3,7 +3,6 @@
 <input type='hidden' id='hasPostgreSQL' value='<?php echo $_['hasPostgreSQL'] ?>'></input>
 <input type='hidden' id='hasOracle' value='<?php echo $_['hasOracle'] ?>'></input>
 <form action="index.php" method="post">
-
 <input type="hidden" name="install" value="true" />
 	<?php if(count($_['errors']) > 0): ?>
 	<ul class="errors">
@@ -19,7 +18,20 @@
 		<?php endforeach; ?>
 	</ul>
 	<?php endif; ?>
-
+	<?php if(!$_['secureRNG']): ?>
+	<fieldset style="color: #B94A48; background-color: #F2DEDE; border-color: #EED3D7; border-style:solid; border-radius: 5px; border-width:1px; padding:0.5em;">
+		<legend><strong><?php echo $l->t('Security Warning');?></strong></legend>
+		<span><?php echo $l->t('No secure random number generator is available, please enable the PHP OpenSSL extension.');?></span>		
+		<br/>
+		<span><?php echo $l->t('Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account.');?></span>		
+	</fieldset>
+	<?php endif; ?>
+	<?php if(!$_['htaccessWorking']): ?>
+	<fieldset style="color: #B94A48; background-color: #F2DEDE; border-color: #EED3D7; border-style:solid; border-radius: 5px; border-width:1px; padding:0.5em;">
+		<legend><strong><?php echo $l->t('Security Warning');?></strong></legend>
+		<span><?php echo $l->t('Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.');?></span>		
+	</fieldset>
+	<?php endif; ?>
 	<fieldset>
 		<legend><?php echo $l->t( 'Create an <strong>admin account</strong>' ); ?></legend>
 		<p class="infield">
@@ -61,7 +73,7 @@
 		<p>MySQL <?php echo $l->t( 'will be used' ); ?>.</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="mysql" />
 		<?php else: ?>
-		<input type="radio" name="dbtype" value="mysql" id="mysql" <?php OC_Helper::init_radio('dbtype','mysql', 'sqlite'); ?>/>
+		<input type="radio" name="dbtype" value="mysql" id="mysql" <?php OC_Helper::init_radio('dbtype', 'mysql', 'sqlite'); ?>/>
 		<label class="mysql" for="mysql">MySQL</label>
 		<?php endif; ?>
 		<?php endif; ?>
@@ -72,7 +84,7 @@
 		<input type="hidden" id="dbtype" name="dbtype" value="pgsql" />
 		<?php else: ?>
 		<label class="pgsql" for="pgsql">PostgreSQL</label>
-		<input type="radio" name="dbtype" value='pgsql' id="pgsql" <?php OC_Helper::init_radio('dbtype','pgsql', 'sqlite'); ?>/>
+		<input type="radio" name="dbtype" value='pgsql' id="pgsql" <?php OC_Helper::init_radio('dbtype', 'pgsql', 'sqlite'); ?>/>
 		<?php endif; ?>
 		<?php endif; ?>
 
@@ -82,7 +94,7 @@
 		<input type="hidden" id="dbtype" name="dbtype" value="oci" />
 		<?php else: ?>
 		<label class="oci" for="oci">Oracle</label>
-		<input type="radio" name="dbtype" value='oci' id="oci" <?php OC_Helper::init_radio('dbtype','oci', 'sqlite'); ?>/>
+		<input type="radio" name="dbtype" value='oci' id="oci" <?php OC_Helper::init_radio('dbtype', 'oci', 'sqlite'); ?>/>
 		<?php endif; ?>
 		<?php endif; ?>
 		</div>
@@ -99,7 +111,7 @@
 			</p>
 			<p class="infield">
 				<label for="dbname" class="infield"><?php echo $l->t( 'Database name' ); ?></label>
-				<input type="text" name="dbname" id="dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" autocomplete="off" />
+				<input type="text" name="dbname" id="dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" autocomplete="off" pattern="[0-9a-zA-Z$_]+" />
 			</p>
 		</div>
 		<?php endif; ?>

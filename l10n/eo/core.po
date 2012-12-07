@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 23:34+0200\n"
-"PO-Revision-Date: 2012-09-28 21:34+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-04 00:06+0100\n"
+"PO-Revision-Date: 2012-12-02 23:10+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,208 +20,241 @@ msgstr ""
 "Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
-msgid "Application name not provided."
-msgstr "Nomo de aplikaĵo ne proviziiĝis."
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr "Ne proviziĝis tipon de kategorio."
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr "Ĉu neniu kategorio estas aldonota?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
 msgstr "Ĉi tiu kategorio jam ekzistas: "
 
-#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
-msgid "Settings"
-msgstr "Agordo"
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr "Ne proviziĝis tipon de objekto."
 
-#: js/js.js:645
-msgid "January"
-msgstr "Januaro"
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr "Ne proviziĝis ID-on de %s."
 
-#: js/js.js:645
-msgid "February"
-msgstr "Februaro"
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr "Eraro dum aldono de %s al favoratoj."
 
-#: js/js.js:645
-msgid "March"
-msgstr "Marto"
-
-#: js/js.js:645
-msgid "April"
-msgstr "Aprilo"
-
-#: js/js.js:645
-msgid "May"
-msgstr "Majo"
-
-#: js/js.js:645
-msgid "June"
-msgstr "Junio"
-
-#: js/js.js:646
-msgid "July"
-msgstr "Julio"
-
-#: js/js.js:646
-msgid "August"
-msgstr "Aŭgusto"
-
-#: js/js.js:646
-msgid "September"
-msgstr "Septembro"
-
-#: js/js.js:646
-msgid "October"
-msgstr "Oktobro"
-
-#: js/js.js:646
-msgid "November"
-msgstr "Novembro"
-
-#: js/js.js:646
-msgid "December"
-msgstr "Decembro"
-
-#: js/oc-dialogs.js:123
-msgid "Choose"
-msgstr ""
-
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
-msgid "Cancel"
-msgstr "Nuligi"
-
-#: js/oc-dialogs.js:159
-msgid "No"
-msgstr "Ne"
-
-#: js/oc-dialogs.js:160
-msgid "Yes"
-msgstr "Jes"
-
-#: js/oc-dialogs.js:177
-msgid "Ok"
-msgstr "Akcepti"
-
-#: js/oc-vcategories.js:68
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
 msgstr "Neniu kategorio elektiĝis por forigo."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
-#: js/share.js:501
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr "Eraro dum forigo de %s el favoratoj."
+
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+msgid "Settings"
+msgstr "Agordo"
+
+#: js/js.js:704
+msgid "seconds ago"
+msgstr "sekundoj antaŭe"
+
+#: js/js.js:705
+msgid "1 minute ago"
+msgstr "antaŭ 1 minuto"
+
+#: js/js.js:706
+msgid "{minutes} minutes ago"
+msgstr "antaŭ {minutes} minutoj"
+
+#: js/js.js:707
+msgid "1 hour ago"
+msgstr "antaŭ 1 horo"
+
+#: js/js.js:708
+msgid "{hours} hours ago"
+msgstr "antaŭ {hours} horoj"
+
+#: js/js.js:709
+msgid "today"
+msgstr "hodiaŭ"
+
+#: js/js.js:710
+msgid "yesterday"
+msgstr "hieraŭ"
+
+#: js/js.js:711
+msgid "{days} days ago"
+msgstr "antaŭ {days} tagoj"
+
+#: js/js.js:712
+msgid "last month"
+msgstr "lastamonate"
+
+#: js/js.js:713
+msgid "{months} months ago"
+msgstr "antaŭ {months} monatoj"
+
+#: js/js.js:714
+msgid "months ago"
+msgstr "monatoj antaŭe"
+
+#: js/js.js:715
+msgid "last year"
+msgstr "lastajare"
+
+#: js/js.js:716
+msgid "years ago"
+msgstr "jaroj antaŭe"
+
+#: js/oc-dialogs.js:126
+msgid "Choose"
+msgstr "Elekti"
+
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+msgid "Cancel"
+msgstr "Nuligi"
+
+#: js/oc-dialogs.js:162
+msgid "No"
+msgstr "Ne"
+
+#: js/oc-dialogs.js:163
+msgid "Yes"
+msgstr "Jes"
+
+#: js/oc-dialogs.js:180
+msgid "Ok"
+msgstr "Akcepti"
+
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr "Ne indikiĝis tipo de la objekto."
+
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:533
+#: js/share.js:545
 msgid "Error"
 msgstr "Eraro"
 
-#: js/share.js:103
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr "Ne indikiĝis nomo de la aplikaĵo."
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr "La necesa dosiero {file} ne instaliĝis!"
+
+#: js/share.js:124
 msgid "Error while sharing"
-msgstr ""
+msgstr "Eraro dum kunhavigo"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
-msgstr ""
-
-#: js/share.js:121
-msgid "Error while changing permissions"
-msgstr ""
-
-#: js/share.js:130
-msgid "Shared with you and the group"
-msgstr ""
-
-#: js/share.js:130
-msgid "by"
-msgstr ""
-
-#: js/share.js:132
-msgid "Shared with you by"
-msgstr ""
-
-#: js/share.js:137
-msgid "Share with"
-msgstr ""
+msgstr "Eraro dum malkunhavigo"
 
 #: js/share.js:142
+msgid "Error while changing permissions"
+msgstr "Eraro dum ŝanĝo de permesoj"
+
+#: js/share.js:151
+msgid "Shared with you and the group {group} by {owner}"
+msgstr "Kunhavigita kun vi kaj la grupo {group} de {owner}"
+
+#: js/share.js:153
+msgid "Shared with you by {owner}"
+msgstr "Kunhavigita kun vi de {owner}"
+
+#: js/share.js:158
+msgid "Share with"
+msgstr "Kunhavigi kun"
+
+#: js/share.js:163
 msgid "Share with link"
-msgstr ""
+msgstr "Kunhavigi per ligilo"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
-msgstr ""
+msgstr "Protekti per pasvorto"
 
-#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: templates/verify.php:13
 msgid "Password"
 msgstr "Pasvorto"
 
-#: js/share.js:152
+#: js/share.js:173
 msgid "Set expiration date"
-msgstr ""
+msgstr "Agordi limdaton"
 
-#: js/share.js:153
+#: js/share.js:174
 msgid "Expiration date"
-msgstr ""
+msgstr "Limdato"
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
-msgstr ""
+msgstr "Kunhavigi per retpoŝto:"
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
-msgstr ""
+msgstr "Ne troviĝis gento"
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
-msgstr ""
-
-#: js/share.js:250
-msgid "Shared in"
-msgstr ""
-
-#: js/share.js:250
-msgid "with"
-msgstr ""
+msgstr "Rekunhavigo ne permesatas"
 
 #: js/share.js:271
+msgid "Shared in {item} with {user}"
+msgstr "Kunhavigita en {item} kun {user}"
+
+#: js/share.js:292
 msgid "Unshare"
-msgstr ""
+msgstr "Malkunhavigi"
 
-#: js/share.js:279
+#: js/share.js:304
 msgid "can edit"
-msgstr ""
+msgstr "povas redakti"
 
-#: js/share.js:281
+#: js/share.js:306
 msgid "access control"
-msgstr ""
+msgstr "alirkontrolo"
 
-#: js/share.js:284
+#: js/share.js:309
 msgid "create"
-msgstr ""
+msgstr "krei"
 
-#: js/share.js:287
+#: js/share.js:312
 msgid "update"
-msgstr ""
+msgstr "ĝisdatigi"
 
-#: js/share.js:290
+#: js/share.js:315
 msgid "delete"
-msgstr ""
+msgstr "forigi"
 
-#: js/share.js:293
+#: js/share.js:318
 msgid "share"
-msgstr ""
+msgstr "kunhavigi"
 
-#: js/share.js:317 js/share.js:476
+#: js/share.js:349 js/share.js:520 js/share.js:522
 msgid "Password protected"
-msgstr ""
+msgstr "Protektita per pasvorto"
 
-#: js/share.js:489
+#: js/share.js:533
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Eraro dum malagordado de limdato"
 
-#: js/share.js:501
+#: js/share.js:545
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Eraro dum agordado de limdato"
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "La pasvorto de ownCloud restariĝis."
 
@@ -234,19 +267,19 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Vi ricevos ligilon retpoŝte por rekomencigi vian pasvorton."
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Petita"
+msgid "Reset email send."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Ensaluto malsukcesis!"
+msgid "Request failed!"
+msgstr "Peto malsukcesis!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
-#: templates/login.php:9
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
+#: templates/login.php:20
 msgid "Username"
 msgstr "Uzantonomo"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Peti rekomencigon"
 
@@ -298,72 +331,187 @@ msgstr "La nubo ne estas trovita"
 msgid "Edit categories"
 msgstr "Redakti kategoriojn"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "Aldoni"
 
+#: templates/installation.php:23 templates/installation.php:31
+msgid "Security Warning"
+msgstr "Sekureca averto"
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr "Ne disponeblas sekura generilo de hazardaj numeroj; bonvolu kapabligi la OpenSSL-kromaĵon por PHP."
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr ""
+
+#: templates/installation.php:32
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr ""
+
+#: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Krei <strong>administran konton</strong>"
 
-#: templates/installation.php:36
+#: templates/installation.php:48
 msgid "Advanced"
 msgstr "Progresinta"
 
-#: templates/installation.php:38
+#: templates/installation.php:50
 msgid "Data folder"
 msgstr "Datuma dosierujo"
 
-#: templates/installation.php:45
+#: templates/installation.php:57
 msgid "Configure the database"
 msgstr "Agordi la datumbazon"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:62 templates/installation.php:73
+#: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
 msgstr "estos uzata"
 
-#: templates/installation.php:93
+#: templates/installation.php:105
 msgid "Database user"
 msgstr "Datumbaza uzanto"
 
-#: templates/installation.php:97
+#: templates/installation.php:109
 msgid "Database password"
 msgstr "Datumbaza pasvorto"
 
-#: templates/installation.php:101
+#: templates/installation.php:113
 msgid "Database name"
 msgstr "Datumbaza nomo"
 
-#: templates/installation.php:109
+#: templates/installation.php:121
 msgid "Database tablespace"
 msgstr "Datumbaza tabelospaco"
 
-#: templates/installation.php:115
+#: templates/installation.php:127
 msgid "Database host"
 msgstr "Datumbaza gastigo"
 
-#: templates/installation.php:120
+#: templates/installation.php:132
 msgid "Finish setup"
 msgstr "Fini la instalon"
 
-#: templates/layout.guest.php:36
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Sunday"
+msgstr "dimanĉo"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Monday"
+msgstr "lundo"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Tuesday"
+msgstr "mardo"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Wednesday"
+msgstr "merkredo"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Thursday"
+msgstr "ĵaŭdo"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Friday"
+msgstr "vendredo"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Saturday"
+msgstr "sabato"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "January"
+msgstr "Januaro"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "February"
+msgstr "Februaro"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "March"
+msgstr "Marto"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "April"
+msgstr "Aprilo"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "May"
+msgstr "Majo"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "June"
+msgstr "Junio"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "July"
+msgstr "Julio"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "August"
+msgstr "Aŭgusto"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "September"
+msgstr "Septembro"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "October"
+msgstr "Oktobro"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "November"
+msgstr "Novembro"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "December"
+msgstr "Decembro"
+
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr "TTT-servoj sub via kontrolo"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Elsaluti"
 
-#: templates/login.php:6
+#: templates/login.php:8
+msgid "Automatic logon rejected!"
+msgstr ""
+
+#: templates/login.php:9
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr "Se vi ne ŝanĝis vian pasvorton lastatempe, via konto eble kompromitas!"
+
+#: templates/login.php:10
+msgid "Please change your password to secure your account again."
+msgstr "Bonvolu ŝanĝi vian pasvorton por sekurigi vian konton ree."
+
+#: templates/login.php:15
 msgid "Lost your password?"
 msgstr "Ĉu vi perdis vian pasvorton?"
 
-#: templates/login.php:17
+#: templates/login.php:27
 msgid "remember"
 msgstr "memori"
 
-#: templates/login.php:18
+#: templates/login.php:28
 msgid "Log in"
 msgstr "Ensaluti"
 
@@ -378,3 +526,17 @@ msgstr "maljena"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "jena"
+
+#: templates/verify.php:5
+msgid "Security Warning!"
+msgstr "Sekureca averto!"
+
+#: templates/verify.php:6
+msgid ""
+"Please verify your password. <br/>For security reasons you may be "
+"occasionally asked to enter your password again."
+msgstr "Bonvolu kontroli vian pasvorton. <br/>Pro sekureco, oni okaze povas peti al vi enigi vian pasvorton ree."
+
+#: templates/verify.php:16
+msgid "Verify"
+msgstr "Kontroli"

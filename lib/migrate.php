@@ -66,7 +66,7 @@ class OC_Migrate{
 		foreach($apps as $app) {
 			$path = OC_App::getAppPath($app) . '/appinfo/migrate.php';
 			if( file_exists( $path ) ) {
-				include( $path );
+				include $path;
 			}
 		}
 	}
@@ -91,7 +91,7 @@ class OC_Migrate{
 	 	if( self::$exporttype == 'user' ) {
 	 		// Check user exists
 	 		self::$uid = is_null($uid) ? OC_User::getUser() : $uid;
-	 		if(!OC_User::userExists(self::$uid)){
+	 		if(!OC_User::userExists(self::$uid)) {
 		 		return json_encode( array( 'success' => false) );
 	 		}
 	 	}
@@ -200,7 +200,7 @@ class OC_Migrate{
 		$scan = scandir( $extractpath );
 		// Check for export_info.json
 		if( !in_array( 'export_info.json', $scan ) ) {
-			OC_Log::write( 'migration', 'Invalid import file, export_info.json note found', OC_Log::ERROR );
+			OC_Log::write( 'migration', 'Invalid import file, export_info.json not found', OC_Log::ERROR );
 			return json_encode( array( 'success' => false ) );
 		}
 		$json = json_decode( file_get_contents( $extractpath . 'export_info.json' ) );
@@ -235,12 +235,19 @@ class OC_Migrate{
 					return json_encode( array( 'success' => false ) );
 				}
 				// Copy data
-				if( !self::copy_r( $extractpath . $json->exporteduser, $datadir . '/' . self::$uid ) ) {
-					return json_encode( array( 'success' => false ) );
+				$userfolder = $extractpath . $json->exporteduser;
+				$newuserfolder = $datadir . '/' . self::$uid;
+				foreach(scandir($userfolder) as $file){
+					if($file !== '.' && $file !== '..' && is_dir($file)) {
+						// Then copy the folder over
+						OC_Helper::copyr($userfolder.'/'.$file, $newuserfolder.'/'.$file);
+					}
 				}
 				// Import user app data
-				if( !$appsimported = self::importAppData( $extractpath . $json->exporteduser . '/migration.db', $json, self::$uid ) ) {
-					return json_encode( array( 'success' => false ) );
+				if(file_exists($extractpath . $json->exporteduser . '/migration.db')) {
+					if( !$appsimported = self::importAppData( $extractpath . $json->exporteduser . '/migration.db', $json, self::$uid ) ) {
+						return json_encode( array( 'success' => false ) );
+					}
 				}
 				// All done!
 				if( !self::unlink_r( $extractpath ) ) {
@@ -305,37 +312,6 @@ class OC_Migrate{
 	}
 
 	/**
-	* @brief copies recursively
-	* @param $path string path to source folder
-	* @param $dest string path to destination
-	* @return bool
-	*/
-	private static function copy_r( $path, $dest ) {
-		if( is_dir($path) ) {
-			@mkdir( $dest );
-			$objects = scandir( $path );
-			if( sizeof( $objects ) > 0 ) {
-				foreach( $objects as $file ) {
-					if( $file == "." || $file == ".." || $file == ".htaccess")
-					continue;
-					// go on
-					if( is_dir( $path . '/' . $file ) ) {
-						self::copy_r( $path  .'/' . $file, $dest . '/' . $file );
-					} else {
-						copy( $path . '/' . $file, $dest . '/' . $file );
-					}
-				}
-			}
-			return true;
-		}
-		elseif( is_file( $path ) ) {
-			return copy( $path, $dest );
-		} else {
-			return false;
-		}
-	}
-
-	/**
 	* @brief tries to extract the import zip
 	* @param $path string path to the zip
 	* @return string path to extract location (with a trailing slash) or false on failure
@@ -347,7 +323,7 @@ class OC_Migrate{
 	 		OC_Log::write( 'migration', 'Zip not found', OC_Log::ERROR );
 	 		return false;
 	 	}
-		if ( self::$zip->open( $path ) != TRUE ) {
+		if ( self::$zip->open( $path ) != true ) {
 			OC_Log::write( 'migration', "Failed to open zip file", OC_Log::ERROR );
 			return false;
 		}
@@ -576,7 +552,7 @@ class OC_Migrate{
 			OC_Log::write('migration', 'createZip() called but $zip and/or $zippath have not been set', OC_Log::ERROR);
 			return false;
 		}
-		if ( self::$zip->open( self::$zippath, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE ) !== TRUE ) {
+		if ( self::$zip->open( self::$zippath, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE ) !== true ) {
 			OC_Log::write('migration', 'Failed to create the zip with error: '.self::$zip->getStatusString(), OC_Log::ERROR);
 			return false;
 	    } else {
@@ -611,11 +587,11 @@ class OC_Migrate{
 		if( file_exists( $db ) ) {
 			// Connect to the db
 			if(!self::connectDB( $db )) {
-				OC_Log::write('migration','Failed to connect to migration.db',OC_Log::ERROR);
+				OC_Log::write('migration', 'Failed to connect to migration.db', OC_Log::ERROR);
 				return false;
 			}
 		} else {
-			OC_Log::write('migration','Migration.db not found at: '.$db, OC_Log::FATAL );
+			OC_Log::write('migration', 'Migration.db not found at: '.$db, OC_Log::FATAL );
 			return false;
 		}
 

@@ -3,14 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <khanhnd@kenhgiaiphap.vn>, 2012.
+#   <mattheu.9x@gmail.com>, 2012.
+#   <mattheu_9x@yahoo.com>, 2012.
 # Son Nguyen <sonnghit@gmail.com>, 2012.
+# Sơn Nguyễn <sonnghit@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 23:34+0200\n"
-"PO-Revision-Date: 2012-09-28 21:34+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-21 00:01+0100\n"
+"PO-Revision-Date: 2012-11-20 05:31+0000\n"
+"Last-Translator: mattheu_9x <mattheu.9x@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,208 +22,241 @@ msgstr ""
 "Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
-msgid "Application name not provided."
-msgstr "Tên ứng dụng không tồn tại"
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr "Kiểu hạng mục không được cung cấp."
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr "Không có danh mục được thêm?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
 msgstr "Danh mục này đã được tạo :"
 
-#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
-msgid "Settings"
-msgstr "Cài đặt"
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr "Loại đối tượng không được cung cấp."
 
-#: js/js.js:645
-msgid "January"
-msgstr "Tháng 1"
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr "%s ID không được cung cấp."
 
-#: js/js.js:645
-msgid "February"
-msgstr "Tháng 2"
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr "Lỗi thêm %s vào mục yêu thích."
 
-#: js/js.js:645
-msgid "March"
-msgstr "Tháng 3"
-
-#: js/js.js:645
-msgid "April"
-msgstr "Tháng 4"
-
-#: js/js.js:645
-msgid "May"
-msgstr "Tháng 5"
-
-#: js/js.js:645
-msgid "June"
-msgstr "Tháng 6"
-
-#: js/js.js:646
-msgid "July"
-msgstr "Tháng 7"
-
-#: js/js.js:646
-msgid "August"
-msgstr "Tháng 8"
-
-#: js/js.js:646
-msgid "September"
-msgstr "Tháng 9"
-
-#: js/js.js:646
-msgid "October"
-msgstr "Tháng 10"
-
-#: js/js.js:646
-msgid "November"
-msgstr "Tháng 11"
-
-#: js/js.js:646
-msgid "December"
-msgstr "Tháng 12"
-
-#: js/oc-dialogs.js:123
-msgid "Choose"
-msgstr ""
-
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
-msgid "Cancel"
-msgstr "Hủy"
-
-#: js/oc-dialogs.js:159
-msgid "No"
-msgstr "No"
-
-#: js/oc-dialogs.js:160
-msgid "Yes"
-msgstr "Yes"
-
-#: js/oc-dialogs.js:177
-msgid "Ok"
-msgstr "Ok"
-
-#: js/oc-vcategories.js:68
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
 msgstr "Không có thể loại nào được chọn để xóa."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
-#: js/share.js:501
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr "Lỗi xóa %s từ mục yêu thích."
+
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+msgid "Settings"
+msgstr "Cài đặt"
+
+#: js/js.js:704
+msgid "seconds ago"
+msgstr "vài giây trước"
+
+#: js/js.js:705
+msgid "1 minute ago"
+msgstr "1 phút trước"
+
+#: js/js.js:706
+msgid "{minutes} minutes ago"
+msgstr "{minutes} phút trước"
+
+#: js/js.js:707
+msgid "1 hour ago"
+msgstr "1 giờ trước"
+
+#: js/js.js:708
+msgid "{hours} hours ago"
+msgstr "{hours} giờ trước"
+
+#: js/js.js:709
+msgid "today"
+msgstr "hôm nay"
+
+#: js/js.js:710
+msgid "yesterday"
+msgstr "hôm qua"
+
+#: js/js.js:711
+msgid "{days} days ago"
+msgstr "{days} ngày trước"
+
+#: js/js.js:712
+msgid "last month"
+msgstr "tháng trước"
+
+#: js/js.js:713
+msgid "{months} months ago"
+msgstr "{months} tháng trước"
+
+#: js/js.js:714
+msgid "months ago"
+msgstr "tháng trước"
+
+#: js/js.js:715
+msgid "last year"
+msgstr "năm trước"
+
+#: js/js.js:716
+msgid "years ago"
+msgstr "năm trước"
+
+#: js/oc-dialogs.js:126
+msgid "Choose"
+msgstr "Chọn"
+
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+msgid "Cancel"
+msgstr "Hủy"
+
+#: js/oc-dialogs.js:162
+msgid "No"
+msgstr "Không"
+
+#: js/oc-dialogs.js:163
+msgid "Yes"
+msgstr "Có"
+
+#: js/oc-dialogs.js:180
+msgid "Ok"
+msgstr "Đồng ý"
+
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr "Loại đối tượng không được chỉ định."
+
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
+#: js/share.js:539
 msgid "Error"
 msgstr "Lỗi"
 
-#: js/share.js:103
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr "Tên ứng dụng không được chỉ định."
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr "Tập tin cần thiết {file} không được cài đặt!"
+
+#: js/share.js:124
 msgid "Error while sharing"
-msgstr ""
+msgstr "Lỗi trong quá trình chia sẻ"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
-msgstr ""
-
-#: js/share.js:121
-msgid "Error while changing permissions"
-msgstr ""
-
-#: js/share.js:130
-msgid "Shared with you and the group"
-msgstr ""
-
-#: js/share.js:130
-msgid "by"
-msgstr ""
-
-#: js/share.js:132
-msgid "Shared with you by"
-msgstr ""
-
-#: js/share.js:137
-msgid "Share with"
-msgstr ""
+msgstr "Lỗi trong quá trình gỡ chia sẻ"
 
 #: js/share.js:142
+msgid "Error while changing permissions"
+msgstr "Lỗi trong quá trình phân quyền"
+
+#: js/share.js:151
+msgid "Shared with you and the group {group} by {owner}"
+msgstr "Đã được chia sẽ với bạn và nhóm {group} bởi {owner}"
+
+#: js/share.js:153
+msgid "Shared with you by {owner}"
+msgstr "Đã được chia sẽ bởi {owner}"
+
+#: js/share.js:158
+msgid "Share with"
+msgstr "Chia sẻ với"
+
+#: js/share.js:163
 msgid "Share with link"
-msgstr ""
+msgstr "Chia sẻ với liên kết"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
-msgstr ""
+msgstr "Mật khẩu bảo vệ"
 
-#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: templates/verify.php:13
 msgid "Password"
 msgstr "Mật khẩu"
 
-#: js/share.js:152
+#: js/share.js:173
 msgid "Set expiration date"
-msgstr ""
+msgstr "Đặt ngày kết thúc"
 
-#: js/share.js:153
+#: js/share.js:174
 msgid "Expiration date"
-msgstr ""
+msgstr "Ngày kết thúc"
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
-msgstr ""
+msgstr "Chia sẻ thông qua email"
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
-msgstr ""
+msgstr "Không tìm thấy người nào"
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
-msgstr ""
-
-#: js/share.js:250
-msgid "Shared in"
-msgstr ""
-
-#: js/share.js:250
-msgid "with"
-msgstr ""
+msgstr "Chia sẻ lại không được cho phép"
 
 #: js/share.js:271
+msgid "Shared in {item} with {user}"
+msgstr "Đã được chia sẽ trong {item} với {user}"
+
+#: js/share.js:292
 msgid "Unshare"
-msgstr ""
+msgstr "Gỡ bỏ chia sẻ"
 
-#: js/share.js:279
+#: js/share.js:304
 msgid "can edit"
-msgstr ""
+msgstr "có thể chỉnh sửa"
 
-#: js/share.js:281
+#: js/share.js:306
 msgid "access control"
-msgstr ""
+msgstr "quản lý truy cập"
 
-#: js/share.js:284
+#: js/share.js:309
 msgid "create"
-msgstr ""
+msgstr "tạo"
 
-#: js/share.js:287
+#: js/share.js:312
 msgid "update"
-msgstr ""
+msgstr "cập nhật"
 
-#: js/share.js:290
+#: js/share.js:315
 msgid "delete"
-msgstr ""
+msgstr "xóa"
 
-#: js/share.js:293
+#: js/share.js:318
 msgid "share"
-msgstr ""
+msgstr "chia sẻ"
 
-#: js/share.js:317 js/share.js:476
+#: js/share.js:343 js/share.js:514 js/share.js:516
 msgid "Password protected"
-msgstr ""
+msgstr "Mật khẩu bảo vệ"
 
-#: js/share.js:489
+#: js/share.js:527
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Lỗi không thiết lập ngày kết thúc"
 
-#: js/share.js:501
+#: js/share.js:539
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Lỗi cấu hình ngày kết thúc"
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "Khôi phục mật khẩu Owncloud "
 
@@ -232,19 +269,19 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Vui lòng kiểm tra Email để khôi phục lại mật khẩu."
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Yêu cầu"
+msgid "Reset email send."
+msgstr "Thiết lập lại email gởi."
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Bạn đã nhập sai mật khẩu hay tên người dùng !"
+msgid "Request failed!"
+msgstr "Yêu cầu  của bạn không thành công !"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
-#: templates/login.php:9
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
+#: templates/login.php:20
 msgid "Username"
 msgstr "Tên người dùng"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Yêu cầu thiết lập lại "
 
@@ -286,7 +323,7 @@ msgstr "Giúp đỡ"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Truy cập bị cấm "
+msgstr "Truy cập bị cấm"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -296,72 +333,187 @@ msgstr "Không tìm thấy Clound"
 msgid "Edit categories"
 msgstr "Sửa thể loại"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "Thêm"
 
+#: templates/installation.php:23 templates/installation.php:31
+msgid "Security Warning"
+msgstr "Cảnh bảo bảo mật"
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr "Không an toàn ! chức năng random number generator đã có sẵn ,vui lòng bật  PHP OpenSSL extension."
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr "Nếu không có random number generator , Hacker có thể  thiết lập lại mật khẩu và chiếm tài khoản của bạn."
+
+#: templates/installation.php:32
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr "Thư mục dữ liệu và những tập tin của bạn có thể dễ dàng bị truy cập từ mạng. Tập tin .htaccess do ownCloud cung cấp không hoạt động. Chúng tôi đề nghị bạn nên cấu hình lại máy chủ web để thư mục dữ liệu không còn bị truy cập hoặc bạn nên di chuyển thư mục dữ liệu ra bên ngoài thư mục gốc của máy chủ."
+
+#: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Tạo một <strong>tài khoản quản trị</strong>"
 
-#: templates/installation.php:36
+#: templates/installation.php:48
 msgid "Advanced"
 msgstr "Nâng cao"
 
-#: templates/installation.php:38
+#: templates/installation.php:50
 msgid "Data folder"
 msgstr "Thư mục dữ liệu"
 
-#: templates/installation.php:45
+#: templates/installation.php:57
 msgid "Configure the database"
-msgstr "Cấu hình Cơ Sở Dữ Liệu"
+msgstr "Cấu hình cơ sở dữ liệu"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:62 templates/installation.php:73
+#: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
 msgstr "được sử dụng"
 
-#: templates/installation.php:93
+#: templates/installation.php:105
 msgid "Database user"
 msgstr "Người dùng cơ sở dữ liệu"
 
-#: templates/installation.php:97
+#: templates/installation.php:109
 msgid "Database password"
 msgstr "Mật khẩu cơ sở dữ liệu"
 
-#: templates/installation.php:101
+#: templates/installation.php:113
 msgid "Database name"
 msgstr "Tên cơ sở dữ liệu"
 
-#: templates/installation.php:109
+#: templates/installation.php:121
 msgid "Database tablespace"
-msgstr ""
+msgstr "Cơ sở dữ liệu tablespace"
 
-#: templates/installation.php:115
+#: templates/installation.php:127
 msgid "Database host"
 msgstr "Database host"
 
-#: templates/installation.php:120
+#: templates/installation.php:132
 msgid "Finish setup"
 msgstr "Cài đặt hoàn tất"
 
-#: templates/layout.guest.php:36
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Sunday"
+msgstr "Chủ nhật"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Monday"
+msgstr "Thứ 2"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Tuesday"
+msgstr "Thứ 3"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Wednesday"
+msgstr "Thứ 4"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Thursday"
+msgstr "Thứ 5"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Friday"
+msgstr "Thứ "
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Saturday"
+msgstr "Thứ 7"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "January"
+msgstr "Tháng 1"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "February"
+msgstr "Tháng 2"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "March"
+msgstr "Tháng 3"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "April"
+msgstr "Tháng 4"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "May"
+msgstr "Tháng 5"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "June"
+msgstr "Tháng 6"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "July"
+msgstr "Tháng 7"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "August"
+msgstr "Tháng 8"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "September"
+msgstr "Tháng 9"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "October"
+msgstr "Tháng 10"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "November"
+msgstr "Tháng 11"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "December"
+msgstr "Tháng 12"
+
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr "các dịch vụ web dưới sự kiểm soát của bạn"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Đăng xuất"
 
-#: templates/login.php:6
+#: templates/login.php:8
+msgid "Automatic logon rejected!"
+msgstr "Tự động đăng nhập đã bị từ chối !"
+
+#: templates/login.php:9
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr "Nếu bạn không thay đổi mật khẩu gần đây của bạn, tài khoản của bạn có thể gặp nguy hiểm!"
+
+#: templates/login.php:10
+msgid "Please change your password to secure your account again."
+msgstr "Vui lòng thay đổi mật khẩu của bạn để đảm bảo tài khoản của bạn một lần nữa."
+
+#: templates/login.php:15
 msgid "Lost your password?"
 msgstr "Bạn quên mật khẩu ?"
 
-#: templates/login.php:17
+#: templates/login.php:27
 msgid "remember"
-msgstr "Nhớ"
+msgstr "ghi nhớ"
 
-#: templates/login.php:18
+#: templates/login.php:28
 msgid "Log in"
 msgstr "Đăng nhập"
 
@@ -376,3 +528,17 @@ msgstr "Lùi lại"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "Kế tiếp"
+
+#: templates/verify.php:5
+msgid "Security Warning!"
+msgstr "Cảnh báo bảo mật !"
+
+#: templates/verify.php:6
+msgid ""
+"Please verify your password. <br/>For security reasons you may be "
+"occasionally asked to enter your password again."
+msgstr "Vui lòng xác nhận mật khẩu của bạn. <br/> Vì lý do bảo mật thỉnh thoảng bạn có thể được yêu cầu nhập lại mật khẩu."
+
+#: templates/verify.php:16
+msgid "Verify"
+msgstr "Kiểm tra"

@@ -1,3 +1,11 @@
+<IfModule mod_fcgid.c>
+<IfModule mod_setenvif.c>
+<IfModule mod_headers.c>
+SetEnvIfNoCase ^Authorization$ "(.+)" XAUTHORIZATION=$1
+RequestHeader set XAuthorization %{XAUTHORIZATION}e env=XAUTHORIZATION
+</IfModule>
+</IfModule>
+</IfModule>
 ErrorDocument 403 /core/templates/403.php
 ErrorDocument 404 /core/templates/404.php
 <IfModule mod_php5.c>
@@ -12,11 +20,16 @@ php_value memory_limit 512M
 RewriteEngine on
 RewriteRule .* - [env=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 RewriteRule ^.well-known/host-meta /public.php?service=host-meta [QSA,L]
+RewriteRule ^.well-known/host-meta.json /public.php?service=host-meta-json [QSA,L]
 RewriteRule ^.well-known/carddav /remote.php/carddav/ [R]
 RewriteRule ^.well-known/caldav /remote.php/caldav/ [R]	
 RewriteRule ^apps/calendar/caldav.php remote.php/caldav/ [QSA,L]
 RewriteRule ^apps/contacts/carddav.php remote.php/carddav/ [QSA,L]
 RewriteRule ^apps/([^/]*)/(.*\.(css|php))$ index.php?app=$1&getfile=$2 [QSA,L]
 RewriteRule ^remote/(.*) remote.php [QSA,L]
+</IfModule>
+<IfModule mod_mime.c>
+AddType image/svg+xml svg svgz
+AddEncoding gzip svgz
 </IfModule>
 Options -Indexes

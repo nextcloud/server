@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# 남자사람  <cessnagi@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-02 23:16+0200\n"
-"PO-Revision-Date: 2012-10-02 21:17+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-21 00:01+0100\n"
+"PO-Revision-Date: 2012-11-20 09:51+0000\n"
+"Last-Translator: 남자사람 <cessnagi@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,88 +20,88 @@ msgstr ""
 
 #: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
 msgid "Access granted"
-msgstr ""
+msgstr "접근 허가"
 
 #: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
 msgid "Error configuring Dropbox storage"
-msgstr ""
+msgstr "드롭박스 저장공간 구성 에러"
 
 #: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
 msgid "Grant access"
-msgstr ""
+msgstr "접근권한 부여"
 
 #: js/dropbox.js:73 js/google.js:72
 msgid "Fill out all required fields"
-msgstr ""
+msgstr "모든 필요한 필드들을 입력하세요."
 
 #: js/dropbox.js:85
 msgid "Please provide a valid Dropbox app key and secret."
-msgstr ""
+msgstr "유효한 드롭박스 응용프로그램 키와 비밀번호를 입력해주세요."
 
 #: js/google.js:26 js/google.js:73 js/google.js:78
 msgid "Error configuring Google Drive storage"
-msgstr ""
+msgstr "구글드라이브 저장공간 구성 에러"
 
 #: templates/settings.php:3
 msgid "External Storage"
-msgstr ""
+msgstr "확장 저장공간"
 
 #: templates/settings.php:7 templates/settings.php:19
 msgid "Mount point"
-msgstr ""
+msgstr "마운트 포인트"
 
 #: templates/settings.php:8
 msgid "Backend"
-msgstr ""
+msgstr "백엔드"
 
 #: templates/settings.php:9
 msgid "Configuration"
-msgstr ""
+msgstr "설정"
 
 #: templates/settings.php:10
 msgid "Options"
-msgstr ""
+msgstr "옵션"
 
 #: templates/settings.php:11
 msgid "Applicable"
-msgstr ""
+msgstr "적용가능"
 
 #: templates/settings.php:23
 msgid "Add mount point"
-msgstr ""
+msgstr "마운트 포인트 추가"
 
 #: templates/settings.php:54 templates/settings.php:62
 msgid "None set"
-msgstr ""
+msgstr "세트 없음"
 
 #: templates/settings.php:63
 msgid "All Users"
-msgstr ""
+msgstr "모든 사용자"
 
 #: templates/settings.php:64
 msgid "Groups"
-msgstr ""
+msgstr "그룹"
 
 #: templates/settings.php:69
 msgid "Users"
-msgstr ""
+msgstr "사용자"
 
 #: templates/settings.php:77 templates/settings.php:107
 msgid "Delete"
-msgstr ""
+msgstr "삭제"
 
 #: templates/settings.php:87
 msgid "Enable User External Storage"
-msgstr ""
+msgstr "사용자 확장 저장공간 사용"
 
 #: templates/settings.php:88
 msgid "Allow users to mount their own external storage"
-msgstr ""
+msgstr "사용자들에게 그들의 확장 저장공간 마운트 하는것을 허용"
 
 #: templates/settings.php:99
 msgid "SSL root certificates"
-msgstr ""
+msgstr "SSL 루트 인증서"
 
 #: templates/settings.php:113
 msgid "Import Root Certificate"
-msgstr ""
+msgstr "루트 인증서 가져오기"

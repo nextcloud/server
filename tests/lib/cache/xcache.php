@@ -22,7 +22,7 @@
 
 class Test_Cache_XCache extends Test_Cache {
 	public function setUp() {
-		if(!function_exists('xcache_get')){
+		if(!function_exists('xcache_get')) {
 			$this->markTestSkipped('The xcache extension is not available.');
 			return;
 		}

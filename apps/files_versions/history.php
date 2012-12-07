@@ -22,7 +22,7 @@
  */
 
 OCP\User::checkLoggedIn( );
-OCP\Util::addStyle('files_versions','versions');
+OCP\Util::addStyle('files_versions', 'versions');
 $tmpl = new OCP\Template( 'files_versions', 'history', 'user' );
 
 if ( isset( $_GET['path'] ) ) {

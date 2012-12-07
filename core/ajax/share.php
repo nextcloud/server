@@ -18,23 +18,29 @@
 * You should have received a copy of the GNU Affero General Public
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
-require_once '../../lib/base.php';
 
 OC_JSON::checkLoggedIn();
 OCP\JSON::callCheck();
+OC_App::loadApps();
 
 if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSource'])) {
 	switch ($_POST['action']) {
 		case 'share':
 			if (isset($_POST['shareType']) && isset($_POST['shareWith']) && isset($_POST['permissions'])) {
 				try {
-					if ((int)$_POST['shareType'] === OCP\Share::SHARE_TYPE_LINK && $_POST['shareWith'] == '') {
+					$shareType = (int)$_POST['shareType'];
+					$shareWith = $_POST['shareWith'];
+					if ($shareType === OCP\Share::SHARE_TYPE_LINK && $shareWith == '') {
 						$shareWith = null;
-					} else {
-						$shareWith = $_POST['shareWith'];
 					}
-					OCP\Share::shareItem($_POST['itemType'], $_POST['itemSource'], (int)$_POST['shareType'], $shareWith, $_POST['permissions']);
-					OC_JSON::success();
+					
+					$token = OCP\Share::shareItem($_POST['itemType'], $_POST['itemSource'], $shareType, $shareWith, $_POST['permissions']);
+					
+					if (is_string($token)) {
+						OC_JSON::success(array('data' => array('token' => $token)));
+					} else {
+						OC_JSON::success();
+					}
 				} catch (Exception $exception) {
 					OC_JSON::error(array('data' => array('message' => $exception->getMessage())));
 				}

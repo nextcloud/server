@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-12 02:04+0200\n"
-"PO-Revision-Date: 2012-10-11 23:45+0000\n"
-"Last-Translator: marguerite su <i@marguerite.su>\n"
+"POT-Creation-Date: 2012-11-16 00:02+0100\n"
+"PO-Revision-Date: 2012-11-14 23:13+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,208 +19,241 @@ msgstr ""
 "Language: zh_CN.GB2312\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
-msgid "Application name not provided."
-msgstr "应用程序并没有被提供."
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr ""
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr "没有分类添加了?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
 msgstr "这个分类已经存在了:"
 
-#: js/js.js:229 templates/layout.user.php:49 templates/layout.user.php:50
-msgid "Settings"
-msgstr "设置"
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr ""
 
-#: js/js.js:661
-msgid "January"
-msgstr "一月"
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr ""
 
-#: js/js.js:661
-msgid "February"
-msgstr "二月"
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr ""
 
-#: js/js.js:661
-msgid "March"
-msgstr "三月"
-
-#: js/js.js:661
-msgid "April"
-msgstr "四月"
-
-#: js/js.js:661
-msgid "May"
-msgstr "五月"
-
-#: js/js.js:661
-msgid "June"
-msgstr "六月"
-
-#: js/js.js:662
-msgid "July"
-msgstr "七月"
-
-#: js/js.js:662
-msgid "August"
-msgstr "八月"
-
-#: js/js.js:662
-msgid "September"
-msgstr "九月"
-
-#: js/js.js:662
-msgid "October"
-msgstr "十月"
-
-#: js/js.js:662
-msgid "November"
-msgstr "十一月"
-
-#: js/js.js:662
-msgid "December"
-msgstr "十二月"
-
-#: js/oc-dialogs.js:123
-msgid "Choose"
-msgstr "选择"
-
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
-msgid "Cancel"
-msgstr "取消"
-
-#: js/oc-dialogs.js:159
-msgid "No"
-msgstr "否"
-
-#: js/oc-dialogs.js:160
-msgid "Yes"
-msgstr "是"
-
-#: js/oc-dialogs.js:177
-msgid "Ok"
-msgstr "好的"
-
-#: js/oc-vcategories.js:68
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
 msgstr "没有选者要删除的分类."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
-#: js/share.js:509
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr ""
+
+#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
+msgid "Settings"
+msgstr "设置"
+
+#: js/js.js:688
+msgid "seconds ago"
+msgstr "秒前"
+
+#: js/js.js:689
+msgid "1 minute ago"
+msgstr "1 分钟前"
+
+#: js/js.js:690
+msgid "{minutes} minutes ago"
+msgstr "{minutes} 分钟前"
+
+#: js/js.js:691
+msgid "1 hour ago"
+msgstr ""
+
+#: js/js.js:692
+msgid "{hours} hours ago"
+msgstr ""
+
+#: js/js.js:693
+msgid "today"
+msgstr "今天"
+
+#: js/js.js:694
+msgid "yesterday"
+msgstr "昨天"
+
+#: js/js.js:695
+msgid "{days} days ago"
+msgstr "{days} 天前"
+
+#: js/js.js:696
+msgid "last month"
+msgstr "上个月"
+
+#: js/js.js:697
+msgid "{months} months ago"
+msgstr ""
+
+#: js/js.js:698
+msgid "months ago"
+msgstr "月前"
+
+#: js/js.js:699
+msgid "last year"
+msgstr "去年"
+
+#: js/js.js:700
+msgid "years ago"
+msgstr "年前"
+
+#: js/oc-dialogs.js:126
+msgid "Choose"
+msgstr "选择"
+
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+msgid "Cancel"
+msgstr "取消"
+
+#: js/oc-dialogs.js:162
+msgid "No"
+msgstr "否"
+
+#: js/oc-dialogs.js:163
+msgid "Yes"
+msgstr "是"
+
+#: js/oc-dialogs.js:180
+msgid "Ok"
+msgstr "好的"
+
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr ""
+
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/share.js:537
 msgid "Error"
 msgstr "错误"
 
-#: js/share.js:103
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr ""
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr ""
+
+#: js/share.js:124
 msgid "Error while sharing"
 msgstr "分享出错"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
 msgstr "取消分享出错"
 
-#: js/share.js:121
+#: js/share.js:142
 msgid "Error while changing permissions"
 msgstr "变更权限出错"
 
-#: js/share.js:130
-msgid "Shared with you and the group"
-msgstr "与您和小组成员分享"
+#: js/share.js:151
+msgid "Shared with you and the group {group} by {owner}"
+msgstr "由 {owner} 与您和 {group} 群组分享"
 
-#: js/share.js:130
-msgid "by"
-msgstr "由"
+#: js/share.js:153
+msgid "Shared with you by {owner}"
+msgstr "由 {owner} 与您分享"
 
-#: js/share.js:132
-msgid "Shared with you by"
-msgstr "与您的分享，由"
-
-#: js/share.js:137
+#: js/share.js:158
 msgid "Share with"
 msgstr "分享"
 
-#: js/share.js:142
+#: js/share.js:163
 msgid "Share with link"
 msgstr "分享链接"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
 msgstr "密码保护"
 
-#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: templates/verify.php:13
 msgid "Password"
 msgstr "密码"
 
-#: js/share.js:152
+#: js/share.js:173
 msgid "Set expiration date"
 msgstr "设置失效日期"
 
-#: js/share.js:153
+#: js/share.js:174
 msgid "Expiration date"
 msgstr "失效日期"
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
 msgstr "通过电子邮件分享："
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
 msgstr "查无此人"
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
 msgstr "不允许重复分享"
 
-#: js/share.js:250
-msgid "Shared in"
-msgstr "分享在"
-
-#: js/share.js:250
-msgid "with"
-msgstr "与"
-
 #: js/share.js:271
+msgid "Shared in {item} with {user}"
+msgstr "已经与 {user} 在 {item} 中分享"
+
+#: js/share.js:292
 msgid "Unshare"
 msgstr "取消分享"
 
-#: js/share.js:283
+#: js/share.js:304
 msgid "can edit"
 msgstr "可编辑"
 
-#: js/share.js:285
+#: js/share.js:306
 msgid "access control"
 msgstr "访问控制"
 
-#: js/share.js:288
+#: js/share.js:309
 msgid "create"
 msgstr "创建"
 
-#: js/share.js:291
+#: js/share.js:312
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:294
+#: js/share.js:315
 msgid "delete"
 msgstr "删除"
 
-#: js/share.js:297
+#: js/share.js:318
 msgid "share"
 msgstr "分享"
 
-#: js/share.js:322 js/share.js:484
+#: js/share.js:343 js/share.js:512 js/share.js:514
 msgid "Password protected"
 msgstr "密码保护"
 
-#: js/share.js:497
+#: js/share.js:525
 msgid "Error unsetting expiration date"
 msgstr "取消设置失效日期出错"
 
-#: js/share.js:509
+#: js/share.js:537
 msgid "Error setting expiration date"
 msgstr "设置失效日期出错"
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "私有云密码重置"
 
@@ -233,15 +266,15 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "你将会收到一个重置密码的链接"
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "请求"
+msgid "Reset email send."
+msgstr "重置邮件已发送。"
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "登陆失败!"
+msgid "Request failed!"
+msgstr "请求失败！"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
-#: templates/login.php:9
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
+#: templates/login.php:20
 msgid "Username"
 msgstr "用户名"
 
@@ -297,72 +330,187 @@ msgstr "云 没有被找到"
 msgid "Edit categories"
 msgstr "编辑分类"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "添加"
 
+#: templates/installation.php:23 templates/installation.php:31
+msgid "Security Warning"
+msgstr "安全警告"
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr "没有安全随机码生成器，请启用 PHP OpenSSL 扩展。"
+
+#: templates/installation.php:26
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr "没有安全随机码生成器，黑客可以预测密码重置令牌并接管你的账户。"
+
+#: templates/installation.php:32
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr "您的数据文件夹和您的文件或许能够从互联网访问。ownCloud 提供的 .htaccesss 文件未其作用。我们强烈建议您配置网络服务器以使数据文件夹不能从互联网访问，或将移动数据文件夹移出网络服务器文档根目录。"
+
+#: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "建立一个 <strong>管理帐户</strong>"
 
-#: templates/installation.php:36
+#: templates/installation.php:48
 msgid "Advanced"
 msgstr "进阶"
 
-#: templates/installation.php:38
+#: templates/installation.php:50
 msgid "Data folder"
 msgstr "数据存放文件夹"
 
-#: templates/installation.php:45
+#: templates/installation.php:57
 msgid "Configure the database"
 msgstr "配置数据库"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:62 templates/installation.php:73
+#: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
 msgstr "将会使用"
 
-#: templates/installation.php:93
+#: templates/installation.php:105
 msgid "Database user"
 msgstr "数据库用户"
 
-#: templates/installation.php:97
+#: templates/installation.php:109
 msgid "Database password"
 msgstr "数据库密码"
 
-#: templates/installation.php:101
+#: templates/installation.php:113
 msgid "Database name"
 msgstr "数据库用户名"
 
-#: templates/installation.php:109
+#: templates/installation.php:121
 msgid "Database tablespace"
 msgstr "数据库表格空间"
 
-#: templates/installation.php:115
+#: templates/installation.php:127
 msgid "Database host"
 msgstr "数据库主机"
 
-#: templates/installation.php:120
+#: templates/installation.php:132
 msgid "Finish setup"
 msgstr "完成安装"
 
-#: templates/layout.guest.php:38
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Sunday"
+msgstr "星期天"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Monday"
+msgstr "星期一"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Tuesday"
+msgstr "星期二"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Wednesday"
+msgstr "星期三"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Thursday"
+msgstr "星期四"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Friday"
+msgstr "星期五"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Saturday"
+msgstr "星期六"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "January"
+msgstr "一月"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "February"
+msgstr "二月"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "March"
+msgstr "三月"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "April"
+msgstr "四月"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "May"
+msgstr "五月"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "June"
+msgstr "六月"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "July"
+msgstr "七月"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "August"
+msgstr "八月"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "September"
+msgstr "九月"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "October"
+msgstr "十月"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "November"
+msgstr "十一月"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "December"
+msgstr "十二月"
+
+#: templates/layout.guest.php:41
 msgid "web services under your control"
 msgstr "你控制下的网络服务"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:44
 msgid "Log out"
 msgstr "注销"
 
-#: templates/login.php:6
+#: templates/login.php:8
+msgid "Automatic logon rejected!"
+msgstr "自动登录被拒绝！"
+
+#: templates/login.php:9
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr "如果您最近没有修改您的密码，那您的帐号可能被攻击了！"
+
+#: templates/login.php:10
+msgid "Please change your password to secure your account again."
+msgstr "请修改您的密码以保护账户。"
+
+#: templates/login.php:15
 msgid "Lost your password?"
 msgstr "忘记密码?"
 
-#: templates/login.php:16
+#: templates/login.php:27
 msgid "remember"
 msgstr "备忘"
 
-#: templates/login.php:17
+#: templates/login.php:28
 msgid "Log in"
 msgstr "登陆"
 
@@ -377,3 +525,17 @@ msgstr "后退"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "前进"
+
+#: templates/verify.php:5
+msgid "Security Warning!"
+msgstr "安全警告！"
+
+#: templates/verify.php:6
+msgid ""
+"Please verify your password. <br/>For security reasons you may be "
+"occasionally asked to enter your password again."
+msgstr "请确认您的密码。<br/>处于安全原因你偶尔也会被要求再次输入您的密码。"
+
+#: templates/verify.php:16
+msgid "Verify"
+msgstr "确认"

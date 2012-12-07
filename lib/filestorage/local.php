@@ -6,7 +6,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 	protected $datadir;
 	public function __construct($arguments) {
 		$this->datadir=$arguments['datadir'];
-		if(substr($this->datadir,-1)!=='/') {
+		if(substr($this->datadir, -1)!=='/') {
 			$this->datadir.='/';
 		}
 	}
@@ -20,8 +20,8 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 		return opendir($this->datadir.$path);
 	}
 	public function is_dir($path) {
-		if(substr($path,-1)=='/') {
-			$path=substr($path,0,-1);
+		if(substr($path, -1)=='/') {
+			$path=substr($path, 0, -1);
 		}
 		return is_dir($this->datadir.$path);
 	}
@@ -78,38 +78,38 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 	public function file_get_contents($path) {
 		return file_get_contents($this->datadir.$path);
 	}
-	public function file_put_contents($path,$data) {
-		return file_put_contents($this->datadir.$path,$data);
+	public function file_put_contents($path, $data) {
+		return file_put_contents($this->datadir.$path, $data);
 	}
 	public function unlink($path) {
 		return $this->delTree($path);
 	}
-	public function rename($path1,$path2) {
+	public function rename($path1, $path2) {
 		if (!$this->isUpdatable($path1)) {
-			OC_Log::write('core','unable to rename, file is not writable : '.$path1,OC_Log::ERROR);
+			OC_Log::write('core', 'unable to rename, file is not writable : '.$path1, OC_Log::ERROR);
 			return false;
 		}
 		if(! $this->file_exists($path1)) {
-			OC_Log::write('core','unable to rename, file does not exists : '.$path1,OC_Log::ERROR);
+			OC_Log::write('core', 'unable to rename, file does not exists : '.$path1, OC_Log::ERROR);
 			return false;
 		}
 
-		if($return=rename($this->datadir.$path1,$this->datadir.$path2)) {
+		if($return=rename($this->datadir.$path1, $this->datadir.$path2)) {
 		}
 		return $return;
 	}
-	public function copy($path1,$path2) {
+	public function copy($path1, $path2) {
 		if($this->is_dir($path2)) {
 			if(!$this->file_exists($path2)) {
 				$this->mkdir($path2);
 			}
-			$source=substr($path1,strrpos($path1,'/')+1);
+			$source=substr($path1, strrpos($path1, '/')+1);
 			$path2.=$source;
 		}
-		return copy($this->datadir.$path1,$this->datadir.$path2);
+		return copy($this->datadir.$path1, $this->datadir.$path2);
 	}
-	public function fopen($path,$mode) {
-		if($return=fopen($this->datadir.$path,$mode)) {
+	public function fopen($path, $mode) {
+		if($return=fopen($this->datadir.$path, $mode)) {
 			switch($mode) {
 				case 'r':
 					break;
@@ -156,8 +156,8 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 		return $return;
 	}
 
-	public function hash($path,$type,$raw=false) {
-		return hash_file($type,$this->datadir.$path,$raw);
+	public function hash($path, $type, $raw=false) {
+		return hash_file($type, $this->datadir.$path, $raw);
 	}
 
 	public function free_space($path) {
@@ -174,15 +174,15 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 		return $this->datadir.$path;
 	}
 
-	protected function searchInDir($query,$dir='') {
+	protected function searchInDir($query, $dir='') {
 		$files=array();
 		foreach (scandir($this->datadir.$dir) as $item) {
 			if ($item == '.' || $item == '..') continue;
-			if(strstr(strtolower($item),strtolower($query))!==false) {
+			if(strstr(strtolower($item), strtolower($query))!==false) {
 				$files[]=$dir.'/'.$item;
 			}
 			if(is_dir($this->datadir.$dir.'/'.$item)) {
-				$files=array_merge($files,$this->searchInDir($query,$dir.'/'.$item));
+				$files=array_merge($files, $this->searchInDir($query, $dir.'/'.$item));
 			}
 		}
 		return $files;
@@ -193,7 +193,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 	 * @param int $time
 	 * @return bool
 	 */
-	public function hasUpdated($path,$time) {
+	public function hasUpdated($path, $time) {
 		return $this->filemtime($path)>$time;
 	}
 }

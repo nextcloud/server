@@ -29,11 +29,13 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 
 	private function updateQuota($dn) {
 		$quota = null;
-		if(!empty($this->connection->ldapQuotaDefault)) {
-			$quota = $this->connection->ldapQuotaDefault;
+		$quotaDefault = $this->connection->ldapQuotaDefault;
+		$quotaAttribute = $this->connection->ldapQuotaAttribute;
+		if(!empty($quotaDefault)) {
+			$quota = $quotaDefault;
 		}
-		if(!empty($this->connection->ldapQuotaAttribute)) {
-			$aQuota = $this->readAttribute($dn, $this->connection->ldapQuotaAttribute);
+		if(!empty($quotaAttribute)) {
+			$aQuota = $this->readAttribute($dn, $quotaAttribute);
 
 			if($aQuota && (count($aQuota) > 0)) {
 				$quota = $aQuota[0];
@@ -46,8 +48,9 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 
 	private function updateEmail($dn) {
 		$email = null;
-		if(!empty($this->connection->ldapEmailAttribute)) {
-			$aEmail = $this->readAttribute($dn, $this->connection->ldapEmailAttribute);
+		$emailAttribute = $this->connection->ldapEmailAttribute;
+		if(!empty($emailAttribute)) {
+			$aEmail = $this->readAttribute($dn, $emailAttribute);
 			if($aEmail && (count($aEmail) > 0)) {
 				$email = $aEmail[0];
 			}
@@ -101,24 +104,32 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	 * Get a list of all users.
 	 */
 	public function getUsers($search = '', $limit = 10, $offset = 0) {
-		$ldap_users = $this->connection->getFromCache('getUsers');
-		if(is_null($ldap_users)) {
-			$ldap_users = $this->fetchListOfUsers($this->connection->ldapUserFilter, array($this->connection->ldapUserDisplayName, 'dn'));
-			$ldap_users = $this->ownCloudUserNames($ldap_users);
-			$this->connection->writeToCache('getUsers', $ldap_users);
+		$cachekey = 'getUsers-'.$search.'-'.$limit.'-'.$offset;
+
+		//check if users are cached, if so return
+		$ldap_users = $this->connection->getFromCache($cachekey);
+		if(!is_null($ldap_users)) {
+			return $ldap_users;
 		}
-		$this->userSearch = $search;
-		if(!empty($this->userSearch)) {
-			$ldap_users = array_filter($ldap_users, array($this, 'userMatchesFilter'));
-		}
-		if($limit == -1) {
+
+		// if we'd pass -1 to LDAP search, we'd end up in a Protocol error. With a limit of 0, we get 0 results. So we pass null.
+		if($limit <= 0) {
 			$limit = null;
 		}
-		return array_slice($ldap_users, $offset, $limit);
-	}
+		$search = empty($search) ? '*' : '*'.$search.'*';
+		$filter = $this->combineFilterWithAnd(array(
+			$this->connection->ldapUserFilter,
+			$this->connection->ldapUserDisplayName.'='.$search
+		));
 
-	public function userMatchesFilter($user) {
-		return (strripos($user, $this->userSearch) !== false);
+		\OCP\Util::writeLog('user_ldap', 'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter, \OCP\Util::DEBUG);
+		//do the search and translate results to owncloud names
+		$ldap_users = $this->fetchListOfUsers($filter, array($this->connection->ldapUserDisplayName, 'dn'), $limit, $offset);
+		$ldap_users = $this->ownCloudUserNames($ldap_users);
+		\OCP\Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users). ' Users found', \OCP\Util::DEBUG);
+
+		$this->connection->writeToCache($cachekey, $ldap_users);
+		return $ldap_users;
 	}
 
 	/**
@@ -138,9 +149,8 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 			return false;
 		}
 
-		//if user really still exists, we will be able to read his objectclass
-		$objcs = $this->readAttribute($dn, 'objectclass');
-		if(!$objcs || empty($objcs)) {
+		//check if user really still exists by reading its entry
+		if(!is_array($this->readAttribute($dn, ''))) {
 			$this->connection->writeToCache('userExists'.$uid, false);
 			return false;
 		}
