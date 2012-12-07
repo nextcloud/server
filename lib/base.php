@@ -100,10 +100,10 @@ class OC{
 			$path =  str_replace('_', '/', $className) . '.php';
 		}
 		elseif(strpos($className, 'Doctrine\\Common')===0) {
-			$path = 'doctrine-common/lib/'.str_replace('\\', '/', $className) . '.php';
+			$path = 'doctrine/common/lib/'.str_replace('\\', '/', $className) . '.php';
 		}
 		elseif(strpos($className, 'Doctrine\\DBAL')===0) {
-			$path = 'doctrine-dbal/lib/'.str_replace('\\', '/', $className) . '.php';
+			$path = 'doctrine/dbal/lib/'.str_replace('\\', '/', $className) . '.php';
 		}
 		elseif(strpos($className, 'Symfony\\Component\\Routing\\')===0) {
 			$path = 'symfony/routing/'.str_replace('\\', '/', $className) . '.php';
