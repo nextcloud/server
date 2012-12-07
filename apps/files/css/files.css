@@ -39,29 +39,30 @@
 #upload a {
 	position:relative; display:block; width:100%; height:27px;
 	cursor:pointer; z-index:1000;
-	background-image: url('%webroot%/core/img/actions/upload-white.svg');
-	background-repeat: no-repeat;
-	background-position: 7px 6px;
+	background-image:url('%webroot%/core/img/actions/upload-white.svg');
+	background-repeat:no-repeat;
+	background-position:7px 6px;
 }
 .file_upload_target { display:none; }
-.file_upload_form { display:inline; float: left; margin:0; padding:0; cursor:pointer; overflow: visible; }
+.file_upload_form { display:inline; float:left; margin:0; padding:0; cursor:pointer; overflow:visible; }
 #file_upload_start { 
 	left:0; top:0; width:28px; height:27px; padding:0;
-	font-size:1em; 
+	font-size:1em;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0;
-	z-index:-1; position:relative; cursor:pointer; overflow: hidden; }
+	z-index:-1; position:relative; cursor:pointer; overflow:hidden;
+}
 
 #uploadprogresswrapper { position:absolute; right:13.5em; top:0em; }
 #uploadprogresswrapper #uploadprogressbar { position:relative; display:inline-block; width:10em; height:1.5em; top:.4em; }
 
-
 /* FILE TABLE */
 
 #emptyfolder {
-	position: absolute;
-	margin: 10em 0 0 10em;
-	font-size: 1.5em; font-weight: bold;
-	color: #888; text-shadow: #fff 0 1px 0; }
+	position:absolute;
+	margin:10em 0 0 10em;
+	font-size:1.5em; font-weight:bold;
+	color:#888; text-shadow:#fff 0 1px 0;
+}
 table { position:relative; top:37px; width:100%; }
 tbody tr { background-color:#fff; height:2.5em; }
 tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#f8f8f8; }
@@ -111,4 +112,4 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 
 #scanning-message{ top:40%; left:40%; position:absolute; display:none; }
 
-div.crumb a{ padding: 0.9em 0 0.7em 0; }
+div.crumb a{ padding:0.9em 0 0.7em 0; }
