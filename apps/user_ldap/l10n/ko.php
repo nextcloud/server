@@ -4,6 +4,7 @@
 "Base DN" => "기본 DN",
 "You can specify Base DN for users and groups in the Advanced tab" => "당신은 고급 탭에서 사용자 및 그룹에 대한 기본 DN을 지정할 수 있습니다.",
 "User DN" => "사용자 DN",
+"The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." => "클라이언트 유저의 DN는 결합이 완료되어야 합니다.  예를 들면 uid=agent, dc=example, dc=com.  익명 액세스의 경우, DN와 패스워드는 비워둔채로 남겨두세요.",
 "Password" => "비밀번호",
 "For anonymous access, leave DN and Password empty." => "익명의 접속을 위해서는 DN과 비밀번호를 빈상태로 두면 됩니다.",
 "User Login Filter" => "사용자 로그인 필터",
@@ -11,8 +12,10 @@
 "use %%uid placeholder, e.g. \"uid=%%uid\"" => "use %%uid placeholder, e.g. \"uid=%%uid\"",
 "User List Filter" => "사용자 목록 필터",
 "Defines the filter to apply, when retrieving users." => "사용자를 검색 할 때 적용 할 필터를 정의합니다.",
+"without any placeholder, e.g. \"objectClass=person\"." => "플레이스홀더를 이용하지 마세요. 예 \"objectClass=person\".",
 "Group Filter" => "그룹 필터",
 "Defines the filter to apply, when retrieving groups." => "그룹을 검색 할 때 적용 할 필터를 정의합니다.",
+"without any placeholder, e.g. \"objectClass=posixGroup\"." => "플레이스홀더를 이용하지 마세요. 예 \"objectClass=posixGroup\".",
 "Port" => "포트",
 "Base User Tree" => "기본 사용자 트리",
 "Base Group Tree" => "기본 그룹 트리",
@@ -28,6 +31,7 @@
 "Group Display Name Field" => "그룹 표시 이름 필드",
 "The LDAP attribute to use to generate the groups`s ownCloud name." => "LDAP 속성은 그룹의 ownCloud 이름을 생성하기 위해 사용합니다.",
 "in bytes" => "바이트",
+"in seconds. A change empties the cache." => "초. 변경 후에 캐쉬가 클리어 됩니다.",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "사용자 이름(기본값)을 비워 둡니다. 그렇지 않으면 LDAP/AD 특성을 지정합니다.",
 "Help" => "도움말"
 );

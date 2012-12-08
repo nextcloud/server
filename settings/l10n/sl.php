@@ -11,6 +11,7 @@
 "Authentication error" => "Napaka overitve",
 "Unable to delete user" => "Ni mogoče izbrisati uporabnika",
 "Language changed" => "Jezik je bil spremenjen",
+"Admins can't remove themself from the admin group" => "Administratorji sebe ne morejo odstraniti iz skupine admin",
 "Unable to add user to group %s" => "Uporabnika ni mogoče dodati k skupini %s",
 "Unable to remove user from group %s" => "Uporabnika ni mogoče odstraniti iz skupine %s",
 "Disable" => "Onemogoči",

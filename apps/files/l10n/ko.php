@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "업로드에 성공하였습니다.",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "업로드된 파일은 php.ini의 upload_max_filesize에 설정된 사이즈를 초과하고 있습니다:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "업로드한 파일이 HTML 문서에 지정한 MAX_FILE_SIZE보다 더 큼",
 "The uploaded file was only partially uploaded" => "파일이 부분적으로 업로드됨",
 "No file was uploaded" => "업로드된 파일 없음",
@@ -18,6 +19,7 @@
 "replaced {new_name} with {old_name}" => "{old_name}이 {new_name}으로 대체됨",
 "unshared {files}" => "{files} 공유해제",
 "deleted {files}" => "{files} 삭제됨",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "유효하지 않은 이름, '\\', '/', '<', '>', ':', '\"', '|', '? ', '*'는 사용할 수 없습니다.",
 "generating ZIP-file, it may take some time." => "ZIP파일 생성에 시간이 걸릴 수 있습니다.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "이 파일은 디렉토리이거나 0 바이트이기 때문에 업로드 할 수 없습니다.",
 "Upload Error" => "업로드 에러",
@@ -27,6 +29,7 @@
 "{count} files uploading" => "{count} 파일 업로드중",
 "Upload cancelled." => "업로드 취소.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "파일 업로드을 진행합니다. 페이지를 떠나게 될경우 업로드가 취소됩니다.",
+"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "유효하지 않은 폴더명입니다. \"Shared\"의 사용은 ownCloud에의해 예약이 끝난 상태입니다.",
 "{count} files scanned" => "{count} 파일 스캔되었습니다.",
 "error while scanning" => "스캔하는 도중 에러",
 "Name" => "이름",

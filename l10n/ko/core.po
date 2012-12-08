@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-22 00:01+0100\n"
-"PO-Revision-Date: 2012-11-21 07:04+0000\n"
+"POT-Creation-Date: 2012-12-09 00:11+0100\n"
+"PO-Revision-Date: 2012-12-08 15:57+0000\n"
 "Last-Translator: 남자사람 <cessnagi@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -140,8 +140,8 @@ msgid "The object type is not specified."
 msgstr "객체 유형이 지정되지 않았습니다."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
-#: js/share.js:539
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:533
+#: js/share.js:545
 msgid "Error"
 msgstr "에러"
 
@@ -167,19 +167,19 @@ msgstr "권한변경 중에 에러발생"
 
 #: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "당신과 {owner} 의 그룹 {group} 로 공유중"
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "{owner} 와 공유중"
 
 #: js/share.js:158
 msgid "Share with"
-msgstr ""
+msgstr "공유자"
 
 #: js/share.js:163
 msgid "Share with link"
-msgstr ""
+msgstr "URL 링크로 공유"
 
 #: js/share.js:164
 msgid "Password protect"
@@ -212,7 +212,7 @@ msgstr "재공유는 허용되지 않습니다"
 
 #: js/share.js:271
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "{item} 내에서 {user} 와 공유중"
 
 #: js/share.js:292
 msgid "Unshare"
@@ -242,15 +242,15 @@ msgstr "삭제"
 msgid "share"
 msgstr "공유"
 
-#: js/share.js:343 js/share.js:514 js/share.js:516
+#: js/share.js:349 js/share.js:520 js/share.js:522
 msgid "Password protected"
 msgstr "패스워드로 보호됨"
 
-#: js/share.js:527
+#: js/share.js:533
 msgid "Error unsetting expiration date"
 msgstr "만료일자 해제 에러"
 
-#: js/share.js:539
+#: js/share.js:545
 msgid "Error setting expiration date"
 msgstr "만료일자 설정 에러"
 

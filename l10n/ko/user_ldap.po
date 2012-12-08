@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-22 00:01+0100\n"
-"PO-Revision-Date: 2012-11-21 06:34+0000\n"
+"POT-Creation-Date: 2012-12-09 00:11+0100\n"
+"PO-Revision-Date: 2012-12-08 15:51+0000\n"
 "Last-Translator: 남자사람 <cessnagi@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +44,7 @@ msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr ""
+msgstr "클라이언트 유저의 DN는 결합이 완료되어야 합니다.  예를 들면 uid=agent, dc=example, dc=com.  익명 액세스의 경우, DN와 패스워드는 비워둔채로 남겨두세요."
 
 #: templates/settings.php:11
 msgid "Password"
@@ -80,7 +80,7 @@ msgstr "사용자를 검색 할 때 적용 할 필터를 정의합니다."
 
 #: templates/settings.php:13
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
+msgstr "플레이스홀더를 이용하지 마세요. 예 \"objectClass=person\"."
 
 #: templates/settings.php:14
 msgid "Group Filter"
@@ -92,7 +92,7 @@ msgstr "그룹을 검색 할 때 적용 할 필터를 정의합니다."
 
 #: templates/settings.php:14
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "플레이스홀더를 이용하지 마세요. 예 \"objectClass=posixGroup\"."
 
 #: templates/settings.php:17
 msgid "Port"
@@ -158,7 +158,7 @@ msgstr "바이트"
 
 #: templates/settings.php:29
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "초. 변경 후에 캐쉬가 클리어 됩니다."
 
 #: templates/settings.php:30
 msgid ""

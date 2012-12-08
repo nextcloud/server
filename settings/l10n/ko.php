@@ -11,6 +11,7 @@
 "Authentication error" => "인증 오류",
 "Unable to delete user" => "사용자 삭제가 불가능합니다.",
 "Language changed" => "언어가 변경되었습니다",
+"Admins can't remove themself from the admin group" => "관리자는 자신을 관리자 그룹으로부터 삭제할 수 없습니다.",
 "Unable to add user to group %s" => "%s 그룹에 사용자 추가가 불가능합니다.",
 "Unable to remove user from group %s" => "%s 그룹으로부터 사용자 제거가 불가능합니다.",
 "Disable" => "비활성화",
