@@ -4,13 +4,14 @@
 # 
 # Translators:
 # 남자사람  <cessnagi@gmail.com>, 2012.
+# Shinjo Park <kde@peremen.name>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-22 00:01+0100\n"
-"PO-Revision-Date: 2012-11-21 06:19+0000\n"
-"Last-Translator: 남자사람 <cessnagi@gmail.com>\n"
+"POT-Creation-Date: 2012-12-10 00:11+0100\n"
+"PO-Revision-Date: 2012-12-09 06:06+0000\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,37 +19,37 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: app.php:285
+#: app.php:287
 msgid "Help"
 msgstr "도움말"
 
-#: app.php:292
+#: app.php:294
 msgid "Personal"
-msgstr "개인의"
+msgstr "개인"
 
-#: app.php:297
+#: app.php:299
 msgid "Settings"
 msgstr "설정"
 
-#: app.php:302
+#: app.php:304
 msgid "Users"
 msgstr "사용자"
 
-#: app.php:309
-msgid "Apps"
-msgstr "어플리케이션"
-
 #: app.php:311
+msgid "Apps"
+msgstr "앱"
+
+#: app.php:313
 msgid "Admin"
 msgstr "관리자"
 
 #: files.php:361
 msgid "ZIP download is turned off."
-msgstr "ZIP 다운로드가 꺼졌습니다."
+msgstr "ZIP 다운로드가 비활성화되었습니다."
 
 #: files.php:362
 msgid "Files need to be downloaded one by one."
-msgstr "파일 차례대로 다운로드가 필요합니다."
+msgstr "파일을 개별적으로 다운로드해야 합니다."
 
 #: files.php:362 files.php:387
 msgid "Back to Files"
@@ -56,11 +57,11 @@ msgstr "파일로 돌아가기"
 
 #: files.php:386
 msgid "Selected files too large to generate zip file."
-msgstr "zip 파일 생성하기 위한 너무 많은 파일들이 선택되었습니다."
+msgstr "선택한 파일들은 ZIP 파일을 생성하기에 너무 큽니다."
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr "응용프로그램이 사용 가능하지 않습니다."
+msgstr "앱이 활성화되지 않았습니다"
 
 #: json.php:39 json.php:64 json.php:77 json.php:89
 msgid "Authentication error"
@@ -68,7 +69,7 @@ msgstr "인증 오류"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr "토큰 만료. 페이지를 새로고침 해주세요."
+msgstr "토큰이 만료되었습니다. 페이지를 새로 고치십시오."
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
@@ -76,7 +77,7 @@ msgstr "파일"
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr "문자 번호"
+msgstr "텍스트"
 
 #: search/provider/file.php:29
 msgid "Images"
@@ -93,16 +94,16 @@ msgstr "1분 전"
 #: template.php:105
 #, php-format
 msgid "%d minutes ago"
-msgstr "%d 분 전"
+msgstr "%d분 전"
 
 #: template.php:106
 msgid "1 hour ago"
-msgstr "1 시간 전"
+msgstr "1시간 전"
 
 #: template.php:107
 #, php-format
 msgid "%d hours ago"
-msgstr "%d 시간 전"
+msgstr "%d시간 전"
 
 #: template.php:108
 msgid "today"
@@ -115,7 +116,7 @@ msgstr "어제"
 #: template.php:110
 #, php-format
 msgid "%d days ago"
-msgstr "%d 일 전"
+msgstr "%d일 전"
 
 #: template.php:111
 msgid "last month"
@@ -124,20 +125,20 @@ msgstr "지난 달"
 #: template.php:112
 #, php-format
 msgid "%d months ago"
-msgstr "%d 달 전"
+msgstr "%d개월 전"
 
 #: template.php:113
 msgid "last year"
-msgstr "지난 해"
+msgstr "작년"
 
 #: template.php:114
 msgid "years ago"
-msgstr "작년"
+msgstr "년 전"
 
 #: updater.php:75
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr "%s은 가능합니다. 더 자세한 정보는 <a href=\"%s\">이곳</a>으로.."
+msgstr "%s을(를) 사용할 수 있습니다. <a href=\"%s\">자세한 정보 보기</a>"
 
 #: updater.php:77
 msgid "up to date"
@@ -145,9 +146,9 @@ msgstr "최신"
 
 #: updater.php:80
 msgid "updates check is disabled"
-msgstr "업데이트 확인이 비활성화 되어있습니다."
+msgstr "업데이트 확인이 비활성화됨"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr "\"%s\" 카테고리를 찾을 수 없습니다."
+msgstr "분류 \"%s\"을(를) 찾을 수 없습니다."

@@ -4,13 +4,14 @@
 # 
 # Translators:
 # 남자사람  <cessnagi@gmail.com>, 2012.
+# Shinjo Park <kde@peremen.name>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-09 00:11+0100\n"
-"PO-Revision-Date: 2012-12-08 15:51+0000\n"
-"Last-Translator: 남자사람 <cessnagi@gmail.com>\n"
+"POT-Creation-Date: 2012-12-10 00:11+0100\n"
+"PO-Revision-Date: 2012-12-09 06:10+0000\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,7 +26,7 @@ msgstr "호스트"
 #: templates/settings.php:8
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr "당신은 필요로하는 SSL을 제외하고, 프로토콜을 생략 할 수 있습니다. 다음 시작 주소는 LDAPS://"
+msgstr "SSL을 사용하는 경우가 아니라면 프로토콜을 입력하지 않아도 됩니다. SSL을 사용하려면 ldaps://를 입력하십시오."
 
 #: templates/settings.php:9
 msgid "Base DN"
@@ -33,7 +34,7 @@ msgstr "기본 DN"
 
 #: templates/settings.php:9
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr "당신은 고급 탭에서 사용자 및 그룹에 대한 기본 DN을 지정할 수 있습니다."
+msgstr "고급 탭에서 사용자 및 그룹에 대한 기본 DN을 지정할 수 있습니다."
 
 #: templates/settings.php:10
 msgid "User DN"
@@ -44,15 +45,15 @@ msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr "클라이언트 유저의 DN는 결합이 완료되어야 합니다.  예를 들면 uid=agent, dc=example, dc=com.  익명 액세스의 경우, DN와 패스워드는 비워둔채로 남겨두세요."
+msgstr "바인딩 작업을 수행할 클라이언트 사용자 DN입니다. 예를 들어서 uid=agent,dc=example,dc=com입니다. 익명 접근을 허용하려면 DN과 암호를 비워 두십시오."
 
 #: templates/settings.php:11
 msgid "Password"
-msgstr "비밀번호"
+msgstr "암호"
 
 #: templates/settings.php:11
 msgid "For anonymous access, leave DN and Password empty."
-msgstr "익명의 접속을 위해서는 DN과 비밀번호를 빈상태로 두면 됩니다."
+msgstr "익명 접근을 허용하려면 DN과 암호를 비워 두십시오."
 
 #: templates/settings.php:12
 msgid "User Login Filter"
@@ -63,12 +64,12 @@ msgstr "사용자 로그인 필터"
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr "로그인을 시도 할 때 적용 할 필터를 정의합니다. %%udi는 로그인 작업의 사용자 이름을 대체합니다."
+msgstr "로그인을 시도할 때 적용할 필터입니다. %%uid는 로그인 작업에서의 사용자 이름으로 대체됩니다."
 
 #: templates/settings.php:12
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr "use %%uid placeholder, e.g. \"uid=%%uid\""
+msgstr "%%uid 자리 비움자를 사용하십시오. 예제: \"uid=%%uid\"\""
 
 #: templates/settings.php:13
 msgid "User List Filter"
@@ -76,11 +77,11 @@ msgstr "사용자 목록 필터"
 
 #: templates/settings.php:13
 msgid "Defines the filter to apply, when retrieving users."
-msgstr "사용자를 검색 할 때 적용 할 필터를 정의합니다."
+msgstr "사용자를 검색할 때 적용할 필터를 정의합니다."
 
 #: templates/settings.php:13
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr "플레이스홀더를 이용하지 마세요. 예 \"objectClass=person\"."
+msgstr "자리 비움자를 사용할 수 없습니다. 예제: \"objectClass=person\""
 
 #: templates/settings.php:14
 msgid "Group Filter"
@@ -88,11 +89,11 @@ msgstr "그룹 필터"
 
 #: templates/settings.php:14
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr "그룹을 검색 할 때 적용 할 필터를 정의합니다."
+msgstr "그룹을 검색할 때 적용할 필터를 정의합니다."
 
 #: templates/settings.php:14
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr "플레이스홀더를 이용하지 마세요. 예 \"objectClass=posixGroup\"."
+msgstr "자리 비움자를 사용할 수 없습니다. 예제: \"objectClass=posixGroup\""
 
 #: templates/settings.php:17
 msgid "Port"
@@ -108,7 +109,7 @@ msgstr "기본 그룹 트리"
 
 #: templates/settings.php:20
 msgid "Group-Member association"
-msgstr "그룹 회원 동료"
+msgstr "그룹-회원 연결"
 
 #: templates/settings.php:21
 msgid "Use TLS"
@@ -116,11 +117,11 @@ msgstr "TLS 사용"
 
 #: templates/settings.php:21
 msgid "Do not use it for SSL connections, it will fail."
-msgstr "SSL연결을 사용하지 마세요, 그것은 실패할겁니다."
+msgstr "SSL 연결 시 사용하는 경우 연결되지 않습니다."
 
 #: templates/settings.php:22
 msgid "Case insensitve LDAP server (Windows)"
-msgstr "insensitve LDAP 서버 (Windows)의 경우"
+msgstr "서버에서 대소문자를 구분하지 않음 (Windows)"
 
 #: templates/settings.php:23
 msgid "Turn off SSL certificate validation."
@@ -130,15 +131,15 @@ msgstr "SSL 인증서 유효성 검사를 해제합니다."
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr "연결에만 이 옵션을 사용할 경우 당신의 ownCloud 서버에 LDAP 서버의 SSL 인증서를 가져옵니다."
+msgstr "이 옵션을 사용해야 연결할 수 있는 경우에는 LDAP 서버의 SSL 인증서를 ownCloud로 가져올 수 있습니다."
 
 #: templates/settings.php:23
 msgid "Not recommended, use for testing only."
-msgstr "추천하지 않음, 테스트로만 사용"
+msgstr "추천하지 않음, 테스트로만 사용하십시오."
 
 #: templates/settings.php:24
 msgid "User Display Name Field"
-msgstr "사용자 표시 이름 필드"
+msgstr "사용자의 표시 이름 필드"
 
 #: templates/settings.php:24
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
@@ -146,7 +147,7 @@ msgstr "LDAP 속성은 사용자의 ownCloud 이름을 생성하기 위해 사�
 
 #: templates/settings.php:25
 msgid "Group Display Name Field"
-msgstr "그룹 표시 이름 필드"
+msgstr "그룹의 표시 이름 필드"
 
 #: templates/settings.php:25
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
@@ -158,13 +159,13 @@ msgstr "바이트"
 
 #: templates/settings.php:29
 msgid "in seconds. A change empties the cache."
-msgstr "초. 변경 후에 캐쉬가 클리어 됩니다."
+msgstr "초. 항목 변경 시 캐시가 갱신됩니다."
 
 #: templates/settings.php:30
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr "사용자 이름(기본값)을 비워 둡니다. 그렇지 않으면 LDAP/AD 특성을 지정합니다."
+msgstr "사용자 이름을 사용하려면 비워 두십시오(기본값). 기타 경우 LDAP/AD 속성을 지정하십시오."
 
 #: templates/settings.php:32
 msgid "Help"
