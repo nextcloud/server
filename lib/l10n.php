@@ -283,10 +283,10 @@ class OC_L10N{
 				if( ($key = array_search($temp[0], $available)) !== false) {
 					return $available[$key];
 				}
-			}
-			foreach($available as $l) {
-				if ( $temp[0] == substr($l,0,2) ) {
-					return $l;
+				foreach($available as $l) {
+					if ( $temp[0] == substr($l,0,2) ) {
+						return $l;
+					}
 				}
 			}
 		}
