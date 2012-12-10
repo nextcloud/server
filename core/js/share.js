@@ -168,6 +168,10 @@ OC.Share={
 				html += '<input id="linkPassText" type="password" placeholder="'+t('core', 'Password')+'" />';
 				html += '</div>';
 				html += '</div>';
+                html += '<form id="emailPrivateLink" >';
+                html += '<input id="email" style="display:none; width:65%;" value="" placeholder="'+t('core', 'Email link to person')+'" type="text" />';
+                html += '<input id="emailButton" style="display:none;" type="submit" value="'+t('core', 'Send')+'" />';
+                html += '</form>';
 			}
 			html += '<div id="expiration">';
 			html += '<input type="checkbox" name="expirationCheckbox" id="expirationCheckbox" value="1" /><label for="expirationCheckbox">'+t('core', 'Set expiration date')+'</label>';
@@ -349,13 +353,17 @@ OC.Share={
 			$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
 		}
 		$('#expiration').show();
+        $('#emailPrivateLink #email').show();
+        $('#emailPrivateLink #emailButton').show();
 	},
 	hideLink:function() {
 		$('#linkText').hide('blind');
 		$('#showPassword').hide();
 		$('#linkPass').hide();
-	},
-	dirname:function(path) {
+        $('#emailPrivateLink #email').hide();
+        $('#emailPrivateLink #emailButton').hide();
+    },
+ 	dirname:function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
 	},
 	showExpirationDate:function(date) {

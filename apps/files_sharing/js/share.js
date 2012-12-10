@@ -33,6 +33,28 @@ $(document).ready(function() {
 		});
 		OC.Share.loadIcons('file');
 	}
-	
+
+    $('#emailPrivateLink').live('submit', function(event) {
+        event.preventDefault();
+        var link = $('#linkText').val();
+        var itemType = $('#dropdown').data('item-type');
+        var itemSource = $('#dropdown').data('item-source');
+
+        var file = $('tr').filterAttr('data-id', String(itemSource)).data('file');
+        var email = $('#email').val();
+        if (email != '') {
+            $.post(OC.filePath('files_sharing', 'ajax', 'email.php'), { toaddress: email, link: link, type: itemType, file: file }, function(result) {
+                if (result && result.status == 'success') {
+                    $('#email').css('font-weight', 'bold');
+                    $('#email').animate({ fontWeight: 'normal' }, 2000, function() {
+                        $(this).val('');
+                    }).val('Email sent');
+                } else {
+                    OC.dialogs.alert(result.data.message, 'Error while sharing');
+                }
+            });
+        }
+    });
+
 
 });
