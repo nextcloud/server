@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-23 00:01+0100\n"
-"PO-Revision-Date: 2012-11-22 09:34+0000\n"
+"POT-Creation-Date: 2012-12-11 00:04+0100\n"
+"PO-Revision-Date: 2012-12-10 13:49+0000\n"
 "Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -24,27 +24,27 @@ msgstr ""
 "Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:285
+#: app.php:287
 msgid "Help"
 msgstr "Hilfe"
 
-#: app.php:292
+#: app.php:294
 msgid "Personal"
 msgstr "Persönlich"
 
-#: app.php:297
+#: app.php:299
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: app.php:302
+#: app.php:304
 msgid "Users"
 msgstr "Benutzer"
 
-#: app.php:309
+#: app.php:311
 msgid "Apps"
 msgstr "Apps"
 
-#: app.php:311
+#: app.php:313
 msgid "Admin"
 msgstr "Administrator"
 
@@ -138,7 +138,7 @@ msgstr "Letztes Jahr"
 
 #: template.php:114
 msgid "years ago"
-msgstr "Vor wenigen Jahren"
+msgstr "Vor  Jahren"
 
 #: updater.php:75
 #, php-format

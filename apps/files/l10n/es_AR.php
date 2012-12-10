@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "No se han producido errores, el archivo se ha subido con éxito",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "El archivo que intentás subir excede el tamaño definido por upload_max_filesize en el php.ini:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "El archivo que intentás subir sobrepasa el tamaño definido por la variable MAX_FILE_SIZE especificada en el formulario HTML",
 "The uploaded file was only partially uploaded" => "El archivo que intentás subir solo se subió parcialmente",
 "No file was uploaded" => "El archivo no fue subido",
@@ -18,6 +19,7 @@
 "replaced {new_name} with {old_name}" => "reemplazado {new_name} con {old_name}",
 "unshared {files}" => "{files} se dejaron de compartir",
 "deleted {files}" => "{files} borrados",
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nombre invalido, '\\', '/', '<', '>', ':', '\"', '|', '?' y '*' no están permitidos.",
 "generating ZIP-file, it may take some time." => "generando un archivo ZIP, puede llevar un tiempo.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "No fue posible subir el archivo porque es un directorio o porque su tamaño es 0 bytes",
 "Upload Error" => "Error al subir el archivo",
