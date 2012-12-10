@@ -1,6 +1,7 @@
 <form id="files_external">
 	<fieldset class="personalblock">
 	<legend><strong><?php echo $l->t('External Storage'); ?></strong></legend>
+                <?php if (isset($_['dependencies']) and ($_['dependencies']<>'')) echo ''.$_['dependencies'].''; ?>
 		<table id="externalStorage" data-admin='<?php echo json_encode($_['isAdminPage']); ?>'>
 			<thead>
 				<tr>

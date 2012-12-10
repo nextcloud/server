@@ -394,4 +394,35 @@ class OC_Mount_Config {
 		return true;
 	}
 
+	/**
+	 * check if smbclient is installed 
+	 */
+	public static function checksmbclient() {
+		$output=shell_exec('which smbclient');
+		return (empty($output)?false:true);
+	}
+
+	/**
+	 * check if php-ftp is installed 
+	 */
+	public static function checkphpftp() {
+		if(function_exists('ftp_login')) {
+			return(true);
+		}else{
+			return(false);
+		}
+	}
+
+	/**
+	 * check dependencies
+	 */
+	public static function checkDependencies() {
+		$l= new OC_L10N;
+		$txt='';
+
+		if(!OC_Mount_Config::checksmbclient()) $txt.=$l->t('<b>Warning:</b> "smbclient" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it.').'<br />';
+		if(!OC_Mount_Config::checkphpftp()) $txt.=$l->t('<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it.').'<br />';
+
+		return($txt);
+	}
 }
