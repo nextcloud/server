@@ -555,4 +555,27 @@ $(document).ready(function() {
 		});
 	});
 
+
+    $('#emailPrivateLink').live('submit', function(event) {
+        event.preventDefault();
+        var link = $('#linkText').val();
+        var itemType = $('#dropdown').data('item-type');
+        var itemSource = $('#dropdown').data('item-source');
+        var file = $('tr').filterAttr('data-id', String(itemSource)).data('file');
+        var email = $('#email').val();
+        if (email != '') {
+            $.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'email', toaddress: email, link: link, itemType: itemType, itemSource: itemSource, file: file}, function(result) {
+                if (result && result.status == 'success') {
+                    $('#email').css('font-weight', 'bold');
+                    $('#email').animate({ fontWeight: 'normal' }, 2000, function() {
+                        $(this).val('');
+                    }).val(t('core','Email sent'));
+                } else {
+                    OC.dialogs.alert(result.data.message, t('core', 'Error while sharing'));
+                }
+            });
+        }
+    });
+
+
 });
