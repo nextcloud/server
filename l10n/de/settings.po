@@ -169,11 +169,11 @@ msgstr "Erlaubt Nutzern, Dateien die mit ihnen geteilt wurden, erneut zu teilen"
 
 #: templates/admin.php:79
 msgid "Allow users to share with anyone"
-msgstr "Erlaubet Nutzern mit jedem zu Teilen"
+msgstr "Erlaube Nutzern, mit jedem zu teilen"
 
 #: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
-msgstr "Erlaubet Nutzern nur das Teilen in ihrer Gruppe"
+msgstr "Erlaube Nutzern das Teilen innerhalb ihrer Gruppe"
 
 #: templates/admin.php:88
 msgid "Log"
