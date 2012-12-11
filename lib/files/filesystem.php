@@ -685,4 +685,8 @@ class Filesystem {
 \OC_Hook::connect('OC_Filesystem', 'post_delete', 'OC_Filesystem', 'removeETagHook');
 \OC_Hook::connect('OC_Filesystem', 'post_rename', 'OC_Filesystem', 'removeETagHook');
 
+\OC_Hook::connect('OC_Filesystem', 'post_write', '\OC\Files\Cache\Updater', 'writeHook');
+\OC_Hook::connect('OC_Filesystem', 'post_delete', '\OC\Files\Cache\Updater', 'deleteHook');
+\OC_Hook::connect('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Updater', 'renameHook');
+
 \OC_Util::setupFS();
