@@ -305,9 +305,9 @@ class Crypt {
 		if ( $encryptedContent = self::encrypt( $plainContent, $iv, $passphrase ) ) {
 			
 				// Combine content to encrypt with IV identifier and actual IV
-				$combinedKeyfile = self::concatIv( $encryptedContent, $iv );
+				$catfile = self::concatIv( $encryptedContent, $iv );
 				
-				$padded = self::addPadding( $combinedKeyfile );
+				$padded = self::addPadding( $catfile );
 				
 				return $padded;
 		
@@ -468,7 +468,8 @@ class Crypt {
 
         /**
          * @brief Encrypts content symmetrically and generates keyfile asymmetrically
-         * @returns array keys: encrypted, key
+         * @returns array containing catfile and new keyfile. 
+         * keys: data, key
          * @note this method is a wrapper for combining other crypt class methods
          */
 	public static function keyEncryptKeyfile( $plainContent, $publicKey ) {
@@ -484,18 +485,20 @@ class Crypt {
 	}
 	
         /**
-         * @brief Takes encrypted data, encrypted catfile, and private key, and
+         * @brief Takes catfile, keyfile, and private key, and
          * performs decryption
          * @returns decrypted content
          * @note this method is a wrapper for combining other crypt class methods
          */
-	public static function keyDecryptKeyfile( $encryptedData, $encryptedKey, $privateKey ) {
+	public static function keyDecryptKeyfile( $catfile, $keyfile, $privateKey ) {
 		
-		// Decrypt keyfile
-		$decryptedKey = self::keyDecrypt( $encryptedKey, $privateKey );
+		// Decrypt the keyfile with the user's private key
+		$decryptedKey = self::keyDecrypt( $keyfile, $privateKey );
 		
-		// Decrypt encrypted file
-		$decryptedData = self::symmetricDecryptFileContent( $encryptedData, $decryptedKey );
+// 		trigger_error( "\$keyfile = ".var_export($keyfile, 1));
+		
+		// Decrypt the catfile symmetrically using the decrypted keyfile
+		$decryptedData = self::symmetricDecryptFileContent( $catfile, $decryptedKey );
 		
 		return $decryptedData;
 		
@@ -684,7 +687,7 @@ class Crypt {
 	 */
 	public static function legacyEncrypt( $content, $passphrase = '' ) {
 	
-		trigger_error("OC2 enc \$content = $content    \$passphrase = ".var_export($passphrase, 1) );
+		//trigger_error("OC2 enc \$content = $content    \$passphrase = ".var_export($passphrase, 1) );
 	
 		$bf = self::getBlowfish( $passphrase );
 		
@@ -708,7 +711,7 @@ class Crypt {
 		
 		$bf = self::getBlowfish( "67362885833455692562" );
 		
-		trigger_error(var_export($bf, 1) );
+// 		trigger_error(var_export($bf, 1) );
 		
 		$decrypted = $bf->decrypt( $content );
 		
