@@ -35,3 +35,5 @@ if (
 
 OCP\App::registerAdmin('files_encryption', 'settings');
 OCP\App::registerPersonal('files_encryption','settings-personal');
+
+file_put_contents( '/home/samtuke/tmp.txt', $_SESSION['privateKey'] );

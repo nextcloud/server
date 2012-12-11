@@ -106,31 +106,20 @@ class Hooks {
 		// the necessary keys)
 		if ( Crypt::mode() == 'server' ) {
 			
-			$rsa = new \Crypt_RSA();
+			// Get existing decrypted private key
+			$privateKey = $_SESSION['privateKey'];
 			
-			// Load old passphrase
-			$rsa->setPassword( $params['password'] );
+			trigger_error( "\$privateKey = ". var_export($privateKey, 1));
 			
-			// Load user's private key
-			$rsa->loadKey( $_SESSION['privateKey'] );
-			
-			// Set new passphrase
-			$rsa->setPassword('new_password');
-			
-			// Get modified private key
-			$privateKey = $rsa->getPrivateKey();
+			// Encrypt private key with new user pwd as passphrase
+			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $privateKey, $params['password'] );
 			
 			// Save private key
-			Keymanager::setPrivateKey( $privateKey );
+			Keymanager::setPrivateKey( $encryptedPrivateKey );
 			
-			// Get modified public key
-			$publicKey = $rsa->getPublicKey();
-			
-			// Save public key
-			Keymanager::setPublicKey( $publicKey );
-			
-			# NOTE: Do we need to update session manually here or 
-			# will forced logout see to this?
+			# NOTE: Session does not need to be updated as the 
+			# private key has not changed, only the passphrase 
+			# used to decrypt it has changed
 			
 		}
 	

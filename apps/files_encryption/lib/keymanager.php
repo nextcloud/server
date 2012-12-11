@@ -192,9 +192,10 @@ class Keymanager {
 	
 	/**
 	 * @brief store private key from the user
-	 *
 	 * @param string key
-	 * @return bool true/false
+	 * @return bool
+	 * @note Encryption of the private key must be performed by client code
+	 * as no encryption takes place here
 	 */
 	public static function setPrivateKey( $key ) {
 		
