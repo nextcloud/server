@@ -406,8 +406,12 @@ class OC_Mount_Config {
 	 * check if smbclient is installed 
 	 */
 	public static function checksmbclient() {
-		$output=shell_exec('which smbclient');
-		return (empty($output)?false:true);
+		if(function_exists('shell_exec')) {
+			$output=shell_exec('which smbclient');
+			return (empty($output)?false:true);
+		}else{
+			return(false);
+		}
 	}
 
 	/**
