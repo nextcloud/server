@@ -99,6 +99,11 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(2 * $textSize + $imageSize, $cachedData['size']);
+
+		Filesystem::mkdir('bar_folder');
+		$this->assertTrue($this->cache->inCache('bar_folder'));
+		Filesystem::rmdir('bar_folder');
+		$this->assertFalse($this->cache->inCache('bar_folder'));
 	}
 
 	public function testRename() {
