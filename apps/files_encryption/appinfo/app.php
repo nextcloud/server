@@ -12,6 +12,7 @@ OC_FileProxy::register(new OCA\Encryption\Proxy());
 
 OCP\Util::connectHook('OC_User','post_login','OCA\Encryption\Hooks','login');
 OCP\Util::connectHook('OC_Webdav_Properties', 'update', 'OCA\Encryption\Hooks', 'updateKeyfile');
+OCP\Util::connectHook('OC_User','post_setPassword','OCA\Encryption\Hooks','setPassphrase');
 
 stream_wrapper_register( 'crypt', 'OCA\Encryption\Stream');
 

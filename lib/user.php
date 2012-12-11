@@ -309,12 +309,11 @@ class OC_User {
 	}
 
 	/**
-	 * @brief Set password
-	 * @param $uid The username
-	 * @param $password The new password
-	 * @returns true/false
-	 *
-	 * Change the password of a user
+	 * @brief Change the password of a user
+	 * @param string $uid The username
+	 * @param string $password The new password
+	 * @returns bool
+	 * @note Emit hooks: pre_setPassword, post_setPassword
 	 */
 	public static function setPassword( $uid, $password ) {
 		$run = true;
@@ -333,8 +332,7 @@ class OC_User {
 			OC_Preferences::deleteApp($uid, 'login_token');
 			OC_Hook::emit( "OC_User", "post_setPassword", array( "uid" => $uid, "password" => $password ));
 			return $success;
-		}
-		else{
+		} else {
 			return false;
 		}
 	}

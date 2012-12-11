@@ -40,6 +40,9 @@
 
  /**
  * @note default root (if $root is empty or '/') is /data/[user]/
+ * @note If you don't include a leading slash, you may encounter problems.
+ * e.g. use $v = new \OC_FilesystemView( '/' . $params['uid'] ); not 
+ * $v = new \OC_FilesystemView( $params['uid'] );
  */
 class OC_FilesystemView {
 	private $fakeRoot='';

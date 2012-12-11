@@ -22,6 +22,12 @@
 
 namespace OCA\Encryption;
 
+// Include PHPSecLib for passphrase manipulation functions
+require_once \OC::$SERVERROOT . '/' . '3rdparty' . '/' . 'phpseclib' . '/' . 'Math' . '/' . 'BigInteger.php';
+require_once \OC::$SERVERROOT . '/' . '3rdparty' . '/' . 'phpseclib' . '/' . 'Crypt' . '/' . 'Hash.php';
+require_once \OC::$SERVERROOT . '/' . '3rdparty' . '/' . 'phpseclib' . '/' . 'Crypt' . '/' . 'Random.php';
+require_once \OC::$SERVERROOT . '/' . '3rdparty' . '/' . 'phpseclib' . '/' . 'Crypt' . '/' . 'RSA.php';
+
 /**
  * Class for hook specific logic
  */
@@ -34,7 +40,6 @@ class Hooks {
 	 * @brief Startup encryption backend upon user login
 	 * @note This method should never be called for users using client side encryption
 	 */
-
 	public static function login( $params ) {
 	
 // 		if ( Crypt::mode( $params['uid'] ) == 'server' ) {
@@ -89,20 +94,74 @@ class Hooks {
 		return true;
 
 	}
-
+	
+	/**
+	 * @brief Change a user's encryption passphrase
+	 * @param array $params keys: uid, password
+	 */
+	public static function setPassphrase( $params ) {
+	
+		// Only attempt to change passphrase if server-side encryption
+		// is in use (client-side encryption does not have access to 
+		// the necessary keys)
+		if ( Crypt::mode() == 'server' ) {
+			
+			$rsa = new \Crypt_RSA();
+			
+			// Load old passphrase
+			$rsa->setPassword( $params['password'] );
+			
+			// Load user's private key
+			$rsa->loadKey( $_SESSION['privateKey'] );
+			
+			// Set new passphrase
+			$rsa->setPassword('new_password');
+			
+			// Get modified private key
+			$privateKey = $rsa->getPrivateKey();
+			
+			// Save private key
+			Keymanager::setPrivateKey( $privateKey );
+			
+			// Get modified public key
+			$publicKey = $rsa->getPublicKey();
+			
+			// Save public key
+			Keymanager::setPublicKey( $publicKey );
+			
+			# NOTE: Do we need to update session manually here or 
+			# will forced logout see to this?
+			
+		}
+	
+	}
 	
 	/**
 	 * @brief update the encryption key of the file uploaded by the client
 	 */
 	public static function updateKeyfile( $params ) {
-		if (Crypt::mode() == 'client')
-			if (isset($params['properties']['key'])) {
-				Keymanager::setFileKey($params['path'], $params['properties']['key']);
+	
+		if ( Crypt::mode() == 'client' ) {
+			
+			if ( isset( $params['properties']['key'] ) ) {
+				
+				Keymanager::setFileKey( $params['path'], $params['properties']['key'] );
+			
 			} else {
-				\OC_Log::write( 'Encryption library', "Client side encryption is enabled but the client doesn't provide a encryption key for the file!", \OC_Log::ERROR );
-				error_log("Client side encryption is enabled but the client doesn't provide a encryption key for the file!");
+				
+				\OC_Log::write( 
+					'Encryption library', "Client side encryption is enabled but the client doesn't provide a encryption key for the file!"
+					, \OC_Log::ERROR 
+				);
+				
+				error_log( "Client side encryption is enabled but the client doesn't provide an encryption key for the file!" );
+				
+			}
+			
 		}
+		
 	}
+	
 }
 
 ?>

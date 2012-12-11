@@ -75,7 +75,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 
 		return $result;
 	}
-	public function file_get_contents($path) {
+	public function file_get_contents($path) {//trigger_error("path (get contents) = ".var_export($path, 1));
 		return file_get_contents($this->datadir.$path);
 	}
 	public function file_put_contents($path,$data) {
@@ -108,7 +108,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 		}
 		return copy($this->datadir.$path1,$this->datadir.$path2);
 	}
-	public function fopen($path,$mode) {
+	public function fopen($path,$mode) {//trigger_error("path (fopen) = ".var_export($path, 1));
 		if($return=fopen($this->datadir.$path,$mode)) {
 			switch($mode) {
 				case 'r':

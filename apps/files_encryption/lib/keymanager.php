@@ -196,12 +196,19 @@ class Keymanager {
 	 * @param string key
 	 * @return bool true/false
 	 */
-	public static function setPrivateKey($key) {
+	public static function setPrivateKey( $key ) {
 		
 		$user = \OCP\User::getUser();
-		$view = new \OC_FilesystemView('/'.$user.'/files_encryption');
-		if (!$view->file_exists('')) $view->mkdir('');
-		return $view->file_put_contents($user.'.private.key', $key);
+		
+		$view = new \OC_FilesystemView( '/' . $user . '/files_encryption' );
+		
+		\OC_FileProxy::$enabled = false;
+		
+		if ( !$view->file_exists( '' ) ) $view->mkdir( '' );
+		
+		return $view->file_put_contents( $user . '.private.key', $key );
+		
+		\OC_FileProxy::$enabled = true;
 		
 	}
 	
@@ -224,11 +231,17 @@ class Keymanager {
 	 * @param string key
 	 * @return bool true/false
 	 */
-	public static function setPublicKey($key) {
+	public static function setPublicKey( $key ) {
 		
-		$view = new \OC_FilesystemView('/public-keys');
-		if (!$view->file_exists('')) $view->mkdir('');
-		return $view->file_put_contents(\OCP\User::getUser().'.public.key', $key);
+		$view = new \OC_FilesystemView( '/public-keys' );
+		
+		\OC_FileProxy::$enabled = false;
+		
+		if ( !$view->file_exists( '' ) ) $view->mkdir( '' );
+		
+		return $view->file_put_contents( \OCP\User::getUser() . '.public.key', $key );
+		
+		\OC_FileProxy::$enabled = true;
 		
 	}
 	
