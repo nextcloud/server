@@ -86,8 +86,9 @@ class OC_User {
 	 */
 	public static function useBackend( $backend = 'database' ) {
 		if($backend instanceof OC_User_Interface) {
+			OC_Log::write('core', 'Adding user backend instance of '.get_class($backend).'.', OC_Log::DEBUG);
 			self::$_usedBackends[get_class($backend)]=$backend;
-		}else{
+		} else {
 			// You'll never know what happens
 			if( null === $backend OR !is_string( $backend )) {
 				$backend = 'database';
@@ -98,15 +99,17 @@ class OC_User {
 				case 'database':
 				case 'mysql':
 				case 'sqlite':
+					OC_Log::write('core', 'Adding user backend '.$backend.'.', OC_Log::DEBUG);
 					self::$_usedBackends[$backend] = new OC_User_Database();
 					break;
 				default:
+					OC_Log::write('core', 'Adding default user backend '.$backend.'.', OC_Log::DEBUG);
 					$className = 'OC_USER_' . strToUpper($backend);
 					self::$_usedBackends[$backend] = new $className();
 					break;
 			}
 		}
-		true;
+		return true;
 	}
 
 	/**
@@ -124,15 +127,19 @@ class OC_User {
 		foreach($backends as $i=>$config) {
 			$class=$config['class'];
 			$arguments=$config['arguments'];
-			if(class_exists($class) and array_search($i, self::$_setupedBackends)===false) {
-				// make a reflection object
-				$reflectionObj = new ReflectionClass($class);
+			if(class_exists($class)) {
+				if(array_search($i, self::$_setupedBackends)===false) {
+					// make a reflection object
+					$reflectionObj = new ReflectionClass($class);
 
-				// use Reflection to create a new instance, using the $args
-				$backend = $reflectionObj->newInstanceArgs($arguments);
-				self::useBackend($backend);
-				$_setupedBackends[]=$i;
-			}else{
+					// use Reflection to create a new instance, using the $args
+					$backend = $reflectionObj->newInstanceArgs($arguments);
+					self::useBackend($backend);
+					$_setupedBackends[]=$i;
+				} else {
+					OC_Log::write('core', 'User backend '.$class.' already initialized.', OC_Log::DEBUG);
+				}
+			} else {
 				OC_Log::write('core', 'User backend '.$class.' not found.', OC_Log::ERROR);
 			}
 		}
