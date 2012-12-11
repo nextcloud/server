@@ -21,10 +21,6 @@ require_once realpath( dirname(__FILE__).'/../appinfo/app.php' );
 
 use OCA\Encryption;
 
-// This has to go here because otherwise session errors arise, and the private 
-// encryption key needs to be saved in the session
-\OC_User::login( 'admin', 'admin' );
-
 class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
 	function setUp() {
@@ -45,6 +41,8 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		$this->userId = 'admin';
 		$this->pass = 'admin';
+		
+		\OC_User::setUserId( $this->userId );
 	
 	}
 	
@@ -436,7 +434,6 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
 	}
 	
-	// What is the point of this test? It doesn't use keyEncryptKeyfile()
 	function testKeyEncryptKeyfile() {
 	
 		# TODO: Don't repeat encryption from previous tests, use PHPUnit test interdependency instead
@@ -459,22 +456,6 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( $this->dataUrl, $decryptData );
 	
 	}
-	
-	/**
-	 * @brief test functionality of keyEncryptKeyfile() and 
-	 * keyDecryptKeyfile()
-	 */
-	function testKeyDecryptKeyfile() {
-		
-		$encrypted = Encryption\Crypt::keyEncryptKeyfile( $this->dataShort, $this->genPublicKey );
-		
-		$this->assertNotEquals( $encrypted['data'], $this->dataShort );
-		
-		$decrypted = Encryption\Crypt::keyDecryptKeyfile( $encrypted['data'], $encrypted['key'], $this->genPrivateKey );
-		
-		$this->assertEquals( $decrypted, $this->dataShort );
-		
-	}
 
 	
 	/**
@@ -493,17 +474,17 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 	}
 	
-// 	/**
-// 	 * @brief test decryption using legacy blowfish method
-// 	 * @depends testLegacyEncryptShort
-// 	 */
-// 	function testLegacyDecryptShort( $crypted ) {
-// 	
-// 		$decrypted = Encryption\Crypt::legacyDecrypt( $crypted, $this->pass );
-// 		
-// 		$this->assertEquals( $this->dataShort, $decrypted );
-// 		
-// 	}
+	/**
+	 * @brief test decryption using legacy blowfish method
+	 * @depends testLegacyEncryptShort
+	 */
+	function testLegacyDecryptShort( $crypted ) {
+	
+		$decrypted = Encryption\Crypt::legacyDecrypt( $crypted, $this->pass );
+		
+		$this->assertEquals( $this->dataShort, $decrypted );
+		
+	}
 
 	/**
 	 * @brief test encryption using legacy blowfish method
@@ -521,17 +502,17 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 	}
 	
-// 	/**
-// 	 * @brief test decryption using legacy blowfish method
-// 	 * @depends testLegacyEncryptLong
-// 	 */
-// 	function testLegacyDecryptLong( $crypted ) {
-// 	
-// 		$decrypted = Encryption\Crypt::legacyDecrypt( $crypted, $this->pass );
-// 		
-// 		$this->assertEquals( $this->dataLong, $decrypted );
-// 		
-// 	}
+	/**
+	 * @brief test decryption using legacy blowfish method
+	 * @depends testLegacyEncryptLong
+	 */
+	function testLegacyDecryptLong( $crypted ) {
+	
+		$decrypted = Encryption\Crypt::legacyDecrypt( $crypted, $this->pass );
+		
+		$this->assertEquals( $this->dataLong, $decrypted );
+		
+	}
 	
 	/**
 	 * @brief test generation of legacy encryption key

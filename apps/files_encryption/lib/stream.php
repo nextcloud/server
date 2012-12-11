@@ -59,9 +59,7 @@ class Stream {
 	private $count;
 	private $writeCache;
 	public $size;
-	private $publicKey;
 	private $keyfile;
-	private $encKeyfile;
 	private static $view;
 
 	public function stream_open( $path, $mode, $options, &$opened_path ) {
@@ -248,7 +246,7 @@ class Stream {
 	 * @param bool $generate if true, a new key will be generated if none can be found
 	 * @return bool true on key found and set, false on key not found and new key generated and set
 	 */
-	public function getKey() {
+	public function getKey( $generate = true ) {
 		
 		//echo "\n\$this->rawPath = {$this->rawPath}";
 		
@@ -258,36 +256,22 @@ class Stream {
 			# TODO: add error handling for when file exists but no keyfile
 			
 			// Fetch existing keyfile
-			$this->encKeyfile = Keymanager::getFileKey( $this->rawPath );
-			
-			$this->getUser();
-			
-			$session = new Session();
-			
-			$this->keyfile = Crypt::keyDecrypt( $this->encKeyfile, $session->getPrivateKey( $this->userId ) );
+			$this->keyfile = Keymanager::getFileKey( $this->rawPath );
 			
 			return true;
 			
 		} else {
 		
-			return false;
-		
+			if ( $generate ) {
+				
+				// If the data is to be written to a new file, generate a new keyfile
+				$this->keyfile = Crypt::generateKey();
+				
+				return false;
+				
+			}
+			
 		}
-		
-	}
-	
-	public function getuser() {
-	
-		// Only get the user again if it isn't already set
-		if ( empty( $this->userId ) ) {
-	
-			# TODO: Move this user call out of here - it belongs elsewhere
-			$this->userId = \OCP\User::getUser();
-		
-		}
-		
-		# TODO: Add a method for getting the user in case OCP\User::
-		# getUser() doesn't work (can that scenario ever occur?)
 		
 	}
 	
@@ -322,23 +306,15 @@ class Stream {
 		
 		//echo "\$pointer = $pointer\n";
 		
-		// Make sure the userId is set
-		$this->getuser();
+		# TODO: Move this user call out of here - it belongs elsewhere
+		$user = \OCP\User::getUser();
 		
 		// Get / generate the keyfile for the file we're handling
 		// If we're writing a new file (not overwriting an existing one), save the newly generated keyfile
 		if ( ! $this->getKey() ) {
-		
-			$this->keyfile = Crypt::generateKey();
 			
-			$this->publicKey = Keymanager::getPublicKey( $this->userId );
-			
-			$this->encKeyfile = Crypt::keyEncrypt( $this->keyfile, $this->publicKey );
-			
-			// Save the new encrypted file key
-			Keymanager::setFileKey( $this->rawPath, $this->encKeyfile, new \OC_FilesystemView( '/' ) );
-			
-			# TODO: move this new OCFSV out of here some how, use DI
+			// Save keyfile in parallel directory structure
+			Keymanager::setFileKey( $this->rawPath, $this->keyfile, new \OC_FilesystemView( '/' ) );
 			
 		}
 

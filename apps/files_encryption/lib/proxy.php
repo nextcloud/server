@@ -131,10 +131,6 @@ class Proxy extends \OC_FileProxy {
 		
 	}
 	
-	/**
-	 * @param string $path Path of file from which has been read
-	 * @param string $data Data that has been read from file
-	 */
 	public function postFile_get_contents( $path, $data ) {
 	
 		# TODO: Use dependency injection to add required args for view and user etc. to this method
@@ -142,27 +138,24 @@ class Proxy extends \OC_FileProxy {
 		// Disable encryption proxy to prevent recursive calls
 		\OC_FileProxy::$enabled = false;
 		
-		// If data is a catfile
 		if ( 
 		Crypt::mode() == 'server' 
 		&& Crypt::isEncryptedContent( $data ) 
 		) {
-// 			trigger_error("bong");
+			//trigger_error("bong");
 			
-			$split = explode( '/', $path );
+			$filePath = explode( '/', $path );
 			
-			$filePath = array_slice( $split, 3 );
+			$filePath = array_slice( $filePath, 3 );
 			
 			$filePath = '/' . implode( '/', $filePath );
 			
 			//$cached = \OC_FileCache_Cached::get( $path, '' );
 			
 			$keyFile = Keymanager::getFileKey( $filePath );
-
-			$session = new Session();
 			
-			$decrypted = Crypt::keyDecryptKeyfile( $data, $keyFile, $session->getPrivateKey( $split[1] ) );
-			
+			$data = Crypt::keyDecryptKeyfile( $data, $keyFile, $_SESSION['enckey'] );
+		
 		} elseif (
 		Crypt::mode() == 'server' 
 		&& isset( $_SESSION['legacyenckey'] )
@@ -170,20 +163,14 @@ class Proxy extends \OC_FileProxy {
 		) {
 			trigger_error("mong");
 			
-			$decrypted = Crypt::legacyDecrypt( $data, $_SESSION['legacyenckey'] );
+			$data = Crypt::legacyDecrypt( $data, $_SESSION['legacyenckey'] );
 			//trigger_error($data);
 			
 		}
 		
 		\OC_FileProxy::$enabled = true;
 		
-		if ( ! isset( $decrypted ) ) {
-		
-			$decrypted = $data;
-			
-		}
-		
-		return $decrypted;
+		return $data;
 		
 	}
 	

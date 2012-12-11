@@ -45,17 +45,10 @@ class Test_Util extends \PHPUnit_Framework_TestCase {
 		
 		$this->data1 = file_get_contents( realpath( dirname(__FILE__).'/../../../data/admin/files/enc-test.txt' ) );
 		
-		\OC_FileProxy::$enabled = false;
-		$this->Encdata1 = file_get_contents( realpath( dirname(__FILE__).'/../../../data/admin/files/enc-test.txt' ) );
-		\OC_FileProxy::$enabled = true;
-		
 		$this->userId = 'admin';
 		$this->pass = 'admin';
 		
-		$this->session = new Encryption\Session();
-		
-$this->session->setPrivateKey( 
-'-----BEGIN PRIVATE KEY-----
+$_SESSION['enckey'] = '-----BEGIN PRIVATE KEY-----
 MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDiH3EA4EpFA7Fx
 s2dyyfL5jwXeYXrTqQJ6DqKgGn8VsbT3eu8R9KzM2XitVwZe8c8L52DvJ06o5vg0
 GqPYxilFdOFJe/ggac5Tq8UmJiZS4EqYEMwxBIfIyWTxeGV06/0HOwnVAkqHMcBz
@@ -83,9 +76,7 @@ k1kbgyS7KKB7opVxI5+ChEqyUDijS3Y9FZixrRIWE6i2uGu86UG+v2lbKvSbM4Qm
 xvbOcX9OVMnlRb7n8woOP10UMY+ZE2x+YEUXQTLtPYq7F66e1OfxltstMxLQA+3d
 Y1d5piFV8PXK3Fg2F+Cj5qg=
 -----END PRIVATE KEY-----
-'
-, $this->userId 
-);
+';
 		
 		\OC_User::setUserId( $this->userId );
 		
@@ -122,11 +113,11 @@ Y1d5piFV8PXK3Fg2F+Cj5qg=
 // 
 // 		$this->oldConfig=OCP\Config::getAppValue('files_encryption','enable_encryption','true');
 // 		OCP\Config::setAppValue('files_encryption','enable_encryption','true');
-// 		$this->oldKey=isset($_SESSION['privateKey'])?$_SESSION['privateKey']:null;
+// 		$this->oldKey=isset($_SESSION['enckey'])?$_SESSION['enckey']:null;
 // 	
 // 		
 // 		//set testing key
-// 		$_SESSION['privateKey']=md5(time());
+// 		$_SESSION['enckey']=md5(time());
 // 	
 // 		//clear all proxies and hooks so we can do clean testing
 // 		OC_FileProxy::clearProxies();
@@ -150,7 +141,7 @@ Y1d5piFV8PXK3Fg2F+Cj5qg=
 // 	public function tearDown(){
 // 		OCP\Config::setAppValue('files_encryption','enable_encryption',$this->oldConfig);
 // 		if(!is_null($this->oldKey)){
-// 			$_SESSION['privateKey']=$this->oldKey;
+// 			$_SESSION['enckey']=$this->oldKey;
 // 		}
 // 	}
 // 
