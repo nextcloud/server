@@ -92,6 +92,9 @@ class View extends \PHPUnit_Framework_TestCase {
 		$cachedData = $rootView->getFileInfo('/foo.txt');
 		$this->assertTrue($cachedData['encrypted']);
 		$this->assertEquals($cachedData['fileid'], $id);
+
+		$this->assertFalse($rootView->getFileInfo('/non/existing'));
+		$this->assertEquals(array(), $rootView->getDirectoryContent('/non/existing'));
 	}
 
 	public function testAutoScan() {

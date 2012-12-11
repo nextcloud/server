@@ -691,20 +691,22 @@ class View {
 
 			$data = $cache->get($internalPath);
 
-			if ($data['mimetype'] === 'httpd/unix-directory') {
-				//add the sizes of other mountpoints to the folder
-				$mountPoints = Filesystem::getMountPoints($path);
-				foreach ($mountPoints as $mountPoint) {
-					$subStorage = Filesystem::getStorage($mountPoint);
-					$subCache = $subStorage->getCache();
-					$rootEntry = $subCache->get('');
+			if ($data) {
+				if ($data['mimetype'] === 'httpd/unix-directory') {
+					//add the sizes of other mountpoints to the folder
+					$mountPoints = Filesystem::getMountPoints($path);
+					foreach ($mountPoints as $mountPoint) {
+						$subStorage = Filesystem::getStorage($mountPoint);
+						$subCache = $subStorage->getCache();
+						$rootEntry = $subCache->get('');
 
-					$data['size'] += $rootEntry['size'];
+						$data['size'] += $rootEntry['size'];
+					}
 				}
-			}
 
-			$permissionsCache = $storage->getPermissionsCache();
-			$data['permissions'] = $permissionsCache->get($data['fileid'], \OC_User::getUser());
+				$permissionsCache = $storage->getPermissionsCache();
+				$data['permissions'] = $permissionsCache->get($data['fileid'], \OC_User::getUser());
+			}
 		}
 		return $data;
 	}
@@ -888,7 +890,7 @@ class View {
 	 * @param string $path
 	 * @return string
 	 */
-	public function getETag($path){
+	public function getETag($path) {
 		/**
 		 * @var Storage\Storage $storage
 		 * @var string $internalPath

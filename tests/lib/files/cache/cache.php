@@ -192,6 +192,11 @@ class Cache extends \UnitTestCase {
 		$this->assertEquals($file3, $this->cache->getIncomplete());
 	}
 
+	function testNonExisting() {
+		$this->assertFalse($this->cache->get('foo.txt'));
+		$this->assertEquals(array(), $this->cache->getFolderContents('foo'));
+	}
+
 	public function tearDown() {
 		$this->cache->clear();
 	}
