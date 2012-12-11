@@ -302,10 +302,6 @@ class Stream {
 	 */
 	public function stream_write( $data ) {
 		
-		
-		
-// 		file_put_contents('/home/samtuke/newtmp.txt', 'stream_write('.$data.')' );
-		
 		// Disable the file proxies so that encryption is not automatically attempted when the file is written to disk - we are handling that separately here and we don't want to get into an infinite loop
 		\OC_FileProxy::$enabled = false;
 		

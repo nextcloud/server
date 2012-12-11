@@ -45,7 +45,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		$this->userId = 'admin';
 		$this->pass = 'admin';
-	
+		
 	}
 	
 	function tearDown(){}
@@ -63,8 +63,6 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	function testGenerateIv() {
 		
 		$iv = Encryption\Crypt::generateIv();
-		
-		echo $iv;
 		
 		$this->assertEquals( 16, strlen( $iv ) );
 		
@@ -223,84 +221,106 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		// Get file contents without using any wrapper to get it's actual contents on disk
 		$retreivedCryptedFile = $this->view->file_get_contents( $this->userId . '/files/' . $filename );
 		
-		//echo "\n\n\$retreivedCryptedFile = $retreivedCryptedFile";
 		
 		// Check that the file was encrypted before being written to disk
 		$this->assertNotEquals( $this->dataShort, $retreivedCryptedFile );
 		
+		// Get private key
+		$encryptedPrivateKey = Encryption\Keymanager::getPrivateKey( $this->userId, $this->view );
 		
-		$key = Encryption\Keymanager::getFileKey( $filename );
+		$decryptedPrivateKey = Encryption\Crypt::symmetricDecryptFileContent( $encryptedPrivateKey, $this->pass );
 		
-		$manualDecrypt = Encryption\Crypt::symmetricBlockDecryptFileContent( $retreivedCryptedFile, $key );
 		
+		// Get keyfile
+		$encryptedKeyfile = Encryption\Keymanager::getFileKey( $filename );
+		
+		$decryptedKeyfile = Encryption\Crypt::keyDecrypt( $encryptedKeyfile, $decryptedPrivateKey );
+		
+		
+		// Manually decrypt
+		$manualDecrypt = Encryption\Crypt::symmetricBlockDecryptFileContent( $retreivedCryptedFile, $decryptedKeyfile );
+		
+		// Check that decrypted data matches
 		$this->assertEquals( $this->dataShort, $manualDecrypt );
 		
 	}
 	
-// 	/**
-// 	 * @brief Test that data that is written by the crypto stream wrapper
-// 	 * @note Encrypted data is manually prepared and decrypted here to avoid dependency on success of stream_read
-// 	 */
-// 	function testSymmetricStreamEncryptLongFileContent() {
-// 		
-// 		// Generate a a random filename
-// 		$filename = 'tmp-'.time();
-// 		
-// 		echo "\n\n\$filename = $filename\n\n";
-// 		
-// 		// Save long data as encrypted file using stream wrapper
-// 		$cryptedFile = file_put_contents( 'crypt://' . $filename, $this->dataLong.$this->dataLong );
-// 		
-// 		// Test that data was successfully written
-// 		$this->assertTrue( is_int( $cryptedFile ) );
-// 		
-// 		// Get file contents without using any wrapper to get it's actual contents on disk
-// 		$retreivedCryptedFile = $this->view->file_get_contents( $this->userId . '/files/' . $filename );
-// 		
-// // 		echo "\n\n\$retreivedCryptedFile = $retreivedCryptedFile\n\n";
-// 		
-// 		// Check that the file was encrypted before being written to disk
-// 		$this->assertNotEquals( $this->dataLong.$this->dataLong, $retreivedCryptedFile );
-// 		
-// 		// Manuallly split saved file into separate IVs and encrypted chunks
-// 		$r = preg_split('/(00iv00.{16,18})/', $retreivedCryptedFile, NULL, PREG_SPLIT_DELIM_CAPTURE);
-// 		
-// 		//print_r($r);
-// 		
-// 		// Join IVs and their respective data chunks
-// 		$e = array( $r[0].$r[1], $r[2].$r[3], $r[4].$r[5], $r[6].$r[7], $r[8].$r[9], $r[10].$r[11] );//.$r[11], $r[12].$r[13], $r[14] );
-// 		
-// 		//print_r($e);
-// 		
-// 		// Manually fetch keyfile
-// 		$keyfile = Encryption\Keymanager::getFileKey( $filename );
-// 		
-// 		// Set var for reassembling decrypted content
-// 		$decrypt = '';
-// 		
-// 		// Manually decrypt chunk
-// 		foreach ($e as $e) {
-// 		
-// // 			echo "\n\$encryptMe = $f";
-// 			
-// 			$chunkDecrypt = Encryption\Crypt::symmetricDecryptFileContent( $e, $keyfile );
-// 			
-// 			// Assemble decrypted chunks
-// 			$decrypt .= $chunkDecrypt;
-// 			
-// 			//echo "\n\$chunkDecrypt = $chunkDecrypt";
-// 			
-// 		}
-// 		
-// 		$this->assertEquals( $this->dataLong.$this->dataLong, $decrypt );
-// 		
-// 		// Teardown
-// 		
-// 		$this->view->unlink( $filename );
-// 		
-// 		Encryption\Keymanager::deleteFileKey( $filename );
-// 		
-// 	}
+	/**
+	 * @brief Test that data that is written by the crypto stream wrapper
+	 * @note Encrypted data is manually prepared and decrypted here to avoid dependency on success of stream_read
+	 * @note If this test fails with truncate content, check that enough array slices are being rejoined to form $e, as the crypt.php file may have gotten longer and broken the manual 
+	 * reassembly of its data
+	 */
+	function testSymmetricStreamEncryptLongFileContent() {
+		
+		// Generate a a random filename
+		$filename = 'tmp-'.time();
+		
+		// Save long data as encrypted file using stream wrapper
+		$cryptedFile = file_put_contents( 'crypt://' . $filename, $this->dataLong.$this->dataLong );
+		
+		// Test that data was successfully written
+		$this->assertTrue( is_int( $cryptedFile ) );
+		
+		// Get file contents without using any wrapper to get it's actual contents on disk
+		$retreivedCryptedFile = $this->view->file_get_contents( $this->userId . '/files/' . $filename );
+		
+// 		echo "\n\n\$retreivedCryptedFile = $retreivedCryptedFile\n\n";
+		
+		// Check that the file was encrypted before being written to disk
+		$this->assertNotEquals( $this->dataLong.$this->dataLong, $retreivedCryptedFile );
+		
+		// Manuallly split saved file into separate IVs and encrypted chunks
+		$r = preg_split('/(00iv00.{16,18})/', $retreivedCryptedFile, NULL, PREG_SPLIT_DELIM_CAPTURE);
+		
+		//print_r($r);
+		
+		// Join IVs and their respective data chunks
+		$e = array( $r[0].$r[1], $r[2].$r[3], $r[4].$r[5], $r[6].$r[7], $r[8].$r[9], $r[10].$r[11], $r[12].$r[13] );//.$r[11], $r[12].$r[13], $r[14] );
+		
+		//print_r($e);
+		
+		
+		// Get private key
+		$encryptedPrivateKey = Encryption\Keymanager::getPrivateKey( $this->userId, $this->view );
+		
+		$decryptedPrivateKey = Encryption\Crypt::symmetricDecryptFileContent( $encryptedPrivateKey, $this->pass );
+		
+		
+		// Get keyfile
+		$encryptedKeyfile = Encryption\Keymanager::getFileKey( $filename );
+		
+		$decryptedKeyfile = Encryption\Crypt::keyDecrypt( $encryptedKeyfile, $decryptedPrivateKey );
+		
+		
+		// Set var for reassembling decrypted content
+		$decrypt = '';
+		
+		// Manually decrypt chunk
+		foreach ($e as $e) {
+		
+// 			echo "\n\$e = $e";
+			
+			$chunkDecrypt = Encryption\Crypt::symmetricDecryptFileContent( $e, $decryptedKeyfile );
+			
+			// Assemble decrypted chunks
+			$decrypt .= $chunkDecrypt;
+			
+// 			echo "\n\$chunkDecrypt = $chunkDecrypt";
+			
+		}
+		
+// 		echo "\n\$decrypt = $decrypt";
+		
+		$this->assertEquals( $this->dataLong.$this->dataLong, $decrypt );
+		
+		// Teardown
+		
+		$this->view->unlink( $filename );
+		
+		Encryption\Keymanager::deleteFileKey( $filename );
+		
+	}
 	
 	/**
 	 * @brief Test that data that is read by the crypto stream wrapper
@@ -493,17 +513,17 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 	}
 	
-// 	/**
-// 	 * @brief test decryption using legacy blowfish method
-// 	 * @depends testLegacyEncryptShort
-// 	 */
-// 	function testLegacyDecryptShort( $crypted ) {
-// 	
-// 		$decrypted = Encryption\Crypt::legacyDecrypt( $crypted, $this->pass );
-// 		
-// 		$this->assertEquals( $this->dataShort, $decrypted );
-// 		
-// 	}
+	/**
+	 * @brief test decryption using legacy blowfish method
+	 * @depends testLegacyEncryptShort
+	 */
+	function testLegacyDecryptShort( $crypted ) {
+	
+		$decrypted = Encryption\Crypt::legacyDecrypt( $crypted, $this->pass );
+		
+		$this->assertEquals( $this->dataShort, $decrypted );
+		
+	}
 
 	/**
 	 * @brief test encryption using legacy blowfish method
@@ -521,17 +541,17 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 	}
 	
-// 	/**
-// 	 * @brief test decryption using legacy blowfish method
-// 	 * @depends testLegacyEncryptLong
-// 	 */
-// 	function testLegacyDecryptLong( $crypted ) {
-// 	
-// 		$decrypted = Encryption\Crypt::legacyDecrypt( $crypted, $this->pass );
-// 		
-// 		$this->assertEquals( $this->dataLong, $decrypted );
-// 		
-// 	}
+	/**
+	 * @brief test decryption using legacy blowfish method
+	 * @depends testLegacyEncryptLong
+	 */
+	function testLegacyDecryptLong( $crypted ) {
+	
+		$decrypted = Encryption\Crypt::legacyDecrypt( $crypted, $this->pass );
+		
+		$this->assertEquals( $this->dataLong, $decrypted );
+		
+	}
 	
 	/**
 	 * @brief test generation of legacy encryption key

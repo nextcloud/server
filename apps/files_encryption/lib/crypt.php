@@ -342,15 +342,10 @@ class Crypt {
 		// Remove padding
 		$noPadding = self::removePadding( $keyfileContent );
 		
-		// Fetch IV from end of file
-		$iv = substr( $noPadding, -16 );
+		// Split into enc data and catfile
+		$catfile = self::splitIv( $noPadding );
 		
-		// Remove IV and IV identifier text to expose encrypted content
-		$encryptedContent = substr( $noPadding, 0, -22 );
-		
-		//trigger_error( "\n\n\$noPadding = ".var_export($noPadding)."\n\n\$iv = ".var_export($iv )."\n\n\$encryptedContent = ".var_export($encryptedContent) );
-		
-		if ( $plainContent = self::decrypt( $encryptedContent, $iv, $passphrase ) ) {
+		if ( $plainContent = self::decrypt( $catfile['encrypted'], $catfile['iv'], $passphrase ) ) {
 		
 			return $plainContent;
 			
@@ -493,12 +488,12 @@ class Crypt {
 	public static function keyDecryptKeyfile( $catfile, $keyfile, $privateKey ) {
 		
 		// Decrypt the keyfile with the user's private key
-		$decryptedKey = self::keyDecrypt( $keyfile, $privateKey );
+		$decryptedKeyfile = self::keyDecrypt( $keyfile, $privateKey );
 		
 // 		trigger_error( "\$keyfile = ".var_export($keyfile, 1));
 		
 		// Decrypt the catfile symmetrically using the decrypted keyfile
-		$decryptedData = self::symmetricDecryptFileContent( $catfile, $decryptedKey );
+		$decryptedData = self::symmetricDecryptFileContent( $catfile, $decryptedKeyfile );
 		
 		return $decryptedData;
 		
@@ -704,12 +699,10 @@ class Crypt {
 	* This function decrypts an content
 	*/
 	public static function legacyDecrypt( $content, $passphrase = '' ) {
-	
-		$passphrase = '';
 		
 		//trigger_error("OC2 dec \$content = $content    \$key = ".strlen($passphrase) );
 		
-		$bf = self::getBlowfish( "67362885833455692562" );
+		$bf = self::getBlowfish( $passphrase );
 		
 // 		trigger_error(var_export($bf, 1) );
 		

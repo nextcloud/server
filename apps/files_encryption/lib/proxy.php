@@ -157,11 +157,11 @@ class Proxy extends \OC_FileProxy {
 			
 			//$cached = \OC_FileCache_Cached::get( $path, '' );
 			
-			$keyFile = Keymanager::getFileKey( $filePath );
+			$encryptedKeyfile = Keymanager::getFileKey( $filePath );
 
 			$session = new Session();
 			
-			$decrypted = Crypt::keyDecryptKeyfile( $data, $keyFile, $session->getPrivateKey( $split[1] ) );
+			$decrypted = Crypt::keyDecryptKeyfile( $data, $encryptedKeyfile, $session->getPrivateKey( $split[1] ) );
 			
 		} elseif (
 		Crypt::mode() == 'server' 

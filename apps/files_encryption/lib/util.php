@@ -71,10 +71,18 @@ class Util {
 	
 	# Admin UI:
 	
+	## DONE: changing user password also changes encryption passphrase
+	
 	## TODO: add support for optional recovery in case of lost passphrase / keys
 	## TODO: add admin optional required long passphrase for users
 	## TODO: add UI buttons for encrypt / decrypt everything
 	## TODO: implement flag system to allow user to specify encryption by folder, subfolder, etc.
+	
+	
+	# Sharing:
+	
+	## TODO: add support for encrypting to multiple public keys
+	## TODO: add support for decrypting to multiple private keys
 	
 	
 	# Integration testing:
