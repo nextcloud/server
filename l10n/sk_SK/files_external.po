@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 23:37+0200\n"
-"PO-Revision-Date: 2012-10-16 18:49+0000\n"
-"Last-Translator: martinb <martin.babik@gmail.com>\n"
+"POT-Creation-Date: 2012-12-12 00:12+0100\n"
+"PO-Revision-Date: 2012-12-11 23:13+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,66 +43,80 @@ msgstr "Zadajte platný kľúč aplikácie a heslo Dropbox"
 msgid "Error configuring Google Drive storage"
 msgstr "Chyba pri konfigurácii úložiska Google drive"
 
+#: lib/config.php:434
+msgid ""
+"<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
+"is not possible. Please ask your system administrator to install it."
+msgstr ""
+
+#: lib/config.php:435
+msgid ""
+"<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
+" of FTP shares is not possible. Please ask your system administrator to "
+"install it."
+msgstr ""
+
 #: templates/settings.php:3
 msgid "External Storage"
 msgstr "Externé úložisko"
 
-#: templates/settings.php:7 templates/settings.php:19
+#: templates/settings.php:8 templates/settings.php:22
 msgid "Mount point"
 msgstr "Prípojný bod"
 
-#: templates/settings.php:8
+#: templates/settings.php:9
 msgid "Backend"
 msgstr "Backend"
 
-#: templates/settings.php:9
+#: templates/settings.php:10
 msgid "Configuration"
 msgstr "Nastavenia"
 
-#: templates/settings.php:10
+#: templates/settings.php:11
 msgid "Options"
 msgstr "Možnosti"
 
-#: templates/settings.php:11
+#: templates/settings.php:12
 msgid "Applicable"
 msgstr "Aplikovateľné"
 
-#: templates/settings.php:23
+#: templates/settings.php:27
 msgid "Add mount point"
 msgstr "Pridať prípojný bod"
 
-#: templates/settings.php:54 templates/settings.php:62
+#: templates/settings.php:85
 msgid "None set"
 msgstr "Žiadne nastavené"
 
-#: templates/settings.php:63
+#: templates/settings.php:86
 msgid "All Users"
 msgstr "Všetci užívatelia"
 
-#: templates/settings.php:64
+#: templates/settings.php:87
 msgid "Groups"
 msgstr "Skupiny"
 
-#: templates/settings.php:69
+#: templates/settings.php:95
 msgid "Users"
 msgstr "Užívatelia"
 
-#: templates/settings.php:77 templates/settings.php:107
+#: templates/settings.php:108 templates/settings.php:109
+#: templates/settings.php:149 templates/settings.php:150
 msgid "Delete"
 msgstr "Odstrániť"
 
-#: templates/settings.php:87
+#: templates/settings.php:124
 msgid "Enable User External Storage"
 msgstr "Povoliť externé úložisko"
 
-#: templates/settings.php:88
+#: templates/settings.php:125
 msgid "Allow users to mount their own external storage"
 msgstr "Povoliť užívateľom pripojiť ich vlastné externé úložisko"
 
-#: templates/settings.php:99
+#: templates/settings.php:139
 msgid "SSL root certificates"
 msgstr "Koreňové SSL certifikáty"
 
-#: templates/settings.php:113
+#: templates/settings.php:158
 msgid "Import Root Certificate"
 msgstr "Importovať koreňový certifikát"
