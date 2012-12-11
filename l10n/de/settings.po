@@ -117,7 +117,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "Ihr Datenverzeichnis ist möglicher Weise aus dem Internet erreichbar. Die .htaccess-Datei von ownCloud funktioniert nicht. Wir raten Ihnen dringend, dass Sie Ihren Webserver dahingehend konfigurieren, dass Ihr Datenverzeichnis nicht länger aus dem Internet erreichbar ist, oder Sie verschieben das Datenverzeichnis außerhalb des Wurzelverzeichnisses des Webservers."
+msgstr "Dein Datenverzeichnis ist möglicherweise aus dem Internet erreichbar. Die .htaccess-Datei von ownCloud funktioniert nicht. Wir raten Dir dringend, dass Du Deinen Webserver dahingehend konfigurierst, dass Dein Datenverzeichnis nicht länger aus dem Internet erreichbar ist, oder Du verschiebst das Datenverzeichnis außerhalb des Wurzelverzeichnisses des Webservers."
 
 #: templates/admin.php:31
 msgid "Cron"
@@ -157,7 +157,7 @@ msgstr "Links erlauben"
 
 #: templates/admin.php:68
 msgid "Allow users to share items to the public with links"
-msgstr "Erlaube Nutzern, Dateien mithilfe von Links öffentlich zu teilen"
+msgstr "Erlaube Benutzern, Dateien mithilfe von Links öffentlich zu teilen"
 
 #: templates/admin.php:73
 msgid "Allow resharing"
@@ -165,15 +165,15 @@ msgstr "Erneutes Teilen erlauben"
 
 #: templates/admin.php:74
 msgid "Allow users to share items shared with them again"
-msgstr "Erlaubt Nutzern, Dateien die mit ihnen geteilt wurden, erneut zu teilen"
+msgstr "Erlaubt Benutzern, Dateien die mit ihnen geteilt wurden, erneut zu teilen"
 
 #: templates/admin.php:79
 msgid "Allow users to share with anyone"
-msgstr "Erlaube Nutzern, mit jedem zu teilen"
+msgstr "Erlaube Benutzern, mit jedem zu teilen"
 
 #: templates/admin.php:81
 msgid "Allow users to only share with users in their groups"
-msgstr "Erlaube Nutzern das Teilen innerhalb ihrer Gruppe"
+msgstr "Erlaube Benutzern das Teilen innerhalb ihrer Gruppe"
 
 #: templates/admin.php:88
 msgid "Log"
@@ -199,7 +199,7 @@ msgstr "Füge Deine Anwendung hinzu"
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr ""
+msgstr "Weitere Apps"
 
 #: templates/apps.php:27
 msgid "Select an App"
@@ -296,7 +296,7 @@ msgstr "Hilf bei der Übersetzung"
 
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "Benutzen Sie diese Adresse, um Ihre ownCloud mit Ihrem Dateimanager zu verbinden."
+msgstr "Verwende diese Adresse, um Deine ownCloud mit Deinem Dateimanager zu verbinden."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"
