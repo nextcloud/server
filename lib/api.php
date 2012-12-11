@@ -66,10 +66,8 @@ class OC_API {
 		$name = str_replace(array('/', '{', '}'), '_', $name);
 		if(!isset(self::$actions[$name])){
 			OC::getRouter()->useCollection('ocs');
-			OC::getRouter()->create($name, $url.'.{_format}')
+			OC::getRouter()->create($name, $url)
 				->method($method)
-				->defaults(array('_format' => 'xml') + $defaults)
-				->requirements(array('_format' => 'xml|json') + $requirements)
 				->action('OC_API', 'call');
 			self::$actions[$name] = array();
 		}
@@ -106,11 +104,9 @@ class OC_API {
 		// Merge the responses
 		$response = self::mergeResponses($responses);
 		// Send the response
-		if(isset($parameters['_format'])){
-			self::respond($response, $parameters['_format']);
-		} else {
-			self::respond($response);
-		}
+		$formats = array('json', 'xml');
+		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
+		self::respond($response, $format);
 		// logout the user to be stateless
 		OC_User::logout();
 	}
@@ -218,7 +214,7 @@ class OC_API {
 	* @param int|array $response the response
 	* @param string $format the format xml|json
 	*/
-	private static function respond($response, $format='json'){
+	private static function respond($response, $format='xml'){
 		if ($format == 'json') {
 			OC_JSON::encodedPrint($response);
 		} else if ($format == 'xml') {
