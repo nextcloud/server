@@ -62,6 +62,23 @@ input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#
 #quota { cursor:default; }
 
 
+/* PRIMARY ACTION BUTTON, use sparingly */
+.primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary {
+	border:1px solid #1d2d44;
+	background:#35537a; color:#ddd; text-shadow:#000 0 -1px 0;
+	-moz-box-shadow:0 0 1px #000,0 1px 1px #6d7d94 inset; -webkit-box-shadow:0 0 1px #000,0 1px 1px #6d7d94 inset; box-shadow:0 0 1px #000,0 1px 1px #6d7d94 inset;
+}
+	.primary:hover, input[type="submit"].primary:hover, input[type="button"].primary:hover, button.primary:hover, .button.primary:hover,
+	.primary:focus, input[type="submit"].primary:focus, input[type="button"].primary:focus, button.primary:focus, .button.primary:focus {
+		border:1px solid #1d2d44;
+		background:#2d3d54; color:#fff; text-shadow:#000 0 -1px 0;
+		-moz-box-shadow:0 0 1px #000,0 1px 1px #5d6d84 inset; -webkit-box-shadow:0 0 1px #000,0 1px 1px #5d6d84 inset; box-shadow:0 0 1px #000,0 1px 1px #5d6d84 inset;
+	}
+	.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {
+		border:1px solid #1d2d44;
+		background:#1d2d42; color:#bbb; text-shadow:#000 0 -1px 0;
+		-moz-box-shadow:0 1px 1px #fff,0 1px 1px 0 rgba(0,0,0,.2) inset; -webkit-box-shadow:0 1px 1px #fff,0 1px 1px 0 rgba(0,0,0,.2) inset; box-shadow:0 1px 1px #fff,0 1px 1px 0 rgba(0,0,0,.2) inset;
+	}
 
 
 #body-login input { font-size:1.5em; }
@@ -92,23 +109,56 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 
 #login { min-height:30em; margin:2em auto 0; border-bottom:1px solid #f8f8f8; background:#eee; }
 #login form { width:22em; margin:2em auto 2em; padding:0; }
-#login form fieldset { background:0; border:0; margin-bottom:2em; padding:0; }
-#login form fieldset legend { font-weight:bold; }
+#login form fieldset { margin-bottom:20px; }
+#login form #adminaccount { margin-bottom:5px; }
+#login form fieldset legend, #datadirContent label {
+	width:100%; text-align:center;
+	font-weight:bold; color:#999; text-shadow:0 1px 0 white;
+}
+#login form fieldset legend a { color:#999; }
+#login #datadirContent label { display:block; margin:0; color:#999;  }
+#login form #datadirField legend { margin-bottom:15px; }
+
+/* Nicely grouping input field sets */
+.grouptop input {
+	margin-bottom:0;
+	border-bottom:0; border-bottom-left-radius:0; border-bottom-right-radius:0;
+}
+.groupmiddle input {
+	margin-top:0; margin-bottom:0;
+	border-top:0; border-radius:0;
+	box-shadow:0 1px 1px #fff,0 1px 0 #ddd inset;
+}
+.groupbottom input {
+	margin-top:0;
+	border-top:0; border-top-right-radius:0; border-top-left-radius:0;
+	box-shadow:0 1px 1px #fff,0 1px 0 #ddd inset;
+}
 
 #login form label { margin:.95em 0 0 .85em; color:#666; }
+#login .groupmiddle label, #login .groupbottom label { margin-top:13px; }
 /* NEEDED FOR INFIELD LABELS */
 p.infield { position:relative; }
 label.infield { cursor:text !important; }
-#login form label.infield { position:absolute; font-size:1.5em; color:#AAA; }
-#login #dbhostlabel, #login #directorylabel { display:block; margin:.95em 0 .8em -8em; }
+#login form label.infield { position:absolute; font-size:19px; color:#aaa; white-space:nowrap; }
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
 #login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
 
 #login form #selectDbType { text-align:center; }
-#login form #selectDbType label { position:static; font-size:1em; margin:0 -.3em 1em; cursor:pointer; padding:.4em; border:1px solid #ddd; font-weight:bold; background:#f8f8f8; color:#555; text-shadow:#eee 0 1px 0; -moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; }
-#login form #selectDbType label span { cursor:pointer; font-size:0.9em; }
-#login form #selectDbType label.ui-state-hover span, #login form #selectDbType label.ui-state-active span { color:#000; }
-#login form #selectDbType label.ui-state-hover, #login form #selectDbType label.ui-state-active { color:#333; background-color:#ccc; }
+#login form #selectDbType label {
+	position:static; margin:0 -3px 5px; padding:.4em;
+	font-size:12px; font-weight:bold; background:#f8f8f8; color:#888; cursor:pointer;
+	border:1px solid #ddd; text-shadow:#eee 0 1px 0;
+	-moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset;
+}
+#login form #selectDbType label.ui-state-hover, #login form #selectDbType label.ui-state-active { color:#000; background-color:#e8e8e8; }
+
+fieldset.warning {
+	padding:8px;
+	color:#b94a48; background-color:#f2dede; border:1px solid #eed3d7;
+	border-radius:5px;
+}
+fieldset.warning legend { color:#b94a48 !important; }
 
 
 /* NAVIGATION ------------------------------------------------------------- */
