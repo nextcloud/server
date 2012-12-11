@@ -26,7 +26,7 @@
 "last month" => "Letzten Monat",
 "%d months ago" => "Vor %d Monaten",
 "last year" => "Letztes Jahr",
-"years ago" => "Vor wenigen Jahren",
+"years ago" => "Vor  Jahren",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s ist verfügbar. <a href=\"%s\">Weitere Informationen</a>",
 "up to date" => "aktuell",
 "updates check is disabled" => "Die Update-Überprüfung ist ausgeschaltet",

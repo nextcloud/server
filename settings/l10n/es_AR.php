@@ -11,6 +11,7 @@
 "Authentication error" => "Error al autenticar",
 "Unable to delete user" => "No fue posible eliminar el usuario",
 "Language changed" => "Idioma cambiado",
+"Admins can't remove themself from the admin group" => "Los administradores no se pueden quitar a ellos mismos del grupo administrador. ",
 "Unable to add user to group %s" => "No fue posible añadir el usuario al grupo %s",
 "Unable to remove user from group %s" => "No es posible eliminar al usuario del grupo %s",
 "Disable" => "Desactivar",
@@ -50,7 +51,7 @@
 "Create" => "Crear",
 "Default Quota" => "Cuota predeterminada",
 "Other" => "Otro",
-"Group Admin" => "Grupo admin",
+"Group Admin" => "Grupo Administrador",
 "Quota" => "Cuota",
 "Delete" => "Borrar"
 );

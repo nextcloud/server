@@ -89,7 +89,6 @@ var FileList={
 		$('tr').filterAttr('data-file',name).remove();
 		if($('tr[data-file]').length==0){
 			$('#emptyfolder').show();
-			$('.file_upload_filename').addClass('highlight');
 		}
 	},
 	insertElement:function(name,type,element){
@@ -118,7 +117,6 @@ var FileList={
 			$('#fileList').append(element);
 		}
 		$('#emptyfolder').hide();
-		$('.file_upload_filename').removeClass('highlight');
 	},
 	loadingDone:function(name, id){
 		var mime, tr=$('tr').filterAttr('data-file',name);

@@ -20,6 +20,19 @@
  *
  */
 
+class DatabaseException extends Exception{
+	private $query;
+
+	public function __construct($message, $query){
+		parent::__construct($message);
+		$this->query = $query;
+	}
+
+	public function getQuery(){
+		return $this->query;
+	}
+}
+
 /**
  * This class manages the access to the database. It basically is a wrapper for
  * MDB2 with some adaptions.
@@ -320,21 +333,13 @@ class OC_DB {
 
 			// Die if we have an error (error means: bad query, not 0 results!)
 			if( PEAR::isError($result)) {
-				$entry = 'DB Error: "'.$result->getMessage().'"<br />';
-				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
-				OC_Log::write('core', $entry, OC_Log::FATAL);
-				error_log('DB error: '.$entry);
-				OC_Template::printErrorPage( $entry );
+				throw new DatabaseException($result->getMessage(), $query);
 			}
 		}else{
 			try{
 				$result=self::$connection->prepare($query);
 			}catch(PDOException $e) {
-				$entry = 'DB Error: "'.$e->getMessage().'"<br />';
-				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
-				OC_Log::write('core', $entry, OC_Log::FATAL);
-				error_log('DB error: '.$entry);
-				OC_Template::printErrorPage( $entry );
+				throw new DatabaseException($e->getMessage(), $query);
 			}
 			$result=new PDOStatementWrapper($result);
 		}

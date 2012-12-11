@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-29 00:04+0100\n"
-"PO-Revision-Date: 2012-11-28 01:36+0000\n"
+"POT-Creation-Date: 2012-12-08 00:09+0100\n"
+"PO-Revision-Date: 2012-12-06 01:24+0000\n"
 "Last-Translator: dw4dev <dw4dev@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +36,7 @@ msgstr "此分類已經存在:"
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "不支援的物件類型"
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
@@ -147,7 +147,7 @@ msgstr "錯誤"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "沒有詳述APP名稱."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
@@ -159,7 +159,7 @@ msgstr "分享時發生錯誤"
 
 #: js/share.js:135
 msgid "Error while unsharing"
-msgstr ""
+msgstr "取消分享時發生錯誤"
 
 #: js/share.js:142
 msgid "Error while changing permissions"

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-03 00:04+0100\n"
-"PO-Revision-Date: 2012-12-02 03:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-10 00:11+0100\n"
+"PO-Revision-Date: 2012-12-09 05:40+0000\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,19 +30,19 @@ msgstr "그룹이 이미 존재합니다."
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr "그룹추가가 불가능합니다."
+msgstr "그룹을 추가할 수 없습니다."
 
 #: ajax/enableapp.php:12
 msgid "Could not enable app. "
-msgstr "응용프로그램 가능하지 않습니다."
+msgstr "앱을 활성화할 수 없습니다."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "이메일 저장"
+msgstr "이메일 저장됨"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "잘못된 이메일"
+msgstr "잘못된 이메일 주소"
 
 #: ajax/openid.php:13
 msgid "OpenID Changed"
@@ -54,7 +54,7 @@ msgstr "잘못된 요청"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr "그룹 삭제가 불가능합니다."
+msgstr "그룹을 삭제할 수 없습니다."
 
 #: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
 msgid "Authentication error"
@@ -62,7 +62,7 @@ msgstr "인증 오류"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr "사용자 삭제가 불가능합니다."
+msgstr "사용자를 삭제할 수 없습니다."
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -70,17 +70,17 @@ msgstr "언어가 변경되었습니다"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "관리자 자신을 관리자 그룹에서 삭제할 수 없습니다"
 
 #: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "%s 그룹에 사용자 추가가 불가능합니다."
+msgstr "그룹 %s에 사용자를 추가할 수 없습니다."
 
 #: ajax/togglegroups.php:34
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "%s 그룹으로부터 사용자 제거가 불가능합니다."
+msgstr "그룹 %s에서 사용자를 삭제할 수 없습니다."
 
 #: js/apps.js:28 js/apps.js:67
 msgid "Disable"
@@ -92,7 +92,7 @@ msgstr "활성화"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr "저장..."
+msgstr "저장 중..."
 
 #: personal.php:42 personal.php:43
 msgid "__language_name__"
@@ -104,19 +104,19 @@ msgstr "앱 추가"
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr "더많은 응용프로그램들"
+msgstr "더 많은 앱"
 
 #: templates/apps.php:27
 msgid "Select an App"
-msgstr "프로그램 선택"
+msgstr "앱 선택"
 
 #: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
-msgstr "application page at apps.owncloud.com을 보시오."
+msgstr "apps.owncloud.com에 있는 앱 페이지를 참고하십시오"
 
 #: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr "<span class=\"licence\"></span>-licensed by <span class=\"저자\"></span>"
+msgstr "<span class=\"licence\"></span>-라이선스 보유자 <span class=\"author\"></span>"
 
 #: templates/help.php:9
 msgid "Documentation"
@@ -145,11 +145,11 @@ msgstr "대답"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "You have used <strong>%s</strong> of the available <strong>%s</strong>"
+msgstr "현재 공간 <strong>%s</strong>/<strong>%s</strong>을(를) 사용 중입니다"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
-msgstr "데스크탑 및 모바일 동기화 클라이언트"
+msgstr "데스크톱 및 모바일 동기화 클라이언트"
 
 #: templates/personal.php:13
 msgid "Download"
@@ -157,7 +157,7 @@ msgstr "다운로드"
 
 #: templates/personal.php:19
 msgid "Your password was changed"
-msgstr "당신의 비밀번호가 변경되었습니다."
+msgstr "암호가 변경되었습니다"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
@@ -181,15 +181,15 @@ msgstr "암호 변경"
 
 #: templates/personal.php:30
 msgid "Email"
-msgstr "전자 우편"
+msgstr "이메일"
 
 #: templates/personal.php:31
 msgid "Your email address"
-msgstr "전자 우편 주소"
+msgstr "이메일 주소"
 
 #: templates/personal.php:32
 msgid "Fill in an email address to enable password recovery"
-msgstr "암호 찾기 기능을 사용하려면 전자 우편 주소를 입력하십시오."
+msgstr "암호 찾기 기능을 사용하려면 이메일 주소를 입력하십시오."
 
 #: templates/personal.php:38 templates/personal.php:39
 msgid "Language"
@@ -211,7 +211,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>에 의해서 개발되었습니다. <a href=\"https://github.com/owncloud\" target=\"_blank\">소스코드</a>는 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>에 따라 사용이 허가됩니다."
+msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 커뮤니티</a>에 의해서 개발되었습니다. <a href=\"https://github.com/owncloud\" target=\"_blank\">원본 코드</a>는 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>에 따라 사용이 허가됩니다."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"
@@ -235,7 +235,7 @@ msgstr "기본 할당량"
 
 #: templates/users.php:55 templates/users.php:138
 msgid "Other"
-msgstr "다른"
+msgstr "기타"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"

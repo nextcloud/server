@@ -19,7 +19,7 @@
 	</ul>
 	<?php endif; ?>
 	<?php if(!$_['secureRNG']): ?>
-	<fieldset style="color: #B94A48; background-color: #F2DEDE; border-color: #EED3D7; border-style:solid; border-radius: 5px; border-width:1px; padding:0.5em;">
+	<fieldset class="warning">
 		<legend><strong><?php echo $l->t('Security Warning');?></strong></legend>
 		<span><?php echo $l->t('No secure random number generator is available, please enable the PHP OpenSSL extension.');?></span>		
 		<br/>
@@ -27,18 +27,18 @@
 	</fieldset>
 	<?php endif; ?>
 	<?php if(!$_['htaccessWorking']): ?>
-	<fieldset style="color: #B94A48; background-color: #F2DEDE; border-color: #EED3D7; border-style:solid; border-radius: 5px; border-width:1px; padding:0.5em;">
+	<fieldset class="warning">
 		<legend><strong><?php echo $l->t('Security Warning');?></strong></legend>
 		<span><?php echo $l->t('Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root.');?></span>		
 	</fieldset>
 	<?php endif; ?>
-	<fieldset>
+	<fieldset id="adminaccount">
 		<legend><?php echo $l->t( 'Create an <strong>admin account</strong>' ); ?></legend>
-		<p class="infield">
+		<p class="infield grouptop">
 			<label for="adminlogin" class="infield"><?php echo $l->t( 'Username' ); ?></label>
 			<input type="text" name="adminlogin" id="adminlogin" value="<?php print OC_Helper::init_var('adminlogin'); ?>" autocomplete="off" autofocus required />
 		</p>
-		<p class="infield">
+		<p class="infield groupbottom">
 			<label for="adminpass" class="infield"><?php echo $l->t( 'Password' ); ?></label>
 			<input type="password" name="adminpass" id="adminpass" value="<?php print OC_Helper::init_var('adminpass'); ?>" required />
 		</p>
@@ -47,7 +47,7 @@
 	<fieldset id="datadirField">
 		<legend><a id="showAdvanced"><?php echo $l->t( 'Advanced' ); ?> ▾</a></legend>
 		<div id="datadirContent">
-			<label for="directory"><?php echo $l->t( 'Data folder' ); ?>:</label><br/>
+			<label for="directory"><?php echo $l->t( 'Data folder' ); ?></label>
 			<input type="text" name="directory" id="directory" value="<?php print OC_Helper::init_var('directory', $_['directory']); ?>" />
 		</div>
 	</fieldset>
@@ -101,15 +101,15 @@
 
 		<?php if($hasOtherDB): ?>
 		<div id="use_other_db">
-			<p class="infield">
+			<p class="infield grouptop">
 				<label for="dbuser" class="infield"><?php echo $l->t( 'Database user' ); ?></label>
 				<input type="text" name="dbuser" id="dbuser" value="<?php print OC_Helper::init_var('dbuser'); ?>" autocomplete="off" />
 			</p>
-			<p class="infield">
+			<p class="infield groupmiddle">
 				<label for="dbpass" class="infield"><?php echo $l->t( 'Database password' ); ?></label>
 				<input type="password" name="dbpass" id="dbpass" value="<?php print OC_Helper::init_var('dbpass'); ?>" />
 			</p>
-			<p class="infield">
+			<p class="infield groupmiddle">
 				<label for="dbname" class="infield"><?php echo $l->t( 'Database name' ); ?></label>
 				<input type="text" name="dbname" id="dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" autocomplete="off" pattern="[0-9a-zA-Z$_]+" />
 			</p>
@@ -117,17 +117,17 @@
 		<?php endif; ?>
 		<?php if($_['hasOracle']): ?>
 		<div id="use_oracle_db">
-			<p class="infield">
+			<p class="infield groupmiddle">
 				<label for="dbtablespace" class="infield"><?php echo $l->t( 'Database tablespace' ); ?></label>
 				<input type="text" name="dbtablespace" id="dbtablespace" value="<?php print OC_Helper::init_var('dbtablespace'); ?>" autocomplete="off" />
 			</p>
 		</div>
 		<?php endif; ?>
-		<p class="infield">
-			<label for="dbhost" class="infield"><?php echo $l->t( 'Database host' ); ?></label>
+		<p class="infield groupbottom">
+			<label for="dbhost" class="infield" id="dbhostlabel"><?php echo $l->t( 'Database host' ); ?></label>
 			<input type="text" name="dbhost" id="dbhost" value="<?php print OC_Helper::init_var('dbhost', 'localhost'); ?>" />
 		</p>
 	</fieldset>
 
-	<div class="buttons"><input type="submit" value="<?php echo $l->t( 'Finish setup' ); ?>" /></div>
+	<div class="buttons"><input type="submit" class="primary" value="<?php echo $l->t( 'Finish setup' ); ?>" /></div>
 </form>

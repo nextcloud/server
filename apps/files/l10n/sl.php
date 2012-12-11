@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Datoteka je uspešno naložena brez napak.",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Naložena datoteka presega dovoljeno velikost. Le-ta je določena z vrstico upload_max_filesize v datoteki php.ini:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Naložena datoteka presega velikost, ki jo določa parameter MAX_FILE_SIZE v HTML obrazcu",
 "The uploaded file was only partially uploaded" => "Datoteka je le delno naložena",
 "No file was uploaded" => "Nobena datoteka ni bila naložena",
