@@ -429,7 +429,7 @@ class OC_Mount_Config {
 	 * check dependencies
 	 */
 	public static function checkDependencies() {
-		$l= new OC_L10N;
+		$l= new OC_L10N('files_external');
 		$txt='';
 		if(!OC_Mount_Config::checksmbclient()) $txt.=$l->t('<b>Warning:</b> "smbclient" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it.').'<br />';
 		if(!OC_Mount_Config::checkphpftp()) $txt.=$l->t('<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it.').'<br />';
