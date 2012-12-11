@@ -141,7 +141,6 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 p.infield { position:relative; }
 label.infield { cursor:text !important; }
 #login form label.infield { position:absolute; font-size:19px; color:#aaa; white-space:nowrap; }
-#login #dbhostlabel, #login #directorylabel { display:block; margin:.95em 0 .8em -8em; }
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
 #login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
 
