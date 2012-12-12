@@ -33,4 +33,9 @@ OCP\User::checkLoggedIn();
 $files = $_GET["files"];
 $dir = $_GET["dir"];
 
+if ($files == "Shared" and $dir == "/") {
+	$files = '';
+	$dir = "/Shared";
+}
+
 OC_Files::get($dir, $files, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
