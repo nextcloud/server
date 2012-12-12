@@ -127,6 +127,9 @@ var Files = Files || {};
 	}
 	Files.bindKeyboardShortcuts = function(document, $) {
 		$(document).keydown(function(event) { //check for modifier keys
+            if(!$(event.target).is('body')) {
+                return;
+            }
 			var preventDefault = false;
 			if ($.inArray(event.keyCode, keys) === -1) keys.push(event.keyCode);
 			if (
