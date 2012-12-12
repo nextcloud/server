@@ -10,4 +10,5 @@ class OC_OCS_Config {
 		$xml['ssl'] = 'false';
 		return new OC_OCS_Result($xml);
 	}
+	
 }

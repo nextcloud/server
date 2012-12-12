@@ -17,7 +17,6 @@ class OC_OCS_Cloud {
 	}
 	
 	public static function getUserQuota($parameters){
-		OC_Util::checkLoggedIn();
 		$user = OC_User::getUser();
 		if(OC_Group::inGroup($user, 'admin') or ($user==$parameters['user'])) {
 
@@ -41,44 +40,25 @@ class OC_OCS_Cloud {
 
 				return new OC_OCS_Result($xml);
 			}else{
-				return 300;
+				return new OC_OCS_Result(null, 300);
 			}
 		}else{
-			return 300;
-		}
-	}
-	
-	public static function setUserQuota($parameters){
-		OC_Util::checkLoggedIn();
-		$user = OC_User::getUser();
-		if(OC_Group::inGroup($user, 'admin')) {
-		
-			// todo
-			// not yet implemented
-			// add logic here
-			error_log('OCS call: user:'.$parameters['user'].' quota:'.$parameters['quota']);
-			
-			$xml=array();
-			return $xml;
-		}else{
-			return 300;
+			return new OC_OCS_Result(null, 300);
 		}
 	}
 	
 	public static function getUserPublickey($parameters){
-		OC_Util::checkLoggedIn();
 
 		if(OC_User::userExists($parameters['user'])){
 			// calculate the disc space
 			// TODO
-			return array();
+			return new OC_OCS_Result(array());
 		}else{
-			return 300;
+			return new OC_OCS_Result(null, 300);
 		}
 	}
 	
 	public static function getUserPrivatekey($parameters){
-		OC_Util::checkLoggedIn();
 		$user = OC_User::getUser();
 		if(OC_Group::inGroup($user, 'admin') or ($user==$parameters['user'])) {
 
@@ -87,10 +67,10 @@ class OC_OCS_Cloud {
 				$txt='this is the private key of '.$parameters['user'];
 				echo($txt);
 			}else{
-				echo self::generateXml('', 'fail', 300, 'User does not exist');
+				return new OC_OCS_Result(null, 300, 'User does not exist');
 			}
 		}else{
-			echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
+			return new OC_OCS_Result('null', 300, 'You don´t have permission to access this ressource.');
 		}
 	}
 }
