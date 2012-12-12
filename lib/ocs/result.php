@@ -26,7 +26,7 @@ class OC_OCS_Result{
 	 * optionally set the total number of items available
 	 * @param $items int
 	 */
-	public function setItems(int $items){
+	public function setTotalItems(int $items){
 		$this->items = $items;
 	}
 	
@@ -56,6 +56,12 @@ class OC_OCS_Result{
 		$return['meta']['status'] = ($this->statuscode === 100) ? 'ok' : 'failure';
 		$return['meta']['statuscode'] = $this->statuscode;
 		$return['meta']['message'] = $this->message;
+		if(isset($this->items)){
+			$return['meta']['totalitems'] = $this->items;
+		}
+		if(isset($this->perpage)){
+			$return['meta']['itemsperpage'] = $this->perpage;
+		}
 		$return['data'] = $this->data;
 		// Return the result data.
 		return $return;
