@@ -294,8 +294,14 @@ class OC_L10N{
 			}
 			foreach($accepted_languages as $i) {
 				$temp = explode(';', $i);
-				if(array_search($temp[0], $available) !== false) {
-					return $temp[0];
+				$temp[0] = str_replace('-','_',$temp[0]);
+				if( ($key = array_search($temp[0], $available)) !== false) {
+					return $available[$key];
+				}
+				foreach($available as $l) {
+					if ( $temp[0] == substr($l,0,2) ) {
+						return $l;
+					}
 				}
 			}
 		}
