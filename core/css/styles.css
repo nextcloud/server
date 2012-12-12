@@ -121,10 +121,14 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 
 
 /* Icons for username and password fields to better recognize them */
-#adminlogin, #adminpass, #user, #password { padding-left:1.6em; background-repeat:no-repeat; background-position:.4em .75em; }
-#adminlogin+label, #adminpass+label, #user+label, #password+label { left:2em; }
-#adminlogin, #user { background-image:url('../img/actions/user.svg'); }
-#adminpass, #password { background-image:url('../img/actions/password.svg'); }
+#adminlogin, #adminpass, #user, #password { width:11.7em!important; padding-left:1.8em; }
+#adminlogin+label, #adminpass+label, #user+label, #password+label { left:2.2em; }
+#adminlogin+label+img, #adminpass+label+img, #user+label+img, #password+label+img {
+	position:absolute; left:1.25em; top:1.65em;
+	opacity:.3;
+}
+#adminpass+label+img, #password+label+img { top:1.1em; }
+
 
 /* Nicely grouping input field sets */
 .grouptop input {
