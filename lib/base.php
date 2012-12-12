@@ -289,6 +289,9 @@ class OC{
 		// prevents javascript from accessing php session cookies
 		ini_set('session.cookie_httponly', '1;');
 
+		// set the session name to the instance id - which is unique
+		session_name(OC_Util::getInstanceId());
+
 		// (re)-initialize session
 		session_start();
 
