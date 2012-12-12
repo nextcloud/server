@@ -170,7 +170,7 @@ OC.Share={
 				html += '</div>';
                 html += '<form id="emailPrivateLink" >';
                 html += '<input id="email" style="display:none; width:65%;" value="" placeholder="'+t('core', 'Email link to person')+'" type="text" />';
-                html += '<input id="emailButton" style="display:none;" type="submit" value="'+t('core', 'Send')+'" />';
+                html += '<input id="emailButton" style="display:none; float:right;" type="submit" value="'+t('core', 'Send')+'" />';
                 html += '</form>';
 			}
 			html += '<div id="expiration">';
@@ -564,7 +564,14 @@ $(document).ready(function() {
         var file = $('tr').filterAttr('data-id', String(itemSource)).data('file');
         var email = $('#email').val();
         if (email != '') {
-            $.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'email', toaddress: email, link: link, itemType: itemType, itemSource: itemSource, file: file}, function(result) {
+            $('#email').attr('disabled', "disabled");
+            $('#email').val(t('core', 'Sending ...'));
+            $('#emailButton').attr('disabled', "disabled");
+
+            $.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'email', toaddress: email, link: link, itemType: itemType, itemSource: itemSource, file: file},
+                function(result) {
+                    $('#email').attr('disabled', "false");
+                    $('#emailButton').attr('disabled', "false");
                 if (result && result.status == 'success') {
                     $('#email').css('font-weight', 'bold');
                     $('#email').animate({ fontWeight: 'normal' }, 2000, function() {
