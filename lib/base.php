@@ -262,6 +262,10 @@ class OC{
 
 	public static function initSession() {
 		ini_set('session.cookie_httponly', '1;');
+
+		// set the session name to the instance id - which is unique
+		session_name(OC_Util::getInstanceId());
+
 		session_start();
 	}
 
