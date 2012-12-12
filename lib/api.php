@@ -71,7 +71,7 @@ class OC_API {
 				->action('OC_API', 'call');
 			self::$actions[$name] = array();
 		}
-		self::$actions[$name][] = array('app' => $app, 'action' => $action, 'authlevel' => $authlevel);
+		self::$actions[$name] = array('app' => $app, 'action' => $action, 'authlevel' => $authlevel);
 	}
 	
 	/**
@@ -87,22 +87,11 @@ class OC_API {
 		}
 		$name = $parameters['_route'];
 		// Loop through registered actions
-		foreach(self::$actions[$name] as $action){
-			$app = $action['app'];
-			// Authorise this call
-			if(self::isAuthorised($action)){
-				if(is_callable($action['action'])){
-					$responses[] = array('app' => $app, 'response' => call_user_func($action['action'], $parameters));
-				} else {
-					$responses[] = array('app' => $app, 'response' => 501);
-				}
-			} else {
-				$responses[] = array('app' => $app, 'response' => 401);
-			}
-			
-		}
-		// Merge the responses
-		$response = self::mergeResponses($responses);
+		if(is_callable(self::$actions[$name]['action'])){
+			$response = call_user_func(self::$actions[$name]['action'], $parameters);
+		} else {
+			$response = new OC_OCS_Result(null, 998, 'Internal server error.');
+		} 
 		// Send the response
 		$formats = array('json', 'xml');
 		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
@@ -169,52 +158,12 @@ class OC_API {
 	}
 	
 	/**
-	 * intelligently merges the different responses
-	 * @param array $responses
-	 * @return array the final merged response
-	 */
-	private static function mergeResponses($responses){
-		$finalresponse = array(
-			'meta' => array(
-				'statuscode' => '',
-				),
-			'data' => array(),
-			);
-		$numresponses = count($responses);
-		
-		foreach($responses as $response){
-			if(is_int($response['response']) && empty($finalresponse['meta']['statuscode'])){
-				$finalresponse['meta']['statuscode'] = $response['response'];
-				continue;
-			}
-			if(is_array($response['response'])){
-				// Shipped apps win
-				if(OC_App::isShipped($response['app'])){
-					$finalresponse['data'] = array_merge_recursive($finalresponse['data'], $response['response']);
-				} else {
-					$finalresponse['data'] = array_merge_recursive($response['response'], $finalresponse['data']);
-				}
-				$finalresponse['meta']['statuscode'] = 100;
-			}
-		}
-		//Some tidying up
-		if($finalresponse['meta']['statuscode']=='100'){
-			$finalresponse['meta']['status'] = 'ok';
-		} else {
-			$finalresponse['meta']['status'] = 'failure';
-		}
-		if(empty($finalresponse['data'])){
-			unset($finalresponse['data']);
-		}
-		return array('ocs' => $finalresponse);
-	}
-	
-	/**
 	* respond to a call
-	* @param int|array $response the response
+	* @param int|array $result the result from the api method
 	* @param string $format the format xml|json
 	*/
-	private static function respond($response, $format='xml'){
+	private static function respond($result, $format='xml'){
+		$response = array('ocs' => $result->getResult());
 		if ($format == 'json') {
 			OC_JSON::encodedPrint($response);
 		} else if ($format == 'xml') {
