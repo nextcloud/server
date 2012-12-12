@@ -86,12 +86,16 @@ class OC_API {
 			parse_str(file_get_contents("php://input"), $_DELETE);
 		}
 		$name = $parameters['_route'];
-		// Loop through registered actions
-		if(is_callable(self::$actions[$name]['action'])){
-			$response = call_user_func(self::$actions[$name]['action'], $parameters);
+		// Check authentication and availability
+		if(self::isAuthorised(self::$actions[$name])){
+			if(is_callable(self::$actions[$name]['action'])){
+				$response = call_user_func(self::$actions[$name]['action'], $parameters);
+			} else {
+				$response = new OC_OCS_Result(null, 998, 'Internal server error');
+			} 
 		} else {
-			$response = new OC_OCS_Result(null, 998, 'Internal server error.');
-		} 
+			$response = new OC_OCS_Result(null, 997, 'Unauthorised');
+		}
 		// Send the response
 		$formats = array('json', 'xml');
 		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
