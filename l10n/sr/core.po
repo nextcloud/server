@@ -10,15 +10,39 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-05 00:04+0100\n"
-"PO-Revision-Date: 2012-12-04 15:04+0000\n"
-"Last-Translator: Kostic <marko@evizo.com>\n"
+"POT-Creation-Date: 2012-12-13 00:17+0100\n"
+"PO-Revision-Date: 2012-12-12 23:17+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sr\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: ajax/share.php:84
+#, php-format
+msgid "User %s shared a file with you"
+msgstr ""
+
+#: ajax/share.php:86
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr ""
+
+#: ajax/share.php:88
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr ""
+
+#: ajax/share.php:90
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -140,8 +164,8 @@ msgid "The object type is not specified."
 msgstr "Врста објекта није подешена."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:533
-#: js/share.js:545
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
+#: js/share.js:553
 msgid "Error"
 msgstr "Грешка"
 
@@ -153,7 +177,7 @@ msgstr "Име програма није унето."
 msgid "The required file {file} is not installed!"
 msgstr "Потребна датотека {file} није инсталирана."
 
-#: js/share.js:124
+#: js/share.js:124 js/share.js:581
 msgid "Error while sharing"
 msgstr "Грешка у дељењу"
 
@@ -190,69 +214,85 @@ msgstr "Заштићено лозинком"
 msgid "Password"
 msgstr "Лозинка"
 
+#: js/share.js:172
+msgid "Email link to person"
+msgstr ""
+
 #: js/share.js:173
+msgid "Send"
+msgstr ""
+
+#: js/share.js:177
 msgid "Set expiration date"
 msgstr "Постави датум истека"
 
-#: js/share.js:174
+#: js/share.js:178
 msgid "Expiration date"
 msgstr "Датум истека"
 
-#: js/share.js:206
+#: js/share.js:210
 msgid "Share via email:"
 msgstr "Подели поштом:"
 
-#: js/share.js:208
+#: js/share.js:212
 msgid "No people found"
 msgstr "Особе нису пронађене."
 
-#: js/share.js:235
+#: js/share.js:239
 msgid "Resharing is not allowed"
 msgstr "Поновно дељење није дозвољено"
 
-#: js/share.js:271
+#: js/share.js:275
 msgid "Shared in {item} with {user}"
 msgstr "Подељено унутар {item} са {user}"
 
-#: js/share.js:292
+#: js/share.js:296
 msgid "Unshare"
 msgstr "Не дели"
 
-#: js/share.js:304
+#: js/share.js:308
 msgid "can edit"
 msgstr "може да мења"
 
-#: js/share.js:306
+#: js/share.js:310
 msgid "access control"
 msgstr "права приступа"
 
-#: js/share.js:309
+#: js/share.js:313
 msgid "create"
 msgstr "направи"
 
-#: js/share.js:312
+#: js/share.js:316
 msgid "update"
 msgstr "ажурирај"
 
-#: js/share.js:315
+#: js/share.js:319
 msgid "delete"
 msgstr "обриши"
 
-#: js/share.js:318
+#: js/share.js:322
 msgid "share"
 msgstr "подели"
 
-#: js/share.js:349 js/share.js:520 js/share.js:522
+#: js/share.js:353 js/share.js:528 js/share.js:530
 msgid "Password protected"
 msgstr "Заштићено лозинком"
 
-#: js/share.js:533
+#: js/share.js:541
 msgid "Error unsetting expiration date"
 msgstr "Грешка код поништавања датума истека"
 
-#: js/share.js:545
+#: js/share.js:553
 msgid "Error setting expiration date"
 msgstr "Грешка код постављања датума истека"
+
+#: js/share.js:568
+msgid "Sending ..."
+msgstr ""
+
+#: js/share.js:579
+msgid "Email sent"
+msgstr ""
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"

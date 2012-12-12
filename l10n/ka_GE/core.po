@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:13+0000\n"
+"POT-Creation-Date: 2012-12-13 00:17+0100\n"
+"PO-Revision-Date: 2012-12-12 23:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ka_GE\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ajax/share.php:84
+#, php-format
+msgid "User %s shared a file with you"
+msgstr ""
+
+#: ajax/share.php:86
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr ""
+
+#: ajax/share.php:88
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr ""
+
+#: ajax/share.php:90
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -56,59 +80,59 @@ msgstr "სარედაქტირებელი კატეგორი�
 msgid "Error removing %s from favorites."
 msgstr ""
 
-#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "პარამეტრები"
 
-#: js/js.js:688
+#: js/js.js:704
 msgid "seconds ago"
 msgstr "წამის წინ"
 
-#: js/js.js:689
+#: js/js.js:705
 msgid "1 minute ago"
 msgstr "1 წუთის წინ"
 
-#: js/js.js:690
+#: js/js.js:706
 msgid "{minutes} minutes ago"
 msgstr "{minutes} წუთის წინ"
 
-#: js/js.js:691
+#: js/js.js:707
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:692
+#: js/js.js:708
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:693
+#: js/js.js:709
 msgid "today"
 msgstr "დღეს"
 
-#: js/js.js:694
+#: js/js.js:710
 msgid "yesterday"
 msgstr "გუშინ"
 
-#: js/js.js:695
+#: js/js.js:711
 msgid "{days} days ago"
 msgstr "{days} დღის წინ"
 
-#: js/js.js:696
+#: js/js.js:712
 msgid "last month"
 msgstr "გასულ თვეში"
 
-#: js/js.js:697
+#: js/js.js:713
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:698
+#: js/js.js:714
 msgid "months ago"
 msgstr "თვის წინ"
 
-#: js/js.js:699
+#: js/js.js:715
 msgid "last year"
 msgstr "ბოლო წელს"
 
-#: js/js.js:700
+#: js/js.js:716
 msgid "years ago"
 msgstr "წლის წინ"
 
@@ -138,8 +162,8 @@ msgid "The object type is not specified."
 msgstr ""
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
-#: js/share.js:537
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
+#: js/share.js:553
 msgid "Error"
 msgstr "შეცდომა"
 
@@ -151,7 +175,7 @@ msgstr ""
 msgid "The required file {file} is not installed!"
 msgstr ""
 
-#: js/share.js:124
+#: js/share.js:124 js/share.js:581
 msgid "Error while sharing"
 msgstr "შეცდომა გაზიარების დროს"
 
@@ -188,69 +212,85 @@ msgstr "პაროლით დაცვა"
 msgid "Password"
 msgstr "პაროლი"
 
+#: js/share.js:172
+msgid "Email link to person"
+msgstr ""
+
 #: js/share.js:173
+msgid "Send"
+msgstr ""
+
+#: js/share.js:177
 msgid "Set expiration date"
 msgstr "მიუთითე ვადის გასვლის დრო"
 
-#: js/share.js:174
+#: js/share.js:178
 msgid "Expiration date"
 msgstr "ვადის გასვლის დრო"
 
-#: js/share.js:206
+#: js/share.js:210
 msgid "Share via email:"
 msgstr "გააზიარე მეილზე"
 
-#: js/share.js:208
+#: js/share.js:212
 msgid "No people found"
 msgstr "გვერდი არ არის ნაპოვნი"
 
-#: js/share.js:235
+#: js/share.js:239
 msgid "Resharing is not allowed"
 msgstr "მეორეჯერ გაზიარება არ არის დაშვებული"
 
-#: js/share.js:271
+#: js/share.js:275
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:292
+#: js/share.js:296
 msgid "Unshare"
 msgstr "გაზიარების მოხსნა"
 
-#: js/share.js:304
+#: js/share.js:308
 msgid "can edit"
 msgstr "შეგიძლია შეცვლა"
 
-#: js/share.js:306
+#: js/share.js:310
 msgid "access control"
 msgstr "დაშვების კონტროლი"
 
-#: js/share.js:309
+#: js/share.js:313
 msgid "create"
 msgstr "შექმნა"
 
-#: js/share.js:312
+#: js/share.js:316
 msgid "update"
 msgstr "განახლება"
 
-#: js/share.js:315
+#: js/share.js:319
 msgid "delete"
 msgstr "წაშლა"
 
-#: js/share.js:318
+#: js/share.js:322
 msgid "share"
 msgstr "გაზიარება"
 
-#: js/share.js:343 js/share.js:512 js/share.js:514
+#: js/share.js:353 js/share.js:528 js/share.js:530
 msgid "Password protected"
 msgstr "პაროლით დაცული"
 
-#: js/share.js:525
+#: js/share.js:541
 msgid "Error unsetting expiration date"
 msgstr "შეცდომა ვადის გასვლის მოხსნის დროს"
 
-#: js/share.js:537
+#: js/share.js:553
 msgid "Error setting expiration date"
 msgstr "შეცდომა ვადის გასვლის მითითების დროს"
+
+#: js/share.js:568
+msgid "Sending ..."
+msgstr ""
+
+#: js/share.js:579
+msgid "Email sent"
+msgstr ""
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -403,87 +443,87 @@ msgstr "ბაზის ჰოსტი"
 msgid "Finish setup"
 msgstr "კონფიგურაციის დასრულება"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "კვირა"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "ორშაბათი"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "სამშაბათი"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "ოთხშაბათი"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "ხუთშაბათი"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "პარასკევი"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "შაბათი"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "იანვარი"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "თებერვალი"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "მარტი"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "აპრილი"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "მაისი"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "ივნისი"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "ივლისი"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "აგვისტო"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "სექტემბერი"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "ოქტომბერი"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "ნოემბერი"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "დეკემბერი"
 
-#: templates/layout.guest.php:41
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr "თქვენი კონტროლის ქვეშ მყოფი ვებ სერვისები"
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "გამოსვლა"
 

@@ -10,15 +10,39 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-10 00:11+0100\n"
-"PO-Revision-Date: 2012-12-09 06:08+0000\n"
-"Last-Translator: Shinjo Park <kde@peremen.name>\n"
+"POT-Creation-Date: 2012-12-13 00:17+0100\n"
+"PO-Revision-Date: 2012-12-12 23:17+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ajax/share.php:84
+#, php-format
+msgid "User %s shared a file with you"
+msgstr ""
+
+#: ajax/share.php:86
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr ""
+
+#: ajax/share.php:88
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr ""
+
+#: ajax/share.php:90
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -140,8 +164,8 @@ msgid "The object type is not specified."
 msgstr "객체 유형이 지정되지 않았습니다."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:533
-#: js/share.js:545
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
+#: js/share.js:553
 msgid "Error"
 msgstr "오류"
 
@@ -153,7 +177,7 @@ msgstr "앱 이름이 지정되지 않았습니다."
 msgid "The required file {file} is not installed!"
 msgstr "필요한 파일 {file}이(가) 설치되지 않았습니다!"
 
-#: js/share.js:124
+#: js/share.js:124 js/share.js:581
 msgid "Error while sharing"
 msgstr "공유하는 중 오류 발생"
 
@@ -190,69 +214,85 @@ msgstr "암호 보호"
 msgid "Password"
 msgstr "암호"
 
+#: js/share.js:172
+msgid "Email link to person"
+msgstr ""
+
 #: js/share.js:173
+msgid "Send"
+msgstr ""
+
+#: js/share.js:177
 msgid "Set expiration date"
 msgstr "만료 날짜 설정"
 
-#: js/share.js:174
+#: js/share.js:178
 msgid "Expiration date"
 msgstr "만료 날짜"
 
-#: js/share.js:206
+#: js/share.js:210
 msgid "Share via email:"
 msgstr "이메일로 공유:"
 
-#: js/share.js:208
+#: js/share.js:212
 msgid "No people found"
 msgstr "발견된 사람 없음"
 
-#: js/share.js:235
+#: js/share.js:239
 msgid "Resharing is not allowed"
 msgstr "다시 공유할 수 없습니다"
 
-#: js/share.js:271
+#: js/share.js:275
 msgid "Shared in {item} with {user}"
 msgstr "{user} 님과 {item}에서 공유 중"
 
-#: js/share.js:292
+#: js/share.js:296
 msgid "Unshare"
 msgstr "공유 해제"
 
-#: js/share.js:304
+#: js/share.js:308
 msgid "can edit"
 msgstr "편집 가능"
 
-#: js/share.js:306
+#: js/share.js:310
 msgid "access control"
 msgstr "접근 제어"
 
-#: js/share.js:309
+#: js/share.js:313
 msgid "create"
 msgstr "만들기"
 
-#: js/share.js:312
+#: js/share.js:316
 msgid "update"
 msgstr "업데이트"
 
-#: js/share.js:315
+#: js/share.js:319
 msgid "delete"
 msgstr "삭제"
 
-#: js/share.js:318
+#: js/share.js:322
 msgid "share"
 msgstr "공유"
 
-#: js/share.js:349 js/share.js:520 js/share.js:522
+#: js/share.js:353 js/share.js:528 js/share.js:530
 msgid "Password protected"
 msgstr "암호로 보호됨"
 
-#: js/share.js:533
+#: js/share.js:541
 msgid "Error unsetting expiration date"
 msgstr "만료 날짜 해제 오류"
 
-#: js/share.js:545
+#: js/share.js:553
 msgid "Error setting expiration date"
 msgstr "만료 날짜 설정 오류"
+
+#: js/share.js:568
+msgid "Sending ..."
+msgstr ""
+
+#: js/share.js:579
+msgid "Email sent"
+msgstr ""
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
