@@ -3,18 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# axil Pι <axilleas@archlinux.gr>, 2012.
 # Dimitris M. <monopatis@gmail.com>, 2012.
 # Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012.
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
 # Marios Bekatoros <>, 2012.
 #   <petros.kyladitis@gmail.com>, 2011.
-# Petros Kyladitis <petros.kyladitis@gmail.com>, 2011, 2012.
+# Petros Kyladitis <petros.kyladitis@gmail.com>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-21 00:01+0100\n"
+"PO-Revision-Date: 2012-11-19 23:56+0000\n"
+"Last-Translator: Efstathios Iosifidis <diamond_gr@freemail.gr>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,211 +24,243 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
-msgid "Application name not provided."
-msgstr "Δε προσδιορίστηκε όνομα εφαρμογής"
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr "Δεν δώθηκε τύπος κατηγορίας."
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr "Δεν έχετε να προστέσθέσεται μια κα"
+msgstr "Δεν έχετε κατηγορία να προσθέσετε;"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
-msgstr "Αυτή η κατηγορία υπάρχει ήδη"
+msgstr "Αυτή η κατηγορία υπάρχει ήδη:"
 
-#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr "Δεν δώθηκε τύπος αντικειμένου."
+
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr "Δεν δώθηκε η ID για %s."
+
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr "Σφάλμα προσθήκης %s στα αγαπημένα."
+
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
+msgid "No categories selected for deletion."
+msgstr "Δεν επιλέχτηκαν κατηγορίες για διαγραφή."
+
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr "Σφάλμα αφαίρεσης %s από τα αγαπημένα."
+
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:670
-msgid "January"
-msgstr "Ιανουάριος"
+#: js/js.js:704
+msgid "seconds ago"
+msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:670
-msgid "February"
-msgstr "Φεβρουάριος"
+#: js/js.js:705
+msgid "1 minute ago"
+msgstr "1 λεπτό πριν"
 
-#: js/js.js:670
-msgid "March"
-msgstr "Μάρτιος"
+#: js/js.js:706
+msgid "{minutes} minutes ago"
+msgstr "{minutes} λεπτά πριν"
 
-#: js/js.js:670
-msgid "April"
-msgstr "Απρίλιος"
+#: js/js.js:707
+msgid "1 hour ago"
+msgstr "1 ώρα πριν"
 
-#: js/js.js:670
-msgid "May"
-msgstr "Μάϊος"
+#: js/js.js:708
+msgid "{hours} hours ago"
+msgstr "{hours} ώρες πριν"
 
-#: js/js.js:670
-msgid "June"
-msgstr "Ιούνιος"
+#: js/js.js:709
+msgid "today"
+msgstr "σήμερα"
 
-#: js/js.js:671
-msgid "July"
-msgstr "Ιούλιος"
+#: js/js.js:710
+msgid "yesterday"
+msgstr "χτες"
 
-#: js/js.js:671
-msgid "August"
-msgstr "Αύγουστος"
+#: js/js.js:711
+msgid "{days} days ago"
+msgstr "{days} ημέρες πριν"
 
-#: js/js.js:671
-msgid "September"
-msgstr "Σεπτέμβριος"
+#: js/js.js:712
+msgid "last month"
+msgstr "τελευταίο μήνα"
 
-#: js/js.js:671
-msgid "October"
-msgstr "Οκτώβριος"
+#: js/js.js:713
+msgid "{months} months ago"
+msgstr "{months} μήνες πριν"
 
-#: js/js.js:671
-msgid "November"
-msgstr "Νοέμβριος"
+#: js/js.js:714
+msgid "months ago"
+msgstr "μήνες πριν"
 
-#: js/js.js:671
-msgid "December"
-msgstr "Δεκέμβριος"
+#: js/js.js:715
+msgid "last year"
+msgstr "τελευταίο χρόνο"
 
-#: js/oc-dialogs.js:123
+#: js/js.js:716
+msgid "years ago"
+msgstr "χρόνια πριν"
+
+#: js/oc-dialogs.js:126
 msgid "Choose"
 msgstr "Επιλέξτε"
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
 msgid "Cancel"
-msgstr "Ακύρωση"
+msgstr "Άκυρο"
 
-#: js/oc-dialogs.js:159
+#: js/oc-dialogs.js:162
 msgid "No"
 msgstr "Όχι"
 
-#: js/oc-dialogs.js:160
+#: js/oc-dialogs.js:163
 msgid "Yes"
 msgstr "Ναι"
 
-#: js/oc-dialogs.js:177
+#: js/oc-dialogs.js:180
 msgid "Ok"
 msgstr "Οκ"
 
-#: js/oc-vcategories.js:68
-msgid "No categories selected for deletion."
-msgstr "Δεν επιλέχτηκαν κατηγορίες για διαγραφή"
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr "Δεν καθορίστηκε ο τύπος του αντικειμένου."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
-#: js/share.js:509
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
+#: js/share.js:539
 msgid "Error"
 msgstr "Σφάλμα"
 
-#: js/share.js:103
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr "Δεν καθορίστηκε το όνομα της εφαρμογής."
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr "Το απαιτούμενο αρχείο {file} δεν εγκαταστάθηκε!"
+
+#: js/share.js:124
 msgid "Error while sharing"
 msgstr "Σφάλμα κατά τον διαμοιρασμό"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
 msgstr "Σφάλμα κατά το σταμάτημα του διαμοιρασμού"
 
-#: js/share.js:121
+#: js/share.js:142
 msgid "Error while changing permissions"
 msgstr "Σφάλμα κατά την αλλαγή των δικαιωμάτων"
 
-#: js/share.js:130
-msgid "Shared with you and the group"
-msgstr "Διαμοιρασμένο με εσένα και την ομάδα"
+#: js/share.js:151
+msgid "Shared with you and the group {group} by {owner}"
+msgstr "Διαμοιράστηκε με σας και με την ομάδα {group} του {owner}"
 
-#: js/share.js:130
-msgid "by"
-msgstr "από"
+#: js/share.js:153
+msgid "Shared with you by {owner}"
+msgstr "Διαμοιράστηκε με σας από τον {owner}"
 
-#: js/share.js:132
-msgid "Shared with you by"
-msgstr "Μοιράστηκε μαζί σας από "
-
-#: js/share.js:137
+#: js/share.js:158
 msgid "Share with"
 msgstr "Διαμοιρασμός με"
 
-#: js/share.js:142
+#: js/share.js:163
 msgid "Share with link"
 msgstr "Διαμοιρασμός με σύνδεσμο"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
-msgstr "Προστασία κωδικού"
+msgstr "Προστασία συνθηματικού"
 
-#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
 msgid "Password"
-msgstr "Κωδικός"
+msgstr "Συνθηματικό"
 
-#: js/share.js:152
+#: js/share.js:173
 msgid "Set expiration date"
 msgstr "Ορισμός ημ. λήξης"
 
-#: js/share.js:153
+#: js/share.js:174
 msgid "Expiration date"
 msgstr "Ημερομηνία λήξης"
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
 msgstr "Διαμοιρασμός μέσω email:"
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
 msgstr "Δεν βρέθηκε άνθρωπος"
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
 msgstr "Ξαναμοιρασμός δεν επιτρέπεται"
 
-#: js/share.js:250
-msgid "Shared in"
-msgstr "Διαμοιράστηκε με"
-
-#: js/share.js:250
-msgid "with"
-msgstr "με"
-
 #: js/share.js:271
-msgid "Unshare"
-msgstr "Σταμάτημα μοιράσματος"
+msgid "Shared in {item} with {user}"
+msgstr "Διαμοιρασμός του {item} με τον {user}"
 
-#: js/share.js:283
+#: js/share.js:292
+msgid "Unshare"
+msgstr "Σταμάτημα διαμοιρασμού"
+
+#: js/share.js:304
 msgid "can edit"
 msgstr "δυνατότητα αλλαγής"
 
-#: js/share.js:285
+#: js/share.js:306
 msgid "access control"
 msgstr "έλεγχος πρόσβασης"
 
-#: js/share.js:288
+#: js/share.js:309
 msgid "create"
 msgstr "δημιουργία"
 
-#: js/share.js:291
+#: js/share.js:312
 msgid "update"
-msgstr "ανανέωση"
+msgstr "ενημέρωση"
 
-#: js/share.js:294
+#: js/share.js:315
 msgid "delete"
 msgstr "διαγραφή"
 
-#: js/share.js:297
+#: js/share.js:318
 msgid "share"
 msgstr "διαμοιρασμός"
 
-#: js/share.js:322 js/share.js:484
+#: js/share.js:343 js/share.js:514 js/share.js:516
 msgid "Password protected"
-msgstr "Προστασία με κωδικό"
+msgstr "Προστασία με συνθηματικό"
 
-#: js/share.js:497
+#: js/share.js:527
 msgid "Error unsetting expiration date"
 msgstr "Σφάλμα κατά την διαγραφή της ημ. λήξης"
 
-#: js/share.js:509
+#: js/share.js:539
 msgid "Error setting expiration date"
 msgstr "Σφάλμα κατά τον ορισμό ημ. λήξης"
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
-msgstr "Επαναφορά κωδικού ownCloud"
+msgstr "Επαναφορά συνθηματικού ownCloud"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -237,12 +271,12 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Θα λάβετε ένα σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας μέσω ηλεκτρονικού ταχυδρομείου."
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Ζητήθησαν"
+msgid "Reset email send."
+msgstr "Η επαναφορά του email στάλθηκε."
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Η σύνδεση απέτυχε!"
+msgid "Request failed!"
+msgstr "Η αίτηση απέτυχε!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -263,11 +297,11 @@ msgstr "Σελίδα εισόδου"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "Νέος κωδικός"
+msgstr "Νέο συνθηματικό"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "Επαναφορά κωδικού πρόσβασης"
+msgstr "Επαναφορά συνθηματικού"
 
 #: strings.php:5
 msgid "Personal"
@@ -295,13 +329,13 @@ msgstr "Δεν επιτρέπεται η πρόσβαση"
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr "Δεν βρέθηκε σύννεφο"
+msgstr "Δεν βρέθηκε νέφος"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Επεξεργασία κατηγορίας"
+msgstr "Επεξεργασία κατηγοριών"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "Προσθήκη"
 
@@ -313,13 +347,13 @@ msgstr "Προειδοποίηση Ασφαλείας"
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Δεν είναι διαθέσιμο το πρόσθετο δημιουργίας τυχαίων αριθμών ασφαλείας, παρακαλώ ενεργοποιήστε το πρόσθετο της PHP, OpenSSL."
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "Χωρίς το πρόσθετο δημιουργίας τυχαίων αριθμών ασφαλείας, μπορεί να διαρρεύσει ο λογαριασμός σας από επιθέσεις στο διαδίκτυο."
 
 #: templates/installation.php:32
 msgid ""
@@ -328,7 +362,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Ο κατάλογος data και τα αρχεία σας πιθανόν να είναι διαθέσιμα στο διαδίκτυο. Το αρχείο .htaccess που παρέχει το ownCloud δεν δουλεύει. Σας προτείνουμε ανεπιφύλακτα να ρυθμίσετε το διακομιστή σας με τέτοιο τρόπο ώστε ο κατάλογος data να μην είναι πλέον προσβάσιμος ή να μετακινήσετε τον κατάλογο data έξω από τον κατάλογο του διακομιστή."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -344,7 +378,7 @@ msgstr "Φάκελος δεδομένων"
 
 #: templates/installation.php:57
 msgid "Configure the database"
-msgstr "Διαμόρφωση της βάσης δεδομένων"
+msgstr "Ρύθμιση της βάσης δεδομένων"
 
 #: templates/installation.php:62 templates/installation.php:73
 #: templates/installation.php:83 templates/installation.php:93
@@ -357,7 +391,7 @@ msgstr "Χρήστης της βάσης δεδομένων"
 
 #: templates/installation.php:109
 msgid "Database password"
-msgstr "Κωδικός πρόσβασης βάσης δεδομένων"
+msgstr "Συνθηματικό βάσης δεδομένων"
 
 #: templates/installation.php:113
 msgid "Database name"
@@ -375,35 +409,111 @@ msgstr "Διακομιστής βάσης δεδομένων"
 msgid "Finish setup"
 msgstr "Ολοκλήρωση εγκατάστασης"
 
-#: templates/layout.guest.php:38
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Sunday"
+msgstr "Κυριακή"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Monday"
+msgstr "Δευτέρα"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Tuesday"
+msgstr "Τρίτη"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Wednesday"
+msgstr "Τετάρτη"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Thursday"
+msgstr "Πέμπτη"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Friday"
+msgstr "Παρασκευή"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Saturday"
+msgstr "Σάββατο"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "January"
+msgstr "Ιανουάριος"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "February"
+msgstr "Φεβρουάριος"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "March"
+msgstr "Μάρτιος"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "April"
+msgstr "Απρίλιος"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "May"
+msgstr "Μάϊος"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "June"
+msgstr "Ιούνιος"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "July"
+msgstr "Ιούλιος"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "August"
+msgstr "Αύγουστος"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "September"
+msgstr "Σεπτέμβριος"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "October"
+msgstr "Οκτώβριος"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "November"
+msgstr "Νοέμβριος"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "December"
+msgstr "Δεκέμβριος"
+
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr "Υπηρεσίες web υπό τον έλεγχό σας"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Αποσύνδεση"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Απορρίφθηκε η αυτόματη σύνδεση!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Εάν δεν αλλάξατε το συνθηματικό σας προσφάτως, ο λογαριασμός μπορεί να έχει διαρρεύσει!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Παρακαλώ αλλάξτε το συνθηματικό σας για να ασφαλίσετε πάλι τον λογαριασμό σας."
 
 #: templates/login.php:15
 msgid "Lost your password?"
-msgstr "Ξεχάσατε τον κωδικό σας;"
+msgstr "Ξεχάσατε το συνθηματικό σας;"
 
 #: templates/login.php:27
 msgid "remember"
-msgstr "να με θυμάσαι"
+msgstr "απομνημόνευση"
 
 #: templates/login.php:28
 msgid "Log in"
@@ -423,14 +533,14 @@ msgstr "επόμενο"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "Προειδοποίηση Ασφαλείας!"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "Παρακαλώ επιβεβαιώστε το συνθηματικό σας. <br/>Για λόγους ασφαλείας μπορεί να ερωτάστε να εισάγετε ξανά το συνθηματικό σας."
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "Επαλήθευση"

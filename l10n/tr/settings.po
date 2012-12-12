@@ -5,14 +5,15 @@
 # Translators:
 # Aranel Surion <aranel@aranelsurion.org>, 2011, 2012.
 # Emre  <emresaracoglu@live.com>, 2012.
+#   <info@beyboo.de>, 2012.
 # Necdet Yücel <necdetyucel@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-09 02:03+0200\n"
-"PO-Revision-Date: 2012-10-09 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-05 00:04+0100\n"
+"PO-Revision-Date: 2012-12-04 11:41+0000\n"
+"Last-Translator: alpere <info@beyboo.de>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,70 +21,73 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/apps/ocs.php:23
+#: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "App Store'dan liste yüklenemiyor"
 
-#: ajax/creategroup.php:9 ajax/removeuser.php:13 ajax/setquota.php:18
-#: ajax/togglegroups.php:15
-msgid "Authentication error"
-msgstr "Eşleşme hata"
+#: ajax/creategroup.php:10
+msgid "Group already exists"
+msgstr "Grup zaten mevcut"
 
 #: ajax/creategroup.php:19
-msgid "Group already exists"
-msgstr ""
-
-#: ajax/creategroup.php:28
 msgid "Unable to add group"
-msgstr ""
+msgstr "Gruba eklenemiyor"
 
-#: ajax/enableapp.php:14
+#: ajax/enableapp.php:12
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Uygulama devreye alınamadı"
 
-#: ajax/lostpassword.php:14
+#: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "Eposta kaydedildi"
 
-#: ajax/lostpassword.php:16
+#: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "Geçersiz eposta"
 
-#: ajax/openid.php:16
+#: ajax/openid.php:13
 msgid "OpenID Changed"
 msgstr "OpenID Değiştirildi"
 
-#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
+#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
 msgstr "Geçersiz istek"
 
-#: ajax/removegroup.php:16
+#: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Grup silinemiyor"
 
-#: ajax/removeuser.php:22
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "Eşleşme hata"
+
+#: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Kullanıcı silinemiyor"
 
-#: ajax/setlanguage.php:18
+#: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Dil değiştirildi"
 
-#: ajax/togglegroups.php:25
-#, php-format
-msgid "Unable to add user to group %s"
+#: ajax/togglegroups.php:12
+msgid "Admins can't remove themself from the admin group"
 msgstr ""
 
-#: ajax/togglegroups.php:31
+#: ajax/togglegroups.php:28
+#, php-format
+msgid "Unable to add user to group %s"
+msgstr "Kullanıcı %s grubuna eklenemiyor"
+
+#: ajax/togglegroups.php:34
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr ""
 
-#: js/apps.js:28 js/apps.js:65
+#: js/apps.js:28 js/apps.js:67
 msgid "Disable"
 msgstr "Etkin değil"
 
-#: js/apps.js:28 js/apps.js:54
+#: js/apps.js:28 js/apps.js:55
 msgid "Enable"
 msgstr "Etkin"
 
@@ -91,96 +95,9 @@ msgstr "Etkin"
 msgid "Saving..."
 msgstr "Kaydediliyor..."
 
-#: personal.php:47 personal.php:48
+#: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "__dil_adı__"
-
-#: templates/admin.php:14
-msgid "Security Warning"
-msgstr "Güvenlik Uyarisi"
-
-#: templates/admin.php:17
-msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr ""
-
-#: templates/admin.php:31
-msgid "Cron"
-msgstr ""
-
-#: templates/admin.php:37
-msgid "Execute one task with each page loaded"
-msgstr ""
-
-#: templates/admin.php:43
-msgid ""
-"cron.php is registered at a webcron service. Call the cron.php page in the "
-"owncloud root once a minute over http."
-msgstr ""
-
-#: templates/admin.php:49
-msgid ""
-"Use systems cron service. Call the cron.php file in the owncloud folder via "
-"a system cronjob once a minute."
-msgstr ""
-
-#: templates/admin.php:56
-msgid "Sharing"
-msgstr ""
-
-#: templates/admin.php:61
-msgid "Enable Share API"
-msgstr ""
-
-#: templates/admin.php:62
-msgid "Allow apps to use the Share API"
-msgstr ""
-
-#: templates/admin.php:67
-msgid "Allow links"
-msgstr ""
-
-#: templates/admin.php:68
-msgid "Allow users to share items to the public with links"
-msgstr ""
-
-#: templates/admin.php:73
-msgid "Allow resharing"
-msgstr ""
-
-#: templates/admin.php:74
-msgid "Allow users to share items shared with them again"
-msgstr ""
-
-#: templates/admin.php:79
-msgid "Allow users to share with anyone"
-msgstr ""
-
-#: templates/admin.php:81
-msgid "Allow users to only share with users in their groups"
-msgstr ""
-
-#: templates/admin.php:88
-msgid "Log"
-msgstr "Günlük"
-
-#: templates/admin.php:116
-msgid "More"
-msgstr "Devamı"
-
-#: templates/admin.php:124
-msgid ""
-"Developed by the <a href=\"http://ownCloud.org/contact\" "
-"target=\"_blank\">ownCloud community</a>, the <a "
-"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
-"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
-"target=\"_blank\"><abbr title=\"Affero General Public "
-"License\">AGPL</abbr></a>."
-msgstr ""
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -188,7 +105,7 @@ msgstr "Uygulamanı Ekle"
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr ""
+msgstr "Daha fazla App"
 
 #: templates/apps.php:27
 msgid "Select an App"
@@ -214,21 +131,21 @@ msgstr "Büyük Dosyaların Yönetimi"
 msgid "Ask a question"
 msgstr "Bir soru sorun"
 
-#: templates/help.php:23
+#: templates/help.php:22
 msgid "Problems connecting to help database."
 msgstr "Yardım veritabanına bağlanmada sorunlar var."
 
-#: templates/help.php:24
+#: templates/help.php:23
 msgid "Go there manually."
 msgstr "Oraya elle gidin."
 
-#: templates/help.php:32
+#: templates/help.php:31
 msgid "Answer"
 msgstr "Cevap"
 
 #: templates/personal.php:8
 #, php-format
-msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
+msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr ""
 
 #: templates/personal.php:12
@@ -241,7 +158,7 @@ msgstr "İndir"
 
 #: templates/personal.php:19
 msgid "Your password was changed"
-msgstr ""
+msgstr "Şifreniz değiştirildi"
 
 #: templates/personal.php:20
 msgid "Unable to change your password"
@@ -287,6 +204,16 @@ msgstr "Çevirilere yardım edin"
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "bu adresi kullanarak ownCloud unuza dosya yöneticinizle bağlanın"
 
+#: templates/personal.php:61
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Geliştirilen Taraf<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is altında lisanslanmıştır <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"
 msgstr "Ad"
@@ -313,7 +240,7 @@ msgstr "Diğer"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr ""
+msgstr "Yönetici Grubu "
 
 #: templates/users.php:82
 msgid "Quota"

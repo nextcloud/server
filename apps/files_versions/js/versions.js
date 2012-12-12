@@ -73,7 +73,6 @@ function createVersionsDropdown(filename, files) {
 				$.each( versions, function(index, row ) {
 					addVersion( row );
 				});
-				$('#found_versions').chosen();
 			} else {
 				$('#found_versions').hide();
 				$('#makelink').hide();

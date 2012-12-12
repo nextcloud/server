@@ -3,20 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <>, 2012.
 # Peter Peroša <peter.perosa@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-30 02:02+0200\n"
-"PO-Revision-Date: 2012-08-29 06:02+0000\n"
-"Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
+"POT-Creation-Date: 2012-10-23 02:02+0200\n"
+"PO-Revision-Date: 2012-10-22 17:41+0000\n"
+"Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3)\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
 #: templates/settings.php:8
 msgid "Host"
@@ -25,7 +26,7 @@ msgstr "Gostitelj"
 #: templates/settings.php:8
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr "Protokol lahko izpustite, razen če zahtevate SSL. V tem primeru začnite z ldaps://"
+msgstr "Protokol je lahko izpuščen, če ni posebej zahtevan SSL. V tem primeru se mora naslov začeti z ldaps://"
 
 #: templates/settings.php:9
 msgid "Base DN"
@@ -44,7 +45,7 @@ msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr "DN uporabnikovega odjemalca, s katerim naj se opravi vezava, npr. uid=agent,dc=example,dc=com. Za anonimni dostop pustite polji DN in geslo prazni."
+msgstr "DN uporabnikovega odjemalca, s katerim naj se opravi vezava, npr. uid=agent,dc=example,dc=com. Za anonimni dostop sta polji DN in geslo prazni."
 
 #: templates/settings.php:11
 msgid "Password"
@@ -52,7 +53,7 @@ msgstr "Geslo"
 
 #: templates/settings.php:11
 msgid "For anonymous access, leave DN and Password empty."
-msgstr "Za anonimni dostop pustite polji DN in geslo prazni."
+msgstr "Za anonimni dostop sta polji DN in geslo prazni."
 
 #: templates/settings.php:12
 msgid "User Login Filter"
@@ -63,12 +64,12 @@ msgstr "Filter prijav uporabnikov"
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr "Določi filter uporabljen pri prijavi. %%uid nadomesti uporaniško ime pri prijavi."
+msgstr "Določi filter, uporabljen pri prijavi. %%uid nadomesti uporabniško ime za prijavo."
 
 #: templates/settings.php:12
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr "Uporabite ogrado %%uid, npr. \"uid=%%uid\"."
+msgstr "Uporabite vsebnik %%uid, npr. \"uid=%%uid\"."
 
 #: templates/settings.php:13
 msgid "User List Filter"
@@ -80,7 +81,7 @@ msgstr "Določi filter za uporabo med pridobivanjem uporabnikov."
 
 #: templates/settings.php:13
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr "Brez katerekoli ograde, npr. \"objectClass=person\"."
+msgstr "Brez kateregakoli vsebnika, npr. \"objectClass=person\"."
 
 #: templates/settings.php:14
 msgid "Group Filter"
@@ -92,7 +93,7 @@ msgstr "Določi filter za uporabo med pridobivanjem skupin."
 
 #: templates/settings.php:14
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr "Brez katerekoli ograde, npr. \"objectClass=posixGroup\"."
+msgstr "Brez katerekoli vsebnika, npr. \"objectClass=posixGroup\"."
 
 #: templates/settings.php:17
 msgid "Port"
@@ -116,25 +117,25 @@ msgstr "Uporabi TLS"
 
 #: templates/settings.php:21
 msgid "Do not use it for SSL connections, it will fail."
-msgstr "Ne uporabljajte ga za SSL povezave, saj ne bo delovalo."
+msgstr "Uporaba SSL za povezave bo spodletela."
 
 #: templates/settings.php:22
 msgid "Case insensitve LDAP server (Windows)"
-msgstr "LDAP strežnik je neobčutljiv na velikost črk (Windows)"
+msgstr "Strežnik LDAP ne upošteva velikosti črk (Windows)"
 
 #: templates/settings.php:23
 msgid "Turn off SSL certificate validation."
-msgstr "Onemogoči potrditev veljavnosti SSL certifikata."
+msgstr "Onemogoči potrditev veljavnosti potrdila SSL."
 
 #: templates/settings.php:23
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr "Če povezava deluje samo s to možnostjo, uvozite SSL potrdilo iz LDAP strežnika v vaš ownCloud strežnik."
+msgstr "V primeru, da povezava deluje le s to možnostjo, uvozite potrdilo SSL iz strežnika LDAP na vaš strežnik ownCloud."
 
 #: templates/settings.php:23
 msgid "Not recommended, use for testing only."
-msgstr "Odsvetovano, uporabite le v namene preizkušanja."
+msgstr "Dejanje ni priporočeno; uporabljeno naj bo le za preizkušanje delovanja."
 
 #: templates/settings.php:24
 msgid "User Display Name Field"
@@ -142,7 +143,7 @@ msgstr "Polje za uporabnikovo prikazano ime"
 
 #: templates/settings.php:24
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr "LDAP atribut uporabljen pri ustvarjanju ownCloud uporabniških imen."
+msgstr "Atribut LDAP, uporabljen pri ustvarjanju uporabniških imen ownCloud."
 
 #: templates/settings.php:25
 msgid "Group Display Name Field"
@@ -150,7 +151,7 @@ msgstr "Polje za prikazano ime skupine"
 
 #: templates/settings.php:25
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr "LDAP atribut uporabljen pri ustvarjanju ownCloud imen skupin."
+msgstr "Atribut LDAP, uporabljen pri ustvarjanju imen skupin ownCloud."
 
 #: templates/settings.php:27
 msgid "in bytes"
@@ -164,7 +165,7 @@ msgstr "v sekundah. Sprememba izprazni predpomnilnik."
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr "Pustite prazno za uporabniško ime (privzeto). V nasprotnem primeru navedite LDAP/AD atribut."
+msgstr "Pustite prazno za uporabniško ime (privzeto). V nasprotnem primeru navedite atribut LDAP/AD."
 
 #: templates/settings.php:32
 msgid "Help"

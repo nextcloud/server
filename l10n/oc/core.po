@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-16 00:02+0100\n"
+"PO-Revision-Date: 2012-11-14 23:13+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Occitan (post 1500) (http://www.transifex.com/projects/p/owncloud/language/oc/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,209 +18,241 @@ msgstr ""
 "Language: oc\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
-msgid "Application name not provided."
-msgstr "Nom d'applicacion pas donat."
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr ""
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr "Pas de categoria d'ajustar ?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
 msgstr "La categoria exista ja :"
 
-#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
-msgid "Settings"
-msgstr "Configuracion"
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr ""
 
-#: js/js.js:670
-msgid "January"
-msgstr "Genièr"
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr ""
 
-#: js/js.js:670
-msgid "February"
-msgstr "Febrièr"
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr ""
 
-#: js/js.js:670
-msgid "March"
-msgstr "Març"
-
-#: js/js.js:670
-msgid "April"
-msgstr "Abril"
-
-#: js/js.js:670
-msgid "May"
-msgstr "Mai"
-
-#: js/js.js:670
-msgid "June"
-msgstr "Junh"
-
-#: js/js.js:671
-msgid "July"
-msgstr "Julhet"
-
-#: js/js.js:671
-msgid "August"
-msgstr "Agost"
-
-#: js/js.js:671
-msgid "September"
-msgstr "Septembre"
-
-#: js/js.js:671
-msgid "October"
-msgstr "Octobre"
-
-#: js/js.js:671
-msgid "November"
-msgstr "Novembre"
-
-#: js/js.js:671
-msgid "December"
-msgstr "Decembre"
-
-#: js/oc-dialogs.js:123
-msgid "Choose"
-msgstr "Causís"
-
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
-msgid "Cancel"
-msgstr "Anulla"
-
-#: js/oc-dialogs.js:159
-msgid "No"
-msgstr "Non"
-
-#: js/oc-dialogs.js:160
-msgid "Yes"
-msgstr "Òc"
-
-#: js/oc-dialogs.js:177
-msgid "Ok"
-msgstr "D'accòrdi"
-
-#: js/oc-vcategories.js:68
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
 msgstr "Pas de categorias seleccionadas per escafar."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
-#: js/share.js:509
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr ""
+
+#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
+msgid "Settings"
+msgstr "Configuracion"
+
+#: js/js.js:688
+msgid "seconds ago"
+msgstr "segonda a"
+
+#: js/js.js:689
+msgid "1 minute ago"
+msgstr "1 minuta a"
+
+#: js/js.js:690
+msgid "{minutes} minutes ago"
+msgstr ""
+
+#: js/js.js:691
+msgid "1 hour ago"
+msgstr ""
+
+#: js/js.js:692
+msgid "{hours} hours ago"
+msgstr ""
+
+#: js/js.js:693
+msgid "today"
+msgstr "uèi"
+
+#: js/js.js:694
+msgid "yesterday"
+msgstr "ièr"
+
+#: js/js.js:695
+msgid "{days} days ago"
+msgstr ""
+
+#: js/js.js:696
+msgid "last month"
+msgstr "mes passat"
+
+#: js/js.js:697
+msgid "{months} months ago"
+msgstr ""
+
+#: js/js.js:698
+msgid "months ago"
+msgstr "meses  a"
+
+#: js/js.js:699
+msgid "last year"
+msgstr "an passat"
+
+#: js/js.js:700
+msgid "years ago"
+msgstr "ans a"
+
+#: js/oc-dialogs.js:126
+msgid "Choose"
+msgstr "Causís"
+
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+msgid "Cancel"
+msgstr "Anulla"
+
+#: js/oc-dialogs.js:162
+msgid "No"
+msgstr "Non"
+
+#: js/oc-dialogs.js:163
+msgid "Yes"
+msgstr "Òc"
+
+#: js/oc-dialogs.js:180
+msgid "Ok"
+msgstr "D'accòrdi"
+
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr ""
+
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/share.js:537
 msgid "Error"
 msgstr "Error"
 
-#: js/share.js:103
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr ""
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr ""
+
+#: js/share.js:124
 msgid "Error while sharing"
 msgstr "Error al partejar"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
 msgstr "Error al non partejar"
 
-#: js/share.js:121
+#: js/share.js:142
 msgid "Error while changing permissions"
 msgstr "Error al cambiar permissions"
 
-#: js/share.js:130
-msgid "Shared with you and the group"
-msgstr "Partejat amb tu e lo grop"
+#: js/share.js:151
+msgid "Shared with you and the group {group} by {owner}"
+msgstr ""
 
-#: js/share.js:130
-msgid "by"
-msgstr "per"
+#: js/share.js:153
+msgid "Shared with you by {owner}"
+msgstr ""
 
-#: js/share.js:132
-msgid "Shared with you by"
-msgstr "Partejat amb tu per"
-
-#: js/share.js:137
+#: js/share.js:158
 msgid "Share with"
 msgstr "Parteja amb"
 
-#: js/share.js:142
+#: js/share.js:163
 msgid "Share with link"
 msgstr "Parteja amb lo ligam"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
 msgstr "Parat per senhal"
 
-#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Senhal"
 
-#: js/share.js:152
+#: js/share.js:173
 msgid "Set expiration date"
 msgstr "Met la data d'expiracion"
 
-#: js/share.js:153
+#: js/share.js:174
 msgid "Expiration date"
 msgstr "Data d'expiracion"
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
 msgstr "Parteja tras corrièl :"
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
 msgstr "Deguns trobat"
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
 msgstr "Tornar partejar es pas permis"
 
-#: js/share.js:250
-msgid "Shared in"
-msgstr "Partejat dins"
-
-#: js/share.js:250
-msgid "with"
-msgstr "amb"
-
 #: js/share.js:271
+msgid "Shared in {item} with {user}"
+msgstr ""
+
+#: js/share.js:292
 msgid "Unshare"
 msgstr "Non parteje"
 
-#: js/share.js:283
+#: js/share.js:304
 msgid "can edit"
 msgstr "pòt modificar"
 
-#: js/share.js:285
+#: js/share.js:306
 msgid "access control"
 msgstr "Contraròtle d'acces"
 
-#: js/share.js:288
+#: js/share.js:309
 msgid "create"
 msgstr "crea"
 
-#: js/share.js:291
+#: js/share.js:312
 msgid "update"
 msgstr "met a jorn"
 
-#: js/share.js:294
+#: js/share.js:315
 msgid "delete"
 msgstr "escafa"
 
-#: js/share.js:297
+#: js/share.js:318
 msgid "share"
 msgstr "parteja"
 
-#: js/share.js:322 js/share.js:484
+#: js/share.js:343 js/share.js:512 js/share.js:514
 msgid "Password protected"
 msgstr "Parat per senhal"
 
-#: js/share.js:497
+#: js/share.js:525
 msgid "Error unsetting expiration date"
 msgstr "Error al metre de la data d'expiracion"
 
-#: js/share.js:509
+#: js/share.js:537
 msgid "Error setting expiration date"
 msgstr "Error setting expiration date"
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "senhal d'ownCloud tornat botar"
 
@@ -233,12 +265,12 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Reçaupràs un ligam per tornar botar ton senhal via corrièl."
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Requesit"
+msgid "Reset email send."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Fracàs de login"
+msgid "Request failed!"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -297,13 +329,13 @@ msgstr "Nívol pas trobada"
 msgid "Edit categories"
 msgstr "Edita categorias"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "Ajusta"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Avertiment de securitat"
 
 #: templates/installation.php:24
 msgid ""
@@ -371,11 +403,87 @@ msgstr "Òste de basa de donadas"
 msgid "Finish setup"
 msgstr "Configuracion acabada"
 
-#: templates/layout.guest.php:38
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Sunday"
+msgstr "Dimenge"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Monday"
+msgstr "Diluns"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Tuesday"
+msgstr "Dimarç"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Wednesday"
+msgstr "Dimecres"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Thursday"
+msgstr "Dijòus"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Friday"
+msgstr "Divendres"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Saturday"
+msgstr "Dissabte"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "January"
+msgstr "Genièr"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "February"
+msgstr "Febrièr"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "March"
+msgstr "Març"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "April"
+msgstr "Abril"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "May"
+msgstr "Mai"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "June"
+msgstr "Junh"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "July"
+msgstr "Julhet"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "August"
+msgstr "Agost"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "September"
+msgstr "Septembre"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "October"
+msgstr "Octobre"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "November"
+msgstr "Novembre"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "December"
+msgstr "Decembre"
+
+#: templates/layout.guest.php:41
 msgid "web services under your control"
 msgstr "Services web jos ton contraròtle"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:44
 msgid "Log out"
 msgstr "Sortida"
 

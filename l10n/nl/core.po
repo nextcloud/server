@@ -3,21 +3,27 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# André Koot <meneer@tken.net>, 2012.
 #   <bart.formosus@gmail.com>, 2011.
 #   <didi.debian@cknow.org>, 2012.
 # Erik Bent <hj.bent.60@gmail.com>, 2012.
 #   <icewind1991@gmail.com>, 2011.
 #   <jos@gelauff.net>, 2012.
 #   <koen@vervloesem.eu>, 2011.
+#   <lenny@weijl.org>, 2012.
+# Martin Wildeman <mhwildeman@gmail.com>, 2012.
 #   <pietje8501@gmail.com>, 2012.
 # Richard Bos <radoeka@gmail.com>, 2012.
+#   <transifex@thisnet.nl>, 2012.
+#   <translator@it-dept.eu>, 2012.
+#   <webbsite-mark@hotmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-19 00:01+0100\n"
+"PO-Revision-Date: 2012-11-18 13:25+0000\n"
+"Last-Translator: Len <lenny@weijl.org>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,209 +31,241 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
-msgid "Application name not provided."
-msgstr "Applicatie naam niet gegeven."
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr "Categorie type niet opgegeven."
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr "Geen categorie toevoegen?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
-msgstr "De categorie bestaat al."
+msgstr "Deze categorie bestaat al."
 
-#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
-msgid "Settings"
-msgstr "Instellingen"
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr "Object type niet opgegeven."
 
-#: js/js.js:670
-msgid "January"
-msgstr "Januari"
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr "%s ID niet opgegeven."
 
-#: js/js.js:670
-msgid "February"
-msgstr "Februari"
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr "Toevoegen van %s aan favorieten is mislukt."
 
-#: js/js.js:670
-msgid "March"
-msgstr "Maart"
-
-#: js/js.js:670
-msgid "April"
-msgstr "April"
-
-#: js/js.js:670
-msgid "May"
-msgstr "Mei"
-
-#: js/js.js:670
-msgid "June"
-msgstr "Juni"
-
-#: js/js.js:671
-msgid "July"
-msgstr "Juli"
-
-#: js/js.js:671
-msgid "August"
-msgstr "Augustus"
-
-#: js/js.js:671
-msgid "September"
-msgstr "September"
-
-#: js/js.js:671
-msgid "October"
-msgstr "Oktober"
-
-#: js/js.js:671
-msgid "November"
-msgstr "November"
-
-#: js/js.js:671
-msgid "December"
-msgstr "December"
-
-#: js/oc-dialogs.js:123
-msgid "Choose"
-msgstr "Kies"
-
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
-msgid "Cancel"
-msgstr "Annuleren"
-
-#: js/oc-dialogs.js:159
-msgid "No"
-msgstr "Nee"
-
-#: js/oc-dialogs.js:160
-msgid "Yes"
-msgstr "Ja"
-
-#: js/oc-dialogs.js:177
-msgid "Ok"
-msgstr "Ok"
-
-#: js/oc-vcategories.js:68
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
 msgstr "Geen categorie geselecteerd voor verwijdering."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
-#: js/share.js:509
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr "Verwijderen %s van favorieten is mislukt."
+
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+msgid "Settings"
+msgstr "Instellingen"
+
+#: js/js.js:704
+msgid "seconds ago"
+msgstr "seconden geleden"
+
+#: js/js.js:705
+msgid "1 minute ago"
+msgstr "1 minuut geleden"
+
+#: js/js.js:706
+msgid "{minutes} minutes ago"
+msgstr "{minutes} minuten geleden"
+
+#: js/js.js:707
+msgid "1 hour ago"
+msgstr "1 uur geleden"
+
+#: js/js.js:708
+msgid "{hours} hours ago"
+msgstr "{hours} uren geleden"
+
+#: js/js.js:709
+msgid "today"
+msgstr "vandaag"
+
+#: js/js.js:710
+msgid "yesterday"
+msgstr "gisteren"
+
+#: js/js.js:711
+msgid "{days} days ago"
+msgstr "{days} dagen geleden"
+
+#: js/js.js:712
+msgid "last month"
+msgstr "vorige maand"
+
+#: js/js.js:713
+msgid "{months} months ago"
+msgstr "{months} maanden geleden"
+
+#: js/js.js:714
+msgid "months ago"
+msgstr "maanden geleden"
+
+#: js/js.js:715
+msgid "last year"
+msgstr "vorig jaar"
+
+#: js/js.js:716
+msgid "years ago"
+msgstr "jaar geleden"
+
+#: js/oc-dialogs.js:126
+msgid "Choose"
+msgstr "Kies"
+
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+msgid "Cancel"
+msgstr "Annuleren"
+
+#: js/oc-dialogs.js:162
+msgid "No"
+msgstr "Nee"
+
+#: js/oc-dialogs.js:163
+msgid "Yes"
+msgstr "Ja"
+
+#: js/oc-dialogs.js:180
+msgid "Ok"
+msgstr "Ok"
+
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr "Het object type is niet gespecificeerd."
+
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
+#: js/share.js:539
 msgid "Error"
 msgstr "Fout"
 
-#: js/share.js:103
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr "De app naam is niet gespecificeerd."
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr "Het vereiste bestand {file} is niet geïnstalleerd!"
+
+#: js/share.js:124
 msgid "Error while sharing"
 msgstr "Fout tijdens het delen"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
 msgstr "Fout tijdens het stoppen met delen"
 
-#: js/share.js:121
+#: js/share.js:142
 msgid "Error while changing permissions"
 msgstr "Fout tijdens het veranderen van permissies"
 
-#: js/share.js:130
-msgid "Shared with you and the group"
-msgstr "Gedeeld me u en de groep"
+#: js/share.js:151
+msgid "Shared with you and the group {group} by {owner}"
+msgstr "Gedeeld met u en de groep {group} door {owner}"
 
-#: js/share.js:130
-msgid "by"
-msgstr "door"
+#: js/share.js:153
+msgid "Shared with you by {owner}"
+msgstr "Gedeeld met u door {owner}"
 
-#: js/share.js:132
-msgid "Shared with you by"
-msgstr "Gedeeld met u door"
-
-#: js/share.js:137
+#: js/share.js:158
 msgid "Share with"
 msgstr "Deel met"
 
-#: js/share.js:142
+#: js/share.js:163
 msgid "Share with link"
 msgstr "Deel met link"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
-msgstr "Passeerwoord beveiliging"
+msgstr "Wachtwoord beveiliging"
 
-#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: js/share.js:152
+#: js/share.js:173
 msgid "Set expiration date"
-msgstr "Zet vervaldatum"
+msgstr "Stel vervaldatum in"
 
-#: js/share.js:153
+#: js/share.js:174
 msgid "Expiration date"
 msgstr "Vervaldatum"
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
 msgstr "Deel via email:"
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
 msgstr "Geen mensen gevonden"
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
 msgstr "Verder delen is niet toegestaan"
 
-#: js/share.js:250
-msgid "Shared in"
-msgstr "Gedeeld in"
-
-#: js/share.js:250
-msgid "with"
-msgstr "met"
-
 #: js/share.js:271
+msgid "Shared in {item} with {user}"
+msgstr "Gedeeld in {item} met {user}"
+
+#: js/share.js:292
 msgid "Unshare"
 msgstr "Stop met delen"
 
-#: js/share.js:283
+#: js/share.js:304
 msgid "can edit"
 msgstr "kan wijzigen"
 
-#: js/share.js:285
+#: js/share.js:306
 msgid "access control"
 msgstr "toegangscontrole"
 
-#: js/share.js:288
+#: js/share.js:309
 msgid "create"
 msgstr "maak"
 
-#: js/share.js:291
+#: js/share.js:312
 msgid "update"
 msgstr "bijwerken"
 
-#: js/share.js:294
+#: js/share.js:315
 msgid "delete"
 msgstr "verwijderen"
 
-#: js/share.js:297
+#: js/share.js:318
 msgid "share"
 msgstr "deel"
 
-#: js/share.js:322 js/share.js:484
+#: js/share.js:343 js/share.js:514 js/share.js:516
 msgid "Password protected"
-msgstr "Passeerwoord beveiligd"
+msgstr "Wachtwoord beveiligd"
 
-#: js/share.js:497
+#: js/share.js:527
 msgid "Error unsetting expiration date"
 msgstr "Fout tijdens het verwijderen van de verval datum"
 
-#: js/share.js:509
+#: js/share.js:539
 msgid "Error setting expiration date"
-msgstr "Fout tijdens het configureren van de vervaldatum"
+msgstr "Fout tijdens het instellen van de vervaldatum"
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "ownCloud wachtwoord herstellen"
 
@@ -237,15 +275,15 @@ msgstr "Gebruik de volgende link om je wachtwoord te resetten: {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "U ontvangt een link om je wachtwoord opnieuw in te stellen via e-mail."
+msgstr "U ontvangt een link om uw wachtwoord opnieuw in te stellen via e-mail."
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Gevraagd"
+msgid "Reset email send."
+msgstr "Reset e-mail verstuurd."
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Login mislukt!"
+msgid "Request failed!"
+msgstr "Verzoek mislukt!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -304,25 +342,25 @@ msgstr "Cloud niet gevonden"
 msgid "Edit categories"
 msgstr "Wijzigen categorieën"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "Toevoegen"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Beveiligingswaarschuwing"
 
 #: templates/installation.php:24
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Er kon geen willekeurig nummer worden gegenereerd. Zet de PHP OpenSSL extentie aan."
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "Zonder random nummer generator is het mogelijk voor een aanvaller om de reset tokens van wachtwoorden te voorspellen. Dit kan leiden tot het inbreken op uw account."
 
 #: templates/installation.php:32
 msgid ""
@@ -331,7 +369,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Uw data is waarschijnlijk toegankelijk vanaf net internet. Het  .htaccess bestand dat ownCloud levert werkt niet goed. U wordt aangeraden om de configuratie van uw webserver zodanig aan te passen dat de data folders niet meer publiekelijk toegankelijk zijn. U kunt ook de data folder verplaatsen naar een folder buiten de webserver document folder."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -347,7 +385,7 @@ msgstr "Gegevensmap"
 
 #: templates/installation.php:57
 msgid "Configure the database"
-msgstr "Configureer de databank"
+msgstr "Configureer de database"
 
 #: templates/installation.php:62 templates/installation.php:73
 #: templates/installation.php:83 templates/installation.php:93
@@ -356,15 +394,15 @@ msgstr "zal gebruikt worden"
 
 #: templates/installation.php:105
 msgid "Database user"
-msgstr "Gebruiker databank"
+msgstr "Gebruiker database"
 
 #: templates/installation.php:109
 msgid "Database password"
-msgstr "Wachtwoord databank"
+msgstr "Wachtwoord database"
 
 #: templates/installation.php:113
 msgid "Database name"
-msgstr "Naam databank"
+msgstr "Naam database"
 
 #: templates/installation.php:121
 msgid "Database tablespace"
@@ -378,27 +416,103 @@ msgstr "Database server"
 msgid "Finish setup"
 msgstr "Installatie afronden"
 
-#: templates/layout.guest.php:38
-msgid "web services under your control"
-msgstr "webdiensten die je beheerst"
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Sunday"
+msgstr "Zondag"
 
-#: templates/layout.user.php:34
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Monday"
+msgstr "Maandag"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Tuesday"
+msgstr "Dinsdag"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Wednesday"
+msgstr "Woensdag"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Thursday"
+msgstr "Donderdag"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Friday"
+msgstr "Vrijdag"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Saturday"
+msgstr "Zaterdag"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "January"
+msgstr "januari"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "February"
+msgstr "februari"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "March"
+msgstr "maart"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "April"
+msgstr "april"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "May"
+msgstr "mei"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "June"
+msgstr "juni"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "July"
+msgstr "juli"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "August"
+msgstr "augustus"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "September"
+msgstr "september"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "October"
+msgstr "oktober"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "November"
+msgstr "november"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "December"
+msgstr "december"
+
+#: templates/layout.guest.php:42
+msgid "web services under your control"
+msgstr "Webdiensten in eigen beheer"
+
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Afmelden"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Automatische aanmelding geweigerd!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Als u uw wachtwoord niet onlangs heeft aangepast, kan uw account overgenomen zijn!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Wijzig uw wachtwoord zodat uw account weer beveiligd is."
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -426,14 +540,14 @@ msgstr "volgende"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "Beveiligingswaarschuwing!"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "Verifieer uw wachtwoord!<br/>Om veiligheidsredenen wordt u regelmatig gevraagd uw wachtwoord in te geven."
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "Verifieer"

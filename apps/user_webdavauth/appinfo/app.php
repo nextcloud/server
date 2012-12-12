@@ -23,7 +23,7 @@
 
 require_once 'apps/user_webdavauth/user_webdavauth.php';
 
-OC_APP::registerAdmin('user_webdavauth','settings');
+OC_APP::registerAdmin('user_webdavauth', 'settings');
 
 OC_User::registerBackend("WEBDAVAUTH");
 OC_User::useBackend( "WEBDAVAUTH" );

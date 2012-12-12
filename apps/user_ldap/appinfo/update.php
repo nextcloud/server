@@ -34,22 +34,49 @@ $groupBE = new \OCA\user_ldap\GROUP_LDAP();
 $groupBE->setConnector($connector);
 
 foreach($objects as $object) {
-	$fetchDNSql = 'SELECT `ldap_dn`, `owncloud_name` FROM `*PREFIX*ldap_'.$object.'_mapping` WHERE `directory_uuid` = ""';
-	$updateSql = 'UPDATE `*PREFIX*ldap_'.$object.'_mapping` SET `ldap_DN` = ?, `directory_uuid` = ? WHERE `ldap_dn` = ?';
+	$fetchDNSql = '
+		SELECT `ldap_dn`, `owncloud_name`, `directory_uuid`
+		FROM `*PREFIX*ldap_'.$object.'_mapping`';
+	$updateSql = '
+		UPDATE `*PREFIX*ldap_'.$object.'_mapping`
+		SET `ldap_DN` = ?, `directory_uuid` = ?
+		WHERE `ldap_dn` = ?';
 
 	$query = OCP\DB::prepare($fetchDNSql);
 	$res = $query->execute();
 	$DNs = $res->fetchAll();
 	$updateQuery = OCP\DB::prepare($updateSql);
 	foreach($DNs as $dn) {
-		$newDN = mb_strtolower($dn['ldap_dn'], 'UTF-8');
-		if($object == 'user') {
+		$newDN = escapeDN(mb_strtolower($dn['ldap_dn'], 'UTF-8'));
+		if(!empty($dn['directory_uuid'])) {
+			$uuid = $dn['directory_uuid'];
+		} elseif($object == 'user') {
 			$uuid = $userBE->getUUID($newDN);
 			//fix home folder to avoid new ones depending on the configuration
 			$userBE->getHome($dn['owncloud_name']);
 		} else {
 			$uuid = $groupBE->getUUID($newDN);
 		}
-		$updateQuery->execute(array($newDN, $uuid, $dn['ldap_dn']));
+		try {
+			$updateQuery->execute(array($newDN, $uuid, $dn['ldap_dn']));
+		} catch(Exception $e) {
+		    \OCP\Util::writeLog('user_ldap', 'Could not update '.$object.' '.$dn['ldap_dn'].' in the mappings table. ', \OCP\Util::WARN);
+		}
+
 	}
+}
+
+function escapeDN($dn) {
+	$aDN = ldap_explode_dn($dn, false);
+	unset($aDN['count']);
+	foreach($aDN as $key => $part) {
+		$value = substr($part, strpos($part, '=')+1);
+		$escapedValue = strtr($value, Array(','=>'\2c', '='=>'\3d', '+'=>'\2b',
+			'<'=>'\3c', '>'=>'\3e', ';'=>'\3b', '\\'=>'\5c',
+			'"'=>'\22', '#'=>'\23'));
+		$part = str_replace($part, $value, $escapedValue);
+	}
+	$dn = implode(',', $aDN);
+
+	return $dn;
 }

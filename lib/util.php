@@ -24,6 +24,11 @@ class OC_Util {
 			$user = OC_User::getUser();
 		}
 
+		// load all filesystem apps before, so no setup-hook gets lost
+		if(!isset($RUNTIME_NOAPPS) || !$RUNTIME_NOAPPS) {
+			OC_App::loadApps(array('filesystem'));
+		}
+
 		// the filesystem will finish when $user is not empty,
 		// mark fs setup here to avoid doing the setup from loading
 		// OC_Filesystem
@@ -34,7 +39,7 @@ class OC_Util {
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//first set up the local "root" storage
 		if(!self::$rootMounted) {
-			OC_Filesystem::mount('OC_Filestorage_Local',array('datadir'=>$CONFIG_DATADIRECTORY),'/');
+			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir'=>$CONFIG_DATADIRECTORY), '/');
 			self::$rootMounted=true;
 		}
 
@@ -47,27 +52,13 @@ class OC_Util {
 			}
 			//jail the user into his "home" directory
 			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir' => $user_root), $user);
-			OC_Filesystem::init($user_dir);
+			OC_Filesystem::init($user_dir, $user);
 			$quotaProxy=new OC_FileProxy_Quota();
 			$fileOperationProxy = new OC_FileProxy_FileOperations();
 			OC_FileProxy::register($quotaProxy);
 			OC_FileProxy::register($fileOperationProxy);
 			// Load personal mount config
-			if (is_file($user_root.'/mount.php')) {
-				$mountConfig = include($user_root.'/mount.php');
-				if (isset($mountConfig['user'][$user])) {
-					foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
-						OC_Filesystem::mount($options['class'], $options['options'], $mountPoint);
-					}
-				}
-
-				$mtime=filemtime($user_root.'/mount.php');
-				$previousMTime=OC_Preferences::getValue($user,'files','mountconfigmtime',0);
-				if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
-					OC_FileCache::triggerUpdate($user);
-					OC_Preferences::setValue($user,'files','mountconfigmtime',$mtime);
-				}
-			}
+			self::loadUserMountPoints($user);
 			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $user_dir));
 		}
 	}
@@ -77,13 +68,34 @@ class OC_Util {
 		self::$fsSetup=false;
 	}
 
+	public static function loadUserMountPoints($user) {
+		$user_dir = '/'.$user.'/files';
+		$user_root = OC_User::getHome($user);
+		$userdirectory = $user_root . '/files';
+		if (is_file($user_root.'/mount.php')) {
+			$mountConfig = include $user_root.'/mount.php';
+			if (isset($mountConfig['user'][$user])) {
+				foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
+					OC_Filesystem::mount($options['class'], $options['options'], $mountPoint);
+				}
+			}
+
+			$mtime=filemtime($user_root.'/mount.php');
+			$previousMTime=OC_Preferences::getValue($user, 'files', 'mountconfigmtime', 0);
+			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
+				OC_FileCache::triggerUpdate($user);
+				OC_Preferences::setValue($user, 'files', 'mountconfigmtime', $mtime);
+			}
+		}
+	}
+
 	/**
 	 * get the current installed version of ownCloud
 	 * @return array
 	 */
 	public static function getVersion() {
 		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4.90.0. This is not visible to the user
-		return array(4,91,00);
+		return array(4, 91, 02);
 	}
 
 	/**
@@ -145,7 +157,7 @@ class OC_Util {
 	 * @param string $text the text content for the element
 	 */
 	public static function addHeader( $tag, $attributes, $text='') {
-		self::$headers[]=array('tag'=>$tag,'attributes'=>$attributes,'text'=>$text);
+		self::$headers[]=array('tag'=>$tag,'attributes'=>$attributes, 'text'=>$text);
 	}
 
 	/**
@@ -154,16 +166,16 @@ class OC_Util {
 	 * @param int timestamp $timestamp
 	 * @param bool dateOnly option to ommit time from the result
 	 */
-    public static function formatDate( $timestamp,$dateOnly=false) {
+    public static function formatDate( $timestamp, $dateOnly=false) {
 		if(isset($_SESSION['timezone'])) {//adjust to clients timezone if we know it
 			$systemTimeZone = intval(date('O'));
-			$systemTimeZone=(round($systemTimeZone/100,0)*60)+($systemTimeZone%100);
+			$systemTimeZone=(round($systemTimeZone/100, 0)*60)+($systemTimeZone%100);
 			$clientTimeZone=$_SESSION['timezone']*60;
 			$offset=$clientTimeZone-$systemTimeZone;
 			$timestamp=$timestamp+$offset*60;
 		}
-		$timeformat=$dateOnly?'F j, Y':'F j, Y, H:i';
-		return date($timeformat,$timestamp);
+		$l=OC_L10N::get('lib');
+		return $l->l($dateOnly ? 'date' : 'datetime', $timestamp);
     }
 
 	/**
@@ -174,7 +186,7 @@ class OC_Util {
 	 * @param string $url
 	 * @return OC_Template
 	 */
-	public static function getPageNavi($pagecount,$page,$url) {
+	public static function getPageNavi($pagecount, $page, $url) {
 
 		$pagelinkcount=8;
 		if ($pagecount>1) {
@@ -184,11 +196,11 @@ class OC_Util {
 			if($pagestop>$pagecount) $pagestop=$pagecount;
 
 			$tmpl = new OC_Template( '', 'part.pagenavi', '' );
-			$tmpl->assign('page',$page);
-			$tmpl->assign('pagecount',$pagecount);
-			$tmpl->assign('pagestart',$pagestart);
-			$tmpl->assign('pagestop',$pagestop);
-			$tmpl->assign('url',$url);
+			$tmpl->assign('page', $page);
+			$tmpl->assign('pagecount', $pagecount);
+			$tmpl->assign('pagestart', $pagestart);
+			$tmpl->assign('pagestop', $pagestop);
+			$tmpl->assign('url', $url);
 			return $tmpl;
 		}
 	}
@@ -205,7 +217,7 @@ class OC_Util {
 		$web_server_restart= false;
 		//check for database drivers
 		if(!(is_callable('sqlite_open') or class_exists('SQLite3')) and !is_callable('mysql_connect') and !is_callable('pg_connect')) {
-			$errors[]=array('error'=>'No database drivers (sqlite, mysql, or postgresql) installed.<br/>','hint'=>'');//TODO: sane hint
+			$errors[]=array('error'=>'No database drivers (sqlite, mysql, or postgresql) installed.<br/>', 'hint'=>'');//TODO: sane hint
 			$web_server_restart= true;
 		}
 
@@ -214,13 +226,13 @@ class OC_Util {
 
 		// Check if config folder is writable.
 		if(!is_writable(OC::$SERVERROOT."/config/") or !is_readable(OC::$SERVERROOT."/config/")) {
-			$errors[]=array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud");
+			$errors[]=array('error'=>"Can't write into config directory 'config'", 'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud");
 		}
 
 		// Check if there is a writable install folder.
 		if(OC_Config::getValue('appstoreenabled', true)) {
 			if( OC_App::getInstallPath() === null  || !is_writable(OC_App::getInstallPath()) || !is_readable(OC_App::getInstallPath()) ) {
-				$errors[]=array('error'=>"Can't write into apps directory",'hint'=>"You can usually fix this by giving the webserver user write access to the apps directory
+				$errors[]=array('error'=>"Can't write into apps directory", 'hint'=>"You can usually fix this by giving the webserver user write access to the apps directory
 				in owncloud or disabling the appstore in the config file.");
 			}
 		}
@@ -229,24 +241,24 @@ class OC_Util {
 		//check for correct file permissions
 		if(!stristr(PHP_OS, 'WIN')) {
 			$permissionsModHint="Please change the permissions to 0770 so that the directory cannot be listed by other users.";
-			$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)),-3);
-			if(substr($prems,-1)!='0') {
-				OC_Helper::chmodr($CONFIG_DATADIRECTORY,0770);
+			$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)), -3);
+			if(substr($prems, -1)!='0') {
+				OC_Helper::chmodr($CONFIG_DATADIRECTORY, 0770);
 				clearstatcache();
-				$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)),-3);
-				if(substr($prems,2,1)!='0') {
-					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') is readable for other users<br/>','hint'=>$permissionsModHint);
+				$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)), -3);
+				if(substr($prems, 2, 1)!='0') {
+					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') is readable for other users<br/>', 'hint'=>$permissionsModHint);
 				}
 			}
 			if( OC_Config::getValue( "enablebackup", false )) {
 				$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
-				$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)),-3);
-				if(substr($prems,-1)!='0') {
-					OC_Helper::chmodr($CONFIG_BACKUPDIRECTORY,0770);
+				$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)), -3);
+				if(substr($prems, -1)!='0') {
+					OC_Helper::chmodr($CONFIG_BACKUPDIRECTORY, 0770);
 					clearstatcache();
-					$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)),-3);
-					if(substr($prems,2,1)!='0') {
-						$errors[]=array('error'=>'Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable for other users<br/>','hint'=>$permissionsModHint);
+					$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)), -3);
+					if(substr($prems, 2, 1)!='0') {
+						$errors[]=array('error'=>'Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable for other users<br/>', 'hint'=>$permissionsModHint);
 					}
 				}
 			}
@@ -257,54 +269,57 @@ class OC_Util {
 		if(!is_dir($CONFIG_DATADIRECTORY)) {
 			$success=@mkdir($CONFIG_DATADIRECTORY);
 			if(!$success) {
-				$errors[]=array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY.")",'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ");
+				$errors[]=array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY.")", 'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ");
 			}
 		} else if(!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
-			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') not writable by ownCloud<br/>','hint'=>$permissionsHint);
+			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') not writable by ownCloud<br/>', 'hint'=>$permissionsHint);
 		}
 
 		// check if all required php modules are present
 		if(!class_exists('ZipArchive')) {
-			$errors[]=array('error'=>'PHP module zip not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module zip not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 
 		if(!function_exists('mb_detect_encoding')) {
-			$errors[]=array('error'=>'PHP module mb multibyte not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module mb multibyte not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('ctype_digit')) {
-			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('json_encode')) {
-			$errors[]=array('error'=>'PHP module JSON is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module JSON is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('imagepng')) {
-			$errors[]=array('error'=>'PHP module GD is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module GD is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('gzencode')) {
-			$errors[]=array('error'=>'PHP module zlib is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module zlib is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
-
+		if(!function_exists('iconv')) {
+			$errors[]=array('error'=>'PHP module iconv is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
+			$web_server_restart= false;
+		}
 		if(!function_exists('simplexml_load_string')) {
-			$errors[]=array('error'=>'PHP module SimpleXML is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module SimpleXML is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(floatval(phpversion())<5.3) {
-			$errors[]=array('error'=>'PHP 5.3 is required.<br/>','hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher. PHP 5.2 is no longer supported by ownCloud and the PHP community.');
+			$errors[]=array('error'=>'PHP 5.3 is required.<br/>', 'hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher. PHP 5.2 is no longer supported by ownCloud and the PHP community.');
 			$web_server_restart= false;
 		}
 		if(!defined('PDO::ATTR_DRIVER_NAME')) {
-			$errors[]=array('error'=>'PHP PDO module is not installed.<br/>','hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP PDO module is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 
 		if($web_server_restart) {
-			$errors[]=array('error'=>'PHP modules have been installed, but they are still listed as missing?<br/>','hint'=>'Please ask your server administrator to restart the web server.');
+			$errors[]=array('error'=>'PHP modules have been installed, but they are still listed as missing?<br/>', 'hint'=>'Please ask your server administrator to restart the web server.');
 		}
 
 		return $errors;
@@ -325,10 +340,8 @@ class OC_Util {
 		}
 		if (isset($_REQUEST['redirect_url'])) {
 			$redirect_url = OC_Util::sanitizeHTML($_REQUEST['redirect_url']);
-		} else {
-			$redirect_url = $_SERVER['REQUEST_URI'];
-		}
-		$parameters['redirect_url'] = $redirect_url;
+			$parameters['redirect_url'] = urlencode($redirect_url);
+		} 
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
@@ -376,7 +389,7 @@ class OC_Util {
 		// Check if we are a user
 		self::checkLoggedIn();
 		self::verifyUser();
-		if(OC_Group::inGroup(OC_User::getUser(),'admin')) {
+		if(OC_Group::inGroup(OC_User::getUser(), 'admin')) {
 			return true;
 		}
 		if(!OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
@@ -391,7 +404,7 @@ class OC_Util {
 	* If not, the user will be shown a password verification page
 	*/
 	public static function verifyUser() {
-		if(OC_Config::getValue('enhancedauth', true) === true) {
+		if(OC_Config::getValue('enhancedauth', false) === true) {
 					// Check password to set session
 			if(isset($_POST['password'])) {
 				if (OC_User::login(OC_User::getUser(), $_POST["password"] ) === true) {
@@ -412,20 +425,20 @@ class OC_Util {
 	* @return bool
 	*/
 	public static function isUserVerified() {
-		if(OC_Config::getValue('enhancedauth', true) === true) {
+		if(OC_Config::getValue('enhancedauth', false) === true) {
 			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
 				return false;
 			}
-			return true;
 		}
+		return true;
 	}
-	
+
 	/**
 	* Redirect to the user default page
 	*/
 	public static function redirectToDefaultPage() {
-		if(isset($_REQUEST['redirect_url']) && (substr($_REQUEST['redirect_url'], 0, strlen(OC::$WEBROOT)) == OC::$WEBROOT || $_REQUEST['redirect_url'][0] == '/')) {
-			$location = $_REQUEST['redirect_url'];
+		if(isset($_REQUEST['redirect_url'])) {
+			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
 		}
 		else if (isset(OC::$REQUESTEDAPP) && !empty(OC::$REQUESTEDAPP)) {
 			$location = OC_Helper::linkToAbsolute( OC::$REQUESTEDAPP, 'index.php' );
@@ -449,24 +462,13 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getInstanceId() {
-		$id=OC_Config::getValue('instanceid',null);
+		$id=OC_Config::getValue('instanceid', null);
 		if(is_null($id)) {
 			$id=uniqid();
-			OC_Config::setValue('instanceid',$id);
+			OC_Config::setValue('instanceid', $id);
 		}
 		return $id;
 	}
-
-	/**
-	 * @brief Static lifespan (in seconds) when a request token expires.
-	 * @see OC_Util::callRegister()
-	 * @see OC_Util::isCallRegistered()
-	 * @description
-	 * Also required for the client side to compute the piont in time when to
-	 * request a fresh token. The client will do so when nearly 97% of the
-	 * timespan coded here has expired.
-	 */
-	public static $callLifespan = 3600; // 3600 secs = 1 hour
 
 	/**
 	 * @brief Register an get/post call. Important to prevent CSRF attacks.
@@ -476,40 +478,25 @@ class OC_Util {
 	 * Creates a 'request token' (random) and stores it inside the session.
 	 * Ever subsequent (ajax) request must use such a valid token to succeed,
 	 * otherwise the request will be denied as a protection against CSRF.
-	 * The tokens expire after a fixed lifespan.
-	 * @see OC_Util::$callLifespan
 	 * @see OC_Util::isCallRegistered()
 	 */
 	public static function callRegister() {
-		// generate a random token.
-		$token = self::generate_random_bytes(20);
-
-		// store the token together with a timestamp in the session.
-		$_SESSION['requesttoken-'.$token]=time();
-
-		// cleanup old tokens garbage collector
-		// only run every 20th time so we don't waste cpu cycles
-		if(rand(0,20)==0) {
-			foreach($_SESSION as $key=>$value) {
-				// search all tokens in the session
-				if(substr($key,0,12)=='requesttoken') {
-					// check if static lifespan has expired
-					if($value+self::$callLifespan<time()) {
-						// remove outdated tokens
-						unset($_SESSION[$key]);
-					}
-				}
-			}
+		// Check if a token exists
+		if(!isset($_SESSION['requesttoken'])) {
+			// No valid token found, generate a new one.
+			$requestToken = self::generate_random_bytes(20);
+			$_SESSION['requesttoken']=$requestToken;
+		} else {
+			// Valid token already exists, send it
+			$requestToken = $_SESSION['requesttoken'];
 		}
-		// return the token
-		return($token);
+		return($requestToken);
 	}
 
 	/**
 	 * @brief Check an ajax get/post call if the request token is valid.
 	 * @return boolean False if request token is not set or is invalid.
-	 * @see OC_Util::$callLifespan
-	 * @see OC_Util::calLRegister()
+	 * @see OC_Util::callRegister()
 	 */
 	public static function isCallRegistered() {
 		if(isset($_GET['requesttoken'])) {
@@ -522,17 +509,14 @@ class OC_Util {
 			//no token found.
 			return false;
 		}
-		if(isset($_SESSION['requesttoken-'.$token])) {
-			$timestamp=$_SESSION['requesttoken-'.$token];
-			// check if static lifespan has expired
-			if($timestamp+self::$callLifespan<time()) {
-				return false;
-			}else{
-				//token valid
-				return true;
-			}
-		}else{
+
+		// Check if the token is valid
+		if($token !== $_SESSION['requesttoken']) {
+			// Not valid
 			return false;
+		} else {
+			// Valid token
+			return true;
 		}
 	}
 
@@ -556,7 +540,7 @@ class OC_Util {
 	 * @return array with sanitized strings or a single sanitized string, depends on the input parameter.
 	 */
 	public static function sanitizeHTML( &$value ) {
-		if (is_array($value) || is_object($value)) array_walk_recursive($value,'OC_Util::sanitizeHTML');
+		if (is_array($value) || is_object($value)) array_walk_recursive($value, 'OC_Util::sanitizeHTML');
 		else $value = htmlentities($value, ENT_QUOTES, 'UTF-8'); //Specify encoding for PHP<5.4
 		return $value;
 	}
@@ -572,6 +556,11 @@ class OC_Util {
 
 		// creating a test file
 		$testfile = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ).'/'.$filename;
+
+		if(file_exists($testfile)) {// already running this test, possible recursive call
+			return false;
+		}
+
 		$fp = @fopen($testfile, 'w');
 		@fwrite($fp, $testcontent);
 		@fclose($fp);
@@ -593,6 +582,42 @@ class OC_Util {
 		}
 	}
 
+
+        /**
+         * Check if the ownCloud server can connect to the internet
+         */
+        public static function isinternetconnectionworking() {
+
+		// try to connect to owncloud.org to see if http connections to the internet are possible.
+		$connected = @fsockopen("www.owncloud.org", 80); 
+		if ($connected) {
+			fclose($connected);
+			return true;
+		}else{
+
+			// second try in case one server is down
+			$connected = @fsockopen("apps.owncloud.com", 80); 
+			if ($connected) {
+				fclose($connected);
+				return true;
+			}else{
+				return false;
+			}
+
+		}
+
+	}
+
+	/**
+	 * clear all levels of output buffering
+	 */
+	public static function obEnd(){
+		while (ob_get_level()) {
+			ob_end_clean();
+		}
+	}
+
+
 	/**
 	* @brief Generates a cryptographical secure pseudorandom string
 	* @param Int with the length of the random string
@@ -604,14 +629,14 @@ class OC_Util {
 		// Try to use openssl_random_pseudo_bytes
 		if(function_exists('openssl_random_pseudo_bytes')) {
 			$pseudo_byte = bin2hex(openssl_random_pseudo_bytes($length, $strong));
-			if($strong == TRUE) {
+			if($strong == true) {
 				return substr($pseudo_byte, 0, $length); // Truncate it to match the length
 			}
 		}
 
 		// Try to use /dev/urandom
 		$fp = @file_get_contents('/dev/urandom', false, null, 0, $length);
-		if ($fp !== FALSE) {
+		if ($fp !== false) {
 			$string = substr(bin2hex($fp), 0, $length);
 			return $string;
 		}
@@ -638,17 +663,56 @@ class OC_Util {
 		// Check openssl_random_pseudo_bytes
 		if(function_exists('openssl_random_pseudo_bytes')) {
 			openssl_random_pseudo_bytes(1, $strong);
-			if($strong == TRUE) {
+			if($strong == true) {
 				return true;
 			}
 		}
 
 		// Check /dev/urandom
 		$fp = @file_get_contents('/dev/urandom', false, null, 0, 1);
-		if ($fp !== FALSE) {
+		if ($fp !== false) {
 			return true;
 		}
 
 		return false;
 	}
+        
+        /**
+         * @Brief Get file content via curl.
+         * @param string $url Url to get content
+         * @return string of the response or false on error
+         * This function get the content of a page via curl, if curl is enabled.
+         * If not, file_get_element is used.
+         */
+        
+        public static function getUrlContent($url){
+            
+            if  (function_exists('curl_init')) {
+                
+                $curl = curl_init();
+
+                curl_setopt($curl, CURLOPT_HEADER, 0);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
+                curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
+                $data = curl_exec($curl);
+                curl_close($curl);
+
+            } else {
+                
+                $ctx = stream_context_create(
+                    array(
+                        'http' => array(
+                            'timeout' => 10
+                        )
+                    )
+                );
+                $data=@file_get_contents($url, 0, $ctx);
+                
+            }
+            
+            return $data;
+        }
+        
 }

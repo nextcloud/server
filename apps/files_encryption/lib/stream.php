@@ -3,7 +3,8 @@
  * ownCloud
  *
  * @author Robin Appelman
- * @copyright 2012 Sam Tuke samtuke@owncloud.com, 2011 Robin Appelman icewind1991@gmail.com
+ * @copyright 2012 Sam Tuke <samtuke@owncloud.com>, 2011 Robin Appelman 
+ * <icewind1991@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -24,7 +25,7 @@
  * transparently encrypted filestream
  *
  * you can use it as wrapper around an existing stream by setting CryptStream::$sourceStreams['foo']=array('path'=>$path,'stream'=>$stream)
- *   and then fopen('crypt://streams/foo');
+ * and then fopen('crypt://streams/foo');
  */
 
 namespace OCA\Encryption;
@@ -36,9 +37,9 @@ namespace OCA\Encryption;
  * somewhere on the server, so we have to encrypt and decrypt blocks on the fly.
  * @note Paths used with this protocol MUST BE RELATIVE. Use URLs like:
  * crypt://filename, or crypt://subdirectory/filename, NOT 
- * crypt:///home/user/owncloud/data. Otherwise keyfiles will be put keyfiles in 
+ * crypt:///home/user/owncloud/data. Otherwise keyfiles will be put in 
  * [owncloud]/data/user/files_encryption/keyfiles/home/user/owncloud/data and 
- * will not be accessible to other functions.
+ * will not be accessible to other methods.
  * @note Data read and written must always be 8192 bytes long, as this is the 
  * buffer size used internally by PHP. The encryption process makes the input 
  * data longer, and input is chunked into smaller pieces in order to result in 
@@ -301,7 +302,7 @@ class Stream {
 	 * @note PHP automatically updates the file pointer after writing data to reflect it's length. There is generally no need to update the poitner manually using fseek
 	 */
 	public function stream_write( $data ) {
-		
+		trigger_error("goon");
 		// Disable the file proxies so that encryption is not automatically attempted when the file is written to disk - we are handling that separately here and we don't want to get into an infinite loop
 		\OC_FileProxy::$enabled = false;
 		

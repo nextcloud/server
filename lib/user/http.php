@@ -40,7 +40,7 @@ class OC_User_HTTP extends OC_User_Backend {
 		if(isset($parts['query'])) {
 			$url.='?'.$parts['query'];
 		}
-		return array($parts['user'],$url);
+		return array($parts['user'], $url);
 
 	}
 
@@ -50,7 +50,7 @@ class OC_User_HTTP extends OC_User_Backend {
 	 * @return boolean
 	 */
 	private function matchUrl($url) {
-		return ! is_null(parse_url($url,PHP_URL_USER));
+		return ! is_null(parse_url($url, PHP_URL_USER));
 	}
 
 	/**
@@ -66,7 +66,7 @@ class OC_User_HTTP extends OC_User_Backend {
 		if(!$this->matchUrl($uid)) {
 			return false;
 		}
-		list($user,$url)=$this->parseUrl($uid);
+		list($user, $url)=$this->parseUrl($uid);
 
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $url);

@@ -86,8 +86,9 @@ class OC_User {
 	 */
 	public static function useBackend( $backend = 'database' ) {
 		if($backend instanceof OC_User_Interface) {
+			OC_Log::write('core', 'Adding user backend instance of '.get_class($backend).'.', OC_Log::DEBUG);
 			self::$_usedBackends[get_class($backend)]=$backend;
-		}else{
+		} else {
 			// You'll never know what happens
 			if( null === $backend OR !is_string( $backend )) {
 				$backend = 'database';
@@ -98,15 +99,17 @@ class OC_User {
 				case 'database':
 				case 'mysql':
 				case 'sqlite':
+					OC_Log::write('core', 'Adding user backend '.$backend.'.', OC_Log::DEBUG);
 					self::$_usedBackends[$backend] = new OC_User_Database();
 					break;
 				default:
+					OC_Log::write('core', 'Adding default user backend '.$backend.'.', OC_Log::DEBUG);
 					$className = 'OC_USER_' . strToUpper($backend);
 					self::$_usedBackends[$backend] = new $className();
 					break;
 			}
 		}
-		true;
+		return true;
 	}
 
 	/**
@@ -120,20 +123,24 @@ class OC_User {
 	 * setup the configured backends in config.php
 	 */
 	public static function setupBackends() {
-		$backends=OC_Config::getValue('user_backends',array());
+		$backends=OC_Config::getValue('user_backends', array());
 		foreach($backends as $i=>$config) {
 			$class=$config['class'];
 			$arguments=$config['arguments'];
-			if(class_exists($class) and array_search($i,self::$_setupedBackends)===false) {
-				// make a reflection object
-				$reflectionObj = new ReflectionClass($class);
+			if(class_exists($class)) {
+				if(array_search($i, self::$_setupedBackends)===false) {
+					// make a reflection object
+					$reflectionObj = new ReflectionClass($class);
 
-				// use Reflection to create a new instance, using the $args
-				$backend = $reflectionObj->newInstanceArgs($arguments);
-				self::useBackend($backend);
-				$_setupedBackends[]=$i;
-			}else{
-				OC_Log::write('core','User backend '.$class.' not found.',OC_Log::ERROR);
+					// use Reflection to create a new instance, using the $args
+					$backend = $reflectionObj->newInstanceArgs($arguments);
+					self::useBackend($backend);
+					$_setupedBackends[]=$i;
+				} else {
+					OC_Log::write('core', 'User backend '.$class.' already initialized.', OC_Log::DEBUG);
+				}
+			} else {
+				OC_Log::write('core', 'User backend '.$class.' not found.', OC_Log::ERROR);
 			}
 		}
 	}
@@ -179,10 +186,10 @@ class OC_User {
 				if(!$backend->implementsActions(OC_USER_BACKEND_CREATE_USER))
 					continue;
 
-				$backend->createUser($uid,$password);
+				$backend->createUser($uid, $password);
 				OC_Hook::emit( "OC_User", "post_createUser", array( "uid" => $uid, "password" => $password ));
 
-				return true;
+				return self::userExists($uid);
 			}
 		}
 		return false;
@@ -204,12 +211,19 @@ class OC_User {
 			foreach(self::$_usedBackends as $backend) {
 				$backend->deleteUser($uid);
 			}
+			if (self::userExists($uid)) {
+				return false;
+			}
 			// We have to delete the user from all groups
 			foreach( OC_Group::getUserGroups( $uid ) as $i ) {
 				OC_Group::removeFromGroup( $uid, $i );
 			}
 			// Delete the user's keys in preferences
 			OC_Preferences::deleteUser($uid);
+
+			// Delete user files in /data/
+			OC_Helper::rmdirr(OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" ) . '/'.$uid.'/');
+
 			// Emit and exit
 			OC_Hook::emit( "OC_User", "post_deleteUser", array( "uid" => $uid ));
 			return true;
@@ -309,11 +323,12 @@ class OC_User {
 	}
 
 	/**
-	 * @brief Change the password of a user
-	 * @param string $uid The username
-	 * @param string $password The new password
-	 * @returns bool
-	 * @note Emit hooks: pre_setPassword, post_setPassword
+	 * @brief Set password
+	 * @param $uid The username
+	 * @param $password The new password
+	 * @returns true/false
+	 *
+	 * Change the password of a user
 	 */
 	public static function setPassword( $uid, $password ) {
 		$run = true;
@@ -324,7 +339,7 @@ class OC_User {
 			foreach(self::$_usedBackends as $backend) {
 				if($backend->implementsActions(OC_USER_BACKEND_SET_PASSWORD)) {
 					if($backend->userExists($uid)) {
-						$success |= $backend->setPassword($uid,$password);
+						$success |= $backend->setPassword($uid, $password);
 					}
 				}
 			}
@@ -332,7 +347,8 @@ class OC_User {
 			OC_Preferences::deleteApp($uid, 'login_token');
 			OC_Hook::emit( "OC_User", "post_setPassword", array( "uid" => $uid, "password" => $password ));
 			return $success;
-		} else {
+		}
+		else{
 			return false;
 		}
 	}
@@ -363,8 +379,7 @@ class OC_User {
 	 * @param $password The password
 	 * @returns string
 	 *
-	 * Check if the password is correct without logging in the user
-	 * returns the user id or false
+	 * returns the path to the users home directory
 	 */
 	public static function getHome($uid) {
 		foreach(self::$_usedBackends as $backend) {
@@ -485,8 +500,8 @@ class OC_User {
 		unset($_COOKIE["oc_username"]);
 		unset($_COOKIE["oc_token"]);
 		unset($_COOKIE["oc_remember_login"]);
-		setcookie("oc_username", NULL, -1);
-		setcookie("oc_token", NULL, -1);
-		setcookie("oc_remember_login", NULL, -1);
+		setcookie("oc_username", null, -1);
+		setcookie("oc_token", null, -1);
+		setcookie("oc_remember_login", null, -1);
 	}
 }

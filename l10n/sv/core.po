@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-16 00:02+0100\n"
+"PO-Revision-Date: 2012-11-15 07:19+0000\n"
+"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,209 +23,241 @@ msgstr ""
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
-msgid "Application name not provided."
-msgstr "Programnamn har inte angetts."
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr "Kategorityp inte angiven."
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr "Ingen kategori att lägga till?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
 msgstr "Denna kategori finns redan:"
 
-#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
-msgid "Settings"
-msgstr "Inställningar"
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr "Objekttyp inte angiven."
 
-#: js/js.js:670
-msgid "January"
-msgstr "Januari"
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr "%s ID inte angiven."
 
-#: js/js.js:670
-msgid "February"
-msgstr "Februari"
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr "Fel vid tillägg av %s till favoriter."
 
-#: js/js.js:670
-msgid "March"
-msgstr "Mars"
-
-#: js/js.js:670
-msgid "April"
-msgstr "April"
-
-#: js/js.js:670
-msgid "May"
-msgstr "Maj"
-
-#: js/js.js:670
-msgid "June"
-msgstr "Juni"
-
-#: js/js.js:671
-msgid "July"
-msgstr "Juli"
-
-#: js/js.js:671
-msgid "August"
-msgstr "Augusti"
-
-#: js/js.js:671
-msgid "September"
-msgstr "September"
-
-#: js/js.js:671
-msgid "October"
-msgstr "Oktober"
-
-#: js/js.js:671
-msgid "November"
-msgstr "November"
-
-#: js/js.js:671
-msgid "December"
-msgstr "December"
-
-#: js/oc-dialogs.js:123
-msgid "Choose"
-msgstr "Välj"
-
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
-msgid "Cancel"
-msgstr "Avbryt"
-
-#: js/oc-dialogs.js:159
-msgid "No"
-msgstr "Nej"
-
-#: js/oc-dialogs.js:160
-msgid "Yes"
-msgstr "Ja"
-
-#: js/oc-dialogs.js:177
-msgid "Ok"
-msgstr "Ok"
-
-#: js/oc-vcategories.js:68
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
 msgstr "Inga kategorier valda för radering."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
-#: js/share.js:509
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr "Fel vid borttagning av %s från favoriter."
+
+#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
+msgid "Settings"
+msgstr "Inställningar"
+
+#: js/js.js:688
+msgid "seconds ago"
+msgstr "sekunder sedan"
+
+#: js/js.js:689
+msgid "1 minute ago"
+msgstr "1 minut sedan"
+
+#: js/js.js:690
+msgid "{minutes} minutes ago"
+msgstr "{minutes} minuter sedan"
+
+#: js/js.js:691
+msgid "1 hour ago"
+msgstr "1 timme sedan"
+
+#: js/js.js:692
+msgid "{hours} hours ago"
+msgstr "{hours} timmar sedan"
+
+#: js/js.js:693
+msgid "today"
+msgstr "i dag"
+
+#: js/js.js:694
+msgid "yesterday"
+msgstr "i går"
+
+#: js/js.js:695
+msgid "{days} days ago"
+msgstr "{days} dagar sedan"
+
+#: js/js.js:696
+msgid "last month"
+msgstr "förra månaden"
+
+#: js/js.js:697
+msgid "{months} months ago"
+msgstr "{months} månader sedan"
+
+#: js/js.js:698
+msgid "months ago"
+msgstr "månader sedan"
+
+#: js/js.js:699
+msgid "last year"
+msgstr "förra året"
+
+#: js/js.js:700
+msgid "years ago"
+msgstr "år sedan"
+
+#: js/oc-dialogs.js:126
+msgid "Choose"
+msgstr "Välj"
+
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: js/oc-dialogs.js:162
+msgid "No"
+msgstr "Nej"
+
+#: js/oc-dialogs.js:163
+msgid "Yes"
+msgstr "Ja"
+
+#: js/oc-dialogs.js:180
+msgid "Ok"
+msgstr "Ok"
+
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr "Objekttypen är inte specificerad."
+
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/share.js:537
 msgid "Error"
 msgstr "Fel"
 
-#: js/share.js:103
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr " Namnet på appen är inte specificerad."
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr "Den nödvändiga filen {file} är inte installerad!"
+
+#: js/share.js:124
 msgid "Error while sharing"
 msgstr "Fel vid delning"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
 msgstr "Fel när delning skulle avslutas"
 
-#: js/share.js:121
+#: js/share.js:142
 msgid "Error while changing permissions"
 msgstr "Fel vid ändring av rättigheter"
 
-#: js/share.js:130
-msgid "Shared with you and the group"
-msgstr "Delas med dig och gruppen"
+#: js/share.js:151
+msgid "Shared with you and the group {group} by {owner}"
+msgstr "Delad med dig och gruppen {group} av {owner}"
 
-#: js/share.js:130
-msgid "by"
-msgstr "av"
+#: js/share.js:153
+msgid "Shared with you by {owner}"
+msgstr "Delad med dig av {owner}"
 
-#: js/share.js:132
-msgid "Shared with you by"
-msgstr "Delas med dig av"
-
-#: js/share.js:137
+#: js/share.js:158
 msgid "Share with"
 msgstr "Delad med"
 
-#: js/share.js:142
+#: js/share.js:163
 msgid "Share with link"
 msgstr "Delad med länk"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
 msgstr "Lösenordsskydda"
 
-#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Lösenord"
 
-#: js/share.js:152
+#: js/share.js:173
 msgid "Set expiration date"
 msgstr "Sätt utgångsdatum"
 
-#: js/share.js:153
+#: js/share.js:174
 msgid "Expiration date"
 msgstr "Utgångsdatum"
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
 msgstr "Dela via e-post:"
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
 msgstr "Hittar inga användare"
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
 msgstr "Dela vidare är inte tillåtet"
 
-#: js/share.js:250
-msgid "Shared in"
-msgstr "Delas i"
-
-#: js/share.js:250
-msgid "with"
-msgstr "med"
-
 #: js/share.js:271
+msgid "Shared in {item} with {user}"
+msgstr "Delad i {item} med {user}"
+
+#: js/share.js:292
 msgid "Unshare"
 msgstr "Sluta dela"
 
-#: js/share.js:283
+#: js/share.js:304
 msgid "can edit"
 msgstr "kan redigera"
 
-#: js/share.js:285
+#: js/share.js:306
 msgid "access control"
 msgstr "åtkomstkontroll"
 
-#: js/share.js:288
+#: js/share.js:309
 msgid "create"
 msgstr "skapa"
 
-#: js/share.js:291
+#: js/share.js:312
 msgid "update"
 msgstr "uppdatera"
 
-#: js/share.js:294
+#: js/share.js:315
 msgid "delete"
 msgstr "radera"
 
-#: js/share.js:297
+#: js/share.js:318
 msgid "share"
 msgstr "dela"
 
-#: js/share.js:322 js/share.js:484
+#: js/share.js:343 js/share.js:512 js/share.js:514
 msgid "Password protected"
 msgstr "Lösenordsskyddad"
 
-#: js/share.js:497
+#: js/share.js:525
 msgid "Error unsetting expiration date"
 msgstr "Fel vid borttagning av utgångsdatum"
 
-#: js/share.js:509
+#: js/share.js:537
 msgid "Error setting expiration date"
 msgstr "Fel vid sättning av utgångsdatum"
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "ownCloud lösenordsåterställning"
 
@@ -238,12 +270,12 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Du får en länk att återställa ditt lösenord via e-post."
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Begärd"
+msgid "Reset email send."
+msgstr "Återställ skickad e-post."
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Misslyckad inloggning!"
+msgid "Request failed!"
+msgstr "Begäran misslyckades!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -302,7 +334,7 @@ msgstr "Hittade inget moln"
 msgid "Edit categories"
 msgstr "Redigera kategorier"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "Lägg till"
 
@@ -329,7 +361,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Din datakatalog och dina filer är förmodligen tillgängliga från Internet. Den .htaccess-fil som ownCloud tillhandahåller fungerar inte. Vi rekommenderar starkt att du konfigurerar webbservern så att datakatalogen inte längre är tillgänglig eller att du flyttar datakatalogen utanför webbserverns dokument-root."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -376,27 +408,103 @@ msgstr "Databasserver"
 msgid "Finish setup"
 msgstr "Avsluta installation"
 
-#: templates/layout.guest.php:38
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Sunday"
+msgstr "Söndag"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Monday"
+msgstr "Måndag"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Tuesday"
+msgstr "Tisdag"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Wednesday"
+msgstr "Onsdag"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Thursday"
+msgstr "Torsdag"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Friday"
+msgstr "Fredag"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Saturday"
+msgstr "Lördag"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "January"
+msgstr "Januari"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "February"
+msgstr "Februari"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "March"
+msgstr "Mars"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "April"
+msgstr "April"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "May"
+msgstr "Maj"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "June"
+msgstr "Juni"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "July"
+msgstr "Juli"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "August"
+msgstr "Augusti"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "September"
+msgstr "September"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "October"
+msgstr "Oktober"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "November"
+msgstr "November"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "December"
+msgstr "December"
+
+#: templates/layout.guest.php:41
 msgid "web services under your control"
 msgstr "webbtjänster under din kontroll"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:44
 msgid "Log out"
 msgstr "Logga ut"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Automatisk inloggning inte tillåten!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Om du inte har ändrat ditt lösenord nyligen så kan ditt konto vara manipulerat!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Ändra genast lösenord för att säkra ditt konto."
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -424,14 +532,14 @@ msgstr "nästa"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "Säkerhetsvarning!"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "Bekräfta ditt lösenord. <br/>Av säkerhetsskäl kan du ibland bli ombedd att ange ditt lösenord igen."
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "Verifiera"

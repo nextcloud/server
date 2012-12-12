@@ -10,7 +10,7 @@
 "Backend" => "Podpůrná vrstva",
 "Configuration" => "Nastavení",
 "Options" => "Možnosti",
-"Applicable" => "Platný",
+"Applicable" => "Přístupný pro",
 "Add mount point" => "Přidat bod připojení",
 "None set" => "Nenastaveno",
 "All Users" => "Všichni uživatelé",

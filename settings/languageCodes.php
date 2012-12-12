@@ -3,13 +3,14 @@
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
- 
+
 return array(
 'bg_BG'=>'български език',
 'ca'=>'Català',
 'cs_CZ'=>'Čeština',
 'da'=>'Dansk',
-'de'=>'Deutsch',
+'de'=>'Deutsch (Persönlich)',
+'de_DE'=>'Deutsch (Förmlich)',
 'el'=>'Ελληνικά',
 'en'=>'English',
 'es'=>'Español',

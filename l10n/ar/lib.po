@@ -7,53 +7,53 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 02:01+0200\n"
-"PO-Revision-Date: 2012-09-01 00:02+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-16 00:02+0100\n"
+"PO-Revision-Date: 2012-11-14 23:13+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ar\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: app.php:288
+#: app.php:285
 msgid "Help"
-msgstr ""
+msgstr "المساعدة"
 
-#: app.php:295
+#: app.php:292
 msgid "Personal"
-msgstr ""
+msgstr "شخصي"
 
-#: app.php:300
+#: app.php:297
 msgid "Settings"
-msgstr ""
+msgstr "تعديلات"
 
-#: app.php:305
+#: app.php:302
 msgid "Users"
-msgstr ""
+msgstr "المستخدمين"
 
-#: app.php:312
+#: app.php:309
 msgid "Apps"
 msgstr ""
 
-#: app.php:314
+#: app.php:311
 msgid "Admin"
 msgstr ""
 
-#: files.php:280
+#: files.php:332
 msgid "ZIP download is turned off."
 msgstr ""
 
-#: files.php:281
+#: files.php:333
 msgid "Files need to be downloaded one by one."
 msgstr ""
 
-#: files.php:281 files.php:306
+#: files.php:333 files.php:358
 msgid "Back to Files"
 msgstr ""
 
-#: files.php:305
+#: files.php:357
 msgid "Selected files too large to generate zip file."
 msgstr ""
 
@@ -61,65 +61,92 @@ msgstr ""
 msgid "Application is not enabled"
 msgstr ""
 
-#: json.php:39 json.php:63 json.php:75
+#: json.php:39 json.php:64 json.php:77 json.php:89
 msgid "Authentication error"
-msgstr ""
+msgstr "لم يتم التأكد من الشخصية بنجاح"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
 msgstr ""
 
-#: template.php:86
+#: search/provider/file.php:17 search/provider/file.php:35
+msgid "Files"
+msgstr "الملفات"
+
+#: search/provider/file.php:26 search/provider/file.php:33
+msgid "Text"
+msgstr "معلومات إضافية"
+
+#: search/provider/file.php:29
+msgid "Images"
+msgstr ""
+
+#: template.php:103
 msgid "seconds ago"
 msgstr ""
 
-#: template.php:87
+#: template.php:104
 msgid "1 minute ago"
 msgstr ""
 
-#: template.php:88
+#: template.php:105
 #, php-format
 msgid "%d minutes ago"
 msgstr ""
 
-#: template.php:91
+#: template.php:106
+msgid "1 hour ago"
+msgstr ""
+
+#: template.php:107
+#, php-format
+msgid "%d hours ago"
+msgstr ""
+
+#: template.php:108
 msgid "today"
 msgstr ""
 
-#: template.php:92
+#: template.php:109
 msgid "yesterday"
 msgstr ""
 
-#: template.php:93
+#: template.php:110
 #, php-format
 msgid "%d days ago"
 msgstr ""
 
-#: template.php:94
+#: template.php:111
 msgid "last month"
 msgstr ""
 
-#: template.php:95
-msgid "months ago"
+#: template.php:112
+#, php-format
+msgid "%d months ago"
 msgstr ""
 
-#: template.php:96
+#: template.php:113
 msgid "last year"
 msgstr ""
 
-#: template.php:97
+#: template.php:114
 msgid "years ago"
 msgstr ""
 
-#: updater.php:66
+#: updater.php:75
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
 msgstr ""
 
-#: updater.php:68
+#: updater.php:77
 msgid "up to date"
 msgstr ""
 
-#: updater.php:71
+#: updater.php:80
 msgid "updates check is disabled"
+msgstr ""
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
 msgstr ""

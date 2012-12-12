@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <suganthi@nic.lk>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-16 00:02+0100\n"
+"PO-Revision-Date: 2012-11-15 10:19+0000\n"
+"Last-Translator: suganthi <suganthi@nic.lk>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,304 +18,336 @@ msgstr ""
 "Language: ta_LK\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
-msgid "Application name not provided."
-msgstr ""
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr "பிரிவு வகைகள் வழங்கப்படவில்லை"
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr ""
+msgstr "சேர்ப்பதற்கான வகைகள் இல்லையா?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
-msgstr ""
+msgstr "இந்த வகை ஏற்கனவே உள்ளது:"
 
-#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
-msgid "Settings"
-msgstr ""
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr "பொருள் வகை வழங்கப்படவில்லை"
 
-#: js/js.js:670
-msgid "January"
-msgstr ""
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr "%s ID வழங்கப்படவில்லை"
 
-#: js/js.js:670
-msgid "February"
-msgstr ""
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr "விருப்பங்களுக்கு %s ஐ சேர்ப்பதில் வழு"
 
-#: js/js.js:670
-msgid "March"
-msgstr ""
-
-#: js/js.js:670
-msgid "April"
-msgstr ""
-
-#: js/js.js:670
-msgid "May"
-msgstr ""
-
-#: js/js.js:670
-msgid "June"
-msgstr ""
-
-#: js/js.js:671
-msgid "July"
-msgstr ""
-
-#: js/js.js:671
-msgid "August"
-msgstr ""
-
-#: js/js.js:671
-msgid "September"
-msgstr ""
-
-#: js/js.js:671
-msgid "October"
-msgstr ""
-
-#: js/js.js:671
-msgid "November"
-msgstr ""
-
-#: js/js.js:671
-msgid "December"
-msgstr ""
-
-#: js/oc-dialogs.js:123
-msgid "Choose"
-msgstr ""
-
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
-msgid "Cancel"
-msgstr ""
-
-#: js/oc-dialogs.js:159
-msgid "No"
-msgstr ""
-
-#: js/oc-dialogs.js:160
-msgid "Yes"
-msgstr ""
-
-#: js/oc-dialogs.js:177
-msgid "Ok"
-msgstr ""
-
-#: js/oc-vcategories.js:68
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "நீக்குவதற்கு எந்தப் பிரிவும் தெரிவுசெய்யப்படவில்லை."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
-#: js/share.js:509
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr "விருப்பத்திலிருந்து %s ஐ அகற்றுவதில் வழு.உஇஇ"
+
+#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
+msgid "Settings"
+msgstr "அமைப்புகள்"
+
+#: js/js.js:688
+msgid "seconds ago"
+msgstr "செக்கன்களுக்கு முன்"
+
+#: js/js.js:689
+msgid "1 minute ago"
+msgstr "1 நிமிடத்திற்கு முன் "
+
+#: js/js.js:690
+msgid "{minutes} minutes ago"
+msgstr "{நிமிடங்கள்} நிமிடங்களுக்கு முன் "
+
+#: js/js.js:691
+msgid "1 hour ago"
+msgstr "1 மணித்தியாலத்திற்கு முன்"
+
+#: js/js.js:692
+msgid "{hours} hours ago"
+msgstr "{மணித்தியாலங்கள்} மணித்தியாலங்களிற்கு முன்"
+
+#: js/js.js:693
+msgid "today"
+msgstr "இன்று"
+
+#: js/js.js:694
+msgid "yesterday"
+msgstr "நேற்று"
+
+#: js/js.js:695
+msgid "{days} days ago"
+msgstr "{நாட்கள்} நாட்களுக்கு முன்"
+
+#: js/js.js:696
+msgid "last month"
+msgstr "கடந்த மாதம்"
+
+#: js/js.js:697
+msgid "{months} months ago"
+msgstr "{மாதங்கள்} மாதங்களிற்கு முன்"
+
+#: js/js.js:698
+msgid "months ago"
+msgstr "மாதங்களுக்கு முன்"
+
+#: js/js.js:699
+msgid "last year"
+msgstr "கடந்த வருடம்"
+
+#: js/js.js:700
+msgid "years ago"
+msgstr "வருடங்களுக்கு முன்"
+
+#: js/oc-dialogs.js:126
+msgid "Choose"
+msgstr "தெரிவுசெய்க "
+
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+msgid "Cancel"
+msgstr "இரத்து செய்க"
+
+#: js/oc-dialogs.js:162
+msgid "No"
+msgstr "இல்லை"
+
+#: js/oc-dialogs.js:163
+msgid "Yes"
+msgstr "ஆம்"
+
+#: js/oc-dialogs.js:180
+msgid "Ok"
+msgstr "சரி"
+
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr "பொருள் வகை குறிப்பிடப்படவில்லை."
+
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
+#: js/share.js:537
 msgid "Error"
-msgstr ""
+msgstr "வழு"
 
-#: js/share.js:103
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr "செயலி பெயர் குறிப்பிடப்படவில்லை."
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr "தேவைப்பட்ட கோப்பு {கோப்பு} நிறுவப்படவில்லை!"
+
+#: js/share.js:124
 msgid "Error while sharing"
-msgstr ""
+msgstr "பகிரும் போதான வழு"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
-msgstr ""
-
-#: js/share.js:121
-msgid "Error while changing permissions"
-msgstr ""
-
-#: js/share.js:130
-msgid "Shared with you and the group"
-msgstr ""
-
-#: js/share.js:130
-msgid "by"
-msgstr ""
-
-#: js/share.js:132
-msgid "Shared with you by"
-msgstr ""
-
-#: js/share.js:137
-msgid "Share with"
-msgstr ""
+msgstr "பகிராமல் உள்ளப்போதான வழு"
 
 #: js/share.js:142
-msgid "Share with link"
-msgstr ""
+msgid "Error while changing permissions"
+msgstr "அனுமதிகள் மாறும்போதான வழு"
 
-#: js/share.js:143
-msgid "Password protect"
-msgstr ""
-
-#: js/share.js:147 templates/installation.php:42 templates/login.php:24
-#: templates/verify.php:13
-msgid "Password"
-msgstr ""
-
-#: js/share.js:152
-msgid "Set expiration date"
-msgstr ""
+#: js/share.js:151
+msgid "Shared with you and the group {group} by {owner}"
+msgstr "உங்களுடனும் குழுவுக்கிடையிலும் {குழு} பகிரப்பட்டுள்ளது {உரிமையாளர்}"
 
 #: js/share.js:153
+msgid "Shared with you by {owner}"
+msgstr "உங்களுடன் பகிரப்பட்டுள்ளது {உரிமையாளர்}"
+
+#: js/share.js:158
+msgid "Share with"
+msgstr "பகிர்தல்"
+
+#: js/share.js:163
+msgid "Share with link"
+msgstr "இணைப்புடன் பகிர்தல்"
+
+#: js/share.js:164
+msgid "Password protect"
+msgstr "கடவுச்சொல்லை பாதுகாத்தல்"
+
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: templates/verify.php:13
+msgid "Password"
+msgstr "கடவுச்சொல்"
+
+#: js/share.js:173
+msgid "Set expiration date"
+msgstr "காலாவதி தேதியை குறிப்பிடுக"
+
+#: js/share.js:174
 msgid "Expiration date"
-msgstr ""
+msgstr "காலவதியாகும் திகதி"
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
-msgstr ""
+msgstr "மின்னஞ்சலினூடான பகிர்வு: "
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
-msgstr ""
+msgstr "நபர்கள் யாரும் இல்லை"
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
-msgstr ""
-
-#: js/share.js:250
-msgid "Shared in"
-msgstr ""
-
-#: js/share.js:250
-msgid "with"
-msgstr ""
+msgstr "மீள்பகிர்வதற்கு அனுமதி இல்லை "
 
 #: js/share.js:271
+msgid "Shared in {item} with {user}"
+msgstr "{பயனாளர்} உடன் {உருப்படி} பகிரப்பட்டுள்ளது"
+
+#: js/share.js:292
 msgid "Unshare"
-msgstr ""
+msgstr "பகிரமுடியாது"
 
-#: js/share.js:283
+#: js/share.js:304
 msgid "can edit"
-msgstr ""
+msgstr "தொகுக்க முடியும்"
 
-#: js/share.js:285
+#: js/share.js:306
 msgid "access control"
-msgstr ""
+msgstr "கட்டுப்பாடான அணுகல்"
 
-#: js/share.js:288
+#: js/share.js:309
 msgid "create"
-msgstr ""
+msgstr "படைத்தல்"
 
-#: js/share.js:291
+#: js/share.js:312
 msgid "update"
-msgstr ""
+msgstr "இற்றைப்படுத்தல்"
 
-#: js/share.js:294
+#: js/share.js:315
 msgid "delete"
-msgstr ""
+msgstr "நீக்குக"
 
-#: js/share.js:297
+#: js/share.js:318
 msgid "share"
-msgstr ""
+msgstr "பகிர்தல்"
 
-#: js/share.js:322 js/share.js:484
+#: js/share.js:343 js/share.js:512 js/share.js:514
 msgid "Password protected"
-msgstr ""
+msgstr "கடவுச்சொல் பாதுகாக்கப்பட்டது"
 
-#: js/share.js:497
+#: js/share.js:525
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "காலாவதியாகும் திகதியை குறிப்பிடாமைக்கான வழு"
 
-#: js/share.js:509
+#: js/share.js:537
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "காலாவதியாகும் திகதியை குறிப்பிடுவதில் வழு"
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "ownCloud இன் கடவுச்சொல் மீளமைப்பு"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr ""
+msgstr "உங்கள் கடவுச்சொல்லை மீளமைக்க பின்வரும் இணைப்பை பயன்படுத்தவும் : {இணைப்பு}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "நீங்கள் மின்னஞ்சல் மூலம் உங்களுடைய கடவுச்சொல்லை மீளமைப்பதற்கான இணைப்பை பெறுவீர்கள். "
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr ""
+msgid "Reset email send."
+msgstr "மின்னுஞ்சல் அனுப்புதலை மீளமைக்குக"
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr ""
+msgid "Request failed!"
+msgstr "வேண்டுகோள் தோல்வியுற்றது!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
 msgid "Username"
-msgstr ""
+msgstr "பயனாளர் பெயர்"
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr ""
+msgstr "கோரிக்கை மீளமைப்பு"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "உங்களுடைய கடவுச்சொல் மீளமைக்கப்பட்டது"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "புகுபதிகைக்கான பக்கம்"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr ""
+msgstr "புதிய கடவுச்சொல்"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr ""
+msgstr "மீளமைத்த கடவுச்சொல்"
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "தனிப்பட்ட"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "பயனாளர்கள்"
 
 #: strings.php:7
 msgid "Apps"
-msgstr ""
+msgstr "பயன்பாடுகள்"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "நிர்வாகி"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "உதவி"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "அணுக தடை"
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr ""
+msgstr "Cloud கண்டுப்பிடிப்படவில்லை"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "வகைகளை தொகுக்க"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr ""
+msgstr "சேர்க்க"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "பாதுகாப்பு எச்சரிக்கை"
 
 #: templates/installation.php:24
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "குறிப்பிட்ட எண்ணிக்கை பாதுகாப்பான புறப்பாக்கி / உண்டாக்கிகள் இல்லை, தயவுசெய்து PHP OpenSSL நீட்சியை இயலுமைப்படுத்துக. "
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "பாதுகாப்பான சீரற்ற எண்ணிக்கையான புறப்பாக்கி இல்லையெனின், தாக்குனரால் கடவுச்சொல் மீளமைப்பு அடையாளவில்லைகள் முன்மொழியப்பட்டு உங்களுடைய கணக்கை கைப்பற்றலாம்."
 
 #: templates/installation.php:32
 msgid ""
@@ -323,109 +356,185 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "உங்களுடைய தரவு அடைவு மற்றும் உங்களுடைய கோப்புக்களை பெரும்பாலும் இணையத்தினூடாக அணுகலாம். ownCloud இனால் வழங்கப்படுகின்ற .htaccess கோப்பு வேலை செய்யவில்லை. தரவு அடைவை நீண்ட நேரத்திற்கு அணுகக்கூடியதாக உங்களுடைய வலைய சேவையகத்தை தகவமைக்குமாறு நாங்கள் உறுதியாக கூறுகிறோம் அல்லது தரவு அடைவை வலைய சேவையக மூல ஆவணத்திலிருந்து வெளியே அகற்றுக.  "
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
+msgstr "<strong> நிர்வாக கணக்கொன்றை </strong> உருவாக்குக"
 
 #: templates/installation.php:48
 msgid "Advanced"
-msgstr ""
+msgstr "மேம்பட்ட"
 
 #: templates/installation.php:50
 msgid "Data folder"
-msgstr ""
+msgstr "தரவு கோப்புறை"
 
 #: templates/installation.php:57
 msgid "Configure the database"
-msgstr ""
+msgstr "தரவுத்தளத்தை தகவமைக்க"
 
 #: templates/installation.php:62 templates/installation.php:73
 #: templates/installation.php:83 templates/installation.php:93
 msgid "will be used"
-msgstr ""
+msgstr "பயன்படுத்தப்படும்"
 
 #: templates/installation.php:105
 msgid "Database user"
-msgstr ""
+msgstr "தரவுத்தள பயனாளர்"
 
 #: templates/installation.php:109
 msgid "Database password"
-msgstr ""
+msgstr "தரவுத்தள கடவுச்சொல்"
 
 #: templates/installation.php:113
 msgid "Database name"
-msgstr ""
+msgstr "தரவுத்தள பெயர்"
 
 #: templates/installation.php:121
 msgid "Database tablespace"
-msgstr ""
+msgstr "தரவுத்தள அட்டவணை"
 
 #: templates/installation.php:127
 msgid "Database host"
-msgstr ""
+msgstr "தரவுத்தள ஓம்புனர்"
 
 #: templates/installation.php:132
 msgid "Finish setup"
-msgstr ""
+msgstr "அமைப்பை முடிக்க"
 
-#: templates/layout.guest.php:38
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Sunday"
+msgstr "ஞாயிற்றுக்கிழமை"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Monday"
+msgstr "திங்கட்கிழமை"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Tuesday"
+msgstr "செவ்வாய்க்கிழமை"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Wednesday"
+msgstr "புதன்கிழமை"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Thursday"
+msgstr "வியாழக்கிழமை"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Friday"
+msgstr "வெள்ளிக்கிழமை"
+
+#: templates/layout.guest.php:15 templates/layout.user.php:16
+msgid "Saturday"
+msgstr "சனிக்கிழமை"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "January"
+msgstr "தை"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "February"
+msgstr "மாசி"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "March"
+msgstr "பங்குனி"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "April"
+msgstr "சித்திரை"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "May"
+msgstr "வைகாசி"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "June"
+msgstr "ஆனி"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "July"
+msgstr "ஆடி"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "August"
+msgstr "ஆவணி"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "September"
+msgstr "புரட்டாசி"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "October"
+msgstr "ஐப்பசி"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "November"
+msgstr "கார்த்திகை"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "December"
+msgstr "மார்கழி"
+
+#: templates/layout.guest.php:41
 msgid "web services under your control"
-msgstr ""
+msgstr "உங்கள் கட்டுப்பாட்டின் கீழ் இணைய சேவைகள்"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:44
 msgid "Log out"
-msgstr ""
+msgstr "விடுபதிகை செய்க"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "தன்னிச்சையான புகுபதிகை நிராகரிப்பட்டது!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "உங்களுடைய கடவுச்சொல்லை அண்மையில் மாற்றவில்லையின், உங்களுடைய கணக்கு சமரசமாகிவிடும்!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "உங்களுடைய கணக்கை மீண்டும் பாதுகாக்க தயவுசெய்து உங்களுடைய கடவுச்சொல்லை மாற்றவும்."
 
 #: templates/login.php:15
 msgid "Lost your password?"
-msgstr ""
+msgstr "உங்கள் கடவுச்சொல்லை தொலைத்துவிட்டீர்களா?"
 
 #: templates/login.php:27
 msgid "remember"
-msgstr ""
+msgstr "ஞாபகப்படுத்துக"
 
 #: templates/login.php:28
 msgid "Log in"
-msgstr ""
+msgstr "புகுபதிகை"
 
 #: templates/logout.php:1
 msgid "You are logged out."
-msgstr ""
+msgstr "நீங்கள் விடுபதிகை செய்துவிட்டீர்கள்."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr ""
+msgstr "முந்தைய"
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr ""
+msgstr "அடுத்து"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "பாதுகாப்பு எச்சரிக்கை!"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "உங்களுடைய கடவுச்சொல்லை உறுதிப்படுத்துக. <br/> பாதுகாப்பு காரணங்களுக்காக நீங்கள் எப்போதாவது உங்களுடைய கடவுச்சொல்லை மீண்டும் நுழைக்க கேட்கப்படுவீர்கள்."
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "உறுதிப்படுத்தல்"

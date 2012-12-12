@@ -46,6 +46,13 @@
 					<sorting>ascending</sorting>
 				</field>
 			</index>
+			<index>
+				<name>appconfig_config_key_index</name>
+				<field>
+					<name>configkey</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 
 		</declaration>
 
@@ -257,6 +264,13 @@
 				<notnull>true</notnull>
 				<length>64</length>
 			</field>
+			<index>
+				<name>group_admin_uid</name>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 
 		</declaration>
 
@@ -581,6 +595,21 @@
 				<notnull>false</notnull>
 			</field>
 
+			<field>
+				<name>token</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>32</length>
+			</field>
+
+			<index>
+				<name>token_index</name>
+				<field>
+					<name>token</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 		</declaration>
 
 	</table>
@@ -666,6 +695,127 @@
 					<sorting>ascending</sorting>
 				</field>
 			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*vcategory</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>type</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>category</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<index>
+				<name>uid_index</name>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>type_index</name>
+				<field>
+					<name>type</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>category_index</name>
+				<field>
+					<name>category</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+	</table>
+
+	<table>
+
+		<name>*dbprefix*vcategory_to_object</name>
+
+		<declaration>
+
+		<field>
+			<name>objid</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+			<length>4</length>
+		</field>
+
+		<field>
+			<name>categoryid</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+			<length>4</length>
+		</field>
+
+		<field>
+			<name>type</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>64</length>
+		</field>
+
+		<index>
+			<primary>true</primary>
+			<unique>true</unique>
+			<name>category_object_index</name>
+			<field>
+				<name>categoryid</name>
+				<sorting>ascending</sorting>
+			</field>
+			<field>
+				<name>objid</name>
+				<sorting>ascending</sorting>
+			</field>
+			<field>
+				<name>type</name>
+				<sorting>ascending</sorting>
+			</field>
+		</index>
 
 		</declaration>
 

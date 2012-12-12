@@ -29,6 +29,20 @@ class OC_Helper {
 	private static $tmpFiles=array();
 
 	/**
+	 * @brief Creates an url using a defined route
+	 * @param $route
+	 * @param $parameters
+	 * @param $args array with param=>value, will be appended to the returned url
+	 * @returns the url
+	 *
+	 * Returns a url to the given app and file.
+	 */
+	public static function linkToRoute( $route, $parameters = array() ) {
+		$urlLinkTo = OC::getRouter()->generate($route, $parameters);
+		return $urlLinkTo;
+	}
+
+	/**
 	 * @brief Creates an url
 	 * @param string $app app
 	 * @param string $file file
@@ -44,8 +58,8 @@ class OC_Helper {
 			// Check if the app is in the app folder
 			if( $app_path && file_exists( $app_path.'/'.$file )) {
 				if(substr($file, -3) == 'php' || substr($file, -3) == 'css') {
-					$urlLinkTo =  OC::$WEBROOT . '/?app=' . $app;
-					$urlLinkTo .= ($file!='index.php')?'&getfile=' . urlencode($file):'';
+					$urlLinkTo =  OC::$WEBROOT . '/index.php/apps/' . $app;
+					$urlLinkTo .= ($file!='index.php') ? '/' . $file : '';
 				}else{
 					$urlLinkTo =  OC_App::getAppWebPath($app) . '/' . $file;
 				}
@@ -101,6 +115,17 @@ class OC_Helper {
 	}
 
 	/**
+	 * @brief Creates an url for remote use
+	 * @param string $service id
+	 * @return string the url
+	 *
+	 * Returns a url to the given service.
+	 */
+	public static function linkToRemoteBase( $service ) {
+		return self::linkTo( '', 'remote.php') . '/' . $service;
+	}
+
+	/**
 	 * @brief Creates an absolute url for remote use
 	 * @param string $service id
 	 * @return string the url
@@ -108,7 +133,7 @@ class OC_Helper {
 	 * Returns a absolute url to the given service.
 	 */
 	public static function linkToRemote( $service, $add_slash = true ) {
-		return self::linkToAbsolute( '', 'remote.php') . '/' . $service . (($add_slash && $service[strlen($service)-1]!='/')?'/':'');
+		return self::makeURLAbsolute(self::linkToRemoteBase($service)) . (($add_slash && $service[strlen($service)-1]!='/')?'/':'');
 	}
 
 	/**
@@ -178,7 +203,7 @@ class OC_Helper {
 			return OC::$WEBROOT."/core/img/filetypes/$mimetype.png";
 		}
 		//try only the first part of the filetype
-		$mimetype=substr($mimetype,0,strpos($mimetype,'-'));
+		$mimetype=substr($mimetype, 0, strpos($mimetype, '-'));
 		if( file_exists( OC::$SERVERROOT."/core/img/filetypes/$mimetype.png" )) {
 			return OC::$WEBROOT."/core/img/filetypes/$mimetype.png";
 		}
@@ -263,18 +288,18 @@ class OC_Helper {
 			if($file != '.' && $file != '..') {
 				$fullpath = $path.'/'.$file;
 				if(is_link($fullpath))
-					return FALSE;
+					return false;
 				elseif(!is_dir($fullpath) && !@chmod($fullpath, $filemode))
-						return FALSE;
+						return false;
 				elseif(!self::chmodr($fullpath, $filemode))
-					return FALSE;
+					return false;
 			}
 		}
 		closedir($dh);
 		if(@chmod($path, $filemode))
-			return TRUE;
+			return true;
 		else
-			return FALSE;
+			return false;
 	}
 
 	/**
@@ -294,7 +319,7 @@ class OC_Helper {
 					self::copyr("$src/$file", "$dest/$file");
 				}
 			}
-		}elseif(file_exists($src)) {
+		}elseif(file_exists($src) && !OC_Filesystem::isFileBlacklisted($src)) {
 			copy($src, $dest);
 		}
 	}
@@ -330,29 +355,29 @@ class OC_Helper {
 	 * does NOT work for ownClouds filesystem, use OC_FileSystem::getMimeType instead
 	 */
 	static function getMimeType($path) {
-		$isWrapped=(strpos($path,'://')!==false) and (substr($path,0,7)=='file://');
+		$isWrapped=(strpos($path, '://')!==false) and (substr($path, 0, 7)=='file://');
 
 		if (@is_dir($path)) {
 			// directories are easy
 			return "httpd/unix-directory";
 		}
 
-		if(strpos($path,'.')) {
+		if(strpos($path, '.')) {
 			//try to guess the type by the file extension
-			if(!self::$mimetypes || self::$mimetypes != include('mimetypes.list.php')) {
-				self::$mimetypes=include('mimetypes.list.php');
+			if(!self::$mimetypes || self::$mimetypes != include 'mimetypes.list.php') {
+				self::$mimetypes=include 'mimetypes.list.php';
 			}
 			$extension=strtolower(strrchr(basename($path), "."));
-			$extension=substr($extension,1);//remove leading .
+			$extension=substr($extension, 1);//remove leading .
 			$mimeType=(isset(self::$mimetypes[$extension]))?self::$mimetypes[$extension]:'application/octet-stream';
 		}else{
 			$mimeType='application/octet-stream';
 		}
 
 		if($mimeType=='application/octet-stream' and function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)) {
-			$info = @strtolower(finfo_file($finfo,$path));
+			$info = @strtolower(finfo_file($finfo, $path));
 			if($info) {
-				$mimeType=substr($info,0,strpos($info,';'));
+				$mimeType=substr($info, 0, strpos($info, ';'));
 			}
 			finfo_close($finfo);
 		}
@@ -362,20 +387,15 @@ class OC_Helper {
 		}
 		if (!$isWrapped and $mimeType=='application/octet-stream' && OC_Helper::canExecute("file")) {
 			// it looks like we have a 'file' command,
-			// lets see it it does have mime support
+			// lets see if it does have mime support
 			$path=escapeshellarg($path);
 			$fp = popen("file -i -b $path 2>/dev/null", "r");
 			$reply = fgets($fp);
 			pclose($fp);
 
-			//trim the character set from the end of the response
-			$mimeType=substr($reply,0,strrpos($reply,' '));
-			$mimeType=substr($mimeType,0,strrpos($mimeType,"\n"));
-
-			//trim ;
-			if (strpos($mimeType, ';') !== false) {
-				$mimeType = strstr($mimeType, ';', true);
-			}
+			// we have smth like 'text/x-c++; charset=us-ascii\n'
+			// and need to eliminate everything starting with semicolon including trailing LF
+			$mimeType = preg_replace('/;.*/ms', '', trim($reply));
 
 		}
 		return $mimeType;
@@ -392,8 +412,8 @@ class OC_Helper {
 			return finfo_buffer($finfo, $data);
 		}else{
 			$tmpFile=OC_Helper::tmpFile();
-			$fh=fopen($tmpFile,'wb');
-			fwrite($fh,$data,8024);
+			$fh=fopen($tmpFile, 'wb');
+			fwrite($fh, $data, 8024);
 			fclose($fh);
 			$mime=self::getMimeType($tmpFile);
 			unset($tmpFile);
@@ -455,16 +475,16 @@ class OC_Helper {
 		$dirs = explode(PATH_SEPARATOR, $path);
 		// WARNING : We have to check if open_basedir is enabled :
 		$obd = ini_get('open_basedir');
-		if($obd != "none"){
+		if($obd != "none") {
 			$obd_values = explode(PATH_SEPARATOR, $obd);
-			if(count($obd_values) > 0 and $obd_values[0]){
+			if(count($obd_values) > 0 and $obd_values[0]) {
 				// open_basedir is in effect !
 				// We need to check if the program is in one of these dirs :
 				$dirs = $obd_values;
 			}
 		}
-		foreach($dirs as $dir){
-			foreach($exts as $ext){
+		foreach($dirs as $dir) {
+			foreach($exts as $ext) {
 				if($check_fn("$dir/$name".$ext))
 					return true;
 			}
@@ -478,13 +498,13 @@ class OC_Helper {
 	 * @param resource $target
 	 * @return int the number of bytes copied
 	 */
-	public static function streamCopy($source,$target) {
+	public static function streamCopy($source, $target) {
 		if(!$source or !$target) {
 			return false;
 		}
 		$count=0;
 		while(!feof($source)) {
-			$count+=fwrite($target,fread($source,8192));
+			$count+=fwrite($target, fread($source, 8192));
 		}
 		return $count;
 	}
@@ -498,12 +518,33 @@ class OC_Helper {
 	 */
 	public static function tmpFile($postfix='') {
 		$file=get_temp_dir().'/'.md5(time().rand()).$postfix;
-		$fh=fopen($file,'w');
+		$fh=fopen($file, 'w');
 		fclose($fh);
 		self::$tmpFiles[]=$file;
 		return $file;
 	}
 
+	/**
+	 * create a temporary file with an unique filename. It will not be deleted
+	 * automatically
+	 * @param string $postfix
+	 * @return string
+	 *
+	 */
+	public static function tmpFileNoClean($postfix='') {
+		$tmpDirNoClean=get_temp_dir().'/oc-noclean/';
+		if (!file_exists($tmpDirNoClean) || !is_dir($tmpDirNoClean)) {
+			if (file_exists($tmpDirNoClean)) {
+				unlink($tmpDirNoClean);
+			}
+			mkdir($tmpDirNoClean);
+		}
+		$file=$tmpDirNoClean.md5(time().rand()).$postfix;
+		$fh=fopen($file,'w');
+		fclose($fh);
+		return $file;
+	}
+	
 	/**
 	 * create a temporary folder with an unique filename
 	 * @return string
@@ -536,6 +577,16 @@ class OC_Helper {
 					file_put_contents($leftoversFile, $file."\n", FILE_APPEND);
 				}
 			}
+		}
+	}
+
+	/**
+	 * remove all files created by self::tmpFileNoClean
+	 */
+	public static function cleanTmpNoClean() {
+		$tmpDirNoCleanFile=get_temp_dir().'/oc-noclean/';
+		if(file_exists($tmpDirNoCleanFile)) {
+			self::rmdirr($tmpDirNoCleanFile);
 		}
 	}
 
@@ -691,5 +742,20 @@ class OC_Helper {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Shortens str to maxlen by replacing characters in the middle with '...', eg.
+	 * ellipsis('a very long string with lots of useless info to make a better example', 14) becomes 'a very ...example'
+	 * @param string $str the string
+	 * @param string $maxlen the maximum length of the result
+	 * @return string with at most maxlen characters
+	 */
+	public static function ellipsis($str, $maxlen) {
+		if (strlen($str) > $maxlen) {
+			$characters = floor($maxlen / 2);
+			return substr($str, 0, $characters) . '...' . substr($str, -1 * $characters);
+		}
+		return $str;
 	}
 }

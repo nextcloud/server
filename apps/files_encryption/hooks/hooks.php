@@ -22,12 +22,6 @@
 
 namespace OCA\Encryption;
 
-// Include PHPSecLib for passphrase manipulation functions
-require_once \OC::$SERVERROOT . '/' . '3rdparty' . '/' . 'phpseclib' . '/' . 'Math' . '/' . 'BigInteger.php';
-require_once \OC::$SERVERROOT . '/' . '3rdparty' . '/' . 'phpseclib' . '/' . 'Crypt' . '/' . 'Hash.php';
-require_once \OC::$SERVERROOT . '/' . '3rdparty' . '/' . 'phpseclib' . '/' . 'Crypt' . '/' . 'Random.php';
-require_once \OC::$SERVERROOT . '/' . '3rdparty' . '/' . 'phpseclib' . '/' . 'Crypt' . '/' . 'RSA.php';
-
 /**
  * Class for hook specific logic
  */

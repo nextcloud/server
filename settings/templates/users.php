@@ -142,7 +142,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 				</div>
 			</td>
 			<td class="remove">
-				<?php if($user['name']!=OC_User::getUser()):?> 
+				<?php if($user['name']!=OC_User::getUser()):?>
 					<a href="#" class="action delete" original-title="<?php echo $l->t('Delete')?>">
 						<img src="<?php echo image_path('core', 'actions/delete.svg') ?>" />
 					</a>

@@ -1,8 +1,5 @@
 <?php
 
-// Init owncloud
-require_once '../../lib/base.php';
-
 // Check if we are a user
 OCP\JSON::callCheck();
 OC_JSON::checkLoggedIn();
@@ -19,8 +16,7 @@ if(OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username)) {
 	$userstatus = 'subadmin';
 }
 if(OC_User::getUser() === $username) {
-	if (OC_User::checkPassword($username, $oldPassword))
-	{
+	if (OC_User::checkPassword($username, $oldPassword)) {
 		$userstatus = 'user';
 	}  else {
 		if (!OC_Util::isUserVerified()) {

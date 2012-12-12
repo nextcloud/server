@@ -13,12 +13,12 @@
 class OC_FileCache_Cached{
 	public static $savedData=array();
 
-	public static function get($path,$root=false) {
+	public static function get($path, $root=false) {
 		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}
 		$path=$root.$path;
-		$stmt=OC_DB::prepare('SELECT `path`,`ctime`,`mtime`,`mimetype`,`size`,`encrypted`,`versioned`,`writable` FROM `*PREFIX*fscache` WHERE `path_hash`=?');
+		$stmt=OC_DB::prepare('SELECT `id`, `path`,`ctime`,`mtime`,`mimetype`,`size`,`encrypted`,`versioned`,`writable` FROM `*PREFIX*fscache` WHERE `path_hash`=?');
 		if ( ! OC_DB::isError($stmt) ) {
 			$result=$stmt->execute(array(md5($path)));
 			if ( ! OC_DB::isError($result) ) {
@@ -61,7 +61,7 @@ class OC_FileCache_Cached{
 	 * - encrypted
 	 * - versioned
 	 */
-	public static function getFolderContent($path,$root=false,$mimetype_filter='') {
+	public static function getFolderContent($path, $root=false, $mimetype_filter='') {
 		if($root===false) {
 			$root=OC_Filesystem::getRoot();
 		}

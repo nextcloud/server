@@ -18,6 +18,9 @@ class OC_Request {
 		if(OC::$CLI) {
 			return 'localhost';
 		}
+		if(OC_Config::getValue('overwritehost', '')<>''){
+			return OC_Config::getValue('overwritehost'); 
+		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
 			if (strpos($_SERVER['HTTP_X_FORWARDED_HOST'], ",") !== false) {
 				$host = trim(array_pop(explode(",", $_SERVER['HTTP_X_FORWARDED_HOST'])));
@@ -40,6 +43,9 @@ class OC_Request {
 	* Returns the server protocol. It respects reverse proxy servers and load balancers
 	*/
 	public static function serverProtocol() {
+		if(OC_Config::getValue('overwriteprotocol', '')<>''){
+			return OC_Config::getValue('overwriteprotocol'); 
+		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
 			$proto = strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']);
 		}else{
@@ -63,7 +69,7 @@ class OC_Request {
 			$path_info = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
 			// following is taken from Sabre_DAV_URLUtil::decodePathSegment
 			$path_info = rawurldecode($path_info);
-			$encoding = mb_detect_encoding($path_info, array('UTF-8','ISO-8859-1'));
+			$encoding = mb_detect_encoding($path_info, array('UTF-8', 'ISO-8859-1'));
 
 			switch($encoding) {
 
@@ -98,7 +104,7 @@ class OC_Request {
 		$HTTP_ACCEPT_ENCODING = $_SERVER["HTTP_ACCEPT_ENCODING"];
 		if( strpos($HTTP_ACCEPT_ENCODING, 'x-gzip') !== false )
 			return 'x-gzip';
-		else if( strpos($HTTP_ACCEPT_ENCODING,'gzip') !== false )
+		else if( strpos($HTTP_ACCEPT_ENCODING, 'gzip') !== false )
 			return 'gzip';
 		return false;
 	}

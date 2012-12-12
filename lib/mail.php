@@ -27,7 +27,7 @@ class OC_Mail {
 	 * @param string $fromname
 	 * @param bool $html
 	 */
-	public static function send($toaddress,$toname,$subject,$mailtext,$fromaddress,$fromname,$html=0,$altbody='',$ccaddress='',$ccname='',$bcc='') {
+	public static function send($toaddress,$toname,$subject,$mailtext,$fromaddress,$fromname,$html=0,$altbody='',$ccaddress='',$ccname='', $bcc='') {
 
 		$SMTPMODE = OC_Config::getValue( 'mail_smtpmode', 'sendmail' );
 		$SMTPHOST = OC_Config::getValue( 'mail_smtphost', '127.0.0.1' );
@@ -56,13 +56,13 @@ class OC_Mail {
 		$mailo->From =$fromaddress;
 		$mailo->FromName = $fromname;;
 		$mailo->Sender =$fromaddress;
-		$a=explode(' ',$toaddress);
+		$a=explode(' ', $toaddress);
 		try {
 			foreach($a as $ad) {
-				$mailo->AddAddress($ad,$toname);
+				$mailo->AddAddress($ad, $toname);
 			}
 
-			if($ccaddress<>'') $mailo->AddCC($ccaddress,$ccname);
+			if($ccaddress<>'') $mailo->AddCC($ccaddress, $ccname);
 			if($bcc<>'') $mailo->AddBCC($bcc);
 
 			$mailo->AddReplyTo($fromaddress, $fromname);

@@ -1,5 +1,7 @@
 <?php
 $LOCALIZATIONS = array(
-	'date' => 'd.m.Y',
-	'datetime' => 'd.m.Y H:i:s',
-	'time' => 'H:i:s' );
+	'jsdate' => 'dd.mm.yy',
+	'date' => '%d.%m.%Y',
+	'datetime' => '%d.%m.%Y %H:%M:%S',
+	'time' => '%H:%M:%S',
+	'firstday' => 0 );

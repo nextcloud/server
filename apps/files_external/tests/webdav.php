@@ -12,7 +12,7 @@ class Test_Filestorage_DAV extends Test_FileStorage {
 	public function setUp() {
 		$id = uniqid();
 		$this->config = include('files_external/tests/config.php');
-		if (!is_array($this->config) or !isset($this->config['webdav']) or !$this->config['webdav']['run']) {
+		if ( ! is_array($this->config) or ! isset($this->config['webdav']) or ! $this->config['webdav']['run']) {
 			$this->markTestSkipped('WebDAV backend not configured');
 		}
 		$this->config['webdav']['root'] .= '/' . $id; //make sure we have an new empty folder to work in

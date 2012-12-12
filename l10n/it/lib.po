@@ -8,53 +8,53 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-01 13:35+0200\n"
-"PO-Revision-Date: 2012-09-01 08:39+0000\n"
+"POT-Creation-Date: 2012-11-17 00:01+0100\n"
+"PO-Revision-Date: 2012-11-15 23:21+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:288
+#: app.php:285
 msgid "Help"
 msgstr "Aiuto"
 
-#: app.php:295
+#: app.php:292
 msgid "Personal"
 msgstr "Personale"
 
-#: app.php:300
+#: app.php:297
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: app.php:305
+#: app.php:302
 msgid "Users"
 msgstr "Utenti"
 
-#: app.php:312
+#: app.php:309
 msgid "Apps"
 msgstr "Applicazioni"
 
-#: app.php:314
+#: app.php:311
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:280
+#: files.php:332
 msgid "ZIP download is turned off."
 msgstr "Lo scaricamento in formato ZIP è stato disabilitato."
 
-#: files.php:281
+#: files.php:333
 msgid "Files need to be downloaded one by one."
 msgstr "I file devono essere scaricati uno alla volta."
 
-#: files.php:281 files.php:306
+#: files.php:333 files.php:358
 msgid "Back to Files"
 msgstr "Torna ai file"
 
-#: files.php:305
+#: files.php:357
 msgid "Selected files too large to generate zip file."
 msgstr "I  file selezionati sono troppo grandi per generare un file zip."
 
@@ -62,7 +62,7 @@ msgstr "I  file selezionati sono troppo grandi per generare un file zip."
 msgid "Application is not enabled"
 msgstr "L'applicazione  non è abilitata"
 
-#: json.php:39 json.php:63 json.php:75
+#: json.php:39 json.php:64 json.php:77 json.php:89
 msgid "Authentication error"
 msgstr "Errore di autenticazione"
 
@@ -70,57 +70,84 @@ msgstr "Errore di autenticazione"
 msgid "Token expired. Please reload page."
 msgstr "Token scaduto. Ricarica la pagina."
 
-#: template.php:86
+#: search/provider/file.php:17 search/provider/file.php:35
+msgid "Files"
+msgstr "File"
+
+#: search/provider/file.php:26 search/provider/file.php:33
+msgid "Text"
+msgstr "Testo"
+
+#: search/provider/file.php:29
+msgid "Images"
+msgstr "Immagini"
+
+#: template.php:103
 msgid "seconds ago"
 msgstr "secondi fa"
 
-#: template.php:87
+#: template.php:104
 msgid "1 minute ago"
 msgstr "1 minuto fa"
 
-#: template.php:88
+#: template.php:105
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d minuti fa"
 
-#: template.php:91
+#: template.php:106
+msgid "1 hour ago"
+msgstr "1 ora fa"
+
+#: template.php:107
+#, php-format
+msgid "%d hours ago"
+msgstr "%d ore fa"
+
+#: template.php:108
 msgid "today"
 msgstr "oggi"
 
-#: template.php:92
+#: template.php:109
 msgid "yesterday"
 msgstr "ieri"
 
-#: template.php:93
+#: template.php:110
 #, php-format
 msgid "%d days ago"
 msgstr "%d giorni fa"
 
-#: template.php:94
+#: template.php:111
 msgid "last month"
 msgstr "il mese scorso"
 
-#: template.php:95
-msgid "months ago"
-msgstr "mesi fa"
+#: template.php:112
+#, php-format
+msgid "%d months ago"
+msgstr "%d mesi fa"
 
-#: template.php:96
+#: template.php:113
 msgid "last year"
 msgstr "l'anno scorso"
 
-#: template.php:97
+#: template.php:114
 msgid "years ago"
 msgstr "anni fa"
 
-#: updater.php:66
+#: updater.php:75
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
 msgstr "%s è disponibile. Ottieni <a href=\"%s\">ulteriori informazioni</a>"
 
-#: updater.php:68
+#: updater.php:77
 msgid "up to date"
 msgstr "aggiornato"
 
-#: updater.php:71
+#: updater.php:80
 msgid "updates check is disabled"
 msgstr "il controllo degli aggiornamenti è disabilitato"
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "Impossibile trovare la categoria \"%s\""

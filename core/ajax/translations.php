@@ -21,9 +21,6 @@
 *
 */
 
-// Init owncloud
-require_once '../../lib/base.php';
-
 $app = $_POST["app"];
 
 $l = OC_L10N::get( $app );

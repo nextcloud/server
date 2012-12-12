@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Anushke Guneratne <anushke@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:03+0200\n"
-"PO-Revision-Date: 2012-08-12 22:33+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-10-20 02:02+0200\n"
+"PO-Revision-Date: 2012-10-19 11:00+0000\n"
+"Last-Translator: Anushke Guneratne <anushke@gmail.com>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,16 +20,16 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "Encryption"
-msgstr ""
+msgstr "ගුප්ත කේතනය"
 
 #: templates/settings.php:4
 msgid "Exclude the following file types from encryption"
-msgstr ""
+msgstr "මෙම ගොනු වර්ග ගුප්ත කේතනය කිරීමෙන් බැහැරව තබන්න"
 
 #: templates/settings.php:5
 msgid "None"
-msgstr ""
+msgstr "කිසිවක් නැත"
 
 #: templates/settings.php:10
 msgid "Enable Encryption"
-msgstr ""
+msgstr "ගුප්ත කේතනය සක්‍රිය කරන්න"

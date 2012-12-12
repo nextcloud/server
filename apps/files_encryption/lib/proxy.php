@@ -22,11 +22,6 @@
 *
 */
 
-
-/**
- * transparent encryption
- */
-
 namespace OCA\Encryption;
 
 class Proxy extends \OC_FileProxy {

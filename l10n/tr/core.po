@@ -5,14 +5,15 @@
 # Translators:
 # Aranel Surion <aranel@aranelsurion.org>, 2011, 2012.
 # Caner Başaran <basaran.caner@gmail.com>, 2012.
+#   <info@beyboo.de>, 2012.
 # Necdet Yücel <necdetyucel@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2012-10-16 00:05+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-05 00:04+0100\n"
+"PO-Revision-Date: 2012-12-04 12:02+0000\n"
+"Last-Translator: alpere <info@beyboo.de>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,209 +21,241 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
-msgid "Application name not provided."
-msgstr "Uygulama adı verilmedi."
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr ""
 
-#: ajax/vcategories/add.php:29
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr "Eklenecek kategori yok?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
 msgstr "Bu kategori zaten mevcut: "
 
-#: js/js.js:238 templates/layout.user.php:49 templates/layout.user.php:50
-msgid "Settings"
-msgstr "Ayarlar"
-
-#: js/js.js:670
-msgid "January"
-msgstr "Ocak"
-
-#: js/js.js:670
-msgid "February"
-msgstr "Şubat"
-
-#: js/js.js:670
-msgid "March"
-msgstr "Mart"
-
-#: js/js.js:670
-msgid "April"
-msgstr "Nisan"
-
-#: js/js.js:670
-msgid "May"
-msgstr "Mayıs"
-
-#: js/js.js:670
-msgid "June"
-msgstr "Haziran"
-
-#: js/js.js:671
-msgid "July"
-msgstr "Temmuz"
-
-#: js/js.js:671
-msgid "August"
-msgstr "Ağustos"
-
-#: js/js.js:671
-msgid "September"
-msgstr "Eylül"
-
-#: js/js.js:671
-msgid "October"
-msgstr "Ekim"
-
-#: js/js.js:671
-msgid "November"
-msgstr "Kasım"
-
-#: js/js.js:671
-msgid "December"
-msgstr "Aralık"
-
-#: js/oc-dialogs.js:123
-msgid "Choose"
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
 msgstr ""
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
-msgid "Cancel"
-msgstr "İptal"
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr ""
 
-#: js/oc-dialogs.js:159
-msgid "No"
-msgstr "Hayır"
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr ""
 
-#: js/oc-dialogs.js:160
-msgid "Yes"
-msgstr "Evet"
-
-#: js/oc-dialogs.js:177
-msgid "Ok"
-msgstr "Tamam"
-
-#: js/oc-vcategories.js:68
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
 msgstr "Silmek için bir kategori seçilmedi"
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:497
-#: js/share.js:509
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr ""
+
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+msgid "Settings"
+msgstr "Ayarlar"
+
+#: js/js.js:704
+msgid "seconds ago"
+msgstr ""
+
+#: js/js.js:705
+msgid "1 minute ago"
+msgstr ""
+
+#: js/js.js:706
+msgid "{minutes} minutes ago"
+msgstr ""
+
+#: js/js.js:707
+msgid "1 hour ago"
+msgstr ""
+
+#: js/js.js:708
+msgid "{hours} hours ago"
+msgstr ""
+
+#: js/js.js:709
+msgid "today"
+msgstr ""
+
+#: js/js.js:710
+msgid "yesterday"
+msgstr ""
+
+#: js/js.js:711
+msgid "{days} days ago"
+msgstr ""
+
+#: js/js.js:712
+msgid "last month"
+msgstr ""
+
+#: js/js.js:713
+msgid "{months} months ago"
+msgstr ""
+
+#: js/js.js:714
+msgid "months ago"
+msgstr ""
+
+#: js/js.js:715
+msgid "last year"
+msgstr ""
+
+#: js/js.js:716
+msgid "years ago"
+msgstr ""
+
+#: js/oc-dialogs.js:126
+msgid "Choose"
+msgstr "seç"
+
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+msgid "Cancel"
+msgstr "İptal"
+
+#: js/oc-dialogs.js:162
+msgid "No"
+msgstr "Hayır"
+
+#: js/oc-dialogs.js:163
+msgid "Yes"
+msgstr "Evet"
+
+#: js/oc-dialogs.js:180
+msgid "Ok"
+msgstr "Tamam"
+
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr ""
+
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:533
+#: js/share.js:545
 msgid "Error"
 msgstr "Hata"
 
-#: js/share.js:103
-msgid "Error while sharing"
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
 msgstr ""
 
-#: js/share.js:114
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr ""
+
+#: js/share.js:124
+msgid "Error while sharing"
+msgstr "Paylaşım sırasında hata  "
+
+#: js/share.js:135
 msgid "Error while unsharing"
 msgstr ""
 
-#: js/share.js:121
+#: js/share.js:142
 msgid "Error while changing permissions"
 msgstr ""
 
-#: js/share.js:130
-msgid "Shared with you and the group"
+#: js/share.js:151
+msgid "Shared with you and the group {group} by {owner}"
 msgstr ""
 
-#: js/share.js:130
-msgid "by"
+#: js/share.js:153
+msgid "Shared with you by {owner}"
 msgstr ""
 
-#: js/share.js:132
-msgid "Shared with you by"
-msgstr ""
-
-#: js/share.js:137
+#: js/share.js:158
 msgid "Share with"
-msgstr ""
+msgstr "ile Paylaş"
 
-#: js/share.js:142
+#: js/share.js:163
 msgid "Share with link"
-msgstr ""
+msgstr "Bağlantı ile paylaş"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
-msgstr ""
+msgstr "Şifre korunması"
 
-#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Parola"
 
-#: js/share.js:152
+#: js/share.js:173
 msgid "Set expiration date"
-msgstr ""
+msgstr "Son kullanma tarihini ayarla"
 
-#: js/share.js:153
+#: js/share.js:174
 msgid "Expiration date"
 msgstr ""
 
-#: js/share.js:185
+#: js/share.js:206
 msgid "Share via email:"
 msgstr ""
 
-#: js/share.js:187
+#: js/share.js:208
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:214
+#: js/share.js:235
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:250
-msgid "Shared in"
-msgstr ""
-
-#: js/share.js:250
-msgid "with"
-msgstr ""
-
 #: js/share.js:271
-msgid "Unshare"
+msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:283
+#: js/share.js:292
+msgid "Unshare"
+msgstr "Paylaşılmayan"
+
+#: js/share.js:304
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:285
+#: js/share.js:306
 msgid "access control"
 msgstr ""
 
-#: js/share.js:288
+#: js/share.js:309
 msgid "create"
-msgstr ""
+msgstr "oluştur"
 
-#: js/share.js:291
+#: js/share.js:312
 msgid "update"
 msgstr ""
 
-#: js/share.js:294
+#: js/share.js:315
 msgid "delete"
 msgstr ""
 
-#: js/share.js:297
+#: js/share.js:318
 msgid "share"
 msgstr ""
 
-#: js/share.js:322 js/share.js:484
+#: js/share.js:349 js/share.js:520 js/share.js:522
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:497
+#: js/share.js:533
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:509
+#: js/share.js:545
 msgid "Error setting expiration date"
 msgstr ""
 
-#: lostpassword/index.php:26
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "ownCloud parola sıfırlama"
 
@@ -235,12 +268,12 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Parolanızı sıfırlamak için bir bağlantı Eposta olarak gönderilecek."
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "İstendi"
+msgid "Reset email send."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Giriş başarısız!"
+msgid "Request failed!"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -299,13 +332,13 @@ msgstr "Bulut bulunamadı"
 msgid "Edit categories"
 msgstr "Kategorileri düzenle"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "Ekle"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "Güvenlik Uyarisi"
 
 #: templates/installation.php:24
 msgid ""
@@ -373,11 +406,87 @@ msgstr "Veritabanı sunucusu"
 msgid "Finish setup"
 msgstr "Kurulumu tamamla"
 
-#: templates/layout.guest.php:38
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Sunday"
+msgstr "Pazar"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Monday"
+msgstr "Pazartesi"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Tuesday"
+msgstr "Salı"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Wednesday"
+msgstr "Çarşamba"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Thursday"
+msgstr "Perşembe"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Friday"
+msgstr "Cuma"
+
+#: templates/layout.guest.php:16 templates/layout.user.php:17
+msgid "Saturday"
+msgstr "Cumartesi"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "January"
+msgstr "Ocak"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "February"
+msgstr "Şubat"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "March"
+msgstr "Mart"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "April"
+msgstr "Nisan"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "May"
+msgstr "Mayıs"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "June"
+msgstr "Haziran"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "July"
+msgstr "Temmuz"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "August"
+msgstr "Ağustos"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "September"
+msgstr "Eylül"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "October"
+msgstr "Ekim"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "November"
+msgstr "Kasım"
+
+#: templates/layout.guest.php:17 templates/layout.user.php:18
+msgid "December"
+msgstr "Aralık"
+
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr "kontrolünüzdeki web servisleri"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Çıkış yap"
 
