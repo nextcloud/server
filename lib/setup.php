@@ -153,10 +153,10 @@ class OC_Setup {
 					if($result) {
 						$row=mysql_fetch_row($result);
 					}
+					mysql_close($connection);
 					if(!$result or $row[0]==0) {
 						OC_DB::createDbFromStructure('db_structure.xml');
 					}
-					mysql_close($connection);
 				}
 			}
 			elseif($dbtype == 'pgsql') {
