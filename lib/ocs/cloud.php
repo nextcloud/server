@@ -13,7 +13,7 @@ class OC_OCS_Cloud {
 				$values[] = $newvalue;
 			}
 		}
-		return $values;
+		return new OC_OCS_Result($values);
 	}
 	
 	public static function getUserQuota($parameters){
@@ -39,7 +39,7 @@ class OC_OCS_Cloud {
 				$xml['used']=$used;
 				$xml['relative']=$relative;
 
-				return $xml;
+				return new OC_OCS_Result($xml);
 			}else{
 				return 300;
 			}

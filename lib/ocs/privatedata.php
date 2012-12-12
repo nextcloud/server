@@ -14,7 +14,7 @@ class OC_OCS_Privatedata {
 			$xml[$i]['app']=$log['app'];
 			$xml[$i]['value']=$log['value'];
 		}
-		return $xml;
+		return new OC_OCS_Result($xml);
 		//TODO: replace 'privatedata' with 'attribute' once a new libattice has been released that works with it
 	}
 	
@@ -25,7 +25,7 @@ class OC_OCS_Privatedata {
 		$key = addslashes(strip_tags($parameters['key']));
 		$value = OC_OCS::readData('post', 'value', 'text');
 		if(OC_OCS::setData($user,$app,$key,$value)){
-			return 100;
+			return new OC_OCS_Result(null, 100);
 		}
 	}
 	
@@ -35,10 +35,10 @@ class OC_OCS_Privatedata {
 		$app = addslashes(strip_tags($parameters['app']));
 		$key = addslashes(strip_tags($parameters['key']));
 		if($key=="" or $app==""){
-			return; //key and app are NOT optional here
+			return new OC_OCS_Result(null, 101); //key and app are NOT optional here
 		}
 		if(OC_OCS::deleteData($user,$app,$key)){
-			return 100;
+			return new OC_OCS_Result(null, 100);
 		}
 	}
 }

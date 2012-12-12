@@ -8,12 +8,12 @@ class OC_OCS_Person {
 		if($login && $password){
 			if(OC_User::checkPassword($login,$password)){
 				$xml['person']['personid'] = $login;
-				return $xml;
+				return new OC_OCS_Result($xml);
 			}else{
-				return 102;
+				return new OC_OCS_Result(null, 102);
 			}
 		}else{
-			return 101;
+			return new OC_OCS_Result(null, 101);
 		}
 	}
 	

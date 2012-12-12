@@ -8,6 +8,6 @@ class OC_OCS_Config {
 		$xml['host'] = OCP\Util::getServerHost();
 		$xml['contact'] = '';
 		$xml['ssl'] = 'false';
-		return $xml;
+		return new OC_OCS_Result($xml);
 	}
 }
