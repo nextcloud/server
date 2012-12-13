@@ -189,14 +189,17 @@ class Storage {
 
 			$i = 0;
 
-			$files_view = new \OC_FilesystemView('/'.\OCP\User::getUser().'/files');
+			$files_view = new \OC_FilesystemView('/'.$uid.'/files');
 			$local_file = $files_view->getLocalFile($filename);
+			$versions_fileview = \OCP\Files::getStorage('files_versions');
+
 			foreach( $matches as $ma ) {
 
 				$i++;
 				$versions[$i]['cur'] = 0;
 				$parts = explode( '.v', $ma );
 				$versions[$i]['version'] = ( end( $parts ) );
+				$versions[$i]['size'] = $versions_fileview->filesize($filename.'.v'.$versions[$i]['version']);
 
 				// if file with modified date exists, flag it in array as currently enabled version
 				( \md5_file( $ma ) == \md5_file( $local_file ) ? $versions[$i]['fileMatch'] = 1 : $versions[$i]['fileMatch'] = 0 );
@@ -252,7 +255,7 @@ class Storage {
 				$quota = \OC_Filesystem::free_space('/');
 			}
 
-			$rootInfo = OC_FileCache::get('', '/'. $uid . '/files');
+			$rootInfo = \OC_FileCache::get('', '/'. $uid . '/files');
 			$free = $quota-$rootInfo['size'];
 			
 			if ( $free > 0 ) {
@@ -261,13 +264,9 @@ class Storage {
 				$availableSpace = 0;
 			}
 			
-			$versionsName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
-
-			// check for old versions
-			$matches = glob( $versionsName.'.v*' );
+			$versions = Storage::getVersions($filename);	
 			
-			
-			foreach ( $matches as $m ) error_log("version: " . $m);
+			foreach ( $versions as $v ) error_log("version: " . $v['version'] . " - size: " . $v['size']);
 				
 			//day interval
 				
