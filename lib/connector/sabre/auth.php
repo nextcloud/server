@@ -45,4 +45,19 @@ class OC_Connector_Sabre_Auth extends Sabre_DAV_Auth_Backend_AbstractBasic {
 			}
 		}
 	}
+
+	/**
+	 * Returns information about the currently logged in username.
+	 *
+	 * If nobody is currently logged in, this method should return null.
+	 *
+	 * @return string|null
+	 */
+	public function getCurrentUser() {
+		$user = OC_User::getUser();
+		if(!$user) {
+			return null;
+		}
+		return $user;
+	}
 }
