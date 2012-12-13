@@ -15,8 +15,12 @@ OC_App::setActiveNavigationEntry( "help" );
 
 if(isset($_GET['mode']) and $_GET['mode']=='admin') {
 	$url=OC_Helper::linkToAbsolute( 'core', 'docu/admin' );
+	$style1='';
+	$style2=' pressed';
 }else{
 	$url=OC_Helper::linkToAbsolute( 'core', 'docu/user' );
+	$style1=' pressed';
+	$style2='';
 }
 
 $url1=OC_Helper::linkToRoute( "settings_help" ).'?mode=user';
@@ -27,4 +31,6 @@ $tmpl->assign( "admin", OC_Group::inGroup(OC_User::getUser(), 'admin') );
 $tmpl->assign( "url", $url );
 $tmpl->assign( "url1", $url1 );
 $tmpl->assign( "url2", $url2 );
+$tmpl->assign( "style1", $style1 );
+$tmpl->assign( "style2", $style2 );
 $tmpl->printPage();
