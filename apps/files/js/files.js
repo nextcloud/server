@@ -774,9 +774,8 @@ function procesSelection(){
 		$('#headerName>span.name').text(t('files','Name'));
 		$('#headerSize').text(t('files','Size'));
 		$('#modified').text(t('files','Modified'));
-		$('th').removeClass('multiselect');
+		$('table').removeClass('multiselect');
 		$('.selectedActions').hide();
-		$('thead').removeClass('fixed');
 		$('#headerName').css('width','auto');
 		$('#headerSize').css('width','auto');
 		$('#headerDate').css('width','auto');
@@ -817,7 +816,7 @@ function procesSelection(){
 		}
 		$('#headerName>span.name').text(selection);
 		$('#modified').text('');
-		$('th').addClass('multiselect');
+		$('table').addClass('multiselect');
 	}
 }
 
