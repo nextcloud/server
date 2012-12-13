@@ -12,16 +12,16 @@
 #new.active { border-bottom-left-radius:0; border-bottom-right-radius:0; border-bottom:none; }
 #new>a { padding:.5em 1.2em .3em; }
 #new>ul {
-	display:none; position:fixed; min-width:7em; z-index:-1;
-	padding:.5em; margin-top:0.075em; margin-left:-.5em; 
+	display:none; position:fixed; min-width:7em; z-index:10;
+	padding:.5em; padding-bottom:0; margin-top:.075em; margin-left:-.5em;
 	text-align:left;
-	background:#f8f8f8; border:1px solid #ddd;
+	background:#f8f8f8; border:1px solid #ddd; border-radius:10px; border-top-left-radius:0;
+	box-shadow:0 2px 7px rgba(170,170,170,.4);
 }
 #new>ul>li { height:20px; margin:.3em; padding-left:2em; padding-bottom:0.1em;
 		background-repeat:no-repeat; cursor:pointer; }
 #new>ul>li>p { cursor:pointer; }
 #new>ul>li>input { padding:0.3em; margin:-0.3em; }
-#new .popup { border-top-left-radius:0; z-index:10; }
 
 #upload { 
 	height:27px; padding:0; margin-left:0.2em; overflow:hidden;
