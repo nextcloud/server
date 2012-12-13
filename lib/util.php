@@ -166,7 +166,7 @@ class OC_Util {
 	 * @param int timestamp $timestamp
 	 * @param bool dateOnly option to ommit time from the result
 	 */
-    public static function formatDate( $timestamp, $dateOnly=false) {
+	public static function formatDate( $timestamp, $dateOnly=false) {
 		if(isset($_SESSION['timezone'])) {//adjust to clients timezone if we know it
 			$systemTimeZone = intval(date('O'));
 			$systemTimeZone=(round($systemTimeZone/100, 0)*60)+($systemTimeZone%100);
@@ -176,36 +176,7 @@ class OC_Util {
 		}
 		$l=OC_L10N::get('lib');
 		return $l->l($dateOnly ? 'date' : 'datetime', $timestamp);
-    }
-
-	/**
-	 * Shows a pagenavi widget where you can jump to different pages.
-	 *
-	 * @param int $pagecount
-	 * @param int $page
-	 * @param string $url
-	 * @return OC_Template
-	 */
-	public static function getPageNavi($pagecount, $page, $url) {
-
-		$pagelinkcount=8;
-		if ($pagecount>1) {
-			$pagestart=$page-$pagelinkcount;
-			if($pagestart<0) $pagestart=0;
-			$pagestop=$page+$pagelinkcount;
-			if($pagestop>$pagecount) $pagestop=$pagecount;
-
-			$tmpl = new OC_Template( '', 'part.pagenavi', '' );
-			$tmpl->assign('page', $page);
-			$tmpl->assign('pagecount', $pagecount);
-			$tmpl->assign('pagestart', $pagestart);
-			$tmpl->assign('pagestop', $pagestop);
-			$tmpl->assign('url', $url);
-			return $tmpl;
-		}
 	}
-
-
 
 	/**
 	 * check if the current server configuration is suitable for ownCloud
