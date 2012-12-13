@@ -48,21 +48,24 @@ input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,
 input[type="password"]:hover, input[type="password"]:focus, input[type="password"]:active,
 .searchbox input[type="search"]:hover, .searchbox input[type="search"]:focus, .searchbox input[type="search"]:active,
 textarea:hover, textarea:focus, textarea:active { background-color:#fff; color:#333; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
-
-input[type="submit"], input[type="button"], button, .button, #quota, div.jp-progress, select, .pager li a {
-	width:auto; padding:.4em;
-	background:#f8f8f8; font-weight:bold; color:#555; text-shadow:#fff 0 1px 0; border:1px solid #ddd; cursor:pointer;
-	-moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset;
-	-moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;
-}
-input[type="submit"]:hover, input[type="submit"]:focus, input[type="button"]:hover, select:hover, select:focus, select:active, input[type="button"]:focus, .button:hover { background:#fff; color:#333; }
-input[type="submit"] img, input[type="button"] img, button img, .button img { cursor:pointer; }
 input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
 input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
 #quota { cursor:default; }
 
 
-/* PRIMARY ACTION BUTTON, use sparingly */
+/* BUTTONS */
+input[type="submit"], input[type="button"], button, .button, #quota, div.jp-progress, select, .pager li a {
+	width:auto; padding:.4em;
+	background-color:rgba(230,230,230,.5); font-weight:bold; color:#555; text-shadow:#fff 0 1px 0; border:1px solid rgba(180,180,180,.5); cursor:pointer;
+	-moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset;
+	-moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;
+}
+input[type="submit"]:hover, input[type="submit"]:focus, input[type="button"]:hover, select:hover, select:focus, select:active, input[type="button"]:focus, .button:hover {
+	background:rgba(255,255,255,.5); color:#333;
+}
+input[type="submit"] img, input[type="button"] img, button img, .button img { cursor:pointer; }
+
+/* Primary action button, use sparingly */
 .primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary {
 	border:1px solid #1d2d44;
 	background:#35537a; color:#ddd; text-shadow:#000 0 -1px 0;
