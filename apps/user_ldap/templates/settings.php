@@ -7,6 +7,9 @@
 		<?php if(OCP\App::isEnabled('user_webdavauth')) {
 			echo '<p class="ldapwarning">'.$l->t('<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them.').'</p>';
 		}
+		if(!function_exists('ldap_connect')) {
+			echo '<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>';
+		}
 		?>
 	<fieldset id="ldapSettings-1">
 		<p><label for="ldap_host"><?php echo $l->t('Host');?></label><input type="text" id="ldap_host" name="ldap_host" value="<?php echo $_['ldap_host']; ?>" title="<?php echo $l->t('You can omit the protocol, except you require SSL. Then start with ldaps://');?>"></p>
