@@ -320,7 +320,13 @@ class OC_Setup {
 		$connection_string = "host='$e_host' dbname=postgres user='$e_user' password='$e_password'";
 		$connection = @pg_connect($connection_string);
 		if(!$connection) {
-			throw new DatabaseSetupException($l->t('PostgreSQL username and/or password not valid'));
+			// Try if we can't connect with the specified DB name
+			$e_dbname = addslashes($dbname);
+			$connection_string = "host='$e_host' dbname='$dbname' user='$e_user' password='$e_password'";
+			$connection = @pg_connect($connection_string);
+
+			if(!$connection)
+				throw new DatabaseSetupException($l->t('PostgreSQL username and/or password not valid'));
 		}
 		$e_user = pg_escape_string($dbuser);
 		//check for roles creation rights in postgresql
