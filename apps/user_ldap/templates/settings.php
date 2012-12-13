@@ -4,6 +4,10 @@
 		<li><a href="#ldapSettings-1">LDAP Basic</a></li>
 		<li><a href="#ldapSettings-2">Advanced</a></li>
 	</ul>
+		<?php if(OCP\App::isEnabled('user_webdavauth')) {
+			echo '<p class="ldapwarning">'.$l->t('<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them.').'</p>';
+		}
+		?>
 	<fieldset id="ldapSettings-1">
 		<p><label for="ldap_host"><?php echo $l->t('Host');?></label><input type="text" id="ldap_host" name="ldap_host" value="<?php echo $_['ldap_host']; ?>" title="<?php echo $l->t('You can omit the protocol, except you require SSL. Then start with ldaps://');?>"></p>
 		<p><label for="ldap_base"><?php echo $l->t('Base DN');?></label><input type="text" id="ldap_base" name="ldap_base" value="<?php echo $_['ldap_base']; ?>" title="<?php echo $l->t('You can specify Base DN for users and groups in the Advanced tab');?>" /></p>
