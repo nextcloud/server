@@ -31,8 +31,8 @@ class Storage {
 
 	const DEFAULTENABLED=true;
 	const DEFAULTBLACKLIST='avi mp3 mpg mp4 ctmp';
-	const DEFAULTMAXFILESIZE=1048576; // 10MB
-	const DEFAULTMININTERVAL=60; // 1 min
+	const DEFAULTMAXFILESIZE=10485760; // 10MB
+	const DEFAULTMININTERVAL=1; // 1 min
 	const DEFAULTMAXVERSIONS=50;
 
 	private static function getUidAndFilename($filename)
@@ -245,11 +245,37 @@ class Storage {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
 			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
+			$quota = \OCP\Util::computerFileSize(\OC_Preferences::getValue($uid, 'files', 'quota'));
+			if ( $quota == null ) {
+				$quota = \OCP\Util::computerFileSize(\OC_Appconfig::getValue('files', 'default_quota'));
+			} else 	if ( $quota == null ) {
+				$quota = \OC_Filesystem::free_space('/');
+			}
 
+			$rootInfo = OC_FileCache::get('', '/'. $uid . '/files');
+			$free = $quota-$rootInfo['size'];
+			
+			if ( $free > 0 ) {
+				$availableSpace = 5000 / ($quota-$rootInfo['size']); // 50% of free space can be used for versions
+			} else {
+				$availableSpace = 0;
+			}
+			
 			$versionsName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
 
 			// check for old versions
 			$matches = glob( $versionsName.'.v*' );
+			
+			
+			foreach ( $matches as $m ) error_log("version: " . $m);
+				
+			//day interval
+				
+			//week interval
+				
+			//month interval
+				
+			//delete oldest
 
 			if( count( $matches ) > \OCP\Config::getSystemValue( 'files_versionmaxversions', Storage::DEFAULTMAXVERSIONS ) ) {
 
