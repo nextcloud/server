@@ -8,3 +8,8 @@
 	width: 70%;
 	display: inline-block;
 }
+
+.ldapwarning {
+	margin-left: 1.4em;
+	color: #FF3B3B;
+}
