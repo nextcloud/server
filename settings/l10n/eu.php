@@ -11,6 +11,7 @@
 "Authentication error" => "Autentifikazio errorea",
 "Unable to delete user" => "Ezin izan da erabiltzailea ezabatu",
 "Language changed" => "Hizkuntza aldatuta",
+"Admins can't remove themself from the admin group" => "Kudeatzaileak ezin du bere burua kendu kudeatzaile taldetik",
 "Unable to add user to group %s" => "Ezin izan da erabiltzailea %s taldera gehitu",
 "Unable to remove user from group %s" => "Ezin izan da erabiltzailea %s taldetik ezabatu",
 "Disable" => "Ez-gaitu",

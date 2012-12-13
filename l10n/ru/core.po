@@ -7,6 +7,7 @@
 #   <jekader@gmail.com>, 2011, 2012.
 #   <k0ldbl00d@gmail.com>, 2012.
 # Mihail Vasiliev <mickvav@gmail.com>, 2012.
+#   <semen@sam002.net>, 2012.
 #   <skoptev@ukr.net>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 # Victor Bravo <>, 2012.
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 23:17+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-14 00:16+0100\n"
+"PO-Revision-Date: 2012-12-13 18:19+0000\n"
+"Last-Translator: sam002 <semen@sam002.net>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,26 +29,26 @@ msgstr ""
 #: ajax/share.php:84
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "Пользователь %s поделился с вами файлом"
 
 #: ajax/share.php:86
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "Пользователь %s открыл вам доступ к папке"
 
 #: ajax/share.php:88
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "Пользователь %s открыл вам доступ к файлу \"%s\". Он доступен для загрузки здесь: %s"
 
 #: ajax/share.php:90
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "Пользователь %s открыл вам доступ к папке \"%s\". Она доступна для загрузки здесь: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -221,11 +222,11 @@ msgstr "Пароль"
 
 #: js/share.js:172
 msgid "Email link to person"
-msgstr ""
+msgstr "Почтовая ссылка на персону"
 
 #: js/share.js:173
 msgid "Send"
-msgstr ""
+msgstr "Отправить"
 
 #: js/share.js:177
 msgid "Set expiration date"
@@ -293,11 +294,11 @@ msgstr "Ошибка при установке срока доступа"
 
 #: js/share.js:568
 msgid "Sending ..."
-msgstr ""
+msgstr "Отправляется ..."
 
 #: js/share.js:579
 msgid "Email sent"
-msgstr ""
+msgstr "Письмо отправлено"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
