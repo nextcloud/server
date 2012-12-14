@@ -32,7 +32,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 		</select> <input type="submit" value="<?php echo $l->t('Create')?>" />
 	</form>
 	<div class="quota">
-		<span><?php echo $l->t('Default Quota');?>:</span>
+		<span><?php echo $l->t('Default Storage');?></span>
 		<div class="quota-select-wrapper">
 			<?php if((bool) $_['isadmin']): ?>
 			<select class='quota'>
@@ -79,7 +79,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 			<?php if(is_array($_['subadmins']) || $_['subadmins']): ?>
 			<th id="headerSubAdmins"><?php echo $l->t('Group Admin'); ?></th>
 			<?php endif;?>
-			<th id="headerQuota"><?php echo $l->t( 'Quota' ); ?></th>
+			<th id="headerQuota"><?php echo $l->t('Storage'); ?></th>
 			<th id="headerRemove">&nbsp;</th>
 		</tr>
 	</thead>
