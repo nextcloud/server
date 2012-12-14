@@ -26,6 +26,8 @@ class Test_Filesystem extends UnitTestCase {
 	 */
 	private $tmpDirs;
 
+	private $user;
+
 	/**
 	 * @return array
 	 */
@@ -43,6 +45,26 @@ class Test_Filesystem extends UnitTestCase {
 
 	public function setUp() {
 		OC_Filesystem::clearMounts();
+	}
+
+	private function setupTempMount() {
+		if(! $this->user){
+			if (OC_Filesystem::getView()) {
+				$user = OC_User::getUser();
+			} else {
+				$user = uniqid();
+				OC_Filesystem::init('/' . $user . '/files');
+			}
+			$this->user=$user;
+		}else{
+			$user=$this->user;
+		}
+
+		OC_Filesystem::mount('OC_Filestorage_Temporary', array(), '/');
+
+		$rootView = new OC_FilesystemView('');
+		$rootView->mkdir('/' . $user);
+		$rootView->mkdir('/' . $user . '/files');
 	}
 
 	public function testMount() {
@@ -88,18 +110,9 @@ class Test_Filesystem extends UnitTestCase {
 		);
 		$this->assertFalse($run);
 
-		if (OC_Filesystem::getView()) {
-			$user = OC_User::getUser();
-		} else {
-			$user = uniqid();
-			OC_Filesystem::init('/' . $user . '/files');
-		}
-
-		OC_Filesystem::mount('OC_Filestorage_Temporary', array(), '/');
+		$this->setupTempMount();
 
 		$rootView = new OC_FilesystemView('');
-		$rootView->mkdir('/' . $user);
-		$rootView->mkdir('/' . $user . '/files');
 
 		$this->assertFalse($rootView->file_put_contents('/.htaccess', 'foo'));
 		$this->assertFalse(OC_Filesystem::file_put_contents('/.htaccess', 'foo'));
@@ -108,20 +121,10 @@ class Test_Filesystem extends UnitTestCase {
 	}
 
 	public function testHooks() {
-		if(OC_Filesystem::getView()){
-			$user = OC_User::getUser();
-		}else{
-			$user=uniqid();
-			OC_Filesystem::init('/'.$user.'/files');
-		}
 		OC_Hook::clear('OC_Filesystem');
 		OC_Hook::connect('OC_Filesystem', 'post_write', $this, 'dummyHook');
 
-		OC_Filesystem::mount('OC_Filestorage_Temporary', array(), '/');
-
-		$rootView=new OC_FilesystemView('');
-		$rootView->mkdir('/'.$user);
-		$rootView->mkdir('/'.$user.'/files');
+		$this->setupTempMount();
 
 		OC_Filesystem::file_put_contents('/foo', 'foo');
 		OC_Filesystem::mkdir('/bar');
@@ -136,5 +139,36 @@ class Test_Filesystem extends UnitTestCase {
 	public function dummyHook($arguments) {
 		$path = $arguments['path'];
 		$this->assertEqual($path, OC_Filesystem::normalizePath($path)); //the path passed to the hook should already be normalized
+	}
+
+	public function testSizeIncrease(){
+		OC_Hook::clear('OC_Filesystem');
+		OC_Hook::connect('OC_Filesystem', 'post_write','OC_FileCache_Update', 'fileSystemWatcherWrite');
+		OC_Hook::connect('OC_Filesystem', 'post_delete','OC_FileCache_Update', 'fileSystemWatcherDelete');
+		OC_Hook::connect('OC_Filesystem', 'post_rename','OC_FileCache_Update', 'fileSystemWatcherRename');
+
+		$this->setupTempMount();
+
+		// folder is empty
+		OC_FileCache::scan('');
+		$item = OC_FileCache_Cached::get('');
+		$this->assertEqual(0, $item['size']);
+
+		OC_Filesystem::file_put_contents('/foo', 'foo');
+
+		$item = OC_FileCache_Cached::get('');
+		$this->assertEqual(3, $item['size']);
+
+		OC_Filesystem::unlink('/foo');
+		$item = OC_FileCache_Cached::get('');
+		$this->assertEqual(0, $item['size']);
+
+		OC_Filesystem::mkdir('/bar');
+		OC_Filesystem::file_put_contents('/bar/foo', 'foo');
+
+		$item = OC_FileCache_Cached::get('');
+		$this->assertEqual(3, $item['size']);
+
+		OC_FileCache::delete('');
 	}
 }
