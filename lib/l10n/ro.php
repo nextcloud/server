@@ -21,7 +21,6 @@
 "yesterday" => "ieri",
 "%d days ago" => "%d zile în urmă",
 "last month" => "ultima lună",
-"months ago" => "luni în urmă",
 "last year" => "ultimul an",
 "years ago" => "ani în urmă",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s este disponibil. Vezi <a href=\"%s\">mai multe informații</a>",

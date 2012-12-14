@@ -10,7 +10,6 @@
 "today" => "danas",
 "yesterday" => "jučer",
 "last month" => "prošli mjesec",
-"months ago" => "mjeseci",
 "last year" => "prošlu godinu",
 "years ago" => "godina"
 );

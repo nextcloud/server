@@ -153,7 +153,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
 		if($this->connection) {
 			return $this->connection->escapeString($text);
 		}else{
-			return str_replace("'","''",$text);//TODO; more
+			return str_replace("'", "''", $text);//TODO; more
 		}
     }
 
@@ -276,7 +276,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
      * @access  public
      * @since   2.1.1
      */
-    function setTransactionIsolation($isolation,$options=array())
+    function setTransactionIsolation($isolation, $options=array())
     {
         $this->debug('Setting transaction isolation level', __FUNCTION__, array('is_manip' => true));
         switch ($isolation) {
@@ -351,7 +351,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
         }
 
         if ($database_file !== ':memory:') {
-			if(!strpos($database_file,'.db')) {
+			if(!strpos($database_file, '.db')) {
 				$database_file="$datadir/$database_file.db";
 			}
             if (!file_exists($database_file)) {
@@ -387,7 +387,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
 
         $php_errormsg = '';
 		$this->connection = new SQLite3($database_file);
-		if(is_callable(array($this->connection,'busyTimeout'))) {//busy timout is only available in php>=5.3
+		if(is_callable(array($this->connection, 'busyTimeout'))) {//busy timout is only available in php>=5.3
 			$this->connection->busyTimeout(100);
 		}
         $this->_lasterror = $this->connection->lastErrorMsg();
@@ -397,8 +397,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
         }
 
         if ($this->fix_assoc_fields_names ||
-            $this->options['portability'] & MDB2_PORTABILITY_FIX_ASSOC_FIELD_NAMES)
-        {
+            $this->options['portability'] & MDB2_PORTABILITY_FIX_ASSOC_FIELD_NAMES) {
             $this->connection->exec("PRAGMA short_column_names = 1");
             $this->fix_assoc_fields_names = true;
         }
@@ -1142,9 +1141,9 @@ class MDB2_Statement_sqlite3 extends MDB2_Statement_Common
     function bindValue($parameter, $value, $type = null) {
 		if($type) {
 			$type=$this->getParamType($type);
-			$this->statement->bindValue($parameter,$value,$type);
+			$this->statement->bindValue($parameter, $value, $type);
 		}else{
-			$this->statement->bindValue($parameter,$value);
+			$this->statement->bindValue($parameter, $value);
 		}
 		return MDB2_OK;
     }
@@ -1165,9 +1164,9 @@ class MDB2_Statement_sqlite3 extends MDB2_Statement_Common
     function bindParam($parameter, &$value, $type = null) {
         if($type) {
 			$type=$this->getParamType($type);
-			$this->statement->bindParam($parameter,$value,$type);
+			$this->statement->bindParam($parameter, $value, $type);
 		}else{
-			$this->statement->bindParam($parameter,$value);
+			$this->statement->bindParam($parameter, $value);
 		}
         return MDB2_OK;
     }
@@ -1318,7 +1317,7 @@ class MDB2_Statement_sqlite3 extends MDB2_Statement_Common
 			}else{
 				$types=null;
 			}
-            $err = $this->bindValueArray($values,$types);
+            $err = $this->bindValueArray($values, $types);
             if (PEAR::isError($err)) {
                 return $this->db->raiseError(MDB2_ERROR, null, null,
                                             'Binding Values failed with message: ' . $err->getMessage(), __FUNCTION__);

@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <sofia168@livemail.tw>, 2012.
 #   <ywang1007+transifex@gmail.com>, 2012.
 # ywang  <ywang1007@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:11+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-27 00:10+0100\n"
+"PO-Revision-Date: 2012-11-26 09:03+0000\n"
+"Last-Translator: sofiasu <sofia168@livemail.tw>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,19 +44,19 @@ msgstr "應用程式"
 msgid "Admin"
 msgstr "管理"
 
-#: files.php:328
+#: files.php:361
 msgid "ZIP download is turned off."
 msgstr "ZIP 下載已關閉"
 
-#: files.php:329
+#: files.php:362
 msgid "Files need to be downloaded one by one."
 msgstr "檔案需要逐一下載"
 
-#: files.php:329 files.php:354
+#: files.php:362 files.php:387
 msgid "Back to Files"
 msgstr "回到檔案列表"
 
-#: files.php:353
+#: files.php:386
 msgid "Selected files too large to generate zip file."
 msgstr "選擇的檔案太大以致於無法產生壓縮檔"
 
@@ -81,47 +82,57 @@ msgstr "文字"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "圖片"
 
-#: template.php:87
+#: template.php:103
 msgid "seconds ago"
 msgstr "幾秒前"
 
-#: template.php:88
+#: template.php:104
 msgid "1 minute ago"
 msgstr "1 分鐘前"
 
-#: template.php:89
+#: template.php:105
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d 分鐘前"
 
-#: template.php:92
+#: template.php:106
+msgid "1 hour ago"
+msgstr "1小時之前"
+
+#: template.php:107
+#, php-format
+msgid "%d hours ago"
+msgstr "%d小時之前"
+
+#: template.php:108
 msgid "today"
 msgstr "今天"
 
-#: template.php:93
+#: template.php:109
 msgid "yesterday"
 msgstr "昨天"
 
-#: template.php:94
+#: template.php:110
 #, php-format
 msgid "%d days ago"
 msgstr "%d 天前"
 
-#: template.php:95
+#: template.php:111
 msgid "last month"
 msgstr "上個月"
 
-#: template.php:96
-msgid "months ago"
-msgstr "幾個月前"
+#: template.php:112
+#, php-format
+msgid "%d months ago"
+msgstr "%d個月之前"
 
-#: template.php:97
+#: template.php:113
 msgid "last year"
 msgstr "去年"
 
-#: template.php:98
+#: template.php:114
 msgid "years ago"
 msgstr "幾年前"
 
@@ -137,3 +148,8 @@ msgstr "最新的"
 #: updater.php:80
 msgid "updates check is disabled"
 msgstr "檢查更新已停用"
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "找不到分類-\"%s\""

@@ -19,11 +19,11 @@ if (version_compare($installedVersion, '0.3', '<')) {
 				$itemType = 'file';
 			}
 			if ($row['permissions'] == 0) {
-				$permissions = OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_SHARE;
+				$permissions = OCP\PERMISSION_READ | OCP\PERMISSION_SHARE;
 			} else {
-				$permissions = OCP\Share::PERMISSION_READ | OCP\Share::PERMISSION_UPDATE | OCP\Share::PERMISSION_SHARE;
+				$permissions = OCP\PERMISSION_READ | OCP\PERMISSION_UPDATE | OCP\PERMISSION_SHARE;
 				if ($itemType == 'folder') {
-					$permissions |= OCP\Share::PERMISSION_CREATE;
+					$permissions |= OCP\PERMISSION_CREATE;
 				}
 			}
 			$pos = strrpos($row['uid_shared_with'], '@');

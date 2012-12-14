@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-19 02:03+0200\n"
-"PO-Revision-Date: 2012-10-19 00:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-01 00:01+0100\n"
+"PO-Revision-Date: 2012-11-30 23:02+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/owncloud/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,194 +26,165 @@ msgid "There is no error, the file uploaded with success"
 msgstr "Tiada ralat, fail berjaya dimuat naik."
 
 #: ajax/upload.php:21
-msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr "Fail yang dimuat naik melebihi penyata upload_max_filesize dalam php.ini"
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+msgstr ""
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Fail yang dimuat naik melebihi MAX_FILE_SIZE yang dinyatakan dalam form HTML "
 
-#: ajax/upload.php:23
+#: ajax/upload.php:25
 msgid "The uploaded file was only partially uploaded"
 msgstr "Sebahagian daripada fail telah dimuat naik. "
 
-#: ajax/upload.php:24
+#: ajax/upload.php:26
 msgid "No file was uploaded"
 msgstr "Tiada fail yang dimuat naik"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:27
 msgid "Missing a temporary folder"
 msgstr "Folder sementara hilang"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:28
 msgid "Failed to write to disk"
 msgstr "Gagal untuk disimpan"
 
-#: appinfo/app.php:6
+#: appinfo/app.php:10
 msgid "Files"
 msgstr "fail"
 
-#: js/fileactions.js:108 templates/index.php:62
+#: js/fileactions.js:117 templates/index.php:83 templates/index.php:84
 msgid "Unshare"
 msgstr ""
 
-#: js/fileactions.js:110 templates/index.php:64
+#: js/fileactions.js:119 templates/index.php:89 templates/index.php:90
 msgid "Delete"
 msgstr "Padam"
 
-#: js/fileactions.js:182
+#: js/fileactions.js:181
 msgid "Rename"
 msgstr ""
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:201 js/filelist.js:203
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:201 js/filelist.js:203
 msgid "replace"
 msgstr "ganti"
 
-#: js/filelist.js:194
+#: js/filelist.js:201
 msgid "suggest name"
 msgstr ""
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:201 js/filelist.js:203
 msgid "cancel"
 msgstr "Batal"
 
-#: js/filelist.js:243
+#: js/filelist.js:250
 msgid "replaced {new_name}"
 msgstr ""
 
-#: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
+#: js/filelist.js:250 js/filelist.js:252 js/filelist.js:284 js/filelist.js:286
 msgid "undo"
 msgstr ""
 
-#: js/filelist.js:245
+#: js/filelist.js:252
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:277
+#: js/filelist.js:284
 msgid "unshared {files}"
 msgstr ""
 
-#: js/filelist.js:279
+#: js/filelist.js:286
 msgid "deleted {files}"
 msgstr ""
 
-#: js/files.js:179
+#: js/files.js:33
+msgid ""
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
+"allowed."
+msgstr ""
+
+#: js/files.js:183
 msgid "generating ZIP-file, it may take some time."
 msgstr "sedang menghasilkan fail ZIP, mungkin mengambil sedikit masa."
 
-#: js/files.js:214
+#: js/files.js:218
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Tidak boleh memuatnaik fail anda kerana mungkin ianya direktori atau saiz fail 0 bytes"
 
-#: js/files.js:214
+#: js/files.js:218
 msgid "Upload Error"
 msgstr "Muat naik ralat"
 
-#: js/files.js:242 js/files.js:347 js/files.js:377
+#: js/files.js:235
+msgid "Close"
+msgstr "Tutup"
+
+#: js/files.js:254 js/files.js:368 js/files.js:398
 msgid "Pending"
 msgstr "Dalam proses"
 
-#: js/files.js:262
+#: js/files.js:274
 msgid "1 file uploading"
 msgstr ""
 
-#: js/files.js:265 js/files.js:310 js/files.js:325
+#: js/files.js:277 js/files.js:331 js/files.js:346
 msgid "{count} files uploading"
 msgstr ""
 
-#: js/files.js:328 js/files.js:361
+#: js/files.js:349 js/files.js:382
 msgid "Upload cancelled."
 msgstr "Muatnaik dibatalkan."
 
-#: js/files.js:430
+#: js/files.js:451
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/files.js:500
-msgid "Invalid name, '/' is not allowed."
-msgstr "penggunaa nama tidak sah, '/' tidak dibenarkan."
+#: js/files.js:523
+msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
+msgstr ""
 
-#: js/files.js:681
+#: js/files.js:704
 msgid "{count} files scanned"
 msgstr ""
 
-#: js/files.js:689
+#: js/files.js:712
 msgid "error while scanning"
 msgstr ""
 
-#: js/files.js:762 templates/index.php:48
+#: js/files.js:785 templates/index.php:65
 msgid "Name"
 msgstr "Nama "
 
-#: js/files.js:763 templates/index.php:56
+#: js/files.js:786 templates/index.php:76
 msgid "Size"
 msgstr "Saiz"
 
-#: js/files.js:764 templates/index.php:58
+#: js/files.js:787 templates/index.php:78
 msgid "Modified"
 msgstr "Dimodifikasi"
 
-#: js/files.js:791
+#: js/files.js:814
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:793
+#: js/files.js:816
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:801
+#: js/files.js:824
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:803
+#: js/files.js:826
 msgid "{count} files"
-msgstr ""
-
-#: js/files.js:846
-msgid "seconds ago"
-msgstr ""
-
-#: js/files.js:847
-msgid "1 minute ago"
-msgstr ""
-
-#: js/files.js:848
-msgid "{minutes} minutes ago"
-msgstr ""
-
-#: js/files.js:851
-msgid "today"
-msgstr ""
-
-#: js/files.js:852
-msgid "yesterday"
-msgstr ""
-
-#: js/files.js:853
-msgid "{days} days ago"
-msgstr ""
-
-#: js/files.js:854
-msgid "last month"
-msgstr ""
-
-#: js/files.js:856
-msgid "months ago"
-msgstr ""
-
-#: js/files.js:857
-msgid "last year"
-msgstr ""
-
-#: js/files.js:858
-msgid "years ago"
 msgstr ""
 
 #: templates/admin.php:5
@@ -224,80 +195,76 @@ msgstr "Pengendalian fail"
 msgid "Maximum upload size"
 msgstr "Saiz maksimum muat naik"
 
-#: templates/admin.php:7
+#: templates/admin.php:9
 msgid "max. possible: "
 msgstr "maksimum:"
 
-#: templates/admin.php:9
+#: templates/admin.php:12
 msgid "Needed for multi-file and folder downloads."
 msgstr "Diperlukan untuk muatturun fail pelbagai "
 
-#: templates/admin.php:9
+#: templates/admin.php:14
 msgid "Enable ZIP-download"
 msgstr "Aktifkan muatturun ZIP"
 
-#: templates/admin.php:11
+#: templates/admin.php:17
 msgid "0 is unlimited"
 msgstr "0 adalah tanpa had"
 
-#: templates/admin.php:12
+#: templates/admin.php:19
 msgid "Maximum input size for ZIP files"
 msgstr "Saiz maksimum input untuk fail ZIP"
 
-#: templates/admin.php:14
+#: templates/admin.php:23
 msgid "Save"
-msgstr ""
+msgstr "Simpan"
 
 #: templates/index.php:7
 msgid "New"
 msgstr "Baru"
 
-#: templates/index.php:9
+#: templates/index.php:10
 msgid "Text file"
 msgstr "Fail teks"
 
-#: templates/index.php:10
+#: templates/index.php:12
 msgid "Folder"
 msgstr "Folder"
 
-#: templates/index.php:11
-msgid "From url"
-msgstr "Dari url"
+#: templates/index.php:14
+msgid "From link"
+msgstr ""
 
-#: templates/index.php:20
+#: templates/index.php:35
 msgid "Upload"
 msgstr "Muat naik"
 
-#: templates/index.php:27
+#: templates/index.php:43
 msgid "Cancel upload"
 msgstr "Batal muat naik"
 
-#: templates/index.php:40
+#: templates/index.php:57
 msgid "Nothing in here. Upload something!"
 msgstr "Tiada apa-apa di sini. Muat naik sesuatu!"
 
-#: templates/index.php:50
-msgid "Share"
-msgstr "Kongsi"
-
-#: templates/index.php:52
+#: templates/index.php:71
 msgid "Download"
 msgstr "Muat turun"
 
-#: templates/index.php:75
+#: templates/index.php:103
 msgid "Upload too large"
 msgstr "Muat naik terlalu besar"
 
-#: templates/index.php:77
+#: templates/index.php:105
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Fail yang cuba dimuat naik melebihi saiz maksimum fail upload server"
 
-#: templates/index.php:82
+#: templates/index.php:110
 msgid "Files are being scanned, please wait."
 msgstr "Fail sedang diimbas, harap bersabar."
 
-#: templates/index.php:85
+#: templates/index.php:113
 msgid "Current scanning"
 msgstr "Imbasan semasa"

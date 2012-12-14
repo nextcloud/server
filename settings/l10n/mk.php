@@ -8,8 +8,6 @@
 "Enable" => "Овозможи",
 "Saving..." => "Снимам...",
 "__language_name__" => "__language_name__",
-"Log" => "Записник",
-"More" => "Повеќе",
 "Add your App" => "Додадете ја Вашата апликација",
 "Select an App" => "Избери аппликација",
 "See application page at apps.owncloud.com" => "Види ја страницата со апликации на apps.owncloud.com",

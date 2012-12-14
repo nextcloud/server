@@ -1,4 +1,20 @@
 /**
+ * Disable console output unless DEBUG mode is enabled.
+ * Add 
+ *     define('DEBUG', true);
+ * To the end of config/config.php to enable debug mode.
+ */
+if (oc_debug !== true) {
+	if (!window.console) {
+		window.console = {};
+	}
+	var methods = ['log', 'debug', 'warn', 'info', 'error', 'assert'];
+	for (var i = 0; i < methods.length; i++) {
+	console[methods[i]] = function () { };
+	}
+}
+
+/**
  * translate a string
  * @param app the id of the app for which to translate the string
  * @param text the string to translate
@@ -62,7 +78,7 @@ function escapeHTML(s) {
 * @return string
 */
 function fileDownloadPath(dir, file) {
-	return OC.filePath('files', 'ajax', 'download.php')+'&files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir);
+	return OC.filePath('files', 'ajax', 'download.php')+'?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir);
 }
 
 var OC={
@@ -95,9 +111,9 @@ var OC={
 		var isCore=OC.coreApps.indexOf(app)!==-1,
 			link=OC.webroot;
 		if((file.substring(file.length-3) === 'php' || file.substring(file.length-3) === 'css') && !isCore){
-			link+='/?app=' + app;
+			link+='/index.php/apps/' + app;
 			if (file != 'index.php') {
-				link+='&getfile=';
+				link+='/';
 				if(type){
 					link+=encodeURI(type + '/');
 				}
@@ -113,7 +129,12 @@ var OC={
 			}
 			link+=file;
 		}else{
-			link+='/';
+			if ((app == 'settings' || app == 'core' || app == 'search') && type == 'ajax') {
+				link+='/index.php/';
+			}
+			else {
+				link+='/';
+			}
 			if(!isCore){
 				link+='apps/';
 			}
@@ -594,7 +615,7 @@ $(document).ready(function(){
 	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
 	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
-	$('.file_upload_button_wrapper').tipsy({gravity:'w', fade:true});
+	$('#upload a').tipsy({gravity:'w', fade:true});
 	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
 	$('a.delete').tipsy({gravity: 'e', fade:true, live:true});
 	$('a.action').tipsy({gravity:'s', fade:true, live:true});
@@ -636,7 +657,7 @@ if (!Array.prototype.map){
 
 /**
  * Filter Jquery selector by attribute value
- **/
+ */
 $.fn.filterAttr = function(attr_name, attr_value) {
 	return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
 };
@@ -644,7 +665,7 @@ $.fn.filterAttr = function(attr_name, attr_value) {
 function humanFileSize(size) {
 	var humanList = ['B', 'kB', 'MB', 'GB', 'TB'];
 	// Calculate Log with base 1024: size = 1024 ** order
-	var order = Math.floor(Math.log(size) / Math.log(1024));
+	var order = size?Math.floor(Math.log(size) / Math.log(1024)):0;
 	// Stay in range of the byte sizes that are defined
 	order = Math.min(humanList.length - 1, order);
 	var readableFormat = humanList[order];
@@ -668,6 +689,31 @@ function formatDate(date){
 		date=new Date(date);
 	}
 	return $.datepicker.formatDate(datepickerFormatDate, date)+' '+date.getHours()+':'+((date.getMinutes()<10)?'0':'')+date.getMinutes();
+}
+
+/**
+ * takes an absolute timestamp and return a string with a human-friendly relative date
+ * @param int a Unix timestamp
+ */
+function relative_modified_date(timestamp) {
+	var timediff = Math.round((new Date()).getTime() / 1000) - timestamp;
+	var diffminutes = Math.round(timediff/60);
+	var diffhours = Math.round(diffminutes/60);
+	var diffdays = Math.round(diffhours/24);
+	var diffmonths = Math.round(diffdays/31);
+	if(timediff < 60) { return t('core','seconds ago'); }
+	else if(timediff < 120) { return t('core','1 minute ago'); }
+	else if(timediff < 3600) { return t('core','{minutes} minutes ago',{minutes: diffminutes}); }
+	else if(timediff < 7200) { return t('core','1 hour ago'); }
+	else if(timediff < 86400) { return t('core','{hours} hours ago',{hours: diffhours}); }
+	else if(timediff < 86400) { return t('core','today'); }
+	else if(timediff < 172800) { return t('core','yesterday'); }
+	else if(timediff < 2678400) { return t('core','{days} days ago',{days: diffdays}); }
+	else if(timediff < 5184000) { return t('core','last month'); }
+	else if(timediff < 31556926) { return t('core','{months} months ago',{months: diffmonths}); }
+	//else if(timediff < 31556926) { return t('core','months ago'); }
+	else if(timediff < 63113852) { return t('core','last year'); }
+	else { return t('core','years ago'); }
 }
 
 /**

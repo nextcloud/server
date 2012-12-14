@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-26 02:03+0200\n"
-"PO-Revision-Date: 2012-10-25 03:51+0000\n"
+"POT-Creation-Date: 2012-12-04 00:06+0100\n"
+"PO-Revision-Date: 2012-12-03 00:58+0000\n"
 "Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -22,69 +22,73 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/apps/ocs.php:23
+#: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "无法从应用商店载入列表"
 
-#: ajax/creategroup.php:12
+#: ajax/creategroup.php:10
 msgid "Group already exists"
 msgstr "已存在该组"
 
-#: ajax/creategroup.php:21
+#: ajax/creategroup.php:19
 msgid "Unable to add group"
 msgstr "无法添加组"
 
-#: ajax/enableapp.php:14
+#: ajax/enableapp.php:12
 msgid "Could not enable app. "
 msgstr "无法开启App"
 
-#: ajax/lostpassword.php:14
+#: ajax/lostpassword.php:12
 msgid "Email saved"
 msgstr "电子邮件已保存"
 
-#: ajax/lostpassword.php:16
+#: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "无效的电子邮件"
 
-#: ajax/openid.php:16
+#: ajax/openid.php:13
 msgid "OpenID Changed"
 msgstr "OpenID 已修改"
 
-#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
+#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
 msgstr "非法请求"
 
-#: ajax/removegroup.php:16
+#: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "无法删除组"
 
-#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
 msgid "Authentication error"
 msgstr "认证错误"
 
-#: ajax/removeuser.php:27
+#: ajax/removeuser.php:24
 msgid "Unable to delete user"
 msgstr "无法删除用户"
 
-#: ajax/setlanguage.php:18
+#: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "语言已修改"
 
-#: ajax/togglegroups.php:25
+#: ajax/togglegroups.php:12
+msgid "Admins can't remove themself from the admin group"
+msgstr "管理员不能将自己移出管理组。"
+
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to add user to group %s"
 msgstr "无法把用户添加到组 %s"
 
-#: ajax/togglegroups.php:31
+#: ajax/togglegroups.php:34
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr "无法从组%s中移除用户"
 
-#: js/apps.js:28 js/apps.js:65
+#: js/apps.js:28 js/apps.js:67
 msgid "Disable"
 msgstr "禁用"
 
-#: js/apps.js:28 js/apps.js:54
+#: js/apps.js:28 js/apps.js:55
 msgid "Enable"
 msgstr "启用"
 
@@ -95,93 +99,6 @@ msgstr "正在保存"
 #: personal.php:42 personal.php:43
 msgid "__language_name__"
 msgstr "简体中文"
-
-#: templates/admin.php:14
-msgid "Security Warning"
-msgstr "安全警告"
-
-#: templates/admin.php:17
-msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "您的数据文件夹和文件可由互联网访问。OwnCloud提供的.htaccess文件未生效。我们强烈建议您配置服务器，以使数据文件夹不可被访问，或者将数据文件夹移到web服务器根目录以外。"
-
-#: templates/admin.php:31
-msgid "Cron"
-msgstr "计划任务"
-
-#: templates/admin.php:37
-msgid "Execute one task with each page loaded"
-msgstr "每次页面加载完成后执行任务"
-
-#: templates/admin.php:43
-msgid ""
-"cron.php is registered at a webcron service. Call the cron.php page in the "
-"owncloud root once a minute over http."
-msgstr "cron.php已被注册到网络定时任务服务。通过http每分钟调用owncloud根目录的cron.php网页。"
-
-#: templates/admin.php:49
-msgid ""
-"Use systems cron service. Call the cron.php file in the owncloud folder via "
-"a system cronjob once a minute."
-msgstr "使用系统定时任务服务。每分钟通过系统定时任务调用owncloud文件夹中的cron.php文件"
-
-#: templates/admin.php:56
-msgid "Sharing"
-msgstr "分享"
-
-#: templates/admin.php:61
-msgid "Enable Share API"
-msgstr "开启共享API"
-
-#: templates/admin.php:62
-msgid "Allow apps to use the Share API"
-msgstr "允许 应用 使用共享API"
-
-#: templates/admin.php:67
-msgid "Allow links"
-msgstr "允许连接"
-
-#: templates/admin.php:68
-msgid "Allow users to share items to the public with links"
-msgstr "允许用户使用连接向公众共享"
-
-#: templates/admin.php:73
-msgid "Allow resharing"
-msgstr "允许再次共享"
-
-#: templates/admin.php:74
-msgid "Allow users to share items shared with them again"
-msgstr "允许用户将共享给他们的项目再次共享"
-
-#: templates/admin.php:79
-msgid "Allow users to share with anyone"
-msgstr "允许用户向任何人共享"
-
-#: templates/admin.php:81
-msgid "Allow users to only share with users in their groups"
-msgstr "允许用户只向同组用户共享"
-
-#: templates/admin.php:88
-msgid "Log"
-msgstr "日志"
-
-#: templates/admin.php:116
-msgid "More"
-msgstr "更多"
-
-#: templates/admin.php:124
-msgid ""
-"Developed by the <a href=\"http://ownCloud.org/contact\" "
-"target=\"_blank\">ownCloud community</a>, the <a "
-"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
-"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
-"target=\"_blank\"><abbr title=\"Affero General Public "
-"License\">AGPL</abbr></a>."
-msgstr "由<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud社区</a>开发，  <a href=\"https://github.com/owncloud\" target=\"_blank\">源代码</a>在<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>许可证下发布。"
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -215,22 +132,22 @@ msgstr "管理大文件"
 msgid "Ask a question"
 msgstr "提问"
 
-#: templates/help.php:23
+#: templates/help.php:22
 msgid "Problems connecting to help database."
 msgstr "连接帮助数据库错误 "
 
-#: templates/help.php:24
+#: templates/help.php:23
 msgid "Go there manually."
 msgstr "手动访问"
 
-#: templates/help.php:32
+#: templates/help.php:31
 msgid "Answer"
 msgstr "回答"
 
 #: templates/personal.php:8
 #, php-format
-msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr "您已使用空间: <strong>%s</strong>，总空间: <strong>%s</strong>"
+msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
+msgstr "你已使用 <strong>%s</strong>，有效空间 <strong>%s</strong>"
 
 #: templates/personal.php:12
 msgid "Desktop and Mobile Syncing Clients"
@@ -287,6 +204,16 @@ msgstr "帮助翻译"
 #: templates/personal.php:51
 msgid "use this address to connect to your ownCloud in your file manager"
 msgstr "您可在文件管理器中使用该地址连接到ownCloud"
+
+#: templates/personal.php:61
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "由<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud社区</a>开发，  <a href=\"https://github.com/owncloud\" target=\"_blank\">源代码</a>在<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>许可证下发布。"
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"

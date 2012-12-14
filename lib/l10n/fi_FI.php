@@ -14,17 +14,21 @@
 "Token expired. Please reload page." => "Valtuutus vanheni. Lataa sivu uudelleen.",
 "Files" => "Tiedostot",
 "Text" => "Teksti",
+"Images" => "Kuvat",
 "seconds ago" => "sekuntia sitten",
 "1 minute ago" => "1 minuutti sitten",
 "%d minutes ago" => "%d minuuttia sitten",
+"1 hour ago" => "1 tunti sitten",
+"%d hours ago" => "%d tuntia sitten",
 "today" => "tänään",
 "yesterday" => "eilen",
 "%d days ago" => "%d päivää sitten",
 "last month" => "viime kuussa",
-"months ago" => "kuukautta sitten",
+"%d months ago" => "%d kuukautta sitten",
 "last year" => "viime vuonna",
 "years ago" => "vuotta sitten",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s on saatavilla. Lue <a href=\"%s\">lisätietoja</a>",
 "up to date" => "ajan tasalla",
-"updates check is disabled" => "päivitysten tarkistus on pois käytöstä"
+"updates check is disabled" => "päivitysten tarkistus on pois käytöstä",
+"Could not find category \"%s\"" => "Luokkaa \"%s\" ei löytynyt"
 );

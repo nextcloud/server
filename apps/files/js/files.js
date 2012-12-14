@@ -25,17 +25,26 @@ Files={
 			delete uploadingFiles[index];
 		});
 		procesSelection();
+	},
+	containsInvalidCharacters:function (name) {
+		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
+		for (var i = 0; i < invalid_characters.length; i++) {
+			if (name.indexOf(invalid_characters[i]) != -1) {
+				$('#notification').text(t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
+				$('#notification').fadeIn();
+				return true;
+			}
+		}
+		$('#notification').fadeOut();
+		return false;
 	}
 };
 $(document).ready(function() {
+	Files.bindKeyboardShortcuts(document, jQuery); 
 	$('#fileList tr').each(function(){
 		//little hack to set unescape filenames in attribute
 		$(this).attr('data-file',decodeURIComponent($(this).attr('data-file')));
 	});
-
-	if($('tr[data-file]').length==0){
-		$('.file_upload_filename').addClass('highlight');
-	}
 
 	$('#file_action_panel').attr('activeAction', false);
 
@@ -57,17 +66,9 @@ $(document).ready(function() {
 	}
 
 	// Triggers invisible file input
-	$('.file_upload_button_wrapper').live('click', function() {
-		$(this).parent().children('.file_upload_start').trigger('click');
+	$('#upload a').live('click', function() {
+		$(this).parent().children('#file_upload_start').trigger('click');
 		return false;
-	});
-
-	// Sets the file-action buttons behaviour :
-	$('tr').live('mouseenter',function(event) {
-		FileActions.display($(this).children('td.filename'));
-	});
-	$('tr').live('mouseleave',function(event) {
-		FileActions.hide();
 	});
 
 	var lastChecked;
@@ -167,12 +168,6 @@ $(document).ready(function() {
 		procesSelection();
 	});
 
-	$('#file_newfolder_name').click(function(){
-		if($('#file_newfolder_name').val() == 'New Folder'){
-			$('#file_newfolder_name').val('');
-		}
-	});
-
 	$('.download').click('click',function(event) {
 		var files=getSelectedFiles('name').join(';');
 		var dir=$('#dir').val()||'/';
@@ -200,16 +195,16 @@ $(document).ready(function() {
 			e.preventDefault(); // prevent browser from doing anything, if file isn't dropped in dropZone
 	});
 
-	if ( document.getElementById("data-upload-form") ) {
+	if ( document.getElementById('data-upload-form') ) {
 	$(function() {
-		$('.file_upload_start').fileupload({
+		$('#file_upload_start').fileupload({
 			dropZone: $('#content'), // restrict dropZone to content div
 			add: function(e, data) {
 				var files = data.files;
 				var totalSize=0;
 				if(files){
 					for(var i=0;i<files.length;i++){
-						if(files[i].size ==0 || files[i].type== '')
+						if(files[i].size ==0 && files[i].type== '')
 						{
 							OC.dialogs.alert(t('files', 'Unable to upload your file as it is a directory or has 0 bytes'), t('files', 'Upload Error'));
 							return;
@@ -217,7 +212,7 @@ $(document).ready(function() {
 						totalSize+=files[i].size;
 						if(FileList.deleteFiles && FileList.deleteFiles.indexOf(files[i].name)!=-1){//finish delete if we are uploading a deleted file
 							FileList.finishDelete(function(){
-								$('.file_upload_start').change();
+								$('#file_upload_start').change();
 							});
 							return;
 						}
@@ -227,13 +222,21 @@ $(document).ready(function() {
 					$( '#uploadsize-message' ).dialog({
 						modal: true,
 						buttons: {
-							Close: function() {
-								$( this ).dialog( 'close' );
+							Close: {
+								text:t('files', 'Close'),
+								click:function() {
+									$( this ).dialog( 'close' );
+								}
 							}
 						}
 					});
 				}else{
-					var date=new Date();
+                    var dropTarget = $(e.originalEvent.target).closest('tr');
+                    if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
+                        var dirName = dropTarget.attr('data-file')
+                    }
+
+                    var date=new Date();
 					if(files){
 						for(var i=0;i<files.length;i++){
 							if(files[i].size>0){
@@ -282,11 +285,14 @@ $(document).ready(function() {
 							var fileName = files[i].name
 							var dropTarget = $(e.originalEvent.target).closest('tr');
 							if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
-								var dirName = dropTarget.attr('data-file');
-								var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i],
+								var dirName = dropTarget.attr('data-file')
+								var jqXHR =  $('#file_upload_start').fileupload('send', {files: files[i],
 										formData: function(form) {
 											var formArray = form.serializeArray();
-											formArray[1]['value'] = dirName;
+                                            // array index 0 contains the max files size
+                                            // array index 1 contains the request token
+                                            // array index 2 contains the directory
+											formArray[2]['value'] = dirName;
 											return formArray;
 										}}).success(function(result, textStatus, jqXHR) {
 											var response;
@@ -296,7 +302,13 @@ $(document).ready(function() {
 												$('#notification').fadeIn();
 											}
 											var file=response[0];
+                                            // TODO: this doesn't work if the file name has been changed server side
 											delete uploadingFiles[dirName][file.name];
+                                            if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
+                                                delete uploadingFiles[dirName];
+                                            }
+
+                                            var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
 											var currentUploads = parseInt(uploadtext.attr('currentUploads'));
 											currentUploads -= 1;
 											uploadtext.attr('currentUploads', currentUploads);
@@ -335,7 +347,7 @@ $(document).ready(function() {
 								}
 								uploadingFiles[dirName][fileName] = jqXHR;
 							} else {
-								var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i]})
+								var jqXHR =  $('#file_upload_start').fileupload('send', {files: files[i]})
 										.success(function(result, textStatus, jqXHR) {
 											var response;
 											response=jQuery.parseJSON(result);
@@ -432,7 +444,7 @@ $(document).ready(function() {
 
 	//add multiply file upload attribute to all browsers except konqueror (which crashes when it's used)
 	if(navigator.userAgent.search(/konqueror/i)==-1){
-		$('.file_upload_start').attr('multiple','multiple')
+		$('#file_upload_start').attr('multiple','multiple')
 	}
 
 	//if the breadcrumb is to long, start by replacing foldernames with '...' except for the current folder
@@ -460,7 +472,6 @@ $(document).ready(function() {
 	$(window).click(function(){
 		$('#new>ul').hide();
 		$('#new').removeClass('active');
-		$('button.file_upload_filename').removeClass('active');
 		$('#new li').each(function(i,element){
 			if($(element).children('p').length==0){
 				$(element).children('input').remove();
@@ -474,7 +485,6 @@ $(document).ready(function() {
 	$('#new>a').click(function(){
 		$('#new>ul').toggle();
 		$('#new').toggleClass('active');
-		$('button.file_upload_filename').toggleClass('active');
 	});
 	$('#new li').click(function(){
 		if($(this).children('p').length==0){
@@ -496,8 +506,10 @@ $(document).ready(function() {
 		$(this).append(input);
 		input.focus();
 		input.change(function(){
-			if(type != 'web' && $(this).val().indexOf('/')!=-1){
-				$('#notification').text(t('files','Invalid name, \'/\' is not allowed.'));
+			if (type != 'web' && Files.containsInvalidCharacters($(this).val())) {
+				return;
+			} else if( type == 'folder' && $('#dir').val() == '/' && $(this).val() == 'Shared') {
+				$('#notification').text(t('files','Invalid folder name. Usage of "Shared" is reserved by Owncloud'));
 				$('#notification').fadeIn();
 				return;
 			}
@@ -707,7 +719,7 @@ function updateBreadcrumb(breadcrumbHtml) {
 
 //options for file drag/dropp
 var dragOptions={
-	distance: 20, revert: 'invalid', opacity: 0.7,
+	distance: 20, revert: 'invalid', opacity: 0.7, helper: 'clone',
 	stop: function(event, ui) {
 		$('#fileList tr td.filename').addClass('ui-draggable');
 	}
@@ -730,7 +742,7 @@ var folderDropOptions={
 }
 var crumbDropOptions={
 	drop: function( event, ui ) {
-		var file=ui.draggable.text().trim();
+		var file=ui.draggable.parent().data('file');
 		var target=$(this).data('dir');
 		var dir=$('#dir').val();
 		while(dir.substr(0,1)=='/'){//remove extra leading /'s
@@ -826,7 +838,7 @@ function getSelectedFiles(property){
 			name:$(element).attr('data-file'),
 			mime:$(element).data('mime'),
 			type:$(element).data('type'),
-			size:$(element).data('size'),
+			size:$(element).data('size')
 		};
 		if(property){
 			files.push(file[property]);
@@ -837,32 +849,11 @@ function getSelectedFiles(property){
 	return files;
 }
 
-function relative_modified_date(timestamp) {
-	var timediff = Math.round((new Date()).getTime() / 1000) - timestamp;
-	var diffminutes = Math.round(timediff/60);
-	var diffhours = Math.round(diffminutes/60);
-	var diffdays = Math.round(diffhours/24);
-	var diffmonths = Math.round(diffdays/31);
-	if(timediff < 60) { return t('files','seconds ago'); }
-	else if(timediff < 120) { return t('files','1 minute ago'); }
-	else if(timediff < 3600) { return t('files','{minutes} minutes ago',{minutes: diffminutes}); }
-	//else if($timediff < 7200) { return '1 hour ago'; }
-	//else if($timediff < 86400) { return $diffhours.' hours ago'; }
-	else if(timediff < 86400) { return t('files','today'); }
-	else if(timediff < 172800) { return t('files','yesterday'); }
-	else if(timediff < 2678400) { return t('files','{days} days ago',{days: diffdays}); }
-	else if(timediff < 5184000) { return t('files','last month'); }
-	//else if($timediff < 31556926) { return $diffmonths.' months ago'; }
-	else if(timediff < 31556926) { return t('files','months ago'); }
-	else if(timediff < 63113852) { return t('files','last year'); }
-	else { return t('files','years ago'); }
-}
-
 function getMimeIcon(mime, ready){
 	if(getMimeIcon.cache[mime]){
 		ready(getMimeIcon.cache[mime]);
 	}else{
-		$.get( OC.filePath('files','ajax','mimeicon.php')+'?mime='+mime, function(path){
+		$.get( OC.filePath('files','ajax','mimeicon.php'), {mime: mime}, function(path){
 			getMimeIcon.cache[mime]=path;
 			ready(getMimeIcon.cache[mime]);
 		});

@@ -6,9 +6,6 @@
  * See the COPYING-README file.
  */
 
-// Init owncloud
-require_once '../../../lib/base.php';
-
 OC_JSON::checkAdminUser();
 
 $l = OC_L10N::get('settings');
@@ -43,7 +40,7 @@ if(is_array($catagoryNames)) {
 
 		if(!$local) {
 			if($app['preview']=='') {
-				$pre='trans.png';
+				$pre=OC_Helper::imagePath('settings', 'trans.png');
 			} else {
 				$pre=$app['preview'];
 			}

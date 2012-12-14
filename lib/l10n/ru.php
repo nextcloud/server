@@ -14,17 +14,21 @@
 "Token expired. Please reload page." => "Токен просрочен. Перезагрузите страницу.",
 "Files" => "Файлы",
 "Text" => "Текст",
+"Images" => "Изображения",
 "seconds ago" => "менее минуты",
 "1 minute ago" => "1 минуту назад",
 "%d minutes ago" => "%d минут назад",
+"1 hour ago" => "час назад",
+"%d hours ago" => "%d часов назад",
 "today" => "сегодня",
 "yesterday" => "вчера",
 "%d days ago" => "%d дней назад",
 "last month" => "в прошлом месяце",
-"months ago" => "месяцы назад",
+"%d months ago" => "%d месяцев назад",
 "last year" => "в прошлом году",
 "years ago" => "годы назад",
 "%s is available. Get <a href=\"%s\">more information</a>" => "Возможно обновление до %s. <a href=\"%s\">Подробнее</a>",
 "up to date" => "актуальная версия",
-"updates check is disabled" => "проверка обновлений отключена"
+"updates check is disabled" => "проверка обновлений отключена",
+"Could not find category \"%s\"" => "Категория \"%s\"  не найдена"
 );

@@ -3,8 +3,6 @@
 "Cancel" => "Otkaži",
 "Password" => "Lozinka",
 "You will receive a link to reset your password via Email." => "Dobićete vezu za resetovanje lozinke putem e-pošte.",
-"Requested" => "Zahtevano",
-"Login failed!" => "Nesupela prijava!",
 "Username" => "Korisničko ime",
 "Request reset" => "Zahtevaj resetovanje",
 "Your password was reset" => "Vaša lozinka je resetovana",

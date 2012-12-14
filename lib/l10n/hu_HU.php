@@ -21,7 +21,6 @@
 "yesterday" => "tegnap",
 "%d days ago" => "%d évvel ezelőtt",
 "last month" => "múlt hónapban",
-"months ago" => "hónappal ezelőtt",
 "last year" => "tavaly",
 "years ago" => "évvel ezelőtt"
 );

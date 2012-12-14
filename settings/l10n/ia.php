@@ -3,8 +3,6 @@
 "Invalid request" => "Requesta invalide",
 "Language changed" => "Linguage cambiate",
 "__language_name__" => "Interlingua",
-"Log" => "Registro",
-"More" => "Plus",
 "Add your App" => "Adder tu application",
 "Select an App" => "Selectionar un app",
 "Documentation" => "Documentation",

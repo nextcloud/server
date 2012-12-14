@@ -14,17 +14,21 @@
 "Token expired. Please reload page." => "Token expirou. Por favor recarregue a página.",
 "Files" => "Arquivos",
 "Text" => "Texto",
+"Images" => "Imagens",
 "seconds ago" => "segundos atrás",
 "1 minute ago" => "1 minuto atrás",
 "%d minutes ago" => "%d minutos atrás",
+"1 hour ago" => "1 hora atrás",
+"%d hours ago" => "%d horas atrás",
 "today" => "hoje",
 "yesterday" => "ontem",
 "%d days ago" => "%d dias atrás",
 "last month" => "último mês",
-"months ago" => "meses atrás",
+"%d months ago" => "%d meses atrás",
 "last year" => "último ano",
 "years ago" => "anos atrás",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s está disponível. Obtenha <a href=\"%s\">mais informações</a>",
 "up to date" => "atualizado",
-"updates check is disabled" => "checagens de atualização estão desativadas"
+"updates check is disabled" => "checagens de atualização estão desativadas",
+"Could not find category \"%s\"" => "Impossível localizar categoria \"%s\""
 );

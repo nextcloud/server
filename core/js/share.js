@@ -10,17 +10,38 @@ OC.Share={
 		// Load all share icons
 		$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getItemsSharedStatuses', itemType: itemType }, function(result) {
 			if (result && result.status === 'success') {
-				$.each(result.data, function(item, hasPrivateLink) {
-					// Private links override shared in terms of icon display
-					if (itemType != 'file' && itemType != 'folder') {
-						if (hasPrivateLink) {
-							var image = OC.imagePath('core', 'actions/public');
-						} else {
-							var image = OC.imagePath('core', 'actions/shared');
-						}
-						$('a.share[data-item="'+item+'"]').css('background', 'url('+image+') no-repeat center');
+				$.each(result.data, function(item, hasLink) {
+					OC.Share.statuses[item] = hasLink;
+					// Links override shared in terms of icon display
+					if (hasLink) {
+						var image = OC.imagePath('core', 'actions/public');
+					} else {
+						var image = OC.imagePath('core', 'actions/shared');
 					}
-					OC.Share.statuses[item] = hasPrivateLink;
+					if (itemType != 'file' && itemType != 'folder') {
+						$('a.share[data-item="'+item+'"]').css('background', 'url('+image+') no-repeat center');
+					} else {
+						var file = $('tr').filterAttr('data-file', OC.basename(item));
+						if (file.length > 0) {
+							$(file).find('.fileactions .action').filterAttr('data-action', 'Share').find('img').attr('src', image);
+						}
+						var dir = $('#dir').val();
+						if (dir.length > 1) {
+							var last = '';
+							var path = dir;
+							// Search for possible parent folders that are shared
+							while (path != last) {
+								if (path == item) {
+									var img = $('.fileactions .action').filterAttr('data-action', 'Share').find('img');
+									if (img.attr('src') != OC.imagePath('core', 'actions/public')) {
+										img.attr('src', image);
+									}
+								}
+								last = path;
+								path = OC.Share.dirname(path);
+							}
+						}
+					}
 				});
 			}
 		});
@@ -125,7 +146,7 @@ OC.Share={
 	showDropDown:function(itemType, itemSource, appendTo, link, possiblePermissions) {
 		var data = OC.Share.loadItem(itemType, itemSource);
 		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-source="'+itemSource+'">';
-		if (data.reshare) {
+		if (data !== false && data.reshare !== false && data.reshare.uid_owner !== undefined) {
 			if (data.reshare.share_type == OC.Share.SHARE_TYPE_GROUP) {
 				html += '<span class="reshare">'+t('core', 'Shared with you and the group {group} by {owner}', {group: data.reshare.share_with, owner: data.reshare.uid_owner})+'</span>';
 			} else {
@@ -147,6 +168,10 @@ OC.Share={
 				html += '<input id="linkPassText" type="password" placeholder="'+t('core', 'Password')+'" />';
 				html += '</div>';
 				html += '</div>';
+                html += '<form id="emailPrivateLink" >';
+                html += '<input id="email" style="display:none; width:65%;" value="" placeholder="'+t('core', 'Email link to person')+'" type="text" />';
+                html += '<input id="emailButton" style="display:none; float:right;" type="submit" value="'+t('core', 'Send')+'" />';
+                html += '</form>';
 			}
 			html += '<div id="expiration">';
 			html += '<input type="checkbox" name="expirationCheckbox" id="expirationCheckbox" value="1" /><label for="expirationCheckbox">'+t('core', 'Set expiration date')+'</label>';
@@ -158,7 +183,7 @@ OC.Share={
 			if (data.shares) {
 				$.each(data.shares, function(index, share) {
 					if (share.share_type == OC.Share.SHARE_TYPE_LINK) {
-						OC.Share.showLink(itemSource, share.share_with);
+						OC.Share.showLink(share.token, share.share_with, itemSource);
 					} else {
 						if (share.collection) {
 							OC.Share.addShareWith(share.share_type, share.share_with, share.permissions, possiblePermissions, share.collection);
@@ -302,18 +327,24 @@ OC.Share={
 			$('#expiration').show();
 		}
 	},
-	showLink:function(itemSource, password) {
+	showLink:function(token, password, itemSource) {
 		OC.Share.itemShares[OC.Share.SHARE_TYPE_LINK] = true;
 		$('#linkCheckbox').attr('checked', true);
-		var filename = $('tr').filterAttr('data-id', String(itemSource)).data('file');
-		var type = $('tr').filterAttr('data-id', String(itemSource)).data('type');
-		if ($('#dir').val() == '/') {
-			var file = $('#dir').val() + filename;
+		if (! token) {
+			//fallback to pre token link
+			var filename = $('tr').filterAttr('data-id', String(itemSource)).data('file');
+			var type = $('tr').filterAttr('data-id', String(itemSource)).data('type');
+			if ($('#dir').val() == '/') {
+				var file = $('#dir').val() + filename;
+			} else {
+				var file = $('#dir').val() + '/' + filename;
+			}
+			file = '/'+OC.currentUser+'/files'+file;
+			var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&'+type+'='+encodeURIComponent(file);
 		} else {
-			var file = $('#dir').val() + '/' + filename;
+			//TODO add path param when showing a link to file in a subfolder of a public link share
+			var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&t='+token;
 		}
-		file = '/'+OC.currentUser+'/files'+file;
-		var link = parent.location.protocol+'//'+location.host+OC.linkTo('', 'public.php')+'?service=files&'+type+'='+encodeURIComponent(file);
 		$('#linkText').val(link);
 		$('#linkText').show('blind');
 		$('#showPassword').show();
@@ -322,13 +353,17 @@ OC.Share={
 			$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
 		}
 		$('#expiration').show();
+        $('#emailPrivateLink #email').show();
+        $('#emailPrivateLink #emailButton').show();
 	},
 	hideLink:function() {
 		$('#linkText').hide('blind');
 		$('#showPassword').hide();
 		$('#linkPass').hide();
-	},
-	dirname:function(path) {
+        $('#emailPrivateLink #email').hide();
+        $('#emailPrivateLink #emailButton').hide();
+    },
+ 	dirname:function(path) {
 		return path.replace(/\\/g,'/').replace(/\/[^\/]*$/, '');
 	},
 	showExpirationDate:function(date) {
@@ -343,6 +378,8 @@ OC.Share={
 }
 
 $(document).ready(function() {
+	
+	if(typeof monthNames != 'undefined'){
 	$.datepicker.setDefaults({
 		monthNames: monthNames,
 		monthNamesShort: $.map(monthNames, function(v) { return v.slice(0,3)+'.'; }),
@@ -351,7 +388,7 @@ $(document).ready(function() {
 		dayNamesShort: $.map(dayNames, function(v) { return v.slice(0,3)+'.'; }),
 		firstDay: firstDay
 	});
-
+  }
 	$('a.share').live('click', function(event) {
 		event.stopPropagation();
 		if ($(this).data('item-type') !== undefined && $(this).data('item') !== undefined) {
@@ -457,8 +494,8 @@ $(document).ready(function() {
 		var itemSource = $('#dropdown').data('item-source');
 		if (this.checked) {
 			// Create a link
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ, function() {
-				OC.Share.showLink(itemSource);
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ, function(data) {
+				OC.Share.showLink(data.token, null, itemSource);
 				OC.Share.updateIcon(itemType, itemSource);
 			});
 		} else {
@@ -483,15 +520,14 @@ $(document).ready(function() {
 		$('#linkPass').toggle('blind');
 	});
 
-	$('#linkPassText').live('keyup', function(event) {
-		if (event.keyCode == 13) {
-			var itemType = $('#dropdown').data('item-type');
-			var itemSource = $('#dropdown').data('item-source');
-			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $(this).val(), OC.PERMISSION_READ, function() {
-				$('#linkPassText').val('');
-				$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
-			});
-		}
+	$('#linkPassText').live('focusout', function(event) {
+		var itemType = $('#dropdown').data('item-type');
+		var itemSource = $('#dropdown').data('item-source');
+		OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $(this).val(), OC.PERMISSION_READ, function() {
+			$('#linkPassText').val('');
+			$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
+		});
+		$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
 	});
 
 	$('#expirationCheckbox').live('click', function() {
@@ -518,5 +554,35 @@ $(document).ready(function() {
 			}
 		});
 	});
+
+
+    $('#emailPrivateLink').live('submit', function(event) {
+        event.preventDefault();
+        var link = $('#linkText').val();
+        var itemType = $('#dropdown').data('item-type');
+        var itemSource = $('#dropdown').data('item-source');
+        var file = $('tr').filterAttr('data-id', String(itemSource)).data('file');
+        var email = $('#email').val();
+        if (email != '') {
+            $('#email').attr('disabled', "disabled");
+            $('#email').val(t('core', 'Sending ...'));
+            $('#emailButton').attr('disabled', "disabled");
+
+            $.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'email', toaddress: email, link: link, itemType: itemType, itemSource: itemSource, file: file},
+                function(result) {
+                    $('#email').attr('disabled', "false");
+                    $('#emailButton').attr('disabled', "false");
+                if (result && result.status == 'success') {
+                    $('#email').css('font-weight', 'bold');
+                    $('#email').animate({ fontWeight: 'normal' }, 2000, function() {
+                        $(this).val('');
+                    }).val(t('core','Email sent'));
+                } else {
+                    OC.dialogs.alert(result.data.message, t('core', 'Error while sharing'));
+                }
+            });
+        }
+    });
+
 
 });

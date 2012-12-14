@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:11+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-20 00:01+0100\n"
+"PO-Revision-Date: 2012-11-19 19:49+0000\n"
+"Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,19 +43,19 @@ msgstr "Programi"
 msgid "Admin"
 msgstr "Skrbništvo"
 
-#: files.php:328
+#: files.php:361
 msgid "ZIP download is turned off."
 msgstr "Prejem datotek ZIP je onemogočen."
 
-#: files.php:329
+#: files.php:362
 msgid "Files need to be downloaded one by one."
 msgstr "Datoteke je mogoče prejeti le posamič."
 
-#: files.php:329 files.php:354
+#: files.php:362 files.php:387
 msgid "Back to Files"
 msgstr "Nazaj na datoteke"
 
-#: files.php:353
+#: files.php:386
 msgid "Selected files too large to generate zip file."
 msgstr "Izbrane datoteke so prevelike za ustvarjanje datoteke arhiva zip."
 
@@ -81,47 +81,57 @@ msgstr "Besedilo"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "Slike"
 
-#: template.php:87
+#: template.php:103
 msgid "seconds ago"
 msgstr "pred nekaj sekundami"
 
-#: template.php:88
+#: template.php:104
 msgid "1 minute ago"
 msgstr "pred minuto"
 
-#: template.php:89
+#: template.php:105
 #, php-format
 msgid "%d minutes ago"
 msgstr "pred %d minutami"
 
-#: template.php:92
+#: template.php:106
+msgid "1 hour ago"
+msgstr "Pred 1 uro"
+
+#: template.php:107
+#, php-format
+msgid "%d hours ago"
+msgstr "Pred %d urami"
+
+#: template.php:108
 msgid "today"
 msgstr "danes"
 
-#: template.php:93
+#: template.php:109
 msgid "yesterday"
 msgstr "včeraj"
 
-#: template.php:94
+#: template.php:110
 #, php-format
 msgid "%d days ago"
 msgstr "pred %d dnevi"
 
-#: template.php:95
+#: template.php:111
 msgid "last month"
 msgstr "prejšnji mesec"
 
-#: template.php:96
-msgid "months ago"
-msgstr "pred nekaj meseci"
+#: template.php:112
+#, php-format
+msgid "%d months ago"
+msgstr "Pred %d meseci"
 
-#: template.php:97
+#: template.php:113
 msgid "last year"
 msgstr "lani"
 
-#: template.php:98
+#: template.php:114
 msgid "years ago"
 msgstr "pred nekaj leti"
 
@@ -137,3 +147,8 @@ msgstr "posodobljeno"
 #: updater.php:80
 msgid "updates check is disabled"
 msgstr "preverjanje za posodobitve je onemogočeno"
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "Kategorije \"%s\" ni bilo mogoče najti."

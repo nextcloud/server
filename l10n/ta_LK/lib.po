@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-27 00:01+0200\n"
-"PO-Revision-Date: 2012-10-26 04:12+0000\n"
+"POT-Creation-Date: 2012-11-16 00:02+0100\n"
+"PO-Revision-Date: 2012-11-15 14:16+0000\n"
 "Last-Translator: suganthi <suganthi@nic.lk>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -42,19 +42,19 @@ msgstr "செயலிகள்"
 msgid "Admin"
 msgstr "நிர்வாகம்"
 
-#: files.php:328
+#: files.php:332
 msgid "ZIP download is turned off."
 msgstr "வீசொலிப் பூட்டு பதிவிறக்கம் நிறுத்தப்பட்டுள்ளது."
 
-#: files.php:329
+#: files.php:333
 msgid "Files need to be downloaded one by one."
 msgstr "கோப்புகள்ஒன்றன் பின் ஒன்றாக பதிவிறக்கப்படவேண்டும்."
 
-#: files.php:329 files.php:354
+#: files.php:333 files.php:358
 msgid "Back to Files"
 msgstr "கோப்புகளுக்கு செல்க"
 
-#: files.php:353
+#: files.php:357
 msgid "Selected files too large to generate zip file."
 msgstr "வீ சொலிக் கோப்புகளை உருவாக்குவதற்கு தெரிவுசெய்யப்பட்ட கோப்புகள் மிகப்பெரியவை"
 
@@ -82,45 +82,55 @@ msgstr "உரை"
 msgid "Images"
 msgstr "படங்கள்"
 
-#: template.php:87
+#: template.php:103
 msgid "seconds ago"
 msgstr "செக்கன்களுக்கு முன்"
 
-#: template.php:88
+#: template.php:104
 msgid "1 minute ago"
 msgstr "1 நிமிடத்திற்கு முன் "
 
-#: template.php:89
+#: template.php:105
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d நிமிடங்களுக்கு முன்"
 
-#: template.php:92
+#: template.php:106
+msgid "1 hour ago"
+msgstr "1 மணித்தியாலத்திற்கு முன்"
+
+#: template.php:107
+#, php-format
+msgid "%d hours ago"
+msgstr "%d மணித்தியாலத்திற்கு முன்"
+
+#: template.php:108
 msgid "today"
 msgstr "இன்று"
 
-#: template.php:93
+#: template.php:109
 msgid "yesterday"
 msgstr "நேற்று"
 
-#: template.php:94
+#: template.php:110
 #, php-format
 msgid "%d days ago"
 msgstr "%d நாட்களுக்கு முன்"
 
-#: template.php:95
+#: template.php:111
 msgid "last month"
 msgstr "கடந்த மாதம்"
 
-#: template.php:96
-msgid "months ago"
-msgstr "மாதங்களுக்கு முன்"
+#: template.php:112
+#, php-format
+msgid "%d months ago"
+msgstr "%d மாதத்திற்கு முன்"
 
-#: template.php:97
+#: template.php:113
 msgid "last year"
 msgstr "கடந்த வருடம்"
 
-#: template.php:98
+#: template.php:114
 msgid "years ago"
 msgstr "வருடங்களுக்கு முன்"
 
@@ -136,3 +146,8 @@ msgstr "நவீன"
 #: updater.php:80
 msgid "updates check is disabled"
 msgstr "இற்றைப்படுத்தலை சரிபார்ப்பதை செயலற்றதாக்குக"
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "பிரிவு \"%s\" ஐ கண்டுப்பிடிக்க முடியவில்லை"

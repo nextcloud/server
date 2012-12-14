@@ -2,7 +2,7 @@
 
 OCP\JSON::checkAppEnabled('files_external');
 
-if ( !($filename = $_FILES['rootcert_import']['name']) ) {
+if ( ! ($filename = $_FILES['rootcert_import']['name']) ) {
 	header("Location: settings/personal.php");
 	exit;
 }
@@ -13,7 +13,7 @@ fclose($fh);
 $filename = $_FILES['rootcert_import']['name'];
 
 $view = new \OC_FilesystemView('/'.\OCP\User::getUser().'/files_external/uploads');
-if (!$view->file_exists('')) $view->mkdir('');
+if ( ! $view->file_exists('')) $view->mkdir('');
 
 $isValid = openssl_pkey_get_public($data);
 
@@ -29,8 +29,10 @@ if ( $isValid ) {
 	$view->file_put_contents($filename, $data);
 	OC_Mount_Config::createCertificateBundle();
 } else {
-	OCP\Util::writeLog("files_external", "Couldn't import SSL root certificate ($filename), allowed formats: PEM and DER", OCP\Util::WARN);
+	OCP\Util::writeLog('files_external',
+			'Couldn\'t import SSL root certificate ('.$filename.'), allowed formats: PEM and DER',
+			OCP\Util::WARN);
 }
 
-header("Location: settings/personal.php");
+header('Location: settings/personal.php');
 exit;

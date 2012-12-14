@@ -21,8 +21,8 @@
 *
 */
 
-require_once '../lib/base.php';
 OC_Util::checkAdminUser();
+OC_App::loadApps();
 
 // Load the files we need
 OC_Util::addStyle( "settings", "settings" );
@@ -77,7 +77,7 @@ foreach ( $installedApps as $app ) {
 		
 		}
 		
-		$info['preview'] = 'trans.png';
+		$info['preview'] = OC_Helper::imagePath('settings', 'trans.png');
 		
 		$info['version'] = OC_App::getAppVersion($app);
 		
@@ -95,11 +95,11 @@ if ( $remoteApps ) {
 
 		foreach ( $remoteApps AS $key => $remote ) {
 		
-			if ( 
+			if (
 			$app['name'] == $remote['name']
-			// To set duplicate detection to use OCS ID instead of string name, 
-			// enable this code, remove the line of code above, 
-			// and add <ocs_id>[ID]</ocs_id> to info.xml of each 3rd party app: 
+			// To set duplicate detection to use OCS ID instead of string name,
+			// enable this code, remove the line of code above,
+			// and add <ocs_id>[ID]</ocs_id> to info.xml of each 3rd party app:
 			// OR $app['ocs_id'] == $remote['ocs_id']
 			) {
 				

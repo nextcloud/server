@@ -6,14 +6,14 @@
 # Dovix Dovix <dovix2003@gmail.com>, 2012.
 #   <ido.parag@gmail.com>, 2012.
 #   <tomerc+transifex.net@gmail.com>, 2011.
-# Yaron Shahrabani <sh.yaron@gmail.com>, 2011, 2012.
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:14+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-13 00:17+0100\n"
+"PO-Revision-Date: 2012-12-12 23:17+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,153 +21,281 @@ msgstr ""
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
-msgid "Application name not provided."
-msgstr "שם היישום לא סופק."
+#: ajax/share.php:84
+#, php-format
+msgid "User %s shared a file with you"
+msgstr ""
 
-#: ajax/vcategories/add.php:29
+#: ajax/share.php:86
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr ""
+
+#: ajax/share.php:88
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr ""
+
+#: ajax/share.php:90
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr ""
+
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr "סוג הקטגוריה לא סופק."
+
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr "אין קטגוריה להוספה?"
 
-#: ajax/vcategories/add.php:36
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
 msgstr "קטגוריה זאת כבר קיימת: "
 
-#: js/js.js:238 templates/layout.user.php:53 templates/layout.user.php:54
-msgid "Settings"
-msgstr "הגדרות"
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr "סוג הפריט לא סופק."
 
-#: js/oc-dialogs.js:123
-msgid "Choose"
-msgstr ""
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr "מזהה %s לא סופק."
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
-msgid "Cancel"
-msgstr "ביטול"
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr "אירעה שגיאה בעת הוספת %s למועדפים."
 
-#: js/oc-dialogs.js:159
-msgid "No"
-msgstr "לא"
-
-#: js/oc-dialogs.js:160
-msgid "Yes"
-msgstr "כן"
-
-#: js/oc-dialogs.js:177
-msgid "Ok"
-msgstr "בסדר"
-
-#: js/oc-vcategories.js:68
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
 msgstr "לא נבחרו קטגוריות למחיקה"
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:505
-#: js/share.js:517
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr "שגיאה בהסרת %s מהמועדפים."
+
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+msgid "Settings"
+msgstr "הגדרות"
+
+#: js/js.js:704
+msgid "seconds ago"
+msgstr "שניות"
+
+#: js/js.js:705
+msgid "1 minute ago"
+msgstr "לפני דקה אחת"
+
+#: js/js.js:706
+msgid "{minutes} minutes ago"
+msgstr "לפני {minutes} דקות"
+
+#: js/js.js:707
+msgid "1 hour ago"
+msgstr "לפני שעה"
+
+#: js/js.js:708
+msgid "{hours} hours ago"
+msgstr "לפני {hours} שעות"
+
+#: js/js.js:709
+msgid "today"
+msgstr "היום"
+
+#: js/js.js:710
+msgid "yesterday"
+msgstr "אתמול"
+
+#: js/js.js:711
+msgid "{days} days ago"
+msgstr "לפני {days} ימים"
+
+#: js/js.js:712
+msgid "last month"
+msgstr "חודש שעבר"
+
+#: js/js.js:713
+msgid "{months} months ago"
+msgstr "לפני {months} חודשים"
+
+#: js/js.js:714
+msgid "months ago"
+msgstr "חודשים"
+
+#: js/js.js:715
+msgid "last year"
+msgstr "שנה שעברה"
+
+#: js/js.js:716
+msgid "years ago"
+msgstr "שנים"
+
+#: js/oc-dialogs.js:126
+msgid "Choose"
+msgstr "בחירה"
+
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+msgid "Cancel"
+msgstr "ביטול"
+
+#: js/oc-dialogs.js:162
+msgid "No"
+msgstr "לא"
+
+#: js/oc-dialogs.js:163
+msgid "Yes"
+msgstr "כן"
+
+#: js/oc-dialogs.js:180
+msgid "Ok"
+msgstr "בסדר"
+
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr "סוג הפריט לא צוין."
+
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
+#: js/share.js:553
 msgid "Error"
 msgstr "שגיאה"
 
-#: js/share.js:103
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr "שם היישום לא צוין."
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr "הקובץ הנדרש {file} אינו מותקן!"
+
+#: js/share.js:124 js/share.js:581
 msgid "Error while sharing"
-msgstr ""
+msgstr "שגיאה במהלך השיתוף"
 
-#: js/share.js:114
+#: js/share.js:135
 msgid "Error while unsharing"
-msgstr ""
-
-#: js/share.js:121
-msgid "Error while changing permissions"
-msgstr ""
-
-#: js/share.js:130
-msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
-
-#: js/share.js:132
-msgid "Shared with you by {owner}"
-msgstr ""
-
-#: js/share.js:137
-msgid "Share with"
-msgstr ""
+msgstr "שגיאה במהלך ביטול השיתוף"
 
 #: js/share.js:142
+msgid "Error while changing permissions"
+msgstr "שגיאה במהלך שינוי ההגדרות"
+
+#: js/share.js:151
+msgid "Shared with you and the group {group} by {owner}"
+msgstr "שותף אתך ועם הקבוצה {group} שבבעלות {owner}"
+
+#: js/share.js:153
+msgid "Shared with you by {owner}"
+msgstr "שותף אתך על ידי {owner}"
+
+#: js/share.js:158
+msgid "Share with"
+msgstr "שיתוף עם"
+
+#: js/share.js:163
 msgid "Share with link"
-msgstr ""
+msgstr "שיתוף עם קישור"
 
-#: js/share.js:143
+#: js/share.js:164
 msgid "Password protect"
-msgstr ""
+msgstr "הגנה בססמה"
 
-#: js/share.js:147 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
 msgid "Password"
 msgstr "ססמה"
 
-#: js/share.js:152
+#: js/share.js:172
+msgid "Email link to person"
+msgstr ""
+
+#: js/share.js:173
+msgid "Send"
+msgstr ""
+
+#: js/share.js:177
 msgid "Set expiration date"
-msgstr ""
+msgstr "הגדרת תאריך תפוגה"
 
-#: js/share.js:153
+#: js/share.js:178
 msgid "Expiration date"
-msgstr ""
+msgstr "תאריך התפוגה"
 
-#: js/share.js:185
+#: js/share.js:210
 msgid "Share via email:"
-msgstr ""
+msgstr "שיתוף באמצעות דוא״ל:"
 
-#: js/share.js:187
+#: js/share.js:212
 msgid "No people found"
-msgstr ""
+msgstr "לא נמצאו אנשים"
 
-#: js/share.js:214
+#: js/share.js:239
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "אסור לעשות שיתוף מחדש"
 
-#: js/share.js:250
+#: js/share.js:275
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "שותף תחת {item} עם {user}"
 
-#: js/share.js:271
+#: js/share.js:296
 msgid "Unshare"
 msgstr "הסר שיתוף"
 
-#: js/share.js:283
+#: js/share.js:308
 msgid "can edit"
-msgstr ""
+msgstr "ניתן לערוך"
 
-#: js/share.js:285
+#: js/share.js:310
 msgid "access control"
-msgstr ""
+msgstr "בקרת גישה"
 
-#: js/share.js:288
+#: js/share.js:313
 msgid "create"
-msgstr ""
+msgstr "יצירה"
 
-#: js/share.js:291
+#: js/share.js:316
 msgid "update"
-msgstr ""
+msgstr "עדכון"
 
-#: js/share.js:294
+#: js/share.js:319
 msgid "delete"
-msgstr ""
+msgstr "מחיקה"
 
-#: js/share.js:297
+#: js/share.js:322
 msgid "share"
-msgstr ""
+msgstr "שיתוף"
 
-#: js/share.js:322 js/share.js:492
+#: js/share.js:353 js/share.js:528 js/share.js:530
 msgid "Password protected"
-msgstr ""
+msgstr "מוגן בססמה"
 
-#: js/share.js:505
+#: js/share.js:541
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "אירעה שגיאה בביטול תאריך התפוגה"
 
-#: js/share.js:517
+#: js/share.js:553
 msgid "Error setting expiration date"
+msgstr "אירעה שגיאה בעת הגדרת תאריך התפוגה"
+
+#: js/share.js:568
+msgid "Sending ..."
 msgstr ""
 
-#: lostpassword/index.php:26
+#: js/share.js:579
+msgid "Email sent"
+msgstr ""
+
+#: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "איפוס הססמה של ownCloud"
 
@@ -180,12 +308,12 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "יישלח לתיבת הדוא״ל שלך קישור לאיפוס הססמה."
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "נדרש"
+msgid "Reset email send."
+msgstr "איפוס שליחת דוא״ל."
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "הכניסה נכשלה!"
+msgid "Request failed!"
+msgstr "הבקשה נכשלה!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -244,25 +372,25 @@ msgstr "ענן לא נמצא"
 msgid "Edit categories"
 msgstr "עריכת הקטגוריות"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "הוספה"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "אזהרת אבטחה"
 
 #: templates/installation.php:24
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "אין מחולל מספרים אקראיים מאובטח, נא להפעיל את ההרחבה OpenSSL ב־PHP."
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "ללא מחולל מספרים אקראיים מאובטח תוקף יכול לנבא את מחרוזות איפוס הססמה ולהשתלט על החשבון שלך."
 
 #: templates/installation.php:32
 msgid ""
@@ -271,7 +399,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "יתכן שתיקיית הנתונים והקבצים שלך נגישים דרך האינטרנט. קובץ ה־‎.htaccess שמסופק על ידי ownCloud כנראה אינו עובד. אנו ממליצים בחום להגדיר את שרת האינטרנט שלך בדרך שבה תיקיית הנתונים לא תהיה זמינה עוד או להעביר את תיקיית הנתונים מחוץ לספריית העל של שרת האינטרנט."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -318,103 +446,103 @@ msgstr "שרת בסיס נתונים"
 msgid "Finish setup"
 msgstr "סיום התקנה"
 
-#: templates/layout.guest.php:38
-msgid "web services under your control"
-msgstr "שירותי רשת בשליטתך"
-
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "יום ראשון"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "יום שני"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "יום שלישי"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "יום רביעי"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "יום חמישי"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "יום שישי"
 
-#: templates/layout.user.php:17
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "שבת"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "ינואר"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "פברואר"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "מרץ"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "אפריל"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "מאי"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "יוני"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "יולי"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "אוגוסט"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "ספטמבר"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "אוקטובר"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "נובמבר"
 
-#: templates/layout.user.php:18
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "דצמבר"
 
-#: templates/layout.user.php:38
+#: templates/layout.guest.php:42
+msgid "web services under your control"
+msgstr "שירותי רשת בשליטתך"
+
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "התנתקות"
 
 #: templates/login.php:8
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "בקשת הכניסה האוטומטית נדחתה!"
 
 #: templates/login.php:9
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "אם לא שינית את ססמתך לאחרונה, יתכן שחשבונך נפגע!"
 
 #: templates/login.php:10
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "נא לשנות את הססמה שלך כדי לאבטח את חשבונך מחדש."
 
 #: templates/login.php:15
 msgid "Lost your password?"
@@ -442,14 +570,14 @@ msgstr "הבא"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "אזהרת אבטחה!"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "נא לאמת את הססמה שלך. <br/>מטעמי אבטחה יתכן שתופיע בקשה להזין את הססמה שוב."
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "אימות"

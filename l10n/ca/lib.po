@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-26 02:03+0200\n"
-"PO-Revision-Date: 2012-10-25 08:00+0000\n"
+"POT-Creation-Date: 2012-11-17 00:01+0100\n"
+"PO-Revision-Date: 2012-11-16 08:22+0000\n"
 "Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -42,19 +42,19 @@ msgstr "Aplicacions"
 msgid "Admin"
 msgstr "Administració"
 
-#: files.php:328
+#: files.php:332
 msgid "ZIP download is turned off."
 msgstr "La baixada en ZIP està desactivada."
 
-#: files.php:329
+#: files.php:333
 msgid "Files need to be downloaded one by one."
 msgstr "Els fitxers s'han de baixar d'un en un."
 
-#: files.php:329 files.php:354
+#: files.php:333 files.php:358
 msgid "Back to Files"
 msgstr "Torna a Fitxers"
 
-#: files.php:353
+#: files.php:357
 msgid "Selected files too large to generate zip file."
 msgstr "Els fitxers seleccionats son massa grans per generar un fitxer zip."
 
@@ -82,45 +82,55 @@ msgstr "Text"
 msgid "Images"
 msgstr "Imatges"
 
-#: template.php:87
+#: template.php:103
 msgid "seconds ago"
 msgstr "segons enrere"
 
-#: template.php:88
+#: template.php:104
 msgid "1 minute ago"
 msgstr "fa 1 minut"
 
-#: template.php:89
+#: template.php:105
 #, php-format
 msgid "%d minutes ago"
 msgstr "fa %d minuts"
 
-#: template.php:92
+#: template.php:106
+msgid "1 hour ago"
+msgstr "fa 1 hora"
+
+#: template.php:107
+#, php-format
+msgid "%d hours ago"
+msgstr "fa %d hores"
+
+#: template.php:108
 msgid "today"
 msgstr "avui"
 
-#: template.php:93
+#: template.php:109
 msgid "yesterday"
 msgstr "ahir"
 
-#: template.php:94
+#: template.php:110
 #, php-format
 msgid "%d days ago"
 msgstr "fa %d dies"
 
-#: template.php:95
+#: template.php:111
 msgid "last month"
 msgstr "el mes passat"
 
-#: template.php:96
-msgid "months ago"
-msgstr "mesos enrere"
+#: template.php:112
+#, php-format
+msgid "%d months ago"
+msgstr "fa %d mesos"
 
-#: template.php:97
+#: template.php:113
 msgid "last year"
 msgstr "l'any passat"
 
-#: template.php:98
+#: template.php:114
 msgid "years ago"
 msgstr "fa anys"
 
@@ -136,3 +146,8 @@ msgstr "actualitzat"
 #: updater.php:80
 msgid "updates check is disabled"
 msgstr "la comprovació d'actualitzacions està desactivada"
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "No s'ha trobat la categoria \"%s\""

@@ -20,6 +20,19 @@
  *
  */
 
+class DatabaseException extends Exception{
+	private $query;
+
+	public function __construct($message, $query){
+		parent::__construct($message);
+		$this->query = $query;
+	}
+
+	public function getQuery(){
+		return $this->query;
+	}
+}
+
 /**
  * This class manages the access to the database. It basically is a wrapper for
  * MDB2 with some adaptions.
@@ -115,7 +128,7 @@ class OC_DB {
 		$pass = OC_Config::getValue( "dbpassword", "" );
 		$type = OC_Config::getValue( "dbtype", "sqlite" );
 		if(strpos($host, ':')) {
-			list($host, $port)=explode(':', $host,2);
+			list($host, $port)=explode(':', $host, 2);
 		}else{
 			$port=false;
 		}
@@ -168,8 +181,7 @@ class OC_DB {
 			try{
 				self::$PDO=new PDO($dsn, $user, $pass, $opts);
 			}catch(PDOException $e) {
-				echo( '<b>can not connect to database, using '.$type.'. ('.$e->getMessage().')</center>');
-				die();
+				OC_Template::printErrorPage( 'can not connect to database, using '.$type.'. ('.$e->getMessage().')' );
 			}
 			// We always, really always want associative arrays
 			self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
@@ -263,10 +275,9 @@ class OC_DB {
 
 			// Die if we could not connect
 			if( PEAR::isError( self::$MDB2 )) {
-				echo( '<b>can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')</center>');
 				OC_Log::write('core', self::$MDB2->getUserInfo(), OC_Log::FATAL);
 				OC_Log::write('core', self::$MDB2->getMessage(), OC_Log::FATAL);
-				die();
+				OC_Template::printErrorPage( 'can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')' );
 			}
 
 			// We always, really always want associative arrays
@@ -322,21 +333,13 @@ class OC_DB {
 
 			// Die if we have an error (error means: bad query, not 0 results!)
 			if( PEAR::isError($result)) {
-				$entry = 'DB Error: "'.$result->getMessage().'"<br />';
-				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
-				OC_Log::write('core', $entry,OC_Log::FATAL);
-				error_log('DB error: '.$entry);
-				die( $entry );
+				throw new DatabaseException($result->getMessage(), $query);
 			}
 		}else{
 			try{
 				$result=self::$connection->prepare($query);
 			}catch(PDOException $e) {
-				$entry = 'DB Error: "'.$e->getMessage().'"<br />';
-				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
-				OC_Log::write('core', $entry,OC_Log::FATAL);
-				error_log('DB error: '.$entry);
-				die( $entry );
+				throw new DatabaseException($e->getMessage(), $query);
 			}
 			$result=new PDOStatementWrapper($result);
 		}
@@ -355,12 +358,19 @@ class OC_DB {
 	 */
 	public static function insertid($table=null) {
 		self::connect();
-		if($table !== null) {
-			$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
-			$suffix = OC_Config::getValue( "dbsequencesuffix", "_id_seq" );
-			$table = str_replace( '*PREFIX*', $prefix, $table ).$suffix;
+		$type = OC_Config::getValue( "dbtype", "sqlite" );
+		if( $type == 'pgsql' ) {
+			$query = self::prepare('SELECT lastval() AS id');
+			$row = $query->execute()->fetchRow();
+			return $row['id'];
+		}else{
+			if($table !== null) {
+				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
+				$suffix = OC_Config::getValue( "dbsequencesuffix", "_id_seq" );
+				$table = str_replace( '*PREFIX*', $prefix, $table ).$suffix;
+			}
+			return self::$connection->lastInsertId($table);
 		}
-		return self::$connection->lastInsertId($table);
 	}
 
 	/**
@@ -449,7 +459,7 @@ class OC_DB {
 
 		// Die in case something went wrong
 		if( $definition instanceof MDB2_Schema_Error ) {
-			die( $definition->getMessage().': '.$definition->getUserInfo());
+			OC_Template::printErrorPage( $definition->getMessage().': '.$definition->getUserInfo() );
 		}
 		if(OC_Config::getValue('dbtype', 'sqlite')==='oci') {
 			unset($definition['charset']); //or MDB2 tries SHUTDOWN IMMEDIATE
@@ -461,8 +471,7 @@ class OC_DB {
 
 		// Die in case something went wrong
 		if( $ret instanceof MDB2_Error ) {
-			echo (self::$MDB2->getDebugOutput());
-			die ($ret->getMessage() . ': ' . $ret->getUserInfo());
+			OC_Template::printErrorPage( self::$MDB2->getDebugOutput().' '.$ret->getMessage() . ': ' . $ret->getUserInfo() );
 		}
 
 		return true;
@@ -541,6 +550,78 @@ class OC_DB {
 		return true;
 	}
 
+	/**
+	 * @brief Insert a row if a matching row doesn't exists.
+	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
+	 * @param array $input. An array of fieldname/value pairs
+	 * @returns The return value from PDOStatementWrapper->execute()
+	 */
+	public static function insertIfNotExist($table, $input) {
+		self::connect();
+		$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
+		$table = str_replace( '*PREFIX*', $prefix, $table );
+
+		if(is_null(self::$type)) {
+			self::$type=OC_Config::getValue( "dbtype", "sqlite" );
+		}
+		$type = self::$type;
+
+		$query = '';
+		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
+		if( $type == 'sqlite' || $type == 'sqlite3' ) {
+			// NOTE: For SQLite we have to use this clumsy approach
+			// otherwise all fieldnames used must have a unique key.
+			$query = 'SELECT * FROM "' . $table . '" WHERE ';
+			foreach($input as $key => $value) {
+				$query .= $key . " = '" . $value . '\' AND ';
+			}
+			$query = substr($query, 0, strlen($query) - 5);
+			try {
+				$stmt = self::prepare($query);
+				$result = $stmt->execute();
+			} catch(PDOException $e) {
+				$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
+				$entry .= 'Offending command was: ' . $query . '<br />';
+				OC_Log::write('core', $entry, OC_Log::FATAL);
+				error_log('DB error: '.$entry);
+				OC_Template::printErrorPage( $entry );
+			}
+			
+			if($result->numRows() == 0) {
+				$query = 'INSERT INTO "' . $table . '" ("'
+					. implode('","', array_keys($input)) . '") VALUES("'
+					. implode('","', array_values($input)) . '")';
+			} else {
+				return true;
+			}
+		} elseif( $type == 'pgsql' || $type == 'oci' || $type == 'mysql') {
+			$query = 'INSERT INTO `' .$table . '` ('
+				. implode(',', array_keys($input)) . ') SELECT \''
+				. implode('\',\'', array_values($input)) . '\' FROM ' . $table . ' WHERE ';
+
+			foreach($input as $key => $value) {
+				$query .= $key . " = '" . $value . '\' AND ';
+			}
+			$query = substr($query, 0, strlen($query) - 5);
+			$query .= ' HAVING COUNT(*) = 0';
+		}
+
+		// TODO: oci should be use " (quote) instead of ` (backtick).
+		//OC_Log::write('core', __METHOD__ . ', type: ' . $type . ', query: ' . $query, OC_Log::DEBUG);
+
+		try {
+			$result = self::prepare($query);
+		} catch(PDOException $e) {
+			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
+			$entry .= 'Offending command was: ' . $query.'<br />';
+			OC_Log::write('core', $entry, OC_Log::FATAL);
+			error_log('DB error: ' . $entry);
+			OC_Template::printErrorPage( $entry );
+		}
+
+		return $result->execute();
+	}
+	
 	/**
 	 * @brief does minor changes to query
 	 * @param string $query Query string
@@ -767,8 +848,8 @@ class PDOStatementWrapper{
 	/**
 	 * pass all other function directly to the PDOStatement
 	 */
-	public function __call($name,$arguments) {
-		return call_user_func_array(array($this->statement,$name), $arguments);
+	public function __call($name, $arguments) {
+		return call_user_func_array(array($this->statement, $name), $arguments);
 	}
 
 	/**

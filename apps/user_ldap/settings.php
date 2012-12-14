@@ -26,16 +26,12 @@ OCP\Util::addscript('user_ldap', 'settings');
 OCP\Util::addstyle('user_ldap', 'settings');
 
 if ($_POST) {
+	$clearCache = false;
 	foreach($params as $param) {
 		if(isset($_POST[$param])) {
+			$clearCache = true;
 			if('ldap_agent_password' == $param) {
 				OCP\Config::setAppValue('user_ldap', $param, base64_encode($_POST[$param]));
-			} elseif('ldap_cache_ttl' == $param) {
-				if(OCP\Config::getAppValue('user_ldap', $param,'') != $_POST[$param]) {
-					$ldap = new \OCA\user_ldap\lib\Connection('user_ldap');
-					$ldap->clearCache();
-					OCP\Config::setAppValue('user_ldap', $param, $_POST[$param]);
-				}
 			} elseif('home_folder_naming_rule' == $param) {
 				$value = empty($_POST[$param]) ? 'opt:username' : 'attr:'.$_POST[$param];
 				OCP\Config::setAppValue('user_ldap', $param, $value);
@@ -54,12 +50,16 @@ if ($_POST) {
 			OCP\Config::setAppValue('user_ldap', $param, 0);
 		}
 	}
+	if($clearCache) {
+		$ldap = new \OCA\user_ldap\lib\Connection('user_ldap');
+		$ldap->clearCache();
+	}
 }
 
 // fill template
 $tmpl = new OCP\Template( 'user_ldap', 'settings');
 foreach($params as $param) {
-		$value = OCP\Config::getAppValue('user_ldap', $param,'');
+		$value = OCP\Config::getAppValue('user_ldap', $param, '');
 		$tmpl->assign($param, $value);
 }
 

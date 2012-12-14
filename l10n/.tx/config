@@ -52,3 +52,9 @@ source_file = templates/user_ldap.pot
 source_lang = en
 type = PO
 
+[owncloud.user_webdavauth]
+file_filter = <lang>/user_webdavauth.po
+source_file = templates/user_webdavauth.pot
+source_lang = en
+type = PO
+

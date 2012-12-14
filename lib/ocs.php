@@ -23,6 +23,9 @@
 *
 */
 
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+
 /**
  * Class to handle open collaboration services API requests
  *
@@ -82,6 +85,7 @@ class OC_OCS {
 			echo('internal server error: method not supported');
 			exit();
 		}
+
 		$format = self::readData($method, 'format', 'text', '');
 		$txt='Invalid query, please check the syntax. API specifications are here: http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
 		$txt.=OC_OCS::getDebugOutput();
@@ -118,7 +122,7 @@ class OC_OCS {
 	* @param int $itemsperpage
 	* @return string xml/json
 	*/
-	private static function generateXml($format,$status,$statuscode,$message,$data=array(),$tag='',$tagattribute='',$dimension=-1,$itemscount='',$itemsperpage='') {
+	private static function generateXml($format, $status, $statuscode, $message, $data=array(), $tag='', $tagattribute='', $dimension=-1, $itemscount='', $itemsperpage='') {
 		if($format=='json') {
 			$json=array();
 			$json['status']=$status;
@@ -138,7 +142,7 @@ class OC_OCS {
 			xmlwriter_write_element($writer, 'status', $status);
 			xmlwriter_write_element($writer, 'statuscode', $statuscode);
 			xmlwriter_write_element($writer, 'message', $message);
-			if($itemscount<>'') xmlwriter_write_element($writer,'totalitems',$itemscount);
+			if($itemscount<>'') xmlwriter_write_element($writer, 'totalitems', $itemscount);
 			if(!empty($itemsperpage)) xmlwriter_write_element($writer, 'itemsperpage', $itemsperpage);
 			xmlwriter_end_element($writer);
 			if($dimension=='0') {
@@ -153,7 +157,7 @@ class OC_OCS {
 				xmlwriter_end_element($writer);
 
 			}elseif($dimension=='2') {
-				xmlwriter_start_element($writer,'data');
+				xmlwriter_start_element($writer, 'data');
 				foreach($data as $entry) {
 					xmlwriter_start_element($writer, $tag);
 					if(!empty($tagattribute)) {
@@ -208,14 +212,14 @@ class OC_OCS {
 		}
 	}
 
-	public static function toXml($writer,$data,$node) {
+	public static function toXml($writer, $data, $node) {
 		foreach($data as $key => $value) {
 			if (is_numeric($key)) {
 				$key = $node;
 			}
 			if (is_array($value)) {
 				xmlwriter_start_element($writer, $key);
-				OC_OCS::toxml($writer,$value, $node);
+				OC_OCS::toxml($writer, $value, $node);
 				xmlwriter_end_element($writer);
 			}else{
 				xmlwriter_write_element($writer, $key, $value);
@@ -253,29 +257,5 @@ class OC_OCS {
 		}
 		return $result;
 	}
-
-        /**
-        * set the quota of a user
-        * @param string $format
-        * @param string $user
-        * @param string $quota
-        * @return string xml/json
-        */
-        private static function quotaSet($format,$user,$quota) {
-                $login=OC_OCS::checkpassword();
-                if(OC_Group::inGroup($login, 'admin')) {
-
-			// todo
-			// not yet implemented
-			// add logic here
-			error_log('OCS call: user:'.$user.' quota:'.$quota);
-
-                        $xml=array();
-                        $txt=OC_OCS::generatexml($format, 'ok', 100, '', $xml, 'cloud', '', 1, 0, 0);
-                        echo($txt);
-                }else{
-                        echo self::generateXml('', 'fail', 300, 'You don´t have permission to access this ressource.');
-                }
-        }
 
 }

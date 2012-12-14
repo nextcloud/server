@@ -1,45 +1,5 @@
 <?php
 
-$hasSQLite = (is_callable('sqlite_open') or class_exists('SQLite3'));
-$hasMySQL = is_callable('mysql_connect');
-$hasPostgreSQL = is_callable('pg_connect');
-$hasOracle = is_callable('oci_connect');
-$datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
-
-// Test if  .htaccess is working
-$content = "deny from all";
-file_put_contents(OC::$SERVERROOT.'/data/.htaccess', $content);
-
-$opts = array(
-	'hasSQLite' => $hasSQLite,
-	'hasMySQL' => $hasMySQL,
-	'hasPostgreSQL' => $hasPostgreSQL,
-	'hasOracle' => $hasOracle,
-	'directory' => $datadir,
-	'secureRNG' => OC_Util::secureRNG_available(),
-	'htaccessWorking' => OC_Util::ishtaccessworking(),
-	'errors' => array(),
-);
-
-if(isset($_POST['install']) AND $_POST['install']=='true') {
-	// We have to launch the installation process :
-	$e = OC_Setup::install($_POST);
-	$errors = array('errors' => $e);
-
-	if(count($e) > 0) {
-		//OC_Template::printGuestPage("", "error", array("errors" => $errors));
-		$options = array_merge($_POST, $opts, $errors);
-		OC_Template::printGuestPage("", "installation", $options);
-	}
-	else {
-		header("Location: ".OC::$WEBROOT.'/');
-		exit();
-	}
-}
-else {
-	OC_Template::printGuestPage("", "installation", $opts);
-}
-
 class OC_Setup {
 	public static function install($options) {
 		$error = array();
@@ -70,6 +30,9 @@ class OC_Setup {
 			if(empty($options['dbname'])) {
 				$error[] = "$dbprettyname enter the database name.";
 			}
+			if(substr_count($options['dbname'], '.') >= 1) {
+				$error[] = "$dbprettyname you may not use dots in the database name";
+			}
 			if($dbtype != 'oci' && empty($options['dbhost'])) {
 				$error[] = "$dbprettyname set the database host.";
 			}
@@ -92,7 +55,7 @@ class OC_Setup {
 			//write the config file
 			OC_Config::setValue('datadirectory', $datadir);
 			OC_Config::setValue('dbtype', $dbtype);
-			OC_Config::setValue('version', implode('.',OC_Util::getVersion()));
+			OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
 			if($dbtype == 'mysql') {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
@@ -199,7 +162,7 @@ class OC_Setup {
 		return $error;
 	}
 
-	private static function setupMySQLDatabase($dbhost, $dbuser, $dbpass, $dbtableprefix, $username) {
+	private static function setupMySQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $username) {
 		//check if the database user has admin right
 		$connection = @mysql_connect($dbhost, $dbuser, $dbpass);
 		if(!$connection) {
@@ -215,7 +178,7 @@ class OC_Setup {
 			$dbusername=substr('oc_'.$username, 0, 16);
 			if($dbusername!=$oldUser) {
 				//hash the password so we don't need to store the admin config in the config file
-				$dbpassword=md5(time().$password);
+				$dbpassword=md5(time().$dbpass);
 
 				self::createDBUser($dbusername, $dbpassword, $connection);
 
@@ -248,7 +211,7 @@ class OC_Setup {
 		mysql_close($connection);
 	}
 
-	private static function createMySQLDatabase($name,$user,$connection) {
+	private static function createMySQLDatabase($name, $user, $connection) {
 		//we cant use OC_BD functions here because we need to connect as the administrative user.
 		$query = "CREATE DATABASE IF NOT EXISTS  `$name`";
 		$result = mysql_query($query, $connection);
@@ -261,7 +224,7 @@ class OC_Setup {
 		$result = mysql_query($query, $connection); //this query will fail if there aren't the right permissons, ignore the error
 	}
 
-	private static function createDBUser($name,$password,$connection) {
+	private static function createDBUser($name, $password, $connection) {
 		// we need to create 2 accounts, one for global use and one for local user. if we don't specify the local one,
 		// the anonymous user would take precedence when there is one.
 		$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
@@ -336,7 +299,7 @@ class OC_Setup {
 		}
 	}
 
-	private static function pg_createDatabase($name,$user,$connection) {
+	private static function pg_createDatabase($name, $user, $connection) {
 		//we cant use OC_BD functions here because we need to connect as the administrative user.
 		$e_name = pg_escape_string($name);
 		$e_user = pg_escape_string($user);
@@ -356,12 +319,14 @@ class OC_Setup {
 				$entry.='Offending command was: '.$query.'<br />';
 				echo($entry);
 			}
+			else {
+				$query = "REVOKE ALL PRIVILEGES ON DATABASE \"$e_name\" FROM PUBLIC";
+				$result = pg_query($connection, $query);
+			}
 		}
-		$query = "REVOKE ALL PRIVILEGES ON DATABASE \"$e_name\" FROM PUBLIC";
-		$result = pg_query($connection, $query);
 	}
 
-	private static function pg_createDBUser($name,$password,$connection) {
+	private static function pg_createDBUser($name, $password, $connection) {
 		$e_name = pg_escape_string($name);
 		$e_password = pg_escape_string($password);
 		$query = "select * from pg_roles where rolname='$e_name';";
@@ -570,7 +535,15 @@ class OC_Setup {
 	 * create .htaccess files for apache hosts
 	 */
 	private static function createHtaccess() {
-		$content = "ErrorDocument 403 ".OC::$WEBROOT."/core/templates/403.php\n";//custom 403 error page
+		$content = "<IfModule mod_fcgid.c>\n";
+		$content.= "<IfModule mod_setenvif.c>\n";
+		$content.= "<IfModule mod_headers.c>\n";
+		$content.= "SetEnvIfNoCase ^Authorization$ \"(.+)\" XAUTHORIZATION=$1\n";
+		$content.= "RequestHeader set XAuthorization %{XAUTHORIZATION}e env=XAUTHORIZATION\n";
+		$content.= "</IfModule>\n";
+		$content.= "</IfModule>\n";
+		$content.= "</IfModule>\n";
+		$content.= "ErrorDocument 403 ".OC::$WEBROOT."/core/templates/403.php\n";//custom 403 error page
 		$content.= "ErrorDocument 404 ".OC::$WEBROOT."/core/templates/404.php\n";//custom 404 error page
 		$content.= "<IfModule mod_php5.c>\n";
 		$content.= "php_value upload_max_filesize 512M\n";//upload limit
@@ -589,9 +562,17 @@ class OC_Setup {
 		$content.= "RewriteRule ^apps/([^/]*)/(.*\.(css|php))$ index.php?app=$1&getfile=$2 [QSA,L]\n";
 		$content.= "RewriteRule ^remote/(.*) remote.php [QSA,L]\n";
 		$content.= "</IfModule>\n";
+		$content.= "<IfModule mod_mime.c>\n";
+		$content.= "AddType image/svg+xml svg svgz\n";
+		$content.= "AddEncoding gzip svgz\n";
+		$content.= "</IfModule>\n";
 		$content.= "Options -Indexes\n";
 		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 
+		self::protectDataDirectory();
+	}
+
+	public static function protectDataDirectory() {
 		$content = "deny from all\n";
 		$content.= "IndexIgnore *";
 		file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/.htaccess', $content);

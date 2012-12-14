@@ -50,11 +50,17 @@
  	padding-top:.5em;
  }
 
- #dropdown input[type="text"],#dropdown input[type="password"] {
- 	width:90%;
- }
+#dropdown input[type="text"],#dropdown input[type="password"] {
+    width:90%;
+}
 
- #linkText,#linkPass,#expiration {
+#dropdown form {
+    font-size: 100%;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#linkText,#linkPass,#expiration {
  	display:none;
  }
 

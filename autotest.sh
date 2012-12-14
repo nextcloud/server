@@ -9,7 +9,7 @@
 DATADIR=data-autotest
 BASEDIR=$PWD
 
-# create autoconfig for sqlite, mysql and (soon) postgresql
+# create autoconfig for sqlite, mysql and postgresql
 cat > ./tests/autoconfig-sqlite.php <<DELIM
 <?php
 \$AUTOCONFIG = array (
@@ -67,7 +67,8 @@ function execute_tests {
 	mkdir $DATADIR
 
 	# remove the old config file
-	rm -rf config/config.php
+	#rm -rf config/config.php
+	cp tests/preseed-config.php config/config.php
 
 	# drop database
 	if [ "$1" == "mysql" ] ; then
@@ -88,6 +89,7 @@ function execute_tests {
 	cd tests
 	rm -rf coverage-html-$1
 	mkdir coverage-html-$1
+	php -f enable_all.php
 	phpunit --log-junit autotest-results-$1.xml --coverage-clover autotest-clover-$1.xml --coverage-html coverage-html-$1
 }
 
