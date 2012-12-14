@@ -39,7 +39,7 @@ div.quota-select-wrapper { position: relative; }
 select.quota { position:absolute; left:0; top:0; width:10em; }
 select.quota-user { position:relative; left:0; top:0; width:10em; }
 input.quota-other { display:none; position:absolute; left:0.1em; top:0.1em; width:7em; border:none; box-shadow:none; }
-div.quota>span { position:absolute; right:0em; white-space:nowrap; top: 0.7em }
+div.quota>span { position:absolute; right:0; white-space:nowrap; top:.7em; color:#888; text-shadow:0 1px 0 #fff; }
 select.quota.active { background: #fff; }
 
 /* APPS */
