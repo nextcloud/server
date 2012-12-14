@@ -61,7 +61,7 @@
 					<?php if ($_['isAdminPage']): ?>
 					<td class="applicable" align="right" data-applicable-groups='<?php if (isset($mount['applicable']['groups'])) echo json_encode($mount['applicable']['groups']); ?>' data-applicable-users='<?php if (isset($mount['applicable']['users'])) echo json_encode($mount['applicable']['users']); ?>'>
 							<select class="chzn-select" multiple style="width:20em;" data-placeholder="<?php echo $l->t('None set'); ?>">
-								<option value="all"><?php echo $l->t('All Users'); ?></option>
+								<option value="all" <?php if (isset($mount['applicable']['users']) && in_array('all', $mount['applicable']['users'])) echo 'selected="selected"';?> ><?php echo $l->t('All Users'); ?></option>
 								<optgroup label="<?php echo $l->t('Groups'); ?>">
 									<?php foreach ($_['groups'] as $group): ?>
 										<option value="<?php echo $group; ?>(group)" <?php if (isset($mount['applicable']['groups']) && in_array($group, $mount['applicable']['groups'])) echo 'selected="selected"'; ?>><?php echo $group; ?></option>

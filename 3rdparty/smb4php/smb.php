@@ -112,6 +112,10 @@ class smb {
 		}
 		$port = ($purl['port'] <> 139 ? ' -p ' . escapeshellarg ($purl['port']) : '');
 		$options = '-O ' . escapeshellarg(SMB4PHP_SMBOPTIONS);
+
+		// this put env is necessary to read the output of smbclient correctly
+		$old_locale = getenv('LC_ALL');
+		putenv('LC_ALL=en_US.UTF-8');
 		$output = popen (SMB4PHP_SMBCLIENT." -N {$auth} {$options} {$port} {$options} {$params} 2>/dev/null", 'r');
 		$info = array ();
 		$info['info']= array ();
@@ -180,6 +184,14 @@ class smb {
 			}
 		}
 		pclose($output);
+
+		// restore previous locale
+		if ($old_locale===false) {
+			putenv('LC_ALL');
+		} else {
+			putenv('LC_ALL='.$old_locale);
+		}
+		
 		return $info;
 	}
 
