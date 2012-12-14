@@ -133,7 +133,7 @@ abstract class Access {
 			'\"' => '\5c22',
 			'\#' => '\5c23',
 		);
-		$dn = str_replace(array_keys($replacements),array_values($replacements), $dn);
+		$dn = str_replace(array_keys($replacements), array_values($replacements), $dn);
 
 		return $dn;
 	}
