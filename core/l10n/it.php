@@ -43,6 +43,7 @@
 "Share with link" => "Condividi con collegamento",
 "Password protect" => "Proteggi con password",
 "Password" => "Password",
+"Email link to person" => "Invia collegamento via email",
 "Send" => "Invia",
 "Set expiration date" => "Imposta data di scadenza",
 "Expiration date" => "Data di scadenza",

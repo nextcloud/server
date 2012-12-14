@@ -7,6 +7,7 @@
 #   <alex.hotz@gmail.com>, 2011.
 #   <blobbyjj@ymail.com>, 2012.
 #   <georg.stefan.germany@googlemail.com>, 2011.
+# I Robot <owncloud-bot@tmit.eu>, 2012.
 # I Robot <thomas.mueller@tmit.eu>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 #   <mail@felixmoeller.de>, 2012.
@@ -21,8 +22,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 23:17+0000\n"
+"POT-Creation-Date: 2012-12-15 00:11+0100\n"
+"PO-Revision-Date: 2012-12-14 16:40+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -220,18 +221,18 @@ msgstr "Über einen Link freigeben"
 msgid "Password protect"
 msgstr "Passwortschutz"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:26
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Passwort"
 
 #: js/share.js:172
 msgid "Email link to person"
-msgstr ""
+msgstr "Link per E-Mail verschicken"
 
 #: js/share.js:173
 msgid "Send"
-msgstr ""
+msgstr "Senden"
 
 #: js/share.js:177
 msgid "Set expiration date"
@@ -299,11 +300,11 @@ msgstr "Fehler beim Setzen des Ablaufdatums"
 
 #: js/share.js:568
 msgid "Sending ..."
-msgstr ""
+msgstr "Sende ..."
 
 #: js/share.js:579
 msgid "Email sent"
-msgstr ""
+msgstr "E-Mail wurde verschickt"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -325,8 +326,8 @@ msgstr "Die E-Mail zum Zurücksetzen wurde versendet."
 msgid "Request failed!"
 msgstr "Die Anfrage schlug fehl!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:21
 msgid "Username"
 msgstr "Benutzername"
 
@@ -415,44 +416,44 @@ msgstr "Dein Datenverzeichnis und deine Datein sind vielleicht vom Internet aus 
 msgid "Create an <strong>admin account</strong>"
 msgstr "<strong>Administrator-Konto</strong> anlegen"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "Fortgeschritten"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "Datenverzeichnis"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "Datenbank einrichten"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "wird verwendet"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "Datenbank-Benutzer"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "Datenbank-Passwort"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "Datenbank-Name"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "Datenbank-Tablespace"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Datenbank-Host"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "Installation abschließen"
 
@@ -558,11 +559,11 @@ msgstr "Bitte ändere Dein Passwort, um Deinen Account wieder zu schützen."
 msgid "Lost your password?"
 msgstr "Passwort vergessen?"
 
-#: templates/login.php:27
+#: templates/login.php:29
 msgid "remember"
 msgstr "merken"
 
-#: templates/login.php:28
+#: templates/login.php:30
 msgid "Log in"
 msgstr "Einloggen"
 
