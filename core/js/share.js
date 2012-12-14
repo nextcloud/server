@@ -526,29 +526,23 @@ $(document).ready(function() {
 			var itemType = $('#dropdown').data('item-type');
 			var itemSource = $('#dropdown').data('item-source');
 			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, '', OC.PERMISSION_READ);
+		} else {
+			$('#linkPassText').focus();
 		}
 	});
 
 	$('#linkPassText').live('focusout keyup', function(event) {
-		if ( event.type == 'focusout' || event.keyCode == 13 ) {
+		if ( $('#linkPassText').val() != '' && (event.type == 'focusout' || event.keyCode == 13) ) {
 			var itemType = $('#dropdown').data('item-type');
 			var itemSource = $('#dropdown').data('item-source');
-			if ( $('#linkPassText').attr('passwordChanged') == 'true' ) {
-				OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $(this).val(), OC.PERMISSION_READ, function() {
-					$('#linkPassText').val('');
-					$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
-					$('#linkPassText').attr('passwordChanged', 'false');
-				});
-			}
+			OC.Share.share(itemType, itemSource, OC.Share.SHARE_TYPE_LINK, $(this).val(), OC.PERMISSION_READ, function() {
+				console.log("password set to: '" + $('#linkPassText').val() +"' by event: " + event.type);
+				$('#linkPassText').val('');
+				$('#linkPassText').attr('placeholder', t('core', 'Password protected'));
+			});
 		}
 	});
 
-	$('#linkPassText').live('focusout keyup', function(event) {
-		if ( event.keyCode != 13 ) {
-			$('#linkPassText').attr('passwordChanged', 'true');	
-		}
-	});
-	
 	$('#expirationCheckbox').live('click', function() {
 		if (this.checked) {
 			OC.Share.showExpirationDate('');
