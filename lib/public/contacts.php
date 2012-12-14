@@ -54,29 +54,30 @@ namespace OCP {
 		 * Example:
 		 *  Following function shows how to search for contacts for the name and the email address.
 		 *
-		 * 		public static function getMatchingRecipient($term) {
-		 *          // The API is not active -> nothing to do
+		 *		public static function getMatchingRecipient($term) {
+		 *			// The API is not active -> nothing to do
 		 *			if (!\OCP\Contacts::isEnabled()) {
-		 *	    		return array();
+		 *				return array();
 		 *			}
 		 *
 		 *			$result = \OCP\Contacts::search($term, array('FN', 'EMAIL'));
 		 *			$receivers = array();
 		 *			foreach ($result as $r) {
-		 *			    $id = $r['id'];
-		 *			    $fn = $r['FN'];
-		 *			    $email = $r['EMAIL'];
-		 *			    if (!is_array($email)) {
-		 *  		    	$email = array($email);
-		 *			    }
+		 *				$id = $r['id'];
+		 *				$fn = $r['FN'];
+		 *				$email = $r['EMAIL'];
+		 *				if (!is_array($email)) {
+		 *					$email = array($email);
+		 *				}
 		 *
-		 *			    // loop through all email addresses of this contact
-		 *			    foreach ($email as $e) {
-		 *	    		    $displayName = $fn . " <$e>";
-		 *		        	$receivers[] = array('id'    => $id,
-		 *			        'label' => $displayName,
-		 *			        'value' => $displayName);
-		 *			    }
+		 *				// loop through all email addresses of this contact
+		 *				foreach ($email as $e) {
+		 *				$displayName = $fn . " <$e>";
+		 *				$receivers[] = array(
+		 *					'id'    => $id,
+		 *					'label' => $displayName,
+		 *					'value' => $displayName);
+		 *				}
 		 *			}
 		 *
 		 *			return $receivers;

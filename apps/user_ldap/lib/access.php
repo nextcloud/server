@@ -347,20 +347,20 @@ abstract class Access {
 	}
 
 	private function findMappedGroup($dn) {
-                static $query = null;
+		static $query = null;
 		if(is_null($query)) {
 			$query = \OCP\DB::prepare('
-                        	SELECT `owncloud_name`
-	                        FROM `'.$this->getMapTable(false).'`
-        	                WHERE `ldap_dn` = ?'
-                	);
+					SELECT `owncloud_name`
+					FROM `'.$this->getMapTable(false).'`
+					WHERE `ldap_dn` = ?'
+			);
 		}
-                $res = $query->execute(array($dn))->fetchOne();
+		$res = $query->execute(array($dn))->fetchOne();
 		if($res) {
-                        return  $res;
-                }
+			return  $res;
+		}
 		return false;
-        }
+	}
 
 
 	private function ldap2ownCloudNames($ldapObjects, $isUsers) {
