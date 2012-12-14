@@ -42,3 +42,6 @@ $entry = array(
 );
 
 OCP\Backgroundjob::addRegularTask('OCA\user_ldap\lib\Jobs', 'updateGroups');
+if(OCP\App::isEnabled('user_webdavauth')) {
+	OCP\Util::writeLog('user_ldap', 'user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour', OCP\Util::WARN);
+}
