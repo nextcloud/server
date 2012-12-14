@@ -43,10 +43,10 @@ $CONFIG = array(
 "enhancedauthtime" => 15 * 60,
 
 /* A proxy to use to connect to the internet. For example "myproxy.org:88" */
-"curlproxy" => "",
+"proxy" => "",
 
 /* The optional authentication for the proxy to use to connect to the internet. The format is: [username]:[password] */
-"curlproxyuserpwd" => "",
+"proxyuserpwd" => "",
 
 /* Theme to use for ownCloud */
 "theme" => "",
