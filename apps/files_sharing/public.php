@@ -160,7 +160,7 @@ if ($linkItem) {
 			exit();
 		}
 	}
-	$basePath = substr($pathAndUser['path'] , strlen('/'.$fileOwner.'/files'));
+	$basePath = substr($pathAndUser['path'], strlen('/'.$fileOwner.'/files'));
 	$path = $basePath;
 	if (isset($_GET['path'])) {
 		$path .= $_GET['path'];

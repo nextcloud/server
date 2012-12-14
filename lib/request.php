@@ -18,7 +18,7 @@ class OC_Request {
 		if(OC::$CLI) {
 			return 'localhost';
 		}
-		if(OC_Config::getValue('overwritehost', '')<>''){
+		if(OC_Config::getValue('overwritehost', '')<>'') {
 			return OC_Config::getValue('overwritehost'); 
 		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
@@ -43,7 +43,7 @@ class OC_Request {
 	* Returns the server protocol. It respects reverse proxy servers and load balancers
 	*/
 	public static function serverProtocol() {
-		if(OC_Config::getValue('overwriteprotocol', '')<>''){
+		if(OC_Config::getValue('overwriteprotocol', '')<>'') {
 			return OC_Config::getValue('overwriteprotocol'); 
 		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
