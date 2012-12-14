@@ -331,8 +331,7 @@ class OC_Util {
 			$parameters[$value] = true;
 		}
 		if (!empty($_POST['user'])) {
-			$parameters["username"] =
-				OC_Util::sanitizeHTML($_POST['user']).'"';
+			$parameters["username"] = OC_Util::sanitizeHTML($_POST['user']).'"';
 			$parameters['user_autofocus'] = false;
 		} else {
 			$parameters["username"] = '';

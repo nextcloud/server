@@ -619,7 +619,7 @@ abstract class Access {
 		//a) paged search insuccessful, though attempted
 		//b) no paged search, but limit set
 		if((!$this->pagedSearchedSuccessful
-				&& $pagedSearchOK)
+			&& $pagedSearchOK)
 			|| (
 				!$pagedSearchOK
 				&& !is_null($limit)
