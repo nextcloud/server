@@ -322,7 +322,7 @@ class OC_Setup {
 		if(!$connection) {
 			// Try if we can't connect with the specified DB name
 			$e_dbname = addslashes($dbname);
-			$connection_string = "host='$e_host' dbname='$dbname' user='$e_user' password='$e_password'";
+			$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' password='$e_password'";
 			$connection = @pg_connect($connection_string);
 
 			if(!$connection)
