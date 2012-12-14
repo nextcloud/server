@@ -17,12 +17,14 @@
 		<?php endif; ?>
 		</ul>
 		<p class="infield grouptop">
-			<label for="user" class="infield"><?php echo $l->t( 'Username' ); ?></label>
 			<input type="text" name="user" id="user" value="<?php echo $_['username']; ?>"<?php echo $_['user_autofocus']?' autofocus':''; ?> autocomplete="on" required />
+			<label for="user" class="infield"><?php echo $l->t( 'Username' ); ?></label>
+			<img class="svg" src="<?php echo image_path('', 'actions/user.svg'); ?>" alt="" />
 		</p>
 		<p class="infield groupbottom">
-			<label for="password" class="infield"><?php echo $l->t( 'Password' ); ?></label>
 			<input type="password" name="password" id="password" value="" required<?php echo $_['user_autofocus']?'':' autofocus'; ?> />
+			<label for="password" class="infield"><?php echo $l->t( 'Password' ); ?></label>
+			<img class="svg" src="<?php echo image_path('', 'actions/password.svg'); ?>" alt="" />
 		</p>
 		<input type="checkbox" name="remember_login" value="1" id="remember_login" /><label for="remember_login"><?php echo $l->t('remember'); ?></label>
 		<input type="submit" id="submit" class="login primary" value="<?php echo $l->t( 'Log in' ); ?>" />

@@ -122,6 +122,17 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 #login #datadirContent label { display:block; margin:0; color:#999;  }
 #login form #datadirField legend { margin-bottom:15px; }
 
+
+/* Icons for username and password fields to better recognize them */
+#adminlogin, #adminpass, #user, #password { width:11.7em!important; padding-left:1.8em; }
+#adminlogin+label, #adminpass+label, #user+label, #password+label { left:2.2em; }
+#adminlogin+label+img, #adminpass+label+img, #user+label+img, #password+label+img {
+	position:absolute; left:1.25em; top:1.65em;
+	opacity:.3;
+}
+#adminpass+label+img, #password+label+img { top:1.1em; }
+
+
 /* Nicely grouping input field sets */
 .grouptop input {
 	margin-bottom:0;
@@ -138,11 +149,11 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 	box-shadow:0 1px 1px #fff,0 1px 0 #ddd inset;
 }
 
-#login form label { margin:.95em 0 0 .85em; color:#666; }
-#login .groupmiddle label, #login .groupbottom label { margin-top:13px; }
+#login form label { color:#666; }
+#login .groupmiddle label, #login .groupbottom label { top:.65em; }
 /* NEEDED FOR INFIELD LABELS */
 p.infield { position:relative; }
-label.infield { cursor:text !important; }
+label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #login form label.infield { position:absolute; font-size:19px; color:#aaa; white-space:nowrap; }
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
 #login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }

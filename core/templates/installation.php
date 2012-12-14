@@ -35,12 +35,14 @@
 	<fieldset id="adminaccount">
 		<legend><?php echo $l->t( 'Create an <strong>admin account</strong>' ); ?></legend>
 		<p class="infield grouptop">
-			<label for="adminlogin" class="infield"><?php echo $l->t( 'Username' ); ?></label>
 			<input type="text" name="adminlogin" id="adminlogin" value="<?php print OC_Helper::init_var('adminlogin'); ?>" autocomplete="off" autofocus required />
+			<label for="adminlogin" class="infield"><?php echo $l->t( 'Username' ); ?></label>
+			<img class="svg" src="<?php echo image_path('', 'actions/user.svg'); ?>" alt="" />
 		</p>
 		<p class="infield groupbottom">
-			<label for="adminpass" class="infield"><?php echo $l->t( 'Password' ); ?></label>
 			<input type="password" name="adminpass" id="adminpass" value="<?php print OC_Helper::init_var('adminpass'); ?>" required />
+			<label for="adminpass" class="infield"><?php echo $l->t( 'Password' ); ?></label>
+			<img class="svg" src="<?php echo image_path('', 'actions/password.svg'); ?>" alt="" />
 		</p>
 	</fieldset>
 
