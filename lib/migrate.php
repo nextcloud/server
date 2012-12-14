@@ -78,7 +78,7 @@ class OC_Migrate{
 	 * @param otional $path string path to zip output folder
 	 * @return false on error, path to zip on success
 	 */
-	 public static function export( $uid=null, $type='user', $path=null ) {
+	public static function export( $uid=null, $type='user', $path=null ) {
 		$datadir = OC_Config::getValue( 'datadirectory' );
 	 	// Validate export type
 	 	$types = array( 'user', 'instance', 'system', 'userfiles' );

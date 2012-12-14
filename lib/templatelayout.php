@@ -97,13 +97,13 @@ class OC_TemplateLayout extends OC_Template {
 	 * @param $web base for path
 	 * @param $file the filename
 	 */
-        static public function appendIfExist(&$files, $root, $webroot, $file) {
-                if (is_file($root.'/'.$file)) {
+	static public function appendIfExist(&$files, $root, $webroot, $file) {
+		if (is_file($root.'/'.$file)) {
 			$files[] = array($root, $webroot, $file);
 			return true;
-                }
-                return false;
-        }
+		}
+		return false;
+	}
 
 	static public function findStylesheetFiles($styles) {
 		// Read the selected theme from the config file

@@ -586,7 +586,7 @@ class OC_Util {
         /**
          * Check if the ownCloud server can connect to the internet
          */
-        public static function isinternetconnectionworking() {
+	public static function isinternetconnectionworking() {
 
 		// try to connect to owncloud.org to see if http connections to the internet are possible.
 		$connected = @fsockopen("www.owncloud.org", 80); 
@@ -685,34 +685,34 @@ class OC_Util {
          * If not, file_get_element is used.
          */
         
-        public static function getUrlContent($url){
+	public static function getUrlContent($url){
             
-            if  (function_exists('curl_init')) {
-                
-                $curl = curl_init();
+		if  (function_exists('curl_init')) {
 
-                curl_setopt($curl, CURLOPT_HEADER, 0);
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
-                curl_setopt($curl, CURLOPT_URL, $url);
-		curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
-                $data = curl_exec($curl);
-                curl_close($curl);
+			$curl = curl_init();
 
-            } else {
-                
-                $ctx = stream_context_create(
-                    array(
-                        'http' => array(
-                            'timeout' => 10
-                        )
-                    )
-                );
-                $data=@file_get_contents($url, 0, $ctx);
-                
-            }
-            
-            return $data;
-        }
+			curl_setopt($curl, CURLOPT_HEADER, 0);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
+			curl_setopt($curl, CURLOPT_URL, $url);
+			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
+			$data = curl_exec($curl);
+			curl_close($curl);
+
+		} else {
+
+			$ctx = stream_context_create(
+					array(
+						'http' => array(
+							'timeout' => 10
+							)
+					     )
+					);
+			$data=@file_get_contents($url, 0, $ctx);
+
+		}
+
+		return $data;
+	}
         
 }
