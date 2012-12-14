@@ -696,11 +696,11 @@ class OC_Util {
                 curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
                 curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
-                if(OC_Config::getValue('curlproxy','')=='') {
-			curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('curlproxy'));
+                if(OC_Config::getValue('proxy','')<>'') {
+			curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));
 		}
-                if(OC_Config::getValue('curlproxyuserpwd','')=='') {
-			curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('curlproxyuserpwd'));
+                if(OC_Config::getValue('proxyuserpwd','')<>'') {
+			curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('proxyuserpwd'));
 		}
                 $data = curl_exec($curl);
                 curl_close($curl);
