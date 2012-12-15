@@ -97,6 +97,19 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(), $rootView->getDirectoryContent('/non/existing'));
 	}
 
+	function testCacheIncompleteFolder() {
+		$storage1 = $this->getTestStorage(false);
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		$rootView = new \OC\Files\View('');
+
+		$entries = $rootView->getDirectoryContent('/');
+		$this->assertEquals(3, count($entries));
+
+		// /folder will already be in the cache but not scanned
+		$entries = $rootView->getDirectoryContent('/folder');
+		$this->assertEquals(1, count($entries));
+	}
+
 	public function testAutoScan() {
 		$storage1 = $this->getTestStorage(false);
 		$storage2 = $this->getTestStorage(false);

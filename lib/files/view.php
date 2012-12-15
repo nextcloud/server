@@ -728,7 +728,7 @@ class View {
 		if ($storage) {
 			$cache = $storage->getCache();
 
-			if (!$cache->inCache($internalPath)) {
+			if ($cache->getStatus($internalPath) < Cache\Cache::COMPLETE) {
 				$scanner = $storage->getScanner();
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 			} else {
