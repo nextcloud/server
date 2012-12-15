@@ -44,11 +44,13 @@ class Watcher {
 	public function checkUpdate($path) {
 		$cachedEntry = $this->cache->get($path);
 		if ($this->storage->hasUpdated($path, $cachedEntry['mtime'])) {
-			if ($cachedEntry['mimetype'] === 'httpd/unix-directory') {
+			if ($this->storage->is_dir($path)) {
 				$this->scanner->scan($path, Scanner::SCAN_SHALLOW);
-				$this->cleanFolder($path);
 			} else {
 				$this->scanner->scanFile($path);
+			}
+			if ($cachedEntry['mimetype'] === 'httpd/unix-directory') {
+				$this->cleanFolder($path);
 			}
 			$this->cache->correctFolderSize($path);
 		}
