@@ -15,8 +15,8 @@
 
 		<input name="maxZipInputSize" id="maxZipInputSize" style="width:180px;" value='<?php echo $_['maxZipInputSize'] ?>'
 			   title="<?php echo $l->t( '0 is unlimited' ); ?>"
-			   <?php if (!$_['allowZipDownload']): ?> disabled="disabled"<?php endif; ?> />
-		<label for="maxZipInputSize"><?php echo $l->t( 'Maximum input size for ZIP files' ); ?> </label><br />
+			   <?php if (!$_['allowZipDownload']): ?> disabled="disabled"<?php endif; ?> /><br />
+		<em><?php echo $l->t( 'Maximum input size for ZIP files' ); ?> </em><br />
 
 		<input type="hidden" value="<?php echo $_['requesttoken']; ?>" name="requesttoken" />
 		<input type="submit" name="submitFilesAdminSettings" id="submitFilesAdminSettings"

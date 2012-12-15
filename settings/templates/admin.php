@@ -100,7 +100,7 @@ if(!$_['internetconnectionworking']) {
 
 <fieldset class="personalblock">
 	<legend><strong><?php echo $l->t('Log');?></strong></legend>
-	Log level: <select name='loglevel' id='loglevel'>
+	<?php echo $l->t('Log level');?> <select name='loglevel' id='loglevel'>
 		<option value='<?php echo $_['loglevel']?>'><?php echo $levels[$_['loglevel']]?></option>
 		<?php for($i=0;$i<5;$i++):
 			if($i!=$_['loglevel']):?>
@@ -133,8 +133,9 @@ if(!$_['internetconnectionworking']) {
 </fieldset>
 
 
-<p class="personalblock">
+<fieldset class="personalblock">
+	<legend><strong><?php echo $l->t('Version');?></strong></legend>
 	<strong>ownCloud</strong> <?php echo(OC_Util::getVersionString()); ?> <?php echo(OC_Util::getEditionString()); ?> (<?php echo(OC_Updater::ShowUpdatingHint()); ?>)<br />
     <?php echo $l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.'); ?>
-</p>
+</fieldset>
 
