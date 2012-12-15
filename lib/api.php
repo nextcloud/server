@@ -81,9 +81,9 @@ class OC_API {
 	public static function call($parameters){
 		// Prepare the request variables
 		if($_SERVER['REQUEST_METHOD'] == 'PUT'){
-			parse_str(file_get_contents("php://input"), $_PUT);
+			parse_str(file_get_contents("php://input"), $parameters['_put']);
 		} else if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
-			parse_str(file_get_contents("php://input"), $_DELETE);
+			parse_str(file_get_contents("php://input"), $parameters['_delete']);
 		}
 		$name = $parameters['_route'];
 		// Check authentication and availability
@@ -91,7 +91,7 @@ class OC_API {
 			if(is_callable(self::$actions[$name]['action'])){
 				$response = call_user_func(self::$actions[$name]['action'], $parameters);
 			} else {
-				$response = new OC_OCS_Result(null, 998, 'Internal server error');
+				$response = new OC_OCS_Result(null, 998, 'Api method not found');
 			} 
 		} else {
 			$response = new OC_OCS_Result(null, 997, 'Unauthorised');
