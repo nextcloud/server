@@ -30,6 +30,13 @@ class Cache {
 	private $storageId;
 
 	/**
+	 * numeric storage id
+	 *
+	 * @var int $numericId
+	 */
+	private $numericId;
+
+	/**
 	 * @param \OC\Files\Storage\Storage|string $storage
 	 */
 	public function __construct($storage) {
@@ -38,6 +45,20 @@ class Cache {
 		} else {
 			$this->storageId = $storage;
 		}
+
+		$query = \OC_DB::prepare('SELECT `numeric_id` FROM `*PREFIX*storages` WHERE `id` = ?');
+		$result = $query->execute(array($this->storageId));
+		if ($row = $result->fetchRow()) {
+			$this->numericId = $row['numeric_id'];
+		} else {
+			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*storages`(`id`) VALUES(?)');
+			$query->execute(array($this->storageId));
+			$this->numericId = \OC_DB::insertid('*PREFIX*filecache');
+		}
+	}
+
+	public function getNumericStorageId() {
+		return $this->numericId;
 	}
 
 	/**
@@ -49,7 +70,7 @@ class Cache {
 	public function get($file) {
 		if (is_string($file) or $file == '') {
 			$where = 'WHERE `storage` = ? AND `path_hash` = ?';
-			$params = array($this->storageId, md5($file));
+			$params = array($this->numericId, md5($file));
 		} else { //file id
 			$where = 'WHERE `fileid` = ?';
 			$params = array($file);
@@ -128,7 +149,7 @@ class Cache {
 
 			list($queryParts, $params) = $this->buildParts($data);
 			$queryParts[] = '`storage`';
-			$params[] = $this->storageId;
+			$params[] = $this->numericId;
 			$valuesPlaceholder = array_fill(0, count($queryParts), '?');
 
 			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache`(' . implode(', ', $queryParts) . ') VALUES(' . implode(', ', $valuesPlaceholder) . ')');
@@ -189,7 +210,7 @@ class Cache {
 		$pathHash = md5($file);
 
 		$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
-		$result = $query->execute(array($this->storageId, $pathHash));
+		$result = $query->execute(array($this->numericId, $pathHash));
 
 		if ($row = $result->fetchRow()) {
 			return $row['fileid'];
@@ -273,7 +294,10 @@ class Cache {
 	 * remove all entries for files that are stored on the storage from the cache
 	 */
 	public function clear() {
-		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE storage=?');
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE storage = ?');
+		$query->execute(array($this->numericId));
+
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*storages` WHERE id = ?');
 		$query->execute(array($this->storageId));
 	}
 
@@ -285,7 +309,7 @@ class Cache {
 	public function getStatus($file) {
 		$pathHash = md5($file);
 		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
-		$result = $query->execute(array($this->storageId, $pathHash));
+		$result = $query->execute(array($this->numericId, $pathHash));
 		if ($row = $result->fetchRow()) {
 			if ((int)$row['size'] === -1) {
 				return self::SHALLOW;
@@ -312,7 +336,7 @@ class Cache {
 			SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`
 			FROM `*PREFIX*filecache` WHERE `name` LIKE ? AND `storage` = ?'
 		);
-		$result = $query->execute(array($pattern, $this->storageId));
+		$result = $query->execute(array($pattern, $this->numericId));
 		$files = array();
 		while ($row = $result->fetchRow()) {
 			$files[] = $row;
@@ -336,7 +360,7 @@ class Cache {
 			SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`
 			FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `storage` = ?'
 		);
-		$result = $query->execute(array($mimetype, $this->storageId));
+		$result = $query->execute(array($mimetype, $this->numericId));
 		return $result->fetchAll();
 	}
 
@@ -368,7 +392,7 @@ class Cache {
 			return 0;
 		}
 		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*filecache` WHERE `parent` = ? AND `storage` = ?');
-		$result = $query->execute(array($id, $this->storageId));
+		$result = $query->execute(array($id, $this->numericId));
 		$totalSize = 0;
 		$hasChilds = 0;
 		while ($row = $result->fetchRow()) {
@@ -395,7 +419,7 @@ class Cache {
 	 */
 	public function getAll() {
 		$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ?');
-		$result = $query->execute(array($this->storageId));
+		$result = $query->execute(array($this->numericId));
 		$ids = array();
 		while ($row = $result->fetchRow()) {
 			$ids[] = $row['fileid'];
@@ -414,7 +438,7 @@ class Cache {
 	 */
 	public function getIncomplete() {
 		$query = \OC_DB::prepare('SELECT `path` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `size` = -1 ORDER BY `fileid` DESC LIMIT 1');
-		$query->execute(array($this->storageId));
+		$query->execute(array($this->numericId));
 		if ($row = $query->fetchRow()) {
 			return $row['path'];
 		} else {

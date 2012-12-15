@@ -11,6 +11,8 @@ namespace OC\Files\Cache;
 class Upgrade {
 	static $permissionsCaches = array();
 
+	static $numericIds = array();
+
 	static function upgrade() {
 		$insertQuery = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache`( `fileid`, `storage`, `path`, `path_hash`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted` )
 			VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
@@ -32,7 +34,7 @@ class Upgrade {
 		$checkExistingQuery = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `fileid` = ?');
 
 		while ($row = $oldEntriesResult->fetchRow()) {
-			if($checkExistingQuery->execute(array($row['id']))->fetchRow()){
+			if ($checkExistingQuery->execute(array($row['id']))->fetchRow()) {
 				continue;
 			}
 
@@ -42,7 +44,7 @@ class Upgrade {
 			 * @var string $internalPath;
 			 */
 			$pathHash = md5($internalPath);
-			$storageId = $storage->getId();
+			$storageId = self::getNumericId($storage);
 			$parentId = ($internalPath === '') ? -1 : $row['parent'];
 
 			$insertQuery->execute(array($row['id'], $storageId, $internalPath, $pathHash, $parentId, $row['name'], $row['mimetype'], $row['mimepart'], $row['size'], $row['mtime'], $row['encrypted']));
@@ -63,5 +65,20 @@ class Upgrade {
 			self::$permissionsCaches[$storageId] = $storage->getPermissionsCache();
 		}
 		return self::$permissionsCaches[$storageId];
+	}
+
+	/**
+	 * get the numeric storage id
+	 *
+	 * @param \OC\Files\Storage\Storage $storage
+	 * @return int
+	 */
+	static function getNumericId($storage) {
+		$storageId = $storage->getId();
+		if (!isset(self::$numericIds[$storageId])) {
+			$cache = new Cache($storage);
+			self::$numericIds[$storageId] = $cache->getNumericStorageId();
+		}
+		return self::$numericIds[$storageId];
 	}
 }
