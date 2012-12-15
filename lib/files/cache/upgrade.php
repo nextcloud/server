@@ -29,7 +29,13 @@ class Upgrade {
 			return;
 		}
 
+		$checkExistingQuery = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `fileid` = ?');
+
 		while ($row = $oldEntriesResult->fetchRow()) {
+			if($checkExistingQuery->execute(array($row['id']))->fetchRow()){
+				continue;
+			}
+
 			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($row['path']);
 			/**
 			 * @var \OC\Files\Storage\Storage $storage
