@@ -282,7 +282,6 @@ class OC_Files {
 		} else {
 			OC_Log::write('files', 'Can\'t write upload limit to ' . OC::$SERVERROOT . '/.htaccess. Please check the file permissions', OC_Log::WARN);
 		}
-
 		return false;
 	}
 }

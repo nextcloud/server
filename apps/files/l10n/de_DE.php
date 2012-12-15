@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "There is no error, the file uploaded with success" => "Es sind keine Fehler aufgetreten. Die Datei wurde erfolgreich hochgeladen.",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Die hochgeladene Datei überschreitet die upload_max_filesize Vorgabe in php.ini",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Die Größe der hochzuladenden Datei überschreitet die MAX_FILE_SIZE-Richtlinie, die im HTML-Formular angegeben wurde",
 "The uploaded file was only partially uploaded" => "Die Datei wurde nur teilweise hochgeladen.",
 "No file was uploaded" => "Es wurde keine Datei hochgeladen.",

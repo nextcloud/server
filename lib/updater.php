@@ -52,18 +52,18 @@ class OC_Updater{
 			)
 		);
 		$xml=@file_get_contents($url, 0, $ctx);
-                if($xml==false) {
-                        return array();
-                }
-                $data=@simplexml_load_string($xml);
+		if($xml==false) {
+			return array();
+		}
+		$data=@simplexml_load_string($xml);
 
 		$tmp=array();
-                $tmp['version'] = $data->version;
-                $tmp['versionstring'] = $data->versionstring;
-                $tmp['url'] = $data->url;
-                $tmp['web'] = $data->web;
+		$tmp['version'] = $data->version;
+		$tmp['versionstring'] = $data->versionstring;
+		$tmp['url'] = $data->url;
+		$tmp['web'] = $data->web;
 
-                return $tmp;
+		return $tmp;
 	}
 
 	public static function ShowUpdatingHint() {

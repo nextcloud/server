@@ -540,7 +540,7 @@ class OC_Helper {
 			mkdir($tmpDirNoClean);
 		}
 		$file=$tmpDirNoClean.md5(time().rand()).$postfix;
-		$fh=fopen($file,'w');
+		$fh=fopen($file, 'w');
 		fclose($fh);
 		return $file;
 	}

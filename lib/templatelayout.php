@@ -97,13 +97,13 @@ class OC_TemplateLayout extends OC_Template {
 	 * @param $web base for path
 	 * @param $file the filename
 	 */
-        static public function appendIfExist(&$files, $root, $webroot, $file) {
-                if (is_file($root.'/'.$file)) {
+	static public function appendIfExist(&$files, $root, $webroot, $file) {
+		if (is_file($root.'/'.$file)) {
 			$files[] = array($root, $webroot, $file);
 			return true;
-                }
-                return false;
-        }
+		}
+		return false;
+	}
 
 	static public function findStylesheetFiles($styles) {
 		// Read the selected theme from the config file
@@ -130,8 +130,14 @@ class OC_TemplateLayout extends OC_Template {
 				// or in apps?
 				foreach( OC::$APPSROOTS as $apps_dir)
 				{
-					if(self::appendIfExist($files, $apps_dir['path'], $apps_dir['url'], "$style$fext.css")) { $append =true; break; }
-					elseif(self::appendIfExist($files, $apps_dir['path'], $apps_dir['url'], "$style.css")) { $append =true; break; }
+					if(self::appendIfExist($files, $apps_dir['path'], $apps_dir['url'], "$style$fext.css")) {
+						$append = true;
+						break;
+					}
+					elseif(self::appendIfExist($files, $apps_dir['path'], $apps_dir['url'], "$style.css")) {
+						$append = true;
+						break;
+					}
 				}
 				if(! $append) {
 					echo('css file not found: style:'.$style.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
@@ -192,8 +198,14 @@ class OC_TemplateLayout extends OC_Template {
 				// Is it part of an app?
 				$append = false;
 				foreach( OC::$APPSROOTS as $apps_dir) {
-					if(self::appendIfExist($files, $apps_dir['path'], OC::$WEBROOT.$apps_dir['url'], "$script$fext.js")) { $append =true; break; }
-					elseif(self::appendIfExist($files, $apps_dir['path'], OC::$WEBROOT.$apps_dir['url'], "$script.js")) { $append =true; break; }
+					if(self::appendIfExist($files, $apps_dir['path'], OC::$WEBROOT.$apps_dir['url'], "$script$fext.js")) {
+						$append = true;
+						break;
+					}
+					elseif(self::appendIfExist($files, $apps_dir['path'], OC::$WEBROOT.$apps_dir['url'], "$script.js")) {
+						$append = true;
+						break;
+					}
 				}
 				if(! $append) {
 					echo('js file not found: script:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);

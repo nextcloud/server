@@ -15,15 +15,39 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-26 00:01+0100\n"
-"PO-Revision-Date: 2012-11-25 00:59+0000\n"
-"Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
+"POT-Creation-Date: 2012-12-13 00:17+0100\n"
+"PO-Revision-Date: 2012-12-12 23:17+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ajax/share.php:84
+#, php-format
+msgid "User %s shared a file with you"
+msgstr ""
+
+#: ajax/share.php:86
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr ""
+
+#: ajax/share.php:88
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr ""
+
+#: ajax/share.php:90
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -145,8 +169,8 @@ msgid "The object type is not specified."
 msgstr "Le type d'objet n'est pas spécifié."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
-#: js/share.js:539
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
+#: js/share.js:553
 msgid "Error"
 msgstr "Erreur"
 
@@ -158,7 +182,7 @@ msgstr "Le nom de l'application n'est pas spécifié."
 msgid "The required file {file} is not installed!"
 msgstr "Le fichier requis {file} n'est pas installé !"
 
-#: js/share.js:124
+#: js/share.js:124 js/share.js:581
 msgid "Error while sharing"
 msgstr "Erreur lors de la mise en partage"
 
@@ -195,69 +219,85 @@ msgstr "Protéger par un mot de passe"
 msgid "Password"
 msgstr "Mot de passe"
 
+#: js/share.js:172
+msgid "Email link to person"
+msgstr ""
+
 #: js/share.js:173
+msgid "Send"
+msgstr ""
+
+#: js/share.js:177
 msgid "Set expiration date"
 msgstr "Spécifier la date d'expiration"
 
-#: js/share.js:174
+#: js/share.js:178
 msgid "Expiration date"
 msgstr "Date d'expiration"
 
-#: js/share.js:206
+#: js/share.js:210
 msgid "Share via email:"
 msgstr "Partager via e-mail :"
 
-#: js/share.js:208
+#: js/share.js:212
 msgid "No people found"
 msgstr "Aucun utilisateur trouvé"
 
-#: js/share.js:235
+#: js/share.js:239
 msgid "Resharing is not allowed"
 msgstr "Le repartage n'est pas autorisé"
 
-#: js/share.js:271
+#: js/share.js:275
 msgid "Shared in {item} with {user}"
 msgstr "Partagé dans {item} avec {user}"
 
-#: js/share.js:292
+#: js/share.js:296
 msgid "Unshare"
 msgstr "Ne plus partager"
 
-#: js/share.js:304
+#: js/share.js:308
 msgid "can edit"
 msgstr "édition autorisée"
 
-#: js/share.js:306
+#: js/share.js:310
 msgid "access control"
 msgstr "contrôle des accès"
 
-#: js/share.js:309
+#: js/share.js:313
 msgid "create"
 msgstr "créer"
 
-#: js/share.js:312
+#: js/share.js:316
 msgid "update"
 msgstr "mettre à jour"
 
-#: js/share.js:315
+#: js/share.js:319
 msgid "delete"
 msgstr "supprimer"
 
-#: js/share.js:318
+#: js/share.js:322
 msgid "share"
 msgstr "partager"
 
-#: js/share.js:343 js/share.js:514 js/share.js:516
+#: js/share.js:353 js/share.js:528 js/share.js:530
 msgid "Password protected"
 msgstr "Protégé par un mot de passe"
 
-#: js/share.js:527
+#: js/share.js:541
 msgid "Error unsetting expiration date"
 msgstr "Un erreur est survenue pendant la suppression de la date d'expiration"
 
-#: js/share.js:539
+#: js/share.js:553
 msgid "Error setting expiration date"
 msgstr "Erreur lors de la spécification de la date d'expiration"
+
+#: js/share.js:568
+msgid "Sending ..."
+msgstr ""
+
+#: js/share.js:579
+msgid "Email sent"
+msgstr ""
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"

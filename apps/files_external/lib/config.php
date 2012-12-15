@@ -38,66 +38,74 @@ class OC_Mount_Config {
 	* @return array
 	*/
 	public static function getBackends() {
-		return array(
-			'\OC\Files\Storage\Local' => array(
+		
+		$backends['\OC\Files\Storage\Local']=array(
 				'backend' => 'Local',
 				'configuration' => array(
-					'datadir' => 'Location')),
-			'\OC\Files\Storage\AmazonS3' => array(
-				'backend' => 'Amazon S3',
-				'configuration' => array(
-					'key' => 'Key',
-					'secret' => '*Secret',
-					'bucket' => 'Bucket')),
-			'\OC\Files\Storage\Dropbox' => array(
-				'backend' => 'Dropbox',
-				'configuration' => array(
-					'configured' => '#configured',
-					'app_key' => 'App key',
-					'app_secret' => 'App secret',
-					'token' => '#token',
-					'token_secret' => '#token_secret'),
-				'custom' => 'dropbox'),
-			'\OC\Files\Storage\FTP' => array(
-				'backend' => 'FTP', 
-				'configuration' => array(
-					'host' => 'URL', 
-					'user' => 'Username',
-					'password' => '*Password',
-					'root' => '&Root',
-					'secure' => '!Secure ftps://')),
-			'\OC\Files\Storage\Google' => array(
-				'backend' => 'Google Drive',
-				'configuration' => array(
-					'configured' => '#configured', 
-					'token' => '#token',
-					'token_secret' => '#token secret'),
-				'custom' => 'google'),
-			'\OC\Files\Storage\SWIFT' => array(
-				'backend' => 'OpenStack Swift',
-				'configuration' => array(
-					'host' => 'URL', 
-					'user' => 'Username',
-					'token' => '*Token',
-					'root' => '&Root', 
-					'secure' => '!Secure ftps://')),
-			'\OC\Files\Storage\SMB' => array(
-				'backend' => 'SMB', 
-				'configuration' => array(
-					'host' => 'URL', 
-					'user' => 'Username',
-					'password' => '*Password',
-					'share' => 'Share',
-					'root' => '&Root')),
-			'\OC\Files\Storage\DAV' => array(
-				'backend' => 'WebDAV',
-				'configuration' => array(
-					'host' => 'URL', 
-					'user' => 'Username',
-					'password' => '*Password', 
-					'root' => '&Root', 
-					'secure' => '!Secure https://'))
-		);
+					'datadir' => 'Location'));
+
+		$backends['\OC\Files\Storage\AmazonS3']=array(
+			'backend' => 'Amazon S3',
+			'configuration' => array(
+				'key' => 'Key',
+				'secret' => '*Secret',
+				'bucket' => 'Bucket'));
+
+		$backends['\OC\Files\Storage\Dropbox']=array(
+			'backend' => 'Dropbox',
+			'configuration' => array(
+				'configured' => '#configured',
+				'app_key' => 'App key',
+				'app_secret' => 'App secret',
+				'token' => '#token',
+				'token_secret' => '#token_secret'),
+				'custom' => 'dropbox');
+
+		if(OC_Mount_Config::checkphpftp()) $backends['\OC\Files\Storage\FTP']=array(
+			'backend' => 'FTP',
+			'configuration' => array(
+				'host' => 'URL',
+				'user' => 'Username',
+				'password' => '*Password',
+				'root' => '&Root',
+				'secure' => '!Secure ftps://'));
+
+		$backends['\OC\Files\Storage\Google']=array(
+			'backend' => 'Google Drive',
+			'configuration' => array(
+				'configured' => '#configured',
+				'token' => '#token',
+				'token_secret' => '#token secret'),
+				'custom' => 'google');
+		
+		$backends['\OC\Files\Storage\SWIFT']=array(
+			'backend' => 'OpenStack Swift',
+			'configuration' => array(
+				'host' => 'URL',
+				'user' => 'Username',
+				'token' => '*Token',
+				'root' => '&Root',
+				'secure' => '!Secure ftps://'));
+							
+		if(OC_Mount_Config::checksmbclient()) $backends['\OC\Files\Storage\SMB']=array(
+			'backend' => 'SMB / CIFS',
+			'configuration' => array(
+				'host' => 'URL',
+				'user' => 'Username',
+				'password' => '*Password',
+				'share' => 'Share',
+				'root' => '&Root'));
+				
+		$backends['\OC\Files\Storage\DAV']=array(
+			'backend' => 'ownCloud / WebDAV',
+			'configuration' => array(
+				'host' => 'URL',
+				'user' => 'Username',
+				'password' => '*Password',
+				'root' => '&Root',
+				'secure' => '!Secure https://'));	
+
+		return($backends);
 	}
 
 	/**
@@ -394,4 +402,38 @@ class OC_Mount_Config {
 		return true;
 	}
 
+	/**
+	 * check if smbclient is installed 
+	 */
+	public static function checksmbclient() {
+		if(function_exists('shell_exec')) {
+			$output=shell_exec('which smbclient');
+			return (empty($output)?false:true);
+		}else{
+			return(false);
+		}
+	}
+
+	/**
+	 * check if php-ftp is installed 
+	 */
+	public static function checkphpftp() {
+		if(function_exists('ftp_login')) {
+			return(true);
+		}else{
+			return(false);
+		}
+	}
+
+	/**
+	 * check dependencies
+	 */
+	public static function checkDependencies() {
+		$l= new OC_L10N('files_external');
+		$txt='';
+		if(!OC_Mount_Config::checksmbclient()) $txt.=$l->t('<b>Warning:</b> "smbclient" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it.').'<br />';
+		if(!OC_Mount_Config::checkphpftp()) $txt.=$l->t('<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it.').'<br />';
+
+		return($txt);
+	}
 }

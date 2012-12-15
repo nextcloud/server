@@ -25,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-01 00:01+0100\n"
-"PO-Revision-Date: 2012-11-30 23:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-12 00:12+0100\n"
+"PO-Revision-Date: 2012-12-11 09:27+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,7 +42,7 @@ msgstr "Es sind keine Fehler aufgetreten. Die Datei wurde erfolgreich hochgelade
 #: ajax/upload.php:21
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr ""
+msgstr "Die hochgeladene Datei überschreitet die upload_max_filesize Vorgabe in php.ini"
 
 #: ajax/upload.php:23
 msgid ""
@@ -70,11 +70,11 @@ msgstr "Fehler beim Schreiben auf die Festplatte"
 msgid "Files"
 msgstr "Dateien"
 
-#: js/fileactions.js:117 templates/index.php:83 templates/index.php:84
+#: js/fileactions.js:117 templates/index.php:84 templates/index.php:85
 msgid "Unshare"
 msgstr "Nicht mehr freigeben"
 
-#: js/fileactions.js:119 templates/index.php:89 templates/index.php:90
+#: js/fileactions.js:119 templates/index.php:90 templates/index.php:91
 msgid "Delete"
 msgstr "Löschen"
 
@@ -82,39 +82,39 @@ msgstr "Löschen"
 msgid "Rename"
 msgstr "Umbenennen"
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:199 js/filelist.js:201
 msgid "{new_name} already exists"
 msgstr "{new_name} existiert bereits"
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:199 js/filelist.js:201
 msgid "replace"
 msgstr "ersetzen"
 
-#: js/filelist.js:201
+#: js/filelist.js:199
 msgid "suggest name"
 msgstr "Name vorschlagen"
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:199 js/filelist.js:201
 msgid "cancel"
 msgstr "abbrechen"
 
-#: js/filelist.js:250
+#: js/filelist.js:248
 msgid "replaced {new_name}"
 msgstr "{new_name} wurde ersetzt"
 
-#: js/filelist.js:250 js/filelist.js:252 js/filelist.js:284 js/filelist.js:286
+#: js/filelist.js:248 js/filelist.js:250 js/filelist.js:282 js/filelist.js:284
 msgid "undo"
 msgstr "rückgängig machen"
 
-#: js/filelist.js:252
+#: js/filelist.js:250
 msgid "replaced {new_name} with {old_name}"
 msgstr "{old_name} wurde ersetzt durch {new_name}"
 
-#: js/filelist.js:284
+#: js/filelist.js:282
 msgid "unshared {files}"
 msgstr "Freigabe für {files} beendet"
 
-#: js/filelist.js:286
+#: js/filelist.js:284
 msgid "deleted {files}"
 msgstr "{files} gelöscht"
 
@@ -124,80 +124,80 @@ msgid ""
 "allowed."
 msgstr "Ungültiger Name, '\\', '/', '<', '>', ':', '\"', '|', '?' und '*' sind nicht zulässig."
 
-#: js/files.js:183
+#: js/files.js:174
 msgid "generating ZIP-file, it may take some time."
 msgstr "Erstelle ZIP-Datei. Dies kann eine Weile dauern."
 
-#: js/files.js:218
+#: js/files.js:209
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Ihre Datei kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist."
 
-#: js/files.js:218
+#: js/files.js:209
 msgid "Upload Error"
 msgstr "Fehler beim Upload"
 
-#: js/files.js:235
+#: js/files.js:226
 msgid "Close"
 msgstr "Schließen"
 
-#: js/files.js:254 js/files.js:368 js/files.js:398
+#: js/files.js:245 js/files.js:359 js/files.js:389
 msgid "Pending"
 msgstr "Ausstehend"
 
-#: js/files.js:274
+#: js/files.js:265
 msgid "1 file uploading"
 msgstr "1 Datei wird hochgeladen"
 
-#: js/files.js:277 js/files.js:331 js/files.js:346
+#: js/files.js:268 js/files.js:322 js/files.js:337
 msgid "{count} files uploading"
 msgstr "{count} Dateien wurden hochgeladen"
 
-#: js/files.js:349 js/files.js:382
+#: js/files.js:340 js/files.js:373
 msgid "Upload cancelled."
 msgstr "Upload abgebrochen."
 
-#: js/files.js:451
+#: js/files.js:442
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Der Dateiupload läuft. Wenn Sie die Seite jetzt verlassen, wird der Upload abgebrochen."
 
-#: js/files.js:523
+#: js/files.js:512
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
 msgstr "Ungültiger Ordnername. Die Verwendung von \"Shared\" ist ownCloud vorbehalten."
 
-#: js/files.js:704
+#: js/files.js:693
 msgid "{count} files scanned"
 msgstr "{count} Dateien wurden gescannt"
 
-#: js/files.js:712
+#: js/files.js:701
 msgid "error while scanning"
 msgstr "Fehler beim Scannen"
 
-#: js/files.js:785 templates/index.php:65
+#: js/files.js:774 templates/index.php:66
 msgid "Name"
 msgstr "Name"
 
-#: js/files.js:786 templates/index.php:76
+#: js/files.js:775 templates/index.php:77
 msgid "Size"
 msgstr "Größe"
 
-#: js/files.js:787 templates/index.php:78
+#: js/files.js:776 templates/index.php:79
 msgid "Modified"
 msgstr "Bearbeitet"
 
-#: js/files.js:814
+#: js/files.js:803
 msgid "1 folder"
 msgstr "1 Ordner"
 
-#: js/files.js:816
+#: js/files.js:805
 msgid "{count} folders"
 msgstr "{count} Ordner"
 
-#: js/files.js:824
+#: js/files.js:813
 msgid "1 file"
 msgstr "1 Datei"
 
-#: js/files.js:826
+#: js/files.js:815
 msgid "{count} files"
 msgstr "{count} Dateien"
 
@@ -257,28 +257,28 @@ msgstr "Hochladen"
 msgid "Cancel upload"
 msgstr "Upload abbrechen"
 
-#: templates/index.php:57
+#: templates/index.php:58
 msgid "Nothing in here. Upload something!"
 msgstr "Alles leer. Bitte laden Sie etwas hoch!"
 
-#: templates/index.php:71
+#: templates/index.php:72
 msgid "Download"
 msgstr "Herunterladen"
 
-#: templates/index.php:103
+#: templates/index.php:104
 msgid "Upload too large"
 msgstr "Der Upload ist zu groß"
 
-#: templates/index.php:105
+#: templates/index.php:106
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server."
 
-#: templates/index.php:110
+#: templates/index.php:111
 msgid "Files are being scanned, please wait."
 msgstr "Dateien werden gescannt, bitte warten."
 
-#: templates/index.php:113
+#: templates/index.php:114
 msgid "Current scanning"
 msgstr "Scanne"

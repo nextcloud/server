@@ -8,15 +8,9 @@
 
 #new {
 	height:17px;  margin:0 0 0 1em; z-index:1010; float:left;
-	background-color:#5bb75b;
-	border:1px solid; border-color:#51a351 #419341 #387038;
-	-moz-box-shadow:0 1px 1px #f8f8f8, 1px 1px 1px #ada inset;
-	-webkit-box-shadow:0 1px 1px #f8f8f8, 1px 1px 1px #ada inset;
-	box-shadow:0 1px 1px #f8f8f8, 1px 1px 1px #ada inset;
 }
-#new:hover, #upload:hover { background-color:#4b964b; }
 #new.active { border-bottom-left-radius:0; border-bottom-right-radius:0; border-bottom:none; }
-#new>a { padding:.5em 1.2em .3em; color:#fff; text-shadow:0 1px 0 #51a351; }
+#new>a { padding:.5em 1.2em .3em; }
 #new>ul {
 	display:none; position:fixed; min-width:7em; z-index:-1;
 	padding:.5em; margin-top:0.075em; margin-left:-.5em; 
@@ -31,15 +25,11 @@
 
 #upload { 
 	height:27px; padding:0; margin-left:0.2em; overflow:hidden;
-	color:#fff; text-shadow:0 1px 0 #51a351;
-	border-color:#51a351 #419341 #387038;
-	box-shadow:0 1px 1px #f8f8f8, 1px 1px 1px #ada inset;
-	background-color:#5bb75b;
 }
 #upload a {
 	position:relative; display:block; width:100%; height:27px;
 	cursor:pointer; z-index:1000;
-	background-image:url('%webroot%/core/img/actions/upload-white.svg');
+	background-image:url('%webroot%/core/img/actions/upload.svg');
 	background-repeat:no-repeat;
 	background-position:7px 6px;
 }

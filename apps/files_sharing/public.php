@@ -175,7 +175,7 @@ if ($linkItem) {
 	if (isset($_GET['path'])) {
 		$path .= $_GET['path'];
 	}
-	if (!$path || !OC_Filesystem::isValidPath($path) || !OC_Filesystem::file_exists($path)) {
+	if (!$path || !\OC\Files\Filesystem::isValidPath($path) || !OC_Filesystem::file_exists($path)) {
 		OCP\Util::writeLog('share', 'Invalid path ' . $path . ' for share id ' . $linkItem['id'], \OCP\Util::ERROR);
 		header('HTTP/1.0 404 Not Found');
 		$tmpl = new OCP\Template('', '404', 'guest');

@@ -64,7 +64,7 @@ var UserList={
 					}
 				}
 			});
- 		}
+		}
 	},
 
 	add:function(username, groups, subadmin, quota, sort) {
