@@ -697,10 +697,11 @@ class View {
 					$mountPoints = Filesystem::getMountPoints($path);
 					foreach ($mountPoints as $mountPoint) {
 						$subStorage = Filesystem::getStorage($mountPoint);
-						$subCache = $subStorage->getCache();
-						$rootEntry = $subCache->get('');
-
-						$data['size'] += $rootEntry['size'];
+						if ($subStorage) {
+							$subCache = $subStorage->getCache();
+							$rootEntry = $subCache->get('');
+							$data['size'] += $rootEntry['size'];
+						}
 					}
 				}
 
