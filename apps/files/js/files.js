@@ -203,6 +203,9 @@ $(document).ready(function() {
 				var files = data.files;
 				var totalSize=0;
 				if(files){
+					if (FileList.lastAction) {
+						FileList.lastAction();
+					}
 					for(var i=0;i<files.length;i++){
 						if(files[i].size ==0 && files[i].type== '')
 						{
