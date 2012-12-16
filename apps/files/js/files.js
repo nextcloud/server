@@ -516,6 +516,9 @@ $(document).ready(function() {
 				$('#notification').fadeIn();
 				return;
 			}
+			if (FileList.lastAction) {
+				FileList.lastAction();
+			}
 			var name = getUniqueName($(this).val());
 			if (name != $(this).val()) {
 				FileList.checkName(name, $(this).val(), true);
