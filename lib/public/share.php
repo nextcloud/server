@@ -552,7 +552,7 @@ class Share {
 		// Get filesystem root to add it to the file target and remove from the file source, match file_source with the file cache
 		if ($itemType == 'file' || $itemType == 'folder') {
 			$root = \OC\Files\Filesystem::getRoot();
-			$where = 'INNER JOIN `*PREFIX*fscache` ON `file_source` = `*PREFIX*fscache`.`id`';
+			$where = 'INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid`';
 			if (!isset($item)) {
 				$where .= ' WHERE `file_target` IS NOT NULL';
 			}
@@ -569,7 +569,7 @@ class Share {
 					$itemTypes = $collectionTypes;
 				}
 				$placeholders = join(',', array_fill(0, count($itemTypes), '?'));
-				$where .= ' WHERE `item_type` IN ('.$placeholders.'))';
+				$where = ' WHERE `item_type` IN ('.$placeholders.'))';
 				$queryArgs = $itemTypes;
 			} else {
 				$where = ' WHERE `item_type` = ?';
@@ -681,8 +681,8 @@ class Share {
 				}
 			} else {
 				if ($fileDependent) {
-					if (($itemType == 'file' || $itemType == 'folder') && $format == \OC_Share_Backend_File::FORMAT_FILE_APP || $format == \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT) {
-						$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `uid_owner`, `share_type`, `share_with`, `file_source`, `path`, `file_target`, `permissions`, `expiration`, `name`, `ctime`, `mtime`, `mimetype`, `size`, `encrypted`, `versioned`, `writable`';
+					if (($itemType == 'file' || $itemType == 'folder') && $format == \OC_Share_Backend_File::FORMAT_GET_FOLDER_CONTENTS) {
+						$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `uid_owner`, `share_type`, `share_with`, `file_source`, `path`, `file_target`, `permissions`, `expiration`, `*PREFIX*filecache`.`parent` as `file_parent`, `name`, `mtime`, `mimetype`, `mimepart`, `size`, `encrypted`';
 					} else {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`, `file_source`, `path`, `file_target`, `permissions`, `stime`, `expiration`, `token`';
 					}
