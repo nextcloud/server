@@ -288,7 +288,7 @@ var FileList={
 	},
 	finishDelete:function(ready,sync){
 		if(!FileList.deleteCanceled && FileList.deleteFiles){
-			var fileNames=FileList.deleteFiles.join(';');
+			var fileNames=JSON.stringify(FileList.deleteFiles);
 			$.ajax({
 				url: OC.filePath('files', 'ajax', 'delete.php'),
 				async:!sync,

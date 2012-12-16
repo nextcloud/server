@@ -29,6 +29,6 @@ $tmpl = new OCP\Template('files_external', 'settings');
 $tmpl->assign('isAdminPage', false, false);
 $tmpl->assign('mounts', OC_Mount_Config::getPersonalMountPoints());
 $tmpl->assign('certs', OC_Mount_Config::getCertificates());
-$tmpl->assign('dependencies', OC_Mount_Config::checkDependencies(),false);
+$tmpl->assign('dependencies', OC_Mount_Config::checkDependencies(), false);
 $tmpl->assign('backends', $backends);
 return $tmpl->fetchPage();

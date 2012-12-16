@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-14 00:16+0100\n"
+"POT-Creation-Date: 2012-12-16 00:11+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -206,7 +206,7 @@ msgstr ""
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:26
 #: templates/verify.php:13
 msgid "Password"
 msgstr ""
@@ -311,8 +311,8 @@ msgstr ""
 msgid "Request failed!"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:21
 msgid "Username"
 msgstr ""
 
@@ -401,44 +401,44 @@ msgstr ""
 msgid "Create an <strong>admin account</strong>"
 msgstr ""
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr ""
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr ""
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr ""
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr ""
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr ""
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr ""
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr ""
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr ""
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr ""
 
@@ -544,11 +544,11 @@ msgstr ""
 msgid "Lost your password?"
 msgstr ""
 
-#: templates/login.php:27
+#: templates/login.php:29
 msgid "remember"
 msgstr ""
 
-#: templates/login.php:28
+#: templates/login.php:30
 msgid "Log in"
 msgstr ""
 

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-21 00:01+0100\n"
-"PO-Revision-Date: 2012-11-20 09:09+0000\n"
-"Last-Translator: suganthi <suganthi@nic.lk>\n"
+"POT-Creation-Date: 2012-12-15 00:11+0100\n"
+"PO-Revision-Date: 2012-12-14 23:11+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,153 +19,166 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: templates/settings.php:8
+msgid ""
+"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
+" experience unexpected behaviour. Please ask your system administrator to "
+"disable one of them."
+msgstr ""
+
+#: templates/settings.php:11
+msgid ""
+"<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will"
+" not work. Please ask your system administrator to install it."
+msgstr ""
+
+#: templates/settings.php:15
 msgid "Host"
 msgstr "ஓம்புனர்"
 
-#: templates/settings.php:8
+#: templates/settings.php:15
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
 msgstr "நீங்கள் SSL சேவையை தவிர உடன்படு வரைமுறையை தவிர்க்க முடியும். பிறகு ldaps:.// உடன் ஆரம்பிக்கவும்"
 
-#: templates/settings.php:9
+#: templates/settings.php:16
 msgid "Base DN"
 msgstr "தள DN"
 
-#: templates/settings.php:9
+#: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
 msgstr "நீங்கள் பயனாளர்களுக்கும் மேன்மை தத்தலில் உள்ள குழுவிற்கும் தள DN ஐ குறிப்பிடலாம் "
 
-#: templates/settings.php:10
+#: templates/settings.php:17
 msgid "User DN"
 msgstr "பயனாளர்  DN"
 
-#: templates/settings.php:10
+#: templates/settings.php:17
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
 msgstr ""
 
-#: templates/settings.php:11
+#: templates/settings.php:18
 msgid "Password"
 msgstr "கடவுச்சொல்"
 
-#: templates/settings.php:11
+#: templates/settings.php:18
 msgid "For anonymous access, leave DN and Password empty."
 msgstr ""
 
-#: templates/settings.php:12
+#: templates/settings.php:19
 msgid "User Login Filter"
 msgstr ""
 
-#: templates/settings.php:12
+#: templates/settings.php:19
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
 msgstr ""
 
-#: templates/settings.php:12
+#: templates/settings.php:19
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
 msgstr ""
 
-#: templates/settings.php:13
+#: templates/settings.php:20
 msgid "User List Filter"
 msgstr ""
 
-#: templates/settings.php:13
+#: templates/settings.php:20
 msgid "Defines the filter to apply, when retrieving users."
 msgstr ""
 
-#: templates/settings.php:13
+#: templates/settings.php:20
 msgid "without any placeholder, e.g. \"objectClass=person\"."
 msgstr ""
 
-#: templates/settings.php:14
+#: templates/settings.php:21
 msgid "Group Filter"
 msgstr ""
 
-#: templates/settings.php:14
+#: templates/settings.php:21
 msgid "Defines the filter to apply, when retrieving groups."
 msgstr ""
 
-#: templates/settings.php:14
+#: templates/settings.php:21
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
 msgstr "எந்த ஒதுக்கீடும் இல்லாமல், உதாரணம். \"objectClass=posixGroup\"."
 
-#: templates/settings.php:17
+#: templates/settings.php:24
 msgid "Port"
 msgstr "துறை "
 
-#: templates/settings.php:18
+#: templates/settings.php:25
 msgid "Base User Tree"
 msgstr "தள பயனாளர் மரம்"
 
-#: templates/settings.php:19
+#: templates/settings.php:26
 msgid "Base Group Tree"
 msgstr "தள குழு மரம்"
 
-#: templates/settings.php:20
+#: templates/settings.php:27
 msgid "Group-Member association"
 msgstr "குழு உறுப்பினர் சங்கம்"
 
-#: templates/settings.php:21
+#: templates/settings.php:28
 msgid "Use TLS"
 msgstr "TLS ஐ பயன்படுத்தவும்"
 
-#: templates/settings.php:21
+#: templates/settings.php:28
 msgid "Do not use it for SSL connections, it will fail."
 msgstr "SSL இணைப்பிற்கு பயன்படுத்தவேண்டாம், அது தோல்வியடையும்."
 
-#: templates/settings.php:22
+#: templates/settings.php:29
 msgid "Case insensitve LDAP server (Windows)"
 msgstr "உணர்ச்சியான LDAP சேவையகம் (சாளரங்கள்)"
 
-#: templates/settings.php:23
+#: templates/settings.php:30
 msgid "Turn off SSL certificate validation."
 msgstr "SSL சான்றிதழின் செல்லுபடியை நிறுத்திவிடவும்"
 
-#: templates/settings.php:23
+#: templates/settings.php:30
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
 msgstr "இந்த தெரிவுகளில் மட்டும் இணைப்பு வேலைசெய்தால், உங்களுடைய owncloud சேவையகத்திலிருந்து LDAP சேவையகத்தின் SSL சான்றிதழை இறக்குமதி செய்யவும்"
 
-#: templates/settings.php:23
+#: templates/settings.php:30
 msgid "Not recommended, use for testing only."
 msgstr "பரிந்துரைக்கப்படவில்லை, சோதனைக்காக மட்டும் பயன்படுத்தவும்."
 
-#: templates/settings.php:24
+#: templates/settings.php:31
 msgid "User Display Name Field"
 msgstr "பயனாளர் காட்சிப்பெயர் புலம்"
 
-#: templates/settings.php:24
+#: templates/settings.php:31
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
 msgstr "பயனாளரின் ownCloud பெயரை உருவாக்க LDAP பண்புக்கூறை பயன்படுத்தவும்."
 
-#: templates/settings.php:25
+#: templates/settings.php:32
 msgid "Group Display Name Field"
 msgstr "குழுவின் காட்சி பெயர் புலம் "
 
-#: templates/settings.php:25
+#: templates/settings.php:32
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
 msgstr "ownCloud குழுக்களின் பெயர்களை உருவாக்க LDAP பண்புக்கூறை பயன்படுத்தவும்."
 
-#: templates/settings.php:27
+#: templates/settings.php:34
 msgid "in bytes"
 msgstr "bytes களில் "
 
-#: templates/settings.php:29
+#: templates/settings.php:36
 msgid "in seconds. A change empties the cache."
 msgstr "செக்கன்களில். ஒரு மாற்றம் இடைமாற்றுநினைவகத்தை வெற்றிடமாக்கும்."
 
-#: templates/settings.php:30
+#: templates/settings.php:37
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "பயனாளர் பெயரிற்கு வெற்றிடமாக விடவும் (பொது இருப்பு). இல்லாவிடின் LDAP/AD பண்புக்கூறை குறிப்பிடவும்."
 
-#: templates/settings.php:32
+#: templates/settings.php:39
 msgid "Help"
 msgstr "உதவி"

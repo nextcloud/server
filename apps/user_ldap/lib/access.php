@@ -133,7 +133,7 @@ abstract class Access {
 			'\"' => '\5c22',
 			'\#' => '\5c23',
 		);
-		$dn = str_replace(array_keys($replacements),array_values($replacements), $dn);
+		$dn = str_replace(array_keys($replacements), array_values($replacements), $dn);
 
 		return $dn;
 	}
@@ -347,20 +347,20 @@ abstract class Access {
 	}
 
 	private function findMappedGroup($dn) {
-                static $query = null;
+		static $query = null;
 		if(is_null($query)) {
 			$query = \OCP\DB::prepare('
-                        	SELECT `owncloud_name`
-	                        FROM `'.$this->getMapTable(false).'`
-        	                WHERE `ldap_dn` = ?'
-                	);
+					SELECT `owncloud_name`
+					FROM `'.$this->getMapTable(false).'`
+					WHERE `ldap_dn` = ?'
+			);
 		}
-                $res = $query->execute(array($dn))->fetchOne();
-                if($res) {
-                        return  $res;
-                }
+		$res = $query->execute(array($dn))->fetchOne();
+		if($res) {
+			return  $res;
+		}
 		return false;
-        }
+	}
 
 
 	private function ldap2ownCloudNames($ldapObjects, $isUsers) {
@@ -619,7 +619,7 @@ abstract class Access {
 		//a) paged search insuccessful, though attempted
 		//b) no paged search, but limit set
 		if((!$this->pagedSearchedSuccessful
-				&& $pagedSearchOK)
+			&& $pagedSearchOK)
 			|| (
 				!$pagedSearchOK
 				&& !is_null($limit)

@@ -6,4 +6,4 @@
 
 <?php foreach($_['forms'] as $form) {
 	echo $form;
-};?>
+};

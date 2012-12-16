@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 23:17+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-15 00:11+0100\n"
+"PO-Revision-Date: 2012-12-14 13:22+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -213,18 +213,18 @@ msgstr "Jaa linkillä"
 msgid "Password protect"
 msgstr "Suojaa salasanalla"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:26
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Salasana"
 
 #: js/share.js:172
 msgid "Email link to person"
-msgstr ""
+msgstr "Lähetä linkki sähköpostitse"
 
 #: js/share.js:173
 msgid "Send"
-msgstr ""
+msgstr "Lähetä"
 
 #: js/share.js:177
 msgid "Set expiration date"
@@ -292,11 +292,11 @@ msgstr "Virhe päättymispäivää asettaessa"
 
 #: js/share.js:568
 msgid "Sending ..."
-msgstr ""
+msgstr "Lähetetään..."
 
 #: js/share.js:579
 msgid "Email sent"
-msgstr ""
+msgstr "Sähköposti lähetetty"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -318,8 +318,8 @@ msgstr ""
 msgid "Request failed!"
 msgstr "Pyyntö epäonnistui!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:21
 msgid "Username"
 msgstr "Käyttäjätunnus"
 
@@ -408,44 +408,44 @@ msgstr "Data-kansio ja tiedostot ovat ehkä saavutettavissa Internetistä. .htac
 msgid "Create an <strong>admin account</strong>"
 msgstr "Luo <strong>ylläpitäjän tunnus</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "Lisäasetukset"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "Datakansio"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "Muokkaa tietokantaa"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "käytetään"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "Tietokannan käyttäjä"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "Tietokannan salasana"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "Tietokannan nimi"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "Tietokannan taulukkotila"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Tietokantapalvelin"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "Viimeistele asennus"
 
@@ -551,11 +551,11 @@ msgstr "Vaihda salasanasi suojataksesi tilisi uudelleen."
 msgid "Lost your password?"
 msgstr "Unohditko salasanasi?"
 
-#: templates/login.php:27
+#: templates/login.php:29
 msgid "remember"
 msgstr "muista"
 
-#: templates/login.php:28
+#: templates/login.php:30
 msgid "Log in"
 msgstr "Kirjaudu sisään"
 

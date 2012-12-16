@@ -23,7 +23,9 @@ if( isset( $_['message'] ) ) {
 		echo ' ';
 		echo OCP\Util::formatDate( doubleval($v['version']) );
 		echo ' <a href="'.OCP\Util::linkTo('files_versions', 'history.php', array('path' => $_['path'], 'revert' => $v['version'])) .'" class="button">Revert</a><br /><br />';
-		if ( $v['cur'] ) { echo '  (<b>Current</b>)'; }
+		if ( $v['cur'] ) {
+			echo '  (<b>Current</b>)';
+		}
 		echo '<br /><br />';
 	}
 

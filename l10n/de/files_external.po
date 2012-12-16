@@ -4,6 +4,7 @@
 # 
 # Translators:
 #   <blobbyjj@ymail.com>, 2012.
+# I Robot <owncloud-bot@tmit.eu>, 2012.
 # I Robot <thomas.mueller@tmit.eu>, 2012.
 #   <thomas.mueller@tmit.eu>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
@@ -11,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-11 23:22+0000\n"
+"POT-Creation-Date: 2012-12-16 00:11+0100\n"
+"PO-Revision-Date: 2012-12-15 19:35+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -49,14 +50,14 @@ msgstr "Fehler beim Einrichten von Google Drive"
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Warnung:</b> \"smbclient\" ist nicht installiert. Das Einhängen von CIFS/SMB-Freigaben ist nicht möglich. Bitte Deinen System-Verwalter dies zu installieren."
 
 #: lib/config.php:435
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
-msgstr ""
+msgstr "<b>Warnung:</b> \"smbclient\" ist nicht aktiv oder nicht installiert. Das Einhängen von FTP-Freigaben ist nicht möglich. Bitte Deinen System-Verwalter dies zu installieren."
 
 #: templates/settings.php:3
 msgid "External Storage"

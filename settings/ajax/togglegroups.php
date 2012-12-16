@@ -7,7 +7,7 @@ $success = true;
 $username = $_POST["username"];
 $group = $_POST["group"];
 
-if($username == OC_User::getUser() && $group == "admin" &&  OC_Group::inGroup($username, 'admin')){
+if($username == OC_User::getUser() && $group == "admin" &&  OC_Group::inGroup($username, 'admin')) {
 	$l = OC_L10N::get('core');
 	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Admins can\'t remove themself from the admin group'))));
 	exit();

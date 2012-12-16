@@ -355,7 +355,7 @@ class OC_FileCache{
 		if($sizeDiff==0) return;
 		$item = OC_FileCache_Cached::get($path);
 		//stop walking up the filetree if we hit a non-folder or reached to root folder
-		if($path == '/' || $path=='' || $item['mimetype'] !== 'httpd/unix-directory'){
+		if($path == '/' || $path=='' || $item['mimetype'] !== 'httpd/unix-directory') {
 			return;
 		}
 		$id = $item['id'];
@@ -363,13 +363,13 @@ class OC_FileCache{
 			$query=OC_DB::prepare('UPDATE `*PREFIX*fscache` SET `size`=`size`+? WHERE `id`=?');
 			$query->execute(array($sizeDiff, $id));
 			$path=dirname($path);
-			if($path == '' or $path =='/'){
+			if($path == '' or $path =='/') {
 				return;
 			}
 			$parent = OC_FileCache_Cached::get($path);
 			$id = $parent['id'];
 			//stop walking up the filetree if we hit a non-folder
-			if($parent['mimetype'] !== 'httpd/unix-directory'){
+			if($parent['mimetype'] !== 'httpd/unix-directory') {
 				return;
 			}
 		}
