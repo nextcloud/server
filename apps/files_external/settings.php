@@ -20,6 +20,8 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+OC_Util::checkAdminUser();
+
 OCP\Util::addScript('files_external', 'settings');
 OCP\Util::addscript('3rdparty', 'chosen/chosen.jquery.min');
 OCP\Util::addStyle('files_external', 'settings');
