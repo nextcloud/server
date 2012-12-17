@@ -22,6 +22,9 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
+OC_Util::checkLoggedIn();
+
 OCP\App::checkAppEnabled('user_migrate');
 if (isset($_POST['user_import'])) {
 	$root = OC::$SERVERROOT . "/";
