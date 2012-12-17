@@ -21,6 +21,8 @@
  *
  */
 
+OC_Util::checkAdminUser();
+
 if($_POST) {
 
 	if(isset($_POST['webdav_url'])) {
