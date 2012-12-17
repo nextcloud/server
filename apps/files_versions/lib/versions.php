@@ -92,7 +92,7 @@ class Storage {
 			}
 
 			// store a new version of a file
-			$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.time());
+			$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
 
 			// expire old revisions if necessary
 			Storage::expire($filename);
@@ -109,13 +109,20 @@ class Storage {
 			list($uid, $filename) = self::getUidAndFilename($filename);
 			$users_view = new \OC_FilesystemView('/'.$uid);
 
+			//first create a new version
+			if ( !$users_view->file_exists('files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename))) {
+				$version = 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename);
+				$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
+			}
+			
 			// rollback
 			if( @$users_view->copy('files_versions'.$filename.'.v'.$revision, 'files'.$filename) ) {
-
+				Storage::expire($filename);
 				return true;
 
 			}else{
-
+				if (isset($version) ) {
+					$users_view->unlink($version);
 				return false;
 
 			}
@@ -274,7 +281,7 @@ class Storage {
 				} else { // time to move on to the next interval
 					$interval++;
 					$step = Storage::$max_versions_per_interval[$interval]['step'];
-					$nextVersion = $version[$i]['version'] - $step;
+					$nextVersion = $versions[$i]['version'] - $step;
 					if ( Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] == -1 ) {
 						$nextInterval = -1;
 					} else {
