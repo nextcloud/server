@@ -30,12 +30,12 @@ class Storage {
 	const DEFAULTMAXFILESIZE=10485760; // 10MB
 	const DEFAULTMAXVERSIONS=50;
 	
-	var $MAX_VERSIONS_PER_INTERVAL = array(1 => array('intervalEndsAfter' => 3600,     //first hour, one version every 10sec
-														'step' => 10),
-											2 => array('intervalEndsAfter' => 86400,   //next 24h, one version every hour
-														'step' => 3600),
-											3 => array('intervalEndsAfter' => -1,      //until the end one version per day
-														'step' => 86400),
+	private static $max_versions_per_interval = array(1 => array('intervalEndsAfter' => 3600,     //first hour, one version every 10sec
+																	'step' => 10),
+														2 => array('intervalEndsAfter' => 86400,   //next 24h, one version every hour
+																	'step' => 3600),
+														3 => array('intervalEndsAfter' => -1,      //until the end one version per day
+																	'step' => 86400),
 			);	
 
 	private static function getUidAndFilename($filename)
@@ -94,7 +94,7 @@ class Storage {
 				$matches=glob($versionsName.'.v*');
 				sort($matches);
 				$parts=explode('.v', end($matches));
-				if((end($parts)+Storage::$MAX_VERSIONS_PER_INTERVAL[1]['step'])>time()) {
+				if((end($parts)+Storage::$max_versions_per_interval[1]['step'])>time()) {
 					return false;
 				}
 			}
@@ -240,7 +240,7 @@ class Storage {
 	 */
 	public static function expire($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			list($uid, $filename) = self::getUidAndFilename($filename);
+			list($uid, $filename) = self::getUidAndFilename($filename);			
 			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
 			
 			// get available disk space for user
@@ -266,43 +266,48 @@ class Storage {
 			$numOfVersions = count($versions);
 			
 			$interval = 1;
-			$step = Storage::$MAX_VERSIONS_PER_INTERVAL[$interval]['step'];			
-			if (Storage::$MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'] == -1) {
+			$step = Storage::$max_versions_per_interval[$interval]['step'];			
+			if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] == -1) {
 				$nextInterval = -1;
 			} else {
-				$nextInterval = $time - Storage::$MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'];
+				$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
 			}
 						
-			$nextVersion = $versions[0]['versions'] - $step;
+			$nextVersion = $versions[0]['version'] - $step;
 			
 			for ($i=1; $i<$numOfVersions; $i++) {
 				if ( $nextInterval == -1 || $versions[$i]['version'] >= $nextInterval ) {
 					if ( $versions[$i]['version'] > $nextVersion ) {
-						//distance between two version to small, delete version (TODO)
+						//distance between two version to small, delete version
+						error_log("next version:" . $nextVersion . " - version: " . $versions[$i]['version']);
+						error_log("unlink: " . $filename.'.v'.$versions[$i]['version']);
+						$versions_fileview->unlink($filename.'.v'.$versions[$i]['version']);
 						$availableSpace += $versions[$i]['size'];
 					} else {
 						$nextVersion = $versions[$i]['version'] - $step;
 					}
 				} else { // time to move on to the next interval
 					$interval++;
-					$step = Storage::$MAX_VERSIONS_PER_INTERVAL[$interval]['step'];
+					$step = Storage::$max_versions_per_interval[$interval]['step'];
 					$nextVersion = $version[$i]['version'] - $step;
-					if ( Storage::$MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'] == -1 ) {
+					if ( Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] == -1 ) {
 						$nextInterval = -1;
 					} else {
-						$nextInterval = $time - Storage::$MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'];
+						$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
 					}
 				}
+			}
+			
+			// check if enough space is available after versions are rearranged
+			$versions = array_reverse( $versions ); // oldest version first
+			$numOfVersions = count($versions);
+			$i = 0; 
+			while ($availableSpace < 0) {
+				$versions_fileview->unlink($filename.'.v'.$versions[$i]['version']);
+				$availableSpace += $versions[$i]['size'];
+				$i++;
+				if ($i = $numOfVersions-2) break; // keep at least the last version
 			}
 		}
 	}
 
-	/**
-	 * @brief Erase all old versions of all user files
-	 * @return true/false
-	 */
-	public function expireAll() {
-		$view = \OCP\Files::getStorage('files_versions');
-		return $view->deleteAll('', true);
-	}
-}
