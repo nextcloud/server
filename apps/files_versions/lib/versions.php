@@ -20,17 +20,13 @@ class Storage {
 	// config.php configuration:
 	//   - files_versions
 	//   - files_versionsfolder
-	//   - files_versionsblacklist
 	//   - files_versionsmaxfilesize
-	//   - files_versionsinterval
-	//   - files_versionmaxversions
 	//
 	// todo:
 	//   - finish porting to OC_FilesystemView to enable network transparency
 	//   - add transparent compression. first test if it´s worth it.
 
 	const DEFAULTENABLED=true;
-	const DEFAULTBLACKLIST='avi mp3 mpg mp4 ctmp';
 	const DEFAULTMAXFILESIZE=10485760; // 10MB
 	const DEFAULTMAXVERSIONS=50;
 	
@@ -79,15 +75,6 @@ class Storage {
 				return false;
 			}
 
-			// check filetype blacklist
-			$blacklist=explode(' ', \OCP\Config::getSystemValue('files_versionsblacklist', Storage::DEFAULTBLACKLIST));
-			foreach($blacklist as $bl) {
-				$parts=explode('.', $filename);
-				$ext=end($parts);
-				if(strtolower($ext)==$bl) {
-					return false;
-				}
-			}
 			// we should have a source file to work with
 			if (!$files_view->file_exists($filename)) {
 				return false;
