@@ -32,8 +32,15 @@ class Storage {
 	const DEFAULTENABLED=true;
 	const DEFAULTBLACKLIST='avi mp3 mpg mp4 ctmp';
 	const DEFAULTMAXFILESIZE=10485760; // 10MB
-	const DEFAULTMININTERVAL=1; // 1 min
 	const DEFAULTMAXVERSIONS=50;
+	
+	var $MAX_VERSIONS_PER_INTERVAL = array(1 => array('intervalEndsAfter' => 3600,     //first hour, one version every 10sec
+														'step' => 10),
+											2 => array('intervalEndsAfter' => 86400,   //next 24h, one version every hour
+														'step' => 3600),
+											3 => array('intervalEndsAfter' => -1,      //until the end one version per day
+														'step' => 86400),
+			);	
 
 	private static function getUidAndFilename($filename)
 	{
@@ -100,7 +107,7 @@ class Storage {
 				$matches=glob($versionsName.'.v*');
 				sort($matches);
 				$parts=explode('.v', end($matches));
-				if((end($parts)+Storage::DEFAULTMININTERVAL)>time()) {
+				if((end($parts)+Storage::$MAX_VERSIONS_PER_INTERVAL[1]['step'])>time()) {
 					return false;
 				}
 			}
@@ -248,45 +255,56 @@ class Storage {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
 			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
+			
+			// get available disk space for user
 			$quota = \OCP\Util::computerFileSize(\OC_Preferences::getValue($uid, 'files', 'quota'));
 			if ( $quota == null ) {
 				$quota = \OCP\Util::computerFileSize(\OC_Appconfig::getValue('files', 'default_quota'));
-			} else 	if ( $quota == null ) {
+			}
+			if ( $quota == null ) {
 				$quota = \OC_Filesystem::free_space('/');
 			}
 
 			$rootInfo = \OC_FileCache::get('', '/'. $uid . '/files');
-			$free = $quota-$rootInfo['size'];
-			
+			$free = $quota-$rootInfo['size']; // remaining free space for user
+
 			if ( $free > 0 ) {
 				$availableSpace = 5000 / ($quota-$rootInfo['size']); // 50% of free space can be used for versions
+			} // otherwise available space negative and we need to reach at least 0 at the end of the expiration process;
+			
+			$versions = Storage::getVersions($filename);
+			$versions = array_reverse($versions);	// newest version first
+			
+			$time = time();
+			$numOfVersions = count($versions);
+			
+			$interval = 1;
+			$step = Storage::$MAX_VERSIONS_PER_INTERVAL[$interval]['step'];			
+			if (Storage::$MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'] == -1) {
+				$nextInterval = -1;
 			} else {
-				$availableSpace = 0;
+				$nextInterval = $time - Storage::$MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'];
 			}
+						
+			$nextVersion = $versions[0]['versions'] - $step;
 			
-			$versions = Storage::getVersions($filename);	
-			
-			foreach ( $versions as $v ) error_log("version: " . $v['version'] . " - size: " . $v['size']);
-				
-			//day interval
-				
-			//week interval
-				
-			//month interval
-				
-			//delete oldest
-
-			if( count( $matches ) > \OCP\Config::getSystemValue( 'files_versionmaxversions', Storage::DEFAULTMAXVERSIONS ) ) {
-
-				$numberToDelete = count($matches) - \OCP\Config::getSystemValue( 'files_versionmaxversions', Storage::DEFAULTMAXVERSIONS );
-
-				// delete old versions of a file
-				$deleteItems = array_slice( $matches, 0, $numberToDelete );
-
-				foreach( $deleteItems as $de ) {
-
-					unlink( $versionsName.'.v'.$de );
-
+			for ($i=1; $i<$numOfVersions; $i++) {
+				if ( $nextInterval == -1 || $versions[$i]['version'] >= $nextInterval ) {
+					if ( $versions[$i]['version'] > $nextVersion ) {
+						//distance between two version to small, delete version (TODO)
+						$availableSpace += $versions[$i]['size'];
+					} else {
+						$nextVersion = $versions[$i]['version'] - $step;
+					}
+				} else { // time to move on to the next interval
+					$interval++;
+					$step = Storage::$MAX_VERSIONS_PER_INTERVAL[$interval]['step'];
+					$nextVersion = $version[$i]['version'] - $step;
+					if ( Storage::$MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'] == -1 ) {
+						$nextInterval = -1;
+					} else {
+						$nextInterval = $time - Storage::$MAX_VERSIONS_PER_INTERVAL[$interval]['intervalEndsAfter'];
+					}
 				}
 			}
 		}
