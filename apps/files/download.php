@@ -40,7 +40,12 @@ if(!OC_Filesystem::file_exists($filename)) {
 $ftype=OC_Filesystem::getMimeType( $filename );
 
 header('Content-Type:'.$ftype);
-header('Content-Disposition: attachment; filename="'.basename($filename).'"');
+if ( preg_match( "/MSIE/", $_SERVER["HTTP_USER_AGENT"] ) ) {
+	header( 'Content-Disposition: attachment; filename="' . rawurlencode( basename($filename) ) . '"' );
+} else {
+	header( 'Content-Disposition: attachment; filename*=UTF-8\'\'' . rawurlencode( basename($filename) )
+										 . '; filename="' . rawurlencode( basename($filename) ) . '"' );
+}
 OCP\Response::disableCaching();
 header('Content-Length: '.OC_Filesystem::filesize($filename));
 
