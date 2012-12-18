@@ -27,8 +27,7 @@ class Storage {
 	//   - add transparent compression. first test if it´s worth it.
 
 	const DEFAULTENABLED=true;
-	const DEFAULTMAXFILESIZE=10485760; // 10MB
-	const DEFAULTMAXVERSIONS=50;
+	const DEFAULTMAXSIZE=50; // unit: percentage; 50% of available disk space/quota
 	
 	private static $max_versions_per_interval = array(1 => array('intervalEndsAfter' => 3600,     //first hour, one version every 10sec
 																	'step' => 10),
@@ -77,11 +76,6 @@ class Storage {
 
 			// we should have a source file to work with
 			if (!$files_view->file_exists($filename)) {
-				return false;
-			}
-
-			// check filesize
-			if($files_view->filesize($filename)>\OCP\Config::getSystemValue('files_versionsmaxfilesize', Storage::DEFAULTMAXFILESIZE)) {
 				return false;
 			}
 
@@ -248,7 +242,7 @@ class Storage {
 			$free = $quota-$rootInfo['size']; // remaining free space for user
 
 			if ( $free > 0 ) {
-				$availableSpace = 5000 / ($quota-$rootInfo['size']); // 50% of free space can be used for versions
+				$availableSpace = 100* self::DEFAULTMAXSIZE / ($quota-$rootInfo['size']); // how much space can be used for versions
 			} // otherwise available space negative and we need to reach at least 0 at the end of the expiration process;
 			
 			$versions = Storage::getVersions($filename);
