@@ -234,12 +234,12 @@ $(document).ready(function() {
 						}
 					});
 				}else{
-                    var dropTarget = $(e.originalEvent.target).closest('tr');
-                    if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
-                        var dirName = dropTarget.attr('data-file')
-                    }
+					var dropTarget = $(e.originalEvent.target).closest('tr');
+					if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
+						var dirName = dropTarget.attr('data-file')
+					}
 
-                    var date=new Date();
+					var date=new Date();
 					if(files){
 						for(var i=0;i<files.length;i++){
 							if(files[i].size>0){
@@ -292,9 +292,9 @@ $(document).ready(function() {
 								var jqXHR =  $('#file_upload_start').fileupload('send', {files: files[i],
 										formData: function(form) {
 											var formArray = form.serializeArray();
-                                            // array index 0 contains the max files size
-                                            // array index 1 contains the request token
-                                            // array index 2 contains the directory
+											// array index 0 contains the max files size
+											// array index 1 contains the request token
+											// array index 2 contains the directory
 											formArray[2]['value'] = dirName;
 											return formArray;
 										}}).success(function(result, textStatus, jqXHR) {
@@ -305,13 +305,13 @@ $(document).ready(function() {
 												$('#notification').fadeIn();
 											}
 											var file=response[0];
-                                            // TODO: this doesn't work if the file name has been changed server side
+											// TODO: this doesn't work if the file name has been changed server side
 											delete uploadingFiles[dirName][file.name];
-                                            if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
-                                                delete uploadingFiles[dirName];
-                                            }
+											if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
+												delete uploadingFiles[dirName];
+											}
 
-                                            var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
+											var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
 											var currentUploads = parseInt(uploadtext.attr('currentUploads'));
 											currentUploads -= 1;
 											uploadtext.attr('currentUploads', currentUploads);
@@ -434,7 +434,7 @@ $(document).ready(function() {
 		// http://stackoverflow.com/a/6700/11236
 		var size = 0, key;
 		for (key in obj) {
-		    if (obj.hasOwnProperty(key)) size++;
+			if (obj.hasOwnProperty(key)) size++;
 		}
 		return size;
 	};
