@@ -127,19 +127,14 @@
 	</fieldset>
 </form>
 
+<?php if ( ! $_['isAdminPage']):  ?>
 <form id="files_external"
 	  method="post"
 	  enctype="multipart/form-data"
 	  action="<?php echo OCP\Util::linkTo('files_external', 'ajax/addRootCertificate.php'); ?>">
 <fieldset class="personalblock">
-<?php if ( ! $_['isAdminPage']):  ?>
+		<legend><strong><?php echo $l->t('SSL root certificates');?></strong></legend>
 		<table id="sslCertificate" data-admin='<?php echo json_encode($_['isAdminPage']); ?>'>
-			<thead>
-				<tr>
-					<th><?php echo $l->t('SSL root certificates'); ?></th>
-					<th>&nbsp;</th>
-				</tr>
-			</thead>
 			<tbody width="100%">
 			<?php foreach ($_['certs'] as $rootCert): ?>
 			<tr id="<?php echo $rootCert ?>">
@@ -156,6 +151,6 @@
 		</table>
 		<input type="file" id="rootcert_import" name="rootcert_import" style="width:230px;">
 		<input type="submit" name="cert_import" value="<?php echo $l->t('Import Root Certificate'); ?>" />
-		<?php endif; ?>
 </fieldset>
 </form>
+<?php endif; ?>
