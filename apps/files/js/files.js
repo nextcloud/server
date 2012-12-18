@@ -496,7 +496,7 @@ $(document).ready(function() {
 
 		$('#new li').each(function(i,element){
 			if($(element).children('p').length==0){
-				$(element).children('input').remove();
+				$(element).children('form').remove();
 				$(element).append('<p>'+$(element).data('text')+'</p>');
 			}
 		});
@@ -506,22 +506,35 @@ $(document).ready(function() {
 		$(this).data('text',text);
 		$(this).children('p').remove();
 		var input=$('<input>');
-		$(this).append(input);
+		var form=$('<form></form>');
+		form.append(input);
+		$(this).append(form);
 		input.focus();
-		input.change(function(){
-			if (type != 'web' && Files.containsInvalidCharacters($(this).val())) {
-				return;
-			} else if( type == 'folder' && $('#dir').val() == '/' && $(this).val() == 'Shared') {
+		form.submit(function(event){
+			event.stopPropagation();
+			event.preventDefault();
+			var newname=input.val();
+			if(type != 'web' && Files.containsInvalidCharacters(newname)){
+				return false;
+			} else if (newname.length == 0) {
+				if(type == 'web') {
+					$('#notification').text(t('files', "URL cannot be empty."));
+				} else {
+					$('#notification').text(t('files', "Name cannot be empty."));
+				}
+				$('#notification').fadeIn();
+				return false;
+			} else if( type == 'folder' && $('#dir').val() == '/' && newname == 'Shared') {
 				$('#notification').text(t('files','Invalid folder name. Usage of "Shared" is reserved by Owncloud'));
 				$('#notification').fadeIn();
-				return;
+				return false;
 			}
 			if (FileList.lastAction) {
 				FileList.lastAction();
 			}
-			var name = getUniqueName($(this).val());
-			if (name != $(this).val()) {
-				FileList.checkName(name, $(this).val(), true);
+			var name = getUniqueName(newname);
+			if (newname != name) {
+				FileList.checkName(name, newname, true);
 				var hidden = true;
 			} else {
 				var hidden = false;
@@ -604,8 +617,8 @@ $(document).ready(function() {
 					});
 					break;
 			}
-			var li=$(this).parent();
-			$(this).remove();
+			var li=form.parent();
+			form.remove();
 			li.append('<p>'+li.data('text')+'</p>');
 			$('#new>a').click();
 		});
