@@ -189,6 +189,13 @@ var FileList={
 			td.children('a.name').show();
 			return false;
 		});
+		input.keyup(function(event){
+			if (event.keyCode == 27) {
+				tr.data('renaming',false);
+				form.remove();
+				td.children('a.name').show();
+			}
+		});
 		input.click(function(event){
 			event.stopPropagation();
 			event.preventDefault();
