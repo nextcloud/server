@@ -11,6 +11,7 @@
 "Authentication error" => "Ошибка авторизации",
 "Unable to delete user" => "Невозможно удалить пользователя",
 "Language changed" => "Язык изменен",
+"Admins can't remove themself from the admin group" => "Администраторы не могут удалить сами себя из группы администраторов",
 "Unable to add user to group %s" => "Невозможно добавить пользователя в группу %s",
 "Unable to remove user from group %s" => "Невозможно удалить пользователя из группы %s",
 "Disable" => "Отключить",

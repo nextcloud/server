@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-18 00:13+0100\n"
+"POT-Creation-Date: 2012-12-19 00:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -161,8 +161,8 @@ msgid "The object type is not specified."
 msgstr ""
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr ""
 
@@ -174,7 +174,7 @@ msgstr ""
 msgid "The required file {file} is not installed!"
 msgstr ""
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr ""
 
@@ -202,7 +202,7 @@ msgstr ""
 msgid "Share with link"
 msgstr ""
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr ""
 
@@ -271,23 +271,23 @@ msgstr ""
 msgid "share"
 msgstr ""
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
 msgstr ""
 
