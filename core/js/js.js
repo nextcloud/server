@@ -13,7 +13,13 @@ if (oc_debug !== true) {
 	console[methods[i]] = function () { };
 	}
 }
-
+/**
+ * fix broken console log in ie8
+ */
+if (typeof console === "undefined" || typeof console.log === "undefined") {
+	console = {};
+	console.log = function() {};
+}
 /**
  * translate a string
  * @param app the id of the app for which to translate the string
