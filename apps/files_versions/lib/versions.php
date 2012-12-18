@@ -125,8 +125,8 @@ class Storage {
 					$users_view->unlink($version);
 				return false;
 
+				}
 			}
-
 		}
 
 	}
