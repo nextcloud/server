@@ -32,7 +32,7 @@ $filename = $_GET["file"];
 if(!OC_Filesystem::file_exists($filename)) {
 	header("HTTP/1.0 404 Not Found");
 	$tmpl = new OCP\Template( '', '404', 'guest' );
-	$tmpl->assign('file',$filename);
+	$tmpl->assign('file', $filename);
 	$tmpl->printPage();
 	exit;
 }
@@ -44,5 +44,5 @@ header('Content-Disposition: attachment; filename="'.basename($filename).'"');
 OCP\Response::disableCaching();
 header('Content-Length: '.OC_Filesystem::filesize($filename));
 
-@ob_end_clean();
+OC_Util::obEnd();
 OC_Filesystem::readfile( $filename );

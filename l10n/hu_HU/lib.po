@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-25 02:07+0200\n"
-"PO-Revision-Date: 2012-10-24 00:11+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-11-16 00:02+0100\n"
+"PO-Revision-Date: 2012-11-14 23:13+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,19 +42,19 @@ msgstr "Alkalmazások"
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:328
+#: files.php:332
 msgid "ZIP download is turned off."
 msgstr "ZIP-letöltés letiltva"
 
-#: files.php:329
+#: files.php:333
 msgid "Files need to be downloaded one by one."
 msgstr "A file-okat egyenként kell letölteni"
 
-#: files.php:329 files.php:354
+#: files.php:333 files.php:358
 msgid "Back to Files"
 msgstr "Vissza a File-okhoz"
 
-#: files.php:353
+#: files.php:357
 msgid "Selected files too large to generate zip file."
 msgstr "Túl nagy file-ok a zip-generáláshoz"
 
@@ -82,45 +82,55 @@ msgstr "Szöveg"
 msgid "Images"
 msgstr ""
 
-#: template.php:87
+#: template.php:103
 msgid "seconds ago"
 msgstr "másodperccel ezelőtt"
 
-#: template.php:88
+#: template.php:104
 msgid "1 minute ago"
 msgstr "1 perccel ezelőtt"
 
-#: template.php:89
+#: template.php:105
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d perccel ezelőtt"
 
-#: template.php:92
+#: template.php:106
+msgid "1 hour ago"
+msgstr ""
+
+#: template.php:107
+#, php-format
+msgid "%d hours ago"
+msgstr ""
+
+#: template.php:108
 msgid "today"
 msgstr "ma"
 
-#: template.php:93
+#: template.php:109
 msgid "yesterday"
 msgstr "tegnap"
 
-#: template.php:94
+#: template.php:110
 #, php-format
 msgid "%d days ago"
 msgstr "%d évvel ezelőtt"
 
-#: template.php:95
+#: template.php:111
 msgid "last month"
 msgstr "múlt hónapban"
 
-#: template.php:96
-msgid "months ago"
-msgstr "hónappal ezelőtt"
+#: template.php:112
+#, php-format
+msgid "%d months ago"
+msgstr ""
 
-#: template.php:97
+#: template.php:113
 msgid "last year"
 msgstr "tavaly"
 
-#: template.php:98
+#: template.php:114
 msgid "years ago"
 msgstr "évvel ezelőtt"
 
@@ -135,4 +145,9 @@ msgstr ""
 
 #: updater.php:80
 msgid "updates check is disabled"
+msgstr ""
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
 msgstr ""

@@ -40,9 +40,11 @@ abstract class Access {
 	 * @brief reads a given attribute for an LDAP record identified by a DN
 	 * @param $dn the record in question
 	 * @param $attr the attribute that shall be retrieved
-	 * @returns the values in an array on success, false otherwise
+	 *        if empty, just check the record's existence
+	 * @returns an array of values on success or an empty
+	 *          array if $attr is empty, false otherwise
 	 *
-	 * Reads an attribute from an LDAP entry
+	 * Reads an attribute from an LDAP entry or check if entry exists
 	 */
 	public function readAttribute($dn, $attr, $filter = 'objectClass=*') {
 		if(!$this->checkConnection()) {
@@ -56,10 +58,15 @@ abstract class Access {
 			return false;
 		}
 		$rr = @ldap_read($cr, $dn, $filter, array($attr));
+		$dn = $this->DNasBaseParameter($dn);
 		if(!is_resource($rr)) {
-			\OCP\Util::writeLog('user_ldap', 'readAttribute '.$attr.' failed for DN '.$dn, \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
 			//in case an error occurs , e.g. object does not exist
 			return false;
+		}
+		if (empty($attr)) {
+			\OCP\Util::writeLog('user_ldap', 'readAttribute: '.$dn.' found', \OCP\Util::DEBUG);
+			return array();
 		}
 		$er = ldap_first_entry($cr, $rr);
 		if(!is_resource($er)) {
@@ -73,7 +80,13 @@ abstract class Access {
 		if(isset($result[$attr]) && $result[$attr]['count'] > 0) {
 			$values = array();
 			for($i=0;$i<$result[$attr]['count'];$i++) {
-				$values[] = $this->resemblesDN($attr) ? $this->sanitizeDN($result[$attr][$i]) : $result[$attr][$i];
+				if($this->resemblesDN($attr)) {
+					$values[] = $this->sanitizeDN($result[$attr][$i]);
+				} elseif(strtolower($attr) == 'objectguid') {
+					$values[] = $this->convertObjectGUID2Str($result[$attr][$i]);
+				} else {
+					$values[] = $result[$attr][$i];
+				}
 			}
 			return $values;
 		}
@@ -106,6 +119,21 @@ abstract class Access {
 
 		//make comparisons and everything work
 		$dn = mb_strtolower($dn, 'UTF-8');
+
+		//escape DN values according to RFC 2253 – this is already done by ldap_explode_dn
+		//to use the DN in search filters, \ needs to be escaped to \5c additionally
+		//to use them in bases, we convert them back to simple backslashes in readAttribute()
+		$replacements = array(
+			'\,' => '\5c2C',
+			'\=' => '\5c3D',
+			'\+' => '\5c2B',
+			'\<' => '\5c3C',
+			'\>' => '\5c3E',
+			'\;' => '\5c3B',
+			'\"' => '\5c22',
+			'\#' => '\5c23',
+		);
+		$dn = str_replace(array_keys($replacements), array_values($replacements), $dn);
 
 		return $dn;
 	}
@@ -215,7 +243,6 @@ abstract class Access {
 	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN
 	 */
 	public function dn2ocname($dn, $ldapname = null, $isUser = true) {
-		$dn = $this->sanitizeDN($dn);
 		$table = $this->getMapTable($isUser);
 		if($isUser) {
 			$fncFindMappedName = 'findMappedUser';
@@ -261,8 +288,8 @@ abstract class Access {
 		}
 		$ldapname = $this->sanitizeUsername($ldapname);
 
-		//a new user/group! Then let's try to add it. We're shooting into the blue with the user/group name, assuming that in most cases there will not be a conflict. Otherwise an error will occur and we will continue with our second shot.
-		if(($isUser && !\OCP\User::userExists($ldapname)) || (!$isUser && !\OC_Group::groupExists($ldapname))) {
+		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
+		if(($isUser && !\OCP\User::userExists($ldapname, 'OCA\\user_ldap\\USER_LDAP')) || (!$isUser && !\OC_Group::groupExists($ldapname))) {
 			if($this->mapComponent($dn, $ldapname, $isUser)) {
 				return $ldapname;
 			}
@@ -320,20 +347,20 @@ abstract class Access {
 	}
 
 	private function findMappedGroup($dn) {
-                static $query = null;
+		static $query = null;
 		if(is_null($query)) {
 			$query = \OCP\DB::prepare('
-                        	SELECT `owncloud_name`
-	                        FROM `'.$this->getMapTable(false).'`
-        	                WHERE `ldap_dn` = ?'
-                	);
+					SELECT `owncloud_name`
+					FROM `'.$this->getMapTable(false).'`
+					WHERE `ldap_dn` = ?'
+			);
 		}
-                $res = $query->execute(array($dn))->fetchOne();
-                if($res) {
-                        return  $res;
-                }
+		$res = $query->execute(array($dn))->fetchOne();
+		if($res) {
+			return  $res;
+		}
 		return false;
-        }
+	}
 
 
 	private function ldap2ownCloudNames($ldapObjects, $isUsers) {
@@ -412,7 +439,6 @@ abstract class Access {
 	 */
 	private function mapComponent($dn, $ocname, $isUser = true) {
 		$table = $this->getMapTable($isUser);
-		$dn = $this->sanitizeDN($dn);
 
 		$sqlAdjustment = '';
 		$dbtype = \OCP\Config::getSystemValue('dbtype');
@@ -593,7 +619,7 @@ abstract class Access {
 		//a) paged search insuccessful, though attempted
 		//b) no paged search, but limit set
 		if((!$this->pagedSearchedSuccessful
-				&& $pagedSearchOK)
+			&& $pagedSearchOK)
 			|| (
 				!$pagedSearchOK
 				&& !is_null($limit)
@@ -665,6 +691,7 @@ abstract class Access {
 	}
 
 	public function areCredentialsValid($name, $password) {
+		$name = $this->DNasBaseParameter($name);
 		$testConnection = clone $this->connection;
 		$credentials = array(
 			'ldapAgentName' => $name,
@@ -707,6 +734,7 @@ abstract class Access {
 
 	public function getUUID($dn) {
 		if($this->detectUuidAttribute($dn)) {
+			\OCP\Util::writeLog('user_ldap', 'UUID Checking \ UUID for '.$dn.' using '. $this->connection->ldapUuidAttribute, \OCP\Util::DEBUG);
 			$uuid = $this->readAttribute($dn, $this->connection->ldapUuidAttribute);
 			if(!is_array($uuid) && $this->connection->ldapOverrideUuidAttribute) {
 				$this->detectUuidAttribute($dn, true);
@@ -721,6 +749,46 @@ abstract class Access {
 			$uuid = false;
 		}
 		return $uuid;
+	}
+
+	/**
+	 * @brief converts a binary ObjectGUID into a string representation
+	 * @param $oguid the ObjectGUID in it's binary form as retrieved from AD
+	 * @returns String
+	 *
+	 * converts a binary ObjectGUID into a string representation
+	 * http://www.php.net/manual/en/function.ldap-get-values-len.php#73198
+	 */
+	private function convertObjectGUID2Str($oguid) {
+		$hex_guid = bin2hex($oguid);
+		$hex_guid_to_guid_str = '';
+		for($k = 1; $k <= 4; ++$k) {
+			$hex_guid_to_guid_str .= substr($hex_guid, 8 - 2 * $k, 2);
+		}
+		$hex_guid_to_guid_str .= '-';
+		for($k = 1; $k <= 2; ++$k) {
+			$hex_guid_to_guid_str .= substr($hex_guid, 12 - 2 * $k, 2);
+		}
+		$hex_guid_to_guid_str .= '-';
+		for($k = 1; $k <= 2; ++$k) {
+			$hex_guid_to_guid_str .= substr($hex_guid, 16 - 2 * $k, 2);
+		}
+		$hex_guid_to_guid_str .= '-' . substr($hex_guid, 16, 4);
+		$hex_guid_to_guid_str .= '-' . substr($hex_guid, 20);
+
+		return strtoupper($hex_guid_to_guid_str);
+	}
+
+	/**
+	 * @brief converts a stored DN so it can be used as base parameter for LDAP queries
+	 * @param $dn the DN
+	 * @returns String
+	 *
+	 * converts a stored DN so it can be used as base parameter for LDAP queries
+	 * internally we store them for usage in LDAP filters
+	 */
+	private function DNasBaseParameter($dn) {
+		return str_replace('\\5c', '\\', $dn);
 	}
 
 	/**

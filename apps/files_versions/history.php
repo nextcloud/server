@@ -22,7 +22,7 @@
  */
 
 OCP\User::checkLoggedIn( );
-OCP\Util::addStyle('files_versions','versions');
+OCP\Util::addStyle('files_versions', 'versions');
 $tmpl = new OCP\Template( 'files_versions', 'history', 'user' );
 
 if ( isset( $_GET['path'] ) ) {
@@ -33,7 +33,7 @@ if ( isset( $_GET['path'] ) ) {
 	$versions = new OCA_Versions\Storage();
 
 	// roll back to old version if button clicked
-        if( isset( $_GET['revert'] ) ) {
+	if( isset( $_GET['revert'] ) ) {
 
 		if( $versions->rollback( $path, $_GET['revert'] ) ) {
 
@@ -52,7 +52,7 @@ if ( isset( $_GET['path'] ) ) {
 	}
 
 	// show the history only if there is something to show
-        if( OCA_Versions\Storage::isversioned( $path ) ) {
+	if( OCA_Versions\Storage::isversioned( $path ) ) {
 
 		$count = 999; //show the newest revisions
 	        $versions = OCA_Versions\Storage::getVersions( $path, $count);

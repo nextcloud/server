@@ -5,15 +5,16 @@
 # Translators:
 # Denis  <reg.transifex.net@demitel.ru>, 2012.
 #   <k0ldbl00d@gmail.com>, 2012.
+# Mihail Vasiliev <mickvav@gmail.com>, 2012.
 #   <mpolr21@gmail.com>, 2012.
 #   <victor.dubiniuk@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-31 00:01+0100\n"
-"PO-Revision-Date: 2012-10-30 06:32+0000\n"
-"Last-Translator: k0ldbl00d <k0ldbl00d@gmail.com>\n"
+"POT-Creation-Date: 2012-11-22 00:01+0100\n"
+"PO-Revision-Date: 2012-11-21 12:19+0000\n"
+"Last-Translator: Mihail Vasiliev <mickvav@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,19 +46,19 @@ msgstr "Приложения"
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:328
+#: files.php:361
 msgid "ZIP download is turned off."
 msgstr "ZIP-скачивание отключено."
 
-#: files.php:329
+#: files.php:362
 msgid "Files need to be downloaded one by one."
 msgstr "Файлы должны быть загружены по одному."
 
-#: files.php:329 files.php:354
+#: files.php:362 files.php:387
 msgid "Back to Files"
 msgstr "Назад к файлам"
 
-#: files.php:353
+#: files.php:386
 msgid "Selected files too large to generate zip file."
 msgstr "Выбранные файлы слишком велики, чтобы создать zip файл."
 
@@ -98,6 +99,15 @@ msgstr "1 минуту назад"
 msgid "%d minutes ago"
 msgstr "%d минут назад"
 
+#: template.php:106
+msgid "1 hour ago"
+msgstr "час назад"
+
+#: template.php:107
+#, php-format
+msgid "%d hours ago"
+msgstr "%d часов назад"
+
 #: template.php:108
 msgid "today"
 msgstr "сегодня"
@@ -116,8 +126,9 @@ msgid "last month"
 msgstr "в прошлом месяце"
 
 #: template.php:112
-msgid "months ago"
-msgstr "месяцы назад"
+#, php-format
+msgid "%d months ago"
+msgstr "%d месяцев назад"
 
 #: template.php:113
 msgid "last year"
@@ -139,3 +150,8 @@ msgstr "актуальная версия"
 #: updater.php:80
 msgid "updates check is disabled"
 msgstr "проверка обновлений отключена"
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "Категория \"%s\"  не найдена"

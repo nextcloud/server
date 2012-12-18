@@ -32,7 +32,7 @@ class OC_EventSource{
 	private $fallBackId=0;
 
 	public function __construct() {
-		@ob_end_clean();
+		OC_Util::obEnd();
 		header('Cache-Control: no-cache');
 		$this->fallback=isset($_GET['fallback']) and $_GET['fallback']=='true';
 		if($this->fallback) {
@@ -56,7 +56,7 @@ class OC_EventSource{
 	 *
 	 * if only one paramater is given, a typeless message will be send with that paramater as data
 	 */
-	public function send($type,$data=null) {
+	public function send($type, $data=null) {
 		if(is_null($data)) {
 			$data=$type;
 			$type=null;

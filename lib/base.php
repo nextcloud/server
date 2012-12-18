@@ -20,6 +20,8 @@
  *
  */
 
+require_once 'public/constants.php';
+
 /**
  * Class that is a namespace for all global OC variables
  * No, we can not put this class in its own file because it is used by
@@ -87,6 +89,9 @@ class OC{
 		}
 		elseif(strpos($className, 'OC_')===0) {
 			$path = strtolower(str_replace('_', '/', substr($className, 3)) . '.php');
+		}
+		elseif(strpos($className, 'OC\\')===0) {
+			$path = strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
 		}
 		elseif(strpos($className, 'OCP\\')===0) {
 			$path = 'public/'.strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
@@ -225,12 +230,10 @@ class OC{
 				if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
 					if(!OC_Util::ishtaccessworking()) {
 						if(!file_exists(OC::$SERVERROOT.'/data/.htaccess')) {
-							$content = "deny from all\n";
-							$content.= "IndexIgnore *";
-							file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/.htaccess', $content);
+							OC_Setup::protectDataDirectory();
 						}
 					}
-				}		
+				}
 				OC_Log::write('core', 'starting upgrade from '.$installedVersion.' to '.$currentVersion, OC_Log::DEBUG);
 				$result=OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/db_structure.xml');
 				if(!$result) {
@@ -239,7 +242,7 @@ class OC{
 				}
 				if(file_exists(OC::$SERVERROOT."/config/config.php") and !is_writable(OC::$SERVERROOT."/config/config.php")) {
 					$tmpl = new OC_Template( '', 'error', 'guest' );
-					$tmpl->assign('errors', array(1=>array('error'=>"Can't write into config directory 'config'",'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
+					$tmpl->assign('errors', array(1=>array('error'=>"Can't write into config directory 'config'", 'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
 					$tmpl->printPage();
 					exit;
 				}
@@ -260,12 +263,10 @@ class OC{
 		OC_Util::addScript( "jquery-1.7.2.min" );
 		OC_Util::addScript( "jquery-ui-1.8.16.custom.min" );
 		OC_Util::addScript( "jquery-showpassword" );
-		OC_Util::addScript( "jquery.infieldlabel.min" );
+		OC_Util::addScript( "jquery.infieldlabel" );
 		OC_Util::addScript( "jquery-tipsy" );
 		OC_Util::addScript( "oc-dialogs" );
 		OC_Util::addScript( "js" );
-		// request protection token MUST be defined after the jquery library but before any $('document').ready()
-		OC_Util::addScript( "requesttoken" );
 		OC_Util::addScript( "eventsource" );
 		OC_Util::addScript( "config" );
 		//OC_Util::addScript( "multiselect" );
@@ -288,9 +289,12 @@ class OC{
 		// prevents javascript from accessing php session cookies
 		ini_set('session.cookie_httponly', '1;');
 
+		// set the session name to the instance id - which is unique
+		session_name(OC_Util::getInstanceId());
+
 		// (re)-initialize session
 		session_start();
-		
+
 		// regenerate session id periodically to avoid session fixation
 		if (!isset($_SESSION['SID_CREATED'])) {
 			$_SESSION['SID_CREATED'] = time();
@@ -322,7 +326,7 @@ class OC{
 
 	public static function init() {
 		// register autoloader
-		spl_autoload_register(array('OC','autoload'));
+		spl_autoload_register(array('OC', 'autoload'));
 		setlocale(LC_ALL, 'en_US.UTF-8');
 
 		// set some stuff
@@ -358,6 +362,10 @@ class OC{
 		//try to set the session lifetime to 60min
 		@ini_set('gc_maxlifetime', '3600');
 
+		//copy http auth headers for apache+php-fcgid work around
+		if (isset($_SERVER['HTTP_XAUTHORIZATION']) && !isset($_SERVER['HTTP_AUTHORIZATION'])) {
+			$_SERVER['HTTP_AUTHORIZATION'] = $_SERVER['HTTP_XAUTHORIZATION'];
+		}
 
 		//set http auth headers for apache+php-cgi work around
 		if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
@@ -431,16 +439,12 @@ class OC{
 		//setup extra user backends
 		OC_User::setupBackends();
 
-		// register cache cleanup jobs
-		OC_BackgroundJob_RegularTask::register('OC_Cache_FileGlobal', 'gc');
-		OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
-
-		// Check for blacklisted files
-		OC_Hook::connect('OC_Filesystem', 'write', 'OC_Filesystem', 'isBlacklisted');
-		OC_Hook::connect('OC_Filesystem', 'rename', 'OC_Filesystem', 'isBlacklisted');
+		self::registerCacheHooks();
+		self::registerFilesystemHooks();
+		self::registerShareHooks();
 
 		//make sure temporary files are cleaned up
-		register_shutdown_function(array('OC_Helper','cleanTmp'));
+		register_shutdown_function(array('OC_Helper', 'cleanTmp'));
 
 		//parse the given parameters
 		self::$REQUESTEDAPP = (isset($_GET['app']) && trim($_GET['app']) != '' && !is_null($_GET['app'])?str_replace(array('\0', '/', '\\', '..'), '', strip_tags($_GET['app'])):OC_Config::getValue('defaultapp', 'files'));
@@ -473,22 +477,46 @@ class OC{
 	}
 
 	/**
+	 * register hooks for the cache
+	 */
+	public static function registerCacheHooks() {
+		// register cache cleanup jobs
+		OC_BackgroundJob_RegularTask::register('OC_Cache_FileGlobal', 'gc');
+		OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
+	}
+
+	/**
+	 * register hooks for the filesystem
+	 */
+	public static function registerFilesystemHooks() {
+		// Check for blacklisted files
+		OC_Hook::connect('OC_Filesystem', 'write', 'OC_Filesystem', 'isBlacklisted');
+		OC_Hook::connect('OC_Filesystem', 'rename', 'OC_Filesystem', 'isBlacklisted');
+	}
+
+	/**
+	 * register hooks for sharing
+	 */
+	public static function registerShareHooks() {
+		OC_Hook::connect('OC_User', 'post_deleteUser', 'OCP\Share', 'post_deleteUser');
+		OC_Hook::connect('OC_User', 'post_addToGroup', 'OCP\Share', 'post_addToGroup');
+		OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OCP\Share', 'post_removeFromGroup');
+		OC_Hook::connect('OC_User', 'post_deleteGroup', 'OCP\Share', 'post_deleteGroup');
+	}
+
+	/**
 	 * @brief Handle the request
 	 */
 	public static function handleRequest() {
 		if (!OC_Config::getValue('installed', false)) {
-			// Check for autosetup:
-			$autosetup_file = OC::$SERVERROOT."/config/autoconfig.php";
-			if( file_exists( $autosetup_file )) {
-				OC_Log::write('core', 'Autoconfig file found, setting up owncloud...', OC_Log::INFO);
-				include $autosetup_file;
-				$_POST['install'] = 'true';
-				$_POST = array_merge ($_POST, $AUTOCONFIG);
-				unlink($autosetup_file);
-			}
-			OC_Util::addScript('setup');
-			require_once 'setup.php';
+			require_once 'core/setup.php';
 			exit();
+		}
+		// Handle redirect URL for logged in users
+		if(isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
+			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
+			header( 'Location: '.$location );
+			return;
 		}
 		// Handle WebDAV
 		if($_SERVER['REQUEST_METHOD']=='PROPFIND') {
@@ -526,8 +554,7 @@ class OC{
 				}
 				$file_ext = substr($param['file'], -3);
 				if ($file_ext != 'php'
-				    || !self::loadAppScriptFile($param))
-				{
+				    || !self::loadAppScriptFile($param)) {
 					header('HTTP/1.0 404 Not Found');
 				}
 			}
@@ -597,8 +624,7 @@ class OC{
 		if(!isset($_COOKIE["oc_remember_login"])
 			|| !isset($_COOKIE["oc_token"])
 			|| !isset($_COOKIE["oc_username"])
-			|| !$_COOKIE["oc_remember_login"])
-		{
+			|| !$_COOKIE["oc_remember_login"]) {
 			return false;
 		}
 		OC_App::loadApps(array('authentication'));
@@ -623,9 +649,9 @@ class OC{
 				OC_Util::redirectToDefaultPage();
 				// doesn't return
 			}
-			// if you reach this point you have changed your password 
+			// if you reach this point you have changed your password
 			// or you are an attacker
-			// we can not delete tokens here because users may reach 
+			// we can not delete tokens here because users may reach
 			// this point multiple times after a password change
 			OC_Log::write('core', 'Authentication cookie rejected for user '.$_COOKIE['oc_username'], OC_Log::WARN);
 		}
@@ -656,7 +682,7 @@ class OC{
 			else {
 				OC_User::unsetMagicInCookie();
 			}
-			header( 'Location: '.$_SERVER['REQUEST_URI'] );
+			OC_Util::redirectToDefaultPage();
 			exit();
 		}
 		return true;
@@ -669,7 +695,7 @@ class OC{
 		}
 		OC_App::loadApps(array('authentication'));
 		if (OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
-			//OC_Log::write('core',"Logged in with HTTP Authentication",OC_Log::DEBUG);
+			//OC_Log::write('core',"Logged in with HTTP Authentication", OC_Log::DEBUG);
 			OC_User::unsetMagicInCookie();
 			$_REQUEST['redirect_url'] = (isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:'');
 			OC_Util::redirectToDefaultPage();

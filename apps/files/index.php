@@ -31,12 +31,13 @@ OCP\Util::addscript( 'files', 'jquery.fileupload' );
 OCP\Util::addscript( 'files', 'files' );
 OCP\Util::addscript( 'files', 'filelist' );
 OCP\Util::addscript( 'files', 'fileactions' );
+OCP\Util::addscript( 'files', 'keyboardshortcuts' ); 
 if(!isset($_SESSION['timezone'])) {
 	OCP\Util::addscript( 'files', 'timezone' );
 }
 OCP\App::setActiveNavigationEntry( 'files_index' );
 // Load the files
-$dir = isset( $_GET['dir'] ) ? rawurldecode(stripslashes($_GET['dir'])) : '';
+$dir = isset( $_GET['dir'] ) ? stripslashes($_GET['dir']) : '';
 // Redirect if directory does not exist
 if(!OC_Filesystem::is_dir($dir.'/')) {
 	header('Location: '.$_SERVER['SCRIPT_NAME'].'');
@@ -67,7 +68,7 @@ $breadcrumb = array();
 $pathtohere = '';
 foreach( explode( '/', $dir ) as $i ) {
 	if( $i != '' ) {
-		$pathtohere .= '/'.str_replace('+','%20', urlencode($i));
+		$pathtohere .= '/'.$i;
 		$breadcrumb[] = array( 'dir' => $pathtohere, 'name' => $i );
 	}
 }
@@ -86,18 +87,18 @@ $post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
 $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
 $freeSpace=OC_Filesystem::free_space($dir);
-$freeSpace=max($freeSpace,0);
+$freeSpace=max($freeSpace, 0);
 $maxUploadFilesize = min($maxUploadFilesize, $freeSpace);
 
-$permissions = OCP\Share::PERMISSION_READ;
+$permissions = OCP\PERMISSION_READ;
 if (OC_Filesystem::isUpdatable($dir.'/')) {
-	$permissions |= OCP\Share::PERMISSION_UPDATE;
+	$permissions |= OCP\PERMISSION_UPDATE;
 }
 if (OC_Filesystem::isDeletable($dir.'/')) {
-	$permissions |= OCP\Share::PERMISSION_DELETE;
+	$permissions |= OCP\PERMISSION_DELETE;
 }
 if (OC_Filesystem::isSharable($dir.'/')) {
-	$permissions |= OCP\Share::PERMISSION_SHARE;
+	$permissions |= OCP\PERMISSION_SHARE;
 }
 
 $tmpl = new OCP\Template( 'files', 'index', 'user' );

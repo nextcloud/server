@@ -58,8 +58,8 @@ class Storage {
 	public function store($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$files_view = new \OC_FilesystemView('/'.\OCP\User::getUser() .'/files');
-			$users_view = new \OC_FilesystemView('/'.\OCP\User::getUser());
+			$files_view = new \OC_FilesystemView('/'.$uid .'/files');
+			$users_view = new \OC_FilesystemView('/'.$uid);
 
 			//check if source file already exist as version to avoid recursions.
 			// todo does this check work?
@@ -73,7 +73,7 @@ class Storage {
 			}
 
 			// check filetype blacklist
-			$blacklist=explode(' ',\OCP\Config::getSystemValue('files_versionsblacklist', Storage::DEFAULTBLACKLIST));
+			$blacklist=explode(' ', \OCP\Config::getSystemValue('files_versionsblacklist', Storage::DEFAULTBLACKLIST));
 			foreach($blacklist as $bl) {
 				$parts=explode('.', $filename);
 				$ext=end($parts);
@@ -94,12 +94,12 @@ class Storage {
 
 			// check mininterval if the file is being modified by the owner (all shared files should be versioned despite mininterval)
 			if ($uid == \OCP\User::getUser()) {
-				$versions_fileview = new \OC_FilesystemView('/'.\OCP\User::getUser().'/files_versions');
+				$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
 				$versionsName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
 				$versionsFolderName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('');
 				$matches=glob($versionsName.'.v*');
 				sort($matches);
-				$parts=explode('.v',end($matches));
+				$parts=explode('.v', end($matches));
 				if((end($parts)+Storage::DEFAULTMININTERVAL)>time()) {
 					return false;
 				}
@@ -109,7 +109,7 @@ class Storage {
 			// create all parent folders
 			$info=pathinfo($filename);
 			if(!file_exists($versionsFolderName.'/'.$info['dirname'])) {
-				mkdir($versionsFolderName.'/'.$info['dirname'],0750,true);
+				mkdir($versionsFolderName.'/'.$info['dirname'], 0750, true);
 			}
 
 			// store a new version of a file
@@ -124,11 +124,11 @@ class Storage {
 	/**
 	 * rollback to an old version of a file.
 	 */
-	public static function rollback($filename,$revision) {
+	public static function rollback($filename, $revision) {
 
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$users_view = new \OC_FilesystemView('/'.\OCP\User::getUser());
+			$users_view = new \OC_FilesystemView('/'.$uid);
 
 			// rollback
 			if( @$users_view->copy('files_versions'.$filename.'.v'.$revision, 'files'.$filename) ) {
@@ -151,7 +151,7 @@ class Storage {
 	public static function isversioned($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$versions_fileview = new \OC_FilesystemView('/'.\OCP\User::getUser().'/files_versions');
+			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
 
 			$versionsName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
 
@@ -178,7 +178,7 @@ class Storage {
 	public static function getVersions( $filename, $count = 0 ) {
 		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$versions_fileview = new \OC_FilesystemView('/'.\OCP\User::getUser().'/files_versions');
+			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
 
 			$versionsName = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
 			$versions = array();

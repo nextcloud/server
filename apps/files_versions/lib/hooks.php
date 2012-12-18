@@ -64,7 +64,7 @@ class Hooks {
 		$abs_newpath = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('').$params['newpath'].'.v';
 		if(Storage::isversioned($rel_oldpath)) {
 			$info=pathinfo($abs_newpath);
-			if(!file_exists($info['dirname'])) mkdir($info['dirname'],0750, true);
+			if(!file_exists($info['dirname'])) mkdir($info['dirname'], 0750, true);
 			$versions = Storage::getVersions($rel_oldpath);
 			foreach ($versions as $v) {
 				rename($abs_oldpath.$v['version'], $abs_newpath.$v['version']);

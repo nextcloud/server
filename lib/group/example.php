@@ -73,7 +73,7 @@ abstract class OC_Group_Example {
 	 *
 	 * removes the user from a group.
 	 */
-	abstract public static function removeFromGroup($uid,$gid);
+	abstract public static function removeFromGroup($uid, $gid);
 
 	/**
 	 * @brief Get all groups a user belongs to

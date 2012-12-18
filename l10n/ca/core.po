@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-29 00:01+0100\n"
-"PO-Revision-Date: 2012-10-28 10:55+0000\n"
+"POT-Creation-Date: 2012-12-14 00:16+0100\n"
+"PO-Revision-Date: 2012-12-13 09:48+0000\n"
 "Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -19,52 +19,164 @@ msgstr ""
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
-msgid "Application name not provided."
-msgstr "No s'ha facilitat cap nom per l'aplicació."
+#: ajax/share.php:84
+#, php-format
+msgid "User %s shared a file with you"
+msgstr "L'usuari %s ha compartit un fitxer amb vós"
 
-#: ajax/vcategories/add.php:28
+#: ajax/share.php:86
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr "L'usuari %s ha compartit una carpeta amb vós"
+
+#: ajax/share.php:88
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr "L'usuari %s ha compartit el fitxer \"%s\" amb vós. Està disponible per a la descàrrega a: %s"
+
+#: ajax/share.php:90
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr "L'usuari %s ha compartit la carpeta \"%s\" amb vós. Està disponible per a la descàrrega a: %s"
+
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr "No s'ha especificat el tipus de categoria."
+
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr "No voleu afegir cap categoria?"
 
-#: ajax/vcategories/add.php:35
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
 msgstr "Aquesta categoria ja existeix:"
 
-#: js/js.js:243 templates/layout.user.php:53 templates/layout.user.php:54
-msgid "Settings"
-msgstr "Arranjament"
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr "No s'ha proporcionat el tipus d'objecte."
 
-#: js/oc-dialogs.js:123
-msgid "Choose"
-msgstr "Escull"
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr "No s'ha proporcionat la ID %s."
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
-msgid "Cancel"
-msgstr "Cancel·la"
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr "Error en afegir %s als preferits."
 
-#: js/oc-dialogs.js:159
-msgid "No"
-msgstr "No"
-
-#: js/oc-dialogs.js:160
-msgid "Yes"
-msgstr "Sí"
-
-#: js/oc-dialogs.js:177
-msgid "Ok"
-msgstr "D'acord"
-
-#: js/oc-vcategories.js:68
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
 msgstr "No hi ha categories per eliminar."
 
-#: js/oc-vcategories.js:68 js/share.js:135 js/share.js:142 js/share.js:525
-#: js/share.js:537
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr "Error en eliminar %s dels preferits."
+
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+msgid "Settings"
+msgstr "Arranjament"
+
+#: js/js.js:704
+msgid "seconds ago"
+msgstr "segons enrere"
+
+#: js/js.js:705
+msgid "1 minute ago"
+msgstr "fa 1 minut"
+
+#: js/js.js:706
+msgid "{minutes} minutes ago"
+msgstr "fa {minutes} minuts"
+
+#: js/js.js:707
+msgid "1 hour ago"
+msgstr "fa 1 hora"
+
+#: js/js.js:708
+msgid "{hours} hours ago"
+msgstr "fa {hours} hores"
+
+#: js/js.js:709
+msgid "today"
+msgstr "avui"
+
+#: js/js.js:710
+msgid "yesterday"
+msgstr "ahir"
+
+#: js/js.js:711
+msgid "{days} days ago"
+msgstr "fa {days} dies"
+
+#: js/js.js:712
+msgid "last month"
+msgstr "el mes passat"
+
+#: js/js.js:713
+msgid "{months} months ago"
+msgstr "fa {months} mesos"
+
+#: js/js.js:714
+msgid "months ago"
+msgstr "mesos enrere"
+
+#: js/js.js:715
+msgid "last year"
+msgstr "l'any passat"
+
+#: js/js.js:716
+msgid "years ago"
+msgstr "anys enrere"
+
+#: js/oc-dialogs.js:126
+msgid "Choose"
+msgstr "Escull"
+
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+msgid "Cancel"
+msgstr "Cancel·la"
+
+#: js/oc-dialogs.js:162
+msgid "No"
+msgstr "No"
+
+#: js/oc-dialogs.js:163
+msgid "Yes"
+msgstr "Sí"
+
+#: js/oc-dialogs.js:180
+msgid "Ok"
+msgstr "D'acord"
+
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr "No s'ha especificat el tipus d'objecte."
+
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
+#: js/share.js:553
 msgid "Error"
 msgstr "Error"
 
-#: js/share.js:124
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr "No s'ha especificat el nom de l'aplicació."
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr "El figtxer requerit {file} no està instal·lat!"
+
+#: js/share.js:124 js/share.js:581
 msgid "Error while sharing"
 msgstr "Error en compartir"
 
@@ -101,69 +213,85 @@ msgstr "Protegir amb contrasenya"
 msgid "Password"
 msgstr "Contrasenya"
 
+#: js/share.js:172
+msgid "Email link to person"
+msgstr "Enllaç per correu electrónic amb la persona"
+
 #: js/share.js:173
+msgid "Send"
+msgstr "Envia"
+
+#: js/share.js:177
 msgid "Set expiration date"
 msgstr "Estableix la data d'expiració"
 
-#: js/share.js:174
+#: js/share.js:178
 msgid "Expiration date"
 msgstr "Data d'expiració"
 
-#: js/share.js:206
+#: js/share.js:210
 msgid "Share via email:"
 msgstr "Comparteix per correu electrònic"
 
-#: js/share.js:208
+#: js/share.js:212
 msgid "No people found"
 msgstr "No s'ha trobat ningú"
 
-#: js/share.js:235
+#: js/share.js:239
 msgid "Resharing is not allowed"
 msgstr "No es permet compartir de nou"
 
-#: js/share.js:271
+#: js/share.js:275
 msgid "Shared in {item} with {user}"
 msgstr "Compartit en {item} amb {user}"
 
-#: js/share.js:292
+#: js/share.js:296
 msgid "Unshare"
 msgstr "Deixa de compartir"
 
-#: js/share.js:304
+#: js/share.js:308
 msgid "can edit"
 msgstr "pot editar"
 
-#: js/share.js:306
+#: js/share.js:310
 msgid "access control"
 msgstr "control d'accés"
 
-#: js/share.js:309
+#: js/share.js:313
 msgid "create"
 msgstr "crea"
 
-#: js/share.js:312
+#: js/share.js:316
 msgid "update"
 msgstr "actualitza"
 
-#: js/share.js:315
+#: js/share.js:319
 msgid "delete"
 msgstr "elimina"
 
-#: js/share.js:318
+#: js/share.js:322
 msgid "share"
 msgstr "comparteix"
 
-#: js/share.js:343 js/share.js:512 js/share.js:514
+#: js/share.js:353 js/share.js:528 js/share.js:530
 msgid "Password protected"
 msgstr "Protegeix amb contrasenya"
 
-#: js/share.js:525
+#: js/share.js:541
 msgid "Error unsetting expiration date"
 msgstr "Error en eliminar la data d'expiració"
 
-#: js/share.js:537
+#: js/share.js:553
 msgid "Error setting expiration date"
 msgstr "Error en establir la data d'expiració"
+
+#: js/share.js:568
+msgid "Sending ..."
+msgstr "Enviant..."
+
+#: js/share.js:579
+msgid "Email sent"
+msgstr "El correu electrónic s'ha enviat"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -242,7 +370,7 @@ msgstr "No s'ha trobat el núvol"
 msgid "Edit categories"
 msgstr "Edita les categories"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "Afegeix"
 
@@ -396,7 +524,7 @@ msgstr "Desembre"
 msgid "web services under your control"
 msgstr "controleu els vostres serveis web"
 
-#: templates/layout.user.php:38
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Surt"
 

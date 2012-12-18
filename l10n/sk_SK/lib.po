@@ -5,13 +5,14 @@
 # Translators:
 #   <martin.babik@gmail.com>, 2012.
 # Roman Priesol <roman@priesol.net>, 2012.
+#   <zatroch.martin@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-26 02:03+0200\n"
-"PO-Revision-Date: 2012-10-25 18:45+0000\n"
-"Last-Translator: Roman Priesol <roman@priesol.net>\n"
+"POT-Creation-Date: 2012-12-02 00:02+0100\n"
+"PO-Revision-Date: 2012-12-01 16:27+0000\n"
+"Last-Translator: martin <zatroch.martin@gmail.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,19 +44,19 @@ msgstr "Aplikácie"
 msgid "Admin"
 msgstr "Správca"
 
-#: files.php:328
+#: files.php:361
 msgid "ZIP download is turned off."
 msgstr "Sťahovanie súborov ZIP je vypnuté."
 
-#: files.php:329
+#: files.php:362
 msgid "Files need to be downloaded one by one."
 msgstr "Súbory musia byť nahrávané jeden za druhým."
 
-#: files.php:329 files.php:354
+#: files.php:362 files.php:387
 msgid "Back to Files"
 msgstr "Späť na súbory"
 
-#: files.php:353
+#: files.php:386
 msgid "Selected files too large to generate zip file."
 msgstr "Zvolené súbory sú príliž veľké na vygenerovanie zip súboru."
 
@@ -83,45 +84,55 @@ msgstr "Text"
 msgid "Images"
 msgstr "Obrázky"
 
-#: template.php:87
+#: template.php:103
 msgid "seconds ago"
 msgstr "pred sekundami"
 
-#: template.php:88
+#: template.php:104
 msgid "1 minute ago"
 msgstr "pred 1 minútou"
 
-#: template.php:89
+#: template.php:105
 #, php-format
 msgid "%d minutes ago"
 msgstr "pred %d minútami"
 
-#: template.php:92
+#: template.php:106
+msgid "1 hour ago"
+msgstr "Pred 1 hodinou"
+
+#: template.php:107
+#, php-format
+msgid "%d hours ago"
+msgstr "Pred %d hodinami."
+
+#: template.php:108
 msgid "today"
 msgstr "dnes"
 
-#: template.php:93
+#: template.php:109
 msgid "yesterday"
 msgstr "včera"
 
-#: template.php:94
+#: template.php:110
 #, php-format
 msgid "%d days ago"
 msgstr "pred %d dňami"
 
-#: template.php:95
+#: template.php:111
 msgid "last month"
 msgstr "minulý mesiac"
 
-#: template.php:96
-msgid "months ago"
-msgstr "pred mesiacmi"
+#: template.php:112
+#, php-format
+msgid "%d months ago"
+msgstr "Pred %d mesiacmi."
 
-#: template.php:97
+#: template.php:113
 msgid "last year"
 msgstr "minulý rok"
 
-#: template.php:98
+#: template.php:114
 msgid "years ago"
 msgstr "pred rokmi"
 
@@ -137,3 +148,8 @@ msgstr "aktuálny"
 #: updater.php:80
 msgid "updates check is disabled"
 msgstr "sledovanie aktualizácií je vypnuté"
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "Nemožno nájsť danú kategóriu \"%s\""

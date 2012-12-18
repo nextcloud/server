@@ -22,7 +22,7 @@
 
 class Test_StreamWrappers extends UnitTestCase {
 	public function testFakeDir() {
-		$items=array('foo','bar');
+		$items=array('foo', 'bar');
 		OC_FakeDirStream::$dirs['test']=$items;
 		$dh=opendir('fakedir://test');
 		$result=array();
@@ -30,16 +30,16 @@ class Test_StreamWrappers extends UnitTestCase {
 			$result[]=$file;
 			$this->assertContains($file, $items);
 		}
-		$this->assertEqual(count($items),count($result));
+		$this->assertEqual(count($items), count($result));
 	}
 
 	public function testStaticStream() {
 		$sourceFile=OC::$SERVERROOT.'/tests/data/lorem.txt';
 		$staticFile='static://test';
 		$this->assertFalse(file_exists($staticFile));
-		file_put_contents($staticFile,file_get_contents($sourceFile));
+		file_put_contents($staticFile, file_get_contents($sourceFile));
 		$this->assertTrue(file_exists($staticFile));
-		$this->assertEqual(file_get_contents($sourceFile),file_get_contents($staticFile));
+		$this->assertEqual(file_get_contents($sourceFile), file_get_contents($staticFile));
 		unlink($staticFile);
 		clearstatcache();
 		$this->assertFalse(file_exists($staticFile));
@@ -51,8 +51,8 @@ class Test_StreamWrappers extends UnitTestCase {
 		$tmpFile=OC_Helper::TmpFile('.txt');
 		$file='close://'.$tmpFile;
 		$this->assertTrue(file_exists($file));
-		file_put_contents($file,file_get_contents($sourceFile));
-		$this->assertEqual(file_get_contents($sourceFile),file_get_contents($file));
+		file_put_contents($file, file_get_contents($sourceFile));
+		$this->assertEqual(file_get_contents($sourceFile), file_get_contents($file));
 		unlink($file);
 		clearstatcache();
 		$this->assertFalse(file_exists($file));
@@ -60,15 +60,15 @@ class Test_StreamWrappers extends UnitTestCase {
 		//test callback
 		$tmpFile=OC_Helper::TmpFile('.txt');
 		$file='close://'.$tmpFile;
-		OC_CloseStreamWrapper::$callBacks[$tmpFile]=array('Test_StreamWrappers','closeCallBack');
-		$fh=fopen($file,'w');
-		fwrite($fh,'asd');
+		OC_CloseStreamWrapper::$callBacks[$tmpFile]=array('Test_StreamWrappers', 'closeCallBack');
+		$fh=fopen($file, 'w');
+		fwrite($fh, 'asd');
 		try{
 			fclose($fh);
 			$this->fail('Expected exception');
 		}catch(Exception $e) {
 			$path=$e->getMessage();
-			$this->assertEqual($path,$tmpFile);
+			$this->assertEqual($path, $tmpFile);
 		}
 	}
 

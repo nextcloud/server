@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-30 00:01+0100\n"
-"PO-Revision-Date: 2012-10-29 08:02+0000\n"
+"POT-Creation-Date: 2012-11-16 00:02+0100\n"
+"PO-Revision-Date: 2012-11-15 09:27+0000\n"
 "Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -42,19 +42,19 @@ msgstr "Приложения"
 msgid "Admin"
 msgstr "Админ"
 
-#: files.php:328
+#: files.php:332
 msgid "ZIP download is turned off."
 msgstr "Загрузка ZIP выключена."
 
-#: files.php:329
+#: files.php:333
 msgid "Files need to be downloaded one by one."
 msgstr "Файлы должны быть загружены один за другим."
 
-#: files.php:329 files.php:354
+#: files.php:333 files.php:358
 msgid "Back to Files"
 msgstr "Обратно к файлам"
 
-#: files.php:353
+#: files.php:357
 msgid "Selected files too large to generate zip file."
 msgstr "Выбранные файлы слишком велики для генерации zip-архива."
 
@@ -95,6 +95,15 @@ msgstr "1 минуту назад"
 msgid "%d minutes ago"
 msgstr "%d минут назад"
 
+#: template.php:106
+msgid "1 hour ago"
+msgstr "1 час назад"
+
+#: template.php:107
+#, php-format
+msgid "%d hours ago"
+msgstr "%d часов назад"
+
 #: template.php:108
 msgid "today"
 msgstr "сегодня"
@@ -113,8 +122,9 @@ msgid "last month"
 msgstr "в прошлом месяце"
 
 #: template.php:112
-msgid "months ago"
-msgstr "месяц назад"
+#, php-format
+msgid "%d months ago"
+msgstr "%d месяцев назад"
 
 #: template.php:113
 msgid "last year"
@@ -136,3 +146,8 @@ msgstr "до настоящего времени"
 #: updater.php:80
 msgid "updates check is disabled"
 msgstr "Проверка обновлений отключена"
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "Не удалось найти категорию \"%s\""

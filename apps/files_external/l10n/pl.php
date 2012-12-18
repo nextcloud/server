@@ -5,6 +5,8 @@
 "Fill out all required fields" => "Wypełnij wszystkie wymagane pola",
 "Please provide a valid Dropbox app key and secret." => "Proszę podać prawidłowy klucz aplikacji Dropbox i klucz sekretny.",
 "Error configuring Google Drive storage" => "Wystąpił błąd podczas konfigurowania zasobu Google Drive",
+"<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Ostrzeżenie:</b> \"smbclient\" nie jest zainstalowany. Zamontowanie katalogów CIFS/SMB nie jest możliwe. Skontaktuj sie z administratorem w celu zainstalowania.",
+"<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Ostrzeżenie:</b> Wsparcie dla FTP w PHP nie jest zainstalowane lub włączone.  Skontaktuj sie z administratorem w celu zainstalowania lub włączenia go.",
 "External Storage" => "Zewnętrzna zasoby dyskowe",
 "Mount point" => "Punkt montowania",
 "Backend" => "Zaplecze",

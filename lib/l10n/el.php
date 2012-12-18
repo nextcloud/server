@@ -14,17 +14,21 @@
 "Token expired. Please reload page." => "Το αναγνωριστικό έληξε. Παρακαλώ φορτώστε ξανά την σελίδα.",
 "Files" => "Αρχεία",
 "Text" => "Κείμενο",
+"Images" => "Εικόνες",
 "seconds ago" => "δευτερόλεπτα πριν",
 "1 minute ago" => "1 λεπτό πριν",
 "%d minutes ago" => "%d λεπτά πριν",
+"1 hour ago" => "1 ώρα πριν",
+"%d hours ago" => "%d ώρες πριν",
 "today" => "σήμερα",
 "yesterday" => "χθές",
 "%d days ago" => "%d ημέρες πριν",
 "last month" => "τον προηγούμενο μήνα",
-"months ago" => "μήνες πριν",
+"%d months ago" => "%d μήνες πριν",
 "last year" => "τον προηγούμενο χρόνο",
 "years ago" => "χρόνια πριν",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s είναι διαθέσιμα. Δείτε <a href=\"%s\">περισσότερες πληροφορίες</a>",
 "up to date" => "ενημερωμένο",
-"updates check is disabled" => "ο έλεγχος ενημερώσεων είναι απενεργοποιημένος"
+"updates check is disabled" => "ο έλεγχος ενημερώσεων είναι απενεργοποιημένος",
+"Could not find category \"%s\"" => "Αδυναμία εύρεσης κατηγορίας \"%s\""
 );

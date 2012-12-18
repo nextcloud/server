@@ -68,14 +68,14 @@ class OC_L10N{
 	 * get an L10N instance
 	 * @return OC_L10N
 	 */
-	public static function get($app,$lang=null) {
+	public static function get($app, $lang=null) {
 		if(is_null($lang)) {
 			if(!isset(self::$instances[$app])) {
 				self::$instances[$app]=new OC_L10N($app);
 			}
 			return self::$instances[$app];
 		}else{
-			return new OC_L10N($app,$lang);
+			return new OC_L10N($app, $lang);
 		}
 	}
 
@@ -115,10 +115,12 @@ class OC_L10N{
 			$i18ndir = self::findI18nDir($app);
 			// Localization is in /l10n, Texts are in $i18ndir
 			// (Just no need to define date/time format etc. twice)
-			if((OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC_App::getAppPath($app).'/l10n/') ||
-				OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/core/l10n/') ||
-				OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/lib/l10n/') ||
-				OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/settings')) && file_exists($i18ndir.$lang.'.php')) {
+			if((OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC_App::getAppPath($app).'/l10n/')
+				|| OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/core/l10n/')
+				|| OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/lib/l10n/')
+				|| OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/settings')
+				)
+				&& file_exists($i18ndir.$lang.'.php')) {
 				// Include the file, save the data from $CONFIG
 				include strip_tags($i18ndir).strip_tags($lang).'.php';
 				if(isset($TRANSLATIONS) && is_array($TRANSLATIONS)) {
@@ -167,7 +169,7 @@ class OC_L10N{
 	 *
 	 */
 	public function tA($textArray) {
-		OC_Log::write('core', 'DEPRECATED: the method tA is deprecated and will be removed soon.',OC_Log::WARN);
+		OC_Log::write('core', 'DEPRECATED: the method tA is deprecated and will be removed soon.', OC_Log::WARN);
 		$result = array();
 		foreach($textArray as $key => $text) {
 			$result[$key] = (string)$this->t($text);
@@ -294,8 +296,14 @@ class OC_L10N{
 			}
 			foreach($accepted_languages as $i) {
 				$temp = explode(';', $i);
-				if(array_search($temp[0], $available) !== false) {
-					return $temp[0];
+				$temp[0] = str_replace('-', '_', $temp[0]);
+				if( ($key = array_search($temp[0], $available)) !== false) {
+					return $available[$key];
+				}
+				foreach($available as $l) {
+					if ( $temp[0] == substr($l, 0, 2) ) {
+						return $l;
+					}
 				}
 			}
 		}

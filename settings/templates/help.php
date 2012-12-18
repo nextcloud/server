@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * 2012 Frank Karlitschek frank@owncloud.org
  * This file is licensed under the Affero General Public License version 3 or later.
@@ -12,13 +12,12 @@
 	<?php
 		$url=OC_Helper::linkTo( "settings", "help.php" ).'?page=';
 		$pageNavi=OC_Util::getPageNavi($_['pagecount'], $_['page'], $url);
-		if($pageNavi)
-		{
+		if($pageNavi) {
 			$pageNavi->printPage();
 		}
 	?>
 </diV>
-<?php if(is_null($_["kbe"])):?>
+<?php if(!is_array($_["kbe"]) || !count($_["kbe"])):?>
 	<div class="helpblock">
 		<p><?php echo $l->t('Problems connecting to help database.');?></p>
 		<p><a href="http://apps.owncloud.com/kb"><?php echo $l->t('Go there manually.');?></a></p>

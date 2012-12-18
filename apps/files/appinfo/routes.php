@@ -9,4 +9,3 @@
 $this->create('download', 'download{file}')
 	->requirements(array('file' => '.*'))
 	->actionInclude('files/download.php');
-

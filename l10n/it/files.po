@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-02 00:03+0100\n"
-"PO-Revision-Date: 2012-11-01 23:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-02 00:02+0100\n"
+"PO-Revision-Date: 2012-12-01 01:41+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,195 +26,166 @@ msgid "There is no error, the file uploaded with success"
 msgstr "Non ci sono errori, file caricato con successo"
 
 #: ajax/upload.php:21
-msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr "Il file caricato supera il valore upload_max_filesize in php.ini"
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+msgstr "Il file caricato supera la direttiva upload_max_filesize in php.ini:"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Il file caricato supera il valore MAX_FILE_SIZE definito nel form HTML"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:25
 msgid "The uploaded file was only partially uploaded"
 msgstr "Il file è stato parzialmente caricato"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:26
 msgid "No file was uploaded"
 msgstr "Nessun file è stato caricato"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:27
 msgid "Missing a temporary folder"
 msgstr "Cartella temporanea mancante"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:28
 msgid "Failed to write to disk"
 msgstr "Scrittura su disco non riuscita"
 
-#: appinfo/app.php:6
+#: appinfo/app.php:10
 msgid "Files"
 msgstr "File"
 
-#: js/fileactions.js:108 templates/index.php:64
+#: js/fileactions.js:117 templates/index.php:83 templates/index.php:84
 msgid "Unshare"
 msgstr "Rimuovi condivisione"
 
-#: js/fileactions.js:110 templates/index.php:66
+#: js/fileactions.js:119 templates/index.php:89 templates/index.php:90
 msgid "Delete"
 msgstr "Elimina"
 
-#: js/fileactions.js:178
+#: js/fileactions.js:181
 msgid "Rename"
 msgstr "Rinomina"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:201 js/filelist.js:203
 msgid "{new_name} already exists"
 msgstr "{new_name} esiste già"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:201 js/filelist.js:203
 msgid "replace"
 msgstr "sostituisci"
 
-#: js/filelist.js:194
+#: js/filelist.js:201
 msgid "suggest name"
 msgstr "suggerisci nome"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:201 js/filelist.js:203
 msgid "cancel"
 msgstr "annulla"
 
-#: js/filelist.js:243
+#: js/filelist.js:250
 msgid "replaced {new_name}"
 msgstr "sostituito {new_name}"
 
-#: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
+#: js/filelist.js:250 js/filelist.js:252 js/filelist.js:284 js/filelist.js:286
 msgid "undo"
 msgstr "annulla"
 
-#: js/filelist.js:245
+#: js/filelist.js:252
 msgid "replaced {new_name} with {old_name}"
 msgstr "sostituito {new_name} con {old_name}"
 
-#: js/filelist.js:277
+#: js/filelist.js:284
 msgid "unshared {files}"
 msgstr "non condivisi {files}"
 
-#: js/filelist.js:279
+#: js/filelist.js:286
 msgid "deleted {files}"
 msgstr "eliminati {files}"
 
-#: js/files.js:171
+#: js/files.js:33
+msgid ""
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
+"allowed."
+msgstr "Nome non valido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' non sono consentiti."
+
+#: js/files.js:183
 msgid "generating ZIP-file, it may take some time."
 msgstr "creazione file ZIP, potrebbe richiedere del tempo."
 
-#: js/files.js:206
+#: js/files.js:218
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Impossibile inviare il file poiché è una cartella o ha dimensione 0 byte"
 
-#: js/files.js:206
+#: js/files.js:218
 msgid "Upload Error"
 msgstr "Errore di invio"
 
-#: js/files.js:234 js/files.js:339 js/files.js:369
+#: js/files.js:235
+msgid "Close"
+msgstr "Chiudi"
+
+#: js/files.js:254 js/files.js:368 js/files.js:398
 msgid "Pending"
 msgstr "In corso"
 
-#: js/files.js:254
+#: js/files.js:274
 msgid "1 file uploading"
 msgstr "1 file in fase di caricamento"
 
-#: js/files.js:257 js/files.js:302 js/files.js:317
+#: js/files.js:277 js/files.js:331 js/files.js:346
 msgid "{count} files uploading"
 msgstr "{count} file in fase di caricamentoe"
 
-#: js/files.js:320 js/files.js:353
+#: js/files.js:349 js/files.js:382
 msgid "Upload cancelled."
 msgstr "Invio annullato"
 
-#: js/files.js:422
+#: js/files.js:451
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Caricamento del file in corso. La chiusura della pagina annullerà il caricamento."
 
-#: js/files.js:492
-msgid "Invalid name, '/' is not allowed."
-msgstr "Nome non valido"
+#: js/files.js:523
+msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
+msgstr "Nome della cartella non valido. L'uso di \"Shared\" è riservato a ownCloud"
 
-#: js/files.js:673
+#: js/files.js:704
 msgid "{count} files scanned"
 msgstr "{count} file analizzati"
 
-#: js/files.js:681
+#: js/files.js:712
 msgid "error while scanning"
 msgstr "errore durante la scansione"
 
-#: js/files.js:754 templates/index.php:50
+#: js/files.js:785 templates/index.php:65
 msgid "Name"
 msgstr "Nome"
 
-#: js/files.js:755 templates/index.php:58
+#: js/files.js:786 templates/index.php:76
 msgid "Size"
 msgstr "Dimensione"
 
-#: js/files.js:756 templates/index.php:60
+#: js/files.js:787 templates/index.php:78
 msgid "Modified"
 msgstr "Modificato"
 
-#: js/files.js:783
+#: js/files.js:814
 msgid "1 folder"
 msgstr "1 cartella"
 
-#: js/files.js:785
+#: js/files.js:816
 msgid "{count} folders"
 msgstr "{count} cartelle"
 
-#: js/files.js:793
+#: js/files.js:824
 msgid "1 file"
 msgstr "1 file"
 
-#: js/files.js:795
+#: js/files.js:826
 msgid "{count} files"
 msgstr "{count} file"
-
-#: js/files.js:838
-msgid "seconds ago"
-msgstr "secondi fa"
-
-#: js/files.js:839
-msgid "1 minute ago"
-msgstr "1 minuto fa"
-
-#: js/files.js:840
-msgid "{minutes} minutes ago"
-msgstr "{minutes} minuti fa"
-
-#: js/files.js:843
-msgid "today"
-msgstr "oggi"
-
-#: js/files.js:844
-msgid "yesterday"
-msgstr "ieri"
-
-#: js/files.js:845
-msgid "{days} days ago"
-msgstr "{days} giorni fa"
-
-#: js/files.js:846
-msgid "last month"
-msgstr "mese scorso"
-
-#: js/files.js:848
-msgid "months ago"
-msgstr "mesi fa"
-
-#: js/files.js:849
-msgid "last year"
-msgstr "anno scorso"
-
-#: js/files.js:850
-msgid "years ago"
-msgstr "anni fa"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -224,27 +195,27 @@ msgstr "Gestione file"
 msgid "Maximum upload size"
 msgstr "Dimensione massima upload"
 
-#: templates/admin.php:7
+#: templates/admin.php:9
 msgid "max. possible: "
 msgstr "numero mass.: "
 
-#: templates/admin.php:9
+#: templates/admin.php:12
 msgid "Needed for multi-file and folder downloads."
 msgstr "Necessario per lo scaricamento di file multipli e cartelle."
 
-#: templates/admin.php:9
+#: templates/admin.php:14
 msgid "Enable ZIP-download"
 msgstr "Abilita scaricamento ZIP"
 
-#: templates/admin.php:11
+#: templates/admin.php:17
 msgid "0 is unlimited"
 msgstr "0 è illimitato"
 
-#: templates/admin.php:12
+#: templates/admin.php:19
 msgid "Maximum input size for ZIP files"
 msgstr "Dimensione massima per i file ZIP"
 
-#: templates/admin.php:14
+#: templates/admin.php:23
 msgid "Save"
 msgstr "Salva"
 
@@ -252,52 +223,48 @@ msgstr "Salva"
 msgid "New"
 msgstr "Nuovo"
 
-#: templates/index.php:9
+#: templates/index.php:10
 msgid "Text file"
 msgstr "File di testo"
 
-#: templates/index.php:10
+#: templates/index.php:12
 msgid "Folder"
 msgstr "Cartella"
 
-#: templates/index.php:11
+#: templates/index.php:14
 msgid "From link"
-msgstr ""
+msgstr "Da collegamento"
 
-#: templates/index.php:22
+#: templates/index.php:35
 msgid "Upload"
 msgstr "Carica"
 
-#: templates/index.php:29
+#: templates/index.php:43
 msgid "Cancel upload"
 msgstr "Annulla invio"
 
-#: templates/index.php:42
+#: templates/index.php:57
 msgid "Nothing in here. Upload something!"
 msgstr "Non c'è niente qui. Carica qualcosa!"
 
-#: templates/index.php:52
-msgid "Share"
-msgstr "Condividi"
-
-#: templates/index.php:54
+#: templates/index.php:71
 msgid "Download"
 msgstr "Scarica"
 
-#: templates/index.php:77
+#: templates/index.php:103
 msgid "Upload too large"
 msgstr "Il file caricato è troppo grande"
 
-#: templates/index.php:79
+#: templates/index.php:105
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "I file che stai provando a caricare superano la dimensione massima consentita su questo server."
 
-#: templates/index.php:84
+#: templates/index.php:110
 msgid "Files are being scanned, please wait."
 msgstr "Scansione dei file in corso, attendi"
 
-#: templates/index.php:87
+#: templates/index.php:113
 msgid "Current scanning"
 msgstr "Scansione corrente"

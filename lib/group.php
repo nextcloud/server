@@ -139,7 +139,7 @@ class OC_Group {
 	 */
 	public static function inGroup( $uid, $gid ) {
 		foreach(self::$_usedBackends as $backend) {
-			if($backend->inGroup($uid,$gid)) {
+			if($backend->inGroup($uid, $gid)) {
 				return true;
 			}
 		}
@@ -223,7 +223,7 @@ class OC_Group {
 	public static function getUserGroups( $uid ) {
 		$groups=array();
 		foreach(self::$_usedBackends as $backend) {
-			$groups=array_merge($backend->getUserGroups($uid),$groups);
+			$groups=array_merge($backend->getUserGroups($uid), $groups);
 		}
 		asort($groups);
 		return $groups;

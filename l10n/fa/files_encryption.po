@@ -3,20 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <basir.jafarzadeh@gmail.com>, 2012.
 # Mohammad Dashtizadeh <mohammad@dashtizadeh.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-24 02:02+0200\n"
-"PO-Revision-Date: 2012-08-23 20:18+0000\n"
-"Last-Translator: Mohammad Dashtizadeh <mohammad@dashtizadeh.net>\n"
+"POT-Creation-Date: 2012-11-15 00:02+0100\n"
+"PO-Revision-Date: 2012-11-14 08:31+0000\n"
+"Last-Translator: basir <basir.jafarzadeh@gmail.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fa\n"
-"Plural-Forms: nplurals=1; plural=0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: templates/settings.php:3
 msgid "Encryption"
@@ -24,7 +25,7 @@ msgstr "رمزگذاری"
 
 #: templates/settings.php:4
 msgid "Exclude the following file types from encryption"
-msgstr ""
+msgstr "نادیده گرفتن فایل های زیر برای رمز گذاری"
 
 #: templates/settings.php:5
 msgid "None"

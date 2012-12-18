@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Donahue Chuang <soshinwu@gmail.com>, 2012.
+#   <dw4dev@gmail.com>, 2012.
 # Ming Yi Wu <mingi.wu@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-29 00:01+0100\n"
-"PO-Revision-Date: 2012-10-27 22:12+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-13 00:17+0100\n"
+"PO-Revision-Date: 2012-12-12 23:17+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,58 +20,170 @@ msgstr ""
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
-msgid "Application name not provided."
-msgstr "未提供應用程式名稱"
+#: ajax/share.php:84
+#, php-format
+msgid "User %s shared a file with you"
+msgstr ""
 
-#: ajax/vcategories/add.php:28
+#: ajax/share.php:86
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr ""
+
+#: ajax/share.php:88
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr ""
+
+#: ajax/share.php:90
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr ""
+
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr ""
+
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr "無分類添加?"
 
-#: ajax/vcategories/add.php:35
+#: ajax/vcategories/add.php:37
 msgid "This category already exists: "
 msgstr "此分類已經存在:"
 
-#: js/js.js:243 templates/layout.user.php:53 templates/layout.user.php:54
-msgid "Settings"
-msgstr "設定"
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr "不支援的物件類型"
 
-#: js/oc-dialogs.js:123
-msgid "Choose"
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
 msgstr ""
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
-msgid "Cancel"
-msgstr "取消"
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr ""
 
-#: js/oc-dialogs.js:159
-msgid "No"
-msgstr "No"
-
-#: js/oc-dialogs.js:160
-msgid "Yes"
-msgstr "Yes"
-
-#: js/oc-dialogs.js:177
-msgid "Ok"
-msgstr "Ok"
-
-#: js/oc-vcategories.js:68
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
 msgstr "沒選擇要刪除的分類"
 
-#: js/oc-vcategories.js:68 js/share.js:135 js/share.js:142 js/share.js:525
-#: js/share.js:537
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr ""
+
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+msgid "Settings"
+msgstr "設定"
+
+#: js/js.js:704
+msgid "seconds ago"
+msgstr "幾秒前"
+
+#: js/js.js:705
+msgid "1 minute ago"
+msgstr "1 分鐘前"
+
+#: js/js.js:706
+msgid "{minutes} minutes ago"
+msgstr "{minutes} 分鐘前"
+
+#: js/js.js:707
+msgid "1 hour ago"
+msgstr "1 個小時前"
+
+#: js/js.js:708
+msgid "{hours} hours ago"
+msgstr "{hours} 個小時前"
+
+#: js/js.js:709
+msgid "today"
+msgstr "今天"
+
+#: js/js.js:710
+msgid "yesterday"
+msgstr "昨天"
+
+#: js/js.js:711
+msgid "{days} days ago"
+msgstr "{days} 天前"
+
+#: js/js.js:712
+msgid "last month"
+msgstr "上個月"
+
+#: js/js.js:713
+msgid "{months} months ago"
+msgstr "{months} 個月前"
+
+#: js/js.js:714
+msgid "months ago"
+msgstr "幾個月前"
+
+#: js/js.js:715
+msgid "last year"
+msgstr "去年"
+
+#: js/js.js:716
+msgid "years ago"
+msgstr "幾年前"
+
+#: js/oc-dialogs.js:126
+msgid "Choose"
+msgstr "選擇"
+
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+msgid "Cancel"
+msgstr "取消"
+
+#: js/oc-dialogs.js:162
+msgid "No"
+msgstr "No"
+
+#: js/oc-dialogs.js:163
+msgid "Yes"
+msgstr "Yes"
+
+#: js/oc-dialogs.js:180
+msgid "Ok"
+msgstr "Ok"
+
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr ""
+
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
+#: js/share.js:553
 msgid "Error"
 msgstr "錯誤"
 
-#: js/share.js:124
-msgid "Error while sharing"
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr "沒有詳述APP名稱."
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
 msgstr ""
+
+#: js/share.js:124 js/share.js:581
+msgid "Error while sharing"
+msgstr "分享時發生錯誤"
 
 #: js/share.js:135
 msgid "Error while unsharing"
-msgstr ""
+msgstr "取消分享時發生錯誤"
 
 #: js/share.js:142
 msgid "Error while changing permissions"
@@ -82,87 +195,103 @@ msgstr ""
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "{owner} 已經和您分享"
 
 #: js/share.js:158
 msgid "Share with"
-msgstr ""
+msgstr "與分享"
 
 #: js/share.js:163
 msgid "Share with link"
-msgstr ""
+msgstr "使用連結分享"
 
 #: js/share.js:164
 msgid "Password protect"
-msgstr ""
+msgstr "密碼保護"
 
 #: js/share.js:168 templates/installation.php:42 templates/login.php:24
 #: templates/verify.php:13
 msgid "Password"
 msgstr "密碼"
 
+#: js/share.js:172
+msgid "Email link to person"
+msgstr ""
+
 #: js/share.js:173
+msgid "Send"
+msgstr ""
+
+#: js/share.js:177
 msgid "Set expiration date"
-msgstr ""
+msgstr "設置到期日"
 
-#: js/share.js:174
+#: js/share.js:178
 msgid "Expiration date"
-msgstr ""
+msgstr "到期日"
 
-#: js/share.js:206
+#: js/share.js:210
 msgid "Share via email:"
-msgstr ""
+msgstr "透過email分享:"
 
-#: js/share.js:208
+#: js/share.js:212
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:235
+#: js/share.js:239
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:271
+#: js/share.js:275
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "已和 {user} 分享 {item}"
 
-#: js/share.js:292
+#: js/share.js:296
 msgid "Unshare"
 msgstr "取消共享"
 
-#: js/share.js:304
+#: js/share.js:308
 msgid "can edit"
-msgstr ""
+msgstr "可編輯"
 
-#: js/share.js:306
+#: js/share.js:310
 msgid "access control"
-msgstr ""
+msgstr "存取控制"
 
-#: js/share.js:309
+#: js/share.js:313
 msgid "create"
 msgstr "建立"
 
-#: js/share.js:312
+#: js/share.js:316
 msgid "update"
-msgstr ""
+msgstr "更新"
 
-#: js/share.js:315
+#: js/share.js:319
 msgid "delete"
-msgstr ""
+msgstr "刪除"
 
-#: js/share.js:318
+#: js/share.js:322
 msgid "share"
-msgstr ""
+msgstr "分享"
 
-#: js/share.js:343 js/share.js:512 js/share.js:514
+#: js/share.js:353 js/share.js:528 js/share.js:530
 msgid "Password protected"
-msgstr ""
+msgstr "密碼保護"
 
-#: js/share.js:525
+#: js/share.js:541
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:537
+#: js/share.js:553
 msgid "Error setting expiration date"
+msgstr "錯誤的到期日設定"
+
+#: js/share.js:568
+msgid "Sending ..."
+msgstr ""
+
+#: js/share.js:579
+msgid "Email sent"
 msgstr ""
 
 #: lostpassword/controller.php:47
@@ -179,11 +308,11 @@ msgstr "重設密碼的連結將會寄到你的電子郵件信箱"
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "重設郵件已送出."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "請求失敗!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
 #: templates/login.php:20
@@ -242,7 +371,7 @@ msgstr "未發現雲"
 msgid "Edit categories"
 msgstr "編輯分類"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "添加"
 
@@ -254,7 +383,7 @@ msgstr "安全性警告"
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "沒有可用的隨機數字產生器, 請啟用 PHP 中 OpenSSL 擴充功能."
 
 #: templates/installation.php:26
 msgid ""
@@ -396,7 +525,7 @@ msgstr "十二月"
 msgid "web services under your control"
 msgstr "網路服務已在你控制"
 
-#: templates/layout.user.php:38
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "登出"
 
@@ -440,7 +569,7 @@ msgstr "下一頁"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "安全性警告!"
 
 #: templates/verify.php:6
 msgid ""
@@ -450,4 +579,4 @@ msgstr ""
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "驗證"

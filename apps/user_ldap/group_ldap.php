@@ -124,7 +124,7 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 			$this->connection->ldapGroupFilter,
 			$this->connection->ldapGroupMemberAssocAttr.'='.$uid
 		));
-		$groups = $this->fetchListOfGroups($filter, array($this->connection->ldapGroupDisplayName,'dn'));
+		$groups = $this->fetchListOfGroups($filter, array($this->connection->ldapGroupDisplayName, 'dn'));
 		$groups = array_unique($this->ownCloudGroupNames($groups), SORT_LOCALE_STRING);
 		$this->connection->writeToCache($cacheKey, $groups);
 

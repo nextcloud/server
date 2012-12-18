@@ -6,13 +6,14 @@
 #   <intense.feel@gmail.com>, 2012.
 #   <martin.babik@gmail.com>, 2012.
 # Roman Priesol <roman@priesol.net>, 2012.
+#   <zatroch.martin@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-02 00:03+0100\n"
-"PO-Revision-Date: 2012-11-01 23:04+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-02 00:02+0100\n"
+"PO-Revision-Date: 2012-12-01 16:18+0000\n"
+"Last-Translator: martin <zatroch.martin@gmail.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,195 +26,166 @@ msgid "There is no error, the file uploaded with success"
 msgstr "Nenastala žiadna chyba, súbor bol úspešne nahraný"
 
 #: ajax/upload.php:21
-msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr "Nahraný súbor presiahol direktívu upload_max_filesize v php.ini"
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+msgstr "Nahraný súbor predčil  konfiguračnú direktívu upload_max_filesize v súbore php.ini:"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:23
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Nahrávaný súbor presiahol MAX_FILE_SIZE direktívu, ktorá bola špecifikovaná v HTML formulári"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:25
 msgid "The uploaded file was only partially uploaded"
 msgstr "Nahrávaný súbor bol iba čiastočne nahraný"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:26
 msgid "No file was uploaded"
 msgstr "Žiaden súbor nebol nahraný"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:27
 msgid "Missing a temporary folder"
 msgstr "Chýbajúci dočasný priečinok"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:28
 msgid "Failed to write to disk"
 msgstr "Zápis na disk sa nepodaril"
 
-#: appinfo/app.php:6
+#: appinfo/app.php:10
 msgid "Files"
 msgstr "Súbory"
 
-#: js/fileactions.js:108 templates/index.php:64
+#: js/fileactions.js:117 templates/index.php:83 templates/index.php:84
 msgid "Unshare"
 msgstr "Nezdielať"
 
-#: js/fileactions.js:110 templates/index.php:66
+#: js/fileactions.js:119 templates/index.php:89 templates/index.php:90
 msgid "Delete"
 msgstr "Odstrániť"
 
-#: js/fileactions.js:178
+#: js/fileactions.js:181
 msgid "Rename"
 msgstr "Premenovať"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:201 js/filelist.js:203
 msgid "{new_name} already exists"
 msgstr "{new_name} už existuje"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:201 js/filelist.js:203
 msgid "replace"
 msgstr "nahradiť"
 
-#: js/filelist.js:194
+#: js/filelist.js:201
 msgid "suggest name"
 msgstr "pomôcť s menom"
 
-#: js/filelist.js:194 js/filelist.js:196
+#: js/filelist.js:201 js/filelist.js:203
 msgid "cancel"
 msgstr "zrušiť"
 
-#: js/filelist.js:243
+#: js/filelist.js:250
 msgid "replaced {new_name}"
 msgstr "prepísaný {new_name}"
 
-#: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
+#: js/filelist.js:250 js/filelist.js:252 js/filelist.js:284 js/filelist.js:286
 msgid "undo"
 msgstr "vrátiť"
 
-#: js/filelist.js:245
+#: js/filelist.js:252
 msgid "replaced {new_name} with {old_name}"
 msgstr "prepísaný {new_name} súborom {old_name}"
 
-#: js/filelist.js:277
+#: js/filelist.js:284
 msgid "unshared {files}"
 msgstr "zdieľanie zrušené pre {files}"
 
-#: js/filelist.js:279
+#: js/filelist.js:286
 msgid "deleted {files}"
 msgstr "zmazané {files}"
 
-#: js/files.js:171
+#: js/files.js:33
+msgid ""
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
+"allowed."
+msgstr "Nesprávne meno, '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nie sú povolené hodnoty."
+
+#: js/files.js:183
 msgid "generating ZIP-file, it may take some time."
 msgstr "generujem ZIP-súbor, môže to chvíľu trvať."
 
-#: js/files.js:206
+#: js/files.js:218
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Nemôžem nahrať súbor lebo je to priečinok alebo má 0 bajtov."
 
-#: js/files.js:206
+#: js/files.js:218
 msgid "Upload Error"
 msgstr "Chyba odosielania"
 
-#: js/files.js:234 js/files.js:339 js/files.js:369
+#: js/files.js:235
+msgid "Close"
+msgstr "Zavrieť"
+
+#: js/files.js:254 js/files.js:368 js/files.js:398
 msgid "Pending"
 msgstr "Čaká sa"
 
-#: js/files.js:254
+#: js/files.js:274
 msgid "1 file uploading"
 msgstr "1 súbor sa posiela "
 
-#: js/files.js:257 js/files.js:302 js/files.js:317
+#: js/files.js:277 js/files.js:331 js/files.js:346
 msgid "{count} files uploading"
 msgstr "{count} súborov odosielaných"
 
-#: js/files.js:320 js/files.js:353
+#: js/files.js:349 js/files.js:382
 msgid "Upload cancelled."
 msgstr "Odosielanie zrušené"
 
-#: js/files.js:422
+#: js/files.js:451
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Opustenie stránky zruší práve prebiehajúce odosielanie súboru."
 
-#: js/files.js:492
-msgid "Invalid name, '/' is not allowed."
-msgstr "Chybný názov, \"/\" nie je povolené"
+#: js/files.js:523
+msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
+msgstr "Nesprávne meno adresára. Použitie slova \"Shared\" (Zdieľané) je vyhradené službou ownCloud."
 
-#: js/files.js:673
+#: js/files.js:704
 msgid "{count} files scanned"
 msgstr "{count} súborov prehľadaných"
 
-#: js/files.js:681
+#: js/files.js:712
 msgid "error while scanning"
 msgstr "chyba počas kontroly"
 
-#: js/files.js:754 templates/index.php:50
+#: js/files.js:785 templates/index.php:65
 msgid "Name"
 msgstr "Meno"
 
-#: js/files.js:755 templates/index.php:58
+#: js/files.js:786 templates/index.php:76
 msgid "Size"
 msgstr "Veľkosť"
 
-#: js/files.js:756 templates/index.php:60
+#: js/files.js:787 templates/index.php:78
 msgid "Modified"
 msgstr "Upravené"
 
-#: js/files.js:783
+#: js/files.js:814
 msgid "1 folder"
 msgstr "1 priečinok"
 
-#: js/files.js:785
+#: js/files.js:816
 msgid "{count} folders"
 msgstr "{count} priečinkov"
 
-#: js/files.js:793
+#: js/files.js:824
 msgid "1 file"
 msgstr "1 súbor"
 
-#: js/files.js:795
+#: js/files.js:826
 msgid "{count} files"
 msgstr "{count} súborov"
-
-#: js/files.js:838
-msgid "seconds ago"
-msgstr "pred sekundami"
-
-#: js/files.js:839
-msgid "1 minute ago"
-msgstr "pred minútou"
-
-#: js/files.js:840
-msgid "{minutes} minutes ago"
-msgstr "pred {minutes} minútami"
-
-#: js/files.js:843
-msgid "today"
-msgstr "dnes"
-
-#: js/files.js:844
-msgid "yesterday"
-msgstr "včera"
-
-#: js/files.js:845
-msgid "{days} days ago"
-msgstr "pred {days} dňami"
-
-#: js/files.js:846
-msgid "last month"
-msgstr "minulý mesiac"
-
-#: js/files.js:848
-msgid "months ago"
-msgstr "pred mesiacmi"
-
-#: js/files.js:849
-msgid "last year"
-msgstr "minulý rok"
-
-#: js/files.js:850
-msgid "years ago"
-msgstr "pred rokmi"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -223,27 +195,27 @@ msgstr "Nastavenie správanie k súborom"
 msgid "Maximum upload size"
 msgstr "Maximálna veľkosť odosielaného súboru"
 
-#: templates/admin.php:7
+#: templates/admin.php:9
 msgid "max. possible: "
 msgstr "najväčšie možné:"
 
-#: templates/admin.php:9
+#: templates/admin.php:12
 msgid "Needed for multi-file and folder downloads."
 msgstr "Vyžadované pre sťahovanie viacerých súborov a adresárov."
 
-#: templates/admin.php:9
+#: templates/admin.php:14
 msgid "Enable ZIP-download"
 msgstr "Povoliť sťahovanie ZIP súborov"
 
-#: templates/admin.php:11
+#: templates/admin.php:17
 msgid "0 is unlimited"
 msgstr "0 znamená neobmedzené"
 
-#: templates/admin.php:12
+#: templates/admin.php:19
 msgid "Maximum input size for ZIP files"
 msgstr "Najväčšia veľkosť ZIP súborov"
 
-#: templates/admin.php:14
+#: templates/admin.php:23
 msgid "Save"
 msgstr "Uložiť"
 
@@ -251,52 +223,48 @@ msgstr "Uložiť"
 msgid "New"
 msgstr "Nový"
 
-#: templates/index.php:9
+#: templates/index.php:10
 msgid "Text file"
 msgstr "Textový súbor"
 
-#: templates/index.php:10
+#: templates/index.php:12
 msgid "Folder"
 msgstr "Priečinok"
 
-#: templates/index.php:11
+#: templates/index.php:14
 msgid "From link"
-msgstr ""
+msgstr "Z odkazu"
 
-#: templates/index.php:22
+#: templates/index.php:35
 msgid "Upload"
 msgstr "Odoslať"
 
-#: templates/index.php:29
+#: templates/index.php:43
 msgid "Cancel upload"
 msgstr "Zrušiť odosielanie"
 
-#: templates/index.php:42
+#: templates/index.php:57
 msgid "Nothing in here. Upload something!"
 msgstr "Žiadny súbor. Nahrajte niečo!"
 
-#: templates/index.php:52
-msgid "Share"
-msgstr "Zdielať"
-
-#: templates/index.php:54
+#: templates/index.php:71
 msgid "Download"
 msgstr "Stiahnuť"
 
-#: templates/index.php:77
+#: templates/index.php:103
 msgid "Upload too large"
 msgstr "Odosielaný súbor je príliš veľký"
 
-#: templates/index.php:79
+#: templates/index.php:105
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Súbory, ktoré sa snažíte nahrať, presahujú maximálnu veľkosť pre nahratie súborov na tento server."
 
-#: templates/index.php:84
+#: templates/index.php:110
 msgid "Files are being scanned, please wait."
 msgstr "Čakajte, súbory sú prehľadávané."
 
-#: templates/index.php:87
+#: templates/index.php:113
 msgid "Current scanning"
 msgstr "Práve prehliadané"

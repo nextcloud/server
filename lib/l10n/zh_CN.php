@@ -18,14 +18,17 @@
 "seconds ago" => "几秒前",
 "1 minute ago" => "1分钟前",
 "%d minutes ago" => "%d 分钟前",
+"1 hour ago" => "1小时前",
+"%d hours ago" => "%d小时前",
 "today" => "今天",
 "yesterday" => "昨天",
 "%d days ago" => "%d 天前",
 "last month" => "上月",
-"months ago" => "几月前",
+"%d months ago" => "%d 月前",
 "last year" => "上年",
 "years ago" => "几年前",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s 已存在. 点此 <a href=\"%s\">获取更多信息</a>",
 "up to date" => "已更新。",
-"updates check is disabled" => "检查更新功能被关闭。"
+"updates check is disabled" => "检查更新功能被关闭。",
+"Could not find category \"%s\"" => "无法找到分类 \"%s\""
 );

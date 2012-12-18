@@ -14,17 +14,21 @@
 "Token expired. Please reload page." => "Tokena iraungitu da. Mesedez birkargatu orria.",
 "Files" => "Fitxategiak",
 "Text" => "Testua",
+"Images" => "Irudiak",
 "seconds ago" => "orain dela segundu batzuk",
 "1 minute ago" => "orain dela minutu 1",
 "%d minutes ago" => "orain dela %d minutu",
+"1 hour ago" => "orain dela ordu bat",
+"%d hours ago" => "orain dela %d ordu",
 "today" => "gaur",
 "yesterday" => "atzo",
 "%d days ago" => "orain dela %d egun",
 "last month" => "joan den hilabetea",
-"months ago" => "orain dela hilabete batzuk",
+"%d months ago" => "orain dela %d hilabete",
 "last year" => "joan den urtea",
 "years ago" => "orain dela urte batzuk",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s eskuragarri dago. Lortu <a href=\"%s\">informazio gehiago</a>",
 "up to date" => "eguneratuta",
-"updates check is disabled" => "eguneraketen egiaztapena ez dago gaituta"
+"updates check is disabled" => "eguneraketen egiaztapena ez dago gaituta",
+"Could not find category \"%s\"" => "Ezin da \"%s\" kategoria aurkitu"
 );

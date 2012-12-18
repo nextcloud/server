@@ -32,14 +32,16 @@ var FileList={
 		html+='<td class="date"><span class="modified" title="'+formatDate(lastModified)+'" style="color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')">'+relative_modified_date(lastModified.getTime() / 1000)+'</span></td>';
 		html+='</tr>';
 		FileList.insertElement(name,'file',$(html).attr('data-file',name));
+		var row = $('tr').filterAttr('data-file',name);
 		if(loading){
-			$('tr').filterAttr('data-file',name).data('loading',true);
+			row.data('loading',true);
 		}else{
-			$('tr').filterAttr('data-file',name).find('td.filename').draggable(dragOptions);
+			row.find('td.filename').draggable(dragOptions);
 		}
 		if (hidden) {
-			$('tr').filterAttr('data-file', name).hide();
+			row.hide();
 		}
+		FileActions.display(row.find('td.filename'));
 	},
 	addDir:function(name,size,lastModified,hidden){
 		var html, td, link_elem, sizeColor, lastModifiedTime, modifiedColor;
@@ -66,11 +68,13 @@ var FileList={
 		td.append($('<span></span>').attr({ "class": "modified", "title": formatDate(lastModified), "style": 'color:rgb('+modifiedColor+','+modifiedColor+','+modifiedColor+')' }).text( relative_modified_date(lastModified.getTime() / 1000) ));
 		html.append(td);
 		FileList.insertElement(name,'dir',html);
-		$('tr').filterAttr('data-file',name).find('td.filename').draggable(dragOptions);
-		$('tr').filterAttr('data-file',name).find('td.filename').droppable(folderDropOptions);
+		var row = $('tr').filterAttr('data-file',name);
+		row.find('td.filename').draggable(dragOptions);
+		row.find('td.filename').droppable(folderDropOptions);
 		if (hidden) {
-			$('tr').filterAttr('data-file', name).hide();
+			row.hide();
 		}
+		FileActions.display(row.find('td.filename'));
 	},
 	refresh:function(data) {
 		var result = jQuery.parseJSON(data.responseText);
@@ -85,7 +89,6 @@ var FileList={
 		$('tr').filterAttr('data-file',name).remove();
 		if($('tr[data-file]').length==0){
 			$('#emptyfolder').show();
-			$('.file_upload_filename').addClass('highlight');
 		}
 	},
 	insertElement:function(name,type,element){
@@ -114,7 +117,6 @@ var FileList={
 			$('#fileList').append(element);
 		}
 		$('#emptyfolder').hide();
-		$('.file_upload_filename').removeClass('highlight');
 	},
 	loadingDone:function(name, id){
 		var mime, tr=$('tr').filterAttr('data-file',name);
@@ -137,7 +139,7 @@ var FileList={
 		tr=$('tr').filterAttr('data-file',name);
 		tr.data('renaming',true);
 		td=tr.children('td.filename');
-		input=$('<input class="filename"></input>').val(name);
+		input=$('<input class="filename"/>').val(name);
 		form=$('<form></form>');
 		form.append(input);
 		td.children('a.name').hide();
@@ -147,6 +149,9 @@ var FileList={
 			event.stopPropagation();
 			event.preventDefault();
 			var newname=input.val();
+			if (Files.containsInvalidCharacters(newname)) {
+				return false;
+			}
 			if (newname != name) {
 				if (FileList.checkName(name, newname, false)) {
 					newname = name;
@@ -156,11 +161,11 @@ var FileList={
 							OC.dialogs.alert(result.data.message, 'Error moving file');
 							newname = name;
 						}
-						tr.data('renaming',false);
 					});
 
 				}
 			}
+			tr.data('renaming',false);
 			tr.attr('data-file', newname);
 			var path = td.children('a.name').attr('href');
 			td.children('a.name').attr('href', path.replace(encodeURIComponent(name), encodeURIComponent(newname)));
@@ -283,7 +288,7 @@ var FileList={
 	},
 	finishDelete:function(ready,sync){
 		if(!FileList.deleteCanceled && FileList.deleteFiles){
-			var fileNames=FileList.deleteFiles.join(';');
+			var fileNames=JSON.stringify(FileList.deleteFiles);
 			$.ajax({
 				url: OC.filePath('files', 'ajax', 'delete.php'),
 				async:!sync,
@@ -374,5 +379,8 @@ $(document).ready(function(){
 		if (FileList.lastAction) {
 			FileList.lastAction();
 		}
+	});
+	$(window).unload(function (){
+		$(window).trigger('beforeunload');
 	});
 });

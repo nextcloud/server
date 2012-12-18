@@ -86,8 +86,9 @@ class OC_User {
 	 */
 	public static function useBackend( $backend = 'database' ) {
 		if($backend instanceof OC_User_Interface) {
+			OC_Log::write('core', 'Adding user backend instance of '.get_class($backend).'.', OC_Log::DEBUG);
 			self::$_usedBackends[get_class($backend)]=$backend;
-		}else{
+		} else {
 			// You'll never know what happens
 			if( null === $backend OR !is_string( $backend )) {
 				$backend = 'database';
@@ -98,15 +99,17 @@ class OC_User {
 				case 'database':
 				case 'mysql':
 				case 'sqlite':
+					OC_Log::write('core', 'Adding user backend '.$backend.'.', OC_Log::DEBUG);
 					self::$_usedBackends[$backend] = new OC_User_Database();
 					break;
 				default:
+					OC_Log::write('core', 'Adding default user backend '.$backend.'.', OC_Log::DEBUG);
 					$className = 'OC_USER_' . strToUpper($backend);
 					self::$_usedBackends[$backend] = new $className();
 					break;
 			}
 		}
-		true;
+		return true;
 	}
 
 	/**
@@ -124,16 +127,20 @@ class OC_User {
 		foreach($backends as $i=>$config) {
 			$class=$config['class'];
 			$arguments=$config['arguments'];
-			if(class_exists($class) and array_search($i, self::$_setupedBackends)===false) {
-				// make a reflection object
-				$reflectionObj = new ReflectionClass($class);
+			if(class_exists($class)) {
+				if(array_search($i, self::$_setupedBackends)===false) {
+					// make a reflection object
+					$reflectionObj = new ReflectionClass($class);
 
-				// use Reflection to create a new instance, using the $args
-				$backend = $reflectionObj->newInstanceArgs($arguments);
-				self::useBackend($backend);
-				$_setupedBackends[]=$i;
-			}else{
-				OC_Log::write('core','User backend '.$class.' not found.',OC_Log::ERROR);
+					// use Reflection to create a new instance, using the $args
+					$backend = $reflectionObj->newInstanceArgs($arguments);
+					self::useBackend($backend);
+					$_setupedBackends[]=$i;
+				} else {
+					OC_Log::write('core', 'User backend '.$class.' already initialized.', OC_Log::DEBUG);
+				}
+			} else {
+				OC_Log::write('core', 'User backend '.$class.' not found.', OC_Log::ERROR);
 			}
 		}
 	}
@@ -179,10 +186,10 @@ class OC_User {
 				if(!$backend->implementsActions(OC_USER_BACKEND_CREATE_USER))
 					continue;
 
-				$backend->createUser($uid,$password);
+				$backend->createUser($uid, $password);
 				OC_Hook::emit( "OC_User", "post_createUser", array( "uid" => $uid, "password" => $password ));
 
-				return true;
+				return self::userExists($uid);
 			}
 		}
 		return false;
@@ -203,6 +210,9 @@ class OC_User {
 			//delete the user from all backends
 			foreach(self::$_usedBackends as $backend) {
 				$backend->deleteUser($uid);
+			}
+			if (self::userExists($uid)) {
+				return false;
 			}
 			// We have to delete the user from all groups
 			foreach( OC_Group::getUserGroups( $uid ) as $i ) {
@@ -329,7 +339,7 @@ class OC_User {
 			foreach(self::$_usedBackends as $backend) {
 				if($backend->implementsActions(OC_USER_BACKEND_SET_PASSWORD)) {
 					if($backend->userExists($uid)) {
-						$success |= $backend->setPassword($uid,$password);
+						$success |= $backend->setPassword($uid, $password);
 					}
 				}
 			}
@@ -404,10 +414,15 @@ class OC_User {
 	/**
 	 * @brief check if a user exists
 	 * @param string $uid the username
+	 * @param string $excludingBackend (default none)
 	 * @return boolean
 	 */
-	public static function userExists($uid) {
+	public static function userExists($uid, $excludingBackend=null) {
 		foreach(self::$_usedBackends as $backend) {
+			if (!is_null($excludingBackend) && !strcmp(get_class($backend),$excludingBackend)) {
+			    OC_Log::write('OC_User', $excludingBackend . 'excluded from user existance check.', OC_Log::DEBUG);
+			    continue;
+			}
 			$result=$backend->userExists($uid);
 			if($result===true) {
 				return true;

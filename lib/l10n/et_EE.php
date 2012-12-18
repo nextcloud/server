@@ -22,7 +22,6 @@
 "yesterday" => "eile",
 "%d days ago" => "%d päeva tagasi",
 "last month" => "eelmisel kuul",
-"months ago" => "kuud tagasi",
 "last year" => "eelmisel aastal",
 "years ago" => "aastat tagasi",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s on saadaval. Vaata <a href=\"%s\">lisainfot</a>",

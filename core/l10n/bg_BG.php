@@ -1,11 +1,11 @@
 <?php $TRANSLATIONS = array(
 "This category already exists: " => "Категорията вече съществува:",
+"No categories selected for deletion." => "Няма избрани категории за изтриване",
 "Settings" => "Настройки",
 "Cancel" => "Отказ",
 "No" => "Не",
 "Yes" => "Да",
 "Ok" => "Добре",
-"No categories selected for deletion." => "Няма избрани категории за изтриване",
 "Error" => "Грешка",
 "Password" => "Парола",
 "You will receive a link to reset your password via Email." => "Ще получите връзка за нулиране на паролата Ви.",

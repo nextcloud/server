@@ -2,10 +2,14 @@
 <info>
 	<id>user_webdavauth</id>
 	<name>WebDAV user backend</name>
-	<description>Authenticate Users by a WebDAV call</description>
-	<version>1.0</version>
+	<description>Authenticate users by a WebDAV call. You can use any WebDAV server, ownCloud server or other webserver to authenticate. It should return http 200 for right credentials and http 401 for wrong ones.
+
+	This app is not compatible to the LDAP user and group backend.</description>
 	<licence>AGPL</licence>
 	<author>Frank Karlitschek</author>
 	<require>4.9</require>
 	<shipped>true</shipped>
+	<types>
+		<authentication/>
+	</types>
 </info>

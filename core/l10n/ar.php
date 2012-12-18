@@ -2,6 +2,7 @@
 "Settings" => "تعديلات",
 "Cancel" => "الغاء",
 "Password" => "كلمة السر",
+"Unshare" => "إلغاء مشاركة",
 "Use the following link to reset your password: {link}" => "استخدم هذه الوصلة لاسترجاع كلمة السر: {link}",
 "You will receive a link to reset your password via Email." => "سوف نرسل لك بريد يحتوي على وصلة لتجديد كلمة السر.",
 "Username" => "إسم المستخدم",

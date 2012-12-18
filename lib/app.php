@@ -92,7 +92,7 @@ class OC_App{
 	 * @param string/array $types
 	 * @return bool
 	 */
-	public static function isType($app,$types) {
+	public static function isType($app, $types) {
 		if(is_string($types)) {
 			$types=array($types);
 		}
@@ -185,7 +185,7 @@ class OC_App{
 			}else{
 				$download=OC_OCSClient::getApplicationDownload($app, 1);
 				if(isset($download['downloadlink']) and $download['downloadlink']!='') {
-					$app=OC_Installer::installApp(array('source'=>'http','href'=>$download['downloadlink']));
+					$app=OC_Installer::installApp(array('source'=>'http', 'href'=>$download['downloadlink']));
 				}
 			}
 		}
@@ -253,6 +253,8 @@ class OC_App{
 	 * highlighting the current position of the user.
 	 */
 	public static function setActiveNavigationEntry( $id ) {
+		// load all the apps, to make sure we have all the navigation entries
+		self::loadApps();
 		self::$activeapp = $id;
 		return true;
 	}
@@ -404,7 +406,7 @@ class OC_App{
 	 * @return array
 	 * @note all data is read from info.xml, not just pre-defined fields
 	*/
-	public static function getAppInfo($appid,$path=false) {
+	public static function getAppInfo($appid, $path=false) {
 		if($path) {
 			$file=$appid;
 		}else{
@@ -523,21 +525,21 @@ class OC_App{
 	/**
 	 * register a settings form to be shown
 	 */
-	public static function registerSettings($app,$page) {
+	public static function registerSettings($app, $page) {
 		self::$settingsForms[]= $app.'/'.$page.'.php';
 	}
 
 	/**
 	 * register an admin form to be shown
 	 */
-	public static function registerAdmin($app,$page) {
+	public static function registerAdmin($app, $page) {
 		self::$adminForms[]= $app.'/'.$page.'.php';
 	}
 
 	/**
 	 * register a personal form to be shown
 	 */
-	public static function registerPersonal($app,$page) {
+	public static function registerPersonal($app, $page) {
 		self::$personalForms[]= $app.'/'.$page.'.php';
 	}
 
@@ -595,16 +597,16 @@ class OC_App{
 				$app1[$i]['internal'] = $app1[$i]['active'] = 0;
 
 				// rating img
-				if($app['score']>=0     and $app['score']<5) 	$img=OC_Helper::imagePath( "core", "rating/s1.png" );
-				elseif($app['score']>=5 and $app['score']<15) 	$img=OC_Helper::imagePath( "core", "rating/s2.png" );
-				elseif($app['score']>=15 and $app['score']<25) 	$img=OC_Helper::imagePath( "core", "rating/s3.png" );
-				elseif($app['score']>=25 and $app['score']<35) 	$img=OC_Helper::imagePath( "core", "rating/s4.png" );
-				elseif($app['score']>=35 and $app['score']<45) 	$img=OC_Helper::imagePath( "core", "rating/s5.png" );
-				elseif($app['score']>=45 and $app['score']<55) 	$img=OC_Helper::imagePath( "core", "rating/s6.png" );
-				elseif($app['score']>=55 and $app['score']<65) 	$img=OC_Helper::imagePath( "core", "rating/s7.png" );
-				elseif($app['score']>=65 and $app['score']<75) 	$img=OC_Helper::imagePath( "core", "rating/s8.png" );
-				elseif($app['score']>=75 and $app['score']<85) 	$img=OC_Helper::imagePath( "core", "rating/s9.png" );
-				elseif($app['score']>=85 and $app['score']<95) 	$img=OC_Helper::imagePath( "core", "rating/s10.png" );
+				if($app['score']>=0     and $app['score']<5)	$img=OC_Helper::imagePath( "core", "rating/s1.png" );
+				elseif($app['score']>=5 and $app['score']<15)	$img=OC_Helper::imagePath( "core", "rating/s2.png" );
+				elseif($app['score']>=15 and $app['score']<25)	$img=OC_Helper::imagePath( "core", "rating/s3.png" );
+				elseif($app['score']>=25 and $app['score']<35)	$img=OC_Helper::imagePath( "core", "rating/s4.png" );
+				elseif($app['score']>=35 and $app['score']<45)	$img=OC_Helper::imagePath( "core", "rating/s5.png" );
+				elseif($app['score']>=45 and $app['score']<55)	$img=OC_Helper::imagePath( "core", "rating/s6.png" );
+				elseif($app['score']>=55 and $app['score']<65)	$img=OC_Helper::imagePath( "core", "rating/s7.png" );
+				elseif($app['score']>=65 and $app['score']<75)	$img=OC_Helper::imagePath( "core", "rating/s8.png" );
+				elseif($app['score']>=75 and $app['score']<85)	$img=OC_Helper::imagePath( "core", "rating/s9.png" );
+				elseif($app['score']>=85 and $app['score']<95)	$img=OC_Helper::imagePath( "core", "rating/s10.png" );
 				elseif($app['score']>=95 and $app['score']<100)	$img=OC_Helper::imagePath( "core", "rating/s11.png" );
 
 				$app1[$i]['score'] = '<img src="'.$img.'"> Score: '.$app['score'].'%';

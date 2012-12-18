@@ -319,7 +319,7 @@ class OC_Helper {
 					self::copyr("$src/$file", "$dest/$file");
 				}
 			}
-		}elseif(file_exists($src)) {
+		}elseif(file_exists($src) && !OC_Filesystem::isFileBlacklisted($src)) {
 			copy($src, $dest);
 		}
 	}
@@ -377,7 +377,7 @@ class OC_Helper {
 		if($mimeType=='application/octet-stream' and function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)) {
 			$info = @strtolower(finfo_file($finfo, $path));
 			if($info) {
-				$mimeType=substr($info,0, strpos($info, ';'));
+				$mimeType=substr($info, 0, strpos($info, ';'));
 			}
 			finfo_close($finfo);
 		}
@@ -475,16 +475,16 @@ class OC_Helper {
 		$dirs = explode(PATH_SEPARATOR, $path);
 		// WARNING : We have to check if open_basedir is enabled :
 		$obd = ini_get('open_basedir');
-		if($obd != "none"){
+		if($obd != "none") {
 			$obd_values = explode(PATH_SEPARATOR, $obd);
-			if(count($obd_values) > 0 and $obd_values[0]){
+			if(count($obd_values) > 0 and $obd_values[0]) {
 				// open_basedir is in effect !
 				// We need to check if the program is in one of these dirs :
 				$dirs = $obd_values;
 			}
 		}
-		foreach($dirs as $dir){
-			foreach($exts as $ext){
+		foreach($dirs as $dir) {
+			foreach($exts as $ext) {
 				if($check_fn("$dir/$name".$ext))
 					return true;
 			}
@@ -498,7 +498,7 @@ class OC_Helper {
 	 * @param resource $target
 	 * @return int the number of bytes copied
 	 */
-	public static function streamCopy($source,$target) {
+	public static function streamCopy($source, $target) {
 		if(!$source or !$target) {
 			return false;
 		}
@@ -524,6 +524,27 @@ class OC_Helper {
 		return $file;
 	}
 
+	/**
+	 * create a temporary file with an unique filename. It will not be deleted
+	 * automatically
+	 * @param string $postfix
+	 * @return string
+	 *
+	 */
+	public static function tmpFileNoClean($postfix='') {
+		$tmpDirNoClean=get_temp_dir().'/oc-noclean/';
+		if (!file_exists($tmpDirNoClean) || !is_dir($tmpDirNoClean)) {
+			if (file_exists($tmpDirNoClean)) {
+				unlink($tmpDirNoClean);
+			}
+			mkdir($tmpDirNoClean);
+		}
+		$file=$tmpDirNoClean.md5(time().rand()).$postfix;
+		$fh=fopen($file, 'w');
+		fclose($fh);
+		return $file;
+	}
+	
 	/**
 	 * create a temporary folder with an unique filename
 	 * @return string
@@ -556,6 +577,16 @@ class OC_Helper {
 					file_put_contents($leftoversFile, $file."\n", FILE_APPEND);
 				}
 			}
+		}
+	}
+
+	/**
+	 * remove all files created by self::tmpFileNoClean
+	 */
+	public static function cleanTmpNoClean() {
+		$tmpDirNoCleanFile=get_temp_dir().'/oc-noclean/';
+		if(file_exists($tmpDirNoCleanFile)) {
+			self::rmdirr($tmpDirNoCleanFile);
 		}
 	}
 
@@ -711,5 +742,20 @@ class OC_Helper {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Shortens str to maxlen by replacing characters in the middle with '...', eg.
+	 * ellipsis('a very long string with lots of useless info to make a better example', 14) becomes 'a very ...example'
+	 * @param string $str the string
+	 * @param string $maxlen the maximum length of the result
+	 * @return string with at most maxlen characters
+	 */
+	public static function ellipsis($str, $maxlen) {
+		if (strlen($str) > $maxlen) {
+			$characters = floor($maxlen / 2);
+			return substr($str, 0, $characters) . '...' . substr($str, -1 * $characters);
+		}
+		return $str;
 	}
 }

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <suganthi@nic.lk>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-16 02:04+0200\n"
-"PO-Revision-Date: 2011-07-25 16:05+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-12-03 00:04+0100\n"
+"PO-Revision-Date: 2012-12-02 03:18+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,158 +18,190 @@ msgstr ""
 "Language: ta_LK\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/apps/ocs.php:23
+#: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "செயலி சேமிப்பிலிருந்து பட்டியலை ஏற்றமுடியாதுள்ளது"
 
-#: ajax/creategroup.php:12
+#: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr ""
+msgstr "குழு ஏற்கனவே உள்ளது"
 
-#: ajax/creategroup.php:21
+#: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr ""
+msgstr "குழுவை சேர்க்க முடியாது"
 
-#: ajax/enableapp.php:14
+#: ajax/enableapp.php:12
 msgid "Could not enable app. "
-msgstr ""
+msgstr "செயலியை இயலுமைப்படுத்த முடியாது"
+
+#: ajax/lostpassword.php:12
+msgid "Email saved"
+msgstr "மின்னஞ்சல் சேமிக்கப்பட்டது"
 
 #: ajax/lostpassword.php:14
-msgid "Email saved"
-msgstr ""
-
-#: ajax/lostpassword.php:16
 msgid "Invalid email"
-msgstr ""
+msgstr "செல்லுபடியற்ற மின்னஞ்சல்"
 
-#: ajax/openid.php:16
+#: ajax/openid.php:13
 msgid "OpenID Changed"
-msgstr ""
+msgstr "OpenID மாற்றப்பட்டது"
 
-#: ajax/openid.php:18 ajax/setlanguage.php:20 ajax/setlanguage.php:23
+#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr ""
+msgstr "செல்லுபடியற்ற வேண்டுகோள்"
 
-#: ajax/removegroup.php:16
+#: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "குழுவை நீக்க முடியாது"
 
-#: ajax/removeuser.php:18 ajax/setquota.php:18 ajax/togglegroups.php:15
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr ""
+msgstr "அத்தாட்சிப்படுத்தலில் வழு"
 
-#: ajax/removeuser.php:27
+#: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr ""
+msgstr "பயனாளரை நீக்க முடியாது"
 
-#: ajax/setlanguage.php:18
+#: ajax/setlanguage.php:15
 msgid "Language changed"
+msgstr "மொழி மாற்றப்பட்டது"
+
+#: ajax/togglegroups.php:12
+msgid "Admins can't remove themself from the admin group"
 msgstr ""
 
-#: ajax/togglegroups.php:25
+#: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "குழு %s இல் பயனாளரை சேர்க்க முடியாது"
 
-#: ajax/togglegroups.php:31
+#: ajax/togglegroups.php:34
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "குழு %s இலிருந்து பயனாளரை நீக்கமுடியாது"
 
-#: js/apps.js:28 js/apps.js:65
+#: js/apps.js:28 js/apps.js:67
 msgid "Disable"
-msgstr ""
+msgstr "இயலுமைப்ப"
 
-#: js/apps.js:28 js/apps.js:54
+#: js/apps.js:28 js/apps.js:55
 msgid "Enable"
-msgstr ""
+msgstr "செயலற்றதாக்குக"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr ""
+msgstr "இயலுமைப்படுத்துக"
 
 #: personal.php:42 personal.php:43
 msgid "__language_name__"
-msgstr ""
+msgstr "_மொழி_பெயர்_"
 
-#: templates/admin.php:14
-msgid "Security Warning"
-msgstr ""
+#: templates/apps.php:10
+msgid "Add your App"
+msgstr "உங்களுடைய செயலியை சேர்க்க"
 
-#: templates/admin.php:17
-msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr ""
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "மேலதிக செயலிகள்"
 
-#: templates/admin.php:31
-msgid "Cron"
-msgstr ""
+#: templates/apps.php:27
+msgid "Select an App"
+msgstr "செயலி ஒன்றை தெரிவுசெய்க"
 
-#: templates/admin.php:37
-msgid "Execute one task with each page loaded"
-msgstr ""
+#: templates/apps.php:31
+msgid "See application page at apps.owncloud.com"
+msgstr "apps.owncloud.com இல் செயலி பக்கத்தை பார்க்க"
 
-#: templates/admin.php:43
-msgid ""
-"cron.php is registered at a webcron service. Call the cron.php page in the "
-"owncloud root once a minute over http."
-msgstr ""
+#: templates/apps.php:32
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr "<span class=\"அனுமதிப்பத்திரம்\"></span>-அனுமதி பெற்ற <span class=\"ஆசிரியர்\"></span>"
 
-#: templates/admin.php:49
-msgid ""
-"Use systems cron service. Call the cron.php file in the owncloud folder via "
-"a system cronjob once a minute."
-msgstr ""
+#: templates/help.php:9
+msgid "Documentation"
+msgstr "ஆவணமாக்கல்"
 
-#: templates/admin.php:56
-msgid "Sharing"
-msgstr ""
+#: templates/help.php:10
+msgid "Managing Big Files"
+msgstr "பெரிய கோப்புகளை முகாமைப்படுத்தல்"
 
-#: templates/admin.php:61
-msgid "Enable Share API"
-msgstr ""
+#: templates/help.php:11
+msgid "Ask a question"
+msgstr "வினா ஒன்றை கேட்க"
 
-#: templates/admin.php:62
-msgid "Allow apps to use the Share API"
-msgstr ""
+#: templates/help.php:22
+msgid "Problems connecting to help database."
+msgstr "தரவுதளத்தை இணைக்கும் உதவியில் பிரச்சினைகள்"
 
-#: templates/admin.php:67
-msgid "Allow links"
-msgstr ""
+#: templates/help.php:23
+msgid "Go there manually."
+msgstr "கைமுறையாக அங்கு செல்க"
 
-#: templates/admin.php:68
-msgid "Allow users to share items to the public with links"
-msgstr ""
+#: templates/help.php:31
+msgid "Answer"
+msgstr "விடை"
 
-#: templates/admin.php:73
-msgid "Allow resharing"
-msgstr ""
+#: templates/personal.php:8
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
+msgstr "நீங்கள் <strong>%s</strong> இலுள்ள <strong>%s</strong>பயன்படுத்தியுள்ளீர்கள்"
 
-#: templates/admin.php:74
-msgid "Allow users to share items shared with them again"
-msgstr ""
+#: templates/personal.php:12
+msgid "Desktop and Mobile Syncing Clients"
+msgstr "desktop மற்றும் Mobile ஒத்திசைவு சேவைப் பயனாளர்"
 
-#: templates/admin.php:79
-msgid "Allow users to share with anyone"
-msgstr ""
+#: templates/personal.php:13
+msgid "Download"
+msgstr "பதிவிறக்குக"
 
-#: templates/admin.php:81
-msgid "Allow users to only share with users in their groups"
-msgstr ""
+#: templates/personal.php:19
+msgid "Your password was changed"
+msgstr "உங்களுடைய கடவுச்சொல் மாற்றப்பட்டுள்ளது"
 
-#: templates/admin.php:88
-msgid "Log"
-msgstr ""
+#: templates/personal.php:20
+msgid "Unable to change your password"
+msgstr "உங்களுடைய கடவுச்சொல்லை மாற்றமுடியாது"
 
-#: templates/admin.php:116
-msgid "More"
-msgstr ""
+#: templates/personal.php:21
+msgid "Current password"
+msgstr "தற்போதைய கடவுச்சொல்"
 
-#: templates/admin.php:124
+#: templates/personal.php:22
+msgid "New password"
+msgstr "புதிய கடவுச்சொல்"
+
+#: templates/personal.php:23
+msgid "show"
+msgstr "காட்டு"
+
+#: templates/personal.php:24
+msgid "Change password"
+msgstr "கடவுச்சொல்லை மாற்றுக"
+
+#: templates/personal.php:30
+msgid "Email"
+msgstr "மின்னஞ்சல்"
+
+#: templates/personal.php:31
+msgid "Your email address"
+msgstr "உங்களுடைய மின்னஞ்சல் முகவரி"
+
+#: templates/personal.php:32
+msgid "Fill in an email address to enable password recovery"
+msgstr "கடவுச்சொல் மீள் பெறுவதை இயலுமைப்படுத்துவதற்கு மின்னஞ்சல் முகவரியை இயலுமைப்படுத்துக"
+
+#: templates/personal.php:38 templates/personal.php:39
+msgid "Language"
+msgstr "மொழி"
+
+#: templates/personal.php:44
+msgid "Help translate"
+msgstr "மொழிபெயர்க்க உதவி"
+
+#: templates/personal.php:51
+msgid "use this address to connect to your ownCloud in your file manager"
+msgstr "உங்களுடைய கோப்பு முகாமையில் உள்ள உங்களுடைய ownCloud உடன் இணைக்க இந்த முகவரியை பயன்படுத்தவும்"
+
+#: templates/personal.php:61
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -176,145 +209,40 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
-
-#: templates/apps.php:10
-msgid "Add your App"
-msgstr ""
-
-#: templates/apps.php:11
-msgid "More Apps"
-msgstr ""
-
-#: templates/apps.php:27
-msgid "Select an App"
-msgstr ""
-
-#: templates/apps.php:31
-msgid "See application page at apps.owncloud.com"
-msgstr ""
-
-#: templates/apps.php:32
-msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
-
-#: templates/help.php:9
-msgid "Documentation"
-msgstr ""
-
-#: templates/help.php:10
-msgid "Managing Big Files"
-msgstr ""
-
-#: templates/help.php:11
-msgid "Ask a question"
-msgstr ""
-
-#: templates/help.php:23
-msgid "Problems connecting to help database."
-msgstr ""
-
-#: templates/help.php:24
-msgid "Go there manually."
-msgstr ""
-
-#: templates/help.php:32
-msgid "Answer"
-msgstr ""
-
-#: templates/personal.php:8
-#, php-format
-msgid "You have used <strong>%s</strong> of the available <strong>%s<strong>"
-msgstr ""
-
-#: templates/personal.php:12
-msgid "Desktop and Mobile Syncing Clients"
-msgstr ""
-
-#: templates/personal.php:13
-msgid "Download"
-msgstr ""
-
-#: templates/personal.php:19
-msgid "Your password was changed"
-msgstr ""
-
-#: templates/personal.php:20
-msgid "Unable to change your password"
-msgstr ""
-
-#: templates/personal.php:21
-msgid "Current password"
-msgstr ""
-
-#: templates/personal.php:22
-msgid "New password"
-msgstr ""
-
-#: templates/personal.php:23
-msgid "show"
-msgstr ""
-
-#: templates/personal.php:24
-msgid "Change password"
-msgstr ""
-
-#: templates/personal.php:30
-msgid "Email"
-msgstr ""
-
-#: templates/personal.php:31
-msgid "Your email address"
-msgstr ""
-
-#: templates/personal.php:32
-msgid "Fill in an email address to enable password recovery"
-msgstr ""
-
-#: templates/personal.php:38 templates/personal.php:39
-msgid "Language"
-msgstr ""
-
-#: templates/personal.php:44
-msgid "Help translate"
-msgstr ""
-
-#: templates/personal.php:51
-msgid "use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"
-msgstr ""
+msgstr "பெயர்"
 
 #: templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr ""
+msgstr "கடவுச்சொல்"
 
 #: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"
-msgstr ""
+msgstr "குழுக்கள்"
 
 #: templates/users.php:32
 msgid "Create"
-msgstr ""
+msgstr "உருவாக்குக"
 
 #: templates/users.php:35
 msgid "Default Quota"
-msgstr ""
+msgstr "பொது இருப்பு பங்கு"
 
 #: templates/users.php:55 templates/users.php:138
 msgid "Other"
-msgstr ""
+msgstr "மற்றவை"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr ""
+msgstr "குழு நிர்வாகி"
 
 #: templates/users.php:82
 msgid "Quota"
-msgstr ""
+msgstr "பங்கு"
 
 #: templates/users.php:146
 msgid "Delete"
-msgstr ""
+msgstr "அழிக்க"
