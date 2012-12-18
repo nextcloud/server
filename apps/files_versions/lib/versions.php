@@ -265,8 +265,6 @@ class Storage {
 				if ( $nextInterval == -1 || $versions[$i]['version'] >= $nextInterval ) {
 					if ( $versions[$i]['version'] > $nextVersion ) {
 						//distance between two version to small, delete version
-						error_log("next version:" . $nextVersion . " - version: " . $versions[$i]['version']);
-						error_log("unlink: " . $filename.'.v'.$versions[$i]['version']);
 						$versions_fileview->unlink($filename.'.v'.$versions[$i]['version']);
 						$availableSpace += $versions[$i]['size'];
 					} else {
