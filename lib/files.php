@@ -193,6 +193,7 @@ class OC_Files {
 				header('Content-Length: ' . filesize($filename));
 			}else{
 				header('Content-Type: '.OC_Filesystem::getMimeType($filename));
+				header("Content-Length: ".OC_Filesystem::filesize($filename));
 			}
 		}elseif($zip or !OC_Filesystem::file_exists($filename)) {
 			header("HTTP/1.0 404 Not Found");
@@ -204,8 +205,6 @@ class OC_Files {
 			die('403 Forbidden');
 		}
 		if($only_header) {
-			if(!$zip)
-				header("Content-Length: ".OC_Filesystem::filesize($filename));
 			return ;
 		}
 		if($zip) {
