@@ -8,6 +8,7 @@ $levels=array('Debug','Info','Warning','Error', 'Fatal');
 
 <?php
 
+// is htaccess working ?
 if(!$_['htaccessworking']) {
 ?>
 <fieldset class="personalblock">
@@ -20,9 +21,22 @@ if(!$_['htaccessworking']) {
 </fieldset>	
 <?php	
 }
-?>
 
+// is locale working ?
+if(!$_['islocaleworking']) {
+?>
+<fieldset class="personalblock">
+        <legend><strong><?php echo $l->t('Locale not working');?></strong></legend>
+
+        <span class="connectionwarning">
+        <?php echo $l->t('This ownCloud server can\'t set system locale to "en_US.UTF-8". This means that there might be problems with certain caracters in file names. We strongly suggest to install the requirend packages on your system to support en_US.UTF-8.'); ?>
+    </span>
+
+</fieldset>
 <?php
+}
+
+// is internet connection working ?
 if(!$_['internetconnectionworking']) {
 ?>
 <fieldset class="personalblock">

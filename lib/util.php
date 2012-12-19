@@ -554,6 +554,18 @@ class OC_Util {
 
 
         /**
+         * Check if the setlocal call doesn't work. This can happen if the right local packages are not available on the server.
+         */
+	public static function issetlocaleworking() {
+		$result=setlocale(LC_ALL, 'en_US.UTF-8');
+		if($result==false) {
+			return(false);
+		}else{
+			return(true);
+		}
+	}
+
+        /**
          * Check if the ownCloud server can connect to the internet
          */
 	public static function isinternetconnectionworking() {
