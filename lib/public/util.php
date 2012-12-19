@@ -173,6 +173,42 @@ class Util {
 	}
 
 	/**
+	 * @brief returns the server hostname
+	 * @returns the server hostname
+	 *
+	 * Returns the server host name without an eventual port number
+	 */
+	public static function getServerHostName() {
+		$host_name = self::getServerHost();
+		// strip away port number (if existing)
+		$colon_pos = strpos($host_name, ':');
+		if ($colon_pos != FALSE) {
+			$host_name = substr($host_name, 0, $colon_pos);
+		}
+		return $host_name;
+	}
+
+	/**
+	 * @brief Returns the default email address
+	 * @param $user_part the user part of the address
+	 * @returns the default email address 
+	 *
+	 * Assembles a default email address (using the server hostname
+	 * and the given user part, and returns it
+	 * Example: when given lostpassword-noreply as $user_part param,
+	 *     and is currently accessed via http(s)://example.com/,
+	 *     it would return 'lostpassword-noreply@example.com'
+	 */
+	public static function getDefaultEmailAddress($user_part) {
+		$host_name = self::getServerHostName();
+		// handle localhost installations
+		if ($server_host === 'localhost') {
+			$server_host = "example.com";
+		}
+		return $user_part.'@'.$host_name;
+	}
+
+	/**
 	 * @brief Returns the server protocol
 	 * @returns the server protocol
 	 *
