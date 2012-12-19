@@ -667,34 +667,39 @@ class OC_Util {
          * If not, file_get_element is used.
          */
         
-	public static function getUrlContent($url){
+        public static function getUrlContent($url){
             
-		if  (function_exists('curl_init')) {
+            if  (function_exists('curl_init')) {
+                
+                $curl = curl_init();
 
-			$curl = curl_init();
-
-			curl_setopt($curl, CURLOPT_HEADER, 0);
-			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
-			curl_setopt($curl, CURLOPT_URL, $url);
-			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
-			$data = curl_exec($curl);
-			curl_close($curl);
-
-		} else {
-
-			$ctx = stream_context_create(
-					array(
-						'http' => array(
-							'timeout' => 10
-							)
-					     )
-					);
-			$data=@file_get_contents($url, 0, $ctx);
-
+                curl_setopt($curl, CURLOPT_HEADER, 0);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
+                curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
+                if(OC_Config::getValue('proxy','')<>'') {
+			curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));
 		}
+                if(OC_Config::getValue('proxyuserpwd','')<>'') {
+			curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('proxyuserpwd'));
+		}
+                $data = curl_exec($curl);
+                curl_close($curl);
 
-		return $data;
+            } else {
+                
+                $ctx = stream_context_create(
+                    array(
+                        'http' => array(
+                            'timeout' => 10
+                        )
+                    )
+                );
+                $data=@file_get_contents($url, 0, $ctx);
+                
+            }
+            return $data;
 	}
         
 }
