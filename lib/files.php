@@ -212,6 +212,7 @@ class OC_Files {
 				self::addSendfileHeader($filename);
 			}else{
 				header('Content-Type: '.OC_Filesystem::getMimeType($filename));
+				header("Content-Length: ".OC_Filesystem::filesize($filename));
 				$storage = OC_Filesystem::getStorage($filename);
 				if ($storage instanceof OC_Filestorage_Local) {
 					self::addSendfileHeader(OC_Filesystem::getLocalFile($filename));
@@ -227,8 +228,6 @@ class OC_Files {
 			die('403 Forbidden');
 		}
 		if($only_header) {
-			if(!$zip)
-				header("Content-Length: ".OC_Filesystem::filesize($filename));
 			return ;
 		}
 		if($zip) {
