@@ -89,12 +89,8 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			if ($type === 'dir')
 				$text = (string)$l->t('User %s shared the folder "%s" with you. It is available for download here: %s', array($user, $file, $link));
 
-			// handle localhost installations
-			$server_host = OCP\Util::getServerHost();
-			if ($server_host === 'localhost')
-				$server_host = "example.com";
 
-			$default_from = 'sharing-noreply@' . $server_host;
+			$default_from = OCP\Util::getDefaultEmailAddress('sharing-noreply');
 			$from_address = OCP\Config::getUserValue($user, 'settings', 'email', $default_from );
 
 			// send it out now
