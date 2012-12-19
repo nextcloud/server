@@ -474,6 +474,11 @@ class OC{
 				exit;
 			}
 		}
+		
+		// write error into log if locale can't be set	
+		if(OC_Util::issetlocaleworking()==false) {
+			OC_Log::write('core', 'setting locate to en_US.UTF-8 failed. Support is probably not installed on your system', OC_Log::ERROR);
+		}
 	}
 
 	/**
