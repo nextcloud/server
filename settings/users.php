@@ -30,11 +30,6 @@ if($isadmin) {
 }
 
 foreach($accessibleusers as $i) {
-    $quota=OC_Preferences::getValue($i, 'files', 'quota', 'default');
-    // translation of old value 'none' to 'unlimited'
-    if ($quota=='none')
-        $quota='unlimited';
-
 	$users[] = array(
 		"name" => $i,
 		"groups" => join( ", ", /*array_intersect(*/OC_Group::getUserGroups($i)/*, OC_SubAdmin::getSubAdminsGroups(OC_User::getUser()))*/),
