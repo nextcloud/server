@@ -94,7 +94,15 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 }
 #select_all { float:left; margin:.3em 0.6em 0 .5em; }
 #uploadsize-message,#delete-confirm { display:none; }
-.fileactions { position:relative; top:.3em; font-size:.8em; float:right; }
+
+/* File actions */
+.fileactions {
+	position:absolute; top:.6em; right:0;
+	font-size:.8em;
+}
+#fileList tr:hover .fileactions { /* background to distinguish when overlaying with file names */
+	background:rgba(248, 248, 248,.9); box-shadow:-5px 0 7px rgba(248,248,248,.9);
+}
 #fileList .fileactions a.action img { position:relative; top:.2em; }
 #fileList a.action { display:inline; margin:-.5em 0; padding:1em .5em 1em .5em !important; }
 a.action.delete { float:right; }
