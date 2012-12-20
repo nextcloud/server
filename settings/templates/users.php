@@ -50,7 +50,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 				</option>
 				<?php endif;?>
 				<?php endforeach;?>
-				<?php if(array_search($_['default_quota'], $_['quota_preset'])===false && array_search($_['default_quota'], array('none', 'default'))===false):?>
+				<?php if($_['defaultQuotaIsUserDefined']):?>
 				<option selected="selected"
 					value='<?php echo $_['default_quota'];?>'>
 					<?php echo $_['default_quota'];?>
@@ -144,7 +144,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 							<?php echo $preset;?>
 						</option>
 						<?php endforeach;?>
-						<?php if(array_search($user['quota'], $_['quota_preset'])===false && array_search($user['quota'], array('none', 'default'))===false):?>
+						<?php if($user['isQuotaUserDefined']):?>
 						<option selected="selected" value='<?php echo $user['quota'];?>'>
 							<?php echo $user['quota'];?>
 						</option>
