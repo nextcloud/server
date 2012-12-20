@@ -238,7 +238,9 @@
 				list.append(li);
 			}
 			var pos=button.position();
-			if($(document).height() > button.offset().top+button.outerHeight() + list.children().length * button.height()) {
+			if($(document).height() > (button.offset().top+button.outerHeight() + list.children().length * button.height())
+				|| $(document).height()/2 > pos.top
+			) {
 				list.css('top',pos.top+button.outerHeight()-5);
 				list.css('left',pos.left+3);
 				list.css('width',(button.outerWidth()-2)+'px');
