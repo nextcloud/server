@@ -202,8 +202,8 @@ class Util {
 	public static function getDefaultEmailAddress($user_part) {
 		$host_name = self::getServerHostName();
 		// handle localhost installations
-		if ($server_host === 'localhost') {
-			$server_host = "example.com";
+		if ($host_name === 'localhost') {
+            $host_name = "example.com";
 		}
 		return $user_part.'@'.$host_name;
 	}
