@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "Echa un vistazo a la web de aplicaciones apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-licenciado por <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Ha usado <strong>%s</strong> de <strong>%s</strong> disponibles",
+"Clients" => "Clientes",
 "Password" => "Contraseña",
 "Your password was changed" => "Su contraseña ha sido cambiada",
 "Unable to change your password" => "No se ha podido cambiar tu contraseña",

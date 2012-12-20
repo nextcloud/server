@@ -13,6 +13,7 @@
 "Add your App" => "برنامه خود را بیافزایید",
 "Select an App" => "یک برنامه انتخاب کنید",
 "See application page at apps.owncloud.com" => "صفحه این اٌپ را در apps.owncloud.com ببینید",
+"Clients" => "مشتریان",
 "Password" => "گذرواژه",
 "Your password was changed" => "رمز عبور شما تغییر یافت",
 "Unable to change your password" => "ناتوان در تغییر گذرواژه",

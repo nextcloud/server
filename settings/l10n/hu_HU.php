@@ -13,6 +13,7 @@
 "Add your App" => "App hozzáadása",
 "Select an App" => "Egy App kiválasztása",
 "See application page at apps.owncloud.com" => "Lásd apps.owncloud.com, alkalmazások oldal",
+"Clients" => "Kliensek",
 "Password" => "Jelszó",
 "Unable to change your password" => "Nem lehet megváltoztatni a jelszavad",
 "Current password" => "Jelenlegi jelszó",

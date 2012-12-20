@@ -13,6 +13,7 @@
 "Add your App" => "Setz deng App bei",
 "Select an App" => "Wiel eng Applikatioun aus",
 "See application page at apps.owncloud.com" => "Kuck dir d'Applicatioun's Säit op apps.owncloud.com un",
+"Clients" => "Clienten",
 "Password" => "Passwuert",
 "Unable to change your password" => "Konnt däin Passwuert net änneren",
 "Current password" => "Momentan 't Passwuert",

@@ -22,6 +22,7 @@
 "Select an App" => "Vælg en App",
 "See application page at apps.owncloud.com" => "Se applikationens side på apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-licenseret af <span class=\"author\"></span>",
+"Clients" => "Klienter",
 "Password" => "Kodeord",
 "Your password was changed" => "Din adgangskode blev ændret",
 "Unable to change your password" => "Ude af stand til at ændre dit kodeord",

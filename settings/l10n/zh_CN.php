@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "查看在 app.owncloud.com 的应用程序页面",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-核准： <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "你已使用 <strong>%s</strong>，有效空间 <strong>%s</strong>",
+"Clients" => "客户",
 "Password" => "密码",
 "Your password was changed" => "密码已修改",
 "Unable to change your password" => "无法修改密码",

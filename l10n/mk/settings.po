@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-20 00:11+0100\n"
-"PO-Revision-Date: 2012-12-19 23:11+0000\n"
+"POT-Creation-Date: 2012-12-21 00:10+0100\n"
+"PO-Revision-Date: 2012-12-19 23:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -149,7 +149,7 @@ msgstr "Имате искористено <strong>%s</strong> од достап�
 
 #: templates/personal.php:12
 msgid "Clients"
-msgstr ""
+msgstr "Клиенти"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"

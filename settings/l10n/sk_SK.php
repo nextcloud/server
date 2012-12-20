@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "Pozrite si stránku aplikácií na apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-licencované <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Použili ste <strong>%s</strong> z <strong>%s</strong> dostupných ",
+"Clients" => "Klienti",
 "Password" => "Heslo",
 "Your password was changed" => "Heslo bolo zmenené",
 "Unable to change your password" => "Nie je možné zmeniť vaše heslo",

@@ -22,6 +22,7 @@
 "Select an App" => "Vali programm",
 "See application page at apps.owncloud.com" => "Vaata rakenduste lehte aadressil apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-litsenseeritud <span class=\"author\"></span>",
+"Clients" => "Kliendid",
 "Password" => "Parool",
 "Your password was changed" => "Sinu parooli on muudetud",
 "Unable to change your password" => "Sa ei saa oma parooli muuta",

@@ -10,6 +10,7 @@
 "Enable" => "Slå på",
 "__language_name__" => "Nynorsk",
 "Select an App" => "Vel ein applikasjon",
+"Clients" => "Klientar",
 "Password" => "Passord",
 "Unable to change your password" => "Klarte ikkje å endra passordet",
 "Current password" => "Passord",

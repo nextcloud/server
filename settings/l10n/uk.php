@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "Перегляньте сторінку програм на apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Ви використали <strong>%s</strong> із доступних <strong>%s</strong>",
+"Clients" => "Клієнти",
 "Password" => "Пароль",
 "Your password was changed" => "Ваш пароль змінено",
 "Unable to change your password" => "Не вдалося змінити Ваш пароль",

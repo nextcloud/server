@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "צפה בעמוד הישום ב apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "ברישיון <span class=\"licence\"></span>לטובת <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "השתמשת ב־<strong>%s</strong> מתוך <strong>%s</strong> הזמינים לך",
+"Clients" => "לקוחות",
 "Password" => "ססמה",
 "Your password was changed" => "הססמה שלך הוחלפה",
 "Unable to change your password" => "לא ניתן לשנות את הססמה שלך",

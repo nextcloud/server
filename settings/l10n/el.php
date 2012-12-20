@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "Δείτε την σελίδα εφαρμογών στο apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-άδεια από <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Χρησιμοποιήσατε <strong>%s</strong> από διαθέσιμα <strong>%s</strong>",
+"Clients" => "Πελάτες",
 "Password" => "Συνθηματικό",
 "Your password was changed" => "Το συνθηματικό σας έχει αλλάξει",
 "Unable to change your password" => "Δεν ήταν δυνατή η αλλαγή του κωδικού πρόσβασης",

@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "Ikusi programen orria apps.owncloud.com en",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-lizentziatua <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Dagoeneko <strong>%s</strong> erabili duzu eskuragarri duzun <strong>%s</strong>etatik",
+"Clients" => "Bezeroak",
 "Password" => "Pasahitza",
 "Your password was changed" => "Zere pasahitza aldatu da",
 "Unable to change your password" => "Ezin izan da zure pasahitza aldatu",

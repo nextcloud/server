@@ -23,6 +23,7 @@
 "See application page at apps.owncloud.com" => "ดูหน้าแอพพลิเคชั่นที่ apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-ลิขสิทธิ์การใช้งานโดย <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "คุณได้ใช้งานไปแล้ว <strong>%s</strong> จากจำนวนที่สามารถใช้ได้ <strong>%s</strong>",
+"Clients" => "ลูกค้า",
 "Password" => "รหัสผ่าน",
 "Your password was changed" => "รหัสผ่านของคุณถูกเปลี่ยนแล้ว",
 "Unable to change your password" => "ไม่สามารถเปลี่ยนรหัสผ่านของคุณได้",

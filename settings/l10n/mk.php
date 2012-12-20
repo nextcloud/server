@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "Види ја страницата со апликации на apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-лиценцирано од <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Имате искористено <strong>%s</strong> од достапните <strong>%s</strong>",
+"Clients" => "Клиенти",
 "Password" => "Лозинка",
 "Your password was changed" => "Вашата лозинка беше променета.",
 "Unable to change your password" => "Вашата лозинка неможе да се смени",

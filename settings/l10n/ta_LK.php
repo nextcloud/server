@@ -23,6 +23,7 @@
 "See application page at apps.owncloud.com" => "apps.owncloud.com இல் செயலி பக்கத்தை பார்க்க",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"அனுமதிப்பத்திரம்\"></span>-அனுமதி பெற்ற <span class=\"ஆசிரியர்\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "நீங்கள் <strong>%s</strong> இலுள்ள <strong>%s</strong>பயன்படுத்தியுள்ளீர்கள்",
+"Clients" => "வாடிக்கையாளர்கள்",
 "Password" => "கடவுச்சொல்",
 "Your password was changed" => "உங்களுடைய கடவுச்சொல் மாற்றப்பட்டுள்ளது",
 "Unable to change your password" => "உங்களுடைய கடவுச்சொல்லை மாற்றமுடியாது",

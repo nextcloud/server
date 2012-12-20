@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "apps.owncloud.com에 있는 앱 페이지를 참고하십시오",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-라이선스 보유자 <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "현재 공간 <strong>%s</strong>/<strong>%s</strong>을(를) 사용 중입니다",
+"Clients" => "고객",
 "Password" => "암호",
 "Your password was changed" => "암호가 변경되었습니다",
 "Unable to change your password" => "암호를 변경할 수 없음",

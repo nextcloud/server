@@ -20,6 +20,7 @@
 "More Apps" => "Daha fazla App",
 "Select an App" => "Bir uygulama seçin",
 "See application page at apps.owncloud.com" => "Uygulamanın sayfasına apps.owncloud.com adresinden bakın ",
+"Clients" => "Müşteriler",
 "Password" => "Parola",
 "Your password was changed" => "Şifreniz değiştirildi",
 "Unable to change your password" => "Parolanız değiştirilemiyor",

@@ -13,6 +13,7 @@
 "Add your App" => "Dodajte vašu aplikaciju",
 "Select an App" => "Odaberite Aplikaciju",
 "See application page at apps.owncloud.com" => "Pogledajte stranicu s aplikacijama na apps.owncloud.com",
+"Clients" => "Klijenti",
 "Password" => "Lozinka",
 "Unable to change your password" => "Nemoguće promijeniti lozinku",
 "Current password" => "Trenutna lozinka",

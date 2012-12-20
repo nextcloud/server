@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "Vexa a páxina do aplicativo en apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-licenciado por<span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Tes usados <strong>%s</strong> do total dispoñíbel de <strong>%s</strong>",
+"Clients" => "Clientes",
 "Password" => "Contrasinal",
 "Your password was changed" => "O seu contrasinal foi cambiado",
 "Unable to change your password" => "Incapaz de trocar o seu contrasinal",

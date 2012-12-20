@@ -9,6 +9,7 @@
 "Enable" => "Включване",
 "Saving..." => "Записване...",
 "Select an App" => "Изберете програма",
+"Clients" => "Клиенти",
 "Password" => "Парола",
 "Unable to change your password" => "Невъзможна промяна на паролата",
 "Current password" => "Текуща парола",

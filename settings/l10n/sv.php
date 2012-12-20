@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "Se programsida på apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-licensierad av <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Du har använt <strong>%s</strong> av tillgängliga <strong>%s</strong>",
+"Clients" => "Kunder",
 "Password" => "Lösenord",
 "Your password was changed" => "Ditt lösenord har ändrats",
 "Unable to change your password" => "Kunde inte ändra ditt lösenord",

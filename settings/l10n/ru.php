@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "Смотрите дополнения на apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span> лицензия. Автор <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Вы использовали <strong>%s</strong> из доступных <strong>%s</strong>",
+"Clients" => "Клиенты",
 "Password" => "Пароль",
 "Your password was changed" => "Ваш пароль изменён",
 "Unable to change your password" => "Невозможно сменить пароль",

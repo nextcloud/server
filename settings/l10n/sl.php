@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "Obiščite spletno stran programa na apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-z dovoljenjem s strani <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Uporabljate <strong>%s</strong> od razpoložljivih <strong>%s</strong>",
+"Clients" => "Stranka",
 "Password" => "Geslo",
 "Your password was changed" => "Vaše geslo je spremenjeno",
 "Unable to change your password" => "Gesla ni mogoče spremeniti.",

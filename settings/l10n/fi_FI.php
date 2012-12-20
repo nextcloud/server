@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "Katso sovellussivu osoitteessa apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-lisensoija <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Käytössäsi on <strong>%s</strong>/<strong>%s</strong>",
+"Clients" => "Asiakkaat",
 "Password" => "Salasana",
 "Your password was changed" => "Salasanasi vaihdettiin",
 "Unable to change your password" => "Salasanaasi ei voitu vaihtaa",

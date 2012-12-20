@@ -21,6 +21,7 @@
 "Select an App" => "Selecciona una applicacion",
 "See application page at apps.owncloud.com" => "Agacha la pagina d'applications en cò de apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-licençiat per <span class=\"author\"></span>",
+"Clients" => "Practica",
 "Password" => "Senhal",
 "Your password was changed" => "Ton senhal a cambiat",
 "Unable to change your password" => "Pas possible de cambiar ton senhal",

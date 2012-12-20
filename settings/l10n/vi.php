@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "Xem nhiều ứng dụng hơn tại apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-Giấy phép được cấp bởi  <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Bạn đã sử dụng <strong>%s </ strong> có sẵn <strong> %s </ strong>",
+"Clients" => "Khách hàng",
 "Password" => "Mật khẩu",
 "Your password was changed" => "Mật khẩu của bạn đã được thay đổi.",
 "Unable to change your password" => "Không thể đổi mật khẩu",

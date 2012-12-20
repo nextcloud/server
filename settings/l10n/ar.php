@@ -6,6 +6,7 @@
 "Saving..." => "حفظ",
 "__language_name__" => "__language_name__",
 "Select an App" => "إختر تطبيقاً",
+"Clients" => "الزبائن",
 "Password" => "كلمات السر",
 "Unable to change your password" => "لم يتم تعديل كلمة السر بنجاح",
 "Current password" => "كلمات السر الحالية",

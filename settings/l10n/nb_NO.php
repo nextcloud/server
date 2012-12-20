@@ -21,6 +21,7 @@
 "More Apps" => "Flere Apps",
 "Select an App" => "Velg en app",
 "See application page at apps.owncloud.com" => "Se applikasjonens side på apps.owncloud.org",
+"Clients" => "Klienter",
 "Password" => "Passord",
 "Your password was changed" => "Passord har blitt endret",
 "Unable to change your password" => "Kunne ikke endre passordet ditt",

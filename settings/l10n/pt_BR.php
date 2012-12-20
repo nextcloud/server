@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "Ver página do aplicativo em apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-licenciado por <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Você usou <strong>%s</strong> do seu espaço de <strong>%s</strong>",
+"Clients" => "Clientes",
 "Password" => "Senha",
 "Your password was changed" => "Sua senha foi alterada",
 "Unable to change your password" => "Não é possivel alterar a sua senha",
