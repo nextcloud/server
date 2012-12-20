@@ -203,6 +203,9 @@ $(document).ready(function() {
 				var files = data.files;
 				var totalSize=0;
 				if(files){
+					if (FileList.lastAction) {
+						FileList.lastAction();
+					}
 					for(var i=0;i<files.length;i++){
 						if(files[i].size ==0 && files[i].type== '')
 						{
@@ -512,6 +515,9 @@ $(document).ready(function() {
 				$('#notification').text(t('files','Invalid folder name. Usage of "Shared" is reserved by Owncloud'));
 				$('#notification').fadeIn();
 				return;
+			}
+			if (FileList.lastAction) {
+				FileList.lastAction();
 			}
 			var name = getUniqueName($(this).val());
 			if (name != $(this).val()) {
