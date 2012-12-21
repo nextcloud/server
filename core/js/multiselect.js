@@ -68,12 +68,12 @@
 				if(self.menuDirection === 'down') {
 					button.parent().children('ul').slideUp(400,function() {
 						button.parent().children('ul').remove();
-						button.removeClass('active');
+						button.removeClass('active down');
 					});
 				} else {
 					button.parent().children('ul').fadeOut(400,function() {
 						button.parent().children('ul').remove();
-						button.removeClass('active').removeClass('up');
+						button.removeClass('active up');
 					});
 				}
 				return;
@@ -267,12 +267,12 @@
 				if(self.menuDirection === 'down') {
 					button.parent().children('ul').slideUp(400,function() {
 						button.parent().children('ul').remove();
-						button.removeClass('active').removeClass('down');
+						button.removeClass('active down');
 					});
 				} else {
 					button.parent().children('ul').fadeOut(400,function() {
 						button.parent().children('ul').remove();
-						button.removeClass('active').removeClass('up');
+						button.removeClass('active up');
 					});
 				}
 			}
