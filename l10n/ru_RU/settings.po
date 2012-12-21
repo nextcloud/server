@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-21 00:10+0100\n"
-"PO-Revision-Date: 2012-12-19 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-22 00:24+0100\n"
+"PO-Revision-Date: 2012-12-21 10:00+0000\n"
+"Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -118,27 +118,27 @@ msgstr "<span class=\"licence\"></span>-licensed by <span class=\"author\"></spa
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr ""
+msgstr "Документация пользователя"
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Документация администратора"
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr ""
+msgstr "Документация online"
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr ""
+msgstr "Форум"
 
 #: templates/help.php:9
 msgid "Bugtracker"
-msgstr ""
+msgstr "Отслеживание ошибок"
 
 #: templates/help.php:11
 msgid "Commercial Support"
-msgstr ""
+msgstr "Коммерческая поддержка"
 
 #: templates/personal.php:8
 #, php-format
@@ -155,11 +155,11 @@ msgstr ""
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr ""
+msgstr "Загрузить клиент под Android "
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr ""
+msgstr "Загрузить клиент под iOS "
 
 #: templates/personal.php:21 templates/users.php:23 templates/users.php:77
 msgid "Password"
@@ -211,15 +211,15 @@ msgstr "Помогите перевести"
 
 #: templates/personal.php:52
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Используйте этот адрес для подключения к ownCloud в Вашем файловом менеджере"
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr ""
+msgstr "Версия"
 
 #: templates/personal.php:65
 msgid ""

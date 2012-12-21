@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-19 00:03+0100\n"
-"PO-Revision-Date: 2012-12-18 10:54+0000\n"
+"POT-Creation-Date: 2012-12-22 00:24+0100\n"
+"PO-Revision-Date: 2012-12-21 08:08+0000\n"
 "Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -207,14 +207,14 @@ msgstr "Опубликовать с ссылкой"
 msgid "Password protect"
 msgstr "Защитить паролем"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:26
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Пароль"
 
 #: js/share.js:172
 msgid "Email link to person"
-msgstr ""
+msgstr "Ссылка на адрес электронной почты"
 
 #: js/share.js:173
 msgid "Send"
@@ -313,7 +313,7 @@ msgid "Request failed!"
 msgstr "Не удалось выполнить запрос!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
-#: templates/login.php:21
+#: templates/login.php:28
 msgid "Username"
 msgstr "Имя пользователя"
 
@@ -527,29 +527,29 @@ msgstr "веб-сервисы под Вашим контролем"
 msgid "Log out"
 msgstr "Выйти"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Автоматический вход в систему отклонен!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Если Вы недавно не меняли пароль, Ваш аккаунт может быть подвергнут опасности!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Пожалуйста, измените пароль, чтобы защитить ваш аккаунт еще раз."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Забыли пароль?"
 
-#: templates/login.php:29
+#: templates/login.php:39
 msgid "remember"
 msgstr "запомнить"
 
-#: templates/login.php:30
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Войти"
 

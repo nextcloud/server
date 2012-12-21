@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-19 00:03+0100\n"
-"PO-Revision-Date: 2012-12-18 11:24+0000\n"
+"POT-Creation-Date: 2012-12-22 00:24+0100\n"
+"PO-Revision-Date: 2012-12-21 10:27+0000\n"
 "Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr "Ошибка настройки хранилища Google Drive"
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
-msgstr "<b>Предупреждение:</b> \"smbclient\" не установлен. Mounting of CIFS/SMB shares is not possible. Пожалуйста, обратитесь к системному администратору, чтобы установить его."
+msgstr "<b>Предупреждение:</b> \"smbclient\" не установлен. Подключение общих папок CIFS/SMB невозможно. Пожалуйста, обратитесь к системному администратору, чтобы установить его."
 
 #: lib/config.php:435
 msgid ""
@@ -100,7 +100,7 @@ msgid "Users"
 msgstr "Пользователи"
 
 #: templates/settings.php:108 templates/settings.php:109
-#: templates/settings.php:149 templates/settings.php:150
+#: templates/settings.php:144 templates/settings.php:145
 msgid "Delete"
 msgstr "Удалить"
 
@@ -112,10 +112,10 @@ msgstr "Включить пользовательскую внешнюю сис�
 msgid "Allow users to mount their own external storage"
 msgstr "Разрешить пользователям монтировать их собственную внешнюю систему хранения данных"
 
-#: templates/settings.php:139
+#: templates/settings.php:136
 msgid "SSL root certificates"
 msgstr "Корневые сертификаты SSL"
 
-#: templates/settings.php:158
+#: templates/settings.php:153
 msgid "Import Root Certificate"
 msgstr "Импортировать корневые сертификаты"

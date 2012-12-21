@@ -43,6 +43,7 @@
 "Share with link" => "Опубликовать с ссылкой",
 "Password protect" => "Защитить паролем",
 "Password" => "Пароль",
+"Email link to person" => "Ссылка на адрес электронной почты",
 "Send" => "Отправить",
 "Set expiration date" => "Установить срок действия",
 "Expiration date" => "Дата истечения срока действия",
