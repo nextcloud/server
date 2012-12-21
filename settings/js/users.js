@@ -26,7 +26,7 @@ var UserList={
 		UserList.deleteCanceled = false;
 		
 		// Provide user with option to undo
-		$('#notification').html(t('users', 'deleted')+' '+uid+'<span class="undo">'+t('users', 'undo')+'</span>');
+		$('#notification').html(t('settings', 'deleted')+' '+uid+'<span class="undo">'+t('settings', 'undo')+'</span>');
 		$('#notification').data('deleteuser',true);
 		$('#notification').fadeIn();
 	},
@@ -71,10 +71,10 @@ var UserList={
 		var tr = $('tbody tr').first().clone();
 		tr.attr('data-uid', username);
 		tr.find('td.name').text(username);
-		var groupsSelect = $('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="Groups"></select>').attr('data-username', username).attr('data-user-groups', groups);
+		var groupsSelect = $('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="' + t('settings', 'Groups') + '"></select>').attr('data-username', username).attr('data-user-groups', groups);
 		tr.find('td.groups').empty();
 		if (tr.find('td.subadmins').length > 0) {
-			var subadminSelect = $('<select multiple="multiple" class="subadminsselect" data-placehoder="subadmins" title="' + t('files', 'Group Admin') + '">').attr('data-username', username).attr('data-user-groups', groups).attr('data-subadmin', subadmin);
+			var subadminSelect = $('<select multiple="multiple" class="subadminsselect" data-placehoder="subadmins" title="' + t('settings', 'Group Admin') + '">').attr('data-username', username).attr('data-user-groups', groups).attr('data-subadmin', subadmin);
 			tr.find('td.subadmins').empty();
 		}
 		var allGroups = String($('#content table').attr('data-groups')).split(', ');
@@ -187,7 +187,7 @@ var UserList={
 			};
 			var label;
 			if(isadmin){
-				label = t('core', 'add group');
+				label = t('settings', 'add group');
 			}else{
 				label = null;
 			}
@@ -363,15 +363,21 @@ $(document).ready(function(){
 		var username=$('#newusername').val();
 		var password=$('#newuserpassword').val();
 		if($('#content table tbody tr').filterAttr('data-uid',username).length>0){
-			OC.dialogs.alert('The username is already being used', 'Error creating user');
+			OC.dialogs.alert(
+                t('settings', 'The username is already being used'),
+                t('settings', 'Error creating user'));
 			return;
 		}
 		if($.trim(username) == '') {
-			OC.dialogs.alert('A valid username must be provided', 'Error creating user');
+			OC.dialogs.alert(
+                t('settings', 'A valid username must be provided'),
+                t('settings', 'Error creating user'));
 			return false;
 		}
 		if($.trim(password) == '') {
-			OC.dialogs.alert('A valid password must be provided', 'Error creating user');
+			OC.dialogs.alert(
+                t('settings', 'A valid password must be provided'),
+                t('settings', 'Error creating user'));
 			return false;
 		}
 		var groups=$('#newusergroups').prev().children('div').data('settings').checked;
