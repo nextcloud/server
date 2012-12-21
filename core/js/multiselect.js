@@ -18,6 +18,8 @@
 			'createCallback':false,
 			'createText':false,
 			'singleSelect':false,
+			'selectedFirst':false,
+			'sort':true,
 			'title':this.attr('title'),
 			'checked':[],
 			'labels':[],
@@ -133,6 +135,7 @@
 						}
 						settings.checked.push(value);
 						settings.labels.push(label);
+						$(this).parent().addClass('checked');
 					} else {
 						var index=settings.checked.indexOf(value);
 						element.attr('selected',null);
@@ -142,6 +145,7 @@
 								return;
 							}
 						}
+						$(this).parent().removeClass('checked');
 						settings.checked.splice(index,1);
 						settings.labels.splice(index,1);
 					}
@@ -162,6 +166,9 @@
 				});
 				var li=$('<li></li>');
 				li.append(input).append(label);
+				if(input.is(':checked')) {
+					li.addClass('checked');
+				}
 				return li;
 			}
 			$.each(options,function(index,item){
@@ -169,7 +176,7 @@
 			});
 			button.parent().data('preventHide',false);
 			if(settings.createText){
-				var li=$('<li>+ <em>'+settings.createText+'<em></li>');
+				var li=$('<li class="creator">+ <em>'+settings.createText+'<em></li>');
 				li.click(function(event){
 					li.empty();
 					var input=$('<input class="new">');
@@ -237,20 +244,48 @@
 				});
 				list.append(li);
 			}
+			
+			var doSort = function(list, selector) {
+				var rows = list.find('li'+selector).get();
+
+				if(settings.sort) {
+					rows.sort(function(a, b) {
+						return $(a).text().toUpperCase().localeCompare($(b).text().toUpperCase());
+					});
+				}
+
+				$.each(rows, function(index, row) {
+					list.append(row);
+				});
+			};
+			if(settings.sort && settings.selectedFirst) {
+				doSort(list, '.checked');
+				doSort(list, ':not(.checked)');
+			} else if(settings.sort && !settings.selectedFirst) {
+				doSort(list, '');
+			}
+			list.append(list.find('li.creator'));
 			var pos=button.position();
 			if($(document).height() > (button.offset().top+button.outerHeight() + list.children().length * button.height())
 				|| $(document).height()/2 > pos.top
 			) {
-				list.css('top',pos.top+button.outerHeight()-5);
-				list.css('left',pos.left+3);
-				list.css('width',(button.outerWidth()-2)+'px');
+				list.css({
+					top:pos.top+button.outerHeight()-5,
+					left:pos.left+3,
+					width:(button.outerWidth()-2)+'px',
+					'max-height':($(document).height()-(button.offset().top+button.outerHeight()+10))+'px'
+				});
 				list.addClass('down');
 				button.addClass('down');
 				list.slideDown();
 			} else {
-				list.css('top', pos.top - list.height());
-				list.css('left', pos.left+3);
-				list.css('width',(button.outerWidth()-2)+'px');
+				list.css('max-height', $(document).height()-($(document).height()-(pos.top)+50)+'px');
+				list.css({
+					top:pos.top - list.height(),
+					left:pos.left+3,
+					width:(button.outerWidth()-2)+'px'
+					
+				});
 				list.detach().insertBefore($(this));
 				list.addClass('up');
 				button.addClass('up');
