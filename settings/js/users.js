@@ -193,6 +193,7 @@ var UserList = {
             element.multiSelect({
                 createCallback:addGroup,
                 createText:label,
+                selectedFirst:true,
                 checked:checked,
                 oncheck:checkHandeler,
                 onuncheck:checkHandeler,
