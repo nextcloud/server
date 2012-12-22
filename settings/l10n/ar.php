@@ -3,6 +3,7 @@
 "Invalid request" => "طلبك غير مفهوم",
 "Authentication error" => "لم يتم التأكد من الشخصية بنجاح",
 "Language changed" => "تم تغيير اللغة",
+"Enable" => "تفعيل",
 "Saving..." => "حفظ",
 "__language_name__" => "__language_name__",
 "Select an App" => "إختر تطبيقاً",
