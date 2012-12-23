@@ -4,14 +4,15 @@
 # 
 # Translators:
 #   <icewind1991@gmail.com>, 2012.
+#   <shiningmoon25@gmail.com>, 2012.
 #   <tarek.taha@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-23 00:09+0100\n"
-"PO-Revision-Date: 2012-12-22 19:51+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-24 00:11+0100\n"
+"PO-Revision-Date: 2012-12-23 18:36+0000\n"
+"Last-Translator: aboodilankaboot <shiningmoon25@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,27 +22,27 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "فشل تحميل القائمة من الآب ستور"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr ""
+msgstr "المجموعة موجودة مسبقاً"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr ""
+msgstr "فشل إضافة المجموعة"
 
 #: ajax/enableapp.php:12
 msgid "Could not enable app. "
-msgstr ""
+msgstr "فشل عملية تفعيل التطبيق"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr ""
+msgstr "تم حفظ البريد الإلكتروني"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr ""
+msgstr "البريد الإلكتروني غير صالح"
 
 #: ajax/openid.php:13
 msgid "OpenID Changed"
@@ -53,7 +54,7 @@ msgstr "طلبك غير مفهوم"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "فشل إزالة المجموعة"
 
 #: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
 msgid "Authentication error"
@@ -61,7 +62,7 @@ msgstr "لم يتم التأكد من الشخصية بنجاح"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr ""
+msgstr "فشل إزالة المستخدم"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -69,21 +70,21 @@ msgstr "تم تغيير اللغة"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "لا يستطيع المدير إزالة حسابه من مجموعة المديرين"
 
 #: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "فشل إضافة المستخدم الى المجموعة %s"
 
 #: ajax/togglegroups.php:34
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "فشل إزالة المستخدم من المجموعة %s"
 
 #: js/apps.js:28 js/apps.js:67
 msgid "Disable"
-msgstr ""
+msgstr "إيقاف"
 
 #: js/apps.js:28 js/apps.js:55
 msgid "Enable"
@@ -99,11 +100,11 @@ msgstr "__language_name__"
 
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr ""
+msgstr "أضف تطبيقاتك"
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr ""
+msgstr "المزيد من التطبيقات"
 
 #: templates/apps.php:27
 msgid "Select an App"
@@ -111,40 +112,40 @@ msgstr "إختر تطبيقاً"
 
 #: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "راجع صفحة التطبيق على apps.owncloud.com"
 
 #: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-ترخيص من قبل <span class=\"author\"></span>"
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr ""
+msgstr "كتاب توثيق المستخدم"
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "كتاب توثيق المدير"
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr ""
+msgstr "توثيق متوفر على الشبكة"
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr ""
+msgstr "منتدى"
 
 #: templates/help.php:9
 msgid "Bugtracker"
-msgstr ""
+msgstr "تعقب علة"
 
 #: templates/help.php:11
 msgid "Commercial Support"
-msgstr ""
+msgstr "دعم تجاري"
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "تم إستهلاك <strong>%s</strong> من المتوفر <strong>%s</strong>"
 
 #: templates/personal.php:12
 msgid "Clients"
@@ -152,15 +153,15 @@ msgstr "الزبائن"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr ""
+msgstr "تحميل عملاء سطح المكتب"
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr ""
+msgstr "تحميل عميل آندرويد"
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr ""
+msgstr "تحميل عميل آي أو أس"
 
 #: templates/personal.php:21 templates/users.php:23 templates/users.php:77
 msgid "Password"
@@ -168,7 +169,7 @@ msgstr "كلمات السر"
 
 #: templates/personal.php:22
 msgid "Your password was changed"
-msgstr ""
+msgstr "لقد تم تغيير كلمة السر"
 
 #: templates/personal.php:23
 msgid "Unable to change your password"
@@ -212,15 +213,15 @@ msgstr "ساعد في الترجمه"
 
 #: templates/personal.php:52
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "إستخدم هذا العنوان للإتصال بـ ownCloud في مدير الملفات"
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr ""
+msgstr "إصدار"
 
 #: templates/personal.php:65
 msgid ""
@@ -230,7 +231,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "طوّر من قبل <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud مجتمع</a>, الـ <a href=\"https://github.com/owncloud\" target=\"_blank\">النص المصدري</a> مرخص بموجب <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">رخصة أفيرو العمومية</abbr></a>."
 
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"
@@ -246,7 +247,7 @@ msgstr "انشئ"
 
 #: templates/users.php:35
 msgid "Default Quota"
-msgstr ""
+msgstr "الحصة النسبية الإفتراضية"
 
 #: templates/users.php:55 templates/users.php:138
 msgid "Other"
@@ -254,7 +255,7 @@ msgstr "شيء آخر"
 
 #: templates/users.php:80 templates/users.php:112
 msgid "Group Admin"
-msgstr ""
+msgstr "مدير المجموعة"
 
 #: templates/users.php:82
 msgid "Quota"
