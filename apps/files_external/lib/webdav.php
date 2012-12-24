@@ -20,47 +20,56 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	private static $tempFiles=array();
 
 	public function __construct($params) {
-		$host = $params['host'];
-		//remove leading http[s], will be generated in createBaseUri()
-		if (substr($host, 0, 8) == "https://") $host = substr($host, 8);
-		else if (substr($host, 0, 7) == "http://") $host = substr($host, 7);
-		$this->host=$host;
-		$this->user=$params['user'];
-		$this->password=$params['password'];
-		if (isset($params['secure'])) {
-			if (is_string($params['secure'])) {
-				$this->secure = ($params['secure'] === 'true');
+		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
+			$host = $params['host'];
+			//remove leading http[s], will be generated in createBaseUri()
+			if (substr($host, 0, 8) == "https://") $host = substr($host, 8);
+			else if (substr($host, 0, 7) == "http://") $host = substr($host, 7);
+			$this->host=$host;
+			$this->user=$params['user'];
+			$this->password=$params['password'];
+			if (isset($params['secure'])) {
+				if (is_string($params['secure'])) {
+					$this->secure = ($params['secure'] === 'true');
+				} else {
+					$this->secure = (bool)$params['secure'];
+				}
 			} else {
-				$this->secure = (bool)$params['secure'];
+				$this->secure = false;
 			}
+			$this->root=isset($params['root'])?$params['root']:'/';
+			if ( ! $this->root || $this->root[0]!='/') {
+				$this->root='/'.$this->root;
+			}
+			if (substr($this->root, -1, 1)!='/') {
+				$this->root.='/';
+			}
+
+			$settings = array(
+				'baseUri' => $this->createBaseUri(),
+				'userName' => $this->user,
+				'password' => $this->password,
+			);
+
+			$this->client = new OC_Connector_Sabre_Client($settings);
+
+			$caview = \OCP\Files::getStorage('files_external');
+			if ($caview) {
+				$certPath=\OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath("").'rootcerts.crt';
+				if (file_exists($certPath)) {
+					$this->client->addTrustedCertificates($certPath);
+				}
+			}
+			$test = $this->stat('');
+			if (!$test) {
+				throw new Exception();
+			}
+			//create the root folder if necesary
+			$this->mkdir('');
 		} else {
-			$this->secure = false;
+			throw new Exception();
 		}
-		$this->root=isset($params['root'])?$params['root']:'/';
-		if ( ! $this->root || $this->root[0]!='/') {
-			$this->root='/'.$this->root;
-		}
-		if (substr($this->root, -1, 1)!='/') {
-			$this->root.='/';
-		}
-
-		$settings = array(
-			'baseUri' => $this->createBaseUri(),
-			'userName' => $this->user,
-			'password' => $this->password,
-		);
-
-		$this->client = new OC_Connector_Sabre_Client($settings);
-
-		$caview = \OCP\Files::getStorage('files_external');
-		if ($caview) {
-			$certPath=\OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath("").'rootcerts.crt';
-			if (file_exists($certPath)) {
-				$this->client->addTrustedCertificates($certPath);
-			}
-		}
-		//create the root folder if necesary
-		$this->mkdir('');
+		
 	}
 
 	private function createBaseUri() {

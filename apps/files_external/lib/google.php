@@ -42,6 +42,10 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			$this->oauth_token = new OAuthToken($params['token'], $params['token_secret']);
 			$this->sig_method = new OAuthSignatureMethod_HMAC_SHA1();
 			$this->entries = array();
+			$test = $this->free_space('');
+			if (!$test) {
+				throw new Exception();
+			}
 		} else {
 			throw new Exception('Creating OC_Filestorage_Google storage failed');
 		}

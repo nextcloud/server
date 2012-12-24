@@ -4,6 +4,7 @@ OC.MountConfig={
 		if (mountPoint == '') {
 			return false;
 		}
+		var statusSpan = $(tr).find('.status span');
 		var backendClass = $(tr).find('.backend').data('class');
 		var configuration = $(tr).find('.configuration input');
 		var addMountPoint = true;
@@ -27,6 +28,7 @@ OC.MountConfig={
 			}
 		});
 		if (addMountPoint) {
+			var status = false;
 			if ($('#externalStorage').data('admin') === true) {
 				var isPersonal = false;
 				var multiselect = $(tr).find('.chzn-select').val();
@@ -47,7 +49,14 @@ OC.MountConfig={
 							oldUsers.splice($.inArray(applicable, oldUsers), 1);
 						}
 					}
-					$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+					$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal }, function(result) {
+						statusSpan.removeClass();
+						if (result && result.status == 'success' && result.data.message) {
+							statusSpan.addClass('success');
+						} else {
+							statusSpan.addClass('error');
+						}
+					});
 				});
 				var mountType = 'group';
 				$.each(oldGroups, function(index, applicable) {
@@ -61,7 +70,14 @@ OC.MountConfig={
 				var isPersonal = true;
 				var mountType = 'user';
 				var applicable = OC.currentUser;
-				$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+				$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal }, function(result) {
+					statusSpan.removeClass();
+					if (result && result.status == 'success' && result.data.message) {
+						statusSpan.addClass('success');
+					} else {
+						statusSpan.addClass('error');
+					}
+				});
 			}
 			return true;
 		}
@@ -82,6 +98,7 @@ $(document).ready(function() {
 			$(tr).find('.mountPoint input').val(suggestMountPoint(selected.replace(/\s+/g, '')));
 		}
 		$(tr).addClass(backendClass);
+		$(tr).find('.status').append('<span class="waiting"></span>');
 		$(tr).find('.backend').data('class', backendClass);
 		var configurations = $(this).data('configurations');
 		var td = $(tr).find('td.configuration');

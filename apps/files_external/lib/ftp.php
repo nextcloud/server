@@ -16,26 +16,35 @@ class OC_FileStorage_FTP extends OC_FileStorage_StreamWrapper{
 	private static $tempFiles=array();
 
 	public function __construct($params) {
-		$this->host=$params['host'];
-		$this->user=$params['user'];
-		$this->password=$params['password'];
-		if (isset($params['secure'])) {
-			if (is_string($params['secure'])) {
-				$this->secure = ($params['secure'] === 'true');
+		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
+			$this->host=$params['host'];
+			$this->user=$params['user'];
+			$this->password=$params['password'];
+			if (isset($params['secure'])) {
+				if (is_string($params['secure'])) {
+					$this->secure = ($params['secure'] === 'true');
+				} else {
+					$this->secure = (bool)$params['secure'];
+				}
 			} else {
-				$this->secure = (bool)$params['secure'];
+				$this->secure = false;
+			}
+			$this->root=isset($params['root'])?$params['root']:'/';
+			if ( ! $this->root || $this->root[0]!='/') {
+				$this->root='/'.$this->root;
+			}
+			$test = $this->stat('');
+			if (!$test) {
+				throw new Exception();
+			}
+			//create the root folder if necesary
+			if ( ! $this->is_dir('')) {
+				$this->mkdir('');
 			}
 		} else {
-			$this->secure = false;
+			throw new Exception();
 		}
-		$this->root=isset($params['root'])?$params['root']:'/';
-		if ( ! $this->root || $this->root[0]!='/') {
-			$this->root='/'.$this->root;
-		}
-		//create the root folder if necesary
-		if ( ! $this->is_dir('')) {
-			$this->mkdir('');
-		}
+		
 	}
 
 	/**

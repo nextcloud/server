@@ -41,7 +41,10 @@ class OC_Filestorage_Dropbox extends OC_Filestorage_Common {
 			$oauth = new Dropbox_OAuth_Curl($params['app_key'], $params['app_secret']);
 			$oauth->setToken($params['token'], $params['token_secret']);
 			$this->dropbox = new Dropbox_API($oauth, 'dropbox');
-			$this->mkdir('');
+			$test = $this->stat('');
+			if (!$test) {
+				throw new Exception('Creating OC_Filestorage_Dropbox storage failed');
+			}
 		} else {
 			throw new Exception('Creating OC_Filestorage_Dropbox storage failed');
 		}

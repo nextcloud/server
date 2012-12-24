@@ -30,11 +30,19 @@ class OC_Filestorage_AmazonS3 extends OC_Filestorage_Common {
 
 	private static $tempFiles = array();
 
-	// TODO options: storage class, encryption server side, encrypt before upload?
+	// TODO Update to new AWS SDK
 
 	public function __construct($params) {
-		$this->s3 = new AmazonS3(array('key' => $params['key'], 'secret' => $params['secret']));
-		$this->bucket = $params['bucket'];
+		if (isset($params['key']) && isset($params['secret']) && isset($params['bucket'])) {
+			$this->s3 = new AmazonS3(array('key' => $params['key'], 'secret' => $params['secret']));
+			$this->bucket = $params['bucket'];
+			$test = $this->s3->get_canonical_user_id();
+			if (!isset($test['id']) || $test['id'] == '') {
+				throw new Exception();
+			}
+		} else {
+			throw new Exception();
+		}
 	}
 
 	private function getObject($path) {

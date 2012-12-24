@@ -5,6 +5,7 @@
 		<table id="externalStorage" data-admin='<?php echo json_encode($_['isAdminPage']); ?>'>
 			<thead>
 				<tr>
+					<th></th>
 					<th><?php echo $l->t('Mount point'); ?></th>
 					<th><?php echo $l->t('Backend'); ?></th>
 					<th><?php echo $l->t('Configuration'); ?></th>
@@ -17,6 +18,11 @@
 			<?php $_['mounts'] = array_merge($_['mounts'], array('' => array())); ?>
 			<?php foreach ($_['mounts'] as $mountPoint => $mount): ?>
 				<tr <?php echo ($mountPoint != '') ? 'class="'.$mount['class'].'"' : 'id="addMountPoint"'; ?>>
+					<td class="status">
+					<?php if (isset($mount['status'])): ?>
+						<span class="<?php echo ($mount['status']) ? 'success' : 'error'; ?>"></span>
+					<?php endif; ?>
+					</td>
 					<td class="mountPoint"><input type="text" name="mountPoint"
 												  value="<?php echo $mountPoint; ?>"
 												  placeholder="<?php echo $l->t('Mount point'); ?>" /></td>

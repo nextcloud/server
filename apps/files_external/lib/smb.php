@@ -16,28 +16,36 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 	private $share;
 
 	public function __construct($params) {
-		$this->host=$params['host'];
-		$this->user=$params['user'];
-		$this->password=$params['password'];
-		$this->share=$params['share'];
-		$this->root=isset($params['root'])?$params['root']:'/';
-		if ( ! $this->root || $this->root[0]!='/') {
-			$this->root='/'.$this->root;
+		if (isset($params['host']) && isset($params['user']) && isset($params['password']) && isset($params['share'])) {
+			$this->host=$params['host'];
+			$this->user=$params['user'];
+			$this->password=$params['password'];
+			$this->share=$params['share'];
+			$this->root=isset($params['root'])?$params['root']:'/';
+			if ( ! $this->root || $this->root[0]!='/') {
+				$this->root='/'.$this->root;
+			}
+			if (substr($this->root, -1, 1)!='/') {
+				$this->root.='/';
+			}
+			if ( ! $this->share || $this->share[0]!='/') {
+				$this->share='/'.$this->share;
+			}
+			if (substr($this->share, -1, 1)=='/') {
+				$this->share=substr($this->share, 0, -1);
+			}
+			$test = $this->stat('');
+			if (!$test) {
+				throw new Exception();
+			}
+			//create the root folder if necesary
+			if ( ! $this->is_dir('')) {
+				$this->mkdir('');
+			}
+		} else {
+			throw new Exception();
 		}
-		if (substr($this->root, -1, 1)!='/') {
-			$this->root.='/';
-		}
-		if ( ! $this->share || $this->share[0]!='/') {
-			$this->share='/'.$this->share;
-		}
-		if (substr($this->share, -1, 1)=='/') {
-			$this->share=substr($this->share, 0, -1);
-		}
-
-		//create the root folder if necesary
-		if ( ! $this->is_dir('')) {
-			$this->mkdir('');
-		}
+		
 	}
 
 	public function constructUrl($path) {

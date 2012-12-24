@@ -1,4 +1,7 @@
-.error { color: #FF3B3B; }
+td.status>span { display:inline-block; height:16px; width:16px; }
+span.success { background-image: url('../img/success.png'); background-repeat:no-repeat; }
+span.error { background-image: url('../img/error.png'); background-repeat:no-repeat; }
+span.waiting { background-image: url('../img/waiting.png'); background-repeat:no-repeat; }
 td.mountPoint, td.backend { width:10em; }
 td.remove>img { visibility:hidden; padding-top:0.8em; }
 tr:hover>td.remove>img { visibility:visible; cursor:pointer; }

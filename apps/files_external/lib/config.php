@@ -131,7 +131,9 @@ class OC_Mount_Config {
 							'class' => $mount['class'],
 							'backend' => $backends[$mount['class']]['backend'],
 							'configuration' => $mount['options'],
-							'applicable' => array('groups' => array($group), 'users' => array()));
+							'applicable' => array('groups' => array($group), 'users' => array()),
+							'status' => self::getBackendStatus($mount['class'], $mount['options'])
+						);
 					}
 				}
 			}
@@ -146,10 +148,13 @@ class OC_Mount_Config {
 						$system[$mountPoint]['applicable']['users']
 							= array_merge($system[$mountPoint]['applicable']['users'], array($user));
 					} else {
-						$system[$mountPoint] = array('class' => $mount['class'],
+						$system[$mountPoint] = array(
+							'class' => $mount['class'],
 							'backend' => $backends[$mount['class']]['backend'],
 							'configuration' => $mount['options'],
-							'applicable' => array('groups' => array(), 'users' => array($user)));
+							'applicable' => array('groups' => array(), 'users' => array($user)),
+							'status' => self::getBackendStatus($mount['class'], $mount['options'])
+						);
 					}
 				}
 			}
@@ -170,12 +175,30 @@ class OC_Mount_Config {
 		if (isset($mountPoints[self::MOUNT_TYPE_USER][$uid])) {
 			foreach ($mountPoints[self::MOUNT_TYPE_USER][$uid] as $mountPoint => $mount) {
 				// Remove '/uid/files/' from mount point
-				$personal[substr($mountPoint, strlen($uid) + 8)] = array('class' => $mount['class'],
-																'backend' => $backends[$mount['class']]['backend'],
-																'configuration' => $mount['options']);
+				$personal[substr($mountPoint, strlen($uid) + 8)] = array(
+					'class' => $mount['class'],
+					'backend' => $backends[$mount['class']]['backend'],
+					'configuration' => $mount['options'],
+					'status' => self::getBackendStatus($mount['class'], $mount['options'])
+				);
 			}
 		}
 		return $personal;
+	}
+
+	private static function getBackendStatus($class, $options) {
+		foreach ($options as &$option) {
+			$option = str_replace('$user', OCP\User::getUser(), $option);
+		}
+		if (class_exists($class)) {
+			try {
+				new $class($options);
+				return true;
+			} catch (Exception $exception) {
+				return false;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -259,7 +282,7 @@ class OC_Mount_Config {
 			$mountPoints[$mountType] = $mount;
 		}
 		self::writeData($isPersonal, $mountPoints);
-		return true;
+		return self::getBackendStatus($class, $classOptions);
 	}
 
 	/**

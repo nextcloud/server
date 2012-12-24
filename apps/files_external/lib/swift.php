@@ -267,32 +267,37 @@ class OC_FileStorage_SWIFT extends OC_Filestorage_Common{
 	}
 
 	public function __construct($params) {
-		$this->token=$params['token'];
-		$this->host=$params['host'];
-		$this->user=$params['user'];
-		$this->root=isset($params['root'])?$params['root']:'/';
-		if (isset($params['secure'])) {
-			if (is_string($params['secure'])) {
-				$this->secure = ($params['secure'] === 'true');
+		if (isset($params['token']) && isset($params['host']) && isset($params['user'])) {
+			$this->token=$params['token'];
+			$this->host=$params['host'];
+			$this->user=$params['user'];
+			$this->root=isset($params['root'])?$params['root']:'/';
+			if (isset($params['secure'])) {
+				if (is_string($params['secure'])) {
+					$this->secure = ($params['secure'] === 'true');
+				} else {
+					$this->secure = (bool)$params['secure'];
+				}
 			} else {
-				$this->secure = (bool)$params['secure'];
+				$this->secure = false;
+			}
+			if ( ! $this->root || $this->root[0]!='/') {
+				$this->root='/'.$this->root;
+			}
+			$this->auth = new CF_Authentication($this->user, $this->token, null, $this->host);
+			$this->auth->authenticate();
+
+			$this->conn = new CF_Connection($this->auth);
+
+			if ( ! $this->containerExists('/')) {
+				$this->rootContainer=$this->createContainer('/');
+			} else {
+				$this->rootContainer=$this->getContainer('/');
 			}
 		} else {
-			$this->secure = false;
+			throw new Exception();
 		}
-		if ( ! $this->root || $this->root[0]!='/') {
-			$this->root='/'.$this->root;
-		}
-		$this->auth = new CF_Authentication($this->user, $this->token, null, $this->host);
-		$this->auth->authenticate();
-
-		$this->conn = new CF_Connection($this->auth);
-
-		if ( ! $this->containerExists('/')) {
-			$this->rootContainer=$this->createContainer('/');
-		} else {
-			$this->rootContainer=$this->getContainer('/');
-		}
+		
 	}
 
 
