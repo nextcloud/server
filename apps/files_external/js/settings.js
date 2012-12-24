@@ -27,11 +27,16 @@ OC.MountConfig={
 				classOptions[$(input).data('parameter')] = $(input).val();
 			}
 		});
+		if ($('#externalStorage').data('admin') === true) {
+			var multiselect = $(tr).find('.chzn-select').val();
+			if (multiselect == null) {
+				return false;
+			}
+		}
 		if (addMountPoint) {
 			var status = false;
 			if ($('#externalStorage').data('admin') === true) {
 				var isPersonal = false;
-				var multiselect = $(tr).find('.chzn-select').val();
 				var oldGroups = $(tr).find('.applicable').data('applicable-groups');
 				var oldUsers = $(tr).find('.applicable').data('applicable-users');
 				$.each(multiselect, function(index, value) {
