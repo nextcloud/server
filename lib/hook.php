@@ -59,7 +59,11 @@ class OC_Hook{
 
 		// Call all slots
 		foreach( self::$registered[$signalclass][$signalname] as $i ) {
-			call_user_func( array( $i["class"], $i["name"] ), $params );
+			try {
+				call_user_func( array( $i["class"], $i["name"] ), $params );
+			} catch (Exception $e){
+				OC_Log::write('hook', 'error while running hook (' . $i["class"] . '::' . $i["name"] . '): '.$e->getMessage(), OC_Log::ERROR);
+			}
 		}
 
 		// return true

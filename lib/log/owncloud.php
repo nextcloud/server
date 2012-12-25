@@ -33,8 +33,11 @@ class OC_Log_Owncloud {
 	 * Init class data
 	 */
 	public static function init() {
-		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
-		self::$logFile=OC_Config::getValue( "logfile", $datadir.'/owncloud.log' );
+		$defaultLogFile = OC_Config::getValue("datadirectory", OC::$SERVERROOT.'/data').'/owncloud.log';
+		self::$logFile = OC_Config::getValue("logfile", $defaultLogFile);
+		if (!file_exists(self::$logFile)) {
+			self::$logFile = $defaultLogFile;
+		}
 	}
 
 	/**
@@ -47,9 +50,11 @@ class OC_Log_Owncloud {
 		$minLevel=min(OC_Config::getValue( "loglevel", OC_Log::WARN ), OC_Log::ERROR);
 		if($level>=$minLevel) {
 			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level, 'time'=>time());
-			$fh=fopen(self::$logFile, 'a');
-			fwrite($fh, json_encode($entry)."\n");
-			fclose($fh);
+			$handle = @fopen(self::$logFile, 'a');
+			if ($handle) {
+				fwrite($handle, json_encode($entry)."\n");
+				fclose($handle);
+			}
 		}
 	}
 

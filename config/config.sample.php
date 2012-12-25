@@ -42,6 +42,12 @@ $CONFIG = array(
 /* Time in seconds how long an user is authenticated without entering his password again before performing sensitive actions like creating or deleting users etc...*/
 "enhancedauthtime" => 15 * 60,
 
+/* A proxy to use to connect to the internet. For example "myproxy.org:88" */
+"proxy" => "",
+
+/* The optional authentication for the proxy to use to connect to the internet. The format is: [username]:[password] */
+"proxyuserpwd" => "",
+
 /* Theme to use for ownCloud */
 "theme" => "",
 

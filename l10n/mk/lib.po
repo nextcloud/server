@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Georgi Stanojevski <glisha@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-18 00:13+0100\n"
+"PO-Revision-Date: 2012-12-17 13:04+0000\n"
+"Last-Translator: Georgi Stanojevski <glisha@gmail.com>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,57 +18,57 @@ msgstr ""
 "Language: mk\n"
 "Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;\n"
 
-#: app.php:285
+#: app.php:287
 msgid "Help"
 msgstr "Помош"
 
-#: app.php:292
+#: app.php:294
 msgid "Personal"
 msgstr "Лично"
 
-#: app.php:297
+#: app.php:299
 msgid "Settings"
 msgstr "Параметри"
 
-#: app.php:302
+#: app.php:304
 msgid "Users"
 msgstr "Корисници"
 
-#: app.php:309
-msgid "Apps"
-msgstr ""
-
 #: app.php:311
+msgid "Apps"
+msgstr "Аппликации"
+
+#: app.php:313
 msgid "Admin"
-msgstr ""
+msgstr "Админ"
 
-#: files.php:332
+#: files.php:366
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "Преземање во ZIP е исклучено"
 
-#: files.php:333
+#: files.php:367
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "Датотеките треба да се симнат една по една."
 
-#: files.php:333 files.php:358
+#: files.php:367 files.php:392
 msgid "Back to Files"
-msgstr ""
+msgstr "Назад кон датотеки"
 
-#: files.php:357
+#: files.php:391
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "Избраните датотеки се преголеми за да се генерира zip."
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "Апликацијата не е овозможена"
 
 #: json.php:39 json.php:64 json.php:77 json.php:89
 msgid "Authentication error"
-msgstr ""
+msgstr "Грешка во автентикација"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "Жетонот е истечен. Ве молам превчитајте ја страницата."
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
@@ -79,74 +80,74 @@ msgstr "Текст"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "Слики"
 
 #: template.php:103
 msgid "seconds ago"
-msgstr ""
+msgstr "пред секунди"
 
 #: template.php:104
 msgid "1 minute ago"
-msgstr ""
+msgstr "пред 1 минута"
 
 #: template.php:105
 #, php-format
 msgid "%d minutes ago"
-msgstr ""
+msgstr "пред %d минути"
 
 #: template.php:106
 msgid "1 hour ago"
-msgstr ""
+msgstr "пред 1 час"
 
 #: template.php:107
 #, php-format
 msgid "%d hours ago"
-msgstr ""
+msgstr "пред %d часови"
 
 #: template.php:108
 msgid "today"
-msgstr ""
+msgstr "денеска"
 
 #: template.php:109
 msgid "yesterday"
-msgstr ""
+msgstr "вчера"
 
 #: template.php:110
 #, php-format
 msgid "%d days ago"
-msgstr ""
+msgstr "пред %d денови"
 
 #: template.php:111
 msgid "last month"
-msgstr ""
+msgstr "минатиот месец"
 
 #: template.php:112
 #, php-format
 msgid "%d months ago"
-msgstr ""
+msgstr "пред %d месеци"
 
 #: template.php:113
 msgid "last year"
-msgstr ""
+msgstr "минатата година"
 
 #: template.php:114
 msgid "years ago"
-msgstr ""
+msgstr "пред години"
 
 #: updater.php:75
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s е достапно. Земи <a href=\"%s\">повеќе информации</a>"
 
 #: updater.php:77
 msgid "up to date"
-msgstr ""
+msgstr "ажурно"
 
 #: updater.php:80
 msgid "updates check is disabled"
-msgstr ""
+msgstr "проверката за ажурирања е оневозможена"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "Не можам да најдам категорија „%s“"

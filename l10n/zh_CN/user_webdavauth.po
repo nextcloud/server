@@ -4,13 +4,14 @@
 # 
 # Translators:
 #   <appweb.cn@gmail.com>, 2012.
+# Dianjin Wang <1132321739qq@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-18 00:01+0100\n"
-"PO-Revision-Date: 2012-11-17 11:47+0000\n"
-"Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
+"POT-Creation-Date: 2012-12-24 00:10+0100\n"
+"PO-Revision-Date: 2012-12-23 13:55+0000\n"
+"Last-Translator: Dianjin Wang <1132321739qq@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,5 +20,12 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: templates/settings.php:4
-msgid "WebDAV URL: http://"
-msgstr "WebDAV地址: http://"
+msgid "URL: http://"
+msgstr "URL：http://"
+
+#: templates/settings.php:6
+msgid ""
+"ownCloud will send the user credentials to this URL is interpret http 401 "
+"and http 403 as credentials wrong and all other codes as credentials "
+"correct."
+msgstr ""

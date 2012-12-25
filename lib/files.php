@@ -100,8 +100,13 @@ class OC_Files {
 			$filename = $dir . '/' . $files;
 		}
 		OC_Util::obEnd();
-		if ($zip or \OC\Files\Filesystem::isReadable($filename)) {
-			header('Content-Disposition: attachment; filename="' . basename($filename) . '"');
+		if($zip or \OC\Files\Filesystem::is_readable($filename)) {
+			if ( preg_match( "/MSIE/", $_SERVER["HTTP_USER_AGENT"] ) ) {
+				header( 'Content-Disposition: attachment; filename="' . rawurlencode( basename($filename) ) . '"' );
+			} else {
+				header( 'Content-Disposition: attachment; filename*=UTF-8\'\'' . rawurlencode( basename($filename) )
+													 . '; filename="' . rawurlencode( basename($filename) ) . '"' );
+			}
 			header('Content-Transfer-Encoding: binary');
 			OC_Response::disableCaching();
 			if ($zip) {
@@ -111,7 +116,8 @@ class OC_Files {
 				self::addSendfileHeader($filename);
 			}else{
 				header('Content-Type: '.\OC\Files\Filesystem::getMimeType($filename));
-				list($storage, ) = \OC\Files\Filesystem::resolvePath($filename);
+				header("Content-Length: ".\OC\Files\Filesystem::filesize($filename));
+				$storage = \OC\Files\Filesystem::getStorage($filename);
 				if ($storage instanceof \OC\File\Storage\Local) {
 					self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));
 				}
@@ -125,10 +131,8 @@ class OC_Files {
 			header("HTTP/1.0 403 Forbidden");
 			die('403 Forbidden');
 		}
-		if ($only_header) {
-			if (!$zip)
-				header("Content-Length: " . \OC\Files\Filesystem::filesize($filename));
-			return;
+		if($only_header) {
+			return ;
 		}
 		if ($zip) {
 			$handle = fopen($filename, 'r');

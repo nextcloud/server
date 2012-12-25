@@ -11,6 +11,7 @@
 #   <guiguidu31300@gmail.com>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 #   <life_0n_mars@live.fr>, 2012.
+#   <mishka.lazzlo@gmail.com>, 2012.
 # Nahir Mohamed <nahirmoha@gmail.com>, 2012.
 #   <pierreamiel.giraud@gmail.com>, 2012.
 # Robert Di Rosa <>, 2012.
@@ -20,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-05 00:04+0100\n"
-"PO-Revision-Date: 2012-12-04 10:26+0000\n"
-"Last-Translator: Robert Di Rosa <>\n"
+"POT-Creation-Date: 2012-12-25 00:10+0100\n"
+"PO-Revision-Date: 2012-12-24 14:10+0000\n"
+"Last-Translator: mishka <mishka.lazzlo@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -128,29 +129,29 @@ msgstr "Voir la page des applications à l'url apps.owncloud.com"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "Distribué sous licence <span class=\"licence\"></span>, par <span class=\"author\"></span>"
 
-#: templates/help.php:9
-msgid "Documentation"
-msgstr "Documentation"
+#: templates/help.php:3
+msgid "User Documentation"
+msgstr "Documentation utilisateur"
 
-#: templates/help.php:10
-msgid "Managing Big Files"
-msgstr "Gérer les gros fichiers"
+#: templates/help.php:4
+msgid "Administrator Documentation"
+msgstr "Documentation administrateur"
+
+#: templates/help.php:6
+msgid "Online Documentation"
+msgstr "Documentation en ligne"
+
+#: templates/help.php:7
+msgid "Forum"
+msgstr "Forum"
+
+#: templates/help.php:9
+msgid "Bugtracker"
+msgstr "Suivi de bugs"
 
 #: templates/help.php:11
-msgid "Ask a question"
-msgstr "Poser une question"
-
-#: templates/help.php:22
-msgid "Problems connecting to help database."
-msgstr "Problème de connexion à la base de données d'aide."
-
-#: templates/help.php:23
-msgid "Go there manually."
-msgstr "S'y rendre manuellement."
-
-#: templates/help.php:31
-msgid "Answer"
-msgstr "Réponse"
+msgid "Commercial Support"
+msgstr "Support commercial"
 
 #: templates/personal.php:8
 #, php-format
@@ -158,62 +159,82 @@ msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Vous avez utilisé <strong>%s</strong> des <strong>%s<strong> disponibles"
 
 #: templates/personal.php:12
-msgid "Desktop and Mobile Syncing Clients"
-msgstr "Clients de synchronisation Mobile et Ordinateur"
+msgid "Clients"
+msgstr "Clients"
 
 #: templates/personal.php:13
-msgid "Download"
-msgstr "Télécharger"
+msgid "Download Desktop Clients"
+msgstr "Télécharger des clients de bureau"
 
-#: templates/personal.php:19
+#: templates/personal.php:14
+msgid "Download Android Client"
+msgstr "Télécharger le client Android"
+
+#: templates/personal.php:15
+msgid "Download iOS Client"
+msgstr "Télécharger le client iOS"
+
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:77
+msgid "Password"
+msgstr "Mot de passe"
+
+#: templates/personal.php:22
 msgid "Your password was changed"
 msgstr "Votre mot de passe a été changé"
 
-#: templates/personal.php:20
+#: templates/personal.php:23
 msgid "Unable to change your password"
 msgstr "Impossible de changer votre mot de passe"
 
-#: templates/personal.php:21
+#: templates/personal.php:24
 msgid "Current password"
 msgstr "Mot de passe actuel"
 
-#: templates/personal.php:22
+#: templates/personal.php:25
 msgid "New password"
 msgstr "Nouveau mot de passe"
 
-#: templates/personal.php:23
+#: templates/personal.php:26
 msgid "show"
 msgstr "Afficher"
 
-#: templates/personal.php:24
+#: templates/personal.php:27
 msgid "Change password"
 msgstr "Changer de mot de passe"
 
-#: templates/personal.php:30
+#: templates/personal.php:33
 msgid "Email"
 msgstr "E-mail"
 
-#: templates/personal.php:31
+#: templates/personal.php:34
 msgid "Your email address"
 msgstr "Votre adresse e-mail"
 
-#: templates/personal.php:32
+#: templates/personal.php:35
 msgid "Fill in an email address to enable password recovery"
 msgstr "Entrez votre adresse e-mail pour permettre la réinitialisation du mot de passe"
 
-#: templates/personal.php:38 templates/personal.php:39
+#: templates/personal.php:41 templates/personal.php:42
 msgid "Language"
 msgstr "Langue"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Help translate"
 msgstr "Aidez à traduire"
 
-#: templates/personal.php:51
-msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "utilisez cette adresse pour vous connecter à votre ownCloud depuis un explorateur de fichiers"
+#: templates/personal.php:52
+msgid "WebDAV"
+msgstr "WebDAV"
 
-#: templates/personal.php:61
+#: templates/personal.php:54
+msgid "Use this address to connect to your ownCloud in your file manager"
+msgstr "Utiliser cette adresse pour vous connecter à ownCloud dans votre gestionnaire de fichiers"
+
+#: templates/personal.php:63
+msgid "Version"
+msgstr "Version"
+
+#: templates/personal.php:65
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -226,10 +247,6 @@ msgstr "Développé par la <a href=\"http://ownCloud.org/contact\" target=\"_bla
 #: templates/users.php:21 templates/users.php:76
 msgid "Name"
 msgstr "Nom"
-
-#: templates/users.php:23 templates/users.php:77
-msgid "Password"
-msgstr "Mot de passe"
 
 #: templates/users.php:26 templates/users.php:78 templates/users.php:98
 msgid "Groups"

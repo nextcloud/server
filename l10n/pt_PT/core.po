@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 23:17+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-18 00:13+0100\n"
+"PO-Revision-Date: 2012-12-17 01:27+0000\n"
+"Last-Translator: Mouxy <daniel@mouxy.net>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,26 +26,26 @@ msgstr ""
 #: ajax/share.php:84
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "O utilizador %s partilhou um ficheiro consigo."
 
 #: ajax/share.php:86
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "O utilizador %s partilhou uma pasta consigo."
 
 #: ajax/share.php:88
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "O utilizador %s partilhou o ficheiro \"%s\" consigo. Está disponível para download aqui: %s"
 
 #: ajax/share.php:90
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "O utilizador %s partilhou a pasta \"%s\" consigo. Está disponível para download aqui: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -212,18 +212,18 @@ msgstr "Partilhar com link"
 msgid "Password protect"
 msgstr "Proteger com palavra-passe"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:26
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Palavra chave"
 
 #: js/share.js:172
 msgid "Email link to person"
-msgstr ""
+msgstr "Enviar o link por e-mail"
 
 #: js/share.js:173
 msgid "Send"
-msgstr ""
+msgstr "Enviar"
 
 #: js/share.js:177
 msgid "Set expiration date"
@@ -291,11 +291,11 @@ msgstr "Erro ao aplicar a data de expiração"
 
 #: js/share.js:568
 msgid "Sending ..."
-msgstr ""
+msgstr "A Enviar..."
 
 #: js/share.js:579
 msgid "Email sent"
-msgstr ""
+msgstr "E-mail enviado com sucesso!"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -317,8 +317,8 @@ msgstr "E-mail de reinicialização enviado."
 msgid "Request failed!"
 msgstr "O pedido falhou!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:21
 msgid "Username"
 msgstr "Utilizador"
 
@@ -407,44 +407,44 @@ msgstr "A sua pasta com os dados e os seus ficheiros estão provavelmente acess�
 msgid "Create an <strong>admin account</strong>"
 msgstr "Criar uma <strong>conta administrativa</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "Avançado"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "Pasta de dados"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "Configure a base de dados"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "vai ser usada"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "Utilizador da base de dados"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "Password da base de dados"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "Nome da base de dados"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "Tablespace da base de dados"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Host da base de dados"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "Acabar instalação"
 
@@ -550,11 +550,11 @@ msgstr "Por favor mude a sua palavra-passe para assegurar a sua conta de novo."
 msgid "Lost your password?"
 msgstr "Esqueceu a sua password?"
 
-#: templates/login.php:27
+#: templates/login.php:29
 msgid "remember"
 msgstr "lembrar"
 
-#: templates/login.php:28
+#: templates/login.php:30
 msgid "Log in"
 msgstr "Entrar"
 
