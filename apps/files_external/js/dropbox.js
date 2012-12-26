@@ -36,9 +36,20 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#externalStorage tbody tr input').live('keyup', function() {
-		var tr = $(this).parent().parent();
-		if ($(tr).hasClass('OC_Filestorage_Dropbox') && $(tr).find('[data-parameter="configured"]').val() != 'true') {
+	$('#externalStorage tbody tr.OC_Filestorage_Dropbox td').live('paste', function() {
+		var tr = $(this).parent();
+		setTimeout(function() {
+			showButton(tr);
+		}, 20);
+	});
+
+	$('#externalStorage tbody tr.OC_Filestorage_Dropbox td').live('keyup', function() {
+		showButton($(this).parent().parent());
+		
+	});
+
+	function showButton(tr) {
+		if ($(tr).find('[data-parameter="configured"]').val() != 'true') {
 			var config = $(tr).find('.configuration');
 			if ($(tr).find('.mountPoint input').val() != '' && $(config).find('[data-parameter="app_key"]').val() != '' && $(config).find('[data-parameter="app_secret"]').val() != '') {
 				if ($(tr).find('.dropbox').length == 0) {
@@ -50,7 +61,7 @@ $(document).ready(function() {
 				$(tr).find('.dropbox').hide();
 			}
 		}
-	});
+	}
 
 	$('.dropbox').live('click', function(event) {
 		event.preventDefault();
