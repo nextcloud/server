@@ -184,7 +184,12 @@ class OC_Files {
 		}
 		OC_Util::obEnd();
 		if($zip or OC_Filesystem::is_readable($filename)) {
-			header('Content-Disposition: attachment; filename="'.basename($filename).'"');
+			if ( preg_match( "/MSIE/", $_SERVER["HTTP_USER_AGENT"] ) ) {
+				header( 'Content-Disposition: attachment; filename="' . rawurlencode( basename($filename) ) . '"' );
+			} else {
+				header( 'Content-Disposition: attachment; filename*=UTF-8\'\'' . rawurlencode( basename($filename) )
+													 . '; filename="' . rawurlencode( basename($filename) ) . '"' );
+			}
 			header('Content-Transfer-Encoding: binary');
 			OC_Response::disableCaching();
 			if($zip) {
