@@ -103,7 +103,15 @@ class OC_Mount_Config {
 				'user' => 'Username',
 				'password' => '*Password',
 				'root' => '&Root',
-				'secure' => '!Secure https://'));	
+				'secure' => '!Secure https://'));
+				
+		$backends['OC_Filestorage_SFTP']=array(
+			'backend' => 'SFTP',
+			'configuration' => array(
+				'host' => 'URL',
+				'user' => 'Username', 
+				'password' => '*Password', 
+				'root' => '&Root'));
 
 		return($backends);
 	}
