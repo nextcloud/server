@@ -26,11 +26,11 @@ class OC_Share_Backend_Folder extends OC_Share_Backend_File implements OCP\Share
 		$parents = array($itemSource);
 		while (!empty($parents)) {
 			$parents = "'".implode("','", $parents)."'";
-			$query = OC_DB::prepare('SELECT `id`, `name`, `mimetype` FROM `*PREFIX*fscache` WHERE `parent` IN ('.$parents.')');
+			$query = OC_DB::prepare('SELECT `fileid`, `name`, `mimetype` FROM `*PREFIX*filecache` WHERE `parent` IN ('.$parents.')');
 			$result = $query->execute();
 			$parents = array();
 			while ($file = $result->fetchRow()) {
-				$children[] = array('source' => $file['id'], 'file_path' => $file['name']);
+				$children[] = array('source' => $file['fileid'], 'file_path' => $file['name']);
 				// If a child folder is found look inside it
 				if ($file['mimetype'] == 'httpd/unix-directory') {
 					$parents[] = $file['id'];

@@ -739,7 +739,8 @@ class Share {
 				if (isset($row['parent'])) {
 					$row['path'] = '/Shared/'.basename($row['path']);
 				} else {
-					$row['path'] = substr($row['path'], $root);
+					// Strip 'files' from path
+					$row['path'] = substr($row['path'], 5);
 				}
 			}
 			if (isset($row['expiration'])) {
