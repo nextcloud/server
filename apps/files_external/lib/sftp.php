@@ -52,11 +52,14 @@ class OC_Filestorage_SFTP extends OC_Filestorage_Common {
 	}
 
 	private function host_keys_path() {
-		$storage_view = \OCP\Files::getStorage('files_external');
-		if ($storage_view) {
-			return \OCP\Config::getSystemValue('datadirectory') .
-				$storage_view->getAbsolutePath('') .
-				'ssh_host_keys';
+		try {
+			$storage_view = \OCP\Files::getStorage('files_external');
+			if ($storage_view) {
+				return \OCP\Config::getSystemValue('datadirectory') .
+					$storage_view->getAbsolutePath('') .
+					'ssh_host_keys';
+			}
+		} catch (Exception $e) {
 		}
 		return false;
 	}
@@ -76,36 +79,47 @@ class OC_Filestorage_SFTP extends OC_Filestorage_Common {
 	}
 
 	private function read_host_keys() {
-		$key_path = $this->host_keys_path();
-		if (file_exists($key_path)) {
-			$hosts = array();
-			$keys = array();
-			$lines = file($key_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-			if ($lines) {
-				foreach ($lines as $line) {
-					$host_key_arr = explode("::", $line, 2);
-					if (count($host_key_arr) == 2) {
-						$hosts[] = $host_key_arr[0];
-						$keys[] = $host_key_arr[1]; 
+		try {
+			$key_path = $this->host_keys_path();
+			if (file_exists($key_path)) {
+				$hosts = array();
+				$keys = array();
+				$lines = file($key_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+				if ($lines) {
+					foreach ($lines as $line) {
+						$host_key_arr = explode("::", $line, 2);
+						if (count($host_key_arr) == 2) {
+							$hosts[] = $host_key_arr[0];
+							$keys[] = $host_key_arr[1]; 
+						}
 					}
+					return array_combine($hosts, $keys);
 				}
-				return array_combine($hosts, $keys);
 			}
+		} catch (Exception $e) {
 		}
 		return array();
 	}
 
 	public function mkdir($path) {
-		return $this->client->mkdir($this->abs_path($path));
+		try {
+			return $this->client->mkdir($this->abs_path($path));
+		} catch (Exception $e) {
+			return false;
+		}
 	}
 
 	public function rmdir($path) {
-		return $this->client->delete($this->abs_path($path), true);
-	}
+		try {
+			return $this->client->delete($this->abs_path($path), true);
+		} catch (Exception $e) {
+			return false;
+		}
 
 	public function opendir($path) {
-		$list = $this->client->nlist($this->abs_path($path));
 		try {
+			$list = $this->client->nlist($this->abs_path($path));
+
 			$id = md5('sftp:' . $path);
 			OC_FakeDirStream::$dirs[$id] = array();
 			foreach($list as $file) {
@@ -120,9 +134,12 @@ class OC_Filestorage_SFTP extends OC_Filestorage_Common {
 	}
 
 	public function filetype($path) {
-		$stat = $this->client->stat($this->abs_path($path));
-		if ($stat['type'] == NET_SFTP_TYPE_REGULAR) return 'file';
-		if ($stat['type'] == NET_SFTP_TYPE_DIRECTORY) return 'dir';
+		try {
+			$stat = $this->client->stat($this->abs_path($path));
+			if ($stat['type'] == NET_SFTP_TYPE_REGULAR) return 'file';
+			if ($stat['type'] == NET_SFTP_TYPE_DIRECTORY) return 'dir';
+		} catch (Exeption $e) {
+		}
 		return false;
 	}
 
@@ -135,52 +152,63 @@ class OC_Filestorage_SFTP extends OC_Filestorage_Common {
 	}
 
 	public function file_exists($path) {
-		return $this->client->stat($this->abs_path($path)) === false ? false : true;
+		try {
+			return $this->client->stat($this->abs_path($path)) === false ? false : true;
+		} catch (Exception $e) {
+			return false;
+		}
 	}
 
 	public function unlink($path) {
-		return $this->client->delete($this->abs_path($path), true);
+		try {
+			return $this->client->delete($this->abs_path($path), true);
+		} catch (Exception $e) {
+			return false;
+		}
 	}
 
 	public function fopen($path, $mode) {
-		$abs_path = $this->abs_path($path);
-		switch($mode) {
-			case 'r':
-			case 'rb':
-				if ( !$this->file_exists($path)) return false;
-				if (strrpos($path, '.')!==false) {
-					$ext=substr($path, strrpos($path, '.'));
-				} else {
-					$ext='';
-				}
-				$tmp = OC_Helper::tmpFile($ext);
-				$this->getFile($abs_path, $tmp);
-				return fopen($tmp, $mode);
+		try {
+			$abs_path = $this->abs_path($path);
+			switch($mode) {
+				case 'r':
+				case 'rb':
+					if ( !$this->file_exists($path)) return false;
+					if (strrpos($path, '.')!==false) {
+						$ext=substr($path, strrpos($path, '.'));
+					} else {
+						$ext='';
+					}
+					$tmp = OC_Helper::tmpFile($ext);
+					$this->getFile($abs_path, $tmp);
+					return fopen($tmp, $mode);
 		
-			case 'w':
-			case 'wb':
-			case 'a':
-			case 'ab':
-			case 'r+':
-			case 'w+':
-			case 'wb+':
-			case 'a+':
-			case 'x':
-			case 'x+':
-			case 'c':
-			case 'c+':
-				if (strrpos($path, '.')!==false) {
-					$ext=substr($path, strrpos($path, '.'));
-				} else {
-					$ext='';
-				}
-				$tmpFile=OC_Helper::tmpFile($ext);
-				OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this, 'writeBack');
-				if ($this->file_exists($path)) {
-					$this->getFile($abs_path, $tmpFile);
-				}
-				self::$tempFiles[$tmpFile]=$abs_path;
-				return fopen('close://'.$tmpFile, $mode);
+				case 'w':
+				case 'wb':
+				case 'a':
+				case 'ab':
+				case 'r+':
+				case 'w+':
+				case 'wb+':
+				case 'a+':
+				case 'x':
+				case 'x+':
+				case 'c':
+				case 'c+':
+					if (strrpos($path, '.')!==false) {
+						$ext=substr($path, strrpos($path, '.'));
+					} else {
+						$ext='';
+					}
+					$tmpFile=OC_Helper::tmpFile($ext);
+					OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this, 'writeBack');
+					if ($this->file_exists($path)) {
+						$this->getFile($abs_path, $tmpFile);
+					}
+					self::$tempFiles[$tmpFile]=$abs_path;
+					return fopen('close://'.$tmpFile, $mode);
+			}
+		} catch (Exception $e) {
 		}
 		return false;
 	}
@@ -198,9 +226,13 @@ class OC_Filestorage_SFTP extends OC_Filestorage_Common {
 	}
 
 	public function touch($path, $mtime=null) {
-		if (!$this->file_exists($path)) {
-			$this->client->put($this->abs_path($path), '');
+		try {
+			if (!$this->file_exists($path)) {
+				$this->client->put($this->abs_path($path), '');
+			}
+		} catch (Exception $e) {
 		}
+
 	}
 
 	public function getFile($path, $target) {
@@ -212,16 +244,24 @@ class OC_Filestorage_SFTP extends OC_Filestorage_Common {
 	}
 
 	public function rename($source, $target) {
-		return $this->client->rename($this->abs_path($source), $this->abs_path($target));
-	}
+		try {
+			return $this->client->rename($this->abs_path($source), $this->abs_path($target));
+		} catch (Exception $e) {
+			return false;
+		}
 
 	public function stat($path) {
-		$stat = $this->client->stat($this->abs_path($path));
+		try {
+			$stat = $this->client->stat($this->abs_path($path));
 
-		$mtime = $stat ? $stat['mtime'] : -1;
-		$size = $stat ? $stat['size'] : 0;
+			$mtime = $stat ? $stat['mtime'] : -1;
+			$size = $stat ? $stat['size'] : 0;
 
-		return array('mtime' => $mtime, 'size' => $size, 'ctime' => -1);
+			return array('mtime' => $mtime, 'size' => $size, 'ctime' => -1);
+		} catch (Exception $e) {
+			return false;
+		}
+
 	}
 }
 ?>
