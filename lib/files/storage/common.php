@@ -38,7 +38,10 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		}
 	}
 	public function isCreatable($path) {
-		return $this->isUpdatable($path);
+		if ($this->is_dir($path) && $this->isUpdatable($path)) {
+			return true;
+		}
+		return false;
 	}
 	public function isDeletable($path) {
 		return $this->isUpdatable($path);
