@@ -157,8 +157,23 @@ $(document).ready(function() {
 		return defaultMountPoint+append;
 	}
 
-	$('#externalStorage td').live('change', function() {
-		OC.MountConfig.saveStorage($(this).parent());
+	$('#externalStorage td').live('paste', function() {
+		var tr = $(this).parent();
+		setTimeout(function() {
+			OC.MountConfig.saveStorage(tr);
+		}, 20);
+	});
+
+	var timer;
+
+	$('#externalStorage td').live('keyup', function() {
+		clearTimeout(timer);
+		var tr = $(this).parent();
+		if ($(this).val) {
+			timer = setTimeout(function() {
+				OC.MountConfig.saveStorage(tr);
+			}, 2000);
+		}
 	});
 
 	$('td.remove>img').live('click', function() {
