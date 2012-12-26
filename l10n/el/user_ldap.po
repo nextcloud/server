@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <anastasia2501@hotmail.com>, 2012.
 # Dimitris M. <monopatis@gmail.com>, 2012.
 # Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012.
 # Marios Bekatoros <>, 2012.
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-15 00:11+0100\n"
-"PO-Revision-Date: 2012-12-14 23:11+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-27 00:04+0100\n"
+"PO-Revision-Date: 2012-12-26 17:22+0000\n"
+"Last-Translator: AnAstAsiA <anastasia2501@hotmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,7 +49,7 @@ msgstr "Base DN"
 
 #: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr ""
+msgstr "Μπορείτε να καθορίσετε το Base DN για χρήστες και ομάδες από την καρτέλα Προηγμένες ρυθμίσεις"
 
 #: templates/settings.php:17
 msgid "User DN"
@@ -67,7 +68,7 @@ msgstr "Συνθηματικό"
 
 #: templates/settings.php:18
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "Για ανώνυμη πρόσβαση, αφήστε κενά τα πεδία DN και Pasword."
 
 #: templates/settings.php:19
 msgid "User Login Filter"
@@ -78,7 +79,7 @@ msgstr "User Login Filter"
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "Καθορίζει το φίλτρο που θα ισχύει κατά την προσπάθεια σύνδεσης χρήστη. %%uid αντικαθιστά το όνομα χρήστη κατά τη σύνδεση. "
 
 #: templates/settings.php:19
 #, php-format
@@ -91,7 +92,7 @@ msgstr "User List Filter"
 
 #: templates/settings.php:20
 msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
+msgstr "Καθορίζει το φίλτρο που θα ισχύει κατά την ανάκτηση επαφών."
 
 #: templates/settings.php:20
 msgid "without any placeholder, e.g. \"objectClass=person\"."
@@ -103,7 +104,7 @@ msgstr "Group Filter"
 
 #: templates/settings.php:21
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
+msgstr "Καθορίζει το φίλτρο που θα ισχύει κατά την ανάκτηση ομάδων."
 
 #: templates/settings.php:21
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
@@ -131,7 +132,7 @@ msgstr "Χρήση TLS"
 
 #: templates/settings.php:28
 msgid "Do not use it for SSL connections, it will fail."
-msgstr ""
+msgstr "Μην χρησιμοποιείτε για συνδέσεις SSL, θα αποτύχει."
 
 #: templates/settings.php:29
 msgid "Case insensitve LDAP server (Windows)"
@@ -139,7 +140,7 @@ msgstr ""
 
 #: templates/settings.php:30
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "Απενεργοποίηση επικύρωσης πιστοποιητικού SSL."
 
 #: templates/settings.php:30
 msgid ""
@@ -173,7 +174,7 @@ msgstr "σε bytes"
 
 #: templates/settings.php:36
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "σε δευτερόλεπτα. Μια αλλαγή αδειάζει την μνήμη cache."
 
 #: templates/settings.php:37
 msgid ""

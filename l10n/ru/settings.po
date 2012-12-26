@@ -10,6 +10,7 @@
 # Nick Remeslennikov <homolibere@gmail.com>, 2012.
 #   <rasperepodvipodvert@gmail.com>, 2012.
 #   <semen@sam002.net>, 2012.
+#   <sharov3@gmail.com>, 2012.
 #   <skoptev@ukr.net>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 # Victor Bravo <>, 2012.
@@ -18,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-21 00:10+0100\n"
-"PO-Revision-Date: 2012-12-19 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-27 00:04+0100\n"
+"PO-Revision-Date: 2012-12-26 06:17+0000\n"
+"Last-Translator: adol <sharov3@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -140,7 +141,7 @@ msgstr ""
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr ""
+msgstr "Форум"
 
 #: templates/help.php:9
 msgid "Bugtracker"
@@ -161,15 +162,15 @@ msgstr "Клиенты"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr ""
+msgstr "Загрузка приложений для компьютера"
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr ""
+msgstr "Загрузка Android-приложения"
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr ""
+msgstr "Загрузка iOS-приложения"
 
 #: templates/personal.php:21 templates/users.php:23 templates/users.php:77
 msgid "Password"
@@ -221,15 +222,15 @@ msgstr "Помочь с переводом"
 
 #: templates/personal.php:52
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Используйте этот URL для подключения файлового менеджера к Вашему хранилищу"
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr ""
+msgstr "Версия"
 
 #: templates/personal.php:65
 msgid ""

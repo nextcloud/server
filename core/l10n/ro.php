@@ -5,6 +5,7 @@
 "Settings" => "Configurări",
 "seconds ago" => "secunde în urmă",
 "1 minute ago" => "1 minut în urmă",
+"1 hour ago" => "Acum o ora",
 "today" => "astăzi",
 "yesterday" => "ieri",
 "last month" => "ultima lună",
