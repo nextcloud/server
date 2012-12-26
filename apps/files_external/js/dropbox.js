@@ -44,8 +44,7 @@ $(document).ready(function() {
 	});
 
 	$('#externalStorage tbody tr.OC_Filestorage_Dropbox td').live('keyup', function() {
-		showButton($(this).parent().parent());
-		
+		showButton($(this).parent());
 	});
 
 	function showButton(tr) {
