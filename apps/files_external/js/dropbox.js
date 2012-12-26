@@ -61,7 +61,7 @@ $(document).ready(function() {
 			var configured = $(this).parent().find('[data-parameter="configured"]');
 			var token = $(this).parent().find('[data-parameter="token"]');
 			var token_secret = $(this).parent().find('[data-parameter="token_secret"]');
-			$.post(OC.filePath('files_external', 'ajax', 'dropbox.php'), { step: 1, app_key: app_key, app_secret: app_secret, callback: window.location.href }, function(result) {
+			$.post(OC.filePath('files_external', 'ajax', 'dropbox.php'), { step: 1, app_key: app_key, app_secret: app_secret, callback: location.protocol + '//' + location.host + location.pathname }, function(result) {
 				if (result && result.status == 'success') {
 					$(configured).val('false');
 					$(token).val(result.data.request_token);
