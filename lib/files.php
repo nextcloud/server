@@ -100,7 +100,7 @@ class OC_Files {
 			$filename = $dir . '/' . $files;
 		}
 		OC_Util::obEnd();
-		if($zip or \OC\Files\Filesystem::is_readable($filename)) {
+		if ($zip or \OC\Files\Filesystem::isReadable($filename)) {
 			if ( preg_match( "/MSIE/", $_SERVER["HTTP_USER_AGENT"] ) ) {
 				header( 'Content-Disposition: attachment; filename="' . rawurlencode( basename($filename) ) . '"' );
 			} else {
