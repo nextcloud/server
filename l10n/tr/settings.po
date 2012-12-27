@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-21 00:10+0100\n"
-"PO-Revision-Date: 2012-12-19 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-28 00:20+0100\n"
+"PO-Revision-Date: 2012-12-27 11:45+0000\n"
+"Last-Translator: Necdet Yücel <necdetyucel@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -121,27 +121,27 @@ msgstr ""
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr ""
+msgstr "Kullanıcı Belgelendirmesi"
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Yönetici Belgelendirmesi"
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr ""
+msgstr "Çevrimiçi Belgelendirme"
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr ""
+msgstr "Forum"
 
 #: templates/help.php:9
 msgid "Bugtracker"
-msgstr ""
+msgstr "Hata Takip Sistemi"
 
 #: templates/help.php:11
 msgid "Commercial Support"
-msgstr ""
+msgstr "Ticari Destek"
 
 #: templates/personal.php:8
 #, php-format
@@ -154,15 +154,15 @@ msgstr "Müşteriler"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr ""
+msgstr "Masaüstü İstemcilerini İndir"
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr ""
+msgstr "Android İstemcisini İndir"
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr ""
+msgstr "iOS İstemcisini İndir"
 
 #: templates/personal.php:21 templates/users.php:23 templates/users.php:77
 msgid "Password"
@@ -214,7 +214,7 @@ msgstr "Çevirilere yardım edin"
 
 #: templates/personal.php:52
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
@@ -222,7 +222,7 @@ msgstr ""
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr ""
+msgstr "Sürüm"
 
 #: templates/personal.php:65
 msgid ""

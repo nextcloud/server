@@ -7,13 +7,14 @@
 # Dimon Pockemon <>, 2012.
 # Eugen Mihalache <eugemjj@gmail.com>, 2012.
 #   <g.ciprian@osn.ro>, 2012.
+#   <laur.cristescu@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-01 00:01+0100\n"
-"PO-Revision-Date: 2012-11-30 23:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-28 00:20+0100\n"
+"PO-Revision-Date: 2012-12-27 00:09+0000\n"
+"Last-Translator: laurentiucristescu <laur.cristescu@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +29,7 @@ msgstr "Nicio eroare, fișierul a fost încărcat cu succes"
 #: ajax/upload.php:21
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr ""
+msgstr "Fisierul incarcat depaseste upload_max_filesize permisi in php.ini: "
 
 #: ajax/upload.php:23
 msgid ""
@@ -56,11 +57,11 @@ msgstr "Eroare la scriere pe disc"
 msgid "Files"
 msgstr "Fișiere"
 
-#: js/fileactions.js:117 templates/index.php:83 templates/index.php:84
+#: js/fileactions.js:117 templates/index.php:84 templates/index.php:85
 msgid "Unshare"
 msgstr "Anulează partajarea"
 
-#: js/fileactions.js:119 templates/index.php:89 templates/index.php:90
+#: js/fileactions.js:119 templates/index.php:90 templates/index.php:91
 msgid "Delete"
 msgstr "Șterge"
 
@@ -68,124 +69,124 @@ msgstr "Șterge"
 msgid "Rename"
 msgstr "Redenumire"
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:199 js/filelist.js:201
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} deja exista"
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:199 js/filelist.js:201
 msgid "replace"
 msgstr "înlocuire"
 
-#: js/filelist.js:201
+#: js/filelist.js:199
 msgid "suggest name"
 msgstr "sugerează nume"
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:199 js/filelist.js:201
 msgid "cancel"
 msgstr "anulare"
 
-#: js/filelist.js:250
+#: js/filelist.js:248
 msgid "replaced {new_name}"
-msgstr ""
+msgstr "inlocuit {new_name}"
 
-#: js/filelist.js:250 js/filelist.js:252 js/filelist.js:284 js/filelist.js:286
+#: js/filelist.js:248 js/filelist.js:250 js/filelist.js:282 js/filelist.js:284
 msgid "undo"
 msgstr "Anulează ultima acțiune"
 
-#: js/filelist.js:252
+#: js/filelist.js:250
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "{new_name} inlocuit cu {old_name}"
+
+#: js/filelist.js:282
+msgid "unshared {files}"
+msgstr "nedistribuit {files}"
 
 #: js/filelist.js:284
-msgid "unshared {files}"
-msgstr ""
-
-#: js/filelist.js:286
 msgid "deleted {files}"
-msgstr ""
+msgstr "Sterse {files}"
 
 #: js/files.js:33
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Nume invalid, '\\', '/', '<', '>', ':', '\"', '|', '?' si '*' nu sunt permise."
 
-#: js/files.js:183
+#: js/files.js:174
 msgid "generating ZIP-file, it may take some time."
 msgstr "se generază fișierul ZIP, va dura ceva timp."
 
-#: js/files.js:218
+#: js/files.js:212
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Nu s-a putut încărca fișierul tău deoarece pare să fie un director sau are 0 bytes."
 
-#: js/files.js:218
+#: js/files.js:212
 msgid "Upload Error"
 msgstr "Eroare la încărcare"
 
-#: js/files.js:235
+#: js/files.js:229
 msgid "Close"
 msgstr "Închide"
 
-#: js/files.js:254 js/files.js:368 js/files.js:398
+#: js/files.js:248 js/files.js:362 js/files.js:392
 msgid "Pending"
 msgstr "În așteptare"
 
-#: js/files.js:274
+#: js/files.js:268
 msgid "1 file uploading"
 msgstr "un fișier se încarcă"
 
-#: js/files.js:277 js/files.js:331 js/files.js:346
+#: js/files.js:271 js/files.js:325 js/files.js:340
 msgid "{count} files uploading"
-msgstr ""
+msgstr "{count} fisiere incarcate"
 
-#: js/files.js:349 js/files.js:382
+#: js/files.js:343 js/files.js:376
 msgid "Upload cancelled."
 msgstr "Încărcare anulată."
 
-#: js/files.js:451
+#: js/files.js:445
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Fișierul este în curs de încărcare. Părăsirea paginii va întrerupe încărcarea."
 
-#: js/files.js:523
+#: js/files.js:515
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
-msgstr ""
+msgstr "Nume de folder invalid. Numele este rezervat pentru OwnCloud"
 
-#: js/files.js:704
+#: js/files.js:699
 msgid "{count} files scanned"
-msgstr ""
+msgstr "{count} fisiere scanate"
 
-#: js/files.js:712
+#: js/files.js:707
 msgid "error while scanning"
 msgstr "eroare la scanarea"
 
-#: js/files.js:785 templates/index.php:65
+#: js/files.js:780 templates/index.php:66
 msgid "Name"
 msgstr "Nume"
 
-#: js/files.js:786 templates/index.php:76
+#: js/files.js:781 templates/index.php:77
 msgid "Size"
 msgstr "Dimensiune"
 
-#: js/files.js:787 templates/index.php:78
+#: js/files.js:782 templates/index.php:79
 msgid "Modified"
 msgstr "Modificat"
 
-#: js/files.js:814
+#: js/files.js:801
 msgid "1 folder"
-msgstr ""
+msgstr "1 folder"
 
-#: js/files.js:816
+#: js/files.js:803
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} foldare"
 
-#: js/files.js:824
+#: js/files.js:811
 msgid "1 file"
-msgstr ""
+msgstr "1 fisier"
 
-#: js/files.js:826
+#: js/files.js:813
 msgid "{count} files"
-msgstr ""
+msgstr "{count} fisiere"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -233,7 +234,7 @@ msgstr "Dosar"
 
 #: templates/index.php:14
 msgid "From link"
-msgstr ""
+msgstr "de la adresa"
 
 #: templates/index.php:35
 msgid "Upload"
@@ -243,28 +244,28 @@ msgstr "Încarcă"
 msgid "Cancel upload"
 msgstr "Anulează încărcarea"
 
-#: templates/index.php:57
+#: templates/index.php:58
 msgid "Nothing in here. Upload something!"
 msgstr "Nimic aici. Încarcă ceva!"
 
-#: templates/index.php:71
+#: templates/index.php:72
 msgid "Download"
 msgstr "Descarcă"
 
-#: templates/index.php:103
+#: templates/index.php:104
 msgid "Upload too large"
 msgstr "Fișierul încărcat este prea mare"
 
-#: templates/index.php:105
+#: templates/index.php:106
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Fișierul care l-ai încărcat a depășită limita maximă admisă la încărcare pe acest server."
 
-#: templates/index.php:110
+#: templates/index.php:111
 msgid "Files are being scanned, please wait."
 msgstr "Fișierele sunt scanate, te rog așteptă."
 
-#: templates/index.php:113
+#: templates/index.php:114
 msgid "Current scanning"
 msgstr "În curs de scanare"
