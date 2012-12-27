@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="tests/bootstrap.php"
+         colors="true"
+>
+    <testsuites>
+        <testsuite name="phpseclib Test Suite">
+            <directory>./tests/</directory>
+        </testsuite>
+    </testsuites>
+
+    <!-- Code Coverage -->
+    <filter>
+        <whitelist>
+            <directory>./phpseclib/</directory>
+        </whitelist>
+    </filter>
+</phpunit>
