@@ -1,4 +1,11 @@
 <?php
+/**
+ * Copyright (c) 2012 Henrik Kjölhede <hkjolhede@gmail.com>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
+
 set_include_path(get_include_path() . PATH_SEPARATOR . OC::$THIRDPARTYROOT . '/3rdparty/phpseclib/phpseclib');
 require('Net/SFTP.php');
 
