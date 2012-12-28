@@ -2,6 +2,7 @@
 "User %s shared a file with you" => "L'utilisateur %s a partagé un fichier avec vous",
 "User %s shared a folder with you" => "L'utilsateur %s a partagé un dossier avec vous",
 "User %s shared the file \"%s\" with you. It is available for download here: %s" => "L'utilisateur %s a partagé le fichier \"%s\" avec vous. Vous pouvez le télécharger ici : %s",
+"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "L'utilisateur %s a partagé le dossier \"%s\" avec vous. Il est disponible au téléchargement ici : %s",
 "Category type not provided." => "Type de catégorie non spécifié.",
 "No category to add?" => "Pas de catégorie à ajouter ?",
 "This category already exists: " => "Cette catégorie existe déjà : ",
