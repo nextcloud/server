@@ -20,10 +20,6 @@ class OC_Filestorage_SFTP extends OC_Filestorage_Common {
 	private static $tempFiles = array();
 
 	public function __construct($params) {
-		if (!isset($params['host']) || !isset($params['user']) || !isset($params['password'])) {
-			throw new Exception("Required parameters not set");
-		}
-
 		$this->host = $params['host'];
 		$proto = strpos($this->host, '://');
 		if ($proto != false) {
@@ -52,6 +48,12 @@ class OC_Filestorage_SFTP extends OC_Filestorage_Common {
 			$host_keys[$this->host] = $current_host_key;
 			$this->write_host_keys($host_keys);
 		}
+	}
+	
+	public function test() {
+		if (!isset($params['host']) || !isset($params['user']) || !isset($params['password'])) {
+			throw new Exception("Required parameters not set");
+		}	
 	}
 
 	private function abs_path($path) {
