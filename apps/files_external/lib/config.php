@@ -192,8 +192,8 @@ class OC_Mount_Config {
 		}
 		if (class_exists($class)) {
 			try {
-				new $class($options);
-				return true;
+				$storage = new $class($options);
+				return $storage->test();
 			} catch (Exception $exception) {
 				return false;
 			}

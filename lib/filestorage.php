@@ -64,4 +64,5 @@ abstract class OC_Filestorage{
 	 */
 	abstract public function hasUpdated($path, $time);
 	abstract public function getOwner($path);
+	abstract public function test();
 }

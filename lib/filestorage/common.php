@@ -288,4 +288,12 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 	public function getOwner($path) {
 		return OC_User::getUser();
 	}
+
+	public function test() {
+		if ($this->stat('')) {
+			return true;
+		}
+		return false;
+	}
+
 }

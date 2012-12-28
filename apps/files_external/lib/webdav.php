@@ -60,10 +60,6 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 					$this->client->addTrustedCertificates($certPath);
 				}
 			}
-			$test = $this->stat('');
-			if (!$test) {
-				throw new Exception();
-			}
 			//create the root folder if necesary
 			$this->mkdir('');
 		} else {

@@ -36,10 +36,6 @@ class OC_Filestorage_AmazonS3 extends OC_Filestorage_Common {
 		if (isset($params['key']) && isset($params['secret']) && isset($params['bucket'])) {
 			$this->s3 = new AmazonS3(array('key' => $params['key'], 'secret' => $params['secret']));
 			$this->bucket = $params['bucket'];
-			$test = $this->s3->get_canonical_user_id();
-			if (!isset($test['id']) || $test['id'] == '') {
-				throw new Exception();
-			}
 		} else {
 			throw new Exception();
 		}
@@ -248,6 +244,14 @@ class OC_Filestorage_AmazonS3 extends OC_Filestorage_Common {
 		}
 		$response = $this->s3->update_object($this->bucket, $path, array('meta' => array('LastModified' => $mtime)));
 		return $response->isOK();
+	}
+
+	public function test() {
+		$test = $this->s3->get_canonical_user_id();
+		if (isset($test['id']) && $test['id'] != '') {
+			return true;
+		}
+		return false;
 	}
 
 }

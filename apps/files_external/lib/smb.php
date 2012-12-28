@@ -34,10 +34,6 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 			if (substr($this->share, -1, 1)=='/') {
 				$this->share=substr($this->share, 0, -1);
 			}
-			$test = $this->stat('');
-			if (!$test) {
-				throw new Exception();
-			}
 			//create the root folder if necesary
 			if ( ! $this->is_dir('')) {
 				$this->mkdir('');
