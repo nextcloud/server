@@ -100,7 +100,7 @@ $(document).ready(function() {
 		var backendClass = $(this).val();
 		$(this).parent().text(selected);
 		if ($(tr).find('.mountPoint input').val() == '') {
-			$(tr).find('.mountPoint input').val(suggestMountPoint(selected.replace(/\s+/g, '')));
+			$(tr).find('.mountPoint input').val(suggestMountPoint(selected));
 		}
 		$(tr).addClass(backendClass);
 		$(tr).find('.status').append('<span class="waiting"></span>');
@@ -136,6 +136,11 @@ $(document).ready(function() {
 	});
 
 	function suggestMountPoint(defaultMountPoint) {
+		var pos = defaultMountPoint.indexOf('/');
+		if (pos !== -1) {
+			defaultMountPoint = defaultMountPoint.substring(0, pos);
+		}
+		defaultMountPoint = defaultMountPoint.replace(/\s+/g, '');
 		var i = 1;
 		var append = '';
 		var match = true;
