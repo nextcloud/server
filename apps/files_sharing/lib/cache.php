@@ -30,6 +30,10 @@ class Shared_Cache extends Cache {
 
 	private $files = array();
 
+	public function __construct($storage) {
+		
+	}
+
 	/**
 	* @brief Get the source cache of a shared file or folder
 	* @param string Shared target file path
@@ -41,8 +45,12 @@ class Shared_Cache extends Cache {
 			$source['path'] = '/'.$source['uid_owner'].'/'.$source['path'];
 			\OC\Files\Filesystem::initMountPoints($source['uid_owner']);
 			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source['path']);
-			$this->files[$target] = $internalPath;
-			return $storage->getCache();
+			if ($storage) {
+				$this->files[$target] = $internalPath;
+				$cache = $storage->getCache();
+				$this->numericId = $cache->getNumericStorageId();
+				return $cache;
+			}
 		}
 		return false;
 	}
@@ -83,8 +91,11 @@ class Shared_Cache extends Cache {
 		if ($folder == '') {
 			return \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_GET_FOLDER_CONTENTS);
 		} else {
-			return $this->getSourceCache($folder)->getFolderContents('/'.$this->files[$folder]);
+			if ($cache = $this->getSourceCache($folder)) {
+				return $cache->getFolderContents($this->files[$folder]);
+			}
 		}
+		return false;
 	}
 
 	/**

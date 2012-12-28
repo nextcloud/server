@@ -276,6 +276,7 @@ class Filesystem {
 		}
 		// Load personal mount points
 		$root = \OC_User::getHome($user);
+		self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
 		if (is_file($root.'/mount.php')) {
 			$mountConfig = include $root.'/mount.php';
 			if (isset($mountConfig['user'][$user])) {
