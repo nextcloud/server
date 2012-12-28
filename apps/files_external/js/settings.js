@@ -39,6 +39,8 @@ OC.MountConfig={
 				var isPersonal = false;
 				var oldGroups = $(tr).find('.applicable').data('applicable-groups');
 				var oldUsers = $(tr).find('.applicable').data('applicable-users');
+				var groups = [];
+				var users = [];
 				$.each(multiselect, function(index, value) {
 					var pos = value.indexOf('(group)');
 					if (pos != -1) {
@@ -47,12 +49,14 @@ OC.MountConfig={
 						if ($.inArray(applicable, oldGroups) != -1) {
 							oldGroups.splice($.inArray(applicable, oldGroups), 1);
 						}
+						groups.push(applicable);
 					} else {
 						var mountType = 'user';
 						var applicable = value;
 						if ($.inArray(applicable, oldUsers) != -1) {
 							oldUsers.splice($.inArray(applicable, oldUsers), 1);
 						}
+						users.push(applicable);
 					}
 					$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal }, function(result) {
 						statusSpan.removeClass();
@@ -63,6 +67,8 @@ OC.MountConfig={
 						}
 					});
 				});
+				$(tr).find('.applicable').data('applicable-groups', groups);
+				$(tr).find('.applicable').data('applicable-users', users);
 				var mountType = 'group';
 				$.each(oldGroups, function(index, applicable) {
 					$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
@@ -128,7 +134,11 @@ $(document).ready(function() {
 				return false;
 			}
 		});
-		$('.chz-select').chosen();
+		// Reset chosen
+		var chosen = $(tr).find('.applicable select');
+		chosen.parent().find('div').remove();
+		chosen.removeAttr('id').removeClass('chzn-done').css({display:'inline-block'});
+		chosen.chosen();
 		$(tr).find('td').last().attr('class', 'remove');
 		$(tr).find('td').last().removeAttr('style');
 		$(tr).removeAttr('id');
@@ -171,14 +181,18 @@ $(document).ready(function() {
 
 	var timer;
 
-	$('#externalStorage td').live('keyup', function() {
+	$('#externalStorage td input').live('keyup', function() {
 		clearTimeout(timer);
-		var tr = $(this).parent();
+		var tr = $(this).parent().parent();
 		if ($(this).val) {
 			timer = setTimeout(function() {
 				OC.MountConfig.saveStorage(tr);
 			}, 2000);
 		}
+	});
+
+	$('.applicable .chzn-select').live('change', function() {
+		OC.MountConfig.saveStorage($(this).parent().parent());
 	});
 
 	$('td.remove>img').live('click', function() {
@@ -193,23 +207,25 @@ $(document).ready(function() {
 		if ($('#externalStorage').data('admin') === true) {
 			var isPersonal = false;
 			var multiselect = $(tr).find('.chzn-select').val();
-			$.each(multiselect, function(index, value) {
-				var pos = value.indexOf('(group)');
-				if (pos != -1) {
-					var mountType = 'group';
-					var applicable = value.substr(0, pos);
-				} else {
-					var mountType = 'user';
-					var applicable = value;
-				}
-				$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
-			});
+			if (multiselect != null) {
+				$.each(multiselect, function(index, value) {
+					var pos = value.indexOf('(group)');
+					if (pos != -1) {
+						var mountType = 'group';
+						var applicable = value.substr(0, pos);
+					} else {
+						var mountType = 'user';
+						var applicable = value;
+					}
+					$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+				});
+			}
 		} else {
 			var mountType = 'user';
 			var applicable = OC.currentUser;
 			var isPersonal = true;
+			$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
 		}
-		$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
 		$(tr).remove();
 	});
 
