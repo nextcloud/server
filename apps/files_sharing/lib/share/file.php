@@ -23,8 +23,9 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 
 	const FORMAT_SHARED_STORAGE = 0;
 	const FORMAT_GET_FOLDER_CONTENTS = 1;
-	const FORMAT_GET_ALL = 2;
+	const FORMAT_FILE_APP_ROOT = 2;
 	const FORMAT_OPENDIR = 3;
+	const FORMAT_GET_ALL = 4;
 
 	private $path;
 
@@ -82,10 +83,27 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 				$file['parent'] = $item['file_parent'];
 				$file['name'] = basename($item['file_target']);
 				$file['mimetype'] = $item['mimetype'];
+				$file['mimepart'] = $item['mimepart'];
 				$file['size'] = $item['size'];
 				$file['mtime'] = $item['mtime'];
 				$file['encrypted'] = $item['encrypted'];
 				$files[] = $file;
+			}
+			return $files;
+		} else if ($format == self::FORMAT_FILE_APP_ROOT) {
+			$mtime = 0;
+			$size = 0;
+			foreach ($items as $item) {
+				if ($item['mtime'] > $mtime) {
+					$mtime = $item['mtime'];
+				}
+				$size += (int)$item['size'];
+			}
+			return array('fileid' => -1, 'name' => 'Shared', 'mtime' => $mtime, 'mimetype' => 'httpd/unix-directory', 'size' => $size);
+		} else if ($format == self::FORMAT_OPENDIR) {
+			$files = array();
+			foreach ($items as $item) {
+				$files[] = basename($item['file_target']);
 			}
 			return $files;
 		} else if ($format == self::FORMAT_GET_ALL) {
@@ -94,12 +112,6 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 				$ids[] = $item['file_source'];
 			}
 			return $ids;
-		} else if ($format == self::FORMAT_OPENDIR) {
-			$files = array();
-			foreach ($items as $item) {
-				$files[] = basename($item['file_target']);
-			}
-			return $files;
 		}
 		return array();
 	}

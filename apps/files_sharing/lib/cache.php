@@ -62,7 +62,9 @@ class Shared_Cache extends Cache {
 	 * @return array
 	 */
 	public function get($file) {
-		if (is_string($file)) {
+		if ($file == '') {
+			return \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
+		} else if (is_string($file)) {
 			if ($cache = $this->getSourceCache($file)) {
 				return $cache->get($this->files[$file]);
 			}
