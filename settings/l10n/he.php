@@ -51,9 +51,7 @@
 "Name" => "שם",
 "Groups" => "קבוצות",
 "Create" => "יצירה",
-"Default Quota" => "מכסת בררת המחדל",
 "Other" => "אחר",
 "Group Admin" => "מנהל הקבוצה",
-"Quota" => "מכסה",
 "Delete" => "מחיקה"
 );

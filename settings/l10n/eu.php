@@ -53,9 +53,7 @@
 "Name" => "Izena",
 "Groups" => "Taldeak",
 "Create" => "Sortu",
-"Default Quota" => "Kuota lehentsia",
 "Other" => "Besteak",
 "Group Admin" => "Talde administradorea",
-"Quota" => "Kuota",
 "Delete" => "Ezabatu"
 );

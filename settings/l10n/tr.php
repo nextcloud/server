@@ -48,9 +48,7 @@
 "Name" => "Ad",
 "Groups" => "Gruplar",
 "Create" => "Oluştur",
-"Default Quota" => "Varsayılan Kota",
 "Other" => "Diğer",
 "Group Admin" => "Yönetici Grubu ",
-"Quota" => "Kota",
 "Delete" => "Sil"
 );

@@ -41,9 +41,7 @@
 "Name" => "Ime",
 "Groups" => "Skupine",
 "Create" => "Ustvari",
-"Default Quota" => "Privzeta količinska omejitev",
 "Other" => "Drugo",
 "Group Admin" => "Skrbnik skupine",
-"Quota" => "Količinska omejitev",
 "Delete" => "Izbriši"
 );

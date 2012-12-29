@@ -53,9 +53,7 @@
 "Name" => "Nom",
 "Groups" => "Groupes",
 "Create" => "Créer",
-"Default Quota" => "Quota par défaut",
 "Other" => "Autre",
 "Group Admin" => "Groupe Admin",
-"Quota" => "Quota",
 "Delete" => "Supprimer"
 );

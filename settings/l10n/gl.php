@@ -41,9 +41,7 @@
 "Name" => "Nome",
 "Groups" => "Grupos",
 "Create" => "Crear",
-"Default Quota" => "Cota por omisión",
 "Other" => "Outro",
 "Group Admin" => "Grupo Admin",
-"Quota" => "Cota",
 "Delete" => "Borrar"
 );

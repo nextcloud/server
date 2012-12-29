@@ -28,9 +28,7 @@
 "Name" => "Numm",
 "Groups" => "Gruppen",
 "Create" => "Erstellen",
-"Default Quota" => "Standard Quota",
 "Other" => "Aner",
 "Group Admin" => "Gruppen Admin",
-"Quota" => "Quota",
 "Delete" => "Läschen"
 );

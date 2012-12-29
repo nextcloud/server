@@ -53,9 +53,7 @@
 "Name" => "Naam",
 "Groups" => "Groepen",
 "Create" => "Creëer",
-"Default Quota" => "Standaard limiet",
 "Other" => "Andere",
 "Group Admin" => "Groep beheerder",
-"Quota" => "Limieten",
 "Delete" => "verwijderen"
 );

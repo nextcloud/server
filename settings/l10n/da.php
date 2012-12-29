@@ -53,9 +53,7 @@
 "Name" => "Navn",
 "Groups" => "Grupper",
 "Create" => "Ny",
-"Default Quota" => "Standard kvote",
 "Other" => "Andet",
 "Group Admin" => "Gruppe Administrator",
-"Quota" => "Kvote",
 "Delete" => "Slet"
 );

@@ -53,9 +53,7 @@
 "Name" => "Jméno",
 "Groups" => "Skupiny",
 "Create" => "Vytvořit",
-"Default Quota" => "Výchozí kvóta",
 "Other" => "Jiná",
 "Group Admin" => "Správa skupiny",
-"Quota" => "Kvóta",
 "Delete" => "Smazat"
 );
