@@ -179,22 +179,6 @@ class OC_Mount_Config {
 	}
 
 	/**
-	 * Add directory for mount point to the filesystem
-	 * @param OC_Fileview instance $view
-	 * @param string path to mount point
-	 */
-	private static function addMountPointDirectory($view, $path) {
-		$dir = '';
-		foreach ( explode('/', $path) as $pathPart) {
-			$dir = $dir.'/'.$pathPart;
-			if ( !$view->file_exists($dir)) {
-				$view->mkdir($dir);
-			}
-		}
-	}
-
-
-	/**
 	* Add a mount point to the filesystem
 	* @param string Mount point
 	* @param string Backend class
@@ -216,33 +200,8 @@ class OC_Mount_Config {
 			if ($applicable != OCP\User::getUser() || $class == '\OC\Files\Storage\Local') {
 				return false;
 			}
-			$view = new \OC\Files\View('/'.OCP\User::getUser().'/files');
-			self::addMountPointDirectory($view, ltrim($mountPoint, '/'));
 			$mountPoint = '/'.$applicable.'/files/'.ltrim($mountPoint, '/');
 		} else {
-			$view = new \OC\Files\View('/');
-			switch ($mountType) {
-				case 'user':
-					if ($applicable == "all") {
-						$users = OCP\User::getUsers();
-						foreach ( $users as $user ) {
-							$path = $user.'/files/'.ltrim($mountPoint, '/');
-							self::addMountPointDirectory($view, $path);
-						}
-					} else {
-						$path = $applicable.'/files/'.ltrim($mountPoint, '/');
-						self::addMountPointDirectory($view, $path);
-					}
-					break;
-				case 'group' :
-					$groupMembers = OC_Group::usersInGroups(array($applicable));
-					foreach ( $groupMembers as $user ) {
-						$path =  $user.'/files/'.ltrim($mountPoint, '/');
-						self::addMountPointDirectory($view, $path);
-					}
-					break;
-			}
-
 			$mountPoint = '/$user/files/'.ltrim($mountPoint, '/');
 		}
 		$mount = array($applicable => array($mountPoint => array('class' => $class, 'options' => $classOptions)));
