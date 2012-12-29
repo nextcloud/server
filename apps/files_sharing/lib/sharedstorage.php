@@ -39,18 +39,33 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	/**
+	* @brief Get the source file path, permissions, and owner for a shared file
+	* @param string Shared target file path
+	* @return Returns array with the keys path, permissions, and owner or false if not found
+	*/
+	private function getFile($target) {
+		if (!isset($this->files[$target])) {
+			$source = \OC_Share_Backend_File::getSource($target);
+			if ($source) {
+				$source['path'] = '/'.$source['uid_owner'].'/'.$source['path'];
+			}
+			$this->files[$target] = $source;
+		}
+		return $this->files[$target];
+	}
+
+	/**
 	* @brief Get the source file path for a shared file
 	* @param string Shared target file path
 	* @return string source file path or false if not found
 	*/
 	private function getSourcePath($target) {
-		if (!isset($this->files[$target])) {
-			$source = \OC_Share_Backend_File::getSource($target);
-			$source['path'] = '/'.$source['uid_owner'].'/'.$source['path'];
-			$this->files[$target] = $source;
+		$source = $this->getFile($target);
+		if ($source) {
 			\OC\Files\Filesystem::initMountPoints($source['uid_owner']);
+			return $source['path'];
 		}
-		return $this->files[$target]['path'];
+		return false;
 	}
 
 	/**
@@ -59,11 +74,11 @@ class Shared extends \OC\Files\Storage\Common {
 	* @return int CRUDS permissions granted or false if not found
 	*/
 	public function getPermissions($target) {
-		if (!isset($this->files[$target])) {
-			$source = \OC_Share_Backend_File::getSource($target);
-			$this->files[$target] = $source;
+		$source = $this->getFile($target);
+		if ($source) {
+			return $source['permissions'];
 		}
-		return $this->files[$target]['permissions'];
+		return false;
 	}
 
 	public function mkdir($path) {
@@ -389,11 +404,11 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function getOwner($path) {
-		if (!isset($this->files[$path])) {
-			$source = \OC_Share_Backend_File::getSource($path);
-			$this->files[$path] = $source;
+		$source = $this->getFile($path);
+		if ($source) {
+			return $source['uid_owner'];
 		}
-		return $this->files[$path]['uid_owner'];
+		return false;
 	}
 
 	public function getETag($path) {
