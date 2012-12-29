@@ -38,7 +38,7 @@ foreach($quotaPreset as &$preset) {
 $quotaPreset=array_diff($quotaPreset, array('default', 'none'));
 
 $defaultQuota=OC_Appconfig::getValue('files', 'default_quota', 'none');
-$defaultQuotaIsUserDefined=array_search($default_quota, $quotaPreset)===false && array_search($default_quota, array('none', 'default'))===false;
+$defaultQuotaIsUserDefined=array_search($defaultQuota, $quotaPreset)===false && array_search($defaultQuota, array('none', 'default'))===false;
 
 // load users and quota
 foreach($accessibleusers as $i) {
