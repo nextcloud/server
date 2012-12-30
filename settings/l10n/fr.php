@@ -53,7 +53,11 @@
 "Name" => "Nom",
 "Groups" => "Groupes",
 "Create" => "Créer",
+"Default Storage" => "Support de stockage par défaut",
+"Unlimited" => "Illimité",
 "Other" => "Autre",
 "Group Admin" => "Groupe Admin",
+"Storage" => "Support de stockage",
+"Default" => "Défaut",
 "Delete" => "Supprimer"
 );

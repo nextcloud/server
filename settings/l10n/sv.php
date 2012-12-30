@@ -53,7 +53,11 @@
 "Name" => "Namn",
 "Groups" => "Grupper",
 "Create" => "Skapa",
+"Default Storage" => "Förvald lagring",
+"Unlimited" => "Obegränsad",
 "Other" => "Annat",
 "Group Admin" => "Gruppadministratör",
+"Storage" => "Lagring",
+"Default" => "Förvald",
 "Delete" => "Radera"
 );

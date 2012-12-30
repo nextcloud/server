@@ -53,7 +53,11 @@
 "Name" => "Jméno",
 "Groups" => "Skupiny",
 "Create" => "Vytvořit",
+"Default Storage" => "Výchozí úložiště",
+"Unlimited" => "Neomezeně",
 "Other" => "Jiná",
 "Group Admin" => "Správa skupiny",
+"Storage" => "Úložiště",
+"Default" => "Výchozí",
 "Delete" => "Smazat"
 );
