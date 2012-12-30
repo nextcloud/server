@@ -58,6 +58,7 @@ class Scanner {
 			$data['size'] = $this->storage->filesize($path);
 			$data['permissions'] = $this->storage->getPermissions($path);
 		}
+		$data['etag'] = $this->storage->getETag($path);
 		return $data;
 	}
 

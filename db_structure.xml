@@ -189,6 +189,14 @@
 				<length>4</length>
 			</field>
 
+			<field>
+				<name>etag</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>250</length>
+			</field>
+
 			<index>
 				<name>storage_path_hash</name>
 				<unique>true</unique>
