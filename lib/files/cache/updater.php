@@ -30,10 +30,12 @@ class Updater {
 		 * @var string $internalPath
 		 */
 		list($storage, $internalPath) = self::resolvePath($path);
-		$cache = new Cache($storage);
-		$scanner = new Scanner($storage);
-		$scanner->scan($internalPath, Scanner::SCAN_SHALLOW);
-		$cache->correctFolderSize($internalPath);
+		if ($storage) {
+			$cache = $storage->getCache();
+			$scanner = $storage->getScanner();
+			$scanner->scan($internalPath, Scanner::SCAN_SHALLOW);
+			$cache->correctFolderSize($internalPath);
+		}
 	}
 
 	static public function deleteUpdate($path) {
@@ -42,9 +44,11 @@ class Updater {
 		 * @var string $internalPath
 		 */
 		list($storage, $internalPath) = self::resolvePath($path);
-		$cache = new Cache($storage);
-		$cache->remove($internalPath);
-		$cache->correctFolderSize($internalPath);
+		if ($storage) {
+			$cache = $storage->getCache();
+			$cache->remove($internalPath);
+			$cache->correctFolderSize($internalPath);
+		}
 	}
 
 	/**
