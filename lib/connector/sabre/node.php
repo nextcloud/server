@@ -218,28 +218,4 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 		return null;
 	}
 
-	/**
-	 * @brief Remove the ETag from the cache.
-	 * @param string $path Path of the file
-	 */
-	static public function removeETagPropertyForPath($path) {
-		// remove tags from this and parent paths
-		$paths = array();
-		while ($path != '/' && $path != '.' && $path != '' && $path != '\\') {
-			$paths[] = $path;
-			$path = dirname($path);
-		}
-		if (empty($paths)) {
-			return;
-		}
-		$paths[] = $path;
-		$path_placeholders = join(',', array_fill(0, count($paths), '?'));
-		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*properties`'
-			.' WHERE `userid` = ?'
-			.' AND `propertyname` = ?'
-			.' AND `propertypath` IN ('.$path_placeholders.')'
-			);
-		$vals = array( OC_User::getUser(), self::GETETAG_PROPERTYNAME );
-		$query->execute(array_merge( $vals, $paths ));
-	}
 }
