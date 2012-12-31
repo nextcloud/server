@@ -15,14 +15,6 @@ class OC_OCS_Result{
 	}
 	
 	/**
-	 * sets the statuscode
-	 * @param $code int
-	 */
-	public function setCode(int $code){
-		$this->statuscode = $code;
-	}
-	
-	/**
 	 * optionally set the total number of items available
 	 * @param $items int
 	 */
@@ -36,14 +28,6 @@ class OC_OCS_Result{
 	 */
 	public function setItemsPerPage(int $items){
 		$this->perpage = $items;
-	}
-	
-	/**
-	 * set a custom message for the response
-	 * @param $message string the message
-	 */
-	public function setMessage(string $message){
-		$this->message = $message;
 	}
 	
 	/**
