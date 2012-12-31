@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-03 00:04+0100\n"
-"PO-Revision-Date: 2012-12-02 03:18+0000\n"
-"Last-Translator: ho2o2oo <tamass4116@gmail.com>\n"
+"POT-Creation-Date: 2012-12-30 00:04+0100\n"
+"PO-Revision-Date: 2012-12-29 23:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -119,29 +119,29 @@ msgstr "صفحه این اٌپ را در apps.owncloud.com ببینید"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr ""
 
-#: templates/help.php:9
-msgid "Documentation"
-msgstr "مستندات"
+#: templates/help.php:3
+msgid "User Documentation"
+msgstr ""
 
-#: templates/help.php:10
-msgid "Managing Big Files"
-msgstr "مدیریت پرونده های بزرگ"
+#: templates/help.php:4
+msgid "Administrator Documentation"
+msgstr ""
+
+#: templates/help.php:6
+msgid "Online Documentation"
+msgstr ""
+
+#: templates/help.php:7
+msgid "Forum"
+msgstr ""
+
+#: templates/help.php:9
+msgid "Bugtracker"
+msgstr ""
 
 #: templates/help.php:11
-msgid "Ask a question"
-msgstr "یک سوال بپرسید"
-
-#: templates/help.php:22
-msgid "Problems connecting to help database."
-msgstr "مشکلاتی برای وصل شدن به پایگاه داده کمکی"
-
-#: templates/help.php:23
-msgid "Go there manually."
-msgstr "بروید آنجا به صورت دستی"
-
-#: templates/help.php:31
-msgid "Answer"
-msgstr "پاسخ"
+msgid "Commercial Support"
+msgstr ""
 
 #: templates/personal.php:8
 #, php-format
@@ -149,62 +149,82 @@ msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr ""
 
 #: templates/personal.php:12
-msgid "Desktop and Mobile Syncing Clients"
-msgstr " ابزار مدیریت با دسکتاپ و موبایل"
+msgid "Clients"
+msgstr "مشتریان"
 
 #: templates/personal.php:13
-msgid "Download"
-msgstr "بارگیری"
+msgid "Download Desktop Clients"
+msgstr ""
 
-#: templates/personal.php:19
+#: templates/personal.php:14
+msgid "Download Android Client"
+msgstr ""
+
+#: templates/personal.php:15
+msgid "Download iOS Client"
+msgstr ""
+
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+msgid "Password"
+msgstr "گذرواژه"
+
+#: templates/personal.php:22
 msgid "Your password was changed"
 msgstr "رمز عبور شما تغییر یافت"
 
-#: templates/personal.php:20
+#: templates/personal.php:23
 msgid "Unable to change your password"
 msgstr "ناتوان در تغییر گذرواژه"
 
-#: templates/personal.php:21
+#: templates/personal.php:24
 msgid "Current password"
 msgstr "گذرواژه کنونی"
 
-#: templates/personal.php:22
+#: templates/personal.php:25
 msgid "New password"
 msgstr "گذرواژه جدید"
 
-#: templates/personal.php:23
+#: templates/personal.php:26
 msgid "show"
 msgstr "نمایش"
 
-#: templates/personal.php:24
+#: templates/personal.php:27
 msgid "Change password"
 msgstr "تغییر گذر واژه"
 
-#: templates/personal.php:30
+#: templates/personal.php:33
 msgid "Email"
 msgstr "پست الکترونیکی"
 
-#: templates/personal.php:31
+#: templates/personal.php:34
 msgid "Your email address"
 msgstr "پست الکترونیکی شما"
 
-#: templates/personal.php:32
+#: templates/personal.php:35
 msgid "Fill in an email address to enable password recovery"
 msgstr "پست الکترونیکی را پرکنید  تا بازیابی گذرواژه فعال شود"
 
-#: templates/personal.php:38 templates/personal.php:39
+#: templates/personal.php:41 templates/personal.php:42
 msgid "Language"
 msgstr "زبان"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Help translate"
 msgstr "به ترجمه آن کمک کنید"
 
-#: templates/personal.php:51
-msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "از این نشانی برای وصل شدن به ابرهایتان در مدیرپرونده استفاده کنید"
+#: templates/personal.php:52
+msgid "WebDAV"
+msgstr ""
 
-#: templates/personal.php:61
+#: templates/personal.php:54
+msgid "Use this address to connect to your ownCloud in your file manager"
+msgstr ""
+
+#: templates/personal.php:63
+msgid "Version"
+msgstr ""
+
+#: templates/personal.php:65
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -214,15 +234,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr ""
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "نام"
 
-#: templates/users.php:23 templates/users.php:77
-msgid "Password"
-msgstr "گذرواژه"
-
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "گروه ها"
 
@@ -231,21 +247,29 @@ msgid "Create"
 msgstr "ایجاد کردن"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "سهم پیش فرض"
+msgid "Default Storage"
+msgstr ""
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr ""
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "سایر"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr ""
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "سهم"
+#: templates/users.php:87
+msgid "Storage"
+msgstr ""
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr ""
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "پاک کردن"

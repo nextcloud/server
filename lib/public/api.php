@@ -28,17 +28,17 @@ namespace OCP;
 class API {
         
 	/**
-	* registers an api call
-	* @param string $method the http method
-	* @param string $url the url to match
-	* @param callable $action the function to run
-	* @param string $app the id of the app registering the call
-	* @param int $authlevel the level of authentication required for the call (See OC_API constants)
-	* @param array $defaults
-	* @param array $requirements
-	*/
-	public static function register($method, $url, $action, $app, $authlevel = OC_API::USER_AUTH, $defaults = array(), $requirements = array()){
-		\OC_API::register($method, $url, $action, $app, $authlevel, $defaults, $requirements);
+	 * registers an api call
+	 * @param string $method the http method
+	 * @param string $url the url to match
+	 * @param callable $action the function to run
+	 * @param string $app the id of the app registering the call
+	 * @param int $authLevel the level of authentication required for the call (See OC_API constants)
+	 * @param array $defaults
+	 * @param array $requirements
+	 */
+	public static function register($method, $url, $action, $app, $authLevel = OC_API::USER_AUTH, $defaults = array(), $requirements = array()){
+		\OC_API::register($method, $url, $action, $app, $authLevel, $defaults, $requirements);
 	}
      
 }

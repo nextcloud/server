@@ -4,6 +4,7 @@
 # 
 # Translators:
 #   <appweb.cn@gmail.com>, 2012.
+# Dianjin Wang <1132321739qq@gmail.com>, 2012.
 # Phoenix Nemo <>, 2012.
 #   <rainofchaos@gmail.com>, 2012.
 #   <suiy02@gmail.com>, 2012.
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-04 00:06+0100\n"
-"PO-Revision-Date: 2012-12-03 00:58+0000\n"
-"Last-Translator: hanfeng <appweb.cn@gmail.com>\n"
+"POT-Creation-Date: 2012-12-30 00:04+0100\n"
+"PO-Revision-Date: 2012-12-29 23:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -120,29 +121,29 @@ msgstr "查看在 app.owncloud.com 的应用程序页面"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-核准： <span class=\"author\"></span>"
 
-#: templates/help.php:9
-msgid "Documentation"
-msgstr "文档"
+#: templates/help.php:3
+msgid "User Documentation"
+msgstr "用户文档"
 
-#: templates/help.php:10
-msgid "Managing Big Files"
-msgstr "管理大文件"
+#: templates/help.php:4
+msgid "Administrator Documentation"
+msgstr "管理员文档"
+
+#: templates/help.php:6
+msgid "Online Documentation"
+msgstr "在线文档"
+
+#: templates/help.php:7
+msgid "Forum"
+msgstr "论坛"
+
+#: templates/help.php:9
+msgid "Bugtracker"
+msgstr "问题跟踪器"
 
 #: templates/help.php:11
-msgid "Ask a question"
-msgstr "提问"
-
-#: templates/help.php:22
-msgid "Problems connecting to help database."
-msgstr "连接帮助数据库错误 "
-
-#: templates/help.php:23
-msgid "Go there manually."
-msgstr "手动访问"
-
-#: templates/help.php:31
-msgid "Answer"
-msgstr "回答"
+msgid "Commercial Support"
+msgstr "商业支持"
 
 #: templates/personal.php:8
 #, php-format
@@ -150,62 +151,82 @@ msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "你已使用 <strong>%s</strong>，有效空间 <strong>%s</strong>"
 
 #: templates/personal.php:12
-msgid "Desktop and Mobile Syncing Clients"
-msgstr "桌面和移动设备同步客户端"
+msgid "Clients"
+msgstr "客户"
 
 #: templates/personal.php:13
-msgid "Download"
-msgstr "下载"
+msgid "Download Desktop Clients"
+msgstr "下载桌面客户端"
 
-#: templates/personal.php:19
+#: templates/personal.php:14
+msgid "Download Android Client"
+msgstr "下载 Android 客户端"
+
+#: templates/personal.php:15
+msgid "Download iOS Client"
+msgstr "下载 iOS 客户端"
+
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+msgid "Password"
+msgstr "密码"
+
+#: templates/personal.php:22
 msgid "Your password was changed"
 msgstr "密码已修改"
 
-#: templates/personal.php:20
+#: templates/personal.php:23
 msgid "Unable to change your password"
 msgstr "无法修改密码"
 
-#: templates/personal.php:21
+#: templates/personal.php:24
 msgid "Current password"
 msgstr "当前密码"
 
-#: templates/personal.php:22
+#: templates/personal.php:25
 msgid "New password"
 msgstr "新密码"
 
-#: templates/personal.php:23
+#: templates/personal.php:26
 msgid "show"
 msgstr "显示"
 
-#: templates/personal.php:24
+#: templates/personal.php:27
 msgid "Change password"
 msgstr "修改密码"
 
-#: templates/personal.php:30
+#: templates/personal.php:33
 msgid "Email"
 msgstr "电子邮件"
 
-#: templates/personal.php:31
+#: templates/personal.php:34
 msgid "Your email address"
 msgstr "您的电子邮件"
 
-#: templates/personal.php:32
+#: templates/personal.php:35
 msgid "Fill in an email address to enable password recovery"
 msgstr "填写电子邮件地址以启用密码恢复功能"
 
-#: templates/personal.php:38 templates/personal.php:39
+#: templates/personal.php:41 templates/personal.php:42
 msgid "Language"
 msgstr "语言"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Help translate"
 msgstr "帮助翻译"
 
-#: templates/personal.php:51
-msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "您可在文件管理器中使用该地址连接到ownCloud"
+#: templates/personal.php:52
+msgid "WebDAV"
+msgstr "WebDAV"
 
-#: templates/personal.php:61
+#: templates/personal.php:54
+msgid "Use this address to connect to your ownCloud in your file manager"
+msgstr "用该地址来连接文件管理器中的 ownCloud"
+
+#: templates/personal.php:63
+msgid "Version"
+msgstr "版本"
+
+#: templates/personal.php:65
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -215,15 +236,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "由<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud社区</a>开发，  <a href=\"https://github.com/owncloud\" target=\"_blank\">源代码</a>在<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>许可证下发布。"
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "名称"
 
-#: templates/users.php:23 templates/users.php:77
-msgid "Password"
-msgstr "密码"
-
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "组"
 
@@ -232,21 +249,29 @@ msgid "Create"
 msgstr "创建"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "默认配额"
+msgid "Default Storage"
+msgstr ""
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr ""
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "其它"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "组管理员"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "配额"
+#: templates/users.php:87
+msgid "Storage"
+msgstr ""
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr ""
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "删除"

@@ -5,6 +5,7 @@
 "Settings" => "Beállítások",
 "seconds ago" => "másodperccel ezelőtt",
 "1 minute ago" => "1 perccel ezelőtt",
+"1 hour ago" => "1 órája",
 "today" => "ma",
 "yesterday" => "tegnap",
 "last month" => "múlt hónapban",

@@ -5,7 +5,7 @@
 		<div class="actions <?php if (isset($_['files']) and count($_['files'])==0):?>emptyfolder<?php endif; ?>">
 			<div id="new" class="button">
 				<a><?php echo $l->t('New');?></a>
-				<ul class="popup popupTop">
+				<ul>
 					<li style="background-image:url('<?php echo OCP\mimetype_icon('text/plain') ?>')"
 						data-type='file'><p><?php echo $l->t('Text file');?></p></li>
 					<li style="background-image:url('<?php echo OCP\mimetype_icon('dir') ?>')"

@@ -43,7 +43,7 @@ class OC_Core_LostPassword_Controller {
 				$tmpl->assign('link', $link, false);
 				$msg = $tmpl->fetchPage();
 				$l = OC_L10N::get('core');
-				$from = 'lostpassword-noreply@' . OCP\Util::getServerHost();
+				$from = OCP\Util::getDefaultEmailAddress('lostpassword-noreply');
 				OC_Mail::send($email, $_POST['user'], $l->t('ownCloud password reset'), $msg, $from, 'ownCloud');
 				echo('Mailsent');
 

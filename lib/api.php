@@ -44,51 +44,51 @@ class OC_API {
 	}
 	
 	/**
-	* api actions
-	*/
+	 * api actions
+	 */
 	protected static $actions = array();
 	
 	/**
-	* registers an api call
-	* @param string $method the http method
-	* @param string $url the url to match
-	* @param callable $action the function to run
-	* @param string $app the id of the app registering the call
-	* @param int $authlevel the level of authentication required for the call
-	* @param array $defaults
-	* @param array $requirements
-	*/
+	 * registers an api call
+	 * @param string $method the http method
+	 * @param string $url the url to match
+	 * @param callable $action the function to run
+	 * @param string $app the id of the app registering the call
+	 * @param int $authLevel the level of authentication required for the call
+	 * @param array $defaults
+	 * @param array $requirements
+	 */
 	public static function register($method, $url, $action, $app, 
-				$authlevel = OC_API::USER_AUTH,
+				$authLevel = OC_API::USER_AUTH,
 				$defaults = array(),
-				$requirements = array()){
+				$requirements = array()) {
 		$name = strtolower($method).$url;
 		$name = str_replace(array('/', '{', '}'), '_', $name);
-		if(!isset(self::$actions[$name])){
+		if(!isset(self::$actions[$name])) {
 			OC::getRouter()->useCollection('ocs');
 			OC::getRouter()->create($name, $url)
 				->method($method)
 				->action('OC_API', 'call');
 			self::$actions[$name] = array();
 		}
-		self::$actions[$name] = array('app' => $app, 'action' => $action, 'authlevel' => $authlevel);
+		self::$actions[$name] = array('app' => $app, 'action' => $action, 'authlevel' => $authLevel);
 	}
 	
 	/**
-	* handles an api call
-	* @param array $parameters
-	*/
-	public static function call($parameters){
+	 * handles an api call
+	 * @param array $parameters
+	 */
+	public static function call($parameters) {
 		// Prepare the request variables
-		if($_SERVER['REQUEST_METHOD'] == 'PUT'){
+		if($_SERVER['REQUEST_METHOD'] == 'PUT') {
 			parse_str(file_get_contents("php://input"), $parameters['_put']);
 		} else if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
 			parse_str(file_get_contents("php://input"), $parameters['_delete']);
 		}
 		$name = $parameters['_route'];
 		// Check authentication and availability
-		if(self::isAuthorised(self::$actions[$name])){
-			if(is_callable(self::$actions[$name]['action'])){
+		if(self::isAuthorised(self::$actions[$name])) {
+			if(is_callable(self::$actions[$name]['action'])) {
 				$response = call_user_func(self::$actions[$name]['action'], $parameters);
 			} else {
 				$response = new OC_OCS_Result(null, 998, 'Api method not found');
@@ -109,9 +109,9 @@ class OC_API {
 	 * @param array $action the action details as supplied to OC_API::register()
 	 * @return bool
 	 */
-	private static function isAuthorised($action){
+	private static function isAuthorised($action) {
 		$level = $action['authlevel'];
-		switch($level){
+		switch($level) {
 			case OC_API::GUEST_AUTH:
 				// Anyone can access
 				return true;
@@ -123,12 +123,12 @@ class OC_API {
 			case OC_API::SUBADMIN_AUTH:
 				// Check for subadmin
 				$user = self::loginUser();
-				if(!$user){
+				if(!$user) {
 					return false;
 				} else {
-					$subadmin = OC_SubAdmin::isSubAdmin($user);
+					$subAdmin = OC_SubAdmin::isSubAdmin($user);
 					$admin = OC_Group::inGroup($user, 'admin');
-					if($subadmin || $admin){
+					if($subAdmin || $admin) {
 						return true;
 					} else {
 						return false;
@@ -138,7 +138,7 @@ class OC_API {
 			case OC_API::ADMIN_AUTH:
 				// Check for admin
 				$user = self::loginUser();
-				if(!$user){
+				if(!$user) {
 					return false;
 				} else {
 					return OC_Group::inGroup($user, 'admin');
@@ -155,18 +155,18 @@ class OC_API {
 	 * http basic auth
 	 * @return string|false (username, or false on failure)
 	 */
-	private static function loginUser(){
-		$authuser = isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : '';
-		$authpw = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '';
-		return OC_User::login($authuser, $authpw) ? $authuser : false;
+	private static function loginUser(){ 
+		$authUser = isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : '';
+		$authPw = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '';
+		return OC_User::login($authUser, $authPw) ? $authUser : false;
 	}
 	
 	/**
-	* respond to a call
-	* @param int|array $result the result from the api method
-	* @param string $format the format xml|json
-	*/
-	private static function respond($result, $format='xml'){
+	 * respond to a call
+	 * @param int|array $result the result from the api method
+	 * @param string $format the format xml|json
+	 */
+	private static function respond($result, $format='xml') {
 		$response = array('ocs' => $result->getResult());
 		if ($format == 'json') {
 			OC_JSON::encodedPrint($response);
@@ -179,12 +179,10 @@ class OC_API {
 			self::toXML($response, $writer);
 			$writer->endDocument();
 			echo $writer->outputMemory(true);
-		} else {
-			var_dump($format, $response);
 		}
 	}
 
-	private static function toXML($array, $writer){
+	private static function toXML($array, $writer) {
 		foreach($array as $k => $v) {
 			if (is_numeric($k)) {
 				$k = 'element';

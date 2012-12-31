@@ -98,8 +98,7 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
         if ($this->connection) {
             $native_code = $this->connection->lastErrorCode();
         }
-        $native_msg = $this->_lasterror
-            ? html_entity_decode($this->_lasterror) : $this->connection->lastErrorMsg();
+	$native_msg = html_entity_decode($this->_lasterror);        
 
         // PHP 5.2+ prepends the function name to $php_errormsg, so we need
         // this hack to work around it, per bug #9599.
