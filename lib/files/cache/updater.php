@@ -54,7 +54,7 @@ class Updater {
 	}
 
 	static public function eTagUpdate($path) {
-		if ($path !== '') {
+		if ($path !== '' && $path !== '/') {
 			$parent = dirname($path);
 			if ($parent === '.') {
 				$parent = '';
