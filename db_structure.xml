@@ -194,7 +194,7 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>250</length>
+				<length>40</length>
 			</field>
 
 			<index>
