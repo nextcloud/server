@@ -190,6 +190,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 			while( $row = $result->fetchRow()) {
 				$this->property_cache[$row['propertyname']] = $row['propertyvalue'];
 			}
+			$this->property_cache[self::GETETAG_PROPERTYNAME] = $this->getETagPropertyForPath($this->path);
 		}
 
 		// if the array was empty, we need to return everything
@@ -210,14 +211,11 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @return string|null Returns null if the ETag can not effectively be determined
 	 */
 	static public function getETagPropertyForPath($path) {
-		$tag = \OC\Files\Filesystem::getETag($path);
-		if (empty($tag)) {
-			return null;
+		$data = \OC\Files\Filesystem::getFileInfo($path);
+		if (isset($data['etag'])) {
+			return $data['etag'];
 		}
-		$etag = '"'.$tag.'"';
-		$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*properties` (`userid`,`propertypath`,`propertyname`,`propertyvalue`) VALUES(?,?,?,?)' );
-		$query->execute( array( OC_User::getUser(), $path, self::GETETAG_PROPERTYNAME, $etag ));
-		return $etag;
+		return null;
 	}
 
 	/**
