@@ -110,7 +110,7 @@ class Shared_Cache extends Cache {
 	 */
 	public function put($file, array $data) {
 		if ($cache = $this->getSourceCache($file)) {
-			return $cache->put($this->files[$file]);
+			return $cache->put($this->files[$file], $data);
 		}
 		return false;
 	}
