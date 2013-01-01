@@ -48,6 +48,7 @@ class Shared_Cache extends Cache {
 			if ($storage) {
 				$this->files[$target] = $internalPath;
 				$cache = $storage->getCache();
+				$this->storageId = $storage->getId();
 				$this->numericId = $cache->getNumericStorageId();
 				return $cache;
 			}
