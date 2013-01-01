@@ -679,13 +679,13 @@ class View {
 		 */
 		list($storage, $internalPath) = Filesystem::resolvePath($path);
 		if ($storage) {
-			$cache = $storage->getCache();
+			$cache = $storage->getCache($internalPath);
 
 			if (!$cache->inCache($internalPath)) {
-				$scanner = $storage->getScanner();
+				$scanner = $storage->getScanner($internalPath);
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 			} else {
-				$watcher = $storage->getWatcher();
+				$watcher = $storage->getWatcher($internalPath);
 				$watcher->checkUpdate($internalPath);
 			}
 
@@ -698,14 +698,14 @@ class View {
 					foreach ($mountPoints as $mountPoint) {
 						$subStorage = Filesystem::getStorage($mountPoint);
 						if ($subStorage) {
-							$subCache = $subStorage->getCache();
+							$subCache = $subStorage->getCache('');
 							$rootEntry = $subCache->get('');
 							$data['size'] += $rootEntry['size'];
 						}
 					}
 				}
 
-				$permissionsCache = $storage->getPermissionsCache();
+				$permissionsCache = $storage->getPermissionsCache($internalPath);
 				$data['permissions'] = $permissionsCache->get($data['fileid'], \OC_User::getUser());
 			}
 		}
@@ -727,13 +727,13 @@ class View {
 		 */
 		list($storage, $internalPath) = Filesystem::resolvePath($path);
 		if ($storage) {
-			$cache = $storage->getCache();
+			$cache = $storage->getCache($internalPath);
 
 			if ($cache->getStatus($internalPath) < Cache\Cache::COMPLETE) {
-				$scanner = $storage->getScanner();
+				$scanner = $storage->getScanner($internalPath);
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 			} else {
-				$watcher = $storage->getWatcher();
+				$watcher = $storage->getWatcher($internalPath);
 				$watcher->checkUpdate($internalPath);
 			}
 
@@ -745,7 +745,7 @@ class View {
 			foreach ($mountPoints as $mountPoint) {
 				$subStorage = Filesystem::getStorage($mountPoint);
 				if ($subStorage) {
-					$subCache = $subStorage->getCache();
+					$subCache = $subStorage->getCache('');
 					$rootEntry = $subCache->get('');
 
 					$relativePath = trim(substr($mountPoint, $dirLength), '/');
@@ -769,7 +769,7 @@ class View {
 				$files[$i]['type'] = $file['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
 				$ids[] = $file['fileid'];
 			}
-			$permissionsCache = $storage->getPermissionsCache();
+			$permissionsCache = $storage->getPermissionsCache($internalPath);
 
 			$permissions = $permissionsCache->getMultiple($ids, \OC_User::getUser());
 			foreach ($files as $i => $file) {
@@ -812,10 +812,10 @@ class View {
 		 */
 		list($storage, $internalPath) = Filesystem::resolvePath($path);
 		if ($storage) {
-			$cache = $storage->getCache();
+			$cache = $storage->getCache($path);
 
 			if (!$cache->inCache($internalPath)) {
-				$scanner = $storage->getScanner();
+				$scanner = $storage->getScanner($internalPath);
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 			}
 
@@ -857,7 +857,7 @@ class View {
 		$mountPoint = Filesystem::getMountPoint($this->fakeRoot);
 		$storage = Filesystem::getStorage($mountPoint);
 		if ($storage) {
-			$cache = $storage->getCache();
+			$cache = $storage->getCache('');
 
 			$results = $cache->$method($query);
 			foreach ($results as $result) {
@@ -871,7 +871,7 @@ class View {
 			foreach ($mountPoints as $mountPoint) {
 				$storage = Filesystem::getStorage($mountPoint);
 				if ($storage) {
-					$cache = $storage->getCache();
+					$cache = $storage->getCache('');
 
 					$relativeMountPoint = substr($mountPoint, $rootLength);
 					$results = $cache->$method($query);
