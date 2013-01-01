@@ -24,14 +24,12 @@ $(document).ready(function() {
 							$(tr).find('.configuration input').attr('disabled', 'disabled');
 							$(tr).find('.configuration').append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
 						} else {
-							OC.dialogs.alert(result.data.message,
-                                t('files_external', 'Error configuring Dropbox storage')
-                            );
+							OC.dialogs.alert(result.data.message, t('files_external', 'Error configuring Dropbox storage'));
 						}
 					});
 				}
-			} else if ($(this).find('.mountPoint input').val() != '' && $(config).find('[data-parameter="app_key"]').val() != '' && $(config).find('[data-parameter="app_secret"]').val() != '' && $(this).find('.dropbox').length == 0) {
-				$(this).find('.configuration').append('<a class="button dropbox">'+t('files_external', 'Grant access')+'</a>');
+			} else {
+				onDropboxInputsChange($(this));
 			}
 		}
 	});
@@ -39,18 +37,27 @@ $(document).ready(function() {
 	$('#externalStorage tbody tr.OC_Filestorage_Dropbox td').live('paste', function() {
 		var tr = $(this).parent();
 		setTimeout(function() {
-			showButton(tr);
+			onDropboxInputsChange(tr);
 		}, 20);
 	});
 
 	$('#externalStorage tbody tr.OC_Filestorage_Dropbox td').live('keyup', function() {
-		showButton($(this).parent());
+		onDropboxInputsChange($(this).parent());
 	});
 
-	function showButton(tr) {
+	$('#externalStorage tbody tr.OC_Filestorage_Dropbox .chzn-select').live('change', function() {
+		onDropboxInputsChange($(this).parent().parent());
+	});
+
+	function onDropboxInputsChange(tr) {
 		if ($(tr).find('[data-parameter="configured"]').val() != 'true') {
 			var config = $(tr).find('.configuration');
-			if ($(tr).find('.mountPoint input').val() != '' && $(config).find('[data-parameter="app_key"]').val() != '' && $(config).find('[data-parameter="app_secret"]').val() != '') {
+			if ($(tr).find('.mountPoint input').val() != ''
+				&& $(config).find('[data-parameter="app_key"]').val() != ''
+				&& $(config).find('[data-parameter="app_secret"]').val() != ''
+				&& ($(tr).find('.chzn-select').length == 0
+				|| $(tr).find('.chzn-select').val() != null))
+			{
 				if ($(tr).find('.dropbox').length == 0) {
 					$(config).append('<a class="button dropbox">'+t('files_external', 'Grant access')+'</a>');
 				} else {
@@ -64,8 +71,10 @@ $(document).ready(function() {
 
 	$('.dropbox').live('click', function(event) {
 		event.preventDefault();
+		var tr = $(this).parent().parent();
 		var app_key = $(this).parent().find('[data-parameter="app_key"]').val();
 		var app_secret = $(this).parent().find('[data-parameter="app_secret"]').val();
+		var statusSpan = $(tr).find('.status span');
 		if (app_key != '' && app_secret != '') {
 			var tr = $(this).parent().parent();
 			var configured = $(this).parent().find('[data-parameter="configured"]');
@@ -76,25 +85,19 @@ $(document).ready(function() {
 					$(configured).val('false');
 					$(token).val(result.data.request_token);
 					$(token_secret).val(result.data.request_token_secret);
-					if (OC.MountConfig.saveStorage(tr)) {
-						window.location = result.data.url;
-					} else {
-						OC.dialogs.alert(
-                            t('files_external', 'Fill out all required fields'),
-                            t('files_external', 'Error configuring Dropbox storage')
-                        );
-					}
+					OC.MountConfig.saveStorage(tr);
+					statusSpan.removeClass();
+					statusSpan.addClass('waiting');
+					window.location = result.data.url;
 				} else {
-					OC.dialogs.alert(result.data.message,
-                        t('files_external', 'Error configuring Dropbox storage')
-                    );
+					OC.dialogs.alert(result.data.message, t('files_external', 'Error configuring Dropbox storage'));
 				}
 			});
 		} else {
 			OC.dialogs.alert(
-                t('files_external', 'Please provide a valid Dropbox app key and secret.'),
-                t('files_external', 'Error configuring Dropbox storage')
-            );
+				t('files_external', 'Please provide a valid Dropbox app key and secret.'),
+				t('files_external', 'Error configuring Dropbox storage')
+			);
 		}
 	});
 

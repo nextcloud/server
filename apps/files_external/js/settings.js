@@ -58,12 +58,25 @@ OC.MountConfig={
 						}
 						users.push(applicable);
 					}
-					$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal }, function(result) {
-						statusSpan.removeClass();
-						if (result && result.status == 'success' && result.data.message) {
-							statusSpan.addClass('success');
-						} else {
-							statusSpan.addClass('error');
+					$.ajax({type: 'POST',
+						url: OC.filePath('files_external', 'ajax', 'addMountPoint.php'),
+						data: {
+							mountPoint: mountPoint,
+							class: backendClass,
+							classOptions: classOptions,
+							mountType: mountType,
+							applicable: applicable,
+							isPersonal: isPersonal
+						},
+						async: false,
+						success: function(result) {
+							statusSpan.removeClass();
+							if (result && result.status == 'success' && result.data.message) {
+								status = true;
+								statusSpan.addClass('success');
+							} else {
+								statusSpan.addClass('error');
+							}
 						}
 					});
 				});
@@ -71,26 +84,61 @@ OC.MountConfig={
 				$(tr).find('.applicable').data('applicable-users', users);
 				var mountType = 'group';
 				$.each(oldGroups, function(index, applicable) {
-					$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+					$.ajax({type: 'POST',
+						url: OC.filePath('files_external', 'ajax', 'removeMountPoint.php'),
+						data: {
+							mountPoint: mountPoint,
+							class: backendClass,
+							classOptions: classOptions,
+							mountType: mountType,
+							applicable: applicable,
+							isPersonal: isPersonal
+						},
+						async: false
+					});
 				});
 				var mountType = 'user';
 				$.each(oldUsers, function(index, applicable) {
-					$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+					$.ajax({type: 'POST',
+						url: OC.filePath('files_external', 'ajax', 'removeMountPoint.php'),
+						data: {
+							mountPoint: mountPoint,
+							class: backendClass,
+							classOptions: classOptions,
+							mountType: mountType,
+							applicable: applicable,
+							isPersonal: isPersonal
+						},
+						async: false
+					});
 				});
 			} else {
 				var isPersonal = true;
 				var mountType = 'user';
 				var applicable = OC.currentUser;
-				$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal }, function(result) {
-					statusSpan.removeClass();
-					if (result && result.status == 'success' && result.data.message) {
-						statusSpan.addClass('success');
-					} else {
-						statusSpan.addClass('error');
+				$.ajax({type: 'POST',
+					url: OC.filePath('files_external', 'ajax', 'addMountPoint.php'),
+					data: {
+						mountPoint: mountPoint,
+						class: backendClass,
+						classOptions: classOptions,
+						mountType: mountType,
+						applicable: applicable,
+						isPersonal: isPersonal
+					},
+					async: false,
+					success: function(result) {
+						statusSpan.removeClass();
+						if (result && result.status == 'success' && result.data.message) {
+							status = true;
+							statusSpan.addClass('success');
+						} else {
+							statusSpan.addClass('error');
+						}
 					}
 				});
 			}
-			return true;
+			return status;
 		}
 	}
 };
