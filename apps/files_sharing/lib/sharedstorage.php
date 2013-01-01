@@ -364,6 +364,9 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function free_space($path) {
+		if ($path == '') {
+			return -1;
+		}
 		$source = $this->getSourcePath($path);
 		if ($source) {
 			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
@@ -391,6 +394,13 @@ class Shared extends \OC\Files\Storage\Common {
 		\OC\Files\Filesystem::mount('\OC\Files\Storage\Shared', array('sharedFolder' => '/Shared'), $user_dir.'/Shared/');
 	}
 
+	public function hasUpdated($path, $time) {
+		if ($path == '') {
+			return false;
+		}
+		return $this->filemtime($path) > $time;
+	}
+
 	public function getCache() {
 		return new \OC\Files\Cache\Shared_Cache($this);
 	}
@@ -404,6 +414,9 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function getOwner($path) {
+		if ($path == '') {
+			return false;
+		}
 		$source = $this->getFile($path);
 		if ($source) {
 			return $source['uid_owner'];

@@ -63,6 +63,9 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 		 */
 		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
 		$owner=$storage->getOwner($internalPath);
+		if (!$owner) {
+			return -1;
+		}
 
 		$totalSpace=$this->getQuota($owner);
 		if($totalSpace==-1) {
@@ -73,7 +76,6 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 
 		$rootInfo=$view->getFileInfo('/');
 		$usedSpace=isset($rootInfo['size'])?$rootInfo['size']:0;
-		$usedSpace=isset($sharedInfo['size'])?$usedSpace-$sharedInfo['size']:$usedSpace;
 		return $totalSpace-$usedSpace;
 	}
 	

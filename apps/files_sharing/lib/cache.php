@@ -169,6 +169,9 @@ class Shared_Cache extends Cache {
 	 * @return int, Cache::NOT_FOUND, Cache::PARTIAL, Cache::SHALLOW or Cache::COMPLETE
 	 */
 	public function getStatus($file) {
+		if ($file == '') {
+			return self::COMPLETE;
+		}
 		if ($cache = $this->getSourceCache($file)) {
 			return $cache->getStatus($this->files[$file]);
 		}
