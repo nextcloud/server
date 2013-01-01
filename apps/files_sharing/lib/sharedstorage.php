@@ -401,15 +401,25 @@ class Shared extends \OC\Files\Storage\Common {
 		return $this->filemtime($path) > $time;
 	}
 
-	public function getCache() {
+	public function getCache($path = '') {
 		return new \OC\Files\Cache\Shared_Cache($this);
 	}
 
-	public function getPermissionsCache() {
+	public function getScanner($path = '') {
+		if ($path != '' && ($source = $this->getSourcePath($path))) {
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			if ($storage) {
+				return $storage->getScanner($internalPath);
+			}
+		}
+		return new \OC\Files\Cache\Scanner($this);
+	}
+
+	public function getPermissionsCache($path = '') {
 		return new \OC\Files\Cache\Shared_Permissions($this);
 	}
 
-	public function getWatcher() {
+	public function getWatcher($path = '') {
 		return new \OC\Files\Cache\Shared_Watcher($this);
 	}
 
