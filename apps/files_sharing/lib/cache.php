@@ -36,8 +36,8 @@ class Shared_Cache extends Cache {
 
 	/**
 	* @brief Get the source cache of a shared file or folder
-	* @param string Shared target file path
-	* @return \OC\Files\Storage\Cache
+	* @param string $target Shared target file path
+	* @return \OC\Files\Cache\Cache
 	*/
 	private function getSourceCache($target) {
 		$source = \OC_Share_Backend_File::getSource($target);
@@ -230,7 +230,7 @@ class Shared_Cache extends Cache {
 	 * @return int[]
 	 */
 	public function getAll() {
-		return OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_GET_ALL);
+		return \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_GET_ALL);
 	}
 
 }
