@@ -405,12 +405,12 @@ class Shared extends \OC\Files\Storage\Common {
 		return new \OC\Files\Cache\Shared_Cache($this);
 	}
 
-	public function getScanner(){
-		return new \OC\Files\Cache\Shared_Scanner($this);
-	}
-
 	public function getPermissionsCache() {
 		return new \OC\Files\Cache\Shared_Permissions($this);
+	}
+
+	public function getWatcher() {
+		return new \OC\Files\Cache\Shared_Watcher($this);
 	}
 
 	public function getOwner($path) {
