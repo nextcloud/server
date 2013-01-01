@@ -70,6 +70,11 @@ interface Storage{
 	public function getPermissionsCache();
 
 	/**
+	 * @return \OC\Files\Cache\Watcher
+	 */
+	public function getWatcher();
+
+	/**
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path

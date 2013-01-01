@@ -250,6 +250,13 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 
 	/**
+	 * @return \OC\Files\Cache\Watcher
+	 */
+	public function getWatcher(){
+		return new \OC\Files\Cache\Watcher($this);
+	}
+
+	/**
 	 * get the owner of a path
 	 * @param string $path The path to get the owner
 	 * @return string uid or false

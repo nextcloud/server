@@ -685,7 +685,7 @@ class View {
 				$scanner = $storage->getScanner();
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 			} else {
-				$watcher = new \OC\Files\Cache\Watcher($storage);
+				$watcher = $storage->getWatcher();
 				$watcher->checkUpdate($internalPath);
 			}
 
@@ -733,7 +733,7 @@ class View {
 				$scanner = $storage->getScanner();
 				$scanner->scan($internalPath, Cache\Scanner::SCAN_SHALLOW);
 			} else {
-				$watcher = new \OC\Files\Cache\Watcher($storage);
+				$watcher = $storage->getWatcher();
 				$watcher->checkUpdate($internalPath);
 			}
 

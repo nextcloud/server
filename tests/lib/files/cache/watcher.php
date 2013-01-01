@@ -32,7 +32,7 @@ class Watcher extends \PHPUnit_Framework_TestCase {
 	function testWatcher() {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
-		$updater = new \OC\Files\Cache\Watcher($storage);
+		$updater = $storage->getWatcher();
 
 		//set the mtime to the past so it can detect an mtime change
 		$cache->put('', array('mtime' => 10));
@@ -66,16 +66,16 @@ class Watcher extends \PHPUnit_Framework_TestCase {
 	public function testFileToFolder() {
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
-		$updater = new \OC\Files\Cache\Watcher($storage);
+		$updater = $storage->getWatcher();
 
 		//set the mtime to the past so it can detect an mtime change
 		$cache->put('', array('mtime' => 10));
 
 		$storage->unlink('foo.txt');
-		$storage->rename('folder','foo.txt');
+		$storage->rename('folder', 'foo.txt');
 		$updater->checkUpdate('');
 
-		$entry= $cache->get('foo.txt');
+		$entry = $cache->get('foo.txt');
 		$this->assertEquals(-1, $entry['size']);
 		$this->assertEquals('httpd/unix-directory', $entry['mimetype']);
 		$this->assertFalse($cache->inCache('folder'));
@@ -83,16 +83,16 @@ class Watcher extends \PHPUnit_Framework_TestCase {
 
 		$storage = $this->getTestStorage();
 		$cache = $storage->getCache();
-		$updater = new \OC\Files\Cache\Watcher($storage);
+		$updater = $storage->getWatcher();
 
 		//set the mtime to the past so it can detect an mtime change
 		$cache->put('foo.txt', array('mtime' => 10));
 
 		$storage->unlink('foo.txt');
-		$storage->rename('folder','foo.txt');
+		$storage->rename('folder', 'foo.txt');
 		$updater->checkUpdate('foo.txt');
 
-		$entry= $cache->get('foo.txt');
+		$entry = $cache->get('foo.txt');
 		$this->assertEquals('httpd/unix-directory', $entry['mimetype']);
 		$this->assertTrue($cache->inCache('foo.txt/bar.txt'));
 	}
