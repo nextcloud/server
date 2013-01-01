@@ -3,226 +3,222 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <>, 2012.
-#   <peter.perosa@gmail.com>, 2012.
-# Peter Peroša <peter.perosa@gmail.com>, 2012-2013.
-#   <urossolar@hotmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
 "POT-Creation-Date: 2013-01-02 00:04+0100\n"
-"PO-Revision-Date: 2013-01-01 14:26+0000\n"
-"Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
-"Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
+"PO-Revision-Date: 2011-07-25 16:05+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+"Language: bn_BD\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "Ni mogoče naložiti seznama iz App Store"
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr "Skupina že obstaja"
+msgstr ""
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr "Ni mogoče dodati skupine"
+msgstr ""
 
 #: ajax/enableapp.php:12
 msgid "Could not enable app. "
-msgstr "Programa ni mogoče omogočiti."
+msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "Elektronski naslov je shranjen"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "Neveljaven elektronski naslov"
+msgstr ""
 
 #: ajax/openid.php:13
 msgid "OpenID Changed"
-msgstr "OpenID je bil spremenjen"
+msgstr ""
 
 #: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "Neveljavna zahteva"
+msgstr ""
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr "Ni mogoče izbrisati skupine"
+msgstr ""
 
 #: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr "Napaka overitve"
+msgstr ""
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr "Ni mogoče izbrisati uporabnika"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr "Jezik je bil spremenjen"
+msgstr ""
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr "Administratorji sebe ne morejo odstraniti iz skupine admin"
+msgstr ""
 
 #: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "Uporabnika ni mogoče dodati k skupini %s"
+msgstr ""
 
 #: ajax/togglegroups.php:34
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "Uporabnika ni mogoče odstraniti iz skupine %s"
+msgstr ""
 
 #: js/apps.js:28 js/apps.js:67
 msgid "Disable"
-msgstr "Onemogoči"
+msgstr ""
 
 #: js/apps.js:28 js/apps.js:55
 msgid "Enable"
-msgstr "Omogoči"
+msgstr ""
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr "Poteka shranjevanje ..."
+msgstr ""
 
 #: personal.php:42 personal.php:43
 msgid "__language_name__"
-msgstr "__ime_jezika__"
+msgstr ""
 
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr "Dodaj program"
+msgstr ""
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr "Več programov"
+msgstr ""
 
 #: templates/apps.php:27
 msgid "Select an App"
-msgstr "Izberite program"
+msgstr ""
 
 #: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
-msgstr "Obiščite spletno stran programa na apps.owncloud.com"
+msgstr ""
 
 #: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr "<span class=\"licence\"></span>-z dovoljenjem s strani <span class=\"author\"></span>"
+msgstr ""
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr "Uporabniška dokumentacija"
+msgstr ""
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr "Administratorjeva dokumentacija"
+msgstr ""
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr "Spletna dokumentacija"
+msgstr ""
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr "Forum"
+msgstr ""
 
 #: templates/help.php:9
 msgid "Bugtracker"
-msgstr "Sistem za sledenje napakam"
+msgstr ""
 
 #: templates/help.php:11
 msgid "Commercial Support"
-msgstr "Komercialna podpora"
+msgstr ""
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "Uporabljate <strong>%s</strong> od razpoložljivih <strong>%s</strong>"
+msgstr ""
 
 #: templates/personal.php:12
 msgid "Clients"
-msgstr "Stranka"
+msgstr ""
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr "Prenesi namizne odjemalce"
+msgstr ""
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr "Prenesi Android odjemalec"
+msgstr ""
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr "Prenesi iOS odjemalec"
+msgstr ""
 
 #: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
-msgstr "Geslo"
+msgstr ""
 
 #: templates/personal.php:22
 msgid "Your password was changed"
-msgstr "Vaše geslo je spremenjeno"
+msgstr ""
 
 #: templates/personal.php:23
 msgid "Unable to change your password"
-msgstr "Gesla ni mogoče spremeniti."
+msgstr ""
 
 #: templates/personal.php:24
 msgid "Current password"
-msgstr "Trenutno geslo"
+msgstr ""
 
 #: templates/personal.php:25
 msgid "New password"
-msgstr "Novo geslo"
+msgstr ""
 
 #: templates/personal.php:26
 msgid "show"
-msgstr "pokaži"
+msgstr ""
 
 #: templates/personal.php:27
 msgid "Change password"
-msgstr "Spremeni geslo"
+msgstr ""
 
 #: templates/personal.php:33
 msgid "Email"
-msgstr "Elektronska pošta"
+msgstr ""
 
 #: templates/personal.php:34
 msgid "Your email address"
-msgstr "Vaš elektronski poštni naslov"
+msgstr ""
 
 #: templates/personal.php:35
 msgid "Fill in an email address to enable password recovery"
-msgstr "Vpišite vaš elektronski naslov in s tem omogočite obnovitev gesla"
+msgstr ""
 
 #: templates/personal.php:41 templates/personal.php:42
 msgid "Language"
-msgstr "Jezik"
+msgstr ""
 
 #: templates/personal.php:47
 msgid "Help translate"
-msgstr "Pomagajte pri prevajanju"
+msgstr ""
 
 #: templates/personal.php:52
 msgid "WebDAV"
-msgstr "WebDAV"
+msgstr ""
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "Uporabite ta naslov za povezavo do ownCloud v vašem upravljalniku datotek."
+msgstr ""
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr "Različica"
+msgstr ""
 
 #: templates/personal.php:65
 msgid ""
@@ -232,44 +228,44 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "Programski paket razvija <a href=\"http://ownCloud.org/contact\" target=\"_blank\">skupnost ownCloud</a>. <a href=\"https://github.com/owncloud\" target=\"_blank\">Izvorna koda</a> je objavljena pod pogoji dovoljenja <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Splošno javno dovoljenje Affero\">AGPL</abbr></a>."
+msgstr ""
 
 #: templates/users.php:21 templates/users.php:81
 msgid "Name"
-msgstr "Ime"
+msgstr ""
 
 #: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
-msgstr "Skupine"
+msgstr ""
 
 #: templates/users.php:32
 msgid "Create"
-msgstr "Ustvari"
+msgstr ""
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr "Privzeta shramba"
+msgstr ""
 
 #: templates/users.php:42 templates/users.php:138
 msgid "Unlimited"
-msgstr "Neomejeno"
+msgstr ""
 
 #: templates/users.php:60 templates/users.php:153
 msgid "Other"
-msgstr "Drugo"
+msgstr ""
 
 #: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
-msgstr "Skrbnik skupine"
+msgstr ""
 
 #: templates/users.php:87
 msgid "Storage"
-msgstr "Shramba"
+msgstr ""
 
 #: templates/users.php:133
 msgid "Default"
-msgstr "Privzeto"
+msgstr ""
 
 #: templates/users.php:161
 msgid "Delete"
-msgstr "Izbriši"
+msgstr ""
