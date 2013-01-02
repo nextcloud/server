@@ -306,8 +306,15 @@ if(typeof localStorage !=='undefined' && localStorage !== null){
 			return localStorage.setItem(OC.localStorage.namespace+name,JSON.stringify(item));
 		},
 		getItem:function(name){
-			if(localStorage.getItem(OC.localStorage.namespace+name)===null){return null;}
-			return JSON.parse(localStorage.getItem(OC.localStorage.namespace+name));
+			var item = localStorage.getItem(OC.localStorage.namespace+name);
+			if(item===null){
+				return null;
+			} else if (typeof JSON === 'undefined') {
+				//fallback to jquery for IE6/7/8
+				return $.parseJSON(item);
+			} else {
+				return JSON.parse(item);
+			}
 		}
 	};
 }else{
