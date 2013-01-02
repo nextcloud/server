@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <cronner@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-09 10:06+0100\n"
-"PO-Revision-Date: 2012-11-09 09:06+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-12-24 00:10+0100\n"
+"PO-Revision-Date: 2012-12-23 22:14+0000\n"
+"Last-Translator: cronner <cronner@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,5 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: templates/settings.php:4
-msgid "WebDAV URL: http://"
-msgstr ""
+msgid "URL: http://"
+msgstr "URL: http://"
+
+#: templates/settings.php:6
+msgid ""
+"ownCloud will send the user credentials to this URL is interpret http 401 "
+"and http 403 as credentials wrong and all other codes as credentials "
+"correct."
+msgstr "ownCloud vil sende brugeroplysningerne til denne webadresse er fortolker http 401 og http 403 som brugeroplysninger forkerte og alle andre koder som brugeroplysninger korrekte."

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-03 00:04+0100\n"
-"PO-Revision-Date: 2012-12-02 03:18+0000\n"
+"POT-Creation-Date: 2012-12-30 00:04+0100\n"
+"PO-Revision-Date: 2012-12-29 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -68,7 +68,7 @@ msgstr "Язык изменен"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "Администраторы не могут удалить сами себя из группы администраторов"
 
 #: ajax/togglegroups.php:28
 #, php-format
@@ -116,29 +116,29 @@ msgstr "Обратитесь к странице приложений на apps.
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 
-#: templates/help.php:9
-msgid "Documentation"
-msgstr "Документация"
+#: templates/help.php:3
+msgid "User Documentation"
+msgstr "Документация пользователя"
 
-#: templates/help.php:10
-msgid "Managing Big Files"
-msgstr "Управление большими файлами"
+#: templates/help.php:4
+msgid "Administrator Documentation"
+msgstr "Документация администратора"
+
+#: templates/help.php:6
+msgid "Online Documentation"
+msgstr "Документация online"
+
+#: templates/help.php:7
+msgid "Forum"
+msgstr "Форум"
+
+#: templates/help.php:9
+msgid "Bugtracker"
+msgstr "Отслеживание ошибок"
 
 #: templates/help.php:11
-msgid "Ask a question"
-msgstr "Задать вопрос"
-
-#: templates/help.php:22
-msgid "Problems connecting to help database."
-msgstr "Проблемы, связанные с разделом Помощь базы данных"
-
-#: templates/help.php:23
-msgid "Go there manually."
-msgstr "Сделать вручную."
-
-#: templates/help.php:31
-msgid "Answer"
-msgstr "Ответ"
+msgid "Commercial Support"
+msgstr "Коммерческая поддержка"
 
 #: templates/personal.php:8
 #, php-format
@@ -146,62 +146,82 @@ msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Вы использовали <strong>%s</strong> из возможных <strong>%s</strong>"
 
 #: templates/personal.php:12
-msgid "Desktop and Mobile Syncing Clients"
-msgstr "Клиенты синхронизации настольной и мобильной систем"
+msgid "Clients"
+msgstr "Клиенты"
 
 #: templates/personal.php:13
-msgid "Download"
-msgstr "Загрузка"
+msgid "Download Desktop Clients"
+msgstr ""
 
-#: templates/personal.php:19
+#: templates/personal.php:14
+msgid "Download Android Client"
+msgstr "Загрузить клиент под Android "
+
+#: templates/personal.php:15
+msgid "Download iOS Client"
+msgstr "Загрузить клиент под iOS "
+
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+msgid "Password"
+msgstr "Пароль"
+
+#: templates/personal.php:22
 msgid "Your password was changed"
 msgstr "Ваш пароль был изменен"
 
-#: templates/personal.php:20
+#: templates/personal.php:23
 msgid "Unable to change your password"
 msgstr "Невозможно изменить Ваш пароль"
 
-#: templates/personal.php:21
+#: templates/personal.php:24
 msgid "Current password"
 msgstr "Текущий пароль"
 
-#: templates/personal.php:22
+#: templates/personal.php:25
 msgid "New password"
 msgstr "Новый пароль"
 
-#: templates/personal.php:23
+#: templates/personal.php:26
 msgid "show"
 msgstr "показать"
 
-#: templates/personal.php:24
+#: templates/personal.php:27
 msgid "Change password"
 msgstr "Изменить пароль"
 
-#: templates/personal.php:30
+#: templates/personal.php:33
 msgid "Email"
 msgstr "Электронная почта"
 
-#: templates/personal.php:31
+#: templates/personal.php:34
 msgid "Your email address"
 msgstr "Адрес Вашей электронной почты"
 
-#: templates/personal.php:32
+#: templates/personal.php:35
 msgid "Fill in an email address to enable password recovery"
 msgstr "Введите адрес электронной почты для возможности восстановления пароля"
 
-#: templates/personal.php:38 templates/personal.php:39
+#: templates/personal.php:41 templates/personal.php:42
 msgid "Language"
 msgstr "Язык"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Help translate"
 msgstr "Помогите перевести"
 
-#: templates/personal.php:51
-msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "Используйте этот адрес для соединения с Вашим ownCloud в файловом менеджере"
+#: templates/personal.php:52
+msgid "WebDAV"
+msgstr "WebDAV"
 
-#: templates/personal.php:61
+#: templates/personal.php:54
+msgid "Use this address to connect to your ownCloud in your file manager"
+msgstr "Используйте этот адрес для подключения к ownCloud в Вашем файловом менеджере"
+
+#: templates/personal.php:63
+msgid "Version"
+msgstr "Версия"
+
+#: templates/personal.php:65
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -211,15 +231,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Разработанный <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "Имя"
 
-#: templates/users.php:23 templates/users.php:77
-msgid "Password"
-msgstr "Пароль"
-
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "Группы"
 
@@ -228,21 +244,29 @@ msgid "Create"
 msgstr "Создать"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "Квота по умолчанию"
+msgid "Default Storage"
+msgstr ""
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr ""
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "Другой"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "Группа Admin"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "квота"
+#: templates/users.php:87
+msgid "Storage"
+msgstr ""
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr ""
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "Удалить"

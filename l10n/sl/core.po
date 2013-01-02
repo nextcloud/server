@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-20 00:01+0100\n"
-"PO-Revision-Date: 2012-11-19 19:48+0000\n"
+"POT-Creation-Date: 2012-12-16 00:11+0100\n"
+"PO-Revision-Date: 2012-12-15 16:29+0000\n"
 "Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+
+#: ajax/share.php:84
+#, php-format
+msgid "User %s shared a file with you"
+msgstr "Uporanik %s je dal datoteko v souporabo z vami"
+
+#: ajax/share.php:86
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr "Uporanik %s je dal mapo v souporabo z vami"
+
+#: ajax/share.php:88
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr "Uporanik %s je dal datoteko \"%s\" v souporabo z vami. Prenesete jo lahko tukaj: %s"
+
+#: ajax/share.php:90
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr "Uporanik %s je dal mapo \"%s\" v souporabo z vami. Prenesete je lahko tukaj: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -141,8 +165,8 @@ msgid "The object type is not specified."
 msgstr "Vrsta predmeta ni podana."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
-#: js/share.js:539
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
+#: js/share.js:553
 msgid "Error"
 msgstr "Napaka"
 
@@ -154,7 +178,7 @@ msgstr "Ime aplikacije ni podano."
 msgid "The required file {file} is not installed!"
 msgstr "Zahtevana datoteka {file} ni nameščena!"
 
-#: js/share.js:124
+#: js/share.js:124 js/share.js:581
 msgid "Error while sharing"
 msgstr "Napaka med souporabo"
 
@@ -186,74 +210,90 @@ msgstr "Omogoči souporabo s povezavo"
 msgid "Password protect"
 msgstr "Zaščiti z geslom"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:26
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Geslo"
 
+#: js/share.js:172
+msgid "Email link to person"
+msgstr "Posreduj povezavo po e-pošti"
+
 #: js/share.js:173
+msgid "Send"
+msgstr "Pošlji"
+
+#: js/share.js:177
 msgid "Set expiration date"
 msgstr "Nastavi datum preteka"
 
-#: js/share.js:174
+#: js/share.js:178
 msgid "Expiration date"
 msgstr "Datum preteka"
 
-#: js/share.js:206
+#: js/share.js:210
 msgid "Share via email:"
 msgstr "Souporaba preko elektronske pošte:"
 
-#: js/share.js:208
+#: js/share.js:212
 msgid "No people found"
 msgstr "Ni najdenih uporabnikov"
 
-#: js/share.js:235
+#: js/share.js:239
 msgid "Resharing is not allowed"
 msgstr "Ponovna souporaba ni omogočena"
 
-#: js/share.js:271
+#: js/share.js:275
 msgid "Shared in {item} with {user}"
 msgstr "V souporabi v {item} z {user}"
 
-#: js/share.js:292
+#: js/share.js:296
 msgid "Unshare"
 msgstr "Odstrani souporabo"
 
-#: js/share.js:304
+#: js/share.js:308
 msgid "can edit"
 msgstr "lahko ureja"
 
-#: js/share.js:306
+#: js/share.js:310
 msgid "access control"
 msgstr "nadzor dostopa"
 
-#: js/share.js:309
+#: js/share.js:313
 msgid "create"
 msgstr "ustvari"
 
-#: js/share.js:312
+#: js/share.js:316
 msgid "update"
 msgstr "posodobi"
 
-#: js/share.js:315
+#: js/share.js:319
 msgid "delete"
 msgstr "izbriše"
 
-#: js/share.js:318
+#: js/share.js:322
 msgid "share"
 msgstr "določi souporabo"
 
-#: js/share.js:343 js/share.js:514 js/share.js:516
+#: js/share.js:353 js/share.js:528 js/share.js:530
 msgid "Password protected"
 msgstr "Zaščiteno z geslom"
 
-#: js/share.js:527
+#: js/share.js:541
 msgid "Error unsetting expiration date"
 msgstr "Napaka brisanja datuma preteka"
 
-#: js/share.js:539
+#: js/share.js:553
 msgid "Error setting expiration date"
 msgstr "Napaka med nastavljanjem datuma preteka"
+
+#: js/share.js:568
+msgid "Sending ..."
+msgstr "Pošiljam ..."
+
+#: js/share.js:579
+msgid "Email sent"
+msgstr "E-pošta je bila poslana"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -275,8 +315,8 @@ msgstr "E-pošta za ponastavitev je bila poslana."
 msgid "Request failed!"
 msgstr "Zahtevek je spodletel!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:21
 msgid "Username"
 msgstr "Uporabniško Ime"
 
@@ -365,44 +405,44 @@ msgstr "Trenutno je dostop do podatkovne mape in datotek najverjetneje omogočen
 msgid "Create an <strong>admin account</strong>"
 msgstr "Ustvari <strong>skrbniški račun</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "Napredne možnosti"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "Mapa s podatki"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "Nastavi podatkovno zbirko"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "bo uporabljen"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "Uporabnik zbirke"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "Geslo podatkovne zbirke"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "Ime podatkovne zbirke"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "Razpredelnica podatkovne zbirke"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Gostitelj podatkovne zbirke"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "Dokončaj namestitev"
 
@@ -508,11 +548,11 @@ msgstr "Spremenite geslo za izboljšanje zaščite računa."
 msgid "Lost your password?"
 msgstr "Ali ste pozabili geslo?"
 
-#: templates/login.php:27
+#: templates/login.php:29
 msgid "remember"
 msgstr "Zapomni si me"
 
-#: templates/login.php:28
+#: templates/login.php:30
 msgid "Log in"
 msgstr "Prijava"
 

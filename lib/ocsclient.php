@@ -44,10 +44,10 @@ class OC_OCSClient{
          * @returns string of the KB server
          * This function returns the url of the OCS knowledge base server. It´s possible to set it in the config file or it will fallback to the default
          */
-        private static function getKBURL() {
-                $url = OC_Config::getValue('knowledgebaseurl', 'http://api.apps.owncloud.com/v1');
-                return($url);
-        }
+	private static function getKBURL() {
+		$url = OC_Config::getValue('knowledgebaseurl', 'http://api.apps.owncloud.com/v1');
+		return($url);
+	}
 
 	/**
 	 * @brief Get the content of an OCS url call.

@@ -7,164 +7,177 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-29 02:01+0200\n"
-"PO-Revision-Date: 2012-08-29 00:03+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-30 00:04+0100\n"
+"PO-Revision-Date: 2012-12-29 17:19+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: hu_HU\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
-
-#: templates/settings.php:8
-msgid "Host"
-msgstr ""
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: templates/settings.php:8
 msgid ""
+"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
+" experience unexpected behaviour. Please ask your system administrator to "
+"disable one of them."
+msgstr "<b>Figyelem:</b> a user_ldap és user_webdavauth alkalmazások nem kompatibilisek. Együttes használatuk váratlan eredményekhez vezethet. Kérje meg a rendszergazdát, hogy a kettő közül kapcsolja ki az egyiket."
+
+#: templates/settings.php:11
+msgid ""
+"<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will"
+" not work. Please ask your system administrator to install it."
+msgstr "<b>Figyelem:</b> a szükséges PHP LDAP modul nincs telepítve. Enélkül az LDAP azonosítás nem fog működni. Kérje meg a rendszergazdát, hogy telepítse a szükséges modult!"
+
+#: templates/settings.php:15
+msgid "Host"
+msgstr "Kiszolgáló"
+
+#: templates/settings.php:15
+msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "A protokoll előtag elhagyható, kivéve, ha SSL-t kíván használni. Ebben az esetben kezdje így:  ldaps://"
 
-#: templates/settings.php:9
+#: templates/settings.php:16
 msgid "Base DN"
-msgstr ""
+msgstr "DN-gyökér"
 
-#: templates/settings.php:9
+#: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr ""
+msgstr "A Haladó fülre kattintva külön DN-gyökér állítható be a felhasználók és a csoportok számára"
 
-#: templates/settings.php:10
+#: templates/settings.php:17
 msgid "User DN"
-msgstr ""
+msgstr "A kapcsolódó felhasználó DN-je"
 
-#: templates/settings.php:10
+#: templates/settings.php:17
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
 msgstr ""
 
-#: templates/settings.php:11
+#: templates/settings.php:18
 msgid "Password"
-msgstr ""
+msgstr "Jelszó"
 
-#: templates/settings.php:11
+#: templates/settings.php:18
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "Bejelentkezés nélküli eléréshez ne töltse ki a DN és Jelszó mezőket!"
 
-#: templates/settings.php:12
+#: templates/settings.php:19
 msgid "User Login Filter"
-msgstr ""
+msgstr "Szűrő a bejelentkezéshez"
 
-#: templates/settings.php:12
+#: templates/settings.php:19
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "Ez a szűrő érvényes a bejelentkezés megkísérlésekor. Ekkor az %%uid változó helyére a bejelentkezési név kerül."
 
-#: templates/settings.php:12
+#: templates/settings.php:19
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr ""
+msgstr "használja az %%uid változót, pl. \"uid=%%uid\""
 
-#: templates/settings.php:13
+#: templates/settings.php:20
 msgid "User List Filter"
-msgstr ""
+msgstr "A felhasználók szűrője"
 
-#: templates/settings.php:13
+#: templates/settings.php:20
 msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
+msgstr "Ez a szűrő érvényes a felhasználók listázásakor."
 
-#: templates/settings.php:13
+#: templates/settings.php:20
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
+msgstr "itt ne használjon változót, pl. \"objectClass=person\"."
 
-#: templates/settings.php:14
+#: templates/settings.php:21
 msgid "Group Filter"
-msgstr ""
+msgstr "A csoportok szűrője"
 
-#: templates/settings.php:14
+#: templates/settings.php:21
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
+msgstr "Ez a szűrő érvényes a csoportok listázásakor."
 
-#: templates/settings.php:14
+#: templates/settings.php:21
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "itt ne használjunk változót, pl. \"objectClass=posixGroup\"."
 
-#: templates/settings.php:17
+#: templates/settings.php:24
 msgid "Port"
 msgstr ""
 
-#: templates/settings.php:18
+#: templates/settings.php:25
 msgid "Base User Tree"
-msgstr ""
+msgstr "A felhasználói fa gyökere"
 
-#: templates/settings.php:19
+#: templates/settings.php:26
 msgid "Base Group Tree"
-msgstr ""
-
-#: templates/settings.php:20
-msgid "Group-Member association"
-msgstr ""
-
-#: templates/settings.php:21
-msgid "Use TLS"
-msgstr ""
-
-#: templates/settings.php:21
-msgid "Do not use it for SSL connections, it will fail."
-msgstr ""
-
-#: templates/settings.php:22
-msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
-
-#: templates/settings.php:23
-msgid "Turn off SSL certificate validation."
-msgstr ""
-
-#: templates/settings.php:23
-msgid ""
-"If connection only works with this option, import the LDAP server's SSL "
-"certificate in your ownCloud server."
-msgstr ""
-
-#: templates/settings.php:23
-msgid "Not recommended, use for testing only."
-msgstr ""
-
-#: templates/settings.php:24
-msgid "User Display Name Field"
-msgstr ""
-
-#: templates/settings.php:24
-msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr ""
-
-#: templates/settings.php:25
-msgid "Group Display Name Field"
-msgstr ""
-
-#: templates/settings.php:25
-msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr ""
+msgstr "A csoportfa gyökere"
 
 #: templates/settings.php:27
-msgid "in bytes"
-msgstr ""
+msgid "Group-Member association"
+msgstr "A csoporttagság attribútuma"
+
+#: templates/settings.php:28
+msgid "Use TLS"
+msgstr "Használjunk TLS-t"
+
+#: templates/settings.php:28
+msgid "Do not use it for SSL connections, it will fail."
+msgstr "Ne használjuk SSL-kapcsolat esetén, mert nem fog működni!"
 
 #: templates/settings.php:29
-msgid "in seconds. A change empties the cache."
-msgstr ""
+msgid "Case insensitve LDAP server (Windows)"
+msgstr "Az LDAP-kiszolgáló nem tesz különbséget a kis- és nagybetűk között (Windows)"
+
+#: templates/settings.php:30
+msgid "Turn off SSL certificate validation."
+msgstr "Ne ellenőrizzük az SSL-tanúsítvány érvényességét"
 
 #: templates/settings.php:30
 msgid ""
-"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
-"attribute."
-msgstr ""
+"If connection only works with this option, import the LDAP server's SSL "
+"certificate in your ownCloud server."
+msgstr "Ha a kapcsolat csak ezzel a beállítással működik, akkor importálja az LDAP-kiszolgáló SSL tanúsítványát az ownCloud kiszolgálóra!"
+
+#: templates/settings.php:30
+msgid "Not recommended, use for testing only."
+msgstr "Nem javasolt, csak tesztelésre érdemes használni."
+
+#: templates/settings.php:31
+msgid "User Display Name Field"
+msgstr "A felhasználónév mezője"
+
+#: templates/settings.php:31
+msgid "The LDAP attribute to use to generate the user`s ownCloud name."
+msgstr "Ebből az LDAP attribútumból képződik a felhasználó elnevezése, ami megjelenik az ownCloudban."
 
 #: templates/settings.php:32
+msgid "Group Display Name Field"
+msgstr "A csoport nevének mezője"
+
+#: templates/settings.php:32
+msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
+msgstr "Ebből az LDAP attribútumból képződik a csoport elnevezése, ami megjelenik az ownCloudban."
+
+#: templates/settings.php:34
+msgid "in bytes"
+msgstr "bájtban"
+
+#: templates/settings.php:36
+msgid "in seconds. A change empties the cache."
+msgstr "másodpercben. A változtatás törli a cache tartalmát."
+
+#: templates/settings.php:37
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "Hagyja üresen, ha a felhasználónevet kívánja használni. Ellenkező esetben adjon meg egy LDAP/AD attribútumot!"
+
+#: templates/settings.php:39
 msgid "Help"
-msgstr ""
+msgstr "Súgó"

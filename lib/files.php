@@ -197,7 +197,12 @@ class OC_Files {
 		}
 		OC_Util::obEnd();
 		if($zip or OC_Filesystem::is_readable($filename)) {
-			header('Content-Disposition: attachment; filename="'.basename($filename).'"');
+			if ( preg_match( "/MSIE/", $_SERVER["HTTP_USER_AGENT"] ) ) {
+				header( 'Content-Disposition: attachment; filename="' . rawurlencode( basename($filename) ) . '"' );
+			} else {
+				header( 'Content-Disposition: attachment; filename*=UTF-8\'\'' . rawurlencode( basename($filename) )
+													 . '; filename="' . rawurlencode( basename($filename) ) . '"' );
+			}
 			header('Content-Transfer-Encoding: binary');
 			OC_Response::disableCaching();
 			if($zip) {
@@ -207,6 +212,7 @@ class OC_Files {
 				self::addSendfileHeader($filename);
 			}else{
 				header('Content-Type: '.OC_Filesystem::getMimeType($filename));
+				header("Content-Length: ".OC_Filesystem::filesize($filename));
 				$storage = OC_Filesystem::getStorage($filename);
 				if ($storage instanceof OC_Filestorage_Local) {
 					self::addSendfileHeader(OC_Filesystem::getLocalFile($filename));
@@ -222,8 +228,6 @@ class OC_Files {
 			die('403 Forbidden');
 		}
 		if($only_header) {
-			if(!$zip)
-				header("Content-Length: ".OC_Filesystem::filesize($filename));
 			return ;
 		}
 		if($zip) {
@@ -492,7 +496,9 @@ class OC_Files {
 		if(is_writable(OC::$SERVERROOT.'/.htaccess')) {
 			file_put_contents(OC::$SERVERROOT.'/.htaccess', $htaccess);
 			return OC_Helper::computerFileSize($size);
-		} else { OC_Log::write('files', 'Can\'t write upload limit to '.OC::$SERVERROOT.'/.htaccess. Please check the file permissions', OC_Log::WARN); }
+		} else {
+			OC_Log::write('files', 'Can\'t write upload limit to '.OC::$SERVERROOT.'/.htaccess. Please check the file permissions', OC_Log::WARN);
+		}
 
 		return false;
 	}

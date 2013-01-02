@@ -5,6 +5,8 @@
 "Fill out all required fields" => "Заповніть всі обов'язкові поля",
 "Please provide a valid Dropbox app key and secret." => "Будь ласка, надайте дійсний ключ та пароль Dropbox.",
 "Error configuring Google Drive storage" => "Помилка при налаштуванні сховища Google Drive",
+"<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Попередження:</b> Клієнт \"smbclient\" не встановлено. Під'єднанатися до CIFS/SMB тек неможливо. Попрохайте системного адміністратора встановити його.",
+"<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Попередження:</b> Підтримка FTP в PHP не увімкнута чи не встановлена. Під'єднанатися до FTP тек неможливо. Попрохайте системного адміністратора встановити її.",
 "External Storage" => "Зовнішні сховища",
 "Mount point" => "Точка монтування",
 "Backend" => "Backend",

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-03 00:04+0100\n"
-"PO-Revision-Date: 2012-12-02 03:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-31 00:04+0100\n"
+"PO-Revision-Date: 2012-12-30 14:17+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,15 +25,15 @@ msgstr "Nem tölthető le a lista az App Store-ból"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr ""
+msgstr "A csoport már létezik"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr ""
+msgstr "A csoport nem hozható létre"
 
 #: ajax/enableapp.php:12
 msgid "Could not enable app. "
-msgstr ""
+msgstr "A program nem aktiválható."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -53,15 +53,15 @@ msgstr "Érvénytelen kérés"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "A csoport nem törölhető"
 
 #: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr "Hitelesítési hiba"
+msgstr "Azonosítási hiba"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr ""
+msgstr "A felhasználó nem törölhető"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -69,17 +69,17 @@ msgstr "A nyelv megváltozott"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "Adminisztrátorok nem távolíthatják el magukat az admin csoportból."
 
 #: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "A felhasználó nem adható hozzá ehhez a csoporthoz: %s"
 
 #: ajax/togglegroups.php:34
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "A felhasználó nem távolítható el ebből a csoportból: %s"
 
 #: js/apps.js:28 js/apps.js:67
 msgid "Disable"
@@ -99,15 +99,15 @@ msgstr "__language_name__"
 
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr "App hozzáadása"
+msgstr "Az alkalmazás hozzáadása"
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr ""
+msgstr "További alkalmazások"
 
 #: templates/apps.php:27
 msgid "Select an App"
-msgstr "Egy App kiválasztása"
+msgstr "Válasszon egy alkalmazást"
 
 #: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
@@ -115,94 +115,114 @@ msgstr "Lásd apps.owncloud.com, alkalmazások oldal"
 
 #: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-a jogtuladonos <span class=\"author\"></span>"
+
+#: templates/help.php:3
+msgid "User Documentation"
+msgstr "Felhasználói leírás"
+
+#: templates/help.php:4
+msgid "Administrator Documentation"
+msgstr "Üzemeltetői leírás"
+
+#: templates/help.php:6
+msgid "Online Documentation"
+msgstr "Online leírás"
+
+#: templates/help.php:7
+msgid "Forum"
+msgstr "Fórum"
 
 #: templates/help.php:9
-msgid "Documentation"
-msgstr "Dokumentáció"
-
-#: templates/help.php:10
-msgid "Managing Big Files"
-msgstr "Nagy fájlok kezelése"
+msgid "Bugtracker"
+msgstr "Hibabejelentések"
 
 #: templates/help.php:11
-msgid "Ask a question"
-msgstr "Tégy fel egy kérdést"
-
-#: templates/help.php:22
-msgid "Problems connecting to help database."
-msgstr "Sikertelen csatlakozás a Súgó adatbázishoz"
-
-#: templates/help.php:23
-msgid "Go there manually."
-msgstr "Menj oda kézzel"
-
-#: templates/help.php:31
-msgid "Answer"
-msgstr "Válasz"
+msgid "Commercial Support"
+msgstr "Megvásárolható támogatás"
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Az Ön tárterület-felhasználása jelenleg: <strong>%s</strong>. Maximálisan ennyi áll rendelkezésére: <strong>%s</strong>"
 
 #: templates/personal.php:12
-msgid "Desktop and Mobile Syncing Clients"
-msgstr "Asztali- és mobilkliensek kezelése"
+msgid "Clients"
+msgstr "Kliensek"
 
 #: templates/personal.php:13
-msgid "Download"
-msgstr "Letöltés"
+msgid "Download Desktop Clients"
+msgstr "Desktop kliensprogramok letöltése"
 
-#: templates/personal.php:19
-msgid "Your password was changed"
-msgstr ""
+#: templates/personal.php:14
+msgid "Download Android Client"
+msgstr "Android kliens letöltése"
 
-#: templates/personal.php:20
-msgid "Unable to change your password"
-msgstr "Nem lehet megváltoztatni a jelszavad"
+#: templates/personal.php:15
+msgid "Download iOS Client"
+msgstr "iOS kliens letöltése"
 
-#: templates/personal.php:21
-msgid "Current password"
-msgstr "Jelenlegi jelszó"
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+msgid "Password"
+msgstr "Jelszó"
 
 #: templates/personal.php:22
-msgid "New password"
-msgstr "Új jelszó"
+msgid "Your password was changed"
+msgstr "A jelszava megváltozott"
 
 #: templates/personal.php:23
-msgid "show"
-msgstr "Mutat"
+msgid "Unable to change your password"
+msgstr "A jelszó nem változtatható meg"
 
 #: templates/personal.php:24
-msgid "Change password"
-msgstr "Jelszó megváltoztatása"
+msgid "Current password"
+msgstr "A jelenlegi jelszó"
 
-#: templates/personal.php:30
+#: templates/personal.php:25
+msgid "New password"
+msgstr "Az új jelszó"
+
+#: templates/personal.php:26
+msgid "show"
+msgstr "lássam"
+
+#: templates/personal.php:27
+msgid "Change password"
+msgstr "A jelszó megváltoztatása"
+
+#: templates/personal.php:33
 msgid "Email"
 msgstr "Email"
 
-#: templates/personal.php:31
+#: templates/personal.php:34
 msgid "Your email address"
-msgstr "Email címed"
+msgstr "Az Ön email címe"
 
-#: templates/personal.php:32
+#: templates/personal.php:35
 msgid "Fill in an email address to enable password recovery"
-msgstr "Töltsd ki az email címet, hogy engedélyezhesd a jelszó-visszaállítást"
+msgstr "Adja meg az email címét, hogy jelszó-emlékeztetőt kérhessen, ha elfelejtette a jelszavát!"
 
-#: templates/personal.php:38 templates/personal.php:39
+#: templates/personal.php:41 templates/personal.php:42
 msgid "Language"
 msgstr "Nyelv"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Help translate"
-msgstr "Segíts lefordítani!"
+msgstr "Segítsen a fordításban!"
 
-#: templates/personal.php:51
-msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "Használd ezt a címet hogy csatlakozz a saját ownCloud rendszeredhez a fájlkezelődben"
+#: templates/personal.php:52
+msgid "WebDAV"
+msgstr "WebDAV"
 
-#: templates/personal.php:61
+#: templates/personal.php:54
+msgid "Use this address to connect to your ownCloud in your file manager"
+msgstr "Ennek a címnek a megadásával a WebDAV-protokollon keresztül saját gépének fájlkezelőjével is is elérheti az állományait."
+
+#: templates/personal.php:63
+msgid "Version"
+msgstr "Verzió"
+
+#: templates/personal.php:65
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -210,17 +230,13 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "A programot az <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud közösség</a> fejleszti. A <a href=\"https://github.com/owncloud\" target=\"_blank\">forráskód</a> az <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> feltételei mellett használható föl."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "Név"
 
-#: templates/users.php:23 templates/users.php:77
-msgid "Password"
-msgstr "Jelszó"
-
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "Csoportok"
 
@@ -229,21 +245,29 @@ msgid "Create"
 msgstr "Létrehozás"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "Alapértelmezett kvóta"
-
-#: templates/users.php:55 templates/users.php:138
-msgid "Other"
-msgstr "Egyéb"
-
-#: templates/users.php:80 templates/users.php:112
-msgid "Group Admin"
+msgid "Default Storage"
 msgstr ""
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "Kvóta"
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr ""
 
-#: templates/users.php:146
+#: templates/users.php:60 templates/users.php:153
+msgid "Other"
+msgstr "Más"
+
+#: templates/users.php:85 templates/users.php:117
+msgid "Group Admin"
+msgstr "Csoportadminisztrátor"
+
+#: templates/users.php:87
+msgid "Storage"
+msgstr ""
+
+#: templates/users.php:133
+msgid "Default"
+msgstr ""
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "Törlés"

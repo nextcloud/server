@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <cronner@gmail.com>, 2012.
 #   <mikkelbjerglarsen@gmail.com>, 2011, 2012.
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011-2012.
 # Ole Holm Frandsen <froksen@gmail.com>, 2012.
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-24 00:10+0100\n"
+"PO-Revision-Date: 2012-12-23 21:57+0000\n"
+"Last-Translator: cronner <cronner@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,9 +25,33 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: ajax/share.php:84
+#, php-format
+msgid "User %s shared a file with you"
+msgstr "Bruger %s delte en fil med dig"
+
+#: ajax/share.php:86
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr "Bruger %s delte en mappe med dig"
+
+#: ajax/share.php:88
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr "Bruger %s delte filen \"%s\" med dig. Den kan hentes her: %s"
+
+#: ajax/share.php:90
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr "Bruger %s delte mappe \"%s\" med dig. Det kan hentes her: %s"
+
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "Kategori typen ikke er fastsat."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -40,18 +65,18 @@ msgstr "Denne kategori eksisterer allerede: "
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "Object type ikke er fastsat."
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "%s ID ikke oplyst."
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Fejl ved tilføjelse af %s til favoritter."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -60,61 +85,61 @@ msgstr "Ingen kategorier valgt"
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Fejl ved fjernelse af %s fra favoritter."
 
-#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: js/js.js:688
+#: js/js.js:704
 msgid "seconds ago"
 msgstr "sekunder siden"
 
-#: js/js.js:689
+#: js/js.js:705
 msgid "1 minute ago"
 msgstr "1 minut siden"
 
-#: js/js.js:690
+#: js/js.js:706
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minutter siden"
 
-#: js/js.js:691
+#: js/js.js:707
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 time siden"
 
-#: js/js.js:692
+#: js/js.js:708
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "{hours} timer siden"
 
-#: js/js.js:693
+#: js/js.js:709
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:694
+#: js/js.js:710
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:695
+#: js/js.js:711
 msgid "{days} days ago"
 msgstr "{days} dage siden"
 
-#: js/js.js:696
+#: js/js.js:712
 msgid "last month"
 msgstr "sidste måned"
 
-#: js/js.js:697
+#: js/js.js:713
 msgid "{months} months ago"
-msgstr ""
+msgstr "{months} måneder siden"
 
-#: js/js.js:698
+#: js/js.js:714
 msgid "months ago"
 msgstr "måneder siden"
 
-#: js/js.js:699
+#: js/js.js:715
 msgid "last year"
 msgstr "sidste år"
 
-#: js/js.js:700
+#: js/js.js:716
 msgid "years ago"
 msgstr "år siden"
 
@@ -141,23 +166,23 @@ msgstr "OK"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "Objekttypen er ikke angivet."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
-#: js/share.js:537
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "Fejl"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "Den app navn er ikke angivet."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "Den krævede fil {file} er ikke installeret!"
 
-#: js/share.js:124
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "Fejl under deling"
 
@@ -185,78 +210,94 @@ msgstr "Del med"
 msgid "Share with link"
 msgstr "Del med link"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "Beskyt med adgangskode"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Kodeord"
 
+#: js/share.js:172
+msgid "Email link to person"
+msgstr "E-mail link til person"
+
 #: js/share.js:173
+msgid "Send"
+msgstr "Send"
+
+#: js/share.js:177
 msgid "Set expiration date"
 msgstr "Vælg udløbsdato"
 
-#: js/share.js:174
+#: js/share.js:178
 msgid "Expiration date"
 msgstr "Udløbsdato"
 
-#: js/share.js:206
+#: js/share.js:210
 msgid "Share via email:"
 msgstr "Del via email:"
 
-#: js/share.js:208
+#: js/share.js:212
 msgid "No people found"
 msgstr "Ingen personer fundet"
 
-#: js/share.js:235
+#: js/share.js:239
 msgid "Resharing is not allowed"
 msgstr "Videredeling ikke tilladt"
 
-#: js/share.js:271
+#: js/share.js:275
 msgid "Shared in {item} with {user}"
 msgstr "Delt i {item} med {user}"
 
-#: js/share.js:292
+#: js/share.js:296
 msgid "Unshare"
 msgstr "Fjern deling"
 
-#: js/share.js:304
+#: js/share.js:308
 msgid "can edit"
 msgstr "kan redigere"
 
-#: js/share.js:306
+#: js/share.js:310
 msgid "access control"
 msgstr "Adgangskontrol"
 
-#: js/share.js:309
+#: js/share.js:313
 msgid "create"
 msgstr "opret"
 
-#: js/share.js:312
+#: js/share.js:316
 msgid "update"
 msgstr "opdater"
 
-#: js/share.js:315
+#: js/share.js:319
 msgid "delete"
 msgstr "slet"
 
-#: js/share.js:318
+#: js/share.js:322
 msgid "share"
 msgstr "del"
 
-#: js/share.js:343 js/share.js:512 js/share.js:514
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "Beskyttet med adgangskode"
 
-#: js/share.js:525
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr "Fejl ved fjernelse af udløbsdato"
 
-#: js/share.js:537
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "Fejl under sætning af udløbsdato"
+
+#: js/share.js:581
+msgid "Sending ..."
+msgstr "Sender ..."
+
+#: js/share.js:592
+msgid "Email sent"
+msgstr "E-mail afsendt"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -272,14 +313,14 @@ msgstr "Du vil modtage et link til at nulstille dit kodeord via email."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "Reset-mail afsendt."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "Anmodningen mislykkedes!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "Brugernavn"
 
@@ -368,154 +409,154 @@ msgstr "Din data mappe og dine filer er muligvis tilgængelige fra internettet. 
 msgid "Create an <strong>admin account</strong>"
 msgstr "Opret en <strong>administratorkonto</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "Avanceret"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "Datamappe"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "Konfigurer databasen"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "vil blive brugt"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "Databasebruger"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "Databasekodeord"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "Navn på database"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "Database tabelplads"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Databasehost"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "Afslut opsætning"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "Søndag"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "Mandag"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "Tirsdag"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "Onsdag"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "Torsdag"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "Fredag"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "Lørdag"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "Januar"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "Februar"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "Marts"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "April"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "Maj"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "Juni"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "Juli"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "August"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "September"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "Oktober"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "November"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "December"
 
-#: templates/layout.guest.php:41
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr "Webtjenester under din kontrol"
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Log ud"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Automatisk login afvist!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Hvis du ikke har ændret din adgangskode for nylig, har nogen muligvis tiltvunget sig adgang til din konto!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Skift adgangskode for at sikre din konto igen."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Mistet dit kodeord?"
 
-#: templates/login.php:27
+#: templates/login.php:39
 msgid "remember"
 msgstr "husk"
 
-#: templates/login.php:28
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Log ind"
 

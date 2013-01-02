@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Georgi Stanojevski <glisha@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-12 00:12+0100\n"
-"PO-Revision-Date: 2012-12-11 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-29 00:07+0100\n"
+"PO-Revision-Date: 2012-12-28 09:20+0000\n"
+"Last-Translator: Georgi Stanojevski <glisha@gmail.com>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,102 +20,102 @@ msgstr ""
 
 #: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
 msgid "Access granted"
-msgstr ""
+msgstr "Пристапот е дозволен"
 
 #: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
 msgid "Error configuring Dropbox storage"
-msgstr ""
+msgstr "Грешка при конфигурација на Dropbox"
 
 #: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
 msgid "Grant access"
-msgstr ""
+msgstr "Дозволи пристап"
 
 #: js/dropbox.js:73 js/google.js:72
 msgid "Fill out all required fields"
-msgstr ""
+msgstr "Пополни ги сите задолжителни полиња"
 
 #: js/dropbox.js:85
 msgid "Please provide a valid Dropbox app key and secret."
-msgstr ""
+msgstr "Ве молам доставите валиден Dropbox клуч и тајна лозинка."
 
 #: js/google.js:26 js/google.js:73 js/google.js:78
 msgid "Error configuring Google Drive storage"
-msgstr ""
+msgstr "Грешка при конфигурација на Google Drive"
 
 #: lib/config.php:434
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Внимание:</b> \"smbclient\" не е инсталиран. Не е можно монтирање на CIFS/SMB дискови. Замолете го Вашиот систем администратор да го инсталира."
 
 #: lib/config.php:435
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
-msgstr ""
+msgstr "<b>Внимание:</b> Не е овозможена или инсталирани FTP подршка во PHP. Не е можно монтирање на FTP дискови. Замолете го Вашиот систем администратор да го инсталира."
 
 #: templates/settings.php:3
 msgid "External Storage"
-msgstr ""
+msgstr "Надворешно складиште"
 
 #: templates/settings.php:8 templates/settings.php:22
 msgid "Mount point"
-msgstr ""
+msgstr "Точка на монтирање"
 
 #: templates/settings.php:9
 msgid "Backend"
-msgstr ""
+msgstr "Админ"
 
 #: templates/settings.php:10
 msgid "Configuration"
-msgstr ""
+msgstr "Конфигурација"
 
 #: templates/settings.php:11
 msgid "Options"
-msgstr ""
+msgstr "Опции"
 
 #: templates/settings.php:12
 msgid "Applicable"
-msgstr ""
+msgstr "Применливо"
 
 #: templates/settings.php:27
 msgid "Add mount point"
-msgstr ""
+msgstr "Додади точка на монтирање"
 
 #: templates/settings.php:85
 msgid "None set"
-msgstr ""
+msgstr "Ништо поставено"
 
 #: templates/settings.php:86
 msgid "All Users"
-msgstr ""
+msgstr "Сите корисници"
 
 #: templates/settings.php:87
 msgid "Groups"
-msgstr ""
+msgstr "Групи"
 
 #: templates/settings.php:95
 msgid "Users"
-msgstr ""
+msgstr "Корисници"
 
 #: templates/settings.php:108 templates/settings.php:109
-#: templates/settings.php:149 templates/settings.php:150
+#: templates/settings.php:144 templates/settings.php:145
 msgid "Delete"
-msgstr ""
+msgstr "Избриши"
 
 #: templates/settings.php:124
 msgid "Enable User External Storage"
-msgstr ""
+msgstr "Овозможи надворешни за корисници"
 
 #: templates/settings.php:125
 msgid "Allow users to mount their own external storage"
-msgstr ""
+msgstr "Дозволи им на корисниците да монтираат свои надворешни дискови"
 
-#: templates/settings.php:139
+#: templates/settings.php:136
 msgid "SSL root certificates"
-msgstr ""
+msgstr "SSL root сертификати"
 
-#: templates/settings.php:158
+#: templates/settings.php:153
 msgid "Import Root Certificate"
-msgstr ""
+msgstr "Увези"

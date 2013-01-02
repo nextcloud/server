@@ -166,7 +166,7 @@ class OC_Util {
 	 * @param int timestamp $timestamp
 	 * @param bool dateOnly option to ommit time from the result
 	 */
-    public static function formatDate( $timestamp, $dateOnly=false) {
+	public static function formatDate( $timestamp, $dateOnly=false) {
 		if(isset($_SESSION['timezone'])) {//adjust to clients timezone if we know it
 			$systemTimeZone = intval(date('O'));
 			$systemTimeZone=(round($systemTimeZone/100, 0)*60)+($systemTimeZone%100);
@@ -176,36 +176,7 @@ class OC_Util {
 		}
 		$l=OC_L10N::get('lib');
 		return $l->l($dateOnly ? 'date' : 'datetime', $timestamp);
-    }
-
-	/**
-	 * Shows a pagenavi widget where you can jump to different pages.
-	 *
-	 * @param int $pagecount
-	 * @param int $page
-	 * @param string $url
-	 * @return OC_Template
-	 */
-	public static function getPageNavi($pagecount, $page, $url) {
-
-		$pagelinkcount=8;
-		if ($pagecount>1) {
-			$pagestart=$page-$pagelinkcount;
-			if($pagestart<0) $pagestart=0;
-			$pagestop=$page+$pagelinkcount;
-			if($pagestop>$pagecount) $pagestop=$pagecount;
-
-			$tmpl = new OC_Template( '', 'part.pagenavi', '' );
-			$tmpl->assign('page', $page);
-			$tmpl->assign('pagecount', $pagecount);
-			$tmpl->assign('pagestart', $pagestart);
-			$tmpl->assign('pagestop', $pagestop);
-			$tmpl->assign('url', $url);
-			return $tmpl;
-		}
 	}
-
-
 
 	/**
 	 * check if the current server configuration is suitable for ownCloud
@@ -331,8 +302,7 @@ class OC_Util {
 			$parameters[$value] = true;
 		}
 		if (!empty($_POST['user'])) {
-			$parameters["username"] =
-				OC_Util::sanitizeHTML($_POST['user']).'"';
+			$parameters["username"] = OC_Util::sanitizeHTML($_POST['user']).'"';
 			$parameters['user_autofocus'] = false;
 		} else {
 			$parameters["username"] = '';
@@ -584,9 +554,21 @@ class OC_Util {
 
 
         /**
+         * Check if the setlocal call doesn't work. This can happen if the right local packages are not available on the server.
+         */
+	public static function issetlocaleworking() {
+		$result=setlocale(LC_ALL, 'en_US.UTF-8');
+		if($result==false) {
+			return(false);
+		}else{
+			return(true);
+		}
+	}
+
+        /**
          * Check if the ownCloud server can connect to the internet
          */
-        public static function isinternetconnectionworking() {
+	public static function isinternetconnectionworking() {
 
 		// try to connect to owncloud.org to see if http connections to the internet are possible.
 		$connected = @fsockopen("www.owncloud.org", 80); 
@@ -696,6 +678,12 @@ class OC_Util {
                 curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
                 curl_setopt($curl, CURLOPT_URL, $url);
 		curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
+                if(OC_Config::getValue('proxy','')<>'') {
+			curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));
+		}
+                if(OC_Config::getValue('proxyuserpwd','')<>'') {
+			curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('proxyuserpwd'));
+		}
                 $data = curl_exec($curl);
                 curl_close($curl);
 
@@ -711,8 +699,7 @@ class OC_Util {
                 $data=@file_get_contents($url, 0, $ctx);
                 
             }
-            
             return $data;
-        }
+	}
         
 }

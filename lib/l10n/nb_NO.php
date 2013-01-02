@@ -16,15 +16,19 @@
 "Text" => "Tekst",
 "Images" => "Bilder",
 "seconds ago" => "sekunder siden",
-"1 minute ago" => "1 minuitt siden",
+"1 minute ago" => "1 minutt siden",
 "%d minutes ago" => "%d minutter siden",
+"1 hour ago" => "1 time siden",
+"%d hours ago" => "%d timer siden",
 "today" => "i dag",
 "yesterday" => "i går",
 "%d days ago" => "%d dager siden",
 "last month" => "forrige måned",
+"%d months ago" => "%d måneder siden",
 "last year" => "i fjor",
 "years ago" => "år siden",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s er tilgjengelig. Få  <a href=\"%s\">mer informasjon</a>",
 "up to date" => "oppdatert",
-"updates check is disabled" => "versjonssjekk er avslått"
+"updates check is disabled" => "versjonssjekk er avslått",
+"Could not find category \"%s\"" => "Kunne ikke finne kategori \"%s\""
 );

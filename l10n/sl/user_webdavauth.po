@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Peter Peroša <peter.perosa@gmail.com>, 2012.
+# Peter Peroša <peter.perosa@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-20 00:01+0100\n"
-"PO-Revision-Date: 2012-11-19 19:03+0000\n"
+"POT-Creation-Date: 2013-01-02 00:04+0100\n"
+"PO-Revision-Date: 2013-01-01 14:17+0000\n"
 "Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -19,5 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
 #: templates/settings.php:4
-msgid "WebDAV URL: http://"
-msgstr "WebDAV URL: http://"
+msgid "URL: http://"
+msgstr "URL: http://"
+
+#: templates/settings.php:6
+msgid ""
+"ownCloud will send the user credentials to this URL is interpret http 401 "
+"and http 403 as credentials wrong and all other codes as credentials "
+"correct."
+msgstr "ownCloud bo poslal uporabniška poverila temu URL naslovu. Pri tem bo interpretiral http 401 in http 403 odgovor kot spodletelo avtentikacijo ter vse ostale http odgovore kot uspešne."

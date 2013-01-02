@@ -7,6 +7,7 @@
 # Arvid Nornes <arvid.nornes@gmail.com>, 2012.
 # Christer Eriksson <post@hc3web.com>, 2012.
 # Daniel  <i18n@daniel.priv.no>, 2012.
+#   <espenbye@me.com>, 2012.
 #   <hdalgrav@gmail.com>, 2012.
 #   <itssmail@yahoo.no>, 2012.
 #   <runesudden@gmail.com>, 2012.
@@ -14,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-03 00:04+0100\n"
-"PO-Revision-Date: 2012-12-02 03:18+0000\n"
+"POT-Creation-Date: 2012-12-30 00:04+0100\n"
+"PO-Revision-Date: 2012-12-29 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -122,92 +123,112 @@ msgstr "Se applikasjonens side på apps.owncloud.org"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr ""
 
-#: templates/help.php:9
-msgid "Documentation"
-msgstr "Dokumentasjon"
+#: templates/help.php:3
+msgid "User Documentation"
+msgstr "Brukerdokumentasjon"
 
-#: templates/help.php:10
-msgid "Managing Big Files"
-msgstr "Håndtere store filer"
+#: templates/help.php:4
+msgid "Administrator Documentation"
+msgstr "Administratordokumentasjon"
+
+#: templates/help.php:6
+msgid "Online Documentation"
+msgstr ""
+
+#: templates/help.php:7
+msgid "Forum"
+msgstr ""
+
+#: templates/help.php:9
+msgid "Bugtracker"
+msgstr ""
 
 #: templates/help.php:11
-msgid "Ask a question"
-msgstr "Still et spørsmål"
-
-#: templates/help.php:22
-msgid "Problems connecting to help database."
-msgstr "Problemer med å koble til hjelp-databasen"
-
-#: templates/help.php:23
-msgid "Go there manually."
-msgstr "Gå dit manuelt"
-
-#: templates/help.php:31
-msgid "Answer"
-msgstr "Svar"
+msgid "Commercial Support"
+msgstr "Kommersiell støtte"
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Du har brukt <strong>%s</strong> av tilgjengelig <strong>%s</strong>"
 
 #: templates/personal.php:12
-msgid "Desktop and Mobile Syncing Clients"
-msgstr "Klienter for datamaskiner og mobile enheter"
+msgid "Clients"
+msgstr "Klienter"
 
 #: templates/personal.php:13
-msgid "Download"
-msgstr "Last ned"
+msgid "Download Desktop Clients"
+msgstr "Last ned skrivebordsklienter"
 
-#: templates/personal.php:19
+#: templates/personal.php:14
+msgid "Download Android Client"
+msgstr "Last ned Android-klient"
+
+#: templates/personal.php:15
+msgid "Download iOS Client"
+msgstr "Last ned iOS-klient"
+
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+msgid "Password"
+msgstr "Passord"
+
+#: templates/personal.php:22
 msgid "Your password was changed"
 msgstr "Passord har blitt endret"
 
-#: templates/personal.php:20
+#: templates/personal.php:23
 msgid "Unable to change your password"
 msgstr "Kunne ikke endre passordet ditt"
 
-#: templates/personal.php:21
+#: templates/personal.php:24
 msgid "Current password"
 msgstr "Nåværende passord"
 
-#: templates/personal.php:22
+#: templates/personal.php:25
 msgid "New password"
 msgstr "Nytt passord"
 
-#: templates/personal.php:23
+#: templates/personal.php:26
 msgid "show"
 msgstr "vis"
 
-#: templates/personal.php:24
+#: templates/personal.php:27
 msgid "Change password"
 msgstr "Endre passord"
 
-#: templates/personal.php:30
+#: templates/personal.php:33
 msgid "Email"
 msgstr "E-post"
 
-#: templates/personal.php:31
+#: templates/personal.php:34
 msgid "Your email address"
 msgstr "Din e-postadresse"
 
-#: templates/personal.php:32
+#: templates/personal.php:35
 msgid "Fill in an email address to enable password recovery"
 msgstr "Oppi epostadressen du vil tilbakestille passordet for"
 
-#: templates/personal.php:38 templates/personal.php:39
+#: templates/personal.php:41 templates/personal.php:42
 msgid "Language"
 msgstr "Språk"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Help translate"
 msgstr "Bidra til oversettelsen"
 
-#: templates/personal.php:51
-msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "bruk denne adressen for å koble til din ownCloud gjennom filhåndtereren"
+#: templates/personal.php:52
+msgid "WebDAV"
+msgstr "WebDAV"
 
-#: templates/personal.php:61
+#: templates/personal.php:54
+msgid "Use this address to connect to your ownCloud in your file manager"
+msgstr ""
+
+#: templates/personal.php:63
+msgid "Version"
+msgstr "Versjon"
+
+#: templates/personal.php:65
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -217,15 +238,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr ""
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "Navn"
 
-#: templates/users.php:23 templates/users.php:77
-msgid "Password"
-msgstr "Passord"
-
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "Grupper"
 
@@ -234,21 +251,29 @@ msgid "Create"
 msgstr "Opprett"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "Standard Kvote"
+msgid "Default Storage"
+msgstr ""
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr ""
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "Annet"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "Gruppeadministrator"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "Kvote"
+#: templates/users.php:87
+msgid "Storage"
+msgstr ""
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr ""
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "Slett"

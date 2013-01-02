@@ -18,7 +18,7 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 *
 */
- 
+
 /**
  * provide caching for filesystem info in the database
  *
@@ -360,21 +360,22 @@ class OC_FileCache{
 		if($sizeDiff==0) return;
 		$item = OC_FileCache_Cached::get($path);
 		//stop walking up the filetree if we hit a non-folder or reached to root folder
-		if($path == '/' || $path=='' || $item['mimetype'] !== 'httpd/unix-directory'){
+		if($path == '/' || $path=='' || $item['mimetype'] !== 'httpd/unix-directory') {
 			return;
 		}
 		$id = $item['id'];
 		while($id!=-1) {//walk up the filetree increasing the size of all parent folders
 			$query=OC_DB::prepare('UPDATE `*PREFIX*fscache` SET `size`=`size`+? WHERE `id`=?');
 			$query->execute(array($sizeDiff, $id));
+			$id=self::getParentId($path);
 			$path=dirname($path);
-			if($path == '' or $path =='/'){
+			if($path == '' or $path =='/') {
 				return;
 			}
 			$parent = OC_FileCache_Cached::get($path);
 			$id = $parent['id'];
 			//stop walking up the filetree if we hit a non-folder
-			if($parent['mimetype'] !== 'httpd/unix-directory'){
+			if($parent['mimetype'] !== 'httpd/unix-directory') {
 				return;
 			}
 		}

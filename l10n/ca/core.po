@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-17 00:01+0100\n"
-"PO-Revision-Date: 2012-11-16 08:21+0000\n"
+"POT-Creation-Date: 2012-12-24 00:10+0100\n"
+"PO-Revision-Date: 2012-12-23 14:22+0000\n"
 "Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/share.php:84
+#, php-format
+msgid "User %s shared a file with you"
+msgstr "L'usuari %s ha compartit un fitxer amb vós"
+
+#: ajax/share.php:86
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr "L'usuari %s ha compartit una carpeta amb vós"
+
+#: ajax/share.php:88
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr "L'usuari %s ha compartit el fitxer \"%s\" amb vós. Està disponible per a la descàrrega a: %s"
+
+#: ajax/share.php:90
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr "L'usuari %s ha compartit la carpeta \"%s\" amb vós. Està disponible per a la descàrrega a: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -139,8 +163,8 @@ msgid "The object type is not specified."
 msgstr "No s'ha especificat el tipus d'objecte."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
-#: js/share.js:537
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "Error"
 
@@ -150,9 +174,9 @@ msgstr "No s'ha especificat el nom de l'aplicació."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr "El figtxer requerit {file} no està instal·lat!"
+msgstr "El fitxer requerit {file} no està instal·lat!"
 
-#: js/share.js:124
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "Error en compartir"
 
@@ -180,78 +204,94 @@ msgstr "Comparteix amb"
 msgid "Share with link"
 msgstr "Comparteix amb enllaç"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "Protegir amb contrasenya"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Contrasenya"
 
+#: js/share.js:172
+msgid "Email link to person"
+msgstr "Enllaç per correu electrónic amb la persona"
+
 #: js/share.js:173
+msgid "Send"
+msgstr "Envia"
+
+#: js/share.js:177
 msgid "Set expiration date"
 msgstr "Estableix la data d'expiració"
 
-#: js/share.js:174
+#: js/share.js:178
 msgid "Expiration date"
 msgstr "Data d'expiració"
 
-#: js/share.js:206
+#: js/share.js:210
 msgid "Share via email:"
 msgstr "Comparteix per correu electrònic"
 
-#: js/share.js:208
+#: js/share.js:212
 msgid "No people found"
 msgstr "No s'ha trobat ningú"
 
-#: js/share.js:235
+#: js/share.js:239
 msgid "Resharing is not allowed"
 msgstr "No es permet compartir de nou"
 
-#: js/share.js:271
+#: js/share.js:275
 msgid "Shared in {item} with {user}"
 msgstr "Compartit en {item} amb {user}"
 
-#: js/share.js:292
+#: js/share.js:296
 msgid "Unshare"
 msgstr "Deixa de compartir"
 
-#: js/share.js:304
+#: js/share.js:308
 msgid "can edit"
 msgstr "pot editar"
 
-#: js/share.js:306
+#: js/share.js:310
 msgid "access control"
 msgstr "control d'accés"
 
-#: js/share.js:309
+#: js/share.js:313
 msgid "create"
 msgstr "crea"
 
-#: js/share.js:312
+#: js/share.js:316
 msgid "update"
 msgstr "actualitza"
 
-#: js/share.js:315
+#: js/share.js:319
 msgid "delete"
 msgstr "elimina"
 
-#: js/share.js:318
+#: js/share.js:322
 msgid "share"
 msgstr "comparteix"
 
-#: js/share.js:343 js/share.js:512 js/share.js:514
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "Protegeix amb contrasenya"
 
-#: js/share.js:525
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr "Error en eliminar la data d'expiració"
 
-#: js/share.js:537
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "Error en establir la data d'expiració"
+
+#: js/share.js:581
+msgid "Sending ..."
+msgstr "Enviant..."
+
+#: js/share.js:592
+msgid "Email sent"
+msgstr "El correu electrónic s'ha enviat"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -273,8 +313,8 @@ msgstr "S'ha enviat el correu reinicialització"
 msgid "Request failed!"
 msgstr "El requeriment ha fallat!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "Nom d'usuari"
 
@@ -363,44 +403,44 @@ msgstr "La carpeta de dades i els fitxers provablement són accessibles des d'in
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crea un <strong>compte d'administrador</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "Avançat"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "Carpeta de dades"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "Configura la base de dades"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "s'usarà"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "Usuari de la base de dades"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "Contrasenya de la base de dades"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "Nom de la base de dades"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "Espai de taula de la base de dades"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Ordinador central de la base de dades"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "Acaba la configuració"
 
@@ -488,29 +528,29 @@ msgstr "controleu els vostres serveis web"
 msgid "Log out"
 msgstr "Surt"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "L'ha rebutjat l'acceditació automàtica!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Se no heu canviat la contrasenya recentment el vostre compte pot estar compromès!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Canvieu la contrasenya de nou per assegurar el vostre compte."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Heu perdut la contrasenya?"
 
-#: templates/login.php:27
+#: templates/login.php:39
 msgid "remember"
 msgstr "recorda'm"
 
-#: templates/login.php:28
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Inici de sessió"
 

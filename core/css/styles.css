@@ -48,21 +48,24 @@ input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,
 input[type="password"]:hover, input[type="password"]:focus, input[type="password"]:active,
 .searchbox input[type="search"]:hover, .searchbox input[type="search"]:focus, .searchbox input[type="search"]:active,
 textarea:hover, textarea:focus, textarea:active { background-color:#fff; color:#333; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
-
-input[type="submit"], input[type="button"], button, .button, #quota, div.jp-progress, select, .pager li a {
-	width:auto; padding:.4em;
-	background:#f8f8f8; font-weight:bold; color:#555; text-shadow:#fff 0 1px 0; border:1px solid #ddd; cursor:pointer;
-	-moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset;
-	-moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;
-}
-input[type="submit"]:hover, input[type="submit"]:focus, input[type="button"]:hover, select:hover, select:focus, select:active, input[type="button"]:focus, .button:hover { background:#fff; color:#333; }
-input[type="submit"] img, input[type="button"] img, button img, .button img { cursor:pointer; }
 input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
 input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
 #quota { cursor:default; }
 
 
-/* PRIMARY ACTION BUTTON, use sparingly */
+/* BUTTONS */
+input[type="submit"], input[type="button"], button, .button, #quota, div.jp-progress, select, .pager li a {
+	width:auto; padding:.4em;
+	background-color:rgba(230,230,230,.5); font-weight:bold; color:#555; text-shadow:#fff 0 1px 0; border:1px solid rgba(180,180,180,.5); cursor:pointer;
+	-moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset;
+	-moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;
+}
+input[type="submit"]:hover, input[type="submit"]:focus, input[type="button"]:hover, select:hover, select:focus, select:active, input[type="button"]:focus, .button:hover {
+	background:rgba(255,255,255,.5); color:#333;
+}
+input[type="submit"] img, input[type="button"] img, button img, .button img { cursor:pointer; }
+
+/* Primary action button, use sparingly */
 .primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary {
 	border:1px solid #1d2d44;
 	background:#35537a; color:#ddd; text-shadow:#000 0 -1px 0;
@@ -119,6 +122,17 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 #login #datadirContent label { display:block; margin:0; color:#999;  }
 #login form #datadirField legend { margin-bottom:15px; }
 
+
+/* Icons for username and password fields to better recognize them */
+#adminlogin, #adminpass, #user, #password { width:11.7em!important; padding-left:1.8em; }
+#adminlogin+label, #adminpass+label, #user+label, #password+label { left:2.2em; }
+#adminlogin+label+img, #adminpass+label+img, #user+label+img, #password+label+img {
+	position:absolute; left:1.25em; top:1.65em;
+	opacity:.3;
+}
+#adminpass+label+img, #password+label+img { top:1.1em; }
+
+
 /* Nicely grouping input field sets */
 .grouptop input {
 	margin-bottom:0;
@@ -135,11 +149,11 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 	box-shadow:0 1px 1px #fff,0 1px 0 #ddd inset;
 }
 
-#login form label { margin:.95em 0 0 .85em; color:#666; }
-#login .groupmiddle label, #login .groupbottom label { margin-top:13px; }
+#login form label { color:#666; }
+#login .groupmiddle label, #login .groupbottom label { top:.65em; }
 /* NEEDED FOR INFIELD LABELS */
 p.infield { position:relative; }
-label.infield { cursor:text !important; }
+label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #login form label.infield { position:absolute; font-size:19px; color:#aaa; white-space:nowrap; }
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
 #login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
@@ -179,13 +193,11 @@ fieldset.warning legend { color:#b94a48 !important; }
 #notification { z-index:101; background-color:#fc4; border:0; padding:0 .7em .3em; display:none; position:fixed; left:50%; top:0; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
 #notification span { cursor:pointer; font-weight:bold; margin-left:1em; }
 
-tr .action, .selectedActions a { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0; -webkit-transition:opacity 200ms; -moz-transition:opacity 200ms; -o-transition:opacity 200ms; transition:opacity 200ms; }
+tr .action, .selectedActions a { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0; }
 tr:hover .action, .selectedActions a { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; filter:alpha(opacity=50); opacity:.5; }
 tr .action { width:16px; height:16px; }
 .header-action { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; filter:alpha(opacity=80); opacity:.8; }
 tr:hover .action:hover, .selectedActions a:hover, .header-action:hover { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
-
-table:not(.nostyle) tr { -webkit-transition:background-color 200ms; -moz-transition:background-color 200ms; -o-transition:background-color 200ms; transition:background-color 200ms; }
 tbody tr:hover, tr:active { background-color:#f8f8f8; }
 
 #body-settings .personalblock, #body-settings .helpblock { padding:.5em 1em; margin:1em; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }

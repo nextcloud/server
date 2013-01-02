@@ -21,15 +21,39 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-19 00:01+0100\n"
-"PO-Revision-Date: 2012-11-18 13:25+0000\n"
-"Last-Translator: Len <lenny@weijl.org>\n"
+"POT-Creation-Date: 2012-12-21 00:10+0100\n"
+"PO-Revision-Date: 2012-12-20 17:28+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/share.php:84
+#, php-format
+msgid "User %s shared a file with you"
+msgstr "Gebruiker %s deelde een bestand met u"
+
+#: ajax/share.php:86
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr "Gebruiker %s deelde een map met u"
+
+#: ajax/share.php:88
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr "Gebruiker %s deelde bestand \"%s\" met u. Het is hier te downloaden: %s"
+
+#: ajax/share.php:90
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr "Gebruiker %s deelde de map \"%s\" met u. De map is hier beschikbaar voor download: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -151,8 +175,8 @@ msgid "The object type is not specified."
 msgstr "Het object type is niet gespecificeerd."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
-#: js/share.js:539
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "Fout"
 
@@ -164,7 +188,7 @@ msgstr "De app naam is niet gespecificeerd."
 msgid "The required file {file} is not installed!"
 msgstr "Het vereiste bestand {file} is niet geïnstalleerd!"
 
-#: js/share.js:124
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "Fout tijdens het delen"
 
@@ -192,78 +216,94 @@ msgstr "Deel met"
 msgid "Share with link"
 msgstr "Deel met link"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "Wachtwoord beveiliging"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Wachtwoord"
 
+#: js/share.js:172
+msgid "Email link to person"
+msgstr "E-mail link naar persoon"
+
 #: js/share.js:173
+msgid "Send"
+msgstr "Versturen"
+
+#: js/share.js:177
 msgid "Set expiration date"
 msgstr "Stel vervaldatum in"
 
-#: js/share.js:174
+#: js/share.js:178
 msgid "Expiration date"
 msgstr "Vervaldatum"
 
-#: js/share.js:206
+#: js/share.js:210
 msgid "Share via email:"
 msgstr "Deel via email:"
 
-#: js/share.js:208
+#: js/share.js:212
 msgid "No people found"
 msgstr "Geen mensen gevonden"
 
-#: js/share.js:235
+#: js/share.js:239
 msgid "Resharing is not allowed"
 msgstr "Verder delen is niet toegestaan"
 
-#: js/share.js:271
+#: js/share.js:275
 msgid "Shared in {item} with {user}"
 msgstr "Gedeeld in {item} met {user}"
 
-#: js/share.js:292
+#: js/share.js:296
 msgid "Unshare"
 msgstr "Stop met delen"
 
-#: js/share.js:304
+#: js/share.js:308
 msgid "can edit"
 msgstr "kan wijzigen"
 
-#: js/share.js:306
+#: js/share.js:310
 msgid "access control"
 msgstr "toegangscontrole"
 
-#: js/share.js:309
+#: js/share.js:313
 msgid "create"
 msgstr "maak"
 
-#: js/share.js:312
+#: js/share.js:316
 msgid "update"
 msgstr "bijwerken"
 
-#: js/share.js:315
+#: js/share.js:319
 msgid "delete"
 msgstr "verwijderen"
 
-#: js/share.js:318
+#: js/share.js:322
 msgid "share"
 msgstr "deel"
 
-#: js/share.js:343 js/share.js:514 js/share.js:516
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "Wachtwoord beveiligd"
 
-#: js/share.js:527
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr "Fout tijdens het verwijderen van de verval datum"
 
-#: js/share.js:539
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "Fout tijdens het instellen van de vervaldatum"
+
+#: js/share.js:581
+msgid "Sending ..."
+msgstr "Versturen ..."
+
+#: js/share.js:592
+msgid "Email sent"
+msgstr "E-mail verzonden"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -285,8 +325,8 @@ msgstr "Reset e-mail verstuurd."
 msgid "Request failed!"
 msgstr "Verzoek mislukt!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "Gebruikersnaam"
 
@@ -375,44 +415,44 @@ msgstr "Uw data is waarschijnlijk toegankelijk vanaf net internet. Het  .htacces
 msgid "Create an <strong>admin account</strong>"
 msgstr "Maak een <strong>beheerdersaccount</strong> aan"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "Geavanceerd"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "Gegevensmap"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "Configureer de database"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "zal gebruikt worden"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "Gebruiker database"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "Wachtwoord database"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "Naam database"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "Database tablespace"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Database server"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "Installatie afronden"
 
@@ -500,29 +540,29 @@ msgstr "Webdiensten in eigen beheer"
 msgid "Log out"
 msgstr "Afmelden"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Automatische aanmelding geweigerd!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Als u uw wachtwoord niet onlangs heeft aangepast, kan uw account overgenomen zijn!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Wijzig uw wachtwoord zodat uw account weer beveiligd is."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Uw wachtwoord vergeten?"
 
-#: templates/login.php:27
+#: templates/login.php:39
 msgid "remember"
 msgstr "onthoud gegevens"
 
-#: templates/login.php:28
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Meld je aan"
 

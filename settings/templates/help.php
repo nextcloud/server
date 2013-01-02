@@ -1,34 +1,35 @@
-<?php
-/**
- * 2012 Frank Karlitschek frank@owncloud.org
- * This file is licensed under the Affero General Public License version 3 or later.
- * See the COPYING-README file.
- */?>
-
 <div id="controls">
-	<a class="button newquestion" href="http://owncloud.org/support" target="_blank"><?php echo $l->t( 'Documentation' ); ?></a>
-	<a class="button newquestion" href="http://owncloud.org/support/big-files" target="_blank"><?php echo $l->t( 'Managing Big Files' ); ?></a>
-	<a class="button newquestion" href="http://apps.owncloud.com/knowledgebase/editquestion.php?action=new" target="_blank"><?php echo $l->t( 'Ask a question' ); ?></a>
-	<?php
-		$url=OC_Helper::linkTo( "settings", "help.php" ).'?page=';
-		$pageNavi=OC_Util::getPageNavi($_['pagecount'], $_['page'], $url);
-		if($pageNavi) {
-			$pageNavi->printPage();
-		}
-	?>
-</diV>
-<?php if(!is_array($_["kbe"]) || !count($_["kbe"])):?>
-	<div class="helpblock">
-		<p><?php echo $l->t('Problems connecting to help database.');?></p>
-		<p><a href="http://apps.owncloud.com/kb"><?php echo $l->t('Go there manually.');?></a></p>
-	</div>
-<?php else:?>
-	<?php foreach($_["kbe"] as $kb): ?>
-	<div class="helpblock">
-		<?php if($kb["preview1"] <> "") echo('<img class="preview" src="'.$kb["preview1"].'" />'); ?>
-		<?php if($kb['detailpage']<>'') echo('<p><a target="_blank" href="'.$kb['detailpage'].'"><strong>'.$kb["name"].'</strong></a></p>');?>
-		<p><?php echo $kb['description'];?></p>
-		<?php if($kb['answer']<>'') echo('<p><strong>'.$l->t('Answer').':</strong><p>'.$kb['answer'].'</p>');?>
-	</div>
-	<?php endforeach;
-endif?>
+        <?php if($_['admin']) { ?>
+		<a class="button newquestion <?php echo($_['style1']); ?>" href="<?php echo($_['url1']); ?>"><?php echo $l->t( 'User Documentation' ); ?></a>
+   	     	<a class="button newquestion <?php echo($_['style2']); ?>" href="<?php echo($_['url2']); ?>"><?php echo $l->t( 'Administrator Documentation' ); ?></a>
+	<?php } ?>
+        <a class="button newquestion" href="http://owncloud.org/support" target="_blank"><?php echo $l->t( 'Online Documentation' ); ?></a>
+        <a class="button newquestion" href="http://forum.owncloud.org" target="_blank"><?php echo $l->t( 'Forum' ); ?></a>
+        <?php if($_['admin']) { ?>
+		<a class="button newquestion" href="https://github.com/owncloud/core/issues" target="_blank"><?php echo $l->t( 'Bugtracker' ); ?></a>
+	<?php } ?>
+        <a class="button newquestion" href="http://owncloud.com" target="_blank"><?php echo $l->t( 'Commercial Support' ); ?></a>
+</div>
+<br /><br />
+<iframe src="<?php echo($_['url']); ?>" width="100%" id="ifm" ></iframe>
+
+
+<script language="JavaScript">
+<!--
+
+function pageY(elem) {
+    return elem.offsetParent ? (elem.offsetTop + pageY(elem.offsetParent)) : elem.offsetTop;
+}
+var buffer = 5; //scroll bar buffer
+function resizeIframe() {
+    var height = document.documentElement.clientHeight;
+    height -= pageY(document.getElementById('ifm'))+ buffer ;
+    height = (height < 0) ? 0 : height;
+    document.getElementById('ifm').style.height = height + 'px';
+}
+
+document.getElementById('ifm').onload=resizeIframe;
+window.onresize = resizeIframe;
+
+//-->
+</script>

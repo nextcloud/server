@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-03 00:04+0100\n"
-"PO-Revision-Date: 2012-12-02 03:18+0000\n"
-"Last-Translator: Josep Tomàs <jtomas.binsoft@gmail.com>\n"
+"POT-Creation-Date: 2013-01-01 00:04+0100\n"
+"PO-Revision-Date: 2012-12-31 07:40+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -120,29 +120,29 @@ msgstr "Mireu la pàgina d'aplicacions a apps.owncloud.com"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-propietat de <span class=\"author\"></span>"
 
-#: templates/help.php:9
-msgid "Documentation"
-msgstr "Documentació"
+#: templates/help.php:3
+msgid "User Documentation"
+msgstr "Documentació d'usuari"
 
-#: templates/help.php:10
-msgid "Managing Big Files"
-msgstr "Gestió de fitxers grans"
+#: templates/help.php:4
+msgid "Administrator Documentation"
+msgstr "Documentació d'administrador"
+
+#: templates/help.php:6
+msgid "Online Documentation"
+msgstr "Documentació en línia"
+
+#: templates/help.php:7
+msgid "Forum"
+msgstr "Fòrum"
+
+#: templates/help.php:9
+msgid "Bugtracker"
+msgstr "Seguiment d'errors"
 
 #: templates/help.php:11
-msgid "Ask a question"
-msgstr "Feu una pregunta"
-
-#: templates/help.php:22
-msgid "Problems connecting to help database."
-msgstr "Problemes per connectar amb la base de dades d'ajuda."
-
-#: templates/help.php:23
-msgid "Go there manually."
-msgstr "Vés-hi manualment."
-
-#: templates/help.php:31
-msgid "Answer"
-msgstr "Resposta"
+msgid "Commercial Support"
+msgstr "Suport comercial"
 
 #: templates/personal.php:8
 #, php-format
@@ -150,62 +150,82 @@ msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Heu utilitzat <strong>%s</strong> d'un total disponible de <strong>%s</strong>"
 
 #: templates/personal.php:12
-msgid "Desktop and Mobile Syncing Clients"
-msgstr "Clients de sincronització d'escriptori i de mòbil"
+msgid "Clients"
+msgstr "Clients"
 
 #: templates/personal.php:13
-msgid "Download"
-msgstr "Baixada"
+msgid "Download Desktop Clients"
+msgstr "Baixa clients d'escriptori"
 
-#: templates/personal.php:19
+#: templates/personal.php:14
+msgid "Download Android Client"
+msgstr " Baixa el client per Android"
+
+#: templates/personal.php:15
+msgid "Download iOS Client"
+msgstr "Baixa el client per iOS"
+
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+msgid "Password"
+msgstr "Contrasenya"
+
+#: templates/personal.php:22
 msgid "Your password was changed"
 msgstr "La seva contrasenya s'ha canviat"
 
-#: templates/personal.php:20
+#: templates/personal.php:23
 msgid "Unable to change your password"
 msgstr "No s'ha pogut canviar la contrasenya"
 
-#: templates/personal.php:21
+#: templates/personal.php:24
 msgid "Current password"
 msgstr "Contrasenya actual"
 
-#: templates/personal.php:22
+#: templates/personal.php:25
 msgid "New password"
 msgstr "Contrasenya nova"
 
-#: templates/personal.php:23
+#: templates/personal.php:26
 msgid "show"
 msgstr "mostra"
 
-#: templates/personal.php:24
+#: templates/personal.php:27
 msgid "Change password"
 msgstr "Canvia la contrasenya"
 
-#: templates/personal.php:30
+#: templates/personal.php:33
 msgid "Email"
 msgstr "Correu electrònic"
 
-#: templates/personal.php:31
+#: templates/personal.php:34
 msgid "Your email address"
 msgstr "Correu electrònic"
 
-#: templates/personal.php:32
+#: templates/personal.php:35
 msgid "Fill in an email address to enable password recovery"
 msgstr "Ompliu el correu electrònic per activar la recuperació de contrasenya"
 
-#: templates/personal.php:38 templates/personal.php:39
+#: templates/personal.php:41 templates/personal.php:42
 msgid "Language"
 msgstr "Idioma"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Help translate"
 msgstr "Ajudeu-nos amb la traducció"
 
-#: templates/personal.php:51
-msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "useu aquesta adreça per connectar-vos a ownCloud des del gestor de fitxers"
+#: templates/personal.php:52
+msgid "WebDAV"
+msgstr "WebDAV"
 
-#: templates/personal.php:61
+#: templates/personal.php:54
+msgid "Use this address to connect to your ownCloud in your file manager"
+msgstr "Useu aquesta adreça per connectar amb ownCloud des del gestor de fitxers"
+
+#: templates/personal.php:63
+msgid "Version"
+msgstr "Versió"
+
+#: templates/personal.php:65
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -215,15 +235,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Desenvolupat per la <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunitat ownCloud</a>, el <a href=\"https://github.com/owncloud\" target=\"_blank\">codi font</a> té llicència <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "Nom"
 
-#: templates/users.php:23 templates/users.php:77
-msgid "Password"
-msgstr "Contrasenya"
-
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "Grups"
 
@@ -232,21 +248,29 @@ msgid "Create"
 msgstr "Crea"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "Quota per defecte"
+msgid "Default Storage"
+msgstr "Emmagatzemament per defecte"
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr "Il·limitat"
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
-msgstr "Altre"
+msgstr "Un altre"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "Grup Admin"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "Quota"
+#: templates/users.php:87
+msgid "Storage"
+msgstr "Emmagatzemament"
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr "Per defecte"
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "Suprimeix"

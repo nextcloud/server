@@ -338,11 +338,11 @@ class Connection {
 			}
 			$this->ldapConnectionRes = ldap_connect($this->config['ldapHost'], $this->config['ldapPort']);
 			if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
-					if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
-						if($this->config['ldapTLS']) {
-							ldap_start_tls($this->ldapConnectionRes);
-						}
+				if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
+					if($this->config['ldapTLS']) {
+						ldap_start_tls($this->ldapConnectionRes);
 					}
+				}
 			}
 
 			return $this->bind();

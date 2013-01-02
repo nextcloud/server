@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# André Koot <meneer@tken.net>, 2012.
 #   <lenny@weijl.org>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-13 00:05+0100\n"
-"PO-Revision-Date: 2012-11-12 09:35+0000\n"
-"Last-Translator: Len <lenny@weijl.org>\n"
+"POT-Creation-Date: 2012-12-21 00:10+0100\n"
+"PO-Revision-Date: 2012-12-20 17:25+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,153 +20,166 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: templates/settings.php:8
+msgid ""
+"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
+" experience unexpected behaviour. Please ask your system administrator to "
+"disable one of them."
+msgstr "<b>Waarschuwing:</b> De Apps user_ldap en user_webdavauth zijn incompatible. U kunt onverwacht gedrag ervaren. Vraag uw beheerder om een van beide apps de deactiveren."
+
+#: templates/settings.php:11
+msgid ""
+"<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will"
+" not work. Please ask your system administrator to install it."
+msgstr "<b>Waarschuwing:</b> De PHP LDAP module is niet geïnstalleerd, de backend zal dus niet werken. Vraag uw beheerder de module te installeren."
+
+#: templates/settings.php:15
 msgid "Host"
 msgstr "Host"
 
-#: templates/settings.php:8
+#: templates/settings.php:15
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
 msgstr "Je kunt het protocol weglaten, tenzij je SSL vereist. Start in dat geval met ldaps://"
 
-#: templates/settings.php:9
+#: templates/settings.php:16
 msgid "Base DN"
 msgstr "Basis DN"
 
-#: templates/settings.php:9
+#: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
 msgstr "Je kunt het standaard DN voor gebruikers en groepen specificeren in het tab Geavanceerd."
 
-#: templates/settings.php:10
+#: templates/settings.php:17
 msgid "User DN"
 msgstr "Gebruikers DN"
 
-#: templates/settings.php:10
+#: templates/settings.php:17
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
 msgstr "De DN van de client gebruiker waarmee de verbinding zal worden gemaakt, bijv. uid=agent,dc=example,dc=com. Voor anonieme toegang laat je het DN en het wachtwoord leeg."
 
-#: templates/settings.php:11
+#: templates/settings.php:18
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: templates/settings.php:11
+#: templates/settings.php:18
 msgid "For anonymous access, leave DN and Password empty."
 msgstr "Voor anonieme toegang, laat de DN en het wachtwoord leeg."
 
-#: templates/settings.php:12
+#: templates/settings.php:19
 msgid "User Login Filter"
 msgstr "Gebruikers Login Filter"
 
-#: templates/settings.php:12
+#: templates/settings.php:19
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
 msgstr "Definiëerd de toe te passen filter indien er geprobeerd wordt in te loggen. %%uid vervangt de gebruikersnaam in de login actie."
 
-#: templates/settings.php:12
+#: templates/settings.php:19
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
 msgstr "gebruik %%uid placeholder, bijv. \"uid=%%uid\""
 
-#: templates/settings.php:13
+#: templates/settings.php:20
 msgid "User List Filter"
 msgstr "Gebruikers Lijst Filter"
 
-#: templates/settings.php:13
+#: templates/settings.php:20
 msgid "Defines the filter to apply, when retrieving users."
 msgstr "Definiëerd de toe te passen filter voor het ophalen van gebruikers."
 
-#: templates/settings.php:13
+#: templates/settings.php:20
 msgid "without any placeholder, e.g. \"objectClass=person\"."
 msgstr "zonder een placeholder, bijv. \"objectClass=person\""
 
-#: templates/settings.php:14
+#: templates/settings.php:21
 msgid "Group Filter"
 msgstr "Groep Filter"
 
-#: templates/settings.php:14
+#: templates/settings.php:21
 msgid "Defines the filter to apply, when retrieving groups."
 msgstr "Definiëerd de toe te passen filter voor het ophalen van groepen."
 
-#: templates/settings.php:14
+#: templates/settings.php:21
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
 msgstr "zonder een placeholder, bijv. \"objectClass=posixGroup\""
 
-#: templates/settings.php:17
+#: templates/settings.php:24
 msgid "Port"
 msgstr "Poort"
 
-#: templates/settings.php:18
+#: templates/settings.php:25
 msgid "Base User Tree"
 msgstr "Basis Gebruikers Structuur"
 
-#: templates/settings.php:19
+#: templates/settings.php:26
 msgid "Base Group Tree"
 msgstr "Basis Groupen Structuur"
 
-#: templates/settings.php:20
+#: templates/settings.php:27
 msgid "Group-Member association"
 msgstr "Groepslid associatie"
 
-#: templates/settings.php:21
+#: templates/settings.php:28
 msgid "Use TLS"
 msgstr "Gebruik TLS"
 
-#: templates/settings.php:21
+#: templates/settings.php:28
 msgid "Do not use it for SSL connections, it will fail."
 msgstr "Gebruik niet voor SSL connecties, deze mislukken."
 
-#: templates/settings.php:22
+#: templates/settings.php:29
 msgid "Case insensitve LDAP server (Windows)"
 msgstr "Niet-hoofdlettergevoelige LDAP server (Windows)"
 
-#: templates/settings.php:23
+#: templates/settings.php:30
 msgid "Turn off SSL certificate validation."
 msgstr "Schakel SSL certificaat validatie uit."
 
-#: templates/settings.php:23
+#: templates/settings.php:30
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
 msgstr "Als de connectie alleen werkt met deze optie, importeer dan het LDAP server SSL certificaat naar je ownCloud server."
 
-#: templates/settings.php:23
+#: templates/settings.php:30
 msgid "Not recommended, use for testing only."
 msgstr "Niet aangeraden, gebruik alleen voor test doeleinden."
 
-#: templates/settings.php:24
+#: templates/settings.php:31
 msgid "User Display Name Field"
 msgstr "Gebruikers Schermnaam Veld"
 
-#: templates/settings.php:24
+#: templates/settings.php:31
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
 msgstr "Het te gebruiken LDAP attribuut voor het genereren van de ownCloud naam voor de gebruikers."
 
-#: templates/settings.php:25
+#: templates/settings.php:32
 msgid "Group Display Name Field"
 msgstr "Groep Schermnaam Veld"
 
-#: templates/settings.php:25
+#: templates/settings.php:32
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
 msgstr "Het te gebruiken LDAP attribuut voor het genereren van de ownCloud naam voor de groepen."
 
-#: templates/settings.php:27
+#: templates/settings.php:34
 msgid "in bytes"
 msgstr "in bytes"
 
-#: templates/settings.php:29
+#: templates/settings.php:36
 msgid "in seconds. A change empties the cache."
 msgstr "in seconden. Een verandering maakt de cache leeg."
 
-#: templates/settings.php:30
+#: templates/settings.php:37
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Laat leeg voor de gebruikersnaam (standaard). Of, specificeer een LDAP/AD attribuut."
 
-#: templates/settings.php:32
+#: templates/settings.php:39
 msgid "Help"
 msgstr "Help"

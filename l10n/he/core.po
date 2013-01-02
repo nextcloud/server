@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-02 00:02+0100\n"
-"PO-Revision-Date: 2012-12-01 06:47+0000\n"
+"POT-Creation-Date: 2012-12-18 00:13+0100\n"
+"PO-Revision-Date: 2012-12-17 07:42+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +20,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/share.php:84
+#, php-format
+msgid "User %s shared a file with you"
+msgstr "המשתמש %s שיתף אתך קובץ"
+
+#: ajax/share.php:86
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr "המשתמש %s שיתף אתך תיקייה"
+
+#: ajax/share.php:88
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr "המשתמש %s שיתף אתך את הקובץ „%s“. ניתן להוריד את הקובץ מכאן: %s"
+
+#: ajax/share.php:90
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr "המשתמש %s שיתף אתך את התיקייה „%s“. ניתן להוריד את התיקייה מכאן: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -141,8 +165,8 @@ msgid "The object type is not specified."
 msgstr "סוג הפריט לא צוין."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:533
-#: js/share.js:545
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
+#: js/share.js:553
 msgid "Error"
 msgstr "שגיאה"
 
@@ -154,7 +178,7 @@ msgstr "שם היישום לא צוין."
 msgid "The required file {file} is not installed!"
 msgstr "הקובץ הנדרש {file} אינו מותקן!"
 
-#: js/share.js:124
+#: js/share.js:124 js/share.js:581
 msgid "Error while sharing"
 msgstr "שגיאה במהלך השיתוף"
 
@@ -186,74 +210,90 @@ msgstr "שיתוף עם קישור"
 msgid "Password protect"
 msgstr "הגנה בססמה"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:26
 #: templates/verify.php:13
 msgid "Password"
 msgstr "ססמה"
 
+#: js/share.js:172
+msgid "Email link to person"
+msgstr "שליחת קישור בדוא״ל למשתמש"
+
 #: js/share.js:173
+msgid "Send"
+msgstr "שליחה"
+
+#: js/share.js:177
 msgid "Set expiration date"
 msgstr "הגדרת תאריך תפוגה"
 
-#: js/share.js:174
+#: js/share.js:178
 msgid "Expiration date"
 msgstr "תאריך התפוגה"
 
-#: js/share.js:206
+#: js/share.js:210
 msgid "Share via email:"
 msgstr "שיתוף באמצעות דוא״ל:"
 
-#: js/share.js:208
+#: js/share.js:212
 msgid "No people found"
 msgstr "לא נמצאו אנשים"
 
-#: js/share.js:235
+#: js/share.js:239
 msgid "Resharing is not allowed"
 msgstr "אסור לעשות שיתוף מחדש"
 
-#: js/share.js:271
+#: js/share.js:275
 msgid "Shared in {item} with {user}"
 msgstr "שותף תחת {item} עם {user}"
 
-#: js/share.js:292
+#: js/share.js:296
 msgid "Unshare"
 msgstr "הסר שיתוף"
 
-#: js/share.js:304
+#: js/share.js:308
 msgid "can edit"
 msgstr "ניתן לערוך"
 
-#: js/share.js:306
+#: js/share.js:310
 msgid "access control"
 msgstr "בקרת גישה"
 
-#: js/share.js:309
+#: js/share.js:313
 msgid "create"
 msgstr "יצירה"
 
-#: js/share.js:312
+#: js/share.js:316
 msgid "update"
 msgstr "עדכון"
 
-#: js/share.js:315
+#: js/share.js:319
 msgid "delete"
 msgstr "מחיקה"
 
-#: js/share.js:318
+#: js/share.js:322
 msgid "share"
 msgstr "שיתוף"
 
-#: js/share.js:349 js/share.js:520 js/share.js:522
+#: js/share.js:353 js/share.js:528 js/share.js:530
 msgid "Password protected"
 msgstr "מוגן בססמה"
 
-#: js/share.js:533
+#: js/share.js:541
 msgid "Error unsetting expiration date"
 msgstr "אירעה שגיאה בביטול תאריך התפוגה"
 
-#: js/share.js:545
+#: js/share.js:553
 msgid "Error setting expiration date"
 msgstr "אירעה שגיאה בעת הגדרת תאריך התפוגה"
+
+#: js/share.js:568
+msgid "Sending ..."
+msgstr "מתבצעת שליחה ..."
+
+#: js/share.js:579
+msgid "Email sent"
+msgstr "הודעת הדוא״ל נשלחה"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -275,8 +315,8 @@ msgstr "איפוס שליחת דוא״ל."
 msgid "Request failed!"
 msgstr "הבקשה נכשלה!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:21
 msgid "Username"
 msgstr "שם משתמש"
 
@@ -365,44 +405,44 @@ msgstr "יתכן שתיקיית הנתונים והקבצים שלך נגישי�
 msgid "Create an <strong>admin account</strong>"
 msgstr "יצירת <strong>חשבון מנהל</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "מתקדם"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "תיקיית נתונים"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "הגדרת מסד הנתונים"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "ינוצלו"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "שם משתמש במסד הנתונים"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "ססמת מסד הנתונים"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "שם מסד הנתונים"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "מרחב הכתובות של מסד הנתונים"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "שרת בסיס נתונים"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "סיום התקנה"
 
@@ -508,11 +548,11 @@ msgstr "נא לשנות את הססמה שלך כדי לאבטח את חשבונ
 msgid "Lost your password?"
 msgstr "שכחת את ססמתך?"
 
-#: templates/login.php:27
+#: templates/login.php:29
 msgid "remember"
 msgstr "שמירת הססמה"
 
-#: templates/login.php:28
+#: templates/login.php:30
 msgid "Log in"
 msgstr "כניסה"
 

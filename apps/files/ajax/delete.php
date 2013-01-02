@@ -10,7 +10,7 @@ OCP\JSON::callCheck();
 $dir = stripslashes($_POST["dir"]);
 $files = isset($_POST["file"]) ? stripslashes($_POST["file"]) : stripslashes($_POST["files"]);
 
-$files = explode(';', $files);
+$files = json_decode($files);
 $filesWithError = '';
 $success = true;
 //Now delete

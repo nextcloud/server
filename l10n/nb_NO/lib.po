@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Arvid Nornes <arvid.nornes@gmail.com>, 2012.
+#   <espenbye@me.com>, 2012.
 #   <hdalgrav@gmail.com>, 2012.
 #   <runesudden@gmail.com>, 2012.
 #   <sindre@haverstad.com>, 2012.
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-30 00:04+0100\n"
+"PO-Revision-Date: 2012-12-29 17:26+0000\n"
+"Last-Translator: espenbye <espenbye@me.com>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,43 +22,43 @@ msgstr ""
 "Language: nb_NO\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:285
+#: app.php:287
 msgid "Help"
 msgstr "Hjelp"
 
-#: app.php:292
+#: app.php:294
 msgid "Personal"
 msgstr "Personlig"
 
-#: app.php:297
+#: app.php:299
 msgid "Settings"
 msgstr "Innstillinger"
 
-#: app.php:302
+#: app.php:304
 msgid "Users"
 msgstr "Brukere"
 
-#: app.php:309
+#: app.php:311
 msgid "Apps"
 msgstr "Apper"
 
-#: app.php:311
+#: app.php:313
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:332
+#: files.php:365
 msgid "ZIP download is turned off."
 msgstr "ZIP-nedlasting av avslått"
 
-#: files.php:333
+#: files.php:366
 msgid "Files need to be downloaded one by one."
 msgstr "Filene må lastes ned en om gangen"
 
-#: files.php:333 files.php:358
+#: files.php:366 files.php:391
 msgid "Back to Files"
 msgstr "Tilbake til filer"
 
-#: files.php:357
+#: files.php:390
 msgid "Selected files too large to generate zip file."
 msgstr "De valgte filene er for store til å kunne generere ZIP-fil"
 
@@ -91,7 +92,7 @@ msgstr "sekunder siden"
 
 #: template.php:104
 msgid "1 minute ago"
-msgstr "1 minuitt siden"
+msgstr "1 minutt siden"
 
 #: template.php:105
 #, php-format
@@ -100,12 +101,12 @@ msgstr "%d minutter siden"
 
 #: template.php:106
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 time siden"
 
 #: template.php:107
 #, php-format
 msgid "%d hours ago"
-msgstr ""
+msgstr "%d timer siden"
 
 #: template.php:108
 msgid "today"
@@ -127,7 +128,7 @@ msgstr "forrige måned"
 #: template.php:112
 #, php-format
 msgid "%d months ago"
-msgstr ""
+msgstr "%d måneder siden"
 
 #: template.php:113
 msgid "last year"
@@ -153,4 +154,4 @@ msgstr "versjonssjekk er avslått"
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "Kunne ikke finne kategori \"%s\""

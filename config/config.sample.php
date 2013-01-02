@@ -30,11 +30,23 @@ $CONFIG = array(
 /* Force use of HTTPS connection (true = use HTTPS) */
 "forcessl" => false,
 
+/* The automatic hostname detection of ownCloud can fail in certain reverse proxy situations. This option allows to manually override the automatic detection. You can also add a port. For example "www.example.com:88" */
+"overwritehost" => "",
+
+/* The automatic protocol detection of ownCloud can fail in certain reverse proxy situations. This option allows to manually override the protocol detection. For example "https" */
+"overwriteprotocol" => "",
+
 /* Enhanced auth forces users to enter their password again when performing potential sensitive actions like creating or deleting users */
 "enhancedauth" => true,
 
 /* Time in seconds how long an user is authenticated without entering his password again before performing sensitive actions like creating or deleting users etc...*/
 "enhancedauthtime" => 15 * 60,
+
+/* A proxy to use to connect to the internet. For example "myproxy.org:88" */
+"proxy" => "",
+
+/* The optional authentication for the proxy to use to connect to the internet. The format is: [username]:[password] */
+"proxyuserpwd" => "",
 
 /* Theme to use for ownCloud */
 "theme" => "",
@@ -113,4 +125,10 @@ $CONFIG = array(
 		'writable' => true,
   ),
  ),
+ 'user_backends'=>array(
+    array(
+      'class'=>'OC_User_IMAP',
+      'arguments'=>array('{imap.gmail.com:993/imap/ssl}INBOX')
+    )
+  )
 );

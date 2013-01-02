@@ -21,11 +21,13 @@
  *
  */
 
+OC_Util::checkAdminUser();
+
 if($_POST) {
 
-		if(isset($_POST['webdav_url'])) {
-			OC_CONFIG::setValue('user_webdavauth_url', strip_tags($_POST['webdav_url']));
-		}
+	if(isset($_POST['webdav_url'])) {
+		OC_CONFIG::setValue('user_webdavauth_url', strip_tags($_POST['webdav_url']));
+	}
 }
 
 // fill template

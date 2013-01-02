@@ -7,6 +7,7 @@
 #   <alex.hotz@gmail.com>, 2011.
 #   <blobbyjj@ymail.com>, 2012.
 #   <georg.stefan.germany@googlemail.com>, 2011.
+# I Robot <owncloud-bot@tmit.eu>, 2012.
 # I Robot <thomas.mueller@tmit.eu>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 #   <mail@felixmoeller.de>, 2012.
@@ -15,14 +16,15 @@
 #   <m.fresel@sysangels.com>, 2012.
 #   <niko@nik-o-mat.de>, 2012.
 # Phi Lieb <>, 2012.
+# Susi  <>, 2012.
 #   <thomas.mueller@tmit.eu>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-23 00:01+0100\n"
-"PO-Revision-Date: 2012-11-22 09:33+0000\n"
+"POT-Creation-Date: 2012-12-23 00:09+0100\n"
+"PO-Revision-Date: 2012-12-22 13:50+0000\n"
 "Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -30,6 +32,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/share.php:84
+#, php-format
+msgid "User %s shared a file with you"
+msgstr "Der Nutzer %s hat eine Datei für Dich freigegeben"
+
+#: ajax/share.php:86
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr "%s hat ein Verzeichnis für Dich freigegeben"
+
+#: ajax/share.php:88
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr "%s hat eine Datei \"%s\" für Dich freigegeben. Sie ist zum Download hier ferfügbar: %s"
+
+#: ajax/share.php:90
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr "%s hat eine Verzeichnis \"%s\" für Dich freigegeben. Es ist zum Download hier ferfügbar: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -151,8 +177,8 @@ msgid "The object type is not specified."
 msgstr "Der Objekttyp ist nicht angegeben."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
-#: js/share.js:539
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "Fehler"
 
@@ -164,7 +190,7 @@ msgstr "Der App-Name ist nicht angegeben."
 msgid "The required file {file} is not installed!"
 msgstr "Die benötigte Datei {file} ist nicht installiert."
 
-#: js/share.js:124
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "Fehler beim Freigeben"
 
@@ -192,78 +218,94 @@ msgstr "Freigeben für"
 msgid "Share with link"
 msgstr "Über einen Link freigeben"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "Passwortschutz"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Passwort"
 
+#: js/share.js:172
+msgid "Email link to person"
+msgstr "Link per E-Mail verschicken"
+
 #: js/share.js:173
+msgid "Send"
+msgstr "Senden"
+
+#: js/share.js:177
 msgid "Set expiration date"
 msgstr "Setze ein Ablaufdatum"
 
-#: js/share.js:174
+#: js/share.js:178
 msgid "Expiration date"
 msgstr "Ablaufdatum"
 
-#: js/share.js:206
+#: js/share.js:210
 msgid "Share via email:"
 msgstr "Über eine E-Mail freigeben:"
 
-#: js/share.js:208
+#: js/share.js:212
 msgid "No people found"
 msgstr "Niemand gefunden"
 
-#: js/share.js:235
+#: js/share.js:239
 msgid "Resharing is not allowed"
 msgstr "Weiterverteilen ist nicht erlaubt"
 
-#: js/share.js:271
+#: js/share.js:275
 msgid "Shared in {item} with {user}"
 msgstr "Für {user} in {item} freigegeben"
 
-#: js/share.js:292
+#: js/share.js:296
 msgid "Unshare"
 msgstr "Freigabe aufheben"
 
-#: js/share.js:304
+#: js/share.js:308
 msgid "can edit"
 msgstr "kann bearbeiten"
 
-#: js/share.js:306
+#: js/share.js:310
 msgid "access control"
 msgstr "Zugriffskontrolle"
 
-#: js/share.js:309
+#: js/share.js:313
 msgid "create"
 msgstr "erstellen"
 
-#: js/share.js:312
+#: js/share.js:316
 msgid "update"
 msgstr "aktualisieren"
 
-#: js/share.js:315
+#: js/share.js:319
 msgid "delete"
 msgstr "löschen"
 
-#: js/share.js:318
+#: js/share.js:322
 msgid "share"
 msgstr "freigeben"
 
-#: js/share.js:343 js/share.js:514 js/share.js:516
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "Durch ein Passwort geschützt"
 
-#: js/share.js:527
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr "Fehler beim entfernen des Ablaufdatums"
 
-#: js/share.js:539
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "Fehler beim Setzen des Ablaufdatums"
+
+#: js/share.js:581
+msgid "Sending ..."
+msgstr "Sende ..."
+
+#: js/share.js:592
+msgid "Email sent"
+msgstr "E-Mail wurde verschickt"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -285,8 +327,8 @@ msgstr "Die E-Mail zum Zurücksetzen wurde versendet."
 msgid "Request failed!"
 msgstr "Die Anfrage schlug fehl!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "Benutzername"
 
@@ -375,44 +417,44 @@ msgstr "Dein Datenverzeichnis und deine Datein sind vielleicht vom Internet aus 
 msgid "Create an <strong>admin account</strong>"
 msgstr "<strong>Administrator-Konto</strong> anlegen"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "Fortgeschritten"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "Datenverzeichnis"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "Datenbank einrichten"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "wird verwendet"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "Datenbank-Benutzer"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "Datenbank-Passwort"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "Datenbank-Name"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "Datenbank-Tablespace"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Datenbank-Host"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "Installation abschließen"
 
@@ -500,29 +542,29 @@ msgstr "Web-Services unter Ihrer Kontrolle"
 msgid "Log out"
 msgstr "Abmelden"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Automatischer Login zurückgewiesen!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Wenn Du Dein Passwort nicht vor kurzem geändert hast, könnte Dein\nAccount kompromittiert sein!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Bitte ändere Dein Passwort, um Deinen Account wieder zu schützen."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Passwort vergessen?"
 
-#: templates/login.php:27
+#: templates/login.php:39
 msgid "remember"
 msgstr "merken"
 
-#: templates/login.php:28
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Einloggen"
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-12 00:12+0100\n"
-"PO-Revision-Date: 2012-12-11 23:13+0000\n"
+"POT-Creation-Date: 2012-12-13 00:17+0100\n"
+"PO-Revision-Date: 2012-12-11 23:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Kurdish (Iraq) (http://www.transifex.com/projects/p/owncloud/language/ku_IQ/)\n"
 "MIME-Version: 1.0\n"
@@ -96,7 +96,7 @@ msgstr ""
 
 #: templates/settings.php:95
 msgid "Users"
-msgstr ""
+msgstr "به‌كارهێنه‌ر"
 
 #: templates/settings.php:108 templates/settings.php:109
 #: templates/settings.php:149 templates/settings.php:150

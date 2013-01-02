@@ -8,28 +8,28 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-26 19:46+0200\n"
-"PO-Revision-Date: 2012-08-26 09:01+0000\n"
-"Last-Translator: Csaba Orban <vicsabi@gmail.com>\n"
+"POT-Creation-Date: 2012-12-31 00:04+0100\n"
+"PO-Revision-Date: 2012-12-30 17:43+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: hu_HU\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: templates/settings.php:3
 msgid "Encryption"
 msgstr "Titkosítás"
 
-#: templates/settings.php:4
-msgid "Exclude the following file types from encryption"
-msgstr "A következő fájl típusok kizárása a titkosításból"
+#: templates/settings.php:6
+msgid "Enable Encryption"
+msgstr "A titkosítás engedélyezése"
 
-#: templates/settings.php:5
+#: templates/settings.php:7
 msgid "None"
 msgstr "Egyik sem"
 
-#: templates/settings.php:10
-msgid "Enable Encryption"
-msgstr "Titkosítás engedélyezése"
+#: templates/settings.php:12
+msgid "Exclude the following file types from encryption"
+msgstr "A következő fájltípusok kizárása a titkosításból"

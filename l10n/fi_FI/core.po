@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-15 20:59+0000\n"
+"POT-Creation-Date: 2012-12-15 00:11+0100\n"
+"PO-Revision-Date: 2012-12-14 13:22+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fi_FI\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/share.php:84
+#, php-format
+msgid "User %s shared a file with you"
+msgstr ""
+
+#: ajax/share.php:86
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr ""
+
+#: ajax/share.php:88
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr ""
+
+#: ajax/share.php:90
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -62,59 +86,59 @@ msgstr "Luokkia ei valittu poistettavaksi."
 msgid "Error removing %s from favorites."
 msgstr ""
 
-#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "Asetukset"
 
-#: js/js.js:688
+#: js/js.js:704
 msgid "seconds ago"
 msgstr "sekuntia sitten"
 
-#: js/js.js:689
+#: js/js.js:705
 msgid "1 minute ago"
 msgstr "1 minuutti sitten"
 
-#: js/js.js:690
+#: js/js.js:706
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minuuttia sitten"
 
-#: js/js.js:691
+#: js/js.js:707
 msgid "1 hour ago"
 msgstr "1 tunti sitten"
 
-#: js/js.js:692
+#: js/js.js:708
 msgid "{hours} hours ago"
 msgstr "{hours} tuntia sitten"
 
-#: js/js.js:693
+#: js/js.js:709
 msgid "today"
 msgstr "tänään"
 
-#: js/js.js:694
+#: js/js.js:710
 msgid "yesterday"
 msgstr "eilen"
 
-#: js/js.js:695
+#: js/js.js:711
 msgid "{days} days ago"
 msgstr "{days} päivää sitten"
 
-#: js/js.js:696
+#: js/js.js:712
 msgid "last month"
 msgstr "viime kuussa"
 
-#: js/js.js:697
+#: js/js.js:713
 msgid "{months} months ago"
 msgstr "{months} kuukautta sitten"
 
-#: js/js.js:698
+#: js/js.js:714
 msgid "months ago"
 msgstr "kuukautta sitten"
 
-#: js/js.js:699
+#: js/js.js:715
 msgid "last year"
 msgstr "viime vuonna"
 
-#: js/js.js:700
+#: js/js.js:716
 msgid "years ago"
 msgstr "vuotta sitten"
 
@@ -144,8 +168,8 @@ msgid "The object type is not specified."
 msgstr ""
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
-#: js/share.js:537
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
+#: js/share.js:553
 msgid "Error"
 msgstr "Virhe"
 
@@ -157,7 +181,7 @@ msgstr "Sovelluksen nimeä ei ole määritelty."
 msgid "The required file {file} is not installed!"
 msgstr "Vaadittua tiedostoa {file} ei ole asennettu!"
 
-#: js/share.js:124
+#: js/share.js:124 js/share.js:581
 msgid "Error while sharing"
 msgstr "Virhe jaettaessa"
 
@@ -189,74 +213,90 @@ msgstr "Jaa linkillä"
 msgid "Password protect"
 msgstr "Suojaa salasanalla"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:26
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Salasana"
 
+#: js/share.js:172
+msgid "Email link to person"
+msgstr "Lähetä linkki sähköpostitse"
+
 #: js/share.js:173
+msgid "Send"
+msgstr "Lähetä"
+
+#: js/share.js:177
 msgid "Set expiration date"
 msgstr "Aseta päättymispäivä"
 
-#: js/share.js:174
+#: js/share.js:178
 msgid "Expiration date"
 msgstr "Päättymispäivä"
 
-#: js/share.js:206
+#: js/share.js:210
 msgid "Share via email:"
 msgstr "Jaa sähköpostilla:"
 
-#: js/share.js:208
+#: js/share.js:212
 msgid "No people found"
 msgstr "Henkilöitä ei löytynyt"
 
-#: js/share.js:235
+#: js/share.js:239
 msgid "Resharing is not allowed"
 msgstr "Jakaminen uudelleen ei ole salittu"
 
-#: js/share.js:271
+#: js/share.js:275
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:292
+#: js/share.js:296
 msgid "Unshare"
 msgstr "Peru jakaminen"
 
-#: js/share.js:304
+#: js/share.js:308
 msgid "can edit"
 msgstr "voi muokata"
 
-#: js/share.js:306
+#: js/share.js:310
 msgid "access control"
 msgstr "Pääsyn hallinta"
 
-#: js/share.js:309
+#: js/share.js:313
 msgid "create"
 msgstr "luo"
 
-#: js/share.js:312
+#: js/share.js:316
 msgid "update"
 msgstr "päivitä"
 
-#: js/share.js:315
+#: js/share.js:319
 msgid "delete"
 msgstr "poista"
 
-#: js/share.js:318
+#: js/share.js:322
 msgid "share"
 msgstr "jaa"
 
-#: js/share.js:343 js/share.js:512 js/share.js:514
+#: js/share.js:353 js/share.js:528 js/share.js:530
 msgid "Password protected"
 msgstr "Salasanasuojattu"
 
-#: js/share.js:525
+#: js/share.js:541
 msgid "Error unsetting expiration date"
 msgstr "Virhe purettaessa eräpäivää"
 
-#: js/share.js:537
+#: js/share.js:553
 msgid "Error setting expiration date"
 msgstr "Virhe päättymispäivää asettaessa"
+
+#: js/share.js:568
+msgid "Sending ..."
+msgstr "Lähetetään..."
+
+#: js/share.js:579
+msgid "Email sent"
+msgstr "Sähköposti lähetetty"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -278,8 +318,8 @@ msgstr ""
 msgid "Request failed!"
 msgstr "Pyyntö epäonnistui!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:21
 msgid "Username"
 msgstr "Käyttäjätunnus"
 
@@ -368,128 +408,128 @@ msgstr "Data-kansio ja tiedostot ovat ehkä saavutettavissa Internetistä. .htac
 msgid "Create an <strong>admin account</strong>"
 msgstr "Luo <strong>ylläpitäjän tunnus</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "Lisäasetukset"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "Datakansio"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "Muokkaa tietokantaa"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "käytetään"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "Tietokannan käyttäjä"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "Tietokannan salasana"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "Tietokannan nimi"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "Tietokannan taulukkotila"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Tietokantapalvelin"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "Viimeistele asennus"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "Sunnuntai"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr "Maanantai"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "Tiistai"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "Keskiviikko"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "Torstai"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr "Perjantai"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "Lauantai"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr "Tammikuu"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr "Helmikuu"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr "Maaliskuu"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr "Huhtikuu"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr "Toukokuu"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr "Kesäkuu"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr "Heinäkuu"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr "Elokuu"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr "Syyskuu"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr "Lokakuu"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr "Marraskuu"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr "Joulukuu"
 
-#: templates/layout.guest.php:41
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr "verkkopalvelut hallinnassasi"
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr "Kirjaudu ulos"
 
@@ -511,11 +551,11 @@ msgstr "Vaihda salasanasi suojataksesi tilisi uudelleen."
 msgid "Lost your password?"
 msgstr "Unohditko salasanasi?"
 
-#: templates/login.php:27
+#: templates/login.php:29
 msgid "remember"
 msgstr "muista"
 
-#: templates/login.php:28
+#: templates/login.php:30
 msgid "Log in"
 msgstr "Kirjaudu sisään"
 

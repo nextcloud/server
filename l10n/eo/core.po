@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-04 00:06+0100\n"
-"PO-Revision-Date: 2012-12-02 23:10+0000\n"
+"POT-Creation-Date: 2012-12-20 00:11+0100\n"
+"PO-Revision-Date: 2012-12-19 07:11+0000\n"
 "Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/share.php:84
+#, php-format
+msgid "User %s shared a file with you"
+msgstr "La uzanto %s kunhavigis dosieron kun vi"
+
+#: ajax/share.php:86
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr "La uzanto %s kunhavigis dosierujon kun vi"
+
+#: ajax/share.php:88
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr "La uzanto %s kunhavigis la dosieron “%s” kun vi. Ĝi elŝuteblas el tie ĉi: %s"
+
+#: ajax/share.php:90
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr "La uzanto %s kunhavigis la dosierujon “%s” kun vi. Ĝi elŝuteblas el tie ĉi: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -140,8 +164,8 @@ msgid "The object type is not specified."
 msgstr "Ne indikiĝis tipo de la objekto."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:533
-#: js/share.js:545
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "Eraro"
 
@@ -153,7 +177,7 @@ msgstr "Ne indikiĝis nomo de la aplikaĵo."
 msgid "The required file {file} is not installed!"
 msgstr "La necesa dosiero {file} ne instaliĝis!"
 
-#: js/share.js:124
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "Eraro dum kunhavigo"
 
@@ -181,78 +205,94 @@ msgstr "Kunhavigi kun"
 msgid "Share with link"
 msgstr "Kunhavigi per ligilo"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "Protekti per pasvorto"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:26
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Pasvorto"
 
+#: js/share.js:172
+msgid "Email link to person"
+msgstr "Retpoŝti la ligilon al ulo"
+
 #: js/share.js:173
+msgid "Send"
+msgstr "Sendi"
+
+#: js/share.js:177
 msgid "Set expiration date"
 msgstr "Agordi limdaton"
 
-#: js/share.js:174
+#: js/share.js:178
 msgid "Expiration date"
 msgstr "Limdato"
 
-#: js/share.js:206
+#: js/share.js:210
 msgid "Share via email:"
 msgstr "Kunhavigi per retpoŝto:"
 
-#: js/share.js:208
+#: js/share.js:212
 msgid "No people found"
 msgstr "Ne troviĝis gento"
 
-#: js/share.js:235
+#: js/share.js:239
 msgid "Resharing is not allowed"
 msgstr "Rekunhavigo ne permesatas"
 
-#: js/share.js:271
+#: js/share.js:275
 msgid "Shared in {item} with {user}"
 msgstr "Kunhavigita en {item} kun {user}"
 
-#: js/share.js:292
+#: js/share.js:296
 msgid "Unshare"
 msgstr "Malkunhavigi"
 
-#: js/share.js:304
+#: js/share.js:308
 msgid "can edit"
 msgstr "povas redakti"
 
-#: js/share.js:306
+#: js/share.js:310
 msgid "access control"
 msgstr "alirkontrolo"
 
-#: js/share.js:309
+#: js/share.js:313
 msgid "create"
 msgstr "krei"
 
-#: js/share.js:312
+#: js/share.js:316
 msgid "update"
 msgstr "ĝisdatigi"
 
-#: js/share.js:315
+#: js/share.js:319
 msgid "delete"
 msgstr "forigi"
 
-#: js/share.js:318
+#: js/share.js:322
 msgid "share"
 msgstr "kunhavigi"
 
-#: js/share.js:349 js/share.js:520 js/share.js:522
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "Protektita per pasvorto"
 
-#: js/share.js:533
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr "Eraro dum malagordado de limdato"
 
-#: js/share.js:545
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "Eraro dum agordado de limdato"
+
+#: js/share.js:581
+msgid "Sending ..."
+msgstr "Sendante..."
+
+#: js/share.js:592
+msgid "Email sent"
+msgstr "La retpoŝtaĵo sendiĝis"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -274,8 +314,8 @@ msgstr ""
 msgid "Request failed!"
 msgstr "Peto malsukcesis!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:21
 msgid "Username"
 msgstr "Uzantonomo"
 
@@ -364,44 +404,44 @@ msgstr ""
 msgid "Create an <strong>admin account</strong>"
 msgstr "Krei <strong>administran konton</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "Progresinta"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "Datuma dosierujo"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "Agordi la datumbazon"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "estos uzata"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "Datumbaza uzanto"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "Datumbaza pasvorto"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "Datumbaza nomo"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "Datumbaza tabelospaco"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Datumbaza gastigo"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "Fini la instalon"
 
@@ -507,11 +547,11 @@ msgstr "Bonvolu ŝanĝi vian pasvorton por sekurigi vian konton ree."
 msgid "Lost your password?"
 msgstr "Ĉu vi perdis vian pasvorton?"
 
-#: templates/login.php:27
+#: templates/login.php:29
 msgid "remember"
 msgstr "memori"
 
-#: templates/login.php:28
+#: templates/login.php:30
 msgid "Log in"
 msgstr "Ensaluti"
 
