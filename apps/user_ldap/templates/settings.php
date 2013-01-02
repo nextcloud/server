@@ -8,7 +8,7 @@
 			echo '<p class="ldapwarning">'.$l->t('<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them.').'</p>';
 		}
 		if(!function_exists('ldap_connect')) {
-			echo '<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>';
+			echo '<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>';
 		}
 		?>
 	<fieldset id="ldapSettings-1">
