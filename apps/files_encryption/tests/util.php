@@ -14,19 +14,12 @@ require_once realpath( dirname(__FILE__).'/../lib/proxy.php' );
 require_once realpath( dirname(__FILE__).'/../lib/stream.php' );
 require_once realpath( dirname(__FILE__).'/../lib/util.php' );
 require_once realpath( dirname(__FILE__).'/../appinfo/app.php' );
-require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery.php' );
-require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/Generator.php' );
-require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/MockInterface.php' );
-require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/Mock.php' );
-require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/Container.php' );
-require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/Configuration.php' );
-require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/CompositeExpectation.php' );
-require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/ExpectationDirector.php' );
-require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/Expectation.php' );
-require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/Exception.php' );
-require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/CountValidator/CountValidatorAbstract.php' );
-require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/CountValidator/Exception.php' );
-require_once realpath( dirname(__FILE__).'/../../../3rdparty/mockery/Mockery/CountValidator/Exact.php' );
+
+// Load mockery files
+require_once 'Mockery/Loader.php';
+require_once 'Hamcrest/Hamcrest.php';
+$loader = new \Mockery\Loader;
+$loader->register();
 
 use \Mockery as m;
 use OCA\Encryption;

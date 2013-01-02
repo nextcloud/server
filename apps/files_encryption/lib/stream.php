@@ -265,7 +265,11 @@ class Stream {
 			
 			$session = new Session();
 			
-			$this->keyfile = Crypt::keyDecrypt( $this->encKeyfile, $session->getPrivateKey( $this->userId ) );
+			$privateKey = $session->getPrivateKey( $this->userId );
+			
+// 			trigger_error( "privateKey = '".var_export( $privateKey, 1 ) ."'" );
+			
+			$this->keyfile = Crypt::keyDecrypt( $this->encKeyfile, $privateKey );
 			
 			return true;
 			
@@ -302,7 +306,7 @@ class Stream {
 	 * @note PHP automatically updates the file pointer after writing data to reflect it's length. There is generally no need to update the poitner manually using fseek
 	 */
 	public function stream_write( $data ) {
-		trigger_error("goon");
+		
 		// Disable the file proxies so that encryption is not automatically attempted when the file is written to disk - we are handling that separately here and we don't want to get into an infinite loop
 		\OC_FileProxy::$enabled = false;
 		

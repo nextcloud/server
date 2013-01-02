@@ -33,7 +33,7 @@ class Session {
 	 * @return bool
 	 *
 	 */
-	public static function setPrivateKey( $privateKey, $userId ) {
+	public function setPrivateKey( $privateKey, $userId ) {
 	
 		$_SESSION['privateKey'] = $privateKey;
 		
@@ -46,7 +46,7 @@ class Session {
 	 * @returns string $privateKey The user's plaintext private key
 	 *
 	 */
-	public static function getPrivateKey( $userId ) {
+	public function getPrivateKey( $userId ) {
 	
 		if ( 
 		isset( $_SESSION['privateKey'] )

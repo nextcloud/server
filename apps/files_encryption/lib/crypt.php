@@ -454,7 +454,7 @@ class Crypt {
          * @returns decrypted file
          */
 	public static function keyDecrypt( $encryptedContent, $privatekey ) {
-
+		//trigger_error(var_export($privatekey, 1));
 		openssl_private_decrypt( $encryptedContent, $plainContent, $privatekey );
 		
 		return $plainContent;

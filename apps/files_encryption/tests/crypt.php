@@ -7,7 +7,20 @@
  * See the COPYING-README file.
  */
 
+// Load mockery files
+require_once 'Mockery/Loader.php';
+require_once 'Hamcrest/Hamcrest.php';
+$loader = new \Mockery\Loader;
+$loader->register();
 
+use \Mockery as m;
+
+// Overload Session{} with a mock object before it is included
+$adminEncPriKey = realpath( dirname(__FILE__).'/../../../data/admin/files_encryption/admin.private.key' );
+$adminDePriKey = OCA\Encryption\Crypt::symmetricDecryptFileContent( $adminEncPriKey, 'admin' );
+
+$mockSession = m::mock('overload:OCA\Encryption\Session');
+$mockSession->shouldReceive( 'getPrivateKey' )->andReturn( file_get_contents( $adminDePriKey ) );
 
 //require_once "PHPUnit/Framework/TestCase.php";
 require_once realpath( dirname(__FILE__).'/../../../3rdparty/Crypt_Blowfish/Blowfish.php' );
@@ -25,7 +38,7 @@ use OCA\Encryption;
 // encryption key needs to be saved in the session
 \OC_User::login( 'admin', 'admin' );
 
-trigger_error("session = ".var_export($_SESSION, 1));
+//trigger_error("session = ".var_export($_SESSION, 1));
 
 class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
@@ -45,12 +58,17 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		$this->view = new \OC_FilesystemView( '/' );
 		
+		\OC_User::setUserId( 'admin' );
 		$this->userId = 'admin';
 		$this->pass = 'admin';
 		
 	}
 	
-	function tearDown(){}
+	function tearDown() {
+	
+		m::close();
+	
+	}
 
 	function testGenerateKey() {
 	
