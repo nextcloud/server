@@ -3,232 +3,222 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <cronner@gmail.com>, 2012.
-#   <icewind1991@gmail.com>, 2012.
-#   <mikkelbjerglarsen@gmail.com>, 2011.
-# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011-2012.
-# Ole Holm Frandsen <froksen@gmail.com>, 2012.
-# Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
-#   <simon@rosmi.dk>, 2012.
-#   <sr@ybnet.dk>, 2012-2013.
-# Thomas Tanghus <>, 2012.
-# Thomas Tanghus <thomas@tanghus.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
 "POT-Creation-Date: 2013-01-03 00:04+0100\n"
-"PO-Revision-Date: 2013-01-02 21:06+0000\n"
-"Last-Translator: ressel <sr@ybnet.dk>\n"
-"Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
+"PO-Revision-Date: 2011-07-25 16:05+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Hungarian (http://www.transifex.com/projects/p/owncloud/language/hu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
+"Language: hu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "Kunne ikke indlæse listen fra App Store"
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr "Gruppen findes allerede"
+msgstr ""
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr "Gruppen kan ikke oprettes"
+msgstr ""
 
 #: ajax/enableapp.php:12
 msgid "Could not enable app. "
-msgstr "Applikationen kunne ikke aktiveres."
+msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "Email adresse gemt"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "Ugyldig email adresse"
+msgstr ""
 
 #: ajax/openid.php:13
 msgid "OpenID Changed"
-msgstr "OpenID ændret"
+msgstr ""
 
 #: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "Ugyldig forespørgsel"
+msgstr ""
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr "Gruppen kan ikke slettes"
+msgstr ""
 
 #: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr "Adgangsfejl"
+msgstr ""
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr "Bruger kan ikke slettes"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr "Sprog ændret"
+msgstr ""
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr "Administratorer kan ikke fjerne dem selv fra admin gruppen"
+msgstr ""
 
 #: ajax/togglegroups.php:28
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "Brugeren kan ikke tilføjes til gruppen %s"
+msgstr ""
 
 #: ajax/togglegroups.php:34
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "Brugeren kan ikke fjernes fra gruppen %s"
+msgstr ""
 
 #: js/apps.js:28 js/apps.js:67
 msgid "Disable"
-msgstr "Deaktiver"
+msgstr ""
 
 #: js/apps.js:28 js/apps.js:55
 msgid "Enable"
-msgstr "Aktiver"
+msgstr ""
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr "Gemmer..."
+msgstr ""
 
 #: personal.php:42 personal.php:43
 msgid "__language_name__"
-msgstr "Dansk"
+msgstr ""
 
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr "Tilføj din App"
+msgstr ""
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr "Flere Apps"
+msgstr ""
 
 #: templates/apps.php:27
 msgid "Select an App"
-msgstr "Vælg en App"
+msgstr ""
 
 #: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
-msgstr "Se applikationens side på apps.owncloud.com"
+msgstr ""
 
 #: templates/apps.php:32
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr "<span class=\"licence\"></span>-licenseret af <span class=\"author\"></span>"
+msgstr ""
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr "Brugerdokumentation"
+msgstr ""
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr "Administrator Dokumentation"
+msgstr ""
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr "Online dokumentation"
+msgstr ""
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr "Forum"
+msgstr ""
 
 #: templates/help.php:9
 msgid "Bugtracker"
-msgstr "Bugtracker"
+msgstr ""
 
 #: templates/help.php:11
 msgid "Commercial Support"
-msgstr "Kommerciel support"
+msgstr ""
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "Du har brugt <strong>%s</strong> af den tilgængelige <strong>%s</strong>"
+msgstr ""
 
 #: templates/personal.php:12
 msgid "Clients"
-msgstr "Klienter"
+msgstr ""
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr "Hent Desktop Klienter"
+msgstr ""
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr "Hent Android Klient"
+msgstr ""
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr "Hent iOS Klient"
+msgstr ""
 
 #: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
-msgstr "Kodeord"
+msgstr ""
 
 #: templates/personal.php:22
 msgid "Your password was changed"
-msgstr "Din adgangskode blev ændret"
+msgstr ""
 
 #: templates/personal.php:23
 msgid "Unable to change your password"
-msgstr "Ude af stand til at ændre dit kodeord"
+msgstr ""
 
 #: templates/personal.php:24
 msgid "Current password"
-msgstr "Nuværende adgangskode"
+msgstr ""
 
 #: templates/personal.php:25
 msgid "New password"
-msgstr "Ny adgangskode"
+msgstr ""
 
 #: templates/personal.php:26
 msgid "show"
-msgstr "vis"
+msgstr ""
 
 #: templates/personal.php:27
 msgid "Change password"
-msgstr "Skift kodeord"
+msgstr ""
 
 #: templates/personal.php:33
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
 #: templates/personal.php:34
 msgid "Your email address"
-msgstr "Din emailadresse"
+msgstr ""
 
 #: templates/personal.php:35
 msgid "Fill in an email address to enable password recovery"
-msgstr "Indtast en emailadresse for at kunne få påmindelse om adgangskode"
+msgstr ""
 
 #: templates/personal.php:41 templates/personal.php:42
 msgid "Language"
-msgstr "Sprog"
+msgstr ""
 
 #: templates/personal.php:47
 msgid "Help translate"
-msgstr "Hjælp med oversættelsen"
+msgstr ""
 
 #: templates/personal.php:52
 msgid "WebDAV"
-msgstr "WebDAV"
+msgstr ""
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "Brug denne adresse til at oprette forbindelse til din ownCloud i din filstyring"
+msgstr ""
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr "Version"
+msgstr ""
 
 #: templates/personal.php:65
 msgid ""
@@ -238,44 +228,44 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "Udviklet af <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownClouds community</a>, og <a href=\"https://github.com/owncloud\" target=\"_blank\">kildekoden</a> er underlagt licensen <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+msgstr ""
 
 #: templates/users.php:21 templates/users.php:81
 msgid "Name"
-msgstr "Navn"
+msgstr ""
 
 #: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
-msgstr "Grupper"
+msgstr ""
 
 #: templates/users.php:32
 msgid "Create"
-msgstr "Ny"
+msgstr ""
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr "Standard opbevaring"
+msgstr ""
 
 #: templates/users.php:42 templates/users.php:138
 msgid "Unlimited"
-msgstr "Ubegrænset"
+msgstr ""
 
 #: templates/users.php:60 templates/users.php:153
 msgid "Other"
-msgstr "Andet"
+msgstr ""
 
 #: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
-msgstr "Gruppe Administrator"
+msgstr ""
 
 #: templates/users.php:87
 msgid "Storage"
-msgstr "Opbevaring"
+msgstr ""
 
 #: templates/users.php:133
 msgid "Default"
-msgstr "Standard"
+msgstr ""
 
 #: templates/users.php:161
 msgid "Delete"
-msgstr "Slet"
+msgstr ""
