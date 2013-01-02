@@ -758,4 +758,23 @@ class OC_Helper {
 		}
 		return $str;
 	}
+
+	/**
+	 * Calculate the disc space
+	 */
+	public static function getStorageInfo() {
+		$rootInfo = OC_FileCache::get('');
+		$used = $rootInfo['size'];
+		if ($used < 0) {
+			$used = 0;
+		}
+		$free = OC_Filesystem::free_space();
+		$total = $free + $used;
+		if ($total == 0) {
+			$total = 1; // prevent division by zero
+		}
+		$relative = round(($used / $total) * 10000) / 100;
+
+		return array('free' => $free, 'used' => $used, 'total' => $total, 'relative' => $relative);
+	}
 }
