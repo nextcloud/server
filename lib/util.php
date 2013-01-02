@@ -688,14 +688,27 @@ class OC_Util {
                 curl_close($curl);
 
             } else {
-                
-                $ctx = stream_context_create(
-                    array(
-                        'http' => array(
-                            'timeout' => 10
-                        )
-                    )
-                );
+	        $contextArray = null;
+	            
+	        if(OC_Config::getValue('proxy','')<>'') {
+	                $contextArray = array(
+	                                    'http' => array(
+	                                        'timeout' => 10,
+	                                        'proxy' => OC_Config::getValue('proxy')
+	                                    )
+	                             );
+	        } else {
+	                $contextArray = array(
+	                                    'http' => array(
+		                                'timeout' => 10
+	                                  )
+	                             );
+	        }
+	            
+	            
+	        $ctx = stream_context_create(
+	            $contextArray
+	        );
                 $data=@file_get_contents($url, 0, $ctx);
                 
             }
