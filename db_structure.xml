@@ -190,7 +190,7 @@
 			</field>
 
 			<index>
-				<name>storage_path_hash</name>
+				<name>fs_storage_path_hash</name>
 				<unique>true</unique>
 				<field>
 					<name>storage</name>
@@ -203,7 +203,7 @@
 			</index>
 
 			<index>
-				<name>parent_name_hash</name>
+				<name>fs_parent_name_hash</name>
 				<field>
 					<name>parent</name>
 					<sorting>ascending</sorting>
