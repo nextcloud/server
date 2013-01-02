@@ -1,18 +1,27 @@
 $(document).ready(function() {
 
-	$('#externalStorage tbody tr.OC_Filestorage_Google').each(function() {
-		var configured = $(this).find('[data-parameter="configured"]');
+	$('#externalStorage tbody tr.OC_Filestorage_Google').each(function(index, tr) {
+		setupGoogleRow(tr);
+	});
+
+	$('#selectBackend').live('change', function() {
+		if ($(this).val() == 'OC_Filestorage_Google') {
+			setupGoogleRow($('#externalStorage tbody>tr:last').prev('tr'));
+		}
+	});
+
+	function setupGoogleRow(tr) {
+		var configured = $(tr).find('[data-parameter="configured"]');
 		if ($(configured).val() == 'true') {
-			$(this).find('.configuration').append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
+			$(tr).find('.configuration').append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
 		} else {
-			var token = $(this).find('[data-parameter="token"]');
-			var token_secret = $(this).find('[data-parameter="token_secret"]');
+			var token = $(tr).find('[data-parameter="token"]');
+			var token_secret = $(tr).find('[data-parameter="token_secret"]');
 			var params = {};
 			window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
 				params[key] = value;
 			});
 			if (params['oauth_token'] !== undefined && params['oauth_verifier'] !== undefined && decodeURIComponent(params['oauth_token']) == $(token).val()) {
-				var tr = $(this);
 				$.post(OC.filePath('files_external', 'ajax', 'google.php'), { step: 2, oauth_verifier: params['oauth_verifier'], request_token: $(token).val(), request_token_secret: $(token_secret).val() }, function(result) {
 					if (result && result.status == 'success') {
 						$(token).val(result.access_token);
@@ -22,13 +31,14 @@ $(document).ready(function() {
 						$(tr).find('.configuration').append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
 					} else {
 						OC.dialogs.alert(result.data.message, t('files_external', 'Error configuring Google Drive storage'));
+						onGoogleInputsChange(tr);
 					}
 				});
 			} else {
-				onGoogleInputsChange(this);
+				onGoogleInputsChange(tr);
 			}
 		}
-	});
+	}
 
 	$('#externalStorage tbody tr.OC_Filestorage_Google td').live('paste', function() {
 		var tr = $(this).parent();
