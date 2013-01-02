@@ -98,6 +98,9 @@ if (OC_Filesystem::isSharable($dir . '/')) {
     $permissions |= OCP\PERMISSION_SHARE;
 }
 
+// information about storage capacities
+$storageInfo=OC_Helper::getStorageInfo();
+
 $tmpl = new OCP\Template('files', 'index', 'user');
 $tmpl->assign('fileList', $list->fetchPage(), false);
 $tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
@@ -108,4 +111,5 @@ $tmpl->assign('files', $files);
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 $tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
+$tmpl->assign('usedSpacePercent', $storageInfo['relative']);
 $tmpl->printPage();

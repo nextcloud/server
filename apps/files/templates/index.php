@@ -117,3 +117,4 @@
 
 <!-- config hints for javascript -->
 <input type="hidden" name="allowZipDownload" id="allowZipDownload" value="<?php echo $_['allowZipDownload']; ?>" />
+<input type="hidden" name="usedSpacePercent" id="usedSpacePercent" value="<?php echo $_['usedSpacePercent']; ?>" />
