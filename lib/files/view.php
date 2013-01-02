@@ -739,6 +739,18 @@ class View {
 
 			$files = $cache->getFolderContents($internalPath); //TODO: mimetype_filter
 
+			$ids = array();
+			foreach ($files as $i => $file) {
+				$files[$i]['type'] = $file['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
+				$ids[] = $file['fileid'];
+			}
+
+			$permissionsCache = $storage->getPermissionsCache($internalPath);
+			$permissions = $permissionsCache->getMultiple($ids, \OC_User::getUser());
+			foreach ($files as $i => $file) {
+				$files[$i]['permissions'] = $permissions[$file['fileid']];
+			}
+
 			//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
 			$mountPoints = Filesystem::getMountPoints($path);
 			$dirLength = strlen($path);
@@ -758,22 +770,12 @@ class View {
 						}
 					} else { //mountpoint in this folder, add an entry for it
 						$rootEntry['name'] = $relativePath;
+						$rootEntry['type'] = $rootEntry['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
+						$subPermissionsCache = $subStorage->getPermissionsCache('');
+						$rootEntry['permissions'] = $subPermissionsCache->get($rootEntry['fileid'], \OC_User::getUser());
 						$files[] = $rootEntry;
 					}
 				}
-			}
-
-			$ids = array();
-
-			foreach ($files as $i => $file) {
-				$files[$i]['type'] = $file['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
-				$ids[] = $file['fileid'];
-			}
-			$permissionsCache = $storage->getPermissionsCache($internalPath);
-
-			$permissions = $permissionsCache->getMultiple($ids, \OC_User::getUser());
-			foreach ($files as $i => $file) {
-				$files[$i]['permissions'] = $permissions[$file['fileid']];
 			}
 
 			if ($mimetype_filter) {
