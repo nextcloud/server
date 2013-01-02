@@ -3,30 +3,24 @@
  * Add 
  *     define('DEBUG', true);
  * To the end of config/config.php to enable debug mode.
+ * The undefined checks fix the broken ie8 console
  */
-if (oc_debug !== true) {
+if (oc_debug !== true || typeof console === "undefined" || typeof console.log === "undefined") {
 	if (!window.console) {
 		window.console = {};
 	}
 	var methods = ['log', 'debug', 'warn', 'info', 'error', 'assert'];
 	for (var i = 0; i < methods.length; i++) {
-	console[methods[i]] = function () { };
+		console[methods[i]] = function () { };
 	}
 }
-/**
- * fix broken console log in ie8
- */
-if (typeof console === "undefined" || typeof console.log === "undefined") {
-	console = {};
-	console.log = function() {};
-}
+
 /**
  * translate a string
  * @param app the id of the app for which to translate the string
  * @param text the string to translate
  * @return string
  */
-
 function t(app,text, vars){
 	if( !( t.cache[app] )){
 		$.ajax(OC.filePath('core','ajax','translations.php'),{
