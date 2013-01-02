@@ -50,6 +50,6 @@ OC.AppConfig={
 	},
 	deleteApp:function(app){
 		OC.AppConfig.postCall('deleteApp',{app:app});
-	},
+	}
 };
 //TODO OC.Preferences
