@@ -29,7 +29,24 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 		return is_file($this->datadir.$path);
 	}
 	public function stat($path) {
-		return stat($this->datadir.$path);
+		$fullPath = $this->datadir.$path;
+		$statResult = stat($fullPath);
+
+		// special case for 32-bit systems
+		if (PHP_INT_SIZE===4) {
+			if (!(strtoupper(substr(PHP_OS, 0, 3)) == 'WIN'))
+				$size = (float)exec('stat -c %s '. escapeshellarg ($fullPath));
+			else{
+				$fsobj = new COM("Scripting.FileSystemObject");
+				$f = $fsobj->GetFile($fullPath);
+				$size = $f->Size;
+			}
+
+			$statResult['size'] = $size;
+			$statResult[7] = $size;
+		}
+
+		return $statResult;
 	}
 	public function filetype($path) {
 		$filetype=filetype($this->datadir.$path);
