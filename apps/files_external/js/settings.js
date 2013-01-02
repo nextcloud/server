@@ -239,6 +239,10 @@ $(document).ready(function() {
 		}
 	});
 
+	$('#externalStorage td input:checkbox').live('change', function() {
+		OC.MountConfig.saveStorage($(this).parent().parent().parent());
+	});
+
 	$('.applicable .chzn-select').live('change', function() {
 		OC.MountConfig.saveStorage($(this).parent().parent());
 	});
