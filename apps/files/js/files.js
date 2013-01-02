@@ -477,7 +477,7 @@ $(document).ready(function() {
 		$('#new').removeClass('active');
 		$('#new li').each(function(i,element){
 			if($(element).children('p').length==0){
-				$(element).children('input').remove();
+				$(element).children('form').remove();
 				$(element).append('<p>'+$(element).data('text')+'</p>');
 			}
 		});
@@ -505,8 +505,8 @@ $(document).ready(function() {
 		var text=$(this).children('p').text();
 		$(this).data('text',text);
 		$(this).children('p').remove();
-		var input=$('<input>');
 		var form=$('<form></form>');
+		var input=$('<input>');
 		form.append(input);
 		$(this).append(form);
 		input.focus();

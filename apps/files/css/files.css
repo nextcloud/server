@@ -21,7 +21,7 @@
 #new>ul>li { height:20px; margin:.3em; padding-left:2em; padding-bottom:0.1em;
 		background-repeat:no-repeat; cursor:pointer; }
 #new>ul>li>p { cursor:pointer; }
-#new>ul>li>input { padding:0.3em; margin:-0.3em; }
+#new>ul>li>form>input { padding:0.3em; margin:-0.3em; }
 
 #upload { 
 	height:27px; padding:0; margin-left:0.2em; overflow:hidden;
