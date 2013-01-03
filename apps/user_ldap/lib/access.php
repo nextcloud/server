@@ -114,6 +114,15 @@ abstract class Access {
 	 * @return the sanitized DN
 	 */
 	private function sanitizeDN($dn) {
+		//treating multiple base DNs
+		if(is_array($dn)) {
+			$result = array();
+			foreach($dn as $singleDN) {
+			    $result[] = $this->sanitizeDN($singleDN);
+			}
+			return $result;
+		}
+
 		//OID sometimes gives back DNs with whitespace after the comma a la "uid=foo, cn=bar, dn=..." We need to tackle this!
 		$dn = preg_replace('/([^\\\]),(\s+)/u', '\1,', $dn);
 
@@ -212,9 +221,11 @@ abstract class Access {
 	 * returns the internal ownCloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
 	 */
 	public function dn2groupname($dn, $ldapname = null) {
-		if(mb_strripos($dn, $this->sanitizeDN($this->connection->ldapBaseGroups), 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($this->sanitizeDN($this->connection->ldapBaseGroups), 'UTF-8'))) {
+		//To avoid bypassing the base DN settings under certain circumstances with the group support, check whether the provided DN matches one of the given Bases
+		if(!$this->isDNPartOfBase($dn, $this->connection->ldapBaseGroups)) {
 			return false;
 		}
+
 		return $this->dn2ocname($dn, $ldapname, false);
 	}
 
@@ -227,9 +238,11 @@ abstract class Access {
 	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
 	 */
 	public function dn2username($dn, $ldapname = null) {
-		if(mb_strripos($dn, $this->sanitizeDN($this->connection->ldapBaseUsers), 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($this->sanitizeDN($this->connection->ldapBaseUsers), 'UTF-8'))) {
+		//To avoid bypassing the base DN settings under certain circumstances with the group support, check whether the provided DN matches one of the given Bases
+		if(!$this->isDNPartOfBase($dn, $this->connection->ldapBaseUsers)) {
 			return false;
 		}
+
 		return $this->dn2ocname($dn, $ldapname, true);
 	}
 
@@ -544,13 +557,17 @@ abstract class Access {
 		//check wether paged search should be attempted
 		$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, $limit, $offset);
 
-		$sr = ldap_search($link_resource, $base, $filter, $attr);
-		if(!$sr) {
+		$linkResources = array_pad(array(), count($base), $link_resource);
+		$sr = ldap_search($linkResources, $base, $filter, $attr);
+		if(!is_array($sr)) {
 			\OCP\Util::writeLog('user_ldap', 'Error when searching: '.ldap_error($link_resource).' code '.ldap_errno($link_resource), \OCP\Util::ERROR);
 			\OCP\Util::writeLog('user_ldap', 'Attempt for Paging?  '.print_r($pagedSearchOK, true), \OCP\Util::ERROR);
 			return array();
 		}
-		$findings = ldap_get_entries($link_resource, $sr );
+		$findings = array();
+		foreach($sr as $key => $res) {
+		    $findings = array_merge($findings, ldap_get_entries($link_resource, $res ));
+		}
 		if($pagedSearchOK) {
 			\OCP\Util::writeLog('user_ldap', 'Paged search successful', \OCP\Util::INFO);
 			ldap_control_paged_result_response($link_resource, $sr, $cookie);
@@ -789,6 +806,26 @@ abstract class Access {
 	 */
 	private function DNasBaseParameter($dn) {
 		return str_replace('\\5c', '\\', $dn);
+	}
+
+	/**
+	 * @brief checks if the given DN is part of the given base DN(s)
+	 * @param $dn the DN
+	 * @param $bases array containing the allowed base DN or DNs
+	 * @returns Boolean
+	 */
+	private function isDNPartOfBase($dn, $bases) {
+		$bases = $this->sanitizeDN($bases);
+		foreach($bases as $base) {
+			$belongsToBase = true;
+		    if(mb_strripos($dn, $base, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($base))) {
+				$belongsToBase = false;
+		    }
+		    if($belongsToBase) {
+				break;
+		    }
+		}
+		return $belongsToBase;
 	}
 
 	/**
