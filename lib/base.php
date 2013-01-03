@@ -193,6 +193,15 @@ class OC
         );
     }
 
+	public static function checkConfig() {
+		if (file_exists(OC::$SERVERROOT . "/config/config.php") and !is_writable(OC::$SERVERROOT . "/config/config.php")) {
+			$tmpl = new OC_Template('', 'error', 'guest');
+			$tmpl->assign('errors', array(1 => array('error' => "Can't write into config directory 'config'", 'hint' => "You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
+			$tmpl->printPage();
+			exit();
+		}
+	}
+
     public static function checkInstalled()
     {
         // Redirect to installer if not installed
@@ -219,43 +228,58 @@ class OC
         }
     }
 
-    public static function checkUpgrade()
-    {
-        if (OC_Config::getValue('installed', false)) {
-            $installedVersion = OC_Config::getValue('version', '0.0.0');
-            $currentVersion = implode('.', OC_Util::getVersion());
-            if (version_compare($currentVersion, $installedVersion, '>')) {
-                // Check if the .htaccess is existing - this is needed for upgrades from really old ownCloud versions
-                if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
-                    if (!OC_Util::ishtaccessworking()) {
-                        if (!file_exists(OC::$SERVERROOT . '/data/.htaccess')) {
-                            OC_Setup::protectDataDirectory();
-                        }
-                    }
-                }
-                OC_Log::write('core', 'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, OC_Log::DEBUG);
-                $result = OC_DB::updateDbFromStructure(OC::$SERVERROOT . '/db_structure.xml');
-                if (!$result) {
-                    echo 'Error while upgrading the database';
-                    die();
-                }
-                if (file_exists(OC::$SERVERROOT . "/config/config.php") and !is_writable(OC::$SERVERROOT . "/config/config.php")) {
-                    $tmpl = new OC_Template('', 'error', 'guest');
-                    $tmpl->assign('errors', array(1 => array('error' => "Can't write into config directory 'config'", 'hint' => "You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
-                    $tmpl->printPage();
-                    exit;
-                }
-                $minimizerCSS = new OC_Minimizer_CSS();
-                $minimizerCSS->clearCache();
-                $minimizerJS = new OC_Minimizer_JS();
-                $minimizerJS->clearCache();
-                OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
-                OC_App::checkAppsRequirements();
-                // load all apps to also upgrade enabled apps
-                OC_App::loadApps();
-            }
-        }
-    }
+	public static function checkMaintenanceMode() {
+		if (OC_Config::getValue('maintenance', false)) {
+			$tmpl = new OC_Template('', 'error', 'guest');
+			$tmpl->printPage();
+			exit();
+		}
+	}
+
+	public static function checkUpgrade($showTemplate = true) {
+		if (OC_Config::getValue('installed', false)) {
+			$installedVersion = OC_Config::getValue('version', '0.0.0');
+			$currentVersion = implode('.', OC_Util::getVersion());
+			if (version_compare($currentVersion, $installedVersion, '>')) {
+				if ($showTemplate) {
+					OC_Log::write('core', 'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, OC_Log::DEBUG);
+					$tmpl = new OC_Template('', 'error', 'guest');
+					$tmpl->printPage();
+					exit();
+				} else {
+					return true;
+				}
+			}
+			return false;
+		}
+	}
+
+	public static function doUpgrade() {
+		if (self::checkUpgrade(false)) {
+			OC_Config::setValue('maintenance', true);
+			// Check if the .htaccess is existing - this is needed for upgrades from really old ownCloud versions
+			if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
+				if (!OC_Util::ishtaccessworking()) {
+					if (!file_exists(OC::$SERVERROOT . '/data/.htaccess')) {
+						OC_Setup::protectDataDirectory();
+					}
+				}
+			}
+			$result = OC_DB::updateDbFromStructure(OC::$SERVERROOT . '/db_structure.xml');
+			if (!$result) {
+				echo 'Error while upgrading the database';
+				die();
+			}
+			$minimizerCSS = new OC_Minimizer_CSS();
+			$minimizerCSS->clearCache();
+			$minimizerJS = new OC_Minimizer_JS();
+			$minimizerJS->clearCache();
+			OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
+			OC_App::checkAppsRequirements();
+			// load all apps to also upgrade enabled apps
+			OC_App::loadApps();
+		}
+	}
 
     public static function initTemplateEngine()
     {
@@ -403,10 +427,12 @@ class OC
         stream_wrapper_register('static', 'OC_StaticStreamWrapper');
         stream_wrapper_register('close', 'OC_CloseStreamWrapper');
 
+	self::checkConfig();
         self::checkInstalled();
         self::checkSSL();
         self::initSession();
         self::initTemplateEngine();
+	self::checkMaintenanceMode();
         self::checkUpgrade();
 
         $errors = OC_Util::checkServer();
