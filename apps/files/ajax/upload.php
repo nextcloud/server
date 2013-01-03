@@ -14,6 +14,7 @@ if (!isset($_FILES['files'])) {
 	OCP\JSON::error(array('data' => array( 'message' => $l->t( 'No file was uploaded. Unknown error' ))));
 	exit();
 }
+
 foreach ($_FILES['files']['error'] as $error) {
 	if ($error != 0) {
 		$errors = array(
