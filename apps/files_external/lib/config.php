@@ -122,7 +122,7 @@ class OC_Mount_Config {
 				foreach ($mounts as $mountPoint => $mount) {
 					// Update old classes to new namespace
 					if (strpos($mount['class'], 'OC_Filestorage_') !== false) {
-						$mount['class'] = '\OC\Files\Storage\\'.substr($mount['class'], 15, strlen($mount['class']) - 15);
+						$mount['class'] = '\OC\Files\Storage\\'.substr($mount['class'], 15);
 					}
 					// Remove '/$user/files/' from mount point
 					$mountPoint = substr($mountPoint, 13);
@@ -145,7 +145,7 @@ class OC_Mount_Config {
 				foreach ($mounts as $mountPoint => $mount) {
 					// Update old classes to new namespace
 					if (strpos($mount['class'], 'OC_Filestorage_') !== false) {
-						$mount['class'] = '\OC\Files\Storage\\'.substr($mount['class'], 15, strlen($mount['class']) - 15);
+						$mount['class'] = '\OC\Files\Storage\\'.substr($mount['class'], 15);
 					}
 					// Remove '/$user/files/' from mount point
 					$mountPoint = substr($mountPoint, 13);
@@ -179,7 +179,7 @@ class OC_Mount_Config {
 			foreach ($mountPoints[self::MOUNT_TYPE_USER][$uid] as $mountPoint => $mount) {
 				// Update old classes to new namespace
 				if (strpos($mount['class'], 'OC_Filestorage_') !== false) {
-					$mount['class'] = '\OC\Files\Storage\\'.substr($mount['class'], 15, strlen($mount['class']) - 15);
+					$mount['class'] = '\OC\Files\Storage\\'.substr($mount['class'], 15);
 				}
 				// Remove '/uid/files/' from mount point
 				$personal[substr($mountPoint, strlen($uid) + 8)] = array('class' => $mount['class'],

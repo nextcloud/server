@@ -366,7 +366,7 @@ class Filesystem {
 		}
 		// Update old classes to new namespace
 		if (strpos($class, 'OC_Filestorage_') !== false) {
-			$class = '\OC\Files\Storage\\'.substr($class, 15, strlen($class) - 15);
+			$class = '\OC\Files\Storage\\'.substr($class, 15);
 		}
 		if ($class instanceof \OC\Files\Storage\Storage) {
 			self::$mounts[$mountpoint] = array('class' => get_class($class), 'arguments' => $arguments);
