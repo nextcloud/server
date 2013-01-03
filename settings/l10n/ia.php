@@ -19,8 +19,6 @@
 "Name" => "Nomine",
 "Groups" => "Gruppos",
 "Create" => "Crear",
-"Default Quota" => "Quota predeterminate",
 "Other" => "Altere",
-"Quota" => "Quota",
 "Delete" => "Deler"
 );

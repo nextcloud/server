@@ -26,6 +26,5 @@
 "Groups" => "Grupper",
 "Create" => "Lag",
 "Other" => "Anna",
-"Quota" => "Kvote",
 "Delete" => "Slett"
 );

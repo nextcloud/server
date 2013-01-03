@@ -38,9 +38,7 @@
 "Name" => "Nimi",
 "Groups" => "Grupid",
 "Create" => "Lisa",
-"Default Quota" => "Vaikimisi kvoot",
 "Other" => "Muu",
 "Group Admin" => "Grupi admin",
-"Quota" => "Mahupiir",
 "Delete" => "Kustuta"
 );

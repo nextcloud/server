@@ -90,7 +90,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getEditionString() {
-			return '';
+		return '';
 	}
 
 	/**
@@ -290,14 +290,14 @@ class OC_Util {
 		if (isset($_REQUEST['redirect_url'])) {
 			$redirect_url = OC_Util::sanitizeHTML($_REQUEST['redirect_url']);
 			$parameters['redirect_url'] = urlencode($redirect_url);
-		} 
+		}
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
 
 	/**
-	* Check if the app is enabled, redirects to home if not
-	*/
+	 * Check if the app is enabled, redirects to home if not
+	 */
 	public static function checkAppEnabled($app) {
 		if( !OC_App::isEnabled($app)) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
@@ -306,9 +306,9 @@ class OC_Util {
 	}
 
 	/**
-	* Check if the user is logged in, redirects to home if not. With
-	* redirect URL parameter to the request URI.
-	*/
+	 * Check if the user is logged in, redirects to home if not. With
+	 * redirect URL parameter to the request URI.
+	 */
 	public static function checkLoggedIn() {
 		// Check if we are a user
 		if( !OC_User::isLoggedIn()) {
@@ -318,8 +318,8 @@ class OC_Util {
 	}
 
 	/**
-	* Check if the user is a admin, redirects to home if not
-	*/
+	 * Check if the user is a admin, redirects to home if not
+	 */
 	public static function checkAdminUser() {
 		// Check if we are a user
 		self::checkLoggedIn();
@@ -331,9 +331,9 @@ class OC_Util {
 	}
 
 	/**
-	* Check if the user is a subadmin, redirects to home if not
-	* @return array $groups where the current user is subadmin
-	*/
+	 * Check if the user is a subadmin, redirects to home if not
+	 * @return array $groups where the current user is subadmin
+	 */
 	public static function checkSubAdminUser() {
 		// Check if we are a user
 		self::checkLoggedIn();
@@ -349,19 +349,19 @@ class OC_Util {
 	}
 
 	/**
-	* Check if the user verified the login with his password in the last 15 minutes
-	* If not, the user will be shown a password verification page
-	*/
+	 * Check if the user verified the login with his password in the last 15 minutes
+	 * If not, the user will be shown a password verification page
+	 */
 	public static function verifyUser() {
 		if(OC_Config::getValue('enhancedauth', false) === true) {
-					// Check password to set session
+			// Check password to set session
 			if(isset($_POST['password'])) {
 				if (OC_User::login(OC_User::getUser(), $_POST["password"] ) === true) {
 					$_SESSION['verifiedLogin']=time() + OC_Config::getValue('enhancedauthtime', 15 * 60);
 				}
 			}
 
-		// Check if the user verified his password
+			// Check if the user verified his password
 			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
 				OC_Template::printGuestPage("", "verify",  array('username' => OC_User::getUser()));
 				exit();
@@ -370,9 +370,9 @@ class OC_Util {
 	}
 
 	/**
-	* Check if the user verified the login with his password
-	* @return bool
-	*/
+	 * Check if the user verified the login with his password
+	 * @return bool
+	 */
 	public static function isUserVerified() {
 		if(OC_Config::getValue('enhancedauth', false) === true) {
 			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
@@ -383,8 +383,8 @@ class OC_Util {
 	}
 
 	/**
-	* Redirect to the user default page
-	*/
+	 * Redirect to the user default page
+	 */
 	public static function redirectToDefaultPage() {
 		if(isset($_REQUEST['redirect_url'])) {
 			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
@@ -546,9 +546,9 @@ class OC_Util {
 	}
 
 
-        /**
-         * Check if the setlocal call doesn't work. This can happen if the right local packages are not available on the server.
-         */
+	/**
+	 * Check if the setlocal call doesn't work. This can happen if the right local packages are not available on the server.
+	 */
 	public static function issetlocaleworking() {
 		$result=setlocale(LC_ALL, 'en_US.UTF-8');
 		if($result==false) {
@@ -558,20 +558,20 @@ class OC_Util {
 		}
 	}
 
-        /**
-         * Check if the ownCloud server can connect to the internet
-         */
+	/**
+	 * Check if the ownCloud server can connect to the internet
+	 */
 	public static function isinternetconnectionworking() {
 
 		// try to connect to owncloud.org to see if http connections to the internet are possible.
-		$connected = @fsockopen("www.owncloud.org", 80); 
+		$connected = @fsockopen("www.owncloud.org", 80);
 		if ($connected) {
 			fclose($connected);
 			return true;
 		}else{
 
 			// second try in case one server is down
-			$connected = @fsockopen("apps.owncloud.com", 80); 
+			$connected = @fsockopen("apps.owncloud.com", 80);
 			if ($connected) {
 				fclose($connected);
 				return true;
@@ -594,11 +594,11 @@ class OC_Util {
 
 
 	/**
-	* @brief Generates a cryptographical secure pseudorandom string
-	* @param Int with the length of the random string
-	* @return String
-	* Please also update secureRNG_available if you change something here
-	*/
+	 * @brief Generates a cryptographical secure pseudorandom string
+	 * @param Int with the length of the random string
+	 * @return String
+	 * Please also update secureRNG_available if you change something here
+	 */
 	public static function generate_random_bytes($length = 30) {
 
 		// Try to use openssl_random_pseudo_bytes
@@ -630,9 +630,9 @@ class OC_Util {
 	}
 
 	/**
-	* @brief Checks if a secure random number generator is available
-	* @return bool
-	*/
+	 * @brief Checks if a secure random number generator is available
+	 * @return bool
+	 */
 	public static function secureRNG_available() {
 
 		// Check openssl_random_pseudo_bytes
@@ -651,48 +651,61 @@ class OC_Util {
 
 		return false;
 	}
-        
-        /**
-         * @Brief Get file content via curl.
-         * @param string $url Url to get content
-         * @return string of the response or false on error
-         * This function get the content of a page via curl, if curl is enabled.
-         * If not, file_get_element is used.
-         */
-        
-        public static function getUrlContent($url){
-            
-            if  (function_exists('curl_init')) {
-                
-                $curl = curl_init();
 
-                curl_setopt($curl, CURLOPT_HEADER, 0);
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
-                curl_setopt($curl, CURLOPT_URL, $url);
-		curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
-                if(OC_Config::getValue('proxy','')<>'') {
-			curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));
-		}
-                if(OC_Config::getValue('proxyuserpwd','')<>'') {
-			curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('proxyuserpwd'));
-		}
-                $data = curl_exec($curl);
-                curl_close($curl);
+	/**
+	 * @Brief Get file content via curl.
+	 * @param string $url Url to get content
+	 * @return string of the response or false on error
+	 * This function get the content of a page via curl, if curl is enabled.
+	 * If not, file_get_element is used.
+	 */
 
-            } else {
-                
-                $ctx = stream_context_create(
-                    array(
-                        'http' => array(
-                            'timeout' => 10
-                        )
-                    )
-                );
-                $data=@file_get_contents($url, 0, $ctx);
-                
-            }
-            return $data;
+	public static function getUrlContent($url){
+
+		if  (function_exists('curl_init')) {
+
+			$curl = curl_init();
+
+			curl_setopt($curl, CURLOPT_HEADER, 0);
+			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
+			curl_setopt($curl, CURLOPT_URL, $url);
+			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
+			if(OC_Config::getValue('proxy','')<>'') {
+				curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));
+			}
+			if(OC_Config::getValue('proxyuserpwd','')<>'') {
+				curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('proxyuserpwd'));
+			}
+			$data = curl_exec($curl);
+			curl_close($curl);
+
+		} else {
+			$contextArray = null;
+
+			if(OC_Config::getValue('proxy','')<>'') {
+				$contextArray = array(
+					'http' => array(
+						'timeout' => 10,
+						'proxy' => OC_Config::getValue('proxy')
+					)
+				);
+			} else {
+				$contextArray = array(
+					'http' => array(
+						'timeout' => 10
+					)
+				);
+			}
+
+
+			$ctx = stream_context_create(
+				$contextArray
+			);
+			$data=@file_get_contents($url, 0, $ctx);
+
+		}
+		return $data;
 	}
-        
+
 }

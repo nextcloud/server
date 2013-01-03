@@ -53,9 +53,7 @@
 "Name" => "Nimi",
 "Groups" => "Ryhmät",
 "Create" => "Luo",
-"Default Quota" => "Oletuskiintiö",
 "Other" => "Muu",
 "Group Admin" => "Ryhmän ylläpitäjä",
-"Quota" => "Kiintiö",
 "Delete" => "Poista"
 );

@@ -37,9 +37,7 @@
 "Name" => "Nom",
 "Groups" => "Grops",
 "Create" => "Crea",
-"Default Quota" => "Quota per defaut",
 "Other" => "Autres",
 "Group Admin" => "Grop Admin",
-"Quota" => "Quota",
 "Delete" => "Escafa"
 );

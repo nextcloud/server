@@ -28,9 +28,7 @@
 "Name" => "Ime",
 "Groups" => "Grupe",
 "Create" => "Izradi",
-"Default Quota" => "standardni kvota",
 "Other" => "ostali",
 "Group Admin" => "Grupa Admin",
-"Quota" => "kvota",
 "Delete" => "Obriši"
 );

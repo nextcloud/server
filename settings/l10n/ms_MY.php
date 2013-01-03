@@ -27,8 +27,6 @@
 "Name" => "Nama",
 "Groups" => "Kumpulan",
 "Create" => "Buat",
-"Default Quota" => "Kuota Lalai",
 "Other" => "Lain",
-"Quota" => "Kuota",
 "Delete" => "Padam"
 );

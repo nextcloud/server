@@ -41,9 +41,7 @@
 "Name" => "Nomo",
 "Groups" => "Grupoj",
 "Create" => "Krei",
-"Default Quota" => "Defaŭlta kvoto",
 "Other" => "Alia",
 "Group Admin" => "Grupadministranto",
-"Quota" => "Kvoto",
 "Delete" => "Forigi"
 );

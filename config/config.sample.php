@@ -78,6 +78,9 @@ $CONFIG = array(
 /* Host to use for sending mail, depends on mail_smtpmode if this is used */
 "mail_smtphost" => "127.0.0.1",
 
+/* Port to use for sending mail, depends on mail_smtpmode if this is used */
+"mail_smtpport" => 25,
+
 /* authentication needed to send mail, depends on mail_smtpmode if this is used
  * (false = disable authentication)
  */

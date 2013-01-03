@@ -41,9 +41,7 @@
 "Name" => "Meno",
 "Groups" => "Skupiny",
 "Create" => "Vytvoriť",
-"Default Quota" => "Predvolená kvóta",
 "Other" => "Iné",
 "Group Admin" => "Správca skupiny",
-"Quota" => "Kvóta",
 "Delete" => "Odstrániť"
 );

@@ -31,8 +31,6 @@
 "Name" => "Vardas",
 "Groups" => "Grupės",
 "Create" => "Sukurti",
-"Default Quota" => "Numatytoji kvota",
 "Other" => "Kita",
-"Quota" => "Limitas",
 "Delete" => "Ištrinti"
 );

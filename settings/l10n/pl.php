@@ -41,9 +41,7 @@
 "Name" => "Nazwa",
 "Groups" => "Grupy",
 "Create" => "Utwórz",
-"Default Quota" => "Domyślny udział",
 "Other" => "Inne",
 "Group Admin" => "Grupa Admin",
-"Quota" => "Udział",
 "Delete" => "Usuń"
 );

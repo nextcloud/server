@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-21 00:10+0100\n"
-"PO-Revision-Date: 2012-12-20 06:39+0000\n"
+"POT-Creation-Date: 2012-12-31 00:04+0100\n"
+"PO-Revision-Date: 2012-12-30 07:47+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -167,7 +167,7 @@ msgstr "Scarica client Android"
 msgid "Download iOS Client"
 msgstr "Scarica client iOS"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "Password"
 
@@ -237,11 +237,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Sviluppato dalla <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunità di ownCloud</a>, il <a href=\"https://github.com/owncloud\" target=\"_blank\">codice sorgente</a> è licenziato nei termini della <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "Nome"
 
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "Gruppi"
 
@@ -250,21 +250,29 @@ msgid "Create"
 msgstr "Crea"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "Quota predefinita"
+msgid "Default Storage"
+msgstr "Archiviazione predefinita"
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr "Illimitata"
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "Altro"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "Gruppo di amministrazione"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "Quote"
+#: templates/users.php:87
+msgid "Storage"
+msgstr "Archiviazione"
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr "Predefinito"
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "Elimina"

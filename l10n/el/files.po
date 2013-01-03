@@ -6,6 +6,7 @@
 # Dimitris M. <monopatis@gmail.com>, 2012.
 # Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012.
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
+# Konstantinos Tzanidis <tzanidis@gmail.com>, 2012.
 # Marios Bekatoros <>, 2012.
 # Petros Kyladitis <petros.kyladitis@gmail.com>, 2011-2012.
 # Γιάννης Ανθυμίδης <yannanth@gmail.com>, 2012.
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-03 00:04+0100\n"
-"PO-Revision-Date: 2012-12-02 11:20+0000\n"
-"Last-Translator: Efstathios Iosifidis <diamond_gr@freemail.gr>\n"
+"POT-Creation-Date: 2012-12-28 00:20+0100\n"
+"PO-Revision-Date: 2012-12-27 13:50+0000\n"
+"Last-Translator: Konstantinos Tzanidis <tzanidis@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,11 +59,11 @@ msgstr "Αποτυχία εγγραφής στο δίσκο"
 msgid "Files"
 msgstr "Αρχεία"
 
-#: js/fileactions.js:117 templates/index.php:83 templates/index.php:84
+#: js/fileactions.js:117 templates/index.php:84 templates/index.php:85
 msgid "Unshare"
 msgstr "Διακοπή κοινής χρήσης"
 
-#: js/fileactions.js:119 templates/index.php:89 templates/index.php:90
+#: js/fileactions.js:119 templates/index.php:90 templates/index.php:91
 msgid "Delete"
 msgstr "Διαγραφή"
 
@@ -70,39 +71,39 @@ msgstr "Διαγραφή"
 msgid "Rename"
 msgstr "Μετονομασία"
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:199 js/filelist.js:201
 msgid "{new_name} already exists"
 msgstr "{new_name} υπάρχει ήδη"
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:199 js/filelist.js:201
 msgid "replace"
 msgstr "αντικατέστησε"
 
-#: js/filelist.js:201
+#: js/filelist.js:199
 msgid "suggest name"
 msgstr "συνιστώμενο όνομα"
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:199 js/filelist.js:201
 msgid "cancel"
 msgstr "ακύρωση"
 
-#: js/filelist.js:250
+#: js/filelist.js:248
 msgid "replaced {new_name}"
 msgstr "{new_name} αντικαταστάθηκε"
 
-#: js/filelist.js:250 js/filelist.js:252 js/filelist.js:284 js/filelist.js:286
+#: js/filelist.js:248 js/filelist.js:250 js/filelist.js:282 js/filelist.js:284
 msgid "undo"
 msgstr "αναίρεση"
 
-#: js/filelist.js:252
+#: js/filelist.js:250
 msgid "replaced {new_name} with {old_name}"
 msgstr "αντικαταστάθηκε το {new_name} με {old_name}"
 
-#: js/filelist.js:284
+#: js/filelist.js:282
 msgid "unshared {files}"
 msgstr "μη διαμοιρασμένα {files}"
 
-#: js/filelist.js:286
+#: js/filelist.js:284
 msgid "deleted {files}"
 msgstr "διαγραμμένα {files}"
 
@@ -112,80 +113,80 @@ msgid ""
 "allowed."
 msgstr "Μη έγκυρο όνομα, '\\', '/', '<', '>', ':', '\"', '|', '?' και '*' δεν επιτρέπονται."
 
-#: js/files.js:183
+#: js/files.js:174
 msgid "generating ZIP-file, it may take some time."
 msgstr "παραγωγή αρχείου ZIP, ίσως διαρκέσει αρκετά."
 
-#: js/files.js:218
+#: js/files.js:212
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Αδυναμία στην αποστολή του αρχείου σας αφού είναι φάκελος ή έχει 0 bytes"
 
-#: js/files.js:218
+#: js/files.js:212
 msgid "Upload Error"
 msgstr "Σφάλμα Αποστολής"
 
-#: js/files.js:235
+#: js/files.js:229
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: js/files.js:254 js/files.js:368 js/files.js:398
+#: js/files.js:248 js/files.js:362 js/files.js:392
 msgid "Pending"
 msgstr "Εκκρεμεί"
 
-#: js/files.js:274
+#: js/files.js:268
 msgid "1 file uploading"
 msgstr "1 αρχείο ανεβαίνει"
 
-#: js/files.js:277 js/files.js:331 js/files.js:346
+#: js/files.js:271 js/files.js:325 js/files.js:340
 msgid "{count} files uploading"
 msgstr "{count} αρχεία ανεβαίνουν"
 
-#: js/files.js:349 js/files.js:382
+#: js/files.js:343 js/files.js:376
 msgid "Upload cancelled."
 msgstr "Η αποστολή ακυρώθηκε."
 
-#: js/files.js:451
+#: js/files.js:445
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Η αποστολή του αρχείου βρίσκεται σε εξέλιξη.  Έξοδος από την σελίδα τώρα θα ακυρώσει την αποστολή."
+msgstr "Η αποστολή του αρχείου βρίσκεται σε εξέλιξη. Το κλείσιμο της σελίδας θα ακυρώσει την αποστολή."
 
-#: js/files.js:523
+#: js/files.js:515
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
 msgstr "Μη έγκυρο όνομα φακέλου. Η χρήση του \"Shared\" είναι δεσμευμένη από το Owncloud"
 
-#: js/files.js:704
+#: js/files.js:699
 msgid "{count} files scanned"
 msgstr "{count} αρχεία ανιχνεύτηκαν"
 
-#: js/files.js:712
+#: js/files.js:707
 msgid "error while scanning"
 msgstr "σφάλμα κατά την ανίχνευση"
 
-#: js/files.js:785 templates/index.php:65
+#: js/files.js:780 templates/index.php:66
 msgid "Name"
 msgstr "Όνομα"
 
-#: js/files.js:786 templates/index.php:76
+#: js/files.js:781 templates/index.php:77
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: js/files.js:787 templates/index.php:78
+#: js/files.js:782 templates/index.php:79
 msgid "Modified"
 msgstr "Τροποποιήθηκε"
 
-#: js/files.js:814
+#: js/files.js:801
 msgid "1 folder"
 msgstr "1 φάκελος"
 
-#: js/files.js:816
+#: js/files.js:803
 msgid "{count} folders"
 msgstr "{count} φάκελοι"
 
-#: js/files.js:824
+#: js/files.js:811
 msgid "1 file"
 msgstr "1 αρχείο"
 
-#: js/files.js:826
+#: js/files.js:813
 msgid "{count} files"
 msgstr "{count} αρχεία"
 
@@ -245,28 +246,28 @@ msgstr "Αποστολή"
 msgid "Cancel upload"
 msgstr "Ακύρωση αποστολής"
 
-#: templates/index.php:57
+#: templates/index.php:58
 msgid "Nothing in here. Upload something!"
 msgstr "Δεν υπάρχει τίποτα εδώ. Ανέβασε κάτι!"
 
-#: templates/index.php:71
+#: templates/index.php:72
 msgid "Download"
 msgstr "Λήψη"
 
-#: templates/index.php:103
+#: templates/index.php:104
 msgid "Upload too large"
 msgstr "Πολύ μεγάλο αρχείο προς αποστολή"
 
-#: templates/index.php:105
+#: templates/index.php:106
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος αποστολής αρχείων σε αυτόν το διακομιστή."
+msgstr "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος αποστολής αρχείων σε αυτόν τον διακομιστή."
 
-#: templates/index.php:110
+#: templates/index.php:111
 msgid "Files are being scanned, please wait."
 msgstr "Τα αρχεία σαρώνονται, παρακαλώ περιμένετε"
 
-#: templates/index.php:113
+#: templates/index.php:114
 msgid "Current scanning"
 msgstr "Τρέχουσα αναζήτηση "

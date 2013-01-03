@@ -31,12 +31,12 @@
 namespace OCP;
 
 /**
- * This class provides convinient functions to send the correct http response headers
+ * This class provides convenient functions to send the correct http response headers
  */
 class Response {
 	/**
 	* @brief Enable response caching by sending correct HTTP headers
-	* @param $cache_time time to cache the response
+	* @param int $cache_time time to cache the response
 	*  >0		cache time in seconds
 	*  0 and <0	enable default browser caching
 	*  null		cache indefinitly
@@ -48,7 +48,7 @@ class Response {
 	/**
 	* Checks and set Last-Modified header, when the request matches sends a
 	* 'not modified' response
-	* @param $lastModified time when the reponse was last modified
+	* @param string $lastModified time when the reponse was last modified
 	*/
 	static public function setLastModifiedHeader( $lastModified ) {
 		return(\OC_Response::setLastModifiedHeader( $lastModified ));
@@ -65,7 +65,7 @@ class Response {
 	/**
 	* Checks and set ETag header, when the request matches sends a
 	* 'not modified' response
-	* @param $etag token to use for modification check
+	* @param string $etag token to use for modification check
 	*/
 	static public function setETagHeader( $etag ) {
 		return(\OC_Response::setETagHeader( $etag ));
@@ -73,15 +73,15 @@ class Response {
 
 	/**
 	* @brief Send file as response, checking and setting caching headers
-	* @param $filepath of file to send
+	* @param string $filepath of file to send
 	*/
 	static public function sendFile( $filepath ) {
 		return(\OC_Response::sendFile( $filepath ));
 	}
 
 	/**
-	* @brief Set reponse expire time
-	* @param $expires date-time when the response expires
+	* @brief Set response expire time
+	* @param string|\DateTime $expires date-time when the response expires
 	*  string for DateInterval from now
 	*  DateTime object when to expire response
 	*/
@@ -91,7 +91,7 @@ class Response {
 
 	/**
 	* @brief Send redirect response
-	* @param $location to redirect to
+	* @param string $location to redirect to
 	*/
 	static public function redirect( $location ) {
 		return(\OC_Response::redirect( $location ));

@@ -53,9 +53,11 @@
 "Name" => "Jméno",
 "Groups" => "Skupiny",
 "Create" => "Vytvořit",
-"Default Quota" => "Výchozí kvóta",
+"Default Storage" => "Výchozí úložiště",
+"Unlimited" => "Neomezeně",
 "Other" => "Jiná",
 "Group Admin" => "Správa skupiny",
-"Quota" => "Kvóta",
+"Storage" => "Úložiště",
+"Default" => "Výchozí",
 "Delete" => "Smazat"
 );
