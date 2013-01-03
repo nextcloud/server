@@ -66,7 +66,7 @@ if(strpos($dir, '..') === false) {
 	OCP\JSON::encodedPrint($result);
 	exit();
 } else {
-	$error='invalid dir';
+	$error=$l->t( 'Invalid directory.' );
 }
 
-OCP\JSON::error(array('data' => array('error' => $error, 'file' => $fileName)));
+OCP\JSON::error(array('data' => array('message' => $error )));
