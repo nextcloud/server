@@ -38,8 +38,6 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 			$statResult[7] = $size;
 		}
 		return $statResult;
-
-		return $statResult;
 	}
 	public function filetype($path) {
 		$filetype=filetype($this->datadir.$path);
