@@ -642,6 +642,7 @@ class OC_App{
 					echo 'Failed to upgrade "'.$app.'". Exception="'.$e->getMessage().'"';
 					die;
 				}
+				OC_Hook::emit('update', 'success', 'Updated '.$app.' app');
 				OC_Appconfig::setValue($app, 'installed_version', OC_App::getAppVersion($app));
 			}
 		}

@@ -5,7 +5,11 @@ require_once '../../lib/base.php';
 
 if (OC::checkUpgrade(false)) {
 	$updateEventSource = new OC_EventSource();
-	$updateEventSource->send('success', 'Turned on maintenance mode');
+	$watcher = new UpdateWatcher($updateEventSource);
+	OC_Hook::connect('update', 'success', $watcher, 'success');
+	OC_Hook::connect('update', 'error', $watcher, 'error');
+	OC_Hook::connect('update', 'error', $watcher, 'failure');
+	$watcher->success('Turned on maintenance mode');
 	// Check if the .htaccess is existing - this is needed for upgrades from really old ownCloud versions
 	if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
 		if (!OC_Util::ishtaccessworking()) {
@@ -16,11 +20,9 @@ if (OC::checkUpgrade(false)) {
 	}
 	$result = OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/db_structure.xml');
 	if (!$result) {
-		$updateEventSource->send('failure', 'Error updating database');
-		$updateEventSource->close();
-		die();
+		$watcher->failure('Error updating database');
 	}
-	$updateEventSource->send('success', 'Updated database');
+	$watcher->success('Updated database');
 	$minimizerCSS = new OC_Minimizer_CSS();
 	$minimizerCSS->clearCache();
 	$minimizerJS = new OC_Minimizer_JS();
@@ -30,7 +32,43 @@ if (OC::checkUpgrade(false)) {
 	// load all apps to also upgrade enabled apps
 	OC_App::loadApps();
 	OC_Config::setValue('maintenance', false);
-	$updateEventSource->send('success', 'Turned off maintenance mode');
-	$updateEventSource->send('done', 'done');
-	$updateEventSource->close();
+	$watcher->success('Turned off maintenance mode');
+	$watcher->done();
+}
+
+class UpdateWatcher {
+	/**
+	 * @var \OC_EventSource $eventSource;
+	 */
+	private $eventSource;
+
+	public function __construct($eventSource) {
+		$this->eventSource = $eventSource;
+	}
+
+	public function success($message) {
+		OC_Util::obEnd();
+		$this->eventSource->send('success', $message);
+		ob_start();
+	}
+
+	public function error($message) {
+		OC_Util::obEnd();
+		$this->eventSource->send('error', $message);
+		ob_start();
+	}
+
+	public function failure($message) {
+		OC_Util::obEnd();
+		$this->eventSource->send('failure', $message);
+		$this->eventSource->close();
+		die();
+	}
+
+	public function done() {
+		OC_Util::obEnd();
+		$this->eventSource->send('done', '');
+		$this->eventSource->close();
+	}
+
 }
