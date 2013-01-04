@@ -115,6 +115,9 @@ $CONFIG = array(
  */
 // "datadirectory" => "",
 
+/* Enable maintenance mode to disable ownCloud */
+"maintenance" => false,
+
 "apps_paths" => array(
 
 /* Set an array of path for your apps directories
