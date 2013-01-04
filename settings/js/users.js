@@ -195,7 +195,7 @@ var UserList = {
                 checked:checked,
                 oncheck:checkHandeler,
                 onuncheck:checkHandeler,
-                minWidth:100,
+                minWidth:100
             });
         }
         if ($(element).attr('class') == 'subadminsselect') {
@@ -230,7 +230,7 @@ var UserList = {
                 checked:checked,
                 oncheck:checkHandeler,
                 onuncheck:checkHandeler,
-                minWidth:100,
+                minWidth:100
             });
         }
     }
@@ -387,7 +387,7 @@ $(document).ready(function () {
             {
                 username:username,
                 password:password,
-                groups:groups,
+                groups:groups
             },
             function (result) {
                 if (result.status != 'success') {
