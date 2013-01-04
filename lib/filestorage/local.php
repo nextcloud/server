@@ -190,7 +190,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 				return (float)exec('stat -c %s ' . escapeshellarg($fullPath));
 			}
 		} else {
-			OC_Log::write('core', 'Unknown OS: '.$name, OC_Log::ERROR);
+			OC_Log::write('core', 'Unable to determine file size of "'.$fullPath.'". Unknown OS: '.$name, OC_Log::ERROR);
 		}
 
 		return 0;
