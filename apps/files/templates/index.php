@@ -33,8 +33,6 @@
 					<input type="file" id="file_upload_start" name='files[]'/>
 					<a href="#" class="svg" onclick="return false;"
 					   title="<?php echo $l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
-					
-					<iframe name="file_upload_target_1" class="file_upload_target" src=""></iframe>
 				</form>
 			</div>
 			<div id="uploadprogresswrapper">
