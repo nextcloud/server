@@ -149,6 +149,10 @@ var FileList={
 			var newname=input.val();
 			if (Files.containsInvalidCharacters(newname)) {
 				return false;
+			} else if (newname.length == 0) {
+				$('#notification').text(t('files', "Name cannot be empty."));
+				$('#notification').fadeIn();
+				return false;
 			}
 			if (newname != name) {
 				if (FileList.checkName(name, newname, false)) {
@@ -182,6 +186,13 @@ var FileList={
 			form.remove();
 			td.children('a.name').show();
 			return false;
+		});
+		input.keyup(function(event){
+			if (event.keyCode == 27) {
+				tr.data('renaming',false);
+				form.remove();
+				td.children('a.name').show();
+			}
 		});
 		input.click(function(event){
 			event.stopPropagation();

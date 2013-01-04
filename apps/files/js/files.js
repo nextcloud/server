@@ -245,12 +245,12 @@ $(document).ready(function() {
 						}
 					});
 				}else{
-                    var dropTarget = $(e.originalEvent.target).closest('tr');
-                    if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
-                        var dirName = dropTarget.attr('data-file')
-                    }
+					var dropTarget = $(e.originalEvent.target).closest('tr');
+					if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
+						var dirName = dropTarget.attr('data-file')
+					}
 
-                    var date=new Date();
+					var date=new Date();
 					if(files){
 						for(var i=0;i<files.length;i++){
 							if(files[i].size>0){
@@ -303,9 +303,9 @@ $(document).ready(function() {
 								var jqXHR =  $('.file_upload_start').fileupload('send', {files: files[i],
 										formData: function(form) {
 											var formArray = form.serializeArray();
-                                            // array index 0 contains the max files size
-                                            // array index 1 contains the request token
-                                            // array index 2 contains the directory
+											// array index 0 contains the max files size
+											// array index 1 contains the request token
+											// array index 2 contains the directory
 											formArray[2]['value'] = dirName;
 											return formArray;
 										}}).success(function(result, textStatus, jqXHR) {
@@ -316,13 +316,13 @@ $(document).ready(function() {
 												$('#notification').fadeIn();
 											}
 											var file=response[0];
-                                            // TODO: this doesn't work if the file name has been changed server side
+											// TODO: this doesn't work if the file name has been changed server side
 											delete uploadingFiles[dirName][file.name];
-                                            if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
-                                                delete uploadingFiles[dirName];
-                                            }
+											if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
+												delete uploadingFiles[dirName];
+											}
 
-                                            var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
+											var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
 											var currentUploads = parseInt(uploadtext.attr('currentUploads'));
 											currentUploads -= 1;
 											uploadtext.attr('currentUploads', currentUploads);
@@ -445,7 +445,7 @@ $(document).ready(function() {
 		// http://stackoverflow.com/a/6700/11236
 		var size = 0, key;
 		for (key in obj) {
-		    if (obj.hasOwnProperty(key)) size++;
+			if (obj.hasOwnProperty(key)) size++;
 		}
 		return size;
 	};
@@ -489,7 +489,7 @@ $(document).ready(function() {
 		$('button.file_upload_filename').removeClass('active');
 		$('#new li').each(function(i,element){
 			if($(element).children('p').length==0){
-				$(element).children('input').remove();
+				$(element).children('form').remove();
 				$(element).append('<p>'+$(element).data('text')+'</p>');
 			}
 		});
@@ -509,7 +509,7 @@ $(document).ready(function() {
 
 		$('#new li').each(function(i,element){
 			if($(element).children('p').length==0){
-				$(element).children('input').remove();
+				$(element).children('form').remove();
 				$(element).append('<p>'+$(element).data('text')+'</p>');
 			}
 		});
@@ -518,20 +518,33 @@ $(document).ready(function() {
 		var text=$(this).children('p').text();
 		$(this).data('text',text);
 		$(this).children('p').remove();
+		var form=$('<form></form>');
 		var input=$('<input>');
-		$(this).append(input);
+		form.append(input);
+		$(this).append(form);
 		input.focus();
-		input.change(function(){
-            if (type != 'web' && Files.containsInvalidCharacters($(this).val())) {
-                return;
-            } else if( type == 'folder' && $('#dir').val() == '/' && $(this).val() == 'Shared') {
-                $('#notification').text(t('files','Invalid folder name. Usage of "Shared" is reserved by Owncloud'));
-                $('#notification').fadeIn();
-                return;
-            }
-            var name = getUniqueName($(this).val());
-			if (name != $(this).val()) {
-				FileList.checkName(name, $(this).val(), true);
+		form.submit(function(event){
+			event.stopPropagation();
+			event.preventDefault();
+			var newname=input.val();
+			if(type != 'web' && Files.containsInvalidCharacters(newname)){
+				return false;
+			} else if (newname.length == 0) {
+				if(type == 'web') {
+					$('#notification').text(t('files', "URL cannot be empty."));
+				} else {
+					$('#notification').text(t('files', "Name cannot be empty."));
+				}
+				$('#notification').fadeIn();
+				return false;
+			} else if( type == 'folder' && $('#dir').val() == '/' && newname == 'Shared') {
+				$('#notification').text(t('files','Invalid folder name. Usage of "Shared" is reserved by Owncloud'));
+				$('#notification').fadeIn();
+				return false;
+			}
+			var name = getUniqueName(newname);
+			if (newname != name) {
+				FileList.checkName(name, newname, true);
 				var hidden = true;
 			} else {
 				var hidden = false;
@@ -614,8 +627,8 @@ $(document).ready(function() {
 					});
 					break;
 			}
-			var li=$(this).parent();
-			$(this).remove();
+			var li=form.parent();
+			form.remove();
 			li.append('<p>'+li.data('text')+'</p>');
 			$('#new>a').click();
 		});
