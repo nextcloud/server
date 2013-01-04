@@ -229,8 +229,10 @@ class OC
     }
 
 	public static function checkMaintenanceMode() {
-		if (OC_Config::getValue('maintenance', false)) {
+		// Allow ajax update script to execute without being stopped
+		if (OC_Config::getValue('maintenance', false) && OC::$SUBURI != '/core/ajax/update.php') {
 			$tmpl = new OC_Template('', 'error', 'guest');
+			$tmpl->assign('errors', array(1 => array('error' => 'ownCloud is in maintenance mode')));
 			$tmpl->printPage();
 			exit();
 		}
@@ -241,9 +243,12 @@ class OC
 			$installedVersion = OC_Config::getValue('version', '0.0.0');
 			$currentVersion = implode('.', OC_Util::getVersion());
 			if (version_compare($currentVersion, $installedVersion, '>')) {
-				if ($showTemplate) {
+				if ($showTemplate && !OC_Config::getValue('maintenance', false)) {
+					OC_Config::setValue('maintenance', true);
 					OC_Log::write('core', 'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, OC_Log::DEBUG);
-					$tmpl = new OC_Template('', 'error', 'guest');
+					$tmpl = new OC_Template('', 'update', 'guest');
+					$tmpl->assign('current', $currentVersion);
+					$tmpl->assign('installed', $installedVersion);
 					$tmpl->printPage();
 					exit();
 				} else {
@@ -251,33 +256,6 @@ class OC
 				}
 			}
 			return false;
-		}
-	}
-
-	public static function doUpgrade() {
-		if (self::checkUpgrade(false)) {
-			OC_Config::setValue('maintenance', true);
-			// Check if the .htaccess is existing - this is needed for upgrades from really old ownCloud versions
-			if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
-				if (!OC_Util::ishtaccessworking()) {
-					if (!file_exists(OC::$SERVERROOT . '/data/.htaccess')) {
-						OC_Setup::protectDataDirectory();
-					}
-				}
-			}
-			$result = OC_DB::updateDbFromStructure(OC::$SERVERROOT . '/db_structure.xml');
-			if (!$result) {
-				echo 'Error while upgrading the database';
-				die();
-			}
-			$minimizerCSS = new OC_Minimizer_CSS();
-			$minimizerCSS->clearCache();
-			$minimizerJS = new OC_Minimizer_JS();
-			$minimizerJS->clearCache();
-			OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
-			OC_App::checkAppsRequirements();
-			// load all apps to also upgrade enabled apps
-			OC_App::loadApps();
 		}
 	}
 
@@ -296,12 +274,6 @@ class OC
         //OC_Util::addScript( "multiselect" );
         OC_Util::addScript('search', 'result');
         OC_Util::addScript('router');
-
-        if (OC_Config::getValue('installed', false)) {
-            if (OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
-                OC_Util::addScript('backgroundjobs');
-            }
-        }
 
         OC_Util::addStyle("styles");
         OC_Util::addStyle("multiselect");
@@ -433,7 +405,7 @@ class OC
         self::initSession();
         self::initTemplateEngine();
 	self::checkMaintenanceMode();
-        self::checkUpgrade();
+	self::checkUpgrade();
 
         $errors = OC_Util::checkServer();
         if (count($errors) > 0) {
@@ -508,6 +480,9 @@ class OC
         if (OC_Util::issetlocaleworking() == false) {
             OC_Log::write('core', 'setting locate to en_US.UTF-8 failed. Support is probably not installed on your system', OC_Log::ERROR);
         }
+	if (OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
+		OC_Util::addScript('backgroundjobs');
+	}
     }
 
     /**
