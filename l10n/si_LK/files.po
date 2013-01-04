@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-04 13:22+0100\n"
-"PO-Revision-Date: 2013-01-04 12:22+0000\n"
+"POT-Creation-Date: 2013-01-05 00:02+0100\n"
+"PO-Revision-Date: 2013-01-04 12:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,7 @@ msgstr ""
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "ගොනුවක් උඩුගත නොවුනි. නොහැඳිනු දෝෂයක්"
 
 #: ajax/upload.php:21
 msgid "There is no error, the file uploaded with success"

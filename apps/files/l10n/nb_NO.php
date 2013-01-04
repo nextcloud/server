@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Ingen filer ble lastet opp. Ukjent feil.",
 "There is no error, the file uploaded with success" => "Det er ingen feil. Filen ble lastet opp.",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Filstørrelsen overskrider maksgrensen på MAX_FILE_SIZE som ble oppgitt i HTML-skjemaet",
 "The uploaded file was only partially uploaded" => "Filopplastningen ble bare delvis gjennomført",

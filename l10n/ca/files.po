@@ -8,13 +8,14 @@
 #   <josep_tomas@hotmail.com>, 2012.
 # Josep Tomàs <jtomas.binsoft@gmail.com>, 2012.
 #   <rcalvoi@yahoo.com>, 2011-2012.
+#   <sacoo2@hotmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-04 13:22+0100\n"
-"PO-Revision-Date: 2013-01-04 12:22+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-05 00:02+0100\n"
+"PO-Revision-Date: 2013-01-04 14:32+0000\n"
+"Last-Translator: aseques <sacoo2@hotmail.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "No s'ha carregat cap fitxer. Error desconegut"
 
 #: ajax/upload.php:21
 msgid "There is no error, the file uploaded with success"
@@ -59,11 +60,11 @@ msgstr "Ha fallat en escriure al disc"
 
 #: ajax/upload.php:45
 msgid "Not enough space available"
-msgstr ""
+msgstr "No hi ha prou espai disponible"
 
 #: ajax/upload.php:69
 msgid "Invalid directory."
-msgstr ""
+msgstr "Directori no vàlid."
 
 #: appinfo/app.php:10
 msgid "Files"

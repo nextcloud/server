@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Jesse Jaara <jesse.jaara@gmail.com>, 2012.
-# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012.
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012-2013.
 # Johannes Korpela <>, 2012.
 #   <tehoratopato@gmail.com>, 2012.
 #   <tscooter@hotmail.com>, 2012.
@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-04 13:22+0100\n"
-"PO-Revision-Date: 2013-01-04 12:22+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-05 00:02+0100\n"
+"PO-Revision-Date: 2013-01-04 17:44+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +24,7 @@ msgstr ""
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "Tiedostoa ei lähetetty. Tuntematon virhe"
 
 #: ajax/upload.php:21
 msgid "There is no error, the file uploaded with success"
@@ -59,11 +59,11 @@ msgstr "Levylle kirjoitus epäonnistui"
 
 #: ajax/upload.php:45
 msgid "Not enough space available"
-msgstr ""
+msgstr "Tilaa ei ole riittävästi"
 
 #: ajax/upload.php:69
 msgid "Invalid directory."
-msgstr ""
+msgstr "Virheellinen kansio."
 
 #: appinfo/app.php:10
 msgid "Files"

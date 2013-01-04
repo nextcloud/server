@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Nessun file è stato inviato. Errore sconosciuto",
 "There is no error, the file uploaded with success" => "Non ci sono errori, file caricato con successo",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Il file caricato supera la direttiva upload_max_filesize in php.ini:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Il file caricato supera il valore MAX_FILE_SIZE definito nel form HTML",
@@ -6,6 +7,8 @@
 "No file was uploaded" => "Nessun file è stato caricato",
 "Missing a temporary folder" => "Cartella temporanea mancante",
 "Failed to write to disk" => "Scrittura su disco non riuscita",
+"Not enough space available" => "Spazio disponibile insufficiente",
+"Invalid directory." => "Cartella non valida.",
 "Files" => "File",
 "Unshare" => "Rimuovi condivisione",
 "Delete" => "Elimina",

@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Agustin Ferrario <>, 2012.
+# Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013.
 #   <devianpctek@gmail.com>, 2012.
 # Javier Llorente <javier@opensuse.org>, 2012.
 #   <juanma@kde.org.ar>, 2012.
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-04 13:22+0100\n"
-"PO-Revision-Date: 2013-01-04 12:22+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-05 00:02+0100\n"
+"PO-Revision-Date: 2013-01-04 13:10+0000\n"
+"Last-Translator: Agustin Ferrario <agustin.ferrario@hotmail.com.ar>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,7 @@ msgstr ""
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "Fallo no se subió el fichero"
 
 #: ajax/upload.php:21
 msgid "There is no error, the file uploaded with success"
@@ -61,11 +62,11 @@ msgstr "La escritura en disco ha fallado"
 
 #: ajax/upload.php:45
 msgid "Not enough space available"
-msgstr ""
+msgstr "No hay suficiente espacio disponible"
 
 #: ajax/upload.php:69
 msgid "Invalid directory."
-msgstr ""
+msgstr "Directorio invalido."
 
 #: appinfo/app.php:10
 msgid "Files"
