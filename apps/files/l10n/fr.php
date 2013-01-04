@@ -14,7 +14,7 @@
 "replace" => "remplacer",
 "suggest name" => "Suggérer un nom",
 "cancel" => "annuler",
-"replaced {new_name}" => "{new_name} a été replacé",
+"replaced {new_name}" => "{new_name} a été remplacé",
 "undo" => "annuler",
 "replaced {new_name} with {old_name}" => "{new_name} a été remplacé par {old_name}",
 "unshared {files}" => "Fichiers non partagés : {files}",
