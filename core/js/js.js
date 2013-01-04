@@ -289,6 +289,36 @@ OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
+OC.Notification={
+    getDefaultNotificationFunction: null,
+    setDefault: function(callback) {
+        OC.Notification.getDefaultNotificationFunction = callback;
+    },
+    hide: function(callback) {
+        $("#notification").text('');
+        $('#notification').fadeOut('400', function(){
+            if ($("#notification").text() === '') {
+                if (OC.Notification.getDefaultNotificationFunction) {
+                    OC.Notification.getDefaultNotificationFunction.call();
+                }
+            }
+            if (callback) {
+                callback.call();
+            }
+        });
+    },
+    showHtml: function(html) {
+        $('#notification').hide();
+        $('#notification').html(html);
+        $('#notification').fadeIn();
+    },
+    show: function(text) {
+        $('#notification').hide();
+        $('#notification').text(text);
+        $('#notification').fadeIn();
+    }
+};
+
 OC.Breadcrumb={
 	container:null,
 	crumbs:[],

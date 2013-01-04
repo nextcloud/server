@@ -199,9 +199,9 @@ var FileList={
 			$('#notification').data('newName', newName);
 			$('#notification').data('isNewFile', isNewFile);
             if (isNewFile) {
-                Files.showHtmlNotification(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="suggest">'+t('files', 'suggest name')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
+                OC.Notification.showHtml(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="suggest">'+t('files', 'suggest name')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
             } else {
-                Files.showHtmlNotification(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
+                OC.Notification.showHtml(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
             }
 			return true;
 		} else {
@@ -244,9 +244,9 @@ var FileList={
 			FileList.finishReplace();
 		};
 		if (isNewFile) {
-			Files.showHtmlNotification(t('files', 'replaced {new_name}', {new_name: newName})+'<span class="undo">'+t('files', 'undo')+'</span>');
+			OC.Notification.showHtml(t('files', 'replaced {new_name}', {new_name: newName})+'<span class="undo">'+t('files', 'undo')+'</span>');
 		} else {
-            Files.showHtmlNotification(t('files', 'replaced {new_name} with {old_name}', {new_name: newName}, {old_name: oldName})+'<span class="undo">'+t('files', 'undo')+'</span>');
+            OC.Notification.showHtml(t('files', 'replaced {new_name} with {old_name}', {new_name: newName}, {old_name: oldName})+'<span class="undo">'+t('files', 'undo')+'</span>');
 		}
 	},
 	finishReplace:function() {
@@ -277,9 +277,9 @@ var FileList={
 		} else {
 			// NOTE: Temporary fix to change the text to unshared for files in root of Shared folder
 			if ($('#dir').val() == '/Shared') {
-				Files.showHtmlNotification(t('files', 'unshared {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
+				OC.Notification.showHtml(t('files', 'unshared {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
 			} else {
-                Files.showHtmlNotification(t('files', 'deleted {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
+                OC.Notification.showHtml(t('files', 'deleted {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
 			}
 		}
 	},
@@ -293,7 +293,7 @@ var FileList={
 				data: {dir:$('#dir').val(),files:fileNames},
 				complete: function(data){
 					boolOperationFinished(data, function(){
-                        Files.hideNotification();
+                        OC.Notification.hide();
 						$.each(FileList.deleteFiles,function(index,file){
 							FileList.remove(file);
 						});
@@ -353,16 +353,16 @@ $(document).ready(function(){
 			FileList.replaceIsNewFile = null;
 		}
 		FileList.lastAction = null;
-        Files.hideNotification();
+        OC.Notification.hide();
 	});
 	$('#notification .replace').live('click', function() {
-        Files.hideNotification(function() {
+        OC.Notification.hide(function() {
             FileList.replace($('#notification').data('oldName'), $('#notification').data('newName'), $('#notification').data('isNewFile'));
         });
 	});
 	$('#notification .suggest').live('click', function() {
 		$('tr').filterAttr('data-file', $('#notification').data('oldName')).show();
-        Files.hideNotification();
+        OC.Notification.hide();
 	});
 	$('#notification .cancel').live('click', function() {
 		if ($('#notification').data('isNewFile')) {
