@@ -45,8 +45,6 @@ class OC_Core_LostPassword_Controller {
 				$l = OC_L10N::get('core');
 				$from = OCP\Util::getDefaultEmailAddress('lostpassword-noreply');
 				OC_Mail::send($email, $_POST['user'], $l->t('ownCloud password reset'), $msg, $from, 'ownCloud');
-				echo('Mailsent');
-
 				self::displayLostPasswordPage(false, true);
 			} else {
 				self::displayLostPasswordPage(true, false);
