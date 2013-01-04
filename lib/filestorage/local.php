@@ -230,6 +230,7 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 
 	/**
 	 * check if a file or folder has been updated since $time
+	 * @param string $path
 	 * @param int $time
 	 * @return bool
 	 */
