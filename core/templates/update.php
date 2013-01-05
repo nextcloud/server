@@ -15,7 +15,11 @@
 		});
 		updateEventSource.listen('failure', function(message) {
 			$('<span>').addClass('error').append(message).append('<br />').appendTo($('.update'));
-			$('<span>').addClass('error bold').append('<br />').append(t('core', 'The update was unsuccessful. Please report this issue to the <a href="https://github.com/owncloud/core/issues" target="_blank">ownCloud community</a>.')).appendTo($('.update'));
+			$('<span>')
+				.addClass('error bold')
+				.append('<br />')
+				.append(t('core', 'The update was unsuccessful. Please report this issue to the <a href="https://github.com/owncloud/core/issues" target="_blank">ownCloud community</a>.'))
+				.appendTo($('.update'));
 		});
 		updateEventSource.listen('done', function(message) {
 			$('<span>').addClass('bold').append('<br />').append(t('core', 'The update was successful. Redirecting you to ownCloud now.')).appendTo($('.update'));
