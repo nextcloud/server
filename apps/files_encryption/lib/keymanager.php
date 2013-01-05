@@ -23,7 +23,8 @@
 namespace OCA\Encryption;
 
 /**
- * This class provides basic operations to read/write encryption keys from/to the filesystem 
+ * @brief Class to manage storage and retrieval of encryption keys
+ * @note Where a method requires a view object, it's root must be '/'
  */
 class Keymanager {
 	
@@ -35,60 +36,46 @@ class Keymanager {
 	 * @return string private key or false
 	 * @note the key returned by this method must be decrypted before use
 	 */
-	public static function getPrivateKey( $user, $view ) {
+	public static function getPrivateKey( $view, $user ) {
 	
-		$view->chroot( '/' . $user . '/' . 'files_encryption' );
-		return $view->file_get_contents( '/' . $user.'.private.key' );
-		
+		return $view->file_get_contents( '/' . $user . '/' . 'files_encryption' . '/' . $user.'.private.key' );
 	}
 
 	/**
 	 * @brief retrieve public key for a specified user
 	 * @return string public key or false
 	 */
-	public static function getPublicKey( $userId = NULL ) {
-	
-		// If the username wasn't specified, fetch it
-		if ( ! $userId ) {
+	public static function getPublicKey( $view, $userId ) {
 		
-			$userId = \OCP\User::getUser();	
-		
-		}
-		
-		// Create new view with the right
-		$view = new \OC_FilesystemView( '/public-keys/' );
-		
-		return $view->file_get_contents( '/' . $userId . '.public.key' );
+		return $view->file_get_contents( '/public-keys/' . '/' . $userId . '.public.key' );
 		
 	}
 	
 	/**
 	 * @brief retrieve both keys from a user (private and public)
-	 *
-	 * @return string private key or false
+	 * @return array keys: privateKey, publicKey
 	 */
-	public static function getUserKeys() {
+	public static function getUserKeys( $view, $userId ) {
 	
-	return array(
-			'privatekey' => self::getPrivateKey(),
-			'publickey' => self::getPublicKey(),
+		return array(
+			'publicKey' => self::getPublicKey( $view, $userId )
+			, 'privateKey' => self::getPrivateKey( $view, $userId )
 		);
 	
 	}
 	
 	/**
-	 * @brief retrieve a list of the public key from all users with access to the file
-	 *
-	 * @param string path to file
+	 * @brief Retrieve public keys of all users with access to a file
+	 * @param string $path Path to file
 	 * @return array of public keys for the given file
+	 * @note Checks that the sharing app is enabled should be performed 
+	 * by client code, that isn't checked here
 	 */
-	public static function getPublicKeys( $path ) {
-	
-		$userId = \OCP\User::getUser();
+	public static function getPublicKeys( $view, $userId, $filePath ) {
 		
 		$path = ltrim( $path, '/' );
 		
-		$filepath = '/'.$userId.'/files/'.$path;
+		$filepath = '/' . $userId . '/files/' . $filePath;
 		
 		// Check if sharing is enabled
 		if ( OC_App::isEnabled( 'files_sharing' ) ) {
@@ -157,34 +144,30 @@ class Keymanager {
 	
 	/**
 	 * @brief retrieve keyfile for an encrypted file
-	 *
 	 * @param string file name
 	 * @return string file key or false
 	 * @note The keyfile returned is asymmetrically encrypted. Decryption
 	 * of the keyfile must be performed by client code
 	 */
-	public static function getFileKey( $path, $staticUserClass = 'OCP\User' ) {
+	public static function getFileKey( $view, $userId, $filePath ) {
 		
-		$keypath = ltrim( $path, '/' );
-		$user = $staticUserClass::getUser();
+		$filePath_f = ltrim( $filePath, '/' );
 
-// 		// update $keypath and $user if path point to a file shared by someone else
+// 		// update $keypath and $userId if path point to a file shared by someone else
 // 		$query = \OC_DB::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
 // 		
-// 		$result = $query->execute( array ('/'.$user.'/files/'.$keypath, $user));
+// 		$result = $query->execute( array ('/'.$userId.'/files/'.$keypath, $userId));
 // 		
 // 		if ($row = $result->fetchRow()) {
 // 		
 // 			$keypath = $row['source'];
 // 			$keypath_parts = explode( '/', $keypath );
-// 			$user = $keypath_parts[1];
-// 			$keypath = str_replace( '/' . $user . '/files/', '', $keypath );
+// 			$userId = $keypath_parts[1];
+// 			$keypath = str_replace( '/' . $userId . '/files/', '', $keypath );
 // 			
 // 		}
 		
-		$view = new \OC_FilesystemView('/'.$user.'/files_encryption/keyfiles/');
-		
-		return $view->file_get_contents( $keypath . '.key' );
+		return $this->view->file_get_contents( '/' . $userId . '/files_encryption/keyfiles/' . $filePath_f );
 		
 	}
 	

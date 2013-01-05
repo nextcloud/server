@@ -91,6 +91,10 @@ class Proxy extends \OC_FileProxy {
 		
 			if ( !is_resource( $data ) ) { //stream put contents should have been converted to fopen
 			
+				$userId = \OCP\USER::getUser();
+				
+				$rootView = new \OC_FilesystemView( '/' );
+			
 				// Set the filesize for userland, before encrypting
 				$size = strlen( $data );
 				
@@ -98,7 +102,7 @@ class Proxy extends \OC_FileProxy {
 				\OC_FileProxy::$enabled = false;
 				
 				// Encrypt plain data and fetch key
-				$encrypted = Crypt::keyEncryptKeyfile( $data, Keymanager::getPublicKey() );
+				$encrypted = Crypt::keyEncryptKeyfile( $data, Keymanager::getPublicKey( $rootView, $userId ) );
 				
 				// Replace plain content with encrypted content by reference
 				$data = $encrypted['data'];
@@ -110,7 +114,7 @@ class Proxy extends \OC_FileProxy {
 				$filePath = '/' . implode( '/', $filePath );
 				
 				# TODO: make keyfile dir dynamic from app config
-				$view = new \OC_FilesystemView( '/' . \OCP\USER::getUser() . '/files_encryption/keyfiles' );
+				$view = new \OC_FilesystemView( '/' . $userId . '/files_encryption/keyfiles' );
 				
 				// Save keyfile for newly encrypted file in parallel directory tree
 				Keymanager::setFileKey( $filePath, $encrypted['key'], $view, '\OC_DB' );

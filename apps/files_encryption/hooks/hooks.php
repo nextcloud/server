@@ -54,7 +54,7 @@ class Hooks {
 		
 			\OC_FileProxy::$enabled = false;
 			
-			$encryptedKey = Keymanager::getPrivateKey( $params['uid'], $view );
+			$encryptedKey = Keymanager::getPrivateKey( $view, $params['uid'] );
 			
 			\OC_FileProxy::$enabled = true;
 			

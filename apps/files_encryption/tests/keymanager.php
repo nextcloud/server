@@ -25,10 +25,14 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 		$this->data = realpath( dirname(__FILE__).'/../lib/crypt.php' );
 		$this->user = 'admin';
 		$this->passphrase = 'admin';
+		$this->filePath = '/testing';
 		$this->view = new \OC_FilesystemView( '' );
 		
 		// Disable encryption proxy to prevent recursive calls
 		\OC_FileProxy::$enabled = false;
+		
+		// Notify system which iser is logged in etc.
+		\OC_User::setUserId( 'admin' );
 	
 	}
 	
@@ -38,17 +42,29 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 		
 	}
 
-	function testGetEncryptedPrivateKey() {
+	function testGetPrivateKey() {
 	
-		$key = Encryption\Keymanager::getPrivateKey( $this->user, $this->view );
+		$key = Encryption\Keymanager::getPrivateKey( $this->view, $this->user );
+		 
+		 
+		 // Will this length vary? Perhaps we should use a range instead
+		$this->assertEquals( 2296, strlen( $key ) );
+	
+	}
+	
+	function testGetPublicKey() {
+
+		$key = Encryption\Keymanager::getPublicKey( $this->view, $this->user );
 		
-		$this->assertEquals( 2302, strlen( $key ) );
-	
+		$this->assertEquals( 451, strlen( $key ) );
+		
+		$this->assertEquals( '-----BEGIN PUBLIC KEY-----', substr( $key, 0, 26 ) );
 	}
 	
 	function testSetFileKey() {
 	
-		# NOTE: This cannot be tested until we are able to break out of the FileSystemView data directory root
+		# NOTE: This cannot be tested until we are able to break out 
+		# of the FileSystemView data directory root
 	
 // 		$key = Crypt::symmetricEncryptFileContentKeyfile( $this->data, 'hat' );
 // 		
@@ -62,21 +78,39 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 	
 	}
 	
-	function testGetDecryptedPrivateKey() {
+	function testGetPrivateKey_decrypt() {
 	
-		$key = Encryption\Keymanager::getPrivateKey( $this->user, $this->view );
+		$key = Encryption\Keymanager::getPrivateKey( $this->view, $this->user );
 		
 		# TODO: replace call to Crypt with a mock object?
 		$decrypted = Encryption\Crypt::symmetricDecryptFileContent( $key, $this->passphrase );
 		
-		var_dump($decrypted);
-		
-		$this->assertEquals( 1708, strlen( $decrypted ) );
+		$this->assertEquals( 1704, strlen( $decrypted ) );
 		
 		$this->assertEquals( '-----BEGIN PRIVATE KEY-----', substr( $decrypted, 0, 27 ) );
 	
 	}
 	
+	function testGetUserKeys() {
 	
+		$keys = Encryption\Keymanager::getUserKeys( $this->view, $this->user );
+		
+		$this->assertEquals( 451, strlen( $keys['publicKey'] ) );
+		$this->assertEquals( '-----BEGIN PUBLIC KEY-----', substr( $keys['publicKey'], 0, 26 ) );
+		$this->assertEquals( 2296, strlen( $keys['privateKey'] ) );
+	
+	}
+	
+	function testGetPublicKeys() {
+		
+		# TODO: write me
+		
+	}
+	
+	function testGetFileKey() {
+	
+// 		Encryption\Keymanager::getFileKey( $this->view, $this->user, $this->filePath );
+	
+	}
 	
 }

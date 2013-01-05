@@ -7,21 +7,6 @@
  * See the COPYING-README file.
  */
 
-// Load mockery files
-require_once 'Mockery/Loader.php';
-require_once 'Hamcrest/Hamcrest.php';
-$loader = new \Mockery\Loader;
-$loader->register();
-
-use \Mockery as m;
-
-// Overload Session{} with a mock object before it is included
-$adminEncPriKey = realpath( dirname(__FILE__).'/../../../data/admin/files_encryption/admin.private.key' );
-$adminDePriKey = OCA\Encryption\Crypt::symmetricDecryptFileContent( $adminEncPriKey, 'admin' );
-
-$mockSession = m::mock('overload:OCA\Encryption\Session');
-$mockSession->shouldReceive( 'getPrivateKey' )->andReturn( file_get_contents( $adminDePriKey ) );
-
 //require_once "PHPUnit/Framework/TestCase.php";
 require_once realpath( dirname(__FILE__).'/../../../3rdparty/Crypt_Blowfish/Blowfish.php' );
 require_once realpath( dirname(__FILE__).'/../../../lib/base.php' );
@@ -38,7 +23,13 @@ use OCA\Encryption;
 // encryption key needs to be saved in the session
 \OC_User::login( 'admin', 'admin' );
 
-//trigger_error("session = ".var_export($_SESSION, 1));
+/**
+ * @note It would be better to use Mockery here for mocking out the session 
+ * handling process, and isolate calls to session class and data from the unit 
+ * tests relating to them (stream etc.). However getting mockery to work and 
+ * overload classes whilst also using the OC autoloader is difficult due to 
+ * load order Pear errors.
+ */
 
 class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
@@ -65,8 +56,6 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	}
 	
 	function tearDown() {
-	
-		m::close();
 	
 	}
 
@@ -247,7 +236,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertNotEquals( $this->dataShort, $retreivedCryptedFile );
 		
 		// Get private key
-		$encryptedPrivateKey = Encryption\Keymanager::getPrivateKey( $this->userId, $this->view );
+		$encryptedPrivateKey = Encryption\Keymanager::getPrivateKey( $this->view, $this->userId );
 		
 		$decryptedPrivateKey = Encryption\Crypt::symmetricDecryptFileContent( $encryptedPrivateKey, $this->pass );
 		
@@ -303,7 +292,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		
 		// Get private key
-		$encryptedPrivateKey = Encryption\Keymanager::getPrivateKey( $this->userId, $this->view );
+		$encryptedPrivateKey = Encryption\Keymanager::getPrivateKey( $this->view, $this->userId );
 		
 		$decryptedPrivateKey = Encryption\Crypt::symmetricDecryptFileContent( $encryptedPrivateKey, $this->pass );
 		

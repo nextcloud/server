@@ -63,7 +63,8 @@ class Stream {
 	private $publicKey;
 	private $keyfile;
 	private $encKeyfile;
-	private static $view;
+	private static $view; // a fsview object set to user dir
+	private $rootView; // a fsview object set to '/'
 
 	public function stream_open( $path, $mode, $options, &$opened_path ) {
 	
@@ -73,6 +74,13 @@ class Stream {
 		if ( !self::$view ) {
 
 			self::$view = new \OC_FilesystemView( $this->userId . '/' );
+
+		}
+		
+		// Set rootview object if necessary
+		if ( ! $this->rootView ) {
+
+			$this->rootView = new \OC_FilesystemView( $this->userId . '/' );
 
 		}
 		
@@ -332,7 +340,7 @@ class Stream {
 		
 			$this->keyfile = Crypt::generateKey();
 			
-			$this->publicKey = Keymanager::getPublicKey( $this->userId );
+			$this->publicKey = Keymanager::getPublicKey( $this->rootView, $this->userId );
 			
 			$this->encKeyfile = Crypt::keyEncrypt( $this->keyfile, $this->publicKey );
 			

@@ -628,7 +628,7 @@ class Crypt {
 	public static function changekeypasscode($oldPassword, $newPassword) {
 
 		if(\OCP\User::isLoggedIn()){
-			$key = Keymanager::getPrivateKey();
+			$key = Keymanager::getPrivateKey( $user, $view );
 			if ( ($key = Crypt::symmetricDecryptFileContent($key,$oldpasswd)) ) {
 				if ( ($key = Crypt::symmetricEncryptFileContent($key, $newpasswd)) ) {
 					Keymanager::setPrivateKey($key);
