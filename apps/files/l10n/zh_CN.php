@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "没有文件被上传。未知错误",
 "There is no error, the file uploaded with success" => "没有发生错误，文件上传成功。",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "上传文件大小已超过php.ini中upload_max_filesize所规定的值",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "上传的文件超过了在HTML 表单中指定的MAX_FILE_SIZE",

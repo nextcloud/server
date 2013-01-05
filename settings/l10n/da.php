@@ -53,7 +53,11 @@
 "Name" => "Navn",
 "Groups" => "Grupper",
 "Create" => "Ny",
+"Default Storage" => "Standard opbevaring",
+"Unlimited" => "Ubegrænset",
 "Other" => "Andet",
 "Group Admin" => "Gruppe Administrator",
+"Storage" => "Opbevaring",
+"Default" => "Standard",
 "Delete" => "Slet"
 );

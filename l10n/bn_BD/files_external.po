@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-02 00:04+0100\n"
+"POT-Creation-Date: 2013-01-03 00:04+0100\n"
 "PO-Revision-Date: 2012-08-12 22:34+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
@@ -64,7 +64,7 @@ msgstr ""
 
 #: templates/settings.php:9
 msgid "Backend"
-msgstr ""
+msgstr "প্রশাসক"
 
 #: templates/settings.php:10
 msgid "Configuration"
@@ -92,16 +92,16 @@ msgstr ""
 
 #: templates/settings.php:87
 msgid "Groups"
-msgstr ""
+msgstr "গোষ্ঠী"
 
 #: templates/settings.php:95
 msgid "Users"
-msgstr ""
+msgstr "ব্যবহারকারিবৃন্দ"
 
 #: templates/settings.php:108 templates/settings.php:109
 #: templates/settings.php:144 templates/settings.php:145
 msgid "Delete"
-msgstr ""
+msgstr "মুছে ফেল"
 
 #: templates/settings.php:124
 msgid "Enable User External Storage"

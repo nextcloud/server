@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Không có tập tin nào được tải lên. Lỗi không xác định",
 "There is no error, the file uploaded with success" => "Không có lỗi, các tập tin đã được tải lên thành công",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Kích thước những tập tin tải lên vượt quá MAX_FILE_SIZE đã được quy định",
 "The uploaded file was only partially uploaded" => "Tập tin tải lên mới chỉ tải lên được một phần",
