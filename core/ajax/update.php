@@ -10,11 +10,12 @@ if (OC::checkUpgrade(false)) {
 	OC_Hook::connect('update', 'error', $watcher, 'error');
 	OC_Hook::connect('update', 'error', $watcher, 'failure');
 	$watcher->success('Turned on maintenance mode');
-	$result = OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/db_structure.xml');
-	if (!$result) {
-		$watcher->failure('Error updating database');
+	try {
+		$result = OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/db_structure.xml');
+		$watcher->success('Updated database');
+	} catch (Exception $exception) {
+		$watcher->failure($exception->getMessage());
 	}
-	$watcher->success('Updated database');
 	$minimizerCSS = new OC_Minimizer_CSS();
 	$minimizerCSS->clearCache();
 	$minimizerJS = new OC_Minimizer_JS();
