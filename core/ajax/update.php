@@ -10,14 +10,6 @@ if (OC::checkUpgrade(false)) {
 	OC_Hook::connect('update', 'error', $watcher, 'error');
 	OC_Hook::connect('update', 'error', $watcher, 'failure');
 	$watcher->success('Turned on maintenance mode');
-	// Check if the .htaccess is existing - this is needed for upgrades from really old ownCloud versions
-	if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
-		if (!OC_Util::ishtaccessworking()) {
-			if (!file_exists(OC::$SERVERROOT . '/data/.htaccess')) {
-				OC_Setup::protectDataDirectory();
-			}
-		}
-	}
 	$result = OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/db_structure.xml');
 	if (!$result) {
 		$watcher->failure('Error updating database');
