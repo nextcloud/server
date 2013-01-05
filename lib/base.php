@@ -247,8 +247,7 @@ class OC
 					OC_Config::setValue('maintenance', true);
 					OC_Log::write('core', 'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, OC_Log::DEBUG);
 					$tmpl = new OC_Template('', 'update', 'guest');
-					$tmpl->assign('current', $currentVersion);
-					$tmpl->assign('installed', $installedVersion);
+					$tmpl->assign('version', OC_Util::getVersionString());
 					$tmpl->printPage();
 					exit();
 				} else {
