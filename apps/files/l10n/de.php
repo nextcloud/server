@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Keine Datei hochgeladen. Unbekannter Fehler",
 "There is no error, the file uploaded with success" => "Datei fehlerfrei hochgeladen.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Die hochgeladene Datei überschreitet die upload_max_filesize Vorgabe in php.ini",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Die Größe der hochzuladenden Datei überschreitet die MAX_FILE_SIZE-Richtlinie, die im HTML-Formular angegeben wurde",
@@ -6,6 +7,8 @@
 "No file was uploaded" => "Es wurde keine Datei hochgeladen.",
 "Missing a temporary folder" => "Temporärer Ordner fehlt.",
 "Failed to write to disk" => "Fehler beim Schreiben auf die Festplatte",
+"Not enough space available" => "Nicht genug Speicherplatz verfügbar",
+"Invalid directory." => "Ungültiges Verzeichnis.",
 "Files" => "Dateien",
 "Unshare" => "Nicht mehr freigeben",
 "Delete" => "Löschen",

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Neniu dosiero alŝutiĝis. Nekonata eraro.",
 "There is no error, the file uploaded with success" => "Ne estas eraro, la dosiero alŝutiĝis sukcese",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "La dosiero alŝutita superas la regulon upload_max_filesize el php.ini: ",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "La dosiero alŝutita superas la regulon MAX_FILE_SIZE, kiu estas difinita en la HTML-formularo",

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "没有上传文件。未知错误",
 "There is no error, the file uploaded with success" => "没有任何错误,文件上传成功了",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "上传的文件超过了HTML表单指定的MAX_FILE_SIZE",
 "The uploaded file was only partially uploaded" => "文件只有部分被上传",

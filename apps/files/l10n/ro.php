@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Nici un fișier nu a fost încărcat. Eroare necunoscută",
 "There is no error, the file uploaded with success" => "Nicio eroare, fișierul a fost încărcat cu succes",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Fisierul incarcat depaseste upload_max_filesize permisi in php.ini: ",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Fișierul are o dimensiune mai mare decât variabile MAX_FILE_SIZE specificată în formularul HTML",
