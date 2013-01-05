@@ -1,10 +1,11 @@
 <?php
-
 /**
 * ownCloud
 *
 * @author Frank Karlitschek
+* @author Tom Needham
 * @copyright 2012 Frank Karlitschek frank@owncloud.org
+* @copyright 2012 Tom Needham tom@owncloud.com
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,15 +22,21 @@
 *
 */
 
-require_once('../lib/base.php');
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+class OC_OCS_Person {
 
-try {
-	OC::getRouter()->match('/ocs'.$_SERVER['PATH_INFO']);
-} catch (ResourceNotFoundException $e) {
-	OC_OCS::notFound();
-} catch (MethodNotAllowedException $e) {
-	OC_Response::setStatus(405);
+	public static function check($parameters) {
+		$login = isset($_POST['login']) ? $_POST['login'] : false;
+		$password = isset($_POST['password']) ? $_POST['password'] : false;
+		if($login && $password) {
+			if(OC_User::checkPassword($login, $password)) {
+				$xml['person']['personid'] = $login;
+				return new OC_OCS_Result($xml);
+			} else {
+				return new OC_OCS_Result(null, 102);
+			}
+		} else {
+			return new OC_OCS_Result(null, 101);
+		}
+	}
+	
 }
-

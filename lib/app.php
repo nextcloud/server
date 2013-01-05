@@ -137,6 +137,20 @@ class OC_App{
 
 		OC_Appconfig::setValue($app, 'types', $appTypes);
 	}
+	
+	/**
+	 * check if app is shipped
+	 * @param string $appid the id of the app to check
+	 * @return bool
+	 */
+	public static function isShipped($appid){
+		$info = self::getAppInfo($appid);
+		if(isset($info['shipped']) && $info['shipped']=='true'){
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	/**
 	 * get all enabled apps

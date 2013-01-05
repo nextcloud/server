@@ -1,10 +1,11 @@
 <?php
-
 /**
 * ownCloud
 *
 * @author Frank Karlitschek
+* @author Tom Needham
 * @copyright 2012 Frank Karlitschek frank@owncloud.org
+* @copyright 2012 Tom Needham tom@owncloud.com
 *
 * This library is free software; you can redistribute it and/or
 * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -21,15 +22,15 @@
 *
 */
 
-require_once('../lib/base.php');
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Routing\Exception\MethodNotAllowedException;
-
-try {
-	OC::getRouter()->match('/ocs'.$_SERVER['PATH_INFO']);
-} catch (ResourceNotFoundException $e) {
-	OC_OCS::notFound();
-} catch (MethodNotAllowedException $e) {
-	OC_Response::setStatus(405);
+class OC_OCS_Config {
+	
+	public static function apiConfig($parameters) {
+		$xml['version'] = '1.7';
+		$xml['website'] = 'ownCloud';
+		$xml['host'] = OCP\Util::getServerHost();
+		$xml['contact'] = '';
+		$xml['ssl'] = 'false';
+		return new OC_OCS_Result($xml);
+	}
+	
 }
-

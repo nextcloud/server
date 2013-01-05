@@ -1,5 +1,4 @@
 <?php
-
 /**
 * ownCloud
 *
@@ -21,15 +20,9 @@
 *
 */
 
-require_once('../lib/base.php');
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Symfony\Component\Routing\Exception\MethodNotAllowedException;
+class OC_OCS_Activity {
 
-try {
-	OC::getRouter()->match('/ocs'.$_SERVER['PATH_INFO']);
-} catch (ResourceNotFoundException $e) {
-	OC_OCS::notFound();
-} catch (MethodNotAllowedException $e) {
-	OC_Response::setStatus(405);
+	public static function activityGet($parameters){
+		// TODO
+	}
 }
-
