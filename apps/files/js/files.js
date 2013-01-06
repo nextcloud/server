@@ -26,7 +26,19 @@ Files={
 		});
 		procesSelection();
 	},
-	containsInvalidCharacters:function (name) {
+    isFileNameValid:function (name) {
+        if (name === '.') {
+            $('#notification').text(t('files', "'.' is an invalid file name."));
+            $('#notification').fadeIn();
+            return false;
+        }
+        if (name.length == 0) {
+            $('#notification').text(t('files', "File name cannot be empty."));
+            $('#notification').fadeIn();
+            return false;
+        }
+
+        // check for invalid characters
 		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
 		for (var i = 0; i < invalid_characters.length; i++) {
 			if (name.indexOf(invalid_characters[i]) != -1) {
@@ -527,7 +539,7 @@ $(document).ready(function() {
 			event.stopPropagation();
 			event.preventDefault();
 			var newname=input.val();
-			if(type != 'web' && Files.containsInvalidCharacters(newname)){
+			if(type != 'web' && !Files.isFileNameValid(newname)){
 				return false;
 			} else if (newname.length == 0) {
 				if(type == 'web') {
