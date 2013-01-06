@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-19 00:03+0100\n"
-"PO-Revision-Date: 2012-12-18 07:59+0000\n"
-"Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
+"POT-Creation-Date: 2013-01-07 00:04+0100\n"
+"PO-Revision-Date: 2013-01-06 23:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,36 +19,48 @@ msgstr ""
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ajax/upload.php:20
+#: ajax/upload.php:14
+msgid "No file was uploaded. Unknown error"
+msgstr "Файл не был загружен. Неизвестная ошибка"
+
+#: ajax/upload.php:21
 msgid "There is no error, the file uploaded with success"
 msgstr "Ошибка отсутствует, файл загружен успешно."
 
-#: ajax/upload.php:21
+#: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Размер загружаемого файла превышает upload_max_filesize директиву в php.ini:"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:24
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Размер загруженного"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:26
 msgid "The uploaded file was only partially uploaded"
 msgstr "Загружаемый файл был загружен частично"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:27
 msgid "No file was uploaded"
 msgstr "Файл не был загружен"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:28
 msgid "Missing a temporary folder"
 msgstr "Отсутствует временная папка"
 
-#: ajax/upload.php:28
+#: ajax/upload.php:29
 msgid "Failed to write to disk"
 msgstr "Не удалось записать на диск"
+
+#: ajax/upload.php:45
+msgid "Not enough space available"
+msgstr ""
+
+#: ajax/upload.php:69
+msgid "Invalid directory."
+msgstr ""
 
 #: appinfo/app.php:10
 msgid "Files"
@@ -102,86 +114,94 @@ msgstr "Cовместное использование прекращено {ф�
 msgid "deleted {files}"
 msgstr "удалено {файлы}"
 
-#: js/files.js:33
+#: js/files.js:31
+msgid "'.' is an invalid file name."
+msgstr ""
+
+#: js/files.js:36
+msgid "File name cannot be empty."
+msgstr ""
+
+#: js/files.js:45
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Некорректное имя, '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не допустимы."
 
-#: js/files.js:174
+#: js/files.js:186
 msgid "generating ZIP-file, it may take some time."
 msgstr "Создание ZIP-файла, это может занять некоторое время."
 
-#: js/files.js:209
+#: js/files.js:224
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Невозможно загрузить файл,\n так как он имеет нулевой размер или является директорией"
 
-#: js/files.js:209
+#: js/files.js:224
 msgid "Upload Error"
 msgstr "Ошибка загрузки"
 
-#: js/files.js:226
+#: js/files.js:241
 msgid "Close"
 msgstr "Закрыть"
 
-#: js/files.js:245 js/files.js:359 js/files.js:389
+#: js/files.js:260 js/files.js:374 js/files.js:404
 msgid "Pending"
 msgstr "Ожидающий решения"
 
-#: js/files.js:265
+#: js/files.js:280
 msgid "1 file uploading"
 msgstr "загрузка 1 файла"
 
-#: js/files.js:268 js/files.js:322 js/files.js:337
+#: js/files.js:283 js/files.js:337 js/files.js:352
 msgid "{count} files uploading"
 msgstr "{количество} загружено файлов"
 
-#: js/files.js:340 js/files.js:373
+#: js/files.js:355 js/files.js:388
 msgid "Upload cancelled."
 msgstr "Загрузка отменена"
 
-#: js/files.js:442
+#: js/files.js:457
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Процесс загрузки файла. Если покинуть страницу сейчас, загрузка будет отменена."
 
-#: js/files.js:512
+#: js/files.js:527
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
 msgstr "Некорректное имя папки. Нименование \"Опубликовано\" зарезервировано ownCloud"
 
-#: js/files.js:693
+#: js/files.js:711
 msgid "{count} files scanned"
 msgstr "{количество} файлов отсканировано"
 
-#: js/files.js:701
+#: js/files.js:719
 msgid "error while scanning"
 msgstr "ошибка при сканировании"
 
-#: js/files.js:774 templates/index.php:66
+#: js/files.js:792 templates/index.php:66
 msgid "Name"
 msgstr "Имя"
 
-#: js/files.js:775 templates/index.php:77
+#: js/files.js:793 templates/index.php:77
 msgid "Size"
 msgstr "Размер"
 
-#: js/files.js:776 templates/index.php:79
+#: js/files.js:794 templates/index.php:79
 msgid "Modified"
 msgstr "Изменен"
 
-#: js/files.js:803
+#: js/files.js:813
 msgid "1 folder"
 msgstr "1 папка"
 
-#: js/files.js:805
+#: js/files.js:815
 msgid "{count} folders"
 msgstr "{количество} папок"
 
-#: js/files.js:813
+#: js/files.js:823
 msgid "1 file"
 msgstr "1 файл"
 
-#: js/files.js:815
+#: js/files.js:825
 msgid "{count} files"
 msgstr "{количество} файлов"
 
@@ -193,27 +213,27 @@ msgstr "Работа с файлами"
 msgid "Maximum upload size"
 msgstr "Максимальный размер загружаемого файла"
 
-#: templates/admin.php:9
+#: templates/admin.php:10
 msgid "max. possible: "
 msgstr "Максимально возможный"
 
-#: templates/admin.php:12
+#: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
 msgstr "Необходимо для множественной загрузки."
 
-#: templates/admin.php:14
+#: templates/admin.php:17
 msgid "Enable ZIP-download"
 msgstr "Включение ZIP-загрузки"
 
-#: templates/admin.php:17
+#: templates/admin.php:20
 msgid "0 is unlimited"
 msgstr "0 без ограничений"
 
-#: templates/admin.php:19
+#: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
 msgstr "Максимальный размер входящих ZIP-файлов "
 
-#: templates/admin.php:23
+#: templates/admin.php:26
 msgid "Save"
 msgstr "Сохранить"
 

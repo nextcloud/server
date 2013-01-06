@@ -52,8 +52,8 @@ if(strpos($dir, '..') === false) {
 	for($i=0;$i<$fileCount;$i++) {
 		$target = OCP\Files::buildNotExistingFileName(stripslashes($dir), $files['name'][$i]);
 		// $path needs to be normalized - this failed within drag'n'drop upload to a sub-folder
-		$target = OC_Filesystem::normalizePath($target);
-		if(is_uploaded_file($files['tmp_name'][$i]) and OC_Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
+		$target = \OC\Files\Filesystem::normalizePath($target);
+		if(is_uploaded_file($files['tmp_name'][$i]) and \OC\Files\Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
 			$meta = \OC\Files\Filesystem::getFileInfo($target);
 			$result[]=array( 'status' => 'success',
 				'mime'=>$meta['mimetype'],

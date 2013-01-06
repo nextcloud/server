@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Ingen fil blev uploadet. Ukendt fejl.",
 "There is no error, the file uploaded with success" => "Der er ingen fejl, filen blev uploadet med success",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Den uploadede fil overstiger upload_max_filesize direktivet i php.ini",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Den uploadede fil overskrider MAX_FILE_SIZE -direktivet som er specificeret i HTML-formularen",

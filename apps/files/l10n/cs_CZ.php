@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Soubor nebyl odeslán. Neznámá chyba",
 "There is no error, the file uploaded with success" => "Soubor byl odeslán úspěšně",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Odesílaný soubor přesahuje velikost upload_max_filesize povolenou v php.ini:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Odeslaný soubor přesáhl svou velikostí parametr MAX_FILE_SIZE specifikovaný v formuláři HTML",
@@ -6,6 +7,8 @@
 "No file was uploaded" => "Žádný soubor nebyl odeslán",
 "Missing a temporary folder" => "Chybí adresář pro dočasné soubory",
 "Failed to write to disk" => "Zápis na disk selhal",
+"Not enough space available" => "Nedostatek dostupného místa",
+"Invalid directory." => "Neplatný adresář",
 "Files" => "Soubory",
 "Unshare" => "Zrušit sdílení",
 "Delete" => "Smazat",

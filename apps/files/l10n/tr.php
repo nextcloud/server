@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Dosya yüklenmedi. Bilinmeyen hata",
 "There is no error, the file uploaded with success" => "Bir hata yok, dosya başarıyla yüklendi",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "php.ini dosyasında upload_max_filesize ile belirtilen dosya yükleme sınırı aşıldı.",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Yüklenen dosya HTML formundaki MAX_FILE_SIZE sınırını aşıyor",

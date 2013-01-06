@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-28 00:20+0100\n"
-"PO-Revision-Date: 2012-12-27 13:50+0000\n"
-"Last-Translator: Konstantinos Tzanidis <tzanidis@gmail.com>\n"
+"POT-Creation-Date: 2013-01-07 00:04+0100\n"
+"PO-Revision-Date: 2013-01-06 23:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,36 +24,48 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/upload.php:20
+#: ajax/upload.php:14
+msgid "No file was uploaded. Unknown error"
+msgstr "Δεν ανέβηκε κάποιο αρχείο. Άγνωστο σφάλμα"
+
+#: ajax/upload.php:21
 msgid "There is no error, the file uploaded with success"
 msgstr "Δεν υπάρχει σφάλμα, το αρχείο εστάλει επιτυχώς"
 
-#: ajax/upload.php:21
+#: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Το απεσταλμένο αρχείο ξεπερνά την οδηγία upload_max_filesize στο php.ini:"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:24
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Το αρχείο υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους \"MAX_FILE_SIZE\" που έχει οριστεί στην HTML φόρμα"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:26
 msgid "The uploaded file was only partially uploaded"
 msgstr "Το αρχείο εστάλει μόνο εν μέρει"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:27
 msgid "No file was uploaded"
 msgstr "Κανένα αρχείο δεν στάλθηκε"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:28
 msgid "Missing a temporary folder"
 msgstr "Λείπει ο προσωρινός φάκελος"
 
-#: ajax/upload.php:28
+#: ajax/upload.php:29
 msgid "Failed to write to disk"
 msgstr "Αποτυχία εγγραφής στο δίσκο"
+
+#: ajax/upload.php:45
+msgid "Not enough space available"
+msgstr ""
+
+#: ajax/upload.php:69
+msgid "Invalid directory."
+msgstr ""
 
 #: appinfo/app.php:10
 msgid "Files"
@@ -107,86 +119,94 @@ msgstr "μη διαμοιρασμένα {files}"
 msgid "deleted {files}"
 msgstr "διαγραμμένα {files}"
 
-#: js/files.js:33
+#: js/files.js:31
+msgid "'.' is an invalid file name."
+msgstr ""
+
+#: js/files.js:36
+msgid "File name cannot be empty."
+msgstr ""
+
+#: js/files.js:45
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Μη έγκυρο όνομα, '\\', '/', '<', '>', ':', '\"', '|', '?' και '*' δεν επιτρέπονται."
 
-#: js/files.js:174
+#: js/files.js:186
 msgid "generating ZIP-file, it may take some time."
 msgstr "παραγωγή αρχείου ZIP, ίσως διαρκέσει αρκετά."
 
-#: js/files.js:212
+#: js/files.js:224
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Αδυναμία στην αποστολή του αρχείου σας αφού είναι φάκελος ή έχει 0 bytes"
 
-#: js/files.js:212
+#: js/files.js:224
 msgid "Upload Error"
 msgstr "Σφάλμα Αποστολής"
 
-#: js/files.js:229
+#: js/files.js:241
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: js/files.js:248 js/files.js:362 js/files.js:392
+#: js/files.js:260 js/files.js:374 js/files.js:404
 msgid "Pending"
 msgstr "Εκκρεμεί"
 
-#: js/files.js:268
+#: js/files.js:280
 msgid "1 file uploading"
 msgstr "1 αρχείο ανεβαίνει"
 
-#: js/files.js:271 js/files.js:325 js/files.js:340
+#: js/files.js:283 js/files.js:337 js/files.js:352
 msgid "{count} files uploading"
 msgstr "{count} αρχεία ανεβαίνουν"
 
-#: js/files.js:343 js/files.js:376
+#: js/files.js:355 js/files.js:388
 msgid "Upload cancelled."
 msgstr "Η αποστολή ακυρώθηκε."
 
-#: js/files.js:445
+#: js/files.js:457
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Η αποστολή του αρχείου βρίσκεται σε εξέλιξη. Το κλείσιμο της σελίδας θα ακυρώσει την αποστολή."
 
-#: js/files.js:515
+#: js/files.js:527
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
 msgstr "Μη έγκυρο όνομα φακέλου. Η χρήση του \"Shared\" είναι δεσμευμένη από το Owncloud"
 
-#: js/files.js:699
+#: js/files.js:711
 msgid "{count} files scanned"
 msgstr "{count} αρχεία ανιχνεύτηκαν"
 
-#: js/files.js:707
+#: js/files.js:719
 msgid "error while scanning"
 msgstr "σφάλμα κατά την ανίχνευση"
 
-#: js/files.js:780 templates/index.php:66
+#: js/files.js:792 templates/index.php:66
 msgid "Name"
 msgstr "Όνομα"
 
-#: js/files.js:781 templates/index.php:77
+#: js/files.js:793 templates/index.php:77
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: js/files.js:782 templates/index.php:79
+#: js/files.js:794 templates/index.php:79
 msgid "Modified"
 msgstr "Τροποποιήθηκε"
 
-#: js/files.js:801
+#: js/files.js:813
 msgid "1 folder"
 msgstr "1 φάκελος"
 
-#: js/files.js:803
+#: js/files.js:815
 msgid "{count} folders"
 msgstr "{count} φάκελοι"
 
-#: js/files.js:811
+#: js/files.js:823
 msgid "1 file"
 msgstr "1 αρχείο"
 
-#: js/files.js:813
+#: js/files.js:825
 msgid "{count} files"
 msgstr "{count} αρχεία"
 
@@ -198,27 +218,27 @@ msgstr "Διαχείριση αρχείων"
 msgid "Maximum upload size"
 msgstr "Μέγιστο μέγεθος αποστολής"
 
-#: templates/admin.php:9
+#: templates/admin.php:10
 msgid "max. possible: "
 msgstr "μέγιστο δυνατό:"
 
-#: templates/admin.php:12
+#: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
 msgstr "Απαραίτητο για κατέβασμα πολλαπλών αρχείων και φακέλων"
 
-#: templates/admin.php:14
+#: templates/admin.php:17
 msgid "Enable ZIP-download"
 msgstr "Ενεργοποίηση κατεβάσματος ZIP"
 
-#: templates/admin.php:17
+#: templates/admin.php:20
 msgid "0 is unlimited"
 msgstr "0 για απεριόριστο"
 
-#: templates/admin.php:19
+#: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
 msgstr "Μέγιστο μέγεθος για αρχεία ZIP"
 
-#: templates/admin.php:23
+#: templates/admin.php:26
 msgid "Save"
 msgstr "Αποθήκευση"
 
