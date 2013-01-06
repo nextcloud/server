@@ -242,7 +242,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		
 		// Get keyfile
-		$encryptedKeyfile = Encryption\Keymanager::getFileKey( $filename );
+		$encryptedKeyfile = Encryption\Keymanager::getFileKey( $this->view, $this->userId, $filename );
 		
 		$decryptedKeyfile = Encryption\Crypt::keyDecrypt( $encryptedKeyfile, $decryptedPrivateKey );
 		
@@ -298,7 +298,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		
 		// Get keyfile
-		$encryptedKeyfile = Encryption\Keymanager::getFileKey( $filename );
+		$encryptedKeyfile = Encryption\Keymanager::getFileKey( $this->view, $this->userId, $filename );
 		
 		$decryptedKeyfile = Encryption\Crypt::keyDecrypt( $encryptedKeyfile, $decryptedPrivateKey );
 		

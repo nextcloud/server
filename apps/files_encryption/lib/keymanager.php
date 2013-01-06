@@ -149,7 +149,7 @@ class Keymanager {
 	 * @note The keyfile returned is asymmetrically encrypted. Decryption
 	 * of the keyfile must be performed by client code
 	 */
-	public static function getFileKey( $view, $userId, $filePath ) {
+	public static function getFileKey( \OC_FilesystemView $view, $userId, $filePath ) {
 		
 		$filePath_f = ltrim( $filePath, '/' );
 
@@ -166,8 +166,8 @@ class Keymanager {
 // 			$keypath = str_replace( '/' . $userId . '/files/', '', $keypath );
 // 			
 // 		}
-		
-		return $this->view->file_get_contents( '/' . $userId . '/files_encryption/keyfiles/' . $filePath_f );
+// 		trigger_error(var_export($view, 1));
+		return $view->file_get_contents( '/' . $userId . '/files_encryption/keyfiles/' . $filePath_f . '.key' );
 		
 	}
 	

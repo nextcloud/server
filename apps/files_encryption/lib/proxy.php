@@ -156,7 +156,11 @@ class Proxy extends \OC_FileProxy {
 			
 			//$cached = \OC_FileCache_Cached::get( $path, '' );
 			
-			$encryptedKeyfile = Keymanager::getFileKey( $filePath );
+			$view = new \OC_FilesystemView( '' );
+			
+			$userId = \OCP\USER::getUser();
+			
+			$encryptedKeyfile = Keymanager::getFileKey( $view, $userId, $filePath );
 
 			$session = new Session();
 			

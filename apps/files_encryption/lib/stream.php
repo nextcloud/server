@@ -267,7 +267,7 @@ class Stream {
 			# TODO: add error handling for when file exists but no keyfile
 			
 			// Fetch existing keyfile
-			$this->encKeyfile = Keymanager::getFileKey( $this->rawPath );
+			$this->encKeyfile = Keymanager::getFileKey( $this->rootView, $this->userId, $this->rawPath );
 			
 			$this->getUser();
 			
