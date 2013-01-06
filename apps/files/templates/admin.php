@@ -6,7 +6,10 @@
 		<?php if($_['uploadChangable']):?>
 			<label for="maxUploadSize"><?php echo $l->t( 'Maximum upload size' ); ?> </label>
 			<input name='maxUploadSize' id="maxUploadSize" value='<?php echo $_['uploadMaxFilesize'] ?>'/>
-			(<?php echo $l->t('max. possible: '); echo $_['maxPossibleUploadSize'] ?>)<br/>
+			<?php if($_['displayMaxPossibleUploadSize']):?>
+				(<?php echo $l->t('max. possible: '); echo $_['maxPossibleUploadSize'] ?>)
+			<?php endif;?>
+			<br/>
 		<?php endif;?>
 		<input type="checkbox" name="allowZipDownload" id="allowZipDownload" value="1"
 			   title="<?php echo $l->t( 'Needed for multi-file and folder downloads.' ); ?>"

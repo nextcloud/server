@@ -53,7 +53,11 @@
 "Name" => "Nome",
 "Groups" => "Grupos",
 "Create" => "Criar",
+"Default Storage" => "Armazenamento Padrão",
+"Unlimited" => "Ilimitado",
 "Other" => "Outro",
 "Group Admin" => "Grupo Administrador",
+"Storage" => "Armazenamento",
+"Default" => "Padrão",
 "Delete" => "Apagar"
 );
