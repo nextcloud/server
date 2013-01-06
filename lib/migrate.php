@@ -655,7 +655,7 @@ class OC_Migrate{
 		$query = OC_DB::prepare( "INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )" );
 		$result = $query->execute( array( $uid, $hash));
 		if( !$result ) {
-			OC_Log::write('migration', 'Failed to create the new user "'.$uid."");
+			OC_Log::write('migration', 'Failed to create the new user "'.$uid."", OC_Log::ERROR);
 		}
 		return $result ? true : false;
 
