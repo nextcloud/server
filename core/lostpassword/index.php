@@ -22,7 +22,7 @@ if (isset($_POST['user'])) {
 			$tmpl->assign('link', $link, false);
 			$msg = $tmpl->fetchPage();
 			$l = OC_L10N::get('core');
-			$from = 'lostpassword-noreply@' . OCP\Util::getServerHost();
+			$from = OCP\Util::getDefaultEmailAddress('lostpassword-noreply');
 			OC_MAIL::send($email, $_POST['user'], $l->t('ownCloud password reset'), $msg, $from, 'ownCloud');
 		}
 		OC_Template::printGuestPage('core/lostpassword', 'lostpassword', array('error' => false, 'requested' => true));
