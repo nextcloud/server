@@ -166,7 +166,7 @@ class Keymanager {
 // 			$keypath = str_replace( '/' . $userId . '/files/', '', $keypath );
 // 			
 // 		}
-// 		trigger_error(var_export($view, 1));
+
 		return $view->file_get_contents( '/' . $userId . '/files_encryption/keyfiles/' . $filePath_f . '.key' );
 		
 	}
