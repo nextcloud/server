@@ -42,7 +42,7 @@ class Response {
 	*  null		cache indefinitly
 	*/
 	static public function enableCaching( $cache_time = null ) {
-		return(\OC_Response::enableCaching( $cache_time ));
+		\OC_Response::enableCaching( $cache_time );
 	}
 
 	/**
@@ -51,7 +51,7 @@ class Response {
 	* @param string $lastModified time when the reponse was last modified
 	*/
 	static public function setLastModifiedHeader( $lastModified ) {
-		return(\OC_Response::setLastModifiedHeader( $lastModified ));
+		\OC_Response::setLastModifiedHeader( $lastModified );
 	}
 
 	/**
@@ -59,7 +59,7 @@ class Response {
 	* @see enableCaching with cache_time = 0
 	*/
 	static public function disableCaching() {
-		return(\OC_Response::disableCaching());
+		\OC_Response::disableCaching();
 	}
 
 	/**
@@ -68,7 +68,7 @@ class Response {
 	* @param string $etag token to use for modification check
 	*/
 	static public function setETagHeader( $etag ) {
-		return(\OC_Response::setETagHeader( $etag ));
+		\OC_Response::setETagHeader( $etag );
 	}
 
 	/**
@@ -76,7 +76,7 @@ class Response {
 	* @param string $filepath of file to send
 	*/
 	static public function sendFile( $filepath ) {
-		return(\OC_Response::sendFile( $filepath ));
+		\OC_Response::sendFile( $filepath );
 	}
 
 	/**
@@ -86,7 +86,7 @@ class Response {
 	*  DateTime object when to expire response
 	*/
 	static public function setExpiresHeader( $expires ) {
-		return(\OC_Response::setExpiresHeader( $expires ));
+		\OC_Response::setExpiresHeader( $expires );
 	}
 
 	/**
@@ -94,6 +94,6 @@ class Response {
 	* @param string $location to redirect to
 	*/
 	static public function redirect( $location ) {
-		return(\OC_Response::redirect( $location ));
+		\OC_Response::redirect( $location );
 	}
 }
