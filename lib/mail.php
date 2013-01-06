@@ -25,12 +25,18 @@ class OC_Mail {
 	 * @param string $mailtext
 	 * @param string $fromaddress
 	 * @param string $fromname
-	 * @param bool $html
+	 * @param bool|int $html
+	 * @param string $altbody
+	 * @param string $ccaddress
+	 * @param string $ccname
+	 * @param string $bcc
+	 * @throws Exception
 	 */
 	public static function send($toaddress,$toname,$subject,$mailtext,$fromaddress,$fromname,$html=0,$altbody='',$ccaddress='',$ccname='', $bcc='') {
 
 		$SMTPMODE = OC_Config::getValue( 'mail_smtpmode', 'sendmail' );
 		$SMTPHOST = OC_Config::getValue( 'mail_smtphost', '127.0.0.1' );
+		$SMTPPORT = OC_Config::getValue( 'mail_smtpport', 25 );
 		$SMTPAUTH = OC_Config::getValue( 'mail_smtpauth', false );
 		$SMTPUSERNAME = OC_Config::getValue( 'mail_smtpname', '' );
 		$SMTPPASSWORD = OC_Config::getValue( 'mail_smtppassword', '' );
@@ -49,6 +55,7 @@ class OC_Mail {
 
 
 		$mailo->Host = $SMTPHOST;
+		$mailo->Port = $SMTPPORT;
 		$mailo->SMTPAuth = $SMTPAUTH;
 		$mailo->Username = $SMTPUSERNAME;
 		$mailo->Password = $SMTPPASSWORD;
@@ -89,8 +96,6 @@ class OC_Mail {
 		}
 	}
 
-
-
 	/**
 	 * return the footer for a mail
 	 *
@@ -103,7 +108,4 @@ class OC_Mail {
 		return($txt);
 
 	}
-
-
-
 }

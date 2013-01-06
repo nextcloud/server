@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-02 00:04+0100\n"
+"POT-Creation-Date: 2013-01-03 00:04+0100\n"
 "PO-Revision-Date: 2012-08-12 22:45+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
@@ -60,7 +60,7 @@ msgstr ""
 
 #: templates/settings.php:18
 msgid "Password"
-msgstr ""
+msgstr "কূটশব্দ"
 
 #: templates/settings.php:18
 msgid "For anonymous access, leave DN and Password empty."
@@ -180,4 +180,4 @@ msgstr ""
 
 #: templates/settings.php:39
 msgid "Help"
-msgstr ""
+msgstr "সহায়িকা"

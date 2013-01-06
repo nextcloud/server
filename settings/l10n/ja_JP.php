@@ -53,7 +53,11 @@
 "Name" => "名前",
 "Groups" => "グループ",
 "Create" => "作成",
+"Default Storage" => "デフォルトストレージ",
+"Unlimited" => "無制限",
 "Other" => "その他",
 "Group Admin" => "グループ管理者",
+"Storage" => "ストレージ",
+"Default" => "デフォルト",
 "Delete" => "削除"
 );

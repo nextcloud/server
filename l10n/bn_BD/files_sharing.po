@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-02 00:04+0100\n"
+"POT-Creation-Date: 2013-01-03 00:04+0100\n"
 "PO-Revision-Date: 2012-08-12 22:35+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
@@ -19,11 +19,11 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "Password"
-msgstr ""
+msgstr "কূটশব্দ"
 
 #: templates/authenticate.php:6
 msgid "Submit"
-msgstr ""
+msgstr "পাঠাও"
 
 #: templates/public.php:17
 #, php-format
@@ -37,7 +37,7 @@ msgstr ""
 
 #: templates/public.php:22 templates/public.php:38
 msgid "Download"
-msgstr ""
+msgstr "ডাউনলোড"
 
 #: templates/public.php:37
 msgid "No preview available for"
@@ -45,4 +45,4 @@ msgstr ""
 
 #: templates/public.php:43
 msgid "web services under your control"
-msgstr ""
+msgstr "ওয়েব সেবাসমূহ এখন আপনার হাতের মুঠোয়"

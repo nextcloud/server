@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Ühtegi faili ei laetud üles. Tundmatu viga",
 "There is no error, the file uploaded with success" => "Ühtegi viga pole, fail on üles laetud",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Üles laetud faili suurus ületab HTML vormis määratud upload_max_filesize suuruse",
 "The uploaded file was only partially uploaded" => "Fail laeti üles ainult osaliselt",
