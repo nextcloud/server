@@ -37,14 +37,14 @@ function t(app,text, vars){
 			t.cache[app] = [];
 		}
 	}
-	var _build = function(text, vars) {
-		return text.replace(/{([^{}]*)}/g,
-			function (a, b) {
-				var r = vars[b];
-				return typeof r === 'string' || typeof r === 'number' ? r : a;
-			}
-		);
-	}
+	var _build = function (text, vars) {
+        return text.replace(/{([^{}]*)}/g,
+            function (a, b) {
+                var r = vars[b];
+                return typeof r === 'string' || typeof r === 'number' ? r : a;
+            }
+        );
+    };
 	if( typeof( t.cache[app][text] ) !== 'undefined' ){
 		if(typeof vars === 'object') {
 			return _build(t.cache[app][text], vars);
@@ -247,7 +247,6 @@ var OC={
 		var popup = $('#appsettings_popup');
 		if(popup.length == 0) {
 			$('body').prepend('<div class="popup hidden" id="appsettings_popup"></div>');
-			popup = $('#appsettings_popup');
 			popup.addClass(settings.hasClass('topright') ? 'topright' : 'bottomleft');
 		}
 		if(popup.is(':visible')) {
@@ -308,14 +307,16 @@ OC.Notification={
         });
     },
     showHtml: function(html) {
-        $('#notification').hide();
-        $('#notification').html(html);
-        $('#notification').fadeIn();
+        var notification = $('#notification');
+        notification.hide();
+        notification.html(html);
+        notification.fadeIn();
     },
     show: function(text) {
-        $('#notification').hide();
-        $('#notification').text(text);
-        $('#notification').fadeIn();
+        var notification = $('#notification');
+        notification.hide();
+        notification.text(text);
+        notification.fadeIn();
     }
 };
 
