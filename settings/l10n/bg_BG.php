@@ -9,6 +9,7 @@
 "Enable" => "Включване",
 "Saving..." => "Записване...",
 "Select an App" => "Изберете програма",
+"Clients" => "Клиенти",
 "Password" => "Парола",
 "Unable to change your password" => "Невъзможна промяна на паролата",
 "Current password" => "Текуща парола",
@@ -23,8 +24,6 @@
 "Name" => "Име",
 "Groups" => "Групи",
 "Create" => "Ново",
-"Default Quota" => "Квота по подразбиране",
 "Other" => "Друго",
-"Quota" => "Квота",
 "Delete" => "Изтриване"
 );

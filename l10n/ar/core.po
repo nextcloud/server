@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <shiningmoon25@gmail.com>, 2012.
 #   <tarek.taha@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 23:17+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-24 00:10+0100\n"
+"PO-Revision-Date: 2012-12-23 19:06+0000\n"
+"Last-Translator: aboodilankaboot <shiningmoon25@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,11 +49,11 @@ msgstr ""
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr ""
+msgstr "ألا توجد فئة للإضافة؟"
 
 #: ajax/vcategories/add.php:37
 msgid "This category already exists: "
-msgstr ""
+msgstr "هذه الفئة موجودة مسبقاً"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -73,7 +74,7 @@ msgstr ""
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "لم يتم اختيار فئة للحذف"
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -86,15 +87,15 @@ msgstr "تعديلات"
 
 #: js/js.js:704
 msgid "seconds ago"
-msgstr ""
+msgstr "منذ ثواني"
 
 #: js/js.js:705
 msgid "1 minute ago"
-msgstr ""
+msgstr "منذ دقيقة"
 
 #: js/js.js:706
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "{minutes} منذ دقائق"
 
 #: js/js.js:707
 msgid "1 hour ago"
@@ -106,7 +107,7 @@ msgstr ""
 
 #: js/js.js:709
 msgid "today"
-msgstr ""
+msgstr "اليوم"
 
 #: js/js.js:710
 msgid "yesterday"
@@ -138,7 +139,7 @@ msgstr ""
 
 #: js/oc-dialogs.js:126
 msgid "Choose"
-msgstr ""
+msgstr "اختيار"
 
 #: js/oc-dialogs.js:146 js/oc-dialogs.js:166
 msgid "Cancel"
@@ -146,15 +147,15 @@ msgstr "الغاء"
 
 #: js/oc-dialogs.js:162
 msgid "No"
-msgstr ""
+msgstr "لا"
 
 #: js/oc-dialogs.js:163
 msgid "Yes"
-msgstr ""
+msgstr "نعم"
 
 #: js/oc-dialogs.js:180
 msgid "Ok"
-msgstr ""
+msgstr "موافق"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -162,10 +163,10 @@ msgid "The object type is not specified."
 msgstr ""
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
-msgstr ""
+msgstr "خطأ"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
@@ -175,39 +176,39 @@ msgstr ""
 msgid "The required file {file} is not installed!"
 msgstr ""
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
-msgstr ""
+msgstr "حصل خطأ عند عملية المشاركة"
 
 #: js/share.js:135
 msgid "Error while unsharing"
-msgstr ""
+msgstr "حصل خطأ عند عملية إزالة المشاركة"
 
 #: js/share.js:142
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "حصل خطأ عند عملية إعادة تعيين التصريح بالتوصل"
 
 #: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "شورك معك ومع المجموعة {group} من قبل {owner}"
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "شورك معك من قبل {owner}"
 
 #: js/share.js:158
 msgid "Share with"
-msgstr ""
+msgstr "شارك مع"
 
 #: js/share.js:163
 msgid "Share with link"
-msgstr ""
+msgstr "شارك مع رابط"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
-msgstr ""
+msgstr "حماية كلمة السر"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "كلمة السر"
@@ -222,27 +223,27 @@ msgstr ""
 
 #: js/share.js:177
 msgid "Set expiration date"
-msgstr ""
+msgstr "تعيين تاريخ إنتهاء الصلاحية"
 
 #: js/share.js:178
 msgid "Expiration date"
-msgstr ""
+msgstr "تاريخ إنتهاء الصلاحية"
 
 #: js/share.js:210
 msgid "Share via email:"
-msgstr ""
+msgstr "مشاركة عبر البريد الإلكتروني:"
 
 #: js/share.js:212
 msgid "No people found"
-msgstr ""
+msgstr "لم يتم العثور على أي شخص"
 
 #: js/share.js:239
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "لا يسمح بعملية إعادة المشاركة"
 
 #: js/share.js:275
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "شورك في {item} مع {user}"
 
 #: js/share.js:296
 msgid "Unshare"
@@ -250,51 +251,51 @@ msgstr "إلغاء مشاركة"
 
 #: js/share.js:308
 msgid "can edit"
-msgstr ""
+msgstr "التحرير مسموح"
 
 #: js/share.js:310
 msgid "access control"
-msgstr ""
+msgstr "ضبط الوصول"
 
 #: js/share.js:313
 msgid "create"
-msgstr ""
+msgstr "إنشاء"
 
 #: js/share.js:316
 msgid "update"
-msgstr ""
+msgstr "تحديث"
 
 #: js/share.js:319
 msgid "delete"
-msgstr ""
+msgstr "حذف"
 
 #: js/share.js:322
 msgid "share"
-msgstr ""
+msgstr "مشاركة"
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
-msgstr ""
+msgstr "محمي بكلمة السر"
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "حصل خطأ عند عملية إزالة تاريخ إنتهاء الصلاحية"
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "حصل خطأ عند عملية تعيين تاريخ إنتهاء الصلاحية"
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
 msgstr ""
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "إعادة تعيين كلمة سر ownCloud"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -306,14 +307,14 @@ msgstr "سوف نرسل لك بريد يحتوي على وصلة لتجديد ك
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "إعادة إرسال البريد الإلكتروني."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "فشل الطلب"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "إسم المستخدم"
 
@@ -359,7 +360,7 @@ msgstr "المساعدة"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "التوصّل محظور"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -375,13 +376,13 @@ msgstr "أدخل"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr ""
+msgstr "تحذير أمان"
 
 #: templates/installation.php:24
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "لا يوجد مولّد أرقام عشوائية ، الرجاء تفعيل الـ PHP OpenSSL extension."
 
 #: templates/installation.php:26
 msgid ""
@@ -402,44 +403,44 @@ msgstr ""
 msgid "Create an <strong>admin account</strong>"
 msgstr "أضف </strong>مستخدم رئيسي <strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "خيارات متقدمة"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "مجلد المعلومات"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "أسس قاعدة البيانات"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "سيتم استخدمه"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "مستخدم قاعدة البيانات"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "كلمة سر مستخدم قاعدة البيانات"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "إسم قاعدة البيانات"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
-msgstr ""
+msgstr "مساحة جدول قاعدة البيانات"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "خادم قاعدة البيانات"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "انهاء التعديلات"
 
@@ -527,29 +528,29 @@ msgstr "خدمات الوب تحت تصرفك"
 msgid "Log out"
 msgstr "الخروج"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "تم رفض تسجيل الدخول التلقائي!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "قد يكون حسابك في خطر إن لم تقم بإعادة تعيين كلمة السر حديثاً"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "الرجاء إعادة تعيين كلمة السر لتأمين حسابك."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "هل نسيت كلمة السر؟"
 
-#: templates/login.php:27
+#: templates/login.php:39
 msgid "remember"
 msgstr "تذكر"
 
-#: templates/login.php:28
+#: templates/login.php:41
 msgid "Log in"
 msgstr "أدخل"
 
@@ -567,14 +568,14 @@ msgstr "التالي"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr ""
+msgstr "تحذير أمان!"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "الرجاء التحقق من كلمة السر. <br/>من الممكن أحياناً أن نطلب منك إعادة إدخال كلمة السر مرة أخرى."
 
 #: templates/verify.php:16
 msgid "Verify"
-msgstr ""
+msgstr "تحقيق"

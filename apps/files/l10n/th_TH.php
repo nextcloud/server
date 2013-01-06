@@ -1,5 +1,7 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "ยังไม่มีไฟล์ใดที่ถูกอัพโหลด เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ",
 "There is no error, the file uploaded with success" => "ไม่มีข้อผิดพลาดใดๆ ไฟล์ถูกอัพโหลดเรียบร้อยแล้ว",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "ขนาดไฟล์ที่อัพโหลดมีขนาดเกิน upload_max_filesize ที่ระบุไว้ใน php.ini",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "ไฟล์ที่อัพโหลดมีขนาดเกินคำสั่ง MAX_FILE_SIZE ที่ระบุเอาไว้ในรูปแบบคำสั่งในภาษา HTML",
 "The uploaded file was only partially uploaded" => "ไฟล์ที่อัพโหลดยังไม่ได้ถูกอัพโหลดอย่างสมบูรณ์",
 "No file was uploaded" => "ยังไม่มีไฟล์ที่ถูกอัพโหลด",

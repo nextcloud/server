@@ -5,6 +5,7 @@
 "__language_name__" => "Interlingua",
 "Add your App" => "Adder tu application",
 "Select an App" => "Selectionar un app",
+"Clients" => "Clientes",
 "Password" => "Contrasigno",
 "Unable to change your password" => "Non pote cambiar tu contrasigno",
 "Current password" => "Contrasigno currente",
@@ -18,8 +19,6 @@
 "Name" => "Nomine",
 "Groups" => "Gruppos",
 "Create" => "Crear",
-"Default Quota" => "Quota predeterminate",
 "Other" => "Altere",
-"Quota" => "Quota",
 "Delete" => "Deler"
 );

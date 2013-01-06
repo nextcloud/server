@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-20 00:11+0100\n"
-"PO-Revision-Date: 2012-12-19 23:11+0000\n"
+"POT-Creation-Date: 2012-12-30 00:04+0100\n"
+"PO-Revision-Date: 2012-12-29 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -148,7 +148,7 @@ msgstr "Искористили сте <strong>%s</strong> од дозвољен�
 
 #: templates/personal.php:12
 msgid "Clients"
-msgstr ""
+msgstr "Клијенти"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
@@ -162,7 +162,7 @@ msgstr ""
 msgid "Download iOS Client"
 msgstr ""
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "Лозинка"
 
@@ -232,11 +232,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Развијају <a href=\"http://ownCloud.org/contact\" target=\"_blank\">Оунклауд (ownCloud) заједница</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">изворни код</a> је издат под <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Аферо Јавном Лиценцом (Affero General Public License)\">АГПЛ лиценцом</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "Име"
 
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "Групе"
 
@@ -245,21 +245,29 @@ msgid "Create"
 msgstr "Направи"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "Подразумевано ограничење"
+msgid "Default Storage"
+msgstr ""
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr ""
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "Друго"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "Управник групе"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "Ограничење"
+#: templates/users.php:87
+msgid "Storage"
+msgstr ""
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr ""
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "Обриши"

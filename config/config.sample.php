@@ -78,6 +78,9 @@ $CONFIG = array(
 /* Host to use for sending mail, depends on mail_smtpmode if this is used */
 "mail_smtphost" => "127.0.0.1",
 
+/* Port to use for sending mail, depends on mail_smtpmode if this is used */
+"mail_smtpport" => 25,
+
 /* authentication needed to send mail, depends on mail_smtpmode if this is used
  * (false = disable authentication)
  */
@@ -111,6 +114,9 @@ $CONFIG = array(
  * directory. The sqlite database is also stored here, when sqlite is used.
  */
 // "datadirectory" => "",
+
+/* Enable maintenance mode to disable ownCloud */
+"maintenance" => false,
 
 "apps_paths" => array(
 

@@ -21,6 +21,7 @@
 "Select an App" => "Selectează o aplicație",
 "See application page at apps.owncloud.com" => "Vizualizează pagina applicației pe apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-licențiat <span class=\"author\"></span>",
+"Clients" => "Clienți",
 "Password" => "Parolă",
 "Your password was changed" => "Parola a fost modificată",
 "Unable to change your password" => "Imposibil de-ați schimbat parola",
@@ -37,9 +38,7 @@
 "Name" => "Nume",
 "Groups" => "Grupuri",
 "Create" => "Crează",
-"Default Quota" => "Cotă implicită",
 "Other" => "Altele",
 "Group Admin" => "Grupul Admin ",
-"Quota" => "Cotă",
 "Delete" => "Șterge"
 );

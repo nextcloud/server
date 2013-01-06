@@ -8,6 +8,7 @@ OCP\JSON::setContentTypeHeader('text/plain');
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
+$l=OC_L10N::get('files');
 
 // current max upload size
 $l=new OC_L10N('files');
@@ -16,15 +17,15 @@ $maxHumanFilesize=OCP\Util::humanFileSize($maxUploadFilesize);
 $maxHumanFilesize=$l->t('Upload') . ' max. '.$maxHumanFilesize;
 
 if (!isset($_FILES['files'])) {
-	OCP\JSON::error(array('data' => array( 'message' => 'No file was uploaded. Unknown error',
+	OCP\JSON::error(array('data' => array( 'message' => $l->t( 'No file was uploaded. Unknown error' ),
         'uploadMaxFilesize'=>$maxUploadFilesize,
         'maxHumanFilesize'=>$maxHumanFilesize
     )));
 	exit();
 }
+
 foreach ($_FILES['files']['error'] as $error) {
 	if ($error != 0) {
-		$l=OC_L10N::get('files');
 		$errors = array(
 			UPLOAD_ERR_OK=>$l->t('There is no error, the file uploaded with success'),
 			UPLOAD_ERR_INI_SIZE=>$l->t('The uploaded file exceeds the upload_max_filesize directive in php.ini: ')
@@ -53,10 +54,9 @@ foreach($files['size'] as $size) {
 	$totalSize+=$size;
 }
 if($totalSize>OC_Filesystem::free_space($dir)) {
-    OCP\JSON::error(array('data' => array( 'message' => 'Not enough space available',
+	OCP\JSON::error(array('data' => array( 'message' => $l->t( 'Not enough space available' ),
         'uploadMaxFilesize'=>$maxUploadFilesize,
-        'maxHumanFilesize'=>$maxHumanFilesize
-        )));
+        'maxHumanFilesize'=>$maxHumanFilesize)));
 	exit();
 }
 
@@ -88,10 +88,10 @@ if(strpos($dir, '..') === false) {
 	OCP\JSON::encodedPrint($result);
 	exit();
 } else {
-	$error='invalid dir';
+	$error=$l->t( 'Invalid directory.' );
 }
 
-OCP\JSON::error(array('data' => array('error' => $error, 'file' => $fileName,
+OCP\JSON::error(array('data' => array('message' => $error,
     'uploadMaxFilesize'=>$maxUploadFilesize,
     'maxHumanFilesize'=>$maxHumanFilesize
 )));
