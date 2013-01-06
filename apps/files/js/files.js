@@ -26,16 +26,26 @@ Files={
 		});
 		procesSelection();
 	},
-	containsInvalidCharacters:function (name) {
+    isFileNameValid:function (name) {
+        if (name === '.') {
+            OC.Notification.show(t('files', "'.' is an invalid file name."));
+            return false;
+        }
+        if (name.length == 0) {
+            OC.Notification.show(t('files', "File name cannot be empty."));
+            return false;
+        }
+
+        // check for invalid characters
 		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
 		for (var i = 0; i < invalid_characters.length; i++) {
 			if (name.indexOf(invalid_characters[i]) != -1) {
 				OC.Notification.show(t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
-				return true;
+				return false;
 			}
 		}
         OC.Notification.hide();
-		return false;
+		return true;
 	},
     displayStorageWarnings: function() {
         var usedSpacePercent = $('#usedSpacePercent').val();
@@ -510,7 +520,7 @@ $(document).ready(function() {
 		$(this).append(input);
 		input.focus();
 		input.change(function(){
-			if (type != 'web' && Files.containsInvalidCharacters($(this).val())) {
+			if (type != 'web' && !Files.isFileNameValid($(this).val())) {
 				return;
 			} else if( type == 'folder' && $('#dir').val() == '/' && $(this).val() == 'Shared') {
                 OC.Notification.show(t('files','Invalid folder name. Usage of "Shared" is reserved by Owncloud'));
