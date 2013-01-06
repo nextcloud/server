@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-05 00:02+0100\n"
-"PO-Revision-Date: 2013-01-04 12:30+0000\n"
+"POT-Creation-Date: 2013-01-07 00:04+0100\n"
+"PO-Revision-Date: 2013-01-06 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -117,86 +117,94 @@ msgstr "取消了共享 {files}"
 msgid "deleted {files}"
 msgstr "删除了 {files}"
 
-#: js/files.js:33
+#: js/files.js:31
+msgid "'.' is an invalid file name."
+msgstr ""
+
+#: js/files.js:36
+msgid "File name cannot be empty."
+msgstr ""
+
+#: js/files.js:45
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "无效名称，'\\', '/', '<', '>', ':', '\"', '|', '?' 和 '*' 不被允许使用。"
 
-#: js/files.js:174
+#: js/files.js:186
 msgid "generating ZIP-file, it may take some time."
 msgstr "正在生成 ZIP 文件，可能需要一些时间"
 
-#: js/files.js:212
+#: js/files.js:224
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "无法上传文件，因为它是一个目录或者大小为 0 字节"
 
-#: js/files.js:212
+#: js/files.js:224
 msgid "Upload Error"
 msgstr "上传错误"
 
-#: js/files.js:229
+#: js/files.js:241
 msgid "Close"
 msgstr "关闭"
 
-#: js/files.js:248 js/files.js:362 js/files.js:392
+#: js/files.js:260 js/files.js:374 js/files.js:404
 msgid "Pending"
 msgstr "操作等待中"
 
-#: js/files.js:268
+#: js/files.js:280
 msgid "1 file uploading"
 msgstr "1个文件上传中"
 
-#: js/files.js:271 js/files.js:325 js/files.js:340
+#: js/files.js:283 js/files.js:337 js/files.js:352
 msgid "{count} files uploading"
 msgstr "{count} 个文件上传中"
 
-#: js/files.js:343 js/files.js:376
+#: js/files.js:355 js/files.js:388
 msgid "Upload cancelled."
 msgstr "上传已取消"
 
-#: js/files.js:445
+#: js/files.js:457
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "文件正在上传中。现在离开此页会导致上传动作被取消。"
 
-#: js/files.js:515
+#: js/files.js:527
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
 msgstr "无效的文件夹名称。”Shared“ 是 Owncloud 保留字符。"
 
-#: js/files.js:699
+#: js/files.js:711
 msgid "{count} files scanned"
 msgstr "{count} 个文件已扫描。"
 
-#: js/files.js:707
+#: js/files.js:719
 msgid "error while scanning"
 msgstr "扫描时出错"
 
-#: js/files.js:780 templates/index.php:66
+#: js/files.js:792 templates/index.php:66
 msgid "Name"
 msgstr "名称"
 
-#: js/files.js:781 templates/index.php:77
+#: js/files.js:793 templates/index.php:77
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:782 templates/index.php:79
+#: js/files.js:794 templates/index.php:79
 msgid "Modified"
 msgstr "修改日期"
 
-#: js/files.js:801
+#: js/files.js:813
 msgid "1 folder"
 msgstr "1个文件夹"
 
-#: js/files.js:803
+#: js/files.js:815
 msgid "{count} folders"
 msgstr "{count} 个文件夹"
 
-#: js/files.js:811
+#: js/files.js:823
 msgid "1 file"
 msgstr "1 个文件"
 
-#: js/files.js:813
+#: js/files.js:825
 msgid "{count} files"
 msgstr "{count} 个文件"
 
