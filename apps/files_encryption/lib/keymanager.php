@@ -36,16 +36,20 @@ class Keymanager {
 	 * @return string private key or false
 	 * @note the key returned by this method must be decrypted before use
 	 */
-	public static function getPrivateKey( $view, $user ) {
+	public static function getPrivateKey( \OC_FilesystemView $view, $user ) {
 	
-		return $view->file_get_contents( '/' . $user . '/' . 'files_encryption' . '/' . $user.'.private.key' );
+		$path =  '/' . $user . '/' . 'files_encryption' . '/' . $user.'.private.key';
+		
+		$key = $view->file_get_contents( $path );
+		
+		return $key;
 	}
 
 	/**
 	 * @brief retrieve public key for a specified user
 	 * @return string public key or false
 	 */
-	public static function getPublicKey( $view, $userId ) {
+	public static function getPublicKey( \OC_FilesystemView $view, $userId ) {
 		
 		return $view->file_get_contents( '/public-keys/' . '/' . $userId . '.public.key' );
 		
@@ -55,7 +59,7 @@ class Keymanager {
 	 * @brief retrieve both keys from a user (private and public)
 	 * @return array keys: privateKey, publicKey
 	 */
-	public static function getUserKeys( $view, $userId ) {
+	public static function getUserKeys( \OC_FilesystemView $view, $userId ) {
 	
 		return array(
 			'publicKey' => self::getPublicKey( $view, $userId )
@@ -71,7 +75,7 @@ class Keymanager {
 	 * @note Checks that the sharing app is enabled should be performed 
 	 * by client code, that isn't checked here
 	 */
-	public static function getPublicKeys( $view, $userId, $filePath ) {
+	public static function getPublicKeys( \OC_FilesystemView $view, $userId, $filePath ) {
 		
 		$path = ltrim( $path, '/' );
 		

@@ -146,7 +146,6 @@ class Proxy extends \OC_FileProxy {
 		Crypt::mode() == 'server' 
 		&& Crypt::isEncryptedContent( $data ) 
 		) {
-// 			trigger_error("bong");
 			
 			$split = explode( '/', $path );
 			
@@ -171,10 +170,8 @@ class Proxy extends \OC_FileProxy {
 		&& isset( $_SESSION['legacyenckey'] )
 		&& Crypt::isEncryptedMeta( $path ) 
 		) {
-			trigger_error("mong");
 			
 			$decrypted = Crypt::legacyDecrypt( $data, $_SESSION['legacyenckey'] );
-			//trigger_error($data);
 			
 		}
 		
@@ -206,8 +203,6 @@ class Proxy extends \OC_FileProxy {
 		\OC_FileProxy::$enabled = false;
 		
 		$meta = stream_get_meta_data( $result );
-		
-// 		trigger_error("\$meta(result) = ".var_export($meta, 1));
 		
 		$view = new \OC_FilesystemView( '' );
 		
@@ -243,11 +238,7 @@ class Proxy extends \OC_FileProxy {
 			) {
 				$x = $view->file_get_contents( $path );
 				
-				//trigger_error( "size = ".var_export( $x, 1 ) );
-				
 				$tmp = tmpfile();
-				
-// 				trigger_error("Result meta = ".var_export($meta, 1));
 				
 // 				// Make a temporary copy of the original file
 // 				\OCP\Files::streamCopy( $result, $tmp );

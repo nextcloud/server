@@ -454,7 +454,7 @@ class Crypt {
          * @returns decrypted file
          */
 	public static function keyDecrypt( $encryptedContent, $privatekey ) {
-		//trigger_error(var_export($privatekey, 1));
+	
 		openssl_private_decrypt( $encryptedContent, $plainContent, $privatekey );
 		
 		return $plainContent;
@@ -489,8 +489,6 @@ class Crypt {
 		
 		// Decrypt the keyfile with the user's private key
 		$decryptedKeyfile = self::keyDecrypt( $keyfile, $privateKey );
-		
-// 		trigger_error( "\$keyfile = ".var_export($keyfile, 1));
 		
 		// Decrypt the catfile symmetrically using the decrypted keyfile
 		$decryptedData = self::symmetricDecryptFileContent( $catfile, $decryptedKeyfile );
@@ -682,8 +680,6 @@ class Crypt {
 	 */
 	public static function legacyEncrypt( $content, $passphrase = '' ) {
 	
-		//trigger_error("OC2 enc \$content = $content    \$passphrase = ".var_export($passphrase, 1) );
-	
 		$bf = self::getBlowfish( $passphrase );
 		
 		return $bf->encrypt( $content );
@@ -700,11 +696,7 @@ class Crypt {
 	*/
 	public static function legacyDecrypt( $content, $passphrase = '' ) {
 		
-		//trigger_error("OC2 dec \$content = $content    \$key = ".strlen($passphrase) );
-		
 		$bf = self::getBlowfish( $passphrase );
-		
-// 		trigger_error(var_export($bf, 1) );
 		
 		$decrypted = $bf->decrypt( $content );
 		

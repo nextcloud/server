@@ -53,6 +53,9 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->userId = 'admin';
 		$this->pass = 'admin';
 		
+		\OC_Filesystem::init( '/' );
+		\OC_Filesystem::mount( 'OC_Filestorage_Local', array('datadir' => \OC_User::getHome($this->userId)), '/' );
+		
 	}
 	
 	function tearDown() {
@@ -229,8 +232,6 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		// Get file contents without using any wrapper to get it's actual contents on disk
 		$retreivedCryptedFile = $this->view->file_get_contents( $this->userId . '/files/' . $filename );
-		
-		//echo "$retreivedCryptedFile = ".var_export($retreivedCryptedFile, 1);
 		
 		// Check that the file was encrypted before being written to disk
 		$this->assertNotEquals( $this->dataShort, $retreivedCryptedFile );

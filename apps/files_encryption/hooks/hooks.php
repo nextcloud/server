@@ -60,10 +60,6 @@ class Hooks {
 			
 			# TODO: dont manually encrypt the private keyfile - use the config options of openssl_pkey_export instead for better mobile compatibility
 			
-			//trigger_error( "\$encryptedKey = ".var_export($encryptedKey)." \n\n\$params['password'] = ".var_export($params['password'] ) );
-			
-// 			trigger_error( "\$params['password'] = {$params['password']}" );
-			
 			$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
 			
 			$session = new Session();
@@ -80,7 +76,6 @@ class Hooks {
 			) {
 				
 				$_SESSION['legacyenckey'] = Crypt::legacyDecrypt( $legacyKey, $params['password'] );
-// 				trigger_error('leg enc key = '.$_SESSION['legacyenckey']);
 			
 			}
 // 		}
@@ -102,8 +97,6 @@ class Hooks {
 			
 			// Get existing decrypted private key
 			$privateKey = $_SESSION['privateKey'];
-			
-			trigger_error( "\$privateKey = ". var_export($privateKey, 1));
 			
 			// Encrypt private key with new user pwd as passphrase
 			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $privateKey, $params['password'] );

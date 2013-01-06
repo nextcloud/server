@@ -134,8 +134,6 @@ class Stream {
 			
 			$this->handle = self::$view->fopen( $this->path_f, $mode );
 			
-			//file_put_contents('/home/samtuke/newtmp.txt', 'fucking hopeless = '.$path );
-			
 			\OC_FileProxy::$enabled = true;
 
 			if ( !is_resource( $this->handle ) ) {
@@ -170,8 +168,6 @@ class Stream {
 	
 	public function stream_read( $count ) {
 	
-// 	file_put_contents('/home/samtuke/newtmp.txt', "\$count = $count" );
-	
 		$this->writeCache = '';
 
 		if ( $count != 8192 ) {
@@ -188,30 +184,12 @@ class Stream {
 // 
 		// Get the data from the file handle
 		$data = fread( $this->handle, 8192 );
-		
-		//echo "\n\nPRE DECRYPTION = $data\n\n";
-// 
+ 
 		if ( strlen( $data ) ) {
 			
 			$this->getKey();
 			
-			//$key = file_get_contents( '/home/samtuke/owncloud/git/oc3/data/admin/files_encryption/keyfiles/tmp-1346255589.key' );
-			
 			$result = Crypt::symmetricDecryptFileContent( $data, $this->keyfile );
-			
-// 			file_put_contents('/home/samtuke/newtmp.txt', '$result = '.$result );
-			
-// 			echo "\n\n\n\n-----------------------------\n\nNEWS";
-// 			
-// 			echo "\n\n\$data = $data";
-// 			
-// 			echo "\n\n\$key = {$this->keyfile}";
-// 			
-// 			echo "\n\n\$result = $result";
-// 			
-// 			echo "\n\n\n\n-----------------------------\n\n";
-			
-			//trigger_error("CAT  $result");
 			
 		} else {
 
@@ -274,8 +252,6 @@ class Stream {
 			$session = new Session();
 			
 			$privateKey = $session->getPrivateKey( $this->userId );
-			
-// 			trigger_error( "privateKey = '".var_export( $privateKey, 1 ) ."'" );
 			
 			$this->keyfile = Crypt::keyDecrypt( $this->encKeyfile, $privateKey );
 			
@@ -521,13 +497,16 @@ class Stream {
 	
 		$this->flush();
 
-		if ($this->meta['mode']!='r' and $this->meta['mode']!='rb') {
+		if ( 
+		$this->meta['mode']!='r' 
+		and $this->meta['mode']!='rb' 
+		) {
 
-			\OC_FileCache::put($this->path,array('encrypted'=>true,'size'=>$this->size),'');
+			\OC_FileCache::put( $this->path, array( 'encrypted' => true, 'size' => $this->size ), '' );
 
 		}
 
-		return fclose($this->handle);
+		return fclose( $this->handle );
 
 	}
 

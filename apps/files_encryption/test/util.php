@@ -24,9 +24,11 @@ $loader->register();
 use \Mockery as m;
 use OCA\Encryption;
 
-class Test_Util extends \PHPUnit_Framework_TestCase {
+class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 	
 	function setUp() {
+	
+		\OC_Filesystem::mount( 'OC_Filestorage_Local', array(), '/' );
 		
 		// set content for encrypting / decrypting in tests
 		$this->dataUrl = realpath( dirname(__FILE__).'/../lib/crypt.php' );
