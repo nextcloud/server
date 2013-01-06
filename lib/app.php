@@ -648,12 +648,15 @@ class OC_App{
 		if ($currentVersion) {
 			$installedVersion = $versions[$app];
 			if (version_compare($currentVersion, $installedVersion, '>')) {
+				$info = self::getAppInfo($app);
 				OC_Log::write($app, 'starting app upgrade from '.$installedVersion.' to '.$currentVersion, OC_Log::DEBUG);
 				try {
 					OC_App::updateApp($app);
+					OC_Hook::emit('update', 'success', 'Updated '.$info['name'].' app');
 				}
 				catch (Exception $e) {
 					echo 'Failed to upgrade "'.$app.'". Exception="'.$e->getMessage().'"';
+					OC_Hook::emit('update', 'failure', 'Failed to update '.$info['name'].' app: '.$e->getMessage());
 					die;
 				}
 				OC_Appconfig::setValue($app, 'installed_version', OC_App::getAppVersion($app));
@@ -678,6 +681,7 @@ class OC_App{
 			if(!isset($info['require']) or (($version[0].'.'.$version[1])>$info['require'])) {
 				OC_Log::write('core', 'App "'.$info['name'].'" ('.$app.') can\'t be used because it is not compatible with this version of ownCloud', OC_Log::ERROR);
 				OC_App::disable( $app );
+				OC_Hook::emit('update', 'success', 'Disabled '.$info['name'].' app because it is not compatible');
 			}
 		}
 	}
