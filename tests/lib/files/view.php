@@ -43,7 +43,7 @@ class View extends \PHPUnit_Framework_TestCase {
 		$cachedData = $rootView->getFileInfo('/foo.txt');
 		$this->assertEquals($textSize, $cachedData['size']);
 		$this->assertEquals('text/plain', $cachedData['mimetype']);
-		$this->assertEquals(\OCP\PERMISSION_ALL ^ \OCP\PERMISSION_CREATE, $cachedData['permissions']);
+		$this->assertNotEquals(-1, $cachedData['permissions']);
 
 		$cachedData = $rootView->getFileInfo('/');
 		$this->assertEquals($storageSize * 3, $cachedData['size']);
