@@ -117,14 +117,14 @@ class Storage {
 			
 			// rollback
 			if( @$users_view->copy('files_versions'.$filename.'.v'.$revision, 'files'.$filename) ) {
+				$users_view->touch('files'.$filename, $revision);
 				Storage::expire($filename);
 				return true;
 
 			}else{
 				if (isset($version) ) {
 					$users_view->unlink($version);
-				return false;
-
+					return false;
 				}
 			}
 		}
