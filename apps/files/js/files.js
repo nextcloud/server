@@ -351,6 +351,7 @@ $(document).ready(function() {
 										} else {
 											uploadtext.text(t('files', '{count} files uploading', {count: currentUploads}));
 										}
+										delete uploadingFiles[dirName][fileName];
 										$('#notification').hide();
 										$('#notification').text(t('files', 'Upload cancelled.'));
 										$('#notification').fadeIn();
@@ -376,6 +377,7 @@ $(document).ready(function() {
 												}
 												FileList.loadingDone(file.name, file.id);
 											} else {
+												Files.cancelUpload(this.files[0].name);
 												$('#notification').text(t('files', response.data.message));
 												$('#notification').fadeIn();
 												$('#fileList > tr').not('[data-mime]').fadeOut();
@@ -384,6 +386,7 @@ $(document).ready(function() {
 										})
 								.error(function(jqXHR, textStatus, errorThrown) {
 									if(errorThrown === 'abort') {
+										Files.cancelUpload(this.files[0].name);
 										$('#notification').hide();
 										$('#notification').text(t('files', 'Upload cancelled.'));
 										$('#notification').fadeIn();
