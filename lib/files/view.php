@@ -680,6 +680,8 @@ class View {
 		list($storage, $internalPath) = Filesystem::resolvePath($path);
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
+			$permissionsCache = $storage->getPermissionsCache($internalPath);
+			$user = \OC_User::getUser();
 
 			if (!$cache->inCache($internalPath)) {
 				$scanner = $storage->getScanner($internalPath);
@@ -705,8 +707,12 @@ class View {
 					}
 				}
 
-				$permissionsCache = $storage->getPermissionsCache($internalPath);
-				$data['permissions'] = $permissionsCache->get($data['fileid'], \OC_User::getUser());
+				$permissions = $permissionsCache->get($data['fileid'], $user);
+				if ($permissions === -1) {
+					$permissions = $storage->getPermissions($internalPath);
+					$permissionsCache->set($data['fileid'], $user, $permissions);
+				}
+				$data['permissions'] = $permissions;
 			}
 		}
 		return $data;
@@ -728,6 +734,8 @@ class View {
 		list($storage, $internalPath) = Filesystem::resolvePath($path);
 		if ($storage) {
 			$cache = $storage->getCache($internalPath);
+			$permissionsCache = $storage->getPermissionsCache($internalPath);
+			$user = \OC_User::getUser();
 
 			if ($cache->getStatus($internalPath) < Cache\Cache::COMPLETE) {
 				$scanner = $storage->getScanner($internalPath);
@@ -743,12 +751,13 @@ class View {
 			foreach ($files as $i => $file) {
 				$files[$i]['type'] = $file['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
 				$ids[] = $file['fileid'];
-			}
 
-			$permissionsCache = $storage->getPermissionsCache($internalPath);
-			$permissions = $permissionsCache->getMultiple($ids, \OC_User::getUser());
-			foreach ($files as $i => $file) {
-				$files[$i]['permissions'] = $permissions[$file['fileid']];
+				$permissions = $permissionsCache->get($file['fileid'], $user);
+				if ($permissions === -1) {
+					$permissions = $storage->getPermissions($file['path']);
+					$permissionsCache->set($file['fileid'], $user, $permissions);
+				}
+				$files[$i]['permissions'] = $permissions;
 			}
 
 			//add a folder for any mountpoint in this directory and add the sizes of other mountpoints to the folders
@@ -772,7 +781,12 @@ class View {
 						$rootEntry['name'] = $relativePath;
 						$rootEntry['type'] = $rootEntry['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
 						$subPermissionsCache = $subStorage->getPermissionsCache('');
-						$rootEntry['permissions'] = $subPermissionsCache->get($rootEntry['fileid'], \OC_User::getUser());
+						$permissions = $subPermissionsCache->get($rootEntry['fileid'], $user);
+						if ($permissions === -1) {
+							$permissions = $subStorage->getPermissions($rootEntry['path']);
+							$subPermissionsCache->set($rootEntry['fileid'], $user, $permissions);
+						}
+						$rootEntry['permissions'] = $subPermissionsCache;
 						$files[] = $rootEntry;
 					}
 				}
