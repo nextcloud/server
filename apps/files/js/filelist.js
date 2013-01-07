@@ -151,12 +151,7 @@ var FileList={
 			var newname=input.val();
 			if (!Files.isFileNameValid(newname)) {
 				return false;
-			} else if (newname.length == 0) {
-				$('#notification').text(t('files', "Name cannot be empty."));
-				$('#notification').fadeIn();
-				return false;
-			}
-			if (newname != name) {
+			} else if (newname != name) {
 				if (FileList.checkName(name, newname, false)) {
 					newname = name;
 				} else {
