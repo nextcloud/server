@@ -322,6 +322,7 @@ $(document).ready(function() {
 											if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
 												delete uploadingFiles[dirName];
 											}
+											//TODO update file upload size limit
 
 											var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
 											var currentUploads = parseInt(uploadtext.attr('currentUploads'));
@@ -375,6 +376,7 @@ $(document).ready(function() {
 												if(size==t('files','Pending')){
 													$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
 												}
+												//TODO update file upload size limit
 												FileList.loadingDone(file.name, file.id);
 											} else {
 												Files.cancelUpload(this.files[0].name);
@@ -407,8 +409,10 @@ $(document).ready(function() {
 								if(size==t('files','Pending')){
 									$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
 								}
+								//TODO update file upload size limit
 								FileList.loadingDone(file.name, file.id);
 							} else {
+								//TODO Files.cancelUpload(/*where do we get the filename*/);
 								$('#notification').text(t('files', response.data.message));
 								$('#notification').fadeIn();
 								$('#fileList > tr').not('[data-mime]').fadeOut();
