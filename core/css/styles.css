@@ -34,7 +34,7 @@ filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endC
 
 /* INPUTS */
 input[type="text"], input[type="password"] { cursor:text; }
-input:not([type="checkbox"]), textarea, select, button, .button, #quota, div.jp-progress, .pager li a {
+input, textarea, select, button, .button, #quota, div.jp-progress, .pager li a {
 	width:10em; margin:.3em; padding:.6em .5em .4em;
 	font-size:1em; font-family:Arial, Verdana, sans-serif;
 	background:#fff; color:#333; border:1px solid #ddd; outline:none;

@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-05 00:02+0100\n"
-"PO-Revision-Date: 2013-01-04 12:30+0000\n"
+"POT-Creation-Date: 2013-01-07 00:04+0100\n"
+"PO-Revision-Date: 2013-01-06 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -120,86 +120,94 @@ msgstr "{files} não compartilhados"
 msgid "deleted {files}"
 msgstr "{files} apagados"
 
-#: js/files.js:33
+#: js/files.js:31
+msgid "'.' is an invalid file name."
+msgstr ""
+
+#: js/files.js:36
+msgid "File name cannot be empty."
+msgstr ""
+
+#: js/files.js:45
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Nome inválido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são permitidos."
 
-#: js/files.js:174
+#: js/files.js:186
 msgid "generating ZIP-file, it may take some time."
 msgstr "gerando arquivo ZIP, isso pode levar um tempo."
 
-#: js/files.js:212
+#: js/files.js:224
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Impossível enviar seus arquivo como diretório ou ele tem 0 bytes."
 
-#: js/files.js:212
+#: js/files.js:224
 msgid "Upload Error"
 msgstr "Erro de envio"
 
-#: js/files.js:229
+#: js/files.js:241
 msgid "Close"
 msgstr "Fechar"
 
-#: js/files.js:248 js/files.js:362 js/files.js:392
+#: js/files.js:260 js/files.js:374 js/files.js:404
 msgid "Pending"
 msgstr "Pendente"
 
-#: js/files.js:268
+#: js/files.js:280
 msgid "1 file uploading"
 msgstr "enviando 1 arquivo"
 
-#: js/files.js:271 js/files.js:325 js/files.js:340
+#: js/files.js:283 js/files.js:337 js/files.js:352
 msgid "{count} files uploading"
 msgstr "Enviando {count} arquivos"
 
-#: js/files.js:343 js/files.js:376
+#: js/files.js:355 js/files.js:388
 msgid "Upload cancelled."
 msgstr "Envio cancelado."
 
-#: js/files.js:445
+#: js/files.js:457
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Upload em andamento. Sair da página agora resultará no cancelamento do envio."
 
-#: js/files.js:515
+#: js/files.js:527
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
 msgstr "Nome de pasta inválido. O nome \"Shared\" é reservado pelo Owncloud"
 
-#: js/files.js:699
+#: js/files.js:711
 msgid "{count} files scanned"
 msgstr "{count} arquivos scaneados"
 
-#: js/files.js:707
+#: js/files.js:719
 msgid "error while scanning"
 msgstr "erro durante verificação"
 
-#: js/files.js:780 templates/index.php:66
+#: js/files.js:792 templates/index.php:66
 msgid "Name"
 msgstr "Nome"
 
-#: js/files.js:781 templates/index.php:77
+#: js/files.js:793 templates/index.php:77
 msgid "Size"
 msgstr "Tamanho"
 
-#: js/files.js:782 templates/index.php:79
+#: js/files.js:794 templates/index.php:79
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/files.js:801
+#: js/files.js:813
 msgid "1 folder"
 msgstr "1 pasta"
 
-#: js/files.js:803
+#: js/files.js:815
 msgid "{count} folders"
 msgstr "{count} pastas"
 
-#: js/files.js:811
+#: js/files.js:823
 msgid "1 file"
 msgstr "1 arquivo"
 
-#: js/files.js:813
+#: js/files.js:825
 msgid "{count} files"
 msgstr "{count} arquivos"
 

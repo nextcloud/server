@@ -149,7 +149,7 @@ var FileList={
 			event.stopPropagation();
 			event.preventDefault();
 			var newname=input.val();
-			if (Files.containsInvalidCharacters(newname)) {
+			if (!Files.isFileNameValid(newname)) {
 				return false;
 			}
 			if (newname != name) {

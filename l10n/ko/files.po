@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-05 00:02+0100\n"
-"PO-Revision-Date: 2013-01-04 12:30+0000\n"
+"POT-Creation-Date: 2013-01-07 00:04+0100\n"
+"PO-Revision-Date: 2013-01-06 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -115,86 +115,94 @@ msgstr "{files} 공유 해제됨"
 msgid "deleted {files}"
 msgstr "{files} 삭제됨"
 
-#: js/files.js:33
+#: js/files.js:31
+msgid "'.' is an invalid file name."
+msgstr ""
+
+#: js/files.js:36
+msgid "File name cannot be empty."
+msgstr ""
+
+#: js/files.js:45
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "폴더 이름이 올바르지 않습니다. 이름에 문자 '\\', '/', '<', '>', ':', '\"', '|', '? ', '*'는 사용할 수 없습니다."
 
-#: js/files.js:174
+#: js/files.js:186
 msgid "generating ZIP-file, it may take some time."
 msgstr "ZIP 파일을 생성하고 있습니다. 시간이 걸릴 수도 있습니다."
 
-#: js/files.js:212
+#: js/files.js:224
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "이 파일은 디렉터리이거나 비어 있기 때문에 업로드할 수 없습니다"
 
-#: js/files.js:212
+#: js/files.js:224
 msgid "Upload Error"
 msgstr "업로드 오류"
 
-#: js/files.js:229
+#: js/files.js:241
 msgid "Close"
 msgstr "닫기"
 
-#: js/files.js:248 js/files.js:362 js/files.js:392
+#: js/files.js:260 js/files.js:374 js/files.js:404
 msgid "Pending"
 msgstr "보류 중"
 
-#: js/files.js:268
+#: js/files.js:280
 msgid "1 file uploading"
 msgstr "파일 1개 업로드 중"
 
-#: js/files.js:271 js/files.js:325 js/files.js:340
+#: js/files.js:283 js/files.js:337 js/files.js:352
 msgid "{count} files uploading"
 msgstr "파일 {count}개 업로드 중"
 
-#: js/files.js:343 js/files.js:376
+#: js/files.js:355 js/files.js:388
 msgid "Upload cancelled."
 msgstr "업로드가 취소되었습니다."
 
-#: js/files.js:445
+#: js/files.js:457
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "파일 업로드가 진행 중입니다. 이 페이지를 벗어나면 업로드가 취소됩니다."
 
-#: js/files.js:515
+#: js/files.js:527
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
 msgstr "폴더 이름이 올바르지 않습니다. \"Shared\" 폴더는 ownCloud에서 예약되었습니다."
 
-#: js/files.js:699
+#: js/files.js:711
 msgid "{count} files scanned"
 msgstr "파일 {count}개 검색됨"
 
-#: js/files.js:707
+#: js/files.js:719
 msgid "error while scanning"
 msgstr "검색 중 오류 발생"
 
-#: js/files.js:780 templates/index.php:66
+#: js/files.js:792 templates/index.php:66
 msgid "Name"
 msgstr "이름"
 
-#: js/files.js:781 templates/index.php:77
+#: js/files.js:793 templates/index.php:77
 msgid "Size"
 msgstr "크기"
 
-#: js/files.js:782 templates/index.php:79
+#: js/files.js:794 templates/index.php:79
 msgid "Modified"
 msgstr "수정됨"
 
-#: js/files.js:801
+#: js/files.js:813
 msgid "1 folder"
 msgstr "폴더 1개"
 
-#: js/files.js:803
+#: js/files.js:815
 msgid "{count} folders"
 msgstr "폴더 {count}개"
 
-#: js/files.js:811
+#: js/files.js:823
 msgid "1 file"
 msgstr "파일 1개"
 
-#: js/files.js:813
+#: js/files.js:825
 msgid "{count} files"
 msgstr "파일 {count}개"
 

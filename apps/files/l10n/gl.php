@@ -7,6 +7,8 @@
 "No file was uploaded" => "Non se enviou ningún ficheiro",
 "Missing a temporary folder" => "Falta un cartafol temporal",
 "Failed to write to disk" => "Erro ao escribir no disco",
+"Not enough space available" => "O espazo dispoñíbel é insuficiente",
+"Invalid directory." => "O directorio é incorrecto.",
 "Files" => "Ficheiros",
 "Unshare" => "Deixar de compartir",
 "Delete" => "Eliminar",
