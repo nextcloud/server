@@ -22,6 +22,8 @@
 "replaced {new_name} with {old_name}" => "reemplazado {new_name} con {old_name}",
 "unshared {files}" => "{files} descompartidos",
 "deleted {files}" => "{files} eliminados",
+"'.' is an invalid file name." => "'.' es un nombre de archivo inválido.",
+"File name cannot be empty." => "El nombre de archivo no puede estar vacío.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nombre Invalido, \"\\\", \"/\", \"<\", \">\", \":\", \"\", \"|\" \"?\" y \"*\" no están permitidos ",
 "generating ZIP-file, it may take some time." => "generando un fichero ZIP, puede llevar un tiempo.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "No ha sido posible subir tu archivo porque es un directorio o tiene 0 bytes",

@@ -22,6 +22,8 @@
 "replaced {new_name} with {old_name}" => "nahrazeno {new_name} s {old_name}",
 "unshared {files}" => "sdílení zrušeno pro {files}",
 "deleted {files}" => "smazáno {files}",
+"'.' is an invalid file name." => "'.' je neplatným názvem souboru.",
+"File name cannot be empty." => "Název souboru nemůže být prázdný řetězec.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Neplatný název, znaky '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nejsou povoleny.",
 "generating ZIP-file, it may take some time." => "generuji ZIP soubor, může to nějakou dobu trvat.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nelze odeslat Váš soubor, protože je to adresář nebo má velikost 0 bajtů",

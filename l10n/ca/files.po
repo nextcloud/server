@@ -7,15 +7,15 @@
 #   <joan@montane.cat>, 2012.
 #   <josep_tomas@hotmail.com>, 2012.
 # Josep Tomàs <jtomas.binsoft@gmail.com>, 2012.
-#   <rcalvoi@yahoo.com>, 2011-2012.
+#   <rcalvoi@yahoo.com>, 2011-2013.
 #   <sacoo2@hotmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-07 00:04+0100\n"
-"PO-Revision-Date: 2013-01-06 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-08 00:30+0100\n"
+"PO-Revision-Date: 2013-01-07 09:03+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -120,11 +120,11 @@ msgstr "eliminats {files}"
 
 #: js/files.js:31
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' és un nom no vàlid per un fitxer."
 
 #: js/files.js:36
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "El nom del fitxer no pot ser buit."
 
 #: js/files.js:45
 msgid ""

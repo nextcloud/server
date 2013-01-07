@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <aoiob4305@gmail.com>, 2013.
 # 남자사람  <cessnagi@gmail.com>, 2012.
 #   <limonade83@gmail.com>, 2012.
 # Shinjo Park <kde@peremen.name>, 2012.
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-30 00:04+0100\n"
-"PO-Revision-Date: 2012-12-29 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-08 00:30+0100\n"
+"PO-Revision-Date: 2013-01-07 10:26+0000\n"
+"Last-Translator: aoiob4305 <aoiob4305@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -120,23 +121,23 @@ msgstr "<span class=\"licence\"></span>-라이선스 보유자 <span class=\"aut
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr ""
+msgstr "유저 문서"
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "관리자 문서"
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr ""
+msgstr "온라인 문서"
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr ""
+msgstr "포럼"
 
 #: templates/help.php:9
 msgid "Bugtracker"
-msgstr ""
+msgstr "버그트래커"
 
 #: templates/help.php:11
 msgid "Commercial Support"
@@ -153,15 +154,15 @@ msgstr "고객"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr ""
+msgstr "데스크탑 클라이언트 다운로드"
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr ""
+msgstr "안드로이드 클라이언트 다운로드"
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr ""
+msgstr "iOS 클라이언트 다운로드"
 
 #: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
@@ -213,15 +214,15 @@ msgstr "번역 돕기"
 
 #: templates/personal.php:52
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "파일 매니저에서 사용자의 ownCloud에 접속하기 위해 이 주소를 사용하십시요."
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr ""
+msgstr "버젼"
 
 #: templates/personal.php:65
 msgid ""
@@ -247,11 +248,11 @@ msgstr "만들기"
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr ""
+msgstr "기본 저장소"
 
 #: templates/users.php:42 templates/users.php:138
 msgid "Unlimited"
-msgstr ""
+msgstr "무제한"
 
 #: templates/users.php:60 templates/users.php:153
 msgid "Other"
@@ -263,11 +264,11 @@ msgstr "그룹 관리자"
 
 #: templates/users.php:87
 msgid "Storage"
-msgstr ""
+msgstr "저장소"
 
 #: templates/users.php:133
 msgid "Default"
-msgstr ""
+msgstr "기본값"
 
 #: templates/users.php:161
 msgid "Delete"

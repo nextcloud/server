@@ -22,6 +22,8 @@
 "replaced {new_name} with {old_name}" => "{old_name} を {new_name} に置換",
 "unshared {files}" => "未共有 {files}",
 "deleted {files}" => "削除 {files}",
+"'.' is an invalid file name." => "'.' は無効なファイル名です。",
+"File name cannot be empty." => "ファイル名を空にすることはできません。",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "無効な名前、'\\', '/', '<', '>', ':', '\"', '|', '?', '*' は使用できません。",
 "generating ZIP-file, it may take some time." => "ZIPファイルを生成中です、しばらくお待ちください。",
 "Unable to upload your file as it is a directory or has 0 bytes" => "ディレクトリもしくは0バイトのファイルはアップロードできません",

@@ -22,6 +22,8 @@
 "replaced {new_name} with {old_name}" => "s'ha substituït {old_name} per {new_name}",
 "unshared {files}" => "no compartits {files}",
 "deleted {files}" => "eliminats {files}",
+"'.' is an invalid file name." => "'.' és un nom no vàlid per un fitxer.",
+"File name cannot be empty." => "El nom del fitxer no pot ser buit.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "El nóm no és vàlid, '\\', '/', '<', '>', ':', '\"', '|', '?' i '*' no estan permesos.",
 "generating ZIP-file, it may take some time." => "s'estan generant fitxers ZIP, pot trigar una estona.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "No es pot pujar el fitxer perquè és una carpeta o té 0 bytes",

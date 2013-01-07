@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <aoiob4305@gmail.com>, 2013.
 # 남자사람  <cessnagi@gmail.com>, 2012.
 #   <limonade83@gmail.com>, 2012.
 # Shinjo Park <kde@peremen.name>, 2012.
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-07 00:04+0100\n"
-"PO-Revision-Date: 2013-01-06 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-08 00:30+0100\n"
+"PO-Revision-Date: 2013-01-07 10:05+0000\n"
+"Last-Translator: aoiob4305 <aoiob4305@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,11 +58,11 @@ msgstr "디스크에 쓰지 못했습니다"
 
 #: ajax/upload.php:45
 msgid "Not enough space available"
-msgstr ""
+msgstr "여유공간이 부족합니다"
 
 #: ajax/upload.php:69
 msgid "Invalid directory."
-msgstr ""
+msgstr "올바르지 않은 디렉토리입니다."
 
 #: appinfo/app.php:10
 msgid "Files"
@@ -117,11 +118,11 @@ msgstr "{files} 삭제됨"
 
 #: js/files.js:31
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' 는 올바르지 않은 파일 이름 입니다."
 
 #: js/files.js:36
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "파일이름은 공란이 될 수 없습니다."
 
 #: js/files.js:45
 msgid ""

@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <aoiob4305@gmail.com>, 2013.
 # 남자사람  <cessnagi@gmail.com>, 2012.
 #   <limonade83@gmail.com>, 2012.
 # Shinjo Park <kde@peremen.name>, 2012.
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-07 00:04+0100\n"
-"PO-Revision-Date: 2013-01-06 23:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-08 00:30+0100\n"
+"PO-Revision-Date: 2013-01-07 10:03+0000\n"
+"Last-Translator: aoiob4305 <aoiob4305@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,26 +24,26 @@ msgstr ""
 #: ajax/share.php:84
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "User %s 가 당신과 파일을 공유하였습니다."
 
 #: ajax/share.php:86
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "User %s 가 당신과 폴더를 공유하였습니다."
 
 #: ajax/share.php:88
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "User %s 가 파일 \"%s\"를 당신과 공유하였습니다. 다운로드는 여기서 %s 할 수 있습니다."
 
 #: ajax/share.php:90
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "User %s 가 폴더 \"%s\"를 당신과 공유하였습니다. 다운로드는 여기서 %s 할 수 있습니다."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -216,11 +217,11 @@ msgstr "암호"
 
 #: js/share.js:172
 msgid "Email link to person"
-msgstr ""
+msgstr "이메일 주소"
 
 #: js/share.js:173
 msgid "Send"
-msgstr ""
+msgstr "전송"
 
 #: js/share.js:177
 msgid "Set expiration date"
@@ -288,11 +289,11 @@ msgstr "만료 날짜 설정 오류"
 
 #: js/share.js:581
 msgid "Sending ..."
-msgstr ""
+msgstr "전송 중..."
 
 #: js/share.js:592
 msgid "Email sent"
-msgstr ""
+msgstr "이메일 발송됨"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -570,7 +571,7 @@ msgstr "다음"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "ownCloud 를 버젼 %s로 업데이트 하는 중, 시간이 소요됩니다."
 
 #: templates/verify.php:5
 msgid "Security Warning!"
