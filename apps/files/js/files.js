@@ -44,11 +44,11 @@ Files={
 			if (name.indexOf(invalid_characters[i]) != -1) {
 				$('#notification').text(t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
 				$('#notification').fadeIn();
-				return true;
+				return false;
 			}
 		}
 		$('#notification').fadeOut();
-		return false;
+		return true;
 	}
 };
 $(document).ready(function() {
