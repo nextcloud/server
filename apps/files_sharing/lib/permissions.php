@@ -20,7 +20,7 @@
 */
 namespace OC\Files\Cache;
 
-class Shared_Permissions {
+class Shared_Permissions extends Permissions {
 
 	/**
 	 * get the permissions for a single file
@@ -29,7 +29,7 @@ class Shared_Permissions {
 	 * @param string $user
 	 * @return int (-1 if file no permissions set)
 	 */
-	static public function get($fileId, $user) {
+	public function get($fileId, $user) {
 		if ($fileId == -1) {
 			return \OCP\PERMISSION_READ;
 		}
@@ -48,7 +48,7 @@ class Shared_Permissions {
 	 * @param string $user
 	 * @param int $permissions
 	 */
-	static public function set($fileId, $user, $permissions) {
+	public function set($fileId, $user, $permissions) {
 		// Not a valid action for Shared Permissions
 	}
 
@@ -59,7 +59,7 @@ class Shared_Permissions {
 	 * @param string $user
 	 * @return int[]
 	 */
-	static public function getMultiple($fileIds, $user) {
+	public function getMultiple($fileIds, $user) {
 		if (count($fileIds) === 0) {
 			return array();
 		}
@@ -75,11 +75,11 @@ class Shared_Permissions {
 	 * @param int $fileId
 	 * @param string $user
 	 */
-	static public function remove($fileId, $user) {
+	public function remove($fileId, $user) {
 		// Not a valid action for Shared Permissions
 	}
 
-	static public function removeMultiple($fileIds, $user) {
+	public function removeMultiple($fileIds, $user) {
 		// Not a valid action for Shared Permissions
 	}
 }
