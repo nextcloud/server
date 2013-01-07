@@ -134,17 +134,17 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 
 		}
 
-		if ( !$this->file_exists( \OCP\USER::getUser() . '/' . $directory ) || !$this->is_dir( \OCP\USER::getUser() . '/' . $directory ) ) {
+		if ( !$this->file_exists( $directory ) || !$this->is_dir( $directory ) ) {
 
 			return false;
 
-		} elseif( !$this->is_readable( \OCP\USER::getUser() . '/' . $directory ) ) {
+		} elseif( !$this->isReadable( $directory ) ) {
 
 			return false;
 
 		} else {
 
-			$directoryHandle = $this->opendir( \OCP\USER::getUser() . '/' . $directory );
+			$directoryHandle = $this->opendir( $directory );
 
 			while ( $contents = readdir( $directoryHandle ) ) {
 
@@ -154,11 +154,11 @@ abstract class OC_Filestorage_Common extends OC_Filestorage {
 
 					if ( $this->is_dir( $path ) ) {
 
-						deleteAll( $path );
+						$this->deleteAll( $path );
 
 					} else {
 
-						$this->unlink( \OCP\USER::getUser() .'/' . $path ); // TODO: make unlink use same system path as is_dir
+						$this->unlink( $path ); // TODO: make unlink use same system path as is_dir
 
 					}
 				}
