@@ -181,7 +181,9 @@ class OC_DB {
 			try{
 				self::$PDO=new PDO($dsn, $user, $pass, $opts);
 			}catch(PDOException $e) {
-				OC_Template::printErrorPage( 'can not connect to database, using '.$type.'. ('.$e->getMessage().')' );
+				OC_User::setUserId(null);
+				OC_Template::printErrorPage('Failed to connect to '.$type.' database. ('.$e->getMessage().')' );
+				die();
 			}
 			// We always, really always want associative arrays
 			self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
@@ -277,7 +279,9 @@ class OC_DB {
 			if( PEAR::isError( self::$MDB2 )) {
 				OC_Log::write('core', self::$MDB2->getUserInfo(), OC_Log::FATAL);
 				OC_Log::write('core', self::$MDB2->getMessage(), OC_Log::FATAL);
-				OC_Template::printErrorPage( 'can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')' );
+				OC_User::setUserId(null);
+				OC_Template::printErrorPage('Failed to connect to '.$type.' database. ('.self::$MDB2->getUserInfo().')' );
+				die();
 			}
 
 			// We always, really always want associative arrays
