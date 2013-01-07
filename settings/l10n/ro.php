@@ -38,9 +38,7 @@
 "Name" => "Nume",
 "Groups" => "Grupuri",
 "Create" => "Crează",
-"Default Quota" => "Cotă implicită",
 "Other" => "Altele",
 "Group Admin" => "Grupul Admin ",
-"Quota" => "Cotă",
 "Delete" => "Șterge"
 );

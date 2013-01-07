@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Tiada fail dimuatnaik. Ralat tidak diketahui.",
 "There is no error, the file uploaded with success" => "Tiada ralat, fail berjaya dimuat naik.",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Fail yang dimuat naik melebihi MAX_FILE_SIZE yang dinyatakan dalam form HTML ",
 "The uploaded file was only partially uploaded" => "Sebahagian daripada fail telah dimuat naik. ",

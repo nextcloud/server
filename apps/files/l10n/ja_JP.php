@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "ファイルは何もアップロードされていません。不明なエラー",
 "There is no error, the file uploaded with success" => "エラーはありません。ファイルのアップロードは成功しました",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "アップロードされたファイルはphp.ini の upload_max_filesize に設定されたサイズを超えています:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "アップロードされたファイルはHTMLのフォームに設定されたMAX_FILE_SIZEに設定されたサイズを超えています",
@@ -6,6 +7,8 @@
 "No file was uploaded" => "ファイルはアップロードされませんでした",
 "Missing a temporary folder" => "テンポラリフォルダが見つかりません",
 "Failed to write to disk" => "ディスクへの書き込みに失敗しました",
+"Not enough space available" => "利用可能なスペースが十分にありません",
+"Invalid directory." => "無効なディレクトリです。",
 "Files" => "ファイル",
 "Unshare" => "共有しない",
 "Delete" => "削除",

@@ -3,22 +3,23 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <cronner@gmail.com>, 2012.
 #   <icewind1991@gmail.com>, 2012.
 #   <mikkelbjerglarsen@gmail.com>, 2011.
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011-2012.
 # Ole Holm Frandsen <froksen@gmail.com>, 2012.
 # Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
 #   <simon@rosmi.dk>, 2012.
-#   <sr@ybnet.dk>, 2012.
+#   <sr@ybnet.dk>, 2012-2013.
 # Thomas Tanghus <>, 2012.
 # Thomas Tanghus <thomas@tanghus.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-21 00:10+0100\n"
-"PO-Revision-Date: 2012-12-19 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-03 00:04+0100\n"
+"PO-Revision-Date: 2013-01-02 21:06+0000\n"
+"Last-Translator: ressel <sr@ybnet.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,7 +77,7 @@ msgstr "Sprog ændret"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "Administratorer kan ikke fjerne dem selv fra admin gruppen"
 
 #: ajax/togglegroups.php:28
 #, php-format
@@ -126,32 +127,32 @@ msgstr "<span class=\"licence\"></span>-licenseret af <span class=\"author\"></s
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr ""
+msgstr "Brugerdokumentation"
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Administrator Dokumentation"
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr ""
+msgstr "Online dokumentation"
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr ""
+msgstr "Forum"
 
 #: templates/help.php:9
 msgid "Bugtracker"
-msgstr ""
+msgstr "Bugtracker"
 
 #: templates/help.php:11
 msgid "Commercial Support"
-msgstr ""
+msgstr "Kommerciel support"
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Du har brugt <strong>%s</strong> af den tilgængelige <strong>%s</strong>"
 
 #: templates/personal.php:12
 msgid "Clients"
@@ -159,17 +160,17 @@ msgstr "Klienter"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr ""
+msgstr "Hent Desktop Klienter"
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr ""
+msgstr "Hent Android Klient"
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr ""
+msgstr "Hent iOS Klient"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "Kodeord"
 
@@ -219,15 +220,15 @@ msgstr "Hjælp med oversættelsen"
 
 #: templates/personal.php:52
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Brug denne adresse til at oprette forbindelse til din ownCloud i din filstyring"
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 #: templates/personal.php:65
 msgid ""
@@ -239,11 +240,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Udviklet af <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownClouds community</a>, og <a href=\"https://github.com/owncloud\" target=\"_blank\">kildekoden</a> er underlagt licensen <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "Navn"
 
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "Grupper"
 
@@ -252,21 +253,29 @@ msgid "Create"
 msgstr "Ny"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "Standard kvote"
+msgid "Default Storage"
+msgstr "Standard opbevaring"
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr "Ubegrænset"
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "Andet"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "Gruppe Administrator"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "Kvote"
+#: templates/users.php:87
+msgid "Storage"
+msgstr "Opbevaring"
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr "Standard"
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "Slet"

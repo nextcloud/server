@@ -24,11 +24,6 @@ class Scanner {
 	 */
 	private $cache;
 
-	/**
-	 * @var \OC\Files\Cache\Permissions $permissionsCache
-	 */
-	private $permissionsCache;
-
 	const SCAN_RECURSIVE = true;
 	const SCAN_SHALLOW = false;
 
@@ -36,7 +31,6 @@ class Scanner {
 		$this->storage = $storage;
 		$this->storageId = $this->storage->getId();
 		$this->cache = $storage->getCache();
-		$this->permissionsCache = $storage->getPermissionsCache();
 	}
 
 	/**
@@ -53,10 +47,8 @@ class Scanner {
 		$data['mtime'] = $this->storage->filemtime($path);
 		if ($data['mimetype'] == 'httpd/unix-directory') {
 			$data['size'] = -1; //unknown
-			$data['permissions'] = $this->storage->getPermissions($path . '/');
 		} else {
 			$data['size'] = $this->storage->filesize($path);
-			$data['permissions'] = $this->storage->getPermissions($path);
 		}
 		$data['etag'] = $this->storage->getETag($path);
 		return $data;
@@ -82,7 +74,6 @@ class Scanner {
 				}
 			}
 			$id = $this->cache->put($file, $data);
-			$this->permissionsCache->set($id, \OC_User::getUser(), $data['permissions']);
 		}
 		return $data;
 	}

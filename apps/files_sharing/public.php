@@ -175,7 +175,7 @@ if ($linkItem) {
 	if (isset($_GET['path'])) {
 		$path .= $_GET['path'];
 	}
-	if (!$path || !\OC\Files\Filesystem::isValidPath($path) || !OC_Filesystem::file_exists($path)) {
+	if (!$path || !\OC\Files\Filesystem::isValidPath($path) || !\OC\Files\Filesystem::file_exists($path)) {
 		OCP\Util::writeLog('share', 'Invalid path ' . $path . ' for share id ' . $linkItem['id'], \OCP\Util::ERROR);
 		header('HTTP/1.0 404 Not Found');
 		$tmpl = new OCP\Template('', '404', 'guest');
@@ -208,7 +208,7 @@ if ($linkItem) {
 		$tmpl->assign('uidOwner', $shareOwner);
 		$tmpl->assign('dir', $dir);
 		$tmpl->assign('filename', $file);
-		$tmpl->assign('mimetype', OC_Filesystem::getMimeType($path));
+		$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
 		if (isset($_GET['path'])) {
 			$getPath = $_GET['path'];
 		} else {
@@ -217,7 +217,7 @@ if ($linkItem) {
 		//
 		$urlLinkIdentifiers = (isset($token) ? '&t=' . $token : '') . (isset($_GET['dir']) ? '&dir=' . $_GET['dir'] : '') . (isset($_GET['file']) ? '&file=' . $_GET['file'] : '');
 		// Show file list
-		if (OC_Filesystem::is_dir($path)) {
+		if (\OC\Files\Filesystem::is_dir($path)) {
 			OCP\Util::addStyle('files', 'files');
 			OCP\Util::addScript('files', 'files');
 			OCP\Util::addScript('files', 'filelist');
@@ -292,7 +292,7 @@ if ($linkItem) {
 						$tmpl = new OCP\Template('files_sharing', 'public', 'base');
 						$tmpl->assign('owner', $uidOwner);
 						// Show file list
-						if (OC_Filesystem::is_dir($path)) {
+						if (\OC\Files\Filesystem::is_dir($path)) {
 							OCP\Util::addStyle('files', 'files');
 							OCP\Util::addScript('files', 'files');
 							OCP\Util::addScript('files', 'filelist');
@@ -349,7 +349,7 @@ if ($linkItem) {
 							$tmpl->assign('uidOwner', $uidOwner);
 							$tmpl->assign('dir', basename($dir));
 							$tmpl->assign('filename', basename($path));
-							$tmpl->assign('mimetype', OC_Filesystem::getMimeType($path));
+							$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
 							$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 							if (isset($_GET['path'])) {
 								$getPath = $_GET['path'];
@@ -362,7 +362,7 @@ if ($linkItem) {
 							$tmpl->assign('uidOwner', $uidOwner);
 							$tmpl->assign('dir', dirname($path));
 							$tmpl->assign('filename', basename($path));
-							$tmpl->assign('mimetype', OC_Filesystem::getMimeType($path));
+							$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
 							if ($type == 'file') {
 								$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files') . '&file=' . urlencode($_GET['file']) . '&download', false);
 							} else {

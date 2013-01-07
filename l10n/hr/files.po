@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-01 00:01+0100\n"
-"PO-Revision-Date: 2012-11-30 23:02+0000\n"
+"POT-Creation-Date: 2013-01-07 00:04+0100\n"
+"PO-Revision-Date: 2013-01-06 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -20,46 +20,58 @@ msgstr ""
 "Language: hr\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 
-#: ajax/upload.php:20
+#: ajax/upload.php:14
+msgid "No file was uploaded. Unknown error"
+msgstr ""
+
+#: ajax/upload.php:21
 msgid "There is no error, the file uploaded with success"
 msgstr "Datoteka je poslana uspješno i bez pogrešaka"
 
-#: ajax/upload.php:21
+#: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr ""
 
-#: ajax/upload.php:23
+#: ajax/upload.php:24
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Poslana datoteka izlazi iz okvira MAX_FILE_SIZE direktive postavljene u HTML obrascu"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:26
 msgid "The uploaded file was only partially uploaded"
 msgstr "Datoteka je poslana samo djelomično"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:27
 msgid "No file was uploaded"
 msgstr "Ni jedna datoteka nije poslana"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:28
 msgid "Missing a temporary folder"
 msgstr "Nedostaje privremena mapa"
 
-#: ajax/upload.php:28
+#: ajax/upload.php:29
 msgid "Failed to write to disk"
 msgstr "Neuspjelo pisanje na disk"
+
+#: ajax/upload.php:45
+msgid "Not enough space available"
+msgstr ""
+
+#: ajax/upload.php:69
+msgid "Invalid directory."
+msgstr ""
 
 #: appinfo/app.php:10
 msgid "Files"
 msgstr "Datoteke"
 
-#: js/fileactions.js:117 templates/index.php:83 templates/index.php:84
+#: js/fileactions.js:117 templates/index.php:84 templates/index.php:85
 msgid "Unshare"
 msgstr "Prekini djeljenje"
 
-#: js/fileactions.js:119 templates/index.php:89 templates/index.php:90
+#: js/fileactions.js:119 templates/index.php:90 templates/index.php:91
 msgid "Delete"
 msgstr "Briši"
 
@@ -67,122 +79,130 @@ msgstr "Briši"
 msgid "Rename"
 msgstr "Promjeni ime"
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:199 js/filelist.js:201
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:199 js/filelist.js:201
 msgid "replace"
 msgstr "zamjeni"
 
-#: js/filelist.js:201
+#: js/filelist.js:199
 msgid "suggest name"
 msgstr "predloži ime"
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:199 js/filelist.js:201
 msgid "cancel"
 msgstr "odustani"
 
-#: js/filelist.js:250
+#: js/filelist.js:248
 msgid "replaced {new_name}"
 msgstr ""
 
-#: js/filelist.js:250 js/filelist.js:252 js/filelist.js:284 js/filelist.js:286
+#: js/filelist.js:248 js/filelist.js:250 js/filelist.js:282 js/filelist.js:284
 msgid "undo"
 msgstr "vrati"
 
-#: js/filelist.js:252
+#: js/filelist.js:250
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:284
+#: js/filelist.js:282
 msgid "unshared {files}"
 msgstr ""
 
-#: js/filelist.js:286
+#: js/filelist.js:284
 msgid "deleted {files}"
 msgstr ""
 
-#: js/files.js:33
+#: js/files.js:31
+msgid "'.' is an invalid file name."
+msgstr ""
+
+#: js/files.js:36
+msgid "File name cannot be empty."
+msgstr ""
+
+#: js/files.js:45
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr ""
 
-#: js/files.js:183
+#: js/files.js:186
 msgid "generating ZIP-file, it may take some time."
 msgstr "generiranje ZIP datoteke, ovo može potrajati."
 
-#: js/files.js:218
+#: js/files.js:224
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Nemoguće poslati datoteku jer je prazna ili je direktorij"
 
-#: js/files.js:218
+#: js/files.js:224
 msgid "Upload Error"
 msgstr "Pogreška pri slanju"
 
-#: js/files.js:235
+#: js/files.js:241
 msgid "Close"
 msgstr "Zatvori"
 
-#: js/files.js:254 js/files.js:368 js/files.js:398
+#: js/files.js:260 js/files.js:374 js/files.js:404
 msgid "Pending"
 msgstr "U tijeku"
 
-#: js/files.js:274
+#: js/files.js:280
 msgid "1 file uploading"
 msgstr "1 datoteka se učitava"
 
-#: js/files.js:277 js/files.js:331 js/files.js:346
+#: js/files.js:283 js/files.js:337 js/files.js:352
 msgid "{count} files uploading"
 msgstr ""
 
-#: js/files.js:349 js/files.js:382
+#: js/files.js:355 js/files.js:388
 msgid "Upload cancelled."
 msgstr "Slanje poništeno."
 
-#: js/files.js:451
+#: js/files.js:457
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Učitavanje datoteke. Napuštanjem stranice će prekinuti učitavanje."
 
-#: js/files.js:523
+#: js/files.js:527
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:704
+#: js/files.js:711
 msgid "{count} files scanned"
 msgstr ""
 
-#: js/files.js:712
+#: js/files.js:719
 msgid "error while scanning"
 msgstr "grečka prilikom skeniranja"
 
-#: js/files.js:785 templates/index.php:65
+#: js/files.js:792 templates/index.php:66
 msgid "Name"
 msgstr "Naziv"
 
-#: js/files.js:786 templates/index.php:76
+#: js/files.js:793 templates/index.php:77
 msgid "Size"
 msgstr "Veličina"
 
-#: js/files.js:787 templates/index.php:78
+#: js/files.js:794 templates/index.php:79
 msgid "Modified"
 msgstr "Zadnja promjena"
 
-#: js/files.js:814
+#: js/files.js:813
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:816
+#: js/files.js:815
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:824
+#: js/files.js:823
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:826
+#: js/files.js:825
 msgid "{count} files"
 msgstr ""
 
@@ -194,27 +214,27 @@ msgstr "datoteka za rukovanje"
 msgid "Maximum upload size"
 msgstr "Maksimalna veličina prijenosa"
 
-#: templates/admin.php:9
+#: templates/admin.php:10
 msgid "max. possible: "
 msgstr "maksimalna moguća: "
 
-#: templates/admin.php:12
+#: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
 msgstr "Potrebno za preuzimanje više datoteke i mape"
 
-#: templates/admin.php:14
+#: templates/admin.php:17
 msgid "Enable ZIP-download"
 msgstr "Omogući ZIP-preuzimanje"
 
-#: templates/admin.php:17
+#: templates/admin.php:20
 msgid "0 is unlimited"
 msgstr "0 je \"bez limita\""
 
-#: templates/admin.php:19
+#: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
 msgstr "Maksimalna veličina za ZIP datoteke"
 
-#: templates/admin.php:23
+#: templates/admin.php:26
 msgid "Save"
 msgstr "Snimi"
 
@@ -242,28 +262,28 @@ msgstr "Pošalji"
 msgid "Cancel upload"
 msgstr "Prekini upload"
 
-#: templates/index.php:57
+#: templates/index.php:58
 msgid "Nothing in here. Upload something!"
 msgstr "Nema ničega u ovoj mapi. Pošalji nešto!"
 
-#: templates/index.php:71
+#: templates/index.php:72
 msgid "Download"
 msgstr "Preuzmi"
 
-#: templates/index.php:103
+#: templates/index.php:104
 msgid "Upload too large"
 msgstr "Prijenos je preobiman"
 
-#: templates/index.php:105
+#: templates/index.php:106
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Datoteke koje pokušavate prenijeti prelaze maksimalnu veličinu za prijenos datoteka na ovom poslužitelju."
 
-#: templates/index.php:110
+#: templates/index.php:111
 msgid "Files are being scanned, please wait."
 msgstr "Datoteke se skeniraju, molimo pričekajte."
 
-#: templates/index.php:113
+#: templates/index.php:114
 msgid "Current scanning"
 msgstr "Trenutno skeniranje"

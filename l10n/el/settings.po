@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-22 00:24+0100\n"
-"PO-Revision-Date: 2012-12-21 13:06+0000\n"
-"Last-Translator: Efstathios Iosifidis <diamond_gr@freemail.gr>\n"
+"POT-Creation-Date: 2012-12-30 00:04+0100\n"
+"PO-Revision-Date: 2012-12-29 23:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -171,7 +171,7 @@ msgstr "Λήψη Προγράμματος Android"
 msgid "Download iOS Client"
 msgstr "Λήψη Προγράμματος iOS"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "Συνθηματικό"
 
@@ -241,11 +241,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Αναπτύχθηκε από την <a href=\"http://ownCloud.org/contact\" target=\"_blank\">κοινότητα ownCloud</a>, ο <a href=\"https://github.com/owncloud\" target=\"_blank\">πηγαίος κώδικας</a> είναι υπό άδεια χρήσης <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "Όνομα"
 
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "Ομάδες"
 
@@ -254,21 +254,29 @@ msgid "Create"
 msgstr "Δημιουργία"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "Προεπιλεγμένο Όριο"
+msgid "Default Storage"
+msgstr ""
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr ""
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "Άλλα"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "Ομάδα Διαχειριστών"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "Σύνολο Χώρου"
+#: templates/users.php:87
+msgid "Storage"
+msgstr ""
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr ""
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "Διαγραφή"

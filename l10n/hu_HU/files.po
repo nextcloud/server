@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-01 00:01+0100\n"
-"PO-Revision-Date: 2012-11-30 23:02+0000\n"
+"POT-Creation-Date: 2013-01-07 00:04+0100\n"
+"PO-Revision-Date: 2013-01-06 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -20,171 +20,191 @@ msgstr ""
 "Language: hu_HU\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/upload.php:20
-msgid "There is no error, the file uploaded with success"
-msgstr "Nincs hiba, a fájl sikeresen feltöltve."
+#: ajax/upload.php:14
+msgid "No file was uploaded. Unknown error"
+msgstr "Nem történt feltöltés. Ismeretlen hiba"
 
 #: ajax/upload.php:21
+msgid "There is no error, the file uploaded with success"
+msgstr "A fájlt sikerült feltölteni"
+
+#: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr ""
+msgstr "A feltöltött fájl mérete meghaladja a php.ini állományban megadott upload_max_filesize paraméter értékét."
 
-#: ajax/upload.php:23
+#: ajax/upload.php:24
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "A feltöltött fájl meghaladja a MAX_FILE_SIZE direktívát ami meghatározott a HTML form-ban."
-
-#: ajax/upload.php:25
-msgid "The uploaded file was only partially uploaded"
-msgstr "Az eredeti fájl csak részlegesen van feltöltve."
+msgstr "A feltöltött fájl mérete meghaladja a MAX_FILE_SIZE paramétert, ami a HTML  formban került megadásra."
 
 #: ajax/upload.php:26
-msgid "No file was uploaded"
-msgstr "Nem lett fájl feltöltve."
+msgid "The uploaded file was only partially uploaded"
+msgstr "Az eredeti fájlt csak részben sikerült feltölteni."
 
 #: ajax/upload.php:27
-msgid "Missing a temporary folder"
-msgstr "Hiányzik az ideiglenes könyvtár"
+msgid "No file was uploaded"
+msgstr "Nem töltődött fel semmi"
 
 #: ajax/upload.php:28
+msgid "Missing a temporary folder"
+msgstr "Hiányzik egy ideiglenes mappa"
+
+#: ajax/upload.php:29
 msgid "Failed to write to disk"
-msgstr "Nem írható lemezre"
+msgstr "Nem sikerült a lemezre történő írás"
+
+#: ajax/upload.php:45
+msgid "Not enough space available"
+msgstr ""
+
+#: ajax/upload.php:69
+msgid "Invalid directory."
+msgstr ""
 
 #: appinfo/app.php:10
 msgid "Files"
 msgstr "Fájlok"
 
-#: js/fileactions.js:117 templates/index.php:83 templates/index.php:84
+#: js/fileactions.js:117 templates/index.php:84 templates/index.php:85
 msgid "Unshare"
-msgstr "Nem oszt meg"
+msgstr "Megosztás visszavonása"
 
-#: js/fileactions.js:119 templates/index.php:89 templates/index.php:90
+#: js/fileactions.js:119 templates/index.php:90 templates/index.php:91
 msgid "Delete"
 msgstr "Törlés"
 
 #: js/fileactions.js:181
 msgid "Rename"
-msgstr ""
+msgstr "Átnevezés"
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:199 js/filelist.js:201
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} már létezik"
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:199 js/filelist.js:201
 msgid "replace"
-msgstr "cserél"
+msgstr "írjuk fölül"
 
-#: js/filelist.js:201
+#: js/filelist.js:199
 msgid "suggest name"
-msgstr ""
+msgstr "legyen más neve"
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:199 js/filelist.js:201
 msgid "cancel"
 msgstr "mégse"
 
-#: js/filelist.js:250
+#: js/filelist.js:248
 msgid "replaced {new_name}"
-msgstr ""
+msgstr "a(z) {new_name} állományt kicseréltük"
 
-#: js/filelist.js:250 js/filelist.js:252 js/filelist.js:284 js/filelist.js:286
+#: js/filelist.js:248 js/filelist.js:250 js/filelist.js:282 js/filelist.js:284
 msgid "undo"
-msgstr "visszavon"
+msgstr "visszavonás"
 
-#: js/filelist.js:252
+#: js/filelist.js:250
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "{new_name} fájlt kicseréltük ezzel:  {old_name}"
+
+#: js/filelist.js:282
+msgid "unshared {files}"
+msgstr "{files} fájl megosztása visszavonva"
 
 #: js/filelist.js:284
-msgid "unshared {files}"
-msgstr ""
-
-#: js/filelist.js:286
 msgid "deleted {files}"
+msgstr "{files} fájl törölve"
+
+#: js/files.js:31
+msgid "'.' is an invalid file name."
 msgstr ""
 
-#: js/files.js:33
+#: js/files.js:36
+msgid "File name cannot be empty."
+msgstr ""
+
+#: js/files.js:45
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Érvénytelen elnevezés. Ezek a karakterek nem használhatók: '\\', '/', '<', '>', ':', '\"', '|', '?' és '*'"
 
-#: js/files.js:183
+#: js/files.js:186
 msgid "generating ZIP-file, it may take some time."
 msgstr "ZIP-fájl generálása, ez eltarthat egy ideig."
 
-#: js/files.js:218
+#: js/files.js:224
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Nem tölthető fel, mert mappa volt, vagy 0 byte méretű"
 
-#: js/files.js:218
+#: js/files.js:224
 msgid "Upload Error"
 msgstr "Feltöltési hiba"
 
-#: js/files.js:235
+#: js/files.js:241
 msgid "Close"
-msgstr "Bezár"
+msgstr "Bezárás"
 
-#: js/files.js:254 js/files.js:368 js/files.js:398
+#: js/files.js:260 js/files.js:374 js/files.js:404
 msgid "Pending"
 msgstr "Folyamatban"
 
-#: js/files.js:274
+#: js/files.js:280
 msgid "1 file uploading"
-msgstr ""
+msgstr "1 fájl töltődik föl"
 
-#: js/files.js:277 js/files.js:331 js/files.js:346
+#: js/files.js:283 js/files.js:337 js/files.js:352
 msgid "{count} files uploading"
-msgstr ""
+msgstr "{count} fájl töltődik föl"
 
-#: js/files.js:349 js/files.js:382
+#: js/files.js:355 js/files.js:388
 msgid "Upload cancelled."
-msgstr "Feltöltés megszakítva"
+msgstr "A feltöltést megszakítottuk."
 
-#: js/files.js:451
+#: js/files.js:457
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Fájlfeltöltés van folyamatban. Az oldal elhagyása megszakítja a feltöltést."
 
-#: js/files.js:523
+#: js/files.js:527
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
-msgstr ""
+msgstr "Érvénytelen mappanév. A \"Shared\" elnevezést az Owncloud rendszer használja."
 
-#: js/files.js:704
+#: js/files.js:711
 msgid "{count} files scanned"
-msgstr ""
+msgstr "{count} fájlt találtunk"
 
-#: js/files.js:712
+#: js/files.js:719
 msgid "error while scanning"
-msgstr ""
+msgstr "Hiba a fájllista-ellenőrzés során"
 
-#: js/files.js:785 templates/index.php:65
+#: js/files.js:792 templates/index.php:66
 msgid "Name"
 msgstr "Név"
 
-#: js/files.js:786 templates/index.php:76
+#: js/files.js:793 templates/index.php:77
 msgid "Size"
 msgstr "Méret"
 
-#: js/files.js:787 templates/index.php:78
+#: js/files.js:794 templates/index.php:79
 msgid "Modified"
 msgstr "Módosítva"
 
-#: js/files.js:814
+#: js/files.js:813
 msgid "1 folder"
-msgstr ""
+msgstr "1 mappa"
 
-#: js/files.js:816
+#: js/files.js:815
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} mappa"
 
-#: js/files.js:824
+#: js/files.js:823
 msgid "1 file"
-msgstr ""
+msgstr "1 fájl"
 
-#: js/files.js:826
+#: js/files.js:825
 msgid "{count} files"
-msgstr ""
+msgstr "{count} fájl"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -194,27 +214,27 @@ msgstr "Fájlkezelés"
 msgid "Maximum upload size"
 msgstr "Maximális feltölthető fájlméret"
 
-#: templates/admin.php:9
+#: templates/admin.php:10
 msgid "max. possible: "
-msgstr "max. lehetséges"
+msgstr "max. lehetséges: "
 
-#: templates/admin.php:12
+#: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr "Kötegelt file- vagy mappaletöltéshez szükséges"
-
-#: templates/admin.php:14
-msgid "Enable ZIP-download"
-msgstr "ZIP-letöltés engedélyezése"
+msgstr "Kötegelt fájl- vagy mappaletöltéshez szükséges"
 
 #: templates/admin.php:17
+msgid "Enable ZIP-download"
+msgstr "A ZIP-letöltés engedélyezése"
+
+#: templates/admin.php:20
 msgid "0 is unlimited"
 msgstr "0 = korlátlan"
 
-#: templates/admin.php:19
+#: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr "ZIP file-ok maximum mérete"
+msgstr "ZIP-fájlok maximális kiindulási mérete"
 
-#: templates/admin.php:23
+#: templates/admin.php:26
 msgid "Save"
 msgstr "Mentés"
 
@@ -232,7 +252,7 @@ msgstr "Mappa"
 
 #: templates/index.php:14
 msgid "From link"
-msgstr ""
+msgstr "Feltöltés linkről"
 
 #: templates/index.php:35
 msgid "Upload"
@@ -240,30 +260,30 @@ msgstr "Feltöltés"
 
 #: templates/index.php:43
 msgid "Cancel upload"
-msgstr "Feltöltés megszakítása"
+msgstr "A feltöltés megszakítása"
 
-#: templates/index.php:57
+#: templates/index.php:58
 msgid "Nothing in here. Upload something!"
-msgstr "Töltsön fel egy fájlt."
+msgstr "Itt nincs semmi. Töltsön fel valamit!"
 
-#: templates/index.php:71
+#: templates/index.php:72
 msgid "Download"
 msgstr "Letöltés"
 
-#: templates/index.php:103
+#: templates/index.php:104
 msgid "Upload too large"
-msgstr "Feltöltés túl nagy"
+msgstr "A feltöltés túl nagy"
 
-#: templates/index.php:105
+#: templates/index.php:106
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "A fájlokat amit próbálsz feltölteni meghaladta a legnagyobb fájlméretet ezen a szerveren."
+msgstr "A feltöltendő állományok mérete meghaladja a kiszolgálón megengedett maximális méretet."
 
-#: templates/index.php:110
+#: templates/index.php:111
 msgid "Files are being scanned, please wait."
-msgstr "File-ok vizsgálata, kis türelmet"
+msgstr "A fájllista ellenőrzése zajlik, kis türelmet!"
 
-#: templates/index.php:113
+#: templates/index.php:114
 msgid "Current scanning"
-msgstr "Aktuális vizsgálat"
+msgstr "Ellenőrzés alatt"

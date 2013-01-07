@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Ingen fil uppladdad. Okänt fel",
 "There is no error, the file uploaded with success" => "Inga fel uppstod. Filen laddades upp utan problem",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Den uppladdade filen överskrider upload_max_filesize direktivet php.ini:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Den uppladdade filen överstiger MAX_FILE_SIZE direktivet som anges i HTML-formulär",
@@ -6,6 +7,8 @@
 "No file was uploaded" => "Ingen fil blev uppladdad",
 "Missing a temporary folder" => "Saknar en tillfällig mapp",
 "Failed to write to disk" => "Misslyckades spara till disk",
+"Not enough space available" => "Inte tillräckligt med utrymme tillgängligt",
+"Invalid directory." => "Felaktig mapp.",
 "Files" => "Filer",
 "Unshare" => "Sluta dela",
 "Delete" => "Radera",

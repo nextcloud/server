@@ -1,0 +1,287 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Shubhra Paul <paul_shubhra@yahoo.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-01-07 00:04+0100\n"
+"PO-Revision-Date: 2013-01-06 23:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: bn_BD\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/upload.php:14
+msgid "No file was uploaded. Unknown error"
+msgstr ""
+
+#: ajax/upload.php:21
+msgid "There is no error, the file uploaded with success"
+msgstr "কোন সমস্যা নেই, ফাইল আপলোড সুসম্পন্ন হয়েছে"
+
+#: ajax/upload.php:22
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+msgstr ""
+
+#: ajax/upload.php:24
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr ""
+
+#: ajax/upload.php:26
+msgid "The uploaded file was only partially uploaded"
+msgstr "আপলোড করা ফাইলটি আংশিক আপলোড হয়েছে"
+
+#: ajax/upload.php:27
+msgid "No file was uploaded"
+msgstr "কোন ফাইল আপলোড করা হয় নি"
+
+#: ajax/upload.php:28
+msgid "Missing a temporary folder"
+msgstr "অস্থায়ী ফোল্ডারটি খোয়া গিয়েছে "
+
+#: ajax/upload.php:29
+msgid "Failed to write to disk"
+msgstr "ডিস্কে লিখতে পারা গেল না"
+
+#: ajax/upload.php:45
+msgid "Not enough space available"
+msgstr ""
+
+#: ajax/upload.php:69
+msgid "Invalid directory."
+msgstr ""
+
+#: appinfo/app.php:10
+msgid "Files"
+msgstr "ফাইল"
+
+#: js/fileactions.js:117 templates/index.php:84 templates/index.php:85
+msgid "Unshare"
+msgstr "ভাগাভাগি বাতিল"
+
+#: js/fileactions.js:119 templates/index.php:90 templates/index.php:91
+msgid "Delete"
+msgstr "মুছে ফেল"
+
+#: js/fileactions.js:181
+msgid "Rename"
+msgstr "পূনঃনামকরণ"
+
+#: js/filelist.js:199 js/filelist.js:201
+msgid "{new_name} already exists"
+msgstr "{new_name} টি বিদ্যমান"
+
+#: js/filelist.js:199 js/filelist.js:201
+msgid "replace"
+msgstr "প্রতিস্থাপন"
+
+#: js/filelist.js:199
+msgid "suggest name"
+msgstr "নাম সুপারিশ কর"
+
+#: js/filelist.js:199 js/filelist.js:201
+msgid "cancel"
+msgstr "বাতিল"
+
+#: js/filelist.js:248
+msgid "replaced {new_name}"
+msgstr "{new_name}  প্রতিস্থাপন করা হয়েছে"
+
+#: js/filelist.js:248 js/filelist.js:250 js/filelist.js:282 js/filelist.js:284
+msgid "undo"
+msgstr "ক্রিয়া প্রত্যাহার"
+
+#: js/filelist.js:250
+msgid "replaced {new_name} with {old_name}"
+msgstr "{new_name} কে {old_name} নামে প্রতিস্থাপন করা হয়েছে"
+
+#: js/filelist.js:282
+msgid "unshared {files}"
+msgstr "{files} ভাগাভাগি বাতিল কর"
+
+#: js/filelist.js:284
+msgid "deleted {files}"
+msgstr "{files} মুছে ফেলা হয়েছে"
+
+#: js/files.js:31
+msgid "'.' is an invalid file name."
+msgstr ""
+
+#: js/files.js:36
+msgid "File name cannot be empty."
+msgstr ""
+
+#: js/files.js:45
+msgid ""
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
+"allowed."
+msgstr ""
+
+#: js/files.js:186
+msgid "generating ZIP-file, it may take some time."
+msgstr ""
+
+#: js/files.js:224
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr ""
+
+#: js/files.js:224
+msgid "Upload Error"
+msgstr "আপলোড করতে সমস্যা"
+
+#: js/files.js:241
+msgid "Close"
+msgstr ""
+
+#: js/files.js:260 js/files.js:374 js/files.js:404
+msgid "Pending"
+msgstr "মুলতুবি"
+
+#: js/files.js:280
+msgid "1 file uploading"
+msgstr "১ টি ফাইল আপলোড করা হচ্ছে"
+
+#: js/files.js:283 js/files.js:337 js/files.js:352
+msgid "{count} files uploading"
+msgstr ""
+
+#: js/files.js:355 js/files.js:388
+msgid "Upload cancelled."
+msgstr "আপলোড বাতিল করা হয়েছে ।"
+
+#: js/files.js:457
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr ""
+
+#: js/files.js:527
+msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
+msgstr ""
+
+#: js/files.js:711
+msgid "{count} files scanned"
+msgstr ""
+
+#: js/files.js:719
+msgid "error while scanning"
+msgstr "স্ক্যান করার সময় সমস্যা দেখা দিয়েছে"
+
+#: js/files.js:792 templates/index.php:66
+msgid "Name"
+msgstr "নাম"
+
+#: js/files.js:793 templates/index.php:77
+msgid "Size"
+msgstr "আকার"
+
+#: js/files.js:794 templates/index.php:79
+msgid "Modified"
+msgstr "পরিবর্তিত"
+
+#: js/files.js:813
+msgid "1 folder"
+msgstr ""
+
+#: js/files.js:815
+msgid "{count} folders"
+msgstr ""
+
+#: js/files.js:823
+msgid "1 file"
+msgstr ""
+
+#: js/files.js:825
+msgid "{count} files"
+msgstr ""
+
+#: templates/admin.php:5
+msgid "File handling"
+msgstr "ফাইল হ্যান্ডলিং"
+
+#: templates/admin.php:7
+msgid "Maximum upload size"
+msgstr "আপলোডের সর্বোচ্চ আকার"
+
+#: templates/admin.php:10
+msgid "max. possible: "
+msgstr "সম্ভাব্য সর্বোচ্চঃ"
+
+#: templates/admin.php:15
+msgid "Needed for multi-file and folder downloads."
+msgstr "একাধিক ফাইল এবং ফোল্ডার ডাউনলোড করার ক্ষেত্রে আবশ্যক।"
+
+#: templates/admin.php:17
+msgid "Enable ZIP-download"
+msgstr "জিপ ডাউনলোড সক্রিয় কর"
+
+#: templates/admin.php:20
+msgid "0 is unlimited"
+msgstr "০ এর অর্থ হলো অসীম"
+
+#: templates/admin.php:22
+msgid "Maximum input size for ZIP files"
+msgstr "জিপ ফাইলের জন্য সর্বোচ্চ ইনপুট"
+
+#: templates/admin.php:26
+msgid "Save"
+msgstr "সংরক্ষণ কর"
+
+#: templates/index.php:7
+msgid "New"
+msgstr "নতুন"
+
+#: templates/index.php:10
+msgid "Text file"
+msgstr "টেক্সট ফাইল"
+
+#: templates/index.php:12
+msgid "Folder"
+msgstr "ফোল্ডার"
+
+#: templates/index.php:14
+msgid "From link"
+msgstr ""
+
+#: templates/index.php:35
+msgid "Upload"
+msgstr "আপলোড"
+
+#: templates/index.php:43
+msgid "Cancel upload"
+msgstr "আপলোড বাতিল কর"
+
+#: templates/index.php:58
+msgid "Nothing in here. Upload something!"
+msgstr "এখানে কোন কিছুই নেই। কিছু আপলোড করুন !"
+
+#: templates/index.php:72
+msgid "Download"
+msgstr "ডাউনলোড"
+
+#: templates/index.php:104
+msgid "Upload too large"
+msgstr "আপলোডের আকার অনেক বড়"
+
+#: templates/index.php:106
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+
+#: templates/index.php:111
+msgid "Files are being scanned, please wait."
+msgstr "ফাইল স্ক্যান করা হচ্ছে, দয়া করে অপেক্ষা করুন।"
+
+#: templates/index.php:114
+msgid "Current scanning"
+msgstr "বর্তমান স্ক্যানিং"

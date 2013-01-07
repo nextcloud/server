@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 23:17+0000\n"
+"POT-Creation-Date: 2013-01-07 00:04+0100\n"
+"PO-Revision-Date: 2013-01-06 23:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -26,26 +26,26 @@ msgstr ""
 #: ajax/share.php:84
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "Användare %s delade en fil med dig"
 
 #: ajax/share.php:86
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "Användare %s delade en mapp med dig"
 
 #: ajax/share.php:88
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "Användare %s delade filen \"%s\" med dig. Den finns att ladda ner här: %s"
 
 #: ajax/share.php:90
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "Användare %s delade mappen \"%s\" med dig. Den finns att ladda ner här: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -167,8 +167,8 @@ msgid "The object type is not specified."
 msgstr "Objekttypen är inte specificerad."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "Fel"
 
@@ -180,7 +180,7 @@ msgstr " Namnet på appen är inte specificerad."
 msgid "The required file {file} is not installed!"
 msgstr "Den nödvändiga filen {file} är inte installerad!"
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "Fel vid delning"
 
@@ -208,22 +208,22 @@ msgstr "Delad med"
 msgid "Share with link"
 msgstr "Delad med länk"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "Lösenordsskydda"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Lösenord"
 
 #: js/share.js:172
 msgid "Email link to person"
-msgstr ""
+msgstr "E-posta länk till person"
 
 #: js/share.js:173
 msgid "Send"
-msgstr ""
+msgstr "Skicka"
 
 #: js/share.js:177
 msgid "Set expiration date"
@@ -277,25 +277,25 @@ msgstr "radera"
 msgid "share"
 msgstr "dela"
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "Lösenordsskyddad"
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr "Fel vid borttagning av utgångsdatum"
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "Fel vid sättning av utgångsdatum"
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
-msgstr ""
+msgstr "Skickar ..."
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
-msgstr ""
+msgstr "E-post skickat"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -317,8 +317,8 @@ msgstr "Återställ skickad e-post."
 msgid "Request failed!"
 msgstr "Begäran misslyckades!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "Användarnamn"
 
@@ -407,44 +407,44 @@ msgstr "Din datakatalog och dina filer är förmodligen tillgängliga från Inte
 msgid "Create an <strong>admin account</strong>"
 msgstr "Skapa ett <strong>administratörskonto</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "Avancerat"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "Datamapp"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "Konfigurera databasen"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "kommer att användas"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "Databasanvändare"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "Lösenord till databasen"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "Databasnamn"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "Databas tabellutrymme"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Databasserver"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "Avsluta installation"
 
@@ -532,29 +532,29 @@ msgstr "webbtjänster under din kontroll"
 msgid "Log out"
 msgstr "Logga ut"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Automatisk inloggning inte tillåten!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Om du inte har ändrat ditt lösenord nyligen så kan ditt konto vara manipulerat!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Ändra genast lösenord för att säkra ditt konto."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Glömt ditt lösenord?"
 
-#: templates/login.php:27
+#: templates/login.php:39
 msgid "remember"
 msgstr "kom ihåg"
 
-#: templates/login.php:28
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Logga in"
 
@@ -569,6 +569,11 @@ msgstr "föregående"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "nästa"
+
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr ""
 
 #: templates/verify.php:5
 msgid "Security Warning!"

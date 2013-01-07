@@ -36,8 +36,8 @@ class Shared_Cache extends Cache {
 
 	/**
 	* @brief Get the source cache of a shared file or folder
-	* @param string Shared target file path
-	* @return \OC\Files\Storage\Cache
+	* @param string $target Shared target file path
+	* @return \OC\Files\Cache\Cache
 	*/
 	private function getSourceCache($target) {
 		$source = \OC_Share_Backend_File::getSource($target);
@@ -48,6 +48,7 @@ class Shared_Cache extends Cache {
 			if ($storage) {
 				$this->files[$target] = $internalPath;
 				$cache = $storage->getCache();
+				$this->storageId = $storage->getId();
 				$this->numericId = $cache->getNumericStorageId();
 				return $cache;
 			}
@@ -110,7 +111,7 @@ class Shared_Cache extends Cache {
 	 */
 	public function put($file, array $data) {
 		if ($cache = $this->getSourceCache($file)) {
-			return $cache->put($this->files[$file]);
+			return $cache->put($this->files[$file], $data);
 		}
 		return false;
 	}
@@ -169,6 +170,9 @@ class Shared_Cache extends Cache {
 	 * @return int, Cache::NOT_FOUND, Cache::PARTIAL, Cache::SHALLOW or Cache::COMPLETE
 	 */
 	public function getStatus($file) {
+		if ($file == '') {
+			return self::COMPLETE;
+		}
 		if ($cache = $this->getSourceCache($file)) {
 			return $cache->getStatus($this->files[$file]);
 		}
@@ -227,7 +231,7 @@ class Shared_Cache extends Cache {
 	 * @return int[]
 	 */
 	public function getAll() {
-		return OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_GET_ALL);
+		return \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_GET_ALL);
 	}
 
 }

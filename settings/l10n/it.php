@@ -53,9 +53,11 @@
 "Name" => "Nome",
 "Groups" => "Gruppi",
 "Create" => "Crea",
-"Default Quota" => "Quota predefinita",
+"Default Storage" => "Archiviazione predefinita",
+"Unlimited" => "Illimitata",
 "Other" => "Altro",
 "Group Admin" => "Gruppo di amministrazione",
-"Quota" => "Quote",
+"Storage" => "Archiviazione",
+"Default" => "Predefinito",
 "Delete" => "Elimina"
 );

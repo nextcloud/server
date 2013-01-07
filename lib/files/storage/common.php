@@ -237,16 +237,20 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		return $this->filemtime($path)>$time;
 	}
 
-	public function getCache(){
+	public function getCache($path=''){
 		return new \OC\Files\Cache\Cache($this);
 	}
 
-	public function getScanner(){
+	public function getScanner($path=''){
 		return new \OC\Files\Cache\Scanner($this);
 	}
 
-	public function getPermissionsCache(){
+	public function getPermissionsCache($path=''){
 		return new \OC\Files\Cache\Permissions($this);
+	}
+
+	public function getWatcher($path=''){
+		return new \OC\Files\Cache\Watcher($this);
 	}
 
 	/**

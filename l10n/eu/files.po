@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-14 00:16+0100\n"
-"PO-Revision-Date: 2012-12-13 11:48+0000\n"
-"Last-Translator: Piarres Beobide <pi@beobide.net>\n"
+"POT-Creation-Date: 2013-01-07 00:04+0100\n"
+"PO-Revision-Date: 2013-01-06 23:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,36 +20,48 @@ msgstr ""
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/upload.php:20
+#: ajax/upload.php:14
+msgid "No file was uploaded. Unknown error"
+msgstr "Ez da fitxategirik igo. Errore ezezaguna"
+
+#: ajax/upload.php:21
 msgid "There is no error, the file uploaded with success"
 msgstr "Ez da arazorik izan, fitxategia ongi igo da"
 
-#: ajax/upload.php:21
+#: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Igotako fitxategiak php.ini fitxategian ezarritako upload_max_filesize muga gainditu du:"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:24
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Igotako fitxategiaren tamaina HTML inprimakiko MAX_FILESIZE direktiban adierazitakoa baino handiagoa da"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:26
 msgid "The uploaded file was only partially uploaded"
 msgstr "Igotako fitxategiaren zati bat baino gehiago ez da igo"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:27
 msgid "No file was uploaded"
 msgstr "Ez da fitxategirik igo"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:28
 msgid "Missing a temporary folder"
 msgstr "Aldi baterako karpeta falta da"
 
-#: ajax/upload.php:28
+#: ajax/upload.php:29
 msgid "Failed to write to disk"
 msgstr "Errore bat izan da diskoan idazterakoan"
+
+#: ajax/upload.php:45
+msgid "Not enough space available"
+msgstr ""
+
+#: ajax/upload.php:69
+msgid "Invalid directory."
+msgstr ""
 
 #: appinfo/app.php:10
 msgid "Files"
@@ -103,86 +115,94 @@ msgstr "elkarbanaketa utzita {files}"
 msgid "deleted {files}"
 msgstr "ezabatuta {files}"
 
-#: js/files.js:33
+#: js/files.js:31
+msgid "'.' is an invalid file name."
+msgstr ""
+
+#: js/files.js:36
+msgid "File name cannot be empty."
+msgstr ""
+
+#: js/files.js:45
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "IZen aliogabea, '\\', '/', '<', '>', ':', '\"', '|', '?' eta '*' ez daude baimenduta."
 
-#: js/files.js:174
+#: js/files.js:186
 msgid "generating ZIP-file, it may take some time."
 msgstr "ZIP-fitxategia sortzen ari da, denbora har dezake"
 
-#: js/files.js:209
+#: js/files.js:224
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Ezin da zure fitxategia igo, karpeta bat da edo 0 byt ditu"
 
-#: js/files.js:209
+#: js/files.js:224
 msgid "Upload Error"
 msgstr "Igotzean errore bat suertatu da"
 
-#: js/files.js:226
+#: js/files.js:241
 msgid "Close"
 msgstr "Itxi"
 
-#: js/files.js:245 js/files.js:359 js/files.js:389
+#: js/files.js:260 js/files.js:374 js/files.js:404
 msgid "Pending"
 msgstr "Zain"
 
-#: js/files.js:265
+#: js/files.js:280
 msgid "1 file uploading"
 msgstr "fitxategi 1 igotzen"
 
-#: js/files.js:268 js/files.js:322 js/files.js:337
+#: js/files.js:283 js/files.js:337 js/files.js:352
 msgid "{count} files uploading"
 msgstr "{count} fitxategi igotzen"
 
-#: js/files.js:340 js/files.js:373
+#: js/files.js:355 js/files.js:388
 msgid "Upload cancelled."
 msgstr "Igoera ezeztatuta"
 
-#: js/files.js:442
+#: js/files.js:457
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Fitxategien igoera martxan da. Orria orain uzteak igoera ezeztatutko du."
 
-#: js/files.js:512
+#: js/files.js:527
 msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
 msgstr "Karpeta izen baliogabea. \"Shared\" karpetaren erabilera Owncloudek erreserbatuta dauka"
 
-#: js/files.js:693
+#: js/files.js:711
 msgid "{count} files scanned"
 msgstr "{count} fitxategi eskaneatuta"
 
-#: js/files.js:701
+#: js/files.js:719
 msgid "error while scanning"
 msgstr "errore bat egon da eskaneatzen zen bitartean"
 
-#: js/files.js:774 templates/index.php:66
+#: js/files.js:792 templates/index.php:66
 msgid "Name"
 msgstr "Izena"
 
-#: js/files.js:775 templates/index.php:77
+#: js/files.js:793 templates/index.php:77
 msgid "Size"
 msgstr "Tamaina"
 
-#: js/files.js:776 templates/index.php:79
+#: js/files.js:794 templates/index.php:79
 msgid "Modified"
 msgstr "Aldatuta"
 
-#: js/files.js:803
+#: js/files.js:813
 msgid "1 folder"
 msgstr "karpeta bat"
 
-#: js/files.js:805
+#: js/files.js:815
 msgid "{count} folders"
 msgstr "{count} karpeta"
 
-#: js/files.js:813
+#: js/files.js:823
 msgid "1 file"
 msgstr "fitxategi bat"
 
-#: js/files.js:815
+#: js/files.js:825
 msgid "{count} files"
 msgstr "{count} fitxategi"
 
@@ -194,27 +214,27 @@ msgstr "Fitxategien kudeaketa"
 msgid "Maximum upload size"
 msgstr "Igo daitekeen gehienezko tamaina"
 
-#: templates/admin.php:9
+#: templates/admin.php:10
 msgid "max. possible: "
 msgstr "max, posiblea:"
 
-#: templates/admin.php:12
+#: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
 msgstr "Beharrezkoa fitxategi-anitz eta karpeten deskargarako."
 
-#: templates/admin.php:14
+#: templates/admin.php:17
 msgid "Enable ZIP-download"
 msgstr "Gaitu ZIP-deskarga"
 
-#: templates/admin.php:17
+#: templates/admin.php:20
 msgid "0 is unlimited"
 msgstr "0 mugarik gabe esan nahi du"
 
-#: templates/admin.php:19
+#: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
 msgstr "ZIP fitxategien gehienezko tamaina"
 
-#: templates/admin.php:23
+#: templates/admin.php:26
 msgid "Save"
 msgstr "Gorde"
 

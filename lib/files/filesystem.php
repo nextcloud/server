@@ -364,11 +364,14 @@ class Filesystem {
 		if (strlen($mountpoint) > 1) {
 			$mountpoint .= '/';
 		}
-
 		if ($class instanceof \OC\Files\Storage\Storage) {
 			self::$mounts[$mountpoint] = array('class' => get_class($class), 'arguments' => $arguments);
 			self::$storages[$mountpoint] = $class;
 		} else {
+			// Update old classes to new namespace
+			if (strpos($class, 'OC_Filestorage_') !== false) {
+				$class = '\OC\Files\Storage\\'.substr($class, 15);
+			}
 			self::$mounts[$mountpoint] = array('class' => $class, 'arguments' => $arguments);
 		}
 	}

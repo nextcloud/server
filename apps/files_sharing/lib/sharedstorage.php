@@ -364,6 +364,9 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function free_space($path) {
+		if ($path == '') {
+			return -1;
+		}
 		$source = $this->getSourcePath($path);
 		if ($source) {
 			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
@@ -387,23 +390,45 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public static function setup($options) {
-		$user_dir = $options['user_dir'];
-		\OC\Files\Filesystem::mount('\OC\Files\Storage\Shared', array('sharedFolder' => '/Shared'), $user_dir.'/Shared/');
+		if (\OCP\Share::getItemsSharedWith('file')) {
+			$user_dir = $options['user_dir'];
+			\OC\Files\Filesystem::mount('\OC\Files\Storage\Shared', array('sharedFolder' => '/Shared'), $user_dir.'/Shared/');
+		}
 	}
 
-	public function getCache() {
+	public function hasUpdated($path, $time) {
+		if ($path == '') {
+			return false;
+		}
+		return $this->filemtime($path) > $time;
+	}
+
+	public function getCache($path = '') {
 		return new \OC\Files\Cache\Shared_Cache($this);
 	}
 
-	public function getScanner(){
-		return new \OC\Files\Cache\Shared_Scanner($this);
+	public function getScanner($path = '') {
+		if ($path != '' && ($source = $this->getSourcePath($path))) {
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			if ($storage) {
+				return $storage->getScanner($internalPath);
+			}
+		}
+		return new \OC\Files\Cache\Scanner($this);
 	}
 
-	public function getPermissionsCache() {
+	public function getPermissionsCache($path = '') {
 		return new \OC\Files\Cache\Shared_Permissions($this);
 	}
 
+	public function getWatcher($path = '') {
+		return new \OC\Files\Cache\Shared_Watcher($this);
+	}
+
 	public function getOwner($path) {
+		if ($path == '') {
+			return false;
+		}
 		$source = $this->getFile($path);
 		if ($source) {
 			return $source['uid_owner'];

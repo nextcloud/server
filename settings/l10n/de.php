@@ -53,9 +53,11 @@
 "Name" => "Name",
 "Groups" => "Gruppen",
 "Create" => "Anlegen",
-"Default Quota" => "Standard-Quota",
+"Default Storage" => "Standard-Speicher",
+"Unlimited" => "Unbegrenzt",
 "Other" => "Andere",
 "Group Admin" => "Gruppenadministrator",
-"Quota" => "Quota",
+"Storage" => "Speicher",
+"Default" => "Standard",
 "Delete" => "Löschen"
 );

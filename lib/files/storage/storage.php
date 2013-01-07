@@ -54,20 +54,29 @@ interface Storage{
 	public function hasUpdated($path,$time);
 
 	/**
+	 * @param string $path
 	 * @return \OC\Files\Cache\Cache
 	 */
-	public function getCache();
+	public function getCache($path='');
 	/**
+	 * @param string $path
 	 * @return \OC\Files\Cache\Scanner
 	 */
-	public function getScanner();
+	public function getScanner($path='');
 
 	public function getOwner($path);
 
 	/**
+	 * @param string $path
 	 * @return \OC\Files\Cache\Permissions
 	 */
-	public function getPermissionsCache();
+	public function getPermissionsCache($path='');
+
+	/**
+	 * @param string $path
+	 * @return \OC\Files\Cache\Watcher
+	 */
+	public function getWatcher($path='');
 
 	/**
 	 * get the ETag for a file or folder

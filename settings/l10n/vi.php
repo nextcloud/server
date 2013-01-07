@@ -41,9 +41,7 @@
 "Name" => "Tên",
 "Groups" => "Nhóm",
 "Create" => "Tạo",
-"Default Quota" => "Hạn ngạch mặt định",
 "Other" => "Khác",
 "Group Admin" => "Nhóm quản trị",
-"Quota" => "Hạn ngạch",
 "Delete" => "Xóa"
 );

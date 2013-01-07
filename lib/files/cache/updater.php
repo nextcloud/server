@@ -31,8 +31,8 @@ class Updater {
 		 */
 		list($storage, $internalPath) = self::resolvePath($path);
 		if ($storage) {
-			$cache = $storage->getCache();
-			$scanner = $storage->getScanner();
+			$cache = $storage->getCache($internalPath);
+			$scanner = $storage->getScanner($internalPath);
 			$scanner->scan($internalPath, Scanner::SCAN_SHALLOW);
 			$cache->correctFolderSize($internalPath);
 			self::eTagUpdate($path);
@@ -46,7 +46,7 @@ class Updater {
 		 */
 		list($storage, $internalPath) = self::resolvePath($path);
 		if ($storage) {
-			$cache = $storage->getCache();
+			$cache = $storage->getCache($internalPath);
 			$cache->remove($internalPath);
 			$cache->correctFolderSize($internalPath);
 			self::eTagUpdate($path);

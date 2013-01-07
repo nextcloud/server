@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Δεν ανέβηκε κάποιο αρχείο. Άγνωστο σφάλμα",
 "There is no error, the file uploaded with success" => "Δεν υπάρχει σφάλμα, το αρχείο εστάλει επιτυχώς",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Το απεσταλμένο αρχείο ξεπερνά την οδηγία upload_max_filesize στο php.ini:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Το αρχείο υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους \"MAX_FILE_SIZE\" που έχει οριστεί στην HTML φόρμα",
@@ -28,7 +29,7 @@
 "1 file uploading" => "1 αρχείο ανεβαίνει",
 "{count} files uploading" => "{count} αρχεία ανεβαίνουν",
 "Upload cancelled." => "Η αποστολή ακυρώθηκε.",
-"File upload is in progress. Leaving the page now will cancel the upload." => "Η αποστολή του αρχείου βρίσκεται σε εξέλιξη.  Έξοδος από την σελίδα τώρα θα ακυρώσει την αποστολή.",
+"File upload is in progress. Leaving the page now will cancel the upload." => "Η αποστολή του αρχείου βρίσκεται σε εξέλιξη. Το κλείσιμο της σελίδας θα ακυρώσει την αποστολή.",
 "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Μη έγκυρο όνομα φακέλου. Η χρήση του \"Shared\" είναι δεσμευμένη από το Owncloud",
 "{count} files scanned" => "{count} αρχεία ανιχνεύτηκαν",
 "error while scanning" => "σφάλμα κατά την ανίχνευση",
@@ -56,7 +57,7 @@
 "Nothing in here. Upload something!" => "Δεν υπάρχει τίποτα εδώ. Ανέβασε κάτι!",
 "Download" => "Λήψη",
 "Upload too large" => "Πολύ μεγάλο αρχείο προς αποστολή",
-"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος αποστολής αρχείων σε αυτόν το διακομιστή.",
+"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Τα αρχεία που προσπαθείτε να ανεβάσετε υπερβαίνουν το μέγιστο μέγεθος αποστολής αρχείων σε αυτόν τον διακομιστή.",
 "Files are being scanned, please wait." => "Τα αρχεία σαρώνονται, παρακαλώ περιμένετε",
 "Current scanning" => "Τρέχουσα αναζήτηση "
 );

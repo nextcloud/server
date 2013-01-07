@@ -53,9 +53,7 @@
 "Name" => "名称",
 "Groups" => "组",
 "Create" => "创建",
-"Default Quota" => "默认配额",
 "Other" => "其它",
 "Group Admin" => "组管理员",
-"Quota" => "配额",
 "Delete" => "删除"
 );

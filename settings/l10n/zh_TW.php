@@ -41,9 +41,7 @@
 "Name" => "名稱",
 "Groups" => "群組",
 "Create" => "創造",
-"Default Quota" => "預設容量限制",
 "Other" => "其他",
 "Group Admin" => "群組 管理員",
-"Quota" => "容量限制",
 "Delete" => "刪除"
 );

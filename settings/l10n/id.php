@@ -27,9 +27,7 @@
 "Name" => "Nama",
 "Groups" => "Group",
 "Create" => "Buat",
-"Default Quota" => "Kuota default",
 "Other" => "Lain-lain",
 "Group Admin" => "Admin Grup",
-"Quota" => "Quota",
 "Delete" => "Hapus"
 );

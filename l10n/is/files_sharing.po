@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <sveinng@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-06 00:11+0100\n"
-"PO-Revision-Date: 2012-08-12 22:35+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2012-12-31 00:04+0100\n"
+"PO-Revision-Date: 2012-12-30 15:08+0000\n"
+"Last-Translator: sveinn <sveinng@gmail.com>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,30 +20,30 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "Password"
-msgstr ""
+msgstr "Lykilorð"
 
 #: templates/authenticate.php:6
 msgid "Submit"
-msgstr ""
+msgstr "Senda"
 
 #: templates/public.php:17
 #, php-format
 msgid "%s shared the folder %s with you"
-msgstr ""
+msgstr "%s deildi möppunni %s með þér"
 
 #: templates/public.php:19
 #, php-format
 msgid "%s shared the file %s with you"
-msgstr ""
+msgstr "%s deildi skránni %s með þér"
 
 #: templates/public.php:22 templates/public.php:38
 msgid "Download"
-msgstr ""
+msgstr "Niðurhal"
 
 #: templates/public.php:37
 msgid "No preview available for"
-msgstr ""
+msgstr "Yfirlit ekki í boði fyrir"
 
 #: templates/public.php:43
 msgid "web services under your control"
-msgstr ""
+msgstr "vefþjónusta undir þinni stjórn"

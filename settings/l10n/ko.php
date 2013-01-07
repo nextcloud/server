@@ -41,9 +41,7 @@
 "Name" => "이름",
 "Groups" => "그룹",
 "Create" => "만들기",
-"Default Quota" => "기본 할당량",
 "Other" => "기타",
 "Group Admin" => "그룹 관리자",
-"Quota" => "할당량",
 "Delete" => "삭제"
 );

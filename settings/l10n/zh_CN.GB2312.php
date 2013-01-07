@@ -39,9 +39,7 @@
 "Name" => "名字",
 "Groups" => "组",
 "Create" => "新建",
-"Default Quota" => "默认限额",
 "Other" => "其他的",
 "Group Admin" => "群组管理员",
-"Quota" => "限额",
 "Delete" => "删除"
 );

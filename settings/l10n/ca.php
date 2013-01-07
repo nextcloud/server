@@ -53,9 +53,11 @@
 "Name" => "Nom",
 "Groups" => "Grups",
 "Create" => "Crea",
-"Default Quota" => "Quota per defecte",
-"Other" => "Altre",
+"Default Storage" => "Emmagatzemament per defecte",
+"Unlimited" => "Il·limitat",
+"Other" => "Un altre",
 "Group Admin" => "Grup Admin",
-"Quota" => "Quota",
+"Storage" => "Emmagatzemament",
+"Default" => "Per defecte",
 "Delete" => "Suprimeix"
 );

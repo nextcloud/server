@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "파일이 업로드되지 않았습니다. 알 수 없는 오류입니다",
 "There is no error, the file uploaded with success" => "업로드에 성공하였습니다.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "업로드한 파일이 php.ini의 upload_max_filesize보다 큽니다:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "업로드한 파일이 HTML 문서에 지정한 MAX_FILE_SIZE보다 더 큼",

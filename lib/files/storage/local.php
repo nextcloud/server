@@ -41,7 +41,15 @@ class Local extends \OC\Files\Storage\Common{
 		return is_file($this->datadir.$path);
 	}
 	public function stat($path) {
-		return stat($this->datadir.$path);
+		$fullPath = $this->datadir . $path;
+		$statResult = stat($fullPath);
+
+		if ($statResult['size'] < 0) {
+			$size = self::getFileSizeFromOS($fullPath);
+			$statResult['size'] = $size;
+			$statResult[7] = $size;
+		}
+		return $statResult;
 	}
 	public function filetype($path) {
 		$filetype=filetype($this->datadir.$path);
@@ -54,7 +62,13 @@ class Local extends \OC\Files\Storage\Common{
 		if($this->is_dir($path)) {
 			return 0;
 		}else{
-			return filesize($this->datadir.$path);
+			$fullPath = $this->datadir . $path;
+			$fileSize = filesize($fullPath);
+			if ($fileSize < 0) {
+				return self::getFileSizeFromOS($fullPath);
+			}
+
+			return $fileSize;
 		}
 	}
 	public function isReadable($path) {
@@ -165,6 +179,30 @@ class Local extends \OC\Files\Storage\Common{
 		return $return;
 	}
 
+	private static function getFileSizeFromOS($fullPath) {
+		$name = strtolower(php_uname('s'));
+		// Windows OS: we use COM to access the filesystem
+		if (strpos($name, 'win') !== false) {
+			if (class_exists('COM')) {
+				$fsobj = new COM("Scripting.FileSystemObject");
+				$f = $fsobj->GetFile($fullPath);
+				return $f->Size;
+			}
+		} else if (strpos($name, 'bsd') !== false) {
+			if (\OC_Helper::is_function_enabled('exec')) {
+				return (float)exec('stat -f %z ' . escapeshellarg($fullPath));
+			}
+		} else if (strpos($name, 'linux') !== false) {
+			if (\OC_Helper::is_function_enabled('exec')) {
+				return (float)exec('stat -c %s ' . escapeshellarg($fullPath));
+			}
+		} else {
+			OC_Log::write('core', 'Unable to determine file size of "'.$fullPath.'". Unknown OS: '.$name, OC_Log::ERROR);
+		}
+
+		return 0;
+	}
+
 	public function hash($path, $type, $raw=false) {
 		return hash_file($type, $this->datadir.$path, $raw);
 	}
@@ -199,6 +237,7 @@ class Local extends \OC\Files\Storage\Common{
 
 	/**
 	 * check if a file or folder has been updated since $time
+	 * @param string $path
 	 * @param int $time
 	 * @return bool
 	 */

@@ -52,9 +52,7 @@
 "Name" => "Имя",
 "Groups" => "Группы",
 "Create" => "Создать",
-"Default Quota" => "Квота по умолчанию",
 "Other" => "Другой",
 "Group Admin" => "Группа Admin",
-"Quota" => "квота",
 "Delete" => "Удалить"
 );

@@ -8,14 +8,15 @@ OCP\JSON::setContentTypeHeader('text/plain');
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
+$l=OC_L10N::get('files');
 
 if (!isset($_FILES['files'])) {
-	OCP\JSON::error(array('data' => array( 'message' => 'No file was uploaded. Unknown error' )));
+	OCP\JSON::error(array('data' => array( 'message' => $l->t( 'No file was uploaded. Unknown error' ))));
 	exit();
 }
+
 foreach ($_FILES['files']['error'] as $error) {
 	if ($error != 0) {
-		$l=OC_L10N::get('files');
 		$errors = array(
 			UPLOAD_ERR_OK=>$l->t('There is no error, the file uploaded with success'),
 			UPLOAD_ERR_INI_SIZE=>$l->t('The uploaded file exceeds the upload_max_filesize directive in php.ini: ')
@@ -51,8 +52,8 @@ if(strpos($dir, '..') === false) {
 	for($i=0;$i<$fileCount;$i++) {
 		$target = OCP\Files::buildNotExistingFileName(stripslashes($dir), $files['name'][$i]);
 		// $path needs to be normalized - this failed within drag'n'drop upload to a sub-folder
-		$target = OC_Filesystem::normalizePath($target);
-		if(is_uploaded_file($files['tmp_name'][$i]) and OC_Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
+		$target = \OC\Files\Filesystem::normalizePath($target);
+		if(is_uploaded_file($files['tmp_name'][$i]) and \OC\Files\Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
 			$meta = \OC\Files\Filesystem::getFileInfo($target);
 			$result[]=array( 'status' => 'success',
 				'mime'=>$meta['mimetype'],
@@ -64,7 +65,7 @@ if(strpos($dir, '..') === false) {
 	OCP\JSON::encodedPrint($result);
 	exit();
 } else {
-	$error='invalid dir';
+	$error=$l->t( 'Invalid directory.' );
 }
 
-OCP\JSON::error(array('data' => array('error' => $error, 'file' => $fileName)));
+OCP\JSON::error(array('data' => array('message' => $error )));

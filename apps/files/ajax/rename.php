@@ -11,7 +11,7 @@ $dir = stripslashes($_GET["dir"]);
 $file = stripslashes($_GET["file"]);
 $newname = stripslashes($_GET["newname"]);
 
-if (($dir != '' || $file != 'Shared')) {
+if (($dir != '' || $file != 'Shared') and $newname !== '.') {
 	$targetFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $newname);
 	$sourceFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $file);
 	if(\OC\Files\Filesystem::rename($sourceFile, $targetFile)) {

@@ -36,6 +36,9 @@ class Cache {
 	 */
 	private $numericId;
 
+	private $mimetypeIds = array();
+	private $mimetypes = array();
+
 	/**
 	 * @param \OC\Files\Storage\Storage|string $storage
 	 */
@@ -59,6 +62,41 @@ class Cache {
 
 	public function getNumericStorageId() {
 		return $this->numericId;
+	}
+
+	/**
+	 * normalize mimetypes
+	 *
+	 * @param string $mime
+	 * @return int
+	 */
+	public function getMimetypeId($mime) {
+		if (!isset($this->mimetypeIds[$mime])) {
+			$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*mimetypes` WHERE `mimetype` = ?');
+			$result = $query->execute(array($mime));
+			if ($row = $result->fetchRow()) {
+				$this->mimetypeIds[$mime] = $row['id'];
+			} else {
+				$query = \OC_DB::prepare('INSERT INTO `*PREFIX*mimetypes`(`mimetype`) VALUES(?)');
+				$query->execute(array($mime));
+				$this->mimetypeIds[$mime] = \OC_DB::insertid('*PREFIX*mimetypes');
+			}
+			$this->mimetypes[$this->mimetypeIds[$mime]] = $mime;
+		}
+		return $this->mimetypeIds[$mime];
+	}
+
+	public function getMimetype($id) {
+		if (!isset($this->mimetypes[$id])) {
+			$query = \OC_DB::prepare('SELECT `mimetype` FROM `*PREFIX*mimetypes` WHERE `id` = ?');
+			$result = $query->execute(array($id));
+			if ($row = $result->fetchRow()) {
+				$this->mimetypes[$id] = $row['mimetype'];
+			} else {
+				return null;
+			}
+		}
+		return $this->mimetypes[$id];
 	}
 
 	/**
@@ -92,6 +130,8 @@ class Cache {
 			$data['size'] = (int)$data['size'];
 			$data['mtime'] = (int)$data['mtime'];
 			$data['encrypted'] = (bool)$data['encrypted'];
+			$data['mimetype'] = $this->getMimetype($data['mimetype']);
+			$data['mimepart'] = $this->getMimetype($data['mimepart']);
 		}
 
 		return $data;
@@ -110,7 +150,12 @@ class Cache {
 				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `etag`
 			 	 FROM `*PREFIX*filecache` WHERE parent = ? ORDER BY `name` ASC');
 			$result = $query->execute(array($fileId));
-			return $result->fetchAll();
+			$files = $result->fetchAll();
+			foreach ($files as &$file) {
+				$file['mimetype'] = $this->getMimetype($file['mimetype']);
+				$file['mimepart'] = $this->getMimetype($file['mimepart']);
+			}
+			return $files;
 		} else {
 			return array();
 		}
@@ -179,22 +224,22 @@ class Cache {
 	 * @param array $data
 	 * @return array
 	 */
-	static function buildParts(array $data) {
+	function buildParts(array $data) {
 		$fields = array('path', 'parent', 'name', 'mimetype', 'size', 'mtime', 'encrypted', 'etag');
-
 		$params = array();
 		$queryParts = array();
 		foreach ($data as $name => $value) {
 			if (array_search($name, $fields) !== false) {
-				$params[] = $value;
-				$queryParts[] = '`' . $name . '`';
 				if ($name === 'path') {
 					$params[] = md5($value);
 					$queryParts[] = '`path_hash`';
 				} elseif ($name === 'mimetype') {
-					$params[] = substr($value, 0, strpos($value, '/'));
+					$params[] = $this->getMimetypeId(substr($value, 0, strpos($value, '/')));
 					$queryParts[] = '`mimepart`';
+					$value = $this->getMimetypeId($value);
 				}
+				$params[] = $value;
+				$queryParts[] = '`' . $name . '`';
 			}
 		}
 		return array($queryParts, $params);
@@ -339,6 +384,8 @@ class Cache {
 		$result = $query->execute(array($pattern, $this->numericId));
 		$files = array();
 		while ($row = $result->fetchRow()) {
+			$row['mimetype'] = $this->getMimetype($row['mimetype']);
+			$row['mimepart'] = $this->getMimetype($row['mimepart']);
 			$files[] = $row;
 		}
 		return $files;
@@ -360,6 +407,7 @@ class Cache {
 			SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`, `etag`
 			FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `storage` = ?'
 		);
+		$mimetype = $this->getMimetypeId($mimetype);
 		$result = $query->execute(array($mimetype, $this->numericId));
 		return $result->fetchAll();
 	}
