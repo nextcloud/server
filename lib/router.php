@@ -58,6 +58,11 @@ class OC_Router {
 	 * loads the api routes
 	 */
 	public function loadRoutes() {
+		// include ocs routes
+		require_once(OC::$SERVERROOT.'/ocs/routes.php');
+		$collection = $this->getCollection('ocs');
+		$this->root->addCollection($collection, '/ocs');
+
 		foreach($this->getRoutingFiles() as $app => $file) {
 			$this->useCollection($app);
 			require_once $file;
