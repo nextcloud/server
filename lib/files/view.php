@@ -786,7 +786,7 @@ class View {
 							$permissions = $subStorage->getPermissions($rootEntry['path']);
 							$subPermissionsCache->set($rootEntry['fileid'], $user, $permissions);
 						}
-						$rootEntry['permissions'] = $subPermissionsCache;
+						$rootEntry['permissions'] = $permissions;
 						$files[] = $rootEntry;
 					}
 				}
