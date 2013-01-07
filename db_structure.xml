@@ -96,6 +96,42 @@
 
 	<table>
 
+		<name>*dbprefix*mimetypes</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>mimetype</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<index>
+				<name>mimetype_id_index</name>
+				<unique>true</unique>
+				<field>
+					<name>mimetype</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
 		<name>*dbprefix*filecache</name>
 
 		<declaration>
@@ -151,18 +187,18 @@
 
 			<field>
 				<name>mimetype</name>
-				<type>text</type>
+				<type>integer</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>64</length>
+				<length>4</length>
 			</field>
 
 			<field>
 				<name>mimepart</name>
-				<type>text</type>
+				<type>integer</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>32</length>
+				<length>4</length>
 			</field>
 
 			<field>
