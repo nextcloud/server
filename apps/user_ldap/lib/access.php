@@ -854,7 +854,7 @@ abstract class Access {
 		}
 		$offset -= $limit;
 		//we work with cache here
-		$cachekey = 'lc' . dechex(crc32($base)) . '-' . dechex(crc32($filter)) . '-' . $limit . '-' . $offset;
+		$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' . $limit . '-' . $offset;
 		$cookie = $this->connection->getFromCache($cachekey);
 		if(is_null($cookie)) {
 			$cookie = '';
