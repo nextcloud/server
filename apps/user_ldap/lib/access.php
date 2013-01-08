@@ -221,7 +221,9 @@ abstract class Access {
 	 * returns the internal ownCloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
 	 */
 	public function dn2groupname($dn, $ldapname = null) {
-		//To avoid bypassing the base DN settings under certain circumstances with the group support, check whether the provided DN matches one of the given Bases
+		//To avoid bypassing the base DN settings under certain circumstances
+		//with the group support, check whether the provided DN matches one of
+		//the given Bases
 		if(!$this->isDNPartOfBase($dn, $this->connection->ldapBaseGroups)) {
 			return false;
 		}
@@ -238,7 +240,9 @@ abstract class Access {
 	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
 	 */
 	public function dn2username($dn, $ldapname = null) {
-		//To avoid bypassing the base DN settings under certain circumstances with the group support, check whether the provided DN matches one of the given Bases
+		//To avoid bypassing the base DN settings under certain circumstances
+		//with the group support, check whether the provided DN matches one of
+		//the given Bases
 		if(!$this->isDNPartOfBase($dn, $this->connection->ldapBaseUsers)) {
 			return false;
 		}
@@ -826,12 +830,12 @@ abstract class Access {
 		$bases = $this->sanitizeDN($bases);
 		foreach($bases as $base) {
 			$belongsToBase = true;
-		    if(mb_strripos($dn, $base, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($base))) {
+			if(mb_strripos($dn, $base, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($base))) {
 				$belongsToBase = false;
-		    }
-		    if($belongsToBase) {
+			}
+			if($belongsToBase) {
 				break;
-		    }
+			}
 		}
 		return $belongsToBase;
 	}
