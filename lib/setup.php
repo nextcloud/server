@@ -176,53 +176,8 @@ class OC_Setup {
 				$connection_string = "host='$e_host' dbname=postgres user='$e_user' password='$e_password'";
 				$connection = @pg_connect($connection_string);
 				if(!$connection) {
-					$error[] = array(
-						'error' => 'PostgreSQL username and/or password not valid',
-						'hint' => 'You need to enter either an existing account or the administrator.'
-					);
-					return $error;
-				}
-				else {
-					$e_user = pg_escape_string($dbuser);
-					//check for roles creation rights in postgresql
-					$query="SELECT 1 FROM pg_roles WHERE rolcreaterole=TRUE AND rolname='$e_user'";
-					$result = pg_query($connection, $query);
-					if($result and pg_num_rows($result) > 0) {
-						//use the admin login data for the new database user
-
-						//add prefix to the postgresql user name to prevent collisions
-						$dbusername='oc_'.$username;
-						//create a new password so we don't need to store the admin config in the config file
-						$dbpassword=md5(time());
-
-						self::pg_createDBUser($dbusername, $dbpassword, $connection);
-
-						OC_CONFIG::setValue('dbuser', $dbusername);
-						OC_CONFIG::setValue('dbpassword', $dbpassword);
-
-						//create the database
-						self::pg_createDatabase($dbname, $dbusername, $connection);
-					}
-					else {
-						OC_CONFIG::setValue('dbuser', $dbuser);
-						OC_CONFIG::setValue('dbpassword', $dbpass);
-
-						//create the database
-						self::pg_createDatabase($dbname, $dbuser, $connection);
-					}
-
-					// the connection to dbname=postgres is not needed anymore
-					pg_close($connection);
-
-					// connect to the ownCloud database (dbname=$dbname) an check if it needs to be filled
-					$dbuser = OC_CONFIG::getValue('dbuser');
-					$dbpass = OC_CONFIG::getValue('dbpassword');
-
-					$e_host = addslashes($dbhost);
 					$e_dbname = addslashes($dbname);
-					$e_user = addslashes($dbuser);
-					$e_password = addslashes($dbpass);
-
+					//Try to connect directly to the specified DB
 					$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' password='$e_password'";
 					$connection = @pg_connect($connection_string);
 					if(!$connection) {
@@ -230,15 +185,65 @@ class OC_Setup {
 							'error' => 'PostgreSQL username and/or password not valid',
 							'hint' => 'You need to enter either an existing account or the administrator.'
 						);
-					} else {
-						$query = "select count(*) FROM pg_class WHERE relname='{$dbtableprefix}users' limit 1";
-						$result = pg_query($connection, $query);
-						if($result) {
-							$row = pg_fetch_row($result);
-						}
-						if(!$result or $row[0]==0) {
-							OC_DB::createDbFromStructure('db_structure.xml');
-						}
+						return $error;
+					}
+				}
+
+				$e_user = pg_escape_string($dbuser);
+				//check for roles creation rights in postgresql
+				$query="SELECT 1 FROM pg_roles WHERE rolcreaterole=TRUE AND rolname='$e_user'";
+				$result = pg_query($connection, $query);
+				if($result and pg_num_rows($result) > 0) {
+					//use the admin login data for the new database user
+
+					//add prefix to the postgresql user name to prevent collisions
+					$dbusername='oc_'.$username;
+					//create a new password so we don't need to store the admin config in the config file
+					$dbpassword=md5(time());
+
+					self::pg_createDBUser($dbusername, $dbpassword, $connection);
+
+					OC_CONFIG::setValue('dbuser', $dbusername);
+					OC_CONFIG::setValue('dbpassword', $dbpassword);
+
+					//create the database
+					self::pg_createDatabase($dbname, $dbusername, $connection);
+				}
+				else {
+					OC_CONFIG::setValue('dbuser', $dbuser);
+					OC_CONFIG::setValue('dbpassword', $dbpass);
+
+					//create the database
+					self::pg_createDatabase($dbname, $dbuser, $connection);
+				}
+
+				// the connection to dbname=postgres is not needed anymore
+				pg_close($connection);
+
+				// connect to the ownCloud database (dbname=$dbname) an check if it needs to be filled
+				$dbuser = OC_CONFIG::getValue('dbuser');
+				$dbpass = OC_CONFIG::getValue('dbpassword');
+
+				$e_host = addslashes($dbhost);
+				$e_dbname = addslashes($dbname);
+				$e_user = addslashes($dbuser);
+				$e_password = addslashes($dbpass);
+
+				$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' password='$e_password'";
+				$connection = @pg_connect($connection_string);
+				if(!$connection) {
+					$error[] = array(
+						'error' => 'PostgreSQL username and/or password not valid',
+						'hint' => 'You need to enter either an existing account or the administrator.'
+					);
+				} else {
+					$query = "select count(*) FROM pg_class WHERE relname='{$dbtableprefix}users' limit 1";
+					$result = pg_query($connection, $query);
+					if($result) {
+						$row = pg_fetch_row($result);
+					}
+					if(!$result or $row[0]==0) {
+						OC_DB::createDbFromStructure('db_structure.xml');
 					}
 				}
 			}
