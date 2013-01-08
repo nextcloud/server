@@ -33,7 +33,7 @@ class Shared_Permissions extends Permissions {
 		if ($fileId == -1) {
 			return \OCP\PERMISSION_READ;
 		}
-		$source = \OCP\Share::getItemSharedWithBySource('file', $fileId, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
+		$source = \OCP\Share::getItemSharedWithBySource('file', $fileId, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE, null, true);
 		if ($source) {
 			return $source['permissions'];
 		} else {

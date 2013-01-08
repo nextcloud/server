@@ -137,6 +137,19 @@ class Shared_Cache extends Cache {
 	}
 
 	/**
+	 * check if a file is available in the cache
+	 *
+	 * @param string $file
+	 * @return bool
+	 */
+	public function inCache($file) {
+		if ($file == '') {
+			return true;
+		}
+		return parent::inCache($file);
+	}
+
+	/**
 	 * remove a file or folder from the cache
 	 *
 	 * @param string $file

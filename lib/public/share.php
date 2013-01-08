@@ -756,7 +756,7 @@ class Share {
 			$collectionItems = array();
 			foreach ($items as &$row) {
 				// Return only the item instead of a 2-dimensional array
-				if ($limit == 1 && $row['item_type'] == $itemType && $row[$column] == $item) {
+				if ($limit == 1 && $row[$column] == $item && ($row['item_type'] == $itemType || $itemType == 'file')) {
 					if ($format == self::FORMAT_NONE) {
 						return $row;
 					} else {
@@ -822,6 +822,9 @@ class Share {
 			}
 			if (!empty($collectionItems)) {
 				$items = array_merge($items, $collectionItems);
+			}
+			if (empty($items) && $limit == 1) {
+				return false;
 			}
 			if ($format == self::FORMAT_NONE) {
 				return $items;
