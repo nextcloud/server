@@ -147,11 +147,7 @@ var FileList={
 			event.stopPropagation();
 			event.preventDefault();
 			var newname=input.val();
-			if (Files.containsInvalidCharacters(newname)) {
-				return false;
-			} else if (newname.length == 0) {
-				$('#notification').text(t('files', "Name cannot be empty."));
-				$('#notification').fadeIn();
+			if (!Files.isFileNameValid(newname)) {
 				return false;
 			}
 			if (newname != name) {

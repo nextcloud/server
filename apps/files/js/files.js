@@ -26,17 +26,29 @@ Files={
 		});
 		procesSelection();
 	},
-	containsInvalidCharacters:function (name) {
+	isFileNameValid:function (name) {
+		if (name === '.') {
+			$('#notification').text(t('files', '\'.\' is an invalid file name.'));
+			$('#notification').fadeIn();
+			return false;
+		}
+		if (name.length == 0) {
+			$('#notification').text(t('files', 'File name cannot be empty.'));
+			$('#notification').fadeIn();
+			return false;
+		}
+
+		// check for invalid characters
 		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
 		for (var i = 0; i < invalid_characters.length; i++) {
 			if (name.indexOf(invalid_characters[i]) != -1) {
 				$('#notification').text(t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
 				$('#notification').fadeIn();
-				return true;
+				return false;
 			}
 		}
 		$('#notification').fadeOut();
-		return false;
+		return true;
 	}
 };
 $(document).ready(function() {
@@ -527,15 +539,11 @@ $(document).ready(function() {
 			event.stopPropagation();
 			event.preventDefault();
 			var newname=input.val();
-			if(type != 'web' && Files.containsInvalidCharacters(newname)){
-				return false;
-			} else if (newname.length == 0) {
-				if(type == 'web') {
-					$('#notification').text(t('files', "URL cannot be empty."));
-				} else {
-					$('#notification').text(t('files', "Name cannot be empty."));
-				}
+			if(type == 'web' && newname.length == 0){
+				$('#notification').text(t('files', "URL cannot be empty."));
 				$('#notification').fadeIn();
+				return false;
+			} else if (type != 'web' && !Files.isFileNameValid(newname)) {
 				return false;
 			} else if( type == 'folder' && $('#dir').val() == '/' && newname == 'Shared') {
 				$('#notification').text(t('files','Invalid folder name. Usage of "Shared" is reserved by Owncloud'));
@@ -588,7 +596,7 @@ $(document).ready(function() {
 					break;
 				case 'web':
 					if(name.substr(0,8)!='https://' && name.substr(0,7)!='http://'){
-						name='http://'.name;
+						name='http://'+name;
 					}
 					var localName=name;
 					if(localName.substr(localName.length-1,1)=='/'){//strip /
