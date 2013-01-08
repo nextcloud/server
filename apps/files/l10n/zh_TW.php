@@ -24,7 +24,6 @@
 "{count} files uploading" => "{count} 個檔案正在上傳",
 "Upload cancelled." => "上傳取消",
 "File upload is in progress. Leaving the page now will cancel the upload." => "檔案上傳中. 離開此頁面將會取消上傳.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "無效的資料夾名稱. \"Shared\" 名稱已被 Owncloud 所保留使用",
 "error while scanning" => "掃描時發生錯誤",
 "Name" => "名稱",
 "Size" => "大小",

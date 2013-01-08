@@ -34,7 +34,6 @@
 "{count} files uploading" => "Subiendo {count} archivos",
 "Upload cancelled." => "Subida cancelada.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "La subida del archivo está en proceso. Salir de la página ahora cancelará la subida.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Nombre de la carpeta invalido. El uso de \"Shared\" esta reservado para Owncloud",
 "{count} files scanned" => "{count} archivos escaneados",
 "error while scanning" => "error escaneando",
 "Name" => "Nombre",

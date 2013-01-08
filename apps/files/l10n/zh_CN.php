@@ -30,7 +30,6 @@
 "{count} files uploading" => "{count} 个文件上传中",
 "Upload cancelled." => "上传已取消",
 "File upload is in progress. Leaving the page now will cancel the upload." => "文件正在上传中。现在离开此页会导致上传动作被取消。",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "无效的文件夹名称。”Shared“ 是 Owncloud 保留字符。",
 "{count} files scanned" => "{count} 个文件已扫描。",
 "error while scanning" => "扫描时出错",
 "Name" => "名称",

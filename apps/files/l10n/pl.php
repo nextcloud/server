@@ -30,7 +30,6 @@
 "{count} files uploading" => "{count} przesyłanie plików",
 "Upload cancelled." => "Wczytywanie anulowane.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Wysyłanie pliku jest w toku. Teraz opuszczając stronę wysyłanie zostanie anulowane.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Błędna nazwa folderu. Nazwa \"Shared\" jest zarezerwowana dla Owncloud",
 "{count} files scanned" => "{count} pliki skanowane",
 "error while scanning" => "Wystąpił błąd podczas skanowania",
 "Name" => "Nazwa",

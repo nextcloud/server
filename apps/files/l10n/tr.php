@@ -30,7 +30,6 @@
 "{count} files uploading" => "{count} dosya yükleniyor",
 "Upload cancelled." => "Yükleme iptal edildi.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Dosya yükleme işlemi sürüyor. Şimdi sayfadan ayrılırsanız işleminiz iptal olur.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Geçersiz dizin ismi. \"Shared\" dizini OwnCloud tarafından kullanılmaktadır.",
 "{count} files scanned" => "{count} dosya tarandı",
 "error while scanning" => "tararamada hata oluşdu",
 "Name" => "Ad",

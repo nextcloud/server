@@ -29,7 +29,6 @@
 "{count} files uploading" => "{count} faili üleslaadimist",
 "Upload cancelled." => "Üleslaadimine tühistati.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Faili üleslaadimine on töös.  Lehelt lahkumine katkestab selle üleslaadimise.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Vigane kausta nimi. Nime \"Jagatud\" kasutamine on Owncloudi poolt broneeritud ",
 "{count} files scanned" => "{count} faili skännitud",
 "error while scanning" => "viga skännimisel",
 "Name" => "Nimi",

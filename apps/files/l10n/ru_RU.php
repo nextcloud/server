@@ -30,7 +30,6 @@
 "{count} files uploading" => "{количество} загружено файлов",
 "Upload cancelled." => "Загрузка отменена",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Процесс загрузки файла. Если покинуть страницу сейчас, загрузка будет отменена.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Некорректное имя папки. Нименование \"Опубликовано\" зарезервировано ownCloud",
 "{count} files scanned" => "{количество} файлов отсканировано",
 "error while scanning" => "ошибка при сканировании",
 "Name" => "Имя",

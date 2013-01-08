@@ -30,7 +30,6 @@
 "{count} files uploading" => "{count} датотеки се подигаат",
 "Upload cancelled." => "Преземањето е прекинато.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Подигање на датотека е во тек. Напуштење на страницата ќе го прекине.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Неправилно име на папка. Користењето на „Shared“ е резервирано за Owncloud",
 "{count} files scanned" => "{count}  датотеки скенирани",
 "error while scanning" => "грешка при скенирање",
 "Name" => "Име",

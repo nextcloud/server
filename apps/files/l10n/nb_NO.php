@@ -28,7 +28,6 @@
 "{count} files uploading" => "{count} filer laster opp",
 "Upload cancelled." => "Opplasting avbrutt.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Filopplasting pågår. Forlater du siden nå avbrytes opplastingen.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Ugyldig mappenavn. Bruk av \"Shared\" er reservert av ownCloud.",
 "{count} files scanned" => "{count} filer lest inn",
 "error while scanning" => "feil under skanning",
 "Name" => "Navn",
