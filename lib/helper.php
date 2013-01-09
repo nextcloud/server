@@ -45,7 +45,7 @@ class OC_Helper {
 			if( $app_path && file_exists( $app_path.'/'.$file )) {
 				if(substr($file, -3) == 'php' || substr($file, -3) == 'css') {
 					$urlLinkTo =  OC::$WEBROOT . '/?app=' . $app;
-					$urlLinkTo .= ($file!='index.php')?'&getfile=' . urlencode($file):'';
+					$urlLinkTo .= ($file!='index.php')?'&getfile=' . rawurlencode($file):'';
 				}else{
 					$urlLinkTo =  OC_App::getAppWebPath($app) . '/' . $file;
 				}
@@ -66,7 +66,7 @@ class OC_Helper {
 		if (!empty($args)) {
 			$urlLinkTo .= '?';
 			foreach($args as $k => $v) {
-				$urlLinkTo .= '&'.$k.'='.urlencode($v);
+				$urlLinkTo .= '&'.$k.'='.rawurlencode($v);
 			}
 		}
 
