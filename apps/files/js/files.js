@@ -891,21 +891,20 @@ function relative_modified_date(timestamp) {
 	var diffminutes = Math.round(timediff/60);
 	var diffhours = Math.round(diffminutes/60);
 	var diffdays = Math.round(diffhours/24);
-	var diffmonths = Math.round(diffdays/31);
-	var diffyears = Math.round(diffdays/365);
-	if(timediff < 60) { return t('files','seconds ago'); }
-	else if(timediff < 120) { return '1 '+t('files','minute ago'); }
-	else if(timediff < 3600) { return diffminutes+' '+t('files','minutes ago'); }
+	//var diffmonths = Math.round(diffdays/31);
+	//var diffyears = Math.round(diffdays/365);
+	if(timediff < 60) { return t('lib','seconds ago'); }
+	else if(timediff < 120) { return t('lib','1 minute ago'); }
+	else if(timediff < 3600) { return t('lib','%d minutes ago',diffminutes); }
 	//else if($timediff < 7200) { return '1 hour ago'; }
 	//else if($timediff < 86400) { return $diffhours.' hours ago'; }
-	else if(timediff < 86400) { return t('files','today'); }
-	else if(timediff < 172800) { return t('files','yesterday'); }
-	else if(timediff < 2678400) { return diffdays+' '+t('files','days ago'); }
-	else if(timediff < 5184000) { return t('files','last month'); }
-	//else if($timediff < 31556926) { return $diffmonths.' months ago'; }
-	else if(timediff < 31556926) { return t('files','months ago'); }
-	else if(timediff < 63113852) { return t('files','last year'); }
-	else { return diffyears+' '+t('files','years ago'); }
+	else if(timediff < 86400) { return t('lib','today'); }
+	else if(timediff < 172800) { return t('lib','yesterday'); }
+	else if(timediff < 2678400) { return t('lib','%d days ago',diffdays); }
+	else if(timediff < 5184000) { return t('lib','last month'); }
+	else if(timediff < 31556926) { return t('lib','months ago'); }
+	else if(timediff < 63113852) { return t('lib','last year'); }
+	else { return t('lib','years ago'); }
 }
 
 function getMimeIcon(mime, ready){
