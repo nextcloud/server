@@ -7,7 +7,7 @@ OC_App::loadApps();
 // support will be removed in OC 5.0,a
 if (isset($_GET['token'])) {
 	unset($_GET['file']);
-	$qry = \OC_DB::prepare('SELECT `source` FROM `*PREFIX*sharing` WHERE `target` = ? LIMIT 1');
+	$qry = \OC_DB::prepare('SELECT `source` FROM `*PREFIX*sharing` WHERE `target` = ?', 1);
 	$filepath = $qry->execute(array($_GET['token']))->fetchOne();
 	if(isset($filepath)) {
 		$info = OC_FileCache_Cached::get($filepath, '');

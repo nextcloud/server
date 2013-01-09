@@ -149,7 +149,7 @@ class Share {
 	 * @return Item
 	 */
 	public static function getShareByToken($token) {
-		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `token` = ?',1);
+		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `token` = ?', 1);
 		$result = $query->execute(array($token));
 		if (\OC_DB::isError($result)) {
 			\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result) . ', token=' . $token, \OC_Log::ERROR);
