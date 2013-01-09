@@ -16,16 +16,6 @@ namespace OCA_Versions;
 
 class Storage {
 
-
-	// config.php configuration:
-	//   - files_versions
-	//   - files_versionsfolder
-	//   - files_versionsmaxfilesize
-	//
-	// todo:
-	//   - finish porting to OC_FilesystemView to enable network transparency
-	//   - add transparent compression. first test if it´s worth it.
-
 	const DEFAULTENABLED=true;
 	const DEFAULTMAXSIZE=50; // unit: percentage; 50% of available disk space/quota
 	
@@ -177,7 +167,6 @@ class Storage {
 
 			$files_view = new \OC_FilesystemView('/'.$uid.'/files');
 			$local_file = $files_view->getLocalFile($filename);
-			$versions_fileview = \OCP\Files::getStorage('files_versions');
 
 			foreach( $matches as $ma ) {
 
@@ -185,6 +174,7 @@ class Storage {
 				$versions[$i]['cur'] = 0;
 				$parts = explode( '.v', $ma );
 				$versions[$i]['version'] = ( end( $parts ) );
+				$versions[$i]['path'] = $filename;
 				$versions[$i]['size'] = $versions_fileview->filesize($filename.'.v'.$versions[$i]['version']);
 
 				// if file with modified date exists, flag it in array as currently enabled version
@@ -226,6 +216,62 @@ class Storage {
 		}
 
 	}
+	
+	/**
+	 * @brief returns all stored file versions from a given user
+	 * @param $uid id to the user
+	 * @return array with contains two arrays 'all' which contains all versions sorted by age and 'by_file' which contains all versions sorted by filename
+	 */
+	
+	private static function getAllVersions($uid) {
+		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
+			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
+			$versionsRoot = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('');
+			
+			$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($versionsRoot), \RecursiveIteratorIterator::CHILD_FIRST);
+			
+			$versions = array();
+			
+			foreach ($iterator as $path) {
+				if ( preg_match('/^.+\.v(\d+)$/', $path, $match) ) {
+					$relpath = substr($path, strlen($versionsRoot)-1);
+					$versions[$match[1].'#'.$relpath] = array('path' => $relpath, 'timestamp' => $match[1]);
+				}
+			}
+			
+			ksort($versions);
+			
+			$i = 0;
+			
+			$result = array();
+			$file_count = array();
+			
+			foreach( $versions as $key => $value ) {
+				$i++;
+				$size = $versions_fileview->filesize($value['path']);
+				$filename = substr($value['path'], 0, -strlen($value['timestamp'])-2);
+
+				$result['all'][$i]['version'] = $value['timestamp'];
+				$result['all'][$i]['path'] = $filename;
+				$result['all'][$i]['size'] = $size;
+				
+				if ( key_exists($filename, $file_count) ) {
+					$c = $file_count[$filename] +1;
+					$file_count[$filename] = $c;
+				} else {
+					$file_count[$filename] = 1;
+					$c = 1;
+				}
+				$filename = substr($value['path'], 0, -strlen($value['timestamp'])-2);
+				$result['by_file'][$filename][$c]['version'] = $value['timestamp'];
+				$result['by_file'][$filename][$c]['path'] = $filename;
+				$result['by_file'][$filename][$c]['size'] = $size;
+				
+			}
+
+			return $result;
+		}
+	}
 
 	/**
 	 * @brief Erase a file's versions which exceed the set quota
@@ -248,53 +294,64 @@ class Storage {
 			$free = $quota-$rootInfo['size']; // remaining free space for user
 
 			if ( $free > 0 ) {
-				$availableSpace = 100* self::DEFAULTMAXSIZE / ($quota-$rootInfo['size']); // how much space can be used for versions
+				$availableSpace = 100* self::DEFAULTMAXSIZE / ($free); // how much space can be used for versions
 			} // otherwise available space negative and we need to reach at least 0 at the end of the expiration process;
-			
-			$versions = Storage::getVersions($filename);
-			$versions = array_reverse($versions);	// newest version first
+
+			// after every 1000s run reduce the number of all versions not only for the current file 
+			$random = rand(0, 1000);
+			if ($random == 0) {
+				$result = Storage::getAllVersions($uid);
+				$versions_by_file = $result['by_file'];
+				$all_versions = $result['all'];
+			} else {
+				$all_versions = Storage::getVersions($filename);
+				$versions_by_file[$filename] = $all_versions;
+			}
 			
 			$time = time();
-			$numOfVersions = count($versions);
 			
-			$interval = 1;
-			$step = Storage::$max_versions_per_interval[$interval]['step'];			
-			if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] == -1) {
-				$nextInterval = -1;
-			} else {
-				$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
-			}
+			foreach ($versions_by_file as $filename => $versions) {
+				$versions = array_reverse($versions);	// newest version first
+			
+				$numOfVersions = count($versions);
+				$interval = 1;
+				$step = Storage::$max_versions_per_interval[$interval]['step'];			
+				if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] == -1) {
+					$nextInterval = -1;
+				} else {
+					$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
+				}
 						
-			$nextVersion = $versions[0]['version'] - $step;
+				$nextVersion = $versions[0]['version'] - $step;
 			
-			for ($i=1; $i<$numOfVersions; $i++) {
-				if ( $nextInterval == -1 || $versions[$i]['version'] >= $nextInterval ) {
-					if ( $versions[$i]['version'] > $nextVersion ) {
-						//distance between two version to small, delete version
-						$versions_fileview->unlink($filename.'.v'.$versions[$i]['version']);
-						$availableSpace += $versions[$i]['size'];
-					} else {
+				for ($i=1; $i<$numOfVersions; $i++) {
+					if ( $nextInterval == -1 || $versions[$i]['version'] >= $nextInterval ) {
+						if ( $versions[$i]['version'] > $nextVersion ) {
+							//distance between two version to small, delete version
+							$versions_fileview->unlink($versions[$i]['path'].'.v'.$versions[$i]['version']);
+							$availableSpace += $versions[$i]['size'];
+						} else {
+							$nextVersion = $versions[$i]['version'] - $step;
+						}
+					} else { // time to move on to the next interval
+						$interval++;
+						$i--; // need to go one version back to check the same version against the new interval.
+						$step = Storage::$max_versions_per_interval[$interval]['step'];
 						$nextVersion = $versions[$i]['version'] - $step;
-					}
-				} else { // time to move on to the next interval
-					$interval++;
-					$step = Storage::$max_versions_per_interval[$interval]['step'];
-					$nextVersion = $versions[$i]['version'] - $step;
-					if ( Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] == -1 ) {
-						$nextInterval = -1;
-					} else {
-						$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
+						if ( Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] == -1 ) {
+							$nextInterval = -1;
+						} else {
+							$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
+						}
 					}
 				}
 			}
-			
 			// check if enough space is available after versions are rearranged
-			$versions = array_reverse( $versions ); // oldest version first
-			$numOfVersions = count($versions);
+			$numOfVersions = count($all_versions);
 			$i = 0; 
 			while ($availableSpace < 0) {
-				$versions_fileview->unlink($filename.'.v'.$versions[$i]['version']);
-				$availableSpace += $versions[$i]['size'];
+				$versions_fileview->unlink($all_versions[$i]['path'].'.v'.$all_versions[$i]['version']);
+				$availableSpace += $all_versions[$i]['size'];
 				$i++;
 				if ($i = $numOfVersions-2) break; // keep at least the last version
 			}
