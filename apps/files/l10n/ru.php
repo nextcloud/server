@@ -30,6 +30,7 @@
 "{count} files uploading" => "{count} файлов загружается",
 "Upload cancelled." => "Загрузка отменена.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Файл в процессе загрузки. Покинув страницу вы прервёте загрузку.",
+"URL cannot be empty." => "Ссылка не может быть пустой.",
 "{count} files scanned" => "{count} файлов просканировано",
 "error while scanning" => "ошибка во время санирования",
 "Name" => "Название",

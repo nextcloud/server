@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Stefan Ilivanov <ilivanov@gmail.com>, 2011.
+# Stefan Ilivanov <ilivanov@gmail.com>, 2011,2013.
 # Yasen Pramatarov <yasen@lindeas.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-09 00:04+0100\n"
-"PO-Revision-Date: 2013-01-08 23:04+0000\n"
+"POT-Creation-Date: 2013-01-10 00:04+0100\n"
+"PO-Revision-Date: 2013-01-09 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +18,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: bg_BG\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:24
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/rename.php:19
+msgid "Unable to rename file"
+msgstr ""
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
@@ -48,7 +62,7 @@ msgstr ""
 
 #: ajax/upload.php:28
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Липсва временна папка"
 
 #: ajax/upload.php:29
 msgid "Failed to write to disk"
@@ -64,7 +78,7 @@ msgstr ""
 
 #: appinfo/app.php:10
 msgid "Files"
-msgstr ""
+msgstr "Файлове"
 
 #: js/fileactions.js:117 templates/index.php:82 templates/index.php:83
 msgid "Unshare"
@@ -72,11 +86,11 @@ msgstr ""
 
 #: js/fileactions.js:119 templates/index.php:88 templates/index.php:89
 msgid "Delete"
-msgstr ""
+msgstr "Изтриване"
 
 #: js/fileactions.js:181
 msgid "Rename"
-msgstr ""
+msgstr "Преименуване"
 
 #: js/filelist.js:205 js/filelist.js:207
 msgid "{new_name} already exists"
@@ -84,7 +98,7 @@ msgstr ""
 
 #: js/filelist.js:205 js/filelist.js:207
 msgid "replace"
-msgstr ""
+msgstr "препокриване"
 
 #: js/filelist.js:205
 msgid "suggest name"
@@ -92,7 +106,7 @@ msgstr ""
 
 #: js/filelist.js:205 js/filelist.js:207
 msgid "cancel"
-msgstr ""
+msgstr "отказ"
 
 #: js/filelist.js:254
 msgid "replaced {new_name}"
@@ -100,7 +114,7 @@ msgstr ""
 
 #: js/filelist.js:254 js/filelist.js:256 js/filelist.js:288 js/filelist.js:290
 msgid "undo"
-msgstr ""
+msgstr "възтановяване"
 
 #: js/filelist.js:256
 msgid "replaced {new_name} with {old_name}"
@@ -158,7 +172,7 @@ msgstr ""
 
 #: js/files.js:357 js/files.js:393
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Качването е спряно."
 
 #: js/files.js:464
 msgid ""
@@ -183,15 +197,15 @@ msgstr ""
 
 #: js/files.js:808 templates/index.php:64
 msgid "Name"
-msgstr ""
+msgstr "Име"
 
 #: js/files.js:809 templates/index.php:75
 msgid "Size"
-msgstr ""
+msgstr "Размер"
 
 #: js/files.js:810 templates/index.php:77
 msgid "Modified"
-msgstr ""
+msgstr "Променено"
 
 #: js/files.js:829
 msgid "1 folder"
@@ -215,7 +229,7 @@ msgstr ""
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr ""
+msgstr "Максимален размер за качване"
 
 #: templates/admin.php:10
 msgid "max. possible: "
@@ -231,7 +245,7 @@ msgstr ""
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
-msgstr ""
+msgstr "Ползвайте 0 за без ограничения"
 
 #: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
@@ -239,11 +253,11 @@ msgstr ""
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr ""
+msgstr "Запис"
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "Ново"
 
 #: templates/index.php:10
 msgid "Text file"
@@ -251,7 +265,7 @@ msgstr ""
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr ""
+msgstr "Папка"
 
 #: templates/index.php:14
 msgid "From link"
@@ -259,7 +273,7 @@ msgstr ""
 
 #: templates/index.php:18
 msgid "Upload"
-msgstr ""
+msgstr "Качване"
 
 #: templates/index.php:41
 msgid "Cancel upload"
@@ -267,15 +281,15 @@ msgstr ""
 
 #: templates/index.php:56
 msgid "Nothing in here. Upload something!"
-msgstr ""
+msgstr "Няма нищо тук. Качете нещо."
 
 #: templates/index.php:70
 msgid "Download"
-msgstr ""
+msgstr "Изтегляне"
 
 #: templates/index.php:102
 msgid "Upload too large"
-msgstr ""
+msgstr "Файлът който сте избрали за качване е прекалено голям"
 
 #: templates/index.php:104
 msgid ""

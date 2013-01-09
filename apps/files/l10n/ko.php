@@ -34,6 +34,7 @@
 "{count} files uploading" => "파일 {count}개 업로드 중",
 "Upload cancelled." => "업로드가 취소되었습니다.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "파일 업로드가 진행 중입니다. 이 페이지를 벗어나면 업로드가 취소됩니다.",
+"URL cannot be empty." => "URL을 입력해야 합니다.",
 "{count} files scanned" => "파일 {count}개 검색됨",
 "error while scanning" => "검색 중 오류 발생",
 "Name" => "이름",

@@ -30,6 +30,7 @@
 "{count} files uploading" => "{count} dosya yükleniyor",
 "Upload cancelled." => "Yükleme iptal edildi.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Dosya yükleme işlemi sürüyor. Şimdi sayfadan ayrılırsanız işleminiz iptal olur.",
+"URL cannot be empty." => "URL boş olamaz.",
 "{count} files scanned" => "{count} dosya tarandı",
 "error while scanning" => "tararamada hata oluşdu",
 "Name" => "Ad",

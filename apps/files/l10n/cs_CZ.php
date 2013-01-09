@@ -34,6 +34,8 @@
 "{count} files uploading" => "odesílám {count} souborů",
 "Upload cancelled." => "Odesílání zrušeno.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Probíhá odesílání souboru. Opuštění stránky vyústí ve zrušení nahrávání.",
+"URL cannot be empty." => "URL nemůže být prázdná",
+"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Neplatný název složky. Použití 'Shared' je rezervováno pro vnitřní potřeby Owncloud",
 "{count} files scanned" => "prozkoumáno {count} souborů",
 "error while scanning" => "chyba při prohledávání",
 "Name" => "Název",

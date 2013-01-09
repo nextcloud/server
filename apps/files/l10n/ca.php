@@ -34,6 +34,8 @@
 "{count} files uploading" => "{count} fitxers en pujada",
 "Upload cancelled." => "La pujada s'ha cancel·lat.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà.",
+"URL cannot be empty." => "La URL no pot ser buida",
+"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Nom de carpeta no vàlid. L'ús de 'Shared' està reservat per Owncloud",
 "{count} files scanned" => "{count} fitxers escannejats",
 "error while scanning" => "error durant l'escaneig",
 "Name" => "Nom",

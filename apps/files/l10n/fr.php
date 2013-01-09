@@ -34,6 +34,8 @@
 "{count} files uploading" => "{count} fichiers téléversés",
 "Upload cancelled." => "Chargement annulé.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "L'envoi du fichier est en cours. Quitter cette page maintenant annulera l'envoi du fichier.",
+"URL cannot be empty." => "L'URL ne peut-être vide",
+"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Nom de dossier invalide. L'utilisation du mot 'Shared' est réservée à Owncloud",
 "{count} files scanned" => "{count} fichiers indexés",
 "error while scanning" => "erreur lors de l'indexation",
 "Name" => "Nom",

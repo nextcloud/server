@@ -30,6 +30,7 @@
 "{count} files uploading" => "{count} dosieroj alŝutatas",
 "Upload cancelled." => "La alŝuto nuliĝis.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Dosieralŝuto plenumiĝas. Lasi la paĝon nun nuligus la alŝuton.",
+"URL cannot be empty." => "URL ne povas esti malplena.",
 "{count} files scanned" => "{count} dosieroj skaniĝis",
 "error while scanning" => "eraro dum skano",
 "Name" => "Nomo",

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-09 00:04+0100\n"
-"PO-Revision-Date: 2013-01-08 23:04+0000\n"
+"POT-Creation-Date: 2013-01-10 00:04+0100\n"
+"PO-Revision-Date: 2013-01-09 23:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: bn_BD\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:24
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/rename.php:19
+msgid "Unable to rename file"
+msgstr ""
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"

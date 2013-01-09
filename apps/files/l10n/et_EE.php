@@ -29,6 +29,7 @@
 "{count} files uploading" => "{count} faili üleslaadimist",
 "Upload cancelled." => "Üleslaadimine tühistati.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Faili üleslaadimine on töös.  Lehelt lahkumine katkestab selle üleslaadimise.",
+"URL cannot be empty." => "URL ei saa olla tühi.",
 "{count} files scanned" => "{count} faili skännitud",
 "error while scanning" => "viga skännimisel",
 "Name" => "Nimi",

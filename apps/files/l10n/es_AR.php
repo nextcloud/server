@@ -32,6 +32,7 @@
 "{count} files uploading" => "Subiendo {count} archivos",
 "Upload cancelled." => "La subida fue cancelada",
 "File upload is in progress. Leaving the page now will cancel the upload." => "La subida del archivo está en proceso. Si salís de la página ahora, la subida se cancelará.",
+"URL cannot be empty." => "La URL no puede estar vacía",
 "{count} files scanned" => "{count} archivos escaneados",
 "error while scanning" => "error mientras se escaneaba",
 "Name" => "Nombre",

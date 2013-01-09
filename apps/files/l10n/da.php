@@ -30,6 +30,7 @@
 "{count} files uploading" => "{count} filer uploades",
 "Upload cancelled." => "Upload afbrudt.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Fil upload kører. Hvis du forlader siden nu, vil uploadet blive annuleret.",
+"URL cannot be empty." => "URLen kan ikke være tom.",
 "{count} files scanned" => "{count} filer skannet",
 "error while scanning" => "fejl under scanning",
 "Name" => "Navn",

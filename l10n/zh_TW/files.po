@@ -6,13 +6,14 @@
 # Donahue Chuang <soshinwu@gmail.com>, 2012.
 #   <dw4dev@gmail.com>, 2012.
 # Eddy Chang <taiwanmambo@gmail.com>, 2012.
+#   <nfsmwlin@gmail.com>, 2013.
 # ywang  <ywang1007@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-09 00:04+0100\n"
-"PO-Revision-Date: 2013-01-08 23:04+0000\n"
+"POT-Creation-Date: 2013-01-10 00:04+0100\n"
+"PO-Revision-Date: 2013-01-09 23:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -20,6 +21,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:24
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/rename.php:19
+msgid "Unable to rename file"
+msgstr ""
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
@@ -32,7 +47,7 @@ msgstr "無錯誤，檔案上傳成功"
 #: ajax/upload.php:22
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr ""
+msgstr "上傳的檔案大小超過 php.ini 當中 upload_max_filesize 參數的設定："
 
 #: ajax/upload.php:24
 msgid ""
@@ -58,11 +73,11 @@ msgstr "寫入硬碟失敗"
 
 #: ajax/upload.php:45
 msgid "Not enough space available"
-msgstr ""
+msgstr "沒有足夠的可用空間"
 
 #: ajax/upload.php:69
 msgid "Invalid directory."
-msgstr ""
+msgstr "無效的資料夾。"
 
 #: appinfo/app.php:10
 msgid "Files"
@@ -90,7 +105,7 @@ msgstr "取代"
 
 #: js/filelist.js:205
 msgid "suggest name"
-msgstr ""
+msgstr "建議檔名"
 
 #: js/filelist.js:205 js/filelist.js:207
 msgid "cancel"
@@ -110,25 +125,25 @@ msgstr "使用 {new_name} 取代 {old_name}"
 
 #: js/filelist.js:288
 msgid "unshared {files}"
-msgstr ""
+msgstr "停止分享 {files}"
 
 #: js/filelist.js:290
 msgid "deleted {files}"
-msgstr ""
+msgstr "已刪除 {files}"
 
 #: js/files.js:31
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' 是不合法的檔名。"
 
 #: js/files.js:36
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "檔名不能為空。"
 
 #: js/files.js:45
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "檔名不合法，不允許 '\\', '/', '<', '>', ':', '\"', '|', '?' 和 '*' 。"
 
 #: js/files.js:186
 msgid "generating ZIP-file, it may take some time."
@@ -148,7 +163,7 @@ msgstr "關閉"
 
 #: js/files.js:260 js/files.js:376 js/files.js:409
 msgid "Pending"
-msgstr ""
+msgstr "等候中"
 
 #: js/files.js:280
 msgid "1 file uploading"
@@ -169,15 +184,15 @@ msgstr "檔案上傳中. 離開此頁面將會取消上傳."
 
 #: js/files.js:537
 msgid "URL cannot be empty."
-msgstr ""
+msgstr "URL不能為空白."
 
 #: js/files.js:543
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "無效的資料夾名稱，'Shared' 的使用被 Owncloud 保留"
 
 #: js/files.js:727
 msgid "{count} files scanned"
-msgstr ""
+msgstr "{count} 個檔案已掃描"
 
 #: js/files.js:735
 msgid "error while scanning"
@@ -257,7 +272,7 @@ msgstr "資料夾"
 
 #: templates/index.php:14
 msgid "From link"
-msgstr ""
+msgstr "從連結"
 
 #: templates/index.php:18
 msgid "Upload"

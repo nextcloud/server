@@ -6,13 +6,14 @@
 # Donahue Chuang <soshinwu@gmail.com>, 2012.
 #   <dw4dev@gmail.com>, 2012.
 # Ming Yi Wu <mingi.wu@gmail.com>, 2012.
+#   <nfsmwlin@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-07 00:04+0100\n"
-"PO-Revision-Date: 2013-01-06 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-10 00:04+0100\n"
+"PO-Revision-Date: 2013-01-09 07:49+0000\n"
+"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -86,55 +87,55 @@ msgstr ""
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "幾秒前"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "1 分鐘前"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分鐘前"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "1 個小時前"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "{hours} 個小時前"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "{days} 天前"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "上個月"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "{months} 個月前"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "幾個月前"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "幾年前"
 
@@ -187,11 +188,11 @@ msgstr "取消分享時發生錯誤"
 
 #: js/share.js:142
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "修改權限時發生錯誤"
 
 #: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "由 {owner} 分享給您和 {group}"
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
@@ -236,11 +237,11 @@ msgstr "透過email分享:"
 
 #: js/share.js:212
 msgid "No people found"
-msgstr ""
+msgstr "沒有找到任何人"
 
 #: js/share.js:239
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "不允許重新分享"
 
 #: js/share.js:275
 msgid "Shared in {item} with {user}"
@@ -280,7 +281,7 @@ msgstr "密碼保護"
 
 #: js/share.js:554
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "解除過期日設定失敗"
 
 #: js/share.js:566
 msgid "Error setting expiration date"
@@ -389,7 +390,7 @@ msgstr "沒有可用的隨機數字產生器, 請啟用 PHP 中 OpenSSL 擴充�
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "若沒有安全的亂數產生器，攻擊者可能可以預測密碼重設信物，然後控制您的帳戶。"
 
 #: templates/installation.php:32
 msgid ""
@@ -398,7 +399,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "您的資料目錄 (Data Directory) 和檔案可能可以由網際網路上面公開存取。Owncloud 所提供的 .htaccess 設定檔並未生效，我們強烈建議您設定您的網頁伺服器以防止資料目錄被公開存取，或將您的資料目錄移出網頁伺服器的 document root 。"
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -531,17 +532,17 @@ msgstr "登出"
 
 #: templates/login.php:10
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "自動登入被拒！"
 
 #: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "如果您最近並未更改密碼，您的帳號可能已經遭到入侵！"
 
 #: templates/login.php:13
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "請更改您的密碼以再次取得您的帳戶的控制權。"
 
 #: templates/login.php:19
 msgid "Lost your password?"
@@ -580,7 +581,7 @@ msgstr "安全性警告!"
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "請輸入您的密碼。<br/>基於安全性的理由，您有時候可能會被要求再次輸入密碼。"
 
 #: templates/verify.php:16
 msgid "Verify"

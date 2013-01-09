@@ -30,6 +30,7 @@
 "{count} files uploading" => "{count} αρχεία ανεβαίνουν",
 "Upload cancelled." => "Η αποστολή ακυρώθηκε.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Η αποστολή του αρχείου βρίσκεται σε εξέλιξη. Το κλείσιμο της σελίδας θα ακυρώσει την αποστολή.",
+"URL cannot be empty." => "Η URL δεν πρέπει να είναι κενή.",
 "{count} files scanned" => "{count} αρχεία ανιχνεύτηκαν",
 "error while scanning" => "σφάλμα κατά την ανίχνευση",
 "Name" => "Όνομα",

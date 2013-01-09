@@ -34,6 +34,7 @@
 "{count} files uploading" => "{count} Dateien wurden hochgeladen",
 "Upload cancelled." => "Upload abgebrochen.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Der Dateiupload läuft. Wenn Sie die Seite jetzt verlassen, wird der Upload abgebrochen.",
+"URL cannot be empty." => "Die URL darf nicht leer sein.",
 "{count} files scanned" => "{count} Dateien wurden gescannt",
 "error while scanning" => "Fehler beim Scannen",
 "Name" => "Name",

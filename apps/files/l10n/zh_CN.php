@@ -30,6 +30,7 @@
 "{count} files uploading" => "{count} 个文件上传中",
 "Upload cancelled." => "上传已取消",
 "File upload is in progress. Leaving the page now will cancel the upload." => "文件正在上传中。现在离开此页会导致上传动作被取消。",
+"URL cannot be empty." => "URL不能为空",
 "{count} files scanned" => "{count} 个文件已扫描。",
 "error while scanning" => "扫描时出错",
 "Name" => "名称",

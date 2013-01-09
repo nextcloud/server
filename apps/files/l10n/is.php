@@ -29,6 +29,7 @@
 "{count} files uploading" => "{count} skrár innsendar",
 "Upload cancelled." => "Hætt við innsendingu.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Innsending í gangi. Ef þú ferð af þessari síðu mun innsending misheppnast.",
+"URL cannot be empty." => "Vefslóð má ekki vera tóm.",
 "{count} files scanned" => "{count} skrár skimaðar",
 "error while scanning" => "villa við skimun",
 "Name" => "Nafn",

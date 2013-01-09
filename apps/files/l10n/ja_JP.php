@@ -34,6 +34,8 @@
 "{count} files uploading" => "{count} ファイルをアップロード中",
 "Upload cancelled." => "アップロードはキャンセルされました。",
 "File upload is in progress. Leaving the page now will cancel the upload." => "ファイル転送を実行中です。今このページから移動するとアップロードが中止されます。",
+"URL cannot be empty." => "URLは空にできません。",
+"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "無効なフォルダ名です。'Shared' の利用は ownCloud が予約済みです。",
 "{count} files scanned" => "{count} ファイルをスキャン",
 "error while scanning" => "スキャン中のエラー",
 "Name" => "名前",

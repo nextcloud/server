@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-09 00:04+0100\n"
+"POT-Creation-Date: 2013-01-10 00:04+0100\n"
 "PO-Revision-Date: 2011-07-25 16:05+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
@@ -58,7 +58,7 @@ msgstr ""
 
 #: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr ""
+msgstr "Възникна проблем с идентификацията"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -88,7 +88,7 @@ msgstr ""
 
 #: js/apps.js:28 js/apps.js:55
 msgid "Enable"
-msgstr ""
+msgstr "Включено"
 
 #: js/personal.js:69
 msgid "Saving..."
@@ -165,7 +165,7 @@ msgstr ""
 
 #: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
-msgstr ""
+msgstr "Парола"
 
 #: templates/personal.php:22
 msgid "Your password was changed"
@@ -193,7 +193,7 @@ msgstr ""
 
 #: templates/personal.php:33
 msgid "Email"
-msgstr ""
+msgstr "E-mail"
 
 #: templates/personal.php:34
 msgid "Your email address"
@@ -235,11 +235,11 @@ msgstr ""
 
 #: templates/users.php:21 templates/users.php:81
 msgid "Name"
-msgstr ""
+msgstr "Име"
 
 #: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
-msgstr ""
+msgstr "Групи"
 
 #: templates/users.php:32
 msgid "Create"
@@ -271,4 +271,4 @@ msgstr ""
 
 #: templates/users.php:161
 msgid "Delete"
-msgstr ""
+msgstr "Изтриване"

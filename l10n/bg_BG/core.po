@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-09 00:04+0100\n"
+"POT-Creation-Date: 2013-01-10 00:04+0100\n"
 "PO-Revision-Date: 2011-07-25 16:05+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
@@ -85,15 +85,15 @@ msgstr ""
 
 #: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 #: js/js.js:711
 msgid "seconds ago"
-msgstr ""
+msgstr "преди секунди"
 
 #: js/js.js:712
 msgid "1 minute ago"
-msgstr ""
+msgstr "преди 1 минута"
 
 #: js/js.js:713
 msgid "{minutes} minutes ago"
@@ -101,7 +101,7 @@ msgstr ""
 
 #: js/js.js:714
 msgid "1 hour ago"
-msgstr ""
+msgstr "преди 1 час"
 
 #: js/js.js:715
 msgid "{hours} hours ago"
@@ -109,11 +109,11 @@ msgstr ""
 
 #: js/js.js:716
 msgid "today"
-msgstr ""
+msgstr "днес"
 
 #: js/js.js:717
 msgid "yesterday"
-msgstr ""
+msgstr "вчера"
 
 #: js/js.js:718
 msgid "{days} days ago"
@@ -121,7 +121,7 @@ msgstr ""
 
 #: js/js.js:719
 msgid "last month"
-msgstr ""
+msgstr "последният месец"
 
 #: js/js.js:720
 msgid "{months} months ago"
@@ -133,11 +133,11 @@ msgstr ""
 
 #: js/js.js:722
 msgid "last year"
-msgstr ""
+msgstr "последната година"
 
 #: js/js.js:723
 msgid "years ago"
-msgstr ""
+msgstr "последните години"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"
@@ -213,7 +213,7 @@ msgstr ""
 #: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
-msgstr ""
+msgstr "Парола"
 
 #: js/share.js:172
 msgid "Email link to person"
@@ -342,23 +342,23 @@ msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "Лични"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "Потребители"
 
 #: strings.php:7
 msgid "Apps"
-msgstr ""
+msgstr "Приложения"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "Админ"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "Помощ"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -374,7 +374,7 @@ msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr ""
+msgstr "Добавяне"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
@@ -524,7 +524,7 @@ msgstr ""
 
 #: templates/layout.guest.php:42
 msgid "web services under your control"
-msgstr ""
+msgstr "уеб услуги под Ваш контрол"
 
 #: templates/layout.user.php:45
 msgid "Log out"

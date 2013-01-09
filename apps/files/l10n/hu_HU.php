@@ -34,6 +34,7 @@
 "{count} files uploading" => "{count} fájl töltődik föl",
 "Upload cancelled." => "A feltöltést megszakítottuk.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Fájlfeltöltés van folyamatban. Az oldal elhagyása megszakítja a feltöltést.",
+"URL cannot be empty." => "Az URL nem lehet semmi.",
 "{count} files scanned" => "{count} fájlt találtunk",
 "error while scanning" => "Hiba a fájllista-ellenőrzés során",
 "Name" => "Név",
