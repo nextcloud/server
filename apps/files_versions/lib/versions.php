@@ -245,10 +245,12 @@ class Storage {
 			
 			$result = array();
 			$file_count = array();
+			$size_full = 0;
 			
 			foreach( $versions as $key => $value ) {
 				$i++;
 				$size = $versions_fileview->filesize($value['path']);
+				$size_full = $size_full + $size;
 				$filename = substr($value['path'], 0, -strlen($value['timestamp'])-2);
 
 				$result['all'][$i]['version'] = $value['timestamp'];
@@ -269,6 +271,8 @@ class Storage {
 				
 			}
 
+			$result['size'] = $size_full;
+			
 			return $result;
 		}
 	}
