@@ -128,6 +128,7 @@
 "You are logged out." => "Has cerrado la sesión.",
 "prev" => "anterior",
 "next" => "siguiente",
+"Updating ownCloud to version %s, this may take a while." => "Actualizando ownCloud a la versión %s, esto puede demorar un tiempo.",
 "Security Warning!" => "¡Advertencia de seguridad!",
 "Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Por favor verifique su contraseña. <br/>Por razones de seguridad se le puede volver a preguntar ocasionalmente la contraseña.",
 "Verify" => "Verificar"

@@ -151,8 +151,7 @@ var FileList={
 			var newname=input.val();
 			if (!Files.isFileNameValid(newname)) {
 				return false;
-			}
-			if (newname != name) {
+			} else if (newname != name) {
 				if (FileList.checkName(name, newname, false)) {
 					newname = name;
 				} else {
@@ -184,6 +183,13 @@ var FileList={
 			form.remove();
 			td.children('a.name').show();
 			return false;
+		});
+		input.keyup(function(event){
+			if (event.keyCode == 27) {
+				tr.data('renaming',false);
+				form.remove();
+				td.children('a.name').show();
+			}
 		});
 		input.click(function(event){
 			event.stopPropagation();
