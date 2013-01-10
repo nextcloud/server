@@ -15,6 +15,9 @@ $(document).ready(function() {
 				if (pos != -1 && window.location.search.substr(pos, $(token).val().length) == $(token).val()) {
 					var token_secret = $(this).find('.configuration [data-parameter="token_secret"]');
 					var tr = $(this);
+					var statusSpan = $(tr).find('.status span');
+					statusSpan.removeClass();
+					statusSpan.addClass('waiting');
 					$.post(OC.filePath('files_external', 'ajax', 'dropbox.php'), { step: 2, app_key: app_key, app_secret: app_secret, request_token: $(token).val(), request_token_secret: $(token_secret).val() }, function(result) {
 						if (result && result.status == 'success') {
 							$(token).val(result.access_token);

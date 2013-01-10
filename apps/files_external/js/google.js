@@ -22,6 +22,9 @@ $(document).ready(function() {
 				params[key] = value;
 			});
 			if (params['oauth_token'] !== undefined && params['oauth_verifier'] !== undefined && decodeURIComponent(params['oauth_token']) == $(token).val()) {
+				var statusSpan = $(tr).find('.status span');
+				statusSpan.removeClass();
+				statusSpan.addClass('waiting');
 				$.post(OC.filePath('files_external', 'ajax', 'google.php'), { step: 2, oauth_verifier: params['oauth_verifier'], request_token: $(token).val(), request_token_secret: $(token_secret).val() }, function(result) {
 					if (result && result.status == 'success') {
 						$(token).val(result.access_token);
