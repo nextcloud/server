@@ -60,6 +60,11 @@ class Connection {
 		'hasPagedResultSupport' => false,
 	);
 
+	/**
+	 * @brief Constructor
+	 * @param $configPrefix a string with the prefix for the configkey column (appconfig table)
+	 * @param $configID a string with the value for the appid column (appconfig table) or null for on-the-fly connections
+	 */
 	public function __construct($configPrefix = '', $configID = 'user_ldap') {
 		$this->configPrefix = $configPrefix;
 		$this->configID = $configID;
