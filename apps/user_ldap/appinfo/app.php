@@ -23,7 +23,7 @@
 
 OCP\App::registerAdmin('user_ldap', 'settings');
 
-$connector = new OCA\user_ldap\lib\Connection('user_ldap');
+$connector = new OCA\user_ldap\lib\Connection('', 'user_ldap');
 $userBackend  = new OCA\user_ldap\USER_LDAP();
 $userBackend->setConnector($connector);
 $groupBackend = new OCA\user_ldap\GROUP_LDAP();
