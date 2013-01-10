@@ -70,9 +70,10 @@ class OC_Setup {
 				try {
 					self::setupMySQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $username);
 				} catch (Exception $e) {
+					$msgs = explode('|', $e->getMessage());
 					$error[] = array(
-						'error' => 'MySQL username and/or password not valid',
-						'hint' => 'You need to enter either an existing account or the administrator.'
+						'error' => $msgs[0],
+						'hint' => $msgs[1]
 					);
 					return($error);
 				}
@@ -166,7 +167,7 @@ class OC_Setup {
 		//check if the database user has admin right
 		$connection = @mysql_connect($dbhost, $dbuser, $dbpass);
 		if(!$connection) {
-			throw new Exception('MySQL username and/or password not valid');
+			throw new Exception('MySQL username and/or password not valid|You need to enter either an existing account or the administrator.');
 		}
 		$oldUser=OC_Config::getValue('dbuser', false);
 
@@ -229,8 +230,14 @@ class OC_Setup {
 		// the anonymous user would take precedence when there is one.
 		$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
 		$result = mysql_query($query, $connection);
+		if (!$result) {
+			throw new Exception("MySQL user '" . "$name" . "'@'localhost' already exists|Delete this user from MySQL.");
+		}
 		$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
 		$result = mysql_query($query, $connection);
+		if (!$result) {
+			throw new Exception("MySQL user '" . "$name" . "'@'%' already exists|Delete this user from MySQL.");
+		}
 	}
 
 	private static function setupPostgreSQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $username) {
