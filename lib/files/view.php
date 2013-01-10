@@ -767,27 +767,37 @@ class View {
 				$subStorage = Filesystem::getStorage($mountPoint);
 				if ($subStorage) {
 					$subCache = $subStorage->getCache('');
-					$rootEntry = $subCache->get('');
 
-					$relativePath = trim(substr($mountPoint, $dirLength), '/');
-					if ($pos = strpos($relativePath, '/')) { //mountpoint inside subfolder add size to the correct folder
-						$entryName = substr($relativePath, 0, $pos);
-						foreach ($files as &$entry) {
-							if ($entry['name'] === $entryName) {
-								$entry['size'] += $rootEntry['size'];
+					if ($subCache->getStatus('') < Cache\Cache::COMPLETE) {
+						$subScanner = $subStorage->getScanner('');
+						$subScanner->scan('', Cache\Scanner::SCAN_SHALLOW);
+					} else {
+						$subWatcher = $subStorage->getWatcher('');
+						$subWatcher->checkUpdate('');
+					}
+
+					$rootEntry = $subCache->get('');
+					if ($rootEntry) {
+						$relativePath = trim(substr($mountPoint, $dirLength), '/');
+						if ($pos = strpos($relativePath, '/')) { //mountpoint inside subfolder add size to the correct folder
+							$entryName = substr($relativePath, 0, $pos);
+							foreach ($files as &$entry) {
+								if ($entry['name'] === $entryName) {
+									$entry['size'] += $rootEntry['size'];
+								}
 							}
+						} else { //mountpoint in this folder, add an entry for it
+							$rootEntry['name'] = $relativePath;
+							$rootEntry['type'] = $rootEntry['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
+							$subPermissionsCache = $subStorage->getPermissionsCache('');
+							$permissions = $subPermissionsCache->get($rootEntry['fileid'], $user);
+							if ($permissions === -1) {
+								$permissions = $subStorage->getPermissions($rootEntry['path']);
+								$subPermissionsCache->set($rootEntry['fileid'], $user, $permissions);
+							}
+							$rootEntry['permissions'] = $permissions;
+							$files[] = $rootEntry;
 						}
-					} else { //mountpoint in this folder, add an entry for it
-						$rootEntry['name'] = $relativePath;
-						$rootEntry['type'] = $rootEntry['mimetype'] === 'httpd/unix-directory' ? 'dir' : 'file';
-						$subPermissionsCache = $subStorage->getPermissionsCache('');
-						$permissions = $subPermissionsCache->get($rootEntry['fileid'], $user);
-						if ($permissions === -1) {
-							$permissions = $subStorage->getPermissions($rootEntry['path']);
-							$subPermissionsCache->set($rootEntry['fileid'], $user, $permissions);
-						}
-						$rootEntry['permissions'] = $permissions;
-						$files[] = $rootEntry;
 					}
 				}
 			}
