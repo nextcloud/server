@@ -41,7 +41,7 @@ class Google extends \OC\Files\Storage\Common {
 		) {
 			$consumer_key = isset($params['consumer_key']) ? $params['consumer_key'] : 'anonymous';
 			$consumer_secret = isset($params['consumer_secret']) ? $params['consumer_secret'] : 'anonymous';
-			$this->id = 'google::' . $consumer_key . $consumer_secret;
+			$this->id = 'google::' . $params['token'];
 			$this->consumer = new \OAuthConsumer($consumer_key, $consumer_secret);
 			$this->oauth_token = new \OAuthToken($params['token'], $params['token_secret']);
 			$this->sig_method = new \OAuthSignatureMethod_HMAC_SHA1();
