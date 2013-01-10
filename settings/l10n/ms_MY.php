@@ -12,6 +12,7 @@
 "Add your App" => "Tambah apps anda",
 "Select an App" => "Pilih aplikasi",
 "See application page at apps.owncloud.com" => "Lihat halaman applikasi di apps.owncloud.com",
+"Clients" => "klien",
 "Password" => "Kata laluan ",
 "Unable to change your password" => "Gagal mengubah kata laluan anda ",
 "Current password" => "Kata laluan semasa",
@@ -26,8 +27,6 @@
 "Name" => "Nama",
 "Groups" => "Kumpulan",
 "Create" => "Buat",
-"Default Quota" => "Kuota Lalai",
 "Other" => "Lain",
-"Quota" => "Kuota",
 "Delete" => "Padam"
 );

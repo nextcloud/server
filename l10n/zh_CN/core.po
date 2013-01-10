@@ -4,6 +4,7 @@
 # 
 # Translators:
 #   <appweb.cn@gmail.com>, 2012.
+# Dianjin Wang <1132321739qq@gmail.com>, 2012.
 # Phoenix Nemo <>, 2012.
 #   <suiy02@gmail.com>, 2012.
 #   <wengxt@gmail.com>, 2011, 2012.
@@ -11,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 23:17+0000\n"
+"POT-Creation-Date: 2013-01-07 00:04+0100\n"
+"PO-Revision-Date: 2013-01-06 23:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -24,26 +25,26 @@ msgstr ""
 #: ajax/share.php:84
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "用户 %s 与您共享了一个文件"
 
 #: ajax/share.php:86
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "用户 %s 与您共享了一个文件夹"
 
 #: ajax/share.php:88
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "用户 %s 与您共享了文件\"%s\"。文件下载地址：%s"
 
 #: ajax/share.php:90
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "用户 %s 与您共享了文件夹\"%s\"。文件夹下载地址：%s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -165,8 +166,8 @@ msgid "The object type is not specified."
 msgstr "未指定对象类型。"
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "错误"
 
@@ -178,7 +179,7 @@ msgstr "未指定App名称。"
 msgid "The required file {file} is not installed!"
 msgstr "所需文件{file}未安装！"
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "共享时出错"
 
@@ -206,11 +207,11 @@ msgstr "共享"
 msgid "Share with link"
 msgstr "共享链接"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "密码保护"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "密码"
@@ -221,7 +222,7 @@ msgstr ""
 
 #: js/share.js:173
 msgid "Send"
-msgstr ""
+msgstr "发送"
 
 #: js/share.js:177
 msgid "Set expiration date"
@@ -275,25 +276,25 @@ msgstr "删除"
 msgid "share"
 msgstr "共享"
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "密码已受保护"
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr "取消设置过期日期时出错"
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "设置过期日期时出错"
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
-msgstr ""
+msgstr "正在发送..."
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
-msgstr ""
+msgstr "邮件已发送"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -315,8 +316,8 @@ msgstr "重置邮件已发送。"
 msgid "Request failed!"
 msgstr "请求失败！"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "用户名"
 
@@ -405,44 +406,44 @@ msgstr "您的数据文件夹和文件可由互联网访问。OwnCloud提供的.
 msgid "Create an <strong>admin account</strong>"
 msgstr "创建<strong>管理员账号</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "高级"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "数据目录"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "配置数据库"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "将被使用"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "数据库用户"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "数据库密码"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "数据库名"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "数据库表空间"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "数据库主机"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "安装完成"
 
@@ -530,29 +531,29 @@ msgstr "由您掌控的网络服务"
 msgid "Log out"
 msgstr "注销"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "自动登录被拒绝！"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "如果您没有最近修改您的密码，您的帐户可能会受到影响！"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "请修改您的密码，以保护您的账户安全。"
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "忘记密码？"
 
-#: templates/login.php:27
+#: templates/login.php:39
 msgid "remember"
 msgstr "记住"
 
-#: templates/login.php:28
+#: templates/login.php:41
 msgid "Log in"
 msgstr "登录"
 
@@ -567,6 +568,11 @@ msgstr "上一页"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "下一页"
+
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr ""
 
 #: templates/verify.php:5
 msgid "Security Warning!"

@@ -15,6 +15,7 @@
 "More Apps" => "Daugiau aplikacijų",
 "Select an App" => "Pasirinkite programą",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>- autorius<span class=\"author\"></span>",
+"Clients" => "Klientai",
 "Password" => "Slaptažodis",
 "Your password was changed" => "Jūsų slaptažodis buvo pakeistas",
 "Unable to change your password" => "Neįmanoma pakeisti slaptažodžio",
@@ -30,8 +31,6 @@
 "Name" => "Vardas",
 "Groups" => "Grupės",
 "Create" => "Sukurti",
-"Default Quota" => "Numatytoji kvota",
 "Other" => "Kita",
-"Quota" => "Limitas",
 "Delete" => "Ištrinti"
 );

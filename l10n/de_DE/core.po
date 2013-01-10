@@ -16,15 +16,16 @@
 #   <m.fresel@sysangels.com>, 2012.
 #   <niko@nik-o-mat.de>, 2012.
 # Phi Lieb <>, 2012.
+#   <Steve_Reichert@gmx.de>, 2013.
 #   <thomas.mueller@tmit.eu>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-15 00:11+0100\n"
-"PO-Revision-Date: 2012-12-14 12:15+0000\n"
-"Last-Translator: deh3nne <deh3nne@deviantdev.com>\n"
+"POT-Creation-Date: 2013-01-09 00:04+0100\n"
+"PO-Revision-Date: 2013-01-08 10:38+0000\n"
+"Last-Translator: Valermos <Steve_Reichert@gmx.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,26 +36,26 @@ msgstr ""
 #: ajax/share.php:84
 #, php-format
 msgid "User %s shared a file with you"
-msgstr "Der Nutzer %s teilt eine Datei mit dir"
+msgstr "Der Nutzer %s hat eine Datei für Sie freigegeben"
 
 #: ajax/share.php:86
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr "Der Nutzer %s teilt einen Ordner mit dir"
+msgstr "%s hat ein Verzeichnis für Sie freigegeben"
 
 #: ajax/share.php:88
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr "Der Nutzer %s teilt die Datei \"%s\" mit dir. Du kannst diese hier herunterladen: %s"
+msgstr "%s hat eine Datei \"%s\" für Sie freigegeben. Sie ist zum Download hier ferfügbar: %s"
 
 #: ajax/share.php:90
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr "Der Nutzer %s teilt den Ornder \"%s\" mit dir. Du kannst diesen hier herunterladen: %s"
+msgstr "%s hat eine Verzeichnis \"%s\" für Sie freigegeben. Es ist zum Download hier ferfügbar: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -98,55 +99,55 @@ msgstr "Fehler beim Entfernen von %s von den Favoriten."
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "Gerade eben"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "Vor 1 Minute"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "Vor {minutes} Minuten"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "Vor einer Stunde"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "Vor {hours} Stunden"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "Heute"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "Gestern"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "Vor {days} Tag(en)"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "Letzten Monat"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "Vor {months} Monaten"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "Vor Monaten"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "Letztes Jahr"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "Vor Jahren"
 
@@ -176,8 +177,8 @@ msgid "The object type is not specified."
 msgstr "Der Objekttyp ist nicht angegeben."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "Fehler"
 
@@ -189,7 +190,7 @@ msgstr "Der App-Name ist nicht angegeben."
 msgid "The required file {file} is not installed!"
 msgstr "Die benötigte Datei {file} ist nicht installiert."
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "Fehler bei der Freigabe"
 
@@ -217,18 +218,18 @@ msgstr "Freigeben für"
 msgid "Share with link"
 msgstr "Über einen Link freigeben"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "Passwortschutz"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:26
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Passwort"
 
 #: js/share.js:172
 msgid "Email link to person"
-msgstr "Link per Mail an Person schicken"
+msgstr "Link per E-Mail verschicken"
 
 #: js/share.js:173
 msgid "Send"
@@ -286,23 +287,23 @@ msgstr "löschen"
 msgid "share"
 msgstr "freigeben"
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "Durch ein Passwort geschützt"
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr "Fehler beim Entfernen des Ablaufdatums"
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "Fehler beim Setzen des Ablaufdatums"
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
 msgstr "Sende ..."
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
 msgstr "Email gesendet"
 
@@ -327,7 +328,7 @@ msgid "Request failed!"
 msgstr "Die Anfrage schlug fehl!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
-#: templates/login.php:21
+#: templates/login.php:28
 msgid "Username"
 msgstr "Benutzername"
 
@@ -541,29 +542,29 @@ msgstr "Web-Services unter Ihrer Kontrolle"
 msgid "Log out"
 msgstr "Abmelden"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Automatische Anmeldung verweigert."
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Wenn Sie Ihr Passwort nicht vor kurzem geändert haben, könnte Ihr\nAccount kompromittiert sein!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Bitte ändern Sie Ihr Passwort, um Ihr Konto wieder zu sichern."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Passwort vergessen?"
 
-#: templates/login.php:29
+#: templates/login.php:39
 msgid "remember"
 msgstr "merken"
 
-#: templates/login.php:30
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Einloggen"
 
@@ -578,6 +579,11 @@ msgstr "Zurück"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "Weiter"
+
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr "Aktualisiere ownCloud auf Version %s. Dies könnte eine Weile dauern."
 
 #: templates/verify.php:5
 msgid "Security Warning!"

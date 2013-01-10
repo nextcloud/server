@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "Погледајте страницу са програмима на apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-лиценцирао <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Искористили сте <strong>%s</strong> од дозвољених <strong>%s</strong>",
+"Clients" => "Клијенти",
 "Password" => "Лозинка",
 "Your password was changed" => "Лозинка је промењена",
 "Unable to change your password" => "Не могу да изменим вашу лозинку",
@@ -40,9 +41,7 @@
 "Name" => "Име",
 "Groups" => "Групе",
 "Create" => "Направи",
-"Default Quota" => "Подразумевано ограничење",
 "Other" => "Друго",
 "Group Admin" => "Управник групе",
-"Quota" => "Ограничење",
 "Delete" => "Обриши"
 );

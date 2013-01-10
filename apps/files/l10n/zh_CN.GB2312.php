@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "没有上传文件。未知错误",
 "There is no error, the file uploaded with success" => "没有任何错误,文件上传成功了",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "上传的文件超过了HTML表单指定的MAX_FILE_SIZE",
 "The uploaded file was only partially uploaded" => "文件只有部分被上传",
@@ -27,6 +28,7 @@
 "{count} files uploading" => "{count} 个文件正在上传",
 "Upload cancelled." => "上传取消了",
 "File upload is in progress. Leaving the page now will cancel the upload." => "文件正在上传。关闭页面会取消上传。",
+"URL cannot be empty." => "网址不能为空。",
 "{count} files scanned" => "{count} 个文件已扫描",
 "error while scanning" => "扫描出错",
 "Name" => "名字",

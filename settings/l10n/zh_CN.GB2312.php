@@ -22,6 +22,7 @@
 "Select an App" => "选择一个程序",
 "See application page at apps.owncloud.com" => "在owncloud.com上查看应用程序",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>授权协议 <span class=\"author\"></span>",
+"Clients" => "客户",
 "Password" => "密码",
 "Your password was changed" => "您的密码以变更",
 "Unable to change your password" => "不能改变你的密码",
@@ -38,9 +39,7 @@
 "Name" => "名字",
 "Groups" => "组",
 "Create" => "新建",
-"Default Quota" => "默认限额",
 "Other" => "其他的",
 "Group Admin" => "群组管理员",
-"Quota" => "限额",
 "Delete" => "删除"
 );

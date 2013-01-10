@@ -1,0 +1,272 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Shubhra Paul <paul_shubhra@yahoo.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-01-03 00:04+0100\n"
+"PO-Revision-Date: 2013-01-02 09:43+0000\n"
+"Last-Translator: Shubhra Paul <paul_shubhra@yahoo.com>\n"
+"Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: bn_BD\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/apps/ocs.php:20
+msgid "Unable to load list from App Store"
+msgstr "অ্যাপস্টোর থেকে তালিকা লোড করা সম্ভব হলো না"
+
+#: ajax/creategroup.php:10
+msgid "Group already exists"
+msgstr "গোষ্ঠীটি বিদ্যমান"
+
+#: ajax/creategroup.php:19
+msgid "Unable to add group"
+msgstr "গোষ্ঠী যোগ করতে পারা গেল না"
+
+#: ajax/enableapp.php:12
+msgid "Could not enable app. "
+msgstr "অ্যাপ সক্রিয় করা সম্ভব হলো না"
+
+#: ajax/lostpassword.php:12
+msgid "Email saved"
+msgstr "ই-মেইল সংরক্ষণ করা হয়েছে"
+
+#: ajax/lostpassword.php:14
+msgid "Invalid email"
+msgstr "ই-মেইলটি সঠিক নয়"
+
+#: ajax/openid.php:13
+msgid "OpenID Changed"
+msgstr "OpenID পরিবর্তন করা হয়েছে"
+
+#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "অননুমোদিত অনুরোধ"
+
+#: ajax/removegroup.php:13
+msgid "Unable to delete group"
+msgstr "গোষ্ঠী মুছে ফেলা সম্ভব হলো না"
+
+#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "নিশ্চিতকরণে সমস্যা দেখা দিয়েছে"
+
+#: ajax/removeuser.php:24
+msgid "Unable to delete user"
+msgstr "ব্যবহারকারি মুছে ফেলা সম্ভব হলো না"
+
+#: ajax/setlanguage.php:15
+msgid "Language changed"
+msgstr "ভাষা পরিবর্তন করা হয়েছে"
+
+#: ajax/togglegroups.php:12
+msgid "Admins can't remove themself from the admin group"
+msgstr ""
+
+#: ajax/togglegroups.php:28
+#, php-format
+msgid "Unable to add user to group %s"
+msgstr ""
+
+#: ajax/togglegroups.php:34
+#, php-format
+msgid "Unable to remove user from group %s"
+msgstr ""
+
+#: js/apps.js:28 js/apps.js:67
+msgid "Disable"
+msgstr "নিষ্ক্রিয়"
+
+#: js/apps.js:28 js/apps.js:55
+msgid "Enable"
+msgstr "সক্রিয়"
+
+#: js/personal.js:69
+msgid "Saving..."
+msgstr "সংরক্ষণ করা হচ্ছে...."
+
+#: personal.php:42 personal.php:43
+msgid "__language_name__"
+msgstr "_ভাষার_নাম_"
+
+#: templates/apps.php:10
+msgid "Add your App"
+msgstr "আপনার অ্যাপটি যোগ করুন"
+
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "আরও অ্যাপ"
+
+#: templates/apps.php:27
+msgid "Select an App"
+msgstr "অ্যাপ নির্বাচন করুন"
+
+#: templates/apps.php:31
+msgid "See application page at apps.owncloud.com"
+msgstr "অ্যাপ্লিকেসন পাতাটি দেখুন এখানে apps.owncloud.com"
+
+#: templates/apps.php:32
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr "<span class=\"licence\"></span>-লাইসেন্স করিয়েছেন <span class=\"author\"></span>"
+
+#: templates/help.php:3
+msgid "User Documentation"
+msgstr ""
+
+#: templates/help.php:4
+msgid "Administrator Documentation"
+msgstr ""
+
+#: templates/help.php:6
+msgid "Online Documentation"
+msgstr ""
+
+#: templates/help.php:7
+msgid "Forum"
+msgstr "ফোরাম"
+
+#: templates/help.php:9
+msgid "Bugtracker"
+msgstr "বাগট্র্যাকার"
+
+#: templates/help.php:11
+msgid "Commercial Support"
+msgstr "বাণিজ্যিক সাপোর্ট"
+
+#: templates/personal.php:8
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
+msgstr ""
+
+#: templates/personal.php:12
+msgid "Clients"
+msgstr "ক্লায়েন্ট"
+
+#: templates/personal.php:13
+msgid "Download Desktop Clients"
+msgstr "ডেস্কটপ ক্লায়েন্ট  ডাউনলোড করুন"
+
+#: templates/personal.php:14
+msgid "Download Android Client"
+msgstr ""
+
+#: templates/personal.php:15
+msgid "Download iOS Client"
+msgstr ""
+
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+msgid "Password"
+msgstr "কূটশব্দ"
+
+#: templates/personal.php:22
+msgid "Your password was changed"
+msgstr "আপনার কূটশব্দটি পরিবর্তন করা হয়েছে"
+
+#: templates/personal.php:23
+msgid "Unable to change your password"
+msgstr "কূটশব্দ পরিবর্তন করা সম্ভব হলো না"
+
+#: templates/personal.php:24
+msgid "Current password"
+msgstr "বর্তমান কূটশব্দ"
+
+#: templates/personal.php:25
+msgid "New password"
+msgstr "নতুন কূটশব্দ"
+
+#: templates/personal.php:26
+msgid "show"
+msgstr "প্রদর্শন"
+
+#: templates/personal.php:27
+msgid "Change password"
+msgstr "কূটশব্দ পরিবর্তন কর"
+
+#: templates/personal.php:33
+msgid "Email"
+msgstr "ই-মেইল"
+
+#: templates/personal.php:34
+msgid "Your email address"
+msgstr "আপনার ই-মেইল ঠিকানা"
+
+#: templates/personal.php:35
+msgid "Fill in an email address to enable password recovery"
+msgstr ""
+
+#: templates/personal.php:41 templates/personal.php:42
+msgid "Language"
+msgstr "ভাষা"
+
+#: templates/personal.php:47
+msgid "Help translate"
+msgstr "অনুবাদ করতে সাহায্য করুন"
+
+#: templates/personal.php:52
+msgid "WebDAV"
+msgstr ""
+
+#: templates/personal.php:54
+msgid "Use this address to connect to your ownCloud in your file manager"
+msgstr ""
+
+#: templates/personal.php:63
+msgid "Version"
+msgstr ""
+
+#: templates/personal.php:65
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "তৈরি করেছেন <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, যার <a href=\"https://github.com/owncloud\" target=\"_blank\">উৎস কোড</a> <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr>এর অধীনে লাইেসন্সকৃত</a>."
+
+#: templates/users.php:21 templates/users.php:81
+msgid "Name"
+msgstr "নাম"
+
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+msgid "Groups"
+msgstr "গোষ্ঠী"
+
+#: templates/users.php:32
+msgid "Create"
+msgstr "তৈরি কর"
+
+#: templates/users.php:35
+msgid "Default Storage"
+msgstr ""
+
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr ""
+
+#: templates/users.php:60 templates/users.php:153
+msgid "Other"
+msgstr "অন্যান্য"
+
+#: templates/users.php:85 templates/users.php:117
+msgid "Group Admin"
+msgstr "গোষ্ঠী প্রশাসন"
+
+#: templates/users.php:87
+msgid "Storage"
+msgstr ""
+
+#: templates/users.php:133
+msgid "Default"
+msgstr ""
+
+#: templates/users.php:161
+msgid "Delete"
+msgstr "মুছে ফেল"

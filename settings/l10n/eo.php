@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "Vidu la paĝon pri aplikaĵoj ĉe apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"</span>-permesilhavigita de <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Vi uzas <strong>%s</strong> el la haveblaj <strong>%s</strong>",
+"Clients" => "Klientoj",
 "Password" => "Pasvorto",
 "Your password was changed" => "Via pasvorto ŝanĝiĝis",
 "Unable to change your password" => "Ne eblis ŝanĝi vian pasvorton",
@@ -40,9 +41,7 @@
 "Name" => "Nomo",
 "Groups" => "Grupoj",
 "Create" => "Krei",
-"Default Quota" => "Defaŭlta kvoto",
 "Other" => "Alia",
 "Group Admin" => "Grupadministranto",
-"Quota" => "Kvoto",
 "Delete" => "Forigi"
 );

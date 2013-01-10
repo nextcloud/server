@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-20 00:11+0100\n"
-"PO-Revision-Date: 2012-12-19 23:11+0000\n"
+"POT-Creation-Date: 2012-12-30 00:04+0100\n"
+"PO-Revision-Date: 2012-12-29 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -147,7 +147,7 @@ msgstr "நீங்கள் <strong>%s</strong> இலுள்ள <strong>%s<
 
 #: templates/personal.php:12
 msgid "Clients"
-msgstr ""
+msgstr "வாடிக்கையாளர்கள்"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
@@ -161,7 +161,7 @@ msgstr ""
 msgid "Download iOS Client"
 msgstr ""
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "கடவுச்சொல்"
 
@@ -231,11 +231,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "பெயர்"
 
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "குழுக்கள்"
 
@@ -244,21 +244,29 @@ msgid "Create"
 msgstr "உருவாக்குக"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "பொது இருப்பு பங்கு"
+msgid "Default Storage"
+msgstr ""
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr ""
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "மற்றவை"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "குழு நிர்வாகி"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "பங்கு"
+#: templates/users.php:87
+msgid "Storage"
+msgstr ""
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr ""
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "அழிக்க"

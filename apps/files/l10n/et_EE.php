@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Ühtegi faili ei laetud üles. Tundmatu viga",
 "There is no error, the file uploaded with success" => "Ühtegi viga pole, fail on üles laetud",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Üles laetud faili suurus ületab HTML vormis määratud upload_max_filesize suuruse",
 "The uploaded file was only partially uploaded" => "Fail laeti üles ainult osaliselt",
@@ -28,7 +29,7 @@
 "{count} files uploading" => "{count} faili üleslaadimist",
 "Upload cancelled." => "Üleslaadimine tühistati.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Faili üleslaadimine on töös.  Lehelt lahkumine katkestab selle üleslaadimise.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Vigane kausta nimi. Nime \"Jagatud\" kasutamine on Owncloudi poolt broneeritud ",
+"URL cannot be empty." => "URL ei saa olla tühi.",
 "{count} files scanned" => "{count} faili skännitud",
 "error while scanning" => "viga skännimisel",
 "Name" => "Nimi",

@@ -18,6 +18,7 @@
 "Add your App" => "යෙදුමක් එක් කිරීම",
 "More Apps" => "තවත් යෙදුම්",
 "Select an App" => "යෙදුමක් තොරන්න",
+"Clients" => "සේවාලාභීන්",
 "Password" => "මුරපදය",
 "Your password was changed" => "ඔබගේ මුර පදය වෙනස් කෙරුණි",
 "Unable to change your password" => "මුර පදය වෙනස් කළ නොහැකි විය",
@@ -34,9 +35,7 @@
 "Name" => "නාමය",
 "Groups" => "සමූහය",
 "Create" => "තනන්න",
-"Default Quota" => "සාමාන්‍ය සලාකය",
 "Other" => "වෙනත්",
 "Group Admin" => "කාණ්ඩ පරිපාලක",
-"Quota" => "සලාකය",
 "Delete" => "මකා දමනවා"
 );

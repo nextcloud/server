@@ -39,9 +39,7 @@
 "Name" => "Vārds",
 "Groups" => "Grupas",
 "Create" => "Izveidot",
-"Default Quota" => "Apjoms pēc noklusējuma",
 "Other" => "Cits",
 "Group Admin" => "Grupas administrators",
-"Quota" => "Apjoms",
 "Delete" => "Izdzēst"
 );

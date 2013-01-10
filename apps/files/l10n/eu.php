@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Ez da fitxategirik igo. Errore ezezaguna",
 "There is no error, the file uploaded with success" => "Ez da arazorik izan, fitxategia ongi igo da",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Igotako fitxategiak php.ini fitxategian ezarritako upload_max_filesize muga gainditu du:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Igotako fitxategiaren tamaina HTML inprimakiko MAX_FILESIZE direktiban adierazitakoa baino handiagoa da",
@@ -29,7 +30,7 @@
 "{count} files uploading" => "{count} fitxategi igotzen",
 "Upload cancelled." => "Igoera ezeztatuta",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Fitxategien igoera martxan da. Orria orain uzteak igoera ezeztatutko du.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Karpeta izen baliogabea. \"Shared\" karpetaren erabilera Owncloudek erreserbatuta dauka",
+"URL cannot be empty." => "URLa ezin da hutsik egon.",
 "{count} files scanned" => "{count} fitxategi eskaneatuta",
 "error while scanning" => "errore bat egon da eskaneatzen zen bitartean",
 "Name" => "Izena",

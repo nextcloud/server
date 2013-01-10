@@ -29,7 +29,6 @@
 "{count} files uploading" => "Отпремам {count} датотеке/а",
 "Upload cancelled." => "Отпремање је прекинуто.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Отпремање датотеке је у току. Ако сада напустите страницу, прекинућете отпремање.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Неисправан назив фасцикле. „Дељено“ користи Оунклауд.",
 "{count} files scanned" => "Скенирано датотека: {count}",
 "error while scanning" => "грешка при скенирању",
 "Name" => "Назив",

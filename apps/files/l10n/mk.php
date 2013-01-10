@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Ниту еден фајл не се вчита. Непозната грешка",
 "There is no error, the file uploaded with success" => "Нема грешка, датотеката беше подигната успешно",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Подигнатата датотека ја надминува upload_max_filesize директивата во php.ini:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Подигнатата датотеката ја надминува MAX_FILE_SIZE директивата која беше поставена во HTML формата",
@@ -29,7 +30,7 @@
 "{count} files uploading" => "{count} датотеки се подигаат",
 "Upload cancelled." => "Преземањето е прекинато.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Подигање на датотека е во тек. Напуштење на страницата ќе го прекине.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Неправилно име на папка. Користењето на „Shared“ е резервирано за Owncloud",
+"URL cannot be empty." => "Адресата неможе да биде празна.",
 "{count} files scanned" => "{count}  датотеки скенирани",
 "error while scanning" => "грешка при скенирање",
 "Name" => "Име",

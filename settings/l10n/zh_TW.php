@@ -24,6 +24,7 @@
 "See application page at apps.owncloud.com" => "查看應用程式頁面於 apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-核准: <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "您已經使用了 <strong>%s</strong> ，目前可用空間為 <strong>%s</strong>",
+"Clients" => "客戶",
 "Password" => "密碼",
 "Your password was changed" => "你的密碼已更改",
 "Unable to change your password" => "無法變更你的密碼",
@@ -40,9 +41,7 @@
 "Name" => "名稱",
 "Groups" => "群組",
 "Create" => "創造",
-"Default Quota" => "預設容量限制",
 "Other" => "其他",
 "Group Admin" => "群組 管理員",
-"Quota" => "容量限制",
 "Delete" => "刪除"
 );

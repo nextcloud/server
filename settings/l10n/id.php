@@ -12,6 +12,7 @@
 "Add your App" => "Tambahkan App anda",
 "Select an App" => "Pilih satu aplikasi",
 "See application page at apps.owncloud.com" => "Lihat halaman aplikasi di apps.owncloud.com",
+"Clients" => "Klien",
 "Password" => "Password",
 "Unable to change your password" => "Tidak dapat merubah password anda",
 "Current password" => "Password saat ini",
@@ -26,9 +27,7 @@
 "Name" => "Nama",
 "Groups" => "Group",
 "Create" => "Buat",
-"Default Quota" => "Kuota default",
 "Other" => "Lain-lain",
 "Group Admin" => "Admin Grup",
-"Quota" => "Quota",
 "Delete" => "Hapus"
 );

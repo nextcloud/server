@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Không có tập tin nào được tải lên. Lỗi không xác định",
 "There is no error, the file uploaded with success" => "Không có lỗi, các tập tin đã được tải lên thành công",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Kích thước những tập tin tải lên vượt quá MAX_FILE_SIZE đã được quy định",
 "The uploaded file was only partially uploaded" => "Tập tin tải lên mới chỉ tải lên được một phần",
@@ -28,7 +29,7 @@
 "{count} files uploading" => "{count} tập tin đang tải lên",
 "Upload cancelled." => "Hủy tải lên",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Tên thư mục không hợp lệ. Sử dụng \"Chia sẻ\" được dành riêng bởi Owncloud",
+"URL cannot be empty." => "URL không được để trống.",
 "{count} files scanned" => "{count} tập tin đã được quét",
 "error while scanning" => "lỗi trong khi quét",
 "Name" => "Tên",

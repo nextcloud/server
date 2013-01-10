@@ -8,14 +8,15 @@
 # Maurice Preuß <>, 2012.
 #   <niko@nik-o-mat.de>, 2012.
 # Phi Lieb <>, 2012.
+#   <transifex-2.7.mensaje@spamgourmet.com>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-15 00:11+0100\n"
-"PO-Revision-Date: 2012-12-14 23:11+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2012-12-23 00:09+0100\n"
+"PO-Revision-Date: 2012-12-22 14:04+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,13 +29,13 @@ msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behaviour. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>Warnung:</b> Die Anwendungen user_ldap und user_webdavauth sind inkompatibel. Es kann demzufolge zu unerwarteten Verhalten kommen. Bitten Sie Ihren Systemadministator eine der beiden Anwendungen zu deaktivieren."
 
 #: templates/settings.php:11
 msgid ""
 "<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will"
 " not work. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Warnung:</b> Das PHP-Modul, das LDAP benöntigt, ist nicht installiert. Das Backend wird nicht funktionieren. Bitten Sie Ihren Systemadministrator das Modul zu installieren."
 
 #: templates/settings.php:15
 msgid "Host"

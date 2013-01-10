@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "ஒரு கோப்பும் பதிவேற்றப்படவில்லை. அறியப்படாத வழு",
 "There is no error, the file uploaded with success" => "இங்கு வழு இல்லை, கோப்பு வெற்றிகரமாக பதிவேற்றப்பட்டது",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "பதிவேற்றப்பட்ட கோப்பானது HTML  படிவத்தில் குறிப்பிடப்பட்டுள்ள MAX_FILE_SIZE  directive ஐ விட கூடியது",
 "The uploaded file was only partially uploaded" => "பதிவேற்றப்பட்ட கோப்பானது பகுதியாக மட்டுமே பதிவேற்றப்பட்டுள்ளது",
@@ -28,7 +29,7 @@
 "{count} files uploading" => "{எண்ணிக்கை} கோப்புகள் பதிவேற்றப்படுகின்றது",
 "Upload cancelled." => "பதிவேற்றல் இரத்து செய்யப்பட்டுள்ளது",
 "File upload is in progress. Leaving the page now will cancel the upload." => "கோப்பு பதிவேற்றம் செயல்பாட்டில் உள்ளது. இந்தப் பக்கத்திலிருந்து வெறியேறுவதானது பதிவேற்றலை இரத்து செய்யும்.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "செல்லுபடியற்ற கோப்புறை பெயர். \"பகிர்வின்\" பாவனை Owncloud இனால் ஒதுக்கப்பட்டுள்ளது",
+"URL cannot be empty." => "URL  வெறுமையாக இருக்கமுடியாது.",
 "{count} files scanned" => "{எண்ணிக்கை} கோப்புகள் வருடப்பட்டது",
 "error while scanning" => "வருடும் போதான வழு",
 "Name" => "பெயர்",

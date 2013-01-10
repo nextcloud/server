@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "%s möchte eine Datei mit dir teilen",
-"User %s shared a folder with you" => "%s möchte ein Verzeichnis mit dir teilen",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "%s möchte die Datei %s mit dir teilen. Sie liegt hier zum Download bereit: %s",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "%s möchte das Verzeichnis %s mit dir teilen. Es liegt hier zum Download bereit: %s",
+"User %s shared a file with you" => "Der Nutzer %s hat eine Datei für Dich freigegeben",
+"User %s shared a folder with you" => "%s hat ein Verzeichnis für Dich freigegeben",
+"User %s shared the file \"%s\" with you. It is available for download here: %s" => "%s hat eine Datei \"%s\" für Dich freigegeben. Sie ist zum Download hier ferfügbar: %s",
+"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "%s hat eine Verzeichnis \"%s\" für Dich freigegeben. Es ist zum Download hier ferfügbar: %s",
 "Category type not provided." => "Kategorie nicht angegeben.",
 "No category to add?" => "Keine Kategorie hinzuzufügen?",
 "This category already exists: " => "Kategorie existiert bereits:",
@@ -128,6 +128,7 @@
 "You are logged out." => "Du wurdest abgemeldet.",
 "prev" => "Zurück",
 "next" => "Weiter",
+"Updating ownCloud to version %s, this may take a while." => "Aktualisiere ownCloud auf Version %s. Dies könnte eine Weile dauern.",
 "Security Warning!" => "Sicherheitswarnung!",
 "Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Bitte bestätige Dein Passwort. <br/> Aus Sicherheitsgründen wirst Du hierbei gebeten, Dein Passwort erneut einzugeben.",
 "Verify" => "Bestätigen"

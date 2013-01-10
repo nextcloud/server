@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-20 00:11+0100\n"
-"PO-Revision-Date: 2012-12-19 23:11+0000\n"
+"POT-Creation-Date: 2012-12-30 00:04+0100\n"
+"PO-Revision-Date: 2012-12-29 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -120,19 +120,19 @@ msgstr "<span class=\"licence\"></span>-лиценцирано од <span class=
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr ""
+msgstr "Корисничка документација"
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Администраторска документација"
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr ""
+msgstr "Документација на интернет"
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr ""
+msgstr "Форум"
 
 #: templates/help.php:9
 msgid "Bugtracker"
@@ -140,7 +140,7 @@ msgstr ""
 
 #: templates/help.php:11
 msgid "Commercial Support"
-msgstr ""
+msgstr "Комерцијална подршка"
 
 #: templates/personal.php:8
 #, php-format
@@ -149,21 +149,21 @@ msgstr "Имате искористено <strong>%s</strong> од достап�
 
 #: templates/personal.php:12
 msgid "Clients"
-msgstr ""
+msgstr "Клиенти"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr ""
+msgstr "Преземи клиенти за десктоп"
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr ""
+msgstr "Преземи клиент за Андроид"
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr ""
+msgstr "Преземи iOS клиент"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "Лозинка"
 
@@ -213,15 +213,15 @@ msgstr "Помогни во преводот"
 
 #: templates/personal.php:52
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Користете ја оваа адреса да "
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr ""
+msgstr "Верзија"
 
 #: templates/personal.php:65
 msgid ""
@@ -233,11 +233,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Развој од <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud заедницата</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">изворниот код</a> е лиценциран со<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "Име"
 
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "Групи"
 
@@ -246,21 +246,29 @@ msgid "Create"
 msgstr "Создај"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "Предефинирана квота"
+msgid "Default Storage"
+msgstr ""
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr ""
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "Останато"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "Администратор на група"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "Квота"
+#: templates/users.php:87
+msgid "Storage"
+msgstr ""
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr ""
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "Избриши"

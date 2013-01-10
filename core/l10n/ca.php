@@ -33,7 +33,7 @@
 "The object type is not specified." => "No s'ha especificat el tipus d'objecte.",
 "Error" => "Error",
 "The app name is not specified." => "No s'ha especificat el nom de l'aplicació.",
-"The required file {file} is not installed!" => "El figtxer requerit {file} no està instal·lat!",
+"The required file {file} is not installed!" => "El fitxer requerit {file} no està instal·lat!",
 "Error while sharing" => "Error en compartir",
 "Error while unsharing" => "Error en deixar de compartir",
 "Error while changing permissions" => "Error en canviar els permisos",
@@ -128,6 +128,7 @@
 "You are logged out." => "Heu tancat la sessió.",
 "prev" => "anterior",
 "next" => "següent",
+"Updating ownCloud to version %s, this may take a while." => "S'està actualitzant ownCloud a la versió %s, pot trigar una estona.",
 "Security Warning!" => "Avís de seguretat!",
 "Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Comproveu la vostra contrasenya. <br/>Per raons de seguretat se us pot demanar escriure de nou la vostra contrasenya.",
 "Verify" => "Comprova"

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Nobena datoteka ni naložena. Neznana napaka.",
 "There is no error, the file uploaded with success" => "Datoteka je uspešno naložena brez napak.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Naložena datoteka presega dovoljeno velikost. Le-ta je določena z vrstico upload_max_filesize v datoteki php.ini:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Naložena datoteka presega velikost, ki jo določa parameter MAX_FILE_SIZE v HTML obrazcu",
@@ -29,7 +30,7 @@
 "{count} files uploading" => "nalagam {count} datotek",
 "Upload cancelled." => "Pošiljanje je preklicano.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "V teku je pošiljanje datoteke. Če zapustite to stran zdaj, bo pošiljanje preklicano.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Neveljavno ime datoteke. Uporaba mape \"Share\" je rezervirana za ownCloud.",
+"URL cannot be empty." => "Naslov URL ne sme biti prazen.",
 "{count} files scanned" => "{count} files scanned",
 "error while scanning" => "napaka med pregledovanjem datotek",
 "Name" => "Ime",
