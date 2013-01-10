@@ -601,8 +601,6 @@ class Crypt {
          */
 	public static function generateKey() {
 		
-		// $key = mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 ) . mt_rand( 10000, 99999 );
-		
 		// Generate key
 		if ( $key = base64_encode( openssl_random_pseudo_bytes( 183, $strong ) ) ) {
 		
