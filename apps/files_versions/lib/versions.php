@@ -82,14 +82,39 @@ class Storage {
 			}
 
 			// store a new version of a file
-			$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
-
+			$result = $users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
+			if (  ($versionsSize = \OCP\Config::getAppValue('files_versions', 'size')) === null ) {
+				$versionsSize = self::calculateSize($uid);
+			}
+			$versionsSize += $users_view->filesize('files'.$filename);
+			
 			// expire old revisions if necessary
-			Storage::expire($filename);
+			self::expire($filename, $versionsSize);
 		}
 	}
 
 
+	/**
+	 * Delete versions of a file
+	 */
+	public static function delete($filename) {
+		list($uid, $filename) = self::getUidAndFilename($filename);
+		$versions_fileview = new \OC_FilesystemView('/'.$uid .'/files_versions');
+		
+		$abs_path = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('').$filename.'.v';
+		if(Storage::isversioned($filename)) {
+			$versions = self::getVersions($filename);
+			if (  ($versionsSize = \OCP\Config::getAppValue('files_versions', 'size')) === null ) {
+				$versionsSize = self::calculateSize($uid);
+			}
+			foreach ($versions as $v) {
+				unlink($abs_path . $v['version']);
+				$versionsSize -= $v['size'];
+			}
+			\OCP\Config::setAppValue('files_versions', 'size', $versionsSize);
+		}
+	}
+	
 	/**
 	 * rollback to an old version of a file.
 	 */
@@ -216,13 +241,37 @@ class Storage {
 		}
 
 	}
+
+	/**
+	 * @brief get the size of all stored versions from a given user
+	 * @param $uid id from the user
+	 * @return size of vesions
+	 */
+	private static function calculateSize($uid) {
+		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
+			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
+			$versionsRoot = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('');
+				
+			$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($versionsRoot), \RecursiveIteratorIterator::CHILD_FIRST);
+				
+			$size = 0;
+							
+			foreach ($iterator as $path) {
+				if ( preg_match('/^.+\.v(\d+)$/', $path, $match) ) {
+					$relpath = substr($path, strlen($versionsRoot)-1);
+					$size += $versions_fileview->filesize($relpath);
+				}
+			}
+			
+			return $size;
+		}
+	}
 	
 	/**
 	 * @brief returns all stored file versions from a given user
 	 * @param $uid id to the user
 	 * @return array with contains two arrays 'all' which contains all versions sorted by age and 'by_file' which contains all versions sorted by filename
 	 */
-	
 	private static function getAllVersions($uid) {
 		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
 			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
@@ -280,7 +329,7 @@ class Storage {
 	/**
 	 * @brief Erase a file's versions which exceed the set quota
 	 */
-	public static function expire($filename) {
+	public static function expire($filename, $versionsSize = null) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);			
 			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
@@ -293,13 +342,20 @@ class Storage {
 			if ( $quota == null ) {
 				$quota = \OC_Filesystem::free_space('/');
 			}
-
+			
+			if ( $versionsSize === null ) {
+				if (  ($versionsSize = \OCP\Config::getAppValue('files_versions', 'size')) === null ) {
+					$versionsSize = self::calculateSize($uid);
+				}
+			}
+			
 			$rootInfo = \OC_FileCache::get('', '/'. $uid . '/files');
 			$free = $quota-$rootInfo['size']; // remaining free space for user
-
 			if ( $free > 0 ) {
-				$availableSpace = 100* self::DEFAULTMAXSIZE / ($free); // how much space can be used for versions
-			} // otherwise available space negative and we need to reach at least 0 at the end of the expiration process;
+				$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions
+			} else {
+				$availableSpace = $free-$versionsSize;
+			} 
 
 			// after every 1000s run reduce the number of all versions not only for the current file 
 			$random = rand(0, 1000);
@@ -334,6 +390,7 @@ class Storage {
 							//distance between two version to small, delete version
 							$versions_fileview->unlink($versions[$i]['path'].'.v'.$versions[$i]['version']);
 							$availableSpace += $versions[$i]['size'];
+							$versionsSize -= $versions[$i]['size'];
 						} else {
 							$nextVersion = $versions[$i]['version'] - $step;
 						}
@@ -355,10 +412,13 @@ class Storage {
 			$i = 0; 
 			while ($availableSpace < 0) {
 				$versions_fileview->unlink($all_versions[$i]['path'].'.v'.$all_versions[$i]['version']);
+				$versionsSize -= $all_versions[$i]['size'];
 				$availableSpace += $all_versions[$i]['size'];
 				$i++;
 				if ($i = $numOfVersions-2) break; // keep at least the last version
 			}
+		
+			\OCP\Config::setAppValue('files_versions', 'size', $versionsSize);
 		}
 	}
 }

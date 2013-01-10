@@ -39,14 +39,14 @@ class Hooks {
 	 * cleanup the versions directory if the actual file gets deleted
 	 */
 	public static function remove_hook($params) {
-		$versions_fileview = \OCP\Files::getStorage('files_versions');
-		$rel_path =  $params['path'];
-		$abs_path = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('').$rel_path.'.v';
-		if(Storage::isversioned($rel_path)) {
-			$versions = Storage::getVersions($rel_path);
-			foreach ($versions as $v) {
-				unlink($abs_path . $v['version']);
-			}
+		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+		
+			$versions = new Storage( new \OC_FilesystemView('') );
+		
+			$path = $params[\OC_Filesystem::signal_param_path];
+		
+			if($path<>'') $versions->delete( $path );
+		
 		}
 	}
 
