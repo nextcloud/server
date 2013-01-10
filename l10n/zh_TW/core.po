@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-10 00:04+0100\n"
-"PO-Revision-Date: 2013-01-09 07:49+0000\n"
+"POT-Creation-Date: 2013-01-11 00:05+0100\n"
+"PO-Revision-Date: 2013-01-10 06:18+0000\n"
 "Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -24,38 +24,38 @@ msgstr ""
 #: ajax/share.php:84
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "用戶 %s 與您分享了一個檔案"
 
 #: ajax/share.php:86
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "用戶 %s 與您分享了一個資料夾"
 
 #: ajax/share.php:88
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "用戶 %s 與您分享了檔案 \"%s\" ，您可以從這裡下載它： %s"
 
 #: ajax/share.php:90
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "用戶 %s 與您分享了資料夾 \"%s\" ，您可以從這裡下載它： %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "未提供分類類型。"
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr "無分類添加?"
+msgstr "沒有可增加的分類？"
 
 #: ajax/vcategories/add.php:37
 msgid "This category already exists: "
-msgstr "此分類已經存在:"
+msgstr "此分類已經存在："
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -67,21 +67,21 @@ msgstr "不支援的物件類型"
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "未提供 %s ID 。"
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "加入 %s 到最愛時發生錯誤。"
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "沒選擇要刪除的分類"
+msgstr "沒有選擇要刪除的分類。"
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "從最愛移除 %s 時發生錯誤。"
 
 #: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
@@ -105,7 +105,7 @@ msgstr "1 個小時前"
 
 #: js/js.js:715
 msgid "{hours} hours ago"
-msgstr "{hours} 個小時前"
+msgstr "{hours} 小時前"
 
 #: js/js.js:716
 msgid "today"
@@ -162,7 +162,7 @@ msgstr "Ok"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "未指定物件類型。"
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
 #: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
@@ -172,11 +172,11 @@ msgstr "錯誤"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr "沒有詳述APP名稱."
+msgstr "沒有指定 app 名稱。"
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "沒有安裝所需的檔案 {file} ！"
 
 #: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
@@ -200,7 +200,7 @@ msgstr "{owner} 已經和您分享"
 
 #: js/share.js:158
 msgid "Share with"
-msgstr "與分享"
+msgstr "與...分享"
 
 #: js/share.js:163
 msgid "Share with link"
@@ -217,11 +217,11 @@ msgstr "密碼"
 
 #: js/share.js:172
 msgid "Email link to person"
-msgstr ""
+msgstr "將連結 email 給別人"
 
 #: js/share.js:173
 msgid "Send"
-msgstr ""
+msgstr "寄出"
 
 #: js/share.js:177
 msgid "Set expiration date"
@@ -233,7 +233,7 @@ msgstr "到期日"
 
 #: js/share.js:210
 msgid "Share via email:"
-msgstr "透過email分享:"
+msgstr "透過 email 分享："
 
 #: js/share.js:212
 msgid "No people found"
@@ -277,7 +277,7 @@ msgstr "分享"
 
 #: js/share.js:356 js/share.js:541
 msgid "Password protected"
-msgstr "密碼保護"
+msgstr "受密碼保護"
 
 #: js/share.js:554
 msgid "Error unsetting expiration date"
@@ -289,11 +289,11 @@ msgstr "錯誤的到期日設定"
 
 #: js/share.js:581
 msgid "Sending ..."
-msgstr ""
+msgstr "正在寄出..."
 
 #: js/share.js:592
 msgid "Email sent"
-msgstr ""
+msgstr "Email 已寄出"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -301,19 +301,19 @@ msgstr "ownCloud 密碼重設"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr "請循以下聯結重設你的密碼: （聯結） "
+msgstr "請循以下聯結重設你的密碼： {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "重設密碼的連結將會寄到你的電子郵件信箱"
+msgstr "重設密碼的連結將會寄到你的電子郵件信箱。"
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr "重設郵件已送出."
+msgstr "重設郵件已送出。"
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr "請求失敗!"
+msgstr "請求失敗！"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
 #: templates/login.php:28
@@ -322,7 +322,7 @@ msgstr "使用者名稱"
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr "要求重設"
+msgstr "請求重設"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -362,7 +362,7 @@ msgstr "幫助"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "禁止存取"
+msgstr "存取被拒"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -374,7 +374,7 @@ msgstr "編輯分類"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "添加"
+msgstr "增加"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
@@ -384,7 +384,7 @@ msgstr "安全性警告"
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr "沒有可用的隨機數字產生器, 請啟用 PHP 中 OpenSSL 擴充功能."
+msgstr "沒有可用的亂數產生器，請啟用 PHP 中的 OpenSSL 擴充功能。"
 
 #: templates/installation.php:26
 msgid ""
@@ -524,7 +524,7 @@ msgstr "十二月"
 
 #: templates/layout.guest.php:42
 msgid "web services under your control"
-msgstr "網路服務已在你控制"
+msgstr "網路服務在您控制之下"
 
 #: templates/layout.user.php:45
 msgid "Log out"
@@ -546,7 +546,7 @@ msgstr "請更改您的密碼以再次取得您的帳戶的控制權。"
 
 #: templates/login.php:19
 msgid "Lost your password?"
-msgstr "忘記密碼?"
+msgstr "忘記密碼？"
 
 #: templates/login.php:39
 msgid "remember"
@@ -571,11 +571,11 @@ msgstr "下一頁"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "正在將 Owncloud 升級至版本 %s ，這可能需要一點時間。"
 
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr "安全性警告!"
+msgstr "安全性警告！"
 
 #: templates/verify.php:6
 msgid ""

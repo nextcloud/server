@@ -31,7 +31,7 @@
 "Commercial Support" => "Support commercial",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Vous avez utilisé <strong>%s</strong> des <strong>%s<strong> disponibles",
 "Clients" => "Clients",
-"Download Desktop Clients" => "Télécharger des clients de bureau",
+"Download Desktop Clients" => "Télécharger le client de synchronisation pour votre ordinateur",
 "Download Android Client" => "Télécharger le client Android",
 "Download iOS Client" => "Télécharger le client iOS",
 "Password" => "Mot de passe",

@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-03 00:04+0100\n"
-"PO-Revision-Date: 2012-08-12 22:37+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-01-11 00:05+0100\n"
+"PO-Revision-Date: 2013-01-10 10:28+0000\n"
+"Last-Translator: Shubhra Paul <paul_shubhra@yahoo.com>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,24 +19,24 @@ msgstr ""
 
 #: js/settings-personal.js:31 templates/settings-personal.php:7
 msgid "Expire all versions"
-msgstr ""
+msgstr "সমস্ত ভার্সন মেয়াদোত্তীর্ণ"
 
 #: js/versions.js:16
 msgid "History"
-msgstr ""
+msgstr "ইতিহাস"
 
 #: templates/settings-personal.php:4
 msgid "Versions"
-msgstr ""
+msgstr "ভার্সন"
 
 #: templates/settings-personal.php:10
 msgid "This will delete all existing backup versions of your files"
-msgstr ""
+msgstr "এটি আপনার বিদ্যমান  ফাইলের সমস্ত ব্যাক-আপ ভার্সন মুছে ফেলবে।"
 
 #: templates/settings.php:3
 msgid "Files Versioning"
-msgstr ""
+msgstr "ফাইল ভার্সন করা"
 
 #: templates/settings.php:4
 msgid "Enable"
-msgstr "সক্রিয়"
+msgstr "সক্রিয় "
