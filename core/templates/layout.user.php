@@ -41,7 +41,7 @@
 
 	<body id="<?php echo $_['bodyid'];?>">
 	<div id="notification-container">
-		<div id="notification"/>
+		<div id="notification"></div>
 	</div>
 	<header><div id="header">
 			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img class="svg" src="<?php echo image_path('', 'logo-wide.svg'); ?>" alt="ownCloud" /></a>
