@@ -21,7 +21,8 @@
 "Add your App" => "Bæta við forriti",
 "More Apps" => "Fleiri forrit",
 "Select an App" => "Veldu forrit",
-"See application page at apps.owncloud.com" => "Skoða forrita síðuna hjá apps.owncloud.com",
+"See application page at apps.owncloud.com" => "Skoða síðu forrits hjá apps.owncloud.com",
+"<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-leyfi skráð af <span class=\"author\"></span>",
 "User Documentation" => "Notenda handbók",
 "Administrator Documentation" => "Stjórnenda handbók",
 "Online Documentation" => "Handbók á netinu",
@@ -55,7 +56,7 @@
 "Default Storage" => "Sjálfgefin gagnageymsla",
 "Unlimited" => "Ótakmarkað",
 "Other" => "Annað",
-"Group Admin" => "Hópa stjóri",
+"Group Admin" => "Hópstjóri",
 "Storage" => "gagnapláss",
 "Default" => "Sjálfgefið",
 "Delete" => "Eyða"

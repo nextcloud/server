@@ -343,8 +343,15 @@ if(typeof localStorage !=='undefined' && localStorage !== null){
 			return localStorage.setItem(OC.localStorage.namespace+name,JSON.stringify(item));
 		},
 		getItem:function(name){
-			if(localStorage.getItem(OC.localStorage.namespace+name)===null){return null;}
-			return JSON.parse(localStorage.getItem(OC.localStorage.namespace+name));
+			var item = localStorage.getItem(OC.localStorage.namespace+name);
+			if(item===null) {
+				return null;
+			} else if (typeof JSON === 'undefined') {
+				//fallback to jquery for IE6/7/8
+				return $.parseJSON(item);
+			} else {
+				return JSON.parse(item);
+			}
 		}
 	};
 }else{
@@ -615,7 +622,7 @@ $(document).ready(function(){
 	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
 	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
-	$('#upload a').tipsy({gravity:'w', fade:true});
+	$('#upload').tipsy({gravity:'w', fade:true});
 	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
 	$('a.delete').tipsy({gravity: 'e', fade:true, live:true});
 	$('a.action').tipsy({gravity:'s', fade:true, live:true});

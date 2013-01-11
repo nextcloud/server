@@ -20,6 +20,7 @@
 "1 file uploading" => "1 ගොනුවක් උඩගත කෙරේ",
 "Upload cancelled." => "උඩුගත කිරීම අත් හරින්න ලදී",
 "File upload is in progress. Leaving the page now will cancel the upload." => "උඩුගතකිරීමක් සිදුවේ. පිටුව හැර යාමෙන් එය නැවතෙනු ඇත",
+"URL cannot be empty." => "යොමුව හිස් විය නොහැක",
 "error while scanning" => "පරීක්ෂා කිරීමේදී දෝෂයක්",
 "Name" => "නම",
 "Size" => "ප්‍රමාණය",

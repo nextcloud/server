@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-03 00:04+0100\n"
-"PO-Revision-Date: 2012-08-12 22:45+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-01-11 00:05+0100\n"
+"PO-Revision-Date: 2013-01-10 10:27+0000\n"
+"Last-Translator: Shubhra Paul <paul_shubhra@yahoo.com>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,31 +32,31 @@ msgstr ""
 
 #: templates/settings.php:15
 msgid "Host"
-msgstr ""
+msgstr "হোস্ট"
 
 #: templates/settings.php:15
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "SSL আবশ্যক  না হলে  আপনি এই প্রটোকলটি মুছে ফেলতে পারেন । এরপর শুরু করুন এটা দিয়ে ldaps://"
 
 #: templates/settings.php:16
 msgid "Base DN"
-msgstr ""
+msgstr "ভিত্তি  DN"
 
 #: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr ""
+msgstr "সুচারু ট্যঅবে গিয়ে আপনি ব্যবহারকারি এবং গোষ্ঠীসমূহের জন্য ভিত্তি DN নির্ধারণ করতে পারেন।"
 
 #: templates/settings.php:17
 msgid "User DN"
-msgstr ""
+msgstr "ব্যবহারকারি  DN"
 
 #: templates/settings.php:17
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr ""
+msgstr "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. পরিচয় গোপন রেখে অধিগমনের জন্য  DN এবং কূটশব্দটি ফাঁকা রাখুন।"
 
 #: templates/settings.php:18
 msgid "Password"
@@ -64,119 +64,119 @@ msgstr "কূটশব্দ"
 
 #: templates/settings.php:18
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "অজ্ঞাতকুলশীল অধিগমনের জন্য DN এবং কূটশব্দটি ফাঁকা রাখুন।"
 
 #: templates/settings.php:19
 msgid "User Login Filter"
-msgstr ""
+msgstr "ব্যবহারকারির প্রবেশ ছাঁকনী"
 
 #: templates/settings.php:19
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "প্রবেশের  চেষ্টা করার সময় প্রযোজ্য ছাঁকনীটি নির্ধারণ করবে। প্রবেশের সময় ব্যবহারকারী নামটি %%uid  দিয়ে প্রতিস্থাপিত হবে।"
 
 #: templates/settings.php:19
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr ""
+msgstr "%%uid স্থানধারক ব্যবহার করুন, উদাহরণঃ  \"uid=%%uid\""
 
 #: templates/settings.php:20
 msgid "User List Filter"
-msgstr ""
+msgstr "ব্যবহারকারী তালিকা ছাঁকনী"
 
 #: templates/settings.php:20
 msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
+msgstr "ব্যবহারকারী উদ্ধার করার সময় প্রয়োগের জন্য ছাঁকনী নির্ধারণ করবে।"
 
 #: templates/settings.php:20
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
+msgstr "কোন স্থানধারক ব্যতীত, যেমনঃ \"objectClass=person\"।"
 
 #: templates/settings.php:21
 msgid "Group Filter"
-msgstr ""
+msgstr "গোষ্ঠী ছাঁকনী"
 
 #: templates/settings.php:21
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
+msgstr "গোষ্ঠীসমূহ উদ্ধার করার সময় প্রয়োগের জন্য ছাঁকনী নির্ধারণ করবে।"
 
 #: templates/settings.php:21
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "কোন স্থান ধারক ব্যতীত, উদাহরণঃ\"objectClass=posixGroup\"।"
 
 #: templates/settings.php:24
 msgid "Port"
-msgstr ""
+msgstr "পোর্ট"
 
 #: templates/settings.php:25
 msgid "Base User Tree"
-msgstr ""
+msgstr "ভিত্তি ব্যবহারকারি বৃক্ষাকারে"
 
 #: templates/settings.php:26
 msgid "Base Group Tree"
-msgstr ""
+msgstr "ভিত্তি গোষ্ঠী বৃক্ষাকারে"
 
 #: templates/settings.php:27
 msgid "Group-Member association"
-msgstr ""
+msgstr "গোষ্ঠী-সদস্য সংস্থাপন"
 
 #: templates/settings.php:28
 msgid "Use TLS"
-msgstr ""
+msgstr "TLS ব্যবহার কর"
 
 #: templates/settings.php:28
 msgid "Do not use it for SSL connections, it will fail."
-msgstr ""
+msgstr "SSL সংযোগের জন্য এটি ব্যবহার করবেন না, তাহলে ব্যর্থ হবেনই।"
 
 #: templates/settings.php:29
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "বর্ণ অসংবেদী LDAP  সার্ভার (উইন্ডোজ)"
 
 #: templates/settings.php:30
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "SSL সনদপত্র যাচাইকরণ বন্ধ রাক।"
 
 #: templates/settings.php:30
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr ""
+msgstr "শুধুমাত্র যদি এই বিকল্পটি ব্যবহার করেই সংযোগ কার্যকরী হয় তবে আপনার ownCloud সার্ভারে LDAP সার্ভারের SSL সনদপত্রটি আমদানি করুন।"
 
 #: templates/settings.php:30
 msgid "Not recommended, use for testing only."
-msgstr ""
+msgstr "অনুমোদিত নয়, শুধুমাত্র পরীক্ষামূলক ব্যবহারের জন্য।"
 
 #: templates/settings.php:31
 msgid "User Display Name Field"
-msgstr ""
+msgstr "ব্যবহারকারীর প্রদর্শিতব্য নামের ক্ষেত্র"
 
 #: templates/settings.php:31
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr ""
+msgstr "ব্যবহারকারীর ownCloud নাম তৈরি করার জন্য ব্যভহৃত LDAP বৈশিষ্ট্য।"
 
 #: templates/settings.php:32
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "গোষ্ঠীর প্রদর্শিতব্য নামের ক্ষেত্র"
 
 #: templates/settings.php:32
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr ""
+msgstr "গোষ্ঠীর ownCloud নাম তৈরি করার জন্য ব্যভহৃত LDAP বৈশিষ্ট্য।"
 
 #: templates/settings.php:34
 msgid "in bytes"
-msgstr ""
+msgstr "বাইটে"
 
 #: templates/settings.php:36
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "সেকেন্ডে। কোন পরিবর্তন ক্যাসে খালি করবে।"
 
 #: templates/settings.php:37
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr ""
+msgstr "ব্যবহারকারী নামের জন্য ফাঁকা রাখুন (পূর্বনির্ধারিত)। অন্যথায়, LDAP/AD বৈশিষ্ট্য নির্ধারণ করুন।"
 
 #: templates/settings.php:39
 msgid "Help"

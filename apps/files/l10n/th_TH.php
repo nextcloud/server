@@ -30,7 +30,7 @@
 "{count} files uploading" => "กำลังอัพโหลด {count} ไฟล์",
 "Upload cancelled." => "การอัพโหลดถูกยกเลิก",
 "File upload is in progress. Leaving the page now will cancel the upload." => "การอัพโหลดไฟล์กำลังอยู่ในระหว่างดำเนินการ การออกจากหน้าเว็บนี้จะทำให้การอัพโหลดถูกยกเลิก",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "ชื่อโฟลเดอร์ที่ใช้ไม่ถูกต้อง การใช้งาน \"ถูกแชร์\" ถูกสงวนไว้เฉพาะ Owncloud เท่านั้น",
+"URL cannot be empty." => "URL ไม่สามารถเว้นว่างได้",
 "{count} files scanned" => "สแกนไฟล์แล้ว {count} ไฟล์",
 "error while scanning" => "พบข้อผิดพลาดในระหว่างการสแกนไฟล์",
 "Name" => "ชื่อ",

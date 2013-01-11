@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-18 00:13+0100\n"
-"PO-Revision-Date: 2012-12-17 07:42+0000\n"
-"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
+"POT-Creation-Date: 2013-01-07 00:04+0100\n"
+"PO-Revision-Date: 2013-01-06 23:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -165,8 +165,8 @@ msgid "The object type is not specified."
 msgstr "סוג הפריט לא צוין."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "שגיאה"
 
@@ -178,7 +178,7 @@ msgstr "שם היישום לא צוין."
 msgid "The required file {file} is not installed!"
 msgstr "הקובץ הנדרש {file} אינו מותקן!"
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "שגיאה במהלך השיתוף"
 
@@ -206,11 +206,11 @@ msgstr "שיתוף עם"
 msgid "Share with link"
 msgstr "שיתוף עם קישור"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "הגנה בססמה"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:26
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "ססמה"
@@ -275,23 +275,23 @@ msgstr "מחיקה"
 msgid "share"
 msgstr "שיתוף"
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "מוגן בססמה"
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr "אירעה שגיאה בביטול תאריך התפוגה"
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "אירעה שגיאה בעת הגדרת תאריך התפוגה"
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
 msgstr "מתבצעת שליחה ..."
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
 msgstr "הודעת הדוא״ל נשלחה"
 
@@ -316,7 +316,7 @@ msgid "Request failed!"
 msgstr "הבקשה נכשלה!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
-#: templates/login.php:21
+#: templates/login.php:28
 msgid "Username"
 msgstr "שם משתמש"
 
@@ -530,29 +530,29 @@ msgstr "שירותי רשת בשליטתך"
 msgid "Log out"
 msgstr "התנתקות"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "בקשת הכניסה האוטומטית נדחתה!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "אם לא שינית את ססמתך לאחרונה, יתכן שחשבונך נפגע!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "נא לשנות את הססמה שלך כדי לאבטח את חשבונך מחדש."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "שכחת את ססמתך?"
 
-#: templates/login.php:29
+#: templates/login.php:39
 msgid "remember"
 msgstr "שמירת הססמה"
 
-#: templates/login.php:30
+#: templates/login.php:41
 msgid "Log in"
 msgstr "כניסה"
 
@@ -567,6 +567,11 @@ msgstr "הקודם"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "הבא"
+
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr ""
 
 #: templates/verify.php:5
 msgid "Security Warning!"

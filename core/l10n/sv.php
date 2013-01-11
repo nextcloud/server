@@ -128,6 +128,7 @@
 "You are logged out." => "Du är utloggad.",
 "prev" => "föregående",
 "next" => "nästa",
+"Updating ownCloud to version %s, this may take a while." => "Uppdaterar ownCloud till version %s, detta kan ta en stund.",
 "Security Warning!" => "Säkerhetsvarning!",
 "Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Bekräfta ditt lösenord. <br/>Av säkerhetsskäl kan du ibland bli ombedd att ange ditt lösenord igen.",
 "Verify" => "Verifiera"

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-18 00:13+0100\n"
-"PO-Revision-Date: 2012-12-17 12:49+0000\n"
-"Last-Translator: Georgi Stanojevski <glisha@gmail.com>\n"
+"POT-Creation-Date: 2013-01-07 00:04+0100\n"
+"PO-Revision-Date: 2013-01-06 23:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -164,8 +164,8 @@ msgid "The object type is not specified."
 msgstr "Не е специфициран типот на објект."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "Грешка"
 
@@ -177,7 +177,7 @@ msgstr "Името на апликацијата не е специфицира�
 msgid "The required file {file} is not installed!"
 msgstr "Задолжителната датотека {file} не е инсталирана!"
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "Грешка при споделување"
 
@@ -205,11 +205,11 @@ msgstr "Сподели со"
 msgid "Share with link"
 msgstr "Сподели со врска"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "Заштити со лозинка"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:26
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Лозинка"
@@ -274,23 +274,23 @@ msgstr "избриши"
 msgid "share"
 msgstr "сподели"
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "Заштитено со лозинка"
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr "Грешка при тргање на рокот на траење"
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "Грешка при поставување на рок на траење"
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
 msgstr "Праќање..."
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
 msgstr "Е-порака пратена"
 
@@ -315,7 +315,7 @@ msgid "Request failed!"
 msgstr "Барањето не успеа!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
-#: templates/login.php:21
+#: templates/login.php:28
 msgid "Username"
 msgstr "Корисничко име"
 
@@ -529,29 +529,29 @@ msgstr "веб сервиси под Ваша контрола"
 msgid "Log out"
 msgstr "Одјава"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Одбиена автоматска најава!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Ако не сте ја промениле лозинката во скоро време, вашата сметка може да е компромитирана"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Ве молам сменете ја лозинката да ја обезбедите вашата сметка повторно."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Ја заборавивте лозинката?"
 
-#: templates/login.php:29
+#: templates/login.php:39
 msgid "remember"
 msgstr "запамти"
 
-#: templates/login.php:30
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Најава"
 
@@ -566,6 +566,11 @@ msgstr "претходно"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "следно"
+
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr ""
 
 #: templates/verify.php:5
 msgid "Security Warning!"

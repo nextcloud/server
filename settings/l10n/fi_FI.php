@@ -53,7 +53,9 @@
 "Name" => "Nimi",
 "Groups" => "Ryhmät",
 "Create" => "Luo",
+"Unlimited" => "Rajoittamaton",
 "Other" => "Muu",
 "Group Admin" => "Ryhmän ylläpitäjä",
+"Default" => "Oletus",
 "Delete" => "Poista"
 );
