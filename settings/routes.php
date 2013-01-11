@@ -58,7 +58,3 @@ $this->create('settings_ajax_getlog', '/settings/ajax/getlog.php')
 	->actionInclude('settings/ajax/getlog.php');
 $this->create('settings_ajax_setloglevel', '/settings/ajax/setloglevel.php')
 	->actionInclude('settings/ajax/setloglevel.php');
-
-// apps/user_openid
-$this->create('settings_ajax_openid', '/settings/ajax/openid.php')
-	->actionInclude('settings/ajax/openid.php');
