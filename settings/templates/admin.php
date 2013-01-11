@@ -153,7 +153,7 @@ if (!$_['internetconnectionworking']) {
                     echo $l->t('Please connect to this ownCloud instance via HTTPS to enable or disable the SSL enforcement.'); 
                     echo "</em>"; 
                 } 
-                ?></em>
+                ?>
             </td>
         </tr>
     </table>
