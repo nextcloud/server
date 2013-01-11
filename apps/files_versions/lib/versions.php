@@ -1,6 +1,7 @@
 <?php
 /**
  * Copyright (c) 2012 Frank Karlitschek <frank@owncloud.org>
+ *               2013 Bjoern Schiessle <schiessle@owncloud.com>
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
@@ -189,56 +190,45 @@ class Storage {
 
 			sort( $matches );
 
-			$i = 0;
-
 			$files_view = new \OC_FilesystemView('/'.$uid.'/files');
 			$local_file = $files_view->getLocalFile($filename);
 
 			foreach( $matches as $ma ) {
-
-				$i++;
-				$versions[$i]['cur'] = 0;
 				$parts = explode( '.v', $ma );
-				$versions[$i]['version'] = ( end( $parts ) );
-				$versions[$i]['path'] = $filename;
-				$versions[$i]['size'] = $versions_fileview->filesize($filename.'.v'.$versions[$i]['version']);
+				$version = ( end( $parts ) );
+				$key = $version.'#'.$filename;
+				$versions[$key]['cur'] = 0;
+				$versions[$key]['version'] = $version;
+				$versions[$key]['path'] = $filename;
+				$versions[$key]['size'] = $versions_fileview->filesize($filename.'.v'.$version);
 
 				// if file with modified date exists, flag it in array as currently enabled version
-				( \md5_file( $ma ) == \md5_file( $local_file ) ? $versions[$i]['fileMatch'] = 1 : $versions[$i]['fileMatch'] = 0 );
+				( \md5_file( $ma ) == \md5_file( $local_file ) ? $versions[$key]['fileMatch'] = 1 : $versions[$key]['fileMatch'] = 0 );
 
 			}
 
 			$versions = array_reverse( $versions );
 
 			foreach( $versions as $key => $value ) {
-
 				// flag the first matched file in array (which will have latest modification date) as current version
 				if ( $value['fileMatch'] ) {
-
 					$value['cur'] = 1;
 					break;
-
 				}
-
 			}
 
 			$versions = array_reverse( $versions );
 
 			// only show the newest commits
 			if( $count != 0 and ( count( $versions )>$count ) ) {
-
 				$versions = array_slice( $versions, count( $versions ) - $count );
-
 			}
 
 			return( $versions );
 
-
 		} else {
-
 			// if versioning isn't enabled then return an empty array
 			return( array() );
-
 		}
 
 	}
@@ -294,34 +284,22 @@ class Storage {
 			$i = 0;
 			
 			$result = array();
-			$file_count = array();
-			$size_full = 0;
 			
 			foreach( $versions as $key => $value ) {
 				$i++;
 				$size = $versions_fileview->filesize($value['path']);
-				$size_full = $size_full + $size;
 				$filename = substr($value['path'], 0, -strlen($value['timestamp'])-2);
 
-				$result['all'][$i]['version'] = $value['timestamp'];
-				$result['all'][$i]['path'] = $filename;
-				$result['all'][$i]['size'] = $size;
+				$result['all'][$key]['version'] = $value['timestamp'];
+				$result['all'][$key]['path'] = $filename;
+				$result['all'][$key]['size'] = $size;
 				
-				if ( key_exists($filename, $file_count) ) {
-					$c = $file_count[$filename] +1;
-					$file_count[$filename] = $c;
-				} else {
-					$file_count[$filename] = 1;
-					$c = 1;
-				}
 				$filename = substr($value['path'], 0, -strlen($value['timestamp'])-2);
-				$result['by_file'][$filename][$c]['version'] = $value['timestamp'];
-				$result['by_file'][$filename][$c]['path'] = $filename;
-				$result['by_file'][$filename][$c]['size'] = $size;
+				$result['by_file'][$filename][$key]['version'] = $value['timestamp'];
+				$result['by_file'][$filename][$key]['path'] = $filename;
+				$result['by_file'][$filename][$key]['size'] = $size;
 				
 			}
-
-			$result['size'] = $size_full;
 			
 			return $result;
 		}
@@ -344,12 +322,14 @@ class Storage {
 				$quota = \OC_Filesystem::free_space('/');
 			}
 			
+			// make sure that we have the current size of the version history
 			if ( $versionsSize === null ) {
 				if (  ($versionsSize = \OCP\Config::getAppValue('files_versions', 'size')) === null ) {
 					$versionsSize = self::calculateSize($uid);
 				}
 			}
-			
+
+			// calculate available space for version history
 			$rootInfo = \OC_FileCache::get('', '/'. $uid . '/files');
 			$free = $quota-$rootInfo['size']; // remaining free space for user
 			if ( $free > 0 ) {
@@ -371,10 +351,11 @@ class Storage {
 			
 			$time = time();
 			
+			// it is possible to expire versions from more than one file
+			// iterate through all given files
 			foreach ($versions_by_file as $filename => $versions) {
 				$versions = array_reverse($versions);	// newest version first
-			
-				$numOfVersions = count($versions);
+				
 				$interval = 1;
 				$step = Storage::$max_versions_per_interval[$interval]['step'];			
 				if (Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] == -1) {
@@ -382,44 +363,57 @@ class Storage {
 				} else {
 					$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
 				}
-						
-				$nextVersion = $versions[0]['version'] - $step;
-			
-				for ($i=1; $i<$numOfVersions; $i++) {
-					if ( $nextInterval == -1 || $versions[$i]['version'] >= $nextInterval ) {
-						if ( $versions[$i]['version'] > $nextVersion ) {
-							//distance between two version too small, delete version
-							$versions_fileview->unlink($versions[$i]['path'].'.v'.$versions[$i]['version']);
-							$availableSpace += $versions[$i]['size'];
-							$versionsSize -= $versions[$i]['size'];
-						} else {
-							$nextVersion = $versions[$i]['version'] - $step;
-						}
-					} else { // time to move on to the next interval
-						$interval++;
-						$i--; // need to go one version back to check the same version against the new interval.
-						$step = Storage::$max_versions_per_interval[$interval]['step'];
-						$nextVersion = $versions[$i]['version'] - $step;
-						if ( Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] == -1 ) {
-							$nextInterval = -1;
-						} else {
-							$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
+				
+				$firstVersion = reset($versions);
+				$firstKey = key($versions);
+				$prevTimestamp = $firstVersion['version'];
+				$nextVersion = $firstVersion['version'] - $step;
+				$remaining_versions[$firstKey] = $firstVersion;
+				unset($versions[$firstKey]);
+				
+				foreach ($versions as $key => $version) {
+					$newInterval = true;
+					while ( $newInterval ) {
+						if ( $nextInterval == -1 || $version['version'] >= $nextInterval ) {
+							if ( $version['version'] > $nextVersion ) {
+								//distance between two version too small, delete version
+								$versions_fileview->unlink($version['path'].'.v'.$version['version']);
+								$availableSpace += $version['size'];
+								$versionsSize -= $version['size'];
+								unset($all_versions[$key]); // update array with all versions
+							} else {
+								$nextVersion = $version['version'] - $step;
+							}
+							$newInterval = false; // version checked so we can move to the next one
+						} else { // time to move on to the next interval
+							$interval++;
+							$step = Storage::$max_versions_per_interval[$interval]['step'];
+							$nextVersion = $prevTimestamp - $step;
+							if ( Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'] == -1 ) {
+								$nextInterval = -1;
+							} else {
+								$nextInterval = $time - Storage::$max_versions_per_interval[$interval]['intervalEndsAfter'];
+							}
+							$newInterval = true; // we changed the interval -> check same version with new interval
 						}
 					}
+					$prevTimestamp = $version['version'];
 				}
 			}
-			// check if enough space is available after versions are rearranged
+			
+			// check if enough space is available after versions are rearranged.
+			// if not we delete the oldest versions until we meet the size limit for versions
 			$numOfVersions = count($all_versions);
 			$i = 0; 
 			while ($availableSpace < 0) {
+				if ($i = $numOfVersions-2) break; // keep at least the last version
 				$versions_fileview->unlink($all_versions[$i]['path'].'.v'.$all_versions[$i]['version']);
 				$versionsSize -= $all_versions[$i]['size'];
 				$availableSpace += $all_versions[$i]['size'];
 				$i++;
-				if ($i = $numOfVersions-2) break; // keep at least the last version
 			}
 		
-			return $versionsSize;
+			return $versionsSize; // finally return the new size of the version history
 		}
 		
 		return false;
