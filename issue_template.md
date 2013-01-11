@@ -23,14 +23,12 @@ Operating system:
 
 ### Logs
 ####Webserver error log
-
 ```
 Insert your webserver log here
 
 ```
 
 ####ownCloud log (data/owncloud.log)
-
 ```
 Insert your ownCloud log here
 
