@@ -1,6 +1,6 @@
 ## Submitting issues
 
-If you have questions about how to use ownCloud, please direct these to the [Mailinglist][mailinglist] discussion list or our [Forum][forum]. We are also available on [IRC][irc].
+If you have questions about how to use ownCloud, please direct these to the [mailing list][mailinglist] or our [forum][forum]. We are also available on [IRC][irc].
 
 ### Guidelines
 * Search the existing issues first, it's likely that your issue was already reported.
@@ -23,10 +23,11 @@ Before we're able to merge your code into the ownCloud core, you need to sign ou
 
 Please read the [Developer Manuals][devmanual] to get useful info like how to create your first application or test the ownCloud code.
 
-**TRANSLATIONS**
-Please submit translations via [Transifex][transifex].
-
-[transifex]: https://www.transifex.com/projects/p/owncloud/
 [agreement]: http://owncloud.org/about/contributor-agreement/
 [list]: https://groups.google.com/forum/?fromgroups#!forum/angular
 [devmanual]: http://owncloud.org/dev/
+
+## Translations
+Please submit translations via [Transifex][transifex].
+
+[transifex]: https://www.transifex.com/projects/p/owncloud/
