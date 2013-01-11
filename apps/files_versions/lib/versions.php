@@ -89,7 +89,11 @@ class Storage {
 			$versionsSize += $users_view->filesize('files'.$filename);
 			
 			// expire old revisions if necessary
-			self::expire($filename, $versionsSize);
+			$newSize = self::expire($filename, $versionsSize);
+			
+			if ( $newSize != $versionsSize )  {
+				\OCP\Config::setAppValue('files_versions', 'size', $versionsSize);
+			}
 		}
 	}
 
@@ -329,7 +333,7 @@ class Storage {
 	/**
 	 * @brief Erase a file's versions which exceed the set quota
 	 */
-	public static function expire($filename, $versionsSize = null) {
+	private static function expire($filename, $versionsSize = null) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);			
 			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
@@ -418,7 +422,9 @@ class Storage {
 				if ($i = $numOfVersions-2) break; // keep at least the last version
 			}
 		
-			\OCP\Config::setAppValue('files_versions', 'size', $versionsSize);
+			return $versionsSize;
 		}
+		
+		return false;
 	}
 }
