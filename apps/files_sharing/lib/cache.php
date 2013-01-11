@@ -196,7 +196,7 @@ class Shared_Cache extends Cache {
 		if ($cache = $this->getSourceCache($file)) {
 			return $cache->getStatus($this->files[$file]);
 		}
-		return false;
+		return self::NOT_FOUND;
 	}
 
 	/**
