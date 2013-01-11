@@ -10,7 +10,7 @@ Tell us what happens instead
 3. 
 
 ### Server configuration
-Operating System & Webserver: 
+Operating system & Web server: 
 
 PHP version:
 
@@ -22,7 +22,7 @@ Browser:
 Operating system:
 
 ### Logs
-#### Webserver error log
+#### Web server error log
 ```
 Insert your webserver log here
 
