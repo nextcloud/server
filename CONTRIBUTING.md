@@ -3,20 +3,19 @@
 If you have questions about how to use ownCloud, please direct these to the [mailing list][mailinglist] or our [forum][forum]. We are also available on [IRC][irc].
 
 ### Guidelines
+* Report the issue using our [template][template], it includes all the informations we need to track down the issue.
 * This repository is *only* for issues within the ownCloud core code. Issues in other compontents should be reported in their own repositores: 
   - [Android client](https://github.com/owncloud/android/issues)
   - [iOS client](https://github.com/owncloud/ios-issues/issues)
   - [Desktop client](https://github.com/owncloud/mirall/issues)
   - [ownCloud apps](https://github.com/owncloud/mirall/issues) (e.g. Calendar, Contacts...)
 * Search the existing issues first, it's likely that your issue was already reported.
-* Please include the following informations in your bug report:
- - Steps how to reproduce the problem
- - The server configuration/setup (Apache, Nginx, ...)
-  
+
 If your issue appears to be a bug, and hasn't been reported, open a new issue.
 
 Help us to maximize the effort we can spend fixing issues and adding new features, by not reporting duplicate issues.
 
+[template]: https://raw.github.com/owncloud/core/updateContrib/issue_template.md
 [mailinglist]: https://mail.kde.org/mailman/listinfo/owncloud
 [forum]: http://forum.owncloud.org/
 [irc]: http://webchat.freenode.net/?channels=owncloud&uio=d4
