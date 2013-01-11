@@ -24,7 +24,6 @@ Before we're able to merge your code into the ownCloud core, you need to sign ou
 Please read the [Developer Manuals][devmanual] to get useful info like how to create your first application or test the ownCloud code.
 
 [agreement]: http://owncloud.org/about/contributor-agreement/
-[list]: https://groups.google.com/forum/?fromgroups#!forum/angular
 [devmanual]: http://owncloud.org/dev/
 
 ## Translations
