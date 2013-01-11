@@ -14,6 +14,8 @@ Webserver:
 
 PHP version:
 
+ownCloud version:
+
 ### Client configuration
 Browser:
 
