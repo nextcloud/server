@@ -19,7 +19,8 @@ class Storage {
 	const DEFAULTENABLED=true;
 	const DEFAULTMAXSIZE=50; // unit: percentage; 50% of available disk space/quota
 	
-	private static $max_versions_per_interval = array(1 => array('intervalEndsAfter' => 10,     //first 10sec, one version every 2sec
+	private static $max_versions_per_interval = array(
+														1 => array('intervalEndsAfter' => 10,     //first 10sec, one version every 2sec
 																	'step' => 2),
 														2 => array('intervalEndsAfter' => 60,     //next minute, one version every 10sec
 																	'step' => 10),
@@ -106,8 +107,7 @@ class Storage {
 		$versions_fileview = new \OC_FilesystemView('/'.$uid .'/files_versions');
 		
 		$abs_path = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('').$filename.'.v';
-		if(Storage::isversioned($filename)) {
-			$versions = self::getVersions($filename);
+		if( ($versions = self::getVersions($filename)) ) {
 			if (  ($versionsSize = \OCP\Config::getAppValue('files_versions', 'size')) === null ) {
 				$versionsSize = self::calculateSize($uid);
 			}
@@ -116,6 +116,30 @@ class Storage {
 				$versionsSize -= $v['size'];
 			}
 			\OCP\Config::setAppValue('files_versions', 'size', $versionsSize);
+		}
+	}
+	
+	/**
+	 * Delete versions of a file
+	 */
+	public static function rename($oldpath, $newpath) {
+		error_log("oldpath: $oldpath");
+		error_log("newpath: $newpath");
+		list($uid, $oldpath) = self::getUidAndFilename($oldpath);
+		list($uidn, $newpath) = self::getUidAndFilename($newpath);
+		$versions_view = new \OC_FilesystemView('/'.$uid .'/files_versions');
+		$files_view = new \OC_FilesystemView('/'.$uid .'/files');
+		
+		if ( $files_view->is_dir($oldpath) && $versions_view->is_dir($oldpath) ) {
+			$versions_view->rename($oldpath, $newpath);
+		} else 	if ( ($versions = Storage::getVersions($oldpath)) ) {
+			$info=pathinfo($abs_newpath);
+			if(!file_exists($info['dirname'])) mkdir($info['dirname'], 0750, true);
+			$versions = Storage::getVersions($oldpath);
+			foreach ($versions as $v) {
+				error_log("rename(".$oldpath.'.v'.$v['version'].", ". $newpath.'.v'.$v['version'].")");
+				$versions_view->rename($oldpath.'.v'.$v['version'], $newpath.'.v'.$v['version']);
+			}
 		}
 	}
 	
@@ -129,9 +153,10 @@ class Storage {
 			$users_view = new \OC_FilesystemView('/'.$uid);
 
 			//first create a new version
-			if ( !$users_view->file_exists('files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename))) {
-				$version = 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename);
+			$version = 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename);
+			if ( !$users_view->file_exists($version)) {
 				$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
+				$versionCreated = true;
 			}
 			
 			// rollback
@@ -140,38 +165,13 @@ class Storage {
 				Storage::expire($filename);
 				return true;
 
-			}else{
-				if (isset($version) ) {
-					$users_view->unlink($version);
-					return false;
-				}
+			}else if ( $versionCreated ) {
+				$users_view->unlink($version);
 			}
 		}
+		return false;
 
 	}
-
-	/**
-	 * check if old versions of a file exist.
-	 */
-	public static function isversioned($filename) {
-		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			list($uid, $filename) = self::getUidAndFilename($filename);
-			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
-
-			$versionsName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
-
-			// check for old versions
-			$matches=glob($versionsName.'.v*');
-			if(count($matches)>0) {
-				return true;
-			}else{
-				return false;
-			}
-		}else{
-			return(false);
-		}
-	}
-
 
 
 	/**
@@ -391,7 +391,7 @@ class Storage {
 				for ($i=1; $i<$numOfVersions; $i++) {
 					if ( $nextInterval == -1 || $versions[$i]['version'] >= $nextInterval ) {
 						if ( $versions[$i]['version'] > $nextVersion ) {
-							//distance between two version to small, delete version
+							//distance between two version too small, delete version
 							$versions_fileview->unlink($versions[$i]['path'].'.v'.$versions[$i]['version']);
 							$availableSpace += $versions[$i]['size'];
 							$versionsSize -= $versions[$i]['size'];
