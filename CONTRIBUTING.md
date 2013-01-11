@@ -3,11 +3,17 @@
 If you have questions about how to use ownCloud, please direct these to the [mailing list][mailinglist] or our [forum][forum]. We are also available on [IRC][irc].
 
 ### Guidelines
+* This repository is *only* for issues within the ownCloud core code. Issues in other compontents should be reported in their own repositores: 
+  - [Android client](https://github.com/owncloud/android/issues)
+  - [iOS client](https://github.com/owncloud/ios-issues/issues)
+  - [Desktop client](https://github.com/owncloud/mirall/issues)
+  - [ownCloud apps](https://github.com/owncloud/mirall/issues) (e.g. Calendar, Contacts...)
 * Search the existing issues first, it's likely that your issue was already reported.
-* Ensure that you're in the right repository, apps are likely to be developed in the apps repo and our client in the mirall repo.
-* An example demonstrating your problem, is likely to get an answer faster.
-
-If your issue appears to be a bug, and hasn't been reported, open a new issue. **Please ensure that you're in the right repository. This is *only* for bugs in the core code**. For other reports: Please check if there is a [better suited repository](https://github.com/owncloud), like our [app](https://github.com/owncloud/apps) or [mirall (desktop client)](https://github.com/owncloud/mirall) repo.
+* Please include the following informations in your bug report:
+ - Steps how to reproduce the problem
+ - The server configuration/setup (Apache, Nginx, ...)
+  
+If your issue appears to be a bug, and hasn't been reported, open a new issue.
 
 Help us to maximize the effort we can spend fixing issues and adding new features, by not reporting duplicate issues.
 
@@ -21,7 +27,7 @@ Thanks for wanting to contribute source code to ownCloud. That's great!
 
 Before we're able to merge your code into the ownCloud core, you need to sign our [Contributor Agreement][agreement].
 
-Please read the [Developer Manuals][devmanual] to get useful info like how to create your first application or test the ownCloud code.
+Please read the [Developer Manuals][devmanual] to get useful infos like how to create your first application or how to test the ownCloud code with phpuniz.
 
 [agreement]: http://owncloud.org/about/contributor-agreement/
 [devmanual]: http://owncloud.org/dev/
