@@ -125,7 +125,6 @@
 "Lost your password?" => "パスワードを忘れましたか？",
 "remember" => "パスワードを記憶する",
 "Log in" => "ログイン",
-"You are logged out." => "ログアウトしました。",
 "prev" => "前",
 "next" => "次",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud をバージョン %s に更新しています、しばらくお待ち下さい。",

@@ -106,7 +106,6 @@
 "Lost your password?" => "忘记密码?",
 "remember" => "备忘",
 "Log in" => "登陆",
-"You are logged out." => "你已经注销了",
 "prev" => "后退",
 "next" => "前进",
 "Security Warning!" => "安全警告！",

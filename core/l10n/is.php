@@ -125,7 +125,6 @@
 "Lost your password?" => "Týndir þú lykilorðinu?",
 "remember" => "muna eftir mér",
 "Log in" => "<strong>Skrá inn</strong>",
-"You are logged out." => "Þú ert útskráð(ur).",
 "prev" => "fyrra",
 "next" => "næsta",
 "Updating ownCloud to version %s, this may take a while." => "Uppfæri ownCloud í útgáfu %s, það gæti tekið smá stund.",

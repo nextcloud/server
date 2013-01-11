@@ -14,6 +14,7 @@
 #   <lukas@statuscode.ch>, 2012.
 #   <mail@felixmoeller.de>, 2012.
 # Marcel Kühlhorn <susefan93@gmx.de>, 2012.
+#   <markus.thiel@desico.de>, 2013.
 # Michael Krell <m4dmike.mni@gmail.com>, 2012.
 #   <nelsonfritsch@gmail.com>, 2012.
 #   <niko@nik-o-mat.de>, 2012.
@@ -26,9 +27,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-10 00:04+0100\n"
-"PO-Revision-Date: 2013-01-09 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 13:29+0000\n"
+"Last-Translator: thiel <markus.thiel@desico.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,16 +40,16 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Konnte %s nicht verschieben - Datei mit diesem Namen existiert bereits"
 
 #: ajax/move.php:24
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Konnte %s nicht verschieben"
 
 #: ajax/rename.php:19
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Konnte Datei nicht umbenennen"
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
@@ -202,7 +203,7 @@ msgstr "Die URL darf nicht leer sein."
 
 #: js/files.js:543
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "Ungültiger Verzeichnisname. Die Nutzung von \"Shared\" ist ownCloud vorbehalten"
 
 #: js/files.js:727
 msgid "{count} files scanned"

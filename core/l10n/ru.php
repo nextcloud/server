@@ -125,7 +125,6 @@
 "Lost your password?" => "Забыли пароль?",
 "remember" => "запомнить",
 "Log in" => "Войти",
-"You are logged out." => "Вы вышли.",
 "prev" => "пред",
 "next" => "след",
 "Security Warning!" => "Предупреждение безопасности!",

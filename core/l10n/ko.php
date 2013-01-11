@@ -125,7 +125,6 @@
 "Lost your password?" => "암호를 잊으셨습니까?",
 "remember" => "기억하기",
 "Log in" => "로그인",
-"You are logged out." => "로그아웃되었습니다.",
 "prev" => "이전",
 "next" => "다음",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud 를 버젼 %s로 업데이트 하는 중, 시간이 소요됩니다.",

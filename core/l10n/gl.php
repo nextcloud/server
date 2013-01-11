@@ -125,7 +125,6 @@
 "Lost your password?" => "Perdeu o contrasinal?",
 "remember" => "lembrar",
 "Log in" => "Conectar",
-"You are logged out." => "Está desconectado",
 "prev" => "anterior",
 "next" => "seguinte",
 "Security Warning!" => "Advertencia de seguranza",

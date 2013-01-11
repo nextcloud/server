@@ -119,7 +119,6 @@
 "Lost your password?" => "কূটশব্দ হারিয়েছেন?",
 "remember" => "মনে রাখ",
 "Log in" => "প্রবেশ",
-"You are logged out." => "আপনি প্রস্থান করেছেন।",
 "prev" => "পূর্ববর্তী",
 "next" => "পরবর্তী",
 "Updating ownCloud to version %s, this may take a while." => "%s ভার্সনে ownCloud পরিবর্ধন করা হচ্ছে, এজন্য কিছু সময় প্রয়োজন।",

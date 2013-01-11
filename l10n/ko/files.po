@@ -5,15 +5,16 @@
 # Translators:
 #   <aoiob4305@gmail.com>, 2013.
 # 남자사람  <cessnagi@gmail.com>, 2012.
+# Harim Park <fofwisdom@gmail.com>, 2013.
 #   <limonade83@gmail.com>, 2012.
 # Shinjo Park <kde@peremen.name>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-10 00:04+0100\n"
-"PO-Revision-Date: 2013-01-09 23:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 13:42+0000\n"
+"Last-Translator: Harim Park <fofwisdom@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,16 +25,16 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "%s 항목을 이동시키지 못하였음 - 파일 이름이 이미 존재함"
 
 #: ajax/move.php:24
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "%s 항목을 이딩시키지 못하였음"
 
 #: ajax/rename.php:19
 msgid "Unable to rename file"
-msgstr ""
+msgstr "파일 이름바꾸기 할 수 없음"
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
@@ -187,7 +188,7 @@ msgstr "URL을 입력해야 합니다."
 
 #: js/files.js:543
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "폴더 이름이 유효하지 않습니다. "
 
 #: js/files.js:727
 msgid "{count} files scanned"

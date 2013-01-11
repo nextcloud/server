@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-09 00:04+0100\n"
-"PO-Revision-Date: 2013-01-08 16:35+0000\n"
-"Last-Translator: gyeben <gyonkibendeguz@gmail.com>\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +32,7 @@ msgstr "A csoport már létezik"
 msgid "Unable to add group"
 msgstr "A csoport nem hozható létre"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "A program nem aktiválható."
 
@@ -43,14 +43,6 @@ msgstr "Email mentve"
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "Hibás email"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID megváltozott"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "Érvénytelen kérés"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -67,6 +59,10 @@ msgstr "A felhasználó nem törölhető"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "A nyelv megváltozott"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "Érvénytelen kérés"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"

@@ -117,7 +117,6 @@
 "Lost your password?" => "Изгубили сте лозинку?",
 "remember" => "упамти",
 "Log in" => "Пријава",
-"You are logged out." => "Одјављени сте.",
 "prev" => "претходно",
 "next" => "следеће",
 "Security Warning!" => "Сигурносно упозорење!",

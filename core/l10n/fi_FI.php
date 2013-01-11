@@ -108,7 +108,6 @@
 "Lost your password?" => "Unohditko salasanasi?",
 "remember" => "muista",
 "Log in" => "Kirjaudu sisään",
-"You are logged out." => "Olet kirjautunut ulos.",
 "prev" => "edellinen",
 "next" => "seuraava",
 "Security Warning!" => "Turvallisuusvaroitus!",

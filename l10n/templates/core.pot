@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-11 00:05+0100\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -550,10 +550,6 @@ msgstr ""
 
 #: templates/login.php:41
 msgid "Log in"
-msgstr ""
-
-#: templates/logout.php:1
-msgid "You are logged out."
 msgstr ""
 
 #: templates/part.pagenavi.php:3

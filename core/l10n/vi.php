@@ -117,7 +117,6 @@
 "Lost your password?" => "Bạn quên mật khẩu ?",
 "remember" => "ghi nhớ",
 "Log in" => "Đăng nhập",
-"You are logged out." => "Bạn đã đăng xuất.",
 "prev" => "Lùi lại",
 "next" => "Kế tiếp",
 "Security Warning!" => "Cảnh báo bảo mật !",

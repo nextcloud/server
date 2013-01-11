@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-02 00:04+0100\n"
-"PO-Revision-Date: 2013-01-01 14:26+0000\n"
-"Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +33,7 @@ msgstr "Skupina že obstaja"
 msgid "Unable to add group"
 msgstr "Ni mogoče dodati skupine"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "Programa ni mogoče omogočiti."
 
@@ -44,14 +44,6 @@ msgstr "Elektronski naslov je shranjen"
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "Neveljaven elektronski naslov"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID je bil spremenjen"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "Neveljavna zahteva"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -68,6 +60,10 @@ msgstr "Ni mogoče izbrisati uporabnika"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Jezik je bil spremenjen"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "Neveljavna zahteva"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"

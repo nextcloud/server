@@ -125,7 +125,6 @@
 "Lost your password?" => "忘記密碼？",
 "remember" => "記住",
 "Log in" => "登入",
-"You are logged out." => "你已登出",
 "prev" => "上一頁",
 "next" => "下一頁",
 "Updating ownCloud to version %s, this may take a while." => "正在將 Owncloud 升級至版本 %s ，這可能需要一點時間。",
