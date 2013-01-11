@@ -7,7 +7,7 @@ If you have questions about how to use ownCloud, please direct these to the [mai
 * Ensure that you're in the right repository, apps are likely to be developed in the apps repo and our client in the mirall repo.
 * An example demonstrating your problem, is likely to get an answer faster.
 
-If your issue appears to be a bug, and hasn't been reported, open a new issue. Please ensure that you're in the right repository. This is *only* for bugs in the core code. For other bugs: Please check if there is a [better suited repository](https://github.com/owncloud).
+If your issue appears to be a bug, and hasn't been reported, open a new issue. **Please ensure that you're in the right repository. This is *only* for bugs in the core code**. For other reports: Please check if there is a [better suited repository](https://github.com/owncloud), like our [app](https://github.com/owncloud/apps) or [mirall (desktop client)](https://github.com/owncloud/mirall) repo.
 
 Help us to maximize the effort we can spend fixing issues and adding new features, by not reporting duplicate issues.
 
