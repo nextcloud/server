@@ -120,11 +120,9 @@ class Storage {
 	}
 	
 	/**
-	 * Delete versions of a file
+	 * rename versions of a file
 	 */
 	public static function rename($oldpath, $newpath) {
-		error_log("oldpath: $oldpath");
-		error_log("newpath: $newpath");
 		list($uid, $oldpath) = self::getUidAndFilename($oldpath);
 		list($uidn, $newpath) = self::getUidAndFilename($newpath);
 		$versions_view = new \OC_FilesystemView('/'.$uid .'/files_versions');
@@ -137,7 +135,6 @@ class Storage {
 			if(!file_exists($info['dirname'])) mkdir($info['dirname'], 0750, true);
 			$versions = Storage::getVersions($oldpath);
 			foreach ($versions as $v) {
-				error_log("rename(".$oldpath.'.v'.$v['version'].", ". $newpath.'.v'.$v['version'].")");
 				$versions_view->rename($oldpath.'.v'.$v['version'], $newpath.'.v'.$v['version']);
 			}
 		}
