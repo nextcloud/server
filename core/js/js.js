@@ -311,13 +311,13 @@ OC.Notification={
         var notification = $('#notification');
         notification.hide();
         notification.html(html);
-        notification.fadeIn();
+        notification.fadeIn().css("display","inline");
     },
     show: function(text) {
         var notification = $('#notification');
         notification.hide();
         notification.text(text);
-        notification.fadeIn();
+        notification.fadeIn().css("display","inline");
     }
 };
 

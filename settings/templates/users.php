@@ -73,8 +73,6 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 	</div>
 </div>
 
-<div id='notification'></div>
-
 <table data-groups="<?php echo implode(', ', $allGroups);?>">
 	<thead>
 		<tr>

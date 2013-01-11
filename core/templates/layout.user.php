@@ -40,7 +40,10 @@
 	</head>
 
 	<body id="<?php echo $_['bodyid'];?>">
-		<header><div id="header">
+	<div id="notification-container">
+		<div id="notification"/>
+	</div>
+	<header><div id="header">
 			<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img class="svg" src="<?php echo image_path('', 'logo-wide.svg'); ?>" alt="ownCloud" /></a>
 			<a class="header-right header-action" id="logout" href="<?php echo link_to('', 'index.php'); ?>?logout=true"><img class="svg" alt="<?php echo $l->t('Log out');?>" title="<?php echo $l->t('Log out');  echo OC_User::getUser()?' ('.OC_User::getUser().') ':'' ?>" src="<?php echo image_path('', 'actions/logout.svg'); ?>" /></a>
 			<form class="searchbox header-right" action="#" method="post">

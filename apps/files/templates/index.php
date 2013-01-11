@@ -50,7 +50,6 @@
 	<?php endif;?>
 	<input type="hidden" name="permissions" value="<?php echo $_['permissions']; ?>" id="permissions">
 </div>
-<div id='notification'></div>
 
 <?php if (isset($_['files']) and $_['isCreatable'] and count($_['files'])==0):?>
 	<div id="emptyfolder"><?php echo $l->t('Nothing in here. Upload something!')?></div>
