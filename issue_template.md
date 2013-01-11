@@ -9,7 +9,7 @@ Tell us what happens instead
 2. 
 3. 
 
-###Server configuration
+### Server configuration
 Webserver: 
 
 PHP version:
@@ -22,19 +22,19 @@ Browser:
 Operating system:
 
 ### Logs
-####Webserver error log
+#### Webserver error log
 ```
 Insert your webserver log here
 
 ```
 
-####ownCloud log (data/owncloud.log)
+#### ownCloud log (data/owncloud.log)
 ```
 Insert your ownCloud log here
 
 ```
 
-####Browser error log
+#### Browser error log
 ```
 Insert your browser error log here
 
