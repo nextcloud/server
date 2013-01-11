@@ -5,7 +5,7 @@
 		<p class="exception">
 		<?php
 		if($_['showsysinfo'] == true) {
-			echo 'If you would like to support ownCloud\'s developers and report this error in our <a href="http://bugs.owncloud.org">Bugtracker</a>, please copy the following informations into the description. <br><br><textarea readonly>';
+			echo 'If you would like to support ownCloud\'s developers and report this error in our <a href="https://github.com/owncloud/core">bug tracker</a>, please copy the following informations into the description. <br><br><textarea readonly>';
 			echo 'Message: '  . $_['message'] . "\n";
 			echo 'Error Code: '  . $_['code'] . "\n";
 			echo 'File: '  . $_['file'] . "\n";
