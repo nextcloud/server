@@ -768,9 +768,9 @@ class View {
 				if ($subStorage) {
 					$subCache = $subStorage->getCache('');
 
-					if ($subCache->getStatus('') < Cache\Cache::COMPLETE) {
+					if ($subCache->getStatus('') === Cache\Cache::NOT_FOUND) {
 						$subScanner = $subStorage->getScanner('');
-						$subScanner->scan('', Cache\Scanner::SCAN_SHALLOW);
+						$subScanner->scanFile('');
 					} else {
 						$subWatcher = $subStorage->getWatcher('');
 						$subWatcher->checkUpdate('');
