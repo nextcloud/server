@@ -4,7 +4,7 @@ Tell us what should happen
 ### Actual behaviour
 Tell us what happens instead
 
-### Steps to reproduce:
+### Steps to reproduce
 1. 
 2. 
 3. 
@@ -22,21 +22,21 @@ Browser:
 Operating system:
 
 ### Logs
-####Webserver error log:
+####Webserver error log
 
 ```
 Insert your webserver log here
 
 ```
 
-####ownCloud log (data/owncloud.log):
+####ownCloud log (data/owncloud.log)
 
 ```
 Insert your ownCloud log here
 
 ```
 
-####Browser error log:
+####Browser error log
 ```
 Insert your browser error log here
 
