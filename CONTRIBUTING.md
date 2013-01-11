@@ -27,7 +27,7 @@ Thanks for wanting to contribute source code to ownCloud. That's great!
 
 Before we're able to merge your code into the ownCloud core, you need to sign our [Contributor Agreement][agreement].
 
-Please read the [Developer Manuals][devmanual] to get useful infos like how to create your first application or how to test the ownCloud code with phpuniz.
+Please read the [Developer Manuals][devmanual] to get useful infos like how to create your first application or how to test the ownCloud code with phpunit.
 
 [agreement]: http://owncloud.org/about/contributor-agreement/
 [devmanual]: http://owncloud.org/dev/
