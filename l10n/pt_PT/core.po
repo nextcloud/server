@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <daniel@mouxy.net>, 2012.
+#   <daniel@mouxy.net>, 2012-2013.
 # Duarte Velez Grilo <duartegrilo@gmail.com>, 2012.
 #   <helder.meneses@gmail.com>, 2011, 2012.
 # Helder Meneses <helder.meneses@gmail.com>, 2012.
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-18 00:13+0100\n"
-"PO-Revision-Date: 2012-12-17 01:27+0000\n"
+"POT-Creation-Date: 2013-01-09 00:04+0100\n"
+"PO-Revision-Date: 2013-01-08 00:22+0000\n"
 "Last-Translator: Mouxy <daniel@mouxy.net>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -89,55 +89,55 @@ msgstr "Erro a remover %s dos favoritos."
 msgid "Settings"
 msgstr "Definições"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "Minutos atrás"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "Falta 1 minuto"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minutos atrás"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "Há 1 hora"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "Há {hours} horas atrás"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "hoje"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "ontem"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "{days} dias atrás"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "ultímo mês"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "Há {months} meses atrás"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "ano passado"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "anos atrás"
 
@@ -167,8 +167,8 @@ msgid "The object type is not specified."
 msgstr "O tipo de objecto não foi especificado"
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "Erro"
 
@@ -180,7 +180,7 @@ msgstr "O nome da aplicação não foi especificado"
 msgid "The required file {file} is not installed!"
 msgstr "O ficheiro necessário {file} não está instalado!"
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "Erro ao partilhar"
 
@@ -208,11 +208,11 @@ msgstr "Partilhar com"
 msgid "Share with link"
 msgstr "Partilhar com link"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "Proteger com palavra-passe"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:26
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Palavra chave"
@@ -277,23 +277,23 @@ msgstr "apagar"
 msgid "share"
 msgstr "partilhar"
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "Protegido com palavra-passe"
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr "Erro ao retirar a data de expiração"
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "Erro ao aplicar a data de expiração"
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
 msgstr "A Enviar..."
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
 msgstr "E-mail enviado com sucesso!"
 
@@ -318,7 +318,7 @@ msgid "Request failed!"
 msgstr "O pedido falhou!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
-#: templates/login.php:21
+#: templates/login.php:28
 msgid "Username"
 msgstr "Utilizador"
 
@@ -532,29 +532,29 @@ msgstr "serviços web sob o seu controlo"
 msgid "Log out"
 msgstr "Sair"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Login automático rejeitado!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Se não mudou a sua palavra-passe recentemente, a sua conta pode ter sido comprometida!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Por favor mude a sua palavra-passe para assegurar a sua conta de novo."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Esqueceu a sua password?"
 
-#: templates/login.php:29
+#: templates/login.php:39
 msgid "remember"
 msgstr "lembrar"
 
-#: templates/login.php:30
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Entrar"
 
@@ -569,6 +569,11 @@ msgstr "anterior"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "seguinte"
+
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr "A Actualizar o ownCloud para a versão %s, esta operação pode demorar."
 
 #: templates/verify.php:5
 msgid "Security Warning!"

@@ -30,7 +30,7 @@
 "{count} files uploading" => "{count} קבצים נשלחים",
 "Upload cancelled." => "ההעלאה בוטלה.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "מתבצעת כעת העלאת קבצים. עזיבה של העמוד תבטל את ההעלאה.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "שם התיקייה שגוי. השימוש בשם „Shared“ שמור לטובת Owncloud",
+"URL cannot be empty." => "קישור אינו יכול להיות ריק.",
 "{count} files scanned" => "{count} קבצים נסרקו",
 "error while scanning" => "אירעה שגיאה במהלך הסריקה",
 "Name" => "שם",

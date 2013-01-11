@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 23:17+0000\n"
+"POT-Creation-Date: 2013-01-07 00:04+0100\n"
+"PO-Revision-Date: 2013-01-06 23:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -164,8 +164,8 @@ msgid "The object type is not specified."
 msgstr "Врста објекта није подешена."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "Грешка"
 
@@ -177,7 +177,7 @@ msgstr "Име програма није унето."
 msgid "The required file {file} is not installed!"
 msgstr "Потребна датотека {file} није инсталирана."
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "Грешка у дељењу"
 
@@ -205,11 +205,11 @@ msgstr "Подели са"
 msgid "Share with link"
 msgstr "Подели линк"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "Заштићено лозинком"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Лозинка"
@@ -274,23 +274,23 @@ msgstr "обриши"
 msgid "share"
 msgstr "подели"
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "Заштићено лозинком"
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr "Грешка код поништавања датума истека"
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "Грешка код постављања датума истека"
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
 msgstr ""
 
@@ -314,8 +314,8 @@ msgstr "Захтев је послат поштом."
 msgid "Request failed!"
 msgstr "Захтев одбијен!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "Корисничко име"
 
@@ -404,44 +404,44 @@ msgstr "Тренутно су ваши подаци и датотеке дост
 msgid "Create an <strong>admin account</strong>"
 msgstr "Направи <strong>административни налог</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "Напредно"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "Фацикла података"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "Подешавање базе"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "ће бити коришћен"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "Корисник базе"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "Лозинка базе"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "Име базе"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "Радни простор базе података"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Домаћин базе"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "Заврши подешавање"
 
@@ -529,29 +529,29 @@ msgstr "веб сервиси под контролом"
 msgid "Log out"
 msgstr "Одјава"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Аутоматска пријава је одбијена!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Ако ускоро не промените лозинку ваш налог може бити компромитован!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Промените лозинку да бисте обезбедили налог."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Изгубили сте лозинку?"
 
-#: templates/login.php:27
+#: templates/login.php:39
 msgid "remember"
 msgstr "упамти"
 
-#: templates/login.php:28
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Пријава"
 
@@ -566,6 +566,11 @@ msgstr "претходно"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "следеће"
+
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr ""
 
 #: templates/verify.php:5
 msgid "Security Warning!"

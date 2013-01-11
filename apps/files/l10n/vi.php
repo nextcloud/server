@@ -29,7 +29,7 @@
 "{count} files uploading" => "{count} tập tin đang tải lên",
 "Upload cancelled." => "Hủy tải lên",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Tên thư mục không hợp lệ. Sử dụng \"Chia sẻ\" được dành riêng bởi Owncloud",
+"URL cannot be empty." => "URL không được để trống.",
 "{count} files scanned" => "{count} tập tin đã được quét",
 "error while scanning" => "lỗi trong khi quét",
 "Name" => "Tên",

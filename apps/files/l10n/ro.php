@@ -30,7 +30,7 @@
 "{count} files uploading" => "{count} fisiere incarcate",
 "Upload cancelled." => "Încărcare anulată.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Fișierul este în curs de încărcare. Părăsirea paginii va întrerupe încărcarea.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Nume de folder invalid. Numele este rezervat pentru OwnCloud",
+"URL cannot be empty." => "Adresa URL nu poate fi goală.",
 "{count} files scanned" => "{count} fisiere scanate",
 "error while scanning" => "eroare la scanarea",
 "Name" => "Nume",

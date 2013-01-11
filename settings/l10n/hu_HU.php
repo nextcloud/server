@@ -53,7 +53,11 @@
 "Name" => "Név",
 "Groups" => "Csoportok",
 "Create" => "Létrehozás",
+"Default Storage" => "Alapértelmezett tárhely",
+"Unlimited" => "Korlátlan",
 "Other" => "Más",
 "Group Admin" => "Csoportadminisztrátor",
+"Storage" => "Tárhely",
+"Default" => "Alapértelmezett",
 "Delete" => "Törlés"
 );

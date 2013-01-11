@@ -53,7 +53,11 @@
 "Name" => "Naam",
 "Groups" => "Groepen",
 "Create" => "Creëer",
+"Default Storage" => "Default opslag",
+"Unlimited" => "Ongelimiteerd",
 "Other" => "Andere",
 "Group Admin" => "Groep beheerder",
+"Storage" => "Opslag",
+"Default" => "Default",
 "Delete" => "verwijderen"
 );

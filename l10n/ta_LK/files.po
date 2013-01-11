@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-05 00:02+0100\n"
-"PO-Revision-Date: 2013-01-04 12:30+0000\n"
+"POT-Creation-Date: 2013-01-10 00:04+0100\n"
+"PO-Revision-Date: 2013-01-09 23:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ta_LK\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:24
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/rename.php:19
+msgid "Unable to rename file"
+msgstr ""
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
@@ -65,11 +79,11 @@ msgstr ""
 msgid "Files"
 msgstr "கோப்புகள்"
 
-#: js/fileactions.js:117 templates/index.php:84 templates/index.php:85
+#: js/fileactions.js:117 templates/index.php:82 templates/index.php:83
 msgid "Unshare"
 msgstr "பகிரப்படாதது"
 
-#: js/fileactions.js:119 templates/index.php:90 templates/index.php:91
+#: js/fileactions.js:119 templates/index.php:88 templates/index.php:89
 msgid "Delete"
 msgstr "அழிக்க"
 
@@ -77,122 +91,134 @@ msgstr "அழிக்க"
 msgid "Rename"
 msgstr "பெயர்மாற்றம்"
 
-#: js/filelist.js:199 js/filelist.js:201
+#: js/filelist.js:205 js/filelist.js:207
 msgid "{new_name} already exists"
 msgstr "{new_name} ஏற்கனவே உள்ளது"
 
-#: js/filelist.js:199 js/filelist.js:201
+#: js/filelist.js:205 js/filelist.js:207
 msgid "replace"
 msgstr "மாற்றிடுக"
 
-#: js/filelist.js:199
+#: js/filelist.js:205
 msgid "suggest name"
 msgstr "பெயரை பரிந்துரைக்க"
 
-#: js/filelist.js:199 js/filelist.js:201
+#: js/filelist.js:205 js/filelist.js:207
 msgid "cancel"
 msgstr "இரத்து செய்க"
 
-#: js/filelist.js:248
+#: js/filelist.js:254
 msgid "replaced {new_name}"
 msgstr "மாற்றப்பட்டது {new_name}"
 
-#: js/filelist.js:248 js/filelist.js:250 js/filelist.js:282 js/filelist.js:284
+#: js/filelist.js:254 js/filelist.js:256 js/filelist.js:288 js/filelist.js:290
 msgid "undo"
 msgstr "முன் செயல் நீக்கம் "
 
-#: js/filelist.js:250
+#: js/filelist.js:256
 msgid "replaced {new_name} with {old_name}"
 msgstr "{new_name} ஆனது {old_name} இனால் மாற்றப்பட்டது"
 
-#: js/filelist.js:282
+#: js/filelist.js:288
 msgid "unshared {files}"
 msgstr "பகிரப்படாதது  {கோப்புகள்}"
 
-#: js/filelist.js:284
+#: js/filelist.js:290
 msgid "deleted {files}"
 msgstr "நீக்கப்பட்டது  {கோப்புகள்}"
 
-#: js/files.js:33
+#: js/files.js:31
+msgid "'.' is an invalid file name."
+msgstr ""
+
+#: js/files.js:36
+msgid "File name cannot be empty."
+msgstr ""
+
+#: js/files.js:45
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "செல்லுபடியற்ற பெயர்,'\\', '/', '<', '>', ':', '\"', '|', '?' மற்றும் '*' ஆகியன அனுமதிக்கப்படமாட்டாது."
 
-#: js/files.js:174
+#: js/files.js:186
 msgid "generating ZIP-file, it may take some time."
 msgstr " ZIP கோப்பு உருவாக்கப்படுகின்றது, இது சில நேரம் ஆகலாம்."
 
-#: js/files.js:212
+#: js/files.js:224
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "அடைவு அல்லது 0 bytes ஐ கொண்டுள்ளதால் உங்களுடைய கோப்பை பதிவேற்ற முடியவில்லை"
 
-#: js/files.js:212
+#: js/files.js:224
 msgid "Upload Error"
 msgstr "பதிவேற்றல் வழு"
 
-#: js/files.js:229
+#: js/files.js:241
 msgid "Close"
 msgstr "மூடுக"
 
-#: js/files.js:248 js/files.js:362 js/files.js:392
+#: js/files.js:260 js/files.js:376 js/files.js:409
 msgid "Pending"
 msgstr "நிலுவையிலுள்ள"
 
-#: js/files.js:268
+#: js/files.js:280
 msgid "1 file uploading"
 msgstr "1 கோப்பு பதிவேற்றப்படுகிறது"
 
-#: js/files.js:271 js/files.js:325 js/files.js:340
+#: js/files.js:283 js/files.js:338 js/files.js:353
 msgid "{count} files uploading"
 msgstr "{எண்ணிக்கை} கோப்புகள் பதிவேற்றப்படுகின்றது"
 
-#: js/files.js:343 js/files.js:376
+#: js/files.js:357 js/files.js:393
 msgid "Upload cancelled."
 msgstr "பதிவேற்றல் இரத்து செய்யப்பட்டுள்ளது"
 
-#: js/files.js:445
+#: js/files.js:464
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "கோப்பு பதிவேற்றம் செயல்பாட்டில் உள்ளது. இந்தப் பக்கத்திலிருந்து வெறியேறுவதானது பதிவேற்றலை இரத்து செய்யும்."
 
-#: js/files.js:515
-msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
-msgstr "செல்லுபடியற்ற கோப்புறை பெயர். \"பகிர்வின்\" பாவனை Owncloud இனால் ஒதுக்கப்பட்டுள்ளது"
+#: js/files.js:537
+msgid "URL cannot be empty."
+msgstr "URL  வெறுமையாக இருக்கமுடியாது."
 
-#: js/files.js:699
+#: js/files.js:543
+msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
+msgstr ""
+
+#: js/files.js:727
 msgid "{count} files scanned"
 msgstr "{எண்ணிக்கை} கோப்புகள் வருடப்பட்டது"
 
-#: js/files.js:707
+#: js/files.js:735
 msgid "error while scanning"
 msgstr "வருடும் போதான வழு"
 
-#: js/files.js:780 templates/index.php:66
+#: js/files.js:808 templates/index.php:64
 msgid "Name"
 msgstr "பெயர்"
 
-#: js/files.js:781 templates/index.php:77
+#: js/files.js:809 templates/index.php:75
 msgid "Size"
 msgstr "அளவு"
 
-#: js/files.js:782 templates/index.php:79
+#: js/files.js:810 templates/index.php:77
 msgid "Modified"
 msgstr "மாற்றப்பட்டது"
 
-#: js/files.js:801
+#: js/files.js:829
 msgid "1 folder"
 msgstr "1 கோப்புறை"
 
-#: js/files.js:803
+#: js/files.js:831
 msgid "{count} folders"
 msgstr "{எண்ணிக்கை} கோப்புறைகள்"
 
-#: js/files.js:811
+#: js/files.js:839
 msgid "1 file"
 msgstr "1 கோப்பு"
 
-#: js/files.js:813
+#: js/files.js:841
 msgid "{count} files"
 msgstr "{எண்ணிக்கை} கோப்புகள்"
 
@@ -244,36 +270,36 @@ msgstr "கோப்புறை"
 msgid "From link"
 msgstr "இணைப்பிலிருந்து"
 
-#: templates/index.php:35
+#: templates/index.php:18
 msgid "Upload"
 msgstr "பதிவேற்றுக"
 
-#: templates/index.php:43
+#: templates/index.php:41
 msgid "Cancel upload"
 msgstr "பதிவேற்றலை இரத்து செய்க"
 
-#: templates/index.php:58
+#: templates/index.php:56
 msgid "Nothing in here. Upload something!"
 msgstr "இங்கு ஒன்றும் இல்லை. ஏதாவது பதிவேற்றுக!"
 
-#: templates/index.php:72
+#: templates/index.php:70
 msgid "Download"
 msgstr "பதிவிறக்குக"
 
-#: templates/index.php:104
+#: templates/index.php:102
 msgid "Upload too large"
 msgstr "பதிவேற்றல் மிகப்பெரியது"
 
-#: templates/index.php:106
+#: templates/index.php:104
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "நீங்கள் பதிவேற்ற முயற்சிக்கும் கோப்புகளானது இந்த சேவையகத்தில் கோப்பு பதிவேற்றக்கூடிய ஆகக்கூடிய அளவிலும் கூடியது."
 
-#: templates/index.php:111
+#: templates/index.php:109
 msgid "Files are being scanned, please wait."
 msgstr "கோப்புகள் வருடப்படுகின்றன, தயவுசெய்து காத்திருங்கள்."
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Current scanning"
 msgstr "தற்போது வருடப்படுபவை"

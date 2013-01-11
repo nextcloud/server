@@ -34,7 +34,7 @@ filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endC
 
 /* INPUTS */
 input[type="text"], input[type="password"] { cursor:text; }
-input:not([type="checkbox"]), textarea, select, button, .button, #quota, div.jp-progress, .pager li a {
+input, textarea, select, button, .button, #quota, div.jp-progress, .pager li a {
 	width:10em; margin:.3em; padding:.6em .5em .4em;
 	font-size:1em; font-family:Arial, Verdana, sans-serif;
 	background:#fff; color:#333; border:1px solid #ddd; outline:none;
@@ -56,7 +56,7 @@ input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#
 /* BUTTONS */
 input[type="submit"], input[type="button"], button, .button, #quota, div.jp-progress, select, .pager li a {
 	width:auto; padding:.4em;
-	background-color:rgba(230,230,230,.5); font-weight:bold; color:#555; text-shadow:#fff 0 1px 0; border:1px solid rgba(180,180,180,.5); cursor:pointer;
+	background-color:rgba(230,230,230,.5); font-weight:bold; color:#555; text-shadow:#fff 0 1px 0; border:1px solid #bbb; border:1px solid rgba(180,180,180,.5); cursor:pointer;
 	-moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset;
 	-moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;
 }

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-05 00:02+0100\n"
-"PO-Revision-Date: 2013-01-04 12:30+0000\n"
+"POT-Creation-Date: 2013-01-10 00:04+0100\n"
+"PO-Revision-Date: 2013-01-09 23:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -19,6 +19,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: mk\n"
 "Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;\n"
+
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:24
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/rename.php:19
+msgid "Unable to rename file"
+msgstr ""
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
@@ -67,11 +81,11 @@ msgstr ""
 msgid "Files"
 msgstr "Датотеки"
 
-#: js/fileactions.js:117 templates/index.php:84 templates/index.php:85
+#: js/fileactions.js:117 templates/index.php:82 templates/index.php:83
 msgid "Unshare"
 msgstr "Не споделувај"
 
-#: js/fileactions.js:119 templates/index.php:90 templates/index.php:91
+#: js/fileactions.js:119 templates/index.php:88 templates/index.php:89
 msgid "Delete"
 msgstr "Избриши"
 
@@ -79,122 +93,134 @@ msgstr "Избриши"
 msgid "Rename"
 msgstr "Преименувај"
 
-#: js/filelist.js:199 js/filelist.js:201
+#: js/filelist.js:205 js/filelist.js:207
 msgid "{new_name} already exists"
 msgstr "{new_name} веќе постои"
 
-#: js/filelist.js:199 js/filelist.js:201
+#: js/filelist.js:205 js/filelist.js:207
 msgid "replace"
 msgstr "замени"
 
-#: js/filelist.js:199
+#: js/filelist.js:205
 msgid "suggest name"
 msgstr "предложи име"
 
-#: js/filelist.js:199 js/filelist.js:201
+#: js/filelist.js:205 js/filelist.js:207
 msgid "cancel"
 msgstr "откажи"
 
-#: js/filelist.js:248
+#: js/filelist.js:254
 msgid "replaced {new_name}"
 msgstr "земенета {new_name}"
 
-#: js/filelist.js:248 js/filelist.js:250 js/filelist.js:282 js/filelist.js:284
+#: js/filelist.js:254 js/filelist.js:256 js/filelist.js:288 js/filelist.js:290
 msgid "undo"
 msgstr "врати"
 
-#: js/filelist.js:250
+#: js/filelist.js:256
 msgid "replaced {new_name} with {old_name}"
 msgstr "заменета {new_name} со {old_name}"
 
-#: js/filelist.js:282
+#: js/filelist.js:288
 msgid "unshared {files}"
 msgstr "без споделување {files}"
 
-#: js/filelist.js:284
+#: js/filelist.js:290
 msgid "deleted {files}"
 msgstr "избришани {files}"
 
-#: js/files.js:33
+#: js/files.js:31
+msgid "'.' is an invalid file name."
+msgstr ""
+
+#: js/files.js:36
+msgid "File name cannot be empty."
+msgstr ""
+
+#: js/files.js:45
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Неправилно име. , '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не се дозволени."
 
-#: js/files.js:174
+#: js/files.js:186
 msgid "generating ZIP-file, it may take some time."
 msgstr "Се генерира ZIP фајлот, ќе треба извесно време."
 
-#: js/files.js:212
+#: js/files.js:224
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Не може да се преземе вашата датотека бидејќи фолдерот во кој се наоѓа фајлот има големина од 0 бајти"
 
-#: js/files.js:212
+#: js/files.js:224
 msgid "Upload Error"
 msgstr "Грешка при преземање"
 
-#: js/files.js:229
+#: js/files.js:241
 msgid "Close"
 msgstr "Затвои"
 
-#: js/files.js:248 js/files.js:362 js/files.js:392
+#: js/files.js:260 js/files.js:376 js/files.js:409
 msgid "Pending"
 msgstr "Чека"
 
-#: js/files.js:268
+#: js/files.js:280
 msgid "1 file uploading"
 msgstr "1 датотека се подига"
 
-#: js/files.js:271 js/files.js:325 js/files.js:340
+#: js/files.js:283 js/files.js:338 js/files.js:353
 msgid "{count} files uploading"
 msgstr "{count} датотеки се подигаат"
 
-#: js/files.js:343 js/files.js:376
+#: js/files.js:357 js/files.js:393
 msgid "Upload cancelled."
 msgstr "Преземањето е прекинато."
 
-#: js/files.js:445
+#: js/files.js:464
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Подигање на датотека е во тек. Напуштење на страницата ќе го прекине."
 
-#: js/files.js:515
-msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
-msgstr "Неправилно име на папка. Користењето на „Shared“ е резервирано за Owncloud"
+#: js/files.js:537
+msgid "URL cannot be empty."
+msgstr "Адресата неможе да биде празна."
 
-#: js/files.js:699
+#: js/files.js:543
+msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
+msgstr ""
+
+#: js/files.js:727
 msgid "{count} files scanned"
 msgstr "{count}  датотеки скенирани"
 
-#: js/files.js:707
+#: js/files.js:735
 msgid "error while scanning"
 msgstr "грешка при скенирање"
 
-#: js/files.js:780 templates/index.php:66
+#: js/files.js:808 templates/index.php:64
 msgid "Name"
 msgstr "Име"
 
-#: js/files.js:781 templates/index.php:77
+#: js/files.js:809 templates/index.php:75
 msgid "Size"
 msgstr "Големина"
 
-#: js/files.js:782 templates/index.php:79
+#: js/files.js:810 templates/index.php:77
 msgid "Modified"
 msgstr "Променето"
 
-#: js/files.js:801
+#: js/files.js:829
 msgid "1 folder"
 msgstr "1 папка"
 
-#: js/files.js:803
+#: js/files.js:831
 msgid "{count} folders"
 msgstr "{count} папки"
 
-#: js/files.js:811
+#: js/files.js:839
 msgid "1 file"
 msgstr "1 датотека"
 
-#: js/files.js:813
+#: js/files.js:841
 msgid "{count} files"
 msgstr "{count} датотеки"
 
@@ -246,36 +272,36 @@ msgstr "Папка"
 msgid "From link"
 msgstr "Од врска"
 
-#: templates/index.php:35
+#: templates/index.php:18
 msgid "Upload"
 msgstr "Подигни"
 
-#: templates/index.php:43
+#: templates/index.php:41
 msgid "Cancel upload"
 msgstr "Откажи прикачување"
 
-#: templates/index.php:58
+#: templates/index.php:56
 msgid "Nothing in here. Upload something!"
 msgstr "Тука нема ништо. Снимете нешто!"
 
-#: templates/index.php:72
+#: templates/index.php:70
 msgid "Download"
 msgstr "Преземи"
 
-#: templates/index.php:104
+#: templates/index.php:102
 msgid "Upload too large"
 msgstr "Датотеката е премногу голема"
 
-#: templates/index.php:106
+#: templates/index.php:104
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер."
 
-#: templates/index.php:111
+#: templates/index.php:109
 msgid "Files are being scanned, please wait."
 msgstr "Се скенираат датотеки, ве молам почекајте."
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Current scanning"
 msgstr "Моментално скенирам"
