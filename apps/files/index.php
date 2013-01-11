@@ -28,6 +28,7 @@ OCP\User::checkLoggedIn();
 OCP\Util::addStyle('files', 'files');
 OCP\Util::addscript('files', 'jquery.iframe-transport');
 OCP\Util::addscript('files', 'jquery.fileupload');
+OCP\Util::addscript('files', 'jquery-visibility');
 OCP\Util::addscript('files', 'files');
 OCP\Util::addscript('files', 'filelist');
 OCP\Util::addscript('files', 'fileactions');
