@@ -732,6 +732,32 @@ $(document).ready(function() {
 	});
 
 	resizeBreadcrumbs(true);
+
+	// file space size sync
+	function update_storage_statistics() {
+		$.getJSON(OC.filePath('files','ajax','getstoragestats.php'),function(response) {
+			Files.updateMaxUploadFilesize(response);
+		});
+	}
+
+	// start on load - we ask the server every 5 minutes
+	var update_storage_statistics_interval = 5*60*1000;
+	var update_storage_statistics_interval_id = setInterval(update_storage_statistics, update_storage_statistics_interval);
+
+	// Use jquery-visibility to de-/re-activate file stats sync
+	if ($.support.pageVisibility) {
+		$(document).on({
+			'show.visibility': function() {
+				if (!update_storage_statistics_interval_id) {
+					update_storage_statistics_interval_id = setInterval(update_storage_statistics, update_storage_statistics_interval);
+				}
+			},
+			'hide.visibility': function() {
+				clearInterval(update_storage_statistics_interval_id);
+				update_storage_statistics_interval_id = 0;
+			}
+		});
+	}
 });
 
 function scanFiles(force,dir){
