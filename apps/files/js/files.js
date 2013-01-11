@@ -359,6 +359,7 @@ $(document).ready(function() {
 										} else {
 											uploadtext.text(t('files', '{count} files uploading', {count: currentUploads}));
 										}
+										delete uploadingFiles[dirName][fileName];
                                         OC.Notification.show(t('files', 'Upload cancelled.'));
 									}
 								});
