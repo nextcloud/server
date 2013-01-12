@@ -213,7 +213,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	static public function getETagPropertyForPath($path) {
 		$data = \OC\Files\Filesystem::getFileInfo($path);
 		if (isset($data['etag'])) {
-			return $data['etag'];
+			return '"'.$data['etag'].'"';
 		}
 		return null;
 	}
