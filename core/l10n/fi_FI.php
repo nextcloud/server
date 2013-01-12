@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
+"User %s shared a file with you" => "Käyttäjä %s jakoi tiedoston kanssasi",
+"User %s shared a folder with you" => "Käyttäjä %s jakoi kansion kanssasi",
+"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Käyttäjä %s jakoi tiedoston \"%s\" kanssasi. Se on ladattavissa täältä: %s",
+"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Käyttäjä %s jakoi kansion \"%s\" kanssasi. Se on ladattavissa täältä: %s",
 "No category to add?" => "Ei lisättävää luokkaa?",
 "This category already exists: " => "Tämä luokka on jo olemassa: ",
 "No categories selected for deletion." => "Luokkia ei valittu poistettavaksi.",
@@ -52,6 +56,7 @@
 "ownCloud password reset" => "ownCloud-salasanan nollaus",
 "Use the following link to reset your password: {link}" => "Voit palauttaa salasanasi seuraavassa osoitteessa: {link}",
 "You will receive a link to reset your password via Email." => "Saat sähköpostitse linkin nollataksesi salasanan.",
+"Reset email send." => "Salasanan nollausviesti lähetetty.",
 "Request failed!" => "Pyyntö epäonnistui!",
 "Username" => "Käyttäjätunnus",
 "Request reset" => "Tilaus lähetetty",
@@ -110,6 +115,7 @@
 "Log in" => "Kirjaudu sisään",
 "prev" => "edellinen",
 "next" => "seuraava",
+"Updating ownCloud to version %s, this may take a while." => "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken.",
 "Security Warning!" => "Turvallisuusvaroitus!",
 "Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Vahvista salasanasi. <br/>Turvallisuussyistä sinulta saatetaan ajoittain kysyä salasanasi uudelleen.",
 "Verify" => "Vahvista"

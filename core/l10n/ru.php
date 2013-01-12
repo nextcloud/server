@@ -127,6 +127,7 @@
 "Log in" => "Войти",
 "prev" => "пред",
 "next" => "след",
+"Updating ownCloud to version %s, this may take a while." => "Производится обновление ownCloud до версии %s. Это может занять некоторое время.",
 "Security Warning!" => "Предупреждение безопасности!",
 "Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Пожалуйста, проверьте свой ​​пароль. <br/>По соображениям безопасности, Вам иногда придется вводить свой пароль снова.",
 "Verify" => "Подтвердить"
