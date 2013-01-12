@@ -79,6 +79,8 @@ class Shared_Cache extends Cache {
 			$data['size'] = (int)$data['size'];
 			$data['mtime'] = (int)$data['mtime'];
 			$data['encrypted'] = (bool)$data['encrypted'];
+			$data['mimetype'] = $this->getMimetype($data['mimetype']);
+			$data['mimepart'] = $this->getMimetype($data['mimepart']);
 			return $data;
 		}
 		return false;
@@ -92,7 +94,12 @@ class Shared_Cache extends Cache {
 	 */
 	public function getFolderContents($folder) {
 		if ($folder == '') {
-			return \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_GET_FOLDER_CONTENTS);
+			$files = \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_GET_FOLDER_CONTENTS);
+			foreach ($files as &$file) {
+				$file['mimetype'] = $this->getMimetype($file['mimetype']);
+				$file['mimepart'] = $this->getMimetype($file['mimepart']);
+			}
+			return $files;
 		} else {
 			if ($cache = $this->getSourceCache($folder)) {
 				return $cache->getFolderContents($this->files[$folder]);
@@ -127,6 +134,19 @@ class Shared_Cache extends Cache {
 			return $cache->getId($this->files[$file]);
 		}
 		return -1;
+	}
+
+	/**
+	 * check if a file is available in the cache
+	 *
+	 * @param string $file
+	 * @return bool
+	 */
+	public function inCache($file) {
+		if ($file == '') {
+			return true;
+		}
+		return parent::inCache($file);
 	}
 
 	/**
@@ -176,7 +196,7 @@ class Shared_Cache extends Cache {
 		if ($cache = $this->getSourceCache($file)) {
 			return $cache->getStatus($this->files[$file]);
 		}
-		return false;
+		return self::NOT_FOUND;
 	}
 
 	/**

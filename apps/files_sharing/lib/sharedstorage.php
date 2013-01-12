@@ -408,12 +408,6 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function getScanner($path = '') {
-		if ($path != '' && ($source = $this->getSourcePath($path))) {
-			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
-			if ($storage) {
-				return $storage->getScanner($internalPath);
-			}
-		}
 		return new \OC\Files\Cache\Scanner($this);
 	}
 
