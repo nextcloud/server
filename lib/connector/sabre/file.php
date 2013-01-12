@@ -98,7 +98,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		if (isset($properties[self::GETETAG_PROPERTYNAME])) {
 			return $properties[self::GETETAG_PROPERTYNAME];
 		}
-		return $this->getETagPropertyForPath($this->path);
+		return null;
 	}
 
 	/**
