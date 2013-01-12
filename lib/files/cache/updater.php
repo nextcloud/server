@@ -35,6 +35,7 @@ class Updater {
 			$scanner = $storage->getScanner($internalPath);
 			$scanner->scan($internalPath, Scanner::SCAN_SHALLOW);
 			$cache->correctFolderSize($internalPath);
+			self::eTagUpdate($path);
 		}
 	}
 
@@ -48,6 +49,29 @@ class Updater {
 			$cache = $storage->getCache($internalPath);
 			$cache->remove($internalPath);
 			$cache->correctFolderSize($internalPath);
+			self::eTagUpdate($path);
+		}
+	}
+
+	static public function eTagUpdate($path) {
+		if ($path !== '' && $path !== '/') {
+			$parent = dirname($path);
+			if ($parent === '.') {
+				$parent = '';
+			}
+			/**
+			* @var \OC\Files\Storage\Storage $storage
+			* @var string $internalPath
+			*/
+			list($storage, $internalPath) = self::resolvePath($parent);
+			if ($storage) {
+				$cache = $storage->getCache();
+				$id = $cache->getId($internalPath);
+				if ($id !== -1) {
+					$cache->update($id, array('etag' => $storage->getETag($internalPath)));
+					self::eTagUpdate($parent);
+				}
+			}
 		}
 	}
 

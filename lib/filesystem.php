@@ -399,13 +399,6 @@ class OC_Filesystem {
 	}
 
 	/**
-	 * @deprecated OC_Filesystem is replaced by \OC\Files\Filesystem
-	 */
-	static public function removeETagHook($params, $root = false) {
-		\OC\Files\Filesystem::removeETagHook($params, $root);
-	}
-
-	/**
 	 * normalize a path
 	 *
 	 * @deprecated OC_Filesystem is replaced by \OC\Files\Filesystem

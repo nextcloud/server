@@ -50,6 +50,7 @@ class Scanner {
 		} else {
 			$data['size'] = $this->storage->filesize($path);
 		}
+		$data['etag'] = $this->storage->getETag($path);
 		return $data;
 	}
 

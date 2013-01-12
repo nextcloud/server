@@ -98,16 +98,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		if (isset($properties[self::GETETAG_PROPERTYNAME])) {
 			return $properties[self::GETETAG_PROPERTYNAME];
 		}
-		return $this->getETagPropertyForPath($this->path);
-	}
-
-	/**
-	 * Creates a ETag for this path.
-	 * @param string $path Path of the file
-	 * @return string|null Returns null if the ETag can not effectively be determined
-	 */
-	static protected function createETag($path) {
-		return \OC\Files\Filesystem::hash('md5', $path);
+		return null;
 	}
 
 	/**

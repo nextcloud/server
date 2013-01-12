@@ -462,8 +462,6 @@ class View {
 						Filesystem::signal_post_write,
 						array(Filesystem::signal_param_path => $path2)
 					);
-				} else { // no real copy, file comes from somewhere else, e.g. version rollback -> just update the file cache and the webdav properties without all the other post_write actions
-					Filesystem::removeETagHook(array("path" => $path2), $this->fakeRoot);
 				}
 				return $result;
 			} else {

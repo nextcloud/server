@@ -585,23 +585,6 @@ class Filesystem {
 		return self::$defaultInstance->hasUpdated($path, $time);
 	}
 
-	static public function removeETagHook($params, $root = false) {
-		if (isset($params['path'])) {
-			$path = $params['path'];
-		} else {
-			$path = $params['oldpath'];
-		}
-
-		if ($root) { // reduce path to the required part of it (no 'username/files')
-			$fakeRootView = new View($root);
-			$count = 1;
-			$path = str_replace(\OC_App::getStorage("files")->getAbsolutePath(''), "", $fakeRootView->getAbsolutePath($path), $count);
-		}
-
-		$path = self::normalizePath($path);
-		\OC_Connector_Sabre_Node::removeETagPropertyForPath($path);
-	}
-
 	/**
 	 * normalize a path
 	 *
@@ -684,10 +667,6 @@ class Filesystem {
 		return self::$defaultInstance->getETag($path);
 	}
 }
-
-\OC_Hook::connect('OC_Filesystem', 'post_write', 'OC_Filesystem', 'removeETagHook');
-\OC_Hook::connect('OC_Filesystem', 'post_delete', 'OC_Filesystem', 'removeETagHook');
-\OC_Hook::connect('OC_Filesystem', 'post_rename', 'OC_Filesystem', 'removeETagHook');
 
 \OC_Hook::connect('OC_Filesystem', 'post_write', '\OC\Files\Cache\Updater', 'writeHook');
 \OC_Hook::connect('OC_Filesystem', 'post_delete', '\OC\Files\Cache\Updater', 'deleteHook');

@@ -274,7 +274,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			$hash = call_user_func($ETagFunction, $path);
 			return $hash;
 		}else{
-			return uniqid('', true);
+			return uniqid();
 		}
 	}
 }

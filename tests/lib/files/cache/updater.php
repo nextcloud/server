@@ -70,14 +70,18 @@ class Updater extends \PHPUnit_Framework_TestCase {
 	public function testWrite() {
 		$textSize = strlen("dummy file data\n");
 		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
-		$cachedData = $this->cache->get('');
-		$this->assertEquals(3 * $textSize + $imageSize, $cachedData['size']);
+		$rootCachedData = $this->cache->get('');
+		$this->assertEquals(3 * $textSize + $imageSize, $rootCachedData['size']);
 
+		$fooCachedData = $this->cache->get('foo.txt');
 		Filesystem::file_put_contents('foo.txt', 'asd');
 		$cachedData = $this->cache->get('foo.txt');
 		$this->assertEquals(3, $cachedData['size']);
+		$this->assertNotEquals($fooCachedData['etag'], $cachedData['etag']);
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(2 * $textSize + $imageSize + 3, $cachedData['size']);
+		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
+		$rootCachedData = $cachedData;
 
 		$this->assertFalse($this->cache->inCache('bar.txt'));
 		Filesystem::file_put_contents('bar.txt', 'asd');
@@ -86,38 +90,50 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(3, $cachedData['size']);
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(2 * $textSize + $imageSize + 2 * 3, $cachedData['size']);
+		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
 	}
 
 	public function testDelete() {
 		$textSize = strlen("dummy file data\n");
 		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
-		$cachedData = $this->cache->get('');
-		$this->assertEquals(3 * $textSize + $imageSize, $cachedData['size']);
+		$rootCachedData = $this->cache->get('');
+		$this->assertEquals(3 * $textSize + $imageSize, $rootCachedData['size']);
 
 		$this->assertTrue($this->cache->inCache('foo.txt'));
 		Filesystem::unlink('foo.txt', 'asd');
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(2 * $textSize + $imageSize, $cachedData['size']);
+		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
+		$rootCachedData = $cachedData;
 
 		Filesystem::mkdir('bar_folder');
 		$this->assertTrue($this->cache->inCache('bar_folder'));
+		$cachedData = $this->cache->get('');
+		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
+		$rootCachedData = $cachedData;
 		Filesystem::rmdir('bar_folder');
 		$this->assertFalse($this->cache->inCache('bar_folder'));
+		$cachedData = $this->cache->get('');
+		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
 	}
 
 	public function testRename() {
 		$textSize = strlen("dummy file data\n");
 		$imageSize = filesize(\OC::$SERVERROOT . '/core/img/logo.png');
-		$cachedData = $this->cache->get('');
-		$this->assertEquals(3 * $textSize + $imageSize, $cachedData['size']);
+		$rootCachedData = $this->cache->get('');
+		$this->assertEquals(3 * $textSize + $imageSize, $rootCachedData['size']);
 
 		$this->assertTrue($this->cache->inCache('foo.txt'));
+		$fooCachedData = $this->cache->get('foo.txt');
 		$this->assertFalse($this->cache->inCache('bar.txt'));
 		Filesystem::rename('foo.txt', 'bar.txt');
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 		$this->assertTrue($this->cache->inCache('bar.txt'));
+		$cachedData = $this->cache->get('foo.txt');
+		$this->assertNotEquals($fooCachedData['etag'], $cachedData['etag']);
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(3 * $textSize + $imageSize, $cachedData['size']);
+		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
 	}
 }
