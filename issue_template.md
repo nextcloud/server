@@ -29,17 +29,18 @@ Operating system:
 #### Web server error log
 ```
 Insert your webserver log here
-
 ```
 
 #### ownCloud log (data/owncloud.log)
 ```
 Insert your ownCloud log here
-
 ```
 
-#### Browser error log
+#### Browser log
 ```
-Insert your browser error log here
+Insert your browser log here, this could for example include:
 
+a) The javascript console log
+b) The network log 
+c) ...
 ```
