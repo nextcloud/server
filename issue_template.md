@@ -10,7 +10,11 @@ Tell us what happens instead
 3. 
 
 ### Server configuration
-Operating system & Web server: 
+Operating system:
+
+Web server: 
+
+Database:
 
 PHP version:
 
