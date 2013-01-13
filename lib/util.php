@@ -207,35 +207,7 @@ class OC_Util {
 				in owncloud or disabling the appstore in the config file.");
 			}
 		}
-
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
-		//check for correct file permissions
-		if(!stristr(PHP_OS, 'WIN')) {
-			$permissionsModHint="Please change the permissions to 0770 so that the directory cannot be listed by other users.";
-			$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)), -3);
-			if(substr($prems, -1)!='0') {
-				OC_Helper::chmodr($CONFIG_DATADIRECTORY, 0770);
-				clearstatcache();
-				$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)), -3);
-				if(substr($prems, 2, 1)!='0') {
-					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') is readable for other users<br/>', 'hint'=>$permissionsModHint);
-				}
-			}
-			if( OC_Config::getValue( "enablebackup", false )) {
-				$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
-				$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)), -3);
-				if(substr($prems, -1)!='0') {
-					OC_Helper::chmodr($CONFIG_BACKUPDIRECTORY, 0770);
-					clearstatcache();
-					$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)), -3);
-					if(substr($prems, 2, 1)!='0') {
-						$errors[]=array('error'=>'Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable for other users<br/>', 'hint'=>$permissionsModHint);
-					}
-				}
-			}
-		}else{
-			//TODO: permissions checks for windows hosts
-		}
 		// Create root dir.
 		if(!is_dir($CONFIG_DATADIRECTORY)) {
 			$success=@mkdir($CONFIG_DATADIRECTORY);
@@ -244,8 +216,35 @@ class OC_Util {
 			}
 		} else if(!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
 			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') not writable by ownCloud<br/>', 'hint'=>$permissionsHint);
+		} else {
+			//check for correct file permissions
+			if(!stristr(PHP_OS, 'WIN')) {
+				$permissionsModHint="Please change the permissions to 0770 so that the directory cannot be listed by other users.";
+				$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)), -3);
+				if(substr($prems, -1)!='0') {
+					OC_Helper::chmodr($CONFIG_DATADIRECTORY, 0770);
+					clearstatcache();
+					$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)), -3);
+					if(substr($prems, 2, 1)!='0') {
+						$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') is readable for other users<br/>', 'hint'=>$permissionsModHint);
+					}
+				}
+				if( OC_Config::getValue( "enablebackup", false )) {
+					$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
+					$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)), -3);
+					if(substr($prems, -1)!='0') {
+						OC_Helper::chmodr($CONFIG_BACKUPDIRECTORY, 0770);
+						clearstatcache();
+						$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)), -3);
+						if(substr($prems, 2, 1)!='0') {
+							$errors[]=array('error'=>'Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable for other users<br/>', 'hint'=>$permissionsModHint);
+						}
+					}
+				}
+			} else {
+				//TODO: permissions checks for windows hosts
+			}
 		}
-
 		// check if all required php modules are present
 		if(!class_exists('ZipArchive')) {
 			$errors[]=array('error'=>'PHP module zip not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
