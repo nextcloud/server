@@ -626,7 +626,7 @@ class OC_Helper {
 	}
 
 	/*
-	 * checks if $sub is a subdirectory of $parent
+	 * @brief Checks if $sub is a subdirectory of $parent
 	 *
 	 * @param string $sub
 	 * @param string $parent
