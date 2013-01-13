@@ -633,29 +633,9 @@ class OC_Helper {
 	 * @return bool
 	 */
 	public static function issubdirectory($sub, $parent) {
-		if($sub == null || $sub == '' || $parent == null || $parent == '') {
-			return false;
+		if (strpos(realpath($sub), realpath($parent)) !== false) {
+			return true;
 		}
-		$realpath_sub = realpath($sub);
-		$realpath_parent = realpath($parent);
-		if(($realpath_sub == false && substr_count($realpath_sub, './') != 0) || ($realpath_parent == false && substr_count($realpath_parent, './') != 0)) { //it checks for  both ./ and ../
-			return false;
-		}
-		if($realpath_sub && $realpath_sub != '' && $realpath_parent && $realpath_parent != '') {
-			if(substr($realpath_sub, 0, strlen($realpath_parent)) == $realpath_parent) {
-				return true;
-			}
-		}else{
-			if(substr($sub, 0, strlen($parent)) == $parent) {
-				return true;
-			}
-		}
-		/*echo 'SUB: ' . $sub . "\n";
-		echo 'PAR: ' . $parent . "\n";
-		echo 'REALSUB: ' . $realpath_sub . "\n";
-		echo 'REALPAR: ' . $realpath_parent . "\n";
-		echo substr($realpath_sub, 0, strlen($realpath_parent));
-		exit;*/
 		return false;
 	}
 
