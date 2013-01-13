@@ -625,7 +625,7 @@ class OC_Helper {
 		return $newpath;
 	}
 
-	/*
+	/**
 	 * @brief Checks if $sub is a subdirectory of $parent
 	 *
 	 * @param string $sub
