@@ -127,6 +127,7 @@
 "Log in" => "Conectar",
 "prev" => "anterior",
 "next" => "seguinte",
+"Updating ownCloud to version %s, this may take a while." => "Actualizando ownCloud a versión %s,  esto pode levar un anaco.",
 "Security Warning!" => "Advertencia de seguranza",
 "Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Verifique o seu contrasinal.<br/>Por motivos de seguranza pode que ocasionalmente se lle pregunte de novo polo seu contrasinal.",
 "Verify" => "Verificar"
