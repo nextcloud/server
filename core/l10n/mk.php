@@ -126,8 +126,5 @@
 "remember" => "запамти",
 "Log in" => "Најава",
 "prev" => "претходно",
-"next" => "следно",
-"Security Warning!" => "Безбедносно предупредување.",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Ве молам потврдете ја вашата лозинка. <br />Од безбедносни причини од време на време може да биде побарано да ја внесете вашата лозинка повторно.",
-"Verify" => "Потврди"
+"next" => "следно"
 );

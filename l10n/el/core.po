@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 23:03+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -214,7 +214,6 @@ msgid "Password protect"
 msgstr "Προστασία συνθηματικού"
 
 #: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
 msgid "Password"
 msgstr "Συνθηματικό"
 
@@ -571,17 +570,3 @@ msgstr "επόμενο"
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr ""
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "Προειδοποίηση Ασφαλείας!"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "Παρακαλώ επιβεβαιώστε το συνθηματικό σας. <br/>Για λόγους ασφαλείας μπορεί να ερωτάστε να εισάγετε ξανά το συνθηματικό σας."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Επαλήθευση"

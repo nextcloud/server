@@ -118,8 +118,5 @@
 "remember" => "zapamätať",
 "Log in" => "Prihlásiť sa",
 "prev" => "späť",
-"next" => "ďalej",
-"Security Warning!" => "Bezpečnostné varovanie!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Prosím, overte svoje heslo. <br />Z bezpečnostných dôvodov môžete byť občas požiadaný o jeho opätovné zadanie.",
-"Verify" => "Overenie"
+"next" => "ďalej"
 );

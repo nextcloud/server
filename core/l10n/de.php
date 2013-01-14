@@ -127,8 +127,5 @@
 "Log in" => "Einloggen",
 "prev" => "Zurück",
 "next" => "Weiter",
-"Updating ownCloud to version %s, this may take a while." => "Aktualisiere ownCloud auf Version %s. Dies könnte eine Weile dauern.",
-"Security Warning!" => "Sicherheitswarnung!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Bitte bestätige Dein Passwort. <br/> Aus Sicherheitsgründen wirst Du hierbei gebeten, Dein Passwort erneut einzugeben.",
-"Verify" => "Bestätigen"
+"Updating ownCloud to version %s, this may take a while." => "Aktualisiere ownCloud auf Version %s. Dies könnte eine Weile dauern."
 );

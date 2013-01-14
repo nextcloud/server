@@ -127,8 +127,5 @@
 "Log in" => "כניסה",
 "prev" => "הקודם",
 "next" => "הבא",
-"Updating ownCloud to version %s, this may take a while." => "מעדכן את ownCloud אל גרסא %s, זה עלול לקחת זמן מה.",
-"Security Warning!" => "אזהרת אבטחה!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "נא לאמת את הססמה שלך. <br/>מטעמי אבטחה יתכן שתופיע בקשה להזין את הססמה שוב.",
-"Verify" => "אימות"
+"Updating ownCloud to version %s, this may take a while." => "מעדכן את ownCloud אל גרסא %s, זה עלול לקחת זמן מה."
 );

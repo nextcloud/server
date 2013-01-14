@@ -115,8 +115,5 @@
 "Log in" => "Kirjaudu sisään",
 "prev" => "edellinen",
 "next" => "seuraava",
-"Updating ownCloud to version %s, this may take a while." => "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken.",
-"Security Warning!" => "Turvallisuusvaroitus!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Vahvista salasanasi. <br/>Turvallisuussyistä sinulta saatetaan ajoittain kysyä salasanasi uudelleen.",
-"Verify" => "Vahvista"
+"Updating ownCloud to version %s, this may take a while." => "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken."
 );

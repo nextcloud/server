@@ -121,7 +121,5 @@
 "Log in" => "প্রবেশ",
 "prev" => "পূর্ববর্তী",
 "next" => "পরবর্তী",
-"Updating ownCloud to version %s, this may take a while." => "%s ভার্সনে ownCloud পরিবর্ধন করা হচ্ছে, এজন্য কিছু সময় প্রয়োজন।",
-"Security Warning!" => "নিরাপত্তাবিষয়ক সতর্কবাণী",
-"Verify" => "যাচাই কর"
+"Updating ownCloud to version %s, this may take a while." => "%s ভার্সনে ownCloud পরিবর্ধন করা হচ্ছে, এজন্য কিছু সময় প্রয়োজন।"
 );

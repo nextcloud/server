@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-07 02:03+0200\n"
-"PO-Revision-Date: 2012-10-07 00:02+0000\n"
-"Last-Translator: Hozha Koyi <hozhan@gmail.com>\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 23:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Kurdish (Iraq) (http://www.transifex.com/projects/p/owncloud/language/ku_IQ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,21 +18,9 @@ msgstr ""
 "Language: ku_IQ\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/settings-personal.js:31 templates/settings-personal.php:10
-msgid "Expire all versions"
-msgstr "وه‌شانه‌کان گشتیان به‌سه‌رده‌چن"
-
 #: js/versions.js:16
 msgid "History"
 msgstr "مێژوو"
-
-#: templates/settings-personal.php:4
-msgid "Versions"
-msgstr "وه‌شان"
-
-#: templates/settings-personal.php:7
-msgid "This will delete all existing backup versions of your files"
-msgstr "ئه‌مه‌ سه‌رجه‌م پاڵپشتی وه‌شانه‌ هه‌بووه‌کانی په‌ڕگه‌کانت ده‌سڕینته‌وه"
 
 #: templates/settings.php:3
 msgid "Files Versioning"

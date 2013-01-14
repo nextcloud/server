@@ -105,7 +105,5 @@
 "remember" => "hatırla",
 "Log in" => "Giriş yap",
 "prev" => "önceki",
-"next" => "sonraki",
-"Security Warning!" => "Güvenlik Uyarısı!",
-"Verify" => "Doğrula"
+"next" => "sonraki"
 );

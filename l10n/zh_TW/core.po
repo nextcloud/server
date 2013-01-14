@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 23:03+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -211,7 +211,6 @@ msgid "Password protect"
 msgstr "密碼保護"
 
 #: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
 msgid "Password"
 msgstr "密碼"
 
@@ -568,17 +567,3 @@ msgstr "下一頁"
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "正在將 Owncloud 升級至版本 %s ，這可能需要一點時間。"
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "安全性警告！"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "請輸入您的密碼。<br/>基於安全性的理由，您有時候可能會被要求再次輸入密碼。"
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "驗證"

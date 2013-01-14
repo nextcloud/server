@@ -126,8 +126,5 @@
 "remember" => "απομνημόνευση",
 "Log in" => "Είσοδος",
 "prev" => "προηγούμενο",
-"next" => "επόμενο",
-"Security Warning!" => "Προειδοποίηση Ασφαλείας!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Παρακαλώ επιβεβαιώστε το συνθηματικό σας. <br/>Για λόγους ασφαλείας μπορεί να ερωτάστε να εισάγετε ξανά το συνθηματικό σας.",
-"Verify" => "Επαλήθευση"
+"next" => "επόμενο"
 );
