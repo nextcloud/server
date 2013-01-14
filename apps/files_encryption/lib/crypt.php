@@ -390,6 +390,8 @@ class Crypt {
 	*/
 	public static function multiKeyEncrypt( $plainContent, array $publicKeys ) {
 	
+		// Set empty vars to be set by openssl by reference
+		$sealed = '';
 		$envKeys = array();
 	
 		if( openssl_seal( $plainContent, $sealed, $envKeys, $publicKeys ) ) {

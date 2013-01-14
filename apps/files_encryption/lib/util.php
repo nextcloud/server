@@ -96,9 +96,10 @@ class Util {
 	private $view; // OC_FilesystemView object for filesystem operations
 	private $pwd; // User Password
 	private $client; // Client side encryption mode flag
-	private $publicKeyDir; // Directory containing all public user keys
-	private $encryptionDir; // Directory containing user's files_encryption
-	private $keyfilesPath; // Directory containing user's keyfiles
+	private $publicKeyDir; // Dir containing all public user keys
+	private $encryptionDir; // Dir containing user's files_encryption
+	private $keyfilesPath; // Dir containing user's keyfiles
+	private $shareKeysPath; // Dir containing env keys for shared files
 	private $publicKeyPath; // Path to user's public key
 	private $privateKeyPath; // Path to user's private key
 
@@ -110,6 +111,7 @@ class Util {
 		$this->publicKeyDir =  '/' . 'public-keys';
 		$this->encryptionDir =  '/' . $this->userId . '/' . 'files_encryption';
 		$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
+		$this->shareKeysPath = $this->encryptionDir . '/' . 'share-keys';
 		$this->publicKeyPath = $this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
 		$this->privateKeyPath = $this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
 		
@@ -157,6 +159,13 @@ class Util {
 		if( !$this->view->file_exists( $this->keyfilesPath ) ) {
 		
 			$this->view->mkdir( $this->keyfilesPath );
+		
+		}
+
+		// Create mirrored share env keys directory
+		if( !$this->view->file_exists( $this->shareKeysPath ) ) {
+		
+			$this->view->mkdir( $this->shareKeysPath );
 		
 		}
 		
