@@ -67,8 +67,6 @@ class Stream {
 	private $rootView; // a fsview object set to '/'
 
 	public function stream_open( $path, $mode, $options, &$opened_path ) {
-	
-		//file_put_contents('/home/samtuke/newtmp.txt', 'stream_open('.$path.')' );
 		
 		// Get access to filesystem via filesystemview object
 		if ( !self::$view ) {
@@ -237,8 +235,6 @@ class Stream {
 	 */
 	public function getKey() {
 		
-		//echo "\n\$this->rawPath = {$this->rawPath}";
-		
 		// If a keyfile already exists for a file named identically to file to be written
 		if ( self::$view->file_exists( $this->userId . '/'. 'files_encryption' . '/' . 'keyfiles' . '/' . $this->rawPath . '.key' ) ) {
 		
@@ -303,10 +299,6 @@ class Stream {
 		// Find out where we are up to in the writing of data to the file
 		$pointer = ftell( $this->handle );
 		
-		//echo "\n\n\$rawLength = $length\n";
-		
-		//echo "\$pointer = $pointer\n";
-		
 		// Make sure the userId is set
 		$this->getuser();
 		
@@ -333,8 +325,6 @@ class Stream {
 			// Concat writeCache to start of $data
 			$data = $this->writeCache . $data;
 			
-			//echo "\n\ncache + data length = ".strlen($data)."\n";
-			
 			// Clear the write cache, ready for resuse - it has been flushed and its old contents processed
 			$this->writeCache = '';
 
@@ -342,27 +332,14 @@ class Stream {
 // 		
 // 		// Make sure we always start on a block start
 		if ( 0 != ( $pointer % 8192 ) ) { // if the current positoin of file indicator is not aligned to a 8192 byte block, fix it so that it is
-// 		
-			//echo "\n\nNOT ON BLOCK START ";
-// 			echo $pointer % 8192;
-// 			
-// 			echo "\n\n1. $currentPos\n\n";
-// // 			
-// 			echo "ftell() = ".ftell($this->handle)."\n";
 
 // 			fseek( $this->handle, - ( $pointer % 8192 ), SEEK_CUR );
 // 			
 // 			$pointer = ftell( $this->handle );
-			
-// 			echo "ftell() = ".ftell($this->handle)."\n";
 // 
 // 			$unencryptedNewBlock = fread( $this->handle, 8192 );
-// 
-// 			echo "\n\n2. $currentPos\n\n";
 // 			
 // 			fseek( $this->handle, - ( $currentPos % 8192 ), SEEK_CUR );
-// 			
-// 			echo "\n\n3. $currentPos\n\n";
 // 
 // 			$block = Crypt::symmetricDecryptFileContent( $unencryptedNewBlock, $this->keyfile );
 // 
@@ -394,40 +371,16 @@ class Stream {
 // 
 			} else {
 				
-				//echo "\n\nbefore before ".strlen($data)."\n";
-				
 				// Read the chunk from the start of $data
 				$chunk = substr( $data, 0, 6126 );
 				
-				//echo "before ".strlen($data)."\n";
-				
-				//echo "\n\$this->keyfile 1 = {$this->keyfile}";
-				
 				$encrypted = $this->preWriteEncrypt( $chunk, $this->keyfile );
-				
-				//echo "\n\n\$rawEnc = $encrypted\n\n";
-				
-				//echo "\$encrypted = ".strlen($encrypted)."\n";
-				
-				//echo "written = ".strlen($encrypted)."\n";
-				
-				//echo "after ".strlen($encrypted)."\n\n";
-				
-				//file_put_contents('/home/samtuke/tmp.txt', $encrypted);
 				
 				// Write the data chunk to disk. This will be addended to the last data chunk if the file being handled totals more than 6126 bytes
 				fwrite( $this->handle, $encrypted );
 				
-				//$bef = ftell( $this->handle );
-				//echo "ftell before = $bef\n";
-				
 				$writtenLen = strlen( $encrypted );
 				//fseek( $this->handle, $writtenLen, SEEK_CUR );
-				
-// 				$aft = ftell( $this->handle );
-// 				echo "ftell after = $aft\n";
-// 				echo "ftell sum = ";
-// 				echo $aft - $bef."\n";
 
 				// Remove the chunk we just processed from $data, leaving only unprocessed data in $data var, for handling on the next round
 				$data = substr( $data, 6126 );
@@ -437,8 +390,6 @@ class Stream {
 		}
 
 		$this->size = max( $this->size, $pointer + $length );
-		
-		//echo "\$this->size = $this->size\n\n";
 		
 		return $length;
 
