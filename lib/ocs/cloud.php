@@ -37,7 +37,7 @@ class OC_OCS_Cloud {
 		}
 		return new OC_OCS_Result($values);
 	}
-	
+
 	public static function getUserQuota($parameters) {
 		$user = OC_User::getUser();
 		if(OC_User::isAdminUser($user) or ($user==$parameters['user'])) {
@@ -68,7 +68,7 @@ class OC_OCS_Cloud {
 			return new OC_OCS_Result(null, 300);
 		}
 	}
-	
+
 	public static function getUserPublickey($parameters) {
 
 		if(OC_User::userExists($parameters['user'])) {
@@ -79,7 +79,7 @@ class OC_OCS_Cloud {
 			return new OC_OCS_Result(null, 300);
 		}
 	}
-	
+
 	public static function getUserPrivatekey($parameters) {
 		$user = OC_User::getUser();
 		if(OC_User::isAdminUser($user) or ($user==$parameters['user'])) {

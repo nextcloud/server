@@ -553,7 +553,7 @@ class OC_Helper {
 		fclose($fh);
 		return $file;
 	}
-	
+
 	/**
 	 * create a temporary folder with an unique filename
 	 * @return string

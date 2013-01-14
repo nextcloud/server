@@ -176,9 +176,9 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 * @brief Returns a list of properties for this nodes.;
 	 * @param array $properties
 	 * @return array
-	 * @note The properties list is a list of propertynames the client 
-	 * requested, encoded as xmlnamespace#tagName, for example: 
-	 * http://www.example.org/namespace#author If the array is empty, all 
+	 * @note The properties list is a list of propertynames the client
+	 * requested, encoded as xmlnamespace#tagName, for example:
+	 * http://www.example.org/namespace#author If the array is empty, all
 	 * properties should be returned
 	 */
 	public function getProperties($properties) {

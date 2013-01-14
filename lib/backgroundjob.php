@@ -34,7 +34,7 @@ class OC_BackgroundJob{
 	public static function getExecutionType() {
 		return OC_Appconfig::getValue( 'core', 'backgroundjobs_mode', 'ajax' );
 	}
-	
+
 	/**
 	 * @brief sets the background jobs execution type
 	 * @param $type execution type

@@ -351,14 +351,14 @@ class Share {
 					//delete the old share
 					self::delete($checkExists['id']);
 				}
-				
+
 				// Generate hash of password - same method as user passwords
 				if (isset($shareWith)) {
 					$forcePortable = (CRYPT_BLOWFISH != 1);
 					$hasher = new \PasswordHash(8, $forcePortable);
 					$shareWith = $hasher->HashPassword($shareWith.\OC_Config::getValue('passwordsalt', ''));
 				}
-				
+
 				// Generate token
 				if (isset($oldToken)) {
 					$token = $oldToken;
@@ -415,7 +415,7 @@ class Share {
 			if ($parentFolder && $files = \OC_Files::getDirectoryContent($itemSource)) {
 				for ($i = 0; $i < count($files); $i++) {
 					$name = substr($files[$i]['name'], strpos($files[$i]['name'], $itemSource) - strlen($itemSource));
-					if ($files[$i]['mimetype'] == 'httpd/unix-directory' 
+					if ($files[$i]['mimetype'] == 'httpd/unix-directory'
 						&& $children = \OC_Files::getDirectoryContent($name, '/')
 					) {
 						// Continue scanning into child folders
@@ -864,7 +864,7 @@ class Share {
 				}
 			} else {
 				if ($fileDependent) {
-					if (($itemType == 'file' || $itemType == 'folder') 
+					if (($itemType == 'file' || $itemType == 'folder')
 						&& $format == \OC_Share_Backend_File::FORMAT_FILE_APP
 						|| $format == \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT
 					) {
