@@ -121,8 +121,11 @@ class Hooks {
 			
 			if ( isset( $params['properties']['key'] ) ) {
 				
-				Keymanager::setFileKey( $params['path'], $params['properties']['key'] );
-			
+				$view = new \OC_FilesystemView( '/' );
+				$userId = \OCP\User::getUser();
+				
+				Keymanager::setFileKey( $view, $params['path'], $userId, $params['properties']['key'] );
+				
 			} else {
 				
 				\OC_Log::write( 
@@ -135,6 +138,43 @@ class Hooks {
 			}
 			
 		}
+		
+	}
+	
+	/**
+	 * @brief 
+	 */
+	public static function postShared( $params ) {
+		
+		// Delete existing catfile
+		Keymanager::deleteFileKey(  );
+		
+		// Generate new catfile and env keys
+		Crypt::multiKeyEncrypt( $plainContent, $publicKeys );
+		
+		// Save env keys to user folders
+		
+		
+	}
+	
+	/**
+	 * @brief 
+	 */
+	public static function preUnshare( $params ) {
+		
+		// Delete existing catfile
+		
+		// Generate new catfile and env keys
+		
+		// Save env keys to user folders
+	}
+	
+	/**
+	 * @brief 
+	 */
+	public static function preUnshareAll( $params ) {
+		
+		trigger_error( "preUnshareAll" );
 		
 	}
 	

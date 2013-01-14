@@ -302,8 +302,12 @@ class Stream {
 		// Make sure the userId is set
 		$this->getuser();
 		
+		# TODO: Check if file is shared, if so, use multiKeyEncrypt and
+		# save shareKeys in necessary user directories
+		
 		// Get / generate the keyfile for the file we're handling
-		// If we're writing a new file (not overwriting an existing one), save the newly generated keyfile
+		// If we're writing a new file (not overwriting an existing 
+		// one), save the newly generated keyfile
 		if ( ! $this->getKey() ) {
 		
 			$this->keyfile = Crypt::generateKey();
@@ -312,10 +316,11 @@ class Stream {
 			
 			$this->encKeyfile = Crypt::keyEncrypt( $this->keyfile, $this->publicKey );
 			
-			// Save the new encrypted file key
-			Keymanager::setFileKey( $this->rawPath, $this->encKeyfile, new \OC_FilesystemView( '/' ) );
+			$view = new \OC_FilesystemView( '/' );
+			$userId = \OCP\User::getUser();
 			
-			# TODO: move this new OCFSV out of here some how, use DI
+			// Save the new encrypted file key
+			Keymanager::setFileKey( $view, $this->rawPath, $userId, $this->encKeyfile );
 			
 		}
 
