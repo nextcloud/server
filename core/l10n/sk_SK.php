@@ -117,7 +117,6 @@
 "Lost your password?" => "Zabudli ste heslo?",
 "remember" => "zapamätať",
 "Log in" => "Prihlásiť sa",
-"You are logged out." => "Ste odhlásený.",
 "prev" => "späť",
 "next" => "ďalej",
 "Security Warning!" => "Bezpečnostné varovanie!",

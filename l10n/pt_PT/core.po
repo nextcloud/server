@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-09 00:04+0100\n"
-"PO-Revision-Date: 2013-01-08 00:22+0000\n"
-"Last-Translator: Mouxy <daniel@mouxy.net>\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -557,10 +557,6 @@ msgstr "lembrar"
 #: templates/login.php:41
 msgid "Log in"
 msgstr "Entrar"
-
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Estás desconetado."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

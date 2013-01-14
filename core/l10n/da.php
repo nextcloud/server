@@ -125,7 +125,6 @@
 "Lost your password?" => "Mistet dit kodeord?",
 "remember" => "husk",
 "Log in" => "Log ind",
-"You are logged out." => "Du er nu logget ud.",
 "prev" => "forrige",
 "next" => "næste",
 "Security Warning!" => "Sikkerhedsadvarsel!",

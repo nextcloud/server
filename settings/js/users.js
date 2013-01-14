@@ -177,9 +177,9 @@ var UserList = {
             } else {
                 checkHandeler = false;
             }
-            var addGroup = function (group) {
+            var addGroup = function (select, group) {
                 $('select[multiple]').each(function (index, element) {
-                    if ($(element).find('option[value="' + group + '"]').length == 0) {
+                    if ($(element).find('option[value="' + group + '"]').length === 0 && select.data('msid') !== $(element).data('msid')) {
                         $(element).append('<option value="' + group + '">' + group + '</option>');
                     }
                 })
@@ -193,6 +193,7 @@ var UserList = {
             element.multiSelect({
                 createCallback:addGroup,
                 createText:label,
+                selectedFirst:true,
                 checked:checked,
                 oncheck:checkHandeler,
                 onuncheck:checkHandeler,

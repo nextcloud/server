@@ -93,7 +93,6 @@
 "Lost your password?" => "L'as perdut lo senhal ?",
 "remember" => "bremba-te",
 "Log in" => "Dintrada",
-"You are logged out." => "Sias pas dintra (t/ada)",
 "prev" => "dariièr",
 "next" => "venent"
 );

@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-09 00:04+0100\n"
-"PO-Revision-Date: 2013-01-08 13:25+0000\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -567,10 +567,6 @@ msgstr "merken"
 #: templates/login.php:41
 msgid "Log in"
 msgstr "Einloggen"
-
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Du wurdest abgemeldet."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

@@ -1,4 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Could not move %s - File with this name already exists" => "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom",
+"Could not move %s" => " No s'ha pogut moure %s",
+"Unable to rename file" => "No es pot canviar el nom del fitxer",
 "No file was uploaded. Unknown error" => "No s'ha carregat cap fitxer. Error desconegut",
 "There is no error, the file uploaded with success" => "El fitxer s'ha pujat correctament",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "L’arxiu que voleu carregar supera el màxim definit en la directiva upload_max_filesize del php.ini:",

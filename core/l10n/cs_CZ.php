@@ -125,7 +125,6 @@
 "Lost your password?" => "Ztratili jste své heslo?",
 "remember" => "zapamatovat si",
 "Log in" => "Přihlásit",
-"You are logged out." => "Jste odhlášeni.",
 "prev" => "předchozí",
 "next" => "následující",
 "Updating ownCloud to version %s, this may take a while." => "Aktualizuji ownCloud na verzi %s, bude to chvíli trvat.",

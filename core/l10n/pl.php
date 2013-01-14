@@ -125,7 +125,6 @@
 "Lost your password?" => "Nie pamiętasz hasła?",
 "remember" => "Zapamiętanie",
 "Log in" => "Zaloguj",
-"You are logged out." => "Wylogowano użytkownika.",
 "prev" => "wstecz",
 "next" => "naprzód",
 "Updating ownCloud to version %s, this may take a while." => "Aktualizowanie ownCloud do wersji %s, może to potrwać chwilę.",

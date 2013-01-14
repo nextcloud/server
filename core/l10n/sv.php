@@ -125,7 +125,6 @@
 "Lost your password?" => "Glömt ditt lösenord?",
 "remember" => "kom ihåg",
 "Log in" => "Logga in",
-"You are logged out." => "Du är utloggad.",
 "prev" => "föregående",
 "next" => "nästa",
 "Updating ownCloud to version %s, this may take a while." => "Uppdaterar ownCloud till version %s, detta kan ta en stund.",

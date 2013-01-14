@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-30 00:04+0100\n"
-"PO-Revision-Date: 2012-12-29 23:05+0000\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr "Skupina už existuje"
 msgid "Unable to add group"
 msgstr "Nie je možné pridať skupinu"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "Nie je možné zapnúť aplikáciu."
 
@@ -45,14 +45,6 @@ msgstr "Email uložený"
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "Neplatný email"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID zmenené"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "Neplatná požiadavka"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -69,6 +61,10 @@ msgstr "Nie je možné odstrániť používateľa"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Jazyk zmenený"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "Neplatná požiadavka"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"

@@ -1,4 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Could not move %s - File with this name already exists" => "%s 항목을 이동시키지 못하였음 - 파일 이름이 이미 존재함",
+"Could not move %s" => "%s 항목을 이딩시키지 못하였음",
+"Unable to rename file" => "파일 이름바꾸기 할 수 없음",
 "No file was uploaded. Unknown error" => "파일이 업로드되지 않았습니다. 알 수 없는 오류입니다",
 "There is no error, the file uploaded with success" => "업로드에 성공하였습니다.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "업로드한 파일이 php.ini의 upload_max_filesize보다 큽니다:",
@@ -35,6 +38,7 @@
 "Upload cancelled." => "업로드가 취소되었습니다.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "파일 업로드가 진행 중입니다. 이 페이지를 벗어나면 업로드가 취소됩니다.",
 "URL cannot be empty." => "URL을 입력해야 합니다.",
+"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "폴더 이름이 유효하지 않습니다. ",
 "{count} files scanned" => "파일 {count}개 검색됨",
 "error while scanning" => "검색 중 오류 발생",
 "Name" => "이름",

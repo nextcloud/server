@@ -121,7 +121,6 @@
 "Lost your password?" => "Ĉu vi perdis vian pasvorton?",
 "remember" => "memori",
 "Log in" => "Ensaluti",
-"You are logged out." => "Vi estas elsalutita.",
 "prev" => "maljena",
 "next" => "jena",
 "Security Warning!" => "Sekureca averto!",

@@ -125,7 +125,6 @@
 "Lost your password?" => "Elfelejtette a jelszavát?",
 "remember" => "emlékezzen",
 "Log in" => "Bejelentkezés",
-"You are logged out." => "Kilépett.",
 "prev" => "előző",
 "next" => "következő",
 "Security Warning!" => "Biztonsági figyelmeztetés!",
