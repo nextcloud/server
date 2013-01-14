@@ -30,7 +30,7 @@
 "{count} files uploading" => "{count} αρχεία ανεβαίνουν",
 "Upload cancelled." => "Η αποστολή ακυρώθηκε.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Η αποστολή του αρχείου βρίσκεται σε εξέλιξη. Το κλείσιμο της σελίδας θα ακυρώσει την αποστολή.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Μη έγκυρο όνομα φακέλου. Η χρήση του \"Shared\" είναι δεσμευμένη από το Owncloud",
+"URL cannot be empty." => "Η URL δεν πρέπει να είναι κενή.",
 "{count} files scanned" => "{count} αρχεία ανιχνεύτηκαν",
 "error while scanning" => "σφάλμα κατά την ανίχνευση",
 "Name" => "Όνομα",

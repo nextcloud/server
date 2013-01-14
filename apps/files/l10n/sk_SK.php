@@ -30,7 +30,7 @@
 "{count} files uploading" => "{count} súborov odosielaných",
 "Upload cancelled." => "Odosielanie zrušené",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Opustenie stránky zruší práve prebiehajúce odosielanie súboru.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Nesprávne meno adresára. Použitie slova \"Shared\" (Zdieľané) je vyhradené službou ownCloud.",
+"URL cannot be empty." => "URL nemôže byť prázdne",
 "{count} files scanned" => "{count} súborov prehľadaných",
 "error while scanning" => "chyba počas kontroly",
 "Name" => "Meno",

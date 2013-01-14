@@ -30,7 +30,6 @@
 "Lost your password?" => "Aizmirsāt paroli?",
 "remember" => "atcerēties",
 "Log in" => "Ielogoties",
-"You are logged out." => "Jūs esat veiksmīgi izlogojies.",
 "prev" => "iepriekšējā",
 "next" => "nākamā"
 );

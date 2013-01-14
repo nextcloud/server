@@ -125,7 +125,6 @@
 "Lost your password?" => "Uw wachtwoord vergeten?",
 "remember" => "onthoud gegevens",
 "Log in" => "Meld je aan",
-"You are logged out." => "U bent afgemeld.",
 "prev" => "vorige",
 "next" => "volgende",
 "Updating ownCloud to version %s, this may take a while." => "Updaten ownCloud naar versie %s, dit kan even duren.",

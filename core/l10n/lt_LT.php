@@ -104,7 +104,6 @@
 "Lost your password?" => "Pamiršote slaptažodį?",
 "remember" => "prisiminti",
 "Log in" => "Prisijungti",
-"You are logged out." => "Jūs atsijungėte.",
 "prev" => "atgal",
 "next" => "kitas",
 "Security Warning!" => "Saugumo pranešimas!",

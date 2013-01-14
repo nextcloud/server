@@ -30,7 +30,7 @@
 "{count} files uploading" => "{count} filer uploades",
 "Upload cancelled." => "Upload afbrudt.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Fil upload kører. Hvis du forlader siden nu, vil uploadet blive annuleret.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Ugyldigt mappenavn. Brug af \"Shared\" er forbeholdt Owncloud",
+"URL cannot be empty." => "URLen kan ikke være tom.",
 "{count} files scanned" => "{count} filer skannet",
 "error while scanning" => "fejl under scanning",
 "Name" => "Navn",

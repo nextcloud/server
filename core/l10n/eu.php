@@ -125,7 +125,6 @@
 "Lost your password?" => "Galdu duzu pasahitza?",
 "remember" => "gogoratu",
 "Log in" => "Hasi saioa",
-"You are logged out." => "Zure saioa bukatu da.",
 "prev" => "aurrekoa",
 "next" => "hurrengoa",
 "Security Warning!" => "Segurtasun abisua",

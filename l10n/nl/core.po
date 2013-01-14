@@ -21,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-08 00:30+0100\n"
-"PO-Revision-Date: 2013-01-07 20:49+0000\n"
-"Last-Translator: André Koot <meneer@tken.net>\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -97,55 +97,55 @@ msgstr "Verwijderen %s van favorieten is mislukt."
 msgid "Settings"
 msgstr "Instellingen"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "seconden geleden"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "1 minuut geleden"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minuten geleden"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "1 uur geleden"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "{hours} uren geleden"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "vandaag"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "gisteren"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "{days} dagen geleden"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "vorige maand"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "{months} maanden geleden"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "maanden geleden"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "vorig jaar"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "jaar geleden"
 
@@ -565,10 +565,6 @@ msgstr "onthoud gegevens"
 #: templates/login.php:41
 msgid "Log in"
 msgstr "Meld je aan"
-
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "U bent afgemeld."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

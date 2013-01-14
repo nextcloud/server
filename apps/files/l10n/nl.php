@@ -34,7 +34,7 @@
 "{count} files uploading" => "{count} bestanden aan het uploaden",
 "Upload cancelled." => "Uploaden geannuleerd.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Bestandsupload is bezig. Wanneer de pagina nu verlaten wordt, stopt de upload.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Folder naam niet toegestaan.  Het gebruik van \"Shared\" is aan Owncloud voorbehouden",
+"URL cannot be empty." => "URL kan niet leeg zijn.",
 "{count} files scanned" => "{count} bestanden gescanned",
 "error while scanning" => "Fout tijdens het scannen",
 "Name" => "Naam",

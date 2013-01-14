@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Cyryl Sochacki <>, 2012.
-# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2012.
+# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2012-2013.
 # Kamil Domański <kdomanski@kdemail.net>, 2011.
 #   <koalamis0@gmail.com>, 2012.
 # Marcin Małecki <gerber@tkdami.net>, 2011, 2012.
@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-07 00:04+0100\n"
-"PO-Revision-Date: 2013-01-06 23:04+0000\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -93,55 +93,55 @@ msgstr "Błąd usunięcia %s z ulubionych."
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "sekund temu"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "1 minute temu"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minut temu"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "1 godzine temu"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "{hours} godzin temu"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "dziś"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "wczoraj"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "{days} dni temu"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "ostani miesiąc"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "{months} miesięcy temu"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "miesięcy temu"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "ostatni rok"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "lat temu"
 
@@ -562,10 +562,6 @@ msgstr "Zapamiętanie"
 msgid "Log in"
 msgstr "Zaloguj"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Wylogowano użytkownika."
-
 #: templates/part.pagenavi.php:3
 msgid "prev"
 msgstr "wstecz"
@@ -577,7 +573,7 @@ msgstr "naprzód"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "Aktualizowanie ownCloud do wersji %s, może to potrwać chwilę."
 
 #: templates/verify.php:5
 msgid "Security Warning!"

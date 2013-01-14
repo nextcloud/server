@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-07 00:04+0100\n"
-"PO-Revision-Date: 2013-01-06 23:04+0000\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -90,55 +90,55 @@ msgstr "Σφάλμα αφαίρεσης %s από τα αγαπημένα."
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "1 λεπτό πριν"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "{minutes} λεπτά πριν"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "1 ώρα πριν"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "{hours} ώρες πριν"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "{days} ημέρες πριν"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "{months} μήνες πριν"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "μήνες πριν"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "χρόνια πριν"
 
@@ -558,10 +558,6 @@ msgstr "απομνημόνευση"
 #: templates/login.php:41
 msgid "Log in"
 msgstr "Είσοδος"
-
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Έχετε αποσυνδεθεί."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

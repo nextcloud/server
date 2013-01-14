@@ -26,19 +26,19 @@ Files={
 		});
 		procesSelection();
 	},
-    isFileNameValid:function (name) {
-        if (name === '.') {
-            $('#notification').text(t('files', "'.' is an invalid file name."));
-            $('#notification').fadeIn();
-            return false;
-        }
-        if (name.length == 0) {
-            $('#notification').text(t('files', "File name cannot be empty."));
-            $('#notification').fadeIn();
-            return false;
-        }
+	isFileNameValid:function (name) {
+		if (name === '.') {
+			$('#notification').text(t('files', '\'.\' is an invalid file name.'));
+			$('#notification').fadeIn();
+			return false;
+		}
+		if (name.length == 0) {
+			$('#notification').text(t('files', 'File name cannot be empty.'));
+			$('#notification').fadeIn();
+			return false;
+		}
 
-        // check for invalid characters
+		// check for invalid characters
 		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
 		for (var i = 0; i < invalid_characters.length; i++) {
 			if (name.indexOf(invalid_characters[i]) != -1) {
@@ -246,12 +246,12 @@ $(document).ready(function() {
 						}
 					});
 				}else{
-                    var dropTarget = $(e.originalEvent.target).closest('tr');
-                    if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
-                        var dirName = dropTarget.attr('data-file')
-                    }
+					var dropTarget = $(e.originalEvent.target).closest('tr');
+					if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
+						var dirName = dropTarget.attr('data-file')
+					}
 
-                    var date=new Date();
+					var date=new Date();
 					if(files){
 						for(var i=0;i<files.length;i++){
 							if(files[i].size>0){
@@ -304,9 +304,9 @@ $(document).ready(function() {
 								var jqXHR =  $('#file_upload_start').fileupload('send', {files: files[i],
 										formData: function(form) {
 											var formArray = form.serializeArray();
-                                            // array index 0 contains the max files size
-                                            // array index 1 contains the request token
-                                            // array index 2 contains the directory
+											// array index 0 contains the max files size
+											// array index 1 contains the request token
+											// array index 2 contains the directory
 											formArray[2]['value'] = dirName;
 											return formArray;
 										}}).success(function(result, textStatus, jqXHR) {
@@ -317,13 +317,14 @@ $(document).ready(function() {
 												$('#notification').fadeIn();
 											}
 											var file=response[0];
-                                            // TODO: this doesn't work if the file name has been changed server side
+											// TODO: this doesn't work if the file name has been changed server side
 											delete uploadingFiles[dirName][file.name];
-                                            if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
-                                                delete uploadingFiles[dirName];
-                                            }
+											if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
+												delete uploadingFiles[dirName];
+											}
+											//TODO update file upload size limit
 
-                                            var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
+											var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
 											var currentUploads = parseInt(uploadtext.attr('currentUploads'));
 											currentUploads -= 1;
 											uploadtext.attr('currentUploads', currentUploads);
@@ -351,6 +352,7 @@ $(document).ready(function() {
 										} else {
 											uploadtext.text(t('files', '{count} files uploading', {count: currentUploads}));
 										}
+										delete uploadingFiles[dirName][fileName];
 										$('#notification').hide();
 										$('#notification').text(t('files', 'Upload cancelled.'));
 										$('#notification').fadeIn();
@@ -374,8 +376,10 @@ $(document).ready(function() {
 												if(size==t('files','Pending')){
 													$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
 												}
+												//TODO update file upload size limit
 												FileList.loadingDone(file.name, file.id);
 											} else {
+												Files.cancelUpload(this.files[0].name);
 												$('#notification').text(t('files', response.data.message));
 												$('#notification').fadeIn();
 												$('#fileList > tr').not('[data-mime]').fadeOut();
@@ -384,6 +388,7 @@ $(document).ready(function() {
 										})
 								.error(function(jqXHR, textStatus, errorThrown) {
 									if(errorThrown === 'abort') {
+										Files.cancelUpload(this.files[0].name);
 										$('#notification').hide();
 										$('#notification').text(t('files', 'Upload cancelled.'));
 										$('#notification').fadeIn();
@@ -404,8 +409,10 @@ $(document).ready(function() {
 								if(size==t('files','Pending')){
 									$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
 								}
+								//TODO update file upload size limit
 								FileList.loadingDone(file.name, file.id);
 							} else {
+								//TODO Files.cancelUpload(/*where do we get the filename*/);
 								$('#notification').text(t('files', response.data.message));
 								$('#notification').fadeIn();
 								$('#fileList > tr').not('[data-mime]').fadeOut();
@@ -446,7 +453,7 @@ $(document).ready(function() {
 		// http://stackoverflow.com/a/6700/11236
 		var size = 0, key;
 		for (key in obj) {
-		    if (obj.hasOwnProperty(key)) size++;
+			if (obj.hasOwnProperty(key)) size++;
 		}
 		return size;
 	};
@@ -489,7 +496,7 @@ $(document).ready(function() {
 		$('#new').removeClass('active');
 		$('#new li').each(function(i,element){
 			if($(element).children('p').length==0){
-				$(element).children('input').remove();
+				$(element).children('form').remove();
 				$(element).append('<p>'+$(element).data('text')+'</p>');
 			}
 		});
@@ -508,7 +515,7 @@ $(document).ready(function() {
 
 		$('#new li').each(function(i,element){
 			if($(element).children('p').length==0){
-				$(element).children('input').remove();
+				$(element).children('form').remove();
 				$(element).append('<p>'+$(element).data('text')+'</p>');
 			}
 		});
@@ -517,23 +524,32 @@ $(document).ready(function() {
 		var text=$(this).children('p').text();
 		$(this).data('text',text);
 		$(this).children('p').remove();
+		var form=$('<form></form>');
 		var input=$('<input>');
-		$(this).append(input);
+		form.append(input);
+		$(this).append(form);
 		input.focus();
-		input.change(function(){
-			if (type != 'web' && !Files.isFileNameValid($(this).val())) {
-				return;
-			} else if( type == 'folder' && $('#dir').val() == '/' && $(this).val() == 'Shared') {
-				$('#notification').text(t('files','Invalid folder name. Usage of "Shared" is reserved by Owncloud'));
+		form.submit(function(event){
+			event.stopPropagation();
+			event.preventDefault();
+			var newname=input.val();
+			if(type == 'web' && newname.length == 0) {
+				$('#notification').text(t('files', 'URL cannot be empty.'));
 				$('#notification').fadeIn();
-				return;
+				return false;
+			} else if (type != 'web' && !Files.isFileNameValid(newname)) {
+				return false;
+			} else if( type == 'folder' && $('#dir').val() == '/' && newname == 'Shared') {
+				$('#notification').text(t('files','Invalid folder name. Usage of \'Shared\' is reserved by Owncloud'));
+				$('#notification').fadeIn();
+				return false;
 			}
 			if (FileList.lastAction) {
 				FileList.lastAction();
 			}
-			var name = getUniqueName($(this).val());
-			if (name != $(this).val()) {
-				FileList.checkName(name, $(this).val(), true);
+			var name = getUniqueName(newname);
+			if (newname != name) {
+				FileList.checkName(name, newname, true);
 				var hidden = true;
 			} else {
 				var hidden = false;
@@ -577,7 +593,7 @@ $(document).ready(function() {
 					break;
 				case 'web':
 					if(name.substr(0,8)!='https://' && name.substr(0,7)!='http://'){
-						name='http://'.name;
+						name='http://'+name;
 					}
 					var localName=name;
 					if(localName.substr(localName.length-1,1)=='/'){//strip /
@@ -616,8 +632,8 @@ $(document).ready(function() {
 					});
 					break;
 			}
-			var li=$(this).parent();
-			$(this).remove();
+			var li=form.parent();
+			form.remove();
 			li.append('<p>'+li.data('text')+'</p>');
 			$('#new>a').click();
 		});

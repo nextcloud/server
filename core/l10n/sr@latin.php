@@ -46,7 +46,6 @@
 "Log out" => "Odjava",
 "Lost your password?" => "Izgubili ste lozinku?",
 "remember" => "upamti",
-"You are logged out." => "Odjavljeni ste.",
 "prev" => "prethodno",
 "next" => "sledeće"
 );

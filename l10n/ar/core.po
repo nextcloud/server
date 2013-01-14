@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-07 00:04+0100\n"
-"PO-Revision-Date: 2013-01-06 23:04+0000\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -85,55 +85,55 @@ msgstr ""
 msgid "Settings"
 msgstr "تعديلات"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "منذ ثواني"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "منذ دقيقة"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "{minutes} منذ دقائق"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "اليوم"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr ""
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr ""
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr ""
 
@@ -553,10 +553,6 @@ msgstr "تذكر"
 #: templates/login.php:41
 msgid "Log in"
 msgstr "أدخل"
-
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "تم الخروج بنجاح."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

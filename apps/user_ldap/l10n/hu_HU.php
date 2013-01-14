@@ -17,6 +17,7 @@
 "Group Filter" => "A csoportok szűrője",
 "Defines the filter to apply, when retrieving groups." => "Ez a szűrő érvényes a csoportok listázásakor.",
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "itt ne használjunk változót, pl. \"objectClass=posixGroup\".",
+"Port" => "Port",
 "Base User Tree" => "A felhasználói fa gyökere",
 "Base Group Tree" => "A csoportfa gyökere",
 "Group-Member association" => "A csoporttagság attribútuma",

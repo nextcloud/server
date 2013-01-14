@@ -125,7 +125,6 @@
 "Lost your password?" => "Heu perdut la contrasenya?",
 "remember" => "recorda'm",
 "Log in" => "Inici de sessió",
-"You are logged out." => "Heu tancat la sessió.",
 "prev" => "anterior",
 "next" => "següent",
 "Updating ownCloud to version %s, this may take a while." => "S'està actualitzant ownCloud a la versió %s, pot trigar una estona.",

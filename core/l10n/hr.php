@@ -91,7 +91,6 @@
 "Lost your password?" => "Izgubili ste lozinku?",
 "remember" => "zapamtiti",
 "Log in" => "Prijava",
-"You are logged out." => "Odjavljeni ste.",
 "prev" => "prethodan",
 "next" => "sljedeći"
 );

@@ -1,4 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Could not move %s - File with this name already exists" => "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom",
+"Could not move %s" => " No s'ha pogut moure %s",
+"Unable to rename file" => "No es pot canviar el nom del fitxer",
 "No file was uploaded. Unknown error" => "No s'ha carregat cap fitxer. Error desconegut",
 "There is no error, the file uploaded with success" => "El fitxer s'ha pujat correctament",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "L’arxiu que voleu carregar supera el màxim definit en la directiva upload_max_filesize del php.ini:",
@@ -34,7 +37,8 @@
 "{count} files uploading" => "{count} fitxers en pujada",
 "Upload cancelled." => "La pujada s'ha cancel·lat.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "El nom de la carpeta no és vàlid. L'ús de \"Compartit\" està reservat per a OwnCloud",
+"URL cannot be empty." => "La URL no pot ser buida",
+"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Nom de carpeta no vàlid. L'ús de 'Shared' està reservat per Owncloud",
 "{count} files scanned" => "{count} fitxers escannejats",
 "error while scanning" => "error durant l'escaneig",
 "Name" => "Nom",

@@ -1,4 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Could not move %s - File with this name already exists" => "%s を移動できませんでした ― この名前のファイルはすでに存在します",
+"Could not move %s" => "%s を移動できませんでした",
+"Unable to rename file" => "ファイル名の変更ができません",
 "No file was uploaded. Unknown error" => "ファイルは何もアップロードされていません。不明なエラー",
 "There is no error, the file uploaded with success" => "エラーはありません。ファイルのアップロードは成功しました",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "アップロードされたファイルはphp.ini の upload_max_filesize に設定されたサイズを超えています:",
@@ -34,7 +37,8 @@
 "{count} files uploading" => "{count} ファイルをアップロード中",
 "Upload cancelled." => "アップロードはキャンセルされました。",
 "File upload is in progress. Leaving the page now will cancel the upload." => "ファイル転送を実行中です。今このページから移動するとアップロードが中止されます。",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "無効なフォルダ名です。\"Shared\" の利用は ownCloud が予約済みです。",
+"URL cannot be empty." => "URLは空にできません。",
+"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "無効なフォルダ名です。'Shared' の利用は ownCloud が予約済みです。",
 "{count} files scanned" => "{count} ファイルをスキャン",
 "error while scanning" => "スキャン中のエラー",
 "Name" => "名前",
