@@ -87,8 +87,8 @@ $(document).ready(function() {
 
 	// Sets the file link behaviour :
 	$('td.filename a').live('click',function(event) {
-		event.preventDefault();
 		if (event.ctrlKey || event.shiftKey) {
+			event.preventDefault();
 			if (event.shiftKey) {
 				var last = $(lastChecked).parent().parent().prevAll().length;
 				var first = $(this).parent().parent().prevAll().length;
@@ -130,6 +130,7 @@ $(document).ready(function() {
 				var permissions = $(this).parent().parent().data('permissions');
 				var action=FileActions.getDefault(mime,type, permissions);
 				if(action){
+					event.preventDefault();
 					action(filename);
 				}
 			}
