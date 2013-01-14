@@ -1,5 +1,23 @@
 <?php
 
+class HintException extends Exception
+{
+	private $hint;
+
+	public function __construct($message, $hint, $code = 0, Exception $previous = null) {
+		$this->hint = $hint;
+		parent::__construct($message, $code, $previous);
+	}
+
+	public function __toString() {
+		return __CLASS__ . ": [{$this->code}]: {$this->message} ({$this->hint})\n";
+	}
+
+	public function getHint() {
+		return $this->hint;
+	}
+}
+
 class OC_Setup {
 	public static function install($options) {
 		$error = array();
@@ -19,9 +37,9 @@ class OC_Setup {
 			if($dbtype=='mysql')
 				$dbprettyname = 'MySQL';
 			else if($dbtype=='pgsql')
-					$dbprettyname = 'PostgreSQL';
+				$dbprettyname = 'PostgreSQL';
 			else
-					$dbprettyname = 'Oracle';
+				$dbprettyname = 'Oracle';
 
 
 			if(empty($options['dbuser'])) {
@@ -69,11 +87,16 @@ class OC_Setup {
 
 				try {
 					self::setupMySQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $username);
-				} catch (Exception $e) {
-					$msgs = explode('|', $e->getMessage());
+				} catch (HintException $e) {
 					$error[] = array(
-						'error' => $msgs[0],
-						'hint' => $msgs[1]
+						'error' => $e->getMessage(),
+						'hint' => $e->getHint()
+					);	
+					return($error);
+				} catch (Exception $e) {
+					$error[] = array(
+						'error' => $e->getMessage(),
+						'hint' => ''
 					);
 					return($error);
 				}
@@ -167,7 +190,7 @@ class OC_Setup {
 		//check if the database user has admin right
 		$connection = @mysql_connect($dbhost, $dbuser, $dbpass);
 		if(!$connection) {
-			throw new Exception('MySQL username and/or password not valid|You need to enter either an existing account or the administrator.');
+			throw new HintException('MySQL username and/or password not valid','You need to enter either an existing account or the administrator.');
 		}
 		$oldUser=OC_Config::getValue('dbuser', false);
 
@@ -231,12 +254,12 @@ class OC_Setup {
 		$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
 		$result = mysql_query($query, $connection);
 		if (!$result) {
-			throw new Exception("MySQL user '" . "$name" . "'@'localhost' already exists|Delete this user from MySQL.");
+			throw new HintException("MySQL user '" . "$name" . "'@'localhost' already exists","Delete this user from MySQL.");
 		}
 		$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
 		$result = mysql_query($query, $connection);
 		if (!$result) {
-			throw new Exception("MySQL user '" . "$name" . "'@'%' already exists|Delete this user from MySQL.");
+			throw new HintException("MySQL user '" . "$name" . "'@'%' already exists","Delete this user from MySQL.");
 		}
 	}
 
