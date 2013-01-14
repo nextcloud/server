@@ -260,12 +260,9 @@ class OC_User {
 
 	/**
 	 * @brief Sets user id for session and triggers emit
-	 * @returns true
-	 *
 	 */
 	public static function setUserId($uid) {
 		$_SESSION['user_id'] = $uid;
-		return true;
 	}
 
 	/**
