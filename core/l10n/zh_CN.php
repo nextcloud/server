@@ -124,7 +124,6 @@
 "Lost your password?" => "忘记密码？",
 "remember" => "记住",
 "Log in" => "登录",
-"You are logged out." => "您已注销。",
 "prev" => "上一页",
 "next" => "下一页",
 "Security Warning!" => "安全警告！",

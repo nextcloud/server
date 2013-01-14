@@ -101,7 +101,6 @@
 "Lost your password?" => "Kaotasid oma parooli?",
 "remember" => "pea meeles",
 "Log in" => "Logi sisse",
-"You are logged out." => "Sa oled välja loginud",
 "prev" => "eelm",
 "next" => "järgm",
 "Security Warning!" => "turvahoiatus!",

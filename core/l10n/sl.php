@@ -125,7 +125,6 @@
 "Lost your password?" => "Ali ste pozabili geslo?",
 "remember" => "Zapomni si me",
 "Log in" => "Prijava",
-"You are logged out." => "Sta odjavljeni.",
 "prev" => "nazaj",
 "next" => "naprej",
 "Security Warning!" => "Varnostno opozorilo!",

@@ -65,7 +65,7 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 	}
 
 	/*
-	* we don´t know if a user exists without the password. so we have to return false all the time
+	* we don´t know if a user exists without the password. so we have to return true all the time
 	*/
 	public function userExists( $uid ){
 		return true;

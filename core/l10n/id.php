@@ -100,7 +100,6 @@
 "Lost your password?" => "Lupa password anda?",
 "remember" => "selalu login",
 "Log in" => "Masuk",
-"You are logged out." => "Anda telah keluar.",
 "prev" => "sebelum",
 "next" => "selanjutnya",
 "Security Warning!" => "peringatan keamanan!",

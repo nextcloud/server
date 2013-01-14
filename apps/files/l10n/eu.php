@@ -30,7 +30,7 @@
 "{count} files uploading" => "{count} fitxategi igotzen",
 "Upload cancelled." => "Igoera ezeztatuta",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Fitxategien igoera martxan da. Orria orain uzteak igoera ezeztatutko du.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Karpeta izen baliogabea. \"Shared\" karpetaren erabilera Owncloudek erreserbatuta dauka",
+"URL cannot be empty." => "URLa ezin da hutsik egon.",
 "{count} files scanned" => "{count} fitxategi eskaneatuta",
 "error while scanning" => "errore bat egon da eskaneatzen zen bitartean",
 "Name" => "Izena",

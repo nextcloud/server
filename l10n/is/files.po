@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <sveinng@gmail.com>, 2012.
+#   <sveinng@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-04 13:22+0100\n"
-"PO-Revision-Date: 2013-01-04 12:22+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-11 00:05+0100\n"
+"PO-Revision-Date: 2013-01-10 22:46+0000\n"
+"Last-Translator: sveinn <sveinng@gmail.com>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,9 +18,23 @@ msgstr ""
 "Language: is\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr "Gat ekki fært %s - Skrá með þessu nafni er þegar til"
+
+#: ajax/move.php:24
+#, php-format
+msgid "Could not move %s"
+msgstr "Gat ekki fært %s"
+
+#: ajax/rename.php:19
+msgid "Unable to rename file"
+msgstr "Gat ekki endurskýrt skrá"
+
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "Engin skrá var send inn. Óþekkt villa."
 
 #: ajax/upload.php:21
 msgid "There is no error, the file uploaded with success"
@@ -55,21 +69,21 @@ msgstr "Tókst ekki að skrifa á disk"
 
 #: ajax/upload.php:45
 msgid "Not enough space available"
-msgstr ""
+msgstr "Ekki nægt pláss tiltækt"
 
 #: ajax/upload.php:69
 msgid "Invalid directory."
-msgstr ""
+msgstr "Ógild mappa."
 
 #: appinfo/app.php:10
 msgid "Files"
 msgstr "Skrár"
 
-#: js/fileactions.js:117 templates/index.php:84 templates/index.php:85
+#: js/fileactions.js:117 templates/index.php:82 templates/index.php:83
 msgid "Unshare"
 msgstr "Hætta deilingu"
 
-#: js/fileactions.js:119 templates/index.php:90 templates/index.php:91
+#: js/fileactions.js:119 templates/index.php:88 templates/index.php:89
 msgid "Delete"
 msgstr "Eyða"
 
@@ -77,122 +91,134 @@ msgstr "Eyða"
 msgid "Rename"
 msgstr "Endurskýra"
 
-#: js/filelist.js:199 js/filelist.js:201
+#: js/filelist.js:205 js/filelist.js:207
 msgid "{new_name} already exists"
 msgstr "{new_name} er þegar til"
 
-#: js/filelist.js:199 js/filelist.js:201
+#: js/filelist.js:205 js/filelist.js:207
 msgid "replace"
 msgstr "yfirskrifa"
 
-#: js/filelist.js:199
+#: js/filelist.js:205
 msgid "suggest name"
 msgstr "stinga upp á nafni"
 
-#: js/filelist.js:199 js/filelist.js:201
+#: js/filelist.js:205 js/filelist.js:207
 msgid "cancel"
 msgstr "hætta við"
 
-#: js/filelist.js:248
+#: js/filelist.js:254
 msgid "replaced {new_name}"
 msgstr "endurskýrði {new_name}"
 
-#: js/filelist.js:248 js/filelist.js:250 js/filelist.js:282 js/filelist.js:284
+#: js/filelist.js:254 js/filelist.js:256 js/filelist.js:288 js/filelist.js:290
 msgid "undo"
 msgstr "afturkalla"
 
-#: js/filelist.js:250
+#: js/filelist.js:256
 msgid "replaced {new_name} with {old_name}"
 msgstr "yfirskrifaði {new_name} með {old_name}"
 
-#: js/filelist.js:282
+#: js/filelist.js:288
 msgid "unshared {files}"
 msgstr "Hætti við deilingu á {files}"
 
-#: js/filelist.js:284
+#: js/filelist.js:290
 msgid "deleted {files}"
 msgstr "eyddi {files}"
 
-#: js/files.js:33
+#: js/files.js:31
+msgid "'.' is an invalid file name."
+msgstr "'.' er ekki leyfilegt nafn."
+
+#: js/files.js:36
+msgid "File name cannot be empty."
+msgstr "Nafn skráar má ekki vera tómt"
+
+#: js/files.js:45
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Ógilt nafn, táknin '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' eru ekki leyfð."
 
-#: js/files.js:174
+#: js/files.js:186
 msgid "generating ZIP-file, it may take some time."
 msgstr "bý til ZIP skrá, það gæti tekið smá stund."
 
-#: js/files.js:212
+#: js/files.js:224
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Innsending á skrá mistókst, hugsanlega sendir þú möppu eða skráin er 0 bæti."
 
-#: js/files.js:212
+#: js/files.js:224
 msgid "Upload Error"
 msgstr "Villa við innsendingu"
 
-#: js/files.js:229
+#: js/files.js:241
 msgid "Close"
 msgstr "Loka"
 
-#: js/files.js:248 js/files.js:362 js/files.js:392
+#: js/files.js:260 js/files.js:376 js/files.js:409
 msgid "Pending"
 msgstr "Bíður"
 
-#: js/files.js:268
+#: js/files.js:280
 msgid "1 file uploading"
 msgstr "1 skrá innsend"
 
-#: js/files.js:271 js/files.js:325 js/files.js:340
+#: js/files.js:283 js/files.js:338 js/files.js:353
 msgid "{count} files uploading"
 msgstr "{count} skrár innsendar"
 
-#: js/files.js:343 js/files.js:376
+#: js/files.js:357 js/files.js:393
 msgid "Upload cancelled."
 msgstr "Hætt við innsendingu."
 
-#: js/files.js:445
+#: js/files.js:464
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Innsending í gangi. Ef þú ferð af þessari síðu mun innsending misheppnast."
 
-#: js/files.js:515
-msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
-msgstr "Ógilt nafn á möppu. Nafnið \"Shared\" er frátekið fyrir ownCloud."
+#: js/files.js:537
+msgid "URL cannot be empty."
+msgstr "Vefslóð má ekki vera tóm."
 
-#: js/files.js:699
+#: js/files.js:543
+msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
+msgstr "Óleyfilegt nafn á möppu. Nafnið 'Shared' er frátekið fyrir Owncloud"
+
+#: js/files.js:727
 msgid "{count} files scanned"
 msgstr "{count} skrár skimaðar"
 
-#: js/files.js:707
+#: js/files.js:735
 msgid "error while scanning"
 msgstr "villa við skimun"
 
-#: js/files.js:780 templates/index.php:66
+#: js/files.js:808 templates/index.php:64
 msgid "Name"
 msgstr "Nafn"
 
-#: js/files.js:781 templates/index.php:77
+#: js/files.js:809 templates/index.php:75
 msgid "Size"
 msgstr "Stærð"
 
-#: js/files.js:782 templates/index.php:79
+#: js/files.js:810 templates/index.php:77
 msgid "Modified"
 msgstr "Breytt"
 
-#: js/files.js:801
+#: js/files.js:829
 msgid "1 folder"
 msgstr "1 mappa"
 
-#: js/files.js:803
+#: js/files.js:831
 msgid "{count} folders"
 msgstr "{count} möppur"
 
-#: js/files.js:811
+#: js/files.js:839
 msgid "1 file"
 msgstr "1 skrá"
 
-#: js/files.js:813
+#: js/files.js:841
 msgid "{count} files"
 msgstr "{count} skrár"
 
@@ -244,36 +270,36 @@ msgstr "Mappa"
 msgid "From link"
 msgstr "Af tengli"
 
-#: templates/index.php:35
+#: templates/index.php:18
 msgid "Upload"
 msgstr "Senda inn"
 
-#: templates/index.php:43
+#: templates/index.php:41
 msgid "Cancel upload"
 msgstr "Hætta við innsendingu"
 
-#: templates/index.php:58
+#: templates/index.php:56
 msgid "Nothing in here. Upload something!"
-msgstr "Ekkert hér. Sendu eitthvað inn!"
+msgstr "Ekkert hér. Settu eitthvað inn!"
 
-#: templates/index.php:72
+#: templates/index.php:70
 msgid "Download"
 msgstr "Niðurhal"
 
-#: templates/index.php:104
+#: templates/index.php:102
 msgid "Upload too large"
-msgstr "Innsend skrá of stór"
+msgstr "Innsend skrá er of stór"
 
-#: templates/index.php:106
+#: templates/index.php:104
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Skrárnar sem þú ert að senda inn eru stærri en hámarks innsendingarstærð á þessum netþjóni."
 
-#: templates/index.php:111
+#: templates/index.php:109
 msgid "Files are being scanned, please wait."
 msgstr "Verið er að skima skrár, vinsamlegast hinkraðu."
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Current scanning"
 msgstr "Er að skima"

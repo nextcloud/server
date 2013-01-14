@@ -62,7 +62,6 @@
 "Lost your password?" => "Hilang kata laluan?",
 "remember" => "ingat",
 "Log in" => "Log masuk",
-"You are logged out." => "Anda telah log keluar.",
 "prev" => "sebelum",
 "next" => "seterus"
 );

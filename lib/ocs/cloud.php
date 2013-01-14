@@ -40,7 +40,7 @@ class OC_OCS_Cloud {
 	
 	public static function getUserQuota($parameters) {
 		$user = OC_User::getUser();
-		if(OC_Group::inGroup($user, 'admin') or ($user==$parameters['user'])) {
+		if(OC_User::isAdminUser($user) or ($user==$parameters['user'])) {
 
 			if(OC_User::userExists($parameters['user'])) {
 				// calculate the disc space
@@ -82,7 +82,7 @@ class OC_OCS_Cloud {
 	
 	public static function getUserPrivatekey($parameters) {
 		$user = OC_User::getUser();
-		if(OC_Group::inGroup($user, 'admin') or ($user==$parameters['user'])) {
+		if(OC_User::isAdminUser($user) or ($user==$parameters['user'])) {
 
 			if(OC_User::userExists($user)) {
 				// calculate the disc space

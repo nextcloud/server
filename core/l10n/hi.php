@@ -12,7 +12,6 @@
 "Database user" => "डेटाबेस उपयोगकर्ता",
 "Database password" => "डेटाबेस पासवर्ड",
 "Finish setup" => "सेटअप समाप्त करे",
-"You are logged out." => "आप लोग आउट  कर दिए गए हैं.",
 "prev" => "पिछला",
 "next" => "अगला"
 );

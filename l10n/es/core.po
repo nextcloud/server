@@ -5,7 +5,7 @@
 # Translators:
 #   <javierkaiser@gmail.com>, 2012.
 # Javier Llorente <javier@opensuse.org>, 2012.
-#   <juanma@kde.org.ar>, 2011-2012.
+#   <juanma@kde.org.ar>, 2011-2013.
 #   <malmirk@gmail.com>, 2012.
 # oSiNaReF  <>, 2012.
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2012.
@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-15 00:11+0100\n"
-"PO-Revision-Date: 2012-12-14 11:51+0000\n"
-"Last-Translator: malmirk <malmirk@gmail.com>\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -94,55 +94,55 @@ msgstr "Error eliminando %s de los favoritos."
 msgid "Settings"
 msgstr "Ajustes"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "hace segundos"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "hace 1 minuto"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "hace {minutes} minutos"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "Hace 1 hora"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "Hace {hours} horas"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "hoy"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "ayer"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "hace {days} días"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "mes pasado"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "Hace {months} meses"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "hace meses"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "año pasado"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "hace años"
 
@@ -172,8 +172,8 @@ msgid "The object type is not specified."
 msgstr "El tipo de objeto no se ha especificado."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "Fallo"
 
@@ -185,7 +185,7 @@ msgstr "El nombre de la app no se ha especificado."
 msgid "The required file {file} is not installed!"
 msgstr "El fichero  {file} requerido, no está instalado."
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "Error compartiendo"
 
@@ -213,11 +213,11 @@ msgstr "Compartir con"
 msgid "Share with link"
 msgstr "Compartir con enlace"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "Protegido por contraseña"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:26
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Contraseña"
@@ -282,23 +282,23 @@ msgstr "eliminar"
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "Protegido por contraseña"
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr "Error al eliminar la fecha de caducidad"
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "Error estableciendo fecha de caducidad"
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
 msgstr "Enviando..."
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
 msgstr "Correo electrónico enviado"
 
@@ -323,7 +323,7 @@ msgid "Request failed!"
 msgstr "Pedido fallado!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
-#: templates/login.php:21
+#: templates/login.php:28
 msgid "Username"
 msgstr "Nombre de usuario"
 
@@ -537,35 +537,31 @@ msgstr "servicios web bajo tu control"
 msgid "Log out"
 msgstr "Salir"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "¡Inicio de sesión automático rechazado!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Si usted no ha cambiado su contraseña recientemente, ¡puede que su cuenta esté comprometida!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Por favor cambie su contraseña para asegurar su cuenta nuevamente."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "¿Has perdido tu contraseña?"
 
-#: templates/login.php:29
+#: templates/login.php:39
 msgid "remember"
 msgstr "recuérdame"
 
-#: templates/login.php:30
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Entrar"
-
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Has cerrado la sesión."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -574,6 +570,11 @@ msgstr "anterior"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "siguiente"
+
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr "Actualizando ownCloud a la versión %s, esto puede demorar un tiempo."
 
 #: templates/verify.php:5
 msgid "Security Warning!"

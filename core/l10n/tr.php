@@ -104,7 +104,6 @@
 "Lost your password?" => "Parolanızı mı unuttunuz?",
 "remember" => "hatırla",
 "Log in" => "Giriş yap",
-"You are logged out." => "Çıkış yaptınız.",
 "prev" => "önceki",
 "next" => "sonraki",
 "Security Warning!" => "Güvenlik Uyarısı!",

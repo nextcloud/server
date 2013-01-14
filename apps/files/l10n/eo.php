@@ -30,7 +30,7 @@
 "{count} files uploading" => "{count} dosieroj alŝutatas",
 "Upload cancelled." => "La alŝuto nuliĝis.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Dosieralŝuto plenumiĝas. Lasi la paĝon nun nuligus la alŝuton.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Nevalida nomo de dosierujo. Uzo de “Shared” rezervitas de Owncloud",
+"URL cannot be empty." => "URL ne povas esti malplena.",
 "{count} files scanned" => "{count} dosieroj skaniĝis",
 "error while scanning" => "eraro dum skano",
 "Name" => "Nomo",

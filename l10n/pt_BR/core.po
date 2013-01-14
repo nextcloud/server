@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 23:17+0000\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -93,55 +93,55 @@ msgstr "Erro ao remover %s dos favoritos."
 msgid "Settings"
 msgstr "Configurações"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "1 minuto atrás"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minutos atrás"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "1 hora atrás"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "{hours} horas atrás"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "hoje"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "ontem"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "{days} dias atrás"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "último mês"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "{months} meses atrás"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "último ano"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "anos atrás"
 
@@ -171,8 +171,8 @@ msgid "The object type is not specified."
 msgstr "O tipo de objeto não foi especificado."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "Erro"
 
@@ -184,7 +184,7 @@ msgstr "O nome do app não foi especificado."
 msgid "The required file {file} is not installed!"
 msgstr "O arquivo {file} necessário não está instalado!"
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "Erro ao compartilhar"
 
@@ -212,11 +212,11 @@ msgstr "Compartilhar com"
 msgid "Share with link"
 msgstr "Compartilhar com link"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "Proteger com senha"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Senha"
@@ -281,23 +281,23 @@ msgstr "remover"
 msgid "share"
 msgstr "compartilhar"
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "Protegido com senha"
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr "Erro ao remover data de expiração"
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "Erro ao definir data de expiração"
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
 msgstr ""
 
@@ -321,8 +321,8 @@ msgstr "Email de redefinição de senha enviado."
 msgid "Request failed!"
 msgstr "A requisição falhou!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "Nome de Usuário"
 
@@ -411,44 +411,44 @@ msgstr "Seu diretório de dados e seus arquivos estão, provavelmente, acessíve
 msgid "Create an <strong>admin account</strong>"
 msgstr "Criar uma <strong>conta</strong> de <strong>administrador</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "Avançado"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "Pasta de dados"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "Configurar o banco de dados"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "será usado"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "Usuário de banco de dados"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "Senha do banco de dados"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "Nome do banco de dados"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "Espaço de tabela do banco de dados"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Banco de dados do host"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "Concluir configuração"
 
@@ -536,35 +536,31 @@ msgstr "web services sob seu controle"
 msgid "Log out"
 msgstr "Sair"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Entrada Automática no Sistema Rejeitada!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Se você não mudou a sua senha recentemente, a sua conta pode estar comprometida!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Por favor troque sua senha para tornar sua conta segura novamente."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Esqueçeu sua senha?"
 
-#: templates/login.php:27
+#: templates/login.php:39
 msgid "remember"
 msgstr "lembrete"
 
-#: templates/login.php:28
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Log in"
-
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Você está desconectado."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -573,6 +569,11 @@ msgstr "anterior"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "próximo"
+
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr ""
 
 #: templates/verify.php:5
 msgid "Security Warning!"

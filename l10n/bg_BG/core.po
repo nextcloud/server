@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 23:17+0000\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:37
 msgid "This category already exists: "
-msgstr "Категорията вече съществува:"
+msgstr ""
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -76,7 +76,7 @@ msgstr ""
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "Няма избрани категории за изтриване"
+msgstr ""
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -87,57 +87,57 @@ msgstr ""
 msgid "Settings"
 msgstr "Настройки"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
-msgstr ""
+msgstr "преди секунди"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
-msgstr ""
+msgstr "преди 1 минута"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
-msgstr ""
+msgstr "преди 1 час"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
-msgstr ""
+msgstr "днес"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
-msgstr ""
+msgstr "вчера"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
-msgstr ""
+msgstr "последният месец"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
-msgstr ""
+msgstr "последната година"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
-msgstr ""
+msgstr "последните години"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"
@@ -145,19 +145,19 @@ msgstr ""
 
 #: js/oc-dialogs.js:146 js/oc-dialogs.js:166
 msgid "Cancel"
-msgstr "Отказ"
+msgstr ""
 
 #: js/oc-dialogs.js:162
 msgid "No"
-msgstr "Не"
+msgstr ""
 
 #: js/oc-dialogs.js:163
 msgid "Yes"
-msgstr "Да"
+msgstr ""
 
 #: js/oc-dialogs.js:180
 msgid "Ok"
-msgstr "Добре"
+msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -165,10 +165,10 @@ msgid "The object type is not specified."
 msgstr ""
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
-msgstr "Грешка"
+msgstr ""
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
@@ -178,7 +178,7 @@ msgstr ""
 msgid "The required file {file} is not installed!"
 msgstr ""
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr ""
 
@@ -206,11 +206,11 @@ msgstr ""
 msgid "Share with link"
 msgstr ""
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "Парола"
@@ -275,23 +275,23 @@ msgstr ""
 msgid "share"
 msgstr ""
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
 msgstr ""
 
@@ -305,7 +305,7 @@ msgstr ""
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "Ще получите връзка за нулиране на паролата Ви."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
@@ -315,18 +315,18 @@ msgstr ""
 msgid "Request failed!"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
-msgstr "Потребител"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr "Нулиране на заявка"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "Вашата парола е нулирана"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
@@ -334,11 +334,11 @@ msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "Нова парола"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "Нулиране на парола"
+msgstr ""
 
 #: strings.php:5
 msgid "Personal"
@@ -350,7 +350,7 @@ msgstr "Потребители"
 
 #: strings.php:7
 msgid "Apps"
-msgstr "Програми"
+msgstr "Приложения"
 
 #: strings.php:8
 msgid "Admin"
@@ -362,15 +362,15 @@ msgstr "Помощ"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Достъпът е забранен"
+msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr "облакът не намерен"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Редактиране на категориите"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
@@ -403,170 +403,171 @@ msgstr ""
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
-msgstr "Създаване на <strong>админ профил</strong>"
-
-#: templates/installation.php:48
-msgid "Advanced"
-msgstr "Разширено"
+msgstr ""
 
 #: templates/installation.php:50
+msgid "Advanced"
+msgstr ""
+
+#: templates/installation.php:52
 msgid "Data folder"
-msgstr "Директория за данни"
+msgstr ""
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
-msgstr "Конфигуриране на базата"
+msgstr ""
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
-msgstr "ще се ползва"
+msgstr ""
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
-msgstr "Потребител за базата"
+msgstr ""
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
-msgstr "Парола за базата"
+msgstr ""
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
-msgstr "Име на базата"
+msgstr ""
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
-msgstr "Хост за базата"
+msgstr ""
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
-msgstr "Завършване на настройките"
+msgstr ""
 
 #: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
-msgstr "Неделя"
+msgstr ""
 
 #: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
-msgstr "Понеделник"
+msgstr ""
 
 #: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
-msgstr "Вторник"
+msgstr ""
 
 #: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
-msgstr "Сряда"
+msgstr ""
 
 #: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
-msgstr "Четвъртък"
+msgstr ""
 
 #: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
-msgstr "Петък"
+msgstr ""
 
 #: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
-msgstr "Събота"
+msgstr ""
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
-msgstr "Януари"
+msgstr ""
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
-msgstr "Февруари"
+msgstr ""
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
-msgstr "Март"
+msgstr ""
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
-msgstr "Април"
+msgstr ""
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
-msgstr "Май"
+msgstr ""
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
-msgstr "Юни"
+msgstr ""
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
-msgstr "Юли"
+msgstr ""
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
-msgstr "Август"
+msgstr ""
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
-msgstr "Септември"
+msgstr ""
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
-msgstr "Октомври"
+msgstr ""
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
-msgstr "Ноември"
+msgstr ""
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
-msgstr "Декември"
+msgstr ""
 
 #: templates/layout.guest.php:42
 msgid "web services under your control"
-msgstr ""
+msgstr "уеб услуги под Ваш контрол"
 
 #: templates/layout.user.php:45
 msgid "Log out"
-msgstr "Изход"
+msgstr ""
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr ""
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr ""
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr ""
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
-msgstr "Забравена парола?"
+msgstr ""
 
-#: templates/login.php:27
+#: templates/login.php:39
 msgid "remember"
-msgstr "запомни"
+msgstr ""
 
-#: templates/login.php:28
+#: templates/login.php:41
 msgid "Log in"
-msgstr "Вход"
-
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Вие излязохте."
+msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr "пред."
+msgstr ""
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr "следващо"
+msgstr ""
+
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr ""
 
 #: templates/verify.php:5
 msgid "Security Warning!"

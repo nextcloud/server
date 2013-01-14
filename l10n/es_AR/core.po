@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-05 00:02+0100\n"
-"PO-Revision-Date: 2013-01-04 15:11+0000\n"
-"Last-Translator: Agustin Ferrario <agustin.ferrario@hotmail.com.ar>\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -85,55 +85,55 @@ msgstr "Error al remover %s de favoritos. "
 msgid "Settings"
 msgstr "Ajustes"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "hace 1 minuto"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "hace {minutes} minutos"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "Hace 1 hora"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "{hours} horas atrás"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "hoy"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "ayer"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "hace {days} días"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "el mes pasado"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "{months} meses atrás"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "el año pasado"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "años atrás"
 
@@ -554,10 +554,6 @@ msgstr "recordame"
 msgid "Log in"
 msgstr "Entrar"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Terminaste la sesión."
-
 #: templates/part.pagenavi.php:3
 msgid "prev"
 msgstr "anterior"
@@ -565,6 +561,11 @@ msgstr "anterior"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "siguiente"
+
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr ""
 
 #: templates/verify.php:5
 msgid "Security Warning!"

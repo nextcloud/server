@@ -132,6 +132,33 @@ if (!$_['internetconnectionworking']) {
     </table>
 </fieldset>
 
+<fieldset class="personalblock" id="security">
+    <legend><strong><?php echo $l->t('Security');?></strong></legend>
+    <table class="nostyle">
+        <tr>
+            <td id="enable">
+                <input type="checkbox" name="forcessl"  id="enforceHTTPSEnabled"
+                    <?php if ($_['enforceHTTPSEnabled']) {
+                        echo 'checked="checked" ';
+                        echo 'value="false"';
+                    }  else {
+                        echo 'value="true"';
+                    }
+                    ?> 
+                    <?php if (!$_['isConnectedViaHTTPS']) echo 'disabled'; ?> />
+                <label for="forcessl"><?php echo $l->t('Enforce HTTPS');?></label><br/>
+                <em><?php echo $l->t('Enforces the clients to connect to ownCloud via an encrypted connection.'); ?></em>
+                <?php if (!$_['isConnectedViaHTTPS']) {
+                    echo "<br/><em>"; 
+                    echo $l->t('Please connect to this ownCloud instance via HTTPS to enable or disable the SSL enforcement.'); 
+                    echo "</em>"; 
+                } 
+                ?>
+            </td>
+        </tr>
+    </table>
+</fieldset>
+
 <fieldset class="personalblock">
     <legend><strong><?php echo $l->t('Log');?></strong></legend>
     <?php echo $l->t('Log level');?> <select name='loglevel' id='loglevel'>

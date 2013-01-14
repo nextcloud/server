@@ -6,12 +6,13 @@
 # Donahue Chuang <soshinwu@gmail.com>, 2012.
 #   <dw4dev@gmail.com>, 2012.
 # Ming Yi Wu <mingi.wu@gmail.com>, 2012.
+#   <nfsmwlin@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 23:17+0000\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -23,38 +24,38 @@ msgstr ""
 #: ajax/share.php:84
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "用戶 %s 與您分享了一個檔案"
 
 #: ajax/share.php:86
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "用戶 %s 與您分享了一個資料夾"
 
 #: ajax/share.php:88
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "用戶 %s 與您分享了檔案 \"%s\" ，您可以從這裡下載它： %s"
 
 #: ajax/share.php:90
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "用戶 %s 與您分享了資料夾 \"%s\" ，您可以從這裡下載它： %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "未提供分類類型。"
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr "無分類添加?"
+msgstr "沒有可增加的分類？"
 
 #: ajax/vcategories/add.php:37
 msgid "This category already exists: "
-msgstr "此分類已經存在:"
+msgstr "此分類已經存在："
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -66,75 +67,75 @@ msgstr "不支援的物件類型"
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "未提供 %s ID 。"
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "加入 %s 到最愛時發生錯誤。"
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "沒選擇要刪除的分類"
+msgstr "沒有選擇要刪除的分類。"
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "從最愛移除 %s 時發生錯誤。"
 
 #: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "幾秒前"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "1 分鐘前"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分鐘前"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "1 個小時前"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
-msgstr "{hours} 個小時前"
+msgstr "{hours} 小時前"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "{days} 天前"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "上個月"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "{months} 個月前"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "幾個月前"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "幾年前"
 
@@ -161,23 +162,23 @@ msgstr "Ok"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "未指定物件類型。"
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "錯誤"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr "沒有詳述APP名稱."
+msgstr "沒有指定 app 名稱。"
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "沒有安裝所需的檔案 {file} ！"
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "分享時發生錯誤"
 
@@ -187,11 +188,11 @@ msgstr "取消分享時發生錯誤"
 
 #: js/share.js:142
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "修改權限時發生錯誤"
 
 #: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "由 {owner} 分享給您和 {group}"
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
@@ -199,28 +200,28 @@ msgstr "{owner} 已經和您分享"
 
 #: js/share.js:158
 msgid "Share with"
-msgstr "與分享"
+msgstr "與...分享"
 
 #: js/share.js:163
 msgid "Share with link"
 msgstr "使用連結分享"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "密碼保護"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 #: templates/verify.php:13
 msgid "Password"
 msgstr "密碼"
 
 #: js/share.js:172
 msgid "Email link to person"
-msgstr ""
+msgstr "將連結 email 給別人"
 
 #: js/share.js:173
 msgid "Send"
-msgstr ""
+msgstr "寄出"
 
 #: js/share.js:177
 msgid "Set expiration date"
@@ -232,15 +233,15 @@ msgstr "到期日"
 
 #: js/share.js:210
 msgid "Share via email:"
-msgstr "透過email分享:"
+msgstr "透過 email 分享："
 
 #: js/share.js:212
 msgid "No people found"
-msgstr ""
+msgstr "沒有找到任何人"
 
 #: js/share.js:239
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "不允許重新分享"
 
 #: js/share.js:275
 msgid "Shared in {item} with {user}"
@@ -274,25 +275,25 @@ msgstr "刪除"
 msgid "share"
 msgstr "分享"
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
-msgstr "密碼保護"
+msgstr "受密碼保護"
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "解除過期日設定失敗"
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "錯誤的到期日設定"
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
-msgstr ""
+msgstr "正在寄出..."
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
-msgstr ""
+msgstr "Email 已寄出"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -300,28 +301,28 @@ msgstr "ownCloud 密碼重設"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr "請循以下聯結重設你的密碼: （聯結） "
+msgstr "請循以下聯結重設你的密碼： {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "重設密碼的連結將會寄到你的電子郵件信箱"
+msgstr "重設密碼的連結將會寄到你的電子郵件信箱。"
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr "重設郵件已送出."
+msgstr "重設郵件已送出。"
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr "請求失敗!"
+msgstr "請求失敗！"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "使用者名稱"
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr "要求重設"
+msgstr "請求重設"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -361,7 +362,7 @@ msgstr "幫助"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "禁止存取"
+msgstr "存取被拒"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -373,7 +374,7 @@ msgstr "編輯分類"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "添加"
+msgstr "增加"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
@@ -383,13 +384,13 @@ msgstr "安全性警告"
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr "沒有可用的隨機數字產生器, 請啟用 PHP 中 OpenSSL 擴充功能."
+msgstr "沒有可用的亂數產生器，請啟用 PHP 中的 OpenSSL 擴充功能。"
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "若沒有安全的亂數產生器，攻擊者可能可以預測密碼重設信物，然後控制您的帳戶。"
 
 #: templates/installation.php:32
 msgid ""
@@ -398,50 +399,50 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "您的資料目錄 (Data Directory) 和檔案可能可以由網際網路上面公開存取。Owncloud 所提供的 .htaccess 設定檔並未生效，我們強烈建議您設定您的網頁伺服器以防止資料目錄被公開存取，或將您的資料目錄移出網頁伺服器的 document root 。"
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "建立一個<strong>管理者帳號</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "進階"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "資料夾"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "設定資料庫"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "將會使用"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "資料庫使用者"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "資料庫密碼"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "資料庫名稱"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "資料庫 tablespace"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "資料庫主機"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "完成設定"
 
@@ -523,41 +524,37 @@ msgstr "十二月"
 
 #: templates/layout.guest.php:42
 msgid "web services under your control"
-msgstr "網路服務已在你控制"
+msgstr "網路服務在您控制之下"
 
 #: templates/layout.user.php:45
 msgid "Log out"
 msgstr "登出"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "自動登入被拒！"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "如果您最近並未更改密碼，您的帳號可能已經遭到入侵！"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "請更改您的密碼以再次取得您的帳戶的控制權。"
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
-msgstr "忘記密碼?"
+msgstr "忘記密碼？"
 
-#: templates/login.php:27
+#: templates/login.php:39
 msgid "remember"
 msgstr "記住"
 
-#: templates/login.php:28
+#: templates/login.php:41
 msgid "Log in"
 msgstr "登入"
-
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "你已登出"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -567,15 +564,20 @@ msgstr "上一頁"
 msgid "next"
 msgstr "下一頁"
 
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr "正在將 Owncloud 升級至版本 %s ，這可能需要一點時間。"
+
 #: templates/verify.php:5
 msgid "Security Warning!"
-msgstr "安全性警告!"
+msgstr "安全性警告！"
 
 #: templates/verify.php:6
 msgid ""
 "Please verify your password. <br/>For security reasons you may be "
 "occasionally asked to enter your password again."
-msgstr ""
+msgstr "請輸入您的密碼。<br/>基於安全性的理由，您有時候可能會被要求再次輸入密碼。"
 
 #: templates/verify.php:16
 msgid "Verify"

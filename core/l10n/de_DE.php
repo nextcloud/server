@@ -125,9 +125,9 @@
 "Lost your password?" => "Passwort vergessen?",
 "remember" => "merken",
 "Log in" => "Einloggen",
-"You are logged out." => "Sie wurden abgemeldet.",
 "prev" => "Zurück",
 "next" => "Weiter",
+"Updating ownCloud to version %s, this may take a while." => "Aktualisiere ownCloud auf Version %s. Dies könnte eine Weile dauern.",
 "Security Warning!" => "Sicherheitshinweis!",
 "Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Bitte überprüfen Sie Ihr Passwort. <br/>Aus Sicherheitsgründen werden Sie gelegentlich aufgefordert, Ihr Passwort erneut einzugeben.",
 "Verify" => "Überprüfen"
