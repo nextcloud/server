@@ -30,10 +30,6 @@ if(is_null($userstatus)) {
 	exit();
 }
 
-if($userstatus === 'admin' || $userstatus === 'subadmin') {
-	OC_JSON::verifyUser();
-}
-
 // Return Success story
 if( OC_User::setPassword( $username, $password )) {
 	OC_JSON::success(array("data" => array( "username" => $username )));

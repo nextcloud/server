@@ -36,12 +36,6 @@ $CONFIG = array(
 /* The automatic protocol detection of ownCloud can fail in certain reverse proxy situations. This option allows to manually override the protocol detection. For example "https" */
 "overwriteprotocol" => "",
 
-/* Enhanced auth forces users to enter their password again when performing potential sensitive actions like creating or deleting users */
-"enhancedauth" => true,
-
-/* Time in seconds how long an user is authenticated without entering his password again before performing sensitive actions like creating or deleting users etc...*/
-"enhancedauthtime" => 15 * 60,
-
 /* A proxy to use to connect to the internet. For example "myproxy.org:88" */
 "proxy" => "",
 
