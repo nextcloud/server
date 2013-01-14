@@ -465,6 +465,13 @@ class Share {
 							   null,
 							   1);
 		if ($item) {
+			// Pass all the vars we have for now, they may be useful
+			\OC_Hook::emit('OCP\Share', 'pre_unshare', array(
+				'itemType' => $itemType,
+				'itemSource' => $itemSource,
+				'shareType' => $shareType,
+				'shareWith' => $shareWith,
+			));
 			self::delete($item['id']);
 			return true;
 		}
@@ -480,6 +487,12 @@ class Share {
 	public static function unshareAll($itemType, $itemSource) {
 		$shares = self::getItemShared($itemType, $itemSource);
 		if ($shares) {
+			// Pass all the vars we have for now, they may be useful
+			\OC_Hook::emit('OCP\Share', 'pre_unshareAll', array(
+				'itemType' => $itemType,
+				'itemSource' => $itemSource,
+				'shares' => $shares
+			));
 			foreach ($shares as $share) {
 				self::delete($share['id']);
 			}
