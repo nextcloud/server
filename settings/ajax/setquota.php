@@ -10,7 +10,7 @@ OCP\JSON::callCheck();
 
 $username = isset($_POST["username"])?$_POST["username"]:'';
 
-if(($username == '' && !OC_Group::inGroup(OC_User::getUser(), 'admin')) || (!OC_Group::inGroup(OC_User::getUser(), 'admin') && !OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username))) {
+if(($username == '' && !OC_User::isAdminUser(OC_User::getUser()))|| (!OC_User::isAdminUser(OC_User::getUser()) && !OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username))) {
 	$l = OC_L10N::get('core');
 	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 	exit();

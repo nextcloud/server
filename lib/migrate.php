@@ -219,7 +219,7 @@ class OC_Migrate{
 
 		// We need to be an admin if we are not importing our own data
 		if(($type == 'user' && self::$uid != $currentuser) || $type != 'user' ) {
-			if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )) {
+			if( !OC_User::isAdminUser($currentuser)) {
 				// Naughty.
 				OC_Log::write( 'migration', 'Import not permitted.', OC_Log::ERROR );
 				return json_encode( array( 'success' => false ) );

@@ -18,8 +18,7 @@ OC_App::setActiveNavigationEntry( 'core_users' );
 $users = array();
 $groups = array();
 
-$isadmin = OC_Group::inGroup(OC_User::getUser(), 'admin')?true:false;
-if($isadmin) {
+if(OC_User::isAdminUser(OC_User::getUser())) {
 	$accessiblegroups = OC_Group::getGroups();
 	$accessibleusers = OC_User::getUsers('', 30);
 	$subadmins = OC_SubAdmin::getAllSubAdmins();
