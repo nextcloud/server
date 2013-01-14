@@ -127,8 +127,7 @@ class OC_API {
 					return false;
 				} else {
 					$subAdmin = OC_SubAdmin::isSubAdmin($user);
-					$admin = OC_Group::inGroup($user, 'admin');
-					if($subAdmin || $admin) {
+					if($subAdmin) {
 						return true;
 					} else {
 						return false;
@@ -141,7 +140,7 @@ class OC_API {
 				if(!$user) {
 					return false;
 				} else {
-					return OC_Group::inGroup($user, 'admin');
+					return OC_User::isAdminUser($user);
 				}
 				break;
 			default:

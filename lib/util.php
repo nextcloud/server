@@ -342,10 +342,7 @@ class OC_Util {
 	 * Check if the user is a admin, redirects to home if not
 	 */
 	public static function checkAdminUser() {
-		// Check if we are a user
-		self::checkLoggedIn();
-		self::verifyUser();
-		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )) {
+		if( !OC_User::isAdminUser(OC_User::getUser())) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
 		}
@@ -356,12 +353,6 @@ class OC_Util {
 	 * @return array $groups where the current user is subadmin
 	 */
 	public static function checkSubAdminUser() {
-		// Check if we are a user
-		self::checkLoggedIn();
-		self::verifyUser();
-		if(OC_Group::inGroup(OC_User::getUser(), 'admin')) {
-			return true;
-		}
 		if(!OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();

@@ -9,7 +9,7 @@ $password = $_POST["password"];
 $oldPassword=isset($_POST["oldpassword"])?$_POST["oldpassword"]:'';
 
 $userstatus = null;
-if(OC_Group::inGroup(OC_User::getUser(), 'admin')) {
+if(OC_User::isAdminUser(OC_User::getUser()) {
 	$userstatus = 'admin';
 }
 if(OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username)) {
