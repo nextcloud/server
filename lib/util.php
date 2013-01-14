@@ -467,8 +467,12 @@ class OC_Util {
 	 * @return array with sanitized strings or a single sanitized string, depends on the input parameter.
 	 */
 	public static function sanitizeHTML( &$value ) {
-		if (is_array($value) || is_object($value)) array_walk_recursive($value, 'OC_Util::sanitizeHTML');
-		else $value = htmlentities($value, ENT_QUOTES, 'UTF-8'); //Specify encoding for PHP<5.4
+		if (is_array($value) || is_object($value)) 
+		{
+			array_walk_recursive($value, 'OC_Util::sanitizeHTML');
+		} else {
+			$value = htmlentities($value, ENT_QUOTES, 'UTF-8'); //Specify encoding for PHP<5.4
+		}
 		return $value;
 	}
 
