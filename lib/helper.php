@@ -633,7 +633,7 @@ class OC_Helper {
 	 * @return bool
 	 */
 	public static function issubdirectory($sub, $parent) {
-		if (strpos(realpath($sub), realpath($parent)) !== false) {
+		if (strpos(realpath($sub), realpath($parent)) === 0) {
 			return true;
 		}
 		return false;
