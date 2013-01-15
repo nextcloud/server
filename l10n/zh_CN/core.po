@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-07 00:04+0100\n"
-"PO-Revision-Date: 2013-01-06 23:04+0000\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 23:03+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -88,55 +88,55 @@ msgstr "从收藏夹中移除%s时出错。"
 msgid "Settings"
 msgstr "设置"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "秒前"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "一分钟前"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分钟前"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "1小时前"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "{hours} 小时前"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "{days} 天前"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "上月"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "{months} 月前"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "月前"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "年前"
 
@@ -212,7 +212,6 @@ msgid "Password protect"
 msgstr "密码保护"
 
 #: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
 msgid "Password"
 msgstr "密码"
 
@@ -557,10 +556,6 @@ msgstr "记住"
 msgid "Log in"
 msgstr "登录"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "您已注销。"
-
 #: templates/part.pagenavi.php:3
 msgid "prev"
 msgstr "上一页"
@@ -573,17 +568,3 @@ msgstr "下一页"
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr ""
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "安全警告！"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "请验证您的密码。 <br/>出于安全考虑，你可能偶尔会被要求再次输入密码。"
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "验证"

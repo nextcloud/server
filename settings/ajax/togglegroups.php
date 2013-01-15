@@ -7,13 +7,13 @@ $success = true;
 $username = $_POST["username"];
 $group = $_POST["group"];
 
-if($username == OC_User::getUser() && $group == "admin" &&  OC_Group::inGroup($username, 'admin')) {
+if($username == OC_User::getUser() && $group == "admin" &&  OC_User::isAdminUser($username)) {
 	$l = OC_L10N::get('core');
 	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Admins can\'t remove themself from the admin group'))));
 	exit();
 }
 
-if(!OC_Group::inGroup(OC_User::getUser(), 'admin') && (!OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username) || !OC_SubAdmin::isGroupAccessible(OC_User::getUser(), $group))) {
+if(!OC_User::isAdminUser(OC_User::getUser()) && (!OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username) || !OC_SubAdmin::isGroupAccessible(OC_User::getUser(), $group))) {
 	$l = OC_L10N::get('core');
 	OC_JSON::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 	exit();

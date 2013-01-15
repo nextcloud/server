@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-31 00:04+0100\n"
-"PO-Revision-Date: 2012-12-30 00:45+0000\n"
-"Last-Translator: Agustin Ferrario <agustin.ferrario@hotmail.com.ar>\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,7 +41,7 @@ msgstr "El grupo ya existe"
 msgid "Unable to add group"
 msgstr "No se pudo añadir el grupo"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "No puedo habilitar la app."
 
@@ -52,14 +52,6 @@ msgstr "Correo guardado"
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "Correo no válido"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID cambiado"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "Solicitud no válida"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -76,6 +68,10 @@ msgstr "No se pudo eliminar el usuario"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Idioma cambiado"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "Solicitud no válida"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"

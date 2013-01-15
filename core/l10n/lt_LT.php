@@ -104,10 +104,6 @@
 "Lost your password?" => "Pamiršote slaptažodį?",
 "remember" => "prisiminti",
 "Log in" => "Prisijungti",
-"You are logged out." => "Jūs atsijungėte.",
 "prev" => "atgal",
-"next" => "kitas",
-"Security Warning!" => "Saugumo pranešimas!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Prašome patvirtinti savo vartotoją.<br/>Dėl saugumo, slaptažodžio patvirtinimas bus reikalaujamas įvesti kas kiek laiko.",
-"Verify" => "Patvirtinti"
+"next" => "kitas"
 );

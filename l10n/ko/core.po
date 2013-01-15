@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <aoiob4305@gmail.com>, 2013.
 # 남자사람  <cessnagi@gmail.com>, 2012.
 #   <limonade83@gmail.com>, 2012.
 # Shinjo Park <kde@peremen.name>, 2012.
@@ -10,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-07 00:04+0100\n"
-"PO-Revision-Date: 2013-01-06 23:04+0000\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 23:03+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -23,26 +24,26 @@ msgstr ""
 #: ajax/share.php:84
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "User %s 가 당신과 파일을 공유하였습니다."
 
 #: ajax/share.php:86
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "User %s 가 당신과 폴더를 공유하였습니다."
 
 #: ajax/share.php:88
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "User %s 가 파일 \"%s\"를 당신과 공유하였습니다. 다운로드는 여기서 %s 할 수 있습니다."
 
 #: ajax/share.php:90
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "User %s 가 폴더 \"%s\"를 당신과 공유하였습니다. 다운로드는 여기서 %s 할 수 있습니다."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -86,55 +87,55 @@ msgstr "책갈피에서 %s을(를) 삭제할 수 없었습니다."
 msgid "Settings"
 msgstr "설정"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "초 전"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "1분 전"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "{minutes}분 전"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "1시간 전"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "{hours}시간 전"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "오늘"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "어제"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "{days}일 전"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "지난 달"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "{months}개월 전"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "개월 전"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "작년"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "년 전"
 
@@ -210,17 +211,16 @@ msgid "Password protect"
 msgstr "암호 보호"
 
 #: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
 msgid "Password"
 msgstr "암호"
 
 #: js/share.js:172
 msgid "Email link to person"
-msgstr ""
+msgstr "이메일 주소"
 
 #: js/share.js:173
 msgid "Send"
-msgstr ""
+msgstr "전송"
 
 #: js/share.js:177
 msgid "Set expiration date"
@@ -288,11 +288,11 @@ msgstr "만료 날짜 설정 오류"
 
 #: js/share.js:581
 msgid "Sending ..."
-msgstr ""
+msgstr "전송 중..."
 
 #: js/share.js:592
 msgid "Email sent"
-msgstr ""
+msgstr "이메일 발송됨"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -555,10 +555,6 @@ msgstr "기억하기"
 msgid "Log in"
 msgstr "로그인"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "로그아웃되었습니다."
-
 #: templates/part.pagenavi.php:3
 msgid "prev"
 msgstr "이전"
@@ -570,18 +566,4 @@ msgstr "다음"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "보안 경고!"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "암호를 확인해 주십시오.<br/>보안상의 이유로 종종 암호를 물어볼 것입니다."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "확인"
+msgstr "ownCloud 를 버젼 %s로 업데이트 하는 중, 시간이 소요됩니다."

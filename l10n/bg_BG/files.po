@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Stefan Ilivanov <ilivanov@gmail.com>, 2011.
+# Stefan Ilivanov <ilivanov@gmail.com>, 2011,2013.
 # Yasen Pramatarov <yasen@lindeas.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-07 00:04+0100\n"
-"PO-Revision-Date: 2013-01-06 23:05+0000\n"
+"POT-Creation-Date: 2013-01-10 00:04+0100\n"
+"PO-Revision-Date: 2013-01-09 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -19,13 +19,27 @@ msgstr ""
 "Language: bg_BG\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:24
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/rename.php:19
+msgid "Unable to rename file"
+msgstr ""
+
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
 msgstr ""
 
 #: ajax/upload.php:21
 msgid "There is no error, the file uploaded with success"
-msgstr "Файлът е качен успешно"
+msgstr ""
 
 #: ajax/upload.php:22
 msgid ""
@@ -36,23 +50,23 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Файлът който се опитвате да качите надвишава стойностите в MAX_FILE_SIZE в HTML формата."
+msgstr ""
 
 #: ajax/upload.php:26
 msgid "The uploaded file was only partially uploaded"
-msgstr "Файлът е качен частично"
+msgstr ""
 
 #: ajax/upload.php:27
 msgid "No file was uploaded"
-msgstr "Фахлът не бе качен"
+msgstr ""
 
 #: ajax/upload.php:28
 msgid "Missing a temporary folder"
-msgstr "Липсва временната папка"
+msgstr "Липсва временна папка"
 
 #: ajax/upload.php:29
 msgid "Failed to write to disk"
-msgstr "Грешка при запис на диска"
+msgstr ""
 
 #: ajax/upload.php:45
 msgid "Not enough space available"
@@ -66,51 +80,51 @@ msgstr ""
 msgid "Files"
 msgstr "Файлове"
 
-#: js/fileactions.js:117 templates/index.php:84 templates/index.php:85
+#: js/fileactions.js:117 templates/index.php:82 templates/index.php:83
 msgid "Unshare"
 msgstr ""
 
-#: js/fileactions.js:119 templates/index.php:90 templates/index.php:91
+#: js/fileactions.js:119 templates/index.php:88 templates/index.php:89
 msgid "Delete"
 msgstr "Изтриване"
 
 #: js/fileactions.js:181
 msgid "Rename"
-msgstr ""
+msgstr "Преименуване"
 
-#: js/filelist.js:199 js/filelist.js:201
+#: js/filelist.js:205 js/filelist.js:207
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/filelist.js:199 js/filelist.js:201
+#: js/filelist.js:205 js/filelist.js:207
 msgid "replace"
-msgstr ""
+msgstr "препокриване"
 
-#: js/filelist.js:199
+#: js/filelist.js:205
 msgid "suggest name"
 msgstr ""
 
-#: js/filelist.js:199 js/filelist.js:201
+#: js/filelist.js:205 js/filelist.js:207
 msgid "cancel"
-msgstr ""
+msgstr "отказ"
 
-#: js/filelist.js:248
+#: js/filelist.js:254
 msgid "replaced {new_name}"
 msgstr ""
 
-#: js/filelist.js:248 js/filelist.js:250 js/filelist.js:282 js/filelist.js:284
+#: js/filelist.js:254 js/filelist.js:256 js/filelist.js:288 js/filelist.js:290
 msgid "undo"
-msgstr ""
+msgstr "възтановяване"
 
-#: js/filelist.js:250
+#: js/filelist.js:256
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:282
+#: js/filelist.js:288
 msgid "unshared {files}"
 msgstr ""
 
-#: js/filelist.js:284
+#: js/filelist.js:290
 msgid "deleted {files}"
 msgstr ""
 
@@ -138,13 +152,13 @@ msgstr ""
 
 #: js/files.js:224
 msgid "Upload Error"
-msgstr "Грешка при качване"
+msgstr ""
 
 #: js/files.js:241
 msgid "Close"
 msgstr ""
 
-#: js/files.js:260 js/files.js:374 js/files.js:404
+#: js/files.js:260 js/files.js:376 js/files.js:409
 msgid "Pending"
 msgstr ""
 
@@ -152,56 +166,60 @@ msgstr ""
 msgid "1 file uploading"
 msgstr ""
 
-#: js/files.js:283 js/files.js:337 js/files.js:352
+#: js/files.js:283 js/files.js:338 js/files.js:353
 msgid "{count} files uploading"
 msgstr ""
 
-#: js/files.js:355 js/files.js:388
+#: js/files.js:357 js/files.js:393
 msgid "Upload cancelled."
-msgstr "Качването е отменено."
+msgstr "Качването е спряно."
 
-#: js/files.js:457
+#: js/files.js:464
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/files.js:527
-msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
+#: js/files.js:537
+msgid "URL cannot be empty."
 msgstr ""
 
-#: js/files.js:711
+#: js/files.js:543
+msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
+msgstr ""
+
+#: js/files.js:727
 msgid "{count} files scanned"
 msgstr ""
 
-#: js/files.js:719
+#: js/files.js:735
 msgid "error while scanning"
 msgstr ""
 
-#: js/files.js:792 templates/index.php:66
+#: js/files.js:808 templates/index.php:64
 msgid "Name"
 msgstr "Име"
 
-#: js/files.js:793 templates/index.php:77
+#: js/files.js:809 templates/index.php:75
 msgid "Size"
 msgstr "Размер"
 
-#: js/files.js:794 templates/index.php:79
+#: js/files.js:810 templates/index.php:77
 msgid "Modified"
 msgstr "Променено"
 
-#: js/files.js:813
+#: js/files.js:829
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:815
+#: js/files.js:831
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:823
+#: js/files.js:839
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:825
+#: js/files.js:841
 msgid "{count} files"
 msgstr ""
 
@@ -211,7 +229,7 @@ msgstr ""
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr "Макс. размер за качване"
+msgstr "Максимален размер за качване"
 
 #: templates/admin.php:10
 msgid "max. possible: "
@@ -227,7 +245,7 @@ msgstr ""
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
-msgstr "0 означава без ограничение"
+msgstr "Ползвайте 0 за без ограничения"
 
 #: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
@@ -239,11 +257,11 @@ msgstr "Запис"
 
 #: templates/index.php:7
 msgid "New"
-msgstr "Нов"
+msgstr "Ново"
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr "Текстов файл"
+msgstr ""
 
 #: templates/index.php:12
 msgid "Folder"
@@ -253,36 +271,36 @@ msgstr "Папка"
 msgid "From link"
 msgstr ""
 
-#: templates/index.php:35
+#: templates/index.php:18
 msgid "Upload"
 msgstr "Качване"
 
-#: templates/index.php:43
+#: templates/index.php:41
 msgid "Cancel upload"
-msgstr "Отказване на качването"
+msgstr ""
 
-#: templates/index.php:58
+#: templates/index.php:56
 msgid "Nothing in here. Upload something!"
-msgstr "Няма нищо, качете нещо!"
+msgstr "Няма нищо тук. Качете нещо."
 
-#: templates/index.php:72
+#: templates/index.php:70
 msgid "Download"
 msgstr "Изтегляне"
 
-#: templates/index.php:104
+#: templates/index.php:102
 msgid "Upload too large"
-msgstr "Файлът е прекалено голям"
+msgstr "Файлът който сте избрали за качване е прекалено голям"
 
-#: templates/index.php:106
+#: templates/index.php:104
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Файловете които се опитвате да качите са по-големи от позволеното за сървъра."
+msgstr ""
 
-#: templates/index.php:111
+#: templates/index.php:109
 msgid "Files are being scanned, please wait."
-msgstr "Файловете се претърсват, изчакайте."
+msgstr ""
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Current scanning"
 msgstr ""

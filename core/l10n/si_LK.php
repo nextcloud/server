@@ -85,7 +85,6 @@
 "Lost your password?" => "මුරපදය අමතකද?",
 "remember" => "මතක තබාගන්න",
 "Log in" => "ප්‍රවේශවන්න",
-"You are logged out." => "ඔබ නික්මී ඇත.",
 "prev" => "පෙර",
 "next" => "ඊළඟ"
 );

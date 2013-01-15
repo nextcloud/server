@@ -321,10 +321,7 @@ class OC_Util {
 	 * Check if the user is a admin, redirects to home if not
 	 */
 	public static function checkAdminUser() {
-		// Check if we are a user
-		self::checkLoggedIn();
-		self::verifyUser();
-		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )) {
+		if( !OC_User::isAdminUser(OC_User::getUser())) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
 		}
@@ -335,49 +332,9 @@ class OC_Util {
 	 * @return array $groups where the current user is subadmin
 	 */
 	public static function checkSubAdminUser() {
-		// Check if we are a user
-		self::checkLoggedIn();
-		self::verifyUser();
-		if(OC_Group::inGroup(OC_User::getUser(), 'admin')) {
-			return true;
-		}
 		if(!OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
-		}
-		return true;
-	}
-
-	/**
-	 * Check if the user verified the login with his password in the last 15 minutes
-	 * If not, the user will be shown a password verification page
-	 */
-	public static function verifyUser() {
-		if(OC_Config::getValue('enhancedauth', false) === true) {
-			// Check password to set session
-			if(isset($_POST['password'])) {
-				if (OC_User::login(OC_User::getUser(), $_POST["password"] ) === true) {
-					$_SESSION['verifiedLogin']=time() + OC_Config::getValue('enhancedauthtime', 15 * 60);
-				}
-			}
-
-			// Check if the user verified his password
-			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
-				OC_Template::printGuestPage("", "verify",  array('username' => OC_User::getUser()));
-				exit();
-			}
-		}
-	}
-
-	/**
-	 * Check if the user verified the login with his password
-	 * @return bool
-	 */
-	public static function isUserVerified() {
-		if(OC_Config::getValue('enhancedauth', false) === true) {
-			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
-				return false;
-			}
 		}
 		return true;
 	}
@@ -503,8 +460,11 @@ class OC_Util {
 	 * @return array with sanitized strings or a single sanitized string, depends on the input parameter.
 	 */
 	public static function sanitizeHTML( &$value ) {
-		if (is_array($value) || is_object($value)) array_walk_recursive($value, 'OC_Util::sanitizeHTML');
-		else $value = htmlentities($value, ENT_QUOTES, 'UTF-8'); //Specify encoding for PHP<5.4
+		if (is_array($value) || is_object($value)) {
+			array_walk_recursive($value, 'OC_Util::sanitizeHTML');
+		} else {
+			$value = htmlentities($value, ENT_QUOTES, 'UTF-8'); //Specify encoding for PHP<5.4
+		}
 		return $value;
 	}
 

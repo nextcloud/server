@@ -11,6 +11,11 @@ $dir = stripslashes($_GET["dir"]);
 $file = stripslashes($_GET["file"]);
 $target = stripslashes(rawurldecode($_GET["target"]));
 
+if(\OC\Files\Filesystem::file_exists($target . '/' . $file)) {
+	OCP\JSON::error(array("data" => array( "message" => "Could not move $file - File with this name already exists" )));
+	exit;
+}
+
 if ($dir != '' || $file != 'Shared') {
 	$targetFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $file);
 	$sourceFile = \OC\Files\Filesystem::normalizePath($target . '/' . $file);

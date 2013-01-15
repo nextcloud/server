@@ -1,3 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Enable" => "সক্রিয়"
+"History" => "ইতিহাস",
+"Files Versioning" => "ফাইল ভার্সন করা",
+"Enable" => "সক্রিয় "
 );

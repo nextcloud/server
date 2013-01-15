@@ -109,10 +109,6 @@
 "Lost your password?" => "Ai uitat parola?",
 "remember" => "amintește",
 "Log in" => "Autentificare",
-"You are logged out." => "Ai ieșit",
 "prev" => "precedentul",
-"next" => "următorul",
-"Security Warning!" => "Advertisment de Securitate",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Te rog verifica parola. <br/>Pentru securitate va poate fi cerut ocazional introducerea parolei din nou",
-"Verify" => "Verifica"
+"next" => "următorul"
 );

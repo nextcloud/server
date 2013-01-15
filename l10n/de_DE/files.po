@@ -6,7 +6,7 @@
 #   <admin@s-goecker.de>, 2012.
 #   <a.tangemann@web.de>, 2012-2013.
 #   <blobbyjj@ymail.com>, 2012.
-# I Robot <owncloud-bot@tmit.eu>, 2012.
+# I Robot <owncloud-bot@tmit.eu>, 2012-2013.
 # I Robot <thomas.mueller@tmit.eu>, 2012.
 # Jan-Christoph Borchardt <hey@jancborchardt.net>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
@@ -14,10 +14,12 @@
 #   <lukas@statuscode.ch>, 2012.
 #   <mail@felixmoeller.de>, 2012.
 # Marcel Kühlhorn <susefan93@gmx.de>, 2012.
+#   <markus.thiel@desico.de>, 2013.
 # Michael Krell <m4dmike.mni@gmail.com>, 2012.
 #   <nelsonfritsch@gmail.com>, 2012.
 #   <niko@nik-o-mat.de>, 2012.
 # Phi Lieb <>, 2012.
+#   <Steve_Reichert@gmx.de>, 2013.
 #   <thomas.mueller@tmit.eu>, 2012.
 # Thomas Müller <>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
@@ -25,15 +27,29 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-07 00:04+0100\n"
-"PO-Revision-Date: 2013-01-06 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 13:29+0000\n"
+"Last-Translator: thiel <markus.thiel@desico.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: de_DE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr "Konnte %s nicht verschieben - Datei mit diesem Namen existiert bereits"
+
+#: ajax/move.php:24
+#, php-format
+msgid "Could not move %s"
+msgstr "Konnte %s nicht verschieben"
+
+#: ajax/rename.php:19
+msgid "Unable to rename file"
+msgstr "Konnte Datei nicht umbenennen"
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
@@ -72,7 +88,7 @@ msgstr "Fehler beim Schreiben auf die Festplatte"
 
 #: ajax/upload.php:45
 msgid "Not enough space available"
-msgstr "Nicht genug Speicher verfügbar"
+msgstr "Nicht genügend Speicherplatz verfügbar"
 
 #: ajax/upload.php:69
 msgid "Invalid directory."
@@ -82,11 +98,11 @@ msgstr "Ungültiges Verzeichnis."
 msgid "Files"
 msgstr "Dateien"
 
-#: js/fileactions.js:117 templates/index.php:84 templates/index.php:85
+#: js/fileactions.js:117 templates/index.php:82 templates/index.php:83
 msgid "Unshare"
 msgstr "Nicht mehr freigeben"
 
-#: js/fileactions.js:119 templates/index.php:90 templates/index.php:91
+#: js/fileactions.js:119 templates/index.php:88 templates/index.php:89
 msgid "Delete"
 msgstr "Löschen"
 
@@ -94,49 +110,49 @@ msgstr "Löschen"
 msgid "Rename"
 msgstr "Umbenennen"
 
-#: js/filelist.js:199 js/filelist.js:201
+#: js/filelist.js:205 js/filelist.js:207
 msgid "{new_name} already exists"
 msgstr "{new_name} existiert bereits"
 
-#: js/filelist.js:199 js/filelist.js:201
+#: js/filelist.js:205 js/filelist.js:207
 msgid "replace"
 msgstr "ersetzen"
 
-#: js/filelist.js:199
+#: js/filelist.js:205
 msgid "suggest name"
 msgstr "Name vorschlagen"
 
-#: js/filelist.js:199 js/filelist.js:201
+#: js/filelist.js:205 js/filelist.js:207
 msgid "cancel"
 msgstr "abbrechen"
 
-#: js/filelist.js:248
+#: js/filelist.js:254
 msgid "replaced {new_name}"
 msgstr "{new_name} wurde ersetzt"
 
-#: js/filelist.js:248 js/filelist.js:250 js/filelist.js:282 js/filelist.js:284
+#: js/filelist.js:254 js/filelist.js:256 js/filelist.js:288 js/filelist.js:290
 msgid "undo"
 msgstr "rückgängig machen"
 
-#: js/filelist.js:250
+#: js/filelist.js:256
 msgid "replaced {new_name} with {old_name}"
 msgstr "{old_name} wurde ersetzt durch {new_name}"
 
-#: js/filelist.js:282
+#: js/filelist.js:288
 msgid "unshared {files}"
 msgstr "Freigabe für {files} beendet"
 
-#: js/filelist.js:284
+#: js/filelist.js:290
 msgid "deleted {files}"
 msgstr "{files} gelöscht"
 
 #: js/files.js:31
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' ist kein gültiger Dateiname."
 
 #: js/files.js:36
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Der Dateiname darf nicht leer sein."
 
 #: js/files.js:45
 msgid ""
@@ -160,7 +176,7 @@ msgstr "Fehler beim Upload"
 msgid "Close"
 msgstr "Schließen"
 
-#: js/files.js:260 js/files.js:374 js/files.js:404
+#: js/files.js:260 js/files.js:376 js/files.js:409
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -168,56 +184,60 @@ msgstr "Ausstehend"
 msgid "1 file uploading"
 msgstr "1 Datei wird hochgeladen"
 
-#: js/files.js:283 js/files.js:337 js/files.js:352
+#: js/files.js:283 js/files.js:338 js/files.js:353
 msgid "{count} files uploading"
 msgstr "{count} Dateien wurden hochgeladen"
 
-#: js/files.js:355 js/files.js:388
+#: js/files.js:357 js/files.js:393
 msgid "Upload cancelled."
 msgstr "Upload abgebrochen."
 
-#: js/files.js:457
+#: js/files.js:464
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Der Dateiupload läuft. Wenn Sie die Seite jetzt verlassen, wird der Upload abgebrochen."
 
-#: js/files.js:527
-msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
-msgstr "Ungültiger Ordnername. Die Verwendung von \"Shared\" ist ownCloud vorbehalten."
+#: js/files.js:537
+msgid "URL cannot be empty."
+msgstr "Die URL darf nicht leer sein."
 
-#: js/files.js:711
+#: js/files.js:543
+msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
+msgstr "Ungültiger Verzeichnisname. Die Nutzung von \"Shared\" ist ownCloud vorbehalten"
+
+#: js/files.js:727
 msgid "{count} files scanned"
 msgstr "{count} Dateien wurden gescannt"
 
-#: js/files.js:719
+#: js/files.js:735
 msgid "error while scanning"
 msgstr "Fehler beim Scannen"
 
-#: js/files.js:792 templates/index.php:66
+#: js/files.js:808 templates/index.php:64
 msgid "Name"
 msgstr "Name"
 
-#: js/files.js:793 templates/index.php:77
+#: js/files.js:809 templates/index.php:75
 msgid "Size"
 msgstr "Größe"
 
-#: js/files.js:794 templates/index.php:79
+#: js/files.js:810 templates/index.php:77
 msgid "Modified"
 msgstr "Bearbeitet"
 
-#: js/files.js:813
+#: js/files.js:829
 msgid "1 folder"
 msgstr "1 Ordner"
 
-#: js/files.js:815
+#: js/files.js:831
 msgid "{count} folders"
 msgstr "{count} Ordner"
 
-#: js/files.js:823
+#: js/files.js:839
 msgid "1 file"
 msgstr "1 Datei"
 
-#: js/files.js:825
+#: js/files.js:841
 msgid "{count} files"
 msgstr "{count} Dateien"
 
@@ -269,36 +289,36 @@ msgstr "Ordner"
 msgid "From link"
 msgstr "Von einem Link"
 
-#: templates/index.php:35
+#: templates/index.php:18
 msgid "Upload"
 msgstr "Hochladen"
 
-#: templates/index.php:43
+#: templates/index.php:41
 msgid "Cancel upload"
 msgstr "Upload abbrechen"
 
-#: templates/index.php:58
+#: templates/index.php:56
 msgid "Nothing in here. Upload something!"
 msgstr "Alles leer. Bitte laden Sie etwas hoch!"
 
-#: templates/index.php:72
+#: templates/index.php:70
 msgid "Download"
 msgstr "Herunterladen"
 
-#: templates/index.php:104
+#: templates/index.php:102
 msgid "Upload too large"
 msgstr "Der Upload ist zu groß"
 
-#: templates/index.php:106
+#: templates/index.php:104
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server."
 
-#: templates/index.php:111
+#: templates/index.php:109
 msgid "Files are being scanned, please wait."
 msgstr "Dateien werden gescannt, bitte warten."
 
-#: templates/index.php:114
+#: templates/index.php:112
 msgid "Current scanning"
 msgstr "Scanne"

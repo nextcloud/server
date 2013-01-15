@@ -6,15 +6,15 @@
 # Christer Eriksson <post@hc3web.com>, 2012.
 # Daniel Sandman <revoltism@gmail.com>, 2012.
 #   <hakan.thn@gmail.com>, 2011.
-# Magnus Höglund <magnus@linux.com>, 2012.
+# Magnus Höglund <magnus@linux.com>, 2012-2013.
 #   <magnus@linux.com>, 2012.
 #   <revoltism@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-07 00:04+0100\n"
-"PO-Revision-Date: 2013-01-06 23:04+0000\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 23:03+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -89,55 +89,55 @@ msgstr "Fel vid borttagning av %s från favoriter."
 msgid "Settings"
 msgstr "Inställningar"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "sekunder sedan"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "1 minut sedan"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minuter sedan"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "1 timme sedan"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "{hours} timmar sedan"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "i dag"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "i går"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "{days} dagar sedan"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "förra månaden"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "{months} månader sedan"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "månader sedan"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "förra året"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "år sedan"
 
@@ -213,7 +213,6 @@ msgid "Password protect"
 msgstr "Lösenordsskydda"
 
 #: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
 msgid "Password"
 msgstr "Lösenord"
 
@@ -558,10 +557,6 @@ msgstr "kom ihåg"
 msgid "Log in"
 msgstr "Logga in"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Du är utloggad."
-
 #: templates/part.pagenavi.php:3
 msgid "prev"
 msgstr "föregående"
@@ -573,18 +568,4 @@ msgstr "nästa"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "Säkerhetsvarning!"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "Bekräfta ditt lösenord. <br/>Av säkerhetsskäl kan du ibland bli ombedd att ange ditt lösenord igen."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Verifiera"
+msgstr "Uppdaterar ownCloud till version %s, detta kan ta en stund."

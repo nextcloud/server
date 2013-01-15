@@ -3,32 +3,33 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Stefan Ilivanov <ilivanov@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-13 23:12+0200\n"
-"PO-Revision-Date: 2012-08-12 22:33+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-01-10 00:04+0100\n"
+"PO-Revision-Date: 2013-01-09 20:51+0000\n"
+"Last-Translator: Stefan Ilivanov <ilivanov@gmail.com>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: bg_BG\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: templates/settings.php:3
 msgid "Encryption"
-msgstr ""
+msgstr "Криптиране"
 
-#: templates/settings.php:4
-msgid "Exclude the following file types from encryption"
-msgstr ""
-
-#: templates/settings.php:5
-msgid "None"
-msgstr ""
-
-#: templates/settings.php:10
+#: templates/settings.php:6
 msgid "Enable Encryption"
-msgstr ""
+msgstr "Включване на криптирането"
+
+#: templates/settings.php:7
+msgid "None"
+msgstr "Няма"
+
+#: templates/settings.php:12
+msgid "Exclude the following file types from encryption"
+msgstr "Изключване на следните файлови типове от криптирането"

@@ -125,10 +125,7 @@
 "Lost your password?" => "Nie pamiętasz hasła?",
 "remember" => "Zapamiętanie",
 "Log in" => "Zaloguj",
-"You are logged out." => "Wylogowano użytkownika.",
 "prev" => "wstecz",
 "next" => "naprzód",
-"Security Warning!" => "Ostrzeżenie o zabezpieczeniach!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Sprawdź swoje hasło.<br/>Ze względów bezpieczeństwa możesz zostać czasami poproszony o wprowadzenie hasła ponownie.",
-"Verify" => "Zweryfikowane"
+"Updating ownCloud to version %s, this may take a while." => "Aktualizowanie ownCloud do wersji %s, może to potrwać chwilę."
 );

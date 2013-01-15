@@ -100,9 +100,6 @@
 "Lost your password?" => "Mistet passordet ditt?",
 "remember" => "husk",
 "Log in" => "Logg inn",
-"You are logged out." => "Du er logget ut",
 "prev" => "forrige",
-"next" => "neste",
-"Security Warning!" => "Sikkerhetsadvarsel!",
-"Verify" => "Verifiser"
+"next" => "neste"
 );

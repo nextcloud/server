@@ -52,10 +52,8 @@ if ( isset( $_GET['path'] ) ) {
 	}
 
 	// show the history only if there is something to show
-	if( OCA_Versions\Storage::isversioned( $path ) ) {
-
-		$count = 999; //show the newest revisions
-	        $versions = OCA_Versions\Storage::getVersions( $path, $count);
+	$count = 999; //show the newest revisions
+	if( ($versions = OCA_Versions\Storage::getVersions( $path, $count)) ) {
 
 		$tmpl->assign( 'versions', array_reverse( $versions ) );
 

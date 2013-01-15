@@ -125,10 +125,6 @@
 "Lost your password?" => "Ali ste pozabili geslo?",
 "remember" => "Zapomni si me",
 "Log in" => "Prijava",
-"You are logged out." => "Sta odjavljeni.",
 "prev" => "nazaj",
-"next" => "naprej",
-"Security Warning!" => "Varnostno opozorilo!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Prosimo, če preverite vaše geslo. Iz varnostnih razlogov vas lahko občasno prosimo, da ga ponovno vnesete.",
-"Verify" => "Preveri"
+"next" => "naprej"
 );

@@ -125,10 +125,6 @@
 "Lost your password?" => "Mistet dit kodeord?",
 "remember" => "husk",
 "Log in" => "Log ind",
-"You are logged out." => "Du er nu logget ud.",
 "prev" => "forrige",
-"next" => "næste",
-"Security Warning!" => "Sikkerhedsadvarsel!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Verificer din adgangskode.<br/>Af sikkerhedsårsager kan du lejlighedsvist blive bedt om at indtaste din adgangskode igen.",
-"Verify" => "Verificer"
+"next" => "næste"
 );

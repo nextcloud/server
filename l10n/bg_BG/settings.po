@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-30 00:04+0100\n"
-"PO-Revision-Date: 2012-12-29 23:05+0000\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 18:49+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -32,25 +32,17 @@ msgstr ""
 msgid "Unable to add group"
 msgstr ""
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "Е-пощата е записана"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "Неправилна е-поща"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID е сменено"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "Невалидна заявка"
+msgstr ""
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -58,7 +50,7 @@ msgstr ""
 
 #: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr "Проблем с идентификацията"
+msgstr "Възникна проблем с идентификацията"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -66,7 +58,11 @@ msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr "Езика е сменен"
+msgstr ""
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "Невалидна заявка"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -84,15 +80,15 @@ msgstr ""
 
 #: js/apps.js:28 js/apps.js:67
 msgid "Disable"
-msgstr "Изключване"
+msgstr ""
 
 #: js/apps.js:28 js/apps.js:55
 msgid "Enable"
-msgstr "Включване"
+msgstr "Включено"
 
 #: js/personal.js:69
 msgid "Saving..."
-msgstr "Записване..."
+msgstr ""
 
 #: personal.php:42 personal.php:43
 msgid "__language_name__"
@@ -108,7 +104,7 @@ msgstr ""
 
 #: templates/apps.php:27
 msgid "Select an App"
-msgstr "Изберете програма"
+msgstr ""
 
 #: templates/apps.php:31
 msgid "See application page at apps.owncloud.com"
@@ -149,7 +145,7 @@ msgstr ""
 
 #: templates/personal.php:12
 msgid "Clients"
-msgstr "Клиенти"
+msgstr ""
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
@@ -173,43 +169,43 @@ msgstr ""
 
 #: templates/personal.php:23
 msgid "Unable to change your password"
-msgstr "Невъзможна промяна на паролата"
+msgstr ""
 
 #: templates/personal.php:24
 msgid "Current password"
-msgstr "Текуща парола"
+msgstr ""
 
 #: templates/personal.php:25
 msgid "New password"
-msgstr "Нова парола"
+msgstr ""
 
 #: templates/personal.php:26
 msgid "show"
-msgstr "показва"
+msgstr ""
 
 #: templates/personal.php:27
 msgid "Change password"
-msgstr "Промяна на парола"
+msgstr ""
 
 #: templates/personal.php:33
 msgid "Email"
-msgstr "Е-поща"
+msgstr "E-mail"
 
 #: templates/personal.php:34
 msgid "Your email address"
-msgstr "Адресът на е-пощата ви"
+msgstr ""
 
 #: templates/personal.php:35
 msgid "Fill in an email address to enable password recovery"
-msgstr "Въведете е-поща за възстановяване на паролата"
+msgstr ""
 
 #: templates/personal.php:41 templates/personal.php:42
 msgid "Language"
-msgstr "Език"
+msgstr ""
 
 #: templates/personal.php:47
 msgid "Help translate"
-msgstr "Помощ за превода"
+msgstr ""
 
 #: templates/personal.php:52
 msgid "WebDAV"
@@ -243,7 +239,7 @@ msgstr "Групи"
 
 #: templates/users.php:32
 msgid "Create"
-msgstr "Ново"
+msgstr ""
 
 #: templates/users.php:35
 msgid "Default Storage"
@@ -255,7 +251,7 @@ msgstr ""
 
 #: templates/users.php:60 templates/users.php:153
 msgid "Other"
-msgstr "Друго"
+msgstr ""
 
 #: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
