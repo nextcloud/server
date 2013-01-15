@@ -158,9 +158,9 @@ function updateBookmarksList(bookmark) {
 				'</span>&nbsp;' +
 			'</p>' +
 			'<p class="bookmark_title">'+
-				'<a href="' + encodeEntities(bookmark.url) + '" target="_blank" class="bookmark_link">' + encodeEntities(bookmark.title) + '</a>' +
+				'<a href="' + encodeURI(bookmark.url) + '" target="_blank" class="bookmark_link">' + encodeEntities(bookmark.title) + '</a>' +
 			'</p>' +
-			'<p class="bookmark_url"><a href="' + encodeEntities(bookmark.url) + '" target="_blank" class="bookmark_link">' + encodeEntities(bookmark.url) + '</a></p>' +
+			'<p class="bookmark_url"><a href="' + encodeURI(bookmark.url) + '" target="_blank" class="bookmark_link">' + encodeURI(bookmark.url) + '</a></p>' +
 		'</div>'
 	);
 	if(taglist != '') {
