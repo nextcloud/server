@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <bbartlomiej@gmail.com>, 2013.
 # Cyryl Sochacki <>, 2012.
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2012-2013.
 # Marcin Małecki <gerber@tkdami.net>, 2011-2012.
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-10 00:04+0100\n"
-"PO-Revision-Date: 2013-01-09 23:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-16 00:19+0100\n"
+"PO-Revision-Date: 2013-01-15 08:30+0000\n"
+"Last-Translator: bbartlomiej <bbartlomiej@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,16 +28,16 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Nie można było przenieść %s - Plik o takiej nazwie już istnieje"
 
 #: ajax/move.php:24
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Nie można było przenieść %s"
 
 #: ajax/rename.php:19
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Nie można zmienić nazwy pliku"
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
@@ -147,84 +148,84 @@ msgid ""
 "allowed."
 msgstr "Niepoprawna nazwa, Znaki '\\', '/', '<', '>', ':', '\"', '|', '?' oraz '*'są niedozwolone."
 
-#: js/files.js:186
+#: js/files.js:187
 msgid "generating ZIP-file, it may take some time."
 msgstr "Generowanie pliku ZIP, może potrwać pewien czas."
 
-#: js/files.js:224
+#: js/files.js:225
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Nie można wczytać pliku jeśli jest katalogiem lub ma 0 bajtów"
 
-#: js/files.js:224
+#: js/files.js:225
 msgid "Upload Error"
 msgstr "Błąd wczytywania"
 
-#: js/files.js:241
+#: js/files.js:242
 msgid "Close"
 msgstr "Zamknij"
 
-#: js/files.js:260 js/files.js:376 js/files.js:409
+#: js/files.js:261 js/files.js:377 js/files.js:410
 msgid "Pending"
 msgstr "Oczekujące"
 
-#: js/files.js:280
+#: js/files.js:281
 msgid "1 file uploading"
 msgstr "1 plik wczytany"
 
-#: js/files.js:283 js/files.js:338 js/files.js:353
+#: js/files.js:284 js/files.js:339 js/files.js:354
 msgid "{count} files uploading"
 msgstr "{count} przesyłanie plików"
 
-#: js/files.js:357 js/files.js:393
+#: js/files.js:358 js/files.js:394
 msgid "Upload cancelled."
 msgstr "Wczytywanie anulowane."
 
-#: js/files.js:464
+#: js/files.js:465
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Wysyłanie pliku jest w toku. Teraz opuszczając stronę wysyłanie zostanie anulowane."
 
-#: js/files.js:537
+#: js/files.js:538
 msgid "URL cannot be empty."
 msgstr "URL nie może być pusty."
 
-#: js/files.js:543
+#: js/files.js:544
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nazwa folderu nieprawidłowa. Wykorzystanie \"Shared\" jest zarezerwowane przez Owncloud"
 
-#: js/files.js:727
+#: js/files.js:728
 msgid "{count} files scanned"
 msgstr "{count} pliki skanowane"
 
-#: js/files.js:735
+#: js/files.js:736
 msgid "error while scanning"
 msgstr "Wystąpił błąd podczas skanowania"
 
-#: js/files.js:808 templates/index.php:64
+#: js/files.js:809 templates/index.php:64
 msgid "Name"
 msgstr "Nazwa"
 
-#: js/files.js:809 templates/index.php:75
+#: js/files.js:810 templates/index.php:75
 msgid "Size"
 msgstr "Rozmiar"
 
-#: js/files.js:810 templates/index.php:77
+#: js/files.js:811 templates/index.php:77
 msgid "Modified"
 msgstr "Czas modyfikacji"
 
-#: js/files.js:829
+#: js/files.js:830
 msgid "1 folder"
 msgstr "1 folder"
 
-#: js/files.js:831
+#: js/files.js:832
 msgid "{count} folders"
 msgstr "{count} foldery"
 
-#: js/files.js:839
+#: js/files.js:840
 msgid "1 file"
 msgstr "1 plik"
 
-#: js/files.js:841
+#: js/files.js:842
 msgid "{count} files"
 msgstr "{count} pliki"
 

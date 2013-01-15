@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-11 00:05+0100\n"
-"PO-Revision-Date: 2013-01-10 10:27+0000\n"
-"Last-Translator: Shubhra Paul <paul_shubhra@yahoo.com>\n"
+"POT-Creation-Date: 2013-01-16 00:19+0100\n"
+"PO-Revision-Date: 2013-01-15 23:20+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,8 +26,8 @@ msgstr ""
 
 #: templates/settings.php:11
 msgid ""
-"<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will"
-" not work. Please ask your system administrator to install it."
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
+"work. Please ask your system administrator to install it."
 msgstr ""
 
 #: templates/settings.php:15
@@ -42,6 +42,10 @@ msgstr "SSL আবশ্যক  না হলে  আপনি এই প্র�
 #: templates/settings.php:16
 msgid "Base DN"
 msgstr "ভিত্তি  DN"
+
+#: templates/settings.php:16
+msgid "One Base DN per line"
+msgstr ""
 
 #: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -114,9 +118,17 @@ msgstr "পোর্ট"
 msgid "Base User Tree"
 msgstr "ভিত্তি ব্যবহারকারি বৃক্ষাকারে"
 
+#: templates/settings.php:25
+msgid "One User Base DN per line"
+msgstr ""
+
 #: templates/settings.php:26
 msgid "Base Group Tree"
 msgstr "ভিত্তি গোষ্ঠী বৃক্ষাকারে"
+
+#: templates/settings.php:26
+msgid "One Group Base DN per line"
+msgstr ""
 
 #: templates/settings.php:27
 msgid "Group-Member association"

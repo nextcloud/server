@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
+"User %s shared a file with you" => "Používateľ %s zdieľa s Vami súbor",
+"User %s shared a folder with you" => "Používateľ %s zdieľa s Vami adresár",
+"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Používateľ %s zdieľa s Vami súbor \"%s\".  Môžete si ho stiahnuť tu: %s",
+"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Používateľ %s zdieľa s Vami adresár \"%s\".  Môžete si ho stiahnuť tu: %s",
 "Category type not provided." => "Neposkytnutý kategorický typ.",
 "No category to add?" => "Žiadna kategória pre pridanie?",
 "This category already exists: " => "Táto kategória už existuje:",
@@ -39,6 +43,8 @@
 "Share with link" => "Zdieľať cez odkaz",
 "Password protect" => "Chrániť heslom",
 "Password" => "Heslo",
+"Email link to person" => "Odoslať odkaz osobe e-mailom",
+"Send" => "Odoslať",
 "Set expiration date" => "Nastaviť dátum expirácie",
 "Expiration date" => "Dátum expirácie",
 "Share via email:" => "Zdieľať cez e-mail:",
@@ -55,6 +61,8 @@
 "Password protected" => "Chránené heslom",
 "Error unsetting expiration date" => "Chyba pri odstraňovaní dátumu vypršania platnosti",
 "Error setting expiration date" => "Chyba pri nastavení dátumu vypršania platnosti",
+"Sending ..." => "Odosielam ...",
+"Email sent" => "Email odoslaný",
 "ownCloud password reset" => "Obnovenie hesla pre ownCloud",
 "Use the following link to reset your password: {link}" => "Použite nasledujúci odkaz pre obnovenie vášho hesla: {link}",
 "You will receive a link to reset your password via Email." => "Odkaz pre obnovenie hesla obdržíte e-mailom.",
@@ -118,5 +126,6 @@
 "remember" => "zapamätať",
 "Log in" => "Prihlásiť sa",
 "prev" => "späť",
-"next" => "ďalej"
+"next" => "ďalej",
+"Updating ownCloud to version %s, this may take a while." => "Aktualizujem ownCloud na verziu %s, môže to chvíľu trvať."
 );
