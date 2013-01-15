@@ -73,12 +73,10 @@ class User {
 	}
 	/**
 	 * @brief Loggs the user out including all the session data
-	 * @returns true
-	 *
 	 * Logout, destroys session
 	 */
 	public static function logout() {
-		return \OC_USER::logout();
+		\OC_USER::logout();
 	}
 
 	/**
