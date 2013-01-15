@@ -100,6 +100,7 @@ $tmpl->assign('dir', OC_Filesystem::normalizePath($dir));
 $tmpl->assign('isCreatable', OC_Filesystem::isCreatable($dir . '/'));
 $tmpl->assign('permissions', $permissions);
 $tmpl->assign('files', $files);
+$tmpl->assign('trash', \OCP\App::isEnabled('files_trashbin'));
 $tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 $tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 $tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
