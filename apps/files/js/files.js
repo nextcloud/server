@@ -82,6 +82,11 @@ $(document).ready(function() {
 		$(this).parent().children('#file_upload_start').trigger('click');
 		return false;
 	});
+	
+	// Show Trash bin
+	$('#trash a').live('click', function() {
+		console.log("hello");
+	});
 
 	var lastChecked;
 
