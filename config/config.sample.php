@@ -36,11 +36,11 @@ $CONFIG = array(
 /* The automatic protocol detection of ownCloud can fail in certain reverse proxy situations. This option allows to manually override the protocol detection. For example "https" */
 "overwriteprotocol" => "",
 
-/* Enhanced auth forces users to enter their password again when performing potential sensitive actions like creating or deleting users */
-"enhancedauth" => true,
+/* A proxy to use to connect to the internet. For example "myproxy.org:88" */
+"proxy" => "",
 
-/* Time in seconds how long an user is authenticated without entering his password again before performing sensitive actions like creating or deleting users etc...*/
-"enhancedauthtime" => 15 * 60,
+/* The optional authentication for the proxy to use to connect to the internet. The format is: [username]:[password] */
+"proxyuserpwd" => "",
 
 /* Theme to use for ownCloud */
 "theme" => "",
@@ -71,6 +71,9 @@ $CONFIG = array(
 
 /* Host to use for sending mail, depends on mail_smtpmode if this is used */
 "mail_smtphost" => "127.0.0.1",
+
+/* Port to use for sending mail, depends on mail_smtpmode if this is used */
+"mail_smtpport" => 25,
 
 /* authentication needed to send mail, depends on mail_smtpmode if this is used
  * (false = disable authentication)
@@ -105,6 +108,9 @@ $CONFIG = array(
  * directory. The sqlite database is also stored here, when sqlite is used.
  */
 // "datadirectory" => "",
+
+/* Enable maintenance mode to disable ownCloud */
+"maintenance" => false,
 
 "apps_paths" => array(
 

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 23:17+0000\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 23:03+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -85,55 +85,55 @@ msgstr "เกิดข้อผิดพลาดในการลบ %s อ�
 msgid "Settings"
 msgstr "ตั้งค่า"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "วินาที ก่อนหน้านี้"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "1 นาทีก่อนหน้านี้"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "{minutes} นาทีก่อนหน้านี้"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "1 ชั่วโมงก่อนหน้านี้"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "{hours} ชั่วโมงก่อนหน้านี้"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "วันนี้"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "เมื่อวานนี้"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "{day} วันก่อนหน้านี้"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "เดือนที่แล้ว"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "{months} เดือนก่อนหน้านี้"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "เดือน ที่ผ่านมา"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "ปีที่แล้ว"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "ปี ที่ผ่านมา"
 
@@ -163,8 +163,8 @@ msgid "The object type is not specified."
 msgstr "ชนิดของวัตถุยังไม่ได้รับการระบุ"
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "พบข้อผิดพลาด"
 
@@ -176,7 +176,7 @@ msgstr "ชื่อของแอปยังไม่ได้รับกา
 msgid "The required file {file} is not installed!"
 msgstr "ไฟล์ {file} ซึ่งเป็นไฟล์ที่จำเป็นต้องได้รับการติดตั้งไว้ก่อน ยังไม่ได้ถูกติดตั้ง"
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "เกิดข้อผิดพลาดในระหว่างการแชร์ข้อมูล"
 
@@ -204,12 +204,11 @@ msgstr "แชร์ให้กับ"
 msgid "Share with link"
 msgstr "แชร์ด้วยลิงก์"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "ใส่รหัสผ่านไว้"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
-#: templates/verify.php:13
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "รหัสผ่าน"
 
@@ -273,23 +272,23 @@ msgstr "ลบ"
 msgid "share"
 msgstr "แชร์"
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "ใส่รหัสผ่านไว้"
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr "เกิดข้อผิดพลาดในการยกเลิกการตั้งค่าวันที่หมดอายุ"
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "เกิดข้อผิดพลาดในการตั้งค่าวันที่หมดอายุ"
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
 msgstr ""
 
@@ -313,8 +312,8 @@ msgstr "รีเซ็ตค่าการส่งอีเมล"
 msgid "Request failed!"
 msgstr "คำร้องขอล้มเหลว!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "ชื่อผู้ใช้งาน"
 
@@ -403,44 +402,44 @@ msgstr "ไดเร็กทอรี่ข้อมูลและไฟล์
 msgid "Create an <strong>admin account</strong>"
 msgstr "สร้าง <strong>บัญชีผู้ดูแลระบบ</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "ขั้นสูง"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "โฟลเดอร์เก็บข้อมูล"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "กำหนดค่าฐานข้อมูล"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "จะถูกใช้"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "ชื่อผู้ใช้งานฐานข้อมูล"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "รหัสผ่านฐานข้อมูล"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "ชื่อฐานข้อมูล"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "พื้นที่ตารางในฐานข้อมูล"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Database host"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "ติดตั้งเรียบร้อยแล้ว"
 
@@ -528,35 +527,31 @@ msgstr "web services under your control"
 msgid "Log out"
 msgstr "ออกจากระบบ"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "การเข้าสู่ระบบอัตโนมัติถูกปฏิเสธแล้ว"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "หากคุณยังไม่ได้เปลี่ยนรหัสผ่านของคุณเมื่อเร็วๆนี้, บัญชีของคุณอาจถูกบุกรุกโดยผู้อื่น"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "กรุณาเปลี่ยนรหัสผ่านของคุณอีกครั้ง เพื่อป้องกันบัญชีของคุณให้ปลอดภัย"
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "ลืมรหัสผ่าน?"
 
-#: templates/login.php:27
+#: templates/login.php:39
 msgid "remember"
 msgstr "จำรหัสผ่าน"
 
-#: templates/login.php:28
+#: templates/login.php:41
 msgid "Log in"
 msgstr "เข้าสู่ระบบ"
-
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "คุณออกจากระบบเรียบร้อยแล้ว"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -566,16 +561,7 @@ msgstr "ก่อนหน้า"
 msgid "next"
 msgstr "ถัดไป"
 
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "คำเตือนเพื่อความปลอดภัย!"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "กรุณายืนยันรหัสผ่านของคุณ <br/> เพื่อความปลอดภัย คุณจะถูกขอให้กรอกรหัสผ่านอีกครั้ง"
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "ยืนยัน"
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr ""

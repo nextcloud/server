@@ -1,3 +1,3 @@
 <?php $TRANSLATIONS = array(
-"WebDAV URL: http://" => "Endereço WebDAV: http://"
+"URL: http://" => "URL: http://"
 );

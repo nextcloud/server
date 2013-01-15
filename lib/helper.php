@@ -31,8 +31,9 @@ class OC_Helper {
 	/**
 	 * @brief Creates an url using a defined route
 	 * @param $route
-	 * @param $parameters
-	 * @param $args array with param=>value, will be appended to the returned url
+	 * @param array $parameters
+	 * @return
+	 * @internal param array $args with param=>value, will be appended to the returned url
 	 * @returns the url
 	 *
 	 * Returns a url to the given app and file.
@@ -128,6 +129,7 @@ class OC_Helper {
 	/**
 	 * @brief Creates an absolute url for remote use
 	 * @param string $service id
+	 * @param bool $add_slash
 	 * @return string the url
 	 *
 	 * Returns a absolute url to the given service.
@@ -139,6 +141,7 @@ class OC_Helper {
 	/**
 	 * @brief Creates an absolute url for public use
 	 * @param string $service id
+	 * @param bool $add_slash
 	 * @return string the url
 	 *
 	 * Returns a absolute url to the given service.
@@ -450,12 +453,14 @@ class OC_Helper {
 	}
 
 	/**
-	* detect if a given program is found in the search PATH
-	*
-	* @param  string  $program name
-	* @param  string  $optional search path, defaults to $PATH
-	* @return bool    true if executable program found in path
-	*/
+	 * detect if a given program is found in the search PATH
+	 *
+	 * @param $name
+	 * @param bool $path
+	 * @internal param string $program name
+	 * @internal param string $optional search path, defaults to $PATH
+	 * @return bool    true if executable program found in path
+	 */
 	public static function canExecute($name, $path = false) {
 		// path defaults to PATH from environment if not set
 		if ($path === false) {
@@ -620,37 +625,17 @@ class OC_Helper {
 		return $newpath;
 	}
 
-	/*
-	 * checks if $sub is a subdirectory of $parent
+	/**
+	 * @brief Checks if $sub is a subdirectory of $parent
 	 *
 	 * @param string $sub
 	 * @param string $parent
 	 * @return bool
 	 */
 	public static function issubdirectory($sub, $parent) {
-		if($sub == null || $sub == '' || $parent == null || $parent == '') {
-			return false;
+		if (strpos(realpath($sub), realpath($parent)) === 0) {
+			return true;
 		}
-		$realpath_sub = realpath($sub);
-		$realpath_parent = realpath($parent);
-		if(($realpath_sub == false && substr_count($realpath_sub, './') != 0) || ($realpath_parent == false && substr_count($realpath_parent, './') != 0)) { //it checks for  both ./ and ../
-			return false;
-		}
-		if($realpath_sub && $realpath_sub != '' && $realpath_parent && $realpath_parent != '') {
-			if(substr($realpath_sub, 0, strlen($realpath_parent)) == $realpath_parent) {
-				return true;
-			}
-		}else{
-			if(substr($sub, 0, strlen($parent)) == $parent) {
-				return true;
-			}
-		}
-		/*echo 'SUB: ' . $sub . "\n";
-		echo 'PAR: ' . $parent . "\n";
-		echo 'REALSUB: ' . $realpath_sub . "\n";
-		echo 'REALPAR: ' . $realpath_parent . "\n";
-		echo substr($realpath_sub, 0, strlen($realpath_parent));
-		exit;*/
 		return false;
 	}
 
@@ -676,16 +661,16 @@ class OC_Helper {
 	}
 
 	/**
-	* @brief replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
-	*
-	* @param string $input The input string. .Opposite to the PHP build-in function does not accept an array.
-	* @param string $replacement The replacement string.
-	* @param int $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
-	* @param int $length Length of the part to be replaced
-	* @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
-	* @return string
-	*
-	*/
+	 * @brief replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
+	 *
+	 * @param $string
+	 * @param string $replacement The replacement string.
+	 * @param int $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
+	 * @param int $length Length of the part to be replaced
+	 * @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	 * @internal param string $input The input string. .Opposite to the PHP build-in function does not accept an array.
+	 * @return string
+	 */
 	public static function mb_substr_replace($string, $replacement, $start, $length = null, $encoding = 'UTF-8') {
 		$start = intval($start);
 		$length = intval($length);
@@ -757,5 +742,25 @@ class OC_Helper {
 			return substr($str, 0, $characters) . '...' . substr($str, -1 * $characters);
 		}
 		return $str;
+	}
+
+	/**
+	 * Checks if a function is available
+	 * @param string $function_name
+	 * @return bool
+	 */
+	public static function is_function_enabled($function_name) {
+		if (!function_exists($function_name)) {
+			return false;
+		}
+		$disabled = explode(', ', ini_get('disable_functions'));
+		if (in_array($function_name, $disabled)) {
+			return false;
+		}
+		$disabled = explode(', ', ini_get('suhosin.executor.func.blacklist'));
+		if (in_array($function_name, $disabled)) {
+			return false;
+		}
+		return true;
 	}
 }

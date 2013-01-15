@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "هیچ فایلی آپلود نشد.خطای ناشناس",
 "There is no error, the file uploaded with success" => "هیچ خطایی وجود ندارد فایل با موفقیت بار گذاری شد",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "حداکثر حجم مجاز برای بارگذاری از طریق HTML \nMAX_FILE_SIZE",
 "The uploaded file was only partially uploaded" => "مقدار کمی از فایل بارگذاری شده",

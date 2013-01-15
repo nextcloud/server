@@ -2,7 +2,6 @@
 
 OC_JSON::checkAdminUser();
 OCP\JSON::callCheck();
-OC_JSON::setContentTypeHeader();
 
 $appid = OC_App::enable($_POST['appid']);
 if($appid !== false) {

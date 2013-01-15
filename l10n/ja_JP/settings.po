@@ -4,15 +4,16 @@
 # 
 # Translators:
 # Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>, 2012.
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2012-2013.
 # <tetuyano+transi@gmail.com>, 2012.
 #   <tetuyano+transi@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-03 00:04+0100\n"
-"PO-Revision-Date: 2012-12-02 03:18+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +33,7 @@ msgstr "グループは既に存在しています"
 msgid "Unable to add group"
 msgstr "グループを追加できません"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "アプリを有効にできませんでした。"
 
@@ -43,14 +44,6 @@ msgstr "メールアドレスを保存しました"
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "無効なメールアドレス"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenIDが変更されました"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "無効なリクエストです"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -67,6 +60,10 @@ msgstr "ユーザを削除できません"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "言語が変更されました"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "無効なリクエストです"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -118,29 +115,29 @@ msgstr "apps.owncloud.com でアプリケーションのページを見てくだ
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-ライセンス: <span class=\"author\"></span>"
 
-#: templates/help.php:9
-msgid "Documentation"
-msgstr "ドキュメント"
+#: templates/help.php:3
+msgid "User Documentation"
+msgstr "ユーザドキュメント"
 
-#: templates/help.php:10
-msgid "Managing Big Files"
-msgstr "大きなファイルを扱うには"
+#: templates/help.php:4
+msgid "Administrator Documentation"
+msgstr "管理者ドキュメント"
+
+#: templates/help.php:6
+msgid "Online Documentation"
+msgstr "オンラインドキュメント"
+
+#: templates/help.php:7
+msgid "Forum"
+msgstr "フォーラム"
+
+#: templates/help.php:9
+msgid "Bugtracker"
+msgstr "バグトラッカー"
 
 #: templates/help.php:11
-msgid "Ask a question"
-msgstr "質問してください"
-
-#: templates/help.php:22
-msgid "Problems connecting to help database."
-msgstr "ヘルプデータベースへの接続時に問題が発生しました"
-
-#: templates/help.php:23
-msgid "Go there manually."
-msgstr "手動で移動してください。"
-
-#: templates/help.php:31
-msgid "Answer"
-msgstr "解答"
+msgid "Commercial Support"
+msgstr "コマーシャルサポート"
 
 #: templates/personal.php:8
 #, php-format
@@ -148,62 +145,82 @@ msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "現在、<strong>%s</strong> / <strong>%s</strong> を利用しています"
 
 #: templates/personal.php:12
-msgid "Desktop and Mobile Syncing Clients"
-msgstr "デスクトップおよびモバイル用の同期クライアント"
+msgid "Clients"
+msgstr "顧客"
 
 #: templates/personal.php:13
-msgid "Download"
-msgstr "ダウンロード"
+msgid "Download Desktop Clients"
+msgstr "デスクトップクライアントをダウンロード"
 
-#: templates/personal.php:19
+#: templates/personal.php:14
+msgid "Download Android Client"
+msgstr "Androidクライアントをダウンロード"
+
+#: templates/personal.php:15
+msgid "Download iOS Client"
+msgstr "iOSクライアントをダウンロード"
+
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+msgid "Password"
+msgstr "パスワード"
+
+#: templates/personal.php:22
 msgid "Your password was changed"
 msgstr "パスワードを変更しました"
 
-#: templates/personal.php:20
+#: templates/personal.php:23
 msgid "Unable to change your password"
 msgstr "パスワードを変更することができません"
 
-#: templates/personal.php:21
+#: templates/personal.php:24
 msgid "Current password"
 msgstr "現在のパスワード"
 
-#: templates/personal.php:22
+#: templates/personal.php:25
 msgid "New password"
 msgstr "新しいパスワード"
 
-#: templates/personal.php:23
+#: templates/personal.php:26
 msgid "show"
 msgstr "表示"
 
-#: templates/personal.php:24
+#: templates/personal.php:27
 msgid "Change password"
 msgstr "パスワードを変更"
 
-#: templates/personal.php:30
+#: templates/personal.php:33
 msgid "Email"
 msgstr "Email"
 
-#: templates/personal.php:31
+#: templates/personal.php:34
 msgid "Your email address"
 msgstr "あなたのメールアドレス"
 
-#: templates/personal.php:32
+#: templates/personal.php:35
 msgid "Fill in an email address to enable password recovery"
 msgstr "※パスワード回復を有効にするにはメールアドレスの入力が必要です"
 
-#: templates/personal.php:38 templates/personal.php:39
+#: templates/personal.php:41 templates/personal.php:42
 msgid "Language"
 msgstr "言語"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Help translate"
 msgstr "翻訳に協力する"
 
-#: templates/personal.php:51
-msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "ファイルマネージャーであなたのownCloudに接続する際は、このアドレスを使用してください"
+#: templates/personal.php:52
+msgid "WebDAV"
+msgstr "WebDAV"
 
-#: templates/personal.php:61
+#: templates/personal.php:54
+msgid "Use this address to connect to your ownCloud in your file manager"
+msgstr "ファイルマネージャでownCloudに接続する際はこのアドレスを利用してください"
+
+#: templates/personal.php:63
+msgid "Version"
+msgstr "バージョン"
+
+#: templates/personal.php:65
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -213,15 +230,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>により開発されています、<a href=\"https://github.com/owncloud\" target=\"_blank\">ソースコード</a>ライセンスは、<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> ライセンスにより提供されています。"
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "名前"
 
-#: templates/users.php:23 templates/users.php:77
-msgid "Password"
-msgstr "パスワード"
-
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "グループ"
 
@@ -230,21 +243,29 @@ msgid "Create"
 msgstr "作成"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "デフォルトのクォータサイズ"
+msgid "Default Storage"
+msgstr "デフォルトストレージ"
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr "無制限"
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "その他"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "グループ管理者"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "クオータ"
+#: templates/users.php:87
+msgid "Storage"
+msgstr "ストレージ"
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr "デフォルト"
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "削除"

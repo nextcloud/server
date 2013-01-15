@@ -4,13 +4,14 @@
 # 
 # Translators:
 # antiparvos  <marcoslansgarza@gmail.com>, 2012.
-# Xosé M. Lamas <correo.xmgz@gmail.com>, 2012.
+#   <mbouzada@gmail.com>, 2012.
+# Xosé M. Lamas <correo.xmgz@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 23:17+0000\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 23:03+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -22,26 +23,26 @@ msgstr ""
 #: ajax/share.php:84
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "O usuario %s compartíu un ficheiro con vostede"
 
 #: ajax/share.php:86
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "O usuario %s compartíu un cartafol con vostede"
 
 #: ajax/share.php:88
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "O usuario %s compartiu o ficheiro «%s» con vostede. Teno dispoñíbel en: %s"
 
 #: ajax/share.php:90
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "O usuario %s compartiu o cartafol «%s» con vostede. Teno dispoñíbel en: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -65,12 +66,12 @@ msgstr "Non se forneceu o tipo de obxecto."
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr "Non se deu o ID %s."
+msgstr "Non se forneceu o ID %s."
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr "Erro ao engadir %s aos favoritos."
+msgstr "Produciuse un erro ao engadir %s aos favoritos."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -79,61 +80,61 @@ msgstr "Non hai categorías seleccionadas para eliminar."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr "Erro ao eliminar %s dos favoritos."
+msgstr "Produciuse un erro ao eliminar %s dos favoritos."
 
 #: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "Configuracións"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "hai 1 minuto"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
-msgstr "{minutes} minutos atrás"
+msgstr "hai {minutes} minutos"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "hai 1 hora"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
-msgstr "{hours} horas atrás"
+msgstr "hai {hours} horas"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "hoxe"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "onte"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
-msgstr "{days} días atrás"
+msgstr "hai {days} días"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "último mes"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
-msgstr "{months} meses atrás"
+msgstr "hai {months} meses"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "último ano"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "anos atrás"
 
@@ -163,8 +164,8 @@ msgid "The object type is not specified."
 msgstr "Non se especificou o tipo de obxecto."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "Erro"
 
@@ -176,25 +177,25 @@ msgstr "Non se especificou o nome do aplicativo."
 msgid "The required file {file} is not installed!"
 msgstr "Non está instalado o ficheiro {file} que se precisa"
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
-msgstr "Erro compartindo"
+msgstr "Produciuse un erro ao compartir"
 
 #: js/share.js:135
 msgid "Error while unsharing"
-msgstr "Erro ao deixar de compartir"
+msgstr "Produciuse un erro ao deixar de compartir"
 
 #: js/share.js:142
 msgid "Error while changing permissions"
-msgstr "Erro ao cambiar os permisos"
+msgstr "Produciuse un erro ao cambiar os permisos"
 
 #: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
-msgstr "Compartido contigo e co grupo {group} de {owner}"
+msgstr "Compartido con vostede e co grupo {group} por {owner}"
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr "Compartido contigo por {owner}"
+msgstr "Compartido con vostede por {owner}"
 
 #: js/share.js:158
 msgid "Share with"
@@ -202,24 +203,23 @@ msgstr "Compartir con"
 
 #: js/share.js:163
 msgid "Share with link"
-msgstr "Compartir ca ligazón"
+msgstr "Compartir coa ligazón"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "Protexido con contrasinais"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
-#: templates/verify.php:13
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "Contrasinal"
 
 #: js/share.js:172
 msgid "Email link to person"
-msgstr ""
+msgstr "Enviar ligazón por correo"
 
 #: js/share.js:173
 msgid "Send"
-msgstr ""
+msgstr "Enviar"
 
 #: js/share.js:177
 msgid "Set expiration date"
@@ -231,7 +231,7 @@ msgstr "Data de caducidade"
 
 #: js/share.js:210
 msgid "Share via email:"
-msgstr "Compartir por correo electrónico:"
+msgstr "Compartir por correo:"
 
 #: js/share.js:212
 msgid "No people found"
@@ -239,7 +239,7 @@ msgstr "Non se atopou xente"
 
 #: js/share.js:239
 msgid "Resharing is not allowed"
-msgstr "Non se acepta volver a compartir"
+msgstr "Non se permite volver a compartir"
 
 #: js/share.js:275
 msgid "Shared in {item} with {user}"
@@ -267,64 +267,64 @@ msgstr "actualizar"
 
 #: js/share.js:319
 msgid "delete"
-msgstr "borrar"
+msgstr "eliminar"
 
 #: js/share.js:322
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "Protexido con contrasinal"
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
-msgstr "Erro ao quitar a data de caducidade"
+msgstr "Produciuse un erro ao retirar a data de caducidade"
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
-msgstr "Erro ao definir a data de caducidade"
+msgstr "Produciuse un erro ao definir a data de caducidade"
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
-msgstr ""
+msgstr "Enviando..."
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
-msgstr ""
+msgstr "Correo enviado"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
-msgstr "Restablecer contrasinal de ownCloud"
+msgstr "Restabelecer o contrasinal de ownCloud"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr "Usa a seguinte ligazón para restablecer o contrasinal: {link}"
+msgstr "Usa a seguinte ligazón para restabelecer o contrasinal: {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "Recibirá unha ligazón por correo electrónico para restablecer o contrasinal"
+msgstr "Recibirá unha ligazón por correo para restabelecer o contrasinal"
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr "Restablecer o envío por correo."
+msgstr "Restabelecer o envío por correo."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr "Fallo na petición"
+msgstr "Non foi posíbel facer a petición"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "Nome de usuario"
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr "Petición de restablecemento"
+msgstr "Petición de restabelecemento"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "O contrasinal foi restablecido"
+msgstr "O contrasinal foi restabelecido"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
@@ -336,7 +336,7 @@ msgstr "Novo contrasinal"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "Restablecer contrasinal"
+msgstr "Restabelecer o contrasinal"
 
 #: strings.php:5
 msgid "Personal"
@@ -376,19 +376,19 @@ msgstr "Engadir"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr "Aviso de seguridade"
+msgstr "Aviso de seguranza"
 
 #: templates/installation.php:24
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr "Non hai un xerador de números aleatorios dispoñíbel. Activa o engadido de OpenSSL para PHP."
+msgstr "Non hai un xerador de números ao chou dispoñíbel. Active o engadido de OpenSSL para PHP."
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr "Sen un xerador de números aleatorios seguro podería acontecer que predicindo as cadeas de texto de reinicio de contrasinais se afagan coa túa conta."
+msgstr "Sen un xerador seguro de números ao chou podería acontecer que predicindo as cadeas de texto de reinicio de contrasinais se afagan coa súa conta."
 
 #: templates/installation.php:32
 msgid ""
@@ -397,50 +397,50 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "O teu cartafol de datos e os teus ficheiros son seguramente accesibles a través de internet. O ficheiro .htaccess que ownCloud fornece non está empregándose. Suxírese que configures o teu servidor web de tal maneira que o cartafol de datos non estea accesíbel ou movas o cartafol de datos fóra do root do directorio de datos do servidor web."
+msgstr "O seu cartafol de datos e os seus ficheiros probabelmente sexan accesíbeis a través da Internet. O ficheiro .htaccess que fornece ownCloud non está a empregarse. Suxerimoslle que configure o seu servidor web de tal xeito que o cartafol de datos non estea accesíbel ou mova o cartafol de datos fora do directorio raíz de datos do servidor web."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crear unha <strong>contra de administrador</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "Cartafol de datos"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "Configurar a base de datos"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
-msgstr "será utilizado"
+msgstr "vai ser utilizado"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "Usuario da base de datos"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "Contrasinal da base de datos"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "Nome da base de datos"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "Táboa de espazos da base de datos"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Servidor da base de datos"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "Rematar a configuración"
 
@@ -474,51 +474,51 @@ msgstr "Sábado"
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
-msgstr "Xaneiro"
+msgstr "xaneiro"
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
-msgstr "Febreiro"
+msgstr "febreiro"
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
-msgstr "Marzo"
+msgstr "marzo"
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
-msgstr "Abril"
+msgstr "abril"
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
-msgstr "Maio"
+msgstr "maio"
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
-msgstr "Xuño"
+msgstr "xuño"
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
-msgstr "Xullo"
+msgstr "xullo"
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
-msgstr "Agosto"
+msgstr "agosto"
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
-msgstr "Setembro"
+msgstr "setembro"
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
-msgstr "Outubro"
+msgstr "outubro"
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
-msgstr "Novembro"
+msgstr "novembro"
 
 #: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
-msgstr "Decembro"
+msgstr "decembro"
 
 #: templates/layout.guest.php:42
 msgid "web services under your control"
@@ -528,35 +528,31 @@ msgstr "servizos web baixo o seu control"
 msgid "Log out"
 msgstr "Desconectar"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Rexeitouse a entrada automática"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr "Se non fixeches cambios de contrasinal recentemente é posíbel que a túa conta estea comprometida!"
+msgstr "Se non fixo recentemente cambios de contrasinal é posíbel que a súa conta estea comprometida!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
-msgstr "Cambia de novo o teu contrasinal para asegurar a túa conta."
+msgstr "Cambie de novo o seu contrasinal para asegurar a súa conta."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Perdeu o contrasinal?"
 
-#: templates/login.php:27
+#: templates/login.php:39
 msgid "remember"
 msgstr "lembrar"
 
-#: templates/login.php:28
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Conectar"
-
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Está desconectado"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -566,16 +562,7 @@ msgstr "anterior"
 msgid "next"
 msgstr "seguinte"
 
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "Advertencia de seguranza"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "Verifica o teu contrasinal.<br/>Por motivos de seguridade pode que ocasionalmente se che pregunte de novo polo teu contrasinal."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Verificar"
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr "Actualizando ownCloud a versión %s,  esto pode levar un anaco."

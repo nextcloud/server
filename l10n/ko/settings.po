@@ -3,16 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <aoiob4305@gmail.com>, 2013.
 # 남자사람  <cessnagi@gmail.com>, 2012.
+# Harim Park <fofwisdom@gmail.com>, 2013.
 #   <limonade83@gmail.com>, 2012.
 # Shinjo Park <kde@peremen.name>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-10 00:11+0100\n"
-"PO-Revision-Date: 2012-12-09 05:40+0000\n"
-"Last-Translator: Shinjo Park <kde@peremen.name>\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +34,7 @@ msgstr "그룹이 이미 존재합니다."
 msgid "Unable to add group"
 msgstr "그룹을 추가할 수 없습니다."
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "앱을 활성화할 수 없습니다."
 
@@ -43,14 +45,6 @@ msgstr "이메일 저장됨"
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "잘못된 이메일 주소"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID 변경됨"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "잘못된 요청"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -67,6 +61,10 @@ msgstr "사용자를 삭제할 수 없습니다."
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "언어가 변경되었습니다"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "잘못된 요청"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -118,29 +116,29 @@ msgstr "apps.owncloud.com에 있는 앱 페이지를 참고하십시오"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-라이선스 보유자 <span class=\"author\"></span>"
 
-#: templates/help.php:9
-msgid "Documentation"
-msgstr "문서"
+#: templates/help.php:3
+msgid "User Documentation"
+msgstr "유저 문서"
 
-#: templates/help.php:10
-msgid "Managing Big Files"
-msgstr "큰 파일 관리"
+#: templates/help.php:4
+msgid "Administrator Documentation"
+msgstr "관리자 문서"
+
+#: templates/help.php:6
+msgid "Online Documentation"
+msgstr "온라인 문서"
+
+#: templates/help.php:7
+msgid "Forum"
+msgstr "포럼"
+
+#: templates/help.php:9
+msgid "Bugtracker"
+msgstr "버그트래커"
 
 #: templates/help.php:11
-msgid "Ask a question"
-msgstr "질문하기"
-
-#: templates/help.php:22
-msgid "Problems connecting to help database."
-msgstr "데이터베이스에 연결하는 데 문제가 발생하였습니다."
-
-#: templates/help.php:23
-msgid "Go there manually."
-msgstr "직접 갈 수 있습니다."
-
-#: templates/help.php:31
-msgid "Answer"
-msgstr "대답"
+msgid "Commercial Support"
+msgstr "상업용 지원"
 
 #: templates/personal.php:8
 #, php-format
@@ -148,62 +146,82 @@ msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "현재 공간 <strong>%s</strong>/<strong>%s</strong>을(를) 사용 중입니다"
 
 #: templates/personal.php:12
-msgid "Desktop and Mobile Syncing Clients"
-msgstr "데스크톱 및 모바일 동기화 클라이언트"
+msgid "Clients"
+msgstr "고객"
 
 #: templates/personal.php:13
-msgid "Download"
-msgstr "다운로드"
+msgid "Download Desktop Clients"
+msgstr "데스크탑 클라이언트 다운로드"
 
-#: templates/personal.php:19
+#: templates/personal.php:14
+msgid "Download Android Client"
+msgstr "안드로이드 클라이언트 다운로드"
+
+#: templates/personal.php:15
+msgid "Download iOS Client"
+msgstr "iOS 클라이언트 다운로드"
+
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+msgid "Password"
+msgstr "암호"
+
+#: templates/personal.php:22
 msgid "Your password was changed"
 msgstr "암호가 변경되었습니다"
 
-#: templates/personal.php:20
+#: templates/personal.php:23
 msgid "Unable to change your password"
 msgstr "암호를 변경할 수 없음"
 
-#: templates/personal.php:21
+#: templates/personal.php:24
 msgid "Current password"
 msgstr "현재 암호"
 
-#: templates/personal.php:22
+#: templates/personal.php:25
 msgid "New password"
 msgstr "새 암호"
 
-#: templates/personal.php:23
+#: templates/personal.php:26
 msgid "show"
 msgstr "보이기"
 
-#: templates/personal.php:24
+#: templates/personal.php:27
 msgid "Change password"
 msgstr "암호 변경"
 
-#: templates/personal.php:30
+#: templates/personal.php:33
 msgid "Email"
 msgstr "이메일"
 
-#: templates/personal.php:31
+#: templates/personal.php:34
 msgid "Your email address"
 msgstr "이메일 주소"
 
-#: templates/personal.php:32
+#: templates/personal.php:35
 msgid "Fill in an email address to enable password recovery"
 msgstr "암호 찾기 기능을 사용하려면 이메일 주소를 입력하십시오."
 
-#: templates/personal.php:38 templates/personal.php:39
+#: templates/personal.php:41 templates/personal.php:42
 msgid "Language"
 msgstr "언어"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Help translate"
 msgstr "번역 돕기"
 
-#: templates/personal.php:51
-msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "파일 관리자에서 내 ownCloud에 연결할 때 이 주소를 사용하십시오"
+#: templates/personal.php:52
+msgid "WebDAV"
+msgstr "WebDAV"
 
-#: templates/personal.php:61
+#: templates/personal.php:54
+msgid "Use this address to connect to your ownCloud in your file manager"
+msgstr "파일 매니저에서 사용자의 ownCloud에 접속하기 위해 이 주소를 사용하십시요."
+
+#: templates/personal.php:63
+msgid "Version"
+msgstr "버젼"
+
+#: templates/personal.php:65
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -213,15 +231,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 커뮤니티</a>에 의해서 개발되었습니다. <a href=\"https://github.com/owncloud\" target=\"_blank\">원본 코드</a>는 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>에 따라 사용이 허가됩니다."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "이름"
 
-#: templates/users.php:23 templates/users.php:77
-msgid "Password"
-msgstr "암호"
-
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "그룹"
 
@@ -230,21 +244,29 @@ msgid "Create"
 msgstr "만들기"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "기본 할당량"
+msgid "Default Storage"
+msgstr "기본 저장소"
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr "무제한"
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "기타"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "그룹 관리자"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "할당량"
+#: templates/users.php:87
+msgid "Storage"
+msgstr "저장소"
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr "기본값"
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "삭제"

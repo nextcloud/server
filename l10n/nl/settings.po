@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# André Koot <meneer@tken.net>, 2012-2013.
 #   <bart.formosus@gmail.com>, 2011.
 #   <bramdv@me.com>, 2012.
 #   <didi.debian@cknow.org>, 2012.
@@ -17,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-03 00:04+0100\n"
-"PO-Revision-Date: 2012-12-02 03:18+0000\n"
-"Last-Translator: Len <lenny@weijl.org>\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,7 +40,7 @@ msgstr "Groep bestaat al"
 msgid "Unable to add group"
 msgstr "Niet in staat om groep toe te voegen"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "Kan de app. niet activeren"
 
@@ -50,14 +51,6 @@ msgstr "E-mail bewaard"
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "Ongeldige e-mail"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID is aangepast"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "Ongeldig verzoek"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -74,6 +67,10 @@ msgstr "Niet in staat om gebruiker te verwijderen"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Taal aangepast"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "Ongeldig verzoek"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -125,29 +122,29 @@ msgstr "Zie de applicatiepagina op apps.owncloud.com"
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-Gelicenseerd door <span class=\"author\"></span>"
 
-#: templates/help.php:9
-msgid "Documentation"
-msgstr "Documentatie"
+#: templates/help.php:3
+msgid "User Documentation"
+msgstr "Gebruikersdocumentatie"
 
-#: templates/help.php:10
-msgid "Managing Big Files"
-msgstr "Instellingen voor grote bestanden"
+#: templates/help.php:4
+msgid "Administrator Documentation"
+msgstr "Beheerdersdocumentatie"
+
+#: templates/help.php:6
+msgid "Online Documentation"
+msgstr "Online documentatie"
+
+#: templates/help.php:7
+msgid "Forum"
+msgstr "Forum"
+
+#: templates/help.php:9
+msgid "Bugtracker"
+msgstr "Bugtracker"
 
 #: templates/help.php:11
-msgid "Ask a question"
-msgstr "Stel een vraag"
-
-#: templates/help.php:22
-msgid "Problems connecting to help database."
-msgstr "Problemen bij het verbinden met de helpdatabank."
-
-#: templates/help.php:23
-msgid "Go there manually."
-msgstr "Ga er zelf heen."
-
-#: templates/help.php:31
-msgid "Answer"
-msgstr "Beantwoord"
+msgid "Commercial Support"
+msgstr "Commerciële ondersteuning"
 
 #: templates/personal.php:8
 #, php-format
@@ -155,62 +152,82 @@ msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "U heeft <strong>%s</strong> van de <strong>%s</strong>  beschikbaren gebruikt"
 
 #: templates/personal.php:12
-msgid "Desktop and Mobile Syncing Clients"
-msgstr "Desktop en mobiele synchronisatie applicaties"
+msgid "Clients"
+msgstr "Klanten"
 
 #: templates/personal.php:13
-msgid "Download"
-msgstr "Download"
+msgid "Download Desktop Clients"
+msgstr "Download Desktop Clients"
 
-#: templates/personal.php:19
+#: templates/personal.php:14
+msgid "Download Android Client"
+msgstr "Download Android Client"
+
+#: templates/personal.php:15
+msgid "Download iOS Client"
+msgstr "Download iOS Client"
+
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+msgid "Password"
+msgstr "Wachtwoord"
+
+#: templates/personal.php:22
 msgid "Your password was changed"
 msgstr "Je wachtwoord is veranderd"
 
-#: templates/personal.php:20
+#: templates/personal.php:23
 msgid "Unable to change your password"
 msgstr "Niet in staat om uw wachtwoord te wijzigen"
 
-#: templates/personal.php:21
+#: templates/personal.php:24
 msgid "Current password"
 msgstr "Huidig wachtwoord"
 
-#: templates/personal.php:22
+#: templates/personal.php:25
 msgid "New password"
 msgstr "Nieuw wachtwoord"
 
-#: templates/personal.php:23
+#: templates/personal.php:26
 msgid "show"
 msgstr "weergeven"
 
-#: templates/personal.php:24
+#: templates/personal.php:27
 msgid "Change password"
 msgstr "Wijzig wachtwoord"
 
-#: templates/personal.php:30
+#: templates/personal.php:33
 msgid "Email"
 msgstr "E-mailadres"
 
-#: templates/personal.php:31
+#: templates/personal.php:34
 msgid "Your email address"
 msgstr "Uw e-mailadres"
 
-#: templates/personal.php:32
+#: templates/personal.php:35
 msgid "Fill in an email address to enable password recovery"
 msgstr "Vul een e-mailadres in om wachtwoord reset uit te kunnen voeren"
 
-#: templates/personal.php:38 templates/personal.php:39
+#: templates/personal.php:41 templates/personal.php:42
 msgid "Language"
 msgstr "Taal"
 
-#: templates/personal.php:44
+#: templates/personal.php:47
 msgid "Help translate"
 msgstr "Help met vertalen"
 
-#: templates/personal.php:51
-msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "Gebruik het bovenstaande adres om verbinding te maken met ownCloud in uw bestandbeheerprogramma"
+#: templates/personal.php:52
+msgid "WebDAV"
+msgstr "WebDAV"
 
-#: templates/personal.php:61
+#: templates/personal.php:54
+msgid "Use this address to connect to your ownCloud in your file manager"
+msgstr "Gebruik dit adres om te verbinden met uw ownCloud in uw bestandsbeheer"
+
+#: templates/personal.php:63
+msgid "Version"
+msgstr "Versie"
+
+#: templates/personal.php:65
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -220,15 +237,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Ontwikkeld door de <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud gemeenschap</a>, de <a href=\"https://github.com/owncloud\" target=\"_blank\">bron code</a> is gelicenseerd onder de <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "Naam"
 
-#: templates/users.php:23 templates/users.php:77
-msgid "Password"
-msgstr "Wachtwoord"
-
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "Groepen"
 
@@ -237,21 +250,29 @@ msgid "Create"
 msgstr "Creëer"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "Standaard limiet"
+msgid "Default Storage"
+msgstr "Default opslag"
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr "Ongelimiteerd"
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "Andere"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "Groep beheerder"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "Limieten"
+#: templates/users.php:87
+msgid "Storage"
+msgstr "Opslag"
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr "Default"
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "verwijderen"

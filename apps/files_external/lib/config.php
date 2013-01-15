@@ -331,7 +331,7 @@ class OC_Mount_Config {
 			foreach ($data[self::MOUNT_TYPE_GROUP] as $group => $mounts) {
 				$content .= "\t\t'".$group."' => array (\n";
 				foreach ($mounts as $mountPoint => $mount) {
-					$content .= "\t\t\t'".$mountPoint."' => ".str_replace("\n", '', var_export($mount, true)).", \n";
+					$content .= "\t\t\t'".addcslashes($mountPoint,"'")."' => ".str_replace("\n", '', var_export($mount, true)).", \n";
 
 				}
 				$content .= "\t\t),\n";
@@ -343,7 +343,7 @@ class OC_Mount_Config {
 			foreach ($data[self::MOUNT_TYPE_USER] as $user => $mounts) {
 				$content .= "\t\t'".$user."' => array (\n";
 				foreach ($mounts as $mountPoint => $mount) {
-					$content .= "\t\t\t'".$mountPoint."' => ".str_replace("\n", '', var_export($mount, true)).",\n";
+					$content .= "\t\t\t'".addcslashes($mountPoint,"'")."' => ".str_replace("\n", '', var_export($mount, true)).",\n";
 				}
 				$content .= "\t\t),\n";
 			}

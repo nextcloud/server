@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
+"User %s shared a file with you" => "Użytkownik %s współdzieli plik z tobą",
+"User %s shared a folder with you" => "Uzytkownik %s wspóldzieli folder z toba",
+"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Użytkownik %s współdzieli plik \"%s\" z tobą. Jest dostępny tutaj: %s",
+"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Uzytkownik %s wspóldzieli folder \"%s\" z toba. Jest dostepny tutaj: %s",
 "Category type not provided." => "Typ kategorii nie podany.",
 "No category to add?" => "Brak kategorii",
 "This category already exists: " => "Ta kategoria już istnieje",
@@ -121,10 +125,7 @@
 "Lost your password?" => "Nie pamiętasz hasła?",
 "remember" => "Zapamiętanie",
 "Log in" => "Zaloguj",
-"You are logged out." => "Wylogowano użytkownika.",
 "prev" => "wstecz",
 "next" => "naprzód",
-"Security Warning!" => "Ostrzeżenie o zabezpieczeniach!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Sprawdź swoje hasło.<br/>Ze względów bezpieczeństwa możesz zostać czasami poproszony o wprowadzenie hasła ponownie.",
-"Verify" => "Zweryfikowane"
+"Updating ownCloud to version %s, this may take a while." => "Aktualizowanie ownCloud do wersji %s, może to potrwać chwilę."
 );

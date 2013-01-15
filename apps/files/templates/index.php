@@ -5,7 +5,7 @@
 		<div class="actions <?php if (isset($_['files']) and count($_['files'])==0):?>emptyfolder<?php endif; ?>">
 			<div id="new" class="button">
 				<a><?php echo $l->t('New');?></a>
-				<ul class="popup popupTop">
+				<ul>
 					<li style="background-image:url('<?php echo OCP\mimetype_icon('text/plain') ?>')"
 						data-type='file'><p><?php echo $l->t('Text file');?></p></li>
 					<li style="background-image:url('<?php echo OCP\mimetype_icon('dir') ?>')"
@@ -14,7 +14,8 @@
 						data-type='web'><p><?php echo $l->t('From link');?></p></li>
 				</ul>
 			</div>
-			<div id="upload" class="button">
+			<div id="upload" class="button"
+				 title="<?php echo $l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize'] ?>">
 				<form data-upload-id='1'
 					  id="data-upload-form"
 					  class="file_upload_form"
@@ -31,10 +32,7 @@
 						   value="(max <?php echo $_['uploadMaxHumanFilesize']; ?>)">
 					<input type="hidden" name="dir" value="<?php echo $_['dir'] ?>" id="dir">
 					<input type="file" id="file_upload_start" name='files[]'/>
-					<a href="#" class="svg" onclick="return false;"
-					   title="<?php echo $l->t('Upload') . ' max. '.$_['uploadMaxHumanFilesize'] ?>"></a>
-					
-					<iframe name="file_upload_target_1" class="file_upload_target" src=""></iframe>
+					<a href="#" class="svg" onclick="return false;"></a>
 				</form>
 			</div>
 			<div id="uploadprogresswrapper">

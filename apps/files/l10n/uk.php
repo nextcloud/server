@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Не завантажено жодного файлу. Невідома помилка",
 "There is no error, the file uploaded with success" => "Файл успішно вивантажено без помилок.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Розмір звантаження перевищує upload_max_filesize параметра в php.ini: ",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Розмір відвантаженого файлу перевищує директиву MAX_FILE_SIZE вказану в HTML формі",
@@ -29,7 +30,7 @@
 "{count} files uploading" => "{count} файлів завантажується",
 "Upload cancelled." => "Завантаження перервано.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Виконується завантаження файлу. Закриття цієї сторінки приведе до відміни завантаження.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Невірне ім'я каталогу. Використання \"Shared\" зарезервовано Owncloud",
+"URL cannot be empty." => "URL не може бути пустим.",
 "{count} files scanned" => "{count} файлів проскановано",
 "error while scanning" => "помилка при скануванні",
 "Name" => "Ім'я",

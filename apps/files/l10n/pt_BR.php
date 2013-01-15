@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Nenhum arquivo foi transferido. Erro desconhecido",
 "There is no error, the file uploaded with success" => "Não houve nenhum erro, o arquivo foi transferido com sucesso",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "O arquivo enviado excede a diretiva upload_max_filesize no php.ini: ",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "O arquivo carregado excede o MAX_FILE_SIZE que foi especificado no formulário HTML",
@@ -29,7 +30,7 @@
 "{count} files uploading" => "Enviando {count} arquivos",
 "Upload cancelled." => "Envio cancelado.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Upload em andamento. Sair da página agora resultará no cancelamento do envio.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Nome de pasta inválido. O nome \"Shared\" é reservado pelo Owncloud",
+"URL cannot be empty." => "URL não pode ficar em branco",
 "{count} files scanned" => "{count} arquivos scaneados",
 "error while scanning" => "erro durante verificação",
 "Name" => "Nome",

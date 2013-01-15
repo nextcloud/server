@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
+"User %s shared a file with you" => "用户 %s 与您共享了一个文件",
+"User %s shared a folder with you" => "用户 %s 与您共享了一个文件夹",
+"User %s shared the file \"%s\" with you. It is available for download here: %s" => "用户 %s 与您共享了文件\"%s\"。文件下载地址：%s",
+"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "用户 %s 与您共享了文件夹\"%s\"。文件夹下载地址：%s",
 "Category type not provided." => "未提供分类类型。",
 "No category to add?" => "没有可添加分类？",
 "This category already exists: " => "此分类已存在: ",
@@ -39,6 +43,7 @@
 "Share with link" => "共享链接",
 "Password protect" => "密码保护",
 "Password" => "密码",
+"Send" => "发送",
 "Set expiration date" => "设置过期日期",
 "Expiration date" => "过期日期",
 "Share via email:" => "通过Email共享",
@@ -55,6 +60,8 @@
 "Password protected" => "密码已受保护",
 "Error unsetting expiration date" => "取消设置过期日期时出错",
 "Error setting expiration date" => "设置过期日期时出错",
+"Sending ..." => "正在发送...",
+"Email sent" => "邮件已发送",
 "ownCloud password reset" => "重置 ownCloud 密码",
 "Use the following link to reset your password: {link}" => "使用以下链接重置您的密码：{link}",
 "You will receive a link to reset your password via Email." => "您将会收到包含可以重置密码链接的邮件。",
@@ -117,10 +124,6 @@
 "Lost your password?" => "忘记密码？",
 "remember" => "记住",
 "Log in" => "登录",
-"You are logged out." => "您已注销。",
 "prev" => "上一页",
-"next" => "下一页",
-"Security Warning!" => "安全警告！",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "请验证您的密码。 <br/>出于安全考虑，你可能偶尔会被要求再次输入密码。",
-"Verify" => "验证"
+"next" => "下一页"
 );

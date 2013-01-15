@@ -17,6 +17,7 @@
 "Close" => "tutup",
 "Pending" => "Menunggu",
 "Upload cancelled." => "Pengunggahan dibatalkan.",
+"URL cannot be empty." => "tautan tidak boleh kosong",
 "Name" => "Nama",
 "Size" => "Ukuran",
 "Modified" => "Dimodifikasi",

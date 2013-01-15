@@ -6,6 +6,8 @@
  * See the COPYING-README file.
  */
 
+OC_Util::checkAdminUser();
+
 $tmpl = new OCP\Template( 'files_encryption', 'settings');
 $blackList=explode(',', OCP\Config::getAppValue('files_encryption',
 												'type_blacklist',

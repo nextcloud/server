@@ -68,7 +68,7 @@ class Util {
 	 * @brief write a message in the log
 	 * @param string $app
 	 * @param string $message
-	 * @param int level
+	 * @param int $level
 	 */
 	public static function writeLog( $app, $message, $level ) {
 		// call the internal log class
@@ -77,7 +77,7 @@ class Util {
 
 	/**
 	 * @brief add a css file
-	 * @param url  $url
+	 * @param string $url
 	 */
 	public static function addStyle( $application, $file = null ) {
 		\OC_Util::addStyle( $application, $file );
@@ -85,8 +85,8 @@ class Util {
 
 	/**
 	 * @brief add a javascript file
-	 * @param appid  $application
-	 * @param filename  $file
+	 * @param string $application
+	 * @param string  $file
 	 */
 	public static function addScript( $application, $file = null ) {
 		\OC_Util::addScript( $application, $file );
@@ -94,7 +94,7 @@ class Util {
 
 	/**
 	 * @brief Add a custom element to the header
-	 * @param string tag tag name of the element
+	 * @param string $tag tag name of the element
 	 * @param array $attributes array of attributes for the element
 	 * @param string $text the text content for the element
 	 */
@@ -104,8 +104,8 @@ class Util {
 
 	/**
 	 * @brief formats a timestamp in the "right" way
-	 * @param int timestamp $timestamp
-	 * @param bool dateOnly option to ommit time from the result
+	 * @param int $timestamp $timestamp
+	 * @param bool $dateOnly option to omit time from the result
 	 */
 	public static function formatDate( $timestamp, $dateOnly=false) {
 		return(\OC_Util::formatDate( $timestamp, $dateOnly ));
@@ -113,11 +113,11 @@ class Util {
 
 	/**
 	 * @brief Creates an absolute url
-	 * @param $app app
-	 * @param $file file
-	 * @param $args array with param=>value, will be appended to the returned url
+	 * @param string $app app
+	 * @param string $file file
+	 * @param array $args array with param=>value, will be appended to the returned url
 	 * 	The value of $args will be urlencoded
-	 * @returns the url
+	 * @returns string the url
 	 *
 	 * Returns a absolute url to the given app and file.
 	 */
@@ -127,8 +127,8 @@ class Util {
 
 	/**
 	 * @brief Creates an absolute url for remote use
-	 * @param $service id
-	 * @returns the url
+	 * @param string $service id
+	 * @returns string the url
 	 *
 	 * Returns a absolute url to the given app and file.
 	 */
@@ -138,8 +138,8 @@ class Util {
 
 	/**
 	 * @brief Creates an absolute url for public use
-	 * @param $service id
-	 * @returns the url
+	 * @param string $service id
+	 * @returns string the url
 	 *
 	 * Returns a absolute url to the given app and file.
 	 */
@@ -149,11 +149,11 @@ class Util {
 
 	/**
 	* @brief Creates an url
-	* @param $app app
-	* @param $file file
-	* @param $args array with param=>value, will be appended to the returned url
+	* @param string $app app
+	* @param string $file file
+	* @param array $args array with param=>value, will be appended to the returned url
 	* 	The value of $args will be urlencoded
-	* @returns the url
+	* @returns string the url
 	*
 	* Returns a url to the given app and file.
 	*/
@@ -163,7 +163,7 @@ class Util {
 
 	/**
 	 * @brief Returns the server host
-	 * @returns the server host
+	 * @returns string the server host
 	 *
 	 * Returns the server host, even if the website uses one or more
 	 * reverse proxies
@@ -173,8 +173,44 @@ class Util {
 	}
 
 	/**
+	 * @brief returns the server hostname
+	 * @returns string the server hostname
+	 *
+	 * Returns the server host name without an eventual port number
+	 */
+	public static function getServerHostName() {
+		$host_name = self::getServerHost();
+		// strip away port number (if existing)
+		$colon_pos = strpos($host_name, ':');
+		if ($colon_pos != FALSE) {
+			$host_name = substr($host_name, 0, $colon_pos);
+		}
+		return $host_name;
+	}
+
+	/**
+	 * @brief Returns the default email address
+	 * @param string $user_part the user part of the address
+	 * @returns string the default email address
+	 *
+	 * Assembles a default email address (using the server hostname
+	 * and the given user part, and returns it
+	 * Example: when given lostpassword-noreply as $user_part param,
+	 *     and is currently accessed via http(s)://example.com/,
+	 *     it would return 'lostpassword-noreply@example.com'
+	 */
+	public static function getDefaultEmailAddress($user_part) {
+		$host_name = self::getServerHostName();
+		// handle localhost installations
+		if ($host_name === 'localhost') {
+            $host_name = "example.com";
+		}
+		return $user_part.'@'.$host_name;
+	}
+
+	/**
 	 * @brief Returns the server protocol
-	 * @returns the server protocol
+	 * @returns string the server protocol
 	 *
 	 * Returns the server protocol. It respects reverse proxy servers and load balancers
 	 */
@@ -184,9 +220,9 @@ class Util {
 
 	/**
 	 * @brief Creates path to an image
-	 * @param $app app
-	 * @param $image image name
-	 * @returns the url
+	 * @param string $app app
+	 * @param string $image image name
+	 * @returns string the url
 	 *
 	 * Returns the path to the image.
 	 */
@@ -196,8 +232,8 @@ class Util {
 
 	/**
 	 * @brief Make a human file size
-	 * @param $bytes file size in bytes
-	 * @returns a human readable file size
+	 * @param int $bytes file size in bytes
+	 * @returns string a human readable file size
 	 *
 	 * Makes 2048 to 2 kB.
 	 */
@@ -207,8 +243,8 @@ class Util {
 
 	/**
 	 * @brief Make a computer file size
-	 * @param $str file size in a fancy format
-	 * @returns a file size in bytes
+	 * @param string $str file size in a fancy format
+	 * @returns int a file size in bytes
 	 *
 	 * Makes 2kB to 2048.
 	 *
@@ -220,11 +256,11 @@ class Util {
 
 	/**
 	 * @brief connects a function to a hook
-	 * @param $signalclass class name of emitter
-	 * @param $signalname name of signal
-	 * @param $slotclass class name of slot
-	 * @param $slotname name of slot
-	 * @returns true/false
+	 * @param string $signalclass class name of emitter
+	 * @param string $signalname name of signal
+	 * @param string $slotclass class name of slot
+	 * @param string $slotname name of slot
+	 * @returns bool
 	 *
 	 * This function makes it very easy to connect to use hooks.
 	 *
@@ -236,10 +272,10 @@ class Util {
 
 	/**
 	 * @brief emitts a signal
-	 * @param $signalclass class name of emitter
-	 * @param $signalname name of signal
-	 * @param $params defautl: array() array with additional data
-	 * @returns true if slots exists or false if not
+	 * @param string $signalclass class name of emitter
+	 * @param string $signalname name of signal
+	 * @param string $params defautl: array() array with additional data
+	 * @returns bool true if slots exists or false if not
 	 *
 	 * Emits a signal. To get data from the slot use references!
 	 *
@@ -270,7 +306,7 @@ class Util {
 	 *
 	 * This function is used to sanitize HTML and should be applied on any string or array of strings before displaying it on a web page.
 	 *
-	 * @param string or array of strings
+	 * @param string|array of strings
 	 * @return array with sanitized strings or a single sinitized string, depends on the input parameter.
 	 */
 	public static function sanitizeHTML( $value ) {
@@ -280,9 +316,9 @@ class Util {
 	/**
 	* @brief Returns an array with all keys from input lowercased or uppercased. Numbered indices are left as is.
 	*
-	* @param $input The array to work on
-	* @param $case Either MB_CASE_UPPER or MB_CASE_LOWER (default)
-	* @param $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	* @param array $input The array to work on
+	* @param int $case Either MB_CASE_UPPER or MB_CASE_LOWER (default)
+	* @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
 	* @return array
 	*
 	*
@@ -294,11 +330,11 @@ class Util {
 	/**
 	* @brief replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
 	*
-	* @param $input The input string. .Opposite to the PHP build-in function does not accept an array.
-	* @param $replacement The replacement string.
-	* @param $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
-	* @param $length Length of the part to be replaced
-	* @param $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	* @param string $input The input string. .Opposite to the PHP build-in function does not accept an array.
+	* @param string $replacement The replacement string.
+	* @param int $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
+	* @param int $length Length of the part to be replaced
+	* @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
 	* @return string
 	*
 	*/
@@ -309,11 +345,11 @@ class Util {
 	/**
 	* @brief Replace all occurrences of the search string with the replacement string
 	*
-	* @param $search The value being searched for, otherwise known as the needle. String.
-	* @param $replace The replacement string.
-	* @param $subject The string or array being searched and replaced on, otherwise known as the haystack.
-	* @param $encoding The encoding parameter is the character encoding. Defaults to UTF-8
-	* @param $count If passed, this will be set to the number of replacements performed.
+	* @param string $search The value being searched for, otherwise known as the needle. String.
+	* @param string $replace The replacement string.
+	* @param string $subject The string or array being searched and replaced on, otherwise known as the haystack.
+	* @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	* @param int $count If passed, this will be set to the number of replacements performed.
 	* @return string
 	*
 	*/
@@ -323,10 +359,10 @@ class Util {
 
 	/**
 	* @brief performs a search in a nested array
-	* @param haystack the array to be searched
-	* @param needle the search string
-	* @param $index optional, only search this key name
-	* @return the key of the matching field, otherwise false
+	* @param array $haystack the array to be searched
+	* @param string $needle the search string
+	* @param int $index optional, only search this key name
+	* @return mixed the key of the matching field, otherwise false
 	*/
 	public static function recursiveArraySearch($haystack, $needle, $index = null) {
 		return(\OC_Helper::recursiveArraySearch($haystack, $needle, $index));

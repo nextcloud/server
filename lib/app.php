@@ -137,6 +137,20 @@ class OC_App{
 
 		OC_Appconfig::setValue($app, 'types', $appTypes);
 	}
+	
+	/**
+	 * check if app is shipped
+	 * @param string $appid the id of the app to check
+	 * @return bool
+	 */
+	public static function isShipped($appid){
+		$info = self::getAppInfo($appid);
+		if(isset($info['shipped']) && $info['shipped']=='true'){
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	/**
 	 * get all enabled apps
@@ -299,14 +313,14 @@ class OC_App{
 				$settings[]=array( "id" => "settings", "order" => 1000, "href" => OC_Helper::linkToRoute( "settings_settings" ), "name" => $l->t("Settings"), "icon" => OC_Helper::imagePath( "settings", "settings.svg" ));
 
 			//SubAdmins are also allowed to access user management
-			if(OC_SubAdmin::isSubAdmin($_SESSION["user_id"]) || OC_Group::inGroup( $_SESSION["user_id"], "admin" )) {
+			if(OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
 				// admin users menu
 				$settings[] = array( "id" => "core_users", "order" => 2, "href" => OC_Helper::linkToRoute( "settings_users" ), "name" => $l->t("Users"), "icon" => OC_Helper::imagePath( "settings", "users.svg" ));
 			}
 
 
 			// if the user is an admin
-			if(OC_Group::inGroup( $_SESSION["user_id"], "admin" )) {
+			if(OC_User::isAdminUser(OC_User::getUser())) {
 				// admin apps menu
 				$settings[] = array( "id" => "core_apps", "order" => 3, "href" => OC_Helper::linkToRoute( "settings_apps" ).'?installed', "name" => $l->t("Apps"), "icon" => OC_Helper::imagePath( "settings", "apps.svg" ));
 
@@ -634,12 +648,15 @@ class OC_App{
 		if ($currentVersion) {
 			$installedVersion = $versions[$app];
 			if (version_compare($currentVersion, $installedVersion, '>')) {
+				$info = self::getAppInfo($app);
 				OC_Log::write($app, 'starting app upgrade from '.$installedVersion.' to '.$currentVersion, OC_Log::DEBUG);
 				try {
 					OC_App::updateApp($app);
+					OC_Hook::emit('update', 'success', 'Updated '.$info['name'].' app');
 				}
 				catch (Exception $e) {
 					echo 'Failed to upgrade "'.$app.'". Exception="'.$e->getMessage().'"';
+					OC_Hook::emit('update', 'failure', 'Failed to update '.$info['name'].' app: '.$e->getMessage());
 					die;
 				}
 				OC_Appconfig::setValue($app, 'installed_version', OC_App::getAppVersion($app));
@@ -664,6 +681,7 @@ class OC_App{
 			if(!isset($info['require']) or (($version[0].'.'.$version[1])>$info['require'])) {
 				OC_Log::write('core', 'App "'.$info['name'].'" ('.$app.') can\'t be used because it is not compatible with this version of ownCloud', OC_Log::ERROR);
 				OC_App::disable( $app );
+				OC_Hook::emit('update', 'success', 'Disabled '.$info['name'].' app because it is not compatible');
 			}
 		}
 	}

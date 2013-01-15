@@ -32,7 +32,7 @@ filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endC
 
 /* INPUTS */
 input[type="text"], input[type="password"] { cursor:text; }
-input:not([type="checkbox"]), textarea, select, button, .button, #quota, div.jp-progress, .pager li a {
+input, textarea, select, button, .button, #quota, div.jp-progress, .pager li a {
 	width:10em; margin:.3em; padding:.6em .5em .4em;
 	font-size:1em; font-family:Arial, Verdana, sans-serif;
 	background:#fff; color:#333; border:1px solid #ddd; outline:none;
@@ -54,7 +54,7 @@ input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#
 /* BUTTONS */
 input[type="submit"], input[type="button"], button, .button, #quota, div.jp-progress, select, .pager li a {
 	width:auto; padding:.4em;
-	background-color:rgba(230,230,230,.5); font-weight:bold; color:#555; text-shadow:#fff 0 1px 0; border:1px solid rgba(180,180,180,.5); cursor:pointer;
+	background-color:rgba(230,230,230,.5); font-weight:bold; color:#555; text-shadow:#fff 0 1px 0; border:1px solid #bbb; border:1px solid rgba(180,180,180,.5); cursor:pointer;
 	-moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset;
 	-moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;
 }
@@ -209,13 +209,11 @@ fieldset.warning legend { color:#b94a48 !important; }
 #notification { z-index:101; background-color:#fc4; border:0; padding:0 .7em .3em; display:none; position:fixed; left:50%; top:0; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
 #notification span { cursor:pointer; font-weight:bold; margin-left:1em; }
 
-tr .action, .selectedActions a { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0; -webkit-transition:opacity 200ms; -moz-transition:opacity 200ms; -o-transition:opacity 200ms; transition:opacity 200ms; }
+tr .action, .selectedActions a { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0; }
 tr:hover .action, .selectedActions a { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; filter:alpha(opacity=50); opacity:.5; }
 tr .action { width:16px; height:16px; }
 .header-action { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; filter:alpha(opacity=80); opacity:.8; }
 tr:hover .action:hover, .selectedActions a:hover, .header-action:hover { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
-
-table:not(.nostyle) tr { -webkit-transition:background-color 200ms; -moz-transition:background-color 200ms; -o-transition:background-color 200ms; transition:background-color 200ms; }
 tbody tr:hover, tr:active { background-color:#f8f8f8; }
 
 #body-settings .personalblock, #body-settings .helpblock { padding:.5em 1em; margin:1em; background:#f8f8f8; color:#555; text-shadow:#fff 0 1px 0; -moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em; }
@@ -232,7 +230,8 @@ div.jp-play-bar, div.jp-seek-bar { padding:0; }
 .pager { list-style:none; float:right; display:inline; margin:.7em 13em 0 0; }
 .pager li { display:inline-block; }
 
-li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ffe .8em .8em no-repeat; color:#FF3B3B; border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; }
+li.update, li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ffe .8em .8em no-repeat;  border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; cursor:default; }
+.error { color:#FF3B3B; }
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { overflow:hidden; text-overflow:ellipsis; }
 .hint { background-image:url('../img/actions/info.png'); background-repeat:no-repeat; color:#777777; padding-left:25px; background-position:0 0.3em;}
 .separator { display:inline; border-left:1px solid #d3d3d3; border-right:1px solid #fff; height:10px; width:0px; margin:4px; }

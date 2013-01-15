@@ -106,10 +106,6 @@
 "Lost your password?" => "忘记密码?",
 "remember" => "备忘",
 "Log in" => "登陆",
-"You are logged out." => "你已经注销了",
 "prev" => "后退",
-"next" => "前进",
-"Security Warning!" => "安全警告！",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "请确认您的密码。<br/>处于安全原因你偶尔也会被要求再次输入您的密码。",
-"Verify" => "确认"
+"next" => "前进"
 );

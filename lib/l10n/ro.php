@@ -14,16 +14,21 @@
 "Token expired. Please reload page." => "Token expirat. Te rugăm să reîncarci pagina.",
 "Files" => "Fișiere",
 "Text" => "Text",
+"Images" => "Imagini",
 "seconds ago" => "secunde în urmă",
 "1 minute ago" => "1 minut în urmă",
 "%d minutes ago" => "%d minute în urmă",
+"1 hour ago" => "Acum o ora",
+"%d hours ago" => "%d ore in urma",
 "today" => "astăzi",
 "yesterday" => "ieri",
 "%d days ago" => "%d zile în urmă",
 "last month" => "ultima lună",
+"%d months ago" => "%d luni in urma",
 "last year" => "ultimul an",
 "years ago" => "ani în urmă",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s este disponibil. Vezi <a href=\"%s\">mai multe informații</a>",
 "up to date" => "la zi",
-"updates check is disabled" => "verificarea după actualizări este dezactivată"
+"updates check is disabled" => "verificarea după actualizări este dezactivată",
+"Could not find category \"%s\"" => "Cloud nu a gasit categoria \"%s\""
 );

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"No file was uploaded. Unknown error" => "Žiaden súbor nebol odoslaný. Neznáma chyba",
 "There is no error, the file uploaded with success" => "Nenastala žiadna chyba, súbor bol úspešne nahraný",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Nahraný súbor predčil  konfiguračnú direktívu upload_max_filesize v súbore php.ini:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Nahrávaný súbor presiahol MAX_FILE_SIZE direktívu, ktorá bola špecifikovaná v HTML formulári",
@@ -29,7 +30,7 @@
 "{count} files uploading" => "{count} súborov odosielaných",
 "Upload cancelled." => "Odosielanie zrušené",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Opustenie stránky zruší práve prebiehajúce odosielanie súboru.",
-"Invalid folder name. Usage of \"Shared\" is reserved by Owncloud" => "Nesprávne meno adresára. Použitie slova \"Shared\" (Zdieľané) je vyhradené službou ownCloud.",
+"URL cannot be empty." => "URL nemôže byť prázdne",
 "{count} files scanned" => "{count} súborov prehľadaných",
 "error while scanning" => "chyba počas kontroly",
 "Name" => "Meno",

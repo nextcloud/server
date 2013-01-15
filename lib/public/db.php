@@ -36,8 +36,8 @@ namespace OCP;
 class DB {
 	/**
 	 * @brief Prepare a SQL query
-	 * @param $query Query string
-	 * @returns prepared SQL query
+	 * @param string $query Query string
+	 * @return \MDB2_Statement_Common prepared SQL query
 	 *
 	 * SQL query via MDB2 prepare(), needs to be execute()'d!
 	 */
@@ -59,7 +59,7 @@ class DB {
 	 *	'family' => array ('value' => 'Stefanov'),
 	 *	'birth_date' => array ('value' => '1975-06-20')
 	 *	);
-	 * @returns true/false
+	 * @return bool
 	 *
 	 */
 	public static function insertIfNotExist($table, $input) {
@@ -69,7 +69,7 @@ class DB {
 	/**
 	 * @brief gets last value of autoincrement
 	 * @param $table string The optional table name (will replace *PREFIX*) and add sequence suffix
-	 * @returns id
+	 * @return int
 	 *
 	 * MDB2 lastInsertID()
 	 *
