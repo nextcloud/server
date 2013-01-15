@@ -43,15 +43,21 @@ class Upgrade {
 			$data = $this->getNewData($row);
 			$this->insert($data);
 
-			$children = $this->legacy->getChildren($data['id']);
-			foreach ($children as $child) {
-				if ($mode == Scanner::SCAN_SHALLOW) {
-					$childData = $this->getNewData($child);
-					\OC_Hook::emit('\OC\Files\Cache\Upgrade', 'migrate_path', $child['path']);
-					$this->insert($childData);
-				} else {
-					$this->upgradePath($child['path']);
-				}
+			$this->upgradeChilds($data['id'], $mode);
+		}
+	}
+
+	/**
+	 * @param int $id
+	 */
+	function upgradeChilds($id, $mode = Scanner::SCAN_RECURSIVE) {
+		$children = $this->legacy->getChildren($id);
+		foreach ($children as $child) {
+			$childData = $this->getNewData($child);
+			\OC_Hook::emit('\OC\Files\Cache\Upgrade', 'migrate_path', $child['path']);
+			$this->insert($childData);
+			if ($mode == Scanner::SCAN_RECURSIVE) {
+				$this->upgradeChilds($child['id']);
 			}
 		}
 	}

@@ -10,10 +10,12 @@ $legacy = new \OC\Files\Cache\Legacy($user);
 if ($legacy->hasItems()) {
 	OC_Hook::connect('\OC\Files\Cache\Upgrade', 'migrate_path', $listener, 'upgradePath');
 
+	OC_DB::beginTransaction();
 	$upgrade = new \OC\Files\Cache\Upgrade($legacy);
 	$count = $legacy->getCount();
 	$eventSource->send('total', $count);
 	$upgrade->upgradePath('/' . $user . '/files');
+	OC_DB::commit();
 }
 \OC\Files\Cache\Upgrade::upgradeDone($user);
 $eventSource->send('done', true);

@@ -14,6 +14,8 @@ namespace OC\Files\Cache;
 class Legacy {
 	private $user;
 
+	private $cacheHasItems = null;
+
 	public function __construct($user) {
 		$this->user = $user;
 	}
@@ -34,17 +36,23 @@ class Legacy {
 	 * @return bool
 	 */
 	function hasItems() {
+		if (!is_null($this->cacheHasItems)) {
+			return $this->cacheHasItems;
+		}
 		try {
 			$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*fscache` WHERE `user` = ? LIMIT 1');
 		} catch (\Exception $e) {
+			$this->cacheHasItems = false;
 			return false;
 		}
 		try {
 			$result = $query->execute(array($this->user));
 		} catch (\Exception $e) {
+			$this->cacheHasItems = false;
 			return false;
 		}
-		return (bool)$result->fetchRow();
+		$this->cacheHasItems = (bool)$result->fetchRow();
+		return $this->cacheHasItems;
 	}
 
 	/**
