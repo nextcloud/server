@@ -298,7 +298,7 @@ class Util {
 	 * Todo: Write howto
 	 */
 	public static function callCheck() {
-		return(\OC_Util::callCheck());
+		\OC_Util::callCheck();
 	}
 
 	/**

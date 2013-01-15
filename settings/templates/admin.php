@@ -188,7 +188,7 @@ endfor;?>
         <?php endforeach;?>
     </table>
     <?php if ($_['entriesremain']): ?>
-    <input id='moreLog' type='button' value='<?php echo $l->t('More');?>...'></input>
+    <input id='moreLog' type='button' value='<?php echo $l->t('More');?>...'>
     <?php endif; ?>
 
 </fieldset>
