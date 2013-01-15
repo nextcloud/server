@@ -8,12 +8,12 @@
 			echo '<p class="ldapwarning">'.$l->t('<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them.').'</p>';
 		}
 		if(!function_exists('ldap_connect')) {
-			echo '<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>';
+			echo '<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>';
 		}
 		?>
 	<fieldset id="ldapSettings-1">
 		<p><label for="ldap_host"><?php echo $l->t('Host');?></label><input type="text" id="ldap_host" name="ldap_host" value="<?php echo $_['ldap_host']; ?>" title="<?php echo $l->t('You can omit the protocol, except you require SSL. Then start with ldaps://');?>"></p>
-		<p><label for="ldap_base"><?php echo $l->t('Base DN');?></label><input type="text" id="ldap_base" name="ldap_base" value="<?php echo $_['ldap_base']; ?>" title="<?php echo $l->t('You can specify Base DN for users and groups in the Advanced tab');?>" /></p>
+		<p><label for="ldap_base"><?php echo $l->t('Base DN');?></label><textarea id="ldap_base" name="ldap_base" placeholder="<?php echo $l->t('One Base DN per line');?>" title="<?php echo $l->t('You can specify Base DN for users and groups in the Advanced tab');?>"><?php echo $_['ldap_base']; ?></textarea></p>
 		<p><label for="ldap_dn"><?php echo $l->t('User DN');?></label><input type="text" id="ldap_dn" name="ldap_dn" value="<?php echo $_['ldap_dn']; ?>" title="<?php echo $l->t('The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty.');?>" /></p>
 		<p><label for="ldap_agent_password"><?php echo $l->t('Password');?></label><input type="password" id="ldap_agent_password" name="ldap_agent_password" value="<?php echo $_['ldap_agent_password']; ?>" title="<?php echo $l->t('For anonymous access, leave DN and Password empty.');?>" /></p>
 		<p><label for="ldap_login_filter"><?php echo $l->t('User Login Filter');?></label><input type="text" id="ldap_login_filter" name="ldap_login_filter" value="<?php echo $_['ldap_login_filter']; ?>" title="<?php echo $l->t('Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action.');?>" /><br /><small><?php echo $l->t('use %%uid placeholder, e.g. "uid=%%uid"');?></small></p>
@@ -22,8 +22,8 @@
 	</fieldset>
 	<fieldset id="ldapSettings-2">
 		<p><label for="ldap_port"><?php echo $l->t('Port');?></label><input type="text" id="ldap_port" name="ldap_port" value="<?php echo $_['ldap_port']; ?>" /></p>
-		<p><label for="ldap_base_users"><?php echo $l->t('Base User Tree');?></label><input type="text" id="ldap_base_users" name="ldap_base_users" value="<?php echo $_['ldap_base_users']; ?>" /></p>
-		<p><label for="ldap_base_groups"><?php echo $l->t('Base Group Tree');?></label><input type="text" id="ldap_base_groups" name="ldap_base_groups" value="<?php echo $_['ldap_base_groups']; ?>" /></p>
+		<p><label for="ldap_base_users"><?php echo $l->t('Base User Tree');?></label><textarea id="ldap_base_users" name="ldap_base_users" placeholder="<?php echo $l->t('One User Base DN per line');?>" title="<?php echo $l->t('Base User Tree');?>"><?php echo $_['ldap_base_users']; ?></textarea></p>
+		<p><label for="ldap_base_groups"><?php echo $l->t('Base Group Tree');?></label><textarea id="ldap_base_groups" name="ldap_base_groups" placeholder="<?php echo $l->t('One Group Base DN per line');?>" title="<?php echo $l->t('Base Group Tree');?>"><?php echo $_['ldap_base_groups']; ?></textarea></p>
 		<p><label for="ldap_group_member_assoc_attribute"><?php echo $l->t('Group-Member association');?></label><select id="ldap_group_member_assoc_attribute" name="ldap_group_member_assoc_attribute"><option value="uniqueMember"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] == 'uniqueMember')) echo ' selected'; ?>>uniqueMember</option><option value="memberUid"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] == 'memberUid')) echo ' selected'; ?>>memberUid</option><option value="member"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] == 'member')) echo ' selected'; ?>>member (AD)</option></select></p>
 		<p><label for="ldap_tls"><?php echo $l->t('Use TLS');?></label><input type="checkbox" id="ldap_tls" name="ldap_tls" value="1"<?php if ($_['ldap_tls']) echo ' checked'; ?> title="<?php echo $l->t('Do not use it for SSL connections, it will fail.');?>" /></p>
 		<p><label for="ldap_nocase"><?php echo $l->t('Case insensitve LDAP server (Windows)');?></label> <input type="checkbox" id="ldap_nocase" name="ldap_nocase" value="1"<?php if (isset($_['ldap_nocase']) && ($_['ldap_nocase'])) echo ' checked'; ?>></p>
