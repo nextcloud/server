@@ -41,6 +41,8 @@ class OC_DB {
 	const BACKEND_PDO=0;
 	const BACKEND_MDB2=1;
 
+	static private $preparedQueries = array();
+
 	/**
 	 * @var MDB2_Driver_Common
 	 */
@@ -321,7 +323,12 @@ class OC_DB {
 					$query.=$limitsql;
 				}
 			}
+		} else {
+			if (isset(self::$preparedQueries[$query])) {
+				return self::$preparedQueries[$query];
+			}
 		}
+		$rawQuery = $query;
 
 		// Optimize the query
 		$query = self::processQuery( $query );
@@ -342,6 +349,9 @@ class OC_DB {
 				throw new DatabaseException($e->getMessage(), $query);
 			}
 			$result=new PDOStatementWrapper($result);
+		}
+		if (is_null($limit) || $limit == -1) {
+			self::$preparedQueries[$rawQuery] = $result;
 		}
 		return $result;
 	}
