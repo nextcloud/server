@@ -151,7 +151,8 @@ class Storage {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
 			$users_view = new \OC_FilesystemView('/'.$uid);
-
+			$versionCreated = false;
+			
 			//first create a new version
 			$version = 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename);
 			if ( !$users_view->file_exists($version)) {
