@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-16 00:19+0100\n"
+"POT-Creation-Date: 2013-01-17 00:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -83,55 +83,55 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:711
+#: js/js.js:706
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:712
+#: js/js.js:707
 msgid "1 minute ago"
 msgstr ""
 
-#: js/js.js:713
+#: js/js.js:708
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:714
+#: js/js.js:709
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:715
+#: js/js.js:710
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:716
+#: js/js.js:711
 msgid "today"
 msgstr ""
 
-#: js/js.js:717
+#: js/js.js:712
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:718
+#: js/js.js:713
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:719
+#: js/js.js:714
 msgid "last month"
 msgstr ""
 
-#: js/js.js:720
+#: js/js.js:715
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:721
+#: js/js.js:716
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:722
+#: js/js.js:717
 msgid "last year"
 msgstr ""
 
-#: js/js.js:723
+#: js/js.js:718
 msgid "years ago"
 msgstr ""
 
