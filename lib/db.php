@@ -123,6 +123,7 @@ class OC_DB {
 				return true;
 			}
 		}
+		self::$preparedQueries = array();
 		// The global data we need
 		$name = OC_Config::getValue( "dbname", "owncloud" );
 		$host = OC_Config::getValue( "dbhost", "" );
@@ -203,6 +204,7 @@ class OC_DB {
 				return true;
 			}
 		}
+		self::$preparedQueries = array();
 		// The global data we need
 		$name = OC_Config::getValue( "dbname", "owncloud" );
 		$host = OC_Config::getValue( "dbhost", "" );
@@ -598,7 +600,7 @@ class OC_DB {
 				error_log('DB error: '.$entry);
 				OC_Template::printErrorPage( $entry );
 			}
-			
+
 			if($result->numRows() == 0) {
 				$query = 'INSERT INTO "' . $table . '" ("'
 					. implode('","', array_keys($input)) . '") VALUES("'
@@ -633,7 +635,7 @@ class OC_DB {
 
 		return $result->execute();
 	}
-	
+
 	/**
 	 * @brief does minor changes to query
 	 * @param string $query Query string
