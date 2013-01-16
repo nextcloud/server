@@ -70,7 +70,6 @@ class Connection {
 		$this->configID = $configID;
 		$this->cache = \OC_Cache::getGlobalCache();
 		$this->config['hasPagedResultSupport'] = (function_exists('ldap_control_paged_result') && function_exists('ldap_control_paged_result_response'));
-		\OCP\Util::writeLog('user_ldap', 'PHP supports paged results? '.print_r($this->config['hasPagedResultSupport'], true), \OCP\Util::INFO);
 	}
 
 	public function __destruct() {
@@ -187,20 +186,20 @@ class Connection {
 	 * Caches the general LDAP configuration.
 	 */
 	private function readConfiguration($force = false) {
-		\OCP\Util::writeLog('user_ldap', 'Checking conf state: isConfigured? '.print_r($this->configured, true).' isForce? '.print_r($force, true).' configID? '.print_r($this->configID, true), \OCP\Util::DEBUG);
 		if((!$this->configured || $force) && !is_null($this->configID)) {
-			\OCP\Util::writeLog('user_ldap', 'Reading the configuration', \OCP\Util::DEBUG);
 			$this->config['ldapHost']              = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_host', '');
 			$this->config['ldapPort']              = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_port', 389);
 			$this->config['ldapAgentName']         = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_dn', '');
 			$this->config['ldapAgentPassword']     = base64_decode(\OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_agent_password', ''));
-			$this->config['ldapBase']              = preg_split('/\r\n|\r|\n/', \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_base', ''));
-			$this->config['ldapBaseUsers']         = preg_split('/\r\n|\r|\n/', \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_base_users', $this->config['ldapBase']));
-			$this->config['ldapBaseGroups']        = preg_split('/\r\n|\r|\n/', \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_base_groups', $this->config['ldapBase']));
+			$rawLdapBase                           = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_base', '');
+			$this->config['ldapBase']              = preg_split('/\r\n|\r|\n/', $rawLdapBase);
+			$this->config['ldapBaseUsers']         = preg_split('/\r\n|\r|\n/', \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_base_users', $rawLdapBase));
+			$this->config['ldapBaseGroups']        = preg_split('/\r\n|\r|\n/', \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_base_groups', $rawLdapBase));
+			unset($rawLdapBase);
 			$this->config['ldapTLS']               = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_tls', 0);
 			$this->config['ldapNoCase']            = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_nocase', 0);
 			$this->config['turnOffCertCheck']      = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_turn_off_cert_check', 0);
-			$this->config['ldapUserDisplayName']   = mb_strtolower(\OCP\Config::getAppValue($this->configID, '$this->configPrefix.ldap_display_name', 'uid'), 'UTF-8');
+			$this->config['ldapUserDisplayName']   = mb_strtolower(\OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_display_name', 'uid'), 'UTF-8');
 			$this->config['ldapUserFilter']        = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_userlist_filter', 'objectClass=person');
 			$this->config['ldapGroupFilter']       = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_group_filter', '(objectClass=posixGroup)');
 			$this->config['ldapLoginFilter']       = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_login_filter', '(uid=%uid)');
