@@ -74,7 +74,7 @@ class OC_JSON{
 			exit();
 		}
 	}
-	
+
 	/**
 	* Send json error msg
 	*/

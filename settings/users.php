@@ -18,7 +18,9 @@ OC_App::setActiveNavigationEntry( 'core_users' );
 $users = array();
 $groups = array();
 
-if(OC_User::isAdminUser(OC_User::getUser())) {
+$isadmin = OC_User::isAdminUser(OC_User::getUser());
+
+if($isadmin) {
 	$accessiblegroups = OC_Group::getGroups();
 	$accessibleusers = OC_User::getUsers('', 30);
 	$subadmins = OC_SubAdmin::getAllSubAdmins();
@@ -32,7 +34,7 @@ if(OC_User::isAdminUser(OC_User::getUser())) {
 $quotaPreset=OC_Appconfig::getValue('files', 'quota_preset', '1 GB, 5 GB, 10 GB');
 $quotaPreset=explode(',', $quotaPreset);
 foreach($quotaPreset as &$preset) {
-    $preset=trim($preset);
+	$preset=trim($preset);
 }
 $quotaPreset=array_diff($quotaPreset, array('default', 'none'));
 
@@ -41,14 +43,14 @@ $defaultQuotaIsUserDefined=array_search($defaultQuota, $quotaPreset)===false && 
 
 // load users and quota
 foreach($accessibleusers as $i) {
-    $quota=OC_Preferences::getValue($i, 'files', 'quota', 'default');
-    $isQuotaUserDefined=array_search($quota, $quotaPreset)===false && array_search($quota, array('none', 'default'))===false;
+	$quota=OC_Preferences::getValue($i, 'files', 'quota', 'default');
+	$isQuotaUserDefined=array_search($quota, $quotaPreset)===false && array_search($quota, array('none', 'default'))===false;
 
 	$users[] = array(
 		"name" => $i,
 		"groups" => join( ", ", /*array_intersect(*/OC_Group::getUserGroups($i)/*, OC_SubAdmin::getSubAdminsGroups(OC_User::getUser()))*/),
-        'quota'=>$quota,
-        'isQuotaUserDefined'=>$isQuotaUserDefined,
+		'quota'=>$quota,
+		'isQuotaUserDefined'=>$isQuotaUserDefined,
 		'subadmin'=>implode(', ', OC_SubAdmin::getSubAdminsGroups($i)));
 }
 

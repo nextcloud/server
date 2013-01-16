@@ -45,7 +45,7 @@ class OC_Files {
 	 */
 	public static function get($dir, $files, $only_header = false) {
 		$xsendfile = false;
-		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED']) || 
+		if (isset($_SERVER['MOD_X_SENDFILE_ENABLED']) ||
 			isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
 			$xsendfile = true;
 		}

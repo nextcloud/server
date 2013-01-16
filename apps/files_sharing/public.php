@@ -71,7 +71,7 @@ if (isset($_GET['t'])) {
 		$fileSource = $linkItem['file_source'];
 		$shareOwner = $linkItem['uid_owner'];
 
-		if (OCP\User::userExists($shareOwner) && $fileSource != -1) {
+		if (OCP\User::userExists($shareOwner) && $fileSource != -1 ) {
 
 			$pathAndUser = getPathAndUser($linkItem['file_source']);
 			$fileOwner = $pathAndUser['user'];
@@ -167,7 +167,7 @@ if ($linkItem) {
 				$tmpl->printPage();
 				exit();
 			}
-		
+
 		} else {
 			// Check if item id is set in session
 			if (!isset($_SESSION['public_link_authenticated'])

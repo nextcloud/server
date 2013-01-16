@@ -39,5 +39,3 @@ class CommonTest extends Storage {
 		\OC_Helper::rmdirr($this->tmpDir);
 	}
 }
-
-?>

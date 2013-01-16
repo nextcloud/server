@@ -38,9 +38,10 @@ class Files {
 	 * @brief Recusive deletion of folders
 	 * @param string $dir path to the folder
 	 *
+	 * @return bool
 	 */
 	static function rmdirr( $dir ) {
-		\OC_Helper::rmdirr( $dir );
+		return \OC_Helper::rmdirr( $dir );
 	}
 
 	/**

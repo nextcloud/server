@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-04 13:22+0100\n"
-"PO-Revision-Date: 2013-01-04 05:53+0000\n"
-"Last-Translator: Agustin Ferrario <agustin.ferrario@hotmail.com.ar>\n"
+"POT-Creation-Date: 2013-01-16 00:19+0100\n"
+"PO-Revision-Date: 2013-01-15 23:20+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,9 +28,9 @@ msgstr "<b>Advertencia:</b> Los Apps user_ldap y user_webdavauth son incompatibl
 
 #: templates/settings.php:11
 msgid ""
-"<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will"
-" not work. Please ask your system administrator to install it."
-msgstr "<b>Advertencia:</b> El módulo PHP LDAP necesario no está instalado, el sistema no funcionará. Pregunte al administrador del sistema para instalarlo."
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
+"work. Please ask your system administrator to install it."
+msgstr ""
 
 #: templates/settings.php:15
 msgid "Host"
@@ -44,6 +44,10 @@ msgstr "Podés omitir el protocolo, excepto si SSL es requerido. En ese caso, em
 #: templates/settings.php:16
 msgid "Base DN"
 msgstr "DN base"
+
+#: templates/settings.php:16
+msgid "One Base DN per line"
+msgstr ""
 
 #: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -116,9 +120,17 @@ msgstr "Puerto"
 msgid "Base User Tree"
 msgstr "Árbol base de usuario"
 
+#: templates/settings.php:25
+msgid "One User Base DN per line"
+msgstr ""
+
 #: templates/settings.php:26
 msgid "Base Group Tree"
 msgstr "Árbol base de grupo"
+
+#: templates/settings.php:26
+msgid "One Group Base DN per line"
+msgstr ""
 
 #: templates/settings.php:27
 msgid "Group-Member association"

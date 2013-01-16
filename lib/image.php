@@ -646,7 +646,7 @@ class OC_Image {
 		fclose($fh);
 		return $im;
 	}
-	
+
 	/**
 	* @brief Resizes the image preserving ratio.
 	* @param $maxsize The maximum size of either the width or height.

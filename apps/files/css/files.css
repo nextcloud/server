@@ -23,7 +23,7 @@
 #new>ul>li>p { cursor:pointer; }
 #new>ul>li>form>input { padding:0.3em; margin:-0.3em; }
 
-#upload { 
+#upload {
 	height:27px; padding:0; margin-left:0.2em; overflow:hidden;
 }
 #upload a {
@@ -35,7 +35,7 @@
 }
 .file_upload_target { display:none; }
 .file_upload_form { display:inline; float:left; margin:0; padding:0; cursor:pointer; overflow:visible; }
-#file_upload_start { 
+#file_upload_start {
 	left:0; top:0; width:28px; height:27px; padding:0;
 	font-size:1em;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0;

@@ -103,7 +103,7 @@ class OC_Mount_Config {
 				'user' => 'Username',
 				'password' => '*Password',
 				'root' => '&Root',
-				'secure' => '!Secure https://'));	
+				'secure' => '!Secure https://'));
 
 		return($backends);
 	}
@@ -374,7 +374,7 @@ class OC_Mount_Config {
 	}
 
 	/**
-	 * check if smbclient is installed 
+	 * check if smbclient is installed
 	 */
 	public static function checksmbclient() {
 		if(function_exists('shell_exec')) {
@@ -386,7 +386,7 @@ class OC_Mount_Config {
 	}
 
 	/**
-	 * check if php-ftp is installed 
+	 * check if php-ftp is installed
 	 */
 	public static function checkphpftp() {
 		if(function_exists('ftp_login')) {

@@ -52,7 +52,7 @@ Files={
 	}
 };
 $(document).ready(function() {
-	Files.bindKeyboardShortcuts(document, jQuery); 
+	Files.bindKeyboardShortcuts(document, jQuery);
 	$('#fileList tr').each(function(){
 		//little hack to set unescape filenames in attribute
 		$(this).attr('data-file',decodeURIComponent($(this).attr('data-file')));

@@ -79,6 +79,7 @@ class Storage {
 
 			// create all parent folders
 			$info=pathinfo($filename);
+			$versionsFolderName=\OCP\Config::getSystemValue('datadirectory').$users_view->getAbsolutePath('files_versions/');
 			if(!file_exists($versionsFolderName.'/'.$info['dirname'])) {
 				mkdir($versionsFolderName.'/'.$info['dirname'], 0750, true);
 			}
@@ -128,6 +129,7 @@ class Storage {
 		list($uidn, $newpath) = self::getUidAndFilename($newpath);
 		$versions_view = new \OC_FilesystemView('/'.$uid .'/files_versions');
 		$files_view = new \OC_FilesystemView('/'.$uid .'/files');
+		$abs_newpath = \OCP\Config::getSystemValue('datadirectory').$versions_view->getAbsolutePath('').$newpath;
 		
 		if ( $files_view->is_dir($oldpath) && $versions_view->is_dir($oldpath) ) {
 			$versions_view->rename($oldpath, $newpath);
@@ -148,8 +150,9 @@ class Storage {
 
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$users_view = new \OC\Files\View('/' . \OCP\User::getUser());
-
+			$users_view = new \OC\Files\View('/'.$uid);
+			$versionCreated = false;
+			
 			//first create a new version
 			$version = 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename);
 			if ( !$users_view->file_exists($version)) {
