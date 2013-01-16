@@ -14,8 +14,6 @@ class Upgrade {
 	 */
 	private $legacy;
 
-	private $permissionsCaches = array();
-
 	private $numericIds = array();
 
 	private $mimeTypeIds = array();
@@ -72,9 +70,6 @@ class Upgrade {
 
 		$insertQuery->execute(array($data['id'], $data['storage'], $data['path'], $data['path_hash'], $data['parent'], $data['name'],
 			$data['mimetype'], $data['mimepart'], $data['size'], $data['mtime'], $data['encrypted']));
-
-		$permissionsCache = $this->getPermissionsCache($data['storage_object']);
-		$permissionsCache->set($data['id'], $data['user'], $data['permissions']);
 	}
 
 	/**
@@ -99,18 +94,6 @@ class Upgrade {
 		$newData['mimetype'] = $this->getMimetypeId($newData['mimetype'], $storage);
 		$newData['mimepart'] = $this->getMimetypeId($newData['mimepart'], $storage);
 		return $newData;
-	}
-
-	/**
-	 * @param \OC\Files\Storage\Storage $storage
-	 * @return Permissions
-	 */
-	function getPermissionsCache($storage) {
-		$storageId = $storage->getId();
-		if (!isset($this->permissionsCaches[$storageId])) {
-			$this->permissionsCaches[$storageId] = $storage->getPermissionsCache();
-		}
-		return $this->permissionsCaches[$storageId];
 	}
 
 	/**
