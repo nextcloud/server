@@ -39,11 +39,11 @@ class OC_OCSClient{
 		return($url);
 	}
 
-        /**
-         * @brief Get the url of the OCS KB server.
-         * @returns string of the KB server
-         * This function returns the url of the OCS knowledge base server. It´s possible to set it in the config file or it will fallback to the default
-         */
+	/**
+	 * @brief Get the url of the OCS KB server.
+	 * @returns string of the KB server
+	 * This function returns the url of the OCS knowledge base server. It´s possible to set it in the config file or it will fallback to the default
+	 */
 	private static function getKBURL() {
 		$url = OC_Config::getValue('knowledgebaseurl', 'http://api.apps.owncloud.com/v1');
 		return($url);
@@ -59,7 +59,7 @@ class OC_OCSClient{
 		return($data);
 	}
 
-        /**
+	/**
 	 * @brief Get all the categories from the OCS server
 	 * @returns array with category ids
 	 * @note returns NULL if config value appstoreenabled is set to false
@@ -242,7 +242,7 @@ class OC_OCSClient{
 			}
 			$kbe['totalitems'] = $data->meta->totalitems;
 		}
-                return $kbe;
+		return $kbe;
 	}
 
 

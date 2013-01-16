@@ -108,7 +108,7 @@ class OC_Filestorage_AmazonS3 extends OC_Filestorage_Common {
 			$stat['atime'] = time();
 			$stat['mtime'] = $stat['atime'];
 			$stat['ctime'] = $stat['atime'];
-		} else { 
+		} else {
 			$object = $this->getObject($path);
 			if ($object) {
 				$stat['size'] = $object['Size'];

@@ -38,36 +38,36 @@ OCP\App::setActiveNavigationEntry('files_index');
 $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 // Redirect if directory does not exist
 if (!OC_Filesystem::is_dir($dir . '/')) {
-    header('Location: ' . $_SERVER['SCRIPT_NAME'] . '');
-    exit();
+	header('Location: ' . $_SERVER['SCRIPT_NAME'] . '');
+	exit();
 }
 
 $files = array();
 foreach (OC_Files::getdirectorycontent($dir) as $i) {
-    $i['date'] = OCP\Util::formatDate($i['mtime']);
-    if ($i['type'] == 'file') {
-        $fileinfo = pathinfo($i['name']);
-        $i['basename'] = $fileinfo['filename'];
-        if (!empty($fileinfo['extension'])) {
-            $i['extension'] = '.' . $fileinfo['extension'];
-        } else {
-            $i['extension'] = '';
-        }
-    }
-    if ($i['directory'] == '/') {
-        $i['directory'] = '';
-    }
-    $files[] = $i;
+	$i['date'] = OCP\Util::formatDate($i['mtime']);
+	if ($i['type'] == 'file') {
+		$fileinfo = pathinfo($i['name']);
+		$i['basename'] = $fileinfo['filename'];
+		if (!empty($fileinfo['extension'])) {
+			$i['extension'] = '.' . $fileinfo['extension'];
+		} else {
+			$i['extension'] = '';
+		}
+	}
+	if ($i['directory'] == '/') {
+		$i['directory'] = '';
+	}
+	$files[] = $i;
 }
 
 // Make breadcrumb
 $breadcrumb = array();
 $pathtohere = '';
 foreach (explode('/', $dir) as $i) {
-    if ($i != '') {
-        $pathtohere .= '/' . $i;
-        $breadcrumb[] = array('dir' => $pathtohere, 'name' => $i);
-    }
+	if ($i != '') {
+		$pathtohere .= '/' . $i;
+		$breadcrumb[] = array('dir' => $pathtohere, 'name' => $i);
+	}
 }
 
 // make breadcrumb und filelist markup
@@ -89,13 +89,13 @@ $maxUploadFilesize = min($maxUploadFilesize, $freeSpace);
 
 $permissions = OCP\PERMISSION_READ;
 if (OC_Filesystem::isUpdatable($dir . '/')) {
-    $permissions |= OCP\PERMISSION_UPDATE;
+	$permissions |= OCP\PERMISSION_UPDATE;
 }
 if (OC_Filesystem::isDeletable($dir . '/')) {
-    $permissions |= OCP\PERMISSION_DELETE;
+	$permissions |= OCP\PERMISSION_DELETE;
 }
 if (OC_Filesystem::isSharable($dir . '/')) {
-    $permissions |= OCP\PERMISSION_SHARE;
+	$permissions |= OCP\PERMISSION_SHARE;
 }
 
 $tmpl = new OCP\Template('files', 'index', 'user');

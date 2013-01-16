@@ -59,7 +59,7 @@ class OC_FileCache{
 	 * @param string $path
 	 * @param array data
 	 * @param string root (optional)
-	 * @note $data is an associative array in the same format as returned 
+	 * @note $data is an associative array in the same format as returned
 	 * by get
 	 */
 	public static function put($path, $data, $root=false) {
@@ -206,7 +206,7 @@ class OC_FileCache{
 
 		OC_Cache::remove('fileid/'.$root.$path);
 	}
-	
+
 	/**
 	 * return array of filenames matching the querty
 	 * @param string $query

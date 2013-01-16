@@ -153,7 +153,7 @@ class OC_Setup {
 				if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
 					self::createHtaccess();
 				}
-				
+
 				//and we are done
 				OC_Config::setValue('installed', true);
 			}
