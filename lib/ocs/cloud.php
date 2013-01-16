@@ -24,49 +24,17 @@
 
 class OC_OCS_Cloud {
 
-	public static function getSystemWebApps() {
-		OC_Util::checkLoggedIn();
-		$apps = OC_App::getEnabledApps();
-		$values = array();
-		foreach($apps as $app) {
-			$info = OC_App::getAppInfo($app);
-			if(isset($info['standalone'])) {
-				$newValue = array('name'=>$info['name'],'url'=>OC_Helper::linkToAbsolute($app,''),'icon'=>'');
-				$values[] = $newValue;
-			}
-		}
-		return new OC_OCS_Result($values);
-	}
-
-	public static function getUserQuota($parameters) {
-		$user = OC_User::getUser();
-		if(OC_User::isAdminUser($user) or ($user==$parameters['user'])) {
-
-			if(OC_User::userExists($parameters['user'])) {
-				// calculate the disc space
-				$userDir = '/'.$parameters['user'].'/files';
-				OC_Filesystem::init($userDir);
-				$rootInfo = OC_FileCache::get('');
-				$sharedInfo = OC_FileCache::get('/Shared');
-				$used = $rootInfo['size'] - $sharedInfo['size'];
-				$free = OC_Filesystem::free_space();
-				$total = $free + $used;
-				if($total===0) $total = 1;  // prevent division by zero
-				$relative = round(($used/$total)*10000)/100;
-
-				$xml = array();
-				$xml['quota'] = $total;
-				$xml['free'] = $free;
-				$xml['used'] = $used;
-				$xml['relative'] = $relative;
-
-				return new OC_OCS_Result($xml);
-			} else {
-				return new OC_OCS_Result(null, 300);
-			}
-		} else {
-			return new OC_OCS_Result(null, 300);
-		}
+	public static function getCapabilities($parameters){
+		$result = array();
+		$result['version'] = implode('.', OC_Util::getVersion());
+		$result['versionstring'] = OC_Util::getVersionString();
+		$result['edition'] = OC_Util::getEditionString(); 
+		$result['bugfilechunking'] = 'true';
+		$result['encryption'] = 'false';
+		$result['versioning'] = OCP\App::isEnabled('files_versioning') ? 'true' : 'false';
+		$result['undelete'] = 'true';
+		$result['installedapps'] = OC_App::getEnabledApps();
+		return new OC_OCS_Result($result);
 	}
 
 	public static function getUserPublickey($parameters) {

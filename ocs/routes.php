@@ -17,4 +17,5 @@ OC_API::register('get', '/privatedata/getattribute/{app}', array('OC_OCS_Private
 OC_API::register('get', '/privatedata/getattribute/{app}/{key}', array('OC_OCS_Privatedata', 'get'), 'ocs', OC_API::USER_AUTH);
 OC_API::register('post', '/privatedata/setattribute/{app}/{key}', array('OC_OCS_Privatedata', 'set'), 'ocs', OC_API::USER_AUTH);
 OC_API::register('post', '/privatedata/deleteattribute/{app}/{key}', array('OC_OCS_Privatedata', 'delete'), 'ocs', OC_API::USER_AUTH);
-
+// cloud
+OC_API::register('get', '/cloud/capabilities', array('OC_OCS_Cloud', 'getCapabilities'), 'ocs', OC_API::USER_AUTH);
