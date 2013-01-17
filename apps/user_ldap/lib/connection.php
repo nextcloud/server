@@ -351,6 +351,8 @@ class Connection {
 			if(!$this->config['ldapOverrideMainServer'] && !$this->getFromCache('overrideMainServer')) {
 				$this->doConnect($this->config['ldapHost'], $this->config['ldapPort']);
 				$bindStatus = $this->bind();
+			} else {
+				$bindStatus = false;
 			}
 
 			$error = null;
