@@ -94,7 +94,7 @@ class OC_API {
 				$response = new OC_OCS_Result(null, 998, 'Api method not found');
 			} 
 		} else {
-			header('WWW-Authenticate: Basic realm="Authorisation Required"');
+			header('WWW-Authenticate: Basic realm="Authorization Required"');
 			header('HTTP/1.0 401 Unauthorized');
 			$response = new OC_OCS_Result(null, 997, 'Unauthorised');
 		}
