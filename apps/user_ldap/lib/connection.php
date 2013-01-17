@@ -279,6 +279,10 @@ class Connection {
 			\OCP\Config::setAppValue($this->configID, $this->configPrefix.'ldap_uuid_attribute', 'auto');
 			\OCP\Util::writeLog('user_ldap', 'Illegal value for the UUID Attribute, reset to autodetect.', \OCP\Util::INFO);
 		}
+		if(empty($this->config['ldapBackupPort'])) {
+			//force default
+			$this->config['ldapBackupPort'] = $this->config['ldapPort'];
+		}
 
 
 		//second step: critical checks. If left empty or filled wrong, set as unconfigured and give a warning.
@@ -351,18 +355,22 @@ class Connection {
 			if(!$this->config['ldapOverrideMainServer'] && !$this->getFromCache('overrideMainServer')) {
 				$this->doConnect($this->config['ldapHost'], $this->config['ldapPort']);
 				$bindStatus = $this->bind();
+				$error = ldap_errno($this->ldapConnectionRes);
 			} else {
 				$bindStatus = false;
+				$error = null;
 			}
 
 			$error = null;
 			//if LDAP server is not reachable, try the Backup (Replica!) Server
-			if((!$bindStatus && ($error = ldap_errno($this->ldapConnectionRes)) == -1)
+			if((!$bindStatus && ($error == -1))
 				|| $this->config['ldapOverrideMainServer']
 				|| $this->getFromCache('overrideMainServer')) {
 					$this->doConnect($this->config['ldapBackupHost'], $this->config['ldapBackupPort']);
 					$bindStatus = $this->bind();
 					if($bindStatus && $error == -1) {
+						//when bind to backup server succeeded and failed to main server,
+						//skip contacting him until next cache refresh
 						$this->writeToCache('overrideMainServer', true);
 					}
 			}
