@@ -75,7 +75,7 @@
 				<?php foreach($_['navigation'] as $entry): ?>
 					<li data-id="<?php echo $entry['id']; ?>">
 						<a href="<?php echo $entry['href']; ?>" title="" <?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
-							<div class="icon" style="background-image:url(<?php echo $entry['icon']; ?>)"></div>
+							<img class="icon" src="<?php echo $entry['icon']; ?>"/>
 							<?php echo $entry['name']; ?>
 						</a>
 					</li>
