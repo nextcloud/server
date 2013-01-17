@@ -14,9 +14,9 @@
    width="16"
    height="16"
    id="svg11300"
-   inkscape:version="0.48.1 r9760"
-   sodipodi:docname="apps.svg"
-   inkscape:export-filename="/home/jancborchardt/jancborchardt/ownCloud/icons/apps.png"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="admin.svg"
+   inkscape:export-filename="admin.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <metadata
@@ -41,16 +41,16 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1280"
-     inkscape:window-height="776"
+     inkscape:window-height="745"
      id="namedview24"
      showgrid="true"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="32.000001"
-     inkscape:cx="8.0537858"
-     inkscape:cy="6.4773881"
+     inkscape:zoom="16.000001"
+     inkscape:cx="0.93200388"
+     inkscape:cy="4.680543"
      inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      inkscape:current-layer="g4146">
     <inkscape:grid
@@ -2005,36 +2005,6 @@
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3587-6-5-86-0"
-       id="linearGradient4907"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.4651163,0,0,0.3370786,4.3953488,5.5842706)"
-       x1="11"
-       y1="6"
-       x2="11"
-       y2="17" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3587-6-5-86-0"
-       id="linearGradient4911"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.4651163,0,0,0.3370786,4.3953488,9.58427)"
-       x1="11"
-       y1="6"
-       x2="11"
-       y2="17" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3587-6-5-86-0"
-       id="linearGradient4915"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.4651163,0,0,0.3370786,4.3953488,1.5842703)"
-       x1="11"
-       y1="6"
-       x2="11"
-       y2="17" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3587-6-5-86-0"
        id="linearGradient4919"
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(0.2727273,0,0,0.375,9.636365,1.5)"
@@ -2073,16 +2043,6 @@
        id="linearGradient4936"
        xlink:href="#linearGradient3587-6-5-86-0-6"
        inkscape:collect="always" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient3587-6-5-86-0"
-       id="linearGradient5057"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2727273,0,0,0.375,9.636365,1.5)"
-       x1="1.3333321"
-       y1="6.6666665"
-       x2="1.3333321"
-       y2="33.333332" />
     <linearGradient
        id="linearGradient3587-6-5-86-0-9">
       <stop
@@ -2155,60 +2115,14 @@
      style="opacity:0.6;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" />
   <g
      id="g4146">
-    <g
-       transform="translate(0,1)"
-       id="g5059-3"
-       style="fill:#ffffff;fill-opacity:1;opacity:0.6">
-      <path
-         inkscape:connector-curvature="0"
-         id="path2407-9-6"
-         d="m 6,4 0,1 8,0 0,-1 -8,0 z m 0,4 0,1 8,0 0,-1 -8,0 z m 0,4 0,1 8,0 0,-1 -8,0 z"
-         style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;opacity:0.69999999999999996;color:#000000;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.99999994000000003;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans" />
-      <rect
-         style="opacity:0.69999999999999996;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-         id="rect3728-0-5"
-         y="3"
-         x="2"
-         height="3"
-         width="3" />
-      <path
-         inkscape:connector-curvature="0"
-         id="rect2434-2"
-         d="m 2,11 0,3 3,0 0,-3 -3,0 z m 1,1 1,0 0,1 -1,0 0,-1 z"
-         style="opacity:0.69999999999999996;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-      <rect
-         style="opacity:0.69999999999999996;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-         id="rect2440-8"
-         y="7"
-         x="2"
-         height="3"
-         width="3" />
-    </g>
-    <g
-       id="g5059">
-      <path
-         inkscape:connector-curvature="0"
-         id="path2407-9"
-         d="m 6,4 0,1 8,0 0,-1 -8,0 z m 0,4 0,1 8,0 0,-1 -8,0 z m 0,4 0,1 8,0 0,-1 -8,0 z"
-         style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;opacity:0.7;color:#000000;fill:url(#linearGradient5057);fill-opacity:1;stroke:none;stroke-width:0.99999994;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans" />
-      <rect
-         style="opacity:0.7;fill:url(#linearGradient4915);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-         id="rect3728-0"
-         y="3"
-         x="2"
-         height="3"
-         width="3" />
-      <path
-         id="rect2434"
-         d="M 2 11 L 2 14 L 5 14 L 5 11 L 2 11 z M 3 12 L 4 12 L 4 13 L 3 13 L 3 12 z "
-         style="opacity:0.69999999999999996;fill:url(#linearGradient4911);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-      <rect
-         style="opacity:0.7;fill:url(#linearGradient4907);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate"
-         id="rect2440"
-         y="7"
-         x="2"
-         height="3"
-         width="3" />
-    </g>
+    <path
+       id="path7671"
+       d="M 2,2 2,5 5,5 5,2 2,2 z M 6,3 6,4 14,4 14,3 6,3 z M 2,6 2,9 5,9 5,6 2,6 z m 4,1 0,1 8,0 0,-1 -8,0 z m -4,3 0,3 3,0 0,-3 -3,0 z m 1,1 1,0 0,1 -1,0 0,-1 z m 3,0 0,1 8,0 0,-1 -8,0 z"
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.99999994000000003;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+       inkscape:connector-curvature="0" />
+    <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;opacity:1;color:#000000;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.99999994000000003;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+       d="M 2 3 L 2 6 L 5 6 L 5 3 L 2 3 z M 6 4 L 6 5 L 14 5 L 14 4 L 6 4 z M 2 7 L 2 10 L 5 10 L 5 7 L 2 7 z M 6 8 L 6 9 L 14 9 L 14 8 L 6 8 z M 2 11 L 2 14 L 5 14 L 5 11 L 2 11 z M 3 12 L 4 12 L 4 13 L 3 13 L 3 12 z M 6 12 L 6 13 L 14 13 L 14 12 L 6 12 z "
+       id="path2407-9" />
   </g>
 </svg>
