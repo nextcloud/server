@@ -257,7 +257,7 @@ if ($linkItem) {
 
 			$list = new OCP\Template('files', 'part.list', '');
 			$list->assign('files', $files, false);
-			$list->assign('publicListView', true);
+			$list->assign('disableSharing', true);
 			$list->assign('baseURL', OCP\Util::linkToPublic('files').$urlLinkIdentifiers.'&path=', false);
 			$list->assign('downloadURL', OCP\Util::linkToPublic('files').$urlLinkIdentifiers.'&download&path=', false);
 			$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '' );
