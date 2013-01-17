@@ -42,7 +42,7 @@ foreach($files['size'] as $size) {
 	$totalSize+=$size;
 }
 if($totalSize>OC_Filesystem::free_space($dir)) {
-	OCP\JSON::error(array('data' => array( 'message' => $l->t( 'Not enough space available' ))));
+	OCP\JSON::error(array('data' => array( 'message' => $l->t( 'Not enough storage available' ))));
 	exit();
 }
 
