@@ -1,8 +1,8 @@
 <script type="text/javascript">
-	<?php if ( array_key_exists('publicListView', $_) && $_['publicListView'] == true ) {
-		echo "var publicListView = true;";
+	<?php if ( array_key_exists('disableSharing', $_) && $_['disableSharing'] == true ) {
+		echo "var disableSharing = true;";
 	} else {
-		echo "var publicListView = false;";
+		echo "var disableSharing = false;";
 	}
 	?>
 </script>
