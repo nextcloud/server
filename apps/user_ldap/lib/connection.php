@@ -36,6 +36,8 @@ class Connection {
 	protected $config = array(
 		'ldapHost' => null,
 		'ldapPort' => null,
+		'ldapBackupHost' => null,
+		'ldapBackupPort' => null,
 		'ldapBase' => null,
 		'ldapBaseUsers' => null,
 		'ldapBaseGroups' => null,
@@ -56,6 +58,7 @@ class Connection {
 		'ldapCacheTTL' => null,
 		'ldapUuidAttribute' => null,
 		'ldapOverrideUuidAttribute' => null,
+		'ldapOverrideMainServer' => false,
 		'homeFolderNamingRule' => null,
 		'hasPagedResultSupport' => false,
 	);
@@ -188,7 +191,10 @@ class Connection {
 	private function readConfiguration($force = false) {
 		if((!$this->configured || $force) && !is_null($this->configID)) {
 			$this->config['ldapHost']              = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_host', '');
+			$this->config['ldapBackupHost']        = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_backup_host', '');
 			$this->config['ldapPort']              = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_port', 389);
+			$this->config['ldapBackupPort']        = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_backup_port', $this->config['ldapPort']);
+			$this->config['ldapOverrideMainServer']= \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_override_main_server', false);
 			$this->config['ldapAgentName']         = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_dn', '');
 			$this->config['ldapAgentPassword']     = base64_decode(\OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_agent_password', ''));
 			$rawLdapBase                           = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_base', '');
@@ -229,7 +235,7 @@ class Connection {
 			return false;
 		}
 
-		$params = array('ldap_host'=>'ldapHost', 'ldap_port'=>'ldapPort', 'ldap_dn'=>'ldapAgentName', 'ldap_agent_password'=>'ldapAgentPassword', 'ldap_base'=>'ldapBase', 'ldap_base_users'=>'ldapBaseUsers', 'ldap_base_groups'=>'ldapBaseGroups', 'ldap_userlist_filter'=>'ldapUserFilter', 'ldap_login_filter'=>'ldapLoginFilter', 'ldap_group_filter'=>'ldapGroupFilter', 'ldap_display_name'=>'ldapUserDisplayName', 'ldap_group_display_name'=>'ldapGroupDisplayName',
+		$params = array('ldap_host'=>'ldapHost', 'ldap_port'=>'ldapPort', 'ldap_backup_host'=>'ldapBackupHost', 'ldap_backup_port'=>'ldapBackupPort', 'ldapOverrideMainServer' => 'ldap_override_main_server', 'ldap_dn'=>'ldapAgentName', 'ldap_agent_password'=>'ldapAgentPassword', 'ldap_base'=>'ldapBase', 'ldap_base_users'=>'ldapBaseUsers', 'ldap_base_groups'=>'ldapBaseGroups', 'ldap_userlist_filter'=>'ldapUserFilter', 'ldap_login_filter'=>'ldapLoginFilter', 'ldap_group_filter'=>'ldapGroupFilter', 'ldap_display_name'=>'ldapUserDisplayName', 'ldap_group_display_name'=>'ldapGroupDisplayName',
 
 		'ldap_tls'=>'ldapTLS', 'ldap_nocase'=>'ldapNoCase', 'ldap_quota_def'=>'ldapQuotaDefault', 'ldap_quota_attr'=>'ldapQuotaAttribute', 'ldap_email_attr'=>'ldapEmailAttribute', 'ldap_group_member_assoc_attribute'=>'ldapGroupMemberAssocAttr', 'ldap_cache_ttl'=>'ldapCacheTTL', 'home_folder_naming_rule' => 'homeFolderNamingRule');
 
@@ -342,16 +348,34 @@ class Connection {
 					\OCP\Util::writeLog('user_ldap', 'Could not turn off SSL certificate validation.', \OCP\Util::WARN);
 				}
 			}
-			$this->ldapConnectionRes = ldap_connect($this->config['ldapHost'], $this->config['ldapPort']);
-			if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
-				if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
-					if($this->config['ldapTLS']) {
-						ldap_start_tls($this->ldapConnectionRes);
-					}
-				}
+			if(!$this->config['ldapOverrideMainServer'] && !$this->getFromCache('overrideMainServer')) {
+				$this->doConnect($this->config['ldapHost'], $this->config['ldapPort']);
+				$bindStatus = $this->bind();
 			}
 
-			return $this->bind();
+			$error = null;
+			//if LDAP server is not reachable, try the Backup (Replica!) Server
+			if((!$bindStatus && ($error = ldap_errno($this->ldapConnectionRes)) == -1)
+				|| $this->config['ldapOverrideMainServer']
+				|| $this->getFromCache('overrideMainServer')) {
+					$this->doConnect($this->config['ldapBackupHost'], $this->config['ldapBackupPort']);
+					$bindStatus = $this->bind();
+					if($bindStatus && $error == -1) {
+						$this->writeToCache('overrideMainServer', true);
+					}
+			}
+			return $bindStatus;
+		}
+	}
+
+	private function doConnect($host, $port) {
+		$this->ldapConnectionRes = ldap_connect($host, $port);
+		if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
+			if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
+				if($this->config['ldapTLS']) {
+					ldap_start_tls($this->ldapConnectionRes);
+				}
+			}
 		}
 	}
 
