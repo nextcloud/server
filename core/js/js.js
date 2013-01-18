@@ -297,7 +297,7 @@ OC.Notification={
     hide: function(callback) {
         $("#notification").text('');
         $('#notification').fadeOut('400', function(){
-            if ($("#notification").text() === '') {
+            if (OC.Notification.isHidden()) {
                 if (OC.Notification.getDefaultNotificationFunction) {
                     OC.Notification.getDefaultNotificationFunction.call();
                 }
@@ -318,7 +318,10 @@ OC.Notification={
         notification.hide();
         notification.text(text);
         notification.fadeIn().css("display","inline");
-    }
+    },
+	isHidden: function() {
+		return ($("#notification").text() === '');
+	}
 };
 
 OC.Breadcrumb={

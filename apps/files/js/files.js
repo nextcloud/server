@@ -32,14 +32,18 @@ Files={
 		}
 		if(response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
 			$('#max_upload').val(response.data.uploadMaxFilesize);
-			$('#data-upload-form a').attr('original-title', response.data.maxHumanFilesize);
+			$('#upload.button').attr('original-title', response.data.maxHumanFilesize);
+			$('#usedSpacePercent').val(response.data.usedSpacePercent);
+			Files.displayStorageWarnings();
 		}
 		if(response[0] == undefined) {
 			return;
 		}
 		if(response[0].uploadMaxFilesize !== undefined) {
 			$('#max_upload').val(response[0].uploadMaxFilesize);
-			$('#data-upload-form a').attr('original-title', response[0].maxHumanFilesize);
+			$('#upload.button').attr('original-title', response[0].maxHumanFilesize);
+			$('#usedSpacePercent').val(response[0].usedSpacePercent);
+			Files.displayStorageWarnings();
 		}
 
 	},
@@ -65,6 +69,10 @@ Files={
 		return true;
 	},
 	displayStorageWarnings: function() {
+		if (!OC.Notification.isHidden()) {
+			return;
+		}
+
 		var usedSpacePercent = $('#usedSpacePercent').val();
 		if (usedSpacePercent > 98) {
 			OC.Notification.show(t('files', 'Your storage is full, files can not be updated or synced anymore!'));
