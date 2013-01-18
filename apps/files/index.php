@@ -28,6 +28,7 @@ OCP\User::checkLoggedIn();
 OCP\Util::addStyle('files', 'files');
 OCP\Util::addscript('files', 'jquery.iframe-transport');
 OCP\Util::addscript('files', 'jquery.fileupload');
+OCP\Util::addscript('files', 'jquery-visibility');
 OCP\Util::addscript('files', 'files');
 OCP\Util::addscript('files', 'filelist');
 OCP\Util::addscript('files', 'fileactions');
@@ -79,13 +80,7 @@ $breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 $breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
 $breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=', false);
 
-$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
-$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
-$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
-
-$freeSpace = OC_Filesystem::free_space($dir);
-$freeSpace = max($freeSpace, 0);
-$maxUploadFilesize = min($maxUploadFilesize, $freeSpace);
+$maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
 
 $permissions = OCP\PERMISSION_READ;
 if (OC_Filesystem::isUpdatable($dir . '/')) {
