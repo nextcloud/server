@@ -24,7 +24,8 @@
 	$name = str_replace('%2F', '/', $name);
 	$directory = str_replace('+', '%20', urlencode($file['directory']));
 	$directory = str_replace('%2F', '/', $directory); ?>
-	<tr data-file="<?php echo $file['name'].'.d'.$file['timestamp'];?>"
+	<tr id="<?php echo $file['name'].'.d'.$file['timestamp'];?>"
+		data-file="<?php echo $file['name'].'.d'.$file['timestamp'];?>"
 		data-filename="<?php echo $file['name'];?>"
 		data-type="<?php echo ($file['type'] == 'dir')?'dir':'file'?>"
 		data-mime="<?php echo $file['mimetype']?>"

@@ -86,7 +86,8 @@ class Trashbin {
 			\OC_Log::write('files_trashbin', 'trash bin database inconsistent!', OC_Log::ERROR);
 			return false;
 		}
-		
+
+		// if location no longer exists, restore file in the root directory
 		$location = $result[0]['location'];
 		if ( $result[0]['location'] != '/' && !$view->is_dir('files'.$result[0]['location']) ) {
 			$location = '/';
@@ -95,23 +96,29 @@ class Trashbin {
 		$source = 'files_trashbin/'.$filename.'.d'.$timestamp;
 		$target = \OC_Filesystem::normalizePath('files/'.$location.'/'.$filename);
 		
+		// we need a  extension in case a file/dir with the same name already exists
 		$ext = self::getUniqueExtension($location, $filename, $view);
 		
-		$view->rename($source, $target.$ext);
-		
-		if ( \OCP\App::isEnabled('files_versions') ) {
-			if ( $result[0][type] == 'dir' ) {
-				$view->rename('versions_trashbin/'. $filename.'.d'.$timestamp, 'files_versions/'.$location.'/'.$filename.$ext);
-			} else if ( $versions = self::getVersionsFromTrash($filename, $timestamp) ) { 
-				foreach ($versions as $v) {
-					$view->rename('versions_trashbin/'.$filename.'.v'.$v.'.d'.$timestamp, 'files_versions/'.$location.'/'.$filename.$ext.'.v'.$v);
+		if( $view->rename($source, $target.$ext) ) {
+
+			// if versioning app is enabled, copy versions from the trash bin back to the original location
+			if ( $return && \OCP\App::isEnabled('files_versions') ) {
+				if ( $result[0][type] == 'dir' ) {
+					$view->rename('versions_trashbin/'. $filename.'.d'.$timestamp, 'files_versions/'.$location.'/'.$filename.$ext);
+				} else if ( $versions = self::getVersionsFromTrash($filename, $timestamp) ) {
+					foreach ($versions as $v) {
+						$view->rename('versions_trashbin/'.$filename.'.v'.$v.'.d'.$timestamp, 'files_versions/'.$location.'/'.$filename.$ext.'.v'.$v);
+					}
 				}
 			}
+
+			$query = \OC_DB::prepare('DELETE FROM *PREFIX*files_trash WHERE user=? AND id=? AND timestamp=?');
+			$query->execute(array($user,$filename,$timestamp));
+
+			return true;
 		}
-		
-		$query = \OC_DB::prepare('DELETE FROM *PREFIX*files_trash WHERE user=? AND id=? AND timestamp=?');
-		$query->execute(array($user,$filename,$timestamp));
-		
+
+		return false;
 	}
 	
 	/**
