@@ -877,7 +877,7 @@ var folderDropOptions={
 		$(files).each(function(i,row){
 			var dir = $(row).data('dir');
 			var file = $(row).data('filename');
-			$.get(OC.filePath('files', 'ajax', 'move.php'), { dir: dir, file: file, target: dir+'/'+target }, function(result) {
+			$.post(OC.filePath('files', 'ajax', 'move.php'), { dir: dir, file: file, target: dir+'/'+target }, function(result) {
 				if (result) {
 					if (result.status === 'success') {
 						//recalculate folder size
@@ -925,7 +925,7 @@ var crumbDropOptions={
 		$(files).each(function(i,row){
 			var dir = $(row).data('dir');
 			var file = $(row).data('filename');
-			$.get(OC.filePath('files', 'ajax', 'move.php'), { dir: dir, file: file, target: target }, function(result) {
+			$.post(OC.filePath('files', 'ajax', 'move.php'), { dir: dir, file: file, target: target }, function(result) {
 				if (result) {
 					if (result.status === 'success') {
 						FileList.remove(file);
