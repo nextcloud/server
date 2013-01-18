@@ -7,7 +7,8 @@ if(!OC_User::isLoggedIn()) {
 $timestamp = isset( $_REQUEST['timestamp'] ) ? $_REQUEST['timestamp'] : '';
 $filename = isset( $_REQUEST['filename'] ) ? trim($_REQUEST['filename'], '/\\') : '';
 
-OCA_Trash\Trashbin::restore($filename, $timestamp);
-
-//TODO: return useful data after succsessful restore operation and remove restored files from the list view
-OCP\JSON::success(array("data" => array('content'=>'foo', 'id' => 'bar')));
+if ( OCA_Trash\Trashbin::restore($filename, $timestamp) ) {
+	OCP\JSON::success(array("data" => array('filename'=>$filename, 'timestamp' => $timestamp)));
+} else {
+	OCP\JSON::error(array("data" => array("message" => "Couldn't restore ".$filename)));	
+}
