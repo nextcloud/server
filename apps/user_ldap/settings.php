@@ -76,5 +76,6 @@ $tmpl->assign( 'ldap_cache_ttl', OCP\Config::getAppValue('user_ldap', 'ldap_cach
 $hfnr = OCP\Config::getAppValue('user_ldap', 'home_folder_naming_rule', 'opt:username');
 $hfnr = ($hfnr == 'opt:username') ? '' : substr($hfnr, strlen('attr:'));
 $tmpl->assign( 'home_folder_naming_rule', $hfnr, '');
+$tmpl->assign('serverConfigurationOptions', '', false);
 
 return $tmpl->fetchPage();

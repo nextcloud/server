@@ -21,4 +21,37 @@ $(document).ready(function() {
 			}
 		);
 	});
+
+	$('#ldap_serverconfig_chooser').change(function(event) {
+		value = $('#ldap_serverconfig_chooser option:selected:first').attr('value');
+		if(value == 'NEW') {
+			$.post(
+				OC.filePath('user_ldap','ajax','getNewServerConfigPrefix.php'),
+				function (result) {
+					if(result.status == 'success') {
+						OC.dialogs.confirm(
+							'Take over settings from recent server configuration?',
+							'Keep settings?',
+							function(keep) {
+								if(!keep) {
+									$('#ldap').find('input[type=text], input[type=password], textarea, select').val('');
+									$('#ldap').find('input[type=checkbox]').removeAttr('checked');
+								}
+							}
+						);
+						$('#ldap_serverconfig_chooser option:selected:first').removeAttr('selected');
+						var html = '<option value="'+result.configPrefix+'" selected>'+$('#ldap_serverconfig_chooser option').length+'. Server</option>';
+						$('#ldap_serverconfig_chooser option:last').before(html);
+					} else {
+						OC.dialogs.alert(
+							result.message,
+							'Cannot add server configuration'
+						);
+					}
+				}
+			);
+		} else {
+			alert(value);
+		}
+	});
 });
