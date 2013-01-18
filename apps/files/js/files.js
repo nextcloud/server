@@ -813,32 +813,102 @@ function updateBreadcrumb(breadcrumbHtml) {
 	$('p.nav').empty().html(breadcrumbHtml);
 }
 
-//options for file drag/dropp
+var createDragShadow = function(event){
+	//select dragged file
+	$(event.target).parents('tr').find('td input:first').prop('checked', true);
+	
+	var selectedFiles = getSelectedFiles();
+	
+	//also update class when we dragged more than one file
+	if (selectedFiles.length > 1) {
+		$(event.target).parents('tr').addClass('selected');
+	}
+	
+	// build dragshadow
+	var dragshadow = $('<table class="dragshadow"></table>');
+	var tbody = $('<tbody></tbody>');
+	dragshadow.append(tbody);
+	
+	var dir=$('#dir').val();
+	
+	$(selectedFiles).each(function(i,elem){
+		var selected= $(event.target).parents('tr').hasClass('selected');
+		var newtr = $('<tr data-dir="'+dir+'" data-filename="'+elem.name+'" data-selected="'+selected+'">'
+						+'<td class="filename">'+elem.name+'</td><td class="size">'+humanFileSize(elem.size)+'</td>'
+					 +'</tr>');
+		tbody.append(newtr);
+		if (elem.type === 'dir') {
+			newtr.find('td.filename').attr('style','background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')');
+		} else {
+			getMimeIcon(elem.mime,function(path){
+				newtr.find('td.filename').attr('style','background-image:url('+path+')');
+			});
+		}
+	});
+	
+	return dragshadow;
+}
+
+//options for file drag/drop
 var dragOptions={
-	distance: 20, revert: 'invalid', opacity: 0.7, helper: 'clone',
+	revert: 'invalid', opacity: 0.7, zIndex: 100, appendTo: 'body', cursorAt: { left: -5, top: -5 },
+	helper: createDragShadow, cursor: 'move',
 	stop: function(event, ui) {
 		$('#fileList tr td.filename').addClass('ui-draggable');
-	}
-};
-var folderDropOptions={
-	drop: function( event, ui ) {
-		var file=ui.draggable.parent().data('file');
-		var target=$(this).find('.nametext').text().trim();
-		var dir=$('#dir').val();
-		$.ajax({
-			url: OC.filePath('files', 'ajax', 'move.php'),
-			data: "dir="+encodeURIComponent(dir)+"&file="+encodeURIComponent(file)+'&target='+encodeURIComponent(dir)+'/'+encodeURIComponent(target),
-			complete: function(data){boolOperationFinished(data, function(){
-				var el = $('#fileList tr').filterAttr('data-file',file).find('td.filename');
-				el.draggable('destroy');
-				FileList.remove(file);
-			});}
+		//reset selection
+		$(ui.helper.find('tr')).each(function(i,row){
+			var file = $(row).data('filename');
+			var selected = $(row).data('selected');
+			$('#fileList tr').filterAttr('data-file',file).find('td input:first').prop('checked',selected);
 		});
 	}
 }
+
+var folderDropOptions={
+	drop: function( event, ui ) {
+		//don't allow moving a file into a selected folder
+		if ($(event.target).parents('tr').find('td input:first').prop('checked') === true) {
+			return false;
+		}
+		
+		var target=$(this).find('.nametext').text().trim();
+		
+		var files = ui.helper.find('tr');
+		$(files).each(function(i,row){
+			var dir = $(row).data('dir');
+			var file = $(row).data('filename');
+			$.get(OC.filePath('files', 'ajax', 'move.php'), { dir: dir, file: file, target: dir+'/'+target }, function(result) {
+				if (result) {
+					if (result.status === 'success') {
+						//recalculate folder size
+						var oldSize = $('#fileList tr').filterAttr('data-file',target).data('size');
+						var newSize = oldSize + $('#fileList tr').filterAttr('data-file',file).data('size');
+						$('#fileList tr').filterAttr('data-file',target).data('size', newSize);
+						$('#fileList tr').filterAttr('data-file',target).find('td.filesize').text(humanFileSize(newSize));
+
+						FileList.remove(file);
+						procesSelection();
+						$('#notification').hide();
+					} else {
+						$('#notification').hide();
+						$('#notification').text(result.data.message);
+						$('#notification').fadeIn();
+					}
+				} else {
+					OC.dialogs.alert(t('Error moving file'));
+				}
+			});
+		});
+		//reset checkbox if we dragged a single file
+		if (files.length == 1) {
+			$(event.target).parents('tr').find('td input:first').prop('checked', $(event.target).parents('tr').hasClass('selected'));
+		}
+	},
+	tolerance: 'pointer'
+}
+
 var crumbDropOptions={
 	drop: function( event, ui ) {
-		var file=ui.draggable.parent().data('file');
 		var target=$(this).data('dir');
 		var dir=$('#dir').val();
 		while(dir.substr(0,1)=='/'){//remove extra leading /'s
@@ -851,13 +921,30 @@ var crumbDropOptions={
 		if(target==dir || target+'/'==dir){
 			return;
 		}
-		$.ajax({
-			url: OC.filePath('files', 'ajax', 'move.php'),
-		 data: "dir="+encodeURIComponent(dir)+"&file="+encodeURIComponent(file)+'&target='+encodeURIComponent(target),
-		 complete: function(data){boolOperationFinished(data, function(){
-			 FileList.remove(file);
-		 });}
+		var files = ui.helper.find('tr');
+		$(files).each(function(i,row){
+			var dir = $(row).data('dir');
+			var file = $(row).data('filename');
+			$.get(OC.filePath('files', 'ajax', 'move.php'), { dir: dir, file: file, target: target }, function(result) {
+				if (result) {
+					if (result.status === 'success') {
+						FileList.remove(file);
+						procesSelection();
+						$('#notification').hide();
+					} else {
+						$('#notification').hide();
+						$('#notification').text(result.data.message);
+						$('#notification').fadeIn();
+					}
+				} else {
+					OC.dialogs.alert(t('Error moving file'));
+				}
+			});
 		});
+		//reset checkbox if we dragged a single file
+		if (files.length == 1) {
+			$(event.target).parents('tr').find('td input:first').prop('checked', $(event.target).parents('tr').hasClass('selected'));
+		}
 	},
 	tolerance: 'pointer'
 }
