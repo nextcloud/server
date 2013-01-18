@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-11 00:05+0100\n"
-"PO-Revision-Date: 2013-01-10 09:52+0000\n"
-"Last-Translator: Shubhra Paul <paul_shubhra@yahoo.com>\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,7 +30,7 @@ msgstr "গোষ্ঠীটি পূর্ব থেকেই বিদ্য
 msgid "Unable to add group"
 msgstr "গোষ্ঠী যোগ করা সম্ভব হলো না"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "অ্যপটি সক্রিয় করতে সক্ষম নয়।"
 
@@ -41,14 +41,6 @@ msgstr "ই-মেইল সংরক্ষন করা হয়েছে"
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "ই-মেইলটি সঠিক নয়"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID পরিবর্তন করা হয়েছে"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "অনুরোধটি যথাযথ নয়"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -65,6 +57,10 @@ msgstr "ব্যবহারকারী মুছে ফেলা সম্ভ
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "ভাষা পরিবর্তন করা হয়েছে"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "অনুরোধটি যথাযথ নয়"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"

@@ -5,7 +5,7 @@
 # Translators:
 #   <ari.takalo@iki.fi>, 2012.
 # Jesse Jaara <jesse.jaara@gmail.com>, 2012.
-# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012.
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012-2013.
 # Johannes Korpela <>, 2012.
 # Pekka Sutela <pekka.sutela@gmail.com>, 2012.
 #   <tehoratopato@gmail.com>, 2012.
@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-07 00:04+0100\n"
-"PO-Revision-Date: 2013-01-06 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-16 00:19+0100\n"
+"PO-Revision-Date: 2013-01-15 09:13+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,26 +27,26 @@ msgstr ""
 #: ajax/share.php:84
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "Käyttäjä %s jakoi tiedoston kanssasi"
 
 #: ajax/share.php:86
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "Käyttäjä %s jakoi kansion kanssasi"
 
 #: ajax/share.php:88
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "Käyttäjä %s jakoi tiedoston \"%s\" kanssasi. Se on ladattavissa täältä: %s"
 
 #: ajax/share.php:90
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "Käyttäjä %s jakoi kansion \"%s\" kanssasi. Se on ladattavissa täältä: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -75,7 +75,7 @@ msgstr ""
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Virhe lisätessä kohdetta %s suosikkeihin."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -84,61 +84,61 @@ msgstr "Luokkia ei valittu poistettavaksi."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Virhe poistaessa kohdetta %s suosikeista."
 
 #: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "Asetukset"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "sekuntia sitten"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "1 minuutti sitten"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minuuttia sitten"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "1 tunti sitten"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "{hours} tuntia sitten"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "tänään"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "eilen"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "{days} päivää sitten"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "viime kuussa"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "{months} kuukautta sitten"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "kuukautta sitten"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "viime vuonna"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "vuotta sitten"
 
@@ -195,15 +195,15 @@ msgstr "Virhe oikeuksia muuttaessa"
 
 #: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Jaettu sinun ja ryhmän {group} kanssa käyttäjän {owner} toimesta"
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "Jaettu kanssasi käyttäjän {owner} toimesta"
 
 #: js/share.js:158
 msgid "Share with"
-msgstr ""
+msgstr "Jaa"
 
 #: js/share.js:163
 msgid "Share with link"
@@ -214,7 +214,6 @@ msgid "Password protect"
 msgstr "Suojaa salasanalla"
 
 #: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
 msgid "Password"
 msgstr "Salasana"
 
@@ -312,7 +311,7 @@ msgstr "Saat sähköpostitse linkin nollataksesi salasanan."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "Salasanan nollausviesti lähetetty."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
@@ -559,10 +558,6 @@ msgstr "muista"
 msgid "Log in"
 msgstr "Kirjaudu sisään"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Olet kirjautunut ulos."
-
 #: templates/part.pagenavi.php:3
 msgid "prev"
 msgstr "edellinen"
@@ -574,18 +569,4 @@ msgstr "seuraava"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "Turvallisuusvaroitus!"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "Vahvista salasanasi. <br/>Turvallisuussyistä sinulta saatetaan ajoittain kysyä salasanasi uudelleen."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Vahvista"
+msgstr "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken."

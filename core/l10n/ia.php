@@ -52,7 +52,6 @@
 "Lost your password?" => "Tu perdeva le contrasigno?",
 "remember" => "memora",
 "Log in" => "Aperir session",
-"You are logged out." => "Tu session ha essite claudite.",
 "prev" => "prev",
 "next" => "prox"
 );

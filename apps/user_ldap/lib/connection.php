@@ -187,9 +187,9 @@ class Connection {
 			$this->config['ldapPort']              = \OCP\Config::getAppValue($this->configID, 'ldap_port', 389);
 			$this->config['ldapAgentName']         = \OCP\Config::getAppValue($this->configID, 'ldap_dn', '');
 			$this->config['ldapAgentPassword']     = base64_decode(\OCP\Config::getAppValue($this->configID, 'ldap_agent_password', ''));
-			$this->config['ldapBase']              = \OCP\Config::getAppValue($this->configID, 'ldap_base', '');
-			$this->config['ldapBaseUsers']         = \OCP\Config::getAppValue($this->configID, 'ldap_base_users', $this->config['ldapBase']);
-			$this->config['ldapBaseGroups']        = \OCP\Config::getAppValue($this->configID, 'ldap_base_groups', $this->config['ldapBase']);
+			$this->config['ldapBase']              = preg_split('/\r\n|\r|\n/', \OCP\Config::getAppValue($this->configID, 'ldap_base', ''));
+			$this->config['ldapBaseUsers']         = preg_split('/\r\n|\r|\n/', \OCP\Config::getAppValue($this->configID, 'ldap_base_users', $this->config['ldapBase']));
+			$this->config['ldapBaseGroups']        = preg_split('/\r\n|\r|\n/', \OCP\Config::getAppValue($this->configID, 'ldap_base_groups', $this->config['ldapBase']));
 			$this->config['ldapTLS']               = \OCP\Config::getAppValue($this->configID, 'ldap_tls', 0);
 			$this->config['ldapNoCase']            = \OCP\Config::getAppValue($this->configID, 'ldap_nocase', 0);
 			$this->config['turnOffCertCheck']      = \OCP\Config::getAppValue($this->configID, 'ldap_turn_off_cert_check', 0);

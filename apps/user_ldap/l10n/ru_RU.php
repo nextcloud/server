@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them." => "<b>Предупреждение:</b> Приложения user_ldap и user_webdavauth несовместимы. Вы можете столкнуться с неожиданным поведением системы. Пожалуйста, обратитесь к системному администратору для отключения одного из них.",
-"<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Предупреждение:</b> Необходимый PHP LDAP-модуль не установлен, backend не будет работать. Пожалуйста, обратитесь к системному администратору, чтобы установить его.",
 "Host" => "Хост",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Вы можете пропустить протокол, если Вам не требуется SSL. Затем начните с ldaps://",
 "Base DN" => "База DN",

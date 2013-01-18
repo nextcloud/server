@@ -260,17 +260,13 @@ class OC_User {
 
 	/**
 	 * @brief Sets user id for session and triggers emit
-	 * @returns true
-	 *
 	 */
 	public static function setUserId($uid) {
 		$_SESSION['user_id'] = $uid;
-		return true;
 	}
 
 	/**
 	 * @brief Logs the current user out and kills all the session data
-	 * @returns true
 	 *
 	 * Logout, destroys session
 	 */
@@ -279,7 +275,6 @@ class OC_User {
 		session_unset();
 		session_destroy();
 		OC_User::unsetMagicInCookie();
-		return true;
 	}
 
 	/**
@@ -298,6 +293,19 @@ class OC_User {
 		}
 		return false;
 	}
+
+	/**
+	 * @brief Check if the user is an admin user
+	 * @param $uid uid of the admin
+	 * @returns bool
+	 */
+	public static function isAdminUser($uid) {
+		if(OC_Group::inGroup($uid, 'admin' )) {
+			return true;
+		}
+		return false;
+	}
+
 
 	/**
 	 * @brief get the user id of the user currently logged in.

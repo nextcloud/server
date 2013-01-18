@@ -125,11 +125,7 @@
 "Lost your password?" => "Týndir þú lykilorðinu?",
 "remember" => "muna eftir mér",
 "Log in" => "<strong>Skrá inn</strong>",
-"You are logged out." => "Þú ert útskráð(ur).",
 "prev" => "fyrra",
 "next" => "næsta",
-"Updating ownCloud to version %s, this may take a while." => "Uppfæri ownCloud í útgáfu %s, það gæti tekið smá stund.",
-"Security Warning!" => "Öryggis aðvörun!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Vinsamlegast staðfestu lykilorðið þitt.<br/>Í öryggisskyni munum við biðja þig um að skipta um lykilorð af og til.",
-"Verify" => "Staðfesta"
+"Updating ownCloud to version %s, this may take a while." => "Uppfæri ownCloud í útgáfu %s, það gæti tekið smá stund."
 );

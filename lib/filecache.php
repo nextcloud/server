@@ -59,7 +59,7 @@ class OC_FileCache{
 	 * @param string $path
 	 * @param array data
 	 * @param string root (optional)
-	 * @note $data is an associative array in the same format as returned 
+	 * @note $data is an associative array in the same format as returned
 	 * by get
 	 */
 	public static function put($path, $data, $root=false) {
@@ -206,7 +206,7 @@ class OC_FileCache{
 
 		OC_Cache::remove('fileid/'.$root.$path);
 	}
-	
+
 	/**
 	 * return array of filenames matching the querty
 	 * @param string $query
@@ -354,7 +354,7 @@ class OC_FileCache{
 	public static function increaseSize($path, $sizeDiff, $root=false) {
 		if($sizeDiff==0) return;
 		$item = OC_FileCache_Cached::get($path);
-		//stop walking up the filetree if we hit a non-folder or reached to root folder
+		//stop walking up the filetree if we hit a non-folder or reached the root folder
 		if($path == '/' || $path=='' || $item['mimetype'] !== 'httpd/unix-directory') {
 			return;
 		}

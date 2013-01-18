@@ -64,7 +64,6 @@
 "Lost your password?" => "Passwuert vergiess?",
 "remember" => "verhalen",
 "Log in" => "Log dech an",
-"You are logged out." => "Du bass ausgeloggt.",
 "prev" => "zeréck",
 "next" => "weider"
 );

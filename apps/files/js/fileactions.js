@@ -70,23 +70,23 @@ var FileActions = {
 		}
 		parent.children('a.name').append('<span class="fileactions" />');
 		var defaultAction = FileActions.getDefault(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
-		
+
 		var actionHandler = function (event) {
 			event.stopPropagation();
 			event.preventDefault();
 
 			FileActions.currentFile = event.data.elem;
 			var file = FileActions.getCurrentFile();
-			
+
 			event.data.actionFunc(file);
 		};
-		
+
 		$.each(actions, function (name, action) {
 			// NOTE: Temporary fix to prevent rename action in root of Shared directory
 			if (name === 'Rename' && $('#dir').val() === '/Shared') {
 				return true;
 			}
-			
+
 			if ((name === 'Download' || action !== defaultAction) && name !== 'Delete') {
 				var img = FileActions.icons[name];
 				if (img.call) {
@@ -97,16 +97,16 @@ var FileActions = {
 					html += '<img class ="svg" src="' + img + '" /> ';
 				}
 				html += t('files', name) + '</a>';
-				
+
 				var element = $(html);
 				element.data('action', name);
 				//alert(element);
 				element.on('click',{a:null, elem:parent, actionFunc:actions[name]},actionHandler);
 				parent.find('a.name>span.fileactions').append(element);
 			}
-			
+
 		});
-		
+
 		if (actions['Delete']) {
 			var img = FileActions.icons['Delete'];
 			if (img.call) {

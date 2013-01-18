@@ -121,10 +121,6 @@
 "Lost your password?" => "Ĉu vi perdis vian pasvorton?",
 "remember" => "memori",
 "Log in" => "Ensaluti",
-"You are logged out." => "Vi estas elsalutita.",
 "prev" => "maljena",
-"next" => "jena",
-"Security Warning!" => "Sekureca averto!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Bonvolu kontroli vian pasvorton. <br/>Pro sekureco, oni okaze povas peti al vi enigi vian pasvorton ree.",
-"Verify" => "Kontroli"
+"next" => "jena"
 );

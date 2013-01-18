@@ -7,13 +7,14 @@
 #   <skoptev@ukr.net>, 2012.
 # Soul Kim <warlock.rf@gmail.com>, 2012.
 #   <victor.dubiniuk@gmail.com>, 2012.
+#   <volodya327@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-07 00:04+0100\n"
-"PO-Revision-Date: 2013-01-06 23:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-18 00:03+0100\n"
+"PO-Revision-Date: 2013-01-17 13:18+0000\n"
+"Last-Translator: volodya327 <volodya327@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -87,55 +88,55 @@ msgstr "Помилка при видалені %s із обраного."
 msgid "Settings"
 msgstr "Налаштування"
 
-#: js/js.js:704
+#: js/js.js:706
 msgid "seconds ago"
 msgstr "секунди тому"
 
-#: js/js.js:705
+#: js/js.js:707
 msgid "1 minute ago"
 msgstr "1 хвилину тому"
 
-#: js/js.js:706
+#: js/js.js:708
 msgid "{minutes} minutes ago"
 msgstr "{minutes} хвилин тому"
 
-#: js/js.js:707
+#: js/js.js:709
 msgid "1 hour ago"
 msgstr "1 годину тому"
 
-#: js/js.js:708
+#: js/js.js:710
 msgid "{hours} hours ago"
 msgstr "{hours} години тому"
 
-#: js/js.js:709
+#: js/js.js:711
 msgid "today"
 msgstr "сьогодні"
 
-#: js/js.js:710
+#: js/js.js:712
 msgid "yesterday"
 msgstr "вчора"
 
-#: js/js.js:711
+#: js/js.js:713
 msgid "{days} days ago"
 msgstr "{days} днів тому"
 
-#: js/js.js:712
+#: js/js.js:714
 msgid "last month"
 msgstr "минулого місяця"
 
-#: js/js.js:713
+#: js/js.js:715
 msgid "{months} months ago"
 msgstr "{months} місяців тому"
 
-#: js/js.js:714
+#: js/js.js:716
 msgid "months ago"
 msgstr "місяці тому"
 
-#: js/js.js:715
+#: js/js.js:717
 msgid "last year"
 msgstr "минулого року"
 
-#: js/js.js:716
+#: js/js.js:718
 msgid "years ago"
 msgstr "роки тому"
 
@@ -211,7 +212,6 @@ msgid "Password protect"
 msgstr "Захистити паролем"
 
 #: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
 msgid "Password"
 msgstr "Пароль"
 
@@ -556,10 +556,6 @@ msgstr "запам'ятати"
 msgid "Log in"
 msgstr "Вхід"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Ви вийшли з системи."
-
 #: templates/part.pagenavi.php:3
 msgid "prev"
 msgstr "попередній"
@@ -571,18 +567,4 @@ msgstr "наступний"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "Попередження про небезпеку!"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "Будь ласка, повторно введіть свій пароль. <br/>З питань безпеки, Вам інколи доведеться повторно вводити свій пароль."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Підтвердити"
+msgstr "Оновлення ownCloud до версії %s, це може зайняти деякий час."

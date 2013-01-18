@@ -1,4 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Could not move %s - File with this name already exists" => "Kon %s niet verplaatsen - Er bestaat al een bestand met deze naam",
+"Could not move %s" => "Kon %s niet verplaatsen",
+"Unable to rename file" => "Kan bestand niet hernoemen",
 "No file was uploaded. Unknown error" => "Er was geen bestand geladen.  Onbekende fout",
 "There is no error, the file uploaded with success" => "Geen fout opgetreden, bestand successvol geupload.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Het geüploade bestand overscheidt de upload_max_filesize optie in php.ini:",
@@ -35,6 +38,7 @@
 "Upload cancelled." => "Uploaden geannuleerd.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Bestandsupload is bezig. Wanneer de pagina nu verlaten wordt, stopt de upload.",
 "URL cannot be empty." => "URL kan niet leeg zijn.",
+"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Ongeldige mapnaam. Gebruik van'Gedeeld' is voorbehouden aan Owncloud",
 "{count} files scanned" => "{count} bestanden gescanned",
 "error while scanning" => "Fout tijdens het scannen",
 "Name" => "Naam",

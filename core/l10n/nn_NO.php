@@ -52,7 +52,6 @@
 "Lost your password?" => "Gløymt passordet?",
 "remember" => "hugs",
 "Log in" => "Logg inn",
-"You are logged out." => "Du er logga ut.",
 "prev" => "førre",
 "next" => "neste"
 );

@@ -4,13 +4,13 @@
 # 
 # Translators:
 # Innocenzo Ventre <el.diabl09@gmail.com>, 2012.
-# Vincenzo Reale <vinx.reale@gmail.com>, 2012.
+# Vincenzo Reale <vinx.reale@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-16 00:11+0100\n"
-"PO-Revision-Date: 2012-12-15 10:28+0000\n"
+"POT-Creation-Date: 2013-01-18 00:03+0100\n"
+"PO-Revision-Date: 2013-01-17 08:29+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -28,9 +28,9 @@ msgstr "<b>Avviso:</b> le applicazioni user_ldap e user_webdavauth sono incompat
 
 #: templates/settings.php:11
 msgid ""
-"<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will"
-" not work. Please ask your system administrator to install it."
-msgstr "<b>Avviso:</b> il modulo PHP LDAP richiesto non è installato, il motore non funzionerà. Chiedi al tuo amministratore di sistema di installarlo."
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
+"work. Please ask your system administrator to install it."
+msgstr "<b>Avviso:</b> il modulo PHP LDAP non è installato, il motore non funzionerà. Chiedi al tuo amministratore di sistema di installarlo."
 
 #: templates/settings.php:15
 msgid "Host"
@@ -44,6 +44,10 @@ msgstr "È possibile omettere il protocollo, ad eccezione se è necessario SSL. 
 #: templates/settings.php:16
 msgid "Base DN"
 msgstr "DN base"
+
+#: templates/settings.php:16
+msgid "One Base DN per line"
+msgstr "Un DN base per riga"
 
 #: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -116,9 +120,17 @@ msgstr "Porta"
 msgid "Base User Tree"
 msgstr "Struttura base dell'utente"
 
+#: templates/settings.php:25
+msgid "One User Base DN per line"
+msgstr "Un DN base utente per riga"
+
 #: templates/settings.php:26
 msgid "Base Group Tree"
 msgstr "Struttura base del gruppo"
+
+#: templates/settings.php:26
+msgid "One Group Base DN per line"
+msgstr "Un DN base gruppo per riga"
 
 #: templates/settings.php:27
 msgid "Group-Member association"

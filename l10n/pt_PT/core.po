@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-09 00:04+0100\n"
-"PO-Revision-Date: 2013-01-08 00:22+0000\n"
-"Last-Translator: Mouxy <daniel@mouxy.net>\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -213,7 +213,6 @@ msgid "Password protect"
 msgstr "Proteger com palavra-passe"
 
 #: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
 msgid "Password"
 msgstr "Palavra chave"
 
@@ -558,10 +557,6 @@ msgstr "lembrar"
 msgid "Log in"
 msgstr "Entrar"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Estás desconetado."
-
 #: templates/part.pagenavi.php:3
 msgid "prev"
 msgstr "anterior"
@@ -574,17 +569,3 @@ msgstr "seguinte"
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "A Actualizar o ownCloud para a versão %s, esta operação pode demorar."
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "Aviso de Segurança!"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "Por favor verifique a sua palavra-passe. <br/>Por razões de segurança, pode ser-lhe perguntada, ocasionalmente, a sua palavra-passe de novo."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Verificar"

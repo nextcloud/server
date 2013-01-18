@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them." => "<b>警告：</b>应用 user_ldap 和 user_webdavauth 不兼容。您可能遭遇未预料的行为。请垂询您的系统管理员禁用其中一个。",
 "Host" => "主机",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "可以忽略协议，但如要使用SSL，则需以ldaps://开头",
 "Base DN" => "Base DN",
@@ -31,6 +32,7 @@
 "Group Display Name Field" => "组显示名称字段",
 "The LDAP attribute to use to generate the groups`s ownCloud name." => "用来生成组的ownCloud名称的LDAP属性",
 "in bytes" => "字节数",
+"in seconds. A change empties the cache." => "以秒计。修改将清空缓存。",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "将用户名称留空(默认)。否则指定一个LDAP/AD属性",
 "Help" => "帮助"
 );

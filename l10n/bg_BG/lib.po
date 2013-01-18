@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-10 00:04+0100\n"
-"PO-Revision-Date: 2013-01-09 20:43+0000\n"
-"Last-Translator: Stefan Ilivanov <ilivanov@gmail.com>\n"
+"POT-Creation-Date: 2013-01-17 00:26+0100\n"
+"PO-Revision-Date: 2013-01-16 23:26+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,11 +58,15 @@ msgstr "Назад към файловете"
 msgid "Selected files too large to generate zip file."
 msgstr "Избраните файлове са прекалено големи за генерирането на ZIP архив."
 
+#: helper.php:228
+msgid "couldn't be determined"
+msgstr ""
+
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "Приложението не е включено."
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "Възникна проблем с идентификацията"
 
@@ -82,55 +86,55 @@ msgstr "Текст"
 msgid "Images"
 msgstr "Снимки"
 
-#: template.php:103
+#: template.php:113
 msgid "seconds ago"
 msgstr "преди секунди"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "преди 1 минута"
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "преди %d минути"
 
-#: template.php:106
+#: template.php:116
 msgid "1 hour ago"
 msgstr "преди 1 час"
 
-#: template.php:107
+#: template.php:117
 #, php-format
 msgid "%d hours ago"
 msgstr "преди %d часа"
 
-#: template.php:108
+#: template.php:118
 msgid "today"
 msgstr "днес"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr "вчера"
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "преди %d дни"
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr "последният месец"
 
-#: template.php:112
+#: template.php:122
 #, php-format
 msgid "%d months ago"
 msgstr "преди %d месеца"
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr "последната година"
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr "последните години"
 

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-11 00:05+0100\n"
-"PO-Revision-Date: 2013-01-10 09:57+0000\n"
-"Last-Translator: Shubhra Paul <paul_shubhra@yahoo.com>\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -208,7 +208,6 @@ msgid "Password protect"
 msgstr "কূটশব্দ সুরক্ষিত"
 
 #: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
 msgid "Password"
 msgstr "কূটশব্দ"
 
@@ -553,10 +552,6 @@ msgstr "মনে রাখ"
 msgid "Log in"
 msgstr "প্রবেশ"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "আপনি প্রস্থান করেছেন।"
-
 #: templates/part.pagenavi.php:3
 msgid "prev"
 msgstr "পূর্ববর্তী"
@@ -569,17 +564,3 @@ msgstr "পরবর্তী"
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "%s ভার্সনে ownCloud পরিবর্ধন করা হচ্ছে, এজন্য কিছু সময় প্রয়োজন।"
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "নিরাপত্তাবিষয়ক সতর্কবাণী"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr ""
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "যাচাই কর"

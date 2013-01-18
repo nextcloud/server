@@ -21,9 +21,9 @@
 */
 
 class OC_OCS_Result{
-	
+
 	private $data, $message, $statusCode, $items, $perPage;
-	
+
 	/**
 	 * create the OCS_Result object
 	 * @param $data mixed the data to return
@@ -33,7 +33,7 @@ class OC_OCS_Result{
 		$this->statusCode = $code;
 		$this->message = $message;
 	}
-	
+
 	/**
 	 * optionally set the total number of items available
 	 * @param $items int
@@ -41,7 +41,7 @@ class OC_OCS_Result{
 	public function setTotalItems(int $items) {
 		$this->items = $items;
 	}
-	
+
 	/**
 	 * optionally set the the number of items per page
 	 * @param $items int
@@ -49,7 +49,7 @@ class OC_OCS_Result{
 	public function setItemsPerPage(int $items) {
 		$this->perPage = $items;
 	}
-	
+
 	/**
 	 * returns the data associated with the api result
 	 * @return array
@@ -70,6 +70,6 @@ class OC_OCS_Result{
 		// Return the result data.
 		return $return;
 	}
-	
-	
+
+
 }

@@ -117,10 +117,6 @@
 "Lost your password?" => "Esqueçeu sua senha?",
 "remember" => "lembrete",
 "Log in" => "Log in",
-"You are logged out." => "Você está desconectado.",
 "prev" => "anterior",
-"next" => "próximo",
-"Security Warning!" => "Aviso de Segurança!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Por favor, verifique a sua senha.<br />Por motivos de segurança, você deverá ser solicitado a muda-la ocasionalmente.",
-"Verify" => "Verificar"
+"next" => "próximo"
 );

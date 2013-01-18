@@ -4,12 +4,13 @@
 # 
 # Translators:
 #   <appweb.cn@gmail.com>, 2012.
+# marguerite su <i@marguerite.su>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-15 00:11+0100\n"
-"PO-Revision-Date: 2012-12-14 23:11+0000\n"
+"POT-Creation-Date: 2013-01-16 00:19+0100\n"
+"PO-Revision-Date: 2013-01-15 23:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -23,12 +24,12 @@ msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behaviour. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>警告：</b>应用 user_ldap 和 user_webdavauth 不兼容。您可能遭遇未预料的行为。请垂询您的系统管理员禁用其中一个。"
 
 #: templates/settings.php:11
 msgid ""
-"<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will"
-" not work. Please ask your system administrator to install it."
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
+"work. Please ask your system administrator to install it."
 msgstr ""
 
 #: templates/settings.php:15
@@ -43,6 +44,10 @@ msgstr "可以忽略协议，但如要使用SSL，则需以ldaps://开头"
 #: templates/settings.php:16
 msgid "Base DN"
 msgstr "Base DN"
+
+#: templates/settings.php:16
+msgid "One Base DN per line"
+msgstr ""
 
 #: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -115,9 +120,17 @@ msgstr "端口"
 msgid "Base User Tree"
 msgstr "基础用户树"
 
+#: templates/settings.php:25
+msgid "One User Base DN per line"
+msgstr ""
+
 #: templates/settings.php:26
 msgid "Base Group Tree"
 msgstr "基础组树"
+
+#: templates/settings.php:26
+msgid "One Group Base DN per line"
+msgstr ""
 
 #: templates/settings.php:27
 msgid "Group-Member association"
@@ -171,7 +184,7 @@ msgstr "字节数"
 
 #: templates/settings.php:36
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "以秒计。修改将清空缓存。"
 
 #: templates/settings.php:37
 msgid ""

@@ -117,10 +117,6 @@
 "Lost your password?" => "Изгубили сте лозинку?",
 "remember" => "упамти",
 "Log in" => "Пријава",
-"You are logged out." => "Одјављени сте.",
 "prev" => "претходно",
-"next" => "следеће",
-"Security Warning!" => "Сигурносно упозорење!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Потврдите лозинку. <br />Из сигурносних разлога затрежићемо вам да два пута унесете лозинку.",
-"Verify" => "Потврди"
+"next" => "следеће"
 );

@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-08 00:30+0100\n"
-"PO-Revision-Date: 2013-01-07 05:14+0000\n"
-"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -88,55 +88,55 @@ msgstr "Errore durante la rimozione di %s dai preferiti."
 msgid "Settings"
 msgstr "Impostazioni"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "secondi fa"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "Un minuto fa"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minuti fa"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "1 ora fa"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "{hours} ore fa"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "oggi"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "ieri"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "{days} giorni fa"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "mese scorso"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "{months} mesi fa"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "mesi fa"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "anno scorso"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "anni fa"
 
@@ -212,7 +212,6 @@ msgid "Password protect"
 msgstr "Proteggi con password"
 
 #: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
 msgid "Password"
 msgstr "Password"
 
@@ -557,10 +556,6 @@ msgstr "ricorda"
 msgid "Log in"
 msgstr "Accedi"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Sei uscito."
-
 #: templates/part.pagenavi.php:3
 msgid "prev"
 msgstr "precedente"
@@ -573,17 +568,3 @@ msgstr "successivo"
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "Aggiornamento di ownCloud alla versione %s in corso, potrebbe richiedere del tempo."
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "Avviso di sicurezza"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "Verifica la tua password.<br/>Per motivi di sicurezza, potresti ricevere una richiesta di digitare nuovamente la password."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Verifica"

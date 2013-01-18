@@ -26,6 +26,23 @@ Files={
 		});
 		procesSelection();
 	},
+	updateMaxUploadFilesize:function(response) {
+		if(response == undefined) {
+			return;
+		}
+		if(response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
+			$('#max_upload').val(response.data.uploadMaxFilesize);
+			$('#data-upload-form a').attr('original-title', response.data.maxHumanFilesize);
+		}
+		if(response[0] == undefined) {
+			return;
+		}
+		if(response[0].uploadMaxFilesize !== undefined) {
+			$('#max_upload').val(response[0].uploadMaxFilesize);
+			$('#data-upload-form a').attr('original-title', response[0].maxHumanFilesize);
+		}
+
+	},
 	isFileNameValid:function (name) {
 		if (name === '.') {
 			OC.Notification.show(t('files', '\'.\' is an invalid file name.'));
@@ -47,19 +64,19 @@ Files={
 		OC.Notification.hide();
 		return true;
 	},
-    displayStorageWarnings: function() {
-        var usedSpacePercent = $('#usedSpacePercent').val();
-        if (usedSpacePercent > 98) {
+	displayStorageWarnings: function() {
+		var usedSpacePercent = $('#usedSpacePercent').val();
+		if (usedSpacePercent > 98) {
 			OC.Notification.show(t('files', 'Your storage is full, files can not be updated or synced anymore!'));
 			return;
-        }
-        if (usedSpacePercent > 90) {
+		}
+		if (usedSpacePercent > 90) {
 			OC.Notification.show(t('files', 'Your storage is almost full ({usedSpacePercent}%)', {usedSpacePercent: usedSpacePercent}));
-        }
-    }
+		}
+	}
 };
 $(document).ready(function() {
-	Files.bindKeyboardShortcuts(document, jQuery); 
+	Files.bindKeyboardShortcuts(document, jQuery);
 	$('#fileList tr').each(function(){
 		//little hack to set unescape filenames in attribute
 		$(this).attr('data-file',decodeURIComponent($(this).attr('data-file')));
@@ -94,8 +111,8 @@ $(document).ready(function() {
 
 	// Sets the file link behaviour :
 	$('td.filename a').live('click',function(event) {
-		event.preventDefault();
 		if (event.ctrlKey || event.shiftKey) {
+			event.preventDefault();
 			if (event.shiftKey) {
 				var last = $(lastChecked).parent().parent().prevAll().length;
 				var first = $(this).parent().parent().prevAll().length;
@@ -137,6 +154,7 @@ $(document).ready(function() {
 				var permissions = $(this).parent().parent().data('permissions');
 				var action=FileActions.getDefault(mime,type, permissions);
 				if(action){
+					event.preventDefault();
 					action(filename);
 				}
 			}
@@ -319,8 +337,9 @@ $(document).ready(function() {
 											var response;
 											response=jQuery.parseJSON(result);
 											if(response[0] == undefined || response[0].status != 'success') {
-                                                OC.Notification.show(t('files', response.data.message));
+												OC.Notification.show(t('files', response.data.message));
 											}
+											Files.updateMaxUploadFilesize(response);
 											var file=response[0];
 											// TODO: this doesn't work if the file name has been changed server side
 											delete uploadingFiles[dirName][file.name];
@@ -371,6 +390,8 @@ $(document).ready(function() {
 										.success(function(result, textStatus, jqXHR) {
 											var response;
 											response=jQuery.parseJSON(result);
+											Files.updateMaxUploadFilesize(response);
+
 											if(response[0] != undefined && response[0].status == 'success') {
 												var file=response[0];
 												delete uploadingFiles[file.name];
@@ -382,18 +403,18 @@ $(document).ready(function() {
 												//TODO update file upload size limit
 												FileList.loadingDone(file.name, file.id);
 											} else {
-                                                Files.cancelUpload(this.files[0].name);
+												Files.cancelUpload(this.files[0].name);
 												OC.Notification.show(t('files', response.data.message));
 												$('#fileList > tr').not('[data-mime]').fadeOut();
 												$('#fileList > tr').not('[data-mime]').remove();
 											}
-										})
-								.error(function(jqXHR, textStatus, errorThrown) {
-									if(errorThrown === 'abort') {
-                                        Files.cancelUpload(this.files[0].name);
-										OC.Notification.show(t('files', 'Upload cancelled.'));
-									}
-								});
+									})
+									.error(function(jqXHR, textStatus, errorThrown) {
+										if(errorThrown === 'abort') {
+											Files.cancelUpload(this.files[0].name);
+											OC.Notification.show(t('files', 'Upload cancelled.'));
+										}
+									});
 								uploadingFiles[uniqueName] = jqXHR;
 							}
 						}
@@ -401,6 +422,7 @@ $(document).ready(function() {
 						data.submit().success(function(data, status) {
 							// in safari data is a string
 							response = jQuery.parseJSON(typeof data === 'string' ? data : data[0].body.innerText);
+							Files.updateMaxUploadFilesize(response);
 							if(response[0] != undefined && response[0].status == 'success') {
 								var file=response[0];
 								delete uploadingFiles[file.name];
@@ -412,7 +434,7 @@ $(document).ready(function() {
 								//TODO update file upload size limit
 								FileList.loadingDone(file.name, file.id);
 							} else {
-                                //TODO Files.cancelUpload(/*where do we get the filename*/);
+								//TODO Files.cancelUpload(/*where do we get the filename*/);
 								OC.Notification.show(t('files', response.data.message));
 								$('#fileList > tr').not('[data-mime]').fadeOut();
 								$('#fileList > tr').not('[data-mime]').remove();
@@ -713,6 +735,32 @@ $(document).ready(function() {
 	// display storage warnings
 	setTimeout ( "Files.displayStorageWarnings()", 100 );
 	OC.Notification.setDefault(Files.displayStorageWarnings);
+
+	// file space size sync
+	function update_storage_statistics() {
+		$.getJSON(OC.filePath('files','ajax','getstoragestats.php'),function(response) {
+			Files.updateMaxUploadFilesize(response);
+		});
+	}
+
+	// start on load - we ask the server every 5 minutes
+	var update_storage_statistics_interval = 5*60*1000;
+	var update_storage_statistics_interval_id = setInterval(update_storage_statistics, update_storage_statistics_interval);
+
+	// Use jquery-visibility to de-/re-activate file stats sync
+	if ($.support.pageVisibility) {
+		$(document).on({
+			'show.visibility': function() {
+				if (!update_storage_statistics_interval_id) {
+					update_storage_statistics_interval_id = setInterval(update_storage_statistics, update_storage_statistics_interval);
+				}
+			},
+			'hide.visibility': function() {
+				clearInterval(update_storage_statistics_interval_id);
+				update_storage_statistics_interval_id = 0;
+			}
+		});
+	}
 });
 
 function scanFiles(force,dir){
@@ -742,6 +790,7 @@ scanFiles.scanning=false;
 
 function boolOperationFinished(data, callback) {
 	result = jQuery.parseJSON(data.responseText);
+	Files.updateMaxUploadFilesize(result);
 	if(result.status == 'success'){
 		callback.call();
 	} else {

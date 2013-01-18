@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-30 00:04+0100\n"
-"PO-Revision-Date: 2012-12-29 23:05+0000\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr ""
 msgid "Unable to add group"
 msgstr ""
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr ""
 
@@ -44,14 +44,6 @@ msgstr "Email tersimpan"
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "Email tidak sah"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID telah dirubah"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "Permintaan tidak valid"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -68,6 +60,10 @@ msgstr ""
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Bahasa telah diganti"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "Permintaan tidak valid"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"

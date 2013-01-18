@@ -3,18 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Claudiu  <claudiu@tanaselia.ro>, 2011, 2012.
+# Claudiu  <claudiu@tanaselia.ro>, 2011-2013.
 # Dimon Pockemon <>, 2012.
 # Eugen Mihalache <eugemjj@gmail.com>, 2012.
-#   <g.ciprian@osn.ro>, 2012.
+#   <g.ciprian@osn.ro>, 2012-2013.
 #   <laur.cristescu@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-10 00:04+0100\n"
-"PO-Revision-Date: 2013-01-09 23:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-17 00:26+0100\n"
+"PO-Revision-Date: 2013-01-16 13:23+0000\n"
+"Last-Translator: Claudiu <claudiu@tanaselia.ro>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,11 +30,11 @@ msgstr ""
 #: ajax/move.php:24
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Nu s-a putut muta %s"
 
 #: ajax/rename.php:19
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Nu s-a putut redenumi fișierul"
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
@@ -73,11 +73,11 @@ msgstr "Eroare la scriere pe disc"
 
 #: ajax/upload.php:45
 msgid "Not enough space available"
-msgstr ""
+msgstr "Nu este suficient spațiu disponibil"
 
 #: ajax/upload.php:69
 msgid "Invalid directory."
-msgstr ""
+msgstr "Director invalid."
 
 #: appinfo/app.php:10
 msgid "Files"
@@ -133,11 +133,11 @@ msgstr "Sterse {files}"
 
 #: js/files.js:31
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' este un nume invalid de fișier."
 
 #: js/files.js:36
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Numele fișierului nu poate rămâne gol."
 
 #: js/files.js:45
 msgid ""
@@ -145,84 +145,84 @@ msgid ""
 "allowed."
 msgstr "Nume invalid, '\\', '/', '<', '>', ':', '\"', '|', '?' si '*' nu sunt permise."
 
-#: js/files.js:186
+#: js/files.js:187
 msgid "generating ZIP-file, it may take some time."
 msgstr "se generază fișierul ZIP, va dura ceva timp."
 
-#: js/files.js:224
+#: js/files.js:225
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Nu s-a putut încărca fișierul tău deoarece pare să fie un director sau are 0 bytes."
 
-#: js/files.js:224
+#: js/files.js:225
 msgid "Upload Error"
 msgstr "Eroare la încărcare"
 
-#: js/files.js:241
+#: js/files.js:242
 msgid "Close"
 msgstr "Închide"
 
-#: js/files.js:260 js/files.js:376 js/files.js:409
+#: js/files.js:261 js/files.js:377 js/files.js:410
 msgid "Pending"
 msgstr "În așteptare"
 
-#: js/files.js:280
+#: js/files.js:281
 msgid "1 file uploading"
 msgstr "un fișier se încarcă"
 
-#: js/files.js:283 js/files.js:338 js/files.js:353
+#: js/files.js:284 js/files.js:339 js/files.js:354
 msgid "{count} files uploading"
 msgstr "{count} fisiere incarcate"
 
-#: js/files.js:357 js/files.js:393
+#: js/files.js:358 js/files.js:394
 msgid "Upload cancelled."
 msgstr "Încărcare anulată."
 
-#: js/files.js:464
+#: js/files.js:465
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Fișierul este în curs de încărcare. Părăsirea paginii va întrerupe încărcarea."
 
-#: js/files.js:537
+#: js/files.js:538
 msgid "URL cannot be empty."
 msgstr "Adresa URL nu poate fi goală."
 
-#: js/files.js:543
+#: js/files.js:544
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "Invalid folder name. Usage of 'Shared' is reserved by Ownclou"
 
-#: js/files.js:727
+#: js/files.js:728
 msgid "{count} files scanned"
 msgstr "{count} fisiere scanate"
 
-#: js/files.js:735
+#: js/files.js:736
 msgid "error while scanning"
 msgstr "eroare la scanarea"
 
-#: js/files.js:808 templates/index.php:64
+#: js/files.js:809 templates/index.php:64
 msgid "Name"
 msgstr "Nume"
 
-#: js/files.js:809 templates/index.php:75
+#: js/files.js:810 templates/index.php:75
 msgid "Size"
 msgstr "Dimensiune"
 
-#: js/files.js:810 templates/index.php:77
+#: js/files.js:811 templates/index.php:77
 msgid "Modified"
 msgstr "Modificat"
 
-#: js/files.js:829
+#: js/files.js:830
 msgid "1 folder"
 msgstr "1 folder"
 
-#: js/files.js:831
+#: js/files.js:832
 msgid "{count} folders"
 msgstr "{count} foldare"
 
-#: js/files.js:839
+#: js/files.js:840
 msgid "1 file"
 msgstr "1 fisier"
 
-#: js/files.js:841
+#: js/files.js:842
 msgid "{count} files"
 msgstr "{count} fisiere"
 

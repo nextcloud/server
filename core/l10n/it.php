@@ -125,11 +125,7 @@
 "Lost your password?" => "Hai perso la password?",
 "remember" => "ricorda",
 "Log in" => "Accedi",
-"You are logged out." => "Sei uscito.",
 "prev" => "precedente",
 "next" => "successivo",
-"Updating ownCloud to version %s, this may take a while." => "Aggiornamento di ownCloud alla versione %s in corso, potrebbe richiedere del tempo.",
-"Security Warning!" => "Avviso di sicurezza",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Verifica la tua password.<br/>Per motivi di sicurezza, potresti ricevere una richiesta di digitare nuovamente la password.",
-"Verify" => "Verifica"
+"Updating ownCloud to version %s, this may take a while." => "Aggiornamento di ownCloud alla versione %s in corso, potrebbe richiedere del tempo."
 );

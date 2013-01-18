@@ -125,10 +125,6 @@
 "Lost your password?" => "Забыли пароль?",
 "remember" => "запомнить",
 "Log in" => "Войти",
-"You are logged out." => "Вы вышли из системы.",
 "prev" => "предыдущий",
-"next" => "следующий",
-"Security Warning!" => "Предупреждение системы безопасности!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Пожалуйста, проверьте свой ​​пароль. <br/>По соображениям безопасности Вам может быть иногда предложено ввести пароль еще раз.",
-"Verify" => "Проверить"
+"next" => "следующий"
 );

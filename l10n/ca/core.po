@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-08 00:30+0100\n"
-"PO-Revision-Date: 2013-01-07 09:01+0000\n"
-"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -85,55 +85,55 @@ msgstr "Error en eliminar %s dels preferits."
 msgid "Settings"
 msgstr "Arranjament"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "segons enrere"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "fa 1 minut"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "fa {minutes} minuts"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "fa 1 hora"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "fa {hours} hores"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "avui"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "ahir"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "fa {days} dies"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "el mes passat"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "fa {months} mesos"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "mesos enrere"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "l'any passat"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "anys enrere"
 
@@ -209,7 +209,6 @@ msgid "Password protect"
 msgstr "Protegir amb contrasenya"
 
 #: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
 msgid "Password"
 msgstr "Contrasenya"
 
@@ -554,10 +553,6 @@ msgstr "recorda'm"
 msgid "Log in"
 msgstr "Inici de sessió"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Heu tancat la sessió."
-
 #: templates/part.pagenavi.php:3
 msgid "prev"
 msgstr "anterior"
@@ -570,17 +565,3 @@ msgstr "següent"
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "S'està actualitzant ownCloud a la versió %s, pot trigar una estona."
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "Avís de seguretat!"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "Comproveu la vostra contrasenya. <br/>Per raons de seguretat se us pot demanar escriure de nou la vostra contrasenya."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Comprova"

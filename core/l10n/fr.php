@@ -125,11 +125,7 @@
 "Lost your password?" => "Mot de passe perdu ?",
 "remember" => "se souvenir de moi",
 "Log in" => "Connexion",
-"You are logged out." => "Vous êtes désormais déconnecté.",
 "prev" => "précédent",
 "next" => "suivant",
-"Updating ownCloud to version %s, this may take a while." => "Mise à jour en cours d'ownCloud vers la version %s, cela peut prendre du temps.",
-"Security Warning!" => "Alerte de sécurité !",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Veuillez vérifier votre mot de passe. <br/>Par sécurité il vous sera occasionnellement demandé d'entrer votre mot de passe de nouveau.",
-"Verify" => "Vérification"
+"Updating ownCloud to version %s, this may take a while." => "Mise à jour en cours d'ownCloud vers la version %s, cela peut prendre du temps."
 );

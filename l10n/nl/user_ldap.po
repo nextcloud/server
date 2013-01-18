@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# André Koot <meneer@tken.net>, 2012.
+# André Koot <meneer@tken.net>, 2012-2013.
+#  <bart.formosus@gmail.com>, 2013.
 #   <lenny@weijl.org>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-21 00:10+0100\n"
-"PO-Revision-Date: 2012-12-20 17:25+0000\n"
+"POT-Creation-Date: 2013-01-17 00:26+0100\n"
+"PO-Revision-Date: 2013-01-16 15:38+0000\n"
 "Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -28,9 +29,9 @@ msgstr "<b>Waarschuwing:</b> De Apps user_ldap en user_webdavauth zijn incompati
 
 #: templates/settings.php:11
 msgid ""
-"<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will"
-" not work. Please ask your system administrator to install it."
-msgstr "<b>Waarschuwing:</b> De PHP LDAP module is niet geïnstalleerd, de backend zal dus niet werken. Vraag uw beheerder de module te installeren."
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
+"work. Please ask your system administrator to install it."
+msgstr "<b>Waarschuwing:</b> De PHP LDAP module is niet geïnstalleerd, het backend zal niet werken. Vraag uw systeembeheerder om de module te installeren."
 
 #: templates/settings.php:15
 msgid "Host"
@@ -43,15 +44,19 @@ msgstr "Je kunt het protocol weglaten, tenzij je SSL vereist. Start in dat geval
 
 #: templates/settings.php:16
 msgid "Base DN"
-msgstr "Basis DN"
+msgstr "Base DN"
+
+#: templates/settings.php:16
+msgid "One Base DN per line"
+msgstr "Een Base DN per regel"
 
 #: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr "Je kunt het standaard DN voor gebruikers en groepen specificeren in het tab Geavanceerd."
+msgstr "Je kunt het Base DN voor gebruikers en groepen specificeren in het tab Geavanceerd."
 
 #: templates/settings.php:17
 msgid "User DN"
-msgstr "Gebruikers DN"
+msgstr "User DN"
 
 #: templates/settings.php:17
 msgid ""
@@ -116,9 +121,17 @@ msgstr "Poort"
 msgid "Base User Tree"
 msgstr "Basis Gebruikers Structuur"
 
+#: templates/settings.php:25
+msgid "One User Base DN per line"
+msgstr "Een User Base DN per regel"
+
 #: templates/settings.php:26
 msgid "Base Group Tree"
 msgstr "Basis Groupen Structuur"
+
+#: templates/settings.php:26
+msgid "One Group Base DN per line"
+msgstr "Een Group Base DN per regel"
 
 #: templates/settings.php:27
 msgid "Group-Member association"
