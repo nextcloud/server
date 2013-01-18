@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-10 00:04+0100\n"
-"PO-Revision-Date: 2013-01-09 23:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-16 00:19+0100\n"
+"PO-Revision-Date: 2013-01-15 09:54+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,16 +31,16 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Kon %s niet verplaatsen - Er bestaat al een bestand met deze naam"
 
 #: ajax/move.php:24
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Kon %s niet verplaatsen"
 
 #: ajax/rename.php:19
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Kan bestand niet hernoemen"
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
@@ -151,84 +151,84 @@ msgid ""
 "allowed."
 msgstr "Onjuiste naam; '\\', '/', '<', '>', ':', '\"', '|', '?' en '*' zijn niet toegestaan."
 
-#: js/files.js:186
+#: js/files.js:187
 msgid "generating ZIP-file, it may take some time."
 msgstr "aanmaken ZIP-file, dit kan enige tijd duren."
 
-#: js/files.js:224
+#: js/files.js:225
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "uploaden van de file mislukt, het is of een directory of de bestandsgrootte is 0 bytes"
 
-#: js/files.js:224
+#: js/files.js:225
 msgid "Upload Error"
 msgstr "Upload Fout"
 
-#: js/files.js:241
+#: js/files.js:242
 msgid "Close"
 msgstr "Sluit"
 
-#: js/files.js:260 js/files.js:376 js/files.js:409
+#: js/files.js:261 js/files.js:377 js/files.js:410
 msgid "Pending"
 msgstr "Wachten"
 
-#: js/files.js:280
+#: js/files.js:281
 msgid "1 file uploading"
 msgstr "1 bestand wordt ge-upload"
 
-#: js/files.js:283 js/files.js:338 js/files.js:353
+#: js/files.js:284 js/files.js:339 js/files.js:354
 msgid "{count} files uploading"
 msgstr "{count} bestanden aan het uploaden"
 
-#: js/files.js:357 js/files.js:393
+#: js/files.js:358 js/files.js:394
 msgid "Upload cancelled."
 msgstr "Uploaden geannuleerd."
 
-#: js/files.js:464
+#: js/files.js:465
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Bestandsupload is bezig. Wanneer de pagina nu verlaten wordt, stopt de upload."
 
-#: js/files.js:537
+#: js/files.js:538
 msgid "URL cannot be empty."
 msgstr "URL kan niet leeg zijn."
 
-#: js/files.js:543
+#: js/files.js:544
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "Ongeldige mapnaam. Gebruik van'Gedeeld' is voorbehouden aan Owncloud"
 
-#: js/files.js:727
+#: js/files.js:728
 msgid "{count} files scanned"
 msgstr "{count} bestanden gescanned"
 
-#: js/files.js:735
+#: js/files.js:736
 msgid "error while scanning"
 msgstr "Fout tijdens het scannen"
 
-#: js/files.js:808 templates/index.php:64
+#: js/files.js:809 templates/index.php:64
 msgid "Name"
 msgstr "Naam"
 
-#: js/files.js:809 templates/index.php:75
+#: js/files.js:810 templates/index.php:75
 msgid "Size"
 msgstr "Bestandsgrootte"
 
-#: js/files.js:810 templates/index.php:77
+#: js/files.js:811 templates/index.php:77
 msgid "Modified"
 msgstr "Laatst aangepast"
 
-#: js/files.js:829
+#: js/files.js:830
 msgid "1 folder"
 msgstr "1 map"
 
-#: js/files.js:831
+#: js/files.js:832
 msgid "{count} folders"
 msgstr "{count} mappen"
 
-#: js/files.js:839
+#: js/files.js:840
 msgid "1 file"
 msgstr "1 bestand"
 
-#: js/files.js:841
+#: js/files.js:842
 msgid "{count} files"
 msgstr "{count} bestanden"
 

@@ -203,7 +203,7 @@ class Util {
 		$host_name = self::getServerHostName();
 		// handle localhost installations
 		if ($host_name === 'localhost') {
-            $host_name = "example.com";
+			$host_name = "example.com";
 		}
 		return $user_part.'@'.$host_name;
 	}
@@ -298,7 +298,7 @@ class Util {
 	 * Todo: Write howto
 	 */
 	public static function callCheck() {
-		return(\OC_Util::callCheck());
+		\OC_Util::callCheck();
 	}
 
 	/**

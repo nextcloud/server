@@ -137,7 +137,7 @@ class OC_App{
 
 		OC_Appconfig::setValue($app, 'types', $appTypes);
 	}
-	
+
 	/**
 	 * check if app is shipped
 	 * @param string $appid the id of the app to check

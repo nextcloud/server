@@ -763,4 +763,3 @@ class OC_VCategories {
 		return array_search(strtolower($needle), array_map('strtolower', $haystack));
 	}
 }
-

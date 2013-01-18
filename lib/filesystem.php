@@ -179,11 +179,11 @@ class OC_Filesystem{
 		$internalPath=substr($path, strlen($mountPoint));
 		return $internalPath;
 	}
-	
+
 	static private function mountPointsLoaded($user) {
 		return in_array($user, self::$loadedUsers);
 	}
-	
+
 	/**
 	* get the storage object for a path
 	* @param string path
@@ -216,7 +216,7 @@ class OC_Filesystem{
 					self::mount($options['class'], $options['options'], $mountPoint);
 				}
 			}
-		
+
 			if(isset($mountConfig['group'])) {
 				foreach($mountConfig['group'] as $group=>$mounts) {
 					if(OC_Group::inGroup($user, $group)) {
@@ -230,7 +230,7 @@ class OC_Filesystem{
 					}
 				}
 			}
-		
+
 			if(isset($mountConfig['user'])) {
 				foreach($mountConfig['user'] as $mountUser=>$mounts) {
 					if($user==='all' or strtolower($mountUser)===strtolower($user)) {
@@ -244,16 +244,16 @@ class OC_Filesystem{
 					}
 				}
 			}
-		
+
 			$mtime=filemtime(OC::$SERVERROOT.'/config/mount.php');
 			$previousMTime=OC_Appconfig::getValue('files', 'mountconfigmtime', 0);
 			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
 				OC_FileCache::triggerUpdate();
 				OC_Appconfig::setValue('files', 'mountconfigmtime', $mtime);
 			}
-		}		
+		}
 	}
-	
+
 	static public function init($root, $user = '') {
 		if(self::$defaultInstance) {
 			return false;

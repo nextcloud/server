@@ -123,12 +123,12 @@ $CONFIG = array(
 		'path'=> '/var/www/owncloud/apps',
 		'url' => '/apps',
 		'writable' => true,
-  ),
- ),
- 'user_backends'=>array(
-    array(
-      'class'=>'OC_User_IMAP',
-      'arguments'=>array('{imap.gmail.com:993/imap/ssl}INBOX')
-    )
-  )
+	),
+),
+'user_backends'=>array(
+	array(
+		'class'=>'OC_User_IMAP',
+		'arguments'=>array('{imap.gmail.com:993/imap/ssl}INBOX')
+	)
+)
 );

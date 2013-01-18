@@ -260,17 +260,13 @@ class OC_User {
 
 	/**
 	 * @brief Sets user id for session and triggers emit
-	 * @returns true
-	 *
 	 */
 	public static function setUserId($uid) {
 		$_SESSION['user_id'] = $uid;
-		return true;
 	}
 
 	/**
 	 * @brief Logs the current user out and kills all the session data
-	 * @returns true
 	 *
 	 * Logout, destroys session
 	 */
@@ -279,7 +275,6 @@ class OC_User {
 		session_unset();
 		session_destroy();
 		OC_User::unsetMagicInCookie();
-		return true;
 	}
 
 	/**

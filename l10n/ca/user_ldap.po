@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <rcalvoi@yahoo.com>, 2012.
+#   <rcalvoi@yahoo.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-17 00:09+0100\n"
-"PO-Revision-Date: 2012-12-16 09:56+0000\n"
+"POT-Creation-Date: 2013-01-17 00:26+0100\n"
+"PO-Revision-Date: 2013-01-16 07:21+0000\n"
 "Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -27,9 +27,9 @@ msgstr "<b>Avís:</b> Les aplicacions user_ldap i user_webdavauth són incompati
 
 #: templates/settings.php:11
 msgid ""
-"<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will"
-" not work. Please ask your system administrator to install it."
-msgstr "<b>Avís:</b> El mòdul  PHP LDAP necessari no està instal·lat, el dorsal no funcionarà. Demaneu a l'administrador del sistema que l'instal·li."
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
+"work. Please ask your system administrator to install it."
+msgstr "<b>Avís:</b> El mòdul PHP LDAP no està instal·lat, el dorsal no funcionarà. Demaneu a l'administrador del sistema que l'instal·li."
 
 #: templates/settings.php:15
 msgid "Host"
@@ -43,6 +43,10 @@ msgstr "Podeu ometre el protocol, excepte si requeriu SSL. Llavors comenceu amb 
 #: templates/settings.php:16
 msgid "Base DN"
 msgstr "DN Base"
+
+#: templates/settings.php:16
+msgid "One Base DN per line"
+msgstr "Una DN Base per línia"
 
 #: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -115,9 +119,17 @@ msgstr "Port"
 msgid "Base User Tree"
 msgstr "Arbre base d'usuaris"
 
+#: templates/settings.php:25
+msgid "One User Base DN per line"
+msgstr "Una DN Base d'Usuari per línia"
+
 #: templates/settings.php:26
 msgid "Base Group Tree"
 msgstr "Arbre base de grups"
+
+#: templates/settings.php:26
+msgid "One Group Base DN per line"
+msgstr "Una DN Base de Grup per línia"
 
 #: templates/settings.php:27
 msgid "Group-Member association"

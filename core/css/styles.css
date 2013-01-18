@@ -93,15 +93,13 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 /* CONTENT ------------------------------------------------------------------ */
 #controls { padding:0 0.5em; width:100%; top:3.5em; height:2.8em; margin:0; background:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:50; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
 #controls .button { display:inline-block; }
-#content { 
-	height: 100%; 
-	width: 100%;
-	padding-top: 3.5em;
-	padding-left: 64px;
-	box-sizing: border-box;
-	-moz-box-sizing: border-box;
+
+#content { position:relative; height:100%; width:100%; }
+#content-wrapper {
+	position:absolute; height:100%; width:100%; padding-top:3.5em; padding-left:64px;
+	-moz-box-sizing:border-box; box-sizing:border-box;
 }
-/* TODO check if this is better: #content { top:3.5em; left:12.5em; position:absolute; } */
+
 #leftcontent, .leftcontent { position:fixed; overflow:auto; top:6.4em; width:20em; background:#f8f8f8; border-right:1px solid #ddd; }
 #leftcontent li, .leftcontent li { background:#f8f8f8; padding:.5em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 200ms; -moz-transition:background-color 200ms; -o-transition:background-color 200ms; transition:background-color 200ms; }
 #leftcontent li:hover, #leftcontent li:active, #leftcontent li.active, .leftcontent li:hover, .leftcontent li:active, .leftcontent li.active { background:#eee; }
