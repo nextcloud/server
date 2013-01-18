@@ -1,12 +1,3 @@
-// Override download path to files_sharing/public.php
-function fileDownloadPath(dir, file) {
-	var url = $('#downloadURL').val();
-	if (url.indexOf('&path=') != -1) {
-		url += '/'+file;
-	}
-	return url;
-}
-
 $(document).ready(function() {
 
 	if (typeof FileActions !== 'undefined') {
