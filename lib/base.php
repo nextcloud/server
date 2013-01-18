@@ -30,7 +30,7 @@ require_once 'public/constants.php';
 class OC
 {
 	/**
-	 * Assoziative array for autoloading. classname => filename
+	 * Associative array for autoloading. classname => filename
 	 */
 	public static $CLASSPATH = array();
 	/**
