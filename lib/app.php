@@ -748,7 +748,7 @@ class OC_App{
 				}
 				return new OC_FilesystemView('/'.OC_User::getUser().'/'.$appid);
 			}else{
-				OC_Log::write('core', 'Can\'t get app storage, app, user not logged in', OC_Log::ERROR);
+				OC_Log::write('core', 'Can\'t get app storage, app '.$appid.', user not logged in', OC_Log::ERROR);
 				return false;
 			}
 		}else{
