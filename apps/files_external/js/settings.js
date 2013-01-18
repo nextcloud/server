@@ -71,7 +71,7 @@ OC.MountConfig={
 $(document).ready(function() {
 	$('.chzn-select').chosen();
 
-	$('#selectBackend').live('change', function() {
+	$('#selectBackend').on('change', function() {
 		var tr = $(this).parent().parent();
 		$('#externalStorage tbody').append($(tr).clone());
 		$('#externalStorage tbody tr').last().find('.mountPoint input').val('');
@@ -135,11 +135,11 @@ $(document).ready(function() {
 		return defaultMountPoint+append;
 	}
 
-	$('#externalStorage td').live('change', function() {
+	$('#externalStorage').on('change', 'td', function() {
 		OC.MountConfig.saveStorage($(this).parent());
 	});
 
-	$('td.remove>img').live('click', function() {
+	$('td.remove>img').on('click', function() {
 		var tr = $(this).parent().parent();
 		var mountPoint = $(tr).find('.mountPoint input').val();
 		if ( ! mountPoint) {

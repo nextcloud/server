@@ -36,7 +36,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#externalStorage tbody tr input').live('keyup', function() {
+	$('#externalStorage tbody').on('keyup', 'tr input', function() {
 		var tr = $(this).parent().parent();
 		if ($(tr).hasClass('OC_Filestorage_Dropbox') && $(tr).find('[data-parameter="configured"]').val() != 'true') {
 			var config = $(tr).find('.configuration');
@@ -52,7 +52,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.dropbox').live('click', function(event) {
+	$('.dropbox').on('click', function(event) {
 		event.preventDefault();
 		var app_key = $(this).parent().find('[data-parameter="app_key"]').val();
 		var app_secret = $(this).parent().find('[data-parameter="app_secret"]').val();

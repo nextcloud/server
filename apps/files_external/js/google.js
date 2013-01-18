@@ -33,7 +33,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#externalStorage tbody tr').live('change', function() {
+	$('#externalStorage tbody').on('change', 'tr', function() {
 		if ($(this).hasClass('OC_Filestorage_Google') && $(this).find('[data-parameter="configured"]').val() != 'true') {
 			if ($(this).find('.mountPoint input').val() != '') {
 				if ($(this).find('.google').length == 0) {
@@ -43,7 +43,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#externalStorage tbody tr .mountPoint input').live('keyup', function() {
+	$('#externalStorage tbody').on('keyup', 'tr .mountPoint input', function() {
 		var tr = $(this).parent().parent();
 		if ($(tr).hasClass('OC_Filestorage_Google') && $(tr).find('[data-parameter="configured"]').val() != 'true' && $(tr).find('.google').length > 0) {
 			if ($(this).val() != '') {
@@ -54,7 +54,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.google').live('click', function(event) {
+	$('.google').on('click', function(event) {
 		event.preventDefault();
 		var tr = $(this).parent().parent();
 		var configured = $(this).parent().find('[data-parameter="configured"]');

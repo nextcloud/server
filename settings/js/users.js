@@ -262,7 +262,7 @@ $(document).ready(function () {
         UserList.applyMultiplySelect($(element));
     });
 
-    $('td.remove>a').live('click', function (event) {
+    $('table').on('click', 'td.remove>a', function (event) {
         var row = $(this).parent().parent();
         var uid = $(row).attr('data-uid');
         $(row).hide();
@@ -270,7 +270,7 @@ $(document).ready(function () {
         UserList.do_delete(uid);
     });
 
-    $('td.password>img').live('click', function (event) {
+    $('table').on('click', 'td.password>img', function (event) {
         event.stopPropagation();
         var img = $(this);
         var uid = img.parent().parent().attr('data-uid');
@@ -298,11 +298,11 @@ $(document).ready(function () {
             img.css('display', '');
         });
     });
-    $('td.password').live('click', function (event) {
+    $('table').on('click', 'td.password', function (event) {
         $(this).children('img').click();
     });
     
-    $('td.displayName>img').live('click', function (event) {
+    $('table').on('click', 'td.displayName>img', function (event) {
         event.stopPropagation();
         var img = $(this);
         var uid = img.parent().parent().attr('data-uid');
@@ -336,7 +336,7 @@ $(document).ready(function () {
     });
     
 
-    $('select.quota, select.quota-user').live('change', function () {
+    $('select.quota, select.quota-user').on('change', function () {
         var select = $(this);
         var uid = $(this).parent().parent().parent().attr('data-uid');
         var quota = $(this).val();
@@ -355,7 +355,7 @@ $(document).ready(function () {
         $(select).data('previous', $(select).val());
     })
 
-    $('input.quota-other').live('change', function () {
+    $('input.quota-other').on('change', function () {
         var uid = $(this).parent().parent().parent().attr('data-uid');
         var quota = $(this).val();
         var select = $(this).prev();
@@ -391,7 +391,7 @@ $(document).ready(function () {
         }
     });
 
-    $('input.quota-other').live('blur', function () {
+    $('input.quota-other').on('blur', function () {
         $(this).change();
     })
 
@@ -438,7 +438,7 @@ $(document).ready(function () {
     });
     // Handle undo notifications
     OC.Notification.hide();
-    $('#notification .undo').live('click', function () {
+    $('#notification').on('click', '.undo', function () {
         if ($('#notification').data('deleteuser')) {
             $('tbody tr').filterAttr('data-uid', UserList.deleteUid).show();
             UserList.deleteCanceled = true;

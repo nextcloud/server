@@ -335,7 +335,7 @@ var FileList={
 
 $(document).ready(function(){
 	$('#notification').hide();
-	$('#notification .undo').live('click', function(){
+	$('#notification').on('click', '.undo', function(){
 		if (FileList.deleteFiles) {
 			$.each(FileList.deleteFiles,function(index,file){
 				$('tr').filterAttr('data-file',file).show();
@@ -361,16 +361,16 @@ $(document).ready(function(){
 		FileList.lastAction = null;
         OC.Notification.hide();
 	});
-	$('#notification .replace').live('click', function() {
+	$('#notification').on('click', '.replace', function() {
         OC.Notification.hide(function() {
             FileList.replace($('#notification').data('oldName'), $('#notification').data('newName'), $('#notification').data('isNewFile'));
         });
 	});
-	$('#notification .suggest').live('click', function() {
+	$('#notification').on('click', '.suggest', function() {
 		$('tr').filterAttr('data-file', $('#notification').data('oldName')).show();
         OC.Notification.hide();
 	});
-	$('#notification .cancel').live('click', function() {
+	$('#notification').on('click', '.cancel', function() {
 		if ($('#notification').data('isNewFile')) {
 			FileList.deleteCanceled = false;
 			FileList.deleteFiles = [$('#notification').data('oldName')];
