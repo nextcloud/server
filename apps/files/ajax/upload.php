@@ -18,9 +18,9 @@ $maxHumanFilesize=$l->t('Upload') . ' max. '.$maxHumanFilesize;
 
 if (!isset($_FILES['files'])) {
 	OCP\JSON::error(array('data' => array( 'message' => $l->t( 'No file was uploaded. Unknown error' ),
-        'uploadMaxFilesize'=>$maxUploadFilesize,
-        'maxHumanFilesize'=>$maxHumanFilesize
-    )));
+		'uploadMaxFilesize'=>$maxUploadFilesize,
+		'maxHumanFilesize'=>$maxHumanFilesize
+	)));
 	exit();
 }
 
@@ -38,9 +38,9 @@ foreach ($_FILES['files']['error'] as $error) {
 			UPLOAD_ERR_CANT_WRITE=>$l->t('Failed to write to disk'),
 		);
 		OCP\JSON::error(array('data' => array( 'message' => $errors[$error],
-            'uploadMaxFilesize'=>$maxUploadFilesize,
-            'maxHumanFilesize'=>$maxHumanFilesize
-        )));
+			'uploadMaxFilesize'=>$maxUploadFilesize,
+			'maxHumanFilesize'=>$maxHumanFilesize
+		)));
 		exit();
 	}
 }
@@ -55,8 +55,8 @@ foreach($files['size'] as $size) {
 }
 if($totalSize>OC_Filesystem::free_space($dir)) {
 	OCP\JSON::error(array('data' => array( 'message' => $l->t( 'Not enough space available' ),
-        'uploadMaxFilesize'=>$maxUploadFilesize,
-        'maxHumanFilesize'=>$maxHumanFilesize)));
+		'uploadMaxFilesize'=>$maxUploadFilesize,
+		'maxHumanFilesize'=>$maxHumanFilesize)));
 	exit();
 }
 
@@ -70,19 +70,19 @@ if(strpos($dir, '..') === false) {
 		if(is_uploaded_file($files['tmp_name'][$i]) and OC_Filesystem::fromTmpFile($files['tmp_name'][$i], $target)) {
 			$meta = OC_FileCache::get($target);
 			$id = OC_FileCache::getId($target);
-            // updated max file size after upload
-            $maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
-            $maxHumanFilesize=OCP\Util::humanFileSize($maxUploadFilesize);
-            $maxHumanFilesize=$l->t('Upload') . ' max. '.$maxHumanFilesize;
+			// updated max file size after upload
+			$maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
+			$maxHumanFilesize=OCP\Util::humanFileSize($maxUploadFilesize);
+			$maxHumanFilesize=$l->t('Upload') . ' max. '.$maxHumanFilesize;
 
-            $result[]=array( 'status' => 'success',
+			$result[]=array( 'status' => 'success',
 				'mime'=>$meta['mimetype'],
 				'size'=>$meta['size'],
 				'id'=>$id,
 				'name'=>basename($target),
-                'uploadMaxFilesize'=>$maxUploadFilesize,
-                'maxHumanFilesize'=>$maxHumanFilesize
-            );
+				'uploadMaxFilesize'=>$maxUploadFilesize,
+				'maxHumanFilesize'=>$maxHumanFilesize
+			);
 		}
 	}
 	OCP\JSON::encodedPrint($result);
@@ -92,6 +92,6 @@ if(strpos($dir, '..') === false) {
 }
 
 OCP\JSON::error(array('data' => array('message' => $error,
-    'uploadMaxFilesize'=>$maxUploadFilesize,
-    'maxHumanFilesize'=>$maxHumanFilesize
+	'uploadMaxFilesize'=>$maxUploadFilesize,
+	'maxHumanFilesize'=>$maxHumanFilesize
 )));

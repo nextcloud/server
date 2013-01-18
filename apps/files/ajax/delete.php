@@ -29,12 +29,12 @@ $maxHumanFilesize=$l->t('Upload') . ' max. '.$maxHumanFilesize;
 
 if($success) {
 	OCP\JSON::success(array("data" => array( "dir" => $dir, "files" => $files,
-        'uploadMaxFilesize'=>$maxUploadFilesize,
-        'maxHumanFilesize'=>$maxHumanFilesize
-    )));
+		'uploadMaxFilesize'=>$maxUploadFilesize,
+		'maxHumanFilesize'=>$maxHumanFilesize
+	)));
 } else {
 	OCP\JSON::error(array("data" => array( "message" => "Could not delete:\n" . $filesWithError,
-        'uploadMaxFilesize'=>$maxUploadFilesize,
-        'maxHumanFilesize'=>$maxHumanFilesize
-    )));
+		'uploadMaxFilesize'=>$maxUploadFilesize,
+		'maxHumanFilesize'=>$maxHumanFilesize
+	)));
 }

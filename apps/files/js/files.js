@@ -26,23 +26,23 @@ Files={
 		});
 		procesSelection();
 	},
-    updateMaxUploadFilesize:function(response) {
-        if(response == undefined) {
-            return;
-        }
-        if(response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
-            $('#max_upload').val(response.data.uploadMaxFilesize);
-            $('#data-upload-form a').attr('original-title', response.data.maxHumanFilesize);
-        }
-        if(response[0] == undefined) {
-            return;
-        }
-        if(response[0].uploadMaxFilesize !== undefined) {
-            $('#max_upload').val(response[0].uploadMaxFilesize);
-            $('#data-upload-form a').attr('original-title', response[0].maxHumanFilesize);
-        }
+	updateMaxUploadFilesize:function(response) {
+		if(response == undefined) {
+			return;
+		}
+		if(response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
+			$('#max_upload').val(response.data.uploadMaxFilesize);
+			$('#data-upload-form a').attr('original-title', response.data.maxHumanFilesize);
+		}
+		if(response[0] == undefined) {
+			return;
+		}
+		if(response[0].uploadMaxFilesize !== undefined) {
+			$('#max_upload').val(response[0].uploadMaxFilesize);
+			$('#data-upload-form a').attr('original-title', response[0].maxHumanFilesize);
+		}
 
-    },
+	},
 	isFileNameValid:function (name) {
 		if (name === '.') {
 			$('#notification').text(t('files', '\'.\' is an invalid file name.'));
@@ -333,7 +333,7 @@ $(document).ready(function() {
 												$('#notification').text(t('files', response.data.message));
 												$('#notification').fadeIn();
 											}
-                                            Files.updateMaxUploadFilesize(response);
+											Files.updateMaxUploadFilesize(response);
 											var file=response[0];
 											// TODO: this doesn't work if the file name has been changed server side
 											delete uploadingFiles[dirName][file.name];
@@ -386,9 +386,9 @@ $(document).ready(function() {
 										.success(function(result, textStatus, jqXHR) {
 											var response;
 											response=jQuery.parseJSON(result);
-                                            Files.updateMaxUploadFilesize(response);
+											Files.updateMaxUploadFilesize(response);
 
-                                            if(response[0] != undefined && response[0].status == 'success') {
+											if(response[0] != undefined && response[0].status == 'success') {
 												var file=response[0];
 												delete uploadingFiles[file.name];
 												$('tr').filterAttr('data-file',file.name).data('mime',file.mime).data('id',file.id);
@@ -421,8 +421,8 @@ $(document).ready(function() {
 						data.submit().success(function(data, status) {
 							// in safari data is a string
 							response = jQuery.parseJSON(typeof data === 'string' ? data : data[0].body.innerText);
-                            Files.updateMaxUploadFilesize(response);
-                            if(response[0] != undefined && response[0].status == 'success') {
+							Files.updateMaxUploadFilesize(response);
+							if(response[0] != undefined && response[0].status == 'success') {
 								var file=response[0];
 								delete uploadingFiles[file.name];
 								$('tr').filterAttr('data-file',file.name).data('mime',file.mime).data('id',file.id);
@@ -787,7 +787,7 @@ scanFiles.scanning=false;
 
 function boolOperationFinished(data, callback) {
 	result = jQuery.parseJSON(data.responseText);
-    Files.updateMaxUploadFilesize(result);
+	Files.updateMaxUploadFilesize(result);
 	if(result.status == 'success'){
 		callback.call();
 	} else {

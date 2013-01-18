@@ -695,8 +695,8 @@ class OC_Helper {
 		$start = intval($start);
 		$length = intval($length);
 		$string = mb_substr($string, 0, $start, $encoding) .
-		          $replacement .
-		          mb_substr($string, $start+$length, mb_strlen($string, 'UTF-8')-$start, $encoding);
+			$replacement .
+			mb_substr($string, $start+$length, mb_strlen($string, 'UTF-8')-$start, $encoding);
 
 		return $string;
 	}
@@ -764,22 +764,22 @@ class OC_Helper {
 		return $str;
 	}
 
-    /**
-     * @brief calculates the maximum upload size respecting system settings, free space and user quota
-     *
-     * @param $dir the current folder where the user currently operates
-     * @return number of bytes representing
-     */
-    public static function maxUploadFilesize($dir) {
-        $upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
-        $post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
-        $maxUploadFilesize = min($upload_max_filesize, $post_max_size);
+	/**
+	 * @brief calculates the maximum upload size respecting system settings, free space and user quota
+	 *
+	 * @param $dir the current folder where the user currently operates
+	 * @return number of bytes representing
+	 */
+	public static function maxUploadFilesize($dir) {
+		$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
+		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
+		$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
-        $freeSpace = OC_Filesystem::free_space($dir);
-        $freeSpace = max($freeSpace, 0);
+		$freeSpace = OC_Filesystem::free_space($dir);
+		$freeSpace = max($freeSpace, 0);
 
-        return min($maxUploadFilesize, $freeSpace);
-    }
+		return min($maxUploadFilesize, $freeSpace);
+	}
 
 	/**
 	 * Checks if a function is available
