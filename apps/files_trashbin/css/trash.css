@@ -19,12 +19,12 @@ body {
 	color:#fff;
 }
 
-#header #download {
+#header #undelete {
 	font-weight:700;
 	margin-left:2em;
 }
 
-#header #download img {
+#header #undelete img {
 	padding-left:.1em;
 	padding-right:.3em;
 	vertical-align:text-bottom;

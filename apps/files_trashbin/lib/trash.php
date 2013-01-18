@@ -77,7 +77,7 @@ class Trashbin {
 	 * @param $timestamp time when the file was deleted
 	 */
 	public static function restore($filename, $timestamp) {
-		
+
 		$user = \OCP\User::getUser();
 		$view = new \OC_FilesystemView('/'.$user);
 		

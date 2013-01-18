@@ -16,13 +16,12 @@
 				<input type="checkbox" id="select_all" />
 				<span class='name'><?php echo $l->t( 'Name' ); ?></span>
 				<span class='selectedActions'>
-					<?php if($_['allowZipDownload']) : ?>
-						<a href="" class="download">
-							<img class="svg" alt="Download"
+						<a href="" class="undelete">
+							<!-- <img class="svg" alt="Undelete"
 								 src="<?php echo OCP\image_path("core", "actions/download.svg"); ?>" />
-							<?php echo $l->t('Download')?>
+							-->
+							<?php echo $l->t('Undelete')?>
 						</a>
-					<?php endif; ?>
 				</span>
 			</th>
 			<th id="headerDate">
