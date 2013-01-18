@@ -34,8 +34,16 @@ $(document).ready(function() {
 							'Keep settings?',
 							function(keep) {
 								if(!keep) {
-									$('#ldap').find('input[type=text], input[type=password], textarea, select').val('');
-									$('#ldap').find('input[type=checkbox]').removeAttr('checked');
+									$('#ldap').find('input[type=text], input[type=number], input[type=password], textarea, select').each(function() {
+										$(this).val($(this).attr('data-default'));
+									});
+									$('#ldap').find('input[type=checkbox]').each(function() {
+										if($(this).attr('data-default') == 1) {
+											$(this).attr('checked', 'checked');
+										} else {
+											$(this).removeAttr('checked');
+										}
+									});
 								}
 							}
 						);

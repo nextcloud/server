@@ -64,7 +64,7 @@ if($_POST) {
 		}
 	}
 	if($clearCache) {
-		$ldap = new \OCA\user_ldap\lib\Connection('user_ldap');
+		$ldap = new \OCA\user_ldap\lib\Connection();
 		$ldap->clearCache();
 	}
 }
@@ -87,5 +87,16 @@ $hfnr = OCP\Config::getAppValue('user_ldap', 'home_folder_naming_rule', 'opt:use
 $hfnr = ($hfnr == 'opt:username') ? '' : substr($hfnr, strlen('attr:'));
 $tmpl->assign('home_folder_naming_rule', $hfnr, '');
 $tmpl->assign('serverConfigurationOptions', '', false);
+
+// assign default values
+if(!isset($ldap)) {
+	$ldap = new \OCA\user_ldap\lib\Connection();
+}
+$defaults = $ldap->getDefaults();
+foreach($defaults as $key => $default) {
+    $tmpl->assign($key.'_default', $default);
+}
+
+// $tmpl->assign();
 
 return $tmpl->fetchPage();
