@@ -185,40 +185,69 @@ class Connection {
 		$this->cache->clear($this->getCacheKey(null));
 	}
 
+	private function getValue($varname) {
+		static $defaults;
+		if(is_null($defaults)){
+			$defaults = $this->getDefaults();
+		}
+		return \OCP\Config::getAppValue($this->configID,
+										$this->configPrefix.$varname,
+										$defaults[$varname]);
+	}
+
 	/**
 	 * Caches the general LDAP configuration.
 	 */
 	private function readConfiguration($force = false) {
 		if((!$this->configured || $force) && !is_null($this->configID)) {
-			$this->config['ldapHost']              = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_host', '');
-			$this->config['ldapBackupHost']        = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_backup_host', '');
-			$this->config['ldapPort']              = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_port', 389);
-			$this->config['ldapBackupPort']        = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_backup_port', $this->config['ldapPort']);
-			$this->config['ldapOverrideMainServer']= \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_override_main_server', false);
-			$this->config['ldapAgentName']         = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_dn', '');
-			$this->config['ldapAgentPassword']     = base64_decode(\OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_agent_password', ''));
-			$rawLdapBase                           = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_base', '');
-			$this->config['ldapBase']              = preg_split('/\r\n|\r|\n/', $rawLdapBase);
-			$this->config['ldapBaseUsers']         = preg_split('/\r\n|\r|\n/', \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_base_users', $rawLdapBase));
-			$this->config['ldapBaseGroups']        = preg_split('/\r\n|\r|\n/', \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_base_groups', $rawLdapBase));
+			$defaults = $this->getDefaults();
+			$v = 'getValue';
+			$this->config['ldapHost']       = $this->$v('ldap_host');
+			$this->config['ldapBackupHost'] = $this->$v('ldap_backup_host');
+			$this->config['ldapPort']       = $this->$v('ldap_port');
+			$this->config['ldapBackupPort'] = $this->$v('ldapPort');
+			$this->config['ldapOverrideMainServer']
+				= $this->$v('ldap_override_main_server');
+			$this->config['ldapAgentName']  = $this->$v('ldap_dn');
+			$this->config['ldapAgentPassword']
+				= base64_decode($this->$v('ldap_agent_password'));
+			$rawLdapBase                    = $this->$v('ldap_base');
+			$this->config['ldapBase']
+				= preg_split('/\r\n|\r|\n/', $rawLdapBase);
+			$this->config['ldapBaseUsers']
+				= preg_split('/\r\n|\r|\n/', ($this->$v('ldap_base_users')));
+			$this->config['ldapBaseGroups']
+				= preg_split('/\r\n|\r|\n/', $this->$v('ldap_base_groups'));
 			unset($rawLdapBase);
-			$this->config['ldapTLS']               = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_tls', 0);
-			$this->config['ldapNoCase']            = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_nocase', 0);
-			$this->config['turnOffCertCheck']      = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_turn_off_cert_check', 0);
-			$this->config['ldapUserDisplayName']   = mb_strtolower(\OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_display_name', 'uid'), 'UTF-8');
-			$this->config['ldapUserFilter']        = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_userlist_filter', 'objectClass=person');
-			$this->config['ldapGroupFilter']       = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_group_filter', '(objectClass=posixGroup)');
-			$this->config['ldapLoginFilter']       = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_login_filter', '(uid=%uid)');
-			$this->config['ldapGroupDisplayName']  = mb_strtolower(\OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_group_display_name', 'uid'), 'UTF-8');
-			$this->config['ldapQuotaAttribute']    = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_quota_attr', '');
-			$this->config['ldapQuotaDefault']      = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_quota_def', '');
-			$this->config['ldapEmailAttribute']    = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_email_attr', '');
-			$this->config['ldapGroupMemberAssocAttr'] = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_group_member_assoc_attribute', 'uniqueMember');
-			$this->config['ldapIgnoreNamingRules'] = \OCP\Config::getSystemValue('ldapIgnoreNamingRules', false);
-			$this->config['ldapCacheTTL']          = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_cache_ttl', 10*60);
-			$this->config['ldapUuidAttribute']     = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_uuid_attribute', 'auto');
-			$this->config['ldapOverrideUuidAttribute'] = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'ldap_override_uuid_attribute', 0);
-			$this->config['homeFolderNamingRule']  = \OCP\Config::getAppValue($this->configID, $this->configPrefix.'home_folder_naming_rule', 'opt:username');
+			$this->config['ldapTLS']        = $this->$v('ldap_tls');
+			$this->config['ldapNoCase']     = $this->$v('ldap_nocase');
+			$this->config['turnOffCertCheck']
+				= $this->$v('ldap_turn_off_cert_check');
+			$this->config['ldapUserDisplayName']
+				= mb_strtolower($this->$v('ldap_display_name'),'UTF-8');
+			$this->config['ldapUserFilter']
+				= $this->$v('ldap_userlist_filter');
+			$this->config['ldapGroupFilter'] = $this->$v('ldap_group_filter');
+			$this->config['ldapLoginFilter'] = $this->$v('ldap_login_filter');
+			$this->config['ldapGroupDisplayName']
+				= mb_strtolower($this->$v('ldap_group_display_name'), 'UTF-8');
+			$this->config['ldapQuotaAttribute']
+				= $this->$v('ldap_quota_attr');
+			$this->config['ldapQuotaDefault']
+				= $this->$v('ldap_quota_def');
+			$this->config['ldapEmailAttribute']
+				= $this->$v('ldap_email_attr');
+			$this->config['ldapGroupMemberAssocAttr']
+				= $this->$v('ldap_group_member_assoc_attribute');
+			$this->config['ldapIgnoreNamingRules']
+				= \OCP\Config::getSystemValue('ldapIgnoreNamingRules', false);
+			$this->config['ldapCacheTTL']    = $this->$v('ldap_cache_ttl');
+			$this->config['ldapUuidAttribute']
+				= $this->$v('ldap_uuid_attribute');
+			$this->config['ldapOverrideUuidAttribute']
+				= $this->$v('ldap_override_uuid_attribute');
+			$this->config['homeFolderNamingRule']
+				= $this->$v('home_folder_naming_rule');
 
 			$this->configured = $this->validateConfiguration();
 		}
@@ -324,6 +353,40 @@ class Connection {
 		}
 
 		return $configurationOK;
+	}
+
+	/**
+	 * @returns an associted array with the default values. Keys are correspond
+	 * to configvalue entries in the database table
+	 */
+	public function getDefaults() {
+		return array(
+			'ldap_host'                         => '',
+			'ldap_port'                         => '389',
+			'ldap_backup_host'                  => '',
+			'ldap_backup_port'                  => '',
+			'ldap_override_main_server'         => '',
+			'ldap_dn'                           => '',
+			'ldap_agent_password'               => '',
+			'ldap_base'                         => '',
+			'ldap_base_users'                   => '',
+			'ldap_base_groups'                  => '',
+			'ldap_userlist_filter'              => 'objectClass=person',
+			'ldap_login_filter'                 => 'uid=%uid',
+			'ldap_group_filter'                 => 'objectClass=posixGroup',
+			'ldap_display_name'                 => 'cn',
+			'ldap_group_display_name'           => 'cn',
+			'ldap_tls'                          => 1,
+			'ldap_nocase'                       => 0,
+			'ldap_quota_def'                    => '',
+			'ldap_quota_attr'                   => '',
+			'ldap_email_attr'                   => '',
+			'ldap_group_member_assoc_attribute' => 'uniqueMember',
+			'ldap_cache_ttl'                    => 600,
+			'ldap_uuid_attribute'				=> 'auto',
+			'ldap_override_uuid_attribute'		=> 0,
+			'home_folder_naming_rule'           => '',
+		);
 	}
 
 	/**
