@@ -231,6 +231,12 @@ class OC
 	public static function checkMaintenanceMode() {
 		// Allow ajax update script to execute without being stopped
 		if (OC_Config::getValue('maintenance', false) && OC::$SUBURI != '/core/ajax/update.php') {
+			// send http status 503
+			header('HTTP/1.1 503 Service Temporarily Unavailable');
+			header('Status: 503 Service Temporarily Unavailable');
+			header('Retry-After: 120');
+
+			// render error page
 			$tmpl = new OC_Template('', 'error', 'guest');
 			$tmpl->assign('errors', array(1 => array('error' => 'ownCloud is in maintenance mode')));
 			$tmpl->printPage();
