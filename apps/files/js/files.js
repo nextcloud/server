@@ -83,9 +83,9 @@ $(document).ready(function() {
 		return false;
 	});
 	
-	// Show Trash bin
+	// Show trash bin
 	$('#trash a').live('click', function() {
-		console.log("hello");
+		window.location=OC.filePath('files_trashbin', '', 'index.php');
 	});
 
 	var lastChecked;
