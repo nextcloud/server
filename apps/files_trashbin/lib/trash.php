@@ -23,6 +23,8 @@
 namespace OCA_Trash;
 
 class Trashbin {
+	
+	const DELETEAFTER=30; // how long do we keep files in the trash bin (number of days)
 
 	/**
 	 * move file to the trash bin
@@ -125,8 +127,32 @@ class Trashbin {
 	 * clean up the trash bin
 	 */
 	private static function expire() {
-		//TODO: implement expire function
-		return true;
+		
+		$view = new \OC_FilesystemView('/'.\OCP\User::getUser());
+		$user = \OCP\User::getUser();
+		
+		$query = \OC_DB::prepare('SELECT location,type,id,timestamp FROM *PREFIX*files_trash WHERE user=?');
+		$result = $query->execute(array($user))->fetchAll();
+		
+		$limit = time() - (self::DELETEAFTER * 86400);
+
+		foreach ( $result as $r ) {
+			$timestamp = $r['timestamp'];
+			$filename = $r['id'];
+			if ( $r['timestamp'] < $limit ) {
+				$view->unlink('files_trashbin/'.$filename.'.d'.$timestamp);
+				if ($r['type'] == 'dir') {
+					$view->unlink('versions_trashbin/'.$filename.'.d'.$timestamp);
+				} else if ( $versions = self::getVersionsFromTrash($filename, $timestamp) ) {
+					foreach ($versions as $v) {
+						$view->unlink('versions_trashbin/'.$filename.'.v'.$v.'.d'.$timestamp);
+					}			
+				}
+			}
+		}
+		
+		$query = \OC_DB::prepare('DELETE FROM *PREFIX*files_trash WHERE user=? AND timestamp<?');
+		$query->execute(array($user,$limit));
 	}
 	
 	/**
