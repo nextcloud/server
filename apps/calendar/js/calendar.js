@@ -718,7 +718,7 @@ function ListView(element, calendar) {
 			' class="' + classes.join(' ') + '"' +
 			'>' +
 			'<span class="fc-event-title">' +
-			event.title +
+			escapeHTML(event.title) +
 			'</span>' +
 			'</span>' +
 			'</td>' +
