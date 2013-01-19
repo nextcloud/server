@@ -300,36 +300,36 @@ class Share {
 			throw new \Exception($message);
 		}
 		// If the item is a folder, scan through the folder looking for equivalent item types
-		if ($itemType == 'folder') {
-			$parentFolder = self::put('folder', $itemSource, $shareType, $shareWith, $uidOwner, $permissions, true);
-			if ($parentFolder && $files = \OC\Files\Filesystem::getDirectoryContent($itemSource)) {
-				for ($i = 0; $i < count($files); $i++) {
-					$name = substr($files[$i]['name'], strpos($files[$i]['name'], $itemSource) - strlen($itemSource));
-					if ($files[$i]['mimetype'] == 'httpd/unix-directory'
-						&& $children = \OC\Files\Filesystem::getDirectoryContent($name, '/')
-					) {
-						// Continue scanning into child folders
-						array_push($files, $children);
-					} else {
-						// Check file extension for an equivalent item type to convert to
-						$extension = strtolower(substr($itemSource, strrpos($itemSource, '.') + 1));
-						foreach (self::$backends as $type => $backend) {
-							if (isset($backend->dependsOn) && $backend->dependsOn == 'file' && isset($backend->supportedFileExtensions) && in_array($extension, $backend->supportedFileExtensions)) {
-								$itemType = $type;
-								break;
-							}
-						}
-						// Pass on to put() to check if this item should be converted, the item won't be inserted into the database unless it can be converted
-						self::put($itemType, $name, $shareType, $shareWith, $uidOwner, $permissions, $parentFolder);
-					}
-				}
-				return true;
-			}
-			return false;
-		} else {
+// 		if ($itemType == 'folder') {
+// 			$parentFolder = self::put('folder', $itemSource, $shareType, $shareWith, $uidOwner, $permissions, true);
+// 			if ($parentFolder && $files = \OC\Files\Filesystem::getDirectoryContent($itemSource)) {
+// 				for ($i = 0; $i < count($files); $i++) {
+// 					$name = substr($files[$i]['name'], strpos($files[$i]['name'], $itemSource) - strlen($itemSource));
+// 					if ($files[$i]['mimetype'] == 'httpd/unix-directory'
+// 						&& $children = \OC\Files\Filesystem::getDirectoryContent($name, '/')
+// 					) {
+// 						// Continue scanning into child folders
+// 						array_push($files, $children);
+// 					} else {
+// 						// Check file extension for an equivalent item type to convert to
+// 						$extension = strtolower(substr($itemSource, strrpos($itemSource, '.') + 1));
+// 						foreach (self::$backends as $type => $backend) {
+// 							if (isset($backend->dependsOn) && $backend->dependsOn == 'file' && isset($backend->supportedFileExtensions) && in_array($extension, $backend->supportedFileExtensions)) {
+// 								$itemType = $type;
+// 								break;
+// 							}
+// 						}
+// 						// Pass on to put() to check if this item should be converted, the item won't be inserted into the database unless it can be converted
+// 						self::put($itemType, $name, $shareType, $shareWith, $uidOwner, $permissions, $parentFolder);
+// 					}
+// 				}
+// 				return true;
+// 			}
+// 			return false;
+// 		} else {
 			// Put the item into the database
 			return self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions);
-		}
+// 		}
 	}
 
 	/**
