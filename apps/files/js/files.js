@@ -563,8 +563,7 @@ $(document).ready(function() {
 			event.preventDefault();
 			var newname=input.val();
 			if(type == 'web' && newname.length == 0) {
-				$('#notification').text(t('files', 'URL cannot be empty.'));
-				$('#notification').fadeIn();
+				OC.Notification.show(t('files', 'URL cannot be empty.'));
 				return false;
 			} else if (type != 'web' && !Files.isFileNameValid(newname)) {
 				return false;
