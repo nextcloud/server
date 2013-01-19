@@ -211,39 +211,15 @@ class OC_Util {
 		// Create root dir.
 		if(!is_dir($CONFIG_DATADIRECTORY)) {
 			$success=@mkdir($CONFIG_DATADIRECTORY);
-			if(!$success) {
+			if ($success) {
+				$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
+			} else {
 				$errors[]=array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY.")", 'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ");
 			}
 		} else if(!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
 			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') not writable by ownCloud<br/>', 'hint'=>$permissionsHint);
 		} else {
-			//check for correct file permissions
-			if(!stristr(PHP_OS, 'WIN')) {
-				$permissionsModHint="Please change the permissions to 0770 so that the directory cannot be listed by other users.";
-				$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)), -3);
-				if(substr($prems, -1)!='0') {
-					OC_Helper::chmodr($CONFIG_DATADIRECTORY, 0770);
-					clearstatcache();
-					$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)), -3);
-					if(substr($prems, 2, 1)!='0') {
-						$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') is readable for other users<br/>', 'hint'=>$permissionsModHint);
-					}
-				}
-				if( OC_Config::getValue( "enablebackup", false )) {
-					$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
-					$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)), -3);
-					if(substr($prems, -1)!='0') {
-						OC_Helper::chmodr($CONFIG_BACKUPDIRECTORY, 0770);
-						clearstatcache();
-						$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)), -3);
-						if(substr($prems, 2, 1)!='0') {
-							$errors[]=array('error'=>'Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable for other users<br/>', 'hint'=>$permissionsModHint);
-						}
-					}
-				}
-			} else {
-				//TODO: permissions checks for windows hosts
-			}
+			$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
 		}
 		// check if all required php modules are present
 		if(!class_exists('ZipArchive')) {
@@ -292,6 +268,29 @@ class OC_Util {
 			$errors[]=array('error'=>'PHP modules have been installed, but they are still listed as missing?<br/>', 'hint'=>'Please ask your server administrator to restart the web server.');
 		}
 
+		return $errors;
+	}
+
+	/**
+	* Check for correct file permissions of data directory
+	* @return array arrays with error messages and hints
+	*/
+	public static function checkDataDirectoryPermissions($dataDirectory) {
+		$errors = array();
+		if (stristr(PHP_OS, 'WIN')) {
+			//TODO: permissions checks for windows hosts
+		} else {
+			$permissionsModHint = 'Please change the permissions to 0770 so that the directory cannot be listed by other users.';
+			$prems = substr(decoct(@fileperms($dataDirectory)), -3);
+			if (substr($prems, -1) != '0') {
+				OC_Helper::chmodr($dataDirectory, 0770);
+				clearstatcache();
+				$prems = substr(decoct(@fileperms($dataDirectory)), -3);
+				if (substr($prems, 2, 1) != '0') {
+					$errors[] = array('error' => 'Data directory ('.$dataDirectory.') is readable for other users<br/>', 'hint' => $permissionsModHint);
+				}
+			}
+		}
 		return $errors;
 	}
 
