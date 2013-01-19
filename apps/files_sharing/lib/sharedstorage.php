@@ -431,7 +431,14 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function getETag($path) {
-		
+		if ($path == '') {
+			return parent::getETag($path);
+		}
+		if ($source = $this->getSourcePath($path)) {
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->getETag($internalPath);
+		}
+		return null;
 	}
 
 }
