@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "อัพโหลด",
 "No file was uploaded. Unknown error" => "ยังไม่มีไฟล์ใดที่ถูกอัพโหลด เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ",
 "There is no error, the file uploaded with success" => "ไม่มีข้อผิดพลาดใดๆ ไฟล์ถูกอัพโหลดเรียบร้อยแล้ว",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "ขนาดไฟล์ที่อัพโหลดมีขนาดเกิน upload_max_filesize ที่ระบุไว้ใน php.ini",
@@ -21,7 +22,6 @@
 "unshared {files}" => "ยกเลิกการแชร์แล้ว {files} ไฟล์",
 "deleted {files}" => "ลบไฟล์แล้ว {files} ไฟล์",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "ชื่อที่ใช้ไม่ถูกต้อง, '\\', '/', '<', '>', ':', '\"', '|', '?' และ '*' ไม่ได้รับอนุญาตให้ใช้งานได้",
-"generating ZIP-file, it may take some time." => "กำลังสร้างไฟล์บีบอัด ZIP อาจใช้เวลาสักครู่",
 "Unable to upload your file as it is a directory or has 0 bytes" => "ไม่สามารถอัพโหลดไฟล์ของคุณได้ เนื่องจากไฟล์ดังกล่าวเป็นไดเร็กทอรี่หรือมีขนาด 0 ไบต์",
 "Upload Error" => "เกิดข้อผิดพลาดในการอัพโหลด",
 "Close" => "ปิด",
@@ -52,7 +52,6 @@
 "Text file" => "ไฟล์ข้อความ",
 "Folder" => "แฟ้มเอกสาร",
 "From link" => "จากลิงก์",
-"Upload" => "อัพโหลด",
 "Cancel upload" => "ยกเลิกการอัพโหลด",
 "Nothing in here. Upload something!" => "ยังไม่มีไฟล์ใดๆอยู่ที่นี่ กรุณาอัพโหลดไฟล์!",
 "Download" => "ดาวน์โหลด",

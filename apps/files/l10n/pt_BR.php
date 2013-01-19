@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Carregar",
 "No file was uploaded. Unknown error" => "Nenhum arquivo foi transferido. Erro desconhecido",
 "There is no error, the file uploaded with success" => "Não houve nenhum erro, o arquivo foi transferido com sucesso",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "O arquivo enviado excede a diretiva upload_max_filesize no php.ini: ",
@@ -21,7 +22,6 @@
 "unshared {files}" => "{files} não compartilhados",
 "deleted {files}" => "{files} apagados",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nome inválido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são permitidos.",
-"generating ZIP-file, it may take some time." => "gerando arquivo ZIP, isso pode levar um tempo.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Impossível enviar seus arquivo como diretório ou ele tem 0 bytes.",
 "Upload Error" => "Erro de envio",
 "Close" => "Fechar",
@@ -52,7 +52,6 @@
 "Text file" => "Arquivo texto",
 "Folder" => "Pasta",
 "From link" => "Do link",
-"Upload" => "Carregar",
 "Cancel upload" => "Cancelar upload",
 "Nothing in here. Upload something!" => "Nada aqui.Carrege alguma coisa!",
 "Download" => "Baixar",

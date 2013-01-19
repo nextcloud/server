@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-19 00:04+0100\n"
+"POT-Creation-Date: 2013-01-20 00:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,7 +146,9 @@ msgid ""
 msgstr ""
 
 #: js/files.js:204
-msgid "generating ZIP-file, it may take some time."
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
 msgstr ""
 
 #: js/files.js:242

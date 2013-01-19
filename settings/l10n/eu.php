@@ -52,7 +52,11 @@
 "Name" => "Izena",
 "Groups" => "Taldeak",
 "Create" => "Sortu",
+"Default Storage" => "Lehenetsitako Biltegiratzea",
+"Unlimited" => "Mugarik gabe",
 "Other" => "Besteak",
 "Group Admin" => "Talde administradorea",
+"Storage" => "Biltegiratzea",
+"Default" => "Lehenetsia",
 "Delete" => "Ezabatu"
 );

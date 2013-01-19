@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Подигни",
 "No file was uploaded. Unknown error" => "Ниту еден фајл не се вчита. Непозната грешка",
 "There is no error, the file uploaded with success" => "Нема грешка, датотеката беше подигната успешно",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Подигнатата датотека ја надминува upload_max_filesize директивата во php.ini:",
@@ -21,7 +22,6 @@
 "unshared {files}" => "без споделување {files}",
 "deleted {files}" => "избришани {files}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Неправилно име. , '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не се дозволени.",
-"generating ZIP-file, it may take some time." => "Се генерира ZIP фајлот, ќе треба извесно време.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Не може да се преземе вашата датотека бидејќи фолдерот во кој се наоѓа фајлот има големина од 0 бајти",
 "Upload Error" => "Грешка при преземање",
 "Close" => "Затвои",
@@ -52,7 +52,6 @@
 "Text file" => "Текстуална датотека",
 "Folder" => "Папка",
 "From link" => "Од врска",
-"Upload" => "Подигни",
 "Cancel upload" => "Откажи прикачување",
 "Nothing in here. Upload something!" => "Тука нема ништо. Снимете нешто!",
 "Download" => "Преземи",

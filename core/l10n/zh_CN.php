@@ -43,6 +43,7 @@
 "Share with link" => "共享链接",
 "Password protect" => "密码保护",
 "Password" => "密码",
+"Email link to person" => "发送链接到个人",
 "Send" => "发送",
 "Set expiration date" => "设置过期日期",
 "Expiration date" => "过期日期",
@@ -125,5 +126,6 @@
 "remember" => "记住",
 "Log in" => "登录",
 "prev" => "上一页",
-"next" => "下一页"
+"next" => "下一页",
+"Updating ownCloud to version %s, this may take a while." => "更新 ownCloud 到版本 %s，这可能需要一些时间。"
 );

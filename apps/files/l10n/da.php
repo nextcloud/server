@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Upload",
 "No file was uploaded. Unknown error" => "Ingen fil blev uploadet. Ukendt fejl.",
 "There is no error, the file uploaded with success" => "Der er ingen fejl, filen blev uploadet med success",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Den uploadede fil overstiger upload_max_filesize direktivet i php.ini",
@@ -21,7 +22,6 @@
 "unshared {files}" => "ikke delte {files}",
 "deleted {files}" => "slettede {files}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ugyldigt navn, '\\', '/', '<', '>', ':' | '?', '\"', '', og '*' er ikke tilladt.",
-"generating ZIP-file, it may take some time." => "genererer ZIP-fil, det kan tage lidt tid.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Kunne ikke uploade din fil, da det enten er en mappe eller er tom",
 "Upload Error" => "Fejl ved upload",
 "Close" => "Luk",
@@ -52,7 +52,6 @@
 "Text file" => "Tekstfil",
 "Folder" => "Mappe",
 "From link" => "Fra link",
-"Upload" => "Upload",
 "Cancel upload" => "Fortryd upload",
 "Nothing in here. Upload something!" => "Her er tomt. Upload noget!",
 "Download" => "Download",
