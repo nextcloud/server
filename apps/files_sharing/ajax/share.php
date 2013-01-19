@@ -25,7 +25,7 @@ foreach ($sources as $source) {
 			}
 		} catch (Exception $exception) {
 			OCP\Util::writeLog('files_sharing', 'Unexpected Error : '.$exception->getMessage(), OCP\Util::ERROR);
-			OCP\JSON::error(array('data' => array('message' => $exception->getMessage())));
+			OCP\JSON::error(array('data' => array('message' => OC_Util::sanitizeHTML($exception->getMessage()))));
 		}
 	} else {
 		if ($file['encrypted'] == true) {
