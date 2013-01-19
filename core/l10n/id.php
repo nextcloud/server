@@ -101,8 +101,5 @@
 "remember" => "selalu login",
 "Log in" => "Masuk",
 "prev" => "sebelum",
-"next" => "selanjutnya",
-"Security Warning!" => "peringatan keamanan!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "mohon periksa kembali kata kunci anda. <br/>untuk alasan keamanan,anda akan sesekali diminta untuk memasukan kata kunci lagi.",
-"Verify" => "periksa kembali"
+"next" => "selanjutnya"
 );

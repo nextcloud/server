@@ -6,13 +6,14 @@ $force=isset($_GET['force']) and $_GET['force']=='true';
 $dir=isset($_GET['dir'])?$_GET['dir']:'';
 $checkOnly=isset($_GET['checkonly']) and $_GET['checkonly']=='true';
 
+$eventSource=false;
 if(!$checkOnly) {
 	$eventSource=new OC_EventSource();
 }
 
 session_write_close();
 
-//create the file cache if necesary
+//create the file cache if necessary
 if($force or !OC_FileCache::inCache('')) {
 	if(!$checkOnly) {
 		OCP\DB::beginTransaction();

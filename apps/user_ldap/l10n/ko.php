@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them." => "<b>경고</b>user_ldap 앱과 user_webdavauth 앱은 호환되지 않습니다. 오동작을 일으킬 수 있으므로, 시스템 관리자에게 요청하여, 둘 중 하나를 비활성화 하시기 바랍니다.",
-"<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>경고</b>PHP LDAP 모듈이 설치되지 않았습니다. 백엔드가 동작하지 않을 것 입니다. 시스템관리자에게 요청하여 해당 모듈을 설치하시기 바랍니다.",
 "Host" => "호스트",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "SSL을 사용하는 경우가 아니라면 프로토콜을 입력하지 않아도 됩니다. SSL을 사용하려면 ldaps://를 입력하십시오.",
 "Base DN" => "기본 DN",

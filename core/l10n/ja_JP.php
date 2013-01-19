@@ -127,8 +127,5 @@
 "Log in" => "ログイン",
 "prev" => "前",
 "next" => "次",
-"Updating ownCloud to version %s, this may take a while." => "ownCloud をバージョン %s に更新しています、しばらくお待ち下さい。",
-"Security Warning!" => "セキュリティ警告！",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "パスワードの確認<br/>セキュリティ上の理由によりパスワードの再入力をお願いします。",
-"Verify" => "確認"
+"Updating ownCloud to version %s, this may take a while." => "ownCloud をバージョン %s に更新しています、しばらくお待ち下さい。"
 );

@@ -504,6 +504,7 @@ function fillHeight(selector) {
 	if(selector.outerHeight() > selector.height()){
 		selector.css('height', height-(selector.outerHeight()-selector.height()) + 'px');
 	}
+	console.warn("This function is deprecated! Use CSS instead");
 }
 
 /**
@@ -519,16 +520,10 @@ function fillWindow(selector) {
 	if(selector.outerWidth() > selector.width()){
 		selector.css('width', width-(selector.outerWidth()-selector.width()) + 'px');
 	}
+	console.warn("This function is deprecated! Use CSS instead");
 }
 
 $(document).ready(function(){
-
-	$(window).resize(function () {
-		fillHeight($('#leftcontent'));
-		fillWindow($('#content'));
-		fillWindow($('#rightcontent'));
-	});
-	$(window).trigger('resize');
 
 	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
 		replaceSVG();

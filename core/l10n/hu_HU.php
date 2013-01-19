@@ -126,8 +126,5 @@
 "remember" => "emlékezzen",
 "Log in" => "Bejelentkezés",
 "prev" => "előző",
-"next" => "következő",
-"Security Warning!" => "Biztonsági figyelmeztetés!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Kérjük írja be a jelszavát! <br/>Biztonsági okokból néha a bejelentkezést követően is ellenőrzésképpen meg kell adnia a jelszavát.",
-"Verify" => "Ellenőrzés"
+"next" => "következő"
 );

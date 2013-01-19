@@ -27,9 +27,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 13:29+0000\n"
-"Last-Translator: thiel <markus.thiel@desico.de>\n"
+"POT-Creation-Date: 2013-01-18 00:03+0100\n"
+"PO-Revision-Date: 2013-01-17 21:12+0000\n"
+"Last-Translator: a.tangemann <a.tangemann@web.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -160,84 +160,84 @@ msgid ""
 "allowed."
 msgstr "Ungültiger Name, '\\', '/', '<', '>', ':', '\"', '|', '?' und '*' sind nicht zulässig."
 
-#: js/files.js:186
+#: js/files.js:187
 msgid "generating ZIP-file, it may take some time."
 msgstr "Erstelle ZIP-Datei. Dies kann eine Weile dauern."
 
-#: js/files.js:224
+#: js/files.js:225
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Ihre Datei kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist."
 
-#: js/files.js:224
+#: js/files.js:225
 msgid "Upload Error"
 msgstr "Fehler beim Upload"
 
-#: js/files.js:241
+#: js/files.js:242
 msgid "Close"
 msgstr "Schließen"
 
-#: js/files.js:260 js/files.js:376 js/files.js:409
+#: js/files.js:261 js/files.js:377 js/files.js:410
 msgid "Pending"
 msgstr "Ausstehend"
 
-#: js/files.js:280
+#: js/files.js:281
 msgid "1 file uploading"
 msgstr "1 Datei wird hochgeladen"
 
-#: js/files.js:283 js/files.js:338 js/files.js:353
+#: js/files.js:284 js/files.js:339 js/files.js:354
 msgid "{count} files uploading"
 msgstr "{count} Dateien wurden hochgeladen"
 
-#: js/files.js:357 js/files.js:393
+#: js/files.js:358 js/files.js:394
 msgid "Upload cancelled."
 msgstr "Upload abgebrochen."
 
-#: js/files.js:464
+#: js/files.js:465
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Der Dateiupload läuft. Wenn Sie die Seite jetzt verlassen, wird der Upload abgebrochen."
 
-#: js/files.js:537
+#: js/files.js:538
 msgid "URL cannot be empty."
 msgstr "Die URL darf nicht leer sein."
 
-#: js/files.js:543
+#: js/files.js:544
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Ungültiger Verzeichnisname. Die Nutzung von \"Shared\" ist ownCloud vorbehalten"
 
-#: js/files.js:727
+#: js/files.js:728
 msgid "{count} files scanned"
 msgstr "{count} Dateien wurden gescannt"
 
-#: js/files.js:735
+#: js/files.js:736
 msgid "error while scanning"
 msgstr "Fehler beim Scannen"
 
-#: js/files.js:808 templates/index.php:64
+#: js/files.js:809 templates/index.php:64
 msgid "Name"
 msgstr "Name"
 
-#: js/files.js:809 templates/index.php:75
+#: js/files.js:810 templates/index.php:75
 msgid "Size"
 msgstr "Größe"
 
-#: js/files.js:810 templates/index.php:77
+#: js/files.js:811 templates/index.php:77
 msgid "Modified"
 msgstr "Bearbeitet"
 
-#: js/files.js:829
+#: js/files.js:830
 msgid "1 folder"
 msgstr "1 Ordner"
 
-#: js/files.js:831
+#: js/files.js:832
 msgid "{count} folders"
 msgstr "{count} Ordner"
 
-#: js/files.js:839
+#: js/files.js:840
 msgid "1 file"
 msgstr "1 Datei"
 
-#: js/files.js:841
+#: js/files.js:842
 msgid "{count} files"
 msgstr "{count} Dateien"
 

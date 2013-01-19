@@ -118,8 +118,5 @@
 "remember" => "จำรหัสผ่าน",
 "Log in" => "เข้าสู่ระบบ",
 "prev" => "ก่อนหน้า",
-"next" => "ถัดไป",
-"Security Warning!" => "คำเตือนเพื่อความปลอดภัย!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "กรุณายืนยันรหัสผ่านของคุณ <br/> เพื่อความปลอดภัย คุณจะถูกขอให้กรอกรหัสผ่านอีกครั้ง",
-"Verify" => "ยืนยัน"
+"next" => "ถัดไป"
 );

@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2012-2013.
-#   <claudio.tessone@gmail.com>, 2012.
+#   <claudio.tessone@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-10 00:04+0100\n"
-"PO-Revision-Date: 2013-01-09 23:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 16:04+0000\n"
+"Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,16 +22,16 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "No se pudo mover %s - Un archivo con este nombre ya existe"
 
 #: ajax/move.php:24
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "No se pudo mover %s "
 
 #: ajax/rename.php:19
 msgid "Unable to rename file"
-msgstr ""
+msgstr "No fue posible cambiar el nombre al archivo"
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
@@ -130,11 +130,11 @@ msgstr "{files} borrados"
 
 #: js/files.js:31
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' es un nombre de archivo inválido."
 
 #: js/files.js:36
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "El nombre del archivo no puede quedar vacío."
 
 #: js/files.js:45
 msgid ""
@@ -142,84 +142,84 @@ msgid ""
 "allowed."
 msgstr "Nombre invalido, '\\', '/', '<', '>', ':', '\"', '|', '?' y '*' no están permitidos."
 
-#: js/files.js:186
+#: js/files.js:187
 msgid "generating ZIP-file, it may take some time."
 msgstr "generando un archivo ZIP, puede llevar un tiempo."
 
-#: js/files.js:224
+#: js/files.js:225
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "No fue posible subir el archivo porque es un directorio o porque su tamaño es 0 bytes"
 
-#: js/files.js:224
+#: js/files.js:225
 msgid "Upload Error"
 msgstr "Error al subir el archivo"
 
-#: js/files.js:241
+#: js/files.js:242
 msgid "Close"
 msgstr "Cerrar"
 
-#: js/files.js:260 js/files.js:376 js/files.js:409
+#: js/files.js:261 js/files.js:377 js/files.js:410
 msgid "Pending"
 msgstr "Pendiente"
 
-#: js/files.js:280
+#: js/files.js:281
 msgid "1 file uploading"
 msgstr "Subiendo 1 archivo"
 
-#: js/files.js:283 js/files.js:338 js/files.js:353
+#: js/files.js:284 js/files.js:339 js/files.js:354
 msgid "{count} files uploading"
 msgstr "Subiendo {count} archivos"
 
-#: js/files.js:357 js/files.js:393
+#: js/files.js:358 js/files.js:394
 msgid "Upload cancelled."
 msgstr "La subida fue cancelada"
 
-#: js/files.js:464
+#: js/files.js:465
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "La subida del archivo está en proceso. Si salís de la página ahora, la subida se cancelará."
 
-#: js/files.js:537
+#: js/files.js:538
 msgid "URL cannot be empty."
 msgstr "La URL no puede estar vacía"
 
-#: js/files.js:543
+#: js/files.js:544
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "Nombre de carpeta inválido. El uso de 'Shared' está reservado por ownCloud"
 
-#: js/files.js:727
+#: js/files.js:728
 msgid "{count} files scanned"
 msgstr "{count} archivos escaneados"
 
-#: js/files.js:735
+#: js/files.js:736
 msgid "error while scanning"
 msgstr "error mientras se escaneaba"
 
-#: js/files.js:808 templates/index.php:64
+#: js/files.js:809 templates/index.php:64
 msgid "Name"
 msgstr "Nombre"
 
-#: js/files.js:809 templates/index.php:75
+#: js/files.js:810 templates/index.php:75
 msgid "Size"
 msgstr "Tamaño"
 
-#: js/files.js:810 templates/index.php:77
+#: js/files.js:811 templates/index.php:77
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/files.js:829
+#: js/files.js:830
 msgid "1 folder"
 msgstr "1 directorio"
 
-#: js/files.js:831
+#: js/files.js:832
 msgid "{count} folders"
 msgstr "{count} directorios"
 
-#: js/files.js:839
+#: js/files.js:840
 msgid "1 file"
 msgstr "1 archivo"
 
-#: js/files.js:841
+#: js/files.js:842
 msgid "{count} files"
 msgstr "{count} archivos"
 

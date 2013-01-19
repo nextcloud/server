@@ -125,8 +125,5 @@
 "remember" => "记住",
 "Log in" => "登录",
 "prev" => "上一页",
-"next" => "下一页",
-"Security Warning!" => "安全警告！",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "请验证您的密码。 <br/>出于安全考虑，你可能偶尔会被要求再次输入密码。",
-"Verify" => "验证"
+"next" => "下一页"
 );

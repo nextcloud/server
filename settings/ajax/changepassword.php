@@ -9,7 +9,7 @@ $password = $_POST["password"];
 $oldPassword=isset($_POST["oldpassword"])?$_POST["oldpassword"]:'';
 
 $userstatus = null;
-if(OC_Group::inGroup(OC_User::getUser(), 'admin')) {
+if(OC_User::isAdminUser(OC_User::getUser())) {
 	$userstatus = 'admin';
 }
 if(OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username)) {
@@ -28,10 +28,6 @@ if(OC_User::getUser() === $username) {
 if(is_null($userstatus)) {
 	OC_JSON::error( array( "data" => array( "message" => "Authentication error" )));
 	exit();
-}
-
-if($userstatus === 'admin' || $userstatus === 'subadmin') {
-	OC_JSON::verifyUser();
 }
 
 // Return Success story

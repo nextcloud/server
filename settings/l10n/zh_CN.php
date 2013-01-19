@@ -52,7 +52,11 @@
 "Name" => "名称",
 "Groups" => "组",
 "Create" => "创建",
+"Default Storage" => "默认存储",
+"Unlimited" => "无限",
 "Other" => "其它",
 "Group Admin" => "组管理员",
+"Storage" => "存储",
+"Default" => "默认",
 "Delete" => "删除"
 );

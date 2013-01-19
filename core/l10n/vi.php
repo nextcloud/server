@@ -118,8 +118,5 @@
 "remember" => "ghi nhớ",
 "Log in" => "Đăng nhập",
 "prev" => "Lùi lại",
-"next" => "Kế tiếp",
-"Security Warning!" => "Cảnh báo bảo mật !",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Vui lòng xác nhận mật khẩu của bạn. <br/> Vì lý do bảo mật thỉnh thoảng bạn có thể được yêu cầu nhập lại mật khẩu.",
-"Verify" => "Kiểm tra"
+"next" => "Kế tiếp"
 );

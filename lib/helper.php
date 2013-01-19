@@ -223,6 +223,10 @@ class OC_Helper {
 	 * Makes 2048 to 2 kB.
 	 */
 	public static function humanFileSize( $bytes ) {
+		if( $bytes < 0 ) {
+			$l = OC_L10N::get('lib');
+			return $l->t("couldn't be determined");
+		}
 		if( $bytes < 1024 ) {
 			return "$bytes B";
 		}
@@ -549,7 +553,7 @@ class OC_Helper {
 		fclose($fh);
 		return $file;
 	}
-	
+
 	/**
 	 * create a temporary folder with an unique filename
 	 * @return string
@@ -625,37 +629,17 @@ class OC_Helper {
 		return $newpath;
 	}
 
-	/*
-	 * checks if $sub is a subdirectory of $parent
+	/**
+	 * @brief Checks if $sub is a subdirectory of $parent
 	 *
 	 * @param string $sub
 	 * @param string $parent
 	 * @return bool
 	 */
 	public static function issubdirectory($sub, $parent) {
-		if($sub == null || $sub == '' || $parent == null || $parent == '') {
-			return false;
+		if (strpos(realpath($sub), realpath($parent)) === 0) {
+			return true;
 		}
-		$realpath_sub = realpath($sub);
-		$realpath_parent = realpath($parent);
-		if(($realpath_sub == false && substr_count($realpath_sub, './') != 0) || ($realpath_parent == false && substr_count($realpath_parent, './') != 0)) { //it checks for  both ./ and ../
-			return false;
-		}
-		if($realpath_sub && $realpath_sub != '' && $realpath_parent && $realpath_parent != '') {
-			if(substr($realpath_sub, 0, strlen($realpath_parent)) == $realpath_parent) {
-				return true;
-			}
-		}else{
-			if(substr($sub, 0, strlen($parent)) == $parent) {
-				return true;
-			}
-		}
-		/*echo 'SUB: ' . $sub . "\n";
-		echo 'PAR: ' . $parent . "\n";
-		echo 'REALSUB: ' . $realpath_sub . "\n";
-		echo 'REALPAR: ' . $realpath_parent . "\n";
-		echo substr($realpath_sub, 0, strlen($realpath_parent));
-		exit;*/
 		return false;
 	}
 
@@ -695,8 +679,8 @@ class OC_Helper {
 		$start = intval($start);
 		$length = intval($length);
 		$string = mb_substr($string, 0, $start, $encoding) .
-		          $replacement .
-		          mb_substr($string, $start+$length, mb_strlen($string, 'UTF-8')-$start, $encoding);
+			$replacement .
+			mb_substr($string, $start+$length, mb_strlen($string, 'UTF-8')-$start, $encoding);
 
 		return $string;
 	}
@@ -762,6 +746,23 @@ class OC_Helper {
 			return substr($str, 0, $characters) . '...' . substr($str, -1 * $characters);
 		}
 		return $str;
+	}
+
+	/**
+	 * @brief calculates the maximum upload size respecting system settings, free space and user quota
+	 *
+	 * @param $dir the current folder where the user currently operates
+	 * @return number of bytes representing
+	 */
+	public static function maxUploadFilesize($dir) {
+		$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
+		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
+		$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
+
+		$freeSpace = OC_Filesystem::free_space($dir);
+		$freeSpace = max($freeSpace, 0);
+
+		return min($maxUploadFilesize, $freeSpace);
 	}
 
 	/**

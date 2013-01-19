@@ -5,7 +5,9 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Käyttäjä %s jakoi kansion \"%s\" kanssasi. Se on ladattavissa täältä: %s",
 "No category to add?" => "Ei lisättävää luokkaa?",
 "This category already exists: " => "Tämä luokka on jo olemassa: ",
+"Error adding %s to favorites." => "Virhe lisätessä kohdetta %s suosikkeihin.",
 "No categories selected for deletion." => "Luokkia ei valittu poistettavaksi.",
+"Error removing %s from favorites." => "Virhe poistaessa kohdetta %s suosikeista.",
 "Settings" => "Asetukset",
 "seconds ago" => "sekuntia sitten",
 "1 minute ago" => "1 minuutti sitten",
@@ -31,6 +33,9 @@
 "Error while sharing" => "Virhe jaettaessa",
 "Error while unsharing" => "Virhe jakoa peruttaessa",
 "Error while changing permissions" => "Virhe oikeuksia muuttaessa",
+"Shared with you and the group {group} by {owner}" => "Jaettu sinun ja ryhmän {group} kanssa käyttäjän {owner} toimesta",
+"Shared with you by {owner}" => "Jaettu kanssasi käyttäjän {owner} toimesta",
+"Share with" => "Jaa",
 "Share with link" => "Jaa linkillä",
 "Password protect" => "Suojaa salasanalla",
 "Password" => "Salasana",
@@ -115,8 +120,5 @@
 "Log in" => "Kirjaudu sisään",
 "prev" => "edellinen",
 "next" => "seuraava",
-"Updating ownCloud to version %s, this may take a while." => "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken.",
-"Security Warning!" => "Turvallisuusvaroitus!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Vahvista salasanasi. <br/>Turvallisuussyistä sinulta saatetaan ajoittain kysyä salasanasi uudelleen.",
-"Verify" => "Vahvista"
+"Updating ownCloud to version %s, this may take a while." => "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken."
 );

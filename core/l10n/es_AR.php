@@ -127,7 +127,5 @@
 "Log in" => "Entrar",
 "prev" => "anterior",
 "next" => "siguiente",
-"Security Warning!" => "¡Advertencia de seguridad!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Por favor, verificá tu contraseña. <br/>Por razones de seguridad, puede ser que que te pregunte ocasionalmente la contraseña.",
-"Verify" => "Verificar"
+"Updating ownCloud to version %s, this may take a while." => "Actualizando ownCloud a la versión %s, puede domorar un rato."
 );

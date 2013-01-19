@@ -24,7 +24,7 @@
 
 class OC_OCS_Cloud {
 
-	public static function getSystemWebApps($parameters) {
+	public static function getSystemWebApps() {
 		OC_Util::checkLoggedIn();
 		$apps = OC_App::getEnabledApps();
 		$values = array();
@@ -37,15 +37,15 @@ class OC_OCS_Cloud {
 		}
 		return new OC_OCS_Result($values);
 	}
-	
+
 	public static function getUserQuota($parameters) {
 		$user = OC_User::getUser();
-		if(OC_Group::inGroup($user, 'admin') or ($user==$parameters['user'])) {
+		if(OC_User::isAdminUser($user) or ($user==$parameters['user'])) {
 
 			if(OC_User::userExists($parameters['user'])) {
 				// calculate the disc space
 				$userDir = '/'.$parameters['user'].'/files';
-				OC_Filesystem::init($useDir);
+				OC_Filesystem::init($userDir);
 				$rootInfo = OC_FileCache::get('');
 				$sharedInfo = OC_FileCache::get('/Shared');
 				$used = $rootInfo['size'] - $sharedInfo['size'];
@@ -68,7 +68,7 @@ class OC_OCS_Cloud {
 			return new OC_OCS_Result(null, 300);
 		}
 	}
-	
+
 	public static function getUserPublickey($parameters) {
 
 		if(OC_User::userExists($parameters['user'])) {
@@ -79,10 +79,10 @@ class OC_OCS_Cloud {
 			return new OC_OCS_Result(null, 300);
 		}
 	}
-	
+
 	public static function getUserPrivatekey($parameters) {
 		$user = OC_User::getUser();
-		if(OC_Group::inGroup($user, 'admin') or ($user==$parameters['user'])) {
+		if(OC_User::isAdminUser($user) or ($user==$parameters['user'])) {
 
 			if(OC_User::userExists($user)) {
 				// calculate the disc space
