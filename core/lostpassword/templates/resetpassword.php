@@ -1,4 +1,4 @@
-<form action="<?php echo 'resetpassword.php?'.$_SERVER['QUERY_STRING']; ?>" method="post">
+<form action="<?php echo 'resetpassword.php?user='.htmlentities($_GET['user']).'&token='.htmlentities($_GET['token']); ?>" method="post">
 	<fieldset>
 		<?php if($_['success']): ?>
 			<h1><?php echo $l->t('Your password was reset'); ?></h1>
