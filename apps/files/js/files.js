@@ -184,7 +184,7 @@ $(document).ready(function() {
 	$('.download').click('click',function(event) {
 		var files=getSelectedFiles('name').join(';');
 		var dir=$('#dir').val()||'/';
-		$('#notification').text(t('files','Your download is being prepared. Thanks for your patience.'));
+		$('#notification').text(t('files','Your download is being prepared. This might take some time if the files are big.'));
 		$('#notification').fadeIn();
 		// use special download URL if provided, e.g. for public shared files
 		if ( (downloadURL = document.getElementById("downloadURL")) ) {
