@@ -327,6 +327,18 @@ class OC
 		return OC::$router;
 	}
 
+
+	public static function loadAppClassPaths()
+	{	
+		foreach(OC_APP::getEnabledApps() as $app) {
+			$file = OC_App::getAppPath($app).'/appinfo/classpath.php';
+			if(file_exists($file)) {
+				require_once $file;
+			}
+		}
+	}
+
+
 	public static function init()
 	{
 		// register autoloader
@@ -543,6 +555,11 @@ class OC
 			header('location: ' . OC_Helper::linkToRemote('webdav'));
 			return;
 		}
+
+		// load all the classpaths from the enabled apps so they are available
+		// in the routing files of each app
+		OC::loadAppClassPaths();
+
 		try {
 			OC::getRouter()->match(OC_Request::getPathInfo());
 			return;
