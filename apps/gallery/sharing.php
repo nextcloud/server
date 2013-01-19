@@ -25,8 +25,6 @@ if (!isset($_GET['token']) || empty($_GET['token'])) {
   exit;
 }
 
-
-
 OCP\App::checkAppEnabled('gallery');
 
 ?>
@@ -37,7 +35,7 @@ OCP\App::checkAppEnabled('gallery');
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="js/sharing.js" type="text/javascript"></script>
     <script>
-      var TOKEN = '<?php echo htmlentities($_GET['token']); ?>';
+      var TOKEN = '<?php echo OC_Util::sanitizeHTML($_GET['token']); ?>';
     </script>
   </head>
   <body>
