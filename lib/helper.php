@@ -179,8 +179,9 @@ class OC_Helper {
 			$mimetype=$alias[$mimetype];
 // 			echo $mimetype;
 		}
-		// Replace slash with a minus
+		// Replace slash and backslash with a minus
 		$mimetype = str_replace( "/", "-", $mimetype );
+		$mimetype = str_replace( "\\", "-", $mimetype );
 
 		// Is it a dir?
 		if( $mimetype == "dir" ){
