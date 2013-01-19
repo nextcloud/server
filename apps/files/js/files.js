@@ -216,7 +216,7 @@ $(document).ready(function() {
 	$('.download').click('click',function(event) {
 		var files=getSelectedFiles('name').join(';');
 		var dir=$('#dir').val()||'/';
-		OC.Notification.show(t('files','generating ZIP-file, it may take some time.'));
+		OC.Notification.show(t('files','Your download is being prepared. This might take some time if the files are big.'));
 		// use special download URL if provided, e.g. for public shared files
 		if ( (downloadURL = document.getElementById("downloadURL")) ) {
 			window.location=downloadURL.value+"&download&files="+files;
