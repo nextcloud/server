@@ -190,6 +190,7 @@ class OC_Template{
 		header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
 		header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
 		header('Content-Security-Policy: default-src \'self\'; script-src \'self\' \'unsafe-inline\'; style-src \'self\' \'unsafe-inline\''); // Disallow external ressources + eval()
+		header('X-WebKit-CSP: default-src \'self\'; style-src \'self\' \'unsafe-inline\'');
 
 		$this->findTemplate($name);
 	}
