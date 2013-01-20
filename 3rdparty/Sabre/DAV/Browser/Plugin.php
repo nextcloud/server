@@ -338,7 +338,7 @@ class Sabre_DAV_Browser_Plugin extends Sabre_DAV_ServerPlugin {
             $icon = '';
 
             if ($this->enableAssets) {
-                $node = $parent->getChild($name);
+                $node = $this->server->tree->getNodeForPath(($path?$path.'/':'') . $name);
                 foreach(array_reverse($this->iconMap) as $class=>$iconName) {
 
                     if ($node instanceof $class) {

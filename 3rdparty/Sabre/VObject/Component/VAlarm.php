@@ -29,7 +29,14 @@ class Sabre_VObject_Component_VAlarm extends Sabre_VObject_Component {
 
             $parentComponent = $this->parent;
             if ($related === 'START') {
-                $effectiveTrigger = clone $parentComponent->DTSTART->getDateTime();
+
+                if ($parentComponent->name === 'VTODO') {
+                    $propName = 'DUE';
+                } else {
+                    $propName = 'DTSTART';
+                }
+
+                $effectiveTrigger = clone $parentComponent->$propName->getDateTime();
                 $effectiveTrigger->add($triggerDuration);
             } else {
                 if ($parentComponent->name === 'VTODO') {
