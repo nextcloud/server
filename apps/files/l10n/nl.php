@@ -29,6 +29,7 @@
 "'.' is an invalid file name." => "'.' is een ongeldige bestandsnaam.",
 "File name cannot be empty." => "Bestandsnaam kan niet leeg zijn.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Onjuiste naam; '\\', '/', '<', '>', ':', '\"', '|', '?' en '*' zijn niet toegestaan.",
+"Your download is being prepared. This might take some time if the files are big." => "Uw download wordt voorbereid. Dit kan enige tijd duren bij grote bestanden.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "uploaden van de file mislukt, het is of een directory of de bestandsgrootte is 0 bytes",
 "Upload Error" => "Upload Fout",
 "Close" => "Sluit",

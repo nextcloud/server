@@ -29,6 +29,7 @@
 "'.' is an invalid file name." => "'.' je neplatným názvem souboru.",
 "File name cannot be empty." => "Název souboru nemůže být prázdný řetězec.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Neplatný název, znaky '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nejsou povoleny.",
+"Your download is being prepared. This might take some time if the files are big." => "Vaše soubory ke stažení se připravují. Pokud jsou velké může to chvíli trvat.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nelze odeslat Váš soubor, protože je to adresář nebo má velikost 0 bajtů",
 "Upload Error" => "Chyba odesílání",
 "Close" => "Zavřít",

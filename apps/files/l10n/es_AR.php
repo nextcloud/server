@@ -29,6 +29,7 @@
 "'.' is an invalid file name." => "'.' es un nombre de archivo inválido.",
 "File name cannot be empty." => "El nombre del archivo no puede quedar vacío.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nombre invalido, '\\', '/', '<', '>', ':', '\"', '|', '?' y '*' no están permitidos.",
+"Your download is being prepared. This might take some time if the files are big." => "Tu descarga esta siendo preparada. Esto puede tardar algun tiempo si los archivos son muy grandes.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "No fue posible subir el archivo porque es un directorio o porque su tamaño es 0 bytes",
 "Upload Error" => "Error al subir el archivo",
 "Close" => "Cerrar",

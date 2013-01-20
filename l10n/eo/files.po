@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mariano <mstreet@kde.org.ar>, 2013.
 # Mariano  <mstreet@kde.org.ar>, 2012.
 #   <mstreet@kde.org.ar>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-20 00:05+0100\n"
-"PO-Revision-Date: 2013-01-19 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-21 00:04+0100\n"
+"PO-Revision-Date: 2013-01-20 01:38+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,16 +28,16 @@ msgstr "Alŝuti"
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Ne eblis movi %s: dosiero kun ĉi tiu nomo jam ekzistas"
 
 #: ajax/move.php:24
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Ne eblis movi %s"
 
 #: ajax/rename.php:19
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Ne eblis alinomigi dosieron"
 
 #: ajax/upload.php:20
 msgid "No file was uploaded. Unknown error"
@@ -75,11 +76,11 @@ msgstr "Malsukcesis skribo al disko"
 
 #: ajax/upload.php:57
 msgid "Not enough space available"
-msgstr ""
+msgstr "Ne haveblas sufiĉa spaco"
 
 #: ajax/upload.php:91
 msgid "Invalid directory."
-msgstr ""
+msgstr "Nevalida dosierujo."
 
 #: appinfo/app.php:10
 msgid "Files"
@@ -135,11 +136,11 @@ msgstr "foriĝis {files}"
 
 #: js/files.js:48
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' ne estas valida dosiernomo."
 
 #: js/files.js:53
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Dosiernomo devas ne malpleni."
 
 #: js/files.js:62
 msgid ""
@@ -151,7 +152,7 @@ msgstr "Nevalida nomo: “\\”, “/”, “<”, “>”, “:”, “\"”, �
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
+msgstr "Via elŝuto pretiĝatas. Ĉi tio povas daŭri iom da tempo se la dosieroj grandas."
 
 #: js/files.js:242
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
@@ -192,7 +193,7 @@ msgstr "URL ne povas esti malplena."
 
 #: js/files.js:565
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "Nevalida dosierujnomo. Uzo de “Shared” rezervatas de Owncloud."
 
 #: js/files.js:775
 msgid "{count} files scanned"
