@@ -28,7 +28,7 @@ class Sabre_VObject_DateTimeParser {
     static public function parseDateTime($dt,DateTimeZone $tz = null) {
 
         // Format is YYYYMMDD + "T" + hhmmss
-        $result = preg_match('/^([1-3][0-9]{3})([0-1][0-9])([0-3][0-9])T([0-2][0-9])([0-5][0-9])([0-5][0-9])([Z]?)$/',$dt,$matches);
+        $result = preg_match('/^([1-4][0-9]{3})([0-1][0-9])([0-3][0-9])T([0-2][0-9])([0-5][0-9])([0-5][0-9])([Z]?)$/',$dt,$matches);
 
         if (!$result) {
             throw new Sabre_DAV_Exception_BadRequest('The supplied iCalendar datetime value is incorrect: ' . $dt);
@@ -54,7 +54,7 @@ class Sabre_VObject_DateTimeParser {
     static public function parseDate($date) {
 
         // Format is YYYYMMDD
-        $result = preg_match('/^([1-3][0-9]{3})([0-1][0-9])([0-3][0-9])$/',$date,$matches);
+        $result = preg_match('/^([1-4][0-9]{3})([0-1][0-9])([0-3][0-9])$/',$date,$matches);
 
         if (!$result) {
             throw new Sabre_DAV_Exception_BadRequest('The supplied iCalendar date value is incorrect: ' . $date);

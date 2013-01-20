@@ -153,10 +153,6 @@ class Sabre_CardDAV_Plugin extends Sabre_DAV_ServerPlugin {
                 if (is_resource($val))
                     $val = stream_get_contents($val);
 
-                // Taking out \r to not screw up the xml output
-                //$returnedProperties[200][$addressDataProp] = str_replace("\r","", $val);
-                // The stripping of \r breaks the Mail App in OSX Mountain Lion
-                // this is fixed in master, but not backported. /Tanghus
                 $returnedProperties[200][$addressDataProp] = $val;
 
             }
