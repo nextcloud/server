@@ -311,8 +311,9 @@ class Connection {
 					break;
 				case 'ldapIgnoreNamingRules':
 				case 'ldapOverrideUuidAttribute':
+				case 'ldapUuidAttribute':
 				case 'hasPagedResultSupport':
-					continue;
+					continue 2;
 				default:
 					if(is_null($value)) {
 						$value = 0;
