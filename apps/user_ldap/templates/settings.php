@@ -44,7 +44,7 @@
 		<p><label for="ldap_cache_ttl">Cache Time-To-Live</label><input type="number" id="ldap_cache_ttl" name="ldap_cache_ttl" value="<?php echo $_['ldap_cache_ttl']; ?>" title="<?php echo $l->t('in seconds. A change empties the cache.');?>" data-default="<?php echo $_['ldap_cache_ttl_default']; ?>" /></p>
 		<p><label for="home_folder_naming_rule">User Home Folder Naming Rule</label><input type="text" id="home_folder_naming_rule" name="home_folder_naming_rule" value="<?php echo $_['home_folder_naming_rule']; ?>" title="<?php echo $l->t('Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute.');?>" data-default="<?php echo $_['home_folder_naming_rule_default']; ?>" /></p>
 	</fieldset>
-	<input type="submit" value="Save" /> <button id="ldap_action_test_connection" name="ldap_action_test_connection">Test Configuration</button> <a href="http://owncloud.org/support/ldap-backend/" target="_blank"><img src="<?php echo OCP\Util::imagePath('', 'actions/info.png'); ?>" style="height:1.75ex" /> <?php echo $l->t('Help');?></a>
+	<input id="ldap_submit" type="submit" value="Save" /> <button id="ldap_action_test_connection" name="ldap_action_test_connection">Test Configuration</button> <a href="http://owncloud.org/support/ldap-backend/" target="_blank"><img src="<?php echo OCP\Util::imagePath('', 'actions/info.png'); ?>" style="height:1.75ex" /> <?php echo $l->t('Help');?></a>
 	</div>
 
 </form>

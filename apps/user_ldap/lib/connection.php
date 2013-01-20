@@ -195,6 +195,12 @@ class Connection {
 										$defaults[$varname]);
 	}
 
+	private function setValue($varname, $value) {
+		\OCP\Config::setAppValue($this->configID,
+									$this->configPrefix.$varname,
+									$value);
+	}
+
 	/**
 	 * Caches the general LDAP configuration.
 	 */
@@ -205,7 +211,7 @@ class Connection {
 			$this->config['ldapHost']       = $this->$v('ldap_host');
 			$this->config['ldapBackupHost'] = $this->$v('ldap_backup_host');
 			$this->config['ldapPort']       = $this->$v('ldap_port');
-			$this->config['ldapBackupPort'] = $this->$v('ldapPort');
+			$this->config['ldapBackupPort'] = $this->$v('ldap_backup_port');
 			$this->config['ldapOverrideMainServer']
 				= $this->$v('ldap_override_main_server');
 			$this->config['ldapAgentName']  = $this->$v('ldap_dn');
@@ -253,6 +259,13 @@ class Connection {
 		}
 	}
 
+	private function getConfigTranslationArray() {
+		static $array = array('ldap_host'=>'ldapHost', 'ldap_port'=>'ldapPort', 'ldap_backup_host'=>'ldapBackupHost', 'ldap_backup_port'=>'ldapBackupPort', 'ldap_override_main_server' => 'ldapOverrideMainServer', 'ldap_dn'=>'ldapAgentName', 'ldap_agent_password'=>'ldapAgentPassword', 'ldap_base'=>'ldapBase', 'ldap_base_users'=>'ldapBaseUsers', 'ldap_base_groups'=>'ldapBaseGroups', 'ldap_userlist_filter'=>'ldapUserFilter', 'ldap_login_filter'=>'ldapLoginFilter', 'ldap_group_filter'=>'ldapGroupFilter', 'ldap_display_name'=>'ldapUserDisplayName', 'ldap_group_display_name'=>'ldapGroupDisplayName',
+
+		'ldap_tls'=>'ldapTLS', 'ldap_nocase'=>'ldapNoCase', 'ldap_quota_def'=>'ldapQuotaDefault', 'ldap_quota_attr'=>'ldapQuotaAttribute', 'ldap_email_attr'=>'ldapEmailAttribute', 'ldap_group_member_assoc_attribute'=>'ldapGroupMemberAssocAttr', 'ldap_cache_ttl'=>'ldapCacheTTL', 'home_folder_naming_rule' => 'homeFolderNamingRule', 'turn_off_cert_check' => 'turnOffCertCheck');
+		return $array;
+	}
+
 	/**
 	 * @brief set LDAP configuration with values delivered by an array, not read from configuration
 	 * @param $config array that holds the config parameters in an associated array
@@ -264,9 +277,7 @@ class Connection {
 			return false;
 		}
 
-		$params = array('ldap_host'=>'ldapHost', 'ldap_port'=>'ldapPort', 'ldap_backup_host'=>'ldapBackupHost', 'ldap_backup_port'=>'ldapBackupPort', 'ldap_override_main_server' => 'ldapOverrideMainServer', 'ldap_dn'=>'ldapAgentName', 'ldap_agent_password'=>'ldapAgentPassword', 'ldap_base'=>'ldapBase', 'ldap_base_users'=>'ldapBaseUsers', 'ldap_base_groups'=>'ldapBaseGroups', 'ldap_userlist_filter'=>'ldapUserFilter', 'ldap_login_filter'=>'ldapLoginFilter', 'ldap_group_filter'=>'ldapGroupFilter', 'ldap_display_name'=>'ldapUserDisplayName', 'ldap_group_display_name'=>'ldapGroupDisplayName',
-
-		'ldap_tls'=>'ldapTLS', 'ldap_nocase'=>'ldapNoCase', 'ldap_quota_def'=>'ldapQuotaDefault', 'ldap_quota_attr'=>'ldapQuotaAttribute', 'ldap_email_attr'=>'ldapEmailAttribute', 'ldap_group_member_assoc_attribute'=>'ldapGroupMemberAssocAttr', 'ldap_cache_ttl'=>'ldapCacheTTL', 'home_folder_naming_rule' => 'homeFolderNamingRule');
+		$params = $this->getConfigTranslationArray();
 
 		foreach($config as $parameter => $value) {
 		    if(isset($this->config[$parameter])) {
@@ -287,11 +298,42 @@ class Connection {
 		return $this->configured;
 	}
 
+	public function saveConfiguration() {
+		$trans = array_flip($this->getConfigTranslationArray());
+		foreach($this->config as $key => $value) {
+			\OCP\Util::writeLog('user_ldap', 'LDAP: storing key '.$key.' value '.$value, \OCP\Util::DEBUG);
+			switch ($key) {
+				case 'ldap_agent_password':
+					$value = base64_encode($value);
+					break;
+				case 'home_folder_naming_rule':
+					$value = empty($value) ? 'opt:username' : 'attr:'.$value;
+					break;
+				case 'ldapIgnoreNamingRules':
+				case 'ldapOverrideUuidAttribute':
+				case 'hasPagedResultSupport':
+					continue;
+				default:
+					if(is_null($value)) {
+						$value = 0;
+					}
+			}
+
+		    $this->setValue($trans[$key], $value);
+		}
+	}
+
 	/**
 	 * @brief get the current LDAP configuration
 	 * @return array
 	 */
 	public function getConfiguration() {
+		$trans = $this->getConfigTranslationArray();
+		$config = array();
+		foreach($trans as $classKey => $dbKey) {
+		    $config[$dbKey] = $this->config[$classKey];
+		}
+
 		return $this->config;
 	}
 
@@ -394,6 +436,7 @@ class Connection {
 			'ldap_uuid_attribute'				=> 'auto',
 			'ldap_override_uuid_attribute'		=> 0,
 			'home_folder_naming_rule'           => '',
+			'ldap_turn_off_cert_check'			=> 0,
 		);
 	}
 

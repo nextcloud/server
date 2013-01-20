@@ -22,6 +22,20 @@ $(document).ready(function() {
 		);
 	});
 
+	$('#ldap_submit').click(function(event) {
+		event.preventDefault();
+		$.post(
+			OC.filePath('user_ldap','ajax','setConfiguration.php'),
+			$('#ldap').serialize(),
+			function (result) {
+				if (result.status == 'success') {
+					$('#notification').text(t('user_ldap', 'LDAP Configuration Saved'));
+					$('#notification').fadeIn();
+				}
+			}
+		);
+	});
+
 	$('#ldap_serverconfig_chooser').change(function(event) {
 		value = $('#ldap_serverconfig_chooser option:selected:first').attr('value');
 		if(value == 'NEW') {
