@@ -186,10 +186,11 @@ class OC_Template{
 		$this->l10n = OC_L10N::get($parts[0]);
 
 		// Some headers to enhance security
-		header('X-Frame-Options: Sameorigin');
-		header('X-XSS-Protection: 1; mode=block');
-		header('X-Content-Type-Options: nosniff');
-
+		header('X-Frame-Options: Sameorigin'); // Disallow iFraming from other domains
+		header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
+		header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
+		header('Content-Security-Policy: script-src \'self\' \'unsafe-inline\'; object-src \'self\''); // Disallow external JS/Flash + eval()
+		
 		$this->findTemplate($name);
 	}
 
