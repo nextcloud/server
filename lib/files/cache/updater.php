@@ -35,7 +35,7 @@ class Updater {
 			$scanner = $storage->getScanner($internalPath);
 			$scanner->scan($internalPath, Scanner::SCAN_SHALLOW);
 			$cache->correctFolderSize($internalPath);
-			self::eTagUpdate($path);
+			self::correctFolder($path, $storage->filemtime($internalPath));
 		}
 	}
 
@@ -49,11 +49,17 @@ class Updater {
 			$cache = $storage->getCache($internalPath);
 			$cache->remove($internalPath);
 			$cache->correctFolderSize($internalPath);
-			self::eTagUpdate($path);
+			self::correctFolder($path, time());
 		}
 	}
 
-	static public function eTagUpdate($path) {
+	/**
+	* Update the mtime and ETag of all parent folders
+	*
+	* @param string $path
+	* @param string $time
+	*/
+	static public function correctFolder($path, $time) {
 		if ($path !== '' && $path !== '/') {
 			$parent = dirname($path);
 			if ($parent === '.') {
@@ -68,8 +74,8 @@ class Updater {
 				$cache = $storage->getCache();
 				$id = $cache->getId($internalPath);
 				if ($id !== -1) {
-					$cache->update($id, array('etag' => $storage->getETag($internalPath)));
-					self::eTagUpdate($parent);
+					$cache->update($id, array('mtime' => $time, 'etag' => $storage->getETag($internalPath)));
+					self::correctFolder($parent, $time);
 				}
 			}
 		}
