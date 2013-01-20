@@ -23,8 +23,20 @@ foreach ($files as $file) {
 	}
 }
 
-if ($success) {
-	OCP\JSON::success(array("data" => array("dir" => $dir, "files" => $files)));
+// updated max file size after upload
+$l=new OC_L10N('files');
+$maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
+$maxHumanFilesize=OCP\Util::humanFileSize($maxUploadFilesize);
+$maxHumanFilesize=$l->t('Upload') . ' max. '.$maxHumanFilesize;
+
+if($success) {
+	OCP\JSON::success(array("data" => array( "dir" => $dir, "files" => $files,
+		'uploadMaxFilesize'=>$maxUploadFilesize,
+		'maxHumanFilesize'=>$maxHumanFilesize
+	)));
 } else {
-	OCP\JSON::error(array("data" => array("message" => "Could not delete:\n" . $filesWithError)));
+	OCP\JSON::error(array("data" => array( "message" => "Could not delete:\n" . $filesWithError,
+		'uploadMaxFilesize'=>$maxUploadFilesize,
+		'maxHumanFilesize'=>$maxHumanFilesize
+	)));
 }

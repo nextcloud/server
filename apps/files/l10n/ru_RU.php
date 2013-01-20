@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Загрузить ",
 "No file was uploaded. Unknown error" => "Файл не был загружен. Неизвестная ошибка",
 "There is no error, the file uploaded with success" => "Ошибка отсутствует, файл загружен успешно.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Размер загружаемого файла превышает upload_max_filesize директиву в php.ini:",
@@ -21,7 +22,6 @@
 "unshared {files}" => "Cовместное использование прекращено {файлы}",
 "deleted {files}" => "удалено {файлы}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Некорректное имя, '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не допустимы.",
-"generating ZIP-file, it may take some time." => "Создание ZIP-файла, это может занять некоторое время.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Невозможно загрузить файл,\n так как он имеет нулевой размер или является директорией",
 "Upload Error" => "Ошибка загрузки",
 "Close" => "Закрыть",
@@ -52,7 +52,6 @@
 "Text file" => "Текстовый файл",
 "Folder" => "Папка",
 "From link" => "По ссылке",
-"Upload" => "Загрузить ",
 "Cancel upload" => "Отмена загрузки",
 "Nothing in here. Upload something!" => "Здесь ничего нет. Загрузите что-нибудь!",
 "Download" => "Загрузить",

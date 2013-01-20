@@ -126,5 +126,6 @@
 "remember" => "emlékezzen",
 "Log in" => "Bejelentkezés",
 "prev" => "előző",
-"next" => "következő"
+"next" => "következő",
+"Updating ownCloud to version %s, this may take a while." => "Owncloud frissítés a %s verzióra folyamatban. Kis türelmet."
 );

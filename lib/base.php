@@ -30,7 +30,7 @@ require_once 'public/constants.php';
 class OC
 {
 	/**
-	 * Assoziative array for autoloading. classname => filename
+	 * Associative array for autoloading. classname => filename
 	 */
 	public static $CLASSPATH = array();
 	/**
@@ -233,6 +233,12 @@ class OC
 	public static function checkMaintenanceMode() {
 		// Allow ajax update script to execute without being stopped
 		if (OC_Config::getValue('maintenance', false) && OC::$SUBURI != '/core/ajax/update.php') {
+			// send http status 503
+			header('HTTP/1.1 503 Service Temporarily Unavailable');
+			header('Status: 503 Service Temporarily Unavailable');
+			header('Retry-After: 120');
+
+			// render error page
 			$tmpl = new OC_Template('', 'error', 'guest');
 			$tmpl->assign('errors', array(1 => array('error' => 'ownCloud is in maintenance mode')));
 			$tmpl->printPage();
@@ -322,6 +328,18 @@ class OC
 
 		return OC::$router;
 	}
+
+
+	public static function loadAppClassPaths()
+	{	
+		foreach(OC_APP::getEnabledApps() as $app) {
+			$file = OC_App::getAppPath($app).'/appinfo/classpath.php';
+			if(file_exists($file)) {
+				require_once $file;
+			}
+		}
+	}
+
 
 	public static function init()
 	{
@@ -539,6 +557,11 @@ class OC
 			header('location: ' . OC_Helper::linkToRemote('webdav'));
 			return;
 		}
+
+		// load all the classpaths from the enabled apps so they are available
+		// in the routing files of each app
+		OC::loadAppClassPaths();
+
 		try {
 			OC::getRouter()->match(OC_Request::getPathInfo());
 			return;

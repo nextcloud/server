@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Odoslať",
 "No file was uploaded. Unknown error" => "Žiaden súbor nebol odoslaný. Neznáma chyba",
 "There is no error, the file uploaded with success" => "Nenastala žiadna chyba, súbor bol úspešne nahraný",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Nahraný súbor predčil  konfiguračnú direktívu upload_max_filesize v súbore php.ini:",
@@ -21,7 +22,6 @@
 "unshared {files}" => "zdieľanie zrušené pre {files}",
 "deleted {files}" => "zmazané {files}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nesprávne meno, '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nie sú povolené hodnoty.",
-"generating ZIP-file, it may take some time." => "generujem ZIP-súbor, môže to chvíľu trvať.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nemôžem nahrať súbor lebo je to priečinok alebo má 0 bajtov.",
 "Upload Error" => "Chyba odosielania",
 "Close" => "Zavrieť",
@@ -52,7 +52,6 @@
 "Text file" => "Textový súbor",
 "Folder" => "Priečinok",
 "From link" => "Z odkazu",
-"Upload" => "Odoslať",
 "Cancel upload" => "Zrušiť odosielanie",
 "Nothing in here. Upload something!" => "Žiadny súbor. Nahrajte niečo!",
 "Download" => "Stiahnuť",

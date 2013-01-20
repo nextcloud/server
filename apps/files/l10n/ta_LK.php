@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "பதிவேற்றுக",
 "No file was uploaded. Unknown error" => "ஒரு கோப்பும் பதிவேற்றப்படவில்லை. அறியப்படாத வழு",
 "There is no error, the file uploaded with success" => "இங்கு வழு இல்லை, கோப்பு வெற்றிகரமாக பதிவேற்றப்பட்டது",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "பதிவேற்றப்பட்ட கோப்பானது HTML  படிவத்தில் குறிப்பிடப்பட்டுள்ள MAX_FILE_SIZE  directive ஐ விட கூடியது",
@@ -20,7 +21,6 @@
 "unshared {files}" => "பகிரப்படாதது  {கோப்புகள்}",
 "deleted {files}" => "நீக்கப்பட்டது  {கோப்புகள்}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "செல்லுபடியற்ற பெயர்,'\\', '/', '<', '>', ':', '\"', '|', '?' மற்றும் '*' ஆகியன அனுமதிக்கப்படமாட்டாது.",
-"generating ZIP-file, it may take some time." => " ZIP கோப்பு உருவாக்கப்படுகின்றது, இது சில நேரம் ஆகலாம்.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "அடைவு அல்லது 0 bytes ஐ கொண்டுள்ளதால் உங்களுடைய கோப்பை பதிவேற்ற முடியவில்லை",
 "Upload Error" => "பதிவேற்றல் வழு",
 "Close" => "மூடுக",
@@ -51,7 +51,6 @@
 "Text file" => "கோப்பு உரை",
 "Folder" => "கோப்புறை",
 "From link" => "இணைப்பிலிருந்து",
-"Upload" => "பதிவேற்றுக",
 "Cancel upload" => "பதிவேற்றலை இரத்து செய்க",
 "Nothing in here. Upload something!" => "இங்கு ஒன்றும் இல்லை. ஏதாவது பதிவேற்றுக!",
 "Download" => "பதிவிறக்குக",

@@ -126,5 +126,6 @@
 "remember" => "запам'ятати",
 "Log in" => "Вхід",
 "prev" => "попередній",
-"next" => "наступний"
+"next" => "наступний",
+"Updating ownCloud to version %s, this may take a while." => "Оновлення ownCloud до версії %s, це може зайняти деякий час."
 );

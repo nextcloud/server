@@ -126,5 +126,6 @@
 "remember" => "απομνημόνευση",
 "Log in" => "Είσοδος",
 "prev" => "προηγούμενο",
-"next" => "επόμενο"
+"next" => "επόμενο",
+"Updating ownCloud to version %s, this may take a while." => "Ενημερώνοντας το ownCloud στην έκδοση %s,μπορεί να πάρει λίγο χρόνο."
 );

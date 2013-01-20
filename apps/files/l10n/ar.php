@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "إرفع",
 "There is no error, the file uploaded with success" => "تم ترفيع الملفات بنجاح.",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "حجم الملف الذي تريد ترفيعه أعلى مما MAX_FILE_SIZE يسمح به في واجهة ال HTML.",
 "The uploaded file was only partially uploaded" => "تم ترفيع جزء من الملفات الذي تريد ترفيعها فقط",
@@ -16,7 +17,6 @@
 "New" => "جديد",
 "Text file" => "ملف",
 "Folder" => "مجلد",
-"Upload" => "إرفع",
 "Nothing in here. Upload something!" => "لا يوجد شيء هنا. إرفع بعض الملفات!",
 "Download" => "تحميل",
 "Upload too large" => "حجم الترفيع أعلى من المسموح",

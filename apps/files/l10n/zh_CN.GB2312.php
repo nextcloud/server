@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "上传",
 "No file was uploaded. Unknown error" => "没有上传文件。未知错误",
 "There is no error, the file uploaded with success" => "没有任何错误,文件上传成功了",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "上传的文件超过了HTML表单指定的MAX_FILE_SIZE",
@@ -19,7 +20,6 @@
 "replaced {new_name} with {old_name}" => "已用 {old_name} 替换 {new_name}",
 "unshared {files}" => "未分享的 {files}",
 "deleted {files}" => "已删除的 {files}",
-"generating ZIP-file, it may take some time." => "正在生成ZIP文件,这可能需要点时间",
 "Unable to upload your file as it is a directory or has 0 bytes" => "不能上传你指定的文件,可能因为它是个文件夹或者大小为0",
 "Upload Error" => "上传错误",
 "Close" => "关闭",
@@ -50,7 +50,6 @@
 "Text file" => "文本文档",
 "Folder" => "文件夹",
 "From link" => "来自链接",
-"Upload" => "上传",
 "Cancel upload" => "取消上传",
 "Nothing in here. Upload something!" => "这里没有东西.上传点什么!",
 "Download" => "下载",

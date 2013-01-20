@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Yükle",
 "No file was uploaded. Unknown error" => "Dosya yüklenmedi. Bilinmeyen hata",
 "There is no error, the file uploaded with success" => "Bir hata yok, dosya başarıyla yüklendi",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "php.ini dosyasında upload_max_filesize ile belirtilen dosya yükleme sınırı aşıldı.",
@@ -21,7 +22,6 @@
 "unshared {files}" => "paylaşılmamış {files}",
 "deleted {files}" => "silinen {files}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Geçersiz isim, '\\', '/', '<', '>', ':', '\"', '|', '?' ve '*' karakterlerine izin verilmemektedir.",
-"generating ZIP-file, it may take some time." => "ZIP dosyası oluşturuluyor, biraz sürebilir.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Dosyanızın boyutu 0 byte olduğundan veya bir dizin olduğundan yüklenemedi",
 "Upload Error" => "Yükleme hatası",
 "Close" => "Kapat",
@@ -52,7 +52,6 @@
 "Text file" => "Metin dosyası",
 "Folder" => "Klasör",
 "From link" => "Bağlantıdan",
-"Upload" => "Yükle",
 "Cancel upload" => "Yüklemeyi iptal et",
 "Nothing in here. Upload something!" => "Burada hiçbir şey yok. Birşeyler yükleyin!",
 "Download" => "İndir",

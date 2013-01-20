@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Įkelti",
 "There is no error, the file uploaded with success" => "Klaidų nėra, failas įkeltas sėkmingai",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Įkeliamo failo dydis viršija MAX_FILE_SIZE parametrą, kuris yra nustatytas HTML formoje",
 "The uploaded file was only partially uploaded" => "Failas buvo įkeltas tik dalinai",
@@ -18,7 +19,6 @@
 "replaced {new_name} with {old_name}" => "pakeiskite {new_name} į {old_name}",
 "unshared {files}" => "nebesidalinti {files}",
 "deleted {files}" => "ištrinti {files}",
-"generating ZIP-file, it may take some time." => "kuriamas ZIP archyvas, tai gali užtrukti šiek tiek laiko.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Neįmanoma įkelti failo - jo dydis gali būti 0 bitų arba tai katalogas",
 "Upload Error" => "Įkėlimo klaida",
 "Close" => "Užverti",
@@ -47,7 +47,6 @@
 "New" => "Naujas",
 "Text file" => "Teksto failas",
 "Folder" => "Katalogas",
-"Upload" => "Įkelti",
 "Cancel upload" => "Atšaukti siuntimą",
 "Nothing in here. Upload something!" => "Čia tuščia. Įkelkite ką nors!",
 "Download" => "Atsisiųsti",

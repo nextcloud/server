@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "העלאה",
 "No file was uploaded. Unknown error" => "לא הועלה קובץ. טעות בלתי מזוהה.",
 "There is no error, the file uploaded with success" => "לא אירעה תקלה, הקבצים הועלו בהצלחה",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "הקבצים שנשלחו חורגים מהגודל שצוין בהגדרה upload_max_filesize שבקובץ php.ini:",
@@ -21,7 +22,6 @@
 "unshared {files}" => "בוטל שיתופם של {files}",
 "deleted {files}" => "{files} נמחקו",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "השם שגוי, אסור להשתמש בתווים '\\', '/', '<', '>', ':', '\"', '|', '?' ו־'*'.",
-"generating ZIP-file, it may take some time." => "יוצר קובץ ZIP, אנא המתן.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "לא יכול להעלות את הקובץ מכיוון שזו תקיה או שמשקל הקובץ 0 בתים",
 "Upload Error" => "שגיאת העלאה",
 "Close" => "סגירה",
@@ -52,7 +52,6 @@
 "Text file" => "קובץ טקסט",
 "Folder" => "תיקייה",
 "From link" => "מקישור",
-"Upload" => "העלאה",
 "Cancel upload" => "ביטול ההעלאה",
 "Nothing in here. Upload something!" => "אין כאן שום דבר. אולי ברצונך להעלות משהו?",
 "Download" => "הורדה",

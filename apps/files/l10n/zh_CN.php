@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "上传",
 "Could not move %s - File with this name already exists" => "无法移动 %s - 同名文件已存在",
 "Could not move %s" => "无法移动 %s",
 "Unable to rename file" => "无法重命名文件",
@@ -28,7 +29,6 @@
 "'.' is an invalid file name." => "'.' 是一个无效的文件名。",
 "File name cannot be empty." => "文件名不能为空。",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "无效名称，'\\', '/', '<', '>', ':', '\"', '|', '?' 和 '*' 不被允许使用。",
-"generating ZIP-file, it may take some time." => "正在生成 ZIP 文件，可能需要一些时间",
 "Unable to upload your file as it is a directory or has 0 bytes" => "无法上传文件，因为它是一个目录或者大小为 0 字节",
 "Upload Error" => "上传错误",
 "Close" => "关闭",
@@ -60,7 +60,6 @@
 "Text file" => "文本文件",
 "Folder" => "文件夹",
 "From link" => "来自链接",
-"Upload" => "上传",
 "Cancel upload" => "取消上传",
 "Nothing in here. Upload something!" => "这里还什么都没有。上传些东西吧！",
 "Download" => "下载",

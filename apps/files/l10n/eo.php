@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Alŝuti",
 "No file was uploaded. Unknown error" => "Neniu dosiero alŝutiĝis. Nekonata eraro.",
 "There is no error, the file uploaded with success" => "Ne estas eraro, la dosiero alŝutiĝis sukcese",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "La dosiero alŝutita superas la regulon upload_max_filesize el php.ini: ",
@@ -21,7 +22,6 @@
 "unshared {files}" => "malkunhaviĝis {files}",
 "deleted {files}" => "foriĝis {files}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nevalida nomo: “\\”, “/”, “<”, “>”, “:”, “\"”, “|”, “?” kaj “*” ne permesatas.",
-"generating ZIP-file, it may take some time." => "generanta ZIP-dosiero, ĝi povas daŭri iom da tempo",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Ne eblis alŝuti vian dosieron ĉar ĝi estas dosierujo aŭ havas 0 duumokojn",
 "Upload Error" => "Alŝuta eraro",
 "Close" => "Fermi",
@@ -52,7 +52,6 @@
 "Text file" => "Tekstodosiero",
 "Folder" => "Dosierujo",
 "From link" => "El ligilo",
-"Upload" => "Alŝuti",
 "Cancel upload" => "Nuligi alŝuton",
 "Nothing in here. Upload something!" => "Nenio estas ĉi tie. Alŝutu ion!",
 "Download" => "Elŝuti",
