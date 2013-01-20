@@ -303,10 +303,10 @@ class Connection {
 		foreach($this->config as $key => $value) {
 			\OCP\Util::writeLog('user_ldap', 'LDAP: storing key '.$key.' value '.$value, \OCP\Util::DEBUG);
 			switch ($key) {
-				case 'ldap_agent_password':
+				case 'ldapAgentPassword':
 					$value = base64_encode($value);
 					break;
-				case 'home_folder_naming_rule':
+				case 'homeFolderNamingRule':
 					$value = empty($value) ? 'opt:username' : 'attr:'.$value;
 					break;
 				case 'ldapIgnoreNamingRules':
