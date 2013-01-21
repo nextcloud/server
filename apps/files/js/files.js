@@ -815,9 +815,18 @@ function updateBreadcrumb(breadcrumbHtml) {
 
 var createDragShadow = function(event){
 	//select dragged file
-	$(event.target).parents('tr').find('td input:first').prop('checked', true);
+	var isDragSelected = $(event.target).parents('tr').find('td input:first').prop('checked');
+	if (!isDragSelected) {
+		//select dragged file
+		$(event.target).parents('tr').find('td input:first').prop('checked',true);
+	}
 	
 	var selectedFiles = getSelectedFiles();
+	
+	if (!isDragSelected && selectedFiles.length == 1) {
+		//revert the selection
+		$(event.target).parents('tr').find('td input:first').prop('checked',false);
+	}
 	
 	//also update class when we dragged more than one file
 	if (selectedFiles.length > 1) {
@@ -832,8 +841,7 @@ var createDragShadow = function(event){
 	var dir=$('#dir').val();
 	
 	$(selectedFiles).each(function(i,elem){
-		var selected= $(event.target).parents('tr').hasClass('selected');
-		var newtr = $('<tr data-dir="'+dir+'" data-filename="'+elem.name+'" data-selected="'+selected+'">'
+		var newtr = $('<tr data-dir="'+dir+'" data-filename="'+elem.name+'">'
 						+'<td class="filename">'+elem.name+'</td><td class="size">'+humanFileSize(elem.size)+'</td>'
 					 +'</tr>');
 		tbody.append(newtr);
@@ -851,16 +859,11 @@ var createDragShadow = function(event){
 
 //options for file drag/drop
 var dragOptions={
-	revert: 'invalid', opacity: 0.7, zIndex: 100, appendTo: 'body', cursorAt: { left: -5, top: -5 },
+	revert: 'invalid', revertDuration: 300,
+	opacity: 0.7, zIndex: 100, appendTo: 'body', cursorAt: { left: -5, top: -5 },
 	helper: createDragShadow, cursor: 'move',
 	stop: function(event, ui) {
 		$('#fileList tr td.filename').addClass('ui-draggable');
-		//reset selection
-		$(ui.helper.find('tr')).each(function(i,row){
-			var file = $(row).data('filename');
-			var selected = $(row).data('selected');
-			$('#fileList tr').filterAttr('data-file',file).find('td input:first').prop('checked',selected);
-		});
 	}
 }
 
@@ -899,10 +902,6 @@ var folderDropOptions={
 				}
 			});
 		});
-		//reset checkbox if we dragged a single file
-		if (files.length == 1) {
-			$(event.target).parents('tr').find('td input:first').prop('checked', $(event.target).parents('tr').hasClass('selected'));
-		}
 	},
 	tolerance: 'pointer'
 }
@@ -941,10 +940,6 @@ var crumbDropOptions={
 				}
 			});
 		});
-		//reset checkbox if we dragged a single file
-		if (files.length == 1) {
-			$(event.target).parents('tr').find('td input:first').prop('checked', $(event.target).parents('tr').hasClass('selected'));
-		}
 	},
 	tolerance: 'pointer'
 }
