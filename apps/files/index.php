@@ -30,7 +30,6 @@ OCP\Util::addscript('files', 'jquery.iframe-transport');
 OCP\Util::addscript('files', 'jquery.fileupload');
 OCP\Util::addscript('files', 'jquery-visibility');
 OCP\Util::addscript('files', 'filelist');
-OCP\Util::addscript('files', 'fileactions');
 
 OCP\App::setActiveNavigationEntry('files_index');
 // Load the files
@@ -116,6 +115,7 @@ if ($needUpgrade) {
 	$tmpl = new OCP\Template('files', 'upgrade', 'user');
 	$tmpl->printPage();
 } else {
+	OCP\Util::addscript('files', 'fileactions');
 	OCP\Util::addscript('files', 'files');
 	OCP\Util::addscript('files', 'keyboardshortcuts');
 	$tmpl = new OCP\Template('files', 'index', 'user');
