@@ -182,6 +182,10 @@ class OC_DB {
 				self::$PDO=new PDO($dsn, $user, $pass, $opts);
 			}catch(PDOException $e) {
 				OC_User::setUserId(null);
+
+				// send http status 503
+				header('HTTP/1.1 503 Service Temporarily Unavailable');
+				header('Status: 503 Service Temporarily Unavailable');
 				OC_Template::printErrorPage('Failed to connect to '.$type.' database. ('.$e->getMessage().')' );
 				die();
 			}
@@ -280,6 +284,10 @@ class OC_DB {
 				OC_Log::write('core', self::$MDB2->getUserInfo(), OC_Log::FATAL);
 				OC_Log::write('core', self::$MDB2->getMessage(), OC_Log::FATAL);
 				OC_User::setUserId(null);
+
+				// send http status 503
+				header('HTTP/1.1 503 Service Temporarily Unavailable');
+				header('Status: 503 Service Temporarily Unavailable');
 				OC_Template::printErrorPage('Failed to connect to '.$type.' database. ('.self::$MDB2->getUserInfo().')' );
 				die();
 			}
