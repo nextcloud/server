@@ -13,7 +13,7 @@
 # Jan-Christoph Borchardt <jan@unhosted.org>, 2011.
 #   <lukas@statuscode.ch>, 2012.
 #   <mail@felixmoeller.de>, 2012.
-# Marcel Kühlhorn <susefan93@gmx.de>, 2012.
+# Marcel Kühlhorn <susefan93@gmx.de>, 2012-2013.
 #   <markus.thiel@desico.de>, 2013.
 # Michael Krell <m4dmike.mni@gmail.com>, 2012.
 #   <nelsonfritsch@gmail.com>, 2012.
@@ -27,9 +27,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-20 00:05+0100\n"
-"PO-Revision-Date: 2013-01-19 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-21 00:04+0100\n"
+"PO-Revision-Date: 2013-01-20 03:24+0000\n"
+"Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -169,7 +169,7 @@ msgstr "Ungültiger Name, '\\', '/', '<', '>', ':', '\"', '|', '?' und '*' sind 
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
+msgstr "Ihr Download wird vorbereitet. Dies kann bei größeren Dateien einen Moment dauern."
 
 #: js/files.js:242
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
