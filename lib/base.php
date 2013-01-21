@@ -284,6 +284,7 @@ class OC
 		OC_Util::addStyle("multiselect");
 		OC_Util::addStyle("jquery-ui-1.8.16.custom");
 		OC_Util::addStyle("jquery-tipsy");
+		OC_Util::addScript("oc-requesttoken");
 	}
 
 	public static function initSession()
