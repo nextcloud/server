@@ -91,7 +91,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString(){
-		return '4.0.10';
+		return '4.0.11';
 	}
 
         /**
