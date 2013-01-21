@@ -42,6 +42,7 @@ function app_sort( $a, $b ) {
 	
 }
 
+$combinedApps = OC_App::listAllApps();
 usort( $combinedApps, 'app_sort' );
 
 $tmpl = new OC_Template( "settings", "apps", "user" );
