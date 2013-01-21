@@ -54,6 +54,7 @@ if(is_array($catagoryNames)) {
 				'preview'=>$pre,
 				'internal'=>false,
 				'internallabel'=>'3rd Party App',
+				'update'=>false,
 			);
 		}
 	}

@@ -51,6 +51,8 @@ $this->create('settings_ajax_enableapp', '/settings/ajax/enableapp.php')
 	->actionInclude('settings/ajax/enableapp.php');
 $this->create('settings_ajax_disableapp', '/settings/ajax/disableapp.php')
 	->actionInclude('settings/ajax/disableapp.php');
+$this->create('settings_ajax_updateapp', '/settings/ajax/updateapp.php')
+	->actionInclude('settings/ajax/updateapp.php');
 $this->create('settings_ajax_navigationdetect', '/settings/ajax/navigationdetect.php')
 	->actionInclude('settings/ajax/navigationdetect.php');
 // admin

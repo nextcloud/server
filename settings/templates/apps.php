@@ -7,7 +7,7 @@
 	var appid = '<?php echo $_['appid']; ?>';
 </script>
 <div id="controls">
-	<a class="button" target="_blank" href="http://owncloud.org/dev/apps/getting-started/"><?php echo $l->t('Add your App');?></a>
+	<a class="button" target="_blank" href="http://owncloud.org/dev"><?php echo $l->t('Add your App');?></a>
 	<a class="button" target="_blank" href="http://apps.owncloud.com"><?php echo $l->t('More Apps');?></a>
 </div>
 <ul id="leftcontent" class="applist">
@@ -31,5 +31,7 @@
 	<p class="appslink hidden"><a href="#" target="_blank"><?php echo $l->t('See application page at apps.owncloud.com');?></a></p>
     <p class="license hidden"><?php echo $l->t('<span class="licence"></span>-licensed by <span class="author"></span>');?></p>
 	<input class="enable hidden" type="submit" />
+	<?php //if(isset($app['update']) ) echo('<input class="update " type="submit" value="'.$l->t('Update').' '.$app['update'].'" />');  ?>
+	<input class="update hidden" type="submit" value="<?php echo($l->t('Update')); ?>" />
 	</div>
 </div>

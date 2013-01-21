@@ -68,13 +68,16 @@ foreach ( $installedApps as $app ) {
 			$info['internal']=true;
 			
 			$info['internallabel']='Internal App';
+
+			$info['update']=false;
 		
 		}else{
 		
 			$info['internal']=false;
 			
 			$info['internallabel']='3rd Party App';
-		
+
+			$info['update']=OC_Installer::isUpdateAvailable($app);
 		}
 		
 		$info['preview'] = OC_Helper::imagePath('settings', 'trans.png');

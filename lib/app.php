@@ -142,6 +142,8 @@ class OC_App{
 	 * check if app is shipped
 	 * @param string $appid the id of the app to check
 	 * @return bool
+	 *
+	 * Check if an app that is installed is a shipped app or installed from the appstore.
 	 */
 	public static function isShipped($appid){
 		$info = self::getAppInfo($appid);
@@ -197,9 +199,10 @@ class OC_App{
 			if(!is_numeric($app)) {
 				$app = OC_Installer::installShippedApp($app);
 			}else{
+				$appdata=OC_OCSClient::getApplication($app);
 				$download=OC_OCSClient::getApplicationDownload($app, 1);
 				if(isset($download['downloadlink']) and $download['downloadlink']!='') {
-					$app=OC_Installer::installApp(array('source'=>'http', 'href'=>$download['downloadlink']));
+					$app=OC_Installer::installApp(array('source'=>'http', 'href'=>$download['downloadlink'],'appdata'=>$appdata));
 				}
 			}
 		}
@@ -212,6 +215,7 @@ class OC_App{
 				return false;
 			}else{
 				OC_Appconfig::setValue( $app, 'enabled', 'yes' );
+				if(isset($appdata['id'])) OC_Appconfig::setValue( $app, 'ocsid', $appdata['id'] );
 				return true;
 			}
 		}else{
@@ -229,6 +233,14 @@ class OC_App{
 	public static function disable( $app ) {
 		// check if app is a shiped app or not. if not delete
 		OC_Appconfig::setValue( $app, 'enabled', 'no' );
+
+		// check if app is a shiped app or not. if not delete
+		if(!OC_App::isShipped( $app )){
+//			error_log($app.' not shipped');	
+			OC_Installer::removeApp( $app );
+		}else{
+//			error_log($app.' shipped');	
+		}		
 	}
 
 	/**
@@ -609,6 +621,8 @@ class OC_App{
 				$app1[$i]['author'] = $app['personid'];
 				$app1[$i]['ocs_id'] = $app['id'];
 				$app1[$i]['internal'] = $app1[$i]['active'] = 0;
+				$app1[$i]['update'] = false;
+
 
 				// rating img
 				if($app['score']>=0     and $app['score']<5)	$img=OC_Helper::imagePath( "core", "rating/s1.png" );
