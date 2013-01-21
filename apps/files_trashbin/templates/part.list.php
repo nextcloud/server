@@ -40,9 +40,17 @@
 			>
 		<?php if(!isset($_['readonly']) || !$_['readonly']): ?><input type="checkbox" /><?php endif; ?>
 		<?php if($file['type'] == 'dir'): ?>
-			<a class="name" href="<?php $_['baseURL'].'/'.$name.'.d'.$file['timestamp']; ?>)" title="">
+			<?php if( $_['dirlisting'] ): ?>
+				<a class="name" href="<?php echo $_['baseURL'].'/'.$name; ?>" title="">
+			<?php else: ?>
+				<a class="name" href="<?php echo $_['baseURL'].'/'.$name.'.d'.$file['timestamp']; ?>" title="">
+			<?php endif; ?>
 		<?php else: ?>
-			<a class="name" href="<?php echo $_['downloadURL'].'/'.$name.'.d'.$file['timestamp']; ?>" title="">
+			<?php if( $_['dirlisting'] ): ?>
+				<a class="name" href="<?php echo $_['downloadURL'].'/'.$name; ?>" title="">
+			<?php else: ?>
+				<a class="name" href="<?php echo $_['downloadURL'].'/'.$name.'.d'.$file['timestamp'];?>" title="">
+			<?php endif; ?>
 		<?php endif; ?>
 			<span class="nametext">
 				<?php if($file['type'] == 'dir'):?>
@@ -69,3 +77,4 @@
 		</td>
 	</tr>
 <?php endforeach;
+ 
