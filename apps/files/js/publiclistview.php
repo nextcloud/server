@@ -18,4 +18,3 @@ if ( array_key_exists('publicListView', $_) && $_['publicListView'] == true )  {
 } else {
 	echo "var publicListView = false;";
 }
-?>
