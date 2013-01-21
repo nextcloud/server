@@ -258,6 +258,30 @@
 				</field>
 			</index>
 
+			<index>
+				<name>fs_storage_mimetype</name>
+				<field>
+					<name>storage</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>mimetype</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>fs_storage_mimepart</name>
+				<field>
+					<name>storage</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>mimepart</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
 		</declaration>
 
 	</table>
