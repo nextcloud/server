@@ -28,7 +28,7 @@ if (isset($_GET['offset'])) {
 	$offset = 0;
 }
 $users = array();
-if (OC_Group::inGroup(OC_User::getUser(), 'admin')) {
+if (OC_User::isAdminUser(OC_User::getUser())) {
 	$batch = OC_User::getUsers('', 10, $offset);
 	foreach ($batch as $user) {
 		$users[] = array(

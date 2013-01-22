@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "උඩුගත කිරීම",
 "No file was uploaded. Unknown error" => "ගොනුවක් උඩුගත නොවුනි. නොහැඳිනු දෝෂයක්",
 "There is no error, the file uploaded with success" => "නිවැරදි ව ගොනුව උඩුගත කෙරිනි",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "උඩුගත කළ ගොනුවේ විශාලත්වය HTML පෝරමයේ නියම කළ ඇති MAX_FILE_SIZE විශාලත්වයට වඩා වැඩිය",
@@ -14,7 +15,6 @@
 "suggest name" => "නමක් යෝජනා කරන්න",
 "cancel" => "අත් හරින්න",
 "undo" => "නිෂ්ප්‍රභ කරන්න",
-"generating ZIP-file, it may take some time." => "ගොනුවක් සෑදෙමින් පවතී. කෙටි වේලාවක් ගත විය හැක",
 "Upload Error" => "උඩුගත කිරීමේ දෝශයක්",
 "Close" => "වසන්න",
 "1 file uploading" => "1 ගොනුවක් උඩගත කෙරේ",
@@ -39,7 +39,6 @@
 "Text file" => "පෙළ ගොනුව",
 "Folder" => "ෆෝල්ඩරය",
 "From link" => "යොමුවෙන්",
-"Upload" => "උඩුගත කිරීම",
 "Cancel upload" => "උඩුගත කිරීම අත් හරින්න",
 "Nothing in here. Upload something!" => "මෙහි කිසිවක් නොමැත. යමක් උඩුගත කරන්න",
 "Download" => "බාගත කිරීම",

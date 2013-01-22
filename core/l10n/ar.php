@@ -99,8 +99,5 @@
 "remember" => "تذكر",
 "Log in" => "أدخل",
 "prev" => "السابق",
-"next" => "التالي",
-"Security Warning!" => "تحذير أمان!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "الرجاء التحقق من كلمة السر. <br/>من الممكن أحياناً أن نطلب منك إعادة إدخال كلمة السر مرة أخرى.",
-"Verify" => "تحقيق"
+"next" => "التالي"
 );

@@ -127,8 +127,5 @@
 "Log in" => "登入",
 "prev" => "上一頁",
 "next" => "下一頁",
-"Updating ownCloud to version %s, this may take a while." => "正在將 Owncloud 升級至版本 %s ，這可能需要一點時間。",
-"Security Warning!" => "安全性警告！",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "請輸入您的密碼。<br/>基於安全性的理由，您有時候可能會被要求再次輸入密碼。",
-"Verify" => "驗證"
+"Updating ownCloud to version %s, this may take a while." => "正在將 Owncloud 升級至版本 %s ，這可能需要一點時間。"
 );

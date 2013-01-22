@@ -127,8 +127,5 @@
 "Log in" => "Přihlásit",
 "prev" => "předchozí",
 "next" => "následující",
-"Updating ownCloud to version %s, this may take a while." => "Aktualizuji ownCloud na verzi %s, bude to chvíli trvat.",
-"Security Warning!" => "Bezpečnostní upozornění.",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Ověřte, prosím, své heslo. <br/>Z bezpečnostních důvodů můžete být občas požádáni o jeho opětovné zadání.",
-"Verify" => "Ověřit"
+"Updating ownCloud to version %s, this may take a while." => "Aktualizuji ownCloud na verzi %s, bude to chvíli trvat."
 );

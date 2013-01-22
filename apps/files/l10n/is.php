@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Senda inn",
 "Could not move %s - File with this name already exists" => "Gat ekki fært %s - Skrá með þessu nafni er þegar til",
 "Could not move %s" => "Gat ekki fært %s",
 "Unable to rename file" => "Gat ekki endurskýrt skrá",
@@ -28,7 +29,6 @@
 "'.' is an invalid file name." => "'.' er ekki leyfilegt nafn.",
 "File name cannot be empty." => "Nafn skráar má ekki vera tómt",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ógilt nafn, táknin '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' eru ekki leyfð.",
-"generating ZIP-file, it may take some time." => "bý til ZIP skrá, það gæti tekið smá stund.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Innsending á skrá mistókst, hugsanlega sendir þú möppu eða skráin er 0 bæti.",
 "Upload Error" => "Villa við innsendingu",
 "Close" => "Loka",
@@ -60,7 +60,6 @@
 "Text file" => "Texta skrá",
 "Folder" => "Mappa",
 "From link" => "Af tengli",
-"Upload" => "Senda inn",
 "Cancel upload" => "Hætta við innsendingu",
 "Nothing in here. Upload something!" => "Ekkert hér. Settu eitthvað inn!",
 "Download" => "Niðurhal",

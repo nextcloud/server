@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>, 2012.
-# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2012.
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2012-2013.
 #   <tetuyano+transi@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-16 00:11+0100\n"
-"PO-Revision-Date: 2012-12-15 06:21+0000\n"
+"POT-Creation-Date: 2013-01-17 00:26+0100\n"
+"PO-Revision-Date: 2013-01-16 05:47+0000\n"
 "Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -29,9 +29,9 @@ msgstr "<b>警告:</b> user_ldap と user_webdavauth のアプリには互換性
 
 #: templates/settings.php:11
 msgid ""
-"<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will"
-" not work. Please ask your system administrator to install it."
-msgstr "<b>警告:</b> PHP LDAP モジュールがインストールされていません。バックエンドが正しくどうさしません。システム管理者にインストールするよう問い合わせてください。"
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
+"work. Please ask your system administrator to install it."
+msgstr "<b>警告:</b> PHP LDAP モジュールがインストールされていません。バックエンドが正しく動作しません。システム管理者にインストールするよう問い合わせてください。"
 
 #: templates/settings.php:15
 msgid "Host"
@@ -45,6 +45,10 @@ msgstr "SSL通信しない場合には、プロトコル名を省略すること
 #: templates/settings.php:16
 msgid "Base DN"
 msgstr "ベースDN"
+
+#: templates/settings.php:16
+msgid "One Base DN per line"
+msgstr "1行に1つのベースDN"
 
 #: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -117,9 +121,17 @@ msgstr "ポート"
 msgid "Base User Tree"
 msgstr "ベースユーザツリー"
 
+#: templates/settings.php:25
+msgid "One User Base DN per line"
+msgstr "1行に1つのユーザベースDN"
+
 #: templates/settings.php:26
 msgid "Base Group Tree"
 msgstr "ベースグループツリー"
+
+#: templates/settings.php:26
+msgid "One Group Base DN per line"
+msgstr "1行に1つのグループベースDN"
 
 #: templates/settings.php:27
 msgid "Group-Member association"

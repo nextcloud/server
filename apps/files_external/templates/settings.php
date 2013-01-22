@@ -1,7 +1,7 @@
 <form id="files_external">
 	<fieldset class="personalblock">
 	<legend><strong><?php echo $l->t('External Storage'); ?></strong></legend>
-                <?php if (isset($_['dependencies']) and ($_['dependencies']<>'')) echo ''.$_['dependencies'].''; ?>
+		<?php if (isset($_['dependencies']) and ($_['dependencies']<>'')) echo ''.$_['dependencies'].''; ?>
 		<table id="externalStorage" data-admin='<?php echo json_encode($_['isAdminPage']); ?>'>
 			<thead>
 				<tr>
@@ -47,7 +47,7 @@
 									<?php elseif (strpos($placeholder, '!') !== false): ?>
 										<label><input type="checkbox"
 													  data-parameter="<?php echo $parameter; ?>"
-													  <?php if ($value == 'true'): ?> checked="checked"<?php endif; ?> 
+													  <?php if ($value == 'true'): ?> checked="checked"<?php endif; ?>
 													  /><?php echo substr($placeholder, 1); ?></label>
 									<?php elseif (strpos($placeholder, '&') !== false): ?>
 										<input type="text"
@@ -105,7 +105,7 @@
 					<?php endif; ?>
 					<td <?php if ($mountPoint != ''): ?>class="remove"
 						<?php else: ?>style="visibility:hidden;"
-						<?php endif ?>><img alt="<?php echo $l->t('Delete'); ?>" 
+						<?php endif ?>><img alt="<?php echo $l->t('Delete'); ?>"
 											title="<?php echo $l->t('Delete'); ?>"
 											class="svg action"
 											src="<?php echo image_path('core', 'actions/delete.svg'); ?>" /></td>

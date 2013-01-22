@@ -118,8 +118,5 @@
 "remember" => "ஞாபகப்படுத்துக",
 "Log in" => "புகுபதிகை",
 "prev" => "முந்தைய",
-"next" => "அடுத்து",
-"Security Warning!" => "பாதுகாப்பு எச்சரிக்கை!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "உங்களுடைய கடவுச்சொல்லை உறுதிப்படுத்துக. <br/> பாதுகாப்பு காரணங்களுக்காக நீங்கள் எப்போதாவது உங்களுடைய கடவுச்சொல்லை மீண்டும் நுழைக்க கேட்கப்படுவீர்கள்.",
-"Verify" => "உறுதிப்படுத்தல்"
+"next" => "அடுத்து"
 );

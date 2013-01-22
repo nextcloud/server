@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-19 00:03+0100\n"
-"PO-Revision-Date: 2012-12-18 12:52+0000\n"
-"Last-Translator: volodya327 <volodya327@gmail.com>\n"
+"POT-Creation-Date: 2013-01-16 00:19+0100\n"
+"PO-Revision-Date: 2013-01-15 23:20+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,9 +28,9 @@ msgstr "<b>Увага:</b> Застосунки user_ldap та user_webdavauth �
 
 #: templates/settings.php:11
 msgid ""
-"<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will"
-" not work. Please ask your system administrator to install it."
-msgstr "<b>Увага:</ b> Потрібний модуль PHP LDAP не встановлено, базова програма працювати не буде. Будь ласка, зверніться до системного адміністратора, щоб встановити його."
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
+"work. Please ask your system administrator to install it."
+msgstr ""
 
 #: templates/settings.php:15
 msgid "Host"
@@ -44,6 +44,10 @@ msgstr "Можна не вказувати протокол, якщо вам н�
 #: templates/settings.php:16
 msgid "Base DN"
 msgstr "Базовий DN"
+
+#: templates/settings.php:16
+msgid "One Base DN per line"
+msgstr ""
 
 #: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -116,9 +120,17 @@ msgstr "Порт"
 msgid "Base User Tree"
 msgstr "Основне Дерево Користувачів"
 
+#: templates/settings.php:25
+msgid "One User Base DN per line"
+msgstr ""
+
 #: templates/settings.php:26
 msgid "Base Group Tree"
 msgstr "Основне Дерево Груп"
+
+#: templates/settings.php:26
+msgid "One Group Base DN per line"
+msgstr ""
 
 #: templates/settings.php:27
 msgid "Group-Member association"

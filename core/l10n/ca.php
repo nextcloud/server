@@ -127,8 +127,5 @@
 "Log in" => "Inici de sessió",
 "prev" => "anterior",
 "next" => "següent",
-"Updating ownCloud to version %s, this may take a while." => "S'està actualitzant ownCloud a la versió %s, pot trigar una estona.",
-"Security Warning!" => "Avís de seguretat!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Comproveu la vostra contrasenya. <br/>Per raons de seguretat se us pot demanar escriure de nou la vostra contrasenya.",
-"Verify" => "Comprova"
+"Updating ownCloud to version %s, this may take a while." => "S'està actualitzant ownCloud a la versió %s, pot trigar una estona."
 );

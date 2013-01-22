@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "アップロード",
 "Could not move %s - File with this name already exists" => "%s を移動できませんでした ― この名前のファイルはすでに存在します",
 "Could not move %s" => "%s を移動できませんでした",
 "Unable to rename file" => "ファイル名の変更ができません",
@@ -28,7 +29,6 @@
 "'.' is an invalid file name." => "'.' は無効なファイル名です。",
 "File name cannot be empty." => "ファイル名を空にすることはできません。",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "無効な名前、'\\', '/', '<', '>', ':', '\"', '|', '?', '*' は使用できません。",
-"generating ZIP-file, it may take some time." => "ZIPファイルを生成中です、しばらくお待ちください。",
 "Unable to upload your file as it is a directory or has 0 bytes" => "ディレクトリもしくは0バイトのファイルはアップロードできません",
 "Upload Error" => "アップロードエラー",
 "Close" => "閉じる",
@@ -60,7 +60,6 @@
 "Text file" => "テキストファイル",
 "Folder" => "フォルダ",
 "From link" => "リンク",
-"Upload" => "アップロード",
 "Cancel upload" => "アップロードをキャンセル",
 "Nothing in here. Upload something!" => "ここには何もありません。何かアップロードしてください。",
 "Download" => "ダウンロード",

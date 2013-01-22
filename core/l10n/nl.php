@@ -127,8 +127,5 @@
 "Log in" => "Meld je aan",
 "prev" => "vorige",
 "next" => "volgende",
-"Updating ownCloud to version %s, this may take a while." => "Updaten ownCloud naar versie %s, dit kan even duren.",
-"Security Warning!" => "Beveiligingswaarschuwing!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Verifieer uw wachtwoord!<br/>Om veiligheidsredenen wordt u regelmatig gevraagd uw wachtwoord in te geven.",
-"Verify" => "Verifieer"
+"Updating ownCloud to version %s, this may take a while." => "Updaten ownCloud naar versie %s, dit kan even duren."
 );

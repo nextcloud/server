@@ -43,6 +43,7 @@
 "Share with link" => "共享链接",
 "Password protect" => "密码保护",
 "Password" => "密码",
+"Email link to person" => "发送链接到个人",
 "Send" => "发送",
 "Set expiration date" => "设置过期日期",
 "Expiration date" => "过期日期",
@@ -126,7 +127,5 @@
 "Log in" => "登录",
 "prev" => "上一页",
 "next" => "下一页",
-"Security Warning!" => "安全警告！",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "请验证您的密码。 <br/>出于安全考虑，你可能偶尔会被要求再次输入密码。",
-"Verify" => "验证"
+"Updating ownCloud to version %s, this may take a while." => "更新 ownCloud 到版本 %s，这可能需要一些时间。"
 );

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Lähetä",
 "Could not move %s - File with this name already exists" => "Kohteen %s siirto ei onnistunut - Tiedosto samalla nimellä on jo olemassa",
 "Could not move %s" => "Kohteen %s siirto ei onnistunut",
 "Unable to rename file" => "Tiedoston nimeäminen uudelleen ei onnistunut",
@@ -23,7 +24,7 @@
 "'.' is an invalid file name." => "'.' on virheellinen nimi tiedostolle.",
 "File name cannot be empty." => "Tiedoston nimi ei voi olla tyhjä.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Virheellinen nimi, merkit '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' eivät ole sallittuja.",
-"generating ZIP-file, it may take some time." => "luodaan ZIP-tiedostoa, tämä saattaa kestää hetken.",
+"Your download is being prepared. This might take some time if the files are big." => "Lataustasi valmistellaan. Tämä saattaa kestää hetken, jos tiedostot ovat suuria kooltaan.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Tiedoston lähetys epäonnistui, koska sen koko on 0 tavua tai kyseessä on kansio",
 "Upload Error" => "Lähetysvirhe.",
 "Close" => "Sulje",
@@ -50,7 +51,6 @@
 "Text file" => "Tekstitiedosto",
 "Folder" => "Kansio",
 "From link" => "Linkistä",
-"Upload" => "Lähetä",
 "Cancel upload" => "Peru lähetys",
 "Nothing in here. Upload something!" => "Täällä ei ole mitään. Lähetä tänne jotakin!",
 "Download" => "Lataa",

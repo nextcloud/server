@@ -67,8 +67,10 @@
 			</ul>
 		</div></nav>
 
-		<div id="content">
-			<?php echo $_['content']; ?>
+		<div id="content-wrapper">
+			<div id="content">
+				<?php echo $_['content']; ?>
+			</div>
 		</div>
 	</body>
 </html>

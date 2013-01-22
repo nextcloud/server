@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "Τα αρχεία πρέπει να ληφθούν ένα-ένα.",
 "Back to Files" => "Πίσω στα Αρχεία",
 "Selected files too large to generate zip file." => "Τα επιλεγμένα αρχεία είναι μεγάλα ώστε να δημιουργηθεί αρχείο zip.",
+"couldn't be determined" => "δεν μπορούσε να προσδιορισθεί",
 "Application is not enabled" => "Δεν ενεργοποιήθηκε η εφαρμογή",
 "Authentication error" => "Σφάλμα πιστοποίησης",
 "Token expired. Please reload page." => "Το αναγνωριστικό έληξε. Παρακαλώ φορτώστε ξανά την σελίδα.",

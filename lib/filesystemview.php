@@ -434,10 +434,10 @@ class OC_FilesystemView {
 					$target = $this->fopen($path2.$postFix2, 'w');
 					$result = OC_Helper::streamCopy($source, $target);
 				}
-				if( $this->fakeRoot==OC_Filesystem::getRoot() ) { 
-				// If the file to be copied originates within 
+				if( $this->fakeRoot==OC_Filesystem::getRoot() ) {
+				// If the file to be copied originates within
 				// the user's data directory
-				
+
 					OC_Hook::emit(
 						OC_Filesystem::CLASSNAME,
 						OC_Filesystem::signal_post_copy,
@@ -458,33 +458,33 @@ class OC_FilesystemView {
 						OC_Filesystem::signal_post_write,
 						array( OC_Filesystem::signal_param_path => $path2)
 					);
-					
-				} else { 
-				// If this is not a normal file copy operation 
-				// and the file originates somewhere else 
-				// (e.g. a version rollback operation), do not 
+
+				} else {
+				// If this is not a normal file copy operation
+				// and the file originates somewhere else
+				// (e.g. a version rollback operation), do not
 				// perform all the other post_write actions
-					
+
 					// Update webdav properties
 					OC_Filesystem::removeETagHook(array("path" => $path2), $this->fakeRoot);
-					
+
 					$splitPath2 = explode( '/', $path2 );
-					
-					// Only cache information about files 
-					// that are being copied from within 
-					// the user files directory. Caching 
+
+					// Only cache information about files
+					// that are being copied from within
+					// the user files directory. Caching
 					// other files, like VCS backup files,
 					// serves no purpose
 					if ( $splitPath2[1] == 'files' ) {
-						
+
 						OC_FileCache_Update::update($path2, $this->fakeRoot);
-						
+
 					}
-				
+
 				}
-				
+
 				return $result;
-			
+
 			}
 		}
 	}

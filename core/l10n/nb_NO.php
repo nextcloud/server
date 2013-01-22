@@ -101,7 +101,5 @@
 "remember" => "husk",
 "Log in" => "Logg inn",
 "prev" => "forrige",
-"next" => "neste",
-"Security Warning!" => "Sikkerhetsadvarsel!",
-"Verify" => "Verifiser"
+"next" => "neste"
 );

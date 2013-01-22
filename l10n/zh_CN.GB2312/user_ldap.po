@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-15 00:11+0100\n"
-"PO-Revision-Date: 2012-12-14 23:11+0000\n"
+"POT-Creation-Date: 2013-01-16 00:19+0100\n"
+"PO-Revision-Date: 2013-01-15 23:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -27,8 +27,8 @@ msgstr ""
 
 #: templates/settings.php:11
 msgid ""
-"<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will"
-" not work. Please ask your system administrator to install it."
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
+"work. Please ask your system administrator to install it."
 msgstr ""
 
 #: templates/settings.php:15
@@ -43,6 +43,10 @@ msgstr "您可以忽略协议，除非您需要 SSL。然后用 ldaps:// 开头"
 #: templates/settings.php:16
 msgid "Base DN"
 msgstr "基本判别名"
+
+#: templates/settings.php:16
+msgid "One Base DN per line"
+msgstr ""
 
 #: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -115,9 +119,17 @@ msgstr "端口"
 msgid "Base User Tree"
 msgstr "基本用户树"
 
+#: templates/settings.php:25
+msgid "One User Base DN per line"
+msgstr ""
+
 #: templates/settings.php:26
 msgid "Base Group Tree"
 msgstr "基本群组树"
+
+#: templates/settings.php:26
+msgid "One Group Base DN per line"
+msgstr ""
 
 #: templates/settings.php:27
 msgid "Group-Member association"

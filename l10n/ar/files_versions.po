@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-23 00:09+0100\n"
-"PO-Revision-Date: 2012-12-22 19:47+0000\n"
-"Last-Translator: aboodilankaboot <shiningmoon25@gmail.com>\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,21 +18,9 @@ msgstr ""
 "Language: ar\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: js/settings-personal.js:31 templates/settings-personal.php:7
-msgid "Expire all versions"
-msgstr "إنهاء تاريخ الإنتهاء لجميع الإصدارات"
-
 #: js/versions.js:16
 msgid "History"
 msgstr "السجل الزمني"
-
-#: templates/settings-personal.php:4
-msgid "Versions"
-msgstr "الإصدارات"
-
-#: templates/settings-personal.php:10
-msgid "This will delete all existing backup versions of your files"
-msgstr "هذه العملية ستقوم بإلغاء جميع إصدارات النسخ الاحتياطي للملفات"
 
 #: templates/settings.php:3
 msgid "Files Versioning"

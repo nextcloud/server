@@ -137,7 +137,7 @@ class OC_App{
 
 		OC_Appconfig::setValue($app, 'types', $appTypes);
 	}
-	
+
 	/**
 	 * check if app is shipped
 	 * @param string $appid the id of the app to check
@@ -313,14 +313,14 @@ class OC_App{
 				$settings[]=array( "id" => "settings", "order" => 1000, "href" => OC_Helper::linkToRoute( "settings_settings" ), "name" => $l->t("Settings"), "icon" => OC_Helper::imagePath( "settings", "settings.svg" ));
 
 			//SubAdmins are also allowed to access user management
-			if(OC_SubAdmin::isSubAdmin($_SESSION["user_id"]) || OC_Group::inGroup( $_SESSION["user_id"], "admin" )) {
+			if(OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
 				// admin users menu
 				$settings[] = array( "id" => "core_users", "order" => 2, "href" => OC_Helper::linkToRoute( "settings_users" ), "name" => $l->t("Users"), "icon" => OC_Helper::imagePath( "settings", "users.svg" ));
 			}
 
 
 			// if the user is an admin
-			if(OC_Group::inGroup( $_SESSION["user_id"], "admin" )) {
+			if(OC_User::isAdminUser(OC_User::getUser())) {
 				// admin apps menu
 				$settings[] = array( "id" => "core_apps", "order" => 3, "href" => OC_Helper::linkToRoute( "settings_apps" ).'?installed', "name" => $l->t("Apps"), "icon" => OC_Helper::imagePath( "settings", "apps.svg" ));
 
@@ -748,7 +748,7 @@ class OC_App{
 				}
 				return new OC_FilesystemView('/'.OC_User::getUser().'/'.$appid);
 			}else{
-				OC_Log::write('core', 'Can\'t get app storage, app, user not logged in', OC_Log::ERROR);
+				OC_Log::write('core', 'Can\'t get app storage, app '.$appid.', user not logged in', OC_Log::ERROR);
 				return false;
 			}
 		}else{

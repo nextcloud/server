@@ -66,12 +66,12 @@ if (isset($_GET['t'])) {
 		$type = $linkItem['item_type'];
 		$fileSource = $linkItem['file_source'];
 		$shareOwner = $linkItem['uid_owner'];
-		
+
 		if (OCP\User::userExists($shareOwner) && $fileSource != -1 ) {
-			
+
 			$pathAndUser = getPathAndUser($linkItem['file_source']);
 			$fileOwner = $pathAndUser['user'];
-			
+
 			//if this is a reshare check the file owner also exists
 			if ($shareOwner != $fileOwner && ! OCP\User::userExists($fileOwner)) {
 					OCP\Util::writeLog('share', 'original file owner '.$fileOwner
@@ -81,7 +81,7 @@ if (isset($_GET['t'])) {
 					$tmpl->printPage();
 					exit();
 			}
-			
+
 			//mount filesystem of file owner
 			OC_Util::setupFS($fileOwner);
 		}
@@ -104,7 +104,7 @@ if (isset($_GET['t'])) {
 		}
 	}
 	$shareOwner = substr($path, 1, strpos($path, '/', 1) - 1);
-	
+
 	if (OCP\User::userExists($shareOwner)) {
 		OC_Util::setupFS($shareOwner);
 		$fileSource = getId($path);
@@ -159,7 +159,7 @@ if ($linkItem) {
 				$tmpl->printPage();
 				exit();
 			}
-		
+
 		} else {
 			// Check if item id is set in session
 			if (!isset($_SESSION['public_link_authenticated'])

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Відвантажити",
 "No file was uploaded. Unknown error" => "Не завантажено жодного файлу. Невідома помилка",
 "There is no error, the file uploaded with success" => "Файл успішно вивантажено без помилок.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Розмір звантаження перевищує upload_max_filesize параметра в php.ini: ",
@@ -21,7 +22,6 @@
 "unshared {files}" => "неопубліковано {files}",
 "deleted {files}" => "видалено {files}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Невірне ім'я, '\\', '/', '<', '>', ':', '\"', '|', '?' та '*' не дозволені.",
-"generating ZIP-file, it may take some time." => "Створення ZIP-файлу, це може зайняти певний час.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Неможливо завантажити ваш файл тому, що він тека або файл розміром 0 байт",
 "Upload Error" => "Помилка завантаження",
 "Close" => "Закрити",
@@ -52,7 +52,6 @@
 "Text file" => "Текстовий файл",
 "Folder" => "Папка",
 "From link" => "З посилання",
-"Upload" => "Відвантажити",
 "Cancel upload" => "Перервати завантаження",
 "Nothing in here. Upload something!" => "Тут нічого немає. Відвантажте що-небудь!",
 "Download" => "Завантажити",
