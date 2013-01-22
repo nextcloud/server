@@ -67,7 +67,7 @@ $CONFIG = array(
 "appstoreurl" => "http://api.apps.owncloud.com/v1",
 
 /* Enable SMTP class debugging */
-"mail_smtpdebug" => false;
+"mail_smtpdebug" => false,
 
 /* Mode to use for sending mail, can be sendmail, smtp, qmail or php, see PHPMailer docs */
 "mail_smtpmode" => "sendmail",
