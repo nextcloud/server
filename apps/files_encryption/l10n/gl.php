@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Encryption" => "Cifrado",
-"Exclude the following file types from encryption" => "Excluír os seguintes tipos de ficheiro do cifrado",
+"Encryption" => "Encriptado",
+"Exclude the following file types from encryption" => "Excluír os seguintes tipos de ficheiro da encriptación",
 "None" => "Nada",
-"Enable Encryption" => "Activar o cifrado"
+"Enable Encryption" => "Habilitar encriptación"
 );

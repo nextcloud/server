@@ -101,7 +101,7 @@ class Local extends \OC\Files\Storage\Common{
 	public function file_get_contents($path) {
 		return file_get_contents($this->datadir.$path);
 	}
-	public function file_put_contents($path, $data) {
+	public function file_put_contents($path, $data) {//trigger_error("$path = ".var_export($path, 1));
 		return file_put_contents($this->datadir.$path, $data);
 	}
 	public function unlink($path) {
