@@ -189,8 +189,12 @@ class OC_Template{
 		header('X-Frame-Options: Sameorigin'); // Disallow iFraming from other domains
 		header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
 		header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
-		header('Content-Security-Policy: default-src \'self\'; style-src \'self\' \'unsafe-inline\'; frame-src *');
-		header('X-WebKit-CSP: default-src \'self\'; style-src \'self\' \'unsafe-inline\'; frame-src *');
+
+		// Content Security Policy
+		$policy = 'default-src \'self\'; script-src \'self\' \'unsafe-eval\'; style-src \'self\' \'unsafe-inline\'; frame-src *';
+		header('Content-Security-Policy:'.$policy); // Standard
+		header('X-WebKit-CSP:'.$policy); // Older webkit browsers
+		header('X-Content-Security-Policy:'.$policy); // Mozilla + Internet Explorer
 
 		$this->findTemplate($name);
 	}
