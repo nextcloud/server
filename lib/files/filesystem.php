@@ -231,16 +231,16 @@ class Filesystem {
 	}
 
 	/**
-	* Initialize system and personal mount points for a user
-	*
-	* @param string $user
-	*/
+	 * Initialize system and personal mount points for a user
+	 *
+	 * @param string $user
+	 */
 	public static function initMountPoints($user = '') {
 		if ($user == '') {
 			$user = \OC_User::getUser();
 		}
 		// Load system mount points
-		if (is_file(\OC::$SERVERROOT.'/config/mount.php')) {
+		if (is_file(\OC::$SERVERROOT . '/config/mount.php')) {
 			$mountConfig = include 'config/mount.php';
 			if (isset($mountConfig['global'])) {
 				foreach ($mountConfig['global'] as $mountPoint => $options) {
@@ -277,8 +277,8 @@ class Filesystem {
 		// Load personal mount points
 		$root = \OC_User::getHome($user);
 		self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
-		if (is_file($root.'/mount.php')) {
-			$mountConfig = include $root.'/mount.php';
+		if (is_file($root . '/mount.php')) {
+			$mountConfig = include $root . '/mount.php';
 			if (isset($mountConfig['user'][$user])) {
 				foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
 					self::mount($options['class'], $options['options'], $mountPoint);
@@ -370,7 +370,7 @@ class Filesystem {
 		} else {
 			// Update old classes to new namespace
 			if (strpos($class, 'OC_Filestorage_') !== false) {
-				$class = '\OC\Files\Storage\\'.substr($class, 15);
+				$class = '\OC\Files\Storage\\' . substr($class, 15);
 			}
 			self::$mounts[$mountpoint] = array('class' => $class, 'arguments' => $arguments);
 		}
@@ -663,7 +663,7 @@ class Filesystem {
 	 * @param string $path
 	 * @return string
 	 */
-	static public function getETag($path){
+	static public function getETag($path) {
 		return self::$defaultInstance->getETag($path);
 	}
 }
