@@ -5,7 +5,7 @@ $(document).ready(function() {
 		FileActions.register('all', 'Undelete', OC.PERMISSION_READ, '', function(filename) {
 			var tr=$('tr').filterAttr('data-file', filename);
 			$.post(OC.filePath('files_trashbin','ajax','undelete.php'),
-				{files:tr.attr('data-filename')+'.d'+tr.attr('data-timestamp')},
+				{files:tr.attr('data-file'), dirlisting:tr.attr('data-dirlisting') },
 				function(result){
 					for (var i = 0; i < result.data.success.length; i++) {
 						var row = document.getElementById(result.data.success[i].filename+'.d'+result.data.success[i].timestamp);
@@ -64,8 +64,9 @@ $(document).ready(function() {
 		
 		$('.undelete').click('click',function(event) {
 			var fileslist=getSelectedFiles('file').join(';');
+			var dirlisting=getSelectedFiles('dirlisting')[0];
 			$.post(OC.filePath('files_trashbin','ajax','undelete.php'),
-					{files:fileslist},
+					{files:fileslist, dirlisting:dirlisting},
 					function(result){
 						for (var i = 0; i < result.data.success.length; i++) {
 							var row = document.getElementById(result.data.success[i].filename+'.d'+result.data.success[i].timestamp);
@@ -133,7 +134,8 @@ function getSelectedFiles(property){
 			name:$(element).attr('data-filename'),
 			file:$(element).attr('data-file'),
 			timestamp:$(element).attr('data-timestamp'),
-			type:$(element).attr('data-type')
+			type:$(element).attr('data-type'),
+			dirlisting:$(element).attr('data-dirlisting')
 		};
 		if(property){
 			files.push(file[property]);

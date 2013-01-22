@@ -5,17 +5,24 @@ if(!OC_User::isLoggedIn()) {
 }
 
 $files = $_REQUEST['files'];
+$dirlisting = $_REQUEST['dirlisting'];
 $list = explode(';', $files);
 
 $error = array();
 
 $i = 0;
 foreach ($list as $file) {
-	$delimiter = strrpos($file, '.d');
-	$filename = substr($file, 0, $delimiter);
-	$timestamp =  substr($file, $delimiter+2);
+	if ( $dirlisting=='0') {
+		$delimiter = strrpos($file, '.d');
+		$filename = substr($file, 0, $delimiter);
+		$timestamp =  substr($file, $delimiter+2);
+	} else {
+		$path_parts = pathinfo($file);
+		$filename = $path_parts['basename'];
+		$timestamp = null;
+	}
 	
-	if ( !OCA_Trash\Trashbin::restore($filename, $timestamp) ) {
+	if ( !OCA_Trash\Trashbin::restore($file, $filename, $timestamp) ) {
 		$error[] = $filename;
 	} else {
 		$success[$i]['filename'] = $filename;
