@@ -29,6 +29,7 @@
 "'.' is an invalid file name." => "'.' は無効なファイル名です。",
 "File name cannot be empty." => "ファイル名を空にすることはできません。",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "無効な名前、'\\', '/', '<', '>', ':', '\"', '|', '?', '*' は使用できません。",
+"Your download is being prepared. This might take some time if the files are big." => "ダウンロードの準備中です。ファイルサイズが大きい場合は少し時間がかかるかもしれません。",
 "Unable to upload your file as it is a directory or has 0 bytes" => "ディレクトリもしくは0バイトのファイルはアップロードできません",
 "Upload Error" => "アップロードエラー",
 "Close" => "閉じる",

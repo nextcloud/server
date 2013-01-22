@@ -8,6 +8,7 @@
 "Missing a temporary folder" => "یک پوشه موقت گم شده است",
 "Failed to write to disk" => "نوشتن بر روی دیسک سخت ناموفق بود",
 "Files" => "فایل ها",
+"Unshare" => "لغو اشتراک",
 "Delete" => "پاک کردن",
 "Rename" => "تغییرنام",
 "replace" => "جایگزین",
