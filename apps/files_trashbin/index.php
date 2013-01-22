@@ -72,7 +72,6 @@ $pathtohere = '';
 foreach (explode('/', $dir) as $i) {
 	if ($i != '') {
 		if ( preg_match('/^(.+)\.d[0-9]+$/', $i, $match) ) {
-			error_log("match!");
 			$name = $match[1];
 		} else {
 			$name = $i;
