@@ -78,9 +78,11 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$cachedData = $this->cache->get('foo.txt');
 		$this->assertEquals(3, $cachedData['size']);
 		$this->assertNotEquals($fooCachedData['etag'], $cachedData['etag']);
+		$mtime = $cachedData['mtime'];
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(2 * $textSize + $imageSize + 3, $cachedData['size']);
 		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
+		$this->assertEquals($mtime, $rootCachedData['mtime']);
 		$rootCachedData = $cachedData;
 
 		$this->assertFalse($this->cache->inCache('bar.txt'));
@@ -88,9 +90,11 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($this->cache->inCache('bar.txt'));
 		$cachedData = $this->cache->get('bar.txt');
 		$this->assertEquals(3, $cachedData['size']);
+		$mtime = $cachedData['mtime'];
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(2 * $textSize + $imageSize + 2 * 3, $cachedData['size']);
 		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
+		$this->assertEquals($mtime, $rootCachedData['mtime']);
 	}
 
 	public function testDelete() {
@@ -105,6 +109,7 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(2 * $textSize + $imageSize, $cachedData['size']);
 		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
+		$this->assertGreaterThanOrEqual($rootCachedData['mtime'], $cachedData['mtime']);
 		$rootCachedData = $cachedData;
 
 		Filesystem::mkdir('bar_folder');
@@ -116,6 +121,7 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->cache->inCache('bar_folder'));
 		$cachedData = $this->cache->get('');
 		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
+		$this->assertGreaterThanOrEqual($rootCachedData['mtime'], $cachedData['mtime']);
 	}
 
 	public function testRename() {
@@ -132,8 +138,10 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($this->cache->inCache('bar.txt'));
 		$cachedData = $this->cache->get('foo.txt');
 		$this->assertNotEquals($fooCachedData['etag'], $cachedData['etag']);
+		$mtime = $cachedData['mtime'];
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(3 * $textSize + $imageSize, $cachedData['size']);
 		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
+		$this->assertEquals($mtime, $cachedData['mtime']);
 	}
 }
