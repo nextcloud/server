@@ -25,7 +25,7 @@ foreach ($list as $file) {
 	if ( !OCA_Trash\Trashbin::restore($file, $filename, $timestamp) ) {
 		$error[] = $filename;
 	} else {
-		$success[$i]['filename'] = $filename;
+		$success[$i]['filename'] = $file;
 		$success[$i]['timestamp'] = $timestamp;
 		$i++;
 	}
