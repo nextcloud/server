@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Encryption" => "Titkosítás",
-"Enable Encryption" => "A titkosítás engedélyezése",
+"Exclude the following file types from encryption" => "A következő fájl típusok kizárása a titkosításból",
 "None" => "Egyik sem",
-"Exclude the following file types from encryption" => "A következő fájltípusok kizárása a titkosításból"
+"Enable Encryption" => "Titkosítás engedélyezése"
 );
