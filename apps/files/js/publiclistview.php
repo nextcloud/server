@@ -13,8 +13,8 @@ header("Content-type: text/javascript");
 header("Cache-Control: no-cache, must-revalidate"); 
 header("Expires: Sat, 26 Jul 1997 05:00:00 GMT"); 
 
-if ( array_key_exists('publicListView', $_) && $_['publicListView'] == true )  {
-	echo "var publicListView = true;";
+if ( array_key_exists('disableSharing', $_) && $_['disableSharing'] == true )  {
+	echo "var disableSharing = true;";
 } else {
-	echo "var publicListView = false;";
+	echo "var disableSharing = false;";
 }
