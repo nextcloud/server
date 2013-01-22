@@ -136,7 +136,7 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		Filesystem::rename('foo.txt', 'bar.txt');
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 		$this->assertTrue($this->cache->inCache('bar.txt'));
-		$cachedData = $this->cache->get('foo.txt');
+		$cachedData = $this->cache->get('bar.txt');
 		$this->assertNotEquals($fooCachedData['etag'], $cachedData['etag']);
 		$mtime = $cachedData['mtime'];
 		$cachedData = $this->cache->get('');
