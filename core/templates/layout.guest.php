@@ -10,7 +10,6 @@
 		<script type="text/javascript">
 			var oc_debug = <?php echo (defined('DEBUG') && DEBUG) ? 'true' : 'false'; ?>;
 			var oc_webroot = '<?php echo OC::$WEBROOT; ?>';
-			var oc_appswebroots = <?php echo $_['apps_paths'] ?>;
 			var oc_requesttoken = '<?php echo $_['requesttoken']; ?>';
 			var datepickerFormatDate = <?php echo json_encode($l->l('jsdate', 'jsdate')) ?>;
 			var dayNames = <?php echo json_encode(array((string)$l->t('Sunday'), (string)$l->t('Monday'), (string)$l->t('Tuesday'), (string)$l->t('Wednesday'), (string)$l->t('Thursday'), (string)$l->t('Friday'), (string)$l->t('Saturday'))) ?>;

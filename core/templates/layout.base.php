@@ -10,7 +10,6 @@
 		<script type="text/javascript">
 			var oc_debug = <?php echo (defined('DEBUG') && DEBUG) ? 'true' : 'false'; ?>;
 			var oc_webroot = '<?php echo OC::$WEBROOT; ?>';
-			var oc_appswebroots = <?php echo $_['apps_paths'] ?>;
 			var oc_requesttoken = '<?php echo $_['requesttoken']; ?>';
 		</script>
 		<?php foreach ($_['jsfiles'] as $jsfile): ?>
