@@ -181,12 +181,13 @@ class OC_DB {
 			try{
 				self::$PDO=new PDO($dsn, $user, $pass, $opts);
 			}catch(PDOException $e) {
+				OC_Log::write('core', $e->getMessage(), OC_Log::FATAL);
 				OC_User::setUserId(null);
 
 				// send http status 503
 				header('HTTP/1.1 503 Service Temporarily Unavailable');
 				header('Status: 503 Service Temporarily Unavailable');
-				OC_Template::printErrorPage('Failed to connect to '.$type.' database. ('.$e->getMessage().')' );
+				OC_Template::printErrorPage('Failed to connect to database');
 				die();
 			}
 			// We always, really always want associative arrays
@@ -288,7 +289,7 @@ class OC_DB {
 				// send http status 503
 				header('HTTP/1.1 503 Service Temporarily Unavailable');
 				header('Status: 503 Service Temporarily Unavailable');
-				OC_Template::printErrorPage('Failed to connect to '.$type.' database. ('.self::$MDB2->getUserInfo().')' );
+				OC_Template::printErrorPage('Failed to connect to database');
 				die();
 			}
 
