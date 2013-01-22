@@ -794,6 +794,14 @@ class View {
 								$subPermissionsCache->set($rootEntry['fileid'], $user, $permissions);
 							}
 							$rootEntry['permissions'] = $permissions;
+
+							//remove any existing entry with the same name
+							foreach ($files as $i => $file) {
+								if ($file['name'] === $rootEntry['name']) {
+									unset($files[$i]);
+									break;
+								}
+							}
 							$files[] = $rootEntry;
 						}
 					}

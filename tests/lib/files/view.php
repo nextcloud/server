@@ -98,6 +98,18 @@ class View extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(), $rootView->getDirectoryContent('/non/existing'));
 	}
 
+	function testMountPointOverwrite() {
+		$storage1 = $this->getTestStorage(false);
+		$storage2 = $this->getTestStorage();
+		$storage1->mkdir('substorage');
+		\OC\Files\Filesystem::mount($storage1, array(), '/');
+		\OC\Files\Filesystem::mount($storage2, array(), '/substorage');
+
+		$rootView = new \OC\Files\View('');
+		$folderContent = $rootView->getDirectoryContent('/');
+		$this->assertEquals(4, count($folderContent));
+	}
+
 	function testCacheIncompleteFolder() {
 		$storage1 = $this->getTestStorage(false);
 		\OC\Files\Filesystem::mount($storage1, array(), '/');
