@@ -1,15 +1,4 @@
-<script type="text/javascript">
-<?php if ( array_key_exists('disableSharing', $_) && $_['disableSharing'] == true ) :?>
-		var disableSharing = true;
-<?php else: ?>
-		var disableSharing = false;
-<?php endif; ?>
-<?php if ( array_key_exists('disableDownloadActions', $_) && $_['disableDownloadActions'] == true ) :?>
-		var disableDownloadActions = true;
-<?php else: ?>
-		var disableDownloadActions = false;
-<?php endif; ?>
-</script>
+<script type="text/javascript" src="<?php echo OC_Helper::linkTo('files_trashbin/js', 'part.list.php');?>"></script>
 
 <?php foreach($_['files'] as $file):
 	$simple_file_size = OCP\simple_file_size($file['size']);
