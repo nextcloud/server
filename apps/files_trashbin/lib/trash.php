@@ -24,8 +24,7 @@ namespace OCA_Trash;
 
 class Trashbin {
 	
-	const DELETEAFTER=30; // how long do we keep files in the trash bin (number of days)
-
+	const DEFAULT_RETENTION_OBLIGATION=180; // how long do we keep files in the trash bin if no other value is defined in the config file (unit: days)
 	/**
 	 * move file to the trash bin
 	 * 
@@ -148,7 +147,9 @@ class Trashbin {
 		$query = \OC_DB::prepare('SELECT location,type,id,timestamp FROM *PREFIX*files_trash WHERE user=?');
 		$result = $query->execute(array($user))->fetchAll();
 		
-		$limit = time() - (self::DELETEAFTER * 86400);
+		$retention_obligation = \OC_Config::getValue('trashbin_retention_obligation', self::DEFAULT_RETENTION_OBLIGATION);
+		
+		$limit = time() - ($retention_obligation * 86400);
 
 		foreach ( $result as $r ) {
 			$timestamp = $r['timestamp'];
