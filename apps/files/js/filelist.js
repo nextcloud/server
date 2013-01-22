@@ -277,63 +277,24 @@ var FileList={
 		if (FileList.lastAction) {
 			FileList.lastAction();
 		}
-
-		FileList.prepareDeletion(files);
-
-		if (!FileList.useUndo) {
-			FileList.lastAction();
-		} else {
-			// NOTE: Temporary fix to change the text to unshared for files in root of Shared folder
-			if ($('#dir').val() == '/Shared') {
-				$('#notification').html(t('files', 'unshared {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
-			} else {
-				$('#notification').html(t('files', 'deleted {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
-			}
-			$('#notification').fadeIn();
-		}
-	},
-	finishDelete:function(ready,sync){
-		if(!FileList.deleteCanceled && FileList.deleteFiles){
-			var fileNames=JSON.stringify(FileList.deleteFiles);
-			$.ajax({
-				url: OC.filePath('files', 'ajax', 'delete.php'),
-				async:!sync,
-				type:'post',
-				data: {dir:$('#dir').val(),files:fileNames},
-				complete: function(data){
-					boolOperationFinished(data, function(){
-						$('#notification').fadeOut('400');
-						$.each(FileList.deleteFiles,function(index,file){
-							FileList.remove(file);
-						});
-						FileList.deleteCanceled=true;
-						FileList.deleteFiles=null;
-						FileList.lastAction = null;
-						if(ready){
-							ready();
-						}
-					});
-				}
-			});
-		}
-	},
-	prepareDeletion:function(files){
 		if(files.substr){
 			files=[files];
 		}
-		$.each(files,function(index,file){
-			var files = $('tr').filterAttr('data-file',file);
-			files.hide();
-			files.find('input[type="checkbox"]').removeAttr('checked');
-			files.removeClass('selected');
-		});
-		procesSelection();
-		FileList.deleteCanceled=false;
-		FileList.deleteFiles=files;
-		FileList.lastAction = function() {
-			FileList.finishDelete(null, true);
-		};
-	}
+		var fileNames = JSON.stringify(files);
+		$.post(OC.filePath('files', 'ajax', 'delete.php'),
+				{dir:$('#dir').val(),files:fileNames},
+				function(result){
+					if (result.status == 'success') {
+						$.each(files,function(index,file){
+							var files = $('tr').filterAttr('data-file',file);
+							files.hide();
+							files.find('input[type="checkbox"]').removeAttr('checked');
+							files.removeClass('selected');
+						});
+						procesSelection();
+					} 
+				});
+	},
 };
 
 $(document).ready(function(){
