@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Загрузить",
 "Could not move %s - File with this name already exists" => "Невозможно переместить %s - файл с таким именем уже существует",
 "Could not move %s" => "Невозможно переместить %s",
 "Unable to rename file" => "Невозможно переименовать файл",
@@ -28,7 +29,6 @@
 "'.' is an invalid file name." => "'.' - неправильное имя файла.",
 "File name cannot be empty." => "Имя файла не может быть пустым.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Неправильное имя, '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' недопустимы.",
-"generating ZIP-file, it may take some time." => "создание ZIP-файла, это может занять некоторое время.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Не удается загрузить файл размером 0 байт в каталог",
 "Upload Error" => "Ошибка загрузки",
 "Close" => "Закрыть",
@@ -60,7 +60,6 @@
 "Text file" => "Текстовый файл",
 "Folder" => "Папка",
 "From link" => "Из ссылки",
-"Upload" => "Загрузить",
 "Cancel upload" => "Отмена загрузки",
 "Nothing in here. Upload something!" => "Здесь ничего нет. Загрузите что-нибудь!",
 "Download" => "Скачать",

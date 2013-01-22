@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mariano <mstreet@kde.org.ar>, 2013.
 # Mariano  <mstreet@kde.org.ar>, 2012.
 #   <mstreet@kde.org.ar>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-10 00:04+0100\n"
-"PO-Revision-Date: 2013-01-09 23:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-21 00:04+0100\n"
+"PO-Revision-Date: 2013-01-20 01:38+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,62 +20,67 @@ msgstr ""
 "Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: ajax/delete.php:28 ajax/getstoragestats.php:11 ajax/upload.php:17
+#: ajax/upload.php:76 templates/index.php:18
+msgid "Upload"
+msgstr "Alŝuti"
+
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Ne eblis movi %s: dosiero kun ĉi tiu nomo jam ekzistas"
 
 #: ajax/move.php:24
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Ne eblis movi %s"
 
 #: ajax/rename.php:19
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Ne eblis alinomigi dosieron"
 
-#: ajax/upload.php:14
+#: ajax/upload.php:20
 msgid "No file was uploaded. Unknown error"
 msgstr "Neniu dosiero alŝutiĝis. Nekonata eraro."
 
-#: ajax/upload.php:21
+#: ajax/upload.php:30
 msgid "There is no error, the file uploaded with success"
 msgstr "Ne estas eraro, la dosiero alŝutiĝis sukcese"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:31
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "La dosiero alŝutita superas la regulon upload_max_filesize el php.ini: "
 
-#: ajax/upload.php:24
+#: ajax/upload.php:33
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "La dosiero alŝutita superas la regulon MAX_FILE_SIZE, kiu estas difinita en la HTML-formularo"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:35
 msgid "The uploaded file was only partially uploaded"
 msgstr "La alŝutita dosiero nur parte alŝutiĝis"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:36
 msgid "No file was uploaded"
 msgstr "Neniu dosiero estas alŝutita"
 
-#: ajax/upload.php:28
+#: ajax/upload.php:37
 msgid "Missing a temporary folder"
 msgstr "Mankas tempa dosierujo"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:38
 msgid "Failed to write to disk"
 msgstr "Malsukcesis skribo al disko"
 
-#: ajax/upload.php:45
+#: ajax/upload.php:57
 msgid "Not enough space available"
-msgstr ""
+msgstr "Ne haveblas sufiĉa spaco"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:91
 msgid "Invalid directory."
-msgstr ""
+msgstr "Nevalida dosierujo."
 
 #: appinfo/app.php:10
 msgid "Files"
@@ -128,98 +134,100 @@ msgstr "malkunhaviĝis {files}"
 msgid "deleted {files}"
 msgstr "foriĝis {files}"
 
-#: js/files.js:31
+#: js/files.js:48
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' ne estas valida dosiernomo."
 
-#: js/files.js:36
+#: js/files.js:53
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Dosiernomo devas ne malpleni."
 
-#: js/files.js:45
+#: js/files.js:62
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Nevalida nomo: “\\”, “/”, “<”, “>”, “:”, “\"”, “|”, “?” kaj “*” ne permesatas."
 
-#: js/files.js:186
-msgid "generating ZIP-file, it may take some time."
-msgstr "generanta ZIP-dosiero, ĝi povas daŭri iom da tempo"
+#: js/files.js:204
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr "Via elŝuto pretiĝatas. Ĉi tio povas daŭri iom da tempo se la dosieroj grandas."
 
-#: js/files.js:224
+#: js/files.js:242
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Ne eblis alŝuti vian dosieron ĉar ĝi estas dosierujo aŭ havas 0 duumokojn"
 
-#: js/files.js:224
+#: js/files.js:242
 msgid "Upload Error"
 msgstr "Alŝuta eraro"
 
-#: js/files.js:241
+#: js/files.js:259
 msgid "Close"
 msgstr "Fermi"
 
-#: js/files.js:260 js/files.js:376 js/files.js:409
+#: js/files.js:278 js/files.js:397 js/files.js:431
 msgid "Pending"
 msgstr "Traktotaj"
 
-#: js/files.js:280
+#: js/files.js:298
 msgid "1 file uploading"
 msgstr "1 dosiero estas alŝutata"
 
-#: js/files.js:283 js/files.js:338 js/files.js:353
+#: js/files.js:301 js/files.js:357 js/files.js:372
 msgid "{count} files uploading"
 msgstr "{count} dosieroj alŝutatas"
 
-#: js/files.js:357 js/files.js:393
+#: js/files.js:376 js/files.js:414
 msgid "Upload cancelled."
 msgstr "La alŝuto nuliĝis."
 
-#: js/files.js:464
+#: js/files.js:486
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Dosieralŝuto plenumiĝas. Lasi la paĝon nun nuligus la alŝuton."
 
-#: js/files.js:537
+#: js/files.js:559
 msgid "URL cannot be empty."
 msgstr "URL ne povas esti malplena."
 
-#: js/files.js:543
+#: js/files.js:565
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "Nevalida dosierujnomo. Uzo de “Shared” rezervatas de Owncloud."
 
-#: js/files.js:727
+#: js/files.js:775
 msgid "{count} files scanned"
 msgstr "{count} dosieroj skaniĝis"
 
-#: js/files.js:735
+#: js/files.js:783
 msgid "error while scanning"
 msgstr "eraro dum skano"
 
-#: js/files.js:808 templates/index.php:64
+#: js/files.js:857 templates/index.php:64
 msgid "Name"
 msgstr "Nomo"
 
-#: js/files.js:809 templates/index.php:75
+#: js/files.js:858 templates/index.php:75
 msgid "Size"
 msgstr "Grando"
 
-#: js/files.js:810 templates/index.php:77
+#: js/files.js:859 templates/index.php:77
 msgid "Modified"
 msgstr "Modifita"
 
-#: js/files.js:829
+#: js/files.js:878
 msgid "1 folder"
 msgstr "1 dosierujo"
 
-#: js/files.js:831
+#: js/files.js:880
 msgid "{count} folders"
 msgstr "{count} dosierujoj"
 
-#: js/files.js:839
+#: js/files.js:888
 msgid "1 file"
 msgstr "1 dosiero"
 
-#: js/files.js:841
+#: js/files.js:890
 msgid "{count} files"
 msgstr "{count} dosierujoj"
 
@@ -270,10 +278,6 @@ msgstr "Dosierujo"
 #: templates/index.php:14
 msgid "From link"
 msgstr "El ligilo"
-
-#: templates/index.php:18
-msgid "Upload"
-msgstr "Alŝuti"
 
 #: templates/index.php:41
 msgid "Cancel upload"

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Lae üles",
 "No file was uploaded. Unknown error" => "Ühtegi faili ei laetud üles. Tundmatu viga",
 "There is no error, the file uploaded with success" => "Ühtegi viga pole, fail on üles laetud",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Üles laetud faili suurus ületab HTML vormis määratud upload_max_filesize suuruse",
@@ -20,7 +21,6 @@
 "unshared {files}" => "jagamata {files}",
 "deleted {files}" => "kustutatud {files}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Vigane nimi, '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' pole lubatud.",
-"generating ZIP-file, it may take some time." => "ZIP-faili loomine, see võib veidi aega võtta.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Sinu faili üleslaadimine ebaõnnestus, kuna see on kaust või selle suurus on 0 baiti",
 "Upload Error" => "Üleslaadimise viga",
 "Close" => "Sulge",
@@ -51,7 +51,6 @@
 "Text file" => "Tekstifail",
 "Folder" => "Kaust",
 "From link" => "Allikast",
-"Upload" => "Lae üles",
 "Cancel upload" => "Tühista üleslaadimine",
 "Nothing in here. Upload something!" => "Siin pole midagi. Lae midagi üles!",
 "Download" => "Lae alla",

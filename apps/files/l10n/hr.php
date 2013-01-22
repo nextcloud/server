@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Pošalji",
 "There is no error, the file uploaded with success" => "Datoteka je poslana uspješno i bez pogrešaka",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Poslana datoteka izlazi iz okvira MAX_FILE_SIZE direktive postavljene u HTML obrascu",
 "The uploaded file was only partially uploaded" => "Datoteka je poslana samo djelomično",
@@ -13,7 +14,6 @@
 "suggest name" => "predloži ime",
 "cancel" => "odustani",
 "undo" => "vrati",
-"generating ZIP-file, it may take some time." => "generiranje ZIP datoteke, ovo može potrajati.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nemoguće poslati datoteku jer je prazna ili je direktorij",
 "Upload Error" => "Pogreška pri slanju",
 "Close" => "Zatvori",
@@ -36,7 +36,6 @@
 "New" => "novo",
 "Text file" => "tekstualna datoteka",
 "Folder" => "mapa",
-"Upload" => "Pošalji",
 "Cancel upload" => "Prekini upload",
 "Nothing in here. Upload something!" => "Nema ničega u ovoj mapi. Pošalji nešto!",
 "Download" => "Preuzmi",

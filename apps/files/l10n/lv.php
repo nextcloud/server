@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Augšuplādet",
 "There is no error, the file uploaded with success" => "Viss kārtībā, augšupielāde veiksmīga",
 "No file was uploaded" => "Neviens fails netika augšuplādēts",
 "Missing a temporary folder" => "Trūkst pagaidu mapes",
@@ -11,7 +12,6 @@
 "suggest name" => "Ieteiktais nosaukums",
 "cancel" => "atcelt",
 "undo" => "vienu soli atpakaļ",
-"generating ZIP-file, it may take some time." => "lai uzģenerētu ZIP failu, kāds brīdis ir jāpagaida",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nav iespējams augšuplādēt jūsu failu, jo tāds jau eksistē vai arī failam nav izmēra (0 baiti)",
 "Upload Error" => "Augšuplādēšanas laikā radās kļūda",
 "Pending" => "Gaida savu kārtu",
@@ -30,7 +30,6 @@
 "New" => "Jauns",
 "Text file" => "Teksta fails",
 "Folder" => "Mape",
-"Upload" => "Augšuplādet",
 "Cancel upload" => "Atcelt augšuplādi",
 "Nothing in here. Upload something!" => "Te vēl nekas nav. Rīkojies, sāc augšuplādēt",
 "Download" => "Lejuplādēt",

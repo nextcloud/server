@@ -29,7 +29,6 @@
 "'.' is an invalid file name." => "'.' είναι μη έγκυρο όνομα αρχείου.",
 "File name cannot be empty." => "Το όνομα αρχείου δεν πρέπει να είναι κενό.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Μη έγκυρο όνομα, '\\', '/', '<', '>', ':', '\"', '|', '?' και '*' δεν επιτρέπονται.",
-"generating ZIP-file, it may take some time." => "παραγωγή αρχείου ZIP, ίσως διαρκέσει αρκετά.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Αδυναμία στην αποστολή του αρχείου σας αφού είναι φάκελος ή έχει 0 bytes",
 "Upload Error" => "Σφάλμα Αποστολής",
 "Close" => "Κλείσιμο",

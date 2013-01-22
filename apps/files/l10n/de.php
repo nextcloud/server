@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Hochladen",
 "Could not move %s - File with this name already exists" => "Konnte %s nicht verschieben - Datei mit diesem Namen existiert bereits.",
 "Could not move %s" => "Konnte %s nicht verschieben",
 "Unable to rename file" => "Konnte Datei nicht umbenennen",
@@ -28,7 +29,7 @@
 "'.' is an invalid file name." => "'.' ist kein gültiger Dateiname",
 "File name cannot be empty." => "Der Dateiname darf nicht leer sein",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ungültiger Name, '\\', '/', '<', '>', ':', '\"', '|', '?' und '*' sind nicht zulässig.",
-"generating ZIP-file, it may take some time." => "Erstelle ZIP-Datei. Dies kann eine Weile dauern.",
+"Your download is being prepared. This might take some time if the files are big." => "Dein Download wird vorbereitet. Dies kann bei größeren Dateien etwas dauern.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Deine Datei kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist.",
 "Upload Error" => "Fehler beim Upload",
 "Close" => "Schließen",
@@ -60,7 +61,6 @@
 "Text file" => "Textdatei",
 "Folder" => "Ordner",
 "From link" => "Von einem Link",
-"Upload" => "Hochladen",
 "Cancel upload" => "Upload abbrechen",
 "Nothing in here. Upload something!" => "Alles leer. Lade etwas hoch!",
 "Download" => "Herunterladen",

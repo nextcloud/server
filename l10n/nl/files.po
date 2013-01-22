@@ -14,19 +14,25 @@
 #   <lenny@weijl.org>, 2012.
 #   <pietje8501@gmail.com>, 2012.
 # Richard Bos <radoeka@gmail.com>, 2012.
+# Wilfred Dijksman <info@wdijksman.nl>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-16 00:19+0100\n"
-"PO-Revision-Date: 2013-01-15 09:54+0000\n"
-"Last-Translator: André Koot <meneer@tken.net>\n"
+"POT-Creation-Date: 2013-01-21 00:04+0100\n"
+"PO-Revision-Date: 2013-01-20 17:55+0000\n"
+"Last-Translator: Wilfred Dijksman <info@wdijksman.nl>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/delete.php:28 ajax/getstoragestats.php:11 ajax/upload.php:17
+#: ajax/upload.php:76 templates/index.php:18
+msgid "Upload"
+msgstr "Upload"
 
 #: ajax/move.php:17
 #, php-format
@@ -42,46 +48,46 @@ msgstr "Kon %s niet verplaatsen"
 msgid "Unable to rename file"
 msgstr "Kan bestand niet hernoemen"
 
-#: ajax/upload.php:14
+#: ajax/upload.php:20
 msgid "No file was uploaded. Unknown error"
 msgstr "Er was geen bestand geladen.  Onbekende fout"
 
-#: ajax/upload.php:21
+#: ajax/upload.php:30
 msgid "There is no error, the file uploaded with success"
 msgstr "Geen fout opgetreden, bestand successvol geupload."
 
-#: ajax/upload.php:22
+#: ajax/upload.php:31
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Het geüploade bestand overscheidt de upload_max_filesize optie in php.ini:"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:33
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Het geüploade bestand is groter dan de MAX_FILE_SIZE richtlijn die is opgegeven in de HTML-formulier"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:35
 msgid "The uploaded file was only partially uploaded"
 msgstr "Het bestand is slechts gedeeltelijk geupload"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:36
 msgid "No file was uploaded"
 msgstr "Geen bestand geüpload"
 
-#: ajax/upload.php:28
+#: ajax/upload.php:37
 msgid "Missing a temporary folder"
 msgstr "Een tijdelijke map mist"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:38
 msgid "Failed to write to disk"
 msgstr "Schrijven naar schijf mislukt"
 
-#: ajax/upload.php:45
+#: ajax/upload.php:57
 msgid "Not enough space available"
 msgstr "Niet genoeg ruimte beschikbaar"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:91
 msgid "Invalid directory."
 msgstr "Ongeldige directory."
 
@@ -137,98 +143,100 @@ msgstr "delen gestopt {files}"
 msgid "deleted {files}"
 msgstr "verwijderde {files}"
 
-#: js/files.js:31
+#: js/files.js:48
 msgid "'.' is an invalid file name."
 msgstr "'.' is een ongeldige bestandsnaam."
 
-#: js/files.js:36
+#: js/files.js:53
 msgid "File name cannot be empty."
 msgstr "Bestandsnaam kan niet leeg zijn."
 
-#: js/files.js:45
+#: js/files.js:62
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Onjuiste naam; '\\', '/', '<', '>', ':', '\"', '|', '?' en '*' zijn niet toegestaan."
 
-#: js/files.js:187
-msgid "generating ZIP-file, it may take some time."
-msgstr "aanmaken ZIP-file, dit kan enige tijd duren."
+#: js/files.js:204
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr "Uw download wordt voorbereid. Dit kan enige tijd duren bij grote bestanden."
 
-#: js/files.js:225
+#: js/files.js:242
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "uploaden van de file mislukt, het is of een directory of de bestandsgrootte is 0 bytes"
 
-#: js/files.js:225
+#: js/files.js:242
 msgid "Upload Error"
 msgstr "Upload Fout"
 
-#: js/files.js:242
+#: js/files.js:259
 msgid "Close"
 msgstr "Sluit"
 
-#: js/files.js:261 js/files.js:377 js/files.js:410
+#: js/files.js:278 js/files.js:397 js/files.js:431
 msgid "Pending"
 msgstr "Wachten"
 
-#: js/files.js:281
+#: js/files.js:298
 msgid "1 file uploading"
 msgstr "1 bestand wordt ge-upload"
 
-#: js/files.js:284 js/files.js:339 js/files.js:354
+#: js/files.js:301 js/files.js:357 js/files.js:372
 msgid "{count} files uploading"
 msgstr "{count} bestanden aan het uploaden"
 
-#: js/files.js:358 js/files.js:394
+#: js/files.js:376 js/files.js:414
 msgid "Upload cancelled."
 msgstr "Uploaden geannuleerd."
 
-#: js/files.js:465
+#: js/files.js:486
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Bestandsupload is bezig. Wanneer de pagina nu verlaten wordt, stopt de upload."
 
-#: js/files.js:538
+#: js/files.js:559
 msgid "URL cannot be empty."
 msgstr "URL kan niet leeg zijn."
 
-#: js/files.js:544
+#: js/files.js:565
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Ongeldige mapnaam. Gebruik van'Gedeeld' is voorbehouden aan Owncloud"
 
-#: js/files.js:728
+#: js/files.js:775
 msgid "{count} files scanned"
 msgstr "{count} bestanden gescanned"
 
-#: js/files.js:736
+#: js/files.js:783
 msgid "error while scanning"
 msgstr "Fout tijdens het scannen"
 
-#: js/files.js:809 templates/index.php:64
+#: js/files.js:857 templates/index.php:64
 msgid "Name"
 msgstr "Naam"
 
-#: js/files.js:810 templates/index.php:75
+#: js/files.js:858 templates/index.php:75
 msgid "Size"
 msgstr "Bestandsgrootte"
 
-#: js/files.js:811 templates/index.php:77
+#: js/files.js:859 templates/index.php:77
 msgid "Modified"
 msgstr "Laatst aangepast"
 
-#: js/files.js:830
+#: js/files.js:878
 msgid "1 folder"
 msgstr "1 map"
 
-#: js/files.js:832
+#: js/files.js:880
 msgid "{count} folders"
 msgstr "{count} mappen"
 
-#: js/files.js:840
+#: js/files.js:888
 msgid "1 file"
 msgstr "1 bestand"
 
-#: js/files.js:842
+#: js/files.js:890
 msgid "{count} files"
 msgstr "{count} bestanden"
 
@@ -279,10 +287,6 @@ msgstr "Map"
 #: templates/index.php:14
 msgid "From link"
 msgstr "Vanaf link"
-
-#: templates/index.php:18
-msgid "Upload"
-msgstr "Upload"
 
 #: templates/index.php:41
 msgid "Cancel upload"

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Отпреми",
 "There is no error, the file uploaded with success" => "Није дошло до грешке. Датотека је успешно отпремљена.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Отпремљена датотека прелази смерницу upload_max_filesize у датотеци php.ini:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Отпремљена датотека прелази смерницу MAX_FILE_SIZE која је наведена у HTML обрасцу",
@@ -20,7 +21,6 @@
 "unshared {files}" => "укинуто дељење {files}",
 "deleted {files}" => "обрисано {files}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Неисправан назив. Следећи знакови нису дозвољени: \\, /, <, >, :, \", |, ? и *.",
-"generating ZIP-file, it may take some time." => "правим ZIP датотеку…",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Не могу да отпремим датотеку као фасциклу или она има 0 бајтова",
 "Upload Error" => "Грешка при отпремању",
 "Close" => "Затвори",
@@ -50,7 +50,6 @@
 "Text file" => "текстуална датотека",
 "Folder" => "фасцикла",
 "From link" => "Са везе",
-"Upload" => "Отпреми",
 "Cancel upload" => "Прекини отпремање",
 "Nothing in here. Upload something!" => "Овде нема ничег. Отпремите нешто!",
 "Download" => "Преузми",

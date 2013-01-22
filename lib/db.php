@@ -440,6 +440,9 @@ class OC_DB {
 		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
 		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
 
+		// cleanup the cached queries
+		self::$preparedQueries = array();
+
 		self::connectScheme();
 
 		// read file

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "بارگذاری",
 "No file was uploaded. Unknown error" => "هیچ فایلی آپلود نشد.خطای ناشناس",
 "There is no error, the file uploaded with success" => "هیچ خطایی وجود ندارد فایل با موفقیت بار گذاری شد",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "حداکثر حجم مجاز برای بارگذاری از طریق HTML \nMAX_FILE_SIZE",
@@ -12,7 +13,6 @@
 "replace" => "جایگزین",
 "cancel" => "لغو",
 "undo" => "بازگشت",
-"generating ZIP-file, it may take some time." => "در حال ساخت فایل فشرده ممکن است زمان زیادی به طول بیانجامد",
 "Unable to upload your file as it is a directory or has 0 bytes" => "ناتوان در بارگذاری یا فایل یک پوشه است یا 0بایت دارد",
 "Upload Error" => "خطا در بار گذاری",
 "Close" => "بستن",
@@ -32,7 +32,6 @@
 "New" => "جدید",
 "Text file" => "فایل متنی",
 "Folder" => "پوشه",
-"Upload" => "بارگذاری",
 "Cancel upload" => "متوقف کردن بار گذاری",
 "Nothing in here. Upload something!" => "اینجا هیچ چیز نیست.",
 "Download" => "بارگیری",

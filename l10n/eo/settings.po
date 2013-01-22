@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mariano <mstreet@kde.org.ar>, 2013.
 # Mariano  <mstreet@kde.org.ar>, 2012.
 #   <mstreet@kde.org.ar>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-21 00:04+0100\n"
+"PO-Revision-Date: 2013-01-20 01:30+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -115,27 +116,27 @@ msgstr "<span class=\"licence\"</span>-permesilhavigita de <span class=\"author\
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr ""
+msgstr "Dokumentaro por uzantoj"
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Dokumentaro por administrantoj"
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr ""
+msgstr "Reta dokumentaro"
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr ""
+msgstr "Forumo"
 
 #: templates/help.php:9
 msgid "Bugtracker"
-msgstr ""
+msgstr "Cimoraportejo"
 
 #: templates/help.php:11
 msgid "Commercial Support"
-msgstr ""
+msgstr "Komerca subteno"
 
 #: templates/personal.php:8
 #, php-format
@@ -148,15 +149,15 @@ msgstr "Klientoj"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr ""
+msgstr "Elŝuti labortablajn klientojn"
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr ""
+msgstr "Elŝuti Android-klienton"
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr ""
+msgstr "Elŝuti iOS-klienton"
 
 #: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
@@ -208,15 +209,15 @@ msgstr "Helpu traduki"
 
 #: templates/personal.php:52
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Uzu ĉi tiun adreson por konekti al via ownCloud vian dosieradministrilon"
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr ""
+msgstr "Eldono"
 
 #: templates/personal.php:65
 msgid ""
@@ -242,11 +243,11 @@ msgstr "Krei"
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr ""
+msgstr "Defaŭlta konservejo"
 
 #: templates/users.php:42 templates/users.php:138
 msgid "Unlimited"
-msgstr ""
+msgstr "Senlima"
 
 #: templates/users.php:60 templates/users.php:153
 msgid "Other"
@@ -258,11 +259,11 @@ msgstr "Grupadministranto"
 
 #: templates/users.php:87
 msgid "Storage"
-msgstr ""
+msgstr "Konservejo"
 
 #: templates/users.php:133
 msgid "Default"
-msgstr ""
+msgstr "Defaŭlta"
 
 #: templates/users.php:161
 msgid "Delete"

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Puja",
 "Could not move %s - File with this name already exists" => "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom",
 "Could not move %s" => " No s'ha pogut moure %s",
 "Unable to rename file" => "No es pot canviar el nom del fitxer",
@@ -28,7 +29,6 @@
 "'.' is an invalid file name." => "'.' és un nom no vàlid per un fitxer.",
 "File name cannot be empty." => "El nom del fitxer no pot ser buit.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "El nóm no és vàlid, '\\', '/', '<', '>', ':', '\"', '|', '?' i '*' no estan permesos.",
-"generating ZIP-file, it may take some time." => "s'estan generant fitxers ZIP, pot trigar una estona.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "No es pot pujar el fitxer perquè és una carpeta o té 0 bytes",
 "Upload Error" => "Error en la pujada",
 "Close" => "Tanca",
@@ -60,7 +60,6 @@
 "Text file" => "Fitxer de text",
 "Folder" => "Carpeta",
 "From link" => "Des d'enllaç",
-"Upload" => "Puja",
 "Cancel upload" => "Cancel·la la pujada",
 "Nothing in here. Upload something!" => "Res per aquí. Pugeu alguna cosa!",
 "Download" => "Baixa",

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "আপলোড",
 "Could not move %s - File with this name already exists" => "%s কে স্থানান্তর করা সম্ভব হলো না -  এই নামের ফাইল বিদ্যমান",
 "Could not move %s" => "%s  কে স্থানান্তর করা সম্ভব হলো না",
 "Unable to rename file" => "ফাইলের নাম পরিবর্তন করা সম্ভব হলো না",
@@ -28,7 +29,6 @@
 "'.' is an invalid file name." => "টি একটি অননুমোদিত নাম।",
 "File name cannot be empty." => "ফাইলের নামটি ফাঁকা রাখা যাবে না।",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "নামটি সঠিক নয়,  '\\', '/', '<', '>', ':', '\"', '|', '?' এবং  '*'  অনুমোদিত নয়।",
-"generating ZIP-file, it may take some time." => "ZIP- ফাইল তৈরী করা হচ্ছে, এজন্য কিছু সময় আবশ্যক।",
 "Unable to upload your file as it is a directory or has 0 bytes" => "আপনার ফাইলটি আপলোড করা সম্ভব হলো না, কেননা এটি হয় একটি ফোল্ডার কিংবা এর আকার ০ বাইট",
 "Upload Error" => "আপলোড করতে সমস্যা ",
 "Close" => "বন্ধ",
@@ -60,7 +60,6 @@
 "Text file" => "টেক্সট ফাইল",
 "Folder" => "ফোল্ডার",
 "From link" => " লিংক থেকে",
-"Upload" => "আপলোড",
 "Cancel upload" => "আপলোড বাতিল কর",
 "Nothing in here. Upload something!" => "এখানে কিছুই নেই। কিছু আপলোড করুন !",
 "Download" => "ডাউনলোড",
