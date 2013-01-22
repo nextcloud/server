@@ -79,11 +79,11 @@ $CONFIG = array(
 "mail_smtpport" => 25,
 
 /* SMTP server timeout in seconds for sending mail, depends on mail_smtpmode if this is used */
-"mail_smtptimeout" => 10;
+"mail_smtptimeout" => 10,
 
 /* SMTP connection prefix or sending mail, depends on mail_smtpmode if this is used.
    Can be '', ssl or tls */
-"mail_smtpsecure" => '',
+"mail_smtpsecure" => "",
 
 /* authentication needed to send mail, depends on mail_smtpmode if this is used
  * (false = disable authentication)
