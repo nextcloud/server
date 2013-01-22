@@ -8,7 +8,7 @@ $(document).ready(function() {
 				{files:tr.attr('data-file'), dirlisting:tr.attr('data-dirlisting') },
 				function(result){
 					for (var i = 0; i < result.data.success.length; i++) {
-						var row = document.getElementById(result.data.success[i].filename+'.d'+result.data.success[i].timestamp);
+						var row = document.getElementById(result.data.success[i].filename);
 						row.parentNode.removeChild(row);
 					}
 					if (result.status != 'success') {
@@ -69,7 +69,7 @@ $(document).ready(function() {
 					{files:fileslist, dirlisting:dirlisting},
 					function(result){
 						for (var i = 0; i < result.data.success.length; i++) {
-							var row = document.getElementById(result.data.success[i].filename+'.d'+result.data.success[i].timestamp);
+							var row = document.getElementById(result.data.success[i].filename);
 							row.parentNode.removeChild(row);
 						}
 						if (result.status != 'success') {
