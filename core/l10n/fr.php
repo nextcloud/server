@@ -125,7 +125,6 @@
 "Lost your password?" => "Mot de passe perdu ?",
 "remember" => "se souvenir de moi",
 "Log in" => "Connexion",
-"You are logged out." => "Vous êtes désormais déconnecté.",
 "prev" => "précédent",
 "next" => "suivant",
 "Updating ownCloud to version %s, this may take a while." => "Mise à jour en cours d'ownCloud vers la version %s, cela peut prendre du temps.",

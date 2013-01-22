@@ -1,10 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Email saved" => "Emel disimpan",
 "Invalid email" => "Emel tidak sah",
-"OpenID Changed" => "OpenID diubah",
-"Invalid request" => "Permintaan tidak sah",
 "Authentication error" => "Ralat pengesahan",
 "Language changed" => "Bahasa diubah",
+"Invalid request" => "Permintaan tidak sah",
 "Disable" => "Nyahaktif",
 "Enable" => "Aktif",
 "Saving..." => "Simpan...",

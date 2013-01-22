@@ -109,7 +109,6 @@
 "Lost your password?" => "Ai uitat parola?",
 "remember" => "amintește",
 "Log in" => "Autentificare",
-"You are logged out." => "Ai ieșit",
 "prev" => "precedentul",
 "next" => "următorul",
 "Security Warning!" => "Advertisment de Securitate",

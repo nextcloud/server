@@ -9,6 +9,7 @@
 #   <mpolr21@gmail.com>, 2012.
 # Nick Remeslennikov <homolibere@gmail.com>, 2012.
 #   <semen@sam002.net>, 2012.
+#   <sharov3@gmail.com>, 2013.
 #   <skoptev@ukr.net>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 # Victor Bravo <>, 2012.
@@ -17,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-10 00:04+0100\n"
-"PO-Revision-Date: 2013-01-09 23:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-13 00:08+0100\n"
+"PO-Revision-Date: 2013-01-12 11:53+0000\n"
+"Last-Translator: adol <sharov3@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,16 +31,16 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Невозможно переместить %s - файл с таким именем уже существует"
 
 #: ajax/move.php:24
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Невозможно переместить %s"
 
 #: ajax/rename.php:19
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Невозможно переименовать файл"
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
@@ -78,11 +79,11 @@ msgstr "Ошибка записи на диск"
 
 #: ajax/upload.php:45
 msgid "Not enough space available"
-msgstr ""
+msgstr "Недостаточно свободного места"
 
 #: ajax/upload.php:69
 msgid "Invalid directory."
-msgstr ""
+msgstr "Неправильный каталог."
 
 #: appinfo/app.php:10
 msgid "Files"
@@ -138,11 +139,11 @@ msgstr "удаленные {files}"
 
 #: js/files.js:31
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' - неправильное имя файла."
 
 #: js/files.js:36
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Имя файла не может быть пустым."
 
 #: js/files.js:45
 msgid ""
@@ -193,7 +194,7 @@ msgstr "Ссылка не может быть пустой."
 
 #: js/files.js:543
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "Неправильное имя каталога. Имя 'Shared' зарезервировано."
 
 #: js/files.js:727
 msgid "{count} files scanned"

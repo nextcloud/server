@@ -125,7 +125,6 @@
 "Lost your password?" => "¿Perdiste tu contraseña?",
 "remember" => "recordame",
 "Log in" => "Entrar",
-"You are logged out." => "Terminaste la sesión.",
 "prev" => "anterior",
 "next" => "siguiente",
 "Security Warning!" => "¡Advertencia de seguridad!",

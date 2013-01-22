@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <sveinng@gmail.com>, 2012.
+#   <sveinng@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-10 00:04+0100\n"
-"PO-Revision-Date: 2013-01-09 23:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-11 00:05+0100\n"
+"PO-Revision-Date: 2013-01-10 22:46+0000\n"
+"Last-Translator: sveinn <sveinng@gmail.com>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,20 +21,20 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Gat ekki fært %s - Skrá með þessu nafni er þegar til"
 
 #: ajax/move.php:24
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Gat ekki fært %s"
 
 #: ajax/rename.php:19
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Gat ekki endurskýrt skrá"
 
 #: ajax/upload.php:14
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "Engin skrá var send inn. Óþekkt villa."
 
 #: ajax/upload.php:21
 msgid "There is no error, the file uploaded with success"
@@ -69,11 +69,11 @@ msgstr "Tókst ekki að skrifa á disk"
 
 #: ajax/upload.php:45
 msgid "Not enough space available"
-msgstr ""
+msgstr "Ekki nægt pláss tiltækt"
 
 #: ajax/upload.php:69
 msgid "Invalid directory."
-msgstr ""
+msgstr "Ógild mappa."
 
 #: appinfo/app.php:10
 msgid "Files"
@@ -129,11 +129,11 @@ msgstr "eyddi {files}"
 
 #: js/files.js:31
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' er ekki leyfilegt nafn."
 
 #: js/files.js:36
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Nafn skráar má ekki vera tómt"
 
 #: js/files.js:45
 msgid ""
@@ -184,7 +184,7 @@ msgstr "Vefslóð má ekki vera tóm."
 
 #: js/files.js:543
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "Óleyfilegt nafn á möppu. Nafnið 'Shared' er frátekið fyrir Owncloud"
 
 #: js/files.js:727
 msgid "{count} files scanned"
@@ -280,7 +280,7 @@ msgstr "Hætta við innsendingu"
 
 #: templates/index.php:56
 msgid "Nothing in here. Upload something!"
-msgstr "Ekkert hér. Sendu eitthvað inn!"
+msgstr "Ekkert hér. Settu eitthvað inn!"
 
 #: templates/index.php:70
 msgid "Download"
@@ -288,7 +288,7 @@ msgstr "Niðurhal"
 
 #: templates/index.php:102
 msgid "Upload too large"
-msgstr "Innsend skrá of stór"
+msgstr "Innsend skrá er of stór"
 
 #: templates/index.php:104
 msgid ""

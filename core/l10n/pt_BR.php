@@ -117,7 +117,6 @@
 "Lost your password?" => "Esqueçeu sua senha?",
 "remember" => "lembrete",
 "Log in" => "Log in",
-"You are logged out." => "Você está desconectado.",
 "prev" => "anterior",
 "next" => "próximo",
 "Security Warning!" => "Aviso de Segurança!",
