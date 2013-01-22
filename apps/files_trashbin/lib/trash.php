@@ -73,49 +73,63 @@ class Trashbin {
 	
 	/**
 	 * restore files from trash bin
+	 * @param $file path to the deleted file
 	 * @param $filename name of the file
 	 * @param $timestamp time when the file was deleted
 	 */
-	public static function restore($filename, $timestamp) {
+	public static function restore($file, $filename, $timestamp) {
 
 		$user = \OCP\User::getUser();
 		$view = new \OC_FilesystemView('/'.$user);
 		
-		$query = \OC_DB::prepare('SELECT location,type FROM *PREFIX*files_trash WHERE user=? AND id=? AND timestamp=?');
-		$result = $query->execute(array($user,$filename,$timestamp))->fetchAll();
-		
-		if ( count($result) != 1 ) {
-			\OC_Log::write('files_trashbin', 'trash bin database inconsistent!', OC_Log::ERROR);
-			return false;
+		if ( $timestamp ) {
+			$query = \OC_DB::prepare('SELECT location,type FROM *PREFIX*files_trash WHERE user=? AND id=? AND timestamp=?');
+			$result = $query->execute(array($user,$filename,$timestamp))->fetchAll();
+			if ( count($result) != 1 ) {
+				\OC_Log::write('files_trashbin', 'trash bin database inconsistent!', OC_Log::ERROR);
+				return false;
+			}
+			
+			// if location no longer exists, restore file in the root directory
+			$location = $result[0]['location'];
+			if ( $result[0]['location'] != '/' && !$view->is_dir('files'.$result[0]['location']) ) {
+				$location = '';
+			}
+		} else {
+			$path_parts = pathinfo($filename);
+			$result[] = array(
+					'location' => $path_parts['dirname'],
+					'type' => $view->is_dir('/files_trashbin/'.$file) ? 'dir' : 'files',
+					);
+			$location = '';
 		}
-
-		// if location no longer exists, restore file in the root directory
-		$location = $result[0]['location'];
-		if ( $result[0]['location'] != '/' && !$view->is_dir('files'.$result[0]['location']) ) {
-			$location = '/';
-		}
 		
-		$source = 'files_trashbin/'.$filename.'.d'.$timestamp;
+		$source = \OC_Filesystem::normalizePath('files_trashbin/'.$file);
 		$target = \OC_Filesystem::normalizePath('files/'.$location.'/'.$filename);
 		
 		// we need a  extension in case a file/dir with the same name already exists
 		$ext = self::getUniqueExtension($location, $filename, $view);
 		
 		if( $view->rename($source, $target.$ext) ) {
-
 			// if versioning app is enabled, copy versions from the trash bin back to the original location
-			if ( $return && \OCP\App::isEnabled('files_versions') ) {
-				if ( $result[0][type] == 'dir' ) {
-					$view->rename('versions_trashbin/'. $filename.'.d'.$timestamp, 'files_versions/'.$location.'/'.$filename.$ext);
-				} else if ( $versions = self::getVersionsFromTrash($filename, $timestamp) ) {
+			if ( \OCP\App::isEnabled('files_versions') ) {
+				if ( $result[0]['type'] == 'dir' ) {
+					$view->rename(\OC_Filesystem::normalizePath('versions_trashbin/'. $file), \OC_Filesystem::normalizePath('files_versions/'.$location.'/'.$filename.$ext));
+				} else if ( $versions = self::getVersionsFromTrash($file, $timestamp) ) {
 					foreach ($versions as $v) {
-						$view->rename('versions_trashbin/'.$filename.'.v'.$v.'.d'.$timestamp, 'files_versions/'.$location.'/'.$filename.$ext.'.v'.$v);
+						if ($timestamp ) {
+							$view->rename('versions_trashbin/'.$filename.'.v'.$v.'.d'.$timestamp, 'files_versions/'.$location.'/'.$filename.$ext.'.v'.$v);
+						} else {
+							$view->rename('versions_trashbin/'.$file.'.v'.$v, 'files_versions/'.$location.'/'.$filename.$ext.'.v'.$v);
+						}
 					}
 				}
 			}
 
-			$query = \OC_DB::prepare('DELETE FROM *PREFIX*files_trash WHERE user=? AND id=? AND timestamp=?');
-			$query->execute(array($user,$filename,$timestamp));
+			if ( $timestamp ) {
+				$query = \OC_DB::prepare('DELETE FROM *PREFIX*files_trash WHERE user=? AND id=? AND timestamp=?');
+				$query->execute(array($user,$filename,$timestamp));
+			}
 
 			return true;
 		}
@@ -189,12 +203,22 @@ class Trashbin {
 		$versionsName = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath($filename);
 		$versions = array();
 		
+		if ($timestamp ) {
 		// fetch for old versions
-		$matches = glob( $versionsName.'.v*.d'.$timestamp );
+			$matches = glob( $versionsName.'.v*.d'.$timestamp );
+			$offset = -strlen($timestamp)-2;
+		} else {
+			$matches = glob( $versionsName.'.v*' );
+		}
 		
 		foreach( $matches as $ma ) {
-			$parts = explode( '.v', substr($ma, 0, -strlen($timestamp)-2) );
-			$versions[] = ( end( $parts ) );
+			if ( $timestamp ) {
+				$parts = explode( '.v', substr($ma, 0, $offset) );
+				$versions[] = ( end( $parts ) );
+			} else {
+				$parts = explode( '.v', $ma );
+				$versions[] = ( end( $parts ) );
+			}
 		}
 		return $versions;
 	}

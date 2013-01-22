@@ -24,13 +24,21 @@
 	$name = str_replace('%2F', '/', $name);
 	$directory = str_replace('+', '%20', urlencode($file['directory']));
 	$directory = str_replace('%2F', '/', $directory); ?>
-	<tr id="<?php echo $file['name'].'.d'.$file['timestamp'];?>"
-		data-file="<?php echo $file['name'].'.d'.$file['timestamp'];?>"
-		data-filename="<?php echo $file['name'];?>"
+	<tr data-filename="<?php echo $file['name'];?>"
 		data-type="<?php echo ($file['type'] == 'dir')?'dir':'file'?>"
 		data-mime="<?php echo $file['mimetype']?>"
+		data-permissions='<?php echo $file['permissions']; ?>'
+		<?php if ( $_['dirlisting'] ): ?>
+		id="<?php echo $file['directory'].'/'.$file['name'];?>"
+		data-file="<?php echo $file['directory'].'/'.$file['name'];?>"
+		data-timestamp=''
+		data-dirlisting=1
+		<?php  else: ?>
+		id="<?php echo $file['name'].'.d'.$file['timestamp'];?>"
+		data-file="<?php echo $file['name'].'.d'.$file['timestamp'];?>"
 		data-timestamp='<?php echo $file['timestamp'];?>'
-		data-permissions='<?php echo $file['permissions']; ?>'>
+		data-dirlisting=0
+		<?php endif; ?>>
 		<td class="filename svg"
 		<?php if($file['type'] == 'dir'): ?>
 			style="background-image:url(<?php echo OCP\mimetype_icon('dir'); ?>)"

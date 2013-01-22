@@ -28,7 +28,6 @@ if ($dir) {
 			$tmp = substr($dir, 0, $pos);
 			$pos = strrpos($tmp, '.d');
 			$timestamp = substr($tmp,$pos+2);
-			error_log("timestamp: $timestamp");
 			$result[] = array(
 					'id' => $entryName,
 					'timestamp' => $timestamp,
@@ -68,17 +67,23 @@ foreach ($result as $r) {
 }
 
 // Make breadcrumb
-$breadcrumb = array('dir' => '', 'name' => 'Trash');
+$breadcrumb = array(array('dir' => '', 'name' => 'Trash'));
 $pathtohere = '';
 foreach (explode('/', $dir) as $i) {
 	if ($i != '') {
+		if ( preg_match('/^(.+)\.d[0-9]+$/', $i, $match) ) {
+			error_log("match!");
+			$name = $match[1];
+		} else {
+			$name = $i;
+		}
 		$pathtohere .= '/' . $i;
-		$breadcrumb[] = array('dir' => $pathtohere, 'name' => $i);
+		$breadcrumb[] = array('dir' => $pathtohere, 'name' => $name);
 	}
 }
 
 $breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
-$breadcrumbNav->assign('breadcrumb', array(array('dir' => '', 'name' => 'Trash')), false);
+$breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
 $breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php') . '?dir=', false);
 
 $list = new OCP\Template('files_trashbin', 'part.list', '');
