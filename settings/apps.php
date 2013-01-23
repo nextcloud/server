@@ -26,9 +26,7 @@ OC_App::loadApps();
 
 // Load the files we need
 OC_Util::addStyle( "settings", "settings" );
-OC_Util::addScript( "settings", "apps" );
 OC_App::setActiveNavigationEntry( "core_apps" );
-
 
 function app_sort( $a, $b ) {
 

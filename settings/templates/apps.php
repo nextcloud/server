@@ -3,7 +3,8 @@
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */?>
- <script type="text/javascript" src="<?php echo OC_Helper::linkToRoute('apps_custom');?>"></script>
+ <script type="text/javascript" src="<?php echo OC_Helper::linkToRoute('apps_custom');?>?appid=<?php echo $_['appid']; ?>"></script>
+ <script type="text/javascript" src="<?php echo OC_Helper::linkTo('settings/js', 'apps.js');?>"></script>
 
 <div id="controls">
 	<a class="button" target="_blank" href="http://owncloud.org/dev/apps/getting-started/"><?php echo $l->t('Add your App');?></a>
