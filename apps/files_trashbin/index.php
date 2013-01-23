@@ -5,6 +5,7 @@ OCP\User::checkLoggedIn();
 
 OCP\Util::addStyle('files_trashbin', 'trash');
 OCP\Util::addScript('files_trashbin', 'trash');
+OCP\Util::addScript('files_trashbin', 'disableDefaultActions');
 OCP\Util::addScript('files', 'fileactions');
 $tmpl = new OCP\Template('files_trashbin', 'index', 'user');
 

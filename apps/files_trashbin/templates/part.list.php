@@ -1,5 +1,3 @@
-<script type="text/javascript" src="<?php echo OC_Helper::linkTo('files_trashbin/js', 'part.list.php');?>"></script>
-
 <?php foreach($_['files'] as $file):
 	$simple_file_size = OCP\simple_file_size($file['size']);
 	// the bigger the file, the darker the shade of grey; megabytes*2
