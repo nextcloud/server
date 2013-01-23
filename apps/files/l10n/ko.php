@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "업로드",
 "Could not move %s - File with this name already exists" => "%s 항목을 이동시키지 못하였음 - 파일 이름이 이미 존재함",
 "Could not move %s" => "%s 항목을 이딩시키지 못하였음",
 "Unable to rename file" => "파일 이름바꾸기 할 수 없음",
@@ -28,7 +29,6 @@
 "'.' is an invalid file name." => "'.' 는 올바르지 않은 파일 이름 입니다.",
 "File name cannot be empty." => "파일이름은 공란이 될 수 없습니다.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "폴더 이름이 올바르지 않습니다. 이름에 문자 '\\', '/', '<', '>', ':', '\"', '|', '? ', '*'는 사용할 수 없습니다.",
-"generating ZIP-file, it may take some time." => "ZIP 파일을 생성하고 있습니다. 시간이 걸릴 수도 있습니다.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "이 파일은 디렉터리이거나 비어 있기 때문에 업로드할 수 없습니다",
 "Upload Error" => "업로드 오류",
 "Close" => "닫기",
@@ -60,7 +60,6 @@
 "Text file" => "텍스트 파일",
 "Folder" => "폴더",
 "From link" => "링크에서",
-"Upload" => "업로드",
 "Cancel upload" => "업로드 취소",
 "Nothing in here. Upload something!" => "내용이 없습니다. 업로드할 수 있습니다!",
 "Download" => "다운로드",

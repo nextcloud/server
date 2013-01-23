@@ -28,6 +28,7 @@ OCP\User::checkLoggedIn();
 OCP\Util::addStyle('files', 'files');
 OCP\Util::addscript('files', 'jquery.iframe-transport');
 OCP\Util::addscript('files', 'jquery.fileupload');
+OCP\Util::addscript('files', 'jquery-visibility');
 OCP\Util::addscript('files', 'files');
 OCP\Util::addscript('files', 'filelist');
 OCP\Util::addscript('files', 'fileactions');
@@ -38,36 +39,36 @@ OCP\App::setActiveNavigationEntry('files_index');
 $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 // Redirect if directory does not exist
 if (!OC_Filesystem::is_dir($dir . '/')) {
-    header('Location: ' . $_SERVER['SCRIPT_NAME'] . '');
-    exit();
+	header('Location: ' . $_SERVER['SCRIPT_NAME'] . '');
+	exit();
 }
 
 $files = array();
 foreach (OC_Files::getdirectorycontent($dir) as $i) {
-    $i['date'] = OCP\Util::formatDate($i['mtime']);
-    if ($i['type'] == 'file') {
-        $fileinfo = pathinfo($i['name']);
-        $i['basename'] = $fileinfo['filename'];
-        if (!empty($fileinfo['extension'])) {
-            $i['extension'] = '.' . $fileinfo['extension'];
-        } else {
-            $i['extension'] = '';
-        }
-    }
-    if ($i['directory'] == '/') {
-        $i['directory'] = '';
-    }
-    $files[] = $i;
+	$i['date'] = OCP\Util::formatDate($i['mtime']);
+	if ($i['type'] == 'file') {
+		$fileinfo = pathinfo($i['name']);
+		$i['basename'] = $fileinfo['filename'];
+		if (!empty($fileinfo['extension'])) {
+			$i['extension'] = '.' . $fileinfo['extension'];
+		} else {
+			$i['extension'] = '';
+		}
+	}
+	if ($i['directory'] == '/') {
+		$i['directory'] = '';
+	}
+	$files[] = $i;
 }
 
 // Make breadcrumb
 $breadcrumb = array();
 $pathtohere = '';
 foreach (explode('/', $dir) as $i) {
-    if ($i != '') {
-        $pathtohere .= '/' . $i;
-        $breadcrumb[] = array('dir' => $pathtohere, 'name' => $i);
-    }
+	if ($i != '') {
+		$pathtohere .= '/' . $i;
+		$breadcrumb[] = array('dir' => $pathtohere, 'name' => $i);
+	}
 }
 
 // make breadcrumb und filelist markup
@@ -79,23 +80,17 @@ $breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 $breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
 $breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=', false);
 
-$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
-$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
-$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
-
-$freeSpace = OC_Filesystem::free_space($dir);
-$freeSpace = max($freeSpace, 0);
-$maxUploadFilesize = min($maxUploadFilesize, $freeSpace);
+$maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
 
 $permissions = OCP\PERMISSION_READ;
 if (OC_Filesystem::isUpdatable($dir . '/')) {
-    $permissions |= OCP\PERMISSION_UPDATE;
+	$permissions |= OCP\PERMISSION_UPDATE;
 }
 if (OC_Filesystem::isDeletable($dir . '/')) {
-    $permissions |= OCP\PERMISSION_DELETE;
+	$permissions |= OCP\PERMISSION_DELETE;
 }
 if (OC_Filesystem::isSharable($dir . '/')) {
-    $permissions |= OCP\PERMISSION_SHARE;
+	$permissions |= OCP\PERMISSION_SHARE;
 }
 
 $tmpl = new OCP\Template('files', 'index', 'user');

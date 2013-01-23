@@ -203,7 +203,7 @@ class Util {
 		$host_name = self::getServerHostName();
 		// handle localhost installations
 		if ($host_name === 'localhost') {
-            $host_name = "example.com";
+			$host_name = "example.com";
 		}
 		return $user_part.'@'.$host_name;
 	}
@@ -298,7 +298,7 @@ class Util {
 	 * Todo: Write howto
 	 */
 	public static function callCheck() {
-		return(\OC_Util::callCheck());
+		\OC_Util::callCheck();
 	}
 
 	/**
@@ -366,5 +366,15 @@ class Util {
 	*/
 	public static function recursiveArraySearch($haystack, $needle, $index = null) {
 		return(\OC_Helper::recursiveArraySearch($haystack, $needle, $index));
+	}
+
+	/**
+	 * @brief calculates the maximum upload size respecting system settings, free space and user quota
+	 *
+	 * @param $dir the current folder where the user currently operates
+	 * @return number of bytes representing
+	 */
+	public static function maxUploadFilesize($dir) {
+		return \OC_Helper::maxUploadFilesize($dir);
 	}
 }

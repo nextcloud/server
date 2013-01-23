@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "Dosyaların birer birer indirilmesi gerekmektedir.",
 "Back to Files" => "Dosyalara dön",
 "Selected files too large to generate zip file." => "Seçilen dosyalar bir zip dosyası oluşturmak için fazla büyüktür.",
+"couldn't be determined" => "tespit edilemedi",
 "Application is not enabled" => "Uygulama etkinleştirilmedi",
 "Authentication error" => "Kimlik doğrulama hatası",
 "Token expired. Please reload page." => "Jetonun süresi geçti. Lütfen sayfayı yenileyin.",

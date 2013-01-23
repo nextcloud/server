@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Качване",
 "Missing a temporary folder" => "Липсва временна папка",
 "Files" => "Файлове",
 "Delete" => "Изтриване",
@@ -15,7 +16,6 @@
 "Save" => "Запис",
 "New" => "Ново",
 "Folder" => "Папка",
-"Upload" => "Качване",
 "Nothing in here. Upload something!" => "Няма нищо тук. Качете нещо.",
 "Download" => "Изтегляне",
 "Upload too large" => "Файлът който сте избрали за качване е прекалено голям"

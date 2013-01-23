@@ -127,7 +127,5 @@
 "Log in" => "Hasi saioa",
 "prev" => "aurrekoa",
 "next" => "hurrengoa",
-"Security Warning!" => "Segurtasun abisua",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Mesedez egiaztatu zure pasahitza. <br/>Segurtasun arrazoiengatik noizbehinka zure pasahitza berriz sartzea eska diezazukegu.",
-"Verify" => "Egiaztatu"
+"Updating ownCloud to version %s, this may take a while." => "ownCloud %s bertsiora eguneratzen, denbora har dezake."
 );

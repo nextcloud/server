@@ -39,7 +39,7 @@ class OC_OCS_Privatedata {
 		return new OC_OCS_Result($xml);
 		//TODO: replace 'privatedata' with 'attribute' once a new libattice has been released that works with it
 	}
-	
+
 	public static function set($parameters) {
 		OC_Util::checkLoggedIn();
 		$user = OC_User::getUser();
@@ -50,7 +50,7 @@ class OC_OCS_Privatedata {
 			return new OC_OCS_Result(null, 100);
 		}
 	}
-	
+
 	public static function delete($parameters) {
 		OC_Util::checkLoggedIn();
 		$user = OC_User::getUser();

@@ -23,7 +23,7 @@
 */
 
 class OC_OCS_Config {
-	
+
 	public static function apiConfig($parameters) {
 		$xml['version'] = '1.7';
 		$xml['website'] = 'ownCloud';
@@ -32,5 +32,5 @@ class OC_OCS_Config {
 		$xml['ssl'] = 'false';
 		return new OC_OCS_Result($xml);
 	}
-	
+
 }

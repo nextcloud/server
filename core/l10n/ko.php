@@ -127,8 +127,5 @@
 "Log in" => "로그인",
 "prev" => "이전",
 "next" => "다음",
-"Updating ownCloud to version %s, this may take a while." => "ownCloud 를 버젼 %s로 업데이트 하는 중, 시간이 소요됩니다.",
-"Security Warning!" => "보안 경고!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "암호를 확인해 주십시오.<br/>보안상의 이유로 종종 암호를 물어볼 것입니다.",
-"Verify" => "확인"
+"Updating ownCloud to version %s, this may take a while." => "ownCloud 를 버젼 %s로 업데이트 하는 중, 시간이 소요됩니다."
 );

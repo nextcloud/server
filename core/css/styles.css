@@ -94,8 +94,9 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 /* CONTENT ------------------------------------------------------------------ */
 #controls { padding:0 0.5em; width:100%; top:3.5em; height:2.8em; margin:0; background:#f7f7f7; border-bottom:1px solid #eee; position:fixed; z-index:50; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
 #controls .button { display:inline-block; }
-#content { top:3.5em; left:12.5em; position:absolute; }
-#leftcontent, .leftcontent { position:fixed; overflow:auto; top:6.4em; width:20em; background:#f8f8f8; border-right:1px solid #ddd; }
+#content { height: 100%; width: 100%; position: relative; }
+#content-wrapper { height: 100%; width: 100%; padding-top: 3.5em; padding-left: 12.5em; box-sizing: border-box; -moz-box-sizing: border-box; position: absolute;}
+#leftcontent, .leftcontent { position:fixed; top: 0; overflow:auto; width:20em; background:#f8f8f8; border-right:1px solid #ddd; box-sizing: border-box; -moz-box-sizing: border-box; height: 100%; padding-top: 6.4em }
 #leftcontent li, .leftcontent li { background:#f8f8f8; padding:.5em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 200ms; -moz-transition:background-color 200ms; -o-transition:background-color 200ms; transition:background-color 200ms; }
 #leftcontent li:hover, #leftcontent li:active, #leftcontent li.active, .leftcontent li:hover, .leftcontent li:active, .leftcontent li.active { background:#eee; }
 #leftcontent li.active, .leftcontent li.active { font-weight:bold; }

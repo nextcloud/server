@@ -42,12 +42,12 @@ class OC_API {
 	private static function init() {
 		self::$server = new OC_OAuth_Server(new OC_OAuth_Store());
 	}
-	
+
 	/**
 	 * api actions
 	 */
 	protected static $actions = array();
-	
+
 	/**
 	 * registers an api call
 	 * @param string $method the http method
@@ -58,7 +58,7 @@ class OC_API {
 	 * @param array $defaults
 	 * @param array $requirements
 	 */
-	public static function register($method, $url, $action, $app, 
+	public static function register($method, $url, $action, $app,
 				$authLevel = OC_API::USER_AUTH,
 				$defaults = array(),
 				$requirements = array()) {
@@ -73,7 +73,7 @@ class OC_API {
 		}
 		self::$actions[$name] = array('app' => $app, 'action' => $action, 'authlevel' => $authLevel);
 	}
-	
+
 	/**
 	 * handles an api call
 	 * @param array $parameters
@@ -92,8 +92,10 @@ class OC_API {
 				$response = call_user_func(self::$actions[$name]['action'], $parameters);
 			} else {
 				$response = new OC_OCS_Result(null, 998, 'Api method not found');
-			} 
+			}
 		} else {
+			header('WWW-Authenticate: Basic realm="Authorization Required"');
+			header('HTTP/1.0 401 Unauthorized');
 			$response = new OC_OCS_Result(null, 997, 'Unauthorised');
 		}
 		// Send the response
@@ -103,7 +105,7 @@ class OC_API {
 		// logout the user to be stateless
 		OC_User::logout();
 	}
-	
+
 	/**
 	 * authenticate the api call
 	 * @param array $action the action details as supplied to OC_API::register()
@@ -127,8 +129,7 @@ class OC_API {
 					return false;
 				} else {
 					$subAdmin = OC_SubAdmin::isSubAdmin($user);
-					$admin = OC_Group::inGroup($user, 'admin');
-					if($subAdmin || $admin) {
+					if($subAdmin) {
 						return true;
 					} else {
 						return false;
@@ -141,7 +142,7 @@ class OC_API {
 				if(!$user) {
 					return false;
 				} else {
-					return OC_Group::inGroup($user, 'admin');
+					return OC_User::isAdminUser($user);
 				}
 				break;
 			default:
@@ -149,18 +150,18 @@ class OC_API {
 				return false;
 				break;
 		}
-	} 
-	
+	}
+
 	/**
 	 * http basic auth
 	 * @return string|false (username, or false on failure)
 	 */
-	private static function loginUser(){ 
+	private static function loginUser(){
 		$authUser = isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : '';
 		$authPw = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '';
 		return OC_User::login($authUser, $authPw) ? $authUser : false;
 	}
-	
+
 	/**
 	 * respond to a call
 	 * @param int|array $result the result from the api method
@@ -196,5 +197,5 @@ class OC_API {
 			}
 		}
 	}
-	
+
 }

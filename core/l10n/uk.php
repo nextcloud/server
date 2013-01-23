@@ -127,7 +127,5 @@
 "Log in" => "Вхід",
 "prev" => "попередній",
 "next" => "наступний",
-"Security Warning!" => "Попередження про небезпеку!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Будь ласка, повторно введіть свій пароль. <br/>З питань безпеки, Вам інколи доведеться повторно вводити свій пароль.",
-"Verify" => "Підтвердити"
+"Updating ownCloud to version %s, this may take a while." => "Оновлення ownCloud до версії %s, це може зайняти деякий час."
 );

@@ -36,11 +36,11 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 		<div class="quota-select-wrapper">
 			<?php if((bool) $_['isadmin']): ?>
 			<select class='quota'>
-                <option
-                    <?php if($_['default_quota']=='none') echo 'selected="selected"';?>
-                        value='none'>
-                    <?php echo $l->t('Unlimited');?>
-                </option>
+				<option
+					<?php if($_['default_quota']=='none') echo 'selected="selected"';?>
+						value='none'>
+					<?php echo $l->t('Unlimited');?>
+				</option>
 				<?php foreach($_['quota_preset'] as $preset):?>
 				<?php if($preset!='default'):?>
 				<option
@@ -127,16 +127,16 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 			<td class="quota">
 				<div class="quota-select-wrapper">
 					<select class='quota-user'>
-                        <option
-                            <?php if($user['quota']=='default') echo 'selected="selected"';?>
-                                value='default'>
-                            <?php echo $l->t('Default');?>
-                        </option>
-                        <option
-                        <?php if($user['quota']=='none') echo 'selected="selected"';?>
-                                value='none'>
-                            <?php echo $l->t('Unlimited');?>
-                        </option>
+						<option
+							<?php if($user['quota']=='default') echo 'selected="selected"';?>
+								value='default'>
+							<?php echo $l->t('Default');?>
+						</option>
+						<option
+						<?php if($user['quota']=='none') echo 'selected="selected"';?>
+								value='none'>
+							<?php echo $l->t('Unlimited');?>
+						</option>
 						<?php foreach($_['quota_preset'] as $preset):?>
 						<option
 						<?php if($user['quota']==$preset) echo 'selected="selected"';?>

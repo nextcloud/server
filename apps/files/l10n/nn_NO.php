@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Last opp",
 "There is no error, the file uploaded with success" => "Ingen feil, fila vart lasta opp",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Den opplasta fila er større enn variabelen MAX_FILE_SIZE i HTML-skjemaet",
 "The uploaded file was only partially uploaded" => "Fila vart berre delvis lasta opp",
@@ -15,7 +16,6 @@
 "New" => "Ny",
 "Text file" => "Tekst fil",
 "Folder" => "Mappe",
-"Upload" => "Last opp",
 "Nothing in here. Upload something!" => "Ingenting her. Last noko opp!",
 "Download" => "Last ned",
 "Upload too large" => "For stor opplasting",

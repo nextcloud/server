@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Tải lên",
 "No file was uploaded. Unknown error" => "Không có tập tin nào được tải lên. Lỗi không xác định",
 "There is no error, the file uploaded with success" => "Không có lỗi, các tập tin đã được tải lên thành công",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Kích thước những tập tin tải lên vượt quá MAX_FILE_SIZE đã được quy định",
@@ -20,7 +21,6 @@
 "unshared {files}" => "hủy chia sẽ {files}",
 "deleted {files}" => "đã xóa {files}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Tên không hợp lệ, '\\', '/', '<', '>', ':', '\"', '|', '?' và '*' thì không được phép dùng.",
-"generating ZIP-file, it may take some time." => "Tạo tập tin ZIP, điều này có thể làm mất một chút thời gian",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Không thể tải lên tập tin này do nó là một thư mục hoặc kích thước tập tin bằng 0 byte",
 "Upload Error" => "Tải lên lỗi",
 "Close" => "Đóng",
@@ -51,7 +51,6 @@
 "Text file" => "Tập tin văn bản",
 "Folder" => "Thư mục",
 "From link" => "Từ liên kết",
-"Upload" => "Tải lên",
 "Cancel upload" => "Hủy upload",
 "Nothing in here. Upload something!" => "Không có gì ở đây .Hãy tải lên một cái gì đó !",
 "Download" => "Tải xuống",

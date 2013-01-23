@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-24 00:11+0100\n"
-"PO-Revision-Date: 2012-12-23 19:00+0000\n"
+"POT-Creation-Date: 2013-01-17 00:26+0100\n"
+"PO-Revision-Date: 2013-01-16 23:26+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Language: ar\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: app.php:287
+#: app.php:301
 msgid "Help"
 msgstr "المساعدة"
 
-#: app.php:294
+#: app.php:308
 msgid "Personal"
 msgstr "شخصي"
 
-#: app.php:299
+#: app.php:313
 msgid "Settings"
 msgstr "تعديلات"
 
-#: app.php:304
+#: app.php:318
 msgid "Users"
 msgstr "المستخدمين"
 
-#: app.php:311
+#: app.php:325
 msgid "Apps"
 msgstr ""
 
-#: app.php:313
+#: app.php:327
 msgid "Admin"
 msgstr ""
 
@@ -57,11 +57,15 @@ msgstr ""
 msgid "Selected files too large to generate zip file."
 msgstr ""
 
+#: helper.php:228
+msgid "couldn't be determined"
+msgstr ""
+
 #: json.php:28
 msgid "Application is not enabled"
 msgstr ""
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "لم يتم التأكد من الشخصية بنجاح"
 
@@ -81,55 +85,55 @@ msgstr "معلومات إضافية"
 msgid "Images"
 msgstr ""
 
-#: template.php:103
+#: template.php:113
 msgid "seconds ago"
 msgstr "منذ ثواني"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "منذ دقيقة"
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr ""
 
-#: template.php:106
+#: template.php:116
 msgid "1 hour ago"
 msgstr ""
 
-#: template.php:107
+#: template.php:117
 #, php-format
 msgid "%d hours ago"
 msgstr ""
 
-#: template.php:108
+#: template.php:118
 msgid "today"
 msgstr "اليوم"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr ""
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr ""
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr ""
 
-#: template.php:112
+#: template.php:122
 #, php-format
 msgid "%d months ago"
 msgstr ""
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr ""
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr ""
 

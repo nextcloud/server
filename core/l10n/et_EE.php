@@ -102,7 +102,5 @@
 "remember" => "pea meeles",
 "Log in" => "Logi sisse",
 "prev" => "eelm",
-"next" => "järgm",
-"Security Warning!" => "turvahoiatus!",
-"Verify" => "Kinnita"
+"next" => "järgm"
 );

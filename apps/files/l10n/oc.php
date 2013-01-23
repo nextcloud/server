@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Amontcarga",
 "There is no error, the file uploaded with success" => "Amontcargament capitat, pas d'errors",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Lo fichièr amontcargat es mai gròs que la directiva «MAX_FILE_SIZE» especifiada dins lo formulari HTML",
 "The uploaded file was only partially uploaded" => "Lo fichièr foguèt pas completament amontcargat",
@@ -13,7 +14,6 @@
 "suggest name" => "nom prepausat",
 "cancel" => "anulla",
 "undo" => "defar",
-"generating ZIP-file, it may take some time." => "Fichièr ZIP a se far, aquò pòt trigar un briu.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Impossible d'amontcargar lo teu fichièr qu'es un repertòri o que ten pas que 0 octet.",
 "Upload Error" => "Error d'amontcargar",
 "Pending" => "Al esperar",
@@ -35,7 +35,6 @@
 "New" => "Nòu",
 "Text file" => "Fichièr de tèxte",
 "Folder" => "Dorsièr",
-"Upload" => "Amontcarga",
 "Cancel upload" => " Anulla l'amontcargar",
 "Nothing in here. Upload something!" => "Pas res dedins. Amontcarga qualquaren",
 "Download" => "Avalcarga",

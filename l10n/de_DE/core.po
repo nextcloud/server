@@ -23,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-18 00:03+0100\n"
+"PO-Revision-Date: 2013-01-17 21:11+0000\n"
+"Last-Translator: a.tangemann <a.tangemann@web.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -99,55 +99,55 @@ msgstr "Fehler beim Entfernen von %s von den Favoriten."
 msgid "Settings"
 msgstr "Einstellungen"
 
-#: js/js.js:711
+#: js/js.js:706
 msgid "seconds ago"
 msgstr "Gerade eben"
 
-#: js/js.js:712
+#: js/js.js:707
 msgid "1 minute ago"
 msgstr "Vor 1 Minute"
 
-#: js/js.js:713
+#: js/js.js:708
 msgid "{minutes} minutes ago"
 msgstr "Vor {minutes} Minuten"
 
-#: js/js.js:714
+#: js/js.js:709
 msgid "1 hour ago"
 msgstr "Vor einer Stunde"
 
-#: js/js.js:715
+#: js/js.js:710
 msgid "{hours} hours ago"
 msgstr "Vor {hours} Stunden"
 
-#: js/js.js:716
+#: js/js.js:711
 msgid "today"
 msgstr "Heute"
 
-#: js/js.js:717
+#: js/js.js:712
 msgid "yesterday"
 msgstr "Gestern"
 
-#: js/js.js:718
+#: js/js.js:713
 msgid "{days} days ago"
 msgstr "Vor {days} Tag(en)"
 
-#: js/js.js:719
+#: js/js.js:714
 msgid "last month"
 msgstr "Letzten Monat"
 
-#: js/js.js:720
+#: js/js.js:715
 msgid "{months} months ago"
 msgstr "Vor {months} Monaten"
 
-#: js/js.js:721
+#: js/js.js:716
 msgid "months ago"
 msgstr "Vor Monaten"
 
-#: js/js.js:722
+#: js/js.js:717
 msgid "last year"
 msgstr "Letztes Jahr"
 
-#: js/js.js:723
+#: js/js.js:718
 msgid "years ago"
 msgstr "Vor Jahren"
 
@@ -223,7 +223,6 @@ msgid "Password protect"
 msgstr "Passwortschutz"
 
 #: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
 msgid "Password"
 msgstr "Passwort"
 
@@ -580,17 +579,3 @@ msgstr "Weiter"
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "Aktualisiere ownCloud auf Version %s. Dies könnte eine Weile dauern."
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "Sicherheitshinweis!"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "Bitte überprüfen Sie Ihr Passwort. <br/>Aus Sicherheitsgründen werden Sie gelegentlich aufgefordert, Ihr Passwort erneut einzugeben."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Überprüfen"

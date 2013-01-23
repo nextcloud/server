@@ -19,7 +19,7 @@ class OC_Request {
 			return 'localhost';
 		}
 		if(OC_Config::getValue('overwritehost', '')<>'') {
-			return OC_Config::getValue('overwritehost'); 
+			return OC_Config::getValue('overwritehost');
 		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
 			if (strpos($_SERVER['HTTP_X_FORWARDED_HOST'], ",") !== false) {
@@ -44,7 +44,7 @@ class OC_Request {
 	*/
 	public static function serverProtocol() {
 		if(OC_Config::getValue('overwriteprotocol', '')<>'') {
-			return OC_Config::getValue('overwriteprotocol'); 
+			return OC_Config::getValue('overwriteprotocol');
 		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
 			$proto = strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']);

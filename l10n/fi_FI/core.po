@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-13 00:08+0100\n"
-"PO-Revision-Date: 2013-01-12 16:33+0000\n"
+"POT-Creation-Date: 2013-01-16 00:19+0100\n"
+"PO-Revision-Date: 2013-01-15 09:13+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +75,7 @@ msgstr ""
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Virhe lisätessä kohdetta %s suosikkeihin."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -84,7 +84,7 @@ msgstr "Luokkia ei valittu poistettavaksi."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Virhe poistaessa kohdetta %s suosikeista."
 
 #: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
@@ -195,15 +195,15 @@ msgstr "Virhe oikeuksia muuttaessa"
 
 #: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Jaettu sinun ja ryhmän {group} kanssa käyttäjän {owner} toimesta"
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "Jaettu kanssasi käyttäjän {owner} toimesta"
 
 #: js/share.js:158
 msgid "Share with"
-msgstr ""
+msgstr "Jaa"
 
 #: js/share.js:163
 msgid "Share with link"
@@ -214,7 +214,6 @@ msgid "Password protect"
 msgstr "Suojaa salasanalla"
 
 #: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
 msgid "Password"
 msgstr "Salasana"
 
@@ -571,17 +570,3 @@ msgstr "seuraava"
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr "Päivitetään ownCloud versioon %s, tämä saattaa kestää hetken."
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "Turvallisuusvaroitus!"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "Vahvista salasanasi. <br/>Turvallisuussyistä sinulta saatetaan ajoittain kysyä salasanasi uudelleen."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Vahvista"

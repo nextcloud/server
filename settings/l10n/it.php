@@ -55,7 +55,7 @@
 "Default Storage" => "Archiviazione predefinita",
 "Unlimited" => "Illimitata",
 "Other" => "Altro",
-"Group Admin" => "Gruppo di amministrazione",
+"Group Admin" => "Gruppi amministrati",
 "Storage" => "Archiviazione",
 "Default" => "Predefinito",
 "Delete" => "Elimina"

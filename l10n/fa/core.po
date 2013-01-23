@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"POT-Creation-Date: 2013-01-23 00:05+0100\n"
+"PO-Revision-Date: 2013-01-21 08:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -84,55 +84,55 @@ msgstr ""
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: js/js.js:711
+#: js/js.js:706
 msgid "seconds ago"
 msgstr "ثانیه‌ها پیش"
 
-#: js/js.js:712
+#: js/js.js:707
 msgid "1 minute ago"
 msgstr "1 دقیقه پیش"
 
-#: js/js.js:713
+#: js/js.js:708
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:714
+#: js/js.js:709
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:715
+#: js/js.js:710
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:716
+#: js/js.js:711
 msgid "today"
 msgstr "امروز"
 
-#: js/js.js:717
+#: js/js.js:712
 msgid "yesterday"
 msgstr "دیروز"
 
-#: js/js.js:718
+#: js/js.js:713
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:719
+#: js/js.js:714
 msgid "last month"
 msgstr "ماه قبل"
 
-#: js/js.js:720
+#: js/js.js:715
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:721
+#: js/js.js:716
 msgid "months ago"
 msgstr "ماه‌های قبل"
 
-#: js/js.js:722
+#: js/js.js:717
 msgid "last year"
 msgstr "سال قبل"
 
-#: js/js.js:723
+#: js/js.js:718
 msgid "years ago"
 msgstr "سال‌های قبل"
 
@@ -208,7 +208,6 @@ msgid "Password protect"
 msgstr ""
 
 #: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
 msgid "Password"
 msgstr "گذرواژه"
 
@@ -246,7 +245,7 @@ msgstr ""
 
 #: js/share.js:296
 msgid "Unshare"
-msgstr ""
+msgstr "لغو اشتراک"
 
 #: js/share.js:308
 msgid "can edit"
@@ -443,83 +442,83 @@ msgstr "هاست پایگاه داده"
 msgid "Finish setup"
 msgstr "اتمام نصب"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "یکشنبه"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Monday"
 msgstr "دوشنبه"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "سه شنبه"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "چهارشنبه"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "پنجشنبه"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Friday"
 msgstr "جمعه"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "شنبه"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "January"
 msgstr "ژانویه"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "February"
 msgstr "فبریه"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "March"
 msgstr "مارس"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "April"
 msgstr "آوریل"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "May"
 msgstr "می"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "June"
 msgstr "ژوئن"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "July"
 msgstr "جولای"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "August"
 msgstr "آگوست"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "September"
 msgstr "سپتامبر"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "October"
 msgstr "اکتبر"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "November"
 msgstr "نوامبر"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "December"
 msgstr "دسامبر"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:41
 msgid "web services under your control"
 msgstr "سرویس وب تحت کنترل شما"
 
@@ -564,18 +563,4 @@ msgstr "بعدی"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr ""
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr ""
-
-#: templates/verify.php:16
-msgid "Verify"
 msgstr ""

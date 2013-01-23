@@ -76,7 +76,7 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 		$usedSpace=isset($sharedInfo['size'])?$usedSpace-$sharedInfo['size']:$usedSpace;
 		return $totalSpace-$usedSpace;
 	}
-	
+
 	public function postFree_space($path, $space) {
 		$free=$this->getFreeSpace($path);
 		if($free==-1) {

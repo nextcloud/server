@@ -26,7 +26,7 @@ namespace OCP;
  * This class provides functions to manage apps in ownCloud
  */
 class API {
-        
+
 	/**
 	 * registers an api call
 	 * @param string $method the http method
@@ -40,5 +40,5 @@ class API {
 	public static function register($method, $url, $action, $app, $authLevel = OC_API::USER_AUTH, $defaults = array(), $requirements = array()){
 		\OC_API::register($method, $url, $action, $app, $authLevel, $defaults, $requirements);
 	}
-     
+
 }
