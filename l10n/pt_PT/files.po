@@ -4,6 +4,7 @@
 # 
 # Translators:
 #   <daniel@mouxy.net>, 2012-2013.
+# Daniel Pinto <daniel@mouxy.net>, 2013.
 # Duarte Velez Grilo <duartegrilo@gmail.com>, 2012.
 #   <geral@ricardolameiro.pt>, 2012.
 # Helder Meneses <helder.meneses@gmail.com>, 2012.
@@ -12,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-20 00:05+0100\n"
-"PO-Revision-Date: 2013-01-19 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-23 00:05+0100\n"
+"PO-Revision-Date: 2013-01-21 12:23+0000\n"
+"Last-Translator: Mouxy <daniel@mouxy.net>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -154,7 +155,7 @@ msgstr "Nome Inválido, os caracteres '\\', '/', '<', '>', ':', '\"', '|', '?' e
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
+msgstr "O seu download está a ser preparado. Este processo pode demorar algum tempo se os ficheiros forem grandes."
 
 #: js/files.js:242
 msgid "Unable to upload your file as it is a directory or has 0 bytes"

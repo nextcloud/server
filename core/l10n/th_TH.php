@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
+"User %s shared a file with you" => "ผู้ใช้งาน %s ได้แชร์ไฟล์ให้กับคุณ",
+"User %s shared a folder with you" => "ผู้ใช้งาน %s ได้แชร์โฟลเดอร์ให้กับคุณ",
+"User %s shared the file \"%s\" with you. It is available for download here: %s" => "ผู้ใช้งาน %s ได้แชร์ไฟล์ \"%s\" ให้กับคุณ และคุณสามารถสามารถดาวน์โหลดไฟล์ดังกล่าวได้จากที่นี่: %s",
+"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "ผู้ใช้งาน %s ได้แชร์โฟลเดอร์ \"%s\" ให้กับคุณ และคุณสามารถดาวน์โหลดโฟลเดอร์ดังกล่าวได้จากที่นี่: %s",
 "Category type not provided." => "ยังไม่ได้ระบุชนิดของหมวดหมู่",
 "No category to add?" => "ไม่มีหมวดหมู่ที่ต้องการเพิ่ม?",
 "This category already exists: " => "หมวดหมู่นี้มีอยู่แล้ว: ",
@@ -39,6 +43,8 @@
 "Share with link" => "แชร์ด้วยลิงก์",
 "Password protect" => "ใส่รหัสผ่านไว้",
 "Password" => "รหัสผ่าน",
+"Email link to person" => "ส่งลิงก์ให้ทางอีเมล",
+"Send" => "ส่ง",
 "Set expiration date" => "กำหนดวันที่หมดอายุ",
 "Expiration date" => "วันที่หมดอายุ",
 "Share via email:" => "แชร์ผ่านทางอีเมล",
@@ -55,6 +61,8 @@
 "Password protected" => "ใส่รหัสผ่านไว้",
 "Error unsetting expiration date" => "เกิดข้อผิดพลาดในการยกเลิกการตั้งค่าวันที่หมดอายุ",
 "Error setting expiration date" => "เกิดข้อผิดพลาดในการตั้งค่าวันที่หมดอายุ",
+"Sending ..." => "กำลังส่ง...",
+"Email sent" => "ส่งอีเมล์แล้ว",
 "ownCloud password reset" => "รีเซ็ตรหัสผ่าน ownCloud",
 "Use the following link to reset your password: {link}" => "ใช้ลิงค์ต่อไปนี้เพื่อเปลี่ยนรหัสผ่านของคุณใหม่: {link}",
 "You will receive a link to reset your password via Email." => "คุณจะได้รับลิงค์เพื่อกำหนดรหัสผ่านใหม่ทางอีเมล์",
@@ -118,5 +126,6 @@
 "remember" => "จำรหัสผ่าน",
 "Log in" => "เข้าสู่ระบบ",
 "prev" => "ก่อนหน้า",
-"next" => "ถัดไป"
+"next" => "ถัดไป",
+"Updating ownCloud to version %s, this may take a while." => "กำลังอัพเดท ownCloud ไปเป็นรุ่น %s, กรุณารอสักครู่"
 );

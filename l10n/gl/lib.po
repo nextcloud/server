@@ -5,14 +5,14 @@
 # Translators:
 #   <mbouzada@gmail.com>, 2012.
 # Miguel Branco <mgl.branco@gmail.com>, 2012.
-# Xosé M. Lamas <correo.xmgz@gmail.com>, 2012.
+# Xosé M. Lamas <correo.xmgz@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-17 00:26+0100\n"
-"PO-Revision-Date: 2013-01-16 23:26+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-23 00:05+0100\n"
+"PO-Revision-Date: 2013-01-22 06:11+0000\n"
+"Last-Translator: Xosé M. Lamas <correo.xmgz@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,9 +60,9 @@ msgstr "Volver aos ficheiros"
 msgid "Selected files too large to generate zip file."
 msgstr "Os ficheiros seleccionados son demasiado grandes como para xerar un ficheiro zip."
 
-#: helper.php:228
+#: helper.php:229
 msgid "couldn't be determined"
-msgstr ""
+msgstr "non puido ser determinado"
 
 #: json.php:28
 msgid "Application is not enabled"

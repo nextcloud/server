@@ -165,7 +165,9 @@ class OC_Setup {
 			if(count($error) == 0) {
 				OC_Appconfig::setValue('core', 'installedat', microtime(true));
 				OC_Appconfig::setValue('core', 'lastupdatedat', microtime(true));
-
+				OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
+				OC_AppConfig::setValue('core', 'remote_core.js', '/core/minimizer.php');
+				
 				OC_Group::createGroup('admin');
 				OC_Group::addToGroup($username, 'admin');
 				OC_User::login($username, $password);

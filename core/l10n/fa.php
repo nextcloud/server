@@ -17,6 +17,7 @@
 "Ok" => "قبول",
 "Error" => "خطا",
 "Password" => "گذرواژه",
+"Unshare" => "لغو اشتراک",
 "create" => "ایجاد",
 "ownCloud password reset" => "پسورد ابرهای شما تغییرکرد",
 "Use the following link to reset your password: {link}" => "از لینک زیر جهت دوباره سازی پسورد استفاده کنید :\n{link}",

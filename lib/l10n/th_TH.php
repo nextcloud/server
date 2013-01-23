@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "ไฟล์สามารถดาวน์โหลดได้ทีละครั้งเท่านั้น",
 "Back to Files" => "กลับไปที่ไฟล์",
 "Selected files too large to generate zip file." => "ไฟล์ที่เลือกมีขนาดใหญ่เกินกว่าที่จะสร้างเป็นไฟล์ zip",
+"couldn't be determined" => "ไม่สามารถกำหนดได้",
 "Application is not enabled" => "แอพพลิเคชั่นดังกล่าวยังไม่ได้เปิดใช้งาน",
 "Authentication error" => "เกิดข้อผิดพลาดในสิทธิ์การเข้าใช้งาน",
 "Token expired. Please reload page." => "รหัสยืนยันความถูกต้องหมดอายุแล้ว กรุณาโหลดหน้าเว็บใหม่อีกครั้ง",

@@ -29,6 +29,7 @@
 "'.' is an invalid file name." => "'.' είναι μη έγκυρο όνομα αρχείου.",
 "File name cannot be empty." => "Το όνομα αρχείου δεν πρέπει να είναι κενό.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Μη έγκυρο όνομα, '\\', '/', '<', '>', ':', '\"', '|', '?' και '*' δεν επιτρέπονται.",
+"Your download is being prepared. This might take some time if the files are big." => "Η λήψη προετοιμάζεται. Αυτό μπορεί να πάρει ώρα εάν τα αρχεία έχουν μεγάλο μέγεθος.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Αδυναμία στην αποστολή του αρχείου σας αφού είναι φάκελος ή έχει 0 bytes",
 "Upload Error" => "Σφάλμα Αποστολής",
 "Close" => "Κλείσιμο",
