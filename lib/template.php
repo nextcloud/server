@@ -191,6 +191,7 @@ class OC_Template{
 		header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
 
 		// Content Security Policy
+		// If you change the standard policy, please also change it in config.sample.php
 		$policy = OC_Config::getValue('custom_csp_policy',  'default-src \'self\'; script-src \'self\' \'unsafe-eval\'; style-src \'self\' \'unsafe-inline\'; frame-src *');
 		header('Content-Security-Policy:'.$policy); // Standard
 		header('X-WebKit-CSP:'.$policy); // Older webkit browsers
