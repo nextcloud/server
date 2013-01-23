@@ -156,6 +156,7 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 		}
 
 		$this->connection->writeToCache('userExists'.$uid, true);
+		$this->updateQuota($dn);
 		return true;
 	}
 
