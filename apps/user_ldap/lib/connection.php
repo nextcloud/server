@@ -446,7 +446,7 @@ class Connection {
 			'ldap_cache_ttl'                    => 600,
 			'ldap_uuid_attribute'				=> 'auto',
 			'ldap_override_uuid_attribute'		=> 0,
-			'home_folder_naming_rule'           => '',
+			'home_folder_naming_rule'           => 'opt:username',
 			'ldap_turn_off_cert_check'			=> 0,
 		);
 	}
