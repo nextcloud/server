@@ -68,7 +68,7 @@ class Proxy extends \OC_FileProxy {
 			
 		}
 		
-		if ( Crypt::isEncryptedContent( $path ) ) {
+		if ( Crypt::isCatfile( $path ) ) {
 		
 			return true;
 			
@@ -147,7 +147,7 @@ class Proxy extends \OC_FileProxy {
 		// If data is a catfile
 		if ( 
 		Crypt::mode() == 'server' 
-		&& Crypt::isEncryptedContent( $data ) 
+		&& Crypt::isCatfile( $data ) 
 		) {
 			
 			$split = explode( '/', $path );
@@ -269,14 +269,14 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	public function postGetMimeType($path,$mime){
-		if( Crypt::isEncryptedContent($path)){
+		if( Crypt::isCatfile($path)){
 			$mime = \OCP\Files::getMimeType('crypt://'.$path,'w');
 		}
 		return $mime;
 	}
 
 	public function postStat($path,$data){
-		if( Crypt::isEncryptedContent($path)){
+		if( Crypt::isCatfile($path)){
 			$cached=  \OC_FileCache_Cached::get($path,'');
 			$data['size']=$cached['size'];
 		}
@@ -284,7 +284,7 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	public function postFileSize($path,$size){
-		if( Crypt::isEncryptedContent($path)){
+		if( Crypt::isCatfile($path)){
 			$cached = \OC_FileCache_Cached::get($path,'');
 			return  $cached['size'];
 		}else{

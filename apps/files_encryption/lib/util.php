@@ -94,6 +94,7 @@ class Util {
 	
 	
 	private $view; // OC_FilesystemView object for filesystem operations
+	private $userId; // ID of the currently logged-in user
 	private $pwd; // User Password
 	private $client; // Client side encryption mode flag
 	private $publicKeyDir; // Dir containing all public user keys
@@ -108,6 +109,8 @@ class Util {
 		$this->view = $view;
 		$this->userId = $userId;
 		$this->client = $client;
+		$this->userDir =  '/' . $this->userId;
+		$this->userFilesDir =  '/' . $this->userId . '/' . 'files';
 		$this->publicKeyDir =  '/' . 'public-keys';
 		$this->encryptionDir =  '/' . $this->userId . '/' . 'files_encryption';
 		$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
@@ -120,7 +123,9 @@ class Util {
 	public function ready() {
 		
 		if( 
-		!$this->view->file_exists( $this->keyfilesPath )
+		!$this->view->file_exists( $this->encryptionDir )
+		or !$this->view->file_exists( $this->keyfilesPath )
+		or !$this->view->file_exists( $this->shareKeysPath )
 		or !$this->view->file_exists( $this->publicKeyPath )
 		or !$this->view->file_exists( $this->privateKeyPath ) 
 		) {
@@ -140,6 +145,20 @@ class Util {
          * @param $passphrase passphrase to encrypt server-stored private key with
          */
 	public function setupServerSide( $passphrase = null ) {
+		
+		// Create user dir
+		if( !$this->view->file_exists( $this->userDir ) ) {
+		
+			$this->view->mkdir( $this->userDir );
+		
+		}
+		
+		// Create user files dir
+		if( !$this->view->file_exists( $this->userFilesDir ) ) {
+		
+			$this->view->mkdir( $this->userFilesDir );
+		
+		}
 		
 		// Create shared public key directory
 		if( !$this->view->file_exists( $this->publicKeyDir ) ) {
@@ -171,13 +190,13 @@ class Util {
 		
 		// Create user keypair
 		if ( 
-		!$this->view->file_exists( $this->publicKeyPath ) 
-		or !$this->view->file_exists( $this->privateKeyPath ) 
+		! $this->view->file_exists( $this->publicKeyPath ) 
+		or ! $this->view->file_exists( $this->privateKeyPath ) 
 		) {
 		
 			// Generate keypair
 			$keypair = Crypt::createKeypair();
-		
+			
 			\OC_FileProxy::$enabled = false;
 			
 			// Save public key
@@ -193,52 +212,71 @@ class Util {
 			
 		}
 		
+		$publicKey = Keymanager::getPublicKey( $this->view, $this->userId );
+		
+		// Encrypt existing user files:
+		$this->encryptAll( $publicKey, $this->userFilesDir );
+		
 		return true;
 	
 	}
 	
-	public function findFiles( $directory, $type = 'plain' ) {
-	
-	# TODO: test finding non plain content
+	/**
+	 * @brief Find all files and their encryption status within a directory
+	 * @param string $directory The path of the parent directory to search
+	 * @return mixed false if 0 found, array on success. Keys: name, path
+	 */
+	public function findFiles( $directory ) {
 		
-		if ( $handle = $this->view->opendir( $directory ) ) {
-
+		// Disable proxy - we don't want files to be decrypted before
+		// we handle them
+		\OC_FileProxy::$enabled = false;
+		
+		$found = array( 'plain' => array(), 'encrypted' => array(), 'legacy' => array() );
+		
+		if ( 
+		$this->view->is_dir( $directory ) 
+		&& $handle = $this->view->opendir( $directory ) 
+		) {
+		
 			while ( false !== ( $file = readdir( $handle ) ) ) {
-			
+				
 				if (
 				$file != "." 
 				&& $file != ".."
 				) {
-				
+					
 					$filePath = $directory . '/' . $this->view->getRelativePath( '/' . $file );
 					
-					var_dump($filePath);
-					
+					// If the path is a directory, search 
+					// its contents
 					if ( $this->view->is_dir( $filePath ) ) { 
 						
 						$this->findFiles( $filePath );
-						
+					
+					// If the path is a file, determine 
+					// its encryption status
 					} elseif ( $this->view->is_file( $filePath ) ) {
-					
-						if ( $type == 'plain' ) {
-					
-							$this->files[] = array( 'name' => $file, 'path' => $filePath );
-							
-						} elseif ( $type == 'encrypted' ) {
 						
-							if (  Crypt::isEncryptedContent( $this->view->file_get_contents( $filePath ) ) ) {
-							
-								$this->files[] = array( 'name' => $file, 'path' => $filePath );
-							
-							}
+						// Disable proxies again, some-
+						// how they get re-enabled :/
+						\OC_FileProxy::$enabled = false;
 						
-						} elseif ( $type == 'legacy' ) {
+						// If the file is encrypted
+						if ( Keymanager::getFileKey( $this->view, $this->userId, $file ) ) {
 						
-							if (  Crypt::isLegacyEncryptedContent( $this->view->file_get_contents( $filePath ) ) ) {
+							$found['encrypted'][] = array( 'name' => $file, 'path' => $filePath );
+						
+						// If the file uses old 
+						// encryption system
+						} elseif (  Crypt::isLegacyEncryptedContent( $this->view->file_get_contents( $filePath ) ) ) {
 							
-								$this->files[] = array( 'name' => $file, 'path' => $filePath );
+							$found['legacy'][] = array( 'name' => $file, 'path' => $filePath );
 							
-							}
+						// If the file is not encrypted
+						} else {
+						
+							$found['plain'][] = array( 'name' => $file, 'path' => $filePath );
 						
 						}
 					
@@ -248,17 +286,21 @@ class Util {
 				
 			}
 			
-			if ( !empty( $this->files ) ) {
+			\OC_FileProxy::$enabled = true;
 			
-				return $this->files;
+			if ( empty( $found ) ) {
+			
+				return false;
 			
 			} else {
 			
-				return false;
+				return $found;
 			
 			}
 		
 		}
+		
+		\OC_FileProxy::$enabled = true;
 		
 		return false;
 
@@ -278,22 +320,55 @@ class Util {
 		
 		\OC_FileProxy::$enabled = true;
 		
-		return Crypt::isEncryptedContent( $data );
+		return Crypt::isCatfile( $data );
 	
 	}
 	
-	public function encryptAll( $directory ) {
+	/**
+	 * @brief Encrypt all files in a directory
+	 * @param string $publicKey the public key to encrypt files with
+	 * @param string $dirPath the directory whose files will be encrypted
+	 * @note Encryption is recursive
+	 */
+	public function encryptAll( $publicKey, $dirPath ) {
 	
-		$plainFiles = $this->findFiles( $this->view, 'plain' );
+		if ( $found = $this->findFiles( $dirPath ) ) {
 		
-		if ( $this->encryptFiles( $plainFiles ) ) {
-		
-			return true;
+			// Encrypt unencrypted files
+			foreach ( $found['plain'] as $plainFilePath ) {
 			
-		} else {
-		
-			return false;
+				// Fetch data from file
+				$plainData = $this->view->file_get_contents( $plainFilePath );
+				
+				// Encrypt data, generate catfile
+				$encrypted = Crypt::keyEncryptKeyfile( $plainData, $publicKey );
+				
+				// Save catfile
+				Keymanager::setFileKey( $this->view, $plainFilePath, $this->userId, $encrypted['key'] );
+				
+				// Overwrite the existing file with the encrypted one
+				$this->view->file_put_contents( $plainFilePath, $encrypted['data'] );
 			
+			}
+			
+			// FIXME: Legacy recrypting here isn't finished yet
+			// Encrypt legacy encrypted files
+			foreach ( $found['legacy'] as $legacyFilePath ) {
+			
+				// Fetch data from file
+				$legacyData = $this->view->file_get_contents( $legacyFilePath );
+			
+				// Recrypt data, generate catfile
+				$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKey, $newPassphrase );
+				
+				// Save catfile
+				Keymanager::setFileKey( $this->view, $plainFilePath, $this->userId, $recrypted['key'] );
+				
+				// Overwrite the existing file with the encrypted one
+				$this->view->file_put_contents( $plainFilePath, $recrypted['data'] );
+			
+			}
+		
 		}
 		
 	}

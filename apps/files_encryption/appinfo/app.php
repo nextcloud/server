@@ -32,7 +32,7 @@ if (
 && OCA\Encryption\Crypt::mode() == 'server' 
 ) {
 
-	// Force the user to re-log in if the encryption key isn't unlocked 
+	// Force the user to log-in again if the encryption key isn't unlocked 
 	// (happens when a user is logged in before the encryption app is 
 	// enabled)
 	OCP\User::logout();
@@ -44,4 +44,6 @@ if (
 }
 
 OCP\App::registerAdmin( 'files_encryption', 'settings' );
-OCP\App::registerPersonal( 'files_encryption', 'settings-personal' );
+
+// This is disabled until client-side encryption is supported:
+// OCP\App::registerPersonal( 'files_encryption', 'settings-personal' );

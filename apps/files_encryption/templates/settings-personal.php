@@ -12,22 +12,11 @@
 			<input 
 			type="radio" 
 			name="encryption_mode" 
-			value="client" 
-			id='client_encryption' 
-			style="width:20px;" 
-			<?php if ($_['encryption_mode'] == 'client') echo "checked='checked'"?>
-			/> 
-			<?php echo $l->t('Client side encryption (most secure but makes it impossible to access your data from the web interface)'); ?>
-			<br />
-			
-			<input 
-			type="radio" 
-			name="encryption_mode" 
 			value="server" 
 			id='server_encryption' 
 			style="width:20px;" <?php if ($_['encryption_mode'] == 'server') echo "checked='checked'"?>
 			/> 
-			<?php echo $l->t('Server side encryption (allows you to access your files from the web interface and the desktop client)'); ?>
+			<?php echo $l->t('Server side encryption (allows you to access your files from the web interface)'); ?>
 			<br />
 			
 			<input 

@@ -147,9 +147,58 @@ class Keymanager {
 	}
 	
 	/**
+	 * @brief store file encryption key
+	 *
+	 * @param string $path relative path of the file, including filename
+	 * @param string $key
+	 * @return bool true/false
+	 * @note The keyfile is not encrypted here. Client code must 
+	 * asymmetrically encrypt the keyfile before passing it to this method
+	 */
+	public static function setFileKey( \OC_FilesystemView $view, $path, $userId, $catfile ) {
+		
+		$basePath = '/' . $userId . '/files_encryption/keyfiles';
+		
+		$targetPath = self::keySetPreparation( $view, $path, $basePath, $userId );
+		
+// 		// update $keytarget and $userId if key belongs to a file shared by someone else
+// 		$query = $dbClassName::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
+// 		
+// 		$result = $query->execute(  array ( '/'.$userId.'/files/'.$targetPath, $userId ) );
+// 		
+// 		if ( $row = $result->fetchRow(  ) ) {
+// 		
+// 			$targetPath = $row['source'];
+// 			
+// 			$targetPath_parts = explode( '/', $targetPath );
+// 			
+// 			$userId = $targetPath_parts[1];
+// 
+// 			$rootview = new \OC_FilesystemView( '/' );
+// 			
+// 			if ( ! $rootview->is_writable( $targetPath ) ) {
+// 			
+// 				\OC_Log::write( 'Encryption library', "File Key not updated because you don't have write access for the corresponding file", \OC_Log::ERROR );
+// 				
+// 				return false;
+// 				
+// 			}
+// 			
+// 			$targetPath = str_replace( '/'.$userId.'/files/', '', $targetPath );
+// 			
+// 			//TODO: check for write permission on shared file once the new sharing API is in place
+// 			
+// 		}
+		
+		// Save the keyfile in parallel directory
+		return $view->file_put_contents( $basePath . '/' . $targetPath . '.key', $catfile );
+		
+	}
+	
+	/**
 	 * @brief retrieve keyfile for an encrypted file
 	 * @param string file name
-	 * @return string file key or false
+	 * @return string file key or false on failure
 	 * @note The keyfile returned is asymmetrically encrypted. Decryption
 	 * of the keyfile must be performed by client code
 	 */
@@ -171,7 +220,17 @@ class Keymanager {
 // 			
 // 		}
 
-		return $view->file_get_contents( '/' . $userId . '/files_encryption/keyfiles/' . $filePath_f . '.key' );
+		$catfilePath = '/' . $userId . '/files_encryption/keyfiles/' . $filePath_f . '.key';
+		
+		if ( $view->file_exists( $catfilePath ) ) {
+
+			return $view->file_get_contents( $catfilePath );
+			
+		} else {
+		
+			return false;
+			
+		}
 		
 	}
 	
@@ -296,55 +355,6 @@ class Keymanager {
 		
 		return $targetPath;
 	
-	}
-	
-	/**
-	 * @brief store file encryption key
-	 *
-	 * @param string $path relative path of the file, including filename
-	 * @param string $key
-	 * @return bool true/false
-	 * @note The keyfile is not encrypted here. Client code must 
-	 * asymmetrically encrypt the keyfile before passing it to this method
-	 */
-	public static function setFileKey( \OC_FilesystemView $view, $path, $userId, $catfile ) {
-		
-		$basePath = '/' . $userId . '/files_encryption/keyfiles';
-		
-		$targetPath = self::keySetPreparation( $view, $path, $basePath, $userId );
-		
-// 		// update $keytarget and $userId if key belongs to a file shared by someone else
-// 		$query = $dbClassName::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
-// 		
-// 		$result = $query->execute(  array ( '/'.$userId.'/files/'.$targetPath, $userId ) );
-// 		
-// 		if ( $row = $result->fetchRow(  ) ) {
-// 		
-// 			$targetPath = $row['source'];
-// 			
-// 			$targetPath_parts = explode( '/', $targetPath );
-// 			
-// 			$userId = $targetPath_parts[1];
-// 
-// 			$rootview = new \OC_FilesystemView( '/' );
-// 			
-// 			if ( ! $rootview->is_writable( $targetPath ) ) {
-// 			
-// 				\OC_Log::write( 'Encryption library', "File Key not updated because you don't have write access for the corresponding file", \OC_Log::ERROR );
-// 				
-// 				return false;
-// 				
-// 			}
-// 			
-// 			$targetPath = str_replace( '/'.$userId.'/files/', '', $targetPath );
-// 			
-// 			//TODO: check for write permission on shared file once the new sharing API is in place
-// 			
-// 		}
-		
-		// Save the keyfile in parallel directory
-		return $view->file_put_contents( $basePath . '/' . $targetPath . '.key', $catfile );
-		
 	}
 	
 	/**
