@@ -7,15 +7,7 @@
 		<?php foreach ($_['cssfiles'] as $cssfile): ?>
 			<link rel="stylesheet" href="<?php echo $cssfile; ?>" type="text/css" media="screen" />
 		<?php endforeach; ?>
-<<<<<<< HEAD
 		<script type="text/javascript" src="<?php echo OC_Helper::linkToRoute('js_config');?>"></script>
-=======
-		<script type="text/javascript">
-			var oc_debug = <?php echo (defined('DEBUG') && DEBUG) ? 'true' : 'false'; ?>;
-			var oc_webroot = '<?php echo OC::$WEBROOT; ?>';
-			var oc_requesttoken = '<?php echo $_['requesttoken']; ?>';
-		</script>
->>>>>>> master
 		<?php foreach ($_['jsfiles'] as $jsfile): ?>
 			<script type="text/javascript" src="<?php echo $jsfile; ?>"></script>
 		<?php endforeach; ?>
