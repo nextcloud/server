@@ -29,6 +29,7 @@
 "'.' is an invalid file name." => "'.' 是不合法的檔名。",
 "File name cannot be empty." => "檔名不能為空。",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "檔名不合法，不允許 '\\', '/', '<', '>', ':', '\"', '|', '?' 和 '*' 。",
+"Your download is being prepared. This might take some time if the files are big." => "正在準備您的下載，若您的檔案較大，將會需要更多時間。",
 "Unable to upload your file as it is a directory or has 0 bytes" => "無法上傳您的檔案因為它可能是一個目錄或檔案大小為0",
 "Upload Error" => "上傳發生錯誤",
 "Close" => "關閉",
