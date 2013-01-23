@@ -101,6 +101,8 @@ class Proxy extends \OC_FileProxy {
 				// Disable encryption proxy to prevent recursive calls
 				\OC_FileProxy::$enabled = false;
 				
+				# TODO: Check if file is shared, if so, use multiKeyEncrypt
+				
 				// Encrypt plain data and fetch key
 				$encrypted = Crypt::keyEncryptKeyfile( $data, Keymanager::getPublicKey( $rootView, $userId ) );
 				
@@ -114,10 +116,11 @@ class Proxy extends \OC_FileProxy {
 				$filePath = '/' . implode( '/', $filePath );
 				
 				# TODO: make keyfile dir dynamic from app config
-				$view = new \OC_FilesystemView( '/' . $userId . '/files_encryption/keyfiles' );
+				
+				$view = new \OC_FilesystemView( '/' );
 				
 				// Save keyfile for newly encrypted file in parallel directory tree
-				Keymanager::setFileKey( $filePath, $encrypted['key'], $view, '\OC_DB' );
+				Keymanager::setFileKey( $view, $filePath, $userId, $encrypted['key'] );
 				
 				// Update the file cache with file info
 				\OC_FileCache::put( $path, array( 'encrypted'=>true, 'size' => $size ), '' );
@@ -158,6 +161,8 @@ class Proxy extends \OC_FileProxy {
 			$view = new \OC_FilesystemView( '' );
 			
 			$userId = \OCP\USER::getUser();
+			
+			# TODO: Check if file is shared, if so, use multiKeyDecrypt
 			
 			$encryptedKeyfile = Keymanager::getFileKey( $view, $userId, $filePath );
 

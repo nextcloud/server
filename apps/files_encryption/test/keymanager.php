@@ -79,15 +79,13 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 		# NOTE: This cannot be tested until we are able to break out 
 		# of the FileSystemView data directory root
 	
-// 		$key = Crypt::symmetricEncryptFileContentKeyfile( $this->data, 'hat' );
-// 		
-// 		$tmpPath = sys_get_temp_dir(). '/' . 'testSetFileKey';
-// 		
-// 		$view = new \OC_FilesystemView( '/tmp/' );
-// 		
-// 		//$view = new \OC_FilesystemView( '/' . $this->userId . '/files_encryption/keyfiles' );
-// 		
-// 		Encryption\Keymanager::setFileKey( $tmpPath, $key['key'], $view );
+		$key = Encryption\Crypt::symmetricEncryptFileContentKeyfile( $this->randomKey, 'hat' );
+		
+		$path = 'unittest-'.time().'txt';
+		
+		//$view = new \OC_FilesystemView( '/' . $this->userId . '/files_encryption/keyfiles' );
+		
+		Encryption\Keymanager::setFileKey( $this->view, $path, $this->userId, $key['key'] );
 	
 	}
 	

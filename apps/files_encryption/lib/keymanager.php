@@ -238,7 +238,7 @@ class Keymanager {
 	 */
 	public static function setUserKeys($privatekey, $publickey) {
 	
-		return (self::setPrivateKey($privatekey) && self::setPublicKey($publickey));
+		return ( self::setPrivateKey( $privatekey ) && self::setPublicKey( $publickey ) );
 	
 	}
 	
@@ -263,6 +263,42 @@ class Keymanager {
 	}
 	
 	/**
+	 * @note 'shareKey' is a more user-friendly name for env_key
+	 */
+	public static function setShareKey( \OC_FilesystemView $view, $path, $userId, $shareKey ) {
+		
+		$basePath = '/' . $userId . '/files_encryption/share-keys';
+		
+		$shareKeyPath = self::keySetPreparation( $view, $path, $basePath, $userId );
+		
+		return $view->file_put_contents( $basePath . '/' . $shareKeyPath . '.shareKey', $shareKey );
+		
+	}
+	
+	/**
+	 * @brief Make preparations to vars and filesystem for saving a keyfile
+	 */
+	public static function keySetPreparation( \OC_FilesystemView $view, $path, $basePath, $userId ) {
+	
+		$targetPath = ltrim( $path, '/' );
+		
+		$path_parts = pathinfo( $targetPath );
+		
+		// If the file resides within a subdirectory, create it
+		if ( 
+		isset( $path_parts['dirname'] )
+		&& ! $view->file_exists( $basePath . $path_parts['dirname'] ) 
+		) {
+		
+			$view->mkdir( $basePath . $path_parts['dirname'] );
+			
+		}
+		
+		return $targetPath;
+	
+	}
+	
+	/**
 	 * @brief store file encryption key
 	 *
 	 * @param string $path relative path of the file, including filename
@@ -271,15 +307,16 @@ class Keymanager {
 	 * @note The keyfile is not encrypted here. Client code must 
 	 * asymmetrically encrypt the keyfile before passing it to this method
 	 */
-	public static function setFileKey( $path, $key, $view = Null, $dbClassName = '\OC_DB') {
-
-		$targetPath = ltrim(  $path, '/'  );
-		$user = \OCP\User::getUser();
+	public static function setFileKey( \OC_FilesystemView $view, $path, $userId, $catfile ) {
 		
-// 		// update $keytarget and $user if key belongs to a file shared by someone else
+		$basePath = '/' . $userId . '/files_encryption/keyfiles';
+		
+		$targetPath = self::keySetPreparation( $view, $path, $basePath, $userId );
+		
+// 		// update $keytarget and $userId if key belongs to a file shared by someone else
 // 		$query = $dbClassName::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
 // 		
-// 		$result = $query->execute(  array ( '/'.$user.'/files/'.$targetPath, $user ) );
+// 		$result = $query->execute(  array ( '/'.$userId.'/files/'.$targetPath, $userId ) );
 // 		
 // 		if ( $row = $result->fetchRow(  ) ) {
 // 		
@@ -287,7 +324,7 @@ class Keymanager {
 // 			
 // 			$targetPath_parts = explode( '/', $targetPath );
 // 			
-// 			$user = $targetPath_parts[1];
+// 			$userId = $targetPath_parts[1];
 // 
 // 			$rootview = new \OC_FilesystemView( '/' );
 // 			
@@ -299,34 +336,14 @@ class Keymanager {
 // 				
 // 			}
 // 			
-// 			$targetPath = str_replace( '/'.$user.'/files/', '', $targetPath );
+// 			$targetPath = str_replace( '/'.$userId.'/files/', '', $targetPath );
 // 			
 // 			//TODO: check for write permission on shared file once the new sharing API is in place
 // 			
 // 		}
 		
-		$path_parts = pathinfo( $targetPath );
-		
-		if ( !$view ) {
-		
-			$view = new \OC_FilesystemView( '/' );
-			
-		}
-		
-		$view->chroot( '/' . $user . '/files_encryption/keyfiles' );
-		
-		// If the file resides within a subdirectory, create it
-		if ( 
-		isset( $path_parts['dirname'] )
-		&& ! $view->file_exists( $path_parts['dirname'] ) 
-		) {
-		
-			$view->mkdir( $path_parts['dirname'] );
-			
-		}
-		
 		// Save the keyfile in parallel directory
-		return $view->file_put_contents( '/' . $targetPath . '.key', $key );
+		return $view->file_put_contents( $basePath . '/' . $targetPath . '.key', $catfile );
 		
 	}
 	
