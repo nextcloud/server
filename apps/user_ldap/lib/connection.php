@@ -51,6 +51,7 @@ class Connection {
 		'ldapUserFilter' => null,
 		'ldapGroupFilter' => null,
 		'ldapGroupDisplayName' => null,
+		'ldapGroupMemberAssocAttr' => null,
 		'ldapLoginFilter' => null,
 		'ldapQuotaAttribute' => null,
 		'ldapQuotaDefault' => null,
@@ -262,7 +263,7 @@ class Connection {
 	private function getConfigTranslationArray() {
 		static $array = array('ldap_host'=>'ldapHost', 'ldap_port'=>'ldapPort', 'ldap_backup_host'=>'ldapBackupHost', 'ldap_backup_port'=>'ldapBackupPort', 'ldap_override_main_server' => 'ldapOverrideMainServer', 'ldap_dn'=>'ldapAgentName', 'ldap_agent_password'=>'ldapAgentPassword', 'ldap_base'=>'ldapBase', 'ldap_base_users'=>'ldapBaseUsers', 'ldap_base_groups'=>'ldapBaseGroups', 'ldap_userlist_filter'=>'ldapUserFilter', 'ldap_login_filter'=>'ldapLoginFilter', 'ldap_group_filter'=>'ldapGroupFilter', 'ldap_display_name'=>'ldapUserDisplayName', 'ldap_group_display_name'=>'ldapGroupDisplayName',
 
-		'ldap_tls'=>'ldapTLS', 'ldap_nocase'=>'ldapNoCase', 'ldap_quota_def'=>'ldapQuotaDefault', 'ldap_quota_attr'=>'ldapQuotaAttribute', 'ldap_email_attr'=>'ldapEmailAttribute', 'ldap_group_member_assoc_attribute'=>'ldapGroupMemberAssocAttr', 'ldap_cache_ttl'=>'ldapCacheTTL', 'home_folder_naming_rule' => 'homeFolderNamingRule', 'turn_off_cert_check' => 'turnOffCertCheck');
+		'ldap_tls'=>'ldapTLS', 'ldap_nocase'=>'ldapNoCase', 'ldap_quota_def'=>'ldapQuotaDefault', 'ldap_quota_attr'=>'ldapQuotaAttribute', 'ldap_email_attr'=>'ldapEmailAttribute', 'ldap_group_member_assoc_attribute'=>'ldapGroupMemberAssocAttr', 'ldap_cache_ttl'=>'ldapCacheTTL', 'home_folder_naming_rule' => 'homeFolderNamingRule', 'ldap_turn_off_cert_check' => 'turnOffCertCheck');
 		return $array;
 	}
 
@@ -329,13 +330,22 @@ class Connection {
 	 * @return array
 	 */
 	public function getConfiguration() {
+		$this->readConfiguration();
 		$trans = $this->getConfigTranslationArray();
 		$config = array();
-		foreach($trans as $classKey => $dbKey) {
-		    $config[$dbKey] = $this->config[$classKey];
+		foreach($trans as $dbKey => $classKey) {
+			if($classKey == 'homeFolderNamingRule') {
+				if(strpos($this->config[$classKey], 'opt') === 0) {
+					$config[$dbKey] = '';
+				} else {
+					$config[$dbKey] = substr($this->config[$dbKey], 5);
+				}
+				continue;
+			}
+			$config[$dbKey] = $this->config[$classKey];
 		}
 
-		return $this->config;
+		return $config;
 	}
 
 	/**
