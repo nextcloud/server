@@ -49,6 +49,9 @@ $(document).ready(function() {
 							function(keep) {
 								if(!keep) {
 									$('#ldap').find('input[type=text], input[type=number], input[type=password], textarea, select').each(function() {
+										if($(this).attr('id') == 'ldap_serverconfig_chooser') {
+											return;
+										}
 										$(this).val($(this).attr('data-default'));
 									});
 									$('#ldap').find('input[type=checkbox]').each(function() {
@@ -61,8 +64,8 @@ $(document).ready(function() {
 								}
 							}
 						);
-						$('#ldap_serverconfig_chooser option:selected:first').removeAttr('selected');
-						var html = '<option value="'+result.configPrefix+'" selected>'+$('#ldap_serverconfig_chooser option').length+'. Server</option>';
+						$('#ldap_serverconfig_chooser option:selected').removeAttr('selected');
+						var html = '<option value="'+result.configPrefix+'" selected="selected">'+$('#ldap_serverconfig_chooser option').length+'. Server</option>';
 						$('#ldap_serverconfig_chooser option:last').before(html);
 					} else {
 						OC.dialogs.alert(
@@ -73,7 +76,35 @@ $(document).ready(function() {
 				}
 			);
 		} else {
-			alert(value);
+			$.post(
+				OC.filePath('user_ldap','ajax','getConfiguration.php'),
+				$('#ldap_serverconfig_chooser').serialize(),
+				function (result) {
+					if(result.status == 'success') {
+						$.each(result.configuration, function(configkey, configvalue) {
+							elementID = '#'+configkey;
+							
+							//deal with Checkboxes
+							if($(elementID).is('input[type=checkbox]')) {
+								if(configvalue == 1) {
+									$(elementID).attr('checked', 'checked');
+								} else {
+									$(elementID).removeAttr('checked');
+								}
+								return;
+							}
+							
+							//On Textareas, Multi-Line Settings come as array
+							if($(elementID).is('textarea') && $.isArray(configvalue)) {
+								configvalue = configvalue.join("\n");
+							}
+
+							// assign the value
+							$('#'+configkey).val(configvalue);
+						});
+					}
+				}
+			);
 		}
 	});
 });
