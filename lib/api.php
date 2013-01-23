@@ -90,7 +90,7 @@ class OC_API {
 		if(self::isAuthorised(self::$actions[$name])) {
 			if(is_callable(self::$actions[$name]['action'])) {
 				$response = call_user_func(self::$actions[$name]['action'], $parameters);
-				if(!($response instanceof OC_OCS_Result)){
+				if(!($response instanceof OC_OCS_Result)) {
 					$response = new OC_OCS_Result(null, 996, 'Internal Server Error');
 				}
 			} else {
