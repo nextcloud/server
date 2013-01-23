@@ -268,7 +268,7 @@ class OC
 	{
 		// Add the stuff we need always
 		OC_Util::addScript("jquery-1.7.2.min");
-		OC_Util::addScript("jquery-ui-1.8.16.custom.min");
+		OC_Util::addScript("jquery-ui-1.10.0.custom");
 		OC_Util::addScript("jquery-showpassword");
 		OC_Util::addScript("jquery.infieldlabel");
 		OC_Util::addScript("jquery-tipsy");
@@ -282,7 +282,7 @@ class OC
 
 		OC_Util::addStyle("styles");
 		OC_Util::addStyle("multiselect");
-		OC_Util::addStyle("jquery-ui-1.8.16.custom");
+		OC_Util::addStyle("jquery-ui-1.10.0.custom");
 		OC_Util::addStyle("jquery-tipsy");
 		OC_Util::addScript("oc-requesttoken");
 	}
