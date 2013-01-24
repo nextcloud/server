@@ -1,0 +1,7 @@
+Notes
+-----
+
+- The user passphrase is required in order to set up or upgrade the app. New 
+  keypair generation, and the re-encryption of legacy encrypted files requires
+  it. Therefore an appinfo/update.php script cannot be used, and upgrade logic
+  is handled in the login hook listener.

@@ -29,11 +29,11 @@ namespace OCA\Encryption;
 class Session {
 
 	/**
-	 * @brief Sets user id for session and triggers emit
+	 * @brief Sets user private key to session
 	 * @return bool
 	 *
 	 */
-	public function setPrivateKey( $privateKey, $userId ) {
+	public function setPrivateKey( $privateKey ) {
 	
 		$_SESSION['privateKey'] = $privateKey;
 		
@@ -42,18 +42,53 @@ class Session {
 	}
 	
 	/**
-	 * @brief Gets user id for session and triggers emit
+	 * @brief Gets user private key from session
 	 * @returns string $privateKey The user's plaintext private key
 	 *
 	 */
-	public function getPrivateKey( $userId ) {
+	public function getPrivateKey() {
 	
 		if ( 
-		isset( $_SESSION['privateKey'] )
-		&& !empty( $_SESSION['privateKey'] )
+			isset( $_SESSION['privateKey'] )
+			&& !empty( $_SESSION['privateKey'] )
 		) {
 		
 			return $_SESSION['privateKey'];
+		
+		} else {
+		
+			return false;
+			
+		}
+		
+	}
+	
+	/**
+	 * @brief Sets user legacy key to session
+	 * @return bool
+	 *
+	 */
+	public function setLegacyKey( $legacyKey ) {
+	
+		$_SESSION['legacyKey'] = $LegacyKey;
+		
+		return true;
+		
+	}
+	
+	/**
+	 * @brief Gets user legacy key from session
+	 * @returns string $legacyKey The user's plaintext legacy key
+	 *
+	 */
+	public function getLegacyKey() {
+	
+		if ( 
+			isset( $_SESSION['legacyKey'] )
+			&& !empty( $_SESSION['legacyKey'] )
+		) {
+		
+			return $_SESSION['legacyKey'];
 		
 		} else {
 		

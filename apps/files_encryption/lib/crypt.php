@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ownCloud
  *
@@ -27,12 +28,10 @@ namespace OCA\Encryption;
 require_once 'Crypt_Blowfish/Blowfish.php';
 
 // Todo:
-//  - Crypt/decrypt button in the userinterface
-//  - Setting if crypto should be on by default
-//  - Add a setting "Don´t encrypt files larger than xx because of performance reasons"
-//  - Transparent decrypt/encrypt in filesystem.php. Autodetect if a file is encrypted (.encrypted extension)
-//  - Don't use a password directly as encryption key. but a key which is stored on the server and encrypted with the user password. -> password change faster
-//  - IMPORTANT! Check if the block lenght of the encrypted data stays the same
+//  - Add a setting "Don´t encrypt files larger than xx because of performance"
+//  - Don't use a password directly as encryption key. but a key which is 
+//    stored on the server and encrypted with the user password. -> change pass 
+//    faster
 
 /**
  * Class for common cryptography functionality
@@ -93,7 +92,10 @@ class Crypt {
          * @brief Add arbitrary padding to encrypted data
          * @param string $data data to be padded
          * @return padded data
-         * @note In order to end up with data exactly 8192 bytes long we must add two letters. It is impossible to achieve exactly 8192 length blocks with encryption alone, hence padding is added to achieve the required length. 
+         * @note In order to end up with data exactly 8192 bytes long we must 
+         * add two letters. It is impossible to achieve exactly 8192 length 
+         * blocks with encryption alone, hence padding is added to achieve the 
+         * required length. 
          */
 	public static function addPadding( $data ) {
 	
@@ -118,7 +120,7 @@ class Crypt {
 		
 		} else {
 		
-			# TODO: log the fact that unpadded data was submitted for removal of padding
+			// TODO: log the fact that unpadded data was submitted for removal of padding
 			return false;
 			
 		}
@@ -168,7 +170,7 @@ class Crypt {
 	 */
 	public static function isEncryptedMeta( $path ) {
 	
-		# TODO: Use DI to get OC_FileCache_Cached out of here
+		// TODO: Use DI to get OC_FileCache_Cached out of here
 	
 		// Fetch all file metadata from DB
 		$metadata = \OC_FileCache_Cached::get( $path, '' );
@@ -187,12 +189,14 @@ class Crypt {
 		// Fetch all file metadata from DB
 		$metadata = \OC_FileCache_Cached::get( $content, '' );
 	
-		// If a file is flagged with encryption in DB, but isn't a valid content + IV combination, it's probably using the legacy encryption system
+		// If a file is flagged with encryption in DB, but isn't a 
+		// valid content + IV combination, it's probably using the 
+		// legacy encryption system
 		if ( 
 		$content
 		and isset( $metadata['encrypted'] ) 
 		and $metadata['encrypted'] === true 
-		and !self::isCatfile( $content ) 
+		and ! self::isCatfile( $content ) 
 		) {
 		
 			return true;
@@ -217,7 +221,7 @@ class Crypt {
 			
 		} else {
 		
-			\OC_Log::write( 'Encryption library', 'Encryption (symmetric) of content failed' , \OC_Log::ERROR );
+			\OC_Log::write( 'Encryption library', 'Encryption (symmetric) of content failed', \OC_Log::ERROR );
 			
 			return false;
 			
@@ -313,7 +317,7 @@ class Crypt {
 		
 		} else {
 		
-			\OC_Log::write( 'Encryption library', 'Encryption (symmetric) of keyfile content failed' , \OC_Log::ERROR );
+			\OC_Log::write( 'Encryption library', 'Encryption (symmetric) of keyfile content failed', \OC_Log::ERROR );
 			
 			return false;
 			
@@ -431,7 +435,7 @@ class Crypt {
 			
 		} else {
 		
-			\OC_Log::write( 'Encryption library', 'Decryption (asymmetric) of sealed content failed' , \OC_Log::ERROR );
+			\OC_Log::write( 'Encryption library', 'Decryption (asymmetric) of sealed content failed', \OC_Log::ERROR );
 			
 			return false;
 			
@@ -579,7 +583,7 @@ class Crypt {
 			if ( !$strong ) {
 			
 				// If OpenSSL indicates randomness is insecure, log error
-				\OC_Log::write( 'Encryption library', 'Insecure symmetric key was generated using openssl_random_pseudo_bytes()' , \OC_Log::WARN );
+				\OC_Log::write( 'Encryption library', 'Insecure symmetric key was generated using openssl_random_pseudo_bytes()', \OC_Log::WARN );
 			
 			}
 			
@@ -623,18 +627,27 @@ class Crypt {
 		
 	}
 
-	public static function changekeypasscode($oldPassword, $newPassword) {
+	public static function changekeypasscode( $oldPassword, $newPassword ) {
 
-		if(\OCP\User::isLoggedIn()){
+		if ( \OCP\User::isLoggedIn() ) {
+		
 			$key = Keymanager::getPrivateKey( $user, $view );
-			if ( ($key = Crypt::symmetricDecryptFileContent($key,$oldpasswd)) ) {
-				if ( ($key = Crypt::symmetricEncryptFileContent($key, $newpasswd)) ) {
-					Keymanager::setPrivateKey($key);
+			
+			if ( ( $key = Crypt::symmetricDecryptFileContent($key,$oldpasswd) ) ) {
+			
+				if ( ( $key = Crypt::symmetricEncryptFileContent( $key, $newpasswd ) ) ) {
+				
+					Keymanager::setPrivateKey( $key );
+					
 					return true;
 				}
+				
 			}
+			
 		}
+		
 		return false;
+		
 	}
 	
 	/**
@@ -725,10 +738,8 @@ class Crypt {
 	*/
 	public static function legacyRecrypt( $legacyContent, $legacyPassphrase, $newPassphrase ) {
 		
-		# TODO: write me
+		// TODO: write me
 	
 	}
 	
 }
-
-?>

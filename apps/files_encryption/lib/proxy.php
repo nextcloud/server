@@ -42,8 +42,8 @@ class Proxy extends \OC_FileProxy {
 		if ( is_null( self::$enableEncryption ) ) {
 		
 			if ( 
-			\OCP\Config::getAppValue( 'files_encryption', 'enable_encryption', 'true' ) == 'true' 
-			&& Crypt::mode() == 'server' 
+				\OCP\Config::getAppValue( 'files_encryption', 'enable_encryption', 'true' ) == 'true' 
+				&& Crypt::mode() == 'server' 
 			) {
 			
 				self::$enableEncryption = true;
@@ -64,7 +64,7 @@ class Proxy extends \OC_FileProxy {
 		
 		if ( is_null(self::$blackList ) ) {
 		
-			self::$blackList = explode(',', \OCP\Config::getAppValue( 'files_encryption','type_blacklist','jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg' ) );
+			self::$blackList = explode(',', \OCP\Config::getAppValue( 'files_encryption', 'type_blacklist', 'jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg' ) );
 			
 		}
 		
@@ -74,9 +74,9 @@ class Proxy extends \OC_FileProxy {
 			
 		}
 		
-		$extension = substr( $path, strrpos( $path,'.' ) +1 );
+		$extension = substr( $path, strrpos( $path, '.' ) +1 );
 		
-		if ( array_search( $extension, self::$blackList ) === false ){
+		if ( array_search( $extension, self::$blackList ) === false ) {
 		
 			return true;
 			
@@ -101,7 +101,7 @@ class Proxy extends \OC_FileProxy {
 				// Disable encryption proxy to prevent recursive calls
 				\OC_FileProxy::$enabled = false;
 				
-				# TODO: Check if file is shared, if so, use multiKeyEncrypt
+				// TODO: Check if file is shared, if so, use multiKeyEncrypt
 				
 				// Encrypt plain data and fetch key
 				$encrypted = Crypt::keyEncryptKeyfile( $data, Keymanager::getPublicKey( $rootView, $userId ) );
@@ -115,7 +115,7 @@ class Proxy extends \OC_FileProxy {
 				
 				$filePath = '/' . implode( '/', $filePath );
 				
-				# TODO: make keyfile dir dynamic from app config
+				// TODO: make keyfile dir dynamic from app config
 				
 				$view = new \OC_FilesystemView( '/' );
 				
@@ -139,15 +139,15 @@ class Proxy extends \OC_FileProxy {
 	 */
 	public function postFile_get_contents( $path, $data ) {
 	
-		# TODO: Use dependency injection to add required args for view and user etc. to this method
+		// TODO: Use dependency injection to add required args for view and user etc. to this method
 
 		// Disable encryption proxy to prevent recursive calls
 		\OC_FileProxy::$enabled = false;
 		
 		// If data is a catfile
 		if ( 
-		Crypt::mode() == 'server' 
-		&& Crypt::isCatfile( $data ) 
+			Crypt::mode() == 'server' 
+			&& Crypt::isCatfile( $data ) 
 		) {
 			
 			$split = explode( '/', $path );
@@ -162,7 +162,7 @@ class Proxy extends \OC_FileProxy {
 			
 			$userId = \OCP\USER::getUser();
 			
-			# TODO: Check if file is shared, if so, use multiKeyDecrypt
+			// TODO: Check if file is shared, if so, use multiKeyDecrypt
 			
 			$encryptedKeyfile = Keymanager::getFileKey( $view, $userId, $filePath );
 
@@ -215,8 +215,8 @@ class Proxy extends \OC_FileProxy {
 		
 		// If file is already encrypted, decrypt using crypto protocol
 		if ( 
-		Crypt::mode() == 'server' 
-		&& $util->isEncryptedPath( $path ) 
+			Crypt::mode() == 'server' 
+			&& $util->isEncryptedPath( $path ) 
 		) {
 			
 			// Close the original encrypted file
@@ -228,9 +228,9 @@ class Proxy extends \OC_FileProxy {
 			
 			
 		} elseif ( 
-		self::shouldEncrypt( $path ) 
-		and $meta ['mode'] != 'r' 
-		and $meta['mode'] != 'rb' 
+			self::shouldEncrypt( $path ) 
+			and $meta ['mode'] != 'r' 
+			and $meta['mode'] != 'rb' 
 		) {
 		// If the file is not yet encrypted, but should be 
 		// encrypted when it's saved (it's not read only)
@@ -268,27 +268,43 @@ class Proxy extends \OC_FileProxy {
 	
 	}
 
-	public function postGetMimeType($path,$mime){
-		if( Crypt::isCatfile($path)){
-			$mime = \OCP\Files::getMimeType('crypt://'.$path,'w');
+	public function postGetMimeType( $path, $mime ) {
+		
+		if ( Crypt::isCatfile( $path ) ) {
+		
+			$mime = \OCP\Files::getMimeType( 'crypt://' . $path, 'w' );
+		
 		}
+		
 		return $mime;
+		
 	}
 
-	public function postStat($path,$data){
-		if( Crypt::isCatfile($path)){
-			$cached=  \OC_FileCache_Cached::get($path,'');
-			$data['size']=$cached['size'];
+	public function postStat( $path, $data ) {
+	
+		if ( Crypt::isCatfile( $path ) ) {
+		
+			$cached = \OC_FileCache_Cached::get( $path, '' );
+			
+			$data['size'] = $cached['size'];
+			
 		}
+		
 		return $data;
 	}
 
-	public function postFileSize($path,$size){
-		if( Crypt::isCatfile($path)){
-			$cached = \OC_FileCache_Cached::get($path,'');
+	public function postFileSize( $path, $size ) {
+		
+		if ( Crypt::isCatfile( $path ) ) {
+			
+			$cached = \OC_FileCache_Cached::get( $path, '' );
+			
 			return  $cached['size'];
-		}else{
+		
+		} else {
+		
 			return $size;
+			
 		}
 	}
 }

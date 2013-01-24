@@ -1,6 +1,6 @@
 <form id="encryption">
 	<fieldset class="personalblock">
-		<strong><?php echo $l->t('Choose encryption mode:'); ?></strong>
+		<strong><?php echo $l->t( 'Choose encryption mode:' ); ?></strong>
 		<p>
 			<input 
 			type="hidden" 
@@ -14,9 +14,9 @@
 			name="encryption_mode" 
 			value="server" 
 			id='server_encryption' 
-			style="width:20px;" <?php if ($_['encryption_mode'] == 'server') echo "checked='checked'"?>
+			style="width:20px;" <?php if ( $_['encryption_mode'] == 'server' ) echo "checked='checked'" ?>
 			/> 
-			<?php echo $l->t('Server side encryption (allows you to access your files from the web interface)'); ?>
+			<?php echo $l->t( 'Server side encryption (allows you to access your files from the web interface)' ); ?>
 			<br />
 			
 			<input 
@@ -25,9 +25,9 @@
 			value="none" 
 			id='none_encryption' 
 			style="width:20px;" 
-			<?php if ($_['encryption_mode'] == 'none') echo "checked='checked'"?>
+			<?php if ( $_['encryption_mode'] == 'none' ) echo "checked='checked'" ?>
 			/> 
-			<?php echo $l->t('None (no encryption at all)'); ?>
+			<?php echo $l->t( 'None (no encryption at all)' ); ?>
 			<br/>
 		</p>
 	</fieldset>

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ownCloud
  *
@@ -28,17 +29,16 @@ namespace OCA\Encryption;
 
 class Hooks {
 
-	# TODO: use passphrase for encrypting private key that is separate to the login password
+	// TODO: use passphrase for encrypting private key that is separate to 
+	// the login password
 
 	/**
 	 * @brief Startup encryption backend upon user login
 	 * @note This method should never be called for users using client side encryption
 	 */
 	public static function login( $params ) {
-	
-// 		if ( Crypt::mode( $params['uid'] ) == 'server' ) {
 			
-			# TODO: use lots of dependency injection here
+			// TODO: use lots of dependency injection here
 		
 			$view = new \OC_FilesystemView( '/' );
 
@@ -46,7 +46,7 @@ class Hooks {
 			
 			if ( ! $util->ready() ) {
 				
-				\OC_Log::write( 'Encryption library', 'User account "' . $params['uid'] . '" is not ready for encryption; configuration started' , \OC_Log::DEBUG );
+				\OC_Log::write( 'Encryption library', 'User account "' . $params['uid'] . '" is not ready for encryption; configuration started', \OC_Log::DEBUG );
 				
 				return $util->setupServerSide( $params['password'] );
 
@@ -57,8 +57,6 @@ class Hooks {
 			$encryptedKey = Keymanager::getPrivateKey( $view, $params['uid'] );
 			
 			\OC_FileProxy::$enabled = true;
-			
-			# TODO: dont manually encrypt the private keyfile - use the config options of openssl_pkey_export instead for better mobile compatibility
 			
 			$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
 			
@@ -71,14 +69,22 @@ class Hooks {
 			// Set legacy encryption key if it exists, to support 
 			// depreciated encryption system
 			if ( 
-			$view1->file_exists( 'encryption.key' )
-			&& $legacyKey = $view1->file_get_contents( 'encryption.key' ) 
+				$view1->file_exists( 'encryption.key' )
+				&& $encLegacyKey = $view1->file_get_contents( 'encryption.key' ) 
 			) {
 				
-				$_SESSION['legacyenckey'] = Crypt::legacyDecrypt( $legacyKey, $params['password'] );
+				$plainLegacyKey = Crypt::legacyDecrypt( $encLegacyKey, $params['password'] );
+				
+				$session->setLegacyKey( $plainLegacyKey );
 			
 			}
-// 		}
+			
+			$publicKey = Keymanager::getPublicKey( $view, $params['uid'] );
+			
+			// Encrypt existing user files:
+			// This serves to upgrade old versions of the encryption
+			// app (see appinfo/spec.txt
+			$this->encryptAll( $publicKey, $this->userFilesDir, $session->getLegacyKey(), $params['password'] );
 
 		return true;
 
@@ -104,9 +110,9 @@ class Hooks {
 			// Save private key
 			Keymanager::setPrivateKey( $encryptedPrivateKey );
 			
-			# NOTE: Session does not need to be updated as the 
-			# private key has not changed, only the passphrase 
-			# used to decrypt it has changed
+			// NOTE: Session does not need to be updated as the 
+			// private key has not changed, only the passphrase 
+			// used to decrypt it has changed
 			
 		}
 	
@@ -179,5 +185,3 @@ class Hooks {
 	}
 	
 }
-
-?>

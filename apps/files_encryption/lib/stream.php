@@ -49,9 +49,10 @@ class Stream {
 
 	public static $sourceStreams = array();
 
-	# TODO: make all below properties private again once unit testing is configured correctly
+	// TODO: make all below properties private again once unit testing is 
+	// configured correctly
 	public $rawPath; // The raw path received by stream_open
-	public $path_f; // The raw path formatted to include username and data directory
+	public $path_f; // The raw path formatted to include username and data dir
 	private $userId;
 	private $handle; // Resource returned by fopen
 	private $path;
@@ -235,10 +236,12 @@ class Stream {
 	 */
 	public function getKey() {
 		
-		// If a keyfile already exists for a file named identically to file to be written
+		// If a keyfile already exists for a file named identically to 
+		// file to be written
 		if ( self::$view->file_exists( $this->userId . '/'. 'files_encryption' . '/' . 'keyfiles' . '/' . $this->rawPath . '.key' ) ) {
 		
-			# TODO: add error handling for when file exists but no keyfile
+			// TODO: add error handling for when file exists but no 
+			// keyfile
 			
 			// Fetch existing keyfile
 			$this->encKeyfile = Keymanager::getFileKey( $this->rootView, $this->userId, $this->rawPath );
@@ -266,13 +269,14 @@ class Stream {
 		// Only get the user again if it isn't already set
 		if ( empty( $this->userId ) ) {
 	
-			# TODO: Move this user call out of here - it belongs elsewhere
+			// TODO: Move this user call out of here - it belongs 
+			// elsewhere
 			$this->userId = \OCP\User::getUser();
 		
 		}
 		
-		# TODO: Add a method for getting the user in case OCP\User::
-		# getUser() doesn't work (can that scenario ever occur?)
+		// TODO: Add a method for getting the user in case OCP\User::
+		// getUser() doesn't work (can that scenario ever occur?)
 		
 	}
 	
@@ -287,7 +291,10 @@ class Stream {
 	 */
 	public function stream_write( $data ) {
 		
-		// Disable the file proxies so that encryption is not automatically attempted when the file is written to disk - we are handling that separately here and we don't want to get into an infinite loop
+		// Disable the file proxies so that encryption is not 
+		// automatically attempted when the file is written to disk - 
+		// we are handling that separately here and we don't want to 
+		// get into an infinite loop
 		\OC_FileProxy::$enabled = false;
 		
 		// Get the length of the unencrypted data that we are handling
@@ -296,14 +303,15 @@ class Stream {
 		// So far this round, no data has been written
 		$written = 0;
 		
-		// Find out where we are up to in the writing of data to the file
+		// Find out where we are up to in the writing of data to the 
+		// file
 		$pointer = ftell( $this->handle );
 		
 		// Make sure the userId is set
 		$this->getuser();
 		
-		# TODO: Check if file is shared, if so, use multiKeyEncrypt and
-		# save shareKeys in necessary user directories
+		// TODO: Check if file is shared, if so, use multiKeyEncrypt and
+		// save shareKeys in necessary user directories
 		
 		// Get / generate the keyfile for the file we're handling
 		// If we're writing a new file (not overwriting an existing 
@@ -324,19 +332,24 @@ class Stream {
 			
 		}
 
-		// If extra data is left over from the last round, make sure it is integrated into the next 6126 / 8192 block
+		// If extra data is left over from the last round, make sure it 
+		// is integrated into the next 6126 / 8192 block
 		if ( $this->writeCache ) {
 			
 			// Concat writeCache to start of $data
 			$data = $this->writeCache . $data;
 			
-			// Clear the write cache, ready for resuse - it has been flushed and its old contents processed
+			// Clear the write cache, ready for resuse - it has been
+			// flushed and its old contents processed
 			$this->writeCache = '';
 
 		}
 // 		
 // 		// Make sure we always start on a block start
-		if ( 0 != ( $pointer % 8192 ) ) { // if the current positoin of file indicator is not aligned to a 8192 byte block, fix it so that it is
+		if ( 0 != ( $pointer % 8192 ) ) { 
+		// if the current positoin of 
+		// file indicator is not aligned to a 8192 byte block, fix it 
+		// so that it is
 
 // 			fseek( $this->handle, - ( $pointer % 8192 ), SEEK_CUR );
 // 			
@@ -361,14 +374,22 @@ class Stream {
 // 		// While there still remains somed data to be processed & written
 		while( strlen( $data ) > 0 ) {
 // 			
-// 			// Remaining length for this iteration, not of the entire file (may be greater than 8192 bytes)
+// 			// Remaining length for this iteration, not of the 
+//			// entire file (may be greater than 8192 bytes)
 // 			$remainingLength = strlen( $data );
 // 			
-// 			// If data remaining to be written is less than the size of 1 6126 byte block
+// 			// If data remaining to be written is less than the 
+//			// size of 1 6126 byte block
 			if ( strlen( $data ) < 6126 ) {
 				
 				// Set writeCache to contents of $data
-				// The writeCache will be carried over to the next write round, and added to the start of $data to ensure that written blocks are always the correct length. If there is still data in writeCache after the writing round has finished, then the data will be written to disk by $this->flush().
+				// The writeCache will be carried over to the 
+				// next write round, and added to the start of 
+				// $data to ensure that written blocks are 
+				// always the correct length. If there is still 
+				// data in writeCache after the writing round 
+				// has finished, then the data will be written 
+				// to disk by $this->flush().
 				$this->writeCache = $data;
 
 				// Clear $data ready for next round
@@ -381,13 +402,17 @@ class Stream {
 				
 				$encrypted = $this->preWriteEncrypt( $chunk, $this->keyfile );
 				
-				// Write the data chunk to disk. This will be addended to the last data chunk if the file being handled totals more than 6126 bytes
+				// Write the data chunk to disk. This will be 
+				// addended to the last data chunk if the file 
+				// being handled totals more than 6126 bytes
 				fwrite( $this->handle, $encrypted );
 				
 				$writtenLen = strlen( $encrypted );
 				//fseek( $this->handle, $writtenLen, SEEK_CUR );
 
-				// Remove the chunk we just processed from $data, leaving only unprocessed data in $data var, for handling on the next round
+				// Remove the chunk we just processed from 
+				// $data, leaving only unprocessed data in $data
+				// var, for handling on the next round
 				$data = substr( $data, 6126 );
 
 			}
@@ -401,16 +426,16 @@ class Stream {
 	}
 
 
-	public function stream_set_option($option,$arg1,$arg2) {
+	public function stream_set_option( $option, $arg1, $arg2 ) {
 		switch($option) {
 			case STREAM_OPTION_BLOCKING:
-				stream_set_blocking($this->handle,$arg1);
+				stream_set_blocking( $this->handle, $arg1 );
 				break;
 			case STREAM_OPTION_READ_TIMEOUT:
-				stream_set_timeout($this->handle,$arg1,$arg2);
+				stream_set_timeout( $this->handle, $arg1, $arg2 );
 				break;
 			case STREAM_OPTION_WRITE_BUFFER:
-				stream_set_write_buffer($this->handle,$arg1,$arg2);
+				stream_set_write_buffer( $this->handle, $arg1, $arg2 );
 		}
 	}
 
@@ -418,13 +443,14 @@ class Stream {
 		return fstat($this->handle);
 	}
 	
-	public function stream_lock($mode) {
-		flock($this->handle,$mode);
+	public function stream_lock( $mode ) {
+		flock( $this->handle, $mode );
 	}
 	
 	public function stream_flush() {
 	
-		return fflush($this->handle); // Not a typo: http://php.net/manual/en/function.fflush.php
+		return fflush( $this->handle ); 
+		// Not a typo: http://php.net/manual/en/function.fflush.php
 		
 	}
 

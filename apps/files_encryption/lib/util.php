@@ -24,9 +24,13 @@
 // Todo:
 //  - Crypt/decrypt button in the userinterface
 //  - Setting if crypto should be on by default
-//  - Add a setting "Don´t encrypt files larger than xx because of performance reasons"
-//  - Transparent decrypt/encrypt in filesystem.php. Autodetect if a file is encrypted (.encrypted extension)
-//  - Don't use a password directly as encryption key. but a key which is stored on the server and encrypted with the user password. -> password change faster
+//  - Add a setting "Don´t encrypt files larger than xx because of performance 
+//    reasons"
+//  - Transparent decrypt/encrypt in filesystem.php. Autodetect if a file is 
+//    encrypted (.encrypted extension)
+//  - Don't use a password directly as encryption key. but a key which is 
+//    stored on the server and encrypted with the user password. -> password 
+//    change faster
 //  - IMPORTANT! Check if the block lenght of the encrypted data stays the same
 
 namespace OCA\Encryption;
@@ -41,56 +45,57 @@ namespace OCA\Encryption;
 class Util {
 	
 	
-	# Web UI:
+	// Web UI:
 	
-	## DONE: files created via web ui are encrypted
-	## DONE: file created & encrypted via web ui are readable in web ui
-	## DONE: file created & encrypted via web ui are readable via webdav
-	
-	
-	# WebDAV:
-	
-	## DONE: new data filled files added via webdav get encrypted
-	## DONE: new data filled files added via webdav are readable via webdav
-	## DONE: reading unencrypted files when encryption is enabled works via webdav
-	## DONE: files created & encrypted via web ui are readable via webdav
+	//// DONE: files created via web ui are encrypted
+	//// DONE: file created & encrypted via web ui are readable in web ui
+	//// DONE: file created & encrypted via web ui are readable via webdav
 	
 	
-	# Legacy support:
+	// WebDAV:
 	
-	## DONE: add method to check if file is encrypted using new system
-	## DONE: add method to check if file is encrypted using old system
-	## DONE: add method to fetch legacy key
-	## DONE: add method to decrypt legacy encrypted data
-	
-	## TODO: add method to encrypt all user files using new system
-	## TODO: add method to decrypt all user files using new system
-	## TODO: add method to encrypt all user files using old system
-	## TODO: add method to decrypt all user files using old system
+	//// DONE: new data filled files added via webdav get encrypted
+	//// DONE: new data filled files added via webdav are readable via webdav
+	//// DONE: reading unencrypted files when encryption is enabled works via 
+	////       webdav
+	//// DONE: files created & encrypted via web ui are readable via webdav
 	
 	
-	# Admin UI:
+	// Legacy support:
 	
-	## DONE: changing user password also changes encryption passphrase
+	//// DONE: add method to check if file is encrypted using new system
+	//// DONE: add method to check if file is encrypted using old system
+	//// DONE: add method to fetch legacy key
+	//// DONE: add method to decrypt legacy encrypted data
 	
-	## TODO: add support for optional recovery in case of lost passphrase / keys
-	## TODO: add admin optional required long passphrase for users
-	## TODO: add UI buttons for encrypt / decrypt everything
-	## TODO: implement flag system to allow user to specify encryption by folder, subfolder, etc.
-	
-	
-	# Sharing:
-	
-	## TODO: add support for encrypting to multiple public keys
-	## TODO: add support for decrypting to multiple private keys
+	//// TODO: add method to encrypt all user files using new system
+	//// TODO: add method to decrypt all user files using new system
+	//// TODO: add method to encrypt all user files using old system
+	//// TODO: add method to decrypt all user files using old system
 	
 	
-	# Integration testing:
+	// Admin UI:
 	
-	## TODO: test new encryption with webdav
-	## TODO: test new encryption with versioning
-	## TODO: test new encryption with sharing
-	## TODO: test new encryption with proxies
+	//// DONE: changing user password also changes encryption passphrase
+	
+	//// TODO: add support for optional recovery in case of lost passphrase / keys
+	//// TODO: add admin optional required long passphrase for users
+	//// TODO: add UI buttons for encrypt / decrypt everything
+	//// TODO: implement flag system to allow user to specify encryption by folder, subfolder, etc.
+	
+	
+	// Sharing:
+	
+	//// TODO: add support for encrypting to multiple public keys
+	//// TODO: add support for decrypting to multiple private keys
+	
+	
+	// Integration testing:
+	
+	//// TODO: test new encryption with webdav
+	//// TODO: test new encryption with versioning
+	//// TODO: test new encryption with sharing
+	//// TODO: test new encryption with proxies
 	
 	
 	private $view; // OC_FilesystemView object for filesystem operations
@@ -190,8 +195,8 @@ class Util {
 		
 		// Create user keypair
 		if ( 
-		! $this->view->file_exists( $this->publicKeyPath ) 
-		or ! $this->view->file_exists( $this->privateKeyPath ) 
+			! $this->view->file_exists( $this->publicKeyPath ) 
+			or ! $this->view->file_exists( $this->privateKeyPath ) 
 		) {
 		
 			// Generate keypair
@@ -212,11 +217,6 @@ class Util {
 			
 		}
 		
-		$publicKey = Keymanager::getPublicKey( $this->view, $this->userId );
-		
-		// Encrypt existing user files:
-		$this->encryptAll( $publicKey, $this->userFilesDir );
-		
 		return true;
 	
 	}
@@ -235,8 +235,8 @@ class Util {
 		$found = array( 'plain' => array(), 'encrypted' => array(), 'legacy' => array() );
 		
 		if ( 
-		$this->view->is_dir( $directory ) 
-		&& $handle = $this->view->opendir( $directory ) 
+			$this->view->is_dir( $directory ) 
+			&& $handle = $this->view->opendir( $directory ) 
 		) {
 		
 			while ( false !== ( $file = readdir( $handle ) ) ) {
@@ -330,7 +330,7 @@ class Util {
 	 * @param string $dirPath the directory whose files will be encrypted
 	 * @note Encryption is recursive
 	 */
-	public function encryptAll( $publicKey, $dirPath ) {
+	public function encryptAll( $publicKey, $dirPath, $legacyPassphrase = null, $newPassphrase = null ) {
 	
 		if ( $found = $this->findFiles( $dirPath ) ) {
 		
@@ -353,20 +353,27 @@ class Util {
 			
 			// FIXME: Legacy recrypting here isn't finished yet
 			// Encrypt legacy encrypted files
-			foreach ( $found['legacy'] as $legacyFilePath ) {
+			if ( 
+				! empty( $legacyPassphrase ) 
+				&& ! empty( $newPassphrase ) 
+			) {
 			
-				// Fetch data from file
-				$legacyData = $this->view->file_get_contents( $legacyFilePath );
-			
-				// Recrypt data, generate catfile
-				$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKey, $newPassphrase );
+				foreach ( $found['legacy'] as $legacyFilePath ) {
 				
-				// Save catfile
-				Keymanager::setFileKey( $this->view, $plainFilePath, $this->userId, $recrypted['key'] );
+					// Fetch data from file
+					$legacyData = $this->view->file_get_contents( $legacyFilePath );
 				
-				// Overwrite the existing file with the encrypted one
-				$this->view->file_put_contents( $plainFilePath, $recrypted['data'] );
-			
+					// Recrypt data, generate catfile
+					$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKey, $newPassphrase );
+					
+					// Save catfile
+					Keymanager::setFileKey( $this->view, $plainFilePath, $this->userId, $recrypted['key'] );
+					
+					// Overwrite the existing file with the encrypted one
+					$this->view->file_put_contents( $plainFilePath, $recrypted['data'] );
+				
+				}
+				
 			}
 		
 		}

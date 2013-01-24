@@ -1,5 +1,6 @@
 <?php
-/***
+
+/**
  * ownCloud
  *
  * @author Bjoern Schiessle
@@ -27,8 +28,6 @@ namespace OCA\Encryption;
  * @note Where a method requires a view object, it's root must be '/'
  */
 class Keymanager {
-	
-	# TODO: make all dependencies (including static classes) explicit, such as ocfsview objects, by adding them as method arguments (dependency injection)
 		
 	/**
 	 * @brief retrieve the ENCRYPTED private key from a user
@@ -259,7 +258,7 @@ class Keymanager {
 // 			
 // 		}
 		
-		$view = new \OC_FilesystemView('/'.$user.'/files_encryption/keyfiles/');
+		$view = new \OC_FilesystemView( '/' . $user. '/files_encryption/keyfiles/' );
 		
 		return $view->unlink( $keypath . '.key' );
 		
