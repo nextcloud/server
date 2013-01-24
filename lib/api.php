@@ -189,7 +189,7 @@ class OC_API {
 
 	private static function toXML($array, $writer) {
 		foreach($array as $k => $v) {
-			if (substr($k, 0, 1) === '@') {
+			if ($k[0] === '@') {
 				$writer->writeAttribute(substr($k, 1), $v);
 				continue;
 			} else if (is_numeric($k)) {
