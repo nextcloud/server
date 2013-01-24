@@ -24,13 +24,13 @@
 namespace OCA\user_ldap\lib;
 
 class Helper {
-	
+
 	/**
 	 * @brief returns prefixes for each saved LDAP/AD server configuration.
 	 * @return array with a list of the available prefixes
-	 * 
+	 *
 	 * Configuration prefixes are used to set up configurations for n LDAP or
-	 * AD servers. Since configuration is stored in the database, table 
+	 * AD servers. Since configuration is stored in the database, table
 	 * appconfig under appid user_ldap, the common identifiers in column
 	 * 'configkey' have a prefix. The prefix for the very first server
 	 * configuration is empty.
@@ -38,29 +38,56 @@ class Helper {
 	 * Server 1: ldap_login_filtter
 	 * Server 2: s1_ldap_login_filter
 	 * Server 3: s2_ldap_login_filter
-	 * 
-	 * The prefix needs to be passed to the constructor of Connection class, 
+	 *
+	 * The prefix needs to be passed to the constructor of Connection class,
 	 * except the default (first) server shall be connected to.
-	 * 
+	 *
 	 */
 	static public function getServerConfigurationPrefixes() {
 		$referenceConfigkey = 'ldap_login_filter';
-		
+
 		$query = \OCP\DB::prepare('
 			SELECT DISTINCT `configkey`
 			FROM `*PREFIX*appconfig`
 			WHERE `configkey` LIKE ?
 		');
-		
+
 		$serverConfigs = $query->execute(array('%'.$referenceConfigkey))->fetchAll();
 		$prefixes = array();
-		
+
 		foreach($serverConfigs as $serverConfig) {
 			$len = strlen($serverConfig['configkey']) - strlen($referenceConfigkey);
 			$prefixes[] = substr($serverConfig['configkey'], 0, $len);
 		}
-		
+
 		return $prefixes;
+	}
+
+	static public function deleteServerConfiguration($prefix) {
+		//just to be on the safe side
+		\OCP\User::checkAdminUser();
+
+		if(!in_array($prefix, self::getServerConfigurationPrefixes())) {
+			return false;
+		}
+
+		$query = \OCP\DB::prepare('
+			DELETE
+			FROM `*PREFIX*appconfig`
+			WHERE `configkey` LIKE ?
+				AND appid = "user_ldap"
+		');
+		$res = $query->execute(array($prefix.'%'));
+
+		if(\OCP\DB::isError($res)) {
+			return false;
+		}
+
+		if($res->numRows() == 0) {
+			return false;
+		}
+
+		return true;
 	}
 }
 

@@ -15,7 +15,9 @@
 		<p><label for="ldap_serverconfig_chooser"><?php echo $l->t('Server configuration');?></label><select id="ldap_serverconfig_chooser" name="ldap_serverconfig_chooser">
 		<?php echo $_['serverConfigurationOptions']; ?>
 		<option value="NEW"><?php echo $l->t('Add Server Configuration');?></option>
-		</select></p>
+		</select>
+		<button id="ldap_action_delete_configuration" name="ldap_action_delete_configuration">Delete Configuration</button>
+		</p>
 		<p><label for="ldap_host"><?php echo $l->t('Host');?></label><input type="text" id="ldap_host" name="ldap_host" value="<?php echo $_['ldap_host']; ?>" data-default="<?php echo $_['ldap_host_default']; ?>" title="<?php echo $l->t('You can omit the protocol, except you require SSL. Then start with ldaps://');?>"></p>
 		<p><label for="ldap_base"><?php echo $l->t('Base DN');?></label><textarea id="ldap_base" name="ldap_base" placeholder="<?php echo $l->t('One Base DN per line');?>" title="<?php echo $l->t('You can specify Base DN for users and groups in the Advanced tab');?>" data-default="<?php echo $_['ldap_base_default']; ?>" ><?php echo $_['ldap_base']; ?></textarea></p>
 		<p><label for="ldap_dn"><?php echo $l->t('User DN');?></label><input type="text" id="ldap_dn" name="ldap_dn" value="<?php echo $_['ldap_dn']; ?>" data-default="<?php echo $_['ldap_dn_default']; ?>" title="<?php echo $l->t('The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty.');?>" /></p>

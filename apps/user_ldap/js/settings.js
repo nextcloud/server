@@ -45,12 +45,32 @@ var LdapConfiguration = {
 				$(this).removeAttr('checked');
 			}
 		});
+	},
+
+	deleteConfiguration: function() {
+		$.post(
+			OC.filePath('user_ldap','ajax','deleteConfiguration.php'),
+			$('#ldap_serverconfig_chooser').serialize(),
+			function (result) {
+				if(result.status == 'success') {
+					$('#ldap_serverconfig_chooser option:selected').remove();
+					$('#ldap_serverconfig_chooser option:first').select();
+					LdapConfiguration.refreshConfig();
+				} else {
+					OC.dialogs.alert(
+						result.message,
+						'Deletion failed'
+					);
+				}
+			}
+		);
 	}
 }
 
 $(document).ready(function() {
 	$('#ldapSettings').tabs();
 	$('#ldap_action_test_connection').button();
+	$('#ldap_action_delete_configuration').button();
 	LdapConfiguration.refreshConfig();
 	$('#ldap_action_test_connection').click(function(event){
 		event.preventDefault();
@@ -68,6 +88,19 @@ $(document).ready(function() {
 						result.message,
 						'Connection test failed'
 					);
+				}
+			}
+		);
+	});
+
+	$('#ldap_action_delete_configuration').click(function(event) {
+		event.preventDefault();
+		OC.dialogs.confirm(
+			'Do you really want to delete the current Server Configuration?',
+			'Confirm Deletion',
+			function(deleteConfiguration) {
+				if(deleteConfiguration) {
+					LdapConfiguration.deleteConfiguration();
 				}
 			}
 		);
