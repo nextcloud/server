@@ -59,7 +59,7 @@ var LdapConfiguration = {
 				} else {
 					OC.dialogs.alert(
 						result.message,
-						'Deletion failed'
+						t('user_ldap', 'Deletion failed')
 					);
 				}
 			}
@@ -81,12 +81,12 @@ $(document).ready(function() {
 				if (result.status == 'success') {
 					OC.dialogs.alert(
 						result.message,
-						'Connection test succeeded'
+						t('user_ldap', 'Connection test succeeded')
 					);
 				} else {
 					OC.dialogs.alert(
 						result.message,
-						'Connection test failed'
+						t('user_ldap', 'Connection test failed')
 					);
 				}
 			}
@@ -96,8 +96,8 @@ $(document).ready(function() {
 	$('#ldap_action_delete_configuration').click(function(event) {
 		event.preventDefault();
 		OC.dialogs.confirm(
-			'Do you really want to delete the current Server Configuration?',
-			'Confirm Deletion',
+			t('user_ldap', 'Do you really want to delete the current Server Configuration?'),
+			t('user_ldap', 'Confirm Deletion'),
 			function(deleteConfiguration) {
 				if(deleteConfiguration) {
 					LdapConfiguration.deleteConfiguration();
@@ -128,8 +128,8 @@ $(document).ready(function() {
 				function (result) {
 					if(result.status == 'success') {
 						OC.dialogs.confirm(
-							'Take over settings from recent server configuration?',
-							'Keep settings?',
+							t('user_ldap', 'Take over settings from recent server configuration?'),
+							t('user_ldap', 'Keep settings?'),
 							function(keep) {
 								if(!keep) {
 									LdapConfiguration.resetDefaults();
@@ -142,7 +142,7 @@ $(document).ready(function() {
 					} else {
 						OC.dialogs.alert(
 							result.message,
-							'Cannot add server configuration'
+							t('user_ldap', 'Cannot add server configuration')
 						);
 					}
 				}
