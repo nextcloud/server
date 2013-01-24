@@ -22,7 +22,7 @@
 
 //require_once("../lib/template.php");
 
-class Test_VCategories extends UnitTestCase {
+class Test_VCategories extends PHPUnit_Framework_TestCase {
 
 	protected $objectType;
 	protected $user;
@@ -49,7 +49,7 @@ class Test_VCategories extends UnitTestCase {
 
 		$catmgr = new OC_VCategories($this->objectType, $this->user, $defcategories);
 
-		$this->assertEqual(4, count($catmgr->categories()));
+		$this->assertEquals(4, count($catmgr->categories()));
 	}
 
 	public function testAddCategories() {
@@ -59,25 +59,25 @@ class Test_VCategories extends UnitTestCase {
 
 		foreach($categories as $category) {
 			$result = $catmgr->add($category);
-			$this->assertTrue($result);
+			$this->assertTrue((bool)$result);
 		}
 
 		$this->assertFalse($catmgr->add('Family'));
 		$this->assertFalse($catmgr->add('fAMILY'));
 
-		$this->assertEqual(4, count($catmgr->categories()));
+		$this->assertEquals(4, count($catmgr->categories()));
 	}
 
 	public function testdeleteCategories() {
 		$defcategories = array('Friends', 'Family', 'Work', 'Other');
 		$catmgr = new OC_VCategories($this->objectType, $this->user, $defcategories);
-		$this->assertEqual(4, count($catmgr->categories()));
+		$this->assertEquals(4, count($catmgr->categories()));
 
 		$catmgr->delete('family');
-		$this->assertEqual(3, count($catmgr->categories()));
+		$this->assertEquals(3, count($catmgr->categories()));
 
 		$catmgr->delete(array('Friends', 'Work', 'Other'));
-		$this->assertEqual(0, count($catmgr->categories()));
+		$this->assertEquals(0, count($catmgr->categories()));
 
 	}
 
@@ -90,8 +90,8 @@ class Test_VCategories extends UnitTestCase {
 			$catmgr->addToCategory($id, 'Family');
 		}
 
-		$this->assertEqual(1, count($catmgr->categories()));
-		$this->assertEqual(9, count($catmgr->idsForCategory('Family')));
+		$this->assertEquals(1, count($catmgr->categories()));
+		$this->assertEquals(9, count($catmgr->idsForCategory('Family')));
 	}
 
 	/**
@@ -110,8 +110,8 @@ class Test_VCategories extends UnitTestCase {
 			$this->assertFalse(in_array($id, $catmgr->idsForCategory('Family')));
 		}
 
-		$this->assertEqual(1, count($catmgr->categories()));
-		$this->assertEqual(0, count($catmgr->idsForCategory('Family')));
+		$this->assertEquals(1, count($catmgr->categories()));
+		$this->assertEquals(0, count($catmgr->idsForCategory('Family')));
 	}
 
 }

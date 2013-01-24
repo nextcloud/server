@@ -32,18 +32,18 @@ class Test_Filestorage_FTP extends Test_FileStorage {
 						  'root' => '/',
 						  'secure' => false );
 		$instance = new OC_Filestorage_FTP($config);
-		$this->assertEqual('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
+		$this->assertEquals('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
 
 		$config['secure'] = true;
 		$instance = new OC_Filestorage_FTP($config);
-		$this->assertEqual('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
+		$this->assertEquals('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
 
 		$config['secure'] = 'false';
 		$instance = new OC_Filestorage_FTP($config);
-		$this->assertEqual('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
+		$this->assertEquals('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
 
 		$config['secure'] = 'true';
 		$instance = new OC_Filestorage_FTP($config);
-		$this->assertEqual('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
+		$this->assertEquals('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
 	}
 }

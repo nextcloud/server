@@ -22,7 +22,7 @@
 
 OC::autoload('OC_Template');
 
-class Test_TemplateFunctions extends UnitTestCase {
+class Test_TemplateFunctions extends PHPUnit_Framework_TestCase {
 
 	public function testP() {
 		// FIXME: do we need more testcases?
@@ -31,7 +31,7 @@ class Test_TemplateFunctions extends UnitTestCase {
 		p($htmlString);
 		$result = ob_get_clean();
 
-		$this->assertEqual("&lt;script&gt;alert(&#039;xss&#039;);&lt;/script&gt;", $result);
+		$this->assertEquals("&lt;script&gt;alert(&#039;xss&#039;);&lt;/script&gt;", $result);
 	}
 
 	public function testPNormalString() {
@@ -40,7 +40,7 @@ class Test_TemplateFunctions extends UnitTestCase {
 		p($normalString);
 		$result = ob_get_clean();
 
-		$this->assertEqual("This is a good string!", $result);
+		$this->assertEquals("This is a good string!", $result);
 	}
 
 
@@ -51,7 +51,7 @@ class Test_TemplateFunctions extends UnitTestCase {
 		print_unescaped($htmlString);
 		$result = ob_get_clean();
 
-		$this->assertEqual($htmlString, $result);
+		$this->assertEquals($htmlString, $result);
 	}
 
 	public function testPrintUnescapedNormalString() {
@@ -60,7 +60,7 @@ class Test_TemplateFunctions extends UnitTestCase {
 		print_unescaped($normalString);
 		$result = ob_get_clean();
 
-		$this->assertEqual("This is a good string!", $result);
+		$this->assertEquals("This is a good string!", $result);
 	}
 
 
