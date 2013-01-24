@@ -40,21 +40,6 @@ OCP\Util::addstyle('user_ldap', 'settings');
 
 // fill template
 $tmpl = new OCP\Template('user_ldap', 'settings');
-foreach($params as $param) {
-	$value = OCP\Config::getAppValue('user_ldap', $param, '');
-	$tmpl->assign($param, $value);
-}
-
-// settings with default values
-$tmpl->assign('ldap_port', OCP\Config::getAppValue('user_ldap', 'ldap_port', '389'));
-$tmpl->assign('ldap_display_name', OCP\Config::getAppValue('user_ldap', 'ldap_display_name', 'uid'));
-$tmpl->assign('ldap_group_display_name', OCP\Config::getAppValue('user_ldap', 'ldap_group_display_name', 'cn'));
-$tmpl->assign('ldap_group_member_assoc_attribute', OCP\Config::getAppValue('user_ldap', 'ldap_group_member_assoc_attribute', 'uniqueMember'));
-$tmpl->assign('ldap_agent_password', base64_decode(OCP\Config::getAppValue('user_ldap', 'ldap_agent_password')));
-$tmpl->assign('ldap_cache_ttl', OCP\Config::getAppValue('user_ldap', 'ldap_cache_ttl', '600'));
-$hfnr = OCP\Config::getAppValue('user_ldap', 'home_folder_naming_rule', 'opt:username');
-$hfnr = ($hfnr == 'opt:username') ? '' : substr($hfnr, strlen('attr:'));
-$tmpl->assign('home_folder_naming_rule', $hfnr, '');
 
 $prefixes = \OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes();
 $scoHtml = '';
