@@ -351,7 +351,7 @@ class OC_User {
 	 * @return string uid or false
 	 */
 	public static function getDisplayName() {
-		if( isset($_SESSION['user_id']) AND $_SESSION['user_id'] ) {
+		if( isset($_SESSION['display_name']) AND $_SESSION['display_name'] ) {
 			return $_SESSION['display_name'];
 		}
 		else{
