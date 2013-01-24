@@ -13,7 +13,6 @@
 		?>
 	<fieldset id="ldapSettings-1">
 		<p><label for="ldap_serverconfig_chooser"><?php echo $l->t('Server configuration');?></label><select id="ldap_serverconfig_chooser" name="ldap_serverconfig_chooser">
-		<option value="" selected><?php echo $l->t('Default (1. Server)');?></option>
 		<?php echo $_['serverConfigurationOptions']; ?>
 		<option value="NEW"><?php echo $l->t('Add Server Configuration');?></option>
 		</select></p>

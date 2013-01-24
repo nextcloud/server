@@ -86,7 +86,16 @@ $tmpl->assign('ldap_cache_ttl', OCP\Config::getAppValue('user_ldap', 'ldap_cache
 $hfnr = OCP\Config::getAppValue('user_ldap', 'home_folder_naming_rule', 'opt:username');
 $hfnr = ($hfnr == 'opt:username') ? '' : substr($hfnr, strlen('attr:'));
 $tmpl->assign('home_folder_naming_rule', $hfnr, '');
-$tmpl->assign('serverConfigurationOptions', '', false);
+
+$prefixes = \OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes();
+$scoHtml = '';
+$i = 1;
+$sel = ' selected';
+foreach($prefixes as $prefix) {
+	$scoHtml .= '<option value="'.$prefix.'"'.$sel.'>'.$i++.'. Server</option>';
+	$sel = '';
+}
+$tmpl->assign('serverConfigurationOptions', $scoHtml, false);
 
 // assign default values
 if(!isset($ldap)) {

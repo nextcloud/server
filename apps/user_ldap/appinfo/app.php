@@ -23,26 +23,16 @@
 
 OCP\App::registerAdmin('user_ldap', 'settings');
 
-$query = \OCP\DB::prepare('
-	SELECT DISTINCT `configkey`
-	FROM `*PREFIX*appconfig`
-	WHERE `configkey` LIKE ?
-');
-$serverConnections = $query->execute(array('%ldap_login_filter'))->fetchAll();
-if(count($serverConnections) == 1) {
-	$prefix = substr($serverConnections[0]['configkey'], 0, strlen($serverConnections[0]['configkey'])- strlen('ldap_login_filter'));
-	$connector = new OCA\user_ldap\lib\Connection($prefix);
+$configPrefixes = OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes();
+if(count($configPrefixes) == 1) {
+	$connector = new OCA\user_ldap\lib\Connection($configPrefixes[0]);
 	$userBackend  = new OCA\user_ldap\USER_LDAP();
 	$userBackend->setConnector($connector);
 	$groupBackend = new OCA\user_ldap\GROUP_LDAP();
 	$groupBackend->setConnector($connector);
 } else {
-	$prefixes = array();
-	foreach($serverConnections as $serverConnection) {
-		$prefixes[] = substr($serverConnection['configkey'], 0, strlen($serverConnection['configkey'])- strlen('ldap_login_filter'));
-	}
-	$userBackend  = new OCA\user_ldap\User_Proxy($prefixes);
-	$groupBackend  = new OCA\user_ldap\Group_Proxy($prefixes);
+	$userBackend  = new OCA\user_ldap\User_Proxy($configPrefixes);
+	$groupBackend  = new OCA\user_ldap\Group_Proxy($configPrefixes);
 }
 
 // register user backend
