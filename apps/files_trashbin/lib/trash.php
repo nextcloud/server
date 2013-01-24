@@ -91,7 +91,9 @@ class Trashbin {
 			
 			// if location no longer exists, restore file in the root directory
 			$location = $result[0]['location'];
-			if ( $result[0]['location'] != '/' && !$view->is_dir('files'.$result[0]['location']) ) {
+			if ( $result[0]['location'] != '/' && 
+				 (!$view->is_dir('files'.$result[0]['location']) ||
+				 !$view->is_writable('files'.$result[0]['location'])) ) {
 				$location = '';
 			}
 		} else {
