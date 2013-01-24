@@ -22,12 +22,10 @@ if($state == 'unset') {
 	OCP\Config::setSystemValue('ldapIgnoreNamingRules', false);
 }
 
-// ### SUPPORTED upgrade path starts here ###
-
 //from version 0.2 to 0.3 (0.2.0.x dev version)
 $objects = array('user', 'group');
 
-$connector = new \OCA\user_ldap\lib\Connection('user_ldap');
+$connector = new \OCA\user_ldap\lib\Connection();
 $userBE = new \OCA\user_ldap\USER_LDAP();
 $userBE->setConnector($connector);
 $groupBE = new \OCA\user_ldap\GROUP_LDAP();
@@ -80,3 +78,13 @@ function escapeDN($dn) {
 
 	return $dn;
 }
+
+
+// SUPPORTED UPGRADE FROM Version 0.3 (ownCloud 4.5) to 0.4 (ownCloud 5)
+
+if(!isset($connector)) {
+	$connector = new \OCA\user_ldap\lib\Connection();
+}
+//it is required, that connections do habe ldap_configuration_active setting stored in the database
+$connector->getConfiguration();
+$connector->saveConfiguration();

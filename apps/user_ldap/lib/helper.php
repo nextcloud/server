@@ -27,6 +27,8 @@ class Helper {
 
 	/**
 	 * @brief returns prefixes for each saved LDAP/AD server configuration.
+	 * @param bool optional, whether only active configuration shall be
+	 * retrieved, defaults to false
 	 * @return array with a list of the available prefixes
 	 *
 	 * Configuration prefixes are used to set up configurations for n LDAP or
@@ -43,14 +45,18 @@ class Helper {
 	 * except the default (first) server shall be connected to.
 	 *
 	 */
-	static public function getServerConfigurationPrefixes() {
-		$referenceConfigkey = 'ldap_login_filter';
+	static public function getServerConfigurationPrefixes($activeConfigurations = false) {
+		$referenceConfigkey = 'ldap_configuration_active';
 
-		$query = \OCP\DB::prepare('
+		$query = '
 			SELECT DISTINCT `configkey`
 			FROM `*PREFIX*appconfig`
 			WHERE `configkey` LIKE ?
-		');
+		';
+		if($activeConfigurations) {
+			$query .= ' AND `configvalue` = 1';
+		}
+		$query = \OCP\DB::prepare($query);
 
 		$serverConfigs = $query->execute(array('%'.$referenceConfigkey))->fetchAll();
 		$prefixes = array();

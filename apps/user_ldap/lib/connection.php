@@ -60,6 +60,7 @@ class Connection {
 		'ldapUuidAttribute' => null,
 		'ldapOverrideUuidAttribute' => null,
 		'ldapOverrideMainServer' => false,
+		'ldapConfigurationActive' => false,
 		'homeFolderNamingRule' => null,
 		'hasPagedResultSupport' => false,
 	);
@@ -174,7 +175,8 @@ class Connection {
 		if(!$this->configured) {
 			$this->readConfiguration();
 		}
-		if(!$this->config['ldapCacheTTL']) {
+		if(!$this->config['ldapCacheTTL']
+			|| !$this->config['ldapConfigurationActive']) {
 			return null;
 		}
 		$key   = $this->getCacheKey($key);
@@ -255,6 +257,8 @@ class Connection {
 				= $this->$v('ldap_override_uuid_attribute');
 			$this->config['homeFolderNamingRule']
 				= $this->$v('home_folder_naming_rule');
+			$this->config['ldapConfigurationActive']
+				= $this->$v('ldap_configuration_active');
 
 			$this->configured = $this->validateConfiguration();
 		}
@@ -263,7 +267,7 @@ class Connection {
 	private function getConfigTranslationArray() {
 		static $array = array('ldap_host'=>'ldapHost', 'ldap_port'=>'ldapPort', 'ldap_backup_host'=>'ldapBackupHost', 'ldap_backup_port'=>'ldapBackupPort', 'ldap_override_main_server' => 'ldapOverrideMainServer', 'ldap_dn'=>'ldapAgentName', 'ldap_agent_password'=>'ldapAgentPassword', 'ldap_base'=>'ldapBase', 'ldap_base_users'=>'ldapBaseUsers', 'ldap_base_groups'=>'ldapBaseGroups', 'ldap_userlist_filter'=>'ldapUserFilter', 'ldap_login_filter'=>'ldapLoginFilter', 'ldap_group_filter'=>'ldapGroupFilter', 'ldap_display_name'=>'ldapUserDisplayName', 'ldap_group_display_name'=>'ldapGroupDisplayName',
 
-		'ldap_tls'=>'ldapTLS', 'ldap_nocase'=>'ldapNoCase', 'ldap_quota_def'=>'ldapQuotaDefault', 'ldap_quota_attr'=>'ldapQuotaAttribute', 'ldap_email_attr'=>'ldapEmailAttribute', 'ldap_group_member_assoc_attribute'=>'ldapGroupMemberAssocAttr', 'ldap_cache_ttl'=>'ldapCacheTTL', 'home_folder_naming_rule' => 'homeFolderNamingRule', 'ldap_turn_off_cert_check' => 'turnOffCertCheck');
+		'ldap_tls'=>'ldapTLS', 'ldap_nocase'=>'ldapNoCase', 'ldap_quota_def'=>'ldapQuotaDefault', 'ldap_quota_attr'=>'ldapQuotaAttribute', 'ldap_email_attr'=>'ldapEmailAttribute', 'ldap_group_member_assoc_attribute'=>'ldapGroupMemberAssocAttr', 'ldap_cache_ttl'=>'ldapCacheTTL', 'home_folder_naming_rule' => 'homeFolderNamingRule', 'ldap_turn_off_cert_check' => 'turnOffCertCheck', 'ldap_configuration_active' => 'ldapConfigurationActive');
 		return $array;
 	}
 
@@ -310,6 +314,13 @@ class Connection {
 				case 'homeFolderNamingRule':
 					$value = empty($value) ? 'opt:username' : 'attr:'.$value;
 					break;
+				case 'ldapBase':
+				case 'ldapBaseUsers':
+				case 'ldapBaseGroups':
+					if(is_array($value)){
+						$value = implode("\n", $value);
+					}
+					break;
 				case 'ldapIgnoreNamingRules':
 				case 'ldapOverrideUuidAttribute':
 				case 'ldapUuidAttribute':
@@ -341,6 +352,9 @@ class Connection {
 				} else {
 					$config[$dbKey] = substr($this->config[$dbKey], 5);
 				}
+				continue;
+			} else if(strpos($classKey, 'ldapBase') !== false) {
+				$config[$dbKey] = implode("\n", $this->config[$classKey]);
 				continue;
 			}
 			$config[$dbKey] = $this->config[$classKey];
@@ -449,6 +463,7 @@ class Connection {
 			'ldap_override_uuid_attribute'		=> 0,
 			'home_folder_naming_rule'           => 'opt:username',
 			'ldap_turn_off_cert_check'			=> 0,
+			'ldap_configuration_active'			=> 1,
 		);
 	}
 
@@ -456,6 +471,9 @@ class Connection {
 	 * Connects and Binds to LDAP
 	 */
 	private function establishConnection() {
+		if(!$this->config['ldapConfigurationActive']) {
+			return null;
+		}
 		static $phpLDAPinstalled = true;
 		if(!$phpLDAPinstalled) {
 			return false;
@@ -519,6 +537,9 @@ class Connection {
 	 * Binds to LDAP
 	 */
 	public function bind() {
+		if(!$this->config['ldapConfigurationActive']) {
+			return false;
+		}
 		$ldapLogin = @ldap_bind($this->getConnectionResource(), $this->config['ldapAgentName'], $this->config['ldapAgentPassword']);
 		if(!$ldapLogin) {
 			\OCP\Util::writeLog('user_ldap', 'Bind failed: ' . ldap_errno($this->ldapConnectionRes) . ': ' . ldap_error($this->ldapConnectionRes), \OCP\Util::ERROR);
