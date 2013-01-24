@@ -323,6 +323,7 @@ class Connection {
 
 		    $this->setValue($trans[$key], $value);
 		}
+		$this->clearCache();
 	}
 
 	/**
