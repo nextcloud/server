@@ -1,6 +1,57 @@
+var LdapConfiguration = {
+	refreshConfig: function() {
+		$.post(
+			OC.filePath('user_ldap','ajax','getConfiguration.php'),
+			$('#ldap_serverconfig_chooser').serialize(),
+			function (result) {
+				if(result.status == 'success') {
+					$.each(result.configuration, function(configkey, configvalue) {
+						elementID = '#'+configkey;
+
+						//deal with Checkboxes
+						if($(elementID).is('input[type=checkbox]')) {
+							if(configvalue == 1) {
+								$(elementID).attr('checked', 'checked');
+							} else {
+								$(elementID).removeAttr('checked');
+							}
+							return;
+						}
+
+						//On Textareas, Multi-Line Settings come as array
+						if($(elementID).is('textarea') && $.isArray(configvalue)) {
+							configvalue = configvalue.join("\n");
+						}
+
+						// assign the value
+						$('#'+configkey).val(configvalue);
+					});
+				}
+			}
+		);
+	},
+
+	resetDefaults: function() {
+		$('#ldap').find('input[type=text], input[type=number], input[type=password], textarea, select').each(function() {
+			if($(this).attr('id') == 'ldap_serverconfig_chooser') {
+				return;
+			}
+			$(this).val($(this).attr('data-default'));
+		});
+		$('#ldap').find('input[type=checkbox]').each(function() {
+			if($(this).attr('data-default') == 1) {
+				$(this).attr('checked', 'checked');
+			} else {
+				$(this).removeAttr('checked');
+			}
+		});
+	}
+}
+
 $(document).ready(function() {
 	$('#ldapSettings').tabs();
 	$('#ldap_action_test_connection').button();
+	LdapConfiguration.refreshConfig();
 	$('#ldap_action_test_connection').click(function(event){
 		event.preventDefault();
 		$.post(
@@ -48,19 +99,7 @@ $(document).ready(function() {
 							'Keep settings?',
 							function(keep) {
 								if(!keep) {
-									$('#ldap').find('input[type=text], input[type=number], input[type=password], textarea, select').each(function() {
-										if($(this).attr('id') == 'ldap_serverconfig_chooser') {
-											return;
-										}
-										$(this).val($(this).attr('data-default'));
-									});
-									$('#ldap').find('input[type=checkbox]').each(function() {
-										if($(this).attr('data-default') == 1) {
-											$(this).attr('checked', 'checked');
-										} else {
-											$(this).removeAttr('checked');
-										}
-									});
+									LdapConfiguration.resetDefaults();
 								}
 							}
 						);
@@ -76,35 +115,7 @@ $(document).ready(function() {
 				}
 			);
 		} else {
-			$.post(
-				OC.filePath('user_ldap','ajax','getConfiguration.php'),
-				$('#ldap_serverconfig_chooser').serialize(),
-				function (result) {
-					if(result.status == 'success') {
-						$.each(result.configuration, function(configkey, configvalue) {
-							elementID = '#'+configkey;
-							
-							//deal with Checkboxes
-							if($(elementID).is('input[type=checkbox]')) {
-								if(configvalue == 1) {
-									$(elementID).attr('checked', 'checked');
-								} else {
-									$(elementID).removeAttr('checked');
-								}
-								return;
-							}
-							
-							//On Textareas, Multi-Line Settings come as array
-							if($(elementID).is('textarea') && $.isArray(configvalue)) {
-								configvalue = configvalue.join("\n");
-							}
-
-							// assign the value
-							$('#'+configkey).val(configvalue);
-						});
-					}
-				}
-			);
+			LdapConfiguration.refreshConfig();
 		}
 	});
 });
