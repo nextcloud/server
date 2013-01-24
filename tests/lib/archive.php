@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-abstract class Test_Archive extends UnitTestCase {
+abstract class Test_Archive extends PHPUnit_Framework_TestCase {
 	/**
 	 * @var OC_Archive
 	 */
@@ -27,7 +27,7 @@ abstract class Test_Archive extends UnitTestCase {
 		$this->instance=$this->getExisting();
 		$allFiles=$this->instance->getFiles();
 		$expected=array('lorem.txt','logo-wide.png','dir/', 'dir/lorem.txt');
-		$this->assertEqual(4, count($allFiles), 'only found '.count($allFiles).' out of 4 expected files');
+		$this->assertEquals(4, count($allFiles), 'only found '.count($allFiles).' out of 4 expected files');
 		foreach($expected as $file) {
 			$this->assertContains($file, $allFiles, 'cant find '.  $file . ' in archive');
 			$this->assertTrue($this->instance->fileExists($file), 'file '.$file.' does not exist in archive');
@@ -36,14 +36,14 @@ abstract class Test_Archive extends UnitTestCase {
 
 		$rootContent=$this->instance->getFolder('');
 		$expected=array('lorem.txt','logo-wide.png', 'dir/');
-		$this->assertEqual(3, count($rootContent));
+		$this->assertEquals(3, count($rootContent));
 		foreach($expected as $file) {
 			$this->assertContains($file, $rootContent, 'cant find '.  $file . ' in archive');
 		}
 
 		$dirContent=$this->instance->getFolder('dir/');
 		$expected=array('lorem.txt');
-		$this->assertEqual(1, count($dirContent));
+		$this->assertEquals(1, count($dirContent));
 		foreach($expected as $file) {
 			$this->assertContains($file, $dirContent, 'cant find '.  $file . ' in archive');
 		}
@@ -53,36 +53,36 @@ abstract class Test_Archive extends UnitTestCase {
 		$this->instance=$this->getExisting();
 		$dir=OC::$SERVERROOT.'/tests/data';
 		$textFile=$dir.'/lorem.txt';
-		$this->assertEqual(file_get_contents($textFile), $this->instance->getFile('lorem.txt'));
+		$this->assertEquals(file_get_contents($textFile), $this->instance->getFile('lorem.txt'));
 
 		$tmpFile=OCP\Files::tmpFile('.txt');
 		$this->instance->extractFile('lorem.txt', $tmpFile);
-		$this->assertEqual(file_get_contents($textFile), file_get_contents($tmpFile));
+		$this->assertEquals(file_get_contents($textFile), file_get_contents($tmpFile));
 	}
 
 	public function testWrite() {
 		$dir=OC::$SERVERROOT.'/tests/data';
 		$textFile=$dir.'/lorem.txt';
 		$this->instance=$this->getNew();
-		$this->assertEqual(0, count($this->instance->getFiles()));
+		$this->assertEquals(0, count($this->instance->getFiles()));
 		$this->instance->addFile('lorem.txt', $textFile);
-		$this->assertEqual(1, count($this->instance->getFiles()));
+		$this->assertEquals(1, count($this->instance->getFiles()));
 		$this->assertTrue($this->instance->fileExists('lorem.txt'));
 		$this->assertFalse($this->instance->fileExists('lorem.txt/'));
 
-		$this->assertEqual(file_get_contents($textFile), $this->instance->getFile('lorem.txt'));
+		$this->assertEquals(file_get_contents($textFile), $this->instance->getFile('lorem.txt'));
 		$this->instance->addFile('lorem.txt', 'foobar');
-		$this->assertEqual('foobar', $this->instance->getFile('lorem.txt'));
+		$this->assertEquals('foobar', $this->instance->getFile('lorem.txt'));
 	}
 
 	public function testReadStream() {
 		$dir=OC::$SERVERROOT.'/tests/data';
 		$this->instance=$this->getExisting();
 		$fh=$this->instance->getStream('lorem.txt', 'r');
-		$this->assertTrue($fh);
+		$this->assertTrue((bool)$fh);
 		$content=fread($fh, $this->instance->filesize('lorem.txt'));
 		fclose($fh);
-		$this->assertEqual(file_get_contents($dir.'/lorem.txt'), $content);
+		$this->assertEquals(file_get_contents($dir.'/lorem.txt'), $content);
 	}
 	public function testWriteStream() {
 		$dir=OC::$SERVERROOT.'/tests/data';
@@ -93,7 +93,7 @@ abstract class Test_Archive extends UnitTestCase {
 		fclose($source);
 		fclose($fh);
 		$this->assertTrue($this->instance->fileExists('lorem.txt'));
-		$this->assertEqual(file_get_contents($dir.'/lorem.txt'), $this->instance->getFile('lorem.txt'));
+		$this->assertEquals(file_get_contents($dir.'/lorem.txt'), $this->instance->getFile('lorem.txt'));
 	}
 	public function testFolder() {
 		$this->instance=$this->getNew();
@@ -111,10 +111,10 @@ abstract class Test_Archive extends UnitTestCase {
 		$this->instance=$this->getExisting();
 		$tmpDir=OCP\Files::tmpFolder();
 		$this->instance->extract($tmpDir);
-		$this->assertEqual(true, file_exists($tmpDir.'lorem.txt'));
-		$this->assertEqual(true, file_exists($tmpDir.'dir/lorem.txt'));
-		$this->assertEqual(true, file_exists($tmpDir.'logo-wide.png'));
-		$this->assertEqual(file_get_contents($dir.'/lorem.txt'), file_get_contents($tmpDir.'lorem.txt'));
+		$this->assertEquals(true, file_exists($tmpDir.'lorem.txt'));
+		$this->assertEquals(true, file_exists($tmpDir.'dir/lorem.txt'));
+		$this->assertEquals(true, file_exists($tmpDir.'logo-wide.png'));
+		$this->assertEquals(file_get_contents($dir.'/lorem.txt'), file_get_contents($tmpDir.'lorem.txt'));
 		OCP\Files::rmdirr($tmpDir);
 	}
 	public function testMoveRemove() {
@@ -126,7 +126,7 @@ abstract class Test_Archive extends UnitTestCase {
 		$this->instance->rename('lorem.txt', 'target.txt');
 		$this->assertTrue($this->instance->fileExists('target.txt'));
 		$this->assertFalse($this->instance->fileExists('lorem.txt'));
-		$this->assertEqual(file_get_contents($textFile), $this->instance->getFile('target.txt'));
+		$this->assertEquals(file_get_contents($textFile), $this->instance->getFile('target.txt'));
 		$this->instance->remove('target.txt');
 		$this->assertFalse($this->instance->fileExists('target.txt'));
 	}

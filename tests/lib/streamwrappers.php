@@ -20,7 +20,7 @@
 *
 */
 
-class Test_StreamWrappers extends UnitTestCase {
+class Test_StreamWrappers extends PHPUnit_Framework_TestCase {
 	public function testFakeDir() {
 		$items=array('foo', 'bar');
 		OC_FakeDirStream::$dirs['test']=$items;
@@ -30,7 +30,7 @@ class Test_StreamWrappers extends UnitTestCase {
 			$result[]=$file;
 			$this->assertContains($file, $items);
 		}
-		$this->assertEqual(count($items), count($result));
+		$this->assertEquals(count($items), count($result));
 	}
 
 	public function testStaticStream() {
@@ -39,7 +39,7 @@ class Test_StreamWrappers extends UnitTestCase {
 		$this->assertFalse(file_exists($staticFile));
 		file_put_contents($staticFile, file_get_contents($sourceFile));
 		$this->assertTrue(file_exists($staticFile));
-		$this->assertEqual(file_get_contents($sourceFile), file_get_contents($staticFile));
+		$this->assertEquals(file_get_contents($sourceFile), file_get_contents($staticFile));
 		unlink($staticFile);
 		clearstatcache();
 		$this->assertFalse(file_exists($staticFile));
@@ -52,7 +52,7 @@ class Test_StreamWrappers extends UnitTestCase {
 		$file='close://'.$tmpFile;
 		$this->assertTrue(file_exists($file));
 		file_put_contents($file, file_get_contents($sourceFile));
-		$this->assertEqual(file_get_contents($sourceFile), file_get_contents($file));
+		$this->assertEquals(file_get_contents($sourceFile), file_get_contents($file));
 		unlink($file);
 		clearstatcache();
 		$this->assertFalse(file_exists($file));
@@ -68,7 +68,7 @@ class Test_StreamWrappers extends UnitTestCase {
 			$this->fail('Expected exception');
 		}catch(Exception $e) {
 			$path=$e->getMessage();
-			$this->assertEqual($path, $tmpFile);
+			$this->assertEquals($path, $tmpFile);
 		}
 	}
 
