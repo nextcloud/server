@@ -251,6 +251,7 @@ class OC_User {
 			if($uid && $enabled) {
 				session_regenerate_id(true);
 				self::setUserId($uid);
+				self::setDisplayName($uid);
 				OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid, 'password'=>$password ));
 				return true;
 			}
@@ -263,6 +264,31 @@ class OC_User {
 	 */
 	public static function setUserId($uid) {
 		$_SESSION['user_id'] = $uid;
+	}
+	
+	/**
+	 * @brief Sets user display name for session
+	 */
+	private static function setDisplayName($uid) {
+		$_SESSION['display_name'] = self::determineDisplayName($uid);
+	}
+	
+	/**
+	 * @brief get display name
+	 * @param $uid The username
+	 * @returns string display name or uid if no display name is defined
+	 *
+	 */
+	private static function determineDisplayName( $uid ) {
+		foreach(self::$_usedBackends as $backend) {
+			if($backend->implementsActions(OC_USER_BACKEND_GET_DISPLAYNAME)) {
+				$result=$backend->getDisplayName( $uid );
+				if($result) {
+					return $result;
+				}
+			}
+		}
+		return $uid;
 	}
 
 	/**
@@ -319,7 +345,20 @@ class OC_User {
 			return false;
 		}
 	}
-
+	
+	/**
+	 * @brief get the display name of the user currently logged in.
+	 * @return string uid or false
+	 */
+	public static function getDisplayName() {
+		if( isset($_SESSION['user_id']) AND $_SESSION['user_id'] ) {
+			return $_SESSION['display_name'];
+		}
+		else{
+			return false;
+		}
+	}
+	
 	/**
 	 * @brief Autogenerate a password
 	 * @returns string

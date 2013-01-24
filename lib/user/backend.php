@@ -35,6 +35,7 @@ define('OC_USER_BACKEND_CREATE_USER',       0x000001);
 define('OC_USER_BACKEND_SET_PASSWORD',      0x000010);
 define('OC_USER_BACKEND_CHECK_PASSWORD',    0x000100);
 define('OC_USER_BACKEND_GET_HOME',			0x001000);
+define('OC_USER_BACKEND_GET_DISPLAYNAME',	0x010000);
 
 
 /**
@@ -50,6 +51,7 @@ abstract class OC_User_Backend implements OC_User_Interface {
 		OC_USER_BACKEND_SET_PASSWORD => 'setPassword',
 		OC_USER_BACKEND_CHECK_PASSWORD => 'checkPassword',
 		OC_USER_BACKEND_GET_HOME => 'getHome',
+		OC_USER_BACKEND_GET_DISPLAYNAME => 'getDisplayName',
 	);
 
 	/**
@@ -119,5 +121,14 @@ abstract class OC_User_Backend implements OC_User_Interface {
 	*/
 	public function getHome($uid) {
 		return false;
+	}
+	
+	/**
+	 * @brief get display name of the user
+	 * @param $uid user ID of the user
+	 * @return display name
+	 */
+	public function getDisplayName($uid) {
+		return $uid;
 	}
 }

@@ -51,7 +51,15 @@ class User {
 	public static function getUsers($search = '', $limit = null, $offset = null) {
 		return \OC_USER::getUsers();
 	}
-
+	
+	/**
+	 * @brief get the user display name of the user currently logged in.
+	 * @return string display name
+	 */
+	public static function getDisplayName() {
+		return \OC_USER::getDisplayName();
+	}
+	
 	/**
 	 * @brief Check if the user is logged in
 	 * @returns true/false
