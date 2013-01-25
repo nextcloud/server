@@ -126,5 +126,6 @@
 "remember" => "gogoratu",
 "Log in" => "Hasi saioa",
 "prev" => "aurrekoa",
-"next" => "hurrengoa"
+"next" => "hurrengoa",
+"Updating ownCloud to version %s, this may take a while." => "ownCloud %s bertsiora eguneratzen, denbora har dezake."
 );

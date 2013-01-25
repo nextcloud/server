@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Pošalji",
 "There is no error, the file uploaded with success" => "Nema greške, fajl je uspešno poslat",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Poslati fajl prevazilazi direktivu MAX_FILE_SIZE koja je navedena u HTML formi",
 "The uploaded file was only partially uploaded" => "Poslati fajl je samo delimično otpremljen!",
@@ -12,7 +13,6 @@
 "Modified" => "Zadnja izmena",
 "Maximum upload size" => "Maksimalna veličina pošiljke",
 "Save" => "Snimi",
-"Upload" => "Pošalji",
 "Nothing in here. Upload something!" => "Ovde nema ničeg. Pošaljite nešto!",
 "Download" => "Preuzmi",
 "Upload too large" => "Pošiljka je prevelika",

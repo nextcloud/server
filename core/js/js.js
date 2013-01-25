@@ -88,7 +88,7 @@ var OC={
 	PERMISSION_DELETE:8,
 	PERMISSION_SHARE:16,
 	webroot:oc_webroot,
-	appswebroots:oc_appswebroots,
+	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
 	coreApps:['', 'admin','log','search','settings','core','3rdparty'],
 	/**
@@ -99,6 +99,27 @@ var OC={
 	 */
 	linkTo:function(app,file){
 		return OC.filePath(app,'',file);
+	},
+	/**
+	 * Creates an url for remote use
+	 * @param string $service id
+	 * @return string the url
+	 *
+	 * Returns a url to the given service.
+	 */
+	linkToRemoteBase:function(service) {
+		return OC.webroot + '/remote.php/' + service;
+	},
+	/**
+	 * @brief Creates an absolute url for remote use
+	 * @param string $service id
+	 * @param bool $add_slash
+	 * @return string the url
+	 *
+	 * Returns a absolute url to the given service.
+	 */
+	linkToRemote:function(service) {
+		return window.location.protocol + '//' + window.location.host + OC.linkToRemoteBase(service);
 	},
 	/**
 	 * get the absolute url for a file in an app
@@ -504,6 +525,7 @@ function fillHeight(selector) {
 	if(selector.outerHeight() > selector.height()){
 		selector.css('height', height-(selector.outerHeight()-selector.height()) + 'px');
 	}
+	console.warn("This function is deprecated! Use CSS instead");
 }
 
 /**
@@ -519,16 +541,10 @@ function fillWindow(selector) {
 	if(selector.outerWidth() > selector.width()){
 		selector.css('width', width-(selector.outerWidth()-selector.width()) + 'px');
 	}
+	console.warn("This function is deprecated! Use CSS instead");
 }
 
 $(document).ready(function(){
-
-	$(window).resize(function () {
-		fillHeight($('#leftcontent'));
-		fillWindow($('#content'));
-		fillWindow($('#rightcontent'));
-	});
-	$(window).trigger('resize');
 
 	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
 		replaceSVG();

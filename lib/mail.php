@@ -40,6 +40,9 @@ class OC_Mail {
 		$SMTPAUTH = OC_Config::getValue( 'mail_smtpauth', false );
 		$SMTPUSERNAME = OC_Config::getValue( 'mail_smtpname', '' );
 		$SMTPPASSWORD = OC_Config::getValue( 'mail_smtppassword', '' );
+		$SMTPDEBUG    = OC_Config::getValue( 'mail_smtpdebug', false );
+		$SMTPTIMEOUT  = OC_Config::getValue( 'mail_smtptimeout', 10 );
+		$SMTPSECURE   = OC_Config::getValue( 'mail_smtpsecure', '' );
 
 
 		$mailo = new PHPMailer(true);
@@ -57,12 +60,15 @@ class OC_Mail {
 		$mailo->Host = $SMTPHOST;
 		$mailo->Port = $SMTPPORT;
 		$mailo->SMTPAuth = $SMTPAUTH;
+		$mailo->SMTPDebug = $SMTPDEBUG;
+		$mailo->SMTPSecure = $SMTPSECURE;
 		$mailo->Username = $SMTPUSERNAME;
 		$mailo->Password = $SMTPPASSWORD;
+		$mailo->Timeout  = $SMTPTIMEOUT;
 
-		$mailo->From =$fromaddress;
+		$mailo->From = $fromaddress;
 		$mailo->FromName = $fromname;;
-		$mailo->Sender =$fromaddress;
+		$mailo->Sender = $fromaddress;
 		$a=explode(' ', $toaddress);
 		try {
 			foreach($a as $ad) {

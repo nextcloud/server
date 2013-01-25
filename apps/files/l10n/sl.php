@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Pošlji",
 "No file was uploaded. Unknown error" => "Nobena datoteka ni naložena. Neznana napaka.",
 "There is no error, the file uploaded with success" => "Datoteka je uspešno naložena brez napak.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Naložena datoteka presega dovoljeno velikost. Le-ta je določena z vrstico upload_max_filesize v datoteki php.ini:",
@@ -21,7 +22,6 @@
 "unshared {files}" => "odstranjeno iz souporabe {files}",
 "deleted {files}" => "izbrisano {files}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Neveljavno ime, znaki '\\', '/', '<', '>', ':', '\"', '|', '?' in '*' niso dovoljeni.",
-"generating ZIP-file, it may take some time." => "Ustvarjanje datoteke ZIP. To lahko traja nekaj časa.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Pošiljanje ni mogoče, saj gre za mapo, ali pa je datoteka velikosti 0 bajtov.",
 "Upload Error" => "Napaka med nalaganjem",
 "Close" => "Zapri",
@@ -52,7 +52,6 @@
 "Text file" => "Besedilna datoteka",
 "Folder" => "Mapa",
 "From link" => "Iz povezave",
-"Upload" => "Pošlji",
 "Cancel upload" => "Prekliči pošiljanje",
 "Nothing in here. Upload something!" => "Tukaj ni ničesar. Naložite kaj!",
 "Download" => "Prejmi",

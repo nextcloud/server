@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Ivan Petrović <ivan@ipplusstudio.com>, 2012.
+# Ivan Petrović <ivan@ipplusstudio.com>, 2012-2013.
 #   <marko@evizo.com>, 2012.
 # Slobodan Terzić <githzerai06@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-15 00:03+0100\n"
-"PO-Revision-Date: 2013-01-14 23:03+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-24 00:06+0100\n"
+"PO-Revision-Date: 2013-01-23 08:26+0000\n"
+"Last-Translator: Ivan Petrović <ivan@ipplusstudio.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,12 +23,12 @@ msgstr ""
 #: ajax/share.php:84
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "Корисник %s дели са вама датотеку"
 
 #: ajax/share.php:86
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "Корисник %s дели са вама директоријум"
 
 #: ajax/share.php:88
 #, php-format
@@ -86,55 +86,55 @@ msgstr "Грешка приликом уклањања %s из омиљених"
 msgid "Settings"
 msgstr "Подешавања"
 
-#: js/js.js:711
+#: js/js.js:706
 msgid "seconds ago"
 msgstr "пре неколико секунди"
 
-#: js/js.js:712
+#: js/js.js:707
 msgid "1 minute ago"
 msgstr "пре 1 минут"
 
-#: js/js.js:713
+#: js/js.js:708
 msgid "{minutes} minutes ago"
 msgstr "пре {minutes} минута"
 
-#: js/js.js:714
+#: js/js.js:709
 msgid "1 hour ago"
 msgstr "Пре једног сата"
 
-#: js/js.js:715
+#: js/js.js:710
 msgid "{hours} hours ago"
 msgstr "Пре {hours} сата (сати)"
 
-#: js/js.js:716
+#: js/js.js:711
 msgid "today"
 msgstr "данас"
 
-#: js/js.js:717
+#: js/js.js:712
 msgid "yesterday"
 msgstr "јуче"
 
-#: js/js.js:718
+#: js/js.js:713
 msgid "{days} days ago"
 msgstr "пре {days} дана"
 
-#: js/js.js:719
+#: js/js.js:714
 msgid "last month"
 msgstr "прошлог месеца"
 
-#: js/js.js:720
+#: js/js.js:715
 msgid "{months} months ago"
 msgstr "Пре {months} месеца (месеци)"
 
-#: js/js.js:721
+#: js/js.js:716
 msgid "months ago"
 msgstr "месеци раније"
 
-#: js/js.js:722
+#: js/js.js:717
 msgid "last year"
 msgstr "прошле године"
 
-#: js/js.js:723
+#: js/js.js:718
 msgid "years ago"
 msgstr "година раније"
 
@@ -219,7 +219,7 @@ msgstr ""
 
 #: js/share.js:173
 msgid "Send"
-msgstr ""
+msgstr "Пошаљи"
 
 #: js/share.js:177
 msgid "Set expiration date"
@@ -287,11 +287,11 @@ msgstr "Грешка код постављања датума истека"
 
 #: js/share.js:581
 msgid "Sending ..."
-msgstr ""
+msgstr "Шаљем..."
 
 #: js/share.js:592
 msgid "Email sent"
-msgstr ""
+msgstr "Порука је послата"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -444,83 +444,83 @@ msgstr "Домаћин базе"
 msgid "Finish setup"
 msgstr "Заврши подешавање"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "Недеља"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Monday"
 msgstr "Понедељак"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "Уторак"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "Среда"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "Четвртак"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Friday"
 msgstr "Петак"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "Субота"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "January"
 msgstr "Јануар"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "February"
 msgstr "Фебруар"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "March"
 msgstr "Март"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "April"
 msgstr "Април"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "May"
 msgstr "Мај"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "June"
 msgstr "Јун"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "July"
 msgstr "Јул"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "August"
 msgstr "Август"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "September"
 msgstr "Септембар"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "October"
 msgstr "Октобар"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "November"
 msgstr "Новембар"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "December"
 msgstr "Децембар"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:41
 msgid "web services under your control"
 msgstr "веб сервиси под контролом"
 
@@ -565,4 +565,4 @@ msgstr "следеће"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "Надоградња ownCloud-а на верзију %s, сачекајте тренутак."

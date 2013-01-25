@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-11 00:05+0100\n"
-"PO-Revision-Date: 2013-01-09 23:40+0000\n"
+"POT-Creation-Date: 2013-01-25 00:05+0100\n"
+"PO-Revision-Date: 2013-01-24 01:27+0000\n"
 "Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -28,6 +28,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ajax/delete.php:28 ajax/getstoragestats.php:11 ajax/upload.php:17
+#: ajax/upload.php:76 templates/index.php:18
+msgid "Upload"
+msgstr "Envoyer"
 
 #: ajax/move.php:17
 #, php-format
@@ -43,46 +48,46 @@ msgstr "Impossible de déplacer %s"
 msgid "Unable to rename file"
 msgstr "Impossible de renommer le fichier"
 
-#: ajax/upload.php:14
+#: ajax/upload.php:20
 msgid "No file was uploaded. Unknown error"
 msgstr "Aucun fichier n'a été chargé. Erreur inconnue"
 
-#: ajax/upload.php:21
+#: ajax/upload.php:30
 msgid "There is no error, the file uploaded with success"
 msgstr "Aucune erreur, le fichier a été téléversé avec succès"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:31
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Le fichier envoyé dépasse la valeur upload_max_filesize située dans le fichier php.ini:"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:33
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Le fichier téléversé excède la valeur de MAX_FILE_SIZE spécifiée dans le formulaire HTML"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:35
 msgid "The uploaded file was only partially uploaded"
 msgstr "Le fichier n'a été que partiellement téléversé"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:36
 msgid "No file was uploaded"
 msgstr "Aucun fichier n'a été téléversé"
 
-#: ajax/upload.php:28
+#: ajax/upload.php:37
 msgid "Missing a temporary folder"
 msgstr "Il manque un répertoire temporaire"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:38
 msgid "Failed to write to disk"
 msgstr "Erreur d'écriture sur le disque"
 
-#: ajax/upload.php:45
+#: ajax/upload.php:57
 msgid "Not enough space available"
 msgstr "Espace disponible insuffisant"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:91
 msgid "Invalid directory."
 msgstr "Dossier invalide."
 
@@ -138,98 +143,100 @@ msgstr "Fichiers non partagés : {files}"
 msgid "deleted {files}"
 msgstr "Fichiers supprimés : {files}"
 
-#: js/files.js:31
+#: js/files.js:48
 msgid "'.' is an invalid file name."
 msgstr "'.' n'est pas un nom de fichier valide."
 
-#: js/files.js:36
+#: js/files.js:53
 msgid "File name cannot be empty."
 msgstr "Le nom de fichier ne peut être vide."
 
-#: js/files.js:45
+#: js/files.js:62
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Nom invalide, les caractères '\\', '/', '<', '>', ':', '\"', '|', '?' et '*' ne sont pas autorisés."
 
-#: js/files.js:186
-msgid "generating ZIP-file, it may take some time."
-msgstr "Fichier ZIP en cours d'assemblage ;  cela peut prendre du temps."
+#: js/files.js:204
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr "Votre téléchargement est cours de préparation. Ceci peut nécessiter un certain temps si les fichiers sont volumineux."
 
-#: js/files.js:224
+#: js/files.js:242
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Impossible de charger vos fichiers car il s'agit d'un dossier ou le fichier fait 0 octet."
 
-#: js/files.js:224
+#: js/files.js:242
 msgid "Upload Error"
 msgstr "Erreur de chargement"
 
-#: js/files.js:241
+#: js/files.js:259
 msgid "Close"
 msgstr "Fermer"
 
-#: js/files.js:260 js/files.js:376 js/files.js:409
+#: js/files.js:278 js/files.js:397 js/files.js:431
 msgid "Pending"
 msgstr "En cours"
 
-#: js/files.js:280
+#: js/files.js:298
 msgid "1 file uploading"
 msgstr "1 fichier en cours de téléchargement"
 
-#: js/files.js:283 js/files.js:338 js/files.js:353
+#: js/files.js:301 js/files.js:357 js/files.js:372
 msgid "{count} files uploading"
 msgstr "{count} fichiers téléversés"
 
-#: js/files.js:357 js/files.js:393
+#: js/files.js:376 js/files.js:414
 msgid "Upload cancelled."
 msgstr "Chargement annulé."
 
-#: js/files.js:464
+#: js/files.js:486
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "L'envoi du fichier est en cours. Quitter cette page maintenant annulera l'envoi du fichier."
 
-#: js/files.js:537
+#: js/files.js:559
 msgid "URL cannot be empty."
 msgstr "L'URL ne peut-être vide"
 
-#: js/files.js:543
+#: js/files.js:565
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nom de dossier invalide. L'utilisation du mot 'Shared' est réservée à Owncloud"
 
-#: js/files.js:727
+#: js/files.js:775
 msgid "{count} files scanned"
 msgstr "{count} fichiers indexés"
 
-#: js/files.js:735
+#: js/files.js:783
 msgid "error while scanning"
 msgstr "erreur lors de l'indexation"
 
-#: js/files.js:808 templates/index.php:64
+#: js/files.js:857 templates/index.php:64
 msgid "Name"
 msgstr "Nom"
 
-#: js/files.js:809 templates/index.php:75
+#: js/files.js:858 templates/index.php:75
 msgid "Size"
 msgstr "Taille"
 
-#: js/files.js:810 templates/index.php:77
+#: js/files.js:859 templates/index.php:77
 msgid "Modified"
 msgstr "Modifié"
 
-#: js/files.js:829
+#: js/files.js:878
 msgid "1 folder"
 msgstr "1 dossier"
 
-#: js/files.js:831
+#: js/files.js:880
 msgid "{count} folders"
 msgstr "{count} dossiers"
 
-#: js/files.js:839
+#: js/files.js:888
 msgid "1 file"
 msgstr "1 fichier"
 
-#: js/files.js:841
+#: js/files.js:890
 msgid "{count} files"
 msgstr "{count} fichiers"
 
@@ -280,10 +287,6 @@ msgstr "Dossier"
 #: templates/index.php:14
 msgid "From link"
 msgstr "Depuis le lien"
-
-#: templates/index.php:18
-msgid "Upload"
-msgstr "Envoyer"
 
 #: templates/index.php:41
 msgid "Cancel upload"

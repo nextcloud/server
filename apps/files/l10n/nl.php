@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Upload",
 "Could not move %s - File with this name already exists" => "Kon %s niet verplaatsen - Er bestaat al een bestand met deze naam",
 "Could not move %s" => "Kon %s niet verplaatsen",
 "Unable to rename file" => "Kan bestand niet hernoemen",
@@ -28,7 +29,7 @@
 "'.' is an invalid file name." => "'.' is een ongeldige bestandsnaam.",
 "File name cannot be empty." => "Bestandsnaam kan niet leeg zijn.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Onjuiste naam; '\\', '/', '<', '>', ':', '\"', '|', '?' en '*' zijn niet toegestaan.",
-"generating ZIP-file, it may take some time." => "aanmaken ZIP-file, dit kan enige tijd duren.",
+"Your download is being prepared. This might take some time if the files are big." => "Uw download wordt voorbereid. Dit kan enige tijd duren bij grote bestanden.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "uploaden van de file mislukt, het is of een directory of de bestandsgrootte is 0 bytes",
 "Upload Error" => "Upload Fout",
 "Close" => "Sluit",
@@ -60,7 +61,6 @@
 "Text file" => "Tekstbestand",
 "Folder" => "Map",
 "From link" => "Vanaf link",
-"Upload" => "Upload",
 "Cancel upload" => "Upload afbreken",
 "Nothing in here. Upload something!" => "Er bevindt zich hier niets. Upload een bestand!",
 "Download" => "Download",

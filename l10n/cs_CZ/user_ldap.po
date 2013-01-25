@@ -4,14 +4,14 @@
 # 
 # Translators:
 # Martin  <fireball@atlas.cz>, 2012.
-# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
+# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-16 00:19+0100\n"
-"PO-Revision-Date: 2013-01-15 23:19+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-18 00:03+0100\n"
+"PO-Revision-Date: 2013-01-17 11:09+0000\n"
+"Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,7 +30,7 @@ msgstr "<b>Varování:</b> Aplikace user_ldap a user_webdavauth nejsou kompatibi
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Varování:</b> není nainstalován LDAP modul pro PHP, podpůrná vrstva nebude fungovat. Požádejte, prosím, správce systému aby jej nainstaloval."
 
 #: templates/settings.php:15
 msgid "Host"
@@ -47,7 +47,7 @@ msgstr "Základní DN"
 
 #: templates/settings.php:16
 msgid "One Base DN per line"
-msgstr ""
+msgstr "Jedna základní DN na řádku"
 
 #: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -122,7 +122,7 @@ msgstr "Základní uživatelský strom"
 
 #: templates/settings.php:25
 msgid "One User Base DN per line"
-msgstr ""
+msgstr "Jedna uživatelská základní DN na řádku"
 
 #: templates/settings.php:26
 msgid "Base Group Tree"
@@ -130,7 +130,7 @@ msgstr "Základní skupinový strom"
 
 #: templates/settings.php:26
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "Jedna skupinová základní DN na řádku"
 
 #: templates/settings.php:27
 msgid "Group-Member association"

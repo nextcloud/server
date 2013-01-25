@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Eroplueden",
 "There is no error, the file uploaded with success" => "Keen Feeler, Datei ass komplett ropgelueden ginn",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Déi ropgelueden Datei ass méi grouss wei d'MAX_FILE_SIZE Eegenschaft déi an der HTML form uginn ass",
 "The uploaded file was only partially uploaded" => "Déi ropgelueden Datei ass nëmmen hallef ropgelueden ginn",
@@ -10,7 +11,6 @@
 "replace" => "ersetzen",
 "cancel" => "ofbriechen",
 "undo" => "réckgängeg man",
-"generating ZIP-file, it may take some time." => "Et  gëtt eng ZIP-File generéiert, dëst ka bëssen daueren.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Kann deng Datei net eroplueden well et en Dossier ass oder 0 byte grouss ass.",
 "Upload Error" => "Fehler beim eroplueden",
 "Close" => "Zoumaachen",
@@ -30,7 +30,6 @@
 "New" => "Nei",
 "Text file" => "Text Fichier",
 "Folder" => "Dossier",
-"Upload" => "Eroplueden",
 "Cancel upload" => "Upload ofbriechen",
 "Nothing in here. Upload something!" => "Hei ass näischt. Lued eppes rop!",
 "Download" => "Eroflueden",

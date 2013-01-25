@@ -48,7 +48,7 @@
 "WebDAV" => "WebDAV",
 "Use this address to connect to your ownCloud in your file manager" => "Użyj tego adresu aby podłączyć zasób ownCloud w menedżerze plików",
 "Version" => "Wersja",
-"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Stwirzone przez <a href=\"http://ownCloud.org/contact\" target=\"_blank\"> społeczność ownCloud</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">kod źródłowy</a> na licencji <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
+"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Stworzone przez <a href=\"http://ownCloud.org/contact\" target=\"_blank\"> społeczność ownCloud</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">kod źródłowy</a> na licencji <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
 "Name" => "Nazwa",
 "Groups" => "Grupy",
 "Create" => "Utwórz",

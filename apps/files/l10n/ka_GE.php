@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "ატვირთვა",
 "There is no error, the file uploaded with success" => "ჭოცდომა არ დაფიქსირდა, ფაილი წარმატებით აიტვირთა",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "ატვირთული ფაილი აჭარბებს  MAX_FILE_SIZE დირექტივას, რომელიც მითითებულია HTML ფორმაში",
 "The uploaded file was only partially uploaded" => "ატვირთული ფაილი მხოლოდ ნაწილობრივ აიტვირთა",
@@ -18,7 +19,6 @@
 "replaced {new_name} with {old_name}" => "{new_name} შეცვლილია {old_name}–ით",
 "unshared {files}" => "გაზიარება მოხსნილი {files}",
 "deleted {files}" => "წაშლილი {files}",
-"generating ZIP-file, it may take some time." => "ZIP-ფაილის გენერირება, ამას ჭირდება გარკვეული დრო.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "თქვენი ფაილის ატვირთვა ვერ მოხერხდა. ის არის საქაღალდე და შეიცავს 0 ბაიტს",
 "Upload Error" => "შეცდომა ატვირთვისას",
 "Close" => "დახურვა",
@@ -47,7 +47,6 @@
 "New" => "ახალი",
 "Text file" => "ტექსტური ფაილი",
 "Folder" => "საქაღალდე",
-"Upload" => "ატვირთვა",
 "Cancel upload" => "ატვირთვის გაუქმება",
 "Nothing in here. Upload something!" => "აქ არაფერი არ არის. ატვირთე რამე!",
 "Download" => "ჩამოტვირთვა",

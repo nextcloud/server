@@ -26,6 +26,23 @@ Files={
 		});
 		procesSelection();
 	},
+	updateMaxUploadFilesize:function(response) {
+		if(response == undefined) {
+			return;
+		}
+		if(response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
+			$('#max_upload').val(response.data.uploadMaxFilesize);
+			$('#data-upload-form a').attr('original-title', response.data.maxHumanFilesize);
+		}
+		if(response[0] == undefined) {
+			return;
+		}
+		if(response[0].uploadMaxFilesize !== undefined) {
+			$('#max_upload').val(response[0].uploadMaxFilesize);
+			$('#data-upload-form a').attr('original-title', response[0].maxHumanFilesize);
+		}
+
+	},
 	isFileNameValid:function (name) {
 		if (name === '.') {
 			$('#notification').text(t('files', '\'.\' is an invalid file name.'));
@@ -184,7 +201,7 @@ $(document).ready(function() {
 	$('.download').click('click',function(event) {
 		var files=getSelectedFiles('name').join(';');
 		var dir=$('#dir').val()||'/';
-		$('#notification').text(t('files','generating ZIP-file, it may take some time.'));
+		$('#notification').text(t('files','Your download is being prepared. This might take some time if the files are big.'));
 		$('#notification').fadeIn();
 		// use special download URL if provided, e.g. for public shared files
 		if ( (downloadURL = document.getElementById("downloadURL")) ) {
@@ -317,6 +334,7 @@ $(document).ready(function() {
 												$('#notification').text(t('files', response.data.message));
 												$('#notification').fadeIn();
 											}
+											Files.updateMaxUploadFilesize(response);
 											var file=response[0];
 											// TODO: this doesn't work if the file name has been changed server side
 											delete uploadingFiles[dirName][file.name];
@@ -369,6 +387,8 @@ $(document).ready(function() {
 										.success(function(result, textStatus, jqXHR) {
 											var response;
 											response=jQuery.parseJSON(result);
+											Files.updateMaxUploadFilesize(response);
+
 											if(response[0] != undefined && response[0].status == 'success') {
 												var file=response[0];
 												delete uploadingFiles[file.name];
@@ -402,6 +422,7 @@ $(document).ready(function() {
 						data.submit().success(function(data, status) {
 							// in safari data is a string
 							response = jQuery.parseJSON(typeof data === 'string' ? data : data[0].body.innerText);
+							Files.updateMaxUploadFilesize(response);
 							if(response[0] != undefined && response[0].status == 'success') {
 								var file=response[0];
 								delete uploadingFiles[file.name];
@@ -712,6 +733,32 @@ $(document).ready(function() {
 	});
 
 	resizeBreadcrumbs(true);
+
+	// file space size sync
+	function update_storage_statistics() {
+		$.getJSON(OC.filePath('files','ajax','getstoragestats.php'),function(response) {
+			Files.updateMaxUploadFilesize(response);
+		});
+	}
+
+	// start on load - we ask the server every 5 minutes
+	var update_storage_statistics_interval = 5*60*1000;
+	var update_storage_statistics_interval_id = setInterval(update_storage_statistics, update_storage_statistics_interval);
+
+	// Use jquery-visibility to de-/re-activate file stats sync
+	if ($.support.pageVisibility) {
+		$(document).on({
+			'show.visibility': function() {
+				if (!update_storage_statistics_interval_id) {
+					update_storage_statistics_interval_id = setInterval(update_storage_statistics, update_storage_statistics_interval);
+				}
+			},
+			'hide.visibility': function() {
+				clearInterval(update_storage_statistics_interval_id);
+				update_storage_statistics_interval_id = 0;
+			}
+		});
+	}
 });
 
 function scanFiles(force,dir){
@@ -741,6 +788,7 @@ scanFiles.scanning=false;
 
 function boolOperationFinished(data, callback) {
 	result = jQuery.parseJSON(data.responseText);
+	Files.updateMaxUploadFilesize(result);
 	if(result.status == 'success'){
 		callback.call();
 	} else {

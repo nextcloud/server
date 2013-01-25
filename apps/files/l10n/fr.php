@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Envoyer",
 "Could not move %s - File with this name already exists" => "Impossible de déplacer %s - Un fichier possédant ce nom existe déjà",
 "Could not move %s" => "Impossible de déplacer %s",
 "Unable to rename file" => "Impossible de renommer le fichier",
@@ -28,7 +29,7 @@
 "'.' is an invalid file name." => "'.' n'est pas un nom de fichier valide.",
 "File name cannot be empty." => "Le nom de fichier ne peut être vide.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nom invalide, les caractères '\\', '/', '<', '>', ':', '\"', '|', '?' et '*' ne sont pas autorisés.",
-"generating ZIP-file, it may take some time." => "Fichier ZIP en cours d'assemblage ;  cela peut prendre du temps.",
+"Your download is being prepared. This might take some time if the files are big." => "Votre téléchargement est cours de préparation. Ceci peut nécessiter un certain temps si les fichiers sont volumineux.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Impossible de charger vos fichiers car il s'agit d'un dossier ou le fichier fait 0 octet.",
 "Upload Error" => "Erreur de chargement",
 "Close" => "Fermer",
@@ -60,7 +61,6 @@
 "Text file" => "Fichier texte",
 "Folder" => "Dossier",
 "From link" => "Depuis le lien",
-"Upload" => "Envoyer",
 "Cancel upload" => "Annuler l'envoi",
 "Nothing in here. Upload something!" => "Il n'y a rien ici ! Envoyez donc quelque chose :)",
 "Download" => "Télécharger",
