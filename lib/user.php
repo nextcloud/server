@@ -457,6 +457,24 @@ class OC_User {
 		asort($users);
 		return $users;
 	}
+	
+	/**
+	 * @brief Get a list of all users display name
+	 * @returns associative array with all display names and corresponding uids
+	 *
+	 * Get a list of all users.
+	 */
+	public static function getDisplayNames($search = '', $limit = null, $offset = null) {
+		$displayNames = array();
+		foreach (self::$_usedBackends as $backend) {
+			$backendDisplayNames = $backend->getDisplayNames($search, $limit, $offset);
+			if (is_array($backendDisplayNames)) {
+				$displayNames = array_merge($displayNames, $backendDisplayNames);
+			}
+		}
+		ksort($displayNames);
+		return $displayNames;
+	}
 
 	/**
 	 * @brief check if a user exists

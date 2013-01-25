@@ -61,6 +61,16 @@ class User {
 	}
 	
 	/**
+	 * @brief Get a list of all display names
+	 * @returns array with all display names and the correspondig uids
+	 *
+	 * Get a list of all display names.
+	 */
+	public static function getDisplayNames($search = '', $limit = null, $offset = null) {
+		return \OC_USER::getDisplayNames($search, $limit, $offset);
+	}
+	
+	/**
 	 * @brief Check if the user is logged in
 	 * @returns true/false
 	 *

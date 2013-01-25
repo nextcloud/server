@@ -22,7 +22,7 @@ $isadmin = OC_User::isAdminUser(OC_User::getUser());
 
 if($isadmin) {
 	$accessiblegroups = OC_Group::getGroups();
-	$accessibleusers = OC_User::getUsers('', 30);
+	$accessibleusers = OC_User::getDisplayNames('', 30);
 	$subadmins = OC_SubAdmin::getAllSubAdmins();
 }else{
 	$accessiblegroups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
@@ -42,16 +42,21 @@ $defaultQuota=OC_Appconfig::getValue('files', 'default_quota', 'none');
 $defaultQuotaIsUserDefined=array_search($defaultQuota, $quotaPreset)===false && array_search($defaultQuota, array('none', 'default'))===false;
 
 // load users and quota
-foreach($accessibleusers as $i) {
+foreach($accessibleusers as $displayName => $uid) {
 	$quota=OC_Preferences::getValue($i, 'files', 'quota', 'default');
 	$isQuotaUserDefined=array_search($quota, $quotaPreset)===false && array_search($quota, array('none', 'default'))===false;
 
+	$name = $displayName;
+	if ( $displayName != $uid ) {
+		$name = $name . ' ('.$uid.')';
+	} 
+	
 	$users[] = array(
-		"name" => $i,
-		"groups" => join( ", ", /*array_intersect(*/OC_Group::getUserGroups($i)/*, OC_SubAdmin::getSubAdminsGroups(OC_User::getUser()))*/),
+		"name" => $name,
+		"groups" => join( ", ", /*array_intersect(*/OC_Group::getUserGroups($uid)/*, OC_SubAdmin::getSubAdminsGroups(OC_User::getUser()))*/),
 		'quota'=>$quota,
 		'isQuotaUserDefined'=>$isQuotaUserDefined,
-		'subadmin'=>implode(', ', OC_SubAdmin::getSubAdminsGroups($i)));
+		'subadmin'=>implode(', ', OC_SubAdmin::getSubAdminsGroups($iuid)));
 }
 
 foreach( $accessiblegroups as $i ) {
