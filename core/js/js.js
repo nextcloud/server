@@ -101,6 +101,27 @@ var OC={
 		return OC.filePath(app,'',file);
 	},
 	/**
+	 * Creates an url for remote use
+	 * @param string $service id
+	 * @return string the url
+	 *
+	 * Returns a url to the given service.
+	 */
+	linkToRemoteBase:function(service) {
+		return OC.webroot + '/remote.php/' + service;
+	},
+	/**
+	 * @brief Creates an absolute url for remote use
+	 * @param string $service id
+	 * @param bool $add_slash
+	 * @return string the url
+	 *
+	 * Returns a absolute url to the given service.
+	 */
+	linkToRemote:function(service) {
+		return window.location.protocol + '//' + window.location.host + OC.linkToRemoteBase(service);
+	},
+	/**
 	 * get the absolute url for a file in an app
 	 * @param app the id of the app
 	 * @param type the type of the file to link to (e.g. css,img,ajax.template)
