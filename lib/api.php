@@ -33,6 +33,13 @@ class OC_API {
 	const USER_AUTH = 1;
 	const SUBADMIN_AUTH = 2;
 	const ADMIN_AUTH = 3;
+	/**
+	 * API Response Codes
+	 */
+	const RESPOND_UNAUTHORISED = 997;
+	const RESPOND_SERVER_ERROR = 996;
+	const RESPOND_NOT_FOUND = 998;
+	const RESPOND_UNKNOWN_ERROR = 999;
 
 	private static $server;
 
@@ -42,12 +49,12 @@ class OC_API {
 	private static function init() {
 		self::$server = new OC_OAuth_Server(new OC_OAuth_Store());
 	}
-
+	
 	/**
 	 * api actions
 	 */
 	protected static $actions = array();
-
+	
 	/**
 	 * registers an api call
 	 * @param string $method the http method
@@ -58,7 +65,7 @@ class OC_API {
 	 * @param array $defaults
 	 * @param array $requirements
 	 */
-	public static function register($method, $url, $action, $app,
+	public static function register($method, $url, $action, $app, 
 				$authLevel = OC_API::USER_AUTH,
 				$defaults = array(),
 				$requirements = array()) {
@@ -71,9 +78,9 @@ class OC_API {
 				->action('OC_API', 'call');
 			self::$actions[$name] = array();
 		}
-		self::$actions[$name] = array('app' => $app, 'action' => $action, 'authlevel' => $authLevel);
+		self::$actions[$name][] = array('app' => $app, 'action' => $action, 'authlevel' => $authLevel);
 	}
-
+	
 	/**
 	 * handles an api call
 	 * @param array $parameters
@@ -86,29 +93,99 @@ class OC_API {
 			parse_str(file_get_contents("php://input"), $parameters['_delete']);
 		}
 		$name = $parameters['_route'];
-		// Check authentication and availability
-		if(self::isAuthorised(self::$actions[$name])) {
-			if(is_callable(self::$actions[$name]['action'])) {
-				$response = call_user_func(self::$actions[$name]['action'], $parameters);
-				if(!($response instanceof OC_OCS_Result)) {
-					$response = new OC_OCS_Result(null, 996, 'Internal Server Error');
-				}
-			} else {
-				$response = new OC_OCS_Result(null, 998, 'Api method not found');
+		// Foreach registered action
+		$responses = array();
+		foreach(self::$actions[$name] as $action) {
+			// Check authentication and availability
+			if(!self::isAuthorised(self::$actions[$name])) {
+				$responses[] = array(
+					'app' => $action['app'],
+					'response' => new OC_OCS_Result(null, OC_API::RESPOND_UNAUTHORISED, 'Unauthorised'),
+					);
+				continue;
 			}
-		} else {
-			header('WWW-Authenticate: Basic realm="Authorization Required"');
-			header('HTTP/1.0 401 Unauthorized');
-			$response = new OC_OCS_Result(null, 997, 'Unauthorised');
+			if(!is_callable($action['action'])) {
+				$responses[] = array(
+					'app' => $action['app'],
+					'response' => new OC_OCS_Result(null, OC_API::RESPOND_NOT_FOUND, 'Api method not found'),
+					);
+				continue;
+			}
+			// Run the action
+			$responses[] = array(
+				'app' => $action['app'],
+				'response' => call_user_func($action['action'], $parameters),
+				);
 		}
-		// Send the response
+		
+		
+		$response = self::mergeResponses($responses);
 		$formats = array('json', 'xml');
 		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
-		self::respond($response, $format);
-		// logout the user to be stateless
+		self::respond($response);
 		OC_User::logout();
 	}
+	
+	/**
+	 * merge the returned result objects into one response
+	 * @param array $responses
+	 */
+	private static function mergeResponses($responses) {
+		$response = array();
+		// Sort into shipped and thirdparty
+		$shipped = array(
+			'succeded' => array(),
+			'failed' => array(),
+			);
+		$thirdparty = array(
+			'succeeded' => array(),
+			'failed' => array(),
+			);
 
+		foreach($responses as $response) {
+			if(OC_App::isShipped($response['app'])) {
+				if($response['response']->succeeded()) {
+					$shipped['succeeded'][$response['app']] = $response['response'];
+				} else {
+					$shipped['failed'][$response['app']] = $response['response'];
+				}
+			} else {
+				if($response['response']->succeeded()) {
+					$thirdparty['succeeded'][$response['app']] = $response['response'];
+				} else {
+					$thirdparty['failed'][$response['app']] = $response['response'];
+				}
+			}
+		}
+		// Remove any error responses if there is one shipped response that succeeded
+		if(!empty($shipped['succeeded'])){
+			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
+		} else if(!empty($shipped['failed'])){
+			// Which shipped response do we use if they all failed?
+			// They may have failed for different reasons (different status codes)
+			// Which reponse code should we return?
+			// Maybe any that are not OC_API::RESPOND_SERVER_ERROR
+			$response = $shipped['failed'][0];
+			return $response;
+		} else {
+			// Return the third party failure result
+			$response = $thirdparty['failed'][0];
+			return $response;
+		}
+		// Merge the successful responses
+		$meta = array();
+		$data = array();
+		foreach($responses as $app => $response) {
+			if(OC_App::isShipped($app)) {
+				$data = array_merge_recursive($response->getData(), $data);
+			} else {
+				$data = array_merge_recursive($data, $response->getData());
+			}
+		}
+		$result = new OC_OCS_Result($data, 100);
+		return $result;
+	}
+	
 	/**
 	 * authenticate the api call
 	 * @param array $action the action details as supplied to OC_API::register()
@@ -132,7 +209,8 @@ class OC_API {
 					return false;
 				} else {
 					$subAdmin = OC_SubAdmin::isSubAdmin($user);
-					if($subAdmin) {
+					$admin = OC_Group::inGroup($user, 'admin');
+					if($subAdmin || $admin) {
 						return true;
 					} else {
 						return false;
@@ -145,7 +223,7 @@ class OC_API {
 				if(!$user) {
 					return false;
 				} else {
-					return OC_User::isAdminUser($user);
+					return OC_Group::inGroup($user, 'admin');
 				}
 				break;
 			default:
@@ -153,25 +231,35 @@ class OC_API {
 				return false;
 				break;
 		}
-	}
-
+	} 
+	
 	/**
 	 * http basic auth
 	 * @return string|false (username, or false on failure)
 	 */
-	private static function loginUser(){
+	private static function loginUser(){ 
 		$authUser = isset($_SERVER['PHP_AUTH_USER']) ? $_SERVER['PHP_AUTH_USER'] : '';
 		$authPw = isset($_SERVER['PHP_AUTH_PW']) ? $_SERVER['PHP_AUTH_PW'] : '';
 		return OC_User::login($authUser, $authPw) ? $authUser : false;
 	}
-
+	
 	/**
 	 * respond to a call
-	 * @param int|array $result the result from the api method
+	 * @param OC_OCS_Result $result
 	 * @param string $format the format xml|json
 	 */
 	private static function respond($result, $format='xml') {
-		$response = array('ocs' => $result->getResult());
+		// Send 401 headers if unauthorised
+		if($result->getStatusCode() === self::RESPOND_UNAUTHORISED) {
+			header('WWW-Authenticate: Basic realm="Authorisation Required"');
+			header('HTTP/1.0 401 Unauthorized');
+		}
+		$response = array(
+			'ocs' => array(
+				'meta' => $result->getMeta(),
+				'data' => $result->getData(),
+				),
+			);
 		if ($format == 'json') {
 			OC_JSON::encodedPrint($response);
 		} else if ($format == 'xml') {
@@ -188,10 +276,13 @@ class OC_API {
 
 	private static function toXML($array, $writer) {
 		foreach($array as $k => $v) {
-			if (is_numeric($k)) {
+			if ($k[0] === '@') {
+				$writer->writeAttribute(substr($k, 1), $v);
+				continue;
+			} else if (is_numeric($k)) {
 				$k = 'element';
 			}
-			if (is_array($v)) {
+			if(is_array($v)) {
 				$writer->startElement($k);
 				self::toXML($v, $writer);
 				$writer->endElement();
@@ -200,5 +291,5 @@ class OC_API {
 			}
 		}
 	}
-
+	
 }
