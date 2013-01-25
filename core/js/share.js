@@ -148,9 +148,9 @@ OC.Share={
 		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-source="'+itemSource+'">';
 		if (data !== false && data.reshare !== false && data.reshare.uid_owner !== undefined) {
 			if (data.reshare.share_type == OC.Share.SHARE_TYPE_GROUP) {
-				html += '<span class="reshare">'+t('core', 'Shared with you and the group {group} by {owner}', {group: data.reshare.share_with, owner: data.reshare.uid_owner})+'</span>';
+				html += '<span class="reshare">'+t('core', 'Shared with you and the group {group} by {owner}', {group: data.reshare.share_with, owner: data.reshare.displayname_owner})+'</span>';
 			} else {
-				html += '<span class="reshare">'+t('core', 'Shared with you by {owner}', {owner: data.reshare.uid_owner})+'</span>';
+				html += '<span class="reshare">'+t('core', 'Shared with you by {owner}', {owner: data.reshare.displayname_owner})+'</span>';
 			}
 			html += '<br />';
 		}
@@ -186,9 +186,9 @@ OC.Share={
 						OC.Share.showLink(share.token, share.share_with, itemSource);
 					} else {
 						if (share.collection) {
-							OC.Share.addShareWith(share.share_type, share.share_with, share.permissions, possiblePermissions, share.collection);
+							OC.Share.addShareWith(share.share_type, share.share_with, share.share_with_displayname, share.permissions, possiblePermissions, share.collection);
 						} else {
-							OC.Share.addShareWith(share.share_type, share.share_with, share.permissions, possiblePermissions, false);
+							OC.Share.addShareWith(share.share_type, share.share_with, share.share_with_displayname,  share.permissions, possiblePermissions, false);
 						}
 					}
 					if (share.expiration != null) {
@@ -228,7 +228,7 @@ OC.Share={
 				// Default permissions are Read and Share
 				var permissions = OC.PERMISSION_READ | OC.PERMISSION_SHARE;
 				OC.Share.share(itemType, itemSource, shareType, shareWith, permissions, function() {
-					OC.Share.addShareWith(shareType, shareWith, permissions, possiblePermissions);
+					OC.Share.addShareWith(shareType, shareWith, selected.item.label, permissions, possiblePermissions);
 					$('#shareWith').val('');
 					OC.Share.updateIcon(itemType, itemSource);
 				});
@@ -257,7 +257,7 @@ OC.Share={
 			}
 		});
 	},
-	addShareWith:function(shareType, shareWith, permissions, possiblePermissions, collection) {
+	addShareWith:function(shareType, shareWith, shareWithDisplayName, permissions, possiblePermissions, collection) {
 		if (!OC.Share.itemShares[shareType]) {
 			OC.Share.itemShares[shareType] = [];
 		}
@@ -272,7 +272,7 @@ OC.Share={
 			if (collectionList.length > 0) {
 				$(collectionList).append(', '+shareWith);
 			} else {
-				var html = '<li style="clear: both;" data-collection="'+item+'">'+t('core', 'Shared in {item} with {user}', {'item': item, user: shareWith})+'</li>';
+				var html = '<li style="clear: both;" data-collection="'+item+'">'+t('core', 'Shared in {item} with {user}', {'item': item, user: shareWithDisplayName})+'</li>';
 				$('#shareWithList').prepend(html);
 			}
 		} else {
@@ -295,9 +295,9 @@ OC.Share={
 			var html = '<li style="clear: both;" data-share-type="'+shareType+'" data-share-with="'+shareWith+'" title="' + shareWith + '">';
 			html += '<a href="#" class="unshare" style="display:none;"><img class="svg" alt="'+t('core', 'Unshare')+'" src="'+OC.imagePath('core', 'actions/delete')+'"/></a>';
 			if(shareWith.length > 14){
-				html += shareWith.substr(0,11) + '...';
+				html += shareWithDisplayName.substr(0,11) + '...';
 			}else{
-				html += shareWith;
+				html += shareWithDisplayName;
 			}
 			if (possiblePermissions & OC.PERMISSION_CREATE || possiblePermissions & OC.PERMISSION_UPDATE || possiblePermissions & OC.PERMISSION_DELETE) {
 				if (editChecked == '') {

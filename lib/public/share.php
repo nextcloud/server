@@ -946,6 +946,15 @@ class Share {
 					continue;
 				}
 			}
+
+			// Add display names to result
+			if ( isset($row['share_with']) && $row['share_with'] != '') {
+				$row['share_with_displayname'] = \OCP\User::getDisplayName($row['share_with']);
+			}
+			if ( isset($row['uid_owner']) && $row['uid_owner'] != '') {
+				$row['displayname_owner'] = \OCP\User::getDisplayName($row['uid_owner']);
+			}
+			
 			$items[$row['id']] = $row;
 		}
 		if (!empty($items)) {
