@@ -460,9 +460,9 @@ class OC_User {
 	
 	/**
 	 * @brief Get a list of all users display name
-	 * @returns associative array with all display names and corresponding uids
+	 * @returns associative array with all display names (key) and corresponding uids (value)
 	 *
-	 * Get a list of all users.
+	 * Get a list of all display names and user ids.
 	 */
 	public static function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$displayNames = array();

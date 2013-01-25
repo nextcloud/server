@@ -26,7 +26,7 @@ if($isadmin) {
 	$subadmins = OC_SubAdmin::getAllSubAdmins();
 }else{
 	$accessiblegroups = OC_SubAdmin::getSubAdminsGroups(OC_User::getUser());
-	$accessibleusers = OC_Group::usersInGroups($accessiblegroups, '', 30);
+	$accessibleusers = OC_Group::displayNamesInGroups($accessiblegroups, '', 30);
 	$subadmins = false;
 }
 

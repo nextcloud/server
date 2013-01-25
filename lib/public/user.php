@@ -62,9 +62,9 @@ class User {
 	
 	/**
 	 * @brief Get a list of all display names
-	 * @returns array with all display names and the correspondig uids
+	 * @returns array with all display names (key) and the correspondig uids (value)
 	 *
-	 * Get a list of all display names.
+	 * Get a list of all display names and user ids.
 	 */
 	public static function getDisplayNames($search = '', $limit = null, $offset = null) {
 		return \OC_USER::getDisplayNames($search, $limit, $offset);

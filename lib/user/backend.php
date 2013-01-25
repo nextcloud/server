@@ -134,9 +134,9 @@ abstract class OC_User_Backend implements OC_User_Interface {
 	
 	/**
 	 * @brief Get a list of all display names
-	 * @returns array with  all displayNames and the correspondig uids
+	 * @returns array with  all displayNames (key) and the correspondig uids (value)
 	 *
-	 * Get a list of all display names.
+	 * Get a list of all display names and user ids.
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$displayNames = array();
