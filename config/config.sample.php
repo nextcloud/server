@@ -1,5 +1,7 @@
 <?php
 
+/* Only enable this for local development and not in productive environments */
+/* This will disable the minifier and outputs some additional debug informations */
 define("DEBUG", true);
 
 $CONFIG = array(
