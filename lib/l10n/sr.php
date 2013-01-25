@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "Датотеке морате преузимати једну по једну.",
 "Back to Files" => "Назад на датотеке",
 "Selected files too large to generate zip file." => "Изабране датотеке су превелике да бисте направили ZIP датотеку.",
+"couldn't be determined" => "није одређено",
 "Application is not enabled" => "Апликација није омогућена",
 "Authentication error" => "Грешка при провери идентитета",
 "Token expired. Please reload page." => "Жетон је истекао. Поново учитајте страницу.",

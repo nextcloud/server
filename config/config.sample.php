@@ -66,6 +66,9 @@ $CONFIG = array(
 /* URL of the appstore to use, server should understand OCS */
 "appstoreurl" => "http://api.apps.owncloud.com/v1",
 
+/* Enable SMTP class debugging */
+"mail_smtpdebug" => false,
+
 /* Mode to use for sending mail, can be sendmail, smtp, qmail or php, see PHPMailer docs */
 "mail_smtpmode" => "sendmail",
 
@@ -74,6 +77,13 @@ $CONFIG = array(
 
 /* Port to use for sending mail, depends on mail_smtpmode if this is used */
 "mail_smtpport" => 25,
+
+/* SMTP server timeout in seconds for sending mail, depends on mail_smtpmode if this is used */
+"mail_smtptimeout" => 10,
+
+/* SMTP connection prefix or sending mail, depends on mail_smtpmode if this is used.
+   Can be '', ssl or tls */
+"mail_smtpsecure" => "",
 
 /* authentication needed to send mail, depends on mail_smtpmode if this is used
  * (false = disable authentication)

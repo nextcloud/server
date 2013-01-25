@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class Test_Helper extends UnitTestCase {
+class Test_Helper extends PHPUnit_Framework_TestCase {
 
 	function testHumanFileSize() {
 		$result = OC_Helper::humanFileSize(0);
