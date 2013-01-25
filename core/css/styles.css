@@ -53,7 +53,7 @@ input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#
 
 /* BUTTONS */
 input[type="submit"], input[type="button"], button, .button, #quota, div.jp-progress, select, .pager li a {
-	width:auto; padding:.4em;
+	width:auto; padding:.3em;
 	background-color:rgba(230,230,230,.5); font-weight:bold; color:#555; text-shadow:#fff 0 1px 0; border:1px solid #bbb; border:1px solid rgba(180,180,180,.5); cursor:pointer;
 	-moz-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset; box-shadow:0 1px 1px #fff, 0 1px 1px #fff inset;
 	-moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;
@@ -108,7 +108,7 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 #leftcontent li.active, .leftcontent li.active { font-weight:bold; }
 #leftcontent li:hover, .leftcontent li:hover { color:#333; background:#ddd; }
 #leftcontent a { height:100%; display:block; margin:0; padding:0 1em 0 0; float:left; }
-#rightcontent, .rightcontent { position:fixed; top:6.4em; left:32.5em; overflow:auto }
+#rightcontent, .rightcontent { position:fixed; top:6.4em; left:24.5em; overflow:auto }
 
 
 /* LOG IN & INSTALLATION ------------------------------------------------------------ */
