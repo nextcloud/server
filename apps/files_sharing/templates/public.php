@@ -14,9 +14,9 @@
 	<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img class="svg" src="<?php echo image_path('', 'logo-wide.svg'); ?>" alt="ownCloud" /></a>
 	<div class="header-right">
 	<?php if (isset($_['folder'])): ?>
-		<span id="details"><?php echo $l->t('%s shared the folder %s with you', array($_['uidOwner'], $_['filename'])) ?></span>
+		<span id="details"><?php echo $l->t('%s shared the folder %s with you', array($_['displayName'], $_['filename'])) ?></span>
 	<?php else: ?>
-		<span id="details"><?php echo $l->t('%s shared the file %s with you', array($_['uidOwner'], $_['filename'])) ?></span>
+		<span id="details"><?php echo $l->t('%s shared the file %s with you', array($_['displayName'], $_['filename'])) ?></span>
 	<?php endif; ?>
 		<?php if (!isset($_['folder']) || $_['allowZipDownload']): ?>
 			<a href="<?php echo $_['downloadURL']; ?>" class="button" id="download"><img class="svg" alt="Download" src="<?php echo OCP\image_path("core", "actions/download.svg"); ?>" /><?php echo $l->t('Download')?></a>
