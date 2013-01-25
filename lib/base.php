@@ -541,22 +541,6 @@ class OC
 	 */
 	public static function handleRequest()
 	{
-		if (!OC_Config::getValue('installed', false)) {
-			require_once 'core/setup.php';
-			exit();
-		}
-		// Handle redirect URL for logged in users
-		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
-			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
-			header('Location: ' . $location);
-			return;
-		}
-		// Handle WebDAV
-		if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND') {
-			header('location: ' . OC_Helper::linkToRemote('webdav'));
-			return;
-		}
-
 		// load all the classpaths from the enabled apps so they are available
 		// in the routing files of each app
 		OC::loadAppClassPaths();
@@ -578,6 +562,24 @@ class OC
 			self::loadCSSFile($param);
 			return;
 		}
+
+		if (!OC_Config::getValue('installed', false)) {
+			require_once 'core/setup.php';
+			exit();
+		}
+		
+		// Handle redirect URL for logged in users
+		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
+			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
+			header('Location: ' . $location);
+			return;
+		}
+		// Handle WebDAV
+		if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND') {
+			header('location: ' . OC_Helper::linkToRemote('webdav'));
+			return;
+		}
+
 		// Someone is logged in :
 		if (OC_User::isLoggedIn()) {
 			OC_App::loadApps();
