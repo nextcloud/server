@@ -350,8 +350,10 @@ class OC_User {
 	 * @brief get the display name of the user currently logged in.
 	 * @return string uid or false
 	 */
-	public static function getDisplayName() {
-		if( isset($_SESSION['display_name']) AND $_SESSION['display_name'] ) {
+	public static function getDisplayName($user=null) {
+		if ( $user ) {
+			return self::determineDisplayName($user);
+		} else if( isset($_SESSION['display_name']) AND $_SESSION['display_name'] ) {
 			return $_SESSION['display_name'];
 		}
 		else{

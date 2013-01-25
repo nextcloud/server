@@ -56,8 +56,8 @@ class User {
 	 * @brief get the user display name of the user currently logged in.
 	 * @return string display name
 	 */
-	public static function getDisplayName() {
-		return \OC_USER::getDisplayName();
+	public static function getDisplayName($user=null) {
+		return \OC_USER::getDisplayName($user);
 	}
 	
 	/**
