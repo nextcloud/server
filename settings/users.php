@@ -53,6 +53,7 @@ foreach($accessibleusers as $displayName => $uid) {
 	
 	$users[] = array(
 		"name" => $name,
+		"uid" => $uid,
 		"groups" => join( ", ", /*array_intersect(*/OC_Group::getUserGroups($uid)/*, OC_SubAdmin::getSubAdminsGroups(OC_User::getUser()))*/),
 		'quota'=>$quota,
 		'isQuotaUserDefined'=>$isQuotaUserDefined,
