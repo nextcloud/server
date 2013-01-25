@@ -422,8 +422,6 @@ class OC
 		self::checkSSL();
 		self::initSession();
 		self::initTemplateEngine();
-		self::checkMaintenanceMode();
-		self::checkUpgrade();
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
@@ -563,10 +561,13 @@ class OC
 			return;
 		}
 
+		// Check if ownCloud is installed or in maintenance (update) mode
 		if (!OC_Config::getValue('installed', false)) {
 			require_once 'core/setup.php';
 			exit();
 		}
+		self::checkMaintenanceMode();
+		self::checkUpgrade();
 		
 		// Handle redirect URL for logged in users
 		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
