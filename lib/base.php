@@ -384,6 +384,10 @@ class OC{
 		OC_Hook::connect('OC_Filesystem', 'write', 'OC_Filesystem', 'isBlacklisted');
 		OC_Hook::connect('OC_Filesystem', 'rename', 'OC_Filesystem', 'isBlacklisted');
 
+		// register subadmin hooks
+		OC_Hook::connect('OC_User', 'post_deleteUser', 'OC_SubAdmin', 'post_deleteUser');
+		OC_Hook::connect('OC_User', 'post_deleteGroup', 'OC_SubAdmin', 'post_deleteGroup');
+		
 		//make sure temporary files are cleaned up
 		register_shutdown_function(array('OC_Helper','cleanTmp'));
 
