@@ -195,7 +195,6 @@ class OC_Template{
 		$policy = OC_Config::getValue('custom_csp_policy',  'default-src \'self\'; script-src \'self\' \'unsafe-eval\'; style-src \'self\' \'unsafe-inline\'; frame-src *; img-src *');
 		header('Content-Security-Policy:'.$policy); // Standard
 		header('X-WebKit-CSP:'.$policy); // Older webkit browsers
-		header('X-Content-Security-Policy:'.$policy); // Mozilla + Internet Explorer
 
 		$this->findTemplate($name);
 	}
