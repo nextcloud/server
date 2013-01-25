@@ -36,7 +36,7 @@ table:not(.nostyle) { width:100%; }
 #rightcontent { padding-left: 1em; }
 div.quota { float:right; display:block; position:absolute; right:25em; top:0; }
 div.quota-select-wrapper { position: relative; }
-select.quota { position:absolute; left:0; top:0; width:10em; }
+select.quota { position:absolute; left:0; top:0.5em; width:10em; }
 select.quota-user { position:relative; left:0; top:0; width:10em; }
 input.quota-other { display:none; position:absolute; left:0.1em; top:0.1em; width:7em; border:none; box-shadow:none; }
 div.quota>span { position:absolute; right:0; white-space:nowrap; top:.7em; color:#888; text-shadow:0 1px 0 #fff; }

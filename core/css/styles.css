@@ -102,7 +102,7 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 	-moz-box-sizing: border-box;
 }
 /* TODO check if this is better: #content { top:3.5em; left:12.5em; position:absolute; } */
-#leftcontent, .leftcontent { position:fixed; overflow:auto; top:6.4em; width:20em; background:#f8f8f8; border-right:1px solid #ddd; }
+#leftcontent, .leftcontent { position:fixed; overflow:auto; top:6.4em; width:20em; background:#f8f8f8; border-right:1px solid #ddd; height:100%; }
 #leftcontent li, .leftcontent li { background:#f8f8f8; padding:.5em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 200ms; -moz-transition:background-color 200ms; -o-transition:background-color 200ms; transition:background-color 200ms; }
 #leftcontent li:hover, #leftcontent li:active, #leftcontent li.active, .leftcontent li:hover, .leftcontent li:active, .leftcontent li.active { background:#eee; }
 #leftcontent li.active, .leftcontent li.active { font-weight:bold; }
