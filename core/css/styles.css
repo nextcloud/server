@@ -52,10 +52,17 @@ input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
 input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
 #quota { cursor:default; }
 
+
 /* SCROLLING */
 ::-webkit-scrollbar { width:8px; }
 ::-webkit-scrollbar-track-piece { background-color:transparent; }
 ::-webkit-scrollbar-thumb { background:#ddd; }
+
+
+#show { float: right; position: absolute; right: 1em; top: 0.8em; display:none; }
+#login form input[name="show"] + label { background: url("../img/actions/toggle.png") no-repeat; opacity:0.3;
+float: right; width: 24px; position: absolute !important; height: 14px; right: 1em; top: 1.25em;}
+#login form input[name="show"]:checked + label { background:url("../img/actions/toggle.png") no-repeat; opacity:0.8; }
 
 
 /* BUTTONS */
@@ -141,12 +148,13 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 
 /* Icons for username and password fields to better recognize them */
 #adminlogin, #adminpass, #user, #password { width:11.7em!important; padding-left:1.8em; }
-#adminlogin+label, #adminpass+label, #user+label, #password+label { left:2.2em; }
 #adminlogin+label+img, #adminpass+label+img, #user+label+img, #password+label+img {
 	position:absolute; left:1.25em; top:1.65em;
 	opacity:.3;
 }
 #adminpass+label+img, #password+label+img { top:1.1em; }
+input[name="password-clone"] { padding-left:1.8em; width:11.7em !important; }
+#pass_image { position: absolute; top: 1.2em; left: 1.4em; opacity: 0.3; }
 
 
 /* Nicely grouping input field sets */
@@ -170,7 +178,7 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 /* NEEDED FOR INFIELD LABELS */
 p.infield { position:relative; }
 label.infield { cursor:text !important; top:1.05em; left:.85em; }
-#login form label.infield { position:absolute; font-size:19px; color:#aaa; white-space:nowrap; }
+#login form label.infield { position:absolute; font-size:19px; color:#aaa; white-space:nowrap; padding-left:1.2em; }
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
 #login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
 
