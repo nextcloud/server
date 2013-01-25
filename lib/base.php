@@ -268,7 +268,7 @@ class OC
 	{
 		// Add the stuff we need always
 		OC_Util::addScript("jquery-1.7.2.min");
-		OC_Util::addScript("jquery-ui-1.8.16.custom.min");
+		OC_Util::addScript("jquery-ui-1.10.0.custom");
 		OC_Util::addScript("jquery-showpassword");
 		OC_Util::addScript("jquery.infieldlabel");
 		OC_Util::addScript("jquery-tipsy");
@@ -282,8 +282,9 @@ class OC
 
 		OC_Util::addStyle("styles");
 		OC_Util::addStyle("multiselect");
-		OC_Util::addStyle("jquery-ui-1.8.16.custom");
+		OC_Util::addStyle("jquery-ui-1.10.0.custom");
 		OC_Util::addStyle("jquery-tipsy");
+		OC_Util::addScript("oc-requesttoken");
 	}
 
 	public static function initSession()
@@ -540,22 +541,6 @@ class OC
 	 */
 	public static function handleRequest()
 	{
-		if (!OC_Config::getValue('installed', false)) {
-			require_once 'core/setup.php';
-			exit();
-		}
-		// Handle redirect URL for logged in users
-		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
-			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
-			header('Location: ' . $location);
-			return;
-		}
-		// Handle WebDAV
-		if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND') {
-			header('location: ' . OC_Helper::linkToRemote('webdav'));
-			return;
-		}
-
 		// load all the classpaths from the enabled apps so they are available
 		// in the routing files of each app
 		OC::loadAppClassPaths();
@@ -577,6 +562,24 @@ class OC
 			self::loadCSSFile($param);
 			return;
 		}
+
+		if (!OC_Config::getValue('installed', false)) {
+			require_once 'core/setup.php';
+			exit();
+		}
+		
+		// Handle redirect URL for logged in users
+		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
+			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
+			header('Location: ' . $location);
+			return;
+		}
+		// Handle WebDAV
+		if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND') {
+			header('location: ' . OC_Helper::linkToRemote('webdav'));
+			return;
+		}
+
 		// Someone is logged in :
 		if (OC_User::isLoggedIn()) {
 			OC_App::loadApps();

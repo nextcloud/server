@@ -186,9 +186,16 @@ class OC_Template{
 		$this->l10n = OC_L10N::get($parts[0]);
 
 		// Some headers to enhance security
-		header('X-Frame-Options: Sameorigin');
-		header('X-XSS-Protection: 1; mode=block');
-		header('X-Content-Type-Options: nosniff');
+		header('X-Frame-Options: Sameorigin'); // Disallow iFraming from other domains
+		header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
+		header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
+
+		// Content Security Policy
+		// If you change the standard policy, please also change it in config.sample.php
+		$policy = OC_Config::getValue('custom_csp_policy',  'default-src \'self\'; script-src \'self\' \'unsafe-eval\'; style-src \'self\' \'unsafe-inline\'; frame-src *; img-src *');
+		header('Content-Security-Policy:'.$policy); // Standard
+		header('X-WebKit-CSP:'.$policy); // Older webkit browsers
+		header('X-Content-Security-Policy:'.$policy); // Mozilla + Internet Explorer
 
 		$this->findTemplate($name);
 	}
