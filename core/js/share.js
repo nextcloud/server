@@ -23,7 +23,9 @@ OC.Share={
 					} else {
 						var file = $('tr').filterAttr('data-file', OC.basename(item));
 						if (file.length > 0) {
-							$(file).find('.fileactions .action').filterAttr('data-action', 'Share').find('img').attr('src', image);
+							var action = $(file).find('.fileactions .action').filterAttr('data-action', 'Share');
+							action.find('img').attr('src', image);
+							action.addClass('permanent');
 						}
 						var dir = $('#dir').val();
 						if (dir.length > 1) {
@@ -32,9 +34,11 @@ OC.Share={
 							// Search for possible parent folders that are shared
 							while (path != last) {
 								if (path == item) {
-									var img = $('.fileactions .action').filterAttr('data-action', 'Share').find('img');
+									var action = $('.fileactions .action').filterAttr('data-action', 'Share');
+									var img = action.find('img');
 									if (img.attr('src') != OC.imagePath('core', 'actions/public')) {
 										img.attr('src', image);
+										action.addClass('permanent');
 									}
 								}
 								last = path;
@@ -48,7 +52,8 @@ OC.Share={
 	},
 	updateIcon:function(itemType, itemSource) {
 		if (itemType == 'file' || itemType == 'folder') {
-			var filename = $('tr').filterAttr('data-id', String(itemSource)).data('file');
+			var file = $('tr').filterAttr('data-id', String(itemSource));
+			var filename = file.data('file');
 			if ($('#dir').val() == '/') {
 				itemSource = $('#dir').val() + filename;
 			} else {
@@ -75,6 +80,14 @@ OC.Share={
 		});
 		if (itemType != 'file' && itemType != 'folder') {
 			$('a.share[data-item="'+itemSource+'"]').css('background', 'url('+image+') no-repeat center');
+		} else {
+			var action = $(file).find('.fileactions .action').filterAttr('data-action', 'Share');
+			action.find('img').attr('src', image);
+			if (shares) {
+				action.addClass('permanent');
+			} else {
+				action.removeClass('permanent');
+			}
 		}
 		if (shares) {
 			OC.Share.statuses[itemSource] = link;
