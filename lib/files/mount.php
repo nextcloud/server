@@ -9,6 +9,9 @@
 namespace OC\Files;
 
 class Mount {
+	/**
+	 * @var Mount[]
+	 */
 	static private $mounts = array();
 
 	/**
@@ -23,7 +26,7 @@ class Mount {
 	/**
 	 * @param string|\OC\Files\Storage\Storage $storage
 	 * @param string $mountpoint
-	 * @param array $arguments
+	 * @param array $arguments (optional)
 	 */
 	public function __construct($storage, $mountpoint, $arguments = null) {
 		if (is_null($arguments)) {
@@ -167,5 +170,18 @@ class Mount {
 
 	public static function clear() {
 		self::$mounts = array();
+	}
+
+	/**
+	 * @param string $id
+	 * @return \OC\Files\Storage\Storage
+	 */
+	public static function findById($id) {
+		foreach (self::$mounts as $mount) {
+			if ($mount->getStorageId() === $id) {
+				return $mount;
+			}
+		}
+		return null;
 	}
 }
