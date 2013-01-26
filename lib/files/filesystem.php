@@ -599,6 +599,18 @@ class Filesystem {
 	}
 
 	/**
+	 * Get the path of a file by id
+	 *
+	 * Note that the resulting path is not guarantied to be unique for the id, multiple paths can point to the same file
+	 *
+	 * @param int $id
+	 * @return string
+	 */
+	public static function getPath($id) {
+		return self::$defaultInstance->getPath($id);
+	}
+
+	/**
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
