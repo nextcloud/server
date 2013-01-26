@@ -21,9 +21,6 @@
 *
 */
 
-// Init owncloud
-
-
 // Check if we are a user
 OCP\User::checkLoggedIn();
 
