@@ -348,9 +348,9 @@ class OC_FileCache{
 
 	/**
 	 * adjust the size of the parent folders
-	 * @param string $path
+	 * @param string $path root (optional)
 	 * @param int $sizeDiff
-	 * @param string root (optinal)
+	 * @param bool $root
 	 */
 	public static function increaseSize($path,$sizeDiff, $root=false) {
 		if($sizeDiff==0) return;
@@ -358,6 +358,10 @@ class OC_FileCache{
 			$path = '';
 		}
 		$item = OC_FileCache_Cached::get($path);
+		// not found? -> return
+		if ($item === false || !isset($item['mimetype'])) {
+			return;
+		}
 		//stop walking up the filetree if we hit a non-folder or reached to root folder
 		if($item['mimetype'] !== 'httpd/unix-directory'){
 			return;
