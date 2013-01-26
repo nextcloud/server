@@ -769,9 +769,6 @@ class View {
 					if ($subCache->getStatus('') === Cache\Cache::NOT_FOUND) {
 						$subScanner = $subStorage->getScanner('');
 						$subScanner->scanFile('');
-					} else {
-						$subWatcher = $subStorage->getWatcher('');
-						$subWatcher->checkUpdate('');
 					}
 
 					$rootEntry = $subCache->get('');
