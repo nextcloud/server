@@ -53,6 +53,8 @@ $this->create('settings_ajax_disableapp', '/settings/ajax/disableapp.php')
 	->actionInclude('settings/ajax/disableapp.php');
 $this->create('settings_ajax_navigationdetect', '/settings/ajax/navigationdetect.php')
 	->actionInclude('settings/ajax/navigationdetect.php');
+$this->create('apps_custom', '/settings/js/apps-custom.js')
+	->actionInclude('settings/js/apps-custom.php');
 // admin
 $this->create('settings_ajax_getlog', '/settings/ajax/getlog.php')
 	->actionInclude('settings/ajax/getlog.php');
@@ -60,3 +62,5 @@ $this->create('settings_ajax_setloglevel', '/settings/ajax/setloglevel.php')
 	->actionInclude('settings/ajax/setloglevel.php');
 $this->create('settings_ajax_setsecurity', '/settings/ajax/setsecurity.php')
 	->actionInclude('settings/ajax/setsecurity.php');
+$this->create('isadmin', '/settings/js/isadmin.js')
+	->actionInclude('settings/js/isadmin.php');
