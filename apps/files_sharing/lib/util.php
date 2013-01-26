@@ -33,6 +33,10 @@ class OC_Files_Sharing_Util {
 	private static function getFile($target) {
 		$target = '/'.$target;
 		$target = rtrim($target, '/');
+		if ($target == NULL) {
+			return false;
+		}
+
 		if (isset(self::$files[$target])) {
 			return self::$files[$target];
 		} else {
