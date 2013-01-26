@@ -8,7 +8,7 @@
 
 namespace Test\Files\Cache;
 
-class Cache extends \UnitTestCase {
+class Cache extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var \OC\Files\Storage\Temporary $storage;
 	 */
@@ -26,56 +26,56 @@ class Cache extends \UnitTestCase {
 		$data2 = array('size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file');
 
 		$this->assertFalse($this->cache->inCache($file1));
-		$this->assertEqual($this->cache->get($file1), null);
+		$this->assertEquals($this->cache->get($file1), null);
 
 		$id1 = $this->cache->put($file1, $data1);
 		$this->assertTrue($this->cache->inCache($file1));
 		$cacheData1 = $this->cache->get($file1);
 		foreach ($data1 as $key => $value) {
-			$this->assertEqual($value, $cacheData1[$key]);
+			$this->assertEquals($value, $cacheData1[$key]);
 		}
-		$this->assertEqual($cacheData1['mimepart'], 'foo');
-		$this->assertEqual($cacheData1['fileid'], $id1);
-		$this->assertEqual($id1, $this->cache->getId($file1));
+		$this->assertEquals($cacheData1['mimepart'], 'foo');
+		$this->assertEquals($cacheData1['fileid'], $id1);
+		$this->assertEquals($id1, $this->cache->getId($file1));
 
 		$this->assertFalse($this->cache->inCache($file2));
 		$id2 = $this->cache->put($file2, $data2);
 		$this->assertTrue($this->cache->inCache($file2));
 		$cacheData2 = $this->cache->get($file2);
 		foreach ($data2 as $key => $value) {
-			$this->assertEqual($value, $cacheData2[$key]);
+			$this->assertEquals($value, $cacheData2[$key]);
 		}
-		$this->assertEqual($cacheData1['fileid'], $cacheData2['parent']);
-		$this->assertEqual($cacheData2['fileid'], $id2);
-		$this->assertEqual($id2, $this->cache->getId($file2));
-		$this->assertEqual($id1, $this->cache->getParentId($file2));
+		$this->assertEquals($cacheData1['fileid'], $cacheData2['parent']);
+		$this->assertEquals($cacheData2['fileid'], $id2);
+		$this->assertEquals($id2, $this->cache->getId($file2));
+		$this->assertEquals($id1, $this->cache->getParentId($file2));
 
 		$newSize = 1050;
 		$newId2 = $this->cache->put($file2, array('size' => $newSize));
 		$cacheData2 = $this->cache->get($file2);
-		$this->assertEqual($newId2, $id2);
-		$this->assertEqual($cacheData2['size'], $newSize);
-		$this->assertEqual($cacheData1, $this->cache->get($file1));
+		$this->assertEquals($newId2, $id2);
+		$this->assertEquals($cacheData2['size'], $newSize);
+		$this->assertEquals($cacheData1, $this->cache->get($file1));
 
 		$this->cache->remove($file2);
 		$this->assertFalse($this->cache->inCache($file2));
-		$this->assertEqual($this->cache->get($file2), null);
+		$this->assertEquals($this->cache->get($file2), null);
 		$this->assertTrue($this->cache->inCache($file1));
 
-		$this->assertEqual($cacheData1, $this->cache->get($id1));
+		$this->assertEquals($cacheData1, $this->cache->get($id1));
 	}
 
 	public function testPartial() {
 		$file1 = 'foo';
 
 		$this->cache->put($file1, array('size' => 10));
-		$this->assertEqual(array('size' => 10), $this->cache->get($file1));
+		$this->assertEquals(array('size' => 10), $this->cache->get($file1));
 
 		$this->cache->put($file1, array('mtime' => 15));
-		$this->assertEqual(array('size' => 10, 'mtime' => 15), $this->cache->get($file1));
+		$this->assertEquals(array('size' => 10, 'mtime' => 15), $this->cache->get($file1));
 
 		$this->cache->put($file1, array('size' => 12));
-		$this->assertEqual(array('size' => 12, 'mtime' => 15), $this->cache->get($file1));
+		$this->assertEquals(array('size' => 12, 'mtime' => 15), $this->cache->get($file1));
 	}
 
 	public function testFolder() {
@@ -92,11 +92,11 @@ class Cache extends \UnitTestCase {
 		$this->cache->put($file3, $fileData['foo']);
 
 		$content = $this->cache->getFolderContents($file1);
-		$this->assertEqual(count($content), 2);
+		$this->assertEquals(count($content), 2);
 		foreach ($content as $cachedData) {
 			$data = $fileData[$cachedData['name']];
 			foreach ($data as $name => $value) {
-				$this->assertEqual($value, $cachedData[$name]);
+				$this->assertEquals($value, $cachedData[$name]);
 			}
 		}
 
