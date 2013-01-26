@@ -37,14 +37,14 @@ function t(app,text, vars){
 			t.cache[app] = [];
 		}
 	}
-	var _build = function(text, vars) {
-		return text.replace(/{([^{}]*)}/g,
-			function (a, b) {
-				var r = vars[b];
-				return typeof r === 'string' || typeof r === 'number' ? r : a;
-			}
-		);
-	}
+	var _build = function (text, vars) {
+        return text.replace(/{([^{}]*)}/g,
+            function (a, b) {
+                var r = vars[b];
+                return typeof r === 'string' || typeof r === 'number' ? r : a;
+            }
+        );
+    };
 	if( typeof( t.cache[app][text] ) !== 'undefined' ){
 		if(typeof vars === 'object') {
 			return _build(t.cache[app][text], vars);
@@ -268,7 +268,7 @@ var OC={
 		var popup = $('#appsettings_popup');
 		if(popup.length == 0) {
 			$('body').prepend('<div class="popup hidden" id="appsettings_popup"></div>');
-			popup = $('#appsettings_popup');
+            popup = $('#appsettings_popup');
 			popup.addClass(settings.hasClass('topright') ? 'topright' : 'bottomleft');
 		}
 		if(popup.is(':visible')) {
@@ -309,6 +309,41 @@ OC.search.lastQuery='';
 OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
+
+OC.Notification={
+    getDefaultNotificationFunction: null,
+    setDefault: function(callback) {
+        OC.Notification.getDefaultNotificationFunction = callback;
+    },
+    hide: function(callback) {
+        $("#notification").text('');
+        $('#notification').fadeOut('400', function(){
+            if (OC.Notification.isHidden()) {
+                if (OC.Notification.getDefaultNotificationFunction) {
+                    OC.Notification.getDefaultNotificationFunction.call();
+                }
+            }
+            if (callback) {
+                callback.call();
+            }
+        });
+    },
+    showHtml: function(html) {
+        var notification = $('#notification');
+        notification.hide();
+        notification.html(html);
+        notification.fadeIn().css("display","inline");
+    },
+    show: function(text) {
+        var notification = $('#notification');
+        notification.hide();
+        notification.text(text);
+        notification.fadeIn().css("display","inline");
+    },
+	isHidden: function() {
+		return ($("#notification").text() === '');
+	}
+};
 
 OC.Breadcrumb={
 	container:null,
