@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Puja",
 "Could not move %s - File with this name already exists" => "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom",
 "Could not move %s" => " No s'ha pogut moure %s",
 "Unable to rename file" => "No es pot canviar el nom del fitxer",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "El fitxer no s'ha pujat",
 "Missing a temporary folder" => "S'ha perdut un fitxer temporal",
 "Failed to write to disk" => "Ha fallat en escriure al disc",
-"Not enough space available" => "No hi ha prou espai disponible",
 "Invalid directory." => "Directori no vàlid.",
 "Files" => "Fitxers",
 "Unshare" => "Deixa de compartir",
@@ -49,6 +47,7 @@
 "{count} folders" => "{count} carpetes",
 "1 file" => "1 fitxer",
 "{count} files" => "{count} fitxers",
+"Upload" => "Puja",
 "File handling" => "Gestió de fitxers",
 "Maximum upload size" => "Mida màxima de pujada",
 "max. possible: " => "màxim possible:",

@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Αποστολή",
 "Could not move %s - File with this name already exists" => "Αδυναμία μετακίνησης του %s - υπάρχει ήδη αρχείο με αυτό το όνομα",
 "Could not move %s" => "Αδυναμία μετακίνησης του %s",
 "Unable to rename file" => "Αδυναμία μετονομασίας αρχείου",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "Κανένα αρχείο δεν στάλθηκε",
 "Missing a temporary folder" => "Λείπει ο προσωρινός φάκελος",
 "Failed to write to disk" => "Αποτυχία εγγραφής στο δίσκο",
-"Not enough space available" => "Δεν υπάρχει αρκετός διαθέσιμος χώρος",
 "Invalid directory." => "Μη έγκυρος φάκελος.",
 "Files" => "Αρχεία",
 "Unshare" => "Διακοπή κοινής χρήσης",
@@ -49,6 +47,7 @@
 "{count} folders" => "{count} φάκελοι",
 "1 file" => "1 αρχείο",
 "{count} files" => "{count} αρχεία",
+"Upload" => "Αποστολή",
 "File handling" => "Διαχείριση αρχείων",
 "Maximum upload size" => "Μέγιστο μέγεθος αποστολής",
 "max. possible: " => "μέγιστο δυνατό:",

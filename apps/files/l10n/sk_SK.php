@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Odoslať",
 "Could not move %s - File with this name already exists" => "Nie je možné presunúť %s - súbor s týmto menom už existuje",
 "Could not move %s" => "Nie je možné presunúť %s",
 "Unable to rename file" => "Nemožno premenovať súbor",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "Žiaden súbor nebol nahraný",
 "Missing a temporary folder" => "Chýbajúci dočasný priečinok",
 "Failed to write to disk" => "Zápis na disk sa nepodaril",
-"Not enough space available" => "Nie je k dispozícii dostatok miesta",
 "Invalid directory." => "Neplatný adresár",
 "Files" => "Súbory",
 "Unshare" => "Nezdielať",
@@ -49,6 +47,7 @@
 "{count} folders" => "{count} priečinkov",
 "1 file" => "1 súbor",
 "{count} files" => "{count} súborov",
+"Upload" => "Odoslať",
 "File handling" => "Nastavenie správanie k súborom",
 "Maximum upload size" => "Maximálna veľkosť odosielaného súboru",
 "max. possible: " => "najväčšie možné:",

@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Качване",
 "Missing a temporary folder" => "Липсва временна папка",
 "Files" => "Файлове",
 "Delete" => "Изтриване",
@@ -11,6 +10,7 @@
 "Name" => "Име",
 "Size" => "Размер",
 "Modified" => "Променено",
+"Upload" => "Качване",
 "Maximum upload size" => "Максимален размер за качване",
 "0 is unlimited" => "Ползвайте 0 за без ограничения",
 "Save" => "Запис",

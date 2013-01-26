@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Carica",
 "Could not move %s - File with this name already exists" => "Impossibile spostare %s - un file con questo nome esiste già",
 "Could not move %s" => "Impossibile spostare %s",
 "Unable to rename file" => "Impossibile rinominare il file",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "Nessun file è stato caricato",
 "Missing a temporary folder" => "Cartella temporanea mancante",
 "Failed to write to disk" => "Scrittura su disco non riuscita",
-"Not enough space available" => "Spazio disponibile insufficiente",
 "Invalid directory." => "Cartella non valida.",
 "Files" => "File",
 "Unshare" => "Rimuovi condivisione",
@@ -49,6 +47,7 @@
 "{count} folders" => "{count} cartelle",
 "1 file" => "1 file",
 "{count} files" => "{count} file",
+"Upload" => "Carica",
 "File handling" => "Gestione file",
 "Maximum upload size" => "Dimensione massima upload",
 "max. possible: " => "numero mass.: ",

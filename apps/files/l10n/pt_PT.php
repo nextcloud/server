@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Enviar",
 "Could not move %s - File with this name already exists" => "Não foi possível mover o ficheiro %s - Já existe um ficheiro com esse nome",
 "Could not move %s" => "Não foi possível move o ficheiro %s",
 "Unable to rename file" => "Não foi possível renomear o ficheiro",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "Não foi enviado nenhum ficheiro",
 "Missing a temporary folder" => "Falta uma pasta temporária",
 "Failed to write to disk" => "Falhou a escrita no disco",
-"Not enough space available" => "Espaço em disco insuficiente!",
 "Invalid directory." => "Directório Inválido",
 "Files" => "Ficheiros",
 "Unshare" => "Deixar de partilhar",
@@ -49,6 +47,7 @@
 "{count} folders" => "{count} pastas",
 "1 file" => "1 ficheiro",
 "{count} files" => "{count} ficheiros",
+"Upload" => "Enviar",
 "File handling" => "Manuseamento de ficheiros",
 "Maximum upload size" => "Tamanho máximo de envio",
 "max. possible: " => "max. possivel: ",

@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Upload",
 "Could not move %s - File with this name already exists" => "Kon %s niet verplaatsen - Er bestaat al een bestand met deze naam",
 "Could not move %s" => "Kon %s niet verplaatsen",
 "Unable to rename file" => "Kan bestand niet hernoemen",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "Geen bestand geüpload",
 "Missing a temporary folder" => "Een tijdelijke map mist",
 "Failed to write to disk" => "Schrijven naar schijf mislukt",
-"Not enough space available" => "Niet genoeg ruimte beschikbaar",
 "Invalid directory." => "Ongeldige directory.",
 "Files" => "Bestanden",
 "Unshare" => "Stop delen",
@@ -49,6 +47,7 @@
 "{count} folders" => "{count} mappen",
 "1 file" => "1 bestand",
 "{count} files" => "{count} bestanden",
+"Upload" => "Upload",
 "File handling" => "Bestand",
 "Maximum upload size" => "Maximale bestandsgrootte voor uploads",
 "max. possible: " => "max. mogelijk: ",

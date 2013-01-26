@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Alŝuti",
 "Could not move %s - File with this name already exists" => "Ne eblis movi %s: dosiero kun ĉi tiu nomo jam ekzistas",
 "Could not move %s" => "Ne eblis movi %s",
 "Unable to rename file" => "Ne eblis alinomigi dosieron",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "Neniu dosiero estas alŝutita",
 "Missing a temporary folder" => "Mankas tempa dosierujo",
 "Failed to write to disk" => "Malsukcesis skribo al disko",
-"Not enough space available" => "Ne haveblas sufiĉa spaco",
 "Invalid directory." => "Nevalida dosierujo.",
 "Files" => "Dosieroj",
 "Unshare" => "Malkunhavigi",
@@ -49,6 +47,7 @@
 "{count} folders" => "{count} dosierujoj",
 "1 file" => "1 dosiero",
 "{count} files" => "{count} dosierujoj",
+"Upload" => "Alŝuti",
 "File handling" => "Dosieradministro",
 "Maximum upload size" => "Maksimuma alŝutogrando",
 "max. possible: " => "maks. ebla: ",

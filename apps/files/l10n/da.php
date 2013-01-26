@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Upload",
 "No file was uploaded. Unknown error" => "Ingen fil blev uploadet. Ukendt fejl.",
 "There is no error, the file uploaded with success" => "Der er ingen fejl, filen blev uploadet med success",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Den uploadede fil overstiger upload_max_filesize direktivet i php.ini",
@@ -40,6 +39,7 @@
 "{count} folders" => "{count} mapper",
 "1 file" => "1 fil",
 "{count} files" => "{count} filer",
+"Upload" => "Upload",
 "File handling" => "Filhåndtering",
 "Maximum upload size" => "Maksimal upload-størrelse",
 "max. possible: " => "max. mulige: ",

@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Augšuplādet",
 "There is no error, the file uploaded with success" => "Viss kārtībā, augšupielāde veiksmīga",
 "No file was uploaded" => "Neviens fails netika augšuplādēts",
 "Missing a temporary folder" => "Trūkst pagaidu mapes",
@@ -20,6 +19,7 @@
 "Name" => "Nosaukums",
 "Size" => "Izmērs",
 "Modified" => "Izmainīts",
+"Upload" => "Augšuplādet",
 "File handling" => "Failu pārvaldība",
 "Maximum upload size" => "Maksimālais failu augšuplādes apjoms",
 "max. possible: " => "maksīmālais iespējamais:",

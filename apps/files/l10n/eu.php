@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Igo",
 "Could not move %s - File with this name already exists" => "Ezin da %s mugitu - Izen hau duen fitxategia dagoeneko existitzen da",
 "Could not move %s" => "Ezin dira fitxategiak mugitu %s",
 "Unable to rename file" => "Ezin izan da fitxategia berrizendatu",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "Ez da fitxategirik igo",
 "Missing a temporary folder" => "Aldi baterako karpeta falta da",
 "Failed to write to disk" => "Errore bat izan da diskoan idazterakoan",
-"Not enough space available" => "Ez dago leku nahikorik.",
 "Invalid directory." => "Baliogabeko karpeta.",
 "Files" => "Fitxategiak",
 "Unshare" => "Ez elkarbanatu",
@@ -48,6 +46,7 @@
 "{count} folders" => "{count} karpeta",
 "1 file" => "fitxategi bat",
 "{count} files" => "{count} fitxategi",
+"Upload" => "Igo",
 "File handling" => "Fitxategien kudeaketa",
 "Maximum upload size" => "Igo daitekeen gehienezko tamaina",
 "max. possible: " => "max, posiblea:",

@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "上传",
 "No file was uploaded. Unknown error" => "没有上传文件。未知错误",
 "There is no error, the file uploaded with success" => "没有任何错误,文件上传成功了",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "上传的文件超过了HTML表单指定的MAX_FILE_SIZE",
@@ -38,6 +37,7 @@
 "{count} folders" => "{count} 个文件夹",
 "1 file" => "1 个文件",
 "{count} files" => "{count} 个文件",
+"Upload" => "上传",
 "File handling" => "文件处理中",
 "Maximum upload size" => "最大上传大小",
 "max. possible: " => "最大可能",

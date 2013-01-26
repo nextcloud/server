@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Lähetä",
 "Could not move %s - File with this name already exists" => "Kohteen %s siirto ei onnistunut - Tiedosto samalla nimellä on jo olemassa",
 "Could not move %s" => "Kohteen %s siirto ei onnistunut",
 "Unable to rename file" => "Tiedoston nimeäminen uudelleen ei onnistunut",
@@ -10,7 +9,6 @@
 "No file was uploaded" => "Yhtäkään tiedostoa ei lähetetty",
 "Missing a temporary folder" => "Väliaikaiskansiota ei ole olemassa",
 "Failed to write to disk" => "Levylle kirjoitus epäonnistui",
-"Not enough space available" => "Tilaa ei ole riittävästi",
 "Invalid directory." => "Virheellinen kansio.",
 "Files" => "Tiedostot",
 "Unshare" => "Peru jakaminen",
@@ -39,6 +37,7 @@
 "{count} folders" => "{count} kansiota",
 "1 file" => "1 tiedosto",
 "{count} files" => "{count} tiedostoa",
+"Upload" => "Lähetä",
 "File handling" => "Tiedostonhallinta",
 "Maximum upload size" => "Lähetettävän tiedoston suurin sallittu koko",
 "max. possible: " => "suurin mahdollinen:",
