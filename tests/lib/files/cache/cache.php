@@ -197,6 +197,13 @@ class Cache extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(array(), $this->cache->getFolderContents('foo'));
 	}
 
+	function testGetById() {
+		$storageId = $this->storage->getId();
+		$data = array('size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file');
+		$id = $this->cache->put('foo', $data);
+		$this->assertEquals(array($storageId, 'foo'), \OC\Files\Cache\Cache::getById($id));
+	}
+
 	public function tearDown() {
 		$this->cache->clear();
 	}

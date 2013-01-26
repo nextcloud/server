@@ -494,4 +494,28 @@ class Cache {
 			return false;
 		}
 	}
+
+	/**
+	 * get the storage id of the storage for a file and the internal path of the file
+	 *
+	 * @return array, first element holding the storage id, second the path
+	 */
+	static public function getById($id) {
+		$query = \OC_DB::prepare('SELECT `storage`, `path` FROM `*PREFIX*filecache` WHERE `fileid` = ?');
+		$result = $query->execute(array($id));
+		if ($row = $result->fetchRow()) {
+			$numericId = $row['storage'];
+			$path = $row['path'];
+		} else {
+			return null;
+		}
+
+		$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*storages` WHERE `numeric_id` = ?');
+		$result = $query->execute(array($numericId));
+		if ($row = $result->fetchRow()) {
+			return array($row['id'], $path);
+		} else {
+			return null;
+		}
+	}
 }
