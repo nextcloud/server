@@ -5,7 +5,6 @@
 </ul>
 <script>
 	$(document).ready(function () {
-		OC.EventSource.requesttoken = oc_requesttoken;
 		var updateEventSource = new OC.EventSource(OC.webroot+'/core/ajax/update.php');
 		updateEventSource.listen('success', function(message) {
 			$('<span>').append(message).append('<br />').appendTo($('.update'));
