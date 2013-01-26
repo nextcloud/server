@@ -30,8 +30,6 @@
 namespace OC\Files;
 
 class Filesystem {
-	static private $storages = array();
-	static private $mounts = array();
 	public static $loaded = false;
 	/**
 	 * @var \OC\Files\View $defaultInstance
@@ -143,19 +141,12 @@ class Filesystem {
 	 * @return string
 	 */
 	static public function getMountPoint($path) {
-		$path = self::normalizePath($path) . '/';
-		\OC_Hook::emit(self::CLASSNAME, 'get_mountpoint', array('path' => $path));
-		$foundMountPoint = '';
-		$mountPoints = array_keys(self::$mounts);
-		foreach ($mountPoints as $mountpoint) {
-			if ($mountpoint == $path) {
-				return $mountpoint;
-			}
-			if (strpos($path, $mountpoint) === 0 and strlen($mountpoint) > strlen($foundMountPoint)) {
-				$foundMountPoint = $mountpoint;
-			}
+		$mount = Mount::find($path);
+		if ($mount) {
+			return $mount->getMountPoint();
+		} else {
+			return '';
 		}
-		return $foundMountPoint;
 	}
 
 	/**
@@ -165,18 +156,10 @@ class Filesystem {
 	 * @return string[]
 	 */
 	static public function getMountPoints($path) {
-		$path = self::normalizePath($path);
-		if (strlen($path) > 1) {
-			$path .= '/';
-		}
-		$pathLength = strlen($path);
-
-		$mountPoints = array_keys(self::$mounts);
 		$result = array();
-		foreach ($mountPoints as $mountPoint) {
-			if (substr($mountPoint, 0, $pathLength) === $path and strlen($mountPoint) > $pathLength) {
-				$result[] = $mountPoint;
-			}
+		$mounts = Mount::findIn($path);
+		foreach ($mounts as $mount) {
+			$result[] = $mount->getMountPoint();
 		}
 		return $result;
 	}
@@ -188,11 +171,8 @@ class Filesystem {
 	 * @return \OC\Files\Storage\Storage
 	 */
 	public static function getStorage($mountPoint) {
-		if (!isset(self::$storages[$mountPoint])) {
-			$mount = self::$mounts[$mountPoint];
-			self::$storages[$mountPoint] = self::createStorage($mount['class'], $mount['arguments']);
-		}
-		return self::$storages[$mountPoint];
+		$mount = Mount::find($mountPoint);
+		return $mount->getStorage();
 	}
 
 	/**
@@ -202,15 +182,9 @@ class Filesystem {
 	 * @return array consisting of the storage and the internal path
 	 */
 	static public function resolvePath($path) {
-		$mountpoint = self::getMountPoint($path);
-		if ($mountpoint) {
-			$storage = self::getStorage($mountpoint);
-			if ($mountpoint === $path or $mountpoint . '/' === $path) {
-				$internalPath = '';
-			} else {
-				$internalPath = substr($path, strlen($mountpoint));
-			}
-			return array($storage, $internalPath);
+		$mount = Mount::find($path);
+		if ($mount) {
+			return array($mount->getStorage(), $mount->getInternalPath($path));
 		} else {
 			return array(null, null);
 		}
@@ -291,6 +265,7 @@ class Filesystem {
 	 * fill in the correct values for $user, and $password placeholders
 	 *
 	 * @param string $input
+	 * @param string $input
 	 * @return string
 	 */
 	private static function setUserVars($user, $input) {
@@ -310,28 +285,7 @@ class Filesystem {
 	 * tear down the filesystem, removing all storage providers
 	 */
 	static public function tearDown() {
-		self::$storages = array();
-	}
-
-	/**
-	 * create a new storage of a specific type
-	 *
-	 * @param  string $type
-	 * @param  array $arguments
-	 * @return \OC\Files\Storage\Storage
-	 */
-	static private function createStorage($class, $arguments) {
-		if (class_exists($class)) {
-			try {
-				return new $class($arguments);
-			} catch (\Exception $exception) {
-				\OC_Log::write('core', $exception->getMessage(), \OC_Log::ERROR);
-				return false;
-			}
-		} else {
-			\OC_Log::write('core', 'storage backend ' . $class . ' not found', \OC_Log::ERROR);
-			return false;
-		}
+		self::clearMounts();
 	}
 
 	/**
@@ -348,8 +302,7 @@ class Filesystem {
 	 * clear all mounts and storage backends
 	 */
 	public static function clearMounts() {
-		self::$mounts = array();
-		self::$storages = array();
+		Mount::clear();
 	}
 
 	/**
@@ -360,20 +313,7 @@ class Filesystem {
 	 * @param string $mountpoint
 	 */
 	static public function mount($class, $arguments, $mountpoint) {
-		$mountpoint = self::normalizePath($mountpoint);
-		if (strlen($mountpoint) > 1) {
-			$mountpoint .= '/';
-		}
-		if ($class instanceof \OC\Files\Storage\Storage) {
-			self::$mounts[$mountpoint] = array('class' => get_class($class), 'arguments' => $arguments);
-			self::$storages[$mountpoint] = $class;
-		} else {
-			// Update old classes to new namespace
-			if (strpos($class, 'OC_Filestorage_') !== false) {
-				$class = '\OC\Files\Storage\\' . substr($class, 15);
-			}
-			self::$mounts[$mountpoint] = array('class' => $class, 'arguments' => $arguments);
-		}
+		new Mount($class, $mountpoint, $arguments);
 	}
 
 	/**
@@ -578,6 +518,7 @@ class Filesystem {
 	/**
 	 * check if a file or folder has been updated since $time
 	 *
+	 * @param string $path
 	 * @param int $time
 	 * @return bool
 	 */
@@ -653,8 +594,8 @@ class Filesystem {
 	 * @param string $directory path under datadirectory
 	 * @return array
 	 */
-	public static function getDirectoryContent($directory, $mimetype_filter = '') {
-		return self::$defaultInstance->getDirectoryContent($directory, $mimetype_filter);
+	public static function getDirectoryContent($directory) {
+		return self::$defaultInstance->getDirectoryContent($directory);
 	}
 
 	/**
