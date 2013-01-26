@@ -27,7 +27,7 @@ class OC_Filestorage_SFTP extends OC_Filestorage_Common {
 		}
 		$this->user = $params['user'];
 		$this->password = $params['password'];
-		$this->root = isset($params['root']) ? $params['root'] : '/';
+		$this->root = isset($params['root']) ? $this->cleanPath($params['root']) : '/';
 		if ($this->root[0] != '/') $this->root = '/' . $this->root;
 		if (substr($this->root, -1, 1) != '/') $this->root .= '/';
 		
