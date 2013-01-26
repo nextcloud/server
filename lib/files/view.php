@@ -932,4 +932,19 @@ class View {
 			return null;
 		}
 	}
+
+	/**
+	 * Get the path of a file by id, relative to the view
+	 *
+	 * Note that the resulting path is not guarantied to be unique for the id, multiple paths can point to the same file
+	 *
+	 * @param int $id
+	 * @return string
+	 */
+	public function getPath($id) {
+		list($storage, $internalPath) = Cache\Cache::getById($id);
+		$mount = Mount::findById($storage);
+		$fullPath = $mount->getMountPoint() . $internalPath;
+		return $this->getRelativePath($fullPath);
+	}
 }
