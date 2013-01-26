@@ -29,6 +29,7 @@
 "'.' is an invalid file name." => "'.' és un nom no vàlid per un fitxer.",
 "File name cannot be empty." => "El nom del fitxer no pot ser buit.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "El nóm no és vàlid, '\\', '/', '<', '>', ':', '\"', '|', '?' i '*' no estan permesos.",
+"Your download is being prepared. This might take some time if the files are big." => "S'està preparant la baixada. Pot trigar una estona si els fitxers són grans.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "No es pot pujar el fitxer perquè és una carpeta o té 0 bytes",
 "Upload Error" => "Error en la pujada",
 "Close" => "Tanca",

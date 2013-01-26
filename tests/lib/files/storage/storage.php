@@ -22,7 +22,7 @@
 
 namespace Test\Files\Storage;
 
-abstract class Storage extends \UnitTestCase {
+abstract class Storage extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var \OC\Files\Storage\Storage instance
 	 */
@@ -36,7 +36,7 @@ abstract class Storage extends \UnitTestCase {
 		$this->assertTrue($this->instance->isReadable('/'), 'Root folder is not readable');
 		$this->assertTrue($this->instance->is_dir('/'), 'Root folder is not a directory');
 		$this->assertFalse($this->instance->is_file('/'), 'Root folder is a file');
-		$this->assertEqual('dir', $this->instance->filetype('/'));
+		$this->assertEquals('dir', $this->instance->filetype('/'));
 
 		//without this, any further testing would be useless, not an actual requirement for filestorage though
 		$this->assertTrue($this->instance->isUpdatable('/'), 'Root folder is not writable');
@@ -50,8 +50,8 @@ abstract class Storage extends \UnitTestCase {
 		$this->assertTrue($this->instance->file_exists('/folder'));
 		$this->assertTrue($this->instance->is_dir('/folder'));
 		$this->assertFalse($this->instance->is_file('/folder'));
-		$this->assertEqual('dir', $this->instance->filetype('/folder'));
-		$this->assertEqual(0, $this->instance->filesize('/folder'));
+		$this->assertEquals('dir', $this->instance->filetype('/folder'));
+		$this->assertEquals(0, $this->instance->filesize('/folder'));
 		$this->assertTrue($this->instance->isReadable('/folder'));
 		$this->assertTrue($this->instance->isUpdatable('/folder'));
 
@@ -62,7 +62,7 @@ abstract class Storage extends \UnitTestCase {
 				$content[] = $file;
 			}
 		}
-		$this->assertEqual(array('folder'), $content);
+		$this->assertEquals(array('folder'), $content);
 
 		$this->assertFalse($this->instance->mkdir('/folder')); //cant create existing folders
 		$this->assertTrue($this->instance->rmdir('/folder'));
@@ -78,7 +78,7 @@ abstract class Storage extends \UnitTestCase {
 				$content[] = $file;
 			}
 		}
-		$this->assertEqual(array(), $content);
+		$this->assertEquals(array(), $content);
 	}
 
 	/**
@@ -91,31 +91,31 @@ abstract class Storage extends \UnitTestCase {
 		//fill a file with string data
 		$this->instance->file_put_contents('/lorem.txt', $sourceText);
 		$this->assertFalse($this->instance->is_dir('/lorem.txt'));
-		$this->assertEqual($sourceText, $this->instance->file_get_contents('/lorem.txt'), 'data returned from file_get_contents is not equal to the source data');
+		$this->assertEquals($sourceText, $this->instance->file_get_contents('/lorem.txt'), 'data returned from file_get_contents is not equal to the source data');
 
 		//empty the file
 		$this->instance->file_put_contents('/lorem.txt', '');
-		$this->assertEqual('', $this->instance->file_get_contents('/lorem.txt'), 'file not emptied');
+		$this->assertEquals('', $this->instance->file_get_contents('/lorem.txt'), 'file not emptied');
 	}
 
 	/**
 	 * test various known mimetypes
 	 */
 	public function testMimeType() {
-		$this->assertEqual('httpd/unix-directory', $this->instance->getMimeType('/'));
-		$this->assertEqual(false, $this->instance->getMimeType('/non/existing/file'));
+		$this->assertEquals('httpd/unix-directory', $this->instance->getMimeType('/'));
+		$this->assertEquals(false, $this->instance->getMimeType('/non/existing/file'));
 
 		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile, 'r'));
-		$this->assertEqual('text/plain', $this->instance->getMimeType('/lorem.txt'));
+		$this->assertEquals('text/plain', $this->instance->getMimeType('/lorem.txt'));
 
 		$pngFile = \OC::$SERVERROOT . '/tests/data/logo-wide.png';
 		$this->instance->file_put_contents('/logo-wide.png', file_get_contents($pngFile, 'r'));
-		$this->assertEqual('image/png', $this->instance->getMimeType('/logo-wide.png'));
+		$this->assertEquals('image/png', $this->instance->getMimeType('/logo-wide.png'));
 
 		$svgFile = \OC::$SERVERROOT . '/tests/data/logo-wide.svg';
 		$this->instance->file_put_contents('/logo-wide.svg', file_get_contents($svgFile, 'r'));
-		$this->assertEqual('image/svg+xml', $this->instance->getMimeType('/logo-wide.svg'));
+		$this->assertEquals('image/svg+xml', $this->instance->getMimeType('/logo-wide.svg'));
 	}
 
 	public function testCopyAndMove() {
@@ -123,12 +123,12 @@ abstract class Storage extends \UnitTestCase {
 		$this->instance->file_put_contents('/source.txt', file_get_contents($textFile));
 		$this->instance->copy('/source.txt', '/target.txt');
 		$this->assertTrue($this->instance->file_exists('/target.txt'));
-		$this->assertEqual($this->instance->file_get_contents('/source.txt'), $this->instance->file_get_contents('/target.txt'));
+		$this->assertEquals($this->instance->file_get_contents('/source.txt'), $this->instance->file_get_contents('/target.txt'));
 
 		$this->instance->rename('/source.txt', '/target2.txt');
 		$this->assertTrue($this->instance->file_exists('/target2.txt'));
 		$this->assertFalse($this->instance->file_exists('/source.txt'));
-		$this->assertEqual(file_get_contents($textFile), $this->instance->file_get_contents('/target.txt'));
+		$this->assertEquals(file_get_contents($textFile), $this->instance->file_get_contents('/target.txt'));
 	}
 
 	public function testLocal() {
@@ -136,7 +136,7 @@ abstract class Storage extends \UnitTestCase {
 		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile));
 		$localFile = $this->instance->getLocalFile('/lorem.txt');
 		$this->assertTrue(file_exists($localFile));
-		$this->assertEqual(file_get_contents($localFile), file_get_contents($textFile));
+		$this->assertEquals(file_get_contents($localFile), file_get_contents($textFile));
 
 		$this->instance->mkdir('/folder');
 		$this->instance->file_put_contents('/folder/lorem.txt', file_get_contents($textFile));
@@ -147,9 +147,9 @@ abstract class Storage extends \UnitTestCase {
 
 		$this->assertTrue(is_dir($localFolder));
 		$this->assertTrue(file_exists($localFolder . '/lorem.txt'));
-		$this->assertEqual(file_get_contents($localFolder . '/lorem.txt'), file_get_contents($textFile));
-		$this->assertEqual(file_get_contents($localFolder . '/bar.txt'), 'asd');
-		$this->assertEqual(file_get_contents($localFolder . '/recursive/file.txt'), 'foo');
+		$this->assertEquals(file_get_contents($localFolder . '/lorem.txt'), file_get_contents($textFile));
+		$this->assertEquals(file_get_contents($localFolder . '/bar.txt'), 'asd');
+		$this->assertEquals(file_get_contents($localFolder . '/recursive/file.txt'), 'foo');
 	}
 
 	public function testStat() {
@@ -164,12 +164,12 @@ abstract class Storage extends \UnitTestCase {
 
 		$this->assertTrue(($ctimeStart - 1) <= $mTime);
 		$this->assertTrue($mTime <= ($ctimeEnd + 1));
-		$this->assertEqual(filesize($textFile), $this->instance->filesize('/lorem.txt'));
+		$this->assertEquals(filesize($textFile), $this->instance->filesize('/lorem.txt'));
 
 		$stat = $this->instance->stat('/lorem.txt');
-		//only size and mtime are required in the result
-		$this->assertEqual($stat['size'], $this->instance->filesize('/lorem.txt'));
-		$this->assertEqual($stat['mtime'], $mTime);
+		//only size and mtime are requered in the result
+		$this->assertEquals($stat['size'], $this->instance->filesize('/lorem.txt'));
+		$this->assertEquals($stat['mtime'], $mTime);
 
 		$mtimeStart = time();
 		$supportsTouch = $this->instance->touch('/lorem.txt');
@@ -183,7 +183,7 @@ abstract class Storage extends \UnitTestCase {
 
 			if ($this->instance->touch('/lorem.txt', 100) !== false) {
 				$mTime = $this->instance->filemtime('/lorem.txt');
-				$this->assertEqual($mTime, 100);
+				$this->assertEquals($mTime, 100);
 			}
 		}
 
@@ -209,7 +209,7 @@ abstract class Storage extends \UnitTestCase {
 		$svgFile = \OC::$SERVERROOT . '/tests/data/logo-wide.svg';
 		$this->instance->file_put_contents('/logo-wide.svg', file_get_contents($svgFile, 'r'));
 		$result = $this->instance->search('logo');
-		$this->assertEqual(2, count($result));
+		$this->assertEquals(2, count($result));
 		$this->assertContains('/logo-wide.svg', $result);
 		$this->assertContains('/logo-wide.png', $result);
 	}
@@ -231,6 +231,6 @@ abstract class Storage extends \UnitTestCase {
 
 		$fh = $this->instance->fopen('foo', 'r');
 		$content = stream_get_contents($fh);
-		$this->assertEqual(file_get_contents($textFile), $content);
+		$this->assertEquals(file_get_contents($textFile), $content);
 	}
 }

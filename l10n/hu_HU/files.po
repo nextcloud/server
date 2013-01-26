@@ -6,15 +6,16 @@
 # Adam Toth <adazlord@gmail.com>, 2012.
 #  <gyonkibendeguz@gmail.com>, 2013.
 #   <gyonkibendeguz@gmail.com>, 2013.
+# Laszlo Tornoci <torlasz@gmail.com>, 2013.
 #   <mail@tamas-nagy.net>, 2011.
 # Peter Borsa <peter.borsa@gmail.com>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-20 00:05+0100\n"
-"PO-Revision-Date: 2013-01-19 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-24 00:06+0100\n"
+"PO-Revision-Date: 2013-01-23 21:24+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -154,7 +155,7 @@ msgstr "Érvénytelen elnevezés. Ezek a karakterek nem használhatók: '\\', '/
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
+msgstr "Készül a letöltendő állomány. Ez eltarthat egy ideig, ha nagyok a fájlok."
 
 #: js/files.js:242
 msgid "Unable to upload your file as it is a directory or has 0 bytes"

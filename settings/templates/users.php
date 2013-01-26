@@ -13,9 +13,9 @@ $items = array_flip($_['subadmingroups']);
 unset($items['admin']);
 $_['subadmingroups'] = array_flip($items);
 ?>
-<script>
-var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
-</script>
+
+<script type="text/javascript" src="<?php echo OC_Helper::linkToRoute('isadmin');?>"></script>
+
 <div id="controls">
 	<form id="newuser" autocomplete="off">
 		<input id="newusername" type="text" placeholder="<?php echo $l->t('Name')?>" /> <input
@@ -72,8 +72,6 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 		</div>
 	</div>
 </div>
-
-<div id='notification'></div>
 
 <table data-groups="<?php echo implode(', ', $allGroups);?>">
 	<thead>

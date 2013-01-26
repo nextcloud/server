@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Upload" => "Încarcă",
+"Could not move %s - File with this name already exists" => "Nu se poate de mutat %s - Fișier cu acest nume deja există",
 "Could not move %s" => "Nu s-a putut muta %s",
 "Unable to rename file" => "Nu s-a putut redenumi fișierul",
 "No file was uploaded. Unknown error" => "Nici un fișier nu a fost încărcat. Eroare necunoscută",
@@ -28,6 +29,7 @@
 "'.' is an invalid file name." => "'.' este un nume invalid de fișier.",
 "File name cannot be empty." => "Numele fișierului nu poate rămâne gol.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nume invalid, '\\', '/', '<', '>', ':', '\"', '|', '?' si '*' nu sunt permise.",
+"Your download is being prepared. This might take some time if the files are big." => "Se pregătește descărcarea. Aceasta poate să dureze ceva timp dacă fișierele sunt mari.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nu s-a putut încărca fișierul tău deoarece pare să fie un director sau are 0 bytes.",
 "Upload Error" => "Eroare la încărcare",
 "Close" => "Închide",

@@ -29,6 +29,7 @@
 "'.' is an invalid file name." => "'.' 是一个无效的文件名。",
 "File name cannot be empty." => "文件名不能为空。",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "无效名称，'\\', '/', '<', '>', ':', '\"', '|', '?' 和 '*' 不被允许使用。",
+"Your download is being prepared. This might take some time if the files are big." => "下载正在准备中。如果文件较大可能会花费一些时间。",
 "Unable to upload your file as it is a directory or has 0 bytes" => "无法上传文件，因为它是一个目录或者大小为 0 字节",
 "Upload Error" => "上传错误",
 "Close" => "关闭",

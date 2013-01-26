@@ -29,6 +29,7 @@
 "'.' is an invalid file name." => "'.' fájlnév érvénytelen.",
 "File name cannot be empty." => "A fájlnév nem lehet semmi.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Érvénytelen elnevezés. Ezek a karakterek nem használhatók: '\\', '/', '<', '>', ':', '\"', '|', '?' és '*'",
+"Your download is being prepared. This might take some time if the files are big." => "Készül a letöltendő állomány. Ez eltarthat egy ideig, ha nagyok a fájlok.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nem tölthető fel, mert mappa volt, vagy 0 byte méretű",
 "Upload Error" => "Feltöltési hiba",
 "Close" => "Bezárás",

@@ -4,6 +4,7 @@
 # 
 # Translators:
 #   <intense.feel@gmail.com>, 2012.
+# Marián Hvolka <marian.hvolka@stuba.sk>, 2013.
 #   <martin.babik@gmail.com>, 2012.
 # Roman Priesol <roman@priesol.net>, 2012.
 #   <zatroch.martin@gmail.com>, 2012.
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-20 00:05+0100\n"
-"PO-Revision-Date: 2013-01-19 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-25 00:05+0100\n"
+"PO-Revision-Date: 2013-01-24 19:08+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,16 +30,16 @@ msgstr "Odoslať"
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Nie je možné presunúť %s - súbor s týmto menom už existuje"
 
 #: ajax/move.php:24
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Nie je možné presunúť %s"
 
 #: ajax/rename.php:19
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Nemožno premenovať súbor"
 
 #: ajax/upload.php:20
 msgid "No file was uploaded. Unknown error"
@@ -77,11 +78,11 @@ msgstr "Zápis na disk sa nepodaril"
 
 #: ajax/upload.php:57
 msgid "Not enough space available"
-msgstr ""
+msgstr "Nie je k dispozícii dostatok miesta"
 
 #: ajax/upload.php:91
 msgid "Invalid directory."
-msgstr ""
+msgstr "Neplatný adresár"
 
 #: appinfo/app.php:10
 msgid "Files"
@@ -137,11 +138,11 @@ msgstr "zmazané {files}"
 
 #: js/files.js:48
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' je neplatné meno súboru."
 
 #: js/files.js:53
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Meno súboru nemôže byť prázdne"
 
 #: js/files.js:62
 msgid ""
@@ -153,7 +154,7 @@ msgstr "Nesprávne meno, '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nie sú 
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
+msgstr "Vaše sťahovanie sa pripravuje. Ak sú sťahované súbory veľké, môže to chvíľu trvať."
 
 #: js/files.js:242
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
@@ -194,7 +195,7 @@ msgstr "URL nemôže byť prázdne"
 
 #: js/files.js:565
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "Neplatné meno adresára. Používanie mena 'Shared' je vyhradené len pre Owncloud"
 
 #: js/files.js:775
 msgid "{count} files scanned"

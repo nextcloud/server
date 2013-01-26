@@ -7,15 +7,16 @@
 #   <joan@montane.cat>, 2012.
 #   <josep_tomas@hotmail.com>, 2012.
 # Josep Tomàs <jtomas.binsoft@gmail.com>, 2012.
+#  <rcalvoi@yahoo.com>, 2013.
 #   <rcalvoi@yahoo.com>, 2011-2013.
 #   <sacoo2@hotmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-20 00:05+0100\n"
-"PO-Revision-Date: 2013-01-19 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-23 00:05+0100\n"
+"PO-Revision-Date: 2013-01-21 08:39+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -155,7 +156,7 @@ msgstr "El nóm no és vàlid, '\\', '/', '<', '>', ':', '\"', '|', '?' i '*' no
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
+msgstr "S'està preparant la baixada. Pot trigar una estona si els fitxers són grans."
 
 #: js/files.js:242
 msgid "Unable to upload your file as it is a directory or has 0 bytes"

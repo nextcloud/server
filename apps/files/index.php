@@ -115,6 +115,9 @@ if ($needUpgrade) {
 	$tmpl = new OCP\Template('files', 'upgrade', 'user');
 	$tmpl->printPage();
 } else {
+	// information about storage capacities
+	$storageInfo=OC_Helper::getStorageInfo();
+	
 	OCP\Util::addscript('files', 'fileactions');
 	OCP\Util::addscript('files', 'files');
 	OCP\Util::addscript('files', 'keyboardshortcuts');
@@ -128,5 +131,6 @@ if ($needUpgrade) {
 	$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
 	$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
 	$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
+	$tmpl->assign('usedSpacePercent', (int)$storageInfo['relative']);
 	$tmpl->printPage();
 }

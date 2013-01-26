@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-21 00:04+0100\n"
+"POT-Creation-Date: 2013-01-26 00:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -99,15 +99,15 @@ msgstr ""
 msgid "More Apps"
 msgstr ""
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr ""
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr ""
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid ""
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr ""
