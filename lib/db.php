@@ -147,7 +147,7 @@ class OC_DB {
 						$dsn='pgsql:dbname='.$name.';host='.$host;
 					}
 					/**
-					* Ugly fix for pg connections pbm when password use spaces
+					* Ugly fix for pg connections pbm when password use spaces (php#62479)
 					*/
 					$e_user = addslashes($user);
 					$e_password = addslashes($pass);
@@ -168,7 +168,13 @@ class OC_DB {
 			try{
 				self::$PDO=new PDO($dsn, $user, $pass, $opts);
 			}catch(PDOException $e) {
-				OC_Template::printErrorPage( 'can not connect to database, using '.$type.'. ('.$e->getMessage().')' );
+			  OC_Log::write('core', $e->getMessage(), OC_Log::FATAL);
+				OC_User::setUserId(null);
+				// send http status 503
+				header('HTTP/1.1 503 Service Temporarily Unavailable');
+				header('Status: 503 Service Temporarily Unavailable');
+				OC_Template::printErrorPage('Failed to connect to database');
+				die();
 			}
 			// We always, really always want associative arrays
 			self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
@@ -262,7 +268,12 @@ class OC_DB {
 
 			// Die if we could not connect
 			if( PEAR::isError( self::$MDB2 )) {
-				OC_Template::printErrorPage( 'can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')' );
+				OC_User::setUserId(null);
+
+				header('HTTP/1.1 503 Service Temporarily Unavailable');
+				header('Status: 503 Service Temporarily Unavailable');
+				OC_Template::printErrorPage('Failed to connect to database');
+				die();
 			}
 
 			// We always, really always want associative arrays

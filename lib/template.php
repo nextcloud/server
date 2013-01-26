@@ -490,6 +490,7 @@ class OC_Template{
 		*/
 	public static function printErrorPage( $error_msg, $hint = '' ) {
 		$errors = array(array('error' => $error_msg, 'hint' => $hint));
+		OC_Util::addStyle( "styles" );
 		OC_Template::printGuestPage("", "error", array("errors" => $errors));
 		die();
 	}
