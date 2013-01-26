@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-21 00:10+0100\n"
-"PO-Revision-Date: 2012-12-19 23:20+0000\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "குழு ஏற்கனவே உள்ளது"
 msgid "Unable to add group"
 msgstr "குழுவை சேர்க்க முடியாது"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "செயலியை இயலுமைப்படுத்த முடியாது"
 
@@ -41,14 +41,6 @@ msgstr "மின்னஞ்சல் சேமிக்கப்பட்ட�
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "செல்லுபடியற்ற மின்னஞ்சல்"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID மாற்றப்பட்டது"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "செல்லுபடியற்ற வேண்டுகோள்"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -65,6 +57,10 @@ msgstr "பயனாளரை நீக்க முடியாது"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "மொழி மாற்றப்பட்டது"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "செல்லுபடியற்ற வேண்டுகோள்"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -161,7 +157,7 @@ msgstr ""
 msgid "Download iOS Client"
 msgstr ""
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "கடவுச்சொல்"
 
@@ -231,11 +227,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "பெயர்"
 
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "குழுக்கள்"
 
@@ -244,21 +240,29 @@ msgid "Create"
 msgstr "உருவாக்குக"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "பொது இருப்பு பங்கு"
+msgid "Default Storage"
+msgstr ""
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr ""
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "மற்றவை"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "குழு நிர்வாகி"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "பங்கு"
+#: templates/users.php:87
+msgid "Storage"
+msgstr ""
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr ""
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "அழிக்க"

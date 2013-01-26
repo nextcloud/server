@@ -5,6 +5,8 @@
 "Fill out all required fields" => "모든 필수 항목을 입력하십시오",
 "Please provide a valid Dropbox app key and secret." => "올바른 Dropbox 앱 키와 암호를 입력하십시오.",
 "Error configuring Google Drive storage" => "Google 드라이브 저장소 설정 오류",
+"<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>경고</b>\"smbclient\"가 설치되지 않았습니다. CIFS/SMB 공유애 연결이 불가능 합니다.. 시스템 관리자에게 요청하여 설치하시기 바랍니다.",
+"<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>경고</b>PHP용 FTP 지원이 사용 불가능 하거나 설치되지 않았습니다. FTP 공유에 연결이 불가능 합니다. 시스템 관리자에게 요청하여 설치하시기 바랍니다. ",
 "External Storage" => "외부 저장소",
 "Mount point" => "마운트 지점",
 "Backend" => "백엔드",

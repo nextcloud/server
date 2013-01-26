@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
+"User %s shared a file with you" => "El usurario %s compartió un archivo con vos.",
+"User %s shared a folder with you" => "El usurario %s compartió una carpeta con vos.",
+"User %s shared the file \"%s\" with you. It is available for download here: %s" => "El usuario %s compartió el archivo \"%s\" con vos. Está disponible para su descarga aquí: %s",
+"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "El usuario %s compartió el archivo \"%s\" con vos. Está disponible para su descarga aquí: %s",
 "Category type not provided." => "Tipo de categoría no provisto. ",
 "No category to add?" => "¿Ninguna categoría para añadir?",
 "This category already exists: " => "Esta categoría ya existe: ",
@@ -39,6 +43,8 @@
 "Share with link" => "Compartir con link",
 "Password protect" => "Proteger con contraseña ",
 "Password" => "Contraseña",
+"Email link to person" => "Enviar el link por e-mail.",
+"Send" => "Enviar",
 "Set expiration date" => "Asignar fecha de vencimiento",
 "Expiration date" => "Fecha de vencimiento",
 "Share via email:" => "compartido a través de e-mail:",
@@ -55,6 +61,8 @@
 "Password protected" => "Protegido por contraseña",
 "Error unsetting expiration date" => "Error al remover la fecha de caducidad",
 "Error setting expiration date" => "Error al asignar fecha de vencimiento",
+"Sending ..." => "Enviando...",
+"Email sent" => "Email enviado",
 "ownCloud password reset" => "Restablecer contraseña de ownCloud",
 "Use the following link to reset your password: {link}" => "Usá este enlace para restablecer tu contraseña: {link}",
 "You will receive a link to reset your password via Email." => "Vas a recibir un enlace por e-mail para restablecer tu contraseña",
@@ -117,10 +125,7 @@
 "Lost your password?" => "¿Perdiste tu contraseña?",
 "remember" => "recordame",
 "Log in" => "Entrar",
-"You are logged out." => "Terminaste la sesión.",
 "prev" => "anterior",
 "next" => "siguiente",
-"Security Warning!" => "¡Advertencia de seguridad!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Por favor, verificá tu contraseña. <br/>Por razones de seguridad, puede ser que que te pregunte ocasionalmente la contraseña.",
-"Verify" => "Verificar"
+"Updating ownCloud to version %s, this may take a while." => "Actualizando ownCloud a la versión %s, puede domorar un rato."
 );

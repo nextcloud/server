@@ -1,7 +1,7 @@
-<input type='hidden' id='hasMySQL' value='<?php echo $_['hasMySQL'] ?>'></input>
-<input type='hidden' id='hasSQLite' value='<?php echo $_['hasSQLite'] ?>'></input>
-<input type='hidden' id='hasPostgreSQL' value='<?php echo $_['hasPostgreSQL'] ?>'></input>
-<input type='hidden' id='hasOracle' value='<?php echo $_['hasOracle'] ?>'></input>
+<input type='hidden' id='hasMySQL' value='<?php echo $_['hasMySQL'] ?>'>
+<input type='hidden' id='hasSQLite' value='<?php echo $_['hasSQLite'] ?>'>
+<input type='hidden' id='hasPostgreSQL' value='<?php echo $_['hasPostgreSQL'] ?>'>
+<input type='hidden' id='hasOracle' value='<?php echo $_['hasOracle'] ?>'>
 <form action="index.php" method="post">
 <input type="hidden" name="install" value="true" />
 	<?php if(count($_['errors']) > 0): ?>
@@ -113,7 +113,7 @@
 			</p>
 			<p class="infield groupmiddle">
 				<label for="dbname" class="infield"><?php echo $l->t( 'Database name' ); ?></label>
-				<input type="text" name="dbname" id="dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" autocomplete="off" pattern="[0-9a-zA-Z$_]+" />
+				<input type="text" name="dbname" id="dbname" value="<?php print OC_Helper::init_var('dbname'); ?>" autocomplete="off" pattern="[0-9a-zA-Z$_-]+" />
 			</p>
 		</div>
 		<?php endif; ?>

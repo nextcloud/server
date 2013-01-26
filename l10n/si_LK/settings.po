@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-21 00:10+0100\n"
-"PO-Revision-Date: 2012-12-19 23:20+0000\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "කණ්ඩායම දැනටමත් තිබේ"
 msgid "Unable to add group"
 msgstr "කාණඩයක් එක් කළ නොහැකි විය"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "යෙදුම සක්‍රීය කළ නොහැකි විය."
 
@@ -43,14 +43,6 @@ msgstr "වි-තැපෑල සුරකින ලදී"
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "අවලංගු වි-තැපෑල"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "විවෘත හැඳුනුම නැතහොත් OpenID වෙනස්විය."
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "අවලංගු අයදුම"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -67,6 +59,10 @@ msgstr "පරිශීලකයා මැකීමට නොහැක"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "භාෂාව ාවනස් කිරීම"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "අවලංගු අයදුම"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -163,7 +159,7 @@ msgstr ""
 msgid "Download iOS Client"
 msgstr ""
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "මුරපදය"
 
@@ -233,11 +229,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "නිපදන ලද්දේ <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud සමාජයෙන්</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">මුල් කේතය </a>ලයිසන්ස් කර ඇත්තේ <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> යටතේ."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "නාමය"
 
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "සමූහය"
 
@@ -246,21 +242,29 @@ msgid "Create"
 msgstr "තනන්න"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "සාමාන්‍ය සලාකය"
+msgid "Default Storage"
+msgstr ""
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr ""
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "වෙනත්"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "කාණ්ඩ පරිපාලක"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "සලාකය"
+#: templates/users.php:87
+msgid "Storage"
+msgstr ""
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr ""
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "මකා දමනවා"

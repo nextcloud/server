@@ -3,22 +3,24 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Christophe Lherieau <skimpax@gmail.com>, 2012.
+# Christophe Lherieau <skimpax@gmail.com>, 2012-2013.
+#   <dba@alternalease.fr>, 2013.
 #   <fkhannouf@me.com>, 2012.
 #   <florentin.lemoal@gmail.com>, 2012.
 # Guillaume Paumier <guillom.pom@gmail.com>, 2012.
 #   <mishka.lazzlo@gmail.com>, 2012.
 # Nahir Mohamed <nahirmoha@gmail.com>, 2012.
 #   <nathaplop@gmail.com>, 2012.
+#   <nicolas@shivaserv.fr>, 2012.
 #   <rom1dep@gmail.com>, 2011.
 # Romain DEP. <rom1dep@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-25 00:10+0100\n"
-"PO-Revision-Date: 2012-12-24 14:22+0000\n"
-"Last-Translator: mishka <mishka.lazzlo@gmail.com>\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,7 +50,7 @@ msgstr "L'utilisateur %s a partagé le fichier \"%s\" avec vous. Vous pouvez le 
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "L'utilisateur %s a partagé le dossier \"%s\" avec vous. Il est disponible au téléchargement ici : %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -92,55 +94,55 @@ msgstr "Erreur lors de la suppression de %s des favoris."
 msgid "Settings"
 msgstr "Paramètres"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "il y a quelques secondes"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "il y a une minute"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "il y a {minutes} minutes"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "Il y a une heure"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "Il y a {hours} heures"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "aujourd'hui"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "hier"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "il y a {days} jours"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "le mois dernier"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "Il y a {months} mois"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "il y a plusieurs mois"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "l'année dernière"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "il y a plusieurs années"
 
@@ -216,7 +218,6 @@ msgid "Password protect"
 msgstr "Protéger par un mot de passe"
 
 #: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -286,7 +287,7 @@ msgstr "Protégé par un mot de passe"
 
 #: js/share.js:554
 msgid "Error unsetting expiration date"
-msgstr "Un erreur est survenue pendant la suppression de la date d'expiration"
+msgstr "Une erreur est survenue pendant la suppression de la date d'expiration"
 
 #: js/share.js:566
 msgid "Error setting expiration date"
@@ -383,7 +384,7 @@ msgstr "Ajouter"
 
 #: templates/installation.php:23 templates/installation.php:31
 msgid "Security Warning"
-msgstr "Avertissement de sécutité"
+msgstr "Avertissement de sécurité"
 
 #: templates/installation.php:24
 msgid ""
@@ -561,10 +562,6 @@ msgstr "se souvenir de moi"
 msgid "Log in"
 msgstr "Connexion"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Vous êtes désormais déconnecté."
-
 #: templates/part.pagenavi.php:3
 msgid "prev"
 msgstr "précédent"
@@ -573,16 +570,7 @@ msgstr "précédent"
 msgid "next"
 msgstr "suivant"
 
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "Alerte de sécurité !"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "Veuillez vérifier votre mot de passe. <br/>Par sécurité il vous sera occasionnellement demandé d'entrer votre mot de passe de nouveau."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Vérification"
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr "Mise à jour en cours d'ownCloud vers la version %s, cela peut prendre du temps."

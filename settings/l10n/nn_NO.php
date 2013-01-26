@@ -2,10 +2,9 @@
 "Unable to load list from App Store" => "Klarer ikkje å laste inn liste fra App Store",
 "Email saved" => "E-postadresse lagra",
 "Invalid email" => "Ugyldig e-postadresse",
-"OpenID Changed" => "OpenID endra",
-"Invalid request" => "Ugyldig førespurnad",
 "Authentication error" => "Feil i autentisering",
 "Language changed" => "Språk endra",
+"Invalid request" => "Ugyldig førespurnad",
 "Disable" => "Slå av",
 "Enable" => "Slå på",
 "__language_name__" => "Nynorsk",
@@ -26,6 +25,5 @@
 "Groups" => "Grupper",
 "Create" => "Lag",
 "Other" => "Anna",
-"Quota" => "Kvote",
 "Delete" => "Slett"
 );

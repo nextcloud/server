@@ -2,10 +2,9 @@
 "Unable to load list from App Store" => "Konnt Lescht net vum App Store lueden",
 "Email saved" => "E-mail gespäichert",
 "Invalid email" => "Ongülteg e-mail",
-"OpenID Changed" => "OpenID huet geännert",
-"Invalid request" => "Ongülteg Requête",
 "Authentication error" => "Authentifikatioun's Fehler",
 "Language changed" => "Sprooch huet geännert",
+"Invalid request" => "Ongülteg Requête",
 "Disable" => "Ofschalten",
 "Enable" => "Aschalten",
 "Saving..." => "Speicheren...",
@@ -28,9 +27,7 @@
 "Name" => "Numm",
 "Groups" => "Gruppen",
 "Create" => "Erstellen",
-"Default Quota" => "Standard Quota",
 "Other" => "Aner",
 "Group Admin" => "Gruppen Admin",
-"Quota" => "Quota",
 "Delete" => "Läschen"
 );

@@ -5,12 +5,11 @@
 "Could not enable app. " => "Не могу да укључим програм",
 "Email saved" => "Е-порука сачувана",
 "Invalid email" => "Неисправна е-адреса",
-"OpenID Changed" => "OpenID је измењен",
-"Invalid request" => "Неисправан захтев",
 "Unable to delete group" => "Не могу да уклоним групу",
 "Authentication error" => "Грешка при аутентификацији",
 "Unable to delete user" => "Не могу да уклоним корисника",
 "Language changed" => "Језик је промењен",
+"Invalid request" => "Неисправан захтев",
 "Admins can't remove themself from the admin group" => "Управници не могу себе уклонити из админ групе",
 "Unable to add user to group %s" => "Не могу да додам корисника у групу %s",
 "Unable to remove user from group %s" => "Не могу да уклоним корисника из групе %s",
@@ -41,9 +40,7 @@
 "Name" => "Име",
 "Groups" => "Групе",
 "Create" => "Направи",
-"Default Quota" => "Подразумевано ограничење",
 "Other" => "Друго",
 "Group Admin" => "Управник групе",
-"Quota" => "Ограничење",
 "Delete" => "Обриши"
 );

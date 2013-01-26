@@ -5,12 +5,11 @@
 "Could not enable app. " => "Pòt pas activar app. ",
 "Email saved" => "Corrièl enregistrat",
 "Invalid email" => "Corrièl incorrècte",
-"OpenID Changed" => "OpenID cambiat",
-"Invalid request" => "Demanda invalida",
 "Unable to delete group" => "Pas capable d'escafar un grop",
 "Authentication error" => "Error d'autentificacion",
 "Unable to delete user" => "Pas capable d'escafar un usancièr",
 "Language changed" => "Lengas cambiadas",
+"Invalid request" => "Demanda invalida",
 "Unable to add user to group %s" => "Pas capable d'apondre un usancièr al grop %s",
 "Unable to remove user from group %s" => "Pas capable de tira un usancièr del grop %s",
 "Disable" => "Desactiva",
@@ -37,9 +36,7 @@
 "Name" => "Nom",
 "Groups" => "Grops",
 "Create" => "Crea",
-"Default Quota" => "Quota per defaut",
 "Other" => "Autres",
 "Group Admin" => "Grop Admin",
-"Quota" => "Quota",
 "Delete" => "Escafa"
 );

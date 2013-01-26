@@ -5,12 +5,11 @@
 "Could not enable app. " => "ვერ მოხერხდა აპლიკაციის ჩართვა.",
 "Email saved" => "იმეილი შენახულია",
 "Invalid email" => "არასწორი იმეილი",
-"OpenID Changed" => "OpenID შეცვლილია",
-"Invalid request" => "არასწორი მოთხოვნა",
 "Unable to delete group" => "ჯგუფის წაშლა ვერ მოხერხდა",
 "Authentication error" => "ავთენტიფიკაციის შეცდომა",
 "Unable to delete user" => "მომხმარებლის წაშლა ვერ მოხერხდა",
 "Language changed" => "ენა შეცვლილია",
+"Invalid request" => "არასწორი მოთხოვნა",
 "Unable to add user to group %s" => "მომხმარებლის დამატება ვერ მოხეხდა ჯგუფში %s",
 "Unable to remove user from group %s" => "მომხმარებლის წაშლა ვერ მოხეხდა ჯგუფიდან %s",
 "Disable" => "გამორთვა",
@@ -38,9 +37,7 @@
 "Name" => "სახელი",
 "Groups" => "ჯგუფი",
 "Create" => "შექმნა",
-"Default Quota" => "საწყისი ქვოტა",
 "Other" => "სხვა",
 "Group Admin" => "ჯგუფის ადმინისტრატორი",
-"Quota" => "ქვოტა",
 "Delete" => "წაშლა"
 );

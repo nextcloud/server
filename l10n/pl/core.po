@@ -4,7 +4,7 @@
 # 
 # Translators:
 # Cyryl Sochacki <>, 2012.
-# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2012.
+# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2012-2013.
 # Kamil Domański <kdomanski@kdemail.net>, 2011.
 #   <koalamis0@gmail.com>, 2012.
 # Marcin Małecki <gerber@tkdami.net>, 2011, 2012.
@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-18 00:13+0100\n"
-"PO-Revision-Date: 2012-12-17 09:39+0000\n"
-"Last-Translator: emc <mplichta@gmail.com>\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -93,55 +93,55 @@ msgstr "Błąd usunięcia %s z ulubionych."
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: js/js.js:704
+#: js/js.js:711
 msgid "seconds ago"
 msgstr "sekund temu"
 
-#: js/js.js:705
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr "1 minute temu"
 
-#: js/js.js:706
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minut temu"
 
-#: js/js.js:707
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr "1 godzine temu"
 
-#: js/js.js:708
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr "{hours} godzin temu"
 
-#: js/js.js:709
+#: js/js.js:716
 msgid "today"
 msgstr "dziś"
 
-#: js/js.js:710
+#: js/js.js:717
 msgid "yesterday"
 msgstr "wczoraj"
 
-#: js/js.js:711
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr "{days} dni temu"
 
-#: js/js.js:712
+#: js/js.js:719
 msgid "last month"
 msgstr "ostani miesiąc"
 
-#: js/js.js:713
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr "{months} miesięcy temu"
 
-#: js/js.js:714
+#: js/js.js:721
 msgid "months ago"
 msgstr "miesięcy temu"
 
-#: js/js.js:715
+#: js/js.js:722
 msgid "last year"
 msgstr "ostatni rok"
 
-#: js/js.js:716
+#: js/js.js:723
 msgid "years ago"
 msgstr "lat temu"
 
@@ -171,8 +171,8 @@ msgid "The object type is not specified."
 msgstr "Typ obiektu nie jest określony."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "Błąd"
 
@@ -184,7 +184,7 @@ msgstr "Nazwa aplikacji nie jest określona."
 msgid "The required file {file} is not installed!"
 msgstr "Żądany plik {file} nie jest zainstalowany!"
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "Błąd podczas współdzielenia"
 
@@ -212,12 +212,11 @@ msgstr "Współdziel z"
 msgid "Share with link"
 msgstr "Współdziel z link"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "Zabezpieczone hasłem"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:26
-#: templates/verify.php:13
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "Hasło"
 
@@ -281,23 +280,23 @@ msgstr "usuń"
 msgid "share"
 msgstr "współdziel"
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr "Zabezpieczone hasłem"
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr "Błąd niszczenie daty wygaśnięcia"
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
 msgstr "Błąd podczas ustawiania daty wygaśnięcia"
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
 msgstr "Wysyłanie..."
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
 msgstr "Wyślij Email"
 
@@ -322,7 +321,7 @@ msgid "Request failed!"
 msgstr "Próba nieudana!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
-#: templates/login.php:21
+#: templates/login.php:28
 msgid "Username"
 msgstr "Nazwa użytkownika"
 
@@ -536,35 +535,31 @@ msgstr "usługi internetowe pod kontrolą"
 msgid "Log out"
 msgstr "Wylogowuje użytkownika"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Automatyczne logowanie odrzucone!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Jeśli nie było zmianie niedawno hasło, Twoje konto może być zagrożone!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Proszę zmienić swoje hasło, aby zabezpieczyć swoje konto ponownie."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Nie pamiętasz hasła?"
 
-#: templates/login.php:29
+#: templates/login.php:39
 msgid "remember"
 msgstr "Zapamiętanie"
 
-#: templates/login.php:30
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Zaloguj"
-
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Wylogowano użytkownika."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -574,16 +569,7 @@ msgstr "wstecz"
 msgid "next"
 msgstr "naprzód"
 
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "Ostrzeżenie o zabezpieczeniach!"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "Sprawdź swoje hasło.<br/>Ze względów bezpieczeństwa możesz zostać czasami poproszony o wprowadzenie hasła ponownie."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Zweryfikowane"
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr "Aktualizowanie ownCloud do wersji %s, może to potrwać chwilę."

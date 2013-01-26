@@ -26,21 +26,65 @@ Files={
 		});
 		procesSelection();
 	},
-	containsInvalidCharacters:function (name) {
+	updateMaxUploadFilesize:function(response) {
+		if(response == undefined) {
+			return;
+		}
+		if(response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
+			$('#max_upload').val(response.data.uploadMaxFilesize);
+			$('#upload.button').attr('original-title', response.data.maxHumanFilesize);
+			$('#usedSpacePercent').val(response.data.usedSpacePercent);
+			Files.displayStorageWarnings();
+		}
+		if(response[0] == undefined) {
+			return;
+		}
+		if(response[0].uploadMaxFilesize !== undefined) {
+			$('#max_upload').val(response[0].uploadMaxFilesize);
+			$('#upload.button').attr('original-title', response[0].maxHumanFilesize);
+			$('#usedSpacePercent').val(response[0].usedSpacePercent);
+			Files.displayStorageWarnings();
+		}
+
+	},
+	isFileNameValid:function (name) {
+		if (name === '.') {
+			OC.Notification.show(t('files', '\'.\' is an invalid file name.'));
+			return false;
+		}
+		if (name.length == 0) {
+			OC.Notification.show(t('files', 'File name cannot be empty.'));
+			return false;
+		}
+
+		// check for invalid characters
 		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
 		for (var i = 0; i < invalid_characters.length; i++) {
 			if (name.indexOf(invalid_characters[i]) != -1) {
-				$('#notification').text(t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
-				$('#notification').fadeIn();
-				return true;
+				OC.Notification.show(t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
+				return false;
 			}
 		}
-		$('#notification').fadeOut();
-		return false;
+		OC.Notification.hide();
+		return true;
+	},
+	displayStorageWarnings: function() {
+		if (!OC.Notification.isHidden()) {
+			return;
+		}
+
+		var usedSpacePercent = $('#usedSpacePercent').val();
+		if (usedSpacePercent > 98) {
+			OC.Notification.show(t('files', 'Your storage is full, files can not be updated or synced anymore!'));
+			return;
+		}
+		if (usedSpacePercent > 90) {
+			OC.Notification.show(t('files', 'Your storage is almost full ({usedSpacePercent}%)', {usedSpacePercent: usedSpacePercent}));
+		}
 	}
 };
 $(document).ready(function() {
-	Files.bindKeyboardShortcuts(document, jQuery); 
+	Files.bindKeyboardShortcuts(document, jQuery);
 	$('#fileList tr').each(function(){
 		//little hack to set unescape filenames in attribute
 		$(this).attr('data-file',decodeURIComponent($(this).attr('data-file')));
@@ -75,8 +119,8 @@ $(document).ready(function() {
 
 	// Sets the file link behaviour :
 	$('td.filename a').live('click',function(event) {
-		event.preventDefault();
 		if (event.ctrlKey || event.shiftKey) {
+			event.preventDefault();
 			if (event.shiftKey) {
 				var last = $(lastChecked).parent().parent().prevAll().length;
 				var first = $(this).parent().parent().prevAll().length;
@@ -118,6 +162,7 @@ $(document).ready(function() {
 				var permissions = $(this).parent().parent().data('permissions');
 				var action=FileActions.getDefault(mime,type, permissions);
 				if(action){
+					event.preventDefault();
 					action(filename);
 				}
 			}
@@ -171,8 +216,7 @@ $(document).ready(function() {
 	$('.download').click('click',function(event) {
 		var files=getSelectedFiles('name').join(';');
 		var dir=$('#dir').val()||'/';
-		$('#notification').text(t('files','generating ZIP-file, it may take some time.'));
-		$('#notification').fadeIn();
+		OC.Notification.show(t('files','Your download is being prepared. This might take some time if the files are big.'));
 		// use special download URL if provided, e.g. for public shared files
 		if ( (downloadURL = document.getElementById("downloadURL")) ) {
 			window.location=downloadURL.value+"&download&files="+files;
@@ -234,12 +278,12 @@ $(document).ready(function() {
 						}
 					});
 				}else{
-                    var dropTarget = $(e.originalEvent.target).closest('tr');
-                    if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
-                        var dirName = dropTarget.attr('data-file')
-                    }
+					var dropTarget = $(e.originalEvent.target).closest('tr');
+					if(dropTarget && dropTarget.attr('data-type') === 'dir') { // drag&drop upload to folder
+						var dirName = dropTarget.attr('data-file')
+					}
 
-                    var date=new Date();
+					var date=new Date();
 					if(files){
 						for(var i=0;i<files.length;i++){
 							if(files[i].size>0){
@@ -292,26 +336,27 @@ $(document).ready(function() {
 								var jqXHR =  $('#file_upload_start').fileupload('send', {files: files[i],
 										formData: function(form) {
 											var formArray = form.serializeArray();
-                                            // array index 0 contains the max files size
-                                            // array index 1 contains the request token
-                                            // array index 2 contains the directory
+											// array index 0 contains the max files size
+											// array index 1 contains the request token
+											// array index 2 contains the directory
 											formArray[2]['value'] = dirName;
 											return formArray;
 										}}).success(function(result, textStatus, jqXHR) {
 											var response;
 											response=jQuery.parseJSON(result);
 											if(response[0] == undefined || response[0].status != 'success') {
-												$('#notification').text(t('files', response.data.message));
-												$('#notification').fadeIn();
+												OC.Notification.show(t('files', response.data.message));
 											}
+											Files.updateMaxUploadFilesize(response);
 											var file=response[0];
-                                            // TODO: this doesn't work if the file name has been changed server side
+											// TODO: this doesn't work if the file name has been changed server side
 											delete uploadingFiles[dirName][file.name];
-                                            if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
-                                                delete uploadingFiles[dirName];
-                                            }
+											if ($.assocArraySize(uploadingFiles[dirName]) == 0) {
+												delete uploadingFiles[dirName];
+											}
+											//TODO update file upload size limit
 
-                                            var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
+											var uploadtext = $('tr').filterAttr('data-type', 'dir').filterAttr('data-file', dirName).find('.uploadtext')
 											var currentUploads = parseInt(uploadtext.attr('currentUploads'));
 											currentUploads -= 1;
 											uploadtext.attr('currentUploads', currentUploads);
@@ -339,9 +384,8 @@ $(document).ready(function() {
 										} else {
 											uploadtext.text(t('files', '{count} files uploading', {count: currentUploads}));
 										}
-										$('#notification').hide();
-										$('#notification').text(t('files', 'Upload cancelled.'));
-										$('#notification').fadeIn();
+										delete uploadingFiles[dirName][fileName];
+										OC.Notification.show(t('files', 'Upload cancelled.'));
 									}
 								});
 								//TODO test with filenames containing slashes
@@ -354,6 +398,8 @@ $(document).ready(function() {
 										.success(function(result, textStatus, jqXHR) {
 											var response;
 											response=jQuery.parseJSON(result);
+											Files.updateMaxUploadFilesize(response);
+
 											if(response[0] != undefined && response[0].status == 'success') {
 												var file=response[0];
 												delete uploadingFiles[file.name];
@@ -362,21 +408,21 @@ $(document).ready(function() {
 												if(size==t('files','Pending')){
 													$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
 												}
+												//TODO update file upload size limit
 												FileList.loadingDone(file.name, file.id);
 											} else {
-												$('#notification').text(t('files', response.data.message));
-												$('#notification').fadeIn();
+												Files.cancelUpload(this.files[0].name);
+												OC.Notification.show(t('files', response.data.message));
 												$('#fileList > tr').not('[data-mime]').fadeOut();
 												$('#fileList > tr').not('[data-mime]').remove();
 											}
-										})
-								.error(function(jqXHR, textStatus, errorThrown) {
-									if(errorThrown === 'abort') {
-										$('#notification').hide();
-										$('#notification').text(t('files', 'Upload cancelled.'));
-										$('#notification').fadeIn();
-									}
-								});
+									})
+									.error(function(jqXHR, textStatus, errorThrown) {
+										if(errorThrown === 'abort') {
+											Files.cancelUpload(this.files[0].name);
+											OC.Notification.show(t('files', 'Upload cancelled.'));
+										}
+									});
 								uploadingFiles[uniqueName] = jqXHR;
 							}
 						}
@@ -384,6 +430,7 @@ $(document).ready(function() {
 						data.submit().success(function(data, status) {
 							// in safari data is a string
 							response = jQuery.parseJSON(typeof data === 'string' ? data : data[0].body.innerText);
+							Files.updateMaxUploadFilesize(response);
 							if(response[0] != undefined && response[0].status == 'success') {
 								var file=response[0];
 								delete uploadingFiles[file.name];
@@ -392,10 +439,11 @@ $(document).ready(function() {
 								if(size==t('files','Pending')){
 									$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
 								}
+								//TODO update file upload size limit
 								FileList.loadingDone(file.name, file.id);
 							} else {
-								$('#notification').text(t('files', response.data.message));
-								$('#notification').fadeIn();
+								//TODO Files.cancelUpload(/*where do we get the filename*/);
+								OC.Notification.show(t('files', response.data.message));
 								$('#fileList > tr').not('[data-mime]').fadeOut();
 								$('#fileList > tr').not('[data-mime]').remove();
 							}
@@ -434,7 +482,7 @@ $(document).ready(function() {
 		// http://stackoverflow.com/a/6700/11236
 		var size = 0, key;
 		for (key in obj) {
-		    if (obj.hasOwnProperty(key)) size++;
+			if (obj.hasOwnProperty(key)) size++;
 		}
 		return size;
 	};
@@ -477,7 +525,7 @@ $(document).ready(function() {
 		$('#new').removeClass('active');
 		$('#new li').each(function(i,element){
 			if($(element).children('p').length==0){
-				$(element).children('input').remove();
+				$(element).children('form').remove();
 				$(element).append('<p>'+$(element).data('text')+'</p>');
 			}
 		});
@@ -496,7 +544,7 @@ $(document).ready(function() {
 
 		$('#new li').each(function(i,element){
 			if($(element).children('p').length==0){
-				$(element).children('input').remove();
+				$(element).children('form').remove();
 				$(element).append('<p>'+$(element).data('text')+'</p>');
 			}
 		});
@@ -505,23 +553,30 @@ $(document).ready(function() {
 		var text=$(this).children('p').text();
 		$(this).data('text',text);
 		$(this).children('p').remove();
+		var form=$('<form></form>');
 		var input=$('<input>');
-		$(this).append(input);
+		form.append(input);
+		$(this).append(form);
 		input.focus();
-		input.change(function(){
-			if (type != 'web' && Files.containsInvalidCharacters($(this).val())) {
-				return;
-			} else if( type == 'folder' && $('#dir').val() == '/' && $(this).val() == 'Shared') {
-				$('#notification').text(t('files','Invalid folder name. Usage of "Shared" is reserved by Owncloud'));
-				$('#notification').fadeIn();
-				return;
+		form.submit(function(event){
+			event.stopPropagation();
+			event.preventDefault();
+			var newname=input.val();
+			if(type == 'web' && newname.length == 0) {
+				OC.Notification.show(t('files', 'URL cannot be empty.'));
+				return false;
+			} else if (type != 'web' && !Files.isFileNameValid(newname)) {
+				return false;
+			} else if( type == 'folder' && $('#dir').val() == '/' && newname == 'Shared') {
+				OC.Notification.show(t('files','Invalid folder name. Usage of \'Shared\' is reserved by Owncloud'));
+				return false;
 			}
 			if (FileList.lastAction) {
 				FileList.lastAction();
 			}
-			var name = getUniqueName($(this).val());
-			if (name != $(this).val()) {
-				FileList.checkName(name, $(this).val(), true);
+			var name = getUniqueName(newname);
+			if (newname != name) {
+				FileList.checkName(name, newname, true);
 				var hidden = true;
 			} else {
 				var hidden = false;
@@ -565,7 +620,7 @@ $(document).ready(function() {
 					break;
 				case 'web':
 					if(name.substr(0,8)!='https://' && name.substr(0,7)!='http://'){
-						name='http://'.name;
+						name='http://'+name;
 					}
 					var localName=name;
 					if(localName.substr(localName.length-1,1)=='/'){//strip /
@@ -604,8 +659,8 @@ $(document).ready(function() {
 					});
 					break;
 			}
-			var li=$(this).parent();
-			$(this).remove();
+			var li=form.parent();
+			form.remove();
 			li.append('<p>'+li.data('text')+'</p>');
 			$('#new>a').click();
 		});
@@ -683,6 +738,36 @@ $(document).ready(function() {
 	});
 
 	resizeBreadcrumbs(true);
+
+	// display storage warnings
+	setTimeout ( "Files.displayStorageWarnings()", 100 );
+	OC.Notification.setDefault(Files.displayStorageWarnings);
+
+	// file space size sync
+	function update_storage_statistics() {
+		$.getJSON(OC.filePath('files','ajax','getstoragestats.php'),function(response) {
+			Files.updateMaxUploadFilesize(response);
+		});
+	}
+
+	// start on load - we ask the server every 5 minutes
+	var update_storage_statistics_interval = 5*60*1000;
+	var update_storage_statistics_interval_id = setInterval(update_storage_statistics, update_storage_statistics_interval);
+
+	// Use jquery-visibility to de-/re-activate file stats sync
+	if ($.support.pageVisibility) {
+		$(document).on({
+			'show.visibility': function() {
+				if (!update_storage_statistics_interval_id) {
+					update_storage_statistics_interval_id = setInterval(update_storage_statistics, update_storage_statistics_interval);
+				}
+			},
+			'hide.visibility': function() {
+				clearInterval(update_storage_statistics_interval_id);
+				update_storage_statistics_interval_id = 0;
+			}
+		});
+	}
 });
 
 function scanFiles(force,dir){
@@ -712,6 +797,7 @@ scanFiles.scanning=false;
 
 function boolOperationFinished(data, callback) {
 	result = jQuery.parseJSON(data.responseText);
+	Files.updateMaxUploadFilesize(result);
 	if(result.status == 'success'){
 		callback.call();
 	} else {

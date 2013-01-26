@@ -5,12 +5,11 @@
 "Could not enable app. " => "Rakenduse sisselülitamine ebaõnnestus.",
 "Email saved" => "Kiri on salvestatud",
 "Invalid email" => "Vigane e-post",
-"OpenID Changed" => "OpenID on muudetud",
-"Invalid request" => "Vigane päring",
 "Unable to delete group" => "Keela grupi kustutamine",
 "Authentication error" => "Autentimise viga",
 "Unable to delete user" => "Keela kasutaja kustutamine",
 "Language changed" => "Keel on muudetud",
+"Invalid request" => "Vigane päring",
 "Unable to add user to group %s" => "Kasutajat ei saa lisada gruppi %s",
 "Unable to remove user from group %s" => "Kasutajat ei saa eemaldada grupist %s",
 "Disable" => "Lülita välja",
@@ -38,9 +37,7 @@
 "Name" => "Nimi",
 "Groups" => "Grupid",
 "Create" => "Lisa",
-"Default Quota" => "Vaikimisi kvoot",
 "Other" => "Muu",
 "Group Admin" => "Grupi admin",
-"Quota" => "Mahupiir",
 "Delete" => "Kustuta"
 );

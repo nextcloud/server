@@ -5,12 +5,11 @@
 "Could not enable app. " => "Nevar ieslēgt aplikāciju.",
 "Email saved" => "Epasts tika saglabāts",
 "Invalid email" => "Nepareizs epasts",
-"OpenID Changed" => "OpenID nomainīts",
-"Invalid request" => "Nepareizs vaicājums",
 "Unable to delete group" => "Nevar izdzēst grupu",
 "Authentication error" => "Ielogošanās kļūme",
 "Unable to delete user" => "Nevar izdzēst lietotāju",
 "Language changed" => "Valoda tika nomainīta",
+"Invalid request" => "Nepareizs vaicājums",
 "Unable to add user to group %s" => "Nevar pievienot lietotāju grupai %s",
 "Unable to remove user from group %s" => "Nevar noņemt lietotāju no grupas %s",
 "Disable" => "Atvienot",
@@ -39,9 +38,7 @@
 "Name" => "Vārds",
 "Groups" => "Grupas",
 "Create" => "Izveidot",
-"Default Quota" => "Apjoms pēc noklusējuma",
 "Other" => "Cits",
 "Group Admin" => "Grupas administrators",
-"Quota" => "Apjoms",
 "Delete" => "Izdzēst"
 );

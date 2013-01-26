@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "Файли повинні бути завантаженні послідовно.",
 "Back to Files" => "Повернутися до файлів",
 "Selected files too large to generate zip file." => "Вибрані фали завеликі для генерування zip файлу.",
+"couldn't be determined" => "не може бути визначено",
 "Application is not enabled" => "Додаток не увімкнений",
 "Authentication error" => "Помилка автентифікації",
 "Token expired. Please reload page." => "Строк дії токена скінчився. Будь ласка, перезавантажте сторінку.",

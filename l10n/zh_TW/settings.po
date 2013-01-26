@@ -5,6 +5,7 @@
 # Translators:
 # Donahue Chuang <soshinwu@gmail.com>, 2012.
 #   <dw4dev@gmail.com>, 2012.
+#   <nfsmwlin@gmail.com>, 2013.
 #   <sy6614@yahoo.com.hk>, 2012.
 #   <weiyu871@ms14.url.com.tw>, 2012.
 #   <wu0809@msn.com>, 2012.
@@ -13,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-21 00:10+0100\n"
-"PO-Revision-Date: 2012-12-19 23:20+0000\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +36,7 @@ msgstr "群組已存在"
 msgid "Unable to add group"
 msgstr "群組增加失敗"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "未能啟動此app"
 
@@ -46,14 +47,6 @@ msgstr "Email已儲存"
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "無效的email"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID 已變更"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "無效請求"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -70,6 +63,10 @@ msgstr "使用者刪除錯誤"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "語言已變更"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "無效請求"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -123,27 +120,27 @@ msgstr "<span class=\"licence\"></span>-核准: <span class=\"author\"></span>"
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr ""
+msgstr "用戶說明文件"
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "管理者說明文件"
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr ""
+msgstr "線上說明文件"
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr ""
+msgstr "論壇"
 
 #: templates/help.php:9
 msgid "Bugtracker"
-msgstr ""
+msgstr "Bugtracker"
 
 #: templates/help.php:11
 msgid "Commercial Support"
-msgstr ""
+msgstr "商用支援"
 
 #: templates/personal.php:8
 #, php-format
@@ -156,17 +153,17 @@ msgstr "客戶"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr ""
+msgstr "下載桌面客戶端"
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr ""
+msgstr "下載 Android 客戶端"
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr ""
+msgstr "下載 iOS 客戶端"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "密碼"
 
@@ -216,15 +213,15 @@ msgstr "幫助翻譯"
 
 #: templates/personal.php:52
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "在您的檔案管理員中使用這個地址來連線到 ownCloud"
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr ""
+msgstr "版本"
 
 #: templates/personal.php:65
 msgid ""
@@ -236,11 +233,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "由<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社區</a>開發，<a href=\"https://github.com/owncloud\" target=\"_blank\">源代碼</a>在<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>許可證下發布。"
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "名稱"
 
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "群組"
 
@@ -249,21 +246,29 @@ msgid "Create"
 msgstr "創造"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "預設容量限制"
+msgid "Default Storage"
+msgstr "預設儲存區"
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr "無限制"
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "其他"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "群組 管理員"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "容量限制"
+#: templates/users.php:87
+msgid "Storage"
+msgstr "儲存區"
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr "預設"
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "刪除"

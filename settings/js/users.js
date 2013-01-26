@@ -26,9 +26,8 @@ var UserList = {
         UserList.deleteCanceled = false;
 
         // Provide user with option to undo
-        $('#notification').html(t('users', 'deleted') + ' ' + uid + '<span class="undo">' + t('users', 'undo') + '</span>');
         $('#notification').data('deleteuser', true);
-        $('#notification').fadeIn();
+        OC.Notification.showHtml(t('users', 'deleted') + ' ' + uid + '<span class="undo">' + t('users', 'undo') + '</span>');
     },
 
     /**
@@ -53,7 +52,7 @@ var UserList = {
                 success:function (result) {
                     if (result.status == 'success') {
                         // Remove undo option, & remove user from table
-                        $('#notification').fadeOut();
+                        OC.Notification.hide();
                         $('tr').filterAttr('data-uid', UserList.deleteUid).remove();
                         UserList.deleteCanceled = true;
                         if (ready) {
@@ -177,9 +176,9 @@ var UserList = {
             } else {
                 checkHandeler = false;
             }
-            var addGroup = function (group) {
+            var addGroup = function (select, group) {
                 $('select[multiple]').each(function (index, element) {
-                    if ($(element).find('option[value="' + group + '"]').length == 0) {
+                    if ($(element).find('option[value="' + group + '"]').length === 0 && select.data('msid') !== $(element).data('msid')) {
                         $(element).append('<option value="' + group + '">' + group + '</option>');
                     }
                 })
@@ -193,10 +192,11 @@ var UserList = {
             element.multiSelect({
                 createCallback:addGroup,
                 createText:label,
+                selectedFirst:true,
                 checked:checked,
                 oncheck:checkHandeler,
                 onuncheck:checkHandeler,
-                minWidth:100,
+                minWidth:100
             });
         }
         if ($(element).attr('class') == 'subadminsselect') {
@@ -231,7 +231,7 @@ var UserList = {
                 checked:checked,
                 oncheck:checkHandeler,
                 onuncheck:checkHandeler,
-                minWidth:100,
+                minWidth:100
             });
         }
     }
@@ -388,7 +388,7 @@ $(document).ready(function () {
             {
                 username:username,
                 password:password,
-                groups:groups,
+                groups:groups
             },
             function (result) {
                 if (result.status != 'success') {
@@ -401,13 +401,13 @@ $(document).ready(function () {
         );
     });
     // Handle undo notifications
-    $('#notification').hide();
+    OC.Notification.hide();
     $('#notification .undo').live('click', function () {
         if ($('#notification').data('deleteuser')) {
             $('tbody tr').filterAttr('data-uid', UserList.deleteUid).show();
             UserList.deleteCanceled = true;
         }
-        $('#notification').fadeOut();
+        OC.Notification.hide();
     });
     UserList.useUndo = ('onbeforeunload' in window)
     $(window).bind('beforeunload', function () {

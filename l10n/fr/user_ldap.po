@@ -6,16 +6,16 @@
 # Cyril Glapa <kyriog@gmail.com>, 2012.
 #   <mathieu.payrol@gmail.com>, 2012.
 #   <mishka.lazzlo@gmail.com>, 2012.
-# Romain DEP. <rom1dep@gmail.com>, 2012.
+# Romain DEP. <rom1dep@gmail.com>, 2012-2013.
 #   <windes@tructor.net>, 2012.
 #   <zrk951@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-25 00:10+0100\n"
-"PO-Revision-Date: 2012-12-24 14:18+0000\n"
-"Last-Translator: mishka <mishka.lazzlo@gmail.com>\n"
+"POT-Creation-Date: 2013-01-25 00:05+0100\n"
+"PO-Revision-Date: 2013-01-24 01:50+0000\n"
+"Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,9 +32,9 @@ msgstr "<b>Avertissement:</b> Les applications user_ldap et user_webdavauth sont
 
 #: templates/settings.php:11
 msgid ""
-"<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will"
-" not work. Please ask your system administrator to install it."
-msgstr "<b>Avertissement:</b> Le module PHP LDAP requis n'est pas installé, l'application ne marchera pas. Contactez votre administrateur système pour qu'il l'installe."
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
+"work. Please ask your system administrator to install it."
+msgstr "<b>Attention :</b> Le module php LDAP n'est pas installé, par conséquent cette extension ne pourra fonctionner. Veuillez contacter votre administrateur système afin qu'il l'installe."
 
 #: templates/settings.php:15
 msgid "Host"
@@ -50,8 +50,12 @@ msgid "Base DN"
 msgstr "DN Racine"
 
 #: templates/settings.php:16
+msgid "One Base DN per line"
+msgstr "Un DN racine par ligne"
+
+#: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr "Vous pouvez détailler les DN Racines de vos utilisateurs et groupes dans l'onglet Avancé"
+msgstr "Vous pouvez spécifier les DN Racines de vos utilisateurs et groupes via l'onglet Avancé"
 
 #: templates/settings.php:17
 msgid "User DN"
@@ -62,7 +66,7 @@ msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr "Le DN de l'utilisateur client avec lequel la liaison doit se faire, par exemple uid=agent,dc=example,dc=com. Pour l'accès anonyme, laisser le DN et le mot de passe vides."
+msgstr "DN de l'utilisateur client pour lequel la liaison doit se faire, par exemple uid=agent,dc=example,dc=com. Pour un accès anonyme, laisser le DN et le mot de passe vides."
 
 #: templates/settings.php:18
 msgid "Password"
@@ -120,9 +124,17 @@ msgstr "Port"
 msgid "Base User Tree"
 msgstr "DN racine de l'arbre utilisateurs"
 
+#: templates/settings.php:25
+msgid "One User Base DN per line"
+msgstr "Un DN racine utilisateur par ligne"
+
 #: templates/settings.php:26
 msgid "Base Group Tree"
 msgstr "DN racine de l'arbre groupes"
+
+#: templates/settings.php:26
+msgid "One Group Base DN per line"
+msgstr "Un DN racine groupe par ligne"
 
 #: templates/settings.php:27
 msgid "Group-Member association"

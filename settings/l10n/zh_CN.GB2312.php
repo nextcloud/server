@@ -5,12 +5,11 @@
 "Could not enable app. " => "未能启用应用",
 "Email saved" => "Email 保存了",
 "Invalid email" => "非法Email",
-"OpenID Changed" => "OpenID 改变了",
-"Invalid request" => "非法请求",
 "Unable to delete group" => "未能删除群组",
 "Authentication error" => "认证错误",
 "Unable to delete user" => "未能删除用户",
 "Language changed" => "语言改变了",
+"Invalid request" => "非法请求",
 "Unable to add user to group %s" => "未能添加用户到群组 %s",
 "Unable to remove user from group %s" => "未能将用户从群组 %s 移除",
 "Disable" => "禁用",
@@ -39,9 +38,7 @@
 "Name" => "名字",
 "Groups" => "组",
 "Create" => "新建",
-"Default Quota" => "默认限额",
 "Other" => "其他的",
 "Group Admin" => "群组管理员",
-"Quota" => "限额",
 "Delete" => "删除"
 );

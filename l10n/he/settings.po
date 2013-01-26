@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Gilad Naaman <gilad.doom@gmail.com>, 2012.
 #   <ido.parag@gmail.com>, 2012.
 #   <tomerc+transifex.net@gmail.com>, 2011.
 # Yaron Shahrabani <sh.yaron@gmail.com>, 2012.
@@ -10,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-21 00:10+0100\n"
-"PO-Revision-Date: 2012-12-19 23:20+0000\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +33,7 @@ msgstr "הקבוצה כבר קיימת"
 msgid "Unable to add group"
 msgstr "לא ניתן להוסיף קבוצה"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "לא ניתן להפעיל את היישום"
 
@@ -43,14 +44,6 @@ msgstr "הדוא״ל נשמר"
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "דוא״ל לא חוקי"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID השתנה"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "בקשה לא חוקית"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -67,6 +60,10 @@ msgstr "לא ניתן למחוק את המשתמש"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "שפה השתנתה"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "בקשה לא חוקית"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -120,19 +117,19 @@ msgstr "ברישיון <span class=\"licence\"></span>לטובת <span class=\"a
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr ""
+msgstr "תיעוד משתמש"
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "תיעוד מנהלים"
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr ""
+msgstr "תיעוד מקוון"
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr ""
+msgstr "פורום"
 
 #: templates/help.php:9
 msgid "Bugtracker"
@@ -140,7 +137,7 @@ msgstr ""
 
 #: templates/help.php:11
 msgid "Commercial Support"
-msgstr ""
+msgstr "תמיכה בתשלום"
 
 #: templates/personal.php:8
 #, php-format
@@ -153,17 +150,17 @@ msgstr "לקוחות"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr ""
+msgstr "הורד לתוכנה למחשב"
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr ""
+msgstr "הורד תוכנה לאנדרואיד"
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr ""
+msgstr "הורד תוכנה לiOS"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "ססמה"
 
@@ -217,11 +214,11 @@ msgstr ""
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "השתמש בכתובת זאת על מנת להתחבר אל ownCloud דרך סייר קבצים."
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr ""
+msgstr "גרסא"
 
 #: templates/personal.php:65
 msgid ""
@@ -233,11 +230,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "פותח על די <a href=\"http://ownCloud.org/contact\" target=\"_blank\">קהילתownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">קוד המקור</a> מוגן ברישיון <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "שם"
 
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "קבוצות"
 
@@ -246,21 +243,29 @@ msgid "Create"
 msgstr "יצירה"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "מכסת בררת המחדל"
+msgid "Default Storage"
+msgstr ""
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr ""
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "אחר"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "מנהל הקבוצה"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "מכסה"
+#: templates/users.php:87
+msgid "Storage"
+msgstr ""
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr ""
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "מחיקה"

@@ -4,15 +4,17 @@
 # 
 # Translators:
 # Adam Toth <adazlord@gmail.com>, 2012.
+# Laszlo Tornoci <torlasz@gmail.com>, 2013.
 #   <mail@tamas-nagy.net>, 2011.
 # Peter Borsa <peter.borsa@gmail.com>, 2012.
+# Tamas Nagy <mail@tamas-nagy.net>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 23:17+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-26 00:09+0100\n"
+"PO-Revision-Date: 2013-01-25 12:57+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,30 +25,30 @@ msgstr ""
 #: ajax/share.php:84
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "%s felhasználó megosztott Önnel egy fájlt"
 
 #: ajax/share.php:86
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "%s felhasználó megosztott Önnel egy mappát"
 
 #: ajax/share.php:88
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "%s felhasználó megosztotta ezt az állományt Önnel: %s. A fájl innen tölthető le: %s"
 
 #: ajax/share.php:90
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "%s felhasználó megosztotta ezt a mappát Önnel: %s. A mappa innen tölthető le: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "Nincs megadva a kategória típusa."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -54,24 +56,24 @@ msgstr "Nincs hozzáadandó kategória?"
 
 #: ajax/vcategories/add.php:37
 msgid "This category already exists: "
-msgstr "Ez a kategória már létezik"
+msgstr "Ez a kategória már létezik: "
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "Az objektum típusa nincs megadva."
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "%s ID nincs megadva."
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Nem sikerült a kedvencekhez adni ezt: %s"
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -80,67 +82,143 @@ msgstr "Nincs törlésre jelölt kategória"
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Nem sikerült a kedvencekből törölni ezt: %s"
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:28
+msgid "Sunday"
+msgstr "vasárnap"
+
+#: js/config.php:28
+msgid "Monday"
+msgstr "hétfő"
+
+#: js/config.php:28
+msgid "Tuesday"
+msgstr "kedd"
+
+#: js/config.php:28
+msgid "Wednesday"
+msgstr "szerda"
+
+#: js/config.php:28
+msgid "Thursday"
+msgstr "csütörtök"
+
+#: js/config.php:28
+msgid "Friday"
+msgstr "péntek"
+
+#: js/config.php:28
+msgid "Saturday"
+msgstr "szombat"
+
+#: js/config.php:29
+msgid "January"
+msgstr "január"
+
+#: js/config.php:29
+msgid "February"
+msgstr "február"
+
+#: js/config.php:29
+msgid "March"
+msgstr "március"
+
+#: js/config.php:29
+msgid "April"
+msgstr "április"
+
+#: js/config.php:29
+msgid "May"
+msgstr "május"
+
+#: js/config.php:29
+msgid "June"
+msgstr "június"
+
+#: js/config.php:29
+msgid "July"
+msgstr "július"
+
+#: js/config.php:29
+msgid "August"
+msgstr "augusztus"
+
+#: js/config.php:29
+msgid "September"
+msgstr "szeptember"
+
+#: js/config.php:29
+msgid "October"
+msgstr "október"
+
+#: js/config.php:29
+msgid "November"
+msgstr "november"
+
+#: js/config.php:29
+msgid "December"
+msgstr "december"
+
+#: js/js.js:280 templates/layout.user.php:43 templates/layout.user.php:44
 msgid "Settings"
 msgstr "Beállítások"
 
-#: js/js.js:704
+#: js/js.js:727
 msgid "seconds ago"
-msgstr "másodperccel ezelőtt"
+msgstr "pár másodperce"
 
-#: js/js.js:705
+#: js/js.js:728
 msgid "1 minute ago"
-msgstr "1 perccel ezelőtt"
+msgstr "1 perce"
 
-#: js/js.js:706
+#: js/js.js:729
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "{minutes} perce"
 
-#: js/js.js:707
+#: js/js.js:730
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 órája"
 
-#: js/js.js:708
+#: js/js.js:731
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "{hours} órája"
 
-#: js/js.js:709
+#: js/js.js:732
 msgid "today"
 msgstr "ma"
 
-#: js/js.js:710
+#: js/js.js:733
 msgid "yesterday"
 msgstr "tegnap"
 
-#: js/js.js:711
+#: js/js.js:734
 msgid "{days} days ago"
-msgstr ""
+msgstr "{days} napja"
 
-#: js/js.js:712
+#: js/js.js:735
 msgid "last month"
 msgstr "múlt hónapban"
 
-#: js/js.js:713
+#: js/js.js:736
 msgid "{months} months ago"
-msgstr ""
+msgstr "{months} hónapja"
 
-#: js/js.js:714
+#: js/js.js:737
 msgid "months ago"
-msgstr "hónappal ezelőtt"
+msgstr "több hónapja"
 
-#: js/js.js:715
+#: js/js.js:738
 msgid "last year"
 msgstr "tavaly"
 
-#: js/js.js:716
+#: js/js.js:739
 msgid "years ago"
-msgstr "évvel ezelőtt"
+msgstr "több éve"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"
-msgstr ""
+msgstr "Válasszon"
 
 #: js/oc-dialogs.js:146 js/oc-dialogs.js:166
 msgid "Cancel"
@@ -161,138 +239,137 @@ msgstr "Ok"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "Az objektum típusa nincs megadva."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "Hiba"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "Az alkalmazás neve nincs megadva."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "A szükséges fájl: {file} nincs telepítve!"
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
-msgstr ""
+msgstr "Nem sikerült létrehozni a megosztást"
 
 #: js/share.js:135
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Nem sikerült visszavonni a megosztást"
 
 #: js/share.js:142
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Nem sikerült módosítani a jogosultságokat"
 
 #: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Megosztotta Önnel és a(z) {group} csoporttal: {owner}"
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "Megosztotta Önnel: {owner}"
 
 #: js/share.js:158
 msgid "Share with"
-msgstr ""
+msgstr "Kivel osztom meg"
 
 #: js/share.js:163
 msgid "Share with link"
-msgstr ""
+msgstr "Link megadásával osztom meg"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
-msgstr ""
+msgstr "Jelszóval is védem"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
-#: templates/verify.php:13
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "Jelszó"
 
 #: js/share.js:172
 msgid "Email link to person"
-msgstr ""
+msgstr "Email címre küldjük el"
 
 #: js/share.js:173
 msgid "Send"
-msgstr ""
+msgstr "Küldjük el"
 
 #: js/share.js:177
 msgid "Set expiration date"
-msgstr ""
+msgstr "Legyen lejárati idő"
 
 #: js/share.js:178
 msgid "Expiration date"
-msgstr ""
+msgstr "A lejárati idő"
 
 #: js/share.js:210
 msgid "Share via email:"
-msgstr ""
+msgstr "Megosztás emaillel:"
 
 #: js/share.js:212
 msgid "No people found"
-msgstr ""
+msgstr "Nincs találat"
 
 #: js/share.js:239
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Ezt az állományt csak a tulajdonosa oszthatja meg másokkal"
 
 #: js/share.js:275
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Megosztva {item}-ben {user}-rel"
 
 #: js/share.js:296
 msgid "Unshare"
-msgstr "Nem oszt meg"
+msgstr "A megosztás visszavonása"
 
 #: js/share.js:308
 msgid "can edit"
-msgstr ""
+msgstr "módosíthat"
 
 #: js/share.js:310
 msgid "access control"
-msgstr ""
+msgstr "jogosultság"
 
 #: js/share.js:313
 msgid "create"
-msgstr "létrehozás"
+msgstr "létrehoz"
 
 #: js/share.js:316
 msgid "update"
-msgstr ""
+msgstr "szerkeszt"
 
 #: js/share.js:319
 msgid "delete"
-msgstr ""
+msgstr "töröl"
 
 #: js/share.js:322
 msgid "share"
-msgstr ""
+msgstr "megoszt"
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
-msgstr ""
+msgstr "Jelszóval van védve"
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Nem sikerült a lejárati időt törölni"
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Nem sikerült a lejárati időt beállítani"
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
-msgstr ""
+msgstr "Küldés ..."
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
-msgstr ""
+msgstr "Az emailt elküldtük"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -300,22 +377,22 @@ msgstr "ownCloud jelszó-visszaállítás"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr "Használja az alábbi linket a jelszó-visszaállításhoz: {link}"
+msgstr "Használja ezt a linket a jelszó ismételt beállításához: {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "Egy e-mailben kap értesítést a jelszóváltoztatás módjáról."
+msgstr "Egy emailben fog értesítést kapni a jelszóbeállítás módjáról."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "Elküldtük az emailt a jelszó ismételt beállításához."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "Nem sikerült a kérést teljesíteni!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "Felhasználónév"
 
@@ -353,7 +430,7 @@ msgstr "Alkalmazások"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Admin"
+msgstr "Adminisztráció"
 
 #: strings.php:9
 msgid "Help"
@@ -361,7 +438,7 @@ msgstr "Súgó"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Hozzáférés tiltva"
+msgstr "A hozzáférés nem engedélyezett"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -383,13 +460,13 @@ msgstr "Biztonsági figyelmeztetés"
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Nem érhető el megfelelő véletlenszám-generátor, telepíteni kellene a PHP OpenSSL kiegészítését."
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "Megfelelő véletlenszám-generátor hiányában egy támadó szándékú idegen képes lehet megjósolni a jelszóvisszaállító tokent, és Ön helyett belépni."
 
 #: templates/installation.php:32
 msgid ""
@@ -398,185 +475,96 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Az adatkönytára és az itt levő fájlok valószínűleg elérhetők az internetről. Az ownCloud által beillesztett .htaccess fájl nem működik. Nagyon fontos, hogy a webszervert úgy konfigurálja, hogy az adatkönyvtár nem legyen közvetlenül kívülről elérhető, vagy az adatkönyvtárt tegye a webszerver dokumentumfáján kívülre."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
-msgstr "<strong>Rendszergazdafiók</strong> létrehozása"
+msgstr "<strong>Rendszergazdai belépés</strong> létrehozása"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "Haladó"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "Adatkönyvtár"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "Adatbázis konfigurálása"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
-msgstr "használva lesz"
+msgstr "adatbázist fogunk használni"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "Adatbázis felhasználónév"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "Adatbázis jelszó"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
-msgstr "Adatbázis név"
+msgstr "Az adatbázis neve"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
-msgstr ""
+msgstr "Az adatbázis táblázattér (tablespace)"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Adatbázis szerver"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
-msgstr "Beállítás befejezése"
+msgstr "A beállítások befejezése"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "Vasárnap"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "Hétfő"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "Kedd"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "Szerda"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "Csütörtök"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "Péntek"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "Szombat"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "Január"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "Február"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "Március"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "Április"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "Május"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "Június"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "Július"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "Augusztus"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "Szeptember"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "Október"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "November"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "December"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:33
 msgid "web services under your control"
-msgstr "webszolgáltatások az irányításod alatt"
+msgstr "webszolgáltatások saját kézben"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:28
 msgid "Log out"
 msgstr "Kilépés"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Az automatikus bejelentkezés sikertelen!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Ha mostanában nem módosította a jelszavát, akkor lehetséges, hogy idegenek jutottak be a rendszerbe az Ön nevében!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "A biztonsága érdekében változtassa meg a jelszavát!"
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
-msgstr "Elfelejtett jelszó?"
+msgstr "Elfelejtette a jelszavát?"
 
-#: templates/login.php:27
+#: templates/login.php:39
 msgid "remember"
 msgstr "emlékezzen"
 
-#: templates/login.php:28
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Bejelentkezés"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Kilépett."
-
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr "Előző"
+msgstr "előző"
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr "Következő"
+msgstr "következő"
 
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr ""
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr ""
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr ""
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr "Owncloud frissítés a %s verzióra folyamatban. Kis türelmet."

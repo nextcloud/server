@@ -5,12 +5,11 @@
 "Could not enable app. " => "செயலியை இயலுமைப்படுத்த முடியாது",
 "Email saved" => "மின்னஞ்சல் சேமிக்கப்பட்டது",
 "Invalid email" => "செல்லுபடியற்ற மின்னஞ்சல்",
-"OpenID Changed" => "OpenID மாற்றப்பட்டது",
-"Invalid request" => "செல்லுபடியற்ற வேண்டுகோள்",
 "Unable to delete group" => "குழுவை நீக்க முடியாது",
 "Authentication error" => "அத்தாட்சிப்படுத்தலில் வழு",
 "Unable to delete user" => "பயனாளரை நீக்க முடியாது",
 "Language changed" => "மொழி மாற்றப்பட்டது",
+"Invalid request" => "செல்லுபடியற்ற வேண்டுகோள்",
 "Unable to add user to group %s" => "குழு %s இல் பயனாளரை சேர்க்க முடியாது",
 "Unable to remove user from group %s" => "குழு %s இலிருந்து பயனாளரை நீக்கமுடியாது",
 "Disable" => "இயலுமைப்ப",
@@ -40,9 +39,7 @@
 "Name" => "பெயர்",
 "Groups" => "குழுக்கள்",
 "Create" => "உருவாக்குக",
-"Default Quota" => "பொது இருப்பு பங்கு",
 "Other" => "மற்றவை",
 "Group Admin" => "குழு நிர்வாகி",
-"Quota" => "பங்கு",
 "Delete" => "அழிக்க"
 );

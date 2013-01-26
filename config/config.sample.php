@@ -1,5 +1,7 @@
 <?php
 
+/* Only enable this for local development and not in productive environments */
+/* This will disable the minifier and outputs some additional debug informations */
 define("DEBUG", true);
 
 $CONFIG = array(
@@ -36,12 +38,6 @@ $CONFIG = array(
 /* The automatic protocol detection of ownCloud can fail in certain reverse proxy situations. This option allows to manually override the protocol detection. For example "https" */
 "overwriteprotocol" => "",
 
-/* Enhanced auth forces users to enter their password again when performing potential sensitive actions like creating or deleting users */
-"enhancedauth" => true,
-
-/* Time in seconds how long an user is authenticated without entering his password again before performing sensitive actions like creating or deleting users etc...*/
-"enhancedauthtime" => 15 * 60,
-
 /* A proxy to use to connect to the internet. For example "myproxy.org:88" */
 "proxy" => "",
 
@@ -72,11 +68,24 @@ $CONFIG = array(
 /* URL of the appstore to use, server should understand OCS */
 "appstoreurl" => "http://api.apps.owncloud.com/v1",
 
+/* Enable SMTP class debugging */
+"mail_smtpdebug" => false,
+
 /* Mode to use for sending mail, can be sendmail, smtp, qmail or php, see PHPMailer docs */
 "mail_smtpmode" => "sendmail",
 
 /* Host to use for sending mail, depends on mail_smtpmode if this is used */
 "mail_smtphost" => "127.0.0.1",
+
+/* Port to use for sending mail, depends on mail_smtpmode if this is used */
+"mail_smtpport" => 25,
+
+/* SMTP server timeout in seconds for sending mail, depends on mail_smtpmode if this is used */
+"mail_smtptimeout" => 10,
+
+/* SMTP connection prefix or sending mail, depends on mail_smtpmode if this is used.
+   Can be '', ssl or tls */
+"mail_smtpsecure" => "",
 
 /* authentication needed to send mail, depends on mail_smtpmode if this is used
  * (false = disable authentication)
@@ -107,10 +116,16 @@ $CONFIG = array(
 /* Lifetime of the remember login cookie, default is 15 days */
 "remember_login_cookie_lifetime" => 60*60*24*15,
 
+/* Custom CSP policy, changing this will overwrite the standard policy */
+"custom_csp_policy" => "default-src \'self\'; script-src \'self\' \'unsafe-eval\'; style-src \'self\' \'unsafe-inline\'; frame-src *; img-src *",
+
 /* The directory where the user data is stored, default to data in the owncloud
  * directory. The sqlite database is also stored here, when sqlite is used.
  */
 // "datadirectory" => "",
+
+/* Enable maintenance mode to disable ownCloud */
+"maintenance" => false,
 
 "apps_paths" => array(
 
@@ -123,12 +138,12 @@ $CONFIG = array(
 		'path'=> '/var/www/owncloud/apps',
 		'url' => '/apps',
 		'writable' => true,
-  ),
- ),
- 'user_backends'=>array(
-    array(
-      'class'=>'OC_User_IMAP',
-      'arguments'=>array('{imap.gmail.com:993/imap/ssl}INBOX')
-    )
-  )
+	),
+),
+'user_backends'=>array(
+	array(
+		'class'=>'OC_User_IMAP',
+		'arguments'=>array('{imap.gmail.com:993/imap/ssl}INBOX')
+	)
+)
 );

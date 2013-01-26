@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Mariano <mstreet@kde.org.ar>, 2013.
 # Mariano  <mstreet@kde.org.ar>, 2012.
 #   <mstreet@kde.org.ar>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-21 00:10+0100\n"
-"PO-Revision-Date: 2012-12-19 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-21 00:04+0100\n"
+"PO-Revision-Date: 2013-01-20 01:30+0000\n"
+"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +32,7 @@ msgstr "La grupo jam ekzistas"
 msgid "Unable to add group"
 msgstr "Ne eblis aldoni la grupon"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "Ne eblis kapabligi la aplikaĵon."
 
@@ -42,14 +43,6 @@ msgstr "La retpoŝtadreso konserviĝis"
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "Nevalida retpoŝtadreso"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "La agordo de OpenID estas ŝanĝita"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "Nevalida peto"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -66,6 +59,10 @@ msgstr "Ne eblis forigi la uzanton"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "La lingvo estas ŝanĝita"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "Nevalida peto"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -119,27 +116,27 @@ msgstr "<span class=\"licence\"</span>-permesilhavigita de <span class=\"author\
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr ""
+msgstr "Dokumentaro por uzantoj"
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Dokumentaro por administrantoj"
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr ""
+msgstr "Reta dokumentaro"
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr ""
+msgstr "Forumo"
 
 #: templates/help.php:9
 msgid "Bugtracker"
-msgstr ""
+msgstr "Cimoraportejo"
 
 #: templates/help.php:11
 msgid "Commercial Support"
-msgstr ""
+msgstr "Komerca subteno"
 
 #: templates/personal.php:8
 #, php-format
@@ -152,17 +149,17 @@ msgstr "Klientoj"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr ""
+msgstr "Elŝuti labortablajn klientojn"
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr ""
+msgstr "Elŝuti Android-klienton"
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr ""
+msgstr "Elŝuti iOS-klienton"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "Pasvorto"
 
@@ -212,15 +209,15 @@ msgstr "Helpu traduki"
 
 #: templates/personal.php:52
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Uzu ĉi tiun adreson por konekti al via ownCloud vian dosieradministrilon"
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr ""
+msgstr "Eldono"
 
 #: templates/personal.php:65
 msgid ""
@@ -232,11 +229,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Ellaborita de la <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunumo de ownCloud</a>, la <a href=\"https://github.com/owncloud\" target=\"_blank\">fontokodo</a> publikas laŭ la permesilo <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "Nomo"
 
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "Grupoj"
 
@@ -245,21 +242,29 @@ msgid "Create"
 msgstr "Krei"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "Defaŭlta kvoto"
+msgid "Default Storage"
+msgstr "Defaŭlta konservejo"
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr "Senlima"
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "Alia"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "Grupadministranto"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "Kvoto"
+#: templates/users.php:87
+msgid "Storage"
+msgstr "Konservejo"
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr "Defaŭlta"
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "Forigi"

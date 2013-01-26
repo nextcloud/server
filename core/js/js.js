@@ -3,14 +3,15 @@
  * Add 
  *     define('DEBUG', true);
  * To the end of config/config.php to enable debug mode.
+ * The undefined checks fix the broken ie8 console
  */
-if (oc_debug !== true) {
+if (oc_debug !== true || typeof console === "undefined" || typeof console.log === "undefined") {
 	if (!window.console) {
 		window.console = {};
 	}
 	var methods = ['log', 'debug', 'warn', 'info', 'error', 'assert'];
 	for (var i = 0; i < methods.length; i++) {
-	console[methods[i]] = function () { };
+		console[methods[i]] = function () { };
 	}
 }
 
@@ -20,7 +21,6 @@ if (oc_debug !== true) {
  * @param text the string to translate
  * @return string
  */
-
 function t(app,text, vars){
 	if( !( t.cache[app] )){
 		$.ajax(OC.filePath('core','ajax','translations.php'),{
@@ -37,14 +37,14 @@ function t(app,text, vars){
 			t.cache[app] = [];
 		}
 	}
-	var _build = function(text, vars) {
-		return text.replace(/{([^{}]*)}/g,
-			function (a, b) {
-				var r = vars[b];
-				return typeof r === 'string' || typeof r === 'number' ? r : a;
-			}
-		);
-	}
+	var _build = function (text, vars) {
+        return text.replace(/{([^{}]*)}/g,
+            function (a, b) {
+                var r = vars[b];
+                return typeof r === 'string' || typeof r === 'number' ? r : a;
+            }
+        );
+    };
 	if( typeof( t.cache[app][text] ) !== 'undefined' ){
 		if(typeof vars === 'object') {
 			return _build(t.cache[app][text], vars);
@@ -88,7 +88,7 @@ var OC={
 	PERMISSION_DELETE:8,
 	PERMISSION_SHARE:16,
 	webroot:oc_webroot,
-	appswebroots:oc_appswebroots,
+	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
 	coreApps:['', 'admin','log','search','settings','core','3rdparty'],
 	/**
@@ -99,6 +99,27 @@ var OC={
 	 */
 	linkTo:function(app,file){
 		return OC.filePath(app,'',file);
+	},
+	/**
+	 * Creates an url for remote use
+	 * @param string $service id
+	 * @return string the url
+	 *
+	 * Returns a url to the given service.
+	 */
+	linkToRemoteBase:function(service) {
+		return OC.webroot + '/remote.php/' + service;
+	},
+	/**
+	 * @brief Creates an absolute url for remote use
+	 * @param string $service id
+	 * @param bool $add_slash
+	 * @return string the url
+	 *
+	 * Returns a absolute url to the given service.
+	 */
+	linkToRemote:function(service) {
+		return window.location.protocol + '//' + window.location.host + OC.linkToRemoteBase(service);
 	},
 	/**
 	 * get the absolute url for a file in an app
@@ -247,7 +268,7 @@ var OC={
 		var popup = $('#appsettings_popup');
 		if(popup.length == 0) {
 			$('body').prepend('<div class="popup hidden" id="appsettings_popup"></div>');
-			popup = $('#appsettings_popup');
+            popup = $('#appsettings_popup');
 			popup.addClass(settings.hasClass('topright') ? 'topright' : 'bottomleft');
 		}
 		if(popup.is(':visible')) {
@@ -288,6 +309,41 @@ OC.search.lastQuery='';
 OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
+
+OC.Notification={
+    getDefaultNotificationFunction: null,
+    setDefault: function(callback) {
+        OC.Notification.getDefaultNotificationFunction = callback;
+    },
+    hide: function(callback) {
+        $("#notification").text('');
+        $('#notification').fadeOut('400', function(){
+            if (OC.Notification.isHidden()) {
+                if (OC.Notification.getDefaultNotificationFunction) {
+                    OC.Notification.getDefaultNotificationFunction.call();
+                }
+            }
+            if (callback) {
+                callback.call();
+            }
+        });
+    },
+    showHtml: function(html) {
+        var notification = $('#notification');
+        notification.hide();
+        notification.html(html);
+        notification.fadeIn().css("display","inline");
+    },
+    show: function(text) {
+        var notification = $('#notification');
+        notification.hide();
+        notification.text(text);
+        notification.fadeIn().css("display","inline");
+    },
+	isHidden: function() {
+		return ($("#notification").text() === '');
+	}
+};
 
 OC.Breadcrumb={
 	container:null,
@@ -343,8 +399,15 @@ if(typeof localStorage !=='undefined' && localStorage !== null){
 			return localStorage.setItem(OC.localStorage.namespace+name,JSON.stringify(item));
 		},
 		getItem:function(name){
-			if(localStorage.getItem(OC.localStorage.namespace+name)===null){return null;}
-			return JSON.parse(localStorage.getItem(OC.localStorage.namespace+name));
+			var item = localStorage.getItem(OC.localStorage.namespace+name);
+			if(item===null) {
+				return null;
+			} else if (typeof JSON === 'undefined') {
+				//fallback to jquery for IE6/7/8
+				return $.parseJSON(item);
+			} else {
+				return JSON.parse(item);
+			}
 		}
 	};
 }else{
@@ -497,6 +560,7 @@ function fillHeight(selector) {
 	if(selector.outerHeight() > selector.height()){
 		selector.css('height', height-(selector.outerHeight()-selector.height()) + 'px');
 	}
+	console.warn("This function is deprecated! Use CSS instead");
 }
 
 /**
@@ -512,16 +576,10 @@ function fillWindow(selector) {
 	if(selector.outerWidth() > selector.width()){
 		selector.css('width', width-(selector.outerWidth()-selector.width()) + 'px');
 	}
+	console.warn("This function is deprecated! Use CSS instead");
 }
 
 $(document).ready(function(){
-
-	$(window).resize(function () {
-		fillHeight($('#leftcontent'));
-		fillWindow($('#content'));
-		fillWindow($('#rightcontent'));
-	});
-	$(window).trigger('resize');
 
 	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
 		replaceSVG();
@@ -615,7 +673,7 @@ $(document).ready(function(){
 	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
 	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
-	$('#upload a').tipsy({gravity:'w', fade:true});
+	$('#upload').tipsy({gravity:'w', fade:true});
 	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
 	$('a.delete').tipsy({gravity: 'e', fade:true, live:true});
 	$('a.action').tipsy({gravity:'s', fade:true, live:true});

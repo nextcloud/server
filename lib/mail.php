@@ -25,15 +25,24 @@ class OC_Mail {
 	 * @param string $mailtext
 	 * @param string $fromaddress
 	 * @param string $fromname
-	 * @param bool $html
+	 * @param bool|int $html
+	 * @param string $altbody
+	 * @param string $ccaddress
+	 * @param string $ccname
+	 * @param string $bcc
+	 * @throws Exception
 	 */
 	public static function send($toaddress,$toname,$subject,$mailtext,$fromaddress,$fromname,$html=0,$altbody='',$ccaddress='',$ccname='', $bcc='') {
 
 		$SMTPMODE = OC_Config::getValue( 'mail_smtpmode', 'sendmail' );
 		$SMTPHOST = OC_Config::getValue( 'mail_smtphost', '127.0.0.1' );
+		$SMTPPORT = OC_Config::getValue( 'mail_smtpport', 25 );
 		$SMTPAUTH = OC_Config::getValue( 'mail_smtpauth', false );
 		$SMTPUSERNAME = OC_Config::getValue( 'mail_smtpname', '' );
 		$SMTPPASSWORD = OC_Config::getValue( 'mail_smtppassword', '' );
+		$SMTPDEBUG    = OC_Config::getValue( 'mail_smtpdebug', false );
+		$SMTPTIMEOUT  = OC_Config::getValue( 'mail_smtptimeout', 10 );
+		$SMTPSECURE   = OC_Config::getValue( 'mail_smtpsecure', '' );
 
 
 		$mailo = new PHPMailer(true);
@@ -49,13 +58,17 @@ class OC_Mail {
 
 
 		$mailo->Host = $SMTPHOST;
+		$mailo->Port = $SMTPPORT;
 		$mailo->SMTPAuth = $SMTPAUTH;
+		$mailo->SMTPDebug = $SMTPDEBUG;
+		$mailo->SMTPSecure = $SMTPSECURE;
 		$mailo->Username = $SMTPUSERNAME;
 		$mailo->Password = $SMTPPASSWORD;
+		$mailo->Timeout  = $SMTPTIMEOUT;
 
-		$mailo->From =$fromaddress;
+		$mailo->From = $fromaddress;
 		$mailo->FromName = $fromname;;
-		$mailo->Sender =$fromaddress;
+		$mailo->Sender = $fromaddress;
 		$a=explode(' ', $toaddress);
 		try {
 			foreach($a as $ad) {
@@ -89,8 +102,6 @@ class OC_Mail {
 		}
 	}
 
-
-
 	/**
 	 * return the footer for a mail
 	 *
@@ -103,7 +114,4 @@ class OC_Mail {
 		return($txt);
 
 	}
-
-
-
 }

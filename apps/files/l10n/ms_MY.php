@@ -1,4 +1,6 @@
 <?php $TRANSLATIONS = array(
+"Upload" => "Muat naik",
+"No file was uploaded. Unknown error" => "Tiada fail dimuatnaik. Ralat tidak diketahui.",
 "There is no error, the file uploaded with success" => "Tiada ralat, fail berjaya dimuat naik.",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Fail yang dimuat naik melebihi MAX_FILE_SIZE yang dinyatakan dalam form HTML ",
 "The uploaded file was only partially uploaded" => "Sebahagian daripada fail telah dimuat naik. ",
@@ -9,7 +11,6 @@
 "Delete" => "Padam",
 "replace" => "ganti",
 "cancel" => "Batal",
-"generating ZIP-file, it may take some time." => "sedang menghasilkan fail ZIP, mungkin mengambil sedikit masa.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Tidak boleh memuatnaik fail anda kerana mungkin ianya direktori atau saiz fail 0 bytes",
 "Upload Error" => "Muat naik ralat",
 "Close" => "Tutup",
@@ -29,7 +30,6 @@
 "New" => "Baru",
 "Text file" => "Fail teks",
 "Folder" => "Folder",
-"Upload" => "Muat naik",
 "Cancel upload" => "Batal muat naik",
 "Nothing in here. Upload something!" => "Tiada apa-apa di sini. Muat naik sesuatu!",
 "Download" => "Muat turun",

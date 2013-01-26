@@ -6,14 +6,15 @@
 # Aranel Surion <aranel@aranelsurion.org>, 2011, 2012.
 # Caner Başaran <basaran.caner@gmail.com>, 2012.
 #   <info@beyboo.de>, 2012.
+# ismail yenigul <ismail.yenigul@surgate.com>, 2013.
 # Necdet Yücel <necdetyucel@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 23:17+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-23 00:05+0100\n"
+"PO-Revision-Date: 2013-01-22 23:04+0000\n"
+"Last-Translator: ismail yenigül <ismail.yenigul@surgate.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,30 +25,30 @@ msgstr ""
 #: ajax/share.php:84
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "%s kullanıcısı sizinle bir dosyayı paylaştı"
 
 #: ajax/share.php:86
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "%s kullanıcısı sizinle bir dizini paylaştı"
 
 #: ajax/share.php:88
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "%s kullanıcısı \"%s\" dosyasını sizinle paylaştı. %s adresinden indirilebilir"
 
 #: ajax/share.php:90
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "%s kullanıcısı \"%s\" dizinini sizinle paylaştı. %s adresinden indirilebilir"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "Kategori türü desteklenmemektedir."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -61,18 +62,18 @@ msgstr "Bu kategori zaten mevcut: "
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "Nesne türü desteklenmemektedir."
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "%s ID belirtilmedi."
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "%s favorilere eklenirken hata oluştu"
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -81,63 +82,63 @@ msgstr "Silmek için bir kategori seçilmedi"
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "%s favorilere çıkarılırken hata oluştu"
 
 #: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: js/js.js:704
-msgid "seconds ago"
-msgstr ""
-
-#: js/js.js:705
-msgid "1 minute ago"
-msgstr ""
-
 #: js/js.js:706
-msgid "{minutes} minutes ago"
-msgstr ""
+msgid "seconds ago"
+msgstr "saniye önce"
 
 #: js/js.js:707
-msgid "1 hour ago"
-msgstr ""
+msgid "1 minute ago"
+msgstr "1 dakika önce"
 
 #: js/js.js:708
-msgid "{hours} hours ago"
-msgstr ""
+msgid "{minutes} minutes ago"
+msgstr "{minutes} dakika önce"
 
 #: js/js.js:709
-msgid "today"
-msgstr ""
+msgid "1 hour ago"
+msgstr "1 saat önce"
 
 #: js/js.js:710
-msgid "yesterday"
-msgstr ""
+msgid "{hours} hours ago"
+msgstr "{hours} saat önce"
 
 #: js/js.js:711
-msgid "{days} days ago"
-msgstr ""
+msgid "today"
+msgstr "bugün"
 
 #: js/js.js:712
-msgid "last month"
-msgstr ""
+msgid "yesterday"
+msgstr "dün"
 
 #: js/js.js:713
-msgid "{months} months ago"
-msgstr ""
+msgid "{days} days ago"
+msgstr "{days} gün önce"
 
 #: js/js.js:714
-msgid "months ago"
-msgstr ""
+msgid "last month"
+msgstr "geçen ay"
 
 #: js/js.js:715
-msgid "last year"
-msgstr ""
+msgid "{months} months ago"
+msgstr "{months} ay önce"
 
 #: js/js.js:716
+msgid "months ago"
+msgstr "ay önce"
+
+#: js/js.js:717
+msgid "last year"
+msgstr "geçen yıl"
+
+#: js/js.js:718
 msgid "years ago"
-msgstr ""
+msgstr "yıl önce"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"
@@ -162,41 +163,41 @@ msgstr "Tamam"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "Nesne türü belirtilmemiş."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:541
-#: js/share.js:553
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr "Hata"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "uygulama adı belirtilmedi."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "İhtiyaç duyulan {file} dosyası kurulu değil."
 
-#: js/share.js:124 js/share.js:581
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr "Paylaşım sırasında hata  "
 
 #: js/share.js:135
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Paylaşım iptal ediliyorken hata"
 
 #: js/share.js:142
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "İzinleri değiştirirken hata oluştu"
 
 #: js/share.js:151
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr " {owner} tarafından sizinle ve {group} ile paylaştırılmış"
 
 #: js/share.js:153
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "{owner} trafından sizinle paylaştırıldı"
 
 #: js/share.js:158
 msgid "Share with"
@@ -206,22 +207,21 @@ msgstr "ile Paylaş"
 msgid "Share with link"
 msgstr "Bağlantı ile paylaş"
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr "Şifre korunması"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
-#: templates/verify.php:13
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "Parola"
 
 #: js/share.js:172
 msgid "Email link to person"
-msgstr ""
+msgstr "Kişiye e-posta linki"
 
 #: js/share.js:173
 msgid "Send"
-msgstr ""
+msgstr "Gönder"
 
 #: js/share.js:177
 msgid "Set expiration date"
@@ -229,23 +229,23 @@ msgstr "Son kullanma tarihini ayarla"
 
 #: js/share.js:178
 msgid "Expiration date"
-msgstr ""
+msgstr "Son kullanım tarihi"
 
 #: js/share.js:210
 msgid "Share via email:"
-msgstr ""
+msgstr "Eposta ile paylaş"
 
 #: js/share.js:212
 msgid "No people found"
-msgstr ""
+msgstr "Kişi bulunamadı"
 
 #: js/share.js:239
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Tekrar paylaşmaya izin verilmiyor"
 
 #: js/share.js:275
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr " {item} içinde  {user} ile paylaşılanlarlar"
 
 #: js/share.js:296
 msgid "Unshare"
@@ -253,11 +253,11 @@ msgstr "Paylaşılmayan"
 
 #: js/share.js:308
 msgid "can edit"
-msgstr ""
+msgstr "düzenleyebilir"
 
 #: js/share.js:310
 msgid "access control"
-msgstr ""
+msgstr "erişim kontrolü"
 
 #: js/share.js:313
 msgid "create"
@@ -265,35 +265,35 @@ msgstr "oluştur"
 
 #: js/share.js:316
 msgid "update"
-msgstr ""
+msgstr "güncelle"
 
 #: js/share.js:319
 msgid "delete"
-msgstr ""
+msgstr "sil"
 
 #: js/share.js:322
 msgid "share"
-msgstr ""
+msgstr "paylaş"
 
-#: js/share.js:353 js/share.js:528 js/share.js:530
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
-msgstr ""
+msgstr "Paralo korumalı"
 
-#: js/share.js:541
+#: js/share.js:554
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Geçerlilik tarihi tanımlama kaldırma hatası"
 
-#: js/share.js:553
+#: js/share.js:566
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Geçerlilik tarihi tanımlama hatası"
 
-#: js/share.js:568
+#: js/share.js:581
 msgid "Sending ..."
-msgstr ""
+msgstr "Gönderiliyor..."
 
-#: js/share.js:579
+#: js/share.js:592
 msgid "Email sent"
-msgstr ""
+msgstr "Eposta gönderildi"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -309,14 +309,14 @@ msgstr "Parolanızı sıfırlamak için bir bağlantı Eposta olarak gönderilec
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "Sıfırlama epostası gönderildi."
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "İstek reddedildi!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "Kullanıcı adı"
 
@@ -384,13 +384,13 @@ msgstr "Güvenlik Uyarisi"
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Güvenli rasgele sayı üreticisi bulunamadı. Lütfen PHP OpenSSL eklentisini etkinleştirin."
 
 #: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "Güvenli rasgele sayı üreticisi olmadan saldırganlar parola sıfırlama simgelerini tahmin edip hesabınızı ele geçirebilir."
 
 #: templates/installation.php:32
 msgid ""
@@ -399,130 +399,130 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "data dizininiz ve dosyalarınız büyük ihtimalle internet üzerinden erişilebilir. Owncloud tarafından sağlanan .htaccess  dosyası çalışmıyor. Web sunucunuzu yapılandırarak data dizinine erişimi kapatmanızı veya data dizinini web sunucu döküman dizini dışına almanızı şiddetle tavsiye ederiz."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Bir <strong>yönetici hesabı</strong> oluşturun"
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr "Gelişmiş"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr "Veri klasörü"
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr "Veritabanını ayarla"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr "kullanılacak"
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr "Veritabanı kullanıcı adı"
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr "Veritabanı parolası"
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr "Veritabanı adı"
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr "Veritabanı tablo alanı"
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr "Veritabanı sunucusu"
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr "Kurulumu tamamla"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Sunday"
 msgstr "Pazar"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Monday"
 msgstr "Pazartesi"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr "Salı"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr "Çarşamba"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Thursday"
 msgstr "Perşembe"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Friday"
 msgstr "Cuma"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:15 templates/layout.user.php:17
 msgid "Saturday"
 msgstr "Cumartesi"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "January"
 msgstr "Ocak"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "February"
 msgstr "Şubat"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "March"
 msgstr "Mart"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "April"
 msgstr "Nisan"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "May"
 msgstr "Mayıs"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "June"
 msgstr "Haziran"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "July"
 msgstr "Temmuz"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "August"
 msgstr "Ağustos"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "September"
 msgstr "Eylül"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "October"
 msgstr "Ekim"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "November"
 msgstr "Kasım"
 
-#: templates/layout.guest.php:17 templates/layout.user.php:18
+#: templates/layout.guest.php:16 templates/layout.user.php:18
 msgid "December"
 msgstr "Aralık"
 
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:41
 msgid "web services under your control"
 msgstr "kontrolünüzdeki web servisleri"
 
@@ -530,35 +530,31 @@ msgstr "kontrolünüzdeki web servisleri"
 msgid "Log out"
 msgstr "Çıkış yap"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Otomatik oturum açma reddedildi!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Yakın zamanda parolanızı değiştirmedi iseniz hesabınız riske girebilir."
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Hesabınızı korumak için lütfen parolanızı değiştirin."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Parolanızı mı unuttunuz?"
 
-#: templates/login.php:27
+#: templates/login.php:39
 msgid "remember"
 msgstr "hatırla"
 
-#: templates/login.php:28
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Giriş yap"
-
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Çıkış yaptınız."
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -568,16 +564,7 @@ msgstr "önceki"
 msgid "next"
 msgstr "sonraki"
 
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr ""
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr ""
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr ""
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr "Owncloud %s versiyonuna güncelleniyor. Biraz zaman alabilir."

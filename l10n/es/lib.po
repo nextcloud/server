@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013.
 #   <juanma@kde.org.ar>, 2012.
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2012.
 # Rubén Trujillo <rubentrf@gmail.com>, 2012.
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-18 00:01+0100\n"
-"PO-Revision-Date: 2012-11-17 08:43+0000\n"
-"Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>\n"
+"POT-Creation-Date: 2013-01-21 00:04+0100\n"
+"PO-Revision-Date: 2013-01-20 02:14+0000\n"
+"Last-Translator: Agustin Ferrario <agustin.ferrario@hotmail.com.ar>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,51 +22,55 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:285
+#: app.php:301
 msgid "Help"
 msgstr "Ayuda"
 
-#: app.php:292
+#: app.php:308
 msgid "Personal"
 msgstr "Personal"
 
-#: app.php:297
+#: app.php:313
 msgid "Settings"
 msgstr "Ajustes"
 
-#: app.php:302
+#: app.php:318
 msgid "Users"
 msgstr "Usuarios"
 
-#: app.php:309
+#: app.php:325
 msgid "Apps"
 msgstr "Aplicaciones"
 
-#: app.php:311
+#: app.php:327
 msgid "Admin"
 msgstr "Administración"
 
-#: files.php:332
+#: files.php:365
 msgid "ZIP download is turned off."
 msgstr "La descarga en ZIP está desactivada."
 
-#: files.php:333
+#: files.php:366
 msgid "Files need to be downloaded one by one."
 msgstr "Los archivos deben ser descargados uno por uno."
 
-#: files.php:333 files.php:358
+#: files.php:366 files.php:391
 msgid "Back to Files"
 msgstr "Volver a Archivos"
 
-#: files.php:357
+#: files.php:390
 msgid "Selected files too large to generate zip file."
 msgstr "Los archivos seleccionados son demasiado grandes para generar el archivo zip."
+
+#: helper.php:229
+msgid "couldn't be determined"
+msgstr "no pudo ser determinado"
 
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "La aplicación no está habilitada"
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "Error de autenticación"
 
@@ -85,55 +90,55 @@ msgstr "Texto"
 msgid "Images"
 msgstr "Imágenes"
 
-#: template.php:103
+#: template.php:113
 msgid "seconds ago"
 msgstr "hace segundos"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "hace 1 minuto"
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "hace %d minutos"
 
-#: template.php:106
+#: template.php:116
 msgid "1 hour ago"
 msgstr "Hace 1 hora"
 
-#: template.php:107
+#: template.php:117
 #, php-format
 msgid "%d hours ago"
 msgstr "Hace %d horas"
 
-#: template.php:108
+#: template.php:118
 msgid "today"
 msgstr "hoy"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr "ayer"
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "hace %d días"
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr "este mes"
 
-#: template.php:112
+#: template.php:122
 #, php-format
 msgid "%d months ago"
 msgstr "Hace %d meses"
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr "este año"
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr "hace años"
 

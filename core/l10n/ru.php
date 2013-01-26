@@ -125,10 +125,7 @@
 "Lost your password?" => "Забыли пароль?",
 "remember" => "запомнить",
 "Log in" => "Войти",
-"You are logged out." => "Вы вышли.",
 "prev" => "пред",
 "next" => "след",
-"Security Warning!" => "Предупреждение безопасности!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Пожалуйста, проверьте свой ​​пароль. <br/>По соображениям безопасности, Вам иногда придется вводить свой пароль снова.",
-"Verify" => "Подтвердить"
+"Updating ownCloud to version %s, this may take a while." => "Производится обновление ownCloud до версии %s. Это может занять некоторое время."
 );

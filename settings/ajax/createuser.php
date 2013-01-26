@@ -3,9 +3,7 @@
 OCP\JSON::callCheck();
 OC_JSON::checkSubAdminUser();
 
-$isadmin = OC_Group::inGroup(OC_User::getUser(), 'admin')?true:false;
-
-if($isadmin) {
+if(OC_User::isAdminUser(OC_User::getUser())) {
 	$groups = array();
 	if( isset( $_POST["groups"] )) {
 		$groups = $_POST["groups"];

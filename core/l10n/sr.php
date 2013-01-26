@@ -1,4 +1,6 @@
 <?php $TRANSLATIONS = array(
+"User %s shared a file with you" => "Корисник %s дели са вама датотеку",
+"User %s shared a folder with you" => "Корисник %s дели са вама директоријум",
 "Category type not provided." => "Врста категорије није унет.",
 "No category to add?" => "Додати још неку категорију?",
 "This category already exists: " => "Категорија већ постоји:",
@@ -39,6 +41,7 @@
 "Share with link" => "Подели линк",
 "Password protect" => "Заштићено лозинком",
 "Password" => "Лозинка",
+"Send" => "Пошаљи",
 "Set expiration date" => "Постави датум истека",
 "Expiration date" => "Датум истека",
 "Share via email:" => "Подели поштом:",
@@ -55,6 +58,8 @@
 "Password protected" => "Заштићено лозинком",
 "Error unsetting expiration date" => "Грешка код поништавања датума истека",
 "Error setting expiration date" => "Грешка код постављања датума истека",
+"Sending ..." => "Шаљем...",
+"Email sent" => "Порука је послата",
 "ownCloud password reset" => "Поништавање лозинке за ownCloud",
 "Use the following link to reset your password: {link}" => "Овом везом ресетујте своју лозинку: {link}",
 "You will receive a link to reset your password via Email." => "Добићете везу за ресетовање лозинке путем е-поште.",
@@ -117,10 +122,7 @@
 "Lost your password?" => "Изгубили сте лозинку?",
 "remember" => "упамти",
 "Log in" => "Пријава",
-"You are logged out." => "Одјављени сте.",
 "prev" => "претходно",
 "next" => "следеће",
-"Security Warning!" => "Сигурносно упозорење!",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Потврдите лозинку. <br />Из сигурносних разлога затрежићемо вам да два пута унесете лозинку.",
-"Verify" => "Потврди"
+"Updating ownCloud to version %s, this may take a while." => "Надоградња ownCloud-а на верзију %s, сачекајте тренутак."
 );

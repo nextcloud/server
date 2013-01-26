@@ -31,8 +31,9 @@ class OC_Helper {
 	/**
 	 * @brief Creates an url using a defined route
 	 * @param $route
-	 * @param $parameters
-	 * @param $args array with param=>value, will be appended to the returned url
+	 * @param array $parameters
+	 * @return
+	 * @internal param array $args with param=>value, will be appended to the returned url
 	 * @returns the url
 	 *
 	 * Returns a url to the given app and file.
@@ -128,6 +129,7 @@ class OC_Helper {
 	/**
 	 * @brief Creates an absolute url for remote use
 	 * @param string $service id
+	 * @param bool $add_slash
 	 * @return string the url
 	 *
 	 * Returns a absolute url to the given service.
@@ -139,6 +141,7 @@ class OC_Helper {
 	/**
 	 * @brief Creates an absolute url for public use
 	 * @param string $service id
+	 * @param bool $add_slash
 	 * @return string the url
 	 *
 	 * Returns a absolute url to the given service.
@@ -190,8 +193,9 @@ class OC_Helper {
 		if(isset($alias[$mimetype])) {
 			$mimetype=$alias[$mimetype];
 		}
-		// Replace slash with a minus
+		// Replace slash and backslash with a minus
 		$mimetype = str_replace( "/", "-", $mimetype );
+		$mimetype = str_replace( "\\", "-", $mimetype );
 
 		// Is it a dir?
 		if( $mimetype == "dir" ) {
@@ -220,6 +224,10 @@ class OC_Helper {
 	 * Makes 2048 to 2 kB.
 	 */
 	public static function humanFileSize( $bytes ) {
+		if( $bytes < 0 ) {
+			$l = OC_L10N::get('lib');
+			return $l->t("couldn't be determined");
+		}
 		if( $bytes < 1024 ) {
 			return "$bytes B";
 		}
@@ -450,12 +458,14 @@ class OC_Helper {
 	}
 
 	/**
-	* detect if a given program is found in the search PATH
-	*
-	* @param  string  $program name
-	* @param  string  $optional search path, defaults to $PATH
-	* @return bool    true if executable program found in path
-	*/
+	 * detect if a given program is found in the search PATH
+	 *
+	 * @param $name
+	 * @param bool $path
+	 * @internal param string $program name
+	 * @internal param string $optional search path, defaults to $PATH
+	 * @return bool    true if executable program found in path
+	 */
 	public static function canExecute($name, $path = false) {
 		// path defaults to PATH from environment if not set
 		if ($path === false) {
@@ -544,7 +554,7 @@ class OC_Helper {
 		fclose($fh);
 		return $file;
 	}
-	
+
 	/**
 	 * create a temporary folder with an unique filename
 	 * @return string
@@ -620,37 +630,17 @@ class OC_Helper {
 		return $newpath;
 	}
 
-	/*
-	 * checks if $sub is a subdirectory of $parent
+	/**
+	 * @brief Checks if $sub is a subdirectory of $parent
 	 *
 	 * @param string $sub
 	 * @param string $parent
 	 * @return bool
 	 */
 	public static function issubdirectory($sub, $parent) {
-		if($sub == null || $sub == '' || $parent == null || $parent == '') {
-			return false;
+		if (strpos(realpath($sub), realpath($parent)) === 0) {
+			return true;
 		}
-		$realpath_sub = realpath($sub);
-		$realpath_parent = realpath($parent);
-		if(($realpath_sub == false && substr_count($realpath_sub, './') != 0) || ($realpath_parent == false && substr_count($realpath_parent, './') != 0)) { //it checks for  both ./ and ../
-			return false;
-		}
-		if($realpath_sub && $realpath_sub != '' && $realpath_parent && $realpath_parent != '') {
-			if(substr($realpath_sub, 0, strlen($realpath_parent)) == $realpath_parent) {
-				return true;
-			}
-		}else{
-			if(substr($sub, 0, strlen($parent)) == $parent) {
-				return true;
-			}
-		}
-		/*echo 'SUB: ' . $sub . "\n";
-		echo 'PAR: ' . $parent . "\n";
-		echo 'REALSUB: ' . $realpath_sub . "\n";
-		echo 'REALPAR: ' . $realpath_parent . "\n";
-		echo substr($realpath_sub, 0, strlen($realpath_parent));
-		exit;*/
 		return false;
 	}
 
@@ -676,22 +666,22 @@ class OC_Helper {
 	}
 
 	/**
-	* @brief replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
-	*
-	* @param string $input The input string. .Opposite to the PHP build-in function does not accept an array.
-	* @param string $replacement The replacement string.
-	* @param int $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
-	* @param int $length Length of the part to be replaced
-	* @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
-	* @return string
-	*
-	*/
+	 * @brief replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
+	 *
+	 * @param $string
+	 * @param string $replacement The replacement string.
+	 * @param int $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
+	 * @param int $length Length of the part to be replaced
+	 * @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	 * @internal param string $input The input string. .Opposite to the PHP build-in function does not accept an array.
+	 * @return string
+	 */
 	public static function mb_substr_replace($string, $replacement, $start, $length = null, $encoding = 'UTF-8') {
 		$start = intval($start);
 		$length = intval($length);
 		$string = mb_substr($string, 0, $start, $encoding) .
-		          $replacement .
-		          mb_substr($string, $start+$length, mb_strlen($string, 'UTF-8')-$start, $encoding);
+			$replacement .
+			mb_substr($string, $start+$length, mb_strlen($string, 'UTF-8')-$start, $encoding);
 
 		return $string;
 	}
@@ -757,5 +747,61 @@ class OC_Helper {
 			return substr($str, 0, $characters) . '...' . substr($str, -1 * $characters);
 		}
 		return $str;
+	}
+
+	/**
+	 * @brief calculates the maximum upload size respecting system settings, free space and user quota
+	 *
+	 * @param $dir the current folder where the user currently operates
+	 * @return number of bytes representing
+	 */
+	public static function maxUploadFilesize($dir) {
+		$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
+		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
+		$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
+
+		$freeSpace = OC_Filesystem::free_space($dir);
+		$freeSpace = max($freeSpace, 0);
+
+		return min($maxUploadFilesize, $freeSpace);
+	}
+
+	/**
+	 * Checks if a function is available
+	 * @param string $function_name
+	 * @return bool
+	 */
+	public static function is_function_enabled($function_name) {
+		if (!function_exists($function_name)) {
+			return false;
+		}
+		$disabled = explode(', ', ini_get('disable_functions'));
+		if (in_array($function_name, $disabled)) {
+			return false;
+		}
+		$disabled = explode(', ', ini_get('suhosin.executor.func.blacklist'));
+		if (in_array($function_name, $disabled)) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Calculate the disc space
+	 */
+	public static function getStorageInfo() {
+		$rootInfo = OC_FileCache::get('');
+		$used = $rootInfo['size'];
+		if ($used < 0) {
+			$used = 0;
+		}
+		$free = OC_Filesystem::free_space();
+		$total = $free + $used;
+		if ($total == 0) {
+			$total = 1; // prevent division by zero
+		}
+		$relative = round(($used / $total) * 10000) / 100;
+
+		return array('free' => $free, 'used' => $used, 'total' => $total, 'relative' => $relative);
 	}
 }

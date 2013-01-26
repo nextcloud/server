@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them." => "<b>Advertencia:</b> Los Apps user_ldap y user_webdavauth son incompatibles.  Puede que experimente un comportamiento inesperado. Pregunte al administrador del sistema para desactivar uno de ellos.",
 "Host" => "Servidor",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Podés omitir el protocolo, excepto si SSL es requerido. En ese caso, empezá con ldaps://",
 "Base DN" => "DN base",

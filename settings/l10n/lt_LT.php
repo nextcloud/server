@@ -3,10 +3,9 @@
 "Could not enable app. " => "Nepavyksta įjungti aplikacijos.",
 "Email saved" => "El. paštas išsaugotas",
 "Invalid email" => "Netinkamas el. paštas",
-"OpenID Changed" => "OpenID pakeistas",
-"Invalid request" => "Klaidinga užklausa",
 "Authentication error" => "Autentikacijos klaida",
 "Language changed" => "Kalba pakeista",
+"Invalid request" => "Klaidinga užklausa",
 "Disable" => "Išjungti",
 "Enable" => "Įjungti",
 "Saving..." => "Saugoma..",
@@ -31,8 +30,6 @@
 "Name" => "Vardas",
 "Groups" => "Grupės",
 "Create" => "Sukurti",
-"Default Quota" => "Numatytoji kvota",
 "Other" => "Kita",
-"Quota" => "Limitas",
 "Delete" => "Ištrinti"
 );

@@ -5,12 +5,11 @@
 "Could not enable app. " => "Не удалось запустить приложение",
 "Email saved" => "Email сохранен",
 "Invalid email" => "Неверный email",
-"OpenID Changed" => "OpenID изменен",
-"Invalid request" => "Неверный запрос",
 "Unable to delete group" => "Невозможно удалить группу",
 "Authentication error" => "Ошибка авторизации",
 "Unable to delete user" => "Невозможно удалить пользователя",
 "Language changed" => "Язык изменен",
+"Invalid request" => "Неверный запрос",
 "Admins can't remove themself from the admin group" => "Администраторы не могут удалить сами себя из группы администраторов",
 "Unable to add user to group %s" => "Невозможно добавить пользователя в группу %s",
 "Unable to remove user from group %s" => "Невозможно удалить пользователя из группы %s",
@@ -52,9 +51,7 @@
 "Name" => "Имя",
 "Groups" => "Группы",
 "Create" => "Создать",
-"Default Quota" => "Квота по умолчанию",
 "Other" => "Другой",
 "Group Admin" => "Группа Admin",
-"Quota" => "квота",
 "Delete" => "Удалить"
 );

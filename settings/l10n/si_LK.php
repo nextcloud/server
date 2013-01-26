@@ -4,12 +4,11 @@
 "Could not enable app. " => "යෙදුම සක්‍රීය කළ නොහැකි විය.",
 "Email saved" => "වි-තැපෑල සුරකින ලදී",
 "Invalid email" => "අවලංගු වි-තැපෑල",
-"OpenID Changed" => "විවෘත හැඳුනුම නැතහොත් OpenID වෙනස්විය.",
-"Invalid request" => "අවලංගු අයදුම",
 "Unable to delete group" => "කණ්ඩායම මැකීමට නොහැක",
 "Authentication error" => "සත්‍යාපන දෝෂයක්",
 "Unable to delete user" => "පරිශීලකයා මැකීමට නොහැක",
 "Language changed" => "භාෂාව ාවනස් කිරීම",
+"Invalid request" => "අවලංගු අයදුම",
 "Unable to add user to group %s" => "පරිශීලකයා %s කණ්ඩායමට එකතු කළ නොහැක",
 "Unable to remove user from group %s" => "පරිශීලකයා %s කණ්ඩායමින් ඉවත් කළ නොහැක",
 "Disable" => "අක්‍රිය කරන්න",
@@ -35,9 +34,7 @@
 "Name" => "නාමය",
 "Groups" => "සමූහය",
 "Create" => "තනන්න",
-"Default Quota" => "සාමාන්‍ය සලාකය",
 "Other" => "වෙනත්",
 "Group Admin" => "කාණ්ඩ පරිපාලක",
-"Quota" => "සලාකය",
 "Delete" => "මකා දමනවා"
 );

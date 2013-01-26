@@ -125,10 +125,7 @@
 "Lost your password?" => "Galdu duzu pasahitza?",
 "remember" => "gogoratu",
 "Log in" => "Hasi saioa",
-"You are logged out." => "Zure saioa bukatu da.",
 "prev" => "aurrekoa",
 "next" => "hurrengoa",
-"Security Warning!" => "Segurtasun abisua",
-"Please verify your password. <br/>For security reasons you may be occasionally asked to enter your password again." => "Mesedez egiaztatu zure pasahitza. <br/>Segurtasun arrazoiengatik noizbehinka zure pasahitza berriz sartzea eska diezazukegu.",
-"Verify" => "Egiaztatu"
+"Updating ownCloud to version %s, this may take a while." => "ownCloud %s bertsiora eguneratzen, denbora har dezake."
 );

@@ -2,10 +2,9 @@
 "Unable to load list from App Store" => "Nemogićnost učitavanja liste sa Apps Stora",
 "Email saved" => "Email spremljen",
 "Invalid email" => "Neispravan email",
-"OpenID Changed" => "OpenID promijenjen",
-"Invalid request" => "Neispravan zahtjev",
 "Authentication error" => "Greška kod autorizacije",
 "Language changed" => "Jezik promijenjen",
+"Invalid request" => "Neispravan zahtjev",
 "Disable" => "Isključi",
 "Enable" => "Uključi",
 "Saving..." => "Spremanje...",
@@ -28,9 +27,7 @@
 "Name" => "Ime",
 "Groups" => "Grupe",
 "Create" => "Izradi",
-"Default Quota" => "standardni kvota",
 "Other" => "ostali",
 "Group Admin" => "Grupa Admin",
-"Quota" => "kvota",
 "Delete" => "Obriši"
 );

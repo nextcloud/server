@@ -10,6 +10,7 @@
 # Nick Remeslennikov <homolibere@gmail.com>, 2012.
 #   <rasperepodvipodvert@gmail.com>, 2012.
 #   <semen@sam002.net>, 2012.
+#   <sharov3@gmail.com>, 2012-2013.
 #   <skoptev@ukr.net>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 # Victor Bravo <>, 2012.
@@ -18,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-21 00:10+0100\n"
-"PO-Revision-Date: 2012-12-19 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-13 00:08+0100\n"
+"PO-Revision-Date: 2013-01-12 11:55+0000\n"
+"Last-Translator: adol <sharov3@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +41,7 @@ msgstr "Группа уже существует"
 msgid "Unable to add group"
 msgstr "Невозможно добавить группу"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "Не удалось включить приложение."
 
@@ -51,14 +52,6 @@ msgstr "Email сохранен"
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "Неправильный Email"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID изменён"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "Неверный запрос"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -75,6 +68,10 @@ msgstr "Невозможно удалить пользователя"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Язык изменён"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "Неверный запрос"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -128,27 +125,27 @@ msgstr "<span class=\"licence\"></span> лицензия. Автор <span class
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr ""
+msgstr "Пользовательская документация"
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Документация администратора"
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr ""
+msgstr "Online документация"
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr ""
+msgstr "Форум"
 
 #: templates/help.php:9
 msgid "Bugtracker"
-msgstr ""
+msgstr "Bugtracker"
 
 #: templates/help.php:11
 msgid "Commercial Support"
-msgstr ""
+msgstr "Коммерческая поддержка"
 
 #: templates/personal.php:8
 #, php-format
@@ -161,17 +158,17 @@ msgstr "Клиенты"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr ""
+msgstr "Загрузка приложений для компьютера"
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr ""
+msgstr "Загрузка Android-приложения"
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr ""
+msgstr "Загрузка iOS-приложения"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "Пароль"
 
@@ -221,15 +218,15 @@ msgstr "Помочь с переводом"
 
 #: templates/personal.php:52
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Используйте этот URL для подключения файлового менеджера к Вашему хранилищу"
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr ""
+msgstr "Версия"
 
 #: templates/personal.php:65
 msgid ""
@@ -241,11 +238,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Разрабатывается <a href=\"http://ownCloud.org/contact\" target=\"_blank\">сообществом ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">исходный код</a> доступен под лицензией <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "Имя"
 
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "Группы"
 
@@ -254,21 +251,29 @@ msgid "Create"
 msgstr "Создать"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "Квота по умолчанию"
+msgid "Default Storage"
+msgstr "Хранилище по-умолчанию"
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr "Неограниченно"
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "Другое"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "Группа Администраторы"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "Квота"
+#: templates/users.php:87
+msgid "Storage"
+msgstr "Хранилище"
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr "По-умолчанию"
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "Удалить"

@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "Fitxategiak banan-banan deskargatu behar dira.",
 "Back to Files" => "Itzuli fitxategietara",
 "Selected files too large to generate zip file." => "Hautatuko fitxategiak oso handiak dira zip fitxategia sortzeko.",
+"couldn't be determined" => "ezin izan da zehaztu",
 "Application is not enabled" => "Aplikazioa ez dago gaituta",
 "Authentication error" => "Autentikazio errorea",
 "Token expired. Please reload page." => "Tokena iraungitu da. Mesedez birkargatu orria.",

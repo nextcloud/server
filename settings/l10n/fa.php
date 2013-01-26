@@ -2,10 +2,9 @@
 "Unable to load list from App Store" => "قادر به بارگذاری لیست از فروشگاه اپ نیستم",
 "Email saved" => "ایمیل ذخیره شد",
 "Invalid email" => "ایمیل غیر قابل قبول",
-"OpenID Changed" => "OpenID تغییر کرد",
-"Invalid request" => "درخواست غیر قابل قبول",
 "Authentication error" => "خطا در اعتبار سنجی",
 "Language changed" => "زبان تغییر کرد",
+"Invalid request" => "درخواست غیر قابل قبول",
 "Disable" => "غیرفعال",
 "Enable" => "فعال",
 "Saving..." => "درحال ذخیره ...",
@@ -29,8 +28,6 @@
 "Name" => "نام",
 "Groups" => "گروه ها",
 "Create" => "ایجاد کردن",
-"Default Quota" => "سهم پیش فرض",
 "Other" => "سایر",
-"Quota" => "سهم",
 "Delete" => "پاک کردن"
 );

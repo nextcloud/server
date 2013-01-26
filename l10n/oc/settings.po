@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-21 00:10+0100\n"
-"PO-Revision-Date: 2012-12-19 23:20+0000\n"
+"POT-Creation-Date: 2013-01-12 00:09+0100\n"
+"PO-Revision-Date: 2013-01-11 23:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Occitan (post 1500) (http://www.transifex.com/projects/p/owncloud/language/oc/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "Lo grop existís ja"
 msgid "Unable to add group"
 msgstr "Pas capable d'apondre  un grop"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "Pòt pas activar app. "
 
@@ -41,14 +41,6 @@ msgstr "Corrièl enregistrat"
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "Corrièl incorrècte"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID cambiat"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "Demanda invalida"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -65,6 +57,10 @@ msgstr "Pas capable d'escafar un usancièr"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Lengas cambiadas"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "Demanda invalida"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -161,7 +157,7 @@ msgstr ""
 msgid "Download iOS Client"
 msgstr ""
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "Senhal"
 
@@ -231,11 +227,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr ""
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "Nom"
 
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "Grops"
 
@@ -244,21 +240,29 @@ msgid "Create"
 msgstr "Crea"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "Quota per defaut"
+msgid "Default Storage"
+msgstr ""
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr ""
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "Autres"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "Grop Admin"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "Quota"
+#: templates/users.php:87
+msgid "Storage"
+msgstr ""
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr ""
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "Escafa"

@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
-"OpenID Changed" => "OpenID cambiate",
-"Invalid request" => "Requesta invalide",
 "Language changed" => "Linguage cambiate",
+"Invalid request" => "Requesta invalide",
 "__language_name__" => "Interlingua",
 "Add your App" => "Adder tu application",
 "Select an App" => "Selectionar un app",
@@ -19,8 +18,6 @@
 "Name" => "Nomine",
 "Groups" => "Gruppos",
 "Create" => "Crear",
-"Default Quota" => "Quota predeterminate",
 "Other" => "Altere",
-"Quota" => "Quota",
 "Delete" => "Deler"
 );

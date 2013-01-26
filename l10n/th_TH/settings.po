@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# AriesAnywhere Anywhere <ariesanywhere@gmail.com>, 2012.
+# AriesAnywhere Anywhere <ariesanywhere@gmail.com>, 2012-2013.
 # AriesAnywhere Anywhere <ariesanywherer@gmail.com>, 2012.
 #   <icewind1991@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-21 00:10+0100\n"
-"PO-Revision-Date: 2012-12-19 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-23 00:05+0100\n"
+"PO-Revision-Date: 2013-01-22 00:59+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,7 +32,7 @@ msgstr "มีกลุ่มดังกล่าวอยู่ในระบ
 msgid "Unable to add group"
 msgstr "ไม่สามารถเพิ่มกลุ่มได้"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "ไม่สามารถเปิดใช้งานแอปได้"
 
@@ -43,14 +43,6 @@ msgstr "อีเมลถูกบันทึกแล้ว"
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
 msgstr "อีเมลไม่ถูกต้อง"
-
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "เปลี่ยนชื่อบัญชี OpenID แล้ว"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "คำร้องขอไม่ถูกต้อง"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -68,9 +60,13 @@ msgstr "ไม่สามารถลบผู้ใช้งานได้"
 msgid "Language changed"
 msgstr "เปลี่ยนภาษาเรียบร้อยแล้ว"
 
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "คำร้องขอไม่ถูกต้อง"
+
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "ผู้ดูแลระบบไม่สามารถลบตัวเองออกจากกลุ่มผู้ดูแลได้"
 
 #: ajax/togglegroups.php:28
 #, php-format
@@ -120,27 +116,27 @@ msgstr "<span class=\"licence\"></span>-ลิขสิทธิ์การใ�
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr ""
+msgstr "เอกสารคู่มือการใช้งานสำหรับผู้ใช้งาน"
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "เอกสารคู่มือการใช้งานสำหรับผู้ดูแลระบบ"
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr ""
+msgstr "เอกสารคู่มือการใช้งานออนไลน์"
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr ""
+msgstr "กระดานสนทนา"
 
 #: templates/help.php:9
 msgid "Bugtracker"
-msgstr ""
+msgstr "Bugtracker"
 
 #: templates/help.php:11
 msgid "Commercial Support"
-msgstr ""
+msgstr "บริการลูกค้าแบบเสียค่าใช้จ่าย"
 
 #: templates/personal.php:8
 #, php-format
@@ -153,17 +149,17 @@ msgstr "ลูกค้า"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr ""
+msgstr "ดาวน์โหลดโปรแกรมไคลเอนต์สำหรับเครื่องเดสก์ท็อป"
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr ""
+msgstr "ดาวน์โหลดโปรแกรมไคลเอนต์สำหรับแอนดรอยด์"
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr ""
+msgstr "ดาวน์โหลดโปรแกรมไคลเอนต์สำหรับ iOS"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
 msgid "Password"
 msgstr "รหัสผ่าน"
 
@@ -213,15 +209,15 @@ msgstr "ช่วยกันแปล"
 
 #: templates/personal.php:52
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "ใช้ที่อยู่นี้เพื่อเชื่อมต่อกับ ownCloud ในโปรแกรมจัดการไฟล์ของคุณ"
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr ""
+msgstr "รุ่น"
 
 #: templates/personal.php:65
 msgid ""
@@ -233,11 +229,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "พัฒนาโดย the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ชุมชนผู้ใช้งาน ownCloud</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">ซอร์สโค้ด</a>อยู่ภายใต้สัญญาอนุญาตของ <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:76
+#: templates/users.php:21 templates/users.php:81
 msgid "Name"
 msgstr "ชื่อ"
 
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
+#: templates/users.php:26 templates/users.php:83 templates/users.php:103
 msgid "Groups"
 msgstr "กลุ่ม"
 
@@ -246,21 +242,29 @@ msgid "Create"
 msgstr "สร้าง"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "โควต้าที่กำหนดไว้เริ่มต้น"
+msgid "Default Storage"
+msgstr "พื้นที่จำกัดข้อมูลเริ่มต้น"
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:42 templates/users.php:138
+msgid "Unlimited"
+msgstr "ไม่จำกัดจำนวน"
+
+#: templates/users.php:60 templates/users.php:153
 msgid "Other"
 msgstr "อื่นๆ"
 
-#: templates/users.php:80 templates/users.php:112
+#: templates/users.php:85 templates/users.php:117
 msgid "Group Admin"
 msgstr "ผู้ดูแลกลุ่ม"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "พื้นที่"
+#: templates/users.php:87
+msgid "Storage"
+msgstr "พื้นที่จัดเก็บข้อมูล"
 
-#: templates/users.php:146
+#: templates/users.php:133
+msgid "Default"
+msgstr "ค่าเริ่มต้น"
+
+#: templates/users.php:161
 msgid "Delete"
 msgstr "ลบ"

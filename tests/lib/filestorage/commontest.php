@@ -38,4 +38,3 @@ class Test_Filestorage_CommonTest extends Test_FileStorage {
 	}
 }
 
-?>
