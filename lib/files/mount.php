@@ -174,14 +174,15 @@ class Mount {
 
 	/**
 	 * @param string $id
-	 * @return \OC\Files\Storage\Storage
+	 * @return \OC\Files\Storage\Storage[]
 	 */
 	public static function findById($id) {
+		$result = array();
 		foreach (self::$mounts as $mount) {
 			if ($mount->getStorageId() === $id) {
-				return $mount;
+				$result[] = $mount;
 			}
 		}
-		return null;
+		return $result;
 	}
 }

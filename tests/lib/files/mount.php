@@ -23,7 +23,8 @@ class Mount extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($rootMount, \OC\Files\Mount::find('/'));
 		$this->assertEquals($rootMount, \OC\Files\Mount::find('/foo/bar'));
 
-		$mount = new \OC\Files\Mount(new Temporary(array()), '/foo');
+		$storage = new Temporary(array());
+		$mount = new \OC\Files\Mount($storage, '/foo');
 		$this->assertEquals($rootMount, \OC\Files\Mount::find('/'));
 		$this->assertEquals($mount, \OC\Files\Mount::find('/foo/bar'));
 
@@ -32,6 +33,9 @@ class Mount extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(2, count(\OC\Files\Mount::findIn('/')));
 
 		$id = $mount->getStorageId();
-		$this->assertEquals($mount, \OC\Files\Mount::findById($id));
+		$this->assertEquals(array($mount), \OC\Files\Mount::findById($id));
+
+		$mount2 = new \OC\Files\Mount($storage, '/foo/bar');
+		$this->assertEquals(array($mount, $mount2), \OC\Files\Mount::findById($id));
 	}
 }
