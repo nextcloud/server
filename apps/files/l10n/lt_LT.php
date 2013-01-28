@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Įkelti",
 "There is no error, the file uploaded with success" => "Klaidų nėra, failas įkeltas sėkmingai",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Įkeliamo failo dydis viršija MAX_FILE_SIZE parametrą, kuris yra nustatytas HTML formoje",
 "The uploaded file was only partially uploaded" => "Failas buvo įkeltas tik dalinai",
@@ -36,6 +35,7 @@
 "{count} folders" => "{count} aplankalai",
 "1 file" => "1 failas",
 "{count} files" => "{count} failai",
+"Upload" => "Įkelti",
 "File handling" => "Failų tvarkymas",
 "Maximum upload size" => "Maksimalus įkeliamo failo dydis",
 "max. possible: " => "maks. galima:",

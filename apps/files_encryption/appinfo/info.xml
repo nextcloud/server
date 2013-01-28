@@ -2,10 +2,10 @@
 <info>
 	<id>files_encryption</id>
 	<name>Encryption</name>
-	<description>Server side encryption of files. DEPRECATED. This app is no longer supported and will be replaced with an improved version in ownCloud 5. Only enable this features if you want to read old encrypted data. Warning: You will lose your data if you enable this App and forget your password. Encryption is not yet compatible with LDAP.</description>
+	<description>Server side encryption of files. Warning: You will lose your data if you enable this App and forget your password. Encryption is not yet compatible with LDAP.</description>
 	<licence>AGPL</licence>
-	<author>Robin Appelman</author>
-	<require>4.9</require>
+	<author>Sam Tuke</author>
+	<require>4</require>
 	<shipped>true</shipped>
 	<types>
 		<filesystem/>

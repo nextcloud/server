@@ -32,26 +32,28 @@ Files={
 		}
 		if(response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
 			$('#max_upload').val(response.data.uploadMaxFilesize);
-			$('#data-upload-form a').attr('original-title', response.data.maxHumanFilesize);
+			$('#upload.button').attr('original-title', response.data.maxHumanFilesize);
+			$('#usedSpacePercent').val(response.data.usedSpacePercent);
+			Files.displayStorageWarnings();
 		}
 		if(response[0] == undefined) {
 			return;
 		}
 		if(response[0].uploadMaxFilesize !== undefined) {
 			$('#max_upload').val(response[0].uploadMaxFilesize);
-			$('#data-upload-form a').attr('original-title', response[0].maxHumanFilesize);
+			$('#upload.button').attr('original-title', response[0].maxHumanFilesize);
+			$('#usedSpacePercent').val(response[0].usedSpacePercent);
+			Files.displayStorageWarnings();
 		}
 
 	},
 	isFileNameValid:function (name) {
 		if (name === '.') {
-			$('#notification').text(t('files', '\'.\' is an invalid file name.'));
-			$('#notification').fadeIn();
+			OC.Notification.show(t('files', '\'.\' is an invalid file name.'));
 			return false;
 		}
 		if (name.length == 0) {
-			$('#notification').text(t('files', 'File name cannot be empty.'));
-			$('#notification').fadeIn();
+			OC.Notification.show(t('files', 'File name cannot be empty.'));
 			return false;
 		}
 
@@ -59,13 +61,26 @@ Files={
 		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
 		for (var i = 0; i < invalid_characters.length; i++) {
 			if (name.indexOf(invalid_characters[i]) != -1) {
-				$('#notification').text(t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
-				$('#notification').fadeIn();
+				OC.Notification.show(t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
 				return false;
 			}
 		}
-		$('#notification').fadeOut();
+		OC.Notification.hide();
 		return true;
+	},
+	displayStorageWarnings: function() {
+		if (!OC.Notification.isHidden()) {
+			return;
+		}
+
+		var usedSpacePercent = $('#usedSpacePercent').val();
+		if (usedSpacePercent > 98) {
+			OC.Notification.show(t('files', 'Your storage is full, files can not be updated or synced anymore!'));
+			return;
+		}
+		if (usedSpacePercent > 90) {
+			OC.Notification.show(t('files', 'Your storage is almost full ({usedSpacePercent}%)', {usedSpacePercent: usedSpacePercent}));
+		}
 	}
 };
 $(document).ready(function() {
@@ -206,8 +221,7 @@ $(document).ready(function() {
 	$('.download').click('click',function(event) {
 		var files=getSelectedFiles('name').join(';');
 		var dir=$('#dir').val()||'/';
-		$('#notification').text(t('files','Your download is being prepared. This might take some time if the files are big.'));
-		$('#notification').fadeIn();
+		OC.Notification.show(t('files','Your download is being prepared. This might take some time if the files are big.'));
 		// use special download URL if provided, e.g. for public shared files
 		if ( (downloadURL = document.getElementById("downloadURL")) ) {
 			window.location=downloadURL.value+"&download&files="+files;
@@ -336,8 +350,7 @@ $(document).ready(function() {
 											var response;
 											response=jQuery.parseJSON(result);
 											if(response[0] == undefined || response[0].status != 'success') {
-												$('#notification').text(t('files', response.data.message));
-												$('#notification').fadeIn();
+												OC.Notification.show(t('files', response.data.message));
 											}
 											Files.updateMaxUploadFilesize(response);
 											var file=response[0];
@@ -377,9 +390,7 @@ $(document).ready(function() {
 											uploadtext.text(t('files', '{count} files uploading', {count: currentUploads}));
 										}
 										delete uploadingFiles[dirName][fileName];
-										$('#notification').hide();
-										$('#notification').text(t('files', 'Upload cancelled.'));
-										$('#notification').fadeIn();
+										OC.Notification.show(t('files', 'Upload cancelled.'));
 									}
 								});
 								//TODO test with filenames containing slashes
@@ -406,20 +417,17 @@ $(document).ready(function() {
 												FileList.loadingDone(file.name, file.id);
 											} else {
 												Files.cancelUpload(this.files[0].name);
-												$('#notification').text(t('files', response.data.message));
-												$('#notification').fadeIn();
+												OC.Notification.show(t('files', response.data.message));
 												$('#fileList > tr').not('[data-mime]').fadeOut();
 												$('#fileList > tr').not('[data-mime]').remove();
 											}
-										})
-								.error(function(jqXHR, textStatus, errorThrown) {
-									if(errorThrown === 'abort') {
-										Files.cancelUpload(this.files[0].name);
-										$('#notification').hide();
-										$('#notification').text(t('files', 'Upload cancelled.'));
-										$('#notification').fadeIn();
-									}
-								});
+									})
+									.error(function(jqXHR, textStatus, errorThrown) {
+										if(errorThrown === 'abort') {
+											Files.cancelUpload(this.files[0].name);
+											OC.Notification.show(t('files', 'Upload cancelled.'));
+										}
+									});
 								uploadingFiles[uniqueName] = jqXHR;
 							}
 						}
@@ -440,8 +448,7 @@ $(document).ready(function() {
 								FileList.loadingDone(file.name, file.id);
 							} else {
 								//TODO Files.cancelUpload(/*where do we get the filename*/);
-								$('#notification').text(t('files', response.data.message));
-								$('#notification').fadeIn();
+								OC.Notification.show(t('files', response.data.message));
 								$('#fileList > tr').not('[data-mime]').fadeOut();
 								$('#fileList > tr').not('[data-mime]').remove();
 							}
@@ -561,14 +568,12 @@ $(document).ready(function() {
 			event.preventDefault();
 			var newname=input.val();
 			if(type == 'web' && newname.length == 0) {
-				$('#notification').text(t('files', 'URL cannot be empty.'));
-				$('#notification').fadeIn();
+				OC.Notification.show(t('files', 'URL cannot be empty.'));
 				return false;
 			} else if (type != 'web' && !Files.isFileNameValid(newname)) {
 				return false;
 			} else if( type == 'folder' && $('#dir').val() == '/' && newname == 'Shared') {
-				$('#notification').text(t('files','Invalid folder name. Usage of \'Shared\' is reserved by Owncloud'));
-				$('#notification').fadeIn();
+				OC.Notification.show(t('files','Invalid folder name. Usage of \'Shared\' is reserved by Owncloud'));
 				return false;
 			}
 			if (FileList.lastAction) {
@@ -738,6 +743,10 @@ $(document).ready(function() {
 	});
 
 	resizeBreadcrumbs(true);
+
+	// display storage warnings
+	setTimeout ( "Files.displayStorageWarnings()", 100 );
+	OC.Notification.setDefault(Files.displayStorageWarnings);
 
 	// file space size sync
 	function update_storage_statistics() {

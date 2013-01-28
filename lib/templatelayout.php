@@ -33,18 +33,6 @@ class OC_TemplateLayout extends OC_Template {
 		} else {
 			parent::__construct('core', 'layout.base');
 		}
-
-		$apps_paths = array();
-		foreach(OC_App::getEnabledApps() as $app) {
-			$apps_paths[$app] = OC_App::getAppWebPath($app);
-		}
-		$this->assign( 'apps_paths', str_replace('\\/', '/', json_encode($apps_paths)), false ); // Ugly unescape slashes waiting for better solution
-
-		if (OC_Config::getValue('installed', false) && !OC_AppConfig::getValue('core', 'remote_core.css', false)) {
-			OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
-			OC_AppConfig::setValue('core', 'remote_core.js', '/core/minimizer.php');
-		}
-
 		// Add the js files
 		$jsfiles = self::findJavascriptFiles(OC_Util::$scripts);
 		$this->assign('jsfiles', array(), false);

@@ -36,8 +36,12 @@
  *
  * Filesystem functions are not called directly; they are passed to the correct
  * OC_Filestorage object
+ *
+ * @note default root (if $root is empty or '/') is /data/[user]/
+ * @note If you don't include a leading slash, you may encounter problems.
+ * e.g. use $v = new \OC_FilesystemView( '/' . $params['uid'] ); not 
+ * $v = new \OC_FilesystemView( $params['uid'] );
  */
-
 class OC_FilesystemView {
 	private $fakeRoot='';
 	private $internal_path_cache=array();

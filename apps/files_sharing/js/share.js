@@ -1,6 +1,9 @@
 $(document).ready(function() {
 
+	var disableSharing = $('#disableSharing').data('status');
+
 	if (typeof OC.Share !== 'undefined' && typeof FileActions !== 'undefined'  && !disableSharing) {
+
 		FileActions.register('all', 'Share', OC.PERMISSION_READ, OC.imagePath('core', 'actions/share'), function(filename) {
 			if ($('#dir').val() == '/') {
 				var item = $('#dir').val() + filename;

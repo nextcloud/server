@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Загрузить",
 "Could not move %s - File with this name already exists" => "Невозможно переместить %s - файл с таким именем уже существует",
 "Could not move %s" => "Невозможно переместить %s",
 "Unable to rename file" => "Невозможно переименовать файл",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "Файл не был загружен",
 "Missing a temporary folder" => "Невозможно найти временную папку",
 "Failed to write to disk" => "Ошибка записи на диск",
-"Not enough space available" => "Недостаточно свободного места",
 "Invalid directory." => "Неправильный каталог.",
 "Files" => "Файлы",
 "Unshare" => "Отменить публикацию",
@@ -48,6 +46,7 @@
 "{count} folders" => "{count} папок",
 "1 file" => "1 файл",
 "{count} files" => "{count} файлов",
+"Upload" => "Загрузить",
 "File handling" => "Управление файлами",
 "Maximum upload size" => "Максимальный размер загружаемого файла",
 "max. possible: " => "макс. возможно: ",

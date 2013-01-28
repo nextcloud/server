@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Подигни",
 "No file was uploaded. Unknown error" => "Ниту еден фајл не се вчита. Непозната грешка",
 "There is no error, the file uploaded with success" => "Нема грешка, датотеката беше подигната успешно",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Подигнатата датотека ја надминува upload_max_filesize директивата во php.ini:",
@@ -40,6 +39,7 @@
 "{count} folders" => "{count} папки",
 "1 file" => "1 датотека",
 "{count} files" => "{count} датотеки",
+"Upload" => "Подигни",
 "File handling" => "Ракување со датотеки",
 "Maximum upload size" => "Максимална големина за подигање",
 "max. possible: " => "макс. можно:",

@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "העלאה",
 "No file was uploaded. Unknown error" => "לא הועלה קובץ. טעות בלתי מזוהה.",
 "There is no error, the file uploaded with success" => "לא אירעה תקלה, הקבצים הועלו בהצלחה",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "הקבצים שנשלחו חורגים מהגודל שצוין בהגדרה upload_max_filesize שבקובץ php.ini:",
@@ -40,6 +39,7 @@
 "{count} folders" => "{count} תיקיות",
 "1 file" => "קובץ אחד",
 "{count} files" => "{count} קבצים",
+"Upload" => "העלאה",
 "File handling" => "טיפול בקבצים",
 "Maximum upload size" => "גודל העלאה מקסימלי",
 "max. possible: " => "המרבי האפשרי: ",

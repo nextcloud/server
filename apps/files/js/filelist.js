@@ -201,15 +201,14 @@ var FileList={
 	},
 	checkName:function(oldName, newName, isNewFile) {
 		if (isNewFile || $('tr').filterAttr('data-file', newName).length > 0) {
-			if (isNewFile) {
-				$('#notification').html(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="suggest">'+t('files', 'suggest name')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
-			} else {
-				$('#notification').html(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
-			}
 			$('#notification').data('oldName', oldName);
 			$('#notification').data('newName', newName);
 			$('#notification').data('isNewFile', isNewFile);
-			$('#notification').fadeIn();
+            if (isNewFile) {
+                OC.Notification.showHtml(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="suggest">'+t('files', 'suggest name')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
+            } else {
+                OC.Notification.showHtml(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
+            }
 			return true;
 		} else {
 			return false;
@@ -251,11 +250,10 @@ var FileList={
 			FileList.finishReplace();
 		};
 		if (isNewFile) {
-			$('#notification').html(t('files', 'replaced {new_name}', {new_name: newName})+'<span class="undo">'+t('files', 'undo')+'</span>');
+			OC.Notification.showHtml(t('files', 'replaced {new_name}', {new_name: newName})+'<span class="undo">'+t('files', 'undo')+'</span>');
 		} else {
-			$('#notification').html(t('files', 'replaced {new_name} with {old_name}', {new_name: newName}, {old_name: oldName})+'<span class="undo">'+t('files', 'undo')+'</span>');
+            OC.Notification.showHtml(t('files', 'replaced {new_name} with {old_name}', {new_name: newName}, {old_name: oldName})+'<span class="undo">'+t('files', 'undo')+'</span>');
 		}
-		$('#notification').fadeIn();
 	},
 	finishReplace:function() {
 		if (!FileList.replaceCanceled && FileList.replaceOldName && FileList.replaceNewName) {
@@ -277,6 +275,49 @@ var FileList={
 		if (FileList.lastAction) {
 			FileList.lastAction();
 		}
+<<<<<<< HEAD
+=======
+
+		FileList.prepareDeletion(files);
+
+		if (!FileList.useUndo) {
+			FileList.lastAction();
+		} else {
+			// NOTE: Temporary fix to change the text to unshared for files in root of Shared folder
+			if ($('#dir').val() == '/Shared') {
+				OC.Notification.showHtml(t('files', 'unshared {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
+			} else {
+                OC.Notification.showHtml(t('files', 'deleted {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
+			}
+		}
+	},
+	finishDelete:function(ready,sync){
+		if(!FileList.deleteCanceled && FileList.deleteFiles){
+			var fileNames=JSON.stringify(FileList.deleteFiles);
+			$.ajax({
+				url: OC.filePath('files', 'ajax', 'delete.php'),
+				async:!sync,
+				type:'post',
+				data: {dir:$('#dir').val(),files:fileNames},
+				complete: function(data){
+					boolOperationFinished(data, function(){
+                        OC.Notification.hide();
+						$.each(FileList.deleteFiles,function(index,file){
+							FileList.remove(file);
+						});
+						FileList.deleteCanceled=true;
+						FileList.deleteFiles=null;
+						FileList.lastAction = null;
+						if(ready){
+							ready();
+						}
+					});
+				}
+			});
+		}
+	},
+	prepareDeletion:function(files){
+>>>>>>> origin/master
 		if(files.substr){
 			files=[files];
 		}
@@ -323,16 +364,16 @@ $(document).ready(function(){
 			FileList.replaceIsNewFile = null;
 		}
 		FileList.lastAction = null;
-		$('#notification').fadeOut('400');
+        OC.Notification.hide();
 	});
 	$('#notification .replace').live('click', function() {
-		$('#notification').fadeOut('400', function() {
-			FileList.replace($('#notification').data('oldName'), $('#notification').data('newName'), $('#notification').data('isNewFile'));
-		});
+        OC.Notification.hide(function() {
+            FileList.replace($('#notification').data('oldName'), $('#notification').data('newName'), $('#notification').data('isNewFile'));
+        });
 	});
 	$('#notification .suggest').live('click', function() {
 		$('tr').filterAttr('data-file', $('#notification').data('oldName')).show();
-		$('#notification').fadeOut('400');
+        OC.Notification.hide();
 	});
 	$('#notification .cancel').live('click', function() {
 		if ($('#notification').data('isNewFile')) {
