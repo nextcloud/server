@@ -275,49 +275,6 @@ var FileList={
 		if (FileList.lastAction) {
 			FileList.lastAction();
 		}
-<<<<<<< HEAD
-=======
-
-		FileList.prepareDeletion(files);
-
-		if (!FileList.useUndo) {
-			FileList.lastAction();
-		} else {
-			// NOTE: Temporary fix to change the text to unshared for files in root of Shared folder
-			if ($('#dir').val() == '/Shared') {
-				OC.Notification.showHtml(t('files', 'unshared {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
-			} else {
-                OC.Notification.showHtml(t('files', 'deleted {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
-			}
-		}
-	},
-	finishDelete:function(ready,sync){
-		if(!FileList.deleteCanceled && FileList.deleteFiles){
-			var fileNames=JSON.stringify(FileList.deleteFiles);
-			$.ajax({
-				url: OC.filePath('files', 'ajax', 'delete.php'),
-				async:!sync,
-				type:'post',
-				data: {dir:$('#dir').val(),files:fileNames},
-				complete: function(data){
-					boolOperationFinished(data, function(){
-                        OC.Notification.hide();
-						$.each(FileList.deleteFiles,function(index,file){
-							FileList.remove(file);
-						});
-						FileList.deleteCanceled=true;
-						FileList.deleteFiles=null;
-						FileList.lastAction = null;
-						if(ready){
-							ready();
-						}
-					});
-				}
-			});
-		}
-	},
-	prepareDeletion:function(files){
->>>>>>> origin/master
 		if(files.substr){
 			files=[files];
 		}
