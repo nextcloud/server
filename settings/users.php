@@ -42,7 +42,7 @@ $defaultQuota=OC_Appconfig::getValue('files', 'default_quota', 'none');
 $defaultQuotaIsUserDefined=array_search($defaultQuota, $quotaPreset)===false && array_search($defaultQuota, array('none', 'default'))===false;
 
 // load users and quota
-foreach($accessibleusers as $displayName => $uid) {
+foreach($accessibleusers as $uid => $displayName) {
 	$quota=OC_Preferences::getValue($i, 'files', 'quota', 'default');
 	$isQuotaUserDefined=array_search($quota, $quotaPreset)===false && array_search($quota, array('none', 'default'))===false;
 
@@ -52,8 +52,8 @@ foreach($accessibleusers as $displayName => $uid) {
 	} 
 	
 	$users[] = array(
-		"name" => $name,
-		"uid" => $uid,
+		"name" => $uid,
+		"displayName" => $displayName, 
 		"groups" => join( ", ", /*array_intersect(*/OC_Group::getUserGroups($uid)/*, OC_SubAdmin::getSubAdminsGroups(OC_User::getUser()))*/),
 		'quota'=>$quota,
 		'isQuotaUserDefined'=>$isQuotaUserDefined,

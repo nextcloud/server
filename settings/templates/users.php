@@ -79,6 +79,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 	<thead>
 		<tr>
 			<th id='headerName'><?php echo $l->t('Name')?></th>
+			<th id="headerDisplayName"><?php echo $l->t( 'Display Name' ); ?></th>
 			<th id="headerPassword"><?php echo $l->t( 'Password' ); ?></th>
 			<th id="headerGroups"><?php echo $l->t( 'Groups' ); ?></th>
 			<?php if(is_array($_['subadmins']) || $_['subadmins']): ?>
@@ -92,6 +93,10 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 		<?php foreach($_["users"] as $user): ?>
 		<tr data-uid="<?php echo $user["name"] ?>">
 			<td class="name"><?php echo $user["name"]; ?></td>
+			<td class="displayName"><?php echo $user["displayName"]; ?> <img class="svg action"
+				src="<?php echo image_path('core', 'actions/rename.svg')?>"
+				alt="change display name" title="change display name"/>
+			</td>
 			<td class="password"><span>●●●●●●●</span> <img class="svg action"
 				src="<?php echo image_path('core', 'actions/rename.svg')?>"
 				alt="set new password" title="set new password"/>
@@ -157,7 +162,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 				</div>
 			</td>
 			<td class="remove">
-				<?php if($user['uid']!=OC_User::getUser()):?>
+				<?php if($user['name']!=OC_User::getUser()):?>
 					<a href="#" class="action delete" original-title="<?php echo $l->t('Delete')?>">
 						<img src="<?php echo image_path('core', 'actions/delete.svg') ?>" />
 					</a>

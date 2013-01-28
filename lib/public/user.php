@@ -62,7 +62,7 @@ class User {
 	
 	/**
 	 * @brief Get a list of all display names
-	 * @returns array with all display names (key) and the correspondig uids (value)
+	 * @returns array with all display names (value) and the correspondig uids (key)
 	 *
 	 * Get a list of all display names and user ids.
 	 */
