@@ -98,7 +98,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				OCP\Util::sendMail($to_address, $to_address, $subject, $text, $from_address, $user);
 				OCP\JSON::success();
 			} catch (Exception $exception) {
-				OCP\JSON::error(array('data' => array('message' => $exception->getMessage())));
+				OCP\JSON::error(array('data' => array('message' => OC_Util::sanitizeHTML($exception->getMessage()))));
 			}
 			break;
 	}

@@ -99,8 +99,11 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 	position:absolute; height:100%; width:100%; padding-top:3.5em; padding-left:64px;
 	-moz-box-sizing:border-box; box-sizing:border-box;
 }
-
-#leftcontent, .leftcontent { position:fixed; overflow:auto; top:6.4em; width:20em; background:#f8f8f8; border-right:1px solid #ddd; height:100%; }
+#leftcontent, .leftcontent {
+	position:fixed; overflow:auto; top:0; width:20em; height:100%;
+	background:#f8f8f8; border-right:1px solid #ddd;
+	-moz-box-sizing:border-box; box-sizing:border-box; padding-top:6.4em;
+}
 #leftcontent li, .leftcontent li { background:#f8f8f8; padding:.5em .8em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; -webkit-transition:background-color 200ms; -moz-transition:background-color 200ms; -o-transition:background-color 200ms; transition:background-color 200ms; }
 #leftcontent li:hover, #leftcontent li:active, #leftcontent li.active, .leftcontent li:hover, .leftcontent li:active, .leftcontent li.active { background:#eee; }
 #leftcontent li.active, .leftcontent li.active { font-weight:bold; }
@@ -206,7 +209,8 @@ fieldset.warning legend { color:#b94a48 !important; }
 .bold { font-weight:bold; }
 .center { text-align:center; }
 
-#notification { z-index:101; background-color:#fc4; border:0; padding:0 .7em .3em; display:none; position:fixed; left:50%; top:0; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
+#notification-container { position: fixed; top: 0px; width: 100%; text-align: center; z-index: 101; line-height: 1.2;}
+#notification { z-index:101; background-color:#fc4; border:0; padding:0 .7em .3em; display:none; position: relative; top:0; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
 #notification span { cursor:pointer; font-weight:bold; margin-left:1em; }
 
 tr .action, .selectedActions a { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0; }

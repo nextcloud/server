@@ -16,7 +16,7 @@
 "Disable" => "Desabilitado",
 "Enable" => "Habilitado",
 "Saving..." => "Gravando...",
-"__language_name__" => "Português",
+"__language_name__" => "Português do Brasil",
 "Add your App" => "Adicione seu Aplicativo",
 "More Apps" => "Mais Apps",
 "Select an App" => "Selecione uma Aplicação",

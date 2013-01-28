@@ -63,17 +63,17 @@ class OC_App{
 
 		if (!defined('DEBUG') || !DEBUG) {
 			if (is_null($types)
-			    && empty(OC_Util::$core_scripts)
-			    && empty(OC_Util::$core_styles)) {
+				&& empty(OC_Util::$core_scripts)
+				&& empty(OC_Util::$core_styles)) {
 				OC_Util::$core_scripts = OC_Util::$scripts;
-				OC_Util::$scripts = array();
-				OC_Util::$core_styles = OC_Util::$styles;
-				OC_Util::$styles = array();
-			}
+			OC_Util::$scripts = array();
+			OC_Util::$core_styles = OC_Util::$styles;
+			OC_Util::$styles = array();
 		}
-		// return
-		return true;
 	}
+		// return
+	return true;
+}
 
 	/**
 	 * load a single app
@@ -299,7 +299,7 @@ class OC_App{
 		if(OC_Config::getValue('knowledgebaseenabled', true)==true) {
 			$settings = array(
 				array( "id" => "help", "order" => 1000, "href" => OC_Helper::linkToRoute( "settings_help" ), "name" => $l->t("Help"), "icon" => OC_Helper::imagePath( "settings", "help.svg" ))
-			);
+				);
 		}
 
 		// if the user is logged-in
@@ -519,16 +519,16 @@ class OC_App{
 		$forms=array();
 		switch($type) {
 			case 'settings':
-				$source=self::$settingsForms;
-				break;
+			$source=self::$settingsForms;
+			break;
 			case 'admin':
-				$source=self::$adminForms;
-				break;
+			$source=self::$adminForms;
+			break;
 			case 'personal':
-				$source=self::$personalForms;
-				break;
+			$source=self::$personalForms;
+			break;
 			default:
-				return array();
+			return array();
 		}
 		foreach($source as $form) {
 			$forms[]=include $form;
@@ -587,6 +587,72 @@ class OC_App{
 
 		return $apps;
 	}
+
+	/**
+	 * @brief: Lists all apps, this is used in apps.php
+	 * @return array
+	 */
+	public static function listAllApps() {
+		$installedApps = OC_App::getAllApps();
+
+		//TODO which apps do we want to blacklist and how do we integrate blacklisting with the multi apps folder feature?
+
+		$blacklist = array('files');//we dont want to show configuration for these
+		$appList = array();
+
+		foreach ( $installedApps as $app ) {
+			if ( array_search( $app, $blacklist ) === false ) {
+
+				$info=OC_App::getAppInfo($app);
+
+				if (!isset($info['name'])) {
+					OC_Log::write('core', 'App id "'.$app.'" has no name in appinfo', OC_Log::ERROR);
+					continue;
+				}
+
+				if ( OC_Appconfig::getValue( $app, 'enabled', 'no') == 'yes' ) {
+					$active = true;
+				} else {
+					$active = false;
+				}
+
+				$info['active'] = $active;
+
+				if(isset($info['shipped']) and ($info['shipped']=='true')) {
+					$info['internal']=true;
+					$info['internallabel']='Internal App';
+				} else {
+					$info['internal']=false;
+					$info['internallabel']='3rd Party App';
+				}
+
+				$info['preview'] = OC_Helper::imagePath('settings', 'trans.png');
+				$info['version'] = OC_App::getAppVersion($app);
+				$appList[] = $info;
+			}
+		}
+		$remoteApps = OC_App::getAppstoreApps();
+		if ( $remoteApps ) {
+	// Remove duplicates
+			foreach ( $appList as $app ) {
+				foreach ( $remoteApps AS $key => $remote ) {
+					if (
+						$app['name'] == $remote['name']
+			// To set duplicate detection to use OCS ID instead of string name,
+			// enable this code, remove the line of code above,
+			// and add <ocs_id>[ID]</ocs_id> to info.xml of each 3rd party app:
+			// OR $app['ocs_id'] == $remote['ocs_id']
+						) {
+						unset( $remoteApps[$key]);
+				}
+			}
+		}
+		$combinedApps = array_merge( $appList, $remoteApps );
+	} else {
+		$combinedApps = $appList;
+	}	
+	return $combinedApps;	
+}
 
 	/**
 	 * @brief: get a list of all apps on apps.owncloud.com
@@ -748,7 +814,7 @@ class OC_App{
 				}
 				return new OC_FilesystemView('/'.OC_User::getUser().'/'.$appid);
 			}else{
-				OC_Log::write('core', 'Can\'t get app storage, app, user not logged in', OC_Log::ERROR);
+				OC_Log::write('core', 'Can\'t get app storage, app '.$appid.', user not logged in', OC_Log::ERROR);
 				return false;
 			}
 		}else{

@@ -41,10 +41,5 @@
 		<input type="submit" id="submit" class="login primary" value="<?php echo $l->t('Log in'); ?>"/>
 	</fieldset>
 </form>
-<script>
-	$(document).ready(function () {
-		var visitortimezone = (-new Date().getTimezoneOffset() / 60);
-		$('#timezone-offset').val(visitortimezone);
-	});
+<?php OCP\Util::addscript('core', 'visitortimezone'); ?>
 
-</script>

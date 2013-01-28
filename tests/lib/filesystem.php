@@ -20,7 +20,7 @@
  *
  */
 
-class Test_Filesystem extends UnitTestCase {
+class Test_Filesystem extends PHPUnit_Framework_TestCase {
 	/**
 	 * @var array tmpDirs
 	 */
@@ -47,28 +47,28 @@ class Test_Filesystem extends UnitTestCase {
 
 	public function testMount() {
 		OC_Filesystem::mount('OC_Filestorage_Local', self::getStorageData(), '/');
-		$this->assertEqual('/', OC_Filesystem::getMountPoint('/'));
-		$this->assertEqual('/', OC_Filesystem::getMountPoint('/some/folder'));
-		$this->assertEqual('', OC_Filesystem::getInternalPath('/'));
-		$this->assertEqual('some/folder', OC_Filesystem::getInternalPath('/some/folder'));
+		$this->assertEquals('/', OC_Filesystem::getMountPoint('/'));
+		$this->assertEquals('/', OC_Filesystem::getMountPoint('/some/folder'));
+		$this->assertEquals('', OC_Filesystem::getInternalPath('/'));
+		$this->assertEquals('some/folder', OC_Filesystem::getInternalPath('/some/folder'));
 
 		OC_Filesystem::mount('OC_Filestorage_Local', self::getStorageData(), '/some');
-		$this->assertEqual('/', OC_Filesystem::getMountPoint('/'));
-		$this->assertEqual('/some/', OC_Filesystem::getMountPoint('/some/folder'));
-		$this->assertEqual('/some/', OC_Filesystem::getMountPoint('/some/'));
-		$this->assertEqual('/', OC_Filesystem::getMountPoint('/some'));
-		$this->assertEqual('folder', OC_Filesystem::getInternalPath('/some/folder'));
+		$this->assertEquals('/', OC_Filesystem::getMountPoint('/'));
+		$this->assertEquals('/some/', OC_Filesystem::getMountPoint('/some/folder'));
+		$this->assertEquals('/some/', OC_Filesystem::getMountPoint('/some/'));
+		$this->assertEquals('/', OC_Filesystem::getMountPoint('/some'));
+		$this->assertEquals('folder', OC_Filesystem::getInternalPath('/some/folder'));
 	}
 
 	public function testNormalize() {
-		$this->assertEqual('/path', OC_Filesystem::normalizePath('/path/'));
-		$this->assertEqual('/path/', OC_Filesystem::normalizePath('/path/', false));
-		$this->assertEqual('/path', OC_Filesystem::normalizePath('path'));
-		$this->assertEqual('/path', OC_Filesystem::normalizePath('\path'));
-		$this->assertEqual('/foo/bar', OC_Filesystem::normalizePath('/foo//bar/'));
-		$this->assertEqual('/foo/bar', OC_Filesystem::normalizePath('/foo////bar'));
+		$this->assertEquals('/path', OC_Filesystem::normalizePath('/path/'));
+		$this->assertEquals('/path/', OC_Filesystem::normalizePath('/path/', false));
+		$this->assertEquals('/path', OC_Filesystem::normalizePath('path'));
+		$this->assertEquals('/path', OC_Filesystem::normalizePath('\path'));
+		$this->assertEquals('/foo/bar', OC_Filesystem::normalizePath('/foo//bar/'));
+		$this->assertEquals('/foo/bar', OC_Filesystem::normalizePath('/foo////bar'));
 		if (class_exists('Normalizer')) {
-			$this->assertEqual("/foo/bar\xC3\xBC", OC_Filesystem::normalizePath("/foo/baru\xCC\x88"));
+			$this->assertEquals("/foo/bar\xC3\xBC", OC_Filesystem::normalizePath("/foo/baru\xCC\x88"));
 		}
 	}
 
@@ -100,10 +100,10 @@ class Test_Filesystem extends UnitTestCase {
 		$rootView->mkdir('/' . $user);
 		$rootView->mkdir('/' . $user . '/files');
 
-		$this->assertFalse($rootView->file_put_contents('/.htaccess', 'foo'));
-		$this->assertFalse(OC_Filesystem::file_put_contents('/.htaccess', 'foo'));
+		$this->assertFalse((bool)$rootView->file_put_contents('/.htaccess', 'foo'));
+		$this->assertFalse((bool)OC_Filesystem::file_put_contents('/.htaccess', 'foo'));
 		$fh = fopen(__FILE__, 'r');
-		$this->assertFalse(OC_Filesystem::file_put_contents('/.htaccess', $fh));
+		$this->assertFalse((bool)OC_Filesystem::file_put_contents('/.htaccess', $fh));
 	}
 
 	public function testHooks() {
@@ -134,6 +134,6 @@ class Test_Filesystem extends UnitTestCase {
 
 	public function dummyHook($arguments) {
 		$path = $arguments['path'];
-		$this->assertEqual($path, OC_Filesystem::normalizePath($path)); //the path passed to the hook should already be normalized
+		$this->assertEquals($path, OC_Filesystem::normalizePath($path)); //the path passed to the hook should already be normalized
 	}
 }

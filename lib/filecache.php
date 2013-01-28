@@ -23,9 +23,14 @@
  * provide caching for filesystem info in the database
  *
  * not used by OC_Filesystem for reading filesystem info,
- * instread apps should use OC_FileCache::get where possible
+ * instead apps should use OC_FileCache::get where possible
  *
- * It will try to keep the data up to date but changes from outside ownCloud can invalidate the cache
+ * It will try to keep the data up to date but changes from outside 
+ * ownCloud can invalidate the cache
+ *
+ * Methods that take $path and $root params expect $path to be relative, like 
+ * /admin/files/file.txt, if $root is false
+ *
  */
 class OC_FileCache{
 
@@ -354,7 +359,7 @@ class OC_FileCache{
 	public static function increaseSize($path, $sizeDiff, $root=false) {
 		if($sizeDiff==0) return;
 		$item = OC_FileCache_Cached::get($path);
-		//stop walking up the filetree if we hit a non-folder or reached to root folder
+		//stop walking up the filetree if we hit a non-folder or reached the root folder
 		if($path == '/' || $path=='' || $item['mimetype'] !== 'httpd/unix-directory') {
 			return;
 		}

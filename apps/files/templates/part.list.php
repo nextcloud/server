@@ -1,10 +1,4 @@
-<script type="text/javascript">
-<?php if ( array_key_exists('publicListView', $_) && $_['publicListView'] == true ) :?>
-		var publicListView = true;
-<?php else: ?>
-		var publicListView = false;
-<?php endif; ?>
-</script>
+<input type="hidden" id="disableSharing" data-status="<?php echo $_['disableSharing']; ?>">
 
 <?php foreach($_['files'] as $file):
 	$simple_file_size = OCP\simple_file_size($file['size']);

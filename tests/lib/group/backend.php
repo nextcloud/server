@@ -20,7 +20,7 @@
 *
 */
 
-abstract class Test_Group_Backend extends UnitTestCase {
+abstract class Test_Group_Backend extends PHPUnit_Framework_TestCase {
 	/**
 	 * @var OC_Group_Backend $backend
 	 */
@@ -52,18 +52,18 @@ abstract class Test_Group_Backend extends UnitTestCase {
 		$name2=$this->getGroupName();
 		$this->backend->createGroup($name1);
 		$count=count($this->backend->getGroups())-$startCount;
-		$this->assertEqual(1, $count);
+		$this->assertEquals(1, $count);
 		$this->assertTrue((array_search($name1, $this->backend->getGroups())!==false));
 		$this->assertFalse((array_search($name2, $this->backend->getGroups())!==false));
 		$this->backend->createGroup($name2);
 		$count=count($this->backend->getGroups())-$startCount;
-		$this->assertEqual(2, $count);
+		$this->assertEquals(2, $count);
 		$this->assertTrue((array_search($name1, $this->backend->getGroups())!==false));
 		$this->assertTrue((array_search($name2, $this->backend->getGroups())!==false));
 
 		$this->backend->deleteGroup($name2);
 		$count=count($this->backend->getGroups())-$startCount;
-		$this->assertEqual(1, $count);
+		$this->assertEquals(1, $count);
 		$this->assertTrue((array_search($name1, $this->backend->getGroups())!==false));
 		$this->assertFalse((array_search($name2, $this->backend->getGroups())!==false));
 	}
@@ -91,15 +91,15 @@ abstract class Test_Group_Backend extends UnitTestCase {
 		
 		$this->assertFalse($this->backend->addToGroup($user1, $group1));
 
-		$this->assertEqual(array($user1), $this->backend->usersInGroup($group1));
-		$this->assertEqual(array(), $this->backend->usersInGroup($group2));
+		$this->assertEquals(array($user1), $this->backend->usersInGroup($group1));
+		$this->assertEquals(array(), $this->backend->usersInGroup($group2));
 
-		$this->assertEqual(array($group1), $this->backend->getUserGroups($user1));
-		$this->assertEqual(array(), $this->backend->getUserGroups($user2));
+		$this->assertEquals(array($group1), $this->backend->getUserGroups($user1));
+		$this->assertEquals(array(), $this->backend->getUserGroups($user2));
 
 		$this->backend->deleteGroup($group1);
-		$this->assertEqual(array(), $this->backend->getUserGroups($user1));
-		$this->assertEqual(array(), $this->backend->usersInGroup($group1));
+		$this->assertEquals(array(), $this->backend->getUserGroups($user1));
+		$this->assertEquals(array(), $this->backend->usersInGroup($group1));
 		$this->assertFalse($this->backend->inGroup($user1, $group1));
 	}
 }

@@ -30,7 +30,7 @@ require_once 'public/constants.php';
 class OC
 {
 	/**
-	 * Assoziative array for autoloading. classname => filename
+	 * Associative array for autoloading. classname => filename
 	 */
 	public static $CLASSPATH = array();
 	/**
@@ -96,7 +96,14 @@ class OC
 		} elseif (strpos($className, 'OCP\\') === 0) {
 			$path = 'public/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
 		} elseif (strpos($className, 'OCA\\') === 0) {
-			$path = 'apps/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
+			foreach(self::$APPSROOTS as $appDir) {
+				$path = $appDir['path'] . '/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
+				$fullPath = stream_resolve_include_path($path);
+				if (file_exists($fullPath)) {
+					require_once $fullPath;
+					return false;
+				}
+			}
 		} elseif (strpos($className, 'Sabre_') === 0) {
 			$path = str_replace('_', '/', $className) . '.php';
 		} elseif (strpos($className, 'Symfony\\Component\\Routing\\') === 0) {
@@ -231,6 +238,12 @@ class OC
 	public static function checkMaintenanceMode() {
 		// Allow ajax update script to execute without being stopped
 		if (OC_Config::getValue('maintenance', false) && OC::$SUBURI != '/core/ajax/update.php') {
+			// send http status 503
+			header('HTTP/1.1 503 Service Temporarily Unavailable');
+			header('Status: 503 Service Temporarily Unavailable');
+			header('Retry-After: 120');
+
+			// render error page
 			$tmpl = new OC_Template('', 'error', 'guest');
 			$tmpl->assign('errors', array(1 => array('error' => 'ownCloud is in maintenance mode')));
 			$tmpl->printPage();
@@ -246,6 +259,7 @@ class OC
 				if ($showTemplate && !OC_Config::getValue('maintenance', false)) {
 					OC_Config::setValue('maintenance', true);
 					OC_Log::write('core', 'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, OC_Log::DEBUG);
+					OC_Util::addscript('update');
 					$tmpl = new OC_Template('', 'update', 'guest');
 					$tmpl->assign('version', OC_Util::getVersionString());
 					$tmpl->printPage();
@@ -262,7 +276,7 @@ class OC
 	{
 		// Add the stuff we need always
 		OC_Util::addScript("jquery-1.7.2.min");
-		OC_Util::addScript("jquery-ui-1.8.16.custom.min");
+		OC_Util::addScript("jquery-ui-1.10.0.custom");
 		OC_Util::addScript("jquery-showpassword");
 		OC_Util::addScript("jquery.infieldlabel");
 		OC_Util::addScript("jquery-tipsy");
@@ -276,8 +290,9 @@ class OC
 
 		OC_Util::addStyle("styles");
 		OC_Util::addStyle("multiselect");
-		OC_Util::addStyle("jquery-ui-1.8.16.custom");
+		OC_Util::addStyle("jquery-ui-1.10.0.custom");
 		OC_Util::addStyle("jquery-tipsy");
+		OC_Util::addScript("oc-requesttoken");
 	}
 
 	public static function initSession()
@@ -320,6 +335,18 @@ class OC
 
 		return OC::$router;
 	}
+
+
+	public static function loadAppClassPaths()
+	{	
+		foreach(OC_APP::getEnabledApps() as $app) {
+			$file = OC_App::getAppPath($app).'/appinfo/classpath.php';
+			if(file_exists($file)) {
+				require_once $file;
+			}
+		}
+	}
+
 
 	public static function init()
 	{
@@ -403,8 +430,6 @@ class OC
 		self::checkSSL();
 		self::initSession();
 		self::initTemplateEngine();
-		self::checkMaintenanceMode();
-		self::checkUpgrade();
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
@@ -522,21 +547,10 @@ class OC
 	 */
 	public static function handleRequest()
 	{
-		if (!OC_Config::getValue('installed', false)) {
-			require_once 'core/setup.php';
-			exit();
-		}
-		// Handle redirect URL for logged in users
-		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
-			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
-			header('Location: ' . $location);
-			return;
-		}
-		// Handle WebDAV
-		if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND') {
-			header('location: ' . OC_Helper::linkToRemote('webdav'));
-			return;
-		}
+		// load all the classpaths from the enabled apps so they are available
+		// in the routing files of each app
+		OC::loadAppClassPaths();
+
 		try {
 			OC::getRouter()->match(OC_Request::getPathInfo());
 			return;
@@ -554,6 +568,27 @@ class OC
 			self::loadCSSFile($param);
 			return;
 		}
+
+		// Check if ownCloud is installed or in maintenance (update) mode
+		if (!OC_Config::getValue('installed', false)) {
+			require_once 'core/setup.php';
+			exit();
+		}
+		self::checkMaintenanceMode();
+		self::checkUpgrade();
+		
+		// Handle redirect URL for logged in users
+		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
+			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
+			header('Location: ' . $location);
+			return;
+		}
+		// Handle WebDAV
+		if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND') {
+			header('location: ' . OC_Helper::linkToRemote('webdav'));
+			return;
+		}
+
 		// Someone is logged in :
 		if (OC_User::isLoggedIn()) {
 			OC_App::loadApps();
