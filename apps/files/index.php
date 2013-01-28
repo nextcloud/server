@@ -83,6 +83,9 @@ $breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir
 $maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
 
 $permissions = OCP\PERMISSION_READ;
+if (OC_Filesystem::isCreatable($dir . '/')) {
+	$permissions |= OCP\PERMISSION_CREATE;
+}
 if (OC_Filesystem::isUpdatable($dir . '/')) {
 	$permissions |= OCP\PERMISSION_UPDATE;
 }
