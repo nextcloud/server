@@ -130,6 +130,40 @@ class OC_User_Database extends OC_User_Backend {
 	}
 
 	/**
+	 * @brief get display name of the user
+	 * @param $uid user ID of the user
+	 * @return display name
+	 */
+	public function getDisplayName($uid) {
+		if( $this->userExists($uid) ) {
+			$query = OC_DB::prepare( 'SELECT displayname FROM `*PREFIX*users` WHERE `uid` = ?' );
+			$result = $query->execute( array( $uid ))->fetchAll();
+			if (!empty($result[0]['displayname'])) {
+				return $result[0]['displayname'];
+			} else {
+				return $uid;
+			}
+		}
+	}
+	
+	/**
+	 * @brief Get a list of all display names
+	 * @returns array with  all displayNames (value) and the correspondig uids (key)
+	 *
+	 * Get a list of all display names and user ids.
+	 */
+	public function getDisplayNames($search = '', $limit = null, $offset = null) {
+		$displayNames = array();
+		$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` WHERE LOWER(`uid`) LIKE LOWER(?)', $limit, $offset);
+		$result = $query->execute(array($search.'%'));
+		$users = array();
+		while ($row = $result->fetchRow()) {
+			$displayNames[$row['uid']] = $row['displayname'];
+		}
+		return $displayNames;
+	}
+	
+	/**
 	 * @brief Check if the password is correct
 	 * @param $uid The username
 	 * @param $password The password
