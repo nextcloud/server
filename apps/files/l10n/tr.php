@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Yükle",
 "Could not move %s - File with this name already exists" => "%s taşınamadı. Bu isimde dosya zaten var.",
 "Could not move %s" => "%s taşınamadı",
 "Unable to rename file" => "Dosya adı değiştirilemedi",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "Hiç dosya yüklenmedi",
 "Missing a temporary folder" => "Geçici bir klasör eksik",
 "Failed to write to disk" => "Diske yazılamadı",
-"Not enough space available" => "Yeterli disk alanı yok",
 "Invalid directory." => "Geçersiz dizin.",
 "Files" => "Dosyalar",
 "Unshare" => "Paylaşılmayan",
@@ -49,6 +47,7 @@
 "{count} folders" => "{count} dizin",
 "1 file" => "1 dosya",
 "{count} files" => "{count} dosya",
+"Upload" => "Yükle",
 "File handling" => "Dosya taşıma",
 "Maximum upload size" => "Maksimum yükleme boyutu",
 "max. possible: " => "mümkün olan en fazla: ",

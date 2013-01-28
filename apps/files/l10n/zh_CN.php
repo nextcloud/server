@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "上传",
 "Could not move %s - File with this name already exists" => "无法移动 %s - 同名文件已存在",
 "Could not move %s" => "无法移动 %s",
 "Unable to rename file" => "无法重命名文件",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "文件没有上传",
 "Missing a temporary folder" => "缺少临时目录",
 "Failed to write to disk" => "写入磁盘失败",
-"Not enough space available" => "没有足够可用空间",
 "Invalid directory." => "无效文件夹。",
 "Files" => "文件",
 "Unshare" => "取消分享",
@@ -49,6 +47,7 @@
 "{count} folders" => "{count} 个文件夹",
 "1 file" => "1 个文件",
 "{count} files" => "{count} 个文件",
+"Upload" => "上传",
 "File handling" => "文件处理",
 "Maximum upload size" => "最大上传大小",
 "max. possible: " => "最大允许: ",

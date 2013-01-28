@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Încarcă",
 "Could not move %s - File with this name already exists" => "Nu se poate de mutat %s - Fișier cu acest nume deja există",
 "Could not move %s" => "Nu s-a putut muta %s",
 "Unable to rename file" => "Nu s-a putut redenumi fișierul",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "Niciun fișier încărcat",
 "Missing a temporary folder" => "Lipsește un dosar temporar",
 "Failed to write to disk" => "Eroare la scriere pe disc",
-"Not enough space available" => "Nu este suficient spațiu disponibil",
 "Invalid directory." => "Director invalid.",
 "Files" => "Fișiere",
 "Unshare" => "Anulează partajarea",
@@ -49,6 +47,7 @@
 "{count} folders" => "{count} foldare",
 "1 file" => "1 fisier",
 "{count} files" => "{count} fisiere",
+"Upload" => "Încarcă",
 "File handling" => "Manipulare fișiere",
 "Maximum upload size" => "Dimensiune maximă admisă la încărcare",
 "max. possible: " => "max. posibil:",

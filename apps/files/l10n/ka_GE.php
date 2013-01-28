@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "ატვირთვა",
 "There is no error, the file uploaded with success" => "ჭოცდომა არ დაფიქსირდა, ფაილი წარმატებით აიტვირთა",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "ატვირთული ფაილი აჭარბებს  MAX_FILE_SIZE დირექტივას, რომელიც მითითებულია HTML ფორმაში",
 "The uploaded file was only partially uploaded" => "ატვირთული ფაილი მხოლოდ ნაწილობრივ აიტვირთა",
@@ -36,6 +35,7 @@
 "{count} folders" => "{count} საქაღალდე",
 "1 file" => "1 ფაილი",
 "{count} files" => "{count} ფაილი",
+"Upload" => "ატვირთვა",
 "File handling" => "ფაილის დამუშავება",
 "Maximum upload size" => "მაქსიმუმ ატვირთის ზომა",
 "max. possible: " => "მაქს. შესაძლებელი:",

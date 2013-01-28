@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "আপলোড",
 "Could not move %s - File with this name already exists" => "%s কে স্থানান্তর করা সম্ভব হলো না -  এই নামের ফাইল বিদ্যমান",
 "Could not move %s" => "%s  কে স্থানান্তর করা সম্ভব হলো না",
 "Unable to rename file" => "ফাইলের নাম পরিবর্তন করা সম্ভব হলো না",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "কোন ফাইল আপলোড করা হয় নি",
 "Missing a temporary folder" => "অস্থায়ী ফোল্ডার খোয়া গিয়েছে",
 "Failed to write to disk" => "ডিস্কে লিখতে ব্যর্থ",
-"Not enough space available" => "যথেষ্ঠ পরিমাণ স্থান নেই",
 "Invalid directory." => "ভুল ডিরেক্টরি",
 "Files" => "ফাইল",
 "Unshare" => "ভাগাভাগি বাতিল ",
@@ -48,6 +46,7 @@
 "{count} folders" => "{count} টি ফোল্ডার",
 "1 file" => "১টি ফাইল",
 "{count} files" => "{count} টি ফাইল",
+"Upload" => "আপলোড",
 "File handling" => "ফাইল হ্যার্ডলিং",
 "Maximum upload size" => "আপলোডের সর্বোচ্চ আকার",
 "max. possible: " => "অনুমোদিত  সর্বোচ্চ  আকার",

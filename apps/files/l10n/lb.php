@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Eroplueden",
 "There is no error, the file uploaded with success" => "Keen Feeler, Datei ass komplett ropgelueden ginn",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Déi ropgelueden Datei ass méi grouss wei d'MAX_FILE_SIZE Eegenschaft déi an der HTML form uginn ass",
 "The uploaded file was only partially uploaded" => "Déi ropgelueden Datei ass nëmmen hallef ropgelueden ginn",
@@ -7,6 +6,7 @@
 "Missing a temporary folder" => "Et feelt en temporären Dossier",
 "Failed to write to disk" => "Konnt net op den Disk schreiwen",
 "Files" => "Dateien",
+"Unshare" => "Net méi deelen",
 "Delete" => "Läschen",
 "replace" => "ersetzen",
 "cancel" => "ofbriechen",
@@ -19,6 +19,7 @@
 "Name" => "Numm",
 "Size" => "Gréisst",
 "Modified" => "Geännert",
+"Upload" => "Eroplueden",
 "File handling" => "Fichier handling",
 "Maximum upload size" => "Maximum Upload Gréisst ",
 "max. possible: " => "max. méiglech:",

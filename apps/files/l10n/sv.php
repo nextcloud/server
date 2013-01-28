@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Ladda upp",
 "Could not move %s - File with this name already exists" => "Kunde inte flytta %s - Det finns redan en fil med detta namn",
 "Could not move %s" => "Kan inte flytta %s",
 "Unable to rename file" => "Kan inte byta namn på filen",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "Ingen fil blev uppladdad",
 "Missing a temporary folder" => "Saknar en tillfällig mapp",
 "Failed to write to disk" => "Misslyckades spara till disk",
-"Not enough space available" => "Inte tillräckligt med utrymme tillgängligt",
 "Invalid directory." => "Felaktig mapp.",
 "Files" => "Filer",
 "Unshare" => "Sluta dela",
@@ -49,6 +47,7 @@
 "{count} folders" => "{count} mappar",
 "1 file" => "1 fil",
 "{count} files" => "{count} filer",
+"Upload" => "Ladda upp",
 "File handling" => "Filhantering",
 "Maximum upload size" => "Maximal storlek att ladda upp",
 "max. possible: " => "max. möjligt:",
