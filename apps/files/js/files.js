@@ -667,11 +667,13 @@ $(document).ready(function() {
 	});
 
 	//check if we need to scan the filesystem
-	$.get(OC.filePath('files','ajax','scan.php'),{checkonly:'true'}, function(response) {
-		if(response.data.done){
-			scanFiles();
-		}
-	}, "json");
+	if (OC.currentUser) {
+		$.get(OC.filePath('files','ajax','scan.php'),{checkonly:'true'}, function(response) {
+			if(response.data.done){
+				scanFiles();
+			}
+		}, "json");
+	}
 
 	var lastWidth = 0;
 	var breadcrumbs = [];
