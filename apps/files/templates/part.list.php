@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo OC_Helper::linkToRoute('publicListView');?>"></script>
+<input type="hidden" id="disableSharing" data-status="<?php echo $_['disableSharing']; ?>">
 
 <?php foreach($_['files'] as $file):
 	$simple_file_size = OCP\simple_file_size($file['size']);

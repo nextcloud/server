@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-20 00:05+0100\n"
-"PO-Revision-Date: 2013-01-19 13:13+0000\n"
+"POT-Creation-Date: 2013-01-26 00:09+0100\n"
+"PO-Revision-Date: 2013-01-25 12:37+0000\n"
 "Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr "Admin"
 
 #: files.php:365
 msgid "ZIP download is turned off."
-msgstr "A ZIP-letöltés nem engedélyezett."
+msgstr "A ZIP-letöltés nincs engedélyezve."
 
 #: files.php:366
 msgid "Files need to be downloaded one by one."
@@ -62,7 +62,7 @@ msgstr "A kiválasztott fájlok túl nagyok a zip tömörítéshez."
 
 #: helper.php:229
 msgid "couldn't be determined"
-msgstr "nem sikerült azonosítani"
+msgstr "nem határozható meg"
 
 #: json.php:28
 msgid "Application is not enabled"

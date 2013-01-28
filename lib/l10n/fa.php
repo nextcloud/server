@@ -10,6 +10,7 @@
 "seconds ago" => "ثانیه‌ها پیش",
 "1 minute ago" => "1 دقیقه پیش",
 "%d minutes ago" => "%d دقیقه پیش",
+"1 hour ago" => "1 ساعت پیش",
 "today" => "امروز",
 "yesterday" => "دیروز",
 "last month" => "ماه قبل",

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-20 00:05+0100\n"
-"PO-Revision-Date: 2013-01-19 23:05+0000\n"
+"POT-Creation-Date: 2013-01-27 00:04+0100\n"
+"PO-Revision-Date: 2013-01-26 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: mk\n"
 "Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;\n"
-
-#: ajax/delete.php:28 ajax/getstoragestats.php:11 ajax/upload.php:17
-#: ajax/upload.php:76 templates/index.php:18
-msgid "Upload"
-msgstr "Подигни"
 
 #: ajax/move.php:17
 #, php-format
@@ -39,46 +34,46 @@ msgstr ""
 msgid "Unable to rename file"
 msgstr ""
 
-#: ajax/upload.php:20
+#: ajax/upload.php:17
 msgid "No file was uploaded. Unknown error"
 msgstr "Ниту еден фајл не се вчита. Непозната грешка"
 
-#: ajax/upload.php:30
+#: ajax/upload.php:24
 msgid "There is no error, the file uploaded with success"
 msgstr "Нема грешка, датотеката беше подигната успешно"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:25
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "Подигнатата датотека ја надминува upload_max_filesize директивата во php.ini:"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Подигнатата датотеката ја надминува MAX_FILE_SIZE директивата која беше поставена во HTML формата"
 
-#: ajax/upload.php:35
+#: ajax/upload.php:29
 msgid "The uploaded file was only partially uploaded"
 msgstr "Датотеката беше само делумно подигната."
 
-#: ajax/upload.php:36
+#: ajax/upload.php:30
 msgid "No file was uploaded"
 msgstr "Не беше подигната датотека"
 
-#: ajax/upload.php:37
+#: ajax/upload.php:31
 msgid "Missing a temporary folder"
 msgstr "Не постои привремена папка"
 
-#: ajax/upload.php:38
+#: ajax/upload.php:32
 msgid "Failed to write to disk"
 msgstr "Неуспеав да запишам на диск"
 
-#: ajax/upload.php:57
-msgid "Not enough space available"
+#: ajax/upload.php:48
+msgid "Not enough storage available"
 msgstr ""
 
-#: ajax/upload.php:91
+#: ajax/upload.php:77
 msgid "Invalid directory."
 msgstr ""
 
@@ -86,11 +81,11 @@ msgstr ""
 msgid "Files"
 msgstr "Датотеки"
 
-#: js/fileactions.js:117 templates/index.php:82 templates/index.php:83
+#: js/fileactions.js:117 templates/index.php:81 templates/index.php:82
 msgid "Unshare"
 msgstr "Не споделувај"
 
-#: js/fileactions.js:119 templates/index.php:88 templates/index.php:89
+#: js/fileactions.js:119 templates/index.php:87 templates/index.php:88
 msgid "Delete"
 msgstr "Избриши"
 
@@ -98,138 +93,150 @@ msgstr "Избриши"
 msgid "Rename"
 msgstr "Преименувај"
 
-#: js/filelist.js:205 js/filelist.js:207
+#: js/filelist.js:208 js/filelist.js:210
 msgid "{new_name} already exists"
 msgstr "{new_name} веќе постои"
 
-#: js/filelist.js:205 js/filelist.js:207
+#: js/filelist.js:208 js/filelist.js:210
 msgid "replace"
 msgstr "замени"
 
-#: js/filelist.js:205
+#: js/filelist.js:208
 msgid "suggest name"
 msgstr "предложи име"
 
-#: js/filelist.js:205 js/filelist.js:207
+#: js/filelist.js:208 js/filelist.js:210
 msgid "cancel"
 msgstr "откажи"
 
-#: js/filelist.js:254
+#: js/filelist.js:253
 msgid "replaced {new_name}"
 msgstr "земенета {new_name}"
 
-#: js/filelist.js:254 js/filelist.js:256 js/filelist.js:288 js/filelist.js:290
+#: js/filelist.js:253 js/filelist.js:255 js/filelist.js:286 js/filelist.js:288
 msgid "undo"
 msgstr "врати"
 
-#: js/filelist.js:256
+#: js/filelist.js:255
 msgid "replaced {new_name} with {old_name}"
 msgstr "заменета {new_name} со {old_name}"
 
-#: js/filelist.js:288
+#: js/filelist.js:286
 msgid "unshared {files}"
 msgstr "без споделување {files}"
 
-#: js/filelist.js:290
+#: js/filelist.js:288
 msgid "deleted {files}"
 msgstr "избришани {files}"
 
-#: js/files.js:48
+#: js/files.js:52
 msgid "'.' is an invalid file name."
 msgstr ""
 
-#: js/files.js:53
+#: js/files.js:56
 msgid "File name cannot be empty."
 msgstr ""
 
-#: js/files.js:62
+#: js/files.js:64
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "Неправилно име. , '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не се дозволени."
 
-#: js/files.js:204
+#: js/files.js:78
+msgid "Your storage is full, files can not be updated or synced anymore!"
+msgstr ""
+
+#: js/files.js:82
+msgid "Your storage is almost full ({usedSpacePercent}%)"
+msgstr ""
+
+#: js/files.js:219
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr ""
 
-#: js/files.js:242
+#: js/files.js:256
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Не може да се преземе вашата датотека бидејќи фолдерот во кој се наоѓа фајлот има големина од 0 бајти"
 
-#: js/files.js:242
+#: js/files.js:256
 msgid "Upload Error"
 msgstr "Грешка при преземање"
 
-#: js/files.js:259
+#: js/files.js:273
 msgid "Close"
 msgstr "Затвои"
 
-#: js/files.js:278 js/files.js:397 js/files.js:431
+#: js/files.js:292 js/files.js:408 js/files.js:439
 msgid "Pending"
 msgstr "Чека"
 
-#: js/files.js:298
+#: js/files.js:312
 msgid "1 file uploading"
 msgstr "1 датотека се подига"
 
-#: js/files.js:301 js/files.js:357 js/files.js:372
+#: js/files.js:315 js/files.js:370 js/files.js:385
 msgid "{count} files uploading"
 msgstr "{count} датотеки се подигаат"
 
-#: js/files.js:376 js/files.js:414
+#: js/files.js:388 js/files.js:423
 msgid "Upload cancelled."
 msgstr "Преземањето е прекинато."
 
-#: js/files.js:486
+#: js/files.js:493
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Подигање на датотека е во тек. Напуштење на страницата ќе го прекине."
 
-#: js/files.js:559
+#: js/files.js:566
 msgid "URL cannot be empty."
 msgstr "Адресата неможе да биде празна."
 
-#: js/files.js:565
+#: js/files.js:571
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:775
+#: js/files.js:784
 msgid "{count} files scanned"
 msgstr "{count}  датотеки скенирани"
 
-#: js/files.js:783
+#: js/files.js:792
 msgid "error while scanning"
 msgstr "грешка при скенирање"
 
-#: js/files.js:857 templates/index.php:64
+#: js/files.js:866 templates/index.php:63
 msgid "Name"
 msgstr "Име"
 
-#: js/files.js:858 templates/index.php:75
+#: js/files.js:867 templates/index.php:74
 msgid "Size"
 msgstr "Големина"
 
-#: js/files.js:859 templates/index.php:77
+#: js/files.js:868 templates/index.php:76
 msgid "Modified"
 msgstr "Променето"
 
-#: js/files.js:878
+#: js/files.js:887
 msgid "1 folder"
 msgstr "1 папка"
 
-#: js/files.js:880
+#: js/files.js:889
 msgid "{count} folders"
 msgstr "{count} папки"
 
-#: js/files.js:888
+#: js/files.js:897
 msgid "1 file"
 msgstr "1 датотека"
 
-#: js/files.js:890
+#: js/files.js:899
 msgid "{count} files"
 msgstr "{count} датотеки"
+
+#: lib/helper.php:11 templates/index.php:18
+msgid "Upload"
+msgstr "Подигни"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -283,28 +290,28 @@ msgstr "Од врска"
 msgid "Cancel upload"
 msgstr "Откажи прикачување"
 
-#: templates/index.php:56
+#: templates/index.php:55
 msgid "Nothing in here. Upload something!"
 msgstr "Тука нема ништо. Снимете нешто!"
 
-#: templates/index.php:70
+#: templates/index.php:69
 msgid "Download"
 msgstr "Преземи"
 
-#: templates/index.php:102
+#: templates/index.php:101
 msgid "Upload too large"
 msgstr "Датотеката е премногу голема"
 
-#: templates/index.php:104
+#: templates/index.php:103
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер."
 
-#: templates/index.php:109
+#: templates/index.php:108
 msgid "Files are being scanned, please wait."
 msgstr "Се скенираат датотеки, ве молам почекајте."
 
-#: templates/index.php:112
+#: templates/index.php:111
 msgid "Current scanning"
 msgstr "Моментално скенирам"

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Andreas Tangemann <a.tangemann@web.de>, 2013.
 #   <driz@i2pmail.org>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-23 00:05+0100\n"
-"PO-Revision-Date: 2013-01-22 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-26 00:09+0100\n"
+"PO-Revision-Date: 2013-01-25 22:03+0000\n"
+"Last-Translator: a.tangemann <a.tangemann@web.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,7 +43,7 @@ msgstr ""
 
 #: templates/settings-personal.php:3 templates/settings.php:5
 msgid "Choose encryption mode:"
-msgstr ""
+msgstr "Wählen Sie die Verschlüsselungsart:"
 
 #: templates/settings-personal.php:20 templates/settings.php:24
 msgid ""
@@ -58,7 +59,7 @@ msgstr ""
 
 #: templates/settings-personal.php:41 templates/settings.php:60
 msgid "None (no encryption at all)"
-msgstr ""
+msgstr "Keine (ohne Verschlüsselung)"
 
 #: templates/settings.php:10
 msgid ""
@@ -68,7 +69,7 @@ msgstr ""
 
 #: templates/settings.php:48
 msgid "User specific (let the user decide)"
-msgstr ""
+msgstr "Benutzerspezifisch (der Benutzer kann entscheiden)"
 
 #: templates/settings.php:65
 msgid "Encryption"

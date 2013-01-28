@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Senda inn",
 "Could not move %s - File with this name already exists" => "Gat ekki fært %s - Skrá með þessu nafni er þegar til",
 "Could not move %s" => "Gat ekki fært %s",
 "Unable to rename file" => "Gat ekki endurskýrt skrá",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "Engin skrá skilaði sér",
 "Missing a temporary folder" => "Vantar bráðabirgðamöppu",
 "Failed to write to disk" => "Tókst ekki að skrifa á disk",
-"Not enough space available" => "Ekki nægt pláss tiltækt",
 "Invalid directory." => "Ógild mappa.",
 "Files" => "Skrár",
 "Unshare" => "Hætta deilingu",
@@ -48,6 +46,7 @@
 "{count} folders" => "{count} möppur",
 "1 file" => "1 skrá",
 "{count} files" => "{count} skrár",
+"Upload" => "Senda inn",
 "File handling" => "Meðhöndlun skrár",
 "Maximum upload size" => "Hámarks stærð innsendingar",
 "max. possible: " => "hámark mögulegt: ",

@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Tải lên",
 "No file was uploaded. Unknown error" => "Không có tập tin nào được tải lên. Lỗi không xác định",
 "There is no error, the file uploaded with success" => "Không có lỗi, các tập tin đã được tải lên thành công",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Kích thước những tập tin tải lên vượt quá MAX_FILE_SIZE đã được quy định",
@@ -39,6 +38,7 @@
 "{count} folders" => "{count} thư mục",
 "1 file" => "1 tập tin",
 "{count} files" => "{count} tập tin",
+"Upload" => "Tải lên",
 "File handling" => "Xử lý tập tin",
 "Maximum upload size" => "Kích thước tối đa ",
 "max. possible: " => "tối đa cho phép:",

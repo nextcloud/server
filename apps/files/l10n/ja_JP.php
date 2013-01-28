@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "アップロード",
 "Could not move %s - File with this name already exists" => "%s を移動できませんでした ― この名前のファイルはすでに存在します",
 "Could not move %s" => "%s を移動できませんでした",
 "Unable to rename file" => "ファイル名の変更ができません",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "ファイルはアップロードされませんでした",
 "Missing a temporary folder" => "テンポラリフォルダが見つかりません",
 "Failed to write to disk" => "ディスクへの書き込みに失敗しました",
-"Not enough space available" => "利用可能なスペースが十分にありません",
 "Invalid directory." => "無効なディレクトリです。",
 "Files" => "ファイル",
 "Unshare" => "共有しない",
@@ -49,6 +47,7 @@
 "{count} folders" => "{count} フォルダ",
 "1 file" => "1 ファイル",
 "{count} files" => "{count} ファイル",
+"Upload" => "アップロード",
 "File handling" => "ファイル操作",
 "Maximum upload size" => "最大アップロードサイズ",
 "max. possible: " => "最大容量: ",

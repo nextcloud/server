@@ -22,6 +22,7 @@
 "See application page at apps.owncloud.com" => "Apskatie aplikāciju lapu - apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-licencēts no <span class=\"author\"></span>",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Jūs lietojat <strong>%s</strong> no pieejamajiem <strong>%s</strong>",
+"Clients" => "Klienti",
 "Password" => "Parole",
 "Your password was changed" => "Jūru parole tika nomainīta",
 "Unable to change your password" => "Nav iespējams nomainīt jūsu paroli",

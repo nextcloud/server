@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Lae üles",
 "No file was uploaded. Unknown error" => "Ühtegi faili ei laetud üles. Tundmatu viga",
 "There is no error, the file uploaded with success" => "Ühtegi viga pole, fail on üles laetud",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Üles laetud faili suurus ületab HTML vormis määratud upload_max_filesize suuruse",
@@ -39,6 +38,7 @@
 "{count} folders" => "{count} kausta",
 "1 file" => "1 fail",
 "{count} files" => "{count} faili",
+"Upload" => "Lae üles",
 "File handling" => "Failide käsitlemine",
 "Maximum upload size" => "Maksimaalne üleslaadimise suurus",
 "max. possible: " => "maks. võimalik: ",

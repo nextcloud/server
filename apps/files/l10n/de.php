@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Hochladen",
 "Could not move %s - File with this name already exists" => "Konnte %s nicht verschieben - Datei mit diesem Namen existiert bereits.",
 "Could not move %s" => "Konnte %s nicht verschieben",
 "Unable to rename file" => "Konnte Datei nicht umbenennen",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "Es wurde keine Datei hochgeladen.",
 "Missing a temporary folder" => "Temporärer Ordner fehlt.",
 "Failed to write to disk" => "Fehler beim Schreiben auf die Festplatte",
-"Not enough space available" => "Nicht genug Speicherplatz verfügbar",
 "Invalid directory." => "Ungültiges Verzeichnis",
 "Files" => "Dateien",
 "Unshare" => "Nicht mehr freigeben",
@@ -49,6 +47,7 @@
 "{count} folders" => "{count} Ordner",
 "1 file" => "1 Datei",
 "{count} files" => "{count} Dateien",
+"Upload" => "Hochladen",
 "File handling" => "Dateibehandlung",
 "Maximum upload size" => "Maximale Upload-Größe",
 "max. possible: " => "maximal möglich:",

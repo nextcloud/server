@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-15 00:03+0100\n"
-"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"POT-Creation-Date: 2013-01-27 00:04+0100\n"
+"PO-Revision-Date: 2013-01-25 23:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -83,59 +83,135 @@ msgstr ""
 msgid "Error removing %s from favorites."
 msgstr ""
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:28
+msgid "Sunday"
+msgstr ""
+
+#: js/config.php:28
+msgid "Monday"
+msgstr ""
+
+#: js/config.php:28
+msgid "Tuesday"
+msgstr ""
+
+#: js/config.php:28
+msgid "Wednesday"
+msgstr ""
+
+#: js/config.php:28
+msgid "Thursday"
+msgstr ""
+
+#: js/config.php:28
+msgid "Friday"
+msgstr ""
+
+#: js/config.php:28
+msgid "Saturday"
+msgstr ""
+
+#: js/config.php:29
+msgid "January"
+msgstr ""
+
+#: js/config.php:29
+msgid "February"
+msgstr ""
+
+#: js/config.php:29
+msgid "March"
+msgstr ""
+
+#: js/config.php:29
+msgid "April"
+msgstr ""
+
+#: js/config.php:29
+msgid "May"
+msgstr ""
+
+#: js/config.php:29
+msgid "June"
+msgstr ""
+
+#: js/config.php:29
+msgid "July"
+msgstr ""
+
+#: js/config.php:29
+msgid "August"
+msgstr ""
+
+#: js/config.php:29
+msgid "September"
+msgstr ""
+
+#: js/config.php:29
+msgid "October"
+msgstr ""
+
+#: js/config.php:29
+msgid "November"
+msgstr ""
+
+#: js/config.php:29
+msgid "December"
+msgstr ""
+
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "Настройки"
 
-#: js/js.js:711
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "преди секунди"
 
-#: js/js.js:712
+#: js/js.js:763
 msgid "1 minute ago"
 msgstr "преди 1 минута"
 
-#: js/js.js:713
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:714
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr "преди 1 час"
 
-#: js/js.js:715
+#: js/js.js:766
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:716
+#: js/js.js:767
 msgid "today"
 msgstr "днес"
 
-#: js/js.js:717
+#: js/js.js:768
 msgid "yesterday"
 msgstr "вчера"
 
-#: js/js.js:718
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:719
+#: js/js.js:770
 msgid "last month"
 msgstr "последният месец"
 
-#: js/js.js:720
+#: js/js.js:771
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:721
+#: js/js.js:772
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:722
+#: js/js.js:773
 msgid "last year"
 msgstr "последната година"
 
-#: js/js.js:723
+#: js/js.js:774
 msgid "years ago"
 msgstr "последните години"
 
@@ -168,7 +244,7 @@ msgstr ""
 #: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
 #: js/share.js:566
 msgid "Error"
-msgstr ""
+msgstr "Грешка"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
@@ -445,87 +521,11 @@ msgstr ""
 msgid "Finish setup"
 msgstr ""
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr ""
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr ""
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr ""
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr ""
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr ""
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr ""
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr ""
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr ""
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "уеб услуги под Ваш контрол"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr ""
 

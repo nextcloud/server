@@ -96,7 +96,14 @@ class OC
 		} elseif (strpos($className, 'OCP\\') === 0) {
 			$path = 'public/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
 		} elseif (strpos($className, 'OCA\\') === 0) {
-			$path = 'apps/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
+			foreach(self::$APPSROOTS as $appDir) {
+				$path = $appDir['path'] . '/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
+				$fullPath = stream_resolve_include_path($path);
+				if (file_exists($fullPath)) {
+					require_once $fullPath;
+					return false;
+				}
+			}
 		} elseif (strpos($className, 'Sabre_') === 0) {
 			$path = str_replace('_', '/', $className) . '.php';
 		} elseif (strpos($className, 'Symfony\\Component\\Routing\\') === 0) {
