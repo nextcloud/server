@@ -90,6 +90,9 @@ $freeSpace=max($freeSpace,0);
 $maxUploadFilesize = min($maxUploadFilesize ,$freeSpace);
 
 $permissions = OCP\Share::PERMISSION_READ;
+if (OC_Filesystem::isCreatable($dir . '/')) {
+	$permissions |= OCP\Share::PERMISSION_CREATE;
+}
 if (OC_Filesystem::isUpdatable($dir.'/')) {
 	$permissions |= OCP\Share::PERMISSION_UPDATE;
 }
