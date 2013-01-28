@@ -1,23 +1,23 @@
 <?php
 /**
-* ownCloud
-*
-* @author Michael Gapczynski
-* @copyright 2012 Michael Gapczynski mtgap@owncloud.com
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * ownCloud
+ *
+ * @author Michael Gapczynski
+ * @copyright 2012 Michael Gapczynski mtgap@owncloud.com
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 namespace OC\Files\Cache;
 
@@ -31,18 +31,18 @@ class Shared_Cache extends Cache {
 	private $files = array();
 
 	public function __construct($storage) {
-		
+
 	}
 
 	/**
-	* @brief Get the source cache of a shared file or folder
-	* @param string $target Shared target file path
-	* @return \OC\Files\Cache\Cache
-	*/
+	 * @brief Get the source cache of a shared file or folder
+	 * @param string $target Shared target file path
+	 * @return \OC\Files\Cache\Cache
+	 */
 	private function getSourceCache($target) {
 		$source = \OC_Share_Backend_File::getSource($target);
 		if (isset($source['path'])) {
-			$source['path'] = '/'.$source['uid_owner'].'/'.$source['path'];
+			$source['path'] = '/' . $source['uid_owner'] . '/' . $source['path'];
 			\OC\Files\Filesystem::initMountPoints($source['uid_owner']);
 			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source['path']);
 			if ($storage) {
@@ -170,10 +170,10 @@ class Shared_Cache extends Cache {
 		if ($cache = $this->getSourceCache($source)) {
 			$targetPath = \OC_Share_Backend_File::getSourcePath(dirname($target));
 			if ($targetPath) {
-				$targetPath .= '/'.basename($target);
+				$targetPath .= '/' . basename($target);
 				$cache->move($this->files[$source], $targetPath);
 			}
-			
+
 		}
 	}
 
@@ -222,11 +222,12 @@ class Shared_Cache extends Cache {
 		} else {
 			$where = '`mimepart` = ?';
 		}
+		$mimetype = $this->getMimetypeId($mimetype);
 		$ids = $this->getAll();
 		$placeholders = join(',', array_fill(0, count($ids), '?'));
 		$query = \OC_DB::prepare('
 			SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`
-			FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `fileid` IN = ('.$placeholders.')'
+			FROM `*PREFIX*filecache` WHERE ' . $where . ' AND `fileid` IN (' . $placeholders . ')'
 		);
 		$result = $query->execute(array_merge(array($mimetype), $ids));
 		return $result->fetchAll();
