@@ -93,6 +93,7 @@ $list = new OCP\Template('files', 'part.list', '');
 $list->assign('files', $files, false);
 $list->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=', false);
 $list->assign('downloadURL', OCP\Util::linkTo('files', 'download.php') . '?file=', false);
+$list->assign('disableSharing', false);
 $breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 $breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
 $breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=', false);
@@ -100,6 +101,9 @@ $breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir
 $maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
 
 $permissions = OCP\PERMISSION_READ;
+if (\OC\Files\Filesystem::isCreatable($dir . '/')) {
+	$permissions |= OCP\PERMISSION_CREATE;
+}
 if (\OC\Files\Filesystem::isUpdatable($dir . '/')) {
 	$permissions |= OCP\PERMISSION_UPDATE;
 }

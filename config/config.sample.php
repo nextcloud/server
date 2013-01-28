@@ -92,6 +92,10 @@ $CONFIG = array(
  */
 "mail_smtpauth" => false,
 
+/* authentication type needed to send mail, depends on mail_smtpmode if this is used
+ * Can be LOGIN (default), PLAIN or NTLM */
+"mail_smtpauthtype" => "LOGIN",
+
 /* Username to use for sendmail mail, depends on mail_smtpauth if this is used */
 "mail_smtpname" => "",
 
