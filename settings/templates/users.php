@@ -18,7 +18,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 </script>
 <div id="controls">
 	<form id="newuser" autocomplete="off">
-		<input id="newusername" type="text" placeholder="<?php echo $l->t('Name')?>" /> <input
+		<input id="newusername" type="text" placeholder="<?php echo $l->t('Login Name')?>" /> <input
 			type="password" id="newuserpassword"
 			placeholder="<?php echo $l->t('Password')?>" /> <select
 			class="groupsselect"
@@ -78,7 +78,7 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 <table data-groups="<?php echo implode(', ', $allGroups);?>">
 	<thead>
 		<tr>
-			<th id='headerName'><?php echo $l->t('Name')?></th>
+			<th id='headerName'><?php echo $l->t('Login Name')?></th>
 			<th id="headerDisplayName"><?php echo $l->t( 'Display Name' ); ?></th>
 			<th id="headerPassword"><?php echo $l->t( 'Password' ); ?></th>
 			<th id="headerGroups"><?php echo $l->t( 'Groups' ); ?></th>
