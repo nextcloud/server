@@ -43,7 +43,7 @@ class Hooks {
 		
 			$versions = new Storage( new \OC_FilesystemView('') );
 		
-			$path = $params[\OC_Filesystem::signal_param_path];
+			$path = $params[\OC\Files\Filesystem::signal_param_path];
 		
 			if($path<>'') $versions->delete( $path );
 		
