@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Pošlji",
 "No file was uploaded. Unknown error" => "Nobena datoteka ni naložena. Neznana napaka.",
 "There is no error, the file uploaded with success" => "Datoteka je uspešno naložena brez napak.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Naložena datoteka presega dovoljeno velikost. Le-ta je določena z vrstico upload_max_filesize v datoteki php.ini:",
@@ -40,6 +39,7 @@
 "{count} folders" => "{count} map",
 "1 file" => "1 datoteka",
 "{count} files" => "{count} datotek",
+"Upload" => "Pošlji",
 "File handling" => "Upravljanje z datotekami",
 "Maximum upload size" => "Največja velikost za pošiljanja",
 "max. possible: " => "največ mogoče:",

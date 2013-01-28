@@ -1,5 +1,8 @@
 <?php $TRANSLATIONS = array(
 "User %s shared a file with you" => "Utilizatorul %s a partajat un fișier cu tine",
+"User %s shared a folder with you" => "Utilizatorul %s a partajat un dosar cu tine",
+"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Utilizatorul %s a partajat fișierul \"%s\" cu tine. Îl poți descărca de aici: %s",
+"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Utilizatorul %s a partajat dosarul \"%s\" cu tine. Îl poți descărca de aici: %s ",
 "Category type not provided." => "Tipul de categorie nu este prevazut",
 "No category to add?" => "Nici o categorie de adăugat?",
 "This category already exists: " => "Această categorie deja există:",
@@ -59,6 +62,8 @@
 "Share with link" => "Partajare cu legătură",
 "Password protect" => "Protejare cu parolă",
 "Password" => "Parola",
+"Email link to person" => "Expediază legătura prin poșta electronică",
+"Send" => "Expediază",
 "Set expiration date" => "Specifică data expirării",
 "Expiration date" => "Data expirării",
 "Share via email:" => "Distribuie prin email:",
@@ -75,6 +80,8 @@
 "Password protected" => "Protejare cu parolă",
 "Error unsetting expiration date" => "Eroare la anularea datei de expirare",
 "Error setting expiration date" => "Eroare la specificarea datei de expirare",
+"Sending ..." => "Se expediază...",
+"Email sent" => "Mesajul a fost expediat",
 "ownCloud password reset" => "Resetarea parolei ownCloud ",
 "Use the following link to reset your password: {link}" => "Folosește următorul link pentru a reseta parola: {link}",
 "You will receive a link to reset your password via Email." => "Vei primi un mesaj prin care vei putea reseta parola via email",
@@ -119,5 +126,6 @@
 "remember" => "amintește",
 "Log in" => "Autentificare",
 "prev" => "precedentul",
-"next" => "următorul"
+"next" => "următorul",
+"Updating ownCloud to version %s, this may take a while." => "Actualizăm ownCloud la versiunea %s, aceasta poate dura câteva momente."
 );

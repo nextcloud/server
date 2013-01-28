@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Carregar",
 "No file was uploaded. Unknown error" => "Nenhum arquivo foi transferido. Erro desconhecido",
 "There is no error, the file uploaded with success" => "Não houve nenhum erro, o arquivo foi transferido com sucesso",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "O arquivo enviado excede a diretiva upload_max_filesize no php.ini: ",
@@ -40,6 +39,7 @@
 "{count} folders" => "{count} pastas",
 "1 file" => "1 arquivo",
 "{count} files" => "{count} arquivos",
+"Upload" => "Carregar",
 "File handling" => "Tratamento de Arquivo",
 "Maximum upload size" => "Tamanho máximo para carregar",
 "max. possible: " => "max. possível:",

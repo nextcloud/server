@@ -4,13 +4,14 @@
 # 
 # Translators:
 #   <juanma@kde.org.ar>, 2012.
+# Raul Fernandez Garcia <raulfg3@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-23 00:05+0100\n"
-"PO-Revision-Date: 2013-01-22 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-27 00:04+0100\n"
+"PO-Revision-Date: 2013-01-26 09:47+0000\n"
+"Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,7 @@ msgstr ""
 
 #: js/settings-personal.js:17
 msgid "switched to client side encryption"
-msgstr ""
+msgstr "Cambiar a encriptación en lado cliente"
 
 #: js/settings-personal.js:21
 msgid "Change encryption password to login password"
@@ -34,7 +35,7 @@ msgstr ""
 
 #: js/settings-personal.js:25
 msgid "Please check your passwords and try again."
-msgstr ""
+msgstr "Por favor revise su contraseña e intentelo de nuevo."
 
 #: js/settings-personal.js:25
 msgid "Could not change your file encryption password to your login password"
@@ -42,7 +43,7 @@ msgstr ""
 
 #: templates/settings-personal.php:3 templates/settings.php:5
 msgid "Choose encryption mode:"
-msgstr ""
+msgstr "Elegir el modo de encriptado:"
 
 #: templates/settings-personal.php:20 templates/settings.php:24
 msgid ""

@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Отпреми",
 "There is no error, the file uploaded with success" => "Није дошло до грешке. Датотека је успешно отпремљена.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Отпремљена датотека прелази смерницу upload_max_filesize у датотеци php.ini:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Отпремљена датотека прелази смерницу MAX_FILE_SIZE која је наведена у HTML обрасцу",
@@ -38,6 +37,7 @@
 "{count} folders" => "{count} фасцикле/и",
 "1 file" => "1 датотека",
 "{count} files" => "{count} датотеке/а",
+"Upload" => "Отпреми",
 "File handling" => "Управљање датотекама",
 "Maximum upload size" => "Највећа величина датотеке",
 "max. possible: " => "највећа величина:",

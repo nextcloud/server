@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "上傳",
 "Could not move %s - File with this name already exists" => "無法移動 %s - 同名的檔案已經存在",
 "Could not move %s" => "無法移動 %s",
 "Unable to rename file" => "無法重新命名檔案",
@@ -11,7 +10,6 @@
 "No file was uploaded" => "無已上傳檔案",
 "Missing a temporary folder" => "遺失暫存資料夾",
 "Failed to write to disk" => "寫入硬碟失敗",
-"Not enough space available" => "沒有足夠的可用空間",
 "Invalid directory." => "無效的資料夾。",
 "Files" => "檔案",
 "Unshare" => "取消共享",
@@ -49,6 +47,7 @@
 "{count} folders" => "{count} 個資料夾",
 "1 file" => "1 個檔案",
 "{count} files" => "{count} 個檔案",
+"Upload" => "上傳",
 "File handling" => "檔案處理",
 "Maximum upload size" => "最大上傳檔案大小",
 "max. possible: " => "最大允許：",

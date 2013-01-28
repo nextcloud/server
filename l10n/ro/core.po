@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-26 00:09+0100\n"
-"PO-Revision-Date: 2013-01-25 23:09+0000\n"
+"POT-Creation-Date: 2013-01-27 00:04+0100\n"
+"PO-Revision-Date: 2013-01-25 23:12+0000\n"
 "Last-Translator: Dimon Pockemon <>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -31,21 +31,21 @@ msgstr "Utilizatorul %s a partajat un fișier cu tine"
 #: ajax/share.php:86
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "Utilizatorul %s a partajat un dosar cu tine"
 
 #: ajax/share.php:88
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "Utilizatorul %s a partajat fișierul \"%s\" cu tine. Îl poți descărca de aici: %s"
 
 #: ajax/share.php:90
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "Utilizatorul %s a partajat dosarul \"%s\" cu tine. Îl poți descărca de aici: %s "
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -161,59 +161,59 @@ msgstr "Noiembrie"
 msgid "December"
 msgstr "Decembrie"
 
-#: js/js.js:280 templates/layout.user.php:43 templates/layout.user.php:44
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "Configurări"
 
-#: js/js.js:727
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "secunde în urmă"
 
-#: js/js.js:728
+#: js/js.js:763
 msgid "1 minute ago"
 msgstr "1 minut în urmă"
 
-#: js/js.js:729
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minute in urma"
 
-#: js/js.js:730
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr "Acum o ora"
 
-#: js/js.js:731
+#: js/js.js:766
 msgid "{hours} hours ago"
 msgstr "{hours} ore în urmă"
 
-#: js/js.js:732
+#: js/js.js:767
 msgid "today"
 msgstr "astăzi"
 
-#: js/js.js:733
+#: js/js.js:768
 msgid "yesterday"
 msgstr "ieri"
 
-#: js/js.js:734
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr "{days} zile in urma"
 
-#: js/js.js:735
+#: js/js.js:770
 msgid "last month"
 msgstr "ultima lună"
 
-#: js/js.js:736
+#: js/js.js:771
 msgid "{months} months ago"
 msgstr "{months} luni în urmă"
 
-#: js/js.js:737
+#: js/js.js:772
 msgid "months ago"
 msgstr "luni în urmă"
 
-#: js/js.js:738
+#: js/js.js:773
 msgid "last year"
 msgstr "ultimul an"
 
-#: js/js.js:739
+#: js/js.js:774
 msgid "years ago"
 msgstr "ani în urmă"
 
@@ -294,11 +294,11 @@ msgstr "Parola"
 
 #: js/share.js:172
 msgid "Email link to person"
-msgstr ""
+msgstr "Expediază legătura prin poșta electronică"
 
 #: js/share.js:173
 msgid "Send"
-msgstr ""
+msgstr "Expediază"
 
 #: js/share.js:177
 msgid "Set expiration date"
@@ -366,11 +366,11 @@ msgstr "Eroare la specificarea datei de expirare"
 
 #: js/share.js:581
 msgid "Sending ..."
-msgstr ""
+msgstr "Se expediază..."
 
 #: js/share.js:592
 msgid "Email sent"
-msgstr ""
+msgstr "Mesajul a fost expediat"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -523,11 +523,11 @@ msgstr "Bază date"
 msgid "Finish setup"
 msgstr "Finalizează instalarea"
 
-#: templates/layout.guest.php:33
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "servicii web controlate de tine"
 
-#: templates/layout.user.php:28
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr "Ieșire"
 
@@ -568,4 +568,4 @@ msgstr "următorul"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "Actualizăm ownCloud la versiunea %s, aceasta poate dura câteva momente."

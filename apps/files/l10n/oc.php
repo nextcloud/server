@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Amontcarga",
 "There is no error, the file uploaded with success" => "Amontcargament capitat, pas d'errors",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Lo fichièr amontcargat es mai gròs que la directiva «MAX_FILE_SIZE» especifiada dins lo formulari HTML",
 "The uploaded file was only partially uploaded" => "Lo fichièr foguèt pas completament amontcargat",
@@ -24,6 +23,7 @@
 "Name" => "Nom",
 "Size" => "Talha",
 "Modified" => "Modificat",
+"Upload" => "Amontcarga",
 "File handling" => "Manejament de fichièr",
 "Maximum upload size" => "Talha maximum d'amontcargament",
 "max. possible: " => "max. possible: ",

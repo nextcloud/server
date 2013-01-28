@@ -29,7 +29,7 @@
 "Bugtracker" => "Bugtracker",
 "Commercial Support" => "Kommerzieller Support",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Sie verwenden <strong>%s</strong> der verfügbaren <strong>%s</strong>",
-"Clients" => "Kunden",
+"Clients" => "Clients",
 "Download Desktop Clients" => "Desktop-Client herunterladen",
 "Download Android Client" => "Android-Client herunterladen",
 "Download iOS Client" => "iOS-Client herunterladen",
