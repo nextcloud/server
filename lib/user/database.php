@@ -110,6 +110,24 @@ class OC_User_Database extends OC_User_Backend {
 			return false;
 		}
 	}
+	
+	/**
+	 * @brief Set display name
+	 * @param $uid The username
+	 * @param $displayName The new display name
+	 * @returns true/false
+	 *
+	 * Change the display name of a user
+	 */
+	public function setDisplayName( $uid, $displayName ) {
+		if( $this->userExists($uid) ) {
+			$query = OC_DB::prepare( 'UPDATE `*PREFIX*users` SET `displayname` = ? WHERE `uid` = ?' );
+			$query->execute( array( $displayName, $uid ));
+			return true;
+		}else{
+			return false;
+		}
+	}
 
 	/**
 	 * @brief Check if the password is correct
