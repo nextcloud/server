@@ -134,7 +134,7 @@ abstract class OC_User_Backend implements OC_User_Interface {
 	
 	/**
 	 * @brief Get a list of all display names
-	 * @returns array with  all displayNames (key) and the correspondig uids (value)
+	 * @returns array with  all displayNames (value) and the correspondig uids (key)
 	 *
 	 * Get a list of all display names and user ids.
 	 */
@@ -142,7 +142,7 @@ abstract class OC_User_Backend implements OC_User_Interface {
 		$displayNames = array();
 		$users = $this->getUsers($search, $limit, $offset);
 		foreach ( $users as $user) {
-			$displayNames[$user] = $user;
+			$displayNames[$user] = "foo";
 		}
 		return $displayNames;
 	}
