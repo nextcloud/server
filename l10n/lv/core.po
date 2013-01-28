@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-28 00:05+0100\n"
-"PO-Revision-Date: 2013-01-27 12:20+0000\n"
+"POT-Creation-Date: 2013-01-29 00:04+0100\n"
+"PO-Revision-Date: 2013-01-28 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -80,79 +80,79 @@ msgstr ""
 msgid "Error removing %s from favorites."
 msgstr ""
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Sunday"
 msgstr "Svētdiena"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Monday"
 msgstr "Pirmdiena"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Tuesday"
 msgstr "Otrdiena"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Wednesday"
 msgstr "Trešdiena"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Thursday"
 msgstr "Ceturtdiena"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Friday"
 msgstr "Piektdiena"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Saturday"
 msgstr "Sestdiena"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "January"
 msgstr "Janvāris"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "February"
 msgstr "Februāris"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "March"
 msgstr "Marts"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "April"
 msgstr "Aprīlis"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "May"
 msgstr "Maijs"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "June"
 msgstr "Jūnijs"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "July"
 msgstr "Jūlijs"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "August"
 msgstr "Augusts"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "September"
 msgstr "Septembris"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "October"
 msgstr "Oktobris"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "November"
 msgstr "Novembris"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "December"
 msgstr "Decembris"
 
@@ -365,6 +365,17 @@ msgstr ""
 
 #: js/share.js:592
 msgid "Email sent"
+msgstr ""
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
 #: lostpassword/controller.php:47

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-15 00:03+0100\n"
-"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"POT-Creation-Date: 2013-01-29 00:04+0100\n"
+"PO-Revision-Date: 2013-01-28 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -81,59 +81,135 @@ msgstr "Trynimui nepasirinkta jokia kategorija."
 msgid "Error removing %s from favorites."
 msgstr ""
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "Sekmadienis"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "Pirmadienis"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "Antradienis"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "Trečiadienis"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "Ketvirtadienis"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "Penktadienis"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "Šeštadienis"
+
+#: js/config.php:33
+msgid "January"
+msgstr "Sausis"
+
+#: js/config.php:33
+msgid "February"
+msgstr "Vasaris"
+
+#: js/config.php:33
+msgid "March"
+msgstr "Kovas"
+
+#: js/config.php:33
+msgid "April"
+msgstr "Balandis"
+
+#: js/config.php:33
+msgid "May"
+msgstr "Gegužė"
+
+#: js/config.php:33
+msgid "June"
+msgstr "Birželis"
+
+#: js/config.php:33
+msgid "July"
+msgstr "Liepa"
+
+#: js/config.php:33
+msgid "August"
+msgstr "Rugpjūtis"
+
+#: js/config.php:33
+msgid "September"
+msgstr "Rugsėjis"
+
+#: js/config.php:33
+msgid "October"
+msgstr "Spalis"
+
+#: js/config.php:33
+msgid "November"
+msgstr "Lapkritis"
+
+#: js/config.php:33
+msgid "December"
+msgstr "Gruodis"
+
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "Nustatymai"
 
-#: js/js.js:711
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "prieš sekundę"
 
-#: js/js.js:712
+#: js/js.js:763
 msgid "1 minute ago"
 msgstr "Prieš 1 minutę"
 
-#: js/js.js:713
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr "Prieš {count} minutes"
 
-#: js/js.js:714
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:715
+#: js/js.js:766
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:716
+#: js/js.js:767
 msgid "today"
 msgstr "šiandien"
 
-#: js/js.js:717
+#: js/js.js:768
 msgid "yesterday"
 msgstr "vakar"
 
-#: js/js.js:718
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr "Prieš {days}  dienas"
 
-#: js/js.js:719
+#: js/js.js:770
 msgid "last month"
 msgstr "praeitą mėnesį"
 
-#: js/js.js:720
+#: js/js.js:771
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:721
+#: js/js.js:772
 msgid "months ago"
 msgstr "prieš mėnesį"
 
-#: js/js.js:722
+#: js/js.js:773
 msgid "last year"
 msgstr "praeitais metais"
 
-#: js/js.js:723
+#: js/js.js:774
 msgid "years ago"
 msgstr "prieš metus"
 
@@ -292,6 +368,17 @@ msgstr ""
 msgid "Email sent"
 msgstr ""
 
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr ""
+
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "ownCloud slaptažodžio atkūrimas"
@@ -443,87 +530,11 @@ msgstr "Duomenų bazės serveris"
 msgid "Finish setup"
 msgstr "Baigti diegimą"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "Sekmadienis"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "Pirmadienis"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "Antradienis"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "Trečiadienis"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "Ketvirtadienis"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "Penktadienis"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "Šeštadienis"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "Sausis"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "Vasaris"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "Kovas"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "Balandis"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "Gegužė"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "Birželis"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "Liepa"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "Rugpjūtis"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "Rugsėjis"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "Spalis"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "Lapkritis"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "Gruodis"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "jūsų valdomos web paslaugos"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr "Atsijungti"
 

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-15 00:03+0100\n"
-"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"POT-Creation-Date: 2013-01-29 00:04+0100\n"
+"PO-Revision-Date: 2013-01-28 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -81,59 +81,135 @@ msgstr "Enginn flokkur valinn til eyðingar."
 msgid "Error removing %s from favorites."
 msgstr "Villa við að fjarlægja %s úr eftirlæti."
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "Sunnudagur"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "Mánudagur"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "Þriðjudagur"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "Miðvikudagur"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "Fimmtudagur"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "Föstudagur"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "Laugardagur"
+
+#: js/config.php:33
+msgid "January"
+msgstr "Janúar"
+
+#: js/config.php:33
+msgid "February"
+msgstr "Febrúar"
+
+#: js/config.php:33
+msgid "March"
+msgstr "Mars"
+
+#: js/config.php:33
+msgid "April"
+msgstr "Apríl"
+
+#: js/config.php:33
+msgid "May"
+msgstr "Maí"
+
+#: js/config.php:33
+msgid "June"
+msgstr "Júní"
+
+#: js/config.php:33
+msgid "July"
+msgstr "Júlí"
+
+#: js/config.php:33
+msgid "August"
+msgstr "Ágúst"
+
+#: js/config.php:33
+msgid "September"
+msgstr "September"
+
+#: js/config.php:33
+msgid "October"
+msgstr "Október"
+
+#: js/config.php:33
+msgid "November"
+msgstr "Nóvember"
+
+#: js/config.php:33
+msgid "December"
+msgstr "Desember"
+
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "Stillingar"
 
-#: js/js.js:711
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "sek síðan"
 
-#: js/js.js:712
+#: js/js.js:763
 msgid "1 minute ago"
 msgstr "1 min síðan"
 
-#: js/js.js:713
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr "{minutes} min síðan"
 
-#: js/js.js:714
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr "Fyrir 1 klst."
 
-#: js/js.js:715
+#: js/js.js:766
 msgid "{hours} hours ago"
 msgstr "fyrir {hours} klst."
 
-#: js/js.js:716
+#: js/js.js:767
 msgid "today"
 msgstr "í dag"
 
-#: js/js.js:717
+#: js/js.js:768
 msgid "yesterday"
 msgstr "í gær"
 
-#: js/js.js:718
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr "{days} dagar síðan"
 
-#: js/js.js:719
+#: js/js.js:770
 msgid "last month"
 msgstr "síðasta mánuði"
 
-#: js/js.js:720
+#: js/js.js:771
 msgid "{months} months ago"
 msgstr "fyrir {months} mánuðum"
 
-#: js/js.js:721
+#: js/js.js:772
 msgid "months ago"
 msgstr "mánuðir síðan"
 
-#: js/js.js:722
+#: js/js.js:773
 msgid "last year"
 msgstr "síðasta ári"
 
-#: js/js.js:723
+#: js/js.js:774
 msgid "years ago"
 msgstr "árum síðan"
 
@@ -292,6 +368,17 @@ msgstr "Sendi ..."
 msgid "Email sent"
 msgstr "Tölvupóstur sendur"
 
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr ""
+
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "endursetja ownCloud lykilorð"
@@ -443,87 +530,11 @@ msgstr "Netþjónn gagnagrunns"
 msgid "Finish setup"
 msgstr "Virkja uppsetningu"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "Sunnudagur"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "Mánudagur"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "Þriðjudagur"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "Miðvikudagur"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "Fimmtudagur"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "Föstudagur"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "Laugardagur"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "Janúar"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "Febrúar"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "Mars"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "Apríl"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "Maí"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "Júní"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "Júlí"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "Ágúst"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "September"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "Október"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "Nóvember"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "Desember"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "vefþjónusta undir þinni stjórn"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr "Útskrá"
 

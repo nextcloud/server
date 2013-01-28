@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-15 00:03+0100\n"
-"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"POT-Creation-Date: 2013-01-29 00:04+0100\n"
+"PO-Revision-Date: 2013-01-28 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -83,59 +83,135 @@ msgstr "沒有選擇要刪除的分類。"
 msgid "Error removing %s from favorites."
 msgstr "從最愛移除 %s 時發生錯誤。"
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "週日"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "週一"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "週二"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "週三"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "週四"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "週五"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "週六"
+
+#: js/config.php:33
+msgid "January"
+msgstr "一月"
+
+#: js/config.php:33
+msgid "February"
+msgstr "二月"
+
+#: js/config.php:33
+msgid "March"
+msgstr "三月"
+
+#: js/config.php:33
+msgid "April"
+msgstr "四月"
+
+#: js/config.php:33
+msgid "May"
+msgstr "五月"
+
+#: js/config.php:33
+msgid "June"
+msgstr "六月"
+
+#: js/config.php:33
+msgid "July"
+msgstr "七月"
+
+#: js/config.php:33
+msgid "August"
+msgstr "八月"
+
+#: js/config.php:33
+msgid "September"
+msgstr "九月"
+
+#: js/config.php:33
+msgid "October"
+msgstr "十月"
+
+#: js/config.php:33
+msgid "November"
+msgstr "十一月"
+
+#: js/config.php:33
+msgid "December"
+msgstr "十二月"
+
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:711
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "幾秒前"
 
-#: js/js.js:712
+#: js/js.js:763
 msgid "1 minute ago"
 msgstr "1 分鐘前"
 
-#: js/js.js:713
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分鐘前"
 
-#: js/js.js:714
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr "1 個小時前"
 
-#: js/js.js:715
+#: js/js.js:766
 msgid "{hours} hours ago"
 msgstr "{hours} 小時前"
 
-#: js/js.js:716
+#: js/js.js:767
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:717
+#: js/js.js:768
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:718
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr "{days} 天前"
 
-#: js/js.js:719
+#: js/js.js:770
 msgid "last month"
 msgstr "上個月"
 
-#: js/js.js:720
+#: js/js.js:771
 msgid "{months} months ago"
 msgstr "{months} 個月前"
 
-#: js/js.js:721
+#: js/js.js:772
 msgid "months ago"
 msgstr "幾個月前"
 
-#: js/js.js:722
+#: js/js.js:773
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:723
+#: js/js.js:774
 msgid "years ago"
 msgstr "幾年前"
 
@@ -294,6 +370,17 @@ msgstr "正在寄出..."
 msgid "Email sent"
 msgstr "Email 已寄出"
 
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr ""
+
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "ownCloud 密碼重設"
@@ -445,87 +532,11 @@ msgstr "資料庫主機"
 msgid "Finish setup"
 msgstr "完成設定"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "週日"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "週一"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "週二"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "週三"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "週四"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "週五"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "週六"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "一月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "二月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "三月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "四月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "五月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "六月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "七月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "八月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "九月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "十月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "十一月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "十二月"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "網路服務在您控制之下"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr "登出"
 

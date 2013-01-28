@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-15 00:03+0100\n"
-"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"POT-Creation-Date: 2013-01-29 00:04+0100\n"
+"PO-Revision-Date: 2013-01-28 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -82,59 +82,135 @@ msgstr "Не е одбрана категорија за бришење."
 msgid "Error removing %s from favorites."
 msgstr "Грешка при бришење на %s од омилени."
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "Недела"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "Понеделник"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "Вторник"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "Среда"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "Четврток"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "Петок"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "Сабота"
+
+#: js/config.php:33
+msgid "January"
+msgstr "Јануари"
+
+#: js/config.php:33
+msgid "February"
+msgstr "Февруари"
+
+#: js/config.php:33
+msgid "March"
+msgstr "Март"
+
+#: js/config.php:33
+msgid "April"
+msgstr "Април"
+
+#: js/config.php:33
+msgid "May"
+msgstr "Мај"
+
+#: js/config.php:33
+msgid "June"
+msgstr "Јуни"
+
+#: js/config.php:33
+msgid "July"
+msgstr "Јули"
+
+#: js/config.php:33
+msgid "August"
+msgstr "Август"
+
+#: js/config.php:33
+msgid "September"
+msgstr "Септември"
+
+#: js/config.php:33
+msgid "October"
+msgstr "Октомври"
+
+#: js/config.php:33
+msgid "November"
+msgstr "Ноември"
+
+#: js/config.php:33
+msgid "December"
+msgstr "Декември"
+
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "Поставки"
 
-#: js/js.js:711
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "пред секунди"
 
-#: js/js.js:712
+#: js/js.js:763
 msgid "1 minute ago"
 msgstr "пред 1 минута"
 
-#: js/js.js:713
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr "пред {minutes} минути"
 
-#: js/js.js:714
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr "пред 1 час"
 
-#: js/js.js:715
+#: js/js.js:766
 msgid "{hours} hours ago"
 msgstr "пред {hours} часови"
 
-#: js/js.js:716
+#: js/js.js:767
 msgid "today"
 msgstr "денеска"
 
-#: js/js.js:717
+#: js/js.js:768
 msgid "yesterday"
 msgstr "вчера"
 
-#: js/js.js:718
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr "пред {days} денови"
 
-#: js/js.js:719
+#: js/js.js:770
 msgid "last month"
 msgstr "минатиот месец"
 
-#: js/js.js:720
+#: js/js.js:771
 msgid "{months} months ago"
 msgstr "пред {months} месеци"
 
-#: js/js.js:721
+#: js/js.js:772
 msgid "months ago"
 msgstr "пред месеци"
 
-#: js/js.js:722
+#: js/js.js:773
 msgid "last year"
 msgstr "минатата година"
 
-#: js/js.js:723
+#: js/js.js:774
 msgid "years ago"
 msgstr "пред години"
 
@@ -293,6 +369,17 @@ msgstr "Праќање..."
 msgid "Email sent"
 msgstr "Е-порака пратена"
 
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr ""
+
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "ресетирање на лозинка за ownCloud"
@@ -444,87 +531,11 @@ msgstr "Сервер со база"
 msgid "Finish setup"
 msgstr "Заврши го подесувањето"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "Недела"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "Понеделник"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "Вторник"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "Среда"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "Четврток"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "Петок"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "Сабота"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "Јануари"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "Февруари"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "Март"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "Април"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "Мај"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "Јуни"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "Јули"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "Август"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "Септември"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "Октомври"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "Ноември"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "Декември"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "веб сервиси под Ваша контрола"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr "Одјава"
 

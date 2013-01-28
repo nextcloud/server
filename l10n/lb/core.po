@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 13:35+0000\n"
-"Last-Translator: sim0n <sim0n@trypill.org>\n"
+"POT-Creation-Date: 2013-01-29 00:04+0100\n"
+"PO-Revision-Date: 2013-01-28 23:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Luxembourgish (http://www.transifex.com/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -81,79 +81,79 @@ msgstr "Keng Kategorien ausgewielt fir ze läschen."
 msgid "Error removing %s from favorites."
 msgstr ""
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Sunday"
 msgstr "Sonndes"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Monday"
 msgstr "Méindes"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Tuesday"
 msgstr "Dënschdes"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Wednesday"
 msgstr "Mëttwoch"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Thursday"
 msgstr "Donneschdes"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Friday"
 msgstr "Freides"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Saturday"
 msgstr "Samschdes"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "January"
 msgstr "Januar"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "February"
 msgstr "Februar"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "March"
 msgstr "Mäerz"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "April"
 msgstr "Abrëll"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "May"
 msgstr "Mee"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "June"
 msgstr "Juni"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "July"
 msgstr "Juli"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "August"
 msgstr "August"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "September"
 msgstr "September"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "October"
 msgstr "Oktober"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "November"
 msgstr "November"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "December"
 msgstr "Dezember"
 
@@ -366,6 +366,17 @@ msgstr ""
 
 #: js/share.js:592
 msgid "Email sent"
+msgstr ""
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
 #: lostpassword/controller.php:47

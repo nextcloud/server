@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-25 23:23+0000\n"
+"POT-Creation-Date: 2013-01-29 00:04+0100\n"
+"PO-Revision-Date: 2013-01-28 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -83,79 +83,79 @@ msgstr ""
 msgid "Error removing %s from favorites."
 msgstr ""
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Sunday"
 msgstr ""
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Monday"
 msgstr ""
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Tuesday"
 msgstr ""
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Wednesday"
 msgstr ""
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Thursday"
 msgstr ""
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Friday"
 msgstr ""
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Saturday"
 msgstr ""
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "January"
 msgstr ""
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "February"
 msgstr ""
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "March"
 msgstr ""
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "April"
 msgstr ""
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "May"
 msgstr ""
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "June"
 msgstr ""
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "July"
 msgstr ""
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "August"
 msgstr ""
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "September"
 msgstr ""
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "October"
 msgstr ""
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "November"
 msgstr ""
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "December"
 msgstr ""
 
@@ -368,6 +368,17 @@ msgstr ""
 
 #: js/share.js:592
 msgid "Email sent"
+msgstr ""
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
 #: lostpassword/controller.php:47

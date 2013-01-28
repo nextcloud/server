@@ -4,6 +4,7 @@
 # 
 # Translators:
 # Adam Toth <adazlord@gmail.com>, 2012.
+# Akos <nagy.akos@libreoffice.ro>, 2013.
 #  <gyonkibendeguz@gmail.com>, 2013.
 #   <gyonkibendeguz@gmail.com>, 2013.
 # Laszlo Tornoci <torlasz@gmail.com>, 2013.
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-29 00:04+0100\n"
+"PO-Revision-Date: 2013-01-28 08:37+0000\n"
+"Last-Translator: akoscomp <nagy.akos@libreoffice.ro>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,7 +75,7 @@ msgstr "Nem sikerült a lemezre történő írás"
 
 #: ajax/upload.php:48
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Nincs elég szabad hely."
 
 #: ajax/upload.php:77
 msgid "Invalid directory."
@@ -148,11 +149,11 @@ msgstr "Érvénytelen elnevezés. Ezek a karakterek nem használhatók: '\\', '/
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "A tároló tele van, a fájlok nem frissíthetőek vagy szinkronizálhatóak a jövőben."
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "A tároló majdnem tele van ({usedSpacePercent}%)"
 
 #: js/files.js:219
 msgid ""

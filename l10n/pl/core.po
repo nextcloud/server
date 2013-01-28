@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-15 00:03+0100\n"
-"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"POT-Creation-Date: 2013-01-29 00:04+0100\n"
+"PO-Revision-Date: 2013-01-28 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -89,59 +89,135 @@ msgstr "Nie ma kategorii zaznaczonych do usunięcia."
 msgid "Error removing %s from favorites."
 msgstr "Błąd usunięcia %s z ulubionych."
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "Niedziela"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "Poniedziałek"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "Wtorek"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "Środa"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "Czwartek"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "Piątek"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "Sobota"
+
+#: js/config.php:33
+msgid "January"
+msgstr "Styczeń"
+
+#: js/config.php:33
+msgid "February"
+msgstr "Luty"
+
+#: js/config.php:33
+msgid "March"
+msgstr "Marzec"
+
+#: js/config.php:33
+msgid "April"
+msgstr "Kwiecień"
+
+#: js/config.php:33
+msgid "May"
+msgstr "Maj"
+
+#: js/config.php:33
+msgid "June"
+msgstr "Czerwiec"
+
+#: js/config.php:33
+msgid "July"
+msgstr "Lipiec"
+
+#: js/config.php:33
+msgid "August"
+msgstr "Sierpień"
+
+#: js/config.php:33
+msgid "September"
+msgstr "Wrzesień"
+
+#: js/config.php:33
+msgid "October"
+msgstr "Październik"
+
+#: js/config.php:33
+msgid "November"
+msgstr "Listopad"
+
+#: js/config.php:33
+msgid "December"
+msgstr "Grudzień"
+
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: js/js.js:711
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "sekund temu"
 
-#: js/js.js:712
+#: js/js.js:763
 msgid "1 minute ago"
 msgstr "1 minute temu"
 
-#: js/js.js:713
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minut temu"
 
-#: js/js.js:714
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr "1 godzine temu"
 
-#: js/js.js:715
+#: js/js.js:766
 msgid "{hours} hours ago"
 msgstr "{hours} godzin temu"
 
-#: js/js.js:716
+#: js/js.js:767
 msgid "today"
 msgstr "dziś"
 
-#: js/js.js:717
+#: js/js.js:768
 msgid "yesterday"
 msgstr "wczoraj"
 
-#: js/js.js:718
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr "{days} dni temu"
 
-#: js/js.js:719
+#: js/js.js:770
 msgid "last month"
 msgstr "ostani miesiąc"
 
-#: js/js.js:720
+#: js/js.js:771
 msgid "{months} months ago"
 msgstr "{months} miesięcy temu"
 
-#: js/js.js:721
+#: js/js.js:772
 msgid "months ago"
 msgstr "miesięcy temu"
 
-#: js/js.js:722
+#: js/js.js:773
 msgid "last year"
 msgstr "ostatni rok"
 
-#: js/js.js:723
+#: js/js.js:774
 msgid "years ago"
 msgstr "lat temu"
 
@@ -300,6 +376,17 @@ msgstr "Wysyłanie..."
 msgid "Email sent"
 msgstr "Wyślij Email"
 
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr ""
+
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
 msgstr "restart hasła"
@@ -451,87 +538,11 @@ msgstr "Komputer bazy danych"
 msgid "Finish setup"
 msgstr "Zakończ konfigurowanie"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "Niedziela"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "Poniedziałek"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "Wtorek"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "Środa"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "Czwartek"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "Piątek"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "Sobota"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "Styczeń"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "Luty"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "Marzec"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "Kwiecień"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "Maj"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "Czerwiec"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "Lipiec"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "Sierpień"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "Wrzesień"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "Październik"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "Listopad"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "Grudzień"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "usługi internetowe pod kontrolą"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr "Wylogowuje użytkownika"
 
