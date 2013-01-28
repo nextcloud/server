@@ -76,6 +76,7 @@ $list = new OCP\Template('files', 'part.list', '');
 $list->assign('files', $files, false);
 $list->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=', false);
 $list->assign('downloadURL', OCP\Util::linkTo('files', 'download.php') . '?file=', false);
+$list->assign('disableSharing', false);
 $breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 $breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
 $breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=', false);
