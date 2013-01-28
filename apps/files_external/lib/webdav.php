@@ -104,13 +104,15 @@ class DAV extends \OC\Files\Storage\Common{
 		try {
 			$response=$this->client->propfind($path, array(), 1);
 			$id=md5('webdav'.$this->root.$path);
+			$content = array();
 			\OC_FakeDirStream::$dirs[$id]=array();
 			$files=array_keys($response);
 			array_shift($files);//the first entry is the current directory
 			foreach ($files as $file) {
 				$file = urldecode(basename($file));
-				\OC_FakeDirStream::$dirs[$id][]=$file;
+				$content[]=$file;
 			}
+			\OC\Files\Stream\Dir::register($id, $content);
 			return opendir('fakedir://'.$id);
 		} catch(\Exception $e) {
 			return false;
@@ -194,7 +196,7 @@ class DAV extends \OC\Files\Storage\Common{
 					$ext='';
 				}
 				$tmpFile = \OCP\Files::tmpFile($ext);
-				\OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this, 'writeBack');
+				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if($this->file_exists($path)) {
 					$this->getFile($path, $tmpFile);
 				}

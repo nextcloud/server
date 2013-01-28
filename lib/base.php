@@ -421,10 +421,9 @@ class OC
 		}
 
 		// register the stream wrappers
-		require_once 'streamwrappers.php';
-		stream_wrapper_register("fakedir", "OC_FakeDirStream");
-		stream_wrapper_register('static', 'OC_StaticStreamWrapper');
-		stream_wrapper_register('close', 'OC_CloseStreamWrapper');
+		stream_wrapper_register('fakedir', 'OC\Files\Stream\Dir');
+		stream_wrapper_register('static', 'OC\Files\Stream\StaticStream');
+		stream_wrapper_register('close', 'OC\Files\Stream\Close');
 
 		self::checkConfig();
 		self::checkInstalled();

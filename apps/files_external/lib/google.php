@@ -273,7 +273,7 @@ class Google extends \OC\Files\Storage\Common {
 				$this->entries[$name] = $entry;
 			}
 		}
-		\OC_FakeDirStream::$dirs['google'.$path] = $files;
+		\OC\Files\Stream\Dir::register('google'.$path, $files);
 		return opendir('fakedir://google'.$path);
 	}
 
@@ -450,7 +450,7 @@ class Google extends \OC\Files\Storage\Common {
 					$ext = '';
 				}
 				$tmpFile = \OC_Helper::tmpFile($ext);
-				\OC_CloseStreamWrapper::$callBacks[$tmpFile] = array($this, 'writeBack');
+				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);

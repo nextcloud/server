@@ -1,24 +1,24 @@
 <?php
 
 /**
-* ownCloud
-*
-* @author Michael Gapczynski
-* @copyright 2012 Michael Gapczynski mtgap@owncloud.com
-*
-* This library is free software; you can redistribute it and/or
-* modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
-* License as published by the Free Software Foundation; either
-* version 3 of the License, or any later version.
-*
-* This library is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU AFFERO GENERAL PUBLIC LICENSE for more details.
-*
-* You should have received a copy of the GNU Affero General Public
-* License along with this library.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * ownCloud
+ *
+ * @author Michael Gapczynski
+ * @copyright 2012 Michael Gapczynski mtgap@owncloud.com
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 namespace OC\Files\Storage;
 
@@ -36,7 +36,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 	// TODO options: storage class, encryption server side, encrypt before upload?
 
 	public function __construct($params) {
-		$this->id = 'amazon::'.$params['key'] . md5($params['secret']);
+		$this->id = 'amazon::' . $params['key'] . md5($params['secret']);
 		$this->s3 = new \AmazonS3(array('key' => $params['key'], 'secret' => $params['secret']));
 		$this->bucket = $params['bucket'];
 	}
@@ -51,7 +51,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 				return $response;
 				// This object could be a folder, a '/' must be at the end of the path
 			} else if (substr($path, -1) != '/') {
-				$response = $this->s3->get_object_metadata($this->bucket, $path.'/');
+				$response = $this->s3->get_object_metadata($this->bucket, $path . '/');
 				if ($response) {
 					$this->objects[$path] = $response;
 					return $response;
@@ -61,7 +61,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return false;
 	}
 
-	public function getId(){
+	public function getId() {
 		return $this->id;
 	}
 
@@ -104,8 +104,8 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			foreach ($response->body->CommonPrefixes as $object) {
 				$files[] = basename($object->Prefix);
 			}
-			\OC_FakeDirStream::$dirs['amazons3'.$path] = $files;
-			return opendir('fakedir://amazons3'.$path);
+			\OC\Files\Stream\Dir::register('amazons3' . $path, $files);
+			return opendir('fakedir://amazons3' . $path);
 		}
 		return false;
 	}
@@ -194,13 +194,13 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 					$ext = '';
 				}
 				$tmpFile = \OC_Helper::tmpFile($ext);
-				\OC_CloseStreamWrapper::$callBacks[$tmpFile] = array($this, 'writeBack');
+				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);
 				}
 				self::$tempFiles[$tmpFile] = $path;
-				return fopen('close://'.$tmpFile, $mode);
+				return fopen('close://' . $tmpFile, $mode);
 		}
 		return false;
 	}
@@ -209,8 +209,8 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		if (isset(self::$tempFiles[$tmpFile])) {
 			$handle = fopen($tmpFile, 'r');
 			$response = $this->s3->create_object($this->bucket,
-												 self::$tempFiles[$tmpFile],
-												 array('fileUpload' => $handle));
+				self::$tempFiles[$tmpFile],
+				array('fileUpload' => $handle));
 			if ($response->isOK()) {
 				unlink($tmpFile);
 			}

@@ -371,7 +371,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 		$subContainers=$this->getSubContainers($container);
 		$files=array_merge($files, $subContainers);
 		$id=$this->getContainerName($path);
-		\OC_FakeDirStream::$dirs[$id]=$files;
+		\OC\Files\Stream\Dir::register($id, $files);
 		return opendir('fakedir://'.$id);
 	}
 
@@ -465,7 +465,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 			case 'c':
 			case 'c+':
 				$tmpFile=$this->getTmpFile($path);
-				OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this, 'writeBack');
+				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				self::$tempFiles[$tmpFile]=$path;
 				return fopen('close://'.$tmpFile, $mode);
 		}

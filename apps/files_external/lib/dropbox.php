@@ -114,7 +114,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 			foreach ($contents as $file) {
 				$files[] = basename($file['path']);
 			}
-			\OC_FakeDirStream::$dirs['dropbox'.$path] = $files;
+			\OC\Files\Stream\Dir::register('dropbox'.$path, $files);
 			return opendir('fakedir://dropbox'.$path);
 		}
 		return false;
@@ -232,7 +232,7 @@ class Dropbox extends \OC\Files\Storage\Common {
 					$ext = '';
 				}
 				$tmpFile = \OC_Helper::tmpFile($ext);
-				\OC_CloseStreamWrapper::$callBacks[$tmpFile] = array($this, 'writeBack');
+				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);

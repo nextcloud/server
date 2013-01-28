@@ -84,7 +84,7 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 					$ext='';
 				}
 				$tmpFile=OCP\Files::tmpFile($ext);
-				OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this, 'writeBack');
+				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$this->getFile($path, $tmpFile);
 				}

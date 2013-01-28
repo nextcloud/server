@@ -102,7 +102,7 @@ class Shared extends \OC\Files\Storage\Common {
 	public function opendir($path) {
 		if ($path == '' || $path == '/') {
 			$files = \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_Folder::FORMAT_OPENDIR);
-			\OC_FakeDirStream::$dirs['shared'] = $files;
+			\OC\Files\Stream\Dir::register('shared', $files);
 			return opendir('fakedir://shared');
 		} else if ($source = $this->getSourcePath($path)) {
 			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
