@@ -138,8 +138,9 @@ class OC_User_Database extends OC_User_Backend {
 		if( $this->userExists($uid) ) {
 			$query = OC_DB::prepare( 'SELECT displayname FROM `*PREFIX*users` WHERE `uid` = ?' );
 			$result = $query->execute( array( $uid ))->fetchAll();
-			if (!empty($result[0]['displayname'])) {
-				return $result[0]['displayname'];
+			$displayName = trim($result[0]['displayname'], ' ');
+			if ( !empty($displayName) ) {
+				return $displayName;
 			} else {
 				return $uid;
 			}
@@ -158,7 +159,8 @@ class OC_User_Database extends OC_User_Backend {
 		$result = $query->execute(array($search.'%'));
 		$users = array();
 		while ($row = $result->fetchRow()) {
-			$displayNames[$row['uid']] = $row['displayname'];
+			$displayName =  trim($row['displayname'], ' ');
+			$displayNames[$row['uid']] = empty($displayName) ? $row['uid'] : $displayName;
 		}
 		return $displayNames;
 	}

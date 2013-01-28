@@ -477,7 +477,7 @@ class OC_User {
 	
 	/**
 	 * @brief Get a list of all users display name
-	 * @returns associative array with all display names (key) and corresponding uids (value)
+	 * @returns associative array with all display names (value) and corresponding uids (key)
 	 *
 	 * Get a list of all display names and user ids.
 	 */

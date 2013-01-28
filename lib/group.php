@@ -289,7 +289,7 @@ class OC_Group {
 	
 	/**
 	 * @brief get a list of all display names in a group
-	 * @returns array with display names (key) and user ids(value)
+	 * @returns array with display names (value) and user ids(key)
 	 */
 	public static function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$displayNames=array();
