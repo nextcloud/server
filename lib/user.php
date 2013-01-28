@@ -383,8 +383,8 @@ class OC_User {
 
 	/**
 	 * @brief Check if the password is correct
-	 * @param $uid The username
-	 * @param $password The password
+	 * @param string $uid The username
+	 * @param string $password The password
 	 * @returns string
 	 *
 	 * returns the path to the users home directory
