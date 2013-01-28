@@ -300,6 +300,43 @@ $(document).ready(function () {
     $('td.password').live('click', function (event) {
         $(this).children('img').click();
     });
+    
+    $('td.displayName>img').live('click', function (event) {
+        event.stopPropagation();
+        var img = $(this);
+        var uid = img.parent().parent().attr('data-uid');
+        var input = $('<input type="text">');
+        img.css('display', 'none');
+        img.parent().children('span').replaceWith(input);
+        input.focus();
+        input.keypress(function (event) {
+        	console.log("event!");
+            if (event.keyCode == 13) {
+            	console.log("13");
+                if ($(this).val().length > 0) {
+                	console.log("post");
+                    $.post(
+                        OC.filePath('settings', 'ajax', 'changedisplayname.php'),
+                        {username:uid, displayName:$(this).val()},
+                        function (result) {
+                        	console.log("come back!");
+                        }
+                    );
+                    input.blur();
+                } else {
+                    input.blur();
+                }
+            }
+        });
+        input.blur(function () {
+            $(this).replaceWith($(this).val());
+            img.css('display', '');
+        });
+    });
+    $('td.displayName').live('click', function (event) {
+        $(this).children('img').click();
+    });
+    
 
     $('select.quota, select.quota-user').live('change', function () {
         var select = $(this);

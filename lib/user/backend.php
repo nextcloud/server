@@ -36,6 +36,7 @@ define('OC_USER_BACKEND_SET_PASSWORD',      0x000010);
 define('OC_USER_BACKEND_CHECK_PASSWORD',    0x000100);
 define('OC_USER_BACKEND_GET_HOME',			0x001000);
 define('OC_USER_BACKEND_GET_DISPLAYNAME',	0x010000);
+define('OC_USER_BACKEND_SET_DISPLAYNAME',	0x010000);
 
 
 /**
@@ -52,6 +53,7 @@ abstract class OC_User_Backend implements OC_User_Interface {
 		OC_USER_BACKEND_CHECK_PASSWORD => 'checkPassword',
 		OC_USER_BACKEND_GET_HOME => 'getHome',
 		OC_USER_BACKEND_GET_DISPLAYNAME => 'getDisplayName',
+		OC_USER_BACKEND_SET_DISPLAYNAME => 'setDisplayName',
 	);
 
 	/**

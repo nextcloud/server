@@ -269,9 +269,24 @@ class OC_User {
 	/**
 	 * @brief Sets user display name for session
 	 */
-	private static function setDisplayName($uid) {
-		$_SESSION['display_name'] = self::determineDisplayName($uid);
+	public static function setDisplayName($uid, $displayName = null) {
+		$result = false;
+		if ($displayName ) {
+			foreach(self::$_usedBackends as $backend) {
+				if($backend->implementsActions(OC_USER_BACKEND_SET_DISPLAYNAME)) {
+					if($backend->userExists($uid)) {
+						$success |= $backend->setDisplayName($uid, $displayName);
+					}
+				}
+			}
+		} else {
+			$displayName = self::determineDisplayName($uid);
+			$result = true;
+		}
+		$_SESSION['display_name'] = $displayName;
+		return result;
 	}
+	
 	
 	/**
 	 * @brief get display name
