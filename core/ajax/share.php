@@ -164,7 +164,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 						$users = OC_User::getDisplayNames($_GET['search'], $limit, $offset);
 					}
 					$offset += $limit;
-					foreach ($users as $displayName => $uid) {
+					foreach ($users as $uid => $displayName) {
 						if ((!isset($_GET['itemShares']) || !is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_USER]) || !in_array($uid, $_GET['itemShares'][OCP\Share::SHARE_TYPE_USER])) && $uid != OC_User::getUser()) {
 							$shareWith[] = array('label' => $displayName, 'value' => array('shareType' => OCP\Share::SHARE_TYPE_USER, 'shareWith' => $uid));
 							$count++;
