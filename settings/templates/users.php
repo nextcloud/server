@@ -91,7 +91,8 @@ var isadmin = <?php echo $_['isadmin']?'true':'false'; ?>;
 	</thead>
 	<tbody>
 		<?php foreach($_["users"] as $user): ?>
-		<tr data-uid="<?php echo $user["name"] ?>">
+		<tr data-uid="<?php echo $user["name"] ?>"
+			data-displayName="<?php echo $user["displayName"] ?>">
 			<td class="name"><?php echo $user["name"]; ?></td>
 			<td class="displayName"><span><?php echo $user["displayName"]; ?></span> <img class="svg action"
 				src="<?php echo image_path('core', 'actions/rename.svg')?>"

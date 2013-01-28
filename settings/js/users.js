@@ -305,7 +305,8 @@ $(document).ready(function () {
         event.stopPropagation();
         var img = $(this);
         var uid = img.parent().parent().attr('data-uid');
-        var input = $('<input type="text">');
+        var displayName = img.parent().parent().attr('data-displayName');
+        var input = $('<input type="text" value="'+displayName+'">');
         img.css('display', 'none');
         img.parent().children('span').replaceWith(input);
         input.focus();
