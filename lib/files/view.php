@@ -943,8 +943,16 @@ class View {
 	 */
 	public function getPath($id) {
 		list($storage, $internalPath) = Cache\Cache::getById($id);
-		$mount = Mount::findById($storage);
-		$fullPath = $mount->getMountPoint() . $internalPath;
-		return $this->getRelativePath($fullPath);
+		$mounts = Mount::findById($storage);
+		foreach ($mounts as $mount) {
+			/**
+			 * @var \OC\Files\Mount $mount
+			 */
+			$fullPath = $mount->getMountPoint() . $internalPath;
+			if (!is_null($path = $this->getRelativePath($fullPath))) {
+				return $path;
+			}
+		}
+		return null;
 	}
 }
