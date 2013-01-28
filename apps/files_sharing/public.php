@@ -224,6 +224,7 @@ if ($linkItem) {
 			OCP\Util::addStyle('files', 'files');
 			OCP\Util::addScript('files', 'files');
 			OCP\Util::addScript('files', 'filelist');
+			OCP\Util::addscript('files', 'keyboardshortcuts');
 			$files = array();
 			$rootLength = strlen($basePath) + 1;
 			foreach (OC_Files::getDirectoryContent($path) as $i) {
