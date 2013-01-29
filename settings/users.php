@@ -43,7 +43,7 @@ $defaultQuotaIsUserDefined=array_search($defaultQuota, $quotaPreset)===false && 
 
 // load users and quota
 foreach($accessibleusers as $uid => $displayName) {
-	$quota=OC_Preferences::getValue($i, 'files', 'quota', 'default');
+	$quota=OC_Preferences::getValue($uid, 'files', 'quota', 'default');
 	$isQuotaUserDefined=array_search($quota, $quotaPreset)===false && array_search($quota, array('none', 'default'))===false;
 
 	$name = $displayName;
