@@ -207,6 +207,7 @@ if ($linkItem) {
 		OCP\Util::addScript('files', 'fileactions');
 		$tmpl = new OCP\Template('files_sharing', 'public', 'base');
 		$tmpl->assign('uidOwner', $shareOwner);
+		$tmpl->assign('displayName', \OCP\User::getDisplayName($shareOwner));
 		$tmpl->assign('dir', $dir);
 		$tmpl->assign('filename', $file);
 		$tmpl->assign('mimetype', OC_Filesystem::getMimeType($path));
