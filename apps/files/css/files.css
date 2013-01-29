@@ -104,7 +104,7 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 #fileList tr:hover .fileactions { /* background to distinguish when overlaying with file names */
 	background:rgba(248,248,248,.9); box-shadow:-5px 0 7px rgba(248,248,248,.9);
 }
-#fileList tr.selected:hover .fileactions { /* slightly darker color for selected rows */
+#fileList tr.selected:hover .fileactions, #fileList tr.mouseOver .fileactions { /* slightly darker color for selected rows */
 	background:rgba(238,238,238,.9); box-shadow:-5px 0 7px rgba(238,238,238,.9);
 }
 #fileList .fileactions a.action img { position:relative; top:.2em; }
