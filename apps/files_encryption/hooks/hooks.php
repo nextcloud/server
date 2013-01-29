@@ -37,8 +37,6 @@ class Hooks {
 	 * @note This method should never be called for users using client side encryption
 	 */
 	public static function login( $params ) {
-			
-			// TODO: use lots of dependency injection here
 		
 			$view = new \OC_FilesystemView( '/' );
 
@@ -83,8 +81,17 @@ class Hooks {
 			
 			// Encrypt existing user files:
 			// This serves to upgrade old versions of the encryption
-			// app (see appinfo/spec.txt
-			$this->encryptAll( $publicKey, $this->userFilesDir, $session->getLegacyKey(), $params['password'] );
+			// app (see appinfo/spec.txt)
+			if ( 
+				$util->encryptAll( $publicKey,  '/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password'] )
+			) {
+				
+				\OC_Log::write( 
+					'Encryption library', 'Encryption of file belonging to "' . $params['uid'] . '" was started at login'
+					, \OC_Log::INFO 
+				);
+			
+			}
 
 		return true;
 

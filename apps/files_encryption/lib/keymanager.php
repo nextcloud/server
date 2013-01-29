@@ -234,33 +234,33 @@ class Keymanager {
 	}
 	
 	/**
-	 * @brief retrieve file encryption key
+	 * @brief Delete a keyfile
 	 *
-	 * @param string file name
-	 * @return string file key or false
+	 * @param OC_FilesystemView $view
+	 * @param string $userId username
+	 * @param string $path path of the file the key belongs to
+	 * @return bool Outcome of unlink operation
+	 * @note $path must be relative to data/user/files. e.g. mydoc.txt NOT
+	 *       /data/admin/files/mydoc.txt
 	 */
-	public static function deleteFileKey( $path, $staticUserClass = 'OCP\User' ) {
+	public static function deleteFileKey( \OC_FilesystemView $view, $userId, $path ) {
 		
-		$keypath = ltrim( $path, '/' );
-		$user = $staticUserClass::getUser();
-
-		// update $keypath and $user if path point to a file shared by someone else
-// 		$query = \OC_DB::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
-// 		
-// 		$result = $query->execute( array ('/'.$user.'/files/'.$keypath, $user));
-// 		
-// 		if ($row = $result->fetchRow()) {
-// 		
-// 			$keypath = $row['source'];
-// 			$keypath_parts = explode( '/', $keypath );
-// 			$user = $keypath_parts[1];
-// 			$keypath = str_replace( '/' . $user . '/files/', '', $keypath );
-// 			
-// 		}
+		$trimmed = ltrim( $path, '/' );
+		$keyPath =  '/' . $userId . '/files_encryption/keyfiles/' . $trimmed . '.key';
 		
-		$view = new \OC_FilesystemView( '/' . $user. '/files_encryption/keyfiles/' );
+		// Unlink doesn't tell us if file was deleted (not found returns
+		// true), so we perform our own test
+		if ( $view->file_exists( $keyPath ) ) {
 		
-		return $view->unlink( $keypath . '.key' );
+			return $view->unlink( $keyPath );
+			
+		} else {
+			
+			\OC_Log::write( 'Encryption library', 'Could not delete keyfile; does not exist: "' . $keyPath, \OC_Log::ERROR );
+			
+			return false;
+			
+		}
 		
 	}
 	

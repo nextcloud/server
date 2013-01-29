@@ -192,6 +192,73 @@ class Proxy extends \OC_FileProxy {
 		
 	}
 	
+	/**
+	 * @brief When a file is deleted, remove its keyfile also
+	 */
+	public function postUnlink( $path ) {
+	
+		// Disable encryption proxy to prevent recursive calls
+		\OC_FileProxy::$enabled = false;
+		
+		$view = new \OC_FilesystemView( '/' );
+		
+		$userId = \OCP\USER::getUser();
+	
+		// Format path to be relative to user files dir
+		$trimmed = ltrim( $path, '/' );
+		$split = explode( '/', $trimmed );
+		$sliced = array_slice( $split, 2 );
+		$relPath = implode( '/', $sliced );
+	
+		// Delete keyfile so it isn't orphaned
+		$result = Keymanager::deleteFileKey( $view, $userId, $relPath );
+	
+		\OC_FileProxy::$enabled = true;
+		
+		return $result;
+	
+	}
+
+	/**
+	 * @brief When a file is renamed, rename its keyfile also
+	 * @return bool Result of rename()
+	 * @note This is pre rather than post because using post didn't work
+	 */
+	public function preRename( $oldPath, $newPath ) {
+	
+// 		trigger_error( "PATHS = ".var_export($oldPath, 1).'  '.var_export($newPath, 1));
+		
+		// Disable encryption proxy to prevent recursive calls
+		\OC_FileProxy::$enabled = false;
+		
+		$view = new \OC_FilesystemView( '/' );
+		
+		$userId = \OCP\USER::getUser();
+	
+		// Format paths to be relative to user files dir
+		$oldTrimmed = ltrim( $oldPath, '/' );
+		$oldSplit = explode( '/', $oldTrimmed );
+		$oldSliced = array_slice( $oldSplit, 2 );
+		$oldRelPath = implode( '/', $oldSliced );
+		$oldKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $oldRelPath . '.key';
+		
+		$newTrimmed = ltrim( $newPath, '/' );
+		$newSplit = explode( '/', $newTrimmed );
+		$newSliced = array_slice( $newSplit, 2 );
+		$newRelPath = implode( '/', $newSliced );
+		$newKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $newRelPath . '.key';
+		
+// 		trigger_error("RENAMING = ".var_export($oldKeyfilePath, 1).' -> '.var_export($newKeyfilePath, 1));
+		
+		// Rename keyfile so it isn't orphaned
+		$result = $view->rename( $oldKeyfilePath, $newKeyfilePath );
+		
+		\OC_FileProxy::$enabled = true;
+		
+		return $result;
+	
+	}
+	
 	public function postFopen( $path, &$result ){
 	
 		if ( !$result ) {

@@ -225,6 +225,9 @@ class Util {
 	 * @brief Find all files and their encryption status within a directory
 	 * @param string $directory The path of the parent directory to search
 	 * @return mixed false if 0 found, array on success. Keys: name, path
+	 
+	 * @note $directory needs to be a path relative to OC data dir. e.g.
+	 *       /admin/files NOT /backup OR /home/www/oc/data/admin/files
 	 */
 	public function findFiles( $directory ) {
 		
@@ -293,7 +296,7 @@ class Util {
 				return false;
 			
 			} else {
-			
+				
 				return $found;
 			
 			}
@@ -334,20 +337,29 @@ class Util {
 	
 		if ( $found = $this->findFiles( $dirPath ) ) {
 		
+			// Disable proxy to prevent file being encrypted twice
+			\OC_FileProxy::$enabled = false;
+		
 			// Encrypt unencrypted files
-			foreach ( $found['plain'] as $plainFilePath ) {
-			
+			foreach ( $found['plain'] as $plainFile ) {
+				
 				// Fetch data from file
-				$plainData = $this->view->file_get_contents( $plainFilePath );
+				$plainData = $this->view->file_get_contents( $plainFile['path'] );
 				
 				// Encrypt data, generate catfile
 				$encrypted = Crypt::keyEncryptKeyfile( $plainData, $publicKey );
 				
+				// Format path to be relative to user files dir
+				$trimmed = ltrim( $plainFile['path'], '/' );
+				$split = explode( '/', $trimmed );
+				$sliced = array_slice( $split, 2 );
+				$relPath = implode( '/', $sliced );
+				
 				// Save catfile
-				Keymanager::setFileKey( $this->view, $plainFilePath, $this->userId, $encrypted['key'] );
+				Keymanager::setFileKey( $this->view, $relPath, $this->userId, $encrypted['key'] );
 				
 				// Overwrite the existing file with the encrypted one
-				$this->view->file_put_contents( $plainFilePath, $encrypted['data'] );
+				$this->view->file_put_contents( $plainFile['path'], $encrypted['data'] );
 			
 			}
 			
@@ -367,15 +379,25 @@ class Util {
 					$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKey, $newPassphrase );
 					
 					// Save catfile
-					Keymanager::setFileKey( $this->view, $plainFilePath, $this->userId, $recrypted['key'] );
+					Keymanager::setFileKey( $this->view, $plainFile['path'], $this->userId, $recrypted['key'] );
 					
 					// Overwrite the existing file with the encrypted one
-					$this->view->file_put_contents( $plainFilePath, $recrypted['data'] );
+					$this->view->file_put_contents( $plainFile['path'], $recrypted['data'] );
 				
 				}
 				
 			}
+			
+			\OC_FileProxy::$enabled = true;
+			
+			// If files were found, return true
+			return true;
 		
+		} else {
+		
+			// If no files were found, return false
+			return false;
+			
 		}
 		
 	}
