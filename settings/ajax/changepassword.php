@@ -16,7 +16,7 @@ if(OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username)) {
 	$userstatus = 'subadmin';
 }
 if(OC_User::getUser() === $username && OC_User::checkPassword($username, $oldPassword)) {
-		$userstatus = 'user';
+	$userstatus = 'user';
 }
 
 if(is_null($userstatus)) {
