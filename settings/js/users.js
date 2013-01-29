@@ -320,7 +320,6 @@ $(document).ready(function () {
                         OC.filePath('settings', 'ajax', 'changedisplayname.php'),
                         {username:uid, displayName:$(this).val()},
                         function (result) {
-                        	console.log("come back!");
                         }
                     );
                     input.blur();
