@@ -40,6 +40,7 @@ OC.Share={
 									if (img.attr('src') != OC.imagePath('core', 'actions/public')) {
 										img.attr('src', image);
 										action.addClass('permanent');
+										action.html(action.html().replace(t('core', 'Share'), t('core', 'Shared')));
 									}
 								}
 								last = path;
