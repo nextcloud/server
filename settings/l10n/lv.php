@@ -36,7 +36,6 @@
 "Language" => "Valoda",
 "Help translate" => "Palīdzi tulkot",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Izstrādājusi<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud kopiena</a>,<a href=\"https://github.com/owncloud\" target=\"_blank\">pirmkodu</a>kurš ir licencēts zem <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
-"Name" => "Vārds",
 "Groups" => "Grupas",
 "Create" => "Izveidot",
 "Other" => "Cits",

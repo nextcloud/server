@@ -34,7 +34,6 @@
 "Fill in an email address to enable password recovery" => "Parooli taastamise sisse lülitamiseks sisesta e-posti aadress",
 "Language" => "Keel",
 "Help translate" => "Aita tõlkida",
-"Name" => "Nimi",
 "Groups" => "Grupid",
 "Create" => "Lisa",
 "Other" => "Muu",

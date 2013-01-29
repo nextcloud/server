@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-23 00:05+0100\n"
-"PO-Revision-Date: 2013-01-22 00:59+0000\n"
-"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 23:24+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,7 +90,7 @@ msgstr "เปิดใช้งาน"
 msgid "Saving..."
 msgstr "กำลังบันทึุกข้อมูล..."
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "ภาษาไทย"
 
@@ -102,15 +102,15 @@ msgstr "เพิ่มแอปของคุณ"
 msgid "More Apps"
 msgstr "แอปฯอื่นเพิ่มเติม"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "เลือก App"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "ดูหน้าแอพพลิเคชั่นที่ apps.owncloud.com"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-ลิขสิทธิ์การใช้งานโดย <span class=\"author\"></span>"
 
@@ -159,7 +159,7 @@ msgstr "ดาวน์โหลดโปรแกรมไคลเอนต์
 msgid "Download iOS Client"
 msgstr "ดาวน์โหลดโปรแกรมไคลเอนต์สำหรับ iOS"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "รหัสผ่าน"
 
@@ -229,11 +229,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "พัฒนาโดย the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ชุมชนผู้ใช้งาน ownCloud</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">ซอร์สโค้ด</a>อยู่ภายใต้สัญญาอนุญาตของ <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "ชื่อ"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr ""
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "กลุ่ม"
 
@@ -245,26 +245,30 @@ msgstr "สร้าง"
 msgid "Default Storage"
 msgstr "พื้นที่จำกัดข้อมูลเริ่มต้น"
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
 msgstr "ไม่จำกัดจำนวน"
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "อื่นๆ"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:80
+msgid "Display Name"
+msgstr ""
+
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "ผู้ดูแลกลุ่ม"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
 msgstr "พื้นที่จัดเก็บข้อมูล"
 
-#: templates/users.php:133
+#: templates/users.php:137
 msgid "Default"
 msgstr "ค่าเริ่มต้น"
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "ลบ"

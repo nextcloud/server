@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 01:10+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -72,7 +72,7 @@ msgstr "ディスクへの書き込みに失敗しました"
 
 #: ajax/upload.php:48
 msgid "Not enough storage available"
-msgstr ""
+msgstr "ストレージに十分な空き容量がありません"
 
 #: ajax/upload.php:77
 msgid "Invalid directory."
@@ -146,11 +146,11 @@ msgstr "無効な名前、'\\', '/', '<', '>', ':', '\"', '|', '?', '*' は使�
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "あなたのストレージは一杯です。ファイルの更新と同期はもうできません！"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "あなたのストレージはほぼ一杯です（{usedSpacePercent}%）"
 
 #: js/files.js:219
 msgid ""

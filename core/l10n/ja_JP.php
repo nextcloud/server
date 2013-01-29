@@ -82,6 +82,8 @@
 "Error setting expiration date" => "有効期限の設定でエラー発生",
 "Sending ..." => "送信中...",
 "Email sent" => "メールを送信しました",
+"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "更新に成功しました。この問題を <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a> にレポートしてください。",
+"The update was successful. Redirecting you to ownCloud now." => "更新に成功しました。今すぐownCloudにリダイレクトします。",
 "ownCloud password reset" => "ownCloudのパスワードをリセットします",
 "Use the following link to reset your password: {link}" => "パスワードをリセットするには次のリンクをクリックして下さい: {link}",
 "You will receive a link to reset your password via Email." => "メールでパスワードをリセットするリンクが届きます。",

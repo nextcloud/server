@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 17:20+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,7 +70,7 @@ msgstr "เขียนข้อมูลลงแผ่นดิสก์ล้
 
 #: ajax/upload.php:48
 msgid "Not enough storage available"
-msgstr ""
+msgstr "เหลือพื้นที่ไม่เพียงสำหรับใช้งาน"
 
 #: ajax/upload.php:77
 msgid "Invalid directory."
@@ -144,11 +144,11 @@ msgstr "ชื่อที่ใช้ไม่ถูกต้อง, '\\', '/',
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "พื้นที่จัดเก็บข้อมูลของคุณเต็มแล้ว ไม่สามารถอัพเดทหรือผสานไฟล์ต่างๆได้อีกต่อไป"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "พื้นที่จัดเก็บข้อมูลของคุณใกล้เต็มแล้ว ({usedSpacePercent}%)"
 
 #: js/files.js:219
 msgid ""

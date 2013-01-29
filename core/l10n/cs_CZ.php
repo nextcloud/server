@@ -82,6 +82,8 @@
 "Error setting expiration date" => "Chyba při nastavení data vypršení platnosti",
 "Sending ..." => "Odesílám...",
 "Email sent" => "E-mail odeslán",
+"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Aktualizace neproběhla úspěšně. Nahlaste prosím problém do <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">evidence chyb ownCloud</a>",
+"The update was successful. Redirecting you to ownCloud now." => "Aktualizace byla úspěšná. Přesměrovávám na ownCloud.",
 "ownCloud password reset" => "Obnovení hesla pro ownCloud",
 "Use the following link to reset your password: {link}" => "Heslo obnovíte použitím následujícího odkazu: {link}",
 "You will receive a link to reset your password via Email." => "Bude Vám e-mailem zaslán odkaz pro obnovu hesla.",

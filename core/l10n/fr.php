@@ -82,6 +82,8 @@
 "Error setting expiration date" => "Erreur lors de la spécification de la date d'expiration",
 "Sending ..." => "En cours d'envoi ...",
 "Email sent" => "Email envoyé",
+"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "La mise à jour a échoué. Veuillez signaler ce problème à la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">communauté ownCloud</a>.",
+"The update was successful. Redirecting you to ownCloud now." => "La mise à jour a réussi. Vous êtes redirigé maintenant vers ownCloud.",
 "ownCloud password reset" => "Réinitialisation de votre mot de passe Owncloud",
 "Use the following link to reset your password: {link}" => "Utilisez le lien suivant pour réinitialiser votre mot de passe : {link}",
 "You will receive a link to reset your password via Email." => "Vous allez recevoir un e-mail contenant un lien pour réinitialiser votre mot de passe.",

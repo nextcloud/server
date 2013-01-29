@@ -11,7 +11,7 @@
 # I Robot <thomas.mueller@tmit.eu>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 #   <mail@felixmoeller.de>, 2012.
-# Marcel Kühlhorn <susefan93@gmx.de>, 2012.
+# Marcel Kühlhorn <susefan93@gmx.de>, 2012-2013.
 #   <markus.thiel@desico.de>, 2012.
 #   <m.fresel@sysangels.com>, 2012.
 #   <niko@nik-o-mat.de>, 2012.
@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-29 00:04+0100\n"
-"PO-Revision-Date: 2013-01-28 23:05+0000\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 23:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -33,24 +33,24 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:84
+#: ajax/share.php:85
 #, php-format
 msgid "User %s shared a file with you"
 msgstr "Der Nutzer %s hat eine Datei für Dich freigegeben"
 
-#: ajax/share.php:86
+#: ajax/share.php:87
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr "%s hat ein Verzeichnis für Dich freigegeben"
 
-#: ajax/share.php:88
+#: ajax/share.php:89
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr "%s hat eine Datei \"%s\" für Dich freigegeben. Sie ist zum Download hier ferfügbar: %s"
 
-#: ajax/share.php:90
+#: ajax/share.php:91
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -253,8 +253,8 @@ msgid "The object type is not specified."
 msgstr "Der Objekttyp ist nicht angegeben."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
-#: js/share.js:566
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
+#: js/share.js:583
 msgid "Error"
 msgstr "Fehler"
 
@@ -266,119 +266,127 @@ msgstr "Der App-Name ist nicht angegeben."
 msgid "The required file {file} is not installed!"
 msgstr "Die benötigte Datei {file} ist nicht installiert."
 
-#: js/share.js:124 js/share.js:594
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Share"
+msgstr ""
+
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Shared"
+msgstr ""
+
+#: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
 msgstr "Fehler beim Freigeben"
 
-#: js/share.js:135
+#: js/share.js:152
 msgid "Error while unsharing"
 msgstr "Fehler beim Aufheben der Freigabe"
 
-#: js/share.js:142
+#: js/share.js:159
 msgid "Error while changing permissions"
 msgstr "Fehler beim Ändern der Rechte"
 
-#: js/share.js:151
+#: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "{owner} hat dies für Dich und die Gruppe {group} freigegeben"
 
-#: js/share.js:153
+#: js/share.js:170
 msgid "Shared with you by {owner}"
 msgstr "{owner} hat dies für Dich freigegeben"
 
-#: js/share.js:158
+#: js/share.js:175
 msgid "Share with"
 msgstr "Freigeben für"
 
-#: js/share.js:163
+#: js/share.js:180
 msgid "Share with link"
 msgstr "Über einen Link freigeben"
 
-#: js/share.js:166
+#: js/share.js:183
 msgid "Password protect"
 msgstr "Passwortschutz"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:35
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "Passwort"
 
-#: js/share.js:172
+#: js/share.js:189
 msgid "Email link to person"
 msgstr "Link per E-Mail verschicken"
 
-#: js/share.js:173
+#: js/share.js:190
 msgid "Send"
 msgstr "Senden"
 
-#: js/share.js:177
+#: js/share.js:194
 msgid "Set expiration date"
 msgstr "Setze ein Ablaufdatum"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Expiration date"
 msgstr "Ablaufdatum"
 
-#: js/share.js:210
+#: js/share.js:227
 msgid "Share via email:"
 msgstr "Über eine E-Mail freigeben:"
 
-#: js/share.js:212
+#: js/share.js:229
 msgid "No people found"
 msgstr "Niemand gefunden"
 
-#: js/share.js:239
+#: js/share.js:256
 msgid "Resharing is not allowed"
 msgstr "Weiterverteilen ist nicht erlaubt"
 
-#: js/share.js:275
+#: js/share.js:292
 msgid "Shared in {item} with {user}"
 msgstr "Für {user} in {item} freigegeben"
 
-#: js/share.js:296
+#: js/share.js:313
 msgid "Unshare"
 msgstr "Freigabe aufheben"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "can edit"
 msgstr "kann bearbeiten"
 
-#: js/share.js:310
+#: js/share.js:327
 msgid "access control"
 msgstr "Zugriffskontrolle"
 
-#: js/share.js:313
+#: js/share.js:330
 msgid "create"
 msgstr "erstellen"
 
-#: js/share.js:316
+#: js/share.js:333
 msgid "update"
 msgstr "aktualisieren"
 
-#: js/share.js:319
+#: js/share.js:336
 msgid "delete"
 msgstr "löschen"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "share"
 msgstr "freigeben"
 
-#: js/share.js:356 js/share.js:541
+#: js/share.js:373 js/share.js:558
 msgid "Password protected"
 msgstr "Durch ein Passwort geschützt"
 
-#: js/share.js:554
+#: js/share.js:571
 msgid "Error unsetting expiration date"
 msgstr "Fehler beim entfernen des Ablaufdatums"
 
-#: js/share.js:566
+#: js/share.js:583
 msgid "Error setting expiration date"
 msgstr "Fehler beim Setzen des Ablaufdatums"
 
-#: js/share.js:581
+#: js/share.js:598
 msgid "Sending ..."
 msgstr "Sende ..."
 
-#: js/share.js:592
+#: js/share.js:609
 msgid "Email sent"
 msgstr "E-Mail wurde verschickt"
 
@@ -387,11 +395,11 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "Das Update ist fehlgeschlagen. Bitte melden Sie dieses Problem an die <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud Gemeinschaft</a>."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "Das Update war erfolgreich. Sie werden nun zu ownCloud weitergeleitet."
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"

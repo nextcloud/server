@@ -82,6 +82,8 @@
 "Error setting expiration date" => "เกิดข้อผิดพลาดในการตั้งค่าวันที่หมดอายุ",
 "Sending ..." => "กำลังส่ง...",
 "Email sent" => "ส่งอีเมล์แล้ว",
+"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "การอัพเดทไม่เป็นผลสำเร็จ กรุณาแจ้งปัญหาที่เกิดขึ้นไปยัง <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">คอมมูนิตี้ผู้ใช้งาน ownCloud</a>",
+"The update was successful. Redirecting you to ownCloud now." => "การอัพเดทเสร็จเรียบร้อยแล้ว กำลังเปลี่ยนเส้นทางไปที่ ownCloud อยู่ในขณะนี้",
 "ownCloud password reset" => "รีเซ็ตรหัสผ่าน ownCloud",
 "Use the following link to reset your password: {link}" => "ใช้ลิงค์ต่อไปนี้เพื่อเปลี่ยนรหัสผ่านของคุณใหม่: {link}",
 "You will receive a link to reset your password via Email." => "คุณจะได้รับลิงค์เพื่อกำหนดรหัสผ่านใหม่ทางอีเมล์",

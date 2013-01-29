@@ -82,6 +82,8 @@
 "Error setting expiration date" => "Errore bat egon da muga data ezartzean",
 "Sending ..." => "Bidaltzen ...",
 "Email sent" => "Eposta bidalia",
+"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Eguneraketa ez da ongi egin. Mesedez egin arazoaren txosten bat <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud komunitatearentzako</a>.",
+"The update was successful. Redirecting you to ownCloud now." => "Eguneraketa ongi egin da. Orain zure ownClouderea berbideratua izango zara.",
 "ownCloud password reset" => "ownCloud-en pasahitza berrezarri",
 "Use the following link to reset your password: {link}" => "Eribili hurrengo lotura zure pasahitza berrezartzeko: {link}",
 "You will receive a link to reset your password via Email." => "Zure pashitza berrezartzeko lotura bat jasoko duzu Epostaren bidez.",

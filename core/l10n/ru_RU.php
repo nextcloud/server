@@ -82,6 +82,8 @@
 "Error setting expiration date" => "Ошибка при установке даты истечения срока действия",
 "Sending ..." => "Отправка ...",
 "Email sent" => "Письмо отправлено",
+"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Обновление прошло неудачно. Пожалуйста, сообщите об этом результате в <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>.",
+"The update was successful. Redirecting you to ownCloud now." => "Обновление прошло успешно. Немедленное перенаправление Вас на ownCloud.",
 "ownCloud password reset" => "Переназначение пароля",
 "Use the following link to reset your password: {link}" => "Воспользуйтесь следующей ссылкой для переназначения пароля: {link}",
 "You will receive a link to reset your password via Email." => "Вы получите ссылку для восстановления пароля по электронной почте.",
@@ -126,5 +128,6 @@
 "remember" => "запомнить",
 "Log in" => "Войти",
 "prev" => "предыдущий",
-"next" => "следующий"
+"next" => "следующий",
+"Updating ownCloud to version %s, this may take a while." => "Обновление ownCloud до версии %s, это может занять некоторое время."
 );

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-29 00:04+0100\n"
-"PO-Revision-Date: 2013-01-28 23:05+0000\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 23:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/projects/p/owncloud/language/zh_HK/)\n"
 "MIME-Version: 1.0\n"
@@ -18,24 +18,24 @@ msgstr ""
 "Language: zh_HK\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:84
+#: ajax/share.php:85
 #, php-format
 msgid "User %s shared a file with you"
 msgstr ""
 
-#: ajax/share.php:86
+#: ajax/share.php:87
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr ""
 
-#: ajax/share.php:88
+#: ajax/share.php:89
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr ""
 
-#: ajax/share.php:90
+#: ajax/share.php:91
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -238,8 +238,8 @@ msgid "The object type is not specified."
 msgstr ""
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
-#: js/share.js:566
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
+#: js/share.js:583
 msgid "Error"
 msgstr ""
 
@@ -251,119 +251,127 @@ msgstr ""
 msgid "The required file {file} is not installed!"
 msgstr ""
 
-#: js/share.js:124 js/share.js:594
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Share"
+msgstr ""
+
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Shared"
+msgstr ""
+
+#: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
 msgstr ""
 
-#: js/share.js:135
+#: js/share.js:152
 msgid "Error while unsharing"
 msgstr ""
 
-#: js/share.js:142
+#: js/share.js:159
 msgid "Error while changing permissions"
 msgstr ""
 
-#: js/share.js:151
+#: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
 msgstr ""
 
-#: js/share.js:153
+#: js/share.js:170
 msgid "Shared with you by {owner}"
 msgstr ""
 
-#: js/share.js:158
+#: js/share.js:175
 msgid "Share with"
 msgstr ""
 
-#: js/share.js:163
+#: js/share.js:180
 msgid "Share with link"
 msgstr ""
 
-#: js/share.js:166
+#: js/share.js:183
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:35
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr ""
 
-#: js/share.js:172
+#: js/share.js:189
 msgid "Email link to person"
 msgstr ""
 
-#: js/share.js:173
+#: js/share.js:190
 msgid "Send"
 msgstr ""
 
-#: js/share.js:177
+#: js/share.js:194
 msgid "Set expiration date"
 msgstr ""
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Expiration date"
 msgstr ""
 
-#: js/share.js:210
+#: js/share.js:227
 msgid "Share via email:"
 msgstr ""
 
-#: js/share.js:212
+#: js/share.js:229
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:239
+#: js/share.js:256
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:275
+#: js/share.js:292
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:296
+#: js/share.js:313
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:310
+#: js/share.js:327
 msgid "access control"
 msgstr ""
 
-#: js/share.js:313
+#: js/share.js:330
 msgid "create"
 msgstr ""
 
-#: js/share.js:316
+#: js/share.js:333
 msgid "update"
 msgstr ""
 
-#: js/share.js:319
+#: js/share.js:336
 msgid "delete"
 msgstr ""
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "share"
 msgstr ""
 
-#: js/share.js:356 js/share.js:541
+#: js/share.js:373 js/share.js:558
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:554
+#: js/share.js:571
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:566
+#: js/share.js:583
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:581
+#: js/share.js:598
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:592
+#: js/share.js:609
 msgid "Email sent"
 msgstr ""
 
