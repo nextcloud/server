@@ -53,17 +53,26 @@ class Trashbin {
 
 		self::copy_recursive($file_path, 'files_trashbin/'.$deleted.'.d'.$timestamp, $view);
 		
-		$query = \OC_DB::prepare("INSERT INTO *PREFIX*files_trash (id,timestamp,location,type,mime,user) VALUES (?,?,?,?,?,?)");
-		$query->execute(array($deleted, $timestamp, $location, $type, $mime, $user));
-
-		if ( \OCP\App::isEnabled('files_versions') ) {
-			if ( $view->is_dir('files_versions'.$file_path) ) {
-				$view->rename('files_versions'.$file_path, 'versions_trashbin/'. $deleted.'.d'.$timestamp);
-			} else if ( $versions = \OCA_Versions\Storage::getVersions($file_path) ) {
-				foreach ($versions as $v) {
-					$view->rename('files_versions'.$v['path'].'.v'.$v['version'], 'versions_trashbin/'. $deleted.'.v'.$v['version'].'.d'.$timestamp);
+		if ( $view->file_exists('files_trashbin/'.$deleted.'.d'.$timestamp) ) {
+			$query = \OC_DB::prepare("INSERT INTO *PREFIX*files_trash (id,timestamp,location,type,mime,user) VALUES (?,?,?,?,?,?)");
+			$result = $query->execute(array($deleted, $timestamp, $location, $type, $mime, $user));
+			if ( !$result ) { // if file couldn't be added to the database than also don't store it in the trash bin.
+				$view->deleteAll('files_trashbin/'.$deleted.'.d'.$timestamp);
+				\OC_Log::write('files_trashbin', 'trash bin database couldn\'t be updated', \OC_log::ERROR);
+				return;
+			}
+	
+			if ( \OCP\App::isEnabled('files_versions') ) {
+				if ( $view->is_dir('files_versions'.$file_path) ) {
+					$view->rename('files_versions'.$file_path, 'versions_trashbin/'. $deleted.'.d'.$timestamp);
+				} else if ( $versions = \OCA_Versions\Storage::getVersions($file_path) ) {
+					foreach ($versions as $v) {
+						$view->rename('files_versions'.$v['path'].'.v'.$v['version'], 'versions_trashbin/'. $deleted.'.v'.$v['version'].'.d'.$timestamp);
+					}
 				}
 			}
+		} else {
+			\OC_Log::write('files_trashbin', 'Couldn\'t move '.$file_path.' to the trash bin' , \OC_log::ERROR);
 		}
 		
 		self::expire();
@@ -133,6 +142,8 @@ class Trashbin {
 			}
 
 			return true;
+		} else {
+			\OC_Log::write('files_trashbin', 'Couldn\'t restore file from trash bin, '.$filename , \OC_log::ERROR);
 		}
 
 		return false;
