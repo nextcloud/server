@@ -311,11 +311,8 @@ $(document).ready(function () {
         img.parent().children('span').replaceWith(input);
         input.focus();
         input.keypress(function (event) {
-        	console.log("event!");
             if (event.keyCode == 13) {
-            	console.log("13");
                 if ($(this).val().length > 0) {
-                	console.log("post");
                     $.post(
                         OC.filePath('settings', 'ajax', 'changedisplayname.php'),
                         {username:uid, displayName:$(this).val()},
