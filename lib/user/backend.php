@@ -144,7 +144,7 @@ abstract class OC_User_Backend implements OC_User_Interface {
 		$displayNames = array();
 		$users = $this->getUsers($search, $limit, $offset);
 		foreach ( $users as $user) {
-			$displayNames[$user] = "foo";
+			$displayNames[$user] = $user;
 		}
 		return $displayNames;
 	}
