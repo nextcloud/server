@@ -283,7 +283,9 @@ class OC_User {
 			$displayName = self::determineDisplayName($uid);
 			$result = true;
 		}
-		$_SESSION['display_name'] = $displayName;
+		if (OC_User::getUser() === $uid) {
+			$_SESSION['display_name'] = $displayName;
+		}
 		return $result;
 	}
 

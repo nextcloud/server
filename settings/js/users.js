@@ -70,7 +70,9 @@ var UserList = {
     add:function (username, groups, subadmin, quota, sort) {
         var tr = $('tbody tr').first().clone();
         tr.attr('data-uid', username);
+        tr.attr('data-displayName', username);
         tr.find('td.name').text(username);
+        tr.find('td.displayName').text(username);
         var groupsSelect = $('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="' + t('settings', 'Groups') + '"></select>').attr('data-username', username).attr('data-user-groups', groups);
         tr.find('td.groups').empty();
         if (tr.find('td.subadmins').length > 0) {
