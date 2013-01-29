@@ -26,6 +26,7 @@ OC.Share={
 							var action = $(file).find('.fileactions .action').filterAttr('data-action', 'Share');
 							action.find('img').attr('src', image);
 							action.addClass('permanent');
+							action.html(action.html().replace(t('core', 'Share'), t('core', 'Shared')));
 						}
 						var dir = $('#dir').val();
 						if (dir.length > 1) {
@@ -85,8 +86,10 @@ OC.Share={
 			action.find('img').attr('src', image);
 			if (shares) {
 				action.addClass('permanent');
+				action.html(action.html().replace(t('core', 'Share'), t('core', 'Shared')));
 			} else {
 				action.removeClass('permanent');
+				action.html(action.html().replace(t('core', 'Shared'), t('core', 'Share')));
 			}
 		}
 		if (shares) {
