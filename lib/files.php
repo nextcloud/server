@@ -37,10 +37,10 @@ class OC_Files {
 	}
 
 	/**
-	 * return the content of a file or return a zip file containning multiply files
+	 * return the content of a file or return a zip file containing multiple files
 	 *
 	 * @param string $dir
-	 * @param string $file ; seperated list of files to download
+	 * @param string $file ; separated list of files to download
 	 * @param boolean $only_header ; boolean to only send header of the request
 	 */
 	public static function get($dir, $files, $only_header = false) {
@@ -77,6 +77,7 @@ class OC_Files {
 				}
 			}
 			$zip->close();
+			$name = basename($dir) . '.zip';
 			set_time_limit($executionTime);
 		} elseif (\OC\Files\Filesystem::is_dir($dir . '/' . $files)) {
 			self::validateZipDownload($dir, $files);
@@ -94,18 +95,20 @@ class OC_Files {
 			$file = $dir . '/' . $files;
 			self::zipAddDir($file, $zip);
 			$zip->close();
+			$name = $files . '.zip';
 			set_time_limit($executionTime);
 		} else {
 			$zip = false;
 			$filename = $dir . '/' . $files;
+			$name = $files;
 		}
 		OC_Util::obEnd();
 		if ($zip or \OC\Files\Filesystem::isReadable($filename)) {
 			if ( preg_match( "/MSIE/", $_SERVER["HTTP_USER_AGENT"] ) ) {
-				header( 'Content-Disposition: attachment; filename="' . rawurlencode( basename($filename) ) . '"' );
+				header( 'Content-Disposition: attachment; filename="' . rawurlencode($name) . '"' );
 			} else {
-				header( 'Content-Disposition: attachment; filename*=UTF-8\'\'' . rawurlencode( basename($filename) )
-													 . '; filename="' . rawurlencode( basename($filename) ) . '"' );
+				header( 'Content-Disposition: attachment; filename*=UTF-8\'\'' . rawurlencode($name)
+													 . '; filename="' . rawurlencode($name) . '"' );
 			}
 			header('Content-Transfer-Encoding: binary');
 			OC_Response::disableCaching();
@@ -125,7 +128,7 @@ class OC_Files {
 		} elseif ($zip or !\OC\Files\Filesystem::file_exists($filename)) {
 			header("HTTP/1.0 404 Not Found");
 			$tmpl = new OC_Template('', '404', 'guest');
-			$tmpl->assign('file', $filename);
+			$tmpl->assign('file', $name);
 			$tmpl->printPage();
 		} else {
 			header("HTTP/1.0 403 Forbidden");
