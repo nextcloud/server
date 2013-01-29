@@ -2,7 +2,7 @@
 $(document).ready(function() {
 
 	if (typeof FileActions !== 'undefined') {
-		FileActions.register('all', 'Undelete', OC.PERMISSION_READ, '', function(filename) {
+		FileActions.register('all', 'Undelete', OC.PERMISSION_READ,  OC.imagePath('core', 'actions/undelete.png'), function(filename) {
 			var tr=$('tr').filterAttr('data-file', filename);
 			$.post(OC.filePath('files_trashbin','ajax','undelete.php'),
 				{files:tr.attr('data-file'), dirlisting:tr.attr('data-dirlisting') },

@@ -54,7 +54,7 @@ class Trashbin {
 		self::copy_recursive($file_path, 'files_trashbin/'.$deleted.'.d'.$timestamp, $view);
 		
 		$query = \OC_DB::prepare("INSERT INTO *PREFIX*files_trash (id,timestamp,location,type,mime,user) VALUES (?,?,?,?,?,?)");
-		$result = $query->execute(array($deleted, $timestamp, $location, $type, $mime, $user));
+		$query->execute(array($deleted, $timestamp, $location, $type, $mime, $user));
 
 		if ( \OCP\App::isEnabled('files_versions') ) {
 			if ( $view->is_dir('files_versions'.$file_path) ) {

@@ -292,7 +292,7 @@ var FileList={
 						procesSelection();
 					} 
 				});
-	},
+	}
 };
 
 $(document).ready(function(){

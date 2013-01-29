@@ -5,8 +5,8 @@
 </div>
 <div id='notification'></div>
 
-<?php if (isset($_['files']) and $_['isCreatable'] and count($_['files'])==0):?>
-	<div id="emptyfolder"><?php echo $l->t('Nothing in here. Upload something!')?></div>
+<?php if (isset($_['files']) && count($_['files'])==0):?>
+	<div id="emptyfolder"><?php echo $l->t('Nothing in here. Trash bin empty!')?></div>
 <?php endif; ?>
 
 <table>
@@ -17,9 +17,8 @@
 				<span class='name'><?php echo $l->t( 'Name' ); ?></span>
 				<span class='selectedActions'>
 						<a href="" class="undelete">
-							<!-- <img class="svg" alt="Undelete"
-								 src="<?php echo OCP\image_path("core", "actions/download.svg"); ?>" />
-							-->
+							<img class="svg" alt="Undelete"
+								 src="<?php echo OCP\image_path("core", "actions/undelete.png"); ?>" />
 							<?php echo $l->t('Undelete')?>
 						</a>
 				</span>
