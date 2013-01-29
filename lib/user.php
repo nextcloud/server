@@ -265,7 +265,7 @@ class OC_User {
 	public static function setUserId($uid) {
 		$_SESSION['user_id'] = $uid;
 	}
-	
+
 	/**
 	 * @brief Sets user display name for session
 	 */
@@ -284,10 +284,10 @@ class OC_User {
 			$result = true;
 		}
 		$_SESSION['display_name'] = $displayName;
-		return result;
+		return $result;
 	}
-	
-	
+
+
 	/**
 	 * @brief get display name
 	 * @param $uid The username
@@ -360,7 +360,7 @@ class OC_User {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * @brief get the display name of the user currently logged in.
 	 * @return string uid or false
@@ -375,7 +375,7 @@ class OC_User {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * @brief Autogenerate a password
 	 * @returns string
@@ -474,7 +474,7 @@ class OC_User {
 		asort($users);
 		return $users;
 	}
-	
+
 	/**
 	 * @brief Get a list of all users display name
 	 * @returns associative array with all display names (value) and corresponding uids (key)
