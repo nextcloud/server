@@ -7,9 +7,9 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
 // Get data
-$dir = stripslashes($_GET["dir"]);
-$file = stripslashes($_GET["file"]);
-$target = stripslashes(rawurldecode($_GET["target"]));
+$dir = stripslashes($_POST["dir"]);
+$file = stripslashes($_POST["file"]);
+$target = stripslashes(rawurldecode($_POST["target"]));
 
 $l=OC_L10N::get('files');
 
