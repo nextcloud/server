@@ -462,6 +462,10 @@ $(document).ready(function() {
 				$('#uploadprogressbar').progressbar('value',progress);
 			},
 			start: function(e, data) {
+				//IE < 10 does not fire the necessary events for the progress bar.
+				if($.browser.msie && parseInt($.browser.version) < 10) {
+					return;
+				}
 				$('#uploadprogressbar').progressbar({value:0});
 				$('#uploadprogressbar').fadeIn();
 				if(data.dataType != 'iframe ') {
