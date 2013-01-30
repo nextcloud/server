@@ -68,6 +68,7 @@ foreach ( $installedApps as $app ) {
 			$info['internal']=true;
 			
 			$info['internallabel']='Internal App';
+			$info['internalclass']='';
 
 			$info['update']=false;
 		
@@ -76,6 +77,7 @@ foreach ( $installedApps as $app ) {
 			$info['internal']=false;
 			
 			$info['internallabel']='3rd Party App';
+			$info['internalclass']='externalapp';
 
 			$info['update']=OC_Installer::isUpdateAvailable($app);
 		}

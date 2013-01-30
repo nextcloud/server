@@ -620,6 +620,13 @@ class OC_App{
 				$app1[$i]['ocs_id'] = $app['id'];
 				$app1[$i]['internal'] = $app1[$i]['active'] = 0;
 				$app1[$i]['update'] = false;
+				if($app['label']=='recommended'){
+					$app1[$i]['internallabel'] = 'Recommended';
+					$app1[$i]['internalclass'] = 'recommendedapp';
+				}else{
+					$app1[$i]['internallabel'] = '3rd Party';
+					$app1[$i]['internalclass'] = 'externalapp';
+				}
 
 
 				// rating img

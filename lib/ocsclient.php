@@ -123,6 +123,7 @@ class OC_OCSClient{
 			$app=array();
 			$app['id']=(string)$tmp[$i]->id;
 			$app['name']=(string)$tmp[$i]->name;
+			$app['label']=(string)$tmp[$i]->label;
 			$app['version']=(string)$tmp[$i]->version;
 			$app['type']=(string)$tmp[$i]->typeid;
 			$app['typename']=(string)$tmp[$i]->typename;
@@ -165,6 +166,7 @@ class OC_OCSClient{
 		$app['name']=$tmp->name;
 		$app['version']=$tmp->version;
 		$app['type']=$tmp->typeid;
+		$app['label']=$tmp->label;
 		$app['typename']=$tmp->typename;
 		$app['personid']=$tmp->personid;
 		$app['detailpage']=$tmp->detailpage;
