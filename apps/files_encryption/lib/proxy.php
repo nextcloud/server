@@ -22,6 +22,12 @@
 *
 */
 
+/**
+* @brief Encryption proxy which handles filesystem operations before and after
+*        execution and encrypts, and handles keyfiles accordingly. Used for 
+*        webui.
+*/
+
 namespace OCA\Encryption;
 
 class Proxy extends \OC_FileProxy {
@@ -202,6 +208,8 @@ class Proxy extends \OC_FileProxy {
 		
 		$view = new \OC_FilesystemView( '/' );
 		
+		$userId = \OCP\USER::getUser();
+		
 		// Format path to be relative to user files dir
 		$trimmed = ltrim( $path, '/' );
 		$split = explode( '/', $trimmed );
@@ -212,11 +220,9 @@ class Proxy extends \OC_FileProxy {
 			
 			// Dirs must be handled separately as deleteFileKey 
 			// doesn't handle them
-			$view->unlink( 'files_encryption/keyfiles/'. $relPath );
+			$view->unlink( $userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/'. $relPath );
 			
 		} else {
-
-			$userId = \OCP\USER::getUser();
 		
 			// Delete keyfile so it isn't orphaned
 			$result = Keymanager::deleteFileKey( $view, $userId, $relPath );

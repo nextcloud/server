@@ -83,38 +83,7 @@ class Keymanager {
 		// Check if sharing is enabled
 		if ( OC_App::isEnabled( 'files_sharing' ) ) {
 			
-// 			// Check if file was shared with other users
-// 			$query = \OC_DB::prepare( "
-// 				SELECT 
-// 					uid_owner
-// 					, source
-// 					, target
-// 					, uid_shared_with 
-// 				FROM 
-// 					`*PREFIX*sharing` 
-// 				WHERE 
-// 					( target = ? AND uid_shared_with = ? ) 
-// 					OR source = ? 
-// 			" );
-// 			
-// 			$result = $query->execute( array ( $filepath, $userId, $filepath ) );
-// 
-// 			$users = array();
-// 
-// 			if ( $row = $result->fetchRow() ) 
-// {
-// 				$source = $row['source'];
-// 				$owner = $row['uid_owner'];
-// 				$users[] = $owner;
-// 				// get the uids of all user with access to the file
-// 				$query = \OC_DB::prepare( "SELECT source, uid_shared_with FROM `*PREFIX*sharing` WHERE source = ?" );
-// 				$result = $query->execute( array ($source));
-// 				while ( ($row = $result->fetchRow()) ) {
-// 					$users[] = $row['uid_shared_with'];
-// 
-// 				}
-// 
-// 			}
+
 		
 		} else {
 		
@@ -160,37 +129,16 @@ class Keymanager {
 		
 		$targetPath = self::keySetPreparation( $view, $path, $basePath, $userId );
 		
-// 		// update $keytarget and $userId if key belongs to a file shared by someone else
-// 		$query = $dbClassName::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
-// 		
-// 		$result = $query->execute(  array ( '/'.$userId.'/files/'.$targetPath, $userId ) );
-// 		
-// 		if ( $row = $result->fetchRow(  ) ) {
-// 		
-// 			$targetPath = $row['source'];
-// 			
-// 			$targetPath_parts = explode( '/', $targetPath );
-// 			
-// 			$userId = $targetPath_parts[1];
-// 
-// 			$rootview = new \OC_FilesystemView( '/' );
-// 			
-// 			if ( ! $rootview->is_writable( $targetPath ) ) {
-// 			
-// 				\OC_Log::write( 'Encryption library', "File Key not updated because you don't have write access for the corresponding file", \OC_Log::ERROR );
-// 				
-// 				return false;
-// 				
-// 			}
-// 			
-// 			$targetPath = str_replace( '/'.$userId.'/files/', '', $targetPath );
-// 			
-// 			//TODO: check for write permission on shared file once the new sharing API is in place
-// 			
-// 		}
+		if ( $view->is_dir( $basePath . '/' . $targetPath ) ) {
 		
-		// Save the keyfile in parallel directory
-		return $view->file_put_contents( $basePath . '/' . $targetPath . '.key', $catfile );
+			
+		
+		} else {
+
+			// Save the keyfile in parallel directory
+			return $view->file_put_contents( $basePath . '/' . $targetPath . '.key', $catfile );
+		
+		}
 		
 	}
 	
@@ -204,21 +152,7 @@ class Keymanager {
 	public static function getFileKey( \OC_FilesystemView $view, $userId, $filePath ) {
 		
 		$filePath_f = ltrim( $filePath, '/' );
-
-// 		// update $keypath and $userId if path point to a file shared by someone else
-// 		$query = \OC_DB::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
-// 		
-// 		$result = $query->execute( array ('/'.$userId.'/files/'.$keypath, $userId));
-// 		
-// 		if ($row = $result->fetchRow()) {
-// 		
-// 			$keypath = $row['source'];
-// 			$keypath_parts = explode( '/', $keypath );
-// 			$userId = $keypath_parts[1];
-// 			$keypath = str_replace( '/' . $userId . '/files/', '', $keypath );
-// 			
-// 		}
-
+		
 		$catfilePath = '/' . $userId . '/files_encryption/keyfiles/' . $filePath_f . '.key';
 		
 		if ( $view->file_exists( $catfilePath ) ) {
@@ -337,7 +271,7 @@ class Keymanager {
 	 * @brief Make preparations to vars and filesystem for saving a keyfile
 	 */
 	public static function keySetPreparation( \OC_FilesystemView $view, $path, $basePath, $userId ) {
-	
+		
 		$targetPath = ltrim( $path, '/' );
 		
 		$path_parts = pathinfo( $targetPath );
@@ -345,10 +279,10 @@ class Keymanager {
 		// If the file resides within a subdirectory, create it
 		if ( 
 		isset( $path_parts['dirname'] )
-		&& ! $view->file_exists( $basePath . $path_parts['dirname'] ) 
+		&& ! $view->file_exists( $basePath . '/' . $path_parts['dirname'] ) 
 		) {
 		
-			$view->mkdir( $basePath . $path_parts['dirname'] );
+			$view->mkdir( $basePath . '/' . $path_parts['dirname'] );
 			
 		}
 		
