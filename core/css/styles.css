@@ -192,8 +192,8 @@ fieldset.warning legend { color:#b94a48 !important; }
 	#navigation a:hover, #navigation a:focus { opacity:.8; }
 	#navigation a.active { opacity:1; }
 	#navigation .icon { display:block; width:32px; height:32px; margin:0 16px 0; }
-	#navigation .enabled-app:hover, #navigation .enabled-app:focus {opacity:1; }
-	#navigation .enabled-app img {display:block; width:32px; height:32px; margin:0 16px 0; opacity:0.3; background-repeat:no-repeat; cursor:pointer;}
+	#navigation .enabled-app:hover, #navigation .enabled-app:focus { opacity:1; }
+	#navigation .enabled-app img { opacity:0.3; cursor:pointer;}
 	#navigation .enabled-app a {padding:4px 0 4px; }
 	#navigation .enabled-app:hover a, #navigation .enabled-app:focus a {opacity:0.8; }
 	#navigation .enabled-app:hover img, #navigation .enabled-app:focus img {opacity:0.8; }
@@ -207,6 +207,7 @@ fieldset.warning legend { color:#b94a48 !important; }
 	#expanddiv a { display:block; color:#fff; text-shadow:0 -1px 0 #000; padding:0 8px; opacity:.6; }
 	#expanddiv a img { margin-bottom:-3px; }
 	#expanddiv a:hover, #expanddiv a:focus, #expanddiv a:active { opacity:1; }
+
 
 /* VARIOUS REUSABLE SELECTORS */
 .hidden { display:none; }

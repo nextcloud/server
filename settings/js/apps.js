@@ -113,7 +113,8 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						var img =$('<img></img>');
 						li.attr('data-id', entry.id);
 						li.attr('class', 'enabled-app');
-						img.attr('style', 'background-image: url('+entry.icon+');');
+						img.attr('src', entry.icon);
+						img.attr('class', 'icon');
 						li.append(img);						
 						var a=$('<a></a>');
 						a.text(entry.name);
