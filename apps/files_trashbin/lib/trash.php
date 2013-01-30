@@ -94,7 +94,7 @@ class Trashbin {
 			$query = \OC_DB::prepare('SELECT location,type FROM *PREFIX*files_trash WHERE user=? AND id=? AND timestamp=?');
 			$result = $query->execute(array($user,$filename,$timestamp))->fetchAll();
 			if ( count($result) != 1 ) {
-				\OC_Log::write('files_trashbin', 'trash bin database inconsistent!', OC_Log::ERROR);
+				\OC_Log::write('files_trashbin', 'trash bin database inconsistent!', \OC_Log::ERROR);
 				return false;
 			}
 			
