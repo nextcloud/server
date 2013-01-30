@@ -264,6 +264,9 @@ class Connection {
 		}
 	}
 
+	/**
+	 * @return returns an array that maps internal variable names to database fields
+	 */
 	private function getConfigTranslationArray() {
 		static $array = array('ldap_host'=>'ldapHost', 'ldap_port'=>'ldapPort', 'ldap_backup_host'=>'ldapBackupHost', 'ldap_backup_port'=>'ldapBackupPort', 'ldap_override_main_server' => 'ldapOverrideMainServer', 'ldap_dn'=>'ldapAgentName', 'ldap_agent_password'=>'ldapAgentPassword', 'ldap_base'=>'ldapBase', 'ldap_base_users'=>'ldapBaseUsers', 'ldap_base_groups'=>'ldapBaseGroups', 'ldap_userlist_filter'=>'ldapUserFilter', 'ldap_login_filter'=>'ldapLoginFilter', 'ldap_group_filter'=>'ldapGroupFilter', 'ldap_display_name'=>'ldapUserDisplayName', 'ldap_group_display_name'=>'ldapGroupDisplayName',
 
@@ -303,6 +306,10 @@ class Connection {
 		return $this->configured;
 	}
 
+	/**
+	 * @brief saves the current Configuration in the database
+ingle parameters
+	 */
 	public function saveConfiguration() {
 		$trans = array_flip($this->getConfigTranslationArray());
 		foreach($this->config as $key => $value) {

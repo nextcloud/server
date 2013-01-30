@@ -69,6 +69,11 @@ class Helper {
 		return $prefixes;
 	}
 
+	/**
+	 * @brief deletes a given saved LDAP/AD server configuration.
+	 * @param string the configuration prefix of the config to delete
+	 * @return bool true on success, false otherweise
+	 */
 	static public function deleteServerConfiguration($prefix) {
 		//just to be on the safe side
 		\OCP\User::checkAdminUser();
