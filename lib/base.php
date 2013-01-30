@@ -545,8 +545,11 @@ class OC {
 			require_once 'core/setup.php';
 			exit();
 		}
-		self::checkMaintenanceMode();
-		self::checkUpgrade();
+		$request = OC_Request::getPathInfo();
+		if(substr($request, -3) !== '.js'){// we need these files during the upgrade
+			self::checkMaintenanceMode();
+			self::checkUpgrade();
+		}
 
 		try {
 			OC::getRouter()->match(OC_Request::getPathInfo());
@@ -557,6 +560,7 @@ class OC {
 			OC_Response::setStatus(405);
 			return;
 		}
+
 		$app = OC::$REQUESTEDAPP;
 		$file = OC::$REQUESTEDFILE;
 		$param = array('app' => $app, 'file' => $file);
