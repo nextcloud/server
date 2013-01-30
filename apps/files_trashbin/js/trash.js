@@ -30,7 +30,7 @@ $(document).ready(function() {
 				$('td.filename input:checkbox').attr('checked', false);
 				$('td.filename input:checkbox').parent().parent().removeClass('selected');
 			}
-			procesSelection();
+			processSelection();
 		});
 
 		$('td.filename input:checkbox').live('change',function(event) {
@@ -59,7 +59,7 @@ $(document).ready(function() {
 					$('#select_all').attr('checked',true);
 				}
 			}
-			procesSelection();
+			processSelection();
 		});		
 		
 		$('.undelete').click('click',function(event) {
@@ -81,7 +81,7 @@ $(document).ready(function() {
 
 });
 
-function procesSelection(){
+function processSelection(){
 	var selected=getSelectedFiles();
 	var selectedFiles=selected.filter(function(el){return el.type=='file'});
 	var selectedFolders=selected.filter(function(el){return el.type=='dir'});

@@ -1,6 +1,6 @@
 <?php 
 
-if(!OC_User::isLoggedIn()) {
+if(!OCP\User::isLoggedIn()) {
 	exit;
 }
 
@@ -9,6 +9,7 @@ $dirlisting = $_REQUEST['dirlisting'];
 $list = explode(';', $files);
 
 $error = array();
+$success = array();
 
 $i = 0;
 foreach ($list as $file) {
