@@ -410,7 +410,7 @@ $(document).ready(function() {
 		firstDay: firstDay
 	});
   }
-	$('a.share').on('click', function(event) {
+	$('#fileList').on('click', 'a.share', function(event) {
 		event.stopPropagation();
 		if ($(this).data('item-type') !== undefined && $(this).data('item') !== undefined) {
 			var itemType = $(this).data('item-type');
@@ -444,12 +444,12 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#shareWithList').on('mouseenter', 'li', function(event) {
+	$('#fileList').on('mouseenter', '#dropdown #shareWithList li', function(event) {
 		// Show permissions and unshare button
 		$(':hidden', this).filter(':not(.cruds)').show();
 	});
 
-	$('#shareWithList').on('mouseleave', 'li', function(event) {
+	$('#fileList').on('mouseleave', '#dropdown #shareWithList li', function(event) {
 		// Hide permissions and unshare button
 		if (!$('.cruds', this).is(':visible')) {
 			$('a', this).hide();
@@ -462,11 +462,11 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.showCruds').on('click', function() {
+	$('#fileList').on('click', '#dropdown .showCruds', function() {
 		$(this).parent().find('.cruds').toggle();
 	});
 
-	$('.unshare').on('click', function() {
+	$('#fileList').on('click', '#dropdown .unshare', function() {
 		var li = $(this).parent();
 		var itemType = $('#dropdown').data('item-type');
 		var itemSource = $('#dropdown').data('item-source');
@@ -483,7 +483,7 @@ $(document).ready(function() {
 		});
 	});
 
-	$('.permissions').on('change', function() {
+	$('#fileList').on('change', '#dropdown .permissions', function() {
 		if ($(this).attr('name') == 'edit') {
 			var li = $(this).parent().parent()
 			var checkboxes = $('.permissions', li);
@@ -510,7 +510,7 @@ $(document).ready(function() {
 		OC.Share.setPermissions($('#dropdown').data('item-type'), $('#dropdown').data('item-source'), $(li).data('share-type'), $(li).data('share-with'), permissions);
 	});
 
-	$('#linkCheckbox').on('change', function() {
+	$('#fileList').on('change', '#dropdown #linkCheckbox', function() {
 		var itemType = $('#dropdown').data('item-type');
 		var itemSource = $('#dropdown').data('item-source');
 		if (this.checked) {
@@ -532,12 +532,12 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#linkText').on('click', function() {
+	$('#fileList').on('click', '#dropdown #linkText', function() {
 		$(this).focus();
 		$(this).select();
 	});
 
-	$('#showPassword').on('click', function() {
+	$('#fileList').on('click', '#dropdown #showPassword', function() {
 		$('#linkPass').toggle('blind');
 		if (!$('#showPassword').is(':checked') ) {
 			var itemType = $('#dropdown').data('item-type');
@@ -548,7 +548,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#linkPassText').on('focusout keyup', function(event) {
+	$('#fileList').on('focusout keyup', '#dropdown #linkPassText', function(event) {
 		if ( $('#linkPassText').val() != '' && (event.type == 'focusout' || event.keyCode == 13) ) {
 			var itemType = $('#dropdown').data('item-type');
 			var itemSource = $('#dropdown').data('item-source');
@@ -560,7 +560,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#expirationCheckbox').on('click', function() {
+	$('#fileList').on('click', '#dropdown #expirationCheckbox', function() {
 		if (this.checked) {
 			OC.Share.showExpirationDate('');
 		} else {
@@ -575,7 +575,7 @@ $(document).ready(function() {
 		}
 	});
 	
-	$('#expirationDate').on('change', function() {
+	$('#fileList').on('change', '#dropdown #expirationDate', function() {
 		var itemType = $('#dropdown').data('item-type');
 		var itemSource = $('#dropdown').data('item-source');
 		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setExpirationDate', itemType: itemType, itemSource: itemSource, date: $(this).val() }, function(result) {
@@ -586,7 +586,7 @@ $(document).ready(function() {
 	});
 
 
-    $('#emailPrivateLink').on('submit', function(event) {
+    $('#fileList').on('submit', '#dropdown #emailPrivateLink', function(event) {
         event.preventDefault();
         var link = $('#linkText').val();
         var itemType = $('#dropdown').data('item-type');
