@@ -1,5 +1,9 @@
 var LdapConfiguration = {
 	refreshConfig: function() {
+		if($('#ldap_serverconfig_chooser option').length < 2) {
+			LdapConfiguration.addConfiguration(true);
+			return;
+		}
 		$.post(
 			OC.filePath('user_ldap','ajax','getConfiguration.php'),
 			$('#ldap_serverconfig_chooser').serialize(),
@@ -64,6 +68,37 @@ var LdapConfiguration = {
 				}
 			}
 		);
+	},
+
+	addConfiguration: function(doNotAsk) {
+		$.post(
+			OC.filePath('user_ldap','ajax','getNewServerConfigPrefix.php'),
+			function (result) {
+				if(result.status == 'success') {
+					if(doNotAsk) {
+						LdapConfiguration.resetDefaults();
+					} else {
+						OC.dialogs.confirm(
+							t('user_ldap', 'Take over settings from recent server configuration?'),
+							t('user_ldap', 'Keep settings?'),
+							function(keep) {
+								if(!keep) {
+									LdapConfiguration.resetDefaults();
+								}
+							}
+						);
+					}
+					$('#ldap_serverconfig_chooser option:selected').removeAttr('selected');
+					var html = '<option value="'+result.configPrefix+'" selected="selected">'+$('#ldap_serverconfig_chooser option').length+'. Server</option>';
+					$('#ldap_serverconfig_chooser option:last').before(html);
+				} else {
+					OC.dialogs.alert(
+						result.message,
+						t('user_ldap', 'Cannot add server configuration')
+					);
+				}
+			}
+		);
 	}
 }
 
@@ -123,30 +158,7 @@ $(document).ready(function() {
 	$('#ldap_serverconfig_chooser').change(function(event) {
 		value = $('#ldap_serverconfig_chooser option:selected:first').attr('value');
 		if(value == 'NEW') {
-			$.post(
-				OC.filePath('user_ldap','ajax','getNewServerConfigPrefix.php'),
-				function (result) {
-					if(result.status == 'success') {
-						OC.dialogs.confirm(
-							t('user_ldap', 'Take over settings from recent server configuration?'),
-							t('user_ldap', 'Keep settings?'),
-							function(keep) {
-								if(!keep) {
-									LdapConfiguration.resetDefaults();
-								}
-							}
-						);
-						$('#ldap_serverconfig_chooser option:selected').removeAttr('selected');
-						var html = '<option value="'+result.configPrefix+'" selected="selected">'+$('#ldap_serverconfig_chooser option').length+'. Server</option>';
-						$('#ldap_serverconfig_chooser option:last').before(html);
-					} else {
-						OC.dialogs.alert(
-							result.message,
-							t('user_ldap', 'Cannot add server configuration')
-						);
-					}
-				}
-			);
+			LdapConfiguration.addConfiguration(false);
 		} else {
 			LdapConfiguration.refreshConfig();
 		}
