@@ -277,7 +277,7 @@ var FileList={
 		for (var i in files) {
 			var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date").children(".action.delete");
 			var oldHTML = deleteAction[0].outerHTML;
-			var newHTML = '<img class="move2trash" data-action="Delete" title="move file to the trash bin" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
+			var newHTML = '<img class="move2trash" data-action="Delete" title="'+t('files', 'perform delete operation')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
 			deleteAction[0].outerHTML = newHTML;
 		}
 		// Finish any existing actions
