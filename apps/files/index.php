@@ -98,8 +98,6 @@ $breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 $breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
 $breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=', false);
 
-$maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
-
 $permissions = OCP\PERMISSION_READ;
 if (\OC\Files\Filesystem::isCreatable($dir . '/')) {
 	$permissions |= OCP\PERMISSION_CREATE;
@@ -121,7 +119,8 @@ if ($needUpgrade) {
 } else {
 	// information about storage capacities
 	$storageInfo=OC_Helper::getStorageInfo();
-	
+	$maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
+
 	OCP\Util::addscript('files', 'fileactions');
 	OCP\Util::addscript('files', 'files');
 	OCP\Util::addscript('files', 'keyboardshortcuts');
