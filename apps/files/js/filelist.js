@@ -271,13 +271,20 @@ var FileList={
 		}
 	},
 	do_delete:function(files){
+		if(files.substr){
+			files=[files];
+		}	
+		for (var i in files) {
+			var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date").children(".action.delete");
+			var oldHTML = deleteAction[0].outerHTML;
+			var newHTML = '<img class="move2trash" data-action="Delete" title="move file to the trash bin" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
+			deleteAction[0].outerHTML = newHTML;
+		}
 		// Finish any existing actions
 		if (FileList.lastAction) {
 			FileList.lastAction();
 		}
-		if(files.substr){
-			files=[files];
-		}
+
 		var fileNames = JSON.stringify(files);
 		$.post(OC.filePath('files', 'ajax', 'delete.php'),
 				{dir:$('#dir').val(),files:fileNames},
@@ -290,6 +297,11 @@ var FileList={
 							files.removeClass('selected');
 						});
 						procesSelection();
+					} else {
+						$.each(files,function(index,file) {
+							var deleteAction = $('tr').filterAttr('data-file',file).children("td.date").children(".move2trash");
+							deleteAction[0].outerHTML = oldHTML;
+						});
 					} 
 				});
 	}

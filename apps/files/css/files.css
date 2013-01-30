@@ -111,6 +111,7 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 }
 #fileList .fileactions a.action img { position:relative; top:.2em; }
 #fileList a.action { display:inline; margin:-.5em 0; padding:1em .5em 1em .5em !important; }
+#fileList img.move2trash { display:inline; margin:-.5em 0; padding:1em .5em 1em .5em !important; float:right; }
 a.action.delete { float:right; }
 a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 .selectedActions { display:none; float:right; }
