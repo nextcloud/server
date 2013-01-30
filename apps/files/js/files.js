@@ -874,7 +874,7 @@ var folderDropOptions={
 			return false;
 		}
 		
-		var target=$(this).find('.nametext').text().trim();
+		var target=$.trim($(this).find('.nametext').text());
 		
 		var files = ui.helper.find('tr');
 		$(files).each(function(i,row){
@@ -1045,7 +1045,7 @@ function getUniqueName(name){
 			num=parseInt(numMatch[numMatch.length-1])+1;
 			base=base.split('(')
 			base.pop();
-			base=base.join('(').trim();
+			base=$.trim(base.join('('));
 		}
 		name=base+' ('+num+')';
 		if (extension) {
