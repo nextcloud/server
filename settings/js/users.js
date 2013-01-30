@@ -331,7 +331,7 @@ $(document).ready(function () {
             img.css('display', '');
         });
     });
-    $('td.displayName').live('click', function (event) {
+    $('table').on('click', 'td.displayName', function (event) {
         $(this).children('img').click();
     });
     
