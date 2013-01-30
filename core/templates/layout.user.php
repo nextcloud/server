@@ -32,7 +32,7 @@
 
 			<ul id="settings" class="svg">
 				<span id="expand">
-					<?php echo OC_User::getUser()?OC_User::getUser():'' ?>
+					<?php echo OCP\User::getDisplayName($user=null)?OCP\User::getDisplayName($user=null):(OC_User::getUser()?OC_User::getUser():'') ?>
 					<img class="svg" src="<?php echo image_path('', 'actions/caret.svg'); ?>" />
 				</span>
 				<div id="expanddiv" <?php if($_['bodyid'] == 'body-user') echo 'style="display:none;"'; ?>>
