@@ -4,15 +4,15 @@
 # 
 # Translators:
 #   <cronner@gmail.com>, 2012.
-# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2012.
+# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2012-2013.
 #   <osos@openeyes.dk>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-17 00:26+0100\n"
-"PO-Revision-Date: 2013-01-16 23:26+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 11:52+0000\n"
+"Last-Translator: Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,9 +60,9 @@ msgstr "Tilbage til Filer"
 msgid "Selected files too large to generate zip file."
 msgstr "De markerede filer er for store til at generere en ZIP-fil."
 
-#: helper.php:228
+#: helper.php:229
 msgid "couldn't be determined"
-msgstr ""
+msgstr "kunne ikke fastslås"
 
 #: json.php:28
 msgid "Application is not enabled"

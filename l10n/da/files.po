@@ -4,7 +4,7 @@
 # 
 # Translators:
 #   <cronner@gmail.com>, 2012.
-# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011-2012.
+# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011-2013.
 # Ole Holm Frandsen <froksen@gmail.com>, 2012.
 #   <osos@openeyes.dk>, 2012.
 # Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 11:55+0000\n"
+"Last-Translator: Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,16 +28,16 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Kunne ikke flytte %s - der findes allerede en fil med dette navn"
 
 #: ajax/move.php:24
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Kunne ikke flytte %s"
 
 #: ajax/rename.php:19
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Kunne ikke omdøbe fil"
 
 #: ajax/upload.php:17
 msgid "No file was uploaded. Unknown error"
@@ -76,11 +76,11 @@ msgstr "Fejl ved skrivning til disk."
 
 #: ajax/upload.php:48
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Der er ikke nok plads til rådlighed"
 
 #: ajax/upload.php:77
 msgid "Invalid directory."
-msgstr ""
+msgstr "Ugyldig mappe."
 
 #: appinfo/app.php:10
 msgid "Files"
@@ -136,11 +136,11 @@ msgstr "slettede {files}"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' er et ugyldigt filnavn."
 
 #: js/files.js:56
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Filnavnet kan ikke stå tomt."
 
 #: js/files.js:64
 msgid ""
@@ -150,17 +150,17 @@ msgstr "Ugyldigt navn, '\\', '/', '<', '>', ':' | '?', '\"', '', og '*' er ikke 
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Din opbevaringsplads er fyldt op, filer kan ikke opdateres eller synkroniseres længere!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Din opbevaringsplads er næsten fyldt op ({usedSpacePercent}%)"
 
 #: js/files.js:219
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
+msgstr "Dit download forberedes. Dette kan tage lidt tid ved større filer."
 
 #: js/files.js:256
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
@@ -201,7 +201,7 @@ msgstr "URLen kan ikke være tom."
 
 #: js/files.js:571
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "Ugyldigt mappenavn. Brug af \"Shared\" er forbeholdt Owncloud"
 
 #: js/files.js:784
 msgid "{count} files scanned"

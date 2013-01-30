@@ -7,9 +7,9 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
 // Get data
-$dir = stripslashes($_GET["dir"]);
-$file = stripslashes($_GET["file"]);
-$target = stripslashes(rawurldecode($_GET["target"]));
+$dir = stripslashes($_POST["dir"]);
+$file = stripslashes($_POST["file"]);
+$target = stripslashes(rawurldecode($_POST["target"]));
 
 if(\OC\Files\Filesystem::file_exists($target . '/' . $file)) {
 	OCP\JSON::error(array("data" => array( "message" => "Could not move $file - File with this name already exists" )));

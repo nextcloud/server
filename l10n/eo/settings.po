@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-21 00:04+0100\n"
-"PO-Revision-Date: 2013-01-20 01:30+0000\n"
-"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 23:24+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,7 +90,7 @@ msgstr "Kapabligi"
 msgid "Saving..."
 msgstr "Konservante..."
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "Esperanto"
 
@@ -102,15 +102,15 @@ msgstr "Aldonu vian aplikaĵon"
 msgid "More Apps"
 msgstr "Pli da aplikaĵoj"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "Elekti aplikaĵon"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "Vidu la paĝon pri aplikaĵoj ĉe apps.owncloud.com"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"</span>-permesilhavigita de <span class=\"author\"></span>"
 
@@ -159,7 +159,7 @@ msgstr "Elŝuti Android-klienton"
 msgid "Download iOS Client"
 msgstr "Elŝuti iOS-klienton"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "Pasvorto"
 
@@ -229,11 +229,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Ellaborita de la <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunumo de ownCloud</a>, la <a href=\"https://github.com/owncloud\" target=\"_blank\">fontokodo</a> publikas laŭ la permesilo <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "Nomo"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr ""
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "Grupoj"
 
@@ -245,26 +245,30 @@ msgstr "Krei"
 msgid "Default Storage"
 msgstr "Defaŭlta konservejo"
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
 msgstr "Senlima"
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "Alia"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:80
+msgid "Display Name"
+msgstr ""
+
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "Grupadministranto"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
 msgstr "Konservejo"
 
-#: templates/users.php:133
+#: templates/users.php:137
 msgid "Default"
 msgstr "Defaŭlta"
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "Forigi"

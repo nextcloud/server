@@ -104,7 +104,7 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 #fileList tr:hover .fileactions { /* background to distinguish when overlaying with file names */
 	background:rgba(248,248,248,.9); box-shadow:-5px 0 7px rgba(248,248,248,.9);
 }
-#fileList tr.selected:hover .fileactions { /* slightly darker color for selected rows */
+#fileList tr.selected:hover .fileactions, #fileList tr.mouseOver .fileactions { /* slightly darker color for selected rows */
 	background:rgba(238,238,238,.9); box-shadow:-5px 0 7px rgba(238,238,238,.9);
 }
 #fileList .fileactions a.action img { position:relative; top:.2em; }
@@ -123,6 +123,16 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 
 div.crumb a{ padding:0.9em 0 0.7em 0; }
 
+table.dragshadow {
+	width:auto;
+}
+table.dragshadow td.filename {
+	padding-left:36px;
+	padding-right:16px;
+}
+table.dragshadow td.size {
+	padding-right:8px;
+}
 #upgrade {
 	width: 400px;
 	position: absolute;

@@ -49,7 +49,6 @@
 "Use this address to connect to your ownCloud in your file manager" => "Usa questo indirizzo per connetterti al tuo ownCloud dal tuo gestore file",
 "Version" => "Versione",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Sviluppato dalla <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunità di ownCloud</a>, il <a href=\"https://github.com/owncloud\" target=\"_blank\">codice sorgente</a> è licenziato nei termini della <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
-"Name" => "Nome",
 "Groups" => "Gruppi",
 "Create" => "Crea",
 "Default Storage" => "Archiviazione predefinita",

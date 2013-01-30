@@ -27,7 +27,6 @@
 "Fill in an email address to enable password recovery" => "Pamiršto slaptažodžio atkūrimui įveskite savo el. pašto adresą",
 "Language" => "Kalba",
 "Help translate" => "Padėkite išversti",
-"Name" => "Vardas",
 "Groups" => "Grupės",
 "Create" => "Sukurti",
 "Other" => "Kita",

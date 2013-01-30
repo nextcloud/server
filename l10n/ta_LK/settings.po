@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 23:24+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -88,7 +88,7 @@ msgstr "செயலற்றதாக்குக"
 msgid "Saving..."
 msgstr "இயலுமைப்படுத்துக"
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "_மொழி_பெயர்_"
 
@@ -100,15 +100,15 @@ msgstr "உங்களுடைய செயலியை சேர்க்க"
 msgid "More Apps"
 msgstr "மேலதிக செயலிகள்"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "செயலி ஒன்றை தெரிவுசெய்க"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "apps.owncloud.com இல் செயலி பக்கத்தை பார்க்க"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"அனுமதிப்பத்திரம்\"></span>-அனுமதி பெற்ற <span class=\"ஆசிரியர்\"></span>"
 
@@ -157,7 +157,7 @@ msgstr ""
 msgid "Download iOS Client"
 msgstr ""
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "கடவுச்சொல்"
 
@@ -227,11 +227,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "பெயர்"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr ""
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "குழுக்கள்"
 
@@ -243,26 +243,30 @@ msgstr "உருவாக்குக"
 msgid "Default Storage"
 msgstr ""
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
 msgstr ""
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "மற்றவை"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:80
+msgid "Display Name"
+msgstr ""
+
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "குழு நிர்வாகி"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
 msgstr ""
 
-#: templates/users.php:133
+#: templates/users.php:137
 msgid "Default"
 msgstr ""
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "அழிக்க"

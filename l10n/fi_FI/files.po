@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-29 00:04+0100\n"
+"PO-Revision-Date: 2013-01-28 18:44+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -73,7 +73,7 @@ msgstr "Levylle kirjoitus epäonnistui"
 
 #: ajax/upload.php:48
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Tallennustilaa ei ole riittävästi käytettävissä"
 
 #: ajax/upload.php:77
 msgid "Invalid directory."
@@ -147,11 +147,11 @@ msgstr "Virheellinen nimi, merkit '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Tallennustila on loppu, tiedostoja ei voi enää päivittää tai synkronoida!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Tallennustila on melkein loppu ({usedSpacePercent}%)"
 
 #: js/files.js:219
 msgid ""
