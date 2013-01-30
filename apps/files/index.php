@@ -29,22 +29,39 @@ OCP\Util::addStyle('files', 'files');
 OCP\Util::addscript('files', 'jquery.iframe-transport');
 OCP\Util::addscript('files', 'jquery.fileupload');
 OCP\Util::addscript('files', 'jquery-visibility');
-OCP\Util::addscript('files', 'files');
 OCP\Util::addscript('files', 'filelist');
-OCP\Util::addscript('files', 'fileactions');
-OCP\Util::addscript('files', 'keyboardshortcuts');
 
 OCP\App::setActiveNavigationEntry('files_index');
 // Load the files
 $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 // Redirect if directory does not exist
-if (!OC_Filesystem::is_dir($dir . '/')) {
+if (!\OC\Files\Filesystem::is_dir($dir . '/')) {
 	header('Location: ' . $_SERVER['SCRIPT_NAME'] . '');
 	exit();
 }
 
+function fileCmp($a, $b) {
+	if ($a['type'] == 'dir' and $b['type'] != 'dir') {
+		return -1;
+	} elseif ($a['type'] != 'dir' and $b['type'] == 'dir') {
+		return 1;
+	} else {
+		return strnatcasecmp($a['name'], $b['name']);
+	}
+}
+
 $files = array();
-foreach (OC_Files::getdirectorycontent($dir) as $i) {
+$user = OC_User::getUser();
+if (\OC\Files\Cache\Upgrade::needUpgrade($user)) { //dont load anything if we need to upgrade the cache
+	$content = array();
+	$needUpgrade = true;
+	$freeSpace = 0;
+} else {
+	$content = \OC\Files\Filesystem::getDirectoryContent($dir);
+	$freeSpace = \OC\Files\Filesystem::free_space($dir);
+	$needUpgrade = false;
+}
+foreach ($content as $i) {
 	$i['date'] = OCP\Util::formatDate($i['mtime']);
 	if ($i['type'] == 'file') {
 		$fileinfo = pathinfo($i['name']);
@@ -55,11 +72,11 @@ foreach (OC_Files::getdirectorycontent($dir) as $i) {
 			$i['extension'] = '';
 		}
 	}
-	if ($i['directory'] == '/') {
-		$i['directory'] = '';
-	}
+	$i['directory'] = $dir;
 	$files[] = $i;
 }
+
+usort($files, "fileCmp");
 
 // Make breadcrumb
 $breadcrumb = array();
@@ -81,34 +98,42 @@ $breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 $breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
 $breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=', false);
 
-$maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
-
 $permissions = OCP\PERMISSION_READ;
-if (OC_Filesystem::isCreatable($dir . '/')) {
+if (\OC\Files\Filesystem::isCreatable($dir . '/')) {
 	$permissions |= OCP\PERMISSION_CREATE;
 }
-if (OC_Filesystem::isUpdatable($dir . '/')) {
+if (\OC\Files\Filesystem::isUpdatable($dir . '/')) {
 	$permissions |= OCP\PERMISSION_UPDATE;
 }
-if (OC_Filesystem::isDeletable($dir . '/')) {
+if (\OC\Files\Filesystem::isDeletable($dir . '/')) {
 	$permissions |= OCP\PERMISSION_DELETE;
 }
-if (OC_Filesystem::isSharable($dir . '/')) {
+if (\OC\Files\Filesystem::isSharable($dir . '/')) {
 	$permissions |= OCP\PERMISSION_SHARE;
 }
 
-// information about storage capacities
-$storageInfo=OC_Helper::getStorageInfo();
+if ($needUpgrade) {
+	OCP\Util::addscript('files', 'upgrade');
+	$tmpl = new OCP\Template('files', 'upgrade', 'user');
+	$tmpl->printPage();
+} else {
+	// information about storage capacities
+	$storageInfo=OC_Helper::getStorageInfo();
+	$maxUploadFilesize=OCP\Util::maxUploadFilesize($dir);
 
-$tmpl = new OCP\Template('files', 'index', 'user');
-$tmpl->assign('fileList', $list->fetchPage(), false);
-$tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
-$tmpl->assign('dir', OC_Filesystem::normalizePath($dir));
-$tmpl->assign('isCreatable', OC_Filesystem::isCreatable($dir . '/'));
-$tmpl->assign('permissions', $permissions);
-$tmpl->assign('files', $files);
-$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
-$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
-$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
-$tmpl->assign('usedSpacePercent', (int)$storageInfo['relative']);
-$tmpl->printPage();
+	OCP\Util::addscript('files', 'fileactions');
+	OCP\Util::addscript('files', 'files');
+	OCP\Util::addscript('files', 'keyboardshortcuts');
+	$tmpl = new OCP\Template('files', 'index', 'user');
+	$tmpl->assign('fileList', $list->fetchPage(), false);
+	$tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
+	$tmpl->assign('dir', \OC\Files\Filesystem::normalizePath($dir));
+	$tmpl->assign('isCreatable', \OC\Files\Filesystem::isCreatable($dir . '/'));
+	$tmpl->assign('permissions', $permissions);
+	$tmpl->assign('files', $files);
+	$tmpl->assign('uploadMaxFilesize', $maxUploadFilesize);
+	$tmpl->assign('uploadMaxHumanFilesize', OCP\Util::humanFileSize($maxUploadFilesize));
+	$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
+	$tmpl->assign('usedSpacePercent', (int)$storageInfo['relative']);
+	$tmpl->printPage();
+}

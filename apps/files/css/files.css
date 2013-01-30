@@ -133,3 +133,11 @@ table.dragshadow td.filename {
 table.dragshadow td.size {
 	padding-right:8px;
 }
+#upgrade {
+	width: 400px;
+	position: absolute;
+	top: 200px;
+	left: 50%;
+	text-align: center;
+	margin-left: -200px;
+}

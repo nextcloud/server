@@ -1,5 +1,5 @@
 <?php
-$l=OC_L10N::get('files');
+$l = OC_L10N::get('files');
 
 OCP\App::registerAdmin('files', 'admin');
 

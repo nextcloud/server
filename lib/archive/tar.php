@@ -308,7 +308,7 @@ class OC_Archive_TAR extends OC_Archive{
 		if($mode=='r' or $mode=='rb') {
 			return fopen($tmpFile, $mode);
 		}else{
-			OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this, 'writeBack');
+			\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 			self::$tempFiles[$tmpFile]=$path;
 			return fopen('close://'.$tmpFile, $mode);
 		}

@@ -20,10 +20,12 @@
  *
  */
 
+namespace OC\Files\Storage;
+
 /**
  * Convert target path to source path and pass the function call to the correct storage provider
  */
-class OC_Filestorage_Shared extends OC_Filestorage_Common {
+class Shared extends \OC\Files\Storage\Common {
 
 	private $sharedFolder;
 	private $files = array();
@@ -32,54 +34,36 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		$this->sharedFolder = $arguments['sharedFolder'];
 	}
 
+	public function getId(){
+		return 'shared::' . $this->sharedFolder;
+	}
+
 	/**
-	* @brief Get the source file path and the permissions granted for a shared file
+	* @brief Get the source file path, permissions, and owner for a shared file
 	* @param string Shared target file path
-	* @return Returns array with the keys path and permissions or false if not found
+	* @return Returns array with the keys path, permissions, and owner or false if not found
 	*/
 	private function getFile($target) {
-		$target = '/'.$target;
-		$target = rtrim($target, '/');
-		if (isset($this->files[$target])) {
-			return $this->files[$target];
-		} else {
-			$pos = strpos($target, '/', 1);
-			// Get shared folder name
-			if ($pos !== false) {
-				$folder = substr($target, 0, $pos);
-				if (isset($this->files[$folder])) {
-					$file = $this->files[$folder];
-				} else {
-					$file = OCP\Share::getItemSharedWith('folder', $folder, OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
-				}
-				if ($file) {
-					$this->files[$target]['path'] = $file['path'].substr($target, strlen($folder));
-					$this->files[$target]['permissions'] = $file['permissions'];
-					return $this->files[$target];
-				}
-			} else {
-				$file = OCP\Share::getItemSharedWith('file', $target, OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
-				if ($file) {
-					$this->files[$target] = $file;
-					return $this->files[$target];
-				}
+		if (!isset($this->files[$target])) {
+			$source = \OC_Share_Backend_File::getSource($target);
+			if ($source) {
+				$source['path'] = '/'.$source['uid_owner'].'/'.$source['path'];
 			}
-			OCP\Util::writeLog('files_sharing', 'File source not found for: '.$target, OCP\Util::ERROR);
-			return false;
+			$this->files[$target] = $source;
 		}
+		return $this->files[$target];
 	}
 
 	/**
 	* @brief Get the source file path for a shared file
 	* @param string Shared target file path
-	* @return Returns source file path or false if not found
+	* @return string source file path or false if not found
 	*/
 	private function getSourcePath($target) {
-		$file = $this->getFile($target);
-		if (isset($file['path'])) {
-			$uid = substr($file['path'], 1, strpos($file['path'], '/', 1) - 1);
-			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir' => OC_User::getHome($uid)), $uid);
-			return $file['path'];
+		$source = $this->getFile($target);
+		if ($source) {
+			\OC\Files\Filesystem::initMountPoints($source['uid_owner']);
+			return $source['path'];
 		}
 		return false;
 	}
@@ -87,61 +71,42 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 	/**
 	* @brief Get the permissions granted for a shared file
 	* @param string Shared target file path
-	* @return Returns CRUDS permissions granted or false if not found
+	* @return int CRUDS permissions granted or false if not found
 	*/
-	private function getPermissions($target) {
-		$file = $this->getFile($target);
-		if (isset($file['permissions'])) {
-			return $file['permissions'];
+	public function getPermissions($target) {
+		$source = $this->getFile($target);
+		if ($source) {
+			return $source['permissions'];
 		}
 		return false;
-	}
-
-	/**
-	* @brief Get the internal path to pass to the storage filesystem call
-	* @param string Source file path
-	* @return Source file path with mount point stripped out
-	*/
-	private function getInternalPath($path) {
-		$mountPoint = OC_Filesystem::getMountPoint($path);
-		$internalPath = substr($path, strlen($mountPoint));
-		return $internalPath;
-	}
-
-	public function getOwner($target) {
-		$shared_item = OCP\Share::getItemSharedWith('folder', $target, OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
-		if ($shared_item) {
-			return $shared_item[0]["uid_owner"];
-		}
-		return null;
 	}
 
 	public function mkdir($path) {
 		if ($path == '' || $path == '/' || !$this->isCreatable(dirname($path))) {
 			return false;
 		} else if ($source = $this->getSourcePath($path)) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->mkdir($this->getInternalPath($source));
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->mkdir($internalPath);
 		}
 		return false;
 	}
 
 	public function rmdir($path) {
 		if (($source = $this->getSourcePath($path)) && $this->isDeletable($path)) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->rmdir($this->getInternalPath($source));
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->rmdir($internalPath);
 		}
 		return false;
 	}
 
 	public function opendir($path) {
 		if ($path == '' || $path == '/') {
-			$files = OCP\Share::getItemsSharedWith('file', OC_Share_Backend_Folder::FORMAT_OPENDIR);
-			OC_FakeDirStream::$dirs['shared'] = $files;
+			$files = \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_Folder::FORMAT_OPENDIR);
+			\OC\Files\Stream\Dir::register('shared', $files);
 			return opendir('fakedir://shared');
 		} else if ($source = $this->getSourcePath($path)) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->opendir($this->getInternalPath($source));
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->opendir($internalPath);
 		}
 		return false;
 	}
@@ -150,16 +115,16 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		if ($path == '' || $path == '/') {
 			return true;
 		} else if ($source = $this->getSourcePath($path)) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->is_dir($this->getInternalPath($source));
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->is_dir($internalPath);
 		}
 		return false;
 	}
 
 	public function is_file($path) {
 		if ($source = $this->getSourcePath($path)) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->is_file($this->getInternalPath($source));
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->is_file($internalPath);
 		}
 		return false;
 	}
@@ -168,11 +133,10 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		if ($path == '' || $path == '/') {
 			$stat['size'] = $this->filesize($path);
 			$stat['mtime'] = $this->filemtime($path);
-			$stat['ctime'] = $this->filectime($path);
 			return $stat;
 		} else if ($source = $this->getSourcePath($path)) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->stat($this->getInternalPath($source));
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->stat($internalPath);
 		}
 		return false;
 	}
@@ -181,8 +145,8 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		if ($path == '' || $path == '/') {
 			return 'dir';
 		} else if ($source = $this->getSourcePath($path)) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->filetype($this->getInternalPath($source));
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->filetype($internalPath);
 		}
 		return false;
 	}
@@ -191,8 +155,8 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		if ($path == '' || $path == '/' || $this->is_dir($path)) {
 			return 0;
 		} else if ($source = $this->getSourcePath($path)) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->filesize($this->getInternalPath($source));
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->filesize($internalPath);
 		}
 		return false;
 	}
@@ -201,7 +165,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		if ($path == '') {
 			return false;
 		}
-		return ($this->getPermissions($path) & OCP\PERMISSION_CREATE);
+		return ($this->getPermissions($path) & \OCP\PERMISSION_CREATE);
 	}
 
 	public function isReadable($path) {
@@ -212,52 +176,31 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		if ($path == '') {
 			return false;
 		}
-		return ($this->getPermissions($path) & OCP\PERMISSION_UPDATE);
+		return ($this->getPermissions($path) & \OCP\PERMISSION_UPDATE);
 	}
 
 	public function isDeletable($path) {
 		if ($path == '') {
 			return true;
 		}
-		return ($this->getPermissions($path) & OCP\PERMISSION_DELETE);
+		return ($this->getPermissions($path) & \OCP\PERMISSION_DELETE);
 	}
 
 	public function isSharable($path) {
 		if ($path == '') {
 			return false;
 		}
-		return ($this->getPermissions($path) & OCP\PERMISSION_SHARE);
+		return ($this->getPermissions($path) & \OCP\PERMISSION_SHARE);
 	}
 
 	public function file_exists($path) {
 		if ($path == '' || $path == '/') {
 			return true;
 		} else if ($source = $this->getSourcePath($path)) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->file_exists($this->getInternalPath($source));
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->file_exists($internalPath);
 		}
 		return false;
-	}
-
-	public function filectime($path) {
-		if ($path == '' || $path == '/') {
-			$ctime = 0;
-			if ($dh = $this->opendir($path)) {
-				while (($filename = readdir($dh)) !== false) {
-					$tempctime = $this->filectime($filename);
-					if ($tempctime < $ctime) {
-						$ctime = $tempctime;
-					}
-				}
-			}
-			return $ctime;
-		} else {
-			$source = $this->getSourcePath($path);
-			if ($source) {
-				$storage = OC_Filesystem::getStorage($source);
-				return $storage->filectime($this->getInternalPath($source));
-			}
-		}
 	}
 
 	public function filemtime($path) {
@@ -275,8 +218,8 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		} else {
 			$source = $this->getSourcePath($path);
 			if ($source) {
-				$storage = OC_Filesystem::getStorage($source);
-				return $storage->filemtime($this->getInternalPath($source));
+				list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+				return $storage->filemtime($internalPath);
 			}
 		}
 	}
@@ -288,9 +231,9 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 				'target' => $this->sharedFolder.$path,
 				'source' => $source,
 			);
-			OCP\Util::emitHook('OC_Filestorage_Shared', 'file_get_contents', $info);
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->file_get_contents($this->getInternalPath($source));
+			\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'file_get_contents', $info);
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->file_get_contents($internalPath);
 		}
 	}
 
@@ -304,9 +247,9 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 					'target' => $this->sharedFolder.$path,
 					'source' => $source,
 				);
-			OCP\Util::emitHook('OC_Filestorage_Shared', 'file_put_contents', $info);
-			$storage = OC_Filesystem::getStorage($source);
-			$result = $storage->file_put_contents($this->getInternalPath($source), $data);
+			\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'file_put_contents', $info);
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			$result = $storage->file_put_contents($internalPath, $data);
 			return $result;
 		}
 		return false;
@@ -316,8 +259,8 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		// Delete the file if DELETE permission is granted
 		if ($source = $this->getSourcePath($path)) {
 			if ($this->isDeletable($path)) {
-				$storage = OC_Filesystem::getStorage($source);
-				return $storage->unlink($this->getInternalPath($source));
+				list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+				return $storage->unlink($internalPath);
 			} else if (dirname($path) == '/' || dirname($path) == '.') {
 				// Unshare the file from the user if in the root of the Shared folder
 				if ($this->is_dir($path)) {
@@ -325,7 +268,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 				} else {
 					$itemType = 'file';
 				}
-				return OCP\Share::unshareFromSelf($itemType, $path);
+				return \OCP\Share::unshareFromSelf($itemType, $path);
 			}
 		}
 		return false;
@@ -340,8 +283,9 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 			if (dirname($path1) == dirname($path2)) {
 				// Rename the file if UPDATE permission is granted
 				if ($this->isUpdatable($path1)) {
-					$storage = OC_Filesystem::getStorage($oldSource);
-					return $storage->rename($this->getInternalPath($oldSource), $this->getInternalPath($newSource));
+					list($storage, $oldInternalPath) = \OC\Files\Filesystem::resolvePath($oldSource);
+					list( , $newInternalPath) = \OC\Files\Filesystem::resolvePath($newSource);
+					return $storage->rename($oldInternalPath, $newInternalPath);
 				}
 			} else {
 				// Move the file if DELETE and CREATE permissions are granted
@@ -355,8 +299,9 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 							return $this->unlink($path1);
 						}
 					} else {
-						$storage = OC_Filesystem::getStorage($oldSource);
-						return $storage->rename($this->getInternalPath($oldSource), $this->getInternalPath($newSource));
+						list($storage, $oldInternalPath) = \OC\Files\Filesystem::resolvePath($oldSource);
+						list( , $newInternalPath) = \OC\Files\Filesystem::resolvePath($newSource);
+						return $storage->rename($oldInternalPath, $newInternalPath);
 					}
 				}
 			}
@@ -369,7 +314,7 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 		if ($this->isCreatable(dirname($path2))) {
 			$source = $this->fopen($path1, 'r');
 			$target = $this->fopen($path2, 'w');
-			return OC_Helper::streamCopy($source, $target);
+			return \OC_Helper::streamCopy($source, $target);
 		}
 		return false;
 	}
@@ -400,9 +345,9 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 				'source' => $source,
 				'mode' => $mode,
 			);
-			OCP\Util::emitHook('OC_Filestorage_Shared', 'fopen', $info);
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->fopen($this->getInternalPath($source), $mode);
+			\OCP\Util::emitHook('\OC\Files\Storage\Shared', 'fopen', $info);
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->fopen($internalPath, $mode);
 		}
 		return false;
 	}
@@ -412,47 +357,88 @@ class OC_Filestorage_Shared extends OC_Filestorage_Common {
 			return 'httpd/unix-directory';
 		}
 		if ($source = $this->getSourcePath($path)) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->getMimeType($this->getInternalPath($source));
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->getMimeType($internalPath);
 		}
 		return false;
 	}
 
 	public function free_space($path) {
+		if ($path == '') {
+			return -1;
+		}
 		$source = $this->getSourcePath($path);
 		if ($source) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->free_space($this->getInternalPath($source));
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->free_space($internalPath);
 		}
 	}
 
 	public function getLocalFile($path) {
 		if ($source = $this->getSourcePath($path)) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->getLocalFile($this->getInternalPath($source));
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->getLocalFile($internalPath);
 		}
 		return false;
 	}
 	public function touch($path, $mtime = null) {
 		if ($source = $this->getSourcePath($path)) {
-			$storage = OC_Filesystem::getStorage($source);
-			return $storage->touch($this->getInternalPath($source), $mtime);
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->touch($internalPath, $mtime);
 		}
 		return false;
 	}
 
 	public static function setup($options) {
-		$user_dir = $options['user_dir'];
-		OC_Filesystem::mount('OC_Filestorage_Shared', array('sharedFolder' => '/Shared'), $user_dir.'/Shared/');
+		if (\OCP\Share::getItemsSharedWith('file')) {
+			$user_dir = $options['user_dir'];
+			\OC\Files\Filesystem::mount('\OC\Files\Storage\Shared', array('sharedFolder' => '/Shared'), $user_dir.'/Shared/');
+		}
 	}
 
-	/**
-	 * check if a file or folder has been updated since $time
-	 * @param int $time
-	 * @return bool
-	 */
 	public function hasUpdated($path, $time) {
-		//TODO
+		if ($path == '') {
+			return false;
+		}
+		return $this->filemtime($path) > $time;
+	}
+
+	public function getCache($path = '') {
+		return new \OC\Files\Cache\Shared_Cache($this);
+	}
+
+	public function getScanner($path = '') {
+		return new \OC\Files\Cache\Scanner($this);
+	}
+
+	public function getPermissionsCache($path = '') {
+		return new \OC\Files\Cache\Shared_Permissions($this);
+	}
+
+	public function getWatcher($path = '') {
+		return new \OC\Files\Cache\Shared_Watcher($this);
+	}
+
+	public function getOwner($path) {
+		if ($path == '') {
+			return false;
+		}
+		$source = $this->getFile($path);
+		if ($source) {
+			return $source['uid_owner'];
+		}
 		return false;
 	}
+
+	public function getETag($path) {
+		if ($path == '') {
+			return parent::getETag($path);
+		}
+		if ($source = $this->getSourcePath($path)) {
+			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source);
+			return $storage->getETag($internalPath);
+		}
+		return null;
+	}
+
 }

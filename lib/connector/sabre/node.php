@@ -84,12 +84,12 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 		$newPath = $parentPath . '/' . $newName;
 		$oldPath = $this->path;
 
-		OC_Filesystem::rename($this->path, $newPath);
+		\OC\Files\Filesystem::rename($this->path,$newPath);
 
 		$this->path = $newPath;
 
 		$query = OC_DB::prepare( 'UPDATE `*PREFIX*properties` SET `propertypath` = ? WHERE `userid` = ? AND `propertypath` = ?' );
-		$query->execute( array( $newPath, OC_User::getUser(), $oldPath ));
+		$query->execute( array( $newPath,OC_User::getUser(), $oldPath ));
 
 	}
 
@@ -104,9 +104,9 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 */
 	protected function getFileinfoCache() {
 		if (!isset($this->fileinfo_cache)) {
-			if ($fileinfo_cache = OC_FileCache::get($this->path)) {
+			if ($fileinfo_cache = \OC\Files\Filesystem::getFileInfo($this->path)) {
 			} else {
-				$fileinfo_cache = OC_Filesystem::stat($this->path);
+				$fileinfo_cache = \OC\Files\Filesystem::stat($this->path);
 			}
 
 			$this->fileinfo_cache = $fileinfo_cache;
@@ -134,7 +134,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	 *  Even if the modification time is set to a custom value the access time is set to now.
 	 */
 	public function touch($mtime) {
-		OC_Filesystem::touch($this->path, $mtime);
+		\OC\Files\Filesystem::touch($this->path, $mtime);
 	}
 
 	/**
@@ -159,10 +159,10 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 				} else {
 					if(!array_key_exists( $propertyName, $existing )) {
 						$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*properties` (`userid`,`propertypath`,`propertyname`,`propertyvalue`) VALUES(?,?,?,?)' );
-						$query->execute( array( OC_User::getUser(), $this->path, $propertyName, $propertyValue ));
+						$query->execute( array( OC_User::getUser(), $this->path, $propertyName,$propertyValue ));
 					} else {
 						$query = OC_DB::prepare( 'UPDATE `*PREFIX*properties` SET `propertyvalue` = ? WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = ?' );
-						$query->execute( array( $propertyValue, OC_User::getUser(), $this->path, $propertyName ));
+						$query->execute( array( $propertyValue,OC_User::getUser(), $this->path, $propertyName ));
 					}
 				}
 			}
@@ -190,6 +190,7 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 			while( $row = $result->fetchRow()) {
 				$this->property_cache[$row['propertyname']] = $row['propertyvalue'];
 			}
+			$this->property_cache[self::GETETAG_PROPERTYNAME] = $this->getETagPropertyForPath($this->path);
 		}
 
 		// if the array was empty, we need to return everything
@@ -205,57 +206,16 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 	}
 
 	/**
-	 * @brief Creates a ETag for this path.
-	 * @param string $path Path of the file
-	 * @return string|null Returns null if the ETag can not effectively be determined
-	 */
-	static protected function createETag($path) {
-		if(self::$ETagFunction) {
-			$hash = call_user_func(self::$ETagFunction, $path);
-			return $hash;
-		}else{
-			return uniqid('', true);
-		}
-	}
-
-	/**
-	 * @brief Returns the ETag surrounded by double-quotes for this path.
+	 * Returns the ETag surrounded by double-quotes for this path.
 	 * @param string $path Path of the file
 	 * @return string|null Returns null if the ETag can not effectively be determined
 	 */
 	static public function getETagPropertyForPath($path) {
-		$tag = self::createETag($path);
-		if (empty($tag)) {
-			return null;
+		$data = \OC\Files\Filesystem::getFileInfo($path);
+		if (isset($data['etag'])) {
+			return '"'.$data['etag'].'"';
 		}
-		$etag = '"'.$tag.'"';
-		$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*properties` (`userid`,`propertypath`,`propertyname`,`propertyvalue`) VALUES(?,?,?,?)' );
-		$query->execute( array( OC_User::getUser(), $path, self::GETETAG_PROPERTYNAME, $etag ));
-		return $etag;
+		return null;
 	}
 
-	/**
-	 * @brief Remove the ETag from the cache.
-	 * @param string $path Path of the file
-	 */
-	static public function removeETagPropertyForPath($path) {
-		// remove tags from this and parent paths
-		$paths = array();
-		while ($path != '/' && $path != '.' && $path != '' && $path != '\\') {
-			$paths[] = $path;
-			$path = dirname($path);
-		}
-		if (empty($paths)) {
-			return;
-		}
-		$paths[] = $path;
-		$path_placeholders = join(',', array_fill(0, count($paths), '?'));
-		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*properties`'
-			.' WHERE `userid` = ?'
-			.' AND `propertyname` = ?'
-			.' AND `propertypath` IN ('.$path_placeholders.')'
-			);
-		$vals = array( OC_User::getUser(), self::GETETAG_PROPERTYNAME );
-		$query->execute(array_merge( $vals, $paths ));
-	}
 }
