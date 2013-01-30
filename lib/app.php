@@ -179,7 +179,7 @@ class OC_App{
 	 * This function checks whether or not an app is enabled.
 	 */
 	public static function isEnabled( $app ) {
-		if( 'files'==$app or 'yes' == OC_Appconfig::getValue( $app, 'enabled' )) {
+		if( 'files'==$app or ('yes' == OC_Appconfig::getValue( $app, 'enabled' ))) {
 			return true;
 		}
 
@@ -236,10 +236,8 @@ class OC_App{
 
 		// check if app is a shiped app or not. if not delete
 		if(!OC_App::isShipped( $app )){
-//			error_log($app.' not shipped');	
 			OC_Installer::removeApp( $app );
 		}else{
-//			error_log($app.' shipped');	
 		}		
 	}
 

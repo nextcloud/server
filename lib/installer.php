@@ -155,16 +155,6 @@ class OC_Installer{
 			return false;
 		}
 
-		//check if an app with the same id is already installed
-		if(self::isInstalled( $info['id'] )) {
-			OC_Log::write('core', 'App already installed', OC_Log::WARN);
-			OC_Helper::rmdirr($extractDir);
-			if($data['source']=='http') {
-				unlink($path);
-			}
-			return false;
-		}
-
 		$basedir=OC_App::getInstallPath().'/'.$info['id'];
 		//check if the destination directory already exists
 		if(is_dir($basedir)) {
@@ -264,10 +254,9 @@ class OC_Installer{
 	 * upgrade.php can determine the current installed version of the app using "OC_Appconfig::getValue($appid, 'installed_version')"
 	 */
 	public static function updateApp( $app ) {
-		error_log('updater!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!');
-		return(true);
-        	if(OC_Installer::isDownloaded( $name )) { 
-		}
+		$ocsid=OC_Appconfig::getValue( $app, 'ocsid', '');
+		OC_App::disable($app);
+		OC_App::enable($ocsid);
 	}
 
         /**
@@ -278,19 +267,20 @@ class OC_Installer{
          * The function will check if an update for a version is available
          */
         public static function isUpdateAvailable( $app ) {
-		//debug
-		return('1.1');
 
 		$ocsid=OC_Appconfig::getValue( $app, 'ocsid', '');
 
 		if($ocsid<>''){
 		
 			$ocsdata=OC_OCSClient::getApplication($ocsid);
-			$ocsversion=$ocsdata['version'];
+			$ocsversion= (string) $ocsdata['version'];
 			$currentversion=OC_App::getAppVersion($app);
+			if($ocsversion<>$currentversion){
+				return($ocsversion);
 
-//error_log('bb'.$app.' '.$ocsversion);
-			return($ocsversion);
+			}else{
+				return('');
+			}
 
 		}else{
 			return('');
