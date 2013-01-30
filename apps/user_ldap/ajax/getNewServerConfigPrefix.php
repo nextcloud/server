@@ -26,12 +26,7 @@ OCP\JSON::checkAdminUser();
 OCP\JSON::checkAppEnabled('user_ldap');
 OCP\JSON::callCheck();
 
-$query = \OCP\DB::prepare('
-	SELECT DISTINCT `configkey`
-	FROM `*PREFIX*appconfig`
-	WHERE `configkey` LIKE ?
-');
-$serverConnections = $query->execute(array('%ldap_login_filter'))->fetchAll();
+$serverConnections = \OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes();
 sort($serverConnections);
 $lk = array_pop($serverConnections);
 $ln = intval(str_replace('s', '', $lk));
