@@ -104,6 +104,7 @@ var LdapConfiguration = {
 
 $(document).ready(function() {
 	$('#ldapSettings').tabs();
+	$('#ldap_submit').button();
 	$('#ldap_action_test_connection').button();
 	$('#ldap_action_delete_configuration').button();
 	LdapConfiguration.refreshConfig();
@@ -147,9 +148,18 @@ $(document).ready(function() {
 			OC.filePath('user_ldap','ajax','setConfiguration.php'),
 			$('#ldap').serialize(),
 			function (result) {
+				bgcolor = $('#ldap_submit').css('background');
 				if (result.status == 'success') {
-					$('#notification').text(t('user_ldap', 'LDAP Configuration Saved'));
-					$('#notification').fadeIn();
+					//the dealing with colors is a but ugly, but the jQuery version in use has issues with rgba colors
+					$('#ldap_submit').css('background', '#fff');
+					$('#ldap_submit').effect('highlight', {'color':'#A8FA87'}, 5000, function() {
+						$('#ldap_submit').css('background', bgcolor);
+					});
+				} else {
+					$('#ldap_submit').css('background', '#fff');
+					$('#ldap_submit').effect('highlight', {'color':'#E97'}, 5000, function() {
+						$('#ldap_submit').css('background', bgcolor);
+					});
 				}
 			}
 		);
