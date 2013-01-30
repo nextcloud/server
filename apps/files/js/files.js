@@ -118,7 +118,7 @@ $(document).ready(function() {
 	var lastChecked;
 
 	// Sets the file link behaviour :
-	$('td.filename').on('click','a',function(event) {
+	$('#fileList').on('click','td.filename a',function(event) {
 		if (event.ctrlKey || event.shiftKey) {
 			event.preventDefault();
 			if (event.shiftKey) {
