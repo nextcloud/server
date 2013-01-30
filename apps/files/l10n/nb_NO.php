@@ -28,8 +28,6 @@
 "Upload cancelled." => "Opplasting avbrutt.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Filopplasting pågår. Forlater du siden nå avbrytes opplastingen.",
 "URL cannot be empty." => "URL-en kan ikke være tom.",
-"{count} files scanned" => "{count} filer lest inn",
-"error while scanning" => "feil under skanning",
 "Name" => "Navn",
 "Size" => "Størrelse",
 "Modified" => "Endret",

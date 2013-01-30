@@ -30,8 +30,6 @@
 "Upload cancelled." => "Загрузка отменена",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Процесс загрузки файла. Если покинуть страницу сейчас, загрузка будет отменена.",
 "URL cannot be empty." => "URL не должен быть пустым.",
-"{count} files scanned" => "{количество} файлов отсканировано",
-"error while scanning" => "ошибка при сканировании",
 "Name" => "Имя",
 "Size" => "Размер",
 "Modified" => "Изменен",

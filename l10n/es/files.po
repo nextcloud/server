@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 23:05+0000\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 23:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -25,20 +25,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: ajax/move.php:17
-#, php-format
-msgid "Could not move %s - File with this name already exists"
-msgstr "No se puede mover %s - Ya existe un archivo con ese nombre"
-
-#: ajax/move.php:24
-#, php-format
-msgid "Could not move %s"
-msgstr "No se puede mover %s"
-
-#: ajax/rename.php:19
-msgid "Unable to rename file"
-msgstr "No se puede renombrar el archivo"
 
 #: ajax/upload.php:17
 msgid "No file was uploaded. Unknown error"
@@ -75,11 +61,11 @@ msgstr "Falta un directorio temporal"
 msgid "Failed to write to disk"
 msgstr "La escritura en disco ha fallado"
 
-#: ajax/upload.php:48
-msgid "Not enough storage available"
+#: ajax/upload.php:51
+msgid "Not enough space available"
 msgstr ""
 
-#: ajax/upload.php:77
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "Directorio invalido."
 
@@ -191,52 +177,44 @@ msgstr "Subiendo {count} archivos"
 msgid "Upload cancelled."
 msgstr "Subida cancelada."
 
-#: js/files.js:493
+#: js/files.js:497
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "La subida del archivo está en proceso. Salir de la página ahora cancelará la subida."
 
-#: js/files.js:566
+#: js/files.js:570
 msgid "URL cannot be empty."
 msgstr "La URL no puede estar vacía."
 
-#: js/files.js:571
+#: js/files.js:575
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nombre de carpeta invalido. El uso de \"Shared\" esta reservado para Owncloud"
 
-#: js/files.js:784
-msgid "{count} files scanned"
-msgstr "{count} archivos escaneados"
-
-#: js/files.js:792
-msgid "error while scanning"
-msgstr "error escaneando"
-
-#: js/files.js:866 templates/index.php:63
+#: js/files.js:944 templates/index.php:63
 msgid "Name"
 msgstr "Nombre"
 
-#: js/files.js:867 templates/index.php:74
+#: js/files.js:945 templates/index.php:74
 msgid "Size"
 msgstr "Tamaño"
 
-#: js/files.js:868 templates/index.php:76
+#: js/files.js:946 templates/index.php:76
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/files.js:887
+#: js/files.js:965
 msgid "1 folder"
 msgstr "1 carpeta"
 
-#: js/files.js:889
+#: js/files.js:967
 msgid "{count} folders"
 msgstr "{count} carpetas"
 
-#: js/files.js:897
+#: js/files.js:975
 msgid "1 file"
 msgstr "1 archivo"
 
-#: js/files.js:899
+#: js/files.js:977
 msgid "{count} files"
 msgstr "{count} archivos"
 
@@ -321,3 +299,7 @@ msgstr "Se están escaneando los archivos, por favor espere."
 #: templates/index.php:111
 msgid "Current scanning"
 msgstr "Ahora escaneando"
+
+#: templates/upgrade.php:2
+msgid "Upgrading filesystem cache..."
+msgstr ""

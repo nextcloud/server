@@ -53,6 +53,7 @@
 "Error" => "Hiba",
 "The app name is not specified." => "Az alkalmazás neve nincs megadva.",
 "The required file {file} is not installed!" => "A szükséges fájl: {file} nincs telepítve!",
+"Share" => "Megosztás",
 "Error while sharing" => "Nem sikerült létrehozni a megosztást",
 "Error while unsharing" => "Nem sikerült visszavonni a megosztást",
 "Error while changing permissions" => "Nem sikerült módosítani a jogosultságokat",

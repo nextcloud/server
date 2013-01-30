@@ -28,8 +28,6 @@
 "{count} files uploading" => "Отпремам {count} датотеке/а",
 "Upload cancelled." => "Отпремање је прекинуто.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Отпремање датотеке је у току. Ако сада напустите страницу, прекинућете отпремање.",
-"{count} files scanned" => "Скенирано датотека: {count}",
-"error while scanning" => "грешка при скенирању",
 "Name" => "Назив",
 "Size" => "Величина",
 "Modified" => "Измењено",

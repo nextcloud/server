@@ -38,6 +38,7 @@
 "Yes" => "Taip",
 "Ok" => "Gerai",
 "Error" => "Klaida",
+"Share" => "Dalintis",
 "Error while sharing" => "Klaida, dalijimosi metu",
 "Error while unsharing" => "Klaida, kai atšaukiamas dalijimasis",
 "Error while changing permissions" => "Klaida, keičiant privilegijas",

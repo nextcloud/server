@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Felix Liberio <felix.liberio@gmail.com>, 2013.
 #   <javierkaiser@gmail.com>, 2012.
 # Javier Llorente <javier@opensuse.org>, 2012.
 #   <juanma@kde.org.ar>, 2011-2013.
@@ -18,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-30 00:23+0100\n"
-"PO-Revision-Date: 2013-01-29 23:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 15:30+0000\n"
+"Last-Translator: felix.liberio <felix.liberio@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -263,11 +264,11 @@ msgstr "El fichero  {file} requerido, no está instalado."
 
 #: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
 msgid "Share"
-msgstr ""
+msgstr "Compartir"
 
 #: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
 msgid "Shared"
-msgstr ""
+msgstr "Compartido"
 
 #: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
@@ -390,11 +391,11 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "La actualización ha fracasado. Por favor, informe este problema a la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">Comunidad de ownCloud</ a>."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "La actualización se ha realizado correctamente. Redireccionando a ownCloud ahora."
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"

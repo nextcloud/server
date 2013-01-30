@@ -53,6 +53,8 @@
 "Error" => "Ошибка",
 "The app name is not specified." => "Имя приложения не указано.",
 "The required file {file} is not installed!" => "Требуемый файл {файл} не установлен!",
+"Share" => "Сделать общим",
+"Shared" => "Опубликовано",
 "Error while sharing" => "Ошибка создания общего доступа",
 "Error while unsharing" => "Ошибка отключения общего доступа",
 "Error while changing permissions" => "Ошибка при изменении прав доступа",

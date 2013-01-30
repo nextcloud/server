@@ -27,6 +27,7 @@
 "Yes" => "Ya",
 "Ok" => "Ok",
 "Error" => "Ralat",
+"Share" => "Kongsi",
 "Password" => "Kata laluan",
 "ownCloud password reset" => "Set semula kata lalaun ownCloud",
 "Use the following link to reset your password: {link}" => "Guna pautan berikut untuk menetapkan semula kata laluan anda: {link}",

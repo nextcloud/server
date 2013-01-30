@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 23:05+0000\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 23:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -17,20 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: is\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: ajax/move.php:17
-#, php-format
-msgid "Could not move %s - File with this name already exists"
-msgstr "Gat ekki fært %s - Skrá með þessu nafni er þegar til"
-
-#: ajax/move.php:24
-#, php-format
-msgid "Could not move %s"
-msgstr "Gat ekki fært %s"
-
-#: ajax/rename.php:19
-msgid "Unable to rename file"
-msgstr "Gat ekki endurskýrt skrá"
 
 #: ajax/upload.php:17
 msgid "No file was uploaded. Unknown error"
@@ -67,11 +53,11 @@ msgstr "Vantar bráðabirgðamöppu"
 msgid "Failed to write to disk"
 msgstr "Tókst ekki að skrifa á disk"
 
-#: ajax/upload.php:48
-msgid "Not enough storage available"
+#: ajax/upload.php:51
+msgid "Not enough space available"
 msgstr ""
 
-#: ajax/upload.php:77
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "Ógild mappa."
 
@@ -183,52 +169,44 @@ msgstr "{count} skrár innsendar"
 msgid "Upload cancelled."
 msgstr "Hætt við innsendingu."
 
-#: js/files.js:493
+#: js/files.js:497
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Innsending í gangi. Ef þú ferð af þessari síðu mun innsending misheppnast."
 
-#: js/files.js:566
+#: js/files.js:570
 msgid "URL cannot be empty."
 msgstr "Vefslóð má ekki vera tóm."
 
-#: js/files.js:571
+#: js/files.js:575
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Óleyfilegt nafn á möppu. Nafnið 'Shared' er frátekið fyrir Owncloud"
 
-#: js/files.js:784
-msgid "{count} files scanned"
-msgstr "{count} skrár skimaðar"
-
-#: js/files.js:792
-msgid "error while scanning"
-msgstr "villa við skimun"
-
-#: js/files.js:866 templates/index.php:63
+#: js/files.js:944 templates/index.php:63
 msgid "Name"
 msgstr "Nafn"
 
-#: js/files.js:867 templates/index.php:74
+#: js/files.js:945 templates/index.php:74
 msgid "Size"
 msgstr "Stærð"
 
-#: js/files.js:868 templates/index.php:76
+#: js/files.js:946 templates/index.php:76
 msgid "Modified"
 msgstr "Breytt"
 
-#: js/files.js:887
+#: js/files.js:965
 msgid "1 folder"
 msgstr "1 mappa"
 
-#: js/files.js:889
+#: js/files.js:967
 msgid "{count} folders"
 msgstr "{count} möppur"
 
-#: js/files.js:897
+#: js/files.js:975
 msgid "1 file"
 msgstr "1 skrá"
 
-#: js/files.js:899
+#: js/files.js:977
 msgid "{count} files"
 msgstr "{count} skrár"
 
@@ -313,3 +291,7 @@ msgstr "Verið er að skima skrár, vinsamlegast hinkraðu."
 #: templates/index.php:111
 msgid "Current scanning"
 msgstr "Er að skima"
+
+#: templates/upgrade.php:2
+msgid "Upgrading filesystem cache..."
+msgstr ""

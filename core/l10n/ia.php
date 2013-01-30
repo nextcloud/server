@@ -21,6 +21,7 @@
 "December" => "Decembre",
 "Settings" => "Configurationes",
 "Cancel" => "Cancellar",
+"Share" => "Compartir",
 "Password" => "Contrasigno",
 "ownCloud password reset" => "Reinitialisation del contrasigno de ownCLoud",
 "Username" => "Nomine de usator",

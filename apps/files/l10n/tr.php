@@ -1,7 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "%s taşınamadı. Bu isimde dosya zaten var.",
-"Could not move %s" => "%s taşınamadı",
-"Unable to rename file" => "Dosya adı değiştirilemedi",
 "No file was uploaded. Unknown error" => "Dosya yüklenmedi. Bilinmeyen hata",
 "There is no error, the file uploaded with success" => "Bir hata yok, dosya başarıyla yüklendi",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "php.ini dosyasında upload_max_filesize ile belirtilen dosya yükleme sınırı aşıldı.",
@@ -38,8 +35,6 @@
 "File upload is in progress. Leaving the page now will cancel the upload." => "Dosya yükleme işlemi sürüyor. Şimdi sayfadan ayrılırsanız işleminiz iptal olur.",
 "URL cannot be empty." => "URL boş olamaz.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Geçersiz dizin adı. Shared isminin kullanımı Owncloud tarafından rezerver edilmiştir.",
-"{count} files scanned" => "{count} dosya tarandı",
-"error while scanning" => "tararamada hata oluşdu",
 "Name" => "Ad",
 "Size" => "Boyut",
 "Modified" => "Değiştirilme",
