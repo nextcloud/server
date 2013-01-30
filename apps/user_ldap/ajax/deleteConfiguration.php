@@ -30,5 +30,5 @@ $prefix = $_POST['ldap_serverconfig_chooser'];
 if(\OCA\user_ldap\lib\Helper::deleteServerConfiguration($prefix)){
 	OCP\JSON::success();
 } else {
-	OCP\JSON::error('Failed to delete the server configuration');
+	OCP\JSON::error(array('message' => 'Failed to delete the server configuration'));
 }
