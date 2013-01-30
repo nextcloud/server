@@ -61,7 +61,7 @@ class Updater extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function tearDown() {
-		if($this->cache){
+		if ($this->cache) {
 			$this->cache->clear();
 		}
 		Filesystem::tearDown();
@@ -82,7 +82,7 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(2 * $textSize + $imageSize + 3, $cachedData['size']);
 		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
-		$this->assertEquals($mtime, $rootCachedData['mtime']);
+		$this->assertGreaterThanOrEqual($rootCachedData['mtime'], $mtime);
 		$rootCachedData = $cachedData;
 
 		$this->assertFalse($this->cache->inCache('bar.txt'));
@@ -94,7 +94,7 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(2 * $textSize + $imageSize + 2 * 3, $cachedData['size']);
 		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
-		$this->assertEquals($mtime, $rootCachedData['mtime']);
+		$this->assertGreaterThanOrEqual($rootCachedData['mtime'], $mtime);
 	}
 
 	public function testDelete() {
