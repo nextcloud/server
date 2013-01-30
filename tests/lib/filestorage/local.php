@@ -35,4 +35,3 @@ class Test_Filestorage_Local extends Test_FileStorage {
 	}
 }
 
-?>

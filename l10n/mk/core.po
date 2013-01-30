@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 23:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -20,24 +20,24 @@ msgstr ""
 "Language: mk\n"
 "Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;\n"
 
-#: ajax/share.php:84
+#: ajax/share.php:85
 #, php-format
 msgid "User %s shared a file with you"
 msgstr "Корисникот %s сподели датотека со Вас"
 
-#: ajax/share.php:86
+#: ajax/share.php:87
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr "Корисникот %s сподели папка со Вас"
 
-#: ajax/share.php:88
+#: ajax/share.php:89
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr "Корисникот %s ја сподели датотека „%s“ со Вас. Достапна е за преземање тука: %s"
 
-#: ajax/share.php:90
+#: ajax/share.php:91
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -82,59 +82,135 @@ msgstr "Не е одбрана категорија за бришење."
 msgid "Error removing %s from favorites."
 msgstr "Грешка при бришење на %s од омилени."
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "Недела"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "Понеделник"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "Вторник"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "Среда"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "Четврток"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "Петок"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "Сабота"
+
+#: js/config.php:33
+msgid "January"
+msgstr "Јануари"
+
+#: js/config.php:33
+msgid "February"
+msgstr "Февруари"
+
+#: js/config.php:33
+msgid "March"
+msgstr "Март"
+
+#: js/config.php:33
+msgid "April"
+msgstr "Април"
+
+#: js/config.php:33
+msgid "May"
+msgstr "Мај"
+
+#: js/config.php:33
+msgid "June"
+msgstr "Јуни"
+
+#: js/config.php:33
+msgid "July"
+msgstr "Јули"
+
+#: js/config.php:33
+msgid "August"
+msgstr "Август"
+
+#: js/config.php:33
+msgid "September"
+msgstr "Септември"
+
+#: js/config.php:33
+msgid "October"
+msgstr "Октомври"
+
+#: js/config.php:33
+msgid "November"
+msgstr "Ноември"
+
+#: js/config.php:33
+msgid "December"
+msgstr "Декември"
+
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "Поставки"
 
-#: js/js.js:711
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "пред секунди"
 
-#: js/js.js:712
+#: js/js.js:763
 msgid "1 minute ago"
 msgstr "пред 1 минута"
 
-#: js/js.js:713
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr "пред {minutes} минути"
 
-#: js/js.js:714
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr "пред 1 час"
 
-#: js/js.js:715
+#: js/js.js:766
 msgid "{hours} hours ago"
 msgstr "пред {hours} часови"
 
-#: js/js.js:716
+#: js/js.js:767
 msgid "today"
 msgstr "денеска"
 
-#: js/js.js:717
+#: js/js.js:768
 msgid "yesterday"
 msgstr "вчера"
 
-#: js/js.js:718
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr "пред {days} денови"
 
-#: js/js.js:719
+#: js/js.js:770
 msgid "last month"
 msgstr "минатиот месец"
 
-#: js/js.js:720
+#: js/js.js:771
 msgid "{months} months ago"
 msgstr "пред {months} месеци"
 
-#: js/js.js:721
+#: js/js.js:772
 msgid "months ago"
 msgstr "пред месеци"
 
-#: js/js.js:722
+#: js/js.js:773
 msgid "last year"
 msgstr "минатата година"
 
-#: js/js.js:723
+#: js/js.js:774
 msgid "years ago"
 msgstr "пред години"
 
@@ -164,8 +240,8 @@ msgid "The object type is not specified."
 msgstr "Не е специфициран типот на објект."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
-#: js/share.js:566
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
+#: js/share.js:583
 msgid "Error"
 msgstr "Грешка"
 
@@ -177,122 +253,140 @@ msgstr "Името на апликацијата не е специфицира�
 msgid "The required file {file} is not installed!"
 msgstr "Задолжителната датотека {file} не е инсталирана!"
 
-#: js/share.js:124 js/share.js:594
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Share"
+msgstr ""
+
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Shared"
+msgstr ""
+
+#: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
 msgstr "Грешка при споделување"
 
-#: js/share.js:135
+#: js/share.js:152
 msgid "Error while unsharing"
 msgstr "Грешка при прекин на споделување"
 
-#: js/share.js:142
+#: js/share.js:159
 msgid "Error while changing permissions"
 msgstr "Грешка при промена на привилегии"
 
-#: js/share.js:151
+#: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Споделено со Вас и групата {group} од {owner}"
 
-#: js/share.js:153
+#: js/share.js:170
 msgid "Shared with you by {owner}"
 msgstr "Споделено со Вас од {owner}"
 
-#: js/share.js:158
+#: js/share.js:175
 msgid "Share with"
 msgstr "Сподели со"
 
-#: js/share.js:163
+#: js/share.js:180
 msgid "Share with link"
 msgstr "Сподели со врска"
 
-#: js/share.js:166
+#: js/share.js:183
 msgid "Password protect"
 msgstr "Заштити со лозинка"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "Лозинка"
 
-#: js/share.js:172
+#: js/share.js:189
 msgid "Email link to person"
 msgstr "Прати врска по е-пошта на личност"
 
-#: js/share.js:173
+#: js/share.js:190
 msgid "Send"
 msgstr "Прати"
 
-#: js/share.js:177
+#: js/share.js:194
 msgid "Set expiration date"
 msgstr "Постави рок на траење"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Expiration date"
 msgstr "Рок на траење"
 
-#: js/share.js:210
+#: js/share.js:227
 msgid "Share via email:"
 msgstr "Сподели по е-пошта:"
 
-#: js/share.js:212
+#: js/share.js:229
 msgid "No people found"
 msgstr "Не се најдени луѓе"
 
-#: js/share.js:239
+#: js/share.js:256
 msgid "Resharing is not allowed"
 msgstr "Повторно споделување не е дозволено"
 
-#: js/share.js:275
+#: js/share.js:292
 msgid "Shared in {item} with {user}"
 msgstr "Споделено во {item} со {user}"
 
-#: js/share.js:296
+#: js/share.js:313
 msgid "Unshare"
 msgstr "Не споделувај"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "can edit"
 msgstr "може да се измени"
 
-#: js/share.js:310
+#: js/share.js:327
 msgid "access control"
 msgstr "контрола на пристап"
 
-#: js/share.js:313
+#: js/share.js:330
 msgid "create"
 msgstr "креирај"
 
-#: js/share.js:316
+#: js/share.js:333
 msgid "update"
 msgstr "ажурирај"
 
-#: js/share.js:319
+#: js/share.js:336
 msgid "delete"
 msgstr "избриши"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "share"
 msgstr "сподели"
 
-#: js/share.js:356 js/share.js:541
+#: js/share.js:373 js/share.js:558
 msgid "Password protected"
 msgstr "Заштитено со лозинка"
 
-#: js/share.js:554
+#: js/share.js:571
 msgid "Error unsetting expiration date"
 msgstr "Грешка при тргање на рокот на траење"
 
-#: js/share.js:566
+#: js/share.js:583
 msgid "Error setting expiration date"
 msgstr "Грешка при поставување на рок на траење"
 
-#: js/share.js:581
+#: js/share.js:598
 msgid "Sending ..."
 msgstr "Праќање..."
 
-#: js/share.js:592
+#: js/share.js:609
 msgid "Email sent"
 msgstr "Е-порака пратена"
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr ""
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -445,87 +539,11 @@ msgstr "Сервер со база"
 msgid "Finish setup"
 msgstr "Заврши го подесувањето"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "Недела"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "Понеделник"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "Вторник"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "Среда"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "Четврток"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "Петок"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "Сабота"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "Јануари"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "Февруари"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "Март"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "Април"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "Мај"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "Јуни"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "Јули"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "Август"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "Септември"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "Октомври"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "Ноември"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "Декември"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "веб сервиси под Ваша контрола"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr "Одјава"
 
@@ -567,17 +585,3 @@ msgstr "следно"
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
 msgstr ""
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "Безбедносно предупредување."
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "Ве молам потврдете ја вашата лозинка. <br />Од безбедносни причини од време на време може да биде побарано да ја внесете вашата лозинка повторно."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Потврди"

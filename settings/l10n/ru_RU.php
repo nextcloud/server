@@ -30,6 +30,7 @@
 "Commercial Support" => "Коммерческая поддержка",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Вы использовали <strong>%s</strong> из возможных <strong>%s</strong>",
 "Clients" => "Клиенты",
+"Download Desktop Clients" => "Загрузка десктопных клиентов",
 "Download Android Client" => "Загрузить клиент под Android ",
 "Download iOS Client" => "Загрузить клиент под iOS ",
 "Password" => "Пароль",
@@ -48,10 +49,13 @@
 "Use this address to connect to your ownCloud in your file manager" => "Используйте этот адрес для подключения к ownCloud в Вашем файловом менеджере",
 "Version" => "Версия",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Разработанный <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
-"Name" => "Имя",
 "Groups" => "Группы",
 "Create" => "Создать",
+"Default Storage" => "Хранилище по умолчанию",
+"Unlimited" => "Неограниченный",
 "Other" => "Другой",
 "Group Admin" => "Группа Admin",
+"Storage" => "Хранилище",
+"Default" => "По умолчанию",
 "Delete" => "Удалить"
 );

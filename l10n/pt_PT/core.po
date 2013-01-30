@@ -4,6 +4,8 @@
 # 
 # Translators:
 #   <daniel@mouxy.net>, 2012-2013.
+# Daniel Pinto <daniel@mouxy.net>, 2013.
+#  <duartegrilo@gmail.com>, 2013.
 # Duarte Velez Grilo <duartegrilo@gmail.com>, 2012.
 #   <helder.meneses@gmail.com>, 2011, 2012.
 # Helder Meneses <helder.meneses@gmail.com>, 2012.
@@ -13,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 23:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -23,24 +25,24 @@ msgstr ""
 "Language: pt_PT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:84
+#: ajax/share.php:85
 #, php-format
 msgid "User %s shared a file with you"
 msgstr "O utilizador %s partilhou um ficheiro consigo."
 
-#: ajax/share.php:86
+#: ajax/share.php:87
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr "O utilizador %s partilhou uma pasta consigo."
 
-#: ajax/share.php:88
+#: ajax/share.php:89
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr "O utilizador %s partilhou o ficheiro \"%s\" consigo. Está disponível para download aqui: %s"
 
-#: ajax/share.php:90
+#: ajax/share.php:91
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -78,66 +80,142 @@ msgstr "Erro a adicionar %s aos favoritos"
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "Nenhuma categoria seleccionar para eliminar"
+msgstr "Nenhuma categoria seleccionada para apagar"
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
 msgstr "Erro a remover %s dos favoritos."
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "Domingo"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "Segunda"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "Terça"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "Quarta"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "Quinta"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "Sexta"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "Sábado"
+
+#: js/config.php:33
+msgid "January"
+msgstr "Janeiro"
+
+#: js/config.php:33
+msgid "February"
+msgstr "Fevereiro"
+
+#: js/config.php:33
+msgid "March"
+msgstr "Março"
+
+#: js/config.php:33
+msgid "April"
+msgstr "Abril"
+
+#: js/config.php:33
+msgid "May"
+msgstr "Maio"
+
+#: js/config.php:33
+msgid "June"
+msgstr "Junho"
+
+#: js/config.php:33
+msgid "July"
+msgstr "Julho"
+
+#: js/config.php:33
+msgid "August"
+msgstr "Agosto"
+
+#: js/config.php:33
+msgid "September"
+msgstr "Setembro"
+
+#: js/config.php:33
+msgid "October"
+msgstr "Outubro"
+
+#: js/config.php:33
+msgid "November"
+msgstr "Novembro"
+
+#: js/config.php:33
+msgid "December"
+msgstr "Dezembro"
+
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "Definições"
 
-#: js/js.js:711
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "Minutos atrás"
 
-#: js/js.js:712
+#: js/js.js:763
 msgid "1 minute ago"
-msgstr "Falta 1 minuto"
+msgstr "Há 1 minuto"
 
-#: js/js.js:713
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minutos atrás"
 
-#: js/js.js:714
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr "Há 1 hora"
 
-#: js/js.js:715
+#: js/js.js:766
 msgid "{hours} hours ago"
 msgstr "Há {hours} horas atrás"
 
-#: js/js.js:716
+#: js/js.js:767
 msgid "today"
 msgstr "hoje"
 
-#: js/js.js:717
+#: js/js.js:768
 msgid "yesterday"
 msgstr "ontem"
 
-#: js/js.js:718
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr "{days} dias atrás"
 
-#: js/js.js:719
+#: js/js.js:770
 msgid "last month"
 msgstr "ultímo mês"
 
-#: js/js.js:720
+#: js/js.js:771
 msgid "{months} months ago"
 msgstr "Há {months} meses atrás"
 
-#: js/js.js:721
+#: js/js.js:772
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/js.js:722
+#: js/js.js:773
 msgid "last year"
 msgstr "ano passado"
 
-#: js/js.js:723
+#: js/js.js:774
 msgid "years ago"
 msgstr "anos atrás"
 
@@ -167,8 +245,8 @@ msgid "The object type is not specified."
 msgstr "O tipo de objecto não foi especificado"
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
-#: js/share.js:566
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
+#: js/share.js:583
 msgid "Error"
 msgstr "Erro"
 
@@ -180,122 +258,140 @@ msgstr "O nome da aplicação não foi especificado"
 msgid "The required file {file} is not installed!"
 msgstr "O ficheiro necessário {file} não está instalado!"
 
-#: js/share.js:124 js/share.js:594
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Share"
+msgstr ""
+
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Shared"
+msgstr ""
+
+#: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
 msgstr "Erro ao partilhar"
 
-#: js/share.js:135
+#: js/share.js:152
 msgid "Error while unsharing"
 msgstr "Erro ao deixar de partilhar"
 
-#: js/share.js:142
+#: js/share.js:159
 msgid "Error while changing permissions"
 msgstr "Erro ao mudar permissões"
 
-#: js/share.js:151
+#: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Partilhado consigo e com o grupo {group} por {owner}"
 
-#: js/share.js:153
+#: js/share.js:170
 msgid "Shared with you by {owner}"
 msgstr "Partilhado consigo por {owner}"
 
-#: js/share.js:158
+#: js/share.js:175
 msgid "Share with"
 msgstr "Partilhar com"
 
-#: js/share.js:163
+#: js/share.js:180
 msgid "Share with link"
 msgstr "Partilhar com link"
 
-#: js/share.js:166
+#: js/share.js:183
 msgid "Password protect"
 msgstr "Proteger com palavra-passe"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:35
-#: templates/verify.php:13
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "Palavra chave"
 
-#: js/share.js:172
+#: js/share.js:189
 msgid "Email link to person"
 msgstr "Enviar o link por e-mail"
 
-#: js/share.js:173
+#: js/share.js:190
 msgid "Send"
 msgstr "Enviar"
 
-#: js/share.js:177
+#: js/share.js:194
 msgid "Set expiration date"
 msgstr "Especificar data de expiração"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Expiration date"
 msgstr "Data de expiração"
 
-#: js/share.js:210
+#: js/share.js:227
 msgid "Share via email:"
 msgstr "Partilhar via email:"
 
-#: js/share.js:212
+#: js/share.js:229
 msgid "No people found"
 msgstr "Não foi encontrado ninguém"
 
-#: js/share.js:239
+#: js/share.js:256
 msgid "Resharing is not allowed"
 msgstr "Não é permitido partilhar de novo"
 
-#: js/share.js:275
+#: js/share.js:292
 msgid "Shared in {item} with {user}"
 msgstr "Partilhado em {item} com {user}"
 
-#: js/share.js:296
+#: js/share.js:313
 msgid "Unshare"
 msgstr "Deixar de partilhar"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "can edit"
 msgstr "pode editar"
 
-#: js/share.js:310
+#: js/share.js:327
 msgid "access control"
 msgstr "Controlo de acesso"
 
-#: js/share.js:313
+#: js/share.js:330
 msgid "create"
 msgstr "criar"
 
-#: js/share.js:316
+#: js/share.js:333
 msgid "update"
 msgstr "actualizar"
 
-#: js/share.js:319
+#: js/share.js:336
 msgid "delete"
 msgstr "apagar"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "share"
 msgstr "partilhar"
 
-#: js/share.js:356 js/share.js:541
+#: js/share.js:373 js/share.js:558
 msgid "Password protected"
 msgstr "Protegido com palavra-passe"
 
-#: js/share.js:554
+#: js/share.js:571
 msgid "Error unsetting expiration date"
 msgstr "Erro ao retirar a data de expiração"
 
-#: js/share.js:566
+#: js/share.js:583
 msgid "Error setting expiration date"
 msgstr "Erro ao aplicar a data de expiração"
 
-#: js/share.js:581
+#: js/share.js:598
 msgid "Sending ..."
 msgstr "A Enviar..."
 
-#: js/share.js:592
+#: js/share.js:609
 msgid "Email sent"
-msgstr "E-mail enviado com sucesso!"
+msgstr "E-mail enviado"
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr "A actualização falhou. Por favor reporte este incidente seguindo este link <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>."
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr "A actualização foi concluída com sucesso. Vai ser redireccionado para o ownCloud agora."
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -332,7 +428,7 @@ msgstr "A sua password foi reposta"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr "Para a página de conexão"
+msgstr "Para a página de entrada"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
@@ -442,93 +538,17 @@ msgstr "Tablespace da base de dados"
 
 #: templates/installation.php:129
 msgid "Database host"
-msgstr "Host da base de dados"
+msgstr "Anfitrião da base de dados"
 
 #: templates/installation.php:134
 msgid "Finish setup"
 msgstr "Acabar instalação"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "Domingo"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "Segunda"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "Terça"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "Quarta"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "Quinta"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "Sexta"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "Sábado"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "Janeiro"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "Fevereiro"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "Março"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "Abril"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "Maio"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "Junho"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "Julho"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "Agosto"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "Setembro"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "Outubro"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "Novembro"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "Dezembro"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "serviços web sob o seu controlo"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr "Sair"
 
@@ -548,7 +568,7 @@ msgstr "Por favor mude a sua palavra-passe para assegurar a sua conta de novo."
 
 #: templates/login.php:19
 msgid "Lost your password?"
-msgstr "Esqueceu a sua password?"
+msgstr "Esqueceu-se da sua password?"
 
 #: templates/login.php:39
 msgid "remember"
@@ -569,18 +589,4 @@ msgstr "seguinte"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "A Actualizar o ownCloud para a versão %s, esta operação pode demorar."
-
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "Aviso de Segurança!"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "Por favor verifique a sua palavra-passe. <br/>Por razões de segurança, pode ser-lhe perguntada, ocasionalmente, a sua palavra-passe de novo."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Verificar"
+msgstr "A actualizar o ownCloud para a versão %s, esta operação pode demorar."

@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Host" => "Gastigo",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Vi povas neglekti la protokolon, escepte se vi bezonas SSL-on. Tiuokaze, komencu per ldaps://",
-"Base DN" => "Baz-DN",
+"Base DN" => "Bazo-DN",
 "User DN" => "Uzanto-DN",
 "Password" => "Pasvorto",
 "For anonymous access, leave DN and Password empty." => "Por sennoman aliron, lasu DN-on kaj Pasvorton malplenaj.",

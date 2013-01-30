@@ -49,10 +49,13 @@
 "Use this address to connect to your ownCloud in your file manager" => "用该地址来连接文件管理器中的 ownCloud",
 "Version" => "版本",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "由<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud社区</a>开发，  <a href=\"https://github.com/owncloud\" target=\"_blank\">源代码</a>在<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>许可证下发布。",
-"Name" => "名称",
 "Groups" => "组",
 "Create" => "创建",
+"Default Storage" => "默认存储",
+"Unlimited" => "无限",
 "Other" => "其它",
 "Group Admin" => "组管理员",
+"Storage" => "存储",
+"Default" => "默认",
 "Delete" => "删除"
 );

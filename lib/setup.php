@@ -1,5 +1,23 @@
 <?php
 
+class DatabaseSetupException extends Exception
+{
+	private $hint;
+
+	public function __construct($message, $hint, $code = 0, Exception $previous = null) {
+		$this->hint = $hint;
+		parent::__construct($message, $code, $previous);
+	}
+
+	public function __toString() {
+		return __CLASS__ . ": [{$this->code}]: {$this->message} ({$this->hint})\n";
+	}
+
+	public function getHint() {
+		return $this->hint;
+	}
+}
+
 class OC_Setup {
 	public static function install($options) {
 		$error = array();
@@ -19,9 +37,9 @@ class OC_Setup {
 			if($dbtype=='mysql')
 				$dbprettyname = 'MySQL';
 			else if($dbtype=='pgsql')
-					$dbprettyname = 'PostgreSQL';
+				$dbprettyname = 'PostgreSQL';
 			else
-					$dbprettyname = 'Oracle';
+				$dbprettyname = 'Oracle';
 
 
 			if(empty($options['dbuser'])) {
@@ -69,10 +87,16 @@ class OC_Setup {
 
 				try {
 					self::setupMySQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $username);
+				} catch (DatabaseSetupException $e) {
+					$error[] = array(
+						'error' => $e->getMessage(),
+						'hint' => $e->getHint()
+					);	
+					return($error);
 				} catch (Exception $e) {
 					$error[] = array(
-						'error' => 'MySQL username and/or password not valid',
-						'hint' => 'You need to enter either an existing account or the administrator.'
+						'error' => $e->getMessage(),
+						'hint' => ''
 					);
 					return($error);
 				}
@@ -141,7 +165,9 @@ class OC_Setup {
 			if(count($error) == 0) {
 				OC_Appconfig::setValue('core', 'installedat', microtime(true));
 				OC_Appconfig::setValue('core', 'lastupdatedat', microtime(true));
-
+				OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
+				OC_AppConfig::setValue('core', 'remote_core.js', '/core/minimizer.php');
+				
 				OC_Group::createGroup('admin');
 				OC_Group::addToGroup($username, 'admin');
 				OC_User::login($username, $password);
@@ -153,7 +179,7 @@ class OC_Setup {
 				if (isset($_SERVER['SERVER_SOFTWARE']) && strstr($_SERVER['SERVER_SOFTWARE'], 'Apache')) {
 					self::createHtaccess();
 				}
-				
+
 				//and we are done
 				OC_Config::setValue('installed', true);
 			}
@@ -166,7 +192,7 @@ class OC_Setup {
 		//check if the database user has admin right
 		$connection = @mysql_connect($dbhost, $dbuser, $dbpass);
 		if(!$connection) {
-			throw new Exception('MySQL username and/or password not valid');
+			throw new DatabaseSetupException('MySQL username and/or password not valid','You need to enter either an existing account or the administrator.');
 		}
 		$oldUser=OC_Config::getValue('dbuser', false);
 
@@ -229,8 +255,14 @@ class OC_Setup {
 		// the anonymous user would take precedence when there is one.
 		$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
 		$result = mysql_query($query, $connection);
+		if (!$result) {
+			throw new DatabaseSetupException("MySQL user '" . "$name" . "'@'localhost' already exists","Delete this user from MySQL.");
+		}
 		$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
 		$result = mysql_query($query, $connection);
+		if (!$result) {
+			throw new DatabaseSetupException("MySQL user '" . "$name" . "'@'%' already exists","Delete this user from MySQL.");
+		}
 	}
 
 	private static function setupPostgreSQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $username) {

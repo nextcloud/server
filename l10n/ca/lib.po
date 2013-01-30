@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <rcalvoi@yahoo.com>, 2012.
+#   <rcalvoi@yahoo.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-17 00:01+0100\n"
-"PO-Revision-Date: 2012-11-16 08:22+0000\n"
+"POT-Creation-Date: 2013-01-18 00:03+0100\n"
+"PO-Revision-Date: 2013-01-17 09:24+0000\n"
 "Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -18,51 +18,55 @@ msgstr ""
 "Language: ca\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:285
+#: app.php:301
 msgid "Help"
 msgstr "Ajuda"
 
-#: app.php:292
+#: app.php:308
 msgid "Personal"
 msgstr "Personal"
 
-#: app.php:297
+#: app.php:313
 msgid "Settings"
 msgstr "Configuració"
 
-#: app.php:302
+#: app.php:318
 msgid "Users"
 msgstr "Usuaris"
 
-#: app.php:309
+#: app.php:325
 msgid "Apps"
 msgstr "Aplicacions"
 
-#: app.php:311
+#: app.php:327
 msgid "Admin"
 msgstr "Administració"
 
-#: files.php:332
+#: files.php:365
 msgid "ZIP download is turned off."
 msgstr "La baixada en ZIP està desactivada."
 
-#: files.php:333
+#: files.php:366
 msgid "Files need to be downloaded one by one."
 msgstr "Els fitxers s'han de baixar d'un en un."
 
-#: files.php:333 files.php:358
+#: files.php:366 files.php:391
 msgid "Back to Files"
 msgstr "Torna a Fitxers"
 
-#: files.php:357
+#: files.php:390
 msgid "Selected files too large to generate zip file."
 msgstr "Els fitxers seleccionats son massa grans per generar un fitxer zip."
+
+#: helper.php:228
+msgid "couldn't be determined"
+msgstr "no s'ha pogut determinar"
 
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "L'aplicació no està habilitada"
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "Error d'autenticació"
 
@@ -82,55 +86,55 @@ msgstr "Text"
 msgid "Images"
 msgstr "Imatges"
 
-#: template.php:103
+#: template.php:113
 msgid "seconds ago"
 msgstr "segons enrere"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "fa 1 minut"
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "fa %d minuts"
 
-#: template.php:106
+#: template.php:116
 msgid "1 hour ago"
 msgstr "fa 1 hora"
 
-#: template.php:107
+#: template.php:117
 #, php-format
 msgid "%d hours ago"
 msgstr "fa %d hores"
 
-#: template.php:108
+#: template.php:118
 msgid "today"
 msgstr "avui"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr "ahir"
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "fa %d dies"
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr "el mes passat"
 
-#: template.php:112
+#: template.php:122
 #, php-format
 msgid "%d months ago"
 msgstr "fa %d mesos"
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr "l'any passat"
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr "fa anys"
 

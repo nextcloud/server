@@ -4,7 +4,7 @@
 # 
 # Translators:
 #   <appweb.cn@gmail.com>, 2012.
-# Dianjin Wang <1132321739qq@gmail.com>, 2012.
+# Dianjin Wang <1132321739qq@gmail.com>, 2012-2013.
 # Phoenix Nemo <>, 2012.
 #   <rainofchaos@gmail.com>, 2012.
 #   <suiy02@gmail.com>, 2012.
@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 23:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -93,7 +93,7 @@ msgstr "启用"
 msgid "Saving..."
 msgstr "正在保存"
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "简体中文"
 
@@ -105,15 +105,15 @@ msgstr "添加应用"
 msgid "More Apps"
 msgstr "更多应用"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "选择一个应用"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "查看在 app.owncloud.com 的应用程序页面"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-核准： <span class=\"author\"></span>"
 
@@ -162,7 +162,7 @@ msgstr "下载 Android 客户端"
 msgid "Download iOS Client"
 msgstr "下载 iOS 客户端"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "密码"
 
@@ -232,11 +232,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "由<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud社区</a>开发，  <a href=\"https://github.com/owncloud\" target=\"_blank\">源代码</a>在<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>许可证下发布。"
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "名称"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr ""
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "组"
 
@@ -246,28 +246,32 @@ msgstr "创建"
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr ""
+msgstr "默认存储"
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
-msgstr ""
+msgstr "无限"
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "其它"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:80
+msgid "Display Name"
+msgstr ""
+
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "组管理员"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
-msgstr ""
+msgstr "存储"
 
-#: templates/users.php:133
+#: templates/users.php:137
 msgid "Default"
-msgstr ""
+msgstr "默认"
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "删除"

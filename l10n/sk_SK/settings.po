@@ -4,6 +4,7 @@
 # 
 # Translators:
 #   <intense.feel@gmail.com>, 2011, 2012.
+# Marián Hvolka <marian.hvolka@stuba.sk>, 2013.
 #   <martin.babik@gmail.com>, 2012.
 # Roman Priesol <roman@priesol.net>, 2012.
 #   <typhoon@zoznam.sk>, 2012.
@@ -12,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 23:24+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -92,7 +93,7 @@ msgstr "Povoliť"
 msgid "Saving..."
 msgstr "Ukladám..."
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "Slovensky"
 
@@ -104,41 +105,41 @@ msgstr "Pridať vašu aplikáciu"
 msgid "More Apps"
 msgstr "Viac aplikácií"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "Vyberte aplikáciu"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "Pozrite si stránku aplikácií na apps.owncloud.com"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licencované <span class=\"author\"></span>"
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr ""
+msgstr "Príručka používateľa"
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Príručka správcu"
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr ""
+msgstr "Online príručka"
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr ""
+msgstr "Fórum"
 
 #: templates/help.php:9
 msgid "Bugtracker"
-msgstr ""
+msgstr "Bugtracker"
 
 #: templates/help.php:11
 msgid "Commercial Support"
-msgstr ""
+msgstr "Komerčná podpora"
 
 #: templates/personal.php:8
 #, php-format
@@ -151,17 +152,17 @@ msgstr "Klienti"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr ""
+msgstr "Stiahnuť desktopového klienta"
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr ""
+msgstr "Stiahnuť Android klienta"
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr ""
+msgstr "Stiahnuť iOS klienta"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "Heslo"
 
@@ -211,15 +212,15 @@ msgstr "Pomôcť s prekladom"
 
 #: templates/personal.php:52
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Použite túto adresu pre pripojenie vášho ownCloud k súborovému správcovi"
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr ""
+msgstr "Verzia"
 
 #: templates/personal.php:65
 msgid ""
@@ -231,11 +232,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Vyvinuté <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunitou ownCloud</a>,<a href=\"https://github.com/owncloud\" target=\"_blank\">zdrojový kód</a> je licencovaný pod <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "Meno"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr ""
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "Skupiny"
 
@@ -245,28 +246,32 @@ msgstr "Vytvoriť"
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr ""
+msgstr "Predvolené úložisko"
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
-msgstr ""
+msgstr "Nelimitované"
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "Iné"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:80
+msgid "Display Name"
+msgstr ""
+
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "Správca skupiny"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
-msgstr ""
+msgstr "Úložisko"
 
-#: templates/users.php:133
+#: templates/users.php:137
 msgid "Default"
-msgstr ""
+msgstr "Predvolené"
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "Odstrániť"

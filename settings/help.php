@@ -27,7 +27,7 @@ $url1=OC_Helper::linkToRoute( "settings_help" ).'?mode=user';
 $url2=OC_Helper::linkToRoute( "settings_help" ).'?mode=admin';
 
 $tmpl = new OC_Template( "settings", "help", "user" );
-$tmpl->assign( "admin", OC_Group::inGroup(OC_User::getUser(), 'admin') );
+$tmpl->assign( "admin", OC_User::isAdminUser(OC_User::getUser()));
 $tmpl->assign( "url", $url );
 $tmpl->assign( "url1", $url1 );
 $tmpl->assign( "url2", $url2 );

@@ -85,15 +85,25 @@ function human_file_size( $bytes ) {
 }
 
 function simple_file_size($bytes) {
-	$mbytes = round($bytes/(1024*1024), 1);
-	if($bytes == 0) { return '0'; }
-	else if($mbytes < 0.1) { return '&lt; 0.1'; }
-	else if($mbytes > 1000) { return '&gt; 1000'; }
-	else { return number_format($mbytes, 1); }
+	if ($bytes < 0) {
+		return '?';
+	}
+	$mbytes = round($bytes / (1024 * 1024), 1);
+	if ($bytes == 0) {
+		return '0';
+	}
+	if ($mbytes < 0.1) {
+		return '&lt; 0.1';
+	}
+	if ($mbytes > 1000) {
+		return '&gt; 1000';
+	} else {
+		return number_format($mbytes, 1);
+	}
 }
 
 function relative_modified_date($timestamp) {
-    $l=OC_L10N::get('lib');
+	$l=OC_L10N::get('lib');
 	$timediff = time() - $timestamp;
 	$diffminutes = round($timediff/60);
 	$diffhours = round($diffminutes/60);
@@ -176,9 +186,15 @@ class OC_Template{
 		$this->l10n = OC_L10N::get($parts[0]);
 
 		// Some headers to enhance security
-		header('X-Frame-Options: Sameorigin');
-		header('X-XSS-Protection: 1; mode=block');
-		header('X-Content-Type-Options: nosniff');
+		header('X-Frame-Options: Sameorigin'); // Disallow iFraming from other domains
+		header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
+		header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
+
+		// Content Security Policy
+		// If you change the standard policy, please also change it in config.sample.php
+		$policy = OC_Config::getValue('custom_csp_policy',  'default-src \'self\'; script-src \'self\' \'unsafe-eval\'; style-src \'self\' \'unsafe-inline\'; frame-src *; img-src *');
+		header('Content-Security-Policy:'.$policy); // Standard
+		header('X-WebKit-CSP:'.$policy); // Older webkit browsers
 
 		$this->findTemplate($name);
 	}

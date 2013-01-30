@@ -5,6 +5,7 @@
 # Translators:
 # Claudiu  <claudiu@tanaselia.ro>, 2011, 2012.
 # Dimon Pockemon <>, 2012.
+# Dumitru Ursu <>, 2013.
 # Eugen Mihalache <eugemjj@gmail.com>, 2012.
 #   <g.ciprian@osn.ro>, 2012-2013.
 #   <icewind1991@gmail.com>, 2012.
@@ -13,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 23:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -69,7 +70,7 @@ msgstr "Cerere eronată"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "Administratorii nu se pot șterge singuri din grupul admin"
 
 #: ajax/togglegroups.php:28
 #, php-format
@@ -93,7 +94,7 @@ msgstr "Activați"
 msgid "Saving..."
 msgstr "Salvez..."
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "_language_name_"
 
@@ -105,15 +106,15 @@ msgstr "Adaugă aplicația ta"
 msgid "More Apps"
 msgstr "Mai multe aplicații"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "Selectează o aplicație"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "Vizualizează pagina applicației pe apps.owncloud.com"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licențiat <span class=\"author\"></span>"
 
@@ -144,7 +145,7 @@ msgstr "Suport comercial"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Ați utilizat <strong>%s</strong> din <strong>%s</strong> disponibile"
 
 #: templates/personal.php:12
 msgid "Clients"
@@ -162,7 +163,7 @@ msgstr "Descarcă client Android"
 msgid "Download iOS Client"
 msgstr "Descarcă client iOS"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "Parolă"
 
@@ -216,7 +217,7 @@ msgstr "WebDAV"
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Folosește această adresă pentru a conecta ownCloud cu managerul de fișiere"
 
 #: templates/personal.php:63
 msgid "Version"
@@ -232,11 +233,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Dezvoltat de the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunitatea ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">codul sursă</a> este licențiat sub <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "Nume"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr ""
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "Grupuri"
 
@@ -248,26 +249,30 @@ msgstr "Crează"
 msgid "Default Storage"
 msgstr "Stocare implicită"
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
 msgstr "Nelimitată"
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "Altele"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:80
+msgid "Display Name"
+msgstr ""
+
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "Grupul Admin "
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
 msgstr "Stocare"
 
-#: templates/users.php:133
+#: templates/users.php:137
 msgid "Default"
 msgstr "Implicită"
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "Șterge"

@@ -66,12 +66,12 @@ if (isset($_GET['t'])) {
 		$type = $linkItem['item_type'];
 		$fileSource = $linkItem['file_source'];
 		$shareOwner = $linkItem['uid_owner'];
-		
+
 		if (OCP\User::userExists($shareOwner) && $fileSource != -1 ) {
-			
+
 			$pathAndUser = getPathAndUser($linkItem['file_source']);
 			$fileOwner = $pathAndUser['user'];
-			
+
 			//if this is a reshare check the file owner also exists
 			if ($shareOwner != $fileOwner && ! OCP\User::userExists($fileOwner)) {
 					OCP\Util::writeLog('share', 'original file owner '.$fileOwner
@@ -81,7 +81,7 @@ if (isset($_GET['t'])) {
 					$tmpl->printPage();
 					exit();
 			}
-			
+
 			//mount filesystem of file owner
 			OC_Util::setupFS($fileOwner);
 		}
@@ -104,7 +104,7 @@ if (isset($_GET['t'])) {
 		}
 	}
 	$shareOwner = substr($path, 1, strpos($path, '/', 1) - 1);
-	
+
 	if (OCP\User::userExists($shareOwner)) {
 		OC_Util::setupFS($shareOwner);
 		$fileSource = getId($path);
@@ -159,7 +159,7 @@ if ($linkItem) {
 				$tmpl->printPage();
 				exit();
 			}
-		
+
 		} else {
 			// Check if item id is set in session
 			if (!isset($_SESSION['public_link_authenticated'])
@@ -207,6 +207,7 @@ if ($linkItem) {
 		OCP\Util::addScript('files', 'fileactions');
 		$tmpl = new OCP\Template('files_sharing', 'public', 'base');
 		$tmpl->assign('uidOwner', $shareOwner);
+		$tmpl->assign('displayName', \OCP\User::getDisplayName($shareOwner));
 		$tmpl->assign('dir', $dir);
 		$tmpl->assign('filename', $file);
 		$tmpl->assign('mimetype', OC_Filesystem::getMimeType($path));
@@ -257,7 +258,7 @@ if ($linkItem) {
 
 			$list = new OCP\Template('files', 'part.list', '');
 			$list->assign('files', $files, false);
-			$list->assign('publicListView', true);
+			$list->assign('disableSharing', true);
 			$list->assign('baseURL', OCP\Util::linkToPublic('files').$urlLinkIdentifiers.'&path=', false);
 			$list->assign('downloadURL', OCP\Util::linkToPublic('files').$urlLinkIdentifiers.'&download&path=', false);
 			$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '' );

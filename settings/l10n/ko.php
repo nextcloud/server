@@ -49,7 +49,6 @@
 "Use this address to connect to your ownCloud in your file manager" => "파일 매니저에서 사용자의 ownCloud에 접속하기 위해 이 주소를 사용하십시요.",
 "Version" => "버젼",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 커뮤니티</a>에 의해서 개발되었습니다. <a href=\"https://github.com/owncloud\" target=\"_blank\">원본 코드</a>는 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>에 따라 사용이 허가됩니다.",
-"Name" => "이름",
 "Groups" => "그룹",
 "Create" => "만들기",
 "Default Storage" => "기본 저장소",

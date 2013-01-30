@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#  <asieriko@gmail.com>, 2013.
 #   <asieriko@gmail.com>, 2012.
 # Asier Urio Larrea <asieriko@gmail.com>, 2011.
 # Piarres Beobide <pi@beobide.net>, 2012.
@@ -10,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 23:24+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -90,7 +91,7 @@ msgstr "Gaitu"
 msgid "Saving..."
 msgstr "Gordetzen..."
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "Euskera"
 
@@ -102,15 +103,15 @@ msgstr "Gehitu zure aplikazioa"
 msgid "More Apps"
 msgstr "App gehiago"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "Aukeratu programa bat"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "Ikusi programen orria apps.owncloud.com en"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lizentziatua <span class=\"author\"></span>"
 
@@ -159,7 +160,7 @@ msgstr "Deskargatu Android bezeroa"
 msgid "Download iOS Client"
 msgstr "Deskargatu iOS bezeroa"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "Pasahitza"
 
@@ -229,11 +230,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud komunitateak</a> garatuta, <a href=\"https://github.com/owncloud\" target=\"_blank\">itubruru kodea</a><a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr> lizentziarekin banatzen da</a>."
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "Izena"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr ""
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "Taldeak"
 
@@ -243,28 +244,32 @@ msgstr "Sortu"
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr ""
+msgstr "Lehenetsitako Biltegiratzea"
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
-msgstr ""
+msgstr "Mugarik gabe"
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "Besteak"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:80
+msgid "Display Name"
+msgstr ""
+
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "Talde administradorea"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
-msgstr ""
+msgstr "Biltegiratzea"
 
-#: templates/users.php:133
+#: templates/users.php:137
 msgid "Default"
-msgstr ""
+msgstr "Lehenetsia"
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "Ezabatu"

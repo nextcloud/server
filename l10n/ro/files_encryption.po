@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Dumitru Ursu <>, 2013.
 #   <g.ciprian@osn.ro>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-19 02:02+0200\n"
-"PO-Revision-Date: 2012-09-18 11:31+0000\n"
-"Last-Translator: g.ciprian <g.ciprian@osn.ro>\n"
+"POT-Creation-Date: 2013-01-27 00:04+0100\n"
+"PO-Revision-Date: 2013-01-26 00:05+0000\n"
+"Last-Translator: Dimon Pockemon <>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,18 +19,66 @@ msgstr ""
 "Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
-#: templates/settings.php:3
+#: js/settings-personal.js:17
+msgid ""
+"Please switch to your ownCloud client and change your encryption password to"
+" complete the conversion."
+msgstr "Te rugăm să mergi în clientul ownCloud și să schimbi parola pentru a finisa conversia"
+
+#: js/settings-personal.js:17
+msgid "switched to client side encryption"
+msgstr "setat la encriptare locală"
+
+#: js/settings-personal.js:21
+msgid "Change encryption password to login password"
+msgstr "Schimbă parola de ecriptare în parolă de acces"
+
+#: js/settings-personal.js:25
+msgid "Please check your passwords and try again."
+msgstr "Verifică te rog parolele și înceracă din nou."
+
+#: js/settings-personal.js:25
+msgid "Could not change your file encryption password to your login password"
+msgstr "Nu s-a putut schimba parola de encripție a fișierelor ca parolă de acces"
+
+#: templates/settings-personal.php:3 templates/settings.php:5
+msgid "Choose encryption mode:"
+msgstr "Alege tipul de ecripție"
+
+#: templates/settings-personal.php:20 templates/settings.php:24
+msgid ""
+"Client side encryption (most secure but makes it impossible to access your "
+"data from the web interface)"
+msgstr "Encripție locală (cea mai sigură, dar face ca datele să nu mai fie accesibile din interfața web)"
+
+#: templates/settings-personal.php:30 templates/settings.php:36
+msgid ""
+"Server side encryption (allows you to access your files from the web "
+"interface and the desktop client)"
+msgstr "Encripție pe server (permite să accesezi datele tale din interfața web și din clientul pentru calculator)"
+
+#: templates/settings-personal.php:41 templates/settings.php:60
+msgid "None (no encryption at all)"
+msgstr "Fără (nici un fel de ecriptare)"
+
+#: templates/settings.php:10
+msgid ""
+"Important: Once you selected an encryption mode there is no way to change it"
+" back"
+msgstr "Important: Din moment ce ai setat un mod de encriptare, nu mai există metode de a-l schimba înapoi"
+
+#: templates/settings.php:48
+msgid "User specific (let the user decide)"
+msgstr "Spefic fiecărui utilizator (lasă utilizatorul să decidă)"
+
+#: templates/settings.php:65
 msgid "Encryption"
 msgstr "Încriptare"
 
-#: templates/settings.php:4
+#: templates/settings.php:67
 msgid "Exclude the following file types from encryption"
 msgstr "Exclude următoarele tipuri de fișiere de la încriptare"
 
-#: templates/settings.php:5
+#: templates/settings.php:71
 msgid "None"
 msgstr "Niciuna"
-
-#: templates/settings.php:10
-msgid "Enable Encryption"
-msgstr "Activare încriptare"

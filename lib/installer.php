@@ -267,7 +267,6 @@ class OC_Installer{
          * The function will check if an update for a version is available
          */
         public static function isUpdateAvailable( $app ) {
-
 		$ocsid=OC_Appconfig::getValue( $app, 'ocsid', '');
 
 		if($ocsid<>''){

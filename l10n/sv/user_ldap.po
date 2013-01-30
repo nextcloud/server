@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Magnus Höglund <magnus@linux.com>, 2012.
+# Magnus Höglund <magnus@linux.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-18 00:13+0100\n"
-"PO-Revision-Date: 2012-12-17 19:54+0000\n"
+"POT-Creation-Date: 2013-01-23 00:05+0100\n"
+"PO-Revision-Date: 2013-01-21 15:10+0000\n"
 "Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -27,9 +27,9 @@ msgstr "<b>Varning:</b> Apps user_ldap och user_webdavauth är inkompatibla. Ov�
 
 #: templates/settings.php:11
 msgid ""
-"<b>Warning:</b> The PHP LDAP module needs is not installed, the backend will"
-" not work. Please ask your system administrator to install it."
-msgstr "<b>Varning:</b> PHP LDAP-modulen måste vara installerad, serversidan kommer inte att fungera. Be din systemadministratör att installera den."
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
+"work. Please ask your system administrator to install it."
+msgstr "<b>Varning:</b> PHP LDAP - modulen är inte installerad, serversidan kommer inte att fungera. Kontakta din systemadministratör för installation."
 
 #: templates/settings.php:15
 msgid "Host"
@@ -43,6 +43,10 @@ msgstr "Du behöver inte ange protokoll förutom om du använder SSL. Starta då
 #: templates/settings.php:16
 msgid "Base DN"
 msgstr "Start DN"
+
+#: templates/settings.php:16
+msgid "One Base DN per line"
+msgstr "Ett Start DN per rad"
 
 #: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -115,9 +119,17 @@ msgstr "Port"
 msgid "Base User Tree"
 msgstr "Bas för användare i katalogtjänst"
 
+#: templates/settings.php:25
+msgid "One User Base DN per line"
+msgstr "En Användare start DN per rad"
+
 #: templates/settings.php:26
 msgid "Base Group Tree"
 msgstr "Bas för grupper i katalogtjänst"
+
+#: templates/settings.php:26
+msgid "One Group Base DN per line"
+msgstr "En Grupp start DN per rad"
 
 #: templates/settings.php:27
 msgid "Group-Member association"

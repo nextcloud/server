@@ -31,7 +31,6 @@
 "Language" => "භාෂාව",
 "Help translate" => "පරිවර්ථන සහය",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "නිපදන ලද්දේ <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud සමාජයෙන්</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">මුල් කේතය </a>ලයිසන්ස් කර ඇත්තේ <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> යටතේ.",
-"Name" => "නාමය",
 "Groups" => "සමූහය",
 "Create" => "තනන්න",
 "Other" => "වෙනත්",
