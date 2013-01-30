@@ -49,7 +49,6 @@
 "Use this address to connect to your ownCloud in your file manager" => "Используйте этот URL для подключения файлового менеджера к Вашему хранилищу",
 "Version" => "Версия",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Разрабатывается <a href=\"http://ownCloud.org/contact\" target=\"_blank\">сообществом ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">исходный код</a> доступен под лицензией <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
-"Name" => "Имя",
 "Groups" => "Группы",
 "Create" => "Создать",
 "Default Storage" => "Хранилище по-умолчанию",

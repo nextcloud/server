@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-15 00:03+0100\n"
-"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 23:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -18,24 +18,24 @@ msgstr ""
 "Language: ta_LK\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:84
+#: ajax/share.php:85
 #, php-format
 msgid "User %s shared a file with you"
 msgstr ""
 
-#: ajax/share.php:86
+#: ajax/share.php:87
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr ""
 
-#: ajax/share.php:88
+#: ajax/share.php:89
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr ""
 
-#: ajax/share.php:90
+#: ajax/share.php:91
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -80,59 +80,135 @@ msgstr "நீக்குவதற்கு எந்தப் பிரிவ�
 msgid "Error removing %s from favorites."
 msgstr "விருப்பத்திலிருந்து %s ஐ அகற்றுவதில் வழு.உஇஇ"
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "ஞாயிற்றுக்கிழமை"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "திங்கட்கிழமை"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "செவ்வாய்க்கிழமை"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "புதன்கிழமை"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "வியாழக்கிழமை"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "வெள்ளிக்கிழமை"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "சனிக்கிழமை"
+
+#: js/config.php:33
+msgid "January"
+msgstr "தை"
+
+#: js/config.php:33
+msgid "February"
+msgstr "மாசி"
+
+#: js/config.php:33
+msgid "March"
+msgstr "பங்குனி"
+
+#: js/config.php:33
+msgid "April"
+msgstr "சித்திரை"
+
+#: js/config.php:33
+msgid "May"
+msgstr "வைகாசி"
+
+#: js/config.php:33
+msgid "June"
+msgstr "ஆனி"
+
+#: js/config.php:33
+msgid "July"
+msgstr "ஆடி"
+
+#: js/config.php:33
+msgid "August"
+msgstr "ஆவணி"
+
+#: js/config.php:33
+msgid "September"
+msgstr "புரட்டாசி"
+
+#: js/config.php:33
+msgid "October"
+msgstr "ஐப்பசி"
+
+#: js/config.php:33
+msgid "November"
+msgstr "கார்த்திகை"
+
+#: js/config.php:33
+msgid "December"
+msgstr "மார்கழி"
+
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "அமைப்புகள்"
 
-#: js/js.js:711
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "செக்கன்களுக்கு முன்"
 
-#: js/js.js:712
+#: js/js.js:763
 msgid "1 minute ago"
 msgstr "1 நிமிடத்திற்கு முன் "
 
-#: js/js.js:713
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr "{நிமிடங்கள்} நிமிடங்களுக்கு முன் "
 
-#: js/js.js:714
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr "1 மணித்தியாலத்திற்கு முன்"
 
-#: js/js.js:715
+#: js/js.js:766
 msgid "{hours} hours ago"
 msgstr "{மணித்தியாலங்கள்} மணித்தியாலங்களிற்கு முன்"
 
-#: js/js.js:716
+#: js/js.js:767
 msgid "today"
 msgstr "இன்று"
 
-#: js/js.js:717
+#: js/js.js:768
 msgid "yesterday"
 msgstr "நேற்று"
 
-#: js/js.js:718
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr "{நாட்கள்} நாட்களுக்கு முன்"
 
-#: js/js.js:719
+#: js/js.js:770
 msgid "last month"
 msgstr "கடந்த மாதம்"
 
-#: js/js.js:720
+#: js/js.js:771
 msgid "{months} months ago"
 msgstr "{மாதங்கள்} மாதங்களிற்கு முன்"
 
-#: js/js.js:721
+#: js/js.js:772
 msgid "months ago"
 msgstr "மாதங்களுக்கு முன்"
 
-#: js/js.js:722
+#: js/js.js:773
 msgid "last year"
 msgstr "கடந்த வருடம்"
 
-#: js/js.js:723
+#: js/js.js:774
 msgid "years ago"
 msgstr "வருடங்களுக்கு முன்"
 
@@ -162,8 +238,8 @@ msgid "The object type is not specified."
 msgstr "பொருள் வகை குறிப்பிடப்படவில்லை."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
-#: js/share.js:566
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
+#: js/share.js:583
 msgid "Error"
 msgstr "வழு"
 
@@ -175,120 +251,139 @@ msgstr "செயலி பெயர் குறிப்பிடப்பட�
 msgid "The required file {file} is not installed!"
 msgstr "தேவைப்பட்ட கோப்பு {கோப்பு} நிறுவப்படவில்லை!"
 
-#: js/share.js:124 js/share.js:594
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Share"
+msgstr ""
+
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Shared"
+msgstr ""
+
+#: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
 msgstr "பகிரும் போதான வழு"
 
-#: js/share.js:135
+#: js/share.js:152
 msgid "Error while unsharing"
 msgstr "பகிராமல் உள்ளப்போதான வழு"
 
-#: js/share.js:142
+#: js/share.js:159
 msgid "Error while changing permissions"
 msgstr "அனுமதிகள் மாறும்போதான வழு"
 
-#: js/share.js:151
+#: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "உங்களுடனும் குழுவுக்கிடையிலும் {குழு} பகிரப்பட்டுள்ளது {உரிமையாளர்}"
 
-#: js/share.js:153
+#: js/share.js:170
 msgid "Shared with you by {owner}"
 msgstr "உங்களுடன் பகிரப்பட்டுள்ளது {உரிமையாளர்}"
 
-#: js/share.js:158
+#: js/share.js:175
 msgid "Share with"
 msgstr "பகிர்தல்"
 
-#: js/share.js:163
+#: js/share.js:180
 msgid "Share with link"
 msgstr "இணைப்புடன் பகிர்தல்"
 
-#: js/share.js:166
+#: js/share.js:183
 msgid "Password protect"
 msgstr "கடவுச்சொல்லை பாதுகாத்தல்"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:35
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "கடவுச்சொல்"
 
-#: js/share.js:172
+#: js/share.js:189
 msgid "Email link to person"
 msgstr ""
 
-#: js/share.js:173
+#: js/share.js:190
 msgid "Send"
 msgstr ""
 
-#: js/share.js:177
+#: js/share.js:194
 msgid "Set expiration date"
 msgstr "காலாவதி தேதியை குறிப்பிடுக"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Expiration date"
 msgstr "காலவதியாகும் திகதி"
 
-#: js/share.js:210
+#: js/share.js:227
 msgid "Share via email:"
 msgstr "மின்னஞ்சலினூடான பகிர்வு: "
 
-#: js/share.js:212
+#: js/share.js:229
 msgid "No people found"
 msgstr "நபர்கள் யாரும் இல்லை"
 
-#: js/share.js:239
+#: js/share.js:256
 msgid "Resharing is not allowed"
 msgstr "மீள்பகிர்வதற்கு அனுமதி இல்லை "
 
-#: js/share.js:275
+#: js/share.js:292
 msgid "Shared in {item} with {user}"
 msgstr "{பயனாளர்} உடன் {உருப்படி} பகிரப்பட்டுள்ளது"
 
-#: js/share.js:296
+#: js/share.js:313
 msgid "Unshare"
 msgstr "பகிரமுடியாது"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "can edit"
 msgstr "தொகுக்க முடியும்"
 
-#: js/share.js:310
+#: js/share.js:327
 msgid "access control"
 msgstr "கட்டுப்பாடான அணுகல்"
 
-#: js/share.js:313
+#: js/share.js:330
 msgid "create"
 msgstr "படைத்தல்"
 
-#: js/share.js:316
+#: js/share.js:333
 msgid "update"
 msgstr "இற்றைப்படுத்தல்"
 
-#: js/share.js:319
+#: js/share.js:336
 msgid "delete"
 msgstr "நீக்குக"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "share"
 msgstr "பகிர்தல்"
 
-#: js/share.js:356 js/share.js:541
+#: js/share.js:373 js/share.js:558
 msgid "Password protected"
 msgstr "கடவுச்சொல் பாதுகாக்கப்பட்டது"
 
-#: js/share.js:554
+#: js/share.js:571
 msgid "Error unsetting expiration date"
 msgstr "காலாவதியாகும் திகதியை குறிப்பிடாமைக்கான வழு"
 
-#: js/share.js:566
+#: js/share.js:583
 msgid "Error setting expiration date"
 msgstr "காலாவதியாகும் திகதியை குறிப்பிடுவதில் வழு"
 
-#: js/share.js:581
+#: js/share.js:598
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:592
+#: js/share.js:609
 msgid "Email sent"
+msgstr ""
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
 #: lostpassword/controller.php:47
@@ -442,87 +537,11 @@ msgstr "தரவுத்தள ஓம்புனர்"
 msgid "Finish setup"
 msgstr "அமைப்பை முடிக்க"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "ஞாயிற்றுக்கிழமை"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "திங்கட்கிழமை"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "செவ்வாய்க்கிழமை"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "புதன்கிழமை"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "வியாழக்கிழமை"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "வெள்ளிக்கிழமை"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "சனிக்கிழமை"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "தை"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "மாசி"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "பங்குனி"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "சித்திரை"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "வைகாசி"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "ஆனி"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "ஆடி"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "ஆவணி"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "புரட்டாசி"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "ஐப்பசி"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "கார்த்திகை"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "மார்கழி"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "உங்கள் கட்டுப்பாட்டின் கீழ் இணைய சேவைகள்"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr "விடுபதிகை செய்க"
 

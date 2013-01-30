@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-15 00:03+0100\n"
-"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 23:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -18,24 +18,24 @@ msgstr ""
 "Language: ka_GE\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:84
+#: ajax/share.php:85
 #, php-format
 msgid "User %s shared a file with you"
 msgstr ""
 
-#: ajax/share.php:86
+#: ajax/share.php:87
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr ""
 
-#: ajax/share.php:88
+#: ajax/share.php:89
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr ""
 
-#: ajax/share.php:90
+#: ajax/share.php:91
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -80,59 +80,135 @@ msgstr "სარედაქტირებელი კატეგორი�
 msgid "Error removing %s from favorites."
 msgstr ""
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "კვირა"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "ორშაბათი"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "სამშაბათი"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "ოთხშაბათი"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "ხუთშაბათი"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "პარასკევი"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "შაბათი"
+
+#: js/config.php:33
+msgid "January"
+msgstr "იანვარი"
+
+#: js/config.php:33
+msgid "February"
+msgstr "თებერვალი"
+
+#: js/config.php:33
+msgid "March"
+msgstr "მარტი"
+
+#: js/config.php:33
+msgid "April"
+msgstr "აპრილი"
+
+#: js/config.php:33
+msgid "May"
+msgstr "მაისი"
+
+#: js/config.php:33
+msgid "June"
+msgstr "ივნისი"
+
+#: js/config.php:33
+msgid "July"
+msgstr "ივლისი"
+
+#: js/config.php:33
+msgid "August"
+msgstr "აგვისტო"
+
+#: js/config.php:33
+msgid "September"
+msgstr "სექტემბერი"
+
+#: js/config.php:33
+msgid "October"
+msgstr "ოქტომბერი"
+
+#: js/config.php:33
+msgid "November"
+msgstr "ნოემბერი"
+
+#: js/config.php:33
+msgid "December"
+msgstr "დეკემბერი"
+
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "პარამეტრები"
 
-#: js/js.js:711
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "წამის წინ"
 
-#: js/js.js:712
+#: js/js.js:763
 msgid "1 minute ago"
 msgstr "1 წუთის წინ"
 
-#: js/js.js:713
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr "{minutes} წუთის წინ"
 
-#: js/js.js:714
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:715
+#: js/js.js:766
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:716
+#: js/js.js:767
 msgid "today"
 msgstr "დღეს"
 
-#: js/js.js:717
+#: js/js.js:768
 msgid "yesterday"
 msgstr "გუშინ"
 
-#: js/js.js:718
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr "{days} დღის წინ"
 
-#: js/js.js:719
+#: js/js.js:770
 msgid "last month"
 msgstr "გასულ თვეში"
 
-#: js/js.js:720
+#: js/js.js:771
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:721
+#: js/js.js:772
 msgid "months ago"
 msgstr "თვის წინ"
 
-#: js/js.js:722
+#: js/js.js:773
 msgid "last year"
 msgstr "ბოლო წელს"
 
-#: js/js.js:723
+#: js/js.js:774
 msgid "years ago"
 msgstr "წლის წინ"
 
@@ -162,8 +238,8 @@ msgid "The object type is not specified."
 msgstr ""
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
-#: js/share.js:566
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
+#: js/share.js:583
 msgid "Error"
 msgstr "შეცდომა"
 
@@ -175,120 +251,139 @@ msgstr ""
 msgid "The required file {file} is not installed!"
 msgstr ""
 
-#: js/share.js:124 js/share.js:594
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Share"
+msgstr ""
+
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Shared"
+msgstr ""
+
+#: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
 msgstr "შეცდომა გაზიარების დროს"
 
-#: js/share.js:135
+#: js/share.js:152
 msgid "Error while unsharing"
 msgstr "შეცდომა გაზიარების გაუქმების დროს"
 
-#: js/share.js:142
+#: js/share.js:159
 msgid "Error while changing permissions"
 msgstr "შეცდომა დაშვების ცვლილების დროს"
 
-#: js/share.js:151
+#: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
 msgstr ""
 
-#: js/share.js:153
+#: js/share.js:170
 msgid "Shared with you by {owner}"
 msgstr ""
 
-#: js/share.js:158
+#: js/share.js:175
 msgid "Share with"
 msgstr "გაუზიარე"
 
-#: js/share.js:163
+#: js/share.js:180
 msgid "Share with link"
 msgstr "გაუზიარე ლინკით"
 
-#: js/share.js:166
+#: js/share.js:183
 msgid "Password protect"
 msgstr "პაროლით დაცვა"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:35
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "პაროლი"
 
-#: js/share.js:172
+#: js/share.js:189
 msgid "Email link to person"
 msgstr ""
 
-#: js/share.js:173
+#: js/share.js:190
 msgid "Send"
 msgstr ""
 
-#: js/share.js:177
+#: js/share.js:194
 msgid "Set expiration date"
 msgstr "მიუთითე ვადის გასვლის დრო"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Expiration date"
 msgstr "ვადის გასვლის დრო"
 
-#: js/share.js:210
+#: js/share.js:227
 msgid "Share via email:"
 msgstr "გააზიარე მეილზე"
 
-#: js/share.js:212
+#: js/share.js:229
 msgid "No people found"
 msgstr "გვერდი არ არის ნაპოვნი"
 
-#: js/share.js:239
+#: js/share.js:256
 msgid "Resharing is not allowed"
 msgstr "მეორეჯერ გაზიარება არ არის დაშვებული"
 
-#: js/share.js:275
+#: js/share.js:292
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:296
+#: js/share.js:313
 msgid "Unshare"
 msgstr "გაზიარების მოხსნა"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "can edit"
 msgstr "შეგიძლია შეცვლა"
 
-#: js/share.js:310
+#: js/share.js:327
 msgid "access control"
 msgstr "დაშვების კონტროლი"
 
-#: js/share.js:313
+#: js/share.js:330
 msgid "create"
 msgstr "შექმნა"
 
-#: js/share.js:316
+#: js/share.js:333
 msgid "update"
 msgstr "განახლება"
 
-#: js/share.js:319
+#: js/share.js:336
 msgid "delete"
 msgstr "წაშლა"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "share"
 msgstr "გაზიარება"
 
-#: js/share.js:356 js/share.js:541
+#: js/share.js:373 js/share.js:558
 msgid "Password protected"
 msgstr "პაროლით დაცული"
 
-#: js/share.js:554
+#: js/share.js:571
 msgid "Error unsetting expiration date"
 msgstr "შეცდომა ვადის გასვლის მოხსნის დროს"
 
-#: js/share.js:566
+#: js/share.js:583
 msgid "Error setting expiration date"
 msgstr "შეცდომა ვადის გასვლის მითითების დროს"
 
-#: js/share.js:581
+#: js/share.js:598
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:592
+#: js/share.js:609
 msgid "Email sent"
+msgstr ""
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
 #: lostpassword/controller.php:47
@@ -442,87 +537,11 @@ msgstr "ბაზის ჰოსტი"
 msgid "Finish setup"
 msgstr "კონფიგურაციის დასრულება"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "კვირა"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "ორშაბათი"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "სამშაბათი"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "ოთხშაბათი"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "ხუთშაბათი"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "პარასკევი"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "შაბათი"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "იანვარი"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "თებერვალი"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "მარტი"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "აპრილი"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "მაისი"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "ივნისი"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "ივლისი"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "აგვისტო"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "სექტემბერი"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "ოქტომბერი"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "ნოემბერი"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "დეკემბერი"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "თქვენი კონტროლის ქვეშ მყოფი ვებ სერვისები"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr "გამოსვლა"
 

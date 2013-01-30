@@ -82,6 +82,8 @@
 "Error setting expiration date" => "Fejl under sætning af udløbsdato",
 "Sending ..." => "Sender ...",
 "Email sent" => "E-mail afsendt",
+"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "Opdateringen blev ikke udført korrekt. Rapporter venligst problemet til <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownClouds community</a>.",
+"The update was successful. Redirecting you to ownCloud now." => "Opdateringen blev udført korrekt. Du bliver nu viderestillet til ownCloud.",
 "ownCloud password reset" => "Nulstil ownCloud kodeord",
 "Use the following link to reset your password: {link}" => "Anvend følgende link til at nulstille din adgangskode: {link}",
 "You will receive a link to reset your password via Email." => "Du vil modtage et link til at nulstille dit kodeord via email.",

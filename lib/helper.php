@@ -78,11 +78,8 @@ class OC_Helper {
 			}
 		}
 
-		if (!empty($args)) {
-			$urlLinkTo .= '?';
-			foreach($args as $k => $v) {
-				$urlLinkTo .= '&'.$k.'='.urlencode($v);
-			}
+		if ($args && $query = http_build_query($args, '', '&')) {
+			$urlLinkTo .= '?'.$query;
 		}
 
 		return $urlLinkTo;

@@ -23,7 +23,6 @@
 "Fill in an email address to enable password recovery" => "Isi alamat emel anda untuk membolehkan pemulihan kata laluan",
 "Language" => "Bahasa",
 "Help translate" => "Bantu terjemah",
-"Name" => "Nama",
 "Groups" => "Kumpulan",
 "Create" => "Buat",
 "Other" => "Lain",

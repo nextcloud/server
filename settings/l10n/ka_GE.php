@@ -34,7 +34,6 @@
 "Fill in an email address to enable password recovery" => "შეავსეთ იმეილ მისამართის ველი პაროლის აღსადგენად",
 "Language" => "ენა",
 "Help translate" => "თარგმნის დახმარება",
-"Name" => "სახელი",
 "Groups" => "ჯგუფი",
 "Create" => "შექმნა",
 "Other" => "სხვა",

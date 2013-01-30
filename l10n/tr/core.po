@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-23 00:05+0100\n"
-"PO-Revision-Date: 2013-01-22 23:04+0000\n"
-"Last-Translator: ismail yenigül <ismail.yenigul@surgate.com>\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 23:23+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,24 +22,24 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:84
+#: ajax/share.php:85
 #, php-format
 msgid "User %s shared a file with you"
 msgstr "%s kullanıcısı sizinle bir dosyayı paylaştı"
 
-#: ajax/share.php:86
+#: ajax/share.php:87
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr "%s kullanıcısı sizinle bir dizini paylaştı"
 
-#: ajax/share.php:88
+#: ajax/share.php:89
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr "%s kullanıcısı \"%s\" dosyasını sizinle paylaştı. %s adresinden indirilebilir"
 
-#: ajax/share.php:90
+#: ajax/share.php:91
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -84,59 +84,135 @@ msgstr "Silmek için bir kategori seçilmedi"
 msgid "Error removing %s from favorites."
 msgstr "%s favorilere çıkarılırken hata oluştu"
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "Pazar"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "Pazartesi"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "Salı"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "Çarşamba"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "Perşembe"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "Cuma"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "Cumartesi"
+
+#: js/config.php:33
+msgid "January"
+msgstr "Ocak"
+
+#: js/config.php:33
+msgid "February"
+msgstr "Şubat"
+
+#: js/config.php:33
+msgid "March"
+msgstr "Mart"
+
+#: js/config.php:33
+msgid "April"
+msgstr "Nisan"
+
+#: js/config.php:33
+msgid "May"
+msgstr "Mayıs"
+
+#: js/config.php:33
+msgid "June"
+msgstr "Haziran"
+
+#: js/config.php:33
+msgid "July"
+msgstr "Temmuz"
+
+#: js/config.php:33
+msgid "August"
+msgstr "Ağustos"
+
+#: js/config.php:33
+msgid "September"
+msgstr "Eylül"
+
+#: js/config.php:33
+msgid "October"
+msgstr "Ekim"
+
+#: js/config.php:33
+msgid "November"
+msgstr "Kasım"
+
+#: js/config.php:33
+msgid "December"
+msgstr "Aralık"
+
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: js/js.js:706
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "saniye önce"
 
-#: js/js.js:707
+#: js/js.js:763
 msgid "1 minute ago"
 msgstr "1 dakika önce"
 
-#: js/js.js:708
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr "{minutes} dakika önce"
 
-#: js/js.js:709
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr "1 saat önce"
 
-#: js/js.js:710
+#: js/js.js:766
 msgid "{hours} hours ago"
 msgstr "{hours} saat önce"
 
-#: js/js.js:711
+#: js/js.js:767
 msgid "today"
 msgstr "bugün"
 
-#: js/js.js:712
+#: js/js.js:768
 msgid "yesterday"
 msgstr "dün"
 
-#: js/js.js:713
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr "{days} gün önce"
 
-#: js/js.js:714
+#: js/js.js:770
 msgid "last month"
 msgstr "geçen ay"
 
-#: js/js.js:715
+#: js/js.js:771
 msgid "{months} months ago"
 msgstr "{months} ay önce"
 
-#: js/js.js:716
+#: js/js.js:772
 msgid "months ago"
 msgstr "ay önce"
 
-#: js/js.js:717
+#: js/js.js:773
 msgid "last year"
 msgstr "geçen yıl"
 
-#: js/js.js:718
+#: js/js.js:774
 msgid "years ago"
 msgstr "yıl önce"
 
@@ -166,8 +242,8 @@ msgid "The object type is not specified."
 msgstr "Nesne türü belirtilmemiş."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
-#: js/share.js:566
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
+#: js/share.js:583
 msgid "Error"
 msgstr "Hata"
 
@@ -179,121 +255,140 @@ msgstr "uygulama adı belirtilmedi."
 msgid "The required file {file} is not installed!"
 msgstr "İhtiyaç duyulan {file} dosyası kurulu değil."
 
-#: js/share.js:124 js/share.js:594
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Share"
+msgstr ""
+
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Shared"
+msgstr ""
+
+#: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
 msgstr "Paylaşım sırasında hata  "
 
-#: js/share.js:135
+#: js/share.js:152
 msgid "Error while unsharing"
 msgstr "Paylaşım iptal ediliyorken hata"
 
-#: js/share.js:142
+#: js/share.js:159
 msgid "Error while changing permissions"
 msgstr "İzinleri değiştirirken hata oluştu"
 
-#: js/share.js:151
+#: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
 msgstr " {owner} tarafından sizinle ve {group} ile paylaştırılmış"
 
-#: js/share.js:153
+#: js/share.js:170
 msgid "Shared with you by {owner}"
 msgstr "{owner} trafından sizinle paylaştırıldı"
 
-#: js/share.js:158
+#: js/share.js:175
 msgid "Share with"
 msgstr "ile Paylaş"
 
-#: js/share.js:163
+#: js/share.js:180
 msgid "Share with link"
 msgstr "Bağlantı ile paylaş"
 
-#: js/share.js:166
+#: js/share.js:183
 msgid "Password protect"
 msgstr "Şifre korunması"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:35
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "Parola"
 
-#: js/share.js:172
+#: js/share.js:189
 msgid "Email link to person"
 msgstr "Kişiye e-posta linki"
 
-#: js/share.js:173
+#: js/share.js:190
 msgid "Send"
 msgstr "Gönder"
 
-#: js/share.js:177
+#: js/share.js:194
 msgid "Set expiration date"
 msgstr "Son kullanma tarihini ayarla"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Expiration date"
 msgstr "Son kullanım tarihi"
 
-#: js/share.js:210
+#: js/share.js:227
 msgid "Share via email:"
 msgstr "Eposta ile paylaş"
 
-#: js/share.js:212
+#: js/share.js:229
 msgid "No people found"
 msgstr "Kişi bulunamadı"
 
-#: js/share.js:239
+#: js/share.js:256
 msgid "Resharing is not allowed"
 msgstr "Tekrar paylaşmaya izin verilmiyor"
 
-#: js/share.js:275
+#: js/share.js:292
 msgid "Shared in {item} with {user}"
 msgstr " {item} içinde  {user} ile paylaşılanlarlar"
 
-#: js/share.js:296
+#: js/share.js:313
 msgid "Unshare"
 msgstr "Paylaşılmayan"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "can edit"
 msgstr "düzenleyebilir"
 
-#: js/share.js:310
+#: js/share.js:327
 msgid "access control"
 msgstr "erişim kontrolü"
 
-#: js/share.js:313
+#: js/share.js:330
 msgid "create"
 msgstr "oluştur"
 
-#: js/share.js:316
+#: js/share.js:333
 msgid "update"
 msgstr "güncelle"
 
-#: js/share.js:319
+#: js/share.js:336
 msgid "delete"
 msgstr "sil"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "share"
 msgstr "paylaş"
 
-#: js/share.js:356 js/share.js:541
+#: js/share.js:373 js/share.js:558
 msgid "Password protected"
 msgstr "Paralo korumalı"
 
-#: js/share.js:554
+#: js/share.js:571
 msgid "Error unsetting expiration date"
 msgstr "Geçerlilik tarihi tanımlama kaldırma hatası"
 
-#: js/share.js:566
+#: js/share.js:583
 msgid "Error setting expiration date"
 msgstr "Geçerlilik tarihi tanımlama hatası"
 
-#: js/share.js:581
+#: js/share.js:598
 msgid "Sending ..."
 msgstr "Gönderiliyor..."
 
-#: js/share.js:592
+#: js/share.js:609
 msgid "Email sent"
 msgstr "Eposta gönderildi"
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr ""
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -446,87 +541,11 @@ msgstr "Veritabanı sunucusu"
 msgid "Finish setup"
 msgstr "Kurulumu tamamla"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "Pazar"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:17
-msgid "Monday"
-msgstr "Pazartesi"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "Salı"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "Çarşamba"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "Perşembe"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:17
-msgid "Friday"
-msgstr "Cuma"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "Cumartesi"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:18
-msgid "January"
-msgstr "Ocak"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:18
-msgid "February"
-msgstr "Şubat"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:18
-msgid "March"
-msgstr "Mart"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:18
-msgid "April"
-msgstr "Nisan"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:18
-msgid "May"
-msgstr "Mayıs"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:18
-msgid "June"
-msgstr "Haziran"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:18
-msgid "July"
-msgstr "Temmuz"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:18
-msgid "August"
-msgstr "Ağustos"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:18
-msgid "September"
-msgstr "Eylül"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:18
-msgid "October"
-msgstr "Ekim"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:18
-msgid "November"
-msgstr "Kasım"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:18
-msgid "December"
-msgstr "Aralık"
-
-#: templates/layout.guest.php:41
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "kontrolünüzdeki web servisleri"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr "Çıkış yap"
 

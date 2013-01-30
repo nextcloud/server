@@ -42,7 +42,6 @@
 "Help translate" => "Bidra til oversettelsen",
 "WebDAV" => "WebDAV",
 "Version" => "Versjon",
-"Name" => "Navn",
 "Groups" => "Grupper",
 "Create" => "Opprett",
 "Other" => "Annet",
