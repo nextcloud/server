@@ -365,7 +365,7 @@ ingle parameters
 				if(strpos($this->config[$classKey], 'opt') === 0) {
 					$config[$dbKey] = '';
 				} else {
-					$config[$dbKey] = substr($this->config[$dbKey], 5);
+					$config[$dbKey] = substr($this->config[$classKey], 5);
 				}
 				continue;
 			} else if((strpos($classKey, 'ldapBase') !== false)
