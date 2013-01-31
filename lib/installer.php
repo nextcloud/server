@@ -259,18 +259,18 @@ class OC_Installer{
 		OC_App::enable($ocsid);
 	}
 
-        /**
-         * @brief Check if an update for the app is available
-         * @param $name name of the application
-         * @returns emptry string is no update available or the version number of the update
-         *
-         * The function will check if an update for a version is available
-         */
-        public static function isUpdateAvailable( $app ) {
+	/**
+	 * @brief Check if an update for the app is available
+	 * @param $name name of the application
+	 * @returns empty string is no update available or the version number of the update
+	 *
+	 * The function will check if an update for a version is available
+	 */
+	public static function isUpdateAvailable( $app ) {
 		$ocsid=OC_Appconfig::getValue( $app, 'ocsid', '');
 
 		if($ocsid<>''){
-		
+
 			$ocsdata=OC_OCSClient::getApplication($ocsid);
 			$ocsversion= (string) $ocsdata['version'];
 			$currentversion=OC_App::getAppVersion($app);
@@ -285,23 +285,23 @@ class OC_Installer{
 			return('');
 		}
 
-        }
+	}
 
-        /**
-         * @brief Check if app is already downloaded
-         * @param $name name of the application to remove
-         * @returns true/false
-         *
-         * The function will check if the app is already downloaded in the apps repository
-         */
-        public static function isDownloaded( $name ) {
+	/**
+	 * @brief Check if app is already downloaded
+	 * @param $name name of the application to remove
+	 * @returns true/false
+	 *
+	 * The function will check if the app is already downloaded in the apps repository
+	 */
+	public static function isDownloaded( $name ) {
 
 		$downloaded=false;
 		foreach(OC::$APPSROOTS as $dir) {
-                	if(is_dir($dir['path'].'/'.$name)) $downloaded=true;
+			if(is_dir($dir['path'].'/'.$name)) $downloaded=true;
 		}
 		return($downloaded);
-        }
+	}
 
 	/**
 	 * @brief Removes an app
@@ -345,7 +345,7 @@ class OC_Installer{
 			// remove user files
 		}
 
-        	if(OC_Installer::isDownloaded( $name )) { 
+		if(OC_Installer::isDownloaded( $name )) {
 			$appdir=OC_App::getInstallPath().'/'.$name;
 			OC_Helper::rmdirr($appdir);
 
