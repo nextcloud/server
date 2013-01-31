@@ -776,6 +776,10 @@ $(document).ready(function() {
 });
 
 function scanFiles(force, dir){
+	if (!OC.currentUser) {
+		return;
+	}
+
 	if(!dir){
 		dir = '';
 	}
