@@ -314,7 +314,6 @@ class Connection {
 
 	/**
 	 * @brief saves the current Configuration in the database
-ingle parameters
 	 */
 	public function saveConfiguration() {
 		$trans = array_flip($this->getConfigTranslationArray());
