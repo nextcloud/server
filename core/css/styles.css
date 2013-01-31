@@ -189,6 +189,7 @@ fieldset.warning legend { color:#b94a48 !important; }
 	display:block; padding:8px 0 4px;
 	text-decoration:none; font-size:10px; text-align:center;
 	color:#fff; text-shadow:#000 0 -1px 0; opacity:.3;
+	white-space:nowrap; overflow:hidden; text-overflow:ellipsis; // ellipsize long app names
 }
 	#navigation a:hover, #navigation a:focus { opacity:.8; }
 	#navigation a.active { opacity:1; }
