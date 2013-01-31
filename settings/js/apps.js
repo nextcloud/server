@@ -27,7 +27,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		if (app.update != false) {
 			page.find('input.update').show();
 			page.find('input.update').data('appid', app.id);
-			page.find('input.update').attr('value',t('settings', 'Update to ')+app.update);
+			page.find('input.update').attr('value',t('settings', 'Update to {appversion}', {appversion:app.update}));
 		} else {
 			page.find('input.update').hide();
 		}
