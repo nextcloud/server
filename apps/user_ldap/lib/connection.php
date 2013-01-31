@@ -61,6 +61,8 @@ class Connection {
 		'ldapOverrideUuidAttribute' => null,
 		'ldapOverrideMainServer' => false,
 		'ldapConfigurationActive' => false,
+		'ldapAttributesForUserSearch' => null,
+		'ldapAttributesForGroupSearch' => null,
 		'homeFolderNamingRule' => null,
 		'hasPagedResultSupport' => false,
 	);
@@ -259,6 +261,10 @@ class Connection {
 				= $this->$v('home_folder_naming_rule');
 			$this->config['ldapConfigurationActive']
 				= $this->$v('ldap_configuration_active');
+			$this->config['ldapAttributesForUserSearch']
+				= preg_split('/\r\n|\r|\n/', $this->$v('ldap_attributes_for_user_search'));
+			$this->config['ldapAttributesForGroupSearch']
+				= preg_split('/\r\n|\r|\n/', $this->$v('ldap_attributes_for_group_search'));
 
 			$this->configured = $this->validateConfiguration();
 		}
@@ -270,7 +276,7 @@ class Connection {
 	private function getConfigTranslationArray() {
 		static $array = array('ldap_host'=>'ldapHost', 'ldap_port'=>'ldapPort', 'ldap_backup_host'=>'ldapBackupHost', 'ldap_backup_port'=>'ldapBackupPort', 'ldap_override_main_server' => 'ldapOverrideMainServer', 'ldap_dn'=>'ldapAgentName', 'ldap_agent_password'=>'ldapAgentPassword', 'ldap_base'=>'ldapBase', 'ldap_base_users'=>'ldapBaseUsers', 'ldap_base_groups'=>'ldapBaseGroups', 'ldap_userlist_filter'=>'ldapUserFilter', 'ldap_login_filter'=>'ldapLoginFilter', 'ldap_group_filter'=>'ldapGroupFilter', 'ldap_display_name'=>'ldapUserDisplayName', 'ldap_group_display_name'=>'ldapGroupDisplayName',
 
-		'ldap_tls'=>'ldapTLS', 'ldap_nocase'=>'ldapNoCase', 'ldap_quota_def'=>'ldapQuotaDefault', 'ldap_quota_attr'=>'ldapQuotaAttribute', 'ldap_email_attr'=>'ldapEmailAttribute', 'ldap_group_member_assoc_attribute'=>'ldapGroupMemberAssocAttr', 'ldap_cache_ttl'=>'ldapCacheTTL', 'home_folder_naming_rule' => 'homeFolderNamingRule', 'ldap_turn_off_cert_check' => 'turnOffCertCheck', 'ldap_configuration_active' => 'ldapConfigurationActive');
+		'ldap_tls'=>'ldapTLS', 'ldap_nocase'=>'ldapNoCase', 'ldap_quota_def'=>'ldapQuotaDefault', 'ldap_quota_attr'=>'ldapQuotaAttribute', 'ldap_email_attr'=>'ldapEmailAttribute', 'ldap_group_member_assoc_attribute'=>'ldapGroupMemberAssocAttr', 'ldap_cache_ttl'=>'ldapCacheTTL', 'home_folder_naming_rule' => 'homeFolderNamingRule', 'ldap_turn_off_cert_check' => 'turnOffCertCheck', 'ldap_configuration_active' => 'ldapConfigurationActive', 'ldap_attributes_for_user_search' => 'ldapAttributesForUserSearch', 'ldap_attributes_for_group_search' => 'ldapAttributesForGroupSearch');
 		return $array;
 	}
 
@@ -324,6 +330,8 @@ ingle parameters
 				case 'ldapBase':
 				case 'ldapBaseUsers':
 				case 'ldapBaseGroups':
+				case 'ldapAttributesForUserSearch':
+				case 'ldapAttributesForGroupSearch':
 					if(is_array($value)){
 						$value = implode("\n", $value);
 					}
@@ -360,7 +368,8 @@ ingle parameters
 					$config[$dbKey] = substr($this->config[$dbKey], 5);
 				}
 				continue;
-			} else if(strpos($classKey, 'ldapBase') !== false) {
+			} else if((strpos($classKey, 'ldapBase') !== false)
+					|| (strpos($classKey, 'ldapAttributes') !== false)) {
 				$config[$dbKey] = implode("\n", $this->config[$classKey]);
 				continue;
 			}
@@ -395,6 +404,14 @@ ingle parameters
 			//force default
 			$this->config['ldapBackupPort'] = $this->config['ldapPort'];
 		}
+		foreach(array('ldapAttributesForUserSearch', 'ldapAttributesForGroupSearch') as $key) {
+			if(is_array($this->config[$key])
+				&& count($this->config[$key]) == 1
+				&& empty($this->config[$key][0])) {
+				$this->config[$key] = array();
+			}
+		}
+
 
 
 		//second step: critical checks. If left empty or filled wrong, set as unconfigured and give a warning.
@@ -471,6 +488,8 @@ ingle parameters
 			'home_folder_naming_rule'           => 'opt:username',
 			'ldap_turn_off_cert_check'			=> 0,
 			'ldap_configuration_active'			=> 1,
+			'ldap_attributes_for_user_search'	=> '',
+			'ldap_attributes_for_group_search'	=> '',
 		);
 	}
 

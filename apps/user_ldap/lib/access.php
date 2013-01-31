@@ -719,6 +719,50 @@ abstract class Access {
 		return $combinedFilter;
 	}
 
+	/**
+	 * @brief creates a filter part for to perfrom search for users
+	 * @param string $search the search term
+	 * @return string the final filter part to use in LDAP searches
+	 */
+	public function getFilterPartForUserSearch($search) {
+		return $this->getFilterPartForSearch($search, $this->connection->ldapAttributesForUserSearch, $this->connection->ldapUserDisplayName);
+	}
+
+	/**
+	 * @brief creates a filter part for to perfrom search for groups
+	 * @param string $search the search term
+	 * @return string the final filter part to use in LDAP searches
+	 */
+	public function getFilterPartForGroupSearch($search) {
+		return $this->getFilterPartForSearch($search, $this->connection->ldapAttributesForGroupSearch, $this->connection->ldapGroupDisplayName);
+	}
+
+	/**
+	 * @brief creates a filter part for searches
+	 * @param string $search the search term
+	 * @param string $fallbackAttribute a fallback attribute in case the user
+	 * did not define search attributes. Typically the display name attribute.
+	 * @returns string the final filter part to use in LDAP searches
+	 */
+	private function getFilterPartForSearch($search, $searchAttributes, $fallbackAttribute) {
+		$filter = array();
+		$search = empty($search) ? '*' : '*'.$search.'*';
+		if(!is_array($searchAttributes) || count($searchAttributes) == 0) {
+			if(empty($fallbackAttribute)) {
+				return '';
+			}
+			$filter[] = $fallbackAttribute . '=' . $search;
+		} else {
+			foreach($searchAttributes as $attribute) {
+				$filter[] = $attribute . '=' . $search;
+			}
+		}
+		if(count($filter) == 1) {
+			return '('.$filter[0].')';
+		}
+		return $this->combineFilterWithOr($filter);
+	}
+
 	public function areCredentialsValid($name, $password) {
 		$name = $this->DNasBaseParameter($name);
 		$testConnection = clone $this->connection;
