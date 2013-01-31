@@ -17,9 +17,9 @@
 				<span class='name'><?php echo $l->t( 'Name' ); ?></span>
 				<span class='selectedActions'>
 						<a href="" class="undelete">
-							<img class="svg" alt="Undelete"
+							<img class="svg" alt="<?php echo $l->t( 'Restore' ); ?>"
 								 src="<?php echo OCP\image_path("core", "actions/undelete.png"); ?>" />
-							<?php echo $l->t('Undelete')?>
+							<?php echo $l->t('Restore')?>
 						</a>
 				</span>
 			</th>

@@ -2,9 +2,9 @@
 $(document).ready(function() {
 
 	if (typeof FileActions !== 'undefined') {
-		FileActions.register('all', 'Undelete', OC.PERMISSION_READ,  OC.imagePath('core', 'actions/undelete.png'), function(filename) {
+		FileActions.register('all', 'Restore', OC.PERMISSION_READ,  OC.imagePath('core', 'actions/undelete.png'), function(filename) {
 			var tr=$('tr').filterAttr('data-file', filename);
-			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform undelete operation')+'" src="'+ OC.imagePath('core', 'loader.gif') +'"></a>';
+			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform restore operation')+'" src="'+ OC.imagePath('core', 'loader.gif') +'"></a>';
 			var undeleteAction = $('tr').filterAttr('data-file',filename).children("td.date");
 			undeleteAction[0].innerHTML = undeleteAction[0].innerHTML+spinner;
 			$.post(OC.filePath('files_trashbin','ajax','undelete.php'),
