@@ -215,7 +215,9 @@ class OC_App{
 				return false;
 			}else{
 				OC_Appconfig::setValue( $app, 'enabled', 'yes' );
-				if(isset($appdata['id'])) OC_Appconfig::setValue( $app, 'ocsid', $appdata['id'] );
+				if(isset($appdata['id'])) {
+					OC_Appconfig::setValue( $app, 'ocsid', $appdata['id'] );
+				}
 				return true;
 			}
 		}else{
@@ -231,14 +233,13 @@ class OC_App{
 	 * This function set an app as disabled in appconfig.
 	 */
 	public static function disable( $app ) {
-		// check if app is a shiped app or not. if not delete
+		// check if app is a shipped app or not. if not delete
 		OC_Appconfig::setValue( $app, 'enabled', 'no' );
 
-		// check if app is a shiped app or not. if not delete
+		// check if app is a shipped app or not. if not delete
 		if(!OC_App::isShipped( $app )){
 			OC_Installer::removeApp( $app );
-		}else{
-		}		
+		}
 	}
 
 	/**
@@ -647,15 +648,15 @@ class OC_App{
 		}
 		$remoteApps = OC_App::getAppstoreApps();
 		if ( $remoteApps ) {
-	// Remove duplicates
+			// Remove duplicates
 			foreach ( $appList as $app ) {
 				foreach ( $remoteApps AS $key => $remote ) {
 					if (
 						$app['name'] == $remote['name']
-			// To set duplicate detection to use OCS ID instead of string name,
-			// enable this code, remove the line of code above,
-			// and add <ocs_id>[ID]</ocs_id> to info.xml of each 3rd party app:
-			// OR $app['ocs_id'] == $remote['ocs_id']
+						// To set duplicate detection to use OCS ID instead of string name,
+						// enable this code, remove the line of code above,
+						// and add <ocs_id>[ID]</ocs_id> to info.xml of each 3rd party app:
+						// OR $app['ocs_id'] == $remote['ocs_id']
 						) {
 						unset( $remoteApps[$key]);
 				}
