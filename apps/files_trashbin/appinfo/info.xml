@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<info>
+	<id>files_trashbin</id>
+	<name>Trash</name>
+	<description>Trash bin</description>
+	<licence>AGPL</licence>
+	<author>Bjoern Schiessle</author>
+	<shipped>true</shipped>
+	<require>4.9</require>
+	<default_enable/>
+	<types>
+		<filesystem/>
+	</types>
+</info>

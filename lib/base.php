@@ -112,6 +112,8 @@ class OC
 			$path = str_replace('\\', '/', $className) . '.php';
 		} elseif (strpos($className, 'Test_') === 0) {
 			$path = 'tests/lib/' . strtolower(str_replace('_', '/', substr($className, 5)) . '.php');
+		} elseif (strpos($className, 'Test\\') === 0) {
+			$path = 'tests/lib/' . strtolower(str_replace('\\', '/', substr($className, 5)) . '.php');
 		} else {
 			return false;
 		}
@@ -420,10 +422,10 @@ class OC
 		}
 
 		// register the stream wrappers
-		require_once 'streamwrappers.php';
-		stream_wrapper_register("fakedir", "OC_FakeDirStream");
-		stream_wrapper_register('static', 'OC_StaticStreamWrapper');
-		stream_wrapper_register('close', 'OC_CloseStreamWrapper');
+		stream_wrapper_register('fakedir', 'OC\Files\Stream\Dir');
+		stream_wrapper_register('static', 'OC\Files\Stream\StaticStream');
+		stream_wrapper_register('close', 'OC\Files\Stream\Close');
+		stream_wrapper_register('oc', 'OC\Files\Stream\OC');
 
 		self::checkConfig();
 		self::checkInstalled();
@@ -502,7 +504,7 @@ class OC
 
 		// write error into log if locale can't be set
 		if (OC_Util::issetlocaleworking() == false) {
-			OC_Log::write('core', 'setting locate to en_US.UTF-8 failed. Support is probably not installed on your system', OC_Log::ERROR);
+			OC_Log::write('core', 'setting locale to en_US.UTF-8 failed. Support is probably not installed on your system', OC_Log::ERROR);
 		}
 		if (OC_Config::getValue('installed', false)) {
 			if (OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {

@@ -53,6 +53,8 @@
 "Error" => "エラー",
 "The app name is not specified." => "アプリ名がしていされていません。",
 "The required file {file} is not installed!" => "必要なファイル {file} がインストールされていません！",
+"Share" => "共有",
+"Shared" => "共有中",
 "Error while sharing" => "共有でエラー発生",
 "Error while unsharing" => "共有解除でエラー発生",
 "Error while changing permissions" => "権限変更でエラー発生",

@@ -1,7 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "无法移动 %s - 同名文件已存在",
-"Could not move %s" => "无法移动 %s",
-"Unable to rename file" => "无法重命名文件",
 "No file was uploaded. Unknown error" => "没有文件被上传。未知错误",
 "There is no error, the file uploaded with success" => "没有发生错误，文件上传成功。",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "上传文件大小已超过php.ini中upload_max_filesize所规定的值",
@@ -38,8 +35,6 @@
 "File upload is in progress. Leaving the page now will cancel the upload." => "文件正在上传中。现在离开此页会导致上传动作被取消。",
 "URL cannot be empty." => "URL不能为空",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "无效文件夹名。'共享' 是 Owncloud 预留的文件夹名。",
-"{count} files scanned" => "{count} 个文件已扫描。",
-"error while scanning" => "扫描时出错",
 "Name" => "名称",
 "Size" => "大小",
 "Modified" => "修改日期",

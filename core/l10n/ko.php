@@ -53,6 +53,7 @@
 "Error" => "오류",
 "The app name is not specified." => "앱 이름이 지정되지 않았습니다.",
 "The required file {file} is not installed!" => "필요한 파일 {file}이(가) 설치되지 않았습니다!",
+"Share" => "공유",
 "Error while sharing" => "공유하는 중 오류 발생",
 "Error while unsharing" => "공유 해제하는 중 오류 발생",
 "Error while changing permissions" => "권한 변경하는 중 오류 발생",

@@ -38,6 +38,7 @@
 "Yes" => "Jah",
 "Ok" => "Ok",
 "Error" => "Viga",
+"Share" => "Jaga",
 "Error while sharing" => "Viga jagamisel",
 "Error while unsharing" => "Viga jagamise lõpetamisel",
 "Error while changing permissions" => "Viga õiguste muutmisel",

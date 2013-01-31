@@ -53,6 +53,7 @@
 "Error" => "Fout",
 "The app name is not specified." => "De app naam is niet gespecificeerd.",
 "The required file {file} is not installed!" => "Het vereiste bestand {file} is niet geïnstalleerd!",
+"Share" => "Delen",
 "Error while sharing" => "Fout tijdens het delen",
 "Error while unsharing" => "Fout tijdens het stoppen met delen",
 "Error while changing permissions" => "Fout tijdens het veranderen van permissies",

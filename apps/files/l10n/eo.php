@@ -1,7 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "Ne eblis movi %s: dosiero kun ĉi tiu nomo jam ekzistas",
-"Could not move %s" => "Ne eblis movi %s",
-"Unable to rename file" => "Ne eblis alinomigi dosieron",
 "No file was uploaded. Unknown error" => "Neniu dosiero alŝutiĝis. Nekonata eraro.",
 "There is no error, the file uploaded with success" => "Ne estas eraro, la dosiero alŝutiĝis sukcese",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "La dosiero alŝutita superas la regulon upload_max_filesize el php.ini: ",
@@ -38,8 +35,6 @@
 "File upload is in progress. Leaving the page now will cancel the upload." => "Dosieralŝuto plenumiĝas. Lasi la paĝon nun nuligus la alŝuton.",
 "URL cannot be empty." => "URL ne povas esti malplena.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Nevalida dosierujnomo. Uzo de “Shared” rezervatas de Owncloud.",
-"{count} files scanned" => "{count} dosieroj skaniĝis",
-"error while scanning" => "eraro dum skano",
 "Name" => "Nomo",
 "Size" => "Grando",
 "Modified" => "Modifita",

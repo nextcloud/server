@@ -26,8 +26,6 @@
 "{count} files uploading" => "{count}  įkeliami failai",
 "Upload cancelled." => "Įkėlimas atšauktas.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Failo įkėlimas pradėtas. Jei paliksite šį puslapį, įkėlimas nutrūks.",
-"{count} files scanned" => "{count}  praskanuoti failai",
-"error while scanning" => "klaida skanuojant",
 "Name" => "Pavadinimas",
 "Size" => "Dydis",
 "Modified" => "Pakeista",

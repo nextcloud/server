@@ -53,6 +53,7 @@
 "Error" => "Грешка",
 "The app name is not specified." => "Името на апликацијата не е специфицирано.",
 "The required file {file} is not installed!" => "Задолжителната датотека {file} не е инсталирана!",
+"Share" => "Сподели",
 "Error while sharing" => "Грешка при споделување",
 "Error while unsharing" => "Грешка при прекин на споделување",
 "Error while changing permissions" => "Грешка при промена на привилегии",

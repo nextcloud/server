@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 23:05+0000\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 23:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -23,20 +23,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-#: ajax/move.php:17
-#, php-format
-msgid "Could not move %s - File with this name already exists"
-msgstr "无法移动 %s - 同名文件已存在"
-
-#: ajax/move.php:24
-#, php-format
-msgid "Could not move %s"
-msgstr "无法移动 %s"
-
-#: ajax/rename.php:19
-msgid "Unable to rename file"
-msgstr "无法重命名文件"
 
 #: ajax/upload.php:17
 msgid "No file was uploaded. Unknown error"
@@ -73,11 +59,11 @@ msgstr "缺少临时目录"
 msgid "Failed to write to disk"
 msgstr "写入磁盘失败"
 
-#: ajax/upload.php:48
-msgid "Not enough storage available"
+#: ajax/upload.php:51
+msgid "Not enough space available"
 msgstr ""
 
-#: ajax/upload.php:77
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "无效文件夹。"
 
@@ -189,52 +175,44 @@ msgstr "{count} 个文件上传中"
 msgid "Upload cancelled."
 msgstr "上传已取消"
 
-#: js/files.js:493
+#: js/files.js:497
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "文件正在上传中。现在离开此页会导致上传动作被取消。"
 
-#: js/files.js:566
+#: js/files.js:570
 msgid "URL cannot be empty."
 msgstr "URL不能为空"
 
-#: js/files.js:571
+#: js/files.js:575
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "无效文件夹名。'共享' 是 Owncloud 预留的文件夹名。"
 
-#: js/files.js:784
-msgid "{count} files scanned"
-msgstr "{count} 个文件已扫描。"
-
-#: js/files.js:792
-msgid "error while scanning"
-msgstr "扫描时出错"
-
-#: js/files.js:866 templates/index.php:63
+#: js/files.js:944 templates/index.php:63
 msgid "Name"
 msgstr "名称"
 
-#: js/files.js:867 templates/index.php:74
+#: js/files.js:945 templates/index.php:74
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:868 templates/index.php:76
+#: js/files.js:946 templates/index.php:76
 msgid "Modified"
 msgstr "修改日期"
 
-#: js/files.js:887
+#: js/files.js:965
 msgid "1 folder"
 msgstr "1个文件夹"
 
-#: js/files.js:889
+#: js/files.js:967
 msgid "{count} folders"
 msgstr "{count} 个文件夹"
 
-#: js/files.js:897
+#: js/files.js:975
 msgid "1 file"
 msgstr "1 个文件"
 
-#: js/files.js:899
+#: js/files.js:977
 msgid "{count} files"
 msgstr "{count} 个文件"
 
@@ -319,3 +297,7 @@ msgstr "文件正在被扫描，请稍候。"
 #: templates/index.php:111
 msgid "Current scanning"
 msgstr "当前扫描"
+
+#: templates/upgrade.php:2
+msgid "Upgrading filesystem cache..."
+msgstr ""

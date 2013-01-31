@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 23:05+0000\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 23:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -21,20 +21,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sk_SK\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-
-#: ajax/move.php:17
-#, php-format
-msgid "Could not move %s - File with this name already exists"
-msgstr "Nie je možné presunúť %s - súbor s týmto menom už existuje"
-
-#: ajax/move.php:24
-#, php-format
-msgid "Could not move %s"
-msgstr "Nie je možné presunúť %s"
-
-#: ajax/rename.php:19
-msgid "Unable to rename file"
-msgstr "Nemožno premenovať súbor"
 
 #: ajax/upload.php:17
 msgid "No file was uploaded. Unknown error"
@@ -71,11 +57,11 @@ msgstr "Chýbajúci dočasný priečinok"
 msgid "Failed to write to disk"
 msgstr "Zápis na disk sa nepodaril"
 
-#: ajax/upload.php:48
-msgid "Not enough storage available"
+#: ajax/upload.php:51
+msgid "Not enough space available"
 msgstr ""
 
-#: ajax/upload.php:77
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "Neplatný adresár"
 
@@ -147,11 +133,11 @@ msgstr "Nesprávne meno, '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nie sú 
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Vaše úložisko je plné. Súbory nemožno aktualizovať ani synchronizovať!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Vaše úložisko je takmer plné ({usedSpacePercent}%)"
 
 #: js/files.js:219
 msgid ""
@@ -187,52 +173,44 @@ msgstr "{count} súborov odosielaných"
 msgid "Upload cancelled."
 msgstr "Odosielanie zrušené"
 
-#: js/files.js:493
+#: js/files.js:497
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Opustenie stránky zruší práve prebiehajúce odosielanie súboru."
 
-#: js/files.js:566
+#: js/files.js:570
 msgid "URL cannot be empty."
 msgstr "URL nemôže byť prázdne"
 
-#: js/files.js:571
+#: js/files.js:575
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Neplatné meno adresára. Používanie mena 'Shared' je vyhradené len pre Owncloud"
 
-#: js/files.js:784
-msgid "{count} files scanned"
-msgstr "{count} súborov prehľadaných"
-
-#: js/files.js:792
-msgid "error while scanning"
-msgstr "chyba počas kontroly"
-
-#: js/files.js:866 templates/index.php:63
+#: js/files.js:944 templates/index.php:63
 msgid "Name"
 msgstr "Meno"
 
-#: js/files.js:867 templates/index.php:74
+#: js/files.js:945 templates/index.php:74
 msgid "Size"
 msgstr "Veľkosť"
 
-#: js/files.js:868 templates/index.php:76
+#: js/files.js:946 templates/index.php:76
 msgid "Modified"
 msgstr "Upravené"
 
-#: js/files.js:887
+#: js/files.js:965
 msgid "1 folder"
 msgstr "1 priečinok"
 
-#: js/files.js:889
+#: js/files.js:967
 msgid "{count} folders"
 msgstr "{count} priečinkov"
 
-#: js/files.js:897
+#: js/files.js:975
 msgid "1 file"
 msgstr "1 súbor"
 
-#: js/files.js:899
+#: js/files.js:977
 msgid "{count} files"
 msgstr "{count} súborov"
 
@@ -317,3 +295,7 @@ msgstr "Čakajte, súbory sú prehľadávané."
 #: templates/index.php:111
 msgid "Current scanning"
 msgstr "Práve prehliadané"
+
+#: templates/upgrade.php:2
+msgid "Upgrading filesystem cache..."
+msgstr ""

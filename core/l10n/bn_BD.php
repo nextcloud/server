@@ -53,6 +53,7 @@
 "Error" => "সমস্যা",
 "The app name is not specified." => "অ্যাপের নামটি  সুনির্দিষ্ট নয়।",
 "The required file {file} is not installed!" => "আবশ্যিক {file} টি সংস্থাপিত নেই !",
+"Share" => "ভাগাভাগি কর",
 "Error while sharing" => "ভাগাভাগি করতে সমস্যা দেখা দিয়েছে  ",
 "Error while unsharing" => "ভাগাভাগি বাতিল করতে সমস্যা দেখা দিয়েছে",
 "Error while changing permissions" => "অনুমতিসমূহ  পরিবর্তন করতে সমস্যা দেখা দিয়েছে",

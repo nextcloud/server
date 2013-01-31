@@ -53,6 +53,7 @@
 "Error" => "พบข้อผิดพลาด",
 "The app name is not specified." => "ชื่อของแอปยังไม่ได้รับการระบุชื่อ",
 "The required file {file} is not installed!" => "ไฟล์ {file} ซึ่งเป็นไฟล์ที่จำเป็นต้องได้รับการติดตั้งไว้ก่อน ยังไม่ได้ถูกติดตั้ง",
+"Share" => "แชร์",
 "Error while sharing" => "เกิดข้อผิดพลาดในระหว่างการแชร์ข้อมูล",
 "Error while unsharing" => "เกิดข้อผิดพลาดในการยกเลิกการแชร์ข้อมูล",
 "Error while changing permissions" => "เกิดข้อผิดพลาดในการเปลี่ยนสิทธิ์การเข้าใช้งาน",

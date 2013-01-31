@@ -35,6 +35,7 @@
 "Yes" => "Jo",
 "Ok" => "OK",
 "Error" => "Fehler",
+"Share" => "Deelen",
 "Password" => "Passwuert",
 "Unshare" => "Net méi deelen",
 "create" => "erstellen",
