@@ -5,7 +5,7 @@
 //ATTENTION
 //Upgrade from ownCloud 3 (LDAP backend 0.1) to ownCloud 4.5 (LDAP backend 0.3) is not supported!!
 //You must do upgrade to ownCloud 4.0 first!
-//The upgrade stuff in the section from 0.1 to 0.2 is just to minimize the bad efffects.
+//The upgrade stuff in the section from 0.1 to 0.2 is just to minimize the bad effects.
 
 //settings
 $pw = OCP\Config::getAppValue('user_ldap', 'ldap_password');
@@ -85,6 +85,6 @@ function escapeDN($dn) {
 if(!isset($connector)) {
 	$connector = new \OCA\user_ldap\lib\Connection();
 }
-//it is required, that connections do habe ldap_configuration_active setting stored in the database
+//it is required, that connections do have ldap_configuration_active setting stored in the database
 $connector->getConfiguration();
 $connector->saveConfiguration();
