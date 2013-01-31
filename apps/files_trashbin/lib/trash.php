@@ -102,7 +102,7 @@ class Trashbin {
 			$location = $result[0]['location'];
 			if ( $result[0]['location'] != '/' && 
 				 (!$view->is_dir('files'.$result[0]['location']) ||
-				 !$view->is_writable('files'.$result[0]['location'])) ) {
+				 !$view->isUpdatable('files'.$result[0]['location'])) ) {
 				$location = '';
 			}
 		} else {
