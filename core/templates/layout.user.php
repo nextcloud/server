@@ -39,14 +39,14 @@
 				<?php foreach($_['settingsnavigation'] as $entry):?>
 					<li>
 						<a href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>>
-							<img class="svg" src="<?php echo $entry['icon']; ?>">
+							<img class="svg" alt="" src="<?php echo $entry['icon']; ?>">
 							<?php echo $entry['name'] ?>
 						</a>
 					</li>
 				<?php endforeach; ?>
 					<li>
 						<a id="logout" href="<?php echo link_to('', 'index.php'); ?>?logout=true">
-							<img class="svg" alt="<?php echo $l->t('Log out');?>" title="<?php echo $l->t('Log out');  echo OC_User::getUser()?' ('.OC_User::getUser().') ':'' ?>" src="<?php echo image_path('', 'actions/logout.svg'); ?>" /> Log out
+							<img class="svg" alt="" src="<?php echo image_path('', 'actions/logout.svg'); ?>" /> <?php echo $l->t('Log out');?>
 						</a>
 					</li>
 				</div>
