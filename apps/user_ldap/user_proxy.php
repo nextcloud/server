@@ -147,6 +147,33 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	}
 
 	/**
+	 * @brief get display name of the user
+	 * @param $uid user ID of the user
+	 * @return display name
+	 */
+	public function getDisplayName($uid) {
+		return $this->handleRequest($uid, 'getDisplayName', array($uid));
+	}
+
+	/**
+	 * @brief Get a list of all display names
+	 * @returns array with  all displayNames (value) and the correspondig uids (key)
+	 *
+	 * Get a list of all display names and user ids.
+	 */
+	public function getDisplayNames($search = '', $limit = null, $offset = null) {
+		//we do it just as the /OC_User implementation: do not play around with limit and offset but ask all backends
+		$users = array();
+		foreach($this->backends as $backend) {
+			$backendUsers = $backend->getDisplayNames($search, $limit, $offset);
+			if (is_array($backendUsers)) {
+				$users = array_merge($users, $backendUsers);
+			}
+		}
+		return $users;
+	}
+
+	/**
 	 * @brief delete a user
 	 * @param $uid The username of the user to delete
 	 * @returns true/false
