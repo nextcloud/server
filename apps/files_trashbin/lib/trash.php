@@ -28,11 +28,11 @@ class Trashbin {
 	/**
 	 * move file to the trash bin
 	 * 
-	 * @param $file_path path to the deleted file/directory relative to the files root directory
+	 * @param string $file_path path to the deleted file/directory relative to the files root directory
 	 */
 	public static function move2trash($file_path) {
 		$user = \OCP\User::getUser();
-		$view = new \OC_FilesystemView('/'. $user);
+		$view = new \OC\Files\View('/'. $user);
 		if (!$view->is_dir('files_trashbin')) {
 			$view->mkdir('files_trashbin');
 			$view->mkdir("versions_trashbin");
@@ -81,14 +81,14 @@ class Trashbin {
 	
 	/**
 	 * restore files from trash bin
-	 * @param $file path to the deleted file
-	 * @param $filename name of the file
-	 * @param $timestamp time when the file was deleted
+	 * @param string $file path to the deleted file
+	 * @param string $filename name of the file
+	 * @param int $timestamp time when the file was deleted
 	 */
 	public static function restore($file, $filename, $timestamp) {
 
 		$user = \OCP\User::getUser();
-		$view = new \OC_FilesystemView('/'.$user);
+		$view = new \OC\Files\View('/'.$user);
 		
 		if ( $timestamp ) {
 			$query = \OC_DB::prepare('SELECT location,type FROM *PREFIX*files_trash WHERE user=? AND id=? AND timestamp=?');
@@ -114,8 +114,8 @@ class Trashbin {
 			$location = '';
 		}
 		
-		$source = \OC_Filesystem::normalizePath('files_trashbin/'.$file);
-		$target = \OC_Filesystem::normalizePath('files/'.$location.'/'.$filename);
+		$source = \OC\Files\Filesystem::normalizePath('files_trashbin/'.$file);
+		$target = \OC\Files\Filesystem::normalizePath('files/'.$location.'/'.$filename);
 		
 		// we need a  extension in case a file/dir with the same name already exists
 		$ext = self::getUniqueExtension($location, $filename, $view);
@@ -125,7 +125,7 @@ class Trashbin {
 			// if versioning app is enabled, copy versions from the trash bin back to the original location
 			if ( \OCP\App::isEnabled('files_versions') ) {
 				if ( $result[0]['type'] == 'dir' ) {
-					$view->rename(\OC_Filesystem::normalizePath('versions_trashbin/'. $file), \OC_Filesystem::normalizePath('files_versions/'.$location.'/'.$filename.$ext));
+					$view->rename(\OC\Files\Filesystem::normalizePath('versions_trashbin/'. $file), \OC\Files\Filesystem::normalizePath('files_versions/'.$location.'/'.$filename.$ext));
 				} else if ( $versions = self::getVersionsFromTrash($file, $timestamp) ) {
 					foreach ($versions as $v) {
 						if ($timestamp ) {
@@ -155,7 +155,7 @@ class Trashbin {
 	 */
 	private static function expire() {
 		
-		$view = new \OC_FilesystemView('/'.\OCP\User::getUser());
+		$view = new \OC\Files\View('/'.\OCP\User::getUser());
 		$user = \OCP\User::getUser();
 		
 		$query = \OC_DB::prepare('SELECT location,type,id,timestamp FROM *PREFIX*files_trash WHERE user=?');
@@ -187,9 +187,9 @@ class Trashbin {
 	/**
 	 * recursive copy to copy a whole directory
 	 * 
-	 * @param $source source path, relative to the users files directory
-	 * @param $destination destination path relative to the users root directoy
-	 * @param $view file view for the users root directory
+	 * @param string $source source path, relative to the users files directory
+	 * @param string $destination destination path relative to the users root directoy
+	 * @param \OC\Files\View $view file view for the users root directory
 	 */
 	private static function copy_recursive( $source, $destination, $view ) {
 		if ( $view->is_dir( 'files'.$source ) ) {
@@ -212,11 +212,11 @@ class Trashbin {
 	
 	/**
 	 * find all versions which belong to the file we want to restore
-	 * @param $filename name of the file which should be restored
-	 * @param $timestamp timestamp when the file was deleted
+	 * @param string $filename name of the file which should be restored
+	 * @param int $timestamp timestamp when the file was deleted
 	 */
 	private static function getVersionsFromTrash($filename, $timestamp) {
-		$view = new \OC_FilesystemView('/'.\OCP\User::getUser().'/versions_trashbin');
+		$view = new \OC\Files\View('/'.\OCP\User::getUser().'/versions_trashbin');
 		$versionsName = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath($filename);
 		$versions = array();
 		
@@ -242,9 +242,9 @@ class Trashbin {
 	
 	/**
 	 * find unique extension for restored file if a file with the same name already exists
-	 * @param $location where the file should be restored
-	 * @param $filename name of the file
-	 * @param $view filesystem view relative to users root directory
+	 * @param string $location where the file should be restored
+	 * @param string $filename name of the file
+	 * @param \OC\Files\View $view filesystem view relative to users root directory
 	 * @return string with unique extension
 	 */
 	private static function getUniqueExtension($location, $filename, $view) {
