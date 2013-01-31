@@ -68,6 +68,18 @@ foreach ($result as $r) {
 	$files[] = $i;
 }
 
+function fileCmp($a, $b) {
+	if ($a['type'] == 'dir' and $b['type'] != 'dir') {
+		return -1;
+	} elseif ($a['type'] != 'dir' and $b['type'] == 'dir') {
+		return 1;
+	} else {
+		return strnatcasecmp($a['name'], $b['name']);
+	}
+}
+
+usort($files, "fileCmp");
+
 // Make breadcrumb
 $breadcrumb = array(array('dir' => '', 'name' => 'Trash'));
 $pathtohere = '';
