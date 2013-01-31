@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 23:05+0000\n"
+"POT-Creation-Date: 2013-01-31 17:02+0100\n"
+"PO-Revision-Date: 2013-01-31 16:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -21,20 +21,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: fi_FI\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: ajax/move.php:17
-#, php-format
-msgid "Could not move %s - File with this name already exists"
-msgstr "Kohteen %s siirto ei onnistunut - Tiedosto samalla nimellä on jo olemassa"
-
-#: ajax/move.php:24
-#, php-format
-msgid "Could not move %s"
-msgstr "Kohteen %s siirto ei onnistunut"
-
-#: ajax/rename.php:19
-msgid "Unable to rename file"
-msgstr "Tiedoston nimeäminen uudelleen ei onnistunut"
 
 #: ajax/upload.php:17
 msgid "No file was uploaded. Unknown error"
@@ -71,11 +57,11 @@ msgstr "Väliaikaiskansiota ei ole olemassa"
 msgid "Failed to write to disk"
 msgstr "Levylle kirjoitus epäonnistui"
 
-#: ajax/upload.php:48
-msgid "Not enough storage available"
-msgstr ""
+#: ajax/upload.php:51
+msgid "Not enough space available"
+msgstr "Tilaa ei ole riittävästi"
 
-#: ajax/upload.php:77
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "Virheellinen kansio."
 
@@ -83,15 +69,15 @@ msgstr "Virheellinen kansio."
 msgid "Files"
 msgstr "Tiedostot"
 
-#: js/fileactions.js:117 templates/index.php:81 templates/index.php:82
+#: js/fileactions.js:117 templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "Peru jakaminen"
 
-#: js/fileactions.js:119 templates/index.php:87 templates/index.php:88
+#: js/fileactions.js:119 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Poista"
 
-#: js/fileactions.js:181
+#: js/fileactions.js:185
 msgid "Rename"
 msgstr "Nimeä uudelleen"
 
@@ -115,7 +101,7 @@ msgstr "peru"
 msgid "replaced {new_name}"
 msgstr ""
 
-#: js/filelist.js:253 js/filelist.js:255 js/filelist.js:286 js/filelist.js:288
+#: js/filelist.js:253 js/filelist.js:255
 msgid "undo"
 msgstr "kumoa"
 
@@ -123,12 +109,8 @@ msgstr "kumoa"
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:286
-msgid "unshared {files}"
-msgstr ""
-
-#: js/filelist.js:288
-msgid "deleted {files}"
+#: js/filelist.js:280
+msgid "perform delete operation"
 msgstr ""
 
 #: js/files.js:52
@@ -147,92 +129,84 @@ msgstr "Virheellinen nimi, merkit '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Tallennustila on loppu, tiedostoja ei voi enää päivittää tai synkronoida!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Tallennustila on melkein loppu ({usedSpacePercent}%)"
 
-#: js/files.js:219
+#: js/files.js:224
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Lataustasi valmistellaan. Tämä saattaa kestää hetken, jos tiedostot ovat suuria kooltaan."
 
-#: js/files.js:256
+#: js/files.js:261
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Tiedoston lähetys epäonnistui, koska sen koko on 0 tavua tai kyseessä on kansio"
 
-#: js/files.js:256
+#: js/files.js:261
 msgid "Upload Error"
 msgstr "Lähetysvirhe."
 
-#: js/files.js:273
+#: js/files.js:278
 msgid "Close"
 msgstr "Sulje"
 
-#: js/files.js:292 js/files.js:408 js/files.js:439
+#: js/files.js:297 js/files.js:413 js/files.js:444
 msgid "Pending"
 msgstr "Odottaa"
 
-#: js/files.js:312
+#: js/files.js:317
 msgid "1 file uploading"
 msgstr ""
 
-#: js/files.js:315 js/files.js:370 js/files.js:385
+#: js/files.js:320 js/files.js:375 js/files.js:390
 msgid "{count} files uploading"
 msgstr ""
 
-#: js/files.js:388 js/files.js:423
+#: js/files.js:393 js/files.js:428
 msgid "Upload cancelled."
 msgstr "Lähetys peruttu."
 
-#: js/files.js:493
+#: js/files.js:502
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Tiedoston lähetys on meneillään. Sivulta poistuminen nyt peruu tiedoston lähetyksen."
 
-#: js/files.js:566
+#: js/files.js:575
 msgid "URL cannot be empty."
 msgstr "Verkko-osoite ei voi olla tyhjä"
 
-#: js/files.js:571
+#: js/files.js:580
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:784
-msgid "{count} files scanned"
-msgstr ""
-
-#: js/files.js:792
-msgid "error while scanning"
-msgstr ""
-
-#: js/files.js:866 templates/index.php:63
+#: js/files.js:949 templates/index.php:67
 msgid "Name"
 msgstr "Nimi"
 
-#: js/files.js:867 templates/index.php:74
+#: js/files.js:950 templates/index.php:78
 msgid "Size"
 msgstr "Koko"
 
-#: js/files.js:868 templates/index.php:76
+#: js/files.js:951 templates/index.php:80
 msgid "Modified"
 msgstr "Muutettu"
 
-#: js/files.js:887
+#: js/files.js:970
 msgid "1 folder"
 msgstr "1 kansio"
 
-#: js/files.js:889
+#: js/files.js:972
 msgid "{count} folders"
 msgstr "{count} kansiota"
 
-#: js/files.js:897
+#: js/files.js:980
 msgid "1 file"
 msgstr "1 tiedosto"
 
-#: js/files.js:899
+#: js/files.js:982
 msgid "{count} files"
 msgstr "{count} tiedostoa"
 
@@ -288,32 +262,40 @@ msgstr "Kansio"
 msgid "From link"
 msgstr "Linkistä"
 
-#: templates/index.php:41
+#: templates/index.php:40
+msgid "Trash"
+msgstr ""
+
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr "Peru lähetys"
 
-#: templates/index.php:55
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr "Täällä ei ole mitään. Lähetä tänne jotakin!"
 
-#: templates/index.php:69
+#: templates/index.php:73
 msgid "Download"
 msgstr "Lataa"
 
-#: templates/index.php:101
+#: templates/index.php:105
 msgid "Upload too large"
 msgstr "Lähetettävä tiedosto on liian suuri"
 
-#: templates/index.php:103
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan."
 
-#: templates/index.php:108
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr "Tiedostoja tarkistetaan, odota hetki."
 
-#: templates/index.php:111
+#: templates/index.php:115
 msgid "Current scanning"
 msgstr "Tämänhetkinen tutkinta"
+
+#: templates/upgrade.php:2
+msgid "Upgrading filesystem cache..."
+msgstr ""

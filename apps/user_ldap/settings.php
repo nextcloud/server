@@ -23,58 +23,46 @@
 
 OC_Util::checkAdminUser();
 
-$params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_agent_password', 'ldap_base', 'ldap_base_users', 'ldap_base_groups', 'ldap_userlist_filter', 'ldap_login_filter', 'ldap_group_filter', 'ldap_display_name', 'ldap_group_display_name', 'ldap_tls', 'ldap_turn_off_cert_check', 'ldap_nocase', 'ldap_quota_def', 'ldap_quota_attr', 'ldap_email_attr', 'ldap_group_member_assoc_attribute', 'ldap_cache_ttl', 'home_folder_naming_rule');
+$params = array('ldap_host', 'ldap_port', 'ldap_backup_host',
+				'ldap_backup_port', 'ldap_override_main_server', 'ldap_dn',
+				'ldap_agent_password', 'ldap_base', 'ldap_base_users',
+				'ldap_base_groups', 'ldap_userlist_filter',
+				'ldap_login_filter', 'ldap_group_filter', 'ldap_display_name',
+				'ldap_group_display_name', 'ldap_tls',
+				'ldap_turn_off_cert_check', 'ldap_nocase', 'ldap_quota_def',
+				'ldap_quota_attr', 'ldap_email_attr',
+				'ldap_group_member_assoc_attribute', 'ldap_cache_ttl',
+				'home_folder_naming_rule'
+				);
 
 OCP\Util::addscript('user_ldap', 'settings');
 OCP\Util::addstyle('user_ldap', 'settings');
 
-if ($_POST) {
-	$clearCache = false;
-	foreach($params as $param) {
-		if(isset($_POST[$param])) {
-			$clearCache = true;
-			if('ldap_agent_password' == $param) {
-				OCP\Config::setAppValue('user_ldap', $param, base64_encode($_POST[$param]));
-			} elseif('home_folder_naming_rule' == $param) {
-				$value = empty($_POST[$param]) ? 'opt:username' : 'attr:'.$_POST[$param];
-				OCP\Config::setAppValue('user_ldap', $param, $value);
-			} else {
-				OCP\Config::setAppValue('user_ldap', $param, $_POST[$param]);
-			}
-		}
-		elseif('ldap_tls' == $param) {
-			// unchecked checkboxes are not included in the post paramters
-			OCP\Config::setAppValue('user_ldap', $param, 0);
-		}
-		elseif('ldap_nocase' == $param) {
-			OCP\Config::setAppValue('user_ldap', $param, 0);
-		}
-		elseif('ldap_turn_off_cert_check' == $param) {
-			OCP\Config::setAppValue('user_ldap', $param, 0);
-		}
-	}
-	if($clearCache) {
-		$ldap = new \OCA\user_ldap\lib\Connection('user_ldap');
-		$ldap->clearCache();
-	}
-}
-
 // fill template
-$tmpl = new OCP\Template( 'user_ldap', 'settings');
-foreach($params as $param) {
-		$value = OCP\Config::getAppValue('user_ldap', $param, '');
-		$tmpl->assign($param, $value);
+$tmpl = new OCP\Template('user_ldap', 'settings');
+
+$prefixes = \OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes();
+$scoHtml = '';
+$i = 1;
+$sel = ' selected';
+foreach($prefixes as $prefix) {
+	$scoHtml .= '<option value="'.$prefix.'"'.$sel.'>'.$i++.'. Server</option>';
+	$sel = '';
+}
+if(count($prefixes) == 0) {
+	$scoHtml .= '<option value="" selected>1. Server</option>';
+}
+$tmpl->assign('serverConfigurationOptions', $scoHtml, false);
+
+// assign default values
+if(!isset($ldap)) {
+	$ldap = new \OCA\user_ldap\lib\Connection();
+}
+$defaults = $ldap->getDefaults();
+foreach($defaults as $key => $default) {
+    $tmpl->assign($key.'_default', $default);
 }
 
-// settings with default values
-$tmpl->assign( 'ldap_port', OCP\Config::getAppValue('user_ldap', 'ldap_port', '389'));
-$tmpl->assign( 'ldap_display_name', OCP\Config::getAppValue('user_ldap', 'ldap_display_name', 'uid'));
-$tmpl->assign( 'ldap_group_display_name', OCP\Config::getAppValue('user_ldap', 'ldap_group_display_name', 'cn'));
-$tmpl->assign( 'ldap_group_member_assoc_attribute', OCP\Config::getAppValue('user_ldap', 'ldap_group_member_assoc_attribute', 'uniqueMember'));
-$tmpl->assign( 'ldap_agent_password', base64_decode(OCP\Config::getAppValue('user_ldap', 'ldap_agent_password')));
-$tmpl->assign( 'ldap_cache_ttl', OCP\Config::getAppValue('user_ldap', 'ldap_cache_ttl', '600'));
-$hfnr = OCP\Config::getAppValue('user_ldap', 'home_folder_naming_rule', 'opt:username');
-$hfnr = ($hfnr == 'opt:username') ? '' : substr($hfnr, strlen('attr:'));
-$tmpl->assign( 'home_folder_naming_rule', $hfnr, '');
+// $tmpl->assign();
 
 return $tmpl->fetchPage();

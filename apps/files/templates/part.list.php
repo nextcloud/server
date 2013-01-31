@@ -13,7 +13,7 @@
 	$name = str_replace('%2F', '/', $name);
 	$directory = str_replace('+', '%20', urlencode($file['directory']));
 	$directory = str_replace('%2F', '/', $directory); ?>
-	<tr data-id="<?php echo $file['id']; ?>"
+	<tr data-id="<?php echo $file['fileid']; ?>"
 		data-file="<?php echo $name;?>"
 		data-type="<?php echo ($file['type'] == 'dir')?'dir':'file'?>"
 		data-mime="<?php echo $file['mimetype']?>"

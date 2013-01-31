@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 23:05+0000\n"
+"POT-Creation-Date: 2013-01-31 17:02+0100\n"
+"PO-Revision-Date: 2013-01-31 16:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -20,20 +20,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-
-#: ajax/move.php:17
-#, php-format
-msgid "Could not move %s - File with this name already exists"
-msgstr "%s を移動できませんでした ― この名前のファイルはすでに存在します"
-
-#: ajax/move.php:24
-#, php-format
-msgid "Could not move %s"
-msgstr "%s を移動できませんでした"
-
-#: ajax/rename.php:19
-msgid "Unable to rename file"
-msgstr "ファイル名の変更ができません"
 
 #: ajax/upload.php:17
 msgid "No file was uploaded. Unknown error"
@@ -70,11 +56,11 @@ msgstr "テンポラリフォルダが見つかりません"
 msgid "Failed to write to disk"
 msgstr "ディスクへの書き込みに失敗しました"
 
-#: ajax/upload.php:48
-msgid "Not enough storage available"
-msgstr ""
+#: ajax/upload.php:51
+msgid "Not enough space available"
+msgstr "利用可能なスペースが十分にありません"
 
-#: ajax/upload.php:77
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "無効なディレクトリです。"
 
@@ -82,15 +68,15 @@ msgstr "無効なディレクトリです。"
 msgid "Files"
 msgstr "ファイル"
 
-#: js/fileactions.js:117 templates/index.php:81 templates/index.php:82
+#: js/fileactions.js:117 templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "共有しない"
 
-#: js/fileactions.js:119 templates/index.php:87 templates/index.php:88
+#: js/fileactions.js:119 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "削除"
 
-#: js/fileactions.js:181
+#: js/fileactions.js:185
 msgid "Rename"
 msgstr "名前の変更"
 
@@ -114,7 +100,7 @@ msgstr "キャンセル"
 msgid "replaced {new_name}"
 msgstr "{new_name} を置換"
 
-#: js/filelist.js:253 js/filelist.js:255 js/filelist.js:286 js/filelist.js:288
+#: js/filelist.js:253 js/filelist.js:255
 msgid "undo"
 msgstr "元に戻す"
 
@@ -122,13 +108,9 @@ msgstr "元に戻す"
 msgid "replaced {new_name} with {old_name}"
 msgstr "{old_name} を {new_name} に置換"
 
-#: js/filelist.js:286
-msgid "unshared {files}"
-msgstr "未共有 {files}"
-
-#: js/filelist.js:288
-msgid "deleted {files}"
-msgstr "削除 {files}"
+#: js/filelist.js:280
+msgid "perform delete operation"
+msgstr ""
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -146,92 +128,84 @@ msgstr "無効な名前、'\\', '/', '<', '>', ':', '\"', '|', '?', '*' は使�
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "あなたのストレージは一杯です。ファイルの更新と同期はもうできません！"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "あなたのストレージはほぼ一杯です（{usedSpacePercent}%）"
 
-#: js/files.js:219
+#: js/files.js:224
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "ダウンロードの準備中です。ファイルサイズが大きい場合は少し時間がかかるかもしれません。"
 
-#: js/files.js:256
+#: js/files.js:261
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "ディレクトリもしくは0バイトのファイルはアップロードできません"
 
-#: js/files.js:256
+#: js/files.js:261
 msgid "Upload Error"
 msgstr "アップロードエラー"
 
-#: js/files.js:273
+#: js/files.js:278
 msgid "Close"
 msgstr "閉じる"
 
-#: js/files.js:292 js/files.js:408 js/files.js:439
+#: js/files.js:297 js/files.js:413 js/files.js:444
 msgid "Pending"
 msgstr "保留"
 
-#: js/files.js:312
+#: js/files.js:317
 msgid "1 file uploading"
 msgstr "ファイルを1つアップロード中"
 
-#: js/files.js:315 js/files.js:370 js/files.js:385
+#: js/files.js:320 js/files.js:375 js/files.js:390
 msgid "{count} files uploading"
 msgstr "{count} ファイルをアップロード中"
 
-#: js/files.js:388 js/files.js:423
+#: js/files.js:393 js/files.js:428
 msgid "Upload cancelled."
 msgstr "アップロードはキャンセルされました。"
 
-#: js/files.js:493
+#: js/files.js:502
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "ファイル転送を実行中です。今このページから移動するとアップロードが中止されます。"
 
-#: js/files.js:566
+#: js/files.js:575
 msgid "URL cannot be empty."
 msgstr "URLは空にできません。"
 
-#: js/files.js:571
+#: js/files.js:580
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "無効なフォルダ名です。'Shared' の利用は ownCloud が予約済みです。"
 
-#: js/files.js:784
-msgid "{count} files scanned"
-msgstr "{count} ファイルをスキャン"
-
-#: js/files.js:792
-msgid "error while scanning"
-msgstr "スキャン中のエラー"
-
-#: js/files.js:866 templates/index.php:63
+#: js/files.js:949 templates/index.php:67
 msgid "Name"
 msgstr "名前"
 
-#: js/files.js:867 templates/index.php:74
+#: js/files.js:950 templates/index.php:78
 msgid "Size"
 msgstr "サイズ"
 
-#: js/files.js:868 templates/index.php:76
+#: js/files.js:951 templates/index.php:80
 msgid "Modified"
 msgstr "更新日時"
 
-#: js/files.js:887
+#: js/files.js:970
 msgid "1 folder"
 msgstr "1 フォルダ"
 
-#: js/files.js:889
+#: js/files.js:972
 msgid "{count} folders"
 msgstr "{count} フォルダ"
 
-#: js/files.js:897
+#: js/files.js:980
 msgid "1 file"
 msgstr "1 ファイル"
 
-#: js/files.js:899
+#: js/files.js:982
 msgid "{count} files"
 msgstr "{count} ファイル"
 
@@ -287,32 +261,40 @@ msgstr "フォルダ"
 msgid "From link"
 msgstr "リンク"
 
-#: templates/index.php:41
+#: templates/index.php:40
+msgid "Trash"
+msgstr ""
+
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr "アップロードをキャンセル"
 
-#: templates/index.php:55
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr "ここには何もありません。何かアップロードしてください。"
 
-#: templates/index.php:69
+#: templates/index.php:73
 msgid "Download"
 msgstr "ダウンロード"
 
-#: templates/index.php:101
+#: templates/index.php:105
 msgid "Upload too large"
 msgstr "ファイルサイズが大きすぎます"
 
-#: templates/index.php:103
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "アップロードしようとしているファイルは、サーバで規定された最大サイズを超えています。"
 
-#: templates/index.php:108
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr "ファイルをスキャンしています、しばらくお待ちください。"
 
-#: templates/index.php:111
+#: templates/index.php:115
 msgid "Current scanning"
 msgstr "スキャン中"
+
+#: templates/upgrade.php:2
+msgid "Upgrading filesystem cache..."
+msgstr ""

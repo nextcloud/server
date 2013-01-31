@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 08:04+0000\n"
-"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
+"POT-Creation-Date: 2013-01-31 17:02+0100\n"
+"PO-Revision-Date: 2013-01-30 23:40+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,24 +19,24 @@ msgstr ""
 "Language: fa\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:84
+#: ajax/share.php:85
 #, php-format
 msgid "User %s shared a file with you"
 msgstr "کاربر %s  یک پرونده را با شما به اشتراک گذاشته است."
 
-#: ajax/share.php:86
+#: ajax/share.php:87
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr "کاربر %s  یک پوشه را با شما به اشتراک گذاشته است."
 
-#: ajax/share.php:88
+#: ajax/share.php:89
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr "کاربر %s پرونده \"%s\" را با شما به اشتراک گذاشته است. پرونده برای دانلود اینجاست : %s"
 
-#: ajax/share.php:90
+#: ajax/share.php:91
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -81,79 +81,79 @@ msgstr "هیج دسته ای برای پاک شدن انتخاب نشده است
 msgid "Error removing %s from favorites."
 msgstr "خطای پاک کردن %s از علاقه مندی ها."
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Sunday"
 msgstr "یکشنبه"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Monday"
 msgstr "دوشنبه"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Tuesday"
 msgstr "سه شنبه"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Wednesday"
 msgstr "چهارشنبه"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Thursday"
 msgstr "پنجشنبه"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Friday"
 msgstr "جمعه"
 
-#: js/config.php:28
+#: js/config.php:32
 msgid "Saturday"
 msgstr "شنبه"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "January"
 msgstr "ژانویه"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "February"
 msgstr "فبریه"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "March"
 msgstr "مارس"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "April"
 msgstr "آوریل"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "May"
 msgstr "می"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "June"
 msgstr "ژوئن"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "July"
 msgstr "جولای"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "August"
 msgstr "آگوست"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "September"
 msgstr "سپتامبر"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "October"
 msgstr "اکتبر"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "November"
 msgstr "نوامبر"
 
-#: js/config.php:29
+#: js/config.php:33
 msgid "December"
 msgstr "دسامبر"
 
@@ -239,8 +239,8 @@ msgid "The object type is not specified."
 msgstr "نوع شی تعیین نشده است."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
-#: js/share.js:566
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
+#: js/share.js:583
 msgid "Error"
 msgstr "خطا"
 
@@ -252,120 +252,139 @@ msgstr "نام برنامه تعیین نشده است."
 msgid "The required file {file} is not installed!"
 msgstr "پرونده { پرونده} درخواست شده نصب نشده است !"
 
-#: js/share.js:124 js/share.js:594
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Share"
+msgstr "اشتراک‌گزاری"
+
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Shared"
+msgstr ""
+
+#: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
 msgstr "خطا درحال به اشتراک گذاشتن"
 
-#: js/share.js:135
+#: js/share.js:152
 msgid "Error while unsharing"
 msgstr "خطا درحال لغو اشتراک"
 
-#: js/share.js:142
+#: js/share.js:159
 msgid "Error while changing permissions"
 msgstr "خطا در حال تغییر مجوز"
 
-#: js/share.js:151
+#: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "به اشتراک گذاشته شده با شما و گروه {گروه} توسط {دارنده}"
 
-#: js/share.js:153
+#: js/share.js:170
 msgid "Shared with you by {owner}"
 msgstr "به اشتراک گذاشته شده با شما توسط { دارنده}"
 
-#: js/share.js:158
+#: js/share.js:175
 msgid "Share with"
 msgstr "به اشتراک گذاشتن با"
 
-#: js/share.js:163
+#: js/share.js:180
 msgid "Share with link"
 msgstr "به اشتراک گذاشتن با پیوند"
 
-#: js/share.js:166
+#: js/share.js:183
 msgid "Password protect"
 msgstr "نگهداری کردن رمز عبور"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:35
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "گذرواژه"
 
-#: js/share.js:172
+#: js/share.js:189
 msgid "Email link to person"
 msgstr "پیوند ایمیل برای شخص."
 
-#: js/share.js:173
+#: js/share.js:190
 msgid "Send"
 msgstr ""
 
-#: js/share.js:177
+#: js/share.js:194
 msgid "Set expiration date"
 msgstr "تنظیم تاریخ انقضا"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Expiration date"
 msgstr "تاریخ انقضا"
 
-#: js/share.js:210
+#: js/share.js:227
 msgid "Share via email:"
 msgstr "از طریق ایمیل به اشتراک بگذارید :"
 
-#: js/share.js:212
+#: js/share.js:229
 msgid "No people found"
 msgstr "کسی یافت نشد"
 
-#: js/share.js:239
+#: js/share.js:256
 msgid "Resharing is not allowed"
 msgstr "اشتراک گذاری مجدد مجاز نمی باشد"
 
-#: js/share.js:275
+#: js/share.js:292
 msgid "Shared in {item} with {user}"
 msgstr "به اشتراک گذاشته شده در {بخش} با {کاربر}"
 
-#: js/share.js:296
+#: js/share.js:313
 msgid "Unshare"
 msgstr "لغو اشتراک"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "can edit"
 msgstr "می توان ویرایش کرد"
 
-#: js/share.js:310
+#: js/share.js:327
 msgid "access control"
 msgstr "کنترل دسترسی"
 
-#: js/share.js:313
+#: js/share.js:330
 msgid "create"
 msgstr "ایجاد"
 
-#: js/share.js:316
+#: js/share.js:333
 msgid "update"
 msgstr "به روز"
 
-#: js/share.js:319
+#: js/share.js:336
 msgid "delete"
 msgstr "پاک کردن"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "share"
 msgstr "به اشتراک گذاشتن"
 
-#: js/share.js:356 js/share.js:541
+#: js/share.js:373 js/share.js:558
 msgid "Password protected"
 msgstr "نگهداری از رمز عبور"
 
-#: js/share.js:554
+#: js/share.js:571
 msgid "Error unsetting expiration date"
 msgstr "خطا در تنظیم نکردن تاریخ انقضا "
 
-#: js/share.js:566
+#: js/share.js:583
 msgid "Error setting expiration date"
 msgstr "خطا در تنظیم تاریخ انقضا"
 
-#: js/share.js:581
+#: js/share.js:598
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:592
+#: js/share.js:609
 msgid "Email sent"
+msgstr ""
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
 #: lostpassword/controller.php:47

@@ -33,7 +33,6 @@
 "Fill in an email address to enable password recovery" => "Emplena una adreiça de corrièl per permetre lo mandadís del senhal perdut",
 "Language" => "Lenga",
 "Help translate" => "Ajuda a la revirada",
-"Name" => "Nom",
 "Groups" => "Grops",
 "Create" => "Crea",
 "Other" => "Autres",

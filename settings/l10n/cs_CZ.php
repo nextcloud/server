@@ -49,14 +49,17 @@
 "Use this address to connect to your ownCloud in your file manager" => "Použijte tuto adresu pro připojení k vašemu ownCloud skrze správce souborů",
 "Version" => "Verze",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Vyvinuto <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunitou ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">zdrojový kód</a> je licencován pod <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
-"Name" => "Jméno",
+"Login Name" => "Přihlašovací jméno",
 "Groups" => "Skupiny",
 "Create" => "Vytvořit",
 "Default Storage" => "Výchozí úložiště",
 "Unlimited" => "Neomezeně",
 "Other" => "Jiná",
+"Display Name" => "Zobrazované jméno",
 "Group Admin" => "Správa skupiny",
 "Storage" => "Úložiště",
+"change display name" => "změnit zobrazované jméno",
+"set new password" => "nastavit nové heslo",
 "Default" => "Výchozí",
 "Delete" => "Smazat"
 );

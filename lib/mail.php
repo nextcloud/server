@@ -38,6 +38,7 @@ class OC_Mail {
 		$SMTPHOST = OC_Config::getValue( 'mail_smtphost', '127.0.0.1' );
 		$SMTPPORT = OC_Config::getValue( 'mail_smtpport', 25 );
 		$SMTPAUTH = OC_Config::getValue( 'mail_smtpauth', false );
+		$SMTPAUTHTYPE = OC_Config::getValue( 'mail_smtpauthtype', 'LOGIN' );
 		$SMTPUSERNAME = OC_Config::getValue( 'mail_smtpname', '' );
 		$SMTPPASSWORD = OC_Config::getValue( 'mail_smtppassword', '' );
 		$SMTPDEBUG    = OC_Config::getValue( 'mail_smtpdebug', false );
@@ -62,6 +63,7 @@ class OC_Mail {
 		$mailo->SMTPAuth = $SMTPAUTH;
 		$mailo->SMTPDebug = $SMTPDEBUG;
 		$mailo->SMTPSecure = $SMTPSECURE;
+		$mailo->AuthType = $SMTPAUTHTYPE;
 		$mailo->Username = $SMTPUSERNAME;
 		$mailo->Password = $SMTPPASSWORD;
 		$mailo->Timeout  = $SMTPTIMEOUT;

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-28 00:04+0100\n"
+"POT-Creation-Date: 2013-01-31 17:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,11 +25,11 @@ msgstr ""
 msgid "Error configuring Dropbox storage"
 msgstr ""
 
-#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
+#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:41
 msgid "Grant access"
 msgstr ""
 
-#: js/dropbox.js:73 js/google.js:72
+#: js/dropbox.js:73 js/google.js:73
 msgid "Fill out all required fields"
 msgstr ""
 
@@ -37,17 +37,17 @@ msgstr ""
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr ""
 
-#: js/google.js:26 js/google.js:73 js/google.js:78
+#: js/google.js:26 js/google.js:74 js/google.js:79
 msgid "Error configuring Google Drive storage"
 msgstr ""
 
-#: lib/config.php:434
+#: lib/config.php:405
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:435
+#: lib/config.php:406
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting "
 "of FTP shares is not possible. Please ask your system administrator to "

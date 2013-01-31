@@ -116,10 +116,9 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 		if($limit <= 0) {
 			$limit = null;
 		}
-		$search = empty($search) ? '*' : '*'.$search.'*';
 		$filter = $this->combineFilterWithAnd(array(
 			$this->connection->ldapUserFilter,
-			$this->connection->ldapUserDisplayName.'='.$search
+			$this->getFilterPartForUserSearch($search)
 		));
 
 		\OCP\Util::writeLog('user_ldap', 'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter, \OCP\Util::DEBUG);
@@ -156,6 +155,7 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 		}
 
 		$this->connection->writeToCache('userExists'.$uid, true);
+		$this->updateQuota($dn);
 		return true;
 	}
 
@@ -206,6 +206,50 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 			return $homedir;
 		}
 		return false;
+	}
+
+	/**
+	 * @brief get display name of the user
+	 * @param $uid user ID of the user
+	 * @return display name
+	 */
+	public function getDisplayName($uid) {
+		$cacheKey = 'getDisplayName'.$uid;
+		if(!is_null($displayName = $this->connection->getFromCache($cacheKey))) {
+			return $displayName;
+		}
+
+		$displayName = $this->readAttribute(
+			$this->username2dn($uid),
+			$this->connection->ldapUserDisplayName);
+
+		if($displayName && (count($displayName) > 0)) {
+			$this->connection->writeToCache($cacheKey, $displayName);
+			return $displayName[0];
+		}
+
+		return null;
+	}
+
+	/**
+	 * @brief Get a list of all display names
+	 * @returns array with  all displayNames (value) and the correspondig uids (key)
+	 *
+	 * Get a list of all display names and user ids.
+	 */
+	public function getDisplayNames($search = '', $limit = null, $offset = null) {
+		$cacheKey = 'getDisplayNames-'.$search.'-'.$limit.'-'.$offset;
+		if(!is_null($displayNames = $this->connection->getFromCache($cacheKey))) {
+			return $displayNames;
+		}
+
+		$displayNames = array();
+		$users = $this->getUsers($search, $limit, $offset);
+		foreach ($users as $user) {
+			$displayNames[$user] = $this->getDisplayName($user);
+		}
+		$this->connection->writeToCache($cacheKey, $displayNames);
+		return $displayNames;
 	}
 
 		/**

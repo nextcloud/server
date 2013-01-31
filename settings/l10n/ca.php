@@ -49,14 +49,17 @@
 "Use this address to connect to your ownCloud in your file manager" => "Useu aquesta adreça per connectar amb ownCloud des del gestor de fitxers",
 "Version" => "Versió",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Desenvolupat per la <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunitat ownCloud</a>, el <a href=\"https://github.com/owncloud\" target=\"_blank\">codi font</a> té llicència <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
-"Name" => "Nom",
+"Login Name" => "Nom d'accés",
 "Groups" => "Grups",
 "Create" => "Crea",
 "Default Storage" => "Emmagatzemament per defecte",
 "Unlimited" => "Il·limitat",
 "Other" => "Un altre",
+"Display Name" => "Nom a mostrar",
 "Group Admin" => "Grup Admin",
 "Storage" => "Emmagatzemament",
+"change display name" => "canvia el nom a mostrar",
+"set new password" => "estableix nova contrasenya",
 "Default" => "Per defecte",
 "Delete" => "Suprimeix"
 );

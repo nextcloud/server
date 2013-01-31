@@ -25,7 +25,6 @@
 "Fill in an email address to enable password recovery" => "پست الکترونیکی را پرکنید  تا بازیابی گذرواژه فعال شود",
 "Language" => "زبان",
 "Help translate" => "به ترجمه آن کمک کنید",
-"Name" => "نام",
 "Groups" => "گروه ها",
 "Create" => "ایجاد کردن",
 "Other" => "سایر",

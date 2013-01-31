@@ -12,5 +12,5 @@ OCP\Util::addscript('files_versions', 'versions');
 // Listen to write signals
 OCP\Util::connectHook('OC_Filesystem', 'write', "OCA_Versions\Hooks", "write_hook");
 // Listen to delete and rename signals
-OCP\Util::connectHook('OC_Filesystem', 'delete', "OCA_Versions\Hooks", "remove_hook");
+OCP\Util::connectHook('OC_Filesystem', 'post-delete', "OCA_Versions\Hooks", "remove_hook");
 OCP\Util::connectHook('OC_Filesystem', 'rename', "OCA_Versions\Hooks", "rename_hook");

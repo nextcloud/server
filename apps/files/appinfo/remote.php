@@ -32,12 +32,14 @@ OC_Util::obEnd();
 // Backends
 $authBackend = new OC_Connector_Sabre_Auth();
 $lockBackend = new OC_Connector_Sabre_Locks();
+$requestBackend = new OC_Connector_Sabre_Request();
 
 // Create ownCloud Dir
 $publicDir = new OC_Connector_Sabre_Directory('');
 
 // Fire up server
 $server = new Sabre_DAV_Server($publicDir);
+$server->httpRequest = $requestBackend;
 $server->setBaseUri($baseuri);
 
 // Load plugins

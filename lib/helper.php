@@ -78,11 +78,8 @@ class OC_Helper {
 			}
 		}
 
-		if (!empty($args)) {
-			$urlLinkTo .= '?';
-			foreach($args as $k => $v) {
-				$urlLinkTo .= '&'.$k.'='.urlencode($v);
-			}
+		if ($args && $query = http_build_query($args, '', '&')) {
+			$urlLinkTo .= '?'.$query;
 		}
 
 		return $urlLinkTo;
@@ -327,7 +324,7 @@ class OC_Helper {
 					self::copyr("$src/$file", "$dest/$file");
 				}
 			}
-		}elseif(file_exists($src) && !OC_Filesystem::isFileBlacklisted($src)) {
+		}elseif(file_exists($src) && !\OC\Files\Filesystem::isFileBlacklisted($src)) {
 			copy($src, $dest);
 		}
 	}
@@ -621,7 +618,7 @@ class OC_Helper {
 
 		$newpath = $path . '/' . $filename;
 		$counter = 2;
-		while (OC_Filesystem::file_exists($newpath)) {
+		while (\OC\Files\Filesystem::file_exists($newpath)) {
 			$newname = $name . ' (' . $counter . ')' . $ext;
 			$newpath = $path . '/' . $newname;
 			$counter++;
@@ -760,7 +757,7 @@ class OC_Helper {
 		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
 		$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
-		$freeSpace = OC_Filesystem::free_space($dir);
+		$freeSpace = \OC\Files\Filesystem::free_space($dir);
 		$freeSpace = max($freeSpace, 0);
 
 		return min($maxUploadFilesize, $freeSpace);
@@ -790,12 +787,12 @@ class OC_Helper {
 	 * Calculate the disc space
 	 */
 	public static function getStorageInfo() {
-		$rootInfo = OC_FileCache::get('');
+		$rootInfo = \OC\Files\Filesystem::getFileInfo('/');
 		$used = $rootInfo['size'];
 		if ($used < 0) {
 			$used = 0;
 		}
-		$free = OC_Filesystem::free_space();
+		$free = \OC\Files\Filesystem::free_space();
 		$total = $free + $used;
 		if ($total == 0) {
 			$total = 1; // prevent division by zero

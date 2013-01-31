@@ -99,7 +99,7 @@ class Files {
 	/**
 	 * @param string appid
 	 * @param $app app
-	 * @return OC_FilesystemView
+	 * @return \OC\Files\View
 	 */
 	public static function getStorage( $app ) {
 		return \OC_App::getStorage( $app );

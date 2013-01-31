@@ -12,10 +12,12 @@ $files = isset($_POST["file"]) ? stripslashes($_POST["file"]) : stripslashes($_P
 
 $files = json_decode($files);
 $filesWithError = '';
+
 $success = true;
+
 //Now delete
 foreach ($files as $file) {
-	if (!OC_Files::delete($dir, $file)) {
+	if (($dir === '' && $file === 'Shared') || !\OC\Files\Filesystem::unlink($dir . '/' . $file)) {
 		$filesWithError .= $file . "\n";
 		$success = false;
 	}
