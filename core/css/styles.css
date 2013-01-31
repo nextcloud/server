@@ -28,7 +28,9 @@ background:-ms-linear-gradient(top, #35537a 0%,#1d2d42 100%); /* IE10+ */
 background:linear-gradient(top, #35537a 0%,#1d2d42 100%); /* W3C */
 filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d42',GradientType=0 ); /* IE6-9 */ }
 
-#owncloud { position:absolute; padding:6px; padding-bottom:0; }
+#owncloud { position:absolute; top:0; left:0; padding:6px; padding-bottom:0; }
+.header-right { float:right; vertical-align:middle; padding:0 0.5em; }
+.header-right > * { vertical-align:middle; }
 
 /* INPUTS */
 input[type="text"], input[type="password"] { cursor:text; }
