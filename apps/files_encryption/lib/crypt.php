@@ -184,19 +184,18 @@ class Crypt {
          * @brief Check if a file is encrypted via legacy system
          * @return true / false
          */
-	public static function isLegacyEncryptedContent( $content ) {
+	public static function isLegacyEncryptedContent( $data, $path ) {
 	
 		// Fetch all file metadata from DB
-		$metadata = \OC\Files\Filesystem::getFileInfo( $content, '' );
-	
+		$metadata = \OC\Files\Filesystem::getFileInfo( $path, '' );
+		
 		// If a file is flagged with encryption in DB, but isn't a 
 		// valid content + IV combination, it's probably using the 
 		// legacy encryption system
 		if ( 
-		$content
-		and isset( $metadata['encrypted'] ) 
-		and $metadata['encrypted'] === true 
-		and ! self::isCatfile( $content ) 
+			isset( $metadata['encrypted'] ) 
+			and $metadata['encrypted'] === true 
+			and ! self::isCatfile( $data ) 
 		) {
 		
 			return true;

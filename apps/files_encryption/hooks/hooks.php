@@ -70,7 +70,7 @@ class Hooks {
 				$view1->file_exists( 'encryption.key' )
 				&& $encLegacyKey = $view1->file_get_contents( 'encryption.key' ) 
 			) {
-				
+			
 				$plainLegacyKey = Crypt::legacyDecrypt( $encLegacyKey, $params['password'] );
 				
 				$session->setLegacyKey( $plainLegacyKey );
@@ -87,7 +87,7 @@ class Hooks {
 			) {
 				
 				\OC_Log::write( 
-					'Encryption library', 'Encryption of file belonging to "' . $params['uid'] . '" was started at login'
+					'Encryption library', 'Encryption of existing files belonging to "' . $params['uid'] . '" started at login'
 					, \OC_Log::INFO 
 				);
 			

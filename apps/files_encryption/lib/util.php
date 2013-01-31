@@ -37,8 +37,9 @@ namespace OCA\Encryption;
 
 /**
  * @brief Class for utilities relating to encrypted file storage system
- * @param $view OC_FilesystemView object, expected to have OC '/' as root path
- * @param $client flag indicating status of client side encryption. Currently
+ * @param OC_FilesystemView $view expected to have OC '/' as root path
+ * @param string $userId ID of the logged in user
+ * @param int $client indicating status of client side encryption. Currently
  * unused, likely to become obsolete shortly
  */
 
@@ -262,17 +263,25 @@ class Util {
 					} elseif ( $this->view->is_file( $filePath ) ) {
 						
 						// Disable proxies again, some-
-						// how they get re-enabled :/
+						// where they got re-enabled :/
 						\OC_FileProxy::$enabled = false;
 						
+						$data = $this->view->file_get_contents( $filePath );
+						
 						// If the file is encrypted
-						if ( Keymanager::getFileKey( $this->view, $this->userId, $file ) ) {
+						// NOTE: If the userId is 
+						// empty or not set, file will 
+						// detected as plain
+						if ( 
+							Keymanager::getFileKey( $this->view, $this->userId, $file ) 
+							&& Crypt::isCatfile( $filePath )
+						) {
 						
 							$found['encrypted'][] = array( 'name' => $file, 'path' => $filePath );
 						
 						// If the file uses old 
 						// encryption system
-						} elseif (  Crypt::isLegacyEncryptedContent( $this->view->file_get_contents( $filePath ) ) ) {
+						} elseif (  Crypt::isLegacyEncryptedContent( $this->view->file_get_contents( $filePath ), $filePath ) ) {
 							
 							$found['legacy'][] = array( 'name' => $file, 'path' => $filePath );
 							
@@ -355,11 +364,16 @@ class Util {
 				$sliced = array_slice( $split, 2 );
 				$relPath = implode( '/', $sliced );
 				
-				// Save catfile
+				// Save keyfile
 				Keymanager::setFileKey( $this->view, $relPath, $this->userId, $encrypted['key'] );
 				
 				// Overwrite the existing file with the encrypted one
 				$this->view->file_put_contents( $plainFile['path'], $encrypted['data'] );
+				
+				$size = strlen( $encrypted['data'] );
+				
+				// Add the file to the cache
+				\OC\Files\Filesystem::putFileInfo( $plainFile['path'], array( 'encrypted'=>true, 'size' => $size ), '' );
 			
 			}
 			
@@ -370,6 +384,8 @@ class Util {
 				&& ! empty( $newPassphrase ) 
 			) {
 			
+				trigger_error("LEGACY FOUND");
+			
 				foreach ( $found['legacy'] as $legacyFilePath ) {
 				
 					// Fetch data from file
@@ -378,11 +394,16 @@ class Util {
 					// Recrypt data, generate catfile
 					$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKey, $newPassphrase );
 					
-					// Save catfile
+					// Save keyfile
 					Keymanager::setFileKey( $this->view, $plainFile['path'], $this->userId, $recrypted['key'] );
 					
 					// Overwrite the existing file with the encrypted one
 					$this->view->file_put_contents( $plainFile['path'], $recrypted['data'] );
+					
+					$size = strlen( $recrypted['data'] );
+					
+					// Add the file to the cache
+					\OC\Files\Filesystem::putFileInfo( $plainFile['path'], array( 'encrypted'=>true, 'size' => $size ), '' );
 				
 				}
 				
