@@ -547,7 +547,6 @@ function object(o) {
 	return new F();
 }
 
-
 /**
  * Fills height of window. (more precise than height: 100%;)
  */
@@ -664,9 +663,7 @@ $(document).ready(function(){
 		event.stopPropagation();
 	});
 	$(window).click(function(){//hide the settings menu when clicking outside it
-		if($('body').attr("id")==="body-user"){
-			$('#settings #expanddiv').slideUp();
-		}
+		$('#settings #expanddiv').slideUp();
 	});
 
 	// all the tipsy stuff needs to be here (in reverse order) to work
