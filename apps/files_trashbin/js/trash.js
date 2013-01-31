@@ -104,6 +104,8 @@ $(document).ready(function() {
 			}
 		}
 	});
+
+	FileActions.actions.dir = {};
 });
 
 function processSelection(){
