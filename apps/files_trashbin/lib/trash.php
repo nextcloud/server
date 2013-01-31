@@ -119,8 +119,9 @@ class Trashbin {
 		
 		// we need a  extension in case a file/dir with the same name already exists
 		$ext = self::getUniqueExtension($location, $filename, $view);
-		
+		$mtime = $view->filemtime($source);
 		if( $view->rename($source, $target.$ext) ) {
+			$view->touch($target.$ext, $mtime);
 			// if versioning app is enabled, copy versions from the trash bin back to the original location
 			if ( \OCP\App::isEnabled('files_versions') ) {
 				if ( $result[0]['type'] == 'dir' ) {
@@ -189,21 +190,23 @@ class Trashbin {
 	 * @param $source source path, relative to the users files directory
 	 * @param $destination destination path relative to the users root directoy
 	 * @param $view file view for the users root directory
-	 * @param $location location of the source files, either "fscache" or "local"
 	 */
-	private static function copy_recursive( $source, $destination, $view, $location='fscache' ) {
+	private static function copy_recursive( $source, $destination, $view ) {
 		if ( $view->is_dir( 'files'.$source ) ) {
 			$view->mkdir( $destination );
+			$view->touch($destination,  $view->filemtime('files'.$source));
 			foreach ( \OC_Files::getDirectoryContent($source) as $i ) {
 				$pathDir = $source.'/'.$i['name'];
 				if ( $view->is_dir('files'.$pathDir) ) {
 					self::copy_recursive($pathDir, $destination.'/'.$i['name'], $view);
 				} else {
 					$view->copy( 'files'.$pathDir, $destination . '/' . $i['name'] );
+					$view->touch($destination . '/' . $i['name'], $view->filemtime('files'.$pathDir));
 				}
 			}
 		} else {
 			$view->copy( 'files'.$source, $destination );
+			$view->touch($destination, $view->filemtime('files'.$source));
 		}
 	}
 	
