@@ -37,7 +37,7 @@ class Helper {
 	 * 'configkey' have a prefix. The prefix for the very first server
 	 * configuration is empty.
 	 * Configkey Examples:
-	 * Server 1: ldap_login_filtter
+	 * Server 1: ldap_login_filter
 	 * Server 2: s1_ldap_login_filter
 	 * Server 3: s2_ldap_login_filter
 	 *
@@ -72,7 +72,7 @@ class Helper {
 	/**
 	 * @brief deletes a given saved LDAP/AD server configuration.
 	 * @param string the configuration prefix of the config to delete
-	 * @return bool true on success, false otherweise
+	 * @return bool true on success, false otherwise
 	 */
 	static public function deleteServerConfiguration($prefix) {
 		//just to be on the safe side
