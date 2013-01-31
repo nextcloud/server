@@ -4,17 +4,19 @@
 # 
 # Translators:
 #   <daniel@mouxy.net>, 2012.
+#  <duartegrilo@gmail.com>, 2013.
 # Duarte Velez Grilo <duartegrilo@gmail.com>, 2012-2013.
 #   <geral@ricardolameiro.pt>, 2012.
 # Helder Meneses <helder.meneses@gmail.com>, 2012.
+# Miguel Sousa <migueljorgesousa@sapo.pt>, 2013.
 #   <rjgpp.1994@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-30 00:23+0100\n"
-"PO-Revision-Date: 2013-01-29 23:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-31 17:02+0100\n"
+"PO-Revision-Date: 2013-01-31 01:00+0000\n"
+"Last-Translator: Miguel Sousa <migueljorgesousa@sapo.pt>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -233,7 +235,7 @@ msgstr "Desenvolvido pela <a href=\"http://ownCloud.org/contact\" target=\"_blan
 
 #: templates/users.php:21 templates/users.php:79
 msgid "Login Name"
-msgstr ""
+msgstr "Nome de utilizador"
 
 #: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
@@ -257,7 +259,7 @@ msgstr "Outro"
 
 #: templates/users.php:80
 msgid "Display Name"
-msgstr ""
+msgstr "Nome público"
 
 #: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
@@ -266,6 +268,14 @@ msgstr "Grupo Administrador"
 #: templates/users.php:86
 msgid "Storage"
 msgstr "Armazenamento"
+
+#: templates/users.php:97
+msgid "change display name"
+msgstr "modificar nome exibido"
+
+#: templates/users.php:101
+msgid "set new password"
+msgstr "definir nova palavra-passe"
 
 #: templates/users.php:137
 msgid "Default"

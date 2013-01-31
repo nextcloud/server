@@ -53,6 +53,8 @@
 "Error" => "Chyba",
 "The app name is not specified." => "Není určen název aplikace.",
 "The required file {file} is not installed!" => "Požadovaný soubor {file} není nainstalován.",
+"Share" => "Sdílet",
+"Shared" => "Sdílené",
 "Error while sharing" => "Chyba při sdílení",
 "Error while unsharing" => "Chyba při rušení sdílení",
 "Error while changing permissions" => "Chyba při změně oprávnění",

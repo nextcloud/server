@@ -94,11 +94,11 @@ $_['subadmingroups'] = array_flip($items);
 			<td class="name"><?php echo $user["name"]; ?></td>
 			<td class="displayName"><span><?php echo $user["displayName"]; ?></span> <img class="svg action"
 				src="<?php echo image_path('core', 'actions/rename.svg')?>"
-				alt="change display name" title="change display name"/>
+				alt="<?php echo $l->t("change display name")?>" title="<?php echo $l->t("change display name")?>"/>
 			</td>
 			<td class="password"><span>●●●●●●●</span> <img class="svg action"
 				src="<?php echo image_path('core', 'actions/rename.svg')?>"
-				alt="set new password" title="set new password"/>
+				alt="<?php echo $l->t("set new password")?>" title="<?php echo $l->t("set new password")?>"/>
 			</td>
 			<td class="groups"><select
 				class="groupsselect"

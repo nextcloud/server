@@ -1,7 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom",
-"Could not move %s" => " No s'ha pogut moure %s",
-"Unable to rename file" => "No es pot canviar el nom del fitxer",
 "No file was uploaded. Unknown error" => "No s'ha carregat cap fitxer. Error desconegut",
 "There is no error, the file uploaded with success" => "El fitxer s'ha pujat correctament",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "L’arxiu que voleu carregar supera el màxim definit en la directiva upload_max_filesize del php.ini:",
@@ -10,7 +7,7 @@
 "No file was uploaded" => "El fitxer no s'ha pujat",
 "Missing a temporary folder" => "S'ha perdut un fitxer temporal",
 "Failed to write to disk" => "Ha fallat en escriure al disc",
-"Not enough storage available" => "No hi ha prou espai disponible",
+"Not enough space available" => "No hi ha prou espai disponible",
 "Invalid directory." => "Directori no vàlid.",
 "Files" => "Fitxers",
 "Unshare" => "Deixa de compartir",
@@ -23,8 +20,6 @@
 "replaced {new_name}" => "s'ha substituït {new_name}",
 "undo" => "desfés",
 "replaced {new_name} with {old_name}" => "s'ha substituït {old_name} per {new_name}",
-"unshared {files}" => "no compartits {files}",
-"deleted {files}" => "eliminats {files}",
 "'.' is an invalid file name." => "'.' és un nom no vàlid per un fitxer.",
 "File name cannot be empty." => "El nom del fitxer no pot ser buit.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "El nóm no és vàlid, '\\', '/', '<', '>', ':', '\"', '|', '?' i '*' no estan permesos.",
@@ -41,8 +36,6 @@
 "File upload is in progress. Leaving the page now will cancel the upload." => "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà.",
 "URL cannot be empty." => "La URL no pot ser buida",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Nom de carpeta no vàlid. L'ús de 'Shared' està reservat per Owncloud",
-"{count} files scanned" => "{count} fitxers escannejats",
-"error while scanning" => "error durant l'escaneig",
 "Name" => "Nom",
 "Size" => "Mida",
 "Modified" => "Modificat",
@@ -69,5 +62,6 @@
 "Upload too large" => "La pujada és massa gran",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada del servidor",
 "Files are being scanned, please wait." => "S'estan escanejant els fitxers, espereu",
-"Current scanning" => "Actualment escanejant"
+"Current scanning" => "Actualment escanejant",
+"Upgrading filesystem cache..." => "Actualitzant la memòria de cau del sistema de fitxers..."
 );

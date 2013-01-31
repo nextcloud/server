@@ -41,6 +41,7 @@
 "Yes" => "Ja",
 "Ok" => "Ok",
 "Error" => "Feil",
+"Share" => "Del",
 "Error while sharing" => "Feil under deling",
 "Share with" => "Del med",
 "Share with link" => "Del med link",

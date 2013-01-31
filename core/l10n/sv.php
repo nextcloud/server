@@ -53,6 +53,8 @@
 "Error" => "Fel",
 "The app name is not specified." => " Namnet på appen är inte specificerad.",
 "The required file {file} is not installed!" => "Den nödvändiga filen {file} är inte installerad!",
+"Share" => "Dela",
+"Shared" => "Delad",
 "Error while sharing" => "Fel vid delning",
 "Error while unsharing" => "Fel när delning skulle avslutas",
 "Error while changing permissions" => "Fel vid ändring av rättigheter",

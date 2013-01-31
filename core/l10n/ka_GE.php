@@ -38,6 +38,7 @@
 "Yes" => "კი",
 "Ok" => "დიახ",
 "Error" => "შეცდომა",
+"Share" => "გაზიარება",
 "Error while sharing" => "შეცდომა გაზიარების დროს",
 "Error while unsharing" => "შეცდომა გაზიარების გაუქმების დროს",
 "Error while changing permissions" => "შეცდომა დაშვების ცვლილების დროს",

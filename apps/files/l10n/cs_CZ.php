@@ -1,7 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "Nelze přesunout %s - existuje soubor se stejným názvem",
-"Could not move %s" => "Nelze přesunout %s",
-"Unable to rename file" => "Nelze přejmenovat soubor",
 "No file was uploaded. Unknown error" => "Soubor nebyl odeslán. Neznámá chyba",
 "There is no error, the file uploaded with success" => "Soubor byl odeslán úspěšně",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Odesílaný soubor přesahuje velikost upload_max_filesize povolenou v php.ini:",
@@ -10,7 +7,7 @@
 "No file was uploaded" => "Žádný soubor nebyl odeslán",
 "Missing a temporary folder" => "Chybí adresář pro dočasné soubory",
 "Failed to write to disk" => "Zápis na disk selhal",
-"Not enough storage available" => "Nedostatek dostupného úložného prostoru",
+"Not enough space available" => "Nedostatek dostupného místa",
 "Invalid directory." => "Neplatný adresář",
 "Files" => "Soubory",
 "Unshare" => "Zrušit sdílení",
@@ -23,8 +20,6 @@
 "replaced {new_name}" => "nahrazeno {new_name}",
 "undo" => "zpět",
 "replaced {new_name} with {old_name}" => "nahrazeno {new_name} s {old_name}",
-"unshared {files}" => "sdílení zrušeno pro {files}",
-"deleted {files}" => "smazáno {files}",
 "'.' is an invalid file name." => "'.' je neplatným názvem souboru.",
 "File name cannot be empty." => "Název souboru nemůže být prázdný řetězec.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Neplatný název, znaky '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nejsou povoleny.",
@@ -41,8 +36,6 @@
 "File upload is in progress. Leaving the page now will cancel the upload." => "Probíhá odesílání souboru. Opuštění stránky vyústí ve zrušení nahrávání.",
 "URL cannot be empty." => "URL nemůže být prázdná",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Neplatný název složky. Použití 'Shared' je rezervováno pro vnitřní potřeby Owncloud",
-"{count} files scanned" => "prozkoumáno {count} souborů",
-"error while scanning" => "chyba při prohledávání",
 "Name" => "Název",
 "Size" => "Velikost",
 "Modified" => "Změněno",
@@ -69,5 +62,6 @@
 "Upload too large" => "Odeslaný soubor je příliš velký",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Soubory, které se snažíte odeslat, překračují limit velikosti odesílání na tomto serveru.",
 "Files are being scanned, please wait." => "Soubory se prohledávají, prosím čekejte.",
-"Current scanning" => "Aktuální prohledávání"
+"Current scanning" => "Aktuální prohledávání",
+"Upgrading filesystem cache..." => "Aktualizuji mezipaměť souborového systému..."
 );

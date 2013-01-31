@@ -39,7 +39,7 @@ class OC_Util {
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//first set up the local "root" storage
 		if(!self::$rootMounted) {
-			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir'=>$CONFIG_DATADIRECTORY), '/');
+			\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', array('datadir'=>$CONFIG_DATADIRECTORY), '/');
 			self::$rootMounted=true;
 		}
 
@@ -51,42 +51,21 @@ class OC_Util {
 				mkdir( $userdirectory, 0755, true );
 			}
 			//jail the user into his "home" directory
-			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir' => $user_root), $user);
-			OC_Filesystem::init($user_dir, $user);
+			\OC\Files\Filesystem::init($user_dir);
+
 			$quotaProxy=new OC_FileProxy_Quota();
 			$fileOperationProxy = new OC_FileProxy_FileOperations();
 			OC_FileProxy::register($quotaProxy);
 			OC_FileProxy::register($fileOperationProxy);
-			// Load personal mount config
-			self::loadUserMountPoints($user);
+
 			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $user_dir));
 		}
+		return true;
 	}
 
 	public static function tearDownFS() {
-		OC_Filesystem::tearDown();
+		\OC\Files\Filesystem::tearDown();
 		self::$fsSetup=false;
-	}
-
-	public static function loadUserMountPoints($user) {
-		$user_dir = '/'.$user.'/files';
-		$user_root = OC_User::getHome($user);
-		$userdirectory = $user_root . '/files';
-		if (is_file($user_root.'/mount.php')) {
-			$mountConfig = include $user_root.'/mount.php';
-			if (isset($mountConfig['user'][$user])) {
-				foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
-					OC_Filesystem::mount($options['class'], $options['options'], $mountPoint);
-				}
-			}
-
-			$mtime=filemtime($user_root.'/mount.php');
-			$previousMTime=OC_Preferences::getValue($user, 'files', 'mountconfigmtime', 0);
-			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
-				OC_FileCache::triggerUpdate($user);
-				OC_Preferences::setValue($user, 'files', 'mountconfigmtime', $mtime);
-			}
-		}
 	}
 
 	/**
@@ -95,7 +74,7 @@ class OC_Util {
 	 */
 	public static function getVersion() {
 		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4.90.0. This is not visible to the user
-		return array(4, 91, 03);
+		return array(4, 91, 9);
 	}
 
 	/**
@@ -157,14 +136,14 @@ class OC_Util {
 	 * @param string $text the text content for the element
 	 */
 	public static function addHeader( $tag, $attributes, $text='') {
-		self::$headers[]=array('tag'=>$tag,'attributes'=>$attributes, 'text'=>$text);
+		self::$headers[] = array('tag'=>$tag, 'attributes'=>$attributes, 'text'=>$text);
 	}
 
 	/**
 	 * formats a timestamp in the "right" way
 	 *
 	 * @param int timestamp $timestamp
-	 * @param bool dateOnly option to ommit time from the result
+	 * @param bool dateOnly option to omit time from the result
 	 */
 	public static function formatDate( $timestamp, $dateOnly=false) {
 		if(isset($_SESSION['timezone'])) {//adjust to clients timezone if we know it
@@ -333,7 +312,7 @@ class OC_Util {
 	public static function checkLoggedIn() {
 		// Check if we are a user
 		if( !OC_User::isLoggedIn()) {
-			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php', array('redirect_url' => $_SERVER["REQUEST_URI"])));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php', array('redirect_url' => OC_Request::requestUri())));
 			exit();
 		}
 	}
@@ -398,6 +377,17 @@ class OC_Util {
 	}
 
 	/**
+	 * @brief Static lifespan (in seconds) when a request token expires.
+	 * @see OC_Util::callRegister()
+	 * @see OC_Util::isCallRegistered()
+	 * @description
+	 * Also required for the client side to compute the piont in time when to
+	 * request a fresh token. The client will do so when nearly 97% of the
+	 * timespan coded here has expired.
+	 */
+	public static $callLifespan = 3600; // 3600 secs = 1 hour
+
+	/**
 	 * @brief Register an get/post call. Important to prevent CSRF attacks.
 	 * @todo Write howto: CSRF protection guide
 	 * @return $token Generated token.
@@ -405,6 +395,8 @@ class OC_Util {
 	 * Creates a 'request token' (random) and stores it inside the session.
 	 * Ever subsequent (ajax) request must use such a valid token to succeed,
 	 * otherwise the request will be denied as a protection against CSRF.
+	 * The tokens expire after a fixed lifespan.
+	 * @see OC_Util::$callLifespan
 	 * @see OC_Util::isCallRegistered()
 	 */
 	public static function callRegister() {
@@ -423,6 +415,7 @@ class OC_Util {
 	/**
 	 * @brief Check an ajax get/post call if the request token is valid.
 	 * @return boolean False if request token is not set or is invalid.
+	 * @see OC_Util::$callLifespan
 	 * @see OC_Util::callRegister()
 	 */
 	public static function isCallRegistered() {

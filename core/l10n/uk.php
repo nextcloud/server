@@ -53,6 +53,7 @@
 "Error" => "Помилка",
 "The app name is not specified." => "Не визначено ім'я програми.",
 "The required file {file} is not installed!" => "Необхідний файл {file} не встановлено!",
+"Share" => "Поділитися",
 "Error while sharing" => "Помилка під час публікації",
 "Error while unsharing" => "Помилка під час відміни публікації",
 "Error while changing permissions" => "Помилка при зміні повноважень",

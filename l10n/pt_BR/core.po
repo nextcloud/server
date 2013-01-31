@@ -10,6 +10,7 @@
 # Guilherme Maluf Balzana <guimalufb@gmail.com>, 2012.
 #   <henrique@meira.net>, 2012.
 #   <philippi.sedir@gmail.com>, 2012.
+# Rodrigo Tavares <rodrigo.st23@hotmail.com>, 2013.
 # Thiago Vicente <thiagovice@gmail.com>, 2012.
 # Unforgiving Fallout <>, 2012.
 # Van Der Fran <transifex@vanderland.com>, 2011, 2012.
@@ -17,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-30 00:23+0100\n"
-"PO-Revision-Date: 2013-01-29 23:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-31 17:02+0100\n"
+"PO-Revision-Date: 2013-01-30 23:40+0000\n"
+"Last-Translator: rodrigost23 <rodrigo.st23@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,26 +31,26 @@ msgstr ""
 #: ajax/share.php:85
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "O usuário %s compartilhou um arquivo com você"
 
 #: ajax/share.php:87
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "O usuário %s compartilhou uma pasta com você"
 
 #: ajax/share.php:89
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "O usuário %s compartilhou com você o arquivo \"%s\", que está disponível para download em: %s"
 
 #: ajax/share.php:91
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "O usuário %s compartilhou com você a pasta \"%s\", que está disponível para download em: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -262,11 +263,11 @@ msgstr "O arquivo {file} necessário não está instalado!"
 
 #: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
 msgid "Share"
-msgstr ""
+msgstr "Compartilhar"
 
 #: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
 msgid "Shared"
-msgstr ""
+msgstr "Compartilhados"
 
 #: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
@@ -306,11 +307,11 @@ msgstr "Senha"
 
 #: js/share.js:189
 msgid "Email link to person"
-msgstr ""
+msgstr "Enviar link por e-mail"
 
 #: js/share.js:190
 msgid "Send"
-msgstr ""
+msgstr "Enviar"
 
 #: js/share.js:194
 msgid "Set expiration date"
@@ -378,22 +379,22 @@ msgstr "Erro ao definir data de expiração"
 
 #: js/share.js:598
 msgid "Sending ..."
-msgstr ""
+msgstr "Enviando ..."
 
 #: js/share.js:609
 msgid "Email sent"
-msgstr ""
+msgstr "E-mail enviado"
 
 #: js/update.js:14
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "A atualização falhou. Por favor, relate este problema para a <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunidade ownCloud</a>."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "A atualização teve êxito. Você será redirecionado ao ownCloud agora."
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -591,4 +592,4 @@ msgstr "próximo"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "Atualizando ownCloud para a versão %s, isto pode levar algum tempo."

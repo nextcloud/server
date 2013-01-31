@@ -53,6 +53,7 @@
 "Error" => "Villa",
 "The app name is not specified." => "Nafn forrits ekki tilgreint",
 "The required file {file} is not installed!" => "Umbeðina skráin {file} ekki tiltæk!",
+"Share" => "Deila",
 "Error while sharing" => "Villa við deilingu",
 "Error while unsharing" => "Villa við að hætta deilingu",
 "Error while changing permissions" => "Villa við að breyta aðgangsheimildum",

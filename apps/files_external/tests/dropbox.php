@@ -6,7 +6,9 @@
  * See the COPYING-README file.
  */
 
-class Test_Filestorage_Dropbox extends Test_FileStorage {
+namespace Test\Files\Storage;
+
+class Dropbox extends Storage {
 	private $config;
 
 	public function setUp() {
@@ -16,7 +18,7 @@ class Test_Filestorage_Dropbox extends Test_FileStorage {
 			$this->markTestSkipped('Dropbox backend not configured');
 		}
 		$this->config['dropbox']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
-		$this->instance = new OC_Filestorage_Dropbox($this->config['dropbox']);
+		$this->instance = new \OC\Files\Storage\Dropbox($this->config['dropbox']);
 	}
 
 	public function tearDown() {

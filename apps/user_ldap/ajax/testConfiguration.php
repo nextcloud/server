@@ -4,7 +4,7 @@
  * ownCloud - user_ldap
  *
  * @author Arthur Schiwon
- * @copyright 2012 Arthur Schiwon blizzz@owncloud.com
+ * @copyright 2012, 2013 Arthur Schiwon blizzz@owncloud.com
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -26,14 +26,16 @@ OCP\JSON::checkAdminUser();
 OCP\JSON::checkAppEnabled('user_ldap');
 OCP\JSON::callCheck();
 
-$connection = new \OCA\user_ldap\lib\Connection(null);
+$l=OC_L10N::get('user_ldap');
+
+$connection = new \OCA\user_ldap\lib\Connection('', null);
 if($connection->setConfiguration($_POST)) {
 	//Configuration is okay
 	if($connection->bind()) {
-		OCP\JSON::success(array('message' => 'The configuration is valid and the connection could be established!'));
+		OCP\JSON::success(array('message' => $l->t('The configuration is valid and the connection could be established!')));
 	} else {
-		OCP\JSON::error(array('message' => 'The configuration is valid, but the Bind failed. Please check the server settings and credentials.'));
+		OCP\JSON::error(array('message' => $l->t('The configuration is valid, but the Bind failed. Please check the server settings and credentials.')));
 	}
 } else {
-	OCP\JSON::error(array('message' => 'The configuration is invalid. Please look in the ownCloud log for further details.'));
+	OCP\JSON::error(array('message' => $l->t('The configuration is invalid. Please look in the ownCloud log for further details.')));
 }

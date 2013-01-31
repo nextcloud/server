@@ -23,7 +23,9 @@
 #new>ul>li>p { cursor:pointer; }
 #new>ul>li>form>input { padding:0.3em; margin:-0.3em; }
 
-#upload {
+#trash { height:17px;  margin:0 0 0 1em; z-index:1010; position:absolute; right:13.5em; } 
+
+#upload { 
 	height:27px; padding:0; margin-left:0.2em; overflow:hidden;
 }
 #upload a {
@@ -109,6 +111,7 @@ table td.filename form { font-size:.85em; margin-left:3em; margin-right:3em; }
 }
 #fileList .fileactions a.action img { position:relative; top:.2em; }
 #fileList a.action { display:inline; margin:-.5em 0; padding:1em .5em 1em .5em !important; }
+#fileList img.move2trash { display:inline; margin:-.5em 0; padding:1em .5em 1em .5em !important; float:right; }
 a.action.delete { float:right; }
 a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 .selectedActions { display:none; float:right; }
@@ -122,3 +125,22 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 #scanning-message{ top:40%; left:40%; position:absolute; display:none; }
 
 div.crumb a{ padding:0.9em 0 0.7em 0; }
+
+table.dragshadow {
+	width:auto;
+}
+table.dragshadow td.filename {
+	padding-left:36px;
+	padding-right:16px;
+}
+table.dragshadow td.size {
+	padding-right:8px;
+}
+#upgrade {
+	width: 400px;
+	position: absolute;
+	top: 200px;
+	left: 50%;
+	text-align: center;
+	margin-left: -200px;
+}

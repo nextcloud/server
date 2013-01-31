@@ -100,7 +100,7 @@ $(document).ready(function() {
 						td.append('<input type="text" data-parameter="'+parameter+'" placeholder="'+placeholder+'" />');
 					}
 				});
-				if (parameters['custom'] && $('#externalStorage tbody tr.'+backendClass).length == 1) {
+				if (parameters['custom'] && $('#externalStorage tbody tr.'+backendClass.replace(/\\/g, '\\\\')).length == 1) {
 					OC.addScript('files_external', parameters['custom']);
 				}
 				return false;

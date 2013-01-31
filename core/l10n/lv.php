@@ -21,6 +21,7 @@
 "Settings" => "Iestatījumi",
 "Cancel" => "Atcelt",
 "Error" => "Kļūme",
+"Share" => "Līdzdalīt",
 "Password" => "Parole",
 "Unshare" => "Pārtraukt līdzdalīšanu",
 "Use the following link to reset your password: {link}" => "Izmantojiet šo linku lai mainītu paroli",

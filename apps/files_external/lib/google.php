@@ -20,14 +20,17 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+namespace OC\Files\Storage;
+
 require_once 'Google/common.inc.php';
 
-class OC_Filestorage_Google extends OC_Filestorage_Common {
+class Google extends \OC\Files\Storage\Common {
 
 	private $consumer;
 	private $oauth_token;
 	private $sig_method;
 	private $entries;
+	private $id;
 
 	private static $tempFiles = array();
 
@@ -38,12 +41,13 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		) {
 			$consumer_key = isset($params['consumer_key']) ? $params['consumer_key'] : 'anonymous';
 			$consumer_secret = isset($params['consumer_secret']) ? $params['consumer_secret'] : 'anonymous';
-			$this->consumer = new OAuthConsumer($consumer_key, $consumer_secret);
-			$this->oauth_token = new OAuthToken($params['token'], $params['token_secret']);
-			$this->sig_method = new OAuthSignatureMethod_HMAC_SHA1();
+			$this->id = 'google::' . $params['token'];
+			$this->consumer = new \OAuthConsumer($consumer_key, $consumer_secret);
+			$this->oauth_token = new \OAuthToken($params['token'], $params['token_secret']);
+			$this->sig_method = new \OAuthSignatureMethod_HMAC_SHA1();
 			$this->entries = array();
 		} else {
-			throw new Exception('Creating OC_Filestorage_Google storage failed');
+			throw new \Exception('Creating \OC\Files\Storage\Google storage failed');
 		}
 	}
 
@@ -68,7 +72,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 			$tempStr .= '&' . urlencode($key) . '=' . urlencode($value);
 		}
 		$uri = preg_replace('/&/', '?', $tempStr, 1);
-		$request = OAuthRequest::from_consumer_and_token($this->consumer,
+		$request = \OAuthRequest::from_consumer_and_token($this->consumer,
 														 $this->oauth_token,
 														 $httpMethod,
 														 $uri,
@@ -110,7 +114,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 				curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 		}
 		if ($isDownload) {
-			$tmpFile = OC_Helper::tmpFile();
+			$tmpFile = \OC_Helper::tmpFile();
 			$handle = fopen($tmpFile, 'w');
 			curl_setopt($curl, CURLOPT_FILE, $handle);
 		}
@@ -139,7 +143,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 	private function getFeed($feedUri, $httpMethod, $postData = null) {
 		$result = $this->sendRequest($feedUri, $httpMethod, $postData);
 		if ($result) {
-			$dom = new DOMDocument();
+			$dom = new \DOMDocument();
 			$dom->loadXML($result);
 			return $dom;
 		}
@@ -194,6 +198,9 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		}
 	}
 
+	public function getId(){
+		return $this->id;
+	}
 
 	public function mkdir($path) {
 		$collection = dirname($path);
@@ -266,7 +273,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 				$this->entries[$name] = $entry;
 			}
 		}
-		OC_FakeDirStream::$dirs['google'.$path] = $files;
+		\OC\Files\Stream\Dir::register('google'.$path, $files);
 		return opendir('fakedir://google'.$path);
 	}
 
@@ -287,7 +294,6 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 				//$stat['atime'] = strtotime($entry->getElementsByTagNameNS('http://schemas.google.com/g/2005',
 				//															'lastViewed')->item(0)->nodeValue);
 				$stat['mtime'] = strtotime($entry->getElementsByTagName('updated')->item(0)->nodeValue);
-				$stat['ctime'] = strtotime($entry->getElementsByTagName('published')->item(0)->nodeValue);
 			}
 		}
 		if (isset($stat)) {
@@ -443,8 +449,8 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 				} else {
 					$ext = '';
 				}
-				$tmpFile = OC_Helper::tmpFile($ext);
-				OC_CloseStreamWrapper::$callBacks[$tmpFile] = array($this, 'writeBack');
+				$tmpFile = \OC_Helper::tmpFile($ext);
+				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$source = $this->fopen($path, 'r');
 					file_put_contents($tmpFile, $source);
@@ -482,7 +488,7 @@ class OC_Filestorage_Google extends OC_Filestorage_Common {
 		}
 		if (isset($uploadUri) && $handle = fopen($path, 'r')) {
 			$uploadUri .= '?convert=false';
-			$mimetype = OC_Helper::getMimeType($path);
+			$mimetype = \OC_Helper::getMimeType($path);
 			$size = filesize($path);
 			$headers = array('X-Upload-Content-Type: ' => $mimetype, 'X-Upload-Content-Length: ' => $size);
 			$postData = '<?xml version="1.0" encoding="UTF-8"?>';

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-30 00:23+0100\n"
-"PO-Revision-Date: 2013-01-29 23:24+0000\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 23:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -232,7 +232,7 @@ msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud komun
 
 #: templates/users.php:21 templates/users.php:79
 msgid "Login Name"
-msgstr ""
+msgstr "Sarrera Izena"
 
 #: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
@@ -256,7 +256,7 @@ msgstr "Besteak"
 
 #: templates/users.php:80
 msgid "Display Name"
-msgstr ""
+msgstr "Bistaratze Izena"
 
 #: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
@@ -265,6 +265,14 @@ msgstr "Talde administradorea"
 #: templates/users.php:86
 msgid "Storage"
 msgstr "Biltegiratzea"
+
+#: templates/users.php:97
+msgid "change display name"
+msgstr ""
+
+#: templates/users.php:101
+msgid "set new password"
+msgstr ""
 
 #: templates/users.php:137
 msgid "Default"

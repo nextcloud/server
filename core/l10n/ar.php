@@ -32,6 +32,7 @@
 "Yes" => "نعم",
 "Ok" => "موافق",
 "Error" => "خطأ",
+"Share" => "شارك",
 "Error while sharing" => "حصل خطأ عند عملية المشاركة",
 "Error while unsharing" => "حصل خطأ عند عملية إزالة المشاركة",
 "Error while changing permissions" => "حصل خطأ عند عملية إعادة تعيين التصريح بالتوصل",

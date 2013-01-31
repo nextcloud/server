@@ -53,6 +53,7 @@
 "Error" => "Eroare",
 "The app name is not specified." => "Numele aplicației nu a fost specificat",
 "The required file {file} is not installed!" => "Fișierul obligatoriu {file} nu este instalat!",
+"Share" => "Partajează",
 "Error while sharing" => "Eroare la partajare",
 "Error while unsharing" => "Eroare la anularea partajării",
 "Error while changing permissions" => "Eroare la modificarea permisiunilor",

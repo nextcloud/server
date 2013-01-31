@@ -53,6 +53,7 @@
 "Error" => "錯誤",
 "The app name is not specified." => "沒有指定 app 名稱。",
 "The required file {file} is not installed!" => "沒有安裝所需的檔案 {file} ！",
+"Share" => "分享",
 "Error while sharing" => "分享時發生錯誤",
 "Error while unsharing" => "取消分享時發生錯誤",
 "Error while changing permissions" => "修改權限時發生錯誤",
