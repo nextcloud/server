@@ -7,6 +7,7 @@
 "No file was uploaded" => "Ingen fil blev uppladdad",
 "Missing a temporary folder" => "Saknar en tillfällig mapp",
 "Failed to write to disk" => "Misslyckades spara till disk",
+"Not enough space available" => "Inte tillräckligt med utrymme tillgängligt",
 "Invalid directory." => "Felaktig mapp.",
 "Files" => "Filer",
 "Unshare" => "Sluta dela",
@@ -19,8 +20,6 @@
 "replaced {new_name}" => "ersatt {new_name}",
 "undo" => "ångra",
 "replaced {new_name} with {old_name}" => "ersatt {new_name} med {old_name}",
-"unshared {files}" => "stoppad delning {files}",
-"deleted {files}" => "raderade {files}",
 "'.' is an invalid file name." => "'.' är ett ogiltigt filnamn.",
 "File name cannot be empty." => "Filnamn kan inte vara tomt.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ogiltigt namn, '\\', '/', '<', '>', ':', '\"', '|', '?' och '*' är inte tillåtet.",
@@ -63,5 +62,6 @@
 "Upload too large" => "För stor uppladdning",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern.",
 "Files are being scanned, please wait." => "Filer skannas, var god vänta",
-"Current scanning" => "Aktuell skanning"
+"Current scanning" => "Aktuell skanning",
+"Upgrading filesystem cache..." => "Uppgraderar filsystemets cache..."
 );

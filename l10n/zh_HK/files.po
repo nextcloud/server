@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 00:27+0100\n"
-"PO-Revision-Date: 2013-01-30 23:28+0000\n"
+"POT-Creation-Date: 2013-01-31 17:02+0100\n"
+"PO-Revision-Date: 2013-01-31 16:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/projects/p/owncloud/language/zh_HK/)\n"
 "MIME-Version: 1.0\n"
@@ -64,15 +64,15 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-#: js/fileactions.js:117 templates/index.php:81 templates/index.php:82
+#: js/fileactions.js:117 templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr ""
 
-#: js/fileactions.js:119 templates/index.php:87 templates/index.php:88
+#: js/fileactions.js:119 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr ""
 
-#: js/fileactions.js:181
+#: js/fileactions.js:185
 msgid "Rename"
 msgstr ""
 
@@ -96,7 +96,7 @@ msgstr ""
 msgid "replaced {new_name}"
 msgstr ""
 
-#: js/filelist.js:253 js/filelist.js:255 js/filelist.js:286 js/filelist.js:288
+#: js/filelist.js:253 js/filelist.js:255
 msgid "undo"
 msgstr ""
 
@@ -104,12 +104,8 @@ msgstr ""
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:286
-msgid "unshared {files}"
-msgstr ""
-
-#: js/filelist.js:288
-msgid "deleted {files}"
+#: js/filelist.js:280
+msgid "perform delete operation"
 msgstr ""
 
 #: js/files.js:52
@@ -134,78 +130,78 @@ msgstr ""
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr ""
 
-#: js/files.js:219
+#: js/files.js:224
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr ""
 
-#: js/files.js:256
+#: js/files.js:261
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr ""
 
-#: js/files.js:256
+#: js/files.js:261
 msgid "Upload Error"
 msgstr ""
 
-#: js/files.js:273
+#: js/files.js:278
 msgid "Close"
 msgstr ""
 
-#: js/files.js:292 js/files.js:408 js/files.js:439
+#: js/files.js:297 js/files.js:413 js/files.js:444
 msgid "Pending"
 msgstr ""
 
-#: js/files.js:312
+#: js/files.js:317
 msgid "1 file uploading"
 msgstr ""
 
-#: js/files.js:315 js/files.js:370 js/files.js:385
+#: js/files.js:320 js/files.js:375 js/files.js:390
 msgid "{count} files uploading"
 msgstr ""
 
-#: js/files.js:388 js/files.js:423
+#: js/files.js:393 js/files.js:428
 msgid "Upload cancelled."
 msgstr ""
 
-#: js/files.js:497
+#: js/files.js:502
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/files.js:570
+#: js/files.js:575
 msgid "URL cannot be empty."
 msgstr ""
 
-#: js/files.js:575
+#: js/files.js:580
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:944 templates/index.php:63
+#: js/files.js:949 templates/index.php:67
 msgid "Name"
 msgstr ""
 
-#: js/files.js:945 templates/index.php:74
+#: js/files.js:950 templates/index.php:78
 msgid "Size"
 msgstr ""
 
-#: js/files.js:946 templates/index.php:76
+#: js/files.js:951 templates/index.php:80
 msgid "Modified"
 msgstr ""
 
-#: js/files.js:965
+#: js/files.js:970
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:967
+#: js/files.js:972
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:975
+#: js/files.js:980
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:977
+#: js/files.js:982
 msgid "{count} files"
 msgstr ""
 
@@ -261,33 +257,37 @@ msgstr ""
 msgid "From link"
 msgstr ""
 
-#: templates/index.php:41
+#: templates/index.php:40
+msgid "Trash"
+msgstr ""
+
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr ""
 
-#: templates/index.php:55
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr ""
 
-#: templates/index.php:69
+#: templates/index.php:73
 msgid "Download"
 msgstr ""
 
-#: templates/index.php:101
+#: templates/index.php:105
 msgid "Upload too large"
 msgstr ""
 
-#: templates/index.php:103
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr ""
 
-#: templates/index.php:108
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr ""
 
-#: templates/index.php:111
+#: templates/index.php:115
 msgid "Current scanning"
 msgstr ""
 

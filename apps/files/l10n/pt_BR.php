@@ -19,8 +19,6 @@
 "replaced {new_name}" => "substituído {new_name}",
 "undo" => "desfazer",
 "replaced {new_name} with {old_name}" => "Substituído {old_name} por {new_name} ",
-"unshared {files}" => "{files} não compartilhados",
-"deleted {files}" => "{files} apagados",
 "'.' is an invalid file name." => "'.' é um nome de arquivo inválido.",
 "File name cannot be empty." => "O nome do arquivo não pode estar vazio.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nome inválido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são permitidos.",

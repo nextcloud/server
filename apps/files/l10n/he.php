@@ -18,8 +18,6 @@
 "replaced {new_name}" => "{new_name} הוחלף",
 "undo" => "ביטול",
 "replaced {new_name} with {old_name}" => "{new_name} הוחלף ב־{old_name}",
-"unshared {files}" => "בוטל שיתופם של {files}",
-"deleted {files}" => "{files} נמחקו",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "השם שגוי, אסור להשתמש בתווים '\\', '/', '<', '>', ':', '\"', '|', '?' ו־'*'.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "לא יכול להעלות את הקובץ מכיוון שזו תקיה או שמשקל הקובץ 0 בתים",
 "Upload Error" => "שגיאת העלאה",

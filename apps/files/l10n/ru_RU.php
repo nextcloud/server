@@ -7,6 +7,8 @@
 "No file was uploaded" => "Файл не был загружен",
 "Missing a temporary folder" => "Отсутствует временная папка",
 "Failed to write to disk" => "Не удалось записать на диск",
+"Not enough space available" => "Не достаточно свободного места",
+"Invalid directory." => "Неверный каталог.",
 "Files" => "Файлы",
 "Unshare" => "Скрыть",
 "Delete" => "Удалить",
@@ -18,8 +20,8 @@
 "replaced {new_name}" => "заменено {новое_имя}",
 "undo" => "отменить действие",
 "replaced {new_name} with {old_name}" => "заменено {новое_имя} с {старое_имя}",
-"unshared {files}" => "Cовместное использование прекращено {файлы}",
-"deleted {files}" => "удалено {файлы}",
+"'.' is an invalid file name." => "'.' является неверным именем файла.",
+"File name cannot be empty." => "Имя файла не может быть пустым.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Некорректное имя, '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не допустимы.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Невозможно загрузить файл,\n так как он имеет нулевой размер или является директорией",
 "Upload Error" => "Ошибка загрузки",
@@ -30,6 +32,7 @@
 "Upload cancelled." => "Загрузка отменена",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Процесс загрузки файла. Если покинуть страницу сейчас, загрузка будет отменена.",
 "URL cannot be empty." => "URL не должен быть пустым.",
+"Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Неверное имя папки. Использование наименования 'Опубликовано' зарезервировано Owncloud",
 "Name" => "Имя",
 "Size" => "Размер",
 "Modified" => "Изменен",
@@ -56,5 +59,6 @@
 "Upload too large" => "Загрузка слишком велика",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Размер файлов, которые Вы пытаетесь загрузить, превышает максимально допустимый размер для загрузки на данный сервер.",
 "Files are being scanned, please wait." => "Файлы сканируются, пожалуйста, подождите.",
-"Current scanning" => "Текущее сканирование"
+"Current scanning" => "Текущее сканирование",
+"Upgrading filesystem cache..." => "Обновление кэша файловой системы... "
 );

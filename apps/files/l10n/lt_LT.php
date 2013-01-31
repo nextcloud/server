@@ -16,8 +16,6 @@
 "replaced {new_name}" => "pakeiskite {new_name}",
 "undo" => "anuliuoti",
 "replaced {new_name} with {old_name}" => "pakeiskite {new_name} į {old_name}",
-"unshared {files}" => "nebesidalinti {files}",
-"deleted {files}" => "ištrinti {files}",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Neįmanoma įkelti failo - jo dydis gali būti 0 bitų arba tai katalogas",
 "Upload Error" => "Įkėlimo klaida",
 "Close" => "Užverti",

@@ -44,6 +44,11 @@ if(is_array($catagoryNames)) {
 			} else {
 				$pre=$app['preview'];
 			}
+			if($app['label']=='recommended') {
+				$label='3rd Party App';
+			} else {
+				$label='Recommended';
+			}
 			$apps[]=array(
 				'name'=>$app['name'],
 				'id'=>$app['id'],
@@ -53,7 +58,8 @@ if(is_array($catagoryNames)) {
 				'license'=>$app['license'],
 				'preview'=>$pre,
 				'internal'=>false,
-				'internallabel'=>'3rd Party App',
+				'internallabel'=>$label,
+				'update'=>false,
 			);
 		}
 	}

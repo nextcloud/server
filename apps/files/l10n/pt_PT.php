@@ -7,6 +7,7 @@
 "No file was uploaded" => "Não foi enviado nenhum ficheiro",
 "Missing a temporary folder" => "Falta uma pasta temporária",
 "Failed to write to disk" => "Falhou a escrita no disco",
+"Not enough space available" => "Espaço em disco insuficiente!",
 "Invalid directory." => "Directório Inválido",
 "Files" => "Ficheiros",
 "Unshare" => "Deixar de partilhar",
@@ -19,8 +20,6 @@
 "replaced {new_name}" => "{new_name} substituido",
 "undo" => "desfazer",
 "replaced {new_name} with {old_name}" => "substituido {new_name} por {old_name}",
-"unshared {files}" => "{files} não partilhado(s)",
-"deleted {files}" => "{files} eliminado(s)",
 "'.' is an invalid file name." => "'.' não é um nome de ficheiro válido!",
 "File name cannot be empty." => "O nome do ficheiro não pode estar vazio.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nome Inválido, os caracteres '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são permitidos.",
@@ -63,5 +62,6 @@
 "Upload too large" => "Envio muito grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Os ficheiros que está a tentar enviar excedem o tamanho máximo de envio permitido neste servidor.",
 "Files are being scanned, please wait." => "Os ficheiros estão a ser analisados, por favor aguarde.",
-"Current scanning" => "Análise actual"
+"Current scanning" => "Análise actual",
+"Upgrading filesystem cache..." => "Atualizar cache do sistema de ficheiros..."
 );

@@ -17,8 +17,6 @@
 "replaced {new_name}" => "已替换 {new_name}",
 "undo" => "撤销",
 "replaced {new_name} with {old_name}" => "已用 {old_name} 替换 {new_name}",
-"unshared {files}" => "未分享的 {files}",
-"deleted {files}" => "已删除的 {files}",
 "Unable to upload your file as it is a directory or has 0 bytes" => "不能上传你指定的文件,可能因为它是个文件夹或者大小为0",
 "Upload Error" => "上传错误",
 "Close" => "关闭",

@@ -18,8 +18,6 @@
 "replaced {new_name}" => "земенета {new_name}",
 "undo" => "врати",
 "replaced {new_name} with {old_name}" => "заменета {new_name} со {old_name}",
-"unshared {files}" => "без споделување {files}",
-"deleted {files}" => "избришани {files}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Неправилно име. , '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не се дозволени.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Не може да се преземе вашата датотека бидејќи фолдерот во кој се наоѓа фајлот има големина од 0 бајти",
 "Upload Error" => "Грешка при преземање",

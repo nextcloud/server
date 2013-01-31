@@ -124,12 +124,12 @@
 "web services under your control" => "servizi web nelle tue mani",
 "Log out" => "Esci",
 "Automatic logon rejected!" => "Accesso automatico rifiutato.",
-"If you did not change your password recently, your account may be compromised!" => "Se non hai cambiato la password recentemente, il tuo account potrebbe essere stato compromesso.",
+"If you did not change your password recently, your account may be compromised!" => "Se non hai cambiato la password recentemente, il tuo account potrebbe essere compromesso.",
 "Please change your password to secure your account again." => "Cambia la password per rendere nuovamente sicuro il tuo account.",
 "Lost your password?" => "Hai perso la password?",
 "remember" => "ricorda",
 "Log in" => "Accedi",
 "prev" => "precedente",
 "next" => "successivo",
-"Updating ownCloud to version %s, this may take a while." => "Aggiornamento di ownCloud alla versione %s in corso, potrebbe richiedere del tempo."
+"Updating ownCloud to version %s, this may take a while." => "Aggiornamento di ownCloud alla versione %s in corso, ciò potrebbe richiedere del tempo."
 );

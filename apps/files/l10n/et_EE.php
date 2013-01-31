@@ -17,8 +17,6 @@
 "replaced {new_name}" => "asendatud nimega {new_name}",
 "undo" => "tagasi",
 "replaced {new_name} with {old_name}" => "asendas nime {old_name} nimega {new_name}",
-"unshared {files}" => "jagamata {files}",
-"deleted {files}" => "kustutatud {files}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Vigane nimi, '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' pole lubatud.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Sinu faili üleslaadimine ebaõnnestus, kuna see on kaust või selle suurus on 0 baiti",
 "Upload Error" => "Üleslaadimise viga",

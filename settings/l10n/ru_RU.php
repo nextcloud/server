@@ -56,6 +56,7 @@
 "Other" => "Другой",
 "Group Admin" => "Группа Admin",
 "Storage" => "Хранилище",
+"set new password" => "назначить новый пароль",
 "Default" => "По умолчанию",
 "Delete" => "Удалить"
 );
