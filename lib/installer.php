@@ -254,7 +254,7 @@ class OC_Installer{
 	 * upgrade.php can determine the current installed version of the app using "OC_Appconfig::getValue($appid, 'installed_version')"
 	 */
 	public static function updateApp( $app ) {
-		$ocsid=OC_Appconfig::getValue( $app, 'ocsid', '');
+		$ocsid=OC_Appconfig::getValue( $app, 'ocsid');
 		OC_App::disable($app);
 		OC_App::enable($ocsid);
 	}
