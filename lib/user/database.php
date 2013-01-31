@@ -167,8 +167,9 @@ class OC_User_Database extends OC_User_Backend {
 		$result = $query->execute(array($search.'%'));
 		while ($row = $result->fetchRow()) {
 			$displayName =  trim($row['displayname'], ' ');
-			if ( empty($displayName) )
-			$displayNames[$row['uid']] = $row['uid'];
+			if ( empty($displayName) ) {
+				$displayNames[$row['uid']] = $row['uid'];
+			}
 		}
 		
 		
