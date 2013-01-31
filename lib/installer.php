@@ -257,6 +257,7 @@ class OC_Installer{
 		$ocsid=OC_Appconfig::getValue( $app, 'ocsid');
 		OC_App::disable($app);
 		OC_App::enable($ocsid);
+		return(true);
 	}
 
 	/**
