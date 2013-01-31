@@ -18,10 +18,10 @@ $(document).ready(function() {
 						OC.dialogs.alert(result.data.message, 'Error');
 					}
 				});
-			
+
 			});
 		};
-		
+
 		// Sets the select_all checkbox behaviour :
 		$('#select_all').click(function() {
 			if($(this).attr('checked')){
@@ -63,19 +63,19 @@ $(document).ready(function() {
 				}
 			}
 			processSelection();
-		});		
-		
+		});
+
 		$('.undelete').click('click',function(event) {
 			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform undelete operation')+'" src="'+ OC.imagePath('core', 'loader.gif') +'"></a>';
 			var files=getSelectedFiles('file');
 			var fileslist=files.join(';');
 			var dirlisting=getSelectedFiles('dirlisting')[0];
-			
+
 			for (var i in files) {
 				var undeleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date");
 				undeleteAction[0].innerHTML = undeleteAction[0].innerHTML+spinner;
 			}
-			
+
 			$.post(OC.filePath('files_trashbin','ajax','undelete.php'),
 					{files:fileslist, dirlisting:dirlisting},
 					function(result){
@@ -86,10 +86,24 @@ $(document).ready(function() {
 						if (result.status != 'success') {
 							OC.dialogs.alert(result.data.message, 'Error');
 						}
-					});		
+					});
 			});
-	
 
+	$('#fileList').on('click', 'td.filename a', function(event) {
+		var filename = $(this).parent().parent().attr('data-file');
+		var tr = $('tr').filterAttr('data-file',filename);
+		var renaming = tr.data('renaming');
+		if(!renaming && !FileList.isLoading(filename)){
+			var mime = $(this).parent().parent().data('mime');
+			var type = $(this).parent().parent().data('type');
+			var permissions = $(this).parent().parent().data('permissions');
+			var action = FileActions.getDefault(mime, type, permissions);
+			if(action){
+				event.preventDefault();
+				action(filename);
+			}
+		}
+	});
 });
 
 function processSelection(){
@@ -155,4 +169,8 @@ function getSelectedFiles(property){
 		}
 	});
 	return files;
+}
+
+function fileDownloadPath(dir, file) {
+	return OC.filePath('files_trashbin', '', 'download.php') + '?file='+encodeURIComponent(file);
 }
