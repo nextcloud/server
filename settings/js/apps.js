@@ -84,7 +84,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		element.val(t('settings','Updateing....'));
 		$.post(OC.filePath('settings','ajax','updateapp.php'),{appid:appid},function(result) {
 			if(!result || result.status!='success') {
-				OC.dialogs.alert('Error while updating app','Error');
+				OC.dialogs.alert(t('settings','Error while updating app'),t('settings','Error'));
 			}
 			else {
 				element.val(t('settings','Updated'));
