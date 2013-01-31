@@ -157,7 +157,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 
 	/**
 	 * @brief Get a list of all display names
-	 * @returns array with  all displayNames (value) and the correspondig uids (key)
+	 * @returns array with  all displayNames (value) and the corresponding uids (key)
 	 *
 	 * Get a list of all display names and user ids.
 	 */
