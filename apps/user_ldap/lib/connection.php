@@ -97,7 +97,7 @@ class Connection {
 
 	public function __set($name, $value) {
 		$changed = false;
-		//omly few options are writable
+		//only few options are writable
 		if($name == 'ldapUuidAttribute') {
 			\OCP\Util::writeLog('user_ldap', 'Set config ldapUuidAttribute to  '.$value, \OCP\Util::DEBUG);
 			$this->config[$name] = $value;
@@ -455,8 +455,8 @@ ingle parameters
 	}
 
 	/**
-	 * @returns an associted array with the default values. Keys are correspond
-	 * to configvalue entries in the database table
+	 * @returns an associative array with the default values. Keys are correspond
+	 * to config-value entries in the database table
 	 */
 	public function getDefaults() {
 		return array(
