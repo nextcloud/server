@@ -237,12 +237,14 @@ var UserList = {
             });
         }
     }
-}
+};
 
 $(document).ready(function () {
 
     $('tbody tr:last').bind('inview', function (event, isInView, visiblePartX, visiblePartY) {
-        UserList.update();
+		OC.Router.registerLoadedCallback(function(){
+        	UserList.update();
+		});
     });
 
     function setQuota(uid, quota, ready) {
@@ -256,7 +258,6 @@ $(document).ready(function () {
             }
         );
     }
-
 
     $('select[multiple]').each(function (index, element) {
         UserList.applyMultiplySelect($(element));
