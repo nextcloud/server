@@ -354,7 +354,6 @@ OC.Breadcrumb={
 		}
 		var crumb=$('<div/>');
 		crumb.addClass('crumb').addClass('last');
-		crumb.attr('style','background-image:url("'+OC.imagePath('core','breadcrumb')+'")');
 
 		var crumbLink=$('<a/>');
 		crumbLink.attr('href',link);
