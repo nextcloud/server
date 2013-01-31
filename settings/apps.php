@@ -36,6 +36,10 @@ function app_sort( $a, $b ) {
 
 	}
 
+	if ($a['internal'] != $b['internal']) {
+		return $b['internal'] - $a['internal'];
+	}
+
 	return strcmp($a['name'], $b['name']);
 
 }
