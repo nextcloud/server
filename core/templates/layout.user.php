@@ -39,7 +39,7 @@
 				<?php foreach($_['settingsnavigation'] as $entry):?>
 					<li>
 						<a href="<?php echo $entry['href']; ?>" title="" <?php if( $entry["active"] ): ?> class="active"<?php endif; ?>>
-							<img src="<?php echo $entry['icon']; ?>">
+							<img class="svg" src="<?php echo $entry['icon']; ?>">
 							<?php echo $entry['name'] ?>
 						</a>
 					</li>
