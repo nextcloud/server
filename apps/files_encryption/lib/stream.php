@@ -484,7 +484,7 @@ class Stream {
 		and $this->meta['mode']!='rb' 
 		) {
 
-			\OC_FileCache::put( $this->path, array( 'encrypted' => true, 'size' => $this->size ), '' );
+			\OC\Files\Filesystem::putFileInfo( $this->path, array( 'encrypted' => true, 'size' => $this->size ), '' );
 
 		}
 
