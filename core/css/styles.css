@@ -52,6 +52,11 @@ input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
 input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#111 !important; }
 #quota { cursor:default; }
 
+/* SCROLLING */
+::-webkit-scrollbar { width:5px; }
++::-webkit-scrollbar-track-piece { background-color:transparent; }
++::-webkit-scrollbar-thumb { background:rgba(50,50,50,.3); }
+
 
 /* BUTTONS */
 input[type="submit"], input[type="button"], button, .button, #quota, div.jp-progress, select, .pager li a {
