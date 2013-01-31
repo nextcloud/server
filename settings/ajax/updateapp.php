@@ -10,7 +10,7 @@ if($result !== false) {
 	OC_JSON::success(array('data' => array('appid' => $appid)));
 } else {
 	$l = OC_L10N::get('settings');	
-	OC_JSON::error(array("data" => array( "message" => $l->t("Couldn\'t update app. ") )));
+	OC_JSON::error(array("data" => array( "message" => $l->t("Couldn't update app.") )));
 }
 
 
