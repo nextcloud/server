@@ -18,8 +18,6 @@
 "replaced {new_name}" => "замінено {new_name}",
 "undo" => "відмінити",
 "replaced {new_name} with {old_name}" => "замінено {new_name} на {old_name}",
-"unshared {files}" => "неопубліковано {files}",
-"deleted {files}" => "видалено {files}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Невірне ім'я, '\\', '/', '<', '>', ':', '\"', '|', '?' та '*' не дозволені.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Неможливо завантажити ваш файл тому, що він тека або файл розміром 0 байт",
 "Upload Error" => "Помилка завантаження",

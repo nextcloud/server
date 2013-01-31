@@ -19,8 +19,6 @@
 "replaced {new_name}" => "erstattede {new_name}",
 "undo" => "fortryd",
 "replaced {new_name} with {old_name}" => "erstattede {new_name} med {old_name}",
-"unshared {files}" => "ikke delte {files}",
-"deleted {files}" => "slettede {files}",
 "'.' is an invalid file name." => "'.' er et ugyldigt filnavn.",
 "File name cannot be empty." => "Filnavnet kan ikke stå tomt.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ugyldigt navn, '\\', '/', '<', '>', ':' | '?', '\"', '', og '*' er ikke tilladt.",

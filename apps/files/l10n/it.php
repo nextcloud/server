@@ -7,6 +7,7 @@
 "No file was uploaded" => "Nessun file è stato caricato",
 "Missing a temporary folder" => "Cartella temporanea mancante",
 "Failed to write to disk" => "Scrittura su disco non riuscita",
+"Not enough space available" => "Spazio disponibile insufficiente",
 "Invalid directory." => "Cartella non valida.",
 "Files" => "File",
 "Unshare" => "Rimuovi condivisione",
@@ -19,8 +20,6 @@
 "replaced {new_name}" => "sostituito {new_name}",
 "undo" => "annulla",
 "replaced {new_name} with {old_name}" => "sostituito {new_name} con {old_name}",
-"unshared {files}" => "non condivisi {files}",
-"deleted {files}" => "eliminati {files}",
 "'.' is an invalid file name." => "'.' non è un nome file valido.",
 "File name cannot be empty." => "Il nome del file non può essere vuoto.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nome non valido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' non sono consentiti.",
@@ -63,5 +62,6 @@
 "Upload too large" => "Il file caricato è troppo grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "I file che stai provando a caricare superano la dimensione massima consentita su questo server.",
 "Files are being scanned, please wait." => "Scansione dei file in corso, attendi",
-"Current scanning" => "Scansione corrente"
+"Current scanning" => "Scansione corrente",
+"Upgrading filesystem cache..." => "Aggiornamento della cache del filesystem in corso..."
 );

@@ -17,8 +17,6 @@
 "replaced {new_name}" => "đã thay thế {new_name}",
 "undo" => "lùi lại",
 "replaced {new_name} with {old_name}" => "đã thay thế {new_name} bằng {old_name}",
-"unshared {files}" => "hủy chia sẽ {files}",
-"deleted {files}" => "đã xóa {files}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Tên không hợp lệ, '\\', '/', '<', '>', ':', '\"', '|', '?' và '*' thì không được phép dùng.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Không thể tải lên tập tin này do nó là một thư mục hoặc kích thước tập tin bằng 0 byte",
 "Upload Error" => "Tải lên lỗi",

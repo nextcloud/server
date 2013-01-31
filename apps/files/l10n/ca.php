@@ -7,6 +7,7 @@
 "No file was uploaded" => "El fitxer no s'ha pujat",
 "Missing a temporary folder" => "S'ha perdut un fitxer temporal",
 "Failed to write to disk" => "Ha fallat en escriure al disc",
+"Not enough space available" => "No hi ha prou espai disponible",
 "Invalid directory." => "Directori no vàlid.",
 "Files" => "Fitxers",
 "Unshare" => "Deixa de compartir",
@@ -19,8 +20,6 @@
 "replaced {new_name}" => "s'ha substituït {new_name}",
 "undo" => "desfés",
 "replaced {new_name} with {old_name}" => "s'ha substituït {old_name} per {new_name}",
-"unshared {files}" => "no compartits {files}",
-"deleted {files}" => "eliminats {files}",
 "'.' is an invalid file name." => "'.' és un nom no vàlid per un fitxer.",
 "File name cannot be empty." => "El nom del fitxer no pot ser buit.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "El nóm no és vàlid, '\\', '/', '<', '>', ':', '\"', '|', '?' i '*' no estan permesos.",
@@ -63,5 +62,6 @@
 "Upload too large" => "La pujada és massa gran",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada del servidor",
 "Files are being scanned, please wait." => "S'estan escanejant els fitxers, espereu",
-"Current scanning" => "Actualment escanejant"
+"Current scanning" => "Actualment escanejant",
+"Upgrading filesystem cache..." => "Actualitzant la memòria de cau del sistema de fitxers..."
 );

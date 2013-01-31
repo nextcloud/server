@@ -58,6 +58,8 @@
 "Display Name" => "Nom a mostrar",
 "Group Admin" => "Grup Admin",
 "Storage" => "Emmagatzemament",
+"change display name" => "canvia el nom a mostrar",
+"set new password" => "estableix nova contrasenya",
 "Default" => "Per defecte",
 "Delete" => "Suprimeix"
 );

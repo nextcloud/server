@@ -17,8 +17,6 @@
 "replaced {new_name}" => "மாற்றப்பட்டது {new_name}",
 "undo" => "முன் செயல் நீக்கம் ",
 "replaced {new_name} with {old_name}" => "{new_name} ஆனது {old_name} இனால் மாற்றப்பட்டது",
-"unshared {files}" => "பகிரப்படாதது  {கோப்புகள்}",
-"deleted {files}" => "நீக்கப்பட்டது  {கோப்புகள்}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "செல்லுபடியற்ற பெயர்,'\\', '/', '<', '>', ':', '\"', '|', '?' மற்றும் '*' ஆகியன அனுமதிக்கப்படமாட்டாது.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "அடைவு அல்லது 0 bytes ஐ கொண்டுள்ளதால் உங்களுடைய கோப்பை பதிவேற்ற முடியவில்லை",
 "Upload Error" => "பதிவேற்றல் வழு",

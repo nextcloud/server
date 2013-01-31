@@ -17,8 +17,6 @@
 "replaced {new_name}" => "замењено {new_name}",
 "undo" => "опозови",
 "replaced {new_name} with {old_name}" => "замењено {new_name} са {old_name}",
-"unshared {files}" => "укинуто дељење {files}",
-"deleted {files}" => "обрисано {files}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Неисправан назив. Следећи знакови нису дозвољени: \\, /, <, >, :, \", |, ? и *.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Не могу да отпремим датотеку као фасциклу или она има 0 бајтова",
 "Upload Error" => "Грешка при отпремању",

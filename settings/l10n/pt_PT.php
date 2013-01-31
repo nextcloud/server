@@ -58,6 +58,8 @@
 "Display Name" => "Nome público",
 "Group Admin" => "Grupo Administrador",
 "Storage" => "Armazenamento",
+"change display name" => "modificar nome exibido",
+"set new password" => "definir nova palavra-passe",
 "Default" => "Padrão",
 "Delete" => "Apagar"
 );

@@ -7,6 +7,7 @@
 "No file was uploaded" => "Žádný soubor nebyl odeslán",
 "Missing a temporary folder" => "Chybí adresář pro dočasné soubory",
 "Failed to write to disk" => "Zápis na disk selhal",
+"Not enough space available" => "Nedostatek dostupného místa",
 "Invalid directory." => "Neplatný adresář",
 "Files" => "Soubory",
 "Unshare" => "Zrušit sdílení",
@@ -19,8 +20,6 @@
 "replaced {new_name}" => "nahrazeno {new_name}",
 "undo" => "zpět",
 "replaced {new_name} with {old_name}" => "nahrazeno {new_name} s {old_name}",
-"unshared {files}" => "sdílení zrušeno pro {files}",
-"deleted {files}" => "smazáno {files}",
 "'.' is an invalid file name." => "'.' je neplatným názvem souboru.",
 "File name cannot be empty." => "Název souboru nemůže být prázdný řetězec.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Neplatný název, znaky '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nejsou povoleny.",
@@ -63,5 +62,6 @@
 "Upload too large" => "Odeslaný soubor je příliš velký",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Soubory, které se snažíte odeslat, překračují limit velikosti odesílání na tomto serveru.",
 "Files are being scanned, please wait." => "Soubory se prohledávají, prosím čekejte.",
-"Current scanning" => "Aktuální prohledávání"
+"Current scanning" => "Aktuální prohledávání",
+"Upgrading filesystem cache..." => "Aktualizuji mezipaměť souborového systému..."
 );

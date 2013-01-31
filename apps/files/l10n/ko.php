@@ -7,7 +7,8 @@
 "No file was uploaded" => "업로드된 파일 없음",
 "Missing a temporary folder" => "임시 폴더가 사라짐",
 "Failed to write to disk" => "디스크에 쓰지 못했습니다",
-"Invalid directory." => "올바르지 않은 디렉토리입니다.",
+"Not enough space available" => "여유 공간이 부족합니다",
+"Invalid directory." => "올바르지 않은 디렉터리입니다.",
 "Files" => "파일",
 "Unshare" => "공유 해제",
 "Delete" => "삭제",
@@ -19,11 +20,12 @@
 "replaced {new_name}" => "{new_name}을(를) 대체함",
 "undo" => "실행 취소",
 "replaced {new_name} with {old_name}" => "{old_name}이(가) {new_name}(으)로 대체됨",
-"unshared {files}" => "{files} 공유 해제됨",
-"deleted {files}" => "{files} 삭제됨",
 "'.' is an invalid file name." => "'.' 는 올바르지 않은 파일 이름 입니다.",
-"File name cannot be empty." => "파일이름은 공란이 될 수 없습니다.",
+"File name cannot be empty." => "파일 이름이 비어 있을 수 없습니다.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "폴더 이름이 올바르지 않습니다. 이름에 문자 '\\', '/', '<', '>', ':', '\"', '|', '? ', '*'는 사용할 수 없습니다.",
+"Your storage is full, files can not be updated or synced anymore!" => "저장 공간이 가득 찼습니다. 파일을 업데이트하거나 동기화할 수 없습니다!",
+"Your storage is almost full ({usedSpacePercent}%)" => "저장 공간이 거의 가득 찼습니다 ({usedSpacePercent}%)",
+"Your download is being prepared. This might take some time if the files are big." => "다운로드가 준비 중입니다. 파일 크기가 크다면 시간이 오래 걸릴 수도 있습니다.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "이 파일은 디렉터리이거나 비어 있기 때문에 업로드할 수 없습니다",
 "Upload Error" => "업로드 오류",
 "Close" => "닫기",
@@ -60,5 +62,6 @@
 "Upload too large" => "업로드 용량 초과",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다.",
 "Files are being scanned, please wait." => "파일을 검색하고 있습니다. 기다려 주십시오.",
-"Current scanning" => "현재 검색"
+"Current scanning" => "현재 검색",
+"Upgrading filesystem cache..." => "파일 시스템 캐시 업그레이드 중..."
 );

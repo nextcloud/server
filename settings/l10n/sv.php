@@ -58,6 +58,8 @@
 "Display Name" => "Visat namn",
 "Group Admin" => "Gruppadministratör",
 "Storage" => "Lagring",
+"change display name" => "ändra visat namn",
+"set new password" => "ange nytt lösenord",
 "Default" => "Förvald",
 "Delete" => "Radera"
 );

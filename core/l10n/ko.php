@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
-"User %s shared a file with you" => "User %s 가 당신과 파일을 공유하였습니다.",
-"User %s shared a folder with you" => "User %s 가 당신과 폴더를 공유하였습니다.",
-"User %s shared the file \"%s\" with you. It is available for download here: %s" => "User %s 가 파일 \"%s\"를 당신과 공유하였습니다. 다운로드는 여기서 %s 할 수 있습니다.",
-"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "User %s 가 폴더 \"%s\"를 당신과 공유하였습니다. 다운로드는 여기서 %s 할 수 있습니다.",
+"User %s shared a file with you" => "%s 님이 파일을 공유하였습니다",
+"User %s shared a folder with you" => "%s 님이 폴더를 공유하였습니다",
+"User %s shared the file \"%s\" with you. It is available for download here: %s" => "%s 님이 파일 \"%s\"을(를) 공유하였습니다. 여기에서 다운로드할 수 있습니다: %s",
+"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "%s 님이 폴더 \"%s\"을(를) 공유하였습니다. 여기에서 다운로드할 수 있습니다: %s",
 "Category type not provided." => "분류 형식이 제공되지 않았습니다.",
 "No category to add?" => "추가할 분류가 없습니까?",
 "This category already exists: " => "이 분류는 이미 존재합니다:",
@@ -54,6 +54,7 @@
 "The app name is not specified." => "앱 이름이 지정되지 않았습니다.",
 "The required file {file} is not installed!" => "필요한 파일 {file}이(가) 설치되지 않았습니다!",
 "Share" => "공유",
+"Shared" => "공유됨",
 "Error while sharing" => "공유하는 중 오류 발생",
 "Error while unsharing" => "공유 해제하는 중 오류 발생",
 "Error while changing permissions" => "권한 변경하는 중 오류 발생",
@@ -83,6 +84,8 @@
 "Error setting expiration date" => "만료 날짜 설정 오류",
 "Sending ..." => "전송 중...",
 "Email sent" => "이메일 발송됨",
+"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "업데이트가 실패하였습니다. 이 문제를 <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 커뮤니티</a>에 보고해 주십시오.",
+"The update was successful. Redirecting you to ownCloud now." => "업데이트가 성공하였습니다. ownCloud로 돌아갑니다.",
 "ownCloud password reset" => "ownCloud 암호 재설정",
 "Use the following link to reset your password: {link}" => "다음 링크를 사용하여 암호를 재설정할 수 있습니다: {link}",
 "You will receive a link to reset your password via Email." => "이메일로 암호 재설정 링크를 보냈습니다.",
@@ -128,5 +131,5 @@
 "Log in" => "로그인",
 "prev" => "이전",
 "next" => "다음",
-"Updating ownCloud to version %s, this may take a while." => "ownCloud 를 버젼 %s로 업데이트 하는 중, 시간이 소요됩니다."
+"Updating ownCloud to version %s, this may take a while." => "ownCloud를 버전 %s(으)로 업데이트합니다. 잠시 기다려 주십시오."
 );

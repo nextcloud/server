@@ -18,8 +18,6 @@
 "replaced {new_name}" => "zamenjano je ime {new_name}",
 "undo" => "razveljavi",
 "replaced {new_name} with {old_name}" => "zamenjano ime {new_name} z imenom {old_name}",
-"unshared {files}" => "odstranjeno iz souporabe {files}",
-"deleted {files}" => "izbrisano {files}",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Neveljavno ime, znaki '\\', '/', '<', '>', ':', '\"', '|', '?' in '*' niso dovoljeni.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Pošiljanje ni mogoče, saj gre za mapo, ali pa je datoteka velikosti 0 bajtov.",
 "Upload Error" => "Napaka med nalaganjem",

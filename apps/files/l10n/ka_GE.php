@@ -16,8 +16,6 @@
 "replaced {new_name}" => "{new_name} შეცვლილია",
 "undo" => "დაბრუნება",
 "replaced {new_name} with {old_name}" => "{new_name} შეცვლილია {old_name}–ით",
-"unshared {files}" => "გაზიარება მოხსნილი {files}",
-"deleted {files}" => "წაშლილი {files}",
 "Unable to upload your file as it is a directory or has 0 bytes" => "თქვენი ფაილის ატვირთვა ვერ მოხერხდა. ის არის საქაღალდე და შეიცავს 0 ბაიტს",
 "Upload Error" => "შეცდომა ატვირთვისას",
 "Close" => "დახურვა",

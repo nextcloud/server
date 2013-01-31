@@ -58,6 +58,8 @@
 "Display Name" => "Zobrazované jméno",
 "Group Admin" => "Správa skupiny",
 "Storage" => "Úložiště",
+"change display name" => "změnit zobrazované jméno",
+"set new password" => "nastavit nové heslo",
 "Default" => "Výchozí",
 "Delete" => "Smazat"
 );
