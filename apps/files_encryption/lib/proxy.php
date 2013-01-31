@@ -129,7 +129,7 @@ class Proxy extends \OC_FileProxy {
 				Keymanager::setFileKey( $view, $filePath, $userId, $encrypted['key'] );
 				
 				// Update the file cache with file info
-				\OC_FileCache::put( $path, array( 'encrypted'=>true, 'size' => $size ), '' );
+				\OC\Files\Filesystem::putFileInfo( $path, array( 'encrypted'=>true, 'size' => $size ), '' );
 				
 				// Re-enable proxy - our work is done
 				\OC_FileProxy::$enabled = true;
@@ -162,7 +162,7 @@ class Proxy extends \OC_FileProxy {
 			
 			$filePath = '/' . implode( '/', $filePath );
 			
-			//$cached = \OC_FileCache_Cached::get( $path, '' );
+			//$cached = \OC\Files\Filesystem::getFileInfo( $path, '' );
 			
 			$view = new \OC_FilesystemView( '' );
 			
@@ -363,7 +363,7 @@ class Proxy extends \OC_FileProxy {
 	
 		if ( Crypt::isCatfile( $path ) ) {
 		
-			$cached = \OC_FileCache_Cached::get( $path, '' );
+			$cached = \OC\Files\Filesystem::getFileInfo( $path, '' );
 			
 			$data['size'] = $cached['size'];
 			
@@ -376,7 +376,7 @@ class Proxy extends \OC_FileProxy {
 		
 		if ( Crypt::isCatfile( $path ) ) {
 			
-			$cached = \OC_FileCache_Cached::get( $path, '' );
+			$cached = \OC\Files\Filesystem::getFileInfo( $path, '' );
 			
 			return  $cached['size'];
 		

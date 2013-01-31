@@ -170,10 +170,10 @@ class Crypt {
 	 */
 	public static function isEncryptedMeta( $path ) {
 	
-		// TODO: Use DI to get OC_FileCache_Cached out of here
+		// TODO: Use DI to get \OC\Files\Filesystem out of here
 	
 		// Fetch all file metadata from DB
-		$metadata = \OC_FileCache_Cached::get( $path, '' );
+		$metadata = \OC\Files\Filesystem::getFileInfo( $path, '' );
 		
 		// Return encryption status
 		return isset( $metadata['encrypted'] ) and ( bool )$metadata['encrypted'];
@@ -187,7 +187,7 @@ class Crypt {
 	public static function isLegacyEncryptedContent( $content ) {
 	
 		// Fetch all file metadata from DB
-		$metadata = \OC_FileCache_Cached::get( $content, '' );
+		$metadata = \OC\Files\Filesystem::getFileInfo( $content, '' );
 	
 		// If a file is flagged with encryption in DB, but isn't a 
 		// valid content + IV combination, it's probably using the 
