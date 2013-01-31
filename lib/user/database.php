@@ -159,9 +159,19 @@ class OC_User_Database extends OC_User_Backend {
 		$result = $query->execute(array($search.'%'));
 		$users = array();
 		while ($row = $result->fetchRow()) {
-			$displayName =  trim($row['displayname'], ' ');
-			$displayNames[$row['uid']] = empty($displayName) ? $row['uid'] : $displayName;
+			$displayNames[$row['uid']] = $row['displayname'];
 		}
+		
+		// let's see if we can also find some users who don't have a display name yet
+		$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` WHERE LOWER(`uid`) LIKE LOWER(?)', $limit, $offset);
+		$result = $query->execute(array($search.'%'));
+		while ($row = $result->fetchRow()) {
+			$displayName =  trim($row['displayname'], ' ');
+			if ( empty($displayName) )
+			$displayNames[$row['uid']] = $row['uid'];
+		}
+		
+		
 		return $displayNames;
 	}
 	
