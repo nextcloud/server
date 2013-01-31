@@ -341,10 +341,9 @@ ingle parameters
 				case 'ldapUuidAttribute':
 				case 'hasPagedResultSupport':
 					continue 2;
-				default:
-					if(is_null($value)) {
-						$value = 0;
-					}
+			}
+			if(is_null($value)) {
+				$value = '';
 			}
 
 		    $this->setValue($trans[$key], $value);
