@@ -3,6 +3,8 @@
 // Check if we are a user
 OCP\User::checkLoggedIn();
 
+OCP\App::setActiveNavigationEntry('files_index');
+
 OCP\Util::addScript('files_trashbin', 'trash');
 OCP\Util::addScript('files_trashbin', 'disableDefaultActions');
 OCP\Util::addScript('files', 'fileactions');
