@@ -64,7 +64,7 @@ input[type="submit"]:hover, input[type="submit"]:focus, input[type="button"]:hov
 	background:rgba(250,250,250,.9); color:#333;
 }
 input[type="submit"] img, input[type="button"] img, button img, .button img { cursor:pointer; }
-#header .button { border:none; }
+#header .button { border:none; -moz-box-shadow:none; -webkit-box-shadow:none; box-shadow:none; }
 
 /* Primary action button, use sparingly */
 .primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary {
