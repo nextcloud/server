@@ -29,7 +29,6 @@ $filename = $_GET["file"];
 $view = new OC_FilesystemView('/'.\OCP\User::getUser().'/files_trashbin');
 
 if(!$view->file_exists($filename)) {
-	error_log("file does not exist... " . $view->getInternalPath($filename));
 	header("HTTP/1.0 404 Not Found");
 	$tmpl = new OCP\Template( '', '404', 'guest' );
 	$tmpl->assign('file', $filename);
