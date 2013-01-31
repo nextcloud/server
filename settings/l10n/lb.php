@@ -24,7 +24,6 @@
 "Fill in an email address to enable password recovery" => "Gëff eng Email Adress an fir d'Passwuert recovery ze erlaben",
 "Language" => "Sprooch",
 "Help translate" => "Hëllef iwwersetzen",
-"Name" => "Numm",
 "Groups" => "Gruppen",
 "Create" => "Erstellen",
 "Other" => "Aner",

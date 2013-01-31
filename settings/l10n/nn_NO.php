@@ -21,7 +21,6 @@
 "Fill in an email address to enable password recovery" => "Fyll inn din e-post addresse for og kunne motta passord tilbakestilling",
 "Language" => "Språk",
 "Help translate" => "Hjelp oss å oversett",
-"Name" => "Namn",
 "Groups" => "Grupper",
 "Create" => "Lag",
 "Other" => "Anna",

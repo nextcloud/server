@@ -6,7 +6,9 @@
  * See the COPYING-README file.
  */
 
-class Test_Filestorage_FTP extends Test_FileStorage {
+namespace Test\Files\Storage;
+
+class FTP extends Storage {
 	private $config;
 
 	public function setUp() {
@@ -16,12 +18,12 @@ class Test_Filestorage_FTP extends Test_FileStorage {
 			$this->markTestSkipped('FTP backend not configured');
 		}
 		$this->config['ftp']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
-		$this->instance = new OC_Filestorage_FTP($this->config['ftp']);
+		$this->instance = new \OC\Files\Storage\FTP($this->config['ftp']);
 	}
 
 	public function tearDown() {
 		if ($this->instance) {
-			OCP\Files::rmdirr($this->instance->constructUrl(''));
+			\OCP\Files::rmdirr($this->instance->constructUrl(''));
 		}
 	}
 
@@ -32,18 +34,18 @@ class Test_Filestorage_FTP extends Test_FileStorage {
 						  'root' => '/',
 						  'secure' => false );
 		$instance = new OC_Filestorage_FTP($config);
-		$this->assertEqual('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
+		$this->assertEquals('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
 
 		$config['secure'] = true;
 		$instance = new OC_Filestorage_FTP($config);
-		$this->assertEqual('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
+		$this->assertEquals('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
 
 		$config['secure'] = 'false';
 		$instance = new OC_Filestorage_FTP($config);
-		$this->assertEqual('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
+		$this->assertEquals('ftp://ftp:ftp@localhost/', $instance->constructUrl(''));
 
 		$config['secure'] = 'true';
 		$instance = new OC_Filestorage_FTP($config);
-		$this->assertEqual('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
+		$this->assertEquals('ftps://ftp:ftp@localhost/', $instance->constructUrl(''));
 	}
 }

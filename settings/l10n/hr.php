@@ -24,7 +24,6 @@
 "Fill in an email address to enable password recovery" => "Ispunite vase e-mail adresa kako bi se omogućilo oporavak lozinke",
 "Language" => "Jezik",
 "Help translate" => "Pomoć prevesti",
-"Name" => "Ime",
 "Groups" => "Grupe",
 "Create" => "Izradi",
 "Other" => "ostali",

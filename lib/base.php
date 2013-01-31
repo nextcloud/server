@@ -30,7 +30,7 @@ require_once 'public/constants.php';
 class OC
 {
 	/**
-	 * Assoziative array for autoloading. classname => filename
+	 * Associative array for autoloading. classname => filename
 	 */
 	public static $CLASSPATH = array();
 	/**
@@ -96,7 +96,14 @@ class OC
 		} elseif (strpos($className, 'OCP\\') === 0) {
 			$path = 'public/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
 		} elseif (strpos($className, 'OCA\\') === 0) {
-			$path = 'apps/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
+			foreach(self::$APPSROOTS as $appDir) {
+				$path = $appDir['path'] . '/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
+				$fullPath = stream_resolve_include_path($path);
+				if (file_exists($fullPath)) {
+					require_once $fullPath;
+					return false;
+				}
+			}
 		} elseif (strpos($className, 'Sabre_') === 0) {
 			$path = str_replace('_', '/', $className) . '.php';
 		} elseif (strpos($className, 'Symfony\\Component\\Routing\\') === 0) {
@@ -105,6 +112,8 @@ class OC
 			$path = str_replace('\\', '/', $className) . '.php';
 		} elseif (strpos($className, 'Test_') === 0) {
 			$path = 'tests/lib/' . strtolower(str_replace('_', '/', substr($className, 5)) . '.php');
+		} elseif (strpos($className, 'Test\\') === 0) {
+			$path = 'tests/lib/' . strtolower(str_replace('\\', '/', substr($className, 5)) . '.php');
 		} else {
 			return false;
 		}
@@ -120,7 +129,7 @@ class OC
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
 		OC::$SUBURI = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
-		$scriptName = $_SERVER["SCRIPT_NAME"];
+		$scriptName = OC_Request::scriptName();
 		if (substr($scriptName, -1) == '/') {
 			$scriptName .= 'index.php';
 			//make sure suburi follows the same rules as scriptName
@@ -221,7 +230,7 @@ class OC
 			header('Strict-Transport-Security: max-age=31536000');
 			ini_set("session.cookie_secure", "on");
 			if (OC_Request::serverProtocol() <> 'https' and !OC::$CLI) {
-				$url = "https://" . OC_Request::serverHost() . $_SERVER['REQUEST_URI'];
+				$url = "https://" . OC_Request::serverHost() . OC_Request::requestUri();
 				header("Location: $url");
 				exit();
 			}
@@ -231,6 +240,12 @@ class OC
 	public static function checkMaintenanceMode() {
 		// Allow ajax update script to execute without being stopped
 		if (OC_Config::getValue('maintenance', false) && OC::$SUBURI != '/core/ajax/update.php') {
+			// send http status 503
+			header('HTTP/1.1 503 Service Temporarily Unavailable');
+			header('Status: 503 Service Temporarily Unavailable');
+			header('Retry-After: 120');
+
+			// render error page
 			$tmpl = new OC_Template('', 'error', 'guest');
 			$tmpl->assign('errors', array(1 => array('error' => 'ownCloud is in maintenance mode')));
 			$tmpl->printPage();
@@ -246,6 +261,7 @@ class OC
 				if ($showTemplate && !OC_Config::getValue('maintenance', false)) {
 					OC_Config::setValue('maintenance', true);
 					OC_Log::write('core', 'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, OC_Log::DEBUG);
+					OC_Util::addscript('update');
 					$tmpl = new OC_Template('', 'update', 'guest');
 					$tmpl->assign('version', OC_Util::getVersionString());
 					$tmpl->printPage();
@@ -262,7 +278,7 @@ class OC
 	{
 		// Add the stuff we need always
 		OC_Util::addScript("jquery-1.7.2.min");
-		OC_Util::addScript("jquery-ui-1.8.16.custom.min");
+		OC_Util::addScript("jquery-ui-1.10.0.custom");
 		OC_Util::addScript("jquery-showpassword");
 		OC_Util::addScript("jquery.infieldlabel");
 		OC_Util::addScript("jquery-tipsy");
@@ -276,8 +292,9 @@ class OC
 
 		OC_Util::addStyle("styles");
 		OC_Util::addStyle("multiselect");
-		OC_Util::addStyle("jquery-ui-1.8.16.custom");
+		OC_Util::addStyle("jquery-ui-1.10.0.custom");
 		OC_Util::addStyle("jquery-tipsy");
+		OC_Util::addScript("oc-requesttoken");
 	}
 
 	public static function initSession()
@@ -320,6 +337,18 @@ class OC
 
 		return OC::$router;
 	}
+
+
+	public static function loadAppClassPaths()
+	{	
+		foreach(OC_APP::getEnabledApps() as $app) {
+			$file = OC_App::getAppPath($app).'/appinfo/classpath.php';
+			if(file_exists($file)) {
+				require_once $file;
+			}
+		}
+	}
+
 
 	public static function init()
 	{
@@ -393,18 +422,16 @@ class OC
 		}
 
 		// register the stream wrappers
-		require_once 'streamwrappers.php';
-		stream_wrapper_register("fakedir", "OC_FakeDirStream");
-		stream_wrapper_register('static', 'OC_StaticStreamWrapper');
-		stream_wrapper_register('close', 'OC_CloseStreamWrapper');
+		stream_wrapper_register('fakedir', 'OC\Files\Stream\Dir');
+		stream_wrapper_register('static', 'OC\Files\Stream\StaticStream');
+		stream_wrapper_register('close', 'OC\Files\Stream\Close');
+		stream_wrapper_register('oc', 'OC\Files\Stream\OC');
 
 		self::checkConfig();
 		self::checkInstalled();
 		self::checkSSL();
 		self::initSession();
 		self::initTemplateEngine();
-		self::checkMaintenanceMode();
-		self::checkUpgrade();
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
@@ -477,7 +504,7 @@ class OC
 
 		// write error into log if locale can't be set
 		if (OC_Util::issetlocaleworking() == false) {
-			OC_Log::write('core', 'setting locate to en_US.UTF-8 failed. Support is probably not installed on your system', OC_Log::ERROR);
+			OC_Log::write('core', 'setting locale to en_US.UTF-8 failed. Support is probably not installed on your system', OC_Log::ERROR);
 		}
 		if (OC_Config::getValue('installed', false)) {
 			if (OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
@@ -522,21 +549,10 @@ class OC
 	 */
 	public static function handleRequest()
 	{
-		if (!OC_Config::getValue('installed', false)) {
-			require_once 'core/setup.php';
-			exit();
-		}
-		// Handle redirect URL for logged in users
-		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
-			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
-			header('Location: ' . $location);
-			return;
-		}
-		// Handle WebDAV
-		if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND') {
-			header('location: ' . OC_Helper::linkToRemote('webdav'));
-			return;
-		}
+		// load all the classpaths from the enabled apps so they are available
+		// in the routing files of each app
+		OC::loadAppClassPaths();
+
 		try {
 			OC::getRouter()->match(OC_Request::getPathInfo());
 			return;
@@ -554,6 +570,27 @@ class OC
 			self::loadCSSFile($param);
 			return;
 		}
+
+		// Check if ownCloud is installed or in maintenance (update) mode
+		if (!OC_Config::getValue('installed', false)) {
+			require_once 'core/setup.php';
+			exit();
+		}
+		self::checkMaintenanceMode();
+		self::checkUpgrade();
+		
+		// Handle redirect URL for logged in users
+		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
+			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
+			header('Location: ' . $location);
+			return;
+		}
+		// Handle WebDAV
+		if ($_SERVER['REQUEST_METHOD'] == 'PROPFIND') {
+			header('location: ' . OC_Helper::linkToRemote('webdav'));
+			return;
+		}
+
 		// Someone is logged in :
 		if (OC_User::isLoggedIn()) {
 			OC_App::loadApps();
@@ -727,7 +764,7 @@ class OC
 		if (OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
 			//OC_Log::write('core',"Logged in with HTTP Authentication", OC_Log::DEBUG);
 			OC_User::unsetMagicInCookie();
-			$_REQUEST['redirect_url'] = (isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '');
+			$_REQUEST['redirect_url'] = OC_Request::requestUri();
 			OC_Util::redirectToDefaultPage();
 		}
 		return true;

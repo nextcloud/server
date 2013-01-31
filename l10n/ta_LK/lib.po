@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-15 14:16+0000\n"
-"Last-Translator: suganthi <suganthi@nic.lk>\n"
+"POT-Creation-Date: 2013-01-17 00:26+0100\n"
+"PO-Revision-Date: 2013-01-16 23:26+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,51 +18,55 @@ msgstr ""
 "Language: ta_LK\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:285
+#: app.php:301
 msgid "Help"
 msgstr "உதவி"
 
-#: app.php:292
+#: app.php:308
 msgid "Personal"
 msgstr "தனிப்பட்ட"
 
-#: app.php:297
+#: app.php:313
 msgid "Settings"
 msgstr "அமைப்புகள்"
 
-#: app.php:302
+#: app.php:318
 msgid "Users"
 msgstr "பயனாளர்கள்"
 
-#: app.php:309
+#: app.php:325
 msgid "Apps"
 msgstr "செயலிகள்"
 
-#: app.php:311
+#: app.php:327
 msgid "Admin"
 msgstr "நிர்வாகம்"
 
-#: files.php:332
+#: files.php:365
 msgid "ZIP download is turned off."
 msgstr "வீசொலிப் பூட்டு பதிவிறக்கம் நிறுத்தப்பட்டுள்ளது."
 
-#: files.php:333
+#: files.php:366
 msgid "Files need to be downloaded one by one."
 msgstr "கோப்புகள்ஒன்றன் பின் ஒன்றாக பதிவிறக்கப்படவேண்டும்."
 
-#: files.php:333 files.php:358
+#: files.php:366 files.php:391
 msgid "Back to Files"
 msgstr "கோப்புகளுக்கு செல்க"
 
-#: files.php:357
+#: files.php:390
 msgid "Selected files too large to generate zip file."
 msgstr "வீ சொலிக் கோப்புகளை உருவாக்குவதற்கு தெரிவுசெய்யப்பட்ட கோப்புகள் மிகப்பெரியவை"
+
+#: helper.php:228
+msgid "couldn't be determined"
+msgstr ""
 
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "செயலி இயலுமைப்படுத்தப்படவில்லை"
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "அத்தாட்சிப்படுத்தலில் வழு"
 
@@ -82,55 +86,55 @@ msgstr "உரை"
 msgid "Images"
 msgstr "படங்கள்"
 
-#: template.php:103
+#: template.php:113
 msgid "seconds ago"
 msgstr "செக்கன்களுக்கு முன்"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "1 நிமிடத்திற்கு முன் "
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d நிமிடங்களுக்கு முன்"
 
-#: template.php:106
+#: template.php:116
 msgid "1 hour ago"
 msgstr "1 மணித்தியாலத்திற்கு முன்"
 
-#: template.php:107
+#: template.php:117
 #, php-format
 msgid "%d hours ago"
 msgstr "%d மணித்தியாலத்திற்கு முன்"
 
-#: template.php:108
+#: template.php:118
 msgid "today"
 msgstr "இன்று"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr "நேற்று"
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "%d நாட்களுக்கு முன்"
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr "கடந்த மாதம்"
 
-#: template.php:112
+#: template.php:122
 #, php-format
 msgid "%d months ago"
 msgstr "%d மாதத்திற்கு முன்"
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr "கடந்த வருடம்"
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr "வருடங்களுக்கு முன்"
 

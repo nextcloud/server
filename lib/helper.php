@@ -78,11 +78,8 @@ class OC_Helper {
 			}
 		}
 
-		if (!empty($args)) {
-			$urlLinkTo .= '?';
-			foreach($args as $k => $v) {
-				$urlLinkTo .= '&'.$k.'='.urlencode($v);
-			}
+		if ($args && $query = http_build_query($args, '', '&')) {
+			$urlLinkTo .= '?'.$query;
 		}
 
 		return $urlLinkTo;
@@ -193,8 +190,9 @@ class OC_Helper {
 		if(isset($alias[$mimetype])) {
 			$mimetype=$alias[$mimetype];
 		}
-		// Replace slash with a minus
+		// Replace slash and backslash with a minus
 		$mimetype = str_replace( "/", "-", $mimetype );
+		$mimetype = str_replace( "\\", "-", $mimetype );
 
 		// Is it a dir?
 		if( $mimetype == "dir" ) {
@@ -326,7 +324,7 @@ class OC_Helper {
 					self::copyr("$src/$file", "$dest/$file");
 				}
 			}
-		}elseif(file_exists($src) && !OC_Filesystem::isFileBlacklisted($src)) {
+		}elseif(file_exists($src) && !\OC\Files\Filesystem::isFileBlacklisted($src)) {
 			copy($src, $dest);
 		}
 	}
@@ -620,7 +618,7 @@ class OC_Helper {
 
 		$newpath = $path . '/' . $filename;
 		$counter = 2;
-		while (OC_Filesystem::file_exists($newpath)) {
+		while (\OC\Files\Filesystem::file_exists($newpath)) {
 			$newname = $name . ' (' . $counter . ')' . $ext;
 			$newpath = $path . '/' . $newname;
 			$counter++;
@@ -679,8 +677,8 @@ class OC_Helper {
 		$start = intval($start);
 		$length = intval($length);
 		$string = mb_substr($string, 0, $start, $encoding) .
-		          $replacement .
-		          mb_substr($string, $start+$length, mb_strlen($string, 'UTF-8')-$start, $encoding);
+			$replacement .
+			mb_substr($string, $start+$length, mb_strlen($string, 'UTF-8')-$start, $encoding);
 
 		return $string;
 	}
@@ -749,6 +747,23 @@ class OC_Helper {
 	}
 
 	/**
+	 * @brief calculates the maximum upload size respecting system settings, free space and user quota
+	 *
+	 * @param $dir the current folder where the user currently operates
+	 * @return number of bytes representing
+	 */
+	public static function maxUploadFilesize($dir) {
+		$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
+		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
+		$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
+
+		$freeSpace = \OC\Files\Filesystem::free_space($dir);
+		$freeSpace = max($freeSpace, 0);
+
+		return min($maxUploadFilesize, $freeSpace);
+	}
+
+	/**
 	 * Checks if a function is available
 	 * @param string $function_name
 	 * @return bool
@@ -766,5 +781,24 @@ class OC_Helper {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Calculate the disc space
+	 */
+	public static function getStorageInfo() {
+		$rootInfo = \OC\Files\Filesystem::getFileInfo('/');
+		$used = $rootInfo['size'];
+		if ($used < 0) {
+			$used = 0;
+		}
+		$free = \OC\Files\Filesystem::free_space();
+		$total = $free + $used;
+		if ($total == 0) {
+			$total = 1; // prevent division by zero
+		}
+		$relative = round(($used / $total) * 10000) / 100;
+
+		return array('free' => $free, 'used' => $used, 'total' => $total, 'relative' => $relative);
 	}
 }

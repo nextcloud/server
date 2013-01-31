@@ -26,9 +26,8 @@ var UserList = {
         UserList.deleteCanceled = false;
 
         // Provide user with option to undo
-        $('#notification').html(t('users', 'deleted') + ' ' + uid + '<span class="undo">' + t('users', 'undo') + '</span>');
         $('#notification').data('deleteuser', true);
-        $('#notification').fadeIn();
+        OC.Notification.showHtml(t('users', 'deleted') + ' ' + uid + '<span class="undo">' + t('users', 'undo') + '</span>');
     },
 
     /**
@@ -53,7 +52,7 @@ var UserList = {
                 success:function (result) {
                     if (result.status == 'success') {
                         // Remove undo option, & remove user from table
-                        $('#notification').fadeOut();
+                        OC.Notification.hide();
                         $('tr').filterAttr('data-uid', UserList.deleteUid).remove();
                         UserList.deleteCanceled = true;
                         if (ready) {
@@ -70,7 +69,9 @@ var UserList = {
     add:function (username, groups, subadmin, quota, sort) {
         var tr = $('tbody tr').first().clone();
         tr.attr('data-uid', username);
+        tr.attr('data-displayName', username);
         tr.find('td.name').text(username);
+        tr.find('td.displayName').text(username);
         var groupsSelect = $('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="' + t('settings', 'Groups') + '"></select>').attr('data-username', username).attr('data-user-groups', groups);
         tr.find('td.groups').empty();
         if (tr.find('td.subadmins').length > 0) {
@@ -197,7 +198,7 @@ var UserList = {
                 checked:checked,
                 oncheck:checkHandeler,
                 onuncheck:checkHandeler,
-                minWidth:100,
+                minWidth:100
             });
         }
         if ($(element).attr('class') == 'subadminsselect') {
@@ -232,7 +233,7 @@ var UserList = {
                 checked:checked,
                 oncheck:checkHandeler,
                 onuncheck:checkHandeler,
-                minWidth:100,
+                minWidth:100
             });
         }
     }
@@ -300,6 +301,40 @@ $(document).ready(function () {
     $('td.password').live('click', function (event) {
         $(this).children('img').click();
     });
+    
+    $('td.displayName>img').live('click', function (event) {
+        event.stopPropagation();
+        var img = $(this);
+        var uid = img.parent().parent().attr('data-uid');
+        var displayName = img.parent().parent().attr('data-displayName');
+        var input = $('<input type="text" value="'+displayName+'">');
+        img.css('display', 'none');
+        img.parent().children('span').replaceWith(input);
+        input.focus();
+        input.keypress(function (event) {
+            if (event.keyCode == 13) {
+                if ($(this).val().length > 0) {
+                    $.post(
+                        OC.filePath('settings', 'ajax', 'changedisplayname.php'),
+                        {username:uid, displayName:$(this).val()},
+                        function (result) {
+                        }
+                    );
+                    input.blur();
+                } else {
+                    input.blur();
+                }
+            }
+        });
+        input.blur(function () {
+            $(this).replaceWith($(this).val());
+            img.css('display', '');
+        });
+    });
+    $('td.displayName').live('click', function (event) {
+        $(this).children('img').click();
+    });
+    
 
     $('select.quota, select.quota-user').live('change', function () {
         var select = $(this);
@@ -389,7 +424,7 @@ $(document).ready(function () {
             {
                 username:username,
                 password:password,
-                groups:groups,
+                groups:groups
             },
             function (result) {
                 if (result.status != 'success') {
@@ -402,13 +437,13 @@ $(document).ready(function () {
         );
     });
     // Handle undo notifications
-    $('#notification').hide();
+    OC.Notification.hide();
     $('#notification .undo').live('click', function () {
         if ($('#notification').data('deleteuser')) {
             $('tbody tr').filterAttr('data-uid', UserList.deleteUid).show();
             UserList.deleteCanceled = true;
         }
-        $('#notification').fadeOut();
+        OC.Notification.hide();
     });
     UserList.useUndo = ('onbeforeunload' in window)
     $(window).bind('beforeunload', function () {

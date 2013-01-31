@@ -49,10 +49,13 @@
 "Use this address to connect to your ownCloud in your file manager" => "Χρήση αυτής της διεύθυνσης για σύνδεση στο ownCloud με τον διαχειριστή αρχείων σας",
 "Version" => "Έκδοση",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Αναπτύχθηκε από την <a href=\"http://ownCloud.org/contact\" target=\"_blank\">κοινότητα ownCloud</a>, ο <a href=\"https://github.com/owncloud\" target=\"_blank\">πηγαίος κώδικας</a> είναι υπό άδεια χρήσης <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
-"Name" => "Όνομα",
 "Groups" => "Ομάδες",
 "Create" => "Δημιουργία",
+"Default Storage" => "Προκαθορισμένη Αποθήκευση ",
+"Unlimited" => "Απεριόριστο",
 "Other" => "Άλλα",
 "Group Admin" => "Ομάδα Διαχειριστών",
+"Storage" => "Αποθήκευση",
+"Default" => "Προκαθορισμένο",
 "Delete" => "Διαγραφή"
 );

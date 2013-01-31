@@ -7,14 +7,15 @@
 #   <dw4dev@gmail.com>, 2012.
 # Eddy Chang <taiwanmambo@gmail.com>, 2012.
 #   <nfsmwlin@gmail.com>, 2013.
+# Pellaeon Lin <nfsmwlin@gmail.com>, 2013.
 # ywang  <ywang1007@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-11 00:05+0100\n"
-"PO-Revision-Date: 2013-01-10 06:24+0000\n"
-"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
+"POT-Creation-Date: 2013-01-31 17:02+0100\n"
+"PO-Revision-Date: 2013-01-31 16:02+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,60 +23,46 @@ msgstr ""
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/move.php:17
-#, php-format
-msgid "Could not move %s - File with this name already exists"
-msgstr "無法移動 %s - 同名的檔案已經存在"
-
-#: ajax/move.php:24
-#, php-format
-msgid "Could not move %s"
-msgstr "無法移動 %s"
-
-#: ajax/rename.php:19
-msgid "Unable to rename file"
-msgstr "無法重新命名檔案"
-
-#: ajax/upload.php:14
+#: ajax/upload.php:17
 msgid "No file was uploaded. Unknown error"
 msgstr "沒有檔案被上傳。未知的錯誤。"
 
-#: ajax/upload.php:21
+#: ajax/upload.php:24
 msgid "There is no error, the file uploaded with success"
 msgstr "無錯誤，檔案上傳成功"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:25
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "上傳的檔案大小超過 php.ini 當中 upload_max_filesize 參數的設定："
 
-#: ajax/upload.php:24
+#: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "上傳的檔案大小超過 HTML 表單中 MAX_FILE_SIZE 的限制"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:29
 msgid "The uploaded file was only partially uploaded"
 msgstr "只有檔案的一部分被上傳"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:30
 msgid "No file was uploaded"
 msgstr "無已上傳檔案"
 
-#: ajax/upload.php:28
+#: ajax/upload.php:31
 msgid "Missing a temporary folder"
 msgstr "遺失暫存資料夾"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:32
 msgid "Failed to write to disk"
 msgstr "寫入硬碟失敗"
 
-#: ajax/upload.php:45
+#: ajax/upload.php:51
 msgid "Not enough space available"
 msgstr "沒有足夠的可用空間"
 
-#: ajax/upload.php:69
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "無效的資料夾。"
 
@@ -83,148 +70,150 @@ msgstr "無效的資料夾。"
 msgid "Files"
 msgstr "檔案"
 
-#: js/fileactions.js:117 templates/index.php:82 templates/index.php:83
+#: js/fileactions.js:117 templates/index.php:85 templates/index.php:86
 msgid "Unshare"
 msgstr "取消共享"
 
-#: js/fileactions.js:119 templates/index.php:88 templates/index.php:89
+#: js/fileactions.js:119 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "刪除"
 
-#: js/fileactions.js:181
+#: js/fileactions.js:185
 msgid "Rename"
 msgstr "重新命名"
 
-#: js/filelist.js:205 js/filelist.js:207
+#: js/filelist.js:208 js/filelist.js:210
 msgid "{new_name} already exists"
 msgstr "{new_name} 已經存在"
 
-#: js/filelist.js:205 js/filelist.js:207
+#: js/filelist.js:208 js/filelist.js:210
 msgid "replace"
 msgstr "取代"
 
-#: js/filelist.js:205
+#: js/filelist.js:208
 msgid "suggest name"
 msgstr "建議檔名"
 
-#: js/filelist.js:205 js/filelist.js:207
+#: js/filelist.js:208 js/filelist.js:210
 msgid "cancel"
 msgstr "取消"
 
-#: js/filelist.js:254
+#: js/filelist.js:253
 msgid "replaced {new_name}"
 msgstr "已取代 {new_name}"
 
-#: js/filelist.js:254 js/filelist.js:256 js/filelist.js:288 js/filelist.js:290
+#: js/filelist.js:253 js/filelist.js:255
 msgid "undo"
 msgstr "復原"
 
-#: js/filelist.js:256
+#: js/filelist.js:255
 msgid "replaced {new_name} with {old_name}"
 msgstr "使用 {new_name} 取代 {old_name}"
 
-#: js/filelist.js:288
-msgid "unshared {files}"
-msgstr "已取消分享 {files}"
+#: js/filelist.js:280
+msgid "perform delete operation"
+msgstr ""
 
-#: js/filelist.js:290
-msgid "deleted {files}"
-msgstr "已刪除 {files}"
-
-#: js/files.js:31
+#: js/files.js:52
 msgid "'.' is an invalid file name."
 msgstr "'.' 是不合法的檔名。"
 
-#: js/files.js:36
+#: js/files.js:56
 msgid "File name cannot be empty."
 msgstr "檔名不能為空。"
 
-#: js/files.js:45
+#: js/files.js:64
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr "檔名不合法，不允許 '\\', '/', '<', '>', ':', '\"', '|', '?' 和 '*' 。"
 
-#: js/files.js:186
-msgid "generating ZIP-file, it may take some time."
-msgstr "產生 ZIP 壓縮檔，這可能需要一段時間。"
+#: js/files.js:78
+msgid "Your storage is full, files can not be updated or synced anymore!"
+msgstr ""
+
+#: js/files.js:82
+msgid "Your storage is almost full ({usedSpacePercent}%)"
+msgstr ""
 
 #: js/files.js:224
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr "正在準備您的下載，若您的檔案較大，將會需要更多時間。"
+
+#: js/files.js:261
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "無法上傳您的檔案因為它可能是一個目錄或檔案大小為0"
 
-#: js/files.js:224
+#: js/files.js:261
 msgid "Upload Error"
 msgstr "上傳發生錯誤"
 
-#: js/files.js:241
+#: js/files.js:278
 msgid "Close"
 msgstr "關閉"
 
-#: js/files.js:260 js/files.js:376 js/files.js:409
+#: js/files.js:297 js/files.js:413 js/files.js:444
 msgid "Pending"
 msgstr "等候中"
 
-#: js/files.js:280
+#: js/files.js:317
 msgid "1 file uploading"
 msgstr "1 個檔案正在上傳"
 
-#: js/files.js:283 js/files.js:338 js/files.js:353
+#: js/files.js:320 js/files.js:375 js/files.js:390
 msgid "{count} files uploading"
 msgstr "{count} 個檔案正在上傳"
 
-#: js/files.js:357 js/files.js:393
+#: js/files.js:393 js/files.js:428
 msgid "Upload cancelled."
 msgstr "上傳取消"
 
-#: js/files.js:464
+#: js/files.js:502
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "檔案上傳中。離開此頁面將會取消上傳。"
 
-#: js/files.js:537
+#: js/files.js:575
 msgid "URL cannot be empty."
 msgstr "URL 不能為空白."
 
-#: js/files.js:543
+#: js/files.js:580
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "無效的資料夾名稱，'Shared' 的使用被 Owncloud 保留"
 
-#: js/files.js:727
-msgid "{count} files scanned"
-msgstr "{count} 個檔案已掃描"
-
-#: js/files.js:735
-msgid "error while scanning"
-msgstr "掃描時發生錯誤"
-
-#: js/files.js:808 templates/index.php:64
+#: js/files.js:949 templates/index.php:67
 msgid "Name"
 msgstr "名稱"
 
-#: js/files.js:809 templates/index.php:75
+#: js/files.js:950 templates/index.php:78
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:810 templates/index.php:77
+#: js/files.js:951 templates/index.php:80
 msgid "Modified"
 msgstr "修改"
 
-#: js/files.js:829
+#: js/files.js:970
 msgid "1 folder"
 msgstr "1 個資料夾"
 
-#: js/files.js:831
+#: js/files.js:972
 msgid "{count} folders"
 msgstr "{count} 個資料夾"
 
-#: js/files.js:839
+#: js/files.js:980
 msgid "1 file"
 msgstr "1 個檔案"
 
-#: js/files.js:841
+#: js/files.js:982
 msgid "{count} files"
 msgstr "{count} 個檔案"
+
+#: lib/helper.php:11 templates/index.php:18
+msgid "Upload"
+msgstr "上傳"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -274,36 +263,40 @@ msgstr "資料夾"
 msgid "From link"
 msgstr "從連結"
 
-#: templates/index.php:18
-msgid "Upload"
-msgstr "上傳"
+#: templates/index.php:40
+msgid "Trash"
+msgstr ""
 
-#: templates/index.php:41
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr "取消上傳"
 
-#: templates/index.php:56
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr "沒有任何東西。請上傳內容！"
 
-#: templates/index.php:70
+#: templates/index.php:73
 msgid "Download"
 msgstr "下載"
 
-#: templates/index.php:102
+#: templates/index.php:105
 msgid "Upload too large"
 msgstr "上傳過大"
 
-#: templates/index.php:104
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "您試圖上傳的檔案已超過伺服器的最大檔案大小限制。　"
 
-#: templates/index.php:109
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr "正在掃描檔案，請稍等。"
 
-#: templates/index.php:112
+#: templates/index.php:115
 msgid "Current scanning"
 msgstr "目前掃描"
+
+#: templates/upgrade.php:2
+msgid "Upgrading filesystem cache..."
+msgstr ""

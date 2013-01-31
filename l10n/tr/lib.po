@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# ismail yenigul <ismail.yenigul@surgate.com>, 2013.
 # Necdet Yücel <necdetyucel@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-28 00:20+0100\n"
-"PO-Revision-Date: 2012-12-27 11:03+0000\n"
-"Last-Translator: Necdet Yücel <necdetyucel@gmail.com>\n"
+"POT-Creation-Date: 2013-01-23 00:05+0100\n"
+"PO-Revision-Date: 2013-01-22 09:28+0000\n"
+"Last-Translator: ismail yenigül <ismail.yenigul@surgate.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,27 +19,27 @@ msgstr ""
 "Language: tr\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: app.php:287
+#: app.php:301
 msgid "Help"
 msgstr "Yardı"
 
-#: app.php:294
+#: app.php:308
 msgid "Personal"
 msgstr "Kişisel"
 
-#: app.php:299
+#: app.php:313
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: app.php:304
+#: app.php:318
 msgid "Users"
 msgstr "Kullanıcılar"
 
-#: app.php:311
+#: app.php:325
 msgid "Apps"
 msgstr "Uygulamalar"
 
-#: app.php:313
+#: app.php:327
 msgid "Admin"
 msgstr "Yönetici"
 
@@ -58,11 +59,15 @@ msgstr "Dosyalara dön"
 msgid "Selected files too large to generate zip file."
 msgstr "Seçilen dosyalar bir zip dosyası oluşturmak için fazla büyüktür."
 
+#: helper.php:229
+msgid "couldn't be determined"
+msgstr "tespit edilemedi"
+
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "Uygulama etkinleştirilmedi"
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "Kimlik doğrulama hatası"
 
@@ -82,55 +87,55 @@ msgstr "Metin"
 msgid "Images"
 msgstr "Resimler"
 
-#: template.php:103
+#: template.php:113
 msgid "seconds ago"
 msgstr "saniye önce"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "1 dakika önce"
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d dakika önce"
 
-#: template.php:106
+#: template.php:116
 msgid "1 hour ago"
 msgstr "1 saat önce"
 
-#: template.php:107
+#: template.php:117
 #, php-format
 msgid "%d hours ago"
 msgstr "%d saat önce"
 
-#: template.php:108
+#: template.php:118
 msgid "today"
 msgstr "bugün"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr "dün"
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "%d gün önce"
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr "geçen ay"
 
-#: template.php:112
+#: template.php:122
 #, php-format
 msgid "%d months ago"
 msgstr "%d ay önce"
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr "geçen yıl"
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr "yıl önce"
 

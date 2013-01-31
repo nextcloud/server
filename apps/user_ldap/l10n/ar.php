@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Password" => "كلمة المرور"
+"Password" => "كلمة المرور",
+"Help" => "المساعدة"
 );

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#  <cdewqazxsqwe@gmail.com>, 2013.
 #   <cdewqazxsqwe@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-16 00:19+0100\n"
-"PO-Revision-Date: 2013-01-15 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 10:56+0000\n"
+"Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -29,7 +30,7 @@ msgstr "<b>Предупреждение:</b> Приложения user_ldap и u
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Предупреждение:</b> Модуль PHP LDAP не установлен, бэкэнд не будет работать. Пожалуйста, обратитесь к Вашему системному администратору, чтобы установить его."
 
 #: templates/settings.php:15
 msgid "Host"
@@ -46,7 +47,7 @@ msgstr "База DN"
 
 #: templates/settings.php:16
 msgid "One Base DN per line"
-msgstr ""
+msgstr "Одно базовое DN на линию"
 
 #: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -121,7 +122,7 @@ msgstr "Базовое дерево пользователей"
 
 #: templates/settings.php:25
 msgid "One User Base DN per line"
-msgstr ""
+msgstr "Одно пользовательское базовое DN на линию"
 
 #: templates/settings.php:26
 msgid "Base Group Tree"
@@ -129,7 +130,7 @@ msgstr "Базовое дерево групп"
 
 #: templates/settings.php:26
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "Одно групповое базовое DN на линию"
 
 #: templates/settings.php:27
 msgid "Group-Member association"

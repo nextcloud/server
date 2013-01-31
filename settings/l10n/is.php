@@ -49,7 +49,6 @@
 "Use this address to connect to your ownCloud in your file manager" => "Notaðu þessa vefslóð til að tengjast ownCloud svæðinu þínu",
 "Version" => "Útgáfa",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Þróað af <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud samfélaginu</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">forrita kóðinn</a> er skráðu með <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
-"Name" => "Nafn",
 "Groups" => "Hópar",
 "Create" => "Búa til",
 "Default Storage" => "Sjálfgefin gagnageymsla",

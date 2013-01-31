@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-15 00:03+0100\n"
-"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"POT-Creation-Date: 2013-01-31 17:02+0100\n"
+"PO-Revision-Date: 2013-01-30 23:40+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -19,24 +19,24 @@ msgstr ""
 "Language: is\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:84
+#: ajax/share.php:85
 #, php-format
 msgid "User %s shared a file with you"
 msgstr "Notandinn %s deildi skrá með þér"
 
-#: ajax/share.php:86
+#: ajax/share.php:87
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr "Notandinn %s deildi möppu með þér"
 
-#: ajax/share.php:88
+#: ajax/share.php:89
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr "Notandinn %s deildi skránni \"%s\" með þér. Hægt er að hlaða henni niður hér: %s"
 
-#: ajax/share.php:90
+#: ajax/share.php:91
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -81,59 +81,135 @@ msgstr "Enginn flokkur valinn til eyðingar."
 msgid "Error removing %s from favorites."
 msgstr "Villa við að fjarlægja %s úr eftirlæti."
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "Sunnudagur"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "Mánudagur"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "Þriðjudagur"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "Miðvikudagur"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "Fimmtudagur"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "Föstudagur"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "Laugardagur"
+
+#: js/config.php:33
+msgid "January"
+msgstr "Janúar"
+
+#: js/config.php:33
+msgid "February"
+msgstr "Febrúar"
+
+#: js/config.php:33
+msgid "March"
+msgstr "Mars"
+
+#: js/config.php:33
+msgid "April"
+msgstr "Apríl"
+
+#: js/config.php:33
+msgid "May"
+msgstr "Maí"
+
+#: js/config.php:33
+msgid "June"
+msgstr "Júní"
+
+#: js/config.php:33
+msgid "July"
+msgstr "Júlí"
+
+#: js/config.php:33
+msgid "August"
+msgstr "Ágúst"
+
+#: js/config.php:33
+msgid "September"
+msgstr "September"
+
+#: js/config.php:33
+msgid "October"
+msgstr "Október"
+
+#: js/config.php:33
+msgid "November"
+msgstr "Nóvember"
+
+#: js/config.php:33
+msgid "December"
+msgstr "Desember"
+
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "Stillingar"
 
-#: js/js.js:711
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "sek síðan"
 
-#: js/js.js:712
+#: js/js.js:763
 msgid "1 minute ago"
 msgstr "1 min síðan"
 
-#: js/js.js:713
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr "{minutes} min síðan"
 
-#: js/js.js:714
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr "Fyrir 1 klst."
 
-#: js/js.js:715
+#: js/js.js:766
 msgid "{hours} hours ago"
 msgstr "fyrir {hours} klst."
 
-#: js/js.js:716
+#: js/js.js:767
 msgid "today"
 msgstr "í dag"
 
-#: js/js.js:717
+#: js/js.js:768
 msgid "yesterday"
 msgstr "í gær"
 
-#: js/js.js:718
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr "{days} dagar síðan"
 
-#: js/js.js:719
+#: js/js.js:770
 msgid "last month"
 msgstr "síðasta mánuði"
 
-#: js/js.js:720
+#: js/js.js:771
 msgid "{months} months ago"
 msgstr "fyrir {months} mánuðum"
 
-#: js/js.js:721
+#: js/js.js:772
 msgid "months ago"
 msgstr "mánuðir síðan"
 
-#: js/js.js:722
+#: js/js.js:773
 msgid "last year"
 msgstr "síðasta ári"
 
-#: js/js.js:723
+#: js/js.js:774
 msgid "years ago"
 msgstr "árum síðan"
 
@@ -163,8 +239,8 @@ msgid "The object type is not specified."
 msgstr "Tegund ekki tilgreind"
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
-#: js/share.js:566
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
+#: js/share.js:583
 msgid "Error"
 msgstr "Villa"
 
@@ -176,121 +252,140 @@ msgstr "Nafn forrits ekki tilgreint"
 msgid "The required file {file} is not installed!"
 msgstr "Umbeðina skráin {file} ekki tiltæk!"
 
-#: js/share.js:124 js/share.js:594
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Share"
+msgstr "Deila"
+
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Shared"
+msgstr ""
+
+#: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
 msgstr "Villa við deilingu"
 
-#: js/share.js:135
+#: js/share.js:152
 msgid "Error while unsharing"
 msgstr "Villa við að hætta deilingu"
 
-#: js/share.js:142
+#: js/share.js:159
 msgid "Error while changing permissions"
 msgstr "Villa við að breyta aðgangsheimildum"
 
-#: js/share.js:151
+#: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Deilt með þér og hópnum {group} af {owner}"
 
-#: js/share.js:153
+#: js/share.js:170
 msgid "Shared with you by {owner}"
 msgstr "Deilt með þér af {owner}"
 
-#: js/share.js:158
+#: js/share.js:175
 msgid "Share with"
 msgstr "Deila með"
 
-#: js/share.js:163
+#: js/share.js:180
 msgid "Share with link"
 msgstr "Deila með veftengli"
 
-#: js/share.js:166
+#: js/share.js:183
 msgid "Password protect"
 msgstr "Verja með lykilorði"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:35
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "Lykilorð"
 
-#: js/share.js:172
+#: js/share.js:189
 msgid "Email link to person"
 msgstr "Senda vefhlekk í tölvupóstu til notenda"
 
-#: js/share.js:173
+#: js/share.js:190
 msgid "Send"
 msgstr "Senda"
 
-#: js/share.js:177
+#: js/share.js:194
 msgid "Set expiration date"
 msgstr "Setja gildistíma"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Expiration date"
 msgstr "Gildir til"
 
-#: js/share.js:210
+#: js/share.js:227
 msgid "Share via email:"
 msgstr "Deila með tölvupósti:"
 
-#: js/share.js:212
+#: js/share.js:229
 msgid "No people found"
 msgstr "Engir notendur fundust"
 
-#: js/share.js:239
+#: js/share.js:256
 msgid "Resharing is not allowed"
 msgstr "Endurdeiling er ekki leyfð"
 
-#: js/share.js:275
+#: js/share.js:292
 msgid "Shared in {item} with {user}"
 msgstr "Deilt með {item} ásamt {user}"
 
-#: js/share.js:296
+#: js/share.js:313
 msgid "Unshare"
 msgstr "Hætta deilingu"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "can edit"
 msgstr "getur breytt"
 
-#: js/share.js:310
+#: js/share.js:327
 msgid "access control"
 msgstr "aðgangsstýring"
 
-#: js/share.js:313
+#: js/share.js:330
 msgid "create"
 msgstr "mynda"
 
-#: js/share.js:316
+#: js/share.js:333
 msgid "update"
 msgstr "uppfæra"
 
-#: js/share.js:319
+#: js/share.js:336
 msgid "delete"
 msgstr "eyða"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "share"
 msgstr "deila"
 
-#: js/share.js:356 js/share.js:541
+#: js/share.js:373 js/share.js:558
 msgid "Password protected"
 msgstr "Verja með lykilorði"
 
-#: js/share.js:554
+#: js/share.js:571
 msgid "Error unsetting expiration date"
 msgstr "Villa við að aftengja gildistíma"
 
-#: js/share.js:566
+#: js/share.js:583
 msgid "Error setting expiration date"
 msgstr "Villa við að setja gildistíma"
 
-#: js/share.js:581
+#: js/share.js:598
 msgid "Sending ..."
 msgstr "Sendi ..."
 
-#: js/share.js:592
+#: js/share.js:609
 msgid "Email sent"
 msgstr "Tölvupóstur sendur"
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr ""
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -443,87 +538,11 @@ msgstr "Netþjónn gagnagrunns"
 msgid "Finish setup"
 msgstr "Virkja uppsetningu"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "Sunnudagur"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "Mánudagur"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "Þriðjudagur"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "Miðvikudagur"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "Fimmtudagur"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "Föstudagur"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "Laugardagur"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "Janúar"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "Febrúar"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "Mars"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "Apríl"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "Maí"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "Júní"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "Júlí"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "Ágúst"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "September"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "Október"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "Nóvember"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "Desember"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "vefþjónusta undir þinni stjórn"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr "Útskrá"
 

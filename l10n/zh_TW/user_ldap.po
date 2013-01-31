@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-16 00:19+0100\n"
-"PO-Revision-Date: 2013-01-15 23:20+0000\n"
+"POT-Creation-Date: 2013-01-21 00:04+0100\n"
+"PO-Revision-Date: 2013-01-19 23:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr ""
 
 #: templates/settings.php:15
 msgid "Host"
-msgstr ""
+msgstr "主機"
 
 #: templates/settings.php:15
 msgid ""
@@ -113,7 +113,7 @@ msgstr ""
 
 #: templates/settings.php:24
 msgid "Port"
-msgstr ""
+msgstr "連接阜"
 
 #: templates/settings.php:25
 msgid "Base User Tree"

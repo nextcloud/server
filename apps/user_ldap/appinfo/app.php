@@ -23,15 +23,23 @@
 
 OCP\App::registerAdmin('user_ldap', 'settings');
 
-$connector = new OCA\user_ldap\lib\Connection('user_ldap');
-$userBackend  = new OCA\user_ldap\USER_LDAP();
-$userBackend->setConnector($connector);
-$groupBackend = new OCA\user_ldap\GROUP_LDAP();
-$groupBackend->setConnector($connector);
+$configPrefixes = OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes(true);
+if(count($configPrefixes) == 1) {
+	$connector = new OCA\user_ldap\lib\Connection($configPrefixes[0]);
+	$userBackend  = new OCA\user_ldap\USER_LDAP();
+	$userBackend->setConnector($connector);
+	$groupBackend = new OCA\user_ldap\GROUP_LDAP();
+	$groupBackend->setConnector($connector);
+} else {
+	$userBackend  = new OCA\user_ldap\User_Proxy($configPrefixes);
+	$groupBackend  = new OCA\user_ldap\Group_Proxy($configPrefixes);
+}
 
-// register user backend
-OC_User::useBackend($userBackend);
-OC_Group::useBackend($groupBackend);
+if(count($configPrefixes) > 0) {
+	// register user backend
+	OC_User::useBackend($userBackend);
+	OC_Group::useBackend($groupBackend);
+}
 
 // add settings page to navigation
 $entry = array(

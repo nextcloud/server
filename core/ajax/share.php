@@ -72,6 +72,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 		case 'email':
 			// read post variables
 			$user = OCP\USER::getUser();
+			$displayName = OCP\User::getDisplayName();
 			$type = $_POST['itemType'];
 			$link = $_POST['link'];
 			$file = $_POST['file'];
@@ -81,13 +82,13 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 			$l = OC_L10N::get('core');
 
 			// setup the email
-			$subject = (string)$l->t('User %s shared a file with you', $user);
+			$subject = (string)$l->t('User %s shared a file with you', $displayName);
 			if ($type === 'dir')
-				$subject = (string)$l->t('User %s shared a folder with you', $user);
+				$subject = (string)$l->t('User %s shared a folder with you', $displayName);
 
-			$text = (string)$l->t('User %s shared the file "%s" with you. It is available for download here: %s', array($user, $file, $link));
+			$text = (string)$l->t('User %s shared the file "%s" with you. It is available for download here: %s', array($displayName, $file, $link));
 			if ($type === 'dir')
-				$text = (string)$l->t('User %s shared the folder "%s" with you. It is available for download here: %s', array($user, $file, $link));
+				$text = (string)$l->t('User %s shared the folder "%s" with you. It is available for download here: %s', array($displayName, $file, $link));
 
 
 			$default_from = OCP\Util::getDefaultEmailAddress('sharing-noreply');
@@ -98,7 +99,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				OCP\Util::sendMail($to_address, $to_address, $subject, $text, $from_address, $user);
 				OCP\JSON::success();
 			} catch (Exception $exception) {
-				OCP\JSON::error(array('data' => array('message' => $exception->getMessage())));
+				OCP\JSON::error(array('data' => array('message' => OC_Util::sanitizeHTML($exception->getMessage()))));
 			}
 			break;
 	}
@@ -158,14 +159,14 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				while ($count < 4 && count($users) == $limit) {
 					$limit = 4 - $count;
 					if ($sharePolicy == 'groups_only') {
-						$users = OC_Group::usersInGroups($groups, $_GET['search'], $limit, $offset);
+						$users = OC_Group::DisplayNamesInGroups($groups, $_GET['search'], $limit, $offset);
 					} else {
-						$users = OC_User::getUsers($_GET['search'], $limit, $offset);
+						$users = OC_User::getDisplayNames($_GET['search'], $limit, $offset);
 					}
 					$offset += $limit;
-					foreach ($users as $user) {
-						if ((!isset($_GET['itemShares']) || !is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_USER]) || !in_array($user, $_GET['itemShares'][OCP\Share::SHARE_TYPE_USER])) && $user != OC_User::getUser()) {
-							$shareWith[] = array('label' => $user, 'value' => array('shareType' => OCP\Share::SHARE_TYPE_USER, 'shareWith' => $user));
+					foreach ($users as $uid => $displayName) {
+						if ((!isset($_GET['itemShares']) || !is_array($_GET['itemShares'][OCP\Share::SHARE_TYPE_USER]) || !in_array($uid, $_GET['itemShares'][OCP\Share::SHARE_TYPE_USER])) && $uid != OC_User::getUser()) {
+							$shareWith[] = array('label' => $displayName, 'value' => array('shareType' => OCP\Share::SHARE_TYPE_USER, 'shareWith' => $uid));
 							$count++;
 						}
 					}

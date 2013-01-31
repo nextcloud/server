@@ -49,7 +49,6 @@
 "Use this address to connect to your ownCloud in your file manager" => "Ennek a címnek a megadásával a WebDAV-protokollon keresztül saját gépének fájlkezelőjével is is elérheti az állományait.",
 "Version" => "Verzió",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "A programot az <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud közösség</a> fejleszti. A <a href=\"https://github.com/owncloud\" target=\"_blank\">forráskód</a> az <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> feltételei mellett használható föl.",
-"Name" => "Név",
 "Groups" => "Csoportok",
 "Create" => "Létrehozás",
 "Default Storage" => "Alapértelmezett tárhely",
