@@ -31,13 +31,13 @@ OC_App::setActiveNavigationEntry( "core_apps" );
 function app_sort( $a, $b ) {
 
 	if ($a['active'] != $b['active']) {
-	
+
 		return $b['active'] - $a['active'];
-		
+
 	}
-	
+
 	return strcmp($a['name'], $b['name']);
-	
+
 }
 
 $combinedApps = OC_App::listAllApps();
@@ -52,3 +52,4 @@ $appid = (isset($_GET['appid'])?strip_tags($_GET['appid']):'');
 $tmpl->assign('appid', $appid);
 
 $tmpl->printPage();
+
