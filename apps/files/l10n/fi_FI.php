@@ -1,7 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "Kohteen %s siirto ei onnistunut - Tiedosto samalla nimellä on jo olemassa",
-"Could not move %s" => "Kohteen %s siirto ei onnistunut",
-"Unable to rename file" => "Tiedoston nimeäminen uudelleen ei onnistunut",
 "No file was uploaded. Unknown error" => "Tiedostoa ei lähetetty. Tuntematon virhe",
 "There is no error, the file uploaded with success" => "Ei virheitä, tiedosto lähetettiin onnistuneesti",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Lähetetty tiedosto ylittää HTML-lomakkeessa määritetyn MAX_FILE_SIZE-arvon ylärajan",
@@ -22,6 +19,8 @@
 "'.' is an invalid file name." => "'.' on virheellinen nimi tiedostolle.",
 "File name cannot be empty." => "Tiedoston nimi ei voi olla tyhjä.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Virheellinen nimi, merkit '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' eivät ole sallittuja.",
+"Your storage is full, files can not be updated or synced anymore!" => "Tallennustila on loppu, tiedostoja ei voi enää päivittää tai synkronoida!",
+"Your storage is almost full ({usedSpacePercent}%)" => "Tallennustila on melkein loppu ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Lataustasi valmistellaan. Tämä saattaa kestää hetken, jos tiedostot ovat suuria kooltaan.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Tiedoston lähetys epäonnistui, koska sen koko on 0 tavua tai kyseessä on kansio",
 "Upload Error" => "Lähetysvirhe.",

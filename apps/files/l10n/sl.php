@@ -30,8 +30,6 @@
 "Upload cancelled." => "Pošiljanje je preklicano.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "V teku je pošiljanje datoteke. Če zapustite to stran zdaj, bo pošiljanje preklicano.",
 "URL cannot be empty." => "Naslov URL ne sme biti prazen.",
-"{count} files scanned" => "{count} files scanned",
-"error while scanning" => "napaka med pregledovanjem datotek",
 "Name" => "Ime",
 "Size" => "Velikost",
 "Modified" => "Spremenjeno",

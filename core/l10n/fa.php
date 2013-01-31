@@ -53,6 +53,7 @@
 "Error" => "خطا",
 "The app name is not specified." => "نام برنامه تعیین نشده است.",
 "The required file {file} is not installed!" => "پرونده { پرونده} درخواست شده نصب نشده است !",
+"Share" => "اشتراک‌گزاری",
 "Error while sharing" => "خطا درحال به اشتراک گذاشتن",
 "Error while unsharing" => "خطا درحال لغو اشتراک",
 "Error while changing permissions" => "خطا در حال تغییر مجوز",

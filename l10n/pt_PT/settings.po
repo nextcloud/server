@@ -4,6 +4,7 @@
 # 
 # Translators:
 #   <daniel@mouxy.net>, 2012.
+#  <duartegrilo@gmail.com>, 2013.
 # Duarte Velez Grilo <duartegrilo@gmail.com>, 2012-2013.
 #   <geral@ricardolameiro.pt>, 2012.
 # Helder Meneses <helder.meneses@gmail.com>, 2012.
@@ -12,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 23:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -92,7 +93,7 @@ msgstr "Activar"
 msgid "Saving..."
 msgstr "A guardar..."
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -104,15 +105,15 @@ msgstr "Adicione a sua aplicação"
 msgid "More Apps"
 msgstr "Mais Aplicações"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "Selecione uma aplicação"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "Ver a página da aplicação em apps.owncloud.com"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licenciado por <span class=\"author\"></span>"
 
@@ -161,7 +162,7 @@ msgstr "Transferir o cliente android"
 msgid "Download iOS Client"
 msgstr "Transferir o cliente iOS"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "Palavra-chave"
 
@@ -231,11 +232,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Desenvolvido pela <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunidade ownCloud</a>, o<a href=\"https://github.com/owncloud\" target=\"_blank\">código fonte</a> está licenciado sob a <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "Nome"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr "Nome de utilizador"
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "Grupos"
 
@@ -247,26 +248,38 @@ msgstr "Criar"
 msgid "Default Storage"
 msgstr "Armazenamento Padrão"
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
 msgstr "Ilimitado"
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "Outro"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:80
+msgid "Display Name"
+msgstr "Nome público"
+
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "Grupo Administrador"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
 msgstr "Armazenamento"
 
-#: templates/users.php:133
+#: templates/users.php:97
+msgid "change display name"
+msgstr ""
+
+#: templates/users.php:101
+msgid "set new password"
+msgstr ""
+
+#: templates/users.php:137
 msgid "Default"
 msgstr "Padrão"
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "Apagar"

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-15 00:03+0100\n"
-"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 12:46+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -20,24 +20,24 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:84
+#: ajax/share.php:85
 #, php-format
 msgid "User %s shared a file with you"
 msgstr "ユーザ %s はあなたとファイルを共有しています"
 
-#: ajax/share.php:86
+#: ajax/share.php:87
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr "ユーザ %s はあなたとフォルダを共有しています"
 
-#: ajax/share.php:88
+#: ajax/share.php:89
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr "ユーザ %s はあなたとファイル \"%s\" を共有しています。こちらからダウンロードできます: %s"
 
-#: ajax/share.php:90
+#: ajax/share.php:91
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -82,59 +82,135 @@ msgstr "削除するカテゴリが選択されていません。"
 msgid "Error removing %s from favorites."
 msgstr "お気に入りから %s の削除エラー"
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "日"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "月"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "火"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "水"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "木"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "金"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "土"
+
+#: js/config.php:33
+msgid "January"
+msgstr "1月"
+
+#: js/config.php:33
+msgid "February"
+msgstr "2月"
+
+#: js/config.php:33
+msgid "March"
+msgstr "3月"
+
+#: js/config.php:33
+msgid "April"
+msgstr "4月"
+
+#: js/config.php:33
+msgid "May"
+msgstr "5月"
+
+#: js/config.php:33
+msgid "June"
+msgstr "6月"
+
+#: js/config.php:33
+msgid "July"
+msgstr "7月"
+
+#: js/config.php:33
+msgid "August"
+msgstr "8月"
+
+#: js/config.php:33
+msgid "September"
+msgstr "9月"
+
+#: js/config.php:33
+msgid "October"
+msgstr "10月"
+
+#: js/config.php:33
+msgid "November"
+msgstr "11月"
+
+#: js/config.php:33
+msgid "December"
+msgstr "12月"
+
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:711
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "秒前"
 
-#: js/js.js:712
+#: js/js.js:763
 msgid "1 minute ago"
 msgstr "1 分前"
 
-#: js/js.js:713
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分前"
 
-#: js/js.js:714
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr "1 時間前"
 
-#: js/js.js:715
+#: js/js.js:766
 msgid "{hours} hours ago"
 msgstr "{hours} 時間前"
 
-#: js/js.js:716
+#: js/js.js:767
 msgid "today"
 msgstr "今日"
 
-#: js/js.js:717
+#: js/js.js:768
 msgid "yesterday"
 msgstr "昨日"
 
-#: js/js.js:718
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr "{days} 日前"
 
-#: js/js.js:719
+#: js/js.js:770
 msgid "last month"
 msgstr "一月前"
 
-#: js/js.js:720
+#: js/js.js:771
 msgid "{months} months ago"
 msgstr "{months} 月前"
 
-#: js/js.js:721
+#: js/js.js:772
 msgid "months ago"
 msgstr "月前"
 
-#: js/js.js:722
+#: js/js.js:773
 msgid "last year"
 msgstr "一年前"
 
-#: js/js.js:723
+#: js/js.js:774
 msgid "years ago"
 msgstr "年前"
 
@@ -164,8 +240,8 @@ msgid "The object type is not specified."
 msgstr "オブジェクタイプが指定されていません。"
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
-#: js/share.js:566
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
+#: js/share.js:583
 msgid "Error"
 msgstr "エラー"
 
@@ -177,121 +253,140 @@ msgstr "アプリ名がしていされていません。"
 msgid "The required file {file} is not installed!"
 msgstr "必要なファイル {file} がインストールされていません！"
 
-#: js/share.js:124 js/share.js:594
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Share"
+msgstr "共有"
+
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Shared"
+msgstr "共有中"
+
+#: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
 msgstr "共有でエラー発生"
 
-#: js/share.js:135
+#: js/share.js:152
 msgid "Error while unsharing"
 msgstr "共有解除でエラー発生"
 
-#: js/share.js:142
+#: js/share.js:159
 msgid "Error while changing permissions"
 msgstr "権限変更でエラー発生"
 
-#: js/share.js:151
+#: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "あなたと {owner} のグループ {group} で共有中"
 
-#: js/share.js:153
+#: js/share.js:170
 msgid "Shared with you by {owner}"
 msgstr "{owner} と共有中"
 
-#: js/share.js:158
+#: js/share.js:175
 msgid "Share with"
 msgstr "共有者"
 
-#: js/share.js:163
+#: js/share.js:180
 msgid "Share with link"
 msgstr "URLリンクで共有"
 
-#: js/share.js:166
+#: js/share.js:183
 msgid "Password protect"
 msgstr "パスワード保護"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:35
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "パスワード"
 
-#: js/share.js:172
+#: js/share.js:189
 msgid "Email link to person"
 msgstr "メールリンク"
 
-#: js/share.js:173
+#: js/share.js:190
 msgid "Send"
 msgstr "送信"
 
-#: js/share.js:177
+#: js/share.js:194
 msgid "Set expiration date"
 msgstr "有効期限を設定"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Expiration date"
 msgstr "有効期限"
 
-#: js/share.js:210
+#: js/share.js:227
 msgid "Share via email:"
 msgstr "メール経由で共有:"
 
-#: js/share.js:212
+#: js/share.js:229
 msgid "No people found"
 msgstr "ユーザーが見つかりません"
 
-#: js/share.js:239
+#: js/share.js:256
 msgid "Resharing is not allowed"
 msgstr "再共有は許可されていません"
 
-#: js/share.js:275
+#: js/share.js:292
 msgid "Shared in {item} with {user}"
 msgstr "{item} 内で {user} と共有中"
 
-#: js/share.js:296
+#: js/share.js:313
 msgid "Unshare"
 msgstr "共有解除"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "can edit"
 msgstr "編集可能"
 
-#: js/share.js:310
+#: js/share.js:327
 msgid "access control"
 msgstr "アクセス権限"
 
-#: js/share.js:313
+#: js/share.js:330
 msgid "create"
 msgstr "作成"
 
-#: js/share.js:316
+#: js/share.js:333
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:319
+#: js/share.js:336
 msgid "delete"
 msgstr "削除"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "share"
 msgstr "共有"
 
-#: js/share.js:356 js/share.js:541
+#: js/share.js:373 js/share.js:558
 msgid "Password protected"
 msgstr "パスワード保護"
 
-#: js/share.js:554
+#: js/share.js:571
 msgid "Error unsetting expiration date"
 msgstr "有効期限の未設定エラー"
 
-#: js/share.js:566
+#: js/share.js:583
 msgid "Error setting expiration date"
 msgstr "有効期限の設定でエラー発生"
 
-#: js/share.js:581
+#: js/share.js:598
 msgid "Sending ..."
 msgstr "送信中..."
 
-#: js/share.js:592
+#: js/share.js:609
 msgid "Email sent"
 msgstr "メールを送信しました"
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr "更新に成功しました。この問題を <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a> にレポートしてください。"
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr "更新に成功しました。今すぐownCloudにリダイレクトします。"
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -444,87 +539,11 @@ msgstr "データベースのホスト名"
 msgid "Finish setup"
 msgstr "セットアップを完了します"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "日"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "月"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "火"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "水"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "木"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "金"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "土"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "1月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "2月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "3月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "4月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "5月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "6月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "7月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "8月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "9月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "10月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "11月"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "12月"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "管理下にあるウェブサービス"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr "ログアウト"
 

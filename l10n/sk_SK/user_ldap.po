@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Marián Hvolka <marian.hvolka@stuba.sk>, 2013.
 # Roman Priesol <roman@priesol.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-16 00:19+0100\n"
-"PO-Revision-Date: 2013-01-15 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 06:20+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,13 +24,13 @@ msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behaviour. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>Upozornenie:</b> Aplikácie user_ldap a user_webdavauth nie sú kompatibilné. Môže nastávať neočakávané správanie. Požiadajte správcu systému aby jednu z nich zakázal."
 
 #: templates/settings.php:11
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Upozornenie:</b> nie je nainštalovaný LDAP modul pre PHP, backend vrstva nebude fungovať. Požádejte správcu systému aby ho nainštaloval."
 
 #: templates/settings.php:15
 msgid "Host"
@@ -46,7 +47,7 @@ msgstr "Základné DN"
 
 #: templates/settings.php:16
 msgid "One Base DN per line"
-msgstr ""
+msgstr "Jedno základné DN na riadok"
 
 #: templates/settings.php:16
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -121,7 +122,7 @@ msgstr "Základný používateľský strom"
 
 #: templates/settings.php:25
 msgid "One User Base DN per line"
-msgstr ""
+msgstr "Jedna používateľská základná DN na riadok"
 
 #: templates/settings.php:26
 msgid "Base Group Tree"
@@ -129,7 +130,7 @@ msgstr "Základný skupinový strom"
 
 #: templates/settings.php:26
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "Jedna skupinová základná DN na riadok"
 
 #: templates/settings.php:27
 msgid "Group-Member association"

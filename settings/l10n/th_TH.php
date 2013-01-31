@@ -49,7 +49,6 @@
 "Use this address to connect to your ownCloud in your file manager" => "ใช้ที่อยู่นี้เพื่อเชื่อมต่อกับ ownCloud ในโปรแกรมจัดการไฟล์ของคุณ",
 "Version" => "รุ่น",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "พัฒนาโดย the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ชุมชนผู้ใช้งาน ownCloud</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">ซอร์สโค้ด</a>อยู่ภายใต้สัญญาอนุญาตของ <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
-"Name" => "ชื่อ",
 "Groups" => "กลุ่ม",
 "Create" => "สร้าง",
 "Default Storage" => "พื้นที่จำกัดข้อมูลเริ่มต้น",

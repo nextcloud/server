@@ -1,7 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "Gat ekki fært %s - Skrá með þessu nafni er þegar til",
-"Could not move %s" => "Gat ekki fært %s",
-"Unable to rename file" => "Gat ekki endurskýrt skrá",
 "No file was uploaded. Unknown error" => "Engin skrá var send inn. Óþekkt villa.",
 "There is no error, the file uploaded with success" => "Engin villa, innsending heppnaðist",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Innsend skrá er stærri en upload_max stillingin í php.ini:",
@@ -37,8 +34,6 @@
 "File upload is in progress. Leaving the page now will cancel the upload." => "Innsending í gangi. Ef þú ferð af þessari síðu mun innsending misheppnast.",
 "URL cannot be empty." => "Vefslóð má ekki vera tóm.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Óleyfilegt nafn á möppu. Nafnið 'Shared' er frátekið fyrir Owncloud",
-"{count} files scanned" => "{count} skrár skimaðar",
-"error while scanning" => "villa við skimun",
 "Name" => "Nafn",
 "Size" => "Stærð",
 "Modified" => "Breytt",

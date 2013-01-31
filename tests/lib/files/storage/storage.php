@@ -20,9 +20,11 @@
  *
  */
 
-abstract class Test_FileStorage extends PHPUnit_Framework_TestCase {
+namespace Test\Files\Storage;
+
+abstract class Storage extends \PHPUnit_Framework_TestCase {
 	/**
-	 * @var OC_Filestorage instance
+	 * @var \OC\Files\Storage\Storage instance
 	 */
 	protected $instance;
 
@@ -36,7 +38,7 @@ abstract class Test_FileStorage extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->instance->is_file('/'), 'Root folder is a file');
 		$this->assertEquals('dir', $this->instance->filetype('/'));
 
-		//without this, any further testing would be useless, not an acutal requirement for filestorage though
+		//without this, any further testing would be useless, not an actual requirement for filestorage though
 		$this->assertTrue($this->instance->isUpdatable('/'), 'Root folder is not writable');
 	}
 
@@ -83,7 +85,7 @@ abstract class Test_FileStorage extends PHPUnit_Framework_TestCase {
 	 * test the various uses of file_get_contents and file_put_contents
 	 */
 	public function testGetPutContents() {
-		$sourceFile = OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$sourceFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$sourceText = file_get_contents($sourceFile);
 
 		//fill a file with string data
@@ -103,21 +105,21 @@ abstract class Test_FileStorage extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('httpd/unix-directory', $this->instance->getMimeType('/'));
 		$this->assertEquals(false, $this->instance->getMimeType('/non/existing/file'));
 
-		$textFile = OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile, 'r'));
 		$this->assertEquals('text/plain', $this->instance->getMimeType('/lorem.txt'));
 
-		$pngFile = OC::$SERVERROOT . '/tests/data/logo-wide.png';
+		$pngFile = \OC::$SERVERROOT . '/tests/data/logo-wide.png';
 		$this->instance->file_put_contents('/logo-wide.png', file_get_contents($pngFile, 'r'));
 		$this->assertEquals('image/png', $this->instance->getMimeType('/logo-wide.png'));
 
-		$svgFile = OC::$SERVERROOT . '/tests/data/logo-wide.svg';
+		$svgFile = \OC::$SERVERROOT . '/tests/data/logo-wide.svg';
 		$this->instance->file_put_contents('/logo-wide.svg', file_get_contents($svgFile, 'r'));
 		$this->assertEquals('image/svg+xml', $this->instance->getMimeType('/logo-wide.svg'));
 	}
 
 	public function testCopyAndMove() {
-		$textFile = OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$this->instance->file_put_contents('/source.txt', file_get_contents($textFile));
 		$this->instance->copy('/source.txt', '/target.txt');
 		$this->assertTrue($this->instance->file_exists('/target.txt'));
@@ -130,7 +132,7 @@ abstract class Test_FileStorage extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testLocal() {
-		$textFile = OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile));
 		$localFile = $this->instance->getLocalFile('/lorem.txt');
 		$this->assertTrue(file_exists($localFile));
@@ -151,7 +153,7 @@ abstract class Test_FileStorage extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testStat() {
-		$textFile = OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$ctimeStart = time();
 		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile));
 		$this->assertTrue($this->instance->isReadable('/lorem.txt'));
@@ -200,11 +202,11 @@ abstract class Test_FileStorage extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testSearch() {
-		$textFile = OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$this->instance->file_put_contents('/lorem.txt', file_get_contents($textFile, 'r'));
-		$pngFile = OC::$SERVERROOT . '/tests/data/logo-wide.png';
+		$pngFile = \OC::$SERVERROOT . '/tests/data/logo-wide.png';
 		$this->instance->file_put_contents('/logo-wide.png', file_get_contents($pngFile, 'r'));
-		$svgFile = OC::$SERVERROOT . '/tests/data/logo-wide.svg';
+		$svgFile = \OC::$SERVERROOT . '/tests/data/logo-wide.svg';
 		$this->instance->file_put_contents('/logo-wide.svg', file_get_contents($svgFile, 'r'));
 		$result = $this->instance->search('logo');
 		$this->assertEquals(2, count($result));
@@ -213,7 +215,7 @@ abstract class Test_FileStorage extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testFOpen() {
-		$textFile = OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 
 		$fh = @$this->instance->fopen('foo', 'r');
 		if ($fh) {

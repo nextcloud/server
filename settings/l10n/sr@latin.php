@@ -12,7 +12,6 @@
 "Change password" => "Izmeni lozinku",
 "Email" => "E-mail",
 "Language" => "Jezik",
-"Name" => "Ime",
 "Groups" => "Grupe",
 "Create" => "Napravi",
 "Other" => "Drugo",

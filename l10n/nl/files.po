@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 23:05+0000\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 23:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -28,20 +28,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: ajax/move.php:17
-#, php-format
-msgid "Could not move %s - File with this name already exists"
-msgstr "Kon %s niet verplaatsen - Er bestaat al een bestand met deze naam"
-
-#: ajax/move.php:24
-#, php-format
-msgid "Could not move %s"
-msgstr "Kon %s niet verplaatsen"
-
-#: ajax/rename.php:19
-msgid "Unable to rename file"
-msgstr "Kan bestand niet hernoemen"
 
 #: ajax/upload.php:17
 msgid "No file was uploaded. Unknown error"
@@ -78,11 +64,11 @@ msgstr "Een tijdelijke map mist"
 msgid "Failed to write to disk"
 msgstr "Schrijven naar schijf mislukt"
 
-#: ajax/upload.php:48
-msgid "Not enough storage available"
+#: ajax/upload.php:51
+msgid "Not enough space available"
 msgstr ""
 
-#: ajax/upload.php:77
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "Ongeldige directory."
 
@@ -194,52 +180,44 @@ msgstr "{count} bestanden aan het uploaden"
 msgid "Upload cancelled."
 msgstr "Uploaden geannuleerd."
 
-#: js/files.js:493
+#: js/files.js:497
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Bestandsupload is bezig. Wanneer de pagina nu verlaten wordt, stopt de upload."
 
-#: js/files.js:566
+#: js/files.js:570
 msgid "URL cannot be empty."
 msgstr "URL kan niet leeg zijn."
 
-#: js/files.js:571
+#: js/files.js:575
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Ongeldige mapnaam. Gebruik van'Gedeeld' is voorbehouden aan Owncloud"
 
-#: js/files.js:784
-msgid "{count} files scanned"
-msgstr "{count} bestanden gescanned"
-
-#: js/files.js:792
-msgid "error while scanning"
-msgstr "Fout tijdens het scannen"
-
-#: js/files.js:866 templates/index.php:63
+#: js/files.js:944 templates/index.php:63
 msgid "Name"
 msgstr "Naam"
 
-#: js/files.js:867 templates/index.php:74
+#: js/files.js:945 templates/index.php:74
 msgid "Size"
 msgstr "Bestandsgrootte"
 
-#: js/files.js:868 templates/index.php:76
+#: js/files.js:946 templates/index.php:76
 msgid "Modified"
 msgstr "Laatst aangepast"
 
-#: js/files.js:887
+#: js/files.js:965
 msgid "1 folder"
 msgstr "1 map"
 
-#: js/files.js:889
+#: js/files.js:967
 msgid "{count} folders"
 msgstr "{count} mappen"
 
-#: js/files.js:897
+#: js/files.js:975
 msgid "1 file"
 msgstr "1 bestand"
 
-#: js/files.js:899
+#: js/files.js:977
 msgid "{count} files"
 msgstr "{count} bestanden"
 
@@ -324,3 +302,7 @@ msgstr "Bestanden worden gescand, even wachten."
 #: templates/index.php:111
 msgid "Current scanning"
 msgstr "Er wordt gescand"
+
+#: templates/upgrade.php:2
+msgid "Upgrading filesystem cache..."
+msgstr ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-28 00:05+0100\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -157,7 +157,7 @@ msgstr ""
 msgid "Download iOS Client"
 msgstr ""
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:80
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr ""
 
@@ -227,10 +227,10 @@ msgid ""
 msgstr ""
 
 #: templates/users.php:21 templates/users.php:79
-msgid "Name"
+msgid "Login Name"
 msgstr ""
 
-#: templates/users.php:26 templates/users.php:81 templates/users.php:101
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr ""
 
@@ -242,26 +242,38 @@ msgstr ""
 msgid "Default Storage"
 msgstr ""
 
-#: templates/users.php:42 templates/users.php:136
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
 msgstr ""
 
-#: templates/users.php:60 templates/users.php:151
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr ""
 
-#: templates/users.php:83 templates/users.php:115
+#: templates/users.php:80
+msgid "Display Name"
+msgstr ""
+
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr ""
 
-#: templates/users.php:85
+#: templates/users.php:86
 msgid "Storage"
 msgstr ""
 
-#: templates/users.php:131
+#: templates/users.php:97
+msgid "change display name"
+msgstr ""
+
+#: templates/users.php:101
+msgid "set new password"
+msgstr ""
+
+#: templates/users.php:137
 msgid "Default"
 msgstr ""
 
-#: templates/users.php:159
+#: templates/users.php:165
 msgid "Delete"
 msgstr ""

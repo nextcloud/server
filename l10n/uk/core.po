@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-18 00:03+0100\n"
-"PO-Revision-Date: 2013-01-17 13:18+0000\n"
-"Last-Translator: volodya327 <volodya327@gmail.com>\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 12:46+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,24 +22,24 @@ msgstr ""
 "Language: uk\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ajax/share.php:84
+#: ajax/share.php:85
 #, php-format
 msgid "User %s shared a file with you"
 msgstr "Користувач %s поділився файлом з вами"
 
-#: ajax/share.php:86
+#: ajax/share.php:87
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr "Користувач %s поділився текою з вами"
 
-#: ajax/share.php:88
+#: ajax/share.php:89
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr "Користувач %s поділився файлом \"%s\" з вами. Він доступний для завантаження звідси: %s"
 
-#: ajax/share.php:90
+#: ajax/share.php:91
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -84,59 +84,135 @@ msgstr "Жодної категорії не обрано для видален�
 msgid "Error removing %s from favorites."
 msgstr "Помилка при видалені %s із обраного."
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "Неділя"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "Понеділок"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "Вівторок"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "Середа"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "Четвер"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "П'ятниця"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "Субота"
+
+#: js/config.php:33
+msgid "January"
+msgstr "Січень"
+
+#: js/config.php:33
+msgid "February"
+msgstr "Лютий"
+
+#: js/config.php:33
+msgid "March"
+msgstr "Березень"
+
+#: js/config.php:33
+msgid "April"
+msgstr "Квітень"
+
+#: js/config.php:33
+msgid "May"
+msgstr "Травень"
+
+#: js/config.php:33
+msgid "June"
+msgstr "Червень"
+
+#: js/config.php:33
+msgid "July"
+msgstr "Липень"
+
+#: js/config.php:33
+msgid "August"
+msgstr "Серпень"
+
+#: js/config.php:33
+msgid "September"
+msgstr "Вересень"
+
+#: js/config.php:33
+msgid "October"
+msgstr "Жовтень"
+
+#: js/config.php:33
+msgid "November"
+msgstr "Листопад"
+
+#: js/config.php:33
+msgid "December"
+msgstr "Грудень"
+
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "Налаштування"
 
-#: js/js.js:706
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "секунди тому"
 
-#: js/js.js:707
+#: js/js.js:763
 msgid "1 minute ago"
 msgstr "1 хвилину тому"
 
-#: js/js.js:708
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr "{minutes} хвилин тому"
 
-#: js/js.js:709
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr "1 годину тому"
 
-#: js/js.js:710
+#: js/js.js:766
 msgid "{hours} hours ago"
 msgstr "{hours} години тому"
 
-#: js/js.js:711
+#: js/js.js:767
 msgid "today"
 msgstr "сьогодні"
 
-#: js/js.js:712
+#: js/js.js:768
 msgid "yesterday"
 msgstr "вчора"
 
-#: js/js.js:713
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr "{days} днів тому"
 
-#: js/js.js:714
+#: js/js.js:770
 msgid "last month"
 msgstr "минулого місяця"
 
-#: js/js.js:715
+#: js/js.js:771
 msgid "{months} months ago"
 msgstr "{months} місяців тому"
 
-#: js/js.js:716
+#: js/js.js:772
 msgid "months ago"
 msgstr "місяці тому"
 
-#: js/js.js:717
+#: js/js.js:773
 msgid "last year"
 msgstr "минулого року"
 
-#: js/js.js:718
+#: js/js.js:774
 msgid "years ago"
 msgstr "роки тому"
 
@@ -166,8 +242,8 @@ msgid "The object type is not specified."
 msgstr "Не визначено тип об'єкту."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
-#: js/share.js:566
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
+#: js/share.js:583
 msgid "Error"
 msgstr "Помилка"
 
@@ -179,121 +255,140 @@ msgstr "Не визначено ім'я програми."
 msgid "The required file {file} is not installed!"
 msgstr "Необхідний файл {file} не встановлено!"
 
-#: js/share.js:124 js/share.js:594
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Share"
+msgstr "Поділитися"
+
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Shared"
+msgstr ""
+
+#: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
 msgstr "Помилка під час публікації"
 
-#: js/share.js:135
+#: js/share.js:152
 msgid "Error while unsharing"
 msgstr "Помилка під час відміни публікації"
 
-#: js/share.js:142
+#: js/share.js:159
 msgid "Error while changing permissions"
 msgstr "Помилка при зміні повноважень"
 
-#: js/share.js:151
+#: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
 msgstr " {owner} опублікував для Вас та для групи {group}"
 
-#: js/share.js:153
+#: js/share.js:170
 msgid "Shared with you by {owner}"
 msgstr "{owner} опублікував для Вас"
 
-#: js/share.js:158
+#: js/share.js:175
 msgid "Share with"
 msgstr "Опублікувати для"
 
-#: js/share.js:163
+#: js/share.js:180
 msgid "Share with link"
 msgstr "Опублікувати через посилання"
 
-#: js/share.js:166
+#: js/share.js:183
 msgid "Password protect"
 msgstr "Захистити паролем"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:35
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "Пароль"
 
-#: js/share.js:172
+#: js/share.js:189
 msgid "Email link to person"
 msgstr "Ел. пошта належить Пану"
 
-#: js/share.js:173
+#: js/share.js:190
 msgid "Send"
 msgstr "Надіслати"
 
-#: js/share.js:177
+#: js/share.js:194
 msgid "Set expiration date"
 msgstr "Встановити термін дії"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Expiration date"
 msgstr "Термін дії"
 
-#: js/share.js:210
+#: js/share.js:227
 msgid "Share via email:"
 msgstr "Опублікувати через Ел. пошту:"
 
-#: js/share.js:212
+#: js/share.js:229
 msgid "No people found"
 msgstr "Жодної людини не знайдено"
 
-#: js/share.js:239
+#: js/share.js:256
 msgid "Resharing is not allowed"
 msgstr "Пере-публікація не дозволяється"
 
-#: js/share.js:275
+#: js/share.js:292
 msgid "Shared in {item} with {user}"
 msgstr "Опубліковано {item} для {user}"
 
-#: js/share.js:296
+#: js/share.js:313
 msgid "Unshare"
 msgstr "Заборонити доступ"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "can edit"
 msgstr "може редагувати"
 
-#: js/share.js:310
+#: js/share.js:327
 msgid "access control"
 msgstr "контроль доступу"
 
-#: js/share.js:313
+#: js/share.js:330
 msgid "create"
 msgstr "створити"
 
-#: js/share.js:316
+#: js/share.js:333
 msgid "update"
 msgstr "оновити"
 
-#: js/share.js:319
+#: js/share.js:336
 msgid "delete"
 msgstr "видалити"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "share"
 msgstr "опублікувати"
 
-#: js/share.js:356 js/share.js:541
+#: js/share.js:373 js/share.js:558
 msgid "Password protected"
 msgstr "Захищено паролем"
 
-#: js/share.js:554
+#: js/share.js:571
 msgid "Error unsetting expiration date"
 msgstr "Помилка при відміні терміна дії"
 
-#: js/share.js:566
+#: js/share.js:583
 msgid "Error setting expiration date"
 msgstr "Помилка при встановленні терміна дії"
 
-#: js/share.js:581
+#: js/share.js:598
 msgid "Sending ..."
 msgstr "Надсилання..."
 
-#: js/share.js:592
+#: js/share.js:609
 msgid "Email sent"
 msgstr "Ел. пошта надіслана"
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr ""
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -446,87 +541,11 @@ msgstr "Хост бази даних"
 msgid "Finish setup"
 msgstr "Завершити налаштування"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "Неділя"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "Понеділок"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "Вівторок"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "Середа"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "Четвер"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "П'ятниця"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "Субота"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "Січень"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "Лютий"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "Березень"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "Квітень"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "Травень"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "Червень"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "Липень"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "Серпень"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "Вересень"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "Жовтень"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "Листопад"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "Грудень"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "веб-сервіс під вашим контролем"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr "Вихід"
 

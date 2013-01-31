@@ -1,7 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "%s نمی تواند حرکت کند - در حال حاضر پرونده با این نام وجود دارد. ",
-"Could not move %s" => "%s نمی تواند حرکت کند ",
-"Unable to rename file" => "قادر به تغییر نام پرونده نیست.",
 "No file was uploaded. Unknown error" => "هیچ فایلی آپلود نشد.خطای ناشناس",
 "There is no error, the file uploaded with success" => "هیچ خطایی وجود ندارد فایل با موفقیت بار گذاری شد",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "پرونده آپلود شده بیش ازدستور  ماکزیمم_حجم فایل_برای آپلود در   php.ini استفاده کرده است.",
@@ -38,8 +35,6 @@
 "File upload is in progress. Leaving the page now will cancel the upload." => "آپلودکردن پرونده در حال پیشرفت است. در صورت خروج از صفحه آپلود لغو میگردد. ",
 "URL cannot be empty." => "URL  نمی تواند خالی باشد.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "نام پوشه نامعتبر است. استفاده از \" به اشتراک گذاشته شده \" متعلق به سایت Owncloud است.",
-"{count} files scanned" => "{ شمار } فایل های اسکن شده",
-"error while scanning" => "خطا در حال انجام اسکن ",
 "Name" => "نام",
 "Size" => "اندازه",
 "Modified" => "تغییر یافته",

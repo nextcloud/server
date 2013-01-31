@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 23:05+0000\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 23:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -19,20 +19,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: ajax/move.php:17
-#, php-format
-msgid "Could not move %s - File with this name already exists"
-msgstr "Ne eblis movi %s: dosiero kun ĉi tiu nomo jam ekzistas"
-
-#: ajax/move.php:24
-#, php-format
-msgid "Could not move %s"
-msgstr "Ne eblis movi %s"
-
-#: ajax/rename.php:19
-msgid "Unable to rename file"
-msgstr "Ne eblis alinomigi dosieron"
 
 #: ajax/upload.php:17
 msgid "No file was uploaded. Unknown error"
@@ -69,11 +55,11 @@ msgstr "Mankas tempa dosierujo"
 msgid "Failed to write to disk"
 msgstr "Malsukcesis skribo al disko"
 
-#: ajax/upload.php:48
-msgid "Not enough storage available"
+#: ajax/upload.php:51
+msgid "Not enough space available"
 msgstr ""
 
-#: ajax/upload.php:77
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "Nevalida dosierujo."
 
@@ -185,52 +171,44 @@ msgstr "{count} dosieroj alŝutatas"
 msgid "Upload cancelled."
 msgstr "La alŝuto nuliĝis."
 
-#: js/files.js:493
+#: js/files.js:497
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Dosieralŝuto plenumiĝas. Lasi la paĝon nun nuligus la alŝuton."
 
-#: js/files.js:566
+#: js/files.js:570
 msgid "URL cannot be empty."
 msgstr "URL ne povas esti malplena."
 
-#: js/files.js:571
+#: js/files.js:575
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nevalida dosierujnomo. Uzo de “Shared” rezervatas de Owncloud."
 
-#: js/files.js:784
-msgid "{count} files scanned"
-msgstr "{count} dosieroj skaniĝis"
-
-#: js/files.js:792
-msgid "error while scanning"
-msgstr "eraro dum skano"
-
-#: js/files.js:866 templates/index.php:63
+#: js/files.js:944 templates/index.php:63
 msgid "Name"
 msgstr "Nomo"
 
-#: js/files.js:867 templates/index.php:74
+#: js/files.js:945 templates/index.php:74
 msgid "Size"
 msgstr "Grando"
 
-#: js/files.js:868 templates/index.php:76
+#: js/files.js:946 templates/index.php:76
 msgid "Modified"
 msgstr "Modifita"
 
-#: js/files.js:887
+#: js/files.js:965
 msgid "1 folder"
 msgstr "1 dosierujo"
 
-#: js/files.js:889
+#: js/files.js:967
 msgid "{count} folders"
 msgstr "{count} dosierujoj"
 
-#: js/files.js:897
+#: js/files.js:975
 msgid "1 file"
 msgstr "1 dosiero"
 
-#: js/files.js:899
+#: js/files.js:977
 msgid "{count} files"
 msgstr "{count} dosierujoj"
 
@@ -315,3 +293,7 @@ msgstr "Dosieroj estas skanataj, bonvolu atendi."
 #: templates/index.php:111
 msgid "Current scanning"
 msgstr "Nuna skano"
+
+#: templates/upgrade.php:2
+msgid "Upgrading filesystem cache..."
+msgstr ""

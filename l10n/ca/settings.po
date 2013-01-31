@@ -7,13 +7,14 @@
 #   <joan@montane.cat>, 2012.
 #   <josep_tomas@hotmail.com>, 2012.
 # Josep Tomàs <jtomas.binsoft@gmail.com>, 2012.
+#  <rcalvoi@yahoo.com>, 2013.
 #   <rcalvoi@yahoo.com>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 23:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -92,7 +93,7 @@ msgstr "Activa"
 msgid "Saving..."
 msgstr "S'està desant..."
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "Català"
 
@@ -104,15 +105,15 @@ msgstr "Afegiu la vostra aplicació"
 msgid "More Apps"
 msgstr "Més aplicacions"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "Seleccioneu una aplicació"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "Mireu la pàgina d'aplicacions a apps.owncloud.com"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-propietat de <span class=\"author\"></span>"
 
@@ -161,7 +162,7 @@ msgstr " Baixa el client per Android"
 msgid "Download iOS Client"
 msgstr "Baixa el client per iOS"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "Contrasenya"
 
@@ -231,11 +232,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Desenvolupat per la <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunitat ownCloud</a>, el <a href=\"https://github.com/owncloud\" target=\"_blank\">codi font</a> té llicència <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "Nom"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr "Nom d'accés"
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "Grups"
 
@@ -247,26 +248,38 @@ msgstr "Crea"
 msgid "Default Storage"
 msgstr "Emmagatzemament per defecte"
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
 msgstr "Il·limitat"
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "Un altre"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:80
+msgid "Display Name"
+msgstr "Nom a mostrar"
+
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "Grup Admin"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
 msgstr "Emmagatzemament"
 
-#: templates/users.php:133
+#: templates/users.php:97
+msgid "change display name"
+msgstr ""
+
+#: templates/users.php:101
+msgid "set new password"
+msgstr ""
+
+#: templates/users.php:137
 msgid "Default"
 msgstr "Per defecte"
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "Suprimeix"

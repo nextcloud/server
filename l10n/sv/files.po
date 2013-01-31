@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# André <lokal_profil@hotmail.com>, 2013.
 # Christer Eriksson <post@hc3web.com>, 2012.
 # Daniel Sandman <revoltism@gmail.com>, 2012.
 # Magnus Höglund <magnus@linux.com>, 2012-2013.
@@ -13,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 23:05+0000\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 23:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -22,20 +23,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: ajax/move.php:17
-#, php-format
-msgid "Could not move %s - File with this name already exists"
-msgstr "Kunde inte flytta %s - Det finns redan en fil med detta namn"
-
-#: ajax/move.php:24
-#, php-format
-msgid "Could not move %s"
-msgstr "Kan inte flytta %s"
-
-#: ajax/rename.php:19
-msgid "Unable to rename file"
-msgstr "Kan inte byta namn på filen"
 
 #: ajax/upload.php:17
 msgid "No file was uploaded. Unknown error"
@@ -72,11 +59,11 @@ msgstr "Saknar en tillfällig mapp"
 msgid "Failed to write to disk"
 msgstr "Misslyckades spara till disk"
 
-#: ajax/upload.php:48
-msgid "Not enough storage available"
+#: ajax/upload.php:51
+msgid "Not enough space available"
 msgstr ""
 
-#: ajax/upload.php:77
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "Felaktig mapp."
 
@@ -148,11 +135,11 @@ msgstr "Ogiltigt namn, '\\', '/', '<', '>', ':', '\"', '|', '?' och '*' är inte
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Ditt lagringsutrymme är fullt, filer kan ej längre laddas upp eller synkas!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Ditt lagringsutrymme är nästan fullt ({usedSpacePercent}%)"
 
 #: js/files.js:219
 msgid ""
@@ -188,52 +175,44 @@ msgstr "{count} filer laddas upp"
 msgid "Upload cancelled."
 msgstr "Uppladdning avbruten."
 
-#: js/files.js:493
+#: js/files.js:497
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Filuppladdning pågår. Lämnar du sidan så avbryts uppladdningen."
 
-#: js/files.js:566
+#: js/files.js:570
 msgid "URL cannot be empty."
 msgstr "URL kan inte vara tom."
 
-#: js/files.js:571
+#: js/files.js:575
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Ogiltigt mappnamn. Användande av 'Shared' är reserverat av ownCloud"
 
-#: js/files.js:784
-msgid "{count} files scanned"
-msgstr "{count} filer skannade"
-
-#: js/files.js:792
-msgid "error while scanning"
-msgstr "fel vid skanning"
-
-#: js/files.js:866 templates/index.php:63
+#: js/files.js:944 templates/index.php:63
 msgid "Name"
 msgstr "Namn"
 
-#: js/files.js:867 templates/index.php:74
+#: js/files.js:945 templates/index.php:74
 msgid "Size"
 msgstr "Storlek"
 
-#: js/files.js:868 templates/index.php:76
+#: js/files.js:946 templates/index.php:76
 msgid "Modified"
 msgstr "Ändrad"
 
-#: js/files.js:887
+#: js/files.js:965
 msgid "1 folder"
 msgstr "1 mapp"
 
-#: js/files.js:889
+#: js/files.js:967
 msgid "{count} folders"
 msgstr "{count} mappar"
 
-#: js/files.js:897
+#: js/files.js:975
 msgid "1 file"
 msgstr "1 fil"
 
-#: js/files.js:899
+#: js/files.js:977
 msgid "{count} files"
 msgstr "{count} filer"
 
@@ -318,3 +297,7 @@ msgstr "Filer skannas, var god vänta"
 #: templates/index.php:111
 msgid "Current scanning"
 msgstr "Aktuell skanning"
+
+#: templates/upgrade.php:2
+msgid "Upgrading filesystem cache..."
+msgstr ""

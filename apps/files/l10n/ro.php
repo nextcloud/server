@@ -1,7 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "Nu se poate de mutat %s - Fișier cu acest nume deja există",
-"Could not move %s" => "Nu s-a putut muta %s",
-"Unable to rename file" => "Nu s-a putut redenumi fișierul",
 "No file was uploaded. Unknown error" => "Nici un fișier nu a fost încărcat. Eroare necunoscută",
 "There is no error, the file uploaded with success" => "Nicio eroare, fișierul a fost încărcat cu succes",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Fisierul incarcat depaseste upload_max_filesize permisi in php.ini: ",
@@ -38,8 +35,6 @@
 "File upload is in progress. Leaving the page now will cancel the upload." => "Fișierul este în curs de încărcare. Părăsirea paginii va întrerupe încărcarea.",
 "URL cannot be empty." => "Adresa URL nu poate fi goală.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Invalid folder name. Usage of 'Shared' is reserved by Ownclou",
-"{count} files scanned" => "{count} fisiere scanate",
-"error while scanning" => "eroare la scanarea",
 "Name" => "Nume",
 "Size" => "Dimensiune",
 "Modified" => "Modificat",
