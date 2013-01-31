@@ -53,9 +53,9 @@ input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#
 #quota { cursor:default; }
 
 /* SCROLLING */
-::-webkit-scrollbar { width:5px; }
-+::-webkit-scrollbar-track-piece { background-color:transparent; }
-+::-webkit-scrollbar-thumb { background:rgba(50,50,50,.3); }
+::-webkit-scrollbar { width:8px; }
+::-webkit-scrollbar-track-piece { background-color:transparent; }
+::-webkit-scrollbar-thumb { background:#ddd; }
 
 
 /* BUTTONS */
