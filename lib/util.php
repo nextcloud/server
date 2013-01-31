@@ -312,7 +312,7 @@ class OC_Util {
 	public static function checkLoggedIn() {
 		// Check if we are a user
 		if( !OC_User::isLoggedIn()) {
-			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php', array('redirect_url' => $_SERVER["REQUEST_URI"])));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php', array('redirect_url' => OC_Request::requestUri())));
 			exit();
 		}
 	}

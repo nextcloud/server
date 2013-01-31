@@ -506,7 +506,7 @@ class OC_App{
 	 * @return string
 	 */
 	public static function getCurrentApp() {
-		$script=substr($_SERVER["SCRIPT_NAME"], strlen(OC::$WEBROOT)+1);
+		$script=substr(OC_Request::scriptName(), strlen(OC::$WEBROOT)+1);
 		$topFolder=substr($script, 0, strpos($script, '/'));
 		if (empty($topFolder)) {
 			$path_info = OC_Request::getPathInfo();

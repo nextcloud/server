@@ -129,7 +129,7 @@ class OC
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
 		OC::$SUBURI = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
-		$scriptName = $_SERVER["SCRIPT_NAME"];
+		$scriptName = OC_Request::scriptName();
 		if (substr($scriptName, -1) == '/') {
 			$scriptName .= 'index.php';
 			//make sure suburi follows the same rules as scriptName
@@ -230,7 +230,7 @@ class OC
 			header('Strict-Transport-Security: max-age=31536000');
 			ini_set("session.cookie_secure", "on");
 			if (OC_Request::serverProtocol() <> 'https' and !OC::$CLI) {
-				$url = "https://" . OC_Request::serverHost() . $_SERVER['REQUEST_URI'];
+				$url = "https://" . OC_Request::serverHost() . OC_Request::requestUri();
 				header("Location: $url");
 				exit();
 			}
@@ -764,7 +764,7 @@ class OC
 		if (OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
 			//OC_Log::write('core',"Logged in with HTTP Authentication", OC_Log::DEBUG);
 			OC_User::unsetMagicInCookie();
-			$_REQUEST['redirect_url'] = (isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '');
+			$_REQUEST['redirect_url'] = OC_Request::requestUri();
 			OC_Util::redirectToDefaultPage();
 		}
 		return true;
