@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 23:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -88,7 +88,7 @@ msgstr "সক্রিয় "
 msgid "Saving..."
 msgstr "সংরক্ষণ করা হচ্ছে.."
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -100,15 +100,15 @@ msgstr "আপনার অ্যাপটি যোগ করুন"
 msgid "More Apps"
 msgstr "আরও অ্যাপ"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "অ্যাপ নির্বাচন করুন"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "apps.owncloud.com এ অ্যাপ্লিকেসন পৃষ্ঠা দেখুন"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-লাইসেন্সধারী <span class=\"author\"></span>"
 
@@ -157,7 +157,7 @@ msgstr "অ্যান্ড্রয়েড ক্লায়েন্ট ডা�
 msgid "Download iOS Client"
 msgstr "iOS ক্লায়েন্ট ডাউনলোড করুন"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "কূটশব্দ"
 
@@ -227,11 +227,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "তৈলী করেছেন <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud সম্প্রদায়</a>, যার <a href=\"https://github.com/owncloud\" target=\"_blank\"> উৎস কোডটি <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> এর অধীনে লাইসেন্সকৃত।"
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "রাম"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr ""
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "গোষ্ঠীসমূহ"
 
@@ -243,26 +243,38 @@ msgstr "তৈরী কর"
 msgid "Default Storage"
 msgstr "পূর্বনির্ধারিত সংরক্ষণাগার"
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
 msgstr "অসীম"
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "অন্যান্য"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:80
+msgid "Display Name"
+msgstr ""
+
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "গোষ্ঠী প্রশাসক"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
 msgstr "সংরক্ষণাগার"
 
-#: templates/users.php:133
+#: templates/users.php:97
+msgid "change display name"
+msgstr ""
+
+#: templates/users.php:101
+msgid "set new password"
+msgstr ""
+
+#: templates/users.php:137
 msgid "Default"
 msgstr "পূর্বনির্ধারিত"
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "মুছে ফেল"

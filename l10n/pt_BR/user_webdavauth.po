@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Rodrigo Tavares <rodrigo.st23@hotmail.com>, 2013.
 #   <thoriumbr@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-15 00:03+0100\n"
-"PO-Revision-Date: 2013-01-14 23:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 16:22+0000\n"
+"Last-Translator: rodrigost23 <rodrigo.st23@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,15 +21,15 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "WebDAV Authentication"
-msgstr ""
+msgstr "Autenticação WebDAV"
 
 #: templates/settings.php:4
 msgid "URL: http://"
-msgstr ""
+msgstr "URL: http://"
 
 #: templates/settings.php:6
 msgid ""
 "ownCloud will send the user credentials to this URL. This plugin checks the "
 "response and will interpret the HTTP statuscodes 401 and 403 as invalid "
 "credentials, and all other responses as valid credentials."
-msgstr ""
+msgstr "O ownCloud enviará as credenciais do usuário para esta URL. Este plugin verifica a resposta e interpreta o os códigos de status do HTTP 401 e 403 como credenciais inválidas, e todas as outras respostas como credenciais válidas."

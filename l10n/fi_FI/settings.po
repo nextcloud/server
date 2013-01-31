@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 23:28+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -90,7 +90,7 @@ msgstr "Käytä"
 msgid "Saving..."
 msgstr "Tallennetaan..."
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "_kielen_nimi_"
 
@@ -102,15 +102,15 @@ msgstr "Lisää sovelluksesi"
 msgid "More Apps"
 msgstr "Lisää sovelluksia"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "Valitse sovellus"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "Katso sovellussivu osoitteessa apps.owncloud.com"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lisensoija <span class=\"author\"></span>"
 
@@ -159,7 +159,7 @@ msgstr "Lataa Android-sovellus"
 msgid "Download iOS Client"
 msgstr "Lataa iOS-sovellus"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "Salasana"
 
@@ -229,11 +229,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Kehityksestä on vastannut <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud-yhteisö</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">lähdekoodi</a> on julkaistu lisenssin <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> alaisena."
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "Nimi"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr "Kirjautumisnimi"
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "Ryhmät"
 
@@ -245,26 +245,38 @@ msgstr "Luo"
 msgid "Default Storage"
 msgstr ""
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
 msgstr "Rajoittamaton"
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "Muu"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:80
+msgid "Display Name"
+msgstr "Näyttönimi"
+
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "Ryhmän ylläpitäjä"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
 msgstr ""
 
-#: templates/users.php:133
+#: templates/users.php:97
+msgid "change display name"
+msgstr ""
+
+#: templates/users.php:101
+msgid "set new password"
+msgstr ""
+
+#: templates/users.php:137
 msgid "Default"
 msgstr "Oletus"
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "Poista"

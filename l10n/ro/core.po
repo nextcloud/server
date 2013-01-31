@@ -5,6 +5,7 @@
 # Translators:
 # Claudiu  <claudiu@tanaselia.ro>, 2011, 2012.
 # Dimon Pockemon <>, 2012.
+# Dumitru Ursu <>, 2013.
 # Eugen Mihalache <eugemjj@gmail.com>, 2012.
 #   <g.ciprian@osn.ro>, 2012.
 #   <laur.cristescu@gmail.com>, 2012.
@@ -12,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-15 00:03+0100\n"
-"PO-Revision-Date: 2013-01-14 23:03+0000\n"
+"POT-Creation-Date: 2013-01-31 17:02+0100\n"
+"PO-Revision-Date: 2013-01-30 23:40+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -22,29 +23,29 @@ msgstr ""
 "Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
-#: ajax/share.php:84
+#: ajax/share.php:85
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "Utilizatorul %s a partajat un fișier cu tine"
 
-#: ajax/share.php:86
+#: ajax/share.php:87
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "Utilizatorul %s a partajat un dosar cu tine"
 
-#: ajax/share.php:88
+#: ajax/share.php:89
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "Utilizatorul %s a partajat fișierul \"%s\" cu tine. Îl poți descărca de aici: %s"
 
-#: ajax/share.php:90
+#: ajax/share.php:91
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "Utilizatorul %s a partajat dosarul \"%s\" cu tine. Îl poți descărca de aici: %s "
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -68,12 +69,12 @@ msgstr "Tipul obiectului nu este prevazut"
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "ID-ul %s nu a fost introdus"
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Eroare la adăugarea %s la favorite"
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -82,61 +83,137 @@ msgstr "Nici o categorie selectată pentru ștergere."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Eroare la ștergerea %s din favorite"
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "Duminică"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "Luni"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "Marți"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "Miercuri"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "Joi"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "Vineri"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "Sâmbătă"
+
+#: js/config.php:33
+msgid "January"
+msgstr "Ianuarie"
+
+#: js/config.php:33
+msgid "February"
+msgstr "Februarie"
+
+#: js/config.php:33
+msgid "March"
+msgstr "Martie"
+
+#: js/config.php:33
+msgid "April"
+msgstr "Aprilie"
+
+#: js/config.php:33
+msgid "May"
+msgstr "Mai"
+
+#: js/config.php:33
+msgid "June"
+msgstr "Iunie"
+
+#: js/config.php:33
+msgid "July"
+msgstr "Iulie"
+
+#: js/config.php:33
+msgid "August"
+msgstr "August"
+
+#: js/config.php:33
+msgid "September"
+msgstr "Septembrie"
+
+#: js/config.php:33
+msgid "October"
+msgstr "Octombrie"
+
+#: js/config.php:33
+msgid "November"
+msgstr "Noiembrie"
+
+#: js/config.php:33
+msgid "December"
+msgstr "Decembrie"
+
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "Configurări"
 
-#: js/js.js:711
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "secunde în urmă"
 
-#: js/js.js:712
+#: js/js.js:763
 msgid "1 minute ago"
 msgstr "1 minut în urmă"
 
-#: js/js.js:713
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minute in urma"
 
-#: js/js.js:714
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr "Acum o ora"
 
-#: js/js.js:715
+#: js/js.js:766
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "{hours} ore în urmă"
 
-#: js/js.js:716
+#: js/js.js:767
 msgid "today"
 msgstr "astăzi"
 
-#: js/js.js:717
+#: js/js.js:768
 msgid "yesterday"
 msgstr "ieri"
 
-#: js/js.js:718
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr "{days} zile in urma"
 
-#: js/js.js:719
+#: js/js.js:770
 msgid "last month"
 msgstr "ultima lună"
 
-#: js/js.js:720
+#: js/js.js:771
 msgid "{months} months ago"
-msgstr ""
+msgstr "{months} luni în urmă"
 
-#: js/js.js:721
+#: js/js.js:772
 msgid "months ago"
 msgstr "luni în urmă"
 
-#: js/js.js:722
+#: js/js.js:773
 msgid "last year"
 msgstr "ultimul an"
 
-#: js/js.js:723
+#: js/js.js:774
 msgid "years ago"
 msgstr "ani în urmă"
 
@@ -163,136 +240,155 @@ msgstr "Ok"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "Tipul obiectului nu a fost specificat"
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
-#: js/share.js:566
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
+#: js/share.js:583
 msgid "Error"
 msgstr "Eroare"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "Numele aplicației nu a fost specificat"
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
+msgstr "Fișierul obligatoriu {file} nu este instalat!"
+
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Share"
+msgstr "Partajează"
+
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Shared"
 msgstr ""
 
-#: js/share.js:124 js/share.js:594
+#: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
 msgstr "Eroare la partajare"
 
-#: js/share.js:135
+#: js/share.js:152
 msgid "Error while unsharing"
 msgstr "Eroare la anularea partajării"
 
-#: js/share.js:142
+#: js/share.js:159
 msgid "Error while changing permissions"
 msgstr "Eroare la modificarea permisiunilor"
 
-#: js/share.js:151
+#: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Distribuie cu tine si grupul {group} de {owner}"
 
-#: js/share.js:153
+#: js/share.js:170
 msgid "Shared with you by {owner}"
 msgstr "Distribuie cu tine de {owner}"
 
-#: js/share.js:158
+#: js/share.js:175
 msgid "Share with"
 msgstr "Partajat cu"
 
-#: js/share.js:163
+#: js/share.js:180
 msgid "Share with link"
 msgstr "Partajare cu legătură"
 
-#: js/share.js:166
+#: js/share.js:183
 msgid "Password protect"
 msgstr "Protejare cu parolă"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:35
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "Parola"
 
-#: js/share.js:172
+#: js/share.js:189
 msgid "Email link to person"
-msgstr ""
+msgstr "Expediază legătura prin poșta electronică"
 
-#: js/share.js:173
+#: js/share.js:190
 msgid "Send"
-msgstr ""
+msgstr "Expediază"
 
-#: js/share.js:177
+#: js/share.js:194
 msgid "Set expiration date"
 msgstr "Specifică data expirării"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Expiration date"
 msgstr "Data expirării"
 
-#: js/share.js:210
+#: js/share.js:227
 msgid "Share via email:"
 msgstr "Distribuie prin email:"
 
-#: js/share.js:212
+#: js/share.js:229
 msgid "No people found"
 msgstr "Nici o persoană găsită"
 
-#: js/share.js:239
+#: js/share.js:256
 msgid "Resharing is not allowed"
 msgstr "Repartajarea nu este permisă"
 
-#: js/share.js:275
+#: js/share.js:292
 msgid "Shared in {item} with {user}"
 msgstr "Distribuie in {item} si {user}"
 
-#: js/share.js:296
+#: js/share.js:313
 msgid "Unshare"
 msgstr "Anulare partajare"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "can edit"
 msgstr "poate edita"
 
-#: js/share.js:310
+#: js/share.js:327
 msgid "access control"
 msgstr "control acces"
 
-#: js/share.js:313
+#: js/share.js:330
 msgid "create"
 msgstr "creare"
 
-#: js/share.js:316
+#: js/share.js:333
 msgid "update"
 msgstr "actualizare"
 
-#: js/share.js:319
+#: js/share.js:336
 msgid "delete"
 msgstr "ștergere"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "share"
 msgstr "partajare"
 
-#: js/share.js:356 js/share.js:541
+#: js/share.js:373 js/share.js:558
 msgid "Password protected"
 msgstr "Protejare cu parolă"
 
-#: js/share.js:554
+#: js/share.js:571
 msgid "Error unsetting expiration date"
 msgstr "Eroare la anularea datei de expirare"
 
-#: js/share.js:566
+#: js/share.js:583
 msgid "Error setting expiration date"
 msgstr "Eroare la specificarea datei de expirare"
 
-#: js/share.js:581
+#: js/share.js:598
 msgid "Sending ..."
+msgstr "Se expediază..."
+
+#: js/share.js:609
+msgid "Email sent"
+msgstr "Mesajul a fost expediat"
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
 msgstr ""
 
-#: js/share.js:592
-msgid "Email sent"
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
 #: lostpassword/controller.php:47
@@ -446,87 +542,11 @@ msgstr "Bază date"
 msgid "Finish setup"
 msgstr "Finalizează instalarea"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "Duminică"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "Luni"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "Marți"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "Miercuri"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "Joi"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "Vineri"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "Sâmbătă"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "Ianuarie"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "Februarie"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "Martie"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "Aprilie"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "Mai"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "Iunie"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "Iulie"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "August"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "Septembrie"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "Octombrie"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "Noiembrie"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "Decembrie"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "servicii web controlate de tine"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr "Ieșire"
 
@@ -567,4 +587,4 @@ msgstr "următorul"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "Actualizăm ownCloud la versiunea %s, aceasta poate dura câteva momente."

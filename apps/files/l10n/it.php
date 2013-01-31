@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Carica",
-"Could not move %s - File with this name already exists" => "Impossibile spostare %s - un file con questo nome esiste già",
-"Could not move %s" => "Impossibile spostare %s",
-"Unable to rename file" => "Impossibile rinominare il file",
 "No file was uploaded. Unknown error" => "Nessun file è stato inviato. Errore sconosciuto",
 "There is no error, the file uploaded with success" => "Non ci sono errori, file caricato con successo",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Il file caricato supera la direttiva upload_max_filesize in php.ini:",
@@ -24,11 +20,11 @@
 "replaced {new_name}" => "sostituito {new_name}",
 "undo" => "annulla",
 "replaced {new_name} with {old_name}" => "sostituito {new_name} con {old_name}",
-"unshared {files}" => "non condivisi {files}",
-"deleted {files}" => "eliminati {files}",
 "'.' is an invalid file name." => "'.' non è un nome file valido.",
 "File name cannot be empty." => "Il nome del file non può essere vuoto.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nome non valido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' non sono consentiti.",
+"Your storage is full, files can not be updated or synced anymore!" => "Lo spazio di archiviazione è pieno, i file non possono essere più aggiornati o sincronizzati!",
+"Your storage is almost full ({usedSpacePercent}%)" => "Lo spazio di archiviazione è quasi pieno ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Il tuo scaricamento è in fase di preparazione. Ciò potrebbe richiedere del tempo se i file sono grandi.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Impossibile inviare il file poiché è una cartella o ha dimensione 0 byte",
 "Upload Error" => "Errore di invio",
@@ -40,8 +36,6 @@
 "File upload is in progress. Leaving the page now will cancel the upload." => "Caricamento del file in corso. La chiusura della pagina annullerà il caricamento.",
 "URL cannot be empty." => "L'URL non può essere vuoto.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Nome della cartella non valido. L'uso di 'Shared' è riservato da ownCloud",
-"{count} files scanned" => "{count} file analizzati",
-"error while scanning" => "errore durante la scansione",
 "Name" => "Nome",
 "Size" => "Dimensione",
 "Modified" => "Modificato",
@@ -49,6 +43,7 @@
 "{count} folders" => "{count} cartelle",
 "1 file" => "1 file",
 "{count} files" => "{count} file",
+"Upload" => "Carica",
 "File handling" => "Gestione file",
 "Maximum upload size" => "Dimensione massima upload",
 "max. possible: " => "numero mass.: ",
@@ -67,5 +62,6 @@
 "Upload too large" => "Il file caricato è troppo grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "I file che stai provando a caricare superano la dimensione massima consentita su questo server.",
 "Files are being scanned, please wait." => "Scansione dei file in corso, attendi",
-"Current scanning" => "Scansione corrente"
+"Current scanning" => "Scansione corrente",
+"Upgrading filesystem cache..." => "Aggiornamento della cache del filesystem in corso..."
 );

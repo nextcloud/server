@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "Filer skal downloades en for en.",
 "Back to Files" => "Tilbage til Filer",
 "Selected files too large to generate zip file." => "De markerede filer er for store til at generere en ZIP-fil.",
+"couldn't be determined" => "kunne ikke fastslås",
 "Application is not enabled" => "Programmet er ikke aktiveret",
 "Authentication error" => "Adgangsfejl",
 "Token expired. Please reload page." => "Adgang er udløbet. Genindlæs siden.",

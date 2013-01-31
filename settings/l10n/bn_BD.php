@@ -49,7 +49,6 @@
 "Use this address to connect to your ownCloud in your file manager" => "আপনার ownCloud এ সংযুক্ত হতে এই ঠিকানাটি আপনার ফাইল ব্যবস্থাপকে ব্যবহার করুন",
 "Version" => "ভার্সন",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "তৈলী করেছেন <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud সম্প্রদায়</a>, যার <a href=\"https://github.com/owncloud\" target=\"_blank\"> উৎস কোডটি <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> এর অধীনে লাইসেন্সকৃত।",
-"Name" => "রাম",
 "Groups" => "গোষ্ঠীসমূহ",
 "Create" => "তৈরী কর",
 "Default Storage" => "পূর্বনির্ধারিত সংরক্ষণাগার",

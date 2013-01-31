@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Ladda upp",
-"Could not move %s - File with this name already exists" => "Kunde inte flytta %s - Det finns redan en fil med detta namn",
-"Could not move %s" => "Kan inte flytta %s",
-"Unable to rename file" => "Kan inte byta namn på filen",
 "No file was uploaded. Unknown error" => "Ingen fil uppladdad. Okänt fel",
 "There is no error, the file uploaded with success" => "Inga fel uppstod. Filen laddades upp utan problem",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Den uppladdade filen överskrider upload_max_filesize direktivet php.ini:",
@@ -24,11 +20,11 @@
 "replaced {new_name}" => "ersatt {new_name}",
 "undo" => "ångra",
 "replaced {new_name} with {old_name}" => "ersatt {new_name} med {old_name}",
-"unshared {files}" => "stoppad delning {files}",
-"deleted {files}" => "raderade {files}",
 "'.' is an invalid file name." => "'.' är ett ogiltigt filnamn.",
 "File name cannot be empty." => "Filnamn kan inte vara tomt.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ogiltigt namn, '\\', '/', '<', '>', ':', '\"', '|', '?' och '*' är inte tillåtet.",
+"Your storage is full, files can not be updated or synced anymore!" => "Ditt lagringsutrymme är fullt, filer kan ej längre laddas upp eller synkas!",
+"Your storage is almost full ({usedSpacePercent}%)" => "Ditt lagringsutrymme är nästan fullt ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Din nedladdning förbereds. Det kan ta tid om det är stora filer.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Kunde inte ladda upp dina filer eftersom det antingen är en mapp eller har 0 bytes.",
 "Upload Error" => "Uppladdningsfel",
@@ -40,8 +36,6 @@
 "File upload is in progress. Leaving the page now will cancel the upload." => "Filuppladdning pågår. Lämnar du sidan så avbryts uppladdningen.",
 "URL cannot be empty." => "URL kan inte vara tom.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Ogiltigt mappnamn. Användande av 'Shared' är reserverat av ownCloud",
-"{count} files scanned" => "{count} filer skannade",
-"error while scanning" => "fel vid skanning",
 "Name" => "Namn",
 "Size" => "Storlek",
 "Modified" => "Ändrad",
@@ -49,6 +43,7 @@
 "{count} folders" => "{count} mappar",
 "1 file" => "1 fil",
 "{count} files" => "{count} filer",
+"Upload" => "Ladda upp",
 "File handling" => "Filhantering",
 "Maximum upload size" => "Maximal storlek att ladda upp",
 "max. possible: " => "max. möjligt:",
@@ -67,5 +62,6 @@
 "Upload too large" => "För stor uppladdning",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filerna du försöker ladda upp överstiger den maximala storleken för filöverföringar på servern.",
 "Files are being scanned, please wait." => "Filer skannas, var god vänta",
-"Current scanning" => "Aktuell skanning"
+"Current scanning" => "Aktuell skanning",
+"Upgrading filesystem cache..." => "Uppgraderar filsystemets cache..."
 );

@@ -47,7 +47,6 @@
 "Use this address to connect to your ownCloud in your file manager" => "השתמש בכתובת זאת על מנת להתחבר אל ownCloud דרך סייר קבצים.",
 "Version" => "גרסא",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "פותח על די <a href=\"http://ownCloud.org/contact\" target=\"_blank\">קהילתownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">קוד המקור</a> מוגן ברישיון <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
-"Name" => "שם",
 "Groups" => "קבוצות",
 "Create" => "יצירה",
 "Other" => "אחר",

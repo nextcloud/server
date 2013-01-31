@@ -20,7 +20,7 @@
 *
 */
 
-class Test_Group_Ldap extends UnitTestCase {
+class Test_Group_Ldap extends PHPUnit_Framework_TestCase {
 	function setUp() {
 		OC_Group::clearBackends();
 	}

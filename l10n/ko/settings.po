@@ -7,14 +7,14 @@
 # 남자사람  <cessnagi@gmail.com>, 2012.
 # Harim Park <fofwisdom@gmail.com>, 2013.
 #   <limonade83@gmail.com>, 2012.
-# Shinjo Park <kde@peremen.name>, 2012.
+# Shinjo Park <kde@peremen.name>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-31 17:02+0100\n"
+"PO-Revision-Date: 2013-01-31 08:10+0000\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -92,7 +92,7 @@ msgstr "활성화"
 msgid "Saving..."
 msgstr "저장 중..."
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "한국어"
 
@@ -104,21 +104,21 @@ msgstr "앱 추가"
 msgid "More Apps"
 msgstr "더 많은 앱"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "앱 선택"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "apps.owncloud.com에 있는 앱 페이지를 참고하십시오"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr "<span class=\"licence\"></span>-라이선스 보유자 <span class=\"author\"></span>"
+msgstr "<span class=\"licence\"></span>-라이선스됨: <span class=\"author\"></span>"
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr "유저 문서"
+msgstr "사용자 문서"
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
@@ -134,7 +134,7 @@ msgstr "포럼"
 
 #: templates/help.php:9
 msgid "Bugtracker"
-msgstr "버그트래커"
+msgstr "버그 트래커"
 
 #: templates/help.php:11
 msgid "Commercial Support"
@@ -147,11 +147,11 @@ msgstr "현재 공간 <strong>%s</strong>/<strong>%s</strong>을(를) 사용 중
 
 #: templates/personal.php:12
 msgid "Clients"
-msgstr "고객"
+msgstr "클라이언트"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr "데스크탑 클라이언트 다운로드"
+msgstr "데스크톱 클라이언트 다운로드"
 
 #: templates/personal.php:14
 msgid "Download Android Client"
@@ -161,7 +161,7 @@ msgstr "안드로이드 클라이언트 다운로드"
 msgid "Download iOS Client"
 msgstr "iOS 클라이언트 다운로드"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "암호"
 
@@ -215,11 +215,11 @@ msgstr "WebDAV"
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "파일 매니저에서 사용자의 ownCloud에 접속하기 위해 이 주소를 사용하십시요."
+msgstr "파일 관리자에서 ownCloud에 접속하려면 이 주소를 사용하십시오."
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr "버젼"
+msgstr "버전"
 
 #: templates/personal.php:65
 msgid ""
@@ -231,11 +231,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 커뮤니티</a>에 의해서 개발되었습니다. <a href=\"https://github.com/owncloud\" target=\"_blank\">원본 코드</a>는 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>에 따라 사용이 허가됩니다."
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "이름"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr "로그인 이름"
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "그룹"
 
@@ -247,26 +247,38 @@ msgstr "만들기"
 msgid "Default Storage"
 msgstr "기본 저장소"
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
 msgstr "무제한"
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "기타"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:80
+msgid "Display Name"
+msgstr "표시 이름"
+
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "그룹 관리자"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
 msgstr "저장소"
 
-#: templates/users.php:133
+#: templates/users.php:97
+msgid "change display name"
+msgstr "표시 이름 변경"
+
+#: templates/users.php:101
+msgid "set new password"
+msgstr "새 암호 설정"
+
+#: templates/users.php:137
 msgid "Default"
 msgstr "기본값"
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "삭제"

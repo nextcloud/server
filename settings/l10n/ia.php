@@ -15,7 +15,6 @@
 "Your email address" => "Tu adresse de e-posta",
 "Language" => "Linguage",
 "Help translate" => "Adjuta a traducer",
-"Name" => "Nomine",
 "Groups" => "Gruppos",
 "Create" => "Crear",
 "Other" => "Altere",

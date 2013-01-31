@@ -20,7 +20,9 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Test_Filestorage_AmazonS3 extends Test_FileStorage {
+namespace Test\Files\Storage;
+
+class AmazonS3 extends Storage {
 
 	private $config;
 	private $id;
@@ -32,12 +34,12 @@ class Test_Filestorage_AmazonS3 extends Test_FileStorage {
 			$this->markTestSkipped('AmazonS3 backend not configured');
 		}
 		$this->config['amazons3']['bucket'] = $id; // Make sure we have a new empty bucket to work in
-		$this->instance = new OC_Filestorage_AmazonS3($this->config['amazons3']);
+		$this->instance = new \OC\Files\Storage\AmazonS3($this->config['amazons3']);
 	}
 
 	public function tearDown() {
 		if ($this->instance) {
-			$s3 = new AmazonS3(array('key' => $this->config['amazons3']['key'],
+			$s3 = new \AmazonS3(array('key' => $this->config['amazons3']['key'],
 									 'secret' => $this->config['amazons3']['secret']));
 			if ($s3->delete_all_objects($this->id)) {
 				$s3->delete_bucket($this->id);

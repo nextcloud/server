@@ -32,26 +32,28 @@ Files={
 		}
 		if(response.data !== undefined && response.data.uploadMaxFilesize !== undefined) {
 			$('#max_upload').val(response.data.uploadMaxFilesize);
-			$('#data-upload-form a').attr('original-title', response.data.maxHumanFilesize);
+			$('#upload.button').attr('original-title', response.data.maxHumanFilesize);
+			$('#usedSpacePercent').val(response.data.usedSpacePercent);
+			Files.displayStorageWarnings();
 		}
 		if(response[0] == undefined) {
 			return;
 		}
 		if(response[0].uploadMaxFilesize !== undefined) {
 			$('#max_upload').val(response[0].uploadMaxFilesize);
-			$('#data-upload-form a').attr('original-title', response[0].maxHumanFilesize);
+			$('#upload.button').attr('original-title', response[0].maxHumanFilesize);
+			$('#usedSpacePercent').val(response[0].usedSpacePercent);
+			Files.displayStorageWarnings();
 		}
 
 	},
 	isFileNameValid:function (name) {
 		if (name === '.') {
-			$('#notification').text(t('files', '\'.\' is an invalid file name.'));
-			$('#notification').fadeIn();
+			OC.Notification.show(t('files', '\'.\' is an invalid file name.'));
 			return false;
 		}
 		if (name.length == 0) {
-			$('#notification').text(t('files', 'File name cannot be empty.'));
-			$('#notification').fadeIn();
+			OC.Notification.show(t('files', 'File name cannot be empty.'));
 			return false;
 		}
 
@@ -59,13 +61,26 @@ Files={
 		var invalid_characters = ['\\', '/', '<', '>', ':', '"', '|', '?', '*'];
 		for (var i = 0; i < invalid_characters.length; i++) {
 			if (name.indexOf(invalid_characters[i]) != -1) {
-				$('#notification').text(t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
-				$('#notification').fadeIn();
+				OC.Notification.show(t('files', "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed."));
 				return false;
 			}
 		}
-		$('#notification').fadeOut();
+		OC.Notification.hide();
 		return true;
+	},
+	displayStorageWarnings: function() {
+		if (!OC.Notification.isHidden()) {
+			return;
+		}
+
+		var usedSpacePercent = $('#usedSpacePercent').val();
+		if (usedSpacePercent > 98) {
+			OC.Notification.show(t('files', 'Your storage is full, files can not be updated or synced anymore!'));
+			return;
+		}
+		if (usedSpacePercent > 90) {
+			OC.Notification.show(t('files', 'Your storage is almost full ({usedSpacePercent}%)', {usedSpacePercent: usedSpacePercent}));
+		}
 	}
 };
 $(document).ready(function() {
@@ -98,6 +113,11 @@ $(document).ready(function() {
 	$('#upload a').live('click', function() {
 		$(this).parent().children('#file_upload_start').trigger('click');
 		return false;
+	});
+	
+	// Show trash bin
+	$('#trash a').live('click', function() {
+		window.location=OC.filePath('files_trashbin', '', 'index.php');
 	});
 
 	var lastChecked;
@@ -201,8 +221,7 @@ $(document).ready(function() {
 	$('.download').click('click',function(event) {
 		var files=getSelectedFiles('name').join(';');
 		var dir=$('#dir').val()||'/';
-		$('#notification').text(t('files','Your download is being prepared. This might take some time if the files are big.'));
-		$('#notification').fadeIn();
+		OC.Notification.show(t('files','Your download is being prepared. This might take some time if the files are big.'));
 		// use special download URL if provided, e.g. for public shared files
 		if ( (downloadURL = document.getElementById("downloadURL")) ) {
 			window.location=downloadURL.value+"&download&files="+files;
@@ -331,8 +350,7 @@ $(document).ready(function() {
 											var response;
 											response=jQuery.parseJSON(result);
 											if(response[0] == undefined || response[0].status != 'success') {
-												$('#notification').text(t('files', response.data.message));
-												$('#notification').fadeIn();
+												OC.Notification.show(t('files', response.data.message));
 											}
 											Files.updateMaxUploadFilesize(response);
 											var file=response[0];
@@ -372,9 +390,7 @@ $(document).ready(function() {
 											uploadtext.text(t('files', '{count} files uploading', {count: currentUploads}));
 										}
 										delete uploadingFiles[dirName][fileName];
-										$('#notification').hide();
-										$('#notification').text(t('files', 'Upload cancelled.'));
-										$('#notification').fadeIn();
+										OC.Notification.show(t('files', 'Upload cancelled.'));
 									}
 								});
 								//TODO test with filenames containing slashes
@@ -401,20 +417,17 @@ $(document).ready(function() {
 												FileList.loadingDone(file.name, file.id);
 											} else {
 												Files.cancelUpload(this.files[0].name);
-												$('#notification').text(t('files', response.data.message));
-												$('#notification').fadeIn();
+												OC.Notification.show(t('files', response.data.message));
 												$('#fileList > tr').not('[data-mime]').fadeOut();
 												$('#fileList > tr').not('[data-mime]').remove();
 											}
-										})
-								.error(function(jqXHR, textStatus, errorThrown) {
-									if(errorThrown === 'abort') {
-										Files.cancelUpload(this.files[0].name);
-										$('#notification').hide();
-										$('#notification').text(t('files', 'Upload cancelled.'));
-										$('#notification').fadeIn();
-									}
-								});
+									})
+									.error(function(jqXHR, textStatus, errorThrown) {
+										if(errorThrown === 'abort') {
+											Files.cancelUpload(this.files[0].name);
+											OC.Notification.show(t('files', 'Upload cancelled.'));
+										}
+									});
 								uploadingFiles[uniqueName] = jqXHR;
 							}
 						}
@@ -435,8 +448,7 @@ $(document).ready(function() {
 								FileList.loadingDone(file.name, file.id);
 							} else {
 								//TODO Files.cancelUpload(/*where do we get the filename*/);
-								$('#notification').text(t('files', response.data.message));
-								$('#notification').fadeIn();
+								OC.Notification.show(t('files', response.data.message));
 								$('#fileList > tr').not('[data-mime]').fadeOut();
 								$('#fileList > tr').not('[data-mime]').remove();
 							}
@@ -455,6 +467,10 @@ $(document).ready(function() {
 				$('#uploadprogressbar').progressbar('value',progress);
 			},
 			start: function(e, data) {
+				//IE < 10 does not fire the necessary events for the progress bar.
+				if($.browser.msie && parseInt($.browser.version) < 10) {
+					return;
+				}
 				$('#uploadprogressbar').progressbar({value:0});
 				$('#uploadprogressbar').fadeIn();
 				if(data.dataType != 'iframe ') {
@@ -556,14 +572,12 @@ $(document).ready(function() {
 			event.preventDefault();
 			var newname=input.val();
 			if(type == 'web' && newname.length == 0) {
-				$('#notification').text(t('files', 'URL cannot be empty.'));
-				$('#notification').fadeIn();
+				OC.Notification.show(t('files', 'URL cannot be empty.'));
 				return false;
 			} else if (type != 'web' && !Files.isFileNameValid(newname)) {
 				return false;
 			} else if( type == 'folder' && $('#dir').val() == '/' && newname == 'Shared') {
-				$('#notification').text(t('files','Invalid folder name. Usage of \'Shared\' is reserved by Owncloud'));
-				$('#notification').fadeIn();
+				OC.Notification.show(t('files','Invalid folder name. Usage of \'Shared\' is reserved by Owncloud'));
 				return false;
 			}
 			if (FileList.lastAction) {
@@ -661,12 +675,8 @@ $(document).ready(function() {
 		});
 	});
 
-	//check if we need to scan the filesystem
-	$.get(OC.filePath('files','ajax','scan.php'),{checkonly:'true'}, function(response) {
-		if(response.data.done){
-			scanFiles();
-		}
-	}, "json");
+	//do a background scan if needed
+	scanFiles();
 
 	var lastWidth = 0;
 	var breadcrumbs = [];
@@ -734,6 +744,10 @@ $(document).ready(function() {
 
 	resizeBreadcrumbs(true);
 
+	// display storage warnings
+	setTimeout ( "Files.displayStorageWarnings()", 100 );
+	OC.Notification.setDefault(Files.displayStorageWarnings);
+
 	// file space size sync
 	function update_storage_statistics() {
 		$.getJSON(OC.filePath('files','ajax','getstoragestats.php'),function(response) {
@@ -761,27 +775,23 @@ $(document).ready(function() {
 	}
 });
 
-function scanFiles(force,dir){
+function scanFiles(force, dir){
 	if(!dir){
-		dir='';
+		dir = '';
 	}
-	force=!!force; //cast to bool
-	scanFiles.scanning=true;
-	$('#scanning-message').show();
-	$('#fileList').remove();
-	var scannerEventSource=new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force:force,dir:dir});
-	scanFiles.cancel=scannerEventSource.close.bind(scannerEventSource);
-	scannerEventSource.listen('scanning',function(data){
-		$('#scan-count').text(t('files', '{count} files scanned', {count: data.count}));
-		$('#scan-current').text(data.file+'/');
+	force = !!force; //cast to bool
+	scanFiles.scanning = true;
+	var scannerEventSource = new OC.EventSource(OC.filePath('files','ajax','scan.php'),{force:force,dir:dir});
+	scanFiles.cancel = scannerEventSource.close.bind(scannerEventSource);
+	scannerEventSource.listen('count',function(count){
+		console.log(count + 'files scanned')
 	});
-	scannerEventSource.listen('success',function(success){
+	scannerEventSource.listen('folder',function(path){
+		console.log('now scanning ' + path)
+	});
+	scannerEventSource.listen('done',function(count){
 		scanFiles.scanning=false;
-		if(success){
-			window.location.reload();
-		}else{
-			alert(t('files', 'error while scanning'));
-		}
+		console.log('done after ' + count + 'files');
 	});
 }
 scanFiles.scanning=false;
@@ -800,32 +810,101 @@ function updateBreadcrumb(breadcrumbHtml) {
 	$('p.nav').empty().html(breadcrumbHtml);
 }
 
-//options for file drag/dropp
+var createDragShadow = function(event){
+	//select dragged file
+	var isDragSelected = $(event.target).parents('tr').find('td input:first').prop('checked');
+	if (!isDragSelected) {
+		//select dragged file
+		$(event.target).parents('tr').find('td input:first').prop('checked',true);
+	}
+	
+	var selectedFiles = getSelectedFiles();
+	
+	if (!isDragSelected && selectedFiles.length == 1) {
+		//revert the selection
+		$(event.target).parents('tr').find('td input:first').prop('checked',false);
+	}
+	
+	//also update class when we dragged more than one file
+	if (selectedFiles.length > 1) {
+		$(event.target).parents('tr').addClass('selected');
+	}
+	
+	// build dragshadow
+	var dragshadow = $('<table class="dragshadow"></table>');
+	var tbody = $('<tbody></tbody>');
+	dragshadow.append(tbody);
+	
+	var dir=$('#dir').val();
+	
+	$(selectedFiles).each(function(i,elem){
+		var newtr = $('<tr data-dir="'+dir+'" data-filename="'+elem.name+'">'
+						+'<td class="filename">'+elem.name+'</td><td class="size">'+humanFileSize(elem.size)+'</td>'
+					 +'</tr>');
+		tbody.append(newtr);
+		if (elem.type === 'dir') {
+			newtr.find('td.filename').attr('style','background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')');
+		} else {
+			getMimeIcon(elem.mime,function(path){
+				newtr.find('td.filename').attr('style','background-image:url('+path+')');
+			});
+		}
+	});
+	
+	return dragshadow;
+}
+
+//options for file drag/drop
 var dragOptions={
-	distance: 20, revert: 'invalid', opacity: 0.7, helper: 'clone',
+	revert: 'invalid', revertDuration: 300,
+	opacity: 0.7, zIndex: 100, appendTo: 'body', cursorAt: { left: -5, top: -5 },
+	helper: createDragShadow, cursor: 'move',
 	stop: function(event, ui) {
 		$('#fileList tr td.filename').addClass('ui-draggable');
 	}
-};
+}
+
 var folderDropOptions={
 	drop: function( event, ui ) {
-		var file=ui.draggable.parent().data('file');
-		var target=$(this).find('.nametext').text().trim();
-		var dir=$('#dir').val();
-		$.ajax({
-			url: OC.filePath('files', 'ajax', 'move.php'),
-			data: "dir="+encodeURIComponent(dir)+"&file="+encodeURIComponent(file)+'&target='+encodeURIComponent(dir)+'/'+encodeURIComponent(target),
-			complete: function(data){boolOperationFinished(data, function(){
-				var el = $('#fileList tr').filterAttr('data-file',file).find('td.filename');
-				el.draggable('destroy');
-				FileList.remove(file);
-			});}
+		//don't allow moving a file into a selected folder
+		if ($(event.target).parents('tr').find('td input:first').prop('checked') === true) {
+			return false;
+		}
+		
+		var target=$.trim($(this).find('.nametext').text());
+		
+		var files = ui.helper.find('tr');
+		$(files).each(function(i,row){
+			var dir = $(row).data('dir');
+			var file = $(row).data('filename');
+			$.post(OC.filePath('files', 'ajax', 'move.php'), { dir: dir, file: file, target: dir+'/'+target }, function(result) {
+				if (result) {
+					if (result.status === 'success') {
+						//recalculate folder size
+						var oldSize = $('#fileList tr').filterAttr('data-file',target).data('size');
+						var newSize = oldSize + $('#fileList tr').filterAttr('data-file',file).data('size');
+						$('#fileList tr').filterAttr('data-file',target).data('size', newSize);
+						$('#fileList tr').filterAttr('data-file',target).find('td.filesize').text(humanFileSize(newSize));
+
+						FileList.remove(file);
+						procesSelection();
+						$('#notification').hide();
+					} else {
+						$('#notification').hide();
+						$('#notification').text(result.data.message);
+						$('#notification').fadeIn();
+					}
+				} else {
+					OC.dialogs.alert(t('Error moving file'));
+				}
+			});
 		});
-	}
+	},
+	tolerance: 'pointer'
 }
+
 var crumbDropOptions={
 	drop: function( event, ui ) {
-		var file=ui.draggable.parent().data('file');
 		var target=$(this).data('dir');
 		var dir=$('#dir').val();
 		while(dir.substr(0,1)=='/'){//remove extra leading /'s
@@ -838,12 +917,25 @@ var crumbDropOptions={
 		if(target==dir || target+'/'==dir){
 			return;
 		}
-		$.ajax({
-			url: OC.filePath('files', 'ajax', 'move.php'),
-		 data: "dir="+encodeURIComponent(dir)+"&file="+encodeURIComponent(file)+'&target='+encodeURIComponent(target),
-		 complete: function(data){boolOperationFinished(data, function(){
-			 FileList.remove(file);
-		 });}
+		var files = ui.helper.find('tr');
+		$(files).each(function(i,row){
+			var dir = $(row).data('dir');
+			var file = $(row).data('filename');
+			$.post(OC.filePath('files', 'ajax', 'move.php'), { dir: dir, file: file, target: target }, function(result) {
+				if (result) {
+					if (result.status === 'success') {
+						FileList.remove(file);
+						procesSelection();
+						$('#notification').hide();
+					} else {
+						$('#notification').hide();
+						$('#notification').text(result.data.message);
+						$('#notification').fadeIn();
+					}
+				} else {
+					OC.dialogs.alert(t('Error moving file'));
+				}
+			});
 		});
 	},
 	tolerance: 'pointer'
@@ -950,7 +1042,7 @@ function getUniqueName(name){
 			num=parseInt(numMatch[numMatch.length-1])+1;
 			base=base.split('(')
 			base.pop();
-			base=base.join('(').trim();
+			base=$.trim(base.join('('));
 		}
 		name=base+' ('+num+')';
 		if (extension) {

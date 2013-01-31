@@ -1,8 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Puja",
-"Could not move %s - File with this name already exists" => "No s'ha pogut moure %s - Ja hi ha un fitxer amb aquest nom",
-"Could not move %s" => " No s'ha pogut moure %s",
-"Unable to rename file" => "No es pot canviar el nom del fitxer",
 "No file was uploaded. Unknown error" => "No s'ha carregat cap fitxer. Error desconegut",
 "There is no error, the file uploaded with success" => "El fitxer s'ha pujat correctament",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "L’arxiu que voleu carregar supera el màxim definit en la directiva upload_max_filesize del php.ini:",
@@ -24,11 +20,11 @@
 "replaced {new_name}" => "s'ha substituït {new_name}",
 "undo" => "desfés",
 "replaced {new_name} with {old_name}" => "s'ha substituït {old_name} per {new_name}",
-"unshared {files}" => "no compartits {files}",
-"deleted {files}" => "eliminats {files}",
 "'.' is an invalid file name." => "'.' és un nom no vàlid per un fitxer.",
 "File name cannot be empty." => "El nom del fitxer no pot ser buit.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "El nóm no és vàlid, '\\', '/', '<', '>', ':', '\"', '|', '?' i '*' no estan permesos.",
+"Your storage is full, files can not be updated or synced anymore!" => "El vostre espai d'emmagatzemament és ple, els fitxers ja no es poden actualitzar o sincronitzar!",
+"Your storage is almost full ({usedSpacePercent}%)" => "El vostre espai d'emmagatzemament és gairebé ple ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "S'està preparant la baixada. Pot trigar una estona si els fitxers són grans.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "No es pot pujar el fitxer perquè és una carpeta o té 0 bytes",
 "Upload Error" => "Error en la pujada",
@@ -40,8 +36,6 @@
 "File upload is in progress. Leaving the page now will cancel the upload." => "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà.",
 "URL cannot be empty." => "La URL no pot ser buida",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Nom de carpeta no vàlid. L'ús de 'Shared' està reservat per Owncloud",
-"{count} files scanned" => "{count} fitxers escannejats",
-"error while scanning" => "error durant l'escaneig",
 "Name" => "Nom",
 "Size" => "Mida",
 "Modified" => "Modificat",
@@ -49,6 +43,7 @@
 "{count} folders" => "{count} carpetes",
 "1 file" => "1 fitxer",
 "{count} files" => "{count} fitxers",
+"Upload" => "Puja",
 "File handling" => "Gestió de fitxers",
 "Maximum upload size" => "Mida màxima de pujada",
 "max. possible: " => "màxim possible:",
@@ -67,5 +62,6 @@
 "Upload too large" => "La pujada és massa gran",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada del servidor",
 "Files are being scanned, please wait." => "S'estan escanejant els fitxers, espereu",
-"Current scanning" => "Actualment escanejant"
+"Current scanning" => "Actualment escanejant",
+"Upgrading filesystem cache..." => "Actualitzant la memòria de cau del sistema de fitxers..."
 );

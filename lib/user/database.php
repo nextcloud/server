@@ -110,7 +110,72 @@ class OC_User_Database extends OC_User_Backend {
 			return false;
 		}
 	}
+	
+	/**
+	 * @brief Set display name
+	 * @param $uid The username
+	 * @param $displayName The new display name
+	 * @returns true/false
+	 *
+	 * Change the display name of a user
+	 */
+	public function setDisplayName( $uid, $displayName ) {
+		if( $this->userExists($uid) ) {
+			$query = OC_DB::prepare( 'UPDATE `*PREFIX*users` SET `displayname` = ? WHERE `uid` = ?' );
+			$query->execute( array( $displayName, $uid ));
+			return true;
+		}else{
+			return false;
+		}
+	}
 
+	/**
+	 * @brief get display name of the user
+	 * @param $uid user ID of the user
+	 * @return display name
+	 */
+	public function getDisplayName($uid) {
+		if( $this->userExists($uid) ) {
+			$query = OC_DB::prepare( 'SELECT displayname FROM `*PREFIX*users` WHERE `uid` = ?' );
+			$result = $query->execute( array( $uid ))->fetchAll();
+			$displayName = trim($result[0]['displayname'], ' ');
+			if ( !empty($displayName) ) {
+				return $displayName;
+			} else {
+				return $uid;
+			}
+		}
+	}
+	
+	/**
+	 * @brief Get a list of all display names
+	 * @returns array with  all displayNames (value) and the correspondig uids (key)
+	 *
+	 * Get a list of all display names and user ids.
+	 */
+	public function getDisplayNames($search = '', $limit = null, $offset = null) {
+		$displayNames = array();
+		$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` WHERE LOWER(`displayname`) LIKE LOWER(?)', $limit, $offset);
+		$result = $query->execute(array($search.'%'));
+		$users = array();
+		while ($row = $result->fetchRow()) {
+			$displayNames[$row['uid']] = $row['displayname'];
+		}
+		
+		// let's see if we can also find some users who don't have a display name yet
+		$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` WHERE LOWER(`uid`) LIKE LOWER(?)', $limit, $offset);
+		$result = $query->execute(array($search.'%'));
+		while ($row = $result->fetchRow()) {
+			$displayName =  trim($row['displayname'], ' ');
+			if ( empty($displayName) ) {
+				$displayNames[$row['uid']] = $row['uid'];
+			}
+		}
+		
+		
+		return $displayNames;
+	}
+	
 	/**
 	 * @brief Check if the password is correct
 	 * @param $uid The username

@@ -6,14 +6,15 @@
 #   <aoiob4305@gmail.com>, 2013.
 # 남자사람  <cessnagi@gmail.com>, 2012.
 #   <limonade83@gmail.com>, 2012.
+# Park Shinjo <kde@peremen.name>, 2013.
 # Shinjo Park <kde@peremen.name>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-15 00:03+0100\n"
-"PO-Revision-Date: 2013-01-14 23:03+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-31 17:02+0100\n"
+"PO-Revision-Date: 2013-01-31 08:10+0000\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,29 +22,29 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:84
+#: ajax/share.php:85
 #, php-format
 msgid "User %s shared a file with you"
-msgstr "User %s 가 당신과 파일을 공유하였습니다."
+msgstr "%s 님이 파일을 공유하였습니다"
 
-#: ajax/share.php:86
+#: ajax/share.php:87
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr "User %s 가 당신과 폴더를 공유하였습니다."
+msgstr "%s 님이 폴더를 공유하였습니다"
 
-#: ajax/share.php:88
+#: ajax/share.php:89
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr "User %s 가 파일 \"%s\"를 당신과 공유하였습니다. 다운로드는 여기서 %s 할 수 있습니다."
+msgstr "%s 님이 파일 \"%s\"을(를) 공유하였습니다. 여기에서 다운로드할 수 있습니다: %s"
 
-#: ajax/share.php:90
+#: ajax/share.php:91
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr "User %s 가 폴더 \"%s\"를 당신과 공유하였습니다. 다운로드는 여기서 %s 할 수 있습니다."
+msgstr "%s 님이 폴더 \"%s\"을(를) 공유하였습니다. 여기에서 다운로드할 수 있습니다: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -83,59 +84,135 @@ msgstr "삭제할 분류를 선택하지 않았습니다."
 msgid "Error removing %s from favorites."
 msgstr "책갈피에서 %s을(를) 삭제할 수 없었습니다."
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "일요일"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "월요일"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "화요일"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "수요일"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "목요일"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "금요일"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "토요일"
+
+#: js/config.php:33
+msgid "January"
+msgstr "1월"
+
+#: js/config.php:33
+msgid "February"
+msgstr "2월"
+
+#: js/config.php:33
+msgid "March"
+msgstr "3월"
+
+#: js/config.php:33
+msgid "April"
+msgstr "4월"
+
+#: js/config.php:33
+msgid "May"
+msgstr "5월"
+
+#: js/config.php:33
+msgid "June"
+msgstr "6월"
+
+#: js/config.php:33
+msgid "July"
+msgstr "7월"
+
+#: js/config.php:33
+msgid "August"
+msgstr "8월"
+
+#: js/config.php:33
+msgid "September"
+msgstr "9월"
+
+#: js/config.php:33
+msgid "October"
+msgstr "10월"
+
+#: js/config.php:33
+msgid "November"
+msgstr "11월"
+
+#: js/config.php:33
+msgid "December"
+msgstr "12월"
+
+#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
 msgid "Settings"
 msgstr "설정"
 
-#: js/js.js:711
+#: js/js.js:762
 msgid "seconds ago"
 msgstr "초 전"
 
-#: js/js.js:712
+#: js/js.js:763
 msgid "1 minute ago"
 msgstr "1분 전"
 
-#: js/js.js:713
+#: js/js.js:764
 msgid "{minutes} minutes ago"
 msgstr "{minutes}분 전"
 
-#: js/js.js:714
+#: js/js.js:765
 msgid "1 hour ago"
 msgstr "1시간 전"
 
-#: js/js.js:715
+#: js/js.js:766
 msgid "{hours} hours ago"
 msgstr "{hours}시간 전"
 
-#: js/js.js:716
+#: js/js.js:767
 msgid "today"
 msgstr "오늘"
 
-#: js/js.js:717
+#: js/js.js:768
 msgid "yesterday"
 msgstr "어제"
 
-#: js/js.js:718
+#: js/js.js:769
 msgid "{days} days ago"
 msgstr "{days}일 전"
 
-#: js/js.js:719
+#: js/js.js:770
 msgid "last month"
 msgstr "지난 달"
 
-#: js/js.js:720
+#: js/js.js:771
 msgid "{months} months ago"
 msgstr "{months}개월 전"
 
-#: js/js.js:721
+#: js/js.js:772
 msgid "months ago"
 msgstr "개월 전"
 
-#: js/js.js:722
+#: js/js.js:773
 msgid "last year"
 msgstr "작년"
 
-#: js/js.js:723
+#: js/js.js:774
 msgid "years ago"
 msgstr "년 전"
 
@@ -165,8 +242,8 @@ msgid "The object type is not specified."
 msgstr "객체 유형이 지정되지 않았습니다."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
-#: js/share.js:566
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
+#: js/share.js:583
 msgid "Error"
 msgstr "오류"
 
@@ -178,121 +255,140 @@ msgstr "앱 이름이 지정되지 않았습니다."
 msgid "The required file {file} is not installed!"
 msgstr "필요한 파일 {file}이(가) 설치되지 않았습니다!"
 
-#: js/share.js:124 js/share.js:594
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Share"
+msgstr "공유"
+
+#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+msgid "Shared"
+msgstr "공유됨"
+
+#: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
 msgstr "공유하는 중 오류 발생"
 
-#: js/share.js:135
+#: js/share.js:152
 msgid "Error while unsharing"
 msgstr "공유 해제하는 중 오류 발생"
 
-#: js/share.js:142
+#: js/share.js:159
 msgid "Error while changing permissions"
 msgstr "권한 변경하는 중 오류 발생"
 
-#: js/share.js:151
+#: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "{owner} 님이 여러분 및 그룹 {group}와(과) 공유 중"
 
-#: js/share.js:153
+#: js/share.js:170
 msgid "Shared with you by {owner}"
 msgstr "{owner} 님이 공유 중"
 
-#: js/share.js:158
+#: js/share.js:175
 msgid "Share with"
 msgstr "다음으로 공유"
 
-#: js/share.js:163
+#: js/share.js:180
 msgid "Share with link"
 msgstr "URL 링크로 공유"
 
-#: js/share.js:166
+#: js/share.js:183
 msgid "Password protect"
 msgstr "암호 보호"
 
-#: js/share.js:168 templates/installation.php:44 templates/login.php:35
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "암호"
 
-#: js/share.js:172
+#: js/share.js:189
 msgid "Email link to person"
 msgstr "이메일 주소"
 
-#: js/share.js:173
+#: js/share.js:190
 msgid "Send"
 msgstr "전송"
 
-#: js/share.js:177
+#: js/share.js:194
 msgid "Set expiration date"
 msgstr "만료 날짜 설정"
 
-#: js/share.js:178
+#: js/share.js:195
 msgid "Expiration date"
 msgstr "만료 날짜"
 
-#: js/share.js:210
+#: js/share.js:227
 msgid "Share via email:"
 msgstr "이메일로 공유:"
 
-#: js/share.js:212
+#: js/share.js:229
 msgid "No people found"
 msgstr "발견된 사람 없음"
 
-#: js/share.js:239
+#: js/share.js:256
 msgid "Resharing is not allowed"
 msgstr "다시 공유할 수 없습니다"
 
-#: js/share.js:275
+#: js/share.js:292
 msgid "Shared in {item} with {user}"
 msgstr "{user} 님과 {item}에서 공유 중"
 
-#: js/share.js:296
+#: js/share.js:313
 msgid "Unshare"
 msgstr "공유 해제"
 
-#: js/share.js:308
+#: js/share.js:325
 msgid "can edit"
 msgstr "편집 가능"
 
-#: js/share.js:310
+#: js/share.js:327
 msgid "access control"
 msgstr "접근 제어"
 
-#: js/share.js:313
+#: js/share.js:330
 msgid "create"
 msgstr "만들기"
 
-#: js/share.js:316
+#: js/share.js:333
 msgid "update"
 msgstr "업데이트"
 
-#: js/share.js:319
+#: js/share.js:336
 msgid "delete"
 msgstr "삭제"
 
-#: js/share.js:322
+#: js/share.js:339
 msgid "share"
 msgstr "공유"
 
-#: js/share.js:356 js/share.js:541
+#: js/share.js:373 js/share.js:558
 msgid "Password protected"
 msgstr "암호로 보호됨"
 
-#: js/share.js:554
+#: js/share.js:571
 msgid "Error unsetting expiration date"
 msgstr "만료 날짜 해제 오류"
 
-#: js/share.js:566
+#: js/share.js:583
 msgid "Error setting expiration date"
 msgstr "만료 날짜 설정 오류"
 
-#: js/share.js:581
+#: js/share.js:598
 msgid "Sending ..."
 msgstr "전송 중..."
 
-#: js/share.js:592
+#: js/share.js:609
 msgid "Email sent"
 msgstr "이메일 발송됨"
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr "업데이트가 실패하였습니다. 이 문제를 <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 커뮤니티</a>에 보고해 주십시오."
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr "업데이트가 성공하였습니다. ownCloud로 돌아갑니다."
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -445,87 +541,11 @@ msgstr "데이터베이스 호스트"
 msgid "Finish setup"
 msgstr "설치 완료"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "일요일"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "월요일"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "화요일"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "수요일"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "목요일"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "금요일"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "토요일"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "1월"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "2월"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "3월"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "4월"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "5월"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "6월"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "7월"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "8월"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "9월"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "10월"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "11월"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "12월"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:34
 msgid "web services under your control"
 msgstr "내가 관리하는 웹 서비스"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:32
 msgid "Log out"
 msgstr "로그아웃"
 
@@ -566,4 +586,4 @@ msgstr "다음"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "ownCloud 를 버젼 %s로 업데이트 하는 중, 시간이 소요됩니다."
+msgstr "ownCloud를 버전 %s(으)로 업데이트합니다. 잠시 기다려 주십시오."

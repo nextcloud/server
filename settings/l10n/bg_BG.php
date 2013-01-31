@@ -4,7 +4,6 @@
 "Enable" => "Включено",
 "Password" => "Парола",
 "Email" => "E-mail",
-"Name" => "Име",
 "Groups" => "Групи",
 "Delete" => "Изтриване"
 );

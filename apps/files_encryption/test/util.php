@@ -218,7 +218,7 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 // 		
 // 		$decrypted = $c->legacyDecrypt( $encrypted, $c->legacyKey );
 // 
-// 		$this->assertEqual( $decrypted, $this->data );
+// 		$this->assertEquals( $decrypted, $this->data );
 // 	
 // 	}
 
