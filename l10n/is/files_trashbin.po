@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
+"POT-Creation-Date: 2013-02-01 00:17+0100\n"
 "PO-Revision-Date: 2013-01-31 16:03+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
@@ -27,7 +27,7 @@ msgstr ""
 
 #: js/trash.js:100 templates/index.php:17
 msgid "Name"
-msgstr ""
+msgstr "Nafn"
 
 #: js/trash.js:101 templates/index.php:27
 msgid "Deleted"
@@ -35,19 +35,19 @@ msgstr ""
 
 #: js/trash.js:110
 msgid "1 folder"
-msgstr ""
+msgstr "1 mappa"
 
 #: js/trash.js:112
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} möppur"
 
 #: js/trash.js:120
 msgid "1 file"
-msgstr ""
+msgstr "1 skrá"
 
 #: js/trash.js:122
 msgid "{count} files"
-msgstr ""
+msgstr "{count} skrár"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"

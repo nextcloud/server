@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-31 16:03+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-02-01 00:17+0100\n"
+"PO-Revision-Date: 2013-01-31 18:00+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,40 +20,40 @@ msgstr ""
 
 #: js/trash.js:7
 msgid "perform restore operation"
-msgstr ""
+msgstr "suorita palautustoiminto"
 
 #: js/trash.js:69
 msgid "perform undelete operation"
-msgstr ""
+msgstr "suorita poiston peruutustoiminto"
 
 #: js/trash.js:100 templates/index.php:17
 msgid "Name"
-msgstr ""
+msgstr "Nimi"
 
 #: js/trash.js:101 templates/index.php:27
 msgid "Deleted"
-msgstr ""
+msgstr "Poistettu"
 
 #: js/trash.js:110
 msgid "1 folder"
-msgstr ""
+msgstr "1 kansio"
 
 #: js/trash.js:112
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} kansiota"
 
 #: js/trash.js:120
 msgid "1 file"
-msgstr ""
+msgstr "1 tiedosto"
 
 #: js/trash.js:122
 msgid "{count} files"
-msgstr ""
+msgstr "{count} tiedostoa"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "Tyhjää täynnä! Roskakorissa ei ole mitään."
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr ""
+msgstr "Palauta"

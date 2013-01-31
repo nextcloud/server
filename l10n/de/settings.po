@@ -21,12 +21,13 @@
 #   <thomas.mueller@tmit.eu>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
 # Tristan <blobbyjj@ymail.com>, 2013.
+#  <wachhund@wachhund.to>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 00:27+0100\n"
-"PO-Revision-Date: 2013-01-30 23:28+0000\n"
+"POT-Creation-Date: 2013-02-01 00:17+0100\n"
+"PO-Revision-Date: 2013-01-31 23:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -93,13 +94,41 @@ msgstr "Der Benutzer konnte nicht zur Gruppe %s hinzugefügt werden"
 msgid "Unable to remove user from group %s"
 msgstr "Der Benutzer konnte nicht aus der Gruppe %s entfernt werden"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:13
+msgid "Couldn't update app."
+msgstr ""
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr ""
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Deaktivieren"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "Aktivieren"
+
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr ""
+
+#: js/apps.js:84
+msgid "Updateing...."
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error"
+msgstr ""
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr ""
 
 #: js/personal.js:69
 msgid "Saving..."
@@ -128,6 +157,10 @@ msgstr "Weitere Anwendungen findest Du auf apps.owncloud.com"
 #: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lizenziert von <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr ""
 
 #: templates/help.php:3
 msgid "User Documentation"
@@ -246,7 +279,7 @@ msgstr "Entwickelt von der <a href=\"http://ownCloud.org/contact\" target=\"_bla
 
 #: templates/users.php:21 templates/users.php:79
 msgid "Login Name"
-msgstr ""
+msgstr "Loginname"
 
 #: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
@@ -270,7 +303,7 @@ msgstr "Andere"
 
 #: templates/users.php:80
 msgid "Display Name"
-msgstr ""
+msgstr "Anzeigename"
 
 #: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
@@ -282,11 +315,11 @@ msgstr "Speicher"
 
 #: templates/users.php:97
 msgid "change display name"
-msgstr ""
+msgstr "Ändere den Anzeigenamen"
 
 #: templates/users.php:101
 msgid "set new password"
-msgstr ""
+msgstr "Setzen neues Password"
 
 #: templates/users.php:137
 msgid "Default"
