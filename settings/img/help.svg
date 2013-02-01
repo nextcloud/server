@@ -14,9 +14,9 @@
    width="16"
    height="16"
    id="svg11300"
-   inkscape:version="0.48.1 r9760"
-   sodipodi:docname="users.svg"
-   inkscape:export-filename="/home/jancborchardt/jancborchardt/ownCloud/icons/users.png"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="help.svg"
+   inkscape:export-filename="help.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <metadata
@@ -41,16 +41,16 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1280"
-     inkscape:window-height="776"
+     inkscape:window-height="745"
      id="namedview24"
      showgrid="true"
      showguides="true"
      inkscape:guide-bbox="true"
      inkscape:zoom="22.627418"
-     inkscape:cx="14.025105"
+     inkscape:cx="6.55629"
      inkscape:cy="9.2202448"
      inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-y="27"
      inkscape:window-maximized="1"
      inkscape:current-layer="g4146">
     <inkscape:grid
@@ -1712,16 +1712,6 @@
          style="stop-color:#363636;stop-opacity:1"
          offset="1" />
     </linearGradient>
-    <linearGradient
-       y2="28.776533"
-       x2="0.44923753"
-       y1="13.895414"
-       x1="0.86849999"
-       gradientTransform="matrix(1.0344828,0,0,1.0344828,8.0707628,-14.513825)"
-       gradientUnits="userSpaceOnUse"
-       id="linearGradient3456"
-       xlink:href="#linearGradient3587-6-5-4"
-       inkscape:collect="always" />
   </defs>
   <g
      transform="matrix(0.78786264,0,0,0.78786264,-3.1483699,0.44173984)"
@@ -1740,19 +1730,15 @@
      style="opacity:0.6;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" />
   <g
      id="g4146">
-    <g
-       id="g4314"
-       transform="matrix(1.0000288,0,0,1,-0.14973031,7.5119235e-7)">
-      <path
-         d="M 5.149582,8.4745445 C 5.3049331,8.8555559 5.4749951,9.1626038 5.7940692,8.7203676 6.2006678,8.4518873 7.5528003,7.2925123 7.4556978,8.3783304 7.0875579,10.395217 6.6215241,12.395026 6.2845924,14.416813 5.892954,15.532242 6.9195772,16.485144 7.9224991,15.729405 9.0003636,15.226276 9.9139828,14.440939 10.850418,13.716521 10.706075,13.39458 10.599944,12.928009 10.253582,13.370754 9.7853152,13.60987 8.7844663,14.688222 8.5572925,13.841548 8.8726653,11.661003 9.5328233,9.5467073 9.9227187,7.3804227 10.320459,6.3755023 9.5582449,5.1570833 8.5229975,6.0170334 7.266481,6.6343485 6.2334577,7.6013759 5.149582,8.4745445 z M 9.6088759,1.0026758 C 8.3013694,0.98534052 7.7033019,3.148247 8.9661979,3.6822119 9.9886006,4.0601787 11.042606,2.968368 10.755649,1.9317924 10.657925,1.3899396 10.158361,0.96201137 9.6088769,1.0026758 l -1e-6,0 z"
-         id="path3536-8"
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;opacity:0.6;fill:#ffffff;fill-opacity:1;stroke:none;font-family:URW Palladio L;-inkscape-font-specification:URW Palladio L Bold"
-         inkscape:connector-curvature="0" />
-      <path
-         d="M 5.149582,7.4745451 C 5.3049334,7.8555565 5.4749951,8.1626045 5.7940689,7.7203682 6.2006672,7.4518879 7.5527994,6.292513 7.4556976,7.378331 7.0875583,9.3952173 6.6215238,11.395026 6.2845927,13.416813 5.8929541,14.532242 6.9195769,15.485145 7.9224987,14.729405 9.0003636,14.226276 9.9139826,13.440939 10.850418,12.716521 10.706076,12.394581 10.599945,11.928009 10.253583,12.370754 9.7853157,12.60987 8.784467,13.688222 8.5572925,12.841549 8.872666,10.661003 9.5328233,8.5467079 9.9227188,6.3804233 10.32046,5.3755029 9.5582457,4.1570839 8.5229973,5.017034 7.2664804,5.6343492 6.2334583,6.6013765 5.149582,7.4745451 z M 9.6088764,0.00267653 C 8.3013697,-0.01465929 7.7033021,2.1482476 8.9661977,2.6822125 9.9886009,3.0601794 11.042605,1.9683686 10.755649,0.93179313 10.657922,0.38994033 10.158361,-0.03798791 9.6088774,0.00267653 l -1e-6,0 z"
-         id="path3536"
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;opacity:0.7;fill:url(#linearGradient3456);fill-opacity:1;stroke:none;font-family:URW Palladio L;-inkscape-font-specification:URW Palladio L Bold"
-         inkscape:connector-curvature="0" />
-    </g>
+    <path
+       d="M 5,7.4745455 C 5.1553559,7.8555569 5.3254225,8.1626049 5.6445055,7.7203686 6.0511155,7.4518883 7.4032866,6.2925134 7.306182,7.3783314 6.9380321,9.3952173 6.4719842,11.395026 6.1350434,13.416813 5.7433935,14.532242 6.7700459,15.485145 7.7729966,14.729405 8.8508925,14.226276 9.7645378,13.440939 10.701,12.716521 10.556654,12.394581 10.45052,11.928009 10.104148,12.370754 9.6358672,12.60987 8.6349897,13.688222 8.4078086,12.841549 8.7231912,10.661003 9.3833675,8.5467083 9.7732743,6.3804237 10.171027,5.3755033 9.4087907,4.1570843 8.3735125,5.0170344 7.1169594,5.6343496 6.0839075,6.6013769 5,7.4745455 z M 9.4594228,0.00267693 C 8.1518785,-0.01465888 7.5537936,2.148248 8.8167256,2.6822129 9.8391583,3.0601798 10.893193,1.968369 10.606228,0.93179353 10.508499,0.38994073 10.008923,-0.0379875 9.4594238,0.00267693 l -10e-7,0 z"
+       id="path6558"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:URW Palladio L;-inkscape-font-specification:URW Palladio L Bold"
+       inkscape:connector-curvature="0" />
+    <path
+       inkscape:connector-curvature="0"
+       style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:100%;writing-mode:lr-tb;text-anchor:start;opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;font-family:URW Palladio L;-inkscape-font-specification:URW Palladio L Bold"
+       id="path3536"
+       d="M 5,8.4745452 C 5.1553559,8.8555566 5.3254225,9.1626046 5.6445055,8.7203683 6.0511155,8.451888 7.4032866,7.2925131 7.306182,8.3783311 6.9380321,10.395217 6.4719842,12.395026 6.1350434,14.416813 5.7433935,15.532242 6.7700459,16.485145 7.7729966,15.729405 8.8508925,15.226276 9.7645378,14.440939 10.701,13.716521 10.556654,13.394581 10.45052,12.928009 10.104148,13.370754 9.6358672,13.60987 8.6349897,14.688222 8.4078086,13.841549 8.7231912,11.661003 9.3833675,9.546708 9.7732743,7.3804234 10.171027,6.375503 9.4087907,5.157084 8.3735125,6.0170341 7.1169594,6.6343493 6.0839075,7.6013766 5,8.4745452 z M 9.4594228,1.0026766 C 8.1518785,0.98534079 7.5537936,3.1482477 8.8167256,3.6822126 9.8391583,4.0601795 10.893193,2.9683687 10.606228,1.9317932 10.508499,1.3899404 10.008923,0.96201217 9.4594238,1.0026766 l -10e-7,0 z" />
   </g>
 </svg>

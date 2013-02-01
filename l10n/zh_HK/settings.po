@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 00:27+0100\n"
-"PO-Revision-Date: 2013-01-30 23:28+0000\n"
+"POT-Creation-Date: 2013-02-01 00:17+0100\n"
+"PO-Revision-Date: 2013-01-31 23:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/projects/p/owncloud/language/zh_HK/)\n"
 "MIME-Version: 1.0\n"
@@ -75,12 +75,40 @@ msgstr ""
 msgid "Unable to remove user from group %s"
 msgstr ""
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:13
+msgid "Couldn't update app."
+msgstr ""
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr ""
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr ""
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
+msgstr ""
+
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr ""
+
+#: js/apps.js:84
+msgid "Updateing...."
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error"
+msgstr ""
+
+#: js/apps.js:90
+msgid "Updated"
 msgstr ""
 
 #: js/personal.js:69
@@ -109,6 +137,10 @@ msgstr ""
 
 #: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr ""
+
+#: templates/apps.php:31
+msgid "Update"
 msgstr ""
 
 #: templates/help.php:3

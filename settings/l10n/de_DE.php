@@ -49,13 +49,17 @@
 "Use this address to connect to your ownCloud in your file manager" => "Verwenden Sie diese Adresse, um Ihren Dateimanager mit Ihrer ownCloud zu verbinden",
 "Version" => "Version",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Entwickelt von der <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud-Community</a>. Der <a href=\"https://github.com/owncloud\" target=\"_blank\">Quellcode</a> ist unter der <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> lizenziert.",
+"Login Name" => "Loginname",
 "Groups" => "Gruppen",
 "Create" => "Anlegen",
 "Default Storage" => "Standard-Speicher",
 "Unlimited" => "Unbegrenzt",
 "Other" => "Andere",
+"Display Name" => "Anzeigename",
 "Group Admin" => "Gruppenadministrator",
 "Storage" => "Speicher",
+"change display name" => "Ändere den Anzeigenamen",
+"set new password" => "Setze eine neues Passwort",
 "Default" => "Standard",
 "Delete" => "Löschen"
 );

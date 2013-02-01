@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
+"POT-Creation-Date: 2013-02-01 00:17+0100\n"
 "PO-Revision-Date: 2013-01-31 16:03+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
@@ -27,7 +27,7 @@ msgstr ""
 
 #: js/trash.js:100 templates/index.php:17
 msgid "Name"
-msgstr ""
+msgstr "නම"
 
 #: js/trash.js:101 templates/index.php:27
 msgid "Deleted"
@@ -35,7 +35,7 @@ msgstr ""
 
 #: js/trash.js:110
 msgid "1 folder"
-msgstr ""
+msgstr "1 ෆොල්ඩරයක්"
 
 #: js/trash.js:112
 msgid "{count} folders"
@@ -43,7 +43,7 @@ msgstr ""
 
 #: js/trash.js:120
 msgid "1 file"
-msgstr ""
+msgstr "1 ගොනුවක්"
 
 #: js/trash.js:122
 msgid "{count} files"

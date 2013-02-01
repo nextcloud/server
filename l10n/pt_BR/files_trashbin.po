@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Rodrigo Tavares <rodrigo.st23@hotmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-31 16:03+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-02-01 00:17+0100\n"
+"PO-Revision-Date: 2013-01-31 17:20+0000\n"
+"Last-Translator: rodrigost23 <rodrigo.st23@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: js/trash.js:7
 msgid "perform restore operation"
-msgstr ""
+msgstr "realizar operação de restauração"
 
 #: js/trash.js:69
 msgid "perform undelete operation"
@@ -27,32 +28,32 @@ msgstr ""
 
 #: js/trash.js:100 templates/index.php:17
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: js/trash.js:101 templates/index.php:27
 msgid "Deleted"
-msgstr ""
+msgstr "Excluído"
 
 #: js/trash.js:110
 msgid "1 folder"
-msgstr ""
+msgstr "1 pasta"
 
 #: js/trash.js:112
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} pastas"
 
 #: js/trash.js:120
 msgid "1 file"
-msgstr ""
+msgstr "1 arquivo"
 
 #: js/trash.js:122
 msgid "{count} files"
-msgstr ""
+msgstr "{count} arquivos"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "Nada aqui. Sua lixeira está vazia!"
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr ""
+msgstr "Restaurar"
