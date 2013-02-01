@@ -57,6 +57,22 @@ class OC_Search{
 		}
 		return $results;
 	}
+	
+	/**
+	 * remove an existing search provider
+	 * @param string $provider class name of a OC_Search_Provider
+	 */
+	public static function removeProvider($provider) {
+		self::$registeredProviders = array_filter(
+				self::$registeredProviders, 
+				function ($element) use ($provider) {
+					return ($element['class'] != $provider);
+				}
+		);
+		// force regeneration of providers on next search
+		self::$providers=array();
+	}
+
 
 	/**
 	 * create instances of all the registered search providers
