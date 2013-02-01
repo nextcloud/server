@@ -103,6 +103,7 @@ var LdapConfiguration = {
 }
 
 $(document).ready(function() {
+	$('#ldapAdvancedAccordion').accordion({ heightStyle: 'content', animate: 'easeInOutCirc'});
 	$('#ldapSettings').tabs();
 	$('#ldap_submit').button();
 	$('#ldap_action_test_connection').button();
