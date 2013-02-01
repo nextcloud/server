@@ -268,10 +268,15 @@ class Util {
 						
 						$data = $this->view->file_get_contents( $filePath );
 						
+// 						trigger_error("HAKE \n".var_export($this->view->file_get_contents( $filePath ), 1)." \nfilepath = ".var_export($filePath, 1 ));
+						
 						// If the file is encrypted
 						// NOTE: If the userId is 
 						// empty or not set, file will 
 						// detected as plain
+						// NOTE: This is inefficient;
+						// scanning every file like this
+						// will eat server resources :(
 						if ( 
 							Keymanager::getFileKey( $this->view, $this->userId, $file ) 
 							&& Crypt::isCatfile( $filePath )
@@ -346,6 +351,8 @@ class Util {
 	
 		if ( $found = $this->findFiles( $dirPath ) ) {
 		
+// 		trigger_error("FOUND = ".print_r($found, 1));
+		
 			// Disable proxy to prevent file being encrypted twice
 			\OC_FileProxy::$enabled = false;
 		
@@ -384,12 +391,12 @@ class Util {
 				&& ! empty( $newPassphrase ) 
 			) {
 			
-				trigger_error("LEGACY FOUND");
-			
 				foreach ( $found['legacy'] as $legacyFilePath ) {
 				
 					// Fetch data from file
 					$legacyData = $this->view->file_get_contents( $legacyFilePath );
+				
+					trigger_error("\n\nlegdata = ".var_export($legacyData).' \n\npassphrase = '.var_export($legacyPassphrase).' \n\npublickey = '.var_export($publicKey).' \n\nnewpass = '.var_export($newPassphrase));
 				
 					// Recrypt data, generate catfile
 					$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKey, $newPassphrase );
