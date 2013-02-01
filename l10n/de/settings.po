@@ -6,7 +6,7 @@
 #   <admin@s-goecker.de>, 2011, 2012.
 #   <blobbyjj@ymail.com>, 2012.
 #   <icewind1991@gmail.com>, 2012.
-# I Robot <owncloud-bot@tmit.eu>, 2012.
+# I Robot <owncloud-bot@tmit.eu>, 2012-2013.
 # I Robot <thomas.mueller@tmit.eu>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 # Jan T <jan-temesinko@web.de>, 2012.
@@ -26,8 +26,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-01 00:17+0100\n"
-"PO-Revision-Date: 2013-01-31 23:17+0000\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-02-01 23:06+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -115,16 +115,16 @@ msgid "Please wait...."
 msgstr ""
 
 #: js/apps.js:84
-msgid "Updateing...."
+msgid "Updating...."
 msgstr ""
 
 #: js/apps.js:87
 msgid "Error while updating app"
-msgstr ""
+msgstr "Fehler beim Aktualisieren der App"
 
 #: js/apps.js:87
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: js/apps.js:90
 msgid "Updated"
@@ -160,7 +160,7 @@ msgstr "<span class=\"licence\"></span>-lizenziert von <span class=\"author\"></
 
 #: templates/apps.php:31
 msgid "Update"
-msgstr ""
+msgstr "Update durchführen"
 
 #: templates/help.php:3
 msgid "User Documentation"
@@ -315,11 +315,11 @@ msgstr "Speicher"
 
 #: templates/users.php:97
 msgid "change display name"
-msgstr "Ändere den Anzeigenamen"
+msgstr "Anzeigenamen ändern"
 
 #: templates/users.php:101
 msgid "set new password"
-msgstr "Setzen neues Password"
+msgstr "Neues Passwort setzen"
 
 #: templates/users.php:137
 msgid "Default"

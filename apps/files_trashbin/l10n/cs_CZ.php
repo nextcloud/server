@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "perform restore operation" => "provést obnovu",
-"perform undelete operation" => "provést obnovu smazaných",
 "Name" => "Název",
 "Deleted" => "Smazáno",
 "1 folder" => "1 složka",

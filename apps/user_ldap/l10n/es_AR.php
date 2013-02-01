@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "Error al borrar",
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them." => "<b>Advertencia:</b> Los Apps user_ldap y user_webdavauth son incompatibles.  Puede que experimente un comportamiento inesperado. Pregunte al administrador del sistema para desactivar uno de ellos.",
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Atención:</b> El módulo PHP LDAP no está instalado, este elemento no va a funcionar. Por favor, pedile al administrador que lo instale.",
 "Host" => "Servidor",

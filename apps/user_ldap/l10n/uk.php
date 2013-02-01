@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "Видалення не було виконано",
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them." => "<b>Увага:</b> Застосунки user_ldap та user_webdavauth не сумісні. Ви можете зіткнутися з несподіваною поведінкою. Будь ласка, зверніться до системного адміністратора, щоб відключити одну з них.",
 "Host" => "Хост",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Можна не вказувати протокол, якщо вам не потрібен SSL. Тоді почніть з ldaps://",

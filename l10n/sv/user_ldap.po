@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# André <lokal_profil@hotmail.com>, 2013.
 # Magnus Höglund <magnus@linux.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-01 00:17+0100\n"
-"PO-Revision-Date: 2013-01-31 23:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-02-01 02:10+0000\n"
+"Last-Translator: Lokal_Profil <lokal_profil@hotmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +41,7 @@ msgstr ""
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr ""
+msgstr "Raderingen misslyckades"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
@@ -48,7 +49,7 @@ msgstr ""
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr ""
+msgstr "Behåll inställningarna?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
@@ -68,7 +69,7 @@ msgstr ""
 
 #: js/settings.js:136
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "Bekräfta radering"
 
 #: templates/settings.php:8
 msgid ""

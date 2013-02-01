@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "Silme başarısız oldu",
 "Host" => "Konak",
 "Base DN" => "Base DN",
 "User DN" => "User DN",

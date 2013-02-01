@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "Odstránenie zlyhalo",
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them." => "<b>Upozornenie:</b> Aplikácie user_ldap a user_webdavauth nie sú kompatibilné. Môže nastávať neočakávané správanie. Požiadajte správcu systému aby jednu z nich zakázal.",
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Upozornenie:</b> nie je nainštalovaný LDAP modul pre PHP, backend vrstva nebude fungovať. Požádejte správcu systému aby ho nainštaloval.",
 "Host" => "Hostiteľ",

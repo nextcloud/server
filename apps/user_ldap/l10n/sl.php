@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "Brisanje je spodletelo.",
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them." => "<b>Opozorilo:</b> Aplikaciji user_ldap in user_webdavauth nista združljivi. Morda boste opazili nepričakovano obnašanje sistema. Prosimo, prosite vašega skrbnika, da eno od aplikacij onemogoči.",
 "Host" => "Gostitelj",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Protokol je lahko izpuščen, če ni posebej zahtevan SSL. V tem primeru se mora naslov začeti z ldaps://",

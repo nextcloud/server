@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "Remoção falhou",
 "Host" => "Host",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Você pode omitir o protocolo, exceto quando requerer SSL. Então inicie com ldaps://",
 "Base DN" => "DN Base",

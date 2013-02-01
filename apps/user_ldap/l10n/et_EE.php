@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "Kustutamine ebaõnnestus",
 "Host" => "Host",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Sa ei saa protokolli ära jätta, välja arvatud siis, kui sa nõuad SSL-ühendust. Sel juhul alusta eesliitega ldaps://",
 "Base DN" => "Baas DN",

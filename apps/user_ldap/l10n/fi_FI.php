@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "Poisto epäonnistui",
 "Host" => "Isäntä",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Voit jättää protokollan määrittämättä, paitsi kun vaadit SSL:ää. Aloita silloin ldaps://",
 "Base DN" => "Oletus DN",

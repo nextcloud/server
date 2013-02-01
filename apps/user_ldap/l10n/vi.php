@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "Xóa thất bại",
 "Host" => "Máy chủ",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Bạn có thể bỏ qua các giao thức, ngoại trừ SSL. Sau đó bắt đầu với ldaps://",
 "Base DN" => "DN cơ bản",

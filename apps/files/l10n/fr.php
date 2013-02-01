@@ -20,6 +20,7 @@
 "replaced {new_name}" => "{new_name} a été remplacé",
 "undo" => "annuler",
 "replaced {new_name} with {old_name}" => "{new_name} a été remplacé par {old_name}",
+"perform delete operation" => "effectuer l'opération de suppression",
 "'.' is an invalid file name." => "'.' n'est pas un nom de fichier valide.",
 "File name cannot be empty." => "Le nom de fichier ne peut être vide.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nom invalide, les caractères '\\', '/', '<', '>', ':', '\"', '|', '?' et '*' ne sont pas autorisés.",
@@ -56,11 +57,13 @@
 "Text file" => "Fichier texte",
 "Folder" => "Dossier",
 "From link" => "Depuis le lien",
+"Trash" => "Corbeille",
 "Cancel upload" => "Annuler l'envoi",
 "Nothing in here. Upload something!" => "Il n'y a rien ici ! Envoyez donc quelque chose :)",
 "Download" => "Télécharger",
 "Upload too large" => "Fichier trop volumineux",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Les fichiers que vous essayez d'envoyer dépassent la taille maximale permise par ce serveur.",
 "Files are being scanned, please wait." => "Les fichiers sont en cours d'analyse, veuillez patienter.",
-"Current scanning" => "Analyse en cours"
+"Current scanning" => "Analyse en cours",
+"Upgrading filesystem cache..." => "Mise à niveau du cache du système de fichier"
 );

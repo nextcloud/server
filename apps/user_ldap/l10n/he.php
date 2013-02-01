@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "מחיקה נכשלה",
 "Host" => "מארח",
 "User DN" => "DN משתמש",
 "Password" => "סיסמא",

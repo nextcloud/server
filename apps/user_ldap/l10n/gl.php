@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "Fallou o borrado",
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them." => "<b>Aviso:</b> Os aplicativos user_ldap e user_webdavauth son incompatíbeis. Pode acontecer un comportamento estraño. Consulte co administrador do sistema para desactivar un deles.",
 "Host" => "Servidor",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Pode omitir o protocolo agás que precise de SSL. Nese caso comece con ldaps://",

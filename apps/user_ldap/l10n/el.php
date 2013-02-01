@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "Η διαγραφή απέτυχε",
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them." => "<b>Προσοχή:</b> Οι εφαρμογές user_ldap και user_webdavauth είναι ασύμβατες. Μπορεί να αντιμετωπίσετε απρόβλεπτη συμπεριφορά. Παρακαλώ ζητήστε από τον διαχειριστή συστήματος να απενεργοποιήσει μία από αυτές.",
 "Host" => "Διακομιστής",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Μπορείτε να παραλείψετε το πρωτόκολλο, εκτός αν απαιτείται SSL. Σε αυτή την περίπτωση ξεκινήστε με ldaps://",

@@ -4,7 +4,7 @@
 # 
 # Translators:
 #   <blobbyjj@ymail.com>, 2012.
-# I Robot <owncloud-bot@tmit.eu>, 2012.
+# I Robot <owncloud-bot@tmit.eu>, 2012-2013.
 # I Robot <thomas.mueller@tmit.eu>, 2012.
 # Marcel Kühlhorn <susefan93@gmx.de>, 2013.
 # Maurice Preuß <>, 2012.
@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-01 00:17+0100\n"
-"PO-Revision-Date: 2013-01-31 23:18+0000\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-02-01 00:10+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr ""
+msgstr "Löschen fehlgeschlagen"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
@@ -56,7 +56,7 @@ msgstr ""
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr ""
+msgstr "Einstellungen beibehalten?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
@@ -89,7 +89,7 @@ msgstr "<b>Warnung:</b> Die Anwendungen user_ldap und user_webdavauth sind inkom
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr "<b>Warnung:</b> Da das PHP-Modul für LDAP ist nicht installiert, das Backend wird nicht funktionieren. Bitten Sie Ihren Systemadministrator das Modul zu installieren."
+msgstr "<b>Warnung:</b> Da das PHP-Modul für LDAP nicht installiert ist, wird das Backend nicht funktionieren. Bitten Sie Ihren Systemadministrator das Modul zu installieren."
 
 #: templates/settings.php:15
 msgid "Server configuration"
