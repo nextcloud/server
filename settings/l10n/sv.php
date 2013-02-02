@@ -18,6 +18,7 @@
 "Disable" => "Deaktivera",
 "Enable" => "Aktivera",
 "Please wait...." => "Var god vänta...",
+"Updating...." => "Uppdaterar...",
 "Error while updating app" => "Fel uppstod vid uppdatering av appen",
 "Error" => "Fel",
 "Updated" => "Uppdaterad",

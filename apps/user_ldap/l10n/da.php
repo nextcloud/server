@@ -13,14 +13,14 @@
 "Group Filter" => "Gruppe Filter",
 "Defines the filter to apply, when retrieving groups." => "Definere filteret der bruges når der indlæses grupper.",
 "Port" => "Port",
-"Base User Tree" => "Base Bruger Træ",
-"Base Group Tree" => "Base Group Tree",
-"Group-Member association" => "Group-Member association",
 "Use TLS" => "Brug TLS",
 "Do not use it for SSL connections, it will fail." => "Brug ikke til SSL forbindelser, da den vil fejle.",
 "Turn off SSL certificate validation." => "Deaktiver SSL certifikat validering",
 "Not recommended, use for testing only." => "Anbefales ikke, brug kun for at teste.",
 "User Display Name Field" => "User Display Name Field",
+"Base User Tree" => "Base Bruger Træ",
+"Base Group Tree" => "Base Group Tree",
+"Group-Member association" => "Group-Member association",
 "in bytes" => "i bytes",
 "Help" => "Hjælp"
 );

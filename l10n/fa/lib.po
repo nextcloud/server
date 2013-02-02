@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Amir Reza Asadi <amirreza.asadi@live.com>, 2013.
 # Mohammad Dashtizadeh <mohammad@dashtizadeh.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-27 00:04+0100\n"
-"PO-Revision-Date: 2013-01-26 13:36+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-03 00:04+0100\n"
+"PO-Revision-Date: 2013-02-02 14:01+0000\n"
+"Last-Translator: Amir Reza Asadi <amirreza.asadi@live.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,53 +19,53 @@ msgstr ""
 "Language: fa\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: app.php:301
+#: app.php:312
 msgid "Help"
 msgstr "راه‌نما"
 
-#: app.php:308
+#: app.php:319
 msgid "Personal"
 msgstr "شخصی"
 
-#: app.php:313
+#: app.php:324
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: app.php:318
+#: app.php:329
 msgid "Users"
 msgstr "کاربران"
 
-#: app.php:325
+#: app.php:336
 msgid "Apps"
-msgstr ""
+msgstr "  برنامه ها"
 
-#: app.php:327
+#: app.php:338
 msgid "Admin"
 msgstr "مدیر"
 
-#: files.php:365
+#: files.php:202
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "دانلود به صورت فشرده غیر فعال است"
 
-#: files.php:366
+#: files.php:203
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "فایل ها باید به صورت یکی یکی دانلود شوند"
 
-#: files.php:366 files.php:391
+#: files.php:203 files.php:228
 msgid "Back to Files"
-msgstr ""
+msgstr "بازگشت به فایل ها"
 
-#: files.php:390
+#: files.php:227
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "فایل های انتخاب شده بزرگتر از آن هستند که بتوان یک فایل فشرده تولید کرد"
 
-#: helper.php:229
+#: helper.php:226
 msgid "couldn't be determined"
 msgstr ""
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "برنامه فعال نشده است"
 
 #: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
@@ -84,7 +85,7 @@ msgstr "متن"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "تصاویر"
 
 #: template.php:113
 msgid "seconds ago"
@@ -106,7 +107,7 @@ msgstr "1 ساعت پیش"
 #: template.php:117
 #, php-format
 msgid "%d hours ago"
-msgstr ""
+msgstr "%d ساعت پیش"
 
 #: template.php:118
 msgid "today"
@@ -119,7 +120,7 @@ msgstr "دیروز"
 #: template.php:120
 #, php-format
 msgid "%d days ago"
-msgstr ""
+msgstr "%d روز  پیش"
 
 #: template.php:121
 msgid "last month"
@@ -128,7 +129,7 @@ msgstr "ماه قبل"
 #: template.php:122
 #, php-format
 msgid "%d months ago"
-msgstr ""
+msgstr "%dماه پیش"
 
 #: template.php:123
 msgid "last year"
@@ -154,4 +155,4 @@ msgstr ""
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "دسته بندی %s یافت نشد"

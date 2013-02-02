@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#  <paul_shubhra@yahoo.com>, 2013.
 # Shubhra Paul <paul_shubhra@yahoo.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-02 00:06+0100\n"
-"PO-Revision-Date: 2013-01-31 23:30+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-03 00:04+0100\n"
+"PO-Revision-Date: 2013-02-02 13:58+0000\n"
+"Last-Translator: Shubhra Paul <paul_shubhra@yahoo.com>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -257,7 +258,7 @@ msgstr "ভাগাভাগি কর"
 
 #: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
 msgid "Shared"
-msgstr ""
+msgstr "ভাগাভাগিকৃত"
 
 #: js/share.js:141 js/share.js:611
 msgid "Error while sharing"

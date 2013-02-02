@@ -18,6 +18,7 @@
 "Disable" => "Desactiva",
 "Enable" => "Activa",
 "Please wait...." => "Espereu...",
+"Updating...." => "Actualitzant...",
 "Error while updating app" => "Error en actualitzar l'aplicació",
 "Error" => "Error",
 "Updated" => "Actualitzada",

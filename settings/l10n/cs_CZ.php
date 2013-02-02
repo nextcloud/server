@@ -18,6 +18,7 @@
 "Disable" => "Zakázat",
 "Enable" => "Povolit",
 "Please wait...." => "Čekejte prosím...",
+"Updating...." => "Aktualizuji...",
 "Error while updating app" => "Chyba při aktualizaci aplikace",
 "Error" => "Chyba",
 "Updated" => "Aktualizováno",

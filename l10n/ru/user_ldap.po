@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-02 00:06+0100\n"
-"PO-Revision-Date: 2013-01-31 23:32+0000\n"
+"POT-Creation-Date: 2013-02-03 00:04+0100\n"
+"PO-Revision-Date: 2013-02-02 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -56,19 +56,19 @@ msgstr ""
 msgid "Cannot add server configuration"
 msgstr ""
 
-#: js/settings.js:120
+#: js/settings.js:121
 msgid "Connection test succeeded"
 msgstr ""
 
-#: js/settings.js:125
+#: js/settings.js:126
 msgid "Connection test failed"
 msgstr ""
 
-#: js/settings.js:135
+#: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"
 msgstr ""
 
-#: js/settings.js:136
+#: js/settings.js:137
 msgid "Confirm Deletion"
 msgstr ""
 
@@ -173,128 +173,140 @@ msgstr "Определяет фильтр для применения при п�
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
 msgstr "без заполнения, например \"objectClass=posixGroup\"."
 
-#: templates/settings.php:30
+#: templates/settings.php:31
+msgid "Connection Settings"
+msgstr ""
+
+#: templates/settings.php:33
 msgid "Configuration Active"
 msgstr ""
 
-#: templates/settings.php:30
+#: templates/settings.php:33
 msgid "When unchecked, this configuration will be skipped."
 msgstr ""
 
-#: templates/settings.php:31
+#: templates/settings.php:34
 msgid "Port"
 msgstr "Порт"
 
-#: templates/settings.php:32
+#: templates/settings.php:35
 msgid "Backup (Replica) Host"
 msgstr ""
 
-#: templates/settings.php:32
+#: templates/settings.php:35
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
 msgstr ""
 
-#: templates/settings.php:33
+#: templates/settings.php:36
 msgid "Backup (Replica) Port"
 msgstr ""
 
-#: templates/settings.php:34
+#: templates/settings.php:37
 msgid "Disable Main Server"
 msgstr ""
 
-#: templates/settings.php:34
+#: templates/settings.php:37
 msgid "When switched on, ownCloud will only connect to the replica server."
 msgstr ""
 
-#: templates/settings.php:35
-msgid "Base User Tree"
-msgstr "База пользовательского дерева"
-
-#: templates/settings.php:35
-msgid "One User Base DN per line"
-msgstr ""
-
-#: templates/settings.php:36
-msgid "User Search Attributes"
-msgstr ""
-
-#: templates/settings.php:36 templates/settings.php:38
-msgid "Optional; one attribute per line"
-msgstr ""
-
-#: templates/settings.php:37
-msgid "Base Group Tree"
-msgstr "База группового дерева"
-
-#: templates/settings.php:37
-msgid "One Group Base DN per line"
-msgstr ""
-
 #: templates/settings.php:38
-msgid "Group Search Attributes"
-msgstr ""
-
-#: templates/settings.php:39
-msgid "Group-Member association"
-msgstr "Ассоциация Группа-Участник"
-
-#: templates/settings.php:40
 msgid "Use TLS"
 msgstr "Использовать TLS"
 
-#: templates/settings.php:40
+#: templates/settings.php:38
 msgid "Do not use it for SSL connections, it will fail."
 msgstr "Не используйте для соединений SSL"
 
-#: templates/settings.php:41
+#: templates/settings.php:39
 msgid "Case insensitve LDAP server (Windows)"
 msgstr "Нечувствительный к регистру сервер LDAP (Windows)"
 
-#: templates/settings.php:42
+#: templates/settings.php:40
 msgid "Turn off SSL certificate validation."
 msgstr "Отключить проверку сертификата SSL."
 
-#: templates/settings.php:42
+#: templates/settings.php:40
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
 msgstr "Если соединение работает только с этой опцией, импортируйте на ваш сервер ownCloud сертификат SSL сервера LDAP."
 
-#: templates/settings.php:42
+#: templates/settings.php:40
 msgid "Not recommended, use for testing only."
 msgstr "Не рекомендуется, используйте только для тестирования."
 
-#: templates/settings.php:43
-msgid "User Display Name Field"
-msgstr "Поле отображаемого имени пользователя"
-
-#: templates/settings.php:43
-msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr "Атрибут LDAP для генерации имени пользователя ownCloud."
-
-#: templates/settings.php:44
-msgid "Group Display Name Field"
-msgstr "Поле отображаемого имени группы"
-
-#: templates/settings.php:44
-msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr "Атрибут LDAP для генерации имени группы ownCloud."
-
-#: templates/settings.php:46
-msgid "in bytes"
-msgstr "в байтах"
-
-#: templates/settings.php:48
+#: templates/settings.php:41
 msgid "in seconds. A change empties the cache."
 msgstr "в секундах. Изменение очистит кэш."
 
+#: templates/settings.php:43
+msgid "Directory Settings"
+msgstr ""
+
+#: templates/settings.php:45
+msgid "User Display Name Field"
+msgstr "Поле отображаемого имени пользователя"
+
+#: templates/settings.php:45
+msgid "The LDAP attribute to use to generate the user`s ownCloud name."
+msgstr "Атрибут LDAP для генерации имени пользователя ownCloud."
+
+#: templates/settings.php:46
+msgid "Base User Tree"
+msgstr "База пользовательского дерева"
+
+#: templates/settings.php:46
+msgid "One User Base DN per line"
+msgstr ""
+
+#: templates/settings.php:47
+msgid "User Search Attributes"
+msgstr ""
+
+#: templates/settings.php:47 templates/settings.php:50
+msgid "Optional; one attribute per line"
+msgstr ""
+
+#: templates/settings.php:48
+msgid "Group Display Name Field"
+msgstr "Поле отображаемого имени группы"
+
+#: templates/settings.php:48
+msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
+msgstr "Атрибут LDAP для генерации имени группы ownCloud."
+
 #: templates/settings.php:49
+msgid "Base Group Tree"
+msgstr "База группового дерева"
+
+#: templates/settings.php:49
+msgid "One Group Base DN per line"
+msgstr ""
+
+#: templates/settings.php:50
+msgid "Group Search Attributes"
+msgstr ""
+
+#: templates/settings.php:51
+msgid "Group-Member association"
+msgstr "Ассоциация Группа-Участник"
+
+#: templates/settings.php:53
+msgid "Special Attributes"
+msgstr ""
+
+#: templates/settings.php:56
+msgid "in bytes"
+msgstr "в байтах"
+
+#: templates/settings.php:58
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Оставьте имя пользователя пустым (по умолчанию). Иначе укажите атрибут LDAP/AD."
 
-#: templates/settings.php:51
+#: templates/settings.php:62
 msgid "Help"
 msgstr "Помощь"

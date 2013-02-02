@@ -18,6 +18,7 @@
 "Disable" => "Disabilita",
 "Enable" => "Abilita",
 "Please wait...." => "Attendere...",
+"Updating...." => "Aggiornamento in corso...",
 "Error while updating app" => "Errore durante l'aggiornamento",
 "Error" => "Errore",
 "Updated" => "Aggiornato",
