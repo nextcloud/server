@@ -915,6 +915,16 @@ class View {
 	}
 
 	/**
+	* Get the owner for a file or folder
+	*
+	* @param string $path
+	* @return string
+	*/
+	public function getOwner($path) {
+		return $this->basicOperation('getOwner', $path);
+	}
+
+	/**
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
