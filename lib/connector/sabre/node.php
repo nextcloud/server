@@ -154,7 +154,9 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 				}
 			}
 			else {
-				if( strcmp( $propertyName, self::LASTMODIFIED_PROPERTYNAME) === 0 ) {
+				if( strcmp( $propertyName, self::GETETAG_PROPERTYNAME) === 0 ) {
+					\OC\Files\Filesystem::putFileInfo($this->path, array('etag'=> $propertyValue));
+				} elseif( strcmp( $propertyName, self::LASTMODIFIED_PROPERTYNAME) === 0 ) {
 					$this->touch($propertyValue);
 				} else {
 					if(!array_key_exists( $propertyName, $existing )) {
