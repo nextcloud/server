@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-01 00:17+0100\n"
-"PO-Revision-Date: 2013-01-31 16:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-02-01 08:10+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -118,7 +118,7 @@ msgstr "verving {new_name} met {old_name}"
 
 #: js/filelist.js:280
 msgid "perform delete operation"
-msgstr ""
+msgstr "uitvoeren verwijderactie"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -136,11 +136,11 @@ msgstr "Onjuiste naam; '\\', '/', '<', '>', ':', '\"', '|', '?' en '*' zijn niet
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Uw opslagruimte zit vol, Bestanden kunnen niet meer worden ge-upload of gesynchroniseerd!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Uw opslagruimte zit bijna vol ({usedSpacePercent}%)"
 
 #: js/files.js:224
 msgid ""
@@ -271,7 +271,7 @@ msgstr "Vanaf link"
 
 #: templates/index.php:40
 msgid "Trash"
-msgstr ""
+msgstr "Verwijderen"
 
 #: templates/index.php:46
 msgid "Cancel upload"
@@ -305,4 +305,4 @@ msgstr "Er wordt gescand"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "Upgraden bestandssysteem cache..."

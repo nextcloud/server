@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-30 23:40+0000\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-01-31 23:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -156,59 +156,59 @@ msgstr "கார்த்திகை"
 msgid "December"
 msgstr "மார்கழி"
 
-#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
+#: js/js.js:280
 msgid "Settings"
 msgstr "அமைப்புகள்"
 
-#: js/js.js:762
+#: js/js.js:759
 msgid "seconds ago"
 msgstr "செக்கன்களுக்கு முன்"
 
-#: js/js.js:763
+#: js/js.js:760
 msgid "1 minute ago"
 msgstr "1 நிமிடத்திற்கு முன் "
 
-#: js/js.js:764
+#: js/js.js:761
 msgid "{minutes} minutes ago"
 msgstr "{நிமிடங்கள்} நிமிடங்களுக்கு முன் "
 
-#: js/js.js:765
+#: js/js.js:762
 msgid "1 hour ago"
 msgstr "1 மணித்தியாலத்திற்கு முன்"
 
-#: js/js.js:766
+#: js/js.js:763
 msgid "{hours} hours ago"
 msgstr "{மணித்தியாலங்கள்} மணித்தியாலங்களிற்கு முன்"
 
-#: js/js.js:767
+#: js/js.js:764
 msgid "today"
 msgstr "இன்று"
 
-#: js/js.js:768
+#: js/js.js:765
 msgid "yesterday"
 msgstr "நேற்று"
 
-#: js/js.js:769
+#: js/js.js:766
 msgid "{days} days ago"
 msgstr "{நாட்கள்} நாட்களுக்கு முன்"
 
-#: js/js.js:770
+#: js/js.js:767
 msgid "last month"
 msgstr "கடந்த மாதம்"
 
-#: js/js.js:771
+#: js/js.js:768
 msgid "{months} months ago"
 msgstr "{மாதங்கள்} மாதங்களிற்கு முன்"
 
-#: js/js.js:772
+#: js/js.js:769
 msgid "months ago"
 msgstr "மாதங்களுக்கு முன்"
 
-#: js/js.js:773
+#: js/js.js:770
 msgid "last year"
 msgstr "கடந்த வருடம்"
 
-#: js/js.js:774
+#: js/js.js:771
 msgid "years ago"
 msgstr "வருடங்களுக்கு முன்"
 
@@ -541,7 +541,7 @@ msgstr "அமைப்பை முடிக்க"
 msgid "web services under your control"
 msgstr "உங்கள் கட்டுப்பாட்டின் கீழ் இணைய சேவைகள்"
 
-#: templates/layout.user.php:32
+#: templates/layout.user.php:49
 msgid "Log out"
 msgstr "விடுபதிகை செய்க"
 

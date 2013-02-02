@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-01 00:17+0100\n"
-"PO-Revision-Date: 2013-01-31 23:17+0000\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-02-01 23:06+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -104,7 +104,7 @@ msgid "Please wait...."
 msgstr ""
 
 #: js/apps.js:84
-msgid "Updateing...."
+msgid "Updating...."
 msgstr ""
 
 #: js/apps.js:87
@@ -113,7 +113,7 @@ msgstr ""
 
 #: js/apps.js:87
 msgid "Error"
-msgstr ""
+msgstr "Feil"
 
 #: js/apps.js:90
 msgid "Updated"
@@ -149,7 +149,7 @@ msgstr ""
 
 #: templates/apps.php:31
 msgid "Update"
-msgstr ""
+msgstr "Oppdater"
 
 #: templates/help.php:3
 msgid "User Documentation"

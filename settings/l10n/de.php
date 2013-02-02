@@ -15,6 +15,8 @@
 "Unable to remove user from group %s" => "Der Benutzer konnte nicht aus der Gruppe %s entfernt werden",
 "Disable" => "Deaktivieren",
 "Enable" => "Aktivieren",
+"Error while updating app" => "Fehler beim Aktualisieren der App",
+"Error" => "Fehler",
 "Saving..." => "Speichern...",
 "__language_name__" => "Deutsch (Persönlich)",
 "Add your App" => "Füge Deine Anwendung hinzu",
@@ -22,6 +24,7 @@
 "Select an App" => "Wähle eine Anwendung aus",
 "See application page at apps.owncloud.com" => "Weitere Anwendungen findest Du auf apps.owncloud.com",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-lizenziert von <span class=\"author\"></span>",
+"Update" => "Update durchführen",
 "User Documentation" => "Dokumentation für Benutzer",
 "Administrator Documentation" => "Dokumentation für Administratoren",
 "Online Documentation" => "Online-Dokumentation",
@@ -58,8 +61,8 @@
 "Display Name" => "Anzeigename",
 "Group Admin" => "Gruppenadministrator",
 "Storage" => "Speicher",
-"change display name" => "Ändere den Anzeigenamen",
-"set new password" => "Setzen neues Password",
+"change display name" => "Anzeigenamen ändern",
+"set new password" => "Neues Passwort setzen",
 "Default" => "Standard",
 "Delete" => "Löschen"
 );

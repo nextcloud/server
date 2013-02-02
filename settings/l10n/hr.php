@@ -7,6 +7,7 @@
 "Invalid request" => "Neispravan zahtjev",
 "Disable" => "Isključi",
 "Enable" => "Uključi",
+"Error" => "Greška",
 "Saving..." => "Spremanje...",
 "__language_name__" => "__ime_jezika__",
 "Add your App" => "Dodajte vašu aplikaciju",

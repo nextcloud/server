@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "Forigo malsukcesis",
 "Host" => "Gastigo",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Vi povas neglekti la protokolon, escepte se vi bezonas SSL-on. Tiuokaze, komencu per ldaps://",
 "Base DN" => "Bazo-DN",

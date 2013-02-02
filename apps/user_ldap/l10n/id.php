@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "penghapusan gagal",
 "Host" => "host",
 "Password" => "kata kunci",
 "User Login Filter" => "gunakan saringan login",

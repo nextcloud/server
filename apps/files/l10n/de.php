@@ -8,7 +8,7 @@
 "Missing a temporary folder" => "Temporärer Ordner fehlt.",
 "Failed to write to disk" => "Fehler beim Schreiben auf die Festplatte",
 "Not enough space available" => "Nicht genug Speicherplatz verfügbar",
-"Invalid directory." => "Ungültiges Verzeichnis",
+"Invalid directory." => "Ungültiges Verzeichnis.",
 "Files" => "Dateien",
 "Unshare" => "Nicht mehr freigeben",
 "Delete" => "Löschen",
@@ -21,8 +21,8 @@
 "undo" => "rückgängig machen",
 "replaced {new_name} with {old_name}" => "{old_name} ersetzt durch {new_name}",
 "perform delete operation" => "Löschvorgang ausführen",
-"'.' is an invalid file name." => "'.' ist kein gültiger Dateiname",
-"File name cannot be empty." => "Der Dateiname darf nicht leer sein",
+"'.' is an invalid file name." => "'.' ist kein gültiger Dateiname.",
+"File name cannot be empty." => "Der Dateiname darf nicht leer sein.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ungültiger Name, '\\', '/', '<', '>', ':', '\"', '|', '?' und '*' sind nicht zulässig.",
 "Your storage is full, files can not be updated or synced anymore!" => "Ihr Speicherplatz ist voll, Dateien können nicht mehr aktualisiert oder synchronisiert werden!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Ihr Speicherplatz ist fast aufgebraucht ({usedSpacePercent}%)",
@@ -35,7 +35,7 @@
 "{count} files uploading" => "{count} Dateien werden hochgeladen",
 "Upload cancelled." => "Upload abgebrochen.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Dateiupload läuft. Wenn Du die Seite jetzt verlässt, wird der Upload abgebrochen.",
-"URL cannot be empty." => "Die URL darf nicht leer sein",
+"URL cannot be empty." => "Die URL darf nicht leer sein.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Ungültiger Verzeichnisname. Die Nutzung von \"Shared\" ist ownCloud vorbehalten.",
 "Name" => "Name",
 "Size" => "Größe",
@@ -65,5 +65,5 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server.",
 "Files are being scanned, please wait." => "Dateien werden gescannt, bitte warten.",
 "Current scanning" => "Scanne",
-"Upgrading filesystem cache..." => "Upgrade des Dateisystem caches..."
+"Upgrading filesystem cache..." => "Dateisystem-Cache wird aktualisiert ..."
 );

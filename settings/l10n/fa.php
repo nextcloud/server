@@ -7,6 +7,7 @@
 "Invalid request" => "درخواست غیر قابل قبول",
 "Disable" => "غیرفعال",
 "Enable" => "فعال",
+"Error" => "خطا",
 "Saving..." => "درحال ذخیره ...",
 "__language_name__" => "__language_name__",
 "Add your App" => "برنامه خود را بیافزایید",

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-01 00:17+0100\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,8 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: js/trash.js:7
+#: js/trash.js:7 js/trash.js:69
 msgid "perform restore operation"
-msgstr ""
-
-#: js/trash.js:69
-msgid "perform undelete operation"
 msgstr ""
 
 #: js/trash.js:100 templates/index.php:17

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-30 23:40+0000\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-02-01 15:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -158,59 +158,59 @@ msgstr "Новембар"
 msgid "December"
 msgstr "Децембар"
 
-#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
+#: js/js.js:280
 msgid "Settings"
 msgstr "Подешавања"
 
-#: js/js.js:762
+#: js/js.js:759
 msgid "seconds ago"
 msgstr "пре неколико секунди"
 
-#: js/js.js:763
+#: js/js.js:760
 msgid "1 minute ago"
 msgstr "пре 1 минут"
 
-#: js/js.js:764
+#: js/js.js:761
 msgid "{minutes} minutes ago"
 msgstr "пре {minutes} минута"
 
-#: js/js.js:765
+#: js/js.js:762
 msgid "1 hour ago"
 msgstr "Пре једног сата"
 
-#: js/js.js:766
+#: js/js.js:763
 msgid "{hours} hours ago"
 msgstr "Пре {hours} сата (сати)"
 
-#: js/js.js:767
+#: js/js.js:764
 msgid "today"
 msgstr "данас"
 
-#: js/js.js:768
+#: js/js.js:765
 msgid "yesterday"
 msgstr "јуче"
 
-#: js/js.js:769
+#: js/js.js:766
 msgid "{days} days ago"
 msgstr "пре {days} дана"
 
-#: js/js.js:770
+#: js/js.js:767
 msgid "last month"
 msgstr "прошлог месеца"
 
-#: js/js.js:771
+#: js/js.js:768
 msgid "{months} months ago"
 msgstr "Пре {months} месеца (месеци)"
 
-#: js/js.js:772
+#: js/js.js:769
 msgid "months ago"
 msgstr "месеци раније"
 
-#: js/js.js:773
+#: js/js.js:770
 msgid "last year"
 msgstr "прошле године"
 
-#: js/js.js:774
+#: js/js.js:771
 msgid "years ago"
 msgstr "година раније"
 
@@ -543,7 +543,7 @@ msgstr "Заврши подешавање"
 msgid "web services under your control"
 msgstr "веб сервиси под контролом"
 
-#: templates/layout.user.php:32
+#: templates/layout.user.php:49
 msgid "Log out"
 msgstr "Одјава"
 

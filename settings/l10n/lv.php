@@ -14,6 +14,7 @@
 "Unable to remove user from group %s" => "Nevar noņemt lietotāju no grupas %s",
 "Disable" => "Atvienot",
 "Enable" => "Pievienot",
+"Error" => "Kļūme",
 "Saving..." => "Saglabā...",
 "__language_name__" => "__valodas_nosaukums__",
 "Add your App" => "Pievieno savu aplikāciju",

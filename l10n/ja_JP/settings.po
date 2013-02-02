@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-01 00:17+0100\n"
-"PO-Revision-Date: 2013-01-31 23:17+0000\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-02-01 23:06+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -81,11 +81,11 @@ msgstr "ユーザをグループ %s から削除できません"
 
 #: ajax/updateapp.php:13
 msgid "Couldn't update app."
-msgstr ""
+msgstr "アプリを更新出来ませんでした。"
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "{appversion} に更新"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
@@ -97,23 +97,23 @@ msgstr "有効"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "しばらくお待ちください。"
 
 #: js/apps.js:84
-msgid "Updateing...."
+msgid "Updating...."
 msgstr ""
 
 #: js/apps.js:87
 msgid "Error while updating app"
-msgstr ""
+msgstr "アプリの更新中にエラーが発生"
 
 #: js/apps.js:87
 msgid "Error"
-msgstr ""
+msgstr "エラー"
 
 #: js/apps.js:90
 msgid "Updated"
-msgstr ""
+msgstr "更新済み"
 
 #: js/personal.js:69
 msgid "Saving..."
@@ -145,7 +145,7 @@ msgstr "<span class=\"licence\"></span>-ライセンス: <span class=\"author\">
 
 #: templates/apps.php:31
 msgid "Update"
-msgstr ""
+msgstr "更新"
 
 #: templates/help.php:3
 msgid "User Documentation"
@@ -264,7 +264,7 @@ msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud commu
 
 #: templates/users.php:21 templates/users.php:79
 msgid "Login Name"
-msgstr ""
+msgstr "ログイン名"
 
 #: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
@@ -288,7 +288,7 @@ msgstr "その他"
 
 #: templates/users.php:80
 msgid "Display Name"
-msgstr ""
+msgstr "表示名"
 
 #: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
@@ -300,11 +300,11 @@ msgstr "ストレージ"
 
 #: templates/users.php:97
 msgid "change display name"
-msgstr ""
+msgstr "表示名を変更"
 
 #: templates/users.php:101
 msgid "set new password"
-msgstr ""
+msgstr "新しいパスワードを設定"
 
 #: templates/users.php:137
 msgid "Default"

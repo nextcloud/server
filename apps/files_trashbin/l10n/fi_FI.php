@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "perform restore operation" => "suorita palautustoiminto",
-"perform undelete operation" => "suorita poiston peruutustoiminto",
 "Name" => "Nimi",
 "Deleted" => "Poistettu",
 "1 folder" => "1 kansio",

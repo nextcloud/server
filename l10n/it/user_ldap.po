@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-01 00:17+0100\n"
-"PO-Revision-Date: 2013-01-31 23:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-02-01 06:20+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,27 +21,27 @@ msgstr ""
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr ""
+msgstr "Eliminazione della configurazione del server non riuscita"
 
 #: ajax/testConfiguration.php:35
 msgid "The configuration is valid and the connection could be established!"
-msgstr ""
+msgstr "La configurazione è valida e la connessione può essere stabilita."
 
 #: ajax/testConfiguration.php:37
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr ""
+msgstr "La configurazione è valida, ma il Bind non è riuscito. Controlla le impostazioni del server e le credenziali."
 
 #: ajax/testConfiguration.php:40
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr ""
+msgstr "La configurazione non è valida. Controlla il log di ownCloud per ulteriori dettagli."
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr ""
+msgstr "Eliminazione non riuscita"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
@@ -49,27 +49,27 @@ msgstr ""
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr ""
+msgstr "Vuoi mantenere le impostazioni?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "Impossibile aggiungere la configurazione del server"
 
 #: js/settings.js:120
 msgid "Connection test succeeded"
-msgstr ""
+msgstr "Prova di connessione riuscita"
 
 #: js/settings.js:125
 msgid "Connection test failed"
-msgstr ""
+msgstr "Prova di connessione non riuscita"
 
 #: js/settings.js:135
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "Vuoi davvero eliminare la configurazione attuale del server?"
 
 #: js/settings.js:136
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "Conferma l'eliminazione"
 
 #: templates/settings.php:8
 msgid ""
@@ -86,11 +86,11 @@ msgstr "<b>Avviso:</b> il modulo PHP LDAP non è installato, il motore non funzi
 
 #: templates/settings.php:15
 msgid "Server configuration"
-msgstr ""
+msgstr "Configurazione del server"
 
 #: templates/settings.php:17
 msgid "Add Server Configuration"
-msgstr ""
+msgstr "Aggiungi configurazione del server"
 
 #: templates/settings.php:21
 msgid "Host"
@@ -174,11 +174,11 @@ msgstr "senza nessun segnaposto, per esempio \"objectClass=posixGroup\"."
 
 #: templates/settings.php:30
 msgid "Configuration Active"
-msgstr ""
+msgstr "Configurazione attiva"
 
 #: templates/settings.php:30
 msgid "When unchecked, this configuration will be skipped."
-msgstr ""
+msgstr "Se deselezionata, questa configurazione sarà saltata."
 
 #: templates/settings.php:31
 msgid "Port"
@@ -186,25 +186,25 @@ msgstr "Porta"
 
 #: templates/settings.php:32
 msgid "Backup (Replica) Host"
-msgstr ""
+msgstr "Host di backup (Replica)"
 
 #: templates/settings.php:32
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr ""
+msgstr "Fornisci un host di backup opzionale. Deve essere una replica del server AD/LDAP principale."
 
 #: templates/settings.php:33
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "Porta di backup (Replica)"
 
 #: templates/settings.php:34
 msgid "Disable Main Server"
-msgstr ""
+msgstr "Disabilita server principale"
 
 #: templates/settings.php:34
 msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr ""
+msgstr "Se abilitata, ownCloud si collegherà solo al server di replica."
 
 #: templates/settings.php:35
 msgid "Base User Tree"
@@ -216,11 +216,11 @@ msgstr "Un DN base utente per riga"
 
 #: templates/settings.php:36
 msgid "User Search Attributes"
-msgstr ""
+msgstr "Attributi di ricerca utente"
 
 #: templates/settings.php:36 templates/settings.php:38
 msgid "Optional; one attribute per line"
-msgstr ""
+msgstr "Opzionale; un attributo per riga"
 
 #: templates/settings.php:37
 msgid "Base Group Tree"
@@ -232,7 +232,7 @@ msgstr "Un DN base gruppo per riga"
 
 #: templates/settings.php:38
 msgid "Group Search Attributes"
-msgstr ""
+msgstr "Attributi di ricerca gruppo"
 
 #: templates/settings.php:39
 msgid "Group-Member association"

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "删除失败",
 "Host" => "主机",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "您可以忽略协议，除非您需要 SSL。然后用 ldaps:// 开头",
 "Base DN" => "基本判别名",

@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "Sletting feilet",
 "Password" => "Passord",
 "Group Filter" => "Gruppefilter",
 "Port" => "Port",

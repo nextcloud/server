@@ -14,6 +14,7 @@
 "Unable to remove user from group %s" => "Pas capable de tira un usancièr del grop %s",
 "Disable" => "Desactiva",
 "Enable" => "Activa",
+"Error" => "Error",
 "Saving..." => "Enregistra...",
 "__language_name__" => "__language_name__",
 "Add your App" => "Ajusta ton App",

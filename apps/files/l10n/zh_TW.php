@@ -20,9 +20,12 @@
 "replaced {new_name}" => "已取代 {new_name}",
 "undo" => "復原",
 "replaced {new_name} with {old_name}" => "使用 {new_name} 取代 {old_name}",
+"perform delete operation" => "進行刪除動作",
 "'.' is an invalid file name." => "'.' 是不合法的檔名。",
 "File name cannot be empty." => "檔名不能為空。",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "檔名不合法，不允許 '\\', '/', '<', '>', ':', '\"', '|', '?' 和 '*' 。",
+"Your storage is full, files can not be updated or synced anymore!" => "您的儲存空間已滿，沒有辦法再更新或是同步檔案！",
+"Your storage is almost full ({usedSpacePercent}%)" => "您的儲存空間快要滿了 ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "正在準備您的下載，若您的檔案較大，將會需要更多時間。",
 "Unable to upload your file as it is a directory or has 0 bytes" => "無法上傳您的檔案因為它可能是一個目錄或檔案大小為0",
 "Upload Error" => "上傳發生錯誤",
@@ -54,11 +57,13 @@
 "Text file" => "文字檔",
 "Folder" => "資料夾",
 "From link" => "從連結",
+"Trash" => "回收筒",
 "Cancel upload" => "取消上傳",
 "Nothing in here. Upload something!" => "沒有任何東西。請上傳內容！",
 "Download" => "下載",
 "Upload too large" => "上傳過大",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "您試圖上傳的檔案已超過伺服器的最大檔案大小限制。　",
 "Files are being scanned, please wait." => "正在掃描檔案，請稍等。",
-"Current scanning" => "目前掃描"
+"Current scanning" => "目前掃描",
+"Upgrading filesystem cache..." => "正在更新檔案系統快取..."
 );
