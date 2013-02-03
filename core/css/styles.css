@@ -65,6 +65,19 @@ float: right; width: 24px; position: absolute !important; height: 14px; right: 1
 #login form input[name="show"]:checked + label { background:url("../img/actions/toggle.png") no-repeat; opacity:0.8; }
 
 
+
+/* SHOW PASSWORD TOGGLE */
+#show {
+	position:absolute; right:1em; top:.8em; float:right;
+	display:none;
+}
+#login form input[name="show"] + label {
+	position:absolute !important; height:14px; width:24px; right:1em; top:1.25em; float:right;
+	background-image:url("../img/actions/toggle.png"); background-repeat:no-repeat; opacity:.3;
+}
+#login form input[name="show"]:checked + label { opacity:.8; }
+
+
 /* BUTTONS */
 input[type="submit"], input[type="button"], button, .button, #quota, div.jp-progress, select, .pager li a {
 	width:auto; padding:.4em;
