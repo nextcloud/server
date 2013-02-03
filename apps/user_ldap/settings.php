@@ -29,6 +29,9 @@ OCP\Util::addscript('user_ldap', 'settings');
 OCP\Util::addstyle('user_ldap', 'settings');
 
 if ($_POST) {
+	// CSRF check
+	OCP\JSON::callCheck();
+
 	$clearCache = false;
 	foreach($params as $param) {
 		if(isset($_POST[$param])) {
