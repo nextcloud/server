@@ -138,6 +138,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						li.append(img);
 						var a=$('<a></a>').attr('href', entry.href);
 						a.text(entry.name);
+						a.prepend(img);
 						li.append(a);
 						container.append(li);
 					}
