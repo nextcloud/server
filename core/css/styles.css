@@ -119,7 +119,7 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 #select_all{ margin-top:.4em !important;}
 
 /* CONTENT ------------------------------------------------------------------ */
-#controls { padding:0 0.5em; width:100%; top:0; height:2.8em; margin:0; background:#f7f7f7; border-bottom:1px solid #eee; position:relative; z-index:50; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
+#controls { padding:0 0.5em; width:100%; top:0; height:2.8em; margin:0; background:#f7f7f7; border-bottom:1px solid #eee; position:relative; -moz-box-sizing:border-box; box-sizing:border-box; z-index:50; -moz-box-shadow:0 -3px 7px #000; -webkit-box-shadow:0 -3px 7px #000; box-shadow:0 -3px 7px #000; }
 #controls .button { display:inline-block; }
 
 #content { position:relative; height:100%; width:100%; }
