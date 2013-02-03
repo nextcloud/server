@@ -125,6 +125,13 @@ class OC {
 	public static function initPaths() {
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
+
+		// ensure we can find OC_Config
+		set_include_path(
+			OC::$SERVERROOT . '/lib' . PATH_SEPARATOR .
+				get_include_path()
+		);
+
 		OC::$SUBURI = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
 		$scriptName = OC_Request::scriptName();
 		if (substr($scriptName, -1) == '/') {
@@ -143,12 +150,6 @@ class OC {
 		if (OC::$WEBROOT != '' and OC::$WEBROOT[0] !== '/') {
 			OC::$WEBROOT = '/' . OC::$WEBROOT;
 		}
-
-		// ensure we can find OC_Config
-		set_include_path(
-			OC::$SERVERROOT . '/lib' . PATH_SEPARATOR .
-				get_include_path()
-		);
 
 		// search the 3rdparty folder
 		if (OC_Config::getValue('3rdpartyroot', '') <> '' and OC_Config::getValue('3rdpartyurl', '') <> '') {
