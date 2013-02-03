@@ -20,6 +20,7 @@
 "replaced {new_name}" => "{new_name} を置換",
 "undo" => "元に戻す",
 "replaced {new_name} with {old_name}" => "{old_name} を {new_name} に置換",
+"perform delete operation" => "削除を実行",
 "'.' is an invalid file name." => "'.' は無効なファイル名です。",
 "File name cannot be empty." => "ファイル名を空にすることはできません。",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "無効な名前、'\\', '/', '<', '>', ':', '\"', '|', '?', '*' は使用できません。",
@@ -56,11 +57,13 @@
 "Text file" => "テキストファイル",
 "Folder" => "フォルダ",
 "From link" => "リンク",
+"Trash" => "ゴミ箱",
 "Cancel upload" => "アップロードをキャンセル",
 "Nothing in here. Upload something!" => "ここには何もありません。何かアップロードしてください。",
 "Download" => "ダウンロード",
 "Upload too large" => "ファイルサイズが大きすぎます",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "アップロードしようとしているファイルは、サーバで規定された最大サイズを超えています。",
 "Files are being scanned, please wait." => "ファイルをスキャンしています、しばらくお待ちください。",
-"Current scanning" => "スキャン中"
+"Current scanning" => "スキャン中",
+"Upgrading filesystem cache..." => "ファイルシステムキャッシュを更新中..."
 );

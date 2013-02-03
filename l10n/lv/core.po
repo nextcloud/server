@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-02 00:06+0100\n"
-"PO-Revision-Date: 2013-01-31 23:30+0000\n"
+"POT-Creation-Date: 2013-02-04 00:05+0100\n"
+"PO-Revision-Date: 2013-02-03 20:50+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -160,55 +160,55 @@ msgstr "Decembris"
 msgid "Settings"
 msgstr "Iestatījumi"
 
-#: js/js.js:759
+#: js/js.js:760
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:760
+#: js/js.js:761
 msgid "1 minute ago"
 msgstr ""
 
-#: js/js.js:761
+#: js/js.js:762
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:762
+#: js/js.js:763
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:763
+#: js/js.js:764
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:764
+#: js/js.js:765
 msgid "today"
 msgstr ""
 
-#: js/js.js:765
+#: js/js.js:766
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:766
+#: js/js.js:767
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:767
+#: js/js.js:768
 msgid "last month"
 msgstr ""
 
-#: js/js.js:768
+#: js/js.js:769
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:769
+#: js/js.js:770
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:770
+#: js/js.js:771
 msgid "last year"
 msgstr ""
 
-#: js/js.js:771
+#: js/js.js:772
 msgid "years ago"
 msgstr ""
 
@@ -563,11 +563,11 @@ msgstr ""
 msgid "Lost your password?"
 msgstr "Aizmirsāt paroli?"
 
-#: templates/login.php:39
+#: templates/login.php:41
 msgid "remember"
 msgstr "atcerēties"
 
-#: templates/login.php:41
+#: templates/login.php:43
 msgid "Log in"
 msgstr "Ielogoties"
 

@@ -33,6 +33,7 @@
 "Group Filter" => "グループフィルタ",
 "Defines the filter to apply, when retrieving groups." => "グループを取得するときに適用するフィルターを定義する。",
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "プレースホルダーを利用しないでください。例 \"objectClass=posixGroup\"",
+"Connection Settings" => "接続設定",
 "Configuration Active" => "設定はアクティブです",
 "When unchecked, this configuration will be skipped." => "チェックを外すと、この設定はスキップされます。",
 "Port" => "ポート",
@@ -48,6 +49,7 @@
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "接続がこのオプションでのみ動作する場合は、LDAPサーバのSSL証明書をownCloudサーバにインポートしてください。",
 "Not recommended, use for testing only." => "推奨しません、テスト目的でのみ利用してください。",
 "in seconds. A change empties the cache." => "秒。変更後にキャッシュがクリアされます。",
+"Directory Settings" => "ディレクトリ設定",
 "User Display Name Field" => "ユーザ表示名のフィールド",
 "The LDAP attribute to use to generate the user`s ownCloud name." => "ユーザのownCloud名の生成に利用するLDAP属性。",
 "Base User Tree" => "ベースユーザツリー",
@@ -60,6 +62,7 @@
 "One Group Base DN per line" => "1行に1つのグループベースDN",
 "Group Search Attributes" => "グループ検索属性",
 "Group-Member association" => "グループとメンバーの関連付け",
+"Special Attributes" => "特殊属性",
 "in bytes" => "バイト",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "ユーザ名を空のままにしてください（デフォルト）。そうでない場合は、LDAPもしくはADの属性を指定してください。",
 "Help" => "ヘルプ"

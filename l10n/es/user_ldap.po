@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Felix Liberio <felix.liberio@gmail.com>, 2013.
 # Javier Llorente <javier@opensuse.org>, 2012.
 #   <juanma@kde.org.ar>, 2012.
 #   <manudeloz86@gmail.com>, 2012.
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-03 00:04+0100\n"
-"PO-Revision-Date: 2013-02-02 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-04 00:05+0100\n"
+"PO-Revision-Date: 2013-02-03 06:10+0000\n"
+"Last-Translator: felix.liberio <felix.liberio@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -25,23 +26,23 @@ msgstr ""
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr ""
+msgstr "No se pudo borrar la configuración del servidor"
 
 #: ajax/testConfiguration.php:35
 msgid "The configuration is valid and the connection could be established!"
-msgstr ""
+msgstr "La configuración es válida y la conexión puede establecerse!"
 
 #: ajax/testConfiguration.php:37
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr ""
+msgstr "La configuración es válida, pero falló el Enlace. Por favor, compruebe la configuración del servidor y las credenciales."
 
 #: ajax/testConfiguration.php:40
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr ""
+msgstr "La configuración no es válida. Por favor, busque en el log de ownCloud para más detalles."
 
 #: js/settings.js:66
 msgid "Deletion failed"
@@ -53,27 +54,27 @@ msgstr ""
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr ""
+msgstr "Mantener la configuración?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "No se puede añadir la configuración del servidor"
 
 #: js/settings.js:121
 msgid "Connection test succeeded"
-msgstr ""
+msgstr "La prueba de conexión fue exitosa"
 
 #: js/settings.js:126
 msgid "Connection test failed"
-msgstr ""
+msgstr "La prueba de conexión falló"
 
 #: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "¿Realmente desea eliminar la configuración actual del servidor?"
 
 #: js/settings.js:137
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "Confirmar eliminación"
 
 #: templates/settings.php:8
 msgid ""
@@ -86,11 +87,11 @@ msgstr "<b>Advertencia:</b> Los Apps user_ldap y user_webdavauth son incompatibl
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Advertencia:</b> El módulo LDAP de PHP no está instalado, el sistema no funcionará. Por favor consulte al administrador del sistema para instalarlo."
 
 #: templates/settings.php:15
 msgid "Server configuration"
-msgstr ""
+msgstr "Configuración del Servidor"
 
 #: templates/settings.php:17
 msgid "Add Server Configuration"
@@ -98,7 +99,7 @@ msgstr ""
 
 #: templates/settings.php:21
 msgid "Host"
-msgstr "Servidor"
+msgstr "Máquina"
 
 #: templates/settings.php:21
 msgid ""
@@ -111,7 +112,7 @@ msgstr "DN base"
 
 #: templates/settings.php:22
 msgid "One Base DN per line"
-msgstr ""
+msgstr "Un DN Base por línea"
 
 #: templates/settings.php:22
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -262,7 +263,7 @@ msgstr "Árbol base de usuario"
 
 #: templates/settings.php:46
 msgid "One User Base DN per line"
-msgstr ""
+msgstr "Un DN Base de Usuario por línea"
 
 #: templates/settings.php:47
 msgid "User Search Attributes"
@@ -286,7 +287,7 @@ msgstr "Árbol base de grupo"
 
 #: templates/settings.php:49
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "Un DN Base de Grupo por línea"
 
 #: templates/settings.php:50
 msgid "Group Search Attributes"

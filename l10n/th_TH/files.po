@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-01 00:17+0100\n"
-"PO-Revision-Date: 2013-01-31 16:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-04 00:04+0100\n"
+"PO-Revision-Date: 2013-02-03 03:30+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,46 +19,46 @@ msgstr ""
 "Language: th_TH\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/upload.php:17
+#: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
 msgstr "ยังไม่มีไฟล์ใดที่ถูกอัพโหลด เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
 msgstr "ไม่มีข้อผิดพลาดใดๆ ไฟล์ถูกอัพโหลดเรียบร้อยแล้ว"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "ขนาดไฟล์ที่อัพโหลดมีขนาดเกิน upload_max_filesize ที่ระบุไว้ใน php.ini"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:29
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "ไฟล์ที่อัพโหลดมีขนาดเกินคำสั่ง MAX_FILE_SIZE ที่ระบุเอาไว้ในรูปแบบคำสั่งในภาษา HTML"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:31
 msgid "The uploaded file was only partially uploaded"
 msgstr "ไฟล์ที่อัพโหลดยังไม่ได้ถูกอัพโหลดอย่างสมบูรณ์"
 
-#: ajax/upload.php:30
+#: ajax/upload.php:32
 msgid "No file was uploaded"
 msgstr "ยังไม่มีไฟล์ที่ถูกอัพโหลด"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:33
 msgid "Missing a temporary folder"
 msgstr "แฟ้มเอกสารชั่วคราวเกิดการสูญหาย"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:34
 msgid "Failed to write to disk"
 msgstr "เขียนข้อมูลลงแผ่นดิสก์ล้มเหลว"
 
-#: ajax/upload.php:51
+#: ajax/upload.php:52
 msgid "Not enough space available"
 msgstr "มีพื้นที่เหลือไม่เพียงพอ"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:83
 msgid "Invalid directory."
 msgstr "ไดเร็กทอรี่ไม่ถูกต้อง"
 
@@ -108,7 +108,7 @@ msgstr "แทนที่ {new_name} ด้วย {old_name} แล้ว"
 
 #: js/filelist.js:280
 msgid "perform delete operation"
-msgstr ""
+msgstr "ดำเนินการตามคำสั่งลบ"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -261,7 +261,7 @@ msgstr "จากลิงก์"
 
 #: templates/index.php:40
 msgid "Trash"
-msgstr ""
+msgstr "ถังขยะ"
 
 #: templates/index.php:46
 msgid "Cancel upload"
@@ -295,4 +295,4 @@ msgstr "ไฟล์ที่กำลังสแกนอยู่ขณะน
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "กำลังอัพเกรดหน่วยความจำแคชของระบบไฟล์..."

@@ -18,6 +18,7 @@
 "Disable" => "無効",
 "Enable" => "有効",
 "Please wait...." => "しばらくお待ちください。",
+"Updating...." => "更新中....",
 "Error while updating app" => "アプリの更新中にエラーが発生",
 "Error" => "エラー",
 "Updated" => "更新済み",

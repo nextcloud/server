@@ -5,13 +5,14 @@
 # Translators:
 #   <aldis@udris.lv>, 2012.
 #   <elwins@inbox.lv>, 2012.
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-02 00:06+0100\n"
-"PO-Revision-Date: 2013-02-01 23:06+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-04 00:05+0100\n"
+"PO-Revision-Date: 2013-02-03 20:50+0000\n"
+"Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,7 +22,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "Nebija iespējams lejuplādēt sarakstu no aplikāciju veikala"
+msgstr "Nevar lejupielādēt sarakstu no lietotņu veikala"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -33,15 +34,15 @@ msgstr "Nevar pievienot grupu"
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr "Nevar ieslēgt aplikāciju."
+msgstr "Nevarēja aktivēt lietotni."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "Epasts tika saglabāts"
+msgstr "E-pasts tika saglabāts"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "Nepareizs epasts"
+msgstr "Nederīgs epasts"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -49,7 +50,7 @@ msgstr "Nevar izdzēst grupu"
 
 #: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr "Ielogošanās kļūme"
+msgstr "Autentifikācijas kļūda"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -61,11 +62,11 @@ msgstr "Valoda tika nomainīta"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "Nepareizs vaicājums"
+msgstr "Nederīgs pieprasījums"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "Administratori nevar izņemt paši sevi no administratoru grupas"
 
 #: ajax/togglegroups.php:28
 #, php-format
@@ -75,43 +76,43 @@ msgstr "Nevar pievienot lietotāju grupai %s"
 #: ajax/togglegroups.php:34
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "Nevar noņemt lietotāju no grupas %s"
+msgstr "Nevar izņemt lietotāju no grupas %s"
 
 #: ajax/updateapp.php:13
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Nevarēja atjaunināt lietotni."
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Atjaunināt uz {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr "Atvienot"
+msgstr "Deaktivēt"
 
 #: js/apps.js:36 js/apps.js:64
 msgid "Enable"
-msgstr "Pievienot"
+msgstr "Aktivēt"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "Lūdzu, uzgaidiet...."
 
 #: js/apps.js:84
 msgid "Updating...."
-msgstr ""
+msgstr "Atjaunina...."
 
 #: js/apps.js:87
 msgid "Error while updating app"
-msgstr ""
+msgstr "Kļūda, atjauninot lietotni"
 
 #: js/apps.js:87
 msgid "Error"
-msgstr "Kļūme"
+msgstr "Kļūda"
 
 #: js/apps.js:90
 msgid "Updated"
-msgstr ""
+msgstr "Atjaunināta"
 
 #: js/personal.js:69
 msgid "Saving..."
@@ -123,19 +124,19 @@ msgstr "__valodas_nosaukums__"
 
 #: templates/apps.php:10
 msgid "Add your App"
-msgstr "Pievieno savu aplikāciju"
+msgstr "Pievieno savu lietotni"
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr "Vairāk aplikāciju"
+msgstr "Vairāk lietotņu"
 
 #: templates/apps.php:24
 msgid "Select an App"
-msgstr "Izvēlies aplikāciju"
+msgstr "Izvēlies lietotni"
 
 #: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
-msgstr "Apskatie aplikāciju lapu - apps.owncloud.com"
+msgstr "Apskati lietotņu lapu — apps.owncloud.com"
 
 #: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -143,31 +144,31 @@ msgstr "<span class=\"licence\"></span>-licencēts no <span class=\"author\"></s
 
 #: templates/apps.php:31
 msgid "Update"
-msgstr ""
+msgstr "Atjaunināt"
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr ""
+msgstr "Lietotāja dokumentācija"
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Administratora dokumentācija"
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr ""
+msgstr "Tiešsaistes dokumentācija"
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr ""
+msgstr "Forums"
 
 #: templates/help.php:9
 msgid "Bugtracker"
-msgstr ""
+msgstr "Kļūdu sekotājs"
 
 #: templates/help.php:11
 msgid "Commercial Support"
-msgstr ""
+msgstr "Komerciālais atbalsts"
 
 #: templates/personal.php:8
 #, php-format
@@ -180,15 +181,15 @@ msgstr "Klienti"
 
 #: templates/personal.php:13
 msgid "Download Desktop Clients"
-msgstr ""
+msgstr "Lejupielādēt darbvirsmas klientus"
 
 #: templates/personal.php:14
 msgid "Download Android Client"
-msgstr ""
+msgstr "Lejupielādēt Android klientu"
 
 #: templates/personal.php:15
 msgid "Download iOS Client"
-msgstr ""
+msgstr "Lejupielādēt iOS klientu"
 
 #: templates/personal.php:21 templates/users.php:23 templates/users.php:81
 msgid "Password"
@@ -200,7 +201,7 @@ msgstr "Jūru parole tika nomainīta"
 
 #: templates/personal.php:23
 msgid "Unable to change your password"
-msgstr "Nav iespējams nomainīt jūsu paroli"
+msgstr "Nevar nomainīt jūsu paroli"
 
 #: templates/personal.php:24
 msgid "Current password"
@@ -216,19 +217,19 @@ msgstr "parādīt"
 
 #: templates/personal.php:27
 msgid "Change password"
-msgstr "Nomainīt paroli"
+msgstr "Mainīt paroli"
 
 #: templates/personal.php:33
 msgid "Email"
-msgstr "Epasts"
+msgstr "E-pasts"
 
 #: templates/personal.php:34
 msgid "Your email address"
-msgstr "Jūsu epasta adrese"
+msgstr "Jūsu e-pasta adrese"
 
 #: templates/personal.php:35
 msgid "Fill in an email address to enable password recovery"
-msgstr "Ievadiet epasta adresi, lai vēlak būtu iespēja atgūt paroli, ja būs nepieciešamība"
+msgstr "Ievadiet epasta adresi, lai vēlāk varētu atgūt paroli, ja būs nepieciešamība"
 
 #: templates/personal.php:41 templates/personal.php:42
 msgid "Language"
@@ -240,15 +241,15 @@ msgstr "Palīdzi tulkot"
 
 #: templates/personal.php:52
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:54
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Izmanto šo adresi, lai, izmantojot datņu pārvaldnieku, savienotos ar savu ownCloud"
 
 #: templates/personal.php:63
 msgid "Version"
-msgstr ""
+msgstr "Versija"
 
 #: templates/personal.php:65
 msgid ""
@@ -262,7 +263,7 @@ msgstr "Izstrādājusi<a href=\"http://ownCloud.org/contact\" target=\"_blank\">
 
 #: templates/users.php:21 templates/users.php:79
 msgid "Login Name"
-msgstr ""
+msgstr "Ierakstīšanās vārds"
 
 #: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
@@ -274,11 +275,11 @@ msgstr "Izveidot"
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr ""
+msgstr "Noklusējuma krātuve"
 
 #: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
-msgstr ""
+msgstr "Neierobežota"
 
 #: templates/users.php:60 templates/users.php:157
 msgid "Other"
@@ -286,7 +287,7 @@ msgstr "Cits"
 
 #: templates/users.php:80
 msgid "Display Name"
-msgstr ""
+msgstr "Redzamais vārds"
 
 #: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
@@ -294,20 +295,20 @@ msgstr "Grupas administrators"
 
 #: templates/users.php:86
 msgid "Storage"
-msgstr ""
+msgstr "Krātuve"
 
 #: templates/users.php:97
 msgid "change display name"
-msgstr ""
+msgstr "mainīt redzamo vārdu"
 
 #: templates/users.php:101
 msgid "set new password"
-msgstr ""
+msgstr "iestatīt jaunu paroli"
 
 #: templates/users.php:137
 msgid "Default"
-msgstr ""
+msgstr "Noklusējuma"
 
 #: templates/users.php:165
 msgid "Delete"
-msgstr "Izdzēst"
+msgstr "Dzēst"
