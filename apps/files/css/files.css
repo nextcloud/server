@@ -23,7 +23,7 @@
 #new>ul>li>p { cursor:pointer; }
 #new>ul>li>form>input { padding:0.3em; margin:-0.3em; }
 
-#trash { height:17px;  margin:0 0 0 1em; z-index:1010; position:absolute; right:13.5em; } 
+#trash { height:17px;  margin:0.3em 0.3em 0.3em 1em; z-index:1010; float: right; }
 
 #upload { 
 	height:27px; padding:0; margin-left:0.2em; overflow:hidden;
@@ -44,7 +44,7 @@
 	z-index:20; position:relative; cursor:pointer; overflow:hidden;
 }
 
-#uploadprogresswrapper { position:absolute; right:13.5em; top:0em; }
+#uploadprogresswrapper { float: right; position: relative; }
 #uploadprogresswrapper #uploadprogressbar { position:relative; display:inline-block; width:10em; height:1.5em; top:.4em; }
 
 /* FILE TABLE */
