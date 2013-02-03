@@ -28,6 +28,8 @@ $params = array('ldap_host', 'ldap_port', 'ldap_dn', 'ldap_agent_password', 'lda
 OCP\Util::addscript('user_ldap', 'settings');
 
 if ($_POST) {
+	OCP\JSON::callCheck();
+
 	foreach($params as $param){
 		if(isset($_POST[$param])){
 			if('ldap_agent_password' == $param) {
