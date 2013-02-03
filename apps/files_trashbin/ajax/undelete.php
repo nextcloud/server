@@ -1,8 +1,7 @@
 <?php 
 
-if(!OCP\User::isLoggedIn()) {
-	exit;
-}
+OCP\User::checkLoggedIn();
+OCP\JSON::callCheck();
 
 $files = $_REQUEST['files'];
 $dirlisting = $_REQUEST['dirlisting'];
