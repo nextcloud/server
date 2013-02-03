@@ -10,6 +10,8 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 $l = OC_L10N::get('files');
 
+
+$dir = $_POST['dir'];
 // get array with current storage stats (e.g. max file size)
 $storageStats = \OCA\files\lib\Helper::buildFileStorageStatistics($dir);
 
@@ -37,7 +39,6 @@ foreach ($_FILES['files']['error'] as $error) {
 }
 $files = $_FILES['files'];
 
-$dir = $_POST['dir'];
 $error = '';
 
 $maxUploadFilesize = OCP\Util::maxUploadFilesize($dir);
