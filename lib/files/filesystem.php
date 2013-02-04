@@ -611,6 +611,16 @@ class Filesystem {
 	}
 
 	/**
+	* Get the owner for a file or folder
+	*
+	* @param string $path
+	* @return string
+	*/
+	public static function getOwner($path) {
+		return self::$defaultInstance->getOwner($path);
+	}
+
+	/**
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path
