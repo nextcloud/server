@@ -192,7 +192,7 @@ class OC_Template{
 
 		// Content Security Policy
 		// If you change the standard policy, please also change it in config.sample.php
-		$policy = OC_Config::getValue('custom_csp_policy',  'default-src \'self\'; script-src \'self\' \'unsafe-eval\'; style-src \'self\' \'unsafe-inline\'; frame-src *; img-src *');
+		$policy = OC_Config::getValue('custom_csp_policy',  'default-src \'self\'; script-src \'self\' \'unsafe-eval\'; style-src \'self\' \'unsafe-inline\'; frame-src *; img-src *; font-src \'self\' data:');
 		header('Content-Security-Policy:'.$policy); // Standard
 		header('X-WebKit-CSP:'.$policy); // Older webkit browsers
 
