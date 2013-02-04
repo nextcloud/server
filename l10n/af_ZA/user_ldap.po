@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-03 00:04+0100\n"
-"PO-Revision-Date: 2013-02-02 23:05+0000\n"
+"POT-Creation-Date: 2013-02-05 00:19+0100\n"
+"PO-Revision-Date: 2013-02-04 16:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Afrikaans (South Africa) (http://www.transifex.com/projects/p/owncloud/language/af_ZA/)\n"
 "MIME-Version: 1.0\n"
@@ -124,7 +124,7 @@ msgstr ""
 
 #: templates/settings.php:24
 msgid "Password"
-msgstr ""
+msgstr "Wagwoord"
 
 #: templates/settings.php:24
 msgid "For anonymous access, leave DN and Password empty."
@@ -306,4 +306,4 @@ msgstr ""
 
 #: templates/settings.php:62
 msgid "Help"
-msgstr ""
+msgstr "Hulp"

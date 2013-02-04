@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-04 00:05+0100\n"
-"PO-Revision-Date: 2013-02-03 20:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-05 00:19+0100\n"
+"PO-Revision-Date: 2013-02-04 18:30+0000\n"
+"Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,21 +20,21 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "Password"
-msgstr ""
+msgstr "Parole"
 
 #: templates/authenticate.php:6
 msgid "Submit"
-msgstr ""
+msgstr "Iesniegt"
 
 #: templates/public.php:9
 #, php-format
 msgid "%s shared the folder %s with you"
-msgstr ""
+msgstr "%s ar jums dalījās ar mapi %s"
 
 #: templates/public.php:11
 #, php-format
 msgid "%s shared the file %s with you"
-msgstr ""
+msgstr "%s ar jums dalījās ar datni %s"
 
 #: templates/public.php:14 templates/public.php:30
 msgid "Download"
@@ -41,8 +42,8 @@ msgstr "Lejupielādēt"
 
 #: templates/public.php:29
 msgid "No preview available for"
-msgstr ""
+msgstr "Nav pieejams priekšskatījums priekš"
 
 #: templates/public.php:35
 msgid "web services under your control"
-msgstr ""
+msgstr "jūsu vadībā esošie tīmekļa servisi"

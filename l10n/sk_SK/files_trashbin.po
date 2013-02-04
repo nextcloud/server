@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Marián Hvolka <marian.hvolka@stuba.sk>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-02 00:06+0100\n"
-"PO-Revision-Date: 2013-02-01 23:06+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-05 00:19+0100\n"
+"PO-Revision-Date: 2013-02-04 20:00+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: js/trash.js:7 js/trash.js:69
 msgid "perform restore operation"
-msgstr ""
+msgstr "vykonať obnovu"
 
 #: js/trash.js:100 templates/index.php:17
 msgid "Name"
@@ -27,7 +28,7 @@ msgstr "Meno"
 
 #: js/trash.js:101 templates/index.php:27
 msgid "Deleted"
-msgstr ""
+msgstr "Zmazané"
 
 #: js/trash.js:110
 msgid "1 folder"
@@ -47,7 +48,7 @@ msgstr "{count} súborov"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "Žiadny obsah. Kôš je prázdny!"
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"

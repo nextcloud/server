@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-03 00:04+0100\n"
-"PO-Revision-Date: 2013-02-02 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-05 00:19+0100\n"
+"PO-Revision-Date: 2013-02-04 14:21+0000\n"
+"Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,290 +20,290 @@ msgstr ""
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr ""
+msgstr "Neizdevās izdzēst servera konfigurāciju"
 
 #: ajax/testConfiguration.php:35
 msgid "The configuration is valid and the connection could be established!"
-msgstr ""
+msgstr "Konfigurācija ir derīga un varēja izveidot savienojumu!"
 
 #: ajax/testConfiguration.php:37
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr ""
+msgstr "Konfigurācija ir derīga, bet sasaiste neizdevās. Lūdzu, pārbaudiet servera iestatījumus un akreditācijas datus."
 
 #: ajax/testConfiguration.php:40
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr ""
+msgstr "Konfigurācija ir nederīga. Lūdzu, apskatiet ownCloud žurnālu, lai uzzinātu vairāk."
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr ""
+msgstr "Neizdevās izdzēst"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr ""
+msgstr "Paņemt iestatījumus no nesenas servera konfigurācijas?"
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr ""
+msgstr "Paturēt iestatījumus?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "Nevar pievienot servera konfigurāciju"
 
 #: js/settings.js:121
 msgid "Connection test succeeded"
-msgstr ""
+msgstr "Savienojuma tests ir veiksmīgs"
 
 #: js/settings.js:126
 msgid "Connection test failed"
-msgstr ""
+msgstr "Savienojuma tests cieta neveiksmi"
 
 #: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "Vai tiešām vēlaties dzēst pašreizējo servera konfigurāciju?"
 
 #: js/settings.js:137
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "Apstiprināt dzēšanu"
 
 #: templates/settings.php:8
 msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behaviour. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>Brīdinājums:</b> lietotnes user_ldap un user_webdavauth ir nesavietojamas. Tās var izraisīt negaidītu uzvedību. Lūdzu, prasiet savam sistēmas administratoram kādu no tām deaktivēt."
 
 #: templates/settings.php:11
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Brīdinājums:</b> PHP LDAP modulis nav uzinstalēts, aizmugure nedarbosies. Lūdzu, prasiet savam sistēmas administratoram kādu no tām deaktivēt."
 
 #: templates/settings.php:15
 msgid "Server configuration"
-msgstr ""
+msgstr "Servera konfigurācija"
 
 #: templates/settings.php:17
 msgid "Add Server Configuration"
-msgstr ""
+msgstr "Pievienot servera konfigurāciju"
 
 #: templates/settings.php:21
 msgid "Host"
-msgstr ""
+msgstr "Resursdators"
 
 #: templates/settings.php:21
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "Var neiekļaut protokolu, izņemot, ja vajag SSL. Tad sākums ir ldaps://"
 
 #: templates/settings.php:22
 msgid "Base DN"
-msgstr ""
+msgstr "Bāzes DN"
 
 #: templates/settings.php:22
 msgid "One Base DN per line"
-msgstr ""
+msgstr "Viena bāzes DN rindā"
 
 #: templates/settings.php:22
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr ""
+msgstr "Lietotājiem un grupām bāzes DN var norādīt cilnē “Paplašināti”"
 
 #: templates/settings.php:23
 msgid "User DN"
-msgstr ""
+msgstr "Lietotāja DN"
 
 #: templates/settings.php:23
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr ""
+msgstr "Klienta lietotāja DN, ar ko veiks sasaisti, piemēram, uid=agent,dc=example,dc=com. Lai piekļūtu anonīmi, atstājiet DN un paroli tukšu."
 
 #: templates/settings.php:24
 msgid "Password"
-msgstr ""
+msgstr "Parole"
 
 #: templates/settings.php:24
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "Lai piekļūtu anonīmi, atstājiet DN un paroli tukšu."
 
 #: templates/settings.php:25
 msgid "User Login Filter"
-msgstr ""
+msgstr "Lietotāja ierakstīšanās filtrs"
 
 #: templates/settings.php:25
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "Definē filtru, ko izmantot, kad mēģina ierakstīties. %%uid ierakstīšanās darbībā aizstāj lietotājvārdu."
 
 #: templates/settings.php:25
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr ""
+msgstr "lieto %%uid vietturi, piemēram, \"uid=%%uid\""
 
 #: templates/settings.php:26
 msgid "User List Filter"
-msgstr ""
+msgstr "Lietotāju saraksta filtrs"
 
 #: templates/settings.php:26
 msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
+msgstr "Definē filtru, ko izmantot, kad saņem lietotāju sarakstu."
 
 #: templates/settings.php:26
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
+msgstr "bez jebkādiem vietturiem, piemēram, \"objectClass=person\"."
 
 #: templates/settings.php:27
 msgid "Group Filter"
-msgstr ""
+msgstr "Grupu filtrs"
 
 #: templates/settings.php:27
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
+msgstr "Definē filtru, ko izmantot, kad saņem grupu sarakstu."
 
 #: templates/settings.php:27
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "bez jebkādiem vietturiem, piemēram, \"objectClass=posixGroup\"."
 
 #: templates/settings.php:31
 msgid "Connection Settings"
-msgstr ""
+msgstr "Savienojuma iestatījumi"
 
 #: templates/settings.php:33
 msgid "Configuration Active"
-msgstr ""
+msgstr "Konfigurācija ir aktīva"
 
 #: templates/settings.php:33
 msgid "When unchecked, this configuration will be skipped."
-msgstr ""
+msgstr "Ja nav atzīmēts, šī konfigurācija tiks izlaista."
 
 #: templates/settings.php:34
 msgid "Port"
-msgstr ""
+msgstr "Ports"
 
 #: templates/settings.php:35
 msgid "Backup (Replica) Host"
-msgstr ""
+msgstr "Rezerves (kopija) serveris"
 
 #: templates/settings.php:35
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr ""
+msgstr "Norādi rezerves serveri (nav obligāti). Tam ir jābūt galvenā LDAP/AD servera kopijai."
 
 #: templates/settings.php:36
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "Rezerves (kopijas) ports"
 
 #: templates/settings.php:37
 msgid "Disable Main Server"
-msgstr ""
+msgstr "Deaktivēt galveno serveri"
 
 #: templates/settings.php:37
 msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr ""
+msgstr "Kad ieslēgts, ownCloud savienosies tikai ar kopijas serveri."
 
 #: templates/settings.php:38
 msgid "Use TLS"
-msgstr ""
+msgstr "Lietot TLS"
 
 #: templates/settings.php:38
 msgid "Do not use it for SSL connections, it will fail."
-msgstr ""
+msgstr "Neizmanto to SSL savienojumiem, tas neizdosies."
 
 #: templates/settings.php:39
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "Reģistrnejutīgs LDAP serveris (Windows)"
 
 #: templates/settings.php:40
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "Izslēgt SSL sertifikātu validēšanu."
 
 #: templates/settings.php:40
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr ""
+msgstr "Ja savienojums darbojas ar šo opciju, importē LDAP serveru SSL sertifikātu savā ownCloud serverī."
 
 #: templates/settings.php:40
 msgid "Not recommended, use for testing only."
-msgstr ""
+msgstr "Nav ieteicams, izmanto tikai testēšanai!"
 
 #: templates/settings.php:41
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "sekundēs. Izmaiņas iztukšos kešatmiņu."
 
 #: templates/settings.php:43
 msgid "Directory Settings"
-msgstr ""
+msgstr "Direktorijas iestatījumi"
 
 #: templates/settings.php:45
 msgid "User Display Name Field"
-msgstr ""
+msgstr "Lietotāja redzamā vārda lauks"
 
 #: templates/settings.php:45
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr ""
+msgstr "LDAP atribūts, ko izmantot lietotāja ownCloud vārda veidošanai."
 
 #: templates/settings.php:46
 msgid "Base User Tree"
-msgstr ""
+msgstr "Bāzes lietotāju koks"
 
 #: templates/settings.php:46
 msgid "One User Base DN per line"
-msgstr ""
+msgstr "Viena lietotāju bāzes DN rindā"
 
 #: templates/settings.php:47
 msgid "User Search Attributes"
-msgstr ""
+msgstr "Lietotāju meklēšanas atribūts"
 
 #: templates/settings.php:47 templates/settings.php:50
 msgid "Optional; one attribute per line"
-msgstr ""
+msgstr "Neobligāti; viens atribūts rindā"
 
 #: templates/settings.php:48
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "Grupas redzamā nosaukuma lauks"
 
 #: templates/settings.php:48
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr ""
+msgstr "LDAP atribūts, ko izmantot grupas ownCloud nosaukuma veidošanai."
 
 #: templates/settings.php:49
 msgid "Base Group Tree"
-msgstr ""
+msgstr "Bāzes grupu koks"
 
 #: templates/settings.php:49
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "Viena grupu bāzes DN rindā"
 
 #: templates/settings.php:50
 msgid "Group Search Attributes"
-msgstr ""
+msgstr "Grupu meklēšanas atribūts"
 
 #: templates/settings.php:51
 msgid "Group-Member association"
-msgstr ""
+msgstr "Grupu piederības asociācija"
 
 #: templates/settings.php:53
 msgid "Special Attributes"
-msgstr ""
+msgstr "Īpašie atribūti"
 
 #: templates/settings.php:56
 msgid "in bytes"
-msgstr ""
+msgstr "baitos"
 
 #: templates/settings.php:58
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr ""
+msgstr "Atstāt tukšu lietotāja vārdam (noklusējuma). Citādi, norādi LDAP/AD atribūtu."
 
 #: templates/settings.php:62
 msgid "Help"

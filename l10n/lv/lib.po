@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-04 00:05+0100\n"
-"PO-Revision-Date: 2013-02-03 20:50+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-05 00:19+0100\n"
+"PO-Revision-Date: 2013-02-04 14:31+0000\n"
+"Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,122 +36,122 @@ msgstr "Lietotāji"
 
 #: app.php:336
 msgid "Apps"
-msgstr ""
+msgstr "Lietotnes"
 
 #: app.php:338
 msgid "Admin"
-msgstr ""
+msgstr "Administratori"
 
 #: files.php:202
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "ZIP lejupielādēšana ir izslēgta."
 
 #: files.php:203
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "Datnes var lejupielādēt tikai katru atsevišķi."
 
 #: files.php:203 files.php:228
 msgid "Back to Files"
-msgstr ""
+msgstr "Atpakaļ pie datnēm"
 
 #: files.php:227
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "Izvēlētās datnes ir pārāk lielas, lai izveidotu zip datni."
 
 #: helper.php:226
 msgid "couldn't be determined"
-msgstr ""
+msgstr "nevarēja noteikt"
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "Lietotne nav aktivēta"
 
 #: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
-msgstr "Ielogošanās kļūme"
+msgstr "Autentifikācijas kļūda"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "Pilnvarai ir beidzies termiņš. Lūdzu, pārlādējiet lapu."
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
-msgstr "Faili"
+msgstr "Datnes"
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr ""
+msgstr "Teksts"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "Attēli"
 
 #: template.php:113
 msgid "seconds ago"
-msgstr ""
+msgstr "sekundes atpakaļ"
 
 #: template.php:114
 msgid "1 minute ago"
-msgstr ""
+msgstr "pirms 1 minūtes"
 
 #: template.php:115
 #, php-format
 msgid "%d minutes ago"
-msgstr ""
+msgstr "pirms %d minūtēm"
 
 #: template.php:116
 msgid "1 hour ago"
-msgstr ""
+msgstr "pirms 1 stundas"
 
 #: template.php:117
 #, php-format
 msgid "%d hours ago"
-msgstr ""
+msgstr "pirms %d stundām"
 
 #: template.php:118
 msgid "today"
-msgstr ""
+msgstr "šodien"
 
 #: template.php:119
 msgid "yesterday"
-msgstr ""
+msgstr "vakar"
 
 #: template.php:120
 #, php-format
 msgid "%d days ago"
-msgstr ""
+msgstr "pirms %d dienām"
 
 #: template.php:121
 msgid "last month"
-msgstr ""
+msgstr "pagājušajā mēnesī"
 
 #: template.php:122
 #, php-format
 msgid "%d months ago"
-msgstr ""
+msgstr "pirms %d mēnešiem"
 
 #: template.php:123
 msgid "last year"
-msgstr ""
+msgstr "gājušajā gadā"
 
 #: template.php:124
 msgid "years ago"
-msgstr ""
+msgstr "gadus atpakaļ"
 
 #: updater.php:75
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s ir pieejams. Iegūt <a href=\"%s\">vairāk informācijas</a>"
 
 #: updater.php:77
 msgid "up to date"
-msgstr ""
+msgstr "ir aktuāls"
 
 #: updater.php:80
 msgid "updates check is disabled"
-msgstr ""
+msgstr "atjauninājumu pārbaude ir deaktivēta"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "Nevarēja atrast kategoriju “%s”"

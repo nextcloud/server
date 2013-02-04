@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-04 00:04+0100\n"
+"POT-Creation-Date: 2013-02-05 00:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -177,31 +177,31 @@ msgstr ""
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:949 templates/index.php:67
+#: js/files.js:953 templates/index.php:67
 msgid "Name"
 msgstr ""
 
-#: js/files.js:950 templates/index.php:78
+#: js/files.js:954 templates/index.php:78
 msgid "Size"
 msgstr ""
 
-#: js/files.js:951 templates/index.php:80
+#: js/files.js:955 templates/index.php:80
 msgid "Modified"
 msgstr ""
 
-#: js/files.js:970
+#: js/files.js:974
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:972
+#: js/files.js:976
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:980
+#: js/files.js:984
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:982
+#: js/files.js:986
 msgid "{count} files"
 msgstr ""
 

@@ -20,6 +20,7 @@
 "replaced {new_name}" => "prepísaný {new_name}",
 "undo" => "vrátiť",
 "replaced {new_name} with {old_name}" => "prepísaný {new_name} súborom {old_name}",
+"perform delete operation" => "vykonať zmazanie",
 "'.' is an invalid file name." => "'.' je neplatné meno súboru.",
 "File name cannot be empty." => "Meno súboru nemôže byť prázdne",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nesprávne meno, '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nie sú povolené hodnoty.",
@@ -56,11 +57,13 @@
 "Text file" => "Textový súbor",
 "Folder" => "Priečinok",
 "From link" => "Z odkazu",
+"Trash" => "Kôš",
 "Cancel upload" => "Zrušiť odosielanie",
 "Nothing in here. Upload something!" => "Žiadny súbor. Nahrajte niečo!",
 "Download" => "Stiahnuť",
 "Upload too large" => "Odosielaný súbor je príliš veľký",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Súbory, ktoré sa snažíte nahrať, presahujú maximálnu veľkosť pre nahratie súborov na tento server.",
 "Files are being scanned, please wait." => "Čakajte, súbory sú prehľadávané.",
-"Current scanning" => "Práve prehliadané"
+"Current scanning" => "Práve prehliadané",
+"Upgrading filesystem cache..." => "Aktualizujem medzipamäť súborového systému..."
 );
