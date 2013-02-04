@@ -1,6 +1,6 @@
 <?php 
 
-OCP\User::checkLoggedIn();
+OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
 $files = $_REQUEST['files'];
