@@ -26,15 +26,15 @@ class OC_OCS_Cloud {
 
 	public static function getCapabilities($parameters){
 		$result = array();
-		$result['bigfilechunking'] = 'true';
-		$result['edition'] = OC_Util::getEditionString(); 
-		$result['encryption'] = 'false';
-		$result['installedapps'] = OC_App::getEnabledApps();
-		$result['syncpollinterval'] = 30;
-		$result['undelete'] = 'true';
-		$result['version'] = implode('.', OC_Util::getVersion());
-		$result['versioning'] = OCP\App::isEnabled('files_versioning') ? 'true' : 'false';
-		$result['versionstring'] = OC_Util::getVersionString();
+		list($major, $minor, $micro) = OC_Util::getVersion();
+		$result['version'] = array(
+			'major' => $major,
+			'minor' => $minor,
+			'micro' => $micro,
+			'string' => OC_Util::getVersionString(),
+			'edition' => OC_Util::getEditionString(),
+			);
+			$result['apps'] = array();
 		return new OC_OCS_Result($result);
 	}
 
