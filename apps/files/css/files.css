@@ -3,7 +3,7 @@
  See the COPYING-README file. */
 
 /* FILE MENU */
-.actions { padding:.3em; float:left; height:2em; }
+.actions { padding:.3em; float:left; height:2em; width: 100%; }
 .actions input, .actions button, .actions .button { margin:0; float:left; }
 
 #new {
@@ -23,7 +23,7 @@
 #new>ul>li>p { cursor:pointer; }
 #new>ul>li>form>input { padding:0.3em; margin:-0.3em; }
 
-#trash { height:17px;  margin:0.3em 0.3em 0.3em 1em; z-index:1010; float: right; }
+#trash { height:17px; margin: 0 1em; z-index:1010; float: right; }
 
 #upload { 
 	height:27px; padding:0; margin-left:0.2em; overflow:hidden;

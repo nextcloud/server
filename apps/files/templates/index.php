@@ -35,18 +35,18 @@
 					<a href="#" class="svg" onclick="return false;"></a>
 				</form>
 			</div>
-		</div>
-		<?php if ($_['trash'] ): ?>
+			<?php if ($_['trash'] ): ?>
 			<div id="trash" class="button">
 				<a><?php echo $l->t('Trash');?></a>
 			</div>
-		<?php endif; ?>
-		<div id="uploadprogresswrapper">
-			<div id="uploadprogressbar"></div>
-			<input type="button" class="stop" style="display:none"
-				   value="<?php echo $l->t('Cancel upload');?>"
-				   onclick="javascript:Files.cancelUploads();"
+			<?php endif; ?>
+			<div id="uploadprogresswrapper">
+				<div id="uploadprogressbar"></div>
+				<input type="button" class="stop" style="display:none"
+					value="<?php echo $l->t('Cancel upload');?>"
+					onclick="javascript:Files.cancelUploads();"
 				/>
+			</div>
 		</div>
 		<div id="file_action_panel"></div>
 	<?php else:?>
@@ -59,7 +59,7 @@
 	<div id="emptyfolder"><?php echo $l->t('Nothing in here. Upload something!')?></div>
 <?php endif; ?>
 
-<table>
+<table class="hascontrols">
 	<thead>
 		<tr>
 			<th id='headerName'>
