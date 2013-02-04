@@ -727,8 +727,8 @@ class View {
 	 */
 	public function getDirectoryContent($directory, $mimetype_filter = '') {
 		$result = array();
-		if (!Filesystem::isValidPath($path)) {
-			return $data;
+		if (!Filesystem::isValidPath($directory)) {
+			return $result;
 		}
 		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $directory);
 		/**
