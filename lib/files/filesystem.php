@@ -374,7 +374,7 @@ class Filesystem {
 	 * @param array $data from hook
 	 */
 	static public function isBlacklisted($data) {
-		$blacklist = array('.htaccess');
+		$blacklist = \OC_Config::getValue('blacklisted_files', array('.htaccess'));
 		if (isset($data['path'])) {
 			$path = $data['path'];
 		} else if (isset($data['newpath'])) {
