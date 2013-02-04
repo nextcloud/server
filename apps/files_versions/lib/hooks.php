@@ -21,9 +21,9 @@ class Hooks {
 
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 
-			$versions = new Storage( new \OC_FilesystemView('') );
+			$versions = new Storage( new \OC\Files\View('') );
 
-			$path = $params[\OC_Filesystem::signal_param_path];
+			$path = $params[\OC\Files\Filesystem::signal_param_path];
 
 			if($path<>'') $versions->store( $path );
 
@@ -43,7 +43,7 @@ class Hooks {
 		
 			$versions = new Storage( new \OC_FilesystemView('') );
 		
-			$path = $params[\OC_Filesystem::signal_param_path];
+			$path = $params[\OC\Files\Filesystem::signal_param_path];
 		
 			if($path<>'') $versions->delete( $path );
 		

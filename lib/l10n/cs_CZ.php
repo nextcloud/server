@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "Soubory musí být stahovány jednotlivě.",
 "Back to Files" => "Zpět k souborům",
 "Selected files too large to generate zip file." => "Vybrané soubory jsou příliš velké pro vytvoření zip souboru.",
+"couldn't be determined" => "nelze zjistit",
 "Application is not enabled" => "Aplikace není povolena",
 "Authentication error" => "Chyba ověření",
 "Token expired. Please reload page." => "Token vypršel. Obnovte prosím stránku.",

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-03 00:04+0100\n"
-"PO-Revision-Date: 2012-12-02 21:42+0000\n"
-"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
+"POT-Creation-Date: 2013-01-17 00:26+0100\n"
+"PO-Revision-Date: 2013-01-16 23:26+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,51 +18,55 @@ msgstr ""
 "Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:285
+#: app.php:301
 msgid "Help"
 msgstr "Helpo"
 
-#: app.php:292
+#: app.php:308
 msgid "Personal"
 msgstr "Persona"
 
-#: app.php:297
+#: app.php:313
 msgid "Settings"
 msgstr "Agordo"
 
-#: app.php:302
+#: app.php:318
 msgid "Users"
 msgstr "Uzantoj"
 
-#: app.php:309
+#: app.php:325
 msgid "Apps"
 msgstr "Aplikaĵoj"
 
-#: app.php:311
+#: app.php:327
 msgid "Admin"
 msgstr "Administranto"
 
-#: files.php:361
+#: files.php:365
 msgid "ZIP download is turned off."
 msgstr "ZIP-elŝuto estas malkapabligita."
 
-#: files.php:362
+#: files.php:366
 msgid "Files need to be downloaded one by one."
 msgstr "Dosieroj devas elŝutiĝi unuope."
 
-#: files.php:362 files.php:387
+#: files.php:366 files.php:391
 msgid "Back to Files"
 msgstr "Reen al la dosieroj"
 
-#: files.php:386
+#: files.php:390
 msgid "Selected files too large to generate zip file."
 msgstr "La elektitaj dosieroj tro grandas por genero de ZIP-dosiero."
+
+#: helper.php:228
+msgid "couldn't be determined"
+msgstr ""
 
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "La aplikaĵo ne estas kapabligita"
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "Aŭtentiga eraro"
 
@@ -82,55 +86,55 @@ msgstr "Teksto"
 msgid "Images"
 msgstr "Bildoj"
 
-#: template.php:103
+#: template.php:113
 msgid "seconds ago"
 msgstr "sekundojn antaŭe"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "antaŭ 1 minuto"
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "antaŭ %d minutoj"
 
-#: template.php:106
+#: template.php:116
 msgid "1 hour ago"
 msgstr "antaŭ 1 horo"
 
-#: template.php:107
+#: template.php:117
 #, php-format
 msgid "%d hours ago"
 msgstr "antaŭ %d horoj"
 
-#: template.php:108
+#: template.php:118
 msgid "today"
 msgstr "hodiaŭ"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr "hieraŭ"
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "antaŭ %d tagoj"
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr "lasta monato"
 
-#: template.php:112
+#: template.php:122
 #, php-format
 msgid "%d months ago"
 msgstr "antaŭ %d monatoj"
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr "lasta jaro"
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr "jarojn antaŭe"
 

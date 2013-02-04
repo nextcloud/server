@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#  <asieriko@gmail.com>, 2013.
 #   <asieriko@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-27 00:10+0100\n"
-"PO-Revision-Date: 2012-11-25 23:10+0000\n"
+"POT-Creation-Date: 2013-01-20 00:05+0100\n"
+"PO-Revision-Date: 2013-01-19 00:06+0000\n"
 "Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -18,51 +19,55 @@ msgstr ""
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:285
+#: app.php:301
 msgid "Help"
 msgstr "Laguntza"
 
-#: app.php:292
+#: app.php:308
 msgid "Personal"
 msgstr "Pertsonala"
 
-#: app.php:297
+#: app.php:313
 msgid "Settings"
 msgstr "Ezarpenak"
 
-#: app.php:302
+#: app.php:318
 msgid "Users"
 msgstr "Erabiltzaileak"
 
-#: app.php:309
+#: app.php:325
 msgid "Apps"
 msgstr "Aplikazioak"
 
-#: app.php:311
+#: app.php:327
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:361
+#: files.php:365
 msgid "ZIP download is turned off."
 msgstr "ZIP deskarga ez dago gaituta."
 
-#: files.php:362
+#: files.php:366
 msgid "Files need to be downloaded one by one."
 msgstr "Fitxategiak banan-banan deskargatu behar dira."
 
-#: files.php:362 files.php:387
+#: files.php:366 files.php:391
 msgid "Back to Files"
 msgstr "Itzuli fitxategietara"
 
-#: files.php:386
+#: files.php:390
 msgid "Selected files too large to generate zip file."
 msgstr "Hautatuko fitxategiak oso handiak dira zip fitxategia sortzeko."
+
+#: helper.php:229
+msgid "couldn't be determined"
+msgstr "ezin izan da zehaztu"
 
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "Aplikazioa ez dago gaituta"
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "Autentikazio errorea"
 
@@ -82,55 +87,55 @@ msgstr "Testua"
 msgid "Images"
 msgstr "Irudiak"
 
-#: template.php:103
+#: template.php:113
 msgid "seconds ago"
 msgstr "orain dela segundu batzuk"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "orain dela minutu 1"
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "orain dela %d minutu"
 
-#: template.php:106
+#: template.php:116
 msgid "1 hour ago"
 msgstr "orain dela ordu bat"
 
-#: template.php:107
+#: template.php:117
 #, php-format
 msgid "%d hours ago"
 msgstr "orain dela %d ordu"
 
-#: template.php:108
+#: template.php:118
 msgid "today"
 msgstr "gaur"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr "atzo"
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "orain dela %d egun"
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr "joan den hilabetea"
 
-#: template.php:112
+#: template.php:122
 #, php-format
 msgid "%d months ago"
 msgstr "orain dela %d hilabete"
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr "joan den urtea"
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr "orain dela urte batzuk"
 

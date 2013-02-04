@@ -94,49 +94,49 @@ class OC_FileChunking {
 	}
 
 	public function file_assemble($path) {
-		$absolutePath = OC_Filesystem::normalizePath(OC_Filesystem::getView()->getAbsolutePath($path));
+		$absolutePath = \OC\Files\Filesystem::normalizePath(\OC\Files\Filesystem::getView()->getAbsolutePath($path));
 		$data = '';
 		// use file_put_contents as method because that best matches what this function does
-		if (OC_FileProxy::runPreProxies('file_put_contents', $absolutePath, $data) && OC_Filesystem::isValidPath($path)) {
-			$path = OC_Filesystem::getView()->getRelativePath($absolutePath);
-			$exists = OC_Filesystem::file_exists($path);
+		if (OC_FileProxy::runPreProxies('file_put_contents', $absolutePath, $data) && \OC\Files\Filesystem::isValidPath($path)) {
+			$path = \OC\Files\Filesystem::getView()->getRelativePath($absolutePath);
+			$exists = \OC\Files\Filesystem::file_exists($path);
 			$run = true;
 			if(!$exists) {
 				OC_Hook::emit(
-					OC_Filesystem::CLASSNAME,
-					OC_Filesystem::signal_create,
+					\OC\Files\Filesystem::CLASSNAME,
+					\OC\Files\Filesystem::signal_create,
 					array(
-						OC_Filesystem::signal_param_path => $path,
-						OC_Filesystem::signal_param_run => &$run
+						\OC\Files\Filesystem::signal_param_path => $path,
+						\OC\Files\Filesystem::signal_param_run => &$run
 					)
 				);
 			}
 			OC_Hook::emit(
-				OC_Filesystem::CLASSNAME,
-				OC_Filesystem::signal_write,
+				\OC\Files\Filesystem::CLASSNAME,
+				\OC\Files\Filesystem::signal_write,
 				array(
-					OC_Filesystem::signal_param_path => $path,
-					OC_Filesystem::signal_param_run => &$run
+					\OC\Files\Filesystem::signal_param_path => $path,
+					\OC\Files\Filesystem::signal_param_run => &$run
 				)
 			);
 			if(!$run) {
 				return false;
 			}
-			$target = OC_Filesystem::fopen($path, 'w');
+			$target = \OC\Files\Filesystem::fopen($path, 'w');
 			if($target) {
 				$count = $this->assemble($target);
 				fclose($target);
 				if(!$exists) {
 					OC_Hook::emit(
-						OC_Filesystem::CLASSNAME,
-						OC_Filesystem::signal_post_create,
-						array( OC_Filesystem::signal_param_path => $path)
+						\OC\Files\Filesystem::CLASSNAME,
+						\OC\Files\Filesystem::signal_post_create,
+						array( \OC\Files\Filesystem::signal_param_path => $path)
 					);
 				}
 				OC_Hook::emit(
-					OC_Filesystem::CLASSNAME,
-					OC_Filesystem::signal_post_write,
-					array( OC_Filesystem::signal_param_path => $path)
+					\OC\Files\Filesystem::CLASSNAME,
+					\OC\Files\Filesystem::signal_post_write,
+					array( \OC\Files\Filesystem::signal_param_path => $path)
 				);
 				OC_FileProxy::runPostProxies('file_put_contents', $absolutePath, $count);
 				return $count > 0;

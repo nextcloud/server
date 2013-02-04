@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "ファイルは1つずつダウンロードする必要があります。",
 "Back to Files" => "ファイルに戻る",
 "Selected files too large to generate zip file." => "選択したファイルはZIPファイルの生成には大きすぎます。",
+"couldn't be determined" => "測定できませんでした",
 "Application is not enabled" => "アプリケーションは無効です",
 "Authentication error" => "認証エラー",
 "Token expired. Please reload page." => "トークンが無効になりました。ページを再読込してください。",

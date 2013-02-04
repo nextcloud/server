@@ -4,7 +4,7 @@
 	<name>Versions</name>
 	<licence>AGPL</licence>
 	<author>Frank Karlitschek</author>
-	<require>4.9</require>
+	<require>4.91</require>
 	<shipped>true</shipped>
 	<description>Versioning of files</description>
 	<types>

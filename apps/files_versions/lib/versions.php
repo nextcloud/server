@@ -58,8 +58,8 @@ class Storage {
 	public function store($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$files_view = new \OC_FilesystemView('/'.$uid .'/files');
-			$users_view = new \OC_FilesystemView('/'.$uid);
+			$files_view = new \OC\Files\View('/'.\OCP\User::getUser() .'/files');
+			$users_view = new \OC\Files\View('/'.\OCP\User::getUser());
 
 			//check if source file already exist as version to avoid recursions.
 			// todo does this check work?
@@ -150,7 +150,7 @@ class Storage {
 
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$users_view = new \OC_FilesystemView('/'.$uid);
+			$users_view = new \OC\Files\View('/'.$uid);
 			$versionCreated = false;
 			
 			//first create a new version
@@ -184,7 +184,7 @@ class Storage {
 	public static function getVersions( $filename, $count = 0 ) {
 		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
+			$versions_fileview = new \OC\Files\View('/' . \OCP\User::getUser() . '/files_versions');
 
 			$versionsName = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
 			$versions = array();
@@ -322,7 +322,7 @@ class Storage {
 				$quota = \OCP\Util::computerFileSize(\OC_Appconfig::getValue('files', 'default_quota'));
 			}
 			if ( $quota == null ) {
-				$quota = \OC_Filesystem::free_space('/');
+				$quota = \OC\Files\Filesystem::free_space('/');
 			}
 			
 			// make sure that we have the current size of the version history

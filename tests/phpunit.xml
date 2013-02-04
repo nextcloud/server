@@ -11,4 +11,7 @@
 			<directory suffix=".php">../3rdparty</directory>
 		</exclude>
 	</whitelist>
+	<listeners>
+		<listener class="PHPUnit_Util_Log_JSON"></listener>
+	</listeners>
 </phpunit>

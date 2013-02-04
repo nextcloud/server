@@ -15,15 +15,7 @@ OC_Util::addScript( '3rdparty', 'chosen/chosen.jquery.min' );
 OC_Util::addStyle( '3rdparty', 'chosen' );
 OC_App::setActiveNavigationEntry( 'personal' );
 
-// calculate the disc space
-$rootInfo=OC_FileCache::get('');
-$sharedInfo=OC_FileCache::get('/Shared');
-$used=$rootInfo['size'];
-if($used<0) $used=0;
-$free=OC_Filesystem::free_space();
-$total=$free+$used;
-if($total==0) $total=1;  // prevent division by zero
-$relative=round(($used/$total)*10000)/100;
+$storageInfo=OC_Helper::getStorageInfo();
 
 $email=OC_Preferences::getValue(OC_User::getUser(), 'settings', 'email', '');
 
@@ -50,9 +42,9 @@ foreach($languageCodes as $lang) {
 
 // Return template
 $tmpl = new OC_Template( 'settings', 'personal', 'user');
-$tmpl->assign('usage', OC_Helper::humanFileSize($used));
-$tmpl->assign('total_space', OC_Helper::humanFileSize($total));
-$tmpl->assign('usage_relative', $relative);
+$tmpl->assign('usage', OC_Helper::humanFileSize($storageInfo['used']));
+$tmpl->assign('total_space', OC_Helper::humanFileSize($storageInfo['total']));
+$tmpl->assign('usage_relative', $storageInfo['relative']);
 $tmpl->assign('email', $email);
 $tmpl->assign('languages', $languages);
 

@@ -4,12 +4,14 @@
 # 
 # Translators:
 # Adam Toth <adazlord@gmail.com>, 2012.
+#  <gyonkibendeguz@gmail.com>, 2013.
+# Laszlo Tornoci <torlasz@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-31 00:04+0100\n"
-"PO-Revision-Date: 2012-12-30 09:34+0000\n"
+"POT-Creation-Date: 2013-01-26 00:09+0100\n"
+"PO-Revision-Date: 2013-01-25 12:37+0000\n"
 "Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -18,33 +20,33 @@ msgstr ""
 "Language: hu_HU\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:287
+#: app.php:301
 msgid "Help"
 msgstr "Súgó"
 
-#: app.php:294
+#: app.php:308
 msgid "Personal"
 msgstr "Személyes"
 
-#: app.php:299
+#: app.php:313
 msgid "Settings"
 msgstr "Beállítások"
 
-#: app.php:304
+#: app.php:318
 msgid "Users"
 msgstr "Felhasználók"
 
-#: app.php:311
+#: app.php:325
 msgid "Apps"
 msgstr "Alkalmazások"
 
-#: app.php:313
+#: app.php:327
 msgid "Admin"
 msgstr "Admin"
 
 #: files.php:365
 msgid "ZIP download is turned off."
-msgstr "A ZIP-letöltés nem engedélyezett."
+msgstr "A ZIP-letöltés nincs engedélyezve."
 
 #: files.php:366
 msgid "Files need to be downloaded one by one."
@@ -56,13 +58,17 @@ msgstr "Vissza a Fájlokhoz"
 
 #: files.php:390
 msgid "Selected files too large to generate zip file."
-msgstr "A kiválasztott fájlok túl nagy a zip tömörítéshez."
+msgstr "A kiválasztott fájlok túl nagyok a zip tömörítéshez."
+
+#: helper.php:229
+msgid "couldn't be determined"
+msgstr "nem határozható meg"
 
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "Az alkalmazás nincs engedélyezve"
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "Hitelesítési hiba"
 
@@ -82,55 +88,55 @@ msgstr "Szöveg"
 msgid "Images"
 msgstr "Képek"
 
-#: template.php:103
+#: template.php:113
 msgid "seconds ago"
 msgstr "másodperce"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "1 perce"
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d perce"
 
-#: template.php:106
+#: template.php:116
 msgid "1 hour ago"
 msgstr "1 órája"
 
-#: template.php:107
+#: template.php:117
 #, php-format
 msgid "%d hours ago"
 msgstr "%d órája"
 
-#: template.php:108
+#: template.php:118
 msgid "today"
 msgstr "ma"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr "tegnap"
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "%d napja"
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr "múlt hónapban"
 
-#: template.php:112
+#: template.php:122
 #, php-format
 msgid "%d months ago"
 msgstr "%d hónapja"
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr "tavaly"
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr "éve"
 

@@ -21,10 +21,6 @@
 *
 */
 
-
-// Init owncloud
-
-
 OCP\User::checkAdminUser();
 
 $htaccessWorking=(getenv('htaccessWorking')=='true');

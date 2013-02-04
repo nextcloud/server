@@ -6,7 +6,9 @@
  * See the COPYING-README file.
  */
 
-class OC_FileStorage_FTP extends OC_FileStorage_StreamWrapper{
+namespace OC\Files\Storage;
+
+class FTP extends \OC\Files\Storage\StreamWrapper{
 	private $password;
 	private $user;
 	private $host;
@@ -38,9 +40,13 @@ class OC_FileStorage_FTP extends OC_FileStorage_StreamWrapper{
 		}
 	}
 
+	public function getId(){
+		return 'ftp::' . $this->user . '@' . $this->host . '/' . $this->root;
+	}
+
 	/**
 	 * construct the ftp url
-	 * @param string path
+	 * @param string $path
 	 * @return string
 	 */
 	public function constructUrl($path) {
@@ -51,7 +57,8 @@ class OC_FileStorage_FTP extends OC_FileStorage_StreamWrapper{
 		$url.='://'.$this->user.':'.$this->password.'@'.$this->host.$this->root.$path;
 		return $url;
 	}
-	public function fopen($path, $mode) {
+	public function fopen($path,$mode) {
+		$this->init();
 		switch($mode) {
 			case 'r':
 			case 'rb':
@@ -61,7 +68,7 @@ class OC_FileStorage_FTP extends OC_FileStorage_StreamWrapper{
 			case 'ab':
 				//these are supported by the wrapper
 				$context = stream_context_create(array('ftp' => array('overwrite' => true)));
-				return fopen($this->constructUrl($path), $mode, false, $context);
+				return fopen($this->constructUrl($path),$mode, false,$context);
 			case 'r+':
 			case 'w+':
 			case 'wb+':
@@ -77,16 +84,18 @@ class OC_FileStorage_FTP extends OC_FileStorage_StreamWrapper{
 					$ext='';
 				}
 				$tmpFile=OCP\Files::tmpFile($ext);
-				OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this, 'writeBack');
+				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$this->getFile($path, $tmpFile);
 				}
 				self::$tempFiles[$tmpFile]=$path;
-				return fopen('close://'.$tmpFile, $mode);
+				return fopen('close://'.$tmpFile,$mode);
 		}
+		return false;
 	}
 
 	public function writeBack($tmpFile) {
+		$this->init();
 		if (isset(self::$tempFiles[$tmpFile])) {
 			$this->uploadFile($tmpFile, self::$tempFiles[$tmpFile]);
 			unlink($tmpFile);

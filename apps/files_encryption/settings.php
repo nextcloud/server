@@ -6,17 +6,16 @@
  * See the COPYING-README file.
  */
 
-OC_Util::checkAdminUser();
+\OC_Util::checkAdminUser();
 
-$tmpl = new OCP\Template( 'files_encryption', 'settings');
-$blackList=explode(',', OCP\Config::getAppValue('files_encryption',
-												'type_blacklist',
-												'jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg'));
-$enabled=(OCP\Config::getAppValue('files_encryption', 'enable_encryption', 'true')=='true');
-$tmpl->assign('blacklist', $blackList);
-$tmpl->assign('encryption_enabled', $enabled);
+$tmpl = new OCP\Template( 'files_encryption', 'settings' );
 
-OCP\Util::addscript('files_encryption', 'settings');
-OCP\Util::addscript('core', 'multiselect');
+$blackList = explode( ',', \OCP\Config::getAppValue( 'files_encryption', 'type_blacklist', 'jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg' ) );
+
+$tmpl->assign( 'blacklist', $blackList );
+$tmpl->assign( 'encryption_mode', \OC_Appconfig::getValue( 'files_encryption', 'mode', 'none' ) );
+
+\OCP\Util::addscript( 'files_encryption', 'settings' );
+\OCP\Util::addscript( 'core', 'multiselect' );
 
 return $tmpl->fetchPage();

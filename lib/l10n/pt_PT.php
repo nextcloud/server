@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "Os ficheiros precisam de ser descarregados um por um.",
 "Back to Files" => "Voltar a Ficheiros",
 "Selected files too large to generate zip file." => "Os ficheiros seleccionados são grandes demais para gerar um ficheiro zip.",
+"couldn't be determined" => "Não foi possível determinar",
 "Application is not enabled" => "A aplicação não está activada",
 "Authentication error" => "Erro na autenticação",
 "Token expired. Please reload page." => "O token expirou. Por favor recarregue a página.",

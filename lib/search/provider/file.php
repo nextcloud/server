@@ -2,7 +2,7 @@
 
 class OC_Search_Provider_File extends OC_Search_Provider{
 	function search($query) {
-		$files=OC_FileCache::search($query, true);
+		$files=\OC\Files\Filesystem::search($query, true);
 		$results=array();
 		$l=OC_L10N::get('lib');
 		foreach($files as $fileData) {

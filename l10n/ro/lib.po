@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Dumitru Ursu <>, 2013.
 #   <g.ciprian@osn.ro>, 2012.
 #   <laur.cristescu@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-27 00:04+0100\n"
-"PO-Revision-Date: 2012-12-26 05:14+0000\n"
-"Last-Translator: laurentiucristescu <laur.cristescu@gmail.com>\n"
+"POT-Creation-Date: 2013-01-26 00:09+0100\n"
+"PO-Revision-Date: 2013-01-25 21:31+0000\n"
+"Last-Translator: Dimon Pockemon <>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,27 +20,27 @@ msgstr ""
 "Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
 
-#: app.php:287
+#: app.php:301
 msgid "Help"
 msgstr "Ajutor"
 
-#: app.php:294
+#: app.php:308
 msgid "Personal"
 msgstr "Personal"
 
-#: app.php:299
+#: app.php:313
 msgid "Settings"
 msgstr "Setări"
 
-#: app.php:304
+#: app.php:318
 msgid "Users"
 msgstr "Utilizatori"
 
-#: app.php:311
+#: app.php:325
 msgid "Apps"
 msgstr "Aplicații"
 
-#: app.php:313
+#: app.php:327
 msgid "Admin"
 msgstr "Admin"
 
@@ -59,11 +60,15 @@ msgstr "Înapoi la fișiere"
 msgid "Selected files too large to generate zip file."
 msgstr "Fișierele selectate sunt prea mari pentru a genera un fișier zip."
 
+#: helper.php:229
+msgid "couldn't be determined"
+msgstr "nu poate fi determinat"
+
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "Aplicația nu este activată"
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "Eroare la autentificare"
 
@@ -83,55 +88,55 @@ msgstr "Text"
 msgid "Images"
 msgstr "Imagini"
 
-#: template.php:103
+#: template.php:113
 msgid "seconds ago"
 msgstr "secunde în urmă"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "1 minut în urmă"
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d minute în urmă"
 
-#: template.php:106
+#: template.php:116
 msgid "1 hour ago"
 msgstr "Acum o ora"
 
-#: template.php:107
+#: template.php:117
 #, php-format
 msgid "%d hours ago"
 msgstr "%d ore in urma"
 
-#: template.php:108
+#: template.php:118
 msgid "today"
 msgstr "astăzi"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr "ieri"
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "%d zile în urmă"
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr "ultima lună"
 
-#: template.php:112
+#: template.php:122
 #, php-format
 msgid "%d months ago"
 msgstr "%d luni in urma"
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr "ultimul an"
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr "ani în urmă"
 

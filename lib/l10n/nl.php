@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "Bestanden moeten één voor één worden gedownload.",
 "Back to Files" => "Terug naar bestanden",
 "Selected files too large to generate zip file." => "De geselecteerde bestanden zijn te groot om een zip bestand te maken.",
+"couldn't be determined" => "kon niet worden vastgesteld",
 "Application is not enabled" => "De applicatie is niet actief",
 "Authentication error" => "Authenticatie fout",
 "Token expired. Please reload page." => "Token verlopen.  Herlaad de pagina.",

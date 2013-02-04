@@ -27,10 +27,9 @@ require_once 'public/constants.php';
  * No, we can not put this class in its own file because it is used by
  * OC_autoload!
  */
-class OC
-{
+class OC {
 	/**
-	 * Assoziative array for autoloading. classname => filename
+	 * Associative array for autoloading. classname => filename
 	 */
 	public static $CLASSPATH = array();
 	/**
@@ -78,13 +77,12 @@ class OC
 	/**
 	 * SPL autoload
 	 */
-	public static function autoload($className)
-	{
+	public static function autoload($className) {
 		if (array_key_exists($className, OC::$CLASSPATH)) {
 			$path = OC::$CLASSPATH[$className];
 			/** @TODO: Remove this when necessary
-			  Remove "apps/" from inclusion path for smooth migration to mutli app dir
-			  */
+			Remove "apps/" from inclusion path for smooth migration to mutli app dir
+			 */
 			if (strpos($path, 'apps/') === 0) {
 				OC_Log::write('core', 'include path for class "' . $className . '" starts with "apps/"', OC_Log::DEBUG);
 				$path = str_replace('apps/', '', $path);
@@ -96,7 +94,14 @@ class OC
 		} elseif (strpos($className, 'OCP\\') === 0) {
 			$path = 'public/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
 		} elseif (strpos($className, 'OCA\\') === 0) {
-			$path = 'apps/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
+			foreach (self::$APPSROOTS as $appDir) {
+				$path = $appDir['path'] . '/' . strtolower(str_replace('\\', '/', substr($className, 3)) . '.php');
+				$fullPath = stream_resolve_include_path($path);
+				if (file_exists($fullPath)) {
+					require_once $fullPath;
+					return false;
+				}
+			}
 		} elseif (strpos($className, 'Sabre_') === 0) {
 			$path = str_replace('_', '/', $className) . '.php';
 		} elseif (strpos($className, 'Symfony\\Component\\Routing\\') === 0) {
@@ -105,6 +110,8 @@ class OC
 			$path = str_replace('\\', '/', $className) . '.php';
 		} elseif (strpos($className, 'Test_') === 0) {
 			$path = 'tests/lib/' . strtolower(str_replace('_', '/', substr($className, 5)) . '.php');
+		} elseif (strpos($className, 'Test\\') === 0) {
+			$path = 'tests/lib/' . strtolower(str_replace('\\', '/', substr($className, 5)) . '.php');
 		} else {
 			return false;
 		}
@@ -115,12 +122,18 @@ class OC
 		return false;
 	}
 
-	public static function initPaths()
-	{
+	public static function initPaths() {
 		// calculate the root directories
 		OC::$SERVERROOT = str_replace("\\", '/', substr(__DIR__, 0, -4));
+
+		// ensure we can find OC_Config
+		set_include_path(
+			OC::$SERVERROOT . '/lib' . PATH_SEPARATOR .
+				get_include_path()
+		);
+
 		OC::$SUBURI = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen(OC::$SERVERROOT)));
-		$scriptName = $_SERVER["SCRIPT_NAME"];
+		$scriptName = OC_Request::scriptName();
 		if (substr($scriptName, -1) == '/') {
 			$scriptName .= 'index.php';
 			//make sure suburi follows the same rules as scriptName
@@ -137,12 +150,6 @@ class OC
 		if (OC::$WEBROOT != '' and OC::$WEBROOT[0] !== '/') {
 			OC::$WEBROOT = '/' . OC::$WEBROOT;
 		}
-
-		// ensure we can find OC_Config
-		set_include_path(
-			OC::$SERVERROOT . '/lib' . PATH_SEPARATOR .
-			get_include_path()
-		);
 
 		// search the 3rdparty folder
 		if (OC_Config::getValue('3rdpartyroot', '') <> '' and OC_Config::getValue('3rdpartyurl', '') <> '') {
@@ -179,17 +186,18 @@ class OC
 			exit;
 		}
 		$paths = array();
-		foreach (OC::$APPSROOTS as $path)
+		foreach (OC::$APPSROOTS as $path) {
 			$paths[] = $path['path'];
+		}
 
 		// set the right include path
 		set_include_path(
 			OC::$SERVERROOT . '/lib' . PATH_SEPARATOR .
-			OC::$SERVERROOT . '/config' . PATH_SEPARATOR .
-			OC::$THIRDPARTYROOT . '/3rdparty' . PATH_SEPARATOR .
-			implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR .
-			get_include_path() . PATH_SEPARATOR .
-			OC::$SERVERROOT
+				OC::$SERVERROOT . '/config' . PATH_SEPARATOR .
+				OC::$THIRDPARTYROOT . '/3rdparty' . PATH_SEPARATOR .
+				implode($paths, PATH_SEPARATOR) . PATH_SEPARATOR .
+				get_include_path() . PATH_SEPARATOR .
+				OC::$SERVERROOT
 		);
 	}
 
@@ -202,8 +210,7 @@ class OC
 		}
 	}
 
-	public static function checkInstalled()
-	{
+	public static function checkInstalled() {
 		// Redirect to installer if not installed
 		if (!OC_Config::getValue('installed', false) && OC::$SUBURI != '/index.php') {
 			if (!OC::$CLI) {
@@ -214,14 +221,13 @@ class OC
 		}
 	}
 
-	public static function checkSSL()
-	{
+	public static function checkSSL() {
 		// redirect to https site if configured
 		if (OC_Config::getValue("forcessl", false)) {
 			header('Strict-Transport-Security: max-age=31536000');
 			ini_set("session.cookie_secure", "on");
 			if (OC_Request::serverProtocol() <> 'https' and !OC::$CLI) {
-				$url = "https://" . OC_Request::serverHost() . $_SERVER['REQUEST_URI'];
+				$url = "https://" . OC_Request::serverHost() . OC_Request::requestUri();
 				header("Location: $url");
 				exit();
 			}
@@ -231,6 +237,12 @@ class OC
 	public static function checkMaintenanceMode() {
 		// Allow ajax update script to execute without being stopped
 		if (OC_Config::getValue('maintenance', false) && OC::$SUBURI != '/core/ajax/update.php') {
+			// send http status 503
+			header('HTTP/1.1 503 Service Temporarily Unavailable');
+			header('Status: 503 Service Temporarily Unavailable');
+			header('Retry-After: 120');
+
+			// render error page
 			$tmpl = new OC_Template('', 'error', 'guest');
 			$tmpl->assign('errors', array(1 => array('error' => 'ownCloud is in maintenance mode')));
 			$tmpl->printPage();
@@ -246,6 +258,7 @@ class OC
 				if ($showTemplate && !OC_Config::getValue('maintenance', false)) {
 					OC_Config::setValue('maintenance', true);
 					OC_Log::write('core', 'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, OC_Log::DEBUG);
+					OC_Util::addscript('update');
 					$tmpl = new OC_Template('', 'update', 'guest');
 					$tmpl->assign('version', OC_Util::getVersionString());
 					$tmpl->printPage();
@@ -258,11 +271,10 @@ class OC
 		}
 	}
 
-	public static function initTemplateEngine()
-	{
+	public static function initTemplateEngine() {
 		// Add the stuff we need always
 		OC_Util::addScript("jquery-1.7.2.min");
-		OC_Util::addScript("jquery-ui-1.8.16.custom.min");
+		OC_Util::addScript("jquery-ui-1.10.0.custom");
 		OC_Util::addScript("jquery-showpassword");
 		OC_Util::addScript("jquery.infieldlabel");
 		OC_Util::addScript("jquery-tipsy");
@@ -276,12 +288,12 @@ class OC
 
 		OC_Util::addStyle("styles");
 		OC_Util::addStyle("multiselect");
-		OC_Util::addStyle("jquery-ui-1.8.16.custom");
+		OC_Util::addStyle("jquery-ui-1.10.0.custom");
 		OC_Util::addStyle("jquery-tipsy");
+		OC_Util::addScript("oc-requesttoken");
 	}
 
-	public static function initSession()
-	{
+	public static function initSession() {
 		// prevents javascript from accessing php session cookies
 		ini_set('session.cookie_httponly', '1;');
 
@@ -311,8 +323,7 @@ class OC
 		$_SESSION['LAST_ACTIVITY'] = time();
 	}
 
-	public static function getRouter()
-	{
+	public static function getRouter() {
 		if (!isset(OC::$router)) {
 			OC::$router = new OC_Router();
 			OC::$router->loadRoutes();
@@ -321,8 +332,18 @@ class OC
 		return OC::$router;
 	}
 
-	public static function init()
-	{
+
+	public static function loadAppClassPaths() {
+		foreach (OC_APP::getEnabledApps() as $app) {
+			$file = OC_App::getAppPath($app) . '/appinfo/classpath.php';
+			if (file_exists($file)) {
+				require_once $file;
+			}
+		}
+	}
+
+
+	public static function init() {
 		// register autoloader
 		spl_autoload_register(array('OC', 'autoload'));
 		setlocale(LC_ALL, 'en_US.UTF-8');
@@ -393,18 +414,16 @@ class OC
 		}
 
 		// register the stream wrappers
-		require_once 'streamwrappers.php';
-		stream_wrapper_register("fakedir", "OC_FakeDirStream");
-		stream_wrapper_register('static', 'OC_StaticStreamWrapper');
-		stream_wrapper_register('close', 'OC_CloseStreamWrapper');
+		stream_wrapper_register('fakedir', 'OC\Files\Stream\Dir');
+		stream_wrapper_register('static', 'OC\Files\Stream\StaticStream');
+		stream_wrapper_register('close', 'OC\Files\Stream\Close');
+		stream_wrapper_register('oc', 'OC\Files\Stream\OC');
 
 		self::checkConfig();
 		self::checkInstalled();
 		self::checkSSL();
 		self::initSession();
 		self::initTemplateEngine();
-		self::checkMaintenanceMode();
-		self::checkUpgrade();
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
@@ -477,7 +496,7 @@ class OC
 
 		// write error into log if locale can't be set
 		if (OC_Util::issetlocaleworking() == false) {
-			OC_Log::write('core', 'setting locate to en_US.UTF-8 failed. Support is probably not installed on your system', OC_Log::ERROR);
+			OC_Log::write('core', 'setting locale to en_US.UTF-8 failed. Support is probably not installed on your system', OC_Log::ERROR);
 		}
 		if (OC_Config::getValue('installed', false)) {
 			if (OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
@@ -489,8 +508,7 @@ class OC
 	/**
 	 * register hooks for the cache
 	 */
-	public static function registerCacheHooks()
-	{
+	public static function registerCacheHooks() {
 		// register cache cleanup jobs
 		OC_BackgroundJob_RegularTask::register('OC_Cache_FileGlobal', 'gc');
 		OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
@@ -499,8 +517,7 @@ class OC
 	/**
 	 * register hooks for the filesystem
 	 */
-	public static function registerFilesystemHooks()
-	{
+	public static function registerFilesystemHooks() {
 		// Check for blacklisted files
 		OC_Hook::connect('OC_Filesystem', 'write', 'OC_Filesystem', 'isBlacklisted');
 		OC_Hook::connect('OC_Filesystem', 'rename', 'OC_Filesystem', 'isBlacklisted');
@@ -509,8 +526,7 @@ class OC
 	/**
 	 * register hooks for sharing
 	 */
-	public static function registerShareHooks()
-	{
+	public static function registerShareHooks() {
 		OC_Hook::connect('OC_User', 'post_deleteUser', 'OCP\Share', 'post_deleteUser');
 		OC_Hook::connect('OC_User', 'post_addToGroup', 'OCP\Share', 'post_addToGroup');
 		OC_Hook::connect('OC_User', 'post_removeFromGroup', 'OCP\Share', 'post_removeFromGroup');
@@ -520,12 +536,41 @@ class OC
 	/**
 	 * @brief Handle the request
 	 */
-	public static function handleRequest()
-	{
+	public static function handleRequest() {
+		// load all the classpaths from the enabled apps so they are available
+		// in the routing files of each app
+		OC::loadAppClassPaths();
+
+		// Check if ownCloud is installed or in maintenance (update) mode
 		if (!OC_Config::getValue('installed', false)) {
 			require_once 'core/setup.php';
 			exit();
 		}
+		$request = OC_Request::getPathInfo();
+		if(substr($request, -3) !== '.js'){// we need these files during the upgrade
+			self::checkMaintenanceMode();
+			self::checkUpgrade();
+		}
+
+		try {
+			OC::getRouter()->match(OC_Request::getPathInfo());
+			return;
+		} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
+			//header('HTTP/1.0 404 Not Found');
+		} catch (Symfony\Component\Routing\Exception\MethodNotAllowedException $e) {
+			OC_Response::setStatus(405);
+			return;
+		}
+
+		$app = OC::$REQUESTEDAPP;
+		$file = OC::$REQUESTEDFILE;
+		$param = array('app' => $app, 'file' => $file);
+		// Handle app css files
+		if (substr($file, -3) == 'css') {
+			self::loadCSSFile($param);
+			return;
+		}
+
 		// Handle redirect URL for logged in users
 		if (isset($_REQUEST['redirect_url']) && OC_User::isLoggedIn()) {
 			$location = OC_Helper::makeURLAbsolute(urldecode($_REQUEST['redirect_url']));
@@ -537,23 +582,7 @@ class OC
 			header('location: ' . OC_Helper::linkToRemote('webdav'));
 			return;
 		}
-		try {
-			OC::getRouter()->match(OC_Request::getPathInfo());
-			return;
-		} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
-			//header('HTTP/1.0 404 Not Found');
-		} catch (Symfony\Component\Routing\Exception\MethodNotAllowedException $e) {
-			OC_Response::setStatus(405);
-			return;
-		}
-		$app = OC::$REQUESTEDAPP;
-		$file = OC::$REQUESTEDFILE;
-		$param = array('app' => $app, 'file' => $file);
-		// Handle app css files
-		if (substr($file, -3) == 'css') {
-			self::loadCSSFile($param);
-			return;
-		}
+
 		// Someone is logged in :
 		if (OC_User::isLoggedIn()) {
 			OC_App::loadApps();
@@ -571,7 +600,7 @@ class OC
 				$file_ext = substr($param['file'], -3);
 				if ($file_ext != 'php'
 					|| !self::loadAppScriptFile($param)
-				   ) {
+				) {
 					header('HTTP/1.0 404 Not Found');
 				}
 			}
@@ -581,8 +610,7 @@ class OC
 		self::handleLogin();
 	}
 
-	public static function loadAppScriptFile($param)
-	{
+	public static function loadAppScriptFile($param) {
 		OC_App::loadApps();
 		$app = $param['app'];
 		$file = $param['file'];
@@ -596,8 +624,7 @@ class OC
 		return false;
 	}
 
-	public static function loadCSSFile($param)
-	{
+	public static function loadCSSFile($param) {
 		$app = $param['app'];
 		$file = $param['file'];
 		$app_path = OC_App::getAppPath($app);
@@ -610,27 +637,25 @@ class OC
 		}
 	}
 
-	protected static function handleLogin()
-	{
+	protected static function handleLogin() {
 		OC_App::loadApps(array('prelogin'));
 		$error = array();
 		// remember was checked after last login
 		if (OC::tryRememberLogin()) {
 			$error[] = 'invalidcookie';
 
-		// Someone wants to log in :
+			// Someone wants to log in :
 		} elseif (OC::tryFormLogin()) {
 			$error[] = 'invalidpassword';
 
-		// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
+			// The user is already authenticated using Apaches AuthType Basic... very usable in combination with LDAP
 		} elseif (OC::tryBasicAuthLogin()) {
 			$error[] = 'invalidpassword';
 		}
 		OC_Util::displayLoginPage(array_unique($error));
 	}
 
-	protected static function cleanupLoginTokens($user)
-	{
+	protected static function cleanupLoginTokens($user) {
 		$cutoff = time() - OC_Config::getValue('remember_login_cookie_lifetime', 60 * 60 * 24 * 15);
 		$tokens = OC_Preferences::getKeys($user, 'login_token');
 		foreach ($tokens as $token) {
@@ -641,13 +666,12 @@ class OC
 		}
 	}
 
-	protected static function tryRememberLogin()
-	{
+	protected static function tryRememberLogin() {
 		if (!isset($_COOKIE["oc_remember_login"])
 			|| !isset($_COOKIE["oc_token"])
 			|| !isset($_COOKIE["oc_username"])
 			|| !$_COOKIE["oc_remember_login"]
-		   ) {
+		) {
 			return false;
 		}
 		OC_App::loadApps(array('authentication'));
@@ -682,8 +706,7 @@ class OC
 		return true;
 	}
 
-	protected static function tryFormLogin()
-	{
+	protected static function tryFormLogin() {
 		if (!isset($_POST["user"]) || !isset($_POST['password'])) {
 			return false;
 		}
@@ -716,18 +739,17 @@ class OC
 		return true;
 	}
 
-	protected static function tryBasicAuthLogin()
-	{
+	protected static function tryBasicAuthLogin() {
 		if (!isset($_SERVER["PHP_AUTH_USER"])
 			|| !isset($_SERVER["PHP_AUTH_PW"])
-		   ) {
+		) {
 			return false;
 		}
 		OC_App::loadApps(array('authentication'));
 		if (OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
 			//OC_Log::write('core',"Logged in with HTTP Authentication", OC_Log::DEBUG);
 			OC_User::unsetMagicInCookie();
-			$_REQUEST['redirect_url'] = (isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '');
+			$_REQUEST['redirect_url'] = OC_Request::requestUri();
 			OC_Util::redirectToDefaultPage();
 		}
 		return true;
@@ -741,8 +763,7 @@ if (!isset($RUNTIME_NOAPPS)) {
 }
 
 if (!function_exists('get_temp_dir')) {
-	function get_temp_dir()
-	{
+	function get_temp_dir() {
 		if ($temp = ini_get('upload_tmp_dir')) return $temp;
 		if ($temp = getenv('TMP')) return $temp;
 		if ($temp = getenv('TEMP')) return $temp;

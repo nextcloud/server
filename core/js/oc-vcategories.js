@@ -50,7 +50,7 @@ var OCCategories= {
 							$('#category_dialog').remove();
 						},
 						open : function(event, ui) {
-							$('#category_addinput').live('input',function() {
+							$('#category_addinput').on('input',function() {
 								if($(this).val().length > 0) {
 									$('#category_addbutton').removeAttr('disabled');
 								}
@@ -61,7 +61,7 @@ var OCCategories= {
 								$('#category_addbutton').attr('disabled', 'disabled');
 								return false;
 							});
-							$('#category_addbutton').live('click',function(e) {
+							$('#category_addbutton').on('click',function(e) {
 								e.preventDefault();
 								if($('#category_addinput').val().length > 0) {
 									OCCategories.add($('#category_addinput').val());

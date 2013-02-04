@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-14 00:17+0100\n"
-"PO-Revision-Date: 2013-01-13 01:26+0000\n"
-"Last-Translator: Mohamad Hasan Al Banna <se7entime@gmail.com>\n"
+"POT-Creation-Date: 2013-01-17 00:26+0100\n"
+"PO-Revision-Date: 2013-01-16 23:26+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -59,11 +59,15 @@ msgstr "kembali ke daftar file"
 msgid "Selected files too large to generate zip file."
 msgstr "file yang dipilih terlalu besar untuk membuat file zip"
 
+#: helper.php:228
+msgid "couldn't be determined"
+msgstr ""
+
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "aplikasi tidak diaktifkan"
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "autentikasi bermasalah"
 
@@ -83,55 +87,55 @@ msgstr "teks"
 msgid "Images"
 msgstr "Gambar"
 
-#: template.php:103
+#: template.php:113
 msgid "seconds ago"
 msgstr "beberapa detik yang lalu"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "1 menit lalu"
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d menit lalu"
 
-#: template.php:106
+#: template.php:116
 msgid "1 hour ago"
 msgstr "1 jam yang lalu"
 
-#: template.php:107
+#: template.php:117
 #, php-format
 msgid "%d hours ago"
 msgstr "%d jam yang lalu"
 
-#: template.php:108
+#: template.php:118
 msgid "today"
 msgstr "hari ini"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr "kemarin"
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "%d hari lalu"
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr "bulan kemarin"
 
-#: template.php:112
+#: template.php:122
 #, php-format
 msgid "%d months ago"
 msgstr "%d bulan yang lalu"
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr "tahun kemarin"
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr "beberapa tahun lalu"
 

@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# André Koot <meneer@tken.net>, 2013.
 #   <lenny@weijl.org>, 2012.
 # Richard Bos <radoeka@gmail.com>, 2012.
 #   <transifex@thisnet.nl>, 2012.
@@ -10,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-17 00:01+0100\n"
-"PO-Revision-Date: 2012-11-16 05:45+0000\n"
-"Last-Translator: Len <lenny@weijl.org>\n"
+"POT-Creation-Date: 2013-01-19 00:04+0100\n"
+"PO-Revision-Date: 2013-01-18 09:03+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,51 +21,55 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:285
+#: app.php:301
 msgid "Help"
 msgstr "Help"
 
-#: app.php:292
+#: app.php:308
 msgid "Personal"
 msgstr "Persoonlijk"
 
-#: app.php:297
+#: app.php:313
 msgid "Settings"
 msgstr "Instellingen"
 
-#: app.php:302
+#: app.php:318
 msgid "Users"
 msgstr "Gebruikers"
 
-#: app.php:309
+#: app.php:325
 msgid "Apps"
 msgstr "Apps"
 
-#: app.php:311
+#: app.php:327
 msgid "Admin"
 msgstr "Beheerder"
 
-#: files.php:332
+#: files.php:365
 msgid "ZIP download is turned off."
 msgstr "ZIP download is uitgeschakeld."
 
-#: files.php:333
+#: files.php:366
 msgid "Files need to be downloaded one by one."
 msgstr "Bestanden moeten één voor één worden gedownload."
 
-#: files.php:333 files.php:358
+#: files.php:366 files.php:391
 msgid "Back to Files"
 msgstr "Terug naar bestanden"
 
-#: files.php:357
+#: files.php:390
 msgid "Selected files too large to generate zip file."
 msgstr "De geselecteerde bestanden zijn te groot om een zip bestand te maken."
+
+#: helper.php:228
+msgid "couldn't be determined"
+msgstr "kon niet worden vastgesteld"
 
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "De applicatie is niet actief"
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "Authenticatie fout"
 
@@ -84,55 +89,55 @@ msgstr "Tekst"
 msgid "Images"
 msgstr "Afbeeldingen"
 
-#: template.php:103
+#: template.php:113
 msgid "seconds ago"
 msgstr "seconden geleden"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "1 minuut geleden"
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d minuten geleden"
 
-#: template.php:106
+#: template.php:116
 msgid "1 hour ago"
 msgstr "1 uur geleden"
 
-#: template.php:107
+#: template.php:117
 #, php-format
 msgid "%d hours ago"
 msgstr "%d uren geleden"
 
-#: template.php:108
+#: template.php:118
 msgid "today"
 msgstr "vandaag"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr "gisteren"
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "%d dagen geleden"
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr "vorige maand"
 
-#: template.php:112
+#: template.php:122
 #, php-format
 msgid "%d months ago"
 msgstr "%d maanden geleden"
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr "vorig jaar"
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr "jaar geleden"
 

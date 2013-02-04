@@ -19,7 +19,7 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Test_Share extends UnitTestCase {
+class Test_Share extends PHPUnit_Framework_TestCase {
 
 	protected $itemType;
 	protected $userBackend;

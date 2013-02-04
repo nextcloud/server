@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "Filer laddas ner en åt gången.",
 "Back to Files" => "Tillbaka till Filer",
 "Selected files too large to generate zip file." => "Valda filer är för stora för att skapa zip-fil.",
+"couldn't be determined" => "kunde inte bestämmas",
 "Application is not enabled" => "Applikationen är inte aktiverad",
 "Authentication error" => "Fel vid autentisering",
 "Token expired. Please reload page." => "Ogiltig token. Ladda om sidan.",

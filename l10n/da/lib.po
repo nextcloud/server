@@ -4,15 +4,15 @@
 # 
 # Translators:
 #   <cronner@gmail.com>, 2012.
-# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2012.
+# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2012-2013.
 #   <osos@openeyes.dk>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-24 00:11+0100\n"
-"PO-Revision-Date: 2012-12-23 21:58+0000\n"
-"Last-Translator: cronner <cronner@gmail.com>\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 11:52+0000\n"
+"Last-Translator: Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,27 +20,27 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:287
+#: app.php:301
 msgid "Help"
 msgstr "Hjælp"
 
-#: app.php:294
+#: app.php:308
 msgid "Personal"
 msgstr "Personlig"
 
-#: app.php:299
+#: app.php:313
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: app.php:304
+#: app.php:318
 msgid "Users"
 msgstr "Brugere"
 
-#: app.php:311
+#: app.php:325
 msgid "Apps"
 msgstr "Apps"
 
-#: app.php:313
+#: app.php:327
 msgid "Admin"
 msgstr "Admin"
 
@@ -60,11 +60,15 @@ msgstr "Tilbage til Filer"
 msgid "Selected files too large to generate zip file."
 msgstr "De markerede filer er for store til at generere en ZIP-fil."
 
+#: helper.php:229
+msgid "couldn't be determined"
+msgstr "kunne ikke fastslås"
+
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "Programmet er ikke aktiveret"
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "Adgangsfejl"
 
@@ -84,55 +88,55 @@ msgstr "SMS"
 msgid "Images"
 msgstr "Billeder"
 
-#: template.php:103
+#: template.php:113
 msgid "seconds ago"
 msgstr "sekunder siden"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "1 minut siden"
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d minutter siden"
 
-#: template.php:106
+#: template.php:116
 msgid "1 hour ago"
 msgstr "1 time siden"
 
-#: template.php:107
+#: template.php:117
 #, php-format
 msgid "%d hours ago"
 msgstr "%d timer siden"
 
-#: template.php:108
+#: template.php:118
 msgid "today"
 msgstr "I dag"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr "I går"
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "%d dage siden"
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr "Sidste måned"
 
-#: template.php:112
+#: template.php:122
 #, php-format
 msgid "%d months ago"
 msgstr "%d måneder siden"
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr "Sidste år"
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr "år siden"
 

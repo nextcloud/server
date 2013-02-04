@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-abstract class Test_Cache extends UnitTestCase {
+abstract class Test_Cache extends PHPUnit_Framework_TestCase {
 	/**
 	 * @var OC_Cache cache;
 	 */
@@ -26,19 +26,19 @@ abstract class Test_Cache extends UnitTestCase {
 		$this->instance->set('value1', $value);
 		$this->assertTrue($this->instance->hasKey('value1'));
 		$received=$this->instance->get('value1');
-		$this->assertEqual($value, $received, 'Value recieved from cache not equal to the original');
+		$this->assertEquals($value, $received, 'Value recieved from cache not equal to the original');
 		$value='ipsum lorum';
 		$this->instance->set('value1', $value);
 		$received=$this->instance->get('value1');
-		$this->assertEqual($value, $received, 'Value not overwritten by second set');
+		$this->assertEquals($value, $received, 'Value not overwritten by second set');
 
 		$value2='foobar';
 		$this->instance->set('value2', $value2);
 		$received2=$this->instance->get('value2');
 		$this->assertTrue($this->instance->hasKey('value1'));
 		$this->assertTrue($this->instance->hasKey('value2'));
-		$this->assertEqual($value, $received, 'Value changed while setting other variable');
-		$this->assertEqual($value2, $received2, 'Second value not equal to original');
+		$this->assertEquals($value, $received, 'Value changed while setting other variable');
+		$this->assertEquals($value2, $received2, 'Second value not equal to original');
 
 		$this->assertFalse($this->instance->hasKey('not_set'));
 		$this->assertNull($this->instance->get('not_set'), 'Unset value not equal to null');

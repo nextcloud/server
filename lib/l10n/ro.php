@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "Fișierele trebuie descărcate unul câte unul.",
 "Back to Files" => "Înapoi la fișiere",
 "Selected files too large to generate zip file." => "Fișierele selectate sunt prea mari pentru a genera un fișier zip.",
+"couldn't be determined" => "nu poate fi determinat",
 "Application is not enabled" => "Aplicația nu este activată",
 "Authentication error" => "Eroare la autentificare",
 "Token expired. Please reload page." => "Token expirat. Te rugăm să reîncarci pagina.",

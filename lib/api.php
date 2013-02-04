@@ -90,10 +90,15 @@ class OC_API {
 		if(self::isAuthorised(self::$actions[$name])) {
 			if(is_callable(self::$actions[$name]['action'])) {
 				$response = call_user_func(self::$actions[$name]['action'], $parameters);
+				if(!($response instanceof OC_OCS_Result)) {
+					$response = new OC_OCS_Result(null, 996, 'Internal Server Error');
+				}
 			} else {
 				$response = new OC_OCS_Result(null, 998, 'Api method not found');
 			}
 		} else {
+			header('WWW-Authenticate: Basic realm="Authorization Required"');
+			header('HTTP/1.0 401 Unauthorized');
 			$response = new OC_OCS_Result(null, 997, 'Unauthorised');
 		}
 		// Send the response
@@ -183,10 +188,13 @@ class OC_API {
 
 	private static function toXML($array, $writer) {
 		foreach($array as $k => $v) {
-			if (is_numeric($k)) {
+			if ($k[0] === '@') {
+				$writer->writeAttribute(substr($k, 1), $v);
+				continue;
+			} else if (is_numeric($k)) {
 				$k = 'element';
 			}
-			if (is_array($v)) {
+			if(is_array($v)) {
 				$writer->startElement($k);
 				self::toXML($v, $writer);
 				$writer->endElement();
