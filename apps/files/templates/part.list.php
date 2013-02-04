@@ -28,7 +28,7 @@
 			>
 		<?php if(!isset($_['readonly']) || !$_['readonly']): ?><input type="checkbox" /><?php endif; ?>
 		<?php if($file['type'] == 'dir'): ?>
-			<a class="name" href="<?php echo $_['baseURL'].$directory.'/'.$name; ?>)" title="">
+			<a class="name" href="<?php echo $_['baseURL'].$directory.'/'.$name; ?>" title="">
 		<?php else: ?>
 			<a class="name" href="<?php echo $_['downloadURL'].$directory.'/'.$name; ?>" title="">
 		<?php endif; ?>
