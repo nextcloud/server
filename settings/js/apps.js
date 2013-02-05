@@ -132,12 +132,12 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					var container = $('#apps');
 
 					if(container.children('li[data-id="'+entry.id+'"]').length === 0){
-						var li=$('<li></li>').attr({class: 'enabled-app'});
+						var li=$('<li></li>');
 						li.attr('data-id', entry.id);
 						var img= $('<img></img>').attr({ src: entry.icon, class:'icon'});
-						li.append(img);
 						var a=$('<a></a>').attr('href', entry.href);
 						a.text(entry.name);
+						a.prepend(img);
 						li.append(a);
 						container.append(li);
 					}
