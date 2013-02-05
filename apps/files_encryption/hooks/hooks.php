@@ -37,61 +37,63 @@ class Hooks {
 	 * @note This method should never be called for users using client side encryption
 	 */
 	public static function login( $params ) {
-		
-			$view = new \OC_FilesystemView( '/' );
+	
+		\OC\Files\Filesystem::init( $params['uid'] . '/' . 'files' . '/' );
+	
+		$view = new \OC_FilesystemView( '/' );
 
-			$util = new Util( $view, $params['uid'] );
-			
-			if ( ! $util->ready() ) {
-				
-				\OC_Log::write( 'Encryption library', 'User account "' . $params['uid'] . '" is not ready for encryption; configuration started', \OC_Log::DEBUG );
-				
-				return $util->setupServerSide( $params['password'] );
-
-			}
+		$util = new Util( $view, $params['uid'] );
 		
-			\OC_FileProxy::$enabled = false;
+		if ( ! $util->ready() ) {
 			
-			$encryptedKey = Keymanager::getPrivateKey( $view, $params['uid'] );
+			\OC_Log::write( 'Encryption library', 'User account "' . $params['uid'] . '" is not ready for encryption; configuration started', \OC_Log::DEBUG );
 			
-			\OC_FileProxy::$enabled = true;
+			return $util->setupServerSide( $params['password'] );
+
+		}
+	
+		\OC_FileProxy::$enabled = false;
+		
+		$encryptedKey = Keymanager::getPrivateKey( $view, $params['uid'] );
+		
+		\OC_FileProxy::$enabled = true;
+		
+		$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
+		
+		$session = new Session();
+		
+		$session->setPrivateKey( $privateKey, $params['uid'] );
+		
+		$view1 = new \OC_FilesystemView( '/' . $params['uid'] );
+		
+		// Set legacy encryption key if it exists, to support 
+		// depreciated encryption system
+		if ( 
+			$view1->file_exists( 'encryption.key' )
+			&& $encLegacyKey = $view1->file_get_contents( 'encryption.key' ) 
+		) {
+		
+			$plainLegacyKey = Crypt::legacyDecrypt( $encLegacyKey, $params['password'] );
 			
-			$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
+			$session->setLegacyKey( $plainLegacyKey );
+		
+		}
+		
+		$publicKey = Keymanager::getPublicKey( $view, $params['uid'] );
+		
+		// Encrypt existing user files:
+		// This serves to upgrade old versions of the encryption
+		// app (see appinfo/spec.txt)
+		if ( 
+			$util->encryptAll( $publicKey,  '/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password'] )
+		) {
 			
-			$session = new Session();
-			
-			$session->setPrivateKey( $privateKey, $params['uid'] );
-			
-			$view1 = new \OC_FilesystemView( '/' . $params['uid'] );
-			
-			// Set legacy encryption key if it exists, to support 
-			// depreciated encryption system
-			if ( 
-				$view1->file_exists( 'encryption.key' )
-				&& $encLegacyKey = $view1->file_get_contents( 'encryption.key' ) 
-			) {
-			
-				$plainLegacyKey = Crypt::legacyDecrypt( $encLegacyKey, $params['password'] );
-				
-				$session->setLegacyKey( $plainLegacyKey );
-			
-			}
-			
-			$publicKey = Keymanager::getPublicKey( $view, $params['uid'] );
-			
-			// Encrypt existing user files:
-			// This serves to upgrade old versions of the encryption
-			// app (see appinfo/spec.txt)
-			if ( 
-				$util->encryptAll( $publicKey,  '/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password'] )
-			) {
-				
-				\OC_Log::write( 
-					'Encryption library', 'Encryption of existing files belonging to "' . $params['uid'] . '" started at login'
-					, \OC_Log::INFO 
-				);
-			
-			}
+			\OC_Log::write( 
+				'Encryption library', 'Encryption of existing files belonging to "' . $params['uid'] . '" started at login'
+				, \OC_Log::INFO 
+			);
+		
+		}
 
 		return true;
 
