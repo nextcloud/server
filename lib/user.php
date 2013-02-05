@@ -345,6 +345,24 @@ class OC_User {
 	}
 
 	/**
+	 * @brief Check whether user can change his password
+	 * @param $uid The username
+	 * @returns true/false
+	 *
+	 * Check whether a specified user can change his password
+	 */
+	public static function canUserChangePassword($uid) {
+		foreach(self::$_usedBackends as $backend) {
+			if($backend->implementsActions(OC_USER_BACKEND_SET_PASSWORD)) {
+				if($backend->userExists($uid)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * @brief Check if the password is correct
 	 * @param $uid The username
 	 * @param $password The password
