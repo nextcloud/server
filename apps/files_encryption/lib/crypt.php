@@ -182,16 +182,11 @@ class Crypt {
 	
         /**
          * @brief Check if a file is encrypted via legacy system
+         * @param string $relPath The path of the file, relative to user/data;
+         *        e.g. filename or /Docs/filename, NOT admin/files/filename
          * @return true / false
          */
-	public static function isLegacyEncryptedContent( $data, $path ) {
-	
-		$trimmed = ltrim( $path, '/' );
-		
-		// Path must not include user/files
-		$split = explode( '/', $trimmed );
-		$sliced = array_slice( $split, 2 );
-		$relPath = implode( '/', $sliced );
+	public static function isLegacyEncryptedContent( $data, $relPath ) {
 		
 // 		trigger_error("REL PATH = ".var_export($relPath, 1));
 		
@@ -200,7 +195,7 @@ class Crypt {
 		// Fetch all file metadata from DB
 		$metadata = \OC\Files\Filesystem::getFileInfo( $relPath, '' );
 		
-		trigger_error("PATH = ". var_export($trimmed, 1)."   METADATA = ".var_export($metadata['encrypted'], 1));
+		trigger_error("PATH = ". var_export($relPath, 1)."   METADATA = ".var_export($metadata['encrypted'], 1));
 		
 		// If a file is flagged with encryption in DB, but isn't a 
 		// valid content + IV combination, it's probably using the 

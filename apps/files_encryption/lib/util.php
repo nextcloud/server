@@ -251,6 +251,7 @@ class Util {
 				) {
 					
 					$filePath = $directory . '/' . $this->view->getRelativePath( '/' . $file );
+					$relPath = $this->stripUserFilesPath( $filePath );
 					
 					// If the path is a directory, search 
 					// its contents
@@ -286,7 +287,7 @@ class Util {
 						
 						// If the file uses old 
 						// encryption system
-						} elseif (  Crypt::isLegacyEncryptedContent( $this->view->file_get_contents( $filePath ), $filePath ) ) {
+						} elseif (  Crypt::isLegacyEncryptedContent( $this->view->file_get_contents( $filePath ), $relPath ) ) {
 							
 							$found['legacy'][] = array( 'name' => $file, 'path' => $filePath );
 							
@@ -342,6 +343,20 @@ class Util {
 	}
 	
 	/**
+	 * @brief Format a path to be relative to the /user/files/ directory
+	 */
+	public function stripUserFilesPath( $path ) {
+	
+		$trimmed = ltrim( $path, '/' );
+		$split = explode( '/', $trimmed );
+		$sliced = array_slice( $split, 2 );
+		$relPath = implode( '/', $sliced );
+		
+		return $relPath;
+	
+	}
+	
+	/**
 	 * @brief Encrypt all files in a directory
 	 * @param string $publicKey the public key to encrypt files with
 	 * @param string $dirPath the directory whose files will be encrypted
@@ -365,11 +380,7 @@ class Util {
 				// Encrypt data, generate catfile
 				$encrypted = Crypt::keyEncryptKeyfile( $plainData, $publicKey );
 				
-				// Format path to be relative to user files dir
-				$trimmed = ltrim( $plainFile['path'], '/' );
-				$split = explode( '/', $trimmed );
-				$sliced = array_slice( $split, 2 );
-				$relPath = implode( '/', $sliced );
+				$relPath = $this->stripUserFilesPath( $plainFile['path'] );
 				
 				// Save keyfile
 				Keymanager::setFileKey( $this->view, $relPath, $this->userId, $encrypted['key'] );
@@ -401,11 +412,7 @@ class Util {
 					// Recrypt data, generate catfile
 					$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKey, $newPassphrase );
 					
-					// Format path to be relative to user files dir
-					$trimmed = ltrim( $legacyFile['path'], '/' );
-					$split = explode( '/', $trimmed );
-					$sliced = array_slice( $split, 2 );
-					$relPath = implode( '/', $sliced );
+					$relPath = $this->stripUserFilesPath( $legacyFile['path'] );
 					
 					// Save keyfile
 					Keymanager::setFileKey( $this->view, $relPath, $this->userId, $recrypted['key'] );
