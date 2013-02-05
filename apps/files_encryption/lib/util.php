@@ -24,81 +24,89 @@
 // Todo:
 //  - Crypt/decrypt button in the userinterface
 //  - Setting if crypto should be on by default
-//  - Add a setting "Don´t encrypt files larger than xx because of performance reasons"
-//  - Transparent decrypt/encrypt in filesystem.php. Autodetect if a file is encrypted (.encrypted extension)
-//  - Don't use a password directly as encryption key. but a key which is stored on the server and encrypted with the user password. -> password change faster
+//  - Add a setting "Don´t encrypt files larger than xx because of performance 
+//    reasons"
+//  - Transparent decrypt/encrypt in filesystem.php. Autodetect if a file is 
+//    encrypted (.encrypted extension)
+//  - Don't use a password directly as encryption key. but a key which is 
+//    stored on the server and encrypted with the user password. -> password 
+//    change faster
 //  - IMPORTANT! Check if the block lenght of the encrypted data stays the same
 
 namespace OCA\Encryption;
 
 /**
  * @brief Class for utilities relating to encrypted file storage system
- * @param $view OC_FilesystemView object, expected to have OC '/' as root path
- * @param $client flag indicating status of client side encryption. Currently
+ * @param OC_FilesystemView $view expected to have OC '/' as root path
+ * @param string $userId ID of the logged in user
+ * @param int $client indicating status of client side encryption. Currently
  * unused, likely to become obsolete shortly
  */
 
 class Util {
 	
 	
-	# Web UI:
+	// Web UI:
 	
-	## DONE: files created via web ui are encrypted
-	## DONE: file created & encrypted via web ui are readable in web ui
-	## DONE: file created & encrypted via web ui are readable via webdav
-	
-	
-	# WebDAV:
-	
-	## DONE: new data filled files added via webdav get encrypted
-	## DONE: new data filled files added via webdav are readable via webdav
-	## DONE: reading unencrypted files when encryption is enabled works via webdav
-	## DONE: files created & encrypted via web ui are readable via webdav
+	//// DONE: files created via web ui are encrypted
+	//// DONE: file created & encrypted via web ui are readable in web ui
+	//// DONE: file created & encrypted via web ui are readable via webdav
 	
 	
-	# Legacy support:
+	// WebDAV:
 	
-	## DONE: add method to check if file is encrypted using new system
-	## DONE: add method to check if file is encrypted using old system
-	## DONE: add method to fetch legacy key
-	## DONE: add method to decrypt legacy encrypted data
-	
-	## TODO: add method to encrypt all user files using new system
-	## TODO: add method to decrypt all user files using new system
-	## TODO: add method to encrypt all user files using old system
-	## TODO: add method to decrypt all user files using old system
+	//// DONE: new data filled files added via webdav get encrypted
+	//// DONE: new data filled files added via webdav are readable via webdav
+	//// DONE: reading unencrypted files when encryption is enabled works via 
+	////       webdav
+	//// DONE: files created & encrypted via web ui are readable via webdav
 	
 	
-	# Admin UI:
+	// Legacy support:
 	
-	## DONE: changing user password also changes encryption passphrase
+	//// DONE: add method to check if file is encrypted using new system
+	//// DONE: add method to check if file is encrypted using old system
+	//// DONE: add method to fetch legacy key
+	//// DONE: add method to decrypt legacy encrypted data
 	
-	## TODO: add support for optional recovery in case of lost passphrase / keys
-	## TODO: add admin optional required long passphrase for users
-	## TODO: add UI buttons for encrypt / decrypt everything
-	## TODO: implement flag system to allow user to specify encryption by folder, subfolder, etc.
-	
-	
-	# Sharing:
-	
-	## TODO: add support for encrypting to multiple public keys
-	## TODO: add support for decrypting to multiple private keys
+	//// TODO: add method to encrypt all user files using new system
+	//// TODO: add method to decrypt all user files using new system
+	//// TODO: add method to encrypt all user files using old system
+	//// TODO: add method to decrypt all user files using old system
 	
 	
-	# Integration testing:
+	// Admin UI:
 	
-	## TODO: test new encryption with webdav
-	## TODO: test new encryption with versioning
-	## TODO: test new encryption with sharing
-	## TODO: test new encryption with proxies
+	//// DONE: changing user password also changes encryption passphrase
+	
+	//// TODO: add support for optional recovery in case of lost passphrase / keys
+	//// TODO: add admin optional required long passphrase for users
+	//// TODO: add UI buttons for encrypt / decrypt everything
+	//// TODO: implement flag system to allow user to specify encryption by folder, subfolder, etc.
+	
+	
+	// Sharing:
+	
+	//// TODO: add support for encrypting to multiple public keys
+	//// TODO: add support for decrypting to multiple private keys
+	
+	
+	// Integration testing:
+	
+	//// TODO: test new encryption with webdav
+	//// TODO: test new encryption with versioning
+	//// TODO: test new encryption with sharing
+	//// TODO: test new encryption with proxies
 	
 	
 	private $view; // OC_FilesystemView object for filesystem operations
+	private $userId; // ID of the currently logged-in user
 	private $pwd; // User Password
 	private $client; // Client side encryption mode flag
-	private $publicKeyDir; // Directory containing all public user keys
-	private $encryptionDir; // Directory containing user's files_encryption
-	private $keyfilesPath; // Directory containing user's keyfiles
+	private $publicKeyDir; // Dir containing all public user keys
+	private $encryptionDir; // Dir containing user's files_encryption
+	private $keyfilesPath; // Dir containing user's keyfiles
+	private $shareKeysPath; // Dir containing env keys for shared files
 	private $publicKeyPath; // Path to user's public key
 	private $privateKeyPath; // Path to user's private key
 
@@ -107,9 +115,12 @@ class Util {
 		$this->view = $view;
 		$this->userId = $userId;
 		$this->client = $client;
+		$this->userDir =  '/' . $this->userId;
+		$this->userFilesDir =  '/' . $this->userId . '/' . 'files';
 		$this->publicKeyDir =  '/' . 'public-keys';
 		$this->encryptionDir =  '/' . $this->userId . '/' . 'files_encryption';
 		$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
+		$this->shareKeysPath = $this->encryptionDir . '/' . 'share-keys';
 		$this->publicKeyPath = $this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
 		$this->privateKeyPath = $this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
 		
@@ -118,7 +129,9 @@ class Util {
 	public function ready() {
 		
 		if( 
-		!$this->view->file_exists( $this->keyfilesPath )
+		!$this->view->file_exists( $this->encryptionDir )
+		or !$this->view->file_exists( $this->keyfilesPath )
+		or !$this->view->file_exists( $this->shareKeysPath )
 		or !$this->view->file_exists( $this->publicKeyPath )
 		or !$this->view->file_exists( $this->privateKeyPath ) 
 		) {
@@ -138,6 +151,20 @@ class Util {
          * @param $passphrase passphrase to encrypt server-stored private key with
          */
 	public function setupServerSide( $passphrase = null ) {
+		
+		// Create user dir
+		if( !$this->view->file_exists( $this->userDir ) ) {
+		
+			$this->view->mkdir( $this->userDir );
+		
+		}
+		
+		// Create user files dir
+		if( !$this->view->file_exists( $this->userFilesDir ) ) {
+		
+			$this->view->mkdir( $this->userFilesDir );
+		
+		}
 		
 		// Create shared public key directory
 		if( !$this->view->file_exists( $this->publicKeyDir ) ) {
@@ -159,16 +186,23 @@ class Util {
 			$this->view->mkdir( $this->keyfilesPath );
 		
 		}
+
+		// Create mirrored share env keys directory
+		if( !$this->view->file_exists( $this->shareKeysPath ) ) {
+		
+			$this->view->mkdir( $this->shareKeysPath );
+		
+		}
 		
 		// Create user keypair
 		if ( 
-		!$this->view->file_exists( $this->publicKeyPath ) 
-		or !$this->view->file_exists( $this->privateKeyPath ) 
+			! $this->view->file_exists( $this->publicKeyPath ) 
+			or ! $this->view->file_exists( $this->privateKeyPath ) 
 		) {
 		
 			// Generate keypair
 			$keypair = Crypt::createKeypair();
-		
+			
 			\OC_FileProxy::$enabled = false;
 			
 			// Save public key
@@ -188,48 +222,77 @@ class Util {
 	
 	}
 	
-	public function findFiles( $directory, $type = 'plain' ) {
-	
-	# TODO: test finding non plain content
+	/**
+	 * @brief Find all files and their encryption status within a directory
+	 * @param string $directory The path of the parent directory to search
+	 * @return mixed false if 0 found, array on success. Keys: name, path
+	 
+	 * @note $directory needs to be a path relative to OC data dir. e.g.
+	 *       /admin/files NOT /backup OR /home/www/oc/data/admin/files
+	 */
+	public function findFiles( $directory ) {
 		
-		if ( $handle = $this->view->opendir( $directory ) ) {
-
+		// Disable proxy - we don't want files to be decrypted before
+		// we handle them
+		\OC_FileProxy::$enabled = false;
+		
+		$found = array( 'plain' => array(), 'encrypted' => array(), 'legacy' => array() );
+		
+		if ( 
+			$this->view->is_dir( $directory ) 
+			&& $handle = $this->view->opendir( $directory ) 
+		) {
+		
 			while ( false !== ( $file = readdir( $handle ) ) ) {
-			
+				
 				if (
 				$file != "." 
 				&& $file != ".."
 				) {
-				
+					
 					$filePath = $directory . '/' . $this->view->getRelativePath( '/' . $file );
+					$relPath = $this->stripUserFilesPath( $filePath );
 					
-					var_dump($filePath);
-					
+					// If the path is a directory, search 
+					// its contents
 					if ( $this->view->is_dir( $filePath ) ) { 
 						
 						$this->findFiles( $filePath );
-						
+					
+					// If the path is a file, determine 
+					// its encryption status
 					} elseif ( $this->view->is_file( $filePath ) ) {
-					
-						if ( $type == 'plain' ) {
-					
-							$this->files[] = array( 'name' => $file, 'path' => $filePath );
-							
-						} elseif ( $type == 'encrypted' ) {
 						
-							if (  Crypt::isEncryptedContent( $this->view->file_get_contents( $filePath ) ) ) {
-							
-								$this->files[] = array( 'name' => $file, 'path' => $filePath );
-							
-							}
+						// Disable proxies again, some-
+						// where they got re-enabled :/
+						\OC_FileProxy::$enabled = false;
 						
-						} elseif ( $type == 'legacy' ) {
+						$data = $this->view->file_get_contents( $filePath );
 						
-							if (  Crypt::isLegacyEncryptedContent( $this->view->file_get_contents( $filePath ) ) ) {
+						// If the file is encrypted
+						// NOTE: If the userId is 
+						// empty or not set, file will 
+						// detected as plain
+						// NOTE: This is inefficient;
+						// scanning every file like this
+						// will eat server resources :(
+						if ( 
+							Keymanager::getFileKey( $this->view, $this->userId, $file ) 
+							&& Crypt::isCatfile( $filePath )
+						) {
+						
+							$found['encrypted'][] = array( 'name' => $file, 'path' => $filePath );
+						
+						// If the file uses old 
+						// encryption system
+						} elseif (  Crypt::isLegacyEncryptedContent( $this->view->file_get_contents( $filePath ), $relPath ) ) {
 							
-								$this->files[] = array( 'name' => $file, 'path' => $filePath );
+							$found['legacy'][] = array( 'name' => $file, 'path' => $filePath );
 							
-							}
+						// If the file is not encrypted
+						} else {
+						
+							$found['plain'][] = array( 'name' => $file, 'path' => $filePath );
 						
 						}
 					
@@ -239,17 +302,21 @@ class Util {
 				
 			}
 			
-			if ( !empty( $this->files ) ) {
+			\OC_FileProxy::$enabled = true;
 			
-				return $this->files;
-			
-			} else {
+			if ( empty( $found ) ) {
 			
 				return false;
+			
+			} else {
+				
+				return $found;
 			
 			}
 		
 		}
+		
+		\OC_FileProxy::$enabled = true;
 		
 		return false;
 
@@ -269,20 +336,101 @@ class Util {
 		
 		\OC_FileProxy::$enabled = true;
 		
-		return Crypt::isEncryptedContent( $data );
+		return Crypt::isCatfile( $data );
 	
 	}
 	
-	public function encryptAll( $directory ) {
+	/**
+	 * @brief Format a path to be relative to the /user/files/ directory
+	 */
+	public function stripUserFilesPath( $path ) {
 	
-		$plainFiles = $this->findFiles( $this->view, 'plain' );
+		$trimmed = ltrim( $path, '/' );
+		$split = explode( '/', $trimmed );
+		$sliced = array_slice( $split, 2 );
+		$relPath = implode( '/', $sliced );
 		
-		if ( $this->encryptFiles( $plainFiles ) ) {
+		return $relPath;
+	
+	}
+	
+	/**
+	 * @brief Encrypt all files in a directory
+	 * @param string $publicKey the public key to encrypt files with
+	 * @param string $dirPath the directory whose files will be encrypted
+	 * @note Encryption is recursive
+	 */
+	public function encryptAll( $publicKey, $dirPath, $legacyPassphrase = null, $newPassphrase = null ) {
+	
+		if ( $found = $this->findFiles( $dirPath ) ) {
 		
-			return true;
+			// Disable proxy to prevent file being encrypted twice
+			\OC_FileProxy::$enabled = false;
+		
+			// Encrypt unencrypted files
+			foreach ( $found['plain'] as $plainFile ) {
+				
+				// Fetch data from file
+				$plainData = $this->view->file_get_contents( $plainFile['path'] );
+				
+				// Encrypt data, generate catfile
+				$encrypted = Crypt::keyEncryptKeyfile( $plainData, $publicKey );
+				
+				$relPath = $this->stripUserFilesPath( $plainFile['path'] );
+				
+				// Save keyfile
+				Keymanager::setFileKey( $this->view, $relPath, $this->userId, $encrypted['key'] );
+				
+				// Overwrite the existing file with the encrypted one
+				$this->view->file_put_contents( $plainFile['path'], $encrypted['data'] );
+				
+				$size = strlen( $encrypted['data'] );
+				
+				// Add the file to the cache
+				\OC\Files\Filesystem::putFileInfo( $plainFile['path'], array( 'encrypted'=>true, 'size' => $size ), '' );
 			
+			}
+			
+			// FIXME: Legacy recrypting here isn't finished yet
+			// Encrypt legacy encrypted files
+			if ( 
+				! empty( $legacyPassphrase ) 
+				&& ! empty( $newPassphrase ) 
+			) {
+			
+				foreach ( $found['legacy'] as $legacyFile ) {
+				
+					// Fetch data from file
+					$legacyData = $this->view->file_get_contents( $legacyFile['path'] );
+				
+					// Recrypt data, generate catfile
+					$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKey, $newPassphrase );
+					
+					$relPath = $this->stripUserFilesPath( $legacyFile['path'] );
+					
+					// Save keyfile
+					Keymanager::setFileKey( $this->view, $relPath, $this->userId, $recrypted['key'] );
+					
+					// Overwrite the existing file with the encrypted one
+					$this->view->file_put_contents( $legacyFile['path'], $recrypted['data'] );
+					
+					$size = strlen( $recrypted['data'] );
+					
+					// Add the file to the cache
+					\OC\Files\Filesystem::putFileInfo( $legacyFile['path'], array( 'encrypted'=>true, 'size' => $size ), '' );
+				
+				}
+				
+			}
+			
+			\OC_FileProxy::$enabled = true;
+			
+			// If files were found, return true
+			return true;
+		
 		} else {
 		
+			// If no files were found, return false
 			return false;
 			
 		}
