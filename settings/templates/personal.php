@@ -13,7 +13,9 @@
 	<a class="button" href="http://owncloud.org/sync-clients/" target="_blank"><?php echo $l->t('Download');?></a>
 </div>
 
-
+<?php
+if($_['passwordChangeSupported']) {
+?>
 <form id="passwordform">
 	<fieldset class="personalblock">
 		<div id="passwordchanged"><?php echo $l->t('Your password was changed');?></div>
@@ -24,6 +26,9 @@
 		<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
 	</fieldset>
 </form>
+<?php
+}
+?>
 
 <form id="lostpassword">
 	<fieldset class="personalblock">
