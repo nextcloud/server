@@ -847,7 +847,7 @@ class Share {
 					}
 					// Remove collection item
 					$toRemove = $row['id'];
-					if (array_key_exists($row['id'], $switchedItems)) {
+					if (array_key_exists($toRemove, $switchedItems)) {
 						$toRemove = $switchedItems[$toRemove];
 					}
 					unset($items[$toRemove]);
