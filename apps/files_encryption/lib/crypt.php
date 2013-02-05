@@ -187,15 +187,9 @@ class Crypt {
          * @return true / false
          */
 	public static function isLegacyEncryptedContent( $data, $relPath ) {
-		
-// 		trigger_error("REL PATH = ".var_export($relPath, 1));
-		
-// 		trigger_error( "DATA = ".var_export($data, 1). "   CATFILE?: ".var_export( self::isCatfile( $data ), 1));
 	
 		// Fetch all file metadata from DB
 		$metadata = \OC\Files\Filesystem::getFileInfo( $relPath, '' );
-		
-		trigger_error("PATH = ". var_export($relPath, 1)."   METADATA = ".var_export($metadata['encrypted'], 1));
 		
 		// If a file is flagged with encryption in DB, but isn't a 
 		// valid content + IV combination, it's probably using the 
