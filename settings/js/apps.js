@@ -135,7 +135,6 @@ OC.Settings.Apps = OC.Settings.Apps || {
 						var li=$('<li></li>');
 						li.attr('data-id', entry.id);
 						var img= $('<img></img>').attr({ src: entry.icon, class:'icon'});
-						li.append(img);
 						var a=$('<a></a>').attr('href', entry.href);
 						a.text(entry.name);
 						a.prepend(img);
