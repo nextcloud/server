@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-30 23:40+0000\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-01-31 23:30+0000\n"
 "Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -159,59 +159,59 @@ msgstr "Azaroa"
 msgid "December"
 msgstr "Abendua"
 
-#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
+#: js/js.js:280
 msgid "Settings"
 msgstr "Ezarpenak"
 
-#: js/js.js:762
+#: js/js.js:759
 msgid "seconds ago"
 msgstr "segundu"
 
-#: js/js.js:763
+#: js/js.js:760
 msgid "1 minute ago"
 msgstr "orain dela minutu 1"
 
-#: js/js.js:764
+#: js/js.js:761
 msgid "{minutes} minutes ago"
 msgstr "orain dela {minutes} minutu"
 
-#: js/js.js:765
+#: js/js.js:762
 msgid "1 hour ago"
 msgstr "orain dela ordu bat"
 
-#: js/js.js:766
+#: js/js.js:763
 msgid "{hours} hours ago"
 msgstr "orain dela {hours} ordu"
 
-#: js/js.js:767
+#: js/js.js:764
 msgid "today"
 msgstr "gaur"
 
-#: js/js.js:768
+#: js/js.js:765
 msgid "yesterday"
 msgstr "atzo"
 
-#: js/js.js:769
+#: js/js.js:766
 msgid "{days} days ago"
 msgstr "orain dela {days} egun"
 
-#: js/js.js:770
+#: js/js.js:767
 msgid "last month"
 msgstr "joan den hilabetean"
 
-#: js/js.js:771
+#: js/js.js:768
 msgid "{months} months ago"
 msgstr "orain dela {months} hilabete"
 
-#: js/js.js:772
+#: js/js.js:769
 msgid "months ago"
 msgstr "hilabete"
 
-#: js/js.js:773
+#: js/js.js:770
 msgid "last year"
 msgstr "joan den urtean"
 
-#: js/js.js:774
+#: js/js.js:771
 msgid "years ago"
 msgstr "urte"
 
@@ -544,7 +544,7 @@ msgstr "Bukatu konfigurazioa"
 msgid "web services under your control"
 msgstr "web zerbitzuak zure kontrolpean"
 
-#: templates/layout.user.php:32
+#: templates/layout.user.php:49
 msgid "Log out"
 msgstr "Saioa bukatu"
 

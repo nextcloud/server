@@ -6,17 +6,20 @@
 #   <admin@s-goecker.de>, 2011-2012.
 #   <blobbyjj@ymail.com>, 2012.
 #   <icewind1991@gmail.com>, 2012.
-# I Robot <owncloud-bot@tmit.eu>, 2012.
+# I Robot <owncloud-bot@tmit.eu>, 2012-2013.
 # I Robot <thomas.mueller@tmit.eu>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 # Jan T <jan-temesinko@web.de>, 2012.
+# Lukas Reschke <lukas@statuscode.ch>, 2013.
 #   <lukas@statuscode.ch>, 2012.
 #   <mail@felixmoeller.de>, 2012.
 # Marcel Kühlhorn <susefan93@gmx.de>, 2012.
 #   <nelsonfritsch@gmail.com>, 2012.
 #   <niko@nik-o-mat.de>, 2012.
 # Phi Lieb <>, 2012.
+# Phillip Schichtel <quick_wango@code-infection.de>, 2013.
 #   <seeed@freenet.de>, 2012.
+#  <stefan.niedermann@googlemail.com>, 2013.
 #   <thomas.mueller@tmit.eu>, 2012.
 #   <transifex-2.7.mensaje@spamgourmet.com>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
@@ -25,9 +28,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 00:27+0100\n"
-"PO-Revision-Date: 2013-01-30 23:28+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-03 00:04+0100\n"
+"PO-Revision-Date: 2013-02-02 00:10+0000\n"
+"Last-Translator: Lukas Reschke <lukas@statuscode.ch>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -93,13 +96,41 @@ msgstr "Der Benutzer konnte nicht zur Gruppe %s hinzugefügt werden"
 msgid "Unable to remove user from group %s"
 msgstr "Der Benutzer konnte nicht aus der Gruppe %s entfernt werden"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:13
+msgid "Couldn't update app."
+msgstr "Die App konnte nicht geupdated werden."
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr "Update zu {appversion}"
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Deaktivieren"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "Aktivieren"
+
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr "Bitte warten...."
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr "Update..."
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr "Es ist ein Fehler während des Updates aufgetreten"
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "Fehler"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr "Geupdated"
 
 #: js/personal.js:69
 msgid "Saving..."
@@ -128,6 +159,10 @@ msgstr "Weitere Anwendungen finden Sie auf apps.owncloud.com"
 #: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lizenziert von <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "Update durchführen"
 
 #: templates/help.php:3
 msgid "User Documentation"
@@ -246,7 +281,7 @@ msgstr "Entwickelt von der <a href=\"http://ownCloud.org/contact\" target=\"_bla
 
 #: templates/users.php:21 templates/users.php:79
 msgid "Login Name"
-msgstr ""
+msgstr "Loginname"
 
 #: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
@@ -270,7 +305,7 @@ msgstr "Andere"
 
 #: templates/users.php:80
 msgid "Display Name"
-msgstr ""
+msgstr "Anzeigename"
 
 #: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
@@ -282,11 +317,11 @@ msgstr "Speicher"
 
 #: templates/users.php:97
 msgid "change display name"
-msgstr ""
+msgstr "Anzeigenamen ändern"
 
 #: templates/users.php:101
 msgid "set new password"
-msgstr ""
+msgstr "Neues Passwort setzen"
 
 #: templates/users.php:137
 msgid "Default"

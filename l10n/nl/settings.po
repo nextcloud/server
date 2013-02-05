@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 00:27+0100\n"
-"PO-Revision-Date: 2013-01-30 23:28+0000\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-02-01 23:06+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -86,13 +86,41 @@ msgstr "Niet in staat om gebruiker toe te voegen aan groep %s"
 msgid "Unable to remove user from group %s"
 msgstr "Niet in staat om gebruiker te verwijderen uit groep %s"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:13
+msgid "Couldn't update app."
+msgstr "Kon de app niet bijwerken."
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr "Bijwerken naar {appversion}"
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Uitschakelen"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "Inschakelen"
+
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr "Even geduld aub...."
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr "Fout bij bijwerken app"
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "Fout"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr "Bijgewerkt"
 
 #: js/personal.js:69
 msgid "Saving..."
@@ -121,6 +149,10 @@ msgstr "Zie de applicatiepagina op apps.owncloud.com"
 #: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-Gelicenseerd door <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "Bijwerken"
 
 #: templates/help.php:3
 msgid "User Documentation"
@@ -239,7 +271,7 @@ msgstr "Ontwikkeld door de <a href=\"http://ownCloud.org/contact\" target=\"_bla
 
 #: templates/users.php:21 templates/users.php:79
 msgid "Login Name"
-msgstr ""
+msgstr "Inlognaam"
 
 #: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
@@ -263,7 +295,7 @@ msgstr "Andere"
 
 #: templates/users.php:80
 msgid "Display Name"
-msgstr ""
+msgstr "Weergavenaam"
 
 #: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
@@ -275,11 +307,11 @@ msgstr "Opslag"
 
 #: templates/users.php:97
 msgid "change display name"
-msgstr ""
+msgstr "wijzig weergavenaam"
 
 #: templates/users.php:101
 msgid "set new password"
-msgstr ""
+msgstr "Instellen nieuw wachtwoord"
 
 #: templates/users.php:137
 msgid "Default"

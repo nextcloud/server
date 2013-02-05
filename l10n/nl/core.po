@@ -21,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-30 23:40+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-02-01 08:10+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -169,59 +169,59 @@ msgstr "november"
 msgid "December"
 msgstr "december"
 
-#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
+#: js/js.js:280
 msgid "Settings"
 msgstr "Instellingen"
 
-#: js/js.js:762
+#: js/js.js:759
 msgid "seconds ago"
 msgstr "seconden geleden"
 
-#: js/js.js:763
+#: js/js.js:760
 msgid "1 minute ago"
 msgstr "1 minuut geleden"
 
-#: js/js.js:764
+#: js/js.js:761
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minuten geleden"
 
-#: js/js.js:765
+#: js/js.js:762
 msgid "1 hour ago"
 msgstr "1 uur geleden"
 
-#: js/js.js:766
+#: js/js.js:763
 msgid "{hours} hours ago"
 msgstr "{hours} uren geleden"
 
-#: js/js.js:767
+#: js/js.js:764
 msgid "today"
 msgstr "vandaag"
 
-#: js/js.js:768
+#: js/js.js:765
 msgid "yesterday"
 msgstr "gisteren"
 
-#: js/js.js:769
+#: js/js.js:766
 msgid "{days} days ago"
 msgstr "{days} dagen geleden"
 
-#: js/js.js:770
+#: js/js.js:767
 msgid "last month"
 msgstr "vorige maand"
 
-#: js/js.js:771
+#: js/js.js:768
 msgid "{months} months ago"
 msgstr "{months} maanden geleden"
 
-#: js/js.js:772
+#: js/js.js:769
 msgid "months ago"
 msgstr "maanden geleden"
 
-#: js/js.js:773
+#: js/js.js:770
 msgid "last year"
 msgstr "vorig jaar"
 
-#: js/js.js:774
+#: js/js.js:771
 msgid "years ago"
 msgstr "jaar geleden"
 
@@ -270,7 +270,7 @@ msgstr "Delen"
 
 #: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
 msgid "Shared"
-msgstr ""
+msgstr "Gedeeld"
 
 #: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
@@ -393,11 +393,11 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "De update is niet geslaagd. Meld dit probleem aan bij de <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "De update is geslaagd. U wordt teruggeleid naar uw eigen ownCloud."
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -554,7 +554,7 @@ msgstr "Installatie afronden"
 msgid "web services under your control"
 msgstr "Webdiensten in eigen beheer"
 
-#: templates/layout.user.php:32
+#: templates/layout.user.php:49
 msgid "Log out"
 msgstr "Afmelden"
 

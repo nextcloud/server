@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-31 06:40+0000\n"
+"POT-Creation-Date: 2013-02-03 00:04+0100\n"
+"PO-Revision-Date: 2013-02-01 23:30+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -82,13 +82,41 @@ msgstr "Impossibile aggiungere l'utente al gruppo %s"
 msgid "Unable to remove user from group %s"
 msgstr "Impossibile rimuovere l'utente dal gruppo %s"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:13
+msgid "Couldn't update app."
+msgstr "Impossibile aggiornate l'applicazione."
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr "Aggiorna a {appversion}"
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Disabilita"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "Abilita"
+
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr "Attendere..."
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr "Aggiornamento in corso..."
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr "Errore durante l'aggiornamento"
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "Errore"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr "Aggiornato"
 
 #: js/personal.js:69
 msgid "Saving..."
@@ -117,6 +145,10 @@ msgstr "Vedere la pagina dell'applicazione su apps.owncloud.com"
 #: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licenziato da <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "Aggiorna"
 
 #: templates/help.php:3
 msgid "User Documentation"

@@ -17,8 +17,8 @@ if(\OC\Files\Filesystem::file_exists($target . '/' . $file)) {
 }
 
 if ($dir != '' || $file != 'Shared') {
-	$targetFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $file);
-	$sourceFile = \OC\Files\Filesystem::normalizePath($target . '/' . $file);
+	$targetFile = \OC\Files\Filesystem::normalizePath($target . '/' . $file);
+	$sourceFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $file);
 	if(\OC\Files\Filesystem::rename($sourceFile, $targetFile)) {
 		OCP\JSON::success(array("data" => array( "dir" => $dir, "files" => $file )));
 	} else {

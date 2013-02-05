@@ -20,6 +20,7 @@
 "replaced {new_name}" => "แทนที่ {new_name} แล้ว",
 "undo" => "เลิกทำ",
 "replaced {new_name} with {old_name}" => "แทนที่ {new_name} ด้วย {old_name} แล้ว",
+"perform delete operation" => "ดำเนินการตามคำสั่งลบ",
 "'.' is an invalid file name." => "'.' เป็นชื่อไฟล์ที่ไม่ถูกต้อง",
 "File name cannot be empty." => "ชื่อไฟล์ไม่สามารถเว้นว่างได้",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "ชื่อที่ใช้ไม่ถูกต้อง, '\\', '/', '<', '>', ':', '\"', '|', '?' และ '*' ไม่ได้รับอนุญาตให้ใช้งานได้",
@@ -56,11 +57,13 @@
 "Text file" => "ไฟล์ข้อความ",
 "Folder" => "แฟ้มเอกสาร",
 "From link" => "จากลิงก์",
+"Trash" => "ถังขยะ",
 "Cancel upload" => "ยกเลิกการอัพโหลด",
 "Nothing in here. Upload something!" => "ยังไม่มีไฟล์ใดๆอยู่ที่นี่ กรุณาอัพโหลดไฟล์!",
 "Download" => "ดาวน์โหลด",
 "Upload too large" => "ไฟล์ที่อัพโหลดมีขนาดใหญ่เกินไป",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "ไฟล์ที่คุณพยายามที่จะอัพโหลดมีขนาดเกินกว่าขนาดสูงสุดที่กำหนดไว้ให้อัพโหลดได้สำหรับเซิร์ฟเวอร์นี้",
 "Files are being scanned, please wait." => "ไฟล์กำลังอยู่ระหว่างการสแกน, กรุณารอสักครู่.",
-"Current scanning" => "ไฟล์ที่กำลังสแกนอยู่ขณะนี้"
+"Current scanning" => "ไฟล์ที่กำลังสแกนอยู่ขณะนี้",
+"Upgrading filesystem cache..." => "กำลังอัพเกรดหน่วยความจำแคชของระบบไฟล์..."
 );

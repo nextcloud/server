@@ -110,7 +110,7 @@ $(document).ready(function() {
 	}
 
 	// Triggers invisible file input
-	$('#upload a').live('click', function() {
+	$('#upload a').on('click', function() {
 		$(this).parent().children('#file_upload_start').trigger('click');
 		return false;
 	});
@@ -123,7 +123,7 @@ $(document).ready(function() {
 	var lastChecked;
 
 	// Sets the file link behaviour :
-	$('td.filename a').live('click',function(event) {
+	$('#fileList').on('click','td.filename a',function(event) {
 		if (event.ctrlKey || event.shiftKey) {
 			event.preventDefault();
 			if (event.shiftKey) {
@@ -189,7 +189,7 @@ $(document).ready(function() {
 		procesSelection();
 	});
 
-	$('td.filename input:checkbox').live('change',function(event) {
+	$('#fileList').on('change', 'td.filename input:checkbox',function(event) {
 		if (event.shiftKey) {
 			var last = $(lastChecked).parent().parent().prevAll().length;
 			var first = $(this).parent().parent().prevAll().length;
@@ -776,6 +776,10 @@ $(document).ready(function() {
 });
 
 function scanFiles(force, dir){
+	if (!OC.currentUser) {
+		return;
+	}
+
 	if(!dir){
 		dir = '';
 	}

@@ -7,6 +7,7 @@
 "Invalid request" => "Ongülteg Requête",
 "Disable" => "Ofschalten",
 "Enable" => "Aschalten",
+"Error" => "Fehler",
 "Saving..." => "Speicheren...",
 "__language_name__" => "__language_name__",
 "Add your App" => "Setz deng App bei",

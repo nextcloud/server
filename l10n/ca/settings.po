@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-31 08:30+0000\n"
+"POT-Creation-Date: 2013-02-03 00:04+0100\n"
+"PO-Revision-Date: 2013-02-02 16:48+0000\n"
 "Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -81,13 +81,41 @@ msgstr "No es pot afegir l'usuari al grup %s"
 msgid "Unable to remove user from group %s"
 msgstr "No es pot eliminar l'usuari del grup %s"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:13
+msgid "Couldn't update app."
+msgstr "No s'ha pogut actualitzar l'aplicació."
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr "Actualitza a {appversion}"
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Desactiva"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "Activa"
+
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr "Espereu..."
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr "Actualitzant..."
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr "Error en actualitzar l'aplicació"
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "Error"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr "Actualitzada"
 
 #: js/personal.js:69
 msgid "Saving..."
@@ -116,6 +144,10 @@ msgstr "Mireu la pàgina d'aplicacions a apps.owncloud.com"
 #: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-propietat de <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "Actualitza"
 
 #: templates/help.php:3
 msgid "User Documentation"

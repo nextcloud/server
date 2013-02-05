@@ -66,7 +66,7 @@ $(document).ready(function() {
 		});		
 		
 		$('.undelete').click('click',function(event) {
-			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform undelete operation')+'" src="'+ OC.imagePath('core', 'loader.gif') +'"></a>';
+			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform restore operation')+'" src="'+ OC.imagePath('core', 'loader.gif') +'"></a>';
 			var files=getSelectedFiles('file');
 			var fileslist=files.join(';');
 			var dirlisting=getSelectedFiles('dirlisting')[0];

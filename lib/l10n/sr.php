@@ -1,10 +1,10 @@
 <?php $TRANSLATIONS = array(
 "Help" => "Помоћ",
 "Personal" => "Лично",
-"Settings" => "Подешавања",
+"Settings" => "Поставке",
 "Users" => "Корисници",
 "Apps" => "Апликације",
-"Admin" => "Администрација",
+"Admin" => "Администратор",
 "ZIP download is turned off." => "Преузимање ZIP-а је искључено.",
 "Files need to be downloaded one by one." => "Датотеке морате преузимати једну по једну.",
 "Back to Files" => "Назад на датотеке",
@@ -29,7 +29,7 @@
 "last year" => "прошле године",
 "years ago" => "година раније",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s је доступна. Погледајте <a href=\"%s\">више информација</a>.",
-"up to date" => "је ажурна.",
-"updates check is disabled" => "провера ажурирања је онемогућена.",
+"up to date" => "је ажурна",
+"updates check is disabled" => "провера ажурирања је онемогућена",
 "Could not find category \"%s\"" => "Не могу да пронађем категорију „%s“."
 );

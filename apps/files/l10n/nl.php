@@ -20,9 +20,12 @@
 "replaced {new_name}" => "verving {new_name}",
 "undo" => "ongedaan maken",
 "replaced {new_name} with {old_name}" => "verving {new_name} met {old_name}",
+"perform delete operation" => "uitvoeren verwijderactie",
 "'.' is an invalid file name." => "'.' is een ongeldige bestandsnaam.",
 "File name cannot be empty." => "Bestandsnaam kan niet leeg zijn.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Onjuiste naam; '\\', '/', '<', '>', ':', '\"', '|', '?' en '*' zijn niet toegestaan.",
+"Your storage is full, files can not be updated or synced anymore!" => "Uw opslagruimte zit vol, Bestanden kunnen niet meer worden ge-upload of gesynchroniseerd!",
+"Your storage is almost full ({usedSpacePercent}%)" => "Uw opslagruimte zit bijna vol ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Uw download wordt voorbereid. Dit kan enige tijd duren bij grote bestanden.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "uploaden van de file mislukt, het is of een directory of de bestandsgrootte is 0 bytes",
 "Upload Error" => "Upload Fout",
@@ -54,11 +57,13 @@
 "Text file" => "Tekstbestand",
 "Folder" => "Map",
 "From link" => "Vanaf link",
+"Trash" => "Verwijderen",
 "Cancel upload" => "Upload afbreken",
 "Nothing in here. Upload something!" => "Er bevindt zich hier niets. Upload een bestand!",
 "Download" => "Download",
 "Upload too large" => "Bestanden te groot",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "De bestanden die u probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server.",
 "Files are being scanned, please wait." => "Bestanden worden gescand, even wachten.",
-"Current scanning" => "Er wordt gescand"
+"Current scanning" => "Er wordt gescand",
+"Upgrading filesystem cache..." => "Upgraden bestandssysteem cache..."
 );

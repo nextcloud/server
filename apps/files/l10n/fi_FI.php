@@ -17,6 +17,7 @@
 "suggest name" => "ehdota nimeä",
 "cancel" => "peru",
 "undo" => "kumoa",
+"perform delete operation" => "suorita poistotoiminto",
 "'.' is an invalid file name." => "'.' on virheellinen nimi tiedostolle.",
 "File name cannot be empty." => "Tiedoston nimi ei voi olla tyhjä.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Virheellinen nimi, merkit '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' eivät ole sallittuja.",
@@ -50,11 +51,13 @@
 "Text file" => "Tekstitiedosto",
 "Folder" => "Kansio",
 "From link" => "Linkistä",
+"Trash" => "Roskakori",
 "Cancel upload" => "Peru lähetys",
 "Nothing in here. Upload something!" => "Täällä ei ole mitään. Lähetä tänne jotakin!",
 "Download" => "Lataa",
 "Upload too large" => "Lähetettävä tiedosto on liian suuri",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan.",
 "Files are being scanned, please wait." => "Tiedostoja tarkistetaan, odota hetki.",
-"Current scanning" => "Tämänhetkinen tutkinta"
+"Current scanning" => "Tämänhetkinen tutkinta",
+"Upgrading filesystem cache..." => "Päivitetään tiedostojärjestelmän välimuistia..."
 );

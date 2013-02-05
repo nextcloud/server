@@ -374,7 +374,7 @@ class Filesystem {
 	 * @param array $data from hook
 	 */
 	static public function isBlacklisted($data) {
-		$blacklist = array('.htaccess');
+		$blacklist = \OC_Config::getValue('blacklisted_files', array('.htaccess'));
 		if (isset($data['path'])) {
 			$path = $data['path'];
 		} else if (isset($data['newpath'])) {
@@ -608,6 +608,16 @@ class Filesystem {
 	 */
 	public static function getPath($id) {
 		return self::$defaultInstance->getPath($id);
+	}
+
+	/**
+	* Get the owner for a file or folder
+	*
+	* @param string $path
+	* @return string
+	*/
+	public static function getOwner($path) {
+		return self::$defaultInstance->getOwner($path);
 	}
 
 	/**

@@ -7,13 +7,14 @@
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2012-2013.
 # <tetuyano+transi@gmail.com>, 2012.
 #   <tetuyano+transi@gmail.com>, 2012.
+# YANO Tetsu <tetuyano+transi@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 00:27+0100\n"
-"PO-Revision-Date: 2013-01-30 23:28+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-04 00:05+0100\n"
+"PO-Revision-Date: 2013-02-03 04:30+0000\n"
+"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -79,13 +80,41 @@ msgstr "ユーザをグループ %s に追加できません"
 msgid "Unable to remove user from group %s"
 msgstr "ユーザをグループ %s から削除できません"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:13
+msgid "Couldn't update app."
+msgstr "アプリを更新出来ませんでした。"
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr "{appversion} に更新"
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "無効"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "有効"
+
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr "しばらくお待ちください。"
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr "更新中...."
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr "アプリの更新中にエラーが発生"
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "エラー"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr "更新済み"
 
 #: js/personal.js:69
 msgid "Saving..."
@@ -114,6 +143,10 @@ msgstr "apps.owncloud.com でアプリケーションのページを見てくだ
 #: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-ライセンス: <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "更新"
 
 #: templates/help.php:3
 msgid "User Documentation"
@@ -232,7 +265,7 @@ msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud commu
 
 #: templates/users.php:21 templates/users.php:79
 msgid "Login Name"
-msgstr ""
+msgstr "ログイン名"
 
 #: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
@@ -256,7 +289,7 @@ msgstr "その他"
 
 #: templates/users.php:80
 msgid "Display Name"
-msgstr ""
+msgstr "表示名"
 
 #: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
@@ -268,11 +301,11 @@ msgstr "ストレージ"
 
 #: templates/users.php:97
 msgid "change display name"
-msgstr ""
+msgstr "表示名を変更"
 
 #: templates/users.php:101
 msgid "set new password"
-msgstr ""
+msgstr "新しいパスワードを設定"
 
 #: templates/users.php:137
 msgid "Default"

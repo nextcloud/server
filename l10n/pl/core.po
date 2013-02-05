@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-30 23:40+0000\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-01-31 23:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -165,59 +165,59 @@ msgstr "Listopad"
 msgid "December"
 msgstr "Grudzień"
 
-#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
+#: js/js.js:280
 msgid "Settings"
 msgstr "Ustawienia"
 
-#: js/js.js:762
+#: js/js.js:759
 msgid "seconds ago"
 msgstr "sekund temu"
 
-#: js/js.js:763
+#: js/js.js:760
 msgid "1 minute ago"
 msgstr "1 minute temu"
 
-#: js/js.js:764
+#: js/js.js:761
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minut temu"
 
-#: js/js.js:765
+#: js/js.js:762
 msgid "1 hour ago"
 msgstr "1 godzine temu"
 
-#: js/js.js:766
+#: js/js.js:763
 msgid "{hours} hours ago"
 msgstr "{hours} godzin temu"
 
-#: js/js.js:767
+#: js/js.js:764
 msgid "today"
 msgstr "dziś"
 
-#: js/js.js:768
+#: js/js.js:765
 msgid "yesterday"
 msgstr "wczoraj"
 
-#: js/js.js:769
+#: js/js.js:766
 msgid "{days} days ago"
 msgstr "{days} dni temu"
 
-#: js/js.js:770
+#: js/js.js:767
 msgid "last month"
 msgstr "ostani miesiąc"
 
-#: js/js.js:771
+#: js/js.js:768
 msgid "{months} months ago"
 msgstr "{months} miesięcy temu"
 
-#: js/js.js:772
+#: js/js.js:769
 msgid "months ago"
 msgstr "miesięcy temu"
 
-#: js/js.js:773
+#: js/js.js:770
 msgid "last year"
 msgstr "ostatni rok"
 
-#: js/js.js:774
+#: js/js.js:771
 msgid "years ago"
 msgstr "lat temu"
 
@@ -550,7 +550,7 @@ msgstr "Zakończ konfigurowanie"
 msgid "web services under your control"
 msgstr "usługi internetowe pod kontrolą"
 
-#: templates/layout.user.php:32
+#: templates/layout.user.php:49
 msgid "Log out"
 msgstr "Wylogowuje użytkownika"
 

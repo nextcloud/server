@@ -23,12 +23,13 @@
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
 #   <transifex.com@mail.simonzoellner.de>, 2013.
 #   <uu.kabum@gmail.com>, 2013.
+#  <wachhund@wachhund.to>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-31 16:02+0000\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-02-01 00:10+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -78,7 +79,7 @@ msgstr "Nicht genug Speicherplatz verfügbar"
 
 #: ajax/upload.php:82
 msgid "Invalid directory."
-msgstr "Ungültiges Verzeichnis"
+msgstr "Ungültiges Verzeichnis."
 
 #: appinfo/app.php:10
 msgid "Files"
@@ -126,15 +127,15 @@ msgstr "{old_name} ersetzt durch {new_name}"
 
 #: js/filelist.js:280
 msgid "perform delete operation"
-msgstr ""
+msgstr "Löschvorgang ausführen"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
-msgstr "'.' ist kein gültiger Dateiname"
+msgstr "'.' ist kein gültiger Dateiname."
 
 #: js/files.js:56
 msgid "File name cannot be empty."
-msgstr "Der Dateiname darf nicht leer sein"
+msgstr "Der Dateiname darf nicht leer sein."
 
 #: js/files.js:64
 msgid ""
@@ -191,7 +192,7 @@ msgstr "Dateiupload läuft. Wenn Du die Seite jetzt verlässt, wird der Upload a
 
 #: js/files.js:575
 msgid "URL cannot be empty."
-msgstr "Die URL darf nicht leer sein"
+msgstr "Die URL darf nicht leer sein."
 
 #: js/files.js:580
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
@@ -279,7 +280,7 @@ msgstr "Von einem Link"
 
 #: templates/index.php:40
 msgid "Trash"
-msgstr ""
+msgstr "Papierkorb"
 
 #: templates/index.php:46
 msgid "Cancel upload"
@@ -313,4 +314,4 @@ msgstr "Scanne"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "Dateisystem-Cache wird aktualisiert ..."

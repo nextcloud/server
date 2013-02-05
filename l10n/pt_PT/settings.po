@@ -4,6 +4,7 @@
 # 
 # Translators:
 #   <daniel@mouxy.net>, 2012.
+# Daniel Pinto <daniel@mouxy.net>, 2013.
 #  <duartegrilo@gmail.com>, 2013.
 # Duarte Velez Grilo <duartegrilo@gmail.com>, 2012-2013.
 #   <geral@ricardolameiro.pt>, 2012.
@@ -14,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-31 01:00+0000\n"
-"Last-Translator: Miguel Sousa <migueljorgesousa@sapo.pt>\n"
+"POT-Creation-Date: 2013-02-03 00:04+0100\n"
+"PO-Revision-Date: 2013-02-02 02:40+0000\n"
+"Last-Translator: Mouxy <daniel@mouxy.net>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -82,13 +83,41 @@ msgstr "Impossível acrescentar utilizador ao grupo %s"
 msgid "Unable to remove user from group %s"
 msgstr "Impossível apagar utilizador do grupo %s"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:13
+msgid "Couldn't update app."
+msgstr "Não foi possível actualizar a aplicação."
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr "Actualizar para a versão {appversion}"
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Desactivar"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "Activar"
+
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr "Por favor aguarde..."
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr "A Actualizar..."
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr "Erro enquanto actualizava a aplicação"
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "Erro"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr "Actualizado"
 
 #: js/personal.js:69
 msgid "Saving..."
@@ -117,6 +146,10 @@ msgstr "Ver a página da aplicação em apps.owncloud.com"
 #: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-licenciado por <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "Actualizar"
 
 #: templates/help.php:3
 msgid "User Documentation"

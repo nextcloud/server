@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-31 08:10+0000\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-01-31 23:30+0000\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -160,59 +160,59 @@ msgstr "11월"
 msgid "December"
 msgstr "12월"
 
-#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
+#: js/js.js:280
 msgid "Settings"
 msgstr "설정"
 
-#: js/js.js:762
+#: js/js.js:759
 msgid "seconds ago"
 msgstr "초 전"
 
-#: js/js.js:763
+#: js/js.js:760
 msgid "1 minute ago"
 msgstr "1분 전"
 
-#: js/js.js:764
+#: js/js.js:761
 msgid "{minutes} minutes ago"
 msgstr "{minutes}분 전"
 
-#: js/js.js:765
+#: js/js.js:762
 msgid "1 hour ago"
 msgstr "1시간 전"
 
-#: js/js.js:766
+#: js/js.js:763
 msgid "{hours} hours ago"
 msgstr "{hours}시간 전"
 
-#: js/js.js:767
+#: js/js.js:764
 msgid "today"
 msgstr "오늘"
 
-#: js/js.js:768
+#: js/js.js:765
 msgid "yesterday"
 msgstr "어제"
 
-#: js/js.js:769
+#: js/js.js:766
 msgid "{days} days ago"
 msgstr "{days}일 전"
 
-#: js/js.js:770
+#: js/js.js:767
 msgid "last month"
 msgstr "지난 달"
 
-#: js/js.js:771
+#: js/js.js:768
 msgid "{months} months ago"
 msgstr "{months}개월 전"
 
-#: js/js.js:772
+#: js/js.js:769
 msgid "months ago"
 msgstr "개월 전"
 
-#: js/js.js:773
+#: js/js.js:770
 msgid "last year"
 msgstr "작년"
 
-#: js/js.js:774
+#: js/js.js:771
 msgid "years ago"
 msgstr "년 전"
 
@@ -545,7 +545,7 @@ msgstr "설치 완료"
 msgid "web services under your control"
 msgstr "내가 관리하는 웹 서비스"
 
-#: templates/layout.user.php:32
+#: templates/layout.user.php:49
 msgid "Log out"
 msgstr "로그아웃"
 

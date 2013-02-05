@@ -138,7 +138,9 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 					$propertypath = $row['propertypath'];
 					$propertyname = $row['propertyname'];
 					$propertyvalue = $row['propertyvalue'];
-					$properties[$propertypath][$propertyname] = $propertyvalue;
+					if($propertyname !== self::GETETAG_PROPERTYNAME) {
+						$properties[$propertypath][$propertyname] = $propertyvalue;
+					}
 				}
 			}
 		}
