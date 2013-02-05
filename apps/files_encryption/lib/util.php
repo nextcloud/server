@@ -391,26 +391,32 @@ class Util {
 				&& ! empty( $newPassphrase ) 
 			) {
 			
-				foreach ( $found['legacy'] as $legacyFilePath ) {
+				foreach ( $found['legacy'] as $legacyFile ) {
 				
 					// Fetch data from file
-					$legacyData = $this->view->file_get_contents( $legacyFilePath );
+					$legacyData = $this->view->file_get_contents( $legacyFile['path'] );
 				
-					trigger_error("\n\nlegdata = ".var_export($legacyData).' \n\npassphrase = '.var_export($legacyPassphrase).' \n\npublickey = '.var_export($publicKey).' \n\nnewpass = '.var_export($newPassphrase));
+					trigger_error("\n\nlegdata = ".var_export($legacyData, 1).' \n\npassphrase = '.var_export($legacyPassphrase, 1).' \n\npublickey = '.var_export($publicKey, 1).' \n\nnewpass = '.var_export($newPassphrase, 1));
 				
 					// Recrypt data, generate catfile
 					$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKey, $newPassphrase );
 					
+					// Format path to be relative to user files dir
+					$trimmed = ltrim( $legacyFile['path'], '/' );
+					$split = explode( '/', $trimmed );
+					$sliced = array_slice( $split, 2 );
+					$relPath = implode( '/', $sliced );
+					
 					// Save keyfile
-					Keymanager::setFileKey( $this->view, $plainFile['path'], $this->userId, $recrypted['key'] );
+					Keymanager::setFileKey( $this->view, $relPath, $this->userId, $recrypted['key'] );
 					
 					// Overwrite the existing file with the encrypted one
-					$this->view->file_put_contents( $plainFile['path'], $recrypted['data'] );
+					$this->view->file_put_contents( $legacyFile['path'], $recrypted['data'] );
 					
 					$size = strlen( $recrypted['data'] );
 					
 					// Add the file to the cache
-					\OC\Files\Filesystem::putFileInfo( $plainFile['path'], array( 'encrypted'=>true, 'size' => $size ), '' );
+					\OC\Files\Filesystem::putFileInfo( $legacyFile['path'], array( 'encrypted'=>true, 'size' => $size ), '' );
 				
 				}
 				

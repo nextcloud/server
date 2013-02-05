@@ -188,10 +188,17 @@ class Crypt {
 	
 		$trimmed = ltrim( $path, '/' );
 		
+		// Path must not include user/files
+		$split = explode( '/', $trimmed );
+		$sliced = array_slice( $split, 2 );
+		$relPath = implode( '/', $sliced );
+		
+// 		trigger_error("REL PATH = ".var_export($relPath, 1));
+		
 // 		trigger_error( "DATA = ".var_export($data, 1). "   CATFILE?: ".var_export( self::isCatfile( $data ), 1));
 	
 		// Fetch all file metadata from DB
-		$metadata = \OC\Files\Filesystem::getFileInfo( $trimmed, '' );
+		$metadata = \OC\Files\Filesystem::getFileInfo( $relPath, '' );
 		
 		trigger_error("PATH = ". var_export($trimmed, 1)."   METADATA = ".var_export($metadata['encrypted'], 1));
 		
