@@ -519,6 +519,11 @@ class OC_Util {
 	 * Check if the setlocal call doesn't work. This can happen if the right local packages are not available on the server.
 	 */
 	public static function issetlocaleworking() {
+		// setlocale test is pointless on Windows
+		if (OC_Util::runningOnWindows() ) {
+			return true;
+		}
+
 		$result=setlocale(LC_ALL, 'en_US.UTF-8');
 		if($result==false) {
 			return(false);
