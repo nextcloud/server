@@ -677,4 +677,11 @@ class OC_Util {
 		return $data;
 	}
 
+	/**
+	 * @return bool - well are we running on windows or not
+	 */
+	public static function runningOnWindows() {
+		return (substr(PHP_OS, 0, 3) === "WIN");
+	}
+
 }
