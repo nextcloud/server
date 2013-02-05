@@ -347,7 +347,7 @@ class Stream {
 // 		
 // 		// Make sure we always start on a block start
 		if ( 0 != ( $pointer % 8192 ) ) { 
-		// if the current positoin of 
+		// if the current position of 
 		// file indicator is not aligned to a 8192 byte block, fix it 
 		// so that it is
 

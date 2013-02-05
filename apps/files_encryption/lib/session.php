@@ -70,9 +70,11 @@ class Session {
 	 */
 	public function setLegacyKey( $legacyKey ) {
 	
-		$_SESSION['legacyKey'] = $legacyKey;
+		if ( $_SESSION['legacyKey'] = $legacyKey ) {
 		
-		return true;
+			return true;
+			
+		}
 		
 	}
 	
