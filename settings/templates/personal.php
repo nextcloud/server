@@ -15,7 +15,9 @@
 	<a class="button" href="https://itunes.apple.com/us/app/owncloud/id543672169?mt=8" target="_blank"><?php echo $l->t('Download iOS Client');?></a>
 </fieldset>
 
-
+<?php
+if($_['passwordChangeSupported']) {
+?>
 <form id="passwordform">
 	<fieldset class="personalblock">
 		<legend><strong><?php echo $l->t('Password');?></strong></legend>
@@ -27,6 +29,9 @@
 		<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
 	</fieldset>
 </form>
+<?php
+}
+?>
 
 <form id="lostpassword">
 	<fieldset class="personalblock">
