@@ -36,6 +36,7 @@
 "Yes" => "Ya",
 "Ok" => "Oke",
 "Error" => "gagal",
+"Share" => "berbagi",
 "Error while sharing" => "gagal ketika membagikan",
 "Error while unsharing" => "gagal ketika membatalkan pembagian",
 "Error while changing permissions" => "gagal ketika merubah perijinan",

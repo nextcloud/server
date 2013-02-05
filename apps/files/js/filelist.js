@@ -271,71 +271,45 @@ var FileList={
 		}
 	},
 	do_delete:function(files){
+		if(files.substr){
+			files=[files];
+		}	
+		for (var i in files) {
+			var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date").children(".action.delete");
+			var oldHTML = deleteAction[0].outerHTML;
+			var newHTML = '<img class="move2trash" data-action="Delete" title="'+t('files', 'perform delete operation')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
+			deleteAction[0].outerHTML = newHTML;
+		}
 		// Finish any existing actions
 		if (FileList.lastAction) {
 			FileList.lastAction();
 		}
 
-		FileList.prepareDeletion(files);
-
-		if (!FileList.useUndo) {
-			FileList.lastAction();
-		} else {
-			// NOTE: Temporary fix to change the text to unshared for files in root of Shared folder
-			if ($('#dir').val() == '/Shared') {
-				OC.Notification.showHtml(t('files', 'unshared {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
-			} else {
-                OC.Notification.showHtml(t('files', 'deleted {files}', {'files': escapeHTML(files)})+'<span class="undo">'+t('files', 'undo')+'</span>');
-			}
-		}
-	},
-	finishDelete:function(ready,sync){
-		if(!FileList.deleteCanceled && FileList.deleteFiles){
-			var fileNames=JSON.stringify(FileList.deleteFiles);
-			$.ajax({
-				url: OC.filePath('files', 'ajax', 'delete.php'),
-				async:!sync,
-				type:'post',
-				data: {dir:$('#dir').val(),files:fileNames},
-				complete: function(data){
-					boolOperationFinished(data, function(){
-                        OC.Notification.hide();
-						$.each(FileList.deleteFiles,function(index,file){
-							FileList.remove(file);
+		var fileNames = JSON.stringify(files);
+		$.post(OC.filePath('files', 'ajax', 'delete.php'),
+				{dir:$('#dir').val(),files:fileNames},
+				function(result){
+					if (result.status == 'success') {
+						$.each(files,function(index,file){
+							var files = $('tr').filterAttr('data-file',file);
+							files.hide();
+							files.find('input[type="checkbox"]').removeAttr('checked');
+							files.removeClass('selected');
 						});
-						FileList.deleteCanceled=true;
-						FileList.deleteFiles=null;
-						FileList.lastAction = null;
-						if(ready){
-							ready();
-						}
-					});
-				}
-			});
-		}
-	},
-	prepareDeletion:function(files){
-		if(files.substr){
-			files=[files];
-		}
-		$.each(files,function(index,file){
-			var files = $('tr').filterAttr('data-file',file);
-			files.hide();
-			files.find('input[type="checkbox"]').removeAttr('checked');
-			files.removeClass('selected');
-		});
-		procesSelection();
-		FileList.deleteCanceled=false;
-		FileList.deleteFiles=files;
-		FileList.lastAction = function() {
-			FileList.finishDelete(null, true);
-		};
+						procesSelection();
+					} else {
+						$.each(files,function(index,file) {
+							var deleteAction = $('tr').filterAttr('data-file',file).children("td.date").children(".move2trash");
+							deleteAction[0].outerHTML = oldHTML;
+						});
+					} 
+				});
 	}
 };
 
 $(document).ready(function(){
 	$('#notification').hide();
-	$('#notification .undo').live('click', function(){
+	$('#notification').on('click', '.undo', function(){
 		if (FileList.deleteFiles) {
 			$.each(FileList.deleteFiles,function(index,file){
 				$('tr').filterAttr('data-file',file).show();
@@ -361,16 +335,16 @@ $(document).ready(function(){
 		FileList.lastAction = null;
         OC.Notification.hide();
 	});
-	$('#notification .replace').live('click', function() {
+	$('#notification').on('click', '.replace', function() {
         OC.Notification.hide(function() {
             FileList.replace($('#notification').data('oldName'), $('#notification').data('newName'), $('#notification').data('isNewFile'));
         });
 	});
-	$('#notification .suggest').live('click', function() {
+	$('#notification').on('click', '.suggest', function() {
 		$('tr').filterAttr('data-file', $('#notification').data('oldName')).show();
         OC.Notification.hide();
 	});
-	$('#notification .cancel').live('click', function() {
+	$('#notification').on('click', '.cancel', function() {
 		if ($('#notification').data('isNewFile')) {
 			FileList.deleteCanceled = false;
 			FileList.deleteFiles = [$('#notification').data('oldName')];

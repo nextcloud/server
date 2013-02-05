@@ -53,6 +53,8 @@
 "Error" => "Error",
 "The app name is not specified." => "No s'ha especificat el nom de l'aplicació.",
 "The required file {file} is not installed!" => "El fitxer requerit {file} no està instal·lat!",
+"Share" => "Comparteix",
+"Shared" => "Compartit",
 "Error while sharing" => "Error en compartir",
 "Error while unsharing" => "Error en deixar de compartir",
 "Error while changing permissions" => "Error en canviar els permisos",

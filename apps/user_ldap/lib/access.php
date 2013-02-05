@@ -719,6 +719,50 @@ abstract class Access {
 		return $combinedFilter;
 	}
 
+	/**
+	 * @brief creates a filter part for to perfrom search for users
+	 * @param string $search the search term
+	 * @return string the final filter part to use in LDAP searches
+	 */
+	public function getFilterPartForUserSearch($search) {
+		return $this->getFilterPartForSearch($search, $this->connection->ldapAttributesForUserSearch, $this->connection->ldapUserDisplayName);
+	}
+
+	/**
+	 * @brief creates a filter part for to perfrom search for groups
+	 * @param string $search the search term
+	 * @return string the final filter part to use in LDAP searches
+	 */
+	public function getFilterPartForGroupSearch($search) {
+		return $this->getFilterPartForSearch($search, $this->connection->ldapAttributesForGroupSearch, $this->connection->ldapGroupDisplayName);
+	}
+
+	/**
+	 * @brief creates a filter part for searches
+	 * @param string $search the search term
+	 * @param string $fallbackAttribute a fallback attribute in case the user
+	 * did not define search attributes. Typically the display name attribute.
+	 * @returns string the final filter part to use in LDAP searches
+	 */
+	private function getFilterPartForSearch($search, $searchAttributes, $fallbackAttribute) {
+		$filter = array();
+		$search = empty($search) ? '*' : '*'.$search.'*';
+		if(!is_array($searchAttributes) || count($searchAttributes) == 0) {
+			if(empty($fallbackAttribute)) {
+				return '';
+			}
+			$filter[] = $fallbackAttribute . '=' . $search;
+		} else {
+			foreach($searchAttributes as $attribute) {
+				$filter[] = $attribute . '=' . $search;
+			}
+		}
+		if(count($filter) == 1) {
+			return '('.$filter[0].')';
+		}
+		return $this->combineFilterWithOr($filter);
+	}
+
 	public function areCredentialsValid($name, $password) {
 		$name = $this->DNasBaseParameter($name);
 		$testConnection = clone $this->connection;
@@ -912,7 +956,7 @@ abstract class Access {
 					$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
 					//a bit recursive, $offset of 0 is the exit
 					\OCP\Util::writeLog('user_ldap', 'Looking for cookie L/O '.$limit.'/'.$reOffset, \OCP\Util::INFO);
-					$this->search($filter, $base, $attr, $limit, $reOffset, true);
+					$this->search($filter, array($base), $attr, $limit, $reOffset, true);
 					$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
 					//still no cookie? obviously, the server does not like us. Let's skip paging efforts.
 					//TODO: remember this, probably does not change in the next request...

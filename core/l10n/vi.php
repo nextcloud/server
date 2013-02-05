@@ -53,6 +53,7 @@
 "Error" => "Lỗi",
 "The app name is not specified." => "Tên ứng dụng không được chỉ định.",
 "The required file {file} is not installed!" => "Tập tin cần thiết {file} không được cài đặt!",
+"Share" => "Chia sẻ",
 "Error while sharing" => "Lỗi trong quá trình chia sẻ",
 "Error while unsharing" => "Lỗi trong quá trình gỡ chia sẻ",
 "Error while changing permissions" => "Lỗi trong quá trình phân quyền",

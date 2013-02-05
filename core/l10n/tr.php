@@ -53,6 +53,7 @@
 "Error" => "Hata",
 "The app name is not specified." => "uygulama adı belirtilmedi.",
 "The required file {file} is not installed!" => "İhtiyaç duyulan {file} dosyası kurulu değil.",
+"Share" => "Paylaş",
 "Error while sharing" => "Paylaşım sırasında hata  ",
 "Error while unsharing" => "Paylaşım iptal ediliyorken hata",
 "Error while changing permissions" => "İzinleri değiştirirken hata oluştu",

@@ -1,7 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "Kohteen %s siirto ei onnistunut - Tiedosto samalla nimellä on jo olemassa",
-"Could not move %s" => "Kohteen %s siirto ei onnistunut",
-"Unable to rename file" => "Tiedoston nimeäminen uudelleen ei onnistunut",
 "No file was uploaded. Unknown error" => "Tiedostoa ei lähetetty. Tuntematon virhe",
 "There is no error, the file uploaded with success" => "Ei virheitä, tiedosto lähetettiin onnistuneesti",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Lähetetty tiedosto ylittää HTML-lomakkeessa määritetyn MAX_FILE_SIZE-arvon ylärajan",
@@ -9,7 +6,7 @@
 "No file was uploaded" => "Yhtäkään tiedostoa ei lähetetty",
 "Missing a temporary folder" => "Väliaikaiskansiota ei ole olemassa",
 "Failed to write to disk" => "Levylle kirjoitus epäonnistui",
-"Not enough storage available" => "Tallennustilaa ei ole riittävästi käytettävissä",
+"Not enough space available" => "Tilaa ei ole riittävästi",
 "Invalid directory." => "Virheellinen kansio.",
 "Files" => "Tiedostot",
 "Unshare" => "Peru jakaminen",
@@ -20,6 +17,7 @@
 "suggest name" => "ehdota nimeä",
 "cancel" => "peru",
 "undo" => "kumoa",
+"perform delete operation" => "suorita poistotoiminto",
 "'.' is an invalid file name." => "'.' on virheellinen nimi tiedostolle.",
 "File name cannot be empty." => "Tiedoston nimi ei voi olla tyhjä.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Virheellinen nimi, merkit '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' eivät ole sallittuja.",
@@ -53,11 +51,13 @@
 "Text file" => "Tekstitiedosto",
 "Folder" => "Kansio",
 "From link" => "Linkistä",
+"Trash" => "Roskakori",
 "Cancel upload" => "Peru lähetys",
 "Nothing in here. Upload something!" => "Täällä ei ole mitään. Lähetä tänne jotakin!",
 "Download" => "Lataa",
 "Upload too large" => "Lähetettävä tiedosto on liian suuri",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Lähetettäväksi valitsemasi tiedostot ylittävät palvelimen salliman tiedostokoon rajan.",
 "Files are being scanned, please wait." => "Tiedostoja tarkistetaan, odota hetki.",
-"Current scanning" => "Tämänhetkinen tutkinta"
+"Current scanning" => "Tämänhetkinen tutkinta",
+"Upgrading filesystem cache..." => "Päivitetään tiedostojärjestelmän välimuistia..."
 );

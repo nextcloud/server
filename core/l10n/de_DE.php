@@ -53,6 +53,8 @@
 "Error" => "Fehler",
 "The app name is not specified." => "Der App-Name ist nicht angegeben.",
 "The required file {file} is not installed!" => "Die benötigte Datei {file} ist nicht installiert.",
+"Share" => "Freigeben",
+"Shared" => "Freigegeben",
 "Error while sharing" => "Fehler bei der Freigabe",
 "Error while unsharing" => "Fehler bei der Aufhebung der Freigabe",
 "Error while changing permissions" => "Fehler bei der Änderung der Rechte",

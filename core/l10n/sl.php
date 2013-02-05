@@ -53,6 +53,7 @@
 "Error" => "Napaka",
 "The app name is not specified." => "Ime aplikacije ni podano.",
 "The required file {file} is not installed!" => "Zahtevana datoteka {file} ni nameščena!",
+"Share" => "Souporaba",
 "Error while sharing" => "Napaka med souporabo",
 "Error while unsharing" => "Napaka med odstranjevanjem souporabe",
 "Error while changing permissions" => "Napaka med spreminjanjem dovoljenj",

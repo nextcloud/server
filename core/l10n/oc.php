@@ -36,6 +36,7 @@
 "Yes" => "Òc",
 "Ok" => "D'accòrdi",
 "Error" => "Error",
+"Share" => "Parteja",
 "Error while sharing" => "Error al partejar",
 "Error while unsharing" => "Error al non partejar",
 "Error while changing permissions" => "Error al cambiar permissions",

@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "파일을 개별적으로 다운로드해야 합니다.",
 "Back to Files" => "파일로 돌아가기",
 "Selected files too large to generate zip file." => "선택한 파일들은 ZIP 파일을 생성하기에 너무 큽니다.",
+"couldn't be determined" => "결정할 수 없음",
 "Application is not enabled" => "앱이 활성화되지 않았습니다",
 "Authentication error" => "인증 오류",
 "Token expired. Please reload page." => "토큰이 만료되었습니다. 페이지를 새로 고치십시오.",

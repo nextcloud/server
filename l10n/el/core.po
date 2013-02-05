@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-30 00:23+0100\n"
-"PO-Revision-Date: 2013-01-29 23:23+0000\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-01-31 23:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -163,59 +163,59 @@ msgstr "Νοέμβριος"
 msgid "December"
 msgstr "Δεκέμβριος"
 
-#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
+#: js/js.js:280
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:762
+#: js/js.js:759
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:763
+#: js/js.js:760
 msgid "1 minute ago"
 msgstr "1 λεπτό πριν"
 
-#: js/js.js:764
+#: js/js.js:761
 msgid "{minutes} minutes ago"
 msgstr "{minutes} λεπτά πριν"
 
-#: js/js.js:765
+#: js/js.js:762
 msgid "1 hour ago"
 msgstr "1 ώρα πριν"
 
-#: js/js.js:766
+#: js/js.js:763
 msgid "{hours} hours ago"
 msgstr "{hours} ώρες πριν"
 
-#: js/js.js:767
+#: js/js.js:764
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:768
+#: js/js.js:765
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:769
+#: js/js.js:766
 msgid "{days} days ago"
 msgstr "{days} ημέρες πριν"
 
-#: js/js.js:770
+#: js/js.js:767
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:771
+#: js/js.js:768
 msgid "{months} months ago"
 msgstr "{months} μήνες πριν"
 
-#: js/js.js:772
+#: js/js.js:769
 msgid "months ago"
 msgstr "μήνες πριν"
 
-#: js/js.js:773
+#: js/js.js:770
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:774
+#: js/js.js:771
 msgid "years ago"
 msgstr "χρόνια πριν"
 
@@ -260,7 +260,7 @@ msgstr "Το απαιτούμενο αρχείο {file} δεν εγκαταστ�
 
 #: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
 msgid "Share"
-msgstr ""
+msgstr "Διαμοιρασμός"
 
 #: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
 msgid "Shared"
@@ -548,7 +548,7 @@ msgstr "Ολοκλήρωση εγκατάστασης"
 msgid "web services under your control"
 msgstr "Υπηρεσίες web υπό τον έλεγχό σας"
 
-#: templates/layout.user.php:32
+#: templates/layout.user.php:49
 msgid "Log out"
 msgstr "Αποσύνδεση"
 

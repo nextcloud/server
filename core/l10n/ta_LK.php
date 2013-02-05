@@ -49,6 +49,7 @@
 "Error" => "வழு",
 "The app name is not specified." => "செயலி பெயர் குறிப்பிடப்படவில்லை.",
 "The required file {file} is not installed!" => "தேவைப்பட்ட கோப்பு {கோப்பு} நிறுவப்படவில்லை!",
+"Share" => "பகிர்வு",
 "Error while sharing" => "பகிரும் போதான வழு",
 "Error while unsharing" => "பகிராமல் உள்ளப்போதான வழு",
 "Error while changing permissions" => "அனுமதிகள் மாறும்போதான வழு",

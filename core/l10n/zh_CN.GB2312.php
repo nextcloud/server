@@ -38,6 +38,7 @@
 "Yes" => "是",
 "Ok" => "好的",
 "Error" => "错误",
+"Share" => "分享",
 "Error while sharing" => "分享出错",
 "Error while unsharing" => "取消分享出错",
 "Error while changing permissions" => "变更权限出错",

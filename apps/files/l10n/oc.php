@@ -19,7 +19,6 @@
 "1 file uploading" => "1 fichièr al amontcargar",
 "Upload cancelled." => "Amontcargar anullat.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Un amontcargar es a se far. Daissar aquesta pagina ara tamparà lo cargament. ",
-"error while scanning" => "error pendant l'exploracion",
 "Name" => "Nom",
 "Size" => "Talha",
 "Modified" => "Modificat",

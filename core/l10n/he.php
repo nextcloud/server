@@ -53,6 +53,7 @@
 "Error" => "שגיאה",
 "The app name is not specified." => "שם היישום לא צוין.",
 "The required file {file} is not installed!" => "הקובץ הנדרש {file} אינו מותקן!",
+"Share" => "שתף",
 "Error while sharing" => "שגיאה במהלך השיתוף",
 "Error while unsharing" => "שגיאה במהלך ביטול השיתוף",
 "Error while changing permissions" => "שגיאה במהלך שינוי ההגדרות",

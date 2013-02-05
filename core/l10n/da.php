@@ -53,6 +53,7 @@
 "Error" => "Fejl",
 "The app name is not specified." => "Den app navn er ikke angivet.",
 "The required file {file} is not installed!" => "Den krævede fil {file} er ikke installeret!",
+"Share" => "Del",
 "Error while sharing" => "Fejl under deling",
 "Error while unsharing" => "Fejl under annullering af deling",
 "Error while changing permissions" => "Fejl under justering af rettigheder",

@@ -1,4 +1,8 @@
 <?php $TRANSLATIONS = array(
+"User %s shared a file with you" => "O usuário %s compartilhou um arquivo com você",
+"User %s shared a folder with you" => "O usuário %s compartilhou uma pasta com você",
+"User %s shared the file \"%s\" with you. It is available for download here: %s" => "O usuário %s compartilhou com você o arquivo \"%s\", que está disponível para download em: %s",
+"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "O usuário %s compartilhou com você a pasta \"%s\", que está disponível para download em: %s",
 "Category type not provided." => "Tipo de categoria não fornecido.",
 "No category to add?" => "Nenhuma categoria adicionada?",
 "This category already exists: " => "Essa categoria já existe",
@@ -49,6 +53,8 @@
 "Error" => "Erro",
 "The app name is not specified." => "O nome do app não foi especificado.",
 "The required file {file} is not installed!" => "O arquivo {file} necessário não está instalado!",
+"Share" => "Compartilhar",
+"Shared" => "Compartilhados",
 "Error while sharing" => "Erro ao compartilhar",
 "Error while unsharing" => "Erro ao descompartilhar",
 "Error while changing permissions" => "Erro ao mudar permissões",
@@ -58,6 +64,8 @@
 "Share with link" => "Compartilhar com link",
 "Password protect" => "Proteger com senha",
 "Password" => "Senha",
+"Email link to person" => "Enviar link por e-mail",
+"Send" => "Enviar",
 "Set expiration date" => "Definir data de expiração",
 "Expiration date" => "Data de expiração",
 "Share via email:" => "Compartilhar via e-mail:",
@@ -74,6 +82,10 @@
 "Password protected" => "Protegido com senha",
 "Error unsetting expiration date" => "Erro ao remover data de expiração",
 "Error setting expiration date" => "Erro ao definir data de expiração",
+"Sending ..." => "Enviando ...",
+"Email sent" => "E-mail enviado",
+"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "A atualização falhou. Por favor, relate este problema para a <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunidade ownCloud</a>.",
+"The update was successful. Redirecting you to ownCloud now." => "A atualização teve êxito. Você será redirecionado ao ownCloud agora.",
 "ownCloud password reset" => "Redefinir senha ownCloud",
 "Use the following link to reset your password: {link}" => "Use o seguinte link para redefinir sua senha: {link}",
 "You will receive a link to reset your password via Email." => "Você receberá um link para redefinir sua senha via e-mail.",
@@ -118,5 +130,6 @@
 "remember" => "lembrete",
 "Log in" => "Log in",
 "prev" => "anterior",
-"next" => "próximo"
+"next" => "próximo",
+"Updating ownCloud to version %s, this may take a while." => "Atualizando ownCloud para a versão %s, isto pode levar algum tempo."
 );

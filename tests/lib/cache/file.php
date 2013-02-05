@@ -38,8 +38,8 @@ class Test_Cache_File extends Test_Cache {
 		}
 		
 		//set up temporary storage
-		OC_Filesystem::clearMounts();
-		OC_Filesystem::mount('OC_Filestorage_Temporary', array(), '/');
+		\OC\Files\Filesystem::clearMounts();
+		\OC\Files\Filesystem::mount('\OC\Files\Storage\Temporary',array(),'/');
 
 		OC_User::clearBackends();
 		OC_User::useBackend(new OC_User_Dummy());
@@ -51,7 +51,7 @@ class Test_Cache_File extends Test_Cache {
 		OC_User::setUserId('test');
 
 		//set up the users dir
-		$rootView=new OC_FilesystemView('');
+		$rootView=new \OC\Files\View('');
 		$rootView->mkdir('/test');
 		
 		$this->instance=new OC_Cache_File();

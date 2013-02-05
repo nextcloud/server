@@ -51,6 +51,7 @@
 "Error" => "Грешка",
 "The app name is not specified." => "Име програма није унето.",
 "The required file {file} is not installed!" => "Потребна датотека {file} није инсталирана.",
+"Share" => "Дељење",
 "Error while sharing" => "Грешка у дељењу",
 "Error while unsharing" => "Грешка код искључења дељења",
 "Error while changing permissions" => "Грешка код промене дозвола",

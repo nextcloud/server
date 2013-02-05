@@ -53,6 +53,8 @@
 "Error" => "Errorea",
 "The app name is not specified." => "App izena ez dago zehaztuta.",
 "The required file {file} is not installed!" => "Beharrezkoa den {file} fitxategia ez dago instalatuta!",
+"Share" => "Elkarbanatu",
+"Shared" => "Elkarbanatuta",
 "Error while sharing" => "Errore bat egon da elkarbanatzean",
 "Error while unsharing" => "Errore bat egon da elkarbanaketa desegitean",
 "Error while changing permissions" => "Errore bat egon da baimenak aldatzean",

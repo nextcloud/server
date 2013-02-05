@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-30 00:23+0100\n"
-"PO-Revision-Date: 2013-01-29 23:23+0000\n"
+"POT-Creation-Date: 2013-02-02 00:06+0100\n"
+"PO-Revision-Date: 2013-01-31 23:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -158,59 +158,59 @@ msgstr "11月"
 msgid "December"
 msgstr "12月"
 
-#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
+#: js/js.js:280
 msgid "Settings"
 msgstr "設定"
 
-#: js/js.js:762
+#: js/js.js:759
 msgid "seconds ago"
 msgstr "秒前"
 
-#: js/js.js:763
+#: js/js.js:760
 msgid "1 minute ago"
 msgstr "1 分前"
 
-#: js/js.js:764
+#: js/js.js:761
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分前"
 
-#: js/js.js:765
+#: js/js.js:762
 msgid "1 hour ago"
 msgstr "1 時間前"
 
-#: js/js.js:766
+#: js/js.js:763
 msgid "{hours} hours ago"
 msgstr "{hours} 時間前"
 
-#: js/js.js:767
+#: js/js.js:764
 msgid "today"
 msgstr "今日"
 
-#: js/js.js:768
+#: js/js.js:765
 msgid "yesterday"
 msgstr "昨日"
 
-#: js/js.js:769
+#: js/js.js:766
 msgid "{days} days ago"
 msgstr "{days} 日前"
 
-#: js/js.js:770
+#: js/js.js:767
 msgid "last month"
 msgstr "一月前"
 
-#: js/js.js:771
+#: js/js.js:768
 msgid "{months} months ago"
 msgstr "{months} 月前"
 
-#: js/js.js:772
+#: js/js.js:769
 msgid "months ago"
 msgstr "月前"
 
-#: js/js.js:773
+#: js/js.js:770
 msgid "last year"
 msgstr "一年前"
 
-#: js/js.js:774
+#: js/js.js:771
 msgid "years ago"
 msgstr "年前"
 
@@ -255,11 +255,11 @@ msgstr "必要なファイル {file} がインストールされていません�
 
 #: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
 msgid "Share"
-msgstr ""
+msgstr "共有"
 
 #: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
 msgid "Shared"
-msgstr ""
+msgstr "共有中"
 
 #: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
@@ -543,7 +543,7 @@ msgstr "セットアップを完了します"
 msgid "web services under your control"
 msgstr "管理下にあるウェブサービス"
 
-#: templates/layout.user.php:32
+#: templates/layout.user.php:49
 msgid "Log out"
 msgstr "ログアウト"
 

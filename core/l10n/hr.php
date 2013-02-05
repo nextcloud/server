@@ -35,6 +35,7 @@
 "Yes" => "Da",
 "Ok" => "U redu",
 "Error" => "Pogreška",
+"Share" => "Podijeli",
 "Error while sharing" => "Greška prilikom djeljenja",
 "Error while unsharing" => "Greška prilikom isključivanja djeljenja",
 "Error while changing permissions" => "Greška prilikom promjena prava",

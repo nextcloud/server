@@ -53,6 +53,7 @@
 "Error" => "Σφάλμα",
 "The app name is not specified." => "Δεν καθορίστηκε το όνομα της εφαρμογής.",
 "The required file {file} is not installed!" => "Το απαιτούμενο αρχείο {file} δεν εγκαταστάθηκε!",
+"Share" => "Διαμοιρασμός",
 "Error while sharing" => "Σφάλμα κατά τον διαμοιρασμό",
 "Error while unsharing" => "Σφάλμα κατά το σταμάτημα του διαμοιρασμού",
 "Error while changing permissions" => "Σφάλμα κατά την αλλαγή των δικαιωμάτων",

@@ -20,7 +20,6 @@
 "1 file uploading" => "1 datoteka se učitava",
 "Upload cancelled." => "Slanje poništeno.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Učitavanje datoteke. Napuštanjem stranice će prekinuti učitavanje.",
-"error while scanning" => "grečka prilikom skeniranja",
 "Name" => "Naziv",
 "Size" => "Veličina",
 "Modified" => "Zadnja promjena",

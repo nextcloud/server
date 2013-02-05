@@ -4,6 +4,7 @@
 "__language_name__" => "Interlingua",
 "Add your App" => "Adder tu application",
 "Select an App" => "Selectionar un app",
+"Update" => "Actualisar",
 "Clients" => "Clientes",
 "Password" => "Contrasigno",
 "Unable to change your password" => "Non pote cambiar tu contrasigno",

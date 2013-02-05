@@ -53,6 +53,7 @@
 "Error" => "Eraro",
 "The app name is not specified." => "Ne indikiĝis nomo de la aplikaĵo.",
 "The required file {file} is not installed!" => "La necesa dosiero {file} ne instaliĝis!",
+"Share" => "Kunhavigi",
 "Error while sharing" => "Eraro dum kunhavigo",
 "Error while unsharing" => "Eraro dum malkunhavigo",
 "Error while changing permissions" => "Eraro dum ŝanĝo de permesoj",

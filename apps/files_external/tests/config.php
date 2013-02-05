@@ -8,7 +8,7 @@ return array(
 		'root'=>'/test',
 	),
 	'webdav'=>array(
-		'run'=>false,
+		'run'=>true,
 		'host'=>'localhost',
 		'user'=>'test',
 		'password'=>'test',
@@ -30,7 +30,7 @@ return array(
 		'root'=>'/',
 	),
 	'smb'=>array(
-		'run'=>false,
+		'run'=>true,
 		'user'=>'test',
 		'password'=>'test',
 		'host'=>'localhost',
