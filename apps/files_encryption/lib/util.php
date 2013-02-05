@@ -289,6 +289,30 @@ class Util {
 		
 	}
 	
+	public static function changekeypasscode( $oldPassword, $newPassword ) {
+
+		if( \OCP\User::isLoggedIn() ) {
+		
+			$key = Keymanager::getPrivateKey( $this->userId, $this->view );
+			
+			if ( ( $key = Crypt::symmetricDecryptFileContent( $key, $oldPassword ) ) ) {
+			
+				if ( ( $key = Crypt::symmetricEncryptFileContent( $key, $newPassword )) ) {
+				
+					Keymanager::setPrivateKey( $key );
+					
+					return true;
+					
+				}
+				
+			}
+			
+		}
+		
+		return false;
+		
+	}
+	
 	public function getPath( $pathName ) {
 	
 		switch ( $pathName ) {

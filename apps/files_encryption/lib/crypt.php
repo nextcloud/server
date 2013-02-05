@@ -615,24 +615,6 @@ class Crypt {
 
 	}
 
-	public static function changekeypasscode($oldPassword, $newPassword) {
-
-		//
-		// TODO: UNDEFINED VARIABLES: $user, $view
-		//
-
-		if(\OCP\User::isLoggedIn()){
-			$key = Keymanager::getPrivateKey( $user, $view );
-			if ( ($key = Crypt::symmetricDecryptFileContent($key,$oldPassword)) ) {
-				if ( ($key = Crypt::symmetricEncryptFileContent($key, $newPassword)) ) {
-					Keymanager::setPrivateKey($key);
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
 	/**
 	 * @brief Get the blowfish encryption handeler for a key
 	 * @param $key string (optional)

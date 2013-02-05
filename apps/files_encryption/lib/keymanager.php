@@ -85,15 +85,11 @@ class Keymanager {
 	 * @note Checks that the sharing app is enabled should be performed
 	 * by client code, that isn't checked here
 	 */
-	public static function getPublicKeys( \OC_FilesystemView $view, $userId, $filePath ) {
+	public static function getPublicKeys( \OC_FilesystemView $view, $userId, $path ) {
 
-		//
-		// TODO: UNDEFINED VARIABLE: $path
-		//
+		$trimmed = ltrim( $path, '/' );
 
-		$path = ltrim( $path, '/' );
-
-		$filepath = '/' . $userId . '/files/' . $filePath;
+		$filepath = '/' . $userId . '/files/' . $trimmed;
 
 		// Check if sharing is enabled
 		if ( OC_App::isEnabled( 'files_sharing' ) ) {
@@ -242,13 +238,11 @@ class Keymanager {
 
 		if ( !$view->file_exists( '' ) ) $view->mkdir( '' );
 
-		return $view->file_put_contents( $user . '.private.key', $key );
-
-		//
-		// TODO: UNREACHABLE CODE
-		//
+		$result =  $view->file_put_contents( $user . '.private.key', $key );
 
 		\OC_FileProxy::$enabled = true;
+		
+		return $result;
 
 	}
 
@@ -279,12 +273,11 @@ class Keymanager {
 
 		if ( !$view->file_exists( '' ) ) $view->mkdir( '' );
 
-		return $view->file_put_contents( \OCP\User::getUser() . '.public.key', $key );
+		$result = $view->file_put_contents( \OCP\User::getUser() . '.public.key', $key );
 
-		//
-		// TODO: UNREACHED CODE !!!
-		//
 		\OC_FileProxy::$enabled = true;
+		
+		return $result;
 
 	}
 
