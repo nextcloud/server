@@ -20,9 +20,12 @@
 "replaced {new_name}" => "reemplazado {new_name}",
 "undo" => "deshacer",
 "replaced {new_name} with {old_name}" => "reemplazado {new_name} con {old_name}",
+"perform delete operation" => "Eliminar",
 "'.' is an invalid file name." => "'.' es un nombre de archivo inválido.",
 "File name cannot be empty." => "El nombre de archivo no puede estar vacío.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nombre Invalido, \"\\\", \"/\", \"<\", \">\", \":\", \"\", \"|\" \"?\" y \"*\" no están permitidos ",
+"Your storage is full, files can not be updated or synced anymore!" => "Su almacenamiento esta lleno, los archivos no pueden ser mas actualizados o sincronizados!",
+"Your storage is almost full ({usedSpacePercent}%)" => "Su almacenamiento esta lleno en un  ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Tu descarga esta siendo preparada. Esto puede tardar algun tiempo si los archivos son muy grandes.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "No ha sido posible subir tu archivo porque es un directorio o tiene 0 bytes",
 "Upload Error" => "Error al subir el archivo",
@@ -54,11 +57,13 @@
 "Text file" => "Archivo de texto",
 "Folder" => "Carpeta",
 "From link" => "Desde el enlace",
+"Trash" => "Basura",
 "Cancel upload" => "Cancelar subida",
 "Nothing in here. Upload something!" => "Aquí no hay nada. ¡Sube algo!",
 "Download" => "Descargar",
 "Upload too large" => "El archivo es demasiado grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Los archivos que estás intentando subir sobrepasan el tamaño máximo permitido por este servidor.",
 "Files are being scanned, please wait." => "Se están escaneando los archivos, por favor espere.",
-"Current scanning" => "Ahora escaneando"
+"Current scanning" => "Ahora escaneando",
+"Upgrading filesystem cache..." => "Actualizando cache de archivos de sistema"
 );

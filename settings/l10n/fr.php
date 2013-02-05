@@ -18,6 +18,7 @@
 "Disable" => "Désactiver",
 "Enable" => "Activer",
 "Please wait...." => "Veuillez patienter…",
+"Updating...." => "Mise à jour...",
 "Error while updating app" => "Erreur lors de la mise à jour de l'application",
 "Error" => "Erreur",
 "Updated" => "Mise à jour effectuée avec succès",
