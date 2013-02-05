@@ -43,7 +43,6 @@ if (
 
 }
 
+// Reguster settings scripts
 OCP\App::registerAdmin( 'files_encryption', 'settings' );
-
-// This is disabled until client-side encryption is supported:
-// OCP\App::registerPersonal( 'files_encryption', 'settings-personal' );
+OCP\App::registerPersonal( 'files_encryption', 'settings-personal' );
