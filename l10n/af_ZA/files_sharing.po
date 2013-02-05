@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-01 00:17+0100\n"
+"POT-Creation-Date: 2013-02-05 00:19+0100\n"
 "PO-Revision-Date: 2012-08-12 22:35+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Afrikaans (South Africa) (http://www.transifex.com/projects/p/owncloud/language/af_ZA/)\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "Password"
-msgstr ""
+msgstr "Wagwoord"
 
 #: templates/authenticate.php:6
 msgid "Submit"
@@ -45,4 +45,4 @@ msgstr ""
 
 #: templates/public.php:35
 msgid "web services under your control"
-msgstr ""
+msgstr "webdienste onder jou beheer"

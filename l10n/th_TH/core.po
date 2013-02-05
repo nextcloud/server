@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-02 00:06+0100\n"
-"PO-Revision-Date: 2013-01-31 23:30+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-04 00:05+0100\n"
+"PO-Revision-Date: 2013-02-03 03:30+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -161,55 +161,55 @@ msgstr "ธันวาคม"
 msgid "Settings"
 msgstr "ตั้งค่า"
 
-#: js/js.js:759
+#: js/js.js:760
 msgid "seconds ago"
 msgstr "วินาที ก่อนหน้านี้"
 
-#: js/js.js:760
+#: js/js.js:761
 msgid "1 minute ago"
 msgstr "1 นาทีก่อนหน้านี้"
 
-#: js/js.js:761
+#: js/js.js:762
 msgid "{minutes} minutes ago"
 msgstr "{minutes} นาทีก่อนหน้านี้"
 
-#: js/js.js:762
+#: js/js.js:763
 msgid "1 hour ago"
 msgstr "1 ชั่วโมงก่อนหน้านี้"
 
-#: js/js.js:763
+#: js/js.js:764
 msgid "{hours} hours ago"
 msgstr "{hours} ชั่วโมงก่อนหน้านี้"
 
-#: js/js.js:764
+#: js/js.js:765
 msgid "today"
 msgstr "วันนี้"
 
-#: js/js.js:765
+#: js/js.js:766
 msgid "yesterday"
 msgstr "เมื่อวานนี้"
 
-#: js/js.js:766
+#: js/js.js:767
 msgid "{days} days ago"
 msgstr "{day} วันก่อนหน้านี้"
 
-#: js/js.js:767
+#: js/js.js:768
 msgid "last month"
 msgstr "เดือนที่แล้ว"
 
-#: js/js.js:768
+#: js/js.js:769
 msgid "{months} months ago"
 msgstr "{months} เดือนก่อนหน้านี้"
 
-#: js/js.js:769
+#: js/js.js:770
 msgid "months ago"
 msgstr "เดือน ที่ผ่านมา"
 
-#: js/js.js:770
+#: js/js.js:771
 msgid "last year"
 msgstr "ปีที่แล้ว"
 
-#: js/js.js:771
+#: js/js.js:772
 msgid "years ago"
 msgstr "ปี ที่ผ่านมา"
 
@@ -258,7 +258,7 @@ msgstr "แชร์"
 
 #: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
 msgid "Shared"
-msgstr ""
+msgstr "แชร์แล้ว"
 
 #: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
@@ -564,11 +564,11 @@ msgstr "กรุณาเปลี่ยนรหัสผ่านของค
 msgid "Lost your password?"
 msgstr "ลืมรหัสผ่าน?"
 
-#: templates/login.php:39
+#: templates/login.php:41
 msgid "remember"
 msgstr "จำรหัสผ่าน"
 
-#: templates/login.php:41
+#: templates/login.php:43
 msgid "Log in"
 msgstr "เข้าสู่ระบบ"
 

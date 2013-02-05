@@ -32,6 +32,9 @@ $CONFIG = array(
 /* Force use of HTTPS connection (true = use HTTPS) */
 "forcessl" => false,
 
+/* Blacklist a specific file and disallow the upload of files with this name - WARNING: USE THIS ONLY IF YOU KNOW WHAT YOU ARE DOING. */
+"blacklisted_files" => array('.htaccess'),
+
 /* The automatic hostname detection of ownCloud can fail in certain reverse proxy situations. This option allows to manually override the automatic detection. You can also add a port. For example "www.example.com:88" */
 "overwritehost" => "",
 
@@ -130,7 +133,7 @@ $CONFIG = array(
 "remember_login_cookie_lifetime" => 60*60*24*15,
 
 /* Custom CSP policy, changing this will overwrite the standard policy */
-"custom_csp_policy" => "default-src \'self\'; script-src \'self\' \'unsafe-eval\'; style-src \'self\' \'unsafe-inline\'; frame-src *; img-src *",
+"custom_csp_policy" => "default-src \'self\'; script-src \'self\' \'unsafe-eval\'; style-src \'self\' \'unsafe-inline\'; frame-src *; img-src *; font-src \'self\' data:",
 
 /* The directory where the user data is stored, default to data in the owncloud
  * directory. The sqlite database is also stored here, when sqlite is used.

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-02 00:06+0100\n"
-"PO-Revision-Date: 2013-02-01 23:06+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-04 00:05+0100\n"
+"PO-Revision-Date: 2013-02-03 03:30+0000\n"
+"Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -80,11 +80,11 @@ msgstr "ไม่สามารถลบผู้ใช้งานออกจ
 
 #: ajax/updateapp.php:13
 msgid "Couldn't update app."
-msgstr ""
+msgstr "ไม่สามารถอัพเดทแอปฯ"
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "อัพเดทไปเป็นรุ่น {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
@@ -96,15 +96,15 @@ msgstr "เปิดใช้งาน"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "กรุณารอสักครู่..."
 
 #: js/apps.js:84
 msgid "Updating...."
-msgstr ""
+msgstr "กำลังอัพเดทข้อมูล..."
 
 #: js/apps.js:87
 msgid "Error while updating app"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในระหว่างการอัพเดทแอปฯ"
 
 #: js/apps.js:87
 msgid "Error"
@@ -112,7 +112,7 @@ msgstr "ข้อผิดพลาด"
 
 #: js/apps.js:90
 msgid "Updated"
-msgstr ""
+msgstr "อัพเดทแล้ว"
 
 #: js/personal.js:69
 msgid "Saving..."
@@ -263,7 +263,7 @@ msgstr "พัฒนาโดย the <a href=\"http://ownCloud.org/contact\" tar
 
 #: templates/users.php:21 templates/users.php:79
 msgid "Login Name"
-msgstr ""
+msgstr "ชื่อที่ใช้สำหรับเข้าสู่ระบบ"
 
 #: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
@@ -287,7 +287,7 @@ msgstr "อื่นๆ"
 
 #: templates/users.php:80
 msgid "Display Name"
-msgstr ""
+msgstr "ชื่อที่ต้องการแสดง"
 
 #: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
@@ -299,11 +299,11 @@ msgstr "พื้นที่จัดเก็บข้อมูล"
 
 #: templates/users.php:97
 msgid "change display name"
-msgstr ""
+msgstr "เปลี่ยนชื่อที่ต้องการให้แสดง"
 
 #: templates/users.php:101
 msgid "set new password"
-msgstr ""
+msgstr "ตั้งค่ารหัสผ่านใหม่"
 
 #: templates/users.php:137
 msgid "Default"

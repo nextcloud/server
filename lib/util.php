@@ -243,6 +243,17 @@ class OC_Util {
 			$web_server_restart= false;
 		}
 
+		$handler = ini_get("session.save_handler");
+		if($handler == "files") {
+			$tmpDir = session_save_path();
+			if($tmpDir != ""){
+				if(!@is_writable($tmpDir)){
+					$errors[]=array('error' => 'The temporary folder used by PHP to save the session data is either incorrect or not writable! Please check : '.session_save_path().'<br/>',
+					'hint'=>'Please ask your server administrator to grant write access or define another temporary folder.');
+				}
+			}
+		}
+
 		if($web_server_restart) {
 			$errors[]=array('error'=>'PHP modules have been installed, but they are still listed as missing?<br/>', 'hint'=>'Please ask your server administrator to restart the web server.');
 		}

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-02 00:06+0100\n"
-"PO-Revision-Date: 2013-02-01 23:06+0000\n"
+"POT-Creation-Date: 2013-02-05 00:19+0100\n"
+"PO-Revision-Date: 2013-02-04 17:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Afrikaans (South Africa) (http://www.transifex.com/projects/p/owncloud/language/af_ZA/)\n"
 "MIME-Version: 1.0\n"
@@ -190,7 +190,7 @@ msgstr ""
 
 #: templates/personal.php:21 templates/users.php:23 templates/users.php:81
 msgid "Password"
-msgstr ""
+msgstr "Wagwoord"
 
 #: templates/personal.php:22
 msgid "Your password was changed"
@@ -206,7 +206,7 @@ msgstr ""
 
 #: templates/personal.php:25
 msgid "New password"
-msgstr ""
+msgstr "Nuwe wagwoord"
 
 #: templates/personal.php:26
 msgid "show"

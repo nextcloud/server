@@ -33,6 +33,7 @@
 "Group Filter" => "Filtro per il gruppo",
 "Defines the filter to apply, when retrieving groups." => "Specifica quale filtro utilizzare durante il recupero dei gruppi.",
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "senza nessun segnaposto, per esempio \"objectClass=posixGroup\".",
+"Connection Settings" => "Impostazioni di connessione",
 "Configuration Active" => "Configurazione attiva",
 "When unchecked, this configuration will be skipped." => "Se deselezionata, questa configurazione sarà saltata.",
 "Port" => "Porta",
@@ -48,6 +49,7 @@
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Se la connessione funziona esclusivamente con questa opzione, importa il certificato SSL del server LDAP nel tuo server ownCloud.",
 "Not recommended, use for testing only." => "Non consigliato, utilizzare solo per test.",
 "in seconds. A change empties the cache." => "in secondi. Il cambio svuota la cache.",
+"Directory Settings" => "Impostazioni delle cartelle",
 "User Display Name Field" => "Campo per la visualizzazione del nome utente",
 "The LDAP attribute to use to generate the user`s ownCloud name." => "L'attributo LDAP da usare per generare il nome dell'utente ownCloud.",
 "Base User Tree" => "Struttura base dell'utente",
@@ -60,6 +62,7 @@
 "One Group Base DN per line" => "Un DN base gruppo per riga",
 "Group Search Attributes" => "Attributi di ricerca gruppo",
 "Group-Member association" => "Associazione gruppo-utente ",
+"Special Attributes" => "Attributi speciali",
 "in bytes" => "in byte",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Lascia vuoto per il nome utente (predefinito). Altrimenti, specifica un attributo LDAP/AD.",
 "Help" => "Aiuto"

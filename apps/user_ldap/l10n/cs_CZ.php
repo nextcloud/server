@@ -33,6 +33,7 @@
 "Group Filter" => "Filtr skupin",
 "Defines the filter to apply, when retrieving groups." => "Určuje použitý filtr, pro získávaní skupin.",
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "bez zástupných znaků, např. \"objectClass=posixGroup\".",
+"Connection Settings" => "Nastavení spojení",
 "Configuration Active" => "Nastavení aktivní",
 "When unchecked, this configuration will be skipped." => "Pokud není zaškrtnuto, bude nastavení přeskočeno.",
 "Port" => "Port",
@@ -48,6 +49,7 @@
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Pokud připojení pracuje pouze s touto možností, tak importujte SSL certifikát SSL serveru do Vašeho serveru ownCloud",
 "Not recommended, use for testing only." => "Není doporučeno, pouze pro testovací účely.",
 "in seconds. A change empties the cache." => "ve vteřinách. Změna vyprázdní vyrovnávací paměť.",
+"Directory Settings" => "Nastavení adresáře",
 "User Display Name Field" => "Pole pro zobrazované jméno uživatele",
 "The LDAP attribute to use to generate the user`s ownCloud name." => "Atribut LDAP použitý k vytvoření jména uživatele ownCloud",
 "Base User Tree" => "Základní uživatelský strom",
@@ -60,6 +62,7 @@
 "One Group Base DN per line" => "Jedna skupinová základní DN na řádku",
 "Group Search Attributes" => "Atributy vyhledávání skupin",
 "Group-Member association" => "Asociace člena skupiny",
+"Special Attributes" => "Speciální atributy",
 "in bytes" => "v bajtech",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Ponechte prázdné pro uživatelské jméno (výchozí). Jinak uveďte LDAP/AD parametr.",
 "Help" => "Nápověda"

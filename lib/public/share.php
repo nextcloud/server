@@ -516,7 +516,8 @@ class Share {
 				$collectionTypes[] = $type;
 			}
 		}
-		if (!self::getBackend($itemType) instanceof Share_Backend_Collection) {
+		// TODO Add option for collections to be collection of themselves, only 'folder' does it now...
+		if (!self::getBackend($itemType) instanceof Share_Backend_Collection || $itemType != 'folder') {
 			unset($collectionTypes[0]);
 		}
 		// Return array if collections were found or the item type is a collection itself - collections can be inside collections
