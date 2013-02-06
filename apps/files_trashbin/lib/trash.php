@@ -163,7 +163,7 @@ class Trashbin {
 	
 		if ( $timestamp ) {
 			$query = \OC_DB::prepare('DELETE FROM *PREFIX*files_trash WHERE user=? AND id=? AND timestamp=?');
-			$query->execute(array($user,$filename,$timestamp))->fetchAll();
+			$query->execute(array($user,$filename,$timestamp));
 			$file = $filename.'.d'.$timestamp;
 		} else {
 			$file = $filename;
