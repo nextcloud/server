@@ -8,6 +8,8 @@ input#openid, input#webdav { width:20em; }
 /* PERSONAL */
 #passworderror { display:none; }
 #passwordchanged { display:none; }
+#displaynameerror { display:none; }
+#displaynamechanged { display:none; }
 input#identity { width:20em; }
 #email { width: 17em; }
 
