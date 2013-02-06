@@ -22,7 +22,9 @@ if(OC_User::getUser() === $username) {
 	if (OC_User::checkPassword($username, $oldPassword)) {
 		$userstatus = 'user';
 	}  else {
-		$userstatus = null;
+		if (!OC_Util::isUserVerified()) {
+			$userstatus = null;
+		}
 	}
 }
 
