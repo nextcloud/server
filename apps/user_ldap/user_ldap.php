@@ -193,7 +193,7 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 				) {
 					$homedir = $path;
 				} else {
-					$homedir = \OCP\Config::getSystemValue( "datadirectory", \OC::$SERVERROOT."/data" ) . '/' . $homedir[0];
+					$homedir = \OCP\Config::getSystemValue('datadirectory', \OC::$SERVERROOT.'/data' ) . '/' . $homedir[0];
 				}
 				$this->connection->writeToCache($cacheKey, $homedir);
 				return $homedir;
