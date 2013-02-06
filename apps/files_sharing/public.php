@@ -2,52 +2,6 @@
 // Load other apps for file previews
 OC_App::loadApps();
 
-// Compatibility with shared-by-link items from ownCloud 4.0
-// requires old Sharing table !
-// support will be removed in OC 5.0,a
-if (isset($_GET['token'])) {
-	unset($_GET['file']);
-	$qry = \OC_DB::prepare('SELECT `source` FROM `*PREFIX*sharing` WHERE `target` = ?', 1);
-	$filepath = $qry->execute(array($_GET['token']))->fetchOne();
-	if (isset($filepath)) {
-		$rootView = new \OC\Files\View('');
-		$info = $rootView->getFileInfo($filepath, '');
-		if (strtolower($info['mimetype']) == 'httpd/unix-directory') {
-			$_GET['dir'] = $filepath;
-		} else {
-			$_GET['file'] = $filepath;
-		}
-		\OCP\Util::writeLog('files_sharing', 'You have files that are shared by link originating from ownCloud 4.0.'
-				.' Redistribute the new links, because backwards compatibility will be removed in ownCloud 5.',
-				\OCP\Util::WARN);
-	}
-}
-
-function getID($path) {
-	// use the share table from the db to find the item source if the file was reshared because shared files
-	//are not stored in the file cache.
-	if (substr(\OC\Files\Filesystem::getMountPoint($path), -7, 6) == "Shared") {
-		$path_parts = explode('/', $path, 5);
-		$user = $path_parts[1];
-		$intPath = '/'.$path_parts[4];
-		$query = \OC_DB::prepare('SELECT `item_source`'
-								.' FROM `*PREFIX*share`'
-								.' WHERE `uid_owner` = ?'
-								.' AND `file_target` = ? ');
-		$result = $query->execute(array($user, $intPath));
-		$row = $result->fetchRow();
-		$fileSource = $row['item_source'];
-	} else {
-		$rootView = new \OC\Files\View('');
-		$meta = $rootView->getFileInfo($path);
-		$fileSource = $meta['fileid'];
-	}
-
-	return $fileSource;
-}
-
-// Enf of backward compatibility
-
 /**
  * lookup file path and owner by fetching it from the fscache
  * needed because OC_FileCache::getPath($id, $user) already requires the user
