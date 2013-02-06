@@ -1,12 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "অ্যাপস্টোর থেকে তালিকা লোড করতে সক্ষম নয়",
+"Authentication error" => "অনুমোদন ঘটিত সমস্যা",
 "Group already exists" => "গোষ্ঠীটি পূর্ব থেকেই বিদ্যমান",
 "Unable to add group" => "গোষ্ঠী যোগ করা সম্ভব হলো না",
 "Could not enable app. " => "অ্যপটি সক্রিয় করতে সক্ষম নয়।",
 "Email saved" => "ই-মেইল সংরক্ষন করা হয়েছে",
 "Invalid email" => "ই-মেইলটি সঠিক নয়",
 "Unable to delete group" => "গোষ্ঠী মুছে ফেলা সম্ভব হলো না ",
-"Authentication error" => "অনুমোদন ঘটিত সমস্যা",
 "Unable to delete user" => "ব্যবহারকারী মুছে ফেলা সম্ভব হলো না ",
 "Language changed" => "ভাষা পরিবর্তন করা হয়েছে",
 "Invalid request" => "অনুরোধটি যথাযথ নয়",

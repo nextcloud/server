@@ -1,12 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nie mogę załadować listy aplikacji",
+"Authentication error" => "Błąd uwierzytelniania",
 "Group already exists" => "Grupa już istnieje",
 "Unable to add group" => "Nie można dodać grupy",
 "Could not enable app. " => "Nie można włączyć aplikacji.",
 "Email saved" => "Email zapisany",
 "Invalid email" => "Niepoprawny email",
 "Unable to delete group" => "Nie można usunąć grupy",
-"Authentication error" => "Błąd uwierzytelniania",
 "Unable to delete user" => "Nie można usunąć użytkownika",
 "Language changed" => "Język zmieniony",
 "Invalid request" => "Nieprawidłowe żądanie",

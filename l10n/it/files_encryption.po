@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-06 00:05+0100\n"
-"PO-Revision-Date: 2013-02-05 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-07 00:07+0100\n"
+"PO-Revision-Date: 2013-02-05 23:20+0000\n"
+"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,15 +46,15 @@ msgstr "Cifratura"
 
 #: templates/settings-personal.php:7
 msgid "File encryption is enabled."
-msgstr ""
+msgstr "La cifratura dei file è abilitata."
 
 #: templates/settings-personal.php:11
 msgid "The following file types will not be encrypted:"
-msgstr ""
+msgstr "I seguenti tipi di file non saranno cifrati:"
 
 #: templates/settings.php:7
 msgid "Exclude the following file types from encryption:"
-msgstr ""
+msgstr "Escludi i seguenti tipi di file dalla cifratura:"
 
 #: templates/settings.php:12
 msgid "None"

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-02 00:06+0100\n"
-"PO-Revision-Date: 2013-01-31 23:30+0000\n"
+"POT-Creation-Date: 2013-02-07 00:07+0100\n"
+"PO-Revision-Date: 2013-02-06 23:08+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Occitan (post 1500) (http://www.transifex.com/projects/p/owncloud/language/oc/)\n"
 "MIME-Version: 1.0\n"
@@ -160,55 +160,55 @@ msgstr "Decembre"
 msgid "Settings"
 msgstr "Configuracion"
 
-#: js/js.js:759
+#: js/js.js:760
 msgid "seconds ago"
 msgstr "segonda a"
 
-#: js/js.js:760
+#: js/js.js:761
 msgid "1 minute ago"
 msgstr "1 minuta a"
 
-#: js/js.js:761
+#: js/js.js:762
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:762
+#: js/js.js:763
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:763
+#: js/js.js:764
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:764
+#: js/js.js:765
 msgid "today"
 msgstr "uèi"
 
-#: js/js.js:765
+#: js/js.js:766
 msgid "yesterday"
 msgstr "ièr"
 
-#: js/js.js:766
+#: js/js.js:767
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:767
+#: js/js.js:768
 msgid "last month"
 msgstr "mes passat"
 
-#: js/js.js:768
+#: js/js.js:769
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:769
+#: js/js.js:770
 msgid "months ago"
 msgstr "meses  a"
 
-#: js/js.js:770
+#: js/js.js:771
 msgid "last year"
 msgstr "an passat"
 
-#: js/js.js:771
+#: js/js.js:772
 msgid "years ago"
 msgstr "ans a"
 
@@ -563,13 +563,17 @@ msgstr ""
 msgid "Lost your password?"
 msgstr "L'as perdut lo senhal ?"
 
-#: templates/login.php:39
+#: templates/login.php:41
 msgid "remember"
 msgstr "bremba-te"
 
-#: templates/login.php:41
+#: templates/login.php:43
 msgid "Log in"
 msgstr "Dintrada"
+
+#: templates/login.php:49
+msgid "Alternative Logins"
+msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

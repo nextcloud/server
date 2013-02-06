@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-05 00:19+0100\n"
-"PO-Revision-Date: 2013-02-04 14:31+0000\n"
+"POT-Creation-Date: 2013-02-07 00:07+0100\n"
+"PO-Revision-Date: 2013-02-06 21:40+0000\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Language: lv\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);\n"
 
-#: app.php:312
+#: app.php:313
 msgid "Help"
 msgstr "Palīdzība"
 
-#: app.php:319
+#: app.php:320
 msgid "Personal"
 msgstr "Personīgi"
 
-#: app.php:324
+#: app.php:325
 msgid "Settings"
 msgstr "Iestatījumi"
 
-#: app.php:329
+#: app.php:330
 msgid "Users"
 msgstr "Lietotāji"
 
-#: app.php:336
+#: app.php:337
 msgid "Apps"
 msgstr "Lietotnes"
 
-#: app.php:338
+#: app.php:339
 msgid "Admin"
 msgstr "Administratori"
 

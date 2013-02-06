@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "Файлы должны быть загружены по одному.",
 "Back to Files" => "Назад к файлам",
 "Selected files too large to generate zip file." => "Выбранные файлы слишком велики, чтобы создать zip файл.",
+"couldn't be determined" => "Невозможно установить",
 "Application is not enabled" => "Приложение не разрешено",
 "Authentication error" => "Ошибка аутентификации",
 "Token expired. Please reload page." => "Токен просрочен. Перезагрузите страницу.",

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-06 00:05+0100\n"
+"POT-Creation-Date: 2013-02-07 00:07+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,11 +68,15 @@ msgstr ""
 msgid "Unshare"
 msgstr ""
 
-#: js/fileactions.js:119 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:119
+msgid "Delete permanently"
+msgstr ""
+
+#: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr ""
 
-#: js/fileactions.js:185
+#: js/fileactions.js:187
 msgid "Rename"
 msgstr ""
 

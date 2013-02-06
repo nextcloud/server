@@ -1,12 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ekki tókst að hlaða lista frá forrita síðu",
+"Authentication error" => "Villa við auðkenningu",
 "Group already exists" => "Hópur er þegar til",
 "Unable to add group" => "Ekki tókst að bæta við hóp",
 "Could not enable app. " => "Gat ekki virkjað forrit",
 "Email saved" => "Netfang vistað",
 "Invalid email" => "Ógilt netfang",
 "Unable to delete group" => "Ekki tókst að eyða hóp",
-"Authentication error" => "Villa við auðkenningu",
 "Unable to delete user" => "Ekki tókst að eyða notenda",
 "Language changed" => "Tungumáli breytt",
 "Invalid request" => "Ógild fyrirspurn",

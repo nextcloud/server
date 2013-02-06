@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-01 00:17+0100\n"
-"PO-Revision-Date: 2013-01-31 16:20+0000\n"
+"POT-Creation-Date: 2013-02-07 00:07+0100\n"
+"PO-Revision-Date: 2013-02-06 23:08+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -23,46 +23,46 @@ msgstr ""
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/upload.php:17
+#: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
 msgstr "파일이 업로드되지 않았습니다. 알 수 없는 오류입니다"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
 msgstr "업로드에 성공하였습니다."
 
-#: ajax/upload.php:25
+#: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "업로드한 파일이 php.ini의 upload_max_filesize보다 큽니다:"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:29
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "업로드한 파일이 HTML 문서에 지정한 MAX_FILE_SIZE보다 더 큼"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:31
 msgid "The uploaded file was only partially uploaded"
 msgstr "파일이 부분적으로 업로드됨"
 
-#: ajax/upload.php:30
+#: ajax/upload.php:32
 msgid "No file was uploaded"
 msgstr "업로드된 파일 없음"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:33
 msgid "Missing a temporary folder"
 msgstr "임시 폴더가 사라짐"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:34
 msgid "Failed to write to disk"
 msgstr "디스크에 쓰지 못했습니다"
 
-#: ajax/upload.php:51
+#: ajax/upload.php:52
 msgid "Not enough space available"
 msgstr "여유 공간이 부족합니다"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:83
 msgid "Invalid directory."
 msgstr "올바르지 않은 디렉터리입니다."
 
@@ -74,11 +74,15 @@ msgstr "파일"
 msgid "Unshare"
 msgstr "공유 해제"
 
-#: js/fileactions.js:119 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:119
+msgid "Delete permanently"
+msgstr ""
+
+#: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "삭제"
 
-#: js/fileactions.js:185
+#: js/fileactions.js:187
 msgid "Rename"
 msgstr "이름 바꾸기"
 
@@ -183,31 +187,31 @@ msgstr "URL을 입력해야 합니다."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "폴더 이름이 유효하지 않습니다. "
 
-#: js/files.js:949 templates/index.php:67
+#: js/files.js:953 templates/index.php:67
 msgid "Name"
 msgstr "이름"
 
-#: js/files.js:950 templates/index.php:78
+#: js/files.js:954 templates/index.php:78
 msgid "Size"
 msgstr "크기"
 
-#: js/files.js:951 templates/index.php:80
+#: js/files.js:955 templates/index.php:80
 msgid "Modified"
 msgstr "수정됨"
 
-#: js/files.js:970
+#: js/files.js:974
 msgid "1 folder"
 msgstr "폴더 1개"
 
-#: js/files.js:972
+#: js/files.js:976
 msgid "{count} folders"
 msgstr "폴더 {count}개"
 
-#: js/files.js:980
+#: js/files.js:984
 msgid "1 file"
 msgstr "파일 1개"
 
-#: js/files.js:982
+#: js/files.js:986
 msgid "{count} files"
 msgstr "파일 {count}개"
 

@@ -1,12 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Грешка приликом учитавања списка из Складишта Програма",
+"Authentication error" => "Грешка при аутентификацији",
 "Group already exists" => "Група већ постоји",
 "Unable to add group" => "Не могу да додам групу",
 "Could not enable app. " => "Не могу да укључим програм",
 "Email saved" => "Е-порука сачувана",
 "Invalid email" => "Неисправна е-адреса",
 "Unable to delete group" => "Не могу да уклоним групу",
-"Authentication error" => "Грешка при аутентификацији",
 "Unable to delete user" => "Не могу да уклоним корисника",
 "Language changed" => "Језик је промењен",
 "Invalid request" => "Неисправан захтев",

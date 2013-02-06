@@ -5,5 +5,8 @@
 "Please check your passwords and try again." => "Lūdzu, pārbaudiet savas paroles un mēģiniet vēlreiz.",
 "Could not change your file encryption password to your login password" => "Nevarēja mainīt datņu šifrēšanas paroli uz ierakstīšanās paroli",
 "Encryption" => "Šifrēšana",
+"File encryption is enabled." => "Datņu šifrēšana ir aktivēta.",
+"The following file types will not be encrypted:" => "Sekojošās datnes netiks šifrētas:",
+"Exclude the following file types from encryption:" => "Sekojošos datņu tipus izslēgt no šifrēšanas:",
 "None" => "Nav"
 );

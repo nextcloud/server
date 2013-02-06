@@ -5,5 +5,8 @@
 "Please check your passwords and try again." => "Kontrollera dina lösenord och försök igen.",
 "Could not change your file encryption password to your login password" => "Kunde inte ändra ditt filkrypteringslösenord till ditt loginlösenord",
 "Encryption" => "Kryptering",
+"File encryption is enabled." => "Filkryptering är aktiverat.",
+"The following file types will not be encrypted:" => "Följande filtyper kommer inte att krypteras:",
+"Exclude the following file types from encryption:" => "Exkludera följande filtyper från kryptering:",
 "None" => "Ingen"
 );

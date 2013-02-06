@@ -1,11 +1,11 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "قادر به بارگذاری لیست از فروشگاه اپ نیستم",
+"Authentication error" => "خطا در اعتبار سنجی",
 "Group already exists" => "این گروه در حال حاضر موجود است",
 "Unable to add group" => "افزودن گروه امکان پذیر نیست",
 "Email saved" => "ایمیل ذخیره شد",
 "Invalid email" => "ایمیل غیر قابل قبول",
 "Unable to delete group" => "حذف گروه امکان پذیر نیست",
-"Authentication error" => "خطا در اعتبار سنجی",
 "Unable to delete user" => "حذف کاربر امکان پذیر نیست",
 "Language changed" => "زبان تغییر کرد",
 "Invalid request" => "درخواست غیر قابل قبول",

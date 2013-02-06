@@ -5,5 +5,8 @@
 "Please check your passwords and try again." => "Zkontrolujte, prosím, své heslo a zkuste to znovu.",
 "Could not change your file encryption password to your login password" => "Nelze změnit šifrovací heslo na přihlašovací.",
 "Encryption" => "Šifrování",
+"File encryption is enabled." => "Šifrování je povoleno.",
+"The following file types will not be encrypted:" => "Následující typy souborů nebudou šifrovány:",
+"Exclude the following file types from encryption:" => "Vyjmout následující typy souborů ze šifrování:",
 "None" => "Žádné"
 );

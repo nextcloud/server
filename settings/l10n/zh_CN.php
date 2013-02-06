@@ -1,12 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "无法从应用商店载入列表",
+"Authentication error" => "认证错误",
 "Group already exists" => "已存在该组",
 "Unable to add group" => "无法添加组",
 "Could not enable app. " => "无法开启App",
 "Email saved" => "电子邮件已保存",
 "Invalid email" => "无效的电子邮件",
 "Unable to delete group" => "无法删除组",
-"Authentication error" => "认证错误",
 "Unable to delete user" => "无法删除用户",
 "Language changed" => "语言已修改",
 "Invalid request" => "非法请求",
