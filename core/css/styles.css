@@ -199,7 +199,7 @@ input[name="password-clone"] { padding-left:1.8em; width:11.7em !important; }
 /* NEEDED FOR INFIELD LABELS */
 p.infield { position:relative; }
 label.infield { cursor:text !important; top:1.05em; left:.85em; }
-#login form label.infield { position:absolute; font-size:19px; color:#aaa; white-space:nowrap; padding-left:1.2em; }
+#login form label.infield { position:absolute; font-size:19px; color:#aaa; white-space:nowrap; padding-left:1.4em; }
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
 #login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
 
