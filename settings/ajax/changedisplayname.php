@@ -16,7 +16,7 @@ if(OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username)) {
 }
 
 if(is_null($userstatus)) {
-	OC_JSON::error( array( "data" => array( "message" => "Authentication error" )));
+	OC_JSON::error( array( "data" => array( "message" => $l->t("Authentication error") )));
 	exit();
 }
 
@@ -25,5 +25,5 @@ if( OC_User::setDisplayName( $username, $displayName )) {
 	OC_JSON::success(array("data" => array( "username" => $username, 'displayName' => $displayName )));
 }
 else{
-	OC_JSON::error(array("data" => array( "message" => "Unable to change display name", displayName => OC_User::getDisplayName($username) )));
+	OC_JSON::error(array("data" => array( "message" => $l->t("Unable to change display name"), displayName => OC_User::getDisplayName($username) )));
 }
