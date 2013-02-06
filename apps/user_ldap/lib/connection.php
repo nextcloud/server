@@ -262,6 +262,11 @@ class Connection {
 			\OCP\Config::setAppValue($this->configID, 'ldap_uuid_attribute', 'auto');
 			\OCP\Util::writeLog('user_ldap', 'Illegal value for the UUID Attribute, reset to autodetect.', \OCP\Util::INFO);
 		}
+		if((strpos($this->config['ldapHost'], 'ldaps') === 0)
+			&& $this->config['ldapTLS']) {
+			$this->config['ldapTLS'] = false;
+			\OCP\Util::writeLog('user_ldap', 'LDAPS (already using secure connection) and TLS do not work together. Switched of TLS.', \OCP\Util::INFO);
+		}
 
 
 		//second step: critical checks. If left empty or filled wrong, set as unconfigured and give a warning.
