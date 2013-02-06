@@ -39,12 +39,19 @@ foreach($languageCodes as $lang) {
 		$languages[]=array('code'=>$lang, 'name'=>$lang);
 	}
 }
+//links to clients
+$clients = array(
+	'desktop' => OC_Config::getValue('customclient_desktop', 'http://owncloud.org/sync-clients/'),
+	'android' => OC_Config::getValue('customclient_android', 'https://play.google.com/store/apps/details?id=com.owncloud.android'),
+	'ios'     => OC_Config::getValue('customclient_ios', 'https://itunes.apple.com/us/app/owncloud/id543672169?mt=8')
+);
 
 // Return template
 $tmpl = new OC_Template( 'settings', 'personal', 'user');
 $tmpl->assign('usage', OC_Helper::humanFileSize($storageInfo['used']));
 $tmpl->assign('total_space', OC_Helper::humanFileSize($storageInfo['total']));
 $tmpl->assign('usage_relative', $storageInfo['relative']);
+$tmpl->assign('clients', $clients);
 $tmpl->assign('email', $email);
 $tmpl->assign('languages', $languages);
 $tmpl->assign('passwordChangeSupported', OC_User::canUserChangePassword(OC_User::getUser()));
