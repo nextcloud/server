@@ -294,6 +294,11 @@ class Connection {
 		$params = $this->getConfigTranslationArray();
 
 		foreach($config as $parameter => $value) {
+			if(($parameter == 'homeFolderNamingRule'
+				|| $params[$parameter] == 'homeFolderNamingRule')
+				&& !empty($value)) {
+				$value = 'attr:'.$value;
+			}
 		    if(isset($this->config[$parameter])) {
 				$this->config[$parameter] = $value;
 				if(is_array($setParameters)) {
@@ -324,7 +329,7 @@ class Connection {
 					$value = base64_encode($value);
 					break;
 				case 'homeFolderNamingRule':
-					$value = empty($value) ? 'opt:username' : 'attr:'.$value;
+					$value = empty($value) ? 'opt:username' : $value;
 					break;
 				case 'ldapBase':
 				case 'ldapBaseUsers':
