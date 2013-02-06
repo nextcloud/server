@@ -535,6 +535,14 @@ class OC_Util {
 	}
 
 	/**
+	 * Check if the PHP module fileinfo is loaded.
+	 * @return bool
+	 */
+	public static function fileInfoLoaded() {
+		return function_exists('finfo_open');
+	}
+
+	/**
 	 * Check if the ownCloud server can connect to the internet
 	 */
 	public static function isinternetconnectionworking() {
