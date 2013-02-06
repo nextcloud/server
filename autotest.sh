@@ -90,7 +90,7 @@ function execute_tests {
 	rm -rf coverage-html-$1
 	mkdir coverage-html-$1
 	php -f enable_all.php
-	phpunit --log-junit autotest-results-$1.xml --coverage-clover autotest-clover-$1.xml --coverage-html coverage-html-$1
+	phpunit --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml --coverage-clover autotest-clover-$1.xml --coverage-html coverage-html-$1
 }
 
 #

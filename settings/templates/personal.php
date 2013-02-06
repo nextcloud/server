@@ -15,7 +15,9 @@
 	<a class="button" href="https://itunes.apple.com/us/app/owncloud/id543672169?mt=8" target="_blank"><?php echo $l->t('Download iOS Client');?></a>
 </fieldset>
 
-
+<?php
+if($_['passwordChangeSupported']) {
+?>
 <form id="passwordform">
 	<fieldset class="personalblock">
 		<legend><strong><?php echo $l->t('Password');?></strong></legend>
@@ -27,6 +29,26 @@
 		<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
 	</fieldset>
 </form>
+<?php
+}
+?>
+
+<?php
+if($_['displayNameChangeSupported']) {
+?>
+<form id="displaynameform">
+	<fieldset class="personalblock">
+		<legend><strong><?php echo $l->t('Display Name');?></strong></legend>
+		<div id="displaynamechanged"><?php echo $l->t('Your display name was changed');?></div>
+		<div id="displaynameerror"><?php echo $l->t('Unable to change your display name');?></div>
+		<input type="text" id="displayName" name="displayName" value="<?php echo $_['displayName']?>" />
+		<input type="hidden" id="oldDisplayName" name="oldDisplayName" value="<?php echo $_['displayName']?>" />
+		<input id="displaynamebutton" type="submit" value="<?php echo $l->t('Change display name');?>" />
+	</fieldset>
+</form>
+<?php
+}
+?>
 
 <form id="lostpassword">
 	<fieldset class="personalblock">

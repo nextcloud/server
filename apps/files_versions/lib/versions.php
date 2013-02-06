@@ -333,7 +333,8 @@ class Storage {
 			}
 
 			// calculate available space for version history
-			$rootInfo = \OC_FileCache::get('', '/'. $uid . '/files');
+			$files_view = new \OC_FilesystemView('/'.$uid.'/files');
+			$rootInfo = $files_view->getFileInfo('/');
 			$free = $quota-$rootInfo['size']; // remaining free space for user
 			if ( $free > 0 ) {
 				$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions

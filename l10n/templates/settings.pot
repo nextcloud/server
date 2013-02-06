@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-05 00:19+0100\n"
+"POT-Creation-Date: 2013-02-06 00:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -189,67 +189,67 @@ msgstr ""
 msgid "Download iOS Client"
 msgstr ""
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
+#: templates/personal.php:23 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr ""
 
-#: templates/personal.php:22
+#: templates/personal.php:24
 msgid "Your password was changed"
 msgstr ""
 
-#: templates/personal.php:23
+#: templates/personal.php:25
 msgid "Unable to change your password"
 msgstr ""
 
-#: templates/personal.php:24
+#: templates/personal.php:26
 msgid "Current password"
 msgstr ""
 
-#: templates/personal.php:25
+#: templates/personal.php:27
 msgid "New password"
 msgstr ""
 
-#: templates/personal.php:26
+#: templates/personal.php:28
 msgid "show"
 msgstr ""
 
-#: templates/personal.php:27
+#: templates/personal.php:29
 msgid "Change password"
 msgstr ""
 
-#: templates/personal.php:33
+#: templates/personal.php:38
 msgid "Email"
 msgstr ""
 
-#: templates/personal.php:34
+#: templates/personal.php:39
 msgid "Your email address"
 msgstr ""
 
-#: templates/personal.php:35
+#: templates/personal.php:40
 msgid "Fill in an email address to enable password recovery"
 msgstr ""
 
-#: templates/personal.php:41 templates/personal.php:42
+#: templates/personal.php:46 templates/personal.php:47
 msgid "Language"
 msgstr ""
 
-#: templates/personal.php:47
+#: templates/personal.php:52
 msgid "Help translate"
 msgstr ""
 
-#: templates/personal.php:52
+#: templates/personal.php:57
 msgid "WebDAV"
 msgstr ""
 
-#: templates/personal.php:54
+#: templates/personal.php:59
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr ""
 
-#: templates/personal.php:63
+#: templates/personal.php:68
 msgid "Version"
 msgstr ""
 
-#: templates/personal.php:65
+#: templates/personal.php:70
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank"
 "\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" "

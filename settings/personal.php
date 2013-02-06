@@ -47,6 +47,9 @@ $tmpl->assign('total_space', OC_Helper::humanFileSize($storageInfo['total']));
 $tmpl->assign('usage_relative', $storageInfo['relative']);
 $tmpl->assign('email', $email);
 $tmpl->assign('languages', $languages);
+$tmpl->assign('passwordChangeSupported', OC_User::canUserChangePassword(OC_User::getUser()));
+$tmpl->assign('displayNameChangeSupported', OC_User::canUserChangeDisplayName(OC_User::getUser()));
+$tmpl->assign('displayName', OC_User::getDisplayName());
 
 $forms=OC_App::getForms('personal');
 $tmpl->assign('forms', array());
