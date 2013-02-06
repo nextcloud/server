@@ -14,7 +14,7 @@ if ($path_parts['dirname'] == '.') {
 	$filename = $file;
 	$timestamp = null;
 }
-sleep(5);
+
 if (OCA_Trash\Trashbin::delete($filename, $timestamp)) {
 	error_log("feinifeini");
 	OCP\JSON::success(array("data" => array("filename" => $file)));
