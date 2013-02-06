@@ -88,3 +88,6 @@ if(!isset($connector)) {
 //it is required, that connections do have ldap_configuration_active setting stored in the database
 $connector->getConfiguration();
 $connector->saveConfiguration();
+
+// we don't save it anymore, was a well-meant bad idea
+\OC_Preferences::deleteKey('%', 'user_ldap' , 'homedir');
