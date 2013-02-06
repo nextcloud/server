@@ -38,12 +38,15 @@ class Hooks {
 	 */
 	public static function login( $params ) {
 	
+		// Manually initialise Filesystem{} singleton with correct 
+		// fake root path, in order to avoid fatal webdav errors
 		\OC\Files\Filesystem::init( $params['uid'] . '/' . 'files' . '/' );
 	
 		$view = new \OC_FilesystemView( '/' );
 
 		$util = new Util( $view, $params['uid'] );
 		
+		// Check files_encryption infrastructure is ready for action
 		if ( ! $util->ready() ) {
 			
 			\OC_Log::write( 'Encryption library', 'User account "' . $params['uid'] . '" is not ready for encryption; configuration started', \OC_Log::DEBUG );

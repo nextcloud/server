@@ -133,12 +133,6 @@ class Crypt {
          * @note see also OCA\Encryption\Util->isEncryptedPath()
          */
 	public static function isCatfile( $content ) {
-	
-		if ( !$content ) {
-		
-			return false;
-			
-		}
 		
 		$noPadding = self::removePadding( $content );
 		
