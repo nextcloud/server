@@ -33,6 +33,23 @@ if($_['passwordChangeSupported']) {
 }
 ?>
 
+<?php
+if($_['displayNameChangeSupported']) {
+?>
+<form id="displaynameform">
+	<fieldset class="personalblock">
+		<legend><strong><?php echo $l->t('Display Name');?></strong></legend>
+		<div id="displaynamechanged"><?php echo $l->t('Your display name was changed');?></div>
+		<div id="displaynameerror"><?php echo $l->t('Unable to change your display name');?></div>
+		<input type="text" id="displayName" name="displayName" value="<?php echo $_['displayName']?>" />
+		<input type="hidden" id="oldDisplayName" name="oldDisplayName" value="<?php echo $_['displayName']?>" />
+		<input id="displaynamebutton" type="submit" value="<?php echo $l->t('Change display name');?>" />
+	</fieldset>
+</form>
+<?php
+}
+?>
+
 <form id="lostpassword">
 	<fieldset class="personalblock">
 		<legend><strong><?php echo $l->t('Email');?></strong></legend>

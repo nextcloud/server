@@ -31,6 +31,33 @@ $(document).ready(function(){
 		}
 
 	});
+	
+	$("#displaynamebutton").click( function(){
+		if ($('#displayName').val() != '' ) {
+			// Serialize the data
+			var post = $( "#displaynameform" ).serialize();
+			$('#displaynamechanged').hide();
+			$('#displaynemerror').hide();
+			// Ajax foo
+			$.post( 'ajax/changedisplayname.php', post, function(data){
+				if( data.status == "success" ){
+					$('#displaynamechanged').show();
+				}
+				else{
+					$('#newdisplayname').val(data.data.displayName)
+					$('#displaynameerror').html( data.data.message );
+					$('#displaynameerror').show();
+				}
+			});
+			return false;
+		} else {
+			$('#displayName').val($('#oldDisplayName').val());
+			$('#displaynamechanged').hide();
+			$('#displaynameerror').show();
+			return false;
+		}
+
+	});
 
 	$('#lostpassword #email').blur(function(event){
 		if ($(this).val() == this.defaultValue){
