@@ -42,12 +42,12 @@
 	</fieldset>
 </form>
 <?php if (!empty($_['alt_login'])) { ?>
-<form>
+<form id="alternative-logins">
 	<fieldset>
-		<legend style="margin-bottom: 20px;"><?php echo $l->t('Alternative Logins:') ?></legend>
+		<legend><?php echo $l->t('Alternative Logins') ?></legend>
 		<ul>
 			<? foreach($_['alt_login'] as $login): ?>
-				<li style="height: 40px;"><a class="button" href="<?php echo $login['href']; ?>" ><?php echo $login['name']; ?></a></li>
+				<li><a class="button" href="<?php echo $login['href']; ?>" ><?php echo $login['name']; ?></a></li>
 				<?php endforeach; ?>
 		</ul>
 	</fieldset>
