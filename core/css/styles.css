@@ -130,7 +130,7 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 #controls .button { display:inline-block; }
 
 #content { position:relative; height:100%; width:100%; }
-#content .hascontrols { position: relative; top: 3em; }
+#content .hascontrols { position: relative; top: 2.9em; }
 #content-wrapper {
 	position:absolute; height:100%; width:100%; padding-top:3.5em; padding-left:64px;
 	-moz-box-sizing:border-box; box-sizing:border-box;
