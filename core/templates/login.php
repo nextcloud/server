@@ -48,9 +48,9 @@
 	<fieldset>
 		<legend><?php echo $l->t('Alternative Logins') ?></legend>
 		<ul>
-			<? foreach($_['alt_login'] as $login): ?>
+			<?php foreach($_['alt_login'] as $login): ?>
 				<li><a class="button" href="<?php echo $login['href']; ?>" ><?php echo $login['name']; ?></a></li>
-				<?php endforeach; ?>
+			<?php endforeach; ?>
 		</ul>
 	</fieldset>
 </form>
