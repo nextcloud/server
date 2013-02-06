@@ -45,24 +45,6 @@ class Crypt {
 	 * @return string 'client' or 'server'
 	 */
 	public static function mode( $user = null ) {
-		
-// 		$mode = \OC_Appconfig::getValue( 'files_encryption', 'mode', 'none' );
-// 
-// 		if ( $mode == 'user') {
-// 			if ( !$user ) {
-// 				$user = \OCP\User::getUser();
-// 			}
-// 			$mode = 'none';
-// 			if ( $user ) {
-// 				$query = \OC_DB::prepare( "SELECT mode FROM *PREFIX*encryption WHERE uid = ?" );
-// 				$result = $query->execute(array($user));
-// 				if ($row = $result->fetchRow()){
-// 					$mode = $row['mode'];
-// 				}
-// 			}
-// 		}
-// 		
-// 		return $mode;
 
 		return 'server';
 		
@@ -133,12 +115,6 @@ class Crypt {
          * @note see also OCA\Encryption\Util->isEncryptedPath()
          */
 	public static function isCatfile( $content ) {
-	
-		if ( !$content ) {
-		
-			return false;
-			
-		}
 		
 		$noPadding = self::removePadding( $content );
 		
