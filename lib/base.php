@@ -547,28 +547,6 @@ class OC {
 			exit();
 		}
 
-		// post installation checks
-		if (!OC_Config::getValue("post-installation-checked", false)) {
-			// setup was successful -> webdav testing now
-			$request = OC_Request::getPathInfo();
-			if(substr($request, -4) !== '.css' and substr($request, -3) !== '.js' and substr($request, -5) !== '.json') {
-				if (OC_Util::isWebDAVWorking()) {
-					OC_Config::setValue("post-installation-checked", true);
-				} else {
-					$l=OC_L10N::get('lib');
-
-					$error = $l->t('Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken.');
-					$hint = $l->t('Please double check the <a href=\'%s\'>installation guides</a>.', 'http://doc.owncloud.org/server/5.0/admin_manual/installation.html');
-
-					$tmpl = new OC_Template('', 'error', 'guest');
-					$tmpl->assign('errors', array(1 => array('error' => $error, 'hint' => $hint)), false);
-					$tmpl->printPage();
-					exit();
-				}
-			}
-		}
-
-
 		$request = OC_Request::getPathInfo();
 		if(substr($request, -3) !== '.js'){// we need these files during the upgrade
 			self::checkMaintenanceMode();
