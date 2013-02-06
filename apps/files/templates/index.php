@@ -59,7 +59,7 @@
 	<div id="emptyfolder"><?php echo $l->t('Nothing in here. Upload something!')?></div>
 <?php endif; ?>
 
-<table>
+<table class="hascontrols">
 	<thead>
 		<tr>
 			<th id='headerName'>

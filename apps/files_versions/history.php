@@ -29,7 +29,7 @@ if ( isset( $_GET['path'] ) ) {
 
 	$path = $_GET['path'];
 	$tmpl->assign( 'path', $path );
-	$versions = new OCA_Versions\Storage();
+	$versions = new OCA\Files_Versions\Storage();
 
 	// roll back to old version if button clicked
 	if( isset( $_GET['revert'] ) ) {
@@ -52,7 +52,7 @@ if ( isset( $_GET['path'] ) ) {
 
 	// show the history only if there is something to show
 	$count = 999; //show the newest revisions
-	if( ($versions = OCA_Versions\Storage::getVersions( $path, $count)) ) {
+	if( ($versions = OCA\Files_Versions\Storage::getVersions( $path, $count)) ) {
 
 		$tmpl->assign( 'versions', array_reverse( $versions ) );
 
