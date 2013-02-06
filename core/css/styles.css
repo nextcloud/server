@@ -211,6 +211,10 @@ fieldset.warning {
 }
 fieldset.warning legend { color:#b94a48 !important; }
 
+/* Alternative Logins */
+#alternative-logins legend { margin-bottom:10px; }
+#alternative-logins li { height:40px; display:inline-block; white-space:nowrap; }
+
 
 /* NAVIGATION ------------------------------------------------------------- */
 #navigation {

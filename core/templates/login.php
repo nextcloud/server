@@ -43,5 +43,19 @@
 		<input type="submit" id="submit" class="login primary" value="<?php echo $l->t('Log in'); ?>"/>
 	</fieldset>
 </form>
-<?php OCP\Util::addscript('core', 'visitortimezone'); ?>
+<?php if (!empty($_['alt_login'])) { ?>
+<form id="alternative-logins">
+	<fieldset>
+		<legend><?php echo $l->t('Alternative Logins') ?></legend>
+		<ul>
+			<? foreach($_['alt_login'] as $login): ?>
+				<li><a class="button" href="<?php echo $login['href']; ?>" ><?php echo $login['name']; ?></a></li>
+				<?php endforeach; ?>
+		</ul>
+	</fieldset>
+</form>
+<?php } ?>
+
+<?php
+OCP\Util::addscript('core', 'visitortimezone');
 
