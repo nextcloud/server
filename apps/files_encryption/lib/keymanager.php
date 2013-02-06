@@ -206,7 +206,7 @@ class Keymanager {
 	 * as no encryption takes place here
 	 */
 	public static function setPrivateKey( $key ) {
-		
+		trigger_error("MOSH");
 		$user = \OCP\User::getUser();
 		
 		$view = new \OC_FilesystemView( '/' . $user . '/files_encryption' );

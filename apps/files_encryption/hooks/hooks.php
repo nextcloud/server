@@ -107,14 +107,16 @@ class Hooks {
 	 * @param array $params keys: uid, password
 	 */
 	public static function setPassphrase( $params ) {
-	
+	trigger_error("HOSH");
 		// Only attempt to change passphrase if server-side encryption
 		// is in use (client-side encryption does not have access to 
 		// the necessary keys)
 		if ( Crypt::mode() == 'server' ) {
 			
+			$session = new Session();
+			
 			// Get existing decrypted private key
-			$privateKey = $_SESSION['privateKey'];
+			$privateKey = $session->getPrivateKey();
 			
 			// Encrypt private key with new user pwd as passphrase
 			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $privateKey, $params['password'] );
