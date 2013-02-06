@@ -107,7 +107,7 @@ class Hooks {
 	 * @param array $params keys: uid, password
 	 */
 	public static function setPassphrase( $params ) {
-	trigger_error("HOSH");
+		
 		// Only attempt to change passphrase if server-side encryption
 		// is in use (client-side encryption does not have access to 
 		// the necessary keys)
