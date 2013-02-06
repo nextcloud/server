@@ -13,7 +13,7 @@
  * A class to handle the versioning of files.
  */
 
-namespace OCA_Versions;
+namespace OCA\Files_Versions;
 
 class Storage {
 
@@ -195,6 +195,7 @@ class Storage {
 
 			$files_view = new \OC_FilesystemView('/'.$uid.'/files');
 			$local_file = $files_view->getLocalFile($filename);
+			$local_file_md5 = \md5_file( $local_file );
 
 			foreach( $matches as $ma ) {
 				$parts = explode( '.v', $ma );
@@ -206,7 +207,7 @@ class Storage {
 				$versions[$key]['size'] = $versions_fileview->filesize($filename.'.v'.$version);
 
 				// if file with modified date exists, flag it in array as currently enabled version
-				( \md5_file( $ma ) == \md5_file( $local_file ) ? $versions[$key]['fileMatch'] = 1 : $versions[$key]['fileMatch'] = 0 );
+				( \md5_file( $ma ) == $local_file_md5 ? $versions[$key]['fileMatch'] = 1 : $versions[$key]['fileMatch'] = 0 );
 
 			}
 

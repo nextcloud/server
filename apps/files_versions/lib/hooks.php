@@ -10,7 +10,7 @@
  * This class contains all hooks.
  */
 
-namespace OCA_Versions;
+namespace OCA\Files_Versions;
 
 class Hooks {
 
