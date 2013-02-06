@@ -59,9 +59,9 @@ class Util {
 	 * @param string $fromname
 	 * @param bool $html
 	 */
-	public static function sendMail( $toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html=0, $altbody='', $ccaddress='', $ccname='', $bcc='') {
+	public static function sendMail( $toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html = 0, $altbody = '', $ccaddress = '', $ccname = '', $bcc = '') {
 		// call the internal mail class
-		\OC_MAIL::send($toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html = 0, $altbody = '', $ccaddress = '', $ccname = '', $bcc = '');
+		\OC_MAIL::send($toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html, $altbody, $ccaddress, $ccname, $bcc);
 	}
 
 	/**
