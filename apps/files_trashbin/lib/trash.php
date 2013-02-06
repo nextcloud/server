@@ -151,6 +151,45 @@ class Trashbin {
 	}
 	
 	/**
+	 * delete file from trash bin permanently
+	 * @param $filename path to the file
+	 * @param $timestamp of deletion time
+	 * @return true/false
+	 */
+	public static function delete($filename, $timestamp=null) {
+	
+		$user = \OCP\User::getUser();
+		$view = new \OC_FilesystemView('/'.$user);
+	
+		if ( $timestamp ) {
+			$query = \OC_DB::prepare('DELETE FROM *PREFIX*files_trash WHERE user=? AND id=? AND timestamp=?');
+			$query->execute(array($user,$filename,$timestamp));
+			$file = $filename.'.d'.$timestamp;
+		} else {
+			$file = $filename;
+		}
+		
+		if ( \OCP\App::isEnabled('files_versions') ) {
+			if ($view->is_dir('versions_trashbin/'.$file)) {
+				$view->unlink('versions_trashbin/'.$file);
+			} else if ( $versions = self::getVersionsFromTrash($file, $timestamp) ) {
+				foreach ($versions as $v) {
+					if ($timestamp ) {
+						$view->unlink('versions_trashbin/'.$filename.'.v'.$v.'.d'.$timestamp);
+					} else {
+						$view->unlink('versions_trashbin/'.$file.'.v'.$v);
+					}
+				}
+			}
+		}
+	
+		$view->unlink('/files_trashbin/'.$file);
+		
+		return true;
+	}
+	
+	
+	/**
 	 * clean up the trash bin
 	 */
 	private static function expire() {
