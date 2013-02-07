@@ -34,7 +34,7 @@ debug(print_r($category, true));
 
 $categories = new OC_VCategories($type);
 if($categories->hasCategory($category)) {
-	bailOut(OC_Contacts_App::$l10n->t('This category already exists: '.$category));
+	bailOut($l->t('This category already exists: %s', array($category)));
 } else {
 	$categories->add($category, true);
 }
