@@ -23,7 +23,7 @@ class OC_Router {
 
 	public function __construct() {
 		$baseUrl = OC_Helper::linkTo('', 'index.php');
-		if (OC::$CLI) {
+		if ( !OC::$CLI) {
 			$method = $_SERVER['REQUEST_METHOD'];
 		}else{
 			$method = 'GET';
