@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><?php echo isset($_['application']) && !empty($_['application'])?$_['application'].' | ':'' ?>ownCloud <?php echo OC_User::getDisplayName()?' ('.OC_Util::sanitizeHTML(OC_User::getDisplayName()).') ':'' ?></title>
+		<title><?php echo !empty($_['application'])?$_['application'].' | ':'' ?>ownCloud <?php echo !empty($_['user_displayname'])?' ('.$_['user_displayname'].') ':'' ?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="apple-itunes-app" content="app-id=543672169">
 		<link rel="shortcut icon" href="<?php echo image_path('', 'favicon.png'); ?>" /><link rel="apple-touch-icon-precomposed" href="<?php echo image_path('', 'favicon-touch.png'); ?>" />

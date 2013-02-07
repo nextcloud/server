@@ -19,6 +19,7 @@ class OC_TemplateLayout extends OC_Template {
 			}
 
 			// Add navigation entry
+			$this->assign( 'application', '', false );
 			$navigation = OC_App::getNavigation();
 			$this->assign( 'navigation', $navigation, false);
 			$this->assign( 'settingsnavigation', OC_App::getSettingsNavigation(), false);
@@ -28,6 +29,8 @@ class OC_TemplateLayout extends OC_Template {
 					break;
 				}
 			}
+			$user_displayname = OC_User::getDisplayName();
+			$this->assign( 'user_displayname', $user_displayname );
 		} else if ($renderas == 'guest') {
 			parent::__construct('core', 'layout.guest');
 		} else {
