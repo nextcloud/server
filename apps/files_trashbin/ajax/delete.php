@@ -16,7 +16,6 @@ if ($path_parts['dirname'] == '.') {
 }
 
 if (OCA\Files_Trashbin\Trashbin::delete($filename, $timestamp)) {
-	error_log("feinifeini");
 	OCP\JSON::success(array("data" => array("filename" => $file)));
 } else {
 	OCP\JSON::error(array("data" => array("message" => "Couldn't delete ".$file. " permanently")));
