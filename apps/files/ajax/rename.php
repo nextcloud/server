@@ -17,8 +17,8 @@ if ( $newname !== '.' and ($dir != '' || $file != 'Shared') and $newname !== '.'
 	if(\OC\Files\Filesystem::rename($sourceFile, $targetFile)) {
 		OCP\JSON::success(array("data" => array( "dir" => $dir, "file" => $file, "newname" => $newname )));
 	} else {
-		OCP\JSON::error(array("data" => array( "message" => "Unable to rename file" )));
+		OCP\JSON::error(array("data" => array( "message" => $l->t("Unable to rename file") )));
 	}
 }else{
-	OCP\JSON::error(array("data" => array( "message" => "Unable to rename file" )));
+	OCP\JSON::error(array("data" => array( "message" => $l->t("Unable to rename file") )));
 }

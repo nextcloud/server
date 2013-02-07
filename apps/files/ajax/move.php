@@ -12,7 +12,7 @@ $file = stripslashes($_POST["file"]);
 $target = stripslashes(rawurldecode($_POST["target"]));
 
 if(\OC\Files\Filesystem::file_exists($target . '/' . $file)) {
-	OCP\JSON::error(array("data" => array( "message" => "Could not move $file - File with this name already exists" )));
+	OCP\JSON::error(array("data" => array( "message" => $l->t("Could not move %s - File with this name already exists", array($file)) )));
 	exit;
 }
 
@@ -22,8 +22,8 @@ if ($dir != '' || $file != 'Shared') {
 	if(\OC\Files\Filesystem::rename($sourceFile, $targetFile)) {
 		OCP\JSON::success(array("data" => array( "dir" => $dir, "files" => $file )));
 	} else {
-		OCP\JSON::error(array("data" => array( "message" => "Could not move $file" )));
+		OCP\JSON::error(array("data" => array( "message" => $l->t("Could not move %s", array($file)) )));
 	}
 }else{
-	OCP\JSON::error(array("data" => array( "message" => "Could not move $file" )));
+	OCP\JSON::error(array("data" => array( "message" => $l->t("Could not move %s", array($file)) )));
 }
