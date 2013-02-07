@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "perform restore operation" => "復元操作を実行する",
+"delete file permanently" => "ファイルを完全に削除する",
 "Name" => "名前",
 "Deleted" => "削除済み",
 "1 folder" => "1 フォルダ",

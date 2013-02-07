@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Uporanik %s je dal mapo \"%s\" v souporabo z vami. Prenesete je lahko tukaj: %s",
 "Category type not provided." => "Vrsta kategorije ni podana.",
 "No category to add?" => "Ni kategorije za dodajanje?",
-"This category already exists: " => "Ta kategorija že obstaja:",
 "Object type not provided." => "Vrsta predmeta ni podana.",
 "%s ID not provided." => "%s ID ni podan.",
 "Error adding %s to favorites." => "Napaka pri dodajanju %s med priljubljene.",

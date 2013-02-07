@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "アプリストアからリストをロードできません",
 "Authentication error" => "認証エラー",
+"Unable to change display name" => "表示名を変更できません",
 "Group already exists" => "グループは既に存在しています",
 "Unable to add group" => "グループを追加できません",
 "Could not enable app. " => "アプリを有効にできませんでした。",
@@ -49,6 +50,9 @@
 "show" => "表示",
 "Change password" => "パスワードを変更",
 "Display Name" => "表示名",
+"Your display name was changed" => "あなたの表示名を変更しました",
+"Unable to change your display name" => "あなたの表示名を変更できません",
+"Change display name" => "表示名を変更",
 "Email" => "Email",
 "Your email address" => "あなたのメールアドレス",
 "Fill in an email address to enable password recovery" => "※パスワード回復を有効にするにはメールアドレスの入力が必要です",

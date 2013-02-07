@@ -11,6 +11,7 @@
 "Invalid directory." => "Cartella non valida.",
 "Files" => "File",
 "Unshare" => "Rimuovi condivisione",
+"Delete permanently" => "Elimina definitivamente",
 "Delete" => "Elimina",
 "Rename" => "Rinomina",
 "{new_name} already exists" => "{new_name} esiste già",

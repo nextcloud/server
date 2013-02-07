@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "perform restore operation" => "provést obnovu",
+"delete file permanently" => "trvale odstranit soubor",
 "Name" => "Název",
 "Deleted" => "Smazáno",
 "1 folder" => "1 složka",

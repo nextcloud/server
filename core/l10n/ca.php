@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "L'usuari %s ha compartit la carpeta \"%s\" amb vós. Està disponible per a la descàrrega a: %s",
 "Category type not provided." => "No s'ha especificat el tipus de categoria.",
 "No category to add?" => "No voleu afegir cap categoria?",
-"This category already exists: " => "Aquesta categoria ja existeix:",
 "Object type not provided." => "No s'ha proporcionat el tipus d'objecte.",
 "%s ID not provided." => "No s'ha proporcionat la ID %s.",
 "Error adding %s to favorites." => "Error en afegir %s als preferits.",
@@ -129,6 +128,7 @@
 "Lost your password?" => "Heu perdut la contrasenya?",
 "remember" => "recorda'm",
 "Log in" => "Inici de sessió",
+"Alternative Logins" => "Acreditacions alternatives",
 "prev" => "anterior",
 "next" => "següent",
 "Updating ownCloud to version %s, this may take a while." => "S'està actualitzant ownCloud a la versió %s, pot trigar una estona."

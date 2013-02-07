@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Корисникот %s ја сподели папката „%s“ со Вас. Достапна е за преземање тука: %s",
 "Category type not provided." => "Не беше доставен тип на категорија.",
 "No category to add?" => "Нема категорија да се додаде?",
-"This category already exists: " => "Оваа категорија веќе постои:",
 "Object type not provided." => "Не беше доставен тип на објект.",
 "%s ID not provided." => "%s ID не беше доставено.",
 "Error adding %s to favorites." => "Грешка при додавање %s во омилени.",

@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Lietotājs %s ar jums dalījās ar mapi “%s”. To var lejupielādēt šeit — %s",
 "Category type not provided." => "Kategorijas tips nav norādīts.",
 "No category to add?" => "Nav kategoriju, ko pievienot?",
-"This category already exists: " => "Šāda kategorija jau eksistē:",
 "Object type not provided." => "Objekta tips nav norādīts.",
 "%s ID not provided." => "%s ID nav norādīts.",
 "Error adding %s to favorites." => "Kļūda, pievienojot %s izlasei.",
@@ -129,6 +128,7 @@
 "Lost your password?" => "Aizmirsāt paroli?",
 "remember" => "atcerēties",
 "Log in" => "Ierakstīties",
+"Alternative Logins" => "Alternatīvās pieteikšanās",
 "prev" => "iepriekšējā",
 "next" => "nākamā",
 "Updating ownCloud to version %s, this may take a while." => "Atjaunina ownCloud uz versiju %s. Tas var aizņemt kādu laiciņu."

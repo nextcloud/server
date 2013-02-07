@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Пользователь %s открыл вам доступ к папке \"%s\". Она доступна для загрузки здесь: %s",
 "Category type not provided." => "Тип категории не предоставлен",
 "No category to add?" => "Нет категорий для добавления?",
-"This category already exists: " => "Эта категория уже существует: ",
 "Object type not provided." => "Тип объекта не предоставлен",
 "%s ID not provided." => "ID %s не  предоставлен",
 "Error adding %s to favorites." => "Ошибка добавления %s в избранное",
@@ -129,6 +128,7 @@
 "Lost your password?" => "Забыли пароль?",
 "remember" => "запомнить",
 "Log in" => "Войти",
+"Alternative Logins" => "Альтернативные имена пользователя",
 "prev" => "пред",
 "next" => "след",
 "Updating ownCloud to version %s, this may take a while." => "Производится обновление ownCloud до версии %s. Это может занять некоторое время."

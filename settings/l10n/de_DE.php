@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Die Liste der Anwendungen im Store konnte nicht geladen werden.",
 "Authentication error" => "Fehler bei der Anmeldung",
+"Unable to change display name" => "Das Ändern des Anzeigenamens ist nicht möglich",
 "Group already exists" => "Die Gruppe existiert bereits",
 "Unable to add group" => "Die Gruppe konnte nicht angelegt werden",
 "Could not enable app. " => "Die Anwendung konnte nicht aktiviert werden.",
@@ -49,6 +50,9 @@
 "show" => "zeigen",
 "Change password" => "Passwort ändern",
 "Display Name" => "Anzeigename",
+"Your display name was changed" => "Dein Anzeigename wurde geändert",
+"Unable to change your display name" => "Das Ändern deines Anzeigenamens ist nicht möglich",
+"Change display name" => "Anzeigenamen ändern",
 "Email" => "E-Mail",
 "Your email address" => "Ihre E-Mail-Adresse",
 "Fill in an email address to enable password recovery" => "Bitte tragen Sie eine E-Mail-Adresse ein, um die Passwort-Wiederherstellung zu aktivieren.",

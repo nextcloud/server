@@ -11,6 +11,7 @@
 "Invalid directory." => "Neplatný adresář",
 "Files" => "Soubory",
 "Unshare" => "Zrušit sdílení",
+"Delete permanently" => "Trvale odstranit",
 "Delete" => "Smazat",
 "Rename" => "Přejmenovat",
 "{new_name} already exists" => "{new_name} již existuje",

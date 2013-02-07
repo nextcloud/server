@@ -36,7 +36,6 @@
 "Port" => "พอร์ต",
 "Disable Main Server" => "ปิดใช้งานเซิร์ฟเวอร์หลัก",
 "Use TLS" => "ใช้ TLS",
-"Do not use it for SSL connections, it will fail." => "กรุณาอย่าใช้การเชื่อมต่อแบบ SSL การเชื่อมต่อจะเกิดการล้มเหลว",
 "Case insensitve LDAP server (Windows)" => "เซิร์ฟเวอร์ LDAP ประเภท Case insensitive (วินโดวส์)",
 "Turn off SSL certificate validation." => "ปิดใช้งานการตรวจสอบความถูกต้องของใบรับรองความปลอดภัย SSL",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "หากการเชื่อมต่อสามารถทำงานได้เฉพาะกับตัวเลือกนี้เท่านั้น, ให้นำเข้าข้อมูลใบรับรองความปลอดภัยแบบ SSL ของเซิร์ฟเวอร์ LDAP ดังกล่าวเข้าไปไว้ในเซิร์ฟเวอร์ ownCloud",

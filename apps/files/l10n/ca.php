@@ -11,6 +11,7 @@
 "Invalid directory." => "Directori no vàlid.",
 "Files" => "Fitxers",
 "Unshare" => "Deixa de compartir",
+"Delete permanently" => "Esborra permanentment",
 "Delete" => "Suprimeix",
 "Rename" => "Reanomena",
 "{new_name} already exists" => "{new_name} ja existeix",

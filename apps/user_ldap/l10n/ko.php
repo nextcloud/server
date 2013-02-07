@@ -22,7 +22,6 @@
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "자리 비움자를 사용할 수 없습니다. 예제: \"objectClass=posixGroup\"",
 "Port" => "포트",
 "Use TLS" => "TLS 사용",
-"Do not use it for SSL connections, it will fail." => "SSL 연결 시 사용하는 경우 연결되지 않습니다.",
 "Case insensitve LDAP server (Windows)" => "서버에서 대소문자를 구분하지 않음 (Windows)",
 "Turn off SSL certificate validation." => "SSL 인증서 유효성 검사를 해제합니다.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "이 옵션을 사용해야 연결할 수 있는 경우에는 LDAP 서버의 SSL 인증서를 ownCloud로 가져올 수 있습니다.",

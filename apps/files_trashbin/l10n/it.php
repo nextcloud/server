@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "perform restore operation" => "esegui operazione di ripristino",
+"delete file permanently" => "elimina il file definitivamente",
 "Name" => "Nome",
 "Deleted" => "Eliminati",
 "1 folder" => "1 cartella",

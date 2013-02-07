@@ -35,7 +35,6 @@
 "Port" => "Puerto",
 "Disable Main Server" => "Deshabilitar el Servidor Principal",
 "Use TLS" => "Usar TLS",
-"Do not use it for SSL connections, it will fail." => "No usarlo para SSL, dará error.",
 "Case insensitve LDAP server (Windows)" => "Servidor de LDAP sensible a mayúsculas/minúsculas (Windows)",
 "Turn off SSL certificate validation." => "Desactivar la validación por certificado SSL.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Si la conexión sólo funciona con esta opción, importá el certificado SSL del servidor LDAP en tu servidor ownCloud.",

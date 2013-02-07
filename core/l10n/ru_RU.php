@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Пользователь %s открыл Вам доступ к папке \"%s\". Она доступена для загрузки здесь: %s",
 "Category type not provided." => "Тип категории не предоставлен.",
 "No category to add?" => "Нет категории для добавления?",
-"This category already exists: " => "Эта категория уже существует:",
 "Object type not provided." => "Тип объекта не предоставлен.",
 "%s ID not provided." => "%s ID не предоставлен.",
 "Error adding %s to favorites." => "Ошибка добавления %s в избранное.",

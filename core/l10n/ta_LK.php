@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Category type not provided." => "பிரிவு வகைகள் வழங்கப்படவில்லை",
 "No category to add?" => "சேர்ப்பதற்கான வகைகள் இல்லையா?",
-"This category already exists: " => "இந்த வகை ஏற்கனவே உள்ளது:",
 "Object type not provided." => "பொருள் வகை வழங்கப்படவில்லை",
 "%s ID not provided." => "%s ID வழங்கப்படவில்லை",
 "Error adding %s to favorites." => "விருப்பங்களுக்கு %s ஐ சேர்ப்பதில் வழு",

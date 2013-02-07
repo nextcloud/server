@@ -8,13 +8,14 @@
 #   <driz@i2pmail.org>, 2012.
 # Marc-Andre Husyk <member@wue.de>, 2013.
 # Marcel Kühlhorn <susefan93@gmx.de>, 2013.
+# Susi <>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-06 00:05+0100\n"
-"PO-Revision-Date: 2013-02-05 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-08 00:09+0100\n"
+"PO-Revision-Date: 2013-02-07 08:20+0000\n"
+"Last-Translator: Susi <>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,15 +51,15 @@ msgstr "Verschlüsselung"
 
 #: templates/settings-personal.php:7
 msgid "File encryption is enabled."
-msgstr ""
+msgstr "Datei-Verschlüsselung ist aktiviert"
 
 #: templates/settings-personal.php:11
 msgid "The following file types will not be encrypted:"
-msgstr ""
+msgstr "Die folgenden Datei-Typen werden nicht verschlüsselt:"
 
 #: templates/settings.php:7
 msgid "Exclude the following file types from encryption:"
-msgstr ""
+msgstr "Die folgenden Datei-Typen von der Verschlüsselung ausnehmen:"
 
 #: templates/settings.php:12
 msgid "None"

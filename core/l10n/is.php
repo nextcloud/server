@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Notandinn %s deildi möppunni \"%s\" með þér. Hægt er að hlaða henni niður hér: %s",
 "Category type not provided." => "Flokkur ekki gefin",
 "No category to add?" => "Enginn flokkur til að bæta við?",
-"This category already exists: " => "Þessi flokkur er þegar til:",
 "Object type not provided." => "Tegund ekki í boði.",
 "%s ID not provided." => "%s ID ekki í boði.",
 "Error adding %s to favorites." => "Villa við að bæta %s við eftirlæti.",

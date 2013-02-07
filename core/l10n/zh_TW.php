@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "用戶 %s 與您分享了資料夾 \"%s\" ，您可以從這裡下載它： %s",
 "Category type not provided." => "未提供分類類型。",
 "No category to add?" => "沒有可增加的分類？",
-"This category already exists: " => "此分類已經存在：",
 "Object type not provided." => "不支援的物件類型",
 "%s ID not provided." => "未提供 %s ID 。",
 "Error adding %s to favorites." => "加入 %s 到最愛時發生錯誤。",

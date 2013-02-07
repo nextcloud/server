@@ -22,6 +22,7 @@
 # Phi Lieb <>, 2012.
 # Phillip Schichtel <quick_wango@code-infection.de>, 2013.
 #   <Steve_Reichert@gmx.de>, 2013.
+# Susi <>, 2013.
 #   <thomas.mueller@tmit.eu>, 2012.
 # Thomas Müller <>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
@@ -29,9 +30,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-08 00:09+0100\n"
+"PO-Revision-Date: 2013-02-07 08:10+0000\n"
+"Last-Translator: Susi <>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -92,7 +93,7 @@ msgstr "Nicht mehr freigeben"
 
 #: js/fileactions.js:119
 msgid "Delete permanently"
-msgstr ""
+msgstr "Entgültig löschen"
 
 #: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
 msgid "Delete"

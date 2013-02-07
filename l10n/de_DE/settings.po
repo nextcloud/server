@@ -20,6 +20,7 @@
 # Phillip Schichtel <quick_wango@code-infection.de>, 2013.
 #   <seeed@freenet.de>, 2012.
 #  <stefan.niedermann@googlemail.com>, 2013.
+# Susi <>, 2013.
 #   <thomas.mueller@tmit.eu>, 2012.
 #   <transifex-2.7.mensaje@spamgourmet.com>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
@@ -28,9 +29,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-08 00:10+0100\n"
+"PO-Revision-Date: 2013-02-07 08:10+0000\n"
+"Last-Translator: Susi <>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,7 +50,7 @@ msgstr "Fehler bei der Anmeldung"
 
 #: ajax/changedisplayname.php:28
 msgid "Unable to change display name"
-msgstr ""
+msgstr "Das Ändern des Anzeigenamens ist nicht möglich"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -248,15 +249,15 @@ msgstr "Anzeigename"
 
 #: templates/personal.php:42
 msgid "Your display name was changed"
-msgstr ""
+msgstr "Dein Anzeigename wurde geändert"
 
 #: templates/personal.php:43
 msgid "Unable to change your display name"
-msgstr ""
+msgstr "Das Ändern deines Anzeigenamens ist nicht möglich"
 
 #: templates/personal.php:46
 msgid "Change display name"
-msgstr ""
+msgstr "Anzeigenamen ändern"
 
 #: templates/personal.php:55
 msgid "Email"

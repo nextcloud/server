@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Người dùng %s chia sẻ thư mục \"%s\" cho bạn .Bạn có thể tải tại đây : %s",
 "Category type not provided." => "Kiểu hạng mục không được cung cấp.",
 "No category to add?" => "Không có danh mục được thêm?",
-"This category already exists: " => "Danh mục này đã được tạo :",
 "Object type not provided." => "Loại đối tượng không được cung cấp.",
 "%s ID not provided." => "%s ID không được cung cấp.",
 "Error adding %s to favorites." => "Lỗi thêm %s vào mục yêu thích.",

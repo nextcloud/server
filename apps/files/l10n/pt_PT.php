@@ -11,6 +11,7 @@
 "Invalid directory." => "Directório Inválido",
 "Files" => "Ficheiros",
 "Unshare" => "Deixar de partilhar",
+"Delete permanently" => "Eliminar permanentemente",
 "Delete" => "Apagar",
 "Rename" => "Renomear",
 "{new_name} already exists" => "O nome {new_name} já existe",

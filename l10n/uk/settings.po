@@ -6,13 +6,14 @@
 #   <dzubchikd@gmail.com>, 2012.
 #   <skoptev@ukr.net>, 2012.
 #   <volodya327@gmail.com>, 2012-2013.
+# пан Володимир <volodya327@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-08 00:10+0100\n"
+"PO-Revision-Date: 2013-02-07 15:20+0000\n"
+"Last-Translator: volodya327 <volodya327@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +32,7 @@ msgstr "Помилка автентифікації"
 
 #: ajax/changedisplayname.php:28
 msgid "Unable to change display name"
-msgstr ""
+msgstr "Не вдалося змінити зображене ім'я"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -85,11 +86,11 @@ msgstr "Не вдалося видалити користувача із гру�
 
 #: ajax/updateapp.php:13
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Не вдалося оновити програму. "
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Оновити до {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
@@ -101,15 +102,15 @@ msgstr "Включити"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "Зачекайте, будь ласка..."
 
 #: js/apps.js:84
 msgid "Updating...."
-msgstr ""
+msgstr "Оновлюється..."
 
 #: js/apps.js:87
 msgid "Error while updating app"
-msgstr ""
+msgstr "Помилка при оновленні програми"
 
 #: js/apps.js:87
 msgid "Error"
@@ -117,7 +118,7 @@ msgstr "Помилка"
 
 #: js/apps.js:90
 msgid "Updated"
-msgstr ""
+msgstr "Оновлено"
 
 #: js/personal.js:96
 msgid "Saving..."
@@ -226,19 +227,19 @@ msgstr "Змінити пароль"
 
 #: templates/personal.php:41 templates/users.php:80
 msgid "Display Name"
-msgstr ""
+msgstr "Показати Ім'я"
 
 #: templates/personal.php:42
 msgid "Your display name was changed"
-msgstr ""
+msgstr "Ваше ім'я було змінене"
 
 #: templates/personal.php:43
 msgid "Unable to change your display name"
-msgstr ""
+msgstr "Неможливо змінити ваше зображене ім'я"
 
 #: templates/personal.php:46
 msgid "Change display name"
-msgstr ""
+msgstr "Змінити зображене ім'я"
 
 #: templates/personal.php:55
 msgid "Email"
@@ -284,7 +285,7 @@ msgstr "Розроблено <a href=\"http://ownCloud.org/contact\" target=\"_b
 
 #: templates/users.php:21 templates/users.php:79
 msgid "Login Name"
-msgstr ""
+msgstr "Ім'я Логіну"
 
 #: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
@@ -316,11 +317,11 @@ msgstr "Сховище"
 
 #: templates/users.php:97
 msgid "change display name"
-msgstr ""
+msgstr "змінити зображене ім'я"
 
 #: templates/users.php:101
 msgid "set new password"
-msgstr ""
+msgstr "встановити новий пароль"
 
 #: templates/users.php:137
 msgid "Default"

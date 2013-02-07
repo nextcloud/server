@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "perform restore operation" => "executa l'operació de restauració",
+"delete file permanently" => "esborra el fitxer permanentment",
 "Name" => "Nom",
 "Deleted" => "Eliminat",
 "1 folder" => "1 carpeta",

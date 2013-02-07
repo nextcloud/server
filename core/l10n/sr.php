@@ -3,7 +3,6 @@
 "User %s shared a folder with you" => "Корисник %s дели са вама директоријум",
 "Category type not provided." => "Врста категорије није унет.",
 "No category to add?" => "Додати још неку категорију?",
-"This category already exists: " => "Категорија већ постоји:",
 "Object type not provided." => "Врста објекта није унета.",
 "%s ID not provided." => "%s ИД нису унети.",
 "Error adding %s to favorites." => "Грешка приликом додавања %s у омиљене.",

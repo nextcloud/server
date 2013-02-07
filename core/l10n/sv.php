@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Användare %s delade mappen \"%s\" med dig. Den finns att ladda ner här: %s",
 "Category type not provided." => "Kategorityp inte angiven.",
 "No category to add?" => "Ingen kategori att lägga till?",
-"This category already exists: " => "Denna kategori finns redan:",
 "Object type not provided." => "Objekttyp inte angiven.",
 "%s ID not provided." => "%s ID inte angiven.",
 "Error adding %s to favorites." => "Fel vid tillägg av %s till favoriter.",

@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Bruger %s delte mappe \"%s\" med dig. Det kan hentes her: %s",
 "Category type not provided." => "Kategori typen ikke er fastsat.",
 "No category to add?" => "Ingen kategori at tilføje?",
-"This category already exists: " => "Denne kategori eksisterer allerede: ",
 "Object type not provided." => "Object type ikke er fastsat.",
 "%s ID not provided." => "%s ID ikke oplyst.",
 "Error adding %s to favorites." => "Fejl ved tilføjelse af %s til favoritter.",

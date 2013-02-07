@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "המשתמש %s שיתף אתך את התיקייה „%s“. ניתן להוריד את התיקייה מכאן: %s",
 "Category type not provided." => "סוג הקטגוריה לא סופק.",
 "No category to add?" => "אין קטגוריה להוספה?",
-"This category already exists: " => "קטגוריה זאת כבר קיימת: ",
 "Object type not provided." => "סוג הפריט לא סופק.",
 "%s ID not provided." => "מזהה %s לא סופק.",
 "Error adding %s to favorites." => "אירעה שגיאה בעת הוספת %s למועדפים.",

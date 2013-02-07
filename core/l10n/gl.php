@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "O usuario %s compartiu o cartafol «%s» con vostede. Teno dispoñíbel en: %s",
 "Category type not provided." => "Non se indicou o tipo de categoría",
 "No category to add?" => "Sen categoría que engadir?",
-"This category already exists: " => "Esta categoría xa existe: ",
 "Object type not provided." => "Non se forneceu o tipo de obxecto.",
 "%s ID not provided." => "Non se forneceu o ID %s.",
 "Error adding %s to favorites." => "Produciuse un erro ao engadir %s aos favoritos.",

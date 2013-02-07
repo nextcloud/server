@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "%s erabiltzaileak \"%s\" karpeta zurekin partekatu du. Hemen duzu eskuragarri:  %s",
 "Category type not provided." => "Kategoria mota ez da zehaztu.",
 "No category to add?" => "Ez dago gehitzeko kategoriarik?",
-"This category already exists: " => "Kategoria hau dagoeneko existitzen da:",
 "Object type not provided." => "Objetu mota ez da zehaztu.",
 "%s ID not provided." => "%s ID mota ez da zehaztu.",
 "Error adding %s to favorites." => "Errorea gertatu da %s gogokoetara gehitzean.",

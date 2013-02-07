@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "%s 님이 폴더 \"%s\"을(를) 공유하였습니다. 여기에서 다운로드할 수 있습니다: %s",
 "Category type not provided." => "분류 형식이 제공되지 않았습니다.",
 "No category to add?" => "추가할 분류가 없습니까?",
-"This category already exists: " => "이 분류는 이미 존재합니다:",
 "Object type not provided." => "객체 형식이 제공되지 않았습니다.",
 "%s ID not provided." => "%s ID가 제공되지 않았습니다.",
 "Error adding %s to favorites." => "책갈피에 %s을(를) 추가할 수 없었습니다.",

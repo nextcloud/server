@@ -43,7 +43,6 @@
 "Disable Main Server" => "メインサーバを無効にする",
 "When switched on, ownCloud will only connect to the replica server." => "有効にすると、ownCloudはレプリカサーバにのみ接続します。",
 "Use TLS" => "TLSを利用",
-"Do not use it for SSL connections, it will fail." => "SSL接続に利用しないでください、失敗します。",
 "Case insensitve LDAP server (Windows)" => "大文字／小文字を区別しないLDAPサーバ（Windows）",
 "Turn off SSL certificate validation." => "SSL証明書の確認を無効にする。",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "接続がこのオプションでのみ動作する場合は、LDAPサーバのSSL証明書をownCloudサーバにインポートしてください。",

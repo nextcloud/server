@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "No category to add?" => "Nepridėsite jokios kategorijos?",
-"This category already exists: " => "Tokia kategorija jau yra:",
 "No categories selected for deletion." => "Trynimui nepasirinkta jokia kategorija.",
 "Sunday" => "Sekmadienis",
 "Monday" => "Pirmadienis",

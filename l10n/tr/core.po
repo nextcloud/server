@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:08+0000\n"
+"POT-Creation-Date: 2013-02-08 00:10+0100\n"
+"PO-Revision-Date: 2013-02-07 23:10+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -55,8 +55,9 @@ msgid "No category to add?"
 msgstr "Eklenecek kategori yok?"
 
 #: ajax/vcategories/add.php:37
-msgid "This category already exists: "
-msgstr "Bu kategori zaten mevcut: "
+#, php-format
+msgid "This category already exists: %s"
+msgstr ""
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -160,59 +161,59 @@ msgstr "Kasım"
 msgid "December"
 msgstr "Aralık"
 
-#: js/js.js:280
+#: js/js.js:284
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: js/js.js:760
+#: js/js.js:764
 msgid "seconds ago"
 msgstr "saniye önce"
 
-#: js/js.js:761
+#: js/js.js:765
 msgid "1 minute ago"
 msgstr "1 dakika önce"
 
-#: js/js.js:762
+#: js/js.js:766
 msgid "{minutes} minutes ago"
 msgstr "{minutes} dakika önce"
 
-#: js/js.js:763
+#: js/js.js:767
 msgid "1 hour ago"
 msgstr "1 saat önce"
 
-#: js/js.js:764
+#: js/js.js:768
 msgid "{hours} hours ago"
 msgstr "{hours} saat önce"
 
-#: js/js.js:765
+#: js/js.js:769
 msgid "today"
 msgstr "bugün"
 
-#: js/js.js:766
+#: js/js.js:770
 msgid "yesterday"
 msgstr "dün"
 
-#: js/js.js:767
+#: js/js.js:771
 msgid "{days} days ago"
 msgstr "{days} gün önce"
 
-#: js/js.js:768
+#: js/js.js:772
 msgid "last month"
 msgstr "geçen ay"
 
-#: js/js.js:769
+#: js/js.js:773
 msgid "{months} months ago"
 msgstr "{months} ay önce"
 
-#: js/js.js:770
+#: js/js.js:774
 msgid "months ago"
 msgstr "ay önce"
 
-#: js/js.js:771
+#: js/js.js:775
 msgid "last year"
 msgstr "geçen yıl"
 
-#: js/js.js:772
+#: js/js.js:776
 msgid "years ago"
 msgstr "yıl önce"
 
@@ -500,52 +501,52 @@ msgstr "data dizininiz ve dosyalarınız büyük ihtimalle internet üzerinden e
 msgid "Create an <strong>admin account</strong>"
 msgstr "Bir <strong>yönetici hesabı</strong> oluşturun"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Advanced"
 msgstr "Gelişmiş"
 
-#: templates/installation.php:52
+#: templates/installation.php:54
 msgid "Data folder"
 msgstr "Veri klasörü"
 
-#: templates/installation.php:59
+#: templates/installation.php:61
 msgid "Configure the database"
 msgstr "Veritabanını ayarla"
 
-#: templates/installation.php:64 templates/installation.php:75
-#: templates/installation.php:85 templates/installation.php:95
+#: templates/installation.php:66 templates/installation.php:77
+#: templates/installation.php:87 templates/installation.php:97
 msgid "will be used"
 msgstr "kullanılacak"
 
-#: templates/installation.php:107
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Veritabanı kullanıcı adı"
 
-#: templates/installation.php:111
+#: templates/installation.php:113
 msgid "Database password"
 msgstr "Veritabanı parolası"
 
-#: templates/installation.php:115
+#: templates/installation.php:117
 msgid "Database name"
 msgstr "Veritabanı adı"
 
-#: templates/installation.php:123
+#: templates/installation.php:125
 msgid "Database tablespace"
 msgstr "Veritabanı tablo alanı"
 
-#: templates/installation.php:129
+#: templates/installation.php:131
 msgid "Database host"
 msgstr "Veritabanı sunucusu"
 
-#: templates/installation.php:134
+#: templates/installation.php:136
 msgid "Finish setup"
 msgstr "Kurulumu tamamla"
 
-#: templates/layout.guest.php:34
+#: templates/layout.guest.php:33
 msgid "web services under your control"
 msgstr "kontrolünüzdeki web servisleri"
 
-#: templates/layout.user.php:49
+#: templates/layout.user.php:48
 msgid "Log out"
 msgstr "Çıkış yap"
 

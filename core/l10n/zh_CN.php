@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "用户 %s 与您共享了文件夹\"%s\"。文件夹下载地址：%s",
 "Category type not provided." => "未提供分类类型。",
 "No category to add?" => "没有可添加分类？",
-"This category already exists: " => "此分类已存在: ",
 "Object type not provided." => "未提供对象类型。",
 "%s ID not provided." => "%s ID未提供。",
 "Error adding %s to favorites." => "向收藏夹中新增%s时出错。",

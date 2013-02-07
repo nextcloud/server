@@ -43,7 +43,6 @@
 "Disable Main Server" => "Désactiver le serveur principal",
 "When switched on, ownCloud will only connect to the replica server." => "Lorsqu'activé, ownCloud ne se connectera qu'au serveur répliqué.",
 "Use TLS" => "Utiliser TLS",
-"Do not use it for SSL connections, it will fail." => "Ne pas utiliser pour les connexions SSL, car cela échouera.",
 "Case insensitve LDAP server (Windows)" => "Serveur LDAP insensible à la casse (Windows)",
 "Turn off SSL certificate validation." => "Désactiver la validation du certificat SSL.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Si la connexion ne fonctionne qu'avec cette option, importez le certificat SSL du serveur LDAP dans le serveur ownCloud.",

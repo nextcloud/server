@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Uživatel %s s vámi sdílí složku \"%s\". Můžete ji stáhnout zde: %s",
 "Category type not provided." => "Nezadán typ kategorie.",
 "No category to add?" => "Žádná kategorie k přidání?",
-"This category already exists: " => "Tato kategorie již existuje: ",
 "Object type not provided." => "Nezadán typ objektu.",
 "%s ID not provided." => "Nezadáno ID %s.",
 "Error adding %s to favorites." => "Chyba při přidávání %s k oblíbeným.",
@@ -129,6 +128,7 @@
 "Lost your password?" => "Ztratili jste své heslo?",
 "remember" => "zapamatovat si",
 "Log in" => "Přihlásit",
+"Alternative Logins" => "Alternativní přihlášení",
 "prev" => "předchozí",
 "next" => "následující",
 "Updating ownCloud to version %s, this may take a while." => "Aktualizuji ownCloud na verzi %s, bude to chvíli trvat."

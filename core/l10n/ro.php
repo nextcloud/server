@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Utilizatorul %s a partajat dosarul \"%s\" cu tine. Îl poți descărca de aici: %s ",
 "Category type not provided." => "Tipul de categorie nu este prevazut",
 "No category to add?" => "Nici o categorie de adăugat?",
-"This category already exists: " => "Această categorie deja există:",
 "Object type not provided." => "Tipul obiectului nu este prevazut",
 "%s ID not provided." => "ID-ul %s nu a fost introdus",
 "Error adding %s to favorites." => "Eroare la adăugarea %s la favorite",

@@ -4,7 +4,6 @@
 "User %s shared the file \"%s\" with you. It is available for download here: %s" => "Käyttäjä %s jakoi tiedoston \"%s\" kanssasi. Se on ladattavissa täältä: %s",
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Käyttäjä %s jakoi kansion \"%s\" kanssasi. Se on ladattavissa täältä: %s",
 "No category to add?" => "Ei lisättävää luokkaa?",
-"This category already exists: " => "Tämä luokka on jo olemassa: ",
 "Error adding %s to favorites." => "Virhe lisätessä kohdetta %s suosikkeihin.",
 "No categories selected for deletion." => "Luokkia ei valittu poistettavaksi.",
 "Error removing %s from favorites." => "Virhe poistaessa kohdetta %s suosikeista.",

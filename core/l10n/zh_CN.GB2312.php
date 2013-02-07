@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "No category to add?" => "没有分类添加了?",
-"This category already exists: " => "这个分类已经存在了:",
 "No categories selected for deletion." => "没有选者要删除的分类.",
 "Sunday" => "星期天",
 "Monday" => "星期一",

@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nevar lejupielādēt sarakstu no lietotņu veikala",
 "Authentication error" => "Autentifikācijas kļūda",
+"Unable to change display name" => "Nevarēja mainīt redzamo vārdu",
 "Group already exists" => "Grupa jau eksistē",
 "Unable to add group" => "Nevar pievienot grupu",
 "Could not enable app. " => "Nevarēja aktivēt lietotni.",
@@ -49,6 +50,9 @@
 "show" => "parādīt",
 "Change password" => "Mainīt paroli",
 "Display Name" => "Redzamais vārds",
+"Your display name was changed" => "Jūsu redzamais vārds tika mainīts",
+"Unable to change your display name" => "Nevarēja mainīt jūsu redzamo vārdu",
+"Change display name" => "Mainīt redzamo vārdu",
 "Email" => "E-pasts",
 "Your email address" => "Jūsu e-pasta adrese",
 "Fill in an email address to enable password recovery" => "Ievadiet epasta adresi, lai vēlāk varētu atgūt paroli, ja būs nepieciešamība",

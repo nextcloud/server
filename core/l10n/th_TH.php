@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "ผู้ใช้งาน %s ได้แชร์โฟลเดอร์ \"%s\" ให้กับคุณ และคุณสามารถดาวน์โหลดโฟลเดอร์ดังกล่าวได้จากที่นี่: %s",
 "Category type not provided." => "ยังไม่ได้ระบุชนิดของหมวดหมู่",
 "No category to add?" => "ไม่มีหมวดหมู่ที่ต้องการเพิ่ม?",
-"This category already exists: " => "หมวดหมู่นี้มีอยู่แล้ว: ",
 "Object type not provided." => "ชนิดของวัตถุยังไม่ได้ถูกระบุ",
 "%s ID not provided." => "ยังไม่ได้ระบุรหัส %s",
 "Error adding %s to favorites." => "เกิดข้อผิดพลาดในการเพิ่ม %s เข้าไปยังรายการโปรด",

@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "%s felhasználó megosztotta ezt a mappát Önnel: %s. A mappa innen tölthető le: %s",
 "Category type not provided." => "Nincs megadva a kategória típusa.",
 "No category to add?" => "Nincs hozzáadandó kategória?",
-"This category already exists: " => "Ez a kategória már létezik: ",
 "Object type not provided." => "Az objektum típusa nincs megadva.",
 "%s ID not provided." => "%s ID nincs megadva.",
 "Error adding %s to favorites." => "Nem sikerült a kedvencekhez adni ezt: %s",

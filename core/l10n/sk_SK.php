@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Používateľ %s zdieľa s Vami adresár \"%s\".  Môžete si ho stiahnuť tu: %s",
 "Category type not provided." => "Neposkytnutý kategorický typ.",
 "No category to add?" => "Žiadna kategória pre pridanie?",
-"This category already exists: " => "Táto kategória už existuje:",
 "Object type not provided." => "Neposkytnutý typ objektu.",
 "%s ID not provided." => "%s ID neposkytnuté.",
 "Error adding %s to favorites." => "Chyba pri pridávaní %s do obľúbených položiek.",

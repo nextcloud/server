@@ -11,6 +11,7 @@
 "Invalid directory." => "Nederīga direktorija.",
 "Files" => "Datnes",
 "Unshare" => "Pārtraukt dalīšanos",
+"Delete permanently" => "Dzēst pavisam",
 "Delete" => "Dzēst",
 "Rename" => "Pārsaukt",
 "{new_name} already exists" => "{new_name} jau eksistē",

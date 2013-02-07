@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Gebruiker %s deelde de map \"%s\" met u. De map is hier beschikbaar voor download: %s",
 "Category type not provided." => "Categorie type niet opgegeven.",
 "No category to add?" => "Geen categorie toevoegen?",
-"This category already exists: " => "Deze categorie bestaat al.",
 "Object type not provided." => "Object type niet opgegeven.",
 "%s ID not provided." => "%s ID niet opgegeven.",
 "Error adding %s to favorites." => "Toevoegen van %s aan favorieten is mislukt.",
@@ -129,6 +128,7 @@
 "Lost your password?" => "Uw wachtwoord vergeten?",
 "remember" => "onthoud gegevens",
 "Log in" => "Meld je aan",
+"Alternative Logins" => "Alternatieve inlogs",
 "prev" => "vorige",
 "next" => "volgende",
 "Updating ownCloud to version %s, this may take a while." => "Updaten ownCloud naar versie %s, dit kan even duren."

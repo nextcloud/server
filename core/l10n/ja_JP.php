@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "ユーザ %s はあなたとフォルダ \"%s\" を共有しています。こちらからダウンロードできます: %s",
 "Category type not provided." => "カテゴリタイプは提供されていません。",
 "No category to add?" => "追加するカテゴリはありませんか？",
-"This category already exists: " => "このカテゴリはすでに存在します: ",
 "Object type not provided." => "オブジェクトタイプは提供されていません。",
 "%s ID not provided." => "%s ID は提供されていません。",
 "Error adding %s to favorites." => "お気に入りに %s を追加エラー",
@@ -129,6 +128,7 @@
 "Lost your password?" => "パスワードを忘れましたか？",
 "remember" => "パスワードを記憶する",
 "Log in" => "ログイン",
+"Alternative Logins" => "代替ログイン",
 "prev" => "前",
 "next" => "次",
 "Updating ownCloud to version %s, this may take a while." => "ownCloud をバージョン %s に更新しています、しばらくお待ち下さい。"

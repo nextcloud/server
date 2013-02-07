@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:09+0000\n"
+"POT-Creation-Date: 2013-02-08 00:10+0100\n"
+"PO-Revision-Date: 2013-02-07 23:11+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -18,13 +18,23 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
+#: ajax/delete.php:22
+#, php-format
+msgid "Couldn't delete %s permanently"
+msgstr ""
+
+#: ajax/undelete.php:41
+#, php-format
+msgid "Couldn't restore %s"
+msgstr ""
+
 #: js/trash.js:7 js/trash.js:94
 msgid "perform restore operation"
 msgstr "復元操作を実行する"
 
 #: js/trash.js:33
 msgid "delete file permanently"
-msgstr ""
+msgstr "ファイルを完全に削除する"
 
 #: js/trash.js:125 templates/index.php:17
 msgid "Name"

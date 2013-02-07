@@ -11,6 +11,7 @@
 "Invalid directory." => "無効なディレクトリです。",
 "Files" => "ファイル",
 "Unshare" => "共有しない",
+"Delete permanently" => "完全に削除する",
 "Delete" => "削除",
 "Rename" => "名前の変更",
 "{new_name} already exists" => "{new_name} はすでに存在しています",

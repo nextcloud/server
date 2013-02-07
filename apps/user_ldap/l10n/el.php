@@ -20,7 +20,6 @@
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "χωρίς κάποια μεταβλητή, π.χ. \"objectClass=ΟμάδαPosix\".",
 "Port" => "Θύρα",
 "Use TLS" => "Χρήση TLS",
-"Do not use it for SSL connections, it will fail." => "Μην χρησιμοποιείτε για συνδέσεις SSL, θα αποτύχει.",
 "Case insensitve LDAP server (Windows)" => "LDAP server (Windows) με διάκριση πεζών-ΚΕΦΑΛΑΙΩΝ",
 "Turn off SSL certificate validation." => "Απενεργοποίηση επικύρωσης πιστοποιητικού SSL.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Εάν η σύνδεση δουλεύει μόνο με αυτή την επιλογή, εισάγετε το LDAP SSL πιστοποιητικό του διακομιστή στον ownCloud server σας.",

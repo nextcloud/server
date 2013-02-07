@@ -11,6 +11,7 @@
 "Invalid directory." => "Ungültiges Verzeichnis.",
 "Files" => "Dateien",
 "Unshare" => "Nicht mehr freigeben",
+"Delete permanently" => "Entgültig löschen",
 "Delete" => "Löschen",
 "Rename" => "Umbenennen",
 "{new_name} already exists" => "{new_name} existiert bereits",

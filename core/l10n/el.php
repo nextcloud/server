@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Ο χρήστης %s διαμοιράστηκε τον φάκελο \"%s\" μαζί σας. Είναι διαθέσιμος για λήψη εδώ: %s",
 "Category type not provided." => "Δεν δώθηκε τύπος κατηγορίας.",
 "No category to add?" => "Δεν έχετε κατηγορία να προσθέσετε;",
-"This category already exists: " => "Αυτή η κατηγορία υπάρχει ήδη:",
 "Object type not provided." => "Δεν δώθηκε τύπος αντικειμένου.",
 "%s ID not provided." => "Δεν δώθηκε η ID για %s.",
 "Error adding %s to favorites." => "Σφάλμα προσθήκης %s στα αγαπημένα.",

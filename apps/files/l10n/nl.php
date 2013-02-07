@@ -11,6 +11,7 @@
 "Invalid directory." => "Ongeldige directory.",
 "Files" => "Bestanden",
 "Unshare" => "Stop delen",
+"Delete permanently" => "Verwijder definitief",
 "Delete" => "Verwijder",
 "Rename" => "Hernoem",
 "{new_name} already exists" => "{new_name} bestaat al",

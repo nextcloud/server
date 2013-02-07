@@ -14,7 +14,6 @@
 "Defines the filter to apply, when retrieving groups." => "Definere filteret der bruges når der indlæses grupper.",
 "Port" => "Port",
 "Use TLS" => "Brug TLS",
-"Do not use it for SSL connections, it will fail." => "Brug ikke til SSL forbindelser, da den vil fejle.",
 "Turn off SSL certificate validation." => "Deaktiver SSL certifikat validering",
 "Not recommended, use for testing only." => "Anbefales ikke, brug kun for at teste.",
 "User Display Name Field" => "User Display Name Field",

@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "%s kullanıcısı \"%s\" dizinini sizinle paylaştı. %s adresinden indirilebilir",
 "Category type not provided." => "Kategori türü desteklenmemektedir.",
 "No category to add?" => "Eklenecek kategori yok?",
-"This category already exists: " => "Bu kategori zaten mevcut: ",
 "Object type not provided." => "Nesne türü desteklenmemektedir.",
 "%s ID not provided." => "%s ID belirtilmedi.",
 "Error adding %s to favorites." => "%s favorilere eklenirken hata oluştu",

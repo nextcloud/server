@@ -11,6 +11,7 @@
 "Invalid directory." => "Неправильный каталог.",
 "Files" => "Файлы",
 "Unshare" => "Отменить публикацию",
+"Delete permanently" => "Удалено навсегда",
 "Delete" => "Удалить",
 "Rename" => "Переименовать",
 "{new_name} already exists" => "{new_name} уже существует",

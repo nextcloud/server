@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "%s নামের ব্যবহারকারী \"%s\" ফোল্ডারটি আপনার সাথে ভাগাভাগি করেছেন। এটি এখন এখানে ডাউনলোড করার জন্য সুলভঃ %s",
 "Category type not provided." => "ক্যাটেগরির ধরণটি প্রদান করা হয় নি।",
 "No category to add?" => "যোগ করার মত কোন ক্যাটেগরি নেই ?",
-"This category already exists: " => "এই ক্যাটেগরিটি পূর্ব থেকেই বিদ্যমানঃ",
 "Object type not provided." => "অবজেক্টের ধরণটি প্রদান করা হয় নি।",
 "%s ID not provided." => "%s ID প্রদান করা হয় নি।",
 "Error adding %s to favorites." => "প্রিয়তে %s যোগ করতে সমস্যা দেখা দিয়েছে।",

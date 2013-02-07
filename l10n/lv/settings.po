@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-08 00:10+0100\n"
+"PO-Revision-Date: 2013-02-07 04:30+0000\n"
+"Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +31,7 @@ msgstr "Autentifikācijas kļūda"
 
 #: ajax/changedisplayname.php:28
 msgid "Unable to change display name"
-msgstr ""
+msgstr "Nevarēja mainīt redzamo vārdu"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -230,15 +230,15 @@ msgstr "Redzamais vārds"
 
 #: templates/personal.php:42
 msgid "Your display name was changed"
-msgstr ""
+msgstr "Jūsu redzamais vārds tika mainīts"
 
 #: templates/personal.php:43
 msgid "Unable to change your display name"
-msgstr ""
+msgstr "Nevarēja mainīt jūsu redzamo vārdu"
 
 #: templates/personal.php:46
 msgid "Change display name"
-msgstr ""
+msgstr "Mainīt redzamo vārdu"
 
 #: templates/personal.php:55
 msgid "Email"

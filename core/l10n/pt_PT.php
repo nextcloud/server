@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "O utilizador %s partilhou a pasta \"%s\" consigo. Está disponível para download aqui: %s",
 "Category type not provided." => "Tipo de categoria não fornecido",
 "No category to add?" => "Nenhuma categoria para adicionar?",
-"This category already exists: " => "Esta categoria já existe:",
 "Object type not provided." => "Tipo de objecto não fornecido",
 "%s ID not provided." => "ID %s não fornecido",
 "Error adding %s to favorites." => "Erro a adicionar %s aos favoritos",
@@ -129,6 +128,7 @@
 "Lost your password?" => "Esqueceu-se da sua password?",
 "remember" => "lembrar",
 "Log in" => "Entrar",
+"Alternative Logins" => "Contas de acesso alternativas",
 "prev" => "anterior",
 "next" => "seguinte",
 "Updating ownCloud to version %s, this may take a while." => "A actualizar o ownCloud para a versão %s, esta operação pode demorar."

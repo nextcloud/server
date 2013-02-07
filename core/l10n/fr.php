@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "L'utilisateur %s a partagé le dossier \"%s\" avec vous. Il est disponible au téléchargement ici : %s",
 "Category type not provided." => "Type de catégorie non spécifié.",
 "No category to add?" => "Pas de catégorie à ajouter ?",
-"This category already exists: " => "Cette catégorie existe déjà : ",
 "Object type not provided." => "Type d'objet non spécifié.",
 "%s ID not provided." => "L'identifiant de %s n'est pas spécifié.",
 "Error adding %s to favorites." => "Erreur lors de l'ajout de %s aux favoris.",

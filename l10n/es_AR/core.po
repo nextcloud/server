@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:08+0000\n"
+"POT-Creation-Date: 2013-02-08 00:10+0100\n"
+"PO-Revision-Date: 2013-02-07 23:10+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -53,8 +53,9 @@ msgid "No category to add?"
 msgstr "¿Ninguna categoría para añadir?"
 
 #: ajax/vcategories/add.php:37
-msgid "This category already exists: "
-msgstr "Esta categoría ya existe: "
+#, php-format
+msgid "This category already exists: %s"
+msgstr ""
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -158,59 +159,59 @@ msgstr "Noviembre"
 msgid "December"
 msgstr "Diciembre"
 
-#: js/js.js:280
+#: js/js.js:284
 msgid "Settings"
 msgstr "Ajustes"
 
-#: js/js.js:760
+#: js/js.js:764
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:761
+#: js/js.js:765
 msgid "1 minute ago"
 msgstr "hace 1 minuto"
 
-#: js/js.js:762
+#: js/js.js:766
 msgid "{minutes} minutes ago"
 msgstr "hace {minutes} minutos"
 
-#: js/js.js:763
+#: js/js.js:767
 msgid "1 hour ago"
 msgstr "Hace 1 hora"
 
-#: js/js.js:764
+#: js/js.js:768
 msgid "{hours} hours ago"
 msgstr "{hours} horas atrás"
 
-#: js/js.js:765
+#: js/js.js:769
 msgid "today"
 msgstr "hoy"
 
-#: js/js.js:766
+#: js/js.js:770
 msgid "yesterday"
 msgstr "ayer"
 
-#: js/js.js:767
+#: js/js.js:771
 msgid "{days} days ago"
 msgstr "hace {days} días"
 
-#: js/js.js:768
+#: js/js.js:772
 msgid "last month"
 msgstr "el mes pasado"
 
-#: js/js.js:769
+#: js/js.js:773
 msgid "{months} months ago"
 msgstr "{months} meses atrás"
 
-#: js/js.js:770
+#: js/js.js:774
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/js.js:771
+#: js/js.js:775
 msgid "last year"
 msgstr "el año pasado"
 
-#: js/js.js:772
+#: js/js.js:776
 msgid "years ago"
 msgstr "años atrás"
 
@@ -498,52 +499,52 @@ msgstr "Tu directorio de datos y tus archivos son probablemente accesibles desde
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crear una <strong>cuenta de administrador</strong>"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Advanced"
 msgstr "Avanzado"
 
-#: templates/installation.php:52
+#: templates/installation.php:54
 msgid "Data folder"
 msgstr "Directorio de almacenamiento"
 
-#: templates/installation.php:59
+#: templates/installation.php:61
 msgid "Configure the database"
 msgstr "Configurar la base de datos"
 
-#: templates/installation.php:64 templates/installation.php:75
-#: templates/installation.php:85 templates/installation.php:95
+#: templates/installation.php:66 templates/installation.php:77
+#: templates/installation.php:87 templates/installation.php:97
 msgid "will be used"
 msgstr "se utilizarán"
 
-#: templates/installation.php:107
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Usuario de la base de datos"
 
-#: templates/installation.php:111
+#: templates/installation.php:113
 msgid "Database password"
 msgstr "Contraseña de la base de datos"
 
-#: templates/installation.php:115
+#: templates/installation.php:117
 msgid "Database name"
 msgstr "Nombre de la base de datos"
 
-#: templates/installation.php:123
+#: templates/installation.php:125
 msgid "Database tablespace"
 msgstr "Espacio de tablas de la base de datos"
 
-#: templates/installation.php:129
+#: templates/installation.php:131
 msgid "Database host"
 msgstr "Host de la base de datos"
 
-#: templates/installation.php:134
+#: templates/installation.php:136
 msgid "Finish setup"
 msgstr "Completar la instalación"
 
-#: templates/layout.guest.php:34
+#: templates/layout.guest.php:33
 msgid "web services under your control"
 msgstr "servicios web sobre los que tenés control"
 
-#: templates/layout.user.php:49
+#: templates/layout.user.php:48
 msgid "Log out"
 msgstr "Cerrar la sesión"
 

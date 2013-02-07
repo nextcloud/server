@@ -22,7 +22,6 @@
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "txantiloirik gabe, adb. \"objectClass=posixGroup\".",
 "Port" => "Portua",
 "Use TLS" => "Erabili TLS",
-"Do not use it for SSL connections, it will fail." => "Ez erabili SSL konexioetan, huts egingo du.",
 "Case insensitve LDAP server (Windows)" => "Maiuskulak eta minuskulak ezberditzen ez dituen LDAP zerbitzaria (windows)",
 "Turn off SSL certificate validation." => "Ezgaitu SSL ziurtagirien egiaztapena.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Konexioa aukera hau ezinbestekoa badu, inportatu LDAP zerbitzariaren SSL ziurtagiria zure ownCloud zerbitzarian.",
