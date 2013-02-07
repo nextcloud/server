@@ -412,7 +412,7 @@ class Connection {
 		if((strpos($this->config['ldapHost'], 'ldaps') === 0)
 			&& $this->config['ldapTLS']) {
 			$this->config['ldapTLS'] = false;
-			\OCP\Util::writeLog('user_ldap', 'LDAPS (already using secure connection) and TLS do not work together. Switched of TLS.', \OCP\Util::INFO);
+			\OCP\Util::writeLog('user_ldap', 'LDAPS (already using secure connection) and TLS do not work together. Switched off TLS.', \OCP\Util::INFO);
 		}
 
 
