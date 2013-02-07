@@ -20,9 +20,13 @@
 "replaced {new_name}" => "заменено {new_name}",
 "undo" => "отмена",
 "replaced {new_name} with {old_name}" => "заменено {new_name} на {old_name}",
+"perform delete operation" => "выполняется операция удаления",
 "'.' is an invalid file name." => "'.' - неправильное имя файла.",
 "File name cannot be empty." => "Имя файла не может быть пустым.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Неправильное имя, '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' недопустимы.",
+"Your storage is full, files can not be updated or synced anymore!" => "Ваше дисковое пространство полностью заполнено, произведите очистку перед загрузкой новых файлов.",
+"Your storage is almost full ({usedSpacePercent}%)" => "Ваше хранилище почти заполнено ({usedSpacePercent}%)",
+"Your download is being prepared. This might take some time if the files are big." => "Загрузка началась. Это может потребовать много времени, если файл большого размера.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Не удается загрузить файл размером 0 байт в каталог",
 "Upload Error" => "Ошибка загрузки",
 "Close" => "Закрыть",
@@ -53,11 +57,13 @@
 "Text file" => "Текстовый файл",
 "Folder" => "Папка",
 "From link" => "Из ссылки",
+"Trash" => "Корзина",
 "Cancel upload" => "Отмена загрузки",
 "Nothing in here. Upload something!" => "Здесь ничего нет. Загрузите что-нибудь!",
 "Download" => "Скачать",
 "Upload too large" => "Файл слишком большой",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Файлы, которые Вы пытаетесь загрузить, превышают лимит для файлов на этом сервере.",
 "Files are being scanned, please wait." => "Подождите, файлы сканируются.",
-"Current scanning" => "Текущее сканирование"
+"Current scanning" => "Текущее сканирование",
+"Upgrading filesystem cache..." => "Обновление кеша файловой системы..."
 );

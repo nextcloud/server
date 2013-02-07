@@ -275,7 +275,7 @@ class OC_User {
 			foreach(self::$_usedBackends as $backend) {
 				if($backend->implementsActions(OC_USER_BACKEND_SET_DISPLAYNAME)) {
 					if($backend->userExists($uid)) {
-						$success |= $backend->setDisplayName($uid, $displayName);
+						$result |= $backend->setDisplayName($uid, $displayName);
 					}
 				}
 			}
@@ -429,6 +429,24 @@ class OC_User {
 	public static function canUserChangePassword($uid) {
 		foreach(self::$_usedBackends as $backend) {
 			if($backend->implementsActions(OC_USER_BACKEND_SET_PASSWORD)) {
+				if($backend->userExists($uid)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * @brief Check whether user can change his display name
+	 * @param $uid The username
+	 * @returns true/false
+	 *
+	 * Check whether a specified user can change his display name
+	 */
+	public static function canUserChangeDisplayName($uid) {
+		foreach(self::$_usedBackends as $backend) {
+			if($backend->implementsActions(OC_USER_BACKEND_SET_DISPLAYNAME)) {
 				if($backend->userExists($uid)) {
 					return true;
 				}

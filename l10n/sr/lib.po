@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-02 00:06+0100\n"
-"PO-Revision-Date: 2013-02-01 15:00+0000\n"
+"POT-Creation-Date: 2013-02-07 00:07+0100\n"
+"PO-Revision-Date: 2013-02-06 17:30+0000\n"
 "Last-Translator: Rancher <theranchcowboy@gmail.com>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -20,27 +20,27 @@ msgstr ""
 "Language: sr\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: app.php:312
+#: app.php:313
 msgid "Help"
 msgstr "Помоћ"
 
-#: app.php:319
+#: app.php:320
 msgid "Personal"
 msgstr "Лично"
 
-#: app.php:324
+#: app.php:325
 msgid "Settings"
 msgstr "Поставке"
 
-#: app.php:329
+#: app.php:330
 msgid "Users"
 msgstr "Корисници"
 
-#: app.php:336
+#: app.php:337
 msgid "Apps"
 msgstr "Апликације"
 
-#: app.php:338
+#: app.php:339
 msgid "Admin"
 msgstr "Администратор"
 

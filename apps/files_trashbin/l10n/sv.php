@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"perform restore operation" => "utför återställning",
 "Name" => "Namn",
 "Deleted" => "Raderad",
 "1 folder" => "1 mapp",

@@ -300,6 +300,8 @@ class OC_Util {
 			$redirect_url = OC_Util::sanitizeHTML($_REQUEST['redirect_url']);
 			$parameters['redirect_url'] = urlencode($redirect_url);
 		}
+
+		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
@@ -560,6 +562,14 @@ class OC_Util {
 		}else{
 			return(true);
 		}
+	}
+
+	/**
+	 * Check if the PHP module fileinfo is loaded.
+	 * @return bool
+	 */
+	public static function fileInfoLoaded() {
+		return function_exists('finfo_open');
 	}
 
 	/**

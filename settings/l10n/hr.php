@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nemogićnost učitavanja liste sa Apps Stora",
+"Authentication error" => "Greška kod autorizacije",
 "Email saved" => "Email spremljen",
 "Invalid email" => "Neispravan email",
-"Authentication error" => "Greška kod autorizacije",
 "Language changed" => "Jezik promijenjen",
 "Invalid request" => "Neispravan zahtjev",
 "Disable" => "Isključi",

@@ -3,7 +3,7 @@
  See the COPYING-README file. */
 
 /* FILE MENU */
-.actions { padding:.3em; float:left; height:2em; }
+.actions { padding:.3em; float:left; height:2em; width: 100%; }
 .actions input, .actions button, .actions .button { margin:0; float:left; }
 
 #new {
@@ -23,7 +23,7 @@
 #new>ul>li>p { cursor:pointer; }
 #new>ul>li>form>input { padding:0.3em; margin:-0.3em; }
 
-#trash { height:17px;  margin:0 0 0 1em; z-index:1010; position:absolute; right:13.5em; } 
+#trash { height:17px; margin: 0 1em; z-index:1010; float: right; }
 
 #upload { 
 	height:27px; padding:0; margin-left:0.2em; overflow:hidden;
@@ -44,7 +44,7 @@
 	z-index:20; position:relative; cursor:pointer; overflow:hidden;
 }
 
-#uploadprogresswrapper { position:absolute; right:13.5em; top:0em; }
+#uploadprogresswrapper { float: right; position: relative; }
 #uploadprogresswrapper #uploadprogressbar { position:relative; display:inline-block; width:10em; height:1.5em; top:.4em; }
 
 /* FILE TABLE */
@@ -55,7 +55,7 @@
 	font-size:1.5em; font-weight:bold;
 	color:#888; text-shadow:#fff 0 1px 0;
 }
-table { position:relative; top:37px; width:100%; }
+table { position:relative; width:100%; }
 tbody tr { background-color:#fff; height:2.5em; }
 tbody tr:hover, tbody tr:active, tbody tr.selected { background-color:#f8f8f8; }
 tbody tr.selected { background-color:#eee; }
