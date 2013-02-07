@@ -25,6 +25,8 @@ namespace OCA\Files_Trashbin;
 class Trashbin {
 	
 	const DEFAULT_RETENTION_OBLIGATION=180; // how long do we keep files in the trash bin if no other value is defined in the config file (unit: days)
+	const DEFAULTMAXSIZE=50; // unit: percentage; 50% of available disk space/quota
+	
 	/**
 	 * move file to the trash bin
 	 * 
@@ -81,7 +83,25 @@ class Trashbin {
 			\OC_Log::write('files_trashbin', 'Couldn\'t move '.$file_path.' to the trash bin' , \OC_log::ERROR);
 		}
 		
-		$trashbinSize -= self::expire();
+		// get available disk space for user
+		$quota = \OCP\Util::computerFileSize(\OC_Preferences::getValue($user, 'files', 'quota'));
+		if ( $quota == null ) {
+			$quota = \OCP\Util::computerFileSize(\OC_Appconfig::getValue('files', 'default_quota'));
+		}
+		if ( $quota == null ) {
+			$quota = \OC\Files\Filesystem::free_space('/');
+		}
+		
+		// calculate available space for trash bin
+		$rootInfo = $view->getFileInfo('/files');
+		$free = $quota-$rootInfo['size']; // remaining free space for user
+		if ( $free > 0 ) {
+			$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $trashbinSize; // how much space can be used for versions
+		} else {
+			$availableSpace = $free-$trashbinSize;
+		}
+		
+		$trashbinSize -= self::expire($availableSpace);
 		\OCP\Config::setAppValue('files_trashbin', 'size', $trashbinSize);
 	}
 	
@@ -93,7 +113,6 @@ class Trashbin {
 	 * @param $timestamp time when the file was deleted
 	 */
 	public static function restore($file, $filename, $timestamp) {
-
 		$user = \OCP\User::getUser();
 		$view = new \OC_FilesystemView('/'.$user);
 		
@@ -140,17 +159,22 @@ class Trashbin {
 			}
 			// if versioning app is enabled, copy versions from the trash bin back to the original location
 			if ( \OCP\App::isEnabled('files_versions') ) {
+				if ($timestamp ) {
+					$versionedFile = $filename;
+				} else {
+					$versionedFile = $file;
+				}
 				if ( $result[0]['type'] == 'dir' ) {
 					$trashbinSize -= self::calculateSize(new \OC_FilesystemView('/'.$user.'/'.'versions_trashbin/'. $file));
 					$view->rename(\OC_Filesystem::normalizePath('versions_trashbin/'. $file), \OC_Filesystem::normalizePath('files_versions/'.$location.'/'.$filename.$ext));
-				} else if ( $versions = self::getVersionsFromTrash($file, $timestamp) ) {
+				} else if ( $versions = self::getVersionsFromTrash($versionedFile, $timestamp) ) {
 					foreach ($versions as $v) {
 						if ($timestamp ) {
-							$trashbinSize -= $view->filesize('versions_trashbin/'.$filename.'.v'.$v.'.d'.$timestamp);
-							$view->rename('versions_trashbin/'.$filename.'.v'.$v.'.d'.$timestamp, 'files_versions/'.$location.'/'.$filename.$ext.'.v'.$v);
+							$trashbinSize -= $view->filesize('versions_trashbin/'.$versionedFile.'.v'.$v.'.d'.$timestamp);
+							$view->rename('versions_trashbin/'.$versionedFile.'.v'.$v.'.d'.$timestamp, 'files_versions/'.$location.'/'.$filename.$ext.'.v'.$v);
 						} else {
-							$trashbinSize -= $view->filesize('versions_trashbin/'.$file.'.v'.$v);
-							$view->rename('versions_trashbin/'.$file.'.v'.$v, 'files_versions/'.$location.'/'.$filename.$ext.'.v'.$v);
+							$trashbinSize -= $view->filesize('versions_trashbin/'.$versionedFile.'.v'.$v);
+							$view->rename('versions_trashbin/'.$versionedFile.'.v'.$v, 'files_versions/'.$location.'/'.$filename.$ext.'.v'.$v);
 						}
 					}
 				}
@@ -174,12 +198,12 @@ class Trashbin {
 	 * delete file from trash bin permanently
 	 * @param $filename path to the file
 	 * @param $timestamp of deletion time
-	 * @return true/false
+	 * @return size of deleted files
 	 */
 	public static function delete($filename, $timestamp=null) {
-	
 		$user = \OCP\User::getUser();
 		$view = new \OC_FilesystemView('/'.$user);
+		$size = 0;
 	
 		if (  ($trashbinSize = \OCP\Config::getAppValue('files_trashbin', 'size')) === null ) {
 			$trashbinSize = self::calculateSize(new \OC_FilesystemView('/'. $user.'/files_trashbin'));
@@ -196,37 +220,39 @@ class Trashbin {
 		
 		if ( \OCP\App::isEnabled('files_versions') ) {
 			if ($view->is_dir('versions_trashbin/'.$file)) {
-				$trashbinSize -= self::calculateSize(new \OC_Filesystemview('/'.$user.'/versions_trashbin/'.$file));
+				$size += self::calculateSize(new \OC_Filesystemview('/'.$user.'/versions_trashbin/'.$file));
 				$view->unlink('versions_trashbin/'.$file);
-			} else if ( $versions = self::getVersionsFromTrash($file, $timestamp) ) {
+			} else if ( $versions = self::getVersionsFromTrash($filename, $timestamp) ) {
 				foreach ($versions as $v) {
 					if ($timestamp ) {
-						$trashbinSize -= $view->filesize('versions_trashbin/'.$filename.'.v'.$v.'.d'.$timestamp);
-						$view->unlink('versions_trashbin/'.$filename.'.v'.$v.'.d'.$timestamp);
+						$size += $view->filesize('/versions_trashbin/'.$filename.'.v'.$v.'.d'.$timestamp);
+						$view->unlink('/versions_trashbin/'.$filename.'.v'.$v.'.d'.$timestamp);
 					} else {
-						$trashbinSize -= $view->filesize('versions_trashbin/'.$file.'.v'.$v);
-						$view->unlink('versions_trashbin/'.$file.'.v'.$v);
+						$size += $view->filesize('/versions_trashbin/'.$filename.'.v'.$v);
+						$view->unlink('/versions_trashbin/'.$filename.'.v'.$v);
 					}
 				}
 			}
 		}
 	
 		if ($view->is_dir('/files_trashbin/'.$file)) {
-			$trashbinSize -= self::calculateSize(new \OC_Filesystemview('/'.$user.'/files_trashbin/'.$file));
+			$size += self::calculateSize(new \OC_Filesystemview('/'.$user.'/files_trashbin/'.$file));
 		} else {
-			$trashbinSize -= $view->filesize('/files_trashbin/'.$file);
+			$size += $view->filesize('/files_trashbin/'.$file);
 		}
 		$view->unlink('/files_trashbin/'.$file);
+		$trashbinSize -= $size;
 		\OCP\Config::setAppValue('files_trashbin', 'size', $trashbinSize);
 		
-		return true;
+		return $size;
 	}
 	
 	
 	/**
 	 * clean up the trash bin
+	 * @param max. available disk space for trashbin
 	 */
-	private static function expire() {
+	private static function expire($availableSpace) {
 		
 		$user = \OCP\User::getUser();
 		$view = new \OC_FilesystemView('/'.$user);
@@ -263,6 +289,23 @@ class Trashbin {
 		
 		$query = \OC_DB::prepare('DELETE FROM *PREFIX*files_trash WHERE user=? AND timestamp<?');
 		$query->execute(array($user,$limit));
+		
+		$availableSpace = $availableSpace + $size;
+
+		if ($availableSpace < 0) {
+			$query = \OC_DB::prepare('SELECT location,type,id,timestamp FROM *PREFIX*files_trash WHERE user=? ORDER BY timestamp ASC');
+			$result = $query->execute(array($user))->fetchAll();
+			$length = count($result);
+			$i = 0;
+			while ( $i < $length &&   $availableSpace < 0 ) {
+				$tmp = self::delete($result[$i]['id'], $result[$i]['timestamp']);
+				$availableSpace += $tmp;
+				$size += $tmp;
+				$i++;
+			}
+			
+		}
+		
 		
 		return $size;
 	}
@@ -306,7 +349,6 @@ class Trashbin {
 		$view = new \OC_FilesystemView('/'.\OCP\User::getUser().'/versions_trashbin');
 		$versionsName = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath($filename);
 		$versions = array();
-		
 		if ($timestamp ) {
 		// fetch for old versions
 			$matches = glob( $versionsName.'.v*.d'.$timestamp );
