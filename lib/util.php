@@ -654,6 +654,9 @@ class OC_Util {
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
 			curl_setopt($curl, CURLOPT_URL, $url);
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+
 			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
 			if(OC_Config::getValue('proxy','')<>'') {
 				curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));
