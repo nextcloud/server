@@ -554,14 +554,16 @@ class OC {
 			self::checkUpgrade();
 		}
 
-		try {
-			OC::getRouter()->match(OC_Request::getPathInfo());
-			return;
-		} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
-			//header('HTTP/1.0 404 Not Found');
-		} catch (Symfony\Component\Routing\Exception\MethodNotAllowedException $e) {
-			OC_Response::setStatus(405);
-			return;
+		if (!self::$CLI) {
+			try {
+				OC::getRouter()->match(OC_Request::getPathInfo());
+				return;
+			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
+				//header('HTTP/1.0 404 Not Found');
+			} catch (Symfony\Component\Routing\Exception\MethodNotAllowedException $e) {
+				OC_Response::setStatus(405);
+				return;
+			}
 		}
 
 		$app = OC::$REQUESTEDAPP;
