@@ -5,6 +5,10 @@
  * To the end of config/config.php to enable debug mode.
  * The undefined checks fix the broken ie8 console
  */
+var oc_debug;
+var oc_webroot;
+var oc_requesttoken;
+oc_webroot = oc_webroot || location.pathname.substr(0, location.pathname.lastIndexOf('/'));
 if (oc_debug !== true || typeof console === "undefined" || typeof console.log === "undefined") {
 	if (!window.console) {
 		window.console = {};

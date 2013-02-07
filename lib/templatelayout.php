@@ -39,6 +39,9 @@ class OC_TemplateLayout extends OC_Template {
 		// Add the js files
 		$jsfiles = self::findJavascriptFiles(OC_Util::$scripts);
 		$this->assign('jsfiles', array(), false);
+		if (OC_Config::getValue('installed', false)) {
+			$this->append( 'jsfiles', OC_Helper::linkToRoute('js_config'));
+		}
 		if (!empty(OC_Util::$core_scripts)) {
 			$this->append( 'jsfiles', OC_Helper::linkToRemoteBase('core.js', false));
 		}
