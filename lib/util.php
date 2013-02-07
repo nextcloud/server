@@ -342,6 +342,7 @@ class OC_Util {
 			$redirect_url = $_SERVER['REQUEST_URI'];
 		}
 		$parameters['redirect_url'] = $redirect_url;
+		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
