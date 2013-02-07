@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-31 16:03+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-02-07 00:07+0100\n"
+"PO-Revision-Date: 2013-02-06 23:09+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,42 +18,42 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: js/trash.js:7
+#: js/trash.js:7 js/trash.js:94
 msgid "perform restore operation"
+msgstr "provést obnovu"
+
+#: js/trash.js:33
+msgid "delete file permanently"
 msgstr ""
 
-#: js/trash.js:69
-msgid "perform undelete operation"
-msgstr ""
-
-#: js/trash.js:100 templates/index.php:17
+#: js/trash.js:125 templates/index.php:17
 msgid "Name"
-msgstr ""
+msgstr "Název"
 
-#: js/trash.js:101 templates/index.php:27
+#: js/trash.js:126 templates/index.php:27
 msgid "Deleted"
-msgstr ""
+msgstr "Smazáno"
 
-#: js/trash.js:110
+#: js/trash.js:135
 msgid "1 folder"
-msgstr ""
+msgstr "1 složka"
 
-#: js/trash.js:112
+#: js/trash.js:137
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} složky"
 
-#: js/trash.js:120
+#: js/trash.js:145
 msgid "1 file"
-msgstr ""
+msgstr "1 soubor"
 
-#: js/trash.js:122
+#: js/trash.js:147
 msgid "{count} files"
-msgstr ""
+msgstr "{count} soubory"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "Žádný obsah. Váš koš je prázdný."
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr ""
+msgstr "Obnovit"

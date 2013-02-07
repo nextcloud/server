@@ -102,6 +102,7 @@
 "Add" => "افزودن",
 "Security Warning" => "اخطار امنیتی",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "هیچ مولد تصادفی امن در دسترس نیست، لطفا فرمت PHP OpenSSL را فعال نمایید.",
+"Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "بدون وجود یک تولید کننده اعداد تصادفی امن ، یک مهاجم ممکن است این قابلیت را داشته باشد که پیشگویی کند پسوورد های راه انداز گرفته شده و کنترلی روی حساب کاربری شما داشته باشد .",
 "Create an <strong>admin account</strong>" => "لطفا یک <strong> شناسه برای مدیر</strong> بسازید",
 "Advanced" => "حرفه ای",
 "Data folder" => "پوشه اطلاعاتی",

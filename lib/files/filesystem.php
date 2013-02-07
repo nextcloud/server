@@ -374,7 +374,7 @@ class Filesystem {
 	 * @param array $data from hook
 	 */
 	static public function isBlacklisted($data) {
-		$blacklist = array('.htaccess');
+		$blacklist = \OC_Config::getValue('blacklisted_files', array('.htaccess'));
 		if (isset($data['path'])) {
 			$path = $data['path'];
 		} else if (isset($data['newpath'])) {
@@ -527,8 +527,7 @@ class Filesystem {
 	}
 
 	/**
-	 * normalize a path
-	 *
+	 * @brief Fix common problems with a file path
 	 * @param string $path
 	 * @param bool $stripTrailingSlash
 	 * @return string
@@ -537,21 +536,21 @@ class Filesystem {
 		if ($path == '') {
 			return '/';
 		}
-//no windows style slashes
+		//no windows style slashes
 		$path = str_replace('\\', '/', $path);
-//add leading slash
+		//add leading slash
 		if ($path[0] !== '/') {
 			$path = '/' . $path;
 		}
-//remove duplicate slashes
+		//remove duplicate slashes
 		while (strpos($path, '//') !== false) {
 			$path = str_replace('//', '/', $path);
 		}
-//remove trailing slash
+		//remove trailing slash
 		if ($stripTrailingSlash and strlen($path) > 1 and substr($path, -1, 1) === '/') {
 			$path = substr($path, 0, -1);
 		}
-//normalize unicode if possible
+		//normalize unicode if possible
 		if (class_exists('Normalizer')) {
 			$path = \Normalizer::normalize($path);
 		}
@@ -608,6 +607,16 @@ class Filesystem {
 	 */
 	public static function getPath($id) {
 		return self::$defaultInstance->getPath($id);
+	}
+
+	/**
+	* Get the owner for a file or folder
+	*
+	* @param string $path
+	* @return string
+	*/
+	public static function getOwner($path) {
+		return self::$defaultInstance->getOwner($path);
 	}
 
 	/**

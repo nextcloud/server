@@ -670,6 +670,9 @@ class View {
 	 */
 	public function getFileInfo($path) {
 		$data = array();
+		if (!Filesystem::isValidPath($path)) {
+			return $data;
+		}
 		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $path);
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
@@ -724,6 +727,9 @@ class View {
 	 */
 	public function getDirectoryContent($directory, $mimetype_filter = '') {
 		$result = array();
+		if (!Filesystem::isValidPath($directory)) {
+			return $result;
+		}
 		$path = Filesystem::normalizePath($this->fakeRoot . '/' . $directory);
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
@@ -912,6 +918,16 @@ class View {
 			}
 		}
 		return $files;
+	}
+
+	/**
+	* Get the owner for a file or folder
+	*
+	* @param string $path
+	* @return string
+	*/
+	public function getOwner($path) {
+		return $this->basicOperation('getOwner', $path);
 	}
 
 	/**

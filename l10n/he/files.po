@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-31 16:02+0000\n"
+"POT-Creation-Date: 2013-02-07 00:07+0100\n"
+"PO-Revision-Date: 2013-02-06 23:08+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -21,46 +21,46 @@ msgstr ""
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/upload.php:17
+#: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
 msgstr "לא הועלה קובץ. טעות בלתי מזוהה."
 
-#: ajax/upload.php:24
+#: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
 msgstr "לא אירעה תקלה, הקבצים הועלו בהצלחה"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "הקבצים שנשלחו חורגים מהגודל שצוין בהגדרה upload_max_filesize שבקובץ php.ini:"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:29
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "הקובץ שהועלה חרג מההנחיה MAX_FILE_SIZE שצוינה בטופס ה־HTML"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:31
 msgid "The uploaded file was only partially uploaded"
 msgstr "הקובץ שהועלה הועלה בצורה חלקית"
 
-#: ajax/upload.php:30
+#: ajax/upload.php:32
 msgid "No file was uploaded"
 msgstr "לא הועלו קבצים"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:33
 msgid "Missing a temporary folder"
 msgstr "תיקייה זמנית חסרה"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:34
 msgid "Failed to write to disk"
 msgstr "הכתיבה לכונן נכשלה"
 
-#: ajax/upload.php:51
+#: ajax/upload.php:52
 msgid "Not enough space available"
 msgstr ""
 
-#: ajax/upload.php:82
+#: ajax/upload.php:83
 msgid "Invalid directory."
 msgstr ""
 
@@ -72,11 +72,15 @@ msgstr "קבצים"
 msgid "Unshare"
 msgstr "הסר שיתוף"
 
-#: js/fileactions.js:119 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:119
+msgid "Delete permanently"
+msgstr ""
+
+#: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "מחיקה"
 
-#: js/fileactions.js:185
+#: js/fileactions.js:187
 msgid "Rename"
 msgstr "שינוי שם"
 
@@ -181,31 +185,31 @@ msgstr "קישור אינו יכול להיות ריק."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:949 templates/index.php:67
+#: js/files.js:953 templates/index.php:67
 msgid "Name"
 msgstr "שם"
 
-#: js/files.js:950 templates/index.php:78
+#: js/files.js:954 templates/index.php:78
 msgid "Size"
 msgstr "גודל"
 
-#: js/files.js:951 templates/index.php:80
+#: js/files.js:955 templates/index.php:80
 msgid "Modified"
 msgstr "זמן שינוי"
 
-#: js/files.js:970
+#: js/files.js:974
 msgid "1 folder"
 msgstr "תיקייה אחת"
 
-#: js/files.js:972
+#: js/files.js:976
 msgid "{count} folders"
 msgstr "{count} תיקיות"
 
-#: js/files.js:980
+#: js/files.js:984
 msgid "1 file"
 msgstr "קובץ אחד"
 
-#: js/files.js:982
+#: js/files.js:986
 msgid "{count} files"
 msgstr "{count} קבצים"
 

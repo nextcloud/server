@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 00:27+0100\n"
-"PO-Revision-Date: 2013-01-30 23:28+0000\n"
+"POT-Creation-Date: 2013-02-07 00:07+0100\n"
+"PO-Revision-Date: 2013-02-06 23:08+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -24,6 +24,15 @@ msgstr ""
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "App Store'dan liste yüklenemiyor"
+
+#: ajax/changedisplayname.php:19 ajax/removeuser.php:15 ajax/setquota.php:15
+#: ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "Eşleşme hata"
+
+#: ajax/changedisplayname.php:28
+msgid "Unable to change display name"
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -48,10 +57,6 @@ msgstr "Geçersiz eposta"
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "Grup silinemiyor"
-
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
-msgid "Authentication error"
-msgstr "Eşleşme hata"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -79,15 +84,43 @@ msgstr "Kullanıcı %s grubuna eklenemiyor"
 msgid "Unable to remove user from group %s"
 msgstr ""
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:13
+msgid "Couldn't update app."
+msgstr ""
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr ""
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Etkin değil"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "Etkin"
 
-#: js/personal.js:69
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr ""
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "Hata"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr ""
+
+#: js/personal.js:96
 msgid "Saving..."
 msgstr "Kaydediliyor..."
 
@@ -114,6 +147,10 @@ msgstr "Uygulamanın sayfasına apps.owncloud.com adresinden bakın "
 #: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr ""
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "Güncelleme"
 
 #: templates/help.php:3
 msgid "User Documentation"
@@ -160,67 +197,83 @@ msgstr "Android İstemcisini İndir"
 msgid "Download iOS Client"
 msgstr "iOS İstemcisini İndir"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
+#: templates/personal.php:23 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "Parola"
 
-#: templates/personal.php:22
+#: templates/personal.php:24
 msgid "Your password was changed"
 msgstr "Şifreniz değiştirildi"
 
-#: templates/personal.php:23
+#: templates/personal.php:25
 msgid "Unable to change your password"
 msgstr "Parolanız değiştirilemiyor"
 
-#: templates/personal.php:24
+#: templates/personal.php:26
 msgid "Current password"
 msgstr "Mevcut parola"
 
-#: templates/personal.php:25
+#: templates/personal.php:27
 msgid "New password"
 msgstr "Yeni parola"
 
-#: templates/personal.php:26
+#: templates/personal.php:28
 msgid "show"
 msgstr "göster"
 
-#: templates/personal.php:27
+#: templates/personal.php:29
 msgid "Change password"
 msgstr "Parola değiştir"
 
-#: templates/personal.php:33
+#: templates/personal.php:41 templates/users.php:80
+msgid "Display Name"
+msgstr ""
+
+#: templates/personal.php:42
+msgid "Your display name was changed"
+msgstr ""
+
+#: templates/personal.php:43
+msgid "Unable to change your display name"
+msgstr ""
+
+#: templates/personal.php:46
+msgid "Change display name"
+msgstr ""
+
+#: templates/personal.php:55
 msgid "Email"
 msgstr "Eposta"
 
-#: templates/personal.php:34
+#: templates/personal.php:56
 msgid "Your email address"
 msgstr "Eposta adresiniz"
 
-#: templates/personal.php:35
+#: templates/personal.php:57
 msgid "Fill in an email address to enable password recovery"
 msgstr "Parola sıfırlamayı aktifleştirmek için eposta adresi girin"
 
-#: templates/personal.php:41 templates/personal.php:42
+#: templates/personal.php:63 templates/personal.php:64
 msgid "Language"
 msgstr "Dil"
 
-#: templates/personal.php:47
+#: templates/personal.php:69
 msgid "Help translate"
 msgstr "Çevirilere yardım edin"
 
-#: templates/personal.php:52
+#: templates/personal.php:74
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:54
+#: templates/personal.php:76
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr ""
 
-#: templates/personal.php:63
+#: templates/personal.php:85
 msgid "Version"
 msgstr "Sürüm"
 
-#: templates/personal.php:65
+#: templates/personal.php:87
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -253,10 +306,6 @@ msgstr ""
 #: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "Diğer"
-
-#: templates/users.php:80
-msgid "Display Name"
-msgstr ""
 
 #: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"

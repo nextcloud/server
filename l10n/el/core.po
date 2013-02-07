@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-30 23:40+0000\n"
+"POT-Creation-Date: 2013-02-07 00:07+0100\n"
+"PO-Revision-Date: 2013-02-06 23:07+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -163,59 +163,59 @@ msgstr "Νοέμβριος"
 msgid "December"
 msgstr "Δεκέμβριος"
 
-#: js/js.js:280 templates/layout.user.php:47 templates/layout.user.php:48
+#: js/js.js:280
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:762
+#: js/js.js:760
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:763
+#: js/js.js:761
 msgid "1 minute ago"
 msgstr "1 λεπτό πριν"
 
-#: js/js.js:764
+#: js/js.js:762
 msgid "{minutes} minutes ago"
 msgstr "{minutes} λεπτά πριν"
 
-#: js/js.js:765
+#: js/js.js:763
 msgid "1 hour ago"
 msgstr "1 ώρα πριν"
 
-#: js/js.js:766
+#: js/js.js:764
 msgid "{hours} hours ago"
 msgstr "{hours} ώρες πριν"
 
-#: js/js.js:767
+#: js/js.js:765
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:768
+#: js/js.js:766
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:769
+#: js/js.js:767
 msgid "{days} days ago"
 msgstr "{days} ημέρες πριν"
 
-#: js/js.js:770
+#: js/js.js:768
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:771
+#: js/js.js:769
 msgid "{months} months ago"
 msgstr "{months} μήνες πριν"
 
-#: js/js.js:772
+#: js/js.js:770
 msgid "months ago"
 msgstr "μήνες πριν"
 
-#: js/js.js:773
+#: js/js.js:771
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:774
+#: js/js.js:772
 msgid "years ago"
 msgstr "χρόνια πριν"
 
@@ -548,7 +548,7 @@ msgstr "Ολοκλήρωση εγκατάστασης"
 msgid "web services under your control"
 msgstr "Υπηρεσίες web υπό τον έλεγχό σας"
 
-#: templates/layout.user.php:32
+#: templates/layout.user.php:49
 msgid "Log out"
 msgstr "Αποσύνδεση"
 
@@ -570,13 +570,17 @@ msgstr "Παρακαλώ αλλάξτε το συνθηματικό σας γι�
 msgid "Lost your password?"
 msgstr "Ξεχάσατε το συνθηματικό σας;"
 
-#: templates/login.php:39
+#: templates/login.php:41
 msgid "remember"
 msgstr "απομνημόνευση"
 
-#: templates/login.php:41
+#: templates/login.php:43
 msgid "Log in"
 msgstr "Είσοδος"
+
+#: templates/login.php:49
+msgid "Alternative Logins"
+msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

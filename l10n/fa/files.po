@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 17:02+0100\n"
-"PO-Revision-Date: 2013-01-31 16:02+0000\n"
+"POT-Creation-Date: 2013-02-07 00:07+0100\n"
+"PO-Revision-Date: 2013-02-06 23:08+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -21,46 +21,46 @@ msgstr ""
 "Language: fa\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/upload.php:17
+#: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
 msgstr "هیچ فایلی آپلود نشد.خطای ناشناس"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
 msgstr "هیچ خطایی وجود ندارد فایل با موفقیت بار گذاری شد"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "پرونده آپلود شده بیش ازدستور  ماکزیمم_حجم فایل_برای آپلود در   php.ini استفاده کرده است."
 
-#: ajax/upload.php:27
+#: ajax/upload.php:29
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "حداکثر حجم مجاز برای بارگذاری از طریق HTML \nMAX_FILE_SIZE"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:31
 msgid "The uploaded file was only partially uploaded"
 msgstr "مقدار کمی از فایل بارگذاری شده"
 
-#: ajax/upload.php:30
+#: ajax/upload.php:32
 msgid "No file was uploaded"
 msgstr "هیچ فایلی بارگذاری نشده"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:33
 msgid "Missing a temporary folder"
 msgstr "یک پوشه موقت گم شده است"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:34
 msgid "Failed to write to disk"
 msgstr "نوشتن بر روی دیسک سخت ناموفق بود"
 
-#: ajax/upload.php:51
+#: ajax/upload.php:52
 msgid "Not enough space available"
 msgstr "فضای کافی در دسترس نیست"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:83
 msgid "Invalid directory."
 msgstr "فهرست راهنما نامعتبر می باشد."
 
@@ -72,11 +72,15 @@ msgstr "فایل ها"
 msgid "Unshare"
 msgstr "لغو اشتراک"
 
-#: js/fileactions.js:119 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:119
+msgid "Delete permanently"
+msgstr ""
+
+#: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "پاک کردن"
 
-#: js/fileactions.js:185
+#: js/fileactions.js:187
 msgid "Rename"
 msgstr "تغییرنام"
 
@@ -181,31 +185,31 @@ msgstr "URL  نمی تواند خالی باشد."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "نام پوشه نامعتبر است. استفاده از \" به اشتراک گذاشته شده \" متعلق به سایت Owncloud است."
 
-#: js/files.js:949 templates/index.php:67
+#: js/files.js:953 templates/index.php:67
 msgid "Name"
 msgstr "نام"
 
-#: js/files.js:950 templates/index.php:78
+#: js/files.js:954 templates/index.php:78
 msgid "Size"
 msgstr "اندازه"
 
-#: js/files.js:951 templates/index.php:80
+#: js/files.js:955 templates/index.php:80
 msgid "Modified"
 msgstr "تغییر یافته"
 
-#: js/files.js:970
+#: js/files.js:974
 msgid "1 folder"
 msgstr "1 پوشه"
 
-#: js/files.js:972
+#: js/files.js:976
 msgid "{count} folders"
 msgstr "{ شمار} پوشه ها"
 
-#: js/files.js:980
+#: js/files.js:984
 msgid "1 file"
 msgstr "1 پرونده"
 
-#: js/files.js:982
+#: js/files.js:986
 msgid "{count} files"
 msgstr "{ شمار } فایل ها"
 

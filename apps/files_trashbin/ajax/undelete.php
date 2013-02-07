@@ -1,8 +1,7 @@
 <?php 
 
-if(!OCP\User::isLoggedIn()) {
-	exit;
-}
+OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
 
 $files = $_REQUEST['files'];
 $dirlisting = $_REQUEST['dirlisting'];
@@ -23,7 +22,7 @@ foreach ($list as $file) {
 		$timestamp = null;
 	}
 	
-	if ( !OCA_Trash\Trashbin::restore($file, $filename, $timestamp) ) {
+	if ( !OCA\Files_Trashbin\Trashbin::restore($file, $filename, $timestamp) ) {
 		$error[] = $filename;
 	} else {
 		$success[$i]['filename'] = $file;
@@ -38,8 +37,10 @@ if ( $error ) {
 	foreach ( $error as $e ) {
 		$filelist .= $e.', ';
 	}
-	OCP\JSON::error(array("data" => array("message" => "Couldn't restore ".rtrim($filelist,', '), "success" => $success, "error" => $error)));
+	$l = OC_L10N::get('files_trashbin');
+	$message = $l->t("Couldn't restore %s", array(rtrim($filelist,', ')));
+	OCP\JSON::error(array("data" => array("message" => $message,
+										  "success" => $success, "error" => $error)));
 } else {
 	OCP\JSON::success(array("data" => array("success" => $success)));
 }
-

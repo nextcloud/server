@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 00:27+0100\n"
-"PO-Revision-Date: 2013-01-30 23:28+0000\n"
+"POT-Creation-Date: 2013-02-07 00:07+0100\n"
+"PO-Revision-Date: 2013-02-06 23:08+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -31,6 +31,15 @@ msgstr ""
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "Kan de lijst niet van de App store laden"
+
+#: ajax/changedisplayname.php:19 ajax/removeuser.php:15 ajax/setquota.php:15
+#: ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "Authenticatie fout"
+
+#: ajax/changedisplayname.php:28
+msgid "Unable to change display name"
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -55,10 +64,6 @@ msgstr "Ongeldige e-mail"
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "Niet in staat om groep te verwijderen"
-
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
-msgid "Authentication error"
-msgstr "Authenticatie fout"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -86,15 +91,43 @@ msgstr "Niet in staat om gebruiker toe te voegen aan groep %s"
 msgid "Unable to remove user from group %s"
 msgstr "Niet in staat om gebruiker te verwijderen uit groep %s"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:13
+msgid "Couldn't update app."
+msgstr "Kon de app niet bijwerken."
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr "Bijwerken naar {appversion}"
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Uitschakelen"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "Inschakelen"
 
-#: js/personal.js:69
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr "Even geduld aub...."
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr "Fout bij bijwerken app"
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "Fout"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr "Bijgewerkt"
+
+#: js/personal.js:96
 msgid "Saving..."
 msgstr "Aan het bewaren....."
 
@@ -121,6 +154,10 @@ msgstr "Zie de applicatiepagina op apps.owncloud.com"
 #: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-Gelicenseerd door <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "Bijwerken"
 
 #: templates/help.php:3
 msgid "User Documentation"
@@ -167,67 +204,83 @@ msgstr "Download Android Client"
 msgid "Download iOS Client"
 msgstr "Download iOS Client"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
+#: templates/personal.php:23 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: templates/personal.php:22
+#: templates/personal.php:24
 msgid "Your password was changed"
 msgstr "Je wachtwoord is veranderd"
 
-#: templates/personal.php:23
+#: templates/personal.php:25
 msgid "Unable to change your password"
 msgstr "Niet in staat om uw wachtwoord te wijzigen"
 
-#: templates/personal.php:24
+#: templates/personal.php:26
 msgid "Current password"
 msgstr "Huidig wachtwoord"
 
-#: templates/personal.php:25
+#: templates/personal.php:27
 msgid "New password"
 msgstr "Nieuw wachtwoord"
 
-#: templates/personal.php:26
+#: templates/personal.php:28
 msgid "show"
 msgstr "weergeven"
 
-#: templates/personal.php:27
+#: templates/personal.php:29
 msgid "Change password"
 msgstr "Wijzig wachtwoord"
 
-#: templates/personal.php:33
+#: templates/personal.php:41 templates/users.php:80
+msgid "Display Name"
+msgstr "Weergavenaam"
+
+#: templates/personal.php:42
+msgid "Your display name was changed"
+msgstr ""
+
+#: templates/personal.php:43
+msgid "Unable to change your display name"
+msgstr ""
+
+#: templates/personal.php:46
+msgid "Change display name"
+msgstr ""
+
+#: templates/personal.php:55
 msgid "Email"
 msgstr "E-mailadres"
 
-#: templates/personal.php:34
+#: templates/personal.php:56
 msgid "Your email address"
 msgstr "Uw e-mailadres"
 
-#: templates/personal.php:35
+#: templates/personal.php:57
 msgid "Fill in an email address to enable password recovery"
 msgstr "Vul een e-mailadres in om wachtwoord reset uit te kunnen voeren"
 
-#: templates/personal.php:41 templates/personal.php:42
+#: templates/personal.php:63 templates/personal.php:64
 msgid "Language"
 msgstr "Taal"
 
-#: templates/personal.php:47
+#: templates/personal.php:69
 msgid "Help translate"
 msgstr "Help met vertalen"
 
-#: templates/personal.php:52
+#: templates/personal.php:74
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:54
+#: templates/personal.php:76
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Gebruik dit adres om te verbinden met uw ownCloud in uw bestandsbeheer"
 
-#: templates/personal.php:63
+#: templates/personal.php:85
 msgid "Version"
 msgstr "Versie"
 
-#: templates/personal.php:65
+#: templates/personal.php:87
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -239,7 +292,7 @@ msgstr "Ontwikkeld door de <a href=\"http://ownCloud.org/contact\" target=\"_bla
 
 #: templates/users.php:21 templates/users.php:79
 msgid "Login Name"
-msgstr ""
+msgstr "Inlognaam"
 
 #: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
@@ -261,10 +314,6 @@ msgstr "Ongelimiteerd"
 msgid "Other"
 msgstr "Andere"
 
-#: templates/users.php:80
-msgid "Display Name"
-msgstr ""
-
 #: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "Groep beheerder"
@@ -275,11 +324,11 @@ msgstr "Opslag"
 
 #: templates/users.php:97
 msgid "change display name"
-msgstr ""
+msgstr "wijzig weergavenaam"
 
 #: templates/users.php:101
 msgid "set new password"
-msgstr ""
+msgstr "Instellen nieuw wachtwoord"
 
 #: templates/users.php:137
 msgid "Default"

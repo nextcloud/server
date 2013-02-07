@@ -21,7 +21,32 @@ $(document).ready(function() {
 
 			});
 		};
-
+		
+		FileActions.register('all', 'Delete', OC.PERMISSION_READ, function () {
+			return OC.imagePath('core', 'actions/delete');
+		}, function (filename) {
+			$('.tipsy').remove();
+			
+			var tr=$('tr').filterAttr('data-file', filename);
+			var deleteAction = $('tr').filterAttr('data-file',filename).children("td.date").children(".action.delete");
+			var oldHTML = deleteAction[0].outerHTML;
+			var newHTML = '<img class="move2trash" data-action="Delete" title="'+t('files', 'delete file permanently')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
+			deleteAction[0].outerHTML = newHTML;
+			
+			$.post(OC.filePath('files_trashbin','ajax','delete.php'),
+				{file:tr.attr('data-file') },
+				function(result){
+					if ( result.status == 'success' ) {
+						var row = document.getElementById(result.data.filename);
+						row.parentNode.removeChild(row);
+					} else {
+						deleteAction[0].outerHTML = oldHTML;
+						OC.dialogs.alert(result.data.message, 'Error');
+					}
+				});
+			
+			});
+		
 		// Sets the select_all checkbox behaviour :
 		$('#select_all').click(function() {
 			if($(this).attr('checked')){
@@ -66,7 +91,7 @@ $(document).ready(function() {
 		});
 
 		$('.undelete').click('click',function(event) {
-			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform undelete operation')+'" src="'+ OC.imagePath('core', 'loader.gif') +'"></a>';
+			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform restore operation')+'" src="'+ OC.imagePath('core', 'loader.gif') +'"></a>';
 			var files=getSelectedFiles('file');
 			var fileslist=files.join(';');
 			var dirlisting=getSelectedFiles('dirlisting')[0];

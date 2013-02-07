@@ -6,7 +6,7 @@
 #   <admin@s-goecker.de>, 2011, 2012.
 #   <blobbyjj@ymail.com>, 2012.
 #   <icewind1991@gmail.com>, 2012.
-# I Robot <owncloud-bot@tmit.eu>, 2012.
+# I Robot <owncloud-bot@tmit.eu>, 2012-2013.
 # I Robot <thomas.mueller@tmit.eu>, 2012.
 # Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
 # Jan T <jan-temesinko@web.de>, 2012.
@@ -21,12 +21,13 @@
 #   <thomas.mueller@tmit.eu>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
 # Tristan <blobbyjj@ymail.com>, 2013.
+#  <wachhund@wachhund.to>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 00:27+0100\n"
-"PO-Revision-Date: 2013-01-30 23:28+0000\n"
+"POT-Creation-Date: 2013-02-07 00:07+0100\n"
+"PO-Revision-Date: 2013-02-06 23:08+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
@@ -38,6 +39,15 @@ msgstr ""
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "Die Liste der Anwendungen im Store konnte nicht geladen werden."
+
+#: ajax/changedisplayname.php:19 ajax/removeuser.php:15 ajax/setquota.php:15
+#: ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "Fehler bei der Anmeldung"
+
+#: ajax/changedisplayname.php:28
+msgid "Unable to change display name"
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -62,10 +72,6 @@ msgstr "Ungültige E-Mail Adresse"
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "Gruppe konnte nicht gelöscht werden"
-
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
-msgid "Authentication error"
-msgstr "Fehler bei der Anmeldung"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -93,15 +99,43 @@ msgstr "Der Benutzer konnte nicht zur Gruppe %s hinzugefügt werden"
 msgid "Unable to remove user from group %s"
 msgstr "Der Benutzer konnte nicht aus der Gruppe %s entfernt werden"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:13
+msgid "Couldn't update app."
+msgstr ""
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr ""
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Deaktivieren"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "Aktivieren"
 
-#: js/personal.js:69
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr ""
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr "Fehler beim Aktualisieren der App"
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "Fehler"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr ""
+
+#: js/personal.js:96
 msgid "Saving..."
 msgstr "Speichern..."
 
@@ -128,6 +162,10 @@ msgstr "Weitere Anwendungen findest Du auf apps.owncloud.com"
 #: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lizenziert von <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "Update durchführen"
 
 #: templates/help.php:3
 msgid "User Documentation"
@@ -174,67 +212,83 @@ msgstr "Android-Client herunterladen"
 msgid "Download iOS Client"
 msgstr "iOS-Client herunterladen"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
+#: templates/personal.php:23 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "Passwort"
 
-#: templates/personal.php:22
+#: templates/personal.php:24
 msgid "Your password was changed"
 msgstr "Dein Passwort wurde geändert."
 
-#: templates/personal.php:23
+#: templates/personal.php:25
 msgid "Unable to change your password"
 msgstr "Passwort konnte nicht geändert werden"
 
-#: templates/personal.php:24
+#: templates/personal.php:26
 msgid "Current password"
 msgstr "Aktuelles Passwort"
 
-#: templates/personal.php:25
+#: templates/personal.php:27
 msgid "New password"
 msgstr "Neues Passwort"
 
-#: templates/personal.php:26
+#: templates/personal.php:28
 msgid "show"
 msgstr "zeigen"
 
-#: templates/personal.php:27
+#: templates/personal.php:29
 msgid "Change password"
 msgstr "Passwort ändern"
 
-#: templates/personal.php:33
+#: templates/personal.php:41 templates/users.php:80
+msgid "Display Name"
+msgstr "Anzeigename"
+
+#: templates/personal.php:42
+msgid "Your display name was changed"
+msgstr ""
+
+#: templates/personal.php:43
+msgid "Unable to change your display name"
+msgstr ""
+
+#: templates/personal.php:46
+msgid "Change display name"
+msgstr ""
+
+#: templates/personal.php:55
 msgid "Email"
 msgstr "E-Mail"
 
-#: templates/personal.php:34
+#: templates/personal.php:56
 msgid "Your email address"
 msgstr "Deine E-Mail-Adresse"
 
-#: templates/personal.php:35
+#: templates/personal.php:57
 msgid "Fill in an email address to enable password recovery"
 msgstr "Trage eine E-Mail-Adresse ein, um die Passwort-Wiederherstellung zu aktivieren."
 
-#: templates/personal.php:41 templates/personal.php:42
+#: templates/personal.php:63 templates/personal.php:64
 msgid "Language"
 msgstr "Sprache"
 
-#: templates/personal.php:47
+#: templates/personal.php:69
 msgid "Help translate"
 msgstr "Hilf bei der Übersetzung"
 
-#: templates/personal.php:52
+#: templates/personal.php:74
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:54
+#: templates/personal.php:76
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Verwende diese Adresse, um Deinen Dateimanager mit Deiner ownCloud zu verbinden"
 
-#: templates/personal.php:63
+#: templates/personal.php:85
 msgid "Version"
 msgstr "Version"
 
-#: templates/personal.php:65
+#: templates/personal.php:87
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -246,7 +300,7 @@ msgstr "Entwickelt von der <a href=\"http://ownCloud.org/contact\" target=\"_bla
 
 #: templates/users.php:21 templates/users.php:79
 msgid "Login Name"
-msgstr ""
+msgstr "Loginname"
 
 #: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
@@ -268,10 +322,6 @@ msgstr "Unbegrenzt"
 msgid "Other"
 msgstr "Andere"
 
-#: templates/users.php:80
-msgid "Display Name"
-msgstr ""
-
 #: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "Gruppenadministrator"
@@ -282,11 +332,11 @@ msgstr "Speicher"
 
 #: templates/users.php:97
 msgid "change display name"
-msgstr ""
+msgstr "Anzeigenamen ändern"
 
 #: templates/users.php:101
 msgid "set new password"
-msgstr ""
+msgstr "Neues Passwort setzen"
 
 #: templates/users.php:137
 msgid "Default"

@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Please check your passwords and try again." => "Tarkista salasanasi ja yritä uudelleen.",
 "Encryption" => "Salaus",
-"Exclude the following file types from encryption" => "Jätä seuraavat tiedostotyypit salaamatta",
 "None" => "Ei mitään"
 );
