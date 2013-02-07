@@ -20,7 +20,7 @@
  *
  */
 
-namespace OCA_Trash;
+namespace OCA\Files_Trashbin;
 
 class Trashbin {
 	
