@@ -155,6 +155,7 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 }
 #adminpass-icon, #password-icon { top:1.1em; }
 input[name="password-clone"] { padding-left:1.8em; width:11.7em !important; }
+input[name="adminpass-clone"] { padding-left:1.8em; width:11.7em !important; }
 
 /* Nicely grouping input field sets */
 .grouptop input {
