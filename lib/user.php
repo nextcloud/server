@@ -172,7 +172,7 @@ class OC_User {
 		}
 
 		// Check if user already exists
-		if( self::userExists($uid) ) {
+		if( self::userExistsForCreation($uid) ) {
 			throw new Exception('The username is already being used');
 		}
 
@@ -550,6 +550,19 @@ class OC_User {
 		}
 		return false;
 	}
+
+    public static function userExistsForCreation($uid) {
+        foreach(self::$_usedBackends as $backend) {
+            if(!$backend->implementsActions(OC_USER_BACKEND_CREATE_USER))
+                continue;
+
+            $result=$backend->userExists($uid);
+            if($result===true) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 	/**
 	 * disables a user
