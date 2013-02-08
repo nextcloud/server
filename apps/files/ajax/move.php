@@ -11,6 +11,8 @@ $dir = stripslashes($_POST["dir"]);
 $file = stripslashes($_POST["file"]);
 $target = stripslashes(rawurldecode($_POST["target"]));
 
+$l = OC_L10N::get('files');
+
 if(\OC\Files\Filesystem::file_exists($target . '/' . $file)) {
 	OCP\JSON::error(array("data" => array( "message" => $l->t("Could not move %s - File with this name already exists", array($file)) )));
 	exit;
