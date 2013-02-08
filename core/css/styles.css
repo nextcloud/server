@@ -210,6 +210,7 @@ fieldset.warning {
 	border-radius:5px;
 }
 fieldset.warning legend { color:#b94a48 !important; }
+fieldset.warning a { color:#b94a48 !important; font-weight:bold; }
 
 /* Alternative Logins */
 #alternative-logins legend { margin-bottom:10px; }
