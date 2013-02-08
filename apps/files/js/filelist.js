@@ -15,7 +15,7 @@ var FileList={
 			extension=false;
 		}
 		html+='<td class="filename" style="background-image:url('+img+')"><input type="checkbox" />';
-		html+='<a class="name" href="download.php?file='+$('#dir').val().replace(/</, '&lt;').replace(/>/, '&gt;')+'/'+escapeHTML(name)+'"><span class="nametext">'+escapeHTML(basename);
+		html+='<a class="name" href="' +OC.Router.generate('download', { file: $('#dir').val()+'/'+name }) +'"><span class="nametext">'+escapeHTML(basename);
 		if(extension){
 			html+='<span class="extension">'+escapeHTML(extension)+'</span>';
 		}
