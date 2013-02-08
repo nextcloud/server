@@ -105,7 +105,6 @@
 "Security Warning" => "Güvenlik Uyarisi",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Güvenli rasgele sayı üreticisi bulunamadı. Lütfen PHP OpenSSL eklentisini etkinleştirin.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Güvenli rasgele sayı üreticisi olmadan saldırganlar parola sıfırlama simgelerini tahmin edip hesabınızı ele geçirebilir.",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "data dizininiz ve dosyalarınız büyük ihtimalle internet üzerinden erişilebilir. Owncloud tarafından sağlanan .htaccess  dosyası çalışmıyor. Web sunucunuzu yapılandırarak data dizinine erişimi kapatmanızı veya data dizinini web sunucu döküman dizini dışına almanızı şiddetle tavsiye ederiz.",
 "Create an <strong>admin account</strong>" => "Bir <strong>yönetici hesabı</strong> oluşturun",
 "Advanced" => "Gelişmiş",
 "Data folder" => "Veri klasörü",

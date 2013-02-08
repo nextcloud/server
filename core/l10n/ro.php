@@ -105,7 +105,6 @@
 "Security Warning" => "Avertisment de securitate",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Generatorul de numere pentru securitate nu este disponibil, va rog activati extensia PHP OpenSSL",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Fara generatorul pentru numere de securitate , un atacator poate afla parola si reseta contul tau",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Directorul tău de date și fișierele tale probabil sunt accesibile prin internet. Fișierul .htaccess oferit de ownCloud nu funcționează. Îți recomandăm să configurezi server-ul tău web într-un mod în care directorul de date să nu mai fie accesibil sau mută directorul de date în afara directorului root al server-ului web.",
 "Create an <strong>admin account</strong>" => "Crează un <strong>cont de administrator</strong>",
 "Advanced" => "Avansat",
 "Data folder" => "Director date",

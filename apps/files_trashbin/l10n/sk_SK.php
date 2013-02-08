@@ -1,5 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Couldn't restore %s" => "Nemožno obnoviť %s",
 "perform restore operation" => "vykonať obnovu",
+"delete file permanently" => "trvalo zmazať súbor",
 "Name" => "Meno",
 "Deleted" => "Zmazané",
 "1 folder" => "1 priečinok",

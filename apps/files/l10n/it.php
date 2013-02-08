@@ -7,7 +7,6 @@
 "No file was uploaded" => "Nessun file è stato caricato",
 "Missing a temporary folder" => "Cartella temporanea mancante",
 "Failed to write to disk" => "Scrittura su disco non riuscita",
-"Not enough space available" => "Spazio disponibile insufficiente",
 "Invalid directory." => "Cartella non valida.",
 "Files" => "File",
 "Unshare" => "Rimuovi condivisione",

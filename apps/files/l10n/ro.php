@@ -7,7 +7,6 @@
 "No file was uploaded" => "Niciun fișier încărcat",
 "Missing a temporary folder" => "Lipsește un dosar temporar",
 "Failed to write to disk" => "Eroare la scriere pe disc",
-"Not enough space available" => "Nu este suficient spațiu disponibil",
 "Invalid directory." => "Director invalid.",
 "Files" => "Fișiere",
 "Unshare" => "Anulează partajarea",

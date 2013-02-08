@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-08 00:10+0100\n"
-"PO-Revision-Date: 2013-02-07 23:10+0000\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 23:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -56,7 +56,7 @@ msgstr "Žádná kategorie k přidání?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "Kategorie již existuje: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -471,7 +471,7 @@ msgstr "Upravit kategorie"
 msgid "Add"
 msgstr "Přidat"
 
-#: templates/installation.php:23 templates/installation.php:31
+#: templates/installation.php:23 templates/installation.php:30
 msgid "Security Warning"
 msgstr "Bezpečnostní upozornění"
 
@@ -481,20 +481,24 @@ msgid ""
 "OpenSSL extension."
 msgstr "Není dostupný žádný bezpečný generátor náhodných čísel. Povolte, prosím, rozšíření OpenSSL v PHP."
 
-#: templates/installation.php:26
+#: templates/installation.php:25
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Bez bezpečného generátoru náhodných čísel může útočník předpovědět token pro obnovu hesla a převzít kontrolu nad Vaším účtem."
 
+#: templates/installation.php:31
+msgid ""
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
+msgstr ""
+
 #: templates/installation.php:32
 msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "Váš adresář dat a všechny Vaše soubory jsou pravděpodobně přístupné z internetu. Soubor .htaccess, který je poskytován ownCloud, nefunguje. Důrazně Vám doporučujeme nastavit váš webový server tak, aby nebyl adresář dat přístupný, nebo přesunout adresář dat mimo kořenovou složku dokumentů webového serveru."
+"For information how to properly configure your server, please see the <a "
+"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
+"target=\"_blank\">documentation</a>."
+msgstr ""
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"

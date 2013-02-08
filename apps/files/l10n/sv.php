@@ -7,7 +7,6 @@
 "No file was uploaded" => "Ingen fil blev uppladdad",
 "Missing a temporary folder" => "Saknar en tillfällig mapp",
 "Failed to write to disk" => "Misslyckades spara till disk",
-"Not enough space available" => "Inte tillräckligt med utrymme tillgängligt",
 "Invalid directory." => "Felaktig mapp.",
 "Files" => "Filer",
 "Unshare" => "Sluta dela",

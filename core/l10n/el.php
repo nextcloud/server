@@ -105,7 +105,6 @@
 "Security Warning" => "Προειδοποίηση Ασφαλείας",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Δεν είναι διαθέσιμο το πρόσθετο δημιουργίας τυχαίων αριθμών ασφαλείας, παρακαλώ ενεργοποιήστε το πρόσθετο της PHP, OpenSSL.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Χωρίς το πρόσθετο δημιουργίας τυχαίων αριθμών ασφαλείας, μπορεί να διαρρεύσει ο λογαριασμός σας από επιθέσεις στο διαδίκτυο.",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Ο κατάλογος data και τα αρχεία σας πιθανόν να είναι διαθέσιμα στο διαδίκτυο. Το αρχείο .htaccess που παρέχει το ownCloud δεν δουλεύει. Σας προτείνουμε ανεπιφύλακτα να ρυθμίσετε το διακομιστή σας με τέτοιο τρόπο ώστε ο κατάλογος data να μην είναι πλέον προσβάσιμος ή να μετακινήσετε τον κατάλογο data έξω από τον κατάλογο του διακομιστή.",
 "Create an <strong>admin account</strong>" => "Δημιουργήστε έναν <strong>λογαριασμό διαχειριστή</strong>",
 "Advanced" => "Για προχωρημένους",
 "Data folder" => "Φάκελος δεδομένων",

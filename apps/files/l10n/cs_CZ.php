@@ -7,7 +7,6 @@
 "No file was uploaded" => "Žádný soubor nebyl odeslán",
 "Missing a temporary folder" => "Chybí adresář pro dočasné soubory",
 "Failed to write to disk" => "Zápis na disk selhal",
-"Not enough space available" => "Nedostatek dostupného místa",
 "Invalid directory." => "Neplatný adresář",
 "Files" => "Soubory",
 "Unshare" => "Zrušit sdílení",

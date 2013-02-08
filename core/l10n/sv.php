@@ -108,7 +108,6 @@
 "Security Warning" => "Säkerhetsvarning",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Ingen säker slumptalsgenerator finns tillgänglig. Du bör aktivera PHP OpenSSL-tillägget.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Utan en säker slumptalsgenerator kan angripare få möjlighet att förutsäga lösenordsåterställningar och ta över ditt konto.",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Din datakatalog och dina filer är förmodligen tillgängliga från Internet. Den .htaccess-fil som ownCloud tillhandahåller fungerar inte. Vi rekommenderar starkt att du konfigurerar webbservern så att datakatalogen inte längre är tillgänglig eller att du flyttar datakatalogen utanför webbserverns dokument-root.",
 "Create an <strong>admin account</strong>" => "Skapa ett <strong>administratörskonto</strong>",
 "Advanced" => "Avancerat",
 "Data folder" => "Datamapp",

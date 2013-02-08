@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-08 00:09+0100\n"
-"PO-Revision-Date: 2013-02-07 07:50+0000\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 06:40+0000\n"
 "Last-Translator: Langaru <langaru@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,7 @@ msgstr "Пожалуйста переключитесь на Ваш клиент
 
 #: js/settings-personal.js:17
 msgid "switched to client side encryption"
-msgstr ""
+msgstr "переключён на шифрование со стороны клиента"
 
 #: js/settings-personal.js:21
 msgid "Change encryption password to login password"

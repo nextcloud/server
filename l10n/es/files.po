@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:08+0000\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 23:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -26,6 +26,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:27 ajax/move.php:30
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/rename.php:22 ajax/rename.php:25
+msgid "Unable to rename file"
+msgstr ""
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -63,8 +77,8 @@ msgid "Failed to write to disk"
 msgstr "La escritura en disco ha fallado"
 
 #: ajax/upload.php:52
-msgid "Not enough space available"
-msgstr "No hay suficiente espacio disponible"
+msgid "Not enough storage available"
+msgstr ""
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
@@ -80,7 +94,7 @@ msgstr "Dejar de compartir"
 
 #: js/fileactions.js:119
 msgid "Delete permanently"
-msgstr ""
+msgstr "Eliminar permanentemente"
 
 #: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
 msgid "Delete"

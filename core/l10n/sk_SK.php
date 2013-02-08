@@ -5,6 +5,7 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Používateľ %s zdieľa s Vami adresár \"%s\".  Môžete si ho stiahnuť tu: %s",
 "Category type not provided." => "Neposkytnutý kategorický typ.",
 "No category to add?" => "Žiadna kategória pre pridanie?",
+"This category already exists: %s" => "Kategéria: %s už existuje.",
 "Object type not provided." => "Neposkytnutý typ objektu.",
 "%s ID not provided." => "%s ID neposkytnuté.",
 "Error adding %s to favorites." => "Chyba pri pridávaní %s do obľúbených položiek.",
@@ -108,7 +109,6 @@
 "Security Warning" => "Bezpečnostné varovanie",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Nie je dostupný žiadny bezpečný generátor náhodných čísel, prosím, povoľte rozšírenie OpenSSL v PHP.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Bez bezpečného generátora náhodných čísel môže útočník predpovedať token pre obnovu hesla a prevziať kontrolu nad vaším kontom.",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Váš priečinok s dátami a Vaše súbory sú pravdepodobne dostupné z internetu. .htaccess súbor dodávaný s inštaláciou ownCloud nespĺňa úlohu. Dôrazne Vám doporučujeme nakonfigurovať webserver takým spôsobom, aby dáta v priečinku neboli verejné, alebo presuňte dáta mimo štruktúry priečinkov webservera.",
 "Create an <strong>admin account</strong>" => "Vytvoriť <strong>administrátorský účet</strong>",
 "Advanced" => "Pokročilé",
 "Data folder" => "Priečinok dát",
@@ -128,6 +128,7 @@
 "Lost your password?" => "Zabudli ste heslo?",
 "remember" => "zapamätať",
 "Log in" => "Prihlásiť sa",
+"Alternative Logins" => "Altrnatívne loginy",
 "prev" => "späť",
 "next" => "ďalej",
 "Updating ownCloud to version %s, this may take a while." => "Aktualizujem ownCloud na verziu %s, môže to chvíľu trvať."

@@ -7,7 +7,6 @@
 "No file was uploaded" => "Neniu dosiero estas alŝutita",
 "Missing a temporary folder" => "Mankas tempa dosierujo",
 "Failed to write to disk" => "Malsukcesis skribo al disko",
-"Not enough space available" => "Ne haveblas sufiĉa spaco",
 "Invalid directory." => "Nevalida dosierujo.",
 "Files" => "Dosieroj",
 "Unshare" => "Malkunhavigi",

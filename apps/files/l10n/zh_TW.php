@@ -7,7 +7,6 @@
 "No file was uploaded" => "無已上傳檔案",
 "Missing a temporary folder" => "遺失暫存資料夾",
 "Failed to write to disk" => "寫入硬碟失敗",
-"Not enough space available" => "沒有足夠的可用空間",
 "Invalid directory." => "無效的資料夾。",
 "Files" => "檔案",
 "Unshare" => "取消共享",
