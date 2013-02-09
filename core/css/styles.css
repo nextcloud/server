@@ -163,7 +163,7 @@ input[name="password-clone"] { padding-left:1.8em; width:11.7em !important; }
 }
 .groupmiddle input {
 	margin-top:0; margin-bottom:0;
-	border-top:0; border-radius:0;
+	border-top:0; border-bottom:0; border-radius:0;
 	box-shadow:0 1px 1px #fff,0 1px 0 #ddd inset;
 }
 .groupbottom input {
