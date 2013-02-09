@@ -58,7 +58,7 @@ class SFTP extends OC\Files\Storage\Common {
 	}
 
 	private function abs_path($path) {
-		return $this->root . $path;
+		return $this->root . $this->cleanPath($path);
 	}
 
 	private function host_keys_path() {
