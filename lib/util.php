@@ -528,9 +528,9 @@ class OC_Util {
 	 *
 	 */
 	public static function isWebDAVWorking() {
-        if (!function_exists('curl_init')) {
-            return;
-        }
+		if (!function_exists('curl_init')) {
+			return;
+		}
 
 		$settings = array(
 			'baseUri' => OC_Helper::linkToRemote('webdav'),

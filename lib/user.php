@@ -542,8 +542,8 @@ class OC_User {
 	public static function userExists($uid, $excludingBackend=null) {
 		foreach(self::$_usedBackends as $backend) {
 			if (!is_null($excludingBackend) && !strcmp(get_class($backend), $excludingBackend)) {
-			    OC_Log::write('OC_User', $excludingBackend . 'excluded from user existance check.', OC_Log::DEBUG);
-			    continue;
+				OC_Log::write('OC_User', $excludingBackend . 'excluded from user existance check.', OC_Log::DEBUG);
+				continue;
 			}
 			$result=$backend->userExists($uid);
 			if($result===true) {

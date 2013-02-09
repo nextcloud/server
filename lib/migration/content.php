@@ -185,13 +185,13 @@ class OC_Migration_Content{
 	* @return bool
 	*/
 	public function addDir( $dir, $recursive=true, $internaldir='' ) {
-	    $dirname = basename($dir);
-	    $this->zip->addEmptyDir($internaldir . $dirname);
-	    $internaldir.=$dirname.='/';
+		$dirname = basename($dir);
+		$this->zip->addEmptyDir($internaldir . $dirname);
+		$internaldir.=$dirname.='/';
 		if( !file_exists( $dir ) ) {
 			return false;
 		}
-	    if ($dirhandle = opendir($dir)) {
+		if ($dirhandle = opendir($dir)) {
 			while (false !== ( $file = readdir($dirhandle))) {
 
 				if (( $file != '.' ) && ( $file != '..' )) {
@@ -204,11 +204,11 @@ class OC_Migration_Content{
 				}
 			}
 			closedir($dirhandle);
-	    } else {
+		} else {
 			OC_Log::write('admin_export', "Was not able to open directory: " . $dir, OC_Log::ERROR);
 			return false;
-	    }
-	    return true;
+		}
+		return true;
 	}
 
 	/**
