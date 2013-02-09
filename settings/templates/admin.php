@@ -22,6 +22,21 @@ if (!$_['htaccessworking']) {
 <?php
 }
 
+// is WebDAV working ?
+if (!$_['isWebDavWorking']) {
+	?>
+<fieldset class="personalblock">
+	<legend><strong><?php echo $l->t('Setup Warning');?></strong></legend>
+
+	<span class="securitywarning">
+		<?php echo $l->t('Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken.'); ?>
+		<?php echo $l->t('Please double check the <a href=\'%s\'>installation guides</a>.', 'http://doc.owncloud.org/server/5.0/admin_manual/installation.html'); ?>
+	</span>
+
+</fieldset>
+<?php
+}
+
 // if module fileinfo available?
 if (!$_['has_fileinfo']) {
 	?>
@@ -36,6 +51,7 @@ if (!$_['has_fileinfo']) {
 <?php
 }
 
+// is locale working ?
 if (!$_['islocaleworking']) {
 	?>
 <fieldset class="personalblock">

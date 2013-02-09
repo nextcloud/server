@@ -548,6 +548,7 @@ class OC {
 			require_once 'core/setup.php';
 			exit();
 		}
+
 		$request = OC_Request::getPathInfo();
 		if(substr($request, -3) !== '.js'){// we need these files during the upgrade
 			self::checkMaintenanceMode();
