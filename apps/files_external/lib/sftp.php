@@ -9,7 +9,9 @@
 set_include_path(get_include_path() . PATH_SEPARATOR . OC_App::getAppPath('files_external') . '/3rdparty/phpseclib/phpseclib');
 require('Net/SFTP.php');
 
-class OC_Filestorage_SFTP extends OC_Filestorage_Common {
+namespace OC\Files\Storage;
+
+class SFTP extends OC\Files\Storage\Common {
 	private $host;
 	private $user;
 	private $password;
