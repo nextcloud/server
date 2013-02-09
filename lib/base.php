@@ -346,7 +346,7 @@ class OC {
 	public static function init() {
 		// register autoloader
 		spl_autoload_register(array('OC', 'autoload'));
-		setlocale(LC_ALL, 'en_US.UTF-8');
+		OC_Util::issetlocaleworking();
 
 		// set some stuff
 		//ob_start();
@@ -498,7 +498,7 @@ class OC {
 
 		// write error into log if locale can't be set
 		if (OC_Util::issetlocaleworking() == false) {
-			OC_Log::write('core', 'setting locale to en_US.UTF-8 failed. Support is probably not installed on your system', OC_Log::ERROR);
+			OC_Log::write('core', 'setting locale to en_US.UTF-8/en_US.UTF8 failed. Support is probably not installed on your system', OC_Log::ERROR);
 		}
 		if (OC_Config::getValue('installed', false)) {
 			if (OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
