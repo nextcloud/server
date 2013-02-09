@@ -77,6 +77,7 @@ class OC_L10N{
 	 * language.
 	 */
 	public function __construct($app, $lang = null){
+		$app = OC_App::cleanAppId($app);
 		// Find the right language
 		if(is_null($lang)){
 			$lang = self::findLanguage($app);
