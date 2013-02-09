@@ -95,7 +95,8 @@ class Proxy extends \OC_FileProxy {
 		
 		if ( self::shouldEncrypt( $path ) ) {
 		
-			if ( !is_resource( $data ) ) { //stream put contents should have been converted to fopen
+			// Stream put contents should have been converted to fopen
+			if ( !is_resource( $data ) ) {
 			
 				$userId = \OCP\USER::getUser();
 				
@@ -107,10 +108,33 @@ class Proxy extends \OC_FileProxy {
 				// Disable encryption proxy to prevent recursive calls
 				\OC_FileProxy::$enabled = false;
 				
-				// TODO: Check if file is shared, if so, use multiKeyEncrypt
+				$fileOwner = \OC\Files\Filesystem::getOwner( $path );
 				
-				// Encrypt plain data and fetch key
-				$encrypted = Crypt::keyEncryptKeyfile( $data, Keymanager::getPublicKey( $rootView, $userId ) );
+				// Check if the keyfile needs to be shared
+				if ( 
+					$fileOwner !== true
+					or $fileOwner !== $userId 
+				) {
+					
+					// Shared storage backend isn't loaded
+					
+					$users = \OCP\Share::getItemShared( 'file', $path, \OC_Share_backend_File::FORMAT_SHARED_STORAGE );
+// 					
+					trigger_error("SHARE USERS = ". var_export($users, 1));
+// 					
+// 					$publicKeys = Keymanager::getPublicKeys( $rootView, $users);
+// 					
+// 					// Encrypt plain data to multiple users
+// 					$encrypted = Crypt::multiKeyEncrypt( $data, $publicKeys );
+				
+				} else {
+				
+					$publicKey = Keymanager::getPublicKey( $rootView, $userId );
+				
+					// Encrypt plain data to a single user
+					$encrypted = Crypt::keyEncryptKeyfile( $data, $publicKey );
+				
+				}
 				
 				// Replace plain content with encrypted content by reference
 				$data = $encrypted['data'];

@@ -91,6 +91,60 @@ class Share {
 		}
 		return false;
 	}
+	
+	/**
+	* @brief Find which users can access a shared item
+	* @param string Item type
+	* @param int Format (optional) Format type must be defined by the backend
+	* @param int Number of items to return (optional) Returns all by default
+	* @return Return depends on format
+	*/
+	public static function getUsersSharingFile( $path ) {
+		
+		// Fetch all shares of this file path from DB
+		$query = \OC_DB::prepare( 
+			'SELECT 
+				share_type
+				, share_with
+				, permissions
+			FROM 
+				`*PREFIX*share` 
+			WHERE 
+				file_target = ?'
+			);
+			
+		$result = $query->execute( array( $path ) );
+		
+		if ( \OC_DB::isError( $result ) ) {
+		
+			\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result) . ', path=' . $path, \OC_Log::ERROR );
+		
+		}
+		
+		$shares = array();
+		
+		while( $row = $result->fetchRow() ) {
+		
+			// Set helpful array keys
+			$shares[] = array( 
+				'userId' => $row['share_with']
+				, 'shareType' => $row['share_type']
+				, 'permissions' => $row['permissions']
+			);
+			
+		}
+		
+		if ( ! empty( $shares ) ) {
+		
+			return $shares;
+			
+		} else {
+		
+			return false;
+			
+		}
+	
+	}
 
 	/**
 	* @brief Get the items of item type shared with the current user

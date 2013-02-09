@@ -57,7 +57,7 @@ class Keymanager {
 	}
 	
 	/**
-	 * @brief retrieve both keys from a user (private and public)
+	 * @brief Retrieve a user's public and private key
 	 * @param \OC_FilesystemView $view
 	 * @param $userId
 	 * @return array keys: privateKey, publicKey
@@ -72,49 +72,26 @@ class Keymanager {
 	}
 	
 	/**
-	 * @brief Retrieve public keys of all users with access to a file
-	 * @param string $path Path to file
-	 * @return array of public keys for the given file
-	 * @note Checks that the sharing app is enabled should be performed 
-	 * by client code, that isn't checked here
+	 * @brief Retrieve public keys for given users
+	 * @param \OC_FilesystemView $view
+	 * @param array $userIds
+	 * @return array of public keys for the specified users
 	 */
-	public static function getPublicKeys( \OC_FilesystemView $view, $userId, $filePath ) {
+	public static function getPublicKeys( \OC_FilesystemView $view, $userIds ) {
 		
-		$path = ltrim( $path, '/' );
+		$i = 0;
+		$keys = array();
 		
-		$filepath = '/' . $userId . '/files/' . $filePath;
+		foreach ( $userIds as $userId ) {
 		
-		// Check if sharing is enabled
-		if ( OC_App::isEnabled( 'files_sharing' ) ) {
-			
-
+			$i++;
+			$keys[$userId] = self::getPublicKey( $view, $userId );
 		
-		} else {
-		
-			// check if it is a file owned by the user and not shared at all
-			$userview = new \OC_FilesystemView( '/'.$userId.'/files/' );
-			
-			if ( $userview->file_exists( $path ) ) {
-			
-				$users[] = $userId;
-				
-			}
-			
 		}
 		
-		$view = new \OC_FilesystemView( '/public-keys/' );
+		$keys['total'] = $i;
 		
-		$keylist = array();
-		
-		$count = 0;
-		
-		foreach ( $users as $user ) {
-		
-			$keylist['key'.++$count] = $view->file_get_contents( $user.'.public.key' );
-			
-		}
-		
-		return $keylist;
+		return $keys;
 		
 	}
 	

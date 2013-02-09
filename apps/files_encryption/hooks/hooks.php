@@ -166,14 +166,77 @@ class Hooks {
 	 */
 	public static function postShared( $params ) {
 		
-		// Delete existing catfile
-		Keymanager::deleteFileKey(  );
+		// NOTE: $params is an array with these keys:
+		// itemSource -> int, filecache file ID
+		// shareWith -> string, uid of user being shared to
+		// fileTarget -> path of file being shared
+		// uidOwner -> owner of the original file being shared
 		
-		// Generate new catfile and env keys
-		Crypt::multiKeyEncrypt( $plainContent, $publicKeys );
+		$view = new \OC_FilesystemView( '/' );
+		$userId = \OCP\User::getUser();
+		$util = new Util( $view, $userId );
+		
+		$shares = \OCP\Share::getUsersSharingFile( $params['fileTarget'] );
+		
+		$userIds = array();
+		
+		foreach ( $shares as $share ) {
+		
+			$util = new Util( $view, $share['userId'] );
+			
+			// Check that the user is encryption capable
+			if ( $util->ready() ) {
+		
+				// Construct array of just UIDs for Keymanager{}
+				$userIds[] = $share['userId'];
+			
+			} else {
+			
+				// Log warning; we can't do necessary setup here
+				// because we don't have the user passphrase
+				// TODO: Provide user feedback indicating that
+				// sharing failed
+				\OC_Log::write( 'Encryption library', 'File cannot be shared: user "'.$share['userId'].'" is not setup for encryption', \OC_Log::WARN );
+				
+			}
+		
+		}
+		
+		trigger_error("UIDS = ".var_export($userIds, 1));
+		
+		$userPubKeys = Keymanager::getPublicKeys( $view, $userIds );
+		
+// 		trigger_error("PUB KEYS = ".var_export($userPubKeys, 1));
+		
+		// TODO: Fetch path from Crypt{} getter
+		$plainContent = $view->file_get_contents( $userId . '/' . 'files'. '/' . $params['fileTarget'] );
+		
+		// Generate new catfile and share keys
+		if ( ! $encrypted = Crypt::multiKeyEncrypt( $plainContent, $userPubKeys ) ) {
+		
+			// If the re-encryption failed, don't risk deleting data
+			return false;
+			
+		}
+		
+		trigger_error("ENCRYPTED = ". var_export($encrypted, 1));
 		
 		// Save env keys to user folders
+		foreach ( $encrypted['keys'] as $key ) {
 		
+// 			Keymanager::setShareKey( $view, $params['fileTarget'], $userId, $key );
+		
+		}
+		
+		// Delete existing catfile
+		// Check if keyfile exists (it won't if file has been shared before)
+		// Do this last to ensure file is recoverable in case of error
+		if ( $util->isEncryptedPath( $params['fileTarget'] ) ) {
+			
+			// NOTE: This will trigger an error if keyfile isn't found
+// 			Keymanager::deleteFileKey( $params['fileTarget'] );
+		
+		}
 		
 	}
 	
