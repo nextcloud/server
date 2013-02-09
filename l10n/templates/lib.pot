@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"POT-Creation-Date: 2013-02-10 00:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: app.php:313
+#: app.php:339
 msgid "Help"
 msgstr ""
 
-#: app.php:320
+#: app.php:346
 msgid "Personal"
 msgstr ""
 
-#: app.php:325
+#: app.php:351
 msgid "Settings"
 msgstr ""
 
-#: app.php:330
+#: app.php:356
 msgid "Users"
 msgstr ""
 
-#: app.php:337
+#: app.php:363
 msgid "Apps"
 msgstr ""
 
-#: app.php:339
+#: app.php:365
 msgid "Admin"
 msgstr ""
 
@@ -83,6 +83,17 @@ msgstr ""
 
 #: search/provider/file.php:29
 msgid "Images"
+msgstr ""
+
+#: setup.php:624
+msgid ""
+"Your web server is not yet properly setup to allow files synchronization "
+"because the WebDAV interface seems to be broken."
+msgstr ""
+
+#: setup.php:625
+#, php-format
+msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
 
 #: template.php:113

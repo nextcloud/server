@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Dimitris M. <monopatis@gmail.com>, 2012.
+# Dimitris M. <monopatis@gmail.com>, 2012-2013.
 # Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012-2013.
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013.
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
-"PO-Revision-Date: 2013-02-08 23:12+0000\n"
+"POT-Creation-Date: 2013-02-10 00:08+0100\n"
+"PO-Revision-Date: 2013-02-09 23:08+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -28,16 +28,16 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Αδυναμία μετακίνησης του %s - υπάρχει ήδη αρχείο με αυτό το όνομα"
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Αδυναμία μετακίνησης του %s"
 
 #: ajax/rename.php:22 ajax/rename.php:25
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Αδυναμία μετονομασίας αρχείου"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -76,7 +76,7 @@ msgstr "Αποτυχία εγγραφής στο δίσκο"
 
 #: ajax/upload.php:52
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Μη επαρκής διαθέσιμος αποθηκευτικός χώρος"
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
@@ -86,53 +86,54 @@ msgstr "Μη έγκυρος φάκελος."
 msgid "Files"
 msgstr "Αρχεία"
 
-#: js/fileactions.js:117 templates/index.php:85 templates/index.php:86
-msgid "Unshare"
-msgstr "Διακοπή κοινής χρήσης"
-
-#: js/fileactions.js:119
+#: js/fileactions.js:116
 msgid "Delete permanently"
-msgstr ""
+msgstr "Μόνιμη διαγραφή"
 
-#: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:118 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: js/fileactions.js:187
+#: js/fileactions.js:184
 msgid "Rename"
 msgstr "Μετονομασία"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:291 js/files.js:407
+#: js/files.js:438
+msgid "Pending"
+msgstr "Εκκρεμεί"
+
+#: js/filelist.js:253 js/filelist.js:255
 msgid "{new_name} already exists"
 msgstr "{new_name} υπάρχει ήδη"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:253 js/filelist.js:255
 msgid "replace"
 msgstr "αντικατέστησε"
 
-#: js/filelist.js:208
+#: js/filelist.js:253
 msgid "suggest name"
 msgstr "συνιστώμενο όνομα"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:253 js/filelist.js:255
 msgid "cancel"
 msgstr "ακύρωση"
 
-#: js/filelist.js:253
+#: js/filelist.js:295
 msgid "replaced {new_name}"
 msgstr "{new_name} αντικαταστάθηκε"
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:295 js/filelist.js:297
 msgid "undo"
 msgstr "αναίρεση"
 
-#: js/filelist.js:255
+#: js/filelist.js:297
 msgid "replaced {new_name} with {old_name}"
 msgstr "αντικαταστάθηκε το {new_name} με {old_name}"
 
-#: js/filelist.js:280
+#: js/filelist.js:322
 msgid "perform delete operation"
-msgstr ""
+msgstr "εκτέλεση διαδικασία διαγραφής"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -170,64 +171,60 @@ msgstr "Αδυναμία στην αποστολή του αρχείου σας 
 msgid "Upload Error"
 msgstr "Σφάλμα Αποστολής"
 
-#: js/files.js:278
+#: js/files.js:272
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: js/files.js:297 js/files.js:413 js/files.js:444
-msgid "Pending"
-msgstr "Εκκρεμεί"
-
-#: js/files.js:317
+#: js/files.js:311
 msgid "1 file uploading"
 msgstr "1 αρχείο ανεβαίνει"
 
-#: js/files.js:320 js/files.js:375 js/files.js:390
+#: js/files.js:314 js/files.js:369 js/files.js:384
 msgid "{count} files uploading"
 msgstr "{count} αρχεία ανεβαίνουν"
 
-#: js/files.js:393 js/files.js:428
+#: js/files.js:387 js/files.js:422
 msgid "Upload cancelled."
 msgstr "Η αποστολή ακυρώθηκε."
 
-#: js/files.js:502
+#: js/files.js:496
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Η αποστολή του αρχείου βρίσκεται σε εξέλιξη. Το κλείσιμο της σελίδας θα ακυρώσει την αποστολή."
 
-#: js/files.js:575
+#: js/files.js:569
 msgid "URL cannot be empty."
 msgstr "Η URL δεν πρέπει να είναι κενή."
 
-#: js/files.js:580
+#: js/files.js:574
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Μη έγκυρο όνομα φακέλου. Η χρήση του 'Κοινόχρηστος' χρησιμοποιείται από ο Owncloud"
 
-#: js/files.js:953 templates/index.php:67
+#: js/files.js:947 templates/index.php:67
 msgid "Name"
 msgstr "Όνομα"
 
-#: js/files.js:954 templates/index.php:78
+#: js/files.js:948 templates/index.php:78
 msgid "Size"
 msgstr "Μέγεθος"
 
-#: js/files.js:955 templates/index.php:80
+#: js/files.js:949 templates/index.php:80
 msgid "Modified"
 msgstr "Τροποποιήθηκε"
 
-#: js/files.js:974
+#: js/files.js:968
 msgid "1 folder"
 msgstr "1 φάκελος"
 
-#: js/files.js:976
+#: js/files.js:970
 msgid "{count} folders"
 msgstr "{count} φάκελοι"
 
-#: js/files.js:984
+#: js/files.js:978
 msgid "1 file"
 msgstr "1 αρχείο"
 
-#: js/files.js:986
+#: js/files.js:980
 msgid "{count} files"
 msgstr "{count} αρχεία"
 
@@ -284,7 +281,7 @@ msgid "From link"
 msgstr "Από σύνδεσμο"
 
 #: templates/index.php:40
-msgid "Trash"
+msgid "Trash bin"
 msgstr ""
 
 #: templates/index.php:46
@@ -298,6 +295,10 @@ msgstr "Δεν υπάρχει τίποτα εδώ. Ανέβασε κάτι!"
 #: templates/index.php:73
 msgid "Download"
 msgstr "Λήψη"
+
+#: templates/index.php:85 templates/index.php:86
+msgid "Unshare"
+msgstr "Διακοπή κοινής χρήσης"
 
 #: templates/index.php:105
 msgid "Upload too large"
@@ -319,4 +320,4 @@ msgstr "Τρέχουσα αναζήτηση "
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "Αναβάθμιση μνήμης cache του συστήματος αρχείων..."

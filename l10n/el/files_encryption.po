@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Dimitris M. <monopatis@gmail.com>, 2013.
 # Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012.
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-06 00:05+0100\n"
-"PO-Revision-Date: 2013-02-05 23:05+0000\n"
+"POT-Creation-Date: 2013-02-10 00:08+0100\n"
+"PO-Revision-Date: 2013-02-09 23:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -19,43 +20,21 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/settings-personal.js:17
-msgid ""
-"Please switch to your ownCloud client and change your encryption password to"
-" complete the conversion."
-msgstr ""
-
-#: js/settings-personal.js:17
-msgid "switched to client side encryption"
-msgstr ""
-
-#: js/settings-personal.js:21
-msgid "Change encryption password to login password"
-msgstr "Αλλαγή συνθηματικού κρυπτογράφησης στο συνθηματικό εισόδου "
-
-#: js/settings-personal.js:25
-msgid "Please check your passwords and try again."
-msgstr "Παρακαλώ ελέγξτε το συνθηματικό σας και προσπαθήστε ξανά."
-
-#: js/settings-personal.js:25
-msgid "Could not change your file encryption password to your login password"
-msgstr "Αδυναμία αλλαγής συνθηματικού κρυπτογράφησης αρχείων στο συνθηματικό εισόδου σας"
-
 #: templates/settings-personal.php:4 templates/settings.php:5
 msgid "Encryption"
 msgstr "Κρυπτογράφηση"
 
 #: templates/settings-personal.php:7
 msgid "File encryption is enabled."
-msgstr ""
+msgstr "Η κρυπτογράφηση αρχείων είναι ενεργή."
 
 #: templates/settings-personal.php:11
 msgid "The following file types will not be encrypted:"
-msgstr ""
+msgstr "Οι παρακάτω τύποι αρχείων δεν θα κρυπτογραφηθούν:"
 
 #: templates/settings.php:7
 msgid "Exclude the following file types from encryption:"
-msgstr ""
+msgstr "Εξαίρεση των παρακάτω τύπων αρχείων από την κρυπτογράφηση:"
 
 #: templates/settings.php:12
 msgid "None"

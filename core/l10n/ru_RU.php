@@ -109,6 +109,8 @@
 "Security Warning" => "Предупреждение системы безопасности",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Нет доступного защищенного генератора случайных чисел, пожалуйста, включите расширение PHP OpenSSL.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Без защищенного генератора случайных чисел злоумышленник может спрогнозировать пароль, сбросить учетные данные и завладеть Вашим аккаунтом.",
+"Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Ваша папка с данными и файлы возможно доступны из интернета потому что файл .htaccess не работает.",
+"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "Для информации как правильно настроить Ваш сервер, пожалйста загляните в <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">документацию</a>.",
 "Create an <strong>admin account</strong>" => "Создать <strong>admin account</strong>",
 "Advanced" => "Расширенный",
 "Data folder" => "Папка данных",
