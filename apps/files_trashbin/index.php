@@ -68,6 +68,7 @@ foreach ($result as $r) {
 
 // Make breadcrumb
 $pathtohere = '';
+$breadcrumb = array();
 foreach (explode('/', $dir) as $i) {
 	if ($i != '') {
 		if ( preg_match('/^(.+)\.d[0-9]+$/', $i, $match) ) {
