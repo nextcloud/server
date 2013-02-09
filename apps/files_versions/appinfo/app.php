@@ -3,6 +3,7 @@
 //require_once 'files_versions/versions.php';
 OC::$CLASSPATH['OCA_Versions\Storage'] = 'apps/files_versions/lib/versions.php';
 OC::$CLASSPATH['OCA_Versions\Hooks'] = 'apps/files_versions/lib/hooks.php';
+OC::$CLASSPATH['OC_Files_Versions_Capabiltiies'] = 'apps/files_versions/lib/capabilities.php';
 
 OCP\App::registerAdmin('files_versions', 'settings');
 OCP\App::registerPersonal('files_versions', 'settings-personal');
