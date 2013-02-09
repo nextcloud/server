@@ -239,12 +239,16 @@ class SFTP extends OC\Files\Storage\Common {
 
 	public function touch($path, $mtime=null) {
 		try {
+			if ($mtime != null) return false;
 			if (!$this->file_exists($path)) {
 				$this->client->put($this->abs_path($path), '');
+			} else {
+				return false;
 			}
 		} catch (Exception $e) {
+			return false;
 		}
-
+		return true;
 	}
 
 	public function getFile($path, $target) {
