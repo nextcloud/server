@@ -10,7 +10,7 @@
  <exclude-pattern>*/files_pdfviewer/js/pdfjs/*</exclude-pattern>
  <exclude-pattern>*/files_odfviewer/src/*</exclude-pattern>
  <exclude-pattern>*/files_svgedit/svg-edit/*</exclude-pattern>
- <exclude-pattern>*jquery-ui-1.8.16.custom.css</exclude-pattern>
+ <exclude-pattern>*jquery-ui-*.css</exclude-pattern>
  <extensions>php</extensions>
 
  <!-- Include the whole PEAR standard -->

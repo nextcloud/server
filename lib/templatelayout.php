@@ -28,11 +28,6 @@ class OC_TemplateLayout extends OC_Template {
 					break;
 				}
 			}
-			$apps_paths = array();
-			foreach(OC_App::getEnabledApps() as $app) {
-				$apps_paths[$app] = OC_App::getAppWebPath($app);
-			}
-			$this->assign( 'apps_paths', str_replace('\\/', '/', json_encode($apps_paths)), false ); // Ugly unescape slashes waiting for better solution
 		} else if ($renderas == 'guest') {
 			parent::__construct('core', 'layout.guest');
 		} else {

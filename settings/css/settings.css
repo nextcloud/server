@@ -22,13 +22,13 @@ form { display:inline; }
 table:not(.nostyle) th { height:2em; color:#999; }
 table:not(.nostyle) th, table:not(.nostyle) td { border-bottom:1px solid #ddd; padding:0 .5em; padding-left:.8em; text-align:left; font-weight:normal; }
 td.name, td.password { padding-left:.8em; }
-td.password>img, td.remove>a, td.quota>img { visibility:hidden; }
-td.password, td.quota { width:12em; cursor:pointer; }
-td.password>span, td.quota>span { margin-right: 1.2em; color: #C7C7C7; }
+td.password>img,td.displayName>img, td.remove>a, td.quota>img { visibility:hidden; }
+td.password, td.quota, td.displayName { width:12em; cursor:pointer; }
+td.password>span, td.quota>span, rd.displayName>span { margin-right: 1.2em; color: #C7C7C7; }
 
 td.remove { width:1em; padding-right:1em; }
-tr:hover>td.password>span { margin:0; cursor:pointer; }
-tr:hover>td.remove>a, tr:hover>td.password>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
+tr:hover>td.password>span, tr:hover>td.displayName>span { margin:0; cursor:pointer; }
+tr:hover>td.remove>a, tr:hover>td.password>img,tr:hover>td.displayName>img, tr:hover>td.quota>img { visibility:visible; cursor:pointer; }
 tr:hover>td.remove>a { float:right; }
 li.selected { background-color:#ddd; }
 #content>table:not(.nostyle) { margin-top:3em; }
@@ -36,7 +36,7 @@ table:not(.nostyle) { width:100%; }
 #rightcontent { padding-left: 1em; }
 div.quota { float:right; display:block; position:absolute; right:25em; top:0; }
 div.quota-select-wrapper { position: relative; }
-select.quota { position:absolute; left:0; top:0; width:10em; }
+select.quota { position:absolute; left:0; top:0.5em; width:10em; }
 select.quota-user { position:relative; left:0; top:0; width:10em; }
 input.quota-other { display:none; position:absolute; left:0.1em; top:0.1em; width:7em; border:none; box-shadow:none; }
 div.quota>span { position:absolute; right:0; white-space:nowrap; top:.7em; color:#888; text-shadow:0 1px 0 #fff; }
@@ -50,10 +50,13 @@ li { color:#888; }
 li.active { color:#000; }
 small.externalapp { color:#FFF; background-color:#BBB; font-weight:bold; font-size: 0.6em; margin: 0; padding: 0.1em 0.2em; border-radius: 4px;}
 small.externalapp.list { float: right; }
+small.recommendedapp { color:#FFF; background-color:#888; font-weight:bold; font-size: 0.6em; margin: 0; padding: 0.1em 0.2em; border-radius: 4px;}
+small.recommendedapp.list { float: right; }
 span.version { margin-left:1em; margin-right:1em; color:#555; }
 
 .app { position: relative; display: inline-block; padding: 0.2em 0 0.2em 0 !important; text-overflow: hidden; overflow: hidden; white-space: nowrap; /*transition: .2s max-width linear; -o-transition: .2s max-width linear; -moz-transition: .2s max-width linear; -webkit-transition: .2s max-width linear; -ms-transition: .2s max-width linear;*/ }
-.app.externalapp { max-width: 12.5em; z-index: 100; }
+.app.externalapp { max-width: 12.5em; }
+.app.recommendedapp { max-width: 12.5em; }
 /* Transition to complete width! */
 .app:hover, .app:active { max-width: inherit; }
 

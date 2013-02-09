@@ -609,42 +609,42 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 // 		$decrypted=OC_Encryption\Crypt::decrypt($encrypted,$key);
 // 		$decrypted=rtrim($decrypted, "\0");
 // 		$this->assertNotEquals($encrypted,$source);
-// 		$this->assertEqual($decrypted,$source);
+// 		$this->assertEquals($decrypted,$source);
 // 
 // 		$chunk=substr($source,0,8192);
 // 		$encrypted=OC_Encryption\Crypt::encrypt($chunk,$key);
-// 		$this->assertEqual(strlen($chunk),strlen($encrypted));
+// 		$this->assertEquals(strlen($chunk),strlen($encrypted));
 // 		$decrypted=OC_Encryption\Crypt::decrypt($encrypted,$key);
 // 		$decrypted=rtrim($decrypted, "\0");
-// 		$this->assertEqual($decrypted,$chunk);
+// 		$this->assertEquals($decrypted,$chunk);
 // 		
 // 		$encrypted=OC_Encryption\Crypt::blockEncrypt($source,$key);
 // 		$decrypted=OC_Encryption\Crypt::blockDecrypt($encrypted,$key);
 // 		$this->assertNotEquals($encrypted,$source);
-// 		$this->assertEqual($decrypted,$source);
+// 		$this->assertEquals($decrypted,$source);
 // 
 // 		$tmpFileEncrypted=OCP\Files::tmpFile();
 // 		OC_Encryption\Crypt::encryptfile($file,$tmpFileEncrypted,$key);
 // 		$encrypted=file_get_contents($tmpFileEncrypted);
 // 		$decrypted=OC_Encryption\Crypt::blockDecrypt($encrypted,$key);
 // 		$this->assertNotEquals($encrypted,$source);
-// 		$this->assertEqual($decrypted,$source);
+// 		$this->assertEquals($decrypted,$source);
 // 
 // 		$tmpFileDecrypted=OCP\Files::tmpFile();
 // 		OC_Encryption\Crypt::decryptfile($tmpFileEncrypted,$tmpFileDecrypted,$key);
 // 		$decrypted=file_get_contents($tmpFileDecrypted);
-// 		$this->assertEqual($decrypted,$source);
+// 		$this->assertEquals($decrypted,$source);
 // 
 // 		$file=OC::$SERVERROOT.'/core/img/weather-clear.png';
 // 		$source=file_get_contents($file); //binary file
 // 		$encrypted=OC_Encryption\Crypt::encrypt($source,$key);
 // 		$decrypted=OC_Encryption\Crypt::decrypt($encrypted,$key);
 // 		$decrypted=rtrim($decrypted, "\0");
-// 		$this->assertEqual($decrypted,$source);
+// 		$this->assertEquals($decrypted,$source);
 // 
 // 		$encrypted=OC_Encryption\Crypt::blockEncrypt($source,$key);
 // 		$decrypted=OC_Encryption\Crypt::blockDecrypt($encrypted,$key);
-// 		$this->assertEqual($decrypted,$source);
+// 		$this->assertEquals($decrypted,$source);
 // 
 // 	}
 // 
@@ -657,11 +657,11 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 // 		$decrypted=OC_Encryption\Crypt::decrypt($encrypted,$key);
 // 
 // 		$decrypted=rtrim($decrypted, "\0");
-// 		$this->assertEqual($decrypted,$source);
+// 		$this->assertEquals($decrypted,$source);
 // 
 // 		$encrypted=OC_Encryption\Crypt::blockEncrypt($source,$key);
 // 		$decrypted=OC_Encryption\Crypt::blockDecrypt($encrypted,$key,strlen($source));
-// 		$this->assertEqual($decrypted,$source);
+// 		$this->assertEquals($decrypted,$source);
 // 	}
 	
 }

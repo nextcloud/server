@@ -117,7 +117,7 @@
 // // 
 // // 		fclose( $stream );
 // // 
-// // 		$this->assertEqual( 'foobar', $data );
+// // 		$this->assertEquals( 'foobar', $data );
 // // 
 // // 
 // // 		$file = OC::$SERVERROOT.'/3rdparty/MDB2.php';
@@ -139,15 +139,15 @@
 // // 
 // // 		$original = file_get_contents( $file );
 // // 
-// // 		$this->assertEqual( strlen( $original ), strlen( $data ) );
+// // 		$this->assertEquals( strlen( $original ), strlen( $data ) );
 // // 
-// // 		$this->assertEqual( $original, $data );
+// // 		$this->assertEquals( $original, $data );
 // // 
 // // 	}
 // 
 // }
 // 
-// // class Test_CryptStream extends UnitTestCase {
+// // class Test_CryptStream extends PHPUnit_Framework_TestCase {
 // // 	private $tmpFiles=array();
 // // 	
 // // 	function testStream(){
@@ -158,7 +158,7 @@
 // // 		$stream=$this->getStream('test1','r',strlen('foobar'));
 // // 		$data=fread($stream,6);
 // // 		fclose($stream);
-// // 		$this->assertEqual('foobar',$data);
+// // 		$this->assertEquals('foobar',$data);
 // // 
 // // 		$file=OC::$SERVERROOT.'/3rdparty/MDB2.php';
 // // 		$source=fopen($file,'r');
@@ -170,8 +170,8 @@
 // // 		$stream=$this->getStream('test2','r',filesize($file));
 // // 		$data=stream_get_contents($stream);
 // // 		$original=file_get_contents($file);
-// // 		$this->assertEqual(strlen($original),strlen($data));
-// // 		$this->assertEqual($original,$data);
+// // 		$this->assertEquals(strlen($original),strlen($data));
+// // 		$this->assertEquals($original,$data);
 // // 	}
 // // 
 // // 	/**
@@ -207,8 +207,8 @@
 // // 		$stream=$this->getStream('test','r',strlen($source));
 // // 		$data=stream_get_contents($stream);
 // // 		fclose($stream);
-// // 		$this->assertEqual(strlen($data),strlen($source));
-// // 		$this->assertEqual($source,$data);
+// // 		$this->assertEquals(strlen($data),strlen($source));
+// // 		$this->assertEquals($source,$data);
 // // 
 // // 		$file=__DIR__.'/zeros';
 // // 		$source=file_get_contents($file);
@@ -220,7 +220,7 @@
 // // 		$stream=$this->getStream('test2','r',strlen($source));
 // // 		$data=stream_get_contents($stream);
 // // 		fclose($stream);
-// // 		$this->assertEqual(strlen($data),strlen($source));
-// // 		$this->assertEqual($source,$data);
+// // 		$this->assertEquals(strlen($data),strlen($source));
+// // 		$this->assertEquals($source,$data);
 // // 	}
 // // }

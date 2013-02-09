@@ -9,6 +9,7 @@
 "Files need to be downloaded one by one." => "Pliki muszą zostać pobrane pojedynczo.",
 "Back to Files" => "Wróć do plików",
 "Selected files too large to generate zip file." => "Wybrane pliki są zbyt duże, aby wygenerować plik zip.",
+"couldn't be determined" => "nie może zostać znaleziony",
 "Application is not enabled" => "Aplikacja nie jest włączona",
 "Authentication error" => "Błąd uwierzytelniania",
 "Token expired. Please reload page." => "Token wygasł. Proszę ponownie załadować stronę.",

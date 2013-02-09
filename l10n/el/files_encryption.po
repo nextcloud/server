@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-24 00:06+0100\n"
-"PO-Revision-Date: 2013-01-22 23:23+0000\n"
+"POT-Creation-Date: 2013-01-25 00:05+0100\n"
+"PO-Revision-Date: 2013-01-24 08:32+0000\n"
 "Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr ""
 
 #: js/settings-personal.js:21
 msgid "Change encryption password to login password"
-msgstr ""
+msgstr "Αλλαγή συνθηματικού κρυπτογράφησης στο συνθηματικό εισόδου "
 
 #: js/settings-personal.js:25
 msgid "Please check your passwords and try again."
@@ -39,7 +39,7 @@ msgstr "Παρακαλώ ελέγξτε το συνθηματικό σας κα�
 
 #: js/settings-personal.js:25
 msgid "Could not change your file encryption password to your login password"
-msgstr ""
+msgstr "Αδυναμία αλλαγής συνθηματικού κρυπτογράφησης αρχείων στο συνθηματικό εισόδου σας"
 
 #: templates/settings-personal.php:3 templates/settings.php:5
 msgid "Choose encryption mode:"

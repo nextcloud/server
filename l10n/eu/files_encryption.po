@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#  <asieriko@gmail.com>, 2013.
 #   <asieriko@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-23 00:05+0100\n"
-"PO-Revision-Date: 2013-01-22 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-01-30 00:23+0100\n"
+"PO-Revision-Date: 2013-01-29 18:40+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -34,7 +35,7 @@ msgstr ""
 
 #: js/settings-personal.js:25
 msgid "Please check your passwords and try again."
-msgstr ""
+msgstr "Mesedez egiaztatu zure pasahitza eta saia zaitez berriro:"
 
 #: js/settings-personal.js:25
 msgid "Could not change your file encryption password to your login password"
@@ -42,7 +43,7 @@ msgstr ""
 
 #: templates/settings-personal.php:3 templates/settings.php:5
 msgid "Choose encryption mode:"
-msgstr ""
+msgstr "Hautatu enkriptazio modua:"
 
 #: templates/settings-personal.php:20 templates/settings.php:24
 msgid ""
@@ -58,7 +59,7 @@ msgstr ""
 
 #: templates/settings-personal.php:41 templates/settings.php:60
 msgid "None (no encryption at all)"
-msgstr ""
+msgstr "Bat ere ez (enkriptaziorik gabe)"
 
 #: templates/settings.php:10
 msgid ""
@@ -68,7 +69,7 @@ msgstr ""
 
 #: templates/settings.php:48
 msgid "User specific (let the user decide)"
-msgstr ""
+msgstr "Erabiltzaileak zehaztuta (utzi erabiltzaileari hautatzen)"
 
 #: templates/settings.php:65
 msgid "Encryption"

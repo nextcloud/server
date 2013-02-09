@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-24 00:06+0100\n"
-"PO-Revision-Date: 2013-01-23 14:21+0000\n"
+"POT-Creation-Date: 2013-01-28 00:04+0100\n"
+"PO-Revision-Date: 2013-01-27 19:44+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +30,7 @@ msgstr "passato alla cifratura lato client"
 
 #: js/settings-personal.js:21
 msgid "Change encryption password to login password"
-msgstr ""
+msgstr "Converti la password di cifratura nella password di accesso"
 
 #: js/settings-personal.js:25
 msgid "Please check your passwords and try again."
@@ -38,7 +38,7 @@ msgstr "Controlla la password e prova ancora."
 
 #: js/settings-personal.js:25
 msgid "Could not change your file encryption password to your login password"
-msgstr ""
+msgstr "Impossibile convertire la password di cifratura nella password di accesso"
 
 #: templates/settings-personal.php:3 templates/settings.php:5
 msgid "Choose encryption mode:"

@@ -109,7 +109,7 @@
 // 
 // }
 
-// class Test_CryptProxy extends UnitTestCase {
+// class Test_CryptProxy extends PHPUnit_Framework_TestCase {
 // 	private $oldConfig;
 // 	private $oldKey;
 // 	
@@ -161,9 +161,9 @@
 // 		OC_FileProxy::$enabled=true;
 // 		
 // 		$fromFile=OC_Filesystem::file_get_contents('/file');
-// 		$this->assertNotEqual($original,$stored);
-// 		$this->assertEqual(strlen($original),strlen($fromFile));
-// 		$this->assertEqual($original,$fromFile);
+// 		$this->assertNotEquals($original,$stored);
+// 		$this->assertEquals(strlen($original),strlen($fromFile));
+// 		$this->assertEquals($original,$fromFile);
 // 
 // 	}
 // 
@@ -181,12 +181,12 @@
 // 		$stored=$rootView->file_get_contents($userDir.'/file');
 // 		OC_FileProxy::$enabled=true;
 // 
-// 		$this->assertNotEqual($original,$stored);
+// 		$this->assertNotEquals($original,$stored);
 // 		$fromFile=$rootView->file_get_contents($userDir.'/file');
-// 		$this->assertEqual($original,$fromFile);
+// 		$this->assertEquals($original,$fromFile);
 // 
 // 		$fromFile=$view->file_get_contents('files/file');
-// 		$this->assertEqual($original,$fromFile);
+// 		$this->assertEquals($original,$fromFile);
 // 	}
 // 
 // 	public function testBinary(){
@@ -200,9 +200,9 @@
 // 		OC_FileProxy::$enabled=true;
 // 
 // 		$fromFile=OC_Filesystem::file_get_contents('/file');
-// 		$this->assertNotEqual($original,$stored);
-// 		$this->assertEqual(strlen($original),strlen($fromFile));
-// 		$this->assertEqual($original,$fromFile);
+// 		$this->assertNotEquals($original,$stored);
+// 		$this->assertEquals(strlen($original),strlen($fromFile));
+// 		$this->assertEquals($original,$fromFile);
 // 
 // 		$file=__DIR__.'/zeros';
 // 		$original=file_get_contents($file);
@@ -214,7 +214,7 @@
 // 		OC_FileProxy::$enabled=true;
 // 
 // 		$fromFile=OC_Filesystem::file_get_contents('/file');
-// 		$this->assertNotEqual($original,$stored);
-// 		$this->assertEqual(strlen($original),strlen($fromFile));
+// 		$this->assertNotEquals($original,$stored);
+// 		$this->assertEquals(strlen($original),strlen($fromFile));
 // 	}
 // }

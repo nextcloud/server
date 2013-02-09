@@ -37,14 +37,14 @@ function t(app,text, vars){
 			t.cache[app] = [];
 		}
 	}
-	var _build = function(text, vars) {
-		return text.replace(/{([^{}]*)}/g,
-			function (a, b) {
-				var r = vars[b];
-				return typeof r === 'string' || typeof r === 'number' ? r : a;
-			}
-		);
-	}
+	var _build = function (text, vars) {
+        return text.replace(/{([^{}]*)}/g,
+            function (a, b) {
+                var r = vars[b];
+                return typeof r === 'string' || typeof r === 'number' ? r : a;
+            }
+        );
+    };
 	if( typeof( t.cache[app][text] ) !== 'undefined' ){
 		if(typeof vars === 'object') {
 			return _build(t.cache[app][text], vars);
@@ -99,6 +99,27 @@ var OC={
 	 */
 	linkTo:function(app,file){
 		return OC.filePath(app,'',file);
+	},
+	/**
+	 * Creates an url for remote use
+	 * @param string $service id
+	 * @return string the url
+	 *
+	 * Returns a url to the given service.
+	 */
+	linkToRemoteBase:function(service) {
+		return OC.webroot + '/remote.php/' + service;
+	},
+	/**
+	 * @brief Creates an absolute url for remote use
+	 * @param string $service id
+	 * @param bool $add_slash
+	 * @return string the url
+	 *
+	 * Returns a absolute url to the given service.
+	 */
+	linkToRemote:function(service) {
+		return window.location.protocol + '//' + window.location.host + OC.linkToRemoteBase(service);
 	},
 	/**
 	 * get the absolute url for a file in an app
@@ -247,7 +268,7 @@ var OC={
 		var popup = $('#appsettings_popup');
 		if(popup.length == 0) {
 			$('body').prepend('<div class="popup hidden" id="appsettings_popup"></div>');
-			popup = $('#appsettings_popup');
+            popup = $('#appsettings_popup');
 			popup.addClass(settings.hasClass('topright') ? 'topright' : 'bottomleft');
 		}
 		if(popup.is(':visible')) {
@@ -289,6 +310,41 @@ OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
+OC.Notification={
+    getDefaultNotificationFunction: null,
+    setDefault: function(callback) {
+        OC.Notification.getDefaultNotificationFunction = callback;
+    },
+    hide: function(callback) {
+        $("#notification").text('');
+        $('#notification').fadeOut('400', function(){
+            if (OC.Notification.isHidden()) {
+                if (OC.Notification.getDefaultNotificationFunction) {
+                    OC.Notification.getDefaultNotificationFunction.call();
+                }
+            }
+            if (callback) {
+                callback.call();
+            }
+        });
+    },
+    showHtml: function(html) {
+        var notification = $('#notification');
+        notification.hide();
+        notification.html(html);
+        notification.fadeIn().css("display","inline");
+    },
+    show: function(text) {
+        var notification = $('#notification');
+        notification.hide();
+        notification.text(text);
+        notification.fadeIn().css("display","inline");
+    },
+	isHidden: function() {
+		return ($("#notification").text() === '');
+	}
+};
+
 OC.Breadcrumb={
 	container:null,
 	crumbs:[],
@@ -298,7 +354,6 @@ OC.Breadcrumb={
 		}
 		var crumb=$('<div/>');
 		crumb.addClass('crumb').addClass('last');
-		crumb.attr('style','background-image:url("'+OC.imagePath('core','breadcrumb')+'")');
 
 		var crumbLink=$('<a/>');
 		crumbLink.attr('href',link);
@@ -491,7 +546,6 @@ function object(o) {
 	return new F();
 }
 
-
 /**
  * Fills height of window. (more precise than height: 100%;)
  */
@@ -568,6 +622,7 @@ $(document).ready(function(){
 	});
 
 	// 'show password' checkbox
+	$('#password').showPassword();	
 	$('#pass2').showPassword();
 
 	//use infield labels
@@ -608,14 +663,13 @@ $(document).ready(function(){
 		event.stopPropagation();
 	});
 	$(window).click(function(){//hide the settings menu when clicking outside it
-		if($('body').attr("id")==="body-user"){
-			$('#settings #expanddiv').slideUp();
-		}
+		$('#settings #expanddiv').slideUp();
 	});
 
 	// all the tipsy stuff needs to be here (in reverse order) to work
 	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
 	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
+	$('.displayName .action').tipsy({gravity:'se', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
 	$('#upload').tipsy({gravity:'w', fade:true});
 	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});

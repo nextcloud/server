@@ -52,11 +52,12 @@ $(document).ready(function() {
 		// Save form parameters
 		var post = $(this).serializeArray();
 
+		// FIXME: This lines are breaking the installation
 		// Disable inputs
-		$(':submit', this).attr('disabled','disabled').val('Finishing …');
-		$('input', this).addClass('ui-state-disabled').attr('disabled','disabled');
-		$('#selectDbType').button('disable');
-		$('label.ui-button', this).addClass('ui-state-disabled').attr('aria-disabled', 'true').button('disable');
+		// $(':submit', this).attr('disabled','disabled').val('Finishing …');
+		// $('input', this).addClass('ui-state-disabled').attr('disabled','disabled');
+		// $('#selectDbType').button('disable');
+		// $('label.ui-button', this).addClass('ui-state-disabled').attr('aria-disabled', 'true').button('disable');
 
 		// Create the form
 		var form = $('<form>');

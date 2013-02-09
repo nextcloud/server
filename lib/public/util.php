@@ -219,6 +219,28 @@ class Util {
 	}
 
 	/**
+	 * @brief Returns the request uri
+	 * @returns the request uri
+	 *
+	 * Returns the request uri, even if the website uses one or more
+	 * reverse proxies
+	 */
+	public static function getRequestUri() {
+		return(\OC_Request::requestUri());
+	}
+
+	/**
+	 * @brief Returns the script name
+	 * @returns the script name
+	 *
+	 * Returns the script name, even if the website uses one or more
+	 * reverse proxies
+	 */
+	public static function getScriptName() {
+		return(\OC_Request::scriptName());
+	}
+
+	/**
 	 * @brief Creates path to an image
 	 * @param string $app app
 	 * @param string $image image name

@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Incargar",
 "The uploaded file was only partially uploaded" => "Le file incargate solmente esseva incargate partialmente",
 "No file was uploaded" => "Nulle file esseva incargate",
 "Missing a temporary folder" => "Manca un dossier temporari",
@@ -9,6 +8,7 @@
 "Name" => "Nomine",
 "Size" => "Dimension",
 "Modified" => "Modificate",
+"Upload" => "Incargar",
 "Maximum upload size" => "Dimension maxime de incargamento",
 "Save" => "Salveguardar",
 "New" => "Nove",

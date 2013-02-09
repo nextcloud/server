@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Unggah",
 "There is no error, the file uploaded with success" => "Tidak ada galat, berkas sukses diunggah",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "File yang diunggah melampaui directive MAX_FILE_SIZE yang disebutan dalam form HTML.",
 "The uploaded file was only partially uploaded" => "Berkas hanya diunggah sebagian",
@@ -21,6 +20,7 @@
 "Name" => "Nama",
 "Size" => "Ukuran",
 "Modified" => "Dimodifikasi",
+"Upload" => "Unggah",
 "File handling" => "Penanganan berkas",
 "Maximum upload size" => "Ukuran unggah maksimum",
 "max. possible: " => "Kemungkinan maks:",

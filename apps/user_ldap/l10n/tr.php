@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "Silme başarısız oldu",
 "Host" => "Konak",
 "Base DN" => "Base DN",
 "User DN" => "User DN",
@@ -10,15 +11,15 @@
 "without any placeholder, e.g. \"objectClass=person\"." => "bir yer tutucusu olmadan, örneğin \"objectClass=person\"",
 "Group Filter" => "Grup Süzgeci",
 "Port" => "Port",
-"Base User Tree" => "Temel Kullanıcı Ağacı",
-"Base Group Tree" => "Temel Grup Ağacı",
-"Group-Member association" => "Grup-Üye işbirliği",
 "Use TLS" => "TLS kullan",
 "Do not use it for SSL connections, it will fail." => "SSL bağlantıları ile kullanmayın, başarısız olacaktır.",
 "Turn off SSL certificate validation." => "SSL sertifika doğrulamasını kapat.",
 "Not recommended, use for testing only." => "Önerilmez, sadece test için kullanın.",
-"in bytes" => "byte cinsinden",
 "in seconds. A change empties the cache." => "saniye cinsinden. Bir değişiklik önbelleği temizleyecektir.",
+"Base User Tree" => "Temel Kullanıcı Ağacı",
+"Base Group Tree" => "Temel Grup Ağacı",
+"Group-Member association" => "Grup-Üye işbirliği",
+"in bytes" => "byte cinsinden",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Kullanıcı adı bölümünü boş bırakın (varsayılan). ",
 "Help" => "Yardım"
 );

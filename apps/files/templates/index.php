@@ -35,6 +35,11 @@
 					<a href="#" class="svg" onclick="return false;"></a>
 				</form>
 			</div>
+			<?php if ($_['trash'] ): ?>
+			<div id="trash" class="button">
+				<a><?php echo $l->t('Trash');?></a>
+			</div>
+			<?php endif; ?>
 			<div id="uploadprogresswrapper">
 				<div id="uploadprogressbar"></div>
 				<input type="button" class="stop" style="display:none"
@@ -42,7 +47,6 @@
 					onclick="javascript:Files.cancelUploads();"
 				/>
 			</div>
-
 		</div>
 		<div id="file_action_panel"></div>
 	<?php else:?>
@@ -50,7 +54,6 @@
 	<?php endif;?>
 	<input type="hidden" name="permissions" value="<?php echo $_['permissions']; ?>" id="permissions">
 </div>
-<div id='notification'></div>
 
 <?php if (isset($_['files']) and $_['isCreatable'] and count($_['files'])==0):?>
 	<div id="emptyfolder"><?php echo $l->t('Nothing in here. Upload something!')?></div>
@@ -115,3 +118,4 @@
 
 <!-- config hints for javascript -->
 <input type="hidden" name="allowZipDownload" id="allowZipDownload" value="<?php echo $_['allowZipDownload']; ?>" />
+<input type="hidden" name="usedSpacePercent" id="usedSpacePercent" value="<?php echo $_['usedSpacePercent']; ?>" />

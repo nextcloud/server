@@ -43,7 +43,7 @@ if ($type != 'oc_chunked') {
 	die;
 }
 
-if (!OC_Filesystem::is_file($file)) {
+if (!\OC\Files\Filesystem::is_file($file)) {
 	OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
 	die;
 }
@@ -51,7 +51,7 @@ if (!OC_Filesystem::is_file($file)) {
 switch($_SERVER['REQUEST_METHOD']) {
 	case 'PUT':
 		$input = fopen("php://input", "r");
-		$org_file = OC_Filesystem::fopen($file, 'rb');
+		$org_file = \OC\Files\Filesystem::fopen($file, 'rb');
 		$info = array(
 			'name' => basename($file),
 		);
