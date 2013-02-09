@@ -1,7 +1,7 @@
 <?php if(count($_["breadcrumb"])):?>
 	<div class="crumb">
 		<a href="<?php echo $_['baseURL']; ?>">
-			<img src="<?php echo OCP\image_path('core','places/home.svg');?>" class="svg" />
+			<img src="<?php echo OCP\image_path('core', 'places/home.svg');?>" class="svg" />
 		</a>
 	</div>
 <?php endif;?>

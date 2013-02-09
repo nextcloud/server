@@ -80,7 +80,7 @@ class Trashbin {
 				}
 			}
 		} else {
-			\OC_Log::write('files_trashbin', 'Couldn\'t move '.$file_path.' to the trash bin' , \OC_log::ERROR);
+			\OC_Log::write('files_trashbin', 'Couldn\'t move '.$file_path.' to the trash bin', \OC_log::ERROR);
 		}
 		
 		// get available disk space for user
@@ -188,7 +188,7 @@ class Trashbin {
 			\OCP\Config::setAppValue('files_trashbin', 'size', $trashbinSize);
 			return true;
 		} else {
-			\OC_Log::write('files_trashbin', 'Couldn\'t restore file from trash bin, '.$filename , \OC_log::ERROR);
+			\OC_Log::write('files_trashbin', 'Couldn\'t restore file from trash bin, '.$filename, \OC_log::ERROR);
 		}
 
 		return false;

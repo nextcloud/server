@@ -235,7 +235,7 @@ class Connection {
 			$this->config['turnOffCertCheck']
 				= $this->$v('ldap_turn_off_cert_check');
 			$this->config['ldapUserDisplayName']
-				= mb_strtolower($this->$v('ldap_display_name'),'UTF-8');
+				= mb_strtolower($this->$v('ldap_display_name'), 'UTF-8');
 			$this->config['ldapUserFilter']
 				= $this->$v('ldap_userlist_filter');
 			$this->config['ldapGroupFilter'] = $this->$v('ldap_group_filter');

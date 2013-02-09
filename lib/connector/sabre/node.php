@@ -84,12 +84,12 @@ abstract class OC_Connector_Sabre_Node implements Sabre_DAV_INode, Sabre_DAV_IPr
 		$newPath = $parentPath . '/' . $newName;
 		$oldPath = $this->path;
 
-		\OC\Files\Filesystem::rename($this->path,$newPath);
+		\OC\Files\Filesystem::rename($this->path, $newPath);
 
 		$this->path = $newPath;
 
 		$query = OC_DB::prepare( 'UPDATE `*PREFIX*properties` SET `propertypath` = ? WHERE `userid` = ? AND `propertypath` = ?' );
-		$query->execute( array( $newPath,OC_User::getUser(), $oldPath ));
+		$query->execute( array( $newPath, OC_User::getUser(), $oldPath ));
 
 	}
 

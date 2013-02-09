@@ -84,7 +84,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function get() {
 
-		return \OC\Files\Filesystem::fopen($this->path,'rb');
+		return \OC\Files\Filesystem::fopen($this->path, 'rb');
 
 	}
 

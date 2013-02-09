@@ -89,7 +89,7 @@ class OC_OCS {
 		$format = self::readData($method, 'format', 'text', '');
 		$txt='Invalid query, please check the syntax. API specifications are here: http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
 		$txt.=OC_OCS::getDebugOutput();
-		echo(OC_OCS::generateXml($format,'failed',999,$txt));
+		echo(OC_OCS::generateXml($format, 'failed', 999, $txt));
 
 	}
 

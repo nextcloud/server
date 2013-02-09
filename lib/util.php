@@ -691,10 +691,10 @@ class OC_Util {
 			curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
 
 			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
-			if(OC_Config::getValue('proxy','')<>'') {
+			if(OC_Config::getValue('proxy', '')<>'') {
 				curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));
 			}
-			if(OC_Config::getValue('proxyuserpwd','')<>'') {
+			if(OC_Config::getValue('proxyuserpwd', '')<>'') {
 				curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('proxyuserpwd'));
 			}
 			$data = curl_exec($curl);
@@ -703,7 +703,7 @@ class OC_Util {
 		} else {
 			$contextArray = null;
 
-			if(OC_Config::getValue('proxy','')<>'') {
+			if(OC_Config::getValue('proxy', '')<>'') {
 				$contextArray = array(
 					'http' => array(
 						'timeout' => 10,
