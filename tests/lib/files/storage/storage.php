@@ -146,10 +146,19 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$localFolder = $this->instance->getLocalFolder('/folder');
 
 		$this->assertTrue(is_dir($localFolder));
-		$this->assertTrue(file_exists($localFolder . '/lorem.txt'));
-		$this->assertEquals(file_get_contents($localFolder . '/lorem.txt'), file_get_contents($textFile));
-		$this->assertEquals(file_get_contents($localFolder . '/bar.txt'), 'asd');
-		$this->assertEquals(file_get_contents($localFolder . '/recursive/file.txt'), 'foo');
+
+		// test below require to use instance->getLocalFile because the physical storage might be different
+		$localFile = $this->instance->getLocalFile('/folder/lorem.txt');
+		$this->assertTrue(file_exists($localFile));
+		$this->assertEquals(file_get_contents($localFile), file_get_contents($textFile));
+
+		$localFile = $this->instance->getLocalFile('/folder/bar.txt');
+		$this->assertTrue(file_exists($localFile));
+		$this->assertEquals(file_get_contents($localFile), 'asd');
+
+		$localFile = $this->instance->getLocalFile('/folder/recursive/file.txt');
+		$this->assertTrue(file_exists($localFile));
+		$this->assertEquals(file_get_contents($localFile), 'foo');
 	}
 
 	public function testStat() {
