@@ -7,7 +7,6 @@
 "No file was uploaded" => "هیچ فایلی بارگذاری نشده",
 "Missing a temporary folder" => "یک پوشه موقت گم شده است",
 "Failed to write to disk" => "نوشتن بر روی دیسک سخت ناموفق بود",
-"Not enough space available" => "فضای کافی در دسترس نیست",
 "Invalid directory." => "فهرست راهنما نامعتبر می باشد.",
 "Files" => "فایل ها",
 "Unshare" => "لغو اشتراک",

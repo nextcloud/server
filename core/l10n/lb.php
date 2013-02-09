@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "No category to add?" => "Keng Kategorie fir bäizesetzen?",
-"This category already exists: " => "Des Kategorie existéiert schonn:",
 "No categories selected for deletion." => "Keng Kategorien ausgewielt fir ze läschen.",
 "Sunday" => "Sonndes",
 "Monday" => "Méindes",

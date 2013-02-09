@@ -19,6 +19,7 @@ class OC_TemplateLayout extends OC_Template {
 			}
 
 			// Add navigation entry
+			$this->assign( 'application', '', false );
 			$navigation = OC_App::getNavigation();
 			$this->assign( 'navigation', $navigation, false);
 			$this->assign( 'settingsnavigation', OC_App::getSettingsNavigation(), false);
@@ -28,6 +29,8 @@ class OC_TemplateLayout extends OC_Template {
 					break;
 				}
 			}
+			$user_displayname = OC_User::getDisplayName();
+			$this->assign( 'user_displayname', $user_displayname );
 		} else if ($renderas == 'guest') {
 			parent::__construct('core', 'layout.guest');
 		} else {
@@ -36,6 +39,9 @@ class OC_TemplateLayout extends OC_Template {
 		// Add the js files
 		$jsfiles = self::findJavascriptFiles(OC_Util::$scripts);
 		$this->assign('jsfiles', array(), false);
+		if (OC_Config::getValue('installed', false)) {
+			$this->append( 'jsfiles', OC_Helper::linkToRoute('js_config'));
+		}
 		if (!empty(OC_Util::$core_scripts)) {
 			$this->append( 'jsfiles', OC_Helper::linkToRemoteBase('core.js', false));
 		}

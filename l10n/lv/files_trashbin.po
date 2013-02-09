@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-04 00:05+0100\n"
-"PO-Revision-Date: 2013-02-03 21:00+0000\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 12:20+0000\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -18,31 +18,45 @@ msgstr ""
 "Language: lv\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);\n"
 
-#: js/trash.js:7 js/trash.js:69
+#: ajax/delete.php:22
+#, php-format
+msgid "Couldn't delete %s permanently"
+msgstr "Nevarēja pilnībā izdzēst %s"
+
+#: ajax/undelete.php:41
+#, php-format
+msgid "Couldn't restore %s"
+msgstr "Nevarēja atjaunot %s"
+
+#: js/trash.js:7 js/trash.js:94
 msgid "perform restore operation"
 msgstr "veikt atjaunošanu"
 
-#: js/trash.js:100 templates/index.php:17
+#: js/trash.js:33
+msgid "delete file permanently"
+msgstr "dzēst datni pavisam"
+
+#: js/trash.js:125 templates/index.php:17
 msgid "Name"
 msgstr "Nosaukums"
 
-#: js/trash.js:101 templates/index.php:27
+#: js/trash.js:126 templates/index.php:27
 msgid "Deleted"
 msgstr "Dzēsts"
 
-#: js/trash.js:110
+#: js/trash.js:135
 msgid "1 folder"
 msgstr "1 mape"
 
-#: js/trash.js:112
+#: js/trash.js:137
 msgid "{count} folders"
 msgstr "{count} mapes"
 
-#: js/trash.js:120
+#: js/trash.js:145
 msgid "1 file"
 msgstr "1 datne"
 
-#: js/trash.js:122
+#: js/trash.js:147
 msgid "{count} files"
 msgstr "{count} datnes"
 

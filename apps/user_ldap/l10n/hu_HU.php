@@ -22,7 +22,6 @@
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "itt ne használjunk változót, pl. \"objectClass=posixGroup\".",
 "Port" => "Port",
 "Use TLS" => "Használjunk TLS-t",
-"Do not use it for SSL connections, it will fail." => "Ne használjuk SSL-kapcsolat esetén, mert nem fog működni!",
 "Case insensitve LDAP server (Windows)" => "Az LDAP-kiszolgáló nem tesz különbséget a kis- és nagybetűk között (Windows)",
 "Turn off SSL certificate validation." => "Ne ellenőrizzük az SSL-tanúsítvány érvényességét",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Ha a kapcsolat csak ezzel a beállítással működik, akkor importálja az LDAP-kiszolgáló SSL tanúsítványát az ownCloud kiszolgálóra!",

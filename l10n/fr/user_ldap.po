@@ -7,15 +7,16 @@
 #   <mathieu.payrol@gmail.com>, 2012.
 #   <mishka.lazzlo@gmail.com>, 2012.
 # Romain DEP. <rom1dep@gmail.com>, 2012-2013.
+#  <thomash76@gmail.com>, 2013.
 #   <windes@tructor.net>, 2012.
 #   <zrk951@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-03 00:04+0100\n"
-"PO-Revision-Date: 2013-02-02 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 14:02+0000\n"
+"Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -178,7 +179,7 @@ msgstr "sans élément de substitution, par exemple \"objectClass=posixGroup\"."
 
 #: templates/settings.php:31
 msgid "Connection Settings"
-msgstr ""
+msgstr "Paramètres de connexion"
 
 #: templates/settings.php:33
 msgid "Configuration Active"
@@ -219,8 +220,8 @@ msgid "Use TLS"
 msgstr "Utiliser TLS"
 
 #: templates/settings.php:38
-msgid "Do not use it for SSL connections, it will fail."
-msgstr "Ne pas utiliser pour les connexions SSL, car cela échouera."
+msgid "Do not use it additionally for LDAPS connections, it will fail."
+msgstr "À ne pas utiliser pour les connexions LDAPS (cela échouera)."
 
 #: templates/settings.php:39
 msgid "Case insensitve LDAP server (Windows)"
@@ -246,7 +247,7 @@ msgstr "en secondes. Tout changement vide le cache."
 
 #: templates/settings.php:43
 msgid "Directory Settings"
-msgstr ""
+msgstr "Paramètres du répertoire"
 
 #: templates/settings.php:45
 msgid "User Display Name Field"
@@ -298,7 +299,7 @@ msgstr "Association groupe-membre"
 
 #: templates/settings.php:53
 msgid "Special Attributes"
-msgstr ""
+msgstr "Attributs spéciaux"
 
 #: templates/settings.php:56
 msgid "in bytes"

@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Authentication error" => "Ralat pengesahan",
 "Email saved" => "Emel disimpan",
 "Invalid email" => "Emel tidak sah",
-"Authentication error" => "Ralat pengesahan",
 "Language changed" => "Bahasa diubah",
 "Invalid request" => "Permintaan tidak sah",
 "Disable" => "Nyahaktif",

@@ -8,13 +8,14 @@
 #   <driz@i2pmail.org>, 2012.
 # Marc-Andre Husyk <member@wue.de>, 2013.
 # Marcel Kühlhorn <susefan93@gmx.de>, 2013.
+# Susi <>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 00:27+0100\n"
-"PO-Revision-Date: 2013-01-30 12:47+0000\n"
-"Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
+"POT-Creation-Date: 2013-02-08 00:09+0100\n"
+"PO-Revision-Date: 2013-02-07 08:20+0000\n"
+"Last-Translator: Susi <>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,44 +45,22 @@ msgstr "Bitte überprüfen sie Ihr Passwort und versuchen Sie es erneut."
 msgid "Could not change your file encryption password to your login password"
 msgstr "Ihr Verschlüsselungspasswort konnte nicht als Anmeldepasswort gesetzt werden."
 
-#: templates/settings-personal.php:3 templates/settings.php:5
-msgid "Choose encryption mode:"
-msgstr "Wählen Sie die Verschlüsselungsmethode:"
-
-#: templates/settings-personal.php:20 templates/settings.php:24
-msgid ""
-"Client side encryption (most secure but makes it impossible to access your "
-"data from the web interface)"
-msgstr "Clientseitige Verschlüsselung (am sichersten, aber macht es unmöglich auf ihre Daten über das Webinterface zuzugreifen)"
-
-#: templates/settings-personal.php:30 templates/settings.php:36
-msgid ""
-"Server side encryption (allows you to access your files from the web "
-"interface and the desktop client)"
-msgstr "Serverseitige Verschlüsselung (erlaubt es ihnen auf ihre Daten über das Webinterface und den Desktop-Client zuzugreifen)"
-
-#: templates/settings-personal.php:41 templates/settings.php:60
-msgid "None (no encryption at all)"
-msgstr "Keine (ohne Verschlüsselung)"
-
-#: templates/settings.php:10
-msgid ""
-"Important: Once you selected an encryption mode there is no way to change it"
-" back"
-msgstr "Wichtig: Sobald sie eine Verschlüsselungsmethode gewählt haben, können Sie diese nicht ändern!"
-
-#: templates/settings.php:48
-msgid "User specific (let the user decide)"
-msgstr "Benutzerspezifisch (der Benutzer kann entscheiden)"
-
-#: templates/settings.php:65
+#: templates/settings-personal.php:4 templates/settings.php:5
 msgid "Encryption"
 msgstr "Verschlüsselung"
 
-#: templates/settings.php:67
-msgid "Exclude the following file types from encryption"
-msgstr "Die folgenden Dateitypen von der Verschlüsselung ausnehmen"
+#: templates/settings-personal.php:7
+msgid "File encryption is enabled."
+msgstr "Datei-Verschlüsselung ist aktiviert"
 
-#: templates/settings.php:71
+#: templates/settings-personal.php:11
+msgid "The following file types will not be encrypted:"
+msgstr "Die folgenden Datei-Typen werden nicht verschlüsselt:"
+
+#: templates/settings.php:7
+msgid "Exclude the following file types from encryption:"
+msgstr "Die folgenden Datei-Typen von der Verschlüsselung ausnehmen:"
+
+#: templates/settings.php:12
 msgid "None"
 msgstr "Keine"

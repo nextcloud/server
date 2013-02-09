@@ -37,7 +37,7 @@
 			</div>
 			<?php if ($_['trash'] ): ?>
 			<div id="trash" class="button">
-				<a><?php echo $l->t('Trash');?></a>
+				<a><?php echo $l->t('Trash bin');?></a>
 			</div>
 			<?php endif; ?>
 			<div id="uploadprogresswrapper">
@@ -59,7 +59,7 @@
 	<div id="emptyfolder"><?php echo $l->t('Nothing in here. Upload something!')?></div>
 <?php endif; ?>
 
-<table>
+<table class="hascontrols">
 	<thead>
 		<tr>
 			<th id='headerName'>

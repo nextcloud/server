@@ -10,7 +10,7 @@
 	<a class="button" target="_blank" href="http://owncloud.org/dev"><?php echo $l->t('Add your App');?></a>
 	<a class="button" target="_blank" href="http://apps.owncloud.com"><?php echo $l->t('More Apps');?></a>
 </div>
-<ul id="leftcontent" class="applist">
+<ul id="leftcontent" class="applist hascontrols">
 	<?php foreach($_['apps'] as $app):?>
 	<li <?php if($app['active']) echo 'class="active"'?> data-id="<?php echo $app['id'] ?>" <?php if ( isset( $app['ocs_id'] ) ) { echo "data-id-ocs=\"{$app['ocs_id']}\""; } ?>
 		data-type="<?php echo $app['internal'] ? 'internal' : 'external' ?>" data-installed="1">

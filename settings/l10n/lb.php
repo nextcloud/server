@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Konnt Lescht net vum App Store lueden",
+"Authentication error" => "Authentifikatioun's Fehler",
 "Email saved" => "E-mail gespäichert",
 "Invalid email" => "Ongülteg e-mail",
-"Authentication error" => "Authentifikatioun's Fehler",
 "Language changed" => "Sprooch huet geännert",
 "Invalid request" => "Ongülteg Requête",
 "Disable" => "Ofschalten",

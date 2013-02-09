@@ -59,9 +59,9 @@ class Util {
 	 * @param string $fromname
 	 * @param bool $html
 	 */
-	public static function sendMail( $toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html=0, $altbody='', $ccaddress='', $ccname='', $bcc='') {
+	public static function sendMail( $toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html = 0, $altbody = '', $ccaddress = '', $ccname = '', $bcc = '') {
 		// call the internal mail class
-		\OC_MAIL::send($toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html = 0, $altbody = '', $ccaddress = '', $ccname = '', $bcc = '');
+		\OC_MAIL::send($toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html, $altbody, $ccaddress, $ccname, $bcc);
 	}
 
 	/**
@@ -145,6 +145,20 @@ class Util {
 	 */
 	public static function linkToPublic($service) {
 		return \OC_Helper::linkToPublic($service);
+	}
+
+	/**
+	 * @brief Creates an url using a defined route
+	 * @param $route
+	 * @param array $parameters
+	 * @return
+	 * @internal param array $args with param=>value, will be appended to the returned url
+	 * @returns the url
+	 *
+	 * Returns a url to the given app and file.
+	 */
+	public static function linkToRoute( $route, $parameters = array() ) {
+		return \OC_Helper::linkToRoute($route, $parameters);
 	}
 
 	/**

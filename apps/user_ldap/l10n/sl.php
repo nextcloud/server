@@ -20,7 +20,6 @@
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "Brez katerekoli vsebnika, npr. \"objectClass=posixGroup\".",
 "Port" => "Vrata",
 "Use TLS" => "Uporabi TLS",
-"Do not use it for SSL connections, it will fail." => "Uporaba SSL za povezave bo spodletela.",
 "Case insensitve LDAP server (Windows)" => "Strežnik LDAP ne upošteva velikosti črk (Windows)",
 "Turn off SSL certificate validation." => "Onemogoči potrditev veljavnosti potrdila SSL.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "V primeru, da povezava deluje le s to možnostjo, uvozite potrdilo SSL iz strežnika LDAP na vaš strežnik ownCloud.",

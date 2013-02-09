@@ -1,11 +1,11 @@
 <?php $TRANSLATIONS = array(
+"Authentication error" => "සත්‍යාපන දෝෂයක්",
 "Group already exists" => "කණ්ඩායම දැනටමත් තිබේ",
 "Unable to add group" => "කාණඩයක් එක් කළ නොහැකි විය",
 "Could not enable app. " => "යෙදුම සක්‍රීය කළ නොහැකි විය.",
 "Email saved" => "වි-තැපෑල සුරකින ලදී",
 "Invalid email" => "අවලංගු වි-තැපෑල",
 "Unable to delete group" => "කණ්ඩායම මැකීමට නොහැක",
-"Authentication error" => "සත්‍යාපන දෝෂයක්",
 "Unable to delete user" => "පරිශීලකයා මැකීමට නොහැක",
 "Language changed" => "භාෂාව ාවනස් කිරීම",
 "Invalid request" => "අවලංගු අයදුම",

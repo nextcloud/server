@@ -4,13 +4,9 @@
 "Change encryption password to login password" => "Zmeniť šifrovacie heslo na prihlasovacie",
 "Please check your passwords and try again." => "Skontrolujte si heslo a skúste to znovu.",
 "Could not change your file encryption password to your login password" => "Nie je možné zmeniť šifrovacie heslo na prihlasovacie",
-"Choose encryption mode:" => "Vyberte režim šifrovania:",
-"Client side encryption (most secure but makes it impossible to access your data from the web interface)" => "Šifrovanie prostredníctvom klienta (najbezpečnejšia voľba, neumožňuje však prístup k súborom z webového rozhrania)",
-"Server side encryption (allows you to access your files from the web interface and the desktop client)" => "Šifrovanie na serveri (umožňuje pristupovať k súborom z webového rozhrania a desktopového klienta)",
-"None (no encryption at all)" => "Žiadne (žiadne šifrovanie)",
-"Important: Once you selected an encryption mode there is no way to change it back" => "Dôležité: ak si zvolíte režim šifrovania, nie je možné ho znovu zrušiť",
-"User specific (let the user decide)" => "Definovaný používateľom (umožňuje používateľovi vybrať si)",
 "Encryption" => "Šifrovanie",
-"Exclude the following file types from encryption" => "Vynechať nasledujúce súbory pri šifrovaní",
+"File encryption is enabled." => "Kryptovanie súborov nastavené.",
+"The following file types will not be encrypted:" => "Uvedené typy súborov nebudú kryptované:",
+"Exclude the following file types from encryption:" => "Nekryptovať uvedené typy súborov",
 "None" => "Žiadne"
 );

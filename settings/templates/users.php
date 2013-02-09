@@ -73,7 +73,7 @@ $_['subadmingroups'] = array_flip($items);
 	</div>
 </div>
 
-<table data-groups="<?php echo implode(', ', $allGroups);?>">
+<table class="hascontrols" data-groups="<?php echo implode(', ', $allGroups);?>">
 	<thead>
 		<tr>
 			<th id='headerName'><?php echo $l->t('Login Name')?></th>

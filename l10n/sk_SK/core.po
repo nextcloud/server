@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# georg <georg007@gmail.com>, 2013.
 #   <intense.feel@gmail.com>, 2011, 2012.
 # Marián Hvolka <marian.hvolka@stuba.sk>, 2013.
 #   <martin.babik@gmail.com>, 2012.
@@ -13,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-02 00:06+0100\n"
-"PO-Revision-Date: 2013-01-31 23:30+0000\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 23:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -56,8 +57,9 @@ msgid "No category to add?"
 msgstr "Žiadna kategória pre pridanie?"
 
 #: ajax/vcategories/add.php:37
-msgid "This category already exists: "
-msgstr "Táto kategória už existuje:"
+#, php-format
+msgid "This category already exists: %s"
+msgstr "Kategéria: %s už existuje."
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -161,59 +163,59 @@ msgstr "November"
 msgid "December"
 msgstr "December"
 
-#: js/js.js:280
+#: js/js.js:284
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: js/js.js:759
+#: js/js.js:764
 msgid "seconds ago"
 msgstr "pred sekundami"
 
-#: js/js.js:760
+#: js/js.js:765
 msgid "1 minute ago"
 msgstr "pred minútou"
 
-#: js/js.js:761
+#: js/js.js:766
 msgid "{minutes} minutes ago"
 msgstr "pred {minutes} minútami"
 
-#: js/js.js:762
+#: js/js.js:767
 msgid "1 hour ago"
 msgstr "Pred 1 hodinou."
 
-#: js/js.js:763
+#: js/js.js:768
 msgid "{hours} hours ago"
 msgstr "Pred {hours} hodinami."
 
-#: js/js.js:764
+#: js/js.js:769
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:765
+#: js/js.js:770
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:766
+#: js/js.js:771
 msgid "{days} days ago"
 msgstr "pred {days} dňami"
 
-#: js/js.js:767
+#: js/js.js:772
 msgid "last month"
 msgstr "minulý mesiac"
 
-#: js/js.js:768
+#: js/js.js:773
 msgid "{months} months ago"
 msgstr "Pred {months} mesiacmi."
 
-#: js/js.js:769
+#: js/js.js:774
 msgid "months ago"
 msgstr "pred mesiacmi"
 
-#: js/js.js:770
+#: js/js.js:775
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:771
+#: js/js.js:776
 msgid "years ago"
 msgstr "pred rokmi"
 
@@ -472,7 +474,7 @@ msgstr "Úprava kategórií"
 msgid "Add"
 msgstr "Pridať"
 
-#: templates/installation.php:23 templates/installation.php:31
+#: templates/installation.php:23 templates/installation.php:30
 msgid "Security Warning"
 msgstr "Bezpečnostné varovanie"
 
@@ -482,71 +484,75 @@ msgid ""
 "OpenSSL extension."
 msgstr "Nie je dostupný žiadny bezpečný generátor náhodných čísel, prosím, povoľte rozšírenie OpenSSL v PHP."
 
-#: templates/installation.php:26
+#: templates/installation.php:25
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Bez bezpečného generátora náhodných čísel môže útočník predpovedať token pre obnovu hesla a prevziať kontrolu nad vaším kontom."
 
+#: templates/installation.php:31
+msgid ""
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
+msgstr ""
+
 #: templates/installation.php:32
 msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "Váš priečinok s dátami a Vaše súbory sú pravdepodobne dostupné z internetu. .htaccess súbor dodávaný s inštaláciou ownCloud nespĺňa úlohu. Dôrazne Vám doporučujeme nakonfigurovať webserver takým spôsobom, aby dáta v priečinku neboli verejné, alebo presuňte dáta mimo štruktúry priečinkov webservera."
+"For information how to properly configure your server, please see the <a "
+"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
+"target=\"_blank\">documentation</a>."
+msgstr ""
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Vytvoriť <strong>administrátorský účet</strong>"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Advanced"
 msgstr "Pokročilé"
 
-#: templates/installation.php:52
+#: templates/installation.php:54
 msgid "Data folder"
 msgstr "Priečinok dát"
 
-#: templates/installation.php:59
+#: templates/installation.php:61
 msgid "Configure the database"
 msgstr "Nastaviť databázu"
 
-#: templates/installation.php:64 templates/installation.php:75
-#: templates/installation.php:85 templates/installation.php:95
+#: templates/installation.php:66 templates/installation.php:77
+#: templates/installation.php:87 templates/installation.php:97
 msgid "will be used"
 msgstr "bude použité"
 
-#: templates/installation.php:107
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Hostiteľ databázy"
 
-#: templates/installation.php:111
+#: templates/installation.php:113
 msgid "Database password"
 msgstr "Heslo databázy"
 
-#: templates/installation.php:115
+#: templates/installation.php:117
 msgid "Database name"
 msgstr "Meno databázy"
 
-#: templates/installation.php:123
+#: templates/installation.php:125
 msgid "Database tablespace"
 msgstr "Tabuľkový priestor databázy"
 
-#: templates/installation.php:129
+#: templates/installation.php:131
 msgid "Database host"
 msgstr "Server databázy"
 
-#: templates/installation.php:134
+#: templates/installation.php:136
 msgid "Finish setup"
 msgstr "Dokončiť inštaláciu"
 
-#: templates/layout.guest.php:34
+#: templates/layout.guest.php:33
 msgid "web services under your control"
 msgstr "webové služby pod vašou kontrolou"
 
-#: templates/layout.user.php:49
+#: templates/layout.user.php:48
 msgid "Log out"
 msgstr "Odhlásiť"
 
@@ -568,13 +574,17 @@ msgstr "Prosím, zmeňte svoje heslo pre opätovné zabezpečenie Vášho účtu
 msgid "Lost your password?"
 msgstr "Zabudli ste heslo?"
 
-#: templates/login.php:39
+#: templates/login.php:41
 msgid "remember"
 msgstr "zapamätať"
 
-#: templates/login.php:41
+#: templates/login.php:43
 msgid "Log in"
 msgstr "Prihlásiť sa"
+
+#: templates/login.php:49
+msgid "Alternative Logins"
+msgstr "Altrnatívne loginy"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

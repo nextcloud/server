@@ -402,9 +402,11 @@ class OC {
 
 		self::initPaths();
 
-		register_shutdown_function(array('OC_Log', 'onShutdown'));
-		set_error_handler(array('OC_Log', 'onError'));
-		set_exception_handler(array('OC_Log', 'onException'));
+		if (!defined('PHPUNIT_RUN')) {
+			register_shutdown_function(array('OC_Log', 'onShutdown'));
+			set_error_handler(array('OC_Log', 'onError'));
+			set_exception_handler(array('OC_Log', 'onException'));
+		}
 
 		// set debug mode if an xdebug session is active
 		if (!defined('DEBUG') || !DEBUG) {
@@ -552,14 +554,16 @@ class OC {
 			self::checkUpgrade();
 		}
 
-		try {
-			OC::getRouter()->match(OC_Request::getPathInfo());
-			return;
-		} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
-			//header('HTTP/1.0 404 Not Found');
-		} catch (Symfony\Component\Routing\Exception\MethodNotAllowedException $e) {
-			OC_Response::setStatus(405);
-			return;
+		if (!self::$CLI) {
+			try {
+				OC::getRouter()->match(OC_Request::getPathInfo());
+				return;
+			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
+				//header('HTTP/1.0 404 Not Found');
+			} catch (Symfony\Component\Routing\Exception\MethodNotAllowedException $e) {
+				OC_Response::setStatus(405);
+				return;
+			}
 		}
 
 		$app = OC::$REQUESTEDAPP;

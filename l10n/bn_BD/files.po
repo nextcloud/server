@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-01 00:17+0100\n"
-"PO-Revision-Date: 2013-01-31 16:20+0000\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 23:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -18,46 +18,60 @@ msgstr ""
 "Language: bn_BD\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/upload.php:17
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:27 ajax/move.php:30
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/rename.php:22 ajax/rename.php:25
+msgid "Unable to rename file"
+msgstr ""
+
+#: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
 msgstr "কোন ফাইল আপলোড করা হয় নি। সমস্যা অজ্ঞাত।"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
 msgstr "কোন সমস্যা নেই, ফাইল আপলোড সুসম্পন্ন হয়েছে"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "আপলোড করা  ফাইলটি php.ini তে বর্ণিত  upload_max_filesize নির্দেশিত আয়তন অতিক্রম করছেঃ"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:29
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "আপলোড করা ফাইলটি HTML  ফর্মে নির্ধারিত  MAX_FILE_SIZE নির্দেশিত সর্বোচ্চ আকার অতিক্রম করেছে "
 
-#: ajax/upload.php:29
+#: ajax/upload.php:31
 msgid "The uploaded file was only partially uploaded"
 msgstr "আপলোড করা ফাইলটি আংশিক আপলোড করা হয়েছে"
 
-#: ajax/upload.php:30
+#: ajax/upload.php:32
 msgid "No file was uploaded"
 msgstr "কোন ফাইল আপলোড করা হয় নি"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:33
 msgid "Missing a temporary folder"
 msgstr "অস্থায়ী ফোল্ডার খোয়া গিয়েছে"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:34
 msgid "Failed to write to disk"
 msgstr "ডিস্কে লিখতে ব্যর্থ"
 
-#: ajax/upload.php:51
-msgid "Not enough space available"
-msgstr "যথেষ্ঠ পরিমাণ স্থান নেই"
+#: ajax/upload.php:52
+msgid "Not enough storage available"
+msgstr ""
 
-#: ajax/upload.php:82
+#: ajax/upload.php:83
 msgid "Invalid directory."
 msgstr "ভুল ডিরেক্টরি"
 
@@ -69,11 +83,15 @@ msgstr "ফাইল"
 msgid "Unshare"
 msgstr "ভাগাভাগি বাতিল "
 
-#: js/fileactions.js:119 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:119
+msgid "Delete permanently"
+msgstr ""
+
+#: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "মুছে ফেল"
 
-#: js/fileactions.js:185
+#: js/fileactions.js:187
 msgid "Rename"
 msgstr "পূনঃনামকরণ"
 
@@ -178,31 +196,31 @@ msgstr "URL ফাঁকা রাখা যাবে না।"
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "ফোল্ডারের নামটি সঠিক নয়। 'ভাগাভাগি করা' শুধুমাত্র Owncloud  এর জন্য সংরক্ষিত।"
 
-#: js/files.js:949 templates/index.php:67
+#: js/files.js:953 templates/index.php:67
 msgid "Name"
 msgstr "নাম"
 
-#: js/files.js:950 templates/index.php:78
+#: js/files.js:954 templates/index.php:78
 msgid "Size"
 msgstr "আকার"
 
-#: js/files.js:951 templates/index.php:80
+#: js/files.js:955 templates/index.php:80
 msgid "Modified"
 msgstr "পরিবর্তিত"
 
-#: js/files.js:970
+#: js/files.js:974
 msgid "1 folder"
 msgstr "১টি ফোল্ডার"
 
-#: js/files.js:972
+#: js/files.js:976
 msgid "{count} folders"
 msgstr "{count} টি ফোল্ডার"
 
-#: js/files.js:980
+#: js/files.js:984
 msgid "1 file"
 msgstr "১টি ফাইল"
 
-#: js/files.js:982
+#: js/files.js:986
 msgid "{count} files"
 msgstr "{count} টি ফাইল"
 

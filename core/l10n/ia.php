@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"This category already exists: " => "Iste categoria jam existe:",
 "Sunday" => "Dominica",
 "Monday" => "Lunedi",
 "Tuesday" => "Martedi",

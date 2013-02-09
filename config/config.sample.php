@@ -161,5 +161,9 @@ $CONFIG = array(
 		'class'=>'OC_User_IMAP',
 		'arguments'=>array('{imap.gmail.com:993/imap/ssl}INBOX')
 	)
-)
+),
+//links to custom clients
+'customclient_desktop' => '', //http://owncloud.org/sync-clients/
+'customclient_android' => '', //https://play.google.com/store/apps/details?id=com.owncloud.android
+'customclient_ios' => '' //https://itunes.apple.com/us/app/owncloud/id543672169?mt=8
 );

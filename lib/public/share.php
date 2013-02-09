@@ -704,7 +704,7 @@ class Share {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `uid_owner`, '
 								 .'`share_type`, `share_with`, `file_source`, `path`, `file_target`, '
 								 .'`permissions`, `expiration`, `storage`, `*PREFIX*filecache`.`parent` as `file_parent`, '
-								 .'`name`  `mtime`, `mimetype`, `mimepart`, `size`, `encrypted`, `etag`';
+								 .'`name`, `mtime`, `mimetype`, `mimepart`, `size`, `encrypted`, `etag`';
 					} else {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`, `file_source`, `path`, `file_target`, `permissions`, `stime`, `expiration`, `token`';
 					}
@@ -721,6 +721,7 @@ class Share {
 		}
 		$items = array();
 		$targets = array();
+		$switchedItems = array();
 		while ($row = $result->fetchRow()) {
 			// Filter out duplicate group shares for users with unique targets
 			if ($row['share_type'] == self::$shareTypeGroupUserUnique && isset($items[$row['parent']])) {
@@ -745,6 +746,7 @@ class Share {
 						// Switch ids if sharing permission is granted on only one share to ensure correct parent is used if resharing
 						if (~(int)$items[$id]['permissions'] & PERMISSION_SHARE && (int)$row['permissions'] & PERMISSION_SHARE) {
 							$items[$row['id']] = $items[$id];
+							$switchedItems[$id] = $row['id'];
 							unset($items[$id]);
 							$id = $row['id'];
 						}
@@ -848,7 +850,11 @@ class Share {
 						}
 					}
 					// Remove collection item
-					unset($items[$row['id']]);
+					$toRemove = $row['id'];
+					if (array_key_exists($toRemove, $switchedItems)) {
+						$toRemove = $switchedItems[$toRemove];
+					}
+					unset($items[$toRemove]);
 				}
 			}
 			if (!empty($collectionItems)) {

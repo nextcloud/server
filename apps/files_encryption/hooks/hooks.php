@@ -38,12 +38,15 @@ class Hooks {
 	 */
 	public static function login( $params ) {
 	
+		// Manually initialise Filesystem{} singleton with correct 
+		// fake root path, in order to avoid fatal webdav errors
 		\OC\Files\Filesystem::init( $params['uid'] . '/' . 'files' . '/' );
 	
 		$view = new \OC_FilesystemView( '/' );
 
 		$util = new Util( $view, $params['uid'] );
 		
+		// Check files_encryption infrastructure is ready for action
 		if ( ! $util->ready() ) {
 			
 			\OC_Log::write( 'Encryption library', 'User account "' . $params['uid'] . '" is not ready for encryption; configuration started', \OC_Log::DEBUG );
@@ -104,14 +107,16 @@ class Hooks {
 	 * @param array $params keys: uid, password
 	 */
 	public static function setPassphrase( $params ) {
-	
+		
 		// Only attempt to change passphrase if server-side encryption
 		// is in use (client-side encryption does not have access to 
 		// the necessary keys)
 		if ( Crypt::mode() == 'server' ) {
 			
+			$session = new Session();
+			
 			// Get existing decrypted private key
-			$privateKey = $_SESSION['privateKey'];
+			$privateKey = $session->getPrivateKey();
 			
 			// Encrypt private key with new user pwd as passphrase
 			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $privateKey, $params['password'] );

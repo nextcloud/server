@@ -9,7 +9,6 @@
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "எந்த ஒதுக்கீடும் இல்லாமல், உதாரணம். \"objectClass=posixGroup\".",
 "Port" => "துறை ",
 "Use TLS" => "TLS ஐ பயன்படுத்தவும்",
-"Do not use it for SSL connections, it will fail." => "SSL இணைப்பிற்கு பயன்படுத்தவேண்டாம், அது தோல்வியடையும்.",
 "Case insensitve LDAP server (Windows)" => "உணர்ச்சியான LDAP சேவையகம் (சாளரங்கள்)",
 "Turn off SSL certificate validation." => "SSL சான்றிதழின் செல்லுபடியை நிறுத்திவிடவும்",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "இந்த தெரிவுகளில் மட்டும் இணைப்பு வேலைசெய்தால், உங்களுடைய owncloud சேவையகத்திலிருந்து LDAP சேவையகத்தின் SSL சான்றிதழை இறக்குமதி செய்யவும்",

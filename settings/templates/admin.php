@@ -22,7 +22,20 @@ if (!$_['htaccessworking']) {
 <?php
 }
 
-// is locale working ?
+// if module fileinfo available?
+if (!$_['has_fileinfo']) {
+	?>
+<fieldset class="personalblock">
+	<legend><strong><?php echo $l->t('Module \'fileinfo\' missing');?></strong></legend>
+
+		<span class="connectionwarning">
+		<?php echo $l->t('The PHP module \'fileinfo\' is missing. We strongly recommend to enable this module to get best results with mime-type detection.'); ?>
+	</span>
+
+</fieldset>
+<?php
+}
+
 if (!$_['islocaleworking']) {
 	?>
 <fieldset class="personalblock">

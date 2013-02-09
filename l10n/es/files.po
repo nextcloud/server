@@ -12,12 +12,13 @@
 # Rubén Trujillo <rubentrf@gmail.com>, 2012.
 #   <sergioballesterossolanas@gmail.com>, 2011-2012.
 #   <sergio@entrecables.com>, 2012.
+# Vladimir Martinez Sierra <vladimirmartinezsierra@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-01 00:17+0100\n"
-"PO-Revision-Date: 2013-01-31 16:20+0000\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 23:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -26,46 +27,60 @@ msgstr ""
 "Language: es\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/upload.php:17
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:27 ajax/move.php:30
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/rename.php:22 ajax/rename.php:25
+msgid "Unable to rename file"
+msgstr ""
+
+#: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
 msgstr "Fallo no se subió el fichero"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
 msgstr "No se ha producido ningún error, el archivo se ha subido con éxito"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr "El archivo que intentas subir sobrepasa el tamaño definido por la variable upload_max_filesize en php.ini"
 
-#: ajax/upload.php:27
+#: ajax/upload.php:29
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "El archivo que intentas subir sobrepasa el tamaño definido por la variable MAX_FILE_SIZE especificada en el formulario HTML"
 
-#: ajax/upload.php:29
+#: ajax/upload.php:31
 msgid "The uploaded file was only partially uploaded"
 msgstr "El archivo que intentas subir solo se subió parcialmente"
 
-#: ajax/upload.php:30
+#: ajax/upload.php:32
 msgid "No file was uploaded"
 msgstr "No se ha subido ningún archivo"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:33
 msgid "Missing a temporary folder"
 msgstr "Falta un directorio temporal"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:34
 msgid "Failed to write to disk"
 msgstr "La escritura en disco ha fallado"
 
-#: ajax/upload.php:51
-msgid "Not enough space available"
-msgstr "No hay suficiente espacio disponible"
+#: ajax/upload.php:52
+msgid "Not enough storage available"
+msgstr ""
 
-#: ajax/upload.php:82
+#: ajax/upload.php:83
 msgid "Invalid directory."
 msgstr "Directorio invalido."
 
@@ -77,11 +92,15 @@ msgstr "Archivos"
 msgid "Unshare"
 msgstr "Dejar de compartir"
 
-#: js/fileactions.js:119 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:119
+msgid "Delete permanently"
+msgstr "Eliminar permanentemente"
+
+#: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Eliminar"
 
-#: js/fileactions.js:185
+#: js/fileactions.js:187
 msgid "Rename"
 msgstr "Renombrar"
 
@@ -115,7 +134,7 @@ msgstr "reemplazado {new_name} con {old_name}"
 
 #: js/filelist.js:280
 msgid "perform delete operation"
-msgstr ""
+msgstr "Eliminar"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -133,11 +152,11 @@ msgstr "Nombre Invalido, \"\\\", \"/\", \"<\", \">\", \":\", \"\", \"|\" \"?\" y
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Su almacenamiento esta lleno, los archivos no pueden ser mas actualizados o sincronizados!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Su almacenamiento esta lleno en un  ({usedSpacePercent}%)"
 
 #: js/files.js:224
 msgid ""
@@ -186,31 +205,31 @@ msgstr "La URL no puede estar vacía."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nombre de carpeta invalido. El uso de \"Shared\" esta reservado para Owncloud"
 
-#: js/files.js:949 templates/index.php:67
+#: js/files.js:953 templates/index.php:67
 msgid "Name"
 msgstr "Nombre"
 
-#: js/files.js:950 templates/index.php:78
+#: js/files.js:954 templates/index.php:78
 msgid "Size"
 msgstr "Tamaño"
 
-#: js/files.js:951 templates/index.php:80
+#: js/files.js:955 templates/index.php:80
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/files.js:970
+#: js/files.js:974
 msgid "1 folder"
 msgstr "1 carpeta"
 
-#: js/files.js:972
+#: js/files.js:976
 msgid "{count} folders"
 msgstr "{count} carpetas"
 
-#: js/files.js:980
+#: js/files.js:984
 msgid "1 file"
 msgstr "1 archivo"
 
-#: js/files.js:982
+#: js/files.js:986
 msgid "{count} files"
 msgstr "{count} archivos"
 
@@ -268,7 +287,7 @@ msgstr "Desde el enlace"
 
 #: templates/index.php:40
 msgid "Trash"
-msgstr ""
+msgstr "Basura"
 
 #: templates/index.php:46
 msgid "Cancel upload"
@@ -302,4 +321,4 @@ msgstr "Ahora escaneando"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "Actualizando cache de archivos de sistema"

@@ -300,6 +300,8 @@ class OC_Util {
 			$redirect_url = OC_Util::sanitizeHTML($_REQUEST['redirect_url']);
 			$parameters['redirect_url'] = urlencode($redirect_url);
 		}
+
+		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
@@ -533,6 +535,14 @@ class OC_Util {
 	}
 
 	/**
+	 * Check if the PHP module fileinfo is loaded.
+	 * @return bool
+	 */
+	public static function fileInfoLoaded() {
+		return function_exists('finfo_open');
+	}
+
+	/**
 	 * Check if the ownCloud server can connect to the internet
 	 */
 	public static function isinternetconnectionworking() {
@@ -644,6 +654,9 @@ class OC_Util {
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
 			curl_setopt($curl, CURLOPT_URL, $url);
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+
 			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
 			if(OC_Config::getValue('proxy','')<>'') {
 				curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));
