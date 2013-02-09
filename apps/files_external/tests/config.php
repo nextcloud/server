@@ -51,5 +51,12 @@ return array(
 		'app_secret' => '',
 		'token' => '',
 		'token_secret' => ''
+	),
+	'sftp' => array (
+		'run'=>false,
+		'host'=>'localhost',
+		'user'=>'test',
+		'password'=>'test',
+		'root'=>'/test'
 	)
 );
