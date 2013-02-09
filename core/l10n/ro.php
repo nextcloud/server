@@ -1,8 +1,10 @@
 <?php $TRANSLATIONS = array(
 "User %s shared a file with you" => "Utilizatorul %s a partajat un fișier cu tine",
+"User %s shared a folder with you" => "Utilizatorul %s a partajat un dosar cu tine",
+"User %s shared the file \"%s\" with you. It is available for download here: %s" => "Utilizatorul %s a partajat fișierul \"%s\" cu tine. Îl poți descărca de aici: %s",
+"User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Utilizatorul %s a partajat dosarul \"%s\" cu tine. Îl poți descărca de aici: %s ",
 "Category type not provided." => "Tipul de categorie nu este prevazut",
 "No category to add?" => "Nici o categorie de adăugat?",
-"This category already exists: " => "Această categorie deja există:",
 "Object type not provided." => "Tipul obiectului nu este prevazut",
 "%s ID not provided." => "ID-ul %s nu a fost introdus",
 "Error adding %s to favorites." => "Eroare la adăugarea %s la favorite",
@@ -50,6 +52,7 @@
 "Error" => "Eroare",
 "The app name is not specified." => "Numele aplicației nu a fost specificat",
 "The required file {file} is not installed!" => "Fișierul obligatoriu {file} nu este instalat!",
+"Share" => "Partajează",
 "Error while sharing" => "Eroare la partajare",
 "Error while unsharing" => "Eroare la anularea partajării",
 "Error while changing permissions" => "Eroare la modificarea permisiunilor",
@@ -59,6 +62,8 @@
 "Share with link" => "Partajare cu legătură",
 "Password protect" => "Protejare cu parolă",
 "Password" => "Parola",
+"Email link to person" => "Expediază legătura prin poșta electronică",
+"Send" => "Expediază",
 "Set expiration date" => "Specifică data expirării",
 "Expiration date" => "Data expirării",
 "Share via email:" => "Distribuie prin email:",
@@ -75,6 +80,8 @@
 "Password protected" => "Protejare cu parolă",
 "Error unsetting expiration date" => "Eroare la anularea datei de expirare",
 "Error setting expiration date" => "Eroare la specificarea datei de expirare",
+"Sending ..." => "Se expediază...",
+"Email sent" => "Mesajul a fost expediat",
 "ownCloud password reset" => "Resetarea parolei ownCloud ",
 "Use the following link to reset your password: {link}" => "Folosește următorul link pentru a reseta parola: {link}",
 "You will receive a link to reset your password via Email." => "Vei primi un mesaj prin care vei putea reseta parola via email",
@@ -98,7 +105,6 @@
 "Security Warning" => "Avertisment de securitate",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Generatorul de numere pentru securitate nu este disponibil, va rog activati extensia PHP OpenSSL",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Fara generatorul pentru numere de securitate , un atacator poate afla parola si reseta contul tau",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Directorul tău de date și fișierele tale probabil sunt accesibile prin internet. Fișierul .htaccess oferit de ownCloud nu funcționează. Îți recomandăm să configurezi server-ul tău web într-un mod în care directorul de date să nu mai fie accesibil sau mută directorul de date în afara directorului root al server-ului web.",
 "Create an <strong>admin account</strong>" => "Crează un <strong>cont de administrator</strong>",
 "Advanced" => "Avansat",
 "Data folder" => "Director date",
@@ -119,5 +125,6 @@
 "remember" => "amintește",
 "Log in" => "Autentificare",
 "prev" => "precedentul",
-"next" => "următorul"
+"next" => "următorul",
+"Updating ownCloud to version %s, this may take a while." => "Actualizăm ownCloud la versiunea %s, aceasta poate dura câteva momente."
 );

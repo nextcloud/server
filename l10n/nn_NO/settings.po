@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"POT-Creation-Date: 2013-02-07 00:07+0100\n"
+"PO-Revision-Date: 2013-02-06 23:08+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -22,6 +22,15 @@ msgstr ""
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "Klarer ikkje å laste inn liste fra App Store"
+
+#: ajax/changedisplayname.php:19 ajax/removeuser.php:15 ajax/setquota.php:15
+#: ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "Feil i autentisering"
+
+#: ajax/changedisplayname.php:28
+msgid "Unable to change display name"
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -46,10 +55,6 @@ msgstr "Ugyldig e-postadresse"
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr ""
-
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
-msgid "Authentication error"
-msgstr "Feil i autentisering"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -77,19 +82,47 @@ msgstr ""
 msgid "Unable to remove user from group %s"
 msgstr ""
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:13
+msgid "Couldn't update app."
+msgstr ""
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr ""
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Slå av"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "Slå på"
 
-#: js/personal.js:69
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr ""
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "Feil"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr ""
+
+#: js/personal.js:96
 msgid "Saving..."
 msgstr ""
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "Nynorsk"
 
@@ -101,17 +134,21 @@ msgstr ""
 msgid "More Apps"
 msgstr ""
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "Vel ein applikasjon"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr ""
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr ""
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "Oppdater"
 
 #: templates/help.php:3
 msgid "User Documentation"
@@ -158,67 +195,83 @@ msgstr ""
 msgid "Download iOS Client"
 msgstr ""
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:23 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "Passord"
 
-#: templates/personal.php:22
+#: templates/personal.php:24
 msgid "Your password was changed"
 msgstr ""
 
-#: templates/personal.php:23
+#: templates/personal.php:25
 msgid "Unable to change your password"
 msgstr "Klarte ikkje å endra passordet"
 
-#: templates/personal.php:24
+#: templates/personal.php:26
 msgid "Current password"
 msgstr "Passord"
 
-#: templates/personal.php:25
+#: templates/personal.php:27
 msgid "New password"
 msgstr "Nytt passord"
 
-#: templates/personal.php:26
+#: templates/personal.php:28
 msgid "show"
 msgstr "vis"
 
-#: templates/personal.php:27
+#: templates/personal.php:29
 msgid "Change password"
 msgstr "Endra passord"
 
-#: templates/personal.php:33
+#: templates/personal.php:41 templates/users.php:80
+msgid "Display Name"
+msgstr ""
+
+#: templates/personal.php:42
+msgid "Your display name was changed"
+msgstr ""
+
+#: templates/personal.php:43
+msgid "Unable to change your display name"
+msgstr ""
+
+#: templates/personal.php:46
+msgid "Change display name"
+msgstr ""
+
+#: templates/personal.php:55
 msgid "Email"
 msgstr "Epost"
 
-#: templates/personal.php:34
+#: templates/personal.php:56
 msgid "Your email address"
 msgstr "Din epost addresse"
 
-#: templates/personal.php:35
+#: templates/personal.php:57
 msgid "Fill in an email address to enable password recovery"
 msgstr "Fyll inn din e-post addresse for og kunne motta passord tilbakestilling"
 
-#: templates/personal.php:41 templates/personal.php:42
+#: templates/personal.php:63 templates/personal.php:64
 msgid "Language"
 msgstr "Språk"
 
-#: templates/personal.php:47
+#: templates/personal.php:69
 msgid "Help translate"
 msgstr "Hjelp oss å oversett"
 
-#: templates/personal.php:52
+#: templates/personal.php:74
 msgid "WebDAV"
 msgstr ""
 
-#: templates/personal.php:54
+#: templates/personal.php:76
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr ""
 
-#: templates/personal.php:63
+#: templates/personal.php:85
 msgid "Version"
 msgstr ""
 
-#: templates/personal.php:65
+#: templates/personal.php:87
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -228,11 +281,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr ""
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "Namn"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr ""
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "Grupper"
 
@@ -244,26 +297,34 @@ msgstr "Lag"
 msgid "Default Storage"
 msgstr ""
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
 msgstr ""
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "Anna"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr ""
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
 msgstr ""
 
-#: templates/users.php:133
+#: templates/users.php:97
+msgid "change display name"
+msgstr ""
+
+#: templates/users.php:101
+msgid "set new password"
+msgstr ""
+
+#: templates/users.php:137
 msgid "Default"
 msgstr ""
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "Slett"

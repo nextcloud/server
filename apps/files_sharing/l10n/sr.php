@@ -1,3 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Submit" => "Пошаљи"
+"Password" => "Лозинка",
+"Submit" => "Пошаљи",
+"Download" => "Преузми"
 );

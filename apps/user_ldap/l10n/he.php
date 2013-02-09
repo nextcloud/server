@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Deletion failed" => "מחיקה נכשלה",
 "Host" => "מארח",
 "User DN" => "DN משתמש",
 "Password" => "סיסמא",
@@ -6,7 +7,7 @@
 "User Login Filter" => "סנן כניסת משתמש",
 "User List Filter" => "סנן רשימת משתמשים",
 "Group Filter" => "סנן קבוצה",
-"in bytes" => "בבתים",
 "in seconds. A change empties the cache." => "בשניות. שינוי מרוקן את המטמון.",
+"in bytes" => "בבתים",
 "Help" => "עזרה"
 );

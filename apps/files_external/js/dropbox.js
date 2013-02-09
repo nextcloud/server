@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	$('#externalStorage tbody tr.OC_Filestorage_Dropbox').each(function() {
+	$('#externalStorage tbody tr.\\\\OC\\\\Files\\\\Storage\\\\Dropbox').each(function() {
 		var configured = $(this).find('[data-parameter="configured"]');
 		if ($(configured).val() == 'true') {
 			$(this).find('.configuration input').attr('disabled', 'disabled');
@@ -36,9 +36,9 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#externalStorage tbody tr input').live('keyup', function() {
+	$('#externalStorage tbody').on('keyup', 'tr input', function() {
 		var tr = $(this).parent().parent();
-		if ($(tr).hasClass('OC_Filestorage_Dropbox') && $(tr).find('[data-parameter="configured"]').val() != 'true') {
+		if ($(tr).hasClass('\\\\OC\\\\Files\\\\Storage\\\\Dropbox') && $(tr).find('[data-parameter="configured"]').val() != 'true') {
 			var config = $(tr).find('.configuration');
 			if ($(tr).find('.mountPoint input').val() != '' && $(config).find('[data-parameter="app_key"]').val() != '' && $(config).find('[data-parameter="app_secret"]').val() != '') {
 				if ($(tr).find('.dropbox').length == 0) {
@@ -52,7 +52,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.dropbox').live('click', function(event) {
+	$('.dropbox').on('click', function(event) {
 		event.preventDefault();
 		var app_key = $(this).parent().find('[data-parameter="app_key"]').val();
 		var app_secret = $(this).parent().find('[data-parameter="app_secret"]').val();

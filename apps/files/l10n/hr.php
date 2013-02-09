@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Upload" => "Pošalji",
 "There is no error, the file uploaded with success" => "Datoteka je poslana uspješno i bez pogrešaka",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Poslana datoteka izlazi iz okvira MAX_FILE_SIZE direktive postavljene u HTML obrascu",
 "The uploaded file was only partially uploaded" => "Datoteka je poslana samo djelomično",
@@ -21,10 +20,10 @@
 "1 file uploading" => "1 datoteka se učitava",
 "Upload cancelled." => "Slanje poništeno.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Učitavanje datoteke. Napuštanjem stranice će prekinuti učitavanje.",
-"error while scanning" => "grečka prilikom skeniranja",
 "Name" => "Naziv",
 "Size" => "Veličina",
 "Modified" => "Zadnja promjena",
+"Upload" => "Pošalji",
 "File handling" => "datoteka za rukovanje",
 "Maximum upload size" => "Maksimalna veličina prijenosa",
 "max. possible: " => "maksimalna moguća: ",

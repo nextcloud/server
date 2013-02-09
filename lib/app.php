@@ -36,6 +36,7 @@ class OC_App{
 	static private $appTypes = array();
 	static private $loadedApps = array();
 	static private $checkedApps = array();
+	static private $altLogin = array();
 
 	/**
 	 * @brief loads all apps
@@ -142,6 +143,8 @@ class OC_App{
 	 * check if app is shipped
 	 * @param string $appid the id of the app to check
 	 * @return bool
+	 *
+	 * Check if an app that is installed is a shipped app or installed from the appstore.
 	 */
 	public static function isShipped($appid){
 		$info = self::getAppInfo($appid);
@@ -177,7 +180,7 @@ class OC_App{
 	 * This function checks whether or not an app is enabled.
 	 */
 	public static function isEnabled( $app ) {
-		if( 'files'==$app or 'yes' == OC_Appconfig::getValue( $app, 'enabled' )) {
+		if( 'files'==$app or ('yes' == OC_Appconfig::getValue( $app, 'enabled' ))) {
 			return true;
 		}
 
@@ -197,9 +200,10 @@ class OC_App{
 			if(!is_numeric($app)) {
 				$app = OC_Installer::installShippedApp($app);
 			}else{
+				$appdata=OC_OCSClient::getApplication($app);
 				$download=OC_OCSClient::getApplicationDownload($app, 1);
 				if(isset($download['downloadlink']) and $download['downloadlink']!='') {
-					$app=OC_Installer::installApp(array('source'=>'http', 'href'=>$download['downloadlink']));
+					$app=OC_Installer::installApp(array('source'=>'http', 'href'=>$download['downloadlink'],'appdata'=>$appdata));
 				}
 			}
 		}
@@ -212,6 +216,9 @@ class OC_App{
 				return false;
 			}else{
 				OC_Appconfig::setValue( $app, 'enabled', 'yes' );
+				if(isset($appdata['id'])) {
+					OC_Appconfig::setValue( $app, 'ocsid', $appdata['id'] );
+				}
 				return true;
 			}
 		}else{
@@ -227,8 +234,13 @@ class OC_App{
 	 * This function set an app as disabled in appconfig.
 	 */
 	public static function disable( $app ) {
-		// check if app is a shiped app or not. if not delete
+		// check if app is a shipped app or not. if not delete
 		OC_Appconfig::setValue( $app, 'enabled', 'no' );
+
+		// check if app is a shipped app or not. if not delete
+		if(!OC_App::isShipped( $app )){
+			OC_Installer::removeApp( $app );
+		}
 	}
 
 	/**
@@ -495,7 +507,7 @@ class OC_App{
 	 * @return string
 	 */
 	public static function getCurrentApp() {
-		$script=substr($_SERVER["SCRIPT_NAME"], strlen(OC::$WEBROOT)+1);
+		$script=substr(OC_Request::scriptName(), strlen(OC::$WEBROOT)+1);
 		$topFolder=substr($script, 0, strpos($script, '/'));
 		if (empty($topFolder)) {
 			$path_info = OC_Request::getPathInfo();
@@ -555,6 +567,14 @@ class OC_App{
 	 */
 	public static function registerPersonal($app, $page) {
 		self::$personalForms[]= $app.'/'.$page.'.php';
+	}
+
+	public static function registerLogIn($entry) {
+		self::$altLogin[] = $entry;
+	}
+
+	public static function getAlternativeLogIns() {
+		return self::$altLogin;
 	}
 
 	/**
@@ -621,9 +641,13 @@ class OC_App{
 				if(isset($info['shipped']) and ($info['shipped']=='true')) {
 					$info['internal']=true;
 					$info['internallabel']='Internal App';
+					$info['internalclass']='';
+					$info['update']=false;
 				} else {
 					$info['internal']=false;
 					$info['internallabel']='3rd Party App';
+					$info['internalclass']='externalapp';
+					$info['update']=OC_Installer::isUpdateAvailable($app);
 				}
 
 				$info['preview'] = OC_Helper::imagePath('settings', 'trans.png');
@@ -633,15 +657,15 @@ class OC_App{
 		}
 		$remoteApps = OC_App::getAppstoreApps();
 		if ( $remoteApps ) {
-	// Remove duplicates
+			// Remove duplicates
 			foreach ( $appList as $app ) {
 				foreach ( $remoteApps AS $key => $remote ) {
 					if (
 						$app['name'] == $remote['name']
-			// To set duplicate detection to use OCS ID instead of string name,
-			// enable this code, remove the line of code above,
-			// and add <ocs_id>[ID]</ocs_id> to info.xml of each 3rd party app:
-			// OR $app['ocs_id'] == $remote['ocs_id']
+						// To set duplicate detection to use OCS ID instead of string name,
+						// enable this code, remove the line of code above,
+						// and add <ocs_id>[ID]</ocs_id> to info.xml of each 3rd party app:
+						// OR $app['ocs_id'] == $remote['ocs_id']
 						) {
 						unset( $remoteApps[$key]);
 				}
@@ -675,6 +699,15 @@ class OC_App{
 				$app1[$i]['author'] = $app['personid'];
 				$app1[$i]['ocs_id'] = $app['id'];
 				$app1[$i]['internal'] = $app1[$i]['active'] = 0;
+				$app1[$i]['update'] = false;
+				if($app['label']=='recommended'){
+					$app1[$i]['internallabel'] = 'Recommended';
+					$app1[$i]['internalclass'] = 'recommendedapp';
+				}else{
+					$app1[$i]['internallabel'] = '3rd Party';
+					$app1[$i]['internalclass'] = 'externalapp';
+				}
+
 
 				// rating img
 				if($app['score']>=0     and $app['score']<5)	$img=OC_Helper::imagePath( "core", "rating/s1.png" );
@@ -803,16 +836,16 @@ class OC_App{
 
 	/**
 	 * @param string $appid
-	 * @return OC_FilesystemView
+	 * @return \OC\Files\View
 	 */
 	public static function getStorage($appid) {
 		if(OC_App::isEnabled($appid)) {//sanity check
 			if(OC_User::isLoggedIn()) {
-				$view = new OC_FilesystemView('/'.OC_User::getUser());
+				$view = new \OC\Files\View('/'.OC_User::getUser());
 				if(!$view->file_exists($appid)) {
 					$view->mkdir($appid);
 				}
-				return new OC_FilesystemView('/'.OC_User::getUser().'/'.$appid);
+				return new \OC\Files\View('/'.OC_User::getUser().'/'.$appid);
 			}else{
 				OC_Log::write('core', 'Can\'t get app storage, app '.$appid.', user not logged in', OC_Log::ERROR);
 				return false;

@@ -22,16 +22,18 @@
 class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 
 	const FORMAT_SHARED_STORAGE = 0;
-	const FORMAT_FILE_APP = 1;
+	const FORMAT_GET_FOLDER_CONTENTS = 1;
 	const FORMAT_FILE_APP_ROOT = 2;
 	const FORMAT_OPENDIR = 3;
+	const FORMAT_GET_ALL = 4;
 
 	private $path;
 
 	public function isValidSource($itemSource, $uidOwner) {
-		$path = OC_FileCache::getPath($itemSource, $uidOwner);
-		if ($path) {
-			$this->path = $path;
+		$query = \OC_DB::prepare('SELECT `name` FROM `*PREFIX*filecache` WHERE `fileid` = ?');
+		$result = $query->execute(array($itemSource));
+		if ($row = $result->fetchRow()) {
+			$this->path = $row['name'];
 			return true;
 		}
 		return false;
@@ -70,37 +72,21 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	public function formatItems($items, $format, $parameters = null) {
 		if ($format == self::FORMAT_SHARED_STORAGE) {
 			// Only 1 item should come through for this format call
-			return array('path' => $items[key($items)]['path'], 'permissions' => $items[key($items)]['permissions']);
-		} else if ($format == self::FORMAT_FILE_APP) {
-			if (isset($parameters['mimetype_filter']) && $parameters['mimetype_filter']) {
-				$mimetype_filter = $parameters['mimetype_filter'];
-			}
+			return array('path' => $items[key($items)]['path'], 'permissions' => $items[key($items)]['permissions'], 'uid_owner' => $items[key($items)]['uid_owner']);
+		} else if ($format == self::FORMAT_GET_FOLDER_CONTENTS) {
 			$files = array();
 			foreach ($items as $item) {
-				if (isset($mimetype_filter)
-					&& strpos($item['mimetype'], $mimetype_filter) !== 0
-					&& $item['mimetype'] != 'httpd/unix-directory') {
-					continue;
-				}
 				$file = array();
-				$file['id'] = $item['file_source'];
+				$file['fileid'] = $item['file_source'];
+				$file['storage'] = $item['storage'];
 				$file['path'] = $item['file_target'];
+				$file['parent'] = $item['file_parent'];
 				$file['name'] = basename($item['file_target']);
-				$file['ctime'] = $item['ctime'];
-				$file['mtime'] = $item['mtime'];
 				$file['mimetype'] = $item['mimetype'];
+				$file['mimepart'] = $item['mimepart'];
 				$file['size'] = $item['size'];
+				$file['mtime'] = $item['mtime'];
 				$file['encrypted'] = $item['encrypted'];
-				$file['versioned'] = $item['versioned'];
-				$file['directory'] = $parameters['folder'];
-				$file['type'] = ($item['mimetype'] == 'httpd/unix-directory') ? 'dir' : 'file';
-				$file['permissions'] = $item['permissions'];
-				if ($file['type'] == 'file') {
-					// Remove Create permission if type is file
-					$file['permissions'] &= ~OCP\PERMISSION_CREATE;
-				}
-				// NOTE: Temporary fix to allow unsharing of files in root of Shared directory
-				$file['permissions'] |= OCP\PERMISSION_DELETE;
 				$files[] = $file;
 			}
 			return $files;
@@ -111,17 +97,48 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 				if ($item['mtime'] > $mtime) {
 					$mtime = $item['mtime'];
 				}
-				$size += $item['size'];
+				$size += (int)$item['size'];
 			}
-			return array(0 => array('id' => -1, 'name' => 'Shared', 'mtime' => $mtime, 'mimetype' => 'httpd/unix-directory', 'size' => $size, 'writable' => false, 'type' => 'dir', 'directory' => '', 'permissions' => OCP\PERMISSION_READ));
+			return array('fileid' => -1, 'name' => 'Shared', 'mtime' => $mtime, 'mimetype' => 'httpd/unix-directory', 'size' => $size);
 		} else if ($format == self::FORMAT_OPENDIR) {
 			$files = array();
 			foreach ($items as $item) {
 				$files[] = basename($item['file_target']);
 			}
 			return $files;
+		} else if ($format == self::FORMAT_GET_ALL) {
+			$ids = array();
+			foreach ($items as $item) {
+				$ids[] = $item['file_source'];
+			}
+			return $ids;
 		}
 		return array();
+	}
+
+	public static function getSource($target) {
+		if ($target == '') {
+			return false;
+		}
+		$target = '/'.$target;
+		$target = rtrim($target, '/');
+		$pos = strpos($target, '/', 1);
+		// Get shared folder name
+		if ($pos !== false) {
+			$folder = substr($target, 0, $pos);
+			$source = \OCP\Share::getItemSharedWith('folder', $folder, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
+			if ($source) {
+				$source['path'] = $source['path'].substr($target, strlen($folder));
+				return $source;
+			}
+		} else {
+			$source = \OCP\Share::getItemSharedWith('file', $target, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
+			if ($source) {
+				return $source;
+			}
+		}
+		\OCP\Util::writeLog('files_sharing', 'File source not found for: '.$target, \OCP\Util::ERROR);
+		return false;
 	}
 
 }

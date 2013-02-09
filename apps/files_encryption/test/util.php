@@ -51,7 +51,7 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 		$this->publicKeyPath = $this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
 		$this->privateKeyPath = $this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
 		
-		$this->view = new OC_FilesystemView( '/admin' );
+		$this->view = new \OC_FilesystemView( '/' );
 		
 		$this->mockView = m::mock('OC_FilesystemView');
 		$this->util = new Encryption\Util( $this->mockView, $this->userId );
@@ -88,8 +88,8 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 	
 		$mockView = m::mock('OC_FilesystemView');
 		
-		$mockView->shouldReceive( 'file_exists' )->times(4)->andReturn( false );
-		$mockView->shouldReceive( 'mkdir' )->times(3)->andReturn( true );
+		$mockView->shouldReceive( 'file_exists' )->times(5)->andReturn( false );
+		$mockView->shouldReceive( 'mkdir' )->times(4)->andReturn( true );
 		$mockView->shouldReceive( 'file_put_contents' )->withAnyArgs();
 		
 		$util = new Encryption\Util( $mockView, $this->userId );
@@ -105,7 +105,7 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 	
 		$mockView = m::mock('OC_FilesystemView');
 		
-		$mockView->shouldReceive( 'file_exists' )->times(5)->andReturn( true );
+		$mockView->shouldReceive( 'file_exists' )->times(6)->andReturn( true );
 		$mockView->shouldReceive( 'file_put_contents' )->withAnyArgs();
 		
 		$util = new Encryption\Util( $mockView, $this->userId );
@@ -144,6 +144,21 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 		$util = new Encryption\Util( $mockView, $this->userId );
 		
 		$this->assertEquals( true, $util->ready() );
+		
+		# TODO: Add more tests here to check that if any of the dirs are 
+		# then false will be returned. Use strict ordering?
+		
+	}
+	
+	function testFindFiles() {
+	
+// 		$this->view->chroot( "/data/{$this->userId}/files" );
+
+		$util = new Encryption\Util( $this->view, $this->userId );
+		
+		$files = $util->findFiles( '/', 'encrypted' );
+		
+		var_dump( $files );
 		
 		# TODO: Add more tests here to check that if any of the dirs are 
 		# then false will be returned. Use strict ordering?

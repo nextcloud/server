@@ -13,7 +13,7 @@
  * A class to handle the versioning of files.
  */
 
-namespace OCA_Versions;
+namespace OCA\Files_Versions;
 
 class Storage {
 
@@ -58,8 +58,8 @@ class Storage {
 	public function store($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$files_view = new \OC_FilesystemView('/'.$uid .'/files');
-			$users_view = new \OC_FilesystemView('/'.$uid);
+			$files_view = new \OC\Files\View('/'.\OCP\User::getUser() .'/files');
+			$users_view = new \OC\Files\View('/'.\OCP\User::getUser());
 
 			//check if source file already exist as version to avoid recursions.
 			// todo does this check work?
@@ -150,7 +150,7 @@ class Storage {
 
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$users_view = new \OC_FilesystemView('/'.$uid);
+			$users_view = new \OC\Files\View('/'.$uid);
 			$versionCreated = false;
 			
 			//first create a new version
@@ -184,7 +184,7 @@ class Storage {
 	public static function getVersions( $filename, $count = 0 ) {
 		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
+			$versions_fileview = new \OC\Files\View('/' . \OCP\User::getUser() . '/files_versions');
 
 			$versionsName = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
 			$versions = array();
@@ -195,6 +195,7 @@ class Storage {
 
 			$files_view = new \OC_FilesystemView('/'.$uid.'/files');
 			$local_file = $files_view->getLocalFile($filename);
+			$local_file_md5 = \md5_file( $local_file );
 
 			foreach( $matches as $ma ) {
 				$parts = explode( '.v', $ma );
@@ -206,7 +207,7 @@ class Storage {
 				$versions[$key]['size'] = $versions_fileview->filesize($filename.'.v'.$version);
 
 				// if file with modified date exists, flag it in array as currently enabled version
-				( \md5_file( $ma ) == \md5_file( $local_file ) ? $versions[$key]['fileMatch'] = 1 : $versions[$key]['fileMatch'] = 0 );
+				( \md5_file( $ma ) == $local_file_md5 ? $versions[$key]['fileMatch'] = 1 : $versions[$key]['fileMatch'] = 0 );
 
 			}
 
@@ -322,7 +323,7 @@ class Storage {
 				$quota = \OCP\Util::computerFileSize(\OC_Appconfig::getValue('files', 'default_quota'));
 			}
 			if ( $quota == null ) {
-				$quota = \OC_Filesystem::free_space('/');
+				$quota = \OC\Files\Filesystem::free_space('/');
 			}
 			
 			// make sure that we have the current size of the version history
@@ -333,7 +334,8 @@ class Storage {
 			}
 
 			// calculate available space for version history
-			$rootInfo = \OC_FileCache::get('', '/'. $uid . '/files');
+			$files_view = new \OC_FilesystemView('/'.$uid.'/files');
+			$rootInfo = $files_view->getFileInfo('/');
 			$free = $quota-$rootInfo['size']; // remaining free space for user
 			if ( $free > 0 ) {
 				$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions

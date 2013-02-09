@@ -9,6 +9,3 @@
 $this->create('download', 'download{file}')
 	->requirements(array('file' => '.*'))
 	->actionInclude('files/download.php');
-// oC JS config
-$this->create('publicListView', 'js/publiclistview.js')
-	->actionInclude('files/js/publiclistview.php');

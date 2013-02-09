@@ -141,13 +141,17 @@ class OC_Installer{
 			return false;
 		}
 
-		//check if an app with the same id is already installed
-		if(self::isInstalled( $info['id'] )) {
-			OC_Log::write('core', 'App already installed', OC_Log::WARN);
+		// check if shipped tag is set which is only allowed for apps that are shipped with ownCloud
+		if(isset($info['shipped']) and ($info['shipped']=='true')) {
+			OC_Log::write('core', 'App can\'t be installed because it contains the <shipped>true</shippe> tag which is not allowed for non shipped apps', OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
-			if($data['source']=='http') {
-				unlink($path);
-			}
+			return false;
+		}
+
+		// check if the ocs version is the same as the version in info.xml/version
+		if(!isset($info['version']) or ($info['version']<>$data['appdata']['version'])) {
+			OC_Log::write('core', 'App can\'t be installed because the version in info.xml/version is not the same as the version reported from the app store', OC_Log::ERROR);
+			OC_Helper::rmdirr($extractDir);
 			return false;
 		}
 
@@ -226,7 +230,6 @@ class OC_Installer{
 	/**
 	 * @brief Update an application
 	 * @param $data array with all information
-	 * @returns integer
 	 *
 	 * This function installs an app. All information needed are passed in the
 	 * associative array $data.
@@ -250,9 +253,55 @@ class OC_Installer{
 	 *
 	 * upgrade.php can determine the current installed version of the app using "OC_Appconfig::getValue($appid, 'installed_version')"
 	 */
-	public static function upgradeApp( $data = array()) {
-		// TODO: write function
-		return true;
+	public static function updateApp( $app ) {
+		$ocsid=OC_Appconfig::getValue( $app, 'ocsid');
+		OC_App::disable($app);
+		OC_App::enable($ocsid);
+		return(true);
+	}
+
+	/**
+	 * @brief Check if an update for the app is available
+	 * @param $name name of the application
+	 * @returns empty string is no update available or the version number of the update
+	 *
+	 * The function will check if an update for a version is available
+	 */
+	public static function isUpdateAvailable( $app ) {
+		$ocsid=OC_Appconfig::getValue( $app, 'ocsid', '');
+
+		if($ocsid<>''){
+
+			$ocsdata=OC_OCSClient::getApplication($ocsid);
+			$ocsversion= (string) $ocsdata['version'];
+			$currentversion=OC_App::getAppVersion($app);
+			if($ocsversion<>$currentversion){
+				return($ocsversion);
+
+			}else{
+				return('');
+			}
+
+		}else{
+			return('');
+		}
+
+	}
+
+	/**
+	 * @brief Check if app is already downloaded
+	 * @param $name name of the application to remove
+	 * @returns true/false
+	 *
+	 * The function will check if the app is already downloaded in the apps repository
+	 */
+	public static function isDownloaded( $name ) {
+
+		$downloaded=false;
+		foreach(OC::$APPSROOTS as $dir) {
+			if(is_dir($dir['path'].'/'.$name)) $downloaded=true;
+		}
+		return($downloaded);
 	}
 
 	/**
@@ -276,8 +325,36 @@ class OC_Installer{
 	 * this has to be done by the function oc_app_uninstall().
 	 */
 	public static function removeApp( $name, $options = array()) {
-		// TODO: write function
-		return true;
+
+		if(isset($options['keeppreferences']) and $options['keeppreferences']==false ){
+			// todo
+			// remove preferences
+		}
+
+		if(isset($options['keepappconfig']) and $options['keepappconfig']==false ){
+			// todo
+			// remove app config
+		}
+
+		if(isset($options['keeptables']) and $options['keeptables']==false ){
+			// todo
+			// remove app database tables
+		}
+
+		if(isset($options['keepfiles']) and $options['keepfiles']==false ){
+			// todo
+			// remove user files
+		}
+
+		if(OC_Installer::isDownloaded( $name )) {
+			$appdir=OC_App::getInstallPath().'/'.$name;
+			OC_Helper::rmdirr($appdir);
+
+		}else{
+			OC_Log::write('core', 'can\'t remove app '.$name.'. It is not installed.', OC_Log::ERROR);
+
+		}
+
 	}
 
 	/**

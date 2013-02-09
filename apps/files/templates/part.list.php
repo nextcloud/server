@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo OC_Helper::linkToRoute('publicListView');?>"></script>
+<input type="hidden" id="disableSharing" data-status="<?php echo $_['disableSharing']; ?>">
 
 <?php foreach($_['files'] as $file):
 	$simple_file_size = OCP\simple_file_size($file['size']);
@@ -13,7 +13,7 @@
 	$name = str_replace('%2F', '/', $name);
 	$directory = str_replace('+', '%20', urlencode($file['directory']));
 	$directory = str_replace('%2F', '/', $directory); ?>
-	<tr data-id="<?php echo $file['id']; ?>"
+	<tr data-id="<?php echo $file['fileid']; ?>"
 		data-file="<?php echo $name;?>"
 		data-type="<?php echo ($file['type'] == 'dir')?'dir':'file'?>"
 		data-mime="<?php echo $file['mimetype']?>"
@@ -28,7 +28,7 @@
 			>
 		<?php if(!isset($_['readonly']) || !$_['readonly']): ?><input type="checkbox" /><?php endif; ?>
 		<?php if($file['type'] == 'dir'): ?>
-			<a class="name" href="<?php $_['baseURL'].$directory.'/'.$name; ?>)" title="">
+			<a class="name" href="<?php echo $_['baseURL'].$directory.'/'.$name; ?>" title="">
 		<?php else: ?>
 			<a class="name" href="<?php echo $_['downloadURL'].$directory.'/'.$name; ?>" title="">
 		<?php endif; ?>

@@ -251,6 +251,7 @@ class OC_User {
 			if($uid && $enabled) {
 				session_regenerate_id(true);
 				self::setUserId($uid);
+				self::setDisplayName($uid);
 				OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid, 'password'=>$password ));
 				return true;
 			}
@@ -263,6 +264,48 @@ class OC_User {
 	 */
 	public static function setUserId($uid) {
 		$_SESSION['user_id'] = $uid;
+	}
+
+	/**
+	 * @brief Sets user display name for session
+	 */
+	public static function setDisplayName($uid, $displayName = null) {
+		$result = false;
+		if ($displayName ) {
+			foreach(self::$_usedBackends as $backend) {
+				if($backend->implementsActions(OC_USER_BACKEND_SET_DISPLAYNAME)) {
+					if($backend->userExists($uid)) {
+						$result |= $backend->setDisplayName($uid, $displayName);
+					}
+				}
+			}
+		} else {
+			$displayName = self::determineDisplayName($uid);
+			$result = true;
+		}
+		if (OC_User::getUser() === $uid) {
+			$_SESSION['display_name'] = $displayName;
+		}
+		return $result;
+	}
+
+
+	/**
+	 * @brief get display name
+	 * @param $uid The username
+	 * @returns string display name or uid if no display name is defined
+	 *
+	 */
+	private static function determineDisplayName( $uid ) {
+		foreach(self::$_usedBackends as $backend) {
+			if($backend->implementsActions(OC_USER_BACKEND_GET_DISPLAYNAME)) {
+				$result=$backend->getDisplayName( $uid );
+				if($result) {
+					return $result;
+				}
+			}
+		}
+		return $uid;
 	}
 
 	/**
@@ -321,6 +364,21 @@ class OC_User {
 	}
 
 	/**
+	 * @brief get the display name of the user currently logged in.
+	 * @return string uid or false
+	 */
+	public static function getDisplayName($user=null) {
+		if ( $user ) {
+			return self::determineDisplayName($user);
+		} else if( isset($_SESSION['display_name']) AND $_SESSION['display_name'] ) {
+			return $_SESSION['display_name'];
+		}
+		else{
+			return false;
+		}
+	}
+
+	/**
 	 * @brief Autogenerate a password
 	 * @returns string
 	 *
@@ -362,6 +420,42 @@ class OC_User {
 	}
 
 	/**
+	 * @brief Check whether user can change his password
+	 * @param $uid The username
+	 * @returns true/false
+	 *
+	 * Check whether a specified user can change his password
+	 */
+	public static function canUserChangePassword($uid) {
+		foreach(self::$_usedBackends as $backend) {
+			if($backend->implementsActions(OC_USER_BACKEND_SET_PASSWORD)) {
+				if($backend->userExists($uid)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * @brief Check whether user can change his display name
+	 * @param $uid The username
+	 * @returns true/false
+	 *
+	 * Check whether a specified user can change his display name
+	 */
+	public static function canUserChangeDisplayName($uid) {
+		foreach(self::$_usedBackends as $backend) {
+			if($backend->implementsActions(OC_USER_BACKEND_SET_DISPLAYNAME)) {
+				if($backend->userExists($uid)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * @brief Check if the password is correct
 	 * @param $uid The username
 	 * @param $password The password
@@ -383,8 +477,8 @@ class OC_User {
 
 	/**
 	 * @brief Check if the password is correct
-	 * @param $uid The username
-	 * @param $password The password
+	 * @param string $uid The username
+	 * @param string $password The password
 	 * @returns string
 	 *
 	 * returns the path to the users home directory
@@ -417,6 +511,24 @@ class OC_User {
 		}
 		asort($users);
 		return $users;
+	}
+
+	/**
+	 * @brief Get a list of all users display name
+	 * @returns associative array with all display names (value) and corresponding uids (key)
+	 *
+	 * Get a list of all display names and user ids.
+	 */
+	public static function getDisplayNames($search = '', $limit = null, $offset = null) {
+		$displayNames = array();
+		foreach (self::$_usedBackends as $backend) {
+			$backendDisplayNames = $backend->getDisplayNames($search, $limit, $offset);
+			if (is_array($backendDisplayNames)) {
+				$displayNames = array_merge($displayNames, $backendDisplayNames);
+			}
+		}
+		ksort($displayNames);
+		return $displayNames;
 	}
 
 	/**

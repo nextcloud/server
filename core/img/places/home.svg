@@ -14,9 +14,9 @@
    width="16"
    height="16"
    id="svg11300"
-   inkscape:version="0.48.1 r9760"
-   sodipodi:docname="help.svg"
-   inkscape:export-filename="/home/jancborchardt/jancborchardt/ownCloud/icons/help.png"
+   inkscape:version="0.48.3.1 r9886"
+   sodipodi:docname="home.svg"
+   inkscape:export-filename="home.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <metadata
@@ -27,7 +27,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -41,16 +41,16 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:window-width="1280"
-     inkscape:window-height="776"
+     inkscape:window-height="773"
      id="namedview24"
      showgrid="true"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:zoom="22.627418"
-     inkscape:cx="14.025105"
-     inkscape:cy="9.2202448"
+     inkscape:zoom="16.000001"
+     inkscape:cx="2.7409248"
+     inkscape:cy="8.4568105"
      inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-y="-1"
      inkscape:window-maximized="1"
      inkscape:current-layer="g4146">
     <inkscape:grid
@@ -64,6 +64,17 @@
   </sodipodi:namedview>
   <defs
      id="defs3">
+    <linearGradient
+       id="linearGradient4085">
+      <stop
+         offset="0"
+         style="stop-color:#000000;stop-opacity:1"
+         id="stop4087" />
+      <stop
+         offset="1"
+         style="stop-color:#363636;stop-opacity:0.7"
+         id="stop4089" />
+    </linearGradient>
     <linearGradient
        id="linearGradient4136">
       <stop
@@ -1743,6 +1754,44 @@
        id="linearGradient3475"
        xlink:href="#linearGradient3587-6-5-26"
        inkscape:collect="always" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3587-6-5-26"
+       id="linearGradient4074"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(13.927091,-3.426613)"
+       x1="-2.4040222"
+       y1="4.4573336"
+       x2="-2.4040222"
+       y2="18.967093" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4085"
+       id="linearGradient4083"
+       x1="8"
+       y1="1"
+       x2="8"
+       y2="15.458407"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4085"
+       id="linearGradient4121"
+       gradientUnits="userSpaceOnUse"
+       x1="8"
+       y1="1"
+       x2="8"
+       y2="15.458407"
+       gradientTransform="translate(-20,0)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4085"
+       id="linearGradient4436"
+       x1="8"
+       y1="1"
+       x2="8"
+       y2="15"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <g
      transform="matrix(0.78786264,0,0,0.78786264,-3.1483699,0.44173984)"
@@ -1761,19 +1810,10 @@
      style="opacity:0.6;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-opacity:1" />
   <g
      id="g4146">
-    <g
-       id="g4550"
-       transform="translate(0,-20)">
-      <path
-         inkscape:connector-curvature="0"
-         d="M 8,22.03072 0,30 l 3,0 0,6 10,0 0,-6 3,0 L 13,26.969459 13,23 l -3.0000001,0 0,1.081152 L 8,22.03072 z"
-         id="path3887"
-         style="opacity:0.6;fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-      <path
-         inkscape:connector-curvature="0"
-         d="M 8,21.03072 0,29 l 3,0 0,6 10,0 0,-6 3,0 L 13,25.969459 13,22 l -3.0000001,0 0,1.081152 L 8,21.03072 z"
-         id="path3883"
-         style="opacity:0.7;fill:url(#linearGradient3475);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-    </g>
+    <path
+       inkscape:connector-curvature="0"
+       d="M 8,1.030589 0,9 l 3,0 0,6.0001 10,0 L 13,9 l 3,0 -3,-3.030592 0,-3.969524 -3,0 0,1.081169 -2,-2.050464 z"
+       id="path3328"
+       style="fill:url(#linearGradient4436);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;opacity:0.7" />
   </g>
 </svg>

@@ -6,6 +6,7 @@
 # Donahue Chuang <soshinwu@gmail.com>, 2012.
 #   <dw4dev@gmail.com>, 2012.
 #   <nfsmwlin@gmail.com>, 2013.
+# Pellaeon Lin <nfsmwlin@gmail.com>, 2013.
 #   <sy6614@yahoo.com.hk>, 2012.
 #   <weiyu871@ms14.url.com.tw>, 2012.
 #   <wu0809@msn.com>, 2012.
@@ -14,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-12 00:09+0100\n"
-"PO-Revision-Date: 2013-01-11 23:09+0000\n"
+"POT-Creation-Date: 2013-02-07 00:07+0100\n"
+"PO-Revision-Date: 2013-02-06 23:08+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -27,6 +28,15 @@ msgstr ""
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "無法從 App Store 讀取清單"
+
+#: ajax/changedisplayname.php:19 ajax/removeuser.php:15 ajax/setquota.php:15
+#: ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "認證錯誤"
+
+#: ajax/changedisplayname.php:28
+msgid "Unable to change display name"
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -51,10 +61,6 @@ msgstr "無效的email"
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "群組刪除錯誤"
-
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
-msgid "Authentication error"
-msgstr "認證錯誤"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -82,19 +88,47 @@ msgstr "使用者加入群組%s錯誤"
 msgid "Unable to remove user from group %s"
 msgstr "使用者移出群組%s錯誤"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:13
+msgid "Couldn't update app."
+msgstr "無法更新應用程式"
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr "更新至 {appversion}"
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "停用"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "啟用"
 
-#: js/personal.js:69
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr "請稍候..."
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr "更新中..."
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr "更新應用程式錯誤"
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "錯誤"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr "已更新"
+
+#: js/personal.js:96
 msgid "Saving..."
 msgstr "儲存中..."
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "__語言_名稱__"
 
@@ -106,17 +140,21 @@ msgstr "添加你的 App"
 msgid "More Apps"
 msgstr "更多Apps"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "選擇一個應用程式"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "查看應用程式頁面於 apps.owncloud.com"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-核准: <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "更新"
 
 #: templates/help.php:3
 msgid "User Documentation"
@@ -163,67 +201,83 @@ msgstr "下載 Android 客戶端"
 msgid "Download iOS Client"
 msgstr "下載 iOS 客戶端"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:23 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "密碼"
 
-#: templates/personal.php:22
+#: templates/personal.php:24
 msgid "Your password was changed"
 msgstr "你的密碼已更改"
 
-#: templates/personal.php:23
+#: templates/personal.php:25
 msgid "Unable to change your password"
 msgstr "無法變更你的密碼"
 
-#: templates/personal.php:24
+#: templates/personal.php:26
 msgid "Current password"
 msgstr "目前密碼"
 
-#: templates/personal.php:25
+#: templates/personal.php:27
 msgid "New password"
 msgstr "新密碼"
 
-#: templates/personal.php:26
+#: templates/personal.php:28
 msgid "show"
 msgstr "顯示"
 
-#: templates/personal.php:27
+#: templates/personal.php:29
 msgid "Change password"
 msgstr "變更密碼"
 
-#: templates/personal.php:33
+#: templates/personal.php:41 templates/users.php:80
+msgid "Display Name"
+msgstr "顯示名稱"
+
+#: templates/personal.php:42
+msgid "Your display name was changed"
+msgstr ""
+
+#: templates/personal.php:43
+msgid "Unable to change your display name"
+msgstr ""
+
+#: templates/personal.php:46
+msgid "Change display name"
+msgstr ""
+
+#: templates/personal.php:55
 msgid "Email"
 msgstr "電子郵件"
 
-#: templates/personal.php:34
+#: templates/personal.php:56
 msgid "Your email address"
 msgstr "你的電子郵件信箱"
 
-#: templates/personal.php:35
+#: templates/personal.php:57
 msgid "Fill in an email address to enable password recovery"
 msgstr "請填入電子郵件信箱以便回復密碼"
 
-#: templates/personal.php:41 templates/personal.php:42
+#: templates/personal.php:63 templates/personal.php:64
 msgid "Language"
 msgstr "語言"
 
-#: templates/personal.php:47
+#: templates/personal.php:69
 msgid "Help translate"
 msgstr "幫助翻譯"
 
-#: templates/personal.php:52
+#: templates/personal.php:74
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:54
+#: templates/personal.php:76
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "在您的檔案管理員中使用這個地址來連線到 ownCloud"
 
-#: templates/personal.php:63
+#: templates/personal.php:85
 msgid "Version"
 msgstr "版本"
 
-#: templates/personal.php:65
+#: templates/personal.php:87
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -233,11 +287,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "由<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社區</a>開發，<a href=\"https://github.com/owncloud\" target=\"_blank\">源代碼</a>在<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>許可證下發布。"
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "名稱"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr "登入名稱"
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "群組"
 
@@ -249,26 +303,34 @@ msgstr "創造"
 msgid "Default Storage"
 msgstr "預設儲存區"
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
 msgstr "無限制"
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "其他"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "群組 管理員"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
 msgstr "儲存區"
 
-#: templates/users.php:133
+#: templates/users.php:97
+msgid "change display name"
+msgstr "修改顯示名稱"
+
+#: templates/users.php:101
+msgid "set new password"
+msgstr "設定新密碼"
+
+#: templates/users.php:137
 msgid "Default"
 msgstr "預設"
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "刪除"

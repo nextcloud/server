@@ -17,11 +17,15 @@ header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
 $l = OC_L10N::get('core');
 
 // Get the config
-$debug = (defined('DEBUG') && DEBUG) ? 'true' : 'false';
+$apps_paths = array();
+foreach(OC_App::getEnabledApps() as $app) {
+	$apps_paths[$app] = OC_App::getAppWebPath($app);
+}
+
 $array = array(
-	"oc_debug" => $debug,
+	"oc_debug" => (defined('DEBUG') && DEBUG) ? 'true' : 'false',
 	"oc_webroot" => "\"".OC::$WEBROOT."\"",
-	"oc_appswebroots" =>  "\"".$_['apps_paths']. "\"", 
+	"oc_appswebroots" =>  str_replace('\\/', '/', json_encode($apps_paths)), // Ugly unescape slashes waiting for better solution
 	"oc_current_user" =>  "\"".OC_User::getUser(). "\"",
 	"oc_requesttoken" =>  "\"".OC_Util::callRegister(). "\"",
 	"datepickerFormatDate" => json_encode($l->l('jsdate', 'jsdate')),
