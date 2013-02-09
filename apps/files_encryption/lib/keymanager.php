@@ -220,12 +220,11 @@ class Keymanager {
 		
 		\OC_FileProxy::$enabled = false;
 		
-		if ( !$view->file_exists( '' ) ) $view->mkdir( '' );
+		if ( !$view->file_exists( '' ) )
+			$view->mkdir( '' );
 		
 		return $view->file_put_contents( $user . '.private.key', $key );
-		
-		\OC_FileProxy::$enabled = true;
-		
+
 	}
 	
 	/**
@@ -253,11 +252,11 @@ class Keymanager {
 		
 		\OC_FileProxy::$enabled = false;
 		
-		if ( !$view->file_exists( '' ) ) $view->mkdir( '' );
+		if ( !$view->file_exists( '' ) )
+			$view->mkdir( '' );
 		
 		return $view->file_put_contents( \OCP\User::getUser() . '.public.key', $key );
-		
-		\OC_FileProxy::$enabled = true;
+
 		
 	}
 	
@@ -304,30 +303,14 @@ class Keymanager {
 		return $targetPath;
 	
 	}
-	
-	/**
-	 * @brief change password of private encryption key
-	 *
-	 * @param string $oldpasswd old password
-	 * @param string $newpasswd new password
-	 * @return bool true/false
-	 */
-	public static function changePasswd($oldpasswd, $newpasswd) {
-		
-		if ( \OCP\User::checkPassword(\OCP\User::getUser(), $newpasswd) ) {
-			return Crypt::changekeypasscode($oldpasswd, $newpasswd);
-		}
-		return false;
-		
-	}
-	
+
 	/**
 	 * @brief Fetch the legacy encryption key from user files
 	 * @param string $login used to locate the legacy key
 	 * @param string $passphrase used to decrypt the legacy key
 	 * @return true / false
 	 *
-	 * if the key is left out, the default handeler will be used
+	 * if the key is left out, the default handler will be used
 	 */
 	public function getLegacyKey() {
 		
