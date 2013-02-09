@@ -15,7 +15,6 @@ foreach ($list as $file) {
 	if ( $dirlisting=='0') {
 		$delimiter = strrpos($file, '.d');
 		$filename = substr($file, 0, $delimiter);
-		error_log("filename : " . $filename);
 		$timestamp =  substr($file, $delimiter+2);
 	} else {
 		$path_parts = pathinfo($file);
