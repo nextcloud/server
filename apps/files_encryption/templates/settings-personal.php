@@ -16,7 +16,7 @@
 				<?php echo $type; ?>
 			</li>
 			<?php endforeach; ?>
-		</p>
+		</ul>
 		<?php endif; ?>
 	</fieldset>
 </form>

@@ -43,6 +43,6 @@ if (
 
 }
 
-// Reguster settings scripts
+// Register settings scripts
 OCP\App::registerAdmin( 'files_encryption', 'settings' );
 OCP\App::registerPersonal( 'files_encryption', 'settings-personal' );
