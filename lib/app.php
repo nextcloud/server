@@ -168,8 +168,9 @@ class OC_App{
 	 * get all enabled apps
 	 */
 	public static function getEnabledApps() {
-		if(!OC_Config::getValue('installed', false))
+		if(!OC_Config::getValue('installed', false)) {
 			return array();
+		}
 		$apps=array('files');
 		$query = OC_DB::prepare( 'SELECT `appid` FROM `*PREFIX*appconfig` WHERE `configkey` = \'enabled\' AND `configvalue`=\'yes\'' );
 		$result=$query->execute();
@@ -346,9 +347,10 @@ class OC_App{
 			$settings[] = array( "id" => "personal", "order" => 1, "href" => OC_Helper::linkToRoute( "settings_personal" ), "name" => $l->t("Personal"), "icon" => OC_Helper::imagePath( "settings", "personal.svg" ));
 
 			// if there are some settings forms
-			if(!empty(self::$settingsForms))
+			if(!empty(self::$settingsForms)) {
 				// settings menu
 				$settings[]=array( "id" => "settings", "order" => 1000, "href" => OC_Helper::linkToRoute( "settings_settings" ), "name" => $l->t("Settings"), "icon" => OC_Helper::imagePath( "settings", "settings.svg" ));
+			}
 
 			//SubAdmins are also allowed to access user management
 			if(OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
@@ -395,8 +397,9 @@ class OC_App{
 		}
 
 		foreach(OC::$APPSROOTS as $dir) {
-			if(isset($dir['writable']) && $dir['writable']===true)
+			if(isset($dir['writable']) && $dir['writable']===true) {
 				return $dir['path'];
+			}
 		}
 
 		OC_Log::write('core', 'No application directories are marked as writable.', OC_Log::ERROR);
