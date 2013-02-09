@@ -10,7 +10,7 @@ namespace OC\Files\Storage;
 /**
  * for local filestore, we only have to map the paths
  */
-class Local extends \OC\Files\Storage\Common{
+class MappedLocal extends \OC\Files\Storage\Common{
 	protected $datadir;
 	private $mapper;
 
