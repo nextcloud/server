@@ -216,9 +216,6 @@ var FileList={
 	},
 	replace:function(oldName, newName, isNewFile) {
 		// Finish any existing actions
-		/*if (FileList.lastAction || !FileList.useUndo) {
-			FileList.lastAction();
-		}*/
 		$('tr').filterAttr('data-file', oldName).hide();
 		$('tr').filterAttr('data-file', newName).hide();
 		var tr = $('tr').filterAttr('data-file', oldName).clone();
