@@ -138,7 +138,7 @@ class Scanner {
 	 * walk over any folders that are not fully scanned yet and scan them
 	 */
 	public function backgroundScan() {
-		while ($path = $this->cache->getIncomplete()) {
+		while (($path = $this->cache->getIncomplete()) !== false) {
 			$this->scan($path);
 			$this->cache->correctFolderSize($path);
 		}
