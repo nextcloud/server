@@ -132,12 +132,13 @@ class SFTP extends OC\Files\Storage\Common {
 			$list = $this->client->nlist($this->abs_path($path));
 
 			$id = md5('sftp:' . $path);
-			OC_FakeDirStream::$dirs[$id] = array();
+			$dir_stream = array();
 			foreach($list as $file) {
 				if ($file != '.' && $file != '..') {
-					OC_FakeDirStream::$dirs[$id][] = $file;
+					$dir_stream[] = $file;
 				}
 			}
+			\OC\Files\Stream\Dir::register($id, $dir_stream);
 			return opendir('fakedir://' . $id);
 		} catch(Exception $e) {
 			return false;
@@ -212,7 +213,7 @@ class SFTP extends OC\Files\Storage\Common {
 						$ext='';
 					}
 					$tmpFile=OC_Helper::tmpFile($ext);
-					OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this, 'writeBack');
+					\OC\Files\Stream\Close::registerCallback($tmpFile], array($this, 'writeBack'));
 					if ($this->file_exists($path)) {
 						$this->getFile($abs_path, $tmpFile);
 					}
