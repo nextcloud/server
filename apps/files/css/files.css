@@ -73,9 +73,9 @@ table th#headerSize, table td.filesize { min-width:3em; padding:0 1em; text-alig
 table th#headerDate, table td.date { min-width:11em; padding:0 .1em 0 1em; text-align:left; }
 
 /* Multiselect bar */
-table.multiselect thead { z-index:1; }
+table.multiselect thead { position:fixed; z-index:1; }
 table.multiselect thead th { background:rgba(230,230,230,.8); color:#000; font-weight:bold; border-bottom:0; }
-
+table.multiselect tbody { position: absolute; margin-top:2em; }
 table td.selection, table th.selection, table td.fileaction { width:2em; text-align:center; }
 table td.filename a.name { display:block; height:1.5em; vertical-align:middle; margin-left:3em; }
 table tr[data-type="dir"] td.filename a.name span.nametext {font-weight:bold; }
