@@ -97,6 +97,4 @@ return array(
 	'ai' => 'application/illustrator',
 	'epub' => 'application/epub+zip',
 	'mobi' => 'application/x-mobipocket-ebook',
-        'msi' => 'application',
-        'exe' => 'application'
 );
