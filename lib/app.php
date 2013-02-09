@@ -671,7 +671,7 @@ class OC_App{
 					$info['update']=false;
 				} else {
 					$info['internal']=false;
-					$info['internallabel']='3rd Party App';
+					$info['internallabel']='3rd Party';
 					$info['internalclass']='externalapp';
 					$info['update']=OC_Installer::isUpdateAvailable($app);
 				}
