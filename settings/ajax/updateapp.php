@@ -13,6 +13,3 @@ if($result !== false) {
 	$l = OC_L10N::get('settings');	
 	OC_JSON::error(array("data" => array( "message" => $l->t("Couldn't update app.") )));
 }
-
-
-
