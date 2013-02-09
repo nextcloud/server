@@ -213,7 +213,7 @@ class SFTP extends OC\Files\Storage\Common {
 						$ext='';
 					}
 					$tmpFile=OC_Helper::tmpFile($ext);
-					\OC\Files\Stream\Close::registerCallback($tmpFile], array($this, 'writeBack'));
+					\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 					if ($this->file_exists($path)) {
 						$this->getFile($abs_path, $tmpFile);
 					}
