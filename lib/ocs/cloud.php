@@ -34,7 +34,12 @@ class OC_OCS_Cloud {
 			'string' => OC_Util::getVersionString(),
 			'edition' => OC_Util::getEditionString(),
 			);
-			$result['apps'] = array();
+			
+			$result['capabilities'] = array(
+				'core' => array(
+					'pollinterval' => OC_Config::getValue('pollinterval', 60),
+					),
+				);
 		return new OC_OCS_Result($result);
 	}
 
