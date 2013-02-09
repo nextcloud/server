@@ -10,5 +10,6 @@
 	<?php } ?>
 	<a class="button newquestion" href="http://owncloud.com" target="_blank"><?php echo $l->t( 'Commercial Support' ); ?></a>
 </div>
-<br /><br />
-<iframe src="<?php echo($_['url']); ?>" width="100%" id="ifm" ></iframe>
+<div class="help-includes">
+	<iframe src="<?php echo($_['url']); ?>" class="help-iframe">abc</iframe>
+</div>
