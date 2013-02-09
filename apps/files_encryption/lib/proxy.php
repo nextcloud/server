@@ -281,7 +281,7 @@ class Proxy extends \OC_FileProxy {
 		
 		// Reformat path for use with OC_FSV
 		$path_split = explode( '/', $path );
-		$path_f = implode( array_slice( $path_split, 3 ) );
+		$path_f = implode( '/', array_slice( $path_split, 3 ) );
 		
 		// Disable encryption proxy to prevent recursive calls
 		\OC_FileProxy::$enabled = false;
