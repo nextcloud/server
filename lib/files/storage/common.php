@@ -289,9 +289,8 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			$path = '/' . $path;
 		}
 		
-		$chunks = explode('/', $path);
 		$output = array();
-		foreach ($chunks as $chunk) {
+		foreach (explode('/', $path) as $chunk) {
 			if ($chunk == '..') {
 				array_pop($output);
 			} else if ($chunk == '.') {
