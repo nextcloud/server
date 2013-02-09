@@ -6,4 +6,4 @@
  */
 
 // Register with the capabilities API
-OC_API::register('get', '/cloud/capabilities', array('OC_Files_Versions_Capabiltiies', 'getCapabilities'), 'ocs', OC_API::USER_AUTH);
+OC_API::register('get', '/cloud/capabilities', array('OCA\Files_Versions\Capabilities', 'getCapabilities'), 'ocs', OC_API::USER_AUTH);

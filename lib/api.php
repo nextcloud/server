@@ -118,7 +118,6 @@ class OC_API {
 				);
 		}
 		
-		
 		$response = self::mergeResponses($responses);
 		$formats = array('json', 'xml');
 		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
@@ -134,7 +133,7 @@ class OC_API {
 		$response = array();
 		// Sort into shipped and thirdparty
 		$shipped = array(
-			'succeded' => array(),
+			'succeeded' => array(),
 			'failed' => array(),
 			);
 		$thirdparty = array(
@@ -143,7 +142,7 @@ class OC_API {
 			);
 
 		foreach($responses as $response) {
-			if(OC_App::isShipped($response['app'])) {
+			if(OC_App::isShipped($response['app']) || ($response['app'] === 'core')) {
 				if($response['response']->succeeded()) {
 					$shipped['succeeded'][$response['app']] = $response['response'];
 				} else {
@@ -250,6 +249,7 @@ class OC_API {
 	 */
 	private static function respond($result, $format='xml') {
 		// Send 401 headers if unauthorised
+		die(var_dump($result));
 		if($result->getStatusCode() === self::RESPOND_UNAUTHORISED) {
 			header('WWW-Authenticate: Basic realm="Authorisation Required"');
 			header('HTTP/1.0 401 Unauthorized');

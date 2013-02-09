@@ -6,10 +6,12 @@
  * See the COPYING-README file.
  */
  
-class OC_Files_Versions_Capabilities {
+namespace OCA\Files_Versions; 
+
+class Capabilities {
 	
 	public static function getCapabilities() {
-		return OC_OCS_Result(array(
+		return new \OC_OCS_Result(array(
 			'capabilities' => array(
 				'files_versions' => array(
 					'versioning' => true,
