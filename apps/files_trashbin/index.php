@@ -67,7 +67,6 @@ foreach ($result as $r) {
 }
 
 // Make breadcrumb
-$breadcrumb = array(array('dir' => '', 'name' => 'Trash'));
 $pathtohere = '';
 foreach (explode('/', $dir) as $i) {
 	if ($i != '') {
