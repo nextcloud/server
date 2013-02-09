@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "No category to add?" => "Nepridėsite jokios kategorijos?",
-"This category already exists: " => "Tokia kategorija jau yra:",
 "No categories selected for deletion." => "Trynimui nepasirinkta jokia kategorija.",
 "Sunday" => "Sekmadienis",
 "Monday" => "Pirmadienis",
@@ -85,7 +84,6 @@
 "Security Warning" => "Saugumo pranešimas",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Saugaus atsitiktinių skaičių generatoriaus nėra, prašome įjungti PHP OpenSSL modulį.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Be saugaus atsitiktinių skaičių generatoriaus, piktavaliai gali atspėti Jūsų slaptažodį ir pasisavinti paskyrą.",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Jūsų duomenų aplankalas ir Jūsų failai turbūt yra pasiekiami per internetą. Failas .htaccess, kuris duodamas, neveikia. Mes rekomenduojame susitvarkyti savo nustatymsu taip, kad failai nebūtų pasiekiami per internetą, arba persikelti juos kitur.",
 "Create an <strong>admin account</strong>" => "Sukurti <strong>administratoriaus paskyrą</strong>",
 "Advanced" => "Išplėstiniai",
 "Data folder" => "Duomenų katalogas",

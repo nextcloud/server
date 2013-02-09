@@ -184,7 +184,7 @@ class Local extends \OC\Files\Storage\Common{
 		// Windows OS: we use COM to access the filesystem
 		if (strpos($name, 'win') !== false) {
 			if (class_exists('COM')) {
-				$fsobj = new COM("Scripting.FileSystemObject");
+				$fsobj = new \COM("Scripting.FileSystemObject");
 				$f = $fsobj->GetFile($fullPath);
 				return $f->Size;
 			}
@@ -197,7 +197,7 @@ class Local extends \OC\Files\Storage\Common{
 				return (float)exec('stat -c %s ' . escapeshellarg($fullPath));
 			}
 		} else {
-			OC_Log::write('core', 'Unable to determine file size of "'.$fullPath.'". Unknown OS: '.$name, OC_Log::ERROR);
+			\OC_Log::write('core', 'Unable to determine file size of "'.$fullPath.'". Unknown OS: '.$name, \OC_Log::ERROR);
 		}
 
 		return 0;

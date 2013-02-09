@@ -7,7 +7,6 @@
 "No file was uploaded" => "Nie przesłano żadnego pliku",
 "Missing a temporary folder" => "Brak katalogu tymczasowego",
 "Failed to write to disk" => "Błąd zapisu na dysk",
-"Not enough space available" => "Za mało miejsca",
 "Invalid directory." => "Zła ścieżka.",
 "Files" => "Pliki",
 "Unshare" => "Nie udostępniaj",

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ownCloud
  *
@@ -28,7 +29,8 @@ namespace OCA\Encryption;
 
 class Hooks {
 
-	# TODO: use passphrase for encrypting private key that is separate to the login password
+	// TODO: use passphrase for encrypting private key that is separate to 
+	// the login password
 
 	/**
 	 * @brief Startup encryption backend upon user login
@@ -36,49 +38,65 @@ class Hooks {
 	 */
 	public static function login( $params ) {
 	
-// 		if ( Crypt::mode( $params['uid'] ) == 'server' ) {
-			
-			# TODO: use lots of dependency injection here
-		
-			$view = new \OC_FilesystemView( '/' );
+		// Manually initialise Filesystem{} singleton with correct 
+		// fake root path, in order to avoid fatal webdav errors
+		\OC\Files\Filesystem::init( $params['uid'] . '/' . 'files' . '/' );
+	
+		$view = new \OC_FilesystemView( '/' );
 
-			$util = new Util( $view, $params['uid'] );
-			
-			if ( ! $util->ready() ) {
-				
-				\OC_Log::write( 'Encryption library', 'User account "' . $params['uid'] . '" is not ready for encryption; configuration started' , \OC_Log::DEBUG );
-				
-				return $util->setupServerSide( $params['password'] );
-
-			}
+		$util = new Util( $view, $params['uid'] );
 		
-			\OC_FileProxy::$enabled = false;
+		// Check files_encryption infrastructure is ready for action
+		if ( ! $util->ready() ) {
 			
-			$encryptedKey = Keymanager::getPrivateKey( $view, $params['uid'] );
+			\OC_Log::write( 'Encryption library', 'User account "' . $params['uid'] . '" is not ready for encryption; configuration started', \OC_Log::DEBUG );
 			
-			\OC_FileProxy::$enabled = true;
-			
-			# TODO: dont manually encrypt the private keyfile - use the config options of openssl_pkey_export instead for better mobile compatibility
-			
-			$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
-			
-			$session = new Session();
-			
-			$session->setPrivateKey( $privateKey, $params['uid'] );
-			
-			$view1 = new \OC_FilesystemView( '/' . $params['uid'] );
-			
-			// Set legacy encryption key if it exists, to support 
-			// depreciated encryption system
-			if ( 
+			return $util->setupServerSide( $params['password'] );
+
+		}
+	
+		\OC_FileProxy::$enabled = false;
+		
+		$encryptedKey = Keymanager::getPrivateKey( $view, $params['uid'] );
+		
+		\OC_FileProxy::$enabled = true;
+		
+		$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
+		
+		$session = new Session();
+		
+		$session->setPrivateKey( $privateKey, $params['uid'] );
+		
+		$view1 = new \OC_FilesystemView( '/' . $params['uid'] );
+		
+		// Set legacy encryption key if it exists, to support 
+		// depreciated encryption system
+		if ( 
 			$view1->file_exists( 'encryption.key' )
-			&& $legacyKey = $view1->file_get_contents( 'encryption.key' ) 
-			) {
-				
-				$_SESSION['legacyenckey'] = Crypt::legacyDecrypt( $legacyKey, $params['password'] );
+			&& $encLegacyKey = $view1->file_get_contents( 'encryption.key' ) 
+		) {
+		
+			$plainLegacyKey = Crypt::legacyDecrypt( $encLegacyKey, $params['password'] );
 			
-			}
-// 		}
+			$session->setLegacyKey( $plainLegacyKey );
+		
+		}
+		
+		$publicKey = Keymanager::getPublicKey( $view, $params['uid'] );
+		
+		// Encrypt existing user files:
+		// This serves to upgrade old versions of the encryption
+		// app (see appinfo/spec.txt)
+		if ( 
+			$util->encryptAll( $publicKey,  '/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password'] )
+		) {
+			
+			\OC_Log::write( 
+				'Encryption library', 'Encryption of existing files belonging to "' . $params['uid'] . '" started at login'
+				, \OC_Log::INFO 
+			);
+		
+		}
 
 		return true;
 
@@ -89,14 +107,16 @@ class Hooks {
 	 * @param array $params keys: uid, password
 	 */
 	public static function setPassphrase( $params ) {
-	
+		
 		// Only attempt to change passphrase if server-side encryption
 		// is in use (client-side encryption does not have access to 
 		// the necessary keys)
 		if ( Crypt::mode() == 'server' ) {
 			
+			$session = new Session();
+			
 			// Get existing decrypted private key
-			$privateKey = $_SESSION['privateKey'];
+			$privateKey = $session->getPrivateKey();
 			
 			// Encrypt private key with new user pwd as passphrase
 			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $privateKey, $params['password'] );
@@ -104,9 +124,9 @@ class Hooks {
 			// Save private key
 			Keymanager::setPrivateKey( $encryptedPrivateKey );
 			
-			# NOTE: Session does not need to be updated as the 
-			# private key has not changed, only the passphrase 
-			# used to decrypt it has changed
+			// NOTE: Session does not need to be updated as the 
+			// private key has not changed, only the passphrase 
+			// used to decrypt it has changed
 			
 		}
 	
@@ -121,8 +141,11 @@ class Hooks {
 			
 			if ( isset( $params['properties']['key'] ) ) {
 				
-				Keymanager::setFileKey( $params['path'], $params['properties']['key'] );
-			
+				$view = new \OC_FilesystemView( '/' );
+				$userId = \OCP\User::getUser();
+				
+				Keymanager::setFileKey( $view, $params['path'], $userId, $params['properties']['key'] );
+				
 			} else {
 				
 				\OC_Log::write( 
@@ -138,6 +161,41 @@ class Hooks {
 		
 	}
 	
+	/**
+	 * @brief 
+	 */
+	public static function postShared( $params ) {
+		
+		// Delete existing catfile
+		Keymanager::deleteFileKey(  );
+		
+		// Generate new catfile and env keys
+		Crypt::multiKeyEncrypt( $plainContent, $publicKeys );
+		
+		// Save env keys to user folders
+		
+		
+	}
+	
+	/**
+	 * @brief 
+	 */
+	public static function preUnshare( $params ) {
+		
+		// Delete existing catfile
+		
+		// Generate new catfile and env keys
+		
+		// Save env keys to user folders
+	}
+	
+	/**
+	 * @brief 
+	 */
+	public static function preUnshareAll( $params ) {
+		
+		trigger_error( "preUnshareAll" );
+		
+	}
+	
 }
-
-?>

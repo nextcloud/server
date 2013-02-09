@@ -7,7 +7,6 @@
 "No file was uploaded" => "Engin skrá skilaði sér",
 "Missing a temporary folder" => "Vantar bráðabirgðamöppu",
 "Failed to write to disk" => "Tókst ekki að skrifa á disk",
-"Not enough space available" => "Ekki nægt pláss tiltækt",
 "Invalid directory." => "Ógild mappa.",
 "Files" => "Skrár",
 "Unshare" => "Hætta deilingu",

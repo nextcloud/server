@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-04 00:05+0100\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: app.php:312
+#: app.php:313
 msgid "Help"
 msgstr ""
 
-#: app.php:319
+#: app.php:320
 msgid "Personal"
 msgstr ""
 
-#: app.php:324
+#: app.php:325
 msgid "Settings"
 msgstr ""
 
-#: app.php:329
+#: app.php:330
 msgid "Users"
 msgstr ""
 
-#: app.php:336
+#: app.php:337
 msgid "Apps"
 msgstr ""
 
-#: app.php:338
+#: app.php:339
 msgid "Admin"
 msgstr ""
 

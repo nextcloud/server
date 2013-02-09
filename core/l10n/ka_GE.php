@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "No category to add?" => "არ არის კატეგორია დასამატებლად?",
-"This category already exists: " => "კატეგორია უკვე არსებობს",
 "No categories selected for deletion." => "სარედაქტირებელი კატეგორია არ არის არჩეული ",
 "Sunday" => "კვირა",
 "Monday" => "ორშაბათი",

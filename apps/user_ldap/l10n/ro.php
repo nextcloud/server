@@ -22,7 +22,6 @@
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "fără substituenți, d.e. \"objectClass=posixGroup\"",
 "Port" => "Portul",
 "Use TLS" => "Utilizează TLS",
-"Do not use it for SSL connections, it will fail." => "A nu se utiliza pentru conexiuni SSL, va eșua.",
 "Case insensitve LDAP server (Windows)" => "Server LDAP insensibil la majuscule (Windows)",
 "Turn off SSL certificate validation." => "Oprește validarea certificatelor SSL ",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Dacă conexiunea lucrează doar cu această opțiune, importează certificatul SSL al serverului LDAP în serverul ownCloud.",

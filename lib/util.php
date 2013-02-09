@@ -243,6 +243,17 @@ class OC_Util {
 			$web_server_restart= false;
 		}
 
+		$handler = ini_get("session.save_handler");
+		if($handler == "files") {
+			$tmpDir = session_save_path();
+			if($tmpDir != ""){
+				if(!@is_writable($tmpDir)){
+					$errors[]=array('error' => 'The temporary folder used by PHP to save the session data is either incorrect or not writable! Please check : '.session_save_path().'<br/>',
+					'hint'=>'Please ask your server administrator to grant write access or define another temporary folder.');
+				}
+			}
+		}
+
 		if($web_server_restart) {
 			$errors[]=array('error'=>'PHP modules have been installed, but they are still listed as missing?<br/>', 'hint'=>'Please ask your server administrator to restart the web server.');
 		}
@@ -289,6 +300,8 @@ class OC_Util {
 			$redirect_url = OC_Util::sanitizeHTML($_REQUEST['redirect_url']);
 			$parameters['redirect_url'] = urlencode($redirect_url);
 		}
+
+		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
@@ -508,12 +521,25 @@ class OC_Util {
 	 * Check if the setlocal call doesn't work. This can happen if the right local packages are not available on the server.
 	 */
 	public static function issetlocaleworking() {
+		// setlocale test is pointless on Windows
+		if (OC_Util::runningOnWindows() ) {
+			return true;
+		}
+
 		$result=setlocale(LC_ALL, 'en_US.UTF-8');
 		if($result==false) {
 			return(false);
 		}else{
 			return(true);
 		}
+	}
+
+	/**
+	 * Check if the PHP module fileinfo is loaded.
+	 * @return bool
+	 */
+	public static function fileInfoLoaded() {
+		return function_exists('finfo_open');
 	}
 
 	/**
@@ -628,6 +654,9 @@ class OC_Util {
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
 			curl_setopt($curl, CURLOPT_URL, $url);
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+
 			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
 			if(OC_Config::getValue('proxy','')<>'') {
 				curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));
@@ -664,6 +693,13 @@ class OC_Util {
 
 		}
 		return $data;
+	}
+
+	/**
+	 * @return bool - well are we running on windows or not
+	 */
+	public static function runningOnWindows() {
+		return (substr(PHP_OS, 0, 3) === "WIN");
 	}
 
 }

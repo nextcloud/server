@@ -342,6 +342,13 @@ class Share {
 	*/
 	public static function unshare($itemType, $itemSource, $shareType, $shareWith) {
 		if ($item = self::getItems($itemType, $itemSource, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, null, 1)) {
+			// Pass all the vars we have for now, they may be useful
+			\OC_Hook::emit('OCP\Share', 'pre_unshare', array(
+				'itemType' => $itemType,
+				'itemSource' => $itemSource,
+				'shareType' => $shareType,
+				'shareWith' => $shareWith,
+			));			
 			self::delete($item['id']);
 			return true;
 		}
@@ -356,6 +363,12 @@ class Share {
 	*/
 	public static function unshareAll($itemType, $itemSource) {
 		if ($shares = self::getItemShared($itemType, $itemSource)) {
+			// Pass all the vars we have for now, they may be useful
+			\OC_Hook::emit('OCP\Share', 'pre_unshareAll', array(
+				'itemType' => $itemType,
+				'itemSource' => $itemSource,
+				'shares' => $shares
+			));			
 			foreach ($shares as $share) {
 				self::delete($share['id']);
 			}
@@ -516,7 +529,8 @@ class Share {
 				$collectionTypes[] = $type;
 			}
 		}
-		if (!self::getBackend($itemType) instanceof Share_Backend_Collection) {
+		// TODO Add option for collections to be collection of themselves, only 'folder' does it now...
+		if (!self::getBackend($itemType) instanceof Share_Backend_Collection || $itemType != 'folder') {
 			unset($collectionTypes[0]);
 		}
 		// Return array if collections were found or the item type is a collection itself - collections can be inside collections
@@ -690,7 +704,7 @@ class Share {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `uid_owner`, '
 								 .'`share_type`, `share_with`, `file_source`, `path`, `file_target`, '
 								 .'`permissions`, `expiration`, `storage`, `*PREFIX*filecache`.`parent` as `file_parent`, '
-								 .'`name`  `mtime`, `mimetype`, `mimepart`, `size`, `encrypted`, `etag`';
+								 .'`name`, `mtime`, `mimetype`, `mimepart`, `size`, `encrypted`, `etag`';
 					} else {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`, `file_source`, `path`, `file_target`, `permissions`, `stime`, `expiration`, `token`';
 					}
@@ -707,6 +721,7 @@ class Share {
 		}
 		$items = array();
 		$targets = array();
+		$switchedItems = array();
 		while ($row = $result->fetchRow()) {
 			// Filter out duplicate group shares for users with unique targets
 			if ($row['share_type'] == self::$shareTypeGroupUserUnique && isset($items[$row['parent']])) {
@@ -731,6 +746,7 @@ class Share {
 						// Switch ids if sharing permission is granted on only one share to ensure correct parent is used if resharing
 						if (~(int)$items[$id]['permissions'] & PERMISSION_SHARE && (int)$row['permissions'] & PERMISSION_SHARE) {
 							$items[$row['id']] = $items[$id];
+							$switchedItems[$id] = $row['id'];
 							unset($items[$id]);
 							$id = $row['id'];
 						}
@@ -834,7 +850,11 @@ class Share {
 						}
 					}
 					// Remove collection item
-					unset($items[$row['id']]);
+					$toRemove = $row['id'];
+					if (array_key_exists($toRemove, $switchedItems)) {
+						$toRemove = $switchedItems[$toRemove];
+					}
+					unset($items[$toRemove]);
 				}
 			}
 			if (!empty($collectionItems)) {

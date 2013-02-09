@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-01 00:17+0100\n"
+"POT-Creation-Date: 2013-02-05 00:19+0100\n"
 "PO-Revision-Date: 2012-08-12 22:34+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Afrikaans (South Africa) (http://www.transifex.com/projects/p/owncloud/language/af_ZA/)\n"
@@ -25,11 +25,11 @@ msgstr ""
 msgid "Error configuring Dropbox storage"
 msgstr ""
 
-#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:41
+#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
 msgid "Grant access"
 msgstr ""
 
-#: js/dropbox.js:73 js/google.js:73
+#: js/dropbox.js:73 js/google.js:72
 msgid "Fill out all required fields"
 msgstr ""
 
@@ -37,7 +37,7 @@ msgstr ""
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr ""
 
-#: js/google.js:26 js/google.js:74 js/google.js:79
+#: js/google.js:26 js/google.js:73 js/google.js:78
 msgid "Error configuring Google Drive storage"
 msgstr ""
 
@@ -96,7 +96,7 @@ msgstr ""
 
 #: templates/settings.php:95
 msgid "Users"
-msgstr ""
+msgstr "Gebruikers"
 
 #: templates/settings.php:108 templates/settings.php:109
 #: templates/settings.php:144 templates/settings.php:145

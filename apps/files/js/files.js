@@ -262,12 +262,6 @@ $(document).ready(function() {
 							return;
 						}
 						totalSize+=files[i].size;
-						if(FileList.deleteFiles && FileList.deleteFiles.indexOf(files[i].name)!=-1){//finish delete if we are uploading a deleted file
-							FileList.finishDelete(function(){
-								$('#file_upload_start').change();
-							});
-							return;
-						}
 					}
 				}
 				if(totalSize>$('#max_upload').val()){

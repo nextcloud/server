@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "No category to add?" => "Pole kategooriat, mida lisada?",
-"This category already exists: " => "See kategooria on juba olemas: ",
 "No categories selected for deletion." => "Kustutamiseks pole kategooriat valitud.",
 "Sunday" => "Pühapäev",
 "Monday" => "Esmaspäev",

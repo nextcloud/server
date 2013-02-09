@@ -12,7 +12,6 @@
 "Group Filter" => "Grup Süzgeci",
 "Port" => "Port",
 "Use TLS" => "TLS kullan",
-"Do not use it for SSL connections, it will fail." => "SSL bağlantıları ile kullanmayın, başarısız olacaktır.",
 "Turn off SSL certificate validation." => "SSL sertifika doğrulamasını kapat.",
 "Not recommended, use for testing only." => "Önerilmez, sadece test için kullanın.",
 "in seconds. A change empties the cache." => "saniye cinsinden. Bir değişiklik önbelleği temizleyecektir.",

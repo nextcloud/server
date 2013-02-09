@@ -7,7 +7,6 @@
 "No file was uploaded" => "Κανένα αρχείο δεν στάλθηκε",
 "Missing a temporary folder" => "Λείπει ο προσωρινός φάκελος",
 "Failed to write to disk" => "Αποτυχία εγγραφής στο δίσκο",
-"Not enough space available" => "Δεν υπάρχει αρκετός διαθέσιμος χώρος",
 "Invalid directory." => "Μη έγκυρος φάκελος.",
 "Files" => "Αρχεία",
 "Unshare" => "Διακοπή κοινής χρήσης",

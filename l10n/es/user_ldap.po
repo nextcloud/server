@@ -10,13 +10,14 @@
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2012.
 # Rubén Trujillo <rubentrf@gmail.com>, 2012.
 #   <sergioballesterossolanas@gmail.com>, 2012.
+# Vladimir Martinez Sierra <vladimirmartinezsierra@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-04 00:05+0100\n"
-"PO-Revision-Date: 2013-02-03 06:10+0000\n"
-"Last-Translator: felix.liberio <felix.liberio@gmail.com>\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 00:30+0000\n"
+"Last-Translator: msvladimir <vladimirmartinezsierra@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,7 +51,7 @@ msgstr "Falló el borrado"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr ""
+msgstr "Hacerse cargo de los ajustes de configuración del servidor reciente?"
 
 #: js/settings.js:83
 msgid "Keep settings?"
@@ -95,7 +96,7 @@ msgstr "Configuración del Servidor"
 
 #: templates/settings.php:17
 msgid "Add Server Configuration"
-msgstr ""
+msgstr "Agregar configuracion del servidor"
 
 #: templates/settings.php:21
 msgid "Host"
@@ -179,15 +180,15 @@ msgstr "Con cualquier placeholder, ej: \"objectClass=posixGroup\"."
 
 #: templates/settings.php:31
 msgid "Connection Settings"
-msgstr ""
+msgstr "Configuracion de coneccion"
 
 #: templates/settings.php:33
 msgid "Configuration Active"
-msgstr ""
+msgstr "Configuracion activa"
 
 #: templates/settings.php:33
 msgid "When unchecked, this configuration will be skipped."
-msgstr ""
+msgstr "Cuando deseleccione, esta configuracion sera omitida."
 
 #: templates/settings.php:34
 msgid "Port"
@@ -195,33 +196,33 @@ msgstr "Puerto"
 
 #: templates/settings.php:35
 msgid "Backup (Replica) Host"
-msgstr ""
+msgstr "Host para backup (Replica)"
 
 #: templates/settings.php:35
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr ""
+msgstr "Dar un host de copia de seguridad opcional. Debe ser una réplica del servidor principal LDAP / AD."
 
 #: templates/settings.php:36
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "Puerto para backup (Replica)"
 
 #: templates/settings.php:37
 msgid "Disable Main Server"
-msgstr ""
+msgstr "Deshabilitar servidor principal"
 
 #: templates/settings.php:37
 msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr ""
+msgstr "Cuando se inicie, ownCloud unicamente estara conectado al servidor replica"
 
 #: templates/settings.php:38
 msgid "Use TLS"
 msgstr "Usar TLS"
 
 #: templates/settings.php:38
-msgid "Do not use it for SSL connections, it will fail."
-msgstr "No usarlo para SSL, habrá error."
+msgid "Do not use it additionally for LDAPS connections, it will fail."
+msgstr "No usar adicionalmente para conecciones LDAPS, estas fallaran"
 
 #: templates/settings.php:39
 msgid "Case insensitve LDAP server (Windows)"
@@ -247,7 +248,7 @@ msgstr "en segundos. Un cambio vacía la cache."
 
 #: templates/settings.php:43
 msgid "Directory Settings"
-msgstr ""
+msgstr "Configuracion de directorio"
 
 #: templates/settings.php:45
 msgid "User Display Name Field"
@@ -267,11 +268,11 @@ msgstr "Un DN Base de Usuario por línea"
 
 #: templates/settings.php:47
 msgid "User Search Attributes"
-msgstr ""
+msgstr "Atributos de la busqueda de usuario"
 
 #: templates/settings.php:47 templates/settings.php:50
 msgid "Optional; one attribute per line"
-msgstr ""
+msgstr "Opcional; un atributo por linea"
 
 #: templates/settings.php:48
 msgid "Group Display Name Field"
@@ -291,7 +292,7 @@ msgstr "Un DN Base de Grupo por línea"
 
 #: templates/settings.php:50
 msgid "Group Search Attributes"
-msgstr ""
+msgstr "Atributos de busqueda de grupo"
 
 #: templates/settings.php:51
 msgid "Group-Member association"
@@ -299,7 +300,7 @@ msgstr "Asociación Grupo-Miembro"
 
 #: templates/settings.php:53
 msgid "Special Attributes"
-msgstr ""
+msgstr "Atributos especiales"
 
 #: templates/settings.php:56
 msgid "in bytes"

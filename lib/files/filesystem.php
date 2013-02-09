@@ -527,8 +527,7 @@ class Filesystem {
 	}
 
 	/**
-	 * normalize a path
-	 *
+	 * @brief Fix common problems with a file path
 	 * @param string $path
 	 * @param bool $stripTrailingSlash
 	 * @return string
@@ -537,21 +536,21 @@ class Filesystem {
 		if ($path == '') {
 			return '/';
 		}
-//no windows style slashes
+		//no windows style slashes
 		$path = str_replace('\\', '/', $path);
-//add leading slash
+		//add leading slash
 		if ($path[0] !== '/') {
 			$path = '/' . $path;
 		}
-//remove duplicate slashes
+		//remove duplicate slashes
 		while (strpos($path, '//') !== false) {
 			$path = str_replace('//', '/', $path);
 		}
-//remove trailing slash
+		//remove trailing slash
 		if ($stripTrailingSlash and strlen($path) > 1 and substr($path, -1, 1) === '/') {
 			$path = substr($path, 0, -1);
 		}
-//normalize unicode if possible
+		//normalize unicode if possible
 		if (class_exists('Normalizer')) {
 			$path = \Normalizer::normalize($path);
 		}

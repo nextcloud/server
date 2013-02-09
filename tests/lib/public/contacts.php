@@ -39,7 +39,7 @@ class Test_Contacts extends PHPUnit_Framework_TestCase
 
 	public function testEnabledAfterRegister() {
 		// create mock for the addressbook
-		$stub = $this->getMock("SimpleAddressBook", array('getKey'));
+		$stub = $this->getMockForAbstractClass("OCP\IAddressBook", array('getKey'));
 
 		// we expect getKey to be called twice:
 		// first time on register
@@ -65,7 +65,7 @@ class Test_Contacts extends PHPUnit_Framework_TestCase
 
 	public function testAddressBookEnumeration() {
 		// create mock for the addressbook
-		$stub = $this->getMock("SimpleAddressBook", array('getKey', 'getDisplayName'));
+		$stub = $this->getMockForAbstractClass("OCP\IAddressBook", array('getKey', 'getDisplayName'));
 
 		// setup return for method calls
 		$stub->expects($this->any())
@@ -85,8 +85,8 @@ class Test_Contacts extends PHPUnit_Framework_TestCase
 
 	public function testSearchInAddressBook() {
 		// create mock for the addressbook
-		$stub1 = $this->getMock("SimpleAddressBook1", array('getKey', 'getDisplayName', 'search'));
-		$stub2 = $this->getMock("SimpleAddressBook2", array('getKey', 'getDisplayName', 'search'));
+		$stub1 = $this->getMockForAbstractClass("OCP\IAddressBook", array('getKey', 'getDisplayName', 'search'));
+		$stub2 = $this->getMockForAbstractClass("OCP\IAddressBook", array('getKey', 'getDisplayName', 'search'));
 
 		$searchResult1 = array(
 			array('id' => 0, 'FN' => 'Frank Karlitschek', 'EMAIL' => 'a@b.c', 'GEO' => '37.386013;-122.082932'),

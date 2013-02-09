@@ -23,7 +23,6 @@
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "ohne Platzhalter, z.B.: \"objectClass=posixGroup\"",
 "Port" => "Port",
 "Use TLS" => "Nutze TLS",
-"Do not use it for SSL connections, it will fail." => "Verwende dies nicht für SSL-Verbindungen, es wird fehlschlagen.",
 "Case insensitve LDAP server (Windows)" => "LDAP-Server (Windows: Groß- und Kleinschreibung bleibt unbeachtet)",
 "Turn off SSL certificate validation." => "Schalte die SSL-Zertifikatsprüfung aus.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Falls die Verbindung es erfordert, muss das SSL-Zertifikat des LDAP-Server importiert werden.",

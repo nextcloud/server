@@ -1,5 +1,6 @@
 <?php
-/***
+
+/**
  * ownCloud
  *
  * @author Bjoern Schiessle
@@ -27,8 +28,6 @@ namespace OCA\Encryption;
  * @note Where a method requires a view object, it's root must be '/'
  */
 class Keymanager {
-	
-	# TODO: make all dependencies (including static classes) explicit, such as ocfsview objects, by adding them as method arguments (dependency injection)
 		
 	/**
 	 * @brief retrieve the ENCRYPTED private key from a user
@@ -84,38 +83,7 @@ class Keymanager {
 		// Check if sharing is enabled
 		if ( OC_App::isEnabled( 'files_sharing' ) ) {
 			
-// 			// Check if file was shared with other users
-// 			$query = \OC_DB::prepare( "
-// 				SELECT 
-// 					uid_owner
-// 					, source
-// 					, target
-// 					, uid_shared_with 
-// 				FROM 
-// 					`*PREFIX*sharing` 
-// 				WHERE 
-// 					( target = ? AND uid_shared_with = ? ) 
-// 					OR source = ? 
-// 			" );
-// 			
-// 			$result = $query->execute( array ( $filepath, $userId, $filepath ) );
-// 
-// 			$users = array();
-// 
-// 			if ( $row = $result->fetchRow() ) 
-// {
-// 				$source = $row['source'];
-// 				$owner = $row['uid_owner'];
-// 				$users[] = $owner;
-// 				// get the uids of all user with access to the file
-// 				$query = \OC_DB::prepare( "SELECT source, uid_shared_with FROM `*PREFIX*sharing` WHERE source = ?" );
-// 				$result = $query->execute( array ($source));
-// 				while ( ($row = $result->fetchRow()) ) {
-// 					$users[] = $row['uid_shared_with'];
-// 
-// 				}
-// 
-// 			}
+
 		
 		} else {
 		
@@ -147,62 +115,86 @@ class Keymanager {
 	}
 	
 	/**
+	 * @brief store file encryption key
+	 *
+	 * @param string $path relative path of the file, including filename
+	 * @param string $key
+	 * @return bool true/false
+	 * @note The keyfile is not encrypted here. Client code must 
+	 * asymmetrically encrypt the keyfile before passing it to this method
+	 */
+	public static function setFileKey( \OC_FilesystemView $view, $path, $userId, $catfile ) {
+		
+		$basePath = '/' . $userId . '/files_encryption/keyfiles';
+		
+		$targetPath = self::keySetPreparation( $view, $path, $basePath, $userId );
+		
+		if ( $view->is_dir( $basePath . '/' . $targetPath ) ) {
+		
+			
+		
+		} else {
+
+			// Save the keyfile in parallel directory
+			return $view->file_put_contents( $basePath . '/' . $targetPath . '.key', $catfile );
+		
+		}
+		
+	}
+	
+	/**
 	 * @brief retrieve keyfile for an encrypted file
 	 * @param string file name
-	 * @return string file key or false
+	 * @return string file key or false on failure
 	 * @note The keyfile returned is asymmetrically encrypted. Decryption
 	 * of the keyfile must be performed by client code
 	 */
 	public static function getFileKey( \OC_FilesystemView $view, $userId, $filePath ) {
 		
 		$filePath_f = ltrim( $filePath, '/' );
+		
+		$catfilePath = '/' . $userId . '/files_encryption/keyfiles/' . $filePath_f . '.key';
+		
+		if ( $view->file_exists( $catfilePath ) ) {
 
-// 		// update $keypath and $userId if path point to a file shared by someone else
-// 		$query = \OC_DB::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
-// 		
-// 		$result = $query->execute( array ('/'.$userId.'/files/'.$keypath, $userId));
-// 		
-// 		if ($row = $result->fetchRow()) {
-// 		
-// 			$keypath = $row['source'];
-// 			$keypath_parts = explode( '/', $keypath );
-// 			$userId = $keypath_parts[1];
-// 			$keypath = str_replace( '/' . $userId . '/files/', '', $keypath );
-// 			
-// 		}
-
-		return $view->file_get_contents( '/' . $userId . '/files_encryption/keyfiles/' . $filePath_f . '.key' );
+			return $view->file_get_contents( $catfilePath );
+			
+		} else {
+		
+			return false;
+			
+		}
 		
 	}
 	
 	/**
-	 * @brief retrieve file encryption key
+	 * @brief Delete a keyfile
 	 *
-	 * @param string file name
-	 * @return string file key or false
+	 * @param OC_FilesystemView $view
+	 * @param string $userId username
+	 * @param string $path path of the file the key belongs to
+	 * @return bool Outcome of unlink operation
+	 * @note $path must be relative to data/user/files. e.g. mydoc.txt NOT
+	 *       /data/admin/files/mydoc.txt
 	 */
-	public static function deleteFileKey( $path, $staticUserClass = 'OCP\User' ) {
+	public static function deleteFileKey( \OC_FilesystemView $view, $userId, $path ) {
 		
-		$keypath = ltrim( $path, '/' );
-		$user = $staticUserClass::getUser();
-
-		// update $keypath and $user if path point to a file shared by someone else
-// 		$query = \OC_DB::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
-// 		
-// 		$result = $query->execute( array ('/'.$user.'/files/'.$keypath, $user));
-// 		
-// 		if ($row = $result->fetchRow()) {
-// 		
-// 			$keypath = $row['source'];
-// 			$keypath_parts = explode( '/', $keypath );
-// 			$user = $keypath_parts[1];
-// 			$keypath = str_replace( '/' . $user . '/files/', '', $keypath );
-// 			
-// 		}
+		$trimmed = ltrim( $path, '/' );
+		$keyPath =  '/' . $userId . '/files_encryption/keyfiles/' . $trimmed . '.key';
 		
-		$view = new \OC_FilesystemView('/'.$user.'/files_encryption/keyfiles/');
+		// Unlink doesn't tell us if file was deleted (not found returns
+		// true), so we perform our own test
+		if ( $view->file_exists( $keyPath ) ) {
 		
-		return $view->unlink( $keypath . '.key' );
+			return $view->unlink( $keyPath );
+			
+		} else {
+			
+			\OC_Log::write( 'Encryption library', 'Could not delete keyfile; does not exist: "' . $keyPath, \OC_Log::ERROR );
+			
+			return false;
+			
+		}
 		
 	}
 	
@@ -238,7 +230,7 @@ class Keymanager {
 	 */
 	public static function setUserKeys($privatekey, $publickey) {
 	
-		return (self::setPrivateKey($privatekey) && self::setPublicKey($publickey));
+		return ( self::setPrivateKey( $privatekey ) && self::setPublicKey( $publickey ) );
 	
 	}
 	
@@ -263,71 +255,39 @@ class Keymanager {
 	}
 	
 	/**
-	 * @brief store file encryption key
-	 *
-	 * @param string $path relative path of the file, including filename
-	 * @param string $key
-	 * @return bool true/false
-	 * @note The keyfile is not encrypted here. Client code must 
-	 * asymmetrically encrypt the keyfile before passing it to this method
+	 * @note 'shareKey' is a more user-friendly name for env_key
 	 */
-	public static function setFileKey( $path, $key, $view = Null, $dbClassName = '\OC_DB') {
-
-		$targetPath = ltrim(  $path, '/'  );
-		$user = \OCP\User::getUser();
+	public static function setShareKey( \OC_FilesystemView $view, $path, $userId, $shareKey ) {
 		
-// 		// update $keytarget and $user if key belongs to a file shared by someone else
-// 		$query = $dbClassName::prepare( "SELECT uid_owner, source, target FROM `*PREFIX*sharing` WHERE target = ? AND uid_shared_with = ?" );
-// 		
-// 		$result = $query->execute(  array ( '/'.$user.'/files/'.$targetPath, $user ) );
-// 		
-// 		if ( $row = $result->fetchRow(  ) ) {
-// 		
-// 			$targetPath = $row['source'];
-// 			
-// 			$targetPath_parts = explode( '/', $targetPath );
-// 			
-// 			$user = $targetPath_parts[1];
-// 
-// 			$rootview = new \OC_FilesystemView( '/' );
-// 			
-// 			if ( ! $rootview->is_writable( $targetPath ) ) {
-// 			
-// 				\OC_Log::write( 'Encryption library', "File Key not updated because you don't have write access for the corresponding file", \OC_Log::ERROR );
-// 				
-// 				return false;
-// 				
-// 			}
-// 			
-// 			$targetPath = str_replace( '/'.$user.'/files/', '', $targetPath );
-// 			
-// 			//TODO: check for write permission on shared file once the new sharing API is in place
-// 			
-// 		}
+		$basePath = '/' . $userId . '/files_encryption/share-keys';
+		
+		$shareKeyPath = self::keySetPreparation( $view, $path, $basePath, $userId );
+		
+		return $view->file_put_contents( $basePath . '/' . $shareKeyPath . '.shareKey', $shareKey );
+		
+	}
+	
+	/**
+	 * @brief Make preparations to vars and filesystem for saving a keyfile
+	 */
+	public static function keySetPreparation( \OC_FilesystemView $view, $path, $basePath, $userId ) {
+		
+		$targetPath = ltrim( $path, '/' );
 		
 		$path_parts = pathinfo( $targetPath );
-		
-		if ( !$view ) {
-		
-			$view = new \OC_FilesystemView( '/' );
-			
-		}
-		
-		$view->chroot( '/' . $user . '/files_encryption/keyfiles' );
 		
 		// If the file resides within a subdirectory, create it
 		if ( 
 		isset( $path_parts['dirname'] )
-		&& ! $view->file_exists( $path_parts['dirname'] ) 
+		&& ! $view->file_exists( $basePath . '/' . $path_parts['dirname'] ) 
 		) {
 		
-			$view->mkdir( $path_parts['dirname'] );
+			$view->mkdir( $basePath . '/' . $path_parts['dirname'] );
 			
 		}
 		
-		// Save the keyfile in parallel directory
-		return $view->file_put_contents( '/' . $targetPath . '.key', $key );
-		
+		return $targetPath;
+	
 	}
 	
 	/**

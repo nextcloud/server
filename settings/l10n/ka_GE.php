@@ -1,12 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "აპლიკაციების სია ვერ ჩამოიტვირთა App Store",
+"Authentication error" => "ავთენტიფიკაციის შეცდომა",
 "Group already exists" => "ჯგუფი უკვე არსებობს",
 "Unable to add group" => "ჯგუფის დამატება ვერ მოხერხდა",
 "Could not enable app. " => "ვერ მოხერხდა აპლიკაციის ჩართვა.",
 "Email saved" => "იმეილი შენახულია",
 "Invalid email" => "არასწორი იმეილი",
 "Unable to delete group" => "ჯგუფის წაშლა ვერ მოხერხდა",
-"Authentication error" => "ავთენტიფიკაციის შეცდომა",
 "Unable to delete user" => "მომხმარებლის წაშლა ვერ მოხერხდა",
 "Language changed" => "ენა შეცვლილია",
 "Invalid request" => "არასწორი მოთხოვნა",

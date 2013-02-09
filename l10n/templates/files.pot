@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-04 00:04+0100\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,20 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:27 ajax/move.php:30
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/rename.php:22 ajax/rename.php:25
+msgid "Unable to rename file"
+msgstr ""
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -53,7 +67,7 @@ msgid "Failed to write to disk"
 msgstr ""
 
 #: ajax/upload.php:52
-msgid "Not enough space available"
+msgid "Not enough storage available"
 msgstr ""
 
 #: ajax/upload.php:83
@@ -68,11 +82,15 @@ msgstr ""
 msgid "Unshare"
 msgstr ""
 
-#: js/fileactions.js:119 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:119
+msgid "Delete permanently"
+msgstr ""
+
+#: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr ""
 
-#: js/fileactions.js:185
+#: js/fileactions.js:187
 msgid "Rename"
 msgstr ""
 
@@ -177,31 +195,31 @@ msgstr ""
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:949 templates/index.php:67
+#: js/files.js:953 templates/index.php:67
 msgid "Name"
 msgstr ""
 
-#: js/files.js:950 templates/index.php:78
+#: js/files.js:954 templates/index.php:78
 msgid "Size"
 msgstr ""
 
-#: js/files.js:951 templates/index.php:80
+#: js/files.js:955 templates/index.php:80
 msgid "Modified"
 msgstr ""
 
-#: js/files.js:970
+#: js/files.js:974
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:972
+#: js/files.js:976
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:980
+#: js/files.js:984
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:982
+#: js/files.js:986
 msgid "{count} files"
 msgstr ""
 

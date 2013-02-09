@@ -24,7 +24,7 @@
  * This class contains all hooks.
  */
 
-namespace OCA_Trash;
+namespace OCA\Files_Trashbin;
 
 class Hooks {
 

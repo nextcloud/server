@@ -7,7 +7,6 @@
 "No file was uploaded" => "কোন ফাইল আপলোড করা হয় নি",
 "Missing a temporary folder" => "অস্থায়ী ফোল্ডার খোয়া গিয়েছে",
 "Failed to write to disk" => "ডিস্কে লিখতে ব্যর্থ",
-"Not enough space available" => "যথেষ্ঠ পরিমাণ স্থান নেই",
 "Invalid directory." => "ভুল ডিরেক্টরি",
 "Files" => "ফাইল",
 "Unshare" => "ভাগাভাগি বাতিল ",

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-04 00:05+0100\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -212,7 +212,7 @@ msgid "Use TLS"
 msgstr ""
 
 #: templates/settings.php:38
-msgid "Do not use it for SSL connections, it will fail."
+msgid "Do not use it additionally for LDAPS connections, it will fail."
 msgstr ""
 
 #: templates/settings.php:39
