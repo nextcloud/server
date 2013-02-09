@@ -291,7 +291,7 @@ class Trashbin {
 		$query->execute(array($user,$limit));
 		
 		$availableSpace = $availableSpace + $size;
-
+		// if size limit for trash bin reached, delete oldest files in trash bin
 		if ($availableSpace < 0) {
 			$query = \OC_DB::prepare('SELECT location,type,id,timestamp FROM *PREFIX*files_trash WHERE user=? ORDER BY timestamp ASC');
 			$result = $query->execute(array($user))->fetchAll();
@@ -305,7 +305,6 @@ class Trashbin {
 			}
 			
 		}
-		
 		
 		return $size;
 	}
