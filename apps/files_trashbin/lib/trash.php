@@ -349,7 +349,7 @@ class Trashbin {
 		$versionsName = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath($filename);
 		$versions = array();
 		if ($timestamp ) {
-		// fetch for old versions
+			// fetch for old versions
 			$matches = glob( $versionsName.'.v*.d'.$timestamp );
 			$offset = -strlen($timestamp)-2;
 		} else {

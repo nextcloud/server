@@ -132,7 +132,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			//$this->closedir( $directoryHandle ); // TODO: implement closedir in OC_FSV
 			if ( $empty == false ) {
 				if ( !$this->rmdir( $directory ) ) {
-				return false;
+					return false;
 				}
 			}
 			return true;

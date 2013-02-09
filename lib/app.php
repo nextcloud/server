@@ -76,14 +76,14 @@ class OC_App{
 				&& empty(OC_Util::$core_scripts)
 				&& empty(OC_Util::$core_styles)) {
 				OC_Util::$core_scripts = OC_Util::$scripts;
-			OC_Util::$scripts = array();
-			OC_Util::$core_styles = OC_Util::$styles;
-			OC_Util::$styles = array();
+				OC_Util::$scripts = array();
+				OC_Util::$core_styles = OC_Util::$styles;
+				OC_Util::$styles = array();
+			}
 		}
-	}
 		// return
-	return true;
-}
+		return true;
+	}
 
 	/**
 	 * load a single app
@@ -557,16 +557,16 @@ class OC_App{
 		$forms=array();
 		switch($type) {
 			case 'settings':
-			$source=self::$settingsForms;
-			break;
+				$source=self::$settingsForms;
+				break;
 			case 'admin':
-			$source=self::$adminForms;
-			break;
+				$source=self::$adminForms;
+				break;
 			case 'personal':
-			$source=self::$personalForms;
-			break;
+				$source=self::$personalForms;
+				break;
 			default:
-			return array();
+				return array();
 		}
 		foreach($source as $form) {
 			$forms[]=include $form;
@@ -694,15 +694,15 @@ class OC_App{
 						// OR $app['ocs_id'] == $remote['ocs_id']
 						) {
 						unset( $remoteApps[$key]);
+					}
 				}
 			}
+			$combinedApps = array_merge( $appList, $remoteApps );
+		} else {
+			$combinedApps = $appList;
 		}
-		$combinedApps = array_merge( $appList, $remoteApps );
-	} else {
-		$combinedApps = $appList;
-	}	
-	return $combinedApps;	
-}
+		return $combinedApps;
+	}
 
 	/**
 	 * @brief: get a list of all apps on apps.owncloud.com

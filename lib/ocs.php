@@ -173,7 +173,7 @@ class OC_OCS {
 						}
 					}
 					xmlwriter_end_element($writer);
-					}
+				}
 				xmlwriter_end_element($writer);
 
 			}elseif($dimension=='3') {

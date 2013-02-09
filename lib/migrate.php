@@ -181,7 +181,7 @@ class OC_Migrate{
 			return json_encode( array( 'success' => false ) );
 		}
 		return json_encode( array( 'success' => true, 'data' => self::$zippath ) );
-	 }
+	}
 
 	/**
 	* @brief imports a user, or owncloud instance
