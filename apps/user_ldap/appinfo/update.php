@@ -89,5 +89,6 @@ if(!isset($connector)) {
 $connector->getConfiguration();
 $connector->saveConfiguration();
 
-// we don't save it anymore, was a well-meant bad idea
-\OC_Preferences::deleteKey('%', 'user_ldap' , 'homedir');
+// we don't save it anymore, was a well-meant bad idea. Clean up database.
+$query = OC_DB::prepare('DELETE FROM `*PREFIX*preferences` WHERE `appid` = ? AND `configkey` = ?');
+$query->execute(array('user_ldap' , 'homedir'));
