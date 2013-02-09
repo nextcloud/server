@@ -4,6 +4,7 @@ OC_JSON::checkAdminUser();
 OCP\JSON::callCheck();
 
 $appid = $_POST['appid'];
+$appid = OC_App::cleanAppId($appid);
 
 $result = OC_Installer::updateApp($appid);
 if($result !== false) {

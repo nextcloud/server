@@ -97,7 +97,7 @@ class OC_L10N{
 		if ($this->app === true) {
 			return;
 		}
-		$app = $this->app;
+		$app = OC_App::cleanAppId($this->app);
 		$lang = $this->lang;
 		$this->app = true;
 		// Find the right language

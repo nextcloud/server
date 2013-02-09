@@ -4,6 +4,7 @@ OC_Util::checkAdminUser();
 OCP\JSON::callCheck();
 
 $app = $_GET['app'];
+$app = OC_App::cleanAppId($app);
 
 //load the one app and see what it adds to the navigation
 OC_App::loadApp($app);
