@@ -12,15 +12,29 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-08 00:09+0100\n"
-"PO-Revision-Date: 2013-02-07 02:20+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 23:12+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:27 ajax/move.php:30
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/rename.php:22 ajax/rename.php:25
+msgid "Unable to rename file"
+msgstr ""
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -58,8 +72,8 @@ msgid "Failed to write to disk"
 msgstr "ディスクへの書き込みに失敗しました"
 
 #: ajax/upload.php:52
-msgid "Not enough space available"
-msgstr "利用可能なスペースが十分にありません"
+msgid "Not enough storage available"
+msgstr ""
 
 #: ajax/upload.php:83
 msgid "Invalid directory."

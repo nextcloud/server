@@ -25,8 +25,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-08 00:10+0100\n"
-"PO-Revision-Date: 2013-02-07 23:10+0000\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 23:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -70,7 +70,7 @@ msgstr "Keine Kategorie hinzuzufügen?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "Die Kategorie '%s' existiert bereits."
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -485,7 +485,7 @@ msgstr "Kategorien bearbeiten"
 msgid "Add"
 msgstr "Hinzufügen"
 
-#: templates/installation.php:23 templates/installation.php:31
+#: templates/installation.php:23 templates/installation.php:30
 msgid "Security Warning"
 msgstr "Sicherheitshinweis"
 
@@ -495,20 +495,24 @@ msgid ""
 "OpenSSL extension."
 msgstr "Es ist kein sicherer Zufallszahlengenerator verfügbar, bitte aktivieren Sie die PHP-Erweiterung für OpenSSL."
 
-#: templates/installation.php:26
+#: templates/installation.php:25
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Ohne einen sicheren Zufallszahlengenerator sind Angreifer in der Lage, die Tokens für das Zurücksetzen der Passwörter vorherzusehen und Ihr Konto zu übernehmen."
 
+#: templates/installation.php:31
+msgid ""
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
+msgstr ""
+
 #: templates/installation.php:32
 msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "Ihr Datenverzeichnis und Ihre Dateien sind wahrscheinlich über das Internet erreichbar. Die von ownCloud bereitgestellte .htaccess Datei funktioniert nicht. Wir empfehlen Ihnen dringend, Ihren Webserver so zu konfigurieren, dass das Datenverzeichnis nicht mehr über das Internet erreichbar ist. Alternativ können Sie auch das Datenverzeichnis aus dem Dokumentenverzeichnis des Webservers verschieben."
+"For information how to properly configure your server, please see the <a "
+"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
+"target=\"_blank\">documentation</a>."
+msgstr ""
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"

@@ -108,7 +108,6 @@
 "Security Warning" => "Segurtasun abisua",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Ez dago hausazko zenbaki sortzaile segururik eskuragarri, mesedez gatiu PHP OpenSSL extensioa.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Hausazko zenbaki sortzaile segururik gabe erasotzaile batek pasahitza berrezartzeko kodeak iragarri ditzake eta zure kontuaz jabetu.",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Zure data karpeta eta zure fitxategiak internetetik zuzenean eskuragarri egon daitezke. ownCloudek emandako .htaccess fitxategia ez du bere lana egiten. Aholkatzen dizugu zure web zerbitzaria ongi konfiguratzea data karpeta eskuragarri ez izateko edo data karpeta web zerbitzariaren dokumentu errotik mugitzea.",
 "Create an <strong>admin account</strong>" => "Sortu <strong>kudeatzaile kontu<strong> bat",
 "Advanced" => "Aurreratua",
 "Data folder" => "Datuen karpeta",

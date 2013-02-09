@@ -7,7 +7,6 @@
 "No file was uploaded" => "Файл не был загружен",
 "Missing a temporary folder" => "Невозможно найти временную папку",
 "Failed to write to disk" => "Ошибка записи на диск",
-"Not enough space available" => "Недостаточно свободного места",
 "Invalid directory." => "Неправильный каталог.",
 "Files" => "Файлы",
 "Unshare" => "Отменить публикацию",

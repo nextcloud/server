@@ -15,13 +15,13 @@
 #   <nathaplop@gmail.com>, 2012.
 #   <nicolas@shivaserv.fr>, 2012.
 #   <rom1dep@gmail.com>, 2011.
-# Romain DEP. <rom1dep@gmail.com>, 2012.
+# Romain DEP. <rom1dep@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-08 00:10+0100\n"
-"PO-Revision-Date: 2013-02-07 23:10+0000\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 23:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -65,7 +65,7 @@ msgstr "Pas de catégorie à ajouter ?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "Cette catégorie existe déjà : %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -480,7 +480,7 @@ msgstr "Modifier les catégories"
 msgid "Add"
 msgstr "Ajouter"
 
-#: templates/installation.php:23 templates/installation.php:31
+#: templates/installation.php:23 templates/installation.php:30
 msgid "Security Warning"
 msgstr "Avertissement de sécurité"
 
@@ -490,20 +490,24 @@ msgid ""
 "OpenSSL extension."
 msgstr "Aucun générateur de nombre aléatoire sécurisé n'est disponible, veuillez activer l'extension PHP OpenSSL"
 
-#: templates/installation.php:26
+#: templates/installation.php:25
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Sans générateur de nombre aléatoire sécurisé, un attaquant peut être en mesure de prédire les jetons de réinitialisation du mot de passe, et ainsi prendre le contrôle de votre compte utilisateur."
 
+#: templates/installation.php:31
+msgid ""
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
+msgstr ""
+
 #: templates/installation.php:32
 msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "Votre dossier data et vos fichiers sont probablement accessibles depuis internet. Le fichier .htaccess fourni par ownCloud ne fonctionne pas. Nous vous recommandons vivement de configurer votre serveur web de manière à ce que le dossier data ne soit plus accessible ou bien de déplacer le dossier data en dehors du dossier racine des documents du serveur web."
+"For information how to properly configure your server, please see the <a "
+"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
+"target=\"_blank\">documentation</a>."
+msgstr ""
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -586,7 +590,7 @@ msgstr "Connexion"
 
 #: templates/login.php:49
 msgid "Alternative Logins"
-msgstr ""
+msgstr "Logins alternatifs"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

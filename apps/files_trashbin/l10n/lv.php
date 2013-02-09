@@ -1,4 +1,6 @@
 <?php $TRANSLATIONS = array(
+"Couldn't delete %s permanently" => "Nevarēja pilnībā izdzēst %s",
+"Couldn't restore %s" => "Nevarēja atjaunot %s",
 "perform restore operation" => "veikt atjaunošanu",
 "delete file permanently" => "dzēst datni pavisam",
 "Name" => "Nosaukums",

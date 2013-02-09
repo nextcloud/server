@@ -7,7 +7,6 @@
 "No file was uploaded" => "ファイルはアップロードされませんでした",
 "Missing a temporary folder" => "テンポラリフォルダが見つかりません",
 "Failed to write to disk" => "ディスクへの書き込みに失敗しました",
-"Not enough space available" => "利用可能なスペースが十分にありません",
 "Invalid directory." => "無効なディレクトリです。",
 "Files" => "ファイル",
 "Unshare" => "共有しない",

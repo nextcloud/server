@@ -43,6 +43,7 @@
 "Disable Main Server" => "Deaktivēt galveno serveri",
 "When switched on, ownCloud will only connect to the replica server." => "Kad ieslēgts, ownCloud savienosies tikai ar kopijas serveri.",
 "Use TLS" => "Lietot TLS",
+"Do not use it additionally for LDAPS connections, it will fail." => "Neizmanto papildu LDAPS savienojumus! Tas nestrādās.",
 "Case insensitve LDAP server (Windows)" => "Reģistrnejutīgs LDAP serveris (Windows)",
 "Turn off SSL certificate validation." => "Izslēgt SSL sertifikātu validēšanu.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Ja savienojums darbojas ar šo opciju, importē LDAP serveru SSL sertifikātu savā ownCloud serverī.",

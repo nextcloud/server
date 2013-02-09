@@ -7,7 +7,6 @@
 "No file was uploaded" => "文件没有上传",
 "Missing a temporary folder" => "缺少临时目录",
 "Failed to write to disk" => "写入磁盘失败",
-"Not enough space available" => "没有足够可用空间",
 "Invalid directory." => "无效文件夹。",
 "Files" => "文件",
 "Unshare" => "取消分享",

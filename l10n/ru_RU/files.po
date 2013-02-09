@@ -6,12 +6,13 @@
 #  <cdewqazxsqwe@gmail.com>, 2013.
 #   <cdewqazxsqwe@gmail.com>, 2012.
 #   <skoptev@ukr.net>, 2012.
+# Дмитрий <langaru@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:08+0000\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 23:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -19,6 +20,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ru_RU\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:27 ajax/move.php:30
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/rename.php:22 ajax/rename.php:25
+msgid "Unable to rename file"
+msgstr ""
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -56,8 +71,8 @@ msgid "Failed to write to disk"
 msgstr "Не удалось записать на диск"
 
 #: ajax/upload.php:52
-msgid "Not enough space available"
-msgstr "Не достаточно свободного места"
+msgid "Not enough storage available"
+msgstr ""
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
@@ -73,7 +88,7 @@ msgstr "Скрыть"
 
 #: js/fileactions.js:119
 msgid "Delete permanently"
-msgstr ""
+msgstr "Удалить навсегда"
 
 #: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
 msgid "Delete"
@@ -113,7 +128,7 @@ msgstr "заменено {новое_имя} с {старое_имя}"
 
 #: js/filelist.js:280
 msgid "perform delete operation"
-msgstr ""
+msgstr "выполняется процесс удаления"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -131,17 +146,17 @@ msgstr "Некорректное имя, '\\', '/', '<', '>', ':', '\"', '|', '?
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Ваше хранилище переполнено, фалы больше не могут быть обновлены или синхронизированы!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Ваше хранилище почти полно ({usedSpacePercent}%)"
 
 #: js/files.js:224
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
+msgstr "Идёт подготовка к скачке Вашего файла. Это может занять некоторое время, если фалы большие."
 
 #: js/files.js:261
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
@@ -266,7 +281,7 @@ msgstr "По ссылке"
 
 #: templates/index.php:40
 msgid "Trash"
-msgstr ""
+msgstr "Корзина"
 
 #: templates/index.php:46
 msgid "Cancel upload"

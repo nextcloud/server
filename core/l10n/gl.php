@@ -105,7 +105,6 @@
 "Security Warning" => "Aviso de seguranza",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Non hai un xerador de números ao chou dispoñíbel. Active o engadido de OpenSSL para PHP.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Sen un xerador seguro de números ao chou podería acontecer que predicindo as cadeas de texto de reinicio de contrasinais se afagan coa súa conta.",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "O seu cartafol de datos e os seus ficheiros probabelmente sexan accesíbeis a través da Internet. O ficheiro .htaccess que fornece ownCloud non está a empregarse. Suxerimoslle que configure o seu servidor web de tal xeito que o cartafol de datos non estea accesíbel ou mova o cartafol de datos fora do directorio raíz de datos do servidor web.",
 "Create an <strong>admin account</strong>" => "Crear unha <strong>contra de administrador</strong>",
 "Advanced" => "Avanzado",
 "Data folder" => "Cartafol de datos",

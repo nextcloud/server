@@ -165,16 +165,6 @@ class Hooks {
 	 * @brief 
 	 */
 	public static function postShared( $params ) {
-		
-		// Delete existing catfile
-		Keymanager::deleteFileKey(  );
-		
-		// Generate new catfile and env keys
-		Crypt::multiKeyEncrypt( $plainContent, $publicKeys );
-		
-		// Save env keys to user folders
-		
-		
 	}
 	
 	/**

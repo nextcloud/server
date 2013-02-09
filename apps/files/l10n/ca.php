@@ -7,7 +7,6 @@
 "No file was uploaded" => "El fitxer no s'ha pujat",
 "Missing a temporary folder" => "S'ha perdut un fitxer temporal",
 "Failed to write to disk" => "Ha fallat en escriure al disc",
-"Not enough space available" => "No hi ha prou espai disponible",
 "Invalid directory." => "Directori no vàlid.",
 "Files" => "Fitxers",
 "Unshare" => "Deixa de compartir",

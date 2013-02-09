@@ -7,7 +7,6 @@
 "No file was uploaded" => "Geen bestand geüpload",
 "Missing a temporary folder" => "Een tijdelijke map mist",
 "Failed to write to disk" => "Schrijven naar schijf mislukt",
-"Not enough space available" => "Niet genoeg ruimte beschikbaar",
 "Invalid directory." => "Ongeldige directory.",
 "Files" => "Bestanden",
 "Unshare" => "Stop delen",

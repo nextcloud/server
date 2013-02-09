@@ -346,7 +346,7 @@ class OC {
 	public static function init() {
 		// register autoloader
 		spl_autoload_register(array('OC', 'autoload'));
-		setlocale(LC_ALL, 'en_US.UTF-8');
+		OC_Util::issetlocaleworking();
 
 		// set some stuff
 		//ob_start();
@@ -468,7 +468,7 @@ class OC {
 		register_shutdown_function(array('OC_Helper', 'cleanTmp'));
 
 		//parse the given parameters
-		self::$REQUESTEDAPP = (isset($_GET['app']) && trim($_GET['app']) != '' && !is_null($_GET['app']) ? str_replace(array('\0', '/', '\\', '..'), '', strip_tags($_GET['app'])) : OC_Config::getValue('defaultapp', 'files'));
+		self::$REQUESTEDAPP = (isset($_GET['app']) && trim($_GET['app']) != '' && !is_null($_GET['app']) ? OC_App::cleanAppId(strip_tags($_GET['app'])) : OC_Config::getValue('defaultapp', 'files'));
 		if (substr_count(self::$REQUESTEDAPP, '?') != 0) {
 			$app = substr(self::$REQUESTEDAPP, 0, strpos(self::$REQUESTEDAPP, '?'));
 			$param = substr($_GET['app'], strpos($_GET['app'], '?') + 1);
@@ -498,7 +498,7 @@ class OC {
 
 		// write error into log if locale can't be set
 		if (OC_Util::issetlocaleworking() == false) {
-			OC_Log::write('core', 'setting locale to en_US.UTF-8 failed. Support is probably not installed on your system', OC_Log::ERROR);
+			OC_Log::write('core', 'setting locale to en_US.UTF-8/en_US.UTF8 failed. Support is probably not installed on your system', OC_Log::ERROR);
 		}
 		if (OC_Config::getValue('installed', false)) {
 			if (OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
@@ -548,6 +548,7 @@ class OC {
 			require_once 'core/setup.php';
 			exit();
 		}
+
 		$request = OC_Request::getPathInfo();
 		if(substr($request, -3) !== '.js'){// we need these files during the upgrade
 			self::checkMaintenanceMode();
@@ -556,6 +557,7 @@ class OC {
 
 		if (!self::$CLI) {
 			try {
+				OC_App::loadApps();
 				OC::getRouter()->match(OC_Request::getPathInfo());
 				return;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {

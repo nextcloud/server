@@ -105,7 +105,6 @@
 "Security Warning" => "אזהרת אבטחה",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "אין מחולל מספרים אקראיים מאובטח, נא להפעיל את ההרחבה OpenSSL ב־PHP.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "ללא מחולל מספרים אקראיים מאובטח תוקף יכול לנבא את מחרוזות איפוס הססמה ולהשתלט על החשבון שלך.",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "יתכן שתיקיית הנתונים והקבצים שלך נגישים דרך האינטרנט. קובץ ה־‎.htaccess שמסופק על ידי ownCloud כנראה אינו עובד. אנו ממליצים בחום להגדיר את שרת האינטרנט שלך בדרך שבה תיקיית הנתונים לא תהיה זמינה עוד או להעביר את תיקיית הנתונים מחוץ לספריית העל של שרת האינטרנט.",
 "Create an <strong>admin account</strong>" => "יצירת <strong>חשבון מנהל</strong>",
 "Advanced" => "מתקדם",
 "Data folder" => "תיקיית נתונים",

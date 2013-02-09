@@ -105,7 +105,6 @@
 "Security Warning" => "Öryggis aðvörun",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Enginn traustur slembitölugjafi í boði, vinsamlegast virkjaðu PHP OpenSSL viðbótina.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Án öruggs slembitölugjafa er mögulegt að sjá fyrir öryggis auðkenni til að endursetja lykilorð og komast inn á aðganginn þinn.",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Gagnamappan þín er að öllum líkindum aðgengileg frá internetinu. Skráin .htaccess sem fylgir með ownCloud er ekki að virka. Við mælum eindregið með því að þú stillir vefþjóninn þannig að gagnamappan verði ekki aðgengileg frá internetinu eða færir hana út fyrir vefrótina.",
 "Create an <strong>admin account</strong>" => "Útbúa <strong>vefstjóra aðgang</strong>",
 "Advanced" => "Ítarlegt",
 "Data folder" => "Gagnamappa",

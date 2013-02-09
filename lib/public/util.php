@@ -148,6 +148,20 @@ class Util {
 	}
 
 	/**
+	 * @brief Creates an url using a defined route
+	 * @param $route
+	 * @param array $parameters
+	 * @return
+	 * @internal param array $args with param=>value, will be appended to the returned url
+	 * @returns the url
+	 *
+	 * Returns a url to the given app and file.
+	 */
+	public static function linkToRoute( $route, $parameters = array() ) {
+		return \OC_Helper::linkToRoute($route, $parameters);
+	}
+
+	/**
 	* @brief Creates an url
 	* @param string $app app
 	* @param string $file file

@@ -105,7 +105,6 @@
 "Security Warning" => "Cảnh bảo bảo mật",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Không an toàn ! chức năng random number generator đã có sẵn ,vui lòng bật  PHP OpenSSL extension.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Nếu không có random number generator , Hacker có thể  thiết lập lại mật khẩu và chiếm tài khoản của bạn.",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Thư mục dữ liệu và những tập tin của bạn có thể dễ dàng bị truy cập từ mạng. Tập tin .htaccess do ownCloud cung cấp không hoạt động. Chúng tôi đề nghị bạn nên cấu hình lại máy chủ web để thư mục dữ liệu không còn bị truy cập hoặc bạn nên di chuyển thư mục dữ liệu ra bên ngoài thư mục gốc của máy chủ.",
 "Create an <strong>admin account</strong>" => "Tạo một <strong>tài khoản quản trị</strong>",
 "Advanced" => "Nâng cao",
 "Data folder" => "Thư mục dữ liệu",

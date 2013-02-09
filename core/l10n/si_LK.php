@@ -71,7 +71,6 @@
 "Add" => "එක් කරන්න",
 "Security Warning" => "ආරක්ෂක නිවේදනයක්",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "ආරක්ෂිත අහඹු සංඛ්‍යා උත්පාදකයක් නොමැති නම් ඔබගේ ගිණුමට පහරදෙන අයකුට එහි මුරපද යළි පිහිටුවීමට අවශ්‍ය ටෝකන පහසුවෙන් සොයාගෙන ඔබගේ ගිණුම පැහැරගත හැක.",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "ඔබගේ දත්ත ඩිරෙක්ටරිය හා ගොනුවලට අන්තර්ජාලයෙන් පිවිසිය හැක. ownCloud සපයා ඇති .htaccess ගොනුව ක්‍රියාකරන්නේ නැත. අපි තරයේ කියා සිටිනුයේ නම්, මෙම දත්ත හා ගොනු එසේ පිවිසීමට නොහැකි වන ලෙස ඔබේ වෙබ් සේවාදායකයා  වින්‍යාස කරන ලෙස හෝ එම ඩිරෙක්ටරිය වෙබ් මූලයෙන් පිටතට ගෙනයන ලෙසය.",
 "Advanced" => "දියුණු/උසස්",
 "Data folder" => "දත්ත ෆෝල්ඩරය",
 "Configure the database" => "දත්ත සමුදාය හැඩගැසීම",
