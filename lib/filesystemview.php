@@ -517,11 +517,7 @@ class OC_FilesystemView {
 		if(OC_Filesystem::isValidPath($path)) {
 			$source = $this->fopen($path, 'r');
 			if($source) {
-				$extension='';
-				$extOffset=strpos($path, '.');
-				if($extOffset !== false) {
-					$extension=substr($path, strrpos($path,'.'));
-				}
+				$extension = pathinfo($path, PATHINFO_EXTENSION);
 				$tmpFile = OC_Helper::tmpFile($extension);
 				file_put_contents($tmpFile, $source);
 				return $tmpFile;
