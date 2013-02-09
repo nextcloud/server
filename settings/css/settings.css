@@ -75,3 +75,8 @@ table.shareAPI td { padding-bottom: 0.8em; }
 
 /* HELP */
 .pressed {background-color:#DDD;}
+
+.clientsbox { margin:12px; text-align:center; }
+.clientsbox h1 { font-size:40px; font-weight:bold; margin:50px 0 20px; }
+.clientsbox h2 { font-size:20px; font-weight:bold; margin:35px 0 10px; }
+
