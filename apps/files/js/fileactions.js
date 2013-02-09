@@ -190,11 +190,11 @@ FileActions.register('all', 'Rename', OC.PERMISSION_UPDATE, function () {
 
 
 FileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename) {
-	var dir = encodeURIComponent($('#dir').val()).replace(/%2F/g, '/');
+	var dir = $('#dir').val()
 	if (dir != '/') {
 		dir = dir + '/';
 	}
-	window.location = OC.linkTo('files', 'index.php') + '?dir=' + dir + encodeURIComponent(filename);
+	window.location = OC.linkTo('files', 'index.php') + '?dir=' + encodeURIComponent(dir + filename);
 });
 
 FileActions.setDefault('dir', 'Open');
