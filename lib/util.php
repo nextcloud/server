@@ -74,7 +74,7 @@ class OC_Util {
 	 */
 	public static function getVersion() {
 		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4.90.0. This is not visible to the user
-		return array(4, 91, 10);
+		return array(4, 92, 10);
 	}
 
 	/**
@@ -82,7 +82,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString() {
-		return '5.0 pre alpha';
+		return '5.0 alpha 1';
 	}
 
 	/**
