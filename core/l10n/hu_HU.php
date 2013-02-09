@@ -105,7 +105,6 @@
 "Security Warning" => "Biztonsági figyelmeztetés",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Nem érhető el megfelelő véletlenszám-generátor, telepíteni kellene a PHP OpenSSL kiegészítését.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Megfelelő véletlenszám-generátor hiányában egy támadó szándékú idegen képes lehet megjósolni a jelszóvisszaállító tokent, és Ön helyett belépni.",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Az adatkönytára és az itt levő fájlok valószínűleg elérhetők az internetről. Az ownCloud által beillesztett .htaccess fájl nem működik. Nagyon fontos, hogy a webszervert úgy konfigurálja, hogy az adatkönyvtár nem legyen közvetlenül kívülről elérhető, vagy az adatkönyvtárt tegye a webszerver dokumentumfáján kívülre.",
 "Create an <strong>admin account</strong>" => "<strong>Rendszergazdai belépés</strong> létrehozása",
 "Advanced" => "Haladó",
 "Data folder" => "Adatkönyvtár",

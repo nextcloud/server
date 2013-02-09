@@ -5,6 +5,7 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "El usuario %s ha compartido la carpeta \"%s\" contigo. Puedes descargarla aquí: %s",
 "Category type not provided." => "Tipo de categoria no proporcionado.",
 "No category to add?" => "¿Ninguna categoría para añadir?",
+"This category already exists: %s" => "Esta categoria ya existe: %s",
 "Object type not provided." => "ipo de objeto no proporcionado.",
 "%s ID not provided." => "%s ID no proporcionado.",
 "Error adding %s to favorites." => "Error añadiendo %s a los favoritos.",
@@ -108,7 +109,6 @@
 "Security Warning" => "Advertencia de seguridad",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "No está disponible un generador de números aleatorios seguro, por favor habilite la extensión OpenSSL de PHP.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Sin un generador de números aleatorios seguro un atacante podría predecir los tokens de reinicio de su contraseña y tomar control de su cuenta.",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Su directorio de datos y sus archivos están probablemente accesibles desde internet. El archivo .htaccess que ownCloud provee no está funcionando. Sugerimos fuertemente que configure su servidor web de manera que el directorio de datos ya no esté accesible o mueva el directorio de datos fuera del documento raíz de su servidor web.",
 "Create an <strong>admin account</strong>" => "Crea una <strong>cuenta de administrador</strong>",
 "Advanced" => "Avanzado",
 "Data folder" => "Directorio de almacenamiento",
@@ -128,6 +128,7 @@
 "Lost your password?" => "¿Has perdido tu contraseña?",
 "remember" => "recuérdame",
 "Log in" => "Entrar",
+"Alternative Logins" => "Nombre de usuarios alternativos",
 "prev" => "anterior",
 "next" => "siguiente",
 "Updating ownCloud to version %s, this may take a while." => "Actualizando ownCloud a la versión %s, esto puede demorar un tiempo."

@@ -15,7 +15,7 @@ var FileList={
 			extension=false;
 		}
 		html+='<td class="filename" style="background-image:url('+img+')"><input type="checkbox" />';
-		html+='<a class="name" href="download.php?file='+$('#dir').val().replace(/</, '&lt;').replace(/>/, '&gt;')+'/'+escapeHTML(name)+'"><span class="nametext">'+escapeHTML(basename);
+		html+='<a class="name" href="' +OC.Router.generate('download', { file: $('#dir').val()+'/'+name }) +'"><span class="nametext">'+escapeHTML(basename);
 		if(extension){
 			html+='<span class="extension">'+escapeHTML(extension)+'</span>';
 		}
@@ -216,9 +216,6 @@ var FileList={
 	},
 	replace:function(oldName, newName, isNewFile) {
 		// Finish any existing actions
-		if (FileList.lastAction || !FileList.useUndo) {
-			FileList.lastAction();
-		}
 		$('tr').filterAttr('data-file', oldName).hide();
 		$('tr').filterAttr('data-file', newName).hide();
 		var tr = $('tr').filterAttr('data-file', oldName).clone();
@@ -321,7 +318,6 @@ $(document).ready(function(){
 				// Delete the new uploaded file
 				FileList.deleteCanceled = false;
 				FileList.deleteFiles = [FileList.replaceOldName];
-				FileList.finishDelete(null, true);
 			} else {
 				$('tr').filterAttr('data-file', FileList.replaceOldName).show();
 			}
@@ -348,7 +344,6 @@ $(document).ready(function(){
 		if ($('#notification').data('isNewFile')) {
 			FileList.deleteCanceled = false;
 			FileList.deleteFiles = [$('#notification').data('oldName')];
-			FileList.finishDelete(null, true);
 		}
 	});
 	FileList.useUndo=(window.onbeforeunload)?true:false;

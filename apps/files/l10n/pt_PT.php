@@ -7,7 +7,6 @@
 "No file was uploaded" => "Não foi enviado nenhum ficheiro",
 "Missing a temporary folder" => "Falta uma pasta temporária",
 "Failed to write to disk" => "Falhou a escrita no disco",
-"Not enough space available" => "Espaço em disco insuficiente!",
 "Invalid directory." => "Directório Inválido",
 "Files" => "Ficheiros",
 "Unshare" => "Deixar de partilhar",

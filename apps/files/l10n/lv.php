@@ -7,7 +7,6 @@
 "No file was uploaded" => "Neviena datne netika augšupielādēta",
 "Missing a temporary folder" => "Trūkst pagaidu mapes",
 "Failed to write to disk" => "Neizdevās saglabāt diskā",
-"Not enough space available" => "Nepietiek brīvas vietas",
 "Invalid directory." => "Nederīga direktorija.",
 "Files" => "Datnes",
 "Unshare" => "Pārtraukt dalīšanos",

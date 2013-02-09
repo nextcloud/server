@@ -7,7 +7,6 @@
 "No file was uploaded" => "Не відвантажено жодного файлу",
 "Missing a temporary folder" => "Відсутній тимчасовий каталог",
 "Failed to write to disk" => "Невдалося записати на диск",
-"Not enough space available" => "Місця більше немає",
 "Invalid directory." => "Невірний каталог.",
 "Files" => "Файли",
 "Unshare" => "Заборонити доступ",

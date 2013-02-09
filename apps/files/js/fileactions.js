@@ -112,10 +112,7 @@ var FileActions = {
 			if (img.call) {
 				img = img(file);
 			}
-			// NOTE: Temporary fix to allow unsharing of files in root of Shared folder
-			if ($('#dir').val() == '/Shared') {
-				var html = '<a href="#" original-title="' + t('files', 'Unshare') + '" class="action delete" />';
-			} else if (typeof trashBinApp !== 'undefined' && trashBinApp) {
+			if  (typeof trashBinApp !== 'undefined' && trashBinApp) {
 				var html = '<a href="#" original-title="' + t('files', 'Delete permanently') + '" class="action delete" />';
 			} else {
 				var html = '<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete" />';

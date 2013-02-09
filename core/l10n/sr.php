@@ -102,7 +102,6 @@
 "Security Warning" => "Сигурносно упозорење",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Поуздан генератор случајних бројева није доступан, предлажемо да укључите PHP проширење OpenSSL.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Без поузданог генератора случајнох бројева нападач лако може предвидети лозинку за поништавање кључа шифровања и отети вам налог.",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Тренутно су ваши подаци и датотеке доступне са интернета. Датотека .htaccess коју је обезбедио пакет ownCloud не функционише. Саветујемо вам да подесите веб сервер тако да директоријум са подацима не буде изложен или да га преместите изван коренског директоријума веб сервера.",
 "Create an <strong>admin account</strong>" => "Направи <strong>административни налог</strong>",
 "Advanced" => "Напредно",
 "Data folder" => "Фацикла података",

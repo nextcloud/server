@@ -100,7 +100,6 @@
 "Edit categories" => "Muokkaa luokkia",
 "Add" => "Lisää",
 "Security Warning" => "Turvallisuusvaroitus",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Data-kansio ja tiedostot ovat ehkä saavutettavissa Internetistä. .htaccess-tiedosto, jolla kontrolloidaan pääsyä, ei toimi. Suosittelemme, että muutat web-palvelimesi asetukset niin ettei data-kansio ole enää pääsyä tai siirrät data-kansion pois web-palvelimen tiedostojen juuresta.",
 "Create an <strong>admin account</strong>" => "Luo <strong>ylläpitäjän tunnus</strong>",
 "Advanced" => "Lisäasetukset",
 "Data folder" => "Datakansio",

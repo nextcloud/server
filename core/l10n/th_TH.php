@@ -108,7 +108,6 @@
 "Security Warning" => "คำเตือนเกี่ยวกับความปลอดภัย",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "ยังไม่มีตัวสร้างหมายเลขแบบสุ่มให้ใช้งาน, กรุณาเปิดใช้งานส่วนเสริม PHP OpenSSL",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "หากปราศจากตัวสร้างหมายเลขแบบสุ่มที่ช่วยป้องกันความปลอดภัย ผู้บุกรุกอาจสามารถที่จะคาดคะเนรหัสยืนยันการเข้าถึงเพื่อรีเซ็ตรหัสผ่าน และเอาบัญชีของคุณไปเป็นของตนเองได้",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "ไดเร็กทอรี่ข้อมูลและไฟล์ของคุณสามารถเข้าถึงได้จากอินเทอร์เน็ต ไฟล์ .htaccess ที่ ownCloud มีให้ไม่สามารถทำงานได้อย่างเหมาะสม เราขอแนะนำให้คุณกำหนดค่าเว็บเซิร์ฟเวอร์ใหม่ในรูปแบบที่ไดเร็กทอรี่เก็บข้อมูลไม่สามารถเข้าถึงได้อีกต่อไป หรือคุณได้ย้ายไดเร็กทอรี่ที่ใช้เก็บข้อมูลไปอยู่ภายนอกตำแหน่ง root ของเว็บเซิร์ฟเวอร์แล้ว",
 "Create an <strong>admin account</strong>" => "สร้าง <strong>บัญชีผู้ดูแลระบบ</strong>",
 "Advanced" => "ขั้นสูง",
 "Data folder" => "โฟลเดอร์เก็บข้อมูล",

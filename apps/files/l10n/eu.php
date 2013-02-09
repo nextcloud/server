@@ -7,7 +7,6 @@
 "No file was uploaded" => "Ez da fitxategirik igo",
 "Missing a temporary folder" => "Aldi baterako karpeta falta da",
 "Failed to write to disk" => "Errore bat izan da diskoan idazterakoan",
-"Not enough space available" => "Ez dago leku nahikorik.",
 "Invalid directory." => "Baliogabeko karpeta.",
 "Files" => "Fitxategiak",
 "Unshare" => "Ez elkarbanatu",

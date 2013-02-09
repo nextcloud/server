@@ -7,7 +7,6 @@
 "No file was uploaded" => "ยังไม่มีไฟล์ที่ถูกอัพโหลด",
 "Missing a temporary folder" => "แฟ้มเอกสารชั่วคราวเกิดการสูญหาย",
 "Failed to write to disk" => "เขียนข้อมูลลงแผ่นดิสก์ล้มเหลว",
-"Not enough space available" => "มีพื้นที่เหลือไม่เพียงพอ",
 "Invalid directory." => "ไดเร็กทอรี่ไม่ถูกต้อง",
 "Files" => "ไฟล์",
 "Unshare" => "ยกเลิกการแชร์ข้อมูล",

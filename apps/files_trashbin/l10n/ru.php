@@ -1,4 +1,6 @@
 <?php $TRANSLATIONS = array(
+"Couldn't delete %s permanently" => "%s не может быть удалён навсегда",
+"Couldn't restore %s" => "%s не может быть восстановлен",
 "perform restore operation" => "выполнить операцию восстановления",
 "delete file permanently" => "удалить файл навсегда",
 "Name" => "Имя",

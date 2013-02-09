@@ -7,7 +7,6 @@
 "No file was uploaded" => "Es wurde keine Datei hochgeladen.",
 "Missing a temporary folder" => "Der temporäre Ordner fehlt.",
 "Failed to write to disk" => "Fehler beim Schreiben auf die Festplatte",
-"Not enough space available" => "Nicht genügend Speicherplatz verfügbar",
 "Invalid directory." => "Ungültiges Verzeichnis.",
 "Files" => "Dateien",
 "Unshare" => "Nicht mehr freigeben",

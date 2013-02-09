@@ -24,9 +24,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 14:01+0000\n"
+"Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,7 +45,7 @@ msgstr "Erreur d'authentification"
 
 #: ajax/changedisplayname.php:28
 msgid "Unable to change display name"
-msgstr ""
+msgstr "Impossible de modifier le nom d'affichage"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -244,15 +244,15 @@ msgstr "Nom affiché"
 
 #: templates/personal.php:42
 msgid "Your display name was changed"
-msgstr ""
+msgstr "Votre nom d'affichage a bien été modifié"
 
 #: templates/personal.php:43
 msgid "Unable to change your display name"
-msgstr ""
+msgstr "Impossible de modifier votre nom d'affichage"
 
 #: templates/personal.php:46
 msgid "Change display name"
-msgstr ""
+msgstr "Changer le nom affiché"
 
 #: templates/personal.php:55
 msgid "Email"
