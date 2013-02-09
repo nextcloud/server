@@ -295,6 +295,23 @@ class OC_App{
 	}
 
 	/**
+	 * @brief Get the navigation entries for the $app
+	 * @param string $app app
+	 * @return array of the $data added with addNavigationEntry
+	 */
+	public static function getAppNavigationEntries($app) {
+		if(is_file(self::getAppPath($app).'/appinfo/app.php')) {
+			$save = self::$navigation;
+			self::$navigation = array();
+			require $app.'/appinfo/app.php';
+			$app_entries = self::$navigation;
+			self::$navigation = $save;
+			return $app_entries;
+		}
+		return array();
+	}
+
+	/**
 	 * @brief gets the active Menu entry
 	 * @return string id or empty string
 	 *
