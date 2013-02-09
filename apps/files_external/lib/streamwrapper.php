@@ -12,7 +12,7 @@ abstract class StreamWrapper extends \OC\Files\Storage\Common{
 	private $ready = false;
 
 	protected function init(){
-		if($this->ready){
+		if($this->ready) {
 			return;
 		}
 		$this->ready = true;

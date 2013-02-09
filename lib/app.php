@@ -157,7 +157,7 @@ class OC_App{
 	 */
 	public static function isShipped($appid){
 		$info = self::getAppInfo($appid);
-		if(isset($info['shipped']) && $info['shipped']=='true'){
+		if(isset($info['shipped']) && $info['shipped']=='true') {
 			return true;
 		} else {
 			return false;
@@ -247,7 +247,7 @@ class OC_App{
 		OC_Appconfig::setValue( $app, 'enabled', 'no' );
 
 		// check if app is a shipped app or not. if not delete
-		if(!OC_App::isShipped( $app )){
+		if(!OC_App::isShipped( $app )) {
 			OC_Installer::removeApp( $app );
 		}
 	}
@@ -726,7 +726,7 @@ class OC_App{
 				$app1[$i]['ocs_id'] = $app['id'];
 				$app1[$i]['internal'] = $app1[$i]['active'] = 0;
 				$app1[$i]['update'] = false;
-				if($app['label']=='recommended'){
+				if($app['label']=='recommended') {
 					$app1[$i]['internallabel'] = 'Recommended';
 					$app1[$i]['internalclass'] = 'recommendedapp';
 				}else{

@@ -18,7 +18,7 @@ class Permissions {
 	 * @param \OC\Files\Storage\Storage|string $storage
 	 */
 	public function __construct($storage){
-		if($storage instanceof \OC\Files\Storage\Storage){
+		if($storage instanceof \OC\Files\Storage\Storage) {
 			$this->storageId = $storage->getId();
 		}else{
 			$this->storageId = $storage;

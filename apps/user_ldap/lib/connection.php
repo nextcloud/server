@@ -192,7 +192,7 @@ class Connection {
 
 	private function getValue($varname) {
 		static $defaults;
-		if(is_null($defaults)){
+		if(is_null($defaults)) {
 			$defaults = $this->getDefaults();
 		}
 		return \OCP\Config::getAppValue($this->configID,
@@ -336,7 +336,7 @@ class Connection {
 				case 'ldapBaseGroups':
 				case 'ldapAttributesForUserSearch':
 				case 'ldapAttributesForGroupSearch':
-					if(is_array($value)){
+					if(is_array($value)) {
 						$value = implode("\n", $value);
 					}
 					break;

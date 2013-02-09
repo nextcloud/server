@@ -246,8 +246,8 @@ class OC_Util {
 		$handler = ini_get("session.save_handler");
 		if($handler == "files") {
 			$tmpDir = session_save_path();
-			if($tmpDir != ""){
-				if(!@is_writable($tmpDir)){
+			if($tmpDir != "") {
+				if(!@is_writable($tmpDir)) {
 					$errors[]=array('error' => 'The temporary folder used by PHP to save the session data is either incorrect or not writable! Please check : '.session_save_path().'<br/>',
 					'hint'=>'Please ask your server administrator to grant write access or define another temporary folder.');
 				}

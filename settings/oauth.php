@@ -15,7 +15,7 @@ switch($operation){
 	case 'register':
 
 		// Here external apps can register with an ownCloud
-		if(empty($_GET['name']) || empty($_GET['url'])){
+		if(empty($_GET['name']) || empty($_GET['url'])) {
 			// Invalid request
 			echo 401;
 		} else {
@@ -54,13 +54,13 @@ switch($operation){
 		foreach($consumer['scopes'] as $requiredapp){
 			// App scopes are in this format: app_$appname
 			$requiredapp = end(explode('_', $requiredapp));
-			if(!in_array($requiredapp, $apps)){
+			if(!in_array($requiredapp, $apps)) {
 				$notfound[] = $requiredapp;
 			}
 		}
-		if(!empty($notfound)){
+		if(!empty($notfound)) {
 			// We need more apps :( Show error
-			if(count($notfound)==1){
+			if(count($notfound)==1) {
 				$message = 'requires that you have an extra app installed on your ownCloud. Please contact your ownCloud administrator and ask them to install the app below.';
 			} else {
 				$message = 'requires that you have some extra apps installed on your ownCloud. Please contract your ownCloud administrator and ask them to install the apps below.';

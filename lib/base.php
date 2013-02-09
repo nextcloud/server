@@ -550,7 +550,7 @@ class OC {
 		}
 
 		$request = OC_Request::getPathInfo();
-		if(substr($request, -3) !== '.js'){// we need these files during the upgrade
+		if(substr($request, -3) !== '.js') {// we need these files during the upgrade
 			self::checkMaintenanceMode();
 			self::checkUpgrade();
 		}

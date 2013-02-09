@@ -270,12 +270,12 @@ class OC_Installer{
 	public static function isUpdateAvailable( $app ) {
 		$ocsid=OC_Appconfig::getValue( $app, 'ocsid', '');
 
-		if($ocsid<>''){
+		if($ocsid<>'') {
 
 			$ocsdata=OC_OCSClient::getApplication($ocsid);
 			$ocsversion= (string) $ocsdata['version'];
 			$currentversion=OC_App::getAppVersion($app);
-			if($ocsversion<>$currentversion){
+			if($ocsversion<>$currentversion) {
 				return($ocsversion);
 
 			}else{
@@ -326,22 +326,22 @@ class OC_Installer{
 	 */
 	public static function removeApp( $name, $options = array()) {
 
-		if(isset($options['keeppreferences']) and $options['keeppreferences']==false ){
+		if(isset($options['keeppreferences']) and $options['keeppreferences']==false ) {
 			// todo
 			// remove preferences
 		}
 
-		if(isset($options['keepappconfig']) and $options['keepappconfig']==false ){
+		if(isset($options['keepappconfig']) and $options['keepappconfig']==false ) {
 			// todo
 			// remove app config
 		}
 
-		if(isset($options['keeptables']) and $options['keeptables']==false ){
+		if(isset($options['keeptables']) and $options['keeptables']==false ) {
 			// todo
 			// remove app database tables
 		}
 
-		if(isset($options['keepfiles']) and $options['keepfiles']==false ){
+		if(isset($options['keepfiles']) and $options['keepfiles']==false ) {
 			// todo
 			// remove user files
 		}

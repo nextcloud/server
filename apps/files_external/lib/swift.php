@@ -290,7 +290,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	}
 
 	private function init(){
-		if($this->ready){
+		if($this->ready) {
 			return;
 		}
 		$this->ready = true;

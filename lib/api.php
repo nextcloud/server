@@ -82,7 +82,7 @@ class OC_API {
 		// Prepare the request variables
 		if($_SERVER['REQUEST_METHOD'] == 'PUT') {
 			parse_str(file_get_contents("php://input"), $parameters['_put']);
-		} else if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
+		} else if($_SERVER['REQUEST_METHOD'] == 'DELETE') {
 			parse_str(file_get_contents("php://input"), $parameters['_delete']);
 		}
 		$name = $parameters['_route'];

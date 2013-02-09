@@ -46,7 +46,7 @@ class OC_OCS_Privatedata {
 		$app = addslashes(strip_tags($parameters['app']));
 		$key = addslashes(strip_tags($parameters['key']));
 		$value = OC_OCS::readData('post', 'value', 'text');
-		if(OC_Preferences::setValue($user, $app, $key, $value)){
+		if(OC_Preferences::setValue($user, $app, $key, $value)) {
 			return new OC_OCS_Result(null, 100);
 		}
 	}
