@@ -321,7 +321,6 @@ $(document).ready(function(){
 				// Delete the new uploaded file
 				FileList.deleteCanceled = false;
 				FileList.deleteFiles = [FileList.replaceOldName];
-				FileList.finishDelete(null, true);
 			} else {
 				$('tr').filterAttr('data-file', FileList.replaceOldName).show();
 			}
@@ -348,7 +347,6 @@ $(document).ready(function(){
 		if ($('#notification').data('isNewFile')) {
 			FileList.deleteCanceled = false;
 			FileList.deleteFiles = [$('#notification').data('oldName')];
-			FileList.finishDelete(null, true);
 		}
 	});
 	FileList.useUndo=(window.onbeforeunload)?true:false;
