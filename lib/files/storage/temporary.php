@@ -21,7 +21,6 @@ class Temporary extends Local{
 	}
 
 	public function __destruct() {
-		parent::__destruct();
 		$this->cleanUp();
 	}
 }
