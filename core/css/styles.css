@@ -184,15 +184,16 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
 
 /* Show password toggle */
-#show {
-	position:absolute; right:1em; top:.8em; float:right;
-	display:none;
-}
-#show + label {
-	position:absolute!important; height:14px; width:24px; right:1em; top:1.25em!important;
+#show { position:absolute; right:1em; top:.8em; float:right; }
+#show, #personal-show { display:none; }
+#show + label { right:1em; top:1.25em!important; }
+#show:checked + label, #personal-show:checked + label { opacity:.8; }
+#show + label, #personal-show + label { 
+	position:absolute!important; height:14px; width:24px;
 	background-image:url("../img/actions/toggle.png"); background-repeat:no-repeat; opacity:.3;
 }
-#show:checked + label { opacity:.8; }
+#personal-show + label { margin-top:1em; }
+#passwordbutton { margin-left:2.5em; }
 
 /* Database selector */
 #login form #selectDbType { text-align:center; }
