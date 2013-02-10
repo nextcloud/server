@@ -65,9 +65,9 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 			
 			// mark file as partial while uploading (ignored by the scanner)
 			$partpath = $newPath . '.part';
-
+		
 			\OC\Files\Filesystem::file_put_contents($partpath, $data);
-
+			
 			// rename to correct path
 			\OC\Files\Filesystem::rename($partpath, $newPath);
 			
