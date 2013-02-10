@@ -40,7 +40,6 @@
 "Unable to change your password" => "No fue posible cambiar tu contraseña",
 "Current password" => "Contraseña actual",
 "New password" => "Nueva contraseña:",
-"show" => "mostrar",
 "Change password" => "Cambiar contraseña",
 "Display Name" => "Nombre a mostrar",
 "Email" => "Correo electrónico",

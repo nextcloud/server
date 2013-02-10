@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 23:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-11 00:03+0100\n"
+"PO-Revision-Date: 2013-02-10 06:20+0000\n"
+"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,7 +74,7 @@ msgstr "寫入硬碟失敗"
 
 #: ajax/upload.php:52
 msgid "Not enough storage available"
-msgstr ""
+msgstr "儲存空間不足"
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
@@ -86,7 +86,7 @@ msgstr "檔案"
 
 #: js/fileactions.js:116
 msgid "Delete permanently"
-msgstr ""
+msgstr "永久刪除"
 
 #: js/fileactions.js:118 templates/index.php:91 templates/index.php:92
 msgid "Delete"
@@ -198,31 +198,31 @@ msgstr "URL 不能為空白."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "無效的資料夾名稱，'Shared' 的使用被 Owncloud 保留"
 
-#: js/files.js:947 templates/index.php:67
+#: js/files.js:948 templates/index.php:67
 msgid "Name"
 msgstr "名稱"
 
-#: js/files.js:948 templates/index.php:78
+#: js/files.js:949 templates/index.php:78
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:949 templates/index.php:80
+#: js/files.js:950 templates/index.php:80
 msgid "Modified"
 msgstr "修改"
 
-#: js/files.js:968
+#: js/files.js:969
 msgid "1 folder"
 msgstr "1 個資料夾"
 
-#: js/files.js:970
+#: js/files.js:971
 msgid "{count} folders"
 msgstr "{count} 個資料夾"
 
-#: js/files.js:978
+#: js/files.js:979
 msgid "1 file"
 msgstr "1 個檔案"
 
-#: js/files.js:980
+#: js/files.js:981
 msgid "{count} files"
 msgstr "{count} 個檔案"
 
@@ -280,7 +280,7 @@ msgstr "從連結"
 
 #: templates/index.php:40
 msgid "Trash bin"
-msgstr ""
+msgstr "回收筒"
 
 #: templates/index.php:46
 msgid "Cancel upload"

@@ -1,4 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Could not move %s - File with this name already exists" => "Nevarēja pārvietot %s — jau eksistē datne ar tādu nosaukumu",
+"Could not move %s" => "Nevarēja pārvietot %s",
+"Unable to rename file" => "Nevarēja pārsaukt datni",
 "No file was uploaded. Unknown error" => "Netika augšupielādēta neviena datne. Nezināma kļūda",
 "There is no error, the file uploaded with success" => "Augšupielāde pabeigta bez kļūdām",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Augšupielādētā datne pārsniedz upload_max_filesize norādījumu php.ini datnē:",
@@ -7,6 +10,7 @@
 "No file was uploaded" => "Neviena datne netika augšupielādēta",
 "Missing a temporary folder" => "Trūkst pagaidu mapes",
 "Failed to write to disk" => "Neizdevās saglabāt diskā",
+"Not enough storage available" => "Nav pietiekami daudz vietas",
 "Invalid directory." => "Nederīga direktorija.",
 "Files" => "Datnes",
 "Delete permanently" => "Dzēst pavisam",
@@ -56,6 +60,7 @@
 "Text file" => "Teksta datne",
 "Folder" => "Mape",
 "From link" => "No saites",
+"Trash bin" => "Miskaste",
 "Cancel upload" => "Atcelt augšupielādi",
 "Nothing in here. Upload something!" => "Te vēl nekas nav. Rīkojies, sāc augšupielādēt!",
 "Download" => "Lejupielādēt",

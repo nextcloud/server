@@ -40,7 +40,6 @@
 "Unable to change your password" => "Ekki tókst að breyta lykilorðinu þínu",
 "Current password" => "Núverandi lykilorð",
 "New password" => "Nýtt lykilorð",
-"show" => "sýna",
 "Change password" => "Breyta lykilorði",
 "Email" => "Netfang",
 "Your email address" => "Netfangið þitt",

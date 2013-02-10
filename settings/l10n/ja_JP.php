@@ -47,7 +47,6 @@
 "Unable to change your password" => "パスワードを変更することができません",
 "Current password" => "現在のパスワード",
 "New password" => "新しいパスワード",
-"show" => "表示",
 "Change password" => "パスワードを変更",
 "Display Name" => "表示名",
 "Your display name was changed" => "あなたの表示名を変更しました",

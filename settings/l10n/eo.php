@@ -40,7 +40,6 @@
 "Unable to change your password" => "Ne eblis ŝanĝi vian pasvorton",
 "Current password" => "Nuna pasvorto",
 "New password" => "Nova pasvorto",
-"show" => "montri",
 "Change password" => "Ŝanĝi la pasvorton",
 "Email" => "Retpoŝto",
 "Your email address" => "Via retpoŝta adreso",

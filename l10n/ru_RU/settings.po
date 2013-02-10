@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:08+0000\n"
+"POT-Creation-Date: 2013-02-11 00:03+0100\n"
+"PO-Revision-Date: 2013-02-10 23:03+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -23,12 +23,12 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Невозможно загрузить список из App Store"
 
-#: ajax/changedisplayname.php:19 ajax/removeuser.php:15 ajax/setquota.php:15
+#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:15
 #: ajax/togglegroups.php:18
 msgid "Authentication error"
 msgstr "Ошибка авторизации"
 
-#: ajax/changedisplayname.php:28
+#: ajax/changedisplayname.php:32
 msgid "Unable to change display name"
 msgstr ""
 
@@ -82,7 +82,7 @@ msgstr "Невозможно добавить пользователя в гру
 msgid "Unable to remove user from group %s"
 msgstr "Невозможно удалить пользователя из группы %s"
 
-#: ajax/updateapp.php:13
+#: ajax/updateapp.php:14
 msgid "Couldn't update app."
 msgstr ""
 
@@ -214,10 +214,6 @@ msgstr "Текущий пароль"
 #: templates/personal.php:27
 msgid "New password"
 msgstr "Новый пароль"
-
-#: templates/personal.php:28
-msgid "show"
-msgstr "показать"
 
 #: templates/personal.php:29
 msgid "Change password"

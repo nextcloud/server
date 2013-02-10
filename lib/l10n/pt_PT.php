@@ -16,6 +16,8 @@
 "Files" => "Ficheiros",
 "Text" => "Texto",
 "Images" => "Imagens",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "O seu servidor web não está configurado correctamente para autorizar sincronização de ficheiros, pois o interface WebDAV parece estar com problemas.",
+"Please double check the <a href='%s'>installation guides</a>." => "Por favor verifique <a href='%s'>installation guides</a>.",
 "seconds ago" => "há alguns segundos",
 "1 minute ago" => "há 1 minuto",
 "%d minutes ago" => "há %d minutos",

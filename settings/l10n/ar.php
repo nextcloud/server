@@ -40,7 +40,6 @@
 "Unable to change your password" => "لم يتم تعديل كلمة السر بنجاح",
 "Current password" => "كلمات السر الحالية",
 "New password" => "كلمات سر جديدة",
-"show" => "أظهر",
 "Change password" => "عدل كلمة السر",
 "Email" => "العنوان البريدي",
 "Your email address" => "عنوانك البريدي",

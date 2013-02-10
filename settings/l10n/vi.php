@@ -47,7 +47,6 @@
 "Unable to change your password" => "Không thể đổi mật khẩu",
 "Current password" => "Mật khẩu cũ",
 "New password" => "Mật khẩu mới ",
-"show" => "Hiện",
 "Change password" => "Đổi mật khẩu",
 "Display Name" => "Tên hiển thị",
 "Your display name was changed" => "Tên hiển thị của bạn đã được thay đổi",

@@ -40,7 +40,6 @@
 "Unable to change your password" => "无法修改密码",
 "Current password" => "当前密码",
 "New password" => "新密码",
-"show" => "显示",
 "Change password" => "修改密码",
 "Email" => "电子邮件",
 "Your email address" => "您的电子邮件",

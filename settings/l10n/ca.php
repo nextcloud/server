@@ -47,7 +47,6 @@
 "Unable to change your password" => "No s'ha pogut canviar la contrasenya",
 "Current password" => "Contrasenya actual",
 "New password" => "Contrasenya nova",
-"show" => "mostra",
 "Change password" => "Canvia la contrasenya",
 "Display Name" => "Nom a mostrar",
 "Your display name was changed" => "El vostre nom a mostrar ha canviat",

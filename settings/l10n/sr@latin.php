@@ -8,7 +8,6 @@
 "Unable to change your password" => "Ne mogu da izmenim vašu lozinku",
 "Current password" => "Trenutna lozinka",
 "New password" => "Nova lozinka",
-"show" => "prikaži",
 "Change password" => "Izmeni lozinku",
 "Email" => "E-mail",
 "Language" => "Jezik",

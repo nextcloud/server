@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
+"POT-Creation-Date: 2013-02-11 00:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,13 +41,13 @@ msgstr ""
 msgid "Error configuring Google Drive storage"
 msgstr ""
 
-#: lib/config.php:405
+#: lib/config.php:413
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:406
+#: lib/config.php:414
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting "
 "of FTP shares is not possible. Please ask your system administrator to "

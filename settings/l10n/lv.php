@@ -47,7 +47,6 @@
 "Unable to change your password" => "Nevar nomainīt jūsu paroli",
 "Current password" => "Pašreizējā parole",
 "New password" => "Jauna parole",
-"show" => "parādīt",
 "Change password" => "Mainīt paroli",
 "Display Name" => "Redzamais vārds",
 "Your display name was changed" => "Jūsu redzamais vārds tika mainīts",

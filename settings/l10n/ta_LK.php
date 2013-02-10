@@ -30,7 +30,6 @@
 "Unable to change your password" => "உங்களுடைய கடவுச்சொல்லை மாற்றமுடியாது",
 "Current password" => "தற்போதைய கடவுச்சொல்",
 "New password" => "புதிய கடவுச்சொல்",
-"show" => "காட்டு",
 "Change password" => "கடவுச்சொல்லை மாற்றுக",
 "Email" => "மின்னஞ்சல்",
 "Your email address" => "உங்களுடைய மின்னஞ்சல் முகவரி",

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 23:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-11 00:03+0100\n"
+"PO-Revision-Date: 2013-02-10 10:40+0000\n"
+"Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -195,31 +195,31 @@ msgstr "URL nemůže být prázdná"
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Neplatný název složky. Použití 'Shared' je rezervováno pro vnitřní potřeby Owncloud"
 
-#: js/files.js:947 templates/index.php:67
+#: js/files.js:948 templates/index.php:67
 msgid "Name"
 msgstr "Název"
 
-#: js/files.js:948 templates/index.php:78
+#: js/files.js:949 templates/index.php:78
 msgid "Size"
 msgstr "Velikost"
 
-#: js/files.js:949 templates/index.php:80
+#: js/files.js:950 templates/index.php:80
 msgid "Modified"
 msgstr "Změněno"
 
-#: js/files.js:968
+#: js/files.js:969
 msgid "1 folder"
 msgstr "1 složka"
 
-#: js/files.js:970
+#: js/files.js:971
 msgid "{count} folders"
 msgstr "{count} složky"
 
-#: js/files.js:978
+#: js/files.js:979
 msgid "1 file"
 msgstr "1 soubor"
 
-#: js/files.js:980
+#: js/files.js:981
 msgid "{count} files"
 msgstr "{count} soubory"
 
@@ -277,7 +277,7 @@ msgstr "Z odkazu"
 
 #: templates/index.php:40
 msgid "Trash bin"
-msgstr ""
+msgstr "Koš"
 
 #: templates/index.php:46
 msgid "Cancel upload"

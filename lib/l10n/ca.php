@@ -16,6 +16,8 @@
 "Files" => "Fitxers",
 "Text" => "Text",
 "Images" => "Imatges",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "El servidor web no està configurat correctament per permetre la sincronització de fitxers perquè la interfície WebDAV sembla no funcionar correctament.",
+"Please double check the <a href='%s'>installation guides</a>." => "Comproveu les <a href='%s'>guies d'instal·lació</a>.",
 "seconds ago" => "segons enrere",
 "1 minute ago" => "fa 1 minut",
 "%d minutes ago" => "fa %d minuts",

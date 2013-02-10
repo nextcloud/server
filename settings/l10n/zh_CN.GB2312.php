@@ -29,7 +29,6 @@
 "Unable to change your password" => "不能改变你的密码",
 "Current password" => "现在的密码",
 "New password" => "新密码",
-"show" => "展示",
 "Change password" => "改变密码",
 "Email" => "Email",
 "Your email address" => "你的email地址",

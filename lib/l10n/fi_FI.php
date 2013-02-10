@@ -16,6 +16,7 @@
 "Files" => "Tiedostot",
 "Text" => "Teksti",
 "Images" => "Kuvat",
+"Please double check the <a href='%s'>installation guides</a>." => "Lue tarkasti <a href='%s'>asennusohjeet</a>.",
 "seconds ago" => "sekuntia sitten",
 "1 minute ago" => "1 minuutti sitten",
 "%d minutes ago" => "%d minuuttia sitten",

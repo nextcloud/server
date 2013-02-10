@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 18:50+0000\n"
-"Last-Translator: saosangm <saosangmo@yahoo.com>\n"
+"POT-Creation-Date: 2013-02-11 00:03+0100\n"
+"PO-Revision-Date: 2013-02-10 23:03+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,12 +28,12 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Không thể tải danh sách ứng dụng từ App Store"
 
-#: ajax/changedisplayname.php:19 ajax/removeuser.php:15 ajax/setquota.php:15
+#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:15
 #: ajax/togglegroups.php:18
 msgid "Authentication error"
 msgstr "Lỗi xác thực"
 
-#: ajax/changedisplayname.php:28
+#: ajax/changedisplayname.php:32
 msgid "Unable to change display name"
 msgstr "Không thể thay đổi tên hiển thị"
 
@@ -219,10 +219,6 @@ msgstr "Mật khẩu cũ"
 #: templates/personal.php:27
 msgid "New password"
 msgstr "Mật khẩu mới "
-
-#: templates/personal.php:28
-msgid "show"
-msgstr "Hiện"
 
 #: templates/personal.php:29
 msgid "Change password"

@@ -12,7 +12,6 @@
 "Unable to change your password" => "Промяната на паролата не беше извършена",
 "Current password" => "Текуща парола",
 "New password" => "Нова парола",
-"show" => "показва",
 "Change password" => "Промяна на паролата",
 "Email" => "E-mail",
 "Your email address" => "Вашия email адрес",
