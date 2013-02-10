@@ -242,7 +242,11 @@ class View {
 		if (!is_null($mtime) and !is_numeric($mtime)) {
 			$mtime = strtotime($mtime);
 		}
-		return $this->basicOperation('touch', $path, array('write'), $mtime);
+		$result = $this->basicOperation('touch', $path, array('write'), $mtime);
+		if (!$result) { //if native touch fails, we emulate it by changing the mtime in the cache
+			$this->putFileInfo($path, array('mtime' => $mtime));
+		}
+		return true;
 	}
 
 	public function file_get_contents($path) {
@@ -917,11 +921,11 @@ class View {
 	}
 
 	/**
-	* Get the owner for a file or folder
-	*
-	* @param string $path
-	* @return string
-	*/
+	 * Get the owner for a file or folder
+	 *
+	 * @param string $path
+	 * @return string
+	 */
 	public function getOwner($path) {
 		return $this->basicOperation('getOwner', $path);
 	}
