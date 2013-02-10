@@ -33,6 +33,7 @@ class OC_API {
 	const USER_AUTH = 1;
 	const SUBADMIN_AUTH = 2;
 	const ADMIN_AUTH = 3;
+	
 	/**
 	 * API Response Codes
 	 */
@@ -40,15 +41,6 @@ class OC_API {
 	const RESPOND_SERVER_ERROR = 996;
 	const RESPOND_NOT_FOUND = 998;
 	const RESPOND_UNKNOWN_ERROR = 999;
-
-	private static $server;
-
-	/**
-	 * initialises the OAuth store and server
-	 */
-	private static function init() {
-		self::$server = new OC_OAuth_Server(new OC_OAuth_Store());
-	}
 	
 	/**
 	 * api actions
@@ -156,9 +148,9 @@ class OC_API {
 			}
 		}
 		// Remove any error responses if there is one shipped response that succeeded
-		if(!empty($shipped['succeeded'])){
+		if(!empty($shipped['succeeded'])) {
 			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
-		} else if(!empty($shipped['failed'])){
+		} else if(!empty($shipped['failed'])) {
 			// Which shipped response do we use if they all failed?
 			// They may have failed for different reasons (different status codes)
 			// Which reponse code should we return?
