@@ -49,12 +49,20 @@ class SFTP extends \OC\Files\Storage\Common {
 			$host_keys[$this->host] = $current_host_key;
 			$this->write_host_keys($host_keys);
 		}
+		
+		if(!$this->file_exists('')){
+			$this->mkdir('');
+		}
 	}
 	
 	public function test() {
 		if (!isset($params['host']) || !isset($params['user']) || !isset($params['password'])) {
 			throw new \Exception("Required parameters not set");
 		}	
+	}
+	
+	public function getId(){
+		return 'sftp::' . $this->user . '@' . $this->host . '/' . $this->root;
 	}
 
 	private function abs_path($path) {
