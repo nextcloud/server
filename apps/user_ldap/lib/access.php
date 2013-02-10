@@ -293,6 +293,10 @@ abstract class Access {
 				$query->execute(array($dn, $uuid));
 				return $component;
 			}
+		} else {
+			//If the UUID can't be detected something is foul.
+			\OCP\Util::writeLog('user_ldap', 'Cannot determine UUID for '.$dn.'. Skipping.', \OCP\Util::INFO);
+			return false;
 		}
 
 		if(is_null($ldapname)) {
@@ -303,21 +307,24 @@ abstract class Access {
 			}
 			$ldapname = $ldapname[0];
 		}
-		$ldapname = $this->sanitizeUsername($ldapname);
+		$intname = $isUser ? $this->sanitizeUsername($uuid) : $this->sanitizeUsername($ldapname);
 
 		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
-		if(($isUser && !\OCP\User::userExists($ldapname, 'OCA\\user_ldap\\USER_LDAP')) || (!$isUser && !\OC_Group::groupExists($ldapname))) {
-			if($this->mapComponent($dn, $ldapname, $isUser)) {
-				return $ldapname;
+		//disabling Cache is required to avoid that the new user is cached as not-existing in fooExists check
+		$originalTTL = $this->connection->ldapCacheTTL;
+		$this->connection->setConfiguration(array('ldapCacheTTL' => 0));
+		if(($isUser && !\OCP\User::userExists($intname))
+			|| (!$isUser && !\OC_Group::groupExists($intname))) {
+			if($this->mapComponent($dn, $intname, $isUser)) {
+				$this->connection->setConfiguration(array('ldapCacheTTL' => $originalTTL));
+				return $intname;
 			}
 		}
+		$this->connection->setConfiguration(array('ldapCacheTTL' => $originalTTL));
 
-		//doh! There is a conflict. We need to distinguish between users/groups. Adding indexes is an idea, but not much of a help for the user. The DN is ugly, but for now the only reasonable way. But we transform it to a readable format and remove the first part to only give the path where this object is located.
-		$oc_name = $this->alternateOwnCloudName($ldapname, $dn);
-		if(($isUser && !\OCP\User::userExists($oc_name)) || (!$isUser && !\OC_Group::groupExists($oc_name))) {
-			if($this->mapComponent($dn, $oc_name, $isUser)) {
-				return $oc_name;
-			}
+		$altname = $this->createAltInternalOwnCloudName($intname, $isUser);
+		if($this->mapComponent($dn, $altname, $isUser)) {
+			return $altname;
 		}
 
 		//if everything else did not help..
@@ -400,18 +407,92 @@ abstract class Access {
 	}
 
 	/**
-	 * @brief creates a hopefully unique name for owncloud based on the display name and the dn of the LDAP object
+	 * @brief creates a unique name for internal ownCloud use for users. Don't call it directly.
 	 * @param $name the display name of the object
-	 * @param $dn the dn of the object
-	 * @returns string with with the name to use in ownCloud
+	 * @returns string with with the name to use in ownCloud or false if unsuccessful
 	 *
-	 * creates a hopefully unique name for owncloud based on the display name and the dn of the LDAP object
+	 * Instead of using this method directly, call
+	 * createAltInternalOwnCloudName($name, true)
 	 */
-	private function alternateOwnCloudName($name, $dn) {
-		$ufn = ldap_dn2ufn($dn);
-		$name = $name . '@' . trim(\OCP\Util::mb_substr_replace($ufn, '', 0, mb_strpos($ufn, ',', 0, 'UTF-8'), 'UTF-8'));
-		$name = $this->sanitizeUsername($name);
-		return $name;
+	private function _createAltInternalOwnCloudNameForUsers($name) {
+		$attempts = 0;
+		//while loop is just a precaution. If a name is not generated within
+		//20 attempts, something else is very wrong. Avoids infinite loop.
+		while($attempts < 20){
+			$altName = $name . '_' . uniqid();
+			if(\OCP\User::userExists($altName)) {
+				return $altName;
+			}
+			$attempts++;
+		}
+		return false;
+	}
+
+	/**
+	 * @brief creates a unique name for internal ownCloud use for groups. Don't call it directly.
+	 * @param $name the display name of the object
+	 * @returns string with with the name to use in ownCloud or false if unsuccessful.
+	 *
+	 * Instead of using this method directly, call
+	 * createAltInternalOwnCloudName($name, false)
+	 *
+	 * Group names are also used as display names, so we do a sequential
+	 * numbering, e.g. Developers_42 when there are 41 other groups called
+	 * "Developers"
+	 */
+	private function _createAltInternalOwnCloudNameForGroups($name) {
+		$query = \OCP\DB::prepare('
+			SELECT `owncloud_name`
+			FROM `'.$this->getMapTable(false).'`
+			WHERE `owncloud_name` LIKE ?
+		');
+
+		$usedNames = array();
+		$res = $query->execute(array($name.'_%'));
+		while($row = $res->fetchRow()) {
+			$usedNames[] = $row['owncloud_name'];
+		}
+		if(!($usedNames) || count($usedNames) == 0) {
+			$lastNo = 1; //will become name_2
+		} else {
+			natsort($usedNames);
+			$lastname = array_pop($usedNames);
+			$lastNo = intval(substr($lastname, strrpos($lastname, '_') + 1));
+		}
+		$altName = $name.'_'.strval($lastNo+1);
+		unset($usedNames);
+
+		$attempts = 1;
+		while($attempts < 21){
+			//Pro forma check to be really sure it is unique
+			//while loop is just a precaution. If a name is not generated within
+			//20 attempts, something else is very wrong. Avoids infinite loop.
+			if(!\OC_Group::groupExists($altName)) {
+				return $altName;
+			}
+			$altName = $name . '_' . $lastNo + $attempts;
+			$attempts++;
+		}
+		return false;
+	}
+
+	/**
+	 * @brief creates a unique name for internal ownCloud use.
+	 * @param $name the display name of the object
+	 * @param $isUser boolean, whether name should be created for a user (true) or a group (false)
+	 * @returns string with with the name to use in ownCloud or false if unsuccessful
+	 */
+	private function createAltInternalOwnCloudName($name, $isUser) {
+		$originalTTL = $this->connection->ldapCacheTTL;
+		$this->connection->setConfiguration(array('ldapCacheTTL' => 0));
+		if($isUser) {
+			$altName = $this->_createAltInternalOwnCloudNameForUsers($name);
+		} else {
+			$altName = $this->_createAltInternalOwnCloudNameForGroups($name);
+		}
+		$this->connection->setConfiguration(array('ldapCacheTTL' => $originalTTL));
+
+		return $altName;
 	}
 
 	/**
