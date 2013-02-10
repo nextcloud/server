@@ -13,7 +13,7 @@ class Capabilities {
 	public static function getCapabilities() {
 		return new \OC_OCS_Result(array(
 			'capabilities' => array(
-				'files_versions' => array(
+				'files' => array(
 					'versioning' => true,
 					),
 				),
@@ -21,4 +21,3 @@ class Capabilities {
 	}
 	
 }
-?>
