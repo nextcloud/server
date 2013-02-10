@@ -437,7 +437,7 @@ class OC_Helper {
 	public static function init_var($s, $d="") {
 		$r = $d;
 		if(isset($_REQUEST[$s]) && !empty($_REQUEST[$s]))
-			$r = stripslashes(htmlspecialchars($_REQUEST[$s]));
+			$r = OC_Util::sanitizeHTML($_REQUEST[$s]);
 
 		return $r;
 	}
