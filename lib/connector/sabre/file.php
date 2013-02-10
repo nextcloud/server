@@ -52,6 +52,12 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		
 		// rename to correct path
 		\OC\Files\Filesystem::rename($partpath, $this->path);
+		
+		//allow sync clients to send the mtime along in a header
+		$mtime = OC_Request::hasModificationTime();
+		if ($mtime !== false) {
+			\OC\Files\Filesystem::touch($this->path,$mtime);
+		}
 
 		return OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
 	}
