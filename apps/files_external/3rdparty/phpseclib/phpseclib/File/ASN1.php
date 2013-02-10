@@ -959,7 +959,7 @@ class File_ASN1 {
             case FILE_ASN1_TYPE_OBJECT_IDENTIFIER:
                 $oid = preg_match('#(?:\d+\.)+#', $source) ? $source : array_search($source, $this->oids);
                 if ($oid === false) {
-                    $this->_handle_error('Invalid OID');
+                    user_error('Invalid OID');
                     return false;
                 }
                 $value = '';
@@ -1012,7 +1012,7 @@ class File_ASN1 {
                     $filters = $filters[$part];
                 }
                 if ($filters === false) {
-                    $this->_handle_error('No filters defined for ' . implode('/', $loc));
+                    user_error('No filters defined for ' . implode('/', $loc));
                     return false;
                 }
                 return $this->_encode_der($source, $filters + $mapping);
@@ -1036,7 +1036,7 @@ class File_ASN1 {
                 $value = $source ? "\xFF" : "\x00";
                 break;
             default:
-                $this->_handle_error('Mapping provides no type definition for ' . implode('/', $this->location));
+                user_error('Mapping provides no type definition for ' . implode('/', $this->location));
                 return false;
         }
 
@@ -1273,23 +1273,5 @@ class File_ASN1 {
             $out .= strrev($v);
         }
         return $out;
-    }
-
-    /**
-     * Error Handler
-     *
-     * Throws exceptions if PHPSECLIB_USE_EXCEPTIONS is defined.
-     * Unless PHPSECLIB_EXCEPTION_CLASS is set it'll throw generic Exceptions.
-     *
-     * @param String $string
-     * @access private
-     */
-    function _handle_error($err_msg) {
-        if (defined('PHPSECLIB_USE_EXCEPTIONS') && version_compare(PHP_VERSION, '5.1.0', '>=')) {
-            $class = defined('PHPSECLIB_EXCEPTION_CLASS') && class_exists(PHPSECLIB_EXCEPTION_CLASS) ? PHPSECLIB_EXCEPTION_CLASS : 'Exception';
-            throw(new $class($err_msg));
-        } else {
-            user_error($err_msg);
-        }
     }
 }

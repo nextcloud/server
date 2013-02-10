@@ -90,7 +90,7 @@ function crypt_random_string($length) {
             $fp = @fopen('/dev/urandom', 'rb');
         }
         if ($fp !== true && $fp !== false) { // surprisingly faster than !is_bool() or is_resource()
-            return fread($urandom, $length);
+            return fread($fp, $length);
         }
         // method 3. pretty much does the same thing as method 2 per the following url:
         // https://github.com/php/php-src/blob/7014a0eb6d1611151a286c0ff4f2238f92c120d6/ext/mcrypt/mcrypt.c#L1391

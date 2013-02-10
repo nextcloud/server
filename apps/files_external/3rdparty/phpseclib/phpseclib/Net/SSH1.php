@@ -246,6 +246,14 @@ define('NET_SSH1_LOG_SIMPLE',  1);
  * Returns the message content
  */
 define('NET_SSH1_LOG_COMPLEX', 2);
+/**
+ * Outputs the content real-time
+ */
+define('NET_SSH2_LOG_REALTIME', 3);
+/**
+ * Dumps the content real-time to a file
+ */
+define('NET_SSH2_LOG_REALTIME_FILE', 4);
 /**#@-*/
 
 /**#@+
@@ -422,6 +430,33 @@ class Net_SSH1 {
     var $message_log = array();
 
     /**
+     * Real-time log file pointer
+     *
+     * @see Net_SSH1::_append_log()
+     * @var Resource
+     * @access private
+     */
+    var $realtime_log_file;
+
+    /**
+     * Real-time log file size
+     *
+     * @see Net_SSH1::_append_log()
+     * @var Integer
+     * @access private
+     */
+    var $realtime_log_size;
+
+    /**
+     * Real-time log file wrap boolean
+     *
+     * @see Net_SSH1::_append_log()
+     * @var Boolean
+     * @access private
+     */
+    var $realtime_log_wrap;
+
+    /**
      * Interactive Buffer
      *
      * @see Net_SSH1::read()
@@ -429,6 +464,22 @@ class Net_SSH1 {
      * @access private
      */
     var $interactiveBuffer = '';
+
+    /**
+     * Timeout
+     *
+     * @see Net_SSH1::setTimeout()
+     * @access private
+     */
+    var $timeout;
+
+    /**
+     * Current Timeout
+     *
+     * @see Net_SSH2::_get_channel_packet()
+     * @access private
+     */
+    var $curTimeout;
 
     /**
      * Default Constructor.
@@ -467,28 +518,23 @@ class Net_SSH1 {
 
         $this->fsock = @fsockopen($host, $port, $errno, $errstr, $timeout);
         if (!$this->fsock) {
-            $this->_handle_error(rtrim("Cannot connect to $host. Error $errno. $errstr"));
+            user_error(rtrim("Cannot connect to $host. Error $errno. $errstr"));
             return;
         }
 
         $this->server_identification = $init_line = fgets($this->fsock, 255);
 
         if (defined('NET_SSH1_LOGGING')) {
-            $this->protocol_flags_log[] = '<-';
-            $this->protocol_flags_log[] = '->';
-
-            if (NET_SSH1_LOGGING == NET_SSH1_LOG_COMPLEX) {
-                $this->message_log[] = $this->server_identification;
-                $this->message_log[] = $this->identifier . "\r\n";
-            }
+            $this->_append_log('<-', $this->server_identification);
+            $this->_append_log('->', $this->identifier . "\r\n");
         }
 
         if (!preg_match('#SSH-([0-9\.]+)-(.+)#', $init_line, $parts)) {
-            $this->_handle_error('Can only connect to SSH servers');
+            user_error('Can only connect to SSH servers');
             return;
         }
         if ($parts[1][0] != 1) {
-            $this->_handle_error("Cannot connect to SSH $parts[1] servers");
+            user_error("Cannot connect to SSH $parts[1] servers");
             return;
         }
 
@@ -496,7 +542,7 @@ class Net_SSH1 {
 
         $response = $this->_get_binary_packet();
         if ($response[NET_SSH1_RESPONSE_TYPE] != NET_SSH1_SMSG_PUBLIC_KEY) {
-            $this->_handle_error('Expected SSH_SMSG_PUBLIC_KEY');
+            user_error('Expected SSH_SMSG_PUBLIC_KEY');
             return;
         }
 
@@ -581,7 +627,7 @@ class Net_SSH1 {
         $data = pack('C2a*na*N', NET_SSH1_CMSG_SESSION_KEY, $cipher, $anti_spoofing_cookie, 8 * strlen($double_encrypted_session_key), $double_encrypted_session_key, 0);
 
         if (!$this->_send_binary_packet($data)) {
-            $this->_handle_error('Error sending SSH_CMSG_SESSION_KEY');
+            user_error('Error sending SSH_CMSG_SESSION_KEY');
             return;
         }
 
@@ -611,7 +657,7 @@ class Net_SSH1 {
         $response = $this->_get_binary_packet();
 
         if ($response[NET_SSH1_RESPONSE_TYPE] != NET_SSH1_SMSG_SUCCESS) {
-            $this->_handle_error('Expected SSH_SMSG_SUCCESS');
+            user_error('Expected SSH_SMSG_SUCCESS');
             return;
         }
 
@@ -635,44 +681,63 @@ class Net_SSH1 {
         $data = pack('CNa*', NET_SSH1_CMSG_USER, strlen($username), $username);
 
         if (!$this->_send_binary_packet($data)) {
-            $this->_handle_error('Error sending SSH_CMSG_USER');
+            user_error('Error sending SSH_CMSG_USER');
             return false;
         }
 
         $response = $this->_get_binary_packet();
 
+        if ($response === true) {
+            return false;
+        }
         if ($response[NET_SSH1_RESPONSE_TYPE] == NET_SSH1_SMSG_SUCCESS) {
             $this->bitmap |= NET_SSH1_MASK_LOGIN;
             return true;
         } else if ($response[NET_SSH1_RESPONSE_TYPE] != NET_SSH1_SMSG_FAILURE) {
-            $this->_handle_error('Expected SSH_SMSG_SUCCESS or SSH_SMSG_FAILURE');
+            user_error('Expected SSH_SMSG_SUCCESS or SSH_SMSG_FAILURE');
             return false;
         }
 
         $data = pack('CNa*', NET_SSH1_CMSG_AUTH_PASSWORD, strlen($password), $password);
 
         if (!$this->_send_binary_packet($data)) {
-            $this->_handle_error('Error sending SSH_CMSG_AUTH_PASSWORD');
+            user_error('Error sending SSH_CMSG_AUTH_PASSWORD');
             return false;
         }
 
         // remove the username and password from the last logged packet
         if (defined('NET_SSH1_LOGGING') && NET_SSH1_LOGGING == NET_SSH1_LOG_COMPLEX) {
             $data = pack('CNa*', NET_SSH1_CMSG_AUTH_PASSWORD, strlen('password'), 'password');
-            $this->message_log[count($this->message_log) - 1] = $data; // zzzzz
+            $this->message_log[count($this->message_log) - 1] = $data;
         }
 
         $response = $this->_get_binary_packet();
 
+        if ($response === true) {
+            return false;
+        }
         if ($response[NET_SSH1_RESPONSE_TYPE] == NET_SSH1_SMSG_SUCCESS) {
             $this->bitmap |= NET_SSH1_MASK_LOGIN;
             return true;
         } else if ($response[NET_SSH1_RESPONSE_TYPE] == NET_SSH1_SMSG_FAILURE) {
             return false;
         } else {
-            $this->_handle_error('Expected SSH_SMSG_SUCCESS or SSH_SMSG_FAILURE');
+            user_error('Expected SSH_SMSG_SUCCESS or SSH_SMSG_FAILURE');
             return false;
         }
+    }
+
+    /**
+     * Set Timeout
+     *
+     * $ssh->exec('ping 127.0.0.1'); on a Linux host will never return and will run indefinitely.  setTimeout() makes it so it'll timeout.
+     * Setting $timeout to false or 0 will mean there is no timeout.
+     *
+     * @param Mixed $timeout
+     */
+    function setTimeout($timeout)
+    {
+        $this->timeout = $this->curTimeout = $timeout;
     }
 
     /**
@@ -698,14 +763,14 @@ class Net_SSH1 {
     function exec($cmd, $block = true)
     {
         if (!($this->bitmap & NET_SSH1_MASK_LOGIN)) {
-            $this->_handle_error('Operation disallowed prior to login()');
+            user_error('Operation disallowed prior to login()');
             return false;
         }
 
         $data = pack('CNa*', NET_SSH1_CMSG_EXEC_CMD, strlen($cmd), $cmd);
 
         if (!$this->_send_binary_packet($data)) {
-            $this->_handle_error('Error sending SSH_CMSG_EXEC_CMD');
+            user_error('Error sending SSH_CMSG_EXEC_CMD');
             return false;
         }
 
@@ -716,10 +781,12 @@ class Net_SSH1 {
         $output = '';
         $response = $this->_get_binary_packet();
 
-        do {
-            $output.= substr($response[NET_SSH1_RESPONSE_DATA], 4);
-            $response = $this->_get_binary_packet();
-        } while ($response[NET_SSH1_RESPONSE_TYPE] != NET_SSH1_SMSG_EXITSTATUS);
+        if ($response !== false) {
+            do {
+                $output.= substr($response[NET_SSH1_RESPONSE_DATA], 4);
+                $response = $this->_get_binary_packet();
+            } while (is_array($response) && $response[NET_SSH1_RESPONSE_TYPE] != NET_SSH1_SMSG_EXITSTATUS);
+        }
 
         $data = pack('C', NET_SSH1_CMSG_EXIT_CONFIRMATION);
 
@@ -750,21 +817,24 @@ class Net_SSH1 {
         $data = pack('CNa*N4C', NET_SSH1_CMSG_REQUEST_PTY, strlen('vt100'), 'vt100', 24, 80, 0, 0, NET_SSH1_TTY_OP_END);
 
         if (!$this->_send_binary_packet($data)) {
-            $this->_handle_error('Error sending SSH_CMSG_REQUEST_PTY');
+            user_error('Error sending SSH_CMSG_REQUEST_PTY');
             return false;
         }
 
         $response = $this->_get_binary_packet();
 
+        if ($response === true) {
+            return false;
+        }
         if ($response[NET_SSH1_RESPONSE_TYPE] != NET_SSH1_SMSG_SUCCESS) {
-            $this->_handle_error('Expected SSH_SMSG_SUCCESS');
+            user_error('Expected SSH_SMSG_SUCCESS');
             return false;
         }
 
         $data = pack('C', NET_SSH1_CMSG_EXEC_SHELL);
 
         if (!$this->_send_binary_packet($data)) {
-            $this->_handle_error('Error sending SSH_CMSG_EXEC_SHELL');
+            user_error('Error sending SSH_CMSG_EXEC_SHELL');
             return false;
         }
 
@@ -803,12 +873,12 @@ class Net_SSH1 {
     function read($expect, $mode = NET_SSH1_READ_SIMPLE)
     {
         if (!($this->bitmap & NET_SSH1_MASK_LOGIN)) {
-            $this->_handle_error('Operation disallowed prior to login()');
+            user_error('Operation disallowed prior to login()');
             return false;
         }
 
         if (!($this->bitmap & NET_SSH1_MASK_SHELL) && !$this->_initShell()) {
-            $this->_handle_error('Unable to initiate an interactive shell session');
+            user_error('Unable to initiate an interactive shell session');
             return false;
         }
 
@@ -816,13 +886,17 @@ class Net_SSH1 {
         while (true) {
             if ($mode == NET_SSH1_READ_REGEX) {
                 preg_match($expect, $this->interactiveBuffer, $matches);
-                $match = $matches[0];
+                $match = isset($matches[0]) ? $matches[0] : '';
             }
-            $pos = strpos($this->interactiveBuffer, $match);
+            $pos = strlen($match) ? strpos($this->interactiveBuffer, $match) : false;
             if ($pos !== false) {
                 return $this->_string_shift($this->interactiveBuffer, $pos + strlen($match));
             }
             $response = $this->_get_binary_packet();
+
+            if ($response === true) {
+                return $this->_string_shift($this->interactiveBuffer, strlen($this->interactiveBuffer));
+            }
             $this->interactiveBuffer.= substr($response[NET_SSH1_RESPONSE_DATA], 4);
         }
     }
@@ -838,19 +912,19 @@ class Net_SSH1 {
     function interactiveWrite($cmd)
     {
         if (!($this->bitmap & NET_SSH1_MASK_LOGIN)) {
-            $this->_handle_error('Operation disallowed prior to login()');
+            user_error('Operation disallowed prior to login()');
             return false;
         }
 
         if (!($this->bitmap & NET_SSH1_MASK_SHELL) && !$this->_initShell()) {
-            $this->_handle_error('Unable to initiate an interactive shell session');
+            user_error('Unable to initiate an interactive shell session');
             return false;
         }
 
         $data = pack('CNa*', NET_SSH1_CMSG_STDIN_DATA, strlen($cmd), $cmd);
 
         if (!$this->_send_binary_packet($data)) {
-            $this->_handle_error('Error sending SSH_CMSG_STDIN');
+            user_error('Error sending SSH_CMSG_STDIN');
             return false;
         }
 
@@ -873,12 +947,12 @@ class Net_SSH1 {
     function interactiveRead()
     {
         if (!($this->bitmap & NET_SSH1_MASK_LOGIN)) {
-            $this->_handle_error('Operation disallowed prior to login()');
+            user_error('Operation disallowed prior to login()');
             return false;
         }
 
         if (!($this->bitmap & NET_SSH1_MASK_SHELL) && !$this->_initShell()) {
-            $this->_handle_error('Unable to initiate an interactive shell session');
+            user_error('Unable to initiate an interactive shell session');
             return false;
         }
 
@@ -926,8 +1000,11 @@ class Net_SSH1 {
         if ($this->bitmap) {
             $data = pack('C', NET_SSH1_CMSG_EOF);
             $this->_send_binary_packet($data);
-
+            /*
             $response = $this->_get_binary_packet();
+            if ($response === true) {
+                $response = array(NET_SSH1_RESPONSE_TYPE => -1);
+            }
             switch ($response[NET_SSH1_RESPONSE_TYPE]) {
                 case NET_SSH1_SMSG_EXITSTATUS:
                     $data = pack('C', NET_SSH1_CMSG_EXIT_CONFIRMATION);
@@ -935,6 +1012,8 @@ class Net_SSH1 {
                 default:
                     $data = pack('CNa*', NET_SSH1_MSG_DISCONNECT, strlen($msg), $msg);
             }
+            */
+            $data = pack('CNa*', NET_SSH1_MSG_DISCONNECT, strlen($msg), $msg);
 
             $this->_send_binary_packet($data);
             fclose($this->fsock);
@@ -957,20 +1036,40 @@ class Net_SSH1 {
     function _get_binary_packet()
     {
         if (feof($this->fsock)) {
-            //$this->_handle_error('connection closed prematurely');
+            //user_error('connection closed prematurely');
             return false;
         }
 
+        if ($this->curTimeout) {
+            $read = array($this->fsock);
+            $write = $except = NULL;
+
+            $start = strtok(microtime(), ' ') + strtok(''); // http://php.net/microtime#61838
+            $sec = floor($this->curTimeout);
+            $usec = 1000000 * ($this->curTimeout - $sec);
+            // on windows this returns a "Warning: Invalid CRT parameters detected" error
+            if (!@stream_select($read, $write, $except, $sec, $usec) && !count($read)) {
+                //$this->_disconnect('Timeout');
+                return true;
+            }
+            $elapsed = strtok(microtime(), ' ') + strtok('') - $start;
+            $this->curTimeout-= $elapsed;
+        }
+
+        $start = strtok(microtime(), ' ') + strtok(''); // http://php.net/microtime#61838
         $temp = unpack('Nlength', fread($this->fsock, 4));
 
         $padding_length = 8 - ($temp['length'] & 7);
         $length = $temp['length'] + $padding_length;
 
-        $start = strtok(microtime(), ' ') + strtok(''); // http://php.net/microtime#61838
-        $raw = fread($this->fsock, $length);
+        while ($length > 0) {
+            $temp = fread($this->fsock, $length);
+            $raw.= $temp;
+            $length-= strlen($temp);
+        }
         $stop = strtok(microtime(), ' ') + strtok('');
 
-        if ($this->crypto !== false) {
+        if (strlen($raw) && $this->crypto !== false) {
             $raw = $this->crypto->decrypt($raw);
         }
 
@@ -981,7 +1080,7 @@ class Net_SSH1 {
         $temp = unpack('Ncrc', substr($raw, -4));
 
         //if ( $temp['crc'] != $this->_crc($padding . $type . $data) ) {
-        //    $this->_handle_error('Bad CRC in packet from server');
+        //    user_error('Bad CRC in packet from server');
         //    return false;
         //}
 
@@ -989,11 +1088,9 @@ class Net_SSH1 {
 
         if (defined('NET_SSH1_LOGGING')) {
             $temp = isset($this->protocol_flags[$type]) ? $this->protocol_flags[$type] : 'UNKNOWN';
-            $this->protocol_flags_log[] = '<- ' . $temp .
-                                          ' (' . round($stop - $start, 4) . 's)';
-            if (NET_SSH1_LOGGING == NET_SSH1_LOG_COMPLEX) {
-                $this->message_log[] = $data;
-            }
+            $temp = '<- ' . $temp .
+                    ' (' . round($stop - $start, 4) . 's)';
+            $this->_append_log($temp, $data);
         }
 
         return array(
@@ -1012,25 +1109,18 @@ class Net_SSH1 {
      * @return Boolean
      * @access private
      */
-    function _send_binary_packet($data) {
+    function _send_binary_packet($data)
+    {
         if (feof($this->fsock)) {
-            //$this->_handle_error('connection closed prematurely');
+            //user_error('connection closed prematurely');
             return false;
-        }
-
-        if (defined('NET_SSH1_LOGGING')) {
-            $temp = isset($this->protocol_flags[ord($data[0])]) ? $this->protocol_flags[ord($data[0])] : 'UNKNOWN';
-            $this->protocol_flags_log[] = '-> ' . $temp .
-                                          ' (' . round($stop - $start, 4) . 's)';
-            if (NET_SSH1_LOGGING == NET_SSH1_LOG_COMPLEX) {
-                $this->message_log[] = substr($data, 1);
-            }
         }
 
         $length = strlen($data) + 4;
 
         $padding = crypt_random_string(8 - ($length & 7));
 
+        $orig = $data;
         $data = $padding . $data;
         $data.= pack('N', $this->_crc($data));
 
@@ -1043,6 +1133,13 @@ class Net_SSH1 {
         $start = strtok(microtime(), ' ') + strtok(''); // http://php.net/microtime#61838
         $result = strlen($packet) == fputs($this->fsock, $packet);
         $stop = strtok(microtime(), ' ') + strtok('');
+
+        if (defined('NET_SSH1_LOGGING')) {
+            $temp = isset($this->protocol_flags[ord($orig[0])]) ? $this->protocol_flags[ord($orig[0])] : 'UNKNOWN';
+            $temp = '-> ' . $temp .
+                    ' (' . round($stop - $start, 4) . 's)';
+            $this->_append_log($temp, $orig);
+        }
 
         return $result;
     }
@@ -1203,16 +1300,15 @@ class Net_SSH1 {
         // Presumably the part of PKCS#1 they're refering to is "Section 7.2.1 Encryption Operation",
         // under "7.2 RSAES-PKCS1-v1.5" and "7 Encryption schemes" of the following URL:
         // ftp://ftp.rsasecurity.com/pub/pkcs/pkcs-1/pkcs-1v2-1.pdf
-        $temp = chr(0) . chr(2);
         $modulus = $key[1]->toBytes();
         $length = strlen($modulus) - strlen($m) - 3;
-        $temp = '';
-        while (strlen($temp) != $length) {
-            $block = crypt_random_string($length - strlen($temp));
+        $random = '';
+        while (strlen($random) != $length) {
+            $block = crypt_random_string($length - strlen($random));
             $block = str_replace("\x00", '', $block);
-            $temp.= $block;
+            $random.= $block;
         }
-        $temp.= chr(0) . $m;
+        $temp = chr(0) . chr(2) . $random . chr(0) . $m;
 
         $m = new Math_BigInteger($temp, 256);
         $m = $m->modPow($key[0], $key[1]);
@@ -1288,7 +1384,7 @@ class Net_SSH1 {
             $current_log = $message_log[$i];
             $j = 0;
             do {
-                if (!empty($current_log)) {
+                if (strlen($current_log)) {
                     $output.= str_pad(dechex($j), 7, '0', STR_PAD_LEFT) . '0  ';
                 }
                 $fragment = $this->_string_shift($current_log, $short_width);
@@ -1305,7 +1401,7 @@ class Net_SSH1 {
                 $raw = preg_replace('#[^\x20-\x7E]|<#', '.', $fragment);
                 $output.= str_pad($hex, $long_width - $short_width, ' ') . $raw . "\r\n";
                 $j++;
-            } while (!empty($current_log));
+            } while (strlen($current_log));
             $output.= "\r\n";
         }
 
@@ -1416,20 +1512,66 @@ class Net_SSH1 {
     }
 
     /**
-     * Error Handler
+     * Logs data packets
      *
-     * Throws exceptions if PHPSECLIB_USE_EXCEPTIONS is defined.
-     * Unless PHPSECLIB_EXCEPTION_CLASS is set it'll throw generic Exceptions.
+     * Makes sure that only the last 1MB worth of packets will be logged
      *
-     * @param String $string
+     * @param String $data
      * @access private
      */
-    function _handle_error($err_msg) {
-        if (defined('PHPSECLIB_USE_EXCEPTIONS') && version_compare(PHP_VERSION, '5.1.0', '>=')) {
-            $class = defined('PHPSECLIB_EXCEPTION_CLASS') && class_exists(PHPSECLIB_EXCEPTION_CLASS) ? PHPSECLIB_EXCEPTION_CLASS : 'Exception';
-            throw(new $class($err_msg));
-        } else {
-            user_error($err_msg);
-        }
+    function _append_log($protocol_flags, $message)
+    {
+            switch (NET_SSH1_LOGGING) {
+                // useful for benchmarks
+                case NET_SSH1_LOG_SIMPLE:
+                    $this->protocol_flags_log[] = $protocol_flags;
+                    break;
+                // the most useful log for SSH1
+                case NET_SSH1_LOG_COMPLEX:
+                    $this->protocol_flags_log[] = $protocol_flags;
+                    $this->_string_shift($message);
+                    $this->log_size+= strlen($message);
+                    $this->message_log[] = $message;
+                    while ($this->log_size > NET_SSH2_LOG_MAX_SIZE) {
+                        $this->log_size-= strlen(array_shift($this->message_log));
+                        array_shift($this->protocol_flags_log);
+                    }
+                    break;
+                // dump the output out realtime; packets may be interspersed with non packets,
+                // passwords won't be filtered out and select other packets may not be correctly
+                // identified
+                case NET_SSH1_LOG_REALTIME:
+                    echo "<pre>\r\n" . $this->_format_log(array($message), array($protocol_flags)) . "\r\n</pre>\r\n";
+                    @flush();
+                    @ob_flush();
+                    break;
+                // basically the same thing as NET_SSH1_LOG_REALTIME with the caveat that NET_SSH1_LOG_REALTIME_FILE
+                // needs to be defined and that the resultant log file will be capped out at NET_SSH1_LOG_MAX_SIZE. 
+                // the earliest part of the log file is denoted by the first <<< START >>> and is not going to necessarily
+                // at the beginning of the file
+                case NET_SSH1_LOG_REALTIME_FILE:
+                    if (!isset($this->realtime_log_file)) {
+                        // PHP doesn't seem to like using constants in fopen()
+                        $filename = NET_SSH2_LOG_REALTIME_FILE;
+                        $fp = fopen($filename, 'w');
+                        $this->realtime_log_file = $fp;
+                    }
+                    if (!is_resource($this->realtime_log_file)) {
+                        break;
+                    }
+                    $entry = $this->_format_log(array($message), array($protocol_flags));
+                    if ($this->realtime_log_wrap) {
+                        $temp = "<<< START >>>\r\n";
+                        $entry.= $temp;
+                        fseek($this->realtime_log_file, ftell($this->realtime_log_file) - strlen($temp));
+                    }
+                    $this->realtime_log_size+= strlen($entry);
+                    if ($this->realtime_log_size > NET_SSH1_LOG_MAX_SIZE) {
+                        fseek($this->realtime_log_file, 0);
+                        $this->realtime_log_size = strlen($entry);
+                        $this->realtime_log_wrap = true;
+                    }
+                    fputs($this->realtime_log_file, $entry);
+            }
     }
 }

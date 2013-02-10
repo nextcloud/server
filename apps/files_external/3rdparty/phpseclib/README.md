@@ -10,6 +10,7 @@ AES, SSH-1, SSH-2, SFTP, and X.509
 * [Browse Git](https://github.com/phpseclib/phpseclib)
 * [Documentation](http://phpseclib.sourceforge.net/)
 * [Support](http://www.frostjedi.com/phpbb/viewforum.php?f=46)
+* [Code Coverage Report](http://phpseclib.bantux.org/code_coverage/latest/)
 
 <img src="http://phpseclib.sourceforge.net/pear-icon.png" alt="PEAR Channel" width="16" height="16">
 PEAR Channel: [phpseclib.sourceforge.net](http://phpseclib.sourceforge.net/pear.htm)

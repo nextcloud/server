@@ -1746,7 +1746,7 @@ class Crypt_RSA {
     {
         $x = $x->toBytes();
         if (strlen($x) > $xLen) {
-            $this->_handle_error('Integer too large');
+            user_error('Integer too large');
             return false;
         }
         return str_pad($x, $xLen, chr(0), STR_PAD_LEFT);
@@ -1907,7 +1907,7 @@ class Crypt_RSA {
     function _rsaep($m)
     {
         if ($m->compare($this->zero) < 0 || $m->compare($this->modulus) > 0) {
-            $this->_handle_error('Message representative out of range');
+            user_error('Message representative out of range');
             return false;
         }
         return $this->_exponentiate($m);
@@ -1925,7 +1925,7 @@ class Crypt_RSA {
     function _rsadp($c)
     {
         if ($c->compare($this->zero) < 0 || $c->compare($this->modulus) > 0) {
-            $this->_handle_error('Ciphertext representative out of range');
+            user_error('Ciphertext representative out of range');
             return false;
         }
         return $this->_exponentiate($c);
@@ -1943,7 +1943,7 @@ class Crypt_RSA {
     function _rsasp1($m)
     {
         if ($m->compare($this->zero) < 0 || $m->compare($this->modulus) > 0) {
-            $this->_handle_error('Message representative out of range');
+            user_error('Message representative out of range');
             return false;
         }
         return $this->_exponentiate($m);
@@ -1961,7 +1961,7 @@ class Crypt_RSA {
     function _rsavp1($s)
     {
         if ($s->compare($this->zero) < 0 || $s->compare($this->modulus) > 0) {
-            $this->_handle_error('Signature representative out of range');
+            user_error('Signature representative out of range');
             return false;
         }
         return $this->_exponentiate($s);
@@ -2012,7 +2012,7 @@ class Crypt_RSA {
         // be output.
 
         if ($mLen > $this->k - 2 * $this->hLen - 2) {
-            $this->_handle_error('Message too long');
+            user_error('Message too long');
             return false;
         }
 
@@ -2073,7 +2073,7 @@ class Crypt_RSA {
         // be output.
 
         if (strlen($c) != $this->k || $this->k < 2 * $this->hLen + 2) {
-            $this->_handle_error('Decryption error');
+            user_error('Decryption error');
             return false;
         }
 
@@ -2082,7 +2082,7 @@ class Crypt_RSA {
         $c = $this->_os2ip($c);
         $m = $this->_rsadp($c);
         if ($m === false) {
-            $this->_handle_error('Decryption error');
+            user_error('Decryption error');
             return false;
         }
         $em = $this->_i2osp($m, $this->k);
@@ -2100,12 +2100,12 @@ class Crypt_RSA {
         $lHash2 = substr($db, 0, $this->hLen);
         $m = substr($db, $this->hLen);
         if ($lHash != $lHash2) {
-            $this->_handle_error('Decryption error');
+            user_error('Decryption error');
             return false;
         }
         $m = ltrim($m, chr(0));
         if (ord($m[0]) != 1) {
-            $this->_handle_error('Decryption error');
+            user_error('Decryption error');
             return false;
         }
 
@@ -2130,7 +2130,7 @@ class Crypt_RSA {
         // Length checking
 
         if ($mLen > $this->k - 11) {
-            $this->_handle_error('Message too long');
+            user_error('Message too long');
             return false;
         }
 
@@ -2179,7 +2179,7 @@ class Crypt_RSA {
         // Length checking
 
         if (strlen($c) != $this->k) { // or if k < 11
-            $this->_handle_error('Decryption error');
+            user_error('Decryption error');
             return false;
         }
 
@@ -2189,7 +2189,7 @@ class Crypt_RSA {
         $m = $this->_rsadp($c);
 
         if ($m === false) {
-            $this->_handle_error('Decryption error');
+            user_error('Decryption error');
             return false;
         }
         $em = $this->_i2osp($m, $this->k);
@@ -2197,7 +2197,7 @@ class Crypt_RSA {
         // EME-PKCS1-v1_5 decoding
 
         if (ord($em[0]) != 0 || ord($em[1]) > 2) {
-            $this->_handle_error('Decryption error');
+            user_error('Decryption error');
             return false;
         }
 
@@ -2205,7 +2205,7 @@ class Crypt_RSA {
         $m = substr($em, strlen($ps) + 3);
 
         if (strlen($ps) < 8) {
-            $this->_handle_error('Decryption error');
+            user_error('Decryption error');
             return false;
         }
 
@@ -2233,7 +2233,7 @@ class Crypt_RSA {
 
         $mHash = $this->hash->hash($m);
         if ($emLen < $this->hLen + $sLen + 2) {
-            $this->_handle_error('Encoding error');
+            user_error('Encoding error');
             return false;
         }
 
@@ -2338,7 +2338,7 @@ class Crypt_RSA {
         // Length checking
 
         if (strlen($s) != $this->k) {
-            $this->_handle_error('Invalid signature');
+            user_error('Invalid signature');
             return false;
         }
 
@@ -2349,12 +2349,12 @@ class Crypt_RSA {
         $s2 = $this->_os2ip($s);
         $m2 = $this->_rsavp1($s2);
         if ($m2 === false) {
-            $this->_handle_error('Invalid signature');
+            user_error('Invalid signature');
             return false;
         }
         $em = $this->_i2osp($m2, $modBits >> 3);
         if ($em === false) {
-            $this->_handle_error('Invalid signature');
+            user_error('Invalid signature');
             return false;
         }
 
@@ -2404,7 +2404,7 @@ class Crypt_RSA {
         $tLen = strlen($t);
 
         if ($emLen < $tLen + 11) {
-            $this->_handle_error('Intended encoded message length too short');
+            user_error('Intended encoded message length too short');
             return false;
         }
 
@@ -2430,7 +2430,7 @@ class Crypt_RSA {
 
         $em = $this->_emsa_pkcs1_v1_5_encode($m, $this->k);
         if ($em === false) {
-            $this->_handle_error('RSA modulus too short');
+            user_error('RSA modulus too short');
             return false;
         }
 
@@ -2459,7 +2459,7 @@ class Crypt_RSA {
         // Length checking
 
         if (strlen($s) != $this->k) {
-            $this->_handle_error('Invalid signature');
+            user_error('Invalid signature');
             return false;
         }
 
@@ -2468,12 +2468,12 @@ class Crypt_RSA {
         $s = $this->_os2ip($s);
         $m2 = $this->_rsavp1($s);
         if ($m2 === false) {
-            $this->_handle_error('Invalid signature');
+            user_error('Invalid signature');
             return false;
         }
         $em = $this->_i2osp($m2, $this->k);
         if ($em === false) {
-            $this->_handle_error('Invalid signature');
+            user_error('Invalid signature');
             return false;
         }
 
@@ -2481,7 +2481,7 @@ class Crypt_RSA {
 
         $em2 = $this->_emsa_pkcs1_v1_5_encode($m, $this->k);
         if ($em2 === false) {
-            $this->_handle_error('RSA modulus too short');
+            user_error('RSA modulus too short');
             return false;
         }
 
@@ -2641,24 +2641,6 @@ class Crypt_RSA {
             //case CRYPT_RSA_SIGNATURE_PSS:
             default:
                 return $this->_rsassa_pss_verify($message, $signature);
-        }
-    }
-
-    /**
-     * Error Handler
-     *
-     * Throws exceptions if PHPSECLIB_USE_EXCEPTIONS is defined.
-     * Unless PHPSECLIB_EXCEPTION_CLASS is set it'll throw generic Exceptions.
-     *
-     * @param String $string
-     * @access private
-     */
-    function _handle_error($err_msg) {
-        if (defined('PHPSECLIB_USE_EXCEPTIONS') && version_compare(PHP_VERSION, '5.1.0', '>=')) {
-            $class = defined('PHPSECLIB_EXCEPTION_CLASS') && class_exists(PHPSECLIB_EXCEPTION_CLASS) ? PHPSECLIB_EXCEPTION_CLASS : 'Exception';
-            throw(new $class($err_msg));
-        } else {
-            user_error($err_msg);
         }
     }
 }
