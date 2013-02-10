@@ -101,18 +101,16 @@ class Scanner {
 					$child = ($path) ? $path . '/' . $file : $file;
 					$data = $this->scanFile($child);
 					if ($data) {
-						if ($data['mimetype'] === 'httpd/unix-directory') {
+						if ($data['size'] === -1) {
 							if ($recursive === self::SCAN_RECURSIVE) {
 								$childQueue[] = $child;
 								$data['size'] = 0;
 							} else {
-								$data['size'] = -1;
+								$size = -1;
 							}
-						} else {
 						}
-						if ($data['size'] === -1) {
-							$size = -1;
-						} elseif ($size !== -1) {
+
+						if ($size !== -1) {
 							$size += $data['size'];
 						}
 					}
@@ -133,7 +131,7 @@ class Scanner {
 		}
 		return $size;
 	}
-	
+
 	/**
 	 * @brief check if the file should be ignored when scanning
 	 * NOTE: files with a '.part' extension are ignored as well!
@@ -143,8 +141,8 @@ class Scanner {
 	 */
 	private function isIgnoredFile($file) {
 		if ($file === '.' || $file === '..'
-		 || pathinfo($file,PATHINFO_EXTENSION) === 'part')
-		{
+			|| pathinfo($file, PATHINFO_EXTENSION) === 'part'
+		) {
 			return true;
 		}
 		return false;
