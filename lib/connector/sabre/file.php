@@ -51,14 +51,16 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		\OC\Files\Filesystem::file_put_contents($partpath, $data);
 		
 		//detect aborted upload
-		if (isset($_SERVER['CONTENT_LENGTH'])
-			&& \OC\Files\Filesystem::filesize($partpath) != $_SERVER['CONTENT_LENGTH'])
-		{
-			throw new Sabre_DAV_Exception_BadRequest(
-					'expected filesize ' . $_SERVER['CONTENT_LENGTH'].
-					' got ' . \OC\Files\Filesystem::filesize($partpath)
-					);
+		if (isset($_SERVER['CONTENT_LENGTH'])) {
+			$expected = $_SERVER['CONTENT_LENGTH'];
+			$actual = \OC\Files\Filesystem::filesize($partpath);
+			if ($actual != $expected) {
+				\OC\Files\Filesystem::unlink($partpath);
+				throw new Sabre_DAV_Exception_BadRequest(
+						'expected filesize ' . $expected . ' got ' . $actual);
+			}
 		}
+		
 		// rename to correct path
 		\OC\Files\Filesystem::rename($partpath, $this->path);
 		
