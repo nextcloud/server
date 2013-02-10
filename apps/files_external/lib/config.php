@@ -104,6 +104,14 @@ class OC_Mount_Config {
 				'password' => '*Password',
 				'root' => '&Root',
 				'secure' => '!Secure https://'));
+				
+		$backends['OC_Filestorage_SFTP']=array(
+			'backend' => 'SFTP',
+			'configuration' => array(
+				'host' => 'URL',
+				'user' => 'Username', 
+				'password' => '*Password', 
+				'root' => '&Root'));
 
 		return($backends);
 	}
@@ -386,7 +394,7 @@ class OC_Mount_Config {
 	}
 
 	/**
-	 * check if php-ftp is installed
+	 * check if php-ftp is installed 
 	 */
 	public static function checkphpftp() {
 		if(function_exists('ftp_login')) {
