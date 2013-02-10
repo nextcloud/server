@@ -7,7 +7,6 @@
 "No file was uploaded" => "업로드된 파일 없음",
 "Missing a temporary folder" => "임시 폴더가 사라짐",
 "Failed to write to disk" => "디스크에 쓰지 못했습니다",
-"Not enough space available" => "여유 공간이 부족합니다",
 "Invalid directory." => "올바르지 않은 디렉터리입니다.",
 "Files" => "파일",
 "Unshare" => "공유 해제",

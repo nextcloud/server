@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-05 00:19+0100\n"
-"PO-Revision-Date: 2013-02-04 14:21+0000\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 12:20+0000\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -214,8 +214,8 @@ msgid "Use TLS"
 msgstr "Lietot TLS"
 
 #: templates/settings.php:38
-msgid "Do not use it for SSL connections, it will fail."
-msgstr "Neizmanto to SSL savienojumiem, tas neizdosies."
+msgid "Do not use it additionally for LDAPS connections, it will fail."
+msgstr "Neizmanto papildu LDAPS savienojumus! Tas nestrādās."
 
 #: templates/settings.php:39
 msgid "Case insensitve LDAP server (Windows)"

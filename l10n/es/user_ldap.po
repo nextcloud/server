@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-06 00:05+0100\n"
-"PO-Revision-Date: 2013-02-05 23:05+0000\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 00:30+0000\n"
 "Last-Translator: msvladimir <vladimirmartinezsierra@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -221,8 +221,8 @@ msgid "Use TLS"
 msgstr "Usar TLS"
 
 #: templates/settings.php:38
-msgid "Do not use it for SSL connections, it will fail."
-msgstr "No usarlo para SSL, habrá error."
+msgid "Do not use it additionally for LDAPS connections, it will fail."
+msgstr "No usar adicionalmente para conecciones LDAPS, estas fallaran"
 
 #: templates/settings.php:39
 msgid "Case insensitve LDAP server (Windows)"

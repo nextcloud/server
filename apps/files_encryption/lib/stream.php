@@ -173,7 +173,7 @@ class Stream {
 			
 			// $count will always be 8192 https://bugs.php.net/bug.php?id=21641
 			// This makes this function a lot simpler, but will break this class if the above 'bug' gets 'fixed'
-			\OCP\Util::writeLog( 'files_encryption', 'PHP "bug" 21641 no longer holds, decryption system requires refactoring', OCP\Util::FATAL );
+			\OCP\Util::writeLog( 'files_encryption', 'PHP "bug" 21641 no longer holds, decryption system requires refactoring', \OCP\Util::FATAL );
 
 			die();
 
@@ -209,7 +209,7 @@ class Stream {
 	}
 	
 	/**
-	 * @brief Encrypt and pad data ready for writting to disk
+	 * @brief Encrypt and pad data ready for writing to disk
 	 * @param string $plainData data to be encrypted
 	 * @param string $key key to use for encryption
 	 * @return encrypted data on success, false on failure
@@ -403,7 +403,7 @@ class Stream {
 				$encrypted = $this->preWriteEncrypt( $chunk, $this->keyfile );
 				
 				// Write the data chunk to disk. This will be 
-				// addended to the last data chunk if the file 
+				// attended to the last data chunk if the file
 				// being handled totals more than 6126 bytes
 				fwrite( $this->handle, $encrypted );
 				

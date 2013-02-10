@@ -1,12 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Σφάλμα στην φόρτωση της λίστας από το App Store",
+"Authentication error" => "Σφάλμα πιστοποίησης",
 "Group already exists" => "Η ομάδα υπάρχει ήδη",
 "Unable to add group" => "Αδυναμία προσθήκης ομάδας",
 "Could not enable app. " => "Αδυναμία ενεργοποίησης εφαρμογής ",
 "Email saved" => "Το email αποθηκεύτηκε ",
 "Invalid email" => "Μη έγκυρο email",
 "Unable to delete group" => "Αδυναμία διαγραφής ομάδας",
-"Authentication error" => "Σφάλμα πιστοποίησης",
 "Unable to delete user" => "Αδυναμία διαγραφής χρήστη",
 "Language changed" => "Η γλώσσα άλλαξε",
 "Invalid request" => "Μη έγκυρο αίτημα",

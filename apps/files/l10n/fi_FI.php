@@ -6,7 +6,6 @@
 "No file was uploaded" => "Yhtäkään tiedostoa ei lähetetty",
 "Missing a temporary folder" => "Väliaikaiskansiota ei ole olemassa",
 "Failed to write to disk" => "Levylle kirjoitus epäonnistui",
-"Not enough space available" => "Tilaa ei ole riittävästi",
 "Invalid directory." => "Virheellinen kansio.",
 "Files" => "Tiedostot",
 "Unshare" => "Peru jakaminen",

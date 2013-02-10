@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "perform restore operation" => "uitvoeren restore operatie",
+"delete file permanently" => "verwijder bestanden definitief",
 "Name" => "Naam",
 "Deleted" => "Verwijderd",
 "1 folder" => "1 map",

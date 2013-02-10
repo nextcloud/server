@@ -33,7 +33,7 @@
 			<input type="password" name="password" id="password" value="" data-typetoggle="#show"
 				   required<?php echo $_['user_autofocus'] ? '' : ' autofocus'; ?> />
 			<label for="password" class="infield"><?php echo $l->t('Password'); ?></label>
-			<img class="svg" id="pass_image" src="<?php echo image_path('', 'actions/password.svg'); ?>" alt=""/>
+			<img class="svg" id="password-icon" src="<?php echo image_path('', 'actions/password.svg'); ?>" alt=""/>
 			<input type="checkbox" id="show" name="show" />
 			<label for="show"></label>
 		</p>
@@ -48,9 +48,9 @@
 	<fieldset>
 		<legend><?php echo $l->t('Alternative Logins') ?></legend>
 		<ul>
-			<? foreach($_['alt_login'] as $login): ?>
+			<?php foreach($_['alt_login'] as $login): ?>
 				<li><a class="button" href="<?php echo $login['href']; ?>" ><?php echo $login['name']; ?></a></li>
-				<?php endforeach; ?>
+			<?php endforeach; ?>
 		</ul>
 	</fieldset>
 </form>

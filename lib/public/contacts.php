@@ -149,14 +149,14 @@ namespace OCP {
 		/**
 		 * @param \OCP\IAddressBook $address_book
 		 */
-		public static function registerAddressBook($address_book) {
+		public static function registerAddressBook(\OCP\IAddressBook $address_book) {
 			self::$address_books[$address_book->getKey()] = $address_book;
 		}
 
 		/**
 		 * @param \OCP\IAddressBook $address_book
 		 */
-		public static function unregisterAddressBook($address_book) {
+		public static function unregisterAddressBook(\OCP\IAddressBook $address_book) {
 			unset(self::$address_books[$address_book->getKey()]);
 		}
 

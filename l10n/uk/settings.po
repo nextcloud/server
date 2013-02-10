@@ -6,13 +6,14 @@
 #   <dzubchikd@gmail.com>, 2012.
 #   <skoptev@ukr.net>, 2012.
 #   <volodya327@gmail.com>, 2012-2013.
+# пан Володимир <volodya327@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-02 00:06+0100\n"
-"PO-Revision-Date: 2013-02-01 23:06+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-08 00:10+0100\n"
+"PO-Revision-Date: 2013-02-07 15:20+0000\n"
+"Last-Translator: volodya327 <volodya327@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,6 +24,15 @@ msgstr ""
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
 msgstr "Не вдалося завантажити список з App Store"
+
+#: ajax/changedisplayname.php:19 ajax/removeuser.php:15 ajax/setquota.php:15
+#: ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "Помилка автентифікації"
+
+#: ajax/changedisplayname.php:28
+msgid "Unable to change display name"
+msgstr "Не вдалося змінити зображене ім'я"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -47,10 +57,6 @@ msgstr "Невірна адреса"
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "Не вдалося видалити групу"
-
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
-msgid "Authentication error"
-msgstr "Помилка автентифікації"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -80,11 +86,11 @@ msgstr "Не вдалося видалити користувача із гру�
 
 #: ajax/updateapp.php:13
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Не вдалося оновити програму. "
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Оновити до {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
@@ -96,15 +102,15 @@ msgstr "Включити"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "Зачекайте, будь ласка..."
 
 #: js/apps.js:84
 msgid "Updating...."
-msgstr ""
+msgstr "Оновлюється..."
 
 #: js/apps.js:87
 msgid "Error while updating app"
-msgstr ""
+msgstr "Помилка при оновленні програми"
 
 #: js/apps.js:87
 msgid "Error"
@@ -112,9 +118,9 @@ msgstr "Помилка"
 
 #: js/apps.js:90
 msgid "Updated"
-msgstr ""
+msgstr "Оновлено"
 
-#: js/personal.js:69
+#: js/personal.js:96
 msgid "Saving..."
 msgstr "Зберігаю..."
 
@@ -191,67 +197,83 @@ msgstr "Завантажити клієнт для Android"
 msgid "Download iOS Client"
 msgstr "Завантажити клієнт для iOS"
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:81
+#: templates/personal.php:23 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "Пароль"
 
-#: templates/personal.php:22
+#: templates/personal.php:24
 msgid "Your password was changed"
 msgstr "Ваш пароль змінено"
 
-#: templates/personal.php:23
+#: templates/personal.php:25
 msgid "Unable to change your password"
 msgstr "Не вдалося змінити Ваш пароль"
 
-#: templates/personal.php:24
+#: templates/personal.php:26
 msgid "Current password"
 msgstr "Поточний пароль"
 
-#: templates/personal.php:25
+#: templates/personal.php:27
 msgid "New password"
 msgstr "Новий пароль"
 
-#: templates/personal.php:26
+#: templates/personal.php:28
 msgid "show"
 msgstr "показати"
 
-#: templates/personal.php:27
+#: templates/personal.php:29
 msgid "Change password"
 msgstr "Змінити пароль"
 
-#: templates/personal.php:33
+#: templates/personal.php:41 templates/users.php:80
+msgid "Display Name"
+msgstr "Показати Ім'я"
+
+#: templates/personal.php:42
+msgid "Your display name was changed"
+msgstr "Ваше ім'я було змінене"
+
+#: templates/personal.php:43
+msgid "Unable to change your display name"
+msgstr "Неможливо змінити ваше зображене ім'я"
+
+#: templates/personal.php:46
+msgid "Change display name"
+msgstr "Змінити зображене ім'я"
+
+#: templates/personal.php:55
 msgid "Email"
 msgstr "Ел.пошта"
 
-#: templates/personal.php:34
+#: templates/personal.php:56
 msgid "Your email address"
 msgstr "Ваша адреса електронної пошти"
 
-#: templates/personal.php:35
+#: templates/personal.php:57
 msgid "Fill in an email address to enable password recovery"
 msgstr "Введіть адресу електронної пошти для відновлення паролю"
 
-#: templates/personal.php:41 templates/personal.php:42
+#: templates/personal.php:63 templates/personal.php:64
 msgid "Language"
 msgstr "Мова"
 
-#: templates/personal.php:47
+#: templates/personal.php:69
 msgid "Help translate"
 msgstr "Допомогти з перекладом"
 
-#: templates/personal.php:52
+#: templates/personal.php:74
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:54
+#: templates/personal.php:76
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Використовуйте цю адресу для під'єднання до вашого ownCloud у вашому файловому менеджері"
 
-#: templates/personal.php:63
+#: templates/personal.php:85
 msgid "Version"
 msgstr "Версія"
 
-#: templates/personal.php:65
+#: templates/personal.php:87
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -263,7 +285,7 @@ msgstr "Розроблено <a href=\"http://ownCloud.org/contact\" target=\"_b
 
 #: templates/users.php:21 templates/users.php:79
 msgid "Login Name"
-msgstr ""
+msgstr "Ім'я Логіну"
 
 #: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
@@ -285,10 +307,6 @@ msgstr "Необмежено"
 msgid "Other"
 msgstr "Інше"
 
-#: templates/users.php:80
-msgid "Display Name"
-msgstr ""
-
 #: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "Адміністратор групи"
@@ -299,11 +317,11 @@ msgstr "Сховище"
 
 #: templates/users.php:97
 msgid "change display name"
-msgstr ""
+msgstr "змінити зображене ім'я"
 
 #: templates/users.php:101
 msgid "set new password"
-msgstr ""
+msgstr "встановити новий пароль"
 
 #: templates/users.php:137
 msgid "Default"

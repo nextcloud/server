@@ -39,6 +39,15 @@ class OC_App{
 	static private $altLogin = array();
 
 	/**
+	 * @brief clean the appid
+	 * @param $app Appid that needs to be cleaned
+	 * @return string
+	 */
+	public static function cleanAppId($app) {
+		return str_replace(array('\0', '/', '\\', '..'), '', $app);
+	}
+
+	/**
 	 * @brief loads all apps
 	 * @param array $types
 	 * @return bool
@@ -283,6 +292,23 @@ class OC_App{
 		self::loadApps();
 		self::$activeapp = $id;
 		return true;
+	}
+
+	/**
+	 * @brief Get the navigation entries for the $app
+	 * @param string $app app
+	 * @return array of the $data added with addNavigationEntry
+	 */
+	public static function getAppNavigationEntries($app) {
+		if(is_file(self::getAppPath($app).'/appinfo/app.php')) {
+			$save = self::$navigation;
+			self::$navigation = array();
+			require $app.'/appinfo/app.php';
+			$app_entries = self::$navigation;
+			self::$navigation = $save;
+			return $app_entries;
+		}
+		return array();
 	}
 
 	/**

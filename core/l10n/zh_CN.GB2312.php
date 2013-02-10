@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "No category to add?" => "没有分类添加了?",
-"This category already exists: " => "这个分类已经存在了:",
 "No categories selected for deletion." => "没有选者要删除的分类.",
 "Sunday" => "星期天",
 "Monday" => "星期一",
@@ -87,7 +86,6 @@
 "Security Warning" => "安全警告",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "没有安全随机码生成器，请启用 PHP OpenSSL 扩展。",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "没有安全随机码生成器，黑客可以预测密码重置令牌并接管你的账户。",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "您的数据文件夹和您的文件或许能够从互联网访问。ownCloud 提供的 .htaccesss 文件未其作用。我们强烈建议您配置网络服务器以使数据文件夹不能从互联网访问，或将移动数据文件夹移出网络服务器文档根目录。",
 "Create an <strong>admin account</strong>" => "建立一个 <strong>管理帐户</strong>",
 "Advanced" => "进阶",
 "Data folder" => "数据存放文件夹",

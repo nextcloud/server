@@ -1,9 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Neįmanoma įkelti sąrašo iš Programų Katalogo",
+"Authentication error" => "Autentikacijos klaida",
 "Could not enable app. " => "Nepavyksta įjungti aplikacijos.",
 "Email saved" => "El. paštas išsaugotas",
 "Invalid email" => "Netinkamas el. paštas",
-"Authentication error" => "Autentikacijos klaida",
 "Language changed" => "Kalba pakeista",
 "Invalid request" => "Klaidinga užklausa",
 "Disable" => "Išjungti",

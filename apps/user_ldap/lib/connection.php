@@ -409,6 +409,11 @@ class Connection {
 				$this->config[$key] = array();
 			}
 		}
+		if((strpos($this->config['ldapHost'], 'ldaps') === 0)
+			&& $this->config['ldapTLS']) {
+			$this->config['ldapTLS'] = false;
+			\OCP\Util::writeLog('user_ldap', 'LDAPS (already using secure connection) and TLS do not work together. Switched off TLS.', \OCP\Util::INFO);
+		}
 
 
 
@@ -523,7 +528,7 @@ class Connection {
 			if(!$this->config['ldapOverrideMainServer'] && !$this->getFromCache('overrideMainServer')) {
 				$this->doConnect($this->config['ldapHost'], $this->config['ldapPort']);
 				$bindStatus = $this->bind();
-				$error = ldap_errno($this->ldapConnectionRes);
+				$error = is_resource($this->ldapConnectionRes) ? ldap_errno($this->ldapConnectionRes) : -1;
 			} else {
 				$bindStatus = false;
 				$error = null;
@@ -547,6 +552,9 @@ class Connection {
 	}
 
 	private function doConnect($host, $port) {
+		if(empty($host)) {
+			return false;
+		}
 		$this->ldapConnectionRes = ldap_connect($host, $port);
 		if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_PROTOCOL_VERSION, 3)) {
 			if(ldap_set_option($this->ldapConnectionRes, LDAP_OPT_REFERRALS, 0)) {
@@ -564,9 +572,13 @@ class Connection {
 		if(!$this->config['ldapConfigurationActive']) {
 			return false;
 		}
-		$ldapLogin = @ldap_bind($this->getConnectionResource(), $this->config['ldapAgentName'], $this->config['ldapAgentPassword']);
+		$cr = $this->getConnectionResource();
+		if(!is_resource($cr)) {
+			return false;
+		}
+		$ldapLogin = @ldap_bind($cr, $this->config['ldapAgentName'], $this->config['ldapAgentPassword']);
 		if(!$ldapLogin) {
-			\OCP\Util::writeLog('user_ldap', 'Bind failed: ' . ldap_errno($this->ldapConnectionRes) . ': ' . ldap_error($this->ldapConnectionRes), \OCP\Util::ERROR);
+			\OCP\Util::writeLog('user_ldap', 'Bind failed: ' . ldap_errno($cr) . ': ' . ldap_error($cr), \OCP\Util::ERROR);
 			$this->ldapConnectionRes = null;
 			return false;
 		}

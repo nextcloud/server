@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-02 00:06+0100\n"
-"PO-Revision-Date: 2013-01-31 23:30+0000\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 23:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +53,8 @@ msgid "No category to add?"
 msgstr ""
 
 #: ajax/vcategories/add.php:37
-msgid "This category already exists: "
+#, php-format
+msgid "This category already exists: %s"
 msgstr ""
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
@@ -158,59 +159,59 @@ msgstr "නොවැම්බර්"
 msgid "December"
 msgstr "දෙසැම්බර්"
 
-#: js/js.js:280
+#: js/js.js:284
 msgid "Settings"
 msgstr "සැකසුම්"
 
-#: js/js.js:759
+#: js/js.js:764
 msgid "seconds ago"
 msgstr "තත්පරයන්ට පෙර"
 
-#: js/js.js:760
+#: js/js.js:765
 msgid "1 minute ago"
 msgstr "1 මිනිත්තුවකට පෙර"
 
-#: js/js.js:761
+#: js/js.js:766
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:762
+#: js/js.js:767
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:763
+#: js/js.js:768
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:764
+#: js/js.js:769
 msgid "today"
 msgstr "අද"
 
-#: js/js.js:765
+#: js/js.js:770
 msgid "yesterday"
 msgstr "ඊයේ"
 
-#: js/js.js:766
+#: js/js.js:771
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:767
+#: js/js.js:772
 msgid "last month"
 msgstr "පෙර මාසයේ"
 
-#: js/js.js:768
+#: js/js.js:773
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:769
+#: js/js.js:774
 msgid "months ago"
 msgstr "මාස කීපයකට පෙර"
 
-#: js/js.js:770
+#: js/js.js:775
 msgid "last year"
 msgstr "පෙර අවුරුද්දේ"
 
-#: js/js.js:771
+#: js/js.js:776
 msgid "years ago"
 msgstr "අවුරුදු කීපයකට පෙර"
 
@@ -469,7 +470,7 @@ msgstr "ප්‍රභේදයන් සංස්කරණය"
 msgid "Add"
 msgstr "එක් කරන්න"
 
-#: templates/installation.php:23 templates/installation.php:31
+#: templates/installation.php:23 templates/installation.php:30
 msgid "Security Warning"
 msgstr "ආරක්ෂක නිවේදනයක්"
 
@@ -479,71 +480,75 @@ msgid ""
 "OpenSSL extension."
 msgstr ""
 
-#: templates/installation.php:26
+#: templates/installation.php:25
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "ආරක්ෂිත අහඹු සංඛ්‍යා උත්පාදකයක් නොමැති නම් ඔබගේ ගිණුමට පහරදෙන අයකුට එහි මුරපද යළි පිහිටුවීමට අවශ්‍ය ටෝකන පහසුවෙන් සොයාගෙන ඔබගේ ගිණුම පැහැරගත හැක."
 
+#: templates/installation.php:31
+msgid ""
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
+msgstr ""
+
 #: templates/installation.php:32
 msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "ඔබගේ දත්ත ඩිරෙක්ටරිය හා ගොනුවලට අන්තර්ජාලයෙන් පිවිසිය හැක. ownCloud සපයා ඇති .htaccess ගොනුව ක්‍රියාකරන්නේ නැත. අපි තරයේ කියා සිටිනුයේ නම්, මෙම දත්ත හා ගොනු එසේ පිවිසීමට නොහැකි වන ලෙස ඔබේ වෙබ් සේවාදායකයා  වින්‍යාස කරන ලෙස හෝ එම ඩිරෙක්ටරිය වෙබ් මූලයෙන් පිටතට ගෙනයන ලෙසය."
+"For information how to properly configure your server, please see the <a "
+"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
+"target=\"_blank\">documentation</a>."
+msgstr ""
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr ""
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Advanced"
 msgstr "දියුණු/උසස්"
 
-#: templates/installation.php:52
+#: templates/installation.php:54
 msgid "Data folder"
 msgstr "දත්ත ෆෝල්ඩරය"
 
-#: templates/installation.php:59
+#: templates/installation.php:61
 msgid "Configure the database"
 msgstr "දත්ත සමුදාය හැඩගැසීම"
 
-#: templates/installation.php:64 templates/installation.php:75
-#: templates/installation.php:85 templates/installation.php:95
+#: templates/installation.php:66 templates/installation.php:77
+#: templates/installation.php:87 templates/installation.php:97
 msgid "will be used"
 msgstr "භාවිතා වනු ඇත"
 
-#: templates/installation.php:107
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "දත්තගබඩා භාවිතාකරු"
 
-#: templates/installation.php:111
+#: templates/installation.php:113
 msgid "Database password"
 msgstr "දත්තගබඩාවේ මුරපදය"
 
-#: templates/installation.php:115
+#: templates/installation.php:117
 msgid "Database name"
 msgstr "දත්තගබඩාවේ නම"
 
-#: templates/installation.php:123
+#: templates/installation.php:125
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:129
+#: templates/installation.php:131
 msgid "Database host"
 msgstr "දත්තගබඩා සේවාදායකයා"
 
-#: templates/installation.php:134
+#: templates/installation.php:136
 msgid "Finish setup"
 msgstr "ස්ථාපනය කිරීම අවසන් කරන්න"
 
-#: templates/layout.guest.php:34
+#: templates/layout.guest.php:33
 msgid "web services under your control"
 msgstr "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්"
 
-#: templates/layout.user.php:49
+#: templates/layout.user.php:48
 msgid "Log out"
 msgstr "නික්මීම"
 
@@ -565,13 +570,17 @@ msgstr ""
 msgid "Lost your password?"
 msgstr "මුරපදය අමතකද?"
 
-#: templates/login.php:39
+#: templates/login.php:41
 msgid "remember"
 msgstr "මතක තබාගන්න"
 
-#: templates/login.php:41
+#: templates/login.php:43
 msgid "Log in"
 msgstr "ප්‍රවේශවන්න"
+
+#: templates/login.php:49
+msgid "Alternative Logins"
+msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

@@ -17,7 +17,7 @@ if( isset( $_['message'] ) ) {
 	}
 
 	echo( '<strong>Versions of '.$_['path'] ).'</strong><br>';
-	echo('<p><em>Revert a file to a previous version by clicking on its revert button</em></p><br />');
+	echo('<p><em>'.$l->t('Revert a file to a previous version by clicking on its revert button').'</em></p><br />');
 
 	foreach ( $_['versions'] as $v ) {
 		echo ' ';

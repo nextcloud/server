@@ -19,7 +19,6 @@
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "ilma ühegi kohatäitjata, nt. \"objectClass=posixGroup\".",
 "Port" => "Port",
 "Use TLS" => "Kasutaja TLS",
-"Do not use it for SSL connections, it will fail." => "Ära kasuta seda SSL ühenduse jaoks, see ei toimi.",
 "Case insensitve LDAP server (Windows)" => "Mittetõstutundlik LDAP server (Windows)",
 "Turn off SSL certificate validation." => "Lülita SSL sertifikaadi kontrollimine välja.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Kui ühendus toimib ainult selle valikuga, siis impordi LDAP serveri SSL sertifikaat oma ownCloud serverisse.",

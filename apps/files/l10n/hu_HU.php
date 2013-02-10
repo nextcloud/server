@@ -7,7 +7,6 @@
 "No file was uploaded" => "Nem töltődött fel semmi",
 "Missing a temporary folder" => "Hiányzik egy ideiglenes mappa",
 "Failed to write to disk" => "Nem sikerült a lemezre történő írás",
-"Not enough space available" => "Nincs elég szabad hely",
 "Invalid directory." => "Érvénytelen mappa.",
 "Files" => "Fájlok",
 "Unshare" => "Megosztás visszavonása",

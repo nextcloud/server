@@ -1,12 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "App Sotre'i nimekirja laadimine ebaõnnestus",
+"Authentication error" => "Autentimise viga",
 "Group already exists" => "Grupp on juba olemas",
 "Unable to add group" => "Keela grupi lisamine",
 "Could not enable app. " => "Rakenduse sisselülitamine ebaõnnestus.",
 "Email saved" => "Kiri on salvestatud",
 "Invalid email" => "Vigane e-post",
 "Unable to delete group" => "Keela grupi kustutamine",
-"Authentication error" => "Autentimise viga",
 "Unable to delete user" => "Keela kasutaja kustutamine",
 "Language changed" => "Keel on muudetud",
 "Invalid request" => "Vigane päring",

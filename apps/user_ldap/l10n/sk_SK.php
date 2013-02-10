@@ -43,7 +43,6 @@
 "Disable Main Server" => "Zakázať hlavný server",
 "When switched on, ownCloud will only connect to the replica server." => "Pri zapnutí sa ownCloud pripojí len k záložnému serveru.",
 "Use TLS" => "Použi TLS",
-"Do not use it for SSL connections, it will fail." => "Nepoužívajte pre pripojenie SSL, pripojenie zlyhá.",
 "Case insensitve LDAP server (Windows)" => "LDAP server nerozlišuje veľkosť znakov (Windows)",
 "Turn off SSL certificate validation." => "Vypnúť overovanie SSL certifikátu.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Ak pripojenie pracuje len s touto možnosťou, tak importujte SSL certifikát LDAP serveru do vášho servera ownCloud.",

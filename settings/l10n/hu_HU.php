@@ -1,12 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nem tölthető le a lista az App Store-ból",
+"Authentication error" => "Azonosítási hiba",
 "Group already exists" => "A csoport már létezik",
 "Unable to add group" => "A csoport nem hozható létre",
 "Could not enable app. " => "A program nem aktiválható.",
 "Email saved" => "Email mentve",
 "Invalid email" => "Hibás email",
 "Unable to delete group" => "A csoport nem törölhető",
-"Authentication error" => "Azonosítási hiba",
 "Unable to delete user" => "A felhasználó nem törölhető",
 "Language changed" => "A nyelv megváltozott",
 "Invalid request" => "Érvénytelen kérés",

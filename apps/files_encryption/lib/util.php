@@ -69,11 +69,6 @@ class Util {
 	//// DONE: add method to fetch legacy key
 	//// DONE: add method to decrypt legacy encrypted data
 	
-	//// TODO: add method to encrypt all user files using new system
-	//// TODO: add method to decrypt all user files using new system
-	//// TODO: add method to encrypt all user files using old system
-	//// TODO: add method to decrypt all user files using old system
-	
 	
 	// Admin UI:
 	
@@ -93,7 +88,6 @@ class Util {
 	
 	// Integration testing:
 	
-	//// TODO: test new encryption with webdav
 	//// TODO: test new encryption with versioning
 	//// TODO: test new encryption with sharing
 	//// TODO: test new encryption with proxies
@@ -278,7 +272,7 @@ class Util {
 						// will eat server resources :(
 						if ( 
 							Keymanager::getFileKey( $this->view, $this->userId, $file ) 
-							&& Crypt::isCatfile( $filePath )
+							&& Crypt::isCatfile( $data )
 						) {
 						
 							$found['encrypted'][] = array( 'name' => $file, 'path' => $filePath );
@@ -391,7 +385,6 @@ class Util {
 			
 			}
 			
-			// FIXME: Legacy recrypting here isn't finished yet
 			// Encrypt legacy encrypted files
 			if ( 
 				! empty( $legacyPassphrase ) 
@@ -437,6 +430,11 @@ class Util {
 		
 	}
 	
+	/**
+	 * @brief Return important encryption related paths
+	 * @param string $pathName Name of the directory to return the path of
+	 * @return string path
+	 */
 	public function getPath( $pathName ) {
 	
 		switch ( $pathName ) {

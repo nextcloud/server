@@ -1,12 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ni mogoče naložiti seznama iz App Store",
+"Authentication error" => "Napaka overitve",
 "Group already exists" => "Skupina že obstaja",
 "Unable to add group" => "Ni mogoče dodati skupine",
 "Could not enable app. " => "Programa ni mogoče omogočiti.",
 "Email saved" => "Elektronski naslov je shranjen",
 "Invalid email" => "Neveljaven elektronski naslov",
 "Unable to delete group" => "Ni mogoče izbrisati skupine",
-"Authentication error" => "Napaka overitve",
 "Unable to delete user" => "Ni mogoče izbrisati uporabnika",
 "Language changed" => "Jezik je bil spremenjen",
 "Invalid request" => "Neveljavna zahteva",

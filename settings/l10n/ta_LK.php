@@ -1,12 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "செயலி சேமிப்பிலிருந்து பட்டியலை ஏற்றமுடியாதுள்ளது",
+"Authentication error" => "அத்தாட்சிப்படுத்தலில் வழு",
 "Group already exists" => "குழு ஏற்கனவே உள்ளது",
 "Unable to add group" => "குழுவை சேர்க்க முடியாது",
 "Could not enable app. " => "செயலியை இயலுமைப்படுத்த முடியாது",
 "Email saved" => "மின்னஞ்சல் சேமிக்கப்பட்டது",
 "Invalid email" => "செல்லுபடியற்ற மின்னஞ்சல்",
 "Unable to delete group" => "குழுவை நீக்க முடியாது",
-"Authentication error" => "அத்தாட்சிப்படுத்தலில் வழு",
 "Unable to delete user" => "பயனாளரை நீக்க முடியாது",
 "Language changed" => "மொழி மாற்றப்பட்டது",
 "Invalid request" => "செல்லுபடியற்ற வேண்டுகோள்",

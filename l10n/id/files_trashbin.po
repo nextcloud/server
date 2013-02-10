@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-02 00:06+0100\n"
-"PO-Revision-Date: 2013-02-01 23:06+0000\n"
+"POT-Creation-Date: 2013-02-08 00:10+0100\n"
+"PO-Revision-Date: 2013-02-07 23:11+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -17,31 +17,45 @@ msgstr ""
 "Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: js/trash.js:7 js/trash.js:69
+#: ajax/delete.php:22
+#, php-format
+msgid "Couldn't delete %s permanently"
+msgstr ""
+
+#: ajax/undelete.php:41
+#, php-format
+msgid "Couldn't restore %s"
+msgstr ""
+
+#: js/trash.js:7 js/trash.js:94
 msgid "perform restore operation"
 msgstr ""
 
-#: js/trash.js:100 templates/index.php:17
+#: js/trash.js:33
+msgid "delete file permanently"
+msgstr ""
+
+#: js/trash.js:125 templates/index.php:17
 msgid "Name"
 msgstr "nama"
 
-#: js/trash.js:101 templates/index.php:27
+#: js/trash.js:126 templates/index.php:27
 msgid "Deleted"
 msgstr ""
 
-#: js/trash.js:110
+#: js/trash.js:135
 msgid "1 folder"
 msgstr ""
 
-#: js/trash.js:112
+#: js/trash.js:137
 msgid "{count} folders"
 msgstr ""
 
-#: js/trash.js:120
+#: js/trash.js:145
 msgid "1 file"
 msgstr ""
 
-#: js/trash.js:122
+#: js/trash.js:147
 msgid "{count} files"
 msgstr ""
 

@@ -22,6 +22,35 @@ if (!$_['htaccessworking']) {
 <?php
 }
 
+// is WebDAV working ?
+if (!$_['isWebDavWorking']) {
+	?>
+<fieldset class="personalblock">
+	<legend><strong><?php echo $l->t('Setup Warning');?></strong></legend>
+
+	<span class="securitywarning">
+		<?php echo $l->t('Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken.'); ?>
+		<?php echo $l->t('Please double check the <a href=\'%s\'>installation guides</a>.', 'http://doc.owncloud.org/server/5.0/admin_manual/installation.html'); ?>
+	</span>
+
+</fieldset>
+<?php
+}
+
+// if module fileinfo available?
+if (!$_['has_fileinfo']) {
+	?>
+<fieldset class="personalblock">
+	<legend><strong><?php echo $l->t('Module \'fileinfo\' missing');?></strong></legend>
+
+		<span class="connectionwarning">
+		<?php echo $l->t('The PHP module \'fileinfo\' is missing. We strongly recommend to enable this module to get best results with mime-type detection.'); ?>
+	</span>
+
+</fieldset>
+<?php
+}
+
 // is locale working ?
 if (!$_['islocaleworking']) {
 	?>
@@ -29,7 +58,7 @@ if (!$_['islocaleworking']) {
 	<legend><strong><?php echo $l->t('Locale not working');?></strong></legend>
 
 		<span class="connectionwarning">
-		<?php echo $l->t('This ownCloud server can\'t set system locale to "en_US.UTF-8". This means that there might be problems with certain characters in file names. We strongly suggest to install the required packages on your system to support en_US.UTF-8.'); ?>
+		<?php echo $l->t('This ownCloud server can\'t set system locale to "en_US.UTF-8"/"en_US.UTF8". This means that there might be problems with certain characters in file names. We strongly suggest to install the required packages on your system to support en_US.UTF-8/en_US.UTF8.'); ?>
 	</span>
 
 </fieldset>

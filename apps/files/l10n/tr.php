@@ -7,7 +7,6 @@
 "No file was uploaded" => "Hiç dosya yüklenmedi",
 "Missing a temporary folder" => "Geçici bir klasör eksik",
 "Failed to write to disk" => "Diske yazılamadı",
-"Not enough space available" => "Yeterli disk alanı yok",
 "Invalid directory." => "Geçersiz dizin.",
 "Files" => "Dosyalar",
 "Unshare" => "Paylaşılmayan",

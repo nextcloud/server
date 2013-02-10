@@ -19,7 +19,6 @@
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "mà không giữ chỗ nào, ví dụ như \"objectClass = osixGroup\".",
 "Port" => "Cổng",
 "Use TLS" => "Sử dụng TLS",
-"Do not use it for SSL connections, it will fail." => "Kết nối SSL bị lỗi. ",
 "Case insensitve LDAP server (Windows)" => "Trường hợp insensitve LDAP máy chủ (Windows)",
 "Turn off SSL certificate validation." => "Tắt xác thực chứng nhận SSL",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Nếu kết nối chỉ hoạt động với tùy chọn này, vui lòng import LDAP certificate SSL  trong máy chủ ownCloud của bạn.",

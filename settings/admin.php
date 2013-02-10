@@ -31,6 +31,8 @@ $tmpl->assign('entriesremain', $entriesremain);
 $tmpl->assign('htaccessworking', $htaccessworking);
 $tmpl->assign('internetconnectionworking', OC_Util::isinternetconnectionworking());
 $tmpl->assign('islocaleworking', OC_Util::issetlocaleworking());
+$tmpl->assign('isWebDavWorking', OC_Util::isWebDAVWorking());
+$tmpl->assign('has_fileinfo', OC_Util::fileInfoLoaded());
 $tmpl->assign('backgroundjobs_mode', OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax'));
 $tmpl->assign('shareAPIEnabled', OC_Appconfig::getValue('core', 'shareapi_enabled', 'yes'));
 

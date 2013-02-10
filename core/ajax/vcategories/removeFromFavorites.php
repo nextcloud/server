@@ -27,12 +27,12 @@ if(is_null($type)) {
 }
 
 if(is_null($id)) {
-	bailOut($l->t('%s ID not provided.', $type));
+	bailOut($l->t('%s ID not provided.', array($type)));
 }
 
 $categories = new OC_VCategories($type);
 if(!$categories->removeFromFavorites($id, $type)) {
-	bailOut($l->t('Error removing %s from favorites.', $id));
+	bailOut($l->t('Error removing %s from favorites.', array($id)));
 }
 
 OC_JSON::success();

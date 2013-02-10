@@ -8,6 +8,10 @@
 
 namespace OC\Files\Storage;
 
+if (\OC_Util::runningOnWindows()) {
+	require_once 'mappedlocal.php';
+} else {
+
 /**
  * for local filestore, we only have to map the paths
  */
@@ -244,4 +248,5 @@ class Local extends \OC\Files\Storage\Common{
 	public function hasUpdated($path, $time) {
 		return $this->filemtime($path)>$time;
 	}
+}
 }
