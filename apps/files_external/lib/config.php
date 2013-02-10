@@ -105,7 +105,7 @@ class OC_Mount_Config {
 				'root' => '&Root',
 				'secure' => '!Secure https://'));
 				
-		$backends['OC_Filestorage_SFTP']=array(
+		$backends['\OC\Files\Storage\SFTP']=array(
 			'backend' => 'SFTP',
 			'configuration' => array(
 				'host' => 'URL',
