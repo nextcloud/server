@@ -436,8 +436,9 @@ class OC_Helper {
 	//FIXME: should also check for value validation (i.e. the email is an email).
 	public static function init_var($s, $d="") {
 		$r = $d;
-		if(isset($_REQUEST[$s]) && !empty($_REQUEST[$s]))
-			$r = stripslashes(htmlspecialchars($_REQUEST[$s]));
+		if(isset($_REQUEST[$s]) && !empty($_REQUEST[$s])) {
+			$r = OC_Util::sanitizeHTML($_REQUEST[$s]);
+		}
 
 		return $r;
 	}
