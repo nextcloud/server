@@ -284,7 +284,7 @@ class OC_DB {
 						$dsn['database'] = $user;
 					}
 					break;
-                case 'mssql':
+				case 'mssql':
 					$dsn = array(
 						'phptype' => 'sqlsrv',
 						'username' => $user,
@@ -292,7 +292,7 @@ class OC_DB {
 						'hostspec' => $host,
 						'database' => $name
 					);                    
-                    break;
+					break;
 				default:
 					return false;
 			}
@@ -920,28 +920,30 @@ class PDOStatementWrapper{
 	 * make execute return the result instead of a bool
 	 */
 	public function execute($input=array()) {
-		$this->lastArguments=$input;
-		if(count($input)>0) {
-            if (!isset($type)) {
-                $type = OC_Config::getValue( "dbtype", "sqlite" );
-            }
-            
-            if ($type == 'mssql') {
-                $this->tryFixSubstringLastArgumentDataForMSSQL($input);
-            }
-            
+		$this->lastArguments = $input;
+		if (count($input) > 0) {
+
+			if (!isset($type)) {
+				$type = OC_Config::getValue( "dbtype", "sqlite" );
+			}
+
+			if ($type == 'mssql') {
+				$input = $this->tryFixSubstringLastArgumentDataForMSSQL($input);
+			}
+
 			$result=$this->statement->execute($input);
-		}else{
+		} else {
 			$result=$this->statement->execute();
 		}
-		if($result) {
+		
+		if ($result) {
 			return $this;
-		}else{
+		} else {
 			return false;
 		}
 	}
 
-    private function tryFixSubstringLastArgumentDataForMSSQL(&$input) {
+    private function tryFixSubstringLastArgumentDataForMSSQL($input) {
         $query = $this->statement->queryString;
         $pos = stripos ($query, 'SUBSTRING');
                 
@@ -1013,6 +1015,8 @@ class PDOStatementWrapper{
             $this->statement = $PDO->prepare($newQuery);
 
             $this->lastArguments = $input;
+            
+            return $input;
         } catch (PDOException $e){
 			$entry = 'PDO DB Error: "'.$e->getMessage().'"<br />';
 			$entry .= 'Offending command was: '.$this->statement->queryString .'<br />';

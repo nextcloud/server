@@ -610,98 +610,155 @@ class OC_Setup {
 		
 		self::mssql_createDatabase($dbname, $masterConnection);
 		
-		self::mssql_createDBUser($dbuser, $dbpass, $masterConnection);
+		self::mssql_createDBUser($dbuser, $dbname, $masterConnection);
 
 		sqlsrv_close($masterConnection);
 
-		$connectionInfo = array( "Database" => $dbname, "UID" => $dbuser, "PWD" => $dbpass);
-
-        $connection = @sqlsrv_connect($dbhost, $connectionInfo);
-
-		//fill the database if needed
-		$query="SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{$dbname}' AND TABLE_NAME = '{$dbtableprefix}users'";
-		$result = sqlsrv_query($connection, $query);
-		if($result) {
-			$row=sqlsrv_fetch_array($result);
-		}
-		
-		if(!$result or $row[0] == 0) {
-			OC_DB::createDbFromStructure('db_structure.xml');
-		}
-		
-		sqlsrv_close($connection);
+		self::mssql_createDatabaseStructure($dbname, $dbuser, $dbpass);
 	}    
 
     private static function mssql_createDBLogin($name, $password, $connection) {
 		$query = "SELECT * FROM master.sys.server_principals WHERE name = '".$name."';";
 		$result = sqlsrv_query($connection, $query);
-		if ($result) {
+		if ($result === false) {
+			if ( ($errors = sqlsrv_errors() ) != null) {
+				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+			} else {
+				$entry = '';
+			}
+			$entry.='Offending command was: '.$query.'<br />';
+			echo($entry);
+		} else {
 			$row = sqlsrv_fetch_array($result);
-		}
 		
-		if (!$result or $row[0] == 0) {
-			$query = "CREATE LOGIN [".$name."] WITH PASSWORD = '".$password."';";
-			$result = sqlsrv_query($connection, $query);
-			if (!$result or $result === false) {
-			    if ( ($errors = sqlsrv_errors() ) != null) {
-                    $entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
-			    } else {
-			    	$entry = '';
-			    }
-		    	$entry.='Offending command was: '.$query.'<br />';
-			    echo($entry);
-			}			
+			if ($row === false) {
+				if ( ($errors = sqlsrv_errors() ) != null) {
+					$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+				} else {
+					$entry = '';
+				}
+				$entry.='Offending command was: '.$query.'<br />';
+				echo($entry);
+			} else {
+				if ($row == null) {
+					$query = "CREATE LOGIN [".$name."] WITH PASSWORD = '".$password."';";
+					$result = sqlsrv_query($connection, $query);
+					if (!$result or $result === false) {
+						if ( ($errors = sqlsrv_errors() ) != null) {
+							$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+						} else {
+							$entry = '';
+						}
+						$entry.='Offending command was: '.$query.'<br />';
+						echo($entry);
+					}			
+				}
+			}
 		}
 	}
 
 	private static function mssql_createDBUser($name, $dbname, $connection) {
 		$query = "SELECT * FROM [".$dbname."].sys.database_principals WHERE name = '".$name."';";
 		$result = sqlsrv_query($connection, $query);
-		if($result) {
-			$row=sqlsrv_fetch_array($result);
+		if ($result === false) {
+			if ( ($errors = sqlsrv_errors() ) != null) {
+				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+			} else {
+				$entry = '';
+			}
+			$entry.='Offending command was: '.$query.'<br />';
+			echo($entry);
+		} else {
+			$row = sqlsrv_fetch_array($result);
+			
+			if ($row === false) {
+				if ( ($errors = sqlsrv_errors() ) != null) {
+					$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+				} else {
+					$entry = '';
+				}
+				$entry.='Offending command was: '.$query.'<br />';
+				echo($entry);				
+			} else {
+				if ($row == null) {
+					$query = "USE [".$dbname."]; CREATE USER [".$name."] FOR LOGIN [".$name."];";
+					$result = sqlsrv_query($connection, $query);
+					if (!$result || $result === false) {
+						if ( ($errors = sqlsrv_errors() ) != null) {
+							$entry = 'DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+						} else {
+							$entry = '';
+						}
+						$entry.='Offending command was: '.$query.'<br />';
+						echo($entry);
+					}			
+				}
+
+				$query = "USE [".$dbname."]; EXEC sp_addrolemember 'db_owner', '".$name."';";
+				$result = sqlsrv_query($connection, $query);
+				if (!$result || $result === false) {
+					if ( ($errors = sqlsrv_errors() ) != null) {
+						$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+					} else {
+						$entry = '';
+					}
+					$entry.='Offending command was: '.$query.'<br />';
+					echo($entry);
+				}
+			}
 		}		
-		
-		if (!$result or $row[0] == 0) {
-			$query = "USE [".$dbname."]; CREATE USER [".$name."] FOR LOGIN [".$name."];";
-			$result = sqlsrv_query($connection, $query);
-			if (!$result or $result === false) {
-			    if ( ($errors = sqlsrv_errors() ) != null) {
-                    $entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
-			    } else {
-			    	$entry = '';
-			    }
-		    	$entry.='Offending command was: '.$query.'<br />';
-			    echo($entry);
-			}			
-		}
-		
-		$query = "USE [".$dbname."]; EXEC sp_addrolemember 'db_owner', '".$name."';";
-		$result = sqlsrv_query($connection, $query);
-		if (!$result or $result === false) {
-		    if ( ($errors = sqlsrv_errors() ) != null) {
-                $entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
-		    } else {
-		    	$entry = '';
-		    }
-	    	$entry.='Offending command was: '.$query.'<br />';
-		    echo($entry);
-		}
 	}
 	
 	private static function mssql_createDatabase($dbname, $connection) {
 		$query = "CREATE DATABASE [".$dbname."];";
 		$result = sqlsrv_query($connection, $query);
-		if (!$result or $result === false) {
-		    if ( ($errors = sqlsrv_errors() ) != null) {
-                $entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
-		    } else {
-		    	$entry = '';
-		    }
-	    	$entry.='Offending command was: '.$query.'<br />';
-		    echo($entry);
+		if (!$result || $result === false) {
+			if ( ($errors = sqlsrv_errors() ) != null) {
+				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+			} else {
+			    	$entry = '';
+			}
+			$entry.='Offending command was: '.$query.'<br />';
+			echo($entry);
 		}
 	}    
     
+	private static function mssql_createDatabaseStructure($dbname, $dbuser, $dbpass) {
+		$connectionInfo = array( "Database" => $dbname, "UID" => $dbuser, "PWD" => $dbpass);
+
+		$connection = @sqlsrv_connect($dbhost, $connectionInfo);
+
+		//fill the database if needed
+		$query = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{$dbname}' AND TABLE_NAME = '{$dbtableprefix}users'";
+		$result = sqlsrv_query($connection, $query);
+		if ($result === false) {
+			if ( ($errors = sqlsrv_errors() ) != null) {
+				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+			} else {
+				$entry = '';
+			}
+			$entry.='Offending command was: '.$query.'<br />';
+			echo($entry);			
+		} else {
+			$row = sqlsrv_fetch_array($result);
+			
+			if ($row === false) {
+				if ( ($errors = sqlsrv_errors() ) != null) {
+					$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+				} else {
+					$entry = '';
+				}
+				$entry.='Offending command was: '.$query.'<br />';
+				echo($entry);				
+			} else {
+				if ($row == null) {
+					OC_DB::createDbFromStructure('db_structure.xml');
+				}
+			}
+		}
+		
+		sqlsrv_close($connection);
+	}
     
 	/**
 	 * create .htaccess files for apache hosts

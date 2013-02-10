@@ -107,7 +107,7 @@
 		<p>MS SQL <?php echo $l->t( 'will be used' ); ?>.</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="mssql" />
 		<?php else: ?>
-        <label class="mssql" for="mssql">MS SQL</label>
+		<label class="mssql" for="mssql">MS SQL</label>
 		<input type="radio" name="dbtype" value='mssql' id="mssql" <?php OC_Helper::init_radio('dbtype', 'mssql', 'sqlite'); ?>/>
 		<?php endif; ?>
 		<?php endif; ?>        
