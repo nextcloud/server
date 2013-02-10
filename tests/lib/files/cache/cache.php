@@ -204,6 +204,23 @@ class Cache extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(array($storageId, 'foo'), \OC\Files\Cache\Cache::getById($id));
 	}
 
+	function testStorageMTime() {
+		$data = array('size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file');
+		$this->cache->put('foo', $data);
+		$cachedData = $this->cache->get('foo');
+		$this->assertEquals($data['mtime'], $cachedData['storage_mtime']);//if no storage_mtime is saved, mtime should be used
+
+		$this->cache->put('foo', array('storage_mtime' => 30));//when setting storage_mtime, mtime is also set
+		$cachedData = $this->cache->get('foo');
+		$this->assertEquals(30, $cachedData['storage_mtime']);
+		$this->assertEquals(30, $cachedData['mtime']);
+
+		$this->cache->put('foo', array('mtime' => 25));//setting mtime does not change storage_mtime
+		$cachedData = $this->cache->get('foo');
+		$this->assertEquals(30, $cachedData['storage_mtime']);
+		$this->assertEquals(25, $cachedData['mtime']);
+	}
+
 	public function tearDown() {
 		$this->cache->clear();
 	}
@@ -213,3 +230,4 @@ class Cache extends \PHPUnit_Framework_TestCase {
 		$this->cache = new \OC\Files\Cache\Cache($this->storage);
 	}
 }
+

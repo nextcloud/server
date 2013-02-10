@@ -220,7 +220,7 @@ class View extends \PHPUnit_Framework_TestCase {
 		$cachedData = $rootView->getFileInfo('foo.txt');
 		$this->assertEquals(16, $cachedData['size']);
 
-		$rootView->putFileInfo('foo.txt', array('mtime' => 10));
+		$rootView->putFileInfo('foo.txt', array('storage_mtime' => 10));
 		$storage1->file_put_contents('foo.txt', 'foo');
 		clearstatcache();
 
