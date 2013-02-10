@@ -68,6 +68,16 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 		
 			\OC\Files\Filesystem::file_put_contents($partpath, $data);
 			
+			//detect aborted upload
+			if (isset($_SERVER['CONTENT_LENGTH'])
+				&& \OC\Files\Filesystem::filesize($partpath) != $_SERVER['CONTENT_LENGTH'])
+			{
+				throw new Sabre_DAV_Exception_BadRequest(
+						'expected filesize ' . $_SERVER['CONTENT_LENGTH'].
+						' got ' . \OC\Files\Filesystem::filesize($partpath)
+						);
+			}
+			
 			// rename to correct path
 			\OC\Files\Filesystem::rename($partpath, $newPath);
 			
