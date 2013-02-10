@@ -121,7 +121,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 		$paths = array();
 		foreach($folder_content as $info) {
 			$paths[] = $this->path.'/'.$info['name'];
-			$properties[$this->path.'/'.$info['name']][self::GETETAG_PROPERTYNAME] = $info['etag'];
+			$properties[$this->path.'/'.$info['name']][self::GETETAG_PROPERTYNAME] = '"' . $info['etag'] . '"';
 		}
 		if(count($paths)>0) {
 			//
