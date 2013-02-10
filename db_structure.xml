@@ -266,7 +266,7 @@
 				<type>integer</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>4</length>
+				<length>8</length>
 			</field>
 
 			<field>
