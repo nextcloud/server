@@ -109,6 +109,14 @@
 			</field>
 
 			<field>
+				<name>logic_path_hash</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>32</length>
+			</field>
+
+			<field>
 				<name>physic_path</name>
 				<type>text</type>
 				<default></default>
@@ -116,11 +124,19 @@
 				<length>512</length>
 			</field>
 
+			<field>
+				<name>physic_path_hash</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>32</length>
+			</field>
+
 			<index>
 				<name>file_map_lp_index</name>
 				<unique>true</unique>
 				<field>
-					<name>logic_path</name>
+					<name>logic_path_hash</name>
 					<sorting>ascending</sorting>
 				</field>
 			</index>
@@ -129,7 +145,7 @@
 				<name>file_map_pp_index</name>
 				<unique>true</unique>
 				<field>
-					<name>physic_path</name>
+					<name>physic_path_hash</name>
 					<sorting>ascending</sorting>
 				</field>
 			</index>
