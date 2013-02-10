@@ -58,9 +58,10 @@ class Scanner {
 	 * scan a single file and store it in the cache
 	 *
 	 * @param string $file
+	 * @param bool $checkExisting check existing folder sizes in the cache instead of always using -1 for folder size
 	 * @return array with metadata of the scanned file
 	 */
-	public function scanFile($file) {
+	public function scanFile($file, $checkExisting = false) {
 		\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
 		$data = $this->getData($file);
 		if ($data) {
@@ -73,7 +74,10 @@ class Scanner {
 					$this->scanFile($parent);
 				}
 			}
-			$id = $this->cache->put($file, $data);
+			if ($data['size'] === -1 and $cacheData = $this->cache->get($file)) {
+				$data['size'] = $cacheData['size'];
+			}
+			$this->cache->put($file, $data);
 		}
 		return $data;
 	}
@@ -99,7 +103,7 @@ class Scanner {
 			while ($file = readdir($dh)) {
 				if (!$this->isIgnoredFile($file)) {
 					$child = ($path) ? $path . '/' . $file : $file;
-					$data = $this->scanFile($child);
+					$data = $this->scanFile($child, $recursive === self::SCAN_SHALLOW);
 					if ($data) {
 						if ($data['size'] === -1) {
 							if ($recursive === self::SCAN_RECURSIVE) {
