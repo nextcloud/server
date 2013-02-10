@@ -114,6 +114,9 @@ $CONFIG = array(
 /* How long should ownCloud keep deleted files in the trash bin, default value:  180 days */
 'trashbin_retention_obligation' => 180,
 
+/* allow user to change his display name, if it is supported by the back-end */
+'allow_user_to_change_display_name' => true,
+
 /* Check 3rdparty apps for malicious code fragments */
 "appcodechecker" => "",
 
