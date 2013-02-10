@@ -117,7 +117,6 @@ class OC_API {
 				'response' => call_user_func($action['action'], $parameters),
 				);
 		}
-		
 		$response = self::mergeResponses($responses);
 		$formats = array('json', 'xml');
 		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
@@ -249,7 +248,6 @@ class OC_API {
 	 */
 	private static function respond($result, $format='xml') {
 		// Send 401 headers if unauthorised
-		die(var_dump($result));
 		if($result->getStatusCode() === self::RESPOND_UNAUTHORISED) {
 			header('WWW-Authenticate: Basic realm="Authorisation Required"');
 			header('HTTP/1.0 401 Unauthorized');
