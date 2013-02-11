@@ -268,7 +268,7 @@ class Google extends \OC\Files\Storage\Common {
 						$name .= '.'.$extension;
 					}
 				}
-				$files[] = $name;
+				$files[] = basename($name);
 				// Cache entry for future use
 				$this->entries[$name] = $entry;
 			}
