@@ -148,7 +148,7 @@ if (isset($path)) {
 			// Make breadcrumb
 			$breadcrumb = array();
 			$pathtohere = '';
-			foreach (explode('/', $dir) as $i) {
+			foreach (explode('/', $getPath) as $i) {
 				if ($i != '') {
 					$pathtohere .= '/' . $i;
 					$breadcrumb[] = array('dir' => $pathtohere, 'name' => $i);
