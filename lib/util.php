@@ -51,7 +51,7 @@ class OC_Util {
 				mkdir( $userdirectory, 0755, true );
 			}
 			//jail the user into his "home" directory
-			\OC\Files\Filesystem::init($user_dir);
+			\OC\Files\Filesystem::init($user, $user_dir);
 
 			$quotaProxy=new OC_FileProxy_Quota();
 			$fileOperationProxy = new OC_FileProxy_FileOperations();

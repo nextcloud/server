@@ -11,14 +11,26 @@ if (isset($_GET['t'])) {
 		$type = $linkItem['item_type'];
 		$fileSource = $linkItem['file_source'];
 		$shareOwner = $linkItem['uid_owner'];
-		if (OCP\User::userExists($shareOwner) && $fileSource != -1) {
-			OC_Util::setupFS($shareOwner);
-			$path = $linkItem['file_target'];
+		$fileOwner = null;
+		$path = null;
+		if (isset($linkItem['parent'])) {
+			$parent = $linkItem['parent'];
+			while (isset($parent)) {
+				$query = \OC_DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
+				$item = $query->execute(array($parent))->fetchRow();
+				if (isset($item['parent'])) {
+					$parent = $item['parent'];
+				} else {
+					$fileOwner = $item['uid_owner'];
+					break;
+				}
+			}
 		} else {
-			header('HTTP/1.0 404 Not Found');
-			$tmpl = new OCP\Template('', '404', 'guest');
-			$tmpl->printPage();
-			exit();
+			$fileOwner = $shareOwner;
+		}
+		if (isset($fileOwner)) {
+			OC_Util::setupFS($fileOwner);
+			$path = \OC\Files\Filesystem::getPath($linkItem['file_source']);
 		}
 	}
 } else {
@@ -55,7 +67,7 @@ if (isset($_GET['t'])) {
 	}
 }
 
-if ($linkItem) {
+if (isset($path)) {
 	if (!isset($linkItem['item_type'])) {
 		OCP\Util::writeLog('share', 'No item type set for share id: ' . $linkItem['id'], \OCP\Util::ERROR);
 		header('HTTP/1.0 404 Not Found');
@@ -123,20 +135,12 @@ if ($linkItem) {
 	$file = basename($path);
 	// Download the file
 	if (isset($_GET['download'])) {
-		if (isset($_GET['path']) && $_GET['path'] !== '') {
-			if (isset($_GET['files'])) { // download selected files
-				OC_Files::get($path, $_GET['files'], $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
-			} else {
-				if (isset($_GET['path']) && $_GET['path'] != '') { // download a file from a shared directory
-					OC_Files::get($dir, $file, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
-				} else { // download the whole shared directory
-					OC_Files::get($dir, $file, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
-				}
-			}
-		} else { // download a single shared file
+		if (isset($_GET['files'])) { // download selected files
+			OC_Files::get($dir, $_GET['files'], $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+		} else {
 			OC_Files::get($dir, $file, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
 		}
-
+		exit();
 	} else {
 		OCP\Util::addStyle('files_sharing', 'public');
 		OCP\Util::addScript('files_sharing', 'public');
@@ -147,6 +151,7 @@ if ($linkItem) {
 		$tmpl->assign('dir', $dir);
 		$tmpl->assign('filename', $file);
 		$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
+		$tmpl->assign('fileTarget', basename($linkItem['file_target']));
 		$urlLinkIdentifiers= (isset($token)?'&t='.$token:'')
 							.(isset($_GET['dir'])?'&dir='.$_GET['dir']:'')
 							.(isset($_GET['file'])?'&file='.$_GET['file']:'');
