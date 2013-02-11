@@ -104,7 +104,7 @@ goto:eof
 	if "%~1" == "pgsql" dropdb -h localhost -p 5432 -U oc_autotest -w oc_autotest
 
 	:: we assume a sqlexpress installation
-	if "%~1" == "mssql" sqlcmd -S localhost\sqlexpress -U oc_autotext -P owncloud -Q "IF EXISTS (SELECT name FROM sys.databases WHERE name=N'oc_autotest') DROP DATABASE [oc_autotest]"
+	if "%~1" == "mssql" sqlcmd -S localhost\sqlexpress -U oc_autotest -P owncloud -Q "IF EXISTS (SELECT name FROM sys.databases WHERE name=N'oc_autotest') DROP DATABASE [oc_autotest]"
 	
 	:: copy autoconfig
 	copy /y %BASEDIR%\tests\autoconfig-%~1.php %BASEDIR%\config\autoconfig.php
