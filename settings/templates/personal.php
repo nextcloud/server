@@ -21,18 +21,12 @@
 	<a href="<?php echo $_['clients']['ios']; ?>" target="_blank">
 		<img src="<?php echo OCP\Util::imagePath('core', 'appstore.png'); ?>" />
 	</a>
+	<?php if(OC_APP::isEnabled('firstrunwizard')) {?>
+	<center><a class="button" href="#" id="showWizard"><?php echo $l->t('Show First Run Wizard again');?></a></center>
+	<?php }?>
 </div>
 
 
-<?php
-if(OC_APP::isEnabled('firstrunwizard')) {
-?>
-
-        <center><a class="button" href="#" id="showWizard"><?php echo $l->t('Show First Run Wizard again');?></a></center>
-
-<?php
-}
-?>
 
 <?php
 if($_['passwordChangeSupported']) {
