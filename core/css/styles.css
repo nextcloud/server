@@ -325,7 +325,7 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 .help-iframe {width: 100%; height: 100%; margin: 0;padding: 0; border: 0; overflow: auto;}
 
 /* ---- BREADCRUMB ---- */
-div.crumb { float:left; display:block; background:url('../img/breadcrumb.svg') no-repeat right 0; padding:.75em 1.5em 0 1em; height:2.9em; }
+div.crumb { float:left; display:block; background:url('../img/breadcrumb.svg') no-repeat right 0; padding:.75em 1.5em 0 1em; height:2.9em;  -moz-box-sizing:border-box; box-sizing:border-box; }
 div.crumb:first-child { padding:10px 20px 10px 5px; }
 div.crumb.last { font-weight:bold; background:none; padding-right:10px; }
 div.crumb a{ padding: 0.9em 0 0.7em 0; }
