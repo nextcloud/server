@@ -13,6 +13,7 @@
 "Not enough storage available" => "Der er ikke nok plads til rådlighed",
 "Invalid directory." => "Ugyldig mappe.",
 "Files" => "Filer",
+"Delete permanently" => "Slet permanent",
 "Delete" => "Slet",
 "Rename" => "Omdøb",
 "Pending" => "Afventer",
@@ -23,6 +24,7 @@
 "replaced {new_name}" => "erstattede {new_name}",
 "undo" => "fortryd",
 "replaced {new_name} with {old_name}" => "erstattede {new_name} med {old_name}",
+"perform delete operation" => "udfør slet operation",
 "'.' is an invalid file name." => "'.' er et ugyldigt filnavn.",
 "File name cannot be empty." => "Filnavnet kan ikke stå tomt.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ugyldigt navn, '\\', '/', '<', '>', ':' | '?', '\"', '', og '*' er ikke tilladt.",
@@ -58,6 +60,7 @@
 "Text file" => "Tekstfil",
 "Folder" => "Mappe",
 "From link" => "Fra link",
+"Trash bin" => "Papirkurv",
 "Cancel upload" => "Fortryd upload",
 "Nothing in here. Upload something!" => "Her er tomt. Upload noget!",
 "Download" => "Download",
@@ -65,5 +68,6 @@
 "Upload too large" => "Upload for stor",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Filerne, du prøver at uploade, er større end den maksimale størrelse for fil-upload på denne server.",
 "Files are being scanned, please wait." => "Filerne bliver indlæst, vent venligst.",
-"Current scanning" => "Indlæser"
+"Current scanning" => "Indlæser",
+"Upgrading filesystem cache..." => "Opgraderer filsystems cachen..."
 );

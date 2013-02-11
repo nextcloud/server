@@ -25,6 +25,7 @@
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-лиценцирао <span class=\"author\"></span>",
 "Update" => "Ажурирај",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Искористили сте <strong>%s</strong> од дозвољених <strong>%s</strong>",
+"Show First Run Wizard again" => "Поново прикажи чаробњак за прво покретање",
 "Password" => "Лозинка",
 "Your password was changed" => "Лозинка је промењена",
 "Unable to change your password" => "Не могу да изменим вашу лозинку",

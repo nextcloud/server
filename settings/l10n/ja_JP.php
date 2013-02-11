@@ -38,6 +38,7 @@
 "Bugtracker" => "バグトラッカー",
 "Commercial Support" => "コマーシャルサポート",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "現在、<strong>%s</strong> / <strong>%s</strong> を利用しています",
+"Show First Run Wizard again" => "初回実行ウィザードを再度表示する",
 "Password" => "パスワード",
 "Your password was changed" => "パスワードを変更しました",
 "Unable to change your password" => "パスワードを変更することができません",

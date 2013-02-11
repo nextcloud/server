@@ -38,6 +38,7 @@
 "Bugtracker" => "Hệ ghi nhận lỗi",
 "Commercial Support" => "Hỗ trợ có phí",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Bạn đã sử dụng <strong>%s </ strong> có sẵn <strong> %s </ strong>",
+"Show First Run Wizard again" => "Hiện lại việc chạy đồ thuật khởi đầu",
 "Password" => "Mật khẩu",
 "Your password was changed" => "Mật khẩu của bạn đã được thay đổi.",
 "Unable to change your password" => "Không thể đổi mật khẩu",

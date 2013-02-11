@@ -8,6 +8,7 @@
 "Add your App" => "Добавете Ваше приложение",
 "Select an App" => "Изберете приложение",
 "Update" => "Обновяване",
+"Show First Run Wizard again" => "Покажи настройките за първоначално зареждане отново",
 "Password" => "Парола",
 "Unable to change your password" => "Промяната на паролата не беше извършена",
 "Current password" => "Текуща парола",

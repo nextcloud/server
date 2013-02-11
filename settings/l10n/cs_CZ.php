@@ -38,6 +38,8 @@
 "Bugtracker" => "Bugtracker",
 "Commercial Support" => "Placená podpora",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Používáte <strong>%s</strong> z <strong>%s</strong> dostupných",
+"Get the apps to sync your files" => "Získat aplikace pro synchronizaci vašich souborů",
+"Show First Run Wizard again" => "Znovu zobrazit průvodce prvním spuštěním",
 "Password" => "Heslo",
 "Your password was changed" => "Vaše heslo bylo změněno",
 "Unable to change your password" => "Vaše heslo nelze změnit",

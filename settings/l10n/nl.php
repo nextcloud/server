@@ -38,6 +38,8 @@
 "Bugtracker" => "Bugtracker",
 "Commercial Support" => "Commerciële ondersteuning",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "U heeft <strong>%s</strong> van de <strong>%s</strong>  beschikbaren gebruikt",
+"Get the apps to sync your files" => "Download de apps om bestanden te synchen",
+"Show First Run Wizard again" => "Toon de Eerste start Wizard opnieuw",
 "Password" => "Wachtwoord",
 "Your password was changed" => "Je wachtwoord is veranderd",
 "Unable to change your password" => "Niet in staat om uw wachtwoord te wijzigen",

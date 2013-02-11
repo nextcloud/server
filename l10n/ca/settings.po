@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-11 15:39+0100\n"
-"PO-Revision-Date: 2013-02-11 14:39+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-12 00:20+0100\n"
+"PO-Revision-Date: 2013-02-11 16:00+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -185,11 +185,11 @@ msgstr "Heu utilitzat <strong>%s</strong> d'un total disponible de <strong>%s</s
 
 #: templates/personal.php:14
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Obtén les aplicacions per sincronitzar fitxers"
 
 #: templates/personal.php:25
 msgid "Show First Run Wizard again"
-msgstr ""
+msgstr "Torna a mostrar l'assistent de primera execució"
 
 #: templates/personal.php:36 templates/users.php:23 templates/users.php:81
 msgid "Password"

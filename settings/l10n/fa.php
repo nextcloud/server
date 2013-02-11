@@ -28,6 +28,7 @@
 "Administrator Documentation" => "مستندات مدیر",
 "Forum" => "انجمن",
 "Commercial Support" => "پشتیبانی تجاری",
+"Show First Run Wizard again" => "راهبری کمکی اجرای اول را دوباره نمایش بده",
 "Password" => "گذرواژه",
 "Your password was changed" => "رمز عبور شما تغییر یافت",
 "Unable to change your password" => "ناتوان در تغییر گذرواژه",

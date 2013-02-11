@@ -31,6 +31,7 @@
 "Bugtracker" => "Bugtracker",
 "Commercial Support" => "Εμπορική Υποστήριξη",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Χρησιμοποιήσατε <strong>%s</strong> από διαθέσιμα <strong>%s</strong>",
+"Show First Run Wizard again" => "Προβολή Πρώτης Εκτέλεσης Οδηγού πάλι",
 "Password" => "Συνθηματικό",
 "Your password was changed" => "Το συνθηματικό σας έχει αλλάξει",
 "Unable to change your password" => "Δεν ήταν δυνατή η αλλαγή του κωδικού πρόσβασης",

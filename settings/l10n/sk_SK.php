@@ -38,6 +38,7 @@
 "Bugtracker" => "Bugtracker",
 "Commercial Support" => "Komerčná podpora",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Použili ste <strong>%s</strong> z <strong>%s</strong> dostupných ",
+"Show First Run Wizard again" => "Znovu zobraziť sprievodcu prvým spustením",
 "Password" => "Heslo",
 "Your password was changed" => "Heslo bolo zmenené",
 "Unable to change your password" => "Nie je možné zmeniť vaše heslo",
