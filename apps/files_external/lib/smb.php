@@ -45,6 +45,7 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 		if (substr($path, -1)=='/') {
 			$path=substr($path, 0, -1);
 		}
+		$path = rawurlencode($path);
 		return 'smb://'.$this->user.':'.$this->password.'@'.$this->host.$this->share.$this->root.$path;
 	}
 
