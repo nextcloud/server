@@ -11,16 +11,16 @@
 
 
 <div class="clientsbox">
-<h2><?php echo $l->t('Get the apps to sync your files');?></h2>
-<a href="<?php echo $_['clients']['desktop']; ?>" target="_blank">
-        <img src="<?php echo OCP\Util::imagePath('core', 'desktopapp.png'); ?>" />
-</a>
-<a href="<?php echo $_['clients']['android']; ?>" target="_blank">
-        <img src="<?php echo OCP\Util::imagePath('core', 'googleplay.png'); ?>" />
-</a>
-<a href="<?php echo $_['clients']['ios']; ?>" target="_blank">
-        <img src="<?php echo OCP\Util::imagePath('core', 'appstore.png'); ?>" />
-</a>
+	<h2><?php echo $l->t('Get the apps to sync your files');?></h2>
+	<a href="<?php echo $_['clients']['desktop']; ?>" target="_blank">
+		<img src="<?php echo OCP\Util::imagePath('core', 'desktopapp.png'); ?>" />
+	</a>
+	<a href="<?php echo $_['clients']['android']; ?>" target="_blank">
+		<img src="<?php echo OCP\Util::imagePath('core', 'googleplay.png'); ?>" />
+	</a>
+	<a href="<?php echo $_['clients']['ios']; ?>" target="_blank">
+		<img src="<?php echo OCP\Util::imagePath('core', 'appstore.png'); ?>" />
+	</a>
 </div>
 
 
