@@ -39,7 +39,6 @@
 "Unable to change your password" => "לא ניתן לשנות את הססמה שלך",
 "Current password" => "ססמה נוכחית",
 "New password" => "ססמה חדשה",
-"show" => "הצגה",
 "Change password" => "שינוי ססמה",
 "Email" => "דוא״ל",
 "Your email address" => "כתובת הדוא״ל שלך",

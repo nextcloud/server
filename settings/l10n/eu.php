@@ -40,7 +40,6 @@
 "Unable to change your password" => "Ezin izan da zure pasahitza aldatu",
 "Current password" => "Uneko pasahitza",
 "New password" => "Pasahitz berria",
-"show" => "erakutsi",
 "Change password" => "Aldatu pasahitza",
 "Display Name" => "Bistaratze Izena",
 "Email" => "E-Posta",

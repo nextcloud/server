@@ -16,6 +16,8 @@
 "Files" => "Datnes",
 "Text" => "Teksts",
 "Images" => "Attēli",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Jūsu serveris vēl nav pareizi iestatīts, lai ļautu sinhronizēt datnes, jo izskatās, ka WebDAV saskarne ir salauzta.",
+"Please double check the <a href='%s'>installation guides</a>." => "Lūdzu, vēlreiz pārbaudiet <a href='%s'>instalēšanas palīdzību</a>.",
 "seconds ago" => "sekundes atpakaļ",
 "1 minute ago" => "pirms 1 minūtes",
 "%d minutes ago" => "pirms %d minūtēm",

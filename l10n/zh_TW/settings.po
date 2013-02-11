@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:08+0000\n"
+"POT-Creation-Date: 2013-02-11 00:03+0100\n"
+"PO-Revision-Date: 2013-02-10 23:03+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -29,14 +29,14 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "無法從 App Store 讀取清單"
 
-#: ajax/changedisplayname.php:19 ajax/removeuser.php:15 ajax/setquota.php:15
+#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:15
 #: ajax/togglegroups.php:18
 msgid "Authentication error"
 msgstr "認證錯誤"
 
-#: ajax/changedisplayname.php:28
+#: ajax/changedisplayname.php:32
 msgid "Unable to change display name"
-msgstr ""
+msgstr "無法更改顯示名稱"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -88,7 +88,7 @@ msgstr "使用者加入群組%s錯誤"
 msgid "Unable to remove user from group %s"
 msgstr "使用者移出群組%s錯誤"
 
-#: ajax/updateapp.php:13
+#: ajax/updateapp.php:14
 msgid "Couldn't update app."
 msgstr "無法更新應用程式"
 
@@ -221,10 +221,6 @@ msgstr "目前密碼"
 msgid "New password"
 msgstr "新密碼"
 
-#: templates/personal.php:28
-msgid "show"
-msgstr "顯示"
-
 #: templates/personal.php:29
 msgid "Change password"
 msgstr "變更密碼"
@@ -235,15 +231,15 @@ msgstr "顯示名稱"
 
 #: templates/personal.php:42
 msgid "Your display name was changed"
-msgstr ""
+msgstr "已更改顯示名稱"
 
 #: templates/personal.php:43
 msgid "Unable to change your display name"
-msgstr ""
+msgstr "無法更改您的顯示名稱"
 
 #: templates/personal.php:46
 msgid "Change display name"
-msgstr ""
+msgstr "更改顯示名稱"
 
 #: templates/personal.php:55
 msgid "Email"

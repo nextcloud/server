@@ -47,7 +47,6 @@
 "Unable to change your password" => "Niet in staat om uw wachtwoord te wijzigen",
 "Current password" => "Huidig wachtwoord",
 "New password" => "Nieuw wachtwoord",
-"show" => "weergeven",
 "Change password" => "Wijzig wachtwoord",
 "Display Name" => "Weergavenaam",
 "Your display name was changed" => "Uw weergavenaam is gewijzigd",

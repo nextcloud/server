@@ -40,7 +40,6 @@
 "Unable to change your password" => "Δεν ήταν δυνατή η αλλαγή του κωδικού πρόσβασης",
 "Current password" => "Τρέχων συνθηματικό",
 "New password" => "Νέο συνθηματικό",
-"show" => "εμφάνιση",
 "Change password" => "Αλλαγή συνθηματικού",
 "Email" => "Email",
 "Your email address" => "Η διεύθυνση ηλεκτρονικού ταχυδρομείου σας",

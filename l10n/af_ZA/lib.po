@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-05 00:19+0100\n"
-"PO-Revision-Date: 2012-07-27 22:23+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-02-10 00:08+0100\n"
+"PO-Revision-Date: 2013-02-09 23:08+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Afrikaans (South Africa) (http://www.transifex.com/projects/p/owncloud/language/af_ZA/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,27 +17,27 @@ msgstr ""
 "Language: af_ZA\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:312
+#: app.php:339
 msgid "Help"
 msgstr "Hulp"
 
-#: app.php:319
+#: app.php:346
 msgid "Personal"
 msgstr "Persoonlik"
 
-#: app.php:324
+#: app.php:351
 msgid "Settings"
 msgstr "Instellings"
 
-#: app.php:329
+#: app.php:356
 msgid "Users"
 msgstr "Gebruikers"
 
-#: app.php:336
+#: app.php:363
 msgid "Apps"
 msgstr "Toepassings"
 
-#: app.php:338
+#: app.php:365
 msgid "Admin"
 msgstr "Admin"
 
@@ -83,6 +83,17 @@ msgstr ""
 
 #: search/provider/file.php:29
 msgid "Images"
+msgstr ""
+
+#: setup.php:624
+msgid ""
+"Your web server is not yet properly setup to allow files synchronization "
+"because the WebDAV interface seems to be broken."
+msgstr ""
+
+#: setup.php:625
+#, php-format
+msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
 
 #: template.php:113

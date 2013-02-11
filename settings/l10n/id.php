@@ -18,7 +18,6 @@
 "Unable to change your password" => "Tidak dapat merubah password anda",
 "Current password" => "Password saat ini",
 "New password" => "kata kunci baru",
-"show" => "perlihatkan",
 "Change password" => "Rubah password",
 "Email" => "Email",
 "Your email address" => "Alamat email anda",

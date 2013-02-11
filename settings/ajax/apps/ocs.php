@@ -23,9 +23,9 @@ if(is_null($enabledApps)) {
 $apps=array();
 
 // apps from external repo via OCS
-$catagoryNames=OC_OCSClient::getCategories();
-if(is_array($catagoryNames)) {
-	$categories=array_keys($catagoryNames);
+$categoryNames=OC_OCSClient::getCategories();
+if(is_array($categoryNames)) {
+	$categories=array_keys($categoryNames);
 	$page=0;
 	$filter='approved';
 	$externalApps=OC_OCSClient::getApplications($categories, $page, $filter);

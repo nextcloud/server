@@ -39,7 +39,6 @@
 "Unable to change your password" => "Não é possivel alterar a sua senha",
 "Current password" => "Senha atual",
 "New password" => "Nova senha",
-"show" => "mostrar",
 "Change password" => "Alterar senha",
 "Display Name" => "Nome de Exibição",
 "Email" => "E-mail",

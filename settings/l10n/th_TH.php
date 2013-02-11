@@ -46,7 +46,6 @@
 "Unable to change your password" => "ไม่สามารถเปลี่ยนรหัสผ่านของคุณได้",
 "Current password" => "รหัสผ่านปัจจุบัน",
 "New password" => "รหัสผ่านใหม่",
-"show" => "แสดง",
 "Change password" => "เปลี่ยนรหัสผ่าน",
 "Display Name" => "ชื่อที่ต้องการแสดง",
 "Email" => "อีเมล์",

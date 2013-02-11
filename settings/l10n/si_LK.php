@@ -25,7 +25,6 @@
 "Unable to change your password" => "මුර පදය වෙනස් කළ නොහැකි විය",
 "Current password" => "වත්මන් මුරපදය",
 "New password" => "නව මුරපදය",
-"show" => "ප්‍රදර්ශනය කිරීම",
 "Change password" => "මුරපදය වෙනස් කිරීම",
 "Email" => "විද්‍යුත් තැපෑල",
 "Your email address" => "ඔබගේ විද්‍යුත් තැපෑල",

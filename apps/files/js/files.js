@@ -685,9 +685,10 @@ $(document).ready(function() {
 		breadcrumbsWidth += $(breadcrumb).get(0).offsetWidth;
 	});
 
-	if ($('#controls .actions').length > 0) {
-		breadcrumbsWidth += $('#controls .actions').get(0).offsetWidth;
-	}
+
+	$.each($('#controls .actions>div'), function(index, action) {
+		breadcrumbsWidth += $(action).get(0).offsetWidth;
+	});
 
 	function resizeBreadcrumbs(firstRun) {
 		var width = $(this).width();

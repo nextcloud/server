@@ -46,7 +46,6 @@
 "Unable to change your password" => "Kunde inte ändra ditt lösenord",
 "Current password" => "Nuvarande lösenord",
 "New password" => "Nytt lösenord",
-"show" => "visa",
 "Change password" => "Ändra lösenord",
 "Display Name" => "Visat namn",
 "Email" => "E-post",

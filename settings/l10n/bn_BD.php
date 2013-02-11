@@ -40,7 +40,6 @@
 "Unable to change your password" => "আপনার কূটশব্দটি পরিবর্তন করতে সক্ষম নয়",
 "Current password" => "বর্তমান কূটশব্দ",
 "New password" => "নতুন কূটশব্দ",
-"show" => "প্রদর্শন",
 "Change password" => "কূটশব্দ পরিবর্তন করুন",
 "Email" => "ই-মেইল ",
 "Your email address" => "আপনার ই-মেইল ঠিকানা",

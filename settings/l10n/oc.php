@@ -27,7 +27,6 @@
 "Unable to change your password" => "Pas possible de cambiar ton senhal",
 "Current password" => "Senhal en cors",
 "New password" => "Senhal novèl",
-"show" => "mòstra",
 "Change password" => "Cambia lo senhal",
 "Email" => "Corrièl",
 "Your email address" => "Ton adreiça de corrièl",

@@ -16,6 +16,8 @@
 "Files" => "Soubory",
 "Text" => "Text",
 "Images" => "Obrázky",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Váš webový server není správně nastaven pro umožnění synchronizace, protože rozhraní WebDAV je rozbité.",
+"Please double check the <a href='%s'>installation guides</a>." => "Zkonzultujte, prosím, <a href='%s'>průvodce instalací</a>.",
 "seconds ago" => "před vteřinami",
 "1 minute ago" => "před 1 minutou",
 "%d minutes ago" => "před %d minutami",

@@ -709,10 +709,10 @@ class OC_App{
 	 * @return array, multi-dimensional array of apps. Keys: id, name, type, typename, personid, license, detailpage, preview, changed, description
 	 */
 	public static function getAppstoreApps( $filter = 'approved' ) {
-		$catagoryNames = OC_OCSClient::getCategories();
-		if ( is_array( $catagoryNames ) ) {
+		$categoryNames = OC_OCSClient::getCategories();
+		if ( is_array( $categoryNames ) ) {
 			// Check that categories of apps were retrieved correctly
-			if ( ! $categories = array_keys( $catagoryNames ) ) {
+			if ( ! $categories = array_keys( $categoryNames ) ) {
 				return false;
 			}
 

@@ -36,7 +36,6 @@
 "Unable to change your password" => "Parolanız değiştirilemiyor",
 "Current password" => "Mevcut parola",
 "New password" => "Yeni parola",
-"show" => "göster",
 "Change password" => "Parola değiştir",
 "Email" => "Eposta",
 "Your email address" => "Eposta adresiniz",

@@ -47,7 +47,6 @@
 "Unable to change your password" => "Vaše heslo nelze změnit",
 "Current password" => "Současné heslo",
 "New password" => "Nové heslo",
-"show" => "zobrazit",
 "Change password" => "Změnit heslo",
 "Display Name" => "Zobrazované jméno",
 "Your display name was changed" => "Vaše zobrazované jméno bylo změněno",
