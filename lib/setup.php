@@ -382,7 +382,7 @@ class OC_Setup {
 		$result = pg_query($connection, $query);
 		if(!$result) {
 			$entry = $l->t('DB Error: "%s"', array(pg_last_error($connection))) . '<br />';
-				$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
 			echo($entry);
 		}
 
@@ -520,14 +520,14 @@ class OC_Setup {
 		$stmt = oci_parse($connection, $query);
 		if (!$stmt) {
 			$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
-				$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
 			echo($entry);
 		}
 		oci_bind_by_name($stmt, ':un', $name);
 		$result = oci_execute($stmt);
 		if(!$result) {
 			$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
-				$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
 			echo($entry);
 		}
 
