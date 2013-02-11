@@ -555,7 +555,7 @@ class OC_User {
 
     public static function userExistsForCreation($uid) {
         foreach(self::$_usedBackends as $backend) {
-            if(!$backend->implementsActions(OC_USER_BACKEND_CREATE_USER))
+            if(!$backend->hasUserListings())
                 continue;
 
             $result=$backend->userExists($uid);

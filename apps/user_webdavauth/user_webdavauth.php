@@ -65,6 +65,12 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 		return true;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function hasUserListings() {
+		return false;
+	}
 
 	/*
 	* we don´t know the users so all we can do it return an empty array here
