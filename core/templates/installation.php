@@ -2,6 +2,7 @@
 <input type='hidden' id='hasSQLite' value='<?php echo $_['hasSQLite'] ?>'>
 <input type='hidden' id='hasPostgreSQL' value='<?php echo $_['hasPostgreSQL'] ?>'>
 <input type='hidden' id='hasOracle' value='<?php echo $_['hasOracle'] ?>'>
+<input type='hidden' id='hasMSSQL' value='<?php echo $_['hasMSSQL'] ?>'>
 <form action="index.php" method="post">
 <input type="hidden" name="install" value="true" />
 	<?php if(count($_['errors']) > 0): ?>
@@ -55,7 +56,7 @@
 	</fieldset>
 
 	<fieldset id='databaseField'>
-		<?php if($_['hasMySQL'] or $_['hasPostgreSQL'] or $_['hasOracle']) $hasOtherDB = true; else $hasOtherDB =false; //other than SQLite ?>
+		<?php if($_['hasMySQL'] or $_['hasPostgreSQL'] or $_['hasOracle'] or $_['hasMSSQL']) $hasOtherDB = true; else $hasOtherDB =false; //other than SQLite ?>
 		<legend><?php echo $l->t( 'Configure the database' ); ?></legend>
 		<div id="selectDbType">
 		<?php if($_['hasSQLite']): ?>
@@ -71,7 +72,7 @@
 
 		<?php if($_['hasMySQL']): ?>
 		<input type='hidden' id='hasMySQL' value='true'/>
-		<?php if(!$_['hasSQLite'] and !$_['hasPostgreSQL'] and !$_['hasOracle']): ?>
+		<?php if(!$_['hasSQLite'] and !$_['hasPostgreSQL'] and !$_['hasOracle'] and !$_['hasMSSQL']): ?>
 		<p>MySQL <?php echo $l->t( 'will be used' ); ?>.</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="mysql" />
 		<?php else: ?>
@@ -81,7 +82,7 @@
 		<?php endif; ?>
 
 		<?php if($_['hasPostgreSQL']): ?>
-		<?php if(!$_['hasSQLite'] and !$_['hasMySQL'] and !$_['hasOracle']): ?>
+		<?php if(!$_['hasSQLite'] and !$_['hasMySQL'] and !$_['hasOracle'] and !$_['hasMSSQL']): ?>
 		<p>PostgreSQL <?php echo $l->t( 'will be used' ); ?>.</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="pgsql" />
 		<?php else: ?>
@@ -91,7 +92,7 @@
 		<?php endif; ?>
 
 		<?php if($_['hasOracle']): ?>
-		<?php if(!$_['hasSQLite'] and !$_['hasMySQL'] and !$_['hasPostgreSQL']): ?>
+		<?php if(!$_['hasSQLite'] and !$_['hasMySQL'] and !$_['hasPostgreSQL'] and !$_['hasMSSQL']): ?>
 		<p>Oracle <?php echo $l->t( 'will be used' ); ?>.</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="oci" />
 		<?php else: ?>
@@ -99,6 +100,17 @@
 		<input type="radio" name="dbtype" value='oci' id="oci" <?php OC_Helper::init_radio('dbtype', 'oci', 'sqlite'); ?>/>
 		<?php endif; ?>
 		<?php endif; ?>
+        
+		<?php if($_['hasMSSQL']): ?>
+		<input type='hidden' id='hasMSSQL' value='true'/>
+		<?php if(!$_['hasSQLite'] and !$_['hasMySQL'] and !$_['hasPostgreSQL'] and !$_['hasOracle']): ?>
+		<p>MS SQL <?php echo $l->t( 'will be used' ); ?>.</p>
+		<input type="hidden" id="dbtype" name="dbtype" value="mssql" />
+		<?php else: ?>
+		<label class="mssql" for="mssql">MS SQL</label>
+		<input type="radio" name="dbtype" value='mssql' id="mssql" <?php OC_Helper::init_radio('dbtype', 'mssql', 'sqlite'); ?>/>
+		<?php endif; ?>
+		<?php endif; ?>        
 		</div>
 
 		<?php if($hasOtherDB): ?>

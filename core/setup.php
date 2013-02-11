@@ -16,6 +16,7 @@ $hasSQLite = class_exists('SQLite3');
 $hasMySQL = is_callable('mysql_connect');
 $hasPostgreSQL = is_callable('pg_connect');
 $hasOracle = is_callable('oci_connect');
+$hasMSSQL = is_callable('sqlsrv_connect');
 $datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
 
 // Protect data directory here, so we can test if the protection is working
@@ -26,6 +27,7 @@ $opts = array(
 	'hasMySQL' => $hasMySQL,
 	'hasPostgreSQL' => $hasPostgreSQL,
 	'hasOracle' => $hasOracle,
+	'hasMSSQL' => $hasMSSQL,
 	'directory' => $datadir,
 	'secureRNG' => OC_Util::secureRNG_available(),
 	'htaccessWorking' => OC_Util::ishtaccessworking(),
