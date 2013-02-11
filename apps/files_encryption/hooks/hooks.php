@@ -229,9 +229,7 @@ class Hooks {
 	 * @brief 
 	 */
 	public static function postUnshareAll( $params ) {
-		
-		trigger_error( "preUnshareAll" );
-		
+		return self::postUnshare($params);
 	}
 	
 }
