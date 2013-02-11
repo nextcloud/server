@@ -6,8 +6,8 @@
 			<thead>
 				<tr>
 					<th></th>
-					<th><?php echo $l->t('Mount point'); ?></th>
-					<th><?php echo $l->t('Backend'); ?></th>
+					<th><?php echo $l->t('Folder name'); ?></th>
+					<th><?php echo $l->t('External storage'); ?></th>
 					<th><?php echo $l->t('Configuration'); ?></th>
 					<!--<th><?php echo $l->t('Options'); ?></th> -->
 					<?php if ($_['isAdminPage']) echo '<th>'.$l->t('Applicable').'</th>'; ?>
@@ -30,7 +30,7 @@
 						<td class="backend">
 							<select id="selectBackend" data-configurations='<?php echo json_encode($_['backends']); ?>'>
 								<option value="" disabled selected
-										style="display:none;"><?php echo $l->t('Add mount point'); ?></option>
+										style="display:none;"><?php echo $l->t('Add storage'); ?></option>
 								<?php foreach ($_['backends'] as $class => $backend): ?>
 									<option value="<?php echo $class; ?>"><?php echo $backend['backend']; ?></option>
 								<?php endforeach; ?>
