@@ -3,6 +3,16 @@ $RUNTIME_NOSETUPFS = true;
 // Load other apps for file previews
 OC_App::loadApps();
 
+function fileCmp($a, $b) {
+	if ($a['type'] == 'dir' and $b['type'] != 'dir') {
+		return -1;
+	} elseif ($a['type'] != 'dir' and $b['type'] == 'dir') {
+		return 1;
+	} else {
+		return strnatcasecmp($a['name'], $b['name']);
+	}
+}
+
 if (isset($_GET['t'])) {
 	$token = $_GET['t'];
 	$linkItem = OCP\Share::getShareByToken($token);
@@ -146,6 +156,8 @@ if (isset($path)) {
 				$i['permissions'] = OCP\PERMISSION_READ;
 				$files[] = $i;
 			}
+			usort($files, "fileCmp");
+
 			// Make breadcrumb
 			$breadcrumb = array();
 			$pathtohere = '';
