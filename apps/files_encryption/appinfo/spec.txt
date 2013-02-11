@@ -9,6 +9,31 @@ Encrypted files
 
   [encrypted data string][delimiter][IV][padding]
   [anhAAjAmcGXqj1X9g==][00iv00][MSHU5N5gECP7aAg7][xx] (square braces added)
+  
+- Directory structure:
+  - Encrypted user data (catfiles) are stored in the usual /data/user/files dir
+  - Keyfiles are stored in /data/user/files_encryption/keyfiles
+  - Sharekey are stored in /data/user/files_encryption/share-files
+  
+- File extensions:
+  - Catfiles have keep the file extension of the original file, pre-encryption
+  - Keyfiles use .keyfile
+  - Sharekeys have .shareKey
+  
+Shared files
+------------
+
+Shared files have a centrally stored catfile and keyfile, and one sharekey for 
+each user that shares it.
+
+When sharing is used, a different encryption method is used to encrypt the 
+keyfile (openssl_seal). Although shared files have a keyfile, its contents
+use a different format therefore.
+
+Each time a shared file is edited or deleted, all sharekeys for users sharing
+that file must have their sharekeys changed also. The keyfile and catfile 
+however need only changing in the owners files, as there is only one copy of
+these.
 
 Notes
 -----
@@ -16,4 +41,7 @@ Notes
 - The user passphrase is required in order to set up or upgrade the app. New 
   keypair generation, and the re-encryption of legacy encrypted files requires
   it. Therefore an appinfo/update.php script cannot be used, and upgrade logic
-  is handled in the login hook listener.
+  is handled in the login hook listener. Therefore each time the user logs in 
+  their files are scanned to detect unencrypted and legacy encrypted files, and 
+  they are (re)encrypted as necessary. This may present a performance issue; we
+  need to monitor this.
