@@ -115,7 +115,6 @@ if (isset($path)) {
 		$tmpl = new OCP\Template('files_sharing', 'public', 'base');
 		$tmpl->assign('uidOwner', $shareOwner);
 		$tmpl->assign('displayName', \OCP\User::getDisplayName($shareOwner));
-		$tmpl->assign('dir', $dir);
 		$tmpl->assign('filename', $file);
 		$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
 		$tmpl->assign('fileTarget', basename($linkItem['file_target']));
@@ -124,6 +123,8 @@ if (isset($path)) {
 							.(isset($_GET['file'])?'&file='.$_GET['file']:'');
 		// Show file list
 		if (\OC\Files\Filesystem::is_dir($path)) {
+			$tmpl->assign('dir', $getPath);
+
 			OCP\Util::addStyle('files', 'files');
 			OCP\Util::addScript('files', 'files');
 			OCP\Util::addScript('files', 'filelist');
@@ -141,7 +142,7 @@ if (isset($path)) {
 						$i['extension'] = '';
 					}
 				}
-				$i['directory'] = $dir;
+				$i['directory'] = $getPath;
 				$i['permissions'] = OCP\PERMISSION_READ;
 				$files[] = $i;
 			}
@@ -165,7 +166,7 @@ if (isset($path)) {
 			$folder = new OCP\Template('files', 'index', '');
 			$folder->assign('fileList', $list->fetchPage(), false);
 			$folder->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
-			$folder->assign('dir', basename($dir));
+			$folder->assign('dir', $getPath);
 			$folder->assign('isCreatable', false);
 			$folder->assign('permissions', 0);
 			$folder->assign('files', $files);
@@ -177,6 +178,8 @@ if (isset($path)) {
 			$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 			$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=' . urlencode($getPath));
 		} else {
+			$tmpl->assign('dir', $dir);
+
 			// Show file preview if viewer is available
 			if ($type == 'file') {
 				$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download');
