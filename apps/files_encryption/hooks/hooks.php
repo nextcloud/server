@@ -40,7 +40,7 @@ class Hooks {
 	
 		// Manually initialise Filesystem{} singleton with correct 
 		// fake root path, in order to avoid fatal webdav errors
-		\OC\Files\Filesystem::init( $params['uid'] . '/' . 'files' . '/' );
+		\OC\Files\Filesystem::init( $params['uid'], $params['uid'] . '/' . 'files' . '/' );
 	
 		$view = new \OC_FilesystemView( '/' );
 
