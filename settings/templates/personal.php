@@ -8,12 +8,25 @@
 	<p id="quotatext"><?php echo $l->t('You have used <strong>%s</strong> of the available <strong>%s</strong>', array($_['usage'], $_['total_space']));?></p>
 </div></div>
 
-<fieldset class="personalblock">
-	<legend><strong><?php echo $l->t('Clients');?></strong></legend>
-	<a class="button" href="<?php echo $_['clients']['desktop']; ?>" target="_blank"><?php echo $l->t('Download Desktop Clients');?></a>
-	<a class="button" href="<?php echo $_['clients']['android']; ?>" target="_blank"><?php echo $l->t('Download Android Client');?></a>
-	<a class="button" href="<?php echo $_['clients']['ios']; ?>" target="_blank"><?php echo $l->t('Download iOS Client');?></a>
-</fieldset>
+
+
+<div class="clientsbox">
+	<h2><?php echo $l->t('Get the apps to sync your files');?></h2>
+	<a href="<?php echo $_['clients']['desktop']; ?>" target="_blank">
+		<img src="<?php echo OCP\Util::imagePath('core', 'desktopapp.png'); ?>" />
+	</a>
+	<a href="<?php echo $_['clients']['android']; ?>" target="_blank">
+		<img src="<?php echo OCP\Util::imagePath('core', 'googleplay.png'); ?>" />
+	</a>
+	<a href="<?php echo $_['clients']['ios']; ?>" target="_blank">
+		<img src="<?php echo OCP\Util::imagePath('core', 'appstore.png'); ?>" />
+	</a>
+	<?php if(OC_APP::isEnabled('firstrunwizard')) {?>
+	<center><a class="button" href="#" id="showWizard"><?php echo $l->t('Show First Run Wizard again');?></a></center>
+	<?php }?>
+</div>
+
+
 
 <?php
 if($_['passwordChangeSupported']) {
