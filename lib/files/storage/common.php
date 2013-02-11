@@ -113,7 +113,8 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	public function deleteAll( $directory, $empty = false ) {
 		$directory = trim($directory, '/');
 
-		if ( !$this->file_exists( \OCP\USER::getUser() . '/' . $directory ) || !$this->is_dir( \OCP\USER::getUser() . '/' . $directory ) ) {
+		if ( !$this->file_exists( \OCP\USER::getUser() . '/' . $directory )
+			|| !$this->is_dir( \OCP\USER::getUser() . '/' . $directory ) ) {
 			return false;
 		} elseif( !$this->isReadable( \OCP\USER::getUser() . '/' . $directory ) ) {
 			return false;

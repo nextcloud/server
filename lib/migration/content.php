@@ -236,7 +236,9 @@ class OC_Migration_Content{
 	*/
 	public function finish() {
 		if( !$this->zip->close() ) {
-			OC_Log::write( 'migration', 'Failed to write the zip file with error: '.$this->zip->getStatusString(), OC_Log::ERROR );
+			OC_Log::write( 'migration',
+				'Failed to write the zip file with error: '.$this->zip->getStatusString(),
+				OC_Log::ERROR );
 			return false;
 		}
 		$this->cleanup();

@@ -169,7 +169,9 @@ class OC_Image {
 			if (!file_exists(dirname($filepath)))
 				mkdir(dirname($filepath), 0777, true);
 			if(!is_writable(dirname($filepath))) {
-				OC_Log::write('core', __METHOD__.'(): Directory \''.dirname($filepath).'\' is not writable.', OC_Log::ERROR);
+				OC_Log::write('core',
+					__METHOD__.'(): Directory \''.dirname($filepath).'\' is not writable.',
+					OC_Log::ERROR);
 				return false;
 			} elseif(is_writable(dirname($filepath)) && file_exists($filepath) && !is_writable($filepath)) {
 				OC_Log::write('core', __METHOD__.'(): File \''.$filepath.'\' is not writable.', OC_Log::ERROR);
@@ -394,35 +396,45 @@ class OC_Image {
 				if (imagetypes() & IMG_GIF) {
 					$this->resource = imagecreatefromgif($imagepath);
 				} else {
-					OC_Log::write('core', 'OC_Image->loadFromFile, GIF images not supported: '.$imagepath, OC_Log::DEBUG);
+					OC_Log::write('core',
+						'OC_Image->loadFromFile, GIF images not supported: '.$imagepath,
+						OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_JPEG:
 				if (imagetypes() & IMG_JPG) {
 					$this->resource = imagecreatefromjpeg($imagepath);
 				} else {
-					OC_Log::write('core', 'OC_Image->loadFromFile, JPG images not supported: '.$imagepath, OC_Log::DEBUG);
+					OC_Log::write('core',
+						'OC_Image->loadFromFile, JPG images not supported: '.$imagepath,
+						OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_PNG:
 				if (imagetypes() & IMG_PNG) {
 					$this->resource = imagecreatefrompng($imagepath);
 				} else {
-					OC_Log::write('core', 'OC_Image->loadFromFile, PNG images not supported: '.$imagepath, OC_Log::DEBUG);
+					OC_Log::write('core',
+						'OC_Image->loadFromFile, PNG images not supported: '.$imagepath,
+						OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_XBM:
 				if (imagetypes() & IMG_XPM) {
 					$this->resource = imagecreatefromxbm($imagepath);
 				} else {
-					OC_Log::write('core', 'OC_Image->loadFromFile, XBM/XPM images not supported: '.$imagepath, OC_Log::DEBUG);
+					OC_Log::write('core',
+						'OC_Image->loadFromFile, XBM/XPM images not supported: '.$imagepath,
+						OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_WBMP:
 				if (imagetypes() & IMG_WBMP) {
 					$this->resource = imagecreatefromwbmp($imagepath);
 				} else {
-					OC_Log::write('core', 'OC_Image->loadFromFile, WBMP images not supported: '.$imagepath, OC_Log::DEBUG);
+					OC_Log::write('core',
+						'OC_Image->loadFromFile, WBMP images not supported: '.$imagepath,
+						OC_Log::DEBUG);
 				}
 				break;
 			case IMAGETYPE_BMP:
@@ -633,7 +645,9 @@ class OC_Image {
 						$color[1] = $palette[ $color[1] + 1 ];
 						break;
 					default:
-						trigger_error('imagecreatefrombmp: ' . $filename . ' has ' . $meta['bits'] . ' bits and this is not supported!', E_USER_WARNING);
+						trigger_error('imagecreatefrombmp: '
+							. $filename . ' has ' . $meta['bits'] . ' bits and this is not supported!',
+							E_USER_WARNING);
 						return false;
 				}
 				imagesetpixel($im, $x, $y, $color[1]);
@@ -739,7 +753,9 @@ class OC_Image {
 		}
 		imagecopyresampled($process, $this->resource, 0, 0, $x, $y, $targetWidth, $targetHeight, $width, $height);
 		if ($process == false) {
-			OC_Log::write('core', 'OC_Image->centerCrop. Error resampling process image '.$width.'x'.$height, OC_Log::ERROR);
+			OC_Log::write('core',
+				'OC_Image->centerCrop. Error resampling process image '.$width.'x'.$height,
+				OC_Log::ERROR);
 			imagedestroy($process);
 			return false;
 		}

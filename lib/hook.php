@@ -71,7 +71,9 @@ class OC_Hook{
 			try {
 				call_user_func( array( $i["class"], $i["name"] ), $params );
 			} catch (Exception $e){
-				OC_Log::write('hook', 'error while running hook (' . $i["class"] . '::' . $i["name"] . '): '.$e->getMessage(), OC_Log::ERROR);
+				OC_Log::write('hook',
+					'error while running hook (' . $i["class"] . '::' . $i["name"] . '): '.$e->getMessage(),
+					OC_Log::ERROR);
 			}
 		}
 

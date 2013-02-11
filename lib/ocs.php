@@ -87,7 +87,8 @@ class OC_OCS {
 		}
 
 		$format = self::readData($method, 'format', 'text', '');
-		$txt='Invalid query, please check the syntax. API specifications are here: http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
+		$txt='Invalid query, please check the syntax. API specifications are here:'
+		.' http://www.freedesktop.org/wiki/Specifications/open-collaboration-services. DEBUG OUTPUT:'."\n";
 		$txt.=OC_OCS::getDebugOutput();
 		echo(OC_OCS::generateXml($format, 'failed', 999, $txt));
 
@@ -122,7 +123,8 @@ class OC_OCS {
 	* @param int $itemsperpage
 	* @return string xml/json
 	*/
-	private static function generateXml($format, $status, $statuscode, $message, $data=array(), $tag='', $tagattribute='', $dimension=-1, $itemscount='', $itemsperpage='') {
+	private static function generateXml($format, $status, $statuscode,
+		$message, $data=array(), $tag='', $tagattribute='', $dimension=-1, $itemscount='', $itemsperpage='') {
 		if($format=='json') {
 			$json=array();
 			$json['status']=$status;

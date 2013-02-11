@@ -97,7 +97,8 @@ class OC_FileChunking {
 		$absolutePath = \OC\Files\Filesystem::normalizePath(\OC\Files\Filesystem::getView()->getAbsolutePath($path));
 		$data = '';
 		// use file_put_contents as method because that best matches what this function does
-		if (OC_FileProxy::runPreProxies('file_put_contents', $absolutePath, $data) && \OC\Files\Filesystem::isValidPath($path)) {
+		if (OC_FileProxy::runPreProxies('file_put_contents', $absolutePath, $data)
+			&& \OC\Files\Filesystem::isValidPath($path)) {
 			$path = \OC\Files\Filesystem::getView()->getRelativePath($absolutePath);
 			$exists = \OC\Files\Filesystem::file_exists($path);
 			$run = true;
