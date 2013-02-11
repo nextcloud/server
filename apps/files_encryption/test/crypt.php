@@ -439,14 +439,14 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue( strlen( $pair1['privateKey'] ) > 1 );
 		
 
-		$crypted = Encryption\Crypt::multiKeyEncrypt( $this->dataUrl, array( $pair1['publicKey'] ) );
+		$crypted = Encryption\Crypt::multiKeyEncrypt( $this->dataShort, array( $pair1['publicKey'] ) );
 		
-		$this->assertNotEquals( $this->dataUrl, $crypted['encrypted'] );
+		$this->assertNotEquals( $this->dataShort, $crypted['data'] );
 		
 
-		$decrypt = Encryption\Crypt::multiKeyDecrypt( $crypted['encrypted'], $crypted['keys'][0], $pair1['privateKey'] );
+		$decrypt = Encryption\Crypt::multiKeyDecrypt( $crypted['data'], $crypted['keys'][0], $pair1['privateKey'] );
 		
- 		$this->assertEquals( $this->dataUrl, $decrypt );
+ 		$this->assertEquals( $this->dataShort, $decrypt );
 	
 	}
 	

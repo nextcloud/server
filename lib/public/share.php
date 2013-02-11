@@ -93,19 +93,72 @@ class Share {
 	}
 	
 	/**
-	* @brief Find which users can access a shared item
-	* @param string Item type
-	* @param int Format (optional) Format type must be defined by the backend
-	* @param int Number of items to return (optional) Returns all by default
-	* @return Return depends on format
+	* @brief Prepare a path to be passed to DB as file_target
+	* @return string Prepared path
 	*/
-	public static function getUsersSharingFile( $path ) {
+	public static function prepFileTarget( $path ) {
+	
+		// Paths in DB are stored with leading slashes, so add one if necessary
+		if ( substr( $path, 0, 1 ) !== '/' ) {
+		
+			$path = '/' . $path;
+		
+		}
+		
+		return $path;
+	
+	}
+	
+	public static function isSharedFile( $path ) {
+	
+		$fPath = self::prepFileTarget( $path );
+	
+		// Fetch all shares of this file path from DB
+		$query = \OC_DB::prepare( 
+			'SELECT 
+				id
+			FROM 
+				`*PREFIX*share` 
+			WHERE 
+				file_target = ?'
+			);
+			
+		$result = $query->execute( array( $fPath ) );
+		
+		if ( \OC_DB::isError( $result ) ) {
+		
+			\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage( $result ) . ', path=' . $fPath, \OC_Log::ERROR );
+		
+		}
+		
+		if ( $result->fetchRow() !== false ) {
+		
+			return true;
+		
+		} else {
+		
+			return false;
+			
+		}
+	
+	}
+	
+	/**
+	* @brief Find which users can access a shared item
+	* @return bool / array
+	* @note $path needs to be relative to user data dir, e.g. 'file.txt' 
+	*       not '/admin/data/file.txt'
+	*/
+	public static function getUsersSharingFile( $path, $includeOwner = 0 ) {
+		
+		$fPath = self::prepFileTarget( $path );
 		
 		// Fetch all shares of this file path from DB
 		$query = \OC_DB::prepare( 
 			'SELECT 
 				share_type
 				, share_with
+				, uid_owner
 				, permissions
 			FROM 
 				`*PREFIX*share` 
@@ -113,11 +166,11 @@ class Share {
 				file_target = ?'
 			);
 			
-		$result = $query->execute( array( $path ) );
+		$result = $query->execute( array( $fPath ) );
 		
 		if ( \OC_DB::isError( $result ) ) {
 		
-			\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result) . ', path=' . $path, \OC_Log::ERROR );
+			\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result) . ', path=' . $fPath, \OC_Log::ERROR );
 		
 		}
 		
@@ -128,6 +181,7 @@ class Share {
 			// Set helpful array keys
 			$shares[] = array( 
 				'userId' => $row['share_with']
+				, 'owner' => $row['uid_owner'] // we just set this so it can be used once, hugly hack :/
 				, 'shareType' => $row['share_type']
 				, 'permissions' => $row['permissions']
 			);
@@ -135,6 +189,20 @@ class Share {
 		}
 		
 		if ( ! empty( $shares ) ) {
+		
+			// Include owner in list of users, if requested
+			if ( $includeOwner == 1 ) {
+			
+				// NOTE: The values are incorrect for shareType and 
+				// permissions of the owner; we just include them for 
+				// optional convenience
+				$shares[] = array( 
+					'userId' => $shares[0]['owner']
+					, 'shareType' => 0
+					, 'permissions' => 0
+				);
+			
+			}
 		
 			return $shares;
 			

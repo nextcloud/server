@@ -370,22 +370,41 @@ class Crypt {
 	/**
 	* @brief Create asymmetrically encrypted keyfile content using a generated key
 	* @param string $plainContent content to be encrypted
-	* @returns array keys: key, encrypted
-	* @note symmetricDecryptFileContent() can be used to decrypt files created using this method
-	*
-	* This function decrypts a file
+	* @param array $publicKeys array keys must be the userId of corresponding user
+	* @returns array keys: keys (array, key = userId), encrypted
+	* @note symmetricDecryptFileContent() can decrypt files created using this method
 	*/
 	public static function multiKeyEncrypt( $plainContent, array $publicKeys ) {
-	
+		
+		// openssl_seal returns false without errors if $plainContent 
+		// is empty, so trigger our own error
+		if ( empty( $plainContent ) ) {
+		
+			trigger_error( "Cannot mutliKeyEncrypt empty plain content" );
+			throw new \Exception( 'Cannot mutliKeyEncrypt empty plain content' );
+		
+		}
+		
 		// Set empty vars to be set by openssl by reference
 		$sealed = '';
-		$envKeys = array();
+		$shareKeys = array();
 	
-		if( openssl_seal( $plainContent, $sealed, $envKeys, $publicKeys ) ) {
+		if( openssl_seal( $plainContent, $sealed, $shareKeys, $publicKeys ) ) {
+		
+			$i = 0;
+			
+			// Ensure each shareKey is labelled with its 
+			// corresponding userId
+			foreach ( $publicKeys as $userId => $publicKey ) {
+			
+				$mappedShareKeys[$userId] = $shareKeys[$i];
+				$i++;
+			
+			}
 		
 			return array(
-				'keys' => $envKeys
-				, 'encrypted' => $sealed
+				'keys' => $mappedShareKeys
+				, 'data' => $sealed
 			);
 		
 		} else {
@@ -404,7 +423,7 @@ class Crypt {
 	*
 	* This function decrypts a file
 	*/
-	public static function multiKeyDecrypt( $encryptedContent, $envKey, $privateKey ) {
+	public static function multiKeyDecrypt( $encryptedContent, $shareKey, $privateKey ) {
 	
 		if ( !$encryptedContent ) {
 		
@@ -412,7 +431,7 @@ class Crypt {
 			
 		}
 		
-		if ( openssl_open( $encryptedContent, $plainContent, $envKey, $privateKey ) ) {
+		if ( openssl_open( $encryptedContent, $plainContent, $shareKey, $privateKey ) ) {
 		
 			return $plainContent;
 			

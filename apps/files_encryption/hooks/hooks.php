@@ -82,7 +82,11 @@ class Hooks {
 		
 		}
 		
+		\OC_FileProxy::$enabled = false;
+		
 		$publicKey = Keymanager::getPublicKey( $view, $params['uid'] );
+		
+		\OC_FileProxy::$enabled = false;
 		
 		// Encrypt existing user files:
 		// This serves to upgrade old versions of the encryption
@@ -175,8 +179,9 @@ class Hooks {
 		$view = new \OC_FilesystemView( '/' );
 		$userId = \OCP\User::getUser();
 		$util = new Util( $view, $userId );
+		$session = new Session();
 		
-		$shares = \OCP\Share::getUsersSharingFile( $params['fileTarget'] );
+		$shares = \OCP\Share::getUsersSharingFile( $params['fileTarget'], 1 );
 		
 		$userIds = array();
 		
@@ -202,41 +207,35 @@ class Hooks {
 		
 		}
 		
-		trigger_error("UIDS = ".var_export($userIds, 1));
-		
 		$userPubKeys = Keymanager::getPublicKeys( $view, $userIds );
 		
-// 		trigger_error("PUB KEYS = ".var_export($userPubKeys, 1));
+		\OC_FileProxy::$enabled = false;
 		
-		// TODO: Fetch path from Crypt{} getter
-		$plainContent = $view->file_get_contents( $userId . '/' . 'files'. '/' . $params['fileTarget'] );
+		// get the keyfile
+		$encKeyfile = Keymanager::getFileKey( $view, $userId, $params['fileTarget'] );
 		
-		// Generate new catfile and share keys
-		if ( ! $encrypted = Crypt::multiKeyEncrypt( $plainContent, $userPubKeys ) ) {
+		$privateKey = $session->getPrivateKey();
 		
-			// If the re-encryption failed, don't risk deleting data
-			return false;
+		// decrypt the keyfile
+		$plainKeyfile = Crypt::keyDecrypt( $encKeyfile, $privateKey );
+		
+		// re-enc keyfile to sharekeys
+		$shareKeys = Crypt::multiKeyEncrypt( $plainKeyfile, $userPubKeys );
+		
+		// save sharekeys
+		if ( ! Keymanager::setShareKeys( $view, $params['fileTarget'], $shareKeys['keys'] ) ) {
+		
+			trigger_error( "SET Share keys failed" );
 			
 		}
 		
-		trigger_error("ENCRYPTED = ". var_export($encrypted, 1));
-		
-		// Save env keys to user folders
-		foreach ( $encrypted['keys'] as $key ) {
-		
-// 			Keymanager::setShareKey( $view, $params['fileTarget'], $userId, $key );
-		
-		}
-		
-		// Delete existing catfile
-		// Check if keyfile exists (it won't if file has been shared before)
+		// Delete existing keyfile
 		// Do this last to ensure file is recoverable in case of error
-		if ( $util->isEncryptedPath( $params['fileTarget'] ) ) {
-			
-			// NOTE: This will trigger an error if keyfile isn't found
-// 			Keymanager::deleteFileKey( $params['fileTarget'] );
+// 		Keymanager::deleteFileKey( $view, $userId, $params['fileTarget'] );
 		
-		}
+		\OC_FileProxy::$enabled = true;
+		
+		return true;
 		
 	}
 	

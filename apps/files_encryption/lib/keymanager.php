@@ -52,8 +52,11 @@ class Keymanager {
 	 */
 	public static function getPublicKey( \OC_FilesystemView $view, $userId ) {
 		
+		\OC_FileProxy::$enabled = false;
+		
 		return $view->file_get_contents( '/public-keys/' . '/' . $userId . '.public.key' );
 		
+		\OC_FileProxy::$enabled = true;
 	}
 	
 	/**
@@ -77,19 +80,15 @@ class Keymanager {
 	 * @param array $userIds
 	 * @return array of public keys for the specified users
 	 */
-	public static function getPublicKeys( \OC_FilesystemView $view, $userIds ) {
+	public static function getPublicKeys( \OC_FilesystemView $view, array $userIds ) {
 		
-		$i = 0;
 		$keys = array();
 		
 		foreach ( $userIds as $userId ) {
 		
-			$i++;
 			$keys[$userId] = self::getPublicKey( $view, $userId );
 		
 		}
-		
-		$keys['total'] = $i;
 		
 		return $keys;
 		
@@ -137,11 +136,11 @@ class Keymanager {
 		
 		$filePath_f = ltrim( $filePath, '/' );
 		
-		$catfilePath = '/' . $userId . '/files_encryption/keyfiles/' . $filePath_f . '.key';
+		$keyfilePath = '/' . $userId . '/files_encryption/keyfiles/' . $filePath_f . '.key';
 		
-		if ( $view->file_exists( $catfilePath ) ) {
+		if ( $view->file_exists( $keyfilePath ) ) {
 
-			return $view->file_get_contents( $catfilePath );
+			return $view->file_get_contents( $keyfilePath );
 			
 		} else {
 		
@@ -239,7 +238,7 @@ class Keymanager {
 	}
 	
 	/**
-	 * @brief store file encryption key
+	 * @brief store share key
 	 *
 	 * @param string $path relative path of the file, including filename
 	 * @param string $key
@@ -255,7 +254,85 @@ class Keymanager {
 		
 		$shareKeyPath = self::keySetPreparation( $view, $path, $basePath, $userId );
 		
-		return $view->file_put_contents( $basePath . '/' . $shareKeyPath . '.shareKey', $shareKey );
+		$writePath = $basePath . '/' . $shareKeyPath . '.shareKey';
+		
+		\OC_FileProxy::$enabled = false;
+		
+		$result = $view->file_put_contents( $writePath, $shareKey );
+		
+		if ( 
+			is_int( $result ) 
+			&& $result > 0
+		) {
+		
+			return true;
+			
+		} else {
+		
+			return false;
+			
+		}
+		
+	}
+	
+	/**
+	 * @brief store multiple share keys for a single file
+	 * @return bool
+	 */
+	public static function setShareKeys( \OC_FilesystemView $view, $path, array $shareKeys ) {
+	
+		// $shareKeys must be  an array with the following format:
+		// [userId] => [encrypted key]
+		
+		$result = true;
+		
+		foreach ( $shareKeys as $userId => $shareKey ) {
+		
+			if ( ! self::setShareKey( $view, $path, $userId, $shareKey ) ) {
+				
+				// If any of the keys are not set, flag false
+				$result = false;
+			
+			}
+		
+		}
+		
+		// Returns false if any of the keys weren't set
+		return $result;
+		
+	}
+	
+	/**
+	 * @brief retrieve shareKey for an encrypted file
+	 * @param \OC_FilesystemView $view
+	 * @param $userId
+	 * @param $filePath
+	 * @internal param \OCA\Encryption\file $string name
+	 * @return string file key or false
+	 * @note The sharekey returned is encrypted. Decryption
+	 * of the keyfile must be performed by client code
+	 */
+	public static function getShareKey( \OC_FilesystemView $view, $userId, $filePath ) {
+		
+		\OC_FileProxy::$enabled = false;
+		
+		$filePath_f = ltrim( $filePath, '/' );
+		
+		$shareKeyPath = '/' . $userId . '/files_encryption/share-keys/' . $filePath_f . '.shareKey';
+		
+		if ( $view->file_exists( $shareKeyPath ) ) {
+			
+			$result = $view->file_get_contents( $shareKeyPath );
+			
+		} else {
+		
+			$result = false;
+			
+		}
+		
+		\OC_FileProxy::$enabled = true;
+		
+		return $result;
 		
 	}
 	

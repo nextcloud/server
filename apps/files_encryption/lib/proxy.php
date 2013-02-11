@@ -99,58 +99,65 @@ class Proxy extends \OC_FileProxy {
 			if ( !is_resource( $data ) ) {
 			
 				$userId = \OCP\USER::getUser();
-				
 				$rootView = new \OC_FilesystemView( '/' );
-			
+				$util = new Util( $rootView, $userId );
+				$filePath = $util->stripUserFilesPath( $path );
 				// Set the filesize for userland, before encrypting
 				$size = strlen( $data );
 				
 				// Disable encryption proxy to prevent recursive calls
 				\OC_FileProxy::$enabled = false;
 				
-				$fileOwner = \OC\Files\Filesystem::getOwner( $path );
+				// Encrypt data
+				$encData = Crypt::symmetricEncryptFileContentKeyfile( $data );
 				
 				// Check if the keyfile needs to be shared
-				if ( 
-					$fileOwner !== true
-					or $fileOwner !== $userId 
-				) {
+				if ( \OCP\Share::isSharedFile( $filePath ) ) {
 					
-					// Shared storage backend isn't loaded
+// 					$fileOwner = \OC\Files\Filesystem::getOwner( $path );
 					
-					$users = \OCP\Share::getItemShared( 'file', $path, \OC_Share_backend_File::FORMAT_SHARED_STORAGE );
-// 					
-					trigger_error("SHARE USERS = ". var_export($users, 1));
-// 					
-// 					$publicKeys = Keymanager::getPublicKeys( $rootView, $users);
-// 					
-// 					// Encrypt plain data to multiple users
-// 					$encrypted = Crypt::multiKeyEncrypt( $data, $publicKeys );
+					// List everyone sharing the file
+					$shares = \OCP\Share::getUsersSharingFile( $filePath, 1 );
+					
+					$userIds = array();
+					
+					foreach ( $shares as $share ) {
+					
+						$userIds[] = $share['userId'];
+					
+					}
+					
+					$publicKeys = Keymanager::getPublicKeys( $rootView, $userIds );
+					
+					\OC_FileProxy::$enabled = false;
+					
+					// Encrypt plain keyfile to multiple sharefiles
+					$multiEncrypted = Crypt::multiKeyEncrypt( $encData['key'], $publicKeys );
+					
+					// Save sharekeys to user folders
+					Keymanager::setShareKeys( $rootView, $filePath, $multiEncrypted['keys'] );
+					
+					// Set encrypted keyfile as common varname
+					$encKey = $multiEncrypted['encrypted'];
+					
+					
 				
 				} else {
 				
 					$publicKey = Keymanager::getPublicKey( $rootView, $userId );
 				
 					// Encrypt plain data to a single user
-					$encrypted = Crypt::keyEncryptKeyfile( $data, $publicKey );
+					$encKey = Crypt::keyEncrypt( $encData['key'], $publicKey );
 				
 				}
 				
-				// Replace plain content with encrypted content by reference
-				$data = $encrypted['data'];
-				
-				$filePath = explode( '/', $path );
-				
-				$filePath = array_slice( $filePath, 3 );
-				
-				$filePath = '/' . implode( '/', $filePath );
-				
-				// TODO: make keyfile dir dynamic from app config
-				
-				$view = new \OC_FilesystemView( '/' );
+				// TODO: Replace userID with ownerId so keyfile is saved centrally
 				
 				// Save keyfile for newly encrypted file in parallel directory tree
-				Keymanager::setFileKey( $view, $filePath, $userId, $encrypted['key'] );
+				Keymanager::setFileKey( $rootView, $filePath, $userId, $encKey );
+				
+				// Replace plain content with encrypted content by reference
+				$data = $encData['encrypted'];
 				
 				// Update the file cache with file info
 				\OC\Files\Filesystem::putFileInfo( $path, array( 'encrypted'=>true, 'size' => $size ), '' );
@@ -168,8 +175,6 @@ class Proxy extends \OC_FileProxy {
 	 * @param string $data Data that has been read from file
 	 */
 	public function postFile_get_contents( $path, $data ) {
-	
-		// TODO: Use dependency injection to add required args for view and user etc. to this method
 
 		// Disable encryption proxy to prevent recursive calls
 		\OC_FileProxy::$enabled = false;
@@ -180,45 +185,55 @@ class Proxy extends \OC_FileProxy {
 			&& Crypt::isCatfile( $data ) 
 		) {
 			
-			$split = explode( '/', $path );
-			
-			$filePath = array_slice( $split, 3 );
-			
-			$filePath = '/' . implode( '/', $filePath );
-			
-			//$cached = \OC\Files\Filesystem::getFileInfo( $path, '' );
-			
-			$view = new \OC_FilesystemView( '' );
-			
+			$view = new \OC_FilesystemView( '/' );
 			$userId = \OCP\USER::getUser();
-			
-			// TODO: Check if file is shared, if so, use multiKeyDecrypt
-			
-			$encryptedKeyfile = Keymanager::getFileKey( $view, $userId, $filePath );
-
 			$session = new Session();
+			$util = new Util( $view, $userId );
+			$filePath = $util->stripUserFilesPath( $path );
+			$privateKey = $session->getPrivateKey( $userId );
 			
-			$decrypted = Crypt::keyDecryptKeyfile( $data, $encryptedKeyfile, $session->getPrivateKey( $split[1] ) );
+			// Get the encrypted keyfile
+			$encKeyfile = Keymanager::getFileKey( $view, $userId, $filePath );
 			
+			// Check if key is shared or not
+			if ( \OCP\Share::isSharedFile( $filePath ) ) {
+			
+				// If key is shared, fetch the user's shareKey
+				$shareKey = Keymanager::getShareKey( $view, $userId, $filePath );
+				
+				\OC_FileProxy::$enabled = false;
+				
+				// Decrypt keyfile with shareKey
+				$plainKeyfile = Crypt::multiKeyDecrypt( $encKeyfile, $shareKey, $privateKey );
+			
+			} else {
+				
+				// If key is unshared, decrypt with user private key
+				$plainKeyfile = Crypt::keyDecrypt( $encKeyfile, $privateKey );
+			
+			}
+			
+			$plainData = Crypt::symmetricDecryptFileContent( $data, $plainKeyfile );
+
 		} elseif (
 		Crypt::mode() == 'server' 
 		&& isset( $_SESSION['legacyenckey'] )
 		&& Crypt::isEncryptedMeta( $path ) 
 		) {
 			
-			$decrypted = Crypt::legacyDecrypt( $data, $_SESSION['legacyenckey'] );
+			$plainData = Crypt::legacyDecrypt( $data, $session->getLegacyKey() );
 			
 		}
 		
 		\OC_FileProxy::$enabled = true;
 		
-		if ( ! isset( $decrypted ) ) {
+		if ( ! isset( $plainData ) ) {
 		
-			$decrypted = $data;
+			$plainData = $data;
 			
 		}
 		
-		return $decrypted;
+		return $plainData;
 		
 	}
 	
