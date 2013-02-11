@@ -157,8 +157,6 @@ class Hooks {
 					, \OC_Log::ERROR 
 				);
 				
-				error_log( "Client side encryption is enabled but the client doesn't provide an encryption key for the file!" );
-				
 			}
 			
 		}
@@ -169,7 +167,7 @@ class Hooks {
 	 * @brief 
 	 */
 	public static function postShared( $params ) {
-		
+		error_log("post shared triggered!");
 		// NOTE: $params is an array with these keys:
 		// itemSource -> int, filecache file ID
 		// shareWith -> string, uid of user being shared to
@@ -214,22 +212,27 @@ class Hooks {
 	/**
 	 * @brief 
 	 */
-	public static function postUnshare( $params ) {
-		$shares = \OCP\Share::getUsersSharingFile( $params['fileTarget'], 1 );
+	public static function preUnshare( $params ) {
+		$items = \OCP\Share::getItemSharedWithBySource($params['itemType'], $params['itemSource']);
+		$shares = \OCP\Share::getUsersSharingFile( $item[0]['file_target'], 1 );
 		
 		$userIds = array();		
 		foreach ( $shares as $share ) {
 			$userIds[] = $share['userId'];
 		}
 		
-		return Crypt::encKeyfileToMultipleUsers($userIDs, $params['fileTarget']);
+		// remove the user from the list from which the file will be unshared
+		unset($userIds[$params['shareWith']]);
+
+		return Crypt::encKeyfileToMultipleUsers($userIDs, $item[0]['file_target']);
 	}
 	
 	/**
 	 * @brief 
 	 */
-	public static function postUnshareAll( $params ) {
-		return self::postUnshare($params);
+	public static function preUnshareAll( $params ) {
+		$items = \OCP\Share::getItemSharedWithBySource($params['itemType'], $params['itemSource']);
+		return Crypt::encKeyfileToMultipleUsers(array($items[0]['uid_owner']), $items[0]['file_target']);
 	}
 	
 }
