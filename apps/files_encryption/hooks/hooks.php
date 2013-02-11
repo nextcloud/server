@@ -190,6 +190,7 @@ class Hooks {
 			$util = new Util( $view, $share['userId'] );
 			
 			// Check that the user is encryption capable
+			// TODO create encryption key when user gets created
 			if ( $util->ready() ) {
 		
 				// Construct array of just UIDs for Keymanager{}

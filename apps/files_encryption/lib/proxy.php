@@ -92,12 +92,13 @@ class Proxy extends \OC_FileProxy {
 	}
 	
 	public function preFile_put_contents( $path, &$data ) {
-		
+		// TODO check for existing key file and reuse it if possible to avoid problems with versioning etc.
 		if ( self::shouldEncrypt( $path ) ) {
 		
 			// Stream put contents should have been converted to fopen
 			if ( !is_resource( $data ) ) {
 			
+				// TODO check who is the owner of the file in case of shared folders
 				$userId = \OCP\USER::getUser();
 				$rootView = new \OC_FilesystemView( '/' );
 				$util = new Util( $rootView, $userId );
@@ -175,7 +176,7 @@ class Proxy extends \OC_FileProxy {
 	 * @param string $data Data that has been read from file
 	 */
 	public function postFile_get_contents( $path, $data ) {
-
+		// TODO check for existing key file and reuse it if possible to avoid problems with versioning etc.
 		// Disable encryption proxy to prevent recursive calls
 		\OC_FileProxy::$enabled = false;
 		
@@ -184,8 +185,8 @@ class Proxy extends \OC_FileProxy {
 			Crypt::mode() == 'server' 
 			&& Crypt::isCatfile( $data ) 
 		) {
-			
 			$view = new \OC_FilesystemView( '/' );
+			// TODO use get owner to find correct location of key files for shared files
 			$userId = \OCP\USER::getUser();
 			$session = new Session();
 			$util = new Util( $view, $userId );
