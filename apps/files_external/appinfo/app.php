@@ -14,6 +14,7 @@ OC::$CLASSPATH['OC\Files\Storage\SWIFT']='apps/files_external/lib/swift.php';
 OC::$CLASSPATH['OC\Files\Storage\SMB']='apps/files_external/lib/smb.php';
 OC::$CLASSPATH['OC\Files\Storage\AmazonS3']='apps/files_external/lib/amazons3.php';
 OC::$CLASSPATH['OC\Files\Storage\Dropbox']='apps/files_external/lib/dropbox.php';
+OC::$CLASSPATH['OC\Files\Storage\SFTP']='apps/files_external/lib/sftp.php';
 OC::$CLASSPATH['OC_Mount_Config']='apps/files_external/lib/config.php';
 
 OCP\App::registerAdmin('files_external', 'settings');

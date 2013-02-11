@@ -74,7 +74,7 @@ class OC_Util {
 	 */
 	public static function getVersion() {
 		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4.90.0. This is not visible to the user
-		return array(4, 91, 9);
+		return array(4, 91, 10);
 	}
 
 	/**
@@ -560,12 +560,11 @@ class OC_Util {
 			return true;
 		}
 
-		$result=setlocale(LC_ALL, 'en_US.UTF-8');
-		if($result==false) {
-			return(false);
-		}else{
-			return(true);
-		}
+		$result = setlocale(LC_ALL, 'en_US.UTF-8', 'en_US.UTF8');
+		if($result == false) {
+			return false;
+        }
+        return true;
 	}
 
 	/**

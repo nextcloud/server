@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 21:40+0000\n"
+"POT-Creation-Date: 2013-02-11 00:03+0100\n"
+"PO-Revision-Date: 2013-02-10 14:21+0000\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -18,27 +18,27 @@ msgstr ""
 "Language: lv\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2);\n"
 
-#: app.php:313
+#: app.php:339
 msgid "Help"
 msgstr "Palīdzība"
 
-#: app.php:320
+#: app.php:346
 msgid "Personal"
 msgstr "Personīgi"
 
-#: app.php:325
+#: app.php:351
 msgid "Settings"
 msgstr "Iestatījumi"
 
-#: app.php:330
+#: app.php:356
 msgid "Users"
 msgstr "Lietotāji"
 
-#: app.php:337
+#: app.php:363
 msgid "Apps"
 msgstr "Lietotnes"
 
-#: app.php:339
+#: app.php:365
 msgid "Admin"
 msgstr "Administratori"
 
@@ -85,6 +85,17 @@ msgstr "Teksts"
 #: search/provider/file.php:29
 msgid "Images"
 msgstr "Attēli"
+
+#: setup.php:624
+msgid ""
+"Your web server is not yet properly setup to allow files synchronization "
+"because the WebDAV interface seems to be broken."
+msgstr "Jūsu serveris vēl nav pareizi iestatīts, lai ļautu sinhronizēt datnes, jo izskatās, ka WebDAV saskarne ir salauzta."
+
+#: setup.php:625
+#, php-format
+msgid "Please double check the <a href='%s'>installation guides</a>."
+msgstr "Lūdzu, vēlreiz pārbaudiet <a href='%s'>instalēšanas palīdzību</a>."
 
 #: template.php:113
 msgid "seconds ago"

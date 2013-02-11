@@ -45,7 +45,13 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function put($data) {
 
-		\OC\Files\Filesystem::file_put_contents($this->path,$data);
+		// mark file as partial while uploading (ignored by the scanner)
+		$partpath = $this->path . '.part';
+		
+		\OC\Files\Filesystem::file_put_contents($partpath, $data);
+		
+		// rename to correct path
+		\OC\Files\Filesystem::rename($partpath, $this->path);
 
 		return OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
 	}

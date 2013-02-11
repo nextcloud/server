@@ -40,7 +40,6 @@
 "Unable to change your password" => "Nie można zmienić hasła",
 "Current password" => "Bieżące hasło",
 "New password" => "Nowe hasło",
-"show" => "Wyświetlanie",
 "Change password" => "Zmień hasło",
 "Email" => "E-mail",
 "Your email address" => "Adres e-mail użytkownika",

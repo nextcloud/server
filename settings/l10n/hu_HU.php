@@ -40,7 +40,6 @@
 "Unable to change your password" => "A jelszó nem változtatható meg",
 "Current password" => "A jelenlegi jelszó",
 "New password" => "Az új jelszó",
-"show" => "lássam",
 "Change password" => "A jelszó megváltoztatása",
 "Email" => "Email",
 "Your email address" => "Az Ön email címe",

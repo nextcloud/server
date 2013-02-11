@@ -47,7 +47,6 @@
 "Unable to change your password" => "Не вдалося змінити Ваш пароль",
 "Current password" => "Поточний пароль",
 "New password" => "Новий пароль",
-"show" => "показати",
 "Change password" => "Змінити пароль",
 "Display Name" => "Показати Ім'я",
 "Your display name was changed" => "Ваше ім'я було змінене",

@@ -58,7 +58,7 @@ if (!$_['islocaleworking']) {
 	<legend><strong><?php echo $l->t('Locale not working');?></strong></legend>
 
 		<span class="connectionwarning">
-		<?php echo $l->t('This ownCloud server can\'t set system locale to "en_US.UTF-8". This means that there might be problems with certain characters in file names. We strongly suggest to install the required packages on your system to support en_US.UTF-8.'); ?>
+		<?php echo $l->t('This ownCloud server can\'t set system locale to "en_US.UTF-8"/"en_US.UTF8". This means that there might be problems with certain characters in file names. We strongly suggest to install the required packages on your system to support en_US.UTF-8/en_US.UTF8.'); ?>
 	</span>
 
 </fieldset>

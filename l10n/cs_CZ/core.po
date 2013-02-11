@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
-"PO-Revision-Date: 2013-02-08 23:12+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-10 00:08+0100\n"
+"PO-Revision-Date: 2013-02-09 13:30+0000\n"
+"Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -160,59 +160,59 @@ msgstr "Listopad"
 msgid "December"
 msgstr "Prosinec"
 
-#: js/js.js:284
+#: js/js.js:286
 msgid "Settings"
 msgstr "Nastavení"
 
-#: js/js.js:764
+#: js/js.js:766
 msgid "seconds ago"
 msgstr "před pár vteřinami"
 
-#: js/js.js:765
+#: js/js.js:767
 msgid "1 minute ago"
 msgstr "před minutou"
 
-#: js/js.js:766
+#: js/js.js:768
 msgid "{minutes} minutes ago"
 msgstr "před {minutes} minutami"
 
-#: js/js.js:767
+#: js/js.js:769
 msgid "1 hour ago"
 msgstr "před hodinou"
 
-#: js/js.js:768
+#: js/js.js:770
 msgid "{hours} hours ago"
 msgstr "před {hours} hodinami"
 
-#: js/js.js:769
+#: js/js.js:771
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:770
+#: js/js.js:772
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:771
+#: js/js.js:773
 msgid "{days} days ago"
 msgstr "před {days} dny"
 
-#: js/js.js:772
+#: js/js.js:774
 msgid "last month"
 msgstr "minulý mesíc"
 
-#: js/js.js:773
+#: js/js.js:775
 msgid "{months} months ago"
 msgstr "před {months} měsíci"
 
-#: js/js.js:774
+#: js/js.js:776
 msgid "months ago"
 msgstr "před měsíci"
 
-#: js/js.js:775
+#: js/js.js:777
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:776
+#: js/js.js:778
 msgid "years ago"
 msgstr "před lety"
 
@@ -242,8 +242,8 @@ msgid "The object type is not specified."
 msgstr "Není určen typ objektu."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
-#: js/share.js:583
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
+#: js/share.js:594
 msgid "Error"
 msgstr "Chyba"
 
@@ -263,7 +263,7 @@ msgstr "Sdílet"
 msgid "Shared"
 msgstr "Sdílené"
 
-#: js/share.js:141 js/share.js:611
+#: js/share.js:141 js/share.js:622
 msgid "Error while sharing"
 msgstr "Chyba při sdílení"
 
@@ -359,23 +359,23 @@ msgstr "smazat"
 msgid "share"
 msgstr "sdílet"
 
-#: js/share.js:373 js/share.js:558
+#: js/share.js:373 js/share.js:569
 msgid "Password protected"
 msgstr "Chráněno heslem"
 
-#: js/share.js:571
+#: js/share.js:582
 msgid "Error unsetting expiration date"
 msgstr "Chyba při odstraňování data vypršení platnosti"
 
-#: js/share.js:583
+#: js/share.js:594
 msgid "Error setting expiration date"
 msgstr "Chyba při nastavení data vypršení platnosti"
 
-#: js/share.js:598
+#: js/share.js:609
 msgid "Sending ..."
 msgstr "Odesílám..."
 
-#: js/share.js:609
+#: js/share.js:620
 msgid "Email sent"
 msgstr "E-mail odeslán"
 
@@ -491,14 +491,14 @@ msgstr "Bez bezpečného generátoru náhodných čísel může útočník před
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "Váš adresář s daty a soubory jsou dostupné z internetu, protože soubor .htaccess nefunguje."
 
 #: templates/installation.php:32
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Pro informace jak správně nastavit váš server se podívejte do <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentace</a>."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"

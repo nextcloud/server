@@ -18,7 +18,6 @@
 "Unable to change your password" => "Konnt däin Passwuert net änneren",
 "Current password" => "Momentan 't Passwuert",
 "New password" => "Neit Passwuert",
-"show" => "weisen",
 "Change password" => "Passwuert änneren",
 "Email" => "Email",
 "Your email address" => "Deng Email Adress",

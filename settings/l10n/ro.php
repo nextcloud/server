@@ -40,7 +40,6 @@
 "Unable to change your password" => "Imposibil de-ați schimbat parola",
 "Current password" => "Parola curentă",
 "New password" => "Noua parolă",
-"show" => "afișează",
 "Change password" => "Schimbă parola",
 "Email" => "Email",
 "Your email address" => "Adresa ta de email",

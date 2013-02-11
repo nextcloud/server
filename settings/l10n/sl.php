@@ -40,7 +40,6 @@
 "Unable to change your password" => "Gesla ni mogoče spremeniti.",
 "Current password" => "Trenutno geslo",
 "New password" => "Novo geslo",
-"show" => "pokaži",
 "Change password" => "Spremeni geslo",
 "Email" => "Elektronska pošta",
 "Your email address" => "Vaš elektronski poštni naslov",

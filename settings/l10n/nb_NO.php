@@ -35,7 +35,6 @@
 "Unable to change your password" => "Kunne ikke endre passordet ditt",
 "Current password" => "Nåværende passord",
 "New password" => "Nytt passord",
-"show" => "vis",
 "Change password" => "Endre passord",
 "Email" => "E-post",
 "Your email address" => "Din e-postadresse",

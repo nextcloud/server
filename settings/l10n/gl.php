@@ -40,7 +40,6 @@
 "Unable to change your password" => "Non é posíbel cambiar o seu contrasinal",
 "Current password" => "Contrasinal actual",
 "New password" => "Novo contrasinal",
-"show" => "amosar",
 "Change password" => "Cambiar o contrasinal",
 "Email" => "Correo",
 "Your email address" => "O seu enderezo de correo",

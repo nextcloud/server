@@ -22,7 +22,6 @@
 "Unable to change your password" => "Neįmanoma pakeisti slaptažodžio",
 "Current password" => "Dabartinis slaptažodis",
 "New password" => "Naujas slaptažodis",
-"show" => "rodyti",
 "Change password" => "Pakeisti slaptažodį",
 "Email" => "El. paštas",
 "Your email address" => "Jūsų el. pašto adresas",

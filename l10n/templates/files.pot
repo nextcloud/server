@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"POT-Creation-Date: 2013-02-11 00:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,51 +78,52 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-#: js/fileactions.js:117 templates/index.php:85 templates/index.php:86
-msgid "Unshare"
-msgstr ""
-
-#: js/fileactions.js:119
+#: js/fileactions.js:116
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:118 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr ""
 
-#: js/fileactions.js:187
+#: js/fileactions.js:184
 msgid "Rename"
 msgstr ""
 
-#: js/filelist.js:208 js/filelist.js:210
-msgid "{new_name} already exists"
-msgstr ""
-
-#: js/filelist.js:208 js/filelist.js:210
-msgid "replace"
-msgstr ""
-
-#: js/filelist.js:208
-msgid "suggest name"
-msgstr ""
-
-#: js/filelist.js:208 js/filelist.js:210
-msgid "cancel"
-msgstr ""
-
-#: js/filelist.js:253
-msgid "replaced {new_name}"
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:291 js/files.js:407
+#: js/files.js:438
+msgid "Pending"
 msgstr ""
 
 #: js/filelist.js:253 js/filelist.js:255
+msgid "{new_name} already exists"
+msgstr ""
+
+#: js/filelist.js:253 js/filelist.js:255
+msgid "replace"
+msgstr ""
+
+#: js/filelist.js:253
+msgid "suggest name"
+msgstr ""
+
+#: js/filelist.js:253 js/filelist.js:255
+msgid "cancel"
+msgstr ""
+
+#: js/filelist.js:295
+msgid "replaced {new_name}"
+msgstr ""
+
+#: js/filelist.js:295 js/filelist.js:297
 msgid "undo"
 msgstr ""
 
-#: js/filelist.js:255
+#: js/filelist.js:297
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:280
+#: js/filelist.js:322
 msgid "perform delete operation"
 msgstr ""
 
@@ -162,64 +163,60 @@ msgstr ""
 msgid "Upload Error"
 msgstr ""
 
-#: js/files.js:278
+#: js/files.js:272
 msgid "Close"
 msgstr ""
 
-#: js/files.js:297 js/files.js:413 js/files.js:444
-msgid "Pending"
-msgstr ""
-
-#: js/files.js:317
+#: js/files.js:311
 msgid "1 file uploading"
 msgstr ""
 
-#: js/files.js:320 js/files.js:375 js/files.js:390
+#: js/files.js:314 js/files.js:369 js/files.js:384
 msgid "{count} files uploading"
 msgstr ""
 
-#: js/files.js:393 js/files.js:428
+#: js/files.js:387 js/files.js:422
 msgid "Upload cancelled."
 msgstr ""
 
-#: js/files.js:502
+#: js/files.js:496
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/files.js:575
+#: js/files.js:569
 msgid "URL cannot be empty."
 msgstr ""
 
-#: js/files.js:580
+#: js/files.js:574
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:953 templates/index.php:67
+#: js/files.js:948 templates/index.php:67
 msgid "Name"
 msgstr ""
 
-#: js/files.js:954 templates/index.php:78
+#: js/files.js:949 templates/index.php:78
 msgid "Size"
 msgstr ""
 
-#: js/files.js:955 templates/index.php:80
+#: js/files.js:950 templates/index.php:80
 msgid "Modified"
 msgstr ""
 
-#: js/files.js:974
+#: js/files.js:969
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:976
+#: js/files.js:971
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:984
+#: js/files.js:979
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:986
+#: js/files.js:981
 msgid "{count} files"
 msgstr ""
 
@@ -276,7 +273,7 @@ msgid "From link"
 msgstr ""
 
 #: templates/index.php:40
-msgid "Trash"
+msgid "Trash bin"
 msgstr ""
 
 #: templates/index.php:46
@@ -289,6 +286,10 @@ msgstr ""
 
 #: templates/index.php:73
 msgid "Download"
+msgstr ""
+
+#: templates/index.php:85 templates/index.php:86
+msgid "Unshare"
 msgstr ""
 
 #: templates/index.php:105

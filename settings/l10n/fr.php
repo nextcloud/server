@@ -47,7 +47,6 @@
 "Unable to change your password" => "Impossible de changer votre mot de passe",
 "Current password" => "Mot de passe actuel",
 "New password" => "Nouveau mot de passe",
-"show" => "Afficher",
 "Change password" => "Changer de mot de passe",
 "Display Name" => "Nom affiché",
 "Your display name was changed" => "Votre nom d'affichage a bien été modifié",

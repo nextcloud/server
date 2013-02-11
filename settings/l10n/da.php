@@ -40,7 +40,6 @@
 "Unable to change your password" => "Ude af stand til at ændre dit kodeord",
 "Current password" => "Nuværende adgangskode",
 "New password" => "Ny adgangskode",
-"show" => "vis",
 "Change password" => "Skift kodeord",
 "Email" => "Email",
 "Your email address" => "Din emailadresse",

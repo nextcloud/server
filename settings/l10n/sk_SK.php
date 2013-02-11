@@ -46,7 +46,6 @@
 "Unable to change your password" => "Nie je možné zmeniť vaše heslo",
 "Current password" => "Aktuálne heslo",
 "New password" => "Nové heslo",
-"show" => "zobraziť",
 "Change password" => "Zmeniť heslo",
 "Display Name" => "Zobrazované meno",
 "Email" => "Email",

@@ -40,7 +40,6 @@
 "Unable to change your password" => "암호를 변경할 수 없음",
 "Current password" => "현재 암호",
 "New password" => "새 암호",
-"show" => "보이기",
 "Change password" => "암호 변경",
 "Display Name" => "표시 이름",
 "Email" => "이메일",

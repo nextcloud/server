@@ -29,7 +29,6 @@
 "Unable to change your password" => "Sa ei saa oma parooli muuta",
 "Current password" => "Praegune parool",
 "New password" => "Uus parool",
-"show" => "näita",
 "Change password" => "Muuda parooli",
 "Email" => "E-post",
 "Your email address" => "Sinu e-posti aadress",

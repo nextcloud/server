@@ -40,7 +40,6 @@
 "Unable to change your password" => "Невозможно изменить Ваш пароль",
 "Current password" => "Текущий пароль",
 "New password" => "Новый пароль",
-"show" => "показать",
 "Change password" => "Изменить пароль",
 "Email" => "Электронная почта",
 "Your email address" => "Адрес Вашей электронной почты",

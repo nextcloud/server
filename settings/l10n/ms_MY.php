@@ -18,7 +18,6 @@
 "Unable to change your password" => "Gagal mengubah kata laluan anda ",
 "Current password" => "Kata laluan semasa",
 "New password" => "Kata laluan baru",
-"show" => "Papar",
 "Change password" => "Ubah kata laluan",
 "Email" => "Emel",
 "Your email address" => "Alamat emel anda",

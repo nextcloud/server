@@ -31,7 +31,6 @@
 "Unable to change your password" => "Не могу да изменим вашу лозинку",
 "Current password" => "Тренутна лозинка",
 "New password" => "Нова лозинка",
-"show" => "прикажи",
 "Change password" => "Измени лозинку",
 "Email" => "Е-пошта",
 "Your email address" => "Ваша адреса е-поште",

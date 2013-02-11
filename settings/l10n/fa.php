@@ -29,7 +29,6 @@
 "Unable to change your password" => "ناتوان در تغییر گذرواژه",
 "Current password" => "گذرواژه کنونی",
 "New password" => "گذرواژه جدید",
-"show" => "نمایش",
 "Change password" => "تغییر گذر واژه",
 "Email" => "پست الکترونیکی",
 "Your email address" => "پست الکترونیکی شما",

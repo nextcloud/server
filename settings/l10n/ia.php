@@ -10,7 +10,6 @@
 "Unable to change your password" => "Non pote cambiar tu contrasigno",
 "Current password" => "Contrasigno currente",
 "New password" => "Nove contrasigno",
-"show" => "monstrar",
 "Change password" => "Cambiar contrasigno",
 "Email" => "E-posta",
 "Your email address" => "Tu adresse de e-posta",

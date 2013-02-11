@@ -29,7 +29,6 @@
 "Unable to change your password" => "თქვენი პაროლი არ შეიცვალა",
 "Current password" => "მიმდინარე პაროლი",
 "New password" => "ახალი პაროლი",
-"show" => "გამოაჩინე",
 "Change password" => "პაროლის შეცვლა",
 "Email" => "იმეილი",
 "Your email address" => "თქვენი იმეილ მისამართი",
