@@ -50,16 +50,16 @@ class OC_Setup {
 
 
 			if(empty($options['dbuser'])) {
-				$error[] = $l->t("$dbprettyname enter the database username.");
+				$error[] = $l->t("%s enter the database username.", array($dbprettyname));
 			}
 			if(empty($options['dbname'])) {
-				$error[] = $l->t("$dbprettyname enter the database name.");
+				$error[] = $l->t("%s enter the database name.", array($dbprettyname));
 			}
 			if(substr_count($options['dbname'], '.') >= 1) {
-				$error[] = $l->t("$dbprettyname you may not use dots in the database name");
+				$error[] = $l->t("%s you may not use dots in the database name", array($dbprettyname));
 			}
 			if($dbtype != 'oci' && empty($options['dbhost'])) {
-				$error[] = $l->t("$dbprettyname set the database host.");
+				$error[] = $l->t("%s set the database host.", array($dbprettyname));
 			}
 		}
 
