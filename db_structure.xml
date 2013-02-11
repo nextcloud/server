@@ -96,6 +96,66 @@
 
 	<table>
 
+		<name>*dbprefix*file_map</name>
+
+		<declaration>
+
+			<field>
+				<name>logic_path</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>512</length>
+			</field>
+
+			<field>
+				<name>logic_path_hash</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>32</length>
+			</field>
+
+			<field>
+				<name>physic_path</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>512</length>
+			</field>
+
+			<field>
+				<name>physic_path_hash</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>32</length>
+			</field>
+
+			<index>
+				<name>file_map_lp_index</name>
+				<unique>true</unique>
+				<field>
+					<name>logic_path_hash</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>file_map_pp_index</name>
+				<unique>true</unique>
+				<field>
+					<name>physic_path_hash</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
 		<name>*dbprefix*mimetypes</name>
 
 		<declaration>
@@ -206,7 +266,7 @@
 				<type>integer</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>4</length>
+				<length>8</length>
 			</field>
 
 			<field>

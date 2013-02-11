@@ -15,6 +15,10 @@ if(OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username)) {
 	$userstatus = 'subadmin';
 }
 
+if ($username == OC_User::getUser() && OC_User::canUserChangeDisplayName($username)) {
+	$userstatus = 'changeOwnDisplayName';
+}
+
 if(is_null($userstatus)) {
 	OC_JSON::error( array( "data" => array( "message" => $l->t("Authentication error") )));
 	exit();

@@ -17,7 +17,6 @@
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "sen ajna referencilo, ekz.: \"objectClass=posixGroup\".",
 "Port" => "Pordo",
 "Use TLS" => "Uzi TLS-on",
-"Do not use it for SSL connections, it will fail." => "Ne uzu ĝin por SSL-konektoj, ĝi malsukcesos.",
 "Case insensitve LDAP server (Windows)" => "LDAP-servilo blinda je litergrandeco (Vindozo)",
 "Turn off SSL certificate validation." => "Malkapabligi validkontrolon de SSL-atestiloj.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Se la konekto nur funkcias kun ĉi tiu malnepro, enportu la SSL-atestilo de la LDAP-servilo en via ownCloud-servilo.",

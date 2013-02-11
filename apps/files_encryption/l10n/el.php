@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Change encryption password to login password" => "Αλλαγή συνθηματικού κρυπτογράφησης στο συνθηματικό εισόδου ",
-"Please check your passwords and try again." => "Παρακαλώ ελέγξτε το συνθηματικό σας και προσπαθήστε ξανά.",
-"Could not change your file encryption password to your login password" => "Αδυναμία αλλαγής συνθηματικού κρυπτογράφησης αρχείων στο συνθηματικό εισόδου σας",
 "Encryption" => "Κρυπτογράφηση",
+"File encryption is enabled." => "Η κρυπτογράφηση αρχείων είναι ενεργή.",
+"The following file types will not be encrypted:" => "Οι παρακάτω τύποι αρχείων δεν θα κρυπτογραφηθούν:",
+"Exclude the following file types from encryption:" => "Εξαίρεση των παρακάτω τύπων αρχείων από την κρυπτογράφηση:",
 "None" => "Καμία"
 );

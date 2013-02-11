@@ -23,4 +23,4 @@ foreach($combinedApps as $app) {
 	echo("\n");
 }
 
-echo ("var appid =\"".$_GET['appid']."\";");
+echo ("var appid =".json_encode($_GET['appid']).";");

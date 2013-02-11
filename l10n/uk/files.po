@@ -6,12 +6,13 @@
 #   <dzubchikd@gmail.com>, 2012.
 #   <skoptev@ukr.net>, 2012.
 # Soul Kim <warlock.rf@gmail.com>, 2012.
+# пан Володимир <volodya327@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:08+0000\n"
+"POT-Creation-Date: 2013-02-10 00:08+0100\n"
+"PO-Revision-Date: 2013-02-09 23:08+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -19,6 +20,20 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:27 ajax/move.php:30
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/rename.php:22 ajax/rename.php:25
+msgid "Unable to rename file"
+msgstr ""
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -56,72 +71,73 @@ msgid "Failed to write to disk"
 msgstr "Невдалося записати на диск"
 
 #: ajax/upload.php:52
-msgid "Not enough space available"
+msgid "Not enough storage available"
 msgstr ""
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
-msgstr ""
+msgstr "Невірний каталог."
 
 #: appinfo/app.php:10
 msgid "Files"
 msgstr "Файли"
 
-#: js/fileactions.js:117 templates/index.php:85 templates/index.php:86
-msgid "Unshare"
-msgstr "Заборонити доступ"
-
-#: js/fileactions.js:119
+#: js/fileactions.js:116
 msgid "Delete permanently"
-msgstr ""
+msgstr "Видалити назавжди"
 
-#: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:118 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Видалити"
 
-#: js/fileactions.js:187
+#: js/fileactions.js:184
 msgid "Rename"
 msgstr "Перейменувати"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:291 js/files.js:407
+#: js/files.js:438
+msgid "Pending"
+msgstr "Очікування"
+
+#: js/filelist.js:253 js/filelist.js:255
 msgid "{new_name} already exists"
 msgstr "{new_name} вже існує"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:253 js/filelist.js:255
 msgid "replace"
 msgstr "заміна"
 
-#: js/filelist.js:208
+#: js/filelist.js:253
 msgid "suggest name"
 msgstr "запропонуйте назву"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:253 js/filelist.js:255
 msgid "cancel"
 msgstr "відміна"
 
-#: js/filelist.js:253
+#: js/filelist.js:295
 msgid "replaced {new_name}"
 msgstr "замінено {new_name}"
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:295 js/filelist.js:297
 msgid "undo"
 msgstr "відмінити"
 
-#: js/filelist.js:255
+#: js/filelist.js:297
 msgid "replaced {new_name} with {old_name}"
 msgstr "замінено {new_name} на {old_name}"
 
-#: js/filelist.js:280
+#: js/filelist.js:322
 msgid "perform delete operation"
-msgstr ""
+msgstr "виконати операцію видалення"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' це невірне ім'я файлу."
 
 #: js/files.js:56
 msgid "File name cannot be empty."
-msgstr ""
+msgstr " Ім'я файлу не може бути порожнім."
 
 #: js/files.js:64
 msgid ""
@@ -131,17 +147,17 @@ msgstr "Невірне ім'я, '\\', '/', '<', '>', ':', '\"', '|', '?' та '*
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Ваше сховище переповнене, файли більше не можуть бути оновлені або синхронізовані !"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Ваше сховище майже повне ({usedSpacePercent}%)"
 
 #: js/files.js:224
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
+msgstr "Ваше завантаження готується. Це може зайняти деякий час, якщо файли завеликі."
 
 #: js/files.js:261
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
@@ -151,64 +167,60 @@ msgstr "Неможливо завантажити ваш файл тому, що
 msgid "Upload Error"
 msgstr "Помилка завантаження"
 
-#: js/files.js:278
+#: js/files.js:272
 msgid "Close"
 msgstr "Закрити"
 
-#: js/files.js:297 js/files.js:413 js/files.js:444
-msgid "Pending"
-msgstr "Очікування"
-
-#: js/files.js:317
+#: js/files.js:311
 msgid "1 file uploading"
 msgstr "1 файл завантажується"
 
-#: js/files.js:320 js/files.js:375 js/files.js:390
+#: js/files.js:314 js/files.js:369 js/files.js:384
 msgid "{count} files uploading"
 msgstr "{count} файлів завантажується"
 
-#: js/files.js:393 js/files.js:428
+#: js/files.js:387 js/files.js:422
 msgid "Upload cancelled."
 msgstr "Завантаження перервано."
 
-#: js/files.js:502
+#: js/files.js:496
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Виконується завантаження файлу. Закриття цієї сторінки приведе до відміни завантаження."
 
-#: js/files.js:575
+#: js/files.js:569
 msgid "URL cannot be empty."
 msgstr "URL не може бути пустим."
 
-#: js/files.js:580
+#: js/files.js:574
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "Невірне ім'я теки. Використання \"Shared\" зарезервовано Owncloud"
 
-#: js/files.js:953 templates/index.php:67
+#: js/files.js:947 templates/index.php:67
 msgid "Name"
 msgstr "Ім'я"
 
-#: js/files.js:954 templates/index.php:78
+#: js/files.js:948 templates/index.php:78
 msgid "Size"
 msgstr "Розмір"
 
-#: js/files.js:955 templates/index.php:80
+#: js/files.js:949 templates/index.php:80
 msgid "Modified"
 msgstr "Змінено"
 
-#: js/files.js:974
+#: js/files.js:968
 msgid "1 folder"
 msgstr "1 папка"
 
-#: js/files.js:976
+#: js/files.js:970
 msgid "{count} folders"
 msgstr "{count} папок"
 
-#: js/files.js:984
+#: js/files.js:978
 msgid "1 file"
 msgstr "1 файл"
 
-#: js/files.js:986
+#: js/files.js:980
 msgid "{count} files"
 msgstr "{count} файлів"
 
@@ -265,7 +277,7 @@ msgid "From link"
 msgstr "З посилання"
 
 #: templates/index.php:40
-msgid "Trash"
+msgid "Trash bin"
 msgstr ""
 
 #: templates/index.php:46
@@ -279,6 +291,10 @@ msgstr "Тут нічого немає. Відвантажте що-небудь
 #: templates/index.php:73
 msgid "Download"
 msgstr "Завантажити"
+
+#: templates/index.php:85 templates/index.php:86
+msgid "Unshare"
+msgstr "Заборонити доступ"
 
 #: templates/index.php:105
 msgid "Upload too large"
@@ -300,4 +316,4 @@ msgstr "Поточне сканування"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "Оновлення кеша файлової системи..."

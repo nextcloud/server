@@ -8,12 +8,25 @@
 	<p id="quotatext"><?php echo $l->t('You have used <strong>%s</strong> of the available <strong>%s</strong>', array($_['usage'], $_['total_space']));?></p>
 </div></div>
 
-<fieldset class="personalblock">
-	<legend><strong><?php echo $l->t('Clients');?></strong></legend>
-	<a class="button" href="<?php echo $_['clients']['desktop']; ?>" target="_blank"><?php echo $l->t('Download Desktop Clients');?></a>
-	<a class="button" href="<?php echo $_['clients']['android']; ?>" target="_blank"><?php echo $l->t('Download Android Client');?></a>
-	<a class="button" href="<?php echo $_['clients']['ios']; ?>" target="_blank"><?php echo $l->t('Download iOS Client');?></a>
-</fieldset>
+
+
+<div class="clientsbox">
+	<h2><?php echo $l->t('Get the apps to sync your files');?></h2>
+	<a href="<?php echo $_['clients']['desktop']; ?>" target="_blank">
+		<img src="<?php echo OCP\Util::imagePath('core', 'desktopapp.png'); ?>" />
+	</a>
+	<a href="<?php echo $_['clients']['android']; ?>" target="_blank">
+		<img src="<?php echo OCP\Util::imagePath('core', 'googleplay.png'); ?>" />
+	</a>
+	<a href="<?php echo $_['clients']['ios']; ?>" target="_blank">
+		<img src="<?php echo OCP\Util::imagePath('core', 'appstore.png'); ?>" />
+	</a>
+	<?php if(OC_APP::isEnabled('firstrunwizard')) {?>
+	<center><a class="button" href="#" id="showWizard"><?php echo $l->t('Show First Run Wizard again');?></a></center>
+	<?php }?>
+</div>
+
+
 
 <?php
 if($_['passwordChangeSupported']) {
@@ -24,8 +37,8 @@ if($_['passwordChangeSupported']) {
 		<div id="passwordchanged"><?php echo $l->t('Your password was changed');?></div>
 		<div id="passworderror"><?php echo $l->t('Unable to change your password');?></div>
 		<input type="password" id="pass1" name="oldpassword" placeholder="<?php echo $l->t('Current password');?>" />
-		<input type="password" id="pass2" name="password" placeholder="<?php echo $l->t('New password');?>" data-typetoggle="#show" />
-		<input type="checkbox" id="show" name="show" /><label for="show"> <?php echo $l->t('show');?></label>
+		<input type="password" id="pass2" name="personal-password" placeholder="<?php echo $l->t('New password');?>" data-typetoggle="#personal-show" />
+		<input type="checkbox" id="personal-show" name="show" /><label for="personal-show"></label>
 		<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
 	</fieldset>
 </form>

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:09+0000\n"
+"POT-Creation-Date: 2013-02-08 00:10+0100\n"
+"PO-Revision-Date: 2013-02-07 23:11+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ta_LK\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/delete.php:22
+#, php-format
+msgid "Couldn't delete %s permanently"
+msgstr ""
+
+#: ajax/undelete.php:41
+#, php-format
+msgid "Couldn't restore %s"
+msgstr ""
 
 #: js/trash.js:7 js/trash.js:94
 msgid "perform restore operation"

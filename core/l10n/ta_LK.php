@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Category type not provided." => "பிரிவு வகைகள் வழங்கப்படவில்லை",
 "No category to add?" => "சேர்ப்பதற்கான வகைகள் இல்லையா?",
-"This category already exists: " => "இந்த வகை ஏற்கனவே உள்ளது:",
 "Object type not provided." => "பொருள் வகை வழங்கப்படவில்லை",
 "%s ID not provided." => "%s ID வழங்கப்படவில்லை",
 "Error adding %s to favorites." => "விருப்பங்களுக்கு %s ஐ சேர்ப்பதில் வழு",
@@ -98,7 +97,6 @@
 "Security Warning" => "பாதுகாப்பு எச்சரிக்கை",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "குறிப்பிட்ட எண்ணிக்கை பாதுகாப்பான புறப்பாக்கி / உண்டாக்கிகள் இல்லை, தயவுசெய்து PHP OpenSSL நீட்சியை இயலுமைப்படுத்துக. ",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "பாதுகாப்பான சீரற்ற எண்ணிக்கையான புறப்பாக்கி இல்லையெனின், தாக்குனரால் கடவுச்சொல் மீளமைப்பு அடையாளவில்லைகள் முன்மொழியப்பட்டு உங்களுடைய கணக்கை கைப்பற்றலாம்.",
-"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "உங்களுடைய தரவு அடைவு மற்றும் உங்களுடைய கோப்புக்களை பெரும்பாலும் இணையத்தினூடாக அணுகலாம். ownCloud இனால் வழங்கப்படுகின்ற .htaccess கோப்பு வேலை செய்யவில்லை. தரவு அடைவை நீண்ட நேரத்திற்கு அணுகக்கூடியதாக உங்களுடைய வலைய சேவையகத்தை தகவமைக்குமாறு நாங்கள் உறுதியாக கூறுகிறோம் அல்லது தரவு அடைவை வலைய சேவையக மூல ஆவணத்திலிருந்து வெளியே அகற்றுக.  ",
 "Create an <strong>admin account</strong>" => "<strong> நிர்வாக கணக்கொன்றை </strong> உருவாக்குக",
 "Advanced" => "மேம்பட்ட",
 "Data folder" => "தரவு கோப்புறை",

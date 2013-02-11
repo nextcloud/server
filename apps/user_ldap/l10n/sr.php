@@ -18,7 +18,6 @@
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "без икаквог чувара места, нпр. „objectClass=posixGroup“.",
 "Port" => "Порт",
 "Use TLS" => "Користи TLS",
-"Do not use it for SSL connections, it will fail." => "Не користите за SSL везе јер неће радити.",
 "Case insensitve LDAP server (Windows)" => "LDAP сервер осетљив на велика и мала слова (Windows)",
 "Turn off SSL certificate validation." => "Искључите потврду SSL сертификата.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Увезите SSL сертификат LDAP сервера у свој ownCloud ако веза ради само са овом опцијом.",

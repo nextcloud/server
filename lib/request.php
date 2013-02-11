@@ -149,4 +149,16 @@ class OC_Request {
 			return 'gzip';
 		return false;
 	}
+	
+	/**
+	 * @brief Check if the requester sent along an mtime
+	 * @returns false or an mtime
+	 */
+	static public function hasModificationTime () {
+		if (isset($_SERVER['HTTP_X_OC_MTIME'])) {
+			return $_SERVER['HTTP_X_OC_MTIME'];
+		} else {
+			return false;
+		}
+	}
 }

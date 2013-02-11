@@ -15,12 +15,12 @@
 "Applicable" => "Aplikovateľné",
 "Add mount point" => "Pridať prípojný bod",
 "None set" => "Žiadne nastavené",
-"All Users" => "Všetci užívatelia",
+"All Users" => "Všetci používatelia",
 "Groups" => "Skupiny",
-"Users" => "Užívatelia",
+"Users" => "Používatelia",
 "Delete" => "Odstrániť",
 "Enable User External Storage" => "Povoliť externé úložisko",
-"Allow users to mount their own external storage" => "Povoliť užívateľom pripojiť ich vlastné externé úložisko",
+"Allow users to mount their own external storage" => "Povoliť používateľom pripojiť ich vlastné externé úložisko",
 "SSL root certificates" => "Koreňové SSL certifikáty",
 "Import Root Certificate" => "Importovať koreňový certifikát"
 );

@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Frederik Lassen <frederiklassen@gmail.com>, 2013.
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2013.
 #   <osos@openeyes.dk>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-06 00:05+0100\n"
-"PO-Revision-Date: 2013-02-05 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-12 00:20+0100\n"
+"PO-Revision-Date: 2013-02-11 20:33+0000\n"
+"Last-Translator: Frederik Lassen <frederiklassen@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,43 +20,21 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/settings-personal.js:17
-msgid ""
-"Please switch to your ownCloud client and change your encryption password to"
-" complete the conversion."
-msgstr "Skift venligst til din ownCloud-klient og skift krypteringskoden for at fuldføre konverteringen."
-
-#: js/settings-personal.js:17
-msgid "switched to client side encryption"
-msgstr "skiftet til kryptering på klientsiden"
-
-#: js/settings-personal.js:21
-msgid "Change encryption password to login password"
-msgstr "Udskift krypteringskode til login-adgangskode"
-
-#: js/settings-personal.js:25
-msgid "Please check your passwords and try again."
-msgstr "Check adgangskoder og forsøg igen."
-
-#: js/settings-personal.js:25
-msgid "Could not change your file encryption password to your login password"
-msgstr "Kunne ikke udskifte krypteringskode med login-adgangskode"
-
 #: templates/settings-personal.php:4 templates/settings.php:5
 msgid "Encryption"
 msgstr "Kryptering"
 
 #: templates/settings-personal.php:7
 msgid "File encryption is enabled."
-msgstr ""
+msgstr "Fil kryptering aktiveret."
 
 #: templates/settings-personal.php:11
 msgid "The following file types will not be encrypted:"
-msgstr ""
+msgstr "De følgende filtyper vil ikke blive krypteret:"
 
 #: templates/settings.php:7
 msgid "Exclude the following file types from encryption:"
-msgstr ""
+msgstr "Ekskluder de følgende fil typer fra kryptering:"
 
 #: templates/settings.php:12
 msgid "None"

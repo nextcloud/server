@@ -8,12 +8,13 @@
 # Soul Kim <warlock.rf@gmail.com>, 2012.
 #   <victor.dubiniuk@gmail.com>, 2012.
 #   <volodya327@gmail.com>, 2013.
+# пан Володимир <volodya327@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:08+0000\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 23:12+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -55,8 +56,9 @@ msgid "No category to add?"
 msgstr "Відсутні категорії для додавання?"
 
 #: ajax/vcategories/add.php:37
-msgid "This category already exists: "
-msgstr "Ця категорія вже існує: "
+#, php-format
+msgid "This category already exists: %s"
+msgstr ""
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -160,59 +162,59 @@ msgstr "Листопад"
 msgid "December"
 msgstr "Грудень"
 
-#: js/js.js:280
+#: js/js.js:284
 msgid "Settings"
 msgstr "Налаштування"
 
-#: js/js.js:760
+#: js/js.js:764
 msgid "seconds ago"
 msgstr "секунди тому"
 
-#: js/js.js:761
+#: js/js.js:765
 msgid "1 minute ago"
 msgstr "1 хвилину тому"
 
-#: js/js.js:762
+#: js/js.js:766
 msgid "{minutes} minutes ago"
 msgstr "{minutes} хвилин тому"
 
-#: js/js.js:763
+#: js/js.js:767
 msgid "1 hour ago"
 msgstr "1 годину тому"
 
-#: js/js.js:764
+#: js/js.js:768
 msgid "{hours} hours ago"
 msgstr "{hours} години тому"
 
-#: js/js.js:765
+#: js/js.js:769
 msgid "today"
 msgstr "сьогодні"
 
-#: js/js.js:766
+#: js/js.js:770
 msgid "yesterday"
 msgstr "вчора"
 
-#: js/js.js:767
+#: js/js.js:771
 msgid "{days} days ago"
 msgstr "{days} днів тому"
 
-#: js/js.js:768
+#: js/js.js:772
 msgid "last month"
 msgstr "минулого місяця"
 
-#: js/js.js:769
+#: js/js.js:773
 msgid "{months} months ago"
 msgstr "{months} місяців тому"
 
-#: js/js.js:770
+#: js/js.js:774
 msgid "months ago"
 msgstr "місяці тому"
 
-#: js/js.js:771
+#: js/js.js:775
 msgid "last year"
 msgstr "минулого року"
 
-#: js/js.js:772
+#: js/js.js:776
 msgid "years ago"
 msgstr "роки тому"
 
@@ -261,7 +263,7 @@ msgstr "Поділитися"
 
 #: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
 msgid "Shared"
-msgstr ""
+msgstr "Опубліковано"
 
 #: js/share.js:141 js/share.js:611
 msgid "Error while sharing"
@@ -384,11 +386,11 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "Оновлення виконалось неуспішно. Будь ласка, повідомте про цю проблему в <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">спільноті ownCloud</a>."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "Оновлення виконалось успішно. Перенаправляємо вас на  ownCloud."
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -471,7 +473,7 @@ msgstr "Редагувати категорії"
 msgid "Add"
 msgstr "Додати"
 
-#: templates/installation.php:23 templates/installation.php:31
+#: templates/installation.php:23 templates/installation.php:30
 msgid "Security Warning"
 msgstr "Попередження про небезпеку"
 
@@ -481,71 +483,75 @@ msgid ""
 "OpenSSL extension."
 msgstr "Не доступний безпечний генератор випадкових чисел, будь ласка, активуйте PHP OpenSSL додаток."
 
-#: templates/installation.php:26
+#: templates/installation.php:25
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Без безпечного генератора випадкових чисел зловмисник може визначити токени скидання пароля і заволодіти Вашим обліковим записом."
 
+#: templates/installation.php:31
+msgid ""
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
+msgstr ""
+
 #: templates/installation.php:32
 msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "Ваш каталог з даними та Ваші файли можливо доступні з Інтернету. Файл .htaccess, наданий з ownCloud, не працює. Ми наполегливо рекомендуємо Вам налаштувати свій веб-сервер таким чином, щоб каталог data більше не був доступний, або перемістити каталог data за межі кореневого каталогу документів веб-сервера."
+"For information how to properly configure your server, please see the <a "
+"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
+"target=\"_blank\">documentation</a>."
+msgstr ""
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Створити <strong>обліковий запис адміністратора</strong>"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Advanced"
 msgstr "Додатково"
 
-#: templates/installation.php:52
+#: templates/installation.php:54
 msgid "Data folder"
 msgstr "Каталог даних"
 
-#: templates/installation.php:59
+#: templates/installation.php:61
 msgid "Configure the database"
 msgstr "Налаштування бази даних"
 
-#: templates/installation.php:64 templates/installation.php:75
-#: templates/installation.php:85 templates/installation.php:95
+#: templates/installation.php:66 templates/installation.php:77
+#: templates/installation.php:87 templates/installation.php:97
 msgid "will be used"
 msgstr "буде використано"
 
-#: templates/installation.php:107
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Користувач бази даних"
 
-#: templates/installation.php:111
+#: templates/installation.php:113
 msgid "Database password"
 msgstr "Пароль для бази даних"
 
-#: templates/installation.php:115
+#: templates/installation.php:117
 msgid "Database name"
 msgstr "Назва бази даних"
 
-#: templates/installation.php:123
+#: templates/installation.php:125
 msgid "Database tablespace"
 msgstr "Таблиця бази даних"
 
-#: templates/installation.php:129
+#: templates/installation.php:131
 msgid "Database host"
 msgstr "Хост бази даних"
 
-#: templates/installation.php:134
+#: templates/installation.php:136
 msgid "Finish setup"
 msgstr "Завершити налаштування"
 
-#: templates/layout.guest.php:34
+#: templates/layout.guest.php:33
 msgid "web services under your control"
 msgstr "веб-сервіс під вашим контролем"
 
-#: templates/layout.user.php:49
+#: templates/layout.user.php:48
 msgid "Log out"
 msgstr "Вихід"
 
@@ -577,7 +583,7 @@ msgstr "Вхід"
 
 #: templates/login.php:49
 msgid "Alternative Logins"
-msgstr ""
+msgstr "Альтернативні Логіни"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

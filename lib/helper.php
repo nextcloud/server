@@ -394,13 +394,12 @@ class OC_Helper {
 			// it looks like we have a 'file' command,
 			// lets see if it does have mime support
 			$path=escapeshellarg($path);
-			$fp = popen("file -i -b $path 2>/dev/null", "r");
+			$fp = popen("file -b --mime-type $path 2>/dev/null", "r");
 			$reply = fgets($fp);
 			pclose($fp);
 
-			// we have smth like 'text/x-c++; charset=us-ascii\n'
-			// and need to eliminate everything starting with semicolon including trailing LF
-			$mimeType = preg_replace('/;.*/ms', '', trim($reply));
+			//trim the newline
+			$mimeType = trim($reply);
 
 		}
 		return $mimeType;
@@ -437,8 +436,9 @@ class OC_Helper {
 	//FIXME: should also check for value validation (i.e. the email is an email).
 	public static function init_var($s, $d="") {
 		$r = $d;
-		if(isset($_REQUEST[$s]) && !empty($_REQUEST[$s]))
-			$r = stripslashes(htmlspecialchars($_REQUEST[$s]));
+		if(isset($_REQUEST[$s]) && !empty($_REQUEST[$s])) {
+			$r = OC_Util::sanitizeHTML($_REQUEST[$s]);
+		}
 
 		return $r;
 	}

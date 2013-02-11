@@ -97,7 +97,7 @@ class Scanner {
 		if ($this->storage->is_dir($path) && ($dh = $this->storage->opendir($path))) {
 			\OC_DB::beginTransaction();
 			while ($file = readdir($dh)) {
-				if ($file !== '.' and $file !== '..') {
+				if (!$this->isIgnoredFile($file)) {
 					$child = ($path) ? $path . '/' . $file : $file;
 					$data = $this->scanFile($child);
 					if ($data) {
@@ -133,12 +133,28 @@ class Scanner {
 		}
 		return $size;
 	}
+	
+	/**
+	 * @brief check if the file should be ignored when scanning
+	 * NOTE: files with a '.part' extension are ignored as well!
+	 *       prevents unfinished put requests to be scanned
+	 * @param String $file
+	 * @return boolean
+	 */
+	private function isIgnoredFile($file) {
+		if ($file === '.' || $file === '..'
+		 || pathinfo($file,PATHINFO_EXTENSION) === 'part')
+		{
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * walk over any folders that are not fully scanned yet and scan them
 	 */
 	public function backgroundScan() {
-		while ($path = $this->cache->getIncomplete()) {
+		while (($path = $this->cache->getIncomplete()) !== false) {
 			$this->scan($path);
 			$this->cache->correctFolderSize($path);
 		}

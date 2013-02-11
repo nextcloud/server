@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "کاربر %s پوشه \"%s\" را با شما به اشتراک گذاشته است. پرونده برای دانلود اینجاست : %s",
 "Category type not provided." => "نوع دسته بندی ارائه نشده است.",
 "No category to add?" => "آیا گروه دیگری برای افزودن ندارید",
-"This category already exists: " => "این گروه از قبل اضافه شده",
 "Object type not provided." => "نوع شی ارائه نشده است.",
 "%s ID not provided." => "شناسه %s  ارائه نشده است.",
 "Error adding %s to favorites." => "خطای اضافه کردن %s  به علاقه مندی ها.",

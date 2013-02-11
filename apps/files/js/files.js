@@ -262,12 +262,6 @@ $(document).ready(function() {
 							return;
 						}
 						totalSize+=files[i].size;
-						if(FileList.deleteFiles && FileList.deleteFiles.indexOf(files[i].name)!=-1){//finish delete if we are uploading a deleted file
-							FileList.finishDelete(function(){
-								$('#file_upload_start').change();
-							});
-							return;
-						}
 					}
 				}
 				if(totalSize>$('#max_upload').val()){
@@ -691,9 +685,10 @@ $(document).ready(function() {
 		breadcrumbsWidth += $(breadcrumb).get(0).offsetWidth;
 	});
 
-	if ($('#controls .actions').length > 0) {
-		breadcrumbsWidth += $('#controls .actions').get(0).offsetWidth;
-	}
+
+	$.each($('#controls .actions>div'), function(index, action) {
+		breadcrumbsWidth += $(action).get(0).offsetWidth;
+	});
 
 	function resizeBreadcrumbs(firstRun) {
 		var width = $(this).width();

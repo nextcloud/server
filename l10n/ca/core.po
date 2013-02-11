@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-10 00:08+0100\n"
+"PO-Revision-Date: 2013-02-09 10:20+0000\n"
+"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -53,8 +53,9 @@ msgid "No category to add?"
 msgstr "No voleu afegir cap categoria?"
 
 #: ajax/vcategories/add.php:37
-msgid "This category already exists: "
-msgstr "Aquesta categoria ja existeix:"
+#, php-format
+msgid "This category already exists: %s"
+msgstr "Aquesta categoria ja existeix: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -158,59 +159,59 @@ msgstr "Novembre"
 msgid "December"
 msgstr "Desembre"
 
-#: js/js.js:280
+#: js/js.js:286
 msgid "Settings"
 msgstr "Arranjament"
 
-#: js/js.js:760
+#: js/js.js:766
 msgid "seconds ago"
 msgstr "segons enrere"
 
-#: js/js.js:761
+#: js/js.js:767
 msgid "1 minute ago"
 msgstr "fa 1 minut"
 
-#: js/js.js:762
+#: js/js.js:768
 msgid "{minutes} minutes ago"
 msgstr "fa {minutes} minuts"
 
-#: js/js.js:763
+#: js/js.js:769
 msgid "1 hour ago"
 msgstr "fa 1 hora"
 
-#: js/js.js:764
+#: js/js.js:770
 msgid "{hours} hours ago"
 msgstr "fa {hours} hores"
 
-#: js/js.js:765
+#: js/js.js:771
 msgid "today"
 msgstr "avui"
 
-#: js/js.js:766
+#: js/js.js:772
 msgid "yesterday"
 msgstr "ahir"
 
-#: js/js.js:767
+#: js/js.js:773
 msgid "{days} days ago"
 msgstr "fa {days} dies"
 
-#: js/js.js:768
+#: js/js.js:774
 msgid "last month"
 msgstr "el mes passat"
 
-#: js/js.js:769
+#: js/js.js:775
 msgid "{months} months ago"
 msgstr "fa {months} mesos"
 
-#: js/js.js:770
+#: js/js.js:776
 msgid "months ago"
 msgstr "mesos enrere"
 
-#: js/js.js:771
+#: js/js.js:777
 msgid "last year"
 msgstr "l'any passat"
 
-#: js/js.js:772
+#: js/js.js:778
 msgid "years ago"
 msgstr "anys enrere"
 
@@ -240,8 +241,8 @@ msgid "The object type is not specified."
 msgstr "No s'ha especificat el tipus d'objecte."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
-#: js/share.js:583
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
+#: js/share.js:594
 msgid "Error"
 msgstr "Error"
 
@@ -261,7 +262,7 @@ msgstr "Comparteix"
 msgid "Shared"
 msgstr "Compartit"
 
-#: js/share.js:141 js/share.js:611
+#: js/share.js:141 js/share.js:622
 msgid "Error while sharing"
 msgstr "Error en compartir"
 
@@ -357,23 +358,23 @@ msgstr "elimina"
 msgid "share"
 msgstr "comparteix"
 
-#: js/share.js:373 js/share.js:558
+#: js/share.js:373 js/share.js:569
 msgid "Password protected"
 msgstr "Protegeix amb contrasenya"
 
-#: js/share.js:571
+#: js/share.js:582
 msgid "Error unsetting expiration date"
 msgstr "Error en eliminar la data d'expiració"
 
-#: js/share.js:583
+#: js/share.js:594
 msgid "Error setting expiration date"
 msgstr "Error en establir la data d'expiració"
 
-#: js/share.js:598
+#: js/share.js:609
 msgid "Sending ..."
 msgstr "Enviant..."
 
-#: js/share.js:609
+#: js/share.js:620
 msgid "Email sent"
 msgstr "El correu electrónic s'ha enviat"
 
@@ -469,7 +470,7 @@ msgstr "Edita les categories"
 msgid "Add"
 msgstr "Afegeix"
 
-#: templates/installation.php:23 templates/installation.php:31
+#: templates/installation.php:23 templates/installation.php:30
 msgid "Security Warning"
 msgstr "Avís de seguretat"
 
@@ -479,71 +480,75 @@ msgid ""
 "OpenSSL extension."
 msgstr "No està disponible el generador de nombres aleatoris segurs, habiliteu l'extensió de PHP OpenSSL."
 
-#: templates/installation.php:26
+#: templates/installation.php:25
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Sense un generador de nombres aleatoris segurs un atacant podria predir els senyals per restablir la contrasenya i prendre-us el compte."
 
+#: templates/installation.php:31
+msgid ""
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
+msgstr "La carpeta de dades i els seus fitxers probablement són accessibles des d'internet perquè el fitxer .htaccess no funciona."
+
 #: templates/installation.php:32
 msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "La carpeta de dades i els fitxers provablement són accessibles des d'internet. El fitxer .htaccess que proporciona ownCloud no funciona. Us recomanem que configureu el vostre servidor web de manera que la carpeta de dades no sigui accessible o que moveu la carpeta de dades fora de la carpeta arrel del servidor web."
+"For information how to properly configure your server, please see the <a "
+"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
+"target=\"_blank\">documentation</a>."
+msgstr "Per més informació sobre com configurar correctament el servidor, mireu la <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentació</a>."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crea un <strong>compte d'administrador</strong>"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Advanced"
 msgstr "Avançat"
 
-#: templates/installation.php:52
+#: templates/installation.php:54
 msgid "Data folder"
 msgstr "Carpeta de dades"
 
-#: templates/installation.php:59
+#: templates/installation.php:61
 msgid "Configure the database"
 msgstr "Configura la base de dades"
 
-#: templates/installation.php:64 templates/installation.php:75
-#: templates/installation.php:85 templates/installation.php:95
+#: templates/installation.php:66 templates/installation.php:77
+#: templates/installation.php:87 templates/installation.php:97
 msgid "will be used"
 msgstr "s'usarà"
 
-#: templates/installation.php:107
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Usuari de la base de dades"
 
-#: templates/installation.php:111
+#: templates/installation.php:113
 msgid "Database password"
 msgstr "Contrasenya de la base de dades"
 
-#: templates/installation.php:115
+#: templates/installation.php:117
 msgid "Database name"
 msgstr "Nom de la base de dades"
 
-#: templates/installation.php:123
+#: templates/installation.php:125
 msgid "Database tablespace"
 msgstr "Espai de taula de la base de dades"
 
-#: templates/installation.php:129
+#: templates/installation.php:131
 msgid "Database host"
 msgstr "Ordinador central de la base de dades"
 
-#: templates/installation.php:134
+#: templates/installation.php:136
 msgid "Finish setup"
 msgstr "Acaba la configuració"
 
-#: templates/layout.guest.php:34
+#: templates/layout.guest.php:33
 msgid "web services under your control"
 msgstr "controleu els vostres serveis web"
 
-#: templates/layout.user.php:49
+#: templates/layout.user.php:48
 msgid "Log out"
 msgstr "Surt"
 
@@ -575,7 +580,7 @@ msgstr "Inici de sessió"
 
 #: templates/login.php:49
 msgid "Alternative Logins"
-msgstr ""
+msgstr "Acreditacions alternatives"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

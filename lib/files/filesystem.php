@@ -190,14 +190,14 @@ class Filesystem {
 		}
 	}
 
-	static public function init($root) {
+	static public function init($user, $root) {
 		if (self::$defaultInstance) {
 			return false;
 		}
 		self::$defaultInstance = new View($root);
 
 		//load custom mount config
-		self::initMountPoints();
+		self::initMountPoints($user);
 
 		self::$loaded = true;
 

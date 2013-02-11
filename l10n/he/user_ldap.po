@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-03 00:04+0100\n"
-"PO-Revision-Date: 2013-02-02 23:05+0000\n"
+"POT-Creation-Date: 2013-02-08 00:10+0100\n"
+"PO-Revision-Date: 2013-02-07 23:11+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -214,7 +214,7 @@ msgid "Use TLS"
 msgstr ""
 
 #: templates/settings.php:38
-msgid "Do not use it for SSL connections, it will fail."
+msgid "Do not use it additionally for LDAPS connections, it will fail."
 msgstr ""
 
 #: templates/settings.php:39

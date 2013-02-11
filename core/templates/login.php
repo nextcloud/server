@@ -33,7 +33,7 @@
 			<input type="password" name="password" id="password" value="" data-typetoggle="#show"
 				   required<?php echo $_['user_autofocus'] ? '' : ' autofocus'; ?> />
 			<label for="password" class="infield"><?php echo $l->t('Password'); ?></label>
-			<img class="svg" id="pass_image" src="<?php echo image_path('', 'actions/password.svg'); ?>" alt=""/>
+			<img class="svg" id="password-icon" src="<?php echo image_path('', 'actions/password.svg'); ?>" alt=""/>
 			<input type="checkbox" id="show" name="show" />
 			<label for="show"></label>
 		</p>

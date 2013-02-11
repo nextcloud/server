@@ -51,7 +51,7 @@ class OC_Util {
 				mkdir( $userdirectory, 0755, true );
 			}
 			//jail the user into his "home" directory
-			\OC\Files\Filesystem::init($user_dir);
+			\OC\Files\Filesystem::init($user, $user_dir);
 
 			$quotaProxy=new OC_FileProxy_Quota();
 			$fileOperationProxy = new OC_FileProxy_FileOperations();
@@ -74,7 +74,7 @@ class OC_Util {
 	 */
 	public static function getVersion() {
 		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4.90.0. This is not visible to the user
-		return array(4, 91, 9);
+		return array(4, 91, 10);
 	}
 
 	/**
@@ -516,6 +516,40 @@ class OC_Util {
 		}
 	}
 
+	/**
+	 * we test if webDAV is working properly
+	 *
+	 * The basic assumption is that if the server returns 401/Not Authenticated for an unauthenticated PROPFIND
+	 * the web server it self is setup properly.
+	 *
+	 * Why not an authenticated PROFIND and other verbs?
+	 *  - We don't have the password available
+	 *  - We have no idea about other auth methods implemented (e.g. OAuth with Bearer header)
+	 *
+	 */
+	public static function isWebDAVWorking() {
+        if (!function_exists('curl_init')) {
+            return;
+        }
+
+		$settings = array(
+			'baseUri' => OC_Helper::linkToRemote('webdav'),
+		);
+
+		$client = new \Sabre_DAV_Client($settings);
+
+		$return = true;
+		try {
+			// test PROPFIND
+			$client->propfind('', array('{DAV:}resourcetype'));
+		} catch(\Sabre_DAV_Exception_NotAuthenticated $e) {
+			$return = true;
+		} catch(\Exception $e) {
+			$return = false;
+		}
+
+		return $return;
+	}
 
 	/**
 	 * Check if the setlocal call doesn't work. This can happen if the right local packages are not available on the server.
@@ -526,12 +560,11 @@ class OC_Util {
 			return true;
 		}
 
-		$result=setlocale(LC_ALL, 'en_US.UTF-8');
-		if($result==false) {
-			return(false);
-		}else{
-			return(true);
-		}
+		$result = setlocale(LC_ALL, 'en_US.UTF-8', 'en_US.UTF8');
+		if($result == false) {
+			return false;
+        }
+        return true;
 	}
 
 	/**
@@ -654,6 +687,9 @@ class OC_Util {
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
 			curl_setopt($curl, CURLOPT_URL, $url);
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+
 			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
 			if(OC_Config::getValue('proxy','')<>'') {
 				curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));

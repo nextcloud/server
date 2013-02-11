@@ -18,7 +18,6 @@
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "কোন স্থান ধারক ব্যতীত, উদাহরণঃ\"objectClass=posixGroup\"।",
 "Port" => "পোর্ট",
 "Use TLS" => "TLS ব্যবহার কর",
-"Do not use it for SSL connections, it will fail." => "SSL সংযোগের জন্য এটি ব্যবহার করবেন না, তাহলে ব্যর্থ হবেনই।",
 "Case insensitve LDAP server (Windows)" => "বর্ণ অসংবেদী LDAP  সার্ভার (উইন্ডোজ)",
 "Turn off SSL certificate validation." => "SSL সনদপত্র যাচাইকরণ বন্ধ রাক।",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "শুধুমাত্র যদি এই বিকল্পটি ব্যবহার করেই সংযোগ কার্যকরী হয় তবে আপনার ownCloud সার্ভারে LDAP সার্ভারের SSL সনদপত্রটি আমদানি করুন।",

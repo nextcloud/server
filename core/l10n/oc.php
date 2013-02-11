@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "No category to add?" => "Pas de categoria d'ajustar ?",
-"This category already exists: " => "La categoria exista ja :",
 "No categories selected for deletion." => "Pas de categorias seleccionadas per escafar.",
 "Sunday" => "Dimenge",
 "Monday" => "Diluns",
