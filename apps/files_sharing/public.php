@@ -92,7 +92,7 @@ if (isset($path)) {
 		}
 	}
 	$basePath = $path;
-	if (isset($_GET['path']) && \OC\Files\Filesystem::isReadable($_GET['path'])) {
+	if (isset($_GET['path']) && \OC\Files\Filesystem::isReadable($basePath . $_GET['path'])) {
 		$getPath = \OC\Files\Filesystem::normalizePath($_GET['path']);
 		$path .= $getPath;
 	} else {
