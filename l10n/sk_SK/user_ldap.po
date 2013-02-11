@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-08 00:10+0100\n"
-"PO-Revision-Date: 2013-02-07 23:11+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-11 15:39+0100\n"
+"PO-Revision-Date: 2013-02-11 13:20+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,13 +76,13 @@ msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behaviour. Please ask your system administrator to "
 "disable one of them."
-msgstr "<b>Upozornenie:</b> Aplikácie user_ldap a user_webdavauth nie sú kompatibilné. Môže nastávať neočakávané správanie. Požiadajte správcu systému aby jednu z nich zakázal."
+msgstr "<b>Upozornenie:</b> Aplikácie user_ldap a user_webdavauth nie sú kompatibilné. Môže nastávať neočakávané správanie. Požiadajte administrátora systému aby jednu z nich zakázal."
 
 #: templates/settings.php:11
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr "<b>Upozornenie:</b> nie je nainštalovaný LDAP modul pre PHP, backend vrstva nebude fungovať. Požádejte správcu systému aby ho nainštaloval."
+msgstr "<b>Upozornenie:</b> nie je nainštalovaný LDAP modul pre PHP, backend vrstva nebude fungovať. Požádejte administrátora systému aby ho nainštaloval."
 
 #: templates/settings.php:15
 msgid "Server configuration"
@@ -216,7 +216,7 @@ msgstr "Použi TLS"
 
 #: templates/settings.php:38
 msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr ""
+msgstr "Nepoužívajte pre pripojenie LDAPS, zlyhá."
 
 #: templates/settings.php:39
 msgid "Case insensitve LDAP server (Windows)"
@@ -290,7 +290,7 @@ msgstr "Atribúty vyhľadávania skupín"
 
 #: templates/settings.php:51
 msgid "Group-Member association"
-msgstr "Asociácia člena skupiny"
+msgstr "Priradenie člena skupiny"
 
 #: templates/settings.php:53
 msgid "Special Attributes"

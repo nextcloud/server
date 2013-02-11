@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
-"PO-Revision-Date: 2013-02-08 23:12+0000\n"
+"POT-Creation-Date: 2013-02-10 00:08+0100\n"
+"PO-Revision-Date: 2013-02-09 23:08+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -80,51 +80,52 @@ msgstr ""
 msgid "Files"
 msgstr "文件"
 
-#: js/fileactions.js:117 templates/index.php:85 templates/index.php:86
-msgid "Unshare"
-msgstr "取消共享"
-
-#: js/fileactions.js:119
+#: js/fileactions.js:116
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:118 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "删除"
 
-#: js/fileactions.js:187
+#: js/fileactions.js:184
 msgid "Rename"
 msgstr "重命名"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:291 js/files.js:407
+#: js/files.js:438
+msgid "Pending"
+msgstr "Pending"
+
+#: js/filelist.js:253 js/filelist.js:255
 msgid "{new_name} already exists"
 msgstr "{new_name} 已存在"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:253 js/filelist.js:255
 msgid "replace"
 msgstr "替换"
 
-#: js/filelist.js:208
+#: js/filelist.js:253
 msgid "suggest name"
 msgstr "推荐名称"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:253 js/filelist.js:255
 msgid "cancel"
 msgstr "取消"
 
-#: js/filelist.js:253
+#: js/filelist.js:295
 msgid "replaced {new_name}"
 msgstr "已替换 {new_name}"
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:295 js/filelist.js:297
 msgid "undo"
 msgstr "撤销"
 
-#: js/filelist.js:255
+#: js/filelist.js:297
 msgid "replaced {new_name} with {old_name}"
 msgstr "已用 {old_name} 替换 {new_name}"
 
-#: js/filelist.js:280
+#: js/filelist.js:322
 msgid "perform delete operation"
 msgstr ""
 
@@ -164,64 +165,60 @@ msgstr "不能上传你指定的文件,可能因为它是个文件夹或者大�
 msgid "Upload Error"
 msgstr "上传错误"
 
-#: js/files.js:278
+#: js/files.js:272
 msgid "Close"
 msgstr "关闭"
 
-#: js/files.js:297 js/files.js:413 js/files.js:444
-msgid "Pending"
-msgstr "Pending"
-
-#: js/files.js:317
+#: js/files.js:311
 msgid "1 file uploading"
 msgstr "1 个文件正在上传"
 
-#: js/files.js:320 js/files.js:375 js/files.js:390
+#: js/files.js:314 js/files.js:369 js/files.js:384
 msgid "{count} files uploading"
 msgstr "{count} 个文件正在上传"
 
-#: js/files.js:393 js/files.js:428
+#: js/files.js:387 js/files.js:422
 msgid "Upload cancelled."
 msgstr "上传取消了"
 
-#: js/files.js:502
+#: js/files.js:496
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "文件正在上传。关闭页面会取消上传。"
 
-#: js/files.js:575
+#: js/files.js:569
 msgid "URL cannot be empty."
 msgstr "网址不能为空。"
 
-#: js/files.js:580
+#: js/files.js:574
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:953 templates/index.php:67
+#: js/files.js:947 templates/index.php:67
 msgid "Name"
 msgstr "名字"
 
-#: js/files.js:954 templates/index.php:78
+#: js/files.js:948 templates/index.php:78
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:955 templates/index.php:80
+#: js/files.js:949 templates/index.php:80
 msgid "Modified"
 msgstr "修改日期"
 
-#: js/files.js:974
+#: js/files.js:968
 msgid "1 folder"
 msgstr "1 个文件夹"
 
-#: js/files.js:976
+#: js/files.js:970
 msgid "{count} folders"
 msgstr "{count} 个文件夹"
 
-#: js/files.js:984
+#: js/files.js:978
 msgid "1 file"
 msgstr "1 个文件"
 
-#: js/files.js:986
+#: js/files.js:980
 msgid "{count} files"
 msgstr "{count} 个文件"
 
@@ -278,7 +275,7 @@ msgid "From link"
 msgstr "来自链接"
 
 #: templates/index.php:40
-msgid "Trash"
+msgid "Trash bin"
 msgstr ""
 
 #: templates/index.php:46
@@ -292,6 +289,10 @@ msgstr "这里没有东西.上传点什么!"
 #: templates/index.php:73
 msgid "Download"
 msgstr "下载"
+
+#: templates/index.php:85 templates/index.php:86
+msgid "Unshare"
+msgstr "取消共享"
 
 #: templates/index.php:105
 msgid "Upload too large"

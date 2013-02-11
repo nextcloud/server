@@ -23,6 +23,8 @@ class Local extends \OC\Files\Storage\Common{
 			$this->datadir.='/';
 		}
 	}
+	public function __destruct() {
+	}
 	public function getId(){
 		return 'local::'.$this->datadir;
 	}

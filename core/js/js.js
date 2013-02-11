@@ -628,7 +628,8 @@ $(document).ready(function(){
 	});
 
 	// 'show password' checkbox
-	$('#password').showPassword();	
+	$('#password').showPassword();
+	$('#adminpass').showPassword();	
 	$('#pass2').showPassword();
 
 	//use infield labels

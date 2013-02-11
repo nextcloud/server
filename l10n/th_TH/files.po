@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
-"PO-Revision-Date: 2013-02-08 23:12+0000\n"
+"POT-Creation-Date: 2013-02-10 00:08+0100\n"
+"PO-Revision-Date: 2013-02-09 23:08+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -22,16 +22,16 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "ไม่สามารถย้าย %s ได้ - ไฟล์ที่ใช้ชื่อนี้มีอยู่แล้ว"
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "ไม่สามารถย้าย %s ได้"
 
 #: ajax/rename.php:22 ajax/rename.php:25
 msgid "Unable to rename file"
-msgstr ""
+msgstr "ไม่สามารถเปลี่ยนชื่อไฟล์ได้"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -70,7 +70,7 @@ msgstr "เขียนข้อมูลลงแผ่นดิสก์ล้
 
 #: ajax/upload.php:52
 msgid "Not enough storage available"
-msgstr ""
+msgstr "เหลือพื้นที่ไม่เพียงสำหรับใช้งาน"
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
@@ -80,51 +80,52 @@ msgstr "ไดเร็กทอรี่ไม่ถูกต้อง"
 msgid "Files"
 msgstr "ไฟล์"
 
-#: js/fileactions.js:117 templates/index.php:85 templates/index.php:86
-msgid "Unshare"
-msgstr "ยกเลิกการแชร์ข้อมูล"
-
-#: js/fileactions.js:119
+#: js/fileactions.js:116
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:118 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "ลบ"
 
-#: js/fileactions.js:187
+#: js/fileactions.js:184
 msgid "Rename"
 msgstr "เปลี่ยนชื่อ"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:291 js/files.js:407
+#: js/files.js:438
+msgid "Pending"
+msgstr "อยู่ระหว่างดำเนินการ"
+
+#: js/filelist.js:253 js/filelist.js:255
 msgid "{new_name} already exists"
 msgstr "{new_name} มีอยู่แล้วในระบบ"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:253 js/filelist.js:255
 msgid "replace"
 msgstr "แทนที่"
 
-#: js/filelist.js:208
+#: js/filelist.js:253
 msgid "suggest name"
 msgstr "แนะนำชื่อ"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:253 js/filelist.js:255
 msgid "cancel"
 msgstr "ยกเลิก"
 
-#: js/filelist.js:253
+#: js/filelist.js:295
 msgid "replaced {new_name}"
 msgstr "แทนที่ {new_name} แล้ว"
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:295 js/filelist.js:297
 msgid "undo"
 msgstr "เลิกทำ"
 
-#: js/filelist.js:255
+#: js/filelist.js:297
 msgid "replaced {new_name} with {old_name}"
 msgstr "แทนที่ {new_name} ด้วย {old_name} แล้ว"
 
-#: js/filelist.js:280
+#: js/filelist.js:322
 msgid "perform delete operation"
 msgstr "ดำเนินการตามคำสั่งลบ"
 
@@ -164,64 +165,60 @@ msgstr "ไม่สามารถอัพโหลดไฟล์ของค
 msgid "Upload Error"
 msgstr "เกิดข้อผิดพลาดในการอัพโหลด"
 
-#: js/files.js:278
+#: js/files.js:272
 msgid "Close"
 msgstr "ปิด"
 
-#: js/files.js:297 js/files.js:413 js/files.js:444
-msgid "Pending"
-msgstr "อยู่ระหว่างดำเนินการ"
-
-#: js/files.js:317
+#: js/files.js:311
 msgid "1 file uploading"
 msgstr "กำลังอัพโหลดไฟล์ 1 ไฟล์"
 
-#: js/files.js:320 js/files.js:375 js/files.js:390
+#: js/files.js:314 js/files.js:369 js/files.js:384
 msgid "{count} files uploading"
 msgstr "กำลังอัพโหลด {count} ไฟล์"
 
-#: js/files.js:393 js/files.js:428
+#: js/files.js:387 js/files.js:422
 msgid "Upload cancelled."
 msgstr "การอัพโหลดถูกยกเลิก"
 
-#: js/files.js:502
+#: js/files.js:496
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "การอัพโหลดไฟล์กำลังอยู่ในระหว่างดำเนินการ การออกจากหน้าเว็บนี้จะทำให้การอัพโหลดถูกยกเลิก"
 
-#: js/files.js:575
+#: js/files.js:569
 msgid "URL cannot be empty."
 msgstr "URL ไม่สามารถเว้นว่างได้"
 
-#: js/files.js:580
+#: js/files.js:574
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "ชื่อโฟลเดอร์ไม่ถูกต้อง การใช้งาน 'แชร์' สงวนไว้สำหรับ Owncloud เท่านั้น"
 
-#: js/files.js:953 templates/index.php:67
+#: js/files.js:947 templates/index.php:67
 msgid "Name"
 msgstr "ชื่อ"
 
-#: js/files.js:954 templates/index.php:78
+#: js/files.js:948 templates/index.php:78
 msgid "Size"
 msgstr "ขนาด"
 
-#: js/files.js:955 templates/index.php:80
+#: js/files.js:949 templates/index.php:80
 msgid "Modified"
 msgstr "ปรับปรุงล่าสุด"
 
-#: js/files.js:974
+#: js/files.js:968
 msgid "1 folder"
 msgstr "1 โฟลเดอร์"
 
-#: js/files.js:976
+#: js/files.js:970
 msgid "{count} folders"
 msgstr "{count} โฟลเดอร์"
 
-#: js/files.js:984
+#: js/files.js:978
 msgid "1 file"
 msgstr "1 ไฟล์"
 
-#: js/files.js:986
+#: js/files.js:980
 msgid "{count} files"
 msgstr "{count} ไฟล์"
 
@@ -278,8 +275,8 @@ msgid "From link"
 msgstr "จากลิงก์"
 
 #: templates/index.php:40
-msgid "Trash"
-msgstr "ถังขยะ"
+msgid "Trash bin"
+msgstr ""
 
 #: templates/index.php:46
 msgid "Cancel upload"
@@ -292,6 +289,10 @@ msgstr "ยังไม่มีไฟล์ใดๆอยู่ที่นี
 #: templates/index.php:73
 msgid "Download"
 msgstr "ดาวน์โหลด"
+
+#: templates/index.php:85 templates/index.php:86
+msgid "Unshare"
+msgstr "ยกเลิกการแชร์ข้อมูล"
 
 #: templates/index.php:105
 msgid "Upload too large"

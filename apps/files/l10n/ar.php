@@ -5,7 +5,6 @@
 "No file was uploaded" => "لم يتم ترفيع أي من الملفات",
 "Missing a temporary folder" => "المجلد المؤقت غير موجود",
 "Files" => "الملفات",
-"Unshare" => "إلغاء مشاركة",
 "Delete" => "محذوف",
 "Close" => "إغلق",
 "Name" => "الاسم",
@@ -19,6 +18,7 @@
 "Folder" => "مجلد",
 "Nothing in here. Upload something!" => "لا يوجد شيء هنا. إرفع بعض الملفات!",
 "Download" => "تحميل",
+"Unshare" => "إلغاء مشاركة",
 "Upload too large" => "حجم الترفيع أعلى من المسموح",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "حجم الملفات التي تريد ترفيعها أعلى من المسموح على الخادم."
 );

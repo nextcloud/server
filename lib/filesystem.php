@@ -58,8 +58,8 @@ class OC_Filesystem {
 	/**
 	 * @deprecated OC_Filesystem is replaced by \OC\Files\Filesystem
 	 */
-	static public function init($root) {
-		return \OC\Files\Filesystem::init($root);
+	static public function init($user, $root) {
+		return \OC\Files\Filesystem::init($user, $root);
 	}
 
 	/**

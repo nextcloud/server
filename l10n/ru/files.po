@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
-"PO-Revision-Date: 2013-02-08 23:12+0000\n"
+"POT-Creation-Date: 2013-02-10 00:08+0100\n"
+"PO-Revision-Date: 2013-02-09 23:08+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -33,16 +33,16 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Невозможно переместить %s - файл с таким именем уже существует"
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Невозможно переместить %s"
 
 #: ajax/rename.php:22 ajax/rename.php:25
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Невозможно переименовать файл"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -81,7 +81,7 @@ msgstr "Ошибка записи на диск"
 
 #: ajax/upload.php:52
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Недостаточно доступного места в хранилище"
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
@@ -91,51 +91,52 @@ msgstr "Неправильный каталог."
 msgid "Files"
 msgstr "Файлы"
 
-#: js/fileactions.js:117 templates/index.php:85 templates/index.php:86
-msgid "Unshare"
-msgstr "Отменить публикацию"
-
-#: js/fileactions.js:119
+#: js/fileactions.js:116
 msgid "Delete permanently"
 msgstr "Удалено навсегда"
 
-#: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:118 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Удалить"
 
-#: js/fileactions.js:187
+#: js/fileactions.js:184
 msgid "Rename"
 msgstr "Переименовать"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:291 js/files.js:407
+#: js/files.js:438
+msgid "Pending"
+msgstr "Ожидание"
+
+#: js/filelist.js:253 js/filelist.js:255
 msgid "{new_name} already exists"
 msgstr "{new_name} уже существует"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:253 js/filelist.js:255
 msgid "replace"
 msgstr "заменить"
 
-#: js/filelist.js:208
+#: js/filelist.js:253
 msgid "suggest name"
 msgstr "предложить название"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:253 js/filelist.js:255
 msgid "cancel"
 msgstr "отмена"
 
-#: js/filelist.js:253
+#: js/filelist.js:295
 msgid "replaced {new_name}"
 msgstr "заменено {new_name}"
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:295 js/filelist.js:297
 msgid "undo"
 msgstr "отмена"
 
-#: js/filelist.js:255
+#: js/filelist.js:297
 msgid "replaced {new_name} with {old_name}"
 msgstr "заменено {new_name} на {old_name}"
 
-#: js/filelist.js:280
+#: js/filelist.js:322
 msgid "perform delete operation"
 msgstr "выполняется операция удаления"
 
@@ -175,64 +176,60 @@ msgstr "Не удается загрузить файл размером 0 ба�
 msgid "Upload Error"
 msgstr "Ошибка загрузки"
 
-#: js/files.js:278
+#: js/files.js:272
 msgid "Close"
 msgstr "Закрыть"
 
-#: js/files.js:297 js/files.js:413 js/files.js:444
-msgid "Pending"
-msgstr "Ожидание"
-
-#: js/files.js:317
+#: js/files.js:311
 msgid "1 file uploading"
 msgstr "загружается 1 файл"
 
-#: js/files.js:320 js/files.js:375 js/files.js:390
+#: js/files.js:314 js/files.js:369 js/files.js:384
 msgid "{count} files uploading"
 msgstr "{count} файлов загружается"
 
-#: js/files.js:393 js/files.js:428
+#: js/files.js:387 js/files.js:422
 msgid "Upload cancelled."
 msgstr "Загрузка отменена."
 
-#: js/files.js:502
+#: js/files.js:496
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Файл в процессе загрузки. Покинув страницу вы прервёте загрузку."
 
-#: js/files.js:575
+#: js/files.js:569
 msgid "URL cannot be empty."
 msgstr "Ссылка не может быть пустой."
 
-#: js/files.js:580
+#: js/files.js:574
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Неправильное имя каталога. Имя 'Shared' зарезервировано."
 
-#: js/files.js:953 templates/index.php:67
+#: js/files.js:947 templates/index.php:67
 msgid "Name"
 msgstr "Название"
 
-#: js/files.js:954 templates/index.php:78
+#: js/files.js:948 templates/index.php:78
 msgid "Size"
 msgstr "Размер"
 
-#: js/files.js:955 templates/index.php:80
+#: js/files.js:949 templates/index.php:80
 msgid "Modified"
 msgstr "Изменён"
 
-#: js/files.js:974
+#: js/files.js:968
 msgid "1 folder"
 msgstr "1 папка"
 
-#: js/files.js:976
+#: js/files.js:970
 msgid "{count} folders"
 msgstr "{count} папок"
 
-#: js/files.js:984
+#: js/files.js:978
 msgid "1 file"
 msgstr "1 файл"
 
-#: js/files.js:986
+#: js/files.js:980
 msgid "{count} files"
 msgstr "{count} файлов"
 
@@ -289,8 +286,8 @@ msgid "From link"
 msgstr "Из ссылки"
 
 #: templates/index.php:40
-msgid "Trash"
-msgstr "Корзина"
+msgid "Trash bin"
+msgstr ""
 
 #: templates/index.php:46
 msgid "Cancel upload"
@@ -303,6 +300,10 @@ msgstr "Здесь ничего нет. Загрузите что-нибудь!"
 #: templates/index.php:73
 msgid "Download"
 msgstr "Скачать"
+
+#: templates/index.php:85 templates/index.php:86
+msgid "Unshare"
+msgstr "Отменить публикацию"
 
 #: templates/index.php:105
 msgid "Upload too large"

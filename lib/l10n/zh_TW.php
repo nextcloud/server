@@ -16,6 +16,8 @@
 "Files" => "檔案",
 "Text" => "文字",
 "Images" => "圖片",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "您的網頁伺服器尚未被正確設定來進行檔案同步，因為您的 WebDAV 界面似乎無法使用。",
+"Please double check the <a href='%s'>installation guides</a>." => "請參考<a href='%s'>安裝指南</a>。",
 "seconds ago" => "幾秒前",
 "1 minute ago" => "1 分鐘前",
 "%d minutes ago" => "%d 分鐘前",

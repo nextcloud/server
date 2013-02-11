@@ -82,7 +82,7 @@ class Filesystem extends \PHPUnit_Framework_TestCase {
 			$user = \OC_User::getUser();
 		}else{
 			$user=uniqid();
-			\OC\Files\Filesystem::init('/'.$user.'/files');
+			\OC\Files\Filesystem::init($user, '/'.$user.'/files');
 		}
 		\OC_Hook::clear('OC_Filesystem');
 		\OC_Hook::connect('OC_Filesystem', 'post_write', $this, 'dummyHook');

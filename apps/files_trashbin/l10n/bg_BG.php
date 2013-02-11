@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Name" => "Име"
+"Name" => "Име",
+"Restore" => "Възтановяване"
 );

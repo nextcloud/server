@@ -51,7 +51,7 @@ class OC_Util {
 				mkdir( $userdirectory, 0755, true );
 			}
 			//jail the user into his "home" directory
-			\OC\Files\Filesystem::init($user_dir);
+			\OC\Files\Filesystem::init($user, $user_dir);
 
 			$quotaProxy=new OC_FileProxy_Quota();
 			$fileOperationProxy = new OC_FileProxy_FileOperations();
@@ -74,7 +74,7 @@ class OC_Util {
 	 */
 	public static function getVersion() {
 		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4.90.0. This is not visible to the user
-		return array(4, 91, 9);
+		return array(4, 91, 10);
 	}
 
 	/**

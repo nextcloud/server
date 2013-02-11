@@ -6,6 +6,7 @@
 # Felix Liberio <felix.liberio@gmail.com>, 2013.
 #   <javierkaiser@gmail.com>, 2012.
 # Javier Llorente <javier@opensuse.org>, 2012.
+#  <juanma@kde.org.ar>, 2013.
 #   <juanma@kde.org.ar>, 2011-2013.
 #   <malmirk@gmail.com>, 2012.
 # oSiNaReF  <>, 2012.
@@ -20,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
-"PO-Revision-Date: 2013-02-08 23:12+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-11 00:03+0100\n"
+"PO-Revision-Date: 2013-02-10 11:30+0000\n"
+"Last-Translator: juanman <juanma@kde.org.ar>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -169,59 +170,59 @@ msgstr "Noviembre"
 msgid "December"
 msgstr "Diciembre"
 
-#: js/js.js:284
+#: js/js.js:286
 msgid "Settings"
 msgstr "Ajustes"
 
-#: js/js.js:764
+#: js/js.js:767
 msgid "seconds ago"
 msgstr "hace segundos"
 
-#: js/js.js:765
+#: js/js.js:768
 msgid "1 minute ago"
 msgstr "hace 1 minuto"
 
-#: js/js.js:766
+#: js/js.js:769
 msgid "{minutes} minutes ago"
 msgstr "hace {minutes} minutos"
 
-#: js/js.js:767
+#: js/js.js:770
 msgid "1 hour ago"
 msgstr "Hace 1 hora"
 
-#: js/js.js:768
+#: js/js.js:771
 msgid "{hours} hours ago"
 msgstr "Hace {hours} horas"
 
-#: js/js.js:769
+#: js/js.js:772
 msgid "today"
 msgstr "hoy"
 
-#: js/js.js:770
+#: js/js.js:773
 msgid "yesterday"
 msgstr "ayer"
 
-#: js/js.js:771
+#: js/js.js:774
 msgid "{days} days ago"
 msgstr "hace {days} días"
 
-#: js/js.js:772
+#: js/js.js:775
 msgid "last month"
 msgstr "mes pasado"
 
-#: js/js.js:773
+#: js/js.js:776
 msgid "{months} months ago"
 msgstr "Hace {months} meses"
 
-#: js/js.js:774
+#: js/js.js:777
 msgid "months ago"
 msgstr "hace meses"
 
-#: js/js.js:775
+#: js/js.js:778
 msgid "last year"
 msgstr "año pasado"
 
-#: js/js.js:776
+#: js/js.js:779
 msgid "years ago"
 msgstr "hace años"
 
@@ -251,8 +252,8 @@ msgid "The object type is not specified."
 msgstr "El tipo de objeto no se ha especificado."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
-#: js/share.js:583
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
+#: js/share.js:594
 msgid "Error"
 msgstr "Fallo"
 
@@ -272,7 +273,7 @@ msgstr "Compartir"
 msgid "Shared"
 msgstr "Compartido"
 
-#: js/share.js:141 js/share.js:611
+#: js/share.js:141 js/share.js:622
 msgid "Error while sharing"
 msgstr "Error compartiendo"
 
@@ -368,23 +369,23 @@ msgstr "eliminar"
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:373 js/share.js:558
+#: js/share.js:373 js/share.js:569
 msgid "Password protected"
 msgstr "Protegido por contraseña"
 
-#: js/share.js:571
+#: js/share.js:582
 msgid "Error unsetting expiration date"
 msgstr "Error al eliminar la fecha de caducidad"
 
-#: js/share.js:583
+#: js/share.js:594
 msgid "Error setting expiration date"
 msgstr "Error estableciendo fecha de caducidad"
 
-#: js/share.js:598
+#: js/share.js:609
 msgid "Sending ..."
 msgstr "Enviando..."
 
-#: js/share.js:609
+#: js/share.js:620
 msgid "Email sent"
 msgstr "Correo electrónico enviado"
 
@@ -500,14 +501,14 @@ msgstr "Sin un generador de números aleatorios seguro un atacante podría prede
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "Su directorio de datos y sus archivos están probablemente accesibles a través de internet ya que el archivo .htaccess no está funcionando."
 
 #: templates/installation.php:32
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Para información sobre cómo configurar adecuadamente su servidor, por favor vea la <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentación</a>."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"

@@ -445,10 +445,12 @@ class OC_User {
 	 * Check whether a specified user can change his display name
 	 */
 	public static function canUserChangeDisplayName($uid) {
-		foreach(self::$_usedBackends as $backend) {
-			if($backend->implementsActions(OC_USER_BACKEND_SET_DISPLAYNAME)) {
-				if($backend->userExists($uid)) {
-					return true;
+		if (OC_Config::getValue('allow_user_to_change_display_name', true)) {
+			foreach(self::$_usedBackends as $backend) {
+				if($backend->implementsActions(OC_USER_BACKEND_SET_DISPLAYNAME)) {
+					if($backend->userExists($uid)) {
+						return true;
+					}
 				}
 			}
 		}
@@ -485,7 +487,7 @@ class OC_User {
 	 */
 	public static function getHome($uid) {
 		foreach(self::$_usedBackends as $backend) {
-			if($backend->implementsActions(OC_USER_BACKEND_GET_HOME)) {
+			if($backend->implementsActions(OC_USER_BACKEND_GET_HOME) && $backend->userExists($uid)) {
 				$result=$backend->getHome($uid);
 				if($result) {
 					return $result;

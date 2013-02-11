@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
-"PO-Revision-Date: 2013-02-08 23:12+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-11 00:03+0100\n"
+"PO-Revision-Date: 2013-02-10 14:21+0000\n"
+"Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -158,59 +158,59 @@ msgstr "Novembris"
 msgid "December"
 msgstr "Decembris"
 
-#: js/js.js:284
+#: js/js.js:286
 msgid "Settings"
 msgstr "Iestatījumi"
 
-#: js/js.js:764
+#: js/js.js:767
 msgid "seconds ago"
 msgstr "sekundes atpakaļ"
 
-#: js/js.js:765
+#: js/js.js:768
 msgid "1 minute ago"
 msgstr "pirms 1 minūtes"
 
-#: js/js.js:766
+#: js/js.js:769
 msgid "{minutes} minutes ago"
 msgstr "pirms {minutes} minūtēm"
 
-#: js/js.js:767
+#: js/js.js:770
 msgid "1 hour ago"
 msgstr "pirms 1 stundas"
 
-#: js/js.js:768
+#: js/js.js:771
 msgid "{hours} hours ago"
 msgstr "pirms {hours} stundām"
 
-#: js/js.js:769
+#: js/js.js:772
 msgid "today"
 msgstr "šodien"
 
-#: js/js.js:770
+#: js/js.js:773
 msgid "yesterday"
 msgstr "vakar"
 
-#: js/js.js:771
+#: js/js.js:774
 msgid "{days} days ago"
 msgstr "pirms {days} dienām"
 
-#: js/js.js:772
+#: js/js.js:775
 msgid "last month"
 msgstr "pagājušajā mēnesī"
 
-#: js/js.js:773
+#: js/js.js:776
 msgid "{months} months ago"
 msgstr "pirms {months} mēnešiem"
 
-#: js/js.js:774
+#: js/js.js:777
 msgid "months ago"
 msgstr "mēnešus atpakaļ"
 
-#: js/js.js:775
+#: js/js.js:778
 msgid "last year"
 msgstr "gājušajā gadā"
 
-#: js/js.js:776
+#: js/js.js:779
 msgid "years ago"
 msgstr "gadus atpakaļ"
 
@@ -240,8 +240,8 @@ msgid "The object type is not specified."
 msgstr "Nav norādīts objekta tips."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
-#: js/share.js:583
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
+#: js/share.js:594
 msgid "Error"
 msgstr "Kļūda"
 
@@ -261,7 +261,7 @@ msgstr "Dalīties"
 msgid "Shared"
 msgstr "Kopīgs"
 
-#: js/share.js:141 js/share.js:611
+#: js/share.js:141 js/share.js:622
 msgid "Error while sharing"
 msgstr "Kļūda, daloties"
 
@@ -357,23 +357,23 @@ msgstr "dzēst"
 msgid "share"
 msgstr "dalīties"
 
-#: js/share.js:373 js/share.js:558
+#: js/share.js:373 js/share.js:569
 msgid "Password protected"
 msgstr "Aizsargāts ar paroli"
 
-#: js/share.js:571
+#: js/share.js:582
 msgid "Error unsetting expiration date"
 msgstr "Kļūda, noņemot termiņa datumu"
 
-#: js/share.js:583
+#: js/share.js:594
 msgid "Error setting expiration date"
 msgstr "Kļūda, iestatot termiņa datumu"
 
-#: js/share.js:598
+#: js/share.js:609
 msgid "Sending ..."
 msgstr "Sūta..."
 
-#: js/share.js:609
+#: js/share.js:620
 msgid "Email sent"
 msgstr "Vēstule nosūtīta"
 
@@ -489,14 +489,14 @@ msgstr "Bez droša nejaušu skaitļu ģeneratora uzbrucējs var paredzēt paroļ
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "Visticamāk, jūsu datu direktorija un datnes ir pieejamas no interneta, jo .htaccess datne nedarbojas."
 
 #: templates/installation.php:32
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Lai uzzinātu, kā pareizi jākonfigurē šis serveris, skatiet <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentāciju</a>."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"

@@ -1,5 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Couldn't delete %s permanently" => "Kunde inte radera %s permanent",
+"Couldn't restore %s" => "Kunde inte återställa %s",
 "perform restore operation" => "utför återställning",
+"delete file permanently" => "radera filen permanent",
 "Name" => "Namn",
 "Deleted" => "Raderad",
 "1 folder" => "1 mapp",

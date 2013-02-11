@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Couldn't delete %s permanently" => "Nemožno zmazať %s navždy",
 "Couldn't restore %s" => "Nemožno obnoviť %s",
 "perform restore operation" => "vykonať obnovu",
 "delete file permanently" => "trvalo zmazať súbor",

@@ -1,5 +1,8 @@
 <?php $TRANSLATIONS = array(
+"Couldn't delete %s permanently" => "Não foi possível eliminar %s de forma permanente",
+"Couldn't restore %s" => "Não foi possível restaurar %s",
 "perform restore operation" => "Restaurar",
+"delete file permanently" => "Eliminar permanentemente o(s) ficheiro(s)",
 "Name" => "Nome",
 "Deleted" => "Apagado",
 "1 folder" => "1 pasta",
