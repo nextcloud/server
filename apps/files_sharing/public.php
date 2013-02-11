@@ -142,6 +142,7 @@ if (isset($path)) {
 					}
 				}
 				$i['directory'] = $dir;
+				$i['permissions'] = OCP\PERMISSION_READ;
 				$files[] = $i;
 			}
 			// Make breadcrumb
