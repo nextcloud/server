@@ -179,7 +179,6 @@ class Hooks {
 		$view = new \OC_FilesystemView( '/' );
 		$userId = \OCP\User::getUser();
 		$util = new Util( $view, $userId );
-		$session = new Session();
 		
 		$shares = \OCP\Share::getUsersSharingFile( $params['fileTarget'], 1 );
 		
@@ -207,55 +206,29 @@ class Hooks {
 			}
 		
 		}
+
+		return Crypt::encKeyfileToMultipleUsers($shares, $params['fileTarget']);
 		
-		$userPubKeys = Keymanager::getPublicKeys( $view, $userIds );
+	}
+	
+	/**
+	 * @brief 
+	 */
+	public static function postUnshare( $params ) {
+		$shares = \OCP\Share::getUsersSharingFile( $params['fileTarget'], 1 );
 		
-		\OC_FileProxy::$enabled = false;
-		
-		// get the keyfile
-		$encKeyfile = Keymanager::getFileKey( $view, $userId, $params['fileTarget'] );
-		
-		$privateKey = $session->getPrivateKey();
-		
-		// decrypt the keyfile
-		$plainKeyfile = Crypt::keyDecrypt( $encKeyfile, $privateKey );
-		
-		// re-enc keyfile to sharekeys
-		$shareKeys = Crypt::multiKeyEncrypt( $plainKeyfile, $userPubKeys );
-		
-		// save sharekeys
-		if ( ! Keymanager::setShareKeys( $view, $params['fileTarget'], $shareKeys['keys'] ) ) {
-		
-			trigger_error( "SET Share keys failed" );
-			
+		$userIds = array();		
+		foreach ( $shares as $share ) {
+			$userIds[] = $share['userId'];
 		}
 		
-		// Delete existing keyfile
-		// Do this last to ensure file is recoverable in case of error
-// 		Keymanager::deleteFileKey( $view, $userId, $params['fileTarget'] );
-		
-		\OC_FileProxy::$enabled = true;
-		
-		return true;
-		
+		return Crypt::encKeyfileToMultipleUsers($userIDs, $params['fileTarget']);
 	}
 	
 	/**
 	 * @brief 
 	 */
-	public static function preUnshare( $params ) {
-		
-		// Delete existing catfile
-		
-		// Generate new catfile and env keys
-		
-		// Save env keys to user folders
-	}
-	
-	/**
-	 * @brief 
-	 */
-	public static function preUnshareAll( $params ) {
+	public static function postUnshareAll( $params ) {
 		
 		trigger_error( "preUnshareAll" );
 		
