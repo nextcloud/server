@@ -33,40 +33,7 @@ if (isset($_GET['t'])) {
 			$path = \OC\Files\Filesystem::getPath($linkItem['file_source']);
 		}
 	}
-} else {
-	if (isset($_GET['file']) || isset($_GET['dir'])) {
-		OCP\Util::writeLog('share', 'Missing token, trying fallback file/dir links', \OCP\Util::DEBUG);
-		if (isset($_GET['dir'])) {
-			$type = 'folder';
-			$path = $_GET['dir'];
-			if (strlen($path) > 1 and substr($path, -1, 1) === '/') {
-				$path = substr($path, 0, -1);
-			}
-			$baseDir = $path;
-			$dir = $baseDir;
-		} else {
-			$type = 'file';
-			$path = $_GET['file'];
-			if (strlen($path) > 1 and substr($path, -1, 1) === '/') {
-				$path = substr($path, 0, -1);
-			}
-		}
-		$shareOwner = substr($path, 1, strpos($path, '/', 1) - 1);
-
-		if (OCP\User::userExists($shareOwner)) {
-			OC_Util::setupFS($shareOwner);
-			$fileSource = getId($path);
-			if ($fileSource != -1) {
-				$linkItem = OCP\Share::getItemSharedWithByLink($type, $fileSource, $shareOwner);
-				$pathAndUser['path'] = $path;
-				$path_parts = explode('/', $path, 5);
-				$pathAndUser['user'] = $path_parts[1];
-				$fileOwner = $path_parts[1];
-			}
-		}
-	}
-}
-
+} 
 if (isset($path)) {
 	if (!isset($linkItem['item_type'])) {
 		OCP\Util::writeLog('share', 'No item type set for share id: ' . $linkItem['id'], \OCP\Util::ERROR);
