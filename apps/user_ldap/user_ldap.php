@@ -171,40 +171,37 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	}
 
 	/**
-	* @brief determine the user's home directory
-	* @param string $uid the owncloud username
-	* @return boolean
-	*/
-	private function determineHomeDir($uid) {
-		if(strpos($this->connection->homeFolderNamingRule, 'attr:') === 0) {
-			$attr = substr($this->connection->homeFolderNamingRule, strlen('attr:'));
-			$homedir = $this->readAttribute($this->username2dn($uid), $attr);
-			if($homedir) {
-				$homedir = \OCP\Config::getSystemValue( "datadirectory", \OC::$SERVERROOT."/data" ) . '/' . $homedir[0];
-				\OCP\Config::setUserValue($uid, 'user_ldap', 'homedir', $homedir);
-				return $homedir;
-			}
-		}
-
-		//fallback and default: username
-		$homedir = \OCP\Config::getSystemValue( "datadirectory", \OC::$SERVERROOT."/data" ) . '/' . $uid;
-		\OCP\Config::setUserValue($uid, 'user_ldap', 'homedir', $homedir);
-		return $homedir;
-	}
-
-	/**
 	* @brief get the user's home directory
 	* @param string $uid the username
 	* @return boolean
 	*/
 	public function getHome($uid) {
-		if($this->userExists($uid)) {
-			$homedir = \OCP\Config::getUserValue($uid, 'user_ldap', 'homedir', false);
-			if(!$homedir) {
-				$homedir = $this->determineHomeDir($uid);
-			}
-			return $homedir;
+		$cacheKey = 'getHome'.$uid;
+		if($this->connection->isCached($cacheKey)) {
+			return $this->connection->getFromCache($cacheKey);
 		}
+		if(strpos($this->connection->homeFolderNamingRule, 'attr:') === 0) {
+			$attr = substr($this->connection->homeFolderNamingRule, strlen('attr:'));
+			$homedir = $this->readAttribute($this->username2dn($uid), $attr);
+			if($homedir && isset($homedir[0])) {
+				$path = $homedir[0];
+				//if attribute's value is an absolute path take this, otherwise append it to data dir
+				//check for / at the beginning or pattern c:\ resp. c:/
+				if(
+					'/' == $path[0]
+					|| (3 < strlen($path) && ctype_alpha($path[0]) && $path[1] == ':' && ('\\' == $path[2] || '/' == $path[2]))
+				) {
+					$homedir = $path;
+				} else {
+					$homedir = \OCP\Config::getSystemValue('datadirectory', \OC::$SERVERROOT.'/data' ) . '/' . $homedir[0];
+				}
+				$this->connection->writeToCache($cacheKey, $homedir);
+				return $homedir;
+			}
+		}
+
+		//false will apply default behaviour as defined and done by OC_User
+		$this->connection->writeToCache($cacheKey, false);
 		return false;
 	}
 

@@ -487,7 +487,7 @@ class OC_User {
 	 */
 	public static function getHome($uid) {
 		foreach(self::$_usedBackends as $backend) {
-			if($backend->implementsActions(OC_USER_BACKEND_GET_HOME)) {
+			if($backend->implementsActions(OC_USER_BACKEND_GET_HOME) && $backend->userExists($uid)) {
 				$result=$backend->getHome($uid);
 				if($result) {
 					return $result;
