@@ -1,4 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Could not move %s - File with this name already exists" => "Неполучается перенести %s - Файл с таким именем уже существует",
+"Could not move %s" => "Неполучается перенести %s ",
+"Unable to rename file" => "Невозможно переименовать файл",
 "No file was uploaded. Unknown error" => "Файл не был загружен. Неизвестная ошибка",
 "There is no error, the file uploaded with success" => "Ошибка отсутствует, файл загружен успешно.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Размер загружаемого файла превышает upload_max_filesize директиву в php.ini:",
@@ -7,6 +10,7 @@
 "No file was uploaded" => "Файл не был загружен",
 "Missing a temporary folder" => "Отсутствует временная папка",
 "Failed to write to disk" => "Не удалось записать на диск",
+"Not enough storage available" => "Недостаточно места в хранилище",
 "Invalid directory." => "Неверный каталог.",
 "Files" => "Файлы",
 "Delete permanently" => "Удалить навсегда",
@@ -56,6 +60,7 @@
 "Text file" => "Текстовый файл",
 "Folder" => "Папка",
 "From link" => "По ссылке",
+"Trash bin" => "Корзина",
 "Cancel upload" => "Отмена загрузки",
 "Nothing in here. Upload something!" => "Здесь ничего нет. Загрузите что-нибудь!",
 "Download" => "Загрузить",

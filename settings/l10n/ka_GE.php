@@ -23,7 +23,6 @@
 "See application page at apps.owncloud.com" => "ნახეთ აპლიკაციის გვერდი apps.owncloud.com –ზე",
 "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>" => "<span class=\"licence\"></span>-ლიცენსირებულია <span class=\"author\"></span>",
 "Update" => "განახლება",
-"Clients" => "კლიენტები",
 "Password" => "პაროლი",
 "Your password was changed" => "თქვენი პაროლი შეიცვალა",
 "Unable to change your password" => "თქვენი პაროლი არ შეიცვალა",

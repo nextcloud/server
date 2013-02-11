@@ -13,7 +13,6 @@
 "Select an App" => "Pilih aplikasi",
 "See application page at apps.owncloud.com" => "Lihat halaman applikasi di apps.owncloud.com",
 "Update" => "Kemaskini",
-"Clients" => "klien",
 "Password" => "Kata laluan ",
 "Unable to change your password" => "Gagal mengubah kata laluan anda ",
 "Current password" => "Kata laluan semasa",

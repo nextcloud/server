@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-11 00:03+0100\n"
-"PO-Revision-Date: 2013-02-10 23:03+0000\n"
+"POT-Creation-Date: 2013-02-11 15:39+0100\n"
+"PO-Revision-Date: 2013-02-11 14:39+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -180,95 +180,87 @@ msgstr "บริการลูกค้าแบบเสียค่าใช
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "คุณได้ใช้งานไปแล้ว <strong>%s</strong> จากจำนวนที่สามารถใช้ได้ <strong>%s</strong>"
 
-#: templates/personal.php:12
-msgid "Clients"
-msgstr "ลูกค้า"
-
-#: templates/personal.php:13
-msgid "Download Desktop Clients"
-msgstr "ดาวน์โหลดโปรแกรมไคลเอนต์สำหรับเครื่องเดสก์ท็อป"
-
 #: templates/personal.php:14
-msgid "Download Android Client"
-msgstr "ดาวน์โหลดโปรแกรมไคลเอนต์สำหรับแอนดรอยด์"
+msgid "Get the apps to sync your files"
+msgstr ""
 
-#: templates/personal.php:15
-msgid "Download iOS Client"
-msgstr "ดาวน์โหลดโปรแกรมไคลเอนต์สำหรับ iOS"
+#: templates/personal.php:25
+msgid "Show First Run Wizard again"
+msgstr ""
 
-#: templates/personal.php:23 templates/users.php:23 templates/users.php:81
+#: templates/personal.php:36 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "รหัสผ่าน"
 
-#: templates/personal.php:24
+#: templates/personal.php:37
 msgid "Your password was changed"
 msgstr "รหัสผ่านของคุณถูกเปลี่ยนแล้ว"
 
-#: templates/personal.php:25
+#: templates/personal.php:38
 msgid "Unable to change your password"
 msgstr "ไม่สามารถเปลี่ยนรหัสผ่านของคุณได้"
 
-#: templates/personal.php:26
+#: templates/personal.php:39
 msgid "Current password"
 msgstr "รหัสผ่านปัจจุบัน"
 
-#: templates/personal.php:27
+#: templates/personal.php:40
 msgid "New password"
 msgstr "รหัสผ่านใหม่"
 
-#: templates/personal.php:29
+#: templates/personal.php:42
 msgid "Change password"
 msgstr "เปลี่ยนรหัสผ่าน"
 
-#: templates/personal.php:41 templates/users.php:80
+#: templates/personal.php:54 templates/users.php:80
 msgid "Display Name"
 msgstr "ชื่อที่ต้องการแสดง"
 
-#: templates/personal.php:42
+#: templates/personal.php:55
 msgid "Your display name was changed"
 msgstr ""
 
-#: templates/personal.php:43
+#: templates/personal.php:56
 msgid "Unable to change your display name"
 msgstr ""
 
-#: templates/personal.php:46
+#: templates/personal.php:59
 msgid "Change display name"
 msgstr ""
 
-#: templates/personal.php:55
+#: templates/personal.php:68
 msgid "Email"
 msgstr "อีเมล์"
 
-#: templates/personal.php:56
+#: templates/personal.php:69
 msgid "Your email address"
 msgstr "ที่อยู่อีเมล์ของคุณ"
 
-#: templates/personal.php:57
+#: templates/personal.php:70
 msgid "Fill in an email address to enable password recovery"
 msgstr "กรอกที่อยู่อีเมล์ของคุณเพื่อเปิดให้มีการกู้คืนรหัสผ่านได้"
 
-#: templates/personal.php:63 templates/personal.php:64
+#: templates/personal.php:76 templates/personal.php:77
 msgid "Language"
 msgstr "ภาษา"
 
-#: templates/personal.php:69
+#: templates/personal.php:82
 msgid "Help translate"
 msgstr "ช่วยกันแปล"
 
-#: templates/personal.php:74
+#: templates/personal.php:87
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:76
+#: templates/personal.php:89
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "ใช้ที่อยู่นี้เพื่อเชื่อมต่อกับ ownCloud ในโปรแกรมจัดการไฟล์ของคุณ"
 
-#: templates/personal.php:85
+#: templates/personal.php:98
 msgid "Version"
 msgstr "รุ่น"
 
-#: templates/personal.php:87
+#: templates/personal.php:100
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

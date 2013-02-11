@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-11 00:03+0100\n"
-"PO-Revision-Date: 2013-02-10 23:03+0000\n"
+"POT-Creation-Date: 2013-02-11 15:39+0100\n"
+"PO-Revision-Date: 2013-02-11 14:40+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swahili (Kenya) (http://www.transifex.com/projects/p/owncloud/language/sw_KE/)\n"
 "MIME-Version: 1.0\n"
@@ -177,95 +177,87 @@ msgstr ""
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr ""
 
-#: templates/personal.php:12
-msgid "Clients"
-msgstr ""
-
-#: templates/personal.php:13
-msgid "Download Desktop Clients"
-msgstr ""
-
 #: templates/personal.php:14
-msgid "Download Android Client"
-msgstr ""
-
-#: templates/personal.php:15
-msgid "Download iOS Client"
-msgstr ""
-
-#: templates/personal.php:23 templates/users.php:23 templates/users.php:81
-msgid "Password"
-msgstr ""
-
-#: templates/personal.php:24
-msgid "Your password was changed"
+msgid "Get the apps to sync your files"
 msgstr ""
 
 #: templates/personal.php:25
+msgid "Show First Run Wizard again"
+msgstr ""
+
+#: templates/personal.php:36 templates/users.php:23 templates/users.php:81
+msgid "Password"
+msgstr ""
+
+#: templates/personal.php:37
+msgid "Your password was changed"
+msgstr ""
+
+#: templates/personal.php:38
 msgid "Unable to change your password"
 msgstr ""
 
-#: templates/personal.php:26
+#: templates/personal.php:39
 msgid "Current password"
 msgstr ""
 
-#: templates/personal.php:27
+#: templates/personal.php:40
 msgid "New password"
 msgstr ""
 
-#: templates/personal.php:29
+#: templates/personal.php:42
 msgid "Change password"
 msgstr ""
 
-#: templates/personal.php:41 templates/users.php:80
+#: templates/personal.php:54 templates/users.php:80
 msgid "Display Name"
 msgstr ""
 
-#: templates/personal.php:42
+#: templates/personal.php:55
 msgid "Your display name was changed"
 msgstr ""
 
-#: templates/personal.php:43
+#: templates/personal.php:56
 msgid "Unable to change your display name"
 msgstr ""
 
-#: templates/personal.php:46
+#: templates/personal.php:59
 msgid "Change display name"
 msgstr ""
 
-#: templates/personal.php:55
+#: templates/personal.php:68
 msgid "Email"
 msgstr ""
 
-#: templates/personal.php:56
+#: templates/personal.php:69
 msgid "Your email address"
 msgstr ""
 
-#: templates/personal.php:57
+#: templates/personal.php:70
 msgid "Fill in an email address to enable password recovery"
 msgstr ""
 
-#: templates/personal.php:63 templates/personal.php:64
+#: templates/personal.php:76 templates/personal.php:77
 msgid "Language"
 msgstr ""
 
-#: templates/personal.php:69
+#: templates/personal.php:82
 msgid "Help translate"
 msgstr ""
 
-#: templates/personal.php:74
+#: templates/personal.php:87
 msgid "WebDAV"
 msgstr ""
 
-#: templates/personal.php:76
+#: templates/personal.php:89
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr ""
 
-#: templates/personal.php:85
+#: templates/personal.php:98
 msgid "Version"
 msgstr ""
 
-#: templates/personal.php:87
+#: templates/personal.php:100
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
