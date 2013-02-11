@@ -329,6 +329,9 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		if(strpos($path, '/') === 0) {
 			$path = substr($path, 1);
 		}
+		if ($path === false) {
+			return '';
+		}
 
 		return $path;
 	}
