@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-30 00:04+0100\n"
-"PO-Revision-Date: 2012-12-29 23:05+0000\n"
+"POT-Creation-Date: 2013-02-11 15:39+0100\n"
+"PO-Revision-Date: 2013-02-11 14:39+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -24,6 +24,15 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "فشل تحميل القائمة من الآب ستور"
 
+#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:15
+#: ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "لم يتم التأكد من الشخصية بنجاح"
+
+#: ajax/changedisplayname.php:32
+msgid "Unable to change display name"
+msgstr ""
+
 #: ajax/creategroup.php:10
 msgid "Group already exists"
 msgstr "المجموعة موجودة مسبقاً"
@@ -32,7 +41,7 @@ msgstr "المجموعة موجودة مسبقاً"
 msgid "Unable to add group"
 msgstr "فشل إضافة المجموعة"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "فشل عملية تفعيل التطبيق"
 
@@ -44,21 +53,9 @@ msgstr "تم حفظ البريد الإلكتروني"
 msgid "Invalid email"
 msgstr "البريد الإلكتروني غير صالح"
 
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "تم تغيير ال OpenID"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "طلبك غير مفهوم"
-
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "فشل إزالة المجموعة"
-
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
-msgid "Authentication error"
-msgstr "لم يتم التأكد من الشخصية بنجاح"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -67,6 +64,10 @@ msgstr "فشل إزالة المستخدم"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "تم تغيير اللغة"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "طلبك غير مفهوم"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -82,19 +83,47 @@ msgstr "فشل إضافة المستخدم الى المجموعة %s"
 msgid "Unable to remove user from group %s"
 msgstr "فشل إزالة المستخدم من المجموعة %s"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:14
+msgid "Couldn't update app."
+msgstr ""
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr ""
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "إيقاف"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "تفعيل"
 
-#: js/personal.js:69
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr ""
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "خطأ"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr ""
+
+#: js/personal.js:96
 msgid "Saving..."
 msgstr "حفظ"
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -106,17 +135,21 @@ msgstr "أضف تطبيقاتك"
 msgid "More Apps"
 msgstr "المزيد من التطبيقات"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "إختر تطبيقاً"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "راجع صفحة التطبيق على apps.owncloud.com"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-ترخيص من قبل <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "حدث"
 
 #: templates/help.php:3
 msgid "User Documentation"
@@ -147,83 +180,87 @@ msgstr "دعم تجاري"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "تم إستهلاك <strong>%s</strong> من المتوفر <strong>%s</strong>"
 
-#: templates/personal.php:12
-msgid "Clients"
-msgstr "الزبائن"
-
-#: templates/personal.php:13
-msgid "Download Desktop Clients"
-msgstr "تحميل عملاء سطح المكتب"
-
 #: templates/personal.php:14
-msgid "Download Android Client"
-msgstr "تحميل عميل آندرويد"
+msgid "Get the apps to sync your files"
+msgstr ""
 
-#: templates/personal.php:15
-msgid "Download iOS Client"
-msgstr "تحميل عميل آي أو أس"
+#: templates/personal.php:25
+msgid "Show First Run Wizard again"
+msgstr ""
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:36 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "كلمات السر"
 
-#: templates/personal.php:22
+#: templates/personal.php:37
 msgid "Your password was changed"
 msgstr "لقد تم تغيير كلمة السر"
 
-#: templates/personal.php:23
+#: templates/personal.php:38
 msgid "Unable to change your password"
 msgstr "لم يتم تعديل كلمة السر بنجاح"
 
-#: templates/personal.php:24
+#: templates/personal.php:39
 msgid "Current password"
 msgstr "كلمات السر الحالية"
 
-#: templates/personal.php:25
+#: templates/personal.php:40
 msgid "New password"
 msgstr "كلمات سر جديدة"
 
-#: templates/personal.php:26
-msgid "show"
-msgstr "أظهر"
-
-#: templates/personal.php:27
+#: templates/personal.php:42
 msgid "Change password"
 msgstr "عدل كلمة السر"
 
-#: templates/personal.php:33
+#: templates/personal.php:54 templates/users.php:80
+msgid "Display Name"
+msgstr ""
+
+#: templates/personal.php:55
+msgid "Your display name was changed"
+msgstr ""
+
+#: templates/personal.php:56
+msgid "Unable to change your display name"
+msgstr ""
+
+#: templates/personal.php:59
+msgid "Change display name"
+msgstr ""
+
+#: templates/personal.php:68
 msgid "Email"
 msgstr "العنوان البريدي"
 
-#: templates/personal.php:34
+#: templates/personal.php:69
 msgid "Your email address"
 msgstr "عنوانك البريدي"
 
-#: templates/personal.php:35
+#: templates/personal.php:70
 msgid "Fill in an email address to enable password recovery"
 msgstr "أدخل عنوانك البريدي لتفعيل استرجاع كلمة المرور"
 
-#: templates/personal.php:41 templates/personal.php:42
+#: templates/personal.php:76 templates/personal.php:77
 msgid "Language"
 msgstr "اللغة"
 
-#: templates/personal.php:47
+#: templates/personal.php:82
 msgid "Help translate"
 msgstr "ساعد في الترجمه"
 
-#: templates/personal.php:52
+#: templates/personal.php:87
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:54
+#: templates/personal.php:89
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "إستخدم هذا العنوان للإتصال بـ ownCloud في مدير الملفات"
 
-#: templates/personal.php:63
+#: templates/personal.php:98
 msgid "Version"
 msgstr "إصدار"
 
-#: templates/personal.php:65
+#: templates/personal.php:100
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -233,11 +270,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "طوّر من قبل <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud مجتمع</a>, الـ <a href=\"https://github.com/owncloud\" target=\"_blank\">النص المصدري</a> مرخص بموجب <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">رخصة أفيرو العمومية</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "الاسم"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr ""
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "مجموعات"
 
@@ -249,26 +286,34 @@ msgstr "انشئ"
 msgid "Default Storage"
 msgstr ""
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
 msgstr ""
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "شيء آخر"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "مدير المجموعة"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
 msgstr ""
 
-#: templates/users.php:133
+#: templates/users.php:97
+msgid "change display name"
+msgstr ""
+
+#: templates/users.php:101
+msgid "set new password"
+msgstr ""
+
+#: templates/users.php:137
 msgid "Default"
 msgstr ""
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "حذف"

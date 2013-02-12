@@ -6,9 +6,11 @@
  * See the COPYING-README file.
  */
 
+namespace OC\Files\Storage;
+
 require_once 'smb4php/smb.php';
 
-class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
+class SMB extends \OC\Files\Storage\StreamWrapper{
 	private $password;
 	private $user;
 	private $host;
@@ -34,14 +36,13 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 			if (substr($this->share, -1, 1)=='/') {
 				$this->share=substr($this->share, 0, -1);
 			}
-			//create the root folder if necesary
-			if ( ! $this->is_dir('')) {
-				$this->mkdir('');
-			}
 		} else {
-			throw new Exception();
+			throw new \Exception();
 		}
-		
+	}
+
+	public function getId(){
+		return 'smb::' . $this->user . '@' . $this->host . '/' . $this->share . '/' . $this->root;
 	}
 
 	public function constructUrl($path) {
@@ -69,11 +70,13 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 
 	/**
 	 * check if a file or folder has been updated since $time
+	 * @param string $path
 	 * @param int $time
 	 * @return bool
 	 */
-	public function hasUpdated($path, $time) {
-		if ( ! $path and $this->root=='/') {
+	public function hasUpdated($path,$time) {
+		$this->init();
+		if(!$path and $this->root=='/') {
 			// mtime doesn't work for shares, but giving the nature of the backend,
 			// doing a full update is still just fast enough
 			return true;

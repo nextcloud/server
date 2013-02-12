@@ -6,14 +6,17 @@
  * See the COPYING-README file.
  */
 
-class OC_FileStorage_DAV extends OC_Filestorage_Common{
+namespace OC\Files\Storage;
+
+class DAV extends \OC\Files\Storage\Common{
 	private $password;
 	private $user;
 	private $host;
 	private $secure;
 	private $root;
+	private $ready;
 	/**
-	 * @var Sabre_DAV_Client
+	 * @var \Sabre_DAV_Client
 	 */
 	private $client;
 
@@ -44,6 +47,16 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 			if (substr($this->root, -1, 1)!='/') {
 				$this->root.='/';
 			}
+		} else {
+			throw new \Exception();
+		}
+	}
+
+	private function init(){
+		if($this->ready){
+			return;
+		}
+		$this->ready = true;
 
 			$settings = array(
 				'baseUri' => $this->createBaseUri(),
@@ -51,21 +64,21 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 				'password' => $this->password,
 			);
 
-			$this->client = new Sabre_DAV_Client($settings);
+		$this->client = new \Sabre_DAV_Client($settings);
 
-			$caview = \OCP\Files::getStorage('files_external');
-			if ($caview) {
-				$certPath=\OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath("").'rootcerts.crt';
-				if (file_exists($certPath)) {
-					$this->client->addTrustedCertificates($certPath);
-				}
+		$caview = \OCP\Files::getStorage('files_external');
+		if ($caview) {
+			$certPath=\OCP\Config::getSystemValue('datadirectory').$caview->getAbsolutePath("").'rootcerts.crt';
+			if (file_exists($certPath)) {
+				$this->client->addTrustedCertificates($certPath);
 			}
-			//create the root folder if necesary
-			$this->mkdir('');
-		} else {
-			throw new Exception();
 		}
-		
+		//create the root folder if necesary
+		$this->mkdir('');
+	}
+
+	public function getId(){
+		return 'webdav::' . $this->user . '@' . $this->host . '/' . $this->root;
 	}
 
 	private function createBaseUri() {
@@ -78,40 +91,45 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	}
 
 	public function mkdir($path) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		return $this->simpleResponse('MKCOL', $path, null, 201);
 	}
 
 	public function rmdir($path) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		return $this->simpleResponse('DELETE', $path, null, 204);
 	}
 
 	public function opendir($path) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		try {
 			$response=$this->client->propfind($path, array(), 1);
 			$id=md5('webdav'.$this->root.$path);
-			OC_FakeDirStream::$dirs[$id]=array();
+			$content = array();
 			$files=array_keys($response);
 			array_shift($files);//the first entry is the current directory
 			foreach ($files as $file) {
 				$file = urldecode(basename($file));
-				OC_FakeDirStream::$dirs[$id][]=$file;
+				$content[]=$file;
 			}
+			\OC\Files\Stream\Dir::register($id, $content);
 			return opendir('fakedir://'.$id);
-		} catch(Exception $e) {
+		} catch(\Exception $e) {
 			return false;
 		}
 	}
 
 	public function filetype($path) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		try {
 			$response=$this->client->propfind($path, array('{DAV:}resourcetype'));
 			$responseType=$response["{DAV:}resourcetype"]->resourceType;
 			return (count($responseType)>0 and $responseType[0]=="{DAV:}collection")?'dir':'file';
-		} catch(Exception $e) {
+		} catch(\Exception $e) {
 			error_log($e->getMessage());
 			\OCP\Util::writeLog("webdav client", \OCP\Util::sanitizeHTML($e->getMessage()), \OCP\Util::ERROR);
 			return false;
@@ -127,20 +145,23 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	}
 
 	public function file_exists($path) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		try {
 			$this->client->propfind($path, array('{DAV:}resourcetype'));
 			return true;//no 404 exception
-		} catch(Exception $e) {
+		} catch(\Exception $e) {
 			return false;
 		}
 	}
 
 	public function unlink($path) {
-		return $this->simpleResponse('DELETE', $path, null, 204);
+		$this->init();
+		return $this->simpleResponse('DELETE', $path, null ,204);
 	}
 
-	public function fopen($path, $mode) {
+	public function fopen($path,$mode) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		switch($mode) {
 			case 'r':
@@ -177,9 +198,9 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 				} else {
 					$ext='';
 				}
-				$tmpFile=OCP\Files::tmpFile($ext);
-				OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this, 'writeBack');
-				if ($this->file_exists($path)) {
+				$tmpFile = \OCP\Files::tmpFile($ext);
+				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
+				if($this->file_exists($path)) {
 					$this->getFile($path, $tmpFile);
 				}
 				self::$tempFiles[$tmpFile]=$path;
@@ -195,6 +216,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 	}
 
 	public function free_space($path) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		try {
 			$response=$this->client->propfind($path, array('{DAV:}quota-available-bytes'));
@@ -203,12 +225,13 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 			} else {
 				return 0;
 			}
-		} catch(Exception $e) {
+		} catch(\Exception $e) {
 			return 0;
 		}
 	}
 
 	public function touch($path, $mtime=null) {
+		$this->init();
 		if (is_null($mtime)) {
 			$mtime=time();
 		}
@@ -216,12 +239,14 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		$this->client->proppatch($path, array('{DAV:}lastmodified' => $mtime));
 	}
 
-	public function getFile($path, $target) {
-		$source=$this->fopen($path, 'r');
-		file_put_contents($target, $source);
+	public function getFile($path,$target) {
+		$this->init();
+		$source=$this->fopen($path,'r');
+		file_put_contents($target,$source);
 	}
 
-	public function uploadFile($path, $target) {
+	public function uploadFile($path,$target) {
+		$this->init();
 		$source=fopen($path, 'r');
 
 		$curl = curl_init();
@@ -235,49 +260,46 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		curl_close ($curl);
 	}
 
-	public function rename($path1, $path2) {
+	public function rename($path1,$path2) {
+		$this->init();
 		$path1=$this->cleanPath($path1);
 		$path2=$this->root.$this->cleanPath($path2);
 		try {
-			$response=$this->client->request('MOVE', $path1, null, array('Destination'=>$path2));
+			$this->client->request('MOVE', $path1, null, array('Destination'=>$path2));
 			return true;
-		} catch(Exception $e) {
-			echo $e;
-			echo 'fail';
-			var_dump($response);
+		} catch(\Exception $e) {
 			return false;
 		}
 	}
 
-	public function copy($path1, $path2) {
+	public function copy($path1,$path2) {
+		$this->init();
 		$path1=$this->cleanPath($path1);
 		$path2=$this->root.$this->cleanPath($path2);
 		try {
-			$response=$this->client->request('COPY', $path1, null, array('Destination'=>$path2));
+			$this->client->request('COPY', $path1, null, array('Destination'=>$path2));
 			return true;
-		} catch(Exception $e) {
-			echo $e;
-			echo 'fail';
-			var_dump($response);
+		} catch(\Exception $e) {
 			return false;
 		}
 	}
 
 	public function stat($path) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		try {
 			$response=$this->client->propfind($path, array('{DAV:}getlastmodified', '{DAV:}getcontentlength'));
 			return array(
 				'mtime'=>strtotime($response['{DAV:}getlastmodified']),
 				'size'=>(int)isset($response['{DAV:}getcontentlength']) ? $response['{DAV:}getcontentlength'] : 0,
-				'ctime'=>-1,
 			);
-		} catch(Exception $e) {
+		} catch(\Exception $e) {
 			return array();
 		}
 	}
 
 	public function getMimeType($path) {
+		$this->init();
 		$path=$this->cleanPath($path);
 		try {
 			$response=$this->client->propfind($path, array('{DAV:}getcontenttype', '{DAV:}resourcetype'));
@@ -290,7 +312,7 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 			} else {
 				return false;
 			}
-		} catch(Exception $e) {
+		} catch(\Exception $e) {
 			return false;
 		}
 	}
@@ -303,12 +325,12 @@ class OC_FileStorage_DAV extends OC_Filestorage_Common{
 		}
 	}
 
-	private function simpleResponse($method, $path, $body, $expected) {
+	private function simpleResponse($method,$path,$body,$expected) {
 		$path=$this->cleanPath($path);
 		try {
 			$response=$this->client->request($method, $path, $body);
 			return $response['statusCode']==$expected;
-		} catch(Exception $e) {
+		} catch(\Exception $e) {
 			return false;
 		}
 	}

@@ -219,7 +219,7 @@ class OC_Migrate{
 
 		// We need to be an admin if we are not importing our own data
 		if(($type == 'user' && self::$uid != $currentuser) || $type != 'user' ) {
-			if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )) {
+			if( !OC_User::isAdminUser($currentuser)) {
 				// Naughty.
 				OC_Log::write( 'migration', 'Import not permitted.', OC_Log::ERROR );
 				return json_encode( array( 'success' => false ) );
@@ -655,7 +655,7 @@ class OC_Migrate{
 		$query = OC_DB::prepare( "INSERT INTO `*PREFIX*users` ( `uid`, `password` ) VALUES( ?, ? )" );
 		$result = $query->execute( array( $uid, $hash));
 		if( !$result ) {
-			OC_Log::write('migration', 'Failed to create the new user "'.$uid."");
+			OC_Log::write('migration', 'Failed to create the new user "'.$uid."", OC_Log::ERROR);
 		}
 		return $result ? true : false;
 

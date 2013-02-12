@@ -1,3 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Password" => "كلمة المرور"
+"Deletion failed" => "فشل الحذف",
+"Password" => "كلمة المرور",
+"Help" => "المساعدة"
 );

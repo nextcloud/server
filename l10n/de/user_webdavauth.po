@@ -4,14 +4,15 @@
 # 
 # Translators:
 #   <blobbyjj@ymail.com>, 2012.
+#   <mibunrui@gmx.de>, 2013.
 #   <seeed@freenet.de>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-23 00:09+0100\n"
-"PO-Revision-Date: 2012-12-22 14:08+0000\n"
-"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
+"POT-Creation-Date: 2013-01-16 00:19+0100\n"
+"PO-Revision-Date: 2013-01-15 00:30+0000\n"
+"Last-Translator: AndryXY <mibunrui@gmx.de>\n"
 "Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,13 +20,17 @@ msgstr ""
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: templates/settings.php:3
+msgid "WebDAV Authentication"
+msgstr "WebDAV Authentifikation"
+
 #: templates/settings.php:4
 msgid "URL: http://"
 msgstr "URL: http://"
 
 #: templates/settings.php:6
 msgid ""
-"ownCloud will send the user credentials to this URL is interpret http 401 "
-"and http 403 as credentials wrong and all other codes as credentials "
-"correct."
-msgstr "ownCloud wird die Logindaten zu dieser URL senden. http 401 und http 403 werden als falsche Logindaten interpretiert und alle anderen Codes als korrekte Logindaten."
+"ownCloud will send the user credentials to this URL. This plugin checks the "
+"response and will interpret the HTTP statuscodes 401 and 403 as invalid "
+"credentials, and all other responses as valid credentials."
+msgstr "ownCloud wird die Benutzer-Anmeldedaten an diese URL schicken. Dieses Plugin prüft die Anmeldedaten auf ihre Gültigkeit und interpretiert die HTTP Statusfehler 401 und 403 als ungültige, sowie alle Anderen als gültige Anmeldedaten."

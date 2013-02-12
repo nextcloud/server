@@ -8,10 +8,10 @@ $userDirectory = "/".OCP\USER::getUser()."/files";
 $file = $_GET['file'];
 $revision=(int)$_GET['revision'];
 
-if( OCA_Versions\Storage::isversioned( $file ) ) {
-	if(OCA_Versions\Storage::rollback( $file, $revision )) {
-		OCP\JSON::success(array("data" => array( "revision" => $revision, "file" => $file )));
-	}else{
-		OCP\JSON::error(array("data" => array( "message" => "Could not revert:" . $file )));
-	}
+if(OCA\Files_Versions\Storage::rollback( $file, $revision )) {
+	OCP\JSON::success(array("data" => array( "revision" => $revision, "file" => $file )));
+}else{
+	$l = OC_L10N::get('files_versions');
+	OCP\JSON::error(array("data" => array( "message" => $l->t("Could not revert: %s", array($file) ))));
 }
+

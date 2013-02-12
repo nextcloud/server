@@ -32,12 +32,14 @@ OC_Util::obEnd();
 // Backends
 $authBackend = new OC_Connector_Sabre_Auth();
 $lockBackend = new OC_Connector_Sabre_Locks();
+$requestBackend = new OC_Connector_Sabre_Request();
 
 // Create ownCloud Dir
 $publicDir = new OC_Connector_Sabre_Directory('');
 
 // Fire up server
 $server = new Sabre_DAV_Server($publicDir);
+$server->httpRequest = $requestBackend;
 $server->setBaseUri($baseuri);
 
 // Load plugins
@@ -45,6 +47,7 @@ $server->addPlugin(new Sabre_DAV_Auth_Plugin($authBackend, 'ownCloud'));
 $server->addPlugin(new Sabre_DAV_Locks_Plugin($lockBackend));
 $server->addPlugin(new Sabre_DAV_Browser_Plugin(false)); // Show something in the Browser, but no upload
 $server->addPlugin(new OC_Connector_Sabre_QuotaPlugin());
+$server->addPlugin(new OC_Connector_Sabre_MaintenancePlugin());
 
 // And off we go!
 $server->exec();

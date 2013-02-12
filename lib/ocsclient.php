@@ -39,11 +39,11 @@ class OC_OCSClient{
 		return($url);
 	}
 
-        /**
-         * @brief Get the url of the OCS KB server.
-         * @returns string of the KB server
-         * This function returns the url of the OCS knowledge base server. It´s possible to set it in the config file or it will fallback to the default
-         */
+	/**
+	 * @brief Get the url of the OCS KB server.
+	 * @returns string of the KB server
+	 * This function returns the url of the OCS knowledge base server. It´s possible to set it in the config file or it will fallback to the default
+	 */
 	private static function getKBURL() {
 		$url = OC_Config::getValue('knowledgebaseurl', 'http://api.apps.owncloud.com/v1');
 		return($url);
@@ -59,7 +59,7 @@ class OC_OCSClient{
 		return($data);
 	}
 
-        /**
+	/**
 	 * @brief Get all the categories from the OCS server
 	 * @returns array with category ids
 	 * @note returns NULL if config value appstoreenabled is set to false
@@ -123,6 +123,8 @@ class OC_OCSClient{
 			$app=array();
 			$app['id']=(string)$tmp[$i]->id;
 			$app['name']=(string)$tmp[$i]->name;
+			$app['label']=(string)$tmp[$i]->label;
+			$app['version']=(string)$tmp[$i]->version;
 			$app['type']=(string)$tmp[$i]->typeid;
 			$app['typename']=(string)$tmp[$i]->typename;
 			$app['personid']=(string)$tmp[$i]->personid;
@@ -162,7 +164,9 @@ class OC_OCSClient{
 		$app=array();
 		$app['id']=$tmp->id;
 		$app['name']=$tmp->name;
+		$app['version']=$tmp->version;
 		$app['type']=$tmp->typeid;
+		$app['label']=$tmp->label;
 		$app['typename']=$tmp->typename;
 		$app['personid']=$tmp->personid;
 		$app['detailpage']=$tmp->detailpage;
@@ -242,7 +246,7 @@ class OC_OCSClient{
 			}
 			$kbe['totalitems'] = $data->meta->totalitems;
 		}
-                return $kbe;
+		return $kbe;
 	}
 
 

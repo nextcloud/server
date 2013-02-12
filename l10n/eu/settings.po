@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#  <asieriko@gmail.com>, 2013.
 #   <asieriko@gmail.com>, 2012.
 # Asier Urio Larrea <asieriko@gmail.com>, 2011.
 # Piarres Beobide <pi@beobide.net>, 2012.
@@ -10,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-30 00:04+0100\n"
-"PO-Revision-Date: 2012-12-29 23:05+0000\n"
+"POT-Creation-Date: 2013-02-11 15:39+0100\n"
+"PO-Revision-Date: 2013-02-11 14:39+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -24,6 +25,15 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Ezin izan da App Dendatik zerrenda kargatu"
 
+#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:15
+#: ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "Autentifikazio errorea"
+
+#: ajax/changedisplayname.php:32
+msgid "Unable to change display name"
+msgstr ""
+
 #: ajax/creategroup.php:10
 msgid "Group already exists"
 msgstr "Taldea dagoeneko existitzenda"
@@ -32,7 +42,7 @@ msgstr "Taldea dagoeneko existitzenda"
 msgid "Unable to add group"
 msgstr "Ezin izan da taldea gehitu"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "Ezin izan da aplikazioa gaitu."
 
@@ -44,21 +54,9 @@ msgstr "Eposta gorde da"
 msgid "Invalid email"
 msgstr "Baliogabeko eposta"
 
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID aldatuta"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "Baliogabeko eskaria"
-
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "Ezin izan da taldea ezabatu"
-
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
-msgid "Authentication error"
-msgstr "Autentifikazio errorea"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -67,6 +65,10 @@ msgstr "Ezin izan da erabiltzailea ezabatu"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Hizkuntza aldatuta"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "Baliogabeko eskaria"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -82,19 +84,47 @@ msgstr "Ezin izan da erabiltzailea %s taldera gehitu"
 msgid "Unable to remove user from group %s"
 msgstr "Ezin izan da erabiltzailea %s taldetik ezabatu"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:14
+msgid "Couldn't update app."
+msgstr ""
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr ""
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Ez-gaitu"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "Gaitu"
 
-#: js/personal.js:69
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr ""
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "Errorea"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr ""
+
+#: js/personal.js:96
 msgid "Saving..."
 msgstr "Gordetzen..."
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "Euskera"
 
@@ -106,17 +136,21 @@ msgstr "Gehitu zure aplikazioa"
 msgid "More Apps"
 msgstr "App gehiago"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "Aukeratu programa bat"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "Ikusi programen orria apps.owncloud.com en"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-lizentziatua <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "Eguneratu"
 
 #: templates/help.php:3
 msgid "User Documentation"
@@ -147,83 +181,87 @@ msgstr "Babes komertziala"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Dagoeneko <strong>%s</strong> erabili duzu eskuragarri duzun <strong>%s</strong>etatik"
 
-#: templates/personal.php:12
-msgid "Clients"
-msgstr "Bezeroak"
-
-#: templates/personal.php:13
-msgid "Download Desktop Clients"
-msgstr "Deskargatu mahaigainerako bezeroak"
-
 #: templates/personal.php:14
-msgid "Download Android Client"
-msgstr "Deskargatu Android bezeroa"
+msgid "Get the apps to sync your files"
+msgstr ""
 
-#: templates/personal.php:15
-msgid "Download iOS Client"
-msgstr "Deskargatu iOS bezeroa"
+#: templates/personal.php:25
+msgid "Show First Run Wizard again"
+msgstr ""
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:36 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "Pasahitza"
 
-#: templates/personal.php:22
+#: templates/personal.php:37
 msgid "Your password was changed"
 msgstr "Zere pasahitza aldatu da"
 
-#: templates/personal.php:23
+#: templates/personal.php:38
 msgid "Unable to change your password"
 msgstr "Ezin izan da zure pasahitza aldatu"
 
-#: templates/personal.php:24
+#: templates/personal.php:39
 msgid "Current password"
 msgstr "Uneko pasahitza"
 
-#: templates/personal.php:25
+#: templates/personal.php:40
 msgid "New password"
 msgstr "Pasahitz berria"
 
-#: templates/personal.php:26
-msgid "show"
-msgstr "erakutsi"
-
-#: templates/personal.php:27
+#: templates/personal.php:42
 msgid "Change password"
 msgstr "Aldatu pasahitza"
 
-#: templates/personal.php:33
+#: templates/personal.php:54 templates/users.php:80
+msgid "Display Name"
+msgstr "Bistaratze Izena"
+
+#: templates/personal.php:55
+msgid "Your display name was changed"
+msgstr ""
+
+#: templates/personal.php:56
+msgid "Unable to change your display name"
+msgstr ""
+
+#: templates/personal.php:59
+msgid "Change display name"
+msgstr ""
+
+#: templates/personal.php:68
 msgid "Email"
 msgstr "E-Posta"
 
-#: templates/personal.php:34
+#: templates/personal.php:69
 msgid "Your email address"
 msgstr "Zure e-posta"
 
-#: templates/personal.php:35
+#: templates/personal.php:70
 msgid "Fill in an email address to enable password recovery"
 msgstr "Idatz ezazu e-posta bat pasahitza berreskuratu ahal izateko"
 
-#: templates/personal.php:41 templates/personal.php:42
+#: templates/personal.php:76 templates/personal.php:77
 msgid "Language"
 msgstr "Hizkuntza"
 
-#: templates/personal.php:47
+#: templates/personal.php:82
 msgid "Help translate"
 msgstr "Lagundu itzultzen"
 
-#: templates/personal.php:52
+#: templates/personal.php:87
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:54
+#: templates/personal.php:89
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Erabili helbide hau zure fitxategi kudeatzailean zure ownCloudera konektatzeko"
 
-#: templates/personal.php:63
+#: templates/personal.php:98
 msgid "Version"
 msgstr "Bertsioa"
 
-#: templates/personal.php:65
+#: templates/personal.php:100
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -233,11 +271,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud komunitateak</a> garatuta, <a href=\"https://github.com/owncloud\" target=\"_blank\">itubruru kodea</a><a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr> lizentziarekin banatzen da</a>."
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "Izena"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr "Sarrera Izena"
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "Taldeak"
 
@@ -247,28 +285,36 @@ msgstr "Sortu"
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr ""
+msgstr "Lehenetsitako Biltegiratzea"
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
-msgstr ""
+msgstr "Mugarik gabe"
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "Besteak"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "Talde administradorea"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
+msgstr "Biltegiratzea"
+
+#: templates/users.php:97
+msgid "change display name"
 msgstr ""
 
-#: templates/users.php:133
+#: templates/users.php:101
+msgid "set new password"
+msgstr ""
+
+#: templates/users.php:137
 msgid "Default"
-msgstr ""
+msgstr "Lehenetsia"
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "Ezabatu"

@@ -38,9 +38,10 @@ class Files {
 	 * @brief Recusive deletion of folders
 	 * @param string $dir path to the folder
 	 *
+	 * @return bool
 	 */
 	static function rmdirr( $dir ) {
-		\OC_Helper::rmdirr( $dir );
+		return \OC_Helper::rmdirr( $dir );
 	}
 
 	/**
@@ -98,7 +99,7 @@ class Files {
 	/**
 	 * @param string appid
 	 * @param $app app
-	 * @return OC_FilesystemView
+	 * @return \OC\Files\View
 	 */
 	public static function getStorage( $app ) {
 		return \OC_App::getStorage( $app );

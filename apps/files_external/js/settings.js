@@ -146,7 +146,7 @@ OC.MountConfig={
 $(document).ready(function() {
 	$('.chzn-select').chosen();
 
-	$('#selectBackend').live('change', function() {
+	$('#selectBackend').on('change', function() {
 		var tr = $(this).parent().parent();
 		$('#externalStorage tbody').append($(tr).clone());
 		$('#externalStorage tbody tr').last().find('.mountPoint input').val('');
@@ -176,7 +176,7 @@ $(document).ready(function() {
 						td.append('<input type="text" data-parameter="'+parameter+'" placeholder="'+placeholder+'" />');
 					}
 				});
-				if (parameters['custom'] && $('#externalStorage tbody tr.'+backendClass).length == 1) {
+				if (parameters['custom'] && $('#externalStorage tbody tr.'+backendClass.replace(/\\/g, '\\\\')).length == 1) {
 					OC.addScript('files_external', parameters['custom']);
 				}
 				return false;
@@ -220,7 +220,7 @@ $(document).ready(function() {
 		return defaultMountPoint+append;
 	}
 
-	$('#externalStorage td').live('paste', function() {
+	$('#externalStorage').on('paste', 'td', function() {
 		var tr = $(this).parent();
 		setTimeout(function() {
 			OC.MountConfig.saveStorage(tr);
@@ -229,7 +229,7 @@ $(document).ready(function() {
 
 	var timer;
 
-	$('#externalStorage td input').live('keyup', function() {
+	$('#externalStorage').on('keyup', 'td input', function() {
 		clearTimeout(timer);
 		var tr = $(this).parent().parent();
 		if ($(this).val) {
@@ -239,15 +239,15 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#externalStorage td input:checkbox').live('change', function() {
+	$('#externalStorage').on('change', 'td input:checkbox', function() {
 		OC.MountConfig.saveStorage($(this).parent().parent().parent());
 	});
 
-	$('.applicable .chzn-select').live('change', function() {
+	$('.applicable').on('change', '.chzn-select', function() {
 		OC.MountConfig.saveStorage($(this).parent().parent());
 	});
 
-	$('td.remove>img').live('click', function() {
+	$('td.remove>img').on('click', function() {
 		var tr = $(this).parent().parent();
 		var mountPoint = $(tr).find('.mountPoint input').val();
 		if ( ! mountPoint) {

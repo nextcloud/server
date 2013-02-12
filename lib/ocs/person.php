@@ -38,5 +38,5 @@ class OC_OCS_Person {
 			return new OC_OCS_Result(null, 101);
 		}
 	}
-	
+
 }

@@ -12,17 +12,22 @@ $files = isset($_POST["file"]) ? stripslashes($_POST["file"]) : stripslashes($_P
 
 $files = json_decode($files);
 $filesWithError = '';
+
 $success = true;
+
 //Now delete
-foreach($files as $file) {
-	if( !OC_Files::delete( $dir, $file )) {
+foreach ($files as $file) {
+	if (($dir === '' && $file === 'Shared') || !\OC\Files\Filesystem::unlink($dir . '/' . $file)) {
 		$filesWithError .= $file . "\n";
 		$success = false;
 	}
 }
 
-if($success) {
-	OCP\JSON::success(array("data" => array( "dir" => $dir, "files" => $files )));
+// get array with updated storage stats (e.g. max file size) after upload
+$storageStats = \OCA\files\lib\Helper::buildFileStorageStatistics($dir);
+
+if ($success) {
+	OCP\JSON::success(array("data" => array_merge(array("dir" => $dir, "files" => $files), $storageStats)));
 } else {
-	OCP\JSON::error(array("data" => array( "message" => "Could not delete:\n" . $filesWithError )));
+	OCP\JSON::error(array("data" => array_merge(array("message" => "Could not delete:\n" . $filesWithError), $storageStats)));
 }

@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class Test_DBSchema extends UnitTestCase {
+class Test_DBSchema extends PHPUnit_Framework_TestCase {
 	protected static $schema_file = 'static://test_db_scheme';
 	protected static $schema_file2 = 'static://test_db_scheme2';
 	protected $test_prefix;

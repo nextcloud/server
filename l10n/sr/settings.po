@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-30 00:04+0100\n"
-"PO-Revision-Date: 2012-12-29 23:05+0000\n"
+"POT-Creation-Date: 2013-02-11 15:39+0100\n"
+"PO-Revision-Date: 2013-02-11 14:39+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -23,6 +23,15 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Грешка приликом учитавања списка из Складишта Програма"
 
+#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:15
+#: ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "Грешка при аутентификацији"
+
+#: ajax/changedisplayname.php:32
+msgid "Unable to change display name"
+msgstr ""
+
 #: ajax/creategroup.php:10
 msgid "Group already exists"
 msgstr "Група већ постоји"
@@ -31,7 +40,7 @@ msgstr "Група већ постоји"
 msgid "Unable to add group"
 msgstr "Не могу да додам групу"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "Не могу да укључим програм"
 
@@ -43,21 +52,9 @@ msgstr "Е-порука сачувана"
 msgid "Invalid email"
 msgstr "Неисправна е-адреса"
 
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID је измењен"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "Неисправан захтев"
-
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "Не могу да уклоним групу"
-
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
-msgid "Authentication error"
-msgstr "Грешка при аутентификацији"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -66,6 +63,10 @@ msgstr "Не могу да уклоним корисника"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Језик је промењен"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "Неисправан захтев"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -81,19 +82,47 @@ msgstr "Не могу да додам корисника у групу %s"
 msgid "Unable to remove user from group %s"
 msgstr "Не могу да уклоним корисника из групе %s"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:14
+msgid "Couldn't update app."
+msgstr ""
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr ""
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Искључи"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "Укључи"
 
-#: js/personal.js:69
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr ""
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "Грешка"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr ""
+
+#: js/personal.js:96
 msgid "Saving..."
 msgstr "Чување у току..."
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -105,17 +134,21 @@ msgstr "Додајте ваш програм"
 msgid "More Apps"
 msgstr "Више програма"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "Изаберите програм"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "Погледајте страницу са програмима на apps.owncloud.com"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-лиценцирао <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "Ажурирај"
 
 #: templates/help.php:3
 msgid "User Documentation"
@@ -146,83 +179,87 @@ msgstr ""
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Искористили сте <strong>%s</strong> од дозвољених <strong>%s</strong>"
 
-#: templates/personal.php:12
-msgid "Clients"
-msgstr "Клијенти"
-
-#: templates/personal.php:13
-msgid "Download Desktop Clients"
-msgstr ""
-
 #: templates/personal.php:14
-msgid "Download Android Client"
+msgid "Get the apps to sync your files"
 msgstr ""
 
-#: templates/personal.php:15
-msgid "Download iOS Client"
+#: templates/personal.php:25
+msgid "Show First Run Wizard again"
 msgstr ""
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:36 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "Лозинка"
 
-#: templates/personal.php:22
+#: templates/personal.php:37
 msgid "Your password was changed"
 msgstr "Лозинка је промењена"
 
-#: templates/personal.php:23
+#: templates/personal.php:38
 msgid "Unable to change your password"
 msgstr "Не могу да изменим вашу лозинку"
 
-#: templates/personal.php:24
+#: templates/personal.php:39
 msgid "Current password"
 msgstr "Тренутна лозинка"
 
-#: templates/personal.php:25
+#: templates/personal.php:40
 msgid "New password"
 msgstr "Нова лозинка"
 
-#: templates/personal.php:26
-msgid "show"
-msgstr "прикажи"
-
-#: templates/personal.php:27
+#: templates/personal.php:42
 msgid "Change password"
 msgstr "Измени лозинку"
 
-#: templates/personal.php:33
+#: templates/personal.php:54 templates/users.php:80
+msgid "Display Name"
+msgstr ""
+
+#: templates/personal.php:55
+msgid "Your display name was changed"
+msgstr ""
+
+#: templates/personal.php:56
+msgid "Unable to change your display name"
+msgstr ""
+
+#: templates/personal.php:59
+msgid "Change display name"
+msgstr ""
+
+#: templates/personal.php:68
 msgid "Email"
 msgstr "Е-пошта"
 
-#: templates/personal.php:34
+#: templates/personal.php:69
 msgid "Your email address"
 msgstr "Ваша адреса е-поште"
 
-#: templates/personal.php:35
+#: templates/personal.php:70
 msgid "Fill in an email address to enable password recovery"
 msgstr "Ун"
 
-#: templates/personal.php:41 templates/personal.php:42
+#: templates/personal.php:76 templates/personal.php:77
 msgid "Language"
 msgstr "Језик"
 
-#: templates/personal.php:47
+#: templates/personal.php:82
 msgid "Help translate"
 msgstr " Помозите у превођењу"
 
-#: templates/personal.php:52
+#: templates/personal.php:87
 msgid "WebDAV"
 msgstr ""
 
-#: templates/personal.php:54
+#: templates/personal.php:89
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr ""
 
-#: templates/personal.php:63
+#: templates/personal.php:98
 msgid "Version"
 msgstr ""
 
-#: templates/personal.php:65
+#: templates/personal.php:100
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -232,11 +269,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Развијају <a href=\"http://ownCloud.org/contact\" target=\"_blank\">Оунклауд (ownCloud) заједница</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">изворни код</a> је издат под <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Аферо Јавном Лиценцом (Affero General Public License)\">АГПЛ лиценцом</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "Име"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr ""
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "Групе"
 
@@ -248,26 +285,34 @@ msgstr "Направи"
 msgid "Default Storage"
 msgstr ""
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
 msgstr ""
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "Друго"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "Управник групе"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
 msgstr ""
 
-#: templates/users.php:133
+#: templates/users.php:97
+msgid "change display name"
+msgstr ""
+
+#: templates/users.php:101
+msgid "set new password"
+msgstr ""
+
+#: templates/users.php:137
 msgid "Default"
 msgstr ""
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "Обриши"

@@ -66,7 +66,7 @@ class OC_Migration_Content{
 
 		// Die if we have an error (error means: bad query, not 0 results!)
 		if( PEAR::isError( $query ) ) {
-			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
+			$entry = 'DB Error: "'.$query->getMessage().'"<br />';
 			$entry .= 'Offending command was: '.$query.'<br />';
 			OC_Log::write( 'migration', $entry, OC_Log::FATAL );
 			return false;

@@ -39,7 +39,7 @@ class OC_Util {
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//first set up the local "root" storage
 		if(!self::$rootMounted) {
-			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir'=>$CONFIG_DATADIRECTORY), '/');
+			\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', array('datadir'=>$CONFIG_DATADIRECTORY), '/');
 			self::$rootMounted=true;
 		}
 
@@ -51,42 +51,21 @@ class OC_Util {
 				mkdir( $userdirectory, 0755, true );
 			}
 			//jail the user into his "home" directory
-			OC_Filesystem::mount('OC_Filestorage_Local', array('datadir' => $user_root), $user);
-			OC_Filesystem::init($user_dir, $user);
+			\OC\Files\Filesystem::init($user, $user_dir);
+
 			$quotaProxy=new OC_FileProxy_Quota();
 			$fileOperationProxy = new OC_FileProxy_FileOperations();
 			OC_FileProxy::register($quotaProxy);
 			OC_FileProxy::register($fileOperationProxy);
-			// Load personal mount config
-			self::loadUserMountPoints($user);
+
 			OC_Hook::emit('OC_Filesystem', 'setup', array('user' => $user, 'user_dir' => $user_dir));
 		}
+		return true;
 	}
 
 	public static function tearDownFS() {
-		OC_Filesystem::tearDown();
+		\OC\Files\Filesystem::tearDown();
 		self::$fsSetup=false;
-	}
-
-	public static function loadUserMountPoints($user) {
-		$user_dir = '/'.$user.'/files';
-		$user_root = OC_User::getHome($user);
-		$userdirectory = $user_root . '/files';
-		if (is_file($user_root.'/mount.php')) {
-			$mountConfig = include $user_root.'/mount.php';
-			if (isset($mountConfig['user'][$user])) {
-				foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
-					OC_Filesystem::mount($options['class'], $options['options'], $mountPoint);
-				}
-			}
-
-			$mtime=filemtime($user_root.'/mount.php');
-			$previousMTime=OC_Preferences::getValue($user, 'files', 'mountconfigmtime', 0);
-			if($mtime>$previousMTime) {//mount config has changed, filecache needs to be updated
-				OC_FileCache::triggerUpdate($user);
-				OC_Preferences::setValue($user, 'files', 'mountconfigmtime', $mtime);
-			}
-		}
 	}
 
 	/**
@@ -95,7 +74,7 @@ class OC_Util {
 	 */
 	public static function getVersion() {
 		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4.90.0. This is not visible to the user
-		return array(4, 91, 02);
+		return array(4, 91, 10);
 	}
 
 	/**
@@ -157,14 +136,14 @@ class OC_Util {
 	 * @param string $text the text content for the element
 	 */
 	public static function addHeader( $tag, $attributes, $text='') {
-		self::$headers[]=array('tag'=>$tag,'attributes'=>$attributes, 'text'=>$text);
+		self::$headers[] = array('tag'=>$tag, 'attributes'=>$attributes, 'text'=>$text);
 	}
 
 	/**
 	 * formats a timestamp in the "right" way
 	 *
 	 * @param int timestamp $timestamp
-	 * @param bool dateOnly option to ommit time from the result
+	 * @param bool dateOnly option to omit time from the result
 	 */
 	public static function formatDate( $timestamp, $dateOnly=false) {
 		if(isset($_SESSION['timezone'])) {//adjust to clients timezone if we know it
@@ -207,45 +186,20 @@ class OC_Util {
 				in owncloud or disabling the appstore in the config file.");
 			}
 		}
-
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
-		//check for correct file permissions
-		if(!stristr(PHP_OS, 'WIN')) {
-			$permissionsModHint="Please change the permissions to 0770 so that the directory cannot be listed by other users.";
-			$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)), -3);
-			if(substr($prems, -1)!='0') {
-				OC_Helper::chmodr($CONFIG_DATADIRECTORY, 0770);
-				clearstatcache();
-				$prems=substr(decoct(@fileperms($CONFIG_DATADIRECTORY)), -3);
-				if(substr($prems, 2, 1)!='0') {
-					$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') is readable for other users<br/>', 'hint'=>$permissionsModHint);
-				}
-			}
-			if( OC_Config::getValue( "enablebackup", false )) {
-				$CONFIG_BACKUPDIRECTORY = OC_Config::getValue( "backupdirectory", OC::$SERVERROOT."/backup" );
-				$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)), -3);
-				if(substr($prems, -1)!='0') {
-					OC_Helper::chmodr($CONFIG_BACKUPDIRECTORY, 0770);
-					clearstatcache();
-					$prems=substr(decoct(@fileperms($CONFIG_BACKUPDIRECTORY)), -3);
-					if(substr($prems, 2, 1)!='0') {
-						$errors[]=array('error'=>'Data directory ('.$CONFIG_BACKUPDIRECTORY.') is readable for other users<br/>', 'hint'=>$permissionsModHint);
-					}
-				}
-			}
-		}else{
-			//TODO: permissions checks for windows hosts
-		}
 		// Create root dir.
 		if(!is_dir($CONFIG_DATADIRECTORY)) {
 			$success=@mkdir($CONFIG_DATADIRECTORY);
-			if(!$success) {
+			if ($success) {
+				$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
+			} else {
 				$errors[]=array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY.")", 'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ");
 			}
 		} else if(!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
 			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') not writable by ownCloud<br/>', 'hint'=>$permissionsHint);
+		} else {
+			$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
 		}
-
 		// check if all required php modules are present
 		if(!class_exists('ZipArchive')) {
 			$errors[]=array('error'=>'PHP module zip not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
@@ -289,10 +243,44 @@ class OC_Util {
 			$web_server_restart= false;
 		}
 
+		$handler = ini_get("session.save_handler");
+		if($handler == "files") {
+			$tmpDir = session_save_path();
+			if($tmpDir != ""){
+				if(!@is_writable($tmpDir)){
+					$errors[]=array('error' => 'The temporary folder used by PHP to save the session data is either incorrect or not writable! Please check : '.session_save_path().'<br/>',
+					'hint'=>'Please ask your server administrator to grant write access or define another temporary folder.');
+				}
+			}
+		}
+
 		if($web_server_restart) {
 			$errors[]=array('error'=>'PHP modules have been installed, but they are still listed as missing?<br/>', 'hint'=>'Please ask your server administrator to restart the web server.');
 		}
 
+		return $errors;
+	}
+
+	/**
+	* Check for correct file permissions of data directory
+	* @return array arrays with error messages and hints
+	*/
+	public static function checkDataDirectoryPermissions($dataDirectory) {
+		$errors = array();
+		if (stristr(PHP_OS, 'WIN')) {
+			//TODO: permissions checks for windows hosts
+		} else {
+			$permissionsModHint = 'Please change the permissions to 0770 so that the directory cannot be listed by other users.';
+			$prems = substr(decoct(@fileperms($dataDirectory)), -3);
+			if (substr($prems, -1) != '0') {
+				OC_Helper::chmodr($dataDirectory, 0770);
+				clearstatcache();
+				$prems = substr(decoct(@fileperms($dataDirectory)), -3);
+				if (substr($prems, 2, 1) != '0') {
+					$errors[] = array('error' => 'Data directory ('.$dataDirectory.') is readable for other users<br/>', 'hint' => $permissionsModHint);
+				}
+			}
+		}
 		return $errors;
 	}
 
@@ -312,6 +300,8 @@ class OC_Util {
 			$redirect_url = OC_Util::sanitizeHTML($_REQUEST['redirect_url']);
 			$parameters['redirect_url'] = urlencode($redirect_url);
 		}
+
+		$parameters['alt_login'] = OC_App::getAlternativeLogIns();
 		OC_Template::printGuestPage("", "login", $parameters);
 	}
 
@@ -333,7 +323,7 @@ class OC_Util {
 	public static function checkLoggedIn() {
 		// Check if we are a user
 		if( !OC_User::isLoggedIn()) {
-			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php', array('redirect_url' => $_SERVER["REQUEST_URI"])));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php', array('redirect_url' => OC_Request::requestUri())));
 			exit();
 		}
 	}
@@ -342,10 +332,7 @@ class OC_Util {
 	 * Check if the user is a admin, redirects to home if not
 	 */
 	public static function checkAdminUser() {
-		// Check if we are a user
-		self::checkLoggedIn();
-		self::verifyUser();
-		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )) {
+		if( !OC_User::isAdminUser(OC_User::getUser())) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
 		}
@@ -356,49 +343,9 @@ class OC_Util {
 	 * @return array $groups where the current user is subadmin
 	 */
 	public static function checkSubAdminUser() {
-		// Check if we are a user
-		self::checkLoggedIn();
-		self::verifyUser();
-		if(OC_Group::inGroup(OC_User::getUser(), 'admin')) {
-			return true;
-		}
 		if(!OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
 			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php' ));
 			exit();
-		}
-		return true;
-	}
-
-	/**
-	 * Check if the user verified the login with his password in the last 15 minutes
-	 * If not, the user will be shown a password verification page
-	 */
-	public static function verifyUser() {
-		if(OC_Config::getValue('enhancedauth', false) === true) {
-			// Check password to set session
-			if(isset($_POST['password'])) {
-				if (OC_User::login(OC_User::getUser(), $_POST["password"] ) === true) {
-					$_SESSION['verifiedLogin']=time() + OC_Config::getValue('enhancedauthtime', 15 * 60);
-				}
-			}
-
-			// Check if the user verified his password
-			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
-				OC_Template::printGuestPage("", "verify",  array('username' => OC_User::getUser()));
-				exit();
-			}
-		}
-	}
-
-	/**
-	 * Check if the user verified the login with his password
-	 * @return bool
-	 */
-	public static function isUserVerified() {
-		if(OC_Config::getValue('enhancedauth', false) === true) {
-			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
-				return false;
-			}
 		}
 		return true;
 	}
@@ -441,6 +388,17 @@ class OC_Util {
 	}
 
 	/**
+	 * @brief Static lifespan (in seconds) when a request token expires.
+	 * @see OC_Util::callRegister()
+	 * @see OC_Util::isCallRegistered()
+	 * @description
+	 * Also required for the client side to compute the piont in time when to
+	 * request a fresh token. The client will do so when nearly 97% of the
+	 * timespan coded here has expired.
+	 */
+	public static $callLifespan = 3600; // 3600 secs = 1 hour
+
+	/**
 	 * @brief Register an get/post call. Important to prevent CSRF attacks.
 	 * @todo Write howto: CSRF protection guide
 	 * @return $token Generated token.
@@ -448,6 +406,8 @@ class OC_Util {
 	 * Creates a 'request token' (random) and stores it inside the session.
 	 * Ever subsequent (ajax) request must use such a valid token to succeed,
 	 * otherwise the request will be denied as a protection against CSRF.
+	 * The tokens expire after a fixed lifespan.
+	 * @see OC_Util::$callLifespan
 	 * @see OC_Util::isCallRegistered()
 	 */
 	public static function callRegister() {
@@ -466,6 +426,7 @@ class OC_Util {
 	/**
 	 * @brief Check an ajax get/post call if the request token is valid.
 	 * @return boolean False if request token is not set or is invalid.
+	 * @see OC_Util::$callLifespan
 	 * @see OC_Util::callRegister()
 	 */
 	public static function isCallRegistered() {
@@ -510,8 +471,11 @@ class OC_Util {
 	 * @return array with sanitized strings or a single sanitized string, depends on the input parameter.
 	 */
 	public static function sanitizeHTML( &$value ) {
-		if (is_array($value) || is_object($value)) array_walk_recursive($value, 'OC_Util::sanitizeHTML');
-		else $value = htmlentities($value, ENT_QUOTES, 'UTF-8'); //Specify encoding for PHP<5.4
+		if (is_array($value) || is_object($value)) {
+			array_walk_recursive($value, 'OC_Util::sanitizeHTML');
+		} else {
+			$value = htmlentities($value, ENT_QUOTES, 'UTF-8'); //Specify encoding for PHP<5.4
+		}
 		return $value;
 	}
 
@@ -552,17 +516,63 @@ class OC_Util {
 		}
 	}
 
+	/**
+	 * we test if webDAV is working properly
+	 *
+	 * The basic assumption is that if the server returns 401/Not Authenticated for an unauthenticated PROPFIND
+	 * the web server it self is setup properly.
+	 *
+	 * Why not an authenticated PROFIND and other verbs?
+	 *  - We don't have the password available
+	 *  - We have no idea about other auth methods implemented (e.g. OAuth with Bearer header)
+	 *
+	 */
+	public static function isWebDAVWorking() {
+        if (!function_exists('curl_init')) {
+            return;
+        }
+
+		$settings = array(
+			'baseUri' => OC_Helper::linkToRemote('webdav'),
+		);
+
+		$client = new \Sabre_DAV_Client($settings);
+
+		$return = true;
+		try {
+			// test PROPFIND
+			$client->propfind('', array('{DAV:}resourcetype'));
+		} catch(\Sabre_DAV_Exception_NotAuthenticated $e) {
+			$return = true;
+		} catch(\Exception $e) {
+			$return = false;
+		}
+
+		return $return;
+	}
 
 	/**
 	 * Check if the setlocal call doesn't work. This can happen if the right local packages are not available on the server.
 	 */
 	public static function issetlocaleworking() {
-		$result=setlocale(LC_ALL, 'en_US.UTF-8');
-		if($result==false) {
-			return(false);
-		}else{
-			return(true);
+		// setlocale test is pointless on Windows
+		if (OC_Util::runningOnWindows() ) {
+			return true;
 		}
+
+		$result = setlocale(LC_ALL, 'en_US.UTF-8', 'en_US.UTF8');
+		if($result == false) {
+			return false;
+        }
+        return true;
+	}
+
+	/**
+	 * Check if the PHP module fileinfo is loaded.
+	 * @return bool
+	 */
+	public static function fileInfoLoaded() {
+		return function_exists('finfo_open');
 	}
 
 	/**
@@ -677,6 +687,9 @@ class OC_Util {
 			curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 			curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
 			curl_setopt($curl, CURLOPT_URL, $url);
+			curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+			curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
+
 			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
 			if(OC_Config::getValue('proxy','')<>'') {
 				curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));
@@ -713,6 +726,13 @@ class OC_Util {
 
 		}
 		return $data;
+	}
+
+	/**
+	 * @return bool - well are we running on windows or not
+	 */
+	public static function runningOnWindows() {
+		return (substr(PHP_OS, 0, 3) === "WIN");
 	}
 
 }

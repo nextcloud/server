@@ -4,7 +4,7 @@ $(document).ready(function() {
 		setupGoogleRow(tr);
 	});
 
-	$('#selectBackend').live('change', function() {
+	$('#selectBackend').on('change', function() {
 		if ($(this).val() == 'OC_Filestorage_Google') {
 			setupGoogleRow($('#externalStorage tbody>tr:last').prev('tr'));
 		}
@@ -43,18 +43,18 @@ $(document).ready(function() {
 		}
 	}
 
-	$('#externalStorage tbody tr.OC_Filestorage_Google td').live('paste', function() {
+	$('#externalStorage tbody').on('paste', 'tr.OC_Filestorage_Google td', function() {
 		var tr = $(this).parent();
 		setTimeout(function() {
 			onGoogleInputsChange(tr);
 		}, 20);
 	});
 
-	$('#externalStorage tbody tr.OC_Filestorage_Google td').live('keyup', function() {
+	$('#externalStorage tbody').on('keyup', 'tr.OC_Filestorage_Google td', function() {
 		onGoogleInputsChange($(this).parent());
 	});
 
-	$('#externalStorage tbody tr.OC_Filestorage_Google .chzn-select').live('change', function() {
+	$('#externalStorage tbody').on('change', 'tr.OC_Filestorage_Google .chzn-select', function() {
 		onGoogleInputsChange($(this).parent().parent());
 	});
 
@@ -73,7 +73,7 @@ $(document).ready(function() {
 		}
 	}
 
-	$('.google').live('click', function(event) {
+	$('.google').on('click', function(event) {
 		event.preventDefault();
 		var tr = $(this).parent().parent();
 		var configured = $(this).parent().find('[data-parameter="configured"]');

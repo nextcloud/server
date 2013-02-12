@@ -70,51 +70,59 @@ var FileActions = {
 		}
 		parent.children('a.name').append('<span class="fileactions" />');
 		var defaultAction = FileActions.getDefault(FileActions.getCurrentMimeType(), FileActions.getCurrentType(), FileActions.getCurrentPermissions());
-		
+
 		var actionHandler = function (event) {
 			event.stopPropagation();
 			event.preventDefault();
 
 			FileActions.currentFile = event.data.elem;
 			var file = FileActions.getCurrentFile();
-			
+
 			event.data.actionFunc(file);
 		};
-		
-		$.each(actions, function (name, action) {
+
+		var addAction = function (name, action) {
 			// NOTE: Temporary fix to prevent rename action in root of Shared directory
 			if (name === 'Rename' && $('#dir').val() === '/Shared') {
 				return true;
 			}
-			
+
 			if ((name === 'Download' || action !== defaultAction) && name !== 'Delete') {
 				var img = FileActions.icons[name];
 				if (img.call) {
 					img = img(file);
 				}
-				var html = '<a href="#" class="action" data-action="'+name+'">';
+				var html = '<a href="#" class="action" data-action="' + name + '">';
 				if (img) {
 					html += '<img class ="svg" src="' + img + '" /> ';
 				}
 				html += t('files', name) + '</a>';
-				
+
 				var element = $(html);
 				element.data('action', name);
 				//alert(element);
-				element.on('click',{a:null, elem:parent, actionFunc:actions[name]},actionHandler);
+				element.on('click', {a: null, elem: parent, actionFunc: actions[name]}, actionHandler);
 				parent.find('a.name>span.fileactions').append(element);
 			}
-			
+
+		};
+
+		$.each(actions, function (name, action) {
+			if (name !== 'Share') {
+				addAction(name, action);
+			}
 		});
-		
+		if(actions.Share){
+			addAction('Share', actions.Share);
+		}
+
 		if (actions['Delete']) {
 			var img = FileActions.icons['Delete'];
 			if (img.call) {
 				img = img(file);
 			}
-			// NOTE: Temporary fix to allow unsharing of files in root of Shared folder
-			if ($('#dir').val() == '/Shared') {
-				var html = '<a href="#" original-title="' + t('files', 'Unshare') + '" class="action delete" />';
+			if (typeof trashBinApp !== 'undefined' && trashBinApp) {
+				var html = '<a href="#" original-title="' + t('files', 'Delete permanently') + '" class="action delete" />';
 			} else {
 				var html = '<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete" />';
 			}
@@ -123,7 +131,7 @@ var FileActions = {
 				element.append($('<img class ="svg" src="' + img + '"/>'));
 			}
 			element.data('action', actions['Delete']);
-			element.on('click',{a:null, elem:parent, actionFunc:actions['Delete']},actionHandler);
+			element.on('click', {a: null, elem: parent, actionFunc: actions['Delete']}, actionHandler);
 			parent.parent().children().last().append(element);
 		}
 	},
@@ -147,15 +155,19 @@ $(document).ready(function () {
 	} else {
 		var downloadScope = 'file';
 	}
-	FileActions.register(downloadScope, 'Download', OC.PERMISSION_READ, function () {
-		return OC.imagePath('core', 'actions/download');
-	}, function (filename) {
-		window.location = OC.filePath('files', 'ajax', 'download.php') + '?files=' + encodeURIComponent(filename) + '&dir=' + encodeURIComponent($('#dir').val());
-	});
 
-	$('#fileList tr').each(function(){
+	if (typeof disableDownloadActions == 'undefined' || !disableDownloadActions) {
+		FileActions.register(downloadScope, 'Download', OC.PERMISSION_READ, function () {
+			return OC.imagePath('core', 'actions/download');
+		}, function (filename) {
+			window.location = OC.filePath('files', 'ajax', 'download.php') + '?files=' + encodeURIComponent(filename) + '&dir=' + encodeURIComponent($('#dir').val());
+		});
+	}
+
+	$('#fileList tr').each(function () {
 		FileActions.display($(this).children('td.filename'));
 	});
+
 });
 
 FileActions.register('all', 'Delete', OC.PERMISSION_DELETE, function () {
@@ -184,6 +196,7 @@ FileActions.register('all', 'Rename', OC.PERMISSION_UPDATE, function () {
 }, function (filename) {
 	FileList.rename(filename);
 });
+
 
 FileActions.register('dir', 'Open', OC.PERMISSION_READ, '', function (filename) {
 	window.location = OC.linkTo('files', 'index.php') + '?dir=' + encodeURIComponent($('#dir').val()).replace(/%2F/g, '/') + '/' + encodeURIComponent(filename);

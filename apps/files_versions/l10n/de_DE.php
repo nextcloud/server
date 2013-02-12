@@ -1,8 +1,9 @@
 <?php $TRANSLATIONS = array(
-"Expire all versions" => "Alle Versionen löschen",
+"success" => "Erfolgreich",
+"failure" => "Fehlgeschlagen",
+"No old versions available" => "keine älteren Versionen verfügbar",
+"No path specified" => "Kein Pfad angegeben",
 "History" => "Historie",
-"Versions" => "Versionen",
-"This will delete all existing backup versions of your files" => "Dies löscht alle vorhandenen Sicherungsversionen Ihrer Dateien.",
 "Files Versioning" => "Dateiversionierung",
 "Enable" => "Aktivieren"
 );

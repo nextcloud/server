@@ -59,9 +59,9 @@ class Util {
 	 * @param string $fromname
 	 * @param bool $html
 	 */
-	public static function sendMail( $toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html=0, $altbody='', $ccaddress='', $ccname='', $bcc='') {
+	public static function sendMail( $toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html = 0, $altbody = '', $ccaddress = '', $ccname = '', $bcc = '') {
 		// call the internal mail class
-		\OC_MAIL::send($toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html = 0, $altbody = '', $ccaddress = '', $ccname = '', $bcc = '');
+		\OC_MAIL::send($toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html, $altbody, $ccaddress, $ccname, $bcc);
 	}
 
 	/**
@@ -148,6 +148,20 @@ class Util {
 	}
 
 	/**
+	 * @brief Creates an url using a defined route
+	 * @param $route
+	 * @param array $parameters
+	 * @return
+	 * @internal param array $args with param=>value, will be appended to the returned url
+	 * @returns the url
+	 *
+	 * Returns a url to the given app and file.
+	 */
+	public static function linkToRoute( $route, $parameters = array() ) {
+		return \OC_Helper::linkToRoute($route, $parameters);
+	}
+
+	/**
 	* @brief Creates an url
 	* @param string $app app
 	* @param string $file file
@@ -203,7 +217,7 @@ class Util {
 		$host_name = self::getServerHostName();
 		// handle localhost installations
 		if ($host_name === 'localhost') {
-            $host_name = "example.com";
+			$host_name = "example.com";
 		}
 		return $user_part.'@'.$host_name;
 	}
@@ -216,6 +230,28 @@ class Util {
 	 */
 	public static function getServerProtocol() {
 		return(\OC_Request::serverProtocol());
+	}
+
+	/**
+	 * @brief Returns the request uri
+	 * @returns the request uri
+	 *
+	 * Returns the request uri, even if the website uses one or more
+	 * reverse proxies
+	 */
+	public static function getRequestUri() {
+		return(\OC_Request::requestUri());
+	}
+
+	/**
+	 * @brief Returns the script name
+	 * @returns the script name
+	 *
+	 * Returns the script name, even if the website uses one or more
+	 * reverse proxies
+	 */
+	public static function getScriptName() {
+		return(\OC_Request::scriptName());
 	}
 
 	/**
@@ -298,7 +334,7 @@ class Util {
 	 * Todo: Write howto
 	 */
 	public static function callCheck() {
-		return(\OC_Util::callCheck());
+		\OC_Util::callCheck();
 	}
 
 	/**
@@ -366,5 +402,15 @@ class Util {
 	*/
 	public static function recursiveArraySearch($haystack, $needle, $index = null) {
 		return(\OC_Helper::recursiveArraySearch($haystack, $needle, $index));
+	}
+
+	/**
+	 * @brief calculates the maximum upload size respecting system settings, free space and user quota
+	 *
+	 * @param $dir the current folder where the user currently operates
+	 * @return number of bytes representing
+	 */
+	public static function maxUploadFilesize($dir) {
+		return \OC_Helper::maxUploadFilesize($dir);
 	}
 }

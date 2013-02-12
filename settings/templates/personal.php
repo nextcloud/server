@@ -8,25 +8,60 @@
 	<p id="quotatext"><?php echo $l->t('You have used <strong>%s</strong> of the available <strong>%s</strong>', array($_['usage'], $_['total_space']));?></p>
 </div></div>
 
-<fieldset class="personalblock">
-	<legend><strong><?php echo $l->t('Clients');?></strong></legend>
-	<a class="button" href="http://owncloud.org/sync-clients/" target="_blank"><?php echo $l->t('Download Desktop Clients');?></a>
-	<a class="button" href="https://play.google.com/store/apps/details?id=com.owncloud.android" target="_blank"><?php echo $l->t('Download Android Client');?></a>
-	<a class="button" href="https://itunes.apple.com/us/app/owncloud/id543672169?mt=8" target="_blank"><?php echo $l->t('Download iOS Client');?></a>
-</fieldset>
 
 
+<div class="clientsbox">
+	<h2><?php echo $l->t('Get the apps to sync your files');?></h2>
+	<a href="<?php echo $_['clients']['desktop']; ?>" target="_blank">
+		<img src="<?php echo OCP\Util::imagePath('core', 'desktopapp.png'); ?>" />
+	</a>
+	<a href="<?php echo $_['clients']['android']; ?>" target="_blank">
+		<img src="<?php echo OCP\Util::imagePath('core', 'googleplay.png'); ?>" />
+	</a>
+	<a href="<?php echo $_['clients']['ios']; ?>" target="_blank">
+		<img src="<?php echo OCP\Util::imagePath('core', 'appstore.png'); ?>" />
+	</a>
+	<?php if(OC_APP::isEnabled('firstrunwizard')) {?>
+	<center><a class="button" href="#" id="showWizard"><?php echo $l->t('Show First Run Wizard again');?></a></center>
+	<?php }?>
+</div>
+
+
+
+<?php
+if($_['passwordChangeSupported']) {
+?>
 <form id="passwordform">
 	<fieldset class="personalblock">
 		<legend><strong><?php echo $l->t('Password');?></strong></legend>
 		<div id="passwordchanged"><?php echo $l->t('Your password was changed');?></div>
 		<div id="passworderror"><?php echo $l->t('Unable to change your password');?></div>
 		<input type="password" id="pass1" name="oldpassword" placeholder="<?php echo $l->t('Current password');?>" />
-		<input type="password" id="pass2" name="password" placeholder="<?php echo $l->t('New password');?>" data-typetoggle="#show" />
-		<input type="checkbox" id="show" name="show" /><label for="show"> <?php echo $l->t('show');?></label>
+		<input type="password" id="pass2" name="personal-password" placeholder="<?php echo $l->t('New password');?>" data-typetoggle="#personal-show" />
+		<input type="checkbox" id="personal-show" name="show" /><label for="personal-show"></label>
 		<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
 	</fieldset>
 </form>
+<?php
+}
+?>
+
+<?php
+if($_['displayNameChangeSupported']) {
+?>
+<form id="displaynameform">
+	<fieldset class="personalblock">
+		<legend><strong><?php echo $l->t('Display Name');?></strong></legend>
+		<div id="displaynamechanged"><?php echo $l->t('Your display name was changed');?></div>
+		<div id="displaynameerror"><?php echo $l->t('Unable to change your display name');?></div>
+		<input type="text" id="displayName" name="displayName" value="<?php echo $_['displayName']?>" />
+		<input type="hidden" id="oldDisplayName" name="oldDisplayName" value="<?php echo $_['displayName']?>" />
+		<input id="displaynamebutton" type="submit" value="<?php echo $l->t('Change display name');?>" />
+	</fieldset>
+</form>
+<?php
+}
+?>
 
 <form id="lostpassword">
 	<fieldset class="personalblock">
@@ -62,7 +97,7 @@
 <fieldset class="personalblock">
 	<legend><strong><?php echo $l->t('Version');?></strong></legend>
 	<strong>ownCloud</strong> <?php echo(OC_Util::getVersionString()); ?> <?php echo(OC_Util::getEditionString()); ?> <br />
-    <?php echo $l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.'); ?>
+	<?php echo $l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.'); ?>
 </fieldset>
 
 

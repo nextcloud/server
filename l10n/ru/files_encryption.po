@@ -4,32 +4,37 @@
 # 
 # Translators:
 # Denis  <reg.transifex.net@demitel.ru>, 2012.
+# Дмитрий <langaru@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-08-25 02:04+0200\n"
-"PO-Revision-Date: 2012-08-24 07:47+0000\n"
-"Last-Translator: Denis <reg.transifex.net@demitel.ru>\n"
+"POT-Creation-Date: 2013-02-10 00:08+0100\n"
+"PO-Revision-Date: 2013-02-09 23:09+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ru\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: templates/settings.php:3
+#: templates/settings-personal.php:4 templates/settings.php:5
 msgid "Encryption"
 msgstr "Шифрование"
 
-#: templates/settings.php:4
-msgid "Exclude the following file types from encryption"
-msgstr "Исключить шифрование следующих типов файлов"
+#: templates/settings-personal.php:7
+msgid "File encryption is enabled."
+msgstr "Шифрование файла включено."
 
-#: templates/settings.php:5
+#: templates/settings-personal.php:11
+msgid "The following file types will not be encrypted:"
+msgstr "Следующие типы файлов не будут зашифрованы:"
+
+#: templates/settings.php:7
+msgid "Exclude the following file types from encryption:"
+msgstr "Исключить следующие типы файлов из шифрованных:"
+
+#: templates/settings.php:12
 msgid "None"
 msgstr "Ничего"
-
-#: templates/settings.php:10
-msgid "Enable Encryption"
-msgstr "Включить шифрование"

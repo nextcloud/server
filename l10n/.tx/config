@@ -40,6 +40,12 @@ source_file = templates/files_sharing.pot
 source_lang = en
 type = PO
 
+[owncloud.files_trashbin]
+file_filter = <lang>/files_trashbin.po
+source_file = templates/files_trashbin.pot
+source_lang = en
+type = PO
+
 [owncloud.files_versions]
 file_filter = <lang>/files_versions.po
 source_file = templates/files_versions.pot

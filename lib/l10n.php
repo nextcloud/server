@@ -97,7 +97,7 @@ class OC_L10N{
 		if ($this->app === true) {
 			return;
 		}
-		$app = $this->app;
+		$app = OC_App::cleanAppId($this->app);
 		$lang = $this->lang;
 		$this->app = true;
 		// Find the right language
@@ -141,15 +141,15 @@ class OC_L10N{
 		}
 	}
 
-    /**
-     * @brief Translating
-     * @param $text String The text we need a translation for
-     * @param array $parameters default:array() Parameters for sprintf
-     * @return \OC_L10N_String Translation or the same text
-     *
-     * Returns the translation. If no translation is found, $text will be
-     * returned.
-     */
+	/**
+	 * @brief Translating
+	 * @param $text String The text we need a translation for
+	 * @param array $parameters default:array() Parameters for sprintf
+	 * @return \OC_L10N_String Translation or the same text
+	 *
+	 * Returns the translation. If no translation is found, $text will be
+	 * returned.
+	 */
 	public function t($text, $parameters = array()) {
 		return new OC_L10N_String($this, $text, $parameters);
 	}
@@ -287,7 +287,7 @@ class OC_L10N{
 		}
 
 		if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-			$accepted_languages = preg_split('/,\s*/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+			$accepted_languages = preg_split('/,\s*/', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
 			if(is_array($app)) {
 				$available = $app;
 			}

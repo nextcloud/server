@@ -23,7 +23,11 @@ class OC_Router {
 
 	public function __construct() {
 		$baseUrl = OC_Helper::linkTo('', 'index.php');
-		$method = $_SERVER['REQUEST_METHOD'];
+		if ( !OC::$CLI) {
+			$method = $_SERVER['REQUEST_METHOD'];
+		}else{
+			$method = 'GET';
+		}
 		$host = OC_Request::serverHost();
 		$schema = OC_Request::serverProtocol();
 		$this->context = new RequestContext($baseUrl, $method, $host, $schema);
@@ -49,6 +53,7 @@ class OC_Router {
 			$files = $this->getRoutingFiles();
 			$files[] = 'settings/routes.php';
 			$files[] = 'core/routes.php';
+			$files[] = 'ocs/routes.php';
 			$this->cache_key = OC_Cache::generateCacheKeyFromFiles($files);
 		}
 		return $this->cache_key;
@@ -58,23 +63,6 @@ class OC_Router {
 	 * loads the api routes
 	 */
 	public function loadRoutes() {
-
-		// TODO cache
-		$this->root = $this->getCollection('root');
-		foreach(OC_APP::getEnabledApps() as $app){
-			$file = OC_App::getAppPath($app).'/appinfo/routes.php';
-			if(file_exists($file)){
-				$this->useCollection($app);
-				require_once($file);
-				$collection = $this->getCollection($app);
-				$this->root->addCollection($collection, '/apps/'.$app);
-			}
-		}
-		// include ocs routes
-		require_once(OC::$SERVERROOT.'/ocs/routes.php');
-		$collection = $this->getCollection('ocs');
-		$this->root->addCollection($collection, '/ocs');
-
 		foreach($this->getRoutingFiles() as $app => $file) {
 			$this->useCollection($app);
 			require_once $file;
@@ -85,6 +73,10 @@ class OC_Router {
 		require_once 'settings/routes.php';
 		require_once 'core/routes.php';
 
+		// include ocs routes
+		require_once 'ocs/routes.php';
+		$collection = $this->getCollection('ocs');
+		$this->root->addCollection($collection, '/ocs');
 	}
 
 	protected function getCollection($name) {

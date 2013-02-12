@@ -248,14 +248,14 @@ class Share {
 					//delete the old share
 					self::delete($checkExists['id']);
 				}
-				
+
 				// Generate hash of password - same method as user passwords
 				if (isset($shareWith)) {
 					$forcePortable = (CRYPT_BLOWFISH != 1);
 					$hasher = new \PasswordHash(8, $forcePortable);
 					$shareWith = $hasher->HashPassword($shareWith.\OC_Config::getValue('passwordsalt', ''));
 				}
-				
+
 				// Generate token
 				if (isset($oldToken)) {
 					$token = $oldToken;
@@ -300,34 +300,36 @@ class Share {
 			throw new \Exception($message);
 		}
 		// If the item is a folder, scan through the folder looking for equivalent item types
-		if ($itemType == 'folder') {
-			$parentFolder = self::put('folder', $itemSource, $shareType, $shareWith, $uidOwner, $permissions, true);
-			if ($parentFolder && $files = \OC_Files::getDirectoryContent($itemSource)) {
-				for ($i = 0; $i < count($files); $i++) {
-					$name = substr($files[$i]['name'], strpos($files[$i]['name'], $itemSource) - strlen($itemSource));
-					if ($files[$i]['mimetype'] == 'httpd/unix-directory' && $children = \OC_Files::getDirectoryContent($name, '/')) {
-						// Continue scanning into child folders
-						array_push($files, $children);
-					} else {
-						// Check file extension for an equivalent item type to convert to
-						$extension = strtolower(substr($itemSource, strrpos($itemSource, '.') + 1));
-						foreach (self::$backends as $type => $backend) {
-							if (isset($backend->dependsOn) && $backend->dependsOn == 'file' && isset($backend->supportedFileExtensions) && in_array($extension, $backend->supportedFileExtensions)) {
-								$itemType = $type;
-								break;
-							}
-						}
-						// Pass on to put() to check if this item should be converted, the item won't be inserted into the database unless it can be converted
-						self::put($itemType, $name, $shareType, $shareWith, $uidOwner, $permissions, $parentFolder);
-					}
-				}
-				return true;
-			}
-			return false;
-		} else {
+// 		if ($itemType == 'folder') {
+// 			$parentFolder = self::put('folder', $itemSource, $shareType, $shareWith, $uidOwner, $permissions, true);
+// 			if ($parentFolder && $files = \OC\Files\Filesystem::getDirectoryContent($itemSource)) {
+// 				for ($i = 0; $i < count($files); $i++) {
+// 					$name = substr($files[$i]['name'], strpos($files[$i]['name'], $itemSource) - strlen($itemSource));
+// 					if ($files[$i]['mimetype'] == 'httpd/unix-directory'
+// 						&& $children = \OC\Files\Filesystem::getDirectoryContent($name, '/')
+// 					) {
+// 						// Continue scanning into child folders
+// 						array_push($files, $children);
+// 					} else {
+// 						// Check file extension for an equivalent item type to convert to
+// 						$extension = strtolower(substr($itemSource, strrpos($itemSource, '.') + 1));
+// 						foreach (self::$backends as $type => $backend) {
+// 							if (isset($backend->dependsOn) && $backend->dependsOn == 'file' && isset($backend->supportedFileExtensions) && in_array($extension, $backend->supportedFileExtensions)) {
+// 								$itemType = $type;
+// 								break;
+// 							}
+// 						}
+// 						// Pass on to put() to check if this item should be converted, the item won't be inserted into the database unless it can be converted
+// 						self::put($itemType, $name, $shareType, $shareWith, $uidOwner, $permissions, $parentFolder);
+// 					}
+// 				}
+// 				return true;
+// 			}
+// 			return false;
+// 		} else {
 			// Put the item into the database
 			return self::put($itemType, $itemSource, $shareType, $shareWith, $uidOwner, $permissions);
-		}
+// 		}
 	}
 
 	/**
@@ -340,6 +342,13 @@ class Share {
 	*/
 	public static function unshare($itemType, $itemSource, $shareType, $shareWith) {
 		if ($item = self::getItems($itemType, $itemSource, $shareType, $shareWith, \OC_User::getUser(), self::FORMAT_NONE, null, 1)) {
+			// Pass all the vars we have for now, they may be useful
+			\OC_Hook::emit('OCP\Share', 'pre_unshare', array(
+				'itemType' => $itemType,
+				'itemSource' => $itemSource,
+				'shareType' => $shareType,
+				'shareWith' => $shareWith,
+			));			
 			self::delete($item['id']);
 			return true;
 		}
@@ -354,6 +363,12 @@ class Share {
 	*/
 	public static function unshareAll($itemType, $itemSource) {
 		if ($shares = self::getItemShared($itemType, $itemSource)) {
+			// Pass all the vars we have for now, they may be useful
+			\OC_Hook::emit('OCP\Share', 'pre_unshareAll', array(
+				'itemType' => $itemType,
+				'itemSource' => $itemSource,
+				'shares' => $shares
+			));			
 			foreach ($shares as $share) {
 				self::delete($share['id']);
 			}
@@ -514,7 +529,8 @@ class Share {
 				$collectionTypes[] = $type;
 			}
 		}
-		if (!self::getBackend($itemType) instanceof Share_Backend_Collection) {
+		// TODO Add option for collections to be collection of themselves, only 'folder' does it now...
+		if (!self::getBackend($itemType) instanceof Share_Backend_Collection || $itemType != 'folder') {
 			unset($collectionTypes[0]);
 		}
 		// Return array if collections were found or the item type is a collection itself - collections can be inside collections
@@ -551,8 +567,8 @@ class Share {
 		$backend = self::getBackend($itemType);
 		// Get filesystem root to add it to the file target and remove from the file source, match file_source with the file cache
 		if ($itemType == 'file' || $itemType == 'folder') {
-			$root = \OC_Filesystem::getRoot();
-			$where = 'INNER JOIN `*PREFIX*fscache` ON `file_source` = `*PREFIX*fscache`.`id`';
+			$root = \OC\Files\Filesystem::getRoot();
+			$where = 'INNER JOIN `*PREFIX*filecache` ON `file_source` = `*PREFIX*filecache`.`fileid`';
 			if (!isset($item)) {
 				$where .= ' WHERE `file_target` IS NOT NULL';
 			}
@@ -569,7 +585,7 @@ class Share {
 					$itemTypes = $collectionTypes;
 				}
 				$placeholders = join(',', array_fill(0, count($itemTypes), '?'));
-				$where .= ' WHERE `item_type` IN ('.$placeholders.'))';
+				$where = ' WHERE `item_type` IN ('.$placeholders.'))';
 				$queryArgs = $itemTypes;
 			} else {
 				$where = ' WHERE `item_type` = ?';
@@ -638,7 +654,7 @@ class Share {
 			} else {
 				if ($itemType == 'file' || $itemType == 'folder') {
 					$where .= ' `file_target` = ?';
-					$item = \OC_Filesystem::normalizePath($item);
+					$item = \OC\Files\Filesystem::normalizePath($item);
 				} else {
 					$where .= ' `item_target` = ?';
 				}
@@ -681,8 +697,14 @@ class Share {
 				}
 			} else {
 				if ($fileDependent) {
-					if (($itemType == 'file' || $itemType == 'folder') && $format == \OC_Share_Backend_File::FORMAT_FILE_APP || $format == \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT) {
-						$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `uid_owner`, `share_type`, `share_with`, `file_source`, `path`, `file_target`, `permissions`, `expiration`, `name`, `ctime`, `mtime`, `mimetype`, `size`, `encrypted`, `versioned`, `writable`';
+					if (($itemType == 'file' || $itemType == 'folder')
+						&& $format == \OC_Share_Backend_File::FORMAT_GET_FOLDER_CONTENTS
+						|| $format == \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT
+					) {
+						$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`, `uid_owner`, '
+								 .'`share_type`, `share_with`, `file_source`, `path`, `file_target`, '
+								 .'`permissions`, `expiration`, `storage`, `*PREFIX*filecache`.`parent` as `file_parent`, '
+								 .'`name`, `mtime`, `mimetype`, `mimepart`, `size`, `encrypted`, `etag`';
 					} else {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`, `*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`, `file_source`, `path`, `file_target`, `permissions`, `stime`, `expiration`, `token`';
 					}
@@ -699,6 +721,7 @@ class Share {
 		}
 		$items = array();
 		$targets = array();
+		$switchedItems = array();
 		while ($row = $result->fetchRow()) {
 			// Filter out duplicate group shares for users with unique targets
 			if ($row['share_type'] == self::$shareTypeGroupUserUnique && isset($items[$row['parent']])) {
@@ -723,6 +746,7 @@ class Share {
 						// Switch ids if sharing permission is granted on only one share to ensure correct parent is used if resharing
 						if (~(int)$items[$id]['permissions'] & PERMISSION_SHARE && (int)$row['permissions'] & PERMISSION_SHARE) {
 							$items[$row['id']] = $items[$id];
+							$switchedItems[$id] = $row['id'];
 							unset($items[$id]);
 							$id = $row['id'];
 						}
@@ -739,7 +763,8 @@ class Share {
 				if (isset($row['parent'])) {
 					$row['path'] = '/Shared/'.basename($row['path']);
 				} else {
-					$row['path'] = substr($row['path'], $root);
+					// Strip 'files' from path
+					$row['path'] = substr($row['path'], 5);
 				}
 			}
 			if (isset($row['expiration'])) {
@@ -749,13 +774,22 @@ class Share {
 					continue;
 				}
 			}
+
+			// Add display names to result
+			if ( isset($row['share_with']) && $row['share_with'] != '') {
+				$row['share_with_displayname'] = \OCP\User::getDisplayName($row['share_with']);
+			}
+			if ( isset($row['uid_owner']) && $row['uid_owner'] != '') {
+				$row['displayname_owner'] = \OCP\User::getDisplayName($row['uid_owner']);
+			}
+			
 			$items[$row['id']] = $row;
 		}
 		if (!empty($items)) {
 			$collectionItems = array();
 			foreach ($items as &$row) {
 				// Return only the item instead of a 2-dimensional array
-				if ($limit == 1 && $row['item_type'] == $itemType && $row[$column] == $item) {
+				if ($limit == 1 && $row[$column] == $item && ($row['item_type'] == $itemType || $itemType == 'file')) {
 					if ($format == self::FORMAT_NONE) {
 						return $row;
 					} else {
@@ -788,9 +822,10 @@ class Share {
 									if ($row['item_type'] == 'file' || $row['item_type'] == 'folder') {
 										$childItem['file_source'] = $child['source'];
 									} else {
-										$childItem['file_source'] = \OC_FileCache::getId($child['file_path']);
+										$meta = \OC\Files\Filesystem::getFileInfo($child['file_path']);
+										$childItem['file_source'] = $meta['fileid'];
 									}
-									$childItem['file_target'] = \OC_Filesystem::normalizePath($child['file_path']);
+									$childItem['file_target'] = \OC\Files\Filesystem::normalizePath($child['file_path']);
 								}
 								if (isset($item)) {
 									if ($childItem[$column] == $item) {
@@ -815,11 +850,18 @@ class Share {
 						}
 					}
 					// Remove collection item
-					unset($items[$row['id']]);
+					$toRemove = $row['id'];
+					if (array_key_exists($toRemove, $switchedItems)) {
+						$toRemove = $switchedItems[$toRemove];
+					}
+					unset($items[$toRemove]);
 				}
 			}
 			if (!empty($collectionItems)) {
 				$items = array_merge($items, $collectionItems);
+			}
+			if (empty($items) && $limit == 1) {
+				return false;
 			}
 			if ($format == self::FORMAT_NONE) {
 				return $items;
@@ -901,7 +943,8 @@ class Share {
 				if ($itemType == 'file' || $itemType == 'folder') {
 					$fileSource = $itemSource;
 				} else {
-					$fileSource = \OC_FileCache::getId($filePath);
+					$meta = \OC\Files\Filesystem::getFileInfo($filePath);
+					$fileSource = $meta['fileid'];
 				}
 				if ($fileSource == -1) {
 					$message = 'Sharing '.$itemSource.' failed, because the file could not be found in the file cache';
@@ -1085,7 +1128,8 @@ class Share {
 						}
 						if ($item['uid_owner'] == $uidOwner) {
 							if ($itemType == 'file' || $itemType == 'folder') {
-								if ($item['file_source'] == \OC_FileCache::getId($itemSource)) {
+								$meta = \OC\Files\Filesystem::getFileInfo($itemSource);
+								if ($item['file_source'] == $meta['fileid']) {
 									return $target;
 								}
 							} else if ($item['item_source'] == $itemSource) {

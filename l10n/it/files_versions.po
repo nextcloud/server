@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Vincenzo Reale <vinx.reale@gmail.com>, 2012.
+# Vincenzo Reale <vinx.reale@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-23 02:01+0200\n"
-"PO-Revision-Date: 2012-09-22 06:40+0000\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-07 23:40+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -18,21 +18,44 @@ msgstr ""
 "Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/settings-personal.js:31 templates/settings-personal.php:10
-msgid "Expire all versions"
-msgstr "Scadenza di tutte le versioni"
+#: ajax/rollbackVersion.php:15
+#, php-format
+msgid "Could not revert: %s"
+msgstr "Impossibild ripristinare: %s"
+
+#: history.php:40
+msgid "success"
+msgstr "completata"
+
+#: history.php:42
+#, php-format
+msgid "File %s was reverted to version %s"
+msgstr "Il file %s è stato ripristinato alla versione %s"
+
+#: history.php:49
+msgid "failure"
+msgstr "non riuscita"
+
+#: history.php:51
+#, php-format
+msgid "File %s could not be reverted to version %s"
+msgstr "Il file %s non può essere ripristinato alla versione %s"
+
+#: history.php:68
+msgid "No old versions available"
+msgstr "Non sono disponibili versioni precedenti"
+
+#: history.php:73
+msgid "No path specified"
+msgstr "Nessun percorso specificato"
 
 #: js/versions.js:16
 msgid "History"
 msgstr "Cronologia"
 
-#: templates/settings-personal.php:4
-msgid "Versions"
-msgstr "Versioni"
-
-#: templates/settings-personal.php:7
-msgid "This will delete all existing backup versions of your files"
-msgstr "Ciò eliminerà tutte le versioni esistenti dei tuoi file"
+#: templates/history.php:20
+msgid "Revert a file to a previous version by clicking on its revert button"
+msgstr "Ripristina un file a una versione precedente facendo clic sul rispettivo pulsante di ripristino"
 
 #: templates/settings.php:3
 msgid "Files Versioning"

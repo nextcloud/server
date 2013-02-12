@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Daniel Pinto <daniel@mouxy.net>, 2013.
 # Duarte Velez Grilo <duartegrilo@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-01 02:04+0200\n"
-"PO-Revision-Date: 2012-09-30 22:21+0000\n"
-"Last-Translator: Duarte Velez Grilo <duartegrilo@gmail.com>\n"
+"POT-Creation-Date: 2013-02-11 00:03+0100\n"
+"PO-Revision-Date: 2013-02-10 14:21+0000\n"
+"Last-Translator: Mouxy <daniel@mouxy.net>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,21 +19,44 @@ msgstr ""
 "Language: pt_PT\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/settings-personal.js:31 templates/settings-personal.php:10
-msgid "Expire all versions"
-msgstr "Expirar todas as versões"
+#: ajax/rollbackVersion.php:15
+#, php-format
+msgid "Could not revert: %s"
+msgstr "Não foi possível reverter: %s"
+
+#: history.php:40
+msgid "success"
+msgstr "Sucesso"
+
+#: history.php:42
+#, php-format
+msgid "File %s was reverted to version %s"
+msgstr "O ficheiro %s foi revertido para a versão %s"
+
+#: history.php:49
+msgid "failure"
+msgstr "Falha"
+
+#: history.php:51
+#, php-format
+msgid "File %s could not be reverted to version %s"
+msgstr "Não foi possível reverter o ficheiro %s para a versão %s"
+
+#: history.php:68
+msgid "No old versions available"
+msgstr "Não existem versões mais antigas"
+
+#: history.php:73
+msgid "No path specified"
+msgstr "Nenhum caminho especificado"
 
 #: js/versions.js:16
 msgid "History"
 msgstr "Histórico"
 
-#: templates/settings-personal.php:4
-msgid "Versions"
-msgstr "Versões"
-
-#: templates/settings-personal.php:7
-msgid "This will delete all existing backup versions of your files"
-msgstr "Isto irá apagar todas as versões de backup do seus ficheiros"
+#: templates/history.php:20
+msgid "Revert a file to a previous version by clicking on its revert button"
+msgstr "Reverter um ficheiro para uma versão anterior clicando no seu botão reverter."
 
 #: templates/settings.php:3
 msgid "Files Versioning"

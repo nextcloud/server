@@ -49,9 +49,9 @@ class DB {
 	 * @brief Insert a row if a matching row doesn't exists.
 	 * @param $table string The table name (will replace *PREFIX*) to perform the replace on.
 	 * @param $input array
-	 * 
+	 *
 	 * The input array if in the form:
-	 * 
+	 *
 	 * array ( 'id' => array ( 'value' => 6,
 	 *	'key' => true
 	 *	),
@@ -65,7 +65,7 @@ class DB {
 	public static function insertIfNotExist($table, $input) {
 		return(\OC_DB::insertIfNotExist($table, $input));
 	}
-	
+
 	/**
 	 * @brief gets last value of autoincrement
 	 * @param $table string The optional table name (will replace *PREFIX*) and add sequence suffix

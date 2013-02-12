@@ -22,7 +22,7 @@
 */
 
 /**
- * user quota managment
+ * user quota management
  */
 
 class OC_FileProxy_Quota extends OC_FileProxy{
@@ -57,26 +57,28 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 	 * @return int
 	 */
 	private function getFreeSpace($path) {
-		$storage=OC_Filesystem::getStorage($path);
-		$owner=$storage->getOwner($path);
+		/**
+		 * @var \OC\Files\Storage\Storage $storage
+		 * @var string $internalPath
+		 */
+		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
+		$owner=$storage->getOwner($internalPath);
+		if (!$owner) {
+			return -1;
+		}
 
 		$totalSpace=$this->getQuota($owner);
 		if($totalSpace==-1) {
 			return -1;
 		}
 
-		$rootInfo=OC_FileCache::get('', "/".$owner."/files");
-		// TODO Remove after merge of share_api
-		if (OC_FileCache::inCache('/Shared', "/".$owner."/files")) {
-			$sharedInfo=OC_FileCache::get('/Shared', "/".$owner."/files");
-		} else {
-			$sharedInfo = null;
-		}
+		$view = new \OC\Files\View("/".$owner."/files");
+
+		$rootInfo=$view->getFileInfo('/');
 		$usedSpace=isset($rootInfo['size'])?$rootInfo['size']:0;
-		$usedSpace=isset($sharedInfo['size'])?$usedSpace-$sharedInfo['size']:$usedSpace;
 		return $totalSpace-$usedSpace;
 	}
-	
+
 	public function postFree_space($path, $space) {
 		$free=$this->getFreeSpace($path);
 		if($free==-1) {
@@ -93,8 +95,8 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 	}
 
 	public function preCopy($path1, $path2) {
-		if(!self::$rootView) {
-			self::$rootView = new OC_FilesystemView('');
+		if(!self::$rootView){
+			self::$rootView = new \OC\Files\View('');
 		}
 		return (self::$rootView->filesize($path1)<$this->getFreeSpace($path2) or $this->getFreeSpace($path2)==-1);
 	}

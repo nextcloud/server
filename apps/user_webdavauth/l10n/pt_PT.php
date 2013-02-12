@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"WebDAV Authentication" => "Autenticação WebDAV",
 "URL: http://" => "URL: http://",
-"ownCloud will send the user credentials to this URL is interpret http 401 and http 403 as credentials wrong and all other codes as credentials correct." => "O ownCloud vai enviar as credenciais para este URL. Todos os códigos http 401 e 403 serão interpretados como credenciais inválidas, todos os restantes códigos http serão interpretados como credenciais correctas."
+"ownCloud will send the user credentials to this URL. This plugin checks the response and will interpret the HTTP statuscodes 401 and 403 as invalid credentials, and all other responses as valid credentials." => "O ownCloud vai enviar as credenciais do utilizador através deste URL. Este plugin verifica a resposta e vai interpretar os códigos de estado HTTP 401 e 403 como credenciais inválidas, e todas as outras como válidas."
 );

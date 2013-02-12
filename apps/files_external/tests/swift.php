@@ -6,7 +6,9 @@
  * See the COPYING-README file.
  */
 
-class Test_Filestorage_SWIFT extends Test_FileStorage {
+namespace Test\Files\Storage;
+
+class SWIFT extends Storage {
 	private $config;
 
 	public function setUp() {
@@ -16,7 +18,7 @@ class Test_Filestorage_SWIFT extends Test_FileStorage {
 			$this->markTestSkipped('OpenStack SWIFT backend not configured');
 		}
 		$this->config['swift']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
-		$this->instance = new OC_Filestorage_SWIFT($this->config['swift']);
+		$this->instance = new \OC\Files\Storage\SWIFT($this->config['swift']);
 	}
 
 

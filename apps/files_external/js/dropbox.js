@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	$('#externalStorage tbody tr.OC_Filestorage_Dropbox').each(function() {
+	$('#externalStorage tbody tr.\\\\OC\\\\Files\\\\Storage\\\\Dropbox').each(function() {
 		var configured = $(this).find('[data-parameter="configured"]');
 		if ($(configured).val() == 'true') {
 			$(this).find('.configuration input').attr('disabled', 'disabled');
@@ -37,18 +37,18 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#externalStorage tbody tr.OC_Filestorage_Dropbox td').live('paste', function() {
+	$('#externalStorage tbody').on('paste', 'tr.OC_Filestorage_Dropbox td', function() {
 		var tr = $(this).parent();
 		setTimeout(function() {
 			onDropboxInputsChange(tr);
 		}, 20);
 	});
 
-	$('#externalStorage tbody tr.OC_Filestorage_Dropbox td').live('keyup', function() {
+	$('#externalStorage tbody').on('keyup', 'tr.OC_Filestorage_Dropbox td', function() {
 		onDropboxInputsChange($(this).parent());
 	});
 
-	$('#externalStorage tbody tr.OC_Filestorage_Dropbox .chzn-select').live('change', function() {
+	$('#externalStorage tbody').on('change', 'tr.OC_Filestorage_Dropbox .chzn-select', function() {
 		onDropboxInputsChange($(this).parent().parent());
 	});
 
@@ -72,7 +72,7 @@ $(document).ready(function() {
 		}
 	}
 
-	$('.dropbox').live('click', function(event) {
+	$('.dropbox').on('click', function(event) {
 		event.preventDefault();
 		var tr = $(this).parent().parent();
 		var app_key = $(this).parent().find('[data-parameter="app_key"]').val();

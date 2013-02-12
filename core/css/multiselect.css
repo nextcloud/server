@@ -5,13 +5,23 @@
  ul.multiselectoptions {
  	background-color:#fff;
  	border:1px solid #ddd;
- 	border-bottom-left-radius:.5em;
- 	border-bottom-right-radius:.5em;
  	border-top:none;
  	box-shadow:0 1px 1px #ddd;
  	padding-top:.5em;
  	position:absolute;
+	max-height: 20em;
+	overflow-y: auto;
  	z-index:49;
+ }
+
+ ul.multiselectoptions.down {
+ 	border-bottom-left-radius:.5em;
+ 	border-bottom-right-radius:.5em;
+ }
+
+ ul.multiselectoptions.up {
+ 	border-top-left-radius:.5em;
+ 	border-top-right-radius:.5em;
  }
 
  ul.multiselectoptions>li {
@@ -30,11 +40,20 @@
 
  div.multiselect.active {
  	background-color:#fff;
+ 	position:relative;
+ 	z-index:50;
+ }
+
+ div.multiselect.up {
+ 	border-top:0 none;
+ 	border-top-left-radius:0;
+ 	border-top-right-radius:0;
+ }
+
+ div.multiselect.down {
  	border-bottom:none;
  	border-bottom-left-radius:0;
  	border-bottom-right-radius:0;
- 	position:relative;
- 	z-index:50;
  }
 
  div.multiselect>span:first-child {

@@ -455,7 +455,7 @@ class OC_Image {
 			default:
 
 				// this is mostly file created from encrypted file
-				$this->resource = imagecreatefromstring(\OC_Filesystem::file_get_contents(\OC_Filesystem::getLocalPath($imagepath)));
+				$this->resource = imagecreatefromstring(\OC\Files\Filesystem::file_get_contents(\OC\Files\Filesystem::getLocalPath($imagepath)));
 				$itype = IMAGETYPE_PNG;
 				OC_Log::write('core', 'OC_Image->loadFromFile, Default', OC_Log::DEBUG);
 				break;
@@ -646,7 +646,7 @@ class OC_Image {
 		fclose($fh);
 		return $im;
 	}
-	
+
 	/**
 	* @brief Resizes the image preserving ratio.
 	* @param $maxsize The maximum size of either the width or height.

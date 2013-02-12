@@ -13,13 +13,14 @@
 # <petros.kyladitis@gmail.com>, 2011.
 #   <petros.kyladitis@gmail.com>, 2011.
 # Petros Kyladitis <petros.kyladitis@gmail.com>, 2011-2012.
+#  <vagelis@cyberdest.com>, 2013.
 # Γιάννης Ανθυμίδης <yannanth@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-30 00:04+0100\n"
-"PO-Revision-Date: 2012-12-29 23:05+0000\n"
+"POT-Creation-Date: 2013-02-11 15:39+0100\n"
+"PO-Revision-Date: 2013-02-11 14:39+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -32,6 +33,15 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Σφάλμα στην φόρτωση της λίστας από το App Store"
 
+#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:15
+#: ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "Σφάλμα πιστοποίησης"
+
+#: ajax/changedisplayname.php:32
+msgid "Unable to change display name"
+msgstr ""
+
 #: ajax/creategroup.php:10
 msgid "Group already exists"
 msgstr "Η ομάδα υπάρχει ήδη"
@@ -40,7 +50,7 @@ msgstr "Η ομάδα υπάρχει ήδη"
 msgid "Unable to add group"
 msgstr "Αδυναμία προσθήκης ομάδας"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "Αδυναμία ενεργοποίησης εφαρμογής "
 
@@ -52,21 +62,9 @@ msgstr "Το email αποθηκεύτηκε "
 msgid "Invalid email"
 msgstr "Μη έγκυρο email"
 
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "Το OpenID άλλαξε"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "Μη έγκυρο αίτημα"
-
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "Αδυναμία διαγραφής ομάδας"
-
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
-msgid "Authentication error"
-msgstr "Σφάλμα πιστοποίησης"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -75,6 +73,10 @@ msgstr "Αδυναμία διαγραφής χρήστη"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Η γλώσσα άλλαξε"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "Μη έγκυρο αίτημα"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -90,19 +92,47 @@ msgstr "Αδυναμία προσθήκη χρήστη στην ομάδα %s"
 msgid "Unable to remove user from group %s"
 msgstr "Αδυναμία αφαίρεσης χρήστη από την ομάδα %s"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:14
+msgid "Couldn't update app."
+msgstr ""
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr ""
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Απενεργοποίηση"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "Ενεργοποίηση"
 
-#: js/personal.js:69
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr ""
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "Σφάλμα"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr ""
+
+#: js/personal.js:96
 msgid "Saving..."
 msgstr "Αποθήκευση..."
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "__όνομα_γλώσσας__"
 
@@ -114,17 +144,21 @@ msgstr "Πρόσθεστε τη Δικιά σας Εφαρμογή"
 msgid "More Apps"
 msgstr "Περισσότερες Εφαρμογές"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "Επιλέξτε μια Εφαρμογή"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
 msgstr "Δείτε την σελίδα εφαρμογών στο apps.owncloud.com"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-άδεια από <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "Ενημέρωση"
 
 #: templates/help.php:3
 msgid "User Documentation"
@@ -155,83 +189,87 @@ msgstr "Εμπορική Υποστήριξη"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Χρησιμοποιήσατε <strong>%s</strong> από διαθέσιμα <strong>%s</strong>"
 
-#: templates/personal.php:12
-msgid "Clients"
-msgstr "Πελάτες"
-
-#: templates/personal.php:13
-msgid "Download Desktop Clients"
-msgstr "Λήψη Προγραμμάτων για Σταθερούς Υπολογιστές"
-
 #: templates/personal.php:14
-msgid "Download Android Client"
-msgstr "Λήψη Προγράμματος Android"
+msgid "Get the apps to sync your files"
+msgstr ""
 
-#: templates/personal.php:15
-msgid "Download iOS Client"
-msgstr "Λήψη Προγράμματος iOS"
+#: templates/personal.php:25
+msgid "Show First Run Wizard again"
+msgstr ""
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:36 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "Συνθηματικό"
 
-#: templates/personal.php:22
+#: templates/personal.php:37
 msgid "Your password was changed"
 msgstr "Το συνθηματικό σας έχει αλλάξει"
 
-#: templates/personal.php:23
+#: templates/personal.php:38
 msgid "Unable to change your password"
 msgstr "Δεν ήταν δυνατή η αλλαγή του κωδικού πρόσβασης"
 
-#: templates/personal.php:24
+#: templates/personal.php:39
 msgid "Current password"
 msgstr "Τρέχων συνθηματικό"
 
-#: templates/personal.php:25
+#: templates/personal.php:40
 msgid "New password"
 msgstr "Νέο συνθηματικό"
 
-#: templates/personal.php:26
-msgid "show"
-msgstr "εμφάνιση"
-
-#: templates/personal.php:27
+#: templates/personal.php:42
 msgid "Change password"
 msgstr "Αλλαγή συνθηματικού"
 
-#: templates/personal.php:33
+#: templates/personal.php:54 templates/users.php:80
+msgid "Display Name"
+msgstr ""
+
+#: templates/personal.php:55
+msgid "Your display name was changed"
+msgstr ""
+
+#: templates/personal.php:56
+msgid "Unable to change your display name"
+msgstr ""
+
+#: templates/personal.php:59
+msgid "Change display name"
+msgstr ""
+
+#: templates/personal.php:68
 msgid "Email"
 msgstr "Email"
 
-#: templates/personal.php:34
+#: templates/personal.php:69
 msgid "Your email address"
 msgstr "Η διεύθυνση ηλεκτρονικού ταχυδρομείου σας"
 
-#: templates/personal.php:35
+#: templates/personal.php:70
 msgid "Fill in an email address to enable password recovery"
 msgstr "Συμπληρώστε μια διεύθυνση ηλεκτρονικού ταχυδρομείου για να ενεργοποιηθεί η ανάκτηση συνθηματικού"
 
-#: templates/personal.php:41 templates/personal.php:42
+#: templates/personal.php:76 templates/personal.php:77
 msgid "Language"
 msgstr "Γλώσσα"
 
-#: templates/personal.php:47
+#: templates/personal.php:82
 msgid "Help translate"
 msgstr "Βοηθήστε στη μετάφραση"
 
-#: templates/personal.php:52
+#: templates/personal.php:87
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:54
+#: templates/personal.php:89
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Χρήση αυτής της διεύθυνσης για σύνδεση στο ownCloud με τον διαχειριστή αρχείων σας"
 
-#: templates/personal.php:63
+#: templates/personal.php:98
 msgid "Version"
 msgstr "Έκδοση"
 
-#: templates/personal.php:65
+#: templates/personal.php:100
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -241,11 +279,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Αναπτύχθηκε από την <a href=\"http://ownCloud.org/contact\" target=\"_blank\">κοινότητα ownCloud</a>, ο <a href=\"https://github.com/owncloud\" target=\"_blank\">πηγαίος κώδικας</a> είναι υπό άδεια χρήσης <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "Όνομα"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr ""
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "Ομάδες"
 
@@ -255,28 +293,36 @@ msgstr "Δημιουργία"
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr ""
+msgstr "Προκαθορισμένη Αποθήκευση "
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
-msgstr ""
+msgstr "Απεριόριστο"
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "Άλλα"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
 msgstr "Ομάδα Διαχειριστών"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
+msgstr "Αποθήκευση"
+
+#: templates/users.php:97
+msgid "change display name"
 msgstr ""
 
-#: templates/users.php:133
+#: templates/users.php:101
+msgid "set new password"
+msgstr ""
+
+#: templates/users.php:137
 msgid "Default"
-msgstr ""
+msgstr "Προκαθορισμένο"
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "Διαγραφή"

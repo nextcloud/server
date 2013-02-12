@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <sveinng@gmail.com>, 2012.
+#   <sveinng@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-31 00:04+0100\n"
-"PO-Revision-Date: 2012-12-30 17:53+0000\n"
-"Last-Translator: sveinn <sveinng@gmail.com>\n"
+"POT-Creation-Date: 2013-02-11 15:39+0100\n"
+"PO-Revision-Date: 2013-02-11 14:40+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,6 +22,15 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Ekki tókst að hlaða lista frá forrita síðu"
 
+#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:15
+#: ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "Villa við auðkenningu"
+
+#: ajax/changedisplayname.php:32
+msgid "Unable to change display name"
+msgstr ""
+
 #: ajax/creategroup.php:10
 msgid "Group already exists"
 msgstr "Hópur er þegar til"
@@ -30,7 +39,7 @@ msgstr "Hópur er þegar til"
 msgid "Unable to add group"
 msgstr "Ekki tókst að bæta við hóp"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "Gat ekki virkjað forrit"
 
@@ -42,21 +51,9 @@ msgstr "Netfang vistað"
 msgid "Invalid email"
 msgstr "Ógilt netfang"
 
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID breytt"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "Ógild fyrirspurn"
-
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "Ekki tókst að eyða hóp"
-
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
-msgid "Authentication error"
-msgstr "Villa við auðkenningu"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -65,6 +62,10 @@ msgstr "Ekki tókst að eyða notenda"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Tungumáli breytt"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "Ógild fyrirspurn"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -80,19 +81,47 @@ msgstr "Ekki tókst að bæta notenda við hópinn %s"
 msgid "Unable to remove user from group %s"
 msgstr "Ekki tókst að fjarlægja notanda úr hópnum %s"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:14
+msgid "Couldn't update app."
+msgstr ""
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr ""
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Gera óvirkt"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "Virkja"
 
-#: js/personal.js:69
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr ""
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr ""
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "Villa"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr ""
+
+#: js/personal.js:96
 msgid "Saving..."
 msgstr "Er að vista ..."
 
-#: personal.php:42 personal.php:43
+#: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "__nafn_tungumáls__"
 
@@ -104,17 +133,21 @@ msgstr "Bæta við forriti"
 msgid "More Apps"
 msgstr "Fleiri forrit"
 
-#: templates/apps.php:27
+#: templates/apps.php:24
 msgid "Select an App"
 msgstr "Veldu forrit"
 
-#: templates/apps.php:31
+#: templates/apps.php:28
 msgid "See application page at apps.owncloud.com"
-msgstr "Skoða forrita síðuna hjá apps.owncloud.com"
+msgstr "Skoða síðu forrits hjá apps.owncloud.com"
 
-#: templates/apps.php:32
+#: templates/apps.php:29
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-leyfi skráð af <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "Uppfæra"
 
 #: templates/help.php:3
 msgid "User Documentation"
@@ -145,83 +178,87 @@ msgstr "Borgaður stuðningur"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "Þú hefur notað <strong>%s</strong> af tiltæku <strong>%s</strong>"
 
-#: templates/personal.php:12
-msgid "Clients"
-msgstr "Notendahugbúnaður"
-
-#: templates/personal.php:13
-msgid "Download Desktop Clients"
-msgstr "Hlaða niður notendahugbúnaði"
-
 #: templates/personal.php:14
-msgid "Download Android Client"
-msgstr "Hlaða niður Andoid hugbúnaði"
+msgid "Get the apps to sync your files"
+msgstr ""
 
-#: templates/personal.php:15
-msgid "Download iOS Client"
-msgstr "Hlaða niður iOS hugbúnaði"
+#: templates/personal.php:25
+msgid "Show First Run Wizard again"
+msgstr ""
 
-#: templates/personal.php:21 templates/users.php:23 templates/users.php:82
+#: templates/personal.php:36 templates/users.php:23 templates/users.php:81
 msgid "Password"
 msgstr "Lykilorð"
 
-#: templates/personal.php:22
+#: templates/personal.php:37
 msgid "Your password was changed"
 msgstr "Lykilorði þínu hefur verið breytt"
 
-#: templates/personal.php:23
+#: templates/personal.php:38
 msgid "Unable to change your password"
 msgstr "Ekki tókst að breyta lykilorðinu þínu"
 
-#: templates/personal.php:24
+#: templates/personal.php:39
 msgid "Current password"
 msgstr "Núverandi lykilorð"
 
-#: templates/personal.php:25
+#: templates/personal.php:40
 msgid "New password"
 msgstr "Nýtt lykilorð"
 
-#: templates/personal.php:26
-msgid "show"
-msgstr "sýna"
-
-#: templates/personal.php:27
+#: templates/personal.php:42
 msgid "Change password"
 msgstr "Breyta lykilorði"
 
-#: templates/personal.php:33
+#: templates/personal.php:54 templates/users.php:80
+msgid "Display Name"
+msgstr ""
+
+#: templates/personal.php:55
+msgid "Your display name was changed"
+msgstr ""
+
+#: templates/personal.php:56
+msgid "Unable to change your display name"
+msgstr ""
+
+#: templates/personal.php:59
+msgid "Change display name"
+msgstr ""
+
+#: templates/personal.php:68
 msgid "Email"
 msgstr "Netfang"
 
-#: templates/personal.php:34
+#: templates/personal.php:69
 msgid "Your email address"
 msgstr "Netfangið þitt"
 
-#: templates/personal.php:35
+#: templates/personal.php:70
 msgid "Fill in an email address to enable password recovery"
 msgstr "Sláðu inn netfangið þitt til að virkja endurheimt á lykilorði"
 
-#: templates/personal.php:41 templates/personal.php:42
+#: templates/personal.php:76 templates/personal.php:77
 msgid "Language"
 msgstr "Tungumál"
 
-#: templates/personal.php:47
+#: templates/personal.php:82
 msgid "Help translate"
 msgstr "Hjálpa við þýðingu"
 
-#: templates/personal.php:52
+#: templates/personal.php:87
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:54
+#: templates/personal.php:89
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Notaðu þessa vefslóð til að tengjast ownCloud svæðinu þínu"
 
-#: templates/personal.php:63
+#: templates/personal.php:98
 msgid "Version"
 msgstr "Útgáfa"
 
-#: templates/personal.php:65
+#: templates/personal.php:100
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -231,11 +268,11 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Þróað af <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud samfélaginu</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">forrita kóðinn</a> er skráðu með <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:81
-msgid "Name"
-msgstr "Nafn"
+#: templates/users.php:21 templates/users.php:79
+msgid "Login Name"
+msgstr ""
 
-#: templates/users.php:26 templates/users.php:83 templates/users.php:103
+#: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
 msgstr "Hópar"
 
@@ -247,26 +284,34 @@ msgstr "Búa til"
 msgid "Default Storage"
 msgstr "Sjálfgefin gagnageymsla"
 
-#: templates/users.php:42 templates/users.php:138
+#: templates/users.php:42 templates/users.php:142
 msgid "Unlimited"
 msgstr "Ótakmarkað"
 
-#: templates/users.php:60 templates/users.php:153
+#: templates/users.php:60 templates/users.php:157
 msgid "Other"
 msgstr "Annað"
 
-#: templates/users.php:85 templates/users.php:117
+#: templates/users.php:84 templates/users.php:121
 msgid "Group Admin"
-msgstr "Hópa stjóri"
+msgstr "Hópstjóri"
 
-#: templates/users.php:87
+#: templates/users.php:86
 msgid "Storage"
 msgstr "gagnapláss"
 
-#: templates/users.php:133
+#: templates/users.php:97
+msgid "change display name"
+msgstr ""
+
+#: templates/users.php:101
+msgid "set new password"
+msgstr ""
+
+#: templates/users.php:137
 msgid "Default"
 msgstr "Sjálfgefið"
 
-#: templates/users.php:161
+#: templates/users.php:165
 msgid "Delete"
 msgstr "Eyða"

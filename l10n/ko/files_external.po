@@ -5,14 +5,15 @@
 # Translators:
 #   <aoiob4305@gmail.com>, 2013.
 # 남자사람  <cessnagi@gmail.com>, 2012.
+# Park Shinjo <peremen@gmail.com>, 2013.
 # Shinjo Park <kde@peremen.name>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-08 00:30+0100\n"
-"PO-Revision-Date: 2013-01-07 10:07+0000\n"
-"Last-Translator: aoiob4305 <aoiob4305@gmail.com>\n"
+"POT-Creation-Date: 2013-01-31 17:02+0100\n"
+"PO-Revision-Date: 2013-01-31 08:10+0000\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,11 +29,11 @@ msgstr "접근 허가됨"
 msgid "Error configuring Dropbox storage"
 msgstr "Dropbox 저장소 설정 오류"
 
-#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
+#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:41
 msgid "Grant access"
 msgstr "접근 권한 부여"
 
-#: js/dropbox.js:73 js/google.js:72
+#: js/dropbox.js:73 js/google.js:73
 msgid "Fill out all required fields"
 msgstr "모든 필수 항목을 입력하십시오"
 
@@ -40,22 +41,22 @@ msgstr "모든 필수 항목을 입력하십시오"
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr "올바른 Dropbox 앱 키와 암호를 입력하십시오."
 
-#: js/google.js:26 js/google.js:73 js/google.js:78
+#: js/google.js:26 js/google.js:74 js/google.js:79
 msgid "Error configuring Google Drive storage"
 msgstr "Google 드라이브 저장소 설정 오류"
 
-#: lib/config.php:434
+#: lib/config.php:405
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
-msgstr "<b>경고</b>\"smbclient\"가 설치되지 않았습니다. CIFS/SMB 공유애 연결이 불가능 합니다.. 시스템 관리자에게 요청하여 설치하시기 바랍니다."
+msgstr "<b>경고:</b> \"smbclient\"가 설치되지 않았습니다. CIFS/SMB 공유 자원에 연결할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오."
 
-#: lib/config.php:435
+#: lib/config.php:406
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
-msgstr "<b>경고</b>PHP용 FTP 지원이 사용 불가능 하거나 설치되지 않았습니다. FTP 공유에 연결이 불가능 합니다. 시스템 관리자에게 요청하여 설치하시기 바랍니다. "
+msgstr "<b>경고:</b> PHP FTP 지원이 비활성화되어 있거나 설치되지 않았습니다. FTP 공유를 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오."
 
 #: templates/settings.php:3
 msgid "External Storage"

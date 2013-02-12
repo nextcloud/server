@@ -41,6 +41,8 @@ class OC_DB {
 	const BACKEND_PDO=0;
 	const BACKEND_MDB2=1;
 
+	static private $preparedQueries = array();
+
 	/**
 	 * @var MDB2_Driver_Common
 	 */
@@ -121,6 +123,7 @@ class OC_DB {
 				return true;
 			}
 		}
+		self::$preparedQueries = array();
 		// The global data we need
 		$name = OC_Config::getValue( "dbname", "owncloud" );
 		$host = OC_Config::getValue( "dbhost", "" );
@@ -181,7 +184,14 @@ class OC_DB {
 			try{
 				self::$PDO=new PDO($dsn, $user, $pass, $opts);
 			}catch(PDOException $e) {
-				OC_Template::printErrorPage( 'can not connect to database, using '.$type.'. ('.$e->getMessage().')' );
+				OC_Log::write('core', $e->getMessage(), OC_Log::FATAL);
+				OC_User::setUserId(null);
+
+				// send http status 503
+				header('HTTP/1.1 503 Service Temporarily Unavailable');
+				header('Status: 503 Service Temporarily Unavailable');
+				OC_Template::printErrorPage('Failed to connect to database');
+				die();
 			}
 			// We always, really always want associative arrays
 			self::$PDO->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
@@ -201,6 +211,7 @@ class OC_DB {
 				return true;
 			}
 		}
+		self::$preparedQueries = array();
 		// The global data we need
 		$name = OC_Config::getValue( "dbname", "owncloud" );
 		$host = OC_Config::getValue( "dbhost", "" );
@@ -277,7 +288,13 @@ class OC_DB {
 			if( PEAR::isError( self::$MDB2 )) {
 				OC_Log::write('core', self::$MDB2->getUserInfo(), OC_Log::FATAL);
 				OC_Log::write('core', self::$MDB2->getMessage(), OC_Log::FATAL);
-				OC_Template::printErrorPage( 'can not connect to database, using '.$type.'. ('.self::$MDB2->getUserInfo().')' );
+				OC_User::setUserId(null);
+
+				// send http status 503
+				header('HTTP/1.1 503 Service Temporarily Unavailable');
+				header('Status: 503 Service Temporarily Unavailable');
+				OC_Template::printErrorPage('Failed to connect to database');
+				die();
 			}
 
 			// We always, really always want associative arrays
@@ -321,7 +338,12 @@ class OC_DB {
 					$query.=$limitsql;
 				}
 			}
+		} else {
+			if (isset(self::$preparedQueries[$query])) {
+				return self::$preparedQueries[$query];
+			}
 		}
+		$rawQuery = $query;
 
 		// Optimize the query
 		$query = self::processQuery( $query );
@@ -342,6 +364,9 @@ class OC_DB {
 				throw new DatabaseException($e->getMessage(), $query);
 			}
 			$result=new PDOStatementWrapper($result);
+		}
+		if (is_null($limit) || $limit == -1) {
+			self::$preparedQueries[$rawQuery] = $result;
 		}
 		return $result;
 	}
@@ -427,6 +452,9 @@ class OC_DB {
 		$CONFIG_DBNAME  = OC_Config::getValue( "dbname", "owncloud" );
 		$CONFIG_DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
 		$CONFIG_DBTYPE = OC_Config::getValue( "dbtype", "sqlite" );
+
+		// cleanup the cached queries
+		self::$preparedQueries = array();
 
 		self::connectScheme();
 
@@ -588,7 +616,7 @@ class OC_DB {
 				error_log('DB error: '.$entry);
 				OC_Template::printErrorPage( $entry );
 			}
-			
+
 			if($result->numRows() == 0) {
 				$query = 'INSERT INTO "' . $table . '" ("'
 					. implode('","', array_keys($input)) . '") VALUES("'
@@ -623,7 +651,7 @@ class OC_DB {
 
 		return $result->execute();
 	}
-	
+
 	/**
 	 * @brief does minor changes to query
 	 * @param string $query Query string
