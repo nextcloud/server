@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 18:40+0000\n"
+"POT-Creation-Date: 2013-02-13 00:03+0100\n"
+"PO-Revision-Date: 2013-02-12 14:31+0000\n"
 "Last-Translator: Langaru <langaru@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -172,55 +172,55 @@ msgstr "Декабрь"
 msgid "Settings"
 msgstr "Настройки"
 
-#: js/js.js:766
+#: js/js.js:767
 msgid "seconds ago"
 msgstr "несколько секунд назад"
 
-#: js/js.js:767
+#: js/js.js:768
 msgid "1 minute ago"
 msgstr "1 минуту назад"
 
-#: js/js.js:768
+#: js/js.js:769
 msgid "{minutes} minutes ago"
 msgstr "{minutes} минут назад"
 
-#: js/js.js:769
+#: js/js.js:770
 msgid "1 hour ago"
 msgstr "час назад"
 
-#: js/js.js:770
+#: js/js.js:771
 msgid "{hours} hours ago"
 msgstr "{hours} часов назад"
 
-#: js/js.js:771
+#: js/js.js:772
 msgid "today"
 msgstr "сегодня"
 
-#: js/js.js:772
+#: js/js.js:773
 msgid "yesterday"
 msgstr "вчера"
 
-#: js/js.js:773
+#: js/js.js:774
 msgid "{days} days ago"
 msgstr "{days} дней назад"
 
-#: js/js.js:774
+#: js/js.js:775
 msgid "last month"
 msgstr "в прошлом месяце"
 
-#: js/js.js:775
+#: js/js.js:776
 msgid "{months} months ago"
 msgstr "{months} месяцев назад"
 
-#: js/js.js:776
+#: js/js.js:777
 msgid "months ago"
 msgstr "несколько месяцев назад"
 
-#: js/js.js:777
+#: js/js.js:778
 msgid "last year"
 msgstr "в прошлом году"
 
-#: js/js.js:778
+#: js/js.js:779
 msgid "years ago"
 msgstr "несколько лет назад"
 
@@ -263,13 +263,13 @@ msgstr "Имя приложения не указано"
 msgid "The required file {file} is not installed!"
 msgstr "Необходимый файл {file} не установлен!"
 
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
-msgid "Share"
-msgstr "Открыть доступ"
-
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+#: js/share.js:29 js/share.js:43 js/share.js:90
 msgid "Shared"
 msgstr "Общие"
+
+#: js/share.js:93
+msgid "Share"
+msgstr "Открыть доступ"
 
 #: js/share.js:141 js/share.js:622
 msgid "Error while sharing"

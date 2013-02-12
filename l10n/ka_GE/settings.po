@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-12 15:10+0100\n"
-"PO-Revision-Date: 2013-02-12 14:10+0000\n"
+"POT-Creation-Date: 2013-02-13 00:03+0100\n"
+"PO-Revision-Date: 2013-02-12 14:33+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -127,22 +127,22 @@ msgstr ""
 
 #: js/users.js:30
 msgid "undo"
-msgstr ""
+msgstr "დაბრუნება"
 
 #: js/users.js:62
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:82
-#: templates/users.php:107
+#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: templates/users.php:105
 msgid "Groups"
 msgstr "ჯგუფი"
 
-#: js/users.js:78 templates/users.php:84 templates/users.php:121
+#: js/users.js:78 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "ჯგუფის ადმინისტრატორი"
 
-#: js/users.js:99 templates/users.php:165
+#: js/users.js:99 templates/users.php:161
 msgid "Delete"
 msgstr "წაშლა"
 
@@ -150,19 +150,19 @@ msgstr "წაშლა"
 msgid "add group"
 msgstr ""
 
-#: js/users.js:405
+#: js/users.js:351
 msgid "The username is already being used"
 msgstr ""
 
-#: js/users.js:406 js/users.js:412 js/users.js:418 js/users.js:433
+#: js/users.js:352 js/users.js:358 js/users.js:364 js/users.js:379
 msgid "Error creating user"
 msgstr ""
 
-#: js/users.js:411
+#: js/users.js:357
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:417
+#: js/users.js:363
 msgid "A valid password must be provided"
 msgstr ""
 
@@ -172,7 +172,7 @@ msgstr "__language_name__"
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr ""
+msgstr "უსაფრთხოების გაფრთხილება"
 
 #: templates/admin.php:18
 msgid ""
@@ -396,7 +396,7 @@ msgstr ""
 msgid "Show First Run Wizard again"
 msgstr ""
 
-#: templates/personal.php:36 templates/users.php:23 templates/users.php:81
+#: templates/personal.php:36 templates/users.php:23 templates/users.php:79
 msgid "Password"
 msgstr "პაროლი"
 
@@ -420,7 +420,7 @@ msgstr "ახალი პაროლი"
 msgid "Change password"
 msgstr "პაროლის შეცვლა"
 
-#: templates/personal.php:54 templates/users.php:80
+#: templates/personal.php:54 templates/users.php:78
 msgid "Display Name"
 msgstr ""
 
@@ -464,7 +464,7 @@ msgstr ""
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr ""
 
-#: templates/users.php:21 templates/users.php:79
+#: templates/users.php:21 templates/users.php:77
 msgid "Login Name"
 msgstr ""
 
@@ -476,26 +476,26 @@ msgstr "შექმნა"
 msgid "Default Storage"
 msgstr ""
 
-#: templates/users.php:42 templates/users.php:142
+#: templates/users.php:41 templates/users.php:139
 msgid "Unlimited"
 msgstr ""
 
-#: templates/users.php:60 templates/users.php:157
+#: templates/users.php:59 templates/users.php:154
 msgid "Other"
 msgstr "სხვა"
 
-#: templates/users.php:86
+#: templates/users.php:84
 msgid "Storage"
 msgstr ""
 
-#: templates/users.php:97
+#: templates/users.php:95
 msgid "change display name"
 msgstr ""
 
-#: templates/users.php:101
+#: templates/users.php:99
 msgid "set new password"
 msgstr ""
 
-#: templates/users.php:137
+#: templates/users.php:134
 msgid "Default"
 msgstr ""

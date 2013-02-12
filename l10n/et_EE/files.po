@@ -4,14 +4,14 @@
 # 
 # Translators:
 #   <dagor.vint@hotmail.com>, 2012.
-# Rivo Zängov <eraser@eraser.ee>, 2011-2012.
+# Rivo Zängov <eraser@eraser.ee>, 2011-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-12 15:10+0100\n"
-"PO-Revision-Date: 2013-02-12 10:02+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-13 00:03+0100\n"
+"PO-Revision-Date: 2013-02-12 17:31+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,11 +27,11 @@ msgstr ""
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "%s liigutamine ebaõnnestus"
 
 #: ajax/rename.php:22 ajax/rename.php:25
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Faili ümbernimetamine ebaõnnestus"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -70,11 +70,11 @@ msgstr "Kettale kirjutamine ebaõnnestus"
 
 #: ajax/upload.php:52
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Saadaval pole piisavalt ruumi"
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
-msgstr ""
+msgstr "Vigane kaust."
 
 #: appinfo/app.php:10
 msgid "Files"
@@ -82,7 +82,7 @@ msgstr "Failid"
 
 #: js/fileactions.js:125
 msgid "Delete permanently"
-msgstr ""
+msgstr "Kustuta jäädavalt"
 
 #: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
 msgid "Delete"
@@ -131,11 +131,11 @@ msgstr ""
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' on vigane failinimi."
 
 #: js/files.js:56
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Faili nimi ei saa olla tühi."
 
 #: js/files.js:64
 msgid ""
@@ -276,7 +276,7 @@ msgstr "Allikast"
 
 #: templates/index.php:40
 msgid "Trash bin"
-msgstr ""
+msgstr "Prügikast"
 
 #: templates/index.php:46
 msgid "Cancel upload"

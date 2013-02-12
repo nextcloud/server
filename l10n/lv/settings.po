@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-12 15:10+0100\n"
-"PO-Revision-Date: 2013-02-12 14:10+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-13 00:03+0100\n"
+"PO-Revision-Date: 2013-02-12 19:50+0000\n"
+"Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -125,48 +125,48 @@ msgstr "Saglabā..."
 
 #: js/users.js:30
 msgid "deleted"
-msgstr ""
+msgstr "izdzests"
 
 #: js/users.js:30
 msgid "undo"
-msgstr ""
+msgstr "atsaukt"
 
 #: js/users.js:62
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Nevar izņemt lietotāju"
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:82
-#: templates/users.php:107
+#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: templates/users.php:105
 msgid "Groups"
 msgstr "Grupas"
 
-#: js/users.js:78 templates/users.php:84 templates/users.php:121
+#: js/users.js:78 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "Grupas administrators"
 
-#: js/users.js:99 templates/users.php:165
+#: js/users.js:99 templates/users.php:161
 msgid "Delete"
 msgstr "Dzēst"
 
 #: js/users.js:190
 msgid "add group"
-msgstr ""
+msgstr "pievienot grupu"
 
-#: js/users.js:405
+#: js/users.js:351
 msgid "The username is already being used"
-msgstr ""
+msgstr "Šāds lietotājvārds jau tiek izmantots"
 
-#: js/users.js:406 js/users.js:412 js/users.js:418 js/users.js:433
+#: js/users.js:352 js/users.js:358 js/users.js:364 js/users.js:379
 msgid "Error creating user"
-msgstr ""
+msgstr "Kļūda, veidojot lietotāju"
 
-#: js/users.js:411
+#: js/users.js:357
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Jānorāda derīgs lietotājvārds"
 
-#: js/users.js:417
+#: js/users.js:363
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Jānorāda derīga parole"
 
 #: personal.php:34 personal.php:35
 msgid "__language_name__"
@@ -174,7 +174,7 @@ msgstr "__valodas_nosaukums__"
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr ""
+msgstr "Brīdinājums par drošību"
 
 #: templates/admin.php:18
 msgid ""
@@ -183,36 +183,36 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Jūsu datu direktorija un datnes visdrīzāk ir pieejamas no interneta. ownCloud nodrošinātā .htaccess datne nedarbojas. Mēs iesakām konfigurēt serveri tā, lai datu direktorija vairs nebūtu pieejama, vai arī pārvietojiet datu direktoriju ārpus tīmekļa servera dokumentu saknes."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "Iestatīšanas brīdinājums"
 
 #: templates/admin.php:32
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Jūsu serveris vēl nav pareizi iestatīts, lai ļautu sinhronizēt datnes, jo izskatās, ka WebDAV saskarne ir salauzta."
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Lūdzu, vēlreiz pārbaudiet <a href='%s'>instalēšanas palīdzību</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Trūkst modulis “fileinfo”"
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "Trūkst PHP modulis “fileinfo”. Mēs iesakām to aktivēt, lai pēc iespējas labāk noteiktu mime tipus."
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "Lokāle nestrādā"
 
 #: templates/admin.php:61
 msgid ""
@@ -220,11 +220,11 @@ msgid ""
 "\"en_US.UTF-8\"/\"en_US.UTF8\". This means that there might be problems with"
 " certain characters in file names. We strongly suggest to install the "
 "required packages on your system to support en_US.UTF-8/en_US.UTF8."
-msgstr ""
+msgstr "Šis ownCloud serveris nevar iestatīt sistēmas lokāli uz \"en_US.UTF-8\"/\"en_US.UTF8\". Tas nozīmē, ka varētu būt problēmas ar noteiktām rakstzīmēm datņu nosaukumos. Mēs iesakām instalēt vajadzīgās pakotnes savā sistēmā en_US.UTF-8/en_US.UTF8 atbalstam."
 
 #: templates/admin.php:72
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Interneta savienojums nedarbojas"
 
 #: templates/admin.php:75
 msgid ""
@@ -321,7 +321,7 @@ msgstr ""
 
 #: templates/admin.php:220
 msgid "More"
-msgstr ""
+msgstr "Vairāk"
 
 #: templates/admin.php:227 templates/personal.php:98
 msgid "Version"
@@ -398,7 +398,7 @@ msgstr "Saņem lietotnes, lai sinhronizētu savas datnes"
 msgid "Show First Run Wizard again"
 msgstr "Vēlreiz rādīt pirmās palaišanas vedni"
 
-#: templates/personal.php:36 templates/users.php:23 templates/users.php:81
+#: templates/personal.php:36 templates/users.php:23 templates/users.php:79
 msgid "Password"
 msgstr "Parole"
 
@@ -422,7 +422,7 @@ msgstr "Jauna parole"
 msgid "Change password"
 msgstr "Mainīt paroli"
 
-#: templates/personal.php:54 templates/users.php:80
+#: templates/personal.php:54 templates/users.php:78
 msgid "Display Name"
 msgstr "Redzamais vārds"
 
@@ -466,7 +466,7 @@ msgstr "WebDAV"
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Izmanto šo adresi, lai, izmantojot datņu pārvaldnieku, savienotos ar savu ownCloud"
 
-#: templates/users.php:21 templates/users.php:79
+#: templates/users.php:21 templates/users.php:77
 msgid "Login Name"
 msgstr "Ierakstīšanās vārds"
 
@@ -478,26 +478,26 @@ msgstr "Izveidot"
 msgid "Default Storage"
 msgstr "Noklusējuma krātuve"
 
-#: templates/users.php:42 templates/users.php:142
+#: templates/users.php:41 templates/users.php:139
 msgid "Unlimited"
 msgstr "Neierobežota"
 
-#: templates/users.php:60 templates/users.php:157
+#: templates/users.php:59 templates/users.php:154
 msgid "Other"
 msgstr "Cits"
 
-#: templates/users.php:86
+#: templates/users.php:84
 msgid "Storage"
 msgstr "Krātuve"
 
-#: templates/users.php:97
+#: templates/users.php:95
 msgid "change display name"
 msgstr "mainīt redzamo vārdu"
 
-#: templates/users.php:101
+#: templates/users.php:99
 msgid "set new password"
 msgstr "iestatīt jaunu paroli"
 
-#: templates/users.php:137
+#: templates/users.php:134
 msgid "Default"
 msgstr "Noklusējuma"

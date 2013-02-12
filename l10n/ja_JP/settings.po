@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-12 15:10+0100\n"
-"PO-Revision-Date: 2013-02-12 14:10+0000\n"
+"POT-Creation-Date: 2013-02-13 00:03+0100\n"
+"PO-Revision-Date: 2013-02-12 14:33+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -127,26 +127,26 @@ msgstr "保存中..."
 
 #: js/users.js:30
 msgid "deleted"
-msgstr ""
+msgstr "削除"
 
 #: js/users.js:30
 msgid "undo"
-msgstr ""
+msgstr "元に戻す"
 
 #: js/users.js:62
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:82
-#: templates/users.php:107
+#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: templates/users.php:105
 msgid "Groups"
 msgstr "グループ"
 
-#: js/users.js:78 templates/users.php:84 templates/users.php:121
+#: js/users.js:78 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "グループ管理者"
 
-#: js/users.js:99 templates/users.php:165
+#: js/users.js:99 templates/users.php:161
 msgid "Delete"
 msgstr "削除"
 
@@ -154,19 +154,19 @@ msgstr "削除"
 msgid "add group"
 msgstr ""
 
-#: js/users.js:405
+#: js/users.js:351
 msgid "The username is already being used"
 msgstr ""
 
-#: js/users.js:406 js/users.js:412 js/users.js:418 js/users.js:433
+#: js/users.js:352 js/users.js:358 js/users.js:364 js/users.js:379
 msgid "Error creating user"
 msgstr ""
 
-#: js/users.js:411
+#: js/users.js:357
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:417
+#: js/users.js:363
 msgid "A valid password must be provided"
 msgstr ""
 
@@ -176,7 +176,7 @@ msgstr "Japanese (日本語)"
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr ""
+msgstr "セキュリティ警告"
 
 #: templates/admin.php:18
 msgid ""
@@ -185,7 +185,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "データディレクトリとファイルが恐らくインターネットからアクセスできるようになっています。ownCloudが提供する .htaccessファイルが機能していません。データディレクトリを全くアクセスできないようにするか、データディレクトリをウェブサーバのドキュメントルートの外に置くようにウェブサーバを設定することを強くお勧めします。 "
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -195,12 +195,12 @@ msgstr ""
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "WebDAVインタフェースが動作していないと考えられるため、あなたのWEBサーバはまだファイルの同期を許可するように適切な設定がされていません。"
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "<a href='%s'>インストールガイド</a>をよく確認してください。"
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -323,7 +323,7 @@ msgstr ""
 
 #: templates/admin.php:220
 msgid "More"
-msgstr ""
+msgstr "詳細"
 
 #: templates/admin.php:227 templates/personal.php:98
 msgid "Version"
@@ -400,7 +400,7 @@ msgstr "あなたのファイルを同期するためのアプリを取得"
 msgid "Show First Run Wizard again"
 msgstr "初回実行ウィザードを再度表示する"
 
-#: templates/personal.php:36 templates/users.php:23 templates/users.php:81
+#: templates/personal.php:36 templates/users.php:23 templates/users.php:79
 msgid "Password"
 msgstr "パスワード"
 
@@ -424,7 +424,7 @@ msgstr "新しいパスワード"
 msgid "Change password"
 msgstr "パスワードを変更"
 
-#: templates/personal.php:54 templates/users.php:80
+#: templates/personal.php:54 templates/users.php:78
 msgid "Display Name"
 msgstr "表示名"
 
@@ -468,7 +468,7 @@ msgstr "WebDAV"
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "ファイルマネージャでownCloudに接続する際はこのアドレスを利用してください"
 
-#: templates/users.php:21 templates/users.php:79
+#: templates/users.php:21 templates/users.php:77
 msgid "Login Name"
 msgstr "ログイン名"
 
@@ -480,26 +480,26 @@ msgstr "作成"
 msgid "Default Storage"
 msgstr "デフォルトストレージ"
 
-#: templates/users.php:42 templates/users.php:142
+#: templates/users.php:41 templates/users.php:139
 msgid "Unlimited"
 msgstr "無制限"
 
-#: templates/users.php:60 templates/users.php:157
+#: templates/users.php:59 templates/users.php:154
 msgid "Other"
 msgstr "その他"
 
-#: templates/users.php:86
+#: templates/users.php:84
 msgid "Storage"
 msgstr "ストレージ"
 
-#: templates/users.php:97
+#: templates/users.php:95
 msgid "change display name"
 msgstr "表示名を変更"
 
-#: templates/users.php:101
+#: templates/users.php:99
 msgid "set new password"
 msgstr "新しいパスワードを設定"
 
-#: templates/users.php:137
+#: templates/users.php:134
 msgid "Default"
 msgstr "デフォルト"

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-11 15:39+0100\n"
-"PO-Revision-Date: 2013-02-11 13:30+0000\n"
+"POT-Creation-Date: 2013-02-13 00:03+0100\n"
+"PO-Revision-Date: 2013-02-12 14:32+0000\n"
 "Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -258,13 +258,13 @@ msgstr "Nešpecifikované meno aplikácie."
 msgid "The required file {file} is not installed!"
 msgstr "Požadovaný súbor {file} nie je inštalovaný!"
 
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
-msgid "Share"
-msgstr "Zdieľaj"
-
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+#: js/share.js:29 js/share.js:43 js/share.js:90
 msgid "Shared"
 msgstr "Zdieľané"
+
+#: js/share.js:93
+msgid "Share"
+msgstr "Zdieľaj"
 
 #: js/share.js:141 js/share.js:622
 msgid "Error while sharing"

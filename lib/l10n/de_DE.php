@@ -24,7 +24,6 @@
 "%s you may not use dots in the database name" => "%s du darfst keine Punkte im Datenbank-Namen verwenden",
 "%s set the database host." => "%s setze den Datenbank-Host",
 "PostgreSQL username and/or password not valid" => "PostgreSQL Benutzername und/oder Passwort nicht valide",
-"You need to enter either an existing account or the administrator." => "Du musst einen bestehenden Account oder den Administrator angeben.",
 "Oracle username and/or password not valid" => "Oracle Benutzername und/oder Passwort nicht valide",
 "MySQL username and/or password not valid" => "MySQL Benutzername und/oder Passwort nicht valide",
 "DB Error: \"%s\"" => "DB Fehler: \"%s\"",
