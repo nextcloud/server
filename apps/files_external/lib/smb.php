@@ -46,7 +46,9 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 			$path=substr($path, 0, -1);
 		}
 		$path = urlencode($path);
-		return 'smb://'.$this->user.':'.$this->password.'@'.$this->host.$this->share.$this->root.$path;
+		$user = urlencode($this->user);
+		$pass = urlencode($this->password);
+		return 'smb://'.$user.':'.$pass.'@'.$this->host.$this->share.$this->root.$path;
 	}
 
 	public function stat($path) {
