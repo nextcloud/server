@@ -733,7 +733,7 @@ class OC_Setup {
 	}
 
 	private static function mssql_createDatabase($dbname, $connection) {
-		$query = "CREATE DATABASE IF NOT EXISTS [".$dbname."];";
+		$query = "CREATE DATABASE [".$dbname."];";
 		$result = sqlsrv_query($connection, $query);
 		if (!$result || $result === false) {
 			if ( ($errors = sqlsrv_errors() ) != null) {
