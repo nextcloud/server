@@ -31,6 +31,7 @@
 "Bugtracker" => "Bugtracker",
 "Commercial Support" => "Babes komertziala",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Dagoeneko <strong>%s</strong> erabili duzu eskuragarri duzun <strong>%s</strong>etatik",
+"Show First Run Wizard again" => "Erakutsi berriz Lehenengo Aldiko Morroia",
 "Password" => "Pasahitza",
 "Your password was changed" => "Zere pasahitza aldatu da",
 "Unable to change your password" => "Ezin izan da zure pasahitza aldatu",

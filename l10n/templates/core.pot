@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-11 15:39+0100\n"
+"POT-Creation-Date: 2013-02-12 00:20+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -251,12 +251,12 @@ msgstr ""
 msgid "The required file {file} is not installed!"
 msgstr ""
 
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
-msgid "Share"
+#: js/share.js:29 js/share.js:43 js/share.js:90
+msgid "Shared"
 msgstr ""
 
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
-msgid "Shared"
+#: js/share.js:93
+msgid "Share"
 msgstr ""
 
 #: js/share.js:141 js/share.js:622

@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-11 15:39+0100\n"
-"PO-Revision-Date: 2013-02-11 14:39+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-12 00:20+0100\n"
+"PO-Revision-Date: 2013-02-11 20:07+0000\n"
+"Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -185,11 +185,11 @@ msgstr "Používáte <strong>%s</strong> z <strong>%s</strong> dostupných"
 
 #: templates/personal.php:14
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Získat aplikace pro synchronizaci vašich souborů"
 
 #: templates/personal.php:25
 msgid "Show First Run Wizard again"
-msgstr ""
+msgstr "Znovu zobrazit průvodce prvním spuštěním"
 
 #: templates/personal.php:36 templates/users.php:23 templates/users.php:81
 msgid "Password"

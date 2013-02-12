@@ -38,6 +38,8 @@
 "Bugtracker" => "Kļūdu sekotājs",
 "Commercial Support" => "Komerciālais atbalsts",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Jūs lietojat <strong>%s</strong> no pieejamajiem <strong>%s</strong>",
+"Get the apps to sync your files" => "Saņem lietotnes, lai sinhronizētu savas datnes",
+"Show First Run Wizard again" => "Vēlreiz rādīt pirmās palaišanas vedni",
 "Password" => "Parole",
 "Your password was changed" => "Jūru parole tika nomainīta",
 "Unable to change your password" => "Nevar nomainīt jūsu paroli",

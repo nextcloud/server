@@ -10,6 +10,7 @@
 # Kamil Domański <kdomanski@kdemail.net>, 2011.
 # Marcin Małecki <gerber@tkdami.net>, 2011, 2012.
 # Marcin Małecki <mosslar@gmail.com>, 2011.
+# Michał Plichta <mplichta@gmail.com>, 2013.
 #   <mosslar@gmail.com>, 2011.
 #   <mplichta@gmail.com>, 2012.
 # Piotr Sokół <psokol@jabster.pl>, 2012.
@@ -18,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-11 15:39+0100\n"
-"PO-Revision-Date: 2013-02-11 14:39+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-12 00:20+0100\n"
+"PO-Revision-Date: 2013-02-11 20:22+0000\n"
+"Last-Translator: emc <mplichta@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -93,11 +94,11 @@ msgstr "Nie można usunąć użytkownika z grupy %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Nie można uaktualnić aplikacji"
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Aktualizacja do {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
@@ -109,15 +110,15 @@ msgstr "Włącz"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "Prosze czekać..."
 
 #: js/apps.js:84
 msgid "Updating...."
-msgstr ""
+msgstr "Aktualizacja w toku..."
 
 #: js/apps.js:87
 msgid "Error while updating app"
-msgstr ""
+msgstr "Błąd podczas aktualizacji aplikacji"
 
 #: js/apps.js:87
 msgid "Error"
@@ -125,7 +126,7 @@ msgstr "Błąd"
 
 #: js/apps.js:90
 msgid "Updated"
-msgstr ""
+msgstr "Zaktualizowano"
 
 #: js/personal.js:96
 msgid "Saving..."
@@ -222,7 +223,7 @@ msgstr "Zmień hasło"
 
 #: templates/personal.php:54 templates/users.php:80
 msgid "Display Name"
-msgstr ""
+msgstr "Wyświetlana nazwa"
 
 #: templates/personal.php:55
 msgid "Your display name was changed"
@@ -230,11 +231,11 @@ msgstr ""
 
 #: templates/personal.php:56
 msgid "Unable to change your display name"
-msgstr ""
+msgstr "Nie można zmianić wyświetlanej nazwy"
 
 #: templates/personal.php:59
 msgid "Change display name"
-msgstr ""
+msgstr "Zmiana wyświetlanej nazwy"
 
 #: templates/personal.php:68
 msgid "Email"
@@ -280,7 +281,7 @@ msgstr "Stworzone przez <a href=\"http://ownCloud.org/contact\" target=\"_blank\
 
 #: templates/users.php:21 templates/users.php:79
 msgid "Login Name"
-msgstr ""
+msgstr "Login"
 
 #: templates/users.php:26 templates/users.php:82 templates/users.php:107
 msgid "Groups"
@@ -316,7 +317,7 @@ msgstr ""
 
 #: templates/users.php:101
 msgid "set new password"
-msgstr ""
+msgstr "zmień hasło"
 
 #: templates/users.php:137
 msgid "Default"

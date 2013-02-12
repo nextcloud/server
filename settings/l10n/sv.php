@@ -38,6 +38,7 @@
 "Bugtracker" => "Bugtracker",
 "Commercial Support" => "Kommersiell support",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Du har använt <strong>%s</strong> av tillgängliga <strong>%s</strong>",
+"Show First Run Wizard again" => "Visa Första uppstarts-guiden igen",
 "Password" => "Lösenord",
 "Your password was changed" => "Ditt lösenord har ändrats",
 "Unable to change your password" => "Kunde inte ändra ditt lösenord",

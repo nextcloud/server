@@ -31,6 +31,7 @@
 "Bugtracker" => "Отслеживание ошибок",
 "Commercial Support" => "Коммерческая поддержка",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Вы использовали <strong>%s</strong> из возможных <strong>%s</strong>",
+"Show First Run Wizard again" => "Вновь показать помощника первоначальной настройки",
 "Password" => "Пароль",
 "Your password was changed" => "Ваш пароль был изменен",
 "Unable to change your password" => "Невозможно изменить Ваш пароль",

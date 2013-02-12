@@ -38,6 +38,7 @@
 "Bugtracker" => "Suivi de bugs",
 "Commercial Support" => "Support commercial",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Vous avez utilisé <strong>%s</strong> des <strong>%s<strong> disponibles",
+"Show First Run Wizard again" => "Revoir le premier lancement de l'installeur",
 "Password" => "Mot de passe",
 "Your password was changed" => "Votre mot de passe a été changé",
 "Unable to change your password" => "Impossible de changer votre mot de passe",

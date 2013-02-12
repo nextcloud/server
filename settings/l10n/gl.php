@@ -31,6 +31,7 @@
 "Bugtracker" => "Seguemento de fallos",
 "Commercial Support" => "Asistencia comercial",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Te en uso <strong>%s</strong> do total dispoñíbel de <strong>%s</strong>",
+"Show First Run Wizard again" => "Amosar o axudante da primeira execución outra vez",
 "Password" => "Contrasinal",
 "Your password was changed" => "O seu contrasinal foi cambiado",
 "Unable to change your password" => "Non é posíbel cambiar o seu contrasinal",

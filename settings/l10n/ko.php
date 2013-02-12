@@ -31,6 +31,7 @@
 "Bugtracker" => "버그 트래커",
 "Commercial Support" => "상업용 지원",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "현재 공간 <strong>%s</strong>/<strong>%s</strong>을(를) 사용 중입니다",
+"Show First Run Wizard again" => "첫 실행 마법사 다시 보이기",
 "Password" => "암호",
 "Your password was changed" => "암호가 변경되었습니다",
 "Unable to change your password" => "암호를 변경할 수 없음",

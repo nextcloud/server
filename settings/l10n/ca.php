@@ -38,6 +38,8 @@
 "Bugtracker" => "Seguiment d'errors",
 "Commercial Support" => "Suport comercial",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Heu utilitzat <strong>%s</strong> d'un total disponible de <strong>%s</strong>",
+"Get the apps to sync your files" => "Obtén les aplicacions per sincronitzar fitxers",
+"Show First Run Wizard again" => "Torna a mostrar l'assistent de primera execució",
 "Password" => "Contrasenya",
 "Your password was changed" => "La seva contrasenya s'ha canviat",
 "Unable to change your password" => "No s'ha pogut canviar la contrasenya",

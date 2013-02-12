@@ -38,6 +38,7 @@
 "Bugtracker" => "Ohjelmistovirheiden jäljitys",
 "Commercial Support" => "Kaupallinen tuki",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Käytössäsi on <strong>%s</strong>/<strong>%s</strong>",
+"Show First Run Wizard again" => "Näytä ensimmäisen käyttökerran avustaja uudelleen",
 "Password" => "Salasana",
 "Your password was changed" => "Salasanasi vaihdettiin",
 "Unable to change your password" => "Salasanaasi ei voitu vaihtaa",

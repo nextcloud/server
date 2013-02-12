@@ -13,6 +13,7 @@
 #   <sharov3@gmail.com>, 2013.
 #   <skoptev@ukr.net>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
+# Victor Ashirov <victor.ashirov@gmail.com>, 2013.
 # Victor Bravo <>, 2012.
 #   <victor.dubiniuk@gmail.com>, 2012.
 # Дмитрий <langaru@gmail.com>, 2013.
@@ -20,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 23:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-12 00:20+0100\n"
+"PO-Revision-Date: 2013-02-11 16:30+0000\n"
+"Last-Translator: unixoid <victor.ashirov@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -91,15 +92,15 @@ msgstr "Неправильный каталог."
 msgid "Files"
 msgstr "Файлы"
 
-#: js/fileactions.js:116
+#: js/fileactions.js:125
 msgid "Delete permanently"
 msgstr "Удалено навсегда"
 
-#: js/fileactions.js:118 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Удалить"
 
-#: js/fileactions.js:184
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr "Переименовать"
 
@@ -205,31 +206,31 @@ msgstr "Ссылка не может быть пустой."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Неправильное имя каталога. Имя 'Shared' зарезервировано."
 
-#: js/files.js:947 templates/index.php:67
+#: js/files.js:948 templates/index.php:67
 msgid "Name"
 msgstr "Название"
 
-#: js/files.js:948 templates/index.php:78
+#: js/files.js:949 templates/index.php:78
 msgid "Size"
 msgstr "Размер"
 
-#: js/files.js:949 templates/index.php:80
+#: js/files.js:950 templates/index.php:80
 msgid "Modified"
 msgstr "Изменён"
 
-#: js/files.js:968
+#: js/files.js:969
 msgid "1 folder"
 msgstr "1 папка"
 
-#: js/files.js:970
+#: js/files.js:971
 msgid "{count} folders"
 msgstr "{count} папок"
 
-#: js/files.js:978
+#: js/files.js:979
 msgid "1 file"
 msgstr "1 файл"
 
-#: js/files.js:980
+#: js/files.js:981
 msgid "{count} files"
 msgstr "{count} файлов"
 
@@ -287,7 +288,7 @@ msgstr "Из ссылки"
 
 #: templates/index.php:40
 msgid "Trash bin"
-msgstr ""
+msgstr "Корзина"
 
 #: templates/index.php:46
 msgid "Cancel upload"
