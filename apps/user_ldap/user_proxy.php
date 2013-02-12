@@ -188,7 +188,7 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	 * @return bool
 	 */
 	public function hasUserListings() {
-		return true;
+		return $this->refBackend->hasUserListings();
 	}
 
 }
