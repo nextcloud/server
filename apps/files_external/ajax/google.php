@@ -4,6 +4,8 @@ require_once 'Google/common.inc.php';
 
 OCP\JSON::checkAppEnabled('files_external');
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
+
 $consumer = new OAuthConsumer('anonymous', 'anonymous');
 $sigMethod = new OAuthSignatureMethod_HMAC_SHA1();
 if (isset($_POST['step'])) {

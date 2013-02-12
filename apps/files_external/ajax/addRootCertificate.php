@@ -1,6 +1,7 @@
 <?php
 
 OCP\JSON::checkAppEnabled('files_external');
+OCP\JSON::callCheck();
 
 if ( !($filename = $_FILES['rootcert_import']['name']) ) {
 	header("Location: settings/personal.php");
