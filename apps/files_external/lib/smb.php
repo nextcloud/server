@@ -45,6 +45,7 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 		if (substr($path, -1)=='/') {
 			$path=substr($path, 0, -1);
 		}
+		$path = urlencode($path);
 		return 'smb://'.$this->user.':'.$this->password.'@'.$this->host.$this->share.$this->root.$path;
 	}
 
@@ -57,11 +58,6 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 		} else {
 			return stat($this->constructUrl($path));
 		}
-	}
-
-	public function filetype($path) {
-		// using opendir causes the same amount of requests and caches the content of the folder in one go
-		return (bool)@$this->opendir($path) ? 'dir' : 'file';
 	}
 
 	/**
