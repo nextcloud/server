@@ -41,7 +41,7 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 			$this->s3 = new \AmazonS3(array('key' => $params['key'], 'secret' => $params['secret']));
 			$this->bucket = $params['bucket'];
 		} else {
-			throw new Exception();
+			throw new \Exception();
 		}
 	}
 

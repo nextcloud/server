@@ -35,7 +35,7 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 			if ( ! $this->root || $this->root[0]!='/') {
 				$this->root='/'.$this->root;
 			}
-			//create the root folder if necesary
+			//create the root folder if necessary
 			if ( ! $this->is_dir('')) {
 				$this->mkdir('');
 			}
@@ -88,7 +88,7 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 				} else {
 					$ext='';
 				}
-				$tmpFile=OCP\Files::tmpFile($ext);
+				$tmpFile=\OCP\Files::tmpFile($ext);
 				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$this->getFile($path, $tmpFile);
