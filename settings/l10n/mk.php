@@ -17,7 +17,12 @@
 "Enable" => "Овозможи",
 "Error" => "Грешка",
 "Saving..." => "Снимам...",
+"Groups" => "Групи",
+"Group Admin" => "Администратор на група",
+"Delete" => "Избриши",
 "__language_name__" => "__language_name__",
+"Version" => "Верзија",
+"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Развој од <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud заедницата</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">изворниот код</a> е лиценциран со<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
 "Add your App" => "Додадете ја Вашата апликација",
 "More Apps" => "Повеќе аппликации",
 "Select an App" => "Избери аппликација",
@@ -43,11 +48,6 @@
 "Help translate" => "Помогни во преводот",
 "WebDAV" => "WebDAV",
 "Use this address to connect to your ownCloud in your file manager" => "Користете ја оваа адреса да ",
-"Version" => "Верзија",
-"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Развој од <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud заедницата</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">изворниот код</a> е лиценциран со<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
-"Groups" => "Групи",
 "Create" => "Создај",
-"Other" => "Останато",
-"Group Admin" => "Администратор на група",
-"Delete" => "Избриши"
+"Other" => "Останато"
 );

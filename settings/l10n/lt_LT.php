@@ -10,6 +10,8 @@
 "Enable" => "Įjungti",
 "Error" => "Klaida",
 "Saving..." => "Saugoma..",
+"Groups" => "Grupės",
+"Delete" => "Ištrinti",
 "__language_name__" => "Kalba",
 "Add your App" => "Pridėti programėlę",
 "More Apps" => "Daugiau aplikacijų",
@@ -27,8 +29,6 @@
 "Fill in an email address to enable password recovery" => "Pamiršto slaptažodžio atkūrimui įveskite savo el. pašto adresą",
 "Language" => "Kalba",
 "Help translate" => "Padėkite išversti",
-"Groups" => "Grupės",
 "Create" => "Sukurti",
-"Other" => "Kita",
-"Delete" => "Ištrinti"
+"Other" => "Kita"
 );

@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-11 00:03+0100\n"
-"PO-Revision-Date: 2013-02-10 14:21+0000\n"
+"POT-Creation-Date: 2013-02-12 15:10+0100\n"
+"PO-Revision-Date: 2013-02-12 10:01+0000\n"
 "Last-Translator: Mouxy <daniel@mouxy.net>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -86,15 +86,15 @@ msgstr "Directório Inválido"
 msgid "Files"
 msgstr "Ficheiros"
 
-#: js/fileactions.js:116
+#: js/fileactions.js:125
 msgid "Delete permanently"
 msgstr "Eliminar permanentemente"
 
-#: js/fileactions.js:118 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Apagar"
 
-#: js/fileactions.js:184
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr "Renomear"
 

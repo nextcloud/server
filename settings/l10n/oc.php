@@ -16,6 +16,9 @@
 "Enable" => "Activa",
 "Error" => "Error",
 "Saving..." => "Enregistra...",
+"Groups" => "Grops",
+"Group Admin" => "Grop Admin",
+"Delete" => "Escafa",
 "__language_name__" => "__language_name__",
 "Add your App" => "Ajusta ton App",
 "Select an App" => "Selecciona una applicacion",
@@ -32,9 +35,6 @@
 "Fill in an email address to enable password recovery" => "Emplena una adreiça de corrièl per permetre lo mandadís del senhal perdut",
 "Language" => "Lenga",
 "Help translate" => "Ajuda a la revirada",
-"Groups" => "Grops",
 "Create" => "Crea",
-"Other" => "Autres",
-"Group Admin" => "Grop Admin",
-"Delete" => "Escafa"
+"Other" => "Autres"
 );

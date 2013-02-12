@@ -17,7 +17,12 @@
 "Enable" => "הפעל",
 "Error" => "שגיאה",
 "Saving..." => "שומר..",
+"Groups" => "קבוצות",
+"Group Admin" => "מנהל הקבוצה",
+"Delete" => "מחיקה",
 "__language_name__" => "עברית",
+"Version" => "גרסא",
+"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "פותח על די <a href=\"http://ownCloud.org/contact\" target=\"_blank\">קהילתownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">קוד המקור</a> מוגן ברישיון <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
 "Add your App" => "הוספת היישום שלך",
 "More Apps" => "יישומים נוספים",
 "Select an App" => "בחירת יישום",
@@ -42,11 +47,6 @@
 "Language" => "פה",
 "Help translate" => "עזרה בתרגום",
 "Use this address to connect to your ownCloud in your file manager" => "השתמש בכתובת זאת על מנת להתחבר אל ownCloud דרך סייר קבצים.",
-"Version" => "גרסא",
-"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "פותח על די <a href=\"http://ownCloud.org/contact\" target=\"_blank\">קהילתownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">קוד המקור</a> מוגן ברישיון <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
-"Groups" => "קבוצות",
 "Create" => "יצירה",
-"Other" => "אחר",
-"Group Admin" => "מנהל הקבוצה",
-"Delete" => "מחיקה"
+"Other" => "אחר"
 );

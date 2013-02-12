@@ -9,6 +9,9 @@
 "Enable" => "Aschalten",
 "Error" => "Fehler",
 "Saving..." => "Speicheren...",
+"Groups" => "Gruppen",
+"Group Admin" => "Gruppen Admin",
+"Delete" => "Läschen",
 "__language_name__" => "__language_name__",
 "Add your App" => "Setz deng App bei",
 "Select an App" => "Wiel eng Applikatioun aus",
@@ -23,9 +26,6 @@
 "Fill in an email address to enable password recovery" => "Gëff eng Email Adress an fir d'Passwuert recovery ze erlaben",
 "Language" => "Sprooch",
 "Help translate" => "Hëllef iwwersetzen",
-"Groups" => "Gruppen",
 "Create" => "Erstellen",
-"Other" => "Aner",
-"Group Admin" => "Gruppen Admin",
-"Delete" => "Läschen"
+"Other" => "Aner"
 );

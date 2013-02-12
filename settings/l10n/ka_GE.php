@@ -16,6 +16,9 @@
 "Enable" => "ჩართვა",
 "Error" => "შეცდომა",
 "Saving..." => "შენახვა...",
+"Groups" => "ჯგუფი",
+"Group Admin" => "ჯგუფის ადმინისტრატორი",
+"Delete" => "წაშლა",
 "__language_name__" => "__language_name__",
 "Add your App" => "დაამატე შენი აპლიკაცია",
 "More Apps" => "უფრო მეტი აპლიკაციები",
@@ -34,9 +37,6 @@
 "Fill in an email address to enable password recovery" => "შეავსეთ იმეილ მისამართის ველი პაროლის აღსადგენად",
 "Language" => "ენა",
 "Help translate" => "თარგმნის დახმარება",
-"Groups" => "ჯგუფი",
 "Create" => "შექმნა",
-"Other" => "სხვა",
-"Group Admin" => "ჯგუფის ადმინისტრატორი",
-"Delete" => "წაშლა"
+"Other" => "სხვა"
 );

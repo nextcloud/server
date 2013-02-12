@@ -8,6 +8,8 @@
 "Enable" => "Aktif",
 "Error" => "Ralat",
 "Saving..." => "Simpan...",
+"Groups" => "Kumpulan",
+"Delete" => "Padam",
 "__language_name__" => "_nama_bahasa_",
 "Add your App" => "Tambah apps anda",
 "Select an App" => "Pilih aplikasi",
@@ -23,8 +25,6 @@
 "Fill in an email address to enable password recovery" => "Isi alamat emel anda untuk membolehkan pemulihan kata laluan",
 "Language" => "Bahasa",
 "Help translate" => "Bantu terjemah",
-"Groups" => "Kumpulan",
 "Create" => "Buat",
-"Other" => "Lain",
-"Delete" => "Padam"
+"Other" => "Lain"
 );

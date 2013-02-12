@@ -16,6 +16,9 @@
 "Enable" => "Lülita sisse",
 "Error" => "Viga",
 "Saving..." => "Salvestamine...",
+"Groups" => "Grupid",
+"Group Admin" => "Grupi admin",
+"Delete" => "Kustuta",
 "__language_name__" => "Eesti",
 "Add your App" => "Lisa oma rakendus",
 "More Apps" => "Veel rakendusi",
@@ -34,9 +37,6 @@
 "Fill in an email address to enable password recovery" => "Parooli taastamise sisse lülitamiseks sisesta e-posti aadress",
 "Language" => "Keel",
 "Help translate" => "Aita tõlkida",
-"Groups" => "Grupid",
 "Create" => "Lisa",
-"Other" => "Muu",
-"Group Admin" => "Grupi admin",
-"Delete" => "Kustuta"
+"Other" => "Muu"
 );

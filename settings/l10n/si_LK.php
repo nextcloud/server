@@ -15,6 +15,10 @@
 "Enable" => "ක්‍රියත්මක කරන්න",
 "Error" => "දෝෂයක්",
 "Saving..." => "සුරැකෙමින් පවතී...",
+"Groups" => "සමූහය",
+"Group Admin" => "කාණ්ඩ පරිපාලක",
+"Delete" => "මකා දමනවා",
+"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "නිපදන ලද්දේ <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud සමාජයෙන්</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">මුල් කේතය </a>ලයිසන්ස් කර ඇත්තේ <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> යටතේ.",
 "Add your App" => "යෙදුමක් එක් කිරීම",
 "More Apps" => "තවත් යෙදුම්",
 "Select an App" => "යෙදුමක් තොරන්න",
@@ -30,10 +34,6 @@
 "Fill in an email address to enable password recovery" => "මුරපද ප්‍රතිස්ථාපනය සඳහා විද්‍යුත් තැපැල් විස්තර ලබා දෙන්න",
 "Language" => "භාෂාව",
 "Help translate" => "පරිවර්ථන සහය",
-"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "නිපදන ලද්දේ <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud සමාජයෙන්</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">මුල් කේතය </a>ලයිසන්ස් කර ඇත්තේ <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> යටතේ.",
-"Groups" => "සමූහය",
 "Create" => "තනන්න",
-"Other" => "වෙනත්",
-"Group Admin" => "කාණ්ඩ පරිපාලක",
-"Delete" => "මකා දමනවා"
+"Other" => "වෙනත්"
 );

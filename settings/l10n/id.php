@@ -8,6 +8,9 @@
 "Enable" => "Aktifkan",
 "Error" => "kesalahan",
 "Saving..." => "Menyimpan...",
+"Groups" => "Group",
+"Group Admin" => "Admin Grup",
+"Delete" => "Hapus",
 "__language_name__" => "__language_name__",
 "Add your App" => "Tambahkan App anda",
 "Select an App" => "Pilih satu aplikasi",
@@ -23,9 +26,6 @@
 "Fill in an email address to enable password recovery" => "Masukkan alamat email untuk mengaktifkan pemulihan password",
 "Language" => "Bahasa",
 "Help translate" => "Bantu menerjemahkan",
-"Groups" => "Group",
 "Create" => "Buat",
-"Other" => "Lain-lain",
-"Group Admin" => "Admin Grup",
-"Delete" => "Hapus"
+"Other" => "Lain-lain"
 );
