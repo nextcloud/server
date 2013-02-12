@@ -752,16 +752,40 @@ class Crypt {
 	 */
 	public static function encKeyfileToMultipleUsers($users, $fileTarget) {
 		$view = new \OC_FilesystemView( '/' );
-		$userId = \OCP\User::getUser();
+		$owner = \OCP\User::getUser();
 		$util = new Util( $view, $userId );
 		$session = new Session();
+		
+		$userIds = array();
+		
+		foreach ( $users as $user ) {
+		
+			$util = new Util( $view, $user );
+				
+			// Check that the user is encryption capable
+			if ( $util->ready() ) {
+				// Construct array of just UIDs for Keymanager{}
+				$userIds[] = $user;
+					
+			} else {
+					
+				// Log warning; we can't do necessary setup here
+				// because we don't have the user passphrase
+				// TODO: Provide user feedback indicating that
+				// sharing failed
+				\OC_Log::write( 'Encryption library', 'File cannot be shared: user "'.$user.'" is not setup for encryption', \OC_Log::WARN );
+		
+			}
+		
+		}
+		
 
-		$userPubKeys = Keymanager::getPublicKeys( $view, $users );
+		$userPubKeys = Keymanager::getPublicKeys( $view, $userIds );
 
 		\OC_FileProxy::$enabled = false;
 
 		// get the keyfile
-		$encKeyfile = Keymanager::getFileKey( $view, $userId, $fileTarget );
+		$encKeyfile = Keymanager::getFileKey( $view, $owner, $fileTarget );
 
 		$privateKey = $session->getPrivateKey();
 

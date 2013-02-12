@@ -167,44 +167,21 @@ class Hooks {
 	 * @brief 
 	 */
 	public static function postShared( $params ) {
-		error_log("post shared triggered!");
+
 		// NOTE: $params is an array with these keys:
 		// itemSource -> int, filecache file ID
 		// shareWith -> string, uid of user being shared to
 		// fileTarget -> path of file being shared
 		// uidOwner -> owner of the original file being shared
 		
+		//TODO: We don't deal with shared folder yet, need to recursively update every file in the folder
+		
 		$view = new \OC_FilesystemView( '/' );
 		$userId = \OCP\User::getUser();
 		$util = new Util( $view, $userId );
 		
-		$shares = \OCP\Share::getUsersSharingFile( $params['fileTarget'], 1 );
+		$shares = \OCP\Share::getUsersSharingFile( $params['itemSource'], 1 );
 		
-		$userIds = array();
-		
-		foreach ( $shares as $share ) {
-		
-			$util = new Util( $view, $share['userId'] );
-			
-			// Check that the user is encryption capable
-			// TODO create encryption key when user gets created
-			if ( $util->ready() ) {
-		
-				// Construct array of just UIDs for Keymanager{}
-				$userIds[] = $share['userId'];
-			
-			} else {
-			
-				// Log warning; we can't do necessary setup here
-				// because we don't have the user passphrase
-				// TODO: Provide user feedback indicating that
-				// sharing failed
-				\OC_Log::write( 'Encryption library', 'File cannot be shared: user "'.$share['userId'].'" is not setup for encryption', \OC_Log::WARN );
-				
-			}
-		
-		}
-
 		return Crypt::encKeyfileToMultipleUsers($shares, $params['fileTarget']);
 		
 	}
@@ -213,11 +190,11 @@ class Hooks {
 	 * @brief 
 	 */
 	public static function preUnshare( $params ) {
-		$items = \OCP\Share::getItemSharedWithBySource($params['itemType'], $params['itemSource']);
-		$shares = \OCP\Share::getUsersSharingFile( $item[0]['file_target'], 1 );
+		$shares = \OCP\Share::getUsersSharingFile( $params['itemSource'], 1 );
 		
 		$userIds = array();		
 		foreach ( $shares as $share ) {
+			error_log("keek user id: " . $share['userId']);
 			$userIds[] = $share['userId'];
 		}
 		

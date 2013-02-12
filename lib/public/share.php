@@ -149,62 +149,57 @@ class Share {
 	* @note $path needs to be relative to user data dir, e.g. 'file.txt' 
 	*       not '/admin/data/file.txt'
 	*/
-	public static function getUsersSharingFile( $path, $includeOwner = 0 ) {
-		
-		$fPath = self::prepFileTarget( $path );
-		
+	public static function getUsersSharingFile( $source, $includeOwner = 0 ) {
+		//TODO get also the recipients from folders which are shared above the current file
 		// Fetch all shares of this file path from DB
 		$query = \OC_DB::prepare( 
-			'SELECT 
-				share_type
-				, share_with
-				, uid_owner
-				, permissions
+			'SELECT share_with
 			FROM 
 				`*PREFIX*share` 
 			WHERE 
-				file_target = ?'
+				item_source = ? AND share_type = ? AND uid_owner = ?'
 			);
 			
-		$result = $query->execute( array( $fPath ) );
+		$result = $query->execute( array( $source,  self::SHARE_TYPE_USER, \OCP\User::getUser() ) );
 		
 		if ( \OC_DB::isError( $result ) ) {
-		
-			\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result) . ', path=' . $fPath, \OC_Log::ERROR );
-		
+			\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR );
 		}
 		
 		$shares = array();
 		
 		while( $row = $result->fetchRow() ) {
-		
-			// Set helpful array keys
-			$shares[] = array( 
-				'userId' => $row['share_with']
-				, 'owner' => $row['uid_owner'] // we just set this so it can be used once, hugly hack :/
-				, 'shareType' => $row['share_type']
-				, 'permissions' => $row['permissions']
-			);
-			
+			$shares[] = $row['share_with'];
 		}
 		
-		if ( ! empty( $shares ) ) {
+		// We also need to take group shares into account
 		
+		$query = \OC_DB::prepare(
+				'SELECT share_with
+				FROM
+				`*PREFIX*share`
+				WHERE
+				item_source = ? AND share_type = ? AND uid_owner = ?'
+		);
+			
+		$result = $query->execute( array( $source, self::SHARE_TYPE_GROUP, \OCP\User::getUser() ) );
+		
+		if ( \OC_DB::isError( $result ) ) {
+			\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR );
+		}
+		
+		while( $row = $result->fetchRow() ) {
+			$usersInGroup = \OC_Group::usersInGroup($row['share_with']);
+			$shares = array_merge($shares, $usersInGroup);
+		}
+				
+		if ( ! empty( $shares ) ) {
 			// Include owner in list of users, if requested
 			if ( $includeOwner == 1 ) {
-			
-				// NOTE: The values are incorrect for shareType and 
-				// permissions of the owner; we just include them for 
-				// optional convenience
-				$shares[] = array( 
-					'userId' => $shares[0]['owner']
-					, 'shareType' => 0
-					, 'permissions' => 0
-				);
-			
+				$shares[] = \OCP\User::getUser();
 			}
-		
-			return $shares;
+			
+			return array_unique($shares);
 			
 		} else {
 		
@@ -235,7 +230,7 @@ class Share {
 	public static function getItemSharedWith($itemType, $itemTarget, $format = self::FORMAT_NONE, $parameters = null, $includeCollections = false) {
 		return self::getItems($itemType, $itemTarget, self::$shareTypeUserAndGroups, \OC_User::getUser(), null, $format, $parameters, 1, $includeCollections);
 	}
-
+	
 	/**
 	* @brief Get the item of item type shared with the current user by source
 	* @param string Item type
