@@ -472,5 +472,19 @@ class Util {
 		}
 		
 	}
+	
+	/**
+	 * @brief get path of a file.
+	 * @param $fileId id of the file
+	 * @return path of the file
+	 */
+	public static function getFilePath($fileId) {
+		$query = \OC_DB::prepare('SELECT `path`'
+				.' FROM `*PREFIX*filecache`'
+				.' WHERE `fileid` = ?');
+		$result = $query->execute(array($fileId));
+		$row = $result->fetchRow();
+		return substr($row['path'], 5);
+	}
 
 }

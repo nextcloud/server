@@ -149,64 +149,69 @@ class Share {
 	* @note $path needs to be relative to user data dir, e.g. 'file.txt' 
 	*       not '/admin/data/file.txt'
 	*/
-	public static function getUsersSharingFile( $source, $includeOwner = 0 ) {
-		//TODO get also the recipients from folders which are shared above the current file
-		// Fetch all shares of this file path from DB
-		$query = \OC_DB::prepare( 
-			'SELECT share_with
-			FROM 
-				`*PREFIX*share` 
-			WHERE 
-				item_source = ? AND share_type = ? AND uid_owner = ?'
-			);
-			
-		$result = $query->execute( array( $source,  self::SHARE_TYPE_USER, \OCP\User::getUser() ) );
-		
-		if ( \OC_DB::isError( $result ) ) {
-			\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR );
-		}
-		
+	public static function getUsersSharingFile( $path, $includeOwner = 0 ) {
+
+		$user = \OCP\User::getUser();
+		$path_parts = explode(DIRECTORY_SEPARATOR, trim($path, DIRECTORY_SEPARATOR));
+		$path = '';
 		$shares = array();
 		
-		while( $row = $result->fetchRow() ) {
-			$shares[] = $row['share_with'];
-		}
-		
-		// We also need to take group shares into account
-		
-		$query = \OC_DB::prepare(
-				'SELECT share_with
-				FROM
-				`*PREFIX*share`
-				WHERE
-				item_source = ? AND share_type = ? AND uid_owner = ?'
-		);
+		foreach ($path_parts as $p) {
+			$path .= '/'.$p;
+			$meta = \OC\Files\Filesystem::getFileInfo(\OC_Filesystem::normalizePath($path));
+			$source = $meta['fileid'];
 			
-		$result = $query->execute( array( $source, self::SHARE_TYPE_GROUP, \OCP\User::getUser() ) );
-		
-		if ( \OC_DB::isError( $result ) ) {
-			\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR );
+			// Fetch all shares of this file path from DB
+			$query = \OC_DB::prepare(
+					'SELECT share_with
+					FROM
+					`*PREFIX*share`
+					WHERE
+					item_source = ? AND share_type = ? AND uid_owner = ?'
+			);
+			
+			$result = $query->execute( array( $source,  self::SHARE_TYPE_USER, $user ) );
+
+			if ( \OC_DB::isError( $result ) ) {
+				\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR );
+			}
+
+			while( $row = $result->fetchRow() ) {
+				$shares[] = $row['share_with'];
+			}
+
+			// We also need to take group shares into account
+
+			$query = \OC_DB::prepare(
+					'SELECT share_with
+					FROM
+					`*PREFIX*share`
+					WHERE
+					item_source = ? AND share_type = ? AND uid_owner = ?'
+			);
+			
+			$result = $query->execute( array( $source, self::SHARE_TYPE_GROUP, $user ) );
+
+			if ( \OC_DB::isError( $result ) ) {
+				\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR );
+			}
+
+			while( $row = $result->fetchRow() ) {
+				$usersInGroup = \OC_Group::usersInGroup($row['share_with']);
+				$shares = array_merge($shares, $usersInGroup);
+			}
 		}
-		
-		while( $row = $result->fetchRow() ) {
-			$usersInGroup = \OC_Group::usersInGroup($row['share_with']);
-			$shares = array_merge($shares, $usersInGroup);
-		}
-				
+
 		if ( ! empty( $shares ) ) {
 			// Include owner in list of users, if requested
 			if ( $includeOwner == 1 ) {
-				$shares[] = \OCP\User::getUser();
+				$shares[] = $user;
 			}
-			
 			return array_unique($shares);
-			
 		} else {
-		
 			return false;
-			
 		}
-	
+
 	}
 
 	/**

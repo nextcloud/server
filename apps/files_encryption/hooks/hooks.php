@@ -164,21 +164,7 @@ class Hooks {
 	}
 	
 	/**
-	 * @brief get path of a file.
-	 * @param $fileId id of the file
-	 * @return path of the file
-	 */
-	private static function getFilePath($fileId) {
-		$query = \OC_DB::prepare('SELECT `path`'
-				.' FROM `*PREFIX*filecache`'
-				.' WHERE `fileid` = ?');
-		$result = $query->execute(array($fileId));
-		$row = $result->fetchRow();
-		return $row['path'];
-	}
-	
-	/**
-	 * @brief 
+	 * @brief get all users with access to the file and encrypt the file key to each of them
 	 */
 	public static function postShared( $params ) {
 
@@ -194,9 +180,11 @@ class Hooks {
 		$userId = \OCP\User::getUser();
 		$util = new Util( $view, $userId );
 		
-		$shares = \OCP\Share::getUsersSharingFile( $params['itemSource'], 1 );
+		$path = Util::getFilePath($params['itemSource']);
+
+		$shares = \OCP\Share::getUsersSharingFile( $path, 1 );
 		
-		return Crypt::encKeyfileToMultipleUsers($shares, self::getFilePath($params['itemSource']));
+		return Crypt::encKeyfileToMultipleUsers($shares, $path);
 		
 	}
 	
@@ -204,18 +192,20 @@ class Hooks {
 	 * @brief 
 	 */
 	public static function preUnshare( $params ) {
-		$shares = \OCP\Share::getUsersSharingFile( $params['itemSource'], 1 );
+
+		$path = Util::getFilePath($params['itemSource']);
+		$shares = \OCP\Share::getUsersSharingFile( $path, 1 );
 		// remove the user from the list from which the file will be unshared
 		unset($shares[$params['shareWith']]);
 		
-		return Crypt::encKeyfileToMultipleUsers($shares, self::getFilePath($params['itemSource']));
+		return Crypt::encKeyfileToMultipleUsers($shares, $path );
 	}
 	
 	/**
 	 * @brief 
 	 */
 	public static function preUnshareAll( $params ) {
-		return Crypt::encKeyfileToMultipleUsers(array(\OCP\User::getUser()), self::getFilePath($params['itemSource']));
+		return Crypt::encKeyfileToMultipleUsers(array(\OCP\User::getUser()), Util::getFilePath($params['itemSource']));
 	}
 	
 }
