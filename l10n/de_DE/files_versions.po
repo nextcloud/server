@@ -8,14 +8,15 @@
 #   <mail@felixmoeller.de>, 2012.
 #  <niko@nik-o-mat.de>, 2013.
 #   <niko@nik-o-mat.de>, 2012.
+#  <stefan.niedermann@googlemail.com>, 2013.
 #   <thomas.mueller@tmit.eu>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
-"PO-Revision-Date: 2013-02-08 12:20+0000\n"
-"Last-Translator: JamFX <niko@nik-o-mat.de>\n"
+"POT-Creation-Date: 2013-02-12 15:10+0100\n"
+"PO-Revision-Date: 2013-02-12 10:55+0000\n"
+"Last-Translator: stefanniedermann <stefan.niedermann@googlemail.com>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,7 +27,7 @@ msgstr ""
 #: ajax/rollbackVersion.php:15
 #, php-format
 msgid "Could not revert: %s"
-msgstr ""
+msgstr "Konnte nicht zurücksetzen: %s"
 
 #: history.php:40
 msgid "success"
@@ -35,7 +36,7 @@ msgstr "Erfolgreich"
 #: history.php:42
 #, php-format
 msgid "File %s was reverted to version %s"
-msgstr ""
+msgstr "Die Datei %s wurde zur Version %s zurückgesetzt"
 
 #: history.php:49
 msgid "failure"
@@ -44,7 +45,7 @@ msgstr "Fehlgeschlagen"
 #: history.php:51
 #, php-format
 msgid "File %s could not be reverted to version %s"
-msgstr ""
+msgstr "Doe Dateo %s konnte nicht zur Version %s zurückgesetzt werden"
 
 #: history.php:68
 msgid "No old versions available"
@@ -60,7 +61,7 @@ msgstr "Historie"
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
-msgstr ""
+msgstr "Setze eine Datei zu durch Klicken auf den Zurücksetzen-Button auf einer frühere Version zurück"
 
 #: templates/settings.php:3
 msgid "Files Versioning"

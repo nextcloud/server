@@ -9,6 +9,9 @@
 "Enable" => "Uključi",
 "Error" => "Greška",
 "Saving..." => "Spremanje...",
+"Groups" => "Grupe",
+"Group Admin" => "Grupa Admin",
+"Delete" => "Obriši",
 "__language_name__" => "__ime_jezika__",
 "Add your App" => "Dodajte vašu aplikaciju",
 "Select an App" => "Odaberite Aplikaciju",
@@ -23,9 +26,6 @@
 "Fill in an email address to enable password recovery" => "Ispunite vase e-mail adresa kako bi se omogućilo oporavak lozinke",
 "Language" => "Jezik",
 "Help translate" => "Pomoć prevesti",
-"Groups" => "Grupe",
 "Create" => "Izradi",
-"Other" => "ostali",
-"Group Admin" => "Grupa Admin",
-"Delete" => "Obriši"
+"Other" => "ostali"
 );

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 23:08+0000\n"
+"POT-Creation-Date: 2013-02-12 15:10+0100\n"
+"PO-Revision-Date: 2013-02-12 10:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -80,15 +80,15 @@ msgstr ""
 msgid "Files"
 msgstr "文件"
 
-#: js/fileactions.js:116
+#: js/fileactions.js:125
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:118 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "删除"
 
-#: js/fileactions.js:184
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr "重命名"
 
@@ -194,31 +194,31 @@ msgstr "网址不能为空。"
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:947 templates/index.php:67
+#: js/files.js:948 templates/index.php:67
 msgid "Name"
 msgstr "名字"
 
-#: js/files.js:948 templates/index.php:78
+#: js/files.js:949 templates/index.php:78
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:949 templates/index.php:80
+#: js/files.js:950 templates/index.php:80
 msgid "Modified"
 msgstr "修改日期"
 
-#: js/files.js:968
+#: js/files.js:969
 msgid "1 folder"
 msgstr "1 个文件夹"
 
-#: js/files.js:970
+#: js/files.js:971
 msgid "{count} folders"
 msgstr "{count} 个文件夹"
 
-#: js/files.js:978
+#: js/files.js:979
 msgid "1 file"
 msgstr "1 个文件"
 
-#: js/files.js:980
+#: js/files.js:981
 msgid "{count} files"
 msgstr "{count} 个文件"
 

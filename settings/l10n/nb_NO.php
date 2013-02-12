@@ -16,7 +16,11 @@
 "Enable" => "Slå på",
 "Error" => "Feil",
 "Saving..." => "Lagrer...",
+"Groups" => "Grupper",
+"Group Admin" => "Gruppeadministrator",
+"Delete" => "Slett",
 "__language_name__" => "__language_name__",
+"Version" => "Versjon",
 "Add your App" => "Legg til din App",
 "More Apps" => "Flere Apps",
 "Select an App" => "Velg en app",
@@ -38,10 +42,6 @@
 "Language" => "Språk",
 "Help translate" => "Bidra til oversettelsen",
 "WebDAV" => "WebDAV",
-"Version" => "Versjon",
-"Groups" => "Grupper",
 "Create" => "Opprett",
-"Other" => "Annet",
-"Group Admin" => "Gruppeadministrator",
-"Delete" => "Slett"
+"Other" => "Annet"
 );

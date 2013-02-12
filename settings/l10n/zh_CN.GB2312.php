@@ -16,7 +16,11 @@
 "Enable" => "启用",
 "Error" => "出错",
 "Saving..." => "保存中...",
+"Groups" => "组",
+"Group Admin" => "群组管理员",
+"Delete" => "删除",
 "__language_name__" => "Chinese",
+"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "由 <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社区</a>开发，<a href=\"https://github.com/owncloud\" target=\"_blank\">s源代码</a> 以 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> 许可协议发布。",
 "Add your App" => "添加你的应用程序",
 "More Apps" => "更多应用",
 "Select an App" => "选择一个程序",
@@ -34,10 +38,6 @@
 "Fill in an email address to enable password recovery" => "输入一个邮箱地址以激活密码恢复功能",
 "Language" => "语言",
 "Help translate" => "帮助翻译",
-"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "由 <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社区</a>开发，<a href=\"https://github.com/owncloud\" target=\"_blank\">s源代码</a> 以 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> 许可协议发布。",
-"Groups" => "组",
 "Create" => "新建",
-"Other" => "其他的",
-"Group Admin" => "群组管理员",
-"Delete" => "删除"
+"Other" => "其他的"
 );

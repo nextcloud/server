@@ -56,7 +56,7 @@ class Cache {
 		} else {
 			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*storages`(`id`) VALUES(?)');
 			$query->execute(array($this->storageId));
-			$this->numericId = \OC_DB::insertid('*PREFIX*filecache');
+			$this->numericId = \OC_DB::insertid('*PREFIX*storages');
 		}
 	}
 

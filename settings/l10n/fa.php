@@ -18,7 +18,10 @@
 "Error" => "خطا",
 "Updated" => "بروز رسانی انجام شد",
 "Saving..." => "درحال ذخیره ...",
+"Groups" => "گروه ها",
+"Delete" => "پاک کردن",
 "__language_name__" => "__language_name__",
+"Version" => "نسخه",
 "Add your App" => "برنامه خود را بیافزایید",
 "More Apps" => "برنامه های بیشتر",
 "Select an App" => "یک برنامه انتخاب کنید",
@@ -44,9 +47,7 @@
 "Fill in an email address to enable password recovery" => "پست الکترونیکی را پرکنید  تا بازیابی گذرواژه فعال شود",
 "Language" => "زبان",
 "Help translate" => "به ترجمه آن کمک کنید",
-"Version" => "نسخه",
 "Login Name" => "نام کاربری",
-"Groups" => "گروه ها",
 "Create" => "ایجاد کردن",
 "Default Storage" => "ذخیره سازی پیش فرض",
 "Unlimited" => "نامحدود",
@@ -54,6 +55,5 @@
 "Storage" => "حافظه",
 "change display name" => "تغییر نام نمایشی",
 "set new password" => "تنظیم کلمه عبور جدید",
-"Default" => "پیش فرض",
-"Delete" => "پاک کردن"
+"Default" => "پیش فرض"
 );
