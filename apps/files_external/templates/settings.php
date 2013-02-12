@@ -25,7 +25,7 @@
 					</td>
 					<td class="mountPoint"><input type="text" name="mountPoint"
 												  value="<?php echo $mountPoint; ?>"
-												  placeholder="<?php echo $l->t('Mount point'); ?>" /></td>
+												  placeholder="<?php echo $l->t('Folder name'); ?>" /></td>
 					<?php if ($mountPoint == ''): ?>
 						<td class="backend">
 							<select id="selectBackend" data-configurations='<?php echo json_encode($_['backends']); ?>'>
