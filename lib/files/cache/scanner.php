@@ -74,8 +74,7 @@ class Scanner {
 					$this->scanFile($parent);
 				}
 			}
-			if ($checkExisting) {
-				$cacheData = $this->cache->get($file);
+			if ($checkExisting and $cacheData = $this->cache->get($file)) {
 				if ($data['size'] === -1) {
 					$data['size'] = $cacheData['size'];
 				}
