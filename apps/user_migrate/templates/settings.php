@@ -14,6 +14,7 @@
         </p>
         <p><input type="file" id="owncloud_import" name="owncloud_import" style="width:180px;"><label for="owncloud_import"> <?php echo $l->t('ownCloud User Zip');?></label>
         </p>
+        <input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken'] ?>" id="requesttoken">
         <input type="submit" name="user_import" value="<?php echo $l->t('Import'); ?>" />
     </fieldset>
 </form>
