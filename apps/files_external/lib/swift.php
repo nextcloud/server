@@ -264,7 +264,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	private function getSubContainerFile($container) {
 		try {
 			return $container->get_object(self::SUBCONTAINER_FILE);
-		} catch(NoSuchObjectException $e) {
+		} catch(\NoSuchObjectException $e) {
 			return $container->create_object(self::SUBCONTAINER_FILE);
 		}
 	}

@@ -73,7 +73,7 @@ class DAV extends \OC\Files\Storage\Common{
 				$this->client->addTrustedCertificates($certPath);
 			}
 		}
-		//create the root folder if necesary
+		//create the root folder if necessary
 		$this->mkdir('');
 	}
 
@@ -317,7 +317,7 @@ class DAV extends \OC\Files\Storage\Common{
 		}
 	}
 
-	private function cleanPath($path) {
+	public function cleanPath($path) {
 		if ( ! $path || $path[0]=='/') {
 			return substr($path, 1);
 		} else {
