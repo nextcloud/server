@@ -38,6 +38,15 @@ class OC_App{
 	static private $checkedApps = array();
 	static private $altLogin = array();
 
+ 	/**
+	 * @brief clean the appid
+	 * @param $app Appid that needs to be cleaned
+	 * @return string
+	 */
+	public static function cleanAppId($app) {
+		return str_replace(array('\0', '/', '\\', '..'), '', $app);
+	}
+
 	/**
 	 * @brief loads all apps
 	 * @param array $types
