@@ -750,7 +750,7 @@ class Crypt {
 	 * @param $users list of users which should be able to access the file
 	 * @param $fileTarget target of the file
 	 */
-	public static function encKeyfileToMultipleUsers($users, $fileTarget) {
+	public static function encKeyfileToMultipleUsers($users, $filePath) {
 		$view = new \OC_FilesystemView( '/' );
 		$owner = \OCP\User::getUser();
 		$util = new Util( $view, $userId );
@@ -785,7 +785,7 @@ class Crypt {
 		\OC_FileProxy::$enabled = false;
 
 		// get the keyfile
-		$encKeyfile = Keymanager::getFileKey( $view, $owner, $fileTarget );
+		$encKeyfile = Keymanager::getFileKey( $view, $owner, $filePath );
 
 		$privateKey = $session->getPrivateKey();
 
@@ -796,7 +796,7 @@ class Crypt {
 		$shareKeys = Crypt::multiKeyEncrypt( $plainKeyfile, $userPubKeys );
 
 		// save sharekeys
-		if ( ! Keymanager::setShareKeys( $view, $fileTarget, $shareKeys['keys'] ) ) {
+		if ( ! Keymanager::setShareKeys( $view, $filePath, $shareKeys['keys'] ) ) {
 
 			trigger_error( "SET Share keys failed" );
 
