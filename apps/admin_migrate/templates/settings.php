@@ -6,6 +6,7 @@
         </p>
         <h3>What would you like to export?</h3>
         <p>
+        <input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken'] ?>" id="requesttoken">
         <input type="radio" name="export_type" value="instance" style="width:20px;" /> ownCloud instance (suitable for import )<br />
 	<input type="radio" name="export_type" value="system" style="width:20px;" /> ownCloud system files<br />
 	<input type="radio" name="export_type" value="userfiles" style="width:20px;" /> Just user files<br />

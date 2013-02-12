@@ -28,6 +28,7 @@
 		<p><label for="ldap_email_attr">Email Attribute</label><input type="text" id="ldap_email_attr" name="ldap_email_attr" value="<?php echo $_['ldap_email_attr']; ?>" /></p>
 	</fieldset>
 	<input type="submit" value="Save" /> <a href="http://owncloud.org/support/ldap-backend/" target="_blank"><img src="<?php echo OCP\Util::imagePath('','actions/info.png'); ?>" style="height:1.75ex" /> <?php echo $l->t('Help');?></a>
+	<input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken'] ?>" id="requesttoken">
 	</div>
 
 </form>
