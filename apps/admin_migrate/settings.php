@@ -27,6 +27,8 @@ OCP\App::checkAppEnabled('admin_migrate');
 
 // Export?
 if (isset($_POST['admin_export'])) {
+	OCP\JSON::callCheck();
+
 	// Create the export zip
 	$response = json_decode( OC_Migrate::export( null, $_POST['export_type'] ) );
 	if( !$response->success ){
@@ -44,6 +46,7 @@ if (isset($_POST['admin_export'])) {
 	}
 // Import?
 } else if( isset($_POST['admin_import']) ){
+	OCP\JSON::callCheck();
 	$from = $_FILES['owncloud_import']['tmp_name'];
 
 	if( !OC_Migrate::import( $from, 'instance' ) ){
