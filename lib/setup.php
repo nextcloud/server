@@ -591,7 +591,7 @@ class OC_Setup {
 				echo($entry);
 			}
 		}
-		// grant neccessary roles
+		// grant necessary roles
 		$query = 'GRANT CREATE SESSION, CREATE TABLE, CREATE SEQUENCE, CREATE TRIGGER, UNLIMITED TABLESPACE TO '.$name;
 		$stmt = oci_parse($connection, $query);
 		if (!$stmt) {
@@ -634,7 +634,7 @@ class OC_Setup {
 
 		sqlsrv_close($masterConnection);
 
-		self::mssql_createDatabaseStructure($dbname, $dbuser, $dbpass);
+		self::mssql_createDatabaseStructure($dbhost, $dbname, $dbuser, $dbpass, $dbtableprefix);
 	}    
 
     private static function mssql_createDBLogin($name, $password, $connection) {
@@ -730,7 +730,7 @@ class OC_Setup {
 	}
 	
 	private static function mssql_createDatabase($dbname, $connection) {
-		$query = "CREATE DATABASE [".$dbname."];";
+		$query = "CREATE DATABASE IF NOT EXISTS [".$dbname."];";
 		$result = sqlsrv_query($connection, $query);
 		if (!$result || $result === false) {
 			if ( ($errors = sqlsrv_errors() ) != null) {
@@ -742,8 +742,10 @@ class OC_Setup {
 			echo($entry);
 		}
 	}    
-    
-	private static function mssql_createDatabaseStructure($dbname, $dbuser, $dbpass) {
+
+	//	private static function setupMSSQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $username) {
+
+	private static function mssql_createDatabaseStructure($dbhost, $dbname, $dbuser, $dbpass, $dbtableprefix) {
 		$connectionInfo = array( "Database" => $dbname, "UID" => $dbuser, "PWD" => $dbpass);
 
 		$connection = @sqlsrv_connect($dbhost, $connectionInfo);
