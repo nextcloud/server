@@ -58,8 +58,6 @@ OC.MountConfig={
 						}
 						users.push(applicable);
 					}
-					statusSpan.removeClass();
-					statusSpan.addClass('pending');
 					$.ajax({type: 'POST',
 						url: OC.filePath('files_external', 'ajax', 'addMountPoint.php'),
 						data: {
@@ -70,7 +68,7 @@ OC.MountConfig={
 							applicable: applicable,
 							isPersonal: isPersonal
 						},
-						async: true,
+						async: false,
 						success: function(result) {
 							statusSpan.removeClass();
 							if (result && result.status == 'success' && result.data.message) {
@@ -118,8 +116,6 @@ OC.MountConfig={
 				var isPersonal = true;
 				var mountType = 'user';
 				var applicable = OC.currentUser;
-				statusSpan.removeClass();
-				statusSpan.addClass('pending');
 				$.ajax({type: 'POST',
 					url: OC.filePath('files_external', 'ajax', 'addMountPoint.php'),
 					data: {
@@ -130,7 +126,7 @@ OC.MountConfig={
 						applicable: applicable,
 						isPersonal: isPersonal
 					},
-					async: true,
+					async: false,
 					success: function(result) {
 						statusSpan.removeClass();
 						if (result && result.status == 'success' && result.data.message) {
