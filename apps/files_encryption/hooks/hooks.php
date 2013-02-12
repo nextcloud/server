@@ -182,7 +182,7 @@ class Hooks {
 		
 		$path = Util::getFilePath($params['itemSource']);
 
-		$shares = \OCP\Share::getUsersSharingFile( $path, 1 );
+		$shares = \OCP\Share::getUsersSharingFile( $path, true );
 		
 		return Crypt::encKeyfileToMultipleUsers($shares, $path);
 		
@@ -194,11 +194,11 @@ class Hooks {
 	public static function preUnshare( $params ) {
 
 		$path = Util::getFilePath($params['itemSource']);
-		$shares = \OCP\Share::getUsersSharingFile( $path, 1 );
+		$shares = \OCP\Share::getUsersSharingFile( $path, true, false );
 		// remove the user from the list from which the file will be unshared
 		unset($shares[$params['shareWith']]);
 		
-		return Crypt::encKeyfileToMultipleUsers($shares, $path );
+		return Crypt::encKeyfileToMultipleUsers(array_unique($shares), $path );
 	}
 	
 	/**

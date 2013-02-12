@@ -145,11 +145,14 @@ class Share {
 	
 	/**
 	* @brief Find which users can access a shared item
-	* @return bool / array
+	* @param $path to the file
+	* @param include owner to the list of users with access to the file
+	* @param remove duplicates in the result
+	* @return array
 	* @note $path needs to be relative to user data dir, e.g. 'file.txt' 
 	*       not '/admin/data/file.txt'
 	*/
-	public static function getUsersSharingFile( $path, $includeOwner = 0 ) {
+	public static function getUsersSharingFile( $path, $includeOwner = false, $removeDuplicates = true ) {
 
 		$user = \OCP\User::getUser();
 		$path_parts = explode(DIRECTORY_SEPARATOR, trim($path, DIRECTORY_SEPARATOR));
@@ -204,14 +207,16 @@ class Share {
 
 		if ( ! empty( $shares ) ) {
 			// Include owner in list of users, if requested
-			if ( $includeOwner == 1 ) {
+			if ( $includeOwner ) {
 				$shares[] = $user;
 			}
-			return array_unique($shares);
-		} else {
-			return false;
 		}
-
+		
+		if ( $removeDuplicates )
+			return array_unique($shares);
+		else {
+			return $shares;
+		}
 	}
 
 	/**

@@ -118,15 +118,8 @@ class Proxy extends \OC_FileProxy {
 // 					$fileOwner = \OC\Files\Filesystem::getOwner( $path );
 					
 					// List everyone sharing the file
-					$shares = \OCP\Share::getUsersSharingFile( $filePath, 1 );
-					
-					$userIds = array();
-					
-					foreach ( $shares as $share ) {
-					
-						$userIds[] = $share['userId'];
-					
-					}
+					//TODO check, is this path always the path to the source file?
+					$userIds = \OCP\Share::getUsersSharingFile( $filePath, true );
 					
 					$publicKeys = Keymanager::getPublicKeys( $rootView, $userIds );
 					
