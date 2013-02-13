@@ -219,7 +219,7 @@ class Share {
 			}
 			
 			if ($result->fetchRow()) {
-				$shares[] = self::SHARE_TYPE_LINK;
+				$shares[] = "ownCloud";
 			}
 		}
 

@@ -763,7 +763,7 @@ class Crypt {
 			$util = new Util( $view, $user );
 				
 			// Check that the user is encryption capable
-			if ( $util->ready() ) {
+			if ( $util->ready() && $user == 'ownCloud' ) {
 				// Construct array of just UIDs for Keymanager{}
 				$userIds[] = $user;
 					
@@ -827,16 +827,13 @@ class Crypt {
 			foreach ( $content as $c) {
 				$path = substr($c['path'], 5);
 				if ( $filesView->is_dir($path) ) {
-					error_log("dive into $path");
 					$result &= self::updateKeyfile($path);
 				} else {
-					error_log("encKeyFileToMultipleUsers $path");
 					$shares = \OCP\Share::getUsersSharingFile( $path, true );
 					$result &= self::encKeyfileToMultipleUsers($shares, $path);
 				}
 			}
 		} else {
-			error_log("encKeyFileToMultipleUsers single file: " . $path);
 			$shares = \OCP\Share::getUsersSharingFile( $path, true );
 			$result = self::encKeyfileToMultipleUsers($shares, $path);
 		}
