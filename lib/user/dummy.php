@@ -112,4 +112,11 @@ class OC_User_Dummy extends OC_User_Backend {
 	public function userExists($uid) {
 		return isset($this->users[$uid]);
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasUserListings() {
+		return true;
+	}
 }

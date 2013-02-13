@@ -256,4 +256,12 @@ class OC_User_Database extends OC_User_Backend {
 			return false;
 		}
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasUserListings() {
+		return true;
+	}
+
 }
