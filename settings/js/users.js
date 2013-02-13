@@ -346,12 +346,6 @@ $(document).ready(function () {
 		event.preventDefault();
 		var username = $('#newusername').val();
 		var password = $('#newuserpassword').val();
-		if ($('#content table tbody tr').filterAttr('data-uid', username).length > 0) {
-			OC.dialogs.alert(
-				t('settings', 'The username is already being used'),
-				t('settings', 'Error creating user'));
-			return;
-		}
 		if ($.trim(username) == '') {
 			OC.dialogs.alert(
 				t('settings', 'A valid username must be provided'),
