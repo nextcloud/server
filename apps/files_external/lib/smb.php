@@ -34,7 +34,7 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 			$this->share=substr($this->share,0,-1);
 		}
 
-		//create the root folder if necesary
+		//create the root folder if necessary
 		if(!$this->is_dir('')) {
 			$this->mkdir('');
 		}
@@ -44,7 +44,10 @@ class OC_FileStorage_SMB extends OC_FileStorage_StreamWrapper{
 		if(substr($path,-1)=='/') {
 			$path=substr($path,0,-1);
 		}
-		return 'smb://'.$this->user.':'.$this->password.'@'.$this->host.$this->share.$this->root.$path;
+		$user = urlencode($this->user);
+		$password = urlencode($this->password);
+		$path = urlencode($path);
+		return 'smb://'.$user.':'.$password.'@'.$this->host.$this->share.$this->root.$path;
 	}
 
 	public function stat($path) {

@@ -29,7 +29,7 @@ define ('SMB4PHP_VERSION', '0.8');
 
 define ('SMB4PHP_SMBCLIENT', 'smbclient');
 define ('SMB4PHP_SMBOPTIONS', 'TCP_NODELAY IPTOS_LOWDELAY SO_KEEPALIVE SO_RCVBUF=8192 SO_SNDBUF=8192');
-define ('SMB4PHP_AUTHMODE', 'arg'); # set to 'env' to use USER enviroment variable
+define ('SMB4PHP_AUTHMODE', 'arg'); # set to 'env' to use USER environment variable
 
 ###################################################################
 # SMB - commands that does not need an instance
@@ -41,16 +41,26 @@ class smb {
 
 	function parse_url ($url) {
 		$pu = parse_url (trim($url));
-		foreach (array ('domain', 'user', 'pass', 'host', 'port', 'path') as $i)
-			if (! isset($pu[$i])) $pu[$i] = '';
-		if (count ($userdomain = explode (';', urldecode ($pu['user']))) > 1)
+		foreach (array ('domain', 'user', 'pass', 'host', 'port', 'path') as $i) {
+			if (! isset($pu[$i])) {
+				$pu[$i] = '';
+			}
+		}
+		if (count ($userdomain = explode (';', urldecode ($pu['user']))) > 1) {
 			@list ($pu['domain'], $pu['user']) = $userdomain;
+		}
 		$path = preg_replace (array ('/^\//', '/\/$/'), '', urldecode ($pu['path']));
 		list ($pu['share'], $pu['path']) = (preg_match ('/^([^\/]+)\/(.*)/', $path, $regs))
-		? array ($regs[1], preg_replace ('/\//', '\\', $regs[2]))
-		: array ($path, '');
+			? array ($regs[1], preg_replace ('/\//', '\\', $regs[2]))
+			: array ($path, '');
 		$pu['type'] = $pu['path'] ? 'path' : ($pu['share'] ? 'share' : ($pu['host'] ? 'host' : '**error**'));
-		if (! ($pu['port'] = intval(@$pu['port']))) $pu['port'] = 139;
+		if (! ($pu['port'] = intval(@$pu['port']))) {
+			$pu['port'] = 139;
+		}
+
+		// decode user and password
+		$pu['user'] = urldecode($pu['user']);
+		$pu['pass'] = urldecode($pu['pass']);
 		return $pu;
 	}
 
@@ -62,43 +72,43 @@ class smb {
 
 	function execute ($command, $purl) {
 		return smb::client ('-d 0 '
-			. escapeshellarg ('//' . $purl['host'] . '/' . $purl['share'])
-			. ' -c ' . escapeshellarg ($command), $purl
+				. escapeshellarg ('//' . $purl['host'] . '/' . $purl['share'])
+				. ' -c ' . escapeshellarg ($command), $purl
 		);
 	}
 
 	function client ($params, $purl) {
 
 		static $regexp = array (
-		'^added interface ip=(.*) bcast=(.*) nmask=(.*)$' => 'skip',
-		'Anonymous login successful' => 'skip',
-		'^Domain=\[(.*)\] OS=\[(.*)\] Server=\[(.*)\]$' => 'skip',
-		'^\tSharename[ ]+Type[ ]+Comment$' => 'shares',
-		'^\t---------[ ]+----[ ]+-------$' => 'skip',
-		'^\tServer   [ ]+Comment$' => 'servers',
-		'^\t---------[ ]+-------$' => 'skip',
-		'^\tWorkgroup[ ]+Master$' => 'workg',
-		'^\t(.*)[ ]+(Disk|IPC)[ ]+IPC.*$' => 'skip',
-		'^\tIPC\\\$(.*)[ ]+IPC' => 'skip',
-		'^\t(.*)[ ]+(Disk)[ ]+(.*)$' => 'share',
-		'^\t(.*)[ ]+(Printer)[ ]+(.*)$' => 'skip',
-		'([0-9]+) blocks of size ([0-9]+)\. ([0-9]+) blocks available' => 'skip',
-		'Got a positive name query response from ' => 'skip',
-		'^(session setup failed): (.*)$' => 'error',
-		'^(.*): ERRSRV - ERRbadpw' => 'error',
-		'^Error returning browse list: (.*)$' => 'error',
-		'^tree connect failed: (.*)$' => 'error',
-		'^(Connection to .* failed)$' => 'error',
-		'^NT_STATUS_(.*) ' => 'error',
-		'^NT_STATUS_(.*)\$' => 'error',
-		'ERRDOS - ERRbadpath \((.*).\)' => 'error',
-		'cd (.*): (.*)$' => 'error',
-		'^cd (.*): NT_STATUS_(.*)' => 'error',
-		'^\t(.*)$' => 'srvorwg',
-		'^([0-9]+)[ ]+([0-9]+)[ ]+(.*)$' => 'skip',
-		'^Job ([0-9]+) cancelled' => 'skip',
-		'^[ ]+(.*)[ ]+([0-9]+)[ ]+(Mon|Tue|Wed|Thu|Fri|Sat|Sun)[ ](Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[ ]+([0-9]+)[ ]+([0-9]{2}:[0-9]{2}:[0-9]{2})[ ]([0-9]{4})$' => 'files',
-		'^message start: ERRSRV - (ERRmsgoff)' => 'error'
+			'^added interface ip=(.*) bcast=(.*) nmask=(.*)$' => 'skip',
+			'Anonymous login successful' => 'skip',
+			'^Domain=\[(.*)\] OS=\[(.*)\] Server=\[(.*)\]$' => 'skip',
+			'^\tSharename[ ]+Type[ ]+Comment$' => 'shares',
+			'^\t---------[ ]+----[ ]+-------$' => 'skip',
+			'^\tServer   [ ]+Comment$' => 'servers',
+			'^\t---------[ ]+-------$' => 'skip',
+			'^\tWorkgroup[ ]+Master$' => 'workg',
+			'^\t(.*)[ ]+(Disk|IPC)[ ]+IPC.*$' => 'skip',
+			'^\tIPC\\\$(.*)[ ]+IPC' => 'skip',
+			'^\t(.*)[ ]+(Disk)[ ]+(.*)$' => 'share',
+			'^\t(.*)[ ]+(Printer)[ ]+(.*)$' => 'skip',
+			'([0-9]+) blocks of size ([0-9]+)\. ([0-9]+) blocks available' => 'skip',
+			'Got a positive name query response from ' => 'skip',
+			'^(session setup failed): (.*)$' => 'error',
+			'^(.*): ERRSRV - ERRbadpw' => 'error',
+			'^Error returning browse list: (.*)$' => 'error',
+			'^tree connect failed: (.*)$' => 'error',
+			'^(Connection to .* failed)$' => 'error',
+			'^NT_STATUS_(.*) ' => 'error',
+			'^NT_STATUS_(.*)\$' => 'error',
+			'ERRDOS - ERRbadpath \((.*).\)' => 'error',
+			'cd (.*): (.*)$' => 'error',
+			'^cd (.*): NT_STATUS_(.*)' => 'error',
+			'^\t(.*)$' => 'srvorwg',
+			'^([0-9]+)[ ]+([0-9]+)[ ]+(.*)$' => 'skip',
+			'^Job ([0-9]+) cancelled' => 'skip',
+			'^[ ]+(.*)[ ]+([0-9]+)[ ]+(Mon|Tue|Wed|Thu|Fri|Sat|Sun)[ ](Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[ ]+([0-9]+)[ ]+([0-9]{2}:[0-9]{2}:[0-9]{2})[ ]([0-9]{4})$' => 'files',
+			'^message start: ERRSRV - (ERRmsgoff)' => 'error'
 		);
 
 		if (SMB4PHP_AUTHMODE == 'env') {
@@ -119,6 +129,7 @@ class smb {
 		$output = popen (SMB4PHP_SMBCLIENT." -N {$auth} {$options} {$port} {$options} {$params} 2>/dev/null", 'r');
 		$info = array ();
 		$info['info']= array ();
+		$mode = '';
 		while ($line = fgets ($output, 4096)) {
 			list ($tag, $regs, $i) = array ('skip', array (), array ());
 			reset ($regexp);
@@ -152,7 +163,7 @@ class smb {
 						? array (trim ($regs2[2]), trim ($regs2[1]))
 						: array ('', trim ($regs[1]));
 					list ($his, $im) = array (
-					explode(':', $regs[6]), 1 + strpos("JanFebMarAprMayJunJulAugSepOctNovDec", $regs[4]) / 3);
+						explode(':', $regs[6]), 1 + strpos("JanFebMarAprMayJunJulAugSepOctNovDec", $regs[4]) / 3);
 					$i = ($name <> '.' && $name <> '..')
 						? array (
 							$name,
@@ -185,13 +196,14 @@ class smb {
 		}
 		pclose($output);
 
+
 		// restore previous locale
 		if ($old_locale===false) {
 			putenv('LC_ALL');
 		} else {
 			putenv('LC_ALL='.$old_locale);
 		}
-		
+
 		return $info;
 	}
 
@@ -199,26 +211,28 @@ class smb {
 	# stats
 
 	function url_stat ($url, $flags = STREAM_URL_STAT_LINK) {
-		if ($s = smb::getstatcache($url)) { return $s; }
+		if ($s = smb::getstatcache($url)) {
+			return $s;
+		}
 		list ($stat, $pu) = array (array (), smb::parse_url ($url));
 		switch ($pu['type']) {
 			case 'host':
 				if ($o = smb::look ($pu))
-				$stat = stat ("/tmp");
+					$stat = stat ("/tmp");
 				else
-				trigger_error ("url_stat(): list failed for host '{$host}'", E_USER_WARNING);
+					trigger_error ("url_stat(): list failed for host '{$pu['host']}'", E_USER_WARNING);
 				break;
 			case 'share':
 				if ($o = smb::look ($pu)) {
-				$found = FALSE;
-				$lshare = strtolower ($pu['share']);  # fix by Eric Leung
-				foreach ($o['disk'] as $s) if ($lshare == strtolower($s)) {
-					$found = TRUE;
-					$stat = stat ("/tmp");
-					break;
-				}
-				if (! $found)
-					trigger_error ("url_stat(): disk resource '{$share}' not found in '{$host}'", E_USER_WARNING);
+					$found = FALSE;
+					$lshare = strtolower ($pu['share']);  # fix by Eric Leung
+					foreach ($o['disk'] as $s) if ($lshare == strtolower($s)) {
+						$found = TRUE;
+						$stat = stat ("/tmp");
+						break;
+					}
+					if (! $found)
+						trigger_error ("url_stat(): disk resource '{$lshare}' not found in '{$pu['host']}'", E_USER_WARNING);
 				}
 				break;
 			case 'path':
@@ -414,15 +428,15 @@ class smb_stream_wrapper extends smb {
 			case 'rb':
 			case 'a':
 			case 'a+':  $this->tmpfile = tempnam('/tmp', 'smb.down.');
-						smb::execute ('get "'.$pu['path'].'" "'.$this->tmpfile.'"', $pu);
-						break;
+				smb::execute ('get "'.$pu['path'].'" "'.$this->tmpfile.'"', $pu);
+				break;
 			case 'w':
 			case 'w+':
 			case 'wb':
 			case 'x':
 			case 'x+':  $this->cleardircache();
-						$this->tmpfile = tempnam('/tmp', 'smb.up.');
-						$this->need_flush=true;
+				$this->tmpfile = tempnam('/tmp', 'smb.up.');
+				$this->need_flush=true;
 		}
 		$this->stream = fopen ($this->tmpfile, $mode);
 		return TRUE;
