@@ -176,6 +176,8 @@ class Hooks {
 		
 		//TODO: We don't deal with shared folder yet, need to recursively update every file in the folder
 		
+		if ($params['shareType'] == \OCP\Share::SHARE_TYPE_LINK)
+		
 		$view = new \OC_FilesystemView( '/' );
 		$userId = \OCP\User::getUser();
 		$util = new Util( $view, $userId );
@@ -191,12 +193,9 @@ class Hooks {
 	/**
 	 * @brief 
 	 */
-	public static function preUnshare( $params ) {
-
+	public static function postUnshare( $params ) {
 		$path = Util::getFilePath($params['itemSource']);
-		$shares = \OCP\Share::getUsersSharingFile( $path, true, false );
-		// remove the user from the list from which the file will be unshared
-		unset($shares[$params['shareWith']]);
+		$shares = \OCP\Share::getUsersSharingFile( $path, true );
 		
 		return Crypt::encKeyfileToMultipleUsers(array_unique($shares), $path );
 	}

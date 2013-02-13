@@ -147,7 +147,6 @@ class Share {
 	* @brief Find which users can access a shared item
 	* @param $path to the file
 	* @param include owner to the list of users with access to the file
-	* @param remove duplicates in the result
 	* @return array
 	* @note $path needs to be relative to user data dir, e.g. 'file.txt' 
 	*       not '/admin/data/file.txt'
@@ -203,6 +202,25 @@ class Share {
 				$usersInGroup = \OC_Group::usersInGroup($row['share_with']);
 				$shares = array_merge($shares, $usersInGroup);
 			}
+			
+			//check for public link shares
+			$query = \OC_DB::prepare(
+					'SELECT share_with
+					FROM
+					`*PREFIX*share`
+					WHERE
+					item_source = ? AND share_type = ? AND uid_owner = ?'
+			);
+			
+			$result = $query->execute( array( $source, self::SHARE_TYPE_LINK, $user ) );
+			
+			if ( \OC_DB::isError( $result ) ) {
+				\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR );
+			}
+			
+			if ($result->fetchRow()) {
+				$shares[] = self::SHARE_TYPE_LINK;
+			}
 		}
 
 		if ( ! empty( $shares ) ) {
@@ -212,11 +230,8 @@ class Share {
 			}
 		}
 		
-		if ( $removeDuplicates )
-			return array_unique($shares);
-		else {
-			return $shares;
-		}
+	return array_unique($shares);
+
 	}
 
 	/**
@@ -475,8 +490,14 @@ class Share {
 				'itemSource' => $itemSource,
 				'shareType' => $shareType,
 				'shareWith' => $shareWith,
-			));			
+			));
 			self::delete($item['id']);
+			\OC_Hook::emit('OCP\Share', 'post_unshare', array(
+					'itemType' => $itemType,
+					'itemSource' => $itemSource,
+					'shareType' => $shareType,
+					'shareWith' => $shareWith,
+			));
 			return true;
 		}
 		return false;
