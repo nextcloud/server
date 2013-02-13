@@ -4,10 +4,15 @@
 "Invalid request" => "Невалидна заявка",
 "Enable" => "Включено",
 "Error" => "Грешка",
+"undo" => "възтановяване",
+"Groups" => "Групи",
+"Delete" => "Изтриване",
 "__language_name__" => "__language_name__",
+"More" => "Още",
 "Add your App" => "Добавете Ваше приложение",
 "Select an App" => "Изберете приложение",
 "Update" => "Обновяване",
+"Show First Run Wizard again" => "Покажи настройките за първоначално зареждане отново",
 "Password" => "Парола",
 "Unable to change your password" => "Промяната на паролата не беше извършена",
 "Current password" => "Текуща парола",
@@ -17,8 +22,6 @@
 "Your email address" => "Вашия email адрес",
 "Language" => "Език",
 "Help translate" => "Помогнете с превода",
-"Groups" => "Групи",
 "Create" => "Създаване",
-"Other" => "Други",
-"Delete" => "Изтриване"
+"Other" => "Други"
 );

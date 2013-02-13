@@ -33,7 +33,6 @@ $_['subadmingroups'] = array_flip($items);
 	</form>
 	<div class="quota">
 		<span><?php echo $l->t('Default Storage');?></span>
-		<div class="quota-select-wrapper">
 			<?php if((bool) $_['isadmin']): ?>
 			<select class='quota'>
 				<option
@@ -60,7 +59,7 @@ $_['subadmingroups'] = array_flip($items);
 					<?php echo $l->t('Other');?>
 					...
 				</option>
-			</select> <input class='quota-other'/>
+			</select>
 			<?php endif; ?>
 			<?php if((bool) !$_['isadmin']): ?>
 				<select class='quota' disabled="disabled">
@@ -69,7 +68,6 @@ $_['subadmingroups'] = array_flip($items);
 					</option>
 				</select>
 			<?php endif; ?>
-		</div>
 	</div>
 </div>
 
@@ -129,36 +127,34 @@ $_['subadmingroups'] = array_flip($items);
 			</td>
 			<?php endif;?>
 			<td class="quota">
-				<div class="quota-select-wrapper">
-					<select class='quota-user'>
-						<option
-							<?php if($user['quota']=='default') echo 'selected="selected"';?>
-								value='default'>
-							<?php echo $l->t('Default');?>
-						</option>
-						<option
-						<?php if($user['quota']=='none') echo 'selected="selected"';?>
-								value='none'>
-							<?php echo $l->t('Unlimited');?>
-						</option>
-						<?php foreach($_['quota_preset'] as $preset):?>
-						<option
-						<?php if($user['quota']==$preset) echo 'selected="selected"';?>
-							value='<?php echo $preset;?>'>
-							<?php echo $preset;?>
-						</option>
-						<?php endforeach;?>
-						<?php if($user['isQuotaUserDefined']):?>
-						<option selected="selected" value='<?php echo $user['quota'];?>'>
-							<?php echo $user['quota'];?>
-						</option>
-						<?php endif;?>
-						<option value='other'>
-							<?php echo $l->t('Other');?>
-							...
-						</option>
-					</select> <input class='quota-other'/>
-				</div>
+				<select class='quota-user'>
+					<option
+						<?php if($user['quota']=='default') echo 'selected="selected"';?>
+							value='default'>
+						<?php echo $l->t('Default');?>
+					</option>
+					<option
+					<?php if($user['quota']=='none') echo 'selected="selected"';?>
+							value='none'>
+						<?php echo $l->t('Unlimited');?>
+					</option>
+					<?php foreach($_['quota_preset'] as $preset):?>
+					<option
+					<?php if($user['quota']==$preset) echo 'selected="selected"';?>
+						value='<?php echo $preset;?>'>
+						<?php echo $preset;?>
+					</option>
+					<?php endforeach;?>
+					<?php if($user['isQuotaUserDefined']):?>
+					<option selected="selected" value='<?php echo $user['quota'];?>'>
+						<?php echo $user['quota'];?>
+					</option>
+					<?php endif;?>
+					<option value='other' data-new>
+						<?php echo $l->t('Other');?>
+						...
+					</option>
+				</select>
 			</td>
 			<td class="remove">
 				<?php if($user['name']!=OC_User::getUser()):?>

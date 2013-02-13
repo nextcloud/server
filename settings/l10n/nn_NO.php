@@ -8,6 +8,8 @@
 "Disable" => "Slå av",
 "Enable" => "Slå på",
 "Error" => "Feil",
+"Groups" => "Grupper",
+"Delete" => "Slett",
 "__language_name__" => "Nynorsk",
 "Select an App" => "Vel ein applikasjon",
 "Update" => "Oppdater",
@@ -21,8 +23,6 @@
 "Fill in an email address to enable password recovery" => "Fyll inn din e-post addresse for og kunne motta passord tilbakestilling",
 "Language" => "Språk",
 "Help translate" => "Hjelp oss å oversett",
-"Groups" => "Grupper",
 "Create" => "Lag",
-"Other" => "Anna",
-"Delete" => "Slett"
+"Other" => "Anna"
 );

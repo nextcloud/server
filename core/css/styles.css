@@ -192,8 +192,9 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 	position:absolute!important; height:14px; width:24px;
 	background-image:url("../img/actions/toggle.png"); background-repeat:no-repeat; opacity:.3;
 }
-#personal-show + label { margin-top:1em; }
-#passwordbutton { margin-left:2.5em; }
+#pass2, input[name="personal-password-clone"] { padding:0.6em 2.5em 0.4em 0.4em; width:8em;}
+#personal-show + label { margin-top:1em; margin-left:-3em; }
+#passwordbutton { margin-left:0.5em; }
 
 /* Database selector */
 #login form #selectDbType { text-align:center; }
