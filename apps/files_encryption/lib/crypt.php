@@ -750,7 +750,7 @@ class Crypt {
 	 * @param $users list of users which should be able to access the file
 	 * @param $fileTarget target of the file
 	 */
-	public static function encKeyfileToMultipleUsers($users, $filePath) {
+	private static function encKeyfileToMultipleUsers($users, $filePath) {
 		$view = new \OC_FilesystemView( '/' );
 		$owner = \OCP\User::getUser();
 		$util = new Util( $view, $userId );
@@ -809,5 +809,39 @@ class Crypt {
 		\OC_FileProxy::$enabled = true;
 
 		return true;
+	}
+	
+	/**
+	 * @brief update keyfile encryption for given path and all sub folders/files
+	 * @param path which needs to be updated
+	 * @return bool success
+	 */
+	public static function updateKeyfile($path) {
+		
+		$filesView = \OCP\Files::getStorage('files');
+		
+		$result = true;
+		
+		if ( $filesView->is_dir($path) ) {
+			$content = $filesView->getDirectoryContent($path);
+			foreach ( $content as $c) {
+				$path = substr($c['path'], 5);
+				if ( $filesView->is_dir($path) ) {
+					error_log("dive into $path");
+					$result &= self::updateKeyfile($path);
+				} else {
+					error_log("encKeyFileToMultipleUsers $path");
+					$shares = \OCP\Share::getUsersSharingFile( $path, true );
+					$result &= self::encKeyfileToMultipleUsers($shares, $path);
+				}
+			}
+		} else {
+			error_log("encKeyFileToMultipleUsers single file: " . $path);
+			$shares = \OCP\Share::getUsersSharingFile( $path, true );
+			$result = self::encKeyfileToMultipleUsers($shares, $path);
+		}
+		
+		return $result;
+
 	}
 }

@@ -520,6 +520,11 @@ class Share {
 			foreach ($shares as $share) {
 				self::delete($share['id']);
 			}
+			\OC_Hook::emit('OCP\Share', 'post_unshareAll', array(
+					'itemType' => $itemType,
+					'itemSource' => $itemSource,
+					'shares' => $shares
+			));
 			return true;
 		}
 		return false;

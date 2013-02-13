@@ -17,7 +17,7 @@ OCP\Util::connectHook( 'OC_User', 'pre_setPassword','OCA\Encryption\Hooks', 'set
 // Sharing-related hooks
 OCP\Util::connectHook( 'OCP\Share', 'post_shared', 'OCA\Encryption\Hooks', 'postShared' );
 OCP\Util::connectHook( 'OCP\Share', 'post_unshare', 'OCA\Encryption\Hooks', 'postUnshare' );
-OCP\Util::connectHook( 'OCP\Share', 'pre_unshareAll', 'OCA\Encryption\Hooks', 'preUnshareAll' );
+OCP\Util::connectHook( 'OCP\Share', 'post_unshareAll', 'OCA\Encryption\Hooks', 'postUnshareAll' );
 
 // Webdav-related hooks
 OCP\Util::connectHook( 'OC_Webdav_Properties', 'update', 'OCA\Encryption\Hooks', 'updateKeyfile' );
