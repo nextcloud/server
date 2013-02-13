@@ -28,7 +28,6 @@
 "Group Admin" => "Grupi admin",
 "Delete" => "Kustuta",
 "add group" => "lisa grupp",
-"The username is already being used" => "Kasutajanimi on juba kasutuses",
 "Error creating user" => "Viga kasutaja loomisel",
 "__language_name__" => "Eesti",
 "Security Warning" => "Turvahoiatus",

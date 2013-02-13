@@ -48,6 +48,7 @@
 "Bugtracker" => "Hệ ghi nhận lỗi",
 "Commercial Support" => "Hỗ trợ có phí",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Bạn đã sử dụng <strong>%s </ strong> có sẵn <strong> %s </ strong>",
+"Get the apps to sync your files" => "Nhận ứng dụng để đồng bộ file của bạn",
 "Show First Run Wizard again" => "Hiện lại việc chạy đồ thuật khởi đầu",
 "Password" => "Mật khẩu",
 "Your password was changed" => "Mật khẩu của bạn đã được thay đổi.",

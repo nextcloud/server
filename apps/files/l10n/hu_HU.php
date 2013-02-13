@@ -13,6 +13,7 @@
 "Not enough storage available" => "Nincs elég szabad hely.",
 "Invalid directory." => "Érvénytelen mappa.",
 "Files" => "Fájlok",
+"Delete permanently" => "Végleges törlés",
 "Delete" => "Törlés",
 "Rename" => "Átnevezés",
 "Pending" => "Folyamatban",
@@ -23,6 +24,7 @@
 "replaced {new_name}" => "a(z) {new_name} állományt kicseréltük",
 "undo" => "visszavonás",
 "replaced {new_name} with {old_name}" => "{new_name} fájlt kicseréltük ezzel:  {old_name}",
+"perform delete operation" => "a törlés végrehajtása",
 "'.' is an invalid file name." => "'.' fájlnév érvénytelen.",
 "File name cannot be empty." => "A fájlnév nem lehet semmi.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Érvénytelen elnevezés. Ezek a karakterek nem használhatók: '\\', '/', '<', '>', ':', '\"', '|', '?' és '*'",
@@ -58,6 +60,7 @@
 "Text file" => "Szövegfájl",
 "Folder" => "Mappa",
 "From link" => "Feltöltés linkről",
+"Trash bin" => "Szemetes mappa",
 "Cancel upload" => "A feltöltés megszakítása",
 "Nothing in here. Upload something!" => "Itt nincs semmi. Töltsön fel valamit!",
 "Download" => "Letöltés",
@@ -65,5 +68,6 @@
 "Upload too large" => "A feltöltés túl nagy",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "A feltöltendő állományok mérete meghaladja a kiszolgálón megengedett maximális méretet.",
 "Files are being scanned, please wait." => "A fájllista ellenőrzése zajlik, kis türelmet!",
-"Current scanning" => "Ellenőrzés alatt"
+"Current scanning" => "Ellenőrzés alatt",
+"Upgrading filesystem cache..." => "A fájlrendszer gyorsítótárának frissítése zajlik..."
 );

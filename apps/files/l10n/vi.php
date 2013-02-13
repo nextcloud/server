@@ -60,6 +60,7 @@
 "Text file" => "Tập tin văn bản",
 "Folder" => "Thư mục",
 "From link" => "Từ liên kết",
+"Trash bin" => "Thùng rác",
 "Cancel upload" => "Hủy upload",
 "Nothing in here. Upload something!" => "Không có gì ở đây .Hãy tải lên một cái gì đó !",
 "Download" => "Tải xuống",

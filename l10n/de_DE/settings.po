@@ -29,8 +29,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-13 00:03+0100\n"
-"PO-Revision-Date: 2013-02-12 14:32+0000\n"
+"POT-Creation-Date: 2013-02-14 00:05+0100\n"
+"PO-Revision-Date: 2013-02-13 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
@@ -152,7 +152,7 @@ msgstr "rückgängig machen"
 
 #: js/users.js:62
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Benutzer konnte nicht entfernt werden."
 
 #: js/users.js:75 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
@@ -169,21 +169,17 @@ msgstr "Löschen"
 
 #: js/users.js:190
 msgid "add group"
-msgstr ""
+msgstr "Gruppe konnte nicht hinzugefügt werden"
 
 #: js/users.js:351
-msgid "The username is already being used"
-msgstr ""
-
-#: js/users.js:352 js/users.js:358 js/users.js:364 js/users.js:379
-msgid "Error creating user"
-msgstr ""
-
-#: js/users.js:357
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:363
+#: js/users.js:352 js/users.js:358 js/users.js:373
+msgid "Error creating user"
+msgstr "Beim Erstellen des Benutzers ist ein Fehler aufgetreten"
+
+#: js/users.js:357
 msgid "A valid password must be provided"
 msgstr ""
 
@@ -212,12 +208,12 @@ msgstr ""
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Dein Web-Server ist wahrscheinlich noch nicht dafür eingestellt, Datei-Synchronisation zu erlauben, weil die WebDAV-Schnittstelle vermutlich defekt ist."
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Bitte prüfen Sie die <a href='%s'>Instalationsanleitungen</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -261,7 +257,7 @@ msgstr ""
 
 #: templates/admin.php:98
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Führe eine Aufgabe bei jedem Laden der Seite aus"
 
 #: templates/admin.php:108
 msgid ""
@@ -277,27 +273,27 @@ msgstr ""
 
 #: templates/admin.php:125
 msgid "Sharing"
-msgstr ""
+msgstr "Teilen"
 
 #: templates/admin.php:131
 msgid "Enable Share API"
-msgstr ""
+msgstr "Teilen-API aktivieren"
 
 #: templates/admin.php:132
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Erlaube es Anwendungen , die Teilen-API zu benutzen"
 
 #: templates/admin.php:139
 msgid "Allow links"
-msgstr ""
+msgstr "Links erlauben"
 
 #: templates/admin.php:140
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Erlaube es Benutzern, Items per öffentlichem Link zu teilen"
 
 #: templates/admin.php:147
 msgid "Allow resharing"
-msgstr ""
+msgstr "Erlaube weiterteilen"
 
 #: templates/admin.php:148
 msgid "Allow users to share items shared with them again"
@@ -313,30 +309,30 @@ msgstr ""
 
 #: templates/admin.php:165
 msgid "Security"
-msgstr ""
+msgstr "Sicherheit"
 
 #: templates/admin.php:178
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "HTTPS erzwingen"
 
 #: templates/admin.php:179
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Zwingt die Clients, sich über eine verschlüsselte Verbindung mit ownCloud zu verbinden."
 
 #: templates/admin.php:182
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "Bitte verbinde dich mit dieser ownCloud-Instanz per HTTPS um SSL-Erzwingung zu aktivieren oder deaktivieren."
 
 #: templates/admin.php:192
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: templates/admin.php:193
 msgid "Log level"
-msgstr ""
+msgstr "Log-Level"
 
 #: templates/admin.php:220
 msgid "More"

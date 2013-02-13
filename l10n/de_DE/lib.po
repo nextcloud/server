@@ -8,7 +8,7 @@
 #   <blobbyjj@ymail.com>, 2012.
 # I Robot <owncloud-bot@tmit.eu>, 2013.
 # Jan-Christoph Borchardt <hey@jancborchardt.net>, 2012.
-# Marcel Kühlhorn <susefan93@gmx.de>, 2012.
+# Marcel Kühlhorn <susefan93@gmx.de>, 2012-2013.
 # Phi Lieb <>, 2012.
 #  <stefan.niedermann@googlemail.com>, 2013.
 #   <thomas.mueller@tmit.eu>, 2012.
@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-13 00:03+0100\n"
-"PO-Revision-Date: 2013-02-12 19:16+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-14 00:05+0100\n"
+"PO-Revision-Date: 2013-02-13 20:50+0000\n"
+"Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -105,22 +105,22 @@ msgstr "Setze Administrator Passwort"
 
 #: setup.php:40
 msgid "Specify a data folder."
-msgstr "Spezifiziere Datei-Verzeichnis."
+msgstr "Datei-Verzeichnis angeben"
 
 #: setup.php:53
 #, php-format
 msgid "%s enter the database username."
-msgstr "%s gib den Datenbank-Benutzernamen an."
+msgstr "%s geben Sie den Datenbank-Benutzernamen an."
 
 #: setup.php:56
 #, php-format
 msgid "%s enter the database name."
-msgstr "%s gib den Datenbank-Namen an."
+msgstr "%s geben Sie den Datenbank-Namen an."
 
 #: setup.php:59
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr "%s du darfst keine Punkte im Datenbank-Namen verwenden"
+msgstr "%s Der Datenbank-Name darf keine Punkte enthalten"
 
 #: setup.php:62
 #, php-format
@@ -129,19 +129,19 @@ msgstr "%s setze den Datenbank-Host"
 
 #: setup.php:126 setup.php:291 setup.php:336
 msgid "PostgreSQL username and/or password not valid"
-msgstr "PostgreSQL Benutzername und/oder Passwort nicht valide"
+msgstr "PostgreSQL Benutzername und/oder Passwort ungültig"
 
 #: setup.php:127 setup.php:150 setup.php:204
 msgid "You need to enter either an existing account or the administrator."
-msgstr ""
+msgstr "Sie müssen entweder ein existierendes Benutzerkonto oder das Administratoren-Konto angeben."
 
 #: setup.php:149 setup.php:423 setup.php:489
 msgid "Oracle username and/or password not valid"
-msgstr "Oracle Benutzername und/oder Passwort nicht valide"
+msgstr "Oracle Benutzername und/oder Passwort ungültig"
 
 #: setup.php:203
 msgid "MySQL username and/or password not valid"
-msgstr "MySQL Benutzername und/oder Passwort nicht valide"
+msgstr "MySQL Benutzername und/oder Passwort ungültig"
 
 #: setup.php:255 setup.php:357 setup.php:366 setup.php:384 setup.php:394
 #: setup.php:403 setup.php:430 setup.php:496 setup.php:522 setup.php:529
@@ -156,7 +156,7 @@ msgstr "DB Fehler: \"%s\""
 #: setup.php:541 setup.php:557 setup.php:565 setup.php:574
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr "Fehlerhaftes Kommando war: \"%s\""
+msgstr "Fehlerhafter Befehl war: \"%s\""
 
 #: setup.php:270
 #, php-format
@@ -179,18 +179,18 @@ msgstr "Lösche diesen Benutzer von MySQL."
 #: setup.php:548 setup.php:580
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr "Fehlerhaftes Kommando war: \"%s\", Name: %s, Passwort: %s"
+msgstr "Fehlerhafter Befehl war: \"%s\", Name: %s, Passwort: %s"
 
 #: setup.php:644
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Ihr Web-Server ist noch nicht für Datei-Synchronisation bereit, weil die WebDAV-Schnittstelle vermutlich defekt ist."
 
 #: setup.php:645
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Bitte prüfen Sie die <a href='%s'>Instalationsanleitungen</a>."
 
 #: template.php:113
 msgid "seconds ago"

@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-13 00:03+0100\n"
-"PO-Revision-Date: 2013-02-12 14:33+0000\n"
+"POT-Creation-Date: 2013-02-14 00:05+0100\n"
+"PO-Revision-Date: 2013-02-13 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -135,7 +135,7 @@ msgstr "元に戻す"
 
 #: js/users.js:62
 msgid "Unable to remove user"
-msgstr ""
+msgstr "ユーザを削除出来ません"
 
 #: js/users.js:75 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
@@ -152,23 +152,19 @@ msgstr "削除"
 
 #: js/users.js:190
 msgid "add group"
-msgstr ""
+msgstr "グループを追加"
 
 #: js/users.js:351
-msgid "The username is already being used"
-msgstr ""
+msgid "A valid username must be provided"
+msgstr "有効なユーザ名を指定する必要があります"
 
-#: js/users.js:352 js/users.js:358 js/users.js:364 js/users.js:379
+#: js/users.js:352 js/users.js:358 js/users.js:373
 msgid "Error creating user"
-msgstr ""
+msgstr "ユーザ作成エラー"
 
 #: js/users.js:357
-msgid "A valid username must be provided"
-msgstr ""
-
-#: js/users.js:363
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "有効なパスワードを指定する必要があります"
 
 #: personal.php:34 personal.php:35
 msgid "__language_name__"
@@ -189,7 +185,7 @@ msgstr "データディレクトリとファイルが恐らくインターネッ
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "セットアップ警告"
 
 #: templates/admin.php:32
 msgid ""
@@ -204,17 +200,17 @@ msgstr "<a href='%s'>インストールガイド</a>をよく確認してくだ�
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "モジュール 'fileinfo' が見つかりません"
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "PHP のモジュール 'fileinfo' が見つかりません。mimeタイプの検出を精度良く行うために、このモジュールを有効にすることを強くお勧めします。"
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "ロケールが動作していません"
 
 #: templates/admin.php:61
 msgid ""
@@ -222,11 +218,11 @@ msgid ""
 "\"en_US.UTF-8\"/\"en_US.UTF8\". This means that there might be problems with"
 " certain characters in file names. We strongly suggest to install the "
 "required packages on your system to support en_US.UTF-8/en_US.UTF8."
-msgstr ""
+msgstr "この ownCloud サーバは、システムロケールを \"en_US.UTF-8\"/\"en_US.UTF8\" に設定できません。これは、ファイル名の特定の文字で問題が発生する可能性があることを意味しています。en_US.UTF-8/en_US.UTF8 をサポートするために、システムに必要なパッケージをインストールすることを強く推奨します。"
 
 #: templates/admin.php:72
 msgid "Internet connection not working"
-msgstr ""
+msgstr "インターネット接続が動作していません"
 
 #: templates/admin.php:75
 msgid ""
@@ -236,90 +232,90 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "この ownCloud サーバには有効なインターネット接続がありません。これは、外部ストレージのマウント、更新の通知、サードパーティ製アプリのインストール、のようないくつかの機能が動作しないことを意味しています。リモートからファイルにアクセスしたり、通知メールを送信したりすることもできません。全ての機能を利用するためには、このサーバのインターネット接続を有効にすることを推奨します。"
 
 #: templates/admin.php:89
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:98
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "各ページの読み込み時にタスクを実行する"
 
 #: templates/admin.php:108
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php は webcron サービスに登録されています。owncloud のルートにある cron.php のページを http 経由で1分に1回呼び出して下さい。"
 
 #: templates/admin.php:118
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "システムの cron サービスを利用する。システムの cronjob を通して1分に1回 owncloud 内の cron.php ファイルを呼び出して下さい。"
 
 #: templates/admin.php:125
 msgid "Sharing"
-msgstr ""
+msgstr "共有"
 
 #: templates/admin.php:131
 msgid "Enable Share API"
-msgstr ""
+msgstr "共有APIを有効にする"
 
 #: templates/admin.php:132
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "アプリからの共有APIの利用を許可する"
 
 #: templates/admin.php:139
 msgid "Allow links"
-msgstr ""
+msgstr "リンクを許可する"
 
 #: templates/admin.php:140
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "リンクによりアイテムを公開することを許可する"
 
 #: templates/admin.php:147
 msgid "Allow resharing"
-msgstr ""
+msgstr "再共有を許可する"
 
 #: templates/admin.php:148
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "ユーザが共有しているアイテムの再共有を許可する"
 
 #: templates/admin.php:155
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "ユーザが誰とでも共有することを許可する"
 
 #: templates/admin.php:158
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "ユーザにグループ内のユーザとのみ共有を許可する"
 
 #: templates/admin.php:165
 msgid "Security"
-msgstr ""
+msgstr "セキュリティ"
 
 #: templates/admin.php:178
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "常にHTTPSを使用する"
 
 #: templates/admin.php:179
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "クライアントからownCloudへの接続を常に暗号化する"
 
 #: templates/admin.php:182
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "常にSSL接続を有効／無効にするために、HTTPS経由でこの ownCloud に接続して下さい。"
 
 #: templates/admin.php:192
 msgid "Log"
-msgstr ""
+msgstr "ログ"
 
 #: templates/admin.php:193
 msgid "Log level"
-msgstr ""
+msgstr "ログレベル"
 
 #: templates/admin.php:220
 msgid "More"

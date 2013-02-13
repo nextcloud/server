@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-13 00:03+0100\n"
-"PO-Revision-Date: 2013-02-12 14:32+0000\n"
+"POT-Creation-Date: 2013-02-14 00:05+0100\n"
+"PO-Revision-Date: 2013-02-13 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -136,7 +136,7 @@ msgstr "zpět"
 
 #: js/users.js:62
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Nelze odebrat uživatele"
 
 #: js/users.js:75 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
@@ -153,23 +153,19 @@ msgstr "Smazat"
 
 #: js/users.js:190
 msgid "add group"
-msgstr ""
+msgstr "přidat skupinu"
 
 #: js/users.js:351
-msgid "The username is already being used"
-msgstr ""
+msgid "A valid username must be provided"
+msgstr "Musíte zadat platné uživatelské jméno"
 
-#: js/users.js:352 js/users.js:358 js/users.js:364 js/users.js:379
+#: js/users.js:352 js/users.js:358 js/users.js:373
 msgid "Error creating user"
-msgstr ""
+msgstr "Chyba při vytváření užiatele"
 
 #: js/users.js:357
-msgid "A valid username must be provided"
-msgstr ""
-
-#: js/users.js:363
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Musíte zadat platné heslo"
 
 #: personal.php:34 personal.php:35
 msgid "__language_name__"
@@ -190,7 +186,7 @@ msgstr "Váš adresář dat a všechny Vaše soubory jsou pravděpodobně přís
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "Upozornění nastavení"
 
 #: templates/admin.php:32
 msgid ""
@@ -205,17 +201,17 @@ msgstr "Zkonzultujte, prosím, <a href='%s'>průvodce instalací</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Schází modul 'fileinfo'"
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "Schází modul PHP 'fileinfo'. Doporučujeme jej povolit pro nejlepší výsledky detekce typů MIME."
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "Locale nefunguje"
 
 #: templates/admin.php:61
 msgid ""
@@ -223,11 +219,11 @@ msgid ""
 "\"en_US.UTF-8\"/\"en_US.UTF8\". This means that there might be problems with"
 " certain characters in file names. We strongly suggest to install the "
 "required packages on your system to support en_US.UTF-8/en_US.UTF8."
-msgstr ""
+msgstr "Server ownCloud nemůže nastavit systémové locale na \"en_US.UTF-8\"/\"en_US.UTF8\".  Můžete tedy mít problémy s některými znaky v názvech souborů. Důrazně doporučujeme nainstalovat potřebné balíčky pro podporu en_US.UTF-8/en_US.UTF8."
 
 #: templates/admin.php:72
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Spojení s internetem nefujguje"
 
 #: templates/admin.php:75
 msgid ""
@@ -237,90 +233,90 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "Server ownCloud nemá funkční spojení s internetem. Některé moduly jako externí úložiště, oznámení o dostupných aktualizacích, nebo instalace aplikací třetích stran nefungují. Přístup k souborům z jiných míst a odesílání oznamovacích e-mailů také nemusí fungovat. Pokud si přejete využívat všech vlastností ownCloud, doporučujeme povolit internetové spojení pro tento server."
 
 #: templates/admin.php:89
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:98
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Spustit jednu úlohu s každou načtenou stránkou"
 
 #: templates/admin.php:108
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php je registrován u služby webcron. Zavolá stránku cron.php v kořenovém adresáři owncloud každou minutu skrze http."
 
 #: templates/admin.php:118
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Použít systémovou službu cron. Zavolat soubor cron.php ze složky owncloud pomocí systémové úlohy cron každou minutu."
 
 #: templates/admin.php:125
 msgid "Sharing"
-msgstr ""
+msgstr "Sdílení"
 
 #: templates/admin.php:131
 msgid "Enable Share API"
-msgstr ""
+msgstr "Povolit API sdílení"
 
 #: templates/admin.php:132
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Povolit aplikacím používat API sdílení"
 
 #: templates/admin.php:139
 msgid "Allow links"
-msgstr ""
+msgstr "Povolit odkazy"
 
 #: templates/admin.php:140
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Povolit uživatelům sdílet položky s veřejností pomocí odkazů"
 
 #: templates/admin.php:147
 msgid "Allow resharing"
-msgstr ""
+msgstr "Povolit znovu-sdílení"
 
 #: templates/admin.php:148
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Povolit uživatelům znovu sdílet položky, které jsou pro ně sdíleny"
 
 #: templates/admin.php:155
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Povolit uživatelům sdílet s kýmkoliv"
 
 #: templates/admin.php:158
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Povolit uživatelům sdílet pouze s uživateli v jejich skupinách"
 
 #: templates/admin.php:165
 msgid "Security"
-msgstr ""
+msgstr "Zabezpečení"
 
 #: templates/admin.php:178
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Vynutit HTTPS"
 
 #: templates/admin.php:179
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Vynutí připojování klientů ownCloud skrze šifrované spojení."
 
 #: templates/admin.php:182
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "Připojte se, prosím, k této instanci ownCloud skrze HTTPS pro povolení, nebo zakažte vynucení SSL."
 
 #: templates/admin.php:192
 msgid "Log"
-msgstr ""
+msgstr "Záznam"
 
 #: templates/admin.php:193
 msgid "Log level"
-msgstr ""
+msgstr "Úroveň záznamu"
 
 #: templates/admin.php:220
 msgid "More"

@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Could not revert: %s" => "Konnte nicht zurücksetzen: %s",
+"Could not revert: %s" => "Konnte %s nicht zurücksetzen",
 "success" => "Erfolgreich",
 "File %s was reverted to version %s" => "Die Datei %s wurde zur Version %s zurückgesetzt",
 "failure" => "Fehlgeschlagen",

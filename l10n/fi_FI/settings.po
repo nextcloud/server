@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-13 00:03+0100\n"
-"PO-Revision-Date: 2013-02-12 14:32+0000\n"
+"POT-Creation-Date: 2013-02-14 00:05+0100\n"
+"PO-Revision-Date: 2013-02-13 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -133,7 +133,7 @@ msgstr "kumoa"
 
 #: js/users.js:62
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Käyttäjän poistaminen ei onnistunut"
 
 #: js/users.js:75 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
@@ -150,21 +150,17 @@ msgstr "Poista"
 
 #: js/users.js:190
 msgid "add group"
-msgstr ""
+msgstr "lisää ryhmä"
 
 #: js/users.js:351
-msgid "The username is already being used"
-msgstr ""
-
-#: js/users.js:352 js/users.js:358 js/users.js:364 js/users.js:379
-msgid "Error creating user"
-msgstr ""
-
-#: js/users.js:357
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:363
+#: js/users.js:352 js/users.js:358 js/users.js:373
+msgid "Error creating user"
+msgstr "Virhe käyttäjää luotaessa"
+
+#: js/users.js:357
 msgid "A valid password must be provided"
 msgstr ""
 
@@ -224,7 +220,7 @@ msgstr ""
 
 #: templates/admin.php:72
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Internet-yhteys ei toimi"
 
 #: templates/admin.php:75
 msgid ""
@@ -238,7 +234,7 @@ msgstr ""
 
 #: templates/admin.php:89
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:98
 msgid "Execute one task with each page loaded"
@@ -258,52 +254,52 @@ msgstr ""
 
 #: templates/admin.php:125
 msgid "Sharing"
-msgstr ""
+msgstr "Jakaminen"
 
 #: templates/admin.php:131
 msgid "Enable Share API"
-msgstr ""
+msgstr "Käytä jakamisen ohjelmointirajapintaa"
 
 #: templates/admin.php:132
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Salli sovellusten käyttää jakamisen ohjelmointirajapintaa"
 
 #: templates/admin.php:139
 msgid "Allow links"
-msgstr ""
+msgstr "Salli linkit"
 
 #: templates/admin.php:140
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Salli käyttäjien jakaa kohteita käyttäen linkkejä"
 
 #: templates/admin.php:147
 msgid "Allow resharing"
-msgstr ""
+msgstr "Salli uudelleenjakaminen"
 
 #: templates/admin.php:148
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Mahdollistaa käyttäjien jakavan uudelleen heidän kanssaan jaettuja kohteita"
 
 #: templates/admin.php:155
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Salli käyttäjien jakaa kenen tahansa kanssa"
 
 #: templates/admin.php:158
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Salli jakaminen vain samoissa ryhmissä olevien käyttäjien kesken"
 
 #: templates/admin.php:165
 msgid "Security"
-msgstr ""
+msgstr "Tietoturva"
 
 #: templates/admin.php:178
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Pakota HTTPS"
 
 #: templates/admin.php:179
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Pakottaa salaamaan ownCloudiin kohdistuvat yhteydet."
 
 #: templates/admin.php:182
 msgid ""
@@ -313,11 +309,11 @@ msgstr ""
 
 #: templates/admin.php:192
 msgid "Log"
-msgstr ""
+msgstr "Loki"
 
 #: templates/admin.php:193
 msgid "Log level"
-msgstr ""
+msgstr "Lokitaso"
 
 #: templates/admin.php:220
 msgid "More"

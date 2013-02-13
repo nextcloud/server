@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-13 00:03+0100\n"
-"PO-Revision-Date: 2013-02-12 19:50+0000\n"
-"Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
+"POT-Creation-Date: 2013-02-14 00:05+0100\n"
+"PO-Revision-Date: 2013-02-13 23:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -153,18 +153,14 @@ msgid "add group"
 msgstr "pievienot grupu"
 
 #: js/users.js:351
-msgid "The username is already being used"
-msgstr "Šāds lietotājvārds jau tiek izmantots"
+msgid "A valid username must be provided"
+msgstr "Jānorāda derīgs lietotājvārds"
 
-#: js/users.js:352 js/users.js:358 js/users.js:364 js/users.js:379
+#: js/users.js:352 js/users.js:358 js/users.js:373
 msgid "Error creating user"
 msgstr "Kļūda, veidojot lietotāju"
 
 #: js/users.js:357
-msgid "A valid username must be provided"
-msgstr "Jānorāda derīgs lietotājvārds"
-
-#: js/users.js:363
 msgid "A valid password must be provided"
 msgstr "Jānorāda derīga parole"
 
@@ -234,90 +230,90 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "Šim ownCloud serverim nav strādājoša interneta savienojuma. Tas nozīmē, ka dažas no šīm iespējām, piemēram, ārējas krātuves montēšana, paziņošana par atjauninājumiem vai trešās puses programmatūras instalēšana nestrādā. Varētu nestrādāt attālināta piekļuve pie datnēm un paziņojumu e-pasta vēstuļu sūtīšana. Mēs iesakām aktivēt interneta savienojumu šim serverim, ja vēlaties visas ownCloud iespējas."
 
 #: templates/admin.php:89
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:98
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Izpildīt vienu uzdevumu ar katru ielādēto lapu"
 
 #: templates/admin.php:108
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php ir reģistrēts webcron servisā. Izsauciet cron.php lapu ownCloud saknē caur http reizi sekundē."
 
 #: templates/admin.php:118
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Izmantot sistēmas cron servisu. Izsauciet cron.php datni ownCloud mapē caur sistēmas cornjob reizi minūtē."
 
 #: templates/admin.php:125
 msgid "Sharing"
-msgstr ""
+msgstr "Dalīšanās"
 
 #: templates/admin.php:131
 msgid "Enable Share API"
-msgstr ""
+msgstr "Aktivēt koplietošanas API"
 
 #: templates/admin.php:132
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Ļauj lietotnēm izmantot koplietošanas API"
 
 #: templates/admin.php:139
 msgid "Allow links"
-msgstr ""
+msgstr "Atļaut saites"
 
 #: templates/admin.php:140
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Ļaut lietotājiem publiski dalīties ar vienumiem, izmantojot saites"
 
 #: templates/admin.php:147
 msgid "Allow resharing"
-msgstr ""
+msgstr "Atļaut atkārtotu koplietošanu"
 
 #: templates/admin.php:148
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Ļaut lietotājiem dalīties ar vienumiem atkārtoti"
 
 #: templates/admin.php:155
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Ļaut lietotājiem dalīties ar visiem"
 
 #: templates/admin.php:158
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Ļaut lietotājiem dalīties ar lietotājiem to grupās"
 
 #: templates/admin.php:165
 msgid "Security"
-msgstr ""
+msgstr "Drošība"
 
 #: templates/admin.php:178
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Uzspiest HTTPS"
 
 #: templates/admin.php:179
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Piespiež klientus savienoties ar ownCloud caur šifrētu savienojumu."
 
 #: templates/admin.php:182
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "Lūdzu, savienojieties ar šo ownCloud pakalpojumu caur HTTPS, lai aktivētu vai deaktivētu SSL piemērošanu."
 
 #: templates/admin.php:192
 msgid "Log"
-msgstr ""
+msgstr "Žurnāls"
 
 #: templates/admin.php:193
 msgid "Log level"
-msgstr ""
+msgstr "Žurnāla līmenis"
 
 #: templates/admin.php:220
 msgid "More"
