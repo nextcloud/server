@@ -117,6 +117,9 @@ class Mapper
 		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*file_map` WHERE `logic_path_hash` = ?');
 		$result = $query->execute(array(md5($logicPath)));
 		$result = $result->fetchRow();
+		if ($result === false) {
+			return null;
+		}
 
 		return $result['physic_path'];
 	}
@@ -160,11 +163,16 @@ class Mapper
 		$sluggedElements = array();
 
 		// skip slugging the drive letter on windows - TODO: test if local path
-		if (strpos(strtolower(php_uname('s')), 'win') !== false) {
+		if (\OC_Util::runningOnWindows()) {
 			$sluggedElements[]= $pathElements[0];
 			array_shift($pathElements);
 		}
 		foreach ($pathElements as $pathElement) {
+			// remove empty elements
+			if (empty($pathElement)) {
+				continue;
+			}
+
 			// TODO: remove file ext before slugify on last element
 			$sluggedElements[] = self::slugify($pathElement);
 		}
@@ -177,6 +185,12 @@ class Mapper
 			array_pop($sluggedElements);
 			array_push($sluggedElements, $last.'-'.$index);
 		}
+
+		// on non-windows systems add the leading / if necessary
+		if (!\OC_Util::runningOnWindows() and $path[0] === '/') {
+			return DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, $sluggedElements);
+		}
+
 		return implode(DIRECTORY_SEPARATOR, $sluggedElements);
 	}
 

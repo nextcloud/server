@@ -10,7 +10,7 @@ namespace OC\Files\Storage;
 /**
  * for local filestore, we only have to map the paths
  */
-class Local extends \OC\Files\Storage\Common{
+class MappedLocal extends \OC\Files\Storage\Common{
 	protected $datadir;
 	private $mapper;
 
@@ -328,6 +328,9 @@ class Local extends \OC\Files\Storage\Common{
 	private function stripLeading($path) {
 		if(strpos($path, '/') === 0) {
 			$path = substr($path, 1);
+		}
+		if ($path === false) {
+			return '';
 		}
 
 		return $path;

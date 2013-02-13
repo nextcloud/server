@@ -9,7 +9,9 @@
 namespace OC\Files\Storage;
 
 if (\OC_Util::runningOnWindows()) {
-	require_once 'mappedlocal.php';
+	class Local extends MappedLocal {
+
+	}
 } else {
 
 /**
