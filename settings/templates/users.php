@@ -159,7 +159,7 @@ $_['subadmingroups'] = array_flip($items);
 			<td class="remove">
 				<?php if($user['name']!=OC_User::getUser()):?>
 					<a href="#" class="action delete" original-title="<?php echo $l->t('Delete')?>">
-						<img src="<?php echo image_path('core', 'actions/delete.svg') ?>" />
+						<img src="<?php echo image_path('core', 'actions/delete.svg') ?>" class="svg" />
 					</a>
 				<?php endif;?>
 			</td>
