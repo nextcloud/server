@@ -404,7 +404,7 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 
 #app-navigation li.collapsible > button.collapse {
 	display: none; position: absolute; left: 6px; top: 5px; height: 16px; width: 16px;
-	background: none; background-image: url('%webroot%/core/img/actions/triangle-s.svg');
+	background: none; background-image: url('../img/actions/triangle-s.svg');
 	background-repeat: no-repeat; background-size: 16px 16px;
 	border: none; border-radius: 0; outline: none !important;
 	box-shadow: none;
@@ -475,7 +475,7 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 
 .settings-button {
 	height: 32px; width: 100%; padding: 0;	margin: 0; display: block;
-	background-image: url('%webroot%/core/img/actions/settings.png');
+	background-image: url('../img/actions/settings.png');
 	background-repeat: no-repeat; background-position: 10px center;
 	background-color: transparent;
 	box-shadow: none;
@@ -484,14 +484,14 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 .settings-button:hover { background-color: #ddd; }
 
 /* icons */
-.folder-icon { background-image: url('%webroot%/core/img/places/folder.png'); }
-.delete-icon { background-image: url('%webroot%/core/img/actions/delete.svg'); }
-.delete-icon:hover { background-image: url('%webroot%/core/img/actions/delete-hover.svg'); }
-.edit-icon { background-image: url('%webroot%/core/img/actions/rename.svg'); }
+.folder-icon { background-image: url('../img/places/folder.png'); }
+.delete-icon { background-image: url('../img/actions/delete.svg'); }
+.delete-icon:hover { background-image: url('../img/actions/delete-hover.svg'); }
+.edit-icon { background-image: url('../img/actions/rename.svg'); }
 
 /* buttons */
 button.loading {
-	background-image: url('%webroot%/core/img/loading.gif');
+	background-image: url('../img/loading.gif');
 	background-position: right 10px center;
 	background-repeat: no-repeat;
 	padding-right: 30px;
