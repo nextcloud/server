@@ -231,6 +231,11 @@ class OC {
 				header("Location: $url");
 				exit();
 			}
+		} else {
+			// Invalidate HSTS headers
+			if (OC_Request::serverProtocol() === 'https') {
+				header('Strict-Transport-Security: max-age=0');
+			}
 		}
 	}
 
