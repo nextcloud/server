@@ -55,7 +55,7 @@ class Storage {
 	/**
 	 * store a new version of a file.
 	 */
-	public function store($filename) {
+	public static function store($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			$owner = \OC\Files\Filesystem::getOwner($filename);
 			if ( $owner != \OCP\User::getUser() ) {
