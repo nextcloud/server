@@ -57,9 +57,19 @@ class Storage {
 	 */
 	public function store($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-			list($uid, $filename) = self::getUidAndFilename($filename);
-			$files_view = new \OC\Files\View('/'.\OCP\User::getUser() .'/files');
-			$users_view = new \OC\Files\View('/'.\OCP\User::getUser());
+			$owner = \OC\Files\Filesystem::getOwner($filename);
+			if ( $owner != \OCP\User::getUser() ) {
+				$datadir = \OC_Config::getValue( "datadirectory", \OC::$SERVERROOT."/data" );
+				\OC\Files\Filesystem::mount( '\OC\Files\Storage\Local', array('datadir'=>$datadir), '/'.$owner );
+				$info = \OC\Files\Filesystem::getFileInfo($filename);
+				$id = $info['fileid'];
+				error_log("id: $id");
+				$path = \OC\Files\Filesystem::getPath($id);
+				error_log("new path: $path");
+			}
+			
+			$files_view = new \OC\Files\View('/'.$uid .'/files');
+			$users_view = new \OC\Files\View('/'.$uid);
 
 			//check if source file already exist as version to avoid recursions.
 			// todo does this check work?
