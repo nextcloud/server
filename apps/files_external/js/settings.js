@@ -47,7 +47,7 @@ OC.MountConfig={
 							oldUsers.splice($.inArray(applicable, oldUsers), 1);
 						}
 					}
-					$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+					$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, 'class': backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
 				});
 				var mountType = 'group';
 				$.each(oldGroups, function(index, applicable) {
@@ -61,7 +61,7 @@ OC.MountConfig={
 				var isPersonal = true;
 				var mountType = 'user';
 				var applicable = OC.currentUser;
-				$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+				$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, 'class': backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
 			}
 			return true;
 		}
