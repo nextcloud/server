@@ -112,7 +112,8 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 			return $ldap_users;
 		}
 
-		// if we'd pass -1 to LDAP search, we'd end up in a Protocol error. With a limit of 0, we get 0 results. So we pass null.
+		// if we'd pass -1 to LDAP search, we'd end up in a Protocol
+		// error. With a limit of 0, we get 0 results. So we pass null.
 		if($limit <= 0) {
 			$limit = null;
 		}
@@ -121,9 +122,12 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 			$this->getFilterPartForUserSearch($search)
 		));
 
-		\OCP\Util::writeLog('user_ldap', 'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter, \OCP\Util::DEBUG);
+		\OCP\Util::writeLog('user_ldap',
+			'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter,
+			\OCP\Util::DEBUG);
 		//do the search and translate results to owncloud names
-		$ldap_users = $this->fetchListOfUsers($filter, array($this->connection->ldapUserDisplayName, 'dn'), $limit, $offset);
+		$ldap_users = $this->fetchListOfUsers($filter, array($this->connection->ldapUserDisplayName, 'dn'),
+			$limit, $offset);
 		$ldap_users = $this->ownCloudUserNames($ldap_users);
 		\OCP\Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users). ' Users found', \OCP\Util::DEBUG);
 
@@ -189,11 +193,13 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 				//check for / at the beginning or pattern c:\ resp. c:/
 				if(
 					'/' == $path[0]
-					|| (3 < strlen($path) && ctype_alpha($path[0]) && $path[1] == ':' && ('\\' == $path[2] || '/' == $path[2]))
+					|| (3 < strlen($path) && ctype_alpha($path[0])
+						&& $path[1] == ':' && ('\\' == $path[2] || '/' == $path[2]))
 				) {
 					$homedir = $path;
 				} else {
-					$homedir = \OCP\Config::getSystemValue('datadirectory', \OC::$SERVERROOT.'/data' ) . '/' . $homedir[0];
+					$homedir = \OCP\Config::getSystemValue('datadirectory',
+						\OC::$SERVERROOT.'/data' ) . '/' . $homedir[0];
 				}
 				$this->connection->writeToCache($cacheKey, $homedir);
 				return $homedir;

@@ -5,26 +5,56 @@
 		<li><a href="#ldapSettings-2">Advanced</a></li>
 	</ul>
 		<?php if(OCP\App::isEnabled('user_webdavauth')) {
-			echo '<p class="ldapwarning">'.$l->t('<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them.').'</p>';
+			echo '<p class="ldapwarning">'.$l->t('<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible.'
+				.' You may experience unexpected behaviour.'
+				.' Please ask your system administrator to disable one of them.').'</p>';
 		}
 		if(!function_exists('ldap_connect')) {
-			echo '<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it.').'</p>';
+			echo '<p class="ldapwarning">'.$l->t('<b>Warning:</b> The PHP LDAP module is not installed,'
+				.' the backend will not work. Please ask your system administrator to install it.').'</p>';
 		}
 		?>
 	<fieldset id="ldapSettings-1">
-		<p><label for="ldap_serverconfig_chooser"><?php echo $l->t('Server configuration');?></label><select id="ldap_serverconfig_chooser" name="ldap_serverconfig_chooser">
+		<p><label for="ldap_serverconfig_chooser"><?php echo $l->t('Server configuration');?></label>
+		<select id="ldap_serverconfig_chooser" name="ldap_serverconfig_chooser">
 		<?php echo $_['serverConfigurationOptions']; ?>
 		<option value="NEW"><?php echo $l->t('Add Server Configuration');?></option>
 		</select>
-		<button id="ldap_action_delete_configuration" name="ldap_action_delete_configuration">Delete Configuration</button>
+		<button id="ldap_action_delete_configuration"
+			name="ldap_action_delete_configuration">Delete Configuration</button>
 		</p>
-		<p><label for="ldap_host"><?php echo $l->t('Host');?></label><input type="text" id="ldap_host" name="ldap_host" data-default="<?php echo $_['ldap_host_default']; ?>" title="<?php echo $l->t('You can omit the protocol, except you require SSL. Then start with ldaps://');?>"></p>
-		<p><label for="ldap_base"><?php echo $l->t('Base DN');?></label><textarea id="ldap_base" name="ldap_base" placeholder="<?php echo $l->t('One Base DN per line');?>" title="<?php echo $l->t('You can specify Base DN for users and groups in the Advanced tab');?>" data-default="<?php echo $_['ldap_base_default']; ?>" ></textarea></p>
-		<p><label for="ldap_dn"><?php echo $l->t('User DN');?></label><input type="text" id="ldap_dn" name="ldap_dn" data-default="<?php echo $_['ldap_dn_default']; ?>" title="<?php echo $l->t('The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty.');?>" /></p>
-		<p><label for="ldap_agent_password"><?php echo $l->t('Password');?></label><input type="password" id="ldap_agent_password" name="ldap_agent_password" data-default="<?php echo $_['ldap_agent_password_default']; ?>" title="<?php echo $l->t('For anonymous access, leave DN and Password empty.');?>" /></p>
-		<p><label for="ldap_login_filter"><?php echo $l->t('User Login Filter');?></label><input type="text" id="ldap_login_filter" name="ldap_login_filter" data-default="<?php echo $_['ldap_login_filter_default']; ?>" title="<?php echo $l->t('Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action.');?>" /><br /><small><?php echo $l->t('use %%uid placeholder, e.g. "uid=%%uid"');?></small></p>
-		<p><label for="ldap_userlist_filter"><?php echo $l->t('User List Filter');?></label><input type="text" id="ldap_userlist_filter" name="ldap_userlist_filter" data-default="<?php echo $_['ldap_userlist_filter_default']; ?>" title="<?php echo $l->t('Defines the filter to apply, when retrieving users.');?>" /><br /><small><?php echo $l->t('without any placeholder, e.g. "objectClass=person".');?></small></p>
-		<p><label for="ldap_group_filter"><?php echo $l->t('Group Filter');?></label><input type="text" id="ldap_group_filter" name="ldap_group_filter" data-default="<?php echo $_['ldap_group_filter_default']; ?>" title="<?php echo $l->t('Defines the filter to apply, when retrieving groups.');?>" /><br /><small><?php echo $l->t('without any placeholder, e.g. "objectClass=posixGroup".');?></small></p>
+		<p><label for="ldap_host"><?php echo $l->t('Host');?></label>
+		<input type="text" id="ldap_host" name="ldap_host" data-default="<?php echo $_['ldap_host_default']; ?>"
+			title="<?php echo $l->t('You can omit the protocol, except you require SSL.'
+				.' Then start with ldaps://');?>"></p>
+		<p><label for="ldap_base"><?php echo $l->t('Base DN');?></label>
+		<textarea id="ldap_base" name="ldap_base" placeholder="<?php echo $l->t('One Base DN per line');?>"
+			title="<?php echo $l->t('You can specify Base DN for users and groups in the Advanced tab');?>"
+			data-default="<?php echo $_['ldap_base_default']; ?>" ></textarea></p>
+		<p><label for="ldap_dn"><?php echo $l->t('User DN');?></label>
+		<input type="text" id="ldap_dn" name="ldap_dn" data-default="<?php echo $_['ldap_dn_default']; ?>"
+			title="<?php echo $l->t('The DN of the client user with which the bind shall be done,'
+				.' e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty.');?>" /></p>
+		<p><label for="ldap_agent_password"><?php echo $l->t('Password');?></label>
+		<input type="password" id="ldap_agent_password" name="ldap_agent_password"
+			data-default="<?php echo $_['ldap_agent_password_default']; ?>"
+			title="<?php echo $l->t('For anonymous access, leave DN and Password empty.');?>" /></p>
+		<p><label for="ldap_login_filter"><?php echo $l->t('User Login Filter');?></label>
+		<input type="text" id="ldap_login_filter" name="ldap_login_filter"
+			data-default="<?php echo $_['ldap_login_filter_default']; ?>"
+			title="<?php echo $l->t('Defines the filter to apply, when login is attempted.'
+				.' %%uid replaces the username in the login action.');?>" />
+				<br /><small><?php echo $l->t('use %%uid placeholder, e.g. "uid=%%uid"');?></small></p>
+		<p><label for="ldap_userlist_filter"><?php echo $l->t('User List Filter');?></label>
+		<input type="text" id="ldap_userlist_filter" name="ldap_userlist_filter"
+			data-default="<?php echo $_['ldap_userlist_filter_default']; ?>"
+			title="<?php echo $l->t('Defines the filter to apply, when retrieving users.');?>" />
+			<br /><small><?php echo $l->t('without any placeholder, e.g. "objectClass=person".');?></small></p>
+		<p><label for="ldap_group_filter"><?php echo $l->t('Group Filter');?></label>
+		<input type="text" id="ldap_group_filter" name="ldap_group_filter"
+			data-default="<?php echo $_['ldap_group_filter_default']; ?>"
+			title="<?php echo $l->t('Defines the filter to apply, when retrieving groups.');?>" />
+			<br /><small><?php echo $l->t('without any placeholder, e.g. "objectClass=posixGroup".');?></small></p>
 	</fieldset>
 	<fieldset id="ldapSettings-2">
 		<div id="ldapAdvancedAccordion">

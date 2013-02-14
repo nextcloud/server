@@ -58,7 +58,9 @@ foreach($objects as $object) {
 		try {
 			$updateQuery->execute(array($newDN, $uuid, $dn['ldap_dn']));
 		} catch(Exception $e) {
-		    \OCP\Util::writeLog('user_ldap', 'Could not update '.$object.' '.$dn['ldap_dn'].' in the mappings table. ', \OCP\Util::WARN);
+			\OCP\Util::writeLog('user_ldap',
+				'Could not update '.$object.' '.$dn['ldap_dn'].' in the mappings table. ',
+				\OCP\Util::WARN);
 		}
 
 	}
