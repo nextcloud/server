@@ -6,13 +6,14 @@
 # Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2012.
 # CJTess <claudio.tessone@gmail.com>, 2013.
 #   <claudio.tessone@gmail.com>, 2012.
+# Javier Victor Mariano Bruno <koryyyy@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-14 00:05+0100\n"
-"PO-Revision-Date: 2013-02-13 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-15 00:05+0100\n"
+"PO-Revision-Date: 2013-02-14 23:05+0000\n"
+"Last-Translator: deftoner <koryyyy@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -133,7 +134,7 @@ msgstr "deshacer"
 
 #: js/users.js:62
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Imposible remover usuario"
 
 #: js/users.js:75 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
@@ -148,21 +149,21 @@ msgstr "Grupo Administrador"
 msgid "Delete"
 msgstr "Borrar"
 
-#: js/users.js:190
+#: js/users.js:191
 msgid "add group"
-msgstr ""
+msgstr "Agregar grupo"
 
-#: js/users.js:351
+#: js/users.js:352
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Debe ingresar un nombre de usuario válido"
 
-#: js/users.js:352 js/users.js:358 js/users.js:373
+#: js/users.js:353 js/users.js:359 js/users.js:374
 msgid "Error creating user"
-msgstr ""
+msgstr "Error creando usuario"
 
-#: js/users.js:357
+#: js/users.js:358
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Debe ingresar una contraseña válida"
 
 #: personal.php:34 personal.php:35
 msgid "__language_name__"
@@ -183,7 +184,7 @@ msgstr "Tu directorio de datos y tus archivos son probablemente accesibles desde
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "Alerta de Configuración"
 
 #: templates/admin.php:32
 msgid ""
@@ -198,17 +199,17 @@ msgstr "Por favor, comprobá nuevamente la <a href='%s'>guía de instalación</a
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Modulo 'fileinfo' no existe"
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "El modulo PHP 'fileinfo' no existe. Es muy recomendable que active este modulo para obtener mejores resultados con la detección mime-type"
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "\"Locale\" no está funcionando"
 
 #: templates/admin.php:61
 msgid ""
@@ -216,11 +217,11 @@ msgid ""
 "\"en_US.UTF-8\"/\"en_US.UTF8\". This means that there might be problems with"
 " certain characters in file names. We strongly suggest to install the "
 "required packages on your system to support en_US.UTF-8/en_US.UTF8."
-msgstr ""
+msgstr "El servidor ownCloud no puede establecer el sistema locale a \"en_US.UTF-8\"/\"en_US.UTF8\". Esto significa que debe haber u problema con ciertos caracteres en los nombres de archivo. Le recomendamos instalar en su sitema los paquetes requeridos para soportar en_US.UTF-8/en_US.UTF8."
 
 #: templates/admin.php:72
 msgid "Internet connection not working"
-msgstr ""
+msgstr "La conexión a Internet no esta funcionando. "
 
 #: templates/admin.php:75
 msgid ""
@@ -234,11 +235,11 @@ msgstr ""
 
 #: templates/admin.php:89
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:98
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Ejecute una tarea con cada pagina cargada."
 
 #: templates/admin.php:108
 msgid ""
@@ -254,52 +255,52 @@ msgstr ""
 
 #: templates/admin.php:125
 msgid "Sharing"
-msgstr ""
+msgstr "Compartiendo"
 
 #: templates/admin.php:131
 msgid "Enable Share API"
-msgstr ""
+msgstr "Habilitar Share API"
 
 #: templates/admin.php:132
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Permitir a las aplicaciones usar la Share API"
 
 #: templates/admin.php:139
 msgid "Allow links"
-msgstr ""
+msgstr "Permitir enlaces"
 
 #: templates/admin.php:140
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Permitir a los usuarios compartir enlaces públicos"
 
 #: templates/admin.php:147
 msgid "Allow resharing"
-msgstr ""
+msgstr "Permitir Re-Compartir"
 
 #: templates/admin.php:148
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Permite a los usuarios volver a compartir items que le han compartido"
 
 #: templates/admin.php:155
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Permitir a los usuarios compartir con todos."
 
 #: templates/admin.php:158
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Permitir a los usuarios compartir solo con los de su propio grupo"
 
 #: templates/admin.php:165
 msgid "Security"
-msgstr ""
+msgstr "Seguridad"
 
 #: templates/admin.php:178
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Forzar HTTPS"
 
 #: templates/admin.php:179
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Forzar a los clientes conectar a ownCloud vía conexión encriptada"
 
 #: templates/admin.php:182
 msgid ""
@@ -309,11 +310,11 @@ msgstr ""
 
 #: templates/admin.php:192
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: templates/admin.php:193
 msgid "Log level"
-msgstr ""
+msgstr "Nivel de Log"
 
 #: templates/admin.php:220
 msgid "More"

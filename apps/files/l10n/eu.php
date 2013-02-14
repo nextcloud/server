@@ -60,7 +60,6 @@
 "Text file" => "Testu fitxategia",
 "Folder" => "Karpeta",
 "From link" => "Estekatik",
-"Trash bin" => "Zakarrontzia",
 "Cancel upload" => "Ezeztatu igoera",
 "Nothing in here. Upload something!" => "Ez dago ezer. Igo zerbait!",
 "Download" => "Deskargatu",

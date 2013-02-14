@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-14 00:05+0100\n"
-"PO-Revision-Date: 2013-02-13 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-15 00:05+0100\n"
+"PO-Revision-Date: 2013-02-14 23:03+0000\n"
+"Last-Translator: Mouxy <daniel@mouxy.net>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -138,7 +138,7 @@ msgstr "desfazer"
 
 #: js/users.js:62
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Não foi possível remover o utilizador"
 
 #: js/users.js:75 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
@@ -153,21 +153,21 @@ msgstr "Grupo Administrador"
 msgid "Delete"
 msgstr "Apagar"
 
-#: js/users.js:190
+#: js/users.js:191
 msgid "add group"
-msgstr ""
+msgstr "Adicionar grupo"
 
-#: js/users.js:351
+#: js/users.js:352
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Um nome de utilizador válido deve ser fornecido"
 
-#: js/users.js:352 js/users.js:358 js/users.js:373
+#: js/users.js:353 js/users.js:359 js/users.js:374
 msgid "Error creating user"
-msgstr ""
+msgstr "Erro a criar utilizador"
 
-#: js/users.js:357
+#: js/users.js:358
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Uma password válida deve ser fornecida"
 
 #: personal.php:34 personal.php:35
 msgid "__language_name__"
@@ -188,7 +188,7 @@ msgstr "A sua pasta com os dados e os seus ficheiros estão provavelmente acess�
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "Aviso de setup"
 
 #: templates/admin.php:32
 msgid ""
@@ -203,17 +203,17 @@ msgstr "Por favor verifique <a href='%s'>installation guides</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Falta o módulo 'fileinfo'"
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "O Módulo PHP 'fileinfo' não se encontra instalado/activado. É fortemente recomendado que active este módulo para obter os melhores resultado com a detecção dos tipos de mime."
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "Internacionalização não está a funcionar"
 
 #: templates/admin.php:61
 msgid ""
@@ -221,11 +221,11 @@ msgid ""
 "\"en_US.UTF-8\"/\"en_US.UTF8\". This means that there might be problems with"
 " certain characters in file names. We strongly suggest to install the "
 "required packages on your system to support en_US.UTF-8/en_US.UTF8."
-msgstr ""
+msgstr "Este servidor de ownCloud não consegue definir a codificação de caracteres para \"en_US.UTF-8\"/\"en_US.UTF8\". Isto significa que pode haver problemas com alguns caracteres nos nomes de ficheiros. É fortemente recomendado que instale o pacote para ser possível ver caracteres codificados em en_US.UTF-8/en_US.UTF8."
 
 #: templates/admin.php:72
 msgid "Internet connection not working"
-msgstr ""
+msgstr "A ligação à internet não está a funcionar"
 
 #: templates/admin.php:75
 msgid ""
@@ -235,90 +235,90 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "Este servidor ownCloud não tem uma ligação de internet funcional. Isto significa que algumas funcionalidades como o acesso a locais externos (dropbox, gdrive, etc), notificações sobre actualizções, ou a instalação de aplicações não irá funcionar. Sugerimos que active uma ligação à internet se pretende obter todas as funcionalidades do ownCloud."
 
 #: templates/admin.php:89
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:98
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Executar uma tarefa com cada página carregada"
 
 #: templates/admin.php:108
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php está registado como um serviço webcron. Aceda a pagina cron.php que se encontra na raiz do ownCloud uma vez por minuto utilizando o seu browser."
 
 #: templates/admin.php:118
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Usar o serviço cron do sistema. Aceda a pagina cron.php que se encontra na raiz do ownCloud uma vez por minuto utilizando o seu browser."
 
 #: templates/admin.php:125
 msgid "Sharing"
-msgstr ""
+msgstr "Partilha"
 
 #: templates/admin.php:131
 msgid "Enable Share API"
-msgstr ""
+msgstr "Activar a API de partilha"
 
 #: templates/admin.php:132
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Permitir que os utilizadores usem a API de partilha"
 
 #: templates/admin.php:139
 msgid "Allow links"
-msgstr ""
+msgstr "Permitir links"
 
 #: templates/admin.php:140
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Permitir que os utilizadores partilhem itens com o público utilizando um link."
 
 #: templates/admin.php:147
 msgid "Allow resharing"
-msgstr ""
+msgstr "Permitir repartilha"
 
 #: templates/admin.php:148
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Permitir que os utilizadores partilhem itens partilhados com eles"
 
 #: templates/admin.php:155
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Permitir que os utilizadores partilhem com todos"
 
 #: templates/admin.php:158
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Permitir que os utilizadores partilhem somente com utilizadores do seu grupo"
 
 #: templates/admin.php:165
 msgid "Security"
-msgstr ""
+msgstr "Segurança"
 
 #: templates/admin.php:178
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Forçar HTTPS"
 
 #: templates/admin.php:179
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Forçar clientes a ligar através de uma ligação encriptada"
 
 #: templates/admin.php:182
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "Por favor ligue-se ao ownCloud através de uma ligação HTTPS para ligar/desligar o forçar da ligação por SSL"
 
 #: templates/admin.php:192
 msgid "Log"
-msgstr ""
+msgstr "Registo"
 
 #: templates/admin.php:193
 msgid "Log level"
-msgstr ""
+msgstr "Nível do registo"
 
 #: templates/admin.php:220
 msgid "More"
@@ -393,7 +393,7 @@ msgstr "Usou <strong>%s</strong> do disponivel <strong>%s</strong>"
 
 #: templates/personal.php:14
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Obtenha as aplicações para sincronizar os seus ficheiros"
 
 #: templates/personal.php:25
 msgid "Show First Run Wizard again"

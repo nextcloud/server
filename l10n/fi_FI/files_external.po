@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-03 00:04+0100\n"
-"PO-Revision-Date: 2013-02-02 14:01+0000\n"
+"POT-Creation-Date: 2013-02-15 00:04+0100\n"
+"PO-Revision-Date: 2013-02-14 13:50+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -28,29 +28,29 @@ msgstr "Pääsy sallittu"
 msgid "Error configuring Dropbox storage"
 msgstr "Virhe Dropbox levyn asetuksia tehtäessä"
 
-#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:41
+#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
 msgid "Grant access"
 msgstr "Salli pääsy"
 
-#: js/dropbox.js:73 js/google.js:73
+#: js/dropbox.js:73 js/google.js:72
 msgid "Fill out all required fields"
 msgstr "Täytä kaikki vaaditut kentät"
 
 #: js/dropbox.js:85
 msgid "Please provide a valid Dropbox app key and secret."
-msgstr ""
+msgstr "Anna kelvollinen Dropbox-sovellusavain ja salainen vastaus."
 
-#: js/google.js:26 js/google.js:74 js/google.js:79
+#: js/google.js:26 js/google.js:73 js/google.js:78
 msgid "Error configuring Google Drive storage"
 msgstr "Virhe Google Drive levyn asetuksia tehtäessä"
 
-#: lib/config.php:405
+#: lib/config.php:413
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Varoitus:</b> \"smbclient\" ei ole asennettuna. CIFS-/SMB-jakojen liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää asentamaan smbclient."
 
-#: lib/config.php:406
+#: lib/config.php:414
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "

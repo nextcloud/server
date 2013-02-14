@@ -60,7 +60,6 @@
 "Text file" => "Ficheiro de texto",
 "Folder" => "Cartafol",
 "From link" => "Desde a ligazón",
-"Trash bin" => "Cesto do lixo",
 "Cancel upload" => "Cancelar o envío",
 "Nothing in here. Upload something!" => "Aquí non hai nada por aquí. Envíe algo.",
 "Download" => "Descargar",

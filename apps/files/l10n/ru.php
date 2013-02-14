@@ -60,7 +60,6 @@
 "Text file" => "Текстовый файл",
 "Folder" => "Папка",
 "From link" => "Из ссылки",
-"Trash bin" => "Корзина",
 "Cancel upload" => "Отмена загрузки",
 "Nothing in here. Upload something!" => "Здесь ничего нет. Загрузите что-нибудь!",
 "Download" => "Скачать",

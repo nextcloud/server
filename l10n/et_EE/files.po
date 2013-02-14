@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-13 00:03+0100\n"
-"PO-Revision-Date: 2013-02-12 17:31+0000\n"
-"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
+"POT-Creation-Date: 2013-02-15 00:04+0100\n"
+"PO-Revision-Date: 2013-02-14 23:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -275,8 +275,8 @@ msgid "From link"
 msgstr "Allikast"
 
 #: templates/index.php:40
-msgid "Trash bin"
-msgstr "Prügikast"
+msgid "Deleted files"
+msgstr ""
 
 #: templates/index.php:46
 msgid "Cancel upload"

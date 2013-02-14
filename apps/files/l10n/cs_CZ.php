@@ -60,7 +60,6 @@
 "Text file" => "Textový soubor",
 "Folder" => "Složka",
 "From link" => "Z odkazu",
-"Trash bin" => "Koš",
 "Cancel upload" => "Zrušit odesílání",
 "Nothing in here. Upload something!" => "Žádný obsah. Nahrajte něco.",
 "Download" => "Stáhnout",

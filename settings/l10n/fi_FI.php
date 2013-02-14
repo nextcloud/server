@@ -36,6 +36,7 @@
 "Security Warning" => "Turvallisuusvaroitus",
 "Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Data-kansio ja tiedostot ovat ehkä saavutettavissa Internetistä. .htaccess-tiedosto, jolla kontrolloidaan pääsyä, ei toimi. Suosittelemme, että muutat web-palvelimesi asetukset niin ettei data-kansio ole enää pääsyä tai siirrät data-kansion pois web-palvelimen tiedostojen juuresta.",
 "Please double check the <a href='%s'>installation guides</a>." => "Lue tarkasti <a href='%s'>asennusohjeet</a>.",
+"Module 'fileinfo' missing" => "Moduuli 'fileinfo' puuttuu",
 "Internet connection not working" => "Internet-yhteys ei toimi",
 "Cron" => "Cron",
 "Sharing" => "Jakaminen",

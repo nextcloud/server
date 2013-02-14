@@ -60,7 +60,6 @@
 "Text file" => "Textdatei",
 "Folder" => "Ordner",
 "From link" => "Von einem Link",
-"Trash bin" => "Mülleimer",
 "Cancel upload" => "Upload abbrechen",
 "Nothing in here. Upload something!" => "Alles leer. Lade etwas hoch!",
 "Download" => "Herunterladen",

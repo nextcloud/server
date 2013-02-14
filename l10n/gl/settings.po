@@ -4,15 +4,16 @@
 # 
 # Translators:
 # antiparvos  <marcoslansgarza@gmail.com>, 2012.
+#  <mbouzada@gmail.com>, 2013.
 #   <mbouzada@gmail.com>, 2012.
 # Xosé M. Lamas <correo.xmgz@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-14 00:05+0100\n"
-"PO-Revision-Date: 2013-02-13 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-15 00:05+0100\n"
+"PO-Revision-Date: 2013-02-14 09:10+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,7 +52,7 @@ msgstr "Correo gardado"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "correo incorrecto"
+msgstr "Correo incorrecto"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -71,7 +72,7 @@ msgstr "Petición incorrecta"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr "Os administradores non se pode eliminar a si mesmos do grupo admin"
+msgstr "Os administradores non poden eliminarse a si mesmos do grupo admin"
 
 #: ajax/togglegroups.php:28
 #, php-format
@@ -85,11 +86,11 @@ msgstr "Non é posíbel eliminar o usuario do grupo %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Non foi posíbel actualizar o aplicativo."
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Actualizar á {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
@@ -101,15 +102,15 @@ msgstr "Activar"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "Agarde..."
 
 #: js/apps.js:84
 msgid "Updating...."
-msgstr ""
+msgstr "Actualizando..."
 
 #: js/apps.js:87
 msgid "Error while updating app"
-msgstr ""
+msgstr "Produciuse un erro mentres actualizaba o aplicativo"
 
 #: js/apps.js:87
 msgid "Error"
@@ -117,7 +118,7 @@ msgstr "Erro"
 
 #: js/apps.js:90
 msgid "Updated"
-msgstr ""
+msgstr "Actualizado"
 
 #: js/personal.js:96
 msgid "Saving..."
@@ -133,7 +134,7 @@ msgstr "desfacer"
 
 #: js/users.js:62
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Non é posíbel retirar o usuario"
 
 #: js/users.js:75 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
@@ -148,21 +149,21 @@ msgstr "Grupo Admin"
 msgid "Delete"
 msgstr "Eliminar"
 
-#: js/users.js:190
+#: js/users.js:191
 msgid "add group"
-msgstr ""
+msgstr "engadir un grupo"
 
-#: js/users.js:351
+#: js/users.js:352
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Debe fornecer un nome de usuario"
 
-#: js/users.js:352 js/users.js:358 js/users.js:373
+#: js/users.js:353 js/users.js:359 js/users.js:374
 msgid "Error creating user"
-msgstr ""
+msgstr "Produciuse un erro ao crear o usuario"
 
-#: js/users.js:357
+#: js/users.js:358
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Debe fornecer un contrasinal"
 
 #: personal.php:34 personal.php:35
 msgid "__language_name__"
@@ -179,11 +180,11 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "O seu cartafol de datos e os seus ficheiros probabelmente sexan accesíbeis a través da Internet. O ficheiro .htaccess que fornece ownCloud non está a empregarse. Suxerimoslle que configure o seu servidor web de tal xeito que o cartafol de datos non estea accesíbel ou mova o cartafol de datos fora do directorio raíz de datos do servidor web."
+msgstr "O seu cartafol de datos e os seus ficheiros probabelmente sexan accesíbeis a través da Internet. O ficheiro .htaccess que fornece ownCloud non está a empregarse. Suxerímoslle que configure o seu servidor web de tal xeito que o cartafol de datos non estea accesíbel ou mova o cartafol de datos fora do directorio raíz de datos do servidor web."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "Configurar os avisos"
 
 #: templates/admin.php:32
 msgid ""
@@ -198,13 +199,13 @@ msgstr "Volva comprobar as <a href='%s'>guías de instalación</a>"
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Non se atopou o módulo «fileinfo»"
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "Non se atopou o módulo de PHP «fileinfo». É recomendábel activar este módulo para obter os mellores resultados coa detección do tipo MIME."
 
 #: templates/admin.php:58
 msgid "Locale not working"
@@ -238,7 +239,7 @@ msgstr ""
 
 #: templates/admin.php:98
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Executar unha tarefa con cada páxina cargada"
 
 #: templates/admin.php:108
 msgid ""
@@ -254,66 +255,66 @@ msgstr ""
 
 #: templates/admin.php:125
 msgid "Sharing"
-msgstr ""
+msgstr "Compartindo"
 
 #: templates/admin.php:131
 msgid "Enable Share API"
-msgstr ""
+msgstr "Activar o API para compartir"
 
 #: templates/admin.php:132
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Permitir que os aplicativos empreguen o API para compartir"
 
 #: templates/admin.php:139
 msgid "Allow links"
-msgstr ""
+msgstr "Permitir ligazóns"
 
 #: templates/admin.php:140
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Permitir que os usuarios compartan elementos ao público con ligazóns"
 
 #: templates/admin.php:147
 msgid "Allow resharing"
-msgstr ""
+msgstr "Permitir compartir"
 
 #: templates/admin.php:148
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Permitir que os usuarios compartan de novo os elementos compartidos con eles"
 
 #: templates/admin.php:155
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Permitir que os usuarios compartan con calquera"
 
 #: templates/admin.php:158
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Permitir que os usuarios compartan só cos usuarios dos seus grupos"
 
 #: templates/admin.php:165
 msgid "Security"
-msgstr ""
+msgstr "Seguranza"
 
 #: templates/admin.php:178
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Forzar HTTPS"
 
 #: templates/admin.php:179
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Forzar que os clientes se conecten a ownCloud empregando unha conexión cifrada"
 
 #: templates/admin.php:182
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "Conectese a esta instancia ownCloud empregando HTTPS para activar ou desactivar o forzado de SSL."
 
 #: templates/admin.php:192
 msgid "Log"
-msgstr ""
+msgstr "Rexistro"
 
 #: templates/admin.php:193
 msgid "Log level"
-msgstr ""
+msgstr "Nivel de rexistro"
 
 #: templates/admin.php:220
 msgid "More"
@@ -384,11 +385,11 @@ msgstr "Asistencia comercial"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "Te en uso <strong>%s</strong> do total dispoñíbel de <strong>%s</strong>"
+msgstr "Ten en uso <strong>%s</strong> do total dispoñíbel de <strong>%s</strong>"
 
 #: templates/personal.php:14
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Obteña os aplicativos para sincronizar os seus ficheiros"
 
 #: templates/personal.php:25
 msgid "Show First Run Wizard again"
@@ -420,7 +421,7 @@ msgstr "Cambiar o contrasinal"
 
 #: templates/personal.php:54 templates/users.php:78
 msgid "Display Name"
-msgstr ""
+msgstr "Amosar o nome"
 
 #: templates/personal.php:55
 msgid "Your display name was changed"
@@ -464,7 +465,7 @@ msgstr "Utilice este enderezo para conectarse ao seu ownCloud co administrador d
 
 #: templates/users.php:21 templates/users.php:77
 msgid "Login Name"
-msgstr ""
+msgstr "Nome de acceso"
 
 #: templates/users.php:32
 msgid "Create"
@@ -492,7 +493,7 @@ msgstr ""
 
 #: templates/users.php:99
 msgid "set new password"
-msgstr ""
+msgstr "estabelecer un novo contrasinal"
 
 #: templates/users.php:134
 msgid "Default"
