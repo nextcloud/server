@@ -57,4 +57,10 @@ return array(
 'ta_LK'=>'தமிழ்',
 'zh_HK'=>'Chinese (Hong Kong)',
 'oc'=>'Occitan (post 1500)',
+'is'=>'Icelandic',
+'pl_PL'=>'Polski',
+'ka_GE'=>'Georgian for Georgia',
+'ku_IQ'=>'Kurdish Iraq',
+'ru_RU'=>'Русский язык',
+'si_LK'=>'Sinhala'
 );
