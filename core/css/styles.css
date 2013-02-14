@@ -400,7 +400,7 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 	white-space: nowrap; text-overflow: ellipsis; color: #333;
 }
 #app-navigation li:hover > a { background-color: #ccc; }
-#app-navigation > ul > li:hover { border-top: 1px solid #ccc; }
+#app-navigation > ul > li:hover { border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;}
 
 #app-navigation li.collapsible > button.collapse {
 	display: none; position: absolute; left: 6px; top: 5px; height: 16px; width: 16px;
