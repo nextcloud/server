@@ -53,6 +53,7 @@ select.quota.active { background: #fff; }
 /* positioning fixes */
 #newuser { position:relative; top:-3px; }
 #newuser .multiselect { top:1px; }
+#headerGroups, #headerSubAdmins, #headerQuota { padding-left:18px; }
 
 
 /* APPS */
