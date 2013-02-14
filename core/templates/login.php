@@ -8,7 +8,8 @@
 			<?php if (isset($_['invalidcookie']) && ($_['invalidcookie'])): ?>
 			<li class="errors">
 				<?php echo $l->t('Automatic logon rejected!'); ?><br>
-				<small><?php echo $l->t('If you did not change your password recently, your account may be compromised!'); ?></small>
+				<small><?php echo $l->t('If you did not change your password recently,'
+					.' your account may be compromised!'); ?></small>
 				<br>
 				<small><?php echo $l->t('Please change your password to secure your account again.'); ?></small>
 			</li>
