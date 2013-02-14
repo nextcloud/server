@@ -34,23 +34,23 @@ class Session {
 	 * The ownCloud key pair is used to allow public link sharing even if encryption is enabled
 	 */
 	public function __construct() {
+		
 		$view = new \OC\Files\View('/');
 		if (!$view->is_dir('owncloud_private_key')) {
 			$view->mkdir('owncloud_private_key');
 		}
 		
 		if (!$view->file_exists("/public-keys/owncloud.public.key") || !$view->file_exists("/owncloud_private_key/owncloud.private.key") ) {
-			
+
 			$keypair = Crypt::createKeypair();
 			
 			\OC_FileProxy::$enabled = false;
 			// Save public key
-			$view->file_put_contents( '/public-keys/owncloud.public.key', $keypair['publicKey'] );
+			$view->file_put_contents( '/public-keys/ownCloud.public.key', $keypair['publicKey'] );
 			// Encrypt private key empthy passphrase
 			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], '' );
 			// Save private key
-			error_log("encrypted private key: " . $encryptedPrivateKey );
-			$view->file_put_contents( '/owncloud_private_key/owncloud.private.key', $encryptedPrivateKey );
+			$view->file_put_contents( '/owncloud_private_key/ownCloud.private.key', $encryptedPrivateKey );
 			
 			\OC_FileProxy::$enabled = true;
 		}
