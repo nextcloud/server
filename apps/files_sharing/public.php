@@ -171,7 +171,9 @@ if (isset($path)) {
 			$list->assign('files', $files, false);
 			$list->assign('disableSharing', true);
 			$list->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=', false);
-			$list->assign('downloadURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=', false);
+			$list->assign('downloadURL',
+				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=',
+				false);
 			$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 			$breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
 			$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=', false);
@@ -188,7 +190,8 @@ if (isset($path)) {
 			$folder->assign('usedSpacePercent', 0);
 			$tmpl->assign('folder', $folder->fetchPage(), false);
 			$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
-			$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=' . urlencode($getPath));
+			$tmpl->assign('downloadURL',
+				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=' . urlencode($getPath));
 		} else {
 			$tmpl->assign('dir', $dir);
 
