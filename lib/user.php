@@ -160,7 +160,8 @@ class OC_User {
 		// Check the name for bad characters
 		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-"
 		if( preg_match( '/[^a-zA-Z0-9 _\.@\-]/', $uid )) {
-			throw new Exception('Only the following characters are allowed in a username: "a-z", "A-Z", "0-9", and "_.@-"');
+			throw new Exception('Only the following characters are allowed in a username:'
+				.' "a-z", "A-Z", "0-9", and "_.@-"');
 		}
 		// No empty username
 		if(trim($uid) == '') {
@@ -541,9 +542,9 @@ class OC_User {
 	 */
 	public static function userExists($uid, $excludingBackend=null) {
 		foreach(self::$_usedBackends as $backend) {
-			if (!is_null($excludingBackend) && !strcmp(get_class($backend),$excludingBackend)) {
-			    OC_Log::write('OC_User', $excludingBackend . 'excluded from user existance check.', OC_Log::DEBUG);
-			    continue;
+			if (!is_null($excludingBackend) && !strcmp(get_class($backend), $excludingBackend)) {
+				OC_Log::write('OC_User', $excludingBackend . 'excluded from user existance check.', OC_Log::DEBUG);
+				continue;
 			}
 			$result=$backend->userExists($uid);
 			if($result===true) {
@@ -588,7 +589,8 @@ class OC_User {
 	 * @param string $userid
 	 */
 	public static function enableUser($userid) {
-		$sql = "DELETE FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
+		$sql = "DELETE FROM `*PREFIX*preferences`'
+			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
 		$stmt = OC_DB::prepare($sql);
 		if ( ! OC_DB::isError($stmt) ) {
 			$result = $stmt->execute(array($userid, 'core', 'enabled', 'false'));
@@ -606,14 +608,17 @@ class OC_User {
 	 * @return bool
 	 */
 	public static function isEnabled($userid) {
-		$sql = "SELECT `userid` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
+		$sql = "SELECT `userid` FROM `*PREFIX*preferences`'
+			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
 		$stmt = OC_DB::prepare($sql);
 		if ( ! OC_DB::isError($stmt) ) {
 			$result = $stmt->execute(array($userid, 'core', 'enabled', 'false'));
 			if ( ! OC_DB::isError($result) ) {
 				return $result->numRows() ? false : true;
 			} else {
-				OC_Log::write('OC_User', 'could not check if enabled: '. OC_DB::getErrorMessage($result), OC_Log::ERROR);
+				OC_Log::write('OC_User',
+					'could not check if enabled: '. OC_DB::getErrorMessage($result),
+					OC_Log::ERROR);
 			}
 		} else {
 			OC_Log::write('OC_User', 'could not check if enabled: '. OC_DB::getErrorMessage($stmt), OC_Log::ERROR);

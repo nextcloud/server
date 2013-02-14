@@ -33,7 +33,7 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 			$this->share='/'.$this->share;
 		}
 		if(substr($this->share, -1, 1)=='/') {
-			$this->share = substr($this->share,0,-1);
+			$this->share = substr($this->share, 0, -1);
 		}
 	}
 

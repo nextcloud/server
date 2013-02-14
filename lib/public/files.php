@@ -31,7 +31,8 @@
 namespace OCP;
 
 /**
- * This class provides access to the internal filesystem abstraction layer. Use this class exlusively if you want to access files
+ * This class provides access to the internal filesystem abstraction layer. Use
+ * this class exlusively if you want to access files
  */
 class Files {
 	/**

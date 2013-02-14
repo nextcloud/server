@@ -18,7 +18,7 @@ class Permissions {
 	 * @param \OC\Files\Storage\Storage|string $storage
 	 */
 	public function __construct($storage){
-		if($storage instanceof \OC\Files\Storage\Storage){
+		if($storage instanceof \OC\Files\Storage\Storage) {
 			$this->storageId = $storage->getId();
 		}else{
 			$this->storageId = $storage;
@@ -51,9 +51,11 @@ class Permissions {
 	 */
 	public function set($fileId, $user, $permissions) {
 		if (self::get($fileId, $user) !== -1) {
-			$query = \OC_DB::prepare('UPDATE `*PREFIX*permissions` SET `permissions` = ? WHERE `user` = ? AND `fileid` = ?');
+			$query = \OC_DB::prepare('UPDATE `*PREFIX*permissions` SET `permissions` = ?'
+				.' WHERE `user` = ? AND `fileid` = ?');
 		} else {
-			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*permissions`(`permissions`, `user`, `fileid`) VALUES(?, ?,? )');
+			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*permissions`(`permissions`, `user`, `fileid`)'
+				.' VALUES(?, ?,? )');
 		}
 		$query->execute(array($permissions, $user, $fileId));
 	}
@@ -73,7 +75,8 @@ class Permissions {
 		$params[] = $user;
 		$inPart = implode(', ', array_fill(0, count($fileIds), '?'));
 
-		$query = \OC_DB::prepare('SELECT `fileid`, `permissions` FROM `*PREFIX*permissions` WHERE  `fileid` IN (' . $inPart . ') AND `user` = ?');
+		$query = \OC_DB::prepare('SELECT `fileid`, `permissions` FROM `*PREFIX*permissions`'
+			.' WHERE `fileid` IN (' . $inPart . ') AND `user` = ?');
 		$result = $query->execute($params);
 		$filePermissions = array();
 		while ($row = $result->fetchRow()) {

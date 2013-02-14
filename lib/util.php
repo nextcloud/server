@@ -73,7 +73,8 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion() {
-		// hint: We only can count up. So the internal version number of ownCloud 4.5 will be 4.90.0. This is not visible to the user
+		// hint: We only can count up. So the internal version number
+		// of ownCloud 4.5 will be 4.90.0. This is not visible to the user
 		return array(4, 92, 10);
 	}
 
@@ -86,7 +87,9 @@ class OC_Util {
 	}
 
 	/**
-	 * get the current installed edition of ownCloud. There is the community edition that just returns an empty string and the enterprise edition that returns "Enterprise".
+	 * get the current installed edition of ownCloud. There is the community
+	 * edition that just returns an empty string and the enterprise edition
+	 * that returns "Enterprise".
 	 * @return string
 	 */
 	public static function getEditionString() {
@@ -166,24 +169,33 @@ class OC_Util {
 
 		$web_server_restart= false;
 		//check for database drivers
-		if(!(is_callable('sqlite_open') or class_exists('SQLite3')) and !is_callable('mysql_connect') and !is_callable('pg_connect')) {
-			$errors[]=array('error'=>'No database drivers (sqlite, mysql, or postgresql) installed.<br/>', 'hint'=>'');//TODO: sane hint
+		if(!(is_callable('sqlite_open') or class_exists('SQLite3'))
+			and !is_callable('mysql_connect')
+			and !is_callable('pg_connect')) {
+			$errors[]=array('error'=>'No database drivers (sqlite, mysql, or postgresql) installed.<br/>',
+				'hint'=>'');//TODO: sane hint
 			$web_server_restart= true;
 		}
 
 		//common hint for all file permissons error messages
-		$permissionsHint="Permissions can usually be fixed by giving the webserver write access to the ownCloud directory";
+		$permissionsHint="Permissions can usually be fixed by giving the webserver write access'
+			.' to the ownCloud directory";
 
 		// Check if config folder is writable.
 		if(!is_writable(OC::$SERVERROOT."/config/") or !is_readable(OC::$SERVERROOT."/config/")) {
-			$errors[]=array('error'=>"Can't write into config directory 'config'", 'hint'=>"You can usually fix this by giving the webserver user write access to the config directory in owncloud");
+			$errors[]=array('error'=>"Can't write into config directory 'config'",
+				'hint'=>"You can usually fix this by giving the webserver user write access'
+					.' to the config directory in owncloud");
 		}
 
 		// Check if there is a writable install folder.
 		if(OC_Config::getValue('appstoreenabled', true)) {
-			if( OC_App::getInstallPath() === null  || !is_writable(OC_App::getInstallPath()) || !is_readable(OC_App::getInstallPath()) ) {
-				$errors[]=array('error'=>"Can't write into apps directory", 'hint'=>"You can usually fix this by giving the webserver user write access to the apps directory
-				in owncloud or disabling the appstore in the config file.");
+			if( OC_App::getInstallPath() === null
+				|| !is_writable(OC_App::getInstallPath())
+				|| !is_readable(OC_App::getInstallPath()) ) {
+				$errors[]=array('error'=>"Can't write into apps directory",
+					'hint'=>"You can usually fix this by giving the webserver user write access'
+					.' to the apps directory in owncloud or disabling the appstore in the config file.");
 			}
 		}
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
@@ -193,69 +205,87 @@ class OC_Util {
 			if ($success) {
 				$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
 			} else {
-				$errors[]=array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY.")", 'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '".OC::$SERVERROOT."' (in a terminal, use the command 'chown -R www-data:www-data /path/to/your/owncloud/install/data' ");
+				$errors[]=array('error'=>"Can't create data directory (".$CONFIG_DATADIRECTORY.")",
+					'hint'=>"You can usually fix this by giving the webserver write access to the ownCloud directory '"
+						.OC::$SERVERROOT."' (in a terminal, use the command "
+						."'chown -R www-data:www-data /path/to/your/owncloud/install/data' ");
 			}
 		} else if(!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
-			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') not writable by ownCloud<br/>', 'hint'=>$permissionsHint);
+			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') not writable by ownCloud<br/>',
+				'hint'=>$permissionsHint);
 		} else {
 			$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
 		}
 		// check if all required php modules are present
 		if(!class_exists('ZipArchive')) {
-			$errors[]=array('error'=>'PHP module zip not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module zip not installed.<br/>',
+				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 
 		if(!function_exists('mb_detect_encoding')) {
-			$errors[]=array('error'=>'PHP module mb multibyte not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module mb multibyte not installed.<br/>',
+				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('ctype_digit')) {
-			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>',
+				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('json_encode')) {
-			$errors[]=array('error'=>'PHP module JSON is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module JSON is not installed.<br/>',
+				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('imagepng')) {
-			$errors[]=array('error'=>'PHP module GD is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module GD is not installed.<br/>',
+				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('gzencode')) {
-			$errors[]=array('error'=>'PHP module zlib is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module zlib is not installed.<br/>',
+				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('iconv')) {
-			$errors[]=array('error'=>'PHP module iconv is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module iconv is not installed.<br/>',
+				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('simplexml_load_string')) {
-			$errors[]=array('error'=>'PHP module SimpleXML is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP module SimpleXML is not installed.<br/>',
+				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(floatval(phpversion())<5.3) {
-			$errors[]=array('error'=>'PHP 5.3 is required.<br/>', 'hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher. PHP 5.2 is no longer supported by ownCloud and the PHP community.');
+			$errors[]=array('error'=>'PHP 5.3 is required.<br/>',
+				'hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher.'
+					.' PHP 5.2 is no longer supported by ownCloud and the PHP community.');
 			$web_server_restart= false;
 		}
 		if(!defined('PDO::ATTR_DRIVER_NAME')) {
-			$errors[]=array('error'=>'PHP PDO module is not installed.<br/>', 'hint'=>'Please ask your server administrator to install the module.');
+			$errors[]=array('error'=>'PHP PDO module is not installed.<br/>',
+				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 
 		$handler = ini_get("session.save_handler");
 		if($handler == "files") {
 			$tmpDir = session_save_path();
-			if($tmpDir != ""){
-				if(!@is_writable($tmpDir)){
-					$errors[]=array('error' => 'The temporary folder used by PHP to save the session data is either incorrect or not writable! Please check : '.session_save_path().'<br/>',
-					'hint'=>'Please ask your server administrator to grant write access or define another temporary folder.');
+			if($tmpDir != "") {
+				if(!@is_writable($tmpDir)) {
+					$errors[]=array('error' => 'The temporary folder used by PHP to save the session data'
+						.' is either incorrect or not writable! Please check : '.session_save_path().'<br/>',
+					'hint'=>'Please ask your server administrator to grant write access'
+						.' or define another temporary folder.');
 				}
 			}
 		}
 
 		if($web_server_restart) {
-			$errors[]=array('error'=>'PHP modules have been installed, but they are still listed as missing?<br/>', 'hint'=>'Please ask your server administrator to restart the web server.');
+			$errors[]=array('error'=>'PHP modules have been installed, but they are still listed as missing?<br/>',
+				'hint'=>'Please ask your server administrator to restart the web server.');
 		}
 
 		return $errors;
@@ -270,14 +300,16 @@ class OC_Util {
 		if (stristr(PHP_OS, 'WIN')) {
 			//TODO: permissions checks for windows hosts
 		} else {
-			$permissionsModHint = 'Please change the permissions to 0770 so that the directory cannot be listed by other users.';
+			$permissionsModHint = 'Please change the permissions to 0770 so that the directory'
+				.' cannot be listed by other users.';
 			$prems = substr(decoct(@fileperms($dataDirectory)), -3);
 			if (substr($prems, -1) != '0') {
 				OC_Helper::chmodr($dataDirectory, 0770);
 				clearstatcache();
 				$prems = substr(decoct(@fileperms($dataDirectory)), -3);
 				if (substr($prems, 2, 1) != '0') {
-					$errors[] = array('error' => 'Data directory ('.$dataDirectory.') is readable for other users<br/>', 'hint' => $permissionsModHint);
+					$errors[] = array('error' => 'Data directory ('.$dataDirectory.') is readable for other users<br/>',
+						'hint' => $permissionsModHint);
 				}
 			}
 		}
@@ -323,7 +355,8 @@ class OC_Util {
 	public static function checkLoggedIn() {
 		// Check if we are a user
 		if( !OC_User::isLoggedIn()) {
-			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php', array('redirect_url' => OC_Request::requestUri())));
+			header( 'Location: '.OC_Helper::linkToAbsolute( '', 'index.php',
+				array('redirect_url' => OC_Request::requestUri())));
 			exit();
 		}
 	}
@@ -528,9 +561,9 @@ class OC_Util {
 	 *
 	 */
 	public static function isWebDAVWorking() {
-        if (!function_exists('curl_init')) {
-            return;
-        }
+		if (!function_exists('curl_init')) {
+			return;
+		}
 
 		$settings = array(
 			'baseUri' => OC_Helper::linkToRemote('webdav'),
@@ -552,7 +585,8 @@ class OC_Util {
 	}
 
 	/**
-	 * Check if the setlocal call doesn't work. This can happen if the right local packages are not available on the server.
+	 * Check if the setlocal call doesn't work. This can happen if the right
+	 * local packages are not available on the server.
 	 */
 	public static function issetlocaleworking() {
 		// setlocale test is pointless on Windows
@@ -691,10 +725,10 @@ class OC_Util {
 			curl_setopt($curl, CURLOPT_MAXREDIRS, 10);
 
 			curl_setopt($curl, CURLOPT_USERAGENT, "ownCloud Server Crawler");
-			if(OC_Config::getValue('proxy','')<>'') {
+			if(OC_Config::getValue('proxy', '')<>'') {
 				curl_setopt($curl, CURLOPT_PROXY, OC_Config::getValue('proxy'));
 			}
-			if(OC_Config::getValue('proxyuserpwd','')<>'') {
+			if(OC_Config::getValue('proxyuserpwd', '')<>'') {
 				curl_setopt($curl, CURLOPT_PROXYUSERPWD, OC_Config::getValue('proxyuserpwd'));
 			}
 			$data = curl_exec($curl);
@@ -703,7 +737,7 @@ class OC_Util {
 		} else {
 			$contextArray = null;
 
-			if(OC_Config::getValue('proxy','')<>'') {
+			if(OC_Config::getValue('proxy', '')<>'') {
 				$contextArray = array(
 					'http' => array(
 						'timeout' => 10,

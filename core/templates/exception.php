@@ -20,7 +20,7 @@
 			echo 'Request Method: '  . $_['sysinfo']['requestmethod'] . "\n";
 			echo 'Database: '  . $_['sysinfo']['database'] . "\n";
 			echo '</textarea>';
-		}else{
+		} else {
 			echo 'Your administrator has disabled systeminformations.';
 		}
 		?>

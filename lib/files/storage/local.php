@@ -40,7 +40,7 @@ class Local extends \OC\Files\Storage\Common{
 		return opendir($this->datadir.$path);
 	}
 	public function is_dir($path) {
-		if(substr($path,-1)=='/') {
+		if(substr($path, -1)=='/') {
 			$path=substr($path, 0, -1);
 		}
 		return is_dir($this->datadir.$path);
@@ -117,11 +117,11 @@ class Local extends \OC\Files\Storage\Common{
 	}
 	public function rename($path1, $path2) {
 		if (!$this->isUpdatable($path1)) {
-			\OC_Log::write('core','unable to rename, file is not writable : '.$path1,\OC_Log::ERROR);
+			\OC_Log::write('core', 'unable to rename, file is not writable : '.$path1, \OC_Log::ERROR);
 			return false;
 		}
 		if(! $this->file_exists($path1)) {
-			\OC_Log::write('core','unable to rename, file does not exists : '.$path1,\OC_Log::ERROR);
+			\OC_Log::write('core', 'unable to rename, file does not exists : '.$path1, \OC_Log::ERROR);
 			return false;
 		}
 
@@ -205,7 +205,9 @@ class Local extends \OC\Files\Storage\Common{
 				return (float)exec('stat -c %s ' . escapeshellarg($fullPath));
 			}
 		} else {
-			\OC_Log::write('core', 'Unable to determine file size of "'.$fullPath.'". Unknown OS: '.$name, \OC_Log::ERROR);
+			\OC_Log::write('core',
+				'Unable to determine file size of "'.$fullPath.'". Unknown OS: '.$name,
+				\OC_Log::ERROR);
 		}
 
 		return 0;

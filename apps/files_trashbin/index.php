@@ -27,7 +27,7 @@ if ($dir) {
 			$pos = strpos($dir.'/', '/', 1);
 			$tmp = substr($dir, 0, $pos);
 			$pos = strrpos($tmp, '.d');
-			$timestamp = substr($tmp,$pos+2);
+			$timestamp = substr($tmp, $pos+2);
 			$result[] = array(
 					'id' => $entryName,
 					'timestamp' => $timestamp,

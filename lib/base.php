@@ -162,7 +162,9 @@ class OC {
 			OC::$THIRDPARTYWEBROOT = rtrim(dirname(OC::$WEBROOT), '/');
 			OC::$THIRDPARTYROOT = rtrim(dirname(OC::$SERVERROOT), '/');
 		} else {
-			echo("3rdparty directory not found! Please put the ownCloud 3rdparty folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
+			echo("3rdparty directory not found! Please put the ownCloud 3rdparty'
+				.' folder in the ownCloud folder or the folder above.'
+				.' You can also configure the location in the config.php file.");
 			exit;
 		}
 		// search the apps folder
@@ -178,11 +180,16 @@ class OC {
 		} elseif (file_exists(OC::$SERVERROOT . '/apps')) {
 			OC::$APPSROOTS[] = array('path' => OC::$SERVERROOT . '/apps', 'url' => '/apps', 'writable' => true);
 		} elseif (file_exists(OC::$SERVERROOT . '/../apps')) {
-			OC::$APPSROOTS[] = array('path' => rtrim(dirname(OC::$SERVERROOT), '/') . '/apps', 'url' => '/apps', 'writable' => true);
+			OC::$APPSROOTS[] = array(
+				'path' => rtrim(dirname(OC::$SERVERROOT), '/') . '/apps',
+				'url' => '/apps',
+				'writable' => true
+			);
 		}
 
 		if (empty(OC::$APPSROOTS)) {
-			echo("apps directory not found! Please put the ownCloud apps folder in the ownCloud folder or the folder above. You can also configure the location in the config.php file.");
+			echo("apps directory not found! Please put the ownCloud apps folder in the ownCloud folder'
+				.' or the folder above. You can also configure the location in the config.php file.");
 			exit;
 		}
 		$paths = array();
@@ -202,9 +209,14 @@ class OC {
 	}
 
 	public static function checkConfig() {
-		if (file_exists(OC::$SERVERROOT . "/config/config.php") and !is_writable(OC::$SERVERROOT . "/config/config.php")) {
+		if (file_exists(OC::$SERVERROOT . "/config/config.php")
+			and !is_writable(OC::$SERVERROOT . "/config/config.php")) {
 			$tmpl = new OC_Template('', 'error', 'guest');
-			$tmpl->assign('errors', array(1 => array('error' => "Can't write into config directory 'config'", 'hint' => "You can usually fix this by giving the webserver user write access to the config directory in owncloud")));
+			$tmpl->assign('errors', array(1 => array(
+				'error' => "Can't write into config directory 'config'",
+				'hint' => "You can usually fix this by giving the webserver user write access'
+					.' to the config directory in owncloud"
+			)));
 			$tmpl->printPage();
 			exit();
 		}
@@ -262,7 +274,9 @@ class OC {
 			if (version_compare($currentVersion, $installedVersion, '>')) {
 				if ($showTemplate && !OC_Config::getValue('maintenance', false)) {
 					OC_Config::setValue('maintenance', true);
-					OC_Log::write('core', 'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, OC_Log::DEBUG);
+					OC_Log::write('core',
+						'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion,
+						OC_Log::DEBUG);
 					OC_Util::addscript('update');
 					$tmpl = new OC_Template('', 'update', 'guest');
 					$tmpl->assign('version', OC_Util::getVersionString());
@@ -393,14 +407,16 @@ class OC {
 		}
 
 		//set http auth headers for apache+php-cgi work around
-		if (isset($_SERVER['HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
+		if (isset($_SERVER['HTTP_AUTHORIZATION'])
+			&& preg_match('/Basic\s+(.*)$/i', $_SERVER['HTTP_AUTHORIZATION'], $matches)) {
 			list($name, $password) = explode(':', base64_decode($matches[1]), 2);
 			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
 			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
 		}
 
 		//set http auth headers for apache+php-cgi work around if variable gets renamed by apache
-		if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION']) && preg_match('/Basic\s+(.*)$/i', $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $matches)) {
+		if (isset($_SERVER['REDIRECT_HTTP_AUTHORIZATION'])
+			&& preg_match('/Basic\s+(.*)$/i', $_SERVER['REDIRECT_HTTP_AUTHORIZATION'], $matches)) {
 			list($name, $password) = explode(':', base64_decode($matches[1]), 2);
 			$_SERVER['PHP_AUTH_USER'] = strip_tags($name);
 			$_SERVER['PHP_AUTH_PW'] = strip_tags($password);
@@ -447,7 +463,8 @@ class OC {
 		OC_User::useBackend(new OC_User_Database());
 		OC_Group::useBackend(new OC_Group_Database());
 
-		if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SESSION['user_id']) && $_SERVER['PHP_AUTH_USER'] != $_SESSION['user_id']) {
+		if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SESSION['user_id'])
+			&& $_SERVER['PHP_AUTH_USER'] != $_SESSION['user_id']) {
 			OC_User::logout();
 		}
 
@@ -504,7 +521,9 @@ class OC {
 
 		// write error into log if locale can't be set
 		if (OC_Util::issetlocaleworking() == false) {
-			OC_Log::write('core', 'setting locale to en_US.UTF-8/en_US.UTF8 failed. Support is probably not installed on your system', OC_Log::ERROR);
+			OC_Log::write('core',
+				'setting locale to en_US.UTF-8/en_US.UTF8 failed. Support is probably not installed on your system',
+				OC_Log::ERROR);
 		}
 		if (OC_Config::getValue('installed', false)) {
 			if (OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
@@ -556,7 +575,7 @@ class OC {
 		}
 
 		$request = OC_Request::getPathInfo();
-		if(substr($request, -3) !== '.js'){// we need these files during the upgrade
+		if(substr($request, -3) !== '.js') {// we need these files during the upgrade
 			self::checkMaintenanceMode();
 			self::checkUpgrade();
 		}
