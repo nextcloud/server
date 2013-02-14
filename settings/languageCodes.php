@@ -50,6 +50,10 @@ return array(
 'lv'=>'Latviešu',
 'mk'=>'македонски',
 'uk'=>'Українська',
-'vi'=>'tiếng việt',
+'vi'=>'Tiếng Việt',
 'zh_TW'=>'臺灣話',
+'af_ZA'=> 'Afrikaans',
+'bn_BD'=>'Bengali',
+'ta_LK'=>'தமிழ்',
+'zh_HK'=>'Chinese (Hong Kong)'
 );
