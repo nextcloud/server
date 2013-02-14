@@ -81,7 +81,8 @@ class OC_Log_Owncloud {
 				$ch = fgetc($handle);
 				if ($ch == "\n" || $pos == 0) {
 					if ($line != '') {
-						// Add the first character if at the start of the file, because it doesn't hit the else in the loop
+						// Add the first character if at the start of the file,
+						// because it doesn't hit the else in the loop
 						if ($pos == 0) {
 							$line = $ch.$line;
 						}

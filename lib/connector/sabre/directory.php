@@ -160,7 +160,8 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 			$chunks = array_chunk($paths, 200, false);
 			foreach ($chunks as $pack) {
 				$placeholders = join(',', array_fill(0, count($pack), '?'));
-				$query = OC_DB::prepare( 'SELECT * FROM `*PREFIX*properties` WHERE `userid` = ?' . ' AND `propertypath` IN ('.$placeholders.')' );
+				$query = OC_DB::prepare( 'SELECT * FROM `*PREFIX*properties`'
+					.' WHERE `userid` = ?' . ' AND `propertypath` IN ('.$placeholders.')' );
 				array_unshift($pack, OC_User::getUser()); // prepend userid
 				$result = $query->execute( $pack );
 				while($row = $result->fetchRow()) {

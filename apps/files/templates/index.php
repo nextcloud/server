@@ -37,7 +37,7 @@
 			</div>
 			<?php if ($_['trash'] ): ?>
 			<div id="trash" class="button">
-				<a><?php echo $l->t('Trash bin');?></a>
+				<a><?php echo $l->t('Deleted files');?></a>
 			</div>
 			<?php endif; ?>
 			<div id="uploadprogresswrapper">

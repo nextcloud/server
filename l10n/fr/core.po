@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-11 00:03+0100\n"
-"PO-Revision-Date: 2013-02-10 11:00+0000\n"
+"POT-Creation-Date: 2013-02-13 00:03+0100\n"
+"PO-Revision-Date: 2013-02-12 14:32+0000\n"
 "Last-Translator: Robert Di Rosa <>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -265,13 +265,13 @@ msgstr "Le nom de l'application n'est pas spécifié."
 msgid "The required file {file} is not installed!"
 msgstr "Le fichier requis {file} n'est pas installé !"
 
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
-msgid "Share"
-msgstr "Partager"
-
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+#: js/share.js:29 js/share.js:43 js/share.js:90
 msgid "Shared"
 msgstr "Partagé"
+
+#: js/share.js:93
+msgid "Share"
+msgstr "Partager"
 
 #: js/share.js:141 js/share.js:622
 msgid "Error while sharing"

@@ -1,4 +1,6 @@
 <?php $TRANSLATIONS = array(
+"Couldn't delete %s permanently" => "Konnte %s nicht permanent löschen",
+"Couldn't restore %s" => "Konnte %s nicht wiederherstellen",
 "perform restore operation" => "Führe die Wiederherstellung aus",
 "delete file permanently" => "Datei entgültig löschen",
 "Name" => "Name",

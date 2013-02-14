@@ -13,6 +13,7 @@
 "Not enough storage available" => "Ez dago behar aina leku erabilgarri,",
 "Invalid directory." => "Baliogabeko karpeta.",
 "Files" => "Fitxategiak",
+"Delete permanently" => "Ezabatu betirako",
 "Delete" => "Ezabatu",
 "Rename" => "Berrizendatu",
 "Pending" => "Zain",
@@ -23,6 +24,7 @@
 "replaced {new_name}" => "ordezkatua {new_name}",
 "undo" => "desegin",
 "replaced {new_name} with {old_name}" => " {new_name}-k {old_name} ordezkatu du",
+"perform delete operation" => "Ezabatu",
 "'.' is an invalid file name." => "'.' ez da fitxategi izen baliogarria.",
 "File name cannot be empty." => "Fitxategi izena ezin da hutsa izan.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "IZen aliogabea, '\\', '/', '<', '>', ':', '\"', '|', '?' eta '*' ez daude baimenduta.",
@@ -58,6 +60,7 @@
 "Text file" => "Testu fitxategia",
 "Folder" => "Karpeta",
 "From link" => "Estekatik",
+"Trash bin" => "Zakarrontzia",
 "Cancel upload" => "Ezeztatu igoera",
 "Nothing in here. Upload something!" => "Ez dago ezer. Igo zerbait!",
 "Download" => "Deskargatu",
@@ -65,5 +68,6 @@
 "Upload too large" => "Igotakoa handiegia da",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Igotzen saiatzen ari zaren fitxategiak zerbitzari honek igotzeko onartzen duena baino handiagoak dira.",
 "Files are being scanned, please wait." => "Fitxategiak eskaneatzen ari da, itxoin mezedez.",
-"Current scanning" => "Orain eskaneatzen ari da"
+"Current scanning" => "Orain eskaneatzen ari da",
+"Upgrading filesystem cache..." => "Fitxategi sistemaren katxea eguneratzen..."
 );

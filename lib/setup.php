@@ -230,7 +230,8 @@ class OC_Setup {
 		}
 		$oldUser=OC_Config::getValue('dbuser', false);
 
-		$query="SELECT user FROM mysql.user WHERE user='$dbuser'"; //this should be enough to check for admin rights in mysql
+		//this should be enough to check for admin rights in mysql
+		$query="SELECT user FROM mysql.user WHERE user='$dbuser'";
 		if(mysql_query($query, $connection)) {
 			//use the admin login data for the new database user
 
@@ -260,7 +261,8 @@ class OC_Setup {
 		}
 
 		//fill the database if needed
-		$query="select count(*) from information_schema.tables where table_schema='$dbname' AND table_name = '{$dbtableprefix}users';";
+		$query="select count(*) from information_schema.tables'
+			.' where table_schema='$dbname' AND table_name = '{$dbtableprefix}users';";
 		$result = mysql_query($query, $connection);
 		if($result) {
 			$row=mysql_fetch_row($result);
@@ -282,6 +284,7 @@ class OC_Setup {
 			\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
 		}
 		$query="GRANT ALL PRIVILEGES ON  `$name` . * TO  '$user'";
+
 		//this query will fail if there aren't the right permissions, ignore the error
 		mysql_query($query, $connection);
 	}
@@ -433,7 +436,8 @@ class OC_Setup {
 		}
 	}
 
-	private static function setupOCIDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $dbtablespace, $username) {
+	private static function setupOCIDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $dbtablespace,
+		$username) {
 		$l = self::getTrans();
 		$e_host = addslashes($dbhost);
 		$e_dbname = addslashes($dbname);
@@ -450,7 +454,8 @@ class OC_Setup {
 		}
 		//check for roles creation rights in oracle
 
-		$query="SELECT count(*) FROM user_role_privs, role_sys_privs WHERE user_role_privs.granted_role = role_sys_privs.role AND privilege = 'CREATE ROLE'";
+		$query="SELECT count(*) FROM user_role_privs, role_sys_privs'
+			.' WHERE user_role_privs.granted_role = role_sys_privs.role AND privilege = 'CREATE ROLE'";
 		$stmt = oci_parse($connection, $query);
 		if (!$stmt) {
 			$entry = $l->t('DB Error: "%s"', array(oci_last_error($connection))) . '<br />';
@@ -841,8 +846,10 @@ class OC_Setup {
 			header("Location: ".OC::$WEBROOT.'/');
 		} else {
 
-			$error = $l->t('Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken.');
-			$hint = $l->t('Please double check the <a href=\'%s\'>installation guides</a>.', 'http://doc.owncloud.org/server/5.0/admin_manual/installation.html');
+			$error = $l->t('Your web server is not yet properly setup to allow files'
+				.' synchronization because the WebDAV interface seems to be broken.');
+			$hint = $l->t('Please double check the <a href=\'%s\'>installation guides</a>.',
+				'http://doc.owncloud.org/server/5.0/admin_manual/installation.html');
 
 			$tmpl = new OC_Template('', 'error', 'guest');
 			$tmpl->assign('errors', array(1 => array('error' => $error, 'hint' => $hint)), false);

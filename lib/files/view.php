@@ -92,7 +92,9 @@ class View {
 
 	/**
 	 * get the mountpoint of the storage object for a path
-	( note: because a storage is not always mounted inside the fakeroot, the returned mountpoint is relative to the absolute root of the filesystem and doesn't take the chroot into account
+	 * ( note: because a storage is not always mounted inside the fakeroot, the
+	 * returned mountpoint is relative to the absolute root of the filesystem
+	 * and doesn't take the chroot into account )
 	 *
 	 * @param string $path
 	 * @return string
@@ -113,7 +115,8 @@ class View {
 
 	/**
 	 * return the path to a local version of the file
-	 * we need this because we can't know if a file is stored local or not from outside the filestorage and for some purposes a local file is needed
+	 * we need this because we can't know if a file is stored local or not from
+	 * outside the filestorage and for some purposes a local file is needed
 	 *
 	 * @param string $path
 	 * @return string
@@ -252,7 +255,8 @@ class View {
 	public function file_put_contents($path, $data) {
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
 			$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
-			if (\OC_FileProxy::runPreProxies('file_put_contents', $absolutePath, $data) && Filesystem::isValidPath($path)) {
+			if (\OC_FileProxy::runPreProxies('file_put_contents', $absolutePath, $data)
+				&& Filesystem::isValidPath($path)) {
 				$path = $this->getRelativePath($absolutePath);
 				$exists = $this->file_exists($path);
 				$run = true;
@@ -324,7 +328,8 @@ class View {
 		$postFix2 = (substr($path2, -1, 1) === '/') ? '/' : '';
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($path1));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($path2));
-		if (\OC_FileProxy::runPreProxies('rename', $absolutePath1, $absolutePath2) and Filesystem::isValidPath($path2)) {
+		if (\OC_FileProxy::runPreProxies('rename', $absolutePath1, $absolutePath2)
+			and Filesystem::isValidPath($path2)) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
 
@@ -776,7 +781,8 @@ class View {
 					$rootEntry = $subCache->get('');
 					if ($rootEntry) {
 						$relativePath = trim(substr($mountPoint, $dirLength), '/');
-						if ($pos = strpos($relativePath, '/')) { //mountpoint inside subfolder add size to the correct folder
+						if ($pos = strpos($relativePath, '/')) {
+							//mountpoint inside subfolder add size to the correct folder
 							$entryName = substr($relativePath, 0, $pos);
 							foreach ($files as &$entry) {
 								if ($entry['name'] === $entryName) {

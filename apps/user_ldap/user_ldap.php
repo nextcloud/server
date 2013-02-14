@@ -261,4 +261,10 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 		return (bool)((OC_USER_BACKEND_CHECK_PASSWORD | OC_USER_BACKEND_GET_HOME) & $actions);
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function hasUserListings() {
+		return true;
+	}
 }

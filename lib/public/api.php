@@ -37,7 +37,8 @@ class API {
 	 * @param array $defaults
 	 * @param array $requirements
 	 */
-	public static function register($method, $url, $action, $app, $authLevel = OC_API::USER_AUTH, $defaults = array(), $requirements = array()){
+	public static function register($method, $url, $action, $app, $authLevel = OC_API::USER_AUTH,
+		$defaults = array(), $requirements = array()){
 		\OC_API::register($method, $url, $action, $app, $authLevel, $defaults, $requirements);
 	}
 

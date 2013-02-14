@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 23:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-14 00:05+0100\n"
+"PO-Revision-Date: 2013-02-13 13:20+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -85,15 +85,15 @@ msgstr "Érvénytelen mappa."
 msgid "Files"
 msgstr "Fájlok"
 
-#: js/fileactions.js:116
+#: js/fileactions.js:125
 msgid "Delete permanently"
-msgstr ""
+msgstr "Végleges törlés"
 
-#: js/fileactions.js:118 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Törlés"
 
-#: js/fileactions.js:184
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr "Átnevezés"
 
@@ -132,7 +132,7 @@ msgstr "{new_name} fájlt kicseréltük ezzel:  {old_name}"
 
 #: js/filelist.js:322
 msgid "perform delete operation"
-msgstr ""
+msgstr "a törlés végrehajtása"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -199,31 +199,31 @@ msgstr "Az URL nem lehet semmi."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Érvénytelen mappanév. A név használata csak a Owncloud számára lehetséges."
 
-#: js/files.js:947 templates/index.php:67
+#: js/files.js:948 templates/index.php:67
 msgid "Name"
 msgstr "Név"
 
-#: js/files.js:948 templates/index.php:78
+#: js/files.js:949 templates/index.php:78
 msgid "Size"
 msgstr "Méret"
 
-#: js/files.js:949 templates/index.php:80
+#: js/files.js:950 templates/index.php:80
 msgid "Modified"
 msgstr "Módosítva"
 
-#: js/files.js:968
+#: js/files.js:969
 msgid "1 folder"
 msgstr "1 mappa"
 
-#: js/files.js:970
+#: js/files.js:971
 msgid "{count} folders"
 msgstr "{count} mappa"
 
-#: js/files.js:978
+#: js/files.js:979
 msgid "1 file"
 msgstr "1 fájl"
 
-#: js/files.js:980
+#: js/files.js:981
 msgid "{count} files"
 msgstr "{count} fájl"
 
@@ -281,7 +281,7 @@ msgstr "Feltöltés linkről"
 
 #: templates/index.php:40
 msgid "Trash bin"
-msgstr ""
+msgstr "Szemetes mappa"
 
 #: templates/index.php:46
 msgid "Cancel upload"
@@ -319,4 +319,4 @@ msgstr "Ellenőrzés alatt"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "A fájlrendszer gyorsítótárának frissítése zajlik..."

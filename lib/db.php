@@ -235,11 +235,12 @@ class OC_DB {
 
 			// Prepare options array
 			$options = array(
-			  'portability' => MDB2_PORTABILITY_ALL - MDB2_PORTABILITY_FIX_CASE,
-			  'log_line_break' => '<br>',
-			  'idxname_format' => '%s',
-			  'debug' => true,
-			  'quote_identifier' => true  );
+					'portability' => MDB2_PORTABILITY_ALL - MDB2_PORTABILITY_FIX_CASE,
+					'log_line_break' => '<br>',
+					'idxname_format' => '%s',
+					'debug' => true,
+					'quote_identifier' => true
+					);
 
 			// Add the dsn according to the database type
 			switch($type) {
@@ -497,7 +498,8 @@ class OC_DB {
 		 * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions037.htm
 		 */
 		if( $CONFIG_DBTYPE == 'pgsql' ) { //mysql support it too but sqlite doesn't
-			$content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
+			$content = str_replace( '<default>0000-00-00 00:00:00</default>',
+				'<default>CURRENT_TIMESTAMP</default>', $content );
 		}
 
 		file_put_contents( $file2, $content );
@@ -522,7 +524,8 @@ class OC_DB {
 
 		// Die in case something went wrong
 		if( $ret instanceof MDB2_Error ) {
-			OC_Template::printErrorPage( self::$MDB2->getDebugOutput().' '.$ret->getMessage() . ': ' . $ret->getUserInfo() );
+			OC_Template::printErrorPage( self::$MDB2->getDebugOutput().' '.$ret->getMessage() . ': '
+				. $ret->getUserInfo() );
 		}
 
 		return true;
@@ -563,8 +566,9 @@ class OC_DB {
 		 * http://www.sqlite.org/lang_createtable.html
 		 * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions037.htm
 		 */
-		if( $CONFIG_DBTYPE == 'pgsql' || 'mssql') { //mysql support it too but sqlite doesn't
-			$content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
+		if( $CONFIG_DBTYPE == 'pgsql' ) { //mysql support it too but sqlite doesn't
+			$content = str_replace( '<default>0000-00-00 00:00:00</default>',
+				'<default>CURRENT_TIMESTAMP</default>', $content );
 		}
 		file_put_contents( $file2, $content );
 		$op = self::$schema->updateDatabase($file2, $previousSchema, array(), false);
@@ -702,7 +706,8 @@ class OC_DB {
 			$query = str_ireplace( 'UNIX_TIMESTAMP()', 'strftime(\'%s\',\'now\')', $query );
 		}elseif( $type == 'pgsql' ) {
 			$query = str_replace( '`', '"', $query );
-			$query = str_ireplace( 'UNIX_TIMESTAMP()', 'cast(extract(epoch from current_timestamp) as integer)', $query );
+			$query = str_ireplace( 'UNIX_TIMESTAMP()', 'cast(extract(epoch from current_timestamp) as integer)',
+				$query );
 		}elseif( $type == 'oci'  ) {
 			$query = str_replace( '`', '"', $query );
 			$query = str_ireplace( 'NOW()', 'CURRENT_TIMESTAMP', $query );

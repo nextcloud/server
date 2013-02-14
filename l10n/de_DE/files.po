@@ -21,6 +21,7 @@
 #   <niko@nik-o-mat.de>, 2012.
 # Phi Lieb <>, 2012.
 # Phillip Schichtel <quick_wango@code-infection.de>, 2013.
+#  <stefan.niedermann@googlemail.com>, 2013.
 #   <Steve_Reichert@gmx.de>, 2013.
 # Susi <>, 2013.
 #   <thomas.mueller@tmit.eu>, 2012.
@@ -30,9 +31,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 23:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-13 00:03+0100\n"
+"PO-Revision-Date: 2013-02-12 14:33+0000\n"
+"Last-Translator: stefanniedermann <stefan.niedermann@googlemail.com>\n"
 "Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -101,15 +102,15 @@ msgstr "Ungültiges Verzeichnis."
 msgid "Files"
 msgstr "Dateien"
 
-#: js/fileactions.js:116
+#: js/fileactions.js:125
 msgid "Delete permanently"
 msgstr "Entgültig löschen"
 
-#: js/fileactions.js:118 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Löschen"
 
-#: js/fileactions.js:184
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr "Umbenennen"
 
@@ -215,31 +216,31 @@ msgstr "Die URL darf nicht leer sein."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Ungültiger Verzeichnisname. Die Nutzung von \"Shared\" ist ownCloud vorbehalten"
 
-#: js/files.js:947 templates/index.php:67
+#: js/files.js:948 templates/index.php:67
 msgid "Name"
 msgstr "Name"
 
-#: js/files.js:948 templates/index.php:78
+#: js/files.js:949 templates/index.php:78
 msgid "Size"
 msgstr "Größe"
 
-#: js/files.js:949 templates/index.php:80
+#: js/files.js:950 templates/index.php:80
 msgid "Modified"
 msgstr "Bearbeitet"
 
-#: js/files.js:968
+#: js/files.js:969
 msgid "1 folder"
 msgstr "1 Ordner"
 
-#: js/files.js:970
+#: js/files.js:971
 msgid "{count} folders"
 msgstr "{count} Ordner"
 
-#: js/files.js:978
+#: js/files.js:979
 msgid "1 file"
 msgstr "1 Datei"
 
-#: js/files.js:980
+#: js/files.js:981
 msgid "{count} files"
 msgstr "{count} Dateien"
 
@@ -297,7 +298,7 @@ msgstr "Von einem Link"
 
 #: templates/index.php:40
 msgid "Trash bin"
-msgstr ""
+msgstr "Mülleimer"
 
 #: templates/index.php:46
 msgid "Cancel upload"
