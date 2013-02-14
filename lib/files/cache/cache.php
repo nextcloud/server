@@ -56,7 +56,7 @@ class Cache {
 		} else {
 			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*storages`(`id`) VALUES(?)');
 			$query->execute(array($this->storageId));
-			$this->numericId = \OC_DB::insertid('*PREFIX*filecache');
+			$this->numericId = \OC_DB::insertid('*PREFIX*storages');
 		}
 	}
 
@@ -493,8 +493,8 @@ class Cache {
 	 */
 	public function getIncomplete() {
 		$query = \OC_DB::prepare('SELECT `path` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `size` = -1 ORDER BY `fileid` DESC LIMIT 1');
-		$query->execute(array($this->numericId));
-		if ($row = $query->fetchRow()) {
+		$result = $query->execute(array($this->numericId));
+		if ($row = $result->fetchRow()) {
 			return $row['path'];
 		} else {
 			return false;

@@ -404,6 +404,13 @@ class OC_DB {
 			$query = self::prepare('SELECT lastval() AS id');
 			$row = $query->execute()->fetchRow();
 			return $row['id'];
+		}
+		if( $type == 'mssql' ) {
+			if($table !== null) {
+				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
+				$table = str_replace( '*PREFIX*', $prefix, $table );
+			}
+			return self::$connection->lastInsertId($table);
 		}else{
 			if($table !== null) {
 				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
