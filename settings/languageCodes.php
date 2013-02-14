@@ -55,5 +55,6 @@ return array(
 'af_ZA'=> 'Afrikaans',
 'bn_BD'=>'Bengali',
 'ta_LK'=>'தமிழ்',
-'zh_HK'=>'Chinese (Hong Kong)'
+'zh_HK'=>'Chinese (Hong Kong)',
+'oc'=>'Occitan (post 1500)',
 );
