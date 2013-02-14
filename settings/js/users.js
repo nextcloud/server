@@ -308,7 +308,7 @@ $(document).ready(function () {
 		event.stopPropagation();
 		var img = $(this);
 		var uid = img.parent().parent().attr('data-uid');
-		var displayName = img.parent().parent().attr('data-displayName');
+		var displayName = escapeHTML(img.parent().parent().attr('data-displayName'));
 		var input = $('<input type="text" value="' + displayName + '">');
 		img.css('display', 'none');
 		img.parent().children('span').replaceWith(input);
@@ -329,7 +329,7 @@ $(document).ready(function () {
 			}
 		});
 		input.blur(function () {
-			$(this).replaceWith($(this).val());
+			$(this).replaceWith(escapeHTML($(this).val()));
 			img.css('display', '');
 		});
 	});
