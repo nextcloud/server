@@ -31,7 +31,7 @@
 
 			<ul id="settings" class="svg">
 				<span id="expand">
-					<?php echo OCP\User::getDisplayName($user=null)?OC_Util::sanitizeHTML(OCP\User::getDisplayName($user=null)):(OC_User::getUser()?OC_User::getUser():'') ?>
+					<?php echo $_['displayname'] ?>
 					<img class="svg" src="<?php echo image_path('', 'actions/caret.svg'); ?>" />
 				</span>
 				<div id="expanddiv">
