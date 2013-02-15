@@ -424,7 +424,7 @@ class OC {
 
 		self::initPaths();
 
-		if (!defined('PHPUNIT_RUN')) {
+		if (!defined('PHPUNIT_RUN') and !(defined('DEBUG') and DEBUG)) {
 			register_shutdown_function(array('OC_Log', 'onShutdown'));
 			set_error_handler(array('OC_Log', 'onError'));
 			set_exception_handler(array('OC_Log', 'onException'));
