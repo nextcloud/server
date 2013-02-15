@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 00:27+0100\n"
-"PO-Revision-Date: 2013-01-30 15:50+0000\n"
+"POT-Creation-Date: 2013-02-14 00:05+0100\n"
+"PO-Revision-Date: 2013-02-13 22:50+0000\n"
 "Last-Translator: rodrigost23 <rodrigo.st23@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -27,11 +27,11 @@ msgstr "Acesso concedido"
 msgid "Error configuring Dropbox storage"
 msgstr "Erro ao configurar armazenamento do Dropbox"
 
-#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:41
+#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
 msgid "Grant access"
 msgstr "Permitir acesso"
 
-#: js/dropbox.js:73 js/google.js:73
+#: js/dropbox.js:73 js/google.js:72
 msgid "Fill out all required fields"
 msgstr "Preencha todos os campos obrigatórios"
 
@@ -39,17 +39,17 @@ msgstr "Preencha todos os campos obrigatórios"
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr "Por favor forneça um app key e secret válido do Dropbox"
 
-#: js/google.js:26 js/google.js:74 js/google.js:79
+#: js/google.js:26 js/google.js:73 js/google.js:78
 msgid "Error configuring Google Drive storage"
 msgstr "Erro ao configurar armazenamento do Google Drive"
 
-#: lib/config.php:405
+#: lib/config.php:413
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Aviso:</b> \"smbclient\" não está instalado. Não será possível montar compartilhamentos de CIFS/SMB. Por favor, peça ao seu administrador do sistema para instalá-lo."
 
-#: lib/config.php:406
+#: lib/config.php:414
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "

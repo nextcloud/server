@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 14:40+0000\n"
+"POT-Creation-Date: 2013-02-13 00:03+0100\n"
+"PO-Revision-Date: 2013-02-12 14:32+0000\n"
 "Last-Translator: Dimitris M. <monopatis@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -168,55 +168,55 @@ msgstr "Δεκέμβριος"
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:766
+#: js/js.js:767
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:767
+#: js/js.js:768
 msgid "1 minute ago"
 msgstr "1 λεπτό πριν"
 
-#: js/js.js:768
+#: js/js.js:769
 msgid "{minutes} minutes ago"
 msgstr "{minutes} λεπτά πριν"
 
-#: js/js.js:769
+#: js/js.js:770
 msgid "1 hour ago"
 msgstr "1 ώρα πριν"
 
-#: js/js.js:770
+#: js/js.js:771
 msgid "{hours} hours ago"
 msgstr "{hours} ώρες πριν"
 
-#: js/js.js:771
+#: js/js.js:772
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:772
+#: js/js.js:773
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:773
+#: js/js.js:774
 msgid "{days} days ago"
 msgstr "{days} ημέρες πριν"
 
-#: js/js.js:774
+#: js/js.js:775
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:775
+#: js/js.js:776
 msgid "{months} months ago"
 msgstr "{months} μήνες πριν"
 
-#: js/js.js:776
+#: js/js.js:777
 msgid "months ago"
 msgstr "μήνες πριν"
 
-#: js/js.js:777
+#: js/js.js:778
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:778
+#: js/js.js:779
 msgid "years ago"
 msgstr "χρόνια πριν"
 
@@ -259,13 +259,13 @@ msgstr "Δεν καθορίστηκε το όνομα της εφαρμογής.
 msgid "The required file {file} is not installed!"
 msgstr "Το απαιτούμενο αρχείο {file} δεν εγκαταστάθηκε!"
 
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
-msgid "Share"
-msgstr "Διαμοιρασμός"
-
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+#: js/share.js:29 js/share.js:43 js/share.js:90
 msgid "Shared"
 msgstr ""
+
+#: js/share.js:93
+msgid "Share"
+msgstr "Διαμοιρασμός"
 
 #: js/share.js:141 js/share.js:622
 msgid "Error while sharing"

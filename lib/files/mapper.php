@@ -107,24 +107,27 @@ class Mapper
 
 	private function stripLast($path) {
 		if (substr($path, -1) == '/') {
-			$path = substr_replace($path ,'',-1);
+			$path = substr_replace($path, '', -1);
 		}
 		return $path;
 	}
 
 	private function resolveLogicPath($logicPath) {
 		$logicPath = $this->stripLast($logicPath);
-		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*file_map` WHERE `logic_path` = ?');
-		$result = $query->execute(array($logicPath));
+		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*file_map` WHERE `logic_path_hash` = ?');
+		$result = $query->execute(array(md5($logicPath)));
 		$result = $result->fetchRow();
+		if ($result === false) {
+			return null;
+		}
 
 		return $result['physic_path'];
 	}
 
 	private function resolvePhysicalPath($physicalPath) {
 		$physicalPath = $this->stripLast($physicalPath);
-		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*file_map` WHERE `physic_path` = ?');
-		$result = $query->execute(array($physicalPath));
+		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*file_map` WHERE `physic_path_hash` = ?');
+		$result = $query->execute(array(md5($physicalPath)));
 		$result = $result->fetchRow();
 
 		return $result['logic_path'];
@@ -151,8 +154,8 @@ class Mapper
 	}
 
 	private function insert($logicPath, $physicalPath) {
-		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*file_map`(`logic_path`,`physic_path`) VALUES(?,?)');
-		$query->execute(array($logicPath, $physicalPath));
+		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*file_map`(`logic_path`, `physic_path`, `logic_path_hash`, `physic_path_hash`) VALUES(?, ?, ?, ?)');
+		$query->execute(array($logicPath, $physicalPath, md5($logicPath), md5($physicalPath)));
 	}
 
 	private function slugifyPath($path, $index=null) {
@@ -160,11 +163,16 @@ class Mapper
 		$sluggedElements = array();
 
 		// skip slugging the drive letter on windows - TODO: test if local path
-		if (strpos(strtolower(php_uname('s')), 'win') !== false) {
+		if (\OC_Util::runningOnWindows()) {
 			$sluggedElements[]= $pathElements[0];
 			array_shift($pathElements);
 		}
 		foreach ($pathElements as $pathElement) {
+			// remove empty elements
+			if (empty($pathElement)) {
+				continue;
+			}
+
 			// TODO: remove file ext before slugify on last element
 			$sluggedElements[] = self::slugify($pathElement);
 		}
@@ -177,6 +185,12 @@ class Mapper
 			array_pop($sluggedElements);
 			array_push($sluggedElements, $last.'-'.$index);
 		}
+
+		// on non-windows systems add the leading / if necessary
+		if (!\OC_Util::runningOnWindows() and $path[0] === '/') {
+			return DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, $sluggedElements);
+		}
+
 		return implode(DIRECTORY_SEPARATOR, $sluggedElements);
 	}
 

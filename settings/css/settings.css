@@ -5,7 +5,15 @@
 select#languageinput, select#timezone { width:15em; }
 input#openid, input#webdav { width:20em; }
 
+
 /* PERSONAL */
+
+/* Sync clients */
+.clientsbox { margin:12px; text-align:center; }
+.clientsbox h1 { font-size:40px; font-weight:bold; margin:50px 0 20px; }
+.clientsbox h2 { font-size:20px; font-weight:bold; margin:35px 0 10px; }
+.clientsbox center { margin-top:10px; }
+
 #passworderror { display:none; }
 #passwordchanged { display:none; }
 #displaynameerror { display:none; }
@@ -35,13 +43,18 @@ tr:hover>td.remove>a { float:right; }
 li.selected { background-color:#ddd; }
 table:not(.nostyle) { width:100%; }
 #rightcontent { padding-left: 1em; }
-div.quota { float:right; display:block; position:absolute; right:25em; top:0; }
+div.quota { float:right; display:block; position:absolute; right:25em; top:-1px; }
 div.quota-select-wrapper { position: relative; }
-select.quota { position:absolute; left:0; top:0.5em; width:10em; }
+select.quota { position:absolute; left:0; top:0; width:10em; }
 select.quota-user { position:relative; left:0; top:0; width:10em; }
-input.quota-other { display:none; position:absolute; left:0.1em; top:0.1em; width:7em; border:none; box-shadow:none; }
 div.quota>span { position:absolute; right:0; white-space:nowrap; top:.7em; color:#888; text-shadow:0 1px 0 #fff; }
 select.quota.active { background: #fff; }
+
+/* positioning fixes */
+#newuser { position:relative; top:-3px; }
+#newuser .multiselect { top:1px; }
+#headerGroups, #headerSubAdmins, #headerQuota { padding-left:18px; }
+
 
 /* APPS */
 .appinfo { margin: 1em; }
@@ -75,3 +88,4 @@ table.shareAPI td { padding-bottom: 0.8em; }
 
 /* HELP */
 .pressed {background-color:#DDD;}
+

@@ -45,7 +45,7 @@ if(is_array($categoryNames)) {
 				$pre=$app['preview'];
 			}
 			if($app['label']=='recommended') {
-				$label='3rd Party App';
+				$label='3rd Party';
 			} else {
 				$label='Recommended';
 			}

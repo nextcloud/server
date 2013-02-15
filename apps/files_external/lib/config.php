@@ -104,6 +104,14 @@ class OC_Mount_Config {
 				'password' => '*Password',
 				'root' => '&Root',
 				'secure' => '!Secure https://'));
+				
+		$backends['\OC\Files\Storage\SFTP']=array(
+			'backend' => 'SFTP',
+			'configuration' => array(
+				'host' => 'URL',
+				'user' => 'Username', 
+				'password' => '*Password', 
+				'root' => '&Root'));
 
 		return($backends);
 	}
@@ -302,7 +310,7 @@ class OC_Mount_Config {
 			foreach ($data[self::MOUNT_TYPE_GROUP] as $group => $mounts) {
 				$content .= "\t\t'".$group."' => array (\n";
 				foreach ($mounts as $mountPoint => $mount) {
-					$content .= "\t\t\t'".addcslashes($mountPoint,"'")."' => ".str_replace("\n", '', var_export($mount, true)).", \n";
+					$content .= "\t\t\t'".addcslashes($mountPoint, "'")."' => ".str_replace("\n", '', var_export($mount, true)).", \n";
 
 				}
 				$content .= "\t\t),\n";
@@ -314,7 +322,7 @@ class OC_Mount_Config {
 			foreach ($data[self::MOUNT_TYPE_USER] as $user => $mounts) {
 				$content .= "\t\t'".$user."' => array (\n";
 				foreach ($mounts as $mountPoint => $mount) {
-					$content .= "\t\t\t'".addcslashes($mountPoint,"'")."' => ".str_replace("\n", '', var_export($mount, true)).",\n";
+					$content .= "\t\t\t'".addcslashes($mountPoint, "'")."' => ".str_replace("\n", '', var_export($mount, true)).",\n";
 				}
 				$content .= "\t\t),\n";
 			}
@@ -386,7 +394,7 @@ class OC_Mount_Config {
 	}
 
 	/**
-	 * check if php-ftp is installed
+	 * check if php-ftp is installed 
 	 */
 	public static function checkphpftp() {
 		if(function_exists('ftp_login')) {

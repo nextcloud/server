@@ -13,6 +13,7 @@
 "Not enough storage available" => "Inte tillräckligt med lagringsutrymme tillgängligt",
 "Invalid directory." => "Felaktig mapp.",
 "Files" => "Filer",
+"Delete permanently" => "Radera permanent",
 "Delete" => "Radera",
 "Rename" => "Byt namn",
 "Pending" => "Väntar",

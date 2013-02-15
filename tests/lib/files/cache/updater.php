@@ -45,7 +45,7 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		if (!self::$user) {
 			if (!\OC\Files\Filesystem::getView()) {
 				self::$user = uniqid();
-				\OC\Files\Filesystem::init('/' . self::$user . '/files');
+				\OC\Files\Filesystem::init(self::$user, '/' . self::$user . '/files');
 			} else {
 				self::$user = \OC_User::getUser();
 			}

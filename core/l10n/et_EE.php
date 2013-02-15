@@ -24,6 +24,7 @@
 "seconds ago" => "sekundit tagasi",
 "1 minute ago" => "1 minut tagasi",
 "{minutes} minutes ago" => "{minutes} minutit tagasi",
+"1 hour ago" => "1 tund tagasi",
 "today" => "täna",
 "yesterday" => "eile",
 "{days} days ago" => "{days} päeva tagasi",

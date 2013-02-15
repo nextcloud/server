@@ -1,5 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Deletion failed" => "Remoção falhou",
+"Keep settings?" => "Manter ajustes?",
+"Confirm Deletion" => "Confirmar Exclusão",
+"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them." => "<b>Aviso:</b> Os aplicativos user_ldap e user_webdavauth são incompatíveis. Você deverá experienciar comportamento inesperado. Por favor, peça ao seu administrador do sistema para desabilitar um deles.",
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Aviso:</b> O módulo PHP LDAP não está instalado, o backend não funcionará. Por favor, peça ao seu administrador do sistema para instalá-lo.",
 "Host" => "Host",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Você pode omitir o protocolo, exceto quando requerer SSL. Então inicie com ldaps://",
 "Base DN" => "DN Base",

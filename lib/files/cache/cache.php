@@ -56,7 +56,7 @@ class Cache {
 		} else {
 			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*storages`(`id`) VALUES(?)');
 			$query->execute(array($this->storageId));
-			$this->numericId = \OC_DB::insertid('*PREFIX*filecache');
+			$this->numericId = \OC_DB::insertid('*PREFIX*storages');
 		}
 	}
 
@@ -204,7 +204,8 @@ class Cache {
 			$params[] = $this->numericId;
 			$valuesPlaceholder = array_fill(0, count($queryParts), '?');
 
-			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache`(' . implode(', ', $queryParts) . ') VALUES(' . implode(', ', $valuesPlaceholder) . ')');
+			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache`(' . implode(', ', $queryParts) . ')'
+				.' VALUES(' . implode(', ', $valuesPlaceholder) . ')');
 			$query->execute($params);
 
 			return (int)\OC_DB::insertid('*PREFIX*filecache');
@@ -221,7 +222,8 @@ class Cache {
 		list($queryParts, $params) = $this->buildParts($data);
 		$params[] = $id;
 
-		$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET ' . implode(' = ?, ', $queryParts) . '=? WHERE fileid = ?');
+		$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET ' . implode(' = ?, ', $queryParts) . '=?'
+			.' WHERE fileid = ?');
 		$query->execute($params);
 	}
 
@@ -343,7 +345,8 @@ class Cache {
 			$query->execute(array($targetPath, md5($targetPath), $child['fileid']));
 		}
 
-		$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET `path` = ?, `path_hash` = ?, `parent` =? WHERE `fileid` = ?');
+		$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET `path` = ?, `path_hash` = ?, `parent` =?'
+			.' WHERE `fileid` = ?');
 		$query->execute(array($target, md5($target), $newParentId, $sourceId));
 	}
 
@@ -503,7 +506,8 @@ class Cache {
 	 * @return string|bool the path of the folder or false when no folder matched
 	 */
 	public function getIncomplete() {
-		$query = \OC_DB::prepare('SELECT `path` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `size` = -1 ORDER BY `fileid` DESC LIMIT 1');
+		$query = \OC_DB::prepare('SELECT `path` FROM `*PREFIX*filecache`'
+			.' WHERE `storage` = ? AND `size` = -1 ORDER BY `fileid` DESC LIMIT 1');
 		$query->execute(array($this->numericId));
 		if ($row = $query->fetchRow()) {
 			return $row['path'];

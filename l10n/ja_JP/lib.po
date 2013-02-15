@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 23:08+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-13 00:03+0100\n"
+"PO-Revision-Date: 2013-02-12 14:33+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -87,16 +87,102 @@ msgstr "TTY TDD"
 msgid "Images"
 msgstr "画像"
 
-#: setup.php:624
+#: setup.php:34
+msgid "Set an admin username."
+msgstr "管理者のユーザ名を設定。"
+
+#: setup.php:37
+msgid "Set an admin password."
+msgstr "管理者のパスワードを設定。"
+
+#: setup.php:40
+msgid "Specify a data folder."
+msgstr "データフォルダを指定。"
+
+#: setup.php:53
+#, php-format
+msgid "%s enter the database username."
+msgstr "%s のデータベースのユーザ名を入力してください。"
+
+#: setup.php:56
+#, php-format
+msgid "%s enter the database name."
+msgstr "%s のデータベース名を入力してください。"
+
+#: setup.php:59
+#, php-format
+msgid "%s you may not use dots in the database name"
+msgstr "%s ではデータベース名にドットを利用できないかもしれません。"
+
+#: setup.php:62
+#, php-format
+msgid "%s set the database host."
+msgstr "%s にデータベースホストを設定します。"
+
+#: setup.php:126 setup.php:291 setup.php:336
+msgid "PostgreSQL username and/or password not valid"
+msgstr "PostgreSQLのユーザ名もしくはパスワードは有効ではありません"
+
+#: setup.php:127 setup.php:150 setup.php:204
+msgid "You need to enter either an existing account or the administrator."
+msgstr "既存のアカウントもしくは管理者のどちらかを入力する必要があります。"
+
+#: setup.php:149 setup.php:423 setup.php:489
+msgid "Oracle username and/or password not valid"
+msgstr "Oracleのユーザ名もしくはパスワードは有効ではありません"
+
+#: setup.php:203
+msgid "MySQL username and/or password not valid"
+msgstr "MySQLのユーザ名もしくはパスワードは有効ではありません"
+
+#: setup.php:255 setup.php:357 setup.php:366 setup.php:384 setup.php:394
+#: setup.php:403 setup.php:430 setup.php:496 setup.php:522 setup.php:529
+#: setup.php:540 setup.php:547 setup.php:556 setup.php:564 setup.php:573
+#: setup.php:579
+#, php-format
+msgid "DB Error: \"%s\""
+msgstr "DBエラー: \"%s\""
+
+#: setup.php:256 setup.php:358 setup.php:367 setup.php:385 setup.php:395
+#: setup.php:404 setup.php:431 setup.php:497 setup.php:523 setup.php:530
+#: setup.php:541 setup.php:557 setup.php:565 setup.php:574
+#, php-format
+msgid "Offending command was: \"%s\""
+msgstr "違反コマンド: \"%s\""
+
+#: setup.php:270
+#, php-format
+msgid "MySQL user '%s'@'localhost' exists already."
+msgstr "MySQLのユーザ '%s'@'localhost' はすでに存在します。"
+
+#: setup.php:271
+msgid "Drop this user from MySQL"
+msgstr "MySQLからこのユーザを削除"
+
+#: setup.php:276
+#, php-format
+msgid "MySQL user '%s'@'%%' already exists"
+msgstr "MySQLのユーザ '%s'@'%%' はすでに存在します。"
+
+#: setup.php:277
+msgid "Drop this user from MySQL."
+msgstr "MySQLからこのユーザを削除する。"
+
+#: setup.php:548 setup.php:580
+#, php-format
+msgid "Offending command was: \"%s\", name: %s, password: %s"
+msgstr "違反コマンド: \"%s\"、名前: %s、パスワード: %s"
+
+#: setup.php:644
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "WebDAVインタフェースが動作していないと考えられるため、あなたのWEBサーバはまだファイルの同期を許可するように適切な設定がされていません。"
 
-#: setup.php:625
+#: setup.php:645
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "<a href='%s'>インストールガイド</a>をよく確認してください。"
 
 #: template.php:113
 msgid "seconds ago"

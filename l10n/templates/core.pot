@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
+"Project-Id-Version: ownCloud Core 5.0.0\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-02-15 00:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -160,55 +160,55 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:766
+#: js/js.js:767
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:767
+#: js/js.js:768
 msgid "1 minute ago"
 msgstr ""
 
-#: js/js.js:768
+#: js/js.js:769
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:769
+#: js/js.js:770
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:770
+#: js/js.js:771
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:771
+#: js/js.js:772
 msgid "today"
 msgstr ""
 
-#: js/js.js:772
+#: js/js.js:773
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:773
+#: js/js.js:774
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:774
+#: js/js.js:775
 msgid "last month"
 msgstr ""
 
-#: js/js.js:775
+#: js/js.js:776
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:776
+#: js/js.js:777
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:777
+#: js/js.js:778
 msgid "last year"
 msgstr ""
 
-#: js/js.js:778
+#: js/js.js:779
 msgid "years ago"
 msgstr ""
 
@@ -251,12 +251,12 @@ msgstr ""
 msgid "The required file {file} is not installed!"
 msgstr ""
 
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
-msgid "Share"
+#: js/share.js:29 js/share.js:43 js/share.js:90
+msgid "Shared"
 msgstr ""
 
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
-msgid "Shared"
+#: js/share.js:93
+msgid "Share"
 msgstr ""
 
 #: js/share.js:141 js/share.js:622

@@ -210,7 +210,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 				return false;
 			} else {
 				$fh=fopen($tmpFile, 'a');
-				fwrite($fh,$name . "\n");
+				fwrite($fh, $name . "\n");
 			}
 		} catch(\Exception $e) {
 			file_put_contents($tmpFile, $name . "\n");
@@ -290,7 +290,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 	}
 
 	private function init(){
-		if($this->ready){
+		if($this->ready) {
 			return;
 		}
 		$this->ready = true;

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 23:08+0000\n"
+"POT-Creation-Date: 2013-02-15 00:04+0100\n"
+"PO-Revision-Date: 2013-02-14 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -24,16 +24,16 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Неполучается перенести %s - Файл с таким именем уже существует"
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Неполучается перенести %s "
 
 #: ajax/rename.php:22 ajax/rename.php:25
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Невозможно переименовать файл"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -72,7 +72,7 @@ msgstr "Не удалось записать на диск"
 
 #: ajax/upload.php:52
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Недостаточно места в хранилище"
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
@@ -82,15 +82,15 @@ msgstr "Неверный каталог."
 msgid "Files"
 msgstr "Файлы"
 
-#: js/fileactions.js:116
+#: js/fileactions.js:125
 msgid "Delete permanently"
 msgstr "Удалить навсегда"
 
-#: js/fileactions.js:118 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Удалить"
 
-#: js/fileactions.js:184
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr "Переименовать"
 
@@ -196,31 +196,31 @@ msgstr "URL не должен быть пустым."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Неверное имя папки. Использование наименования 'Опубликовано' зарезервировано Owncloud"
 
-#: js/files.js:947 templates/index.php:67
+#: js/files.js:948 templates/index.php:67
 msgid "Name"
 msgstr "Имя"
 
-#: js/files.js:948 templates/index.php:78
+#: js/files.js:949 templates/index.php:78
 msgid "Size"
 msgstr "Размер"
 
-#: js/files.js:949 templates/index.php:80
+#: js/files.js:950 templates/index.php:80
 msgid "Modified"
 msgstr "Изменен"
 
-#: js/files.js:968
+#: js/files.js:969
 msgid "1 folder"
 msgstr "1 папка"
 
-#: js/files.js:970
+#: js/files.js:971
 msgid "{count} folders"
 msgstr "{количество} папок"
 
-#: js/files.js:978
+#: js/files.js:979
 msgid "1 file"
 msgstr "1 файл"
 
-#: js/files.js:980
+#: js/files.js:981
 msgid "{count} files"
 msgstr "{количество} файлов"
 
@@ -277,7 +277,7 @@ msgid "From link"
 msgstr "По ссылке"
 
 #: templates/index.php:40
-msgid "Trash bin"
+msgid "Deleted files"
 msgstr ""
 
 #: templates/index.php:46

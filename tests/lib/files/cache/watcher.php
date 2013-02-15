@@ -76,7 +76,6 @@ class Watcher extends \PHPUnit_Framework_TestCase {
 		$updater->checkUpdate('');
 
 		$entry = $cache->get('foo.txt');
-		$this->assertEquals(-1, $entry['size']);
 		$this->assertEquals('httpd/unix-directory', $entry['mimetype']);
 		$this->assertFalse($cache->inCache('folder'));
 		$this->assertFalse($cache->inCache('folder/bar.txt'));

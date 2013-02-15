@@ -31,7 +31,7 @@ class OC_OCS_Cloud {
 		foreach($apps as $app) {
 			$info = OC_App::getAppInfo($app);
 			if(isset($info['standalone'])) {
-				$newValue = array('name'=>$info['name'],'url'=>OC_Helper::linkToAbsolute($app,''),'icon'=>'');
+				$newValue = array('name'=>$info['name'], 'url'=>OC_Helper::linkToAbsolute($app, ''), 'icon'=>'');
 				$values[] = $newValue;
 			}
 		}
@@ -45,7 +45,7 @@ class OC_OCS_Cloud {
 			if(OC_User::userExists($parameters['user'])) {
 				// calculate the disc space
 				$userDir = '/'.$parameters['user'].'/files';
-				\OC\Files\Filesystem::init($useDir);
+				\OC\Files\Filesystem::init($parameters['user'], $userDir);
 				$rootInfo = \OC\Files\Filesystem::getFileInfo('');
 				$sharedInfo = \OC\Files\Filesystem::getFileInfo('/Shared');
 				$used = $rootInfo['size'] - $sharedInfo['size'];

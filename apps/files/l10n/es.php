@@ -10,6 +10,7 @@
 "No file was uploaded" => "No se ha subido ningún archivo",
 "Missing a temporary folder" => "Falta un directorio temporal",
 "Failed to write to disk" => "La escritura en disco ha fallado",
+"Not enough storage available" => "No hay suficiente espacio disponible",
 "Invalid directory." => "Directorio invalido.",
 "Files" => "Archivos",
 "Delete permanently" => "Eliminar permanentemente",

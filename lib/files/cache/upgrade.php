@@ -69,7 +69,8 @@ class Upgrade {
 					( `fileid`, `storage`, `path`, `path_hash`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted` )
 					VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
 
-			$insertQuery->execute(array($data['id'], $data['storage'], $data['path'], $data['path_hash'], $data['parent'], $data['name'],
+			$insertQuery->execute(array($data['id'], $data['storage'],
+				$data['path'], $data['path_hash'], $data['parent'], $data['name'],
 				$data['mimetype'], $data['mimepart'], $data['size'], $data['mtime'], $data['encrypted']));
 		}
 	}

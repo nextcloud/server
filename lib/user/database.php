@@ -155,7 +155,8 @@ class OC_User_Database extends OC_User_Backend {
 	 */
 	public function getDisplayNames($search = '', $limit = null, $offset = null) {
 		$displayNames = array();
-		$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` WHERE LOWER(`displayname`) LIKE LOWER(?)', $limit, $offset);
+		$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users`'
+			.' WHERE LOWER(`displayname`) LIKE LOWER(?)', $limit, $offset);
 		$result = $query->execute(array($search.'%'));
 		$users = array();
 		while ($row = $result->fetchRow()) {
@@ -163,7 +164,8 @@ class OC_User_Database extends OC_User_Backend {
 		}
 		
 		// let's see if we can also find some users who don't have a display name yet
-		$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users` WHERE LOWER(`uid`) LIKE LOWER(?)', $limit, $offset);
+		$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users`'
+			.' WHERE LOWER(`uid`) LIKE LOWER(?)', $limit, $offset);
 		$result = $query->execute(array($search.'%'));
 		while ($row = $result->fetchRow()) {
 			$displayName =  trim($row['displayname'], ' ');
@@ -256,4 +258,12 @@ class OC_User_Database extends OC_User_Backend {
 			return false;
 		}
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasUserListings() {
+		return true;
+	}
+
 }

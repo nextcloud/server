@@ -6,14 +6,15 @@
 #   <4671992@gmail.com>, 2012.
 # Denis  <reg.transifex.net@demitel.ru>, 2012.
 #   <semen@sam002.net>, 2012.
+# Victor Ashirov <victor.ashirov@gmail.com>, 2013.
 # Дмитрий <langaru@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-08 00:10+0100\n"
-"PO-Revision-Date: 2013-02-07 23:11+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-12 00:20+0100\n"
+"PO-Revision-Date: 2013-02-11 16:30+0000\n"
+"Last-Translator: unixoid <victor.ashirov@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +34,7 @@ msgstr "Конфигурация правильная и подключение 
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr ""
+msgstr "Конфигурация верна, но операция подключения завершилась неудачно. Пожалуйста, проверьте настройки сервера и учетные данные."
 
 #: ajax/testConfiguration.php:40
 msgid ""
@@ -84,7 +85,7 @@ msgstr "<b>Внимание:</b>Приложения user_ldap и user_webdavaut
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Внимание:</b> Модуль LDAP для PHP не установлен, бэкенд не будет работать. Пожалуйста, попросите вашего системного администратора его установить. "
 
 #: templates/settings.php:15
 msgid "Server configuration"
@@ -109,7 +110,7 @@ msgstr "Базовый DN"
 
 #: templates/settings.php:22
 msgid "One Base DN per line"
-msgstr ""
+msgstr "По одному базовому DN в строке."
 
 #: templates/settings.php:22
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -184,7 +185,7 @@ msgstr "Конфигурация активна"
 
 #: templates/settings.php:33
 msgid "When unchecked, this configuration will be skipped."
-msgstr ""
+msgstr "Когда галочка снята, эта конфигурация будет пропущена."
 
 #: templates/settings.php:34
 msgid "Port"
@@ -192,17 +193,17 @@ msgstr "Порт"
 
 #: templates/settings.php:35
 msgid "Backup (Replica) Host"
-msgstr ""
+msgstr "Адрес резервного сервера"
 
 #: templates/settings.php:35
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr ""
+msgstr "Укажите дополнительный резервный сервер. Он должен быть репликой главного LDAP/AD сервера."
 
 #: templates/settings.php:36
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "Порт резервного сервера"
 
 #: templates/settings.php:37
 msgid "Disable Main Server"
@@ -210,7 +211,7 @@ msgstr "Отключение главного сервера"
 
 #: templates/settings.php:37
 msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr ""
+msgstr "Когда включено, ownCloud будет соединяться только с резервным сервером."
 
 #: templates/settings.php:38
 msgid "Use TLS"
@@ -218,7 +219,7 @@ msgstr "Использовать TLS"
 
 #: templates/settings.php:38
 msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr ""
+msgstr "Не используйте совместно с безопасными подключениями (LDAPS), это не сработает."
 
 #: templates/settings.php:39
 msgid "Case insensitve LDAP server (Windows)"
@@ -260,7 +261,7 @@ msgstr "База пользовательского дерева"
 
 #: templates/settings.php:46
 msgid "One User Base DN per line"
-msgstr ""
+msgstr "По одной базовому DN пользователей в строке."
 
 #: templates/settings.php:47
 msgid "User Search Attributes"
@@ -284,11 +285,11 @@ msgstr "База группового дерева"
 
 #: templates/settings.php:49
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "По одной базовому DN групп в строке."
 
 #: templates/settings.php:50
 msgid "Group Search Attributes"
-msgstr ""
+msgstr "Атрибуты поиска для группы"
 
 #: templates/settings.php:51
 msgid "Group-Member association"

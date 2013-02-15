@@ -12,6 +12,7 @@
 "Not enough storage available" => "Tallennustilaa ei ole riittävästi käytettävissä",
 "Invalid directory." => "Virheellinen kansio.",
 "Files" => "Tiedostot",
+"Delete permanently" => "Poista pysyvästi",
 "Delete" => "Poista",
 "Rename" => "Nimeä uudelleen",
 "Pending" => "Odottaa",

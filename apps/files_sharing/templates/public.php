@@ -6,9 +6,9 @@
 	<a href="<?php echo link_to('', 'index.php'); ?>" title="" id="owncloud"><img class="svg" src="<?php echo image_path('', 'logo-wide.svg'); ?>" alt="ownCloud" /></a>
 	<div class="header-right">
 	<?php if (isset($_['folder'])): ?>
-		<span id="details"><?php echo $l->t('%s shared the folder %s with you', array($_['displayName'], $_['filename'])) ?></span>
+		<span id="details"><?php echo $l->t('%s shared the folder %s with you', array($_['displayName'], $_['fileTarget'])) ?></span>
 	<?php else: ?>
-		<span id="details"><?php echo $l->t('%s shared the file %s with you', array($_['displayName'], $_['filename'])) ?></span>
+		<span id="details"><?php echo $l->t('%s shared the file %s with you', array($_['displayName'], $_['fileTarget'])) ?></span>
 	<?php endif; ?>
 		<?php if (!isset($_['folder']) || $_['allowZipDownload']): ?>
 			<a href="<?php echo $_['downloadURL']; ?>" class="button" id="download"><img class="svg" alt="Download" src="<?php echo OCP\image_path("core", "actions/download.svg"); ?>" /><?php echo $l->t('Download')?></a>
@@ -26,7 +26,7 @@
 		<?php endif; ?>
 		<ul id="noPreview">
 			<li class="error">
-				<?php echo $l->t('No preview available for').' '.$_['filename']; ?><br />
+				<?php echo $l->t('No preview available for').' '.$_['fileTarget']; ?><br />
 				<a href="<?php echo $_['downloadURL']; ?>" id="download"><img class="svg" alt="Download" src="<?php echo OCP\image_path("core", "actions/download.svg"); ?>" /><?php echo $l->t('Download')?></a>
 			</li>
 		</ul>

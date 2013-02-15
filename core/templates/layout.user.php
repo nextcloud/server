@@ -31,7 +31,7 @@
 
 			<ul id="settings" class="svg">
 				<span id="expand">
-					<?php echo OCP\User::getDisplayName($user=null)?OCP\User::getDisplayName($user=null):(OC_User::getUser()?OC_User::getUser():'') ?>
+					<?php echo $_['displayname'] ?>
 					<img class="svg" src="<?php echo image_path('', 'actions/caret.svg'); ?>" />
 				</span>
 				<div id="expanddiv">
@@ -61,7 +61,7 @@
 				<?php foreach($_['navigation'] as $entry): ?>
 					<li data-id="<?php echo $entry['id']; ?>">
 						<a href="<?php echo $entry['href']; ?>" title="" <?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
-							<img class="icon" src="<?php echo $entry['icon']; ?>"/>
+							<img class="icon svg" src="<?php echo $entry['icon']; ?>"/>
 							<?php echo $entry['name']; ?>
 						</a>
 					</li>
