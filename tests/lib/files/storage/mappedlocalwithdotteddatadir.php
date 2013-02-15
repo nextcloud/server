@@ -27,8 +27,10 @@ class MappedLocalWithDottedDataDir extends Storage {
 	 * @var string tmpDir
 	 */
 	private $tmpDir;
+
 	public function setUp() {
 		$this->tmpDir = \OC_Helper::tmpFolder().'dir.123'.DIRECTORY_SEPARATOR;
+		mkdir($this->tmpDir);
 		$this->instance=new \OC\Files\Storage\MappedLocal(array('datadir'=>$this->tmpDir));
 	}
 
