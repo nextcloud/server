@@ -94,10 +94,12 @@ class Storage {
 			if ($uid == \OCP\User::getUser()) {
 				$versionsName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
 				$matches=glob($versionsName.'.v*');
-				sort($matches);
-				$parts=explode('.v',end($matches));
-				if((end($parts)+Storage::DEFAULTMININTERVAL)>time()) {
-					return false;
+				if ( $matches ) {
+					sort($matches);
+					$parts=explode('.v',end($matches));
+					if((end($parts)+Storage::DEFAULTMININTERVAL)>time()) {
+						return false;
+					}
 				}
 			}
 
