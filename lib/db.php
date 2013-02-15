@@ -497,6 +497,9 @@ class OC_DB {
 			$definition['name']=OC_Config::getValue( "dbuser", $oldname );
 		}
 
+		// we should never drop a database
+		$definition['overwrite'] = false;
+
 		$ret=self::$schema->createDatabase( $definition );
 
 		// Die in case something went wrong
