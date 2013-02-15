@@ -1054,10 +1054,8 @@ abstract class Access {
 
 				$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
 				if(empty($cookie) && ($offset > 0)) {
-					// no cookie known, although the offset
-					// is not 0. Maybe cache run out. We need
-					// to start all over *sigh* (btw, Dear
-					// Reader, did you need LDAP paged
+					// no cookie known, although the offset is not 0. Maybe cache run out. We need
+					// to start all over *sigh* (btw, Dear Reader, did you need LDAP paged
 					// searching was designed by MSFT?)
 					$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
 					//a bit recursive, $offset of 0 is the exit
