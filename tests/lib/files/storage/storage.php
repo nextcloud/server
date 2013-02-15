@@ -223,6 +223,22 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$this->assertContains('/logo-wide.png', $result);
 	}
 
+	public function testSearchInSubFolder() {
+		$this->instance->mkdir('sub')
+		;
+		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
+		$this->instance->file_put_contents('/sub/lorem.txt', file_get_contents($textFile, 'r'));
+		$pngFile = \OC::$SERVERROOT . '/tests/data/logo-wide.png';
+		$this->instance->file_put_contents('/sub/logo-wide.png', file_get_contents($pngFile, 'r'));
+		$svgFile = \OC::$SERVERROOT . '/tests/data/logo-wide.svg';
+		$this->instance->file_put_contents('/sub/logo-wide.svg', file_get_contents($svgFile, 'r'));
+
+		$result = $this->instance->search('logo');
+		$this->assertEquals(2, count($result));
+		$this->assertContains('/sub/logo-wide.svg', $result);
+		$this->assertContains('/sub/logo-wide.png', $result);
+	}
+
 	public function testFOpen() {
 		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 
