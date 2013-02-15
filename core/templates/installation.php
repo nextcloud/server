@@ -21,20 +21,15 @@
 	<?php if(!$_['secureRNG']): ?>
 	<fieldset class="warning">
 		<legend><strong><?php echo $l->t('Security Warning');?></strong></legend>
-		<p><?php echo $l->t('No secure random number generator is available,'
-			.' please enable the PHP OpenSSL extension.');?><br/>
-		<?php echo $l->t('Without a secure random number generator an attacker may be able to'
-			.' predict password reset tokens and take over your account.');?></p>
+		<p><?php echo $l->t('No secure random number generator is available, please enable the PHP OpenSSL extension.');?><br/>
+		<?php echo $l->t('Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account.');?></p>
 	</fieldset>
 	<?php endif; ?>
 	<?php if(!$_['htaccessWorking']): ?>
 	<fieldset class="warning">
 		<legend><strong><?php echo $l->t('Security Warning');?></strong></legend>
-		<p><?php echo $l->t('Your data directory and files are probably accessible from the internet'
-			.' because the .htaccess file does not work.');?><br>
-		<?php echo $l->t('For information how to properly configure your server,'
-			.' please see the <a href="http://doc.owncloud.org/server/5.0/admin_manual/installation.html"'
-			.' target="_blank">documentation</a>.');?></p>
+		<p><?php echo $l->t('Your data directory and files are probably accessible from the internet because the .htaccess file does not work.');?><br>
+		<?php echo $l->t('For information how to properly configure your server, please see the <a href="http://doc.owncloud.org/server/5.0/admin_manual/installation.html" target="_blank">documentation</a>.');?></p>
 	</fieldset>
 	<?php endif; ?>
 	<fieldset id="adminaccount">
