@@ -60,6 +60,7 @@
 "Text file" => "File di testo",
 "Folder" => "Cartella",
 "From link" => "Da collegamento",
+"Deleted files" => "File eliminati",
 "Cancel upload" => "Annulla invio",
 "Nothing in here. Upload something!" => "Non c'è niente qui. Carica qualcosa!",
 "Download" => "Scarica",

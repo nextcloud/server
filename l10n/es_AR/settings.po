@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-15 00:05+0100\n"
-"PO-Revision-Date: 2013-02-14 23:05+0000\n"
-"Last-Translator: deftoner <koryyyy@gmail.com>\n"
+"POT-Creation-Date: 2013-02-16 00:04+0100\n"
+"PO-Revision-Date: 2013-02-14 23:10+0000\n"
+"Last-Translator: Javier Victor Mariano Bruno <koryyyy@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -165,7 +165,7 @@ msgstr "Error creando usuario"
 msgid "A valid password must be provided"
 msgstr "Debe ingresar una contraseña válida"
 
-#: personal.php:34 personal.php:35
+#: personal.php:29 personal.php:30
 msgid "__language_name__"
 msgstr "Castellano (Argentina)"
 
@@ -251,7 +251,7 @@ msgstr ""
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Usa el servicio de sistema cron. Llama al archivo cron.php en la carpeta de ownCloud a través del sistema cronjob cada un minuto."
 
 #: templates/admin.php:125
 msgid "Sharing"
@@ -306,7 +306,7 @@ msgstr "Forzar a los clientes conectar a ownCloud vía conexión encriptada"
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "Por favor conectese a este ownCloud vía HTTPS para habilitar o des-habilitar el forzado de SSL"
 
 #: templates/admin.php:192
 msgid "Log"
