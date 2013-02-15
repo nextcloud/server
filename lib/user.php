@@ -608,8 +608,8 @@ class OC_User {
 	 * @return bool
 	 */
 	public static function isEnabled($userid) {
-		$sql = "SELECT `userid` FROM `*PREFIX*preferences`'
-			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
+		$sql = 'SELECT `userid` FROM `*PREFIX*preferences`'
+			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?';
 		$stmt = OC_DB::prepare($sql);
 		if ( ! OC_DB::isError($stmt) ) {
 			$result = $stmt->execute(array($userid, 'core', 'enabled', 'false'));
