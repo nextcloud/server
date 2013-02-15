@@ -36,8 +36,7 @@ if($connection->setConfiguration($_POST)) {
 			=> $l->t('The configuration is valid and the connection could be established!')));
 	} else {
 		OCP\JSON::error(array('message'
-			=> $l->t('The configuration is valid, but the Bind failed.'
-				.' Please check the server settings and credentials.')));
+			=> $l->t('The configuration is valid, but the Bind failed. Please check the server settings and credentials.')));
 	}
 } else {
 	OCP\JSON::error(array('message'
