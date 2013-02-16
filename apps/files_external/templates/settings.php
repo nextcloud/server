@@ -149,6 +149,7 @@
 			<?php endforeach; ?>
 			</tbody>
 		</table>
+		<input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken']; ?>">
 		<input type="file" id="rootcert_import" name="rootcert_import" style="width:230px;">
 		<input type="submit" name="cert_import" value="<?php echo $l->t('Import Root Certificate'); ?>" />
 </fieldset>
