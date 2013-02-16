@@ -221,7 +221,7 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 			$this->connection->ldapUserDisplayName);
 
 		if($displayName && (count($displayName) > 0)) {
-			$this->connection->writeToCache($cacheKey, $displayName);
+			$this->connection->writeToCache($cacheKey, $displayName[0]);
 			return $displayName[0];
 		}
 
@@ -258,7 +258,10 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
 	*/
 	public function implementsActions($actions) {
-		return (bool)((OC_USER_BACKEND_CHECK_PASSWORD | OC_USER_BACKEND_GET_HOME) & $actions);
+		return (bool)((OC_USER_BACKEND_CHECK_PASSWORD
+			| OC_USER_BACKEND_GET_HOME
+			| OC_USER_BACKEND_GET_DISPLAYNAME)
+			& $actions);
 	}
 
 	/**
