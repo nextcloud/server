@@ -279,13 +279,14 @@ class OC_Mount_Config {
 	* @return array
 	*/
 	private static function readData($isPersonal) {
+		$parser = new \OC\ArrayParser();
 		if ($isPersonal) {
 			$file = OC_User::getHome(OCP\User::getUser()).'/mount.php';
 		} else {
 			$file = OC::$SERVERROOT.'/config/mount.php';
 		}
 		if (is_file($file)) {
-			$mountPoints = include $file;
+			$mountPoints = $parser->parsePHP(file_get_contents($file));
 			if (is_array($mountPoints)) {
 				return $mountPoints;
 			}
