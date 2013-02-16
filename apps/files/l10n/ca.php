@@ -60,6 +60,7 @@
 "Text file" => "Fitxer de text",
 "Folder" => "Carpeta",
 "From link" => "Des d'enllaç",
+"Deleted files" => "Fitxers esborrats",
 "Cancel upload" => "Cancel·la la pujada",
 "Nothing in here. Upload something!" => "Res per aquí. Pugeu alguna cosa!",
 "Download" => "Baixa",

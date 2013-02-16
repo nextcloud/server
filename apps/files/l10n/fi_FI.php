@@ -54,6 +54,7 @@
 "Text file" => "Tekstitiedosto",
 "Folder" => "Kansio",
 "From link" => "Linkistä",
+"Deleted files" => "Poistetut tiedostot",
 "Cancel upload" => "Peru lähetys",
 "Nothing in here. Upload something!" => "Täällä ei ole mitään. Lähetä tänne jotakin!",
 "Download" => "Lataa",
