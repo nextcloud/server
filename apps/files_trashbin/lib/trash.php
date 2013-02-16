@@ -246,8 +246,19 @@ class Trashbin {
 		
 		return $size;
 	}
-	
-	
+
+	/**
+	 * check to see whether a file exists in trashbin
+	 * @param $file path to the file to check
+	 * @return true if file exists, otherwise false
+	 */
+	public static function file_exists($file) {
+		$user = \OCP\User::getUser();
+		$view = new \OC_FilesystemView('/'.$user);
+		$target = \OC_Filesystem::normalizePath('files_trashbin/'.$file);
+		return $view->file_exists($target);
+	}
+
 	/**
 	 * clean up the trash bin
 	 * @param max. available disk space for trashbin
