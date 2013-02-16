@@ -29,6 +29,8 @@
 
 namespace OC\Files;
 
+const FREE_SPACE_UNKNOWN = -2;
+
 class Filesystem {
 	public static $loaded = false;
 	/**
