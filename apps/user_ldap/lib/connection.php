@@ -295,7 +295,8 @@ class Connection {
 
 		foreach($config as $parameter => $value) {
 			if(($parameter == 'homeFolderNamingRule'
-				|| $params[$parameter] == 'homeFolderNamingRule')
+				|| (isset($params[$parameter])
+					&& $params[$parameter] == 'homeFolderNamingRule'))
 				&& !empty($value)) {
 				$value = 'attr:'.$value;
 			}
