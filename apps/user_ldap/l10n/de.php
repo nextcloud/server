@@ -12,7 +12,7 @@
 "Do you really want to delete the current Server Configuration?" => "Wollen Sie die aktuelle Serverkonfiguration wirklich löschen?",
 "Confirm Deletion" => "Löschung bestätigen",
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them." => "<b>Warnung:</b> Die Anwendungen user_ldap und user_webdavauth sind inkompatibel. Es kann demzufolge zu unerwarteten Verhalten kommen. Bitte Deinen Systemadministator eine der beiden Anwendungen zu deaktivieren.",
-"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Warnung:</b> Da das PHP-Modul für LDAP nicht installiert ist, wird das Backend nicht funktionieren. Bitten Sie Ihren Systemadministrator das Modul zu installieren.",
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Warnung:</b> Da das PHP-Modul für LDAP nicht installiert ist, wird das Backend nicht funktionieren. Bitte deinen Systemadministrator das Modul zu installieren.",
 "Server configuration" => "Serverkonfiguration",
 "Add Server Configuration" => "Serverkonfiguration hinzufügen",
 "Host" => "Host",

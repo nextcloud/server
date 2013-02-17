@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "Konnte %s nicht verschieben - Datei mit diesem Namen existiert bereits.",
-"Could not move %s" => "Konnte %s nicht verschieben",
-"Unable to rename file" => "Konnte Datei nicht umbenennen",
+"Could not move %s - File with this name already exists" => "%s konnte nicht verschoben werden - eine Datei mit diesem Namen existiert bereits.",
+"Could not move %s" => "%s konnte nicht verschoben werden",
+"Unable to rename file" => "Die Datei konnte nicht umbenannt werden",
 "No file was uploaded. Unknown error" => "Keine Datei hochgeladen. Unbekannter Fehler",
 "There is no error, the file uploaded with success" => "Datei fehlerfrei hochgeladen.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Die hochgeladene Datei überschreitet die upload_max_filesize Vorgabe in php.ini",
@@ -60,6 +60,7 @@
 "Text file" => "Textdatei",
 "Folder" => "Ordner",
 "From link" => "Von einem Link",
+"Deleted files" => "Gelöschte Dateien",
 "Cancel upload" => "Upload abbrechen",
 "Nothing in here. Upload something!" => "Alles leer. Lade etwas hoch!",
 "Download" => "Herunterladen",

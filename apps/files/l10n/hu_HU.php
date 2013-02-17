@@ -60,6 +60,7 @@
 "Text file" => "Szövegfájl",
 "Folder" => "Mappa",
 "From link" => "Feltöltés linkről",
+"Deleted files" => "Törölt fájlok",
 "Cancel upload" => "A feltöltés megszakítása",
 "Nothing in here. Upload something!" => "Itt nincs semmi. Töltsön fel valamit!",
 "Download" => "Letöltés",

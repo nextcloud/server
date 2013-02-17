@@ -4,6 +4,7 @@
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Konfigurazioa ongi dago, baina Bind-ek huts egin du. Mesedez egiaztatu zerbitzariaren ezarpenak eta kredentzialak.",
 "The configuration is invalid. Please look in the ownCloud log for further details." => "Konfigurazioa ez dago ongi. Mesedez ikusi ownCloud-en egunerokoa informazio gehiago eskuratzeko.",
 "Deletion failed" => "Ezabaketak huts egin du",
+"Take over settings from recent server configuration?" => "oraintsuko zerbitzariaren konfigurazioaren ezarpenen ardura hartu?",
 "Keep settings?" => "Mantendu ezarpenak?",
 "Cannot add server configuration" => "Ezin da zerbitzariaren konfigurazioa gehitu",
 "Connection test succeeded" => "Konexio froga ongi burutu da",

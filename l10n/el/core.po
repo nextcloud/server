@@ -6,6 +6,7 @@
 # axil Pι <axilleas@archlinux.gr>, 2012.
 # Dimitris M. <monopatis@gmail.com>, 2012-2013.
 # Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012.
+# Efstathios Iosifidis <iefstathios@gmail.com>, 2013.
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
 # Marios Bekatoros <>, 2012.
 #   <petros.kyladitis@gmail.com>, 2011.
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-13 00:03+0100\n"
-"PO-Revision-Date: 2013-02-12 14:32+0000\n"
-"Last-Translator: Dimitris M. <monopatis@gmail.com>\n"
+"POT-Creation-Date: 2013-02-18 00:05+0100\n"
+"PO-Revision-Date: 2013-02-17 12:50+0000\n"
+"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -261,7 +262,7 @@ msgstr "Το απαιτούμενο αρχείο {file} δεν εγκαταστ�
 
 #: js/share.js:29 js/share.js:43 js/share.js:90
 msgid "Shared"
-msgstr ""
+msgstr "Κοινόχρηστα"
 
 #: js/share.js:93
 msgid "Share"
@@ -388,11 +389,11 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "Η ενημέρωση ήταν ανεπιτυχής. Παρακαλώ στείλτε αναφορά στην <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">κοινότητα ownCloud</a>."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "Η ενημέρωση ήταν επιτυχής. Μετάβαση στο ownCloud."
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -495,14 +496,14 @@ msgstr "Χωρίς το πρόσθετο δημιουργίας τυχαίων �
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "Ο κατάλογος δεδομένων και τα αρχεία σας είναι πιθανό προσβάσιμα από το internet γιατί δεν δουλεύει το αρχείο .htaccess."
 
 #: templates/installation.php:32
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Για πληροφορίες σχετικά με την σωστή ρύθμιση του διακομιστή σας, δείτε στην <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">τεκμηρίωση</a>."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -585,7 +586,7 @@ msgstr "Είσοδος"
 
 #: templates/login.php:49
 msgid "Alternative Logins"
-msgstr ""
+msgstr "Εναλλακτικές Συνδέσεις"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

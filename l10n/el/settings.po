@@ -5,6 +5,7 @@
 # Translators:
 # Dimitris M. <monopatis@gmail.com>, 2012.
 # Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012.
+# Efstathios Iosifidis <iefstathios@gmail.com>, 2013.
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
 # <icewind1991@gmail.com>, 2012.
 #   <icewind1991@gmail.com>, 2012.
@@ -19,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-14 00:05+0100\n"
-"PO-Revision-Date: 2013-02-13 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-18 00:05+0100\n"
+"PO-Revision-Date: 2013-02-17 12:30+0000\n"
+"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -94,7 +95,7 @@ msgstr "Αδυναμία αφαίρεσης χρήστη από την ομάδ�
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Αδυναμία ενημέρωσης εφαρμογής"
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
@@ -110,15 +111,15 @@ msgstr "Ενεργοποίηση"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "Παρακαλώ περιμένετε..."
 
 #: js/apps.js:84
 msgid "Updating...."
-msgstr ""
+msgstr "Ενημέρωση..."
 
 #: js/apps.js:87
 msgid "Error while updating app"
-msgstr ""
+msgstr "Σφάλμα κατά την ενημέρωση της εφαρμογής"
 
 #: js/apps.js:87
 msgid "Error"
@@ -126,7 +127,7 @@ msgstr "Σφάλμα"
 
 #: js/apps.js:90
 msgid "Updated"
-msgstr ""
+msgstr "Ενημερώθηκε"
 
 #: js/personal.js:96
 msgid "Saving..."
@@ -142,7 +143,7 @@ msgstr "αναίρεση"
 
 #: js/users.js:62
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Αδυναμία αφαίρεση χρήστη"
 
 #: js/users.js:75 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
@@ -157,23 +158,23 @@ msgstr "Ομάδα Διαχειριστών"
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: js/users.js:190
+#: js/users.js:191
 msgid "add group"
-msgstr ""
+msgstr "προσθήκη ομάδας"
 
-#: js/users.js:351
+#: js/users.js:352
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:352 js/users.js:358 js/users.js:373
+#: js/users.js:353 js/users.js:359 js/users.js:374
 msgid "Error creating user"
-msgstr ""
+msgstr "Σφάλμα δημιουργίας χρήστη"
 
-#: js/users.js:357
+#: js/users.js:358
 msgid "A valid password must be provided"
 msgstr ""
 
-#: personal.php:34 personal.php:35
+#: personal.php:29 personal.php:30
 msgid "__language_name__"
 msgstr "__όνομα_γλώσσας__"
 
@@ -192,18 +193,18 @@ msgstr "Ο κατάλογος data και τα αρχεία σας πιθανό�
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "Ρύθμιση Προειδοποίησης"
 
 #: templates/admin.php:32
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Ο διακομιστής σας δεν έχει ρυθμιστεί κατάλληλα ώστε να επιτρέπει τον συγχρονισμό αρχείων γιατί η διεπαφή WebDAV πιθανόν να είναι κατεστραμμένη."
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Ελέγξτε ξανά τις <a href='%s'>οδηγίες εγκατάστασης</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -243,7 +244,7 @@ msgstr ""
 
 #: templates/admin.php:89
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:98
 msgid "Execute one task with each page loaded"
@@ -299,7 +300,7 @@ msgstr ""
 
 #: templates/admin.php:165
 msgid "Security"
-msgstr ""
+msgstr "Ασφάλεια"
 
 #: templates/admin.php:178
 msgid "Enforce HTTPS"
@@ -318,7 +319,7 @@ msgstr ""
 
 #: templates/admin.php:192
 msgid "Log"
-msgstr ""
+msgstr "Καταγραφές"
 
 #: templates/admin.php:193
 msgid "Log level"
@@ -397,7 +398,7 @@ msgstr "Χρησιμοποιήσατε <strong>%s</strong> από διαθέσι
 
 #: templates/personal.php:14
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Λήψη της εφαρμογής για συγχρονισμό των αρχείων σας"
 
 #: templates/personal.php:25
 msgid "Show First Run Wizard again"

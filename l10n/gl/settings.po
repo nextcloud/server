@@ -4,15 +4,17 @@
 # 
 # Translators:
 # antiparvos  <marcoslansgarza@gmail.com>, 2012.
+# <mbouzada@gmail.com>, 2012-2013.
 #  <mbouzada@gmail.com>, 2013.
 #   <mbouzada@gmail.com>, 2012.
+# Miguel Anxo Bouzada <mbouzada@gmail.com>, 2013.
 # Xosé M. Lamas <correo.xmgz@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-15 00:05+0100\n"
-"PO-Revision-Date: 2013-02-14 09:10+0000\n"
+"POT-Creation-Date: 2013-02-18 00:05+0100\n"
+"PO-Revision-Date: 2013-02-17 19:20+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +34,7 @@ msgstr "Produciuse un erro de autenticación"
 
 #: ajax/changedisplayname.php:32
 msgid "Unable to change display name"
-msgstr ""
+msgstr "Non é posíbel cambiar o nome visíbel"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -165,7 +167,7 @@ msgstr "Produciuse un erro ao crear o usuario"
 msgid "A valid password must be provided"
 msgstr "Debe fornecer un contrasinal"
 
-#: personal.php:34 personal.php:35
+#: personal.php:29 personal.php:30
 msgid "__language_name__"
 msgstr "Galego"
 
@@ -209,7 +211,7 @@ msgstr "Non se atopou o módulo de PHP «fileinfo». É recomendábel activar es
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "A configuración rexional non funciona"
 
 #: templates/admin.php:61
 msgid ""
@@ -217,11 +219,11 @@ msgid ""
 "\"en_US.UTF-8\"/\"en_US.UTF8\". This means that there might be problems with"
 " certain characters in file names. We strongly suggest to install the "
 "required packages on your system to support en_US.UTF-8/en_US.UTF8."
-msgstr ""
+msgstr "Este servidor ownCloud non pode estabelecer a configuración rexional do sistema a «en_US.UTF-8\"/\"en_US.UTF8». Isto significa que poden xurdir problemas con certos caracteres nos nomes de ficheiro. Recomendámoslle que instale os paquetes necesarios no sistema para admitir en_US.UTF-8/en_US.UTF8."
 
 #: templates/admin.php:72
 msgid "Internet connection not working"
-msgstr ""
+msgstr "A conexión á Internet non funciona"
 
 #: templates/admin.php:75
 msgid ""
@@ -231,11 +233,11 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "Este servidor ownCloud non ten conexión a Internet. Isto significa que algunhas das funcionalidades como a montaxe de almacenamento externo, as notificacións sobre actualizacións ou instalación de aplicativos de terceiros non funcionan. O acceso aos ficheiros de forma remota e o envío de mensaxes de notificación poderían non funcionar. Suxerímoslle que active a conexión a Internet deste servidor se quere dispor de todas as funcionalidades de ownCloud."
 
 #: templates/admin.php:89
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:98
 msgid "Execute one task with each page loaded"
@@ -245,13 +247,13 @@ msgstr "Executar unha tarefa con cada páxina cargada"
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php está rexistrado nun servizo de WebCron. Chame á página cron.php na raíz ownCloud unha vez por minuto a través de HTTP."
 
 #: templates/admin.php:118
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Use o servizo de sistema cron. Chame ao ficheiro cron.php no catfaol owncloud a través dun sistema de cronjob unna vez por minuto."
 
 #: templates/admin.php:125
 msgid "Sharing"
@@ -425,15 +427,15 @@ msgstr "Amosar o nome"
 
 #: templates/personal.php:55
 msgid "Your display name was changed"
-msgstr ""
+msgstr "O seu nome visíbel foi cambiado"
 
 #: templates/personal.php:56
 msgid "Unable to change your display name"
-msgstr ""
+msgstr "Non é posíbel cambiar o seu nome visíbel"
 
 #: templates/personal.php:59
 msgid "Change display name"
-msgstr ""
+msgstr "Cambiar o nome visíbel"
 
 #: templates/personal.php:68
 msgid "Email"
@@ -489,7 +491,7 @@ msgstr "Almacenamento"
 
 #: templates/users.php:95
 msgid "change display name"
-msgstr ""
+msgstr "cambiar o nome visíbel"
 
 #: templates/users.php:99
 msgid "set new password"

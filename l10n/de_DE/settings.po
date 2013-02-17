@@ -30,8 +30,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-17 00:25+0100\n"
-"PO-Revision-Date: 2013-02-16 23:25+0000\n"
+"POT-Creation-Date: 2013-02-18 00:05+0100\n"
+"PO-Revision-Date: 2013-02-16 23:40+0000\n"
 "Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -203,7 +203,7 @@ msgstr "Ihr Datenverzeichnis und Ihre Dateien sind wahrscheinlich über das Inte
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "Einrichtungswarnung"
 
 #: templates/admin.php:32
 msgid ""
@@ -236,11 +236,11 @@ msgid ""
 "\"en_US.UTF-8\"/\"en_US.UTF8\". This means that there might be problems with"
 " certain characters in file names. We strongly suggest to install the "
 "required packages on your system to support en_US.UTF-8/en_US.UTF8."
-msgstr ""
+msgstr "Dieser ownCloud Server kann die Ländereinstellung nicht auf \"de_DE.UTF-8\"/\"de_DE.UTF8\" ändern. Dies bedeutet dass es Probleme mit bestimmten Zeichen in Dateinamen geben könnte. Wir empfehlen die für de_DE.UTF-8/de_DE.UTF8 benötigten Pakete auf ihrem System zu installieren."
 
 #: templates/admin.php:72
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Keine Netzwerkverbindung"
 
 #: templates/admin.php:75
 msgid ""
@@ -250,7 +250,7 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "Dieser ownCloud Server hat keine funktionierende Netzwerkverbindung. Dies bedeutet das einige Funktionen wie das einbinden von externen Speichern, Update-Benachrichtigungen oder die Installation von Drittanbieter-Apps nicht funktionieren. Der Fernzugriff auf Dateien und das Senden von Benachrichtigungsmails funktioniert eventuell ebenfalls nicht. Wir empfehlen die Netzwerkverbindung für diesen Server zu aktivieren wenn Sie alle Funktionen von ownCloud nutzen wollen."
 
 #: templates/admin.php:89
 msgid "Cron"
@@ -264,13 +264,13 @@ msgstr "Führe eine Aufgabe bei jedem Laden der Seite aus"
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php ist bei einem Webcron-Service registriert. Die cron.php Seite im ownCloud Wurzelverzeichniss wird einmal pro Minute über http abgerufen."
 
 #: templates/admin.php:118
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Nutze den Cron Systemdienst. Rufe die Datei cron.php im ownCloud Ordner einmal pro Minute über einen Cronjob auf."
 
 #: templates/admin.php:125
 msgid "Sharing"
@@ -294,19 +294,19 @@ msgstr "Erlaube es Benutzern, Items per öffentlichem Link zu teilen"
 
 #: templates/admin.php:147
 msgid "Allow resharing"
-msgstr "Erlaube weiterteilen"
+msgstr "Erlaube weiterverteilen"
 
 #: templates/admin.php:148
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Erlaubt Nutzern mit ihnen geteilte Inhalte erneut zu teilen"
 
 #: templates/admin.php:155
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Erlaube Nutzern mit jedem zu teilen"
 
 #: templates/admin.php:158
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Erlaube Nutzern nur mit Nutzern in ihrer Gruppe zu teilen"
 
 #: templates/admin.php:165
 msgid "Security"
