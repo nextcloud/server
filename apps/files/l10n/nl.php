@@ -10,6 +10,7 @@
 "No file was uploaded" => "Geen bestand geüpload",
 "Missing a temporary folder" => "Een tijdelijke map mist",
 "Failed to write to disk" => "Schrijven naar schijf mislukt",
+"Not enough storage available" => "Niet genoeg opslagruimte beschikbaar",
 "Invalid directory." => "Ongeldige directory.",
 "Files" => "Bestanden",
 "Delete permanently" => "Verwijder definitief",

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-11 15:39+0100\n"
-"PO-Revision-Date: 2013-02-11 14:41+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-13 00:03+0100\n"
+"PO-Revision-Date: 2013-02-12 14:33+0000\n"
+"Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -90,51 +90,51 @@ msgstr "Images"
 
 #: setup.php:34
 msgid "Set an admin username."
-msgstr ""
+msgstr "Spécifiez un nom d'utilisateur pour l'administrateur."
 
 #: setup.php:37
 msgid "Set an admin password."
-msgstr ""
+msgstr "Spécifiez un mot de passe administrateur."
 
 #: setup.php:40
 msgid "Specify a data folder."
-msgstr ""
+msgstr "Spécifiez un répertoire pour les données."
 
 #: setup.php:53
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "%s entrez le nom d'utilisateur de la base de données."
 
 #: setup.php:56
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "%s entrez le nom de la base de données."
 
 #: setup.php:59
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s vous nez pouvez pas utiliser de points dans le nom de la base de données"
 
 #: setup.php:62
 #, php-format
 msgid "%s set the database host."
-msgstr ""
+msgstr "%s spécifiez l'hôte de la base de données."
 
 #: setup.php:126 setup.php:291 setup.php:336
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "Nom d'utilisateur et/ou mot de passe de la base PostgreSQL invalide"
 
 #: setup.php:127 setup.php:150 setup.php:204
 msgid "You need to enter either an existing account or the administrator."
-msgstr ""
+msgstr "Vous devez spécifier soit le nom d'un compte existant, soit celui de l'administrateur."
 
 #: setup.php:149 setup.php:423 setup.php:489
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Nom d'utilisateur et/ou mot de passe de la base Oracle invalide"
 
 #: setup.php:203
 msgid "MySQL username and/or password not valid"
-msgstr ""
+msgstr "Nom d'utilisateur et/ou mot de passe de la base MySQL invalide"
 
 #: setup.php:255 setup.php:357 setup.php:366 setup.php:384 setup.php:394
 #: setup.php:403 setup.php:430 setup.php:496 setup.php:522 setup.php:529
@@ -142,37 +142,37 @@ msgstr ""
 #: setup.php:579
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "Erreur de la base de données : \"%s\""
 
 #: setup.php:256 setup.php:358 setup.php:367 setup.php:385 setup.php:395
 #: setup.php:404 setup.php:431 setup.php:497 setup.php:523 setup.php:530
 #: setup.php:541 setup.php:557 setup.php:565 setup.php:574
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "La requête en cause est : \"%s\""
 
 #: setup.php:270
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "L'utilisateur MySQL '%s'@'localhost' existe déjà."
 
 #: setup.php:271
 msgid "Drop this user from MySQL"
-msgstr ""
+msgstr "Retirer cet utilisateur de la base MySQL"
 
 #: setup.php:276
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
-msgstr ""
+msgstr "L'utilisateur MySQL '%s'@'%%' existe déjà"
 
 #: setup.php:277
 msgid "Drop this user from MySQL."
-msgstr ""
+msgstr "Retirer cet utilisateur de la base MySQL."
 
 #: setup.php:548 setup.php:580
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "La requête en cause est : \"%s\", nom : %s, mot de passe : %s"
 
 #: setup.php:644
 msgid ""

@@ -19,26 +19,36 @@ $storageInfo=OC_Helper::getStorageInfo();
 
 $email=OC_Preferences::getValue(OC_User::getUser(), 'settings', 'email', '');
 
-$lang=OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang', OC_L10N::findLanguage() );
+$userLang=OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang', OC_L10N::findLanguage() );
 $languageCodes=OC_L10N::findAvailableLanguages();
-sort ($languageCodes);
-
-//put the current language in the front
-unset($languageCodes[array_search($lang, $languageCodes)]);
-array_unshift($languageCodes, $lang);
 
 $languageNames=include 'languageCodes.php';
 $languages=array();
 foreach($languageCodes as $lang) {
 	$l=OC_L10N::get('settings', $lang);
 	if(substr($l->t('__language_name__'), 0, 1)!='_') {//first check if the language name is in the translation file
-		$languages[]=array('code'=>$lang, 'name'=>$l->t('__language_name__'));
+		$ln=array('code'=>$lang, 'name'=> (string)$l->t('__language_name__'));
 	}elseif(isset($languageNames[$lang])) {
-		$languages[]=array('code'=>$lang, 'name'=>$languageNames[$lang]);
+		$ln=array('code'=>$lang, 'name'=>$languageNames[$lang]);
 	}else{//fallback to language code
-		$languages[]=array('code'=>$lang, 'name'=>$lang);
+		$ln=array('code'=>$lang, 'name'=>$lang);
+	}
+
+	if ($lang === $userLang) {
+		$userLang = $ln;
+	} else {
+		$languages[]=$ln;
 	}
 }
+
+// sort now by displayed language not the iso-code
+usort( $languages, function ($a, $b) {
+	return strcmp($a['name'], $b['name']);
+});
+
+//put the current language in the front
+array_unshift($languages, $userLang);
+
 //links to clients
 $clients = array(
 	'desktop' => OC_Config::getValue('customclient_desktop', 'http://owncloud.org/sync-clients/'),

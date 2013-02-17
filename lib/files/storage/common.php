@@ -51,19 +51,19 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	}
 	public function getPermissions($path){
 		$permissions = 0;
-		if($this->isCreatable($path)){
+		if($this->isCreatable($path)) {
 			$permissions |= \OCP\PERMISSION_CREATE;
 		}
-		if($this->isReadable($path)){
+		if($this->isReadable($path)) {
 			$permissions |= \OCP\PERMISSION_READ;
 		}
-		if($this->isUpdatable($path)){
+		if($this->isUpdatable($path)) {
 			$permissions |= \OCP\PERMISSION_UPDATE;
 		}
-		if($this->isDeletable($path)){
+		if($this->isDeletable($path)) {
 			$permissions |= \OCP\PERMISSION_DELETE;
 		}
-		if($this->isSharable($path)){
+		if($this->isSharable($path)) {
 			$permissions |= \OCP\PERMISSION_SHARE;
 		}
 		return $permissions;
@@ -83,21 +83,21 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		}
 		return fread($handle, $size);
 	}
-	public function file_put_contents($path,$data) {
+	public function file_put_contents($path, $data) {
 		$handle = $this->fopen($path, "w");
 		return fwrite($handle, $data);
 	}
-	public function rename($path1,$path2) {
-		if($this->copy($path1,$path2)) {
+	public function rename($path1, $path2) {
+		if($this->copy($path1, $path2)) {
 			return $this->unlink($path1);
 		}else{
 			return false;
 		}
 	}
-	public function copy($path1,$path2) {
-		$source=$this->fopen($path1,'r');
-		$target=$this->fopen($path2,'w');
-		$count=\OC_Helper::streamCopy($source,$target);
+	public function copy($path1, $path2) {
+		$source=$this->fopen($path1, 'r');
+		$target=$this->fopen($path2, 'w');
+		$count=\OC_Helper::streamCopy($source, $target);
 		return $count>0;
 	}
 
@@ -111,9 +111,10 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 * deleted together with its contents. To avoid this set $empty to true
 	 */
 	public function deleteAll( $directory, $empty = false ) {
-		$directory = trim($directory,'/');
+		$directory = trim($directory, '/');
 
-		if ( !$this->file_exists( \OCP\USER::getUser() . '/' . $directory ) || !$this->is_dir( \OCP\USER::getUser() . '/' . $directory ) ) {
+		if ( !$this->file_exists( \OCP\USER::getUser() . '/' . $directory )
+			|| !$this->is_dir( \OCP\USER::getUser() . '/' . $directory ) ) {
 			return false;
 		} elseif( !$this->isReadable( \OCP\USER::getUser() . '/' . $directory ) ) {
 			return false;
@@ -132,7 +133,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			//$this->closedir( $directoryHandle ); // TODO: implement closedir in OC_FSV
 			if ( $empty == false ) {
 				if ( !$this->rmdir( $directory ) ) {
-				return false;
+					return false;
 				}
 			}
 			return true;
@@ -146,25 +147,25 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		if($this->is_dir($path)) {
 			return 'httpd/unix-directory';
 		}
-		$source=$this->fopen($path,'r');
+		$source=$this->fopen($path, 'r');
 		if(!$source) {
 			return false;
 		}
-		$head=fread($source,8192);//8kb should suffice to determine a mimetype
-		if($pos=strrpos($path,'.')) {
-			$extension=substr($path,$pos);
+		$head=fread($source, 8192);//8kb should suffice to determine a mimetype
+		if($pos=strrpos($path, '.')) {
+			$extension=substr($path, $pos);
 		}else{
 			$extension='';
 		}
 		$tmpFile=\OC_Helper::tmpFile($extension);
-		file_put_contents($tmpFile,$head);
+		file_put_contents($tmpFile, $head);
 		$mime=\OC_Helper::getMimeType($tmpFile);
 		unlink($tmpFile);
 		return $mime;
 	}
-	public function hash($type,$path,$raw = false) {
+	public function hash($type, $path, $raw = false) {
 		$tmpFile=$this->getLocalFile($path);
-		$hash=hash($type,$tmpFile,$raw);
+		$hash=hash($type, $tmpFile, $raw);
 		unlink($tmpFile);
 		return $hash;
 	}
@@ -175,42 +176,42 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		return $this->toTmpFile($path);
 	}
 	private function toTmpFile($path) {//no longer in the storage api, still useful here
-		$source=$this->fopen($path,'r');
+		$source=$this->fopen($path, 'r');
 		if(!$source) {
 			return false;
 		}
-		if($pos=strrpos($path,'.')) {
-			$extension=substr($path,$pos);
+		if($pos=strrpos($path, '.')) {
+			$extension=substr($path, $pos);
 		}else{
 			$extension='';
 		}
 		$tmpFile=\OC_Helper::tmpFile($extension);
-		$target=fopen($tmpFile,'w');
-		\OC_Helper::streamCopy($source,$target);
+		$target=fopen($tmpFile, 'w');
+		\OC_Helper::streamCopy($source, $target);
 		return $tmpFile;
 	}
 	public function getLocalFolder($path) {
 		$baseDir=\OC_Helper::tmpFolder();
-		$this->addLocalFolder($path,$baseDir);
+		$this->addLocalFolder($path, $baseDir);
 		return $baseDir;
 	}
-	private function addLocalFolder($path,$target) {
+	private function addLocalFolder($path, $target) {
 		if($dh=$this->opendir($path)) {
 			while($file=readdir($dh)) {
 				if($file!=='.' and $file!=='..') {
 					if($this->is_dir($path.'/'.$file)) {
 						mkdir($target.'/'.$file);
-						$this->addLocalFolder($path.'/'.$file,$target.'/'.$file);
+						$this->addLocalFolder($path.'/'.$file, $target.'/'.$file);
 					}else{
 						$tmp=$this->toTmpFile($path.'/'.$file);
-						rename($tmp,$target.'/'.$file);
+						rename($tmp, $target.'/'.$file);
 					}
 				}
 			}
 		}
 	}
 
-	protected function searchInDir($query,$dir='') {
+	protected function searchInDir($query, $dir='') {
 		$files=array();
 		$dh=$this->opendir($dir);
 		if($dh) {
@@ -220,7 +221,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 					$files[]=$dir.'/'.$item;
 				}
 				if($this->is_dir($dir.'/'.$item)) {
-					$files=array_merge($files,$this->searchInDir($query,$dir.'/'.$item));
+					$files=array_merge($files, $this->searchInDir($query, $dir.'/'.$item));
 				}
 			}
 		}
@@ -233,7 +234,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 * @param int $time
 	 * @return bool
 	 */
-	public function hasUpdated($path,$time) {
+	public function hasUpdated($path, $time) {
 		return $this->filemtime($path)>$time;
 	}
 

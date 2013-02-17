@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-11 00:03+0100\n"
-"PO-Revision-Date: 2013-02-09 23:50+0000\n"
+"POT-Creation-Date: 2013-02-16 00:04+0100\n"
+"PO-Revision-Date: 2013-02-14 23:30+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -82,15 +82,15 @@ msgstr "Cartella non valida."
 msgid "Files"
 msgstr "File"
 
-#: js/fileactions.js:116
+#: js/fileactions.js:125
 msgid "Delete permanently"
 msgstr "Elimina definitivamente"
 
-#: js/fileactions.js:118 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Elimina"
 
-#: js/fileactions.js:184
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr "Rinomina"
 
@@ -277,8 +277,8 @@ msgid "From link"
 msgstr "Da collegamento"
 
 #: templates/index.php:40
-msgid "Trash bin"
-msgstr "Cestino"
+msgid "Deleted files"
+msgstr "File eliminati"
 
 #: templates/index.php:46
 msgid "Cancel upload"

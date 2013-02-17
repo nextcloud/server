@@ -16,7 +16,16 @@
 "Enable" => "启用",
 "Error" => "出错",
 "Saving..." => "保存中...",
+"deleted" => "删除",
+"undo" => "撤销",
+"Groups" => "组",
+"Group Admin" => "群组管理员",
+"Delete" => "删除",
 "__language_name__" => "Chinese",
+"Security Warning" => "安全警告",
+"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "您的数据文件夹和您的文件或许能够从互联网访问。ownCloud 提供的 .htaccesss 文件未其作用。我们强烈建议您配置网络服务器以使数据文件夹不能从互联网访问，或将移动数据文件夹移出网络服务器文档根目录。",
+"More" => "更多",
+"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "由 <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社区</a>开发，<a href=\"https://github.com/owncloud\" target=\"_blank\">s源代码</a> 以 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> 许可协议发布。",
 "Add your App" => "添加你的应用程序",
 "More Apps" => "更多应用",
 "Select an App" => "选择一个程序",
@@ -34,10 +43,6 @@
 "Fill in an email address to enable password recovery" => "输入一个邮箱地址以激活密码恢复功能",
 "Language" => "语言",
 "Help translate" => "帮助翻译",
-"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "由 <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社区</a>开发，<a href=\"https://github.com/owncloud\" target=\"_blank\">s源代码</a> 以 <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> 许可协议发布。",
-"Groups" => "组",
 "Create" => "新建",
-"Other" => "其他的",
-"Group Admin" => "群组管理员",
-"Delete" => "删除"
+"Other" => "其他的"
 );

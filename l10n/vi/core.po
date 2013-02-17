@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 18:20+0000\n"
+"POT-Creation-Date: 2013-02-13 00:03+0100\n"
+"PO-Revision-Date: 2013-02-12 14:32+0000\n"
 "Last-Translator: saosangm <saosangmo@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -166,55 +166,55 @@ msgstr "Tháng 12"
 msgid "Settings"
 msgstr "Cài đặt"
 
-#: js/js.js:766
+#: js/js.js:767
 msgid "seconds ago"
 msgstr "vài giây trước"
 
-#: js/js.js:767
+#: js/js.js:768
 msgid "1 minute ago"
 msgstr "1 phút trước"
 
-#: js/js.js:768
+#: js/js.js:769
 msgid "{minutes} minutes ago"
 msgstr "{minutes} phút trước"
 
-#: js/js.js:769
+#: js/js.js:770
 msgid "1 hour ago"
 msgstr "1 giờ trước"
 
-#: js/js.js:770
+#: js/js.js:771
 msgid "{hours} hours ago"
 msgstr "{hours} giờ trước"
 
-#: js/js.js:771
+#: js/js.js:772
 msgid "today"
 msgstr "hôm nay"
 
-#: js/js.js:772
+#: js/js.js:773
 msgid "yesterday"
 msgstr "hôm qua"
 
-#: js/js.js:773
+#: js/js.js:774
 msgid "{days} days ago"
 msgstr "{days} ngày trước"
 
-#: js/js.js:774
+#: js/js.js:775
 msgid "last month"
 msgstr "tháng trước"
 
-#: js/js.js:775
+#: js/js.js:776
 msgid "{months} months ago"
 msgstr "{months} tháng trước"
 
-#: js/js.js:776
+#: js/js.js:777
 msgid "months ago"
 msgstr "tháng trước"
 
-#: js/js.js:777
+#: js/js.js:778
 msgid "last year"
 msgstr "năm trước"
 
-#: js/js.js:778
+#: js/js.js:779
 msgid "years ago"
 msgstr "năm trước"
 
@@ -257,13 +257,13 @@ msgstr "Tên ứng dụng không được chỉ định."
 msgid "The required file {file} is not installed!"
 msgstr "Tập tin cần thiết {file} không được cài đặt!"
 
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
-msgid "Share"
-msgstr "Chia sẻ"
-
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+#: js/share.js:29 js/share.js:43 js/share.js:90
 msgid "Shared"
 msgstr "Được chia sẻ"
+
+#: js/share.js:93
+msgid "Share"
+msgstr "Chia sẻ"
 
 #: js/share.js:141 js/share.js:622
 msgid "Error while sharing"

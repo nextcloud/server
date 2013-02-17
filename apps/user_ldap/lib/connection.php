@@ -192,7 +192,7 @@ class Connection {
 
 	private function getValue($varname) {
 		static $defaults;
-		if(is_null($defaults)){
+		if(is_null($defaults)) {
 			$defaults = $this->getDefaults();
 		}
 		return \OCP\Config::getAppValue($this->configID,
@@ -235,7 +235,7 @@ class Connection {
 			$this->config['turnOffCertCheck']
 				= $this->$v('ldap_turn_off_cert_check');
 			$this->config['ldapUserDisplayName']
-				= mb_strtolower($this->$v('ldap_display_name'),'UTF-8');
+				= mb_strtolower($this->$v('ldap_display_name'), 'UTF-8');
 			$this->config['ldapUserFilter']
 				= $this->$v('ldap_userlist_filter');
 			$this->config['ldapGroupFilter'] = $this->$v('ldap_group_filter');
@@ -295,7 +295,8 @@ class Connection {
 
 		foreach($config as $parameter => $value) {
 			if(($parameter == 'homeFolderNamingRule'
-				|| $params[$parameter] == 'homeFolderNamingRule')
+				|| (isset($params[$parameter])
+					&& $params[$parameter] == 'homeFolderNamingRule'))
 				&& !empty($value)) {
 				$value = 'attr:'.$value;
 			}
@@ -336,7 +337,7 @@ class Connection {
 				case 'ldapBaseGroups':
 				case 'ldapAttributesForUserSearch':
 				case 'ldapAttributesForGroupSearch':
-					if(is_array($value)){
+					if(is_array($value)) {
 						$value = implode("\n", $value);
 					}
 					break;

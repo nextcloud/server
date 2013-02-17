@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 10:20+0000\n"
+"POT-Creation-Date: 2013-02-13 00:03+0100\n"
+"PO-Revision-Date: 2013-02-12 14:32+0000\n"
 "Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -163,55 +163,55 @@ msgstr "Desembre"
 msgid "Settings"
 msgstr "Arranjament"
 
-#: js/js.js:766
+#: js/js.js:767
 msgid "seconds ago"
 msgstr "segons enrere"
 
-#: js/js.js:767
+#: js/js.js:768
 msgid "1 minute ago"
 msgstr "fa 1 minut"
 
-#: js/js.js:768
+#: js/js.js:769
 msgid "{minutes} minutes ago"
 msgstr "fa {minutes} minuts"
 
-#: js/js.js:769
+#: js/js.js:770
 msgid "1 hour ago"
 msgstr "fa 1 hora"
 
-#: js/js.js:770
+#: js/js.js:771
 msgid "{hours} hours ago"
 msgstr "fa {hours} hores"
 
-#: js/js.js:771
+#: js/js.js:772
 msgid "today"
 msgstr "avui"
 
-#: js/js.js:772
+#: js/js.js:773
 msgid "yesterday"
 msgstr "ahir"
 
-#: js/js.js:773
+#: js/js.js:774
 msgid "{days} days ago"
 msgstr "fa {days} dies"
 
-#: js/js.js:774
+#: js/js.js:775
 msgid "last month"
 msgstr "el mes passat"
 
-#: js/js.js:775
+#: js/js.js:776
 msgid "{months} months ago"
 msgstr "fa {months} mesos"
 
-#: js/js.js:776
+#: js/js.js:777
 msgid "months ago"
 msgstr "mesos enrere"
 
-#: js/js.js:777
+#: js/js.js:778
 msgid "last year"
 msgstr "l'any passat"
 
-#: js/js.js:778
+#: js/js.js:779
 msgid "years ago"
 msgstr "anys enrere"
 
@@ -254,13 +254,13 @@ msgstr "No s'ha especificat el nom de l'aplicació."
 msgid "The required file {file} is not installed!"
 msgstr "El fitxer requerit {file} no està instal·lat!"
 
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
-msgid "Share"
-msgstr "Comparteix"
-
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+#: js/share.js:29 js/share.js:43 js/share.js:90
 msgid "Shared"
 msgstr "Compartit"
+
+#: js/share.js:93
+msgid "Share"
+msgstr "Comparteix"
 
 #: js/share.js:141 js/share.js:622
 msgid "Error while sharing"

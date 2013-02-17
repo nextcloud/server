@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-11 00:03+0100\n"
-"PO-Revision-Date: 2013-02-10 10:40+0000\n"
+"POT-Creation-Date: 2013-02-17 00:24+0100\n"
+"PO-Revision-Date: 2013-02-16 10:40+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -83,15 +83,15 @@ msgstr "Virheellinen kansio."
 msgid "Files"
 msgstr "Tiedostot"
 
-#: js/fileactions.js:116
+#: js/fileactions.js:125
 msgid "Delete permanently"
 msgstr "Poista pysyvästi"
 
-#: js/fileactions.js:118 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr "Poista"
 
-#: js/fileactions.js:184
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr "Nimeä uudelleen"
 
@@ -278,8 +278,8 @@ msgid "From link"
 msgstr "Linkistä"
 
 #: templates/index.php:40
-msgid "Trash bin"
-msgstr "Roskakori"
+msgid "Deleted files"
+msgstr "Poistetut tiedostot"
 
 #: templates/index.php:46
 msgid "Cancel upload"

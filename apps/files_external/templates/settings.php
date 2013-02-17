@@ -83,7 +83,7 @@
 							<select class="chzn-select"
 									multiple style="width:20em;"
 									data-placeholder="<?php echo $l->t('None set'); ?>">
-								<option value="all"><?php echo $l->t('All Users'); ?></option>
+								<option value="all" <?php if (isset($mount['applicable']['users']) && in_array('all', $mount['applicable']['users'])) echo 'selected="selected"';?> ><?php echo $l->t('All Users'); ?></option>
 								<optgroup label="<?php echo $l->t('Groups'); ?>">
 								<?php foreach ($_['groups'] as $group): ?>
 									<option value="<?php echo $group; ?>(group)"
@@ -149,6 +149,7 @@
 			<?php endforeach; ?>
 			</tbody>
 		</table>
+		<input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken']; ?>">
 		<input type="file" id="rootcert_import" name="rootcert_import" style="width:230px;">
 		<input type="submit" name="cert_import" value="<?php echo $l->t('Import Root Certificate'); ?>" />
 </fieldset>

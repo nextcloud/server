@@ -136,21 +136,29 @@ class OC_Installer{
 		// check if the app is compatible with this version of ownCloud
 		$version=OC_Util::getVersion();
 		if(!isset($info['require']) or ($version[0]>$info['require'])) {
-			OC_Log::write('core', 'App can\'t be installed because it is not compatible with this version of ownCloud', OC_Log::ERROR);
+			OC_Log::write('core',
+				'App can\'t be installed because it is not compatible with this version of ownCloud',
+				OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
 			return false;
 		}
 
 		// check if shipped tag is set which is only allowed for apps that are shipped with ownCloud
 		if(isset($info['shipped']) and ($info['shipped']=='true')) {
-			OC_Log::write('core', 'App can\'t be installed because it contains the <shipped>true</shippe> tag which is not allowed for non shipped apps', OC_Log::ERROR);
+			OC_Log::write('core',
+				'App can\'t be installed because it contains the <shipped>true</shippe>'
+				.' tag which is not allowed for non shipped apps',
+				OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
 			return false;
 		}
 
 		// check if the ocs version is the same as the version in info.xml/version
 		if(!isset($info['version']) or ($info['version']<>$data['appdata']['version'])) {
-			OC_Log::write('core', 'App can\'t be installed because the version in info.xml/version is not the same as the version reported from the app store', OC_Log::ERROR);
+			OC_Log::write('core',
+				'App can\'t be installed because the version in info.xml/version is not the same'
+				.' as the version reported from the app store',
+				OC_Log::ERROR);
 			OC_Helper::rmdirr($extractDir);
 			return false;
 		}
@@ -251,7 +259,8 @@ class OC_Installer{
 	 *   -# including appinfo/upgrade.php
 	 *   -# setting the installed version
 	 *
-	 * upgrade.php can determine the current installed version of the app using "OC_Appconfig::getValue($appid, 'installed_version')"
+	 * upgrade.php can determine the current installed version of the app using
+	 * "OC_Appconfig::getValue($appid, 'installed_version')"
 	 */
 	public static function updateApp( $app ) {
 		$ocsid=OC_Appconfig::getValue( $app, 'ocsid');
@@ -270,12 +279,12 @@ class OC_Installer{
 	public static function isUpdateAvailable( $app ) {
 		$ocsid=OC_Appconfig::getValue( $app, 'ocsid', '');
 
-		if($ocsid<>''){
+		if($ocsid<>'') {
 
 			$ocsdata=OC_OCSClient::getApplication($ocsid);
 			$ocsversion= (string) $ocsdata['version'];
 			$currentversion=OC_App::getAppVersion($app);
-			if($ocsversion<>$currentversion){
+			if($ocsversion<>$currentversion) {
 				return($ocsversion);
 
 			}else{
@@ -326,22 +335,22 @@ class OC_Installer{
 	 */
 	public static function removeApp( $name, $options = array()) {
 
-		if(isset($options['keeppreferences']) and $options['keeppreferences']==false ){
+		if(isset($options['keeppreferences']) and $options['keeppreferences']==false ) {
 			// todo
 			// remove preferences
 		}
 
-		if(isset($options['keepappconfig']) and $options['keepappconfig']==false ){
+		if(isset($options['keepappconfig']) and $options['keepappconfig']==false ) {
 			// todo
 			// remove app config
 		}
 
-		if(isset($options['keeptables']) and $options['keeptables']==false ){
+		if(isset($options['keeptables']) and $options['keeptables']==false ) {
 			// todo
 			// remove app database tables
 		}
 
-		if(isset($options['keepfiles']) and $options['keepfiles']==false ){
+		if(isset($options['keepfiles']) and $options['keepfiles']==false ) {
 			// todo
 			// remove user files
 		}
@@ -437,7 +446,9 @@ class OC_Installer{
 			// check if grep is installed
 			$grep = exec('which grep');
 			if($grep=='') {
-				OC_Log::write('core', 'grep not installed. So checking the code of the app "'.$appname.'" was not possible', OC_Log::ERROR);
+				OC_Log::write('core',
+					'grep not installed. So checking the code of the app "'.$appname.'" was not possible',
+					OC_Log::ERROR);
 				return true;
 			}
 
@@ -447,7 +458,9 @@ class OC_Installer{
 				$result = exec($cmd);
 				// bad pattern found
 				if($result<>'') {
-					OC_Log::write('core', 'App "'.$appname.'" is using a not allowed call "'.$bl.'". Installation refused.', OC_Log::ERROR);
+					OC_Log::write('core',
+						'App "'.$appname.'" is using a not allowed call "'.$bl.'". Installation refused.',
+						OC_Log::ERROR);
 					return false;
 				}
 			}

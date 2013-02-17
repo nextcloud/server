@@ -40,7 +40,7 @@ class OC_Connector_Sabre_Request extends Sabre_HTTP_Request {
 	 * @return string
 	 */
 	public function getRawServerValue($field) {
-		if($field == 'REQUEST_URI'){
+		if($field == 'REQUEST_URI') {
 			return $this->getUri();
 		}
 		else{

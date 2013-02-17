@@ -13,6 +13,7 @@
 "Not enough storage available" => "Espaço de armazenamento insuficiente",
 "Invalid directory." => "Diretório inválido.",
 "Files" => "Arquivos",
+"Delete permanently" => "Excluir permanentemente",
 "Delete" => "Excluir",
 "Rename" => "Renomear",
 "Pending" => "Pendente",
@@ -23,9 +24,12 @@
 "replaced {new_name}" => "substituído {new_name}",
 "undo" => "desfazer",
 "replaced {new_name} with {old_name}" => "Substituído {old_name} por {new_name} ",
+"perform delete operation" => "realizar operação de exclusão",
 "'.' is an invalid file name." => "'.' é um nome de arquivo inválido.",
 "File name cannot be empty." => "O nome do arquivo não pode estar vazio.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nome inválido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são permitidos.",
+"Your storage is full, files can not be updated or synced anymore!" => "Seu armazenamento está cheio, arquivos não serão mais atualizados nem sincronizados!",
+"Your storage is almost full ({usedSpacePercent}%)" => "Seu armazenamento está quase cheio ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Seu download está sendo preparado. Isto pode levar algum tempo se os arquivos forem grandes.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Impossível enviar seus arquivo como diretório ou ele tem 0 bytes.",
 "Upload Error" => "Erro de envio",
@@ -63,5 +67,6 @@
 "Upload too large" => "Arquivo muito grande",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Os arquivos que você está tentando carregar excedeu o tamanho máximo para arquivos no servidor.",
 "Files are being scanned, please wait." => "Arquivos sendo escaneados, por favor aguarde.",
-"Current scanning" => "Scanning atual"
+"Current scanning" => "Scanning atual",
+"Upgrading filesystem cache..." => "Aprimorando cache do sistema de arquivos..."
 );

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-11 15:39+0100\n"
-"PO-Revision-Date: 2013-02-11 14:40+0000\n"
+"POT-Creation-Date: 2013-02-14 00:05+0100\n"
+"PO-Revision-Date: 2013-02-13 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -123,9 +123,215 @@ msgstr "Atjaunināta"
 msgid "Saving..."
 msgstr "Saglabā..."
 
+#: js/users.js:30
+msgid "deleted"
+msgstr "izdzests"
+
+#: js/users.js:30
+msgid "undo"
+msgstr "atsaukt"
+
+#: js/users.js:62
+msgid "Unable to remove user"
+msgstr "Nevar izņemt lietotāju"
+
+#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: templates/users.php:105
+msgid "Groups"
+msgstr "Grupas"
+
+#: js/users.js:78 templates/users.php:82 templates/users.php:119
+msgid "Group Admin"
+msgstr "Grupas administrators"
+
+#: js/users.js:99 templates/users.php:161
+msgid "Delete"
+msgstr "Dzēst"
+
+#: js/users.js:190
+msgid "add group"
+msgstr "pievienot grupu"
+
+#: js/users.js:351
+msgid "A valid username must be provided"
+msgstr "Jānorāda derīgs lietotājvārds"
+
+#: js/users.js:352 js/users.js:358 js/users.js:373
+msgid "Error creating user"
+msgstr "Kļūda, veidojot lietotāju"
+
+#: js/users.js:357
+msgid "A valid password must be provided"
+msgstr "Jānorāda derīga parole"
+
 #: personal.php:34 personal.php:35
 msgid "__language_name__"
 msgstr "__valodas_nosaukums__"
+
+#: templates/admin.php:15
+msgid "Security Warning"
+msgstr "Brīdinājums par drošību"
+
+#: templates/admin.php:18
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr "Jūsu datu direktorija un datnes visdrīzāk ir pieejamas no interneta. ownCloud nodrošinātā .htaccess datne nedarbojas. Mēs iesakām konfigurēt serveri tā, lai datu direktorija vairs nebūtu pieejama, vai arī pārvietojiet datu direktoriju ārpus tīmekļa servera dokumentu saknes."
+
+#: templates/admin.php:29
+msgid "Setup Warning"
+msgstr "Iestatīšanas brīdinājums"
+
+#: templates/admin.php:32
+msgid ""
+"Your web server is not yet properly setup to allow files synchronization "
+"because the WebDAV interface seems to be broken."
+msgstr "Jūsu serveris vēl nav pareizi iestatīts, lai ļautu sinhronizēt datnes, jo izskatās, ka WebDAV saskarne ir salauzta."
+
+#: templates/admin.php:33
+#, php-format
+msgid "Please double check the <a href='%s'>installation guides</a>."
+msgstr "Lūdzu, vēlreiz pārbaudiet <a href='%s'>instalēšanas palīdzību</a>."
+
+#: templates/admin.php:44
+msgid "Module 'fileinfo' missing"
+msgstr "Trūkst modulis “fileinfo”"
+
+#: templates/admin.php:47
+msgid ""
+"The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
+"module to get best results with mime-type detection."
+msgstr "Trūkst PHP modulis “fileinfo”. Mēs iesakām to aktivēt, lai pēc iespējas labāk noteiktu mime tipus."
+
+#: templates/admin.php:58
+msgid "Locale not working"
+msgstr "Lokāle nestrādā"
+
+#: templates/admin.php:61
+msgid ""
+"This ownCloud server can't set system locale to "
+"\"en_US.UTF-8\"/\"en_US.UTF8\". This means that there might be problems with"
+" certain characters in file names. We strongly suggest to install the "
+"required packages on your system to support en_US.UTF-8/en_US.UTF8."
+msgstr "Šis ownCloud serveris nevar iestatīt sistēmas lokāli uz \"en_US.UTF-8\"/\"en_US.UTF8\". Tas nozīmē, ka varētu būt problēmas ar noteiktām rakstzīmēm datņu nosaukumos. Mēs iesakām instalēt vajadzīgās pakotnes savā sistēmā en_US.UTF-8/en_US.UTF8 atbalstam."
+
+#: templates/admin.php:72
+msgid "Internet connection not working"
+msgstr "Interneta savienojums nedarbojas"
+
+#: templates/admin.php:75
+msgid ""
+"This ownCloud server has no working internet connection. This means that "
+"some of the features like mounting of external storage, notifications about "
+"updates or installation of 3rd party apps don´t work. Accessing files from "
+"remote and sending of notification emails might also not work. We suggest to"
+" enable internet connection for this server if you want to have all features"
+" of ownCloud."
+msgstr "Šim ownCloud serverim nav strādājoša interneta savienojuma. Tas nozīmē, ka dažas no šīm iespējām, piemēram, ārējas krātuves montēšana, paziņošana par atjauninājumiem vai trešās puses programmatūras instalēšana nestrādā. Varētu nestrādāt attālināta piekļuve pie datnēm un paziņojumu e-pasta vēstuļu sūtīšana. Mēs iesakām aktivēt interneta savienojumu šim serverim, ja vēlaties visas ownCloud iespējas."
+
+#: templates/admin.php:89
+msgid "Cron"
+msgstr "Cron"
+
+#: templates/admin.php:98
+msgid "Execute one task with each page loaded"
+msgstr "Izpildīt vienu uzdevumu ar katru ielādēto lapu"
+
+#: templates/admin.php:108
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
+msgstr "cron.php ir reģistrēts webcron servisā. Izsauciet cron.php lapu ownCloud saknē caur http reizi sekundē."
+
+#: templates/admin.php:118
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
+msgstr "Izmantot sistēmas cron servisu. Izsauciet cron.php datni ownCloud mapē caur sistēmas cornjob reizi minūtē."
+
+#: templates/admin.php:125
+msgid "Sharing"
+msgstr "Dalīšanās"
+
+#: templates/admin.php:131
+msgid "Enable Share API"
+msgstr "Aktivēt koplietošanas API"
+
+#: templates/admin.php:132
+msgid "Allow apps to use the Share API"
+msgstr "Ļauj lietotnēm izmantot koplietošanas API"
+
+#: templates/admin.php:139
+msgid "Allow links"
+msgstr "Atļaut saites"
+
+#: templates/admin.php:140
+msgid "Allow users to share items to the public with links"
+msgstr "Ļaut lietotājiem publiski dalīties ar vienumiem, izmantojot saites"
+
+#: templates/admin.php:147
+msgid "Allow resharing"
+msgstr "Atļaut atkārtotu koplietošanu"
+
+#: templates/admin.php:148
+msgid "Allow users to share items shared with them again"
+msgstr "Ļaut lietotājiem dalīties ar vienumiem atkārtoti"
+
+#: templates/admin.php:155
+msgid "Allow users to share with anyone"
+msgstr "Ļaut lietotājiem dalīties ar visiem"
+
+#: templates/admin.php:158
+msgid "Allow users to only share with users in their groups"
+msgstr "Ļaut lietotājiem dalīties ar lietotājiem to grupās"
+
+#: templates/admin.php:165
+msgid "Security"
+msgstr "Drošība"
+
+#: templates/admin.php:178
+msgid "Enforce HTTPS"
+msgstr "Uzspiest HTTPS"
+
+#: templates/admin.php:179
+msgid ""
+"Enforces the clients to connect to ownCloud via an encrypted connection."
+msgstr "Piespiež klientus savienoties ar ownCloud caur šifrētu savienojumu."
+
+#: templates/admin.php:182
+msgid ""
+"Please connect to this ownCloud instance via HTTPS to enable or disable the "
+"SSL enforcement."
+msgstr "Lūdzu, savienojieties ar šo ownCloud pakalpojumu caur HTTPS, lai aktivētu vai deaktivētu SSL piemērošanu."
+
+#: templates/admin.php:192
+msgid "Log"
+msgstr "Žurnāls"
+
+#: templates/admin.php:193
+msgid "Log level"
+msgstr "Žurnāla līmenis"
+
+#: templates/admin.php:220
+msgid "More"
+msgstr "Vairāk"
+
+#: templates/admin.php:227 templates/personal.php:98
+msgid "Version"
+msgstr "Versija"
+
+#: templates/admin.php:230 templates/personal.php:100
+msgid ""
+"Developed by the <a href=\"http://ownCloud.org/contact\" "
+"target=\"_blank\">ownCloud community</a>, the <a "
+"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
+"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
+"target=\"_blank\"><abbr title=\"Affero General Public "
+"License\">AGPL</abbr></a>."
+msgstr "Izstrādājusi<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud kopiena</a>,<a href=\"https://github.com/owncloud\" target=\"_blank\">pirmkodu</a>kurš ir licencēts zem <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:10
 msgid "Add your App"
@@ -182,13 +388,13 @@ msgstr "Jūs lietojat <strong>%s</strong> no pieejamajiem <strong>%s</strong>"
 
 #: templates/personal.php:14
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Saņem lietotnes, lai sinhronizētu savas datnes"
 
 #: templates/personal.php:25
 msgid "Show First Run Wizard again"
-msgstr ""
+msgstr "Vēlreiz rādīt pirmās palaišanas vedni"
 
-#: templates/personal.php:36 templates/users.php:23 templates/users.php:81
+#: templates/personal.php:36 templates/users.php:23 templates/users.php:79
 msgid "Password"
 msgstr "Parole"
 
@@ -212,7 +418,7 @@ msgstr "Jauna parole"
 msgid "Change password"
 msgstr "Mainīt paroli"
 
-#: templates/personal.php:54 templates/users.php:80
+#: templates/personal.php:54 templates/users.php:78
 msgid "Display Name"
 msgstr "Redzamais vārds"
 
@@ -256,27 +462,9 @@ msgstr "WebDAV"
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Izmanto šo adresi, lai, izmantojot datņu pārvaldnieku, savienotos ar savu ownCloud"
 
-#: templates/personal.php:98
-msgid "Version"
-msgstr "Versija"
-
-#: templates/personal.php:100
-msgid ""
-"Developed by the <a href=\"http://ownCloud.org/contact\" "
-"target=\"_blank\">ownCloud community</a>, the <a "
-"href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is "
-"licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
-"target=\"_blank\"><abbr title=\"Affero General Public "
-"License\">AGPL</abbr></a>."
-msgstr "Izstrādājusi<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud kopiena</a>,<a href=\"https://github.com/owncloud\" target=\"_blank\">pirmkodu</a>kurš ir licencēts zem <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
-
-#: templates/users.php:21 templates/users.php:79
+#: templates/users.php:21 templates/users.php:77
 msgid "Login Name"
 msgstr "Ierakstīšanās vārds"
-
-#: templates/users.php:26 templates/users.php:82 templates/users.php:107
-msgid "Groups"
-msgstr "Grupas"
 
 #: templates/users.php:32
 msgid "Create"
@@ -286,34 +474,26 @@ msgstr "Izveidot"
 msgid "Default Storage"
 msgstr "Noklusējuma krātuve"
 
-#: templates/users.php:42 templates/users.php:142
+#: templates/users.php:41 templates/users.php:139
 msgid "Unlimited"
 msgstr "Neierobežota"
 
-#: templates/users.php:60 templates/users.php:157
+#: templates/users.php:59 templates/users.php:154
 msgid "Other"
 msgstr "Cits"
 
-#: templates/users.php:84 templates/users.php:121
-msgid "Group Admin"
-msgstr "Grupas administrators"
-
-#: templates/users.php:86
+#: templates/users.php:84
 msgid "Storage"
 msgstr "Krātuve"
 
-#: templates/users.php:97
+#: templates/users.php:95
 msgid "change display name"
 msgstr "mainīt redzamo vārdu"
 
-#: templates/users.php:101
+#: templates/users.php:99
 msgid "set new password"
 msgstr "iestatīt jaunu paroli"
 
-#: templates/users.php:137
+#: templates/users.php:134
 msgid "Default"
 msgstr "Noklusējuma"
-
-#: templates/users.php:165
-msgid "Delete"
-msgstr "Dzēst"

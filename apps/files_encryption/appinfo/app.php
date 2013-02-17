@@ -12,7 +12,7 @@ OC_FileProxy::register( new OCA\Encryption\Proxy() );
 
 // User-related hooks
 OCP\Util::connectHook( 'OC_User', 'post_login', 'OCA\Encryption\Hooks', 'login' );
-OCP\Util::connectHook( 'OC_User', 'pre_setPassword','OCA\Encryption\Hooks', 'setPassphrase' );
+OCP\Util::connectHook( 'OC_User', 'pre_setPassword', 'OCA\Encryption\Hooks', 'setPassphrase' );
 
 // Sharing-related hooks
 OCP\Util::connectHook( 'OCP\Share', 'post_shared', 'OCA\Encryption\Hooks', 'postShared' );

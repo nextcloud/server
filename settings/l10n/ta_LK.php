@@ -16,7 +16,15 @@
 "Enable" => "செயலற்றதாக்குக",
 "Error" => "வழு",
 "Saving..." => "இயலுமைப்படுத்துக",
+"undo" => "முன் செயல் நீக்கம் ",
+"Groups" => "குழுக்கள்",
+"Group Admin" => "குழு நிர்வாகி",
+"Delete" => "அழிக்க",
 "__language_name__" => "_மொழி_பெயர்_",
+"Security Warning" => "பாதுகாப்பு எச்சரிக்கை",
+"Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "உங்களுடைய தரவு அடைவு மற்றும் உங்களுடைய கோப்புக்களை பெரும்பாலும் இணையத்தினூடாக அணுகலாம். ownCloud இனால் வழங்கப்படுகின்ற .htaccess கோப்பு வேலை செய்யவில்லை. தரவு அடைவை நீண்ட நேரத்திற்கு அணுகக்கூடியதாக உங்களுடைய வலைய சேவையகத்தை தகவமைக்குமாறு நாங்கள் உறுதியாக கூறுகிறோம் அல்லது தரவு அடைவை வலைய சேவையக மூல ஆவணத்திலிருந்து வெளியே அகற்றுக.  ",
+"More" => "மேலதிக",
+"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
 "Add your App" => "உங்களுடைய செயலியை சேர்க்க",
 "More Apps" => "மேலதிக செயலிகள்",
 "Select an App" => "செயலி ஒன்றை தெரிவுசெய்க",
@@ -35,10 +43,6 @@
 "Fill in an email address to enable password recovery" => "கடவுச்சொல் மீள் பெறுவதை இயலுமைப்படுத்துவதற்கு மின்னஞ்சல் முகவரியை இயலுமைப்படுத்துக",
 "Language" => "மொழி",
 "Help translate" => "மொழிபெயர்க்க உதவி",
-"Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
-"Groups" => "குழுக்கள்",
 "Create" => "உருவாக்குக",
-"Other" => "மற்றவை",
-"Group Admin" => "குழு நிர்வாகி",
-"Delete" => "அழிக்க"
+"Other" => "மற்றவை"
 );
