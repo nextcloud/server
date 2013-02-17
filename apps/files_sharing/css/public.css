@@ -71,4 +71,5 @@ p.info a {
 
 thead{
 	background-color: white;
+	padding-left:0 !important; /* fixes multiselect bar offset on shared page */
 }
