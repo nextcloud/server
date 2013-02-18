@@ -60,7 +60,6 @@
 "Text file" => "Tekstfil",
 "Folder" => "Mappe",
 "From link" => "Fra link",
-"Trash bin" => "Papirkurv",
 "Cancel upload" => "Fortryd upload",
 "Nothing in here. Upload something!" => "Her er tomt. Upload noget!",
 "Download" => "Download",

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-14 00:05+0100\n"
-"PO-Revision-Date: 2013-02-13 13:20+0000\n"
+"POT-Creation-Date: 2013-02-18 00:05+0100\n"
+"PO-Revision-Date: 2013-02-17 08:50+0000\n"
 "Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -280,8 +280,8 @@ msgid "From link"
 msgstr "Feltöltés linkről"
 
 #: templates/index.php:40
-msgid "Trash bin"
-msgstr "Szemetes mappa"
+msgid "Deleted files"
+msgstr "Törölt fájlok"
 
 #: templates/index.php:46
 msgid "Cancel upload"

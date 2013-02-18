@@ -7,6 +7,12 @@ namespace OC\Files;
  */
 class Mapper
 {
+	private $unchangedPhysicalRoot;
+
+	public function __construct($rootDir) {
+		$this->unchangedPhysicalRoot = $rootDir;
+	}
+
 	/**
 	 * @param string $logicPath
 	 * @param bool $create indicates if the generated physical name shall be stored in the database or not
@@ -23,7 +29,7 @@ class Mapper
 
 	/**
 	 * @param string $physicalPath
-	 * @return string|null
+	 * @return string
 	 */
 	public function physicalToLogic($physicalPath) {
 		$logicPath = $this->resolvePhysicalPath($physicalPath);
@@ -39,6 +45,7 @@ class Mapper
 	 * @param string $path
 	 * @param bool $isLogicPath indicates if $path is logical or physical
 	 * @param $recursive
+	 * @return void
 	 */
 	public function removePath($path, $isLogicPath, $recursive) {
 		if ($recursive) {
@@ -159,14 +166,11 @@ class Mapper
 	}
 
 	private function slugifyPath($path, $index=null) {
+		$path = $this->stripRootFolder($path, $this->unchangedPhysicalRoot);
+
 		$pathElements = explode('/', $path);
 		$sluggedElements = array();
 
-		// skip slugging the drive letter on windows - TODO: test if local path
-		if (\OC_Util::runningOnWindows()) {
-			$sluggedElements[]= $pathElements[0];
-			array_shift($pathElements);
-		}
 		foreach ($pathElements as $pathElement) {
 			// remove empty elements
 			if (empty($pathElement)) {
@@ -186,12 +190,8 @@ class Mapper
 			array_push($sluggedElements, $last.'-'.$index);
 		}
 
-		// on non-windows systems add the leading / if necessary
-		if (!\OC_Util::runningOnWindows() and $path[0] === '/') {
-			return DIRECTORY_SEPARATOR.implode(DIRECTORY_SEPARATOR, $sluggedElements);
-		}
-
-		return implode(DIRECTORY_SEPARATOR, $sluggedElements);
+		$sluggedPath = $this->unchangedPhysicalRoot.implode(DIRECTORY_SEPARATOR, $sluggedElements);
+		return $this->stripLast($sluggedPath);
 	}
 
 	/**

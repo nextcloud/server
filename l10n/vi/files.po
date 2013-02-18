@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-14 00:05+0100\n"
-"PO-Revision-Date: 2013-02-13 05:00+0000\n"
+"POT-Creation-Date: 2013-02-16 00:04+0100\n"
+"PO-Revision-Date: 2013-02-15 20:30+0000\n"
 "Last-Translator: saosangm <saosangmo@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -278,8 +278,8 @@ msgid "From link"
 msgstr "Từ liên kết"
 
 #: templates/index.php:40
-msgid "Trash bin"
-msgstr "Thùng rác"
+msgid "Deleted files"
+msgstr "File đã bị xóa"
 
 #: templates/index.php:46
 msgid "Cancel upload"

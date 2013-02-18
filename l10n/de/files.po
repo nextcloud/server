@@ -28,10 +28,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-14 00:05+0100\n"
-"PO-Revision-Date: 2013-02-13 21:40+0000\n"
+"POT-Creation-Date: 2013-02-18 00:05+0100\n"
+"PO-Revision-Date: 2013-02-17 13:50+0000\n"
 "Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
-"Language-Team: German (http://www.transifex.com/projects/p/owncloud/language/de/)\n"
+"Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -41,16 +41,16 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr "Konnte %s nicht verschieben - Datei mit diesem Namen existiert bereits."
+msgstr "%s konnte nicht verschoben werden - eine Datei mit diesem Namen existiert bereits."
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr "Konnte %s nicht verschieben"
+msgstr "%s konnte nicht verschoben werden"
 
 #: ajax/rename.php:22 ajax/rename.php:25
 msgid "Unable to rename file"
-msgstr "Konnte Datei nicht umbenennen"
+msgstr "Die Datei konnte nicht umbenannt werden"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -294,8 +294,8 @@ msgid "From link"
 msgstr "Von einem Link"
 
 #: templates/index.php:40
-msgid "Trash bin"
-msgstr "Mülleimer"
+msgid "Deleted files"
+msgstr "Gelöschte Dateien"
 
 #: templates/index.php:46
 msgid "Cancel upload"

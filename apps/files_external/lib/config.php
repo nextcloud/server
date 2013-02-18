@@ -310,7 +310,9 @@ class OC_Mount_Config {
 			foreach ($data[self::MOUNT_TYPE_GROUP] as $group => $mounts) {
 				$content .= "\t\t'".$group."' => array (\n";
 				foreach ($mounts as $mountPoint => $mount) {
-					$content .= "\t\t\t'".addcslashes($mountPoint, "'")."' => ".str_replace("\n", '', var_export($mount, true)).", \n";
+					$content .= "\t\t\t'".addcslashes($mountPoint, "'")
+						."' => "
+						.str_replace("\n", '', var_export($mount, true)).", \n";
 
 				}
 				$content .= "\t\t),\n";
@@ -322,7 +324,9 @@ class OC_Mount_Config {
 			foreach ($data[self::MOUNT_TYPE_USER] as $user => $mounts) {
 				$content .= "\t\t'".$user."' => array (\n";
 				foreach ($mounts as $mountPoint => $mount) {
-					$content .= "\t\t\t'".addcslashes($mountPoint, "'")."' => ".str_replace("\n", '', var_export($mount, true)).",\n";
+					$content .= "\t\t\t'".addcslashes($mountPoint, "'")
+						."' => "
+						.str_replace("\n", '', var_export($mount, true)).",\n";
 				}
 				$content .= "\t\t),\n";
 			}
@@ -410,8 +414,12 @@ class OC_Mount_Config {
 	public static function checkDependencies() {
 		$l= new OC_L10N('files_external');
 		$txt='';
-		if(!OC_Mount_Config::checksmbclient()) $txt.=$l->t('<b>Warning:</b> "smbclient" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it.').'<br />';
-		if(!OC_Mount_Config::checkphpftp()) $txt.=$l->t('<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it.').'<br />';
+		if(!OC_Mount_Config::checksmbclient()) {
+			$txt.=$l->t('<b>Warning:</b> "smbclient" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it.').'<br />';
+		}
+		if(!OC_Mount_Config::checkphpftp()) {
+			$txt.=$l->t('<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it.').'<br />';
+		}
 
 		return($txt);
 	}

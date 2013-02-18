@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-14 00:05+0100\n"
-"PO-Revision-Date: 2013-02-13 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-18 00:05+0100\n"
+"PO-Revision-Date: 2013-02-17 12:30+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -149,23 +149,23 @@ msgstr "Talde administradorea"
 msgid "Delete"
 msgstr "Ezabatu"
 
-#: js/users.js:190
+#: js/users.js:191
 msgid "add group"
 msgstr "gehitu taldea"
 
-#: js/users.js:351
+#: js/users.js:352
 msgid "A valid username must be provided"
 msgstr "Baliozko erabiltzaile izena eman behar da"
 
-#: js/users.js:352 js/users.js:358 js/users.js:373
+#: js/users.js:353 js/users.js:359 js/users.js:374
 msgid "Error creating user"
 msgstr "Errore bat egon da erabiltzailea sortzean"
 
-#: js/users.js:357
+#: js/users.js:358
 msgid "A valid password must be provided"
 msgstr "Baliozko pasahitza eman behar da"
 
-#: personal.php:34 personal.php:35
+#: personal.php:29 personal.php:30
 msgid "__language_name__"
 msgstr "Euskera"
 
@@ -217,7 +217,7 @@ msgid ""
 "\"en_US.UTF-8\"/\"en_US.UTF8\". This means that there might be problems with"
 " certain characters in file names. We strongly suggest to install the "
 "required packages on your system to support en_US.UTF-8/en_US.UTF8."
-msgstr ""
+msgstr "OwnClud zerbitzari honek ezin du sistemaren lokala \"en_US.UTF-8\"/\"en.US.UTF-8\" ezarri. Honek esan nahi du fitxategi izen batzuekin arazoak egon daitezkeela. Aholkatzen dugu zure sistemak en_US.UTF-8/en_US.UTF8 lokala onartzeko behar diren paketeak instala ditzazun."
 
 #: templates/admin.php:72
 msgid "Internet connection not working"

@@ -4,15 +4,16 @@
 # 
 # Translators:
 # antiparvos  <marcoslansgarza@gmail.com>, 2012.
+#  <mbouzada@gmail.com>, 2013.
 #   <mbouzada@gmail.com>, 2012.
 # Xosé M. Lamas <correo.xmgz@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-13 00:03+0100\n"
-"PO-Revision-Date: 2013-02-12 14:32+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-16 00:04+0100\n"
+"PO-Revision-Date: 2013-02-15 15:00+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +56,7 @@ msgstr "Sen categoría que engadir?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "Esta categoría xa existe: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -256,7 +257,7 @@ msgstr "Non está instalado o ficheiro {file} que se precisa"
 
 #: js/share.js:29 js/share.js:43 js/share.js:90
 msgid "Shared"
-msgstr ""
+msgstr "Compartir"
 
 #: js/share.js:93
 msgid "Share"
@@ -383,11 +384,11 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "A actualización non foi satisfactoria, informe deste problema á  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">comunidade de ownCloud</a>."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "A actualización realizouse correctamente. Redirixíndoo agora á ownCloud."
 
 #: lostpassword/controller.php:47
 msgid "ownCloud password reset"
@@ -490,14 +491,14 @@ msgstr "Sen un xerador seguro de números ao chou podería acontecer que predici
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "O seu directorio de datos e os ficheiros probabelmente sexan accesíbeis desde a Internet xa que o ficheiro .htaccess non está a traballar."
 
 #: templates/installation.php:32
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Para obter información sobre como como configurar axeitadamente o seu servidor, vexa a <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentación</a>."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
@@ -580,7 +581,7 @@ msgstr "Conectar"
 
 #: templates/login.php:49
 msgid "Alternative Logins"
-msgstr ""
+msgstr "Accesos alternativos"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

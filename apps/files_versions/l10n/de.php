@@ -7,7 +7,7 @@
 "No old versions available" => "Keine älteren Versionen verfügbar",
 "No path specified" => "Kein Pfad angegeben",
 "History" => "Historie",
-"Revert a file to a previous version by clicking on its revert button" => "Setzen Sie eine Datei durch klicken auf den Zurücksetzen Button zurück",
+"Revert a file to a previous version by clicking on its revert button" => "Setze eine Datei durch klicken auf den Zurücksetzen Button zurück",
 "Files Versioning" => "Dateiversionierung",
 "Enable" => "Aktivieren"
 );

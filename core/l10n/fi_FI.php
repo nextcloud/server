@@ -100,6 +100,8 @@
 "Edit categories" => "Muokkaa luokkia",
 "Add" => "Lisää",
 "Security Warning" => "Turvallisuusvaroitus",
+"Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Datakansiosi ja tiedostosi ovat mitä luultavimmin muiden saavutettavissa internetistä, koska .htaccess-tiedosto ei toimi.",
+"For information how to properly configure your server, please see the <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>." => "Katso palvelimen asetuksien määrittämiseen liittyvät ohjeet <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentaatiosta</a>.",
 "Create an <strong>admin account</strong>" => "Luo <strong>ylläpitäjän tunnus</strong>",
 "Advanced" => "Lisäasetukset",
 "Data folder" => "Datakansio",

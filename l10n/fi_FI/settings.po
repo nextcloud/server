@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-14 00:05+0100\n"
-"PO-Revision-Date: 2013-02-13 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-15 00:05+0100\n"
+"PO-Revision-Date: 2013-02-14 07:30+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -148,19 +148,19 @@ msgstr "Ryhmän ylläpitäjä"
 msgid "Delete"
 msgstr "Poista"
 
-#: js/users.js:190
+#: js/users.js:191
 msgid "add group"
 msgstr "lisää ryhmä"
 
-#: js/users.js:351
+#: js/users.js:352
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:352 js/users.js:358 js/users.js:373
+#: js/users.js:353 js/users.js:359 js/users.js:374
 msgid "Error creating user"
 msgstr "Virhe käyttäjää luotaessa"
 
-#: js/users.js:357
+#: js/users.js:358
 msgid "A valid password must be provided"
 msgstr ""
 
@@ -198,7 +198,7 @@ msgstr "Lue tarkasti <a href='%s'>asennusohjeet</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Moduuli 'fileinfo' puuttuu"
 
 #: templates/admin.php:47
 msgid ""

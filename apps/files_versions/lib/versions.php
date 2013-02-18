@@ -190,6 +190,10 @@ class Storage {
 			$versions = array();
 			// fetch for old versions
 			$matches = glob( $versionsName.'.v*' );
+			
+			if ( !$matches ) {
+				return $versions;
+			}
 
 			sort( $matches );
 

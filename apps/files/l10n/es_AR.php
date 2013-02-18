@@ -60,7 +60,7 @@
 "Text file" => "Archivo de texto",
 "Folder" => "Carpeta",
 "From link" => "Desde enlace",
-"Trash bin" => "Papelera",
+"Deleted files" => "Archivos Borrados",
 "Cancel upload" => "Cancelar subida",
 "Nothing in here. Upload something!" => "No hay nada. ¡Subí contenido!",
 "Download" => "Descargar",

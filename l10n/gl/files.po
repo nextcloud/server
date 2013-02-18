@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-13 00:03+0100\n"
-"PO-Revision-Date: 2013-02-12 14:33+0000\n"
+"POT-Creation-Date: 2013-02-16 00:04+0100\n"
+"PO-Revision-Date: 2013-02-15 14:31+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -100,7 +100,7 @@ msgstr "Pendentes"
 
 #: js/filelist.js:253 js/filelist.js:255
 msgid "{new_name} already exists"
-msgstr "xa existe un {new_name}"
+msgstr "Xa existe un {new_name}"
 
 #: js/filelist.js:253 js/filelist.js:255
 msgid "replace"
@@ -276,8 +276,8 @@ msgid "From link"
 msgstr "Desde a ligazón"
 
 #: templates/index.php:40
-msgid "Trash bin"
-msgstr "Cesto do lixo"
+msgid "Deleted files"
+msgstr "Ficheiros eliminados"
 
 #: templates/index.php:46
 msgid "Cancel upload"
@@ -285,7 +285,7 @@ msgstr "Cancelar o envío"
 
 #: templates/index.php:59
 msgid "Nothing in here. Upload something!"
-msgstr "Aquí non hai nada por aquí. Envíe algo."
+msgstr "Aquí non hai nada. Envíe algo."
 
 #: templates/index.php:73
 msgid "Download"

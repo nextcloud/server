@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-13 00:03+0100\n"
-"PO-Revision-Date: 2013-02-12 21:30+0000\n"
+"POT-Creation-Date: 2013-02-18 00:05+0100\n"
+"PO-Revision-Date: 2013-02-17 12:30+0000\n"
 "Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -277,8 +277,8 @@ msgid "From link"
 msgstr "Estekatik"
 
 #: templates/index.php:40
-msgid "Trash bin"
-msgstr "Zakarrontzia"
+msgid "Deleted files"
+msgstr "Ezabatutako fitxategiak"
 
 #: templates/index.php:46
 msgid "Cancel upload"
