@@ -37,7 +37,7 @@ if ($dir) {
 					);
 		}
 	}
-	closedir($fullpath);
+	closedir($dirContent);
 		
 } else {
 	$dirlisting = false;
