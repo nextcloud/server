@@ -18,7 +18,7 @@
 			<?php foreach ($_['mounts'] as $mountPoint => $mount): ?>
 				<tr <?php echo ($mountPoint != '') ? 'class="'.$mount['class'].'"' : 'id="addMountPoint"'; ?>>
 					<td class="mountPoint"><input type="text" name="mountPoint"
-												  value="<?php echo $mountPoint; ?>"
+												  value="<?php p($mountPoint); ?>"
 												  placeholder="<?php echo $l->t('Mount point'); ?>" /></td>
 					<?php if ($mountPoint == ''): ?>
 						<td class="backend">
