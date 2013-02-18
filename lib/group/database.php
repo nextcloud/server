@@ -225,7 +225,7 @@ class OC_Group_Database extends OC_Group_Backend {
 		$stmt = OC_DB::prepare('SELECT `*PREFIX*users`.`uid`, `*PREFIX*users`.`displayname`'
 			.' FROM `*PREFIX*users`'
 			.' INNER JOIN `*PREFIX*group_user` ON `*PREFIX*group_user`.`uid` = `*PREFIX*users`.`uid`'
-			.' WHERE `gid` = ? AND `*PREFIX*group_user.uid` LIKE ?',
+			.' WHERE `gid` = ? AND `*PREFIX*group_user`.`uid` LIKE ?',
 			$limit,
 			$offset);
 		$result = $stmt->execute(array($gid, $search.'%'));
