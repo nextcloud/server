@@ -93,6 +93,9 @@ class Mount {
 				$this->storage = $this->createStorage();
 			}
 			$this->storageId = $this->storage->getId();
+			if (strlen($this->storageId) > 64) {
+				$this->storageId = md5($this->storageId);
+			}
 		}
 		return $this->storageId;
 	}
@@ -177,6 +180,9 @@ class Mount {
 	 * @return \OC\Files\Storage\Storage[]
 	 */
 	public static function findById($id) {
+		if (strlen($id) > 64) {
+			$id = md5($id);
+		}
 		$result = array();
 		foreach (self::$mounts as $mount) {
 			if ($mount->getStorageId() === $id) {
