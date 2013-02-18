@@ -60,6 +60,7 @@
 "Text file" => "Ficheiro de texto",
 "Folder" => "Pasta",
 "From link" => "Da ligação",
+"Deleted files" => "Ficheiros eliminados",
 "Cancel upload" => "Cancelar envio",
 "Nothing in here. Upload something!" => "Vazio. Envie alguma coisa!",
 "Download" => "Transferir",

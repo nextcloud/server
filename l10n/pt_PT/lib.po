@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-15 00:05+0100\n"
-"PO-Revision-Date: 2013-02-14 23:06+0000\n"
+"POT-Creation-Date: 2013-02-16 00:04+0100\n"
+"PO-Revision-Date: 2013-02-14 23:10+0000\n"
 "Last-Translator: Mouxy <daniel@mouxy.net>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -122,7 +122,7 @@ msgstr "%s defina o servidor da base de dados (geralmente localhost)"
 
 #: setup.php:126 setup.php:294 setup.php:339
 msgid "PostgreSQL username and/or password not valid"
-msgstr "Nome de utilizador/passwor do PostgreSQL inválido"
+msgstr "Nome de utilizador/password do PostgreSQL inválido"
 
 #: setup.php:127 setup.php:150 setup.php:204
 msgid "You need to enter either an existing account or the administrator."
@@ -130,11 +130,11 @@ msgstr "Precisa de introduzir uma conta existente ou de administrador"
 
 #: setup.php:149 setup.php:427 setup.php:494
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Nome de utilizador/password do Oracle inválida"
 
 #: setup.php:203
 msgid "MySQL username and/or password not valid"
-msgstr ""
+msgstr "Nome de utilizador/password do MySQL inválida"
 
 #: setup.php:257 setup.php:360 setup.php:369 setup.php:387 setup.php:397
 #: setup.php:406 setup.php:435 setup.php:501 setup.php:527 setup.php:534
@@ -142,37 +142,37 @@ msgstr ""
 #: setup.php:584
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "Erro na BD: \"%s\""
 
 #: setup.php:258 setup.php:361 setup.php:370 setup.php:388 setup.php:398
 #: setup.php:407 setup.php:436 setup.php:502 setup.php:528 setup.php:535
 #: setup.php:546 setup.php:562 setup.php:570 setup.php:579
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "O comando gerador de erro foi: \"%s\""
 
 #: setup.php:273
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "O utilizador '%s'@'localhost' do MySQL já existe."
 
 #: setup.php:274
 msgid "Drop this user from MySQL"
-msgstr ""
+msgstr "Eliminar este utilizador do MySQL"
 
 #: setup.php:279
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
-msgstr ""
+msgstr "O utilizador '%s'@'%%' do MySQL já existe"
 
 #: setup.php:280
 msgid "Drop this user from MySQL."
-msgstr ""
+msgstr "Eliminar este utilizador do MySQL"
 
 #: setup.php:553 setup.php:585
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "O comando gerador de erro foi: \"%s\", nome: %s, password: %s"
 
 #: setup.php:649
 msgid ""

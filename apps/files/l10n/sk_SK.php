@@ -60,6 +60,7 @@
 "Text file" => "Textový súbor",
 "Folder" => "Priečinok",
 "From link" => "Z odkazu",
+"Deleted files" => "Zmazané súbory",
 "Cancel upload" => "Zrušiť odosielanie",
 "Nothing in here. Upload something!" => "Žiadny súbor. Nahrajte niečo!",
 "Download" => "Stiahnuť",

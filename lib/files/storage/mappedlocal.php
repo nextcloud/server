@@ -20,7 +20,7 @@ class MappedLocal extends \OC\Files\Storage\Common{
 			$this->datadir.='/';
 		}
 
-		$this->mapper= new \OC\Files\Mapper();
+		$this->mapper= new \OC\Files\Mapper($this->datadir);
 	}
 	public function __destruct() {
 		if (defined('PHPUNIT_RUN')) {
@@ -274,7 +274,7 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		return $this->buildPath($path);
 	}
 
-	protected function searchInDir($query, $dir='', $isLogicPath=true) {
+	protected function searchInDir($query, $dir='') {
 		$files=array();
 		$physicalDir = $this->buildPath($dir);
 		foreach (scandir($physicalDir) as $item) {
@@ -287,7 +287,7 @@ class MappedLocal extends \OC\Files\Storage\Common{
 				$files[]=$dir.'/'.$item;
 			}
 			if(is_dir($physicalItem)) {
-				$files=array_merge($files, $this->searchInDir($query, $physicalItem, false));
+				$files=array_merge($files, $this->searchInDir($query, $dir.'/'.$item));
 			}
 		}
 		return $files;

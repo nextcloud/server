@@ -18,10 +18,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-12 15:10+0100\n"
-"PO-Revision-Date: 2013-02-12 10:43+0000\n"
-"Last-Translator: stefanniedermann <stefan.niedermann@googlemail.com>\n"
-"Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
+"POT-Creation-Date: 2013-02-17 00:24+0100\n"
+"PO-Revision-Date: 2013-02-16 23:20+0000\n"
+"Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
+"Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -34,19 +34,19 @@ msgstr "Das Löschen der Server-Konfiguration schlug fehl"
 
 #: ajax/testConfiguration.php:35
 msgid "The configuration is valid and the connection could be established!"
-msgstr "Die Konfiguration ist valide und eine Verbindung konnte hergestellt werden!"
+msgstr "Die Konfiguration ist gültig und die Verbindung konnte hergestellt werden!"
 
 #: ajax/testConfiguration.php:37
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr "Die Konfiguration ist valide, aber das Herstellen einer Verbindung schlug fehl. Bitte überprüfen Sie die Server-Einstellungen und Zertifikate."
+msgstr "Die Konfiguration ist gültig, aber das Herstellen der Verbindung schlug fehl. Bitte überprüfen Sie die Server-Einstellungen und Zertifikate."
 
 #: ajax/testConfiguration.php:40
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr "Die Konfiguration ist nicht valide. Weitere Details können Sie im ownCloud-Log nachlesen."
+msgstr "Die Konfiguration ist ungültig. Weitere Details können Sie im ownCloud-Log nachlesen."
 
 #: js/settings.js:66
 msgid "Deletion failed"
@@ -54,7 +54,7 @@ msgstr "Löschen fehlgeschlagen"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr "Sollen die Einstellungen der letzten Server-Konfiguration übernommen werden?"
+msgstr "Sollen die Einstellungen der letzten Serverkonfiguration übernommen werden?"
 
 #: js/settings.js:83
 msgid "Keep settings?"
@@ -62,19 +62,19 @@ msgstr "Einstellungen behalten?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr "Das Hinzufügen der Server-Konfiguration schlug fehl"
+msgstr "Das Hinzufügen der Serverkonfiguration schlug fehl"
 
 #: js/settings.js:121
 msgid "Connection test succeeded"
-msgstr "Verbindungs-Test erfolgreich"
+msgstr "Verbindungstest erfolgreich"
 
 #: js/settings.js:126
 msgid "Connection test failed"
-msgstr "Verbindungs-Test fehlgeschlagen"
+msgstr "Verbindungstest fehlgeschlagen"
 
 #: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr "Möchten Sie wirklich die Server-Konfiguration löschen?"
+msgstr "Möchten Sie die Serverkonfiguration wirklich löschen?"
 
 #: js/settings.js:137
 msgid "Confirm Deletion"
@@ -95,11 +95,11 @@ msgstr "<b>Warnung:</b> Da das PHP-Modul für LDAP ist nicht installiert, das Ba
 
 #: templates/settings.php:15
 msgid "Server configuration"
-msgstr "Server-Konfiguration"
+msgstr "Serverkonfiguration"
 
 #: templates/settings.php:17
 msgid "Add Server Configuration"
-msgstr "Server-Konfiguration hinzufügen"
+msgstr "Serverkonfiguration hinzufügen"
 
 #: templates/settings.php:21
 msgid "Host"
@@ -183,7 +183,7 @@ msgstr "ohne Platzhalter, z.B.: \"objectClass=posixGroup\""
 
 #: templates/settings.php:31
 msgid "Connection Settings"
-msgstr "Verbindungs-Einstellungen"
+msgstr "Verbindungseinstellungen"
 
 #: templates/settings.php:33
 msgid "Configuration Active"
@@ -217,7 +217,7 @@ msgstr "Hauptserver deaktivieren"
 
 #: templates/settings.php:37
 msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr "Wenn eingeschaltet wird sich ownCloud nur mit dem Replilat-Server verbinden."
+msgstr "Wenn eingeschaltet wird sich ownCloud nur mit dem Replikat-Server verbinden."
 
 #: templates/settings.php:38
 msgid "Use TLS"
@@ -251,7 +251,7 @@ msgstr "in Sekunden. Eine Änderung leert den Cache."
 
 #: templates/settings.php:43
 msgid "Directory Settings"
-msgstr "Verzeichnis-Einstellungen"
+msgstr "Verzeichniseinstellungen"
 
 #: templates/settings.php:45
 msgid "User Display Name Field"
@@ -303,7 +303,7 @@ msgstr "Assoziation zwischen Gruppe und Benutzer"
 
 #: templates/settings.php:53
 msgid "Special Attributes"
-msgstr "besondere Eigenschaften"
+msgstr "Besondere Eigenschaften"
 
 #: templates/settings.php:56
 msgid "in bytes"

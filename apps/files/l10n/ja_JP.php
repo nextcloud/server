@@ -60,6 +60,7 @@
 "Text file" => "テキストファイル",
 "Folder" => "フォルダ",
 "From link" => "リンク",
+"Deleted files" => "削除ファイル",
 "Cancel upload" => "アップロードをキャンセル",
 "Nothing in here. Upload something!" => "ここには何もありません。何かアップロードしてください。",
 "Download" => "ダウンロード",
