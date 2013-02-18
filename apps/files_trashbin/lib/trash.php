@@ -249,13 +249,21 @@ class Trashbin {
 
 	/**
 	 * check to see whether a file exists in trashbin
-	 * @param $file path to the file to check
+	 * @param $filename path to the file
+	 * @param $timestamp of deletion time
 	 * @return true if file exists, otherwise false
 	 */
-	public static function file_exists($file) {
+	public static function file_exists($filename, $timestamp=null) {
 		$user = \OCP\User::getUser();
 		$view = new \OC_FilesystemView('/'.$user);
-		$target = \OC_Filesystem::normalizePath('files_trashbin/'.$file);
+
+		if ($timestamp) {
+			$filename = $filename.'.d'.$timestamp;
+		} else {
+			$filename = $filename;
+		}
+
+		$target = \OC_Filesystem::normalizePath('files_trashbin/'.$filename);
 		return $view->file_exists($target);
 	}
 
