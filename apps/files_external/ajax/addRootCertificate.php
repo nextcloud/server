@@ -37,5 +37,5 @@ if ( $isValid ) {
 			OCP\Util::WARN);
 }
 
-header('Location: settings/personal.php');
+header('Location:' . OCP\Util::linkToRoute( "settings_personal" ));
 exit;
