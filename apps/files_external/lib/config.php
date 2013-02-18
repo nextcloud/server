@@ -312,7 +312,7 @@ class OC_Mount_Config {
 		} else {
 			$file = OC::$SERVERROOT.'/config/mount.json';
 		}
-		$content = json_encode($data, JSON_PRETTY_PRINT);
+		$content = json_encode($data);
 		@file_put_contents($file, $content);
 	}
 
