@@ -279,13 +279,21 @@ class OC_Mount_Config {
 	* @return array
 	*/
 	private static function readData($isPersonal) {
+		$parser = new \OC\ArrayParser();
 		if ($isPersonal) {
-			$file = OC_User::getHome(OCP\User::getUser()).'/mount.php';
+			$phpFile = OC_User::getHome(OCP\User::getUser()).'/mount.php';
+			$jsonFile = OC_User::getHome(OCP\User::getUser()).'/mount.json';
 		} else {
-			$file = OC::$SERVERROOT.'/config/mount.php';
+			$phpFile = OC::$SERVERROOT.'/config/mount.php';
+			$jsonFile = OC::$SERVERROOT.'/config/mount.json';
 		}
-		if (is_file($file)) {
-			$mountPoints = include $file;
+		if (is_file($jsonFile)) {
+			$mountPoints = json_decode(file_get_contents($jsonFile), true);
+			if (is_array($mountPoints)) {
+				return $mountPoints;
+			}
+		} elseif (is_file($phpFile)) {
+			$mountPoints = $parser->parsePHP(file_get_contents($phpFile));
 			if (is_array($mountPoints)) {
 				return $mountPoints;
 			}
@@ -300,39 +308,11 @@ class OC_Mount_Config {
 	*/
 	private static function writeData($isPersonal, $data) {
 		if ($isPersonal) {
-			$file = OC_User::getHome(OCP\User::getUser()).'/mount.php';
+			$file = OC_User::getHome(OCP\User::getUser()).'/mount.json';
 		} else {
-			$file = OC::$SERVERROOT.'/config/mount.php';
+			$file = OC::$SERVERROOT.'/config/mount.json';
 		}
-		$content = "<?php return array (\n";
-		if (isset($data[self::MOUNT_TYPE_GROUP])) {
-			$content .= "\t'group' => array (\n";
-			foreach ($data[self::MOUNT_TYPE_GROUP] as $group => $mounts) {
-				$content .= "\t\t'".$group."' => array (\n";
-				foreach ($mounts as $mountPoint => $mount) {
-					$content .= "\t\t\t'".addcslashes($mountPoint, "'")
-						."' => "
-						.str_replace("\n", '', var_export($mount, true)).", \n";
-
-				}
-				$content .= "\t\t),\n";
-			}
-			$content .= "\t),\n";
-		}
-		if (isset($data[self::MOUNT_TYPE_USER])) {
-			$content .= "\t'user' => array (\n";
-			foreach ($data[self::MOUNT_TYPE_USER] as $user => $mounts) {
-				$content .= "\t\t'".$user."' => array (\n";
-				foreach ($mounts as $mountPoint => $mount) {
-					$content .= "\t\t\t'".addcslashes($mountPoint, "'")
-						."' => "
-						.str_replace("\n", '', var_export($mount, true)).",\n";
-				}
-				$content .= "\t\t),\n";
-			}
-			$content .= "\t),\n";
-		}
-		$content .= ");\n?>";
+		$content = json_encode($data, JSON_PRETTY_PRINT);
 		@file_put_contents($file, $content);
 	}
 
