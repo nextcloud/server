@@ -37,6 +37,7 @@
 "Forum" => "Forum",
 "Bugtracker" => "Hata Takip Sistemi",
 "Commercial Support" => "Ticari Destek",
+"Get the apps to sync your files" => "Dosyalarınızı senkronize etmek için uygulamayı indirin",
 "Password" => "Parola",
 "Your password was changed" => "Şifreniz değiştirildi",
 "Unable to change your password" => "Parolanız değiştirilemiyor",
