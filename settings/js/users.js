@@ -181,8 +181,7 @@ var UserList={
 			var addGroup = function(group) {
 				$('select[multiple]').each(function(index, element) {
 					if ($(element).find('option[value="'+group +'"]').length == 0) {
-						$(element).append('<option value="'+group+'">'+group+'</option>');
-					}
+						$(element).append('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>');					}
 				})
 			};
 			var label;
