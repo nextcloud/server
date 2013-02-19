@@ -15,7 +15,9 @@ if ($path_parts['dirname'] == '.') {
 	$timestamp = null;
 }
 
-if (OCA\Files_Trashbin\Trashbin::delete($filename, $timestamp)) {
+OCA\Files_Trashbin\Trashbin::delete($filename, $timestamp);
+
+if (!OCA\Files_Trashbin\Trashbin::file_exists($filename)) {
 	OCP\JSON::success(array("data" => array("filename" => $file)));
 } else {
 	$l = OC_L10N::get('files_trashbin');
