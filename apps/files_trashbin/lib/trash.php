@@ -396,6 +396,9 @@ class Trashbin {
 	 */
 	private static function calculateSize($view) {
 		$root = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath('');
+		if (!file_exists($root)) {
+			return 0;
+		}
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($root), \RecursiveIteratorIterator::CHILD_FIRST);
 		$size = 0;
 		
