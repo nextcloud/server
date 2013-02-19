@@ -1,12 +1,8 @@
 <input type="hidden" id="disableSharing" data-status="<?php echo $_['disableSharing']; ?>">
 <?php foreach($_['files'] as $file):
-	$simple_file_size = OCP\simple_file_size($file['size']);
-	// the bigger the file, the darker the shade of grey; megabytes*2
-	$simple_size_color = intval(200-$file['size']/(1024*1024)*2);
-	if($simple_size_color<0) $simple_size_color = 0;
 	$relative_deleted_date = OCP\relative_modified_date($file['timestamp']);
 	// the older the file, the brighter the shade of grey; days*14
-	$relative_date_color = round((time()-$file['mtime'])/60/60/24*14);
+	$relative_date_color = round((time()-$file['date'])/60/60/24*14);
 	if($relative_date_color>200) $relative_date_color = 200;
 	$name = str_replace('+', '%20', urlencode($file['name']));
 	$name = str_replace('%2F', '/', $name);
