@@ -37,7 +37,9 @@ class Trashbin {
 		$view = new \OC_FilesystemView('/'. $user);
 		if (!$view->is_dir('files_trashbin')) {
 			$view->mkdir('files_trashbin');
-			$view->mkdir("versions_trashbin");
+			$view->mkdir("files_trashbin/files");
+			$view->mkdir("files_trashbin/versions");
+			$view->mkdir("files_trashbin/keyfiles");
 		}
 
 		$path_parts = pathinfo($file_path);
@@ -55,30 +57,37 @@ class Trashbin {
 		
 		if (  ($trashbinSize = \OCP\Config::getAppValue('files_trashbin', 'size')) === null ) {
 			$trashbinSize = self::calculateSize(new \OC_FilesystemView('/'. $user.'/files_trashbin'));
-			$trashbinSize += self::calculateSize(new \OC_FilesystemView('/'. $user.'/versions_trashbin'));
 		}
-		$trashbinSize += self::copy_recursive($file_path, 'files_trashbin/'.$deleted.'.d'.$timestamp, $view);
+		$trashbinSize += self::copy_recursive($file_path, 'files_trashbin/files/'.$deleted.'.d'.$timestamp, $view);
 
-		if ( $view->file_exists('files_trashbin/'.$deleted.'.d'.$timestamp) ) {
+		if ( $view->file_exists('files_trashbin/files/'.$deleted.'.d'.$timestamp) ) {
 			$query = \OC_DB::prepare("INSERT INTO *PREFIX*files_trash (id,timestamp,location,type,mime,user) VALUES (?,?,?,?,?,?)");
 			$result = $query->execute(array($deleted, $timestamp, $location, $type, $mime, $user));
 			if ( !$result ) { // if file couldn't be added to the database than also don't store it in the trash bin.
-				$view->deleteAll('files_trashbin/'.$deleted.'.d'.$timestamp);
+				$view->deleteAll('files_trashbin/files/'.$deleted.'.d'.$timestamp);
 				\OC_Log::write('files_trashbin', 'trash bin database couldn\'t be updated', \OC_log::ERROR);
 				return;
 			}
-	
+			
+			// Take core of file versions
 			if ( \OCP\App::isEnabled('files_versions') ) {
 				if ( $view->is_dir('files_versions'.$file_path) ) {
 					$trashbinSize += self::calculateSize(new \OC_FilesystemView('/'. $user.'/files_versions/'.$file_path));
-					$view->rename('files_versions'.$file_path, 'versions_trashbin/'. $deleted.'.d'.$timestamp);
+					$view->rename('files_versions'.$file_path, 'files_trashbin/versions'. $deleted.'.d'.$timestamp);
 				} else if ( $versions = \OCA\Files_Versions\Storage::getVersions($file_path) ) {
 					foreach ($versions as $v) {
 						$trashbinSize += $view->filesize('files_versions'.$v['path'].'.v'.$v['version']);
-						$view->rename('files_versions'.$v['path'].'.v'.$v['version'], 'versions_trashbin/'. $deleted.'.v'.$v['version'].'.d'.$timestamp);
+						$view->rename('files_versions'.$v['path'].'.v'.$v['version'], 'files_trashbin/versions'. $deleted.'.v'.$v['version'].'.d'.$timestamp);
 					}
 				}
 			}
+			
+			// Take care of encryption keys
+			if ( \OCP\App::isEnabled('files_encryption') ) {
+				$trashbinSize += self::calculateSize(new \OC_FilesystemView('/'. $user.'/files_encryption/keyfiles/'.$file_path));
+				$view->rename('files_encryption'.$file_path, 'files_trashbin/keyfiles'. $deleted.'.d'.$timestamp);
+			}
+			
 		} else {
 			\OC_Log::write('files_trashbin', 'Couldn\'t move '.$file_path.' to the trash bin', \OC_log::ERROR);
 		}
