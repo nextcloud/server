@@ -371,7 +371,7 @@ class Crypt {
 	* @brief Create asymmetrically encrypted keyfile content using a generated key
 	* @param string $plainContent content to be encrypted
 	* @param array $publicKeys array keys must be the userId of corresponding user
-	* @returns array keys: keys (array, key = userId), encrypted
+	* @returns array keys: keys (array, key = userId), data
 	* @note symmetricDecryptFileContent() can decrypt files created using this method
 	*/
 	public static function multiKeyEncrypt( $plainContent, array $publicKeys ) {
