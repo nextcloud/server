@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-13 00:03+0100\n"
-"PO-Revision-Date: 2013-02-12 14:32+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-19 00:05+0100\n"
+"PO-Revision-Date: 2013-02-18 09:40+0000\n"
+"Last-Translator: volodya327 <volodya327@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,7 +58,7 @@ msgstr "Відсутні категорії для додавання?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "Ця категорія вже існує: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -493,14 +493,14 @@ msgstr "Без безпечного генератора випадкових ч
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "Ваші дані каталогів і файлів, ймовірно, доступні з інтернету, тому що  .htaccess файл не працює."
 
 #: templates/installation.php:32
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Для отримання інформації, як правильно налаштувати сервер, зверніться до  <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">документації</a>."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"

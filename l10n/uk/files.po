@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-15 00:04+0100\n"
-"PO-Revision-Date: 2013-02-14 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-19 00:05+0100\n"
+"PO-Revision-Date: 2013-02-18 10:12+0000\n"
+"Last-Translator: volodya327 <volodya327@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,16 +24,16 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Не вдалося перемістити %s - Файл з таким ім'ям вже існує"
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Не вдалося перемістити %s"
 
 #: ajax/rename.php:22 ajax/rename.php:25
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Не вдалося перейменувати файл"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -72,7 +72,7 @@ msgstr "Невдалося записати на диск"
 
 #: ajax/upload.php:52
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Місця більше немає"
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
@@ -278,7 +278,7 @@ msgstr "З посилання"
 
 #: templates/index.php:40
 msgid "Deleted files"
-msgstr ""
+msgstr "Видалено файлів"
 
 #: templates/index.php:46
 msgid "Cancel upload"

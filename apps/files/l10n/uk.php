@@ -1,4 +1,7 @@
 <?php $TRANSLATIONS = array(
+"Could not move %s - File with this name already exists" => "Не вдалося перемістити %s - Файл з таким ім'ям вже існує",
+"Could not move %s" => "Не вдалося перемістити %s",
+"Unable to rename file" => "Не вдалося перейменувати файл",
 "No file was uploaded. Unknown error" => "Не завантажено жодного файлу. Невідома помилка",
 "There is no error, the file uploaded with success" => "Файл успішно вивантажено без помилок.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Розмір звантаження перевищує upload_max_filesize параметра в php.ini: ",
@@ -7,6 +10,7 @@
 "No file was uploaded" => "Не відвантажено жодного файлу",
 "Missing a temporary folder" => "Відсутній тимчасовий каталог",
 "Failed to write to disk" => "Невдалося записати на диск",
+"Not enough storage available" => "Місця більше немає",
 "Invalid directory." => "Невірний каталог.",
 "Files" => "Файли",
 "Delete permanently" => "Видалити назавжди",
@@ -56,6 +60,7 @@
 "Text file" => "Текстовий файл",
 "Folder" => "Папка",
 "From link" => "З посилання",
+"Deleted files" => "Видалено файлів",
 "Cancel upload" => "Перервати завантаження",
 "Nothing in here. Upload something!" => "Тут нічого немає. Відвантажте що-небудь!",
 "Download" => "Завантажити",

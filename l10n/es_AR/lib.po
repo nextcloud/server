@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-15 00:05+0100\n"
-"PO-Revision-Date: 2013-02-14 20:50+0000\n"
-"Last-Translator: deftoner <koryyyy@gmail.com>\n"
+"POT-Creation-Date: 2013-02-19 00:05+0100\n"
+"PO-Revision-Date: 2013-02-18 10:20+0000\n"
+"Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -131,7 +131,7 @@ msgstr "Debe ingresar una cuenta existente o el administrador"
 
 #: setup.php:149 setup.php:427 setup.php:494
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "El nombre de usuario y contraseña no son válidos"
 
 #: setup.php:203
 msgid "MySQL username and/or password not valid"
@@ -150,7 +150,7 @@ msgstr "Error DB: \"%s\""
 #: setup.php:546 setup.php:562 setup.php:570 setup.php:579
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "El comando no comprendido es: \"%s\""
 
 #: setup.php:273
 #, php-format
@@ -173,7 +173,7 @@ msgstr "Borrar este usuario de MySQL"
 #: setup.php:553 setup.php:585
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "El comando no comprendido es: \"%s\", nombre: \"%s\", contraseña: \"%s\""
 
 #: setup.php:649
 msgid ""
