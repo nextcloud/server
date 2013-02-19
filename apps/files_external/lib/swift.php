@@ -478,10 +478,6 @@ class SWIFT extends \OC\Files\Storage\Common{
 		}
 	}
 
-	public function free_space($path) {
-		return 1024*1024*1024*8;
-	}
-
 	public function touch($path, $mtime=null) {
 		$this->init();
 		$obj=$this->getObject($path);

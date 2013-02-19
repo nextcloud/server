@@ -762,9 +762,13 @@ class OC_Helper {
 		$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
 		$freeSpace = \OC\Files\Filesystem::free_space($dir);
-		$freeSpace = max($freeSpace, 0);
+		if($freeSpace !== \OC\Files\FREE_SPACE_UNKNOWN){
+			$freeSpace = max($freeSpace, 0);
 
-		return min($maxUploadFilesize, $freeSpace);
+			return min($maxUploadFilesize, $freeSpace);
+		} else {
+			return $maxUploadFilesize;
+		}
 	}
 
 	/**

@@ -222,7 +222,7 @@ class DAV extends \OC\Files\Storage\Common{
 				return 0;
 			}
 		} catch(\Exception $e) {
-			return 0;
+			return \OC\Files\FREE_SPACE_UNKNOWN;
 		}
 	}
 
