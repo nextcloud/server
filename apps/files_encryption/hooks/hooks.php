@@ -174,8 +174,6 @@ class Hooks {
 		// fileTarget -> path of file being shared
 		// uidOwner -> owner of the original file being shared
 		
-		//TODO: We don't deal with shared folder yet, need to recursively update every file in the folder
-		
 		$view = new \OC_FilesystemView( '/' );
 		$userId = \OCP\User::getUser();
 		$util = new Util( $view, $userId );
