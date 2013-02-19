@@ -746,52 +746,44 @@ class Crypt {
 	
 	
 	/**
-	 * @brief encrypt file key to multiple users
-	 * @param $users list of users which should be able to access the file
-	 * @param $fileTarget target of the file
+	 * @brief Encrypt keyfile to multiple users
+	 * @param array $users list of users which should be able to access the file
+	 * @param string $filePath path of the file to be shared
 	 */
-	private static function encKeyfileToMultipleUsers($users, $filePath) {
-		$view = new \OC_FilesystemView( '/' );
-		$owner = \OCP\User::getUser();
-		$util = new Util( $view, $userId );
-		$session = new Session();
+	private static function encKeyfileToMultipleUsers( \OC_FilesystemView $view, Util $util, Session $session, $userId, array $users, $filePath ) {
+	
+		// Make sure users are capable of sharing
+		$filteredUids = $util->filterShareReadyUsers( $users );
 		
-		$userIds = array();
-		
-		foreach ( $users as $user ) {
-		
-			$util = new Util( $view, $user );
-				
-			// Check that the user is encryption capable
-			if ( $util->ready() && $user == 'ownCloud' ) {
-				// Construct array of just UIDs for Keymanager{}
-				$userIds[] = $user;
-					
-			} else {
-					
-				// Log warning; we can't do necessary setup here
-				// because we don't have the user passphrase
-				// TODO: Provide user feedback indicating that
-				// sharing failed
-				\OC_Log::write( 'Encryption library', 'File cannot be shared: user "'.$user.'" is not setup for encryption', \OC_Log::WARN );
-		
-			}
-		
-		}
-		
-
-		$userPubKeys = Keymanager::getPublicKeys( $view, $userIds );
+		// Get public keys for each user, ready for generating sharekeys
+		$userPubKeys = Keymanager::getPublicKeys( $view, $filteredUids ); // TODO: check this includes the owner's public key
 
 		\OC_FileProxy::$enabled = false;
 
-		// get the keyfile
+		// Get the current users's private key for decrypting existing keyfile
+		$privateKey = $session->getPrivateKey();
+		
+		// We need to get a decrypted key for the file
+		// Determine how to decrypt the keyfile by checking if current user is owner
+		if ( $userId == \OC\Files\Filesystem::getOwner( $filePath ) ) {
+		
+			// If current user is owner, decrypt without using sharekey
+		
+		} else {
+		
+			// Current user is resharing a file they don't own
+			// Decrypt keyfile using sharekey
+		
+		}
+		
+		// get the existing keyfile
 		$encKeyfile = Keymanager::getFileKey( $view, $owner, $filePath );
 
-		$privateKey = $session->getPrivateKey();
-
-		// decrypt the keyfile
+		// decrypt the existing keyfile
 		$plainKeyfile = Crypt::keyDecrypt( $encKeyfile, $privateKey );
-
+		
+		trigger_error("PUBKEYS = ". var_export($userPubKeys, 1));
+		
 		// re-enc keyfile to sharekeys
 		$shareKeys = Crypt::multiKeyEncrypt( $plainKeyfile, $userPubKeys );
 
@@ -816,29 +808,42 @@ class Crypt {
 	 * @param path which needs to be updated
 	 * @return bool success
 	 */
-	public static function updateKeyfile($path) {
+	public static function updateKeyfile( \OC_FilesystemView $view, Util $util, Session $session, $path ) {
 		
-		$filesView = \OCP\Files::getStorage('files');
+		// Make path include 'files' dir for OC_FSV operations
+		$fPath = 'files' . $path;
 		
 		$result = true;
 		
-		if ( $filesView->is_dir($path) ) {
-			$content = $filesView->getDirectoryContent($path);
-			foreach ( $content as $c) {
+		if ( ! $view->is_dir( $fPath ) ) {
+		
+			$shares = \OCP\Share::getUsersSharingFile( $path, true );
+			$result = self::encKeyfileToMultipleUsers( $view, $util, $session, $shares, $path );
+			
+		} else {
+		
+			$content = $view->getDirectoryContent( $fPath );
+			
+			foreach ( $content as $c ) {
+			
 				$path = substr($c['path'], 5);
-				if ( $filesView->is_dir($path) ) {
-					$result &= self::updateKeyfile($path);
+				
+				if ( $view->is_dir( $fPath ) ) {
+				
+					$result &= self::updateKeyfile( $path );
+					
 				} else {
+				
 					$shares = \OCP\Share::getUsersSharingFile( $path, true );
-					$result &= self::encKeyfileToMultipleUsers($shares, $path);
+					$result &= self::encKeyfileToMultipleUsers( $view, $util, $session, $shares, $path );
+					
 				}
 			}
-		} else {
-			$shares = \OCP\Share::getUsersSharingFile( $path, true );
-			$result = self::encKeyfileToMultipleUsers($shares, $path);
+			
 		}
 		
 		return $result;
 
 	}
+	
 }

@@ -486,5 +486,46 @@ class Util {
 		$row = $result->fetchRow();
 		return substr($row['path'], 5);
 	}
+	
+	/**
+	 * @brief Filter an array of UIDs to return only ones ready for sharing
+	 * @param array $unfilteredUsers users to be checked for sharing readiness
+	 * @return array $userIds filtered users
+	 */
+	public function filterShareReadyUsers( $unfilteredUsers ) {
+	
+		// This array will collect the filtered IDs
+		$userIds = array();
+	
+		// Loop through users and create array of UIDs that need new keyfiles
+		foreach ( $unfilteredUsers as $user ) {
+		
+			$util = new Util( $this->view, $user );
+				
+			// Check that the user is encryption capable, or is the
+			// public system user 'ownCloud' (for public shares)
+			if ( 
+				$util->ready() 
+				or $user == 'ownCloud' 
+			) {
+			
+				// Construct array of just UIDs for Keymanager{}
+				$userIds[] = $user;
+				
+			} else {
+					
+				// Log warning; we can't do necessary setup here
+				// because we don't have the user passphrase
+				// TODO: Provide user feedback indicating that
+				// sharing failed
+				\OC_Log::write( 'Encryption library', '"'.$user.'" is not setup for encryption', \OC_Log::WARN );
+		
+			}
+		
+		}
+		
+		return $userIds;
+		
+	}
 
 }

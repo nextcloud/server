@@ -139,7 +139,7 @@ class Hooks {
 	/**
 	 * @brief update the encryption key of the file uploaded by the client
 	 */
-	public static function updateKeyfile( $params ) {
+	public static function updateKeyfileFromClient( $params ) {
 	
 		if ( Crypt::mode() == 'client' ) {
 			
@@ -175,12 +175,13 @@ class Hooks {
 		// uidOwner -> owner of the original file being shared
 		
 		$view = new \OC_FilesystemView( '/' );
+		$session = new Session();
 		$userId = \OCP\User::getUser();
 		$util = new Util( $view, $userId );
 		
-		$path = Util::getFilePath($params['itemSource']);
+		$path = Util::getFilePath( $params['itemSource'] );
 
-		return Crypt::updateKeyfile($path);
+		return Crypt::updateKeyfile( $view, $session, $path );
 		
 	}
 	
@@ -188,18 +189,26 @@ class Hooks {
 	 * @brief 
 	 */
 	public static function postUnshare( $params ) {
-		$path = Util::getFilePath($params['itemSource']);
+	
+		$view = new \OC_FilesystemView( '/' );
+		$session = new Session();
+		$path = Util::getFilePath( $params['itemSource'] );
 		
-		return Crypt::updateKeyfile($path);
+		return Crypt::updateKeyfile( $view, $session, $path );
+		
 	}
 	
 	/**
 	 * @brief 
 	 */
 	public static function postUnshareAll( $params ) {
-		$path = Util::getFilePath($params['itemSource']);
+	
+		$view = new \OC_FilesystemView( '/' );
+		$session = new Session();
+		$path = Util::getFilePath( $params['itemSource'] );
 		
-		return Crypt::updateKeyfile($path);
+		return Crypt::updateKeyfile( $view, $session, $path );
+		
 	}
 	
 }
