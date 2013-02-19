@@ -3,8 +3,8 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
-$files = $_REQUEST['files'];
-$dirlisting = $_REQUEST['dirlisting'];
+$files = $_POST['files'];
+$dirlisting = $_POST['dirlisting'];
 $list = explode(';', $files);
 
 if (!is_array($list)){
@@ -24,8 +24,9 @@ foreach ($list as $file) {
 		$filename = $file;
 		$timestamp = null;
 	}
-
-	if(OCA\Files_Trashbin\Trashbin::delete($filename, $timestamp)) {
+	
+	OCA\Files_Trashbin\Trashbin::delete($filename, $timestamp);
+	if (!OCA\Files_Trashbin\Trashbin::file_exists($filename)) {
 		$success[$i]['filename'] = $file;
 		$success[$i]['timestamp'] = $timestamp;
 		$i++;
@@ -40,7 +41,7 @@ if ( $error ) {
 		$filelist .= $e.', ';
 	}
 	$l = OC_L10N::get('files_trashbin');
-	$message = $l->t("Couldn't restore %s", array(rtrim($filelist, ', ')));
+	$message = $l->t("Couldn't delete %s permanently", array(rtrim($filelist, ', ')));
 	OCP\JSON::error(array("data" => array("message" => $message,
 			                               "success" => $success, "error" => $error)));
 } else {
