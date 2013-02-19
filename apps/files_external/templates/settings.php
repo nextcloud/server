@@ -17,7 +17,7 @@
 			<?php $_['mounts'] = array_merge($_['mounts'], array('' => array())); ?>
 			<?php foreach ($_['mounts'] as $mountPoint => $mount): ?>
 				<tr <?php echo ($mountPoint != '') ? 'class="'.$mount['class'].'"' : 'id="addMountPoint"'; ?>>
-					<td class="mountPoint"><input type="text" name="mountPoint" value="<?php echo p($mountPoint); ?>" placeholder="<?php echo $l->t('Mount point'); ?>" /></td>
+					<td class="mountPoint"><input type="text" name="mountPoint" value="<?php echo OC_Util::sanitizeHTML($mountPoint); ?>" placeholder="<?php echo $l->t('Mount point'); ?>" /></td>
 					<?php if ($mountPoint == ''): ?>
 						<td class="backend">
 							<select id="selectBackend" data-configurations='<?php echo json_encode($_['backends']); ?>'>
