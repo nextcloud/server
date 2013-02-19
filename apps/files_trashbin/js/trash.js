@@ -36,11 +36,11 @@ $(document).ready(function() {
 			$.post(OC.filePath('files_trashbin','ajax','delete.php'),
 				{files:tr.attr('data-file'), dirlisting:tr.attr('data-dirlisting') },
 				function(result){
-					if ( result.status == 'success' ) {
-						var row = document.getElementById(result.data.filename);
+					for (var i = 0; i < result.data.success.length; i++) {
+						var row = document.getElementById(result.data.success[i].filename);
 						row.parentNode.removeChild(row);
-					} else {
-						deleteAction[0].outerHTML = oldHTML;
+					}
+					if (result.status != 'success') {
 						OC.dialogs.alert(result.data.message, 'Error');
 					}
 				});
