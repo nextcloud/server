@@ -34,7 +34,7 @@ $(document).ready(function() {
 			deleteAction[0].outerHTML = newHTML;
 			
 			$.post(OC.filePath('files_trashbin','ajax','delete.php'),
-				{files:tr.attr('data-file') },
+				{files:tr.attr('data-file'), dirlisting:tr.attr('data-dirlisting') },
 				function(result){
 					if ( result.status == 'success' ) {
 						var row = document.getElementById(result.data.filename);
