@@ -451,7 +451,7 @@ class Crypt {
          */
 	public static function keyEncrypt( $plainContent, $publicKey ) {
 		
-		if (openssl_public_encrypt( $plainContent, $encryptedContent, $publicKey )) error_log("feinifeine"); else error_log("ups");
+		openssl_public_encrypt( $plainContent, $encryptedContent, $publicKey );
 		
 		return $encryptedContent;
 	
