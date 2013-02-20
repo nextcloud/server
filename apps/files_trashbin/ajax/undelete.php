@@ -3,9 +3,9 @@
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
-$files = $_REQUEST['files'];
-$dirlisting = $_REQUEST['dirlisting'];
-$list = explode(';', $files);
+$files = $_POST['files'];
+$dirlisting = $_POST['dirlisting'];
+$list = json_decode($files);
 
 $error = array();
 $success = array();
