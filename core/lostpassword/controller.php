@@ -44,7 +44,11 @@ class OC_Core_LostPassword_Controller {
 				$msg = $tmpl->fetchPage();
 				$l = OC_L10N::get('core');
 				$from = OCP\Util::getDefaultEmailAddress('lostpassword-noreply');
-				OC_Mail::send($email, $_POST['user'], $l->t('ownCloud password reset'), $msg, $from, 'ownCloud');
+				try {
+					OC_Mail::send($email, $_POST['user'], $l->t('ownCloud password reset'), $msg, $from, 'ownCloud');
+				} catch (Exception $e) {
+					OC_Template::printErrorPage( 'A problem occurs during sending the e-mail please contact your administrator.');
+				}
 				self::displayLostPasswordPage(false, true);
 			} else {
 				self::displayLostPasswordPage(true, false);

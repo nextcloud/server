@@ -162,9 +162,10 @@ $(document).ready(function() {
 			var tr=$('tr').filterAttr('data-file',filename);
 			var renaming=tr.data('renaming');
 			if(!renaming && !FileList.isLoading(filename)){
-				var mime=$(this).parent().parent().data('mime');
-				var type=$(this).parent().parent().data('type');
-				var permissions = $(this).parent().parent().data('permissions');
+				FileActions.currentFile = $(this).parent();
+				var mime=FileActions.getCurrentMimeType();
+				var type=FileActions.getCurrentType();
+				var permissions = FileActions.getCurrentPermissions();
 				var action=FileActions.getDefault(mime,type, permissions);
 				if(action){
 					event.preventDefault();
