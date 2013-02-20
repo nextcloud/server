@@ -24,6 +24,10 @@
  #shareWithList li {
  	padding-top:.1em;
  }
+ 
+ #shareWithList li:first-child {
+	 white-space:normal;
+ }
 
  #dropdown label {
  	font-weight:400;
