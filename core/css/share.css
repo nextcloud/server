@@ -29,6 +29,9 @@
 	 white-space:normal;
  }
 
+ #shareWithList .cruds {
+	 margin-left:-10px;
+ }
  #dropdown label {
  	font-weight:400;
  }
@@ -47,6 +50,7 @@
  	float:right;
  	opacity:.5;
  	padding:.3em 0 0 .3em !important;
+	margin-top:-5px;
  }
 
  #link {
