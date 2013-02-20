@@ -25,6 +25,13 @@
 			</th>
 			<th id="headerDate">
 				<span id="modified"><?php echo $l->t( 'Deleted' ); ?></span>
+				<span class="selectedActions">
+					<a href="" class="delete">
+						<?php echo $l->t('Delete')?>
+						<img class="svg" alt="<?php echo $l->t('Delete')?>"
+							src="<?php echo OCP\image_path("core", "actions/delete.svg"); ?>" />
+					</a>
+				</span>
 			</th>
 		</tr>
 	</thead>

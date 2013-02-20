@@ -35,37 +35,25 @@ class Storage {
 																	'step' => 604800),
 			);	
 
-	private static function getUidAndFilename($filename)
-	{
-		if (\OCP\App::isEnabled('files_sharing')
-		    && substr($filename, 0, 7) == '/Shared'
-		    && $source = \OCP\Share::getItemSharedWith('file',
-					substr($filename, 7),
-					\OC_Share_Backend_File::FORMAT_SHARED_STORAGE)) {
-			$filename = $source['path'];
-			$pos = strpos($filename, '/files', 1);
-			$uid = substr($filename, 1, $pos - 1);
-			$filename = substr($filename, $pos + 6);
-		} else {
-			$uid = \OCP\User::getUser();
+	private static function getUidAndFilename($filename) {
+		$uid = \OC\Files\Filesystem::getOwner($filename);
+		if ( $uid != \OCP\User::getUser() ) {
+			$info = \OC\Files\Filesystem::getFileInfo($filename);
+			$ownerView = new \OC\Files\View('/'.$uid.'/files');
+			$filename = $ownerView->getPath($info['fileid']);
 		}
 		return array($uid, $filename);
 	}
-
+	
 	/**
 	 * store a new version of a file.
 	 */
-	public function store($filename) {
+	public static function store($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$files_view = new \OC\Files\View('/'.\OCP\User::getUser() .'/files');
-			$users_view = new \OC\Files\View('/'.\OCP\User::getUser());
-
-			//check if source file already exist as version to avoid recursions.
-			// todo does this check work?
-			if ($users_view->file_exists($filename)) {
-				return false;
-			}
+			
+			$files_view = new \OC\Files\View('/'.$uid .'/files');
+			$users_view = new \OC\Files\View('/'.$uid);
 
 			// check if filename is a directory
 			if($files_view->is_dir($filename)) {
@@ -106,10 +94,10 @@ class Storage {
 	 */
 	public static function delete($filename) {
 		list($uid, $filename) = self::getUidAndFilename($filename);
-		$versions_fileview = new \OC_FilesystemView('/'.$uid .'/files_versions');
+		$versions_fileview = new \OC\Files\View('/'.$uid .'/files_versions');
 		
 		$abs_path = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('').$filename.'.v';
-		if( ($versions = self::getVersions($filename)) ) {
+		if( ($versions = self::getVersions($uid, $filename)) ) {
 			if (  ($versionsSize = \OCP\Config::getAppValue('files_versions', 'size')) === null ) {
 				$versionsSize = self::calculateSize($uid);
 			}
@@ -127,16 +115,15 @@ class Storage {
 	public static function rename($oldpath, $newpath) {
 		list($uid, $oldpath) = self::getUidAndFilename($oldpath);
 		list($uidn, $newpath) = self::getUidAndFilename($newpath);
-		$versions_view = new \OC_FilesystemView('/'.$uid .'/files_versions');
-		$files_view = new \OC_FilesystemView('/'.$uid .'/files');
+		$versions_view = new \OC\Files\View('/'.$uid .'/files_versions');
+		$files_view = new \OC\Files\View('/'.$uid .'/files');
 		$abs_newpath = \OCP\Config::getSystemValue('datadirectory').$versions_view->getAbsolutePath('').$newpath;
 		
 		if ( $files_view->is_dir($oldpath) && $versions_view->is_dir($oldpath) ) {
 			$versions_view->rename($oldpath, $newpath);
-		} else 	if ( ($versions = Storage::getVersions($oldpath)) ) {
+		} else 	if ( ($versions = Storage::getVersions($uid, $oldpath)) ) {
 			$info=pathinfo($abs_newpath);
 			if(!file_exists($info['dirname'])) mkdir($info['dirname'], 0750, true);
-			$versions = Storage::getVersions($oldpath);
 			foreach ($versions as $v) {
 				$versions_view->rename($oldpath.'.v'.$v['version'], $newpath.'.v'.$v['version']);
 			}
@@ -177,14 +164,14 @@ class Storage {
 
 	/**
 	 * @brief get a list of all available versions of a file in descending chronological order
+	 * @param $uid user id from the owner of the file
 	 * @param $filename file to find versions of, relative to the user files dir
 	 * @param $count number of versions to return
 	 * @returns array
 	 */
-	public static function getVersions( $filename, $count = 0 ) {
+	public static function getVersions($uid, $filename, $count = 0 ) {
 		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
-			list($uid, $filename) = self::getUidAndFilename($filename);
-			$versions_fileview = new \OC\Files\View('/' . \OCP\User::getUser() . '/files_versions');
+			$versions_fileview = new \OC\Files\View('/' . $uid . '/files_versions');
 
 			$versionsName = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
 			$versions = array();
@@ -197,7 +184,7 @@ class Storage {
 
 			sort( $matches );
 
-			$files_view = new \OC_FilesystemView('/'.$uid.'/files');
+			$files_view = new \OC\Files\View('/'.$uid.'/files');
 			$local_file = $files_view->getLocalFile($filename);
 			$local_file_md5 = \md5_file( $local_file );
 
@@ -248,7 +235,7 @@ class Storage {
 	 */
 	private static function calculateSize($uid) {
 		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
-			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
+			$versions_fileview = new \OC\Files\View('/'.$uid.'/files_versions');
 			$versionsRoot = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('');
 				
 			$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($versionsRoot), \RecursiveIteratorIterator::CHILD_FIRST);
@@ -273,7 +260,7 @@ class Storage {
 	 */
 	private static function getAllVersions($uid) {
 		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
-			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
+			$versions_fileview = new \OC\Files\View('/'.$uid.'/files_versions');
 			$versionsRoot = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('');
 			
 			$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($versionsRoot), \RecursiveIteratorIterator::CHILD_FIRST);
@@ -319,7 +306,7 @@ class Storage {
 	private static function expire($filename, $versionsSize = null) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);			
-			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
+			$versions_fileview = new \OC\Files\View('/'.$uid.'/files_versions');
 			
 			// get available disk space for user
 			$quota = \OCP\Util::computerFileSize(\OC_Preferences::getValue($uid, 'files', 'quota'));
@@ -338,7 +325,7 @@ class Storage {
 			}
 
 			// calculate available space for version history
-			$files_view = new \OC_FilesystemView('/'.$uid.'/files');
+			$files_view = new \OC\Files\View('/'.$uid.'/files');
 			$rootInfo = $files_view->getFileInfo('/');
 			$free = $quota-$rootInfo['size']; // remaining free space for user
 			if ( $free > 0 ) {
@@ -354,7 +341,7 @@ class Storage {
 				$versions_by_file = $result['by_file'];
 				$all_versions = $result['all'];
 			} else {
-				$all_versions = Storage::getVersions($filename);
+				$all_versions = Storage::getVersions($uid, $filename);
 				$versions_by_file[$filename] = $all_versions;
 			}
 			

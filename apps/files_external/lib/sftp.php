@@ -242,10 +242,6 @@ class SFTP extends \OC\Files\Storage\Common {
 		}
 	}
 
-	public function free_space($path) {
-		return -1;
-	}
-
 	public function touch($path, $mtime=null) {
 		try {
 			if (!is_null($mtime)) return false;

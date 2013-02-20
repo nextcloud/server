@@ -76,10 +76,6 @@ abstract class StreamWrapper extends \OC\Files\Storage\Common{
 		return fopen($this->constructUrl($path), $mode);
 	}
 
-	public function free_space($path) {
-		return 0;
-	}
-
 	public function touch($path, $mtime=null) {
 		$this->init();
 		if(is_null($mtime)) {

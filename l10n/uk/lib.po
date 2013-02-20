@@ -7,13 +7,14 @@
 #   <skoptev@ukr.net>, 2012.
 #   <victor.dubiniuk@gmail.com>, 2012.
 #   <volodya327@gmail.com>, 2013.
+# пан Володимир <volodya327@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-19 00:05+0100\n"
-"PO-Revision-Date: 2013-02-18 13:40+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-20 00:02+0100\n"
+"PO-Revision-Date: 2013-02-19 14:10+0000\n"
+"Last-Translator: volodya327 <volodya327@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -91,51 +92,51 @@ msgstr "Зображення"
 
 #: setup.php:34
 msgid "Set an admin username."
-msgstr ""
+msgstr "Встановіть ім'я адміністратора."
 
 #: setup.php:37
 msgid "Set an admin password."
-msgstr ""
+msgstr "Встановіть пароль адміністратора."
 
 #: setup.php:40
 msgid "Specify a data folder."
-msgstr ""
+msgstr "Вкажіть теку для даних."
 
 #: setup.php:53
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "%s введіть ім'я користувача бази даних."
 
 #: setup.php:56
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "%s введіть назву бази даних."
 
 #: setup.php:59
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s не можна використовувати крапки в назві бази даних"
 
 #: setup.php:62
 #, php-format
 msgid "%s set the database host."
-msgstr ""
+msgstr "%s встановити хост бази даних."
 
 #: setup.php:126 setup.php:294 setup.php:339
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "PostgreSQL ім'я користувача та/або пароль не дійсні"
 
 #: setup.php:127 setup.php:150 setup.php:204
 msgid "You need to enter either an existing account or the administrator."
-msgstr ""
+msgstr "Вам потрібно ввести або існуючий обліковий запис або administrator."
 
 #: setup.php:149 setup.php:427 setup.php:494
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Oracle ім'я користувача та/або пароль не дійсні"
 
 #: setup.php:203
 msgid "MySQL username and/or password not valid"
-msgstr ""
+msgstr "MySQL ім'я користувача та/або пароль не дійсні"
 
 #: setup.php:257 setup.php:360 setup.php:369 setup.php:387 setup.php:397
 #: setup.php:406 setup.php:435 setup.php:501 setup.php:527 setup.php:534
@@ -143,37 +144,37 @@ msgstr ""
 #: setup.php:584
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "Помилка БД: \"%s\""
 
 #: setup.php:258 setup.php:361 setup.php:370 setup.php:388 setup.php:398
 #: setup.php:407 setup.php:436 setup.php:502 setup.php:528 setup.php:535
 #: setup.php:546 setup.php:562 setup.php:570 setup.php:579
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "Команда, що викликала проблему: \"%s\""
 
 #: setup.php:273
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "Користувач MySQL '%s'@'localhost' вже існує."
 
 #: setup.php:274
 msgid "Drop this user from MySQL"
-msgstr ""
+msgstr "Видалити цього користувача з MySQL"
 
 #: setup.php:279
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
-msgstr ""
+msgstr "Користувач MySQL '%s'@'%%' вже існує"
 
 #: setup.php:280
 msgid "Drop this user from MySQL."
-msgstr ""
+msgstr "Видалити цього користувача з MySQL."
 
 #: setup.php:553 setup.php:585
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "Команда, що викликала проблему: \"%s\", ім'я: %s, пароль: %s"
 
 #: setup.php:649
 msgid ""

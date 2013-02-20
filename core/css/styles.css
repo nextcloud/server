@@ -258,8 +258,8 @@ fieldset.warning a { color:#b94a48 !important; font-weight:bold; }
 #expand:hover img, #expand:focus img, #expand:active img { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
 #expanddiv {
 	position:absolute; right:0; top:45px; z-index:76; display:none;
-	background-color:#444; border-bottom-left-radius:7px; box-shadow: 0 0 20px rgb(29,45,68);
-	background:#383c43 url('../img/noise.png') repeat; border-bottom:1px #333 solid; border-left:border-bottom:1px #333 solid;
+	background:#383c43 url('../img/noise.png') repeat;
+	border-bottom-left-radius:7px; border-bottom:1px #333 solid; border-left:1px #333 solid;
 	-moz-box-shadow:0 0 7px rgb(29,45,68); -webkit-box-shadow:0 0 7px rgb(29,45,68); box-shadow:0 0 7px rgb(29,45,68);
 }
 	#expanddiv a {

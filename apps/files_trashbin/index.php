@@ -16,6 +16,7 @@ OCP\Util::addScript('files', 'filelist');
 
 $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 
+$result = array();
 if ($dir) {
 	$dirlisting = true;
 	$fullpath = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath($dir);
@@ -36,7 +37,7 @@ if ($dir) {
 					);
 		}
 	}
-	closedir($fullpath);
+	closedir($dirContent);
 		
 } else {
 	$dirlisting = false;

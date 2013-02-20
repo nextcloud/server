@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-18 00:05+0100\n"
-"PO-Revision-Date: 2013-02-17 12:30+0000\n"
+"POT-Creation-Date: 2013-02-20 00:02+0100\n"
+"PO-Revision-Date: 2013-02-19 22:10+0000\n"
 "Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -164,7 +164,7 @@ msgstr "προσθήκη ομάδας"
 
 #: js/users.js:352
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Πρέπει να δοθεί έγκυρο όνομα χρήστη"
 
 #: js/users.js:353 js/users.js:359 js/users.js:374
 msgid "Error creating user"
@@ -172,7 +172,7 @@ msgstr "Σφάλμα δημιουργίας χρήστη"
 
 #: js/users.js:358
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Πρέπει να δοθεί έγκυρο συνθηματικό"
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"

@@ -48,7 +48,7 @@ $totalSize = 0;
 foreach ($files['size'] as $size) {
 	$totalSize += $size;
 }
-if ($totalSize > \OC\Files\Filesystem::free_space($dir)) {
+if ($totalSize > $maxUploadFilesize) {
 	OCP\JSON::error(array('data' => array('message' => $l->t('Not enough storage available'),
 		'uploadMaxFilesize' => $maxUploadFilesize,
 		'maxHumanFilesize' => $maxHumanFilesize)));

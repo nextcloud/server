@@ -20,13 +20,10 @@ class Hooks {
 	public static function write_hook( $params ) {
 
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-
-			$versions = new Storage( new \OC\Files\View('') );
-
 			$path = $params[\OC\Files\Filesystem::signal_param_path];
-
-			if($path<>'') $versions->store( $path );
-
+			if($path<>'') {
+				Storage::store($path);
+			}
 		}
 	}
 
@@ -40,12 +37,10 @@ class Hooks {
 	 */
 	public static function remove_hook($params) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-		
-			$versions = new Storage( new \OC_FilesystemView('') );
-		
 			$path = $params[\OC\Files\Filesystem::signal_param_path];
-		
-			if($path<>'') $versions->delete( $path );
+			if($path<>'') {
+				Storage::delete($path);
+			}
 		
 		}
 	}
@@ -59,13 +54,11 @@ class Hooks {
 	 */
 	public static function rename_hook($params) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-		
-			$versions = new Storage( new \OC_FilesystemView('') );
-		
 			$oldpath = $params['oldpath'];
 			$newpath = $params['newpath'];
-		
-			if($oldpath<>'' && $newpath<>'') $versions->rename( $oldpath, $newpath );
+			if($oldpath<>'' && $newpath<>'') {
+				Storage::rename( $oldpath, $newpath );
+			}
 		
 		}
 	}
