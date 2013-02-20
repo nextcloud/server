@@ -34,7 +34,9 @@
 class OC_Filesystem {
 	/**
 	 * get the mountpoint of the storage object for a path
-	( note: because a storage is not always mounted inside the fakeroot, the returned mountpoint is relative to the absolute root of the filesystem and doesn't take the chroot into account
+	 * ( note: because a storage is not always mounted inside the fakeroot, the
+	 * returned mountpoint is relative to the absolute root of the filesystem
+	 * and doesn't take the chroot into account )
 	 *
 	 * @deprecated OC_Filesystem is replaced by \OC\Files\Filesystem
 	 * @param string $path
@@ -115,7 +117,8 @@ class OC_Filesystem {
 
 	/**
 	 * return the path to a local version of the file
-	 * we need this because we can't know if a file is stored local or not from outside the filestorage and for some purposes a local file is needed
+	 * we need this because we can't know if a file is stored local or not from
+	 * outside the filestorage and for some purposes a local file is needed
 	 *
 	 * @deprecated OC_Filesystem is replaced by \OC\Files\Filesystem
 	 * @param string $path

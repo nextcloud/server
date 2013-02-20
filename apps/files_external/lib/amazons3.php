@@ -233,11 +233,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return false;
 	}
 
-	public function free_space($path) {
-		// Infinite?
-		return false;
-	}
-
 	public function touch($path, $mtime = null) {
 		if (is_null($mtime)) {
 			$mtime = time();

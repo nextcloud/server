@@ -29,6 +29,8 @@
 
 namespace OC\Files;
 
+const FREE_SPACE_UNKNOWN = -2;
+
 class Filesystem {
 	public static $loaded = false;
 	/**
@@ -135,7 +137,9 @@ class Filesystem {
 
 	/**
 	 * get the mountpoint of the storage object for a path
-	( note: because a storage is not always mounted inside the fakeroot, the returned mountpoint is relative to the absolute root of the filesystem and doesn't take the chroot into account
+	 * ( note: because a storage is not always mounted inside the fakeroot, the
+	 * returned mountpoint is relative to the absolute root of the filesystem
+	 * and doesn't take the chroot into account )
 	 *
 	 * @param string $path
 	 * @return string
@@ -213,9 +217,15 @@ class Filesystem {
 		if ($user == '') {
 			$user = \OC_User::getUser();
 		}
+		$parser = new \OC\ArrayParser();
+
 		// Load system mount points
-		if (is_file(\OC::$SERVERROOT . '/config/mount.php')) {
-			$mountConfig = include 'config/mount.php';
+		if (is_file(\OC::$SERVERROOT . '/config/mount.php') or is_file(\OC::$SERVERROOT . '/config/mount.json')) {
+			if(is_file(\OC::$SERVERROOT . '/config/mount.json')){
+				$mountConfig = json_decode(file_get_contents(\OC::$SERVERROOT . '/config/mount.json'), true);
+			}elseif(is_file(\OC::$SERVERROOT . '/config/mount.php')){
+				$mountConfig = $parser->parsePHP(file_get_contents(\OC::$SERVERROOT . '/config/mount.php'));
+			}
 			if (isset($mountConfig['global'])) {
 				foreach ($mountConfig['global'] as $mountPoint => $options) {
 					self::mount($options['class'], $options['options'], $mountPoint);
@@ -251,8 +261,12 @@ class Filesystem {
 		// Load personal mount points
 		$root = \OC_User::getHome($user);
 		self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
-		if (is_file($root . '/mount.php')) {
-			$mountConfig = include $root . '/mount.php';
+		if (is_file($root . '/mount.php') or is_file($root . '/mount.json')) {
+			if (is_file($root . '/mount.json')){
+				$mountConfig = json_decode(file_get_contents($root . '/mount.json'), true);
+			} elseif (is_file($root . '/mount.php')){
+				$mountConfig = $parser->parsePHP(file_get_contents($root . '/mount.php'));
+			}
 			if (isset($mountConfig['user'][$user])) {
 				foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
 					self::mount($options['class'], $options['options'], $mountPoint);
@@ -318,7 +332,8 @@ class Filesystem {
 
 	/**
 	 * return the path to a local version of the file
-	 * we need this because we can't know if a file is stored local or not from outside the filestorage and for some purposes a local file is needed
+	 * we need this because we can't know if a file is stored local or not from
+	 * outside the filestorage and for some purposes a local file is needed
 	 *
 	 * @param string $path
 	 * @return string
@@ -610,11 +625,11 @@ class Filesystem {
 	}
 
 	/**
-	* Get the owner for a file or folder
-	*
-	* @param string $path
-	* @return string
-	*/
+	 * Get the owner for a file or folder
+	 *
+	 * @param string $path
+	 * @return string
+	 */
 	public static function getOwner($path) {
 		return self::$defaultInstance->getOwner($path);
 	}

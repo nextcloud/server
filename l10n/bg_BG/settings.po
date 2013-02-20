@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-12 15:10+0100\n"
-"PO-Revision-Date: 2013-02-12 14:10+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-15 00:05+0100\n"
+"PO-Revision-Date: 2013-02-14 17:50+0000\n"
+"Last-Translator: Stefan Ilivanov <ilivanov@gmail.com>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -35,11 +35,11 @@ msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr ""
+msgstr "Групата вече съществува"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr ""
+msgstr "Невъзможно добавяне на група"
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
@@ -55,11 +55,11 @@ msgstr ""
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Невъзможно изтриване на група"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Невъзможно изтриване на потребител"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -93,7 +93,7 @@ msgstr ""
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr ""
+msgstr "Изключено"
 
 #: js/apps.js:36 js/apps.js:64
 msgid "Enable"
@@ -101,11 +101,11 @@ msgstr "Включено"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "Моля почакайте...."
 
 #: js/apps.js:84
 msgid "Updating...."
-msgstr ""
+msgstr "Обновява се..."
 
 #: js/apps.js:87
 msgid "Error while updating app"
@@ -117,54 +117,50 @@ msgstr "Грешка"
 
 #: js/apps.js:90
 msgid "Updated"
-msgstr ""
+msgstr "Обновено"
 
 #: js/personal.js:96
 msgid "Saving..."
-msgstr ""
+msgstr "Записване..."
 
 #: js/users.js:30
 msgid "deleted"
-msgstr ""
+msgstr "изтрито"
 
 #: js/users.js:30
 msgid "undo"
-msgstr ""
+msgstr "възтановяване"
 
 #: js/users.js:62
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:82
-#: templates/users.php:107
+#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: templates/users.php:105
 msgid "Groups"
 msgstr "Групи"
 
-#: js/users.js:78 templates/users.php:84 templates/users.php:121
+#: js/users.js:78 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr ""
 
-#: js/users.js:99 templates/users.php:165
+#: js/users.js:99 templates/users.php:161
 msgid "Delete"
 msgstr "Изтриване"
 
-#: js/users.js:190
+#: js/users.js:191
 msgid "add group"
 msgstr ""
 
-#: js/users.js:405
-msgid "The username is already being used"
-msgstr ""
-
-#: js/users.js:406 js/users.js:412 js/users.js:418 js/users.js:433
-msgid "Error creating user"
-msgstr ""
-
-#: js/users.js:411
+#: js/users.js:352
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:417
+#: js/users.js:353 js/users.js:359 js/users.js:374
+msgid "Error creating user"
+msgstr ""
+
+#: js/users.js:358
 msgid "A valid password must be provided"
 msgstr ""
 
@@ -321,11 +317,11 @@ msgstr ""
 
 #: templates/admin.php:220
 msgid "More"
-msgstr ""
+msgstr "Още"
 
 #: templates/admin.php:227 templates/personal.php:98
 msgid "Version"
-msgstr ""
+msgstr "Версия"
 
 #: templates/admin.php:230 templates/personal.php:100
 msgid ""
@@ -343,7 +339,7 @@ msgstr "Добавете Ваше приложение"
 
 #: templates/apps.php:11
 msgid "More Apps"
-msgstr ""
+msgstr "Още приложения"
 
 #: templates/apps.php:24
 msgid "Select an App"
@@ -363,27 +359,27 @@ msgstr "Обновяване"
 
 #: templates/help.php:3
 msgid "User Documentation"
-msgstr ""
+msgstr "Потребителска документация"
 
 #: templates/help.php:4
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Административна документация"
 
 #: templates/help.php:6
 msgid "Online Documentation"
-msgstr ""
+msgstr "Документация"
 
 #: templates/help.php:7
 msgid "Forum"
-msgstr ""
+msgstr "Форум"
 
 #: templates/help.php:9
 msgid "Bugtracker"
-msgstr ""
+msgstr "Докладвани грешки"
 
 #: templates/help.php:11
 msgid "Commercial Support"
-msgstr ""
+msgstr "Платена поддръжка"
 
 #: templates/personal.php:8
 #, php-format
@@ -398,7 +394,7 @@ msgstr ""
 msgid "Show First Run Wizard again"
 msgstr "Покажи настройките за първоначално зареждане отново"
 
-#: templates/personal.php:36 templates/users.php:23 templates/users.php:81
+#: templates/personal.php:36 templates/users.php:23 templates/users.php:79
 msgid "Password"
 msgstr "Парола"
 
@@ -422,9 +418,9 @@ msgstr "Нова парола"
 msgid "Change password"
 msgstr "Промяна на паролата"
 
-#: templates/personal.php:54 templates/users.php:80
+#: templates/personal.php:54 templates/users.php:78
 msgid "Display Name"
-msgstr ""
+msgstr "Екранно име"
 
 #: templates/personal.php:55
 msgid "Your display name was changed"
@@ -460,15 +456,15 @@ msgstr "Помогнете с превода"
 
 #: templates/personal.php:87
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:89
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr ""
 
-#: templates/users.php:21 templates/users.php:79
+#: templates/users.php:21 templates/users.php:77
 msgid "Login Name"
-msgstr ""
+msgstr "Потребител"
 
 #: templates/users.php:32
 msgid "Create"
@@ -476,28 +472,28 @@ msgstr "Създаване"
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr ""
+msgstr "Хранилище по подразбиране"
 
-#: templates/users.php:42 templates/users.php:142
+#: templates/users.php:41 templates/users.php:139
 msgid "Unlimited"
-msgstr ""
+msgstr "Неограничено"
 
-#: templates/users.php:60 templates/users.php:157
+#: templates/users.php:59 templates/users.php:154
 msgid "Other"
 msgstr "Други"
 
-#: templates/users.php:86
+#: templates/users.php:84
 msgid "Storage"
-msgstr ""
+msgstr "Хранилище"
 
-#: templates/users.php:97
+#: templates/users.php:95
 msgid "change display name"
 msgstr ""
 
-#: templates/users.php:101
+#: templates/users.php:99
 msgid "set new password"
 msgstr ""
 
-#: templates/users.php:137
+#: templates/users.php:134
 msgid "Default"
-msgstr ""
+msgstr "По подразбиране"

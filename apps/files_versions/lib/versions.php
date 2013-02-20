@@ -94,7 +94,7 @@ class Storage {
 			// expire old revisions if necessary
 			$newSize = self::expire($filename, $versionsSize);
 			
-			if ( $newSize != $versionsSize )  {
+			if ( $newSize != $versionsSize ) {
 				\OCP\Config::setAppValue('files_versions', 'size', $versionsSize);
 			}
 		}
@@ -190,6 +190,10 @@ class Storage {
 			$versions = array();
 			// fetch for old versions
 			$matches = glob( $versionsName.'.v*' );
+			
+			if ( !$matches ) {
+				return $versions;
+			}
 
 			sort( $matches );
 

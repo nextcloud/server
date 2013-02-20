@@ -53,7 +53,7 @@ class DAV extends \OC\Files\Storage\Common{
 	}
 
 	private function init(){
-		if($this->ready){
+		if($this->ready) {
 			return;
 		}
 		$this->ready = true;
@@ -157,10 +157,10 @@ class DAV extends \OC\Files\Storage\Common{
 
 	public function unlink($path) {
 		$this->init();
-		return $this->simpleResponse('DELETE', $path, null ,204);
+		return $this->simpleResponse('DELETE', $path, null, 204);
 	}
 
-	public function fopen($path,$mode) {
+	public function fopen($path, $mode) {
 		$this->init();
 		$path=$this->cleanPath($path);
 		switch($mode) {
@@ -226,7 +226,7 @@ class DAV extends \OC\Files\Storage\Common{
 				return 0;
 			}
 		} catch(\Exception $e) {
-			return 0;
+			return \OC\Files\FREE_SPACE_UNKNOWN;
 		}
 	}
 
@@ -239,13 +239,13 @@ class DAV extends \OC\Files\Storage\Common{
 		$this->client->proppatch($path, array('{DAV:}lastmodified' => $mtime));
 	}
 
-	public function getFile($path,$target) {
+	public function getFile($path, $target) {
 		$this->init();
-		$source=$this->fopen($path,'r');
-		file_put_contents($target,$source);
+		$source=$this->fopen($path, 'r');
+		file_put_contents($target, $source);
 	}
 
-	public function uploadFile($path,$target) {
+	public function uploadFile($path, $target) {
 		$this->init();
 		$source=fopen($path, 'r');
 
@@ -260,7 +260,7 @@ class DAV extends \OC\Files\Storage\Common{
 		curl_close ($curl);
 	}
 
-	public function rename($path1,$path2) {
+	public function rename($path1, $path2) {
 		$this->init();
 		$path1=$this->cleanPath($path1);
 		$path2=$this->root.$this->cleanPath($path2);
@@ -272,7 +272,7 @@ class DAV extends \OC\Files\Storage\Common{
 		}
 	}
 
-	public function copy($path1,$path2) {
+	public function copy($path1, $path2) {
 		$this->init();
 		$path1=$this->cleanPath($path1);
 		$path2=$this->root.$this->cleanPath($path2);
@@ -325,7 +325,7 @@ class DAV extends \OC\Files\Storage\Common{
 		}
 	}
 
-	private function simpleResponse($method,$path,$body,$expected) {
+	private function simpleResponse($method, $path, $body, $expected) {
 		$path=$this->cleanPath($path);
 		try {
 			$response=$this->client->request($method, $path, $body);

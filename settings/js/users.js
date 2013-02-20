@@ -92,11 +92,12 @@ var UserList = {
 			UserList.applyMultiplySelect(subadminSelect);
 		}
 		if (tr.find('td.remove img').length == 0 && OC.currentUser != username) {
-			var rm_img = $('<img>', {
-				class: 'svg action',
+			var rm_img = $('<img class="svg action">').attr({
 				src: OC.imagePath('core', 'actions/delete')
 			});
-			var rm_link = $('<a>', { class: 'action delete', href: '#', 'original-title': t('settings', 'Delete')}).append(rm_img);
+			var rm_link = $('<a class="action delete">')
+				.attr({ href: '#', 'original-title': t('settings', 'Delete')})
+				.append(rm_img);
 			tr.find('td.remove').append(rm_link);
 		} else if (OC.currentUser == username) {
 			tr.find('td.remove a').remove();
@@ -181,7 +182,7 @@ var UserList = {
 			var addGroup = function (select, group) {
 				$('select[multiple]').each(function (index, element) {
 					if ($(element).find('option[value="' + group + '"]').length === 0 && select.data('msid') !== $(element).data('msid')) {
-						$(element).append('<option value="' + group + '">' + group + '</option>');
+						$(element).append('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>');
 					}
 				})
 			};
@@ -307,7 +308,7 @@ $(document).ready(function () {
 		event.stopPropagation();
 		var img = $(this);
 		var uid = img.parent().parent().attr('data-uid');
-		var displayName = img.parent().parent().attr('data-displayName');
+		var displayName = escapeHTML(img.parent().parent().attr('data-displayName'));
 		var input = $('<input type="text" value="' + displayName + '">');
 		img.css('display', 'none');
 		img.parent().children('span').replaceWith(input);
@@ -328,7 +329,7 @@ $(document).ready(function () {
 			}
 		});
 		input.blur(function () {
-			$(this).replaceWith($(this).val());
+			$(this).replaceWith(escapeHTML($(this).val()));
 			img.css('display', '');
 		});
 	});
@@ -346,12 +347,6 @@ $(document).ready(function () {
 		event.preventDefault();
 		var username = $('#newusername').val();
 		var password = $('#newuserpassword').val();
-		if ($('#content table tbody tr').filterAttr('data-uid', username).length > 0) {
-			OC.dialogs.alert(
-				t('settings', 'The username is already being used'),
-				t('settings', 'Error creating user'));
-			return;
-		}
 		if ($.trim(username) == '') {
 			OC.dialogs.alert(
 				t('settings', 'A valid username must be provided'),

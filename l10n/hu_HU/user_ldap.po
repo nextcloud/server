@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-08 00:10+0100\n"
-"PO-Revision-Date: 2013-02-07 23:11+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-14 00:05+0100\n"
+"PO-Revision-Date: 2013-02-13 17:20+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,23 +21,23 @@ msgstr ""
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr ""
+msgstr "Nem sikerült törölni a kiszolgáló konfigurációját"
 
 #: ajax/testConfiguration.php:35
 msgid "The configuration is valid and the connection could be established!"
-msgstr ""
+msgstr "A konfiguráció érvényes, és a kapcsolat létrehozható!"
 
 #: ajax/testConfiguration.php:37
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr ""
+msgstr "A konfiguráció érvényes, de a kapcsolat nem hozható létre. Kérem ellenőrizze a kiszolgáló beállításait, és az elérési adatokat."
 
 #: ajax/testConfiguration.php:40
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr ""
+msgstr "Érvénytelen konfiguráció. További információkért nézze meg az ownCloud naplófájlját."
 
 #: js/settings.js:66
 msgid "Deletion failed"
@@ -45,31 +45,31 @@ msgstr "A törlés nem sikerült"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr ""
+msgstr "Vegyük át a beállításokat az előző konfigurációból?"
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr ""
+msgstr "Tartsuk meg a beállításokat?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "Az új  kiszolgáló konfigurációja nem hozható létre"
 
 #: js/settings.js:121
 msgid "Connection test succeeded"
-msgstr ""
+msgstr "A kapcsolatellenőrzés eredménye: sikerült"
 
 #: js/settings.js:126
 msgid "Connection test failed"
-msgstr ""
+msgstr "A kapcsolatellenőrzés eredménye: nem sikerült"
 
 #: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "Tényleg törölni szeretné a kiszolgáló beállításait?"
 
 #: js/settings.js:137
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "A törlés megerősítése"
 
 #: templates/settings.php:8
 msgid ""
@@ -86,11 +86,11 @@ msgstr "<b>Figyelmeztetés:</b> Az LDAP PHP modul nincs telepítve, ezért ez az
 
 #: templates/settings.php:15
 msgid "Server configuration"
-msgstr ""
+msgstr "A kiszolgálók beállításai"
 
 #: templates/settings.php:17
 msgid "Add Server Configuration"
-msgstr ""
+msgstr "Új kiszolgáló beállításának hozzáadása"
 
 #: templates/settings.php:21
 msgid "Host"
@@ -174,15 +174,15 @@ msgstr "itt ne használjunk változót, pl. \"objectClass=posixGroup\"."
 
 #: templates/settings.php:31
 msgid "Connection Settings"
-msgstr ""
+msgstr "Kapcsolati beállítások"
 
 #: templates/settings.php:33
 msgid "Configuration Active"
-msgstr ""
+msgstr "A beállítás aktív"
 
 #: templates/settings.php:33
 msgid "When unchecked, this configuration will be skipped."
-msgstr ""
+msgstr "Ha nincs kipipálva, ez a beállítás kihagyódik."
 
 #: templates/settings.php:34
 msgid "Port"
@@ -190,25 +190,25 @@ msgstr "Port"
 
 #: templates/settings.php:35
 msgid "Backup (Replica) Host"
-msgstr ""
+msgstr "Másodkiszolgáló (replika)"
 
 #: templates/settings.php:35
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr ""
+msgstr "Adjon meg egy opcionális másodkiszolgálót. Ez a fő LDAP/AD kiszolgáló szinkron másolata (replikája) kell legyen."
 
 #: templates/settings.php:36
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "A másodkiszolgáló (replika) portszáma"
 
 #: templates/settings.php:37
 msgid "Disable Main Server"
-msgstr ""
+msgstr "A fő szerver kihagyása"
 
 #: templates/settings.php:37
 msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr ""
+msgstr "Ha ezt bekapcsoljuk, akkor az ownCloud csak a másodszerverekhez kapcsolódik."
 
 #: templates/settings.php:38
 msgid "Use TLS"
@@ -216,7 +216,7 @@ msgstr "Használjunk TLS-t"
 
 #: templates/settings.php:38
 msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr ""
+msgstr "LDAPS kapcsolatok esetén ne kapcsoljuk be, mert nem fog működni."
 
 #: templates/settings.php:39
 msgid "Case insensitve LDAP server (Windows)"
@@ -242,7 +242,7 @@ msgstr "másodpercben. A változtatás törli a cache tartalmát."
 
 #: templates/settings.php:43
 msgid "Directory Settings"
-msgstr ""
+msgstr "Címtár beállítások"
 
 #: templates/settings.php:45
 msgid "User Display Name Field"
@@ -262,11 +262,11 @@ msgstr "Soronként egy felhasználói fa gyökerét adhatjuk meg"
 
 #: templates/settings.php:47
 msgid "User Search Attributes"
-msgstr ""
+msgstr "A felhasználók lekérdezett attribútumai"
 
 #: templates/settings.php:47 templates/settings.php:50
 msgid "Optional; one attribute per line"
-msgstr ""
+msgstr "Nem kötelező megadni, soronként egy attribútum"
 
 #: templates/settings.php:48
 msgid "Group Display Name Field"
@@ -286,7 +286,7 @@ msgstr "Soronként egy csoportfa gyökerét adhatjuk meg"
 
 #: templates/settings.php:50
 msgid "Group Search Attributes"
-msgstr ""
+msgstr "A csoportok lekérdezett attribútumai"
 
 #: templates/settings.php:51
 msgid "Group-Member association"
@@ -294,7 +294,7 @@ msgstr "A csoporttagság attribútuma"
 
 #: templates/settings.php:53
 msgid "Special Attributes"
-msgstr ""
+msgstr "Különleges attribútumok"
 
 #: templates/settings.php:56
 msgid "in bytes"

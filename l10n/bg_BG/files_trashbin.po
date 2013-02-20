@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Stefan Ilivanov <ilivanov@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-12 15:10+0100\n"
-"PO-Revision-Date: 2013-02-12 10:07+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-15 00:05+0100\n"
+"PO-Revision-Date: 2013-02-14 17:50+0000\n"
+"Last-Translator: Stefan Ilivanov <ilivanov@gmail.com>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,20 +21,20 @@ msgstr ""
 #: ajax/delete.php:22
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "Невъзможно изтриване на %s завинаги"
 
 #: ajax/undelete.php:41
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "Невъзможно възтановяване на %s"
 
 #: js/trash.js:7 js/trash.js:94
 msgid "perform restore operation"
-msgstr ""
+msgstr "извършване на действие по възтановяване"
 
 #: js/trash.js:33
 msgid "delete file permanently"
-msgstr ""
+msgstr "изтриване на файла завинаги"
 
 #: js/trash.js:125 templates/index.php:17
 msgid "Name"
@@ -41,27 +42,27 @@ msgstr "Име"
 
 #: js/trash.js:126 templates/index.php:27
 msgid "Deleted"
-msgstr ""
+msgstr "Изтрито"
 
 #: js/trash.js:135
 msgid "1 folder"
-msgstr ""
+msgstr "1 папка"
 
 #: js/trash.js:137
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} папки"
 
 #: js/trash.js:145
 msgid "1 file"
-msgstr ""
+msgstr "1 файл"
 
 #: js/trash.js:147
 msgid "{count} files"
-msgstr ""
+msgstr "{count} файла"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "Няма нищо. Кофата е празна!"
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"

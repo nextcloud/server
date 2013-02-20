@@ -9,6 +9,8 @@
 "Enable" => "Uključi",
 "Error" => "Greška",
 "Saving..." => "Spremanje...",
+"deleted" => "izbrisano",
+"undo" => "vrati",
 "Groups" => "Grupe",
 "Group Admin" => "Grupa Admin",
 "Delete" => "Obriši",

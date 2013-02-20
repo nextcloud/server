@@ -24,7 +24,7 @@
 					<?php endif; ?>
 					</td>
 					<td class="mountPoint"><input type="text" name="mountPoint"
-												  value="<?php echo $mountPoint; ?>"
+												  value="<?php p($mountPoint); ?>"
 												  placeholder="<?php echo $l->t('Folder name'); ?>" /></td>
 					<?php if ($mountPoint == ''): ?>
 						<td class="backend">
@@ -154,6 +154,7 @@
 			<?php endforeach; ?>
 			</tbody>
 		</table>
+		<input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken']; ?>">
 		<input type="file" id="rootcert_import" name="rootcert_import" style="width:230px;">
 		<input type="submit" name="cert_import" value="<?php echo $l->t('Import Root Certificate'); ?>" />
 </fieldset>

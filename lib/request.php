@@ -114,8 +114,8 @@ class OC_Request {
 
 			switch($encoding) {
 
-			    case 'ISO-8859-1' :
-				    $path_info = utf8_encode($path_info);
+				case 'ISO-8859-1' :
+					$path_info = utf8_encode($path_info);
 
 			}
 			// end copy

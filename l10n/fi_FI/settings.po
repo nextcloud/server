@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-12 15:10+0100\n"
-"PO-Revision-Date: 2013-02-12 14:10+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-15 00:05+0100\n"
+"PO-Revision-Date: 2013-02-14 07:30+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -125,46 +125,42 @@ msgstr "Tallennetaan..."
 
 #: js/users.js:30
 msgid "deleted"
-msgstr ""
+msgstr "poistettu"
 
 #: js/users.js:30
 msgid "undo"
-msgstr ""
+msgstr "kumoa"
 
 #: js/users.js:62
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Käyttäjän poistaminen ei onnistunut"
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:82
-#: templates/users.php:107
+#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: templates/users.php:105
 msgid "Groups"
 msgstr "Ryhmät"
 
-#: js/users.js:78 templates/users.php:84 templates/users.php:121
+#: js/users.js:78 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "Ryhmän ylläpitäjä"
 
-#: js/users.js:99 templates/users.php:165
+#: js/users.js:99 templates/users.php:161
 msgid "Delete"
 msgstr "Poista"
 
-#: js/users.js:190
+#: js/users.js:191
 msgid "add group"
-msgstr ""
+msgstr "lisää ryhmä"
 
-#: js/users.js:405
-msgid "The username is already being used"
-msgstr ""
-
-#: js/users.js:406 js/users.js:412 js/users.js:418 js/users.js:433
-msgid "Error creating user"
-msgstr ""
-
-#: js/users.js:411
+#: js/users.js:352
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:417
+#: js/users.js:353 js/users.js:359 js/users.js:374
+msgid "Error creating user"
+msgstr "Virhe käyttäjää luotaessa"
+
+#: js/users.js:358
 msgid "A valid password must be provided"
 msgstr ""
 
@@ -174,7 +170,7 @@ msgstr "_kielen_nimi_"
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr ""
+msgstr "Turvallisuusvaroitus"
 
 #: templates/admin.php:18
 msgid ""
@@ -183,7 +179,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Data-kansio ja tiedostot ovat ehkä saavutettavissa Internetistä. .htaccess-tiedosto, jolla kontrolloidaan pääsyä, ei toimi. Suosittelemme, että muutat web-palvelimesi asetukset niin ettei data-kansio ole enää pääsyä tai siirrät data-kansion pois web-palvelimen tiedostojen juuresta."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -198,11 +194,11 @@ msgstr ""
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Lue tarkasti <a href='%s'>asennusohjeet</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Moduuli 'fileinfo' puuttuu"
 
 #: templates/admin.php:47
 msgid ""
@@ -224,7 +220,7 @@ msgstr ""
 
 #: templates/admin.php:72
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Internet-yhteys ei toimi"
 
 #: templates/admin.php:75
 msgid ""
@@ -238,7 +234,7 @@ msgstr ""
 
 #: templates/admin.php:89
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:98
 msgid "Execute one task with each page loaded"
@@ -258,52 +254,52 @@ msgstr ""
 
 #: templates/admin.php:125
 msgid "Sharing"
-msgstr ""
+msgstr "Jakaminen"
 
 #: templates/admin.php:131
 msgid "Enable Share API"
-msgstr ""
+msgstr "Käytä jakamisen ohjelmointirajapintaa"
 
 #: templates/admin.php:132
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Salli sovellusten käyttää jakamisen ohjelmointirajapintaa"
 
 #: templates/admin.php:139
 msgid "Allow links"
-msgstr ""
+msgstr "Salli linkit"
 
 #: templates/admin.php:140
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Salli käyttäjien jakaa kohteita käyttäen linkkejä"
 
 #: templates/admin.php:147
 msgid "Allow resharing"
-msgstr ""
+msgstr "Salli uudelleenjakaminen"
 
 #: templates/admin.php:148
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Mahdollistaa käyttäjien jakavan uudelleen heidän kanssaan jaettuja kohteita"
 
 #: templates/admin.php:155
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Salli käyttäjien jakaa kenen tahansa kanssa"
 
 #: templates/admin.php:158
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Salli jakaminen vain samoissa ryhmissä olevien käyttäjien kesken"
 
 #: templates/admin.php:165
 msgid "Security"
-msgstr ""
+msgstr "Tietoturva"
 
 #: templates/admin.php:178
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Pakota HTTPS"
 
 #: templates/admin.php:179
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Pakottaa salaamaan ownCloudiin kohdistuvat yhteydet."
 
 #: templates/admin.php:182
 msgid ""
@@ -313,15 +309,15 @@ msgstr ""
 
 #: templates/admin.php:192
 msgid "Log"
-msgstr ""
+msgstr "Loki"
 
 #: templates/admin.php:193
 msgid "Log level"
-msgstr ""
+msgstr "Lokitaso"
 
 #: templates/admin.php:220
 msgid "More"
-msgstr ""
+msgstr "Enemmän"
 
 #: templates/admin.php:227 templates/personal.php:98
 msgid "Version"
@@ -398,7 +394,7 @@ msgstr ""
 msgid "Show First Run Wizard again"
 msgstr "Näytä ensimmäisen käyttökerran avustaja uudelleen"
 
-#: templates/personal.php:36 templates/users.php:23 templates/users.php:81
+#: templates/personal.php:36 templates/users.php:23 templates/users.php:79
 msgid "Password"
 msgstr "Salasana"
 
@@ -422,7 +418,7 @@ msgstr "Uusi salasana"
 msgid "Change password"
 msgstr "Vaihda salasana"
 
-#: templates/personal.php:54 templates/users.php:80
+#: templates/personal.php:54 templates/users.php:78
 msgid "Display Name"
 msgstr "Näyttönimi"
 
@@ -466,7 +462,7 @@ msgstr "WebDAV"
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Käytä tätä osoitetta yhdistäessäsi ownCloudiisi tiedostonhallintaa käyttäen"
 
-#: templates/users.php:21 templates/users.php:79
+#: templates/users.php:21 templates/users.php:77
 msgid "Login Name"
 msgstr "Kirjautumisnimi"
 
@@ -478,26 +474,26 @@ msgstr "Luo"
 msgid "Default Storage"
 msgstr ""
 
-#: templates/users.php:42 templates/users.php:142
+#: templates/users.php:41 templates/users.php:139
 msgid "Unlimited"
 msgstr "Rajoittamaton"
 
-#: templates/users.php:60 templates/users.php:157
+#: templates/users.php:59 templates/users.php:154
 msgid "Other"
 msgstr "Muu"
 
-#: templates/users.php:86
+#: templates/users.php:84
 msgid "Storage"
 msgstr ""
 
-#: templates/users.php:97
+#: templates/users.php:95
 msgid "change display name"
 msgstr "vaihda näyttönimi"
 
-#: templates/users.php:101
+#: templates/users.php:99
 msgid "set new password"
 msgstr "aseta uusi salasana"
 
-#: templates/users.php:137
+#: templates/users.php:134
 msgid "Default"
 msgstr "Oletus"

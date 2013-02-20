@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-12 15:10+0100\n"
-"PO-Revision-Date: 2013-02-12 10:02+0000\n"
-"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
+"POT-Creation-Date: 2013-02-15 00:04+0100\n"
+"PO-Revision-Date: 2013-02-14 23:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -279,8 +279,8 @@ msgid "From link"
 msgstr "從連結"
 
 #: templates/index.php:40
-msgid "Trash bin"
-msgstr "回收筒"
+msgid "Deleted files"
+msgstr ""
 
 #: templates/index.php:46
 msgid "Cancel upload"

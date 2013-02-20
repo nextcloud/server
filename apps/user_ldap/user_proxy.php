@@ -183,4 +183,12 @@ class User_Proxy extends lib\Proxy implements \OCP\UserInterface {
 	public function deleteUser($uid) {
 		return false;
 	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasUserListings() {
+		return $this->refBackend->hasUserListings();
+	}
+
 }

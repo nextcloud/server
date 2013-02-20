@@ -62,7 +62,7 @@ OC.MountConfig={
 						url: OC.filePath('files_external', 'ajax', 'addMountPoint.php'),
 						data: {
 							mountPoint: mountPoint,
-							class: backendClass,
+							'class': backendClass,
 							classOptions: classOptions,
 							mountType: mountType,
 							applicable: applicable,
@@ -120,7 +120,7 @@ OC.MountConfig={
 					url: OC.filePath('files_external', 'ajax', 'addMountPoint.php'),
 					data: {
 						mountPoint: mountPoint,
-						class: backendClass,
+						'class': backendClass,
 						classOptions: classOptions,
 						mountType: mountType,
 						applicable: applicable,

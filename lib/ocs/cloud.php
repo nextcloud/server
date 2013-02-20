@@ -31,7 +31,7 @@ class OC_OCS_Cloud {
 		foreach($apps as $app) {
 			$info = OC_App::getAppInfo($app);
 			if(isset($info['standalone'])) {
-				$newValue = array('name'=>$info['name'],'url'=>OC_Helper::linkToAbsolute($app,''),'icon'=>'');
+				$newValue = array('name'=>$info['name'], 'url'=>OC_Helper::linkToAbsolute($app, ''), 'icon'=>'');
 				$values[] = $newValue;
 			}
 		}

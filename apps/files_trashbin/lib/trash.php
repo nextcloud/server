@@ -80,7 +80,7 @@ class Trashbin {
 				}
 			}
 		} else {
-			\OC_Log::write('files_trashbin', 'Couldn\'t move '.$file_path.' to the trash bin' , \OC_log::ERROR);
+			\OC_Log::write('files_trashbin', 'Couldn\'t move '.$file_path.' to the trash bin', \OC_log::ERROR);
 		}
 		
 		// get available disk space for user
@@ -188,7 +188,7 @@ class Trashbin {
 			\OCP\Config::setAppValue('files_trashbin', 'size', $trashbinSize);
 			return true;
 		} else {
-			\OC_Log::write('files_trashbin', 'Couldn\'t restore file from trash bin, '.$filename , \OC_log::ERROR);
+			\OC_Log::write('files_trashbin', 'Couldn\'t restore file from trash bin, '.$filename, \OC_log::ERROR);
 		}
 
 		return false;
@@ -246,8 +246,27 @@ class Trashbin {
 		
 		return $size;
 	}
-	
-	
+
+	/**
+	 * check to see whether a file exists in trashbin
+	 * @param $filename path to the file
+	 * @param $timestamp of deletion time
+	 * @return true if file exists, otherwise false
+	 */
+	public static function file_exists($filename, $timestamp=null) {
+		$user = \OCP\User::getUser();
+		$view = new \OC_FilesystemView('/'.$user);
+
+		if ($timestamp) {
+			$filename = $filename.'.d'.$timestamp;
+		} else {
+			$filename = $filename;
+		}
+
+		$target = \OC_Filesystem::normalizePath('files_trashbin/'.$filename);
+		return $view->file_exists($target);
+	}
+
 	/**
 	 * clean up the trash bin
 	 * @param max. available disk space for trashbin
@@ -349,7 +368,7 @@ class Trashbin {
 		$versionsName = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath($filename);
 		$versions = array();
 		if ($timestamp ) {
-		// fetch for old versions
+			// fetch for old versions
 			$matches = glob( $versionsName.'.v*.d'.$timestamp );
 			$offset = -strlen($timestamp)-2;
 		} else {
@@ -396,6 +415,9 @@ class Trashbin {
 	 */
 	private static function calculateSize($view) {
 		$root = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath('');
+		if (!file_exists($root)) {
+			return 0;
+		}
 		$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($root), \RecursiveIteratorIterator::CHILD_FIRST);
 		$size = 0;
 		

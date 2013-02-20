@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-12 15:10+0100\n"
-"PO-Revision-Date: 2013-02-12 10:01+0000\n"
+"POT-Creation-Date: 2013-02-15 00:04+0100\n"
+"PO-Revision-Date: 2013-02-14 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -89,7 +89,7 @@ msgstr "Arquivos"
 
 #: js/fileactions.js:125
 msgid "Delete permanently"
-msgstr ""
+msgstr "Excluir permanentemente"
 
 #: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
 msgid "Delete"
@@ -134,7 +134,7 @@ msgstr "Substituído {old_name} por {new_name} "
 
 #: js/filelist.js:322
 msgid "perform delete operation"
-msgstr ""
+msgstr "realizar operação de exclusão"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -152,11 +152,11 @@ msgstr "Nome inválido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Seu armazenamento está cheio, arquivos não serão mais atualizados nem sincronizados!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Seu armazenamento está quase cheio ({usedSpacePercent}%)"
 
 #: js/files.js:224
 msgid ""
@@ -282,7 +282,7 @@ msgid "From link"
 msgstr "Do link"
 
 #: templates/index.php:40
-msgid "Trash bin"
+msgid "Deleted files"
 msgstr ""
 
 #: templates/index.php:46
@@ -321,4 +321,4 @@ msgstr "Scanning atual"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "Aprimorando cache do sistema de arquivos..."

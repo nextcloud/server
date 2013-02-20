@@ -7,6 +7,12 @@ namespace OC\Files;
  */
 class Mapper
 {
+	private $unchangedPhysicalRoot;
+
+	public function __construct($rootDir) {
+		$this->unchangedPhysicalRoot = $rootDir;
+	}
+
 	/**
 	 * @param string $logicPath
 	 * @param bool $create indicates if the generated physical name shall be stored in the database or not
@@ -23,7 +29,7 @@ class Mapper
 
 	/**
 	 * @param string $physicalPath
-	 * @return string|null
+	 * @return string
 	 */
 	public function physicalToLogic($physicalPath) {
 		$logicPath = $this->resolvePhysicalPath($physicalPath);
@@ -39,6 +45,7 @@ class Mapper
 	 * @param string $path
 	 * @param bool $isLogicPath indicates if $path is logical or physical
 	 * @param $recursive
+	 * @return void
 	 */
 	public function removePath($path, $isLogicPath, $recursive) {
 		if ($recursive) {
@@ -107,7 +114,7 @@ class Mapper
 
 	private function stripLast($path) {
 		if (substr($path, -1) == '/') {
-			$path = substr_replace($path ,'',-1);
+			$path = substr_replace($path, '', -1);
 		}
 		return $path;
 	}
@@ -117,6 +124,9 @@ class Mapper
 		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*file_map` WHERE `logic_path_hash` = ?');
 		$result = $query->execute(array(md5($logicPath)));
 		$result = $result->fetchRow();
+		if ($result === false) {
+			return null;
+		}
 
 		return $result['physic_path'];
 	}
@@ -156,15 +166,17 @@ class Mapper
 	}
 
 	private function slugifyPath($path, $index=null) {
+		$path = $this->stripRootFolder($path, $this->unchangedPhysicalRoot);
+
 		$pathElements = explode('/', $path);
 		$sluggedElements = array();
 
-		// skip slugging the drive letter on windows - TODO: test if local path
-		if (strpos(strtolower(php_uname('s')), 'win') !== false) {
-			$sluggedElements[]= $pathElements[0];
-			array_shift($pathElements);
-		}
 		foreach ($pathElements as $pathElement) {
+			// remove empty elements
+			if (empty($pathElement)) {
+				continue;
+			}
+
 			// TODO: remove file ext before slugify on last element
 			$sluggedElements[] = self::slugify($pathElement);
 		}
@@ -177,7 +189,9 @@ class Mapper
 			array_pop($sluggedElements);
 			array_push($sluggedElements, $last.'-'.$index);
 		}
-		return implode(DIRECTORY_SEPARATOR, $sluggedElements);
+
+		$sluggedPath = $this->unchangedPhysicalRoot.implode(DIRECTORY_SEPARATOR, $sluggedElements);
+		return $this->stripLast($sluggedPath);
 	}
 
 	/**

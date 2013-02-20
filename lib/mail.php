@@ -32,7 +32,8 @@ class OC_Mail {
 	 * @param string $bcc
 	 * @throws Exception
 	 */
-	public static function send($toaddress,$toname,$subject,$mailtext,$fromaddress,$fromname,$html=0,$altbody='',$ccaddress='',$ccname='', $bcc='') {
+	public static function send($toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname,
+		$html=0, $altbody='', $ccaddress='', $ccname='', $bcc='') {
 
 		$SMTPMODE = OC_Config::getValue( 'mail_smtpmode', 'sendmail' );
 		$SMTPHOST = OC_Config::getValue( 'mail_smtphost', '127.0.0.1' );
@@ -97,7 +98,9 @@ class OC_Mail {
 
 			$mailo->Send();
 			unset($mailo);
-			OC_Log::write('mail', 'Mail from '.$fromname.' ('.$fromaddress.')'.' to: '.$toname.'('.$toaddress.')'.' subject: '.$subject, OC_Log::DEBUG);
+			OC_Log::write('mail',
+				'Mail from '.$fromname.' ('.$fromaddress.')'.' to: '.$toname.'('.$toaddress.')'.' subject: '.$subject,
+				OC_Log::DEBUG);
 		} catch (Exception $exception) {
 			OC_Log::write('mail', $exception->getMessage(), OC_Log::ERROR);
 			throw($exception);

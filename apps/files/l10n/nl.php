@@ -60,7 +60,7 @@
 "Text file" => "Tekstbestand",
 "Folder" => "Map",
 "From link" => "Vanaf link",
-"Trash bin" => "Prullenbak",
+"Deleted files" => "Verwijderde bestanden",
 "Cancel upload" => "Upload afbreken",
 "Nothing in here. Upload something!" => "Er bevindt zich hier niets. Upload een bestand!",
 "Download" => "Download",

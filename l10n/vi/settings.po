@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-12 15:10+0100\n"
-"PO-Revision-Date: 2013-02-12 14:10+0000\n"
+"POT-Creation-Date: 2013-02-14 00:05+0100\n"
+"PO-Revision-Date: 2013-02-13 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -129,26 +129,26 @@ msgstr "Đang tiến hành lưu ..."
 
 #: js/users.js:30
 msgid "deleted"
-msgstr ""
+msgstr "đã xóa"
 
 #: js/users.js:30
 msgid "undo"
-msgstr ""
+msgstr "lùi lại"
 
 #: js/users.js:62
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:82
-#: templates/users.php:107
+#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: templates/users.php:105
 msgid "Groups"
 msgstr "Nhóm"
 
-#: js/users.js:78 templates/users.php:84 templates/users.php:121
+#: js/users.js:78 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "Nhóm quản trị"
 
-#: js/users.js:99 templates/users.php:165
+#: js/users.js:99 templates/users.php:161
 msgid "Delete"
 msgstr "Xóa"
 
@@ -156,19 +156,15 @@ msgstr "Xóa"
 msgid "add group"
 msgstr ""
 
-#: js/users.js:405
-msgid "The username is already being used"
-msgstr ""
-
-#: js/users.js:406 js/users.js:412 js/users.js:418 js/users.js:433
-msgid "Error creating user"
-msgstr ""
-
-#: js/users.js:411
+#: js/users.js:351
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:417
+#: js/users.js:352 js/users.js:358 js/users.js:373
+msgid "Error creating user"
+msgstr ""
+
+#: js/users.js:357
 msgid "A valid password must be provided"
 msgstr ""
 
@@ -178,7 +174,7 @@ msgstr "__Ngôn ngữ___"
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr ""
+msgstr "Cảnh bảo bảo mật"
 
 #: templates/admin.php:18
 msgid ""
@@ -187,7 +183,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Thư mục dữ liệu và những tập tin của bạn có thể dễ dàng bị truy cập từ mạng. Tập tin .htaccess do ownCloud cung cấp không hoạt động. Chúng tôi đề nghị bạn nên cấu hình lại máy chủ web để thư mục dữ liệu không còn bị truy cập hoặc bạn nên di chuyển thư mục dữ liệu ra bên ngoài thư mục gốc của máy chủ."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -325,7 +321,7 @@ msgstr ""
 
 #: templates/admin.php:220
 msgid "More"
-msgstr ""
+msgstr "hơn"
 
 #: templates/admin.php:227 templates/personal.php:98
 msgid "Version"
@@ -396,13 +392,13 @@ msgstr "Bạn đã sử dụng <strong>%s </ strong> có sẵn <strong> %s </ st
 
 #: templates/personal.php:14
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Nhận ứng dụng để đồng bộ file của bạn"
 
 #: templates/personal.php:25
 msgid "Show First Run Wizard again"
 msgstr "Hiện lại việc chạy đồ thuật khởi đầu"
 
-#: templates/personal.php:36 templates/users.php:23 templates/users.php:81
+#: templates/personal.php:36 templates/users.php:23 templates/users.php:79
 msgid "Password"
 msgstr "Mật khẩu"
 
@@ -426,7 +422,7 @@ msgstr "Mật khẩu mới "
 msgid "Change password"
 msgstr "Đổi mật khẩu"
 
-#: templates/personal.php:54 templates/users.php:80
+#: templates/personal.php:54 templates/users.php:78
 msgid "Display Name"
 msgstr "Tên hiển thị"
 
@@ -470,7 +466,7 @@ msgstr "WebDAV"
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Sử dụng địa chỉ này để kết nối ownCloud của bạn trong trình quản lý file của bạn"
 
-#: templates/users.php:21 templates/users.php:79
+#: templates/users.php:21 templates/users.php:77
 msgid "Login Name"
 msgstr "Tên đăng nhập"
 
@@ -482,26 +478,26 @@ msgstr "Tạo"
 msgid "Default Storage"
 msgstr "Bộ nhớ mặc định"
 
-#: templates/users.php:42 templates/users.php:142
+#: templates/users.php:41 templates/users.php:139
 msgid "Unlimited"
 msgstr "Không giới hạn"
 
-#: templates/users.php:60 templates/users.php:157
+#: templates/users.php:59 templates/users.php:154
 msgid "Other"
 msgstr "Khác"
 
-#: templates/users.php:86
+#: templates/users.php:84
 msgid "Storage"
 msgstr "Bộ nhớ"
 
-#: templates/users.php:97
+#: templates/users.php:95
 msgid "change display name"
 msgstr "Thay đổi tên hiển thị"
 
-#: templates/users.php:101
+#: templates/users.php:99
 msgid "set new password"
 msgstr "đặt mật khẩu mới"
 
-#: templates/users.php:137
+#: templates/users.php:134
 msgid "Default"
 msgstr "Mặc định"

@@ -663,14 +663,14 @@ $(document).ready(function(){
 		}
 	});
 	$('#settings #expand').click(function(event) {
-		$('#settings #expanddiv').slideToggle();
+		$('#settings #expanddiv').slideToggle(200);
 		event.stopPropagation();
 	});
 	$('#settings #expanddiv').click(function(event){
 		event.stopPropagation();
 	});
 	$(window).click(function(){//hide the settings menu when clicking outside it
-		$('#settings #expanddiv').slideUp();
+		$('#settings #expanddiv').slideUp(200);
 	});
 
 	// all the tipsy stuff needs to be here (in reverse order) to work
