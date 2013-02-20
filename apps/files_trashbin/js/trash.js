@@ -6,9 +6,10 @@ $(document).ready(function() {
 			var tr=$('tr').filterAttr('data-file', filename);
 			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform restore operation')+'" src="'+ OC.imagePath('core', 'loader.gif') +'"></a>';
 			var undeleteAction = $('tr').filterAttr('data-file',filename).children("td.date");
+			var files = tr.attr('data-file');
 			undeleteAction[0].innerHTML = undeleteAction[0].innerHTML+spinner;
 			$.post(OC.filePath('files_trashbin','ajax','undelete.php'),
-				{files:tr.attr('data-file'), dirlisting:tr.attr('data-dirlisting') },
+				{files:JSON.stringify([files]), dirlisting:tr.attr('data-dirlisting') },
 				function(result){
 					for (var i = 0; i < result.data.success.length; i++) {
 						var row = document.getElementById(result.data.success[i].filename);
@@ -31,10 +32,11 @@ $(document).ready(function() {
 			var deleteAction = $('tr').filterAttr('data-file',filename).children("td.date").children(".action.delete");
 			var oldHTML = deleteAction[0].outerHTML;
 			var newHTML = '<img class="move2trash" data-action="Delete" title="'+t('files', 'delete file permanently')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
+			var files = tr.attr('data-file');
 			deleteAction[0].outerHTML = newHTML;
 			
 			$.post(OC.filePath('files_trashbin','ajax','delete.php'),
-				{files:tr.attr('data-file'), dirlisting:tr.attr('data-dirlisting') },
+				{files:JSON.stringify([files]), dirlisting:tr.attr('data-dirlisting') },
 				function(result){
 					for (var i = 0; i < result.data.success.length; i++) {
 						var row = document.getElementById(result.data.success[i].filename);
@@ -93,7 +95,7 @@ $(document).ready(function() {
 		$('.undelete').click('click',function(event) {
 			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform restore operation')+'" src="'+ OC.imagePath('core', 'loader.gif') +'"></a>';
 			var files=getSelectedFiles('file');
-			var fileslist=files.join('|');
+			var fileslist = JSON.stringify(files);
 			var dirlisting=getSelectedFiles('dirlisting')[0];
 			
 			for (var i in files) {
@@ -118,7 +120,7 @@ $(document).ready(function() {
 			console.log("delete selected");
 			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'Delete permanently')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
 			var files=getSelectedFiles('file');
-			var fileslist=files.join('|');
+			var fileslist = JSON.stringify(files);
 			var dirlisting=getSelectedFiles('dirlisting')[0];
 			
 			for (var i in files) {
