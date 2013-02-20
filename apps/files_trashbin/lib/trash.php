@@ -83,9 +83,10 @@ class Trashbin {
 			}
 			
 			// Take care of encryption keys
-			if ( \OCP\App::isEnabled('files_encryption') ) {
-				$trashbinSize += self::calculateSize(new \OC_FilesystemView('/'. $user.'/files_encryption/keyfiles/'.$file_path));
-				$view->rename('files_encryption'.$file_path, 'files_trashbin/keyfiles'. $deleted.'.d'.$timestamp);
+			$keyfile = \OC_Filesystem::normalizePath('files_encryption/keyfiles/'.$file_path.'.key');
+			if ( \OCP\App::isEnabled('files_encryption') && $view->file_exists($keyfile) ) {
+				$trashbinSize += $view->filesize($keyfile);
+				$view->rename($keyfile, 'files_trashbin/keyfiles/'. $deleted.'.d'.$timestamp);
 			}
 
 		} else {
@@ -187,7 +188,18 @@ class Trashbin {
 					}
 				}
 			}
-
+			
+			// Take care of encryption keys
+			$keyfile = 'files_trashbin/keyfiles/'.$file;
+			if ( \OCP\App::isEnabled('files_encryption') && $view->file_exists($keyfile) ) {
+				if ( $result[0]['type'] == 'dir' ) {
+					$trashbinSize -= self::calculateSize(new \OC_FilesystemView('/'.$user.'/'.$keyfile));
+				} else {
+					$trashbinSize -= $view->filesize($keyfile);
+				}
+				$view->rename($keyfile, 'files_encryption/keyfiles/'. $location.'/'.$filename.'.key');
+			}
+			
 			if ( $timestamp ) {
 				$query = \OC_DB::prepare('DELETE FROM *PREFIX*files_trash WHERE user=? AND id=? AND timestamp=?');
 				$query->execute(array($user,$filename,$timestamp));
