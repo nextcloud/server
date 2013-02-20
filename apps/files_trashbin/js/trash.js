@@ -93,7 +93,7 @@ $(document).ready(function() {
 		$('.undelete').click('click',function(event) {
 			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform restore operation')+'" src="'+ OC.imagePath('core', 'loader.gif') +'"></a>';
 			var files=getSelectedFiles('file');
-			var fileslist=files.join(';');
+			var fileslist=files.join('|');
 			var dirlisting=getSelectedFiles('dirlisting')[0];
 			
 			for (var i in files) {
@@ -118,7 +118,7 @@ $(document).ready(function() {
 			console.log("delete selected");
 			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'Delete permanently')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
 			var files=getSelectedFiles('file');
-			var fileslist=files.join(';');
+			var fileslist=files.join('|');
 			var dirlisting=getSelectedFiles('dirlisting')[0];
 			
 			for (var i in files) {

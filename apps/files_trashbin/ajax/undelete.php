@@ -5,7 +5,7 @@ OCP\JSON::callCheck();
 
 $files = $_POST['files'];
 $dirlisting = $_POST['dirlisting'];
-$list = explode(';', $files);
+$list = explode('|', $files);
 
 $error = array();
 $success = array();
