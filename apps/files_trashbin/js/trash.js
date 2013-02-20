@@ -88,7 +88,7 @@ $(document).ready(function() {
 				}
 			}
 			processSelection();
-		});		
+		});
 		
 		$('.undelete').click('click',function(event) {
 			var spinner = '<img class="move2trash" title="'+t('files_trashbin', 'perform restore operation')+'" src="'+ OC.imagePath('core', 'loader.gif') +'"></a>';
@@ -96,7 +96,7 @@ $(document).ready(function() {
 			var fileslist=files.join(';');
 			var dirlisting=getSelectedFiles('dirlisting')[0];
 			
-			for (var i in files) {
+			for (var i=0; i<files.length; i++) {
 				var undeleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date");
 				undeleteAction[0].innerHTML = undeleteAction[0].innerHTML+spinner;
 			}
@@ -111,7 +111,7 @@ $(document).ready(function() {
 						if (result.status != 'success') {
 							OC.dialogs.alert(result.data.message, 'Error');
 						}
-					});		
+					});
 			});
 	
 

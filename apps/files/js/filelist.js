@@ -315,8 +315,8 @@ var FileList={
 	do_delete:function(files){
 		if(files.substr){
 			files=[files];
-		}	
-		for (var i in files) {
+		}
+		for (var i=0; i<files.length; i++) {
 			var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date").children(".action.delete");
 			var oldHTML = deleteAction[0].outerHTML;
 			var newHTML = '<img class="move2trash" data-action="Delete" title="'+t('files', 'perform delete operation')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
