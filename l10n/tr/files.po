@@ -9,13 +9,14 @@
 #   <info@beyboo.de>, 2012.
 # ismail yenigul <ismail.yenigul@surgate.com>, 2013.
 # Necdet Yücel <necdetyucel@gmail.com>, 2012.
+# TayançKILIÇLI <tayancatakan@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-15 00:04+0100\n"
-"PO-Revision-Date: 2013-02-14 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-19 00:05+0100\n"
+"PO-Revision-Date: 2013-02-18 19:30+0000\n"
+"Last-Translator: atakan96 <tayancatakan@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -74,7 +75,7 @@ msgstr "Diske yazılamadı"
 
 #: ajax/upload.php:52
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Yeterli disk alanı yok"
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
@@ -86,7 +87,7 @@ msgstr "Dosyalar"
 
 #: js/fileactions.js:125
 msgid "Delete permanently"
-msgstr ""
+msgstr "Kalıcı olarak sil"
 
 #: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
 msgid "Delete"
@@ -131,7 +132,7 @@ msgstr "{new_name} ismi {old_name} ile değiştirildi"
 
 #: js/filelist.js:322
 msgid "perform delete operation"
-msgstr ""
+msgstr "Silme işlemini gerçekleştir"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -149,11 +150,11 @@ msgstr "Geçersiz isim, '\\', '/', '<', '>', ':', '\"', '|', '?' ve '*' karakter
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Depolama alanınız dolu, artık dosyalar güncellenmeyecek yada senkronizasyon edilmeyecek."
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Depolama alanınız neredeyse dolu ({usedSpacePercent}%)"
 
 #: js/files.js:224
 msgid ""
@@ -280,7 +281,7 @@ msgstr "Bağlantıdan"
 
 #: templates/index.php:40
 msgid "Deleted files"
-msgstr ""
+msgstr "Dosyalar silindi"
 
 #: templates/index.php:46
 msgid "Cancel upload"
@@ -318,4 +319,4 @@ msgstr "Güncel tarama"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "Sistem dosyası önbelleği güncelleniyor"

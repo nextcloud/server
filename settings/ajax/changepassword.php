@@ -8,7 +8,7 @@ OC_JSON::checkLoggedIn();
 OC_APP::loadApps();
 
 $username = isset($_POST["username"]) ? $_POST["username"] : OC_User::getUser();
-$password = $_POST["password"];
+$password = isset($_POST["password"]) ? $_POST["password"] : null;
 $oldPassword=isset($_POST["oldpassword"])?$_POST["oldpassword"]:'';
 
 $userstatus = null;
@@ -28,7 +28,7 @@ if(is_null($userstatus)) {
 }
 
 // Return Success story
-if( OC_User::setPassword( $username, $password )) {
+if(!is_null($password) && OC_User::setPassword( $username, $password )) {
 	OC_JSON::success(array("data" => array( "username" => $username )));
 }
 else{

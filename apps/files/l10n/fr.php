@@ -60,6 +60,7 @@
 "Text file" => "Fichier texte",
 "Folder" => "Dossier",
 "From link" => "Depuis le lien",
+"Deleted files" => "Fichiers supprimés",
 "Cancel upload" => "Annuler l'envoi",
 "Nothing in here. Upload something!" => "Il n'y a rien ici ! Envoyez donc quelque chose :)",
 "Download" => "Télécharger",
