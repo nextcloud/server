@@ -69,7 +69,7 @@ class Trashbin {
 				return;
 			}
 			
-			// Take core of file versions
+			// Take care of file versions
 			if ( \OCP\App::isEnabled('files_versions') ) {
 				if ( $view->is_dir('files_versions'.$file_path) ) {
 					$trashbinSize += self::calculateSize(new \OC_FilesystemView('/'. $user.'/files_versions/'.$file_path));
@@ -86,11 +86,12 @@ class Trashbin {
 			$keyfile = \OC_Filesystem::normalizePath('files_encryption/keyfiles/'.$file_path);
 			if ( \OCP\App::isEnabled('files_encryption') && $view->file_exists($keyfile.'.key') ) {
 				if ( $view->is_dir('files'.$file_path) ) {
-					$trashbinSize -= self::calculateSize(new \OC_FilesystemView('/'.$user.'/'.$keyfile));
+					$trashbinSize += self::calculateSize(new \OC_FilesystemView('/'.$user.'/'.$keyfile));
+					$view->rename($keyfile, 'files_trashbin/keyfiles/'. $deleted.'.d'.$timestamp);
 				} else {
 					$trashbinSize += $view->filesize($keyfile.'.key');
+					$view->rename($keyfile.'.key', 'files_trashbin/keyfiles/'. $deleted.'.key.d'.$timestamp);
 				}
-				$view->rename($keyfile.'.key', 'files_trashbin/keyfiles/'. $deleted.'.d'.$timestamp);
 			}
 
 		} else {
@@ -149,7 +150,7 @@ class Trashbin {
 				$location = '';
 			}
 		} else {
-			$path_parts = pathinfo($filename);
+			$path_parts = pathinfo($file);
 			$result[] = array(
 					'location' => $path_parts['dirname'],
 					'type' => $view->is_dir('/files_trashbin/files/'.$file) ? 'dir' : 'files',
@@ -193,15 +194,24 @@ class Trashbin {
 				}
 			}
 			
-			// Take care of encryption keys
-			$keyfile = \OC_Filesystem::normalizePath('files_trashbin/keyfiles/'.$file);
+			// Take care of encryption keys TODO! Get '.key' in file between file name and delete date (also for permanent delete!)
+			$parts = pathinfo($file);
+			if ( $result[0]['type'] == 'dir' ) {
+				$keyfile = \OC_Filesystem::normalizePath('files_trashbin/keyfiles/'.$parts['dirname'].'/'.$filename);
+			} else {
+				$keyfile = \OC_Filesystem::normalizePath('files_trashbin/keyfiles/'.$parts['dirname'].'/'.$filename.'.key');
+			}
+			if ($timestamp) {
+				$keyfile .= '.d'.$timestamp;
+			}
 			if ( \OCP\App::isEnabled('files_encryption') && $view->file_exists($keyfile) ) {
 				if ( $result[0]['type'] == 'dir' ) {
 					$trashbinSize -= self::calculateSize(new \OC_FilesystemView('/'.$user.'/'.$keyfile));
+					$view->rename($keyfile, 'files_encryption/keyfiles/'. $location.'/'.$filename);
 				} else {
 					$trashbinSize -= $view->filesize($keyfile);
+					$view->rename($keyfile, 'files_encryption/keyfiles/'. $location.'/'.$filename.'.key');
 				}
-				$view->rename($keyfile, 'files_encryption/keyfiles/'. $location.'/'.$filename.'.key');
 			}
 			
 			if ( $timestamp ) {
@@ -259,9 +269,17 @@ class Trashbin {
 		}
 		
 		// Take care of encryption keys
-		$keyfile = \OC_Filesystem::normalizePath('files_trashbin/keyfiles/'.$file);
+		$parts = pathinfo($file);
+		if ( $view->is_dir('/files_trashbin/files/'.$file) ) {
+			$keyfile = \OC_Filesystem::normalizePath('files_trashbin/keyfiles/'.$filename);
+		} else {
+			$keyfile = \OC_Filesystem::normalizePath('files_trashbin/keyfiles/'.$filename.'.key');
+		}
+		if ($timestamp) {
+			$keyfile .= '.d'.$timestamp;
+		}
 		if ( \OCP\App::isEnabled('files_encryption') && $view->file_exists($keyfile) ) {
-			if ( $result[0]['type'] == 'dir' ) {
+			if ( $view->is_dir($keyfile) ) {
 				$size += self::calculateSize(new \OC_FilesystemView('/'.$user.'/'.$keyfile));
 			} else {
 				$size += $view->filesize($keyfile);
