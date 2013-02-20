@@ -562,7 +562,7 @@ class OC_Util {
 	 */
 	public static function isWebDAVWorking() {
 		if (!function_exists('curl_init')) {
-			return;
+			return true;
 		}
 
 		$settings = array(
@@ -578,6 +578,7 @@ class OC_Util {
 		} catch(\Sabre_DAV_Exception_NotAuthenticated $e) {
 			$return = true;
 		} catch(\Exception $e) {
+			OC_Log::write('core', 'isWebDAVWorking: NO - Reason: '.$e, OC_Log::WARN);
 			$return = false;
 		}
 
