@@ -28,10 +28,11 @@ namespace OC\Files\Cache;
  */
 class Shared_Cache extends Cache {
 
+	private $storage;
 	private $files = array();
 
 	public function __construct($storage) {
-
+		$this->storage = $storage;
 	}
 
 	/**
@@ -64,7 +65,14 @@ class Shared_Cache extends Cache {
 	 */
 	public function get($file) {
 		if ($file == '') {
-			return \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
+			$data = \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_FILE_APP_ROOT);
+			$etag = \OCP\Config::getUserValue(\OCP\User::getUser(), 'files_sharing', 'etag');
+			if (!isset($etag)) {
+				$etag = $this->storage->getETag('');
+				\OCP\Config::setUserValue(\OCP\User::getUser(), 'files_sharing', 'etag', $etag);
+			}
+			$data['etag'] = $etag;
+			return $data;
 		} else if (is_string($file)) {
 			if ($cache = $this->getSourceCache($file)) {
 				return $cache->get($this->files[$file]);
@@ -117,7 +125,9 @@ class Shared_Cache extends Cache {
 	 * @return int file id
 	 */
 	public function put($file, array $data) {
-		if ($cache = $this->getSourceCache($file)) {
+		if ($file == '' && isset($data['etag'])) {
+			\OCP\Config::setUserValue(\OCP\User::getUser(), 'files_sharing', 'etag', $etag);
+		} else if ($cache = $this->getSourceCache($file)) {
 			return $cache->put($this->files[$file], $data);
 		}
 		return false;
