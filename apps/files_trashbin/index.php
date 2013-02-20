@@ -94,6 +94,7 @@ $list->assign('disableDownloadActions', true);
 $tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
 $tmpl->assign('fileList', $list->fetchPage(), false);
 $tmpl->assign('files', $files);
+$tmpl->assign('dirlisting', $dirlisting);
 $tmpl->assign('dir', OC_Filesystem::normalizePath($view->getAbsolutePath()));
 
 $tmpl->printPage();
