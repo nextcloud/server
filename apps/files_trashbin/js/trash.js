@@ -123,7 +123,7 @@ $(document).ready(function() {
 			var fileslist = JSON.stringify(files);
 			var dirlisting=getSelectedFiles('dirlisting')[0];
 			
-			for (var i in files) {
+			for (var i=0; i<files.length; i++) {
 				var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date");
 				deleteAction[0].innerHTML = deleteAction[0].innerHTML+spinner;
 			}
