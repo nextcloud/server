@@ -322,27 +322,10 @@ class Trashbin {
 			$timestamp = $r['timestamp'];
 			$filename = $r['id'];
 			if ( $r['timestamp'] < $limit ) {
-				if ($view->is_dir('files_trashbin/files/'.$filename.'.d'.$timestamp)) {
-					$size += self::calculateSize(new \OC_FilesystemView('/'.$user.'/files_trashbin/files/'.$filename.'.d'.$timestamp));
-				} else {
-					$size += $view->filesize('files_trashbin/files/'.$filename.'.d'.$timestamp);
-				}
-				$view->unlink('files_trashbin/files/'.$filename.'.d'.$timestamp);
-				if ($r['type'] == 'dir') {
-					$size += self::calculateSize(new \OC_FilesystemView('/'.$user.'/files_trashbin/versions'.$filename.'.d'.$timestamp));
-					$view->unlink('files_trashbin/versions'.$filename.'.d'.$timestamp);
-				} else if ( $versions = self::getVersionsFromTrash($filename, $timestamp) ) {
-					foreach ($versions as $v) {
-						$size += $view->filesize('files_trashbin/versions/'.$filename.'.v'.$v.'.d'.$timestamp);
-						$view->unlink('files_trashbin/versions/'.$filename.'.v'.$v.'.d'.$timestamp);
-					}			
-				}
+				$size += self::delete($filename, $timestamp);
 			}
 		}
-		
-		$query = \OC_DB::prepare('DELETE FROM *PREFIX*files_trash WHERE user=? AND timestamp<?');
-		$query->execute(array($user,$limit));
-		
+				
 		$availableSpace = $availableSpace + $size;
 		// if size limit for trash bin reached, delete oldest files in trash bin
 		if ($availableSpace < 0) {
@@ -355,8 +338,7 @@ class Trashbin {
 				$availableSpace += $tmp;
 				$size += $tmp;
 				$i++;
-			}
-			
+			}	
 		}
 		
 		return $size;
