@@ -150,13 +150,13 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 		
 	}
 	
-	function testFindFiles() {
+	function testFindEncFiles() {
 	
 // 		$this->view->chroot( "/data/{$this->userId}/files" );
 
 		$util = new Encryption\Util( $this->view, $this->userId );
 		
-		$files = $util->findFiles( '/', 'encrypted' );
+		$files = $util->findEncFiles( '/', 'encrypted' );
 		
 		var_dump( $files );
 		

@@ -224,7 +224,7 @@ class Util {
 	 * @note $directory needs to be a path relative to OC data dir. e.g.
 	 *       /admin/files NOT /backup OR /home/www/oc/data/admin/files
 	 */
-	public function findFiles( $directory ) {
+	public function findEncFiles( $directory ) {
 		
 		// Disable proxy - we don't want files to be decrypted before
 		// we handle them
@@ -251,7 +251,7 @@ class Util {
 					// its contents
 					if ( $this->view->is_dir( $filePath ) ) { 
 						
-						$this->findFiles( $filePath );
+						$this->findEncFiles( $filePath );
 					
 					// If the path is a file, determine 
 					// its encryption status
@@ -349,6 +349,38 @@ class Util {
 	}
 	
 	/**
+	 * @brief Format a shared path to be relative to the /user/files/ directory
+	 * @note Expects a path like /uid/files/Shared/filepath
+	 */
+	public function stripSharedFilePath( $path ) {
+	
+		$trimmed = ltrim( $path, '/' );
+		$split = explode( '/', $trimmed );
+		$sliced = array_slice( $split, 3 );
+		$relPath = implode( '/', $sliced );
+		
+		return $relPath;
+	
+	}
+	
+	public function isSharedPath( $path ) {
+	
+		$trimmed = ltrim( $path, '/' );
+		$split = explode( '/', $trimmed );
+		
+		if ( $split[2] == "Shared" ) {
+		
+			return true;
+		
+		} else {
+		
+			return false;
+		
+		}
+	
+	}
+	
+	/**
 	 * @brief Encrypt all files in a directory
 	 * @param string $publicKey the public key to encrypt files with
 	 * @param string $dirPath the directory whose files will be encrypted
@@ -356,7 +388,7 @@ class Util {
 	 */
 	public function encryptAll( $publicKey, $dirPath, $legacyPassphrase = null, $newPassphrase = null ) {
 	
-		if ( $found = $this->findFiles( $dirPath ) ) {
+		if ( $found = $this->findEncFiles( $dirPath ) ) {
 		
 			// Disable proxy to prevent file being encrypted twice
 			\OC_FileProxy::$enabled = false;
@@ -478,13 +510,18 @@ class Util {
 	 * @param $fileId id of the file
 	 * @return path of the file
 	 */
-	public static function getFilePath($fileId) {
-		$query = \OC_DB::prepare('SELECT `path`'
+	public static function fileIdToPath( $fileId ) {
+	
+		$query = \OC_DB::prepare( 'SELECT `path`'
 				.' FROM `*PREFIX*filecache`'
-				.' WHERE `fileid` = ?');
-		$result = $query->execute(array($fileId));
+				.' WHERE `fileid` = ?' );
+				
+		$result = $query->execute( array( $fileId ) );
+		
 		$row = $result->fetchRow();
-		return substr($row['path'], 5);
+		
+		return substr( $row['path'], 5 );
+	
 	}
 	
 	/**
@@ -526,6 +563,122 @@ class Util {
 		
 		return $userIds;
 		
+	}
+	
+	/**
+	 * @brief Expand given path to all sub files & folders
+	 * @param Session $session
+	 * @param string $path path which needs to be updated
+	 * @return bool outcome of attempt to set keyfiles
+	 */
+	public function getPaths( $path ) {
+		
+		// Default return value is success
+		$result = true;
+	
+		// Make path include 'files' dir for OC_FSV operations
+		$fPath = 'files' . $path;
+		
+		// If we're handling a single file
+		if ( ! $this->view->is_dir( $fPath ) ) {
+			
+			$pathsArray[] = $path;
+			
+		// If we're handling a folder (recursively)
+		} else {
+		
+			$subFiles = $this->view->getDirectoryContent( $fPath );
+			
+			foreach ( $subFiles as $file ) {
+			
+				$filePath = substr( $file['path'], 5 );
+				
+				// If this is a nested file
+				if ( ! $this->view->is_dir( $fPath ) ) {
+					
+					// Add the file path to array
+					$pathsArray[] = $path;
+					
+				} else {
+				
+					// If this is a nested folder
+					$dirPaths = $this->getPaths( $filePath );
+					
+					// Add all subfiles & folders to the array
+					$pathsArray = array_merge( $dirPaths, $pathsArray );
+					
+				}
+			}
+			
+		}
+		
+		return $pathsArray;
+
+	}
+	
+	/**
+	 * @brief Encrypt keyfile to multiple users
+	 * @param array $users list of users which should be able to access the file
+	 * @param string $filePath path of the file to be shared
+	 */
+	public function setSharedFileKeyfiles( Session $session, array $users, $filePath ) {
+	
+		// Make sure users are capable of sharing
+		$filteredUids = $this->filterShareReadyUsers( $users );
+		
+		// Get public keys for each user, ready for generating sharekeys
+		$userPubKeys = Keymanager::getPublicKeys( $this->view, $filteredUids ); // TODO: check this includes the owner's public key
+
+		\OC_FileProxy::$enabled = false;
+
+		// Get the current users's private key for decrypting existing keyfile
+		$privateKey = $session->getPrivateKey();
+		
+		$fileOwner = \OC\Files\Filesystem::getOwner( $filePath );
+		
+		// Get the encrypted keyfile
+		// NOTE: the keyfile format depends on how it was encrypted! At
+		// this stage we don't know how it was encrypted
+		$encKeyfile = Keymanager::getFileKey( $this->view, $this->userId, $filePath );
+		
+		// We need to decrypt the keyfile
+		// Has the file been shared yet?
+		if ( 
+			$this->userId == $fileOwner
+			&& ! Keymanager::getShareKey( $this->view, $this->userId, $filePath ) // NOTE: we can't use isShared() here because it's a post share hook so it always returns true
+		) {
+		
+			// The file has no shareKey, and its keyfile must be 
+			// decrypted conventionally
+			$plainKeyfile = Crypt::keyDecrypt( $encKeyfile, $privateKey );
+			
+		
+		} else {
+			
+			// The file has a shareKey and must use it for decryption
+			$shareKey = Keymanager::getShareKey( $this->view, $this->userId, $filePath );
+		
+			$plainKeyfile = Crypt::multiKeyDecrypt( $encKeyfile, $shareKey, $privateKey );
+			
+		}
+		
+		// Re-enc keyfile to (additional) sharekeys
+		$newShareKeys = Crypt::multiKeyEncrypt( $plainKeyfile, $userPubKeys );
+
+		// Save new sharekeys to all necessary user folders
+		if ( ! Keymanager::setShareKeys( $this->view, $filePath, $newShareKeys['keys'] ) ) {
+
+			trigger_error( "SET Share keys failed" );
+
+		}
+
+		// Delete existing keyfile
+		// Do this last to ensure file is recoverable in case of error
+		// Keymanager::deleteFileKey( $this->view, $this->userId, $params['fileTarget'] );
+	
+		\OC_FileProxy::$enabled = true;
+
+		return true;
 	}
 
 }

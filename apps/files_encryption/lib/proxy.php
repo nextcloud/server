@@ -169,6 +169,24 @@ class Proxy extends \OC_FileProxy {
 	 * @param string $data Data that has been read from file
 	 */
 	public function postFile_get_contents( $path, $data ) {
+	
+		// FIXME: $path for shared files is just /uid/files/Shared/filepath
+		
+		$userId = \OCP\USER::getUser();
+		$view = new \OC_FilesystemView( '/' );
+		$util = new Util( $view, $userId );
+		
+		if ( $util->isSharedPath( $path ) ) {
+		
+			$relPath = $util->stripSharedFilePath( $path );
+		
+		} else {
+		
+			$relPath = $util->stripUserFilesPath( $path );
+		
+		}
+		
+	
 		// TODO check for existing key file and reuse it if possible to avoid problems with versioning etc.
 		// Disable encryption proxy to prevent recursive calls
 		\OC_FileProxy::$enabled = false;
@@ -178,27 +196,34 @@ class Proxy extends \OC_FileProxy {
 			Crypt::mode() == 'server' 
 			&& Crypt::isCatfile( $data ) 
 		) {
-			$view = new \OC_FilesystemView( '/' );
+		
 			// TODO use get owner to find correct location of key files for shared files
-			$userId = \OCP\USER::getUser();
 			$session = new Session();
-			$util = new Util( $view, $userId );
-			$filePath = $util->stripUserFilesPath( $path );
 			$privateKey = $session->getPrivateKey( $userId );
 			
+			// Get the file owner so we can retrieve its keyfile
+			$fileOwner = \OC\Files\Filesystem::getOwner( $relPath ); //NOTE: This might be false! make sure the path passed to it is right
+			$fileOwner = 'admin'; // FIXME: Manually set the correct UID for now
+			
 			// Get the encrypted keyfile
-			$encKeyfile = Keymanager::getFileKey( $view, $userId, $filePath );
+			$encKeyfile = Keymanager::getFileKey( $view, $fileOwner, $relPath );
+			
+			trigger_error("\$encKeyfile = ". var_export($encKeyfile, 1));
+			
+			// Attempt to fetch the user's shareKey
+			$shareKey = Keymanager::getShareKey( $view, $userId, $relPath );
+			
+			trigger_error("\$shareKey = ".var_export($shareKey, 1));
 			
 			// Check if key is shared or not
-			if ( \OCP\Share::isSharedFile( $filePath ) ) {
-			
-				// If key is shared, fetch the user's shareKey
-				$shareKey = Keymanager::getShareKey( $view, $userId, $filePath );
+			if ( $shareKey ) {
 				
 				\OC_FileProxy::$enabled = false;
 				
 				// Decrypt keyfile with shareKey
 				$plainKeyfile = Crypt::multiKeyDecrypt( $encKeyfile, $shareKey, $privateKey );
+				
+				trigger_error("PROXY plainkeyfile = ". var_export($plainKeyfile, 1));
 			
 			} else {
 				

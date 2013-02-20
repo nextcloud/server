@@ -305,8 +305,8 @@ class Keymanager {
 	/**
 	 * @brief retrieve shareKey for an encrypted file
 	 * @param \OC_FilesystemView $view
-	 * @param $userId
-	 * @param $filePath
+	 * @param string $userId
+	 * @param string $filePath
 	 * @internal param \OCA\Encryption\file $string name
 	 * @return string file key or false
 	 * @note The sharekey returned is encrypted. Decryption

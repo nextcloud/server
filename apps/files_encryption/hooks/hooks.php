@@ -178,10 +178,34 @@ class Hooks {
 		$session = new Session();
 		$userId = \OCP\User::getUser();
 		$util = new Util( $view, $userId );
+		$path = $util->fileIdToPath( $params['itemSource'] );
 		
-		$path = Util::getFilePath( $params['itemSource'] );
-
-		return Crypt::updateKeyfile( $view, $session, $path );
+		$usersSharing = \OCP\Share::getUsersSharingFile( $path, true );
+		
+		$allPaths = $util->getPaths( $path );
+		
+		$failed = array();
+		
+		foreach ( $allPaths as $path ) {
+		
+			if ( ! $util->setSharedFileKeyfiles( $session, $usersSharing, $path ) ) {
+			
+				$failed[] = $path;
+				
+			}
+			
+		}
+		
+		// If no attempts to set keyfiles failed
+		if ( empty( $failed ) ) {
+		
+			return true;
+			
+		} else {
+		
+			return false;
+			
+		}
 		
 	}
 	
@@ -190,11 +214,13 @@ class Hooks {
 	 */
 	public static function postUnshare( $params ) {
 	
-		$view = new \OC_FilesystemView( '/' );
-		$session = new Session();
-		$path = Util::getFilePath( $params['itemSource'] );
-		
-		return Crypt::updateKeyfile( $view, $session, $path );
+// 		$view = new \OC_FilesystemView( '/' );
+// 		$session = new Session();
+// 		$userId = \OCP\User::getUser();
+// 		$util = new Util( $view, $userId );
+// 		$path = $util->fileIdToPath( $params['itemSource'] );
+// 		
+// 		return Crypt::updateKeyfile( $view, $util, $session, $userId, $path );
 		
 	}
 	
@@ -203,11 +229,13 @@ class Hooks {
 	 */
 	public static function postUnshareAll( $params ) {
 	
-		$view = new \OC_FilesystemView( '/' );
-		$session = new Session();
-		$path = Util::getFilePath( $params['itemSource'] );
-		
-		return Crypt::updateKeyfile( $view, $session, $path );
+// 		$view = new \OC_FilesystemView( '/' );
+// 		$session = new Session();
+// 		$userId = \OCP\User::getUser();
+// 		$util = new Util( $view, $userId );
+// 		$path = $util->fileIdToPath( $params['itemSource'] );
+// 		
+// 		return Crypt::updateKeyfile( $view, $util, $session, $userId, $path );
 		
 	}
 	
