@@ -30,9 +30,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-19 00:05+0100\n"
-"PO-Revision-Date: 2013-02-18 14:18+0000\n"
-"Last-Translator: robN <robert.neumann01@gmail.com>\n"
+"POT-Creation-Date: 2013-02-21 00:14+0100\n"
+"PO-Revision-Date: 2013-02-20 22:30+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -236,7 +236,7 @@ msgid ""
 "\"en_US.UTF-8\"/\"en_US.UTF8\". This means that there might be problems with"
 " certain characters in file names. We strongly suggest to install the "
 "required packages on your system to support en_US.UTF-8/en_US.UTF8."
-msgstr "Dieser ownCloud Server kann die Ländereinstellung nicht auf \"de_DE.UTF-8\"/\"de_DE.UTF8\" ändern. Dies bedeutet dass es Probleme mit bestimmten Zeichen in Dateinamen geben könnte. Wir empfehlen die für de_DE.UTF-8/de_DE.UTF8 benötigten Pakete auf ihrem System zu installieren."
+msgstr "Dieser ownCloud Server kann die Ländereinstellung nicht auf \"de_DE.UTF-8\"/\"de_DE.UTF8\" ändern. Dies bedeutet dass es Probleme mit bestimmten Zeichen im Dateinamen geben könnte. Wir empfehlen die für de_DE.UTF-8/de_DE.UTF8 benötigten Pakete auf Ihrem System zu installieren."
 
 #: templates/admin.php:72
 msgid "Internet connection not working"
@@ -250,7 +250,7 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr "Dieser ownCloud Server hat keine funktionierende Internetverbindung. Dies bedeutet das einige Funktionen wie das einbinden von externen Speichern, Update-Benachrichtigungen oder die Installation von Drittanbieter-Apps nicht funktionieren. Der Fernzugriff auf Dateien und das Senden von Benachrichtigungsmails funktioniert eventuell ebenfalls nicht. Wir empfehlen die Internetverbindung für diesen Server zu aktivieren wenn Sie alle Funktionen von ownCloud nutzen wollen."
+msgstr "Dieser ownCloud Server hat keine funktionierende Internetverbindung. Dies bedeutet das einige Funktionen wie das Einbinden von externen Speichern, Update-Benachrichtigungen oder die Installation von Drittanbieter-Apps nicht funktionieren. Der Fernzugriff auf Dateien und das Senden von Benachrichtigungsmails funktioniert eventuell ebenfalls nicht. Wir empfehlen die Internetverbindung für diesen Server zu aktivieren wenn Sie alle Funktionen von ownCloud nutzen wollen."
 
 #: templates/admin.php:89
 msgid "Cron"
@@ -278,11 +278,11 @@ msgstr "Teilen"
 
 #: templates/admin.php:131
 msgid "Enable Share API"
-msgstr "Teilen-API aktivieren"
+msgstr "Share-API aktivieren"
 
 #: templates/admin.php:132
 msgid "Allow apps to use the Share API"
-msgstr "Erlaube es Anwendungen, die Teilen-API zu benutzen"
+msgstr "Erlaube es Anwendungen, die Share-API zu benutzen"
 
 #: templates/admin.php:139
 msgid "Allow links"

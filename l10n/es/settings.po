@@ -9,6 +9,7 @@
 #   <juanma@kde.org.ar>, 2011-2012.
 #   <monty_2731@hotmail.com>, 2011.
 # oSiNaReF  <>, 2012.
+#  <pedro.navia@etecsa.cu>, 2013.
 #   <pggx999@gmail.com>, 2012.
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2012.
 #   <rodrigo.calvo@gmail.com>, 2012.
@@ -20,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-14 00:05+0100\n"
-"PO-Revision-Date: 2013-02-13 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-21 00:14+0100\n"
+"PO-Revision-Date: 2013-02-20 19:31+0000\n"
+"Last-Translator: pedro.navia <pedro.navia@etecsa.cu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -158,23 +159,23 @@ msgstr "Grupo admin"
 msgid "Delete"
 msgstr "Eliminar"
 
-#: js/users.js:190
+#: js/users.js:191
 msgid "add group"
 msgstr ""
 
-#: js/users.js:351
+#: js/users.js:352
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:352 js/users.js:358 js/users.js:373
+#: js/users.js:353 js/users.js:359 js/users.js:374
 msgid "Error creating user"
 msgstr ""
 
-#: js/users.js:357
+#: js/users.js:358
 msgid "A valid password must be provided"
 msgstr ""
 
-#: personal.php:34 personal.php:35
+#: personal.php:29 personal.php:30
 msgid "__language_name__"
 msgstr "Castellano"
 
@@ -264,7 +265,7 @@ msgstr ""
 
 #: templates/admin.php:125
 msgid "Sharing"
-msgstr ""
+msgstr "Compartiendo"
 
 #: templates/admin.php:131
 msgid "Enable Share API"

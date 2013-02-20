@@ -26,9 +26,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-18 00:05+0100\n"
-"PO-Revision-Date: 2013-02-17 14:31+0000\n"
-"Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
+"POT-Creation-Date: 2013-02-21 00:14+0100\n"
+"PO-Revision-Date: 2013-02-20 21:50+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -195,7 +195,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "Dein Datenverzeichnis und deine Datein sind vielleicht vom Internet aus erreichbar. Die .htaccess Datei, die ownCloud verwendet, arbeitet nicht richtig. Wir schlagen Dir dringend vor, dass du deinen Webserver so konfigurierst, dass das Datenverzeichnis nicht länger erreichbar ist oder, dass du dein Datenverzeichnis aus dem Dokumenten-root des Webservers bewegst."
+msgstr "Dein Datenverzeichnis und Deine Datein sind vielleicht vom Internet aus erreichbar. Die .htaccess Datei, die ownCloud verwendet, arbeitet nicht richtig. Wir schlagen Dir dringend vor, dass Du Deinen Webserver so konfigurierst, dass das Datenverzeichnis nicht länger erreichbar ist oder, dass Du Dein Datenverzeichnis aus dem Dokumenten-root des Webservers bewegst."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -246,7 +246,7 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr "Dieser ownCloud Server hat keine funktionierende Netzwerkverbindung. Dies bedeutet das einige Funktionen wie das einbinden von externen Speichern, Update-Benachrichtigungen oder die Installation von Drittanbieter-Apps nicht funktionieren. Der Fernzugriff auf Dateien und das Senden von Benachrichtigungsmails funktioniert eventuell ebenfalls nicht. Wir empfehlen die Netzwerkverbindung für diesen Server zu aktivieren wenn Sie alle Funktionen von ownCloud nutzen wollen."
+msgstr "Dieser ownCloud Server hat keine funktionierende Netzwerkverbindung. Dies bedeutet das einige Funktionen wie das Einbinden von externen Speichern, Update-Benachrichtigungen oder die Installation von Drittanbieter-Apps nicht funktionieren. Der Fernzugriff auf Dateien und das Senden von Benachrichtigungsmails funktioniert eventuell ebenfalls nicht. Wir empfehlen die Netzwerkverbindung für diesen Server zu aktivieren wenn Du alle Funktionen von ownCloud nutzen möchtest."
 
 #: templates/admin.php:89
 msgid "Cron"
@@ -278,7 +278,7 @@ msgstr "Aktiviere Sharing-API"
 
 #: templates/admin.php:132
 msgid "Allow apps to use the Share API"
-msgstr "Erlaube Apps die Nutzung der Sharing-API"
+msgstr "Erlaube Apps die Nutzung der Share-API"
 
 #: templates/admin.php:139
 msgid "Allow links"
@@ -329,7 +329,7 @@ msgstr "Log"
 
 #: templates/admin.php:193
 msgid "Log level"
-msgstr "Logtiefe"
+msgstr "Loglevel"
 
 #: templates/admin.php:220
 msgid "More"
@@ -404,7 +404,7 @@ msgstr "Du verwendest <strong>%s</strong> der verfügbaren <strong>%s<strong>"
 
 #: templates/personal.php:14
 msgid "Get the apps to sync your files"
-msgstr "Laden Sie die Apps zur Synchronisierung ihrer Daten herunter"
+msgstr "Lade die Apps zur Synchronisierung Deiner Daten herunter"
 
 #: templates/personal.php:25
 msgid "Show First Run Wizard again"

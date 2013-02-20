@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-19 00:05+0100\n"
-"PO-Revision-Date: 2013-02-18 14:10+0000\n"
+"POT-Creation-Date: 2013-02-21 00:14+0100\n"
+"PO-Revision-Date: 2013-02-20 20:00+0000\n"
 "Last-Translator: tuliouel <tuliouel@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr "Remoção falhou"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr ""
+msgstr "Tomar parámetros de recente configuração de servidor?"
 
 #: js/settings.js:83
 msgid "Keep settings?"
