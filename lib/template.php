@@ -413,11 +413,6 @@ class OC_Template{
 
 		if( $this->renderas ) {
 			$page = new OC_TemplateLayout($this->renderas);
-			if($this->renderas == 'user') {
-				$page->assign('requesttoken', $this->vars['requesttoken']);
-				$user = OC_User::getUser();
-				$page->assign('displayname', OCP\User::getDisplayName($user));
-			}
 
 			// Add custom headers
 			$page->assign('headers', $this->headers, false);
