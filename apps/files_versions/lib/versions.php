@@ -35,7 +35,7 @@ class Storage {
 																	'step' => 604800),
 			);	
 
-	private static function getUidAndFilename($filename) {
+	public static function getUidAndFilename($filename) {
 		$uid = \OC\Files\Filesystem::getOwner($filename);
 		if ( $uid != \OCP\User::getUser() ) {
 			$info = \OC\Files\Filesystem::getFileInfo($filename);
