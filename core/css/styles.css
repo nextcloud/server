@@ -36,8 +36,8 @@ filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endC
 .header-right > * { vertical-align:middle; }
 
 /* INPUTS */
-input[type="text"], input[type="password"] { cursor:text; }
-input[type="text"], input[type="password"], input[type="search"],
+input[type="text"], input[type="password"], input[type="number"] { cursor:text; }
+input[type="text"], input[type="password"], input[type="search"], input[type="number"],
 textarea, select, button, .button, #quota, div.jp-progress, .pager li a {
 	width:10em; margin:.3em; padding:.6em .5em .4em;
 	font-size:1em; font-family:Arial, Verdana, sans-serif;
@@ -46,10 +46,11 @@ textarea, select, button, .button, #quota, div.jp-progress, .pager li a {
 	-moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;
 }
 input[type="hidden"] { height:0; width:0; }
-input[type="text"], input[type="password"], input[type="search"], textarea { background:#f8f8f8; color:#555; cursor:text; }
-input[type="text"], input[type="password"], input[type="search"] { -webkit-appearance:textfield; -moz-appearance:textfield; -webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; }
+input[type="text"], input[type="password"], input[type="search"], input[type="number"], textarea { background:#f8f8f8; color:#555; cursor:text; }
+input[type="text"], input[type="password"], input[type="search"], input[type="number"] { -webkit-appearance:textfield; -moz-appearance:textfield; -webkit-box-sizing:content-box; -moz-box-sizing:content-box; box-sizing:content-box; }
 input[type="text"]:hover, input[type="text"]:focus, input[type="text"]:active,
 input[type="password"]:hover, input[type="password"]:focus, input[type="password"]:active,
+input[type="number"]:hover, input[type="number"]:focus, input[type="number"]:active,
 .searchbox input[type="search"]:hover, .searchbox input[type="search"]:focus, .searchbox input[type="search"]:active,
 textarea:hover, textarea:focus, textarea:active { background-color:#fff; color:#333; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
 input[type="checkbox"] { margin:0; padding:0; height:auto; width:auto; }
@@ -196,7 +197,7 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #show, #personal-show { display:none; }
 #show + label { right:1em; top:1.25em!important; }
 #show:checked + label, #personal-show:checked + label { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; filter:alpha(opacity=80); opacity:.8; }
-#show + label, #personal-show + label { 
+#show + label, #personal-show + label {
 	position:absolute!important; height:14px; width:24px;
 	background-image:url("../img/actions/toggle.png"); background-repeat:no-repeat;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; filter:alpha(opacity=30); opacity:.3;
