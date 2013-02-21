@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Name" => "Namn"
+"Name" => "Namn",
+"Delete" => "Slett"
 );

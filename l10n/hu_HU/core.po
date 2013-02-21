@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-14 00:05+0100\n"
-"PO-Revision-Date: 2013-02-13 14:00+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:20+0000\n"
 "Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -391,7 +391,7 @@ msgstr "A frissítés nem sikerült. Kérem értesítse erről a problémáról 
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "A frissítés sikeres volt. Visszairányítjuk az ownCloud szolgáltatáshoz."
 
-#: lostpassword/controller.php:47
+#: lostpassword/controller.php:48
 msgid "ownCloud password reset"
 msgstr "ownCloud jelszó-visszaállítás"
 

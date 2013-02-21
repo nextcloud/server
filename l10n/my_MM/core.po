@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-21 00:14+0100\n"
-"PO-Revision-Date: 2013-02-20 10:30+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-21 11:20+0000\n"
 "Last-Translator: Pyae Sone <gipsyhnh@gmail.com>\n"
 "Language-Team: Burmese (Myanmar) (http://www.transifex.com/projects/p/owncloud/language/my_MM/)\n"
 "MIME-Version: 1.0\n"
@@ -163,11 +163,11 @@ msgstr ""
 
 #: js/js.js:767
 msgid "seconds ago"
-msgstr ""
+msgstr "စက္ကန့်အနည်းငယ်က"
 
 #: js/js.js:768
 msgid "1 minute ago"
-msgstr ""
+msgstr "၁ မိနစ်အရင်က"
 
 #: js/js.js:769
 msgid "{minutes} minutes ago"
@@ -175,7 +175,7 @@ msgstr ""
 
 #: js/js.js:770
 msgid "1 hour ago"
-msgstr ""
+msgstr "၁ နာရီ အရင်က"
 
 #: js/js.js:771
 msgid "{hours} hours ago"
@@ -183,11 +183,11 @@ msgstr ""
 
 #: js/js.js:772
 msgid "today"
-msgstr ""
+msgstr "ယနေ့"
 
 #: js/js.js:773
 msgid "yesterday"
-msgstr ""
+msgstr "မနေ့က"
 
 #: js/js.js:774
 msgid "{days} days ago"
@@ -195,7 +195,7 @@ msgstr ""
 
 #: js/js.js:775
 msgid "last month"
-msgstr ""
+msgstr "ပြီးခဲ့သောလ"
 
 #: js/js.js:776
 msgid "{months} months ago"
@@ -207,11 +207,11 @@ msgstr ""
 
 #: js/js.js:778
 msgid "last year"
-msgstr ""
+msgstr "မနှစ်က"
 
 #: js/js.js:779
 msgid "years ago"
-msgstr ""
+msgstr "နှစ် အရင်က"
 
 #: js/oc-dialogs.js:126
 msgid "Choose"
@@ -438,7 +438,7 @@ msgstr ""
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "သုံးစွဲသူ"
 
 #: strings.php:7
 msgid "Apps"
@@ -450,7 +450,7 @@ msgstr ""
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "အကူအညီ"
 
 #: templates/403.php:12
 msgid "Access forbidden"

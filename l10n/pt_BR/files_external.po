@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-14 00:05+0100\n"
-"PO-Revision-Date: 2013-02-13 22:50+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
 "Last-Translator: rodrigost23 <rodrigo.st23@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -43,13 +43,13 @@ msgstr "Por favor forneça um app key e secret válido do Dropbox"
 msgid "Error configuring Google Drive storage"
 msgstr "Erro ao configurar armazenamento do Google Drive"
 
-#: lib/config.php:413
+#: lib/config.php:398
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Aviso:</b> \"smbclient\" não está instalado. Não será possível montar compartilhamentos de CIFS/SMB. Por favor, peça ao seu administrador do sistema para instalá-lo."
 
-#: lib/config.php:414
+#: lib/config.php:401
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
@@ -117,6 +117,6 @@ msgstr "Permitir usuários a montar seus próprios armazenamentos externos"
 msgid "SSL root certificates"
 msgstr "Certificados SSL raíz"
 
-#: templates/settings.php:153
+#: templates/settings.php:154
 msgid "Import Root Certificate"
 msgstr "Importar Certificado Raíz"

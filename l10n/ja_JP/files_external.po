@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 12:24+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
 "Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -43,13 +43,13 @@ msgstr "有効なDropboxアプリのキーとパスワードを入力して下�
 msgid "Error configuring Google Drive storage"
 msgstr "Googleドライブストレージの設定エラー"
 
-#: lib/config.php:434
+#: lib/config.php:398
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>警告:</b> \"smbclient\" はインストールされていません。CIFS/SMB 共有のマウントはできません。システム管理者にインストールをお願いして下さい。"
 
-#: lib/config.php:435
+#: lib/config.php:401
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
@@ -101,7 +101,7 @@ msgid "Users"
 msgstr "ユーザ"
 
 #: templates/settings.php:108 templates/settings.php:109
-#: templates/settings.php:149 templates/settings.php:150
+#: templates/settings.php:144 templates/settings.php:145
 msgid "Delete"
 msgstr "削除"
 
@@ -113,10 +113,10 @@ msgstr "ユーザの外部ストレージを有効にする"
 msgid "Allow users to mount their own external storage"
 msgstr "ユーザに外部ストレージのマウントを許可する"
 
-#: templates/settings.php:139
+#: templates/settings.php:136
 msgid "SSL root certificates"
 msgstr "SSLルート証明書"
 
-#: templates/settings.php:158
+#: templates/settings.php:154
 msgid "Import Root Certificate"
 msgstr "ルート証明書をインポート"

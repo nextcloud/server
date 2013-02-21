@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-16 00:11+0100\n"
-"PO-Revision-Date: 2012-12-15 16:43+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
 "Last-Translator: Peter Peroša <peter.perosa@gmail.com>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -43,13 +43,13 @@ msgstr "Vpišite veljaven ključ programa in kodo za Dropbox"
 msgid "Error configuring Google Drive storage"
 msgstr "Napaka nastavljanja shrambe Google Drive"
 
-#: lib/config.php:434
+#: lib/config.php:398
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Opozorilo:</b> \"smbclient\" ni nameščen. Priklapljanje CIFS/SMB pogonov ni mogoče. Prosimo, prosite vašega skrbnika, če ga namesti."
 
-#: lib/config.php:435
+#: lib/config.php:401
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
@@ -101,7 +101,7 @@ msgid "Users"
 msgstr "Uporabniki"
 
 #: templates/settings.php:108 templates/settings.php:109
-#: templates/settings.php:149 templates/settings.php:150
+#: templates/settings.php:144 templates/settings.php:145
 msgid "Delete"
 msgstr "Izbriši"
 
@@ -113,10 +113,10 @@ msgstr "Omogoči uporabo zunanje podatkovne shrambe za uporabnike"
 msgid "Allow users to mount their own external storage"
 msgstr "Dovoli uporabnikom priklop lastne zunanje podatkovne shrambe"
 
-#: templates/settings.php:139
+#: templates/settings.php:136
 msgid "SSL root certificates"
 msgstr "Korenska potrdila SSL"
 
-#: templates/settings.php:158
+#: templates/settings.php:154
 msgid "Import Root Certificate"
 msgstr "Uvozi korensko potrdilo"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-21 00:14+0100\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
 "PO-Revision-Date: 2011-07-25 16:05+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Burmese (Myanmar) (http://www.transifex.com/projects/p/owncloud/language/my_MM/)\n"
@@ -24,7 +24,7 @@ msgstr ""
 #: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:15
 #: ajax/togglegroups.php:18
 msgid "Authentication error"
-msgstr ""
+msgstr "ခွင့်ပြုချက်မအောင်မြင်"
 
 #: ajax/changedisplayname.php:32
 msgid "Unable to change display name"

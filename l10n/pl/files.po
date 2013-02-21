@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-20 00:02+0100\n"
-"PO-Revision-Date: 2013-02-19 15:50+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:30+0000\n"
 "Last-Translator: Mariusz Fik <fisiu@opensuse.org>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -99,8 +99,8 @@ msgstr "Usuwa element"
 msgid "Rename"
 msgstr "Zmień nazwę"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:291 js/files.js:407
-#: js/files.js:438
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:292 js/files.js:408
+#: js/files.js:439
 msgid "Pending"
 msgstr "Oczekujące"
 
@@ -158,74 +158,74 @@ msgstr ""
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr ""
 
-#: js/files.js:224
+#: js/files.js:225
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr ""
 
-#: js/files.js:261
+#: js/files.js:262
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Nie można wczytać pliku jeśli jest katalogiem lub ma 0 bajtów"
 
-#: js/files.js:261
+#: js/files.js:262
 msgid "Upload Error"
 msgstr "Błąd wczytywania"
 
-#: js/files.js:272
+#: js/files.js:273
 msgid "Close"
 msgstr "Zamknij"
 
-#: js/files.js:311
+#: js/files.js:312
 msgid "1 file uploading"
 msgstr "1 plik wczytany"
 
-#: js/files.js:314 js/files.js:369 js/files.js:384
+#: js/files.js:315 js/files.js:370 js/files.js:385
 msgid "{count} files uploading"
 msgstr "{count} przesyłanie plików"
 
-#: js/files.js:387 js/files.js:422
+#: js/files.js:388 js/files.js:423
 msgid "Upload cancelled."
 msgstr "Wczytywanie anulowane."
 
-#: js/files.js:496
+#: js/files.js:497
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Wysyłanie pliku jest w toku. Teraz opuszczając stronę wysyłanie zostanie anulowane."
 
-#: js/files.js:569
+#: js/files.js:570
 msgid "URL cannot be empty."
 msgstr "URL nie może być pusty."
 
-#: js/files.js:574
+#: js/files.js:575
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nazwa folderu nieprawidłowa. Wykorzystanie \"Shared\" jest zarezerwowane przez Owncloud"
 
-#: js/files.js:948 templates/index.php:67
+#: js/files.js:949 templates/index.php:67
 msgid "Name"
 msgstr "Nazwa"
 
-#: js/files.js:949 templates/index.php:78
+#: js/files.js:950 templates/index.php:78
 msgid "Size"
 msgstr "Rozmiar"
 
-#: js/files.js:950 templates/index.php:80
+#: js/files.js:951 templates/index.php:80
 msgid "Modified"
 msgstr "Czas modyfikacji"
 
-#: js/files.js:969
+#: js/files.js:970
 msgid "1 folder"
 msgstr "1 folder"
 
-#: js/files.js:971
+#: js/files.js:972
 msgid "{count} folders"
 msgstr "{count} foldery"
 
-#: js/files.js:979
+#: js/files.js:980
 msgid "1 file"
 msgstr "1 plik"
 
-#: js/files.js:981
+#: js/files.js:982
 msgid "{count} files"
 msgstr "{count} pliki"
 

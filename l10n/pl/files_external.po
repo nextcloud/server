@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-12 11:26+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
 "Last-Translator: Marcin Małecki <gerber@tkdami.net>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -44,13 +44,13 @@ msgstr "Proszę podać prawidłowy klucz aplikacji Dropbox i klucz sekretny."
 msgid "Error configuring Google Drive storage"
 msgstr "Wystąpił błąd podczas konfigurowania zasobu Google Drive"
 
-#: lib/config.php:434
+#: lib/config.php:398
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Ostrzeżenie:</b> \"smbclient\" nie jest zainstalowany. Zamontowanie katalogów CIFS/SMB nie jest możliwe. Skontaktuj sie z administratorem w celu zainstalowania."
 
-#: lib/config.php:435
+#: lib/config.php:401
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
@@ -102,7 +102,7 @@ msgid "Users"
 msgstr "Użytkownicy"
 
 #: templates/settings.php:108 templates/settings.php:109
-#: templates/settings.php:149 templates/settings.php:150
+#: templates/settings.php:144 templates/settings.php:145
 msgid "Delete"
 msgstr "Usuń"
 
@@ -114,10 +114,10 @@ msgstr "Włącz zewnętrzne zasoby dyskowe użytkownika"
 msgid "Allow users to mount their own external storage"
 msgstr "Zezwalaj użytkownikom na montowanie  ich własnych zewnętrznych zasobów dyskowych"
 
-#: templates/settings.php:139
+#: templates/settings.php:136
 msgid "SSL root certificates"
 msgstr "Główny certyfikat SSL"
 
-#: templates/settings.php:158
+#: templates/settings.php:154
 msgid "Import Root Certificate"
 msgstr "Importuj główny certyfikat"

@@ -10,5 +10,6 @@
 "1 file" => "1 berkas",
 "{count} files" => "{count} berkas",
 "Nothing in here. Your trash bin is empty!" => "Tempat sampah anda kosong!",
-"Restore" => "Pulihkan"
+"Restore" => "Pulihkan",
+"Delete" => "Hapus"
 );

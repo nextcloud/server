@@ -3,6 +3,7 @@
 "Couldn't restore %s" => "Não foi possível restaurar %s",
 "perform restore operation" => "Restaurar",
 "delete file permanently" => "Eliminar permanentemente o(s) ficheiro(s)",
+"Delete permanently" => "Eliminar permanentemente",
 "Name" => "Nome",
 "Deleted" => "Apagado",
 "1 folder" => "1 pasta",
@@ -10,5 +11,6 @@
 "1 file" => "1 ficheiro",
 "{count} files" => "{count} ficheiros",
 "Nothing in here. Your trash bin is empty!" => "Não ha ficheiros. O lixo está vazio",
-"Restore" => "Restaurar"
+"Restore" => "Restaurar",
+"Delete" => "Apagar"
 );

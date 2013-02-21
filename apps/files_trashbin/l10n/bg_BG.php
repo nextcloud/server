@@ -10,5 +10,6 @@
 "1 file" => "1 файл",
 "{count} files" => "{count} файла",
 "Nothing in here. Your trash bin is empty!" => "Няма нищо. Кофата е празна!",
-"Restore" => "Възтановяване"
+"Restore" => "Възтановяване",
+"Delete" => "Изтриване"
 );

@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-15 00:05+0100\n"
-"PO-Revision-Date: 2013-02-14 00:20+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:30+0000\n"
 "Last-Translator: rodrigost23 <rodrigo.st23@hotmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -171,7 +171,7 @@ msgstr "Erro ao criar usuário"
 msgid "A valid password must be provided"
 msgstr "Forneça uma senha válida"
 
-#: personal.php:34 personal.php:35
+#: personal.php:29 personal.php:30
 msgid "__language_name__"
 msgstr "Português (Brasil)"
 
