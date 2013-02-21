@@ -669,7 +669,7 @@ $(document).ready(function(){
 	$('#settings #expanddiv').click(function(event){
 		event.stopPropagation();
 	});
-	$(window).click(function(){//hide the settings menu when clicking outside it
+	$(document).click(function(){//hide the settings menu when clicking outside it
 		$('#settings #expanddiv').slideUp(200);
 	});
 
