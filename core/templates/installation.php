@@ -49,7 +49,7 @@
 	</fieldset>
 
 	<fieldset id="datadirField">
-		<legend><a id="showAdvanced"><?php echo $l->t( 'Advanced' ); ?> <img class="svg" src="<?php echo image_path('', 'actions/triangle-s.svg'); ?>" /></a></legend>
+		<legend><a id="showAdvanced"><?php echo $l->t( 'Advanced' ); ?> <img class="svg" src="<?php echo image_path('', 'actions/caret-dark.svg'); ?>" /></a></legend>
 		<div id="datadirContent">
 			<label for="directory"><?php echo $l->t( 'Data folder' ); ?></label>
 			<input type="text" name="directory" id="directory" value="<?php print OC_Helper::init_var('directory', $_['directory']); ?>" />
