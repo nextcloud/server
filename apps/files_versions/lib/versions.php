@@ -20,19 +20,20 @@ class Storage {
 	const DEFAULTENABLED=true;
 	const DEFAULTMAXSIZE=50; // unit: percentage; 50% of available disk space/quota
 	
-	private static $max_versions_per_interval = array(  //first 10sec, one version every 2sec
-														1 => array('intervalEndsAfter' => 10,      'step' => 2),
-														//next minute, one version every 10sec
-														2 => array('intervalEndsAfter' => 60,      'step' => 10),
-														//next hour, one version every minute
-														3 => array('intervalEndsAfter' => 3600,    'step' => 60),
-														//next 24h, one version every hour
-														4 => array('intervalEndsAfter' => 86400,   'step' => 3600),
-														//next 30days, one version per day
-														5 => array('intervalEndsAfter' => 2592000, 'step' => 86400),
-														//until the end one version per week
-														6 => array('intervalEndsAfter' => -1,      'step' => 604800),
-			);	
+	private static $max_versions_per_interval = array(
+		//first 10sec, one version every 2sec
+		1 => array('intervalEndsAfter' => 10,      'step' => 2),
+		//next minute, one version every 10sec
+		2 => array('intervalEndsAfter' => 60,      'step' => 10),
+		//next hour, one version every minute
+		3 => array('intervalEndsAfter' => 3600,    'step' => 60),
+		//next 24h, one version every hour
+		4 => array('intervalEndsAfter' => 86400,   'step' => 3600),
+		//next 30days, one version per day
+		5 => array('intervalEndsAfter' => 2592000, 'step' => 86400),
+		//until the end one version per week
+		6 => array('intervalEndsAfter' => -1,      'step' => 604800),
+	);
 
 	private static function getUidAndFilename($filename) {
 		$uid = \OC\Files\Filesystem::getOwner($filename);

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><?php echo !empty($_['application'])?$_['application'].' | ':''
-			?>ownCloud <?php echo !empty($_['user_displayname'])?' ('.$_['user_displayname'].') ':'' ?></title>
+		<title><?php echo !empty($_['application'])?$_['application'].' | ':'' ?>ownCloud
+			<?php echo !empty($_['user_displayname'])?' ('.$_['user_displayname'].') ':'' ?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="apple-itunes-app" content="app-id=543672169">
 		<link rel="shortcut icon" href="<?php echo image_path('', 'favicon.png'); ?>" />
@@ -49,8 +49,8 @@
 				<?php endforeach; ?>
 					<li>
 						<a id="logout" href="<?php echo link_to('', 'index.php'); ?>?logout=true">
-							<img class="svg" alt="" src="<?php echo image_path('', 'actions/logout.svg'); ?>"
-								/> <?php echo $l->t('Log out');?>
+							<img class="svg" alt="" src="<?php echo image_path('', 'actions/logout.svg'); ?>" />
+							<?php echo $l->t('Log out');?>
 						</a>
 					</li>
 				</div>
