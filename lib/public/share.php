@@ -108,41 +108,7 @@ class Share {
 		return $path;
 	
 	}
-	
-	public static function isSharedFile( $path ) {
-	
-		$fPath = self::prepFileTarget( $path );
-	
-		// Fetch all shares of this file path from DB
-		$query = \OC_DB::prepare( 
-			'SELECT 
-				id
-			FROM 
-				`*PREFIX*share` 
-			WHERE 
-				file_target = ?'
-			);
-			
-		$result = $query->execute( array( $fPath ) );
 		
-		if ( \OC_DB::isError( $result ) ) {
-		
-			\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage( $result ) . ', path=' . $fPath, \OC_Log::ERROR );
-		
-		}
-		
-		if ( $result->fetchRow() !== false ) {
-		
-			return true;
-		
-		} else {
-		
-			return false;
-			
-		}
-	
-	}
-	
 	/**
 	* @brief Find which users can access a shared item
 	* @param $path to the file

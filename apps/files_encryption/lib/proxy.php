@@ -113,13 +113,9 @@ class Proxy extends \OC_FileProxy {
 				$encData = Crypt::symmetricEncryptFileContentKeyfile( $data );
 				
 				// Check if the keyfile needs to be shared
-				if ( \OCP\Share::isSharedFile( $filePath ) ) {
+				if ( ($userIds = \OCP\Share::getUsersSharingFile( $filePath, true )) ) {
 					
 // 					$fileOwner = \OC\Files\Filesystem::getOwner( $path );
-					
-					// List everyone sharing the file
-					//TODO check, is this path always the path to the source file?
-					$userIds = \OCP\Share::getUsersSharingFile( $filePath, true );
 					
 					$publicKeys = Keymanager::getPublicKeys( $rootView, $userIds );
 					
