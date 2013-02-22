@@ -18,7 +18,7 @@
     <type>text</type>
     <default></default>
     <notnull>true</notnull>
-    <length>50</length>
+    <length>250</length>
    </field>
 
    <field>
@@ -42,7 +42,7 @@
     <type>text</type>
     <default></default>
     <notnull>true</notnull>
-    <length>200</length>
+    <length>512</length>
    </field>
      
    <field>
