@@ -46,6 +46,7 @@ class Storage {
 		} else {
 			$uid = \OCP\User::getUser();
 		}
+		\OC_Filesystem::mount('OC_Filestorage_Local', array('datadir' => \OC_User::getHome($uid)), $uid);
 		return array($uid, $filename);
 	}
 
