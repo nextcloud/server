@@ -702,6 +702,13 @@ class OC_Image {
 			return false;
 		}
 
+		// preserve transparency
+		if($this->imagetype == IMAGETYPE_GIF or $this->imagetype == IMAGETYPE_PNG) {
+			imagecolortransparent($process, imagecolorallocatealpha($process, 0, 0, 0, 127));
+			imagealphablending($process, false);
+			imagesavealpha($process, true);
+		}
+
 		imagecopyresampled($process, $this->resource, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
 		if ($process == false) {
 			OC_Log::write('core', __METHOD__.'(): Error resampling process image '.$width.'x'.$height, OC_Log::ERROR);
@@ -751,6 +758,14 @@ class OC_Image {
 			imagedestroy($process);
 			return false;
 		}
+
+		// preserve transparency
+		if($this->imagetype == IMAGETYPE_GIF or $this->imagetype == IMAGETYPE_PNG) {
+			imagecolortransparent($process, imagecolorallocatealpha($process, 0, 0, 0, 127));
+			imagealphablending($process, false);
+			imagesavealpha($process, true);
+		}
+		
 		imagecopyresampled($process, $this->resource, 0, 0, $x, $y, $targetWidth, $targetHeight, $width, $height);
 		if ($process == false) {
 			OC_Log::write('core',
