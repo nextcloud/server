@@ -224,9 +224,9 @@ class Filesystem {
 		
 		// Load system mount points
 		if (is_file(\OC::$SERVERROOT . '/config/mount.php') or is_file(\OC::$SERVERROOT . '/config/mount.json')) {
-			if(is_file(\OC::$SERVERROOT . '/config/mount.json')){
+			if (is_file(\OC::$SERVERROOT . '/config/mount.json')) {
 				$mountConfig = json_decode(file_get_contents(\OC::$SERVERROOT . '/config/mount.json'), true);
-			}elseif(is_file(\OC::$SERVERROOT . '/config/mount.php')){
+			} elseif (is_file(\OC::$SERVERROOT . '/config/mount.php')) {
 				$mountConfig = $parser->parsePHP(file_get_contents(\OC::$SERVERROOT . '/config/mount.php'));
 			}
 			if (isset($mountConfig['global'])) {
@@ -263,9 +263,9 @@ class Filesystem {
 		}
 		// Load personal mount points
 		if (is_file($root . '/mount.php') or is_file($root . '/mount.json')) {
-			if (is_file($root . '/mount.json')){
+			if (is_file($root . '/mount.json')) {
 				$mountConfig = json_decode(file_get_contents($root . '/mount.json'), true);
-			} elseif (is_file($root . '/mount.php')){
+			} elseif (is_file($root . '/mount.php')) {
 				$mountConfig = $parser->parsePHP(file_get_contents($root . '/mount.php'));
 			}
 			if (isset($mountConfig['user'][$user])) {
@@ -390,18 +390,26 @@ class Filesystem {
 	 * @param array $data from hook
 	 */
 	static public function isBlacklisted($data) {
-		$blacklist = \OC_Config::getValue('blacklisted_files', array('.htaccess'));
 		if (isset($data['path'])) {
 			$path = $data['path'];
 		} else if (isset($data['newpath'])) {
 			$path = $data['newpath'];
 		}
 		if (isset($path)) {
-			$filename = strtolower(basename($path));
-			if (in_array($filename, $blacklist)) {
+			if (self::isFileBlacklisted($path)) {
 				$data['run'] = false;
 			}
 		}
+	}
+
+	/**
+	 * @param string $filename
+	 * @return bool
+	 */
+	static public function isFileBlacklisted($filename) {
+		$blacklist = \OC_Config::getValue('blacklisted_files', array('.htaccess'));
+		$filename = strtolower(basename($filename));
+		return (in_array($filename, $blacklist));
 	}
 
 	/**
