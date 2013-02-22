@@ -21,19 +21,19 @@ class Storage {
 	const DEFAULTMAXSIZE=50; // unit: percentage; 50% of available disk space/quota
 	
 	private static $max_versions_per_interval = array(
-														1 => array('intervalEndsAfter' => 10,     //first 10sec, one version every 2sec
-																	'step' => 2),
-														2 => array('intervalEndsAfter' => 60,     //next minute, one version every 10sec
-																	'step' => 10),
-														3 => array('intervalEndsAfter' => 3600,     //next hour, one version every minute
-																	'step' => 60),
-														4 => array('intervalEndsAfter' => 86400,   //next 24h, one version every hour
-																	'step' => 3600),
-														5 => array('intervalEndsAfter' => 2592000,   //next 30days, one version per day
-																	'step' => 86400),
-														6 => array('intervalEndsAfter' => -1,      //until the end one version per week
-																	'step' => 604800),
-			);	
+		//first 10sec, one version every 2sec
+		1 => array('intervalEndsAfter' => 10,      'step' => 2),
+		//next minute, one version every 10sec
+		2 => array('intervalEndsAfter' => 60,      'step' => 10),
+		//next hour, one version every minute
+		3 => array('intervalEndsAfter' => 3600,    'step' => 60),
+		//next 24h, one version every hour
+		4 => array('intervalEndsAfter' => 86400,   'step' => 3600),
+		//next 30days, one version per day
+		5 => array('intervalEndsAfter' => 2592000, 'step' => 86400),
+		//until the end one version per week
+		6 => array('intervalEndsAfter' => -1,      'step' => 604800),
+	);
 
 	private static function getUidAndFilename($filename) {
 		$uid = \OC\Files\Filesystem::getOwner($filename);
@@ -239,7 +239,10 @@ class Storage {
 			$versions_fileview = new \OC\Files\View('/'.$uid.'/files_versions');
 			$versionsRoot = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('');
 				
-			$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($versionsRoot), \RecursiveIteratorIterator::CHILD_FIRST);
+			$iterator = new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator($versionsRoot),
+				\RecursiveIteratorIterator::CHILD_FIRST
+			);
 				
 			$size = 0;
 							
@@ -264,7 +267,10 @@ class Storage {
 			$versions_fileview = new \OC\Files\View('/'.$uid.'/files_versions');
 			$versionsRoot = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('');
 			
-			$iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($versionsRoot), \RecursiveIteratorIterator::CHILD_FIRST);
+			$iterator = new \RecursiveIteratorIterator(
+				new \RecursiveDirectoryIterator($versionsRoot),
+				\RecursiveIteratorIterator::CHILD_FIRST
+			);
 			
 			$versions = array();
 			

@@ -646,8 +646,7 @@ class OC_Setup {
 			header("Location: ".OC::$WEBROOT.'/');
 		} else {
 
-			$error = $l->t('Your web server is not yet properly setup to allow files'
-				.' synchronization because the WebDAV interface seems to be broken.');
+			$error = $l->t('Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken.');
 			$hint = $l->t('Please double check the <a href=\'%s\'>installation guides</a>.',
 				'http://doc.owncloud.org/server/5.0/admin_manual/installation.html');
 

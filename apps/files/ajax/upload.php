@@ -26,8 +26,7 @@ foreach ($_FILES['files']['error'] as $error) {
 			UPLOAD_ERR_OK => $l->t('There is no error, the file uploaded with success'),
 			UPLOAD_ERR_INI_SIZE => $l->t('The uploaded file exceeds the upload_max_filesize directive in php.ini: ')
 				. ini_get('upload_max_filesize'),
-			UPLOAD_ERR_FORM_SIZE => $l->t('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified'
-				. ' in the HTML form'),
+			UPLOAD_ERR_FORM_SIZE => $l->t('The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form'),
 			UPLOAD_ERR_PARTIAL => $l->t('The uploaded file was only partially uploaded'),
 			UPLOAD_ERR_NO_FILE => $l->t('No file was uploaded'),
 			UPLOAD_ERR_NO_TMP_DIR => $l->t('Missing a temporary folder'),

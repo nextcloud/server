@@ -240,7 +240,8 @@ class Shared extends \OC\Files\Storage\Common {
 	public function file_put_contents($path, $data) {
 		if ($source = $this->getSourcePath($path)) {
 			// Check if permission is granted
-			if (($this->file_exists($path) && !$this->isUpdatable($path)) || ($this->is_dir($path) && !$this->isCreatable($path))) {
+			if (($this->file_exists($path) && !$this->isUpdatable($path))
+				|| ($this->is_dir($path) && !$this->isCreatable($path))) {
 				return false;
 			}
 			$info = array(
@@ -390,9 +391,12 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public static function setup($options) {
-		if (!\OCP\User::isLoggedIn() || \OCP\User::getUser() != $options['user'] || \OCP\Share::getItemsSharedWith('file')) {
+		if (!\OCP\User::isLoggedIn() || \OCP\User::getUser() != $options['user']
+			|| \OCP\Share::getItemsSharedWith('file')) {
 			$user_dir = $options['user_dir'];
-			\OC\Files\Filesystem::mount('\OC\Files\Storage\Shared', array('sharedFolder' => '/Shared'), $user_dir.'/Shared/');
+			\OC\Files\Filesystem::mount('\OC\Files\Storage\Shared',
+				array('sharedFolder' => '/Shared'),
+				$user_dir.'/Shared/');
 		}
 	}
 
