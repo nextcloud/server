@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-24 00:10+0100\n"
-"PO-Revision-Date: 2012-12-23 14:40+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
 "Last-Translator: Dianjin Wang <1132321739qq@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -43,13 +43,13 @@ msgstr "请提供有效的Dropbox应用key和secret"
 msgid "Error configuring Google Drive storage"
 msgstr "配置Google Drive存储时出错"
 
-#: lib/config.php:434
+#: lib/config.php:398
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>警告：</b>“smbclient” 尚未安装。CIFS/SMB 分享挂载无法实现。请咨询系统管理员进行安装。"
 
-#: lib/config.php:435
+#: lib/config.php:401
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
@@ -117,6 +117,6 @@ msgstr "允许用户挂载自有外部存储"
 msgid "SSL root certificates"
 msgstr "SSL根证书"
 
-#: templates/settings.php:153
+#: templates/settings.php:154
 msgid "Import Root Certificate"
 msgstr "导入根证书"

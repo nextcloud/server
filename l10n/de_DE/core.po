@@ -22,12 +22,13 @@
 # Susi <>, 2013.
 #   <thomas.mueller@tmit.eu>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
+# Tristan <blobbyjj@ymail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-17 00:25+0100\n"
-"PO-Revision-Date: 2013-02-16 23:00+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:20+0000\n"
 "Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -348,7 +349,7 @@ msgstr "Freigegeben in {item} von {user}"
 
 #: js/share.js:313
 msgid "Unshare"
-msgstr "Teilung aufheben"
+msgstr "Freigabe aufheben"
 
 #: js/share.js:325
 msgid "can edit"
@@ -399,13 +400,13 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr "Das Update ist fehlgeschlagen. Bitte melden Sie dieses Problem an die <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud Gemeinschaft</a>."
+msgstr "Das Update ist fehlgeschlagen. Bitte melden Sie dieses Problem an die <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud Community</a>."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Das Update war erfolgreich. Sie werden nun zu ownCloud weitergeleitet."
 
-#: lostpassword/controller.php:47
+#: lostpassword/controller.php:48
 msgid "ownCloud password reset"
 msgstr "ownCloud-Passwort zurücksetzen"
 
@@ -506,7 +507,7 @@ msgstr "Ohne einen sicheren Zufallszahlengenerator sind Angreifer in der Lage, d
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr "Dein Daten-Verzeichnis und deine Dateien sind wahrscheinlich vom Internet aus erreichbar, weil die .htaccess-Datei nicht funktioniert."
+msgstr "Ihr Datenverzeichnis und Ihre Dateien sind wahrscheinlich vom Internet aus erreichbar, weil die .htaccess-Datei nicht funktioniert."
 
 #: templates/installation.php:32
 msgid ""

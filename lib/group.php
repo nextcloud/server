@@ -311,12 +311,13 @@ class OC_Group {
 		$displayNames = array();
 		foreach ($gids as $gid) {
 			// TODO Need to apply limits to groups as total
-			$displayNames = array_merge(
-				array_diff(
-					self::displayNamesInGroup($gid, $search, $limit, $offset),
-					$displayNames
-				),
-				$displayNames);
+			$diff = array_diff(
+				self::displayNamesInGroup($gid, $search, $limit, $offset),
+				$displayNames
+			);
+			if ($diff) {
+				$displayNames = array_merge($diff, $displayNames);
+			}
 		}
 		return $displayNames;
 	}

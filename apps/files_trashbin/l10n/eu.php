@@ -3,6 +3,7 @@
 "Couldn't restore %s" => "Ezin izan da %s berreskuratu",
 "perform restore operation" => "berreskuratu",
 "delete file permanently" => "ezabatu fitxategia betirako",
+"Delete permanently" => "Ezabatu betirako",
 "Name" => "Izena",
 "Deleted" => "Ezabatuta",
 "1 folder" => "karpeta bat",
@@ -10,5 +11,6 @@
 "1 file" => "fitxategi bat",
 "{count} files" => "{count} fitxategi",
 "Nothing in here. Your trash bin is empty!" => "Ez dago ezer ez. Zure zakarrontzia hutsik dago!",
-"Restore" => "Berrezarri"
+"Restore" => "Berrezarri",
+"Delete" => "Ezabatu"
 );

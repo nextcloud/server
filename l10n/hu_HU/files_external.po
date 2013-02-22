@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-31 00:04+0100\n"
-"PO-Revision-Date: 2012-12-30 19:20+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
 "Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -41,13 +41,13 @@ msgstr "Adjon meg egy érvényes Dropbox app key-t és secretet!"
 msgid "Error configuring Google Drive storage"
 msgstr "A Google Drive tárolót nem sikerült beállítani"
 
-#: lib/config.php:434
+#: lib/config.php:398
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Figyelem:</b> az \"smbclient\" nincs telepítve a kiszolgálón. Emiatt nem lehet CIFS/SMB megosztásokat fölcsatolni. Kérje meg a rendszergazdát, hogy telepítse a szükséges programot."
 
-#: lib/config.php:435
+#: lib/config.php:401
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
@@ -115,6 +115,6 @@ msgstr "Lehetővé teszi, hogy a felhasználók külső tárolási szolgáltatá
 msgid "SSL root certificates"
 msgstr "SSL tanúsítványok"
 
-#: templates/settings.php:153
+#: templates/settings.php:154
 msgid "Import Root Certificate"
 msgstr "SSL tanúsítványok importálása"

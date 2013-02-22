@@ -73,9 +73,9 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion() {
-		// hint: We only can count up. So the internal version number
-		// of ownCloud 4.5 will be 4.90.0. This is not visible to the user
-		return array(4, 92, 10);
+		// hint: We only can count up. Reset minor/patchlevel when
+		// updating major/minor version number.
+		return array(4, 93, 10);
 	}
 
 	/**
@@ -83,7 +83,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString() {
-		return '5.0 alpha 1';
+		return '5.0 beta 1';
 	}
 
 	/**
@@ -562,7 +562,7 @@ class OC_Util {
 	 */
 	public static function isWebDAVWorking() {
 		if (!function_exists('curl_init')) {
-			return;
+			return true;
 		}
 
 		$settings = array(
@@ -578,6 +578,7 @@ class OC_Util {
 		} catch(\Sabre_DAV_Exception_NotAuthenticated $e) {
 			$return = true;
 		} catch(\Exception $e) {
+			OC_Log::write('core', 'isWebDAVWorking: NO - Reason: '.$e, OC_Log::WARN);
 			$return = false;
 		}
 

@@ -20,6 +20,7 @@
 "Select an App" => "Pilih satu aplikasi",
 "See application page at apps.owncloud.com" => "Lihat halaman aplikasi di apps.owncloud.com",
 "Update" => "Pembaruan",
+"Get the apps to sync your files" => "Dapatkan aplikasi untuk sinkronisasi berkas anda",
 "Password" => "Password",
 "Unable to change your password" => "Tidak dapat merubah password anda",
 "Current password" => "Password saat ini",

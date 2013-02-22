@@ -16,6 +16,7 @@ OCP\Util::addScript('files', 'filelist');
 
 $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 
+$result = array();
 if ($dir) {
 	$dirlisting = true;
 	$view = new \OC_FilesystemView('/'.\OCP\User::getUser().'/files_trashbin');
@@ -37,7 +38,7 @@ if ($dir) {
 					);
 		}
 	}
-	closedir($fullpath);
+	closedir($dirContent);
 		
 } else {
 	$dirlisting = false;

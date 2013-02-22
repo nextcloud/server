@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-15 00:04+0100\n"
-"PO-Revision-Date: 2013-02-14 23:05+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -92,8 +92,8 @@ msgstr "Kustuta"
 msgid "Rename"
 msgstr "ümber"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:291 js/files.js:407
-#: js/files.js:438
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:292 js/files.js:408
+#: js/files.js:439
 msgid "Pending"
 msgstr "Ootel"
 
@@ -151,74 +151,74 @@ msgstr ""
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr ""
 
-#: js/files.js:224
+#: js/files.js:225
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr ""
 
-#: js/files.js:261
+#: js/files.js:262
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Sinu faili üleslaadimine ebaõnnestus, kuna see on kaust või selle suurus on 0 baiti"
 
-#: js/files.js:261
+#: js/files.js:262
 msgid "Upload Error"
 msgstr "Üleslaadimise viga"
 
-#: js/files.js:272
+#: js/files.js:273
 msgid "Close"
 msgstr "Sulge"
 
-#: js/files.js:311
+#: js/files.js:312
 msgid "1 file uploading"
 msgstr "1 faili üleslaadimisel"
 
-#: js/files.js:314 js/files.js:369 js/files.js:384
+#: js/files.js:315 js/files.js:370 js/files.js:385
 msgid "{count} files uploading"
 msgstr "{count} faili üleslaadimist"
 
-#: js/files.js:387 js/files.js:422
+#: js/files.js:388 js/files.js:423
 msgid "Upload cancelled."
 msgstr "Üleslaadimine tühistati."
 
-#: js/files.js:496
+#: js/files.js:497
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Faili üleslaadimine on töös.  Lehelt lahkumine katkestab selle üleslaadimise."
 
-#: js/files.js:569
+#: js/files.js:570
 msgid "URL cannot be empty."
 msgstr "URL ei saa olla tühi."
 
-#: js/files.js:574
+#: js/files.js:575
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:948 templates/index.php:67
+#: js/files.js:949 templates/index.php:67
 msgid "Name"
 msgstr "Nimi"
 
-#: js/files.js:949 templates/index.php:78
+#: js/files.js:950 templates/index.php:78
 msgid "Size"
 msgstr "Suurus"
 
-#: js/files.js:950 templates/index.php:80
+#: js/files.js:951 templates/index.php:80
 msgid "Modified"
 msgstr "Muudetud"
 
-#: js/files.js:969
+#: js/files.js:970
 msgid "1 folder"
 msgstr "1 kaust"
 
-#: js/files.js:971
+#: js/files.js:972
 msgid "{count} folders"
 msgstr "{count} kausta"
 
-#: js/files.js:979
+#: js/files.js:980
 msgid "1 file"
 msgstr "1 fail"
 
-#: js/files.js:981
+#: js/files.js:982
 msgid "{count} files"
 msgstr "{count} faili"
 

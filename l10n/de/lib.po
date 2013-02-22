@@ -10,13 +10,14 @@
 # Phi Lieb <>, 2012.
 #   <thomas.mueller@tmit.eu>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
+# Tristan <blobbyjj@ymail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-18 00:05+0100\n"
-"PO-Revision-Date: 2013-02-17 14:10+0000\n"
-"Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
+"POT-Creation-Date: 2013-02-21 00:14+0100\n"
+"PO-Revision-Date: 2013-02-20 22:10+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -66,7 +67,7 @@ msgstr "Die gewählten Dateien sind zu groß, um eine ZIP-Datei zu erstellen."
 
 #: helper.php:228
 msgid "couldn't be determined"
-msgstr "Konnte nicht festgestellt werden"
+msgstr "konnte nicht festgestellt werden"
 
 #: json.php:28
 msgid "Application is not enabled"
@@ -102,7 +103,7 @@ msgstr "Setze Administrator Passwort"
 
 #: setup.php:40
 msgid "Specify a data folder."
-msgstr "Datei-Verzeichnis angeben"
+msgstr "Datei-Verzeichnis angeben."
 
 #: setup.php:53
 #, php-format
@@ -171,7 +172,7 @@ msgstr "MySQL Benutzer '%s'@'%%' existiert bereits"
 
 #: setup.php:280
 msgid "Drop this user from MySQL."
-msgstr "Lösche diesen Benutzer von MySQL."
+msgstr "Lösche diesen Benutzer aus MySQL."
 
 #: setup.php:553 setup.php:585
 #, php-format
