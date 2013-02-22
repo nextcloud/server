@@ -219,6 +219,9 @@ class Filesystem {
 		}
 		$parser = new \OC\ArrayParser();
 
+		$root = \OC_User::getHome($user);
+		self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
+		
 		// Load system mount points
 		if (is_file(\OC::$SERVERROOT . '/config/mount.php') or is_file(\OC::$SERVERROOT . '/config/mount.json')) {
 			if(is_file(\OC::$SERVERROOT . '/config/mount.json')){
@@ -259,8 +262,6 @@ class Filesystem {
 			}
 		}
 		// Load personal mount points
-		$root = \OC_User::getHome($user);
-		self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
 		if (is_file($root . '/mount.php') or is_file($root . '/mount.json')) {
 			if (is_file($root . '/mount.json')){
 				$mountConfig = json_decode(file_get_contents($root . '/mount.json'), true);
