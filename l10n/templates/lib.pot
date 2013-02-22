@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"POT-Creation-Date: 2013-02-23 00:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -177,7 +177,7 @@ msgid ""
 "because the WebDAV interface seems to be broken."
 msgstr ""
 
-#: setup.php:651
+#: setup.php:650
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""

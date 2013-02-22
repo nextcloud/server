@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Andreas Tangemann <a.tangemann@web.de>, 2013.
 # I Robot <owncloud-bot@tmit.eu>, 2013.
 # Marcel Kühlhorn <susefan93@gmx.de>, 2013.
 # Phillip Schichtel <quick_wango@code-infection.de>, 2013.
@@ -13,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:32+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-23 00:04+0100\n"
+"PO-Revision-Date: 2013-02-22 23:00+0000\n"
+"Last-Translator: a.tangemann <a.tangemann@web.de>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,7 +44,7 @@ msgstr "Datei dauerhaft löschen"
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr "Entgültig löschen"
+msgstr "Endgültig löschen"
 
 #: js/trash.js:151 templates/index.php:17
 msgid "Name"
