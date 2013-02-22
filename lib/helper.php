@@ -513,11 +513,13 @@ class OC_Helper {
 		if(!$source or !$target) {
 			return false;
 		}
-		$count=0;
+		$result=true;
 		while(!feof($source)) {
-			$count+=fwrite($target, fread($source, 8192));
+			if (fwrite($target, fread($source, 8192)) === false) {
+				$result = false;
+			}
 		}
-		return $count;
+		return $result;
 	}
 
 	/**

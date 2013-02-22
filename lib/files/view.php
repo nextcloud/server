@@ -361,10 +361,9 @@ class View {
 				} else {
 					$source = $this->fopen($path1 . $postFix1, 'r');
 					$target = $this->fopen($path2 . $postFix2, 'w');
-					$count = \OC_Helper::streamCopy($source, $target);
+					$result = \OC_Helper::streamCopy($source, $target);
 					list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
 					$storage1->unlink($internalPath1);
-					$result = $count > 0;
 				}
 				if ($this->fakeRoot == Filesystem::getRoot()) {
 					\OC_Hook::emit(
