@@ -39,7 +39,7 @@ if ($dir) {
 		}
 	}
 	closedir($dirContent);
-		
+
 } else {
 	$dirlisting = false;
 	$query = \OC_DB::prepare('SELECT id,location,timestamp,type,mime FROM *PREFIX*files_trash WHERE user=?');

@@ -98,7 +98,7 @@ class OC_Setup {
 					$error[] = array(
 						'error' => $e->getMessage(),
 						'hint' => $e->getHint()
-					);	
+					);
 					return($error);
 				} catch (Exception $e) {
 					$error[] = array(
@@ -174,7 +174,7 @@ class OC_Setup {
 				OC_Appconfig::setValue('core', 'lastupdatedat', microtime(true));
 				OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
 				OC_AppConfig::setValue('core', 'remote_core.js', '/core/minimizer.php');
-				
+
 				OC_Group::createGroup('admin');
 				OC_Group::addToGroup($username, 'admin');
 				OC_User::login($username, $password);
@@ -276,7 +276,7 @@ class OC_Setup {
 		$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
 		$result = mysql_query($query, $connection);
 		if (!$result) {
-			throw new DatabaseSetupException($l->t("MySQL user '%s'@'%%' already exists", array($name)), 
+			throw new DatabaseSetupException($l->t("MySQL user '%s'@'%%' already exists", array($name)),
 				$l->t("Drop this user from MySQL."));
 		}
 	}
@@ -550,7 +550,7 @@ class OC_Setup {
 			$result = oci_execute($stmt);
 			if(!$result) {
 				$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
-				$entry .= $l->t('Offending command was: "%s", name: %s, password: %s', 
+				$entry .= $l->t('Offending command was: "%s", name: %s, password: %s',
 					array($query, $name, $password)) . '<br />';
 				echo($entry);
 			}
@@ -582,7 +582,7 @@ class OC_Setup {
 		$result = oci_execute($stmt);
 		if(!$result) {
 			$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
-			$entry .= $l->t('Offending command was: "%s", name: %s, password: %s', 
+			$entry .= $l->t('Offending command was: "%s", name: %s, password: %s',
 				array($query, $name, $password)) . '<br />';
 			echo($entry);
 		}

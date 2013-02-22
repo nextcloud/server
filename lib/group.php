@@ -286,7 +286,7 @@ class OC_Group {
 		}
 		return $users;
 	}
-	
+
 	/**
 	 * @brief get a list of all display names in a group
 	 * @returns array with display names (value) and user ids(key)
@@ -298,7 +298,7 @@ class OC_Group {
 		}
 		return $displayNames;
 	}
-	
+
 	/**
 	 * @brief get a list of all display names in several groups
 	 * @param array $gids

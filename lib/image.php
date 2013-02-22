@@ -765,7 +765,7 @@ class OC_Image {
 			imagealphablending($process, false);
 			imagesavealpha($process, true);
 		}
-		
+
 		imagecopyresampled($process, $this->resource, 0, 0, $x, $y, $targetWidth, $targetHeight, $width, $height);
 		if ($process == false) {
 			OC_Log::write('core',

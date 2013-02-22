@@ -149,7 +149,7 @@ class OC_Request {
 			return 'gzip';
 		return false;
 	}
-	
+
 	/**
 	 * @brief Check if the requester sent along an mtime
 	 * @returns false or an mtime

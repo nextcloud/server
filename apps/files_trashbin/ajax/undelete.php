@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
@@ -21,7 +21,7 @@ foreach ($list as $file) {
 		$filename = $path_parts['basename'];
 		$timestamp = null;
 	}
-	
+
 	if ( !OCA\Files_Trashbin\Trashbin::restore($file, $filename, $timestamp) ) {
 		$error[] = $filename;
 	} else {

@@ -20,7 +20,7 @@ foreach ($list as $file) {
 		$filename = $file;
 		$timestamp = null;
 	}
-	
+
 	OCA\Files_Trashbin\Trashbin::delete($filename, $timestamp);
 	if (!OCA\Files_Trashbin\Trashbin::file_exists($filename, $timestamp)) {
 		$success[$i]['filename'] = $file;

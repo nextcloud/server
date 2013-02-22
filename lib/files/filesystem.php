@@ -221,7 +221,7 @@ class Filesystem {
 
 		$root = \OC_User::getHome($user);
 		self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
-		
+
 		// Load system mount points
 		if (is_file(\OC::$SERVERROOT . '/config/mount.php') or is_file(\OC::$SERVERROOT . '/config/mount.json')) {
 			if (is_file(\OC::$SERVERROOT . '/config/mount.json')) {

@@ -43,7 +43,7 @@ if (isset($_GET['t'])) {
 			$path = \OC\Files\Filesystem::getPath($linkItem['file_source']);
 		}
 	}
-} 
+}
 if (isset($path)) {
 	if (!isset($linkItem['item_type'])) {
 		OCP\Util::writeLog('share', 'No item type set for share id: ' . $linkItem['id'], \OCP\Util::ERROR);
@@ -212,4 +212,3 @@ if (isset($path)) {
 header('HTTP/1.0 404 Not Found');
 $tmpl = new OCP\Template('', '404', 'guest');
 $tmpl->printPage();
-
