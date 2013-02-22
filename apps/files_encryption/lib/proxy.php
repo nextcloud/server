@@ -70,7 +70,7 @@ class Proxy extends \OC_FileProxy {
 		
 		if ( is_null(self::$blackList ) ) {
 		
-			self::$blackList = explode(',', \OCP\Config::getAppValue( 'files_encryption', 'type_blacklist', 'jpg,png,jpeg,avi,mpg,mpeg,mkv,mp3,oga,ogv,ogg' ) );
+			self::$blackList = explode(',', \OCP\Config::getAppValue( 'files_encryption', 'type_blacklist', '' ) );
 			
 		}
 		
