@@ -516,7 +516,7 @@ class OC_Helper {
 		$result = true;
 		$count = 0;
 		while(!feof($source)) {
-			if ($c = fwrite($target, fread($source, 8192)) === false) {
+			if ( ( $c = fwrite($target, fread($source, 8192)) ) === false) {
 				$result = false;
 			} else {
 				$count += $c;
