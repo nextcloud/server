@@ -8,14 +8,14 @@
 # Martin  <fireball@atlas.cz>, 2011-2012.
 # Michal Hrušecký <Michal@hrusecky.net>, 2012.
 #   <Michal@hrusecky.net>, 2012.
-# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
+# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-03 00:04+0100\n"
-"PO-Revision-Date: 2012-12-02 03:18+0000\n"
-"Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:30+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,6 +27,15 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Nelze načíst seznam z App Store"
 
+#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:15
+#: ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "Chyba ověření"
+
+#: ajax/changedisplayname.php:32
+msgid "Unable to change display name"
+msgstr "Nelze změnit zobrazované jméno"
+
 #: ajax/creategroup.php:10
 msgid "Group already exists"
 msgstr "Skupina již existuje"
@@ -35,7 +44,7 @@ msgstr "Skupina již existuje"
 msgid "Unable to add group"
 msgstr "Nelze přidat skupinu"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "Nelze povolit aplikaci."
 
@@ -47,21 +56,9 @@ msgstr "E-mail uložen"
 msgid "Invalid email"
 msgstr "Neplatný e-mail"
 
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID změněno"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "Neplatný požadavek"
-
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "Nelze smazat skupinu"
-
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
-msgid "Authentication error"
-msgstr "Chyba ověření"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -70,6 +67,10 @@ msgstr "Nelze smazat uživatele"
 #: ajax/setlanguage.php:15
 msgid "Language changed"
 msgstr "Jazyk byl změněn"
+
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "Neplatný požadavek"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -85,128 +86,247 @@ msgstr "Nelze přidat uživatele do skupiny %s"
 msgid "Unable to remove user from group %s"
 msgstr "Nelze odstranit uživatele ze skupiny %s"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:14
+msgid "Couldn't update app."
+msgstr "Nelze aktualizovat aplikaci."
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr "Aktualizovat na {appversion}"
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Zakázat"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "Povolit"
 
-#: js/personal.js:69
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr "Čekejte prosím..."
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr "Aktualizuji..."
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr "Chyba při aktualizaci aplikace"
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "Chyba"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr "Aktualizováno"
+
+#: js/personal.js:96
 msgid "Saving..."
 msgstr "Ukládám..."
 
-#: personal.php:42 personal.php:43
+#: js/users.js:30
+msgid "deleted"
+msgstr "smazáno"
+
+#: js/users.js:30
+msgid "undo"
+msgstr "zpět"
+
+#: js/users.js:62
+msgid "Unable to remove user"
+msgstr "Nelze odebrat uživatele"
+
+#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: templates/users.php:105
+msgid "Groups"
+msgstr "Skupiny"
+
+#: js/users.js:78 templates/users.php:82 templates/users.php:119
+msgid "Group Admin"
+msgstr "Správa skupiny"
+
+#: js/users.js:99 templates/users.php:161
+msgid "Delete"
+msgstr "Smazat"
+
+#: js/users.js:191
+msgid "add group"
+msgstr "přidat skupinu"
+
+#: js/users.js:352
+msgid "A valid username must be provided"
+msgstr "Musíte zadat platné uživatelské jméno"
+
+#: js/users.js:353 js/users.js:359 js/users.js:374
+msgid "Error creating user"
+msgstr "Chyba při vytváření užiatele"
+
+#: js/users.js:358
+msgid "A valid password must be provided"
+msgstr "Musíte zadat platné heslo"
+
+#: personal.php:29 personal.php:30
 msgid "__language_name__"
 msgstr "Česky"
 
-#: templates/apps.php:10
-msgid "Add your App"
-msgstr "Přidat Vaší aplikaci"
+#: templates/admin.php:15
+msgid "Security Warning"
+msgstr "Bezpečnostní upozornění"
 
-#: templates/apps.php:11
-msgid "More Apps"
-msgstr "Více aplikací"
+#: templates/admin.php:18
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr "Váš adresář dat a všechny Vaše soubory jsou pravděpodobně přístupné z internetu. Soubor .htaccess, který je poskytován ownCloud, nefunguje. Důrazně Vám doporučujeme nastavit váš webový server tak, aby nebyl adresář dat přístupný, nebo přesunout adresář dat mimo kořenovou složku dokumentů webového serveru."
 
-#: templates/apps.php:27
-msgid "Select an App"
-msgstr "Vyberte aplikaci"
+#: templates/admin.php:29
+msgid "Setup Warning"
+msgstr "Upozornění nastavení"
 
-#: templates/apps.php:31
-msgid "See application page at apps.owncloud.com"
-msgstr "Více na stránce s aplikacemi na apps.owncloud.com"
+#: templates/admin.php:32
+msgid ""
+"Your web server is not yet properly setup to allow files synchronization "
+"because the WebDAV interface seems to be broken."
+msgstr "Váš webový server není správně nastaven pro umožnění synchronizace, protože rozhraní WebDAV je rozbité."
 
-#: templates/apps.php:32
-msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr "<span class=\"licence\"></span>-licencováno <span class=\"author\"></span>"
-
-#: templates/help.php:9
-msgid "Documentation"
-msgstr "Dokumentace"
-
-#: templates/help.php:10
-msgid "Managing Big Files"
-msgstr "Správa velkých souborů"
-
-#: templates/help.php:11
-msgid "Ask a question"
-msgstr "Zeptat se"
-
-#: templates/help.php:22
-msgid "Problems connecting to help database."
-msgstr "Problémy s připojením k databázi s nápovědou."
-
-#: templates/help.php:23
-msgid "Go there manually."
-msgstr "Přejít ručně."
-
-#: templates/help.php:31
-msgid "Answer"
-msgstr "Odpověď"
-
-#: templates/personal.php:8
+#: templates/admin.php:33
 #, php-format
-msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "Používáte <strong>%s</strong> z <strong>%s</strong> dostupných"
+msgid "Please double check the <a href='%s'>installation guides</a>."
+msgstr "Zkonzultujte, prosím, <a href='%s'>průvodce instalací</a>."
 
-#: templates/personal.php:12
-msgid "Desktop and Mobile Syncing Clients"
-msgstr "Klienti pro synchronizaci"
+#: templates/admin.php:44
+msgid "Module 'fileinfo' missing"
+msgstr "Schází modul 'fileinfo'"
 
-#: templates/personal.php:13
-msgid "Download"
-msgstr "Stáhnout"
+#: templates/admin.php:47
+msgid ""
+"The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
+"module to get best results with mime-type detection."
+msgstr "Schází modul PHP 'fileinfo'. Doporučujeme jej povolit pro nejlepší výsledky detekce typů MIME."
 
-#: templates/personal.php:19
-msgid "Your password was changed"
-msgstr "Vaše heslo bylo změněno"
+#: templates/admin.php:58
+msgid "Locale not working"
+msgstr "Locale nefunguje"
 
-#: templates/personal.php:20
-msgid "Unable to change your password"
-msgstr "Vaše heslo nelze změnit"
+#: templates/admin.php:61
+msgid ""
+"This ownCloud server can't set system locale to "
+"\"en_US.UTF-8\"/\"en_US.UTF8\". This means that there might be problems with"
+" certain characters in file names. We strongly suggest to install the "
+"required packages on your system to support en_US.UTF-8/en_US.UTF8."
+msgstr "Server ownCloud nemůže nastavit systémové locale na \"en_US.UTF-8\"/\"en_US.UTF8\".  Můžete tedy mít problémy s některými znaky v názvech souborů. Důrazně doporučujeme nainstalovat potřebné balíčky pro podporu en_US.UTF-8/en_US.UTF8."
 
-#: templates/personal.php:21
-msgid "Current password"
-msgstr "Současné heslo"
+#: templates/admin.php:72
+msgid "Internet connection not working"
+msgstr "Spojení s internetem nefujguje"
 
-#: templates/personal.php:22
-msgid "New password"
-msgstr "Nové heslo"
+#: templates/admin.php:75
+msgid ""
+"This ownCloud server has no working internet connection. This means that "
+"some of the features like mounting of external storage, notifications about "
+"updates or installation of 3rd party apps don´t work. Accessing files from "
+"remote and sending of notification emails might also not work. We suggest to"
+" enable internet connection for this server if you want to have all features"
+" of ownCloud."
+msgstr "Server ownCloud nemá funkční spojení s internetem. Některé moduly jako externí úložiště, oznámení o dostupných aktualizacích, nebo instalace aplikací třetích stran nefungují. Přístup k souborům z jiných míst a odesílání oznamovacích e-mailů také nemusí fungovat. Pokud si přejete využívat všech vlastností ownCloud, doporučujeme povolit internetové spojení pro tento server."
 
-#: templates/personal.php:23
-msgid "show"
-msgstr "zobrazit"
+#: templates/admin.php:89
+msgid "Cron"
+msgstr "Cron"
 
-#: templates/personal.php:24
-msgid "Change password"
-msgstr "Změnit heslo"
+#: templates/admin.php:98
+msgid "Execute one task with each page loaded"
+msgstr "Spustit jednu úlohu s každou načtenou stránkou"
 
-#: templates/personal.php:30
-msgid "Email"
-msgstr "E-mail"
+#: templates/admin.php:108
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
+msgstr "cron.php je registrován u služby webcron. Zavolá stránku cron.php v kořenovém adresáři owncloud každou minutu skrze http."
 
-#: templates/personal.php:31
-msgid "Your email address"
-msgstr "Vaše e-mailová adresa"
+#: templates/admin.php:118
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
+msgstr "Použít systémovou službu cron. Zavolat soubor cron.php ze složky owncloud pomocí systémové úlohy cron každou minutu."
 
-#: templates/personal.php:32
-msgid "Fill in an email address to enable password recovery"
-msgstr "Pro povolení změny hesla vyplňte adresu e-mailu"
+#: templates/admin.php:125
+msgid "Sharing"
+msgstr "Sdílení"
 
-#: templates/personal.php:38 templates/personal.php:39
-msgid "Language"
-msgstr "Jazyk"
+#: templates/admin.php:131
+msgid "Enable Share API"
+msgstr "Povolit API sdílení"
 
-#: templates/personal.php:44
-msgid "Help translate"
-msgstr "Pomoci s překladem"
+#: templates/admin.php:132
+msgid "Allow apps to use the Share API"
+msgstr "Povolit aplikacím používat API sdílení"
 
-#: templates/personal.php:51
-msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "tuto adresu použijte pro připojení k ownCloud ve Vašem správci souborů"
+#: templates/admin.php:139
+msgid "Allow links"
+msgstr "Povolit odkazy"
 
-#: templates/personal.php:61
+#: templates/admin.php:140
+msgid "Allow users to share items to the public with links"
+msgstr "Povolit uživatelům sdílet položky s veřejností pomocí odkazů"
+
+#: templates/admin.php:147
+msgid "Allow resharing"
+msgstr "Povolit znovu-sdílení"
+
+#: templates/admin.php:148
+msgid "Allow users to share items shared with them again"
+msgstr "Povolit uživatelům znovu sdílet položky, které jsou pro ně sdíleny"
+
+#: templates/admin.php:155
+msgid "Allow users to share with anyone"
+msgstr "Povolit uživatelům sdílet s kýmkoliv"
+
+#: templates/admin.php:158
+msgid "Allow users to only share with users in their groups"
+msgstr "Povolit uživatelům sdílet pouze s uživateli v jejich skupinách"
+
+#: templates/admin.php:165
+msgid "Security"
+msgstr "Zabezpečení"
+
+#: templates/admin.php:178
+msgid "Enforce HTTPS"
+msgstr "Vynutit HTTPS"
+
+#: templates/admin.php:179
+msgid ""
+"Enforces the clients to connect to ownCloud via an encrypted connection."
+msgstr "Vynutí připojování klientů ownCloud skrze šifrované spojení."
+
+#: templates/admin.php:182
+msgid ""
+"Please connect to this ownCloud instance via HTTPS to enable or disable the "
+"SSL enforcement."
+msgstr "Připojte se, prosím, k této instanci ownCloud skrze HTTPS pro povolení, nebo zakažte vynucení SSL."
+
+#: templates/admin.php:192
+msgid "Log"
+msgstr "Záznam"
+
+#: templates/admin.php:193
+msgid "Log level"
+msgstr "Úroveň záznamu"
+
+#: templates/admin.php:220
+msgid "More"
+msgstr "Více"
+
+#: templates/admin.php:227 templates/personal.php:98
+msgid "Version"
+msgstr "Verze"
+
+#: templates/admin.php:230 templates/personal.php:100
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -216,38 +336,167 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Vyvinuto <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunitou ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">zdrojový kód</a> je licencován pod <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
-#: templates/users.php:21 templates/users.php:76
-msgid "Name"
-msgstr "Jméno"
+#: templates/apps.php:10
+msgid "Add your App"
+msgstr "Přidat Vaší aplikaci"
 
-#: templates/users.php:23 templates/users.php:77
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "Více aplikací"
+
+#: templates/apps.php:24
+msgid "Select an App"
+msgstr "Vyberte aplikaci"
+
+#: templates/apps.php:28
+msgid "See application page at apps.owncloud.com"
+msgstr "Více na stránce s aplikacemi na apps.owncloud.com"
+
+#: templates/apps.php:29
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr "<span class=\"licence\"></span>-licencováno <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "Aktualizovat"
+
+#: templates/help.php:3
+msgid "User Documentation"
+msgstr "Uživatelská dokumentace"
+
+#: templates/help.php:4
+msgid "Administrator Documentation"
+msgstr "Dokumentace správce"
+
+#: templates/help.php:6
+msgid "Online Documentation"
+msgstr "Online dokumentace"
+
+#: templates/help.php:7
+msgid "Forum"
+msgstr "Fórum"
+
+#: templates/help.php:9
+msgid "Bugtracker"
+msgstr "Bugtracker"
+
+#: templates/help.php:11
+msgid "Commercial Support"
+msgstr "Placená podpora"
+
+#: templates/personal.php:8
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
+msgstr "Používáte <strong>%s</strong> z <strong>%s</strong> dostupných"
+
+#: templates/personal.php:14
+msgid "Get the apps to sync your files"
+msgstr "Získat aplikace pro synchronizaci vašich souborů"
+
+#: templates/personal.php:25
+msgid "Show First Run Wizard again"
+msgstr "Znovu zobrazit průvodce prvním spuštěním"
+
+#: templates/personal.php:36 templates/users.php:23 templates/users.php:79
 msgid "Password"
 msgstr "Heslo"
 
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
-msgid "Groups"
-msgstr "Skupiny"
+#: templates/personal.php:37
+msgid "Your password was changed"
+msgstr "Vaše heslo bylo změněno"
+
+#: templates/personal.php:38
+msgid "Unable to change your password"
+msgstr "Vaše heslo nelze změnit"
+
+#: templates/personal.php:39
+msgid "Current password"
+msgstr "Současné heslo"
+
+#: templates/personal.php:40
+msgid "New password"
+msgstr "Nové heslo"
+
+#: templates/personal.php:42
+msgid "Change password"
+msgstr "Změnit heslo"
+
+#: templates/personal.php:54 templates/users.php:78
+msgid "Display Name"
+msgstr "Zobrazované jméno"
+
+#: templates/personal.php:55
+msgid "Your display name was changed"
+msgstr "Vaše zobrazované jméno bylo změněno"
+
+#: templates/personal.php:56
+msgid "Unable to change your display name"
+msgstr "Nelze změnit vaše zobrazované jméno"
+
+#: templates/personal.php:59
+msgid "Change display name"
+msgstr "Změnit zobrazované jméno"
+
+#: templates/personal.php:68
+msgid "Email"
+msgstr "E-mail"
+
+#: templates/personal.php:69
+msgid "Your email address"
+msgstr "Vaše e-mailová adresa"
+
+#: templates/personal.php:70
+msgid "Fill in an email address to enable password recovery"
+msgstr "Pro povolení změny hesla vyplňte adresu e-mailu"
+
+#: templates/personal.php:76 templates/personal.php:77
+msgid "Language"
+msgstr "Jazyk"
+
+#: templates/personal.php:82
+msgid "Help translate"
+msgstr "Pomoci s překladem"
+
+#: templates/personal.php:87
+msgid "WebDAV"
+msgstr "WebDAV"
+
+#: templates/personal.php:89
+msgid "Use this address to connect to your ownCloud in your file manager"
+msgstr "Použijte tuto adresu pro připojení k vašemu ownCloud skrze správce souborů"
+
+#: templates/users.php:21 templates/users.php:77
+msgid "Login Name"
+msgstr "Přihlašovací jméno"
 
 #: templates/users.php:32
 msgid "Create"
 msgstr "Vytvořit"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "Výchozí kvóta"
+msgid "Default Storage"
+msgstr "Výchozí úložiště"
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:41 templates/users.php:139
+msgid "Unlimited"
+msgstr "Neomezeně"
+
+#: templates/users.php:59 templates/users.php:154
 msgid "Other"
 msgstr "Jiná"
 
-#: templates/users.php:80 templates/users.php:112
-msgid "Group Admin"
-msgstr "Správa skupiny"
+#: templates/users.php:84
+msgid "Storage"
+msgstr "Úložiště"
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "Kvóta"
+#: templates/users.php:95
+msgid "change display name"
+msgstr "změnit zobrazované jméno"
 
-#: templates/users.php:146
-msgid "Delete"
-msgstr "Smazat"
+#: templates/users.php:99
+msgid "set new password"
+msgstr "nastavit nové heslo"
+
+#: templates/users.php:134
+msgid "Default"
+msgstr "Výchozí"

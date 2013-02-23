@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#  <asieriko@gmail.com>, 2013.
 #   <asieriko@gmail.com>, 2012.
 # Asier Urio Larrea <asieriko@gmail.com>, 2011.
+# Piarres Beobide <pi@beobide.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-27 00:10+0100\n"
-"PO-Revision-Date: 2012-11-25 23:09+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:20+0000\n"
 "Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -18,6 +20,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/share.php:85
+#, php-format
+msgid "User %s shared a file with you"
+msgstr "%s erabiltzaileak zurekin fitxategi bat partekatu du "
+
+#: ajax/share.php:87
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr "%s erabiltzaileak zurekin karpeta bat partekatu du "
+
+#: ajax/share.php:89
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr "%s erabiltzaileak \"%s\" fitxategia zurekin partekatu du. Hemen duzu eskuragarri:  %s"
+
+#: ajax/share.php:91
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr "%s erabiltzaileak \"%s\" karpeta zurekin partekatu du. Hemen duzu eskuragarri:  %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -28,8 +54,9 @@ msgid "No category to add?"
 msgstr "Ez dago gehitzeko kategoriarik?"
 
 #: ajax/vcategories/add.php:37
-msgid "This category already exists: "
-msgstr "Kategoria hau dagoeneko existitzen da:"
+#, php-format
+msgid "This category already exists: %s"
+msgstr "Kategoria hau dagoeneko existitzen da: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -57,59 +84,135 @@ msgstr "Ez da ezabatzeko kategoriarik hautatu."
 msgid "Error removing %s from favorites."
 msgstr "Errorea gertatu da %s gogokoetatik ezabatzean."
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "Igandea"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "Astelehena"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "Asteartea"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "Asteazkena"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "Osteguna"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "Ostirala"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "Larunbata"
+
+#: js/config.php:33
+msgid "January"
+msgstr "Urtarrila"
+
+#: js/config.php:33
+msgid "February"
+msgstr "Otsaila"
+
+#: js/config.php:33
+msgid "March"
+msgstr "Martxoa"
+
+#: js/config.php:33
+msgid "April"
+msgstr "Apirila"
+
+#: js/config.php:33
+msgid "May"
+msgstr "Maiatza"
+
+#: js/config.php:33
+msgid "June"
+msgstr "Ekaina"
+
+#: js/config.php:33
+msgid "July"
+msgstr "Uztaila"
+
+#: js/config.php:33
+msgid "August"
+msgstr "Abuztua"
+
+#: js/config.php:33
+msgid "September"
+msgstr "Iraila"
+
+#: js/config.php:33
+msgid "October"
+msgstr "Urria"
+
+#: js/config.php:33
+msgid "November"
+msgstr "Azaroa"
+
+#: js/config.php:33
+msgid "December"
+msgstr "Abendua"
+
+#: js/js.js:286
 msgid "Settings"
 msgstr "Ezarpenak"
 
-#: js/js.js:704
+#: js/js.js:767
 msgid "seconds ago"
 msgstr "segundu"
 
-#: js/js.js:705
+#: js/js.js:768
 msgid "1 minute ago"
 msgstr "orain dela minutu 1"
 
-#: js/js.js:706
+#: js/js.js:769
 msgid "{minutes} minutes ago"
 msgstr "orain dela {minutes} minutu"
 
-#: js/js.js:707
+#: js/js.js:770
 msgid "1 hour ago"
 msgstr "orain dela ordu bat"
 
-#: js/js.js:708
+#: js/js.js:771
 msgid "{hours} hours ago"
 msgstr "orain dela {hours} ordu"
 
-#: js/js.js:709
+#: js/js.js:772
 msgid "today"
 msgstr "gaur"
 
-#: js/js.js:710
+#: js/js.js:773
 msgid "yesterday"
 msgstr "atzo"
 
-#: js/js.js:711
+#: js/js.js:774
 msgid "{days} days ago"
 msgstr "orain dela {days} egun"
 
-#: js/js.js:712
+#: js/js.js:775
 msgid "last month"
 msgstr "joan den hilabetean"
 
-#: js/js.js:713
+#: js/js.js:776
 msgid "{months} months ago"
 msgstr "orain dela {months} hilabete"
 
-#: js/js.js:714
+#: js/js.js:777
 msgid "months ago"
 msgstr "hilabete"
 
-#: js/js.js:715
+#: js/js.js:778
 msgid "last year"
 msgstr "joan den urtean"
 
-#: js/js.js:716
+#: js/js.js:779
 msgid "years ago"
 msgstr "urte"
 
@@ -139,8 +242,8 @@ msgid "The object type is not specified."
 msgstr "Objetu mota ez dago zehaztuta."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:533
-#: js/share.js:545
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
+#: js/share.js:594
 msgid "Error"
 msgstr "Errorea"
 
@@ -152,108 +255,142 @@ msgstr "App izena ez dago zehaztuta."
 msgid "The required file {file} is not installed!"
 msgstr "Beharrezkoa den {file} fitxategia ez dago instalatuta!"
 
-#: js/share.js:124
+#: js/share.js:29 js/share.js:43 js/share.js:90
+msgid "Shared"
+msgstr "Elkarbanatuta"
+
+#: js/share.js:93
+msgid "Share"
+msgstr "Elkarbanatu"
+
+#: js/share.js:141 js/share.js:622
 msgid "Error while sharing"
 msgstr "Errore bat egon da elkarbanatzean"
 
-#: js/share.js:135
+#: js/share.js:152
 msgid "Error while unsharing"
 msgstr "Errore bat egon da elkarbanaketa desegitean"
 
-#: js/share.js:142
+#: js/share.js:159
 msgid "Error while changing permissions"
 msgstr "Errore bat egon da baimenak aldatzean"
 
-#: js/share.js:151
+#: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "{owner}-k zu eta {group} taldearekin partekatuta"
 
-#: js/share.js:153
+#: js/share.js:170
 msgid "Shared with you by {owner}"
 msgstr "{owner}-k zurekin partekatuta"
 
-#: js/share.js:158
+#: js/share.js:175
 msgid "Share with"
 msgstr "Elkarbanatu honekin"
 
-#: js/share.js:163
+#: js/share.js:180
 msgid "Share with link"
 msgstr "Elkarbanatu lotura batekin"
 
-#: js/share.js:164
+#: js/share.js:183
 msgid "Password protect"
 msgstr "Babestu pasahitzarekin"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
-#: templates/verify.php:13
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "Pasahitza"
 
-#: js/share.js:173
+#: js/share.js:189
+msgid "Email link to person"
+msgstr "Postaz bidali lotura "
+
+#: js/share.js:190
+msgid "Send"
+msgstr "Bidali"
+
+#: js/share.js:194
 msgid "Set expiration date"
 msgstr "Ezarri muga data"
 
-#: js/share.js:174
+#: js/share.js:195
 msgid "Expiration date"
 msgstr "Muga data"
 
-#: js/share.js:206
+#: js/share.js:227
 msgid "Share via email:"
 msgstr "Elkarbanatu eposta bidez:"
 
-#: js/share.js:208
+#: js/share.js:229
 msgid "No people found"
 msgstr "Ez da inor aurkitu"
 
-#: js/share.js:235
+#: js/share.js:256
 msgid "Resharing is not allowed"
 msgstr "Berriz elkarbanatzea ez dago baimendua"
 
-#: js/share.js:271
+#: js/share.js:292
 msgid "Shared in {item} with {user}"
 msgstr "{user}ekin {item}-n partekatuta"
 
-#: js/share.js:292
+#: js/share.js:313
 msgid "Unshare"
 msgstr "Ez elkarbanatu"
 
-#: js/share.js:304
+#: js/share.js:325
 msgid "can edit"
 msgstr "editatu dezake"
 
-#: js/share.js:306
+#: js/share.js:327
 msgid "access control"
 msgstr "sarrera kontrola"
 
-#: js/share.js:309
+#: js/share.js:330
 msgid "create"
 msgstr "sortu"
 
-#: js/share.js:312
+#: js/share.js:333
 msgid "update"
 msgstr "eguneratu"
 
-#: js/share.js:315
+#: js/share.js:336
 msgid "delete"
 msgstr "ezabatu"
 
-#: js/share.js:318
+#: js/share.js:339
 msgid "share"
 msgstr "elkarbanatu"
 
-#: js/share.js:349 js/share.js:520 js/share.js:522
+#: js/share.js:373 js/share.js:569
 msgid "Password protected"
 msgstr "Pasahitzarekin babestuta"
 
-#: js/share.js:533
+#: js/share.js:582
 msgid "Error unsetting expiration date"
 msgstr "Errorea izan da muga data kentzean"
 
-#: js/share.js:545
+#: js/share.js:594
 msgid "Error setting expiration date"
 msgstr "Errore bat egon da muga data ezartzean"
 
-#: lostpassword/controller.php:47
+#: js/share.js:609
+msgid "Sending ..."
+msgstr "Bidaltzen ..."
+
+#: js/share.js:620
+msgid "Email sent"
+msgstr "Eposta bidalia"
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr "Eguneraketa ez da ongi egin. Mesedez egin arazoaren txosten bat <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud komunitatearentzako</a>."
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr "Eguneraketa ongi egin da. Orain zure ownClouderea berbideratua izango zara."
+
+#: lostpassword/controller.php:48
 msgid "ownCloud password reset"
 msgstr "ownCloud-en pasahitza berrezarri"
 
@@ -273,8 +410,8 @@ msgstr "Berrezartzeko eposta bidali da."
 msgid "Request failed!"
 msgstr "Eskariak huts egin du!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "Erabiltzaile izena"
 
@@ -334,7 +471,7 @@ msgstr "Editatu kategoriak"
 msgid "Add"
 msgstr "Gehitu"
 
-#: templates/installation.php:23 templates/installation.php:31
+#: templates/installation.php:23 templates/installation.php:30
 msgid "Security Warning"
 msgstr "Segurtasun abisua"
 
@@ -344,179 +481,107 @@ msgid ""
 "OpenSSL extension."
 msgstr "Ez dago hausazko zenbaki sortzaile segururik eskuragarri, mesedez gatiu PHP OpenSSL extensioa."
 
-#: templates/installation.php:26
+#: templates/installation.php:25
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Hausazko zenbaki sortzaile segururik gabe erasotzaile batek pasahitza berrezartzeko kodeak iragarri ditzake eta zure kontuaz jabetu."
 
+#: templates/installation.php:31
+msgid ""
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
+msgstr "Zure data karpeta eta fitxategiak interneten bidez eskuragarri egon daitezke .htaccess fitxategia ez delako funtzionatzen ari."
+
 #: templates/installation.php:32
 msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "Zure data karpeta eta zure fitxategiak internetetik zuzenean eskuragarri egon daitezke. ownCloudek emandako .htaccess fitxategia ez du bere lana egiten. Aholkatzen dizugu zure web zerbitzaria ongi konfiguratzea data karpeta eskuragarri ez izateko edo data karpeta web zerbitzariaren dokumentu errotik mugitzea."
+"For information how to properly configure your server, please see the <a "
+"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
+"target=\"_blank\">documentation</a>."
+msgstr "Zure zerbitzaria ongi konfiguratzeko informazioa eskuratzeko, begiratu  <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentazioa</a>."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Sortu <strong>kudeatzaile kontu<strong> bat"
 
-#: templates/installation.php:48
+#: templates/installation.php:52
 msgid "Advanced"
 msgstr "Aurreratua"
 
-#: templates/installation.php:50
+#: templates/installation.php:54
 msgid "Data folder"
 msgstr "Datuen karpeta"
 
-#: templates/installation.php:57
+#: templates/installation.php:61
 msgid "Configure the database"
 msgstr "Konfiguratu datu basea"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:66 templates/installation.php:77
+#: templates/installation.php:87 templates/installation.php:97
 msgid "will be used"
 msgstr "erabiliko da"
 
-#: templates/installation.php:105
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Datubasearen erabiltzailea"
 
-#: templates/installation.php:109
+#: templates/installation.php:113
 msgid "Database password"
 msgstr "Datubasearen pasahitza"
 
-#: templates/installation.php:113
+#: templates/installation.php:117
 msgid "Database name"
 msgstr "Datubasearen izena"
 
-#: templates/installation.php:121
+#: templates/installation.php:125
 msgid "Database tablespace"
 msgstr "Datu basearen taula-lekua"
 
-#: templates/installation.php:127
+#: templates/installation.php:131
 msgid "Database host"
 msgstr "Datubasearen hostalaria"
 
-#: templates/installation.php:132
+#: templates/installation.php:136
 msgid "Finish setup"
 msgstr "Bukatu konfigurazioa"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "Igandea"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "Astelehena"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "Asteartea"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "Asteazkena"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "Osteguna"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "Ostirala"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "Larunbata"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "Urtarrila"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "Otsaila"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "Martxoa"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "Apirila"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "Maiatza"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "Ekaina"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "Uztaila"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "Abuztua"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "Iraila"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "Urria"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "Azaroa"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "Abendua"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:33
 msgid "web services under your control"
 msgstr "web zerbitzuak zure kontrolpean"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:48
 msgid "Log out"
 msgstr "Saioa bukatu"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Saio hasiera automatikoa ez onartuta!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Zure pasahitza orain dela gutxi ez baduzu aldatu, zure kontua arriskuan egon daiteke!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Mesedez aldatu zure pasahitza zure kontua berriz segurtatzeko."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Galdu duzu pasahitza?"
 
-#: templates/login.php:27
+#: templates/login.php:41
 msgid "remember"
 msgstr "gogoratu"
 
-#: templates/login.php:28
+#: templates/login.php:43
 msgid "Log in"
 msgstr "Hasi saioa"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Zure saioa bukatu da."
+#: templates/login.php:49
+msgid "Alternative Logins"
+msgstr "Beste erabiltzaile izenak"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -526,16 +591,7 @@ msgstr "aurrekoa"
 msgid "next"
 msgstr "hurrengoa"
 
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "Segurtasun abisua"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "Mesedez egiaztatu zure pasahitza. <br/>Segurtasun arrazoiengatik noizbehinka zure pasahitza berriz sartzea eska diezazukegu."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Egiaztatu"
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr "ownCloud %s bertsiora eguneratzen, denbora har dezake."

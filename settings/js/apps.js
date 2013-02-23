@@ -24,6 +24,14 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		page.find('span.author').text(app.author);
 		page.find('span.licence').text(app.licence);
 
+		if (app.update != false) {
+			page.find('input.update').show();
+			page.find('input.update').data('appid', app.id);
+			page.find('input.update').attr('value',t('settings', 'Update to {appversion}', {appversion:app.update}));
+		} else {
+			page.find('input.update').hide();
+		}
+
 		page.find('input.enable').show();
 		page.find('input.enable').val((app.active) ? t('settings', 'Disable') : t('settings', 'Enable'));
 		page.find('input.enable').data('appid', app.id);
@@ -44,6 +52,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 		appData = appitem.data('app');
 		appData.active = !active;
 		appitem.data('app', appData);
+		element.val(t('settings','Please wait....'));
 		if(active) {
 			$.post(OC.filePath('settings','ajax','disableapp.php'),{appid:appid},function(result) {
 				if(!result || result.status!='success') {
@@ -70,6 +79,20 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			$('#leftcontent li[data-id="'+appid+'"]').addClass('active');
 		}
 	},
+	updateApp:function(appid, element) {
+		console.log('updateApp:', appid, element);
+		element.val(t('settings','Updating....'));
+		$.post(OC.filePath('settings','ajax','updateapp.php'),{appid:appid},function(result) {
+			if(!result || result.status!='success') {
+				OC.dialogs.alert(t('settings','Error while updating app'),t('settings','Error'));
+			}
+			else {
+				element.val(t('settings','Updated'));
+				element.hide();
+			}
+		},'json');
+	},
+
 	insertApp:function(appdata) {
 		var applist = $('#leftcontent li');
 		var app =
@@ -111,10 +134,10 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					if(container.children('li[data-id="'+entry.id+'"]').length === 0){
 						var li=$('<li></li>');
 						li.attr('data-id', entry.id);
-						var a=$('<a></a>');
-						a.attr('style', 'background-image: url('+entry.icon+')');
+						var img= $('<img class="icon"/>').attr({ src: entry.icon});
+						var a=$('<a></a>').attr('href', entry.href);
 						a.text(entry.name);
-						a.attr('href', entry.href);
+						a.prepend(img);
 						li.append(a);
 						container.append(li);
 					}
@@ -152,6 +175,13 @@ $(document).ready(function(){
 		var active=$(this).data('active');
 		if(appid) {
 			OC.Settings.Apps.enableApp(appid, active, element);
+		}
+	});
+	$('#rightcontent input.update').click(function(){
+		var element = $(this);
+		var appid=$(this).data('appid');
+		if(appid) {
+			OC.Settings.Apps.updateApp(appid, element);
 		}
 	});
 

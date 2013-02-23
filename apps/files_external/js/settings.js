@@ -47,7 +47,7 @@ OC.MountConfig={
 							oldUsers.splice($.inArray(applicable, oldUsers), 1);
 						}
 					}
-					$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+					$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, 'class': backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
 				});
 				var mountType = 'group';
 				$.each(oldGroups, function(index, applicable) {
@@ -61,7 +61,7 @@ OC.MountConfig={
 				var isPersonal = true;
 				var mountType = 'user';
 				var applicable = OC.currentUser;
-				$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+				$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, 'class': backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
 			}
 			return true;
 		}
@@ -71,7 +71,7 @@ OC.MountConfig={
 $(document).ready(function() {
 	$('.chzn-select').chosen();
 
-	$('#selectBackend').live('change', function() {
+	$('#selectBackend').on('change', function() {
 		var tr = $(this).parent().parent();
 		$('#externalStorage tbody').append($(tr).clone());
 		$('#externalStorage tbody tr').last().find('.mountPoint input').val('');
@@ -100,7 +100,7 @@ $(document).ready(function() {
 						td.append('<input type="text" data-parameter="'+parameter+'" placeholder="'+placeholder+'" />');
 					}
 				});
-				if (parameters['custom'] && $('#externalStorage tbody tr.'+backendClass).length == 1) {
+				if (parameters['custom'] && $('#externalStorage tbody tr.'+backendClass.replace(/\\/g, '\\\\')).length == 1) {
 					OC.addScript('files_external', parameters['custom']);
 				}
 				return false;
@@ -135,11 +135,11 @@ $(document).ready(function() {
 		return defaultMountPoint+append;
 	}
 
-	$('#externalStorage td').live('change', function() {
+	$('#externalStorage').on('change', 'td', function() {
 		OC.MountConfig.saveStorage($(this).parent());
 	});
 
-	$('td.remove>img').live('click', function() {
+	$('td.remove>img').on('click', function() {
 		var tr = $(this).parent().parent();
 		var mountPoint = $(tr).find('.mountPoint input').val();
 		if ( ! mountPoint) {

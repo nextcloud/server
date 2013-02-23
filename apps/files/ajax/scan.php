@@ -1,43 +1,71 @@
 <?php
-
-set_time_limit(0);//scanning can take ages
-
-$force=isset($_GET['force']) and $_GET['force']=='true';
-$dir=isset($_GET['dir'])?$_GET['dir']:'';
-$checkOnly=isset($_GET['checkonly']) and $_GET['checkonly']=='true';
-
-if(!$checkOnly) {
-	$eventSource=new OC_EventSource();
-}
-
+set_time_limit(0); //scanning can take ages
 session_write_close();
 
-//create the file cache if necesary
-if($force or !OC_FileCache::inCache('')) {
-	if(!$checkOnly) {
-		OCP\DB::beginTransaction();
+$force = (isset($_GET['force']) and ($_GET['force'] === 'true'));
+$dir = isset($_GET['dir']) ? $_GET['dir'] : '';
 
-		if(OC_Cache::isFast()) {
-			OC_Cache::clear('fileid/'); //make sure the old fileid's don't mess things up
+$eventSource = new OC_EventSource();
+ScanListener::$eventSource = $eventSource;
+ScanListener::$view = \OC\Files\Filesystem::getView();
+
+OC_Hook::connect('\OC\Files\Cache\Scanner', 'scan_folder', 'ScanListener', 'folder');
+OC_Hook::connect('\OC\Files\Cache\Scanner', 'scan_file', 'ScanListener', 'file');
+
+$absolutePath = \OC\Files\Filesystem::getView()->getAbsolutePath($dir);
+
+$mountPoints = \OC\Files\Filesystem::getMountPoints($absolutePath);
+$mountPoints[] = \OC\Files\Filesystem::getMountPoint($absolutePath);
+$mountPoints = array_reverse($mountPoints); //start with the mount point of $dir
+
+foreach ($mountPoints as $mountPoint) {
+	$storage = \OC\Files\Filesystem::getStorage($mountPoint);
+	if ($storage) {
+		ScanListener::$mountPoints[$storage->getId()] = $mountPoint;
+		$scanner = $storage->getScanner();
+		if ($force) {
+			$scanner->scan('');
+		} else {
+			$scanner->backgroundScan();
 		}
-
-		OC_FileCache::scan($dir, $eventSource);
-		OC_FileCache::clean();
-		OCP\DB::commit();
-		$eventSource->send('success', true);
-	} else {
-		OCP\JSON::success(array('data'=>array('done'=>true)));
-		exit;
-	}
-} else {
-	if($checkOnly) {
-		OCP\JSON::success(array('data'=>array('done'=>false)));
-		exit;
-	}
-	if(isset($eventSource)) {
-		$eventSource->send('success', false);
-	} else {
-		exit;
 	}
 }
+
+$eventSource->send('done', ScanListener::$fileCount);
 $eventSource->close();
+
+class ScanListener {
+
+	static public $fileCount = 0;
+	static public $lastCount = 0;
+
+	/**
+	 * @var \OC\Files\View $view
+	 */
+	static public $view;
+
+	/**
+	 * @var array $mountPoints map storage ids to mountpoints
+	 */
+	static public $mountPoints = array();
+
+	/**
+	 * @var \OC_EventSource event source to pass events to
+	 */
+	static public $eventSource;
+
+	static function folder($params) {
+		$internalPath = $params['path'];
+		$mountPoint = self::$mountPoints[$params['storage']];
+		$path = self::$view->getRelativePath($mountPoint . $internalPath);
+		self::$eventSource->send('folder', $path);
+	}
+
+	static function file() {
+		self::$fileCount++;
+		if (self::$fileCount > self::$lastCount + 20) { //send a count update every 20 files
+			self::$lastCount = self::$fileCount;
+			self::$eventSource->send('count', self::$fileCount);
+		}
+	}
+}

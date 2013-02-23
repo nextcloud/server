@@ -57,9 +57,7 @@ class OC_JSON{
 	* Check if the user is a admin, send json error msg if not
 	*/
 	public static function checkAdminUser() {
-		self::checkLoggedIn();
-		self::verifyUser();
-		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )) {
+		if( !OC_User::isAdminUser(OC_User::getUser())) {
 			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 			exit();
@@ -70,28 +68,13 @@ class OC_JSON{
 	* Check if the user is a subadmin, send json error msg if not
 	*/
 	public static function checkSubAdminUser() {
-		self::checkLoggedIn();
-		self::verifyUser();
-		if(!OC_Group::inGroup(OC_User::getUser(), 'admin') && !OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
+		if(!OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
 			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 			exit();
 		}
 	}
 
-	/**
-	* Check if the user verified the login with his password
-	*/
-	public static function verifyUser() {
-		if(OC_Config::getValue('enhancedauth', false) === true) {
-			if(!isset($_SESSION['verifiedLogin']) OR $_SESSION['verifiedLogin'] < time()) {
-				$l = OC_L10N::get('lib');
-				self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
-				exit();
-			}
-		}
-	}
-	
 	/**
 	* Send json error msg
 	*/

@@ -122,6 +122,11 @@ class OC_SubAdmin{
 	 * @return bool
 	 */
 	public static function isSubAdmin($uid) {
+		// Check if the user is already an admin
+		if(OC_Group::inGroup($uid, 'admin' )) {
+			return true;
+		}
+
 		$stmt = OC_DB::prepare('SELECT COUNT(*) AS `count` FROM `*PREFIX*group_admin` WHERE `uid` = ?');
 		$result = $stmt->execute(array($uid));
 		$result = $result->fetchRow();
@@ -141,7 +146,7 @@ class OC_SubAdmin{
 		if(!self::isSubAdmin($subadmin)) {
 			return false;
 		}
-		if(OC_Group::inGroup($user, 'admin')) {
+		if(OC_User::isAdminUser($user)) {
 			return false;
 		}
 		$accessiblegroups = self::getSubAdminsGroups($subadmin);

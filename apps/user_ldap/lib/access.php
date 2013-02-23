@@ -4,7 +4,7 @@
  * ownCloud – LDAP Access
  *
  * @author Arthur Schiwon
- * @copyright 2012 Arthur Schiwon blizzz@owncloud.com
+ * @copyright 2012, 2013 Arthur Schiwon blizzz@owncloud.com
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -48,7 +48,9 @@ abstract class Access {
 	 */
 	public function readAttribute($dn, $attr, $filter = 'objectClass=*') {
 		if(!$this->checkConnection()) {
-			\OCP\Util::writeLog('user_ldap', 'No LDAP Connector assigned, access impossible for readAttribute.', \OCP\Util::WARN);
+			\OCP\Util::writeLog('user_ldap',
+				'No LDAP Connector assigned, access impossible for readAttribute.',
+				\OCP\Util::WARN);
 			return false;
 		}
 		$cr = $this->connection->getConnectionResource();
@@ -57,8 +59,8 @@ abstract class Access {
 			\OCP\Util::writeLog('user_ldap', 'LDAP resource not available.', \OCP\Util::DEBUG);
 			return false;
 		}
-		$rr = @ldap_read($cr, $dn, $filter, array($attr));
 		$dn = $this->DNasBaseParameter($dn);
+		$rr = @ldap_read($cr, $dn, $filter, array($attr));
 		if(!is_resource($rr)) {
 			\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
 			//in case an error occurs , e.g. object does not exist
@@ -114,7 +116,17 @@ abstract class Access {
 	 * @return the sanitized DN
 	 */
 	private function sanitizeDN($dn) {
-		//OID sometimes gives back DNs with whitespace after the comma a la "uid=foo, cn=bar, dn=..." We need to tackle this!
+		//treating multiple base DNs
+		if(is_array($dn)) {
+			$result = array();
+			foreach($dn as $singleDN) {
+			    $result[] = $this->sanitizeDN($singleDN);
+			}
+			return $result;
+		}
+
+		//OID sometimes gives back DNs with whitespace after the comma
+		// a la "uid=foo, cn=bar, dn=..." We need to tackle this!
 		$dn = preg_replace('/([^\\\]),(\s+)/u', '\1,', $dn);
 
 		//make comparisons and everything work
@@ -133,7 +145,7 @@ abstract class Access {
 			'\"' => '\5c22',
 			'\#' => '\5c23',
 		);
-		$dn = str_replace(array_keys($replacements),array_values($replacements), $dn);
+		$dn = str_replace(array_keys($replacements), array_values($replacements), $dn);
 
 		return $dn;
 	}
@@ -209,12 +221,17 @@ abstract class Access {
 	 * @param $ldapname optional, the display name of the object
 	 * @returns string with with the name to use in ownCloud, false on DN outside of search DN
 	 *
-	 * returns the internal ownCloud name for the given LDAP DN of the group, false on DN outside of search DN or failure
+	 * returns the internal ownCloud name for the given LDAP DN of the
+	 * group, false on DN outside of search DN or failure
 	 */
 	public function dn2groupname($dn, $ldapname = null) {
-		if(mb_strripos($dn, $this->sanitizeDN($this->connection->ldapBaseGroups), 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($this->sanitizeDN($this->connection->ldapBaseGroups), 'UTF-8'))) {
+		//To avoid bypassing the base DN settings under certain circumstances
+		//with the group support, check whether the provided DN matches one of
+		//the given Bases
+		if(!$this->isDNPartOfBase($dn, $this->connection->ldapBaseGroups)) {
 			return false;
 		}
+
 		return $this->dn2ocname($dn, $ldapname, false);
 	}
 
@@ -227,9 +244,13 @@ abstract class Access {
 	 * returns the internal ownCloud name for the given LDAP DN of the user, false on DN outside of search DN or failure
 	 */
 	public function dn2username($dn, $ldapname = null) {
-		if(mb_strripos($dn, $this->sanitizeDN($this->connection->ldapBaseUsers), 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($this->sanitizeDN($this->connection->ldapBaseUsers), 'UTF-8'))) {
+		//To avoid bypassing the base DN settings under certain circumstances
+		//with the group support, check whether the provided DN matches one of
+		//the given Bases
+		if(!$this->isDNPartOfBase($dn, $this->connection->ldapBaseUsers)) {
 			return false;
 		}
+
 		return $this->dn2ocname($dn, $ldapname, true);
 	}
 
@@ -276,6 +297,10 @@ abstract class Access {
 				$query->execute(array($dn, $uuid));
 				return $component;
 			}
+		} else {
+			//If the UUID can't be detected something is foul.
+			\OCP\Util::writeLog('user_ldap', 'Cannot determine UUID for '.$dn.'. Skipping.', \OCP\Util::INFO);
+			return false;
 		}
 
 		if(is_null($ldapname)) {
@@ -286,21 +311,24 @@ abstract class Access {
 			}
 			$ldapname = $ldapname[0];
 		}
-		$ldapname = $this->sanitizeUsername($ldapname);
+		$intname = $isUser ? $this->sanitizeUsername($uuid) : $this->sanitizeUsername($ldapname);
 
-		//a new user/group! Then let's try to add it. We're shooting into the blue with the user/group name, assuming that in most cases there will not be a conflict. Otherwise an error will occur and we will continue with our second shot.
-		if(($isUser && !\OCP\User::userExists($ldapname)) || (!$isUser && !\OC_Group::groupExists($ldapname))) {
-			if($this->mapComponent($dn, $ldapname, $isUser)) {
-				return $ldapname;
+		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
+		//disabling Cache is required to avoid that the new user is cached as not-existing in fooExists check
+		$originalTTL = $this->connection->ldapCacheTTL;
+		$this->connection->setConfiguration(array('ldapCacheTTL' => 0));
+		if(($isUser && !\OCP\User::userExists($intname))
+			|| (!$isUser && !\OC_Group::groupExists($intname))) {
+			if($this->mapComponent($dn, $intname, $isUser)) {
+				$this->connection->setConfiguration(array('ldapCacheTTL' => $originalTTL));
+				return $intname;
 			}
 		}
+		$this->connection->setConfiguration(array('ldapCacheTTL' => $originalTTL));
 
-		//doh! There is a conflict. We need to distinguish between users/groups. Adding indexes is an idea, but not much of a help for the user. The DN is ugly, but for now the only reasonable way. But we transform it to a readable format and remove the first part to only give the path where this object is located.
-		$oc_name = $this->alternateOwnCloudName($ldapname, $dn);
-		if(($isUser && !\OCP\User::userExists($oc_name)) || (!$isUser && !\OC_Group::groupExists($oc_name))) {
-			if($this->mapComponent($dn, $oc_name, $isUser)) {
-				return $oc_name;
-			}
+		$altname = $this->createAltInternalOwnCloudName($intname, $isUser);
+		if($this->mapComponent($dn, $altname, $isUser)) {
+			return $altname;
 		}
 
 		//if everything else did not help..
@@ -347,20 +375,20 @@ abstract class Access {
 	}
 
 	private function findMappedGroup($dn) {
-                static $query = null;
+		static $query = null;
 		if(is_null($query)) {
 			$query = \OCP\DB::prepare('
-                        	SELECT `owncloud_name`
-	                        FROM `'.$this->getMapTable(false).'`
-        	                WHERE `ldap_dn` = ?'
-                	);
+					SELECT `owncloud_name`
+					FROM `'.$this->getMapTable(false).'`
+					WHERE `ldap_dn` = ?'
+			);
 		}
-                $res = $query->execute(array($dn))->fetchOne();
-                if($res) {
-                        return  $res;
-                }
+		$res = $query->execute(array($dn))->fetchOne();
+		if($res) {
+			return  $res;
+		}
 		return false;
-        }
+	}
 
 
 	private function ldap2ownCloudNames($ldapObjects, $isUsers) {
@@ -383,18 +411,92 @@ abstract class Access {
 	}
 
 	/**
-	 * @brief creates a hopefully unique name for owncloud based on the display name and the dn of the LDAP object
+	 * @brief creates a unique name for internal ownCloud use for users. Don't call it directly.
 	 * @param $name the display name of the object
-	 * @param $dn the dn of the object
-	 * @returns string with with the name to use in ownCloud
+	 * @returns string with with the name to use in ownCloud or false if unsuccessful
 	 *
-	 * creates a hopefully unique name for owncloud based on the display name and the dn of the LDAP object
+	 * Instead of using this method directly, call
+	 * createAltInternalOwnCloudName($name, true)
 	 */
-	private function alternateOwnCloudName($name, $dn) {
-		$ufn = ldap_dn2ufn($dn);
-		$name = $name . '@' . trim(\OCP\Util::mb_substr_replace($ufn, '', 0, mb_strpos($ufn, ',', 0, 'UTF-8'), 'UTF-8'));
-		$name = $this->sanitizeUsername($name);
-		return $name;
+	private function _createAltInternalOwnCloudNameForUsers($name) {
+		$attempts = 0;
+		//while loop is just a precaution. If a name is not generated within
+		//20 attempts, something else is very wrong. Avoids infinite loop.
+		while($attempts < 20){
+			$altName = $name . '_' . uniqid();
+			if(\OCP\User::userExists($altName)) {
+				return $altName;
+			}
+			$attempts++;
+		}
+		return false;
+	}
+
+	/**
+	 * @brief creates a unique name for internal ownCloud use for groups. Don't call it directly.
+	 * @param $name the display name of the object
+	 * @returns string with with the name to use in ownCloud or false if unsuccessful.
+	 *
+	 * Instead of using this method directly, call
+	 * createAltInternalOwnCloudName($name, false)
+	 *
+	 * Group names are also used as display names, so we do a sequential
+	 * numbering, e.g. Developers_42 when there are 41 other groups called
+	 * "Developers"
+	 */
+	private function _createAltInternalOwnCloudNameForGroups($name) {
+		$query = \OCP\DB::prepare('
+			SELECT `owncloud_name`
+			FROM `'.$this->getMapTable(false).'`
+			WHERE `owncloud_name` LIKE ?
+		');
+
+		$usedNames = array();
+		$res = $query->execute(array($name.'_%'));
+		while($row = $res->fetchRow()) {
+			$usedNames[] = $row['owncloud_name'];
+		}
+		if(!($usedNames) || count($usedNames) == 0) {
+			$lastNo = 1; //will become name_2
+		} else {
+			natsort($usedNames);
+			$lastname = array_pop($usedNames);
+			$lastNo = intval(substr($lastname, strrpos($lastname, '_') + 1));
+		}
+		$altName = $name.'_'.strval($lastNo+1);
+		unset($usedNames);
+
+		$attempts = 1;
+		while($attempts < 21){
+			//Pro forma check to be really sure it is unique
+			//while loop is just a precaution. If a name is not generated within
+			//20 attempts, something else is very wrong. Avoids infinite loop.
+			if(!\OC_Group::groupExists($altName)) {
+				return $altName;
+			}
+			$altName = $name . '_' . $lastNo + $attempts;
+			$attempts++;
+		}
+		return false;
+	}
+
+	/**
+	 * @brief creates a unique name for internal ownCloud use.
+	 * @param $name the display name of the object
+	 * @param $isUser boolean, whether name should be created for a user (true) or a group (false)
+	 * @returns string with with the name to use in ownCloud or false if unsuccessful
+	 */
+	private function createAltInternalOwnCloudName($name, $isUser) {
+		$originalTTL = $this->connection->ldapCacheTTL;
+		$this->connection->setConfiguration(array('ldapCacheTTL' => 0));
+		if($isUser) {
+			$altName = $this->_createAltInternalOwnCloudNameForUsers($name);
+		} else {
+			$altName = $this->_createAltInternalOwnCloudNameForGroups($name);
+		}
+		$this->connection->setConfiguration(array('ldapCacheTTL' => $originalTTL));
+
+		return $altName;
 	}
 
 	/**
@@ -521,7 +623,7 @@ abstract class Access {
 	/**
 	 * @brief executes an LDAP search
 	 * @param $filter the LDAP filter for the search
-	 * @param $base the LDAP subtree that shall be searched
+	 * @param $base an array containing the LDAP subtree(s) that shall be searched
 	 * @param $attr optional, when a certain attribute shall be filtered out
 	 * @returns array with the search result
 	 *
@@ -544,28 +646,44 @@ abstract class Access {
 		//check wether paged search should be attempted
 		$pagedSearchOK = $this->initPagedSearch($filter, $base, $attr, $limit, $offset);
 
-		$sr = ldap_search($link_resource, $base, $filter, $attr);
-		if(!$sr) {
-			\OCP\Util::writeLog('user_ldap', 'Error when searching: '.ldap_error($link_resource).' code '.ldap_errno($link_resource), \OCP\Util::ERROR);
+		$linkResources = array_pad(array(), count($base), $link_resource);
+		$sr = ldap_search($linkResources, $base, $filter, $attr);
+		$error = ldap_errno($link_resource);
+		if(!is_array($sr) || $error > 0) {
+			\OCP\Util::writeLog('user_ldap',
+				'Error when searching: '.ldap_error($link_resource).' code '.ldap_errno($link_resource),
+				\OCP\Util::ERROR);
 			\OCP\Util::writeLog('user_ldap', 'Attempt for Paging?  '.print_r($pagedSearchOK, true), \OCP\Util::ERROR);
 			return array();
 		}
-		$findings = ldap_get_entries($link_resource, $sr );
+		$findings = array();
+		foreach($sr as $key => $res) {
+		    $findings = array_merge($findings, ldap_get_entries($link_resource, $res ));
+		}
 		if($pagedSearchOK) {
 			\OCP\Util::writeLog('user_ldap', 'Paged search successful', \OCP\Util::INFO);
-			ldap_control_paged_result_response($link_resource, $sr, $cookie);
-			\OCP\Util::writeLog('user_ldap', 'Set paged search cookie '.$cookie, \OCP\Util::INFO);
-			$this->setPagedResultCookie($filter, $limit, $offset, $cookie);
+			foreach($sr as $key => $res) {
+				$cookie = null;
+				if(ldap_control_paged_result_response($link_resource, $res, $cookie)) {
+					\OCP\Util::writeLog('user_ldap', 'Set paged search cookie', \OCP\Util::INFO);
+					$this->setPagedResultCookie($base[$key], $filter, $limit, $offset, $cookie);
+				}
+			}
+
 			//browsing through prior pages to get the cookie for the new one
 			if($skipHandling) {
 				return;
 			}
-			//if count is bigger, then the server does not support paged search. Instead, he did a normal search. We set a flag here, so the callee knows how to deal with it.
+			// if count is bigger, then the server does not support
+			// paged search. Instead, he did a normal search. We set a
+			// flag here, so the callee knows how to deal with it.
 			if($findings['count'] <= $limit) {
 				$this->pagedSearchedSuccessful = true;
 			}
 		} else {
-			\OCP\Util::writeLog('user_ldap', 'Paged search failed :(', \OCP\Util::INFO);
+			if(!is_null($limit)) {
+				\OCP\Util::writeLog('user_ldap', 'Paged search failed :(', \OCP\Util::INFO);
+			}
 		}
 
 		// if we're here, probably no connection resource is returned.
@@ -592,7 +710,9 @@ abstract class Access {
 						$key = mb_strtolower($key, 'UTF-8');
 						if(isset($item[$key])) {
 							if($key != 'dn') {
-								$selection[$i][$key] = $this->resemblesDN($key) ? $this->sanitizeDN($item[$key][0]) : $item[$key][0];
+								$selection[$i][$key] = $this->resemblesDN($key) ?
+									$this->sanitizeDN($item[$key][0])
+									: $item[$key][0];
 							} else {
 								$selection[$i][$key] = $this->sanitizeDN($item[$key]);
 							}
@@ -619,7 +739,7 @@ abstract class Access {
 		//a) paged search insuccessful, though attempted
 		//b) no paged search, but limit set
 		if((!$this->pagedSearchedSuccessful
-				&& $pagedSearchOK)
+			&& $pagedSearchOK)
 			|| (
 				!$pagedSearchOK
 				&& !is_null($limit)
@@ -690,6 +810,54 @@ abstract class Access {
 		return $combinedFilter;
 	}
 
+	/**
+	 * @brief creates a filter part for to perfrom search for users
+	 * @param string $search the search term
+	 * @return string the final filter part to use in LDAP searches
+	 */
+	public function getFilterPartForUserSearch($search) {
+		return $this->getFilterPartForSearch($search,
+			$this->connection->ldapAttributesForUserSearch,
+			$this->connection->ldapUserDisplayName);
+	}
+
+	/**
+	 * @brief creates a filter part for to perfrom search for groups
+	 * @param string $search the search term
+	 * @return string the final filter part to use in LDAP searches
+	 */
+	public function getFilterPartForGroupSearch($search) {
+		return $this->getFilterPartForSearch($search,
+			$this->connection->ldapAttributesForGroupSearch,
+			$this->connection->ldapGroupDisplayName);
+	}
+
+	/**
+	 * @brief creates a filter part for searches
+	 * @param string $search the search term
+	 * @param string $fallbackAttribute a fallback attribute in case the user
+	 * did not define search attributes. Typically the display name attribute.
+	 * @returns string the final filter part to use in LDAP searches
+	 */
+	private function getFilterPartForSearch($search, $searchAttributes, $fallbackAttribute) {
+		$filter = array();
+		$search = empty($search) ? '*' : '*'.$search.'*';
+		if(!is_array($searchAttributes) || count($searchAttributes) == 0) {
+			if(empty($fallbackAttribute)) {
+				return '';
+			}
+			$filter[] = $fallbackAttribute . '=' . $search;
+		} else {
+			foreach($searchAttributes as $attribute) {
+				$filter[] = $attribute . '=' . $search;
+			}
+		}
+		if(count($filter) == 1) {
+			return '('.$filter[0].')';
+		}
+		return $this->combineFilterWithOr($filter);
+	}
+
 	public function areCredentialsValid($name, $password) {
 		$name = $this->DNasBaseParameter($name);
 		$testConnection = clone $this->connection;
@@ -720,13 +888,15 @@ abstract class Access {
 		foreach($testAttributes as $attribute) {
 			\OCP\Util::writeLog('user_ldap', 'Testing '.$attribute.' as UUID attr', \OCP\Util::DEBUG);
 
-		    $value = $this->readAttribute($dn, $attribute);
-		    if(is_array($value) && isset($value[0]) && !empty($value[0])) {
+			$value = $this->readAttribute($dn, $attribute);
+			if(is_array($value) && isset($value[0]) && !empty($value[0])) {
 				\OCP\Util::writeLog('user_ldap', 'Setting '.$attribute.' as UUID attr', \OCP\Util::DEBUG);
 				$this->connection->ldapUuidAttribute = $attribute;
 				return true;
-		    }
-		    \OCP\Util::writeLog('user_ldap', 'The looked for uuid attr is not '.$attribute.', result was '.print_r($value, true), \OCP\Util::DEBUG);
+			}
+			\OCP\Util::writeLog('user_ldap',
+				'The looked for uuid attr is not '.$attribute.', result was '.print_r($value, true),
+				\OCP\Util::DEBUG);
 		}
 
 		return false;
@@ -734,7 +904,9 @@ abstract class Access {
 
 	public function getUUID($dn) {
 		if($this->detectUuidAttribute($dn)) {
-			\OCP\Util::writeLog('user_ldap', 'UUID Checking \ UUID for '.$dn.' using '. $this->connection->ldapUuidAttribute, \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap',
+				'UUID Checking \ UUID for '.$dn.' using '. $this->connection->ldapUuidAttribute,
+				\OCP\Util::DEBUG);
 			$uuid = $this->readAttribute($dn, $this->connection->ldapUuidAttribute);
 			if(!is_array($uuid) && $this->connection->ldapOverrideUuidAttribute) {
 				$this->detectUuidAttribute($dn, true);
@@ -792,19 +964,40 @@ abstract class Access {
 	}
 
 	/**
+	 * @brief checks if the given DN is part of the given base DN(s)
+	 * @param $dn the DN
+	 * @param $bases array containing the allowed base DN or DNs
+	 * @returns Boolean
+	 */
+	private function isDNPartOfBase($dn, $bases) {
+		$bases = $this->sanitizeDN($bases);
+		foreach($bases as $base) {
+			$belongsToBase = true;
+			if(mb_strripos($dn, $base, 0, 'UTF-8') !== (mb_strlen($dn, 'UTF-8')-mb_strlen($base))) {
+				$belongsToBase = false;
+			}
+			if($belongsToBase) {
+				break;
+			}
+		}
+		return $belongsToBase;
+	}
+
+	/**
 	 * @brief get a cookie for the next LDAP paged search
+	 * @param $base a string with the base DN for the search
 	 * @param $filter the search filter to identify the correct search
 	 * @param $limit the limit (or 'pageSize'), to identify the correct search well
 	 * @param $offset the offset for the new search to identify the correct search really good
 	 * @returns string containing the key or empty if none is cached
 	 */
-	private function getPagedResultCookie($filter, $limit, $offset) {
+	private function getPagedResultCookie($base, $filter, $limit, $offset) {
 		if($offset == 0) {
 			return '';
 		}
 		$offset -= $limit;
 		//we work with cache here
-		$cachekey = 'lc' . dechex(crc32($filter)) . '-' . $limit . '-' . $offset;
+		$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' . $limit . '-' . $offset;
 		$cookie = $this->connection->getFromCache($cachekey);
 		if(is_null($cookie)) {
 			$cookie = '';
@@ -814,15 +1007,16 @@ abstract class Access {
 
 	/**
 	 * @brief set a cookie for LDAP paged search run
+	 * @param $base a string with the base DN for the search
 	 * @param $filter the search filter to identify the correct search
 	 * @param $limit the limit (or 'pageSize'), to identify the correct search well
 	 * @param $offset the offset for the run search to identify the correct search really good
 	 * @param $cookie string containing the cookie returned by ldap_control_paged_result_response
 	 * @return void
 	 */
-	private function setPagedResultCookie($filter, $limit, $offset) {
+	private function setPagedResultCookie($base, $filter, $limit, $offset, $cookie) {
 		if(!empty($cookie)) {
-			$cachekey = 'lc' . dechex(crc32($filter)) . '-' . $limit . '-' . $offset;
+			$cachekey = 'lc' . dechex(crc32($base)) . '-' . dechex(crc32($filter)) . '-' .$limit . '-' . $offset;
 			$cookie = $this->connection->writeToCache($cachekey, $cookie);
 		}
 	}
@@ -841,40 +1035,55 @@ abstract class Access {
 	/**
 	 * @brief prepares a paged search, if possible
 	 * @param $filter the LDAP filter for the search
-	 * @param $base the LDAP subtree that shall be searched
+	 * @param $bases an array containing the LDAP subtree(s) that shall be searched
 	 * @param $attr optional, when a certain attribute shall be filtered outside
 	 * @param $limit
 	 * @param $offset
 	 *
 	 */
-	private function initPagedSearch($filter, $base, $attr, $limit, $offset) {
+	private function initPagedSearch($filter, $bases, $attr, $limit, $offset) {
 		$pagedSearchOK = false;
 		if($this->connection->hasPagedResultSupport && !is_null($limit)) {
 			$offset = intval($offset); //can be null
-			\OCP\Util::writeLog('user_ldap', 'initializing paged search for  Filter'.$filter.' base '.$base.' attr '.print_r($attr, true). ' limit ' .$limit.' offset '.$offset, \OCP\Util::DEBUG);
+			\OCP\Util::writeLog('user_ldap',
+				'initializing paged search for  Filter'.$filter.' base '.print_r($bases, true)
+				.' attr '.print_r($attr, true). ' limit ' .$limit.' offset '.$offset,
+				\OCP\Util::INFO);
 			//get the cookie from the search for the previous search, required by LDAP
-			$cookie = $this->getPagedResultCookie($filter, $limit, $offset);
-			if(empty($cookie) && ($offset > 0)) {
-				//no cookie known, although the offset is not 0. Maybe cache run out. We need to start all over *sigh* (btw, Dear Reader, did you need LDAP paged searching was designed by MSFT?)
-				$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
-				//a bit recursive, $offset of 0 is the exit
-				\OCP\Util::writeLog('user_ldap', 'Looking for cookie L/O '.$limit.'/'.$reOffset, \OCP\Util::INFO);
-				$this->search($filter, $base, $attr, $limit, $reOffset, true);
-				$cookie = $this->getPagedResultCookie($filter, $limit, $offset);
-				//still no cookie? obviously, the server does not like us. Let's skip paging efforts.
-				//TODO: remember this, probably does not change in the next request...
-				if(empty($cookie)) {
-					$cookie = null;
+			foreach($bases as $base) {
+
+				$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
+				if(empty($cookie) && ($offset > 0)) {
+					// no cookie known, although the offset is not 0. Maybe cache run out. We need
+					// to start all over *sigh* (btw, Dear Reader, did you need LDAP paged
+					// searching was designed by MSFT?)
+					$reOffset = ($offset - $limit) < 0 ? 0 : $offset - $limit;
+					//a bit recursive, $offset of 0 is the exit
+					\OCP\Util::writeLog('user_ldap', 'Looking for cookie L/O '.$limit.'/'.$reOffset, \OCP\Util::INFO);
+					$this->search($filter, array($base), $attr, $limit, $reOffset, true);
+					$cookie = $this->getPagedResultCookie($base, $filter, $limit, $offset);
+					//still no cookie? obviously, the server does not like us. Let's skip paging efforts.
+					//TODO: remember this, probably does not change in the next request...
+					if(empty($cookie)) {
+						$cookie = null;
+					}
 				}
-			}
-			if(!is_null($cookie)) {
-				if($offset > 0) {
-					\OCP\Util::writeLog('user_ldap', 'Cookie '.$cookie, \OCP\Util::INFO);
+				if(!is_null($cookie)) {
+					if($offset > 0) {
+						\OCP\Util::writeLog('user_ldap', 'Cookie '.$cookie, \OCP\Util::INFO);
+					}
+					$pagedSearchOK = ldap_control_paged_result($this->connection->getConnectionResource(),
+						$limit, false, $cookie);
+					if(!$pagedSearchOK) {
+						return false;
+					}
+					\OCP\Util::writeLog('user_ldap', 'Ready for a paged search', \OCP\Util::INFO);
+				} else {
+					\OCP\Util::writeLog('user_ldap',
+						'No paged search for us, Cpt., Limit '.$limit.' Offset '.$offset,
+						\OCP\Util::INFO);
 				}
-				$pagedSearchOK = ldap_control_paged_result($this->connection->getConnectionResource(), $limit, false, $cookie);
-				\OCP\Util::writeLog('user_ldap', 'Ready for a paged search', \OCP\Util::INFO);
-			} else {
-				\OCP\Util::writeLog('user_ldap', 'No paged search for us, Cpt., Limit '.$limit.' Offset '.$offset, \OCP\Util::INFO);
+
 			}
 		}
 

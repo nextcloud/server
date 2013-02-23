@@ -45,7 +45,34 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function put($data) {
 
-		OC_Filesystem::file_put_contents($this->path, $data);
+		// mark file as partial while uploading (ignored by the scanner)
+		$partpath = $this->path . '.part';
+		
+		\OC\Files\Filesystem::file_put_contents($partpath, $data);
+		
+		//detect aborted upload
+		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT' ) {
+			if (isset($_SERVER['CONTENT_LENGTH'])) {
+				$expected = $_SERVER['CONTENT_LENGTH'];
+				$actual = \OC\Files\Filesystem::filesize($partpath);
+				if ($actual != $expected) {
+					\OC\Files\Filesystem::unlink($partpath);
+					throw new Sabre_DAV_Exception_BadRequest(
+							'expected filesize ' . $expected . ' got ' . $actual);
+				}
+			}
+		}
+		
+		// rename to correct path
+		\OC\Files\Filesystem::rename($partpath, $this->path);
+		
+		//allow sync clients to send the mtime along in a header
+		$mtime = OC_Request::hasModificationTime();
+		if ($mtime !== false) {
+			if(\OC\Files\Filesystem::touch($this->path, $mtime)) {
+				header('X-OC-MTime: accepted');
+			}
+		}
 
 		return OC_Connector_Sabre_Node::getETagPropertyForPath($this->path);
 	}
@@ -57,7 +84,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function get() {
 
-		return OC_Filesystem::fopen($this->path, 'rb');
+		return \OC\Files\Filesystem::fopen($this->path, 'rb');
 
 	}
 
@@ -68,7 +95,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	 */
 	public function delete() {
 
-		OC_Filesystem::unlink($this->path);
+		\OC\Files\Filesystem::unlink($this->path);
 
 	}
 
@@ -86,8 +113,9 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 	/**
 	 * Returns the ETag for a file
 	 *
-	 * An ETag is a unique identifier representing the current version of the file. If the file changes, the ETag MUST change.
-	 * The ETag is an arbritrary string, but MUST be surrounded by double-quotes.
+	 * An ETag is a unique identifier representing the current version of the
+	 * file. If the file changes, the ETag MUST change.  The ETag is an
+	 * arbritrary string, but MUST be surrounded by double-quotes.
 	 *
 	 * Return null if the ETag can not effectively be determined
 	 *
@@ -98,16 +126,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 		if (isset($properties[self::GETETAG_PROPERTYNAME])) {
 			return $properties[self::GETETAG_PROPERTYNAME];
 		}
-		return $this->getETagPropertyForPath($this->path);
-	}
-
-	/**
-	 * Creates a ETag for this path.
-	 * @param string $path Path of the file
-	 * @return string|null Returns null if the ETag can not effectively be determined
-	 */
-	static protected function createETag($path) {
-		return OC_Filesystem::hash('md5', $path);
+		return null;
 	}
 
 	/**
@@ -122,7 +141,7 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 			return $this->fileinfo_cache['mimetype'];
 		}
 
-		return OC_Filesystem::getMimeType($this->path);
+		return \OC\Files\Filesystem::getMimeType($this->path);
 
 	}
 }

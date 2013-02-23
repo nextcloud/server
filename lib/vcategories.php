@@ -689,7 +689,9 @@ class OC_VCategories {
 					$stmt = OCP\DB::prepare($sql);
 					$result = $stmt->execute(array($id));
 					if (OC_DB::isError($result)) {
-						OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);
+						OC_Log::write('core',
+							__METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result),
+							OC_Log::ERROR);
 					}
 				} catch(Exception $e) {
 					OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
@@ -763,4 +765,3 @@ class OC_VCategories {
 		return array_search(strtolower($needle), array_map('strtolower', $haystack));
 	}
 }
-

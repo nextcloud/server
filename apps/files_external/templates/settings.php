@@ -1,6 +1,7 @@
 <form id="files_external">
 	<fieldset class="personalblock">
 	<legend><strong><?php echo $l->t('External Storage'); ?></strong></legend>
+		<?php if (isset($_['dependencies']) and ($_['dependencies']<>'')) echo ''.$_['dependencies'].''; ?>
 		<table id="externalStorage" data-admin='<?php echo json_encode($_['isAdminPage']); ?>'>
 			<thead>
 				<tr>
@@ -17,7 +18,7 @@
 			<?php foreach ($_['mounts'] as $mountPoint => $mount): ?>
 				<tr <?php echo ($mountPoint != '') ? 'class="'.$mount['class'].'"' : 'id="addMountPoint"'; ?>>
 					<td class="mountPoint"><input type="text" name="mountPoint"
-												  value="<?php echo $mountPoint; ?>"
+												  value="<?php p($mountPoint); ?>"
 												  placeholder="<?php echo $l->t('Mount point'); ?>" /></td>
 					<?php if ($mountPoint == ''): ?>
 						<td class="backend">
@@ -46,7 +47,7 @@
 									<?php elseif (strpos($placeholder, '!') !== false): ?>
 										<label><input type="checkbox"
 													  data-parameter="<?php echo $parameter; ?>"
-													  <?php if ($value == 'true'): ?> checked="checked"<?php endif; ?> 
+													  <?php if ($value == 'true'): ?> checked="checked"<?php endif; ?>
 													  /><?php echo substr($placeholder, 1); ?></label>
 									<?php elseif (strpos($placeholder, '&') !== false): ?>
 										<input type="text"
@@ -82,7 +83,7 @@
 							<select class="chzn-select"
 									multiple style="width:20em;"
 									data-placeholder="<?php echo $l->t('None set'); ?>">
-								<option value="all"><?php echo $l->t('All Users'); ?></option>
+								<option value="all" <?php if (isset($mount['applicable']['users']) && in_array('all', $mount['applicable']['users'])) echo 'selected="selected"';?> ><?php echo $l->t('All Users'); ?></option>
 								<optgroup label="<?php echo $l->t('Groups'); ?>">
 								<?php foreach ($_['groups'] as $group): ?>
 									<option value="<?php echo $group; ?>(group)"
@@ -104,7 +105,7 @@
 					<?php endif; ?>
 					<td <?php if ($mountPoint != ''): ?>class="remove"
 						<?php else: ?>style="visibility:hidden;"
-						<?php endif ?>><img alt="<?php echo $l->t('Delete'); ?>" 
+						<?php endif ?>><img alt="<?php echo $l->t('Delete'); ?>"
 											title="<?php echo $l->t('Delete'); ?>"
 											class="svg action"
 											src="<?php echo image_path('core', 'actions/delete.svg'); ?>" /></td>
@@ -126,19 +127,14 @@
 	</fieldset>
 </form>
 
+<?php if ( ! $_['isAdminPage']):  ?>
 <form id="files_external"
 	  method="post"
 	  enctype="multipart/form-data"
 	  action="<?php echo OCP\Util::linkTo('files_external', 'ajax/addRootCertificate.php'); ?>">
 <fieldset class="personalblock">
-<?php if ( ! $_['isAdminPage']):  ?>
+		<legend><strong><?php echo $l->t('SSL root certificates');?></strong></legend>
 		<table id="sslCertificate" data-admin='<?php echo json_encode($_['isAdminPage']); ?>'>
-			<thead>
-				<tr>
-					<th><?php echo $l->t('SSL root certificates'); ?></th>
-					<th>&nbsp;</th>
-				</tr>
-			</thead>
 			<tbody width="100%">
 			<?php foreach ($_['certs'] as $rootCert): ?>
 			<tr id="<?php echo $rootCert ?>">
@@ -153,8 +149,9 @@
 			<?php endforeach; ?>
 			</tbody>
 		</table>
+		<input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken']; ?>">
 		<input type="file" id="rootcert_import" name="rootcert_import" style="width:230px;">
 		<input type="submit" name="cert_import" value="<?php echo $l->t('Import Root Certificate'); ?>" />
-		<?php endif; ?>
 </fieldset>
 </form>
+<?php endif; ?>

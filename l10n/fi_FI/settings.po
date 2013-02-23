@@ -4,15 +4,15 @@
 # 
 # Translators:
 # Jesse Jaara <jesse.jaara@gmail.com>, 2012.
-# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012.
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012-2013.
 #   <tehoratopato@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-03 00:04+0100\n"
-"PO-Revision-Date: 2012-12-02 03:18+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:30+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,6 +24,15 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Ei pystytä lataamaan listaa sovellusvarastosta (App Store)"
 
+#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:15
+#: ajax/togglegroups.php:18
+msgid "Authentication error"
+msgstr "Todennusvirhe"
+
+#: ajax/changedisplayname.php:32
+msgid "Unable to change display name"
+msgstr "Näyttönimen muuttaminen epäonnistui"
+
 #: ajax/creategroup.php:10
 msgid "Group already exists"
 msgstr "Ryhmä on jo olemassa"
@@ -32,7 +41,7 @@ msgstr "Ryhmä on jo olemassa"
 msgid "Unable to add group"
 msgstr "Ryhmän lisäys epäonnistui"
 
-#: ajax/enableapp.php:12
+#: ajax/enableapp.php:11
 msgid "Could not enable app. "
 msgstr "Sovelluksen käyttöönotto epäonnistui."
 
@@ -44,21 +53,9 @@ msgstr "Sähköposti tallennettu"
 msgid "Invalid email"
 msgstr "Virheellinen sähköposti"
 
-#: ajax/openid.php:13
-msgid "OpenID Changed"
-msgstr "OpenID on vaihdettu"
-
-#: ajax/openid.php:15 ajax/setlanguage.php:17 ajax/setlanguage.php:20
-msgid "Invalid request"
-msgstr "Virheellinen pyyntö"
-
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
 msgstr "Ryhmän poisto epäonnistui"
-
-#: ajax/removeuser.php:15 ajax/setquota.php:15 ajax/togglegroups.php:18
-msgid "Authentication error"
-msgstr "Todennusvirhe"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
@@ -68,9 +65,13 @@ msgstr "Käyttäjän poisto epäonnistui"
 msgid "Language changed"
 msgstr "Kieli on vaihdettu"
 
+#: ajax/setlanguage.php:17 ajax/setlanguage.php:20
+msgid "Invalid request"
+msgstr "Virheellinen pyyntö"
+
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "Ylläpitäjät eivät poistaa omia tunnuksiaan ylläpitäjien ryhmästä"
 
 #: ajax/togglegroups.php:28
 #, php-format
@@ -82,128 +83,247 @@ msgstr "Käyttäjän tai ryhmän %s lisääminen ei onnistu"
 msgid "Unable to remove user from group %s"
 msgstr "Käyttäjän poistaminen ryhmästä %s ei onnistu"
 
-#: js/apps.js:28 js/apps.js:67
+#: ajax/updateapp.php:14
+msgid "Couldn't update app."
+msgstr "Sovelluksen päivitys epäonnistui."
+
+#: js/apps.js:30
+msgid "Update to {appversion}"
+msgstr "Päivitä versioon {appversion}"
+
+#: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Poista käytöstä"
 
-#: js/apps.js:28 js/apps.js:55
+#: js/apps.js:36 js/apps.js:64
 msgid "Enable"
 msgstr "Käytä"
 
-#: js/personal.js:69
+#: js/apps.js:55
+msgid "Please wait...."
+msgstr "Odota hetki..."
+
+#: js/apps.js:84
+msgid "Updating...."
+msgstr "Päivitetään..."
+
+#: js/apps.js:87
+msgid "Error while updating app"
+msgstr "Virhe sovellusta päivittäessä"
+
+#: js/apps.js:87
+msgid "Error"
+msgstr "Virhe"
+
+#: js/apps.js:90
+msgid "Updated"
+msgstr "Päivitetty"
+
+#: js/personal.js:96
 msgid "Saving..."
 msgstr "Tallennetaan..."
 
-#: personal.php:42 personal.php:43
+#: js/users.js:30
+msgid "deleted"
+msgstr "poistettu"
+
+#: js/users.js:30
+msgid "undo"
+msgstr "kumoa"
+
+#: js/users.js:62
+msgid "Unable to remove user"
+msgstr "Käyttäjän poistaminen ei onnistunut"
+
+#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: templates/users.php:105
+msgid "Groups"
+msgstr "Ryhmät"
+
+#: js/users.js:78 templates/users.php:82 templates/users.php:119
+msgid "Group Admin"
+msgstr "Ryhmän ylläpitäjä"
+
+#: js/users.js:99 templates/users.php:161
+msgid "Delete"
+msgstr "Poista"
+
+#: js/users.js:191
+msgid "add group"
+msgstr "lisää ryhmä"
+
+#: js/users.js:352
+msgid "A valid username must be provided"
+msgstr ""
+
+#: js/users.js:353 js/users.js:359 js/users.js:374
+msgid "Error creating user"
+msgstr "Virhe käyttäjää luotaessa"
+
+#: js/users.js:358
+msgid "A valid password must be provided"
+msgstr ""
+
+#: personal.php:29 personal.php:30
 msgid "__language_name__"
 msgstr "_kielen_nimi_"
 
-#: templates/apps.php:10
-msgid "Add your App"
-msgstr "Lisää sovelluksesi"
+#: templates/admin.php:15
+msgid "Security Warning"
+msgstr "Turvallisuusvaroitus"
 
-#: templates/apps.php:11
-msgid "More Apps"
-msgstr "Lisää sovelluksia"
+#: templates/admin.php:18
+msgid ""
+"Your data directory and your files are probably accessible from the "
+"internet. The .htaccess file that ownCloud provides is not working. We "
+"strongly suggest that you configure your webserver in a way that the data "
+"directory is no longer accessible or you move the data directory outside the"
+" webserver document root."
+msgstr "Data-kansio ja tiedostot ovat ehkä saavutettavissa Internetistä. .htaccess-tiedosto, jolla kontrolloidaan pääsyä, ei toimi. Suosittelemme, että muutat web-palvelimesi asetukset niin ettei data-kansio ole enää pääsyä tai siirrät data-kansion pois web-palvelimen tiedostojen juuresta."
 
-#: templates/apps.php:27
-msgid "Select an App"
-msgstr "Valitse sovellus"
+#: templates/admin.php:29
+msgid "Setup Warning"
+msgstr ""
 
-#: templates/apps.php:31
-msgid "See application page at apps.owncloud.com"
-msgstr "Katso sovellussivu osoitteessa apps.owncloud.com"
+#: templates/admin.php:32
+msgid ""
+"Your web server is not yet properly setup to allow files synchronization "
+"because the WebDAV interface seems to be broken."
+msgstr ""
 
-#: templates/apps.php:32
-msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr "<span class=\"licence\"></span>-lisensoija <span class=\"author\"></span>"
-
-#: templates/help.php:9
-msgid "Documentation"
-msgstr "Dokumentaatio"
-
-#: templates/help.php:10
-msgid "Managing Big Files"
-msgstr "Suurten tiedostojen hallinta"
-
-#: templates/help.php:11
-msgid "Ask a question"
-msgstr "Kysy jotain"
-
-#: templates/help.php:22
-msgid "Problems connecting to help database."
-msgstr "Virhe yhdistettäessä tietokantaan."
-
-#: templates/help.php:23
-msgid "Go there manually."
-msgstr "Siirry sinne itse."
-
-#: templates/help.php:31
-msgid "Answer"
-msgstr "Vastaus"
-
-#: templates/personal.php:8
+#: templates/admin.php:33
 #, php-format
-msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "Käytössäsi on <strong>%s</strong>/<strong>%s</strong>"
+msgid "Please double check the <a href='%s'>installation guides</a>."
+msgstr "Lue tarkasti <a href='%s'>asennusohjeet</a>."
 
-#: templates/personal.php:12
-msgid "Desktop and Mobile Syncing Clients"
-msgstr "Tietokoneen ja mobiililaitteiden synkronointisovellukset"
+#: templates/admin.php:44
+msgid "Module 'fileinfo' missing"
+msgstr "Moduuli 'fileinfo' puuttuu"
 
-#: templates/personal.php:13
-msgid "Download"
-msgstr "Lataa"
+#: templates/admin.php:47
+msgid ""
+"The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
+"module to get best results with mime-type detection."
+msgstr ""
 
-#: templates/personal.php:19
-msgid "Your password was changed"
-msgstr "Salasanasi vaihdettiin"
+#: templates/admin.php:58
+msgid "Locale not working"
+msgstr ""
 
-#: templates/personal.php:20
-msgid "Unable to change your password"
-msgstr "Salasanaasi ei voitu vaihtaa"
+#: templates/admin.php:61
+msgid ""
+"This ownCloud server can't set system locale to "
+"\"en_US.UTF-8\"/\"en_US.UTF8\". This means that there might be problems with"
+" certain characters in file names. We strongly suggest to install the "
+"required packages on your system to support en_US.UTF-8/en_US.UTF8."
+msgstr ""
 
-#: templates/personal.php:21
-msgid "Current password"
-msgstr "Nykyinen salasana"
+#: templates/admin.php:72
+msgid "Internet connection not working"
+msgstr "Internet-yhteys ei toimi"
 
-#: templates/personal.php:22
-msgid "New password"
-msgstr "Uusi salasana"
+#: templates/admin.php:75
+msgid ""
+"This ownCloud server has no working internet connection. This means that "
+"some of the features like mounting of external storage, notifications about "
+"updates or installation of 3rd party apps don´t work. Accessing files from "
+"remote and sending of notification emails might also not work. We suggest to"
+" enable internet connection for this server if you want to have all features"
+" of ownCloud."
+msgstr ""
 
-#: templates/personal.php:23
-msgid "show"
-msgstr "näytä"
+#: templates/admin.php:89
+msgid "Cron"
+msgstr "Cron"
 
-#: templates/personal.php:24
-msgid "Change password"
-msgstr "Vaihda salasana"
+#: templates/admin.php:98
+msgid "Execute one task with each page loaded"
+msgstr ""
 
-#: templates/personal.php:30
-msgid "Email"
-msgstr "Sähköposti"
+#: templates/admin.php:108
+msgid ""
+"cron.php is registered at a webcron service. Call the cron.php page in the "
+"owncloud root once a minute over http."
+msgstr ""
 
-#: templates/personal.php:31
-msgid "Your email address"
-msgstr "Sähköpostiosoitteesi"
+#: templates/admin.php:118
+msgid ""
+"Use systems cron service. Call the cron.php file in the owncloud folder via "
+"a system cronjob once a minute."
+msgstr ""
 
-#: templates/personal.php:32
-msgid "Fill in an email address to enable password recovery"
-msgstr "Anna sähköpostiosoitteesi, jotta unohdettu salasana on mahdollista palauttaa"
+#: templates/admin.php:125
+msgid "Sharing"
+msgstr "Jakaminen"
 
-#: templates/personal.php:38 templates/personal.php:39
-msgid "Language"
-msgstr "Kieli"
+#: templates/admin.php:131
+msgid "Enable Share API"
+msgstr "Käytä jakamisen ohjelmointirajapintaa"
 
-#: templates/personal.php:44
-msgid "Help translate"
-msgstr "Auta kääntämisessä"
+#: templates/admin.php:132
+msgid "Allow apps to use the Share API"
+msgstr "Salli sovellusten käyttää jakamisen ohjelmointirajapintaa"
 
-#: templates/personal.php:51
-msgid "use this address to connect to your ownCloud in your file manager"
-msgstr "voit yhdistää tiedostonhallintasovelluksellasi ownCloudiin käyttämällä tätä osoitetta"
+#: templates/admin.php:139
+msgid "Allow links"
+msgstr "Salli linkit"
 
-#: templates/personal.php:61
+#: templates/admin.php:140
+msgid "Allow users to share items to the public with links"
+msgstr "Salli käyttäjien jakaa kohteita käyttäen linkkejä"
+
+#: templates/admin.php:147
+msgid "Allow resharing"
+msgstr "Salli uudelleenjakaminen"
+
+#: templates/admin.php:148
+msgid "Allow users to share items shared with them again"
+msgstr "Mahdollistaa käyttäjien jakavan uudelleen heidän kanssaan jaettuja kohteita"
+
+#: templates/admin.php:155
+msgid "Allow users to share with anyone"
+msgstr "Salli käyttäjien jakaa kenen tahansa kanssa"
+
+#: templates/admin.php:158
+msgid "Allow users to only share with users in their groups"
+msgstr "Salli jakaminen vain samoissa ryhmissä olevien käyttäjien kesken"
+
+#: templates/admin.php:165
+msgid "Security"
+msgstr "Tietoturva"
+
+#: templates/admin.php:178
+msgid "Enforce HTTPS"
+msgstr "Pakota HTTPS"
+
+#: templates/admin.php:179
+msgid ""
+"Enforces the clients to connect to ownCloud via an encrypted connection."
+msgstr "Pakottaa salaamaan ownCloudiin kohdistuvat yhteydet."
+
+#: templates/admin.php:182
+msgid ""
+"Please connect to this ownCloud instance via HTTPS to enable or disable the "
+"SSL enforcement."
+msgstr ""
+
+#: templates/admin.php:192
+msgid "Log"
+msgstr "Loki"
+
+#: templates/admin.php:193
+msgid "Log level"
+msgstr "Lokitaso"
+
+#: templates/admin.php:220
+msgid "More"
+msgstr "Enemmän"
+
+#: templates/admin.php:227 templates/personal.php:98
+msgid "Version"
+msgstr "Versio"
+
+#: templates/admin.php:230 templates/personal.php:100
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -213,38 +333,167 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "Kehityksestä on vastannut <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud-yhteisö</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">lähdekoodi</a> on julkaistu lisenssin <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> alaisena."
 
-#: templates/users.php:21 templates/users.php:76
-msgid "Name"
-msgstr "Nimi"
+#: templates/apps.php:10
+msgid "Add your App"
+msgstr "Lisää sovelluksesi"
 
-#: templates/users.php:23 templates/users.php:77
+#: templates/apps.php:11
+msgid "More Apps"
+msgstr "Lisää sovelluksia"
+
+#: templates/apps.php:24
+msgid "Select an App"
+msgstr "Valitse sovellus"
+
+#: templates/apps.php:28
+msgid "See application page at apps.owncloud.com"
+msgstr "Katso sovellussivu osoitteessa apps.owncloud.com"
+
+#: templates/apps.php:29
+msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
+msgstr "<span class=\"licence\"></span>-lisensoija <span class=\"author\"></span>"
+
+#: templates/apps.php:31
+msgid "Update"
+msgstr "Päivitä"
+
+#: templates/help.php:3
+msgid "User Documentation"
+msgstr "Käyttäjäohjeistus"
+
+#: templates/help.php:4
+msgid "Administrator Documentation"
+msgstr "Ylläpito-ohjeistus"
+
+#: templates/help.php:6
+msgid "Online Documentation"
+msgstr "Verkko-ohjeistus"
+
+#: templates/help.php:7
+msgid "Forum"
+msgstr "Keskustelupalsta"
+
+#: templates/help.php:9
+msgid "Bugtracker"
+msgstr "Ohjelmistovirheiden jäljitys"
+
+#: templates/help.php:11
+msgid "Commercial Support"
+msgstr "Kaupallinen tuki"
+
+#: templates/personal.php:8
+#, php-format
+msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
+msgstr "Käytössäsi on <strong>%s</strong>/<strong>%s</strong>"
+
+#: templates/personal.php:14
+msgid "Get the apps to sync your files"
+msgstr ""
+
+#: templates/personal.php:25
+msgid "Show First Run Wizard again"
+msgstr "Näytä ensimmäisen käyttökerran avustaja uudelleen"
+
+#: templates/personal.php:36 templates/users.php:23 templates/users.php:79
 msgid "Password"
 msgstr "Salasana"
 
-#: templates/users.php:26 templates/users.php:78 templates/users.php:98
-msgid "Groups"
-msgstr "Ryhmät"
+#: templates/personal.php:37
+msgid "Your password was changed"
+msgstr "Salasanasi vaihdettiin"
+
+#: templates/personal.php:38
+msgid "Unable to change your password"
+msgstr "Salasanaasi ei voitu vaihtaa"
+
+#: templates/personal.php:39
+msgid "Current password"
+msgstr "Nykyinen salasana"
+
+#: templates/personal.php:40
+msgid "New password"
+msgstr "Uusi salasana"
+
+#: templates/personal.php:42
+msgid "Change password"
+msgstr "Vaihda salasana"
+
+#: templates/personal.php:54 templates/users.php:78
+msgid "Display Name"
+msgstr "Näyttönimi"
+
+#: templates/personal.php:55
+msgid "Your display name was changed"
+msgstr "Näyttönimesi muutettiin"
+
+#: templates/personal.php:56
+msgid "Unable to change your display name"
+msgstr "Näyttönimen muuttaminen epäonnistui"
+
+#: templates/personal.php:59
+msgid "Change display name"
+msgstr "Muuta näyttönimeä"
+
+#: templates/personal.php:68
+msgid "Email"
+msgstr "Sähköposti"
+
+#: templates/personal.php:69
+msgid "Your email address"
+msgstr "Sähköpostiosoitteesi"
+
+#: templates/personal.php:70
+msgid "Fill in an email address to enable password recovery"
+msgstr "Anna sähköpostiosoitteesi, jotta unohdettu salasana on mahdollista palauttaa"
+
+#: templates/personal.php:76 templates/personal.php:77
+msgid "Language"
+msgstr "Kieli"
+
+#: templates/personal.php:82
+msgid "Help translate"
+msgstr "Auta kääntämisessä"
+
+#: templates/personal.php:87
+msgid "WebDAV"
+msgstr "WebDAV"
+
+#: templates/personal.php:89
+msgid "Use this address to connect to your ownCloud in your file manager"
+msgstr "Käytä tätä osoitetta yhdistäessäsi ownCloudiisi tiedostonhallintaa käyttäen"
+
+#: templates/users.php:21 templates/users.php:77
+msgid "Login Name"
+msgstr "Kirjautumisnimi"
 
 #: templates/users.php:32
 msgid "Create"
 msgstr "Luo"
 
 #: templates/users.php:35
-msgid "Default Quota"
-msgstr "Oletuskiintiö"
+msgid "Default Storage"
+msgstr ""
 
-#: templates/users.php:55 templates/users.php:138
+#: templates/users.php:41 templates/users.php:139
+msgid "Unlimited"
+msgstr "Rajoittamaton"
+
+#: templates/users.php:59 templates/users.php:154
 msgid "Other"
 msgstr "Muu"
 
-#: templates/users.php:80 templates/users.php:112
-msgid "Group Admin"
-msgstr "Ryhmän ylläpitäjä"
+#: templates/users.php:84
+msgid "Storage"
+msgstr ""
 
-#: templates/users.php:82
-msgid "Quota"
-msgstr "Kiintiö"
+#: templates/users.php:95
+msgid "change display name"
+msgstr "vaihda näyttönimi"
 
-#: templates/users.php:146
-msgid "Delete"
-msgstr "Poista"
+#: templates/users.php:99
+msgid "set new password"
+msgstr "aseta uusi salasana"
+
+#: templates/users.php:134
+msgid "Default"
+msgstr "Oletus"

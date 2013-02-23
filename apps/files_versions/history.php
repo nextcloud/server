@@ -24,49 +24,53 @@
 OCP\User::checkLoggedIn( );
 OCP\Util::addStyle('files_versions', 'versions');
 $tmpl = new OCP\Template( 'files_versions', 'history', 'user' );
+$l = OC_L10N::get('files_versions');
 
 if ( isset( $_GET['path'] ) ) {
 
 	$path = $_GET['path'];
-	$path = $path;
 	$tmpl->assign( 'path', $path );
-	$versions = new OCA_Versions\Storage();
+	$versions = new OCA\Files_Versions\Storage();
 
 	// roll back to old version if button clicked
-        if( isset( $_GET['revert'] ) ) {
+	if( isset( $_GET['revert'] ) ) {
 
 		if( $versions->rollback( $path, $_GET['revert'] ) ) {
 
-			$tmpl->assign( 'outcome_stat', 'success' );
+			$tmpl->assign( 'outcome_stat', $l->t('success') );
 
-			$tmpl->assign( 'outcome_msg', "File {$_GET['path']} was reverted to version ".OCP\Util::formatDate( doubleval($_GET['revert']) ) );
+			$message = $l->t('File %s was reverted to version %s',
+				array($_GET['path'], OCP\Util::formatDate( doubleval($_GET['revert']) ) ) );
+
+			$tmpl->assign( 'outcome_msg', $message);
 
 		} else {
 
-			$tmpl->assign( 'outcome_stat', 'failure' );
+			$tmpl->assign( 'outcome_stat', $l->t('failure') );
 
-			$tmpl->assign( 'outcome_msg', "File {$_GET['path']} could not be reverted to version ".OCP\Util::formatDate( doubleval($_GET['revert']) ) );
+			$message = $l->t('File %s could not be reverted to version %s',
+				array($_GET['path'], OCP\Util::formatDate( doubleval($_GET['revert']) ) ) );
+
+			$tmpl->assign( 'outcome_msg', $message);
 
 		}
 
 	}
 
 	// show the history only if there is something to show
-        if( OCA_Versions\Storage::isversioned( $path ) ) {
-
-		$count = 999; //show the newest revisions
-	        $versions = OCA_Versions\Storage::getVersions( $path, $count);
+	$count = 999; //show the newest revisions
+	if( ($versions = OCA\Files_Versions\Storage::getVersions( $path, $count)) ) {
 
 		$tmpl->assign( 'versions', array_reverse( $versions ) );
 
 	}else{
 
-		$tmpl->assign( 'message', 'No old versions available' );
+		$tmpl->assign( 'message', $l->t('No old versions available') );
 
 	}
 }else{
 
-	$tmpl->assign( 'message', 'No path specified' );
+	$tmpl->assign( 'message', $l->t('No path specified') );
 
 }
 

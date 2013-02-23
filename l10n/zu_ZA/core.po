@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:13+0000\n"
+"POT-Creation-Date: 2013-01-15 00:03+0100\n"
+"PO-Revision-Date: 2013-01-14 23:03+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Zulu (South Africa) (http://www.transifex.com/projects/p/owncloud/language/zu_ZA/)\n"
 "MIME-Version: 1.0\n"
@@ -16,6 +16,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zu_ZA\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/share.php:84
+#, php-format
+msgid "User %s shared a file with you"
+msgstr ""
+
+#: ajax/share.php:86
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr ""
+
+#: ajax/share.php:88
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr ""
+
+#: ajax/share.php:90
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -55,59 +79,59 @@ msgstr ""
 msgid "Error removing %s from favorites."
 msgstr ""
 
-#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
+#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:688
+#: js/js.js:711
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:689
+#: js/js.js:712
 msgid "1 minute ago"
 msgstr ""
 
-#: js/js.js:690
+#: js/js.js:713
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:691
+#: js/js.js:714
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:692
+#: js/js.js:715
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:693
+#: js/js.js:716
 msgid "today"
 msgstr ""
 
-#: js/js.js:694
+#: js/js.js:717
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:695
+#: js/js.js:718
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:696
+#: js/js.js:719
 msgid "last month"
 msgstr ""
 
-#: js/js.js:697
+#: js/js.js:720
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:698
+#: js/js.js:721
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:699
+#: js/js.js:722
 msgid "last year"
 msgstr ""
 
-#: js/js.js:700
+#: js/js.js:723
 msgid "years ago"
 msgstr ""
 
@@ -137,8 +161,8 @@ msgid "The object type is not specified."
 msgstr ""
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
-#: js/share.js:537
+#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:554
+#: js/share.js:566
 msgid "Error"
 msgstr ""
 
@@ -150,7 +174,7 @@ msgstr ""
 msgid "The required file {file} is not installed!"
 msgstr ""
 
-#: js/share.js:124
+#: js/share.js:124 js/share.js:594
 msgid "Error while sharing"
 msgstr ""
 
@@ -178,77 +202,92 @@ msgstr ""
 msgid "Share with link"
 msgstr ""
 
-#: js/share.js:164
+#: js/share.js:166
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
-#: templates/verify.php:13
+#: js/share.js:168 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr ""
 
+#: js/share.js:172
+msgid "Email link to person"
+msgstr ""
+
 #: js/share.js:173
+msgid "Send"
+msgstr ""
+
+#: js/share.js:177
 msgid "Set expiration date"
 msgstr ""
 
-#: js/share.js:174
+#: js/share.js:178
 msgid "Expiration date"
 msgstr ""
 
-#: js/share.js:206
+#: js/share.js:210
 msgid "Share via email:"
 msgstr ""
 
-#: js/share.js:208
+#: js/share.js:212
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:235
+#: js/share.js:239
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:271
+#: js/share.js:275
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:292
+#: js/share.js:296
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:304
+#: js/share.js:308
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:306
+#: js/share.js:310
 msgid "access control"
 msgstr ""
 
-#: js/share.js:309
+#: js/share.js:313
 msgid "create"
 msgstr ""
 
-#: js/share.js:312
+#: js/share.js:316
 msgid "update"
 msgstr ""
 
-#: js/share.js:315
+#: js/share.js:319
 msgid "delete"
 msgstr ""
 
-#: js/share.js:318
+#: js/share.js:322
 msgid "share"
 msgstr ""
 
-#: js/share.js:343 js/share.js:512 js/share.js:514
+#: js/share.js:356 js/share.js:541
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:525
+#: js/share.js:554
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:537
+#: js/share.js:566
 msgid "Error setting expiration date"
+msgstr ""
+
+#: js/share.js:581
+msgid "Sending ..."
+msgstr ""
+
+#: js/share.js:592
+msgid "Email sent"
 msgstr ""
 
 #: lostpassword/controller.php:47
@@ -271,8 +310,8 @@ msgstr ""
 msgid "Request failed!"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr ""
 
@@ -361,159 +400,155 @@ msgstr ""
 msgid "Create an <strong>admin account</strong>"
 msgstr ""
 
-#: templates/installation.php:48
+#: templates/installation.php:50
 msgid "Advanced"
 msgstr ""
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Data folder"
 msgstr ""
 
-#: templates/installation.php:57
+#: templates/installation.php:59
 msgid "Configure the database"
 msgstr ""
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:64 templates/installation.php:75
+#: templates/installation.php:85 templates/installation.php:95
 msgid "will be used"
 msgstr ""
 
-#: templates/installation.php:105
+#: templates/installation.php:107
 msgid "Database user"
 msgstr ""
 
-#: templates/installation.php:109
+#: templates/installation.php:111
 msgid "Database password"
 msgstr ""
 
-#: templates/installation.php:113
+#: templates/installation.php:115
 msgid "Database name"
 msgstr ""
 
-#: templates/installation.php:121
+#: templates/installation.php:123
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:127
+#: templates/installation.php:129
 msgid "Database host"
 msgstr ""
 
-#: templates/installation.php:132
+#: templates/installation.php:134
 msgid "Finish setup"
 msgstr ""
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Sunday"
 msgstr ""
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Monday"
 msgstr ""
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Tuesday"
 msgstr ""
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Wednesday"
 msgstr ""
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Thursday"
 msgstr ""
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Friday"
 msgstr ""
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
+#: templates/layout.guest.php:16 templates/layout.user.php:17
 msgid "Saturday"
 msgstr ""
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "January"
 msgstr ""
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "February"
 msgstr ""
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "March"
 msgstr ""
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "April"
 msgstr ""
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "May"
 msgstr ""
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "June"
 msgstr ""
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "July"
 msgstr ""
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "August"
 msgstr ""
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "September"
 msgstr ""
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "October"
 msgstr ""
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "November"
 msgstr ""
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
+#: templates/layout.guest.php:17 templates/layout.user.php:18
 msgid "December"
 msgstr ""
 
-#: templates/layout.guest.php:41
+#: templates/layout.guest.php:42
 msgid "web services under your control"
 msgstr ""
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:45
 msgid "Log out"
 msgstr ""
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr ""
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr ""
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr ""
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr ""
 
-#: templates/login.php:27
+#: templates/login.php:39
 msgid "remember"
 msgstr ""
 
-#: templates/login.php:28
+#: templates/login.php:41
 msgid "Log in"
-msgstr ""
-
-#: templates/logout.php:1
-msgid "You are logged out."
 msgstr ""
 
 #: templates/part.pagenavi.php:3
@@ -524,16 +559,7 @@ msgstr ""
 msgid "next"
 msgstr ""
 
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr ""
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr ""
-
-#: templates/verify.php:16
-msgid "Verify"
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
 msgstr ""

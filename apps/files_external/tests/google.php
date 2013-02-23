@@ -20,8 +20,9 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-class Test_Filestorage_Google extends Test_FileStorage {
+namespace Test\Files\Storage;
 
+class Google extends Storage {
 	private $config;
 
 	public function setUp() {
@@ -31,7 +32,7 @@ class Test_Filestorage_Google extends Test_FileStorage {
 			$this->markTestSkipped('Google backend not configured');
 		}
 		$this->config['google']['root'] .= '/' . $id; //make sure we have an new empty folder to work in
-		$this->instance = new OC_Filestorage_Google($this->config['google']);
+		$this->instance = new \OC\Files\Storage\Google($this->config['google']);
 	}
 
 	public function tearDown() {

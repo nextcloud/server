@@ -4,13 +4,14 @@
 # 
 # Translators:
 #   <mr.pige_ina@yahoo.co.id>, 2012.
+# Widya Walesa <walecha99@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-21 02:03+0200\n"
-"PO-Revision-Date: 2012-10-20 23:08+0000\n"
-"Last-Translator: elmakong <mr.pige_ina@yahoo.co.id>\n"
+"POT-Creation-Date: 2013-02-21 00:14+0100\n"
+"PO-Revision-Date: 2013-02-20 03:12+0000\n"
+"Last-Translator: w41l <walecha99@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,18 +19,22 @@ msgstr ""
 "Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: templates/settings.php:3
+#: templates/settings-personal.php:4 templates/settings.php:5
 msgid "Encryption"
-msgstr "enkripsi"
+msgstr "Enkripsi"
 
-#: templates/settings.php:4
-msgid "Exclude the following file types from encryption"
-msgstr "pengecualian untuk tipe file berikut dari enkripsi"
+#: templates/settings-personal.php:7
+msgid "File encryption is enabled."
+msgstr "Enkripsi berkas aktif."
 
-#: templates/settings.php:5
+#: templates/settings-personal.php:11
+msgid "The following file types will not be encrypted:"
+msgstr "Tipe berkas berikut tidak akan dienkripsi:"
+
+#: templates/settings.php:7
+msgid "Exclude the following file types from encryption:"
+msgstr "Kecualikan tipe berkas berikut dari enkripsi:"
+
+#: templates/settings.php:12
 msgid "None"
-msgstr "tidak ada"
-
-#: templates/settings.php:10
-msgid "Enable Encryption"
-msgstr "aktifkan enkripsi"
+msgstr "Tidak ada"

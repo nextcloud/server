@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	$('#externalStorage tbody tr.OC_Filestorage_Google').each(function() {
+	$('#externalStorage tbody tr.\\\\OC\\\\Files\\\\Storage\\\\Google').each(function() {
 		var configured = $(this).find('[data-parameter="configured"]');
 		if ($(configured).val() == 'true') {
 			$(this).find('.configuration')
@@ -33,8 +33,8 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#externalStorage tbody tr').live('change', function() {
-		if ($(this).hasClass('OC_Filestorage_Google') && $(this).find('[data-parameter="configured"]').val() != 'true') {
+	$('#externalStorage tbody').on('change', 'tr', function() {
+		if ($(this).hasClass('\\\\OC\\\\Files\\\\Storage\\\\Google') && $(this).find('[data-parameter="configured"]').val() != 'true') {
 			if ($(this).find('.mountPoint input').val() != '') {
 				if ($(this).find('.google').length == 0) {
 					$(this).find('.configuration').append('<a class="button google">'+t('files_external', 'Grant access')+'</a>');
@@ -43,9 +43,9 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#externalStorage tbody tr .mountPoint input').live('keyup', function() {
+	$('#externalStorage tbody').on('keyup', 'tr .mountPoint input', function() {
 		var tr = $(this).parent().parent();
-		if ($(tr).hasClass('OC_Filestorage_Google') && $(tr).find('[data-parameter="configured"]').val() != 'true' && $(tr).find('.google').length > 0) {
+		if ($(tr).hasClass('\\\\OC\\\\Files\\\\Storage\\\\Google') && $(tr).find('[data-parameter="configured"]').val() != 'true' && $(tr).find('.google').length > 0) {
 			if ($(this).val() != '') {
 				$(tr).find('.google').show();
 			} else {
@@ -54,7 +54,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('.google').live('click', function(event) {
+	$('.google').on('click', function(event) {
 		event.preventDefault();
 		var tr = $(this).parent().parent();
 		var configured = $(this).parent().find('[data-parameter="configured"]');

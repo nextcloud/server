@@ -1,57 +1,17 @@
 <?php
+$RUNTIME_NOSETUPFS = true;
 // Load other apps for file previews
 OC_App::loadApps();
 
-// Compatibility with shared-by-link items from ownCloud 4.0
-// requires old Sharing table !
-// support will be removed in OC 5.0,a
-if (isset($_GET['token'])) {
-	unset($_GET['file']);
-	$qry = \OC_DB::prepare('SELECT `source` FROM `*PREFIX*sharing` WHERE `target` = ? LIMIT 1');
-	$filepath = $qry->execute(array($_GET['token']))->fetchOne();
-	if(isset($filepath)) {
-		$info = OC_FileCache_Cached::get($filepath, '');
-		if(strtolower($info['mimetype']) == 'httpd/unix-directory') {
-			$_GET['dir'] = $filepath;
-		} else {
-			$_GET['file'] = $filepath;
-		}
-		\OCP\Util::writeLog('files_sharing', 'You have files that are shared by link originating from ownCloud 4.0. Redistribute the new links, because backwards compatibility will be removed in ownCloud 5.', \OCP\Util::WARN);
-	}
-}
-
-function getID($path) {
-	// use the share table from the db to find the item source if the file was reshared because shared files
-	//are not stored in the file cache.
-	if (substr(OC_Filesystem::getMountPoint($path), -7, 6) == "Shared") {
-		$path_parts = explode('/', $path, 5);
-		$user = $path_parts[1];
-		$intPath = '/'.$path_parts[4];
-		$query = \OC_DB::prepare('SELECT `item_source` FROM `*PREFIX*share` WHERE `uid_owner` = ? AND `file_target` = ? ');
-		$result = $query->execute(array($user, $intPath));
-		$row = $result->fetchRow();
-		$fileSource = $row['item_source'];
+function fileCmp($a, $b) {
+	if ($a['type'] == 'dir' and $b['type'] != 'dir') {
+		return -1;
+	} elseif ($a['type'] != 'dir' and $b['type'] == 'dir') {
+		return 1;
 	} else {
-		$fileSource = OC_Filecache::getId($path, '');
+		return strnatcasecmp($a['name'], $b['name']);
 	}
-
-	return $fileSource;
 }
-// Enf of backward compatibility
-
-/**
- * lookup file path and owner by fetching it from the fscache
- * needed becaus OC_FileCache::getPath($id, $user) already requires the user
- * @param int $id
- * @return array
- */
-function getPathAndUser($id) {
-	$query = \OC_DB::prepare('SELECT `user`, `path` FROM `*PREFIX*fscache` WHERE `id` = ?');
-	$result = $query->execute(array($id));
-	$row = $result->fetchRow();
-	return $row;
-}
-
 
 if (isset($_GET['t'])) {
 	$token = $_GET['t'];
@@ -61,60 +21,32 @@ if (isset($_GET['t'])) {
 		$type = $linkItem['item_type'];
 		$fileSource = $linkItem['file_source'];
 		$shareOwner = $linkItem['uid_owner'];
-		
-		if (OCP\User::userExists($shareOwner) && $fileSource != -1 ) {
-			
-			$pathAndUser = getPathAndUser($linkItem['file_source']);
-			$fileOwner = $pathAndUser['user'];
-			
-			//if this is a reshare check the file owner also exists
-			if ($shareOwner != $fileOwner && ! OCP\User::userExists($fileOwner)) {
-					OCP\Util::writeLog('share', 'original file owner '.$fileOwner.' does not exist for share '.$linkItem['id'], \OCP\Util::ERROR);
-					header('HTTP/1.0 404 Not Found');
-					$tmpl = new OCP\Template('', '404', 'guest');
-					$tmpl->printPage();
-					exit();
+		$fileOwner = null;
+		$path = null;
+		if (isset($linkItem['parent'])) {
+			$parent = $linkItem['parent'];
+			while (isset($parent)) {
+				$query = \OC_DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
+				$item = $query->execute(array($parent))->fetchRow();
+				if (isset($item['parent'])) {
+					$parent = $item['parent'];
+				} else {
+					$fileOwner = $item['uid_owner'];
+					break;
+				}
 			}
-			
-			//mount filesystem of file owner
+		} else {
+			$fileOwner = $shareOwner;
+		}
+		if (isset($fileOwner)) {
 			OC_Util::setupFS($fileOwner);
+			$path = \OC\Files\Filesystem::getPath($linkItem['file_source']);
 		}
 	}
-} else if (isset($_GET['file']) || isset($_GET['dir'])) {
-	OCP\Util::writeLog('share', 'Missing token, trying fallback file/dir links', \OCP\Util::DEBUG);
-	if (isset($_GET['dir'])) {
-		$type = 'folder';
-		$path = $_GET['dir'];
-		if(strlen($path)>1 and substr($path, -1, 1)==='/') {
-			$path=substr($path, 0, -1);
-		}
-		$baseDir = $path;
-		$dir = $baseDir;
-	} else {
-		$type = 'file';
-		$path = $_GET['file'];
-		if(strlen($path)>1 and substr($path, -1, 1)==='/') {
-			$path=substr($path, 0, -1);
-		}
-	}
-	$shareOwner = substr($path, 1, strpos($path, '/', 1) - 1);
-	
-	if (OCP\User::userExists($shareOwner)) {
-		OC_Util::setupFS($shareOwner);
-		$fileSource = getId($path);
-		if ($fileSource != -1 ) {
-			$linkItem = OCP\Share::getItemSharedWithByLink($type, $fileSource, $shareOwner);
-			$pathAndUser['path'] = $path;
-			$path_parts = explode('/', $path, 5);
-			$pathAndUser['user'] = $path_parts[1];
-			$fileOwner = $path_parts[1];
-		}
-	}
-}
-
-if ($linkItem) {
+} 
+if (isset($path)) {
 	if (!isset($linkItem['item_type'])) {
-		OCP\Util::writeLog('share', 'No item type set for share id: '.$linkItem['id'], \OCP\Util::ERROR);
+		OCP\Util::writeLog('share', 'No item type set for share id: ' . $linkItem['id'], \OCP\Util::ERROR);
 		header('HTTP/1.0 404 Not Found');
 		$tmpl = new OCP\Template('', '404', 'guest');
 		$tmpl->printPage();
@@ -122,11 +54,13 @@ if ($linkItem) {
 	}
 	if (isset($linkItem['share_with'])) {
 		// Authenticate share_with
-		$url = OCP\Util::linkToPublic('files').'&t='.$token;
+		$url = OCP\Util::linkToPublic('files') . '&t=' . $token;
 		if (isset($_GET['file'])) {
-			$url .= '&file='.urlencode($_GET['file']);
-		} else if (isset($_GET['dir'])) {
-			$url .= '&dir='.urlencode($_GET['dir']);
+			$url .= '&file=' . urlencode($_GET['file']);
+		} else {
+			if (isset($_GET['dir'])) {
+				$url .= '&dir=' . urlencode($_GET['dir']);
+			}
 		}
 		if (isset($_POST['password'])) {
 			$password = $_POST['password'];
@@ -134,7 +68,8 @@ if ($linkItem) {
 				// Check Password
 				$forcePortable = (CRYPT_BLOWFISH != 1);
 				$hasher = new PasswordHash(8, $forcePortable);
-				if (!($hasher->CheckPassword($password.OC_Config::getValue('passwordsalt', ''), $linkItem['share_with']))) {
+				if (!($hasher->CheckPassword($password.OC_Config::getValue('passwordsalt', ''),
+											 $linkItem['share_with']))) {
 					$tmpl = new OCP\Template('files_sharing', 'authenticate', 'guest');
 					$tmpl->assign('URL', $url);
 					$tmpl->assign('error', true);
@@ -145,127 +80,127 @@ if ($linkItem) {
 					$_SESSION['public_link_authenticated'] = $linkItem['id'];
 				}
 			} else {
-				OCP\Util::writeLog('share', 'Unknown share type '.$linkItem['share_type'].' for share id '.$linkItem['id'], \OCP\Util::ERROR);
+				OCP\Util::writeLog('share', 'Unknown share type '.$linkItem['share_type']
+										   .' for share id '.$linkItem['id'], \OCP\Util::ERROR);
 				header('HTTP/1.0 404 Not Found');
 				$tmpl = new OCP\Template('', '404', 'guest');
 				$tmpl->printPage();
 				exit();
 			}
-		// Check if item id is set in session
-		} else if (!isset($_SESSION['public_link_authenticated']) || $_SESSION['public_link_authenticated'] !== $linkItem['id']) {
-			// Prompt for password
-			$tmpl = new OCP\Template('files_sharing', 'authenticate', 'guest');
-			$tmpl->assign('URL', $url);
-			$tmpl->printPage();
-			exit();
+
+		} else {
+			// Check if item id is set in session
+			if (!isset($_SESSION['public_link_authenticated'])
+				|| $_SESSION['public_link_authenticated'] !== $linkItem['id']
+			) {
+				// Prompt for password
+				$tmpl = new OCP\Template('files_sharing', 'authenticate', 'guest');
+				$tmpl->assign('URL', $url);
+				$tmpl->printPage();
+				exit();
+			}
 		}
 	}
-	$basePath = substr($pathAndUser['path'] , strlen('/'.$fileOwner.'/files'));
-	$path = $basePath;
-	if (isset($_GET['path'])) {
-		$path .= $_GET['path'];
-	}
-	if (!$path || !OC_Filesystem::isValidPath($path) || !OC_Filesystem::file_exists($path)) {
-		OCP\Util::writeLog('share', 'Invalid path '.$path.' for share id '.$linkItem['id'], \OCP\Util::ERROR);
-		header('HTTP/1.0 404 Not Found');
-		$tmpl = new OCP\Template('', '404', 'guest');
-		$tmpl->printPage();
-		exit();
+	$basePath = $path;
+	if (isset($_GET['path']) && \OC\Files\Filesystem::isReadable($basePath . $_GET['path'])) {
+		$getPath = \OC\Files\Filesystem::normalizePath($_GET['path']);
+		$path .= $getPath;
+	} else {
+		$getPath = '';
 	}
 	$dir = dirname($path);
 	$file = basename($path);
 	// Download the file
 	if (isset($_GET['download'])) {
-		if (isset($_GET['path']) && $_GET['path'] !== '' ) {
-			if ( isset($_GET['files']) ) { // download selected files
-				OC_Files::get($path, $_GET['files'], $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
-			} else if (isset($_GET['path']) && $_GET['path'] != '' ) { // download a file from a shared directory
-				OC_Files::get($dir, $file, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
-			} else { // download the whole shared directory
-				OC_Files::get($dir, $file, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
-			}
-		} else { // download a single shared file
+		if (isset($_GET['files'])) { // download selected files
+			OC_Files::get($path, $_GET['files'], $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+		} else {
 			OC_Files::get($dir, $file, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
 		}
-
+		exit();
 	} else {
 		OCP\Util::addStyle('files_sharing', 'public');
 		OCP\Util::addScript('files_sharing', 'public');
 		OCP\Util::addScript('files', 'fileactions');
 		$tmpl = new OCP\Template('files_sharing', 'public', 'base');
 		$tmpl->assign('uidOwner', $shareOwner);
-		$tmpl->assign('dir', $dir);
+		$tmpl->assign('displayName', \OCP\User::getDisplayName($shareOwner));
 		$tmpl->assign('filename', $file);
-		$tmpl->assign('mimetype', OC_Filesystem::getMimeType($path));
-		if (isset($_GET['path'])) {
-			$getPath = $_GET['path'];
-		} else {
-			$getPath = '';
-		}
-		//
-		$urlLinkIdentifiers= (isset($token)?'&t='.$token:'').(isset($_GET['dir'])?'&dir='.$_GET['dir']:'').(isset($_GET['file'])?'&file='.$_GET['file']:'');
+		$tmpl->assign('mimetype', \OC\Files\Filesystem::getMimeType($path));
+		$tmpl->assign('fileTarget', basename($linkItem['file_target']));
+		$urlLinkIdentifiers= (isset($token)?'&t='.$token:'')
+							.(isset($_GET['dir'])?'&dir='.$_GET['dir']:'')
+							.(isset($_GET['file'])?'&file='.$_GET['file']:'');
 		// Show file list
-		if (OC_Filesystem::is_dir($path)) {
+		if (\OC\Files\Filesystem::is_dir($path)) {
+			$tmpl->assign('dir', $getPath);
+
 			OCP\Util::addStyle('files', 'files');
 			OCP\Util::addScript('files', 'files');
 			OCP\Util::addScript('files', 'filelist');
+			OCP\Util::addscript('files', 'keyboardshortcuts');
 			$files = array();
 			$rootLength = strlen($basePath) + 1;
-			foreach (OC_Files::getDirectoryContent($path) as $i) {
+			foreach (\OC\Files\Filesystem::getDirectoryContent($path) as $i) {
 				$i['date'] = OCP\Util::formatDate($i['mtime']);
 				if ($i['type'] == 'file') {
 					$fileinfo = pathinfo($i['name']);
 					$i['basename'] = $fileinfo['filename'];
-					$i['extension'] = isset($fileinfo['extension']) ? ('.'.$fileinfo['extension']) : '';
+					if (!empty($fileinfo['extension'])) {
+						$i['extension'] = '.' . $fileinfo['extension'];
+					} else {
+						$i['extension'] = '';
+					}
 				}
-				$i['directory'] = '/'.substr($i['directory'], $rootLength);
-				if ($i['directory'] == '/') {
-					$i['directory'] = '';
-				}
+				$i['directory'] = $getPath;
 				$i['permissions'] = OCP\PERMISSION_READ;
 				$files[] = $i;
 			}
+			usort($files, "fileCmp");
+
 			// Make breadcrumb
 			$breadcrumb = array();
 			$pathtohere = '';
-
-			//add base breadcrumb
-			$breadcrumb[] = array('dir' => '/', 'name' => basename($basePath));
-
-			//add subdir breadcrumbs
-			foreach (explode('/', urldecode($_GET['path'])) as $i) {
+			foreach (explode('/', $getPath) as $i) {
 				if ($i != '') {
-					$pathtohere .= '/'.$i;
+					$pathtohere .= '/' . $i;
 					$breadcrumb[] = array('dir' => $pathtohere, 'name' => $i);
 				}
 			}
-
 			$list = new OCP\Template('files', 'part.list', '');
 			$list->assign('files', $files, false);
-			$list->assign('publicListView', true);
-			$list->assign('baseURL', OCP\Util::linkToPublic('files').$urlLinkIdentifiers.'&path=', false);
-			$list->assign('downloadURL', OCP\Util::linkToPublic('files').$urlLinkIdentifiers.'&download&path=', false);
-			$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '' );
+			$list->assign('disableSharing', true);
+			$list->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=', false);
+			$list->assign('downloadURL',
+				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=',
+				false);
+			$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
 			$breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
-			$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files').$urlLinkIdentifiers.'&path=', false);
+			$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=', false);
 			$folder = new OCP\Template('files', 'index', '');
 			$folder->assign('fileList', $list->fetchPage(), false);
 			$folder->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
+			$folder->assign('dir', $getPath);
 			$folder->assign('isCreatable', false);
 			$folder->assign('permissions', 0);
 			$folder->assign('files', $files);
 			$folder->assign('uploadMaxFilesize', 0);
 			$folder->assign('uploadMaxHumanFilesize', 0);
 			$folder->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
+			$folder->assign('usedSpacePercent', 0);
 			$tmpl->assign('folder', $folder->fetchPage(), false);
 			$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
-			$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').$urlLinkIdentifiers.'&download&path='.urlencode($getPath));
+			$tmpl->assign('downloadURL',
+				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=' . urlencode($getPath));
 		} else {
+			$tmpl->assign('dir', $dir);
+
 			// Show file preview if viewer is available
 			if ($type == 'file') {
-				$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').$urlLinkIdentifiers.'&download');
+				$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download');
 			} else {
-				$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').$urlLinkIdentifiers.'&download&path='.urlencode($getPath));
+				$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files')
+										.$urlLinkIdentifiers.'&download&path='.urlencode($getPath));
 			}
 		}
 		$tmpl->printPage();
@@ -277,3 +212,4 @@ if ($linkItem) {
 header('HTTP/1.0 404 Not Found');
 $tmpl = new OCP\Template('', '404', 'guest');
 $tmpl->printPage();
+

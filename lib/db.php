@@ -21,12 +21,28 @@
  */
 
 define('MDB2_SCHEMA_DUMP_STRUCTURE', '1');
+
+class DatabaseException extends Exception{
+	private $query;
+
+	public function __construct($message, $query){
+		parent::__construct($message);
+		$this->query = $query;
+	}
+
+	public function getQuery(){
+		return $this->query;
+	}
+}
+
 /**
  * This class manages the access to the database. It basically is a wrapper for
  * Doctrine with some adaptions.
  */
 class OC_DB {
 	const BACKEND_DOCTRINE=2;
+
+	static private $preparedQueries = array();
 
 	/**
 	 * @var \Doctrine\DBAL\Connection
@@ -85,6 +101,7 @@ class OC_DB {
 				return true;
 			}
 		}
+		self::$preparedQueries = array();
 		// The global data we need
 		$name = OC_Config::getValue( "dbname", "owncloud" );
 		$host = OC_Config::getValue( "dbhost", "" );
@@ -146,7 +163,18 @@ class OC_DB {
 				default:
 					return false;
 			}
-			self::$DOCTRINE = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+			try {
+				self::$DOCTRINE = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+			} catch(\Doctrine\DBAL\DBALException $e) {
+				OC_Log::write('core', $e->getMessage(), OC_Log::FATAL);
+				OC_User::setUserId(null);
+
+				// send http status 503
+				header('HTTP/1.1 503 Service Temporarily Unavailable');
+				header('Status: 503 Service Temporarily Unavailable');
+				OC_Template::printErrorPage('Failed to connect to database');
+				die();
+			}
 		}
 		return true;
 	}
@@ -179,7 +207,12 @@ class OC_DB {
 			} else {
 				$query.=$limitsql;
 			}
+		} else {
+			if (isset(self::$preparedQueries[$query])) {
+				return self::$preparedQueries[$query];
+			}
 		}
+		$rawQuery = $query;
 
 		// Optimize the query
 		$query = self::processQuery( $query );
@@ -190,13 +223,12 @@ class OC_DB {
 			try{
 				$result=self::$connection->prepare($query);
 			}catch(PDOException $e) {
-				$entry = 'DB Error: "'.$e->getMessage().'"<br />';
-				$entry .= 'Offending command was: '.htmlentities($query).'<br />';
-				OC_Log::write('core', $entry, OC_Log::FATAL);
-				error_log('DB error: '.$entry);
-				OC_Template::printErrorPage( $entry );
+				throw new DatabaseException($e->getMessage(), $query);
 			}
 			$result=new DoctrineStatementWrapper($result);
+		}
+		if (is_null($limit) || $limit == -1) {
+			self::$preparedQueries[$rawQuery] = $result;
 		}
 		return $result;
 	}
@@ -275,9 +307,10 @@ class OC_DB {
 		 * http://www.sqlite.org/lang_createtable.html
 		 * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions037.htm
 		 */
-		 if( $CONFIG_DBTYPE == 'pgsql' ) { //mysql support it too but sqlite doesn't
-				 $content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
-		 }
+		if( $CONFIG_DBTYPE == 'pgsql' ) { //mysql support it too but sqlite doesn't
+			$content = str_replace( '<default>0000-00-00 00:00:00</default>',
+				'<default>CURRENT_TIMESTAMP</default>', $content );
+		}
 	}
 
 	/**
@@ -291,7 +324,7 @@ class OC_DB {
 			$result = OC_DB_Schema::updateDbFromStructure(self::$connection, $file);
 		} catch (Exception $e) {
 			OC_Log::write('core', 'Failed to update database structure ('.$e.')', OC_Log::FATAL);
-			return false;
+			throw $e;
 		}
 		return $result;
 		/* FIXME: use CURRENT_TIMESTAMP for all databases. mysql supports it as a default for DATETIME since 5.6.5 [1]
@@ -303,7 +336,8 @@ class OC_DB {
 		 * http://docs.oracle.com/cd/B19306_01/server.102/b14200/functions037.htm
 		 */
 		if( $CONFIG_DBTYPE == 'pgsql' ) { //mysql support it too but sqlite doesn't
-			$content = str_replace( '<default>0000-00-00 00:00:00</default>', '<default>CURRENT_TIMESTAMP</default>', $content );
+			$content = str_replace( '<default>0000-00-00 00:00:00</default>',
+				'<default>CURRENT_TIMESTAMP</default>', $content );
 		}
 	}
 
@@ -343,7 +377,7 @@ class OC_DB {
 				error_log('DB error: '.$entry);
 				OC_Template::printErrorPage( $entry );
 			}
-			
+
 			if($result->numRows() == 0) {
 				$query = 'INSERT INTO "' . $table . '" ("'
 					. implode('","', array_keys($input)) . '") VALUES("'
@@ -378,7 +412,7 @@ class OC_DB {
 
 		return $result->execute();
 	}
-	
+
 	/**
 	 * @brief does minor changes to query
 	 * @param string $query Query string
@@ -406,7 +440,8 @@ class OC_DB {
 			$query = str_ireplace( 'UNIX_TIMESTAMP()', 'strftime(\'%s\',\'now\')', $query );
 		}elseif( $type == 'pgsql' ) {
 			$query = str_replace( '`', '"', $query );
-			$query = str_ireplace( 'UNIX_TIMESTAMP()', 'cast(extract(epoch from current_timestamp) as integer)', $query );
+			$query = str_ireplace( 'UNIX_TIMESTAMP()', 'cast(extract(epoch from current_timestamp) as integer)',
+				$query );
 		}elseif( $type == 'oci'  ) {
 			$query = str_replace( '`', '"', $query );
 			$query = str_ireplace( 'NOW()', 'CURRENT_TIMESTAMP', $query );

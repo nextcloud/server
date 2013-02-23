@@ -1,0 +1,22 @@
+<?php $TRANSLATIONS = array(
+"Access granted" => "Giriş kabul edildi",
+"Grant access" => "Erişim sağlandı",
+"Fill out all required fields" => "Doldurulması zorunlu alanları doldur",
+"Please provide a valid Dropbox app key and secret." => "Lütfen Dropbox app key ve secret temin ediniz",
+"External Storage" => "Harici Depolama",
+"Mount point" => "Bağlama Noktası",
+"Backend" => "Yönetici",
+"Configuration" => "Yapılandırma",
+"Options" => "Seçenekler",
+"Applicable" => "Uygulanabilir",
+"Add mount point" => "Bağlama noktası ekle",
+"None set" => "Hiçbiri",
+"All Users" => "Tüm Kullanıcılar",
+"Groups" => "Gruplar",
+"Users" => "Kullanıcılar",
+"Delete" => "Sil",
+"Enable User External Storage" => "Kullanıcılar için Harici Depolamayı Etkinleştir",
+"Allow users to mount their own external storage" => "Kullanıcıların kendi harici depolamalarını bağlamalarına izin ver",
+"SSL root certificates" => "SSL kök sertifikaları",
+"Import Root Certificate" => "Kök Sertifikalarını İçe Aktar"
+);

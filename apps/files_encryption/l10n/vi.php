@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Encryption" => "Mã hóa",
-"Exclude the following file types from encryption" => "Loại trừ các loại tập tin sau đây từ mã hóa",
-"None" => "Không có gì hết",
-"Enable Encryption" => "BẬT mã hóa"
+"File encryption is enabled." => "Mã hóa file đã mở",
+"The following file types will not be encrypted:" => "Loại file sau sẽ không được mã hóa",
+"Exclude the following file types from encryption:" => "Việc mã hóa không bao gồm loại file sau",
+"None" => "Không có gì hết"
 );

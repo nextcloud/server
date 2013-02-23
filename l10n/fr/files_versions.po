@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Romain DEP. <rom1dep@gmail.com>, 2012.
+# Romain DEP. <rom1dep@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-25 02:02+0200\n"
-"PO-Revision-Date: 2012-09-24 14:20+0000\n"
+"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"PO-Revision-Date: 2013-02-08 14:02+0000\n"
 "Last-Translator: Romain DEP. <rom1dep@gmail.com>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -18,21 +18,44 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: js/settings-personal.js:31 templates/settings-personal.php:10
-msgid "Expire all versions"
-msgstr "Supprimer les versions intermédiaires"
+#: ajax/rollbackVersion.php:15
+#, php-format
+msgid "Could not revert: %s"
+msgstr "Impossible de restaurer %s"
+
+#: history.php:40
+msgid "success"
+msgstr "succès"
+
+#: history.php:42
+#, php-format
+msgid "File %s was reverted to version %s"
+msgstr "Le fichier %s a été restauré dans sa version %s"
+
+#: history.php:49
+msgid "failure"
+msgstr "échec"
+
+#: history.php:51
+#, php-format
+msgid "File %s could not be reverted to version %s"
+msgstr "Le fichier %s ne peut être restauré dans sa version %s"
+
+#: history.php:68
+msgid "No old versions available"
+msgstr "Aucune ancienne version n'est disponible"
+
+#: history.php:73
+msgid "No path specified"
+msgstr "Aucun chemin spécifié"
 
 #: js/versions.js:16
 msgid "History"
 msgstr "Historique"
 
-#: templates/settings-personal.php:4
-msgid "Versions"
-msgstr "Versions"
-
-#: templates/settings-personal.php:7
-msgid "This will delete all existing backup versions of your files"
-msgstr "Cette opération va effacer toutes les versions intermédiaires de vos fichiers (et ne garder que la dernière version en date)."
+#: templates/history.php:20
+msgid "Revert a file to a previous version by clicking on its revert button"
+msgstr "Restaurez un fichier dans une version antérieure en cliquant sur son bouton de restauration"
 
 #: templates/settings.php:3
 msgid "Files Versioning"

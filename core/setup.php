@@ -43,7 +43,7 @@ if(isset($_POST['install']) AND $_POST['install']=='true') {
 		OC_Template::printGuestPage("", "installation", $options);
 	}
 	else {
-		header("Location: ".OC::$WEBROOT.'/');
+		header( 'Location: '.OC_Helper::linkToRoute( 'post_setup_check' ));
 		exit();
 	}
 }

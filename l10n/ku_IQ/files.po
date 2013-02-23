@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-01 00:01+0100\n"
-"PO-Revision-Date: 2012-11-30 23:02+0000\n"
+"POT-Creation-Date: 2013-02-15 00:04+0100\n"
+"PO-Revision-Date: 2013-02-14 23:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Kurdish (Iraq) (http://www.transifex.com/projects/p/owncloud/language/ku_IQ/)\n"
 "MIME-Version: 1.0\n"
@@ -17,171 +17,212 @@ msgstr ""
 "Language: ku_IQ\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/upload.php:20
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:27 ajax/move.php:30
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/rename.php:22 ajax/rename.php:25
+msgid "Unable to rename file"
+msgstr ""
+
+#: ajax/upload.php:19
+msgid "No file was uploaded. Unknown error"
+msgstr ""
+
+#: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
 msgstr ""
 
-#: ajax/upload.php:21
+#: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
 msgstr ""
 
-#: ajax/upload.php:23
+#: ajax/upload.php:29
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
 
-#: ajax/upload.php:25
+#: ajax/upload.php:31
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: ajax/upload.php:26
+#: ajax/upload.php:32
 msgid "No file was uploaded"
 msgstr ""
 
-#: ajax/upload.php:27
+#: ajax/upload.php:33
 msgid "Missing a temporary folder"
 msgstr ""
 
-#: ajax/upload.php:28
+#: ajax/upload.php:34
 msgid "Failed to write to disk"
+msgstr ""
+
+#: ajax/upload.php:52
+msgid "Not enough storage available"
+msgstr ""
+
+#: ajax/upload.php:83
+msgid "Invalid directory."
 msgstr ""
 
 #: appinfo/app.php:10
 msgid "Files"
 msgstr ""
 
-#: js/fileactions.js:117 templates/index.php:83 templates/index.php:84
-msgid "Unshare"
+#: js/fileactions.js:125
+msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:119 templates/index.php:89 templates/index.php:90
+#: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
 msgid "Delete"
 msgstr ""
 
-#: js/fileactions.js:181
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr ""
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:291 js/files.js:407
+#: js/files.js:438
+msgid "Pending"
+msgstr ""
+
+#: js/filelist.js:253 js/filelist.js:255
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:253 js/filelist.js:255
 msgid "replace"
 msgstr ""
 
-#: js/filelist.js:201
+#: js/filelist.js:253
 msgid "suggest name"
 msgstr ""
 
-#: js/filelist.js:201 js/filelist.js:203
+#: js/filelist.js:253 js/filelist.js:255
 msgid "cancel"
 msgstr ""
 
-#: js/filelist.js:250
+#: js/filelist.js:295
 msgid "replaced {new_name}"
 msgstr ""
 
-#: js/filelist.js:250 js/filelist.js:252 js/filelist.js:284 js/filelist.js:286
+#: js/filelist.js:295 js/filelist.js:297
 msgid "undo"
 msgstr ""
 
-#: js/filelist.js:252
+#: js/filelist.js:297
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:284
-msgid "unshared {files}"
+#: js/filelist.js:322
+msgid "perform delete operation"
 msgstr ""
 
-#: js/filelist.js:286
-msgid "deleted {files}"
+#: js/files.js:52
+msgid "'.' is an invalid file name."
 msgstr ""
 
-#: js/files.js:33
+#: js/files.js:56
+msgid "File name cannot be empty."
+msgstr ""
+
+#: js/files.js:64
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
 msgstr ""
 
-#: js/files.js:183
-msgid "generating ZIP-file, it may take some time."
+#: js/files.js:78
+msgid "Your storage is full, files can not be updated or synced anymore!"
 msgstr ""
 
-#: js/files.js:218
+#: js/files.js:82
+msgid "Your storage is almost full ({usedSpacePercent}%)"
+msgstr ""
+
+#: js/files.js:224
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr ""
+
+#: js/files.js:261
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr ""
 
-#: js/files.js:218
+#: js/files.js:261
 msgid "Upload Error"
 msgstr ""
 
-#: js/files.js:235
+#: js/files.js:272
 msgid "Close"
 msgstr "داخستن"
 
-#: js/files.js:254 js/files.js:368 js/files.js:398
-msgid "Pending"
-msgstr ""
-
-#: js/files.js:274
+#: js/files.js:311
 msgid "1 file uploading"
 msgstr ""
 
-#: js/files.js:277 js/files.js:331 js/files.js:346
+#: js/files.js:314 js/files.js:369 js/files.js:384
 msgid "{count} files uploading"
 msgstr ""
 
-#: js/files.js:349 js/files.js:382
+#: js/files.js:387 js/files.js:422
 msgid "Upload cancelled."
 msgstr ""
 
-#: js/files.js:451
+#: js/files.js:496
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/files.js:523
-msgid "Invalid folder name. Usage of \"Shared\" is reserved by Owncloud"
+#: js/files.js:569
+msgid "URL cannot be empty."
+msgstr "ناونیشانی به‌سته‌ر نابێت به‌تاڵ بێت."
+
+#: js/files.js:574
+msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:704
-msgid "{count} files scanned"
-msgstr ""
-
-#: js/files.js:712
-msgid "error while scanning"
-msgstr ""
-
-#: js/files.js:785 templates/index.php:65
+#: js/files.js:948 templates/index.php:67
 msgid "Name"
 msgstr "ناو"
 
-#: js/files.js:786 templates/index.php:76
+#: js/files.js:949 templates/index.php:78
 msgid "Size"
 msgstr ""
 
-#: js/files.js:787 templates/index.php:78
+#: js/files.js:950 templates/index.php:80
 msgid "Modified"
 msgstr ""
 
-#: js/files.js:814
+#: js/files.js:969
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:816
+#: js/files.js:971
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:824
+#: js/files.js:979
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:826
+#: js/files.js:981
 msgid "{count} files"
 msgstr ""
+
+#: lib/helper.php:11 templates/index.php:18
+msgid "Upload"
+msgstr "بارکردن"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -191,27 +232,27 @@ msgstr ""
 msgid "Maximum upload size"
 msgstr ""
 
-#: templates/admin.php:9
+#: templates/admin.php:10
 msgid "max. possible: "
 msgstr ""
 
-#: templates/admin.php:12
+#: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
 msgstr ""
 
-#: templates/admin.php:14
+#: templates/admin.php:17
 msgid "Enable ZIP-download"
 msgstr ""
 
-#: templates/admin.php:17
+#: templates/admin.php:20
 msgid "0 is unlimited"
 msgstr ""
 
-#: templates/admin.php:19
+#: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
 msgstr ""
 
-#: templates/admin.php:23
+#: templates/admin.php:26
 msgid "Save"
 msgstr "پاشکه‌وتکردن"
 
@@ -231,36 +272,44 @@ msgstr "بوخچه"
 msgid "From link"
 msgstr ""
 
-#: templates/index.php:35
-msgid "Upload"
-msgstr "بارکردن"
+#: templates/index.php:40
+msgid "Deleted files"
+msgstr ""
 
-#: templates/index.php:43
+#: templates/index.php:46
 msgid "Cancel upload"
 msgstr ""
 
-#: templates/index.php:57
+#: templates/index.php:59
 msgid "Nothing in here. Upload something!"
 msgstr ""
 
-#: templates/index.php:71
+#: templates/index.php:73
 msgid "Download"
 msgstr "داگرتن"
 
-#: templates/index.php:103
-msgid "Upload too large"
+#: templates/index.php:85 templates/index.php:86
+msgid "Unshare"
 msgstr ""
 
 #: templates/index.php:105
+msgid "Upload too large"
+msgstr ""
+
+#: templates/index.php:107
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr ""
 
-#: templates/index.php:110
+#: templates/index.php:112
 msgid "Files are being scanned, please wait."
 msgstr ""
 
-#: templates/index.php:113
+#: templates/index.php:115
 msgid "Current scanning"
+msgstr ""
+
+#: templates/upgrade.php:2
+msgid "Upgrading filesystem cache..."
 msgstr ""

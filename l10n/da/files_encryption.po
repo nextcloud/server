@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Frederik Lassen <frederiklassen@gmail.com>, 2013.
+# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2013.
 #   <osos@openeyes.dk>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-14 02:01+0200\n"
-"PO-Revision-Date: 2012-09-13 09:42+0000\n"
-"Last-Translator: osos <osos@openeyes.dk>\n"
+"POT-Creation-Date: 2013-02-12 15:10+0100\n"
+"PO-Revision-Date: 2013-02-12 09:46+0000\n"
+"Last-Translator: Frederik Lassen <frederiklassen@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,18 +20,22 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: templates/settings.php:3
+#: templates/settings-personal.php:4 templates/settings.php:5
 msgid "Encryption"
 msgstr "Kryptering"
 
-#: templates/settings.php:4
-msgid "Exclude the following file types from encryption"
-msgstr "Ekskluder følgende filtyper fra kryptering"
+#: templates/settings-personal.php:7
+msgid "File encryption is enabled."
+msgstr "Fil kryptering aktiveret."
 
-#: templates/settings.php:5
+#: templates/settings-personal.php:11
+msgid "The following file types will not be encrypted:"
+msgstr "De følgende filtyper vil ikke blive krypteret:"
+
+#: templates/settings.php:7
+msgid "Exclude the following file types from encryption:"
+msgstr "Ekskluder de følgende fil typer fra kryptering:"
+
+#: templates/settings.php:12
 msgid "None"
 msgstr "Ingen"
-
-#: templates/settings.php:10
-msgid "Enable Encryption"
-msgstr "Aktivér kryptering"

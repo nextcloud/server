@@ -86,8 +86,9 @@ class OC_User {
 	 */
 	public static function useBackend( $backend = 'database' ) {
 		if($backend instanceof OC_User_Interface) {
+			OC_Log::write('core', 'Adding user backend instance of '.get_class($backend).'.', OC_Log::DEBUG);
 			self::$_usedBackends[get_class($backend)]=$backend;
-		}else{
+		} else {
 			// You'll never know what happens
 			if( null === $backend OR !is_string( $backend )) {
 				$backend = 'database';
@@ -98,15 +99,17 @@ class OC_User {
 				case 'database':
 				case 'mysql':
 				case 'sqlite':
+					OC_Log::write('core', 'Adding user backend '.$backend.'.', OC_Log::DEBUG);
 					self::$_usedBackends[$backend] = new OC_User_Database();
 					break;
 				default:
+					OC_Log::write('core', 'Adding default user backend '.$backend.'.', OC_Log::DEBUG);
 					$className = 'OC_USER_' . strToUpper($backend);
 					self::$_usedBackends[$backend] = new $className();
 					break;
 			}
 		}
-		true;
+		return true;
 	}
 
 	/**
@@ -124,15 +127,19 @@ class OC_User {
 		foreach($backends as $i=>$config) {
 			$class=$config['class'];
 			$arguments=$config['arguments'];
-			if(class_exists($class) and array_search($i, self::$_setupedBackends)===false) {
-				// make a reflection object
-				$reflectionObj = new ReflectionClass($class);
+			if(class_exists($class)) {
+				if(array_search($i, self::$_setupedBackends)===false) {
+					// make a reflection object
+					$reflectionObj = new ReflectionClass($class);
 
-				// use Reflection to create a new instance, using the $args
-				$backend = $reflectionObj->newInstanceArgs($arguments);
-				self::useBackend($backend);
-				$_setupedBackends[]=$i;
-			}else{
+					// use Reflection to create a new instance, using the $args
+					$backend = $reflectionObj->newInstanceArgs($arguments);
+					self::useBackend($backend);
+					$_setupedBackends[]=$i;
+				} else {
+					OC_Log::write('core', 'User backend '.$class.' already initialized.', OC_Log::DEBUG);
+				}
+			} else {
 				OC_Log::write('core', 'User backend '.$class.' not found.', OC_Log::ERROR);
 			}
 		}
@@ -153,7 +160,8 @@ class OC_User {
 		// Check the name for bad characters
 		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-"
 		if( preg_match( '/[^a-zA-Z0-9 _\.@\-]/', $uid )) {
-			throw new Exception('Only the following characters are allowed in a username: "a-z", "A-Z", "0-9", and "_.@-"');
+			throw new Exception('Only the following characters are allowed in a username:'
+				.' "a-z", "A-Z", "0-9", and "_.@-"');
 		}
 		// No empty username
 		if(trim($uid) == '') {
@@ -165,7 +173,7 @@ class OC_User {
 		}
 
 		// Check if user already exists
-		if( self::userExists($uid) ) {
+		if( self::userExistsForCreation($uid) ) {
 			throw new Exception('The username is already being used');
 		}
 
@@ -244,6 +252,7 @@ class OC_User {
 			if($uid && $enabled) {
 				session_regenerate_id(true);
 				self::setUserId($uid);
+				self::setDisplayName($uid);
 				OC_Hook::emit( "OC_User", "post_login", array( "uid" => $uid, 'password'=>$password ));
 				return true;
 			}
@@ -253,17 +262,55 @@ class OC_User {
 
 	/**
 	 * @brief Sets user id for session and triggers emit
-	 * @returns true
-	 *
 	 */
 	public static function setUserId($uid) {
 		$_SESSION['user_id'] = $uid;
-		return true;
+	}
+
+	/**
+	 * @brief Sets user display name for session
+	 */
+	public static function setDisplayName($uid, $displayName = null) {
+		$result = false;
+		if ($displayName ) {
+			foreach(self::$_usedBackends as $backend) {
+				if($backend->implementsActions(OC_USER_BACKEND_SET_DISPLAYNAME)) {
+					if($backend->userExists($uid)) {
+						$result |= $backend->setDisplayName($uid, $displayName);
+					}
+				}
+			}
+		} else {
+			$displayName = self::determineDisplayName($uid);
+			$result = true;
+		}
+		if (OC_User::getUser() === $uid) {
+			$_SESSION['display_name'] = $displayName;
+		}
+		return $result;
+	}
+
+
+	/**
+	 * @brief get display name
+	 * @param $uid The username
+	 * @returns string display name or uid if no display name is defined
+	 *
+	 */
+	private static function determineDisplayName( $uid ) {
+		foreach(self::$_usedBackends as $backend) {
+			if($backend->implementsActions(OC_USER_BACKEND_GET_DISPLAYNAME)) {
+				$result=$backend->getDisplayName( $uid );
+				if($result) {
+					return $result;
+				}
+			}
+		}
+		return $uid;
 	}
 
 	/**
 	 * @brief Logs the current user out and kills all the session data
-	 * @returns true
 	 *
 	 * Logout, destroys session
 	 */
@@ -272,7 +319,6 @@ class OC_User {
 		session_unset();
 		session_destroy();
 		OC_User::unsetMagicInCookie();
-		return true;
 	}
 
 	/**
@@ -293,12 +339,40 @@ class OC_User {
 	}
 
 	/**
+	 * @brief Check if the user is an admin user
+	 * @param $uid uid of the admin
+	 * @returns bool
+	 */
+	public static function isAdminUser($uid) {
+		if(OC_Group::inGroup($uid, 'admin' )) {
+			return true;
+		}
+		return false;
+	}
+
+
+	/**
 	 * @brief get the user id of the user currently logged in.
 	 * @return string uid or false
 	 */
 	public static function getUser() {
 		if( isset($_SESSION['user_id']) AND $_SESSION['user_id'] ) {
 			return $_SESSION['user_id'];
+		}
+		else{
+			return false;
+		}
+	}
+
+	/**
+	 * @brief get the display name of the user currently logged in.
+	 * @return string uid or false
+	 */
+	public static function getDisplayName($user=null) {
+		if ( $user ) {
+			return self::determineDisplayName($user);
+		} else if( isset($_SESSION['display_name']) AND $_SESSION['display_name'] ) {
+			return $_SESSION['display_name'];
 		}
 		else{
 			return false;
@@ -347,6 +421,44 @@ class OC_User {
 	}
 
 	/**
+	 * @brief Check whether user can change his password
+	 * @param $uid The username
+	 * @returns true/false
+	 *
+	 * Check whether a specified user can change his password
+	 */
+	public static function canUserChangePassword($uid) {
+		foreach(self::$_usedBackends as $backend) {
+			if($backend->implementsActions(OC_USER_BACKEND_SET_PASSWORD)) {
+				if($backend->userExists($uid)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * @brief Check whether user can change his display name
+	 * @param $uid The username
+	 * @returns true/false
+	 *
+	 * Check whether a specified user can change his display name
+	 */
+	public static function canUserChangeDisplayName($uid) {
+		if (OC_Config::getValue('allow_user_to_change_display_name', true)) {
+			foreach(self::$_usedBackends as $backend) {
+				if($backend->implementsActions(OC_USER_BACKEND_SET_DISPLAYNAME)) {
+					if($backend->userExists($uid)) {
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * @brief Check if the password is correct
 	 * @param $uid The username
 	 * @param $password The password
@@ -368,15 +480,15 @@ class OC_User {
 
 	/**
 	 * @brief Check if the password is correct
-	 * @param $uid The username
-	 * @param $password The password
+	 * @param string $uid The username
+	 * @param string $password The password
 	 * @returns string
 	 *
 	 * returns the path to the users home directory
 	 */
 	public static function getHome($uid) {
 		foreach(self::$_usedBackends as $backend) {
-			if($backend->implementsActions(OC_USER_BACKEND_GET_HOME)) {
+			if($backend->implementsActions(OC_USER_BACKEND_GET_HOME) && $backend->userExists($uid)) {
 				$result=$backend->getHome($uid);
 				if($result) {
 					return $result;
@@ -405,12 +517,35 @@ class OC_User {
 	}
 
 	/**
+	 * @brief Get a list of all users display name
+	 * @returns associative array with all display names (value) and corresponding uids (key)
+	 *
+	 * Get a list of all display names and user ids.
+	 */
+	public static function getDisplayNames($search = '', $limit = null, $offset = null) {
+		$displayNames = array();
+		foreach (self::$_usedBackends as $backend) {
+			$backendDisplayNames = $backend->getDisplayNames($search, $limit, $offset);
+			if (is_array($backendDisplayNames)) {
+				$displayNames = array_merge($displayNames, $backendDisplayNames);
+			}
+		}
+		ksort($displayNames);
+		return $displayNames;
+	}
+
+	/**
 	 * @brief check if a user exists
 	 * @param string $uid the username
+	 * @param string $excludingBackend (default none)
 	 * @return boolean
 	 */
-	public static function userExists($uid) {
+	public static function userExists($uid, $excludingBackend=null) {
 		foreach(self::$_usedBackends as $backend) {
+			if (!is_null($excludingBackend) && !strcmp(get_class($backend), $excludingBackend)) {
+				OC_Log::write('OC_User', $excludingBackend . 'excluded from user existance check.', OC_Log::DEBUG);
+				continue;
+			}
 			$result=$backend->userExists($uid);
 			if($result===true) {
 				return true;
@@ -418,6 +553,19 @@ class OC_User {
 		}
 		return false;
 	}
+
+    public static function userExistsForCreation($uid) {
+        foreach(self::$_usedBackends as $backend) {
+            if(!$backend->hasUserListings())
+                continue;
+
+            $result=$backend->userExists($uid);
+            if($result===true) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 	/**
 	 * disables a user
@@ -441,7 +589,8 @@ class OC_User {
 	 * @param string $userid
 	 */
 	public static function enableUser($userid) {
-		$sql = "DELETE FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
+		$sql = "DELETE FROM `*PREFIX*preferences`'
+			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
 		$stmt = OC_DB::prepare($sql);
 		if ( ! OC_DB::isError($stmt) ) {
 			$result = $stmt->execute(array($userid, 'core', 'enabled', 'false'));
@@ -459,14 +608,17 @@ class OC_User {
 	 * @return bool
 	 */
 	public static function isEnabled($userid) {
-		$sql = "SELECT `userid` FROM `*PREFIX*preferences` WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
+		$sql = 'SELECT `userid` FROM `*PREFIX*preferences`'
+			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?';
 		$stmt = OC_DB::prepare($sql);
 		if ( ! OC_DB::isError($stmt) ) {
 			$result = $stmt->execute(array($userid, 'core', 'enabled', 'false'));
 			if ( ! OC_DB::isError($result) ) {
 				return $result->numRows() ? false : true;
 			} else {
-				OC_Log::write('OC_User', 'could not check if enabled: '. OC_DB::getErrorMessage($result), OC_Log::ERROR);
+				OC_Log::write('OC_User',
+					'could not check if enabled: '. OC_DB::getErrorMessage($result),
+					OC_Log::ERROR);
 			}
 		} else {
 			OC_Log::write('OC_User', 'could not check if enabled: '. OC_DB::getErrorMessage($stmt), OC_Log::ERROR);

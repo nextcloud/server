@@ -21,15 +21,12 @@
 *
 */
 
-// Init owncloud
-
-
 // Check if we are a user
 OCP\User::checkLoggedIn();
 
 $filename = $_GET["file"];
 
-if(!OC_Filesystem::file_exists($filename)) {
+if(!\OC\Files\Filesystem::file_exists($filename)) {
 	header("HTTP/1.0 404 Not Found");
 	$tmpl = new OCP\Template( '', '404', 'guest' );
 	$tmpl->assign('file', $filename);
@@ -37,12 +34,17 @@ if(!OC_Filesystem::file_exists($filename)) {
 	exit;
 }
 
-$ftype=OC_Filesystem::getMimeType( $filename );
+$ftype=\OC\Files\Filesystem::getMimeType( $filename );
 
 header('Content-Type:'.$ftype);
-header('Content-Disposition: attachment; filename="'.basename($filename).'"');
+if ( preg_match( "/MSIE/", $_SERVER["HTTP_USER_AGENT"] ) ) {
+	header( 'Content-Disposition: attachment; filename="' . rawurlencode( basename($filename) ) . '"' );
+} else {
+	header( 'Content-Disposition: attachment; filename*=UTF-8\'\'' . rawurlencode( basename($filename) )
+										 . '; filename="' . rawurlencode( basename($filename) ) . '"' );
+}
 OCP\Response::disableCaching();
-header('Content-Length: '.OC_Filesystem::filesize($filename));
+header('Content-Length: '.\OC\Files\Filesystem::filesize($filename));
 
 OC_Util::obEnd();
-OC_Filesystem::readfile( $filename );
+\OC\Files\Filesystem::readfile( $filename );

@@ -38,66 +38,82 @@ class OC_Mount_Config {
 	* @return array
 	*/
 	public static function getBackends() {
-		return array(
-			'OC_Filestorage_Local' => array(
+		
+		$backends['\OC\Files\Storage\Local']=array(
 				'backend' => 'Local',
 				'configuration' => array(
-					'datadir' => 'Location')),
-			'OC_Filestorage_AmazonS3' => array(
-				'backend' => 'Amazon S3',
-				'configuration' => array(
-					'key' => 'Key',
-					'secret' => '*Secret',
-					'bucket' => 'Bucket')),
-			'OC_Filestorage_Dropbox' => array(
-				'backend' => 'Dropbox',
-				'configuration' => array(
-					'configured' => '#configured',
-					'app_key' => 'App key',
-					'app_secret' => 'App secret',
-					'token' => '#token',
-					'token_secret' => '#token_secret'),
-				'custom' => 'dropbox'),
-			'OC_Filestorage_FTP' => array(
-				'backend' => 'FTP',
-				'configuration' => array(
-					'host' => 'URL',
-					'user' => 'Username',
-					'password' => '*Password',
-					'root' => '&Root',
-					'secure' => '!Secure ftps://')),
-			'OC_Filestorage_Google' => array(
-				'backend' => 'Google Drive',
-				'configuration' => array(
-					'configured' => '#configured',
-					'token' => '#token',
-					'token_secret' => '#token secret'),
-				'custom' => 'google'),
-			'OC_Filestorage_SWIFT' => array(
-				'backend' => 'OpenStack Swift',
-				'configuration' => array(
-					'host' => 'URL',
-					'user' => 'Username',
-					'token' => '*Token',
-					'root' => '&Root',
-					'secure' => '!Secure ftps://')),
-			'OC_Filestorage_SMB' => array(
-				'backend' => 'SMB',
-				'configuration' => array(
-					'host' => 'URL',
-					'user' => 'Username',
-					'password' => '*Password',
-					'share' => 'Share',
-					'root' => '&Root')),
-			'OC_Filestorage_DAV' => array(
-				'backend' => 'WebDAV',
-				'configuration' => array(
-					'host' => 'URL',
-					'user' => 'Username',
-					'password' => '*Password',
-					'root' => '&Root',
-					'secure' => '!Secure https://'))
-		);
+					'datadir' => 'Location'));
+
+		$backends['\OC\Files\Storage\AmazonS3']=array(
+			'backend' => 'Amazon S3',
+			'configuration' => array(
+				'key' => 'Key',
+				'secret' => '*Secret',
+				'bucket' => 'Bucket'));
+
+		$backends['\OC\Files\Storage\Dropbox']=array(
+			'backend' => 'Dropbox',
+			'configuration' => array(
+				'configured' => '#configured',
+				'app_key' => 'App key',
+				'app_secret' => 'App secret',
+				'token' => '#token',
+				'token_secret' => '#token_secret'),
+				'custom' => 'dropbox');
+
+		if(OC_Mount_Config::checkphpftp()) $backends['\OC\Files\Storage\FTP']=array(
+			'backend' => 'FTP',
+			'configuration' => array(
+				'host' => 'URL',
+				'user' => 'Username',
+				'password' => '*Password',
+				'root' => '&Root',
+				'secure' => '!Secure ftps://'));
+
+		$backends['\OC\Files\Storage\Google']=array(
+			'backend' => 'Google Drive',
+			'configuration' => array(
+				'configured' => '#configured',
+				'token' => '#token',
+				'token_secret' => '#token secret'),
+				'custom' => 'google');
+		
+		$backends['\OC\Files\Storage\SWIFT']=array(
+			'backend' => 'OpenStack Swift',
+			'configuration' => array(
+				'host' => 'URL',
+				'user' => 'Username',
+				'token' => '*Token',
+				'root' => '&Root',
+				'secure' => '!Secure ftps://'));
+							
+		if(OC_Mount_Config::checksmbclient()) $backends['\OC\Files\Storage\SMB']=array(
+			'backend' => 'SMB / CIFS',
+			'configuration' => array(
+				'host' => 'URL',
+				'user' => 'Username',
+				'password' => '*Password',
+				'share' => 'Share',
+				'root' => '&Root'));
+				
+		$backends['\OC\Files\Storage\DAV']=array(
+			'backend' => 'ownCloud / WebDAV',
+			'configuration' => array(
+				'host' => 'URL',
+				'user' => 'Username',
+				'password' => '*Password',
+				'root' => '&Root',
+				'secure' => '!Secure https://'));
+				
+		$backends['\OC\Files\Storage\SFTP']=array(
+			'backend' => 'SFTP',
+			'configuration' => array(
+				'host' => 'URL',
+				'user' => 'Username', 
+				'password' => '*Password', 
+				'root' => '&Root'));
+
+		return($backends);
 	}
 
 	/**
@@ -112,6 +128,10 @@ class OC_Mount_Config {
 		if (isset($mountPoints[self::MOUNT_TYPE_GROUP])) {
 			foreach ($mountPoints[self::MOUNT_TYPE_GROUP] as $group => $mounts) {
 				foreach ($mounts as $mountPoint => $mount) {
+					// Update old classes to new namespace
+					if (strpos($mount['class'], 'OC_Filestorage_') !== false) {
+						$mount['class'] = '\OC\Files\Storage\\'.substr($mount['class'], 15);
+					}
 					// Remove '/$user/files/' from mount point
 					$mountPoint = substr($mountPoint, 13);
 					// Merge the mount point into the current mount points
@@ -131,6 +151,10 @@ class OC_Mount_Config {
 		if (isset($mountPoints[self::MOUNT_TYPE_USER])) {
 			foreach ($mountPoints[self::MOUNT_TYPE_USER] as $user => $mounts) {
 				foreach ($mounts as $mountPoint => $mount) {
+					// Update old classes to new namespace
+					if (strpos($mount['class'], 'OC_Filestorage_') !== false) {
+						$mount['class'] = '\OC\Files\Storage\\'.substr($mount['class'], 15);
+					}
 					// Remove '/$user/files/' from mount point
 					$mountPoint = substr($mountPoint, 13);
 					// Merge the mount point into the current mount points
@@ -161,6 +185,10 @@ class OC_Mount_Config {
 		$personal = array();
 		if (isset($mountPoints[self::MOUNT_TYPE_USER][$uid])) {
 			foreach ($mountPoints[self::MOUNT_TYPE_USER][$uid] as $mountPoint => $mount) {
+				// Update old classes to new namespace
+				if (strpos($mount['class'], 'OC_Filestorage_') !== false) {
+					$mount['class'] = '\OC\Files\Storage\\'.substr($mount['class'], 15);
+				}
 				// Remove '/uid/files/' from mount point
 				$personal[substr($mountPoint, strlen($uid) + 8)] = array('class' => $mount['class'],
 																'backend' => $backends[$mount['class']]['backend'],
@@ -169,22 +197,6 @@ class OC_Mount_Config {
 		}
 		return $personal;
 	}
-
-	/**
-	 * Add directory for mount point to the filesystem
-	 * @param OC_Fileview instance $view
-	 * @param string path to mount point
-	 */
-	private static function addMountPointDirectory($view, $path) {
-		$dir = '';
-		foreach ( explode('/', $path) as $pathPart) {
-			$dir = $dir.'/'.$pathPart;
-			if ( !$view->file_exists($dir)) {
-				$view->mkdir($dir);
-			}
-		}
-	}
-
 
 	/**
 	* Add a mount point to the filesystem
@@ -205,36 +217,11 @@ class OC_Mount_Config {
 		if ($isPersonal) {
 			// Verify that the mount point applies for the current user
 			// Prevent non-admin users from mounting local storage
-			if ($applicable != OCP\User::getUser() || $class == 'OC_Filestorage_Local') {
+			if ($applicable != OCP\User::getUser() || $class == '\OC\Files\Storage\Local') {
 				return false;
 			}
-			$view = new OC_FilesystemView('/'.OCP\User::getUser().'/files');
-			self::addMountPointDirectory($view, ltrim($mountPoint, '/'));
 			$mountPoint = '/'.$applicable.'/files/'.ltrim($mountPoint, '/');
 		} else {
-			$view = new OC_FilesystemView('/');
-			switch ($mountType) {
-				case 'user':
-					if ($applicable == "all") {
-						$users = OCP\User::getUsers();
-						foreach ( $users as $user ) {
-							$path = $user.'/files/'.ltrim($mountPoint, '/');
-							self::addMountPointDirectory($view, $path);
-						}
-					} else {
-						$path = $applicable.'/files/'.ltrim($mountPoint, '/');
-						self::addMountPointDirectory($view, $path);
-					}
-					break;
-				case 'group' :
-					$groupMembers = OC_Group::usersInGroups(array($applicable));
-					foreach ( $groupMembers as $user ) {
-						$path =  $user.'/files/'.ltrim($mountPoint, '/');
-						self::addMountPointDirectory($view, $path);
-					}
-					break;
-			}
-
 			$mountPoint = '/$user/files/'.ltrim($mountPoint, '/');
 		}
 		$mount = array($applicable => array($mountPoint => array('class' => $class, 'options' => $classOptions)));
@@ -292,13 +279,21 @@ class OC_Mount_Config {
 	* @return array
 	*/
 	private static function readData($isPersonal) {
+		$parser = new \OC\ArrayParser();
 		if ($isPersonal) {
-			$file = OC_User::getHome(OCP\User::getUser()).'/mount.php';
+			$phpFile = OC_User::getHome(OCP\User::getUser()).'/mount.php';
+			$jsonFile = OC_User::getHome(OCP\User::getUser()).'/mount.json';
 		} else {
-			$file = OC::$SERVERROOT.'/config/mount.php';
+			$phpFile = OC::$SERVERROOT.'/config/mount.php';
+			$jsonFile = OC::$SERVERROOT.'/config/mount.json';
 		}
-		if (is_file($file)) {
-			$mountPoints = include $file;
+		if (is_file($jsonFile)) {
+			$mountPoints = json_decode(file_get_contents($jsonFile), true);
+			if (is_array($mountPoints)) {
+				return $mountPoints;
+			}
+		} elseif (is_file($phpFile)) {
+			$mountPoints = $parser->parsePHP(file_get_contents($phpFile));
 			if (is_array($mountPoints)) {
 				return $mountPoints;
 			}
@@ -313,35 +308,11 @@ class OC_Mount_Config {
 	*/
 	private static function writeData($isPersonal, $data) {
 		if ($isPersonal) {
-			$file = OC_User::getHome(OCP\User::getUser()).'/mount.php';
+			$file = OC_User::getHome(OCP\User::getUser()).'/mount.json';
 		} else {
-			$file = OC::$SERVERROOT.'/config/mount.php';
+			$file = OC::$SERVERROOT.'/config/mount.json';
 		}
-		$content = "<?php return array (\n";
-		if (isset($data[self::MOUNT_TYPE_GROUP])) {
-			$content .= "\t'group' => array (\n";
-			foreach ($data[self::MOUNT_TYPE_GROUP] as $group => $mounts) {
-				$content .= "\t\t'".$group."' => array (\n";
-				foreach ($mounts as $mountPoint => $mount) {
-					$content .= "\t\t\t'".$mountPoint."' => ".str_replace("\n", '', var_export($mount, true)).", \n";
-
-				}
-				$content .= "\t\t),\n";
-			}
-			$content .= "\t),\n";
-		}
-		if (isset($data[self::MOUNT_TYPE_USER])) {
-			$content .= "\t'user' => array (\n";
-			foreach ($data[self::MOUNT_TYPE_USER] as $user => $mounts) {
-				$content .= "\t\t'".$user."' => array (\n";
-				foreach ($mounts as $mountPoint => $mount) {
-					$content .= "\t\t\t'".$mountPoint."' => ".str_replace("\n", '', var_export($mount, true)).",\n";
-				}
-				$content .= "\t\t),\n";
-			}
-			$content .= "\t),\n";
-		}
-		$content .= ");\n?>";
+		$content = json_encode($data);
 		@file_put_contents($file, $content);
 	}
 
@@ -394,4 +365,42 @@ class OC_Mount_Config {
 		return true;
 	}
 
+	/**
+	 * check if smbclient is installed
+	 */
+	public static function checksmbclient() {
+		if(function_exists('shell_exec')) {
+			$output=shell_exec('which smbclient');
+			return (empty($output)?false:true);
+		}else{
+			return(false);
+		}
+	}
+
+	/**
+	 * check if php-ftp is installed 
+	 */
+	public static function checkphpftp() {
+		if(function_exists('ftp_login')) {
+			return(true);
+		}else{
+			return(false);
+		}
+	}
+
+	/**
+	 * check dependencies
+	 */
+	public static function checkDependencies() {
+		$l= new OC_L10N('files_external');
+		$txt='';
+		if(!OC_Mount_Config::checksmbclient()) {
+			$txt.=$l->t('<b>Warning:</b> "smbclient" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it.').'<br />';
+		}
+		if(!OC_Mount_Config::checkphpftp()) {
+			$txt.=$l->t('<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it.').'<br />';
+		}
+
+		return($txt);
+	}
 }

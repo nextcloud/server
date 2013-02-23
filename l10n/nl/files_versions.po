@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# André Koot <meneer@tken.net>, 2013.
 # Richard Bos <radoeka@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-28 00:01+0200\n"
-"PO-Revision-Date: 2012-10-27 08:43+0000\n"
-"Last-Translator: Richard Bos <radoeka@gmail.com>\n"
+"POT-Creation-Date: 2013-02-12 15:10+0100\n"
+"PO-Revision-Date: 2013-02-12 09:46+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,21 +19,44 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/settings-personal.js:31 templates/settings-personal.php:10
-msgid "Expire all versions"
-msgstr "Alle versies laten verlopen"
+#: ajax/rollbackVersion.php:15
+#, php-format
+msgid "Could not revert: %s"
+msgstr "Kon niet terugdraaien: %s"
+
+#: history.php:40
+msgid "success"
+msgstr "succes"
+
+#: history.php:42
+#, php-format
+msgid "File %s was reverted to version %s"
+msgstr "Bestand %s is teruggedraaid naar versie %s"
+
+#: history.php:49
+msgid "failure"
+msgstr "mislukking"
+
+#: history.php:51
+#, php-format
+msgid "File %s could not be reverted to version %s"
+msgstr "Bestand %s kon niet worden teruggedraaid naar versie %s"
+
+#: history.php:68
+msgid "No old versions available"
+msgstr "Geen oudere versies beschikbaar"
+
+#: history.php:73
+msgid "No path specified"
+msgstr "Geen pad opgegeven"
 
 #: js/versions.js:16
 msgid "History"
 msgstr "Geschiedenis"
 
-#: templates/settings-personal.php:4
-msgid "Versions"
-msgstr "Versies"
-
-#: templates/settings-personal.php:7
-msgid "This will delete all existing backup versions of your files"
-msgstr "Dit zal alle bestaande backup versies van uw bestanden verwijderen"
+#: templates/history.php:20
+msgid "Revert a file to a previous version by clicking on its revert button"
+msgstr "Draai een bestand terug naar een voorgaande versie door te klikken op de terugdraai knop"
 
 #: templates/settings.php:3
 msgid "Files Versioning"

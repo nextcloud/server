@@ -1,10 +1,9 @@
 <?php $TRANSLATIONS = array(
 "Enable" => "چالاککردن",
+"Error" => "هه‌ڵه",
 "Saving..." => "پاشکه‌وتده‌کات...",
-"Documentation" => "به‌ڵگه‌نامه",
-"Download" => "داگرتن",
+"Update" => "نوێکردنه‌وه",
+"Password" => "وشەی تێپەربو",
 "New password" => "وشەی نهێنی نوێ",
-"Email" => "ئیمه‌یل",
-"Name" => "ناو",
-"Password" => "وشەی تێپەربو"
+"Email" => "ئیمه‌یل"
 );

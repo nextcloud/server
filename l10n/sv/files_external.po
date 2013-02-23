@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-05 02:02+0200\n"
-"PO-Revision-Date: 2012-10-04 09:48+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
 "Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
@@ -42,66 +42,80 @@ msgstr "Ange en giltig Dropbox nyckel och hemlighet."
 msgid "Error configuring Google Drive storage"
 msgstr "Fel vid konfigurering av Google Drive"
 
+#: lib/config.php:398
+msgid ""
+"<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
+"is not possible. Please ask your system administrator to install it."
+msgstr "<b>Varning:</b> \"smb-klienten\" är inte installerad. Montering av CIFS/SMB delningar är inte möjligt. Kontakta din systemadministratör för att få den installerad."
+
+#: lib/config.php:401
+msgid ""
+"<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
+" of FTP shares is not possible. Please ask your system administrator to "
+"install it."
+msgstr "<b>Varning:</b> Stöd för FTP i PHP är inte aktiverat eller installerat. Montering av FTP-delningar är inte möjligt. Kontakta din systemadministratör för att få det installerat."
+
 #: templates/settings.php:3
 msgid "External Storage"
 msgstr "Extern lagring"
 
-#: templates/settings.php:7 templates/settings.php:19
+#: templates/settings.php:8 templates/settings.php:22
 msgid "Mount point"
 msgstr "Monteringspunkt"
 
-#: templates/settings.php:8
+#: templates/settings.php:9
 msgid "Backend"
 msgstr "Källa"
 
-#: templates/settings.php:9
+#: templates/settings.php:10
 msgid "Configuration"
 msgstr "Konfiguration"
 
-#: templates/settings.php:10
+#: templates/settings.php:11
 msgid "Options"
 msgstr "Alternativ"
 
-#: templates/settings.php:11
+#: templates/settings.php:12
 msgid "Applicable"
 msgstr "Tillämplig"
 
-#: templates/settings.php:23
+#: templates/settings.php:27
 msgid "Add mount point"
 msgstr "Lägg till monteringspunkt"
 
-#: templates/settings.php:54 templates/settings.php:62
+#: templates/settings.php:85
 msgid "None set"
 msgstr "Ingen angiven"
 
-#: templates/settings.php:63
+#: templates/settings.php:86
 msgid "All Users"
 msgstr "Alla användare"
 
-#: templates/settings.php:64
+#: templates/settings.php:87
 msgid "Groups"
 msgstr "Grupper"
 
-#: templates/settings.php:69
+#: templates/settings.php:95
 msgid "Users"
 msgstr "Användare"
 
-#: templates/settings.php:77 templates/settings.php:107
+#: templates/settings.php:108 templates/settings.php:109
+#: templates/settings.php:144 templates/settings.php:145
 msgid "Delete"
 msgstr "Radera"
 
-#: templates/settings.php:87
+#: templates/settings.php:124
 msgid "Enable User External Storage"
 msgstr "Aktivera extern lagring för användare"
 
-#: templates/settings.php:88
+#: templates/settings.php:125
 msgid "Allow users to mount their own external storage"
 msgstr "Tillåt användare att montera egen extern lagring"
 
-#: templates/settings.php:99
+#: templates/settings.php:136
 msgid "SSL root certificates"
 msgstr "SSL rotcertifikat"
 
-#: templates/settings.php:113
+#: templates/settings.php:154
 msgid "Import Root Certificate"
 msgstr "Importera rotcertifikat"

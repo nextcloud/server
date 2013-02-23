@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012.
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-15 20:58+0000\n"
+"POT-Creation-Date: 2013-02-15 00:05+0100\n"
+"PO-Revision-Date: 2013-02-14 07:30+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -18,51 +18,55 @@ msgstr ""
 "Language: fi_FI\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:285
+#: app.php:349
 msgid "Help"
 msgstr "Ohje"
 
-#: app.php:292
+#: app.php:362
 msgid "Personal"
 msgstr "Henkilökohtainen"
 
-#: app.php:297
+#: app.php:373
 msgid "Settings"
 msgstr "Asetukset"
 
-#: app.php:302
+#: app.php:385
 msgid "Users"
 msgstr "Käyttäjät"
 
-#: app.php:309
+#: app.php:398
 msgid "Apps"
 msgstr "Sovellukset"
 
-#: app.php:311
+#: app.php:406
 msgid "Admin"
 msgstr "Ylläpitäjä"
 
-#: files.php:332
+#: files.php:202
 msgid "ZIP download is turned off."
 msgstr "ZIP-lataus on poistettu käytöstä."
 
-#: files.php:333
+#: files.php:203
 msgid "Files need to be downloaded one by one."
 msgstr "Tiedostot on ladattava yksittäin."
 
-#: files.php:333 files.php:358
+#: files.php:204 files.php:231
 msgid "Back to Files"
 msgstr "Takaisin tiedostoihin"
 
-#: files.php:357
+#: files.php:228
 msgid "Selected files too large to generate zip file."
 msgstr "Valitut tiedostot ovat liian suurikokoisia mahtuakseen zip-tiedostoon."
+
+#: helper.php:228
+msgid "couldn't be determined"
+msgstr "ei voitu määrittää"
 
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "Sovellusta ei ole otettu käyttöön"
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "Todennusvirhe"
 
@@ -82,68 +86,165 @@ msgstr "Teksti"
 msgid "Images"
 msgstr "Kuvat"
 
-#: template.php:103
+#: setup.php:34
+msgid "Set an admin username."
+msgstr "Aseta ylläpitäjän käyttäjätunnus."
+
+#: setup.php:37
+msgid "Set an admin password."
+msgstr "Aseta ylläpitäjän salasana."
+
+#: setup.php:40
+msgid "Specify a data folder."
+msgstr "Määritä datakansio."
+
+#: setup.php:53
+#, php-format
+msgid "%s enter the database username."
+msgstr ""
+
+#: setup.php:56
+#, php-format
+msgid "%s enter the database name."
+msgstr ""
+
+#: setup.php:59
+#, php-format
+msgid "%s you may not use dots in the database name"
+msgstr ""
+
+#: setup.php:62
+#, php-format
+msgid "%s set the database host."
+msgstr ""
+
+#: setup.php:126 setup.php:294 setup.php:339
+msgid "PostgreSQL username and/or password not valid"
+msgstr "PostgreSQL:n käyttäjätunnus ja/tai salasana on väärin"
+
+#: setup.php:127 setup.php:150 setup.php:204
+msgid "You need to enter either an existing account or the administrator."
+msgstr ""
+
+#: setup.php:149 setup.php:427 setup.php:494
+msgid "Oracle username and/or password not valid"
+msgstr "Oraclen käyttäjätunnus ja/tai salasana on väärin"
+
+#: setup.php:203
+msgid "MySQL username and/or password not valid"
+msgstr "MySQL:n käyttäjätunnus ja/tai salasana on väärin"
+
+#: setup.php:257 setup.php:360 setup.php:369 setup.php:387 setup.php:397
+#: setup.php:406 setup.php:435 setup.php:501 setup.php:527 setup.php:534
+#: setup.php:545 setup.php:552 setup.php:561 setup.php:569 setup.php:578
+#: setup.php:584
+#, php-format
+msgid "DB Error: \"%s\""
+msgstr "Tietokantavirhe: \"%s\""
+
+#: setup.php:258 setup.php:361 setup.php:370 setup.php:388 setup.php:398
+#: setup.php:407 setup.php:436 setup.php:502 setup.php:528 setup.php:535
+#: setup.php:546 setup.php:562 setup.php:570 setup.php:579
+#, php-format
+msgid "Offending command was: \"%s\""
+msgstr ""
+
+#: setup.php:273
+#, php-format
+msgid "MySQL user '%s'@'localhost' exists already."
+msgstr "MySQL-käyttäjä '%s'@'localhost' on jo olemassa."
+
+#: setup.php:274
+msgid "Drop this user from MySQL"
+msgstr ""
+
+#: setup.php:279
+#, php-format
+msgid "MySQL user '%s'@'%%' already exists"
+msgstr "MySQL-käyttäjä '%s'@'%%' on jo olemassa"
+
+#: setup.php:280
+msgid "Drop this user from MySQL."
+msgstr ""
+
+#: setup.php:553 setup.php:585
+#, php-format
+msgid "Offending command was: \"%s\", name: %s, password: %s"
+msgstr ""
+
+#: setup.php:649
+msgid ""
+"Your web server is not yet properly setup to allow files synchronization "
+"because the WebDAV interface seems to be broken."
+msgstr ""
+
+#: setup.php:651
+#, php-format
+msgid "Please double check the <a href='%s'>installation guides</a>."
+msgstr "Lue tarkasti <a href='%s'>asennusohjeet</a>."
+
+#: template.php:113
 msgid "seconds ago"
 msgstr "sekuntia sitten"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "1 minuutti sitten"
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d minuuttia sitten"
 
-#: template.php:106
+#: template.php:116
 msgid "1 hour ago"
 msgstr "1 tunti sitten"
 
-#: template.php:107
+#: template.php:117
 #, php-format
 msgid "%d hours ago"
 msgstr "%d tuntia sitten"
 
-#: template.php:108
+#: template.php:118
 msgid "today"
 msgstr "tänään"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr "eilen"
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "%d päivää sitten"
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr "viime kuussa"
 
-#: template.php:112
+#: template.php:122
 #, php-format
 msgid "%d months ago"
 msgstr "%d kuukautta sitten"
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr "viime vuonna"
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr "vuotta sitten"
 
-#: updater.php:75
+#: updater.php:78
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
 msgstr "%s on saatavilla. Lue <a href=\"%s\">lisätietoja</a>"
 
-#: updater.php:77
+#: updater.php:81
 msgid "up to date"
 msgstr "ajan tasalla"
 
-#: updater.php:80
+#: updater.php:84
 msgid "updates check is disabled"
 msgstr "päivitysten tarkistus on pois käytöstä"
 

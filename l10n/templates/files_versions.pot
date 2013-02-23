@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-05 00:04+0100\n"
+"Project-Id-Version: ownCloud Core 5.0.0\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,20 +17,43 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: js/settings-personal.js:31 templates/settings-personal.php:10
-msgid "Expire all versions"
+#: ajax/rollbackVersion.php:15
+#, php-format
+msgid "Could not revert: %s"
+msgstr ""
+
+#: history.php:40
+msgid "success"
+msgstr ""
+
+#: history.php:42
+#, php-format
+msgid "File %s was reverted to version %s"
+msgstr ""
+
+#: history.php:49
+msgid "failure"
+msgstr ""
+
+#: history.php:51
+#, php-format
+msgid "File %s could not be reverted to version %s"
+msgstr ""
+
+#: history.php:68
+msgid "No old versions available"
+msgstr ""
+
+#: history.php:73
+msgid "No path specified"
 msgstr ""
 
 #: js/versions.js:16
 msgid "History"
 msgstr ""
 
-#: templates/settings-personal.php:4
-msgid "Versions"
-msgstr ""
-
-#: templates/settings-personal.php:7
-msgid "This will delete all existing backup versions of your files"
+#: templates/history.php:20
+msgid "Revert a file to a previous version by clicking on its revert button"
 msgstr ""
 
 #: templates/settings.php:3

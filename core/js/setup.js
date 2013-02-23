@@ -55,8 +55,7 @@ $(document).ready(function() {
 		// Disable inputs
 		$(':submit', this).attr('disabled','disabled').val('Finishing …');
 		$('input', this).addClass('ui-state-disabled').attr('disabled','disabled');
-		$('#selectDbType').button('disable');
-		$('label.ui-button', this).addClass('ui-state-disabled').attr('aria-disabled', 'true').button('disable');
+		$('#selectDbType').buttonset('disable');
 
 		// Create the form
 		var form = $('<form>');

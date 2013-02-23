@@ -34,9 +34,8 @@ body {
 	background:#eee;
 	border-bottom:1px solid #f8f8f8;
 	min-height:30em;
-	padding-top:2em;
 	text-align:center;
-	margin:50px auto;
+	margin:45px auto;
 }
 
 #noPreview {
@@ -60,6 +59,7 @@ p.info a {
 #imgframe {
 	height:75%;
 	padding-bottom:2em;
+	padding-top:2em;
 	width:80%;
 	margin:0 auto;
 }
@@ -67,4 +67,9 @@ p.info a {
 #imgframe img {
 	max-height:100%;
 	max-width:100%;
+}
+
+thead{
+	background-color: white;
+	padding-left:0 !important; /* fixes multiselect bar offset on shared page */
 }

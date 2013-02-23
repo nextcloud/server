@@ -7,23 +7,51 @@
 #   <jekader@gmail.com>, 2011, 2012.
 #   <k0ldbl00d@gmail.com>, 2012.
 # Mihail Vasiliev <mickvav@gmail.com>, 2012.
+#   <semen@sam002.net>, 2012.
+# Sergey <sergey@markevich.ru>, 2013.
+#   <sharov3@gmail.com>, 2013.
 #   <skoptev@ukr.net>, 2012.
 #   <tony.mccourin@gmail.com>, 2011.
 # Victor Bravo <>, 2012.
 #   <victor.dubiniuk@gmail.com>, 2012.
+# Дмитрий <langaru@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-22 00:01+0100\n"
-"PO-Revision-Date: 2012-11-21 12:18+0000\n"
-"Last-Translator: Mihail Vasiliev <mickvav@gmail.com>\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:20+0000\n"
+"Last-Translator: Langaru <langaru@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: ajax/share.php:85
+#, php-format
+msgid "User %s shared a file with you"
+msgstr "Пользователь %s поделился с вами файлом"
+
+#: ajax/share.php:87
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr "Пользователь %s открыл вам доступ к папке"
+
+#: ajax/share.php:89
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr "Пользователь %s открыл вам доступ к файлу \"%s\". Он доступен для загрузки здесь: %s"
+
+#: ajax/share.php:91
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr "Пользователь %s открыл вам доступ к папке \"%s\". Она доступна для загрузки здесь: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -34,8 +62,9 @@ msgid "No category to add?"
 msgstr "Нет категорий для добавления?"
 
 #: ajax/vcategories/add.php:37
-msgid "This category already exists: "
-msgstr "Эта категория уже существует: "
+#, php-format
+msgid "This category already exists: %s"
+msgstr "Эта категория уже существует: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -63,59 +92,135 @@ msgstr "Нет категорий для удаления."
 msgid "Error removing %s from favorites."
 msgstr "Ошибка удаления %s из избранного"
 
-#: js/js.js:259 templates/layout.user.php:60 templates/layout.user.php:61
+#: js/config.php:32
+msgid "Sunday"
+msgstr "Воскресенье"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "Понедельник"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "Вторник"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "Среда"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "Четверг"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "Пятница"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "Суббота"
+
+#: js/config.php:33
+msgid "January"
+msgstr "Январь"
+
+#: js/config.php:33
+msgid "February"
+msgstr "Февраль"
+
+#: js/config.php:33
+msgid "March"
+msgstr "Март"
+
+#: js/config.php:33
+msgid "April"
+msgstr "Апрель"
+
+#: js/config.php:33
+msgid "May"
+msgstr "Май"
+
+#: js/config.php:33
+msgid "June"
+msgstr "Июнь"
+
+#: js/config.php:33
+msgid "July"
+msgstr "Июль"
+
+#: js/config.php:33
+msgid "August"
+msgstr "Август"
+
+#: js/config.php:33
+msgid "September"
+msgstr "Сентябрь"
+
+#: js/config.php:33
+msgid "October"
+msgstr "Октябрь"
+
+#: js/config.php:33
+msgid "November"
+msgstr "Ноябрь"
+
+#: js/config.php:33
+msgid "December"
+msgstr "Декабрь"
+
+#: js/js.js:286
 msgid "Settings"
 msgstr "Настройки"
 
-#: js/js.js:704
+#: js/js.js:767
 msgid "seconds ago"
 msgstr "несколько секунд назад"
 
-#: js/js.js:705
+#: js/js.js:768
 msgid "1 minute ago"
 msgstr "1 минуту назад"
 
-#: js/js.js:706
+#: js/js.js:769
 msgid "{minutes} minutes ago"
 msgstr "{minutes} минут назад"
 
-#: js/js.js:707
+#: js/js.js:770
 msgid "1 hour ago"
 msgstr "час назад"
 
-#: js/js.js:708
+#: js/js.js:771
 msgid "{hours} hours ago"
 msgstr "{hours} часов назад"
 
-#: js/js.js:709
+#: js/js.js:772
 msgid "today"
 msgstr "сегодня"
 
-#: js/js.js:710
+#: js/js.js:773
 msgid "yesterday"
 msgstr "вчера"
 
-#: js/js.js:711
+#: js/js.js:774
 msgid "{days} days ago"
 msgstr "{days} дней назад"
 
-#: js/js.js:712
+#: js/js.js:775
 msgid "last month"
 msgstr "в прошлом месяце"
 
-#: js/js.js:713
+#: js/js.js:776
 msgid "{months} months ago"
 msgstr "{months} месяцев назад"
 
-#: js/js.js:714
+#: js/js.js:777
 msgid "months ago"
 msgstr "несколько месяцев назад"
 
-#: js/js.js:715
+#: js/js.js:778
 msgid "last year"
 msgstr "в прошлом году"
 
-#: js/js.js:716
+#: js/js.js:779
 msgid "years ago"
 msgstr "несколько лет назад"
 
@@ -145,8 +250,8 @@ msgid "The object type is not specified."
 msgstr "Тип объекта не указан"
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:527
-#: js/share.js:539
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
+#: js/share.js:594
 msgid "Error"
 msgstr "Ошибка"
 
@@ -158,108 +263,142 @@ msgstr "Имя приложения не указано"
 msgid "The required file {file} is not installed!"
 msgstr "Необходимый файл {file} не установлен!"
 
-#: js/share.js:124
+#: js/share.js:29 js/share.js:43 js/share.js:90
+msgid "Shared"
+msgstr "Общие"
+
+#: js/share.js:93
+msgid "Share"
+msgstr "Открыть доступ"
+
+#: js/share.js:141 js/share.js:622
 msgid "Error while sharing"
 msgstr "Ошибка при открытии доступа"
 
-#: js/share.js:135
+#: js/share.js:152
 msgid "Error while unsharing"
 msgstr "Ошибка при закрытии доступа"
 
-#: js/share.js:142
+#: js/share.js:159
 msgid "Error while changing permissions"
 msgstr "Ошибка при смене разрешений"
 
-#: js/share.js:151
+#: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "{owner} открыл доступ для Вас и группы {group} "
 
-#: js/share.js:153
+#: js/share.js:170
 msgid "Shared with you by {owner}"
 msgstr "{owner} открыл доступ для Вас"
 
-#: js/share.js:158
+#: js/share.js:175
 msgid "Share with"
 msgstr "Поделиться с"
 
-#: js/share.js:163
+#: js/share.js:180
 msgid "Share with link"
 msgstr "Поделиться с ссылкой"
 
-#: js/share.js:164
+#: js/share.js:183
 msgid "Password protect"
 msgstr "Защитить паролем"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
-#: templates/verify.php:13
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "Пароль"
 
-#: js/share.js:173
+#: js/share.js:189
+msgid "Email link to person"
+msgstr "Почтовая ссылка на персону"
+
+#: js/share.js:190
+msgid "Send"
+msgstr "Отправить"
+
+#: js/share.js:194
 msgid "Set expiration date"
 msgstr "Установить срок доступа"
 
-#: js/share.js:174
+#: js/share.js:195
 msgid "Expiration date"
 msgstr "Дата окончания"
 
-#: js/share.js:206
+#: js/share.js:227
 msgid "Share via email:"
 msgstr "Поделится через электронную почту:"
 
-#: js/share.js:208
+#: js/share.js:229
 msgid "No people found"
 msgstr "Ни один человек не найден"
 
-#: js/share.js:235
+#: js/share.js:256
 msgid "Resharing is not allowed"
 msgstr "Общий доступ не разрешен"
 
-#: js/share.js:271
+#: js/share.js:292
 msgid "Shared in {item} with {user}"
 msgstr "Общий доступ к {item} с {user}"
 
-#: js/share.js:292
+#: js/share.js:313
 msgid "Unshare"
 msgstr "Закрыть общий доступ"
 
-#: js/share.js:304
+#: js/share.js:325
 msgid "can edit"
 msgstr "может редактировать"
 
-#: js/share.js:306
+#: js/share.js:327
 msgid "access control"
 msgstr "контроль доступа"
 
-#: js/share.js:309
+#: js/share.js:330
 msgid "create"
 msgstr "создать"
 
-#: js/share.js:312
+#: js/share.js:333
 msgid "update"
 msgstr "обновить"
 
-#: js/share.js:315
+#: js/share.js:336
 msgid "delete"
 msgstr "удалить"
 
-#: js/share.js:318
+#: js/share.js:339
 msgid "share"
 msgstr "открыть доступ"
 
-#: js/share.js:343 js/share.js:514 js/share.js:516
+#: js/share.js:373 js/share.js:569
 msgid "Password protected"
 msgstr "Защищено паролем"
 
-#: js/share.js:527
+#: js/share.js:582
 msgid "Error unsetting expiration date"
 msgstr "Ошибка при отмене срока доступа"
 
-#: js/share.js:539
+#: js/share.js:594
 msgid "Error setting expiration date"
 msgstr "Ошибка при установке срока доступа"
 
-#: lostpassword/controller.php:47
+#: js/share.js:609
+msgid "Sending ..."
+msgstr "Отправляется ..."
+
+#: js/share.js:620
+msgid "Email sent"
+msgstr "Письмо отправлено"
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr "При обновлении произошла ошибка. Пожалуйста сообщите об этом в <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud сообщество</a>."
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr "Обновление прошло успешно. Перенаправляемся в Ваш ownCloud..."
+
+#: lostpassword/controller.php:48
 msgid "ownCloud password reset"
 msgstr "Сброс пароля "
 
@@ -279,8 +418,8 @@ msgstr "Отправка письма с информацией для сбро�
 msgid "Request failed!"
 msgstr "Запрос не удался!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "Имя пользователя"
 
@@ -340,7 +479,7 @@ msgstr "Редактировать категории"
 msgid "Add"
 msgstr "Добавить"
 
-#: templates/installation.php:23 templates/installation.php:31
+#: templates/installation.php:23 templates/installation.php:30
 msgid "Security Warning"
 msgstr "Предупреждение безопасности"
 
@@ -350,179 +489,107 @@ msgid ""
 "OpenSSL extension."
 msgstr "Нет доступного защищенного генератора случайных чисел, пожалуйста, включите расширение PHP OpenSSL."
 
-#: templates/installation.php:26
+#: templates/installation.php:25
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Без защищенного генератора случайных чисел злоумышленник может предугадать токены сброса пароля и завладеть Вашей учетной записью."
 
+#: templates/installation.php:31
+msgid ""
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
+msgstr "Ваша папка с данными и файлы возможно доступны из интернета потому что файл .htaccess не работает."
+
 #: templates/installation.php:32
 msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "Ваши каталоги данных и файлы, вероятно, доступны из Интернета. Файл .htaccess, предоставляемый ownCloud, не работает. Мы настоятельно рекомендуем Вам настроить вебсервер таким образом, чтобы каталоги данных больше не были доступны, или переместить их за пределы корневого каталога документов веб-сервера."
+"For information how to properly configure your server, please see the <a "
+"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
+"target=\"_blank\">documentation</a>."
+msgstr "Для информации как правильно настроить Ваш сервер, пожалйста загляните в <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">документацию</a>."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Создать <strong>учётную запись администратора</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:52
 msgid "Advanced"
 msgstr "Дополнительно"
 
-#: templates/installation.php:50
+#: templates/installation.php:54
 msgid "Data folder"
 msgstr "Директория с данными"
 
-#: templates/installation.php:57
+#: templates/installation.php:61
 msgid "Configure the database"
 msgstr "Настройка базы данных"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:66 templates/installation.php:77
+#: templates/installation.php:87 templates/installation.php:97
 msgid "will be used"
 msgstr "будет использовано"
 
-#: templates/installation.php:105
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Имя пользователя для базы данных"
 
-#: templates/installation.php:109
+#: templates/installation.php:113
 msgid "Database password"
 msgstr "Пароль для базы данных"
 
-#: templates/installation.php:113
+#: templates/installation.php:117
 msgid "Database name"
 msgstr "Название базы данных"
 
-#: templates/installation.php:121
+#: templates/installation.php:125
 msgid "Database tablespace"
 msgstr "Табличое пространство базы данных"
 
-#: templates/installation.php:127
+#: templates/installation.php:131
 msgid "Database host"
 msgstr "Хост базы данных"
 
-#: templates/installation.php:132
+#: templates/installation.php:136
 msgid "Finish setup"
 msgstr "Завершить установку"
 
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Sunday"
-msgstr "Воскресенье"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Monday"
-msgstr "Понедельник"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Tuesday"
-msgstr "Вторник"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Wednesday"
-msgstr "Среда"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Thursday"
-msgstr "Четверг"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Friday"
-msgstr "Пятница"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "Saturday"
-msgstr "Суббота"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "January"
-msgstr "Январь"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "February"
-msgstr "Февраль"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "March"
-msgstr "Март"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "April"
-msgstr "Апрель"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "May"
-msgstr "Май"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "June"
-msgstr "Июнь"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "July"
-msgstr "Июль"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "August"
-msgstr "Август"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "September"
-msgstr "Сентябрь"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "October"
-msgstr "Октябрь"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "November"
-msgstr "Ноябрь"
-
-#: templates/layout.guest.php:17 templates/layout.user.php:18
-msgid "December"
-msgstr "Декабрь"
-
-#: templates/layout.guest.php:42
+#: templates/layout.guest.php:33
 msgid "web services under your control"
 msgstr "Сетевые службы под твоим контролем"
 
-#: templates/layout.user.php:45
+#: templates/layout.user.php:48
 msgid "Log out"
 msgstr "Выйти"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Автоматический вход в систему отключен!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Если Вы недавно не меняли свой пароль, то Ваша учетная запись может быть скомпрометирована!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Пожалуйста, смените пароль, чтобы обезопасить свою учетную запись."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Забыли пароль?"
 
-#: templates/login.php:27
+#: templates/login.php:41
 msgid "remember"
 msgstr "запомнить"
 
-#: templates/login.php:28
+#: templates/login.php:43
 msgid "Log in"
 msgstr "Войти"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Вы вышли."
+#: templates/login.php:49
+msgid "Alternative Logins"
+msgstr "Альтернативные имена пользователя"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -532,16 +599,7 @@ msgstr "пред"
 msgid "next"
 msgstr "след"
 
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "Предупреждение безопасности!"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr "Пожалуйста, проверьте свой ​​пароль. <br/>По соображениям безопасности, Вам иногда придется вводить свой пароль снова."
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Подтвердить"
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr "Производится обновление ownCloud до версии %s. Это может занять некоторое время."

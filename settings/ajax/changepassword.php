@@ -4,25 +4,22 @@
 OCP\JSON::callCheck();
 OC_JSON::checkLoggedIn();
 
+// Manually load apps to ensure hooks work correctly (workaround for issue 1503)
+OC_APP::loadApps();
+
 $username = isset($_POST["username"]) ? $_POST["username"] : OC_User::getUser();
-$password = $_POST["password"];
+$password = isset($_POST["password"]) ? $_POST["password"] : null;
 $oldPassword=isset($_POST["oldpassword"])?$_POST["oldpassword"]:'';
 
 $userstatus = null;
-if(OC_Group::inGroup(OC_User::getUser(), 'admin')) {
+if(OC_User::isAdminUser(OC_User::getUser())) {
 	$userstatus = 'admin';
 }
 if(OC_SubAdmin::isUserAccessible(OC_User::getUser(), $username)) {
 	$userstatus = 'subadmin';
 }
-if(OC_User::getUser() === $username) {
-	if (OC_User::checkPassword($username, $oldPassword)) {
-		$userstatus = 'user';
-	}  else {
-		if (!OC_Util::isUserVerified()) {
-			$userstatus = null;
-		}
-	}
+if(OC_User::getUser() === $username && OC_User::checkPassword($username, $oldPassword)) {
+	$userstatus = 'user';
 }
 
 if(is_null($userstatus)) {
@@ -30,12 +27,8 @@ if(is_null($userstatus)) {
 	exit();
 }
 
-if($userstatus === 'admin' || $userstatus === 'subadmin') {
-	OC_JSON::verifyUser();
-}
-
 // Return Success story
-if( OC_User::setPassword( $username, $password )) {
+if(!is_null($password) && OC_User::setPassword( $username, $password )) {
 	OC_JSON::success(array("data" => array( "username" => $username )));
 }
 else{

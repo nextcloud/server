@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012.
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-27 02:01+0200\n"
-"PO-Revision-Date: 2012-09-26 12:22+0000\n"
+"POT-Creation-Date: 2013-02-15 00:05+0100\n"
+"PO-Revision-Date: 2013-02-14 07:30+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -18,21 +18,44 @@ msgstr ""
 "Language: fi_FI\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/settings-personal.js:31 templates/settings-personal.php:10
-msgid "Expire all versions"
-msgstr "Vanhenna kaikki versiot"
+#: ajax/rollbackVersion.php:15
+#, php-format
+msgid "Could not revert: %s"
+msgstr "Palautus epäonnistui: %s"
+
+#: history.php:40
+msgid "success"
+msgstr "onnistui"
+
+#: history.php:42
+#, php-format
+msgid "File %s was reverted to version %s"
+msgstr "Tiedosto %s palautettiin versioon %s"
+
+#: history.php:49
+msgid "failure"
+msgstr "epäonnistui"
+
+#: history.php:51
+#, php-format
+msgid "File %s could not be reverted to version %s"
+msgstr "Tiedoston %s palautus versioon %s epäonnistui"
+
+#: history.php:68
+msgid "No old versions available"
+msgstr "Vanhoja ei ole saatavilla"
+
+#: history.php:73
+msgid "No path specified"
+msgstr "Polkua ei ole määritetty"
 
 #: js/versions.js:16
 msgid "History"
 msgstr "Historia"
 
-#: templates/settings-personal.php:4
-msgid "Versions"
-msgstr "Versiot"
-
-#: templates/settings-personal.php:7
-msgid "This will delete all existing backup versions of your files"
-msgstr "Tämä poistaa kaikki tiedostojesi olemassa olevat varmuuskopioversiot"
+#: templates/history.php:20
+msgid "Revert a file to a previous version by clicking on its revert button"
+msgstr "Palauta tiedoston edellinen versio napsauttamalla palautuspainiketta"
 
 #: templates/settings.php:3
 msgid "Files Versioning"

@@ -3,15 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2012.
+#   <cronner@gmail.com>, 2012.
+# Frederik Lassen <frederiklassen@gmail.com>, 2013.
+# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2012-2013.
 #   <osos@openeyes.dk>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-13 00:03+0100\n"
+"PO-Revision-Date: 2013-02-12 14:33+0000\n"
+"Last-Translator: Frederik Lassen <frederiklassen@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,51 +21,55 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:285
+#: app.php:339
 msgid "Help"
 msgstr "Hjælp"
 
-#: app.php:292
+#: app.php:346
 msgid "Personal"
 msgstr "Personlig"
 
-#: app.php:297
+#: app.php:351
 msgid "Settings"
 msgstr "Indstillinger"
 
-#: app.php:302
+#: app.php:356
 msgid "Users"
 msgstr "Brugere"
 
-#: app.php:309
+#: app.php:363
 msgid "Apps"
 msgstr "Apps"
 
-#: app.php:311
+#: app.php:365
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:332
+#: files.php:202
 msgid "ZIP download is turned off."
 msgstr "ZIP-download er slået fra."
 
-#: files.php:333
+#: files.php:203
 msgid "Files need to be downloaded one by one."
 msgstr "Filer skal downloades en for en."
 
-#: files.php:333 files.php:358
+#: files.php:203 files.php:228
 msgid "Back to Files"
 msgstr "Tilbage til Filer"
 
-#: files.php:357
+#: files.php:227
 msgid "Selected files too large to generate zip file."
 msgstr "De markerede filer er for store til at generere en ZIP-fil."
+
+#: helper.php:226
+msgid "couldn't be determined"
+msgstr "kunne ikke fastslås"
 
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "Programmet er ikke aktiveret"
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "Adgangsfejl"
 
@@ -81,57 +87,154 @@ msgstr "SMS"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "Billeder"
 
-#: template.php:103
+#: setup.php:34
+msgid "Set an admin username."
+msgstr "Angiv et admin brugernavn."
+
+#: setup.php:37
+msgid "Set an admin password."
+msgstr "Angiv et admin kodeord."
+
+#: setup.php:40
+msgid "Specify a data folder."
+msgstr "Specificer en data mappe."
+
+#: setup.php:53
+#, php-format
+msgid "%s enter the database username."
+msgstr "%s indtast database brugernavnet."
+
+#: setup.php:56
+#, php-format
+msgid "%s enter the database name."
+msgstr "%s indtast database navnet."
+
+#: setup.php:59
+#, php-format
+msgid "%s you may not use dots in the database name"
+msgstr "%s du må ikke bruge punktummer i databasenavnet."
+
+#: setup.php:62
+#, php-format
+msgid "%s set the database host."
+msgstr "%s sæt database værten."
+
+#: setup.php:126 setup.php:291 setup.php:336
+msgid "PostgreSQL username and/or password not valid"
+msgstr "PostgreSQL brugernavn og/eller kodeord er ikke gyldigt."
+
+#: setup.php:127 setup.php:150 setup.php:204
+msgid "You need to enter either an existing account or the administrator."
+msgstr "Du bliver nødt til at indtaste en eksisterende bruger eller en administrator."
+
+#: setup.php:149 setup.php:423 setup.php:489
+msgid "Oracle username and/or password not valid"
+msgstr "Oracle brugernavn og/eller kodeord er ikke gyldigt."
+
+#: setup.php:203
+msgid "MySQL username and/or password not valid"
+msgstr "MySQL brugernavn og/eller kodeord er ikke gyldigt."
+
+#: setup.php:255 setup.php:357 setup.php:366 setup.php:384 setup.php:394
+#: setup.php:403 setup.php:430 setup.php:496 setup.php:522 setup.php:529
+#: setup.php:540 setup.php:547 setup.php:556 setup.php:564 setup.php:573
+#: setup.php:579
+#, php-format
+msgid "DB Error: \"%s\""
+msgstr "Databasefejl: \"%s\""
+
+#: setup.php:256 setup.php:358 setup.php:367 setup.php:385 setup.php:395
+#: setup.php:404 setup.php:431 setup.php:497 setup.php:523 setup.php:530
+#: setup.php:541 setup.php:557 setup.php:565 setup.php:574
+#, php-format
+msgid "Offending command was: \"%s\""
+msgstr "Fejlende kommando var: \"%s\""
+
+#: setup.php:270
+#, php-format
+msgid "MySQL user '%s'@'localhost' exists already."
+msgstr "MySQL brugeren '%s'@'localhost' eksisterer allerede."
+
+#: setup.php:271
+msgid "Drop this user from MySQL"
+msgstr "Slet denne bruger fra MySQL"
+
+#: setup.php:276
+#, php-format
+msgid "MySQL user '%s'@'%%' already exists"
+msgstr "MySQL brugeren '%s'@'%%' eksisterer allerede."
+
+#: setup.php:277
+msgid "Drop this user from MySQL."
+msgstr "Slet denne bruger fra MySQL"
+
+#: setup.php:548 setup.php:580
+#, php-format
+msgid "Offending command was: \"%s\", name: %s, password: %s"
+msgstr "Fejlende kommando var: \"%s\", navn: %s, password: %s"
+
+#: setup.php:644
+msgid ""
+"Your web server is not yet properly setup to allow files synchronization "
+"because the WebDAV interface seems to be broken."
+msgstr "Din webserver er endnu ikke sat op til at tillade fil synkronisering fordi WebDAV grænsefladen virker ødelagt."
+
+#: setup.php:645
+#, php-format
+msgid "Please double check the <a href='%s'>installation guides</a>."
+msgstr "Dobbelttjek venligst <a href='%s'>installations vejledningerne</a>."
+
+#: template.php:113
 msgid "seconds ago"
 msgstr "sekunder siden"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "1 minut siden"
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d minutter siden"
 
-#: template.php:106
+#: template.php:116
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 time siden"
 
-#: template.php:107
+#: template.php:117
 #, php-format
 msgid "%d hours ago"
-msgstr ""
+msgstr "%d timer siden"
 
-#: template.php:108
+#: template.php:118
 msgid "today"
 msgstr "I dag"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr "I går"
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "%d dage siden"
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr "Sidste måned"
 
-#: template.php:112
+#: template.php:122
 #, php-format
 msgid "%d months ago"
-msgstr ""
+msgstr "%d måneder siden"
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr "Sidste år"
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr "år siden"
 
@@ -151,4 +254,4 @@ msgstr "Check for opdateringer er deaktiveret"
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "Kunne ikke finde kategorien \"%s\""

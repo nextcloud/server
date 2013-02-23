@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-12 02:03+0200\n"
-"PO-Revision-Date: 2012-10-11 08:45+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
 "Last-Translator: AnnaSch <cdewqazxsqwe@gmail.com>\n"
 "Language-Team: Russian (Russia) (http://www.transifex.com/projects/p/owncloud/language/ru_RU/)\n"
 "MIME-Version: 1.0\n"
@@ -42,66 +42,80 @@ msgstr "Пожалуйста представьте допустимый клю�
 msgid "Error configuring Google Drive storage"
 msgstr "Ошибка настройки хранилища Google Drive"
 
+#: lib/config.php:398
+msgid ""
+"<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
+"is not possible. Please ask your system administrator to install it."
+msgstr "<b>Предупреждение:</b> \"smbclient\" не установлен. Подключение общих папок CIFS/SMB невозможно. Пожалуйста, обратитесь к системному администратору, чтобы установить его."
+
+#: lib/config.php:401
+msgid ""
+"<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
+" of FTP shares is not possible. Please ask your system administrator to "
+"install it."
+msgstr "<b>Предупреждение:</b> Поддержка FTP в PHP не включена или не установлена. Подключение по FTP невозможно. Пожалуйста, обратитесь к системному администратору, чтобы установить ее."
+
 #: templates/settings.php:3
 msgid "External Storage"
 msgstr "Внешние системы хранения данных"
 
-#: templates/settings.php:7 templates/settings.php:19
+#: templates/settings.php:8 templates/settings.php:22
 msgid "Mount point"
 msgstr "Точка монтирования"
 
-#: templates/settings.php:8
+#: templates/settings.php:9
 msgid "Backend"
 msgstr "Бэкэнд"
 
-#: templates/settings.php:9
+#: templates/settings.php:10
 msgid "Configuration"
 msgstr "Конфигурация"
 
-#: templates/settings.php:10
+#: templates/settings.php:11
 msgid "Options"
 msgstr "Опции"
 
-#: templates/settings.php:11
+#: templates/settings.php:12
 msgid "Applicable"
 msgstr "Применимый"
 
-#: templates/settings.php:23
+#: templates/settings.php:27
 msgid "Add mount point"
 msgstr "Добавить точку монтирования"
 
-#: templates/settings.php:54 templates/settings.php:62
+#: templates/settings.php:85
 msgid "None set"
 msgstr "Не задан"
 
-#: templates/settings.php:63
+#: templates/settings.php:86
 msgid "All Users"
 msgstr "Все пользователи"
 
-#: templates/settings.php:64
+#: templates/settings.php:87
 msgid "Groups"
 msgstr "Группы"
 
-#: templates/settings.php:69
+#: templates/settings.php:95
 msgid "Users"
 msgstr "Пользователи"
 
-#: templates/settings.php:77 templates/settings.php:107
+#: templates/settings.php:108 templates/settings.php:109
+#: templates/settings.php:144 templates/settings.php:145
 msgid "Delete"
 msgstr "Удалить"
 
-#: templates/settings.php:87
+#: templates/settings.php:124
 msgid "Enable User External Storage"
 msgstr "Включить пользовательскую внешнюю систему хранения данных"
 
-#: templates/settings.php:88
+#: templates/settings.php:125
 msgid "Allow users to mount their own external storage"
 msgstr "Разрешить пользователям монтировать их собственную внешнюю систему хранения данных"
 
-#: templates/settings.php:99
+#: templates/settings.php:136
 msgid "SSL root certificates"
 msgstr "Корневые сертификаты SSL"
 
-#: templates/settings.php:113
+#: templates/settings.php:154
 msgid "Import Root Certificate"
 msgstr "Импортировать корневые сертификаты"

@@ -85,15 +85,25 @@ function human_file_size( $bytes ) {
 }
 
 function simple_file_size($bytes) {
-	$mbytes = round($bytes/(1024*1024), 1);
-	if($bytes == 0) { return '0'; }
-	else if($mbytes < 0.1) { return '&lt; 0.1'; }
-	else if($mbytes > 1000) { return '&gt; 1000'; }
-	else { return number_format($mbytes, 1); }
+	if ($bytes < 0) {
+		return '?';
+	}
+	$mbytes = round($bytes / (1024 * 1024), 1);
+	if ($bytes == 0) {
+		return '0';
+	}
+	if ($mbytes < 0.1) {
+		return '&lt; 0.1';
+	}
+	if ($mbytes > 1000) {
+		return '&gt; 1000';
+	} else {
+		return number_format($mbytes, 1);
+	}
 }
 
 function relative_modified_date($timestamp) {
-    $l=OC_L10N::get('lib');
+	$l=OC_L10N::get('lib');
 	$timediff = time() - $timestamp;
 	$diffminutes = round($timediff/60);
 	$diffhours = round($diffminutes/60);
@@ -176,9 +186,21 @@ class OC_Template{
 		$this->l10n = OC_L10N::get($parts[0]);
 
 		// Some headers to enhance security
-		header('X-Frame-Options: Sameorigin');
-		header('X-XSS-Protection: 1; mode=block');
-		header('X-Content-Type-Options: nosniff');
+		header('X-Frame-Options: Sameorigin'); // Disallow iFraming from other domains
+		header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
+		header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
+
+		// Content Security Policy
+		// If you change the standard policy, please also change it in config.sample.php
+		$policy = OC_Config::getValue('custom_csp_policy',
+			'default-src \'self\'; '
+			.'script-src \'self\' \'unsafe-eval\'; '
+			.'style-src \'self\' \'unsafe-inline\'; '
+			.'frame-src *; '
+			.'img-src *; '
+			.'font-src \'self\' data:');
+		header('Content-Security-Policy:'.$policy); // Standard
+		header('X-WebKit-CSP:'.$policy); // Older webkit browsers
 
 		$this->findTemplate($name);
 	}
@@ -199,7 +221,8 @@ class OC_Template{
 				$mode='tablet';
 			}elseif(stripos($_SERVER['HTTP_USER_AGENT'], 'iphone')>0) {
 				$mode='mobile';
-			}elseif((stripos($_SERVER['HTTP_USER_AGENT'], 'N9')>0) and (stripos($_SERVER['HTTP_USER_AGENT'], 'nokia')>0)) {
+			}elseif((stripos($_SERVER['HTTP_USER_AGENT'], 'N9')>0)
+				and (stripos($_SERVER['HTTP_USER_AGENT'], 'nokia')>0)) {
 				$mode='mobile';
 			}else{
 				$mode='default';
@@ -269,7 +292,8 @@ class OC_Template{
 				if ($this->checkPathForTemplate(OC::$SERVERROOT."/themes/$theme/$app/templates/", $name, $fext)) {
 				}elseif ($this->checkPathForTemplate(OC::$SERVERROOT."/$app/templates/", $name, $fext)) {
 				}else{
-					echo('template not found: template:'.$name.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+					echo('template not found: template:'.$name.' formfactor:'.$fext
+						.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 					die();
 				}
 
@@ -279,7 +303,8 @@ class OC_Template{
 			if ($this->checkPathForTemplate(OC::$SERVERROOT."/themes/$theme/core/templates/", $name, $fext)) {
 			} elseif ($this->checkPathForTemplate(OC::$SERVERROOT."/core/templates/", $name, $fext)) {
 			}else{
-				echo('template not found: template:'.$name.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+				echo('template not found: template:'.$name.' formfactor:'.$fext
+					.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 				die();
 			}
 		}
@@ -390,6 +415,8 @@ class OC_Template{
 			$page = new OC_TemplateLayout($this->renderas);
 			if($this->renderas == 'user') {
 				$page->assign('requesttoken', $this->vars['requesttoken']);
+				$user = OC_User::getUser();
+				$page->assign('displayname', OCP\User::getDisplayName($user));
 			}
 
 			// Add custom headers

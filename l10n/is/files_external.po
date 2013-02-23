@@ -1,0 +1,121 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <sveinng@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
+"Last-Translator: sveinn <sveinng@gmail.com>\n"
+"Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: is\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
+msgid "Access granted"
+msgstr "Aðgengi veitt"
+
+#: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
+msgid "Error configuring Dropbox storage"
+msgstr "Villa við að setja upp Dropbox gagnasvæði"
+
+#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
+msgid "Grant access"
+msgstr "Veita aðgengi"
+
+#: js/dropbox.js:73 js/google.js:72
+msgid "Fill out all required fields"
+msgstr "Fylltu út alla skilyrta reiti"
+
+#: js/dropbox.js:85
+msgid "Please provide a valid Dropbox app key and secret."
+msgstr "Gefðu upp virkan Dropbox lykil og leynikóða"
+
+#: js/google.js:26 js/google.js:73 js/google.js:78
+msgid "Error configuring Google Drive storage"
+msgstr "Villa kom upp við að setja upp Google Drive gagnasvæði"
+
+#: lib/config.php:398
+msgid ""
+"<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
+"is not possible. Please ask your system administrator to install it."
+msgstr "<b>Aðvörun:</b> \"smbclient\" er ekki uppsettur. Uppsetning á CIFS/SMB gagnasvæðum er ekki möguleg. Hafðu samband við kerfisstjóra til að fá hann uppsettan."
+
+#: lib/config.php:401
+msgid ""
+"<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
+" of FTP shares is not possible. Please ask your system administrator to "
+"install it."
+msgstr "<b>Aðvörun:</b> FTP stuðningur í PHP er ekki virkur. Uppsetning á FTP gagnasvæðum er ekki möguleg. Hafðu samband við kerfisstjóra til að fá hann uppsettan."
+
+#: templates/settings.php:3
+msgid "External Storage"
+msgstr "Ytri gagnageymsla"
+
+#: templates/settings.php:8 templates/settings.php:22
+msgid "Mount point"
+msgstr "Mount svæði"
+
+#: templates/settings.php:9
+msgid "Backend"
+msgstr "Stjórnun"
+
+#: templates/settings.php:10
+msgid "Configuration"
+msgstr "Uppsetning"
+
+#: templates/settings.php:11
+msgid "Options"
+msgstr "Stillingar"
+
+#: templates/settings.php:12
+msgid "Applicable"
+msgstr "Gilt"
+
+#: templates/settings.php:27
+msgid "Add mount point"
+msgstr "Bæta við mount svæði"
+
+#: templates/settings.php:85
+msgid "None set"
+msgstr "Ekkert sett"
+
+#: templates/settings.php:86
+msgid "All Users"
+msgstr "Allir notendur"
+
+#: templates/settings.php:87
+msgid "Groups"
+msgstr "Hópar"
+
+#: templates/settings.php:95
+msgid "Users"
+msgstr "Notendur"
+
+#: templates/settings.php:108 templates/settings.php:109
+#: templates/settings.php:144 templates/settings.php:145
+msgid "Delete"
+msgstr "Eyða"
+
+#: templates/settings.php:124
+msgid "Enable User External Storage"
+msgstr "Virkja ytra gagnasvæði notenda"
+
+#: templates/settings.php:125
+msgid "Allow users to mount their own external storage"
+msgstr "Leyfa notendum að bæta við sínum eigin ytri gagnasvæðum"
+
+#: templates/settings.php:136
+msgid "SSL root certificates"
+msgstr "SSL rótar skilríki"
+
+#: templates/settings.php:154
+msgid "Import Root Certificate"
+msgstr "Flytja inn rótar skilríki"

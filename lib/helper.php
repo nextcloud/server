@@ -31,8 +31,9 @@ class OC_Helper {
 	/**
 	 * @brief Creates an url using a defined route
 	 * @param $route
-	 * @param $parameters
-	 * @param $args array with param=>value, will be appended to the returned url
+	 * @param array $parameters
+	 * @return
+	 * @internal param array $args with param=>value, will be appended to the returned url
 	 * @returns the url
 	 *
 	 * Returns a url to the given app and file.
@@ -77,11 +78,8 @@ class OC_Helper {
 			}
 		}
 
-		if (!empty($args)) {
-			$urlLinkTo .= '?';
-			foreach($args as $k => $v) {
-				$urlLinkTo .= '&'.$k.'='.urlencode($v);
-			}
+		if ($args && $query = http_build_query($args, '', '&')) {
+			$urlLinkTo .= '?'.$query;
 		}
 
 		return $urlLinkTo;
@@ -128,23 +126,27 @@ class OC_Helper {
 	/**
 	 * @brief Creates an absolute url for remote use
 	 * @param string $service id
+	 * @param bool $add_slash
 	 * @return string the url
 	 *
 	 * Returns a absolute url to the given service.
 	 */
 	public static function linkToRemote( $service, $add_slash = true ) {
-		return self::makeURLAbsolute(self::linkToRemoteBase($service)) . (($add_slash && $service[strlen($service)-1]!='/')?'/':'');
+		return self::makeURLAbsolute(self::linkToRemoteBase($service))
+			. (($add_slash && $service[strlen($service)-1]!='/')?'/':'');
 	}
 
 	/**
 	 * @brief Creates an absolute url for public use
 	 * @param string $service id
+	 * @param bool $add_slash
 	 * @return string the url
 	 *
 	 * Returns a absolute url to the given service.
 	 */
 	public static function linkToPublic($service, $add_slash = false) {
-		return self::linkToAbsolute( '', 'public.php') . '?service=' . $service . (($add_slash && $service[strlen($service)-1]!='/')?'/':'');
+		return self::linkToAbsolute( '', 'public.php') . '?service=' . $service
+			. (($add_slash && $service[strlen($service)-1]!='/')?'/':'');
 	}
 
 	/**
@@ -190,8 +192,9 @@ class OC_Helper {
 		if(isset($alias[$mimetype])) {
 			$mimetype=$alias[$mimetype];
 		}
-		// Replace slash with a minus
+		// Replace slash and backslash with a minus
 		$mimetype = str_replace( "/", "-", $mimetype );
+		$mimetype = str_replace( "\\", "-", $mimetype );
 
 		// Is it a dir?
 		if( $mimetype == "dir" ) {
@@ -220,6 +223,10 @@ class OC_Helper {
 	 * Makes 2048 to 2 kB.
 	 */
 	public static function humanFileSize( $bytes ) {
+		if( $bytes < 0 ) {
+			$l = OC_L10N::get('lib');
+			return $l->t("couldn't be determined");
+		}
 		if( $bytes < 1024 ) {
 			return "$bytes B";
 		}
@@ -319,7 +326,7 @@ class OC_Helper {
 					self::copyr("$src/$file", "$dest/$file");
 				}
 			}
-		}elseif(file_exists($src) && !OC_Filesystem::isFileBlacklisted($src)) {
+		}elseif(file_exists($src) && !\OC\Files\Filesystem::isFileBlacklisted($src)) {
 			copy($src, $dest);
 		}
 	}
@@ -374,7 +381,8 @@ class OC_Helper {
 			$mimeType='application/octet-stream';
 		}
 
-		if($mimeType=='application/octet-stream' and function_exists('finfo_open') and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)) {
+		if($mimeType=='application/octet-stream' and function_exists('finfo_open')
+			and function_exists('finfo_file') and $finfo=finfo_open(FILEINFO_MIME)) {
 			$info = @strtolower(finfo_file($finfo, $path));
 			if($info) {
 				$mimeType=substr($info, 0, strpos($info, ';'));
@@ -389,13 +397,12 @@ class OC_Helper {
 			// it looks like we have a 'file' command,
 			// lets see if it does have mime support
 			$path=escapeshellarg($path);
-			$fp = popen("file -i -b $path 2>/dev/null", "r");
+			$fp = popen("file -b --mime-type $path 2>/dev/null", "r");
 			$reply = fgets($fp);
 			pclose($fp);
 
-			// we have smth like 'text/x-c++; charset=us-ascii\n'
-			// and need to eliminate everything starting with semicolon including trailing LF
-			$mimeType = preg_replace('/;.*/ms', '', trim($reply));
+			//trim the newline
+			$mimeType = trim($reply);
 
 		}
 		return $mimeType;
@@ -432,14 +439,16 @@ class OC_Helper {
 	//FIXME: should also check for value validation (i.e. the email is an email).
 	public static function init_var($s, $d="") {
 		$r = $d;
-		if(isset($_REQUEST[$s]) && !empty($_REQUEST[$s]))
-			$r = stripslashes(htmlspecialchars($_REQUEST[$s]));
+		if(isset($_REQUEST[$s]) && !empty($_REQUEST[$s])) {
+			$r = OC_Util::sanitizeHTML($_REQUEST[$s]);
+		}
 
 		return $r;
 	}
 
 	/**
-	 * returns "checked"-attribute if request contains selected radio element OR if radio element is the default one -- maybe?
+	 * returns "checked"-attribute if request contains selected radio element
+	 * OR if radio element is the default one -- maybe?
 	 * @param string $s Name of radio-button element name
 	 * @param string $v Value of current radio-button element
 	 * @param string $d Value of default radio-button element
@@ -450,12 +459,14 @@ class OC_Helper {
 	}
 
 	/**
-	* detect if a given program is found in the search PATH
-	*
-	* @param  string  $program name
-	* @param  string  $optional search path, defaults to $PATH
-	* @return bool    true if executable program found in path
-	*/
+	 * detect if a given program is found in the search PATH
+	 *
+	 * @param $name
+	 * @param bool $path
+	 * @internal param string $program name
+	 * @internal param string $optional search path, defaults to $PATH
+	 * @return bool    true if executable program found in path
+	 */
 	public static function canExecute($name, $path = false) {
 		// path defaults to PATH from environment if not set
 		if ($path === false) {
@@ -540,11 +551,11 @@ class OC_Helper {
 			mkdir($tmpDirNoClean);
 		}
 		$file=$tmpDirNoClean.md5(time().rand()).$postfix;
-		$fh=fopen($file,'w');
+		$fh=fopen($file, 'w');
 		fclose($fh);
 		return $file;
 	}
-	
+
 	/**
 	 * create a temporary folder with an unique filename
 	 * @return string
@@ -611,7 +622,7 @@ class OC_Helper {
 
 		$newpath = $path . '/' . $filename;
 		$counter = 2;
-		while (OC_Filesystem::file_exists($newpath)) {
+		while (\OC\Files\Filesystem::file_exists($newpath)) {
 			$newname = $name . ' (' . $counter . ')' . $ext;
 			$newpath = $path . '/' . $newname;
 			$counter++;
@@ -620,37 +631,17 @@ class OC_Helper {
 		return $newpath;
 	}
 
-	/*
-	 * checks if $sub is a subdirectory of $parent
+	/**
+	 * @brief Checks if $sub is a subdirectory of $parent
 	 *
 	 * @param string $sub
 	 * @param string $parent
 	 * @return bool
 	 */
 	public static function issubdirectory($sub, $parent) {
-		if($sub == null || $sub == '' || $parent == null || $parent == '') {
-			return false;
+		if (strpos(realpath($sub), realpath($parent)) === 0) {
+			return true;
 		}
-		$realpath_sub = realpath($sub);
-		$realpath_parent = realpath($parent);
-		if(($realpath_sub == false && substr_count($realpath_sub, './') != 0) || ($realpath_parent == false && substr_count($realpath_parent, './') != 0)) { //it checks for  both ./ and ../
-			return false;
-		}
-		if($realpath_sub && $realpath_sub != '' && $realpath_parent && $realpath_parent != '') {
-			if(substr($realpath_sub, 0, strlen($realpath_parent)) == $realpath_parent) {
-				return true;
-			}
-		}else{
-			if(substr($sub, 0, strlen($parent)) == $parent) {
-				return true;
-			}
-		}
-		/*echo 'SUB: ' . $sub . "\n";
-		echo 'PAR: ' . $parent . "\n";
-		echo 'REALSUB: ' . $realpath_sub . "\n";
-		echo 'REALPAR: ' . $realpath_parent . "\n";
-		echo substr($realpath_sub, 0, strlen($realpath_parent));
-		exit;*/
 		return false;
 	}
 
@@ -676,22 +667,22 @@ class OC_Helper {
 	}
 
 	/**
-	* @brief replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
-	*
-	* @param string $input The input string. .Opposite to the PHP build-in function does not accept an array.
-	* @param string $replacement The replacement string.
-	* @param int $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
-	* @param int $length Length of the part to be replaced
-	* @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
-	* @return string
-	*
-	*/
+	 * @brief replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement.
+	 *
+	 * @param $string
+	 * @param string $replacement The replacement string.
+	 * @param int $start If start is positive, the replacing will begin at the start'th offset into string. If start is negative, the replacing will begin at the start'th character from the end of string.
+	 * @param int $length Length of the part to be replaced
+	 * @param string $encoding The encoding parameter is the character encoding. Defaults to UTF-8
+	 * @internal param string $input The input string. .Opposite to the PHP build-in function does not accept an array.
+	 * @return string
+	 */
 	public static function mb_substr_replace($string, $replacement, $start, $length = null, $encoding = 'UTF-8') {
 		$start = intval($start);
 		$length = intval($length);
 		$string = mb_substr($string, 0, $start, $encoding) .
-		          $replacement .
-		          mb_substr($string, $start+$length, mb_strlen($string, 'UTF-8')-$start, $encoding);
+			$replacement .
+			mb_substr($string, $start+$length, mb_strlen($string, 'UTF-8')-$start, $encoding);
 
 		return $string;
 	}
@@ -757,5 +748,65 @@ class OC_Helper {
 			return substr($str, 0, $characters) . '...' . substr($str, -1 * $characters);
 		}
 		return $str;
+	}
+
+	/**
+	 * @brief calculates the maximum upload size respecting system settings, free space and user quota
+	 *
+	 * @param $dir the current folder where the user currently operates
+	 * @return number of bytes representing
+	 */
+	public static function maxUploadFilesize($dir) {
+		$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
+		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
+		$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
+
+		$freeSpace = \OC\Files\Filesystem::free_space($dir);
+		if($freeSpace !== \OC\Files\FREE_SPACE_UNKNOWN){
+			$freeSpace = max($freeSpace, 0);
+
+			return min($maxUploadFilesize, $freeSpace);
+		} else {
+			return $maxUploadFilesize;
+		}
+	}
+
+	/**
+	 * Checks if a function is available
+	 * @param string $function_name
+	 * @return bool
+	 */
+	public static function is_function_enabled($function_name) {
+		if (!function_exists($function_name)) {
+			return false;
+		}
+		$disabled = explode(', ', ini_get('disable_functions'));
+		if (in_array($function_name, $disabled)) {
+			return false;
+		}
+		$disabled = explode(', ', ini_get('suhosin.executor.func.blacklist'));
+		if (in_array($function_name, $disabled)) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Calculate the disc space
+	 */
+	public static function getStorageInfo() {
+		$rootInfo = \OC\Files\Filesystem::getFileInfo('/');
+		$used = $rootInfo['size'];
+		if ($used < 0) {
+			$used = 0;
+		}
+		$free = \OC\Files\Filesystem::free_space();
+		$total = $free + $used;
+		if ($total == 0) {
+			$total = 1; // prevent division by zero
+		}
+		$relative = round(($used / $total) * 10000) / 100;
+
+		return array('free' => $free, 'used' => $used, 'total' => $total, 'relative' => $relative);
 	}
 }

@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Efstathios Iosifidis <iefstathios@gmail.com>, 2013.
 # Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
+#  <vagelis@cyberdest.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-17 00:01+0100\n"
-"PO-Revision-Date: 2012-11-16 17:32+0000\n"
-"Last-Translator: Efstathios Iosifidis <diamond_gr@freemail.gr>\n"
+"POT-Creation-Date: 2013-02-18 00:05+0100\n"
+"PO-Revision-Date: 2013-02-17 12:50+0000\n"
+"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,51 +20,55 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: app.php:285
+#: app.php:349
 msgid "Help"
 msgstr "Βοήθεια"
 
-#: app.php:292
+#: app.php:362
 msgid "Personal"
 msgstr "Προσωπικά"
 
-#: app.php:297
+#: app.php:373
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: app.php:302
+#: app.php:385
 msgid "Users"
 msgstr "Χρήστες"
 
-#: app.php:309
+#: app.php:398
 msgid "Apps"
 msgstr "Εφαρμογές"
 
-#: app.php:311
+#: app.php:406
 msgid "Admin"
 msgstr "Διαχειριστής"
 
-#: files.php:332
+#: files.php:202
 msgid "ZIP download is turned off."
 msgstr "Η λήψη ZIP απενεργοποιήθηκε."
 
-#: files.php:333
+#: files.php:203
 msgid "Files need to be downloaded one by one."
 msgstr "Τα αρχεία πρέπει να ληφθούν ένα-ένα."
 
-#: files.php:333 files.php:358
+#: files.php:204 files.php:231
 msgid "Back to Files"
 msgstr "Πίσω στα Αρχεία"
 
-#: files.php:357
+#: files.php:228
 msgid "Selected files too large to generate zip file."
 msgstr "Τα επιλεγμένα αρχεία είναι μεγάλα ώστε να δημιουργηθεί αρχείο zip."
+
+#: helper.php:228
+msgid "couldn't be determined"
+msgstr "δεν μπορούσε να προσδιορισθεί"
 
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "Δεν ενεργοποιήθηκε η εφαρμογή"
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "Σφάλμα πιστοποίησης"
 
@@ -82,68 +88,165 @@ msgstr "Κείμενο"
 msgid "Images"
 msgstr "Εικόνες"
 
-#: template.php:103
+#: setup.php:34
+msgid "Set an admin username."
+msgstr "Εισάγετε όνομα χρήστη διαχειριστή."
+
+#: setup.php:37
+msgid "Set an admin password."
+msgstr "Εισάγετε συνθηματικό διαχειριστή."
+
+#: setup.php:40
+msgid "Specify a data folder."
+msgstr "Καθορίστε τον φάκελο δεδομένων."
+
+#: setup.php:53
+#, php-format
+msgid "%s enter the database username."
+msgstr ""
+
+#: setup.php:56
+#, php-format
+msgid "%s enter the database name."
+msgstr ""
+
+#: setup.php:59
+#, php-format
+msgid "%s you may not use dots in the database name"
+msgstr ""
+
+#: setup.php:62
+#, php-format
+msgid "%s set the database host."
+msgstr ""
+
+#: setup.php:126 setup.php:294 setup.php:339
+msgid "PostgreSQL username and/or password not valid"
+msgstr "Μη έγκυρος χρήστης και/ή συνθηματικό της PostgreSQL"
+
+#: setup.php:127 setup.php:150 setup.php:204
+msgid "You need to enter either an existing account or the administrator."
+msgstr ""
+
+#: setup.php:149 setup.php:427 setup.php:494
+msgid "Oracle username and/or password not valid"
+msgstr "Μη έγκυρος χρήστης και/ή συνθηματικό της Oracle"
+
+#: setup.php:203
+msgid "MySQL username and/or password not valid"
+msgstr "Μη έγκυρος χρήστης και/ή συνθηματικό της MySQL"
+
+#: setup.php:257 setup.php:360 setup.php:369 setup.php:387 setup.php:397
+#: setup.php:406 setup.php:435 setup.php:501 setup.php:527 setup.php:534
+#: setup.php:545 setup.php:552 setup.php:561 setup.php:569 setup.php:578
+#: setup.php:584
+#, php-format
+msgid "DB Error: \"%s\""
+msgstr "Σφάλμα Βάσης Δεδομένων: \"%s\""
+
+#: setup.php:258 setup.php:361 setup.php:370 setup.php:388 setup.php:398
+#: setup.php:407 setup.php:436 setup.php:502 setup.php:528 setup.php:535
+#: setup.php:546 setup.php:562 setup.php:570 setup.php:579
+#, php-format
+msgid "Offending command was: \"%s\""
+msgstr ""
+
+#: setup.php:273
+#, php-format
+msgid "MySQL user '%s'@'localhost' exists already."
+msgstr "Υπάρχει ήδη ο χρήστης '%s'@'localhost' της MySQL."
+
+#: setup.php:274
+msgid "Drop this user from MySQL"
+msgstr "Απόρριψη αυτού του χρήστη από την MySQL"
+
+#: setup.php:279
+#, php-format
+msgid "MySQL user '%s'@'%%' already exists"
+msgstr "Ο χρήστης '%s'@'%%' της MySQL υπάρχει ήδη"
+
+#: setup.php:280
+msgid "Drop this user from MySQL."
+msgstr "Απόρριψη αυτού του χρήστη από την MySQL"
+
+#: setup.php:553 setup.php:585
+#, php-format
+msgid "Offending command was: \"%s\", name: %s, password: %s"
+msgstr ""
+
+#: setup.php:649
+msgid ""
+"Your web server is not yet properly setup to allow files synchronization "
+"because the WebDAV interface seems to be broken."
+msgstr "Ο διακομιστής σας δεν έχει ρυθμιστεί κατάλληλα ώστε να επιτρέπει τον συγχρονισμό αρχείων γιατί η διεπαφή WebDAV πιθανόν να είναι κατεστραμμένη."
+
+#: setup.php:651
+#, php-format
+msgid "Please double check the <a href='%s'>installation guides</a>."
+msgstr "Ελέγξτε ξανά τις <a href='%s'>οδηγίες εγκατάστασης</a>."
+
+#: template.php:113
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "1 λεπτό πριν"
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d λεπτά πριν"
 
-#: template.php:106
+#: template.php:116
 msgid "1 hour ago"
 msgstr "1 ώρα πριν"
 
-#: template.php:107
+#: template.php:117
 #, php-format
 msgid "%d hours ago"
 msgstr "%d ώρες πριν"
 
-#: template.php:108
+#: template.php:118
 msgid "today"
 msgstr "σήμερα"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr "χθές"
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "%d ημέρες πριν"
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr "τον προηγούμενο μήνα"
 
-#: template.php:112
+#: template.php:122
 #, php-format
 msgid "%d months ago"
 msgstr "%d μήνες πριν"
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr "τον προηγούμενο χρόνο"
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr "χρόνια πριν"
 
-#: updater.php:75
+#: updater.php:78
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
 msgstr "%s είναι διαθέσιμα. Δείτε <a href=\"%s\">περισσότερες πληροφορίες</a>"
 
-#: updater.php:77
+#: updater.php:81
 msgid "up to date"
 msgstr "ενημερωμένο"
 
-#: updater.php:80
+#: updater.php:84
 msgid "updates check is disabled"
 msgstr "ο έλεγχος ενημερώσεων είναι απενεργοποιημένος"
 

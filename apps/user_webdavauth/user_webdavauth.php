@@ -28,12 +28,6 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 		$this->webdavauth_url = OC_Config::getValue( "user_webdavauth_url" );
 	}
 
-	public function createUser() {
-		// Can't create user
-		OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to create users from web frontend using WebDAV user backend', 3);
-		return false;
-	}
-
 	public function deleteUser($uid) {
 		// Can't delete user
 		OC_Log::write('OC_USER_WEBDAVAUTH', 'Not possible to delete users from web frontend using WebDAV user backend', 3);
@@ -65,12 +59,18 @@ class OC_USER_WEBDAVAUTH extends OC_User_Backend {
 	}
 
 	/*
-	* we don´t know if a user exists without the password. so we have to return false all the time
+	* we don´t know if a user exists without the password. so we have to return true all the time
 	*/
 	public function userExists( $uid ){
 		return true;
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function hasUserListings() {
+		return false;
+	}
 
 	/*
 	* we don´t know the users so all we can do it return an empty array here

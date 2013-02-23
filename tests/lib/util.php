@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class Test_Util extends UnitTestCase {
+class Test_Util extends PHPUnit_Framework_TestCase {
 
 	// Constructor
 	function Test_Util() {

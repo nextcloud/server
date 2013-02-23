@@ -6,6 +6,10 @@
  * See the COPYING-README file.
  */
 
+// Post installation check
+$this->create('post_setup_check', '/post-setup-check')
+	->action('OC_Setup', 'postSetupCheck');
+
 // Core ajax actions
 // Search
 $this->create('search_ajax_search', '/search/ajax/search.php')
@@ -32,6 +36,9 @@ $this->create('core_ajax_vcategories_favorites', '/core/ajax/vcategories/favorit
 	->actionInclude('core/ajax/vcategories/favorites.php');
 $this->create('core_ajax_vcategories_edit', '/core/ajax/vcategories/edit.php')
 	->actionInclude('core/ajax/vcategories/edit.php');
+// oC JS config
+$this->create('js_config', '/core/js/config.js')
+	->actionInclude('core/js/config.php');
 // Routing
 $this->create('core_ajax_routes', '/core/routes.json')
 	->action('OC_Router', 'JSRoutes');

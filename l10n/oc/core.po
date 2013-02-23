@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-16 00:02+0100\n"
-"PO-Revision-Date: 2012-11-14 23:13+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Occitan (post 1500) (http://www.transifex.com/projects/p/owncloud/language/oc/)\n"
 "MIME-Version: 1.0\n"
@@ -17,6 +17,30 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: oc\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ajax/share.php:85
+#, php-format
+msgid "User %s shared a file with you"
+msgstr ""
+
+#: ajax/share.php:87
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr ""
+
+#: ajax/share.php:89
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr ""
+
+#: ajax/share.php:91
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -27,8 +51,9 @@ msgid "No category to add?"
 msgstr "Pas de categoria d'ajustar ?"
 
 #: ajax/vcategories/add.php:37
-msgid "This category already exists: "
-msgstr "La categoria exista ja :"
+#, php-format
+msgid "This category already exists: %s"
+msgstr ""
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -56,59 +81,135 @@ msgstr "Pas de categorias seleccionadas per escafar."
 msgid "Error removing %s from favorites."
 msgstr ""
 
-#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
+#: js/config.php:32
+msgid "Sunday"
+msgstr "Dimenge"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "Diluns"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "Dimarç"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "Dimecres"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "Dijòus"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "Divendres"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "Dissabte"
+
+#: js/config.php:33
+msgid "January"
+msgstr "Genièr"
+
+#: js/config.php:33
+msgid "February"
+msgstr "Febrièr"
+
+#: js/config.php:33
+msgid "March"
+msgstr "Març"
+
+#: js/config.php:33
+msgid "April"
+msgstr "Abril"
+
+#: js/config.php:33
+msgid "May"
+msgstr "Mai"
+
+#: js/config.php:33
+msgid "June"
+msgstr "Junh"
+
+#: js/config.php:33
+msgid "July"
+msgstr "Julhet"
+
+#: js/config.php:33
+msgid "August"
+msgstr "Agost"
+
+#: js/config.php:33
+msgid "September"
+msgstr "Septembre"
+
+#: js/config.php:33
+msgid "October"
+msgstr "Octobre"
+
+#: js/config.php:33
+msgid "November"
+msgstr "Novembre"
+
+#: js/config.php:33
+msgid "December"
+msgstr "Decembre"
+
+#: js/js.js:286
 msgid "Settings"
 msgstr "Configuracion"
 
-#: js/js.js:688
+#: js/js.js:767
 msgid "seconds ago"
 msgstr "segonda a"
 
-#: js/js.js:689
+#: js/js.js:768
 msgid "1 minute ago"
 msgstr "1 minuta a"
 
-#: js/js.js:690
+#: js/js.js:769
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:691
+#: js/js.js:770
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:692
+#: js/js.js:771
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:693
+#: js/js.js:772
 msgid "today"
 msgstr "uèi"
 
-#: js/js.js:694
+#: js/js.js:773
 msgid "yesterday"
 msgstr "ièr"
 
-#: js/js.js:695
+#: js/js.js:774
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:696
+#: js/js.js:775
 msgid "last month"
 msgstr "mes passat"
 
-#: js/js.js:697
+#: js/js.js:776
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:698
+#: js/js.js:777
 msgid "months ago"
 msgstr "meses  a"
 
-#: js/js.js:699
+#: js/js.js:778
 msgid "last year"
 msgstr "an passat"
 
-#: js/js.js:700
+#: js/js.js:779
 msgid "years ago"
 msgstr "ans a"
 
@@ -138,8 +239,8 @@ msgid "The object type is not specified."
 msgstr ""
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:135 js/share.js:142 js/share.js:525
-#: js/share.js:537
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
+#: js/share.js:594
 msgid "Error"
 msgstr "Error"
 
@@ -151,108 +252,142 @@ msgstr ""
 msgid "The required file {file} is not installed!"
 msgstr ""
 
-#: js/share.js:124
+#: js/share.js:29 js/share.js:43 js/share.js:90
+msgid "Shared"
+msgstr ""
+
+#: js/share.js:93
+msgid "Share"
+msgstr "Parteja"
+
+#: js/share.js:141 js/share.js:622
 msgid "Error while sharing"
 msgstr "Error al partejar"
 
-#: js/share.js:135
+#: js/share.js:152
 msgid "Error while unsharing"
 msgstr "Error al non partejar"
 
-#: js/share.js:142
+#: js/share.js:159
 msgid "Error while changing permissions"
 msgstr "Error al cambiar permissions"
 
-#: js/share.js:151
+#: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
 msgstr ""
 
-#: js/share.js:153
+#: js/share.js:170
 msgid "Shared with you by {owner}"
 msgstr ""
 
-#: js/share.js:158
+#: js/share.js:175
 msgid "Share with"
 msgstr "Parteja amb"
 
-#: js/share.js:163
+#: js/share.js:180
 msgid "Share with link"
 msgstr "Parteja amb lo ligam"
 
-#: js/share.js:164
+#: js/share.js:183
 msgid "Password protect"
 msgstr "Parat per senhal"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
-#: templates/verify.php:13
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "Senhal"
 
-#: js/share.js:173
+#: js/share.js:189
+msgid "Email link to person"
+msgstr ""
+
+#: js/share.js:190
+msgid "Send"
+msgstr ""
+
+#: js/share.js:194
 msgid "Set expiration date"
 msgstr "Met la data d'expiracion"
 
-#: js/share.js:174
+#: js/share.js:195
 msgid "Expiration date"
 msgstr "Data d'expiracion"
 
-#: js/share.js:206
+#: js/share.js:227
 msgid "Share via email:"
 msgstr "Parteja tras corrièl :"
 
-#: js/share.js:208
+#: js/share.js:229
 msgid "No people found"
 msgstr "Deguns trobat"
 
-#: js/share.js:235
+#: js/share.js:256
 msgid "Resharing is not allowed"
 msgstr "Tornar partejar es pas permis"
 
-#: js/share.js:271
+#: js/share.js:292
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:292
+#: js/share.js:313
 msgid "Unshare"
 msgstr "Non parteje"
 
-#: js/share.js:304
+#: js/share.js:325
 msgid "can edit"
 msgstr "pòt modificar"
 
-#: js/share.js:306
+#: js/share.js:327
 msgid "access control"
 msgstr "Contraròtle d'acces"
 
-#: js/share.js:309
+#: js/share.js:330
 msgid "create"
 msgstr "crea"
 
-#: js/share.js:312
+#: js/share.js:333
 msgid "update"
 msgstr "met a jorn"
 
-#: js/share.js:315
+#: js/share.js:336
 msgid "delete"
 msgstr "escafa"
 
-#: js/share.js:318
+#: js/share.js:339
 msgid "share"
 msgstr "parteja"
 
-#: js/share.js:343 js/share.js:512 js/share.js:514
+#: js/share.js:373 js/share.js:569
 msgid "Password protected"
 msgstr "Parat per senhal"
 
-#: js/share.js:525
+#: js/share.js:582
 msgid "Error unsetting expiration date"
 msgstr "Error al metre de la data d'expiracion"
 
-#: js/share.js:537
+#: js/share.js:594
 msgid "Error setting expiration date"
 msgstr "Error setting expiration date"
 
-#: lostpassword/controller.php:47
+#: js/share.js:609
+msgid "Sending ..."
+msgstr ""
+
+#: js/share.js:620
+msgid "Email sent"
+msgstr ""
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr ""
+
+#: lostpassword/controller.php:48
 msgid "ownCloud password reset"
 msgstr "senhal d'ownCloud tornat botar"
 
@@ -272,8 +407,8 @@ msgstr ""
 msgid "Request failed!"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "Nom d'usancièr"
 
@@ -333,7 +468,7 @@ msgstr "Edita categorias"
 msgid "Add"
 msgstr "Ajusta"
 
-#: templates/installation.php:23 templates/installation.php:31
+#: templates/installation.php:23 templates/installation.php:30
 msgid "Security Warning"
 msgstr "Avertiment de securitat"
 
@@ -343,179 +478,107 @@ msgid ""
 "OpenSSL extension."
 msgstr ""
 
-#: templates/installation.php:26
+#: templates/installation.php:25
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr ""
 
+#: templates/installation.php:31
+msgid ""
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
+msgstr ""
+
 #: templates/installation.php:32
 msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
+"For information how to properly configure your server, please see the <a "
+"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
+"target=\"_blank\">documentation</a>."
 msgstr ""
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Crea un <strong>compte admin</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:52
 msgid "Advanced"
 msgstr "Avançat"
 
-#: templates/installation.php:50
+#: templates/installation.php:54
 msgid "Data folder"
 msgstr "Dorsièr de donadas"
 
-#: templates/installation.php:57
+#: templates/installation.php:61
 msgid "Configure the database"
 msgstr "Configura la basa de donadas"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:66 templates/installation.php:77
+#: templates/installation.php:87 templates/installation.php:97
 msgid "will be used"
 msgstr "serà utilizat"
 
-#: templates/installation.php:105
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Usancièr de la basa de donadas"
 
-#: templates/installation.php:109
+#: templates/installation.php:113
 msgid "Database password"
 msgstr "Senhal de la basa de donadas"
 
-#: templates/installation.php:113
+#: templates/installation.php:117
 msgid "Database name"
 msgstr "Nom de la basa de donadas"
 
-#: templates/installation.php:121
+#: templates/installation.php:125
 msgid "Database tablespace"
 msgstr "Espandi de taula de basa de donadas"
 
-#: templates/installation.php:127
+#: templates/installation.php:131
 msgid "Database host"
 msgstr "Òste de basa de donadas"
 
-#: templates/installation.php:132
+#: templates/installation.php:136
 msgid "Finish setup"
 msgstr "Configuracion acabada"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
-msgid "Sunday"
-msgstr "Dimenge"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:16
-msgid "Monday"
-msgstr "Diluns"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:16
-msgid "Tuesday"
-msgstr "Dimarç"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:16
-msgid "Wednesday"
-msgstr "Dimecres"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:16
-msgid "Thursday"
-msgstr "Dijòus"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:16
-msgid "Friday"
-msgstr "Divendres"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:16
-msgid "Saturday"
-msgstr "Dissabte"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "January"
-msgstr "Genièr"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "February"
-msgstr "Febrièr"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "March"
-msgstr "Març"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "April"
-msgstr "Abril"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "May"
-msgstr "Mai"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "June"
-msgstr "Junh"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "July"
-msgstr "Julhet"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "August"
-msgstr "Agost"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "September"
-msgstr "Septembre"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "October"
-msgstr "Octobre"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "November"
-msgstr "Novembre"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "December"
-msgstr "Decembre"
-
-#: templates/layout.guest.php:41
+#: templates/layout.guest.php:33
 msgid "web services under your control"
 msgstr "Services web jos ton contraròtle"
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:48
 msgid "Log out"
 msgstr "Sortida"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr ""
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr ""
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr ""
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "L'as perdut lo senhal ?"
 
-#: templates/login.php:27
+#: templates/login.php:41
 msgid "remember"
 msgstr "bremba-te"
 
-#: templates/login.php:28
+#: templates/login.php:43
 msgid "Log in"
 msgstr "Dintrada"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Sias pas dintra (t/ada)"
+#: templates/login.php:49
+msgid "Alternative Logins"
+msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -525,16 +588,7 @@ msgstr "dariièr"
 msgid "next"
 msgstr "venent"
 
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr ""
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr ""
-
-#: templates/verify.php:16
-msgid "Verify"
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
 msgstr ""

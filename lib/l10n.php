@@ -97,7 +97,7 @@ class OC_L10N{
 		if ($this->app === true) {
 			return;
 		}
-		$app = $this->app;
+		$app = OC_App::cleanAppId($this->app);
 		$lang = $this->lang;
 		$this->app = true;
 		// Find the right language
@@ -115,10 +115,12 @@ class OC_L10N{
 			$i18ndir = self::findI18nDir($app);
 			// Localization is in /l10n, Texts are in $i18ndir
 			// (Just no need to define date/time format etc. twice)
-			if((OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC_App::getAppPath($app).'/l10n/') ||
-				OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/core/l10n/') ||
-				OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/lib/l10n/') ||
-				OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/settings')) && file_exists($i18ndir.$lang.'.php')) {
+			if((OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC_App::getAppPath($app).'/l10n/')
+				|| OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/core/l10n/')
+				|| OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/lib/l10n/')
+				|| OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/settings')
+				)
+				&& file_exists($i18ndir.$lang.'.php')) {
 				// Include the file, save the data from $CONFIG
 				include strip_tags($i18ndir).strip_tags($lang).'.php';
 				if(isset($TRANSLATIONS) && is_array($TRANSLATIONS)) {
@@ -139,15 +141,15 @@ class OC_L10N{
 		}
 	}
 
-    /**
-     * @brief Translating
-     * @param $text String The text we need a translation for
-     * @param array $parameters default:array() Parameters for sprintf
-     * @return \OC_L10N_String Translation or the same text
-     *
-     * Returns the translation. If no translation is found, $text will be
-     * returned.
-     */
+	/**
+	 * @brief Translating
+	 * @param $text String The text we need a translation for
+	 * @param array $parameters default:array() Parameters for sprintf
+	 * @return \OC_L10N_String Translation or the same text
+	 *
+	 * Returns the translation. If no translation is found, $text will be
+	 * returned.
+	 */
 	public function t($text, $parameters = array()) {
 		return new OC_L10N_String($this, $text, $parameters);
 	}
@@ -285,7 +287,7 @@ class OC_L10N{
 		}
 
 		if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-			$accepted_languages = preg_split('/,\s*/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+			$accepted_languages = preg_split('/,\s*/', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
 			if(is_array($app)) {
 				$available = $app;
 			}
@@ -294,8 +296,14 @@ class OC_L10N{
 			}
 			foreach($accepted_languages as $i) {
 				$temp = explode(';', $i);
-				if(array_search($temp[0], $available) !== false) {
-					return $temp[0];
+				$temp[0] = str_replace('-', '_', $temp[0]);
+				if( ($key = array_search($temp[0], $available)) !== false) {
+					return $available[$key];
+				}
+				foreach($available as $l) {
+					if ( $temp[0] == substr($l, 0, 2) ) {
+						return $l;
+					}
 				}
 			}
 		}
@@ -335,7 +343,7 @@ class OC_L10N{
 		if(is_dir($dir)) {
 			$files=scandir($dir);
 			foreach($files as $file) {
-				if(substr($file, -4, 4) == '.php') {
+				if(substr($file, -4, 4) === '.php' && substr($file, 0, 4) !== 'l10n') {
 					$i = substr($file, 0, -4);
 					$available[] = $i;
 				}

@@ -5,6 +5,8 @@
 "Fill out all required fields" => "Ompliu els camps requerits",
 "Please provide a valid Dropbox app key and secret." => "Proporcioneu una clau d'aplicació i secret vàlids per a Dropbox",
 "Error configuring Google Drive storage" => "Error en configurar l'emmagatzemament Google Drive",
+"<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Avís:</b> \"smbclient\" no està instal·lat. No es pot muntar la compartició CIFS/SMB. Demaneu a l'administrador del sistema que l'instal·li.",
+"<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Avís:</b> El suport FTP per PHP no està activat o no està instal·lat. No es pot muntar la compartició FTP. Demaneu a l'administrador del sistema que l'instal·li.",
 "External Storage" => "Emmagatzemament extern",
 "Mount point" => "Punt de muntatge",
 "Backend" => "Dorsal",

@@ -8,12 +8,12 @@
 "Name" => "Nomine",
 "Size" => "Dimension",
 "Modified" => "Modificate",
+"Upload" => "Incargar",
 "Maximum upload size" => "Dimension maxime de incargamento",
 "Save" => "Salveguardar",
 "New" => "Nove",
 "Text file" => "File de texto",
 "Folder" => "Dossier",
-"Upload" => "Incargar",
 "Nothing in here. Upload something!" => "Nihil hic. Incarga alcun cosa!",
 "Download" => "Discargar",
 "Upload too large" => "Incargamento troppo longe"

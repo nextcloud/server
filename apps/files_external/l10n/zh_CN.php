@@ -5,6 +5,8 @@
 "Fill out all required fields" => "完成所有必填项",
 "Please provide a valid Dropbox app key and secret." => "请提供有效的Dropbox应用key和secret",
 "Error configuring Google Drive storage" => "配置Google Drive存储时出错",
+"<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>警告：</b>“smbclient” 尚未安装。CIFS/SMB 分享挂载无法实现。请咨询系统管理员进行安装。",
+"<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>警告：</b>PHP中尚未启用或安装FTP。FTP 分享挂载无法实现。请咨询系统管理员进行安装。",
 "External Storage" => "外部存储",
 "Mount point" => "挂载点",
 "Backend" => "后端",

@@ -5,6 +5,8 @@
 "Fill out all required fields" => "Συμπληρώστε όλα τα απαιτούμενα πεδία",
 "Please provide a valid Dropbox app key and secret." => "Παρακαλούμε δώστε έγκυρο κλειδί Dropbox και μυστικό.",
 "Error configuring Google Drive storage" => "Σφάλμα ρυθμίζωντας αποθήκευση Google Drive ",
+"<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Προσοχή:</b> Ο \"smbclient\" δεν εγκαταστάθηκε. Δεν είναι δυνατή η προσάρτηση CIFS/SMB. Παρακαλώ ενημερώστε τον διαχειριστή συστήματος να το εγκαταστήσει.",
+"<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Προσοχή:</b> Η υποστήριξη FTP στην PHP δεν ενεργοποιήθηκε ή εγκαταστάθηκε. Δεν είναι δυνατή η προσάρτηση FTP. Παρακαλώ ενημερώστε τον διαχειριστή συστήματος να το εγκαταστήσει.",
 "External Storage" => "Εξωτερικό Αποθηκευτικό Μέσο",
 "Mount point" => "Σημείο προσάρτησης",
 "Backend" => "Σύστημα υποστήριξης",

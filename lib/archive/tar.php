@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-require_once 'Archive/Tar.php';
+require_once OC::$THIRDPARTYROOT . '/3rdparty/Archive/Tar.php';
 
 class OC_Archive_TAR extends OC_Archive{
 	const PLAIN=0;
@@ -308,7 +308,7 @@ class OC_Archive_TAR extends OC_Archive{
 		if($mode=='r' or $mode=='rb') {
 			return fopen($tmpFile, $mode);
 		}else{
-			OC_CloseStreamWrapper::$callBacks[$tmpFile]=array($this, 'writeBack');
+			\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 			self::$tempFiles[$tmpFile]=$path;
 			return fopen('close://'.$tmpFile, $mode);
 		}

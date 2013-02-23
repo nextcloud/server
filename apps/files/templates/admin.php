@@ -6,7 +6,10 @@
 		<?php if($_['uploadChangable']):?>
 			<label for="maxUploadSize"><?php echo $l->t( 'Maximum upload size' ); ?> </label>
 			<input name='maxUploadSize' id="maxUploadSize" value='<?php echo $_['uploadMaxFilesize'] ?>'/>
-			(<?php echo $l->t('max. possible: '); echo $_['maxPossibleUploadSize'] ?>)<br/>
+			<?php if($_['displayMaxPossibleUploadSize']):?>
+				(<?php echo $l->t('max. possible: '); echo $_['maxPossibleUploadSize'] ?>)
+			<?php endif;?>
+			<br/>
 		<?php endif;?>
 		<input type="checkbox" name="allowZipDownload" id="allowZipDownload" value="1"
 			   title="<?php echo $l->t( 'Needed for multi-file and folder downloads.' ); ?>"
@@ -15,8 +18,8 @@
 
 		<input name="maxZipInputSize" id="maxZipInputSize" style="width:180px;" value='<?php echo $_['maxZipInputSize'] ?>'
 			   title="<?php echo $l->t( '0 is unlimited' ); ?>"
-			   <?php if (!$_['allowZipDownload']): ?> disabled="disabled"<?php endif; ?> />
-		<label for="maxZipInputSize"><?php echo $l->t( 'Maximum input size for ZIP files' ); ?> </label><br />
+			   <?php if (!$_['allowZipDownload']): ?> disabled="disabled"<?php endif; ?> /><br />
+		<em><?php echo $l->t( 'Maximum input size for ZIP files' ); ?> </em><br />
 
 		<input type="hidden" value="<?php echo $_['requesttoken']; ?>" name="requesttoken" />
 		<input type="submit" name="submitFilesAdminSettings" id="submitFilesAdminSettings"
