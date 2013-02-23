@@ -191,7 +191,7 @@ class OC_DB {
 	static public function prepare( $query , $limit=null, $offset=null ) {
 
 		if (!is_null($limit) && $limit != -1) {
-			//PDO does not handle limit and offset.
+			//Doctrine does not handle limit and offset.
 			//FIXME: check limit notation for other dbs
 			//the following sql thus might needs to take into account db ways of representing it
 			//(oracle has no LIMIT / OFFSET)
@@ -222,7 +222,7 @@ class OC_DB {
 		if (self::$backend == self::BACKEND_DOCTRINE) {
 			try {
 				$result=self::$connection->prepare($query);
-			} catch(PDOException $e) {
+			} catch(\Doctrine\DBAL\DBALException $e) {
 				throw new DatabaseException($e->getMessage(), $query);
 			}
 			$result=new DoctrineStatementWrapper($result);
@@ -345,7 +345,7 @@ class OC_DB {
 	 * @brief Insert a row if a matching row doesn't exists.
 	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
 	 * @param array $input. An array of fieldname/value pairs
-	 * @returns The return value from PDOStatementWrapper->execute()
+	 * @returns The return value from DoctrineStatementWrapper->execute()
 	 */
 	public static function insertIfNotExist($table, $input) {
 		self::connect();
@@ -370,7 +370,7 @@ class OC_DB {
 			try {
 				$stmt = self::prepare($query);
 				$result = $stmt->execute();
-			} catch(PDOException $e) {
+			} catch(\Doctrine\DBAL\DBALException $e) {
 				$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
 				$entry .= 'Offending command was: ' . $query . '<br />';
 				OC_Log::write('core', $entry, OC_Log::FATAL);
@@ -402,7 +402,7 @@ class OC_DB {
 
 		try {
 			$result = self::prepare($query);
-		} catch(PDOException $e) {
+		} catch(\Doctrine\DBAL\DBALException $e) {
 			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
 			$entry .= 'Offending command was: ' . $query.'<br />';
 			OC_Log::write('core', $entry, OC_Log::FATAL);
