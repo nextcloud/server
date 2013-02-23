@@ -64,9 +64,9 @@ function createVersionsDropdown(filename, files) {
 	} else {
 		$(html).appendTo($('thead .share'));
 	}
-	
+
 	$("#makelink").click(function() {
-		goToVersionPage(historyUrl);	
+		goToVersionPage(historyUrl);
 	});
 
 	$.ajax({

@@ -124,7 +124,7 @@ abstract class OC_User_Backend implements OC_User_Interface {
 	public function getHome($uid) {
 		return false;
 	}
-	
+
 	/**
 	 * @brief get display name of the user
 	 * @param $uid user ID of the user
@@ -133,7 +133,7 @@ abstract class OC_User_Backend implements OC_User_Interface {
 	public function getDisplayName($uid) {
 		return $uid;
 	}
-	
+
 	/**
 	 * @brief Get a list of all display names
 	 * @returns array with  all displayNames (value) and the corresponding uids (key)

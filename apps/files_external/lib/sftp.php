@@ -32,7 +32,7 @@ class SFTP extends \OC\Files\Storage\Common {
 		$this->root = isset($params['root']) ? $this->cleanPath($params['root']) : '/';
 		if ($this->root[0] != '/') $this->root = '/' . $this->root;
 		if (substr($this->root, -1, 1) != '/') $this->root .= '/';
-		
+
 		$host_keys = $this->read_host_keys();
 
 		$this->client = new \Net_SFTP($this->host);
@@ -50,18 +50,18 @@ class SFTP extends \OC\Files\Storage\Common {
 			$host_keys[$this->host] = $current_host_key;
 			$this->write_host_keys($host_keys);
 		}
-		
+
 		if(!$this->file_exists('')){
 			$this->mkdir('');
 		}
 	}
-	
+
 	public function test() {
 		if (!isset($params['host']) || !isset($params['user']) || !isset($params['password'])) {
 			throw new \Exception("Required parameters not set");
-		}	
+		}
 	}
-	
+
 	public function getId(){
 		return 'sftp::' . $this->user . '@' . $this->host . '/' . $this->root;
 	}
@@ -109,7 +109,7 @@ class SFTP extends \OC\Files\Storage\Common {
 						$host_key_arr = explode("::", $line, 2);
 						if (count($host_key_arr) == 2) {
 							$hosts[] = $host_key_arr[0];
-							$keys[] = $host_key_arr[1]; 
+							$keys[] = $host_key_arr[1];
 						}
 					}
 					return array_combine($hosts, $keys);
@@ -203,7 +203,7 @@ class SFTP extends \OC\Files\Storage\Common {
 					$tmp = \OC_Helper::tmpFile($ext);
 					$this->getFile($abs_path, $tmp);
 					return fopen($tmp, $mode);
-		
+
 				case 'w':
 				case 'wb':
 				case 'a':

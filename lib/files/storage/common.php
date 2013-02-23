@@ -278,7 +278,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			return uniqid();
 		}
 	}
-	
+
 	/**
 	 * clean a path, i.e. remove all redundant '.' and '..'
 	 * making sure that it can't point to higher than '/'
@@ -289,7 +289,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		if (strlen($path) == 0 or $path[0] != '/') {
 			$path = '/' . $path;
 		}
-		
+
 		$output = array();
 		foreach (explode('/', $path) as $chunk) {
 			if ($chunk == '..') {

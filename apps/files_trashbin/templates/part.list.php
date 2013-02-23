@@ -69,4 +69,3 @@
 		</td>
 	</tr>
 <?php endforeach;
- 

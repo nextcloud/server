@@ -52,7 +52,7 @@ class User {
 	public static function getUsers($search = '', $limit = null, $offset = null) {
 		return \OC_USER::getUsers();
 	}
-	
+
 	/**
 	 * @brief get the user display name of the user currently logged in.
 	 * @return string display name
@@ -60,7 +60,7 @@ class User {
 	public static function getDisplayName($user=null) {
 		return \OC_USER::getDisplayName($user);
 	}
-	
+
 	/**
 	 * @brief Get a list of all display names
 	 * @returns array with all display names (value) and the correspondig uids (key)
@@ -70,7 +70,7 @@ class User {
 	public static function getDisplayNames($search = '', $limit = null, $offset = null) {
 		return \OC_USER::getDisplayNames($search, $limit, $offset);
 	}
-	
+
 	/**
 	 * @brief Check if the user is logged in
 	 * @returns true/false

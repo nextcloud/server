@@ -38,7 +38,7 @@ class OC_Mount_Config {
 	* @return array
 	*/
 	public static function getBackends() {
-		
+
 		$backends['\OC\Files\Storage\Local']=array(
 				'backend' => 'Local',
 				'configuration' => array(
@@ -77,7 +77,7 @@ class OC_Mount_Config {
 				'token' => '#token',
 				'token_secret' => '#token secret'),
 				'custom' => 'google');
-		
+
 		$backends['\OC\Files\Storage\SWIFT']=array(
 			'backend' => 'OpenStack Swift',
 			'configuration' => array(
@@ -86,7 +86,7 @@ class OC_Mount_Config {
 				'token' => '*Token',
 				'root' => '&Root',
 				'secure' => '!Secure ftps://'));
-							
+
 		if(OC_Mount_Config::checksmbclient()) $backends['\OC\Files\Storage\SMB']=array(
 			'backend' => 'SMB / CIFS',
 			'configuration' => array(
@@ -95,7 +95,7 @@ class OC_Mount_Config {
 				'password' => '*Password',
 				'share' => 'Share',
 				'root' => '&Root'));
-				
+
 		$backends['\OC\Files\Storage\DAV']=array(
 			'backend' => 'ownCloud / WebDAV',
 			'configuration' => array(
@@ -104,13 +104,13 @@ class OC_Mount_Config {
 				'password' => '*Password',
 				'root' => '&Root',
 				'secure' => '!Secure https://'));
-				
+
 		$backends['\OC\Files\Storage\SFTP']=array(
 			'backend' => 'SFTP',
 			'configuration' => array(
 				'host' => 'URL',
-				'user' => 'Username', 
-				'password' => '*Password', 
+				'user' => 'Username',
+				'password' => '*Password',
 				'root' => '&Root'));
 
 		return($backends);
@@ -378,7 +378,7 @@ class OC_Mount_Config {
 	}
 
 	/**
-	 * check if php-ftp is installed 
+	 * check if php-ftp is installed
 	 */
 	public static function checkphpftp() {
 		if(function_exists('ftp_login')) {

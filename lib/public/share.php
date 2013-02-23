@@ -384,7 +384,7 @@ class Share {
 				'itemSource' => $itemSource,
 				'shareType' => $shareType,
 				'shareWith' => $shareWith,
-			));			
+			));
 			self::delete($item['id']);
 			return true;
 		}
@@ -404,7 +404,7 @@ class Share {
 				'itemType' => $itemType,
 				'itemSource' => $itemSource,
 				'shares' => $shares
-			));			
+			));
 			foreach ($shares as $share) {
 				self::delete($share['id']);
 			}
@@ -848,7 +848,7 @@ class Share {
 			if ( isset($row['uid_owner']) && $row['uid_owner'] != '') {
 				$row['displayname_owner'] = \OCP\User::getDisplayName($row['uid_owner']);
 			}
-			
+
 			$items[$row['id']] = $row;
 		}
 		if (!empty($items)) {
