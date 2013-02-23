@@ -11,9 +11,10 @@ class OC_Request {
 	 * @brief Check overwrite condition
 	 * @returns true/false
 	 */
-	private static function isOverwriteCondition() {
+	private static function isOverwriteCondition($type = '') {
 		$regex = '/' . OC_Config::getValue('overwritecondaddr', '')  . '/';
-		return $regex === '//' or preg_match($regex, $_SERVER['REMOTE_ADDR']) === 1;
+		return $regex === '//' or preg_match($regex, $_SERVER['REMOTE_ADDR']) === 1
+			or ($type <> 'protocol' and OC_Config::getValue('forcessl', false));
 	}
 
 	/**
@@ -52,7 +53,7 @@ class OC_Request {
 	* Returns the server protocol. It respects reverse proxy servers and load balancers
 	*/
 	public static function serverProtocol() {
-		if(OC_Config::getValue('overwriteprotocol', '')<>'' and self::isOverwriteCondition()) {
+		if(OC_Config::getValue('overwriteprotocol', '')<>'' and self::isOverwriteCondition('protocol')) {
 			return OC_Config::getValue('overwriteprotocol');
 		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
