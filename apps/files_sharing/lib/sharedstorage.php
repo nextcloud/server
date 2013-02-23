@@ -384,7 +384,7 @@ class Shared extends \OC\Files\Storage\Common {
 
 	public function free_space($path) {
 		if ($path == '') {
-			return -1;
+			return \OC\Files\FREE_SPACE_UNKNOWN;
 		}
 		$source = $this->getSourcePath($path);
 		if ($source) {
