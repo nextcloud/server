@@ -22,15 +22,15 @@
 
 define('MDB2_SCHEMA_DUMP_STRUCTURE', '1');
 
-class DatabaseException extends Exception{
+class DatabaseException extends Exception {
 	private $query;
 
-	public function __construct($message, $query){
+	public function __construct($message, $query) {
 		parent::__construct($message);
 		$this->query = $query;
 	}
 
-	public function getQuery(){
+	public function getQuery() {
 		return $this->query;
 	}
 }
@@ -97,7 +97,7 @@ class OC_DB {
 		if(self::$connection) {
 			if(self::$backend!=self::BACKEND_DOCTRINE) {
 				self::disconnect();
-			}else{
+			} else {
 				return true;
 			}
 		}
@@ -220,9 +220,9 @@ class OC_DB {
 		self::connect();
 		// return the result
 		if (self::$backend == self::BACKEND_DOCTRINE) {
-			try{
+			try {
 				$result=self::$connection->prepare($query);
-			}catch(PDOException $e) {
+			} catch(PDOException $e) {
 				throw new DatabaseException($e->getMessage(), $query);
 			}
 			$result=new DoctrineStatementWrapper($result);
@@ -438,11 +438,11 @@ class OC_DB {
 			$query = str_replace( '`', '"', $query );
 			$query = str_ireplace( 'NOW()', 'datetime(\'now\')', $query );
 			$query = str_ireplace( 'UNIX_TIMESTAMP()', 'strftime(\'%s\',\'now\')', $query );
-		}elseif( $type == 'pgsql' ) {
+		} elseif( $type == 'pgsql' ) {
 			$query = str_replace( '`', '"', $query );
 			$query = str_ireplace( 'UNIX_TIMESTAMP()', 'cast(extract(epoch from current_timestamp) as integer)',
 				$query );
-		}elseif( $type == 'oci'  ) {
+		} elseif( $type == 'oci'  ) {
 			$query = str_replace( '`', '"', $query );
 			$query = str_ireplace( 'NOW()', 'CURRENT_TIMESTAMP', $query );
 		}
@@ -513,7 +513,7 @@ class OC_DB {
 	public static function isError($result) {
 		if(!$result) {
 			return true;
-		}else{
+		} else {
 			return false;
 		}
 	}
@@ -532,10 +532,10 @@ class OC_DB {
 				$msg .= 'SQLSTATE = '.$errorInfo[0] . ', ';
 				$msg .= 'Driver Code = '.$errorInfo[1] . ', ';
 				$msg .= 'Driver Message = '.$errorInfo[2];
-			}else{
+			} else {
 				$msg = '';
 			}
-		}else{
+		} else {
 			$msg = '';
 		}
 		return $msg;
@@ -577,12 +577,12 @@ class DoctrineStatementWrapper {
 		$this->lastArguments=$input;
 		if(count($input)>0) {
 			$result=$this->statement->execute($input);
-		}else{
+		} else {
 			$result=$this->statement->execute();
 		}
 		if($result) {
 			return $this;
-		}else{
+		} else {
 			return false;
 		}
 	}
