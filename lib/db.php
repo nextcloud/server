@@ -347,8 +347,8 @@ class OC_DB {
 	 * TODO: write more documentation
 	 */
 	public static function getDbStructure( $file, $mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
-		self::connectDoctrine();
-		return OC_DB_Schema::getDbStructure(self::$DOCTRINE, $file);
+		self::connect();
+		return OC_DB_Schema::getDbStructure(self::$connection, $file);
 	}
 
 	/**
@@ -359,8 +359,9 @@ class OC_DB {
 	 * TODO: write more documentation
 	 */
 	public static function createDbFromStructure( $file ) {
-		self::connectDoctrine();
-		return OC_DB_Schema::createDbFromStructure(self::$DOCTRINE, $file);
+		self::connect();
+		$result = OC_DB_Schema::createDbFromStructure(self::$connection, $file);
+		return $result;
 	}
 
 	/**
@@ -370,9 +371,9 @@ class OC_DB {
 	 * @return bool
 	 */
 	public static function updateDbFromStructure($file) {
-		self::connectDoctrine();
+		self::connect();
 		try {
-			$result = OC_DB_Schema::updateDbFromStructure(self::$DOCTRINE, $file);
+			$result = OC_DB_Schema::updateDbFromStructure(self::$connection, $file);
 		} catch (Exception $e) {
 			OC_Log::write('core', 'Failed to update database structure ('.$e.')', OC_Log::FATAL);
 			throw $e;
@@ -396,8 +397,8 @@ class OC_DB {
 	 * @param string $tableName the table to drop
 	 */
 	public static function dropTable($tableName) {
-		self::connectDoctrine();
-		OC_DB_Schema::dropTable(self::$DOCTRINE, $tableName);
+		self::connect();
+		OC_DB_Schema::dropTable(self::$connection, $tableName);
 	}
 
 	/**
@@ -405,8 +406,8 @@ class OC_DB {
 	 * @param string $file the xml file describing the tables
 	 */
 	public static function removeDBStructure($file) {
-		self::connectDoctrine();
-		OC_DB_Schema::removeDBStructure(self::$DOCTRINE, $file);
+		self::connect();
+		OC_DB_Schema::removeDBStructure(self::$connection, $file);
 	}
 
 	/**
@@ -414,8 +415,8 @@ class OC_DB {
 	 * @param $file string path to the MDB2 xml db export file
 	 */
 	public static function replaceDB( $file ) {
-		self::connectDoctrine();
-		OC_DB_Schema::replaceDB(self::$DOCTRINE, $file);
+		self::connect();
+		OC_DB_Schema::replaceDB(self::$connection, $file);
 	}
 
 	/**
