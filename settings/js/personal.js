@@ -42,6 +42,7 @@ $(document).ready(function(){
 			$.post( 'ajax/changedisplayname.php', post, function(data){
 				if( data.status == "success" ){
 					$('#displaynamechanged').show();
+					$('#oldDisplayName').val($('#displayName').val());
 					// update displayName on the top right expand button
 					str_parts = $('#expand').html().split('\t');
 					str_parts[5] = $('#displayName').val();
