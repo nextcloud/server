@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-21 11:20+0000\n"
+"POT-Creation-Date: 2013-02-25 00:05+0100\n"
+"PO-Revision-Date: 2013-02-24 08:40+0000\n"
 "Last-Translator: Pyae Sone <gipsyhnh@gmail.com>\n"
 "Language-Team: Burmese (Myanmar) (http://www.transifex.com/projects/p/owncloud/language/my_MM/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +40,7 @@ msgstr "Apps"
 
 #: app.php:406
 msgid "Admin"
-msgstr ""
+msgstr "အက်ဒမင်"
 
 #: files.php:202
 msgid "ZIP download is turned off."
@@ -178,7 +178,7 @@ msgid ""
 "because the WebDAV interface seems to be broken."
 msgstr ""
 
-#: setup.php:651
+#: setup.php:650
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""
