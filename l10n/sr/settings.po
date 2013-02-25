@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-14 00:05+0100\n"
-"PO-Revision-Date: 2013-02-13 23:05+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -147,23 +147,23 @@ msgstr "Управник групе"
 msgid "Delete"
 msgstr "Обриши"
 
-#: js/users.js:190
+#: js/users.js:191
 msgid "add group"
 msgstr ""
 
-#: js/users.js:351
+#: js/users.js:352
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:352 js/users.js:358 js/users.js:373
+#: js/users.js:353 js/users.js:359 js/users.js:374
 msgid "Error creating user"
 msgstr ""
 
-#: js/users.js:357
+#: js/users.js:358
 msgid "A valid password must be provided"
 msgstr ""
 
-#: personal.php:34 personal.php:35
+#: personal.php:29 personal.php:30
 msgid "__language_name__"
 msgstr "__language_name__"
 

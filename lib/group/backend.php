@@ -133,7 +133,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		return array();
 	}
-	
+
 	/**
 	 * @brief get a list of all display names in a group
 	 * @param string $gid
@@ -148,7 +148,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 		foreach ( $users as $user ) {
 			$DisplayNames[$user] = $user;
 		}
-			
+
 		return $DisplayNames;
 	}
 

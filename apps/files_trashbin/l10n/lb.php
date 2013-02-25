@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Name" => "Numm"
+"Name" => "Numm",
+"Delete" => "Läschen"
 );

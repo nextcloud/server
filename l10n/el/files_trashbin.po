@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-21 00:14+0100\n"
-"PO-Revision-Date: 2013-02-20 23:14+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr "μόνιμη διαγραφή αρχείου"
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr ""
+msgstr "Μόνιμη διαγραφή"
 
 #: js/trash.js:151 templates/index.php:17
 msgid "Name"
@@ -74,4 +74,4 @@ msgstr "Επαναφορά"
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
-msgstr ""
+msgstr "Διαγραφή"

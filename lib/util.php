@@ -73,8 +73,8 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion() {
-		// hint: We only can count up. So the internal version number
-		// of ownCloud 4.5 will be 4.90.0. This is not visible to the user
+		// hint: We only can count up. Reset minor/patchlevel when
+		// updating major/minor version number.
 		return array(4, 93, 10);
 	}
 
@@ -267,6 +267,11 @@ class OC_Util {
 		if(!defined('PDO::ATTR_DRIVER_NAME')) {
 			$errors[]=array('error'=>'PHP PDO module is not installed.<br/>',
 				'hint'=>'Please ask your server administrator to install the module.');
+			$web_server_restart= false;
+		}
+		if(ini_get('safe_mode')) {
+			$errors[]=array('error'=>'PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly.<br/>',
+				'hint'=>'PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config.');
 			$web_server_restart= false;
 		}
 
@@ -562,7 +567,7 @@ class OC_Util {
 	 */
 	public static function isWebDAVWorking() {
 		if (!function_exists('curl_init')) {
-			return;
+			return true;
 		}
 
 		$settings = array(
@@ -578,6 +583,7 @@ class OC_Util {
 		} catch(\Sabre_DAV_Exception_NotAuthenticated $e) {
 			$return = true;
 		} catch(\Exception $e) {
+			OC_Log::write('core', 'isWebDAVWorking: NO - Reason: '.$e, OC_Log::WARN);
 			$return = false;
 		}
 

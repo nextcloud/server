@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-11 00:05+0100\n"
-"PO-Revision-Date: 2013-01-10 10:28+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
 "Last-Translator: Shubhra Paul <paul_shubhra@yahoo.com>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -41,13 +41,13 @@ msgstr "দয়া করে সঠিক এবং বৈধ Dropbox app key and
 msgid "Error configuring Google Drive storage"
 msgstr "Google Drive সংরক্ষণাগার নির্ধারণ করতে সমস্যা "
 
-#: lib/config.php:434
+#: lib/config.php:398
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:435
+#: lib/config.php:401
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
@@ -115,6 +115,6 @@ msgstr "ব্যবহারকারীদেরকে তাদের নি�
 msgid "SSL root certificates"
 msgstr "SSL  রুট সনদপত্র"
 
-#: templates/settings.php:153
+#: templates/settings.php:154
 msgid "Import Root Certificate"
 msgstr "রুট সনদপত্রটি আমদানি করুন"

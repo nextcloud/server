@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-15 00:05+0100\n"
-"PO-Revision-Date: 2013-02-14 14:00+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:20+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -393,7 +393,7 @@ msgstr "Päivitys epäonnistui. Ilmoita ongelmasta <a href=\"https://github.com/
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Päivitys onnistui. Selain ohjautuu nyt ownCloudiisi."
 
-#: lostpassword/controller.php:47
+#: lostpassword/controller.php:48
 msgid "ownCloud password reset"
 msgstr "ownCloud-salasanan nollaus"
 

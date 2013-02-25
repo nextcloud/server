@@ -210,7 +210,7 @@ class OC_Group_Database extends OC_Group_Backend {
 		}
 		return $users;
 	}
-	
+
 	/**
 	 * @brief get a list of all display names in a group
 	 * @param string $gid
@@ -233,7 +233,7 @@ class OC_Group_Database extends OC_Group_Backend {
 		while ($row = $result->fetchRow()) {
 			$displayName = trim($row['displayname'], ' ');
 			$displayNames[$row['uid']] = empty($displayName) ? $row['uid'] : $displayName;
-		}		
+		}
 		return $displayNames;
 	}
 }

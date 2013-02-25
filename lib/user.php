@@ -437,7 +437,7 @@ class OC_User {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @brief Check whether user can change his display name
 	 * @param $uid The username

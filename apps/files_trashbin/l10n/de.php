@@ -3,6 +3,7 @@
 "Couldn't restore %s" => "Konnte %s nicht wiederherstellen",
 "perform restore operation" => "Wiederherstellung ausführen",
 "delete file permanently" => "Datei dauerhaft löschen",
+"Delete permanently" => "Permanent löschen",
 "Name" => "Name",
 "Deleted" => "gelöscht",
 "1 folder" => "1 Ordner",
@@ -10,5 +11,6 @@
 "1 file" => "1 Datei",
 "{count} files" => "{count} Dateien",
 "Nothing in here. Your trash bin is empty!" => "Nichts zu löschen, der Papierkorb ist leer!",
-"Restore" => "Wiederherstellen"
+"Restore" => "Wiederherstellen",
+"Delete" => "Löschen"
 );

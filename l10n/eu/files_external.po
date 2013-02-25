@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-28 00:20+0100\n"
-"PO-Revision-Date: 2012-12-27 20:50+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
 "Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -42,13 +42,13 @@ msgstr "Mesedez eman baliozkoa den Dropbox app giltza eta sekretua"
 msgid "Error configuring Google Drive storage"
 msgstr "Errore bat egon da Google Drive biltegiratzea konfiguratzean"
 
-#: lib/config.php:434
+#: lib/config.php:398
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Abisua:</b> \"smbclient\" ez dago instalatuta. CIFS/SMB partekatutako karpetak montatzea ez da posible. Mesedez eskatu zure sistema kudeatzaileari instalatzea."
 
-#: lib/config.php:435
+#: lib/config.php:401
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
@@ -116,6 +116,6 @@ msgstr "Baimendu erabiltzaileak bere kanpo biltegiratzeak muntatzen"
 msgid "SSL root certificates"
 msgstr "SSL erro ziurtagiriak"
 
-#: templates/settings.php:153
+#: templates/settings.php:154
 msgid "Import Root Certificate"
 msgstr "Inportatu Erro Ziurtagiria"

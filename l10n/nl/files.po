@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-20 00:02+0100\n"
-"PO-Revision-Date: 2013-02-19 21:50+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:31+0000\n"
 "Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -102,8 +102,8 @@ msgstr "Verwijder"
 msgid "Rename"
 msgstr "Hernoem"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:291 js/files.js:407
-#: js/files.js:438
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:292 js/files.js:408
+#: js/files.js:439
 msgid "Pending"
 msgstr "Wachten"
 
@@ -161,74 +161,74 @@ msgstr "Uw opslagruimte zit vol, Bestanden kunnen niet meer worden ge-upload of 
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Uw opslagruimte zit bijna vol ({usedSpacePercent}%)"
 
-#: js/files.js:224
+#: js/files.js:225
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Uw download wordt voorbereid. Dit kan enige tijd duren bij grote bestanden."
 
-#: js/files.js:261
+#: js/files.js:262
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "uploaden van de file mislukt, het is of een directory of de bestandsgrootte is 0 bytes"
 
-#: js/files.js:261
+#: js/files.js:262
 msgid "Upload Error"
 msgstr "Upload Fout"
 
-#: js/files.js:272
+#: js/files.js:273
 msgid "Close"
 msgstr "Sluit"
 
-#: js/files.js:311
+#: js/files.js:312
 msgid "1 file uploading"
 msgstr "1 bestand wordt ge-upload"
 
-#: js/files.js:314 js/files.js:369 js/files.js:384
+#: js/files.js:315 js/files.js:370 js/files.js:385
 msgid "{count} files uploading"
 msgstr "{count} bestanden aan het uploaden"
 
-#: js/files.js:387 js/files.js:422
+#: js/files.js:388 js/files.js:423
 msgid "Upload cancelled."
 msgstr "Uploaden geannuleerd."
 
-#: js/files.js:496
+#: js/files.js:497
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Bestandsupload is bezig. Wanneer de pagina nu verlaten wordt, stopt de upload."
 
-#: js/files.js:569
+#: js/files.js:570
 msgid "URL cannot be empty."
 msgstr "URL kan niet leeg zijn."
 
-#: js/files.js:574
+#: js/files.js:575
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Ongeldige mapnaam. Gebruik van'Gedeeld' is voorbehouden aan Owncloud"
 
-#: js/files.js:948 templates/index.php:67
+#: js/files.js:949 templates/index.php:67
 msgid "Name"
 msgstr "Naam"
 
-#: js/files.js:949 templates/index.php:78
+#: js/files.js:950 templates/index.php:78
 msgid "Size"
 msgstr "Bestandsgrootte"
 
-#: js/files.js:950 templates/index.php:80
+#: js/files.js:951 templates/index.php:80
 msgid "Modified"
 msgstr "Laatst aangepast"
 
-#: js/files.js:969
+#: js/files.js:970
 msgid "1 folder"
 msgstr "1 map"
 
-#: js/files.js:971
+#: js/files.js:972
 msgid "{count} folders"
 msgstr "{count} mappen"
 
-#: js/files.js:979
+#: js/files.js:980
 msgid "1 file"
 msgstr "1 bestand"
 
-#: js/files.js:981
+#: js/files.js:982
 msgid "{count} files"
 msgstr "{count} bestanden"
 

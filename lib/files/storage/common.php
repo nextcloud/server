@@ -97,8 +97,8 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	public function copy($path1, $path2) {
 		$source=$this->fopen($path1, 'r');
 		$target=$this->fopen($path2, 'w');
-		$count=\OC_Helper::streamCopy($source, $target);
-		return $count>0;
+		list($count, $result) = \OC_Helper::streamCopy($source, $target);
+		return $result;
 	}
 
 	/**
@@ -278,7 +278,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			return uniqid();
 		}
 	}
-	
+
 	/**
 	 * clean a path, i.e. remove all redundant '.' and '..'
 	 * making sure that it can't point to higher than '/'
@@ -289,7 +289,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		if (strlen($path) == 0 or $path[0] != '/') {
 			$path = '/' . $path;
 		}
-		
+
 		$output = array();
 		foreach (explode('/', $path) as $chunk) {
 			if ($chunk == '..') {
