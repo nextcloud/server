@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"POT-Creation-Date: 2013-02-25 00:05+0100\n"
 "PO-Revision-Date: 2011-07-25 16:05+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Burmese (Myanmar) (http://www.transifex.com/projects/p/owncloud/language/my_MM/)\n"
@@ -21,8 +21,8 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr ""
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:15
-#: ajax/togglegroups.php:18
+#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/togglegroups.php:20
 msgid "Authentication error"
 msgstr "ခွင့်ပြုချက်မအောင်မြင်"
 
@@ -70,12 +70,12 @@ msgstr ""
 msgid "Admins can't remove themself from the admin group"
 msgstr ""
 
-#: ajax/togglegroups.php:28
+#: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
 msgstr ""
 
-#: ajax/togglegroups.php:34
+#: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr ""
@@ -167,7 +167,7 @@ msgstr ""
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr ""
+msgstr "လုံခြုံရေးသတိပေးချက်"
 
 #: templates/admin.php:18
 msgid ""
@@ -316,11 +316,11 @@ msgstr ""
 msgid "More"
 msgstr ""
 
-#: templates/admin.php:227 templates/personal.php:98
+#: templates/admin.php:227 templates/personal.php:102
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:230 templates/personal.php:100
+#: templates/admin.php:230 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -330,51 +330,51 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr ""
 
-#: templates/apps.php:10
+#: templates/apps.php:11
 msgid "Add your App"
 msgstr ""
 
-#: templates/apps.php:11
+#: templates/apps.php:12
 msgid "More Apps"
 msgstr ""
 
-#: templates/apps.php:24
+#: templates/apps.php:28
 msgid "Select an App"
 msgstr ""
 
-#: templates/apps.php:28
+#: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
 msgstr ""
 
-#: templates/apps.php:29
+#: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr ""
 
-#: templates/apps.php:31
+#: templates/apps.php:38
 msgid "Update"
 msgstr ""
 
-#: templates/help.php:3
+#: templates/help.php:4
 msgid "User Documentation"
 msgstr ""
 
-#: templates/help.php:4
+#: templates/help.php:6
 msgid "Administrator Documentation"
 msgstr ""
 
-#: templates/help.php:6
+#: templates/help.php:9
 msgid "Online Documentation"
 msgstr ""
 
-#: templates/help.php:7
+#: templates/help.php:11
 msgid "Forum"
 msgstr ""
 
-#: templates/help.php:9
+#: templates/help.php:14
 msgid "Bugtracker"
 msgstr ""
 
-#: templates/help.php:11
+#: templates/help.php:17
 msgid "Commercial Support"
 msgstr ""
 
@@ -383,79 +383,79 @@ msgstr ""
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr ""
 
-#: templates/personal.php:14
+#: templates/personal.php:15
 msgid "Get the apps to sync your files"
 msgstr ""
 
-#: templates/personal.php:25
+#: templates/personal.php:26
 msgid "Show First Run Wizard again"
 msgstr ""
 
-#: templates/personal.php:36 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
 msgid "Password"
-msgstr ""
+msgstr "စကားဝှက်"
 
-#: templates/personal.php:37
+#: templates/personal.php:38
 msgid "Your password was changed"
 msgstr ""
 
-#: templates/personal.php:38
+#: templates/personal.php:39
 msgid "Unable to change your password"
 msgstr ""
 
-#: templates/personal.php:39
+#: templates/personal.php:40
 msgid "Current password"
 msgstr ""
 
-#: templates/personal.php:40
-msgid "New password"
-msgstr ""
-
 #: templates/personal.php:42
+msgid "New password"
+msgstr "စကားဝှက်အသစ်"
+
+#: templates/personal.php:44
 msgid "Change password"
 msgstr ""
 
-#: templates/personal.php:54 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:78
 msgid "Display Name"
 msgstr ""
 
-#: templates/personal.php:55
+#: templates/personal.php:57
 msgid "Your display name was changed"
 msgstr ""
 
-#: templates/personal.php:56
+#: templates/personal.php:58
 msgid "Unable to change your display name"
 msgstr ""
 
-#: templates/personal.php:59
+#: templates/personal.php:61
 msgid "Change display name"
 msgstr ""
 
-#: templates/personal.php:68
+#: templates/personal.php:70
 msgid "Email"
 msgstr ""
 
-#: templates/personal.php:69
+#: templates/personal.php:72
 msgid "Your email address"
 msgstr ""
 
-#: templates/personal.php:70
+#: templates/personal.php:73
 msgid "Fill in an email address to enable password recovery"
 msgstr ""
 
-#: templates/personal.php:76 templates/personal.php:77
+#: templates/personal.php:79 templates/personal.php:80
 msgid "Language"
 msgstr ""
 
-#: templates/personal.php:82
+#: templates/personal.php:86
 msgid "Help translate"
 msgstr ""
 
-#: templates/personal.php:87
+#: templates/personal.php:91
 msgid "WebDAV"
 msgstr ""
 
-#: templates/personal.php:89
+#: templates/personal.php:93
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr ""
 

@@ -285,7 +285,7 @@ class View {
 				}
 				$target = $this->fopen($path, 'w');
 				if ($target) {
-					$count = \OC_Helper::streamCopy($data, $target);
+					list ($count, $result) = \OC_Helper::streamCopy($data, $target);
 					fclose($target);
 					fclose($data);
 					if ($this->fakeRoot == Filesystem::getRoot()) {
@@ -303,7 +303,7 @@ class View {
 						);
 					}
 					\OC_FileProxy::runPostProxies('file_put_contents', $absolutePath, $count);
-					return $count > 0;
+					return $result;
 				} else {
 					return false;
 				}
@@ -361,10 +361,9 @@ class View {
 				} else {
 					$source = $this->fopen($path1 . $postFix1, 'r');
 					$target = $this->fopen($path2 . $postFix2, 'w');
-					$count = \OC_Helper::streamCopy($source, $target);
+					list($count, $result) = \OC_Helper::streamCopy($source, $target);
 					list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
 					$storage1->unlink($internalPath1);
-					$result = $count > 0;
 				}
 				if ($this->fakeRoot == Filesystem::getRoot()) {
 					\OC_Hook::emit(
@@ -444,7 +443,7 @@ class View {
 				} else {
 					$source = $this->fopen($path1 . $postFix1, 'r');
 					$target = $this->fopen($path2 . $postFix2, 'w');
-					$result = \OC_Helper::streamCopy($source, $target);
+					list($count, $result) = \OC_Helper::streamCopy($source, $target);
 				}
 				if ($this->fakeRoot == Filesystem::getRoot()) {
 					\OC_Hook::emit(

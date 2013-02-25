@@ -40,11 +40,13 @@ class OC_Setup {
 			$error[] = $l->t('Specify a data folder.');
 		}
 
-		if($dbtype=='mysql' or $dbtype == 'pgsql' or $dbtype == 'oci') { //mysql and postgresql needs more config options
-			if($dbtype=='mysql')
+		if($dbtype == 'mysql' or $dbtype == 'pgsql' or $dbtype == 'oci' or $dbtype == 'mssql') { //mysql and postgresql needs more config options
+			if($dbtype == 'mysql')
 				$dbprettyname = 'MySQL';
-			else if($dbtype=='pgsql')
+			else if($dbtype == 'pgsql')
 				$dbprettyname = 'PostgreSQL';
+			else if ($dbtype == 'mssql')
+				$dbprettyname = 'MS SQL Server';
 			else
 				$dbprettyname = 'Oracle';
 
@@ -148,6 +150,29 @@ class OC_Setup {
 					$error[] = array(
 						'error' => $l->t('Oracle username and/or password not valid'),
 						'hint' => $l->t('You need to enter either an existing account or the administrator.')
+					);
+					return $error;
+				}
+			}
+			elseif ($dbtype == 'mssql') {
+				$dbuser = $options['dbuser'];
+				$dbpass = $options['dbpass'];
+				$dbname = $options['dbname'];
+				$dbhost = $options['dbhost'];
+				$dbtableprefix = isset($options['dbtableprefix']) ? $options['dbtableprefix'] : 'oc_';
+
+				OC_Config::setValue('dbname', $dbname);
+				OC_Config::setValue('dbhost', $dbhost);
+				OC_Config::setValue('dbuser', $dbuser);
+				OC_Config::setValue('dbpassword', $dbpass);
+				OC_Config::setValue('dbtableprefix', $dbtableprefix);
+
+				try {
+					self::setupMSSQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix);
+				} catch (Exception $e) {
+					$error[] = array(
+						'error' => 'MS SQL username and/or password not valid',
+						'hint' => 'You need to enter either an existing account or the administrator.'
 					);
 					return $error;
 				}
@@ -256,11 +281,12 @@ class OC_Setup {
 		if(!$result) {
 			$entry = $l->t('DB Error: "%s"', array(mysql_error($connection))) . '<br />';
 			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
-			echo($entry);
+			\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
 		}
 		$query="GRANT ALL PRIVILEGES ON  `$name` . * TO  '$user'";
-		//this query will fail if there aren't the right permissons, ignore the error
-		$result = mysql_query($query, $connection);
+
+		//this query will fail if there aren't the right permissions, ignore the error
+		mysql_query($query, $connection);
 	}
 
 	private static function createDBUser($name, $password, $connection) {
@@ -359,7 +385,7 @@ class OC_Setup {
 		if(!$result) {
 			$entry = $l->t('DB Error: "%s"', array(pg_last_error($connection))) . '<br />';
 			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
-			echo($entry);
+			\OC_Log::write('setup.pg', $entry, \OC_Log::WARN);
 		}
 		if(! pg_fetch_row($result)) {
 			//The database does not exists... let's create it
@@ -368,11 +394,11 @@ class OC_Setup {
 			if(!$result) {
 				$entry = $l->t('DB Error: "%s"', array(pg_last_error($connection))) . '<br />';
 				$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
-				echo($entry);
+				\OC_Log::write('setup.pg', $entry, \OC_Log::WARN);
 			}
 			else {
 				$query = "REVOKE ALL PRIVILEGES ON DATABASE \"$e_name\" FROM PUBLIC";
-				$result = pg_query($connection, $query);
+				pg_query($connection, $query);
 			}
 		}
 	}
@@ -386,7 +412,7 @@ class OC_Setup {
 		if(!$result) {
 			$entry = $l->t('DB Error: "%s"', array(pg_last_error($connection))) . '<br />';
 			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
-			echo($entry);
+			\OC_Log::write('setup.pg', $entry, \OC_Log::WARN);
 		}
 
 		if(! pg_fetch_row($result)) {
@@ -396,7 +422,7 @@ class OC_Setup {
 			if(!$result) {
 				$entry = $l->t('DB Error: "%s"', array(pg_last_error($connection))) . '<br />';
 				$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
-				echo($entry);
+				\OC_Log::write('setup.pg', $entry, \OC_Log::WARN);
 			}
 		}
 		else { // change password of the existing role
@@ -405,7 +431,7 @@ class OC_Setup {
 			if(!$result) {
 				$entry = $l->t('DB Error: "%s"', array(pg_last_error($connection))) . '<br />';
 				$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
-				echo($entry);
+				\OC_Log::write('setup.pg', $entry, \OC_Log::WARN);
 			}
 		}
 	}
@@ -434,7 +460,7 @@ class OC_Setup {
 		if (!$stmt) {
 			$entry = $l->t('DB Error: "%s"', array(oci_last_error($connection))) . '<br />';
 			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
-			echo($entry);
+			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
 		$result = oci_execute($stmt);
 		if($result) {
@@ -498,9 +524,9 @@ class OC_Setup {
 		$un = $dbtableprefix.'users';
 		oci_bind_by_name($stmt, ':un', $un);
 		if (!$stmt) {
-			$entry = $l->t('DB Error: "%s"', array(oci_last_error($connection))) . '<br />';
+			$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
 			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
-			echo($entry);
+			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
 		$result = oci_execute($stmt);
 
@@ -526,14 +552,14 @@ class OC_Setup {
 		if (!$stmt) {
 			$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
 			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
-			echo($entry);
+			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
 		oci_bind_by_name($stmt, ':un', $name);
 		$result = oci_execute($stmt);
 		if(!$result) {
 			$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
 			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
-			echo($entry);
+			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
 
 		if(! oci_fetch_row($stmt)) {
@@ -544,7 +570,7 @@ class OC_Setup {
 			if (!$stmt) {
 				$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
 				$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
-				echo($entry);
+				\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 			}
 			//oci_bind_by_name($stmt, ':un', $name);
 			$result = oci_execute($stmt);
@@ -552,7 +578,7 @@ class OC_Setup {
 				$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
 				$entry .= $l->t('Offending command was: "%s", name: %s, password: %s',
 					array($query, $name, $password)) . '<br />';
-				echo($entry);
+				\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 			}
 		} else { // change password of the existing role
 			$query = "ALTER USER :un IDENTIFIED BY :pw";
@@ -560,7 +586,7 @@ class OC_Setup {
 			if (!$stmt) {
 				$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
 				$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
-				echo($entry);
+				\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 			}
 			oci_bind_by_name($stmt, ':un', $name);
 			oci_bind_by_name($stmt, ':pw', $password);
@@ -568,24 +594,198 @@ class OC_Setup {
 			if(!$result) {
 				$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
 				$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
-				echo($entry);
+				\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 			}
 		}
-		// grant neccessary roles
+		// grant necessary roles
 		$query = 'GRANT CREATE SESSION, CREATE TABLE, CREATE SEQUENCE, CREATE TRIGGER, UNLIMITED TABLESPACE TO '.$name;
 		$stmt = oci_parse($connection, $query);
 		if (!$stmt) {
 			$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
 			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
-			echo($entry);
+			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
 		$result = oci_execute($stmt);
 		if(!$result) {
 			$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
 			$entry .= $l->t('Offending command was: "%s", name: %s, password: %s',
 				array($query, $name, $password)) . '<br />';
-			echo($entry);
+			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
+	}
+
+	private static function setupMSSQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix) {
+		$l = self::getTrans();
+
+		//check if the database user has admin right
+		$masterConnectionInfo = array( "Database" => "master", "UID" => $dbuser, "PWD" => $dbpass);
+
+		$masterConnection = @sqlsrv_connect($dbhost, $masterConnectionInfo);
+		if(!$masterConnection) {
+			$entry = null;
+			if( ($errors = sqlsrv_errors() ) != null) {
+				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+			} else {
+				$entry = '';
+			}
+			throw new Exception($l->t('MS SQL username and/or password not valid: $s', array($entry)));
+		}
+
+		OC_Config::setValue('dbuser', $dbuser);
+		OC_Config::setValue('dbpassword', $dbpass);
+
+		self::mssql_createDBLogin($dbuser, $dbpass, $masterConnection);
+
+		self::mssql_createDatabase($dbname, $masterConnection);
+
+		self::mssql_createDBUser($dbuser, $dbname, $masterConnection);
+
+		sqlsrv_close($masterConnection);
+
+		self::mssql_createDatabaseStructure($dbhost, $dbname, $dbuser, $dbpass, $dbtableprefix);
+	}
+
+	private static function mssql_createDBLogin($name, $password, $connection) {
+		$query = "SELECT * FROM master.sys.server_principals WHERE name = '".$name."';";
+		$result = sqlsrv_query($connection, $query);
+		if ($result === false) {
+			if ( ($errors = sqlsrv_errors() ) != null) {
+				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+			} else {
+				$entry = '';
+			}
+			$entry.='Offending command was: '.$query.'<br />';
+			\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+		} else {
+			$row = sqlsrv_fetch_array($result);
+
+			if ($row === false) {
+				if ( ($errors = sqlsrv_errors() ) != null) {
+					$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+				} else {
+					$entry = '';
+				}
+				$entry.='Offending command was: '.$query.'<br />';
+				\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+			} else {
+				if ($row == null) {
+					$query = "CREATE LOGIN [".$name."] WITH PASSWORD = '".$password."';";
+					$result = sqlsrv_query($connection, $query);
+					if (!$result or $result === false) {
+						if ( ($errors = sqlsrv_errors() ) != null) {
+							$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+						} else {
+							$entry = '';
+						}
+						$entry.='Offending command was: '.$query.'<br />';
+						\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+					}
+				}
+			}
+		}
+	}
+
+	private static function mssql_createDBUser($name, $dbname, $connection) {
+		$query = "SELECT * FROM [".$dbname."].sys.database_principals WHERE name = '".$name."';";
+		$result = sqlsrv_query($connection, $query);
+		if ($result === false) {
+			if ( ($errors = sqlsrv_errors() ) != null) {
+				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+			} else {
+				$entry = '';
+			}
+			$entry.='Offending command was: '.$query.'<br />';
+			\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+		} else {
+			$row = sqlsrv_fetch_array($result);
+
+			if ($row === false) {
+				if ( ($errors = sqlsrv_errors() ) != null) {
+					$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+				} else {
+					$entry = '';
+				}
+				$entry.='Offending command was: '.$query.'<br />';
+				\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+			} else {
+				if ($row == null) {
+					$query = "USE [".$dbname."]; CREATE USER [".$name."] FOR LOGIN [".$name."];";
+					$result = sqlsrv_query($connection, $query);
+					if (!$result || $result === false) {
+						if ( ($errors = sqlsrv_errors() ) != null) {
+							$entry = 'DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+						} else {
+							$entry = '';
+						}
+						$entry.='Offending command was: '.$query.'<br />';
+						\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+					}
+				}
+
+				$query = "USE [".$dbname."]; EXEC sp_addrolemember 'db_owner', '".$name."';";
+				$result = sqlsrv_query($connection, $query);
+				if (!$result || $result === false) {
+					if ( ($errors = sqlsrv_errors() ) != null) {
+						$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+					} else {
+						$entry = '';
+					}
+					$entry.='Offending command was: '.$query.'<br />';
+					\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+				}
+			}
+		}
+	}
+
+	private static function mssql_createDatabase($dbname, $connection) {
+		$query = "CREATE DATABASE [".$dbname."];";
+		$result = sqlsrv_query($connection, $query);
+		if (!$result || $result === false) {
+			if ( ($errors = sqlsrv_errors() ) != null) {
+				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+			} else {
+				$entry = '';
+			}
+			$entry.='Offending command was: '.$query.'<br />';
+			\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+		}
+	}
+
+	private static function mssql_createDatabaseStructure($dbhost, $dbname, $dbuser, $dbpass, $dbtableprefix) {
+		$connectionInfo = array( "Database" => $dbname, "UID" => $dbuser, "PWD" => $dbpass);
+
+		$connection = @sqlsrv_connect($dbhost, $connectionInfo);
+
+		//fill the database if needed
+		$query = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{$dbname}' AND TABLE_NAME = '{$dbtableprefix}users'";
+		$result = sqlsrv_query($connection, $query);
+		if ($result === false) {
+			if ( ($errors = sqlsrv_errors() ) != null) {
+				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+			} else {
+				$entry = '';
+			}
+			$entry.='Offending command was: '.$query.'<br />';
+			\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+		} else {
+			$row = sqlsrv_fetch_array($result);
+
+			if ($row === false) {
+				if ( ($errors = sqlsrv_errors() ) != null) {
+					$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+				} else {
+					$entry = '';
+				}
+				$entry.='Offending command was: '.$query.'<br />';
+				\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+			} else {
+				if ($row == null) {
+					OC_DB::createDbFromStructure('db_structure.xml');
+				}
+			}
+		}
+
+		sqlsrv_close($connection);
 	}
 
 	/**

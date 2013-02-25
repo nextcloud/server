@@ -524,7 +524,7 @@ $(document).ready(function() {
 		crumb.text(text);
 	}
 
-	$(window).click(function(){
+	$(document).click(function(){
 		$('#new>ul').hide();
 		$('#new').removeClass('active');
 		$('#new li').each(function(i,element){
@@ -595,7 +595,7 @@ $(document).ready(function() {
 								var date=new Date();
 								FileList.addFile(name,0,date,false,hidden);
 								var tr=$('tr').filterAttr('data-file',name);
-								tr.data('mime','text/plain').data('id',result.data.id);
+								tr.attr('data-mime','text/plain');
 								tr.attr('data-id', result.data.id);
 								getMimeIcon('text/plain',function(path){
 									tr.find('td.filename').attr('style','background-image:url('+path+')');
@@ -863,6 +863,10 @@ var dragOptions={
 		$('#fileList tr td.filename').addClass('ui-draggable');
 	}
 }
+// sane browsers support using the distance option
+if ( ! $.browser.msie) {
+	dragOptions['distance'] = 20;
+} 
 
 var folderDropOptions={
 	drop: function( event, ui ) {

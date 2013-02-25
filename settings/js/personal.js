@@ -42,9 +42,9 @@ $(document).ready(function(){
 			$.post( 'ajax/changedisplayname.php', post, function(data){
 				if( data.status == "success" ){
 					$('#displaynamechanged').show();
-					$('#oldDisplayName').val($('#displayName').val());
+					$('#oldDisplayName').text($('#displayName').val());
 					// update displayName on the top right expand button
-					$('#expandDisplayName').html($('#displayName').val());
+					$('#expandDisplayName').text($('#displayName').val());
 				}
 				else{
 					$('#newdisplayname').val(data.data.displayName)

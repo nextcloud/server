@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:30+0000\n"
+"POT-Creation-Date: 2013-02-25 00:05+0100\n"
+"PO-Revision-Date: 2013-02-24 12:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -54,27 +54,27 @@ msgid ""
 "the HTML form"
 msgstr "הקובץ שהועלה חרג מההנחיה MAX_FILE_SIZE שצוינה בטופס ה־HTML"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
 msgstr "הקובץ שהועלה הועלה בצורה חלקית"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:31
 msgid "No file was uploaded"
 msgstr "לא הועלו קבצים"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:32
 msgid "Missing a temporary folder"
 msgstr "תיקייה זמנית חסרה"
 
-#: ajax/upload.php:34
+#: ajax/upload.php:33
 msgid "Failed to write to disk"
 msgstr "הכתיבה לכונן נכשלה"
 
-#: ajax/upload.php:52
+#: ajax/upload.php:51
 msgid "Not enough storage available"
 msgstr ""
 
-#: ajax/upload.php:83
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr ""
 
@@ -84,7 +84,7 @@ msgstr "קבצים"
 
 #: js/fileactions.js:125
 msgid "Delete permanently"
-msgstr ""
+msgstr "מחק לצמיתות"
 
 #: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
 msgid "Delete"

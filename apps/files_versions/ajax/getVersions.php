@@ -1,11 +1,11 @@
 <?php
 OCP\JSON::checkAppEnabled('files_versions');
 
-$userDirectory = "/".OCP\USER::getUser()."/files";
 $source = $_GET['source'];
+list ($uid, $filename) = OCA\Files_Versions\Storage::getUidAndFilename($source);
 
 $count = 5; //show the newest revisions
-if( ($versions = OCA\Files_Versions\Storage::getVersions( $source, $count)) ) {
+if( ($versions = OCA\Files_Versions\Storage::getVersions($uid, $filename, $count)) ) {
 
 	$versionsFormatted = array();
 

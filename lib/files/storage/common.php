@@ -97,8 +97,8 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	public function copy($path1, $path2) {
 		$source=$this->fopen($path1, 'r');
 		$target=$this->fopen($path2, 'w');
-		$count=\OC_Helper::streamCopy($source, $target);
-		return $count>0;
+		list($count, $result) = \OC_Helper::streamCopy($source, $target);
+		return $result;
 	}
 
 	/**

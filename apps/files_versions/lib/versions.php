@@ -35,7 +35,7 @@ class Storage {
 		6 => array('intervalEndsAfter' => -1,      'step' => 604800),
 	);
 
-	private static function getUidAndFilename($filename) {
+	public static function getUidAndFilename($filename) {
 		$uid = \OC\Files\Filesystem::getOwner($filename);
 		\OC\Files\Filesystem::initMountPoints($uid);
 		if ( $uid != \OCP\User::getUser() ) {
@@ -46,6 +46,37 @@ class Storage {
 		return array($uid, $filename);
 	}
 
+	/**
+	 * get current size of all versions from a given user
+	 * 
+	 * @param $user user who owns the versions
+	 * @return mixed versions size or false if no versions size is stored
+	 */
+	private static function getVersionsSize($user) {
+		$query = \OC_DB::prepare('SELECT size FROM *PREFIX*files_versions WHERE user=?');
+		$result = $query->execute(array($user))->fetchAll();
+		
+		if ($result) {
+			return $result[0]['size'];
+		}
+		return false;
+	}
+	
+	/**
+	 * write to the database how much space is in use for versions
+	 * 
+	 * @param $user owner of the versions
+	 * @param $size size of the versions
+	 */
+	private static function setVersionsSize($user, $size) {
+		if ( self::getVersionsSize($user) === false) {
+			$query = \OC_DB::prepare('INSERT INTO *PREFIX*files_versions (size, user) VALUES (?, ?)');
+		}else {
+			$query = \OC_DB::prepare('UPDATE *PREFIX*files_versions SET size=? WHERE user=?');
+		}
+		$query->execute(array($size, $user));
+	}
+	
 	/**
 	 * store a new version of a file.
 	 */
@@ -74,17 +105,19 @@ class Storage {
 			}
 
 			// store a new version of a file
-			$result = $users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
-			if (  ($versionsSize = \OCP\Config::getAppValue('files_versions', 'size')) === null ) {
+			$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
+			$versionsSize = self::getVersionsSize($uid);
+			if (  $versionsSize === false || $versionSize < 0 ) {
 				$versionsSize = self::calculateSize($uid);
 			}
+
 			$versionsSize += $users_view->filesize('files'.$filename);
 
 			// expire old revisions if necessary
 			$newSize = self::expire($filename, $versionsSize);
 
 			if ( $newSize != $versionsSize ) {
-				\OCP\Config::setAppValue('files_versions', 'size', $versionsSize);
+				self::setVersionsSize($uid, $newSize);
 			}
 		}
 	}
@@ -99,14 +132,15 @@ class Storage {
 
 		$abs_path = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('').$filename.'.v';
 		if( ($versions = self::getVersions($uid, $filename)) ) {
-			if (  ($versionsSize = \OCP\Config::getAppValue('files_versions', 'size')) === null ) {
+			$versionsSize = self::getVersionsSize($uid);
+			if ( $versionsSize === false || $versionsSize < 0 ) {
 				$versionsSize = self::calculateSize($uid);
 			}
 			foreach ($versions as $v) {
 				unlink($abs_path . $v['version']);
 				$versionsSize -= $v['size'];
 			}
-			\OCP\Config::setAppValue('files_versions', 'size', $versionsSize);
+			self::setVersionsSize($uid, $versionsSize);
 		}
 	}
 
@@ -316,17 +350,20 @@ class Storage {
 			$versions_fileview = new \OC\Files\View('/'.$uid.'/files_versions');
 
 			// get available disk space for user
-			$quota = \OCP\Util::computerFileSize(\OC_Preferences::getValue($uid, 'files', 'quota'));
-			if ( $quota == null ) {
-				$quota = \OCP\Util::computerFileSize(\OC_Appconfig::getValue('files', 'default_quota'));
+			$quota = \OC_Preferences::getValue($uid, 'files', 'quota');
+			if ( $quota === null ) {
+				$quota = \OC_Appconfig::getValue('files', 'default_quota');
 			}
-			if ( $quota == null ) {
-				$quota = \OC\Files\Filesystem::free_space('/');
+			if ( $quota === null ) {
+				$quota = \OC\Files\Filesystem::free_space('/') / count(\OCP\User::getUsers());
+			} else {
+				$quota = \OCP\Util::computerFileSize($quota);
 			}
 
 			// make sure that we have the current size of the version history
 			if ( $versionsSize === null ) {
-				if (  ($versionsSize = \OCP\Config::getAppValue('files_versions', 'size')) === null ) {
+				$versionsSize = self::getVersionsSize($uid);
+				if (  $versionsSize === false || $versionsSize < 0 ) {
 					$versionsSize = self::calculateSize($uid);
 				}
 			}

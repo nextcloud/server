@@ -334,7 +334,7 @@ var FileList={
 					if (result.status == 'success') {
 						$.each(files,function(index,file){
 							var files = $('tr').filterAttr('data-file',file);
-							files.hide();
+							files.remove();
 							files.find('input[type="checkbox"]').removeAttr('checked');
 							files.removeClass('selected');
 						});
