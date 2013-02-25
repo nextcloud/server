@@ -223,7 +223,8 @@ class OC_App{
 			// check if the app is compatible with this version of ownCloud
 			$info=OC_App::getAppInfo($app);
 			$version=OC_Util::getVersion();
-			if(!isset($info['require']) or ($version[0]>$info['require'])) {
+                        $fullVersion = (float) ($version[0] . '.' . $version[1] . $version[2]);
+                        if(!isset($info['require']) or ($fullVersion < (float) $info['require'])) {
 				OC_Log::write('core',
 					'App "'.$info['name'].'" can\'t be installed because it is'
 					.' not compatible with this version of ownCloud',
@@ -851,7 +852,8 @@ class OC_App{
 		foreach($apps as $app) {
 			// check if the app is compatible with this version of ownCloud
 			$info = OC_App::getAppInfo($app);
-			if(!isset($info['require']) or (($version[0].'.'.$version[1])>$info['require'])) {
+                        $fullVersion = (float) ($version[0] . '.' . $version[1] . $version[2]);
+                        if(!isset($info['require']) or ($fullVersion < (float) $info['require'])) {
 				OC_Log::write('core',
 					'App "'.$info['name'].'" ('.$app.') can\'t be used because it is'
 					.' not compatible with this version of ownCloud',
