@@ -10,6 +10,7 @@
 #  <juanma@kde.org.ar>, 2013.
 #   <juanma@kde.org.ar>, 2012-2013.
 #   <karvayoEdgar@gmail.com>, 2013.
+# Ricardo A. Hermosilla Carrillo <ra.hermosillac@gmail.com>, 2013.
 # Rubén Trujillo <rubentrf@gmail.com>, 2012.
 #   <sergioballesterossolanas@gmail.com>, 2011-2012.
 #   <sergio@entrecables.com>, 2012.
@@ -18,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:30+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-26 00:04+0100\n"
+"PO-Revision-Date: 2013-02-25 14:57+0000\n"
+"Last-Translator: Ricardo Hermosilla <ra.hermosillac@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -61,27 +62,27 @@ msgid ""
 "the HTML form"
 msgstr "El archivo que intentas subir sobrepasa el tamaño definido por la variable MAX_FILE_SIZE especificada en el formulario HTML"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
 msgstr "El archivo que intentas subir solo se subió parcialmente"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:31
 msgid "No file was uploaded"
 msgstr "No se ha subido ningún archivo"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:32
 msgid "Missing a temporary folder"
 msgstr "Falta un directorio temporal"
 
-#: ajax/upload.php:34
+#: ajax/upload.php:33
 msgid "Failed to write to disk"
 msgstr "La escritura en disco ha fallado"
 
-#: ajax/upload.php:52
+#: ajax/upload.php:51
 msgid "Not enough storage available"
 msgstr "No hay suficiente espacio disponible"
 
-#: ajax/upload.php:83
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "Directorio invalido."
 
@@ -203,31 +204,31 @@ msgstr "La URL no puede estar vacía."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nombre de carpeta invalido. El uso de \"Shared\" esta reservado para Owncloud"
 
-#: js/files.js:949 templates/index.php:67
+#: js/files.js:953 templates/index.php:67
 msgid "Name"
 msgstr "Nombre"
 
-#: js/files.js:950 templates/index.php:78
+#: js/files.js:954 templates/index.php:78
 msgid "Size"
 msgstr "Tamaño"
 
-#: js/files.js:951 templates/index.php:80
+#: js/files.js:955 templates/index.php:80
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/files.js:970
+#: js/files.js:974
 msgid "1 folder"
 msgstr "1 carpeta"
 
-#: js/files.js:972
+#: js/files.js:976
 msgid "{count} folders"
 msgstr "{count} carpetas"
 
-#: js/files.js:980
+#: js/files.js:984
 msgid "1 file"
 msgstr "1 archivo"
 
-#: js/files.js:982
+#: js/files.js:986
 msgid "{count} files"
 msgstr "{count} archivos"
 
@@ -285,7 +286,7 @@ msgstr "Desde el enlace"
 
 #: templates/index.php:40
 msgid "Deleted files"
-msgstr ""
+msgstr "Archivos eliminados"
 
 #: templates/index.php:46
 msgid "Cancel upload"

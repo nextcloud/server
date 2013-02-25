@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-20 00:02+0100\n"
-"PO-Revision-Date: 2013-02-19 12:10+0000\n"
-"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
+"POT-Creation-Date: 2013-02-26 00:05+0100\n"
+"PO-Revision-Date: 2013-02-25 23:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -101,87 +101,91 @@ msgstr "Estabeleza un contrasinal de administrador"
 msgid "Specify a data folder."
 msgstr "Especifique un cartafol de datos."
 
-#: setup.php:53
+#: setup.php:55
 #, php-format
 msgid "%s enter the database username."
 msgstr "%s introduza o nome de usuario da base de datos"
 
-#: setup.php:56
+#: setup.php:58
 #, php-format
 msgid "%s enter the database name."
 msgstr "%s introduza o nome da base de datos"
 
-#: setup.php:59
+#: setup.php:61
 #, php-format
 msgid "%s you may not use dots in the database name"
 msgstr "%s non se poden empregar puntos na base de datos"
 
-#: setup.php:62
+#: setup.php:64
 #, php-format
 msgid "%s set the database host."
 msgstr "%s estabeleza o servidor da base de datos"
 
-#: setup.php:126 setup.php:294 setup.php:339
+#: setup.php:128 setup.php:320 setup.php:365
 msgid "PostgreSQL username and/or password not valid"
 msgstr "Nome de usuario e/ou contrasinal PostgreSQL incorrecto"
 
-#: setup.php:127 setup.php:150 setup.php:204
+#: setup.php:129 setup.php:152 setup.php:229
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Deberá introducir unha conta existente ou o administrador."
 
-#: setup.php:149 setup.php:427 setup.php:494
+#: setup.php:151 setup.php:453 setup.php:520
 msgid "Oracle username and/or password not valid"
 msgstr "Nome de usuario e/ou contrasinal Oracle incorrecto"
 
-#: setup.php:203
+#: setup.php:228
 msgid "MySQL username and/or password not valid"
 msgstr "Nome de usuario e/ou contrasinal MySQL incorrecto"
 
-#: setup.php:257 setup.php:360 setup.php:369 setup.php:387 setup.php:397
-#: setup.php:406 setup.php:435 setup.php:501 setup.php:527 setup.php:534
-#: setup.php:545 setup.php:552 setup.php:561 setup.php:569 setup.php:578
-#: setup.php:584
+#: setup.php:282 setup.php:386 setup.php:395 setup.php:413 setup.php:423
+#: setup.php:432 setup.php:461 setup.php:527 setup.php:553 setup.php:560
+#: setup.php:571 setup.php:578 setup.php:587 setup.php:595 setup.php:604
+#: setup.php:610
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "Produciuse un erro na base de datos: «%s»"
 
-#: setup.php:258 setup.php:361 setup.php:370 setup.php:388 setup.php:398
-#: setup.php:407 setup.php:436 setup.php:502 setup.php:528 setup.php:535
-#: setup.php:546 setup.php:562 setup.php:570 setup.php:579
+#: setup.php:283 setup.php:387 setup.php:396 setup.php:414 setup.php:424
+#: setup.php:433 setup.php:462 setup.php:528 setup.php:554 setup.php:561
+#: setup.php:572 setup.php:588 setup.php:596 setup.php:605
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "A orde ofensiva foi: «%s»"
 
-#: setup.php:273
+#: setup.php:299
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr "O usuario MySQL  '%s'@'localhost' xa existe."
 
-#: setup.php:274
+#: setup.php:300
 msgid "Drop this user from MySQL"
 msgstr "Omitir este usuario de MySQL"
 
-#: setup.php:279
+#: setup.php:305
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr "O usuario MySQL «%s»@«%%» xa existe."
 
-#: setup.php:280
+#: setup.php:306
 msgid "Drop this user from MySQL."
 msgstr "Omitir este usuario de MySQL."
 
-#: setup.php:553 setup.php:585
+#: setup.php:579 setup.php:611
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "A orde ofensiva foi: «%s», nome: %s, contrasinal: %s"
 
-#: setup.php:649
+#: setup.php:631
+msgid "MS SQL username and/or password not valid: $s"
+msgstr ""
+
+#: setup.php:849
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "O seu servidor web non está aínda configurado adecuadamente para permitir a sincronización de ficheiros xa que semella que a interface WebDAV non está a funcionar."
 
-#: setup.php:651
+#: setup.php:850
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Volva comprobar as <a href='%s'>guías de instalación</a>"

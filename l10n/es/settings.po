@@ -13,6 +13,7 @@
 #  <pedro.navia@etecsa.cu>, 2013.
 #   <pggx999@gmail.com>, 2012.
 # Raul Fernandez Garcia <raulfg3@gmail.com>, 2012.
+# Ricardo A. Hermosilla Carrillo <ra.hermosillac@gmail.com>, 2013.
 #   <rodrigo.calvo@gmail.com>, 2012.
 #   <rom1dep@gmail.com>, 2011.
 # Rubén Trujillo <rubentrf@gmail.com>, 2012.
@@ -22,9 +23,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-23 00:04+0100\n"
-"PO-Revision-Date: 2013-02-22 20:50+0000\n"
-"Last-Translator: dfml <daniel_manterola@dfml.cl>\n"
+"POT-Creation-Date: 2013-02-26 00:05+0100\n"
+"PO-Revision-Date: 2013-02-25 17:21+0000\n"
+"Last-Translator: Ricardo Hermosilla <ra.hermosillac@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -220,7 +221,7 @@ msgstr "El modulo PHP 'fileinfo' no se encuentra. Sugerimos habilitar este modul
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "Configuración regional no está funcionando"
 
 #: templates/admin.php:61
 msgid ""
@@ -228,7 +229,7 @@ msgid ""
 "\"en_US.UTF-8\"/\"en_US.UTF8\". This means that there might be problems with"
 " certain characters in file names. We strongly suggest to install the "
 "required packages on your system to support en_US.UTF-8/en_US.UTF8."
-msgstr ""
+msgstr "Este servidor ownCloud no puede establecer la configuración regional a \"es.UTF-8\"/\"es.UTF8\". Esto significa que pueden haber problemas con ciertos caracteres en los nombres de archivos. Le recomendamos que instale los paquetes requeridos en su sistema para soportar es.UTF-8/es.UTF8."
 
 #: templates/admin.php:72
 msgid "Internet connection not working"
@@ -246,23 +247,23 @@ msgstr "Este servidor ownCloud no tiene conexion de internet. Esto quiere decir 
 
 #: templates/admin.php:89
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:98
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Ejecutar una tarea con cada página cargada"
 
 #: templates/admin.php:108
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php es un sistema webcron registrado. Llame a la página cron.php en la raíz de owncloud una vez por minuto sobre http."
 
 #: templates/admin.php:118
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Utilizar el servicio con del sistema. Llame al archivo cron.php en la carpeta de owncloud vía un sistema conjob una vez por minuto."
 
 #: templates/admin.php:125
 msgid "Sharing"
@@ -270,62 +271,62 @@ msgstr "Compartiendo"
 
 #: templates/admin.php:131
 msgid "Enable Share API"
-msgstr ""
+msgstr "Activar API de Compartición"
 
 #: templates/admin.php:132
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Permitir a las aplicaciones a que usen la API de Compartición"
 
 #: templates/admin.php:139
 msgid "Allow links"
-msgstr ""
+msgstr "Permitir enlaces"
 
 #: templates/admin.php:140
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Permitir a los usuarios compartir elementos al público con enlaces"
 
 #: templates/admin.php:147
 msgid "Allow resharing"
-msgstr ""
+msgstr "Permitir re-compartición"
 
 #: templates/admin.php:148
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Permitir a los usuarios compartir elementos ya compartidos con ellos mismos"
 
 #: templates/admin.php:155
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Permitir a los usuarios compartir con todos"
 
 #: templates/admin.php:158
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Permitir a los usuarios compartir sólo con los usuarios en sus grupos"
 
 #: templates/admin.php:165
 msgid "Security"
-msgstr ""
+msgstr "Seguridad"
 
 #: templates/admin.php:178
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Forzar HTTPS"
 
 #: templates/admin.php:179
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Forzar la conexión de los clientes a ownCloud con una conexión encriptada."
 
 #: templates/admin.php:182
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "Por favor, conecte esta instancia de ownCloud vía HTTPS para activar o desactivar la aplicación SSL"
 
 #: templates/admin.php:192
 msgid "Log"
-msgstr ""
+msgstr "Historial"
 
 #: templates/admin.php:193
 msgid "Log level"
-msgstr ""
+msgstr "Nivel de Historial"
 
 #: templates/admin.php:220
 msgid "More"
