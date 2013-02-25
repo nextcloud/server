@@ -524,7 +524,7 @@ $(document).ready(function() {
 		crumb.text(text);
 	}
 
-	$(window).click(function(){
+	$(document).click(function(){
 		$('#new>ul').hide();
 		$('#new').removeClass('active');
 		$('#new li').each(function(i,element){
