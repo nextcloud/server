@@ -73,9 +73,9 @@ class OC_Util {
 	 * @return array
 	 */
 	public static function getVersion() {
-		// hint: We only can count up. So the internal version number
-		// of ownCloud 4.5 will be 4.90.0. This is not visible to the user
-		return array(4, 92, 10);
+		// hint: We only can count up. Reset minor/patchlevel when
+		// updating major/minor version number.
+		return array(4, 94, 10);
 	}
 
 	/**
@@ -83,7 +83,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString() {
-		return '5.0 alpha 1';
+		return '5.0 beta 2';
 	}
 
 	/**
@@ -269,18 +269,10 @@ class OC_Util {
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
-
-		$handler = ini_get("session.save_handler");
-		if($handler == "files") {
-			$tmpDir = session_save_path();
-			if($tmpDir != "") {
-				if(!@is_writable($tmpDir)) {
-					$errors[]=array('error' => 'The temporary folder used by PHP to save the session data'
-						.' is either incorrect or not writable! Please check : '.session_save_path().'<br/>',
-					'hint'=>'Please ask your server administrator to grant write access'
-						.' or define another temporary folder.');
-				}
-			}
+		if(ini_get('safe_mode')) {
+			$errors[]=array('error'=>'PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly.<br/>',
+				'hint'=>'PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config.');
+			$web_server_restart= false;
 		}
 
 		if($web_server_restart) {
@@ -504,10 +496,10 @@ class OC_Util {
 	 * @return array with sanitized strings or a single sanitized string, depends on the input parameter.
 	 */
 	public static function sanitizeHTML( &$value ) {
-		if (is_array($value) || is_object($value)) {
+		if (is_array($value)) {
 			array_walk_recursive($value, 'OC_Util::sanitizeHTML');
 		} else {
-			$value = htmlentities($value, ENT_QUOTES, 'UTF-8'); //Specify encoding for PHP<5.4
+			$value = htmlentities((string)$value, ENT_QUOTES, 'UTF-8'); //Specify encoding for PHP<5.4
 		}
 		return $value;
 	}
@@ -562,12 +554,17 @@ class OC_Util {
 	 */
 	public static function isWebDAVWorking() {
 		if (!function_exists('curl_init')) {
-			return;
+			return true;
 		}
-
 		$settings = array(
 			'baseUri' => OC_Helper::linkToRemote('webdav'),
 		);
+
+		// save the old timeout so that we can restore it later
+		$old_timeout=ini_get("default_socket_timeout");
+
+		// use a 5 sec timeout for the check. Should be enough for local requests.
+		ini_set("default_socket_timeout", 5);
 
 		$client = new \Sabre_DAV_Client($settings);
 
@@ -578,8 +575,12 @@ class OC_Util {
 		} catch(\Sabre_DAV_Exception_NotAuthenticated $e) {
 			$return = true;
 		} catch(\Exception $e) {
+			OC_Log::write('core', 'isWebDAVWorking: NO - Reason: '.$e, OC_Log::WARN);
 			$return = false;
 		}
+
+		// restore the original timeout
+		ini_set("default_socket_timeout", $old_timeout);
 
 		return $return;
 	}

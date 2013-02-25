@@ -62,7 +62,8 @@ class Files {
 	 * @return int the number of bytes copied
 	 */
 	public static function streamCopy( $source, $target ) {
-		return(\OC_Helper::streamCopy( $source, $target ));
+		list($count, $result) = \OC_Helper::streamCopy( $source, $target );
+		return $count;
 	}
 
 	/**

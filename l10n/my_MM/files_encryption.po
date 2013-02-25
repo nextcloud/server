@@ -1,0 +1,38 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-02-21 00:14+0100\n"
+"PO-Revision-Date: 2012-08-12 22:33+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Burmese (Myanmar) (http://www.transifex.com/projects/p/owncloud/language/my_MM/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: my_MM\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: templates/settings-personal.php:4 templates/settings.php:5
+msgid "Encryption"
+msgstr ""
+
+#: templates/settings-personal.php:7
+msgid "File encryption is enabled."
+msgstr ""
+
+#: templates/settings-personal.php:11
+msgid "The following file types will not be encrypted:"
+msgstr ""
+
+#: templates/settings.php:7
+msgid "Exclude the following file types from encryption:"
+msgstr ""
+
+#: templates/settings.php:12
+msgid "None"
+msgstr ""

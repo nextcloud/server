@@ -413,11 +413,6 @@ class OC_Template{
 
 		if( $this->renderas ) {
 			$page = new OC_TemplateLayout($this->renderas);
-			if($this->renderas == 'user') {
-				$page->assign('requesttoken', $this->vars['requesttoken']);
-				$user = OC_User::getUser();
-				$page->assign('displayname', OCP\User::getDisplayName($user));
-			}
 
 			// Add custom headers
 			$page->assign('headers', $this->headers, false);
@@ -530,8 +525,10 @@ class OC_Template{
 		* @param string $hint An option hint message
 		*/
 	public static function printErrorPage( $error_msg, $hint = '' ) {
+		$content = new OC_Template( '', 'error', 'error' );
 		$errors = array(array('error' => $error_msg, 'hint' => $hint));
-		OC_Template::printGuestPage("", "error", array("errors" => $errors));
+		$content->assign( 'errors', $errors, false );
+		$content->printPage();
 		die();
 	}
 }

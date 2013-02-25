@@ -3,6 +3,7 @@
 "Couldn't restore %s" => "Неможливо відновити %s",
 "perform restore operation" => "виконати операцію відновлення",
 "delete file permanently" => "видалити файл назавжди",
+"Delete permanently" => "Видалити назавжди",
 "Name" => "Ім'я",
 "Deleted" => "Видалено",
 "1 folder" => "1 папка",
@@ -10,5 +11,6 @@
 "1 file" => "1 файл",
 "{count} files" => "{count} файлів",
 "Nothing in here. Your trash bin is empty!" => "Нічого немає. Ваший кошик для сміття пустий!",
-"Restore" => "Відновити"
+"Restore" => "Відновити",
+"Delete" => "Видалити"
 );

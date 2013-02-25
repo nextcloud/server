@@ -5,7 +5,8 @@
  */?>
 
 <div id="quota" class="personalblock"><div style="width:<?php echo $_['usage_relative'];?>%;">
-	<p id="quotatext"><?php echo $l->t('You have used <strong>%s</strong> of the available <strong>%s</strong>', array($_['usage'], $_['total_space']));?></p>
+	<p id="quotatext"><?php echo $l->t('You have used <strong>%s</strong> of the available <strong>%s</strong>',
+		array($_['usage'], $_['total_space']));?></p>
 </div></div>
 
 
@@ -37,7 +38,8 @@ if($_['passwordChangeSupported']) {
 		<div id="passwordchanged"><?php echo $l->t('Your password was changed');?></div>
 		<div id="passworderror"><?php echo $l->t('Unable to change your password');?></div>
 		<input type="password" id="pass1" name="oldpassword" placeholder="<?php echo $l->t('Current password');?>" />
-		<input type="password" id="pass2" name="password" placeholder="<?php echo $l->t('New password');?>" data-typetoggle="#personal-show" />
+		<input type="password" id="pass2" name="password"
+			placeholder="<?php echo $l->t('New password');?>" data-typetoggle="#personal-show" />
 		<input type="checkbox" id="personal-show" name="show" /><label for="personal-show"></label>
 		<input id="passwordbutton" type="submit" value="<?php echo $l->t('Change password');?>" />
 	</fieldset>
@@ -66,7 +68,8 @@ if($_['displayNameChangeSupported']) {
 <form id="lostpassword">
 	<fieldset class="personalblock">
 		<legend><strong><?php echo $l->t('Email');?></strong></legend>
-		<input type="text" name="email" id="email" value="<?php echo $_['email']; ?>" placeholder="<?php echo $l->t('Your email address');?>" /><span class="msg"></span><br />
+		<input type="text" name="email" id="email" value="<?php echo $_['email']; ?>"
+			placeholder="<?php echo $l->t('Your email address');?>" /><span class="msg"></span><br />
 		<em><?php echo $l->t('Fill in an email address to enable password recovery');?></em>
 	</fieldset>
 </form>
@@ -79,7 +82,8 @@ if($_['displayNameChangeSupported']) {
 			<option value="<?php echo $language['code'];?>"><?php echo $language['name'];?></option>
 		<?php endforeach;?>
 		</select>
-		<a href="https://www.transifex.net/projects/p/owncloud/team/<?php echo $_['languages'][0]['code'];?>/" target="_blank"><em><?php echo $l->t('Help translate');?></em></a>
+		<a href="https://www.transifex.net/projects/p/owncloud/team/<?php echo $_['languages'][0]['code'];?>/"
+			target="_blank"><em><?php echo $l->t('Help translate');?></em></a>
 	</fieldset>
 </form>
 
@@ -96,7 +100,8 @@ if($_['displayNameChangeSupported']) {
 
 <fieldset class="personalblock">
 	<legend><strong><?php echo $l->t('Version');?></strong></legend>
-	<strong>ownCloud</strong> <?php echo(OC_Util::getVersionString()); ?> <?php echo(OC_Util::getEditionString()); ?> <br />
+	<strong>ownCloud</strong> <?php echo(OC_Util::getVersionString()); ?>
+	<?php echo(OC_Util::getEditionString()); ?> <br />
 	<?php echo $l->t('Developed by the <a href="http://ownCloud.org/contact" target="_blank">ownCloud community</a>, the <a href="https://github.com/owncloud" target="_blank">source code</a> is licensed under the <a href="http://www.gnu.org/licenses/agpl-3.0.html" target="_blank"><abbr title="Affero General Public License">AGPL</abbr></a>.'); ?>
 </fieldset>
 

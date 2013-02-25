@@ -4,5 +4,6 @@
 "{count} folders" => "{count} foldery",
 "1 file" => "1 plik",
 "{count} files" => "{count} pliki",
-"Restore" => "Przywróć"
+"Restore" => "Przywróć",
+"Delete" => "Usuń"
 );

@@ -72,7 +72,11 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 	public function formatItems($items, $format, $parameters = null) {
 		if ($format == self::FORMAT_SHARED_STORAGE) {
 			// Only 1 item should come through for this format call
-			return array('path' => $items[key($items)]['path'], 'permissions' => $items[key($items)]['permissions'], 'uid_owner' => $items[key($items)]['uid_owner']);
+			return array(
+				'path' => $items[key($items)]['path'],
+				'permissions' => $items[key($items)]['permissions'],
+				'uid_owner' => $items[key($items)]['uid_owner']
+			);
 		} else if ($format == self::FORMAT_GET_FOLDER_CONTENTS) {
 			$files = array();
 			foreach ($items as $item) {
@@ -99,7 +103,13 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 				}
 				$size += (int)$item['size'];
 			}
-			return array('fileid' => -1, 'name' => 'Shared', 'mtime' => $mtime, 'mimetype' => 'httpd/unix-directory', 'size' => $size);
+			return array(
+				'fileid' => -1,
+				'name' => 'Shared',
+				'mtime' => $mtime,
+				'mimetype' => 'httpd/unix-directory',
+				'size' => $size
+			);
 		} else if ($format == self::FORMAT_OPENDIR) {
 			$files = array();
 			foreach ($items as $item) {

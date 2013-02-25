@@ -1,11 +1,11 @@
-<?php 
+<?php
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
-$files = $_REQUEST['files'];
-$dirlisting = $_REQUEST['dirlisting'];
-$list = explode(';', $files);
+$files = $_POST['files'];
+$dirlisting = $_POST['dirlisting'];
+$list = json_decode($files);
 
 $error = array();
 $success = array();
@@ -21,7 +21,7 @@ foreach ($list as $file) {
 		$filename = $path_parts['basename'];
 		$timestamp = null;
 	}
-	
+
 	if ( !OCA\Files_Trashbin\Trashbin::restore($file, $filename, $timestamp) ) {
 		$error[] = $filename;
 	} else {

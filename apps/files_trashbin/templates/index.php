@@ -5,7 +5,7 @@
 </div>
 <div id='notification'></div>
 
-<?php if (isset($_['files']) && count($_['files'])==0):?>
+<?php if (isset($_['files']) && count($_['files'])==0 && $_['dirlisting'] == false):?>
 	<div id="emptyfolder"><?php echo $l->t('Nothing in here. Your trash bin is empty!')?></div>
 <?php endif; ?>
 
@@ -25,6 +25,13 @@
 			</th>
 			<th id="headerDate">
 				<span id="modified"><?php echo $l->t( 'Deleted' ); ?></span>
+				<span class="selectedActions">
+					<a href="" class="delete">
+						<?php echo $l->t('Delete')?>
+						<img class="svg" alt="<?php echo $l->t('Delete')?>"
+							src="<?php echo OCP\image_path("core", "actions/delete.svg"); ?>" />
+					</a>
+				</span>
 			</th>
 		</tr>
 	</thead>

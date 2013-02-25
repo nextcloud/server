@@ -4,7 +4,8 @@
 		<title>ownCloud</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="apple-itunes-app" content="app-id=543672169">
-		<link rel="shortcut icon" href="<?php echo image_path('', 'favicon.png'); ?>" /><link rel="apple-touch-icon-precomposed" href="<?php echo image_path('', 'favicon-touch.png'); ?>" />
+		<link rel="shortcut icon" href="<?php echo image_path('', 'favicon.png'); ?>" />
+		<link rel="apple-touch-icon-precomposed" href="<?php echo image_path('', 'favicon-touch.png'); ?>" />
 		<?php foreach($_['cssfiles'] as $cssfile): ?>
 			<link rel="stylesheet" href="<?php echo $cssfile; ?>" type="text/css" media="screen" />
 		<?php endforeach; ?>
@@ -30,6 +31,7 @@
 			</div></header>
 			<?php echo $_['content']; ?>
 		</div>
-		<footer><p class="info"><a href="http://owncloud.org/">ownCloud</a> &ndash; <?php echo $l->t( 'web services under your control' ); ?></p></footer>
+		<footer><p class="info"><a href="http://owncloud.org/">ownCloud</a> &ndash;
+			<?php echo $l->t( 'web services under your control' ); ?></p></footer>
 	</body>
 </html>
