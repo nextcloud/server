@@ -105,6 +105,7 @@ class Keymanager {
 	 */
 	public static function setFileKey( \OC_FilesystemView $view, $path, $userId, $catfile ) {
 		
+		\OC\Files\Filesystem::initMountPoints($userId);
 		$basePath = '/' . $userId . '/files_encryption/keyfiles';
 		
 		$targetPath = self::keySetPreparation( $view, $path, $basePath, $userId );
@@ -134,6 +135,7 @@ class Keymanager {
 	 */
 	public static function getFileKey( \OC_FilesystemView $view, $userId, $filePath ) {
 		
+		\OC\Files\Filesystem::initMountPoints($userId);
 		$filePath_f = ltrim( $filePath, '/' );
 		
 		$keyfilePath = '/' . $userId . '/files_encryption/keyfiles/' . $filePath_f . '.key';
