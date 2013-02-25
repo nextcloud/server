@@ -96,20 +96,21 @@ class Trashbin {
 					$view->rename($keyfile.'.key', 'files_trashbin/keyfiles/'. $deleted.'.key.d'.$timestamp);
 				}
 			}
-
 		} else {
 			\OC_Log::write('files_trashbin', 'Couldn\'t move '.$file_path.' to the trash bin', \OC_log::ERROR);
 		}
 		
 		// get available disk space for user
-		$quota = \OCP\Util::computerFileSize(\OC_Preferences::getValue($user, 'files', 'quota'));
+		$quota = \OC_Preferences::getValue($user, 'files', 'quota');
 		if ( $quota === null ) {
-			$quota = \OCP\Util::computerFileSize(\OC_Appconfig::getValue('files', 'default_quota'));
+			$quota = \OC_Appconfig::getValue('files', 'default_quota');
 		}
 		if ( $quota === null ) {
 			$quota = \OC\Files\Filesystem::free_space('/') / count(\OCP\User::getUsers());
+		} else {
+			$quota = \OCP\Util::computerFileSize($quota);
 		}
-
+		
 		// calculate available space for trash bin
 		$rootInfo = $view->getFileInfo('/files');
 		$free = $quota-$rootInfo['size']; // remaining free space for user
@@ -118,7 +119,6 @@ class Trashbin {
 		} else {
 			$availableSpace = $free-$trashbinSize;
 		}
-
 		$trashbinSize -= self::expire($availableSpace);
 		
 		self::setTrashbinSize($user, $trashbinSize);
