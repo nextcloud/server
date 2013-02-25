@@ -380,8 +380,8 @@ class OC_DB {
 	public static function disconnect() {
 		// Cut connection if required
 		if(self::$connection) {
-			self::$connection=false;
-			self::$DOCTRINE=false;
+			self::$connection->close();
+			self::$preparedQueries = array();
 		}
 
 		return true;
