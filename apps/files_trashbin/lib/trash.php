@@ -57,7 +57,8 @@ class Trashbin {
 			$type = 'file';
 		}
 		
-		if (  ($trashbinSize = \OCP\Config::getAppValue('files_trashbin', 'size')) === null ) {
+		$trashbinSize = \OCP\Config::getAppValue('files_trashbin', 'size');
+		if ( $trashbinSize === null ) {
 			$trashbinSize = self::calculateSize(new \OC_FilesystemView('/'. $user.'/files_trashbin'));
 		}
 		$trashbinSize += self::copy_recursive($file_path, 'files_trashbin/files/'.$deleted.'.d'.$timestamp, $view);
@@ -133,7 +134,8 @@ class Trashbin {
 		$user = \OCP\User::getUser();
 		$view = new \OC_FilesystemView('/'.$user);
 		
-		if (  ($trashbinSize = \OCP\Config::getAppValue('files_trashbin', 'size')) === null ) {
+		$trashbinSize = \OCP\Config::getAppValue('files_trashbin', 'size');
+		if ( $trashbinSize === null ) {
 			$trashbinSize = self::calculateSize(new \OC_FilesystemView('/'. $user.'/files_trashbin'));
 		}
 		if ( $timestamp ) {
@@ -242,7 +244,8 @@ class Trashbin {
 		$view = new \OC_FilesystemView('/'.$user);
 		$size = 0;
 	
-		if (  ($trashbinSize = \OCP\Config::getAppValue('files_trashbin', 'size')) === null ) {
+		$trashbinSize = \OCP\Config::getAppValue('files_trashbin', 'size');
+		if ( $trashbinSize === null ) {
 			$trashbinSize = self::calculateSize(new \OC_FilesystemView('/'. $user.'/files_trashbin'));
 		}
 
