@@ -322,6 +322,8 @@ class OC {
 
 		// if session cant be started break with http 500 error
 		if (session_start() === false){
+			OC_Log::write('core', 'Session could not be initialized', 
+				OC_Log::ERROR);
 			header('HTTP/1.1 500 Internal Server Error');
 			exit(1);
 		}
