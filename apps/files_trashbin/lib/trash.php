@@ -57,8 +57,8 @@ class Trashbin {
 			$type = 'file';
 		}
 		
-		$trashbinSize = \OCP\Config::getAppValue('files_trashbin', 'size');
-		if ( $trashbinSize === null ) {
+		$trashbinSize = self::getTrashbinSize($user);
+		if ( $trashbinSize === false || $trashbinSize < 0 ) {
 			$trashbinSize = self::calculateSize(new \OC_FilesystemView('/'. $user.'/files_trashbin'));
 		}
 		$trashbinSize += self::copy_recursive($file_path, 'files_trashbin/files/'.$deleted.'.d'.$timestamp, $view);
@@ -100,14 +100,14 @@ class Trashbin {
 		} else {
 			\OC_Log::write('files_trashbin', 'Couldn\'t move '.$file_path.' to the trash bin', \OC_log::ERROR);
 		}
-
+		
 		// get available disk space for user
 		$quota = \OCP\Util::computerFileSize(\OC_Preferences::getValue($user, 'files', 'quota'));
 		if ( $quota === null ) {
 			$quota = \OCP\Util::computerFileSize(\OC_Appconfig::getValue('files', 'default_quota'));
 		}
 		if ( $quota === null ) {
-			$quota = \OC\Files\Filesystem::free_space('/');
+			$quota = \OC\Files\Filesystem::free_space('/') / count(\OCP\User::getUsers());
 		}
 
 		// calculate available space for trash bin
@@ -120,7 +120,9 @@ class Trashbin {
 		}
 
 		$trashbinSize -= self::expire($availableSpace);
-		\OCP\Config::setAppValue('files_trashbin', 'size', $trashbinSize);
+		
+		self::setTrashbinSize($user, $trashbinSize);
+
 	}
 
 
@@ -134,8 +136,8 @@ class Trashbin {
 		$user = \OCP\User::getUser();
 		$view = new \OC_FilesystemView('/'.$user);
 		
-		$trashbinSize = \OCP\Config::getAppValue('files_trashbin', 'size');
-		if ( $trashbinSize === null ) {
+		$trashbinSize = self::getTrashbinSize($user);
+		if ( $trashbinSize === false || $trashbinSize < 0 ) {
 			$trashbinSize = self::calculateSize(new \OC_FilesystemView('/'. $user.'/files_trashbin'));
 		}
 		if ( $timestamp ) {
@@ -224,7 +226,8 @@ class Trashbin {
 				$query->execute(array($user,$filename,$timestamp));
 			}
 
-			\OCP\Config::setAppValue('files_trashbin', 'size', $trashbinSize);
+			self::setTrashbinSize($user, $trashbinSize);
+			
 			return true;
 		} else {
 			\OC_Log::write('files_trashbin', 'Couldn\'t restore file from trash bin, '.$filename, \OC_log::ERROR);
@@ -244,8 +247,8 @@ class Trashbin {
 		$view = new \OC_FilesystemView('/'.$user);
 		$size = 0;
 	
-		$trashbinSize = \OCP\Config::getAppValue('files_trashbin', 'size');
-		if ( $trashbinSize === null ) {
+		$trashbinSize = self::getTrashbinSize($user);
+		if ( $trashbinSize === false || $trashbinSize < 0 ) {
 			$trashbinSize = self::calculateSize(new \OC_FilesystemView('/'. $user.'/files_trashbin'));
 		}
 
@@ -300,8 +303,8 @@ class Trashbin {
 		}
 		$view->unlink('/files_trashbin/files/'.$file);
 		$trashbinSize -= $size;
-		\OCP\Config::setAppValue('files_trashbin', 'size', $trashbinSize);
-
+		self::setTrashbinSize($user, $trashbinSize);
+		
 		return $size;
 	}
 
@@ -474,4 +477,35 @@ class Trashbin {
 		return $size;
 	}
 
+	/**
+	 * get current size of trash bin from a given user
+	 *
+	 * @param $user user who owns the trash bin
+	 * @return mixed trash bin size or false if no trash bin size is stored
+	 */
+	private static function getTrashbinSize($user) {
+		$query = \OC_DB::prepare('SELECT size FROM *PREFIX*files_trashsize WHERE user=?');
+		$result = $query->execute(array($user))->fetchAll();
+
+		if ($result) {
+			return $result[0]['size'];
+		}
+		return false;
+	}
+	
+	/**
+	 * write to the database how much space is in use for the trash bin
+	 *
+	 * @param $user owner of the trash bin
+	 * @param $size size of the trash bin
+	 */
+	private static function setTrashbinSize($user, $size) {
+		if ( self::getTrashbinSize($user) === false) {
+			$query = \OC_DB::prepare('INSERT INTO *PREFIX*files_trashsize (size, user) VALUES (?, ?)');
+		}else {
+			$query = \OC_DB::prepare('UPDATE *PREFIX*files_trashsize SET size=? WHERE user=?');
+		}
+		$query->execute(array($size, $user));
+	}
+	
 }
