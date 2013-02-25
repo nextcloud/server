@@ -50,8 +50,12 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 */
 	public function prepare( $statement, $limit=null, $offset=null ) {
 		$statement = $this->replaceTablePrefix($statement);
-		if (!is_null($limit) && $limit != -1) {
-			// TODO: limit & offset
+		if ($limit === -1) {
+			$limit = null;
+		}
+		if (!is_null($limit)) {
+			$platform = $this->getDatabasePlatform();
+			$statement = $platform->modifyLimitQuery($statement, $limit, $offset);
 		} else {
 			if (isset($this->preparedQueries[$statement]) && $this->cachingQueryStatementEnabled) {
 				return $this->preparedQueries[$statement];
@@ -59,7 +63,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 		}
 		$rawQuery = $statement;
 		$result = parent::prepare($statement);
-		if ((is_null($limit) || $limit == -1) && $this->cachingQueryStatementEnabled) {
+		if (is_null($limit) && $this->cachingQueryStatementEnabled) {
 			$this->preparedQueries[$rawQuery] = $result;
 		}
 		return $result;
