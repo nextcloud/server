@@ -44,9 +44,7 @@ $(document).ready(function(){
 					$('#displaynamechanged').show();
 					$('#oldDisplayName').val($('#displayName').val());
 					// update displayName on the top right expand button
-					str_parts = $('#expand').html().split('\t');
-					str_parts[5] = $('#displayName').val();
-					$('#expand').html(str_parts.join('\t'));
+					$('#expandDisplayName').html($('#displayName').val());
 				}
 				else{
 					$('#newdisplayname').val(data.data.displayName)
