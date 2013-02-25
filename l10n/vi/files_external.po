@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 18:40+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
 "Last-Translator: saosangm <saosangmo@yahoo.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -44,13 +44,13 @@ msgstr "Xin vui lòng cung cấp một ứng dụng Dropbox hợp lệ và mã b
 msgid "Error configuring Google Drive storage"
 msgstr "Lỗi cấu hình lưu trữ Google Drive"
 
-#: lib/config.php:405
+#: lib/config.php:398
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Cảnh báo:</b> \"smbclient\" chưa được cài đặt. Mount CIFS/SMB shares là không thể thực hiện được. Hãy hỏi người quản trị hệ thống để cài đặt nó."
 
-#: lib/config.php:406
+#: lib/config.php:401
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
@@ -118,6 +118,6 @@ msgstr "Cho phép người dùng kết nối với lưu trữ riêng bên ngoài
 msgid "SSL root certificates"
 msgstr "Chứng chỉ SSL root"
 
-#: templates/settings.php:153
+#: templates/settings.php:154
 msgid "Import Root Certificate"
 msgstr "Nhập Root Certificate"

@@ -7,5 +7,6 @@
 "1 file" => "1 датотека",
 "{count} files" => "{count} датотеке/а",
 "Nothing in here. Your trash bin is empty!" => "Овде нема ништа. Корпа за отпатке је празна.",
-"Restore" => "Врати"
+"Restore" => "Врати",
+"Delete" => "Обриши"
 );

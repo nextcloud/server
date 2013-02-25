@@ -4,6 +4,7 @@
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "A configuração é válida, mas o Bind falhou. Confira as configurações do servidor e as credenciais.",
 "The configuration is invalid. Please look in the ownCloud log for further details." => "A configuração é inválida. Leia o \"log\" do ownCloud para mais detalhes.",
 "Deletion failed" => "Remoção falhou",
+"Take over settings from recent server configuration?" => "Tomar parámetros de recente configuração de servidor?",
 "Keep settings?" => "Manter ajustes?",
 "Cannot add server configuration" => "Não foi possível adicionar a configuração do servidor",
 "Connection test succeeded" => "Teste de conexão bem sucedido",

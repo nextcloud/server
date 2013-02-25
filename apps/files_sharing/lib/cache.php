@@ -71,8 +71,9 @@ class Shared_Cache extends Cache {
 			}
 		} else {
 			$query = \OC_DB::prepare(
-				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted`
-				FROM `*PREFIX*filecache` WHERE `fileid` = ?');
+				'SELECT `fileid`, `storage`, `path`, `parent`, `name`, `mimetype`, `mimepart`,'
+				.' `size`, `mtime`, `encrypted`'
+				.' FROM `*PREFIX*filecache` WHERE `fileid` = ?');
 			$result = $query->execute(array($file));
 			$data = $result->fetchRow();
 			$data['fileid'] = (int)$data['fileid'];

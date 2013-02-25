@@ -286,7 +286,7 @@ class OC_Group {
 		}
 		return $users;
 	}
-	
+
 	/**
 	 * @brief get a list of all display names in a group
 	 * @returns array with display names (value) and user ids(key)
@@ -298,7 +298,7 @@ class OC_Group {
 		}
 		return $displayNames;
 	}
-	
+
 	/**
 	 * @brief get a list of all display names in several groups
 	 * @param array $gids
@@ -311,12 +311,13 @@ class OC_Group {
 		$displayNames = array();
 		foreach ($gids as $gid) {
 			// TODO Need to apply limits to groups as total
-			$displayNames = array_merge(
-				array_diff(
-					self::displayNamesInGroup($gid, $search, $limit, $offset),
-					$displayNames
-				),
-				$displayNames);
+			$diff = array_diff(
+				self::displayNamesInGroup($gid, $search, $limit, $offset),
+				$displayNames
+			);
+			if ($diff) {
+				$displayNames = array_merge($diff, $displayNames);
+			}
 		}
 		return $displayNames;
 	}

@@ -1,0 +1,594 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Pyae Sone <gipsyhnh@gmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-02-25 00:05+0100\n"
+"PO-Revision-Date: 2013-02-24 11:20+0000\n"
+"Last-Translator: Pyae Sone <gipsyhnh@gmail.com>\n"
+"Language-Team: Burmese (Myanmar) (http://www.transifex.com/projects/p/owncloud/language/my_MM/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: my_MM\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ajax/share.php:97
+#, php-format
+msgid "User %s shared a file with you"
+msgstr ""
+
+#: ajax/share.php:99
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr ""
+
+#: ajax/share.php:101
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr ""
+
+#: ajax/share.php:104
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr ""
+
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr ""
+
+#: ajax/vcategories/add.php:30
+msgid "No category to add?"
+msgstr "ထည့်ရန်ခေါင်းစဉ်မရှိဘူးလား"
+
+#: ajax/vcategories/add.php:37
+#, php-format
+msgid "This category already exists: %s"
+msgstr ""
+
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr ""
+
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr ""
+
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr ""
+
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
+msgid "No categories selected for deletion."
+msgstr "ဖျက်ရန်အတွက်ခေါင်းစဉ်မရွေးထားပါ"
+
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr ""
+
+#: js/config.php:34
+msgid "Sunday"
+msgstr ""
+
+#: js/config.php:35
+msgid "Monday"
+msgstr ""
+
+#: js/config.php:36
+msgid "Tuesday"
+msgstr ""
+
+#: js/config.php:37
+msgid "Wednesday"
+msgstr ""
+
+#: js/config.php:38
+msgid "Thursday"
+msgstr ""
+
+#: js/config.php:39
+msgid "Friday"
+msgstr ""
+
+#: js/config.php:40
+msgid "Saturday"
+msgstr ""
+
+#: js/config.php:45
+msgid "January"
+msgstr "ဇန်နဝါရီ"
+
+#: js/config.php:46
+msgid "February"
+msgstr "ဖေဖော်ဝါရီ"
+
+#: js/config.php:47
+msgid "March"
+msgstr "မတ်"
+
+#: js/config.php:48
+msgid "April"
+msgstr "ဧပြီ"
+
+#: js/config.php:49
+msgid "May"
+msgstr "မေ"
+
+#: js/config.php:50
+msgid "June"
+msgstr "ဇွန်"
+
+#: js/config.php:51
+msgid "July"
+msgstr "ဇူလိုင်"
+
+#: js/config.php:52
+msgid "August"
+msgstr "ဩဂုတ်"
+
+#: js/config.php:53
+msgid "September"
+msgstr "စက်တင်ဘာ"
+
+#: js/config.php:54
+msgid "October"
+msgstr "အောက်တိုဘာ"
+
+#: js/config.php:55
+msgid "November"
+msgstr "နိုဝင်ဘာ"
+
+#: js/config.php:56
+msgid "December"
+msgstr "ဒီဇင်ဘာ"
+
+#: js/js.js:286
+msgid "Settings"
+msgstr ""
+
+#: js/js.js:767
+msgid "seconds ago"
+msgstr "စက္ကန့်အနည်းငယ်က"
+
+#: js/js.js:768
+msgid "1 minute ago"
+msgstr "၁ မိနစ်အရင်က"
+
+#: js/js.js:769
+msgid "{minutes} minutes ago"
+msgstr ""
+
+#: js/js.js:770
+msgid "1 hour ago"
+msgstr "၁ နာရီ အရင်က"
+
+#: js/js.js:771
+msgid "{hours} hours ago"
+msgstr ""
+
+#: js/js.js:772
+msgid "today"
+msgstr "ယနေ့"
+
+#: js/js.js:773
+msgid "yesterday"
+msgstr "မနေ့က"
+
+#: js/js.js:774
+msgid "{days} days ago"
+msgstr ""
+
+#: js/js.js:775
+msgid "last month"
+msgstr "ပြီးခဲ့သောလ"
+
+#: js/js.js:776
+msgid "{months} months ago"
+msgstr ""
+
+#: js/js.js:777
+msgid "months ago"
+msgstr ""
+
+#: js/js.js:778
+msgid "last year"
+msgstr "မနှစ်က"
+
+#: js/js.js:779
+msgid "years ago"
+msgstr "နှစ် အရင်က"
+
+#: js/oc-dialogs.js:126
+msgid "Choose"
+msgstr "ရွေးချယ်"
+
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+msgid "Cancel"
+msgstr "ပယ်ဖျက်မည်"
+
+#: js/oc-dialogs.js:162
+msgid "No"
+msgstr "မဟုတ်ဘူး"
+
+#: js/oc-dialogs.js:163
+msgid "Yes"
+msgstr "ဟုတ်"
+
+#: js/oc-dialogs.js:180
+msgid "Ok"
+msgstr "အိုကေ"
+
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr ""
+
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
+#: js/share.js:594
+msgid "Error"
+msgstr ""
+
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr ""
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr ""
+
+#: js/share.js:29 js/share.js:43 js/share.js:90
+msgid "Shared"
+msgstr ""
+
+#: js/share.js:93
+msgid "Share"
+msgstr ""
+
+#: js/share.js:141 js/share.js:622
+msgid "Error while sharing"
+msgstr ""
+
+#: js/share.js:152
+msgid "Error while unsharing"
+msgstr ""
+
+#: js/share.js:159
+msgid "Error while changing permissions"
+msgstr ""
+
+#: js/share.js:168
+msgid "Shared with you and the group {group} by {owner}"
+msgstr ""
+
+#: js/share.js:170
+msgid "Shared with you by {owner}"
+msgstr ""
+
+#: js/share.js:175
+msgid "Share with"
+msgstr ""
+
+#: js/share.js:180
+msgid "Share with link"
+msgstr ""
+
+#: js/share.js:183
+msgid "Password protect"
+msgstr ""
+
+#: js/share.js:185 templates/installation.php:46 templates/login.php:35
+msgid "Password"
+msgstr "စကားဝှက်"
+
+#: js/share.js:189
+msgid "Email link to person"
+msgstr ""
+
+#: js/share.js:190
+msgid "Send"
+msgstr ""
+
+#: js/share.js:194
+msgid "Set expiration date"
+msgstr "သက်တမ်းကုန်ဆုံးမည့်ရက်သတ်မှတ်မည်"
+
+#: js/share.js:195
+msgid "Expiration date"
+msgstr "သက်တမ်းကုန်ဆုံးမည့်ရက်"
+
+#: js/share.js:227
+msgid "Share via email:"
+msgstr "အီးမေးလ်ဖြင့်ဝေမျှမည် -"
+
+#: js/share.js:229
+msgid "No people found"
+msgstr ""
+
+#: js/share.js:256
+msgid "Resharing is not allowed"
+msgstr "ပြန်လည်ဝေမျှခြင်းခွင့်မပြုပါ"
+
+#: js/share.js:292
+msgid "Shared in {item} with {user}"
+msgstr ""
+
+#: js/share.js:313
+msgid "Unshare"
+msgstr ""
+
+#: js/share.js:325
+msgid "can edit"
+msgstr "ပြင်ဆင်နိုင်"
+
+#: js/share.js:327
+msgid "access control"
+msgstr ""
+
+#: js/share.js:330
+msgid "create"
+msgstr "ဖန်တီးမည်"
+
+#: js/share.js:333
+msgid "update"
+msgstr ""
+
+#: js/share.js:336
+msgid "delete"
+msgstr "ဖျက်မည်"
+
+#: js/share.js:339
+msgid "share"
+msgstr "ဝေမျှမည်"
+
+#: js/share.js:373 js/share.js:569
+msgid "Password protected"
+msgstr "စကားဝှက်ဖြင့်ကာကွယ်ထားသည်"
+
+#: js/share.js:582
+msgid "Error unsetting expiration date"
+msgstr ""
+
+#: js/share.js:594
+msgid "Error setting expiration date"
+msgstr ""
+
+#: js/share.js:609
+msgid "Sending ..."
+msgstr ""
+
+#: js/share.js:620
+msgid "Email sent"
+msgstr ""
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr ""
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr ""
+
+#: lostpassword/controller.php:48
+msgid "ownCloud password reset"
+msgstr ""
+
+#: lostpassword/templates/email.php:2
+msgid "Use the following link to reset your password: {link}"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:3
+msgid "You will receive a link to reset your password via Email."
+msgstr "အီးမေးလ်မှတစ်ဆင့် သင်၏စကားဝှက်ကို ပြန်ဖော်ရန်အတွက် Link တစ်ခုလက်ခံရရှိပါလိမ့်မယ်။"
+
+#: lostpassword/templates/lostpassword.php:5
+msgid "Reset email send."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:8
+msgid "Request failed!"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:40
+#: templates/login.php:28
+msgid "Username"
+msgstr "သုံးစွဲသူအမည်"
+
+#: lostpassword/templates/lostpassword.php:14
+msgid "Request reset"
+msgstr ""
+
+#: lostpassword/templates/resetpassword.php:4
+msgid "Your password was reset"
+msgstr "သင်၏စကားဝှက်ကိုပြန်ဖော်ပြီးပါပြီ။"
+
+#: lostpassword/templates/resetpassword.php:5
+msgid "To login page"
+msgstr "ဝင်ရောက်သည့်စာမျက်နှာသို့"
+
+#: lostpassword/templates/resetpassword.php:8
+msgid "New password"
+msgstr "စကားဝှက်အသစ်"
+
+#: lostpassword/templates/resetpassword.php:11
+msgid "Reset password"
+msgstr ""
+
+#: strings.php:5
+msgid "Personal"
+msgstr ""
+
+#: strings.php:6
+msgid "Users"
+msgstr "သုံးစွဲသူ"
+
+#: strings.php:7
+msgid "Apps"
+msgstr "Apps"
+
+#: strings.php:8
+msgid "Admin"
+msgstr "အက်ဒမင်"
+
+#: strings.php:9
+msgid "Help"
+msgstr "အကူအညီ"
+
+#: templates/403.php:12
+msgid "Access forbidden"
+msgstr ""
+
+#: templates/404.php:12
+msgid "Cloud not found"
+msgstr "မတွေ့ရှိမိပါ"
+
+#: templates/edit_categories_dialog.php:4
+msgid "Edit categories"
+msgstr ""
+
+#: templates/edit_categories_dialog.php:16
+msgid "Add"
+msgstr "ပေါင်းထည့်"
+
+#: templates/installation.php:23 templates/installation.php:30
+msgid "Security Warning"
+msgstr "လုံခြုံရေးသတိပေးချက်"
+
+#: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr ""
+
+#: templates/installation.php:25
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr ""
+
+#: templates/installation.php:31
+msgid ""
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
+msgstr ""
+
+#: templates/installation.php:32
+msgid ""
+"For information how to properly configure your server, please see the <a "
+"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
+"target=\"_blank\">documentation</a>."
+msgstr ""
+
+#: templates/installation.php:36
+msgid "Create an <strong>admin account</strong>"
+msgstr "<strong>အက်ဒမင်အကောင့်</strong>တစ်ခုဖန်တီးမည်"
+
+#: templates/installation.php:54
+msgid "Advanced"
+msgstr "အဆင့်မြင့်"
+
+#: templates/installation.php:56
+msgid "Data folder"
+msgstr "အချက်အလက်ဖိုလ်ဒါလ်"
+
+#: templates/installation.php:65
+msgid "Configure the database"
+msgstr ""
+
+#: templates/installation.php:70 templates/installation.php:82
+#: templates/installation.php:93 templates/installation.php:104
+msgid "will be used"
+msgstr ""
+
+#: templates/installation.php:117
+msgid "Database user"
+msgstr "Database သုံးစွဲသူ"
+
+#: templates/installation.php:122
+msgid "Database password"
+msgstr "Database စကားဝှက်"
+
+#: templates/installation.php:127
+msgid "Database name"
+msgstr "Database အမည်"
+
+#: templates/installation.php:137
+msgid "Database tablespace"
+msgstr ""
+
+#: templates/installation.php:144
+msgid "Database host"
+msgstr ""
+
+#: templates/installation.php:150
+msgid "Finish setup"
+msgstr "တပ်ဆင်ခြင်းပြီးပါပြီ။"
+
+#: templates/layout.guest.php:35
+msgid "web services under your control"
+msgstr "သင်၏ထိန်းချုပ်မှု့အောက်တွင်ရှိသော Web services"
+
+#: templates/layout.user.php:53
+msgid "Log out"
+msgstr ""
+
+#: templates/login.php:10
+msgid "Automatic logon rejected!"
+msgstr ""
+
+#: templates/login.php:11
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr ""
+
+#: templates/login.php:13
+msgid "Please change your password to secure your account again."
+msgstr ""
+
+#: templates/login.php:19
+msgid "Lost your password?"
+msgstr "သင်၏စကားဝှက်ပျောက်သွားပြီလား။"
+
+#: templates/login.php:41
+msgid "remember"
+msgstr "မှတ်မိစေသည်"
+
+#: templates/login.php:43
+msgid "Log in"
+msgstr "ဝင်ရောက်ရန်"
+
+#: templates/login.php:49
+msgid "Alternative Logins"
+msgstr ""
+
+#: templates/part.pagenavi.php:3
+msgid "prev"
+msgstr "ယခင်"
+
+#: templates/part.pagenavi.php:20
+msgid "next"
+msgstr "နောက်သို့"
+
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr ""

@@ -3,6 +3,7 @@
 "Couldn't restore %s" => "Kunde inte återställa %s",
 "perform restore operation" => "utför återställning",
 "delete file permanently" => "radera filen permanent",
+"Delete permanently" => "Radera permanent",
 "Name" => "Namn",
 "Deleted" => "Raderad",
 "1 folder" => "1 mapp",
@@ -10,5 +11,6 @@
 "1 file" => "1 fil",
 "{count} files" => "{count} filer",
 "Nothing in here. Your trash bin is empty!" => "Ingenting här. Din papperskorg är tom!",
-"Restore" => "Återskapa"
+"Restore" => "Återskapa",
+"Delete" => "Radera"
 );

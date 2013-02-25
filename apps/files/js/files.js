@@ -114,7 +114,7 @@ $(document).ready(function() {
 		$(this).parent().children('#file_upload_start').trigger('click');
 		return false;
 	});
-	
+
 	// Show trash bin
 	$('#trash a').live('click', function() {
 		window.location=OC.filePath('files_trashbin', '', 'index.php');
@@ -817,26 +817,26 @@ var createDragShadow = function(event){
 		//select dragged file
 		$(event.target).parents('tr').find('td input:first').prop('checked',true);
 	}
-	
+
 	var selectedFiles = getSelectedFiles();
-	
+
 	if (!isDragSelected && selectedFiles.length == 1) {
 		//revert the selection
 		$(event.target).parents('tr').find('td input:first').prop('checked',false);
 	}
-	
+
 	//also update class when we dragged more than one file
 	if (selectedFiles.length > 1) {
 		$(event.target).parents('tr').addClass('selected');
 	}
-	
+
 	// build dragshadow
 	var dragshadow = $('<table class="dragshadow"></table>');
 	var tbody = $('<tbody></tbody>');
 	dragshadow.append(tbody);
-	
+
 	var dir=$('#dir').val();
-	
+
 	$(selectedFiles).each(function(i,elem){
 		var newtr = $('<tr data-dir="'+dir+'" data-filename="'+elem.name+'">'
 						+'<td class="filename">'+elem.name+'</td><td class="size">'+humanFileSize(elem.size)+'</td>'
@@ -850,7 +850,7 @@ var createDragShadow = function(event){
 			});
 		}
 	});
-	
+
 	return dragshadow;
 }
 
@@ -870,9 +870,9 @@ var folderDropOptions={
 		if ($(event.target).parents('tr').find('td input:first').prop('checked') === true) {
 			return false;
 		}
-		
+
 		var target=$.trim($(this).find('.nametext').text());
-		
+
 		var files = ui.helper.find('tr');
 		$(files).each(function(i,row){
 			var dir = $(row).data('dir');

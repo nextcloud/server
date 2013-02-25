@@ -39,6 +39,7 @@
 "Forum" => "פורום",
 "Commercial Support" => "תמיכה בתשלום",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "השתמשת ב־<strong>%s</strong> מתוך <strong>%s</strong> הזמינים לך",
+"Get the apps to sync your files" => "השג את האפליקציות על מנת לסנכרן את הקבצים שלך",
 "Password" => "ססמה",
 "Your password was changed" => "הססמה שלך הוחלפה",
 "Unable to change your password" => "לא ניתן לשנות את הססמה שלך",

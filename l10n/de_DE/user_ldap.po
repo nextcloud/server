@@ -15,13 +15,14 @@
 # Susi <>, 2013.
 #   <transifex-2.7.mensaje@spamgourmet.com>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
+# Tristan <blobbyjj@ymail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-19 00:05+0100\n"
-"PO-Revision-Date: 2013-02-18 14:19+0000\n"
-"Last-Translator: robN <robert.neumann01@gmail.com>\n"
+"POT-Creation-Date: 2013-02-21 00:14+0100\n"
+"PO-Revision-Date: 2013-02-20 22:20+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -226,7 +227,7 @@ msgstr "Nutze TLS"
 
 #: templates/settings.php:62
 msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr "Benutzen Sie es nicht zusätzlich für LDAPS Verbindungen, es wird fehlschlagen."
+msgstr "Benutzen Sie es nicht in Verbindung mit LDAPS Verbindungen, es wird fehlschlagen."
 
 #: templates/settings.php:63
 msgid "Case insensitve LDAP server (Windows)"
@@ -276,7 +277,7 @@ msgstr "Benutzer-Suche Eigenschaften"
 
 #: templates/settings.php:71 templates/settings.php:74
 msgid "Optional; one attribute per line"
-msgstr "Optional; Ein Attribut pro Zeile"
+msgstr "Optional; ein Attribut pro Zeile"
 
 #: templates/settings.php:72
 msgid "Group Display Name Field"

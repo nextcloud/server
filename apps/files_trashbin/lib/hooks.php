@@ -36,7 +36,7 @@ class Hooks {
 	 * to copy the file to the trash bin
 	 */
 	public static function remove_hook($params) {
-		
+
 		if ( \OCP\App::isEnabled('files_trashbin') ) {
 			$path = $params['path'];
 			Trashbin::move2trash($path);
