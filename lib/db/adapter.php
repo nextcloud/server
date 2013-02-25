@@ -18,4 +18,8 @@ class Adapter {
 	public function lastInsertId($table) {
 		return $this->conn->realLastInsertId($table);
 	}
+
+	public function fixupStatement($statement) {
+		return $statement;
+	}
 }

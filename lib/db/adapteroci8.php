@@ -18,4 +18,11 @@ class AdapterOCI8 extends Adapter {
 		}
 		return $this->conn->lastInsertId($table);
 	}
+
+	public function fixupStatement($statement) {
+		$statement = str_replace( '`', '"', $statement );
+		$statement = str_ireplace( 'NOW()', 'CURRENT_TIMESTAMP', $statement );
+		$statement = str_ireplace( 'UNIX_TIMESTAMP()', "(cast(sys_extract_utc(systimestamp) as date) - date'1970-01-01') * 86400", $statement );
+		return $statement;
+	}
 }

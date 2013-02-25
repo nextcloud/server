@@ -13,4 +13,10 @@ class AdapterPgSql extends Adapter {
 	public function lastInsertId($table) {
 		return $this->conn->fetchColumn('SELECT lastval()');
 	}
+
+	public function fixupStatement($statement) {
+		$statement = str_replace( '`', '"', $statement );
+		$statement = str_ireplace( 'UNIX_TIMESTAMP()', 'cast(extract(epoch from current_timestamp) as integer)', $statement );
+		return $statement;
+	}
 }
