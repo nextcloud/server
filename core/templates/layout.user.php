@@ -34,7 +34,7 @@
 
 			<ul id="settings" class="svg">
 				<span id="expand">
-					<?php echo $_['displayname'] ?>
+					<?php echo $_['user_displayname'] ?>
 					<img class="svg" src="<?php echo image_path('', 'actions/caret.svg'); ?>" />
 				</span>
 				<div id="expanddiv">
