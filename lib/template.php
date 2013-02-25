@@ -530,8 +530,10 @@ class OC_Template{
 		* @param string $hint An option hint message
 		*/
 	public static function printErrorPage( $error_msg, $hint = '' ) {
+		$content = new OC_Template( '', 'error', 'error' );
 		$errors = array(array('error' => $error_msg, 'hint' => $hint));
-		OC_Template::printGuestPage("", "error", array("errors" => $errors));
+		$content->assign( 'errors', $errors, false );
+		$content->printPage();
 		die();
 	}
 }
