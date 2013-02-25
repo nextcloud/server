@@ -41,63 +41,27 @@ class DatabaseException extends Exception {
  * Doctrine with some adaptions.
  */
 class OC_DB {
-	const BACKEND_DOCTRINE=2;
-
 	/**
 	 * @var \Doctrine\DBAL\Connection
 	 */
-	static private $connection; //the preferred connection to use, only Doctrine
-	static private $backend=null;
 	/**
 	 * @var \Doctrine\DBAL\Connection
 	 */
-	static private $DOCTRINE=null;
+	static private $connection; //the prefered connection to use, only Doctrine
 
 	static private $type=null;
 
 	/**
-	 * check which backend we should use
-	 * @return int BACKEND_DOCTRINE
-	 */
-	private static function getDBBackend() {
-		return self::BACKEND_DOCTRINE;
-	}
-
-	/**
 	 * @brief connects to the database
-	 * @param int $backend
 	 * @return bool true if connection can be established or false on error
 	 *
 	 * Connects to the database as specified in config.php
 	 */
-	public static function connect($backend=null) {
+	public static function connect() {
 		if(self::$connection) {
 			return true;
 		}
-		if(is_null($backend)) {
-			$backend=self::getDBBackend();
-		}
-		if($backend==self::BACKEND_DOCTRINE) {
-			$success = self::connectDoctrine();
-			self::$connection=self::$DOCTRINE;
-			self::$backend=self::BACKEND_DOCTRINE;
-		}
-		return $success;
-	}
 
-	/**
-	 * connect to the database using doctrine
-	 *
-	 * @return bool
-	 */
-	public static function connectDoctrine() {
-		if(self::$connection) {
-			if(self::$backend!=self::BACKEND_DOCTRINE) {
-				self::disconnect();
-			} else {
-				return true;
-			}
-		}
 		// The global data we need
 		$name = OC_Config::getValue( "dbname", "owncloud" );
 		$host = OC_Config::getValue( "dbhost", "" );
@@ -111,7 +75,7 @@ class OC_DB {
 		}
 
 		// do nothing if the connection already has been established
-		if(!self::$DOCTRINE) {
+		if(!self::$connection) {
 			$config = new \Doctrine\DBAL\Configuration();
 			switch($type) {
 				case 'sqlite':
@@ -180,7 +144,7 @@ class OC_DB {
 			$connectionParams['wrapperClass'] = 'OC\DB\Connection';
 			$connectionParams['table_prefix'] = OC_Config::getValue( "dbtableprefix", "oc_" );
 			try {
-				self::$DOCTRINE = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+				self::$connection = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
 				if ($type === 'sqlite' || $type === 'sqlite3') {
 					// Sqlite doesn't handle query caching and schema changes
 					// TODO: find a better way to handle this
@@ -220,18 +184,16 @@ class OC_DB {
 		}
 		
 		// return the result
-		if (self::$backend == self::BACKEND_DOCTRINE) {
-			try {
-				$result=self::$connection->prepare($query, $limit, $offset);
-			} catch(\Doctrine\DBAL\DBALException $e) {
-				throw new \DatabaseException($e->getMessage(), $query);
-			}
-			// differentiate between query and manipulation
-			$result=new OC_DB_StatementWrapper($result, $isManipulation);
+		try {
+			$result=self::$connection->prepare($query, $limit, $offset);
+		} catch(\Doctrine\DBAL\DBALException $e) {
+			throw new \DatabaseException($e->getMessage(), $query);
 		}
+		// differentiate between query and manipulation
+		$result=new OC_DB_StatementWrapper($result, $isManipulation);
 		return $result;
 	}
-	
+
 	/**
 	 * tries to guess the type of statement based on the first 10 characters
 	 * the current check allows some whitespace but does not work with IF EXISTS or other more complex statements
@@ -325,7 +287,6 @@ class OC_DB {
 
 	/**
 	 * @brief Disconnect
-	 * @return bool
 	 *
 	 * This is good bye, good bye, yeah!
 	 */
@@ -334,8 +295,6 @@ class OC_DB {
 		if(self::$connection) {
 			self::$connection->close();
 		}
-
-		return true;
 	}
 
 	/** else {
@@ -473,9 +432,9 @@ class OC_DB {
 	 * @return string
 	 */
 	public static function getErrorMessage($error) {
-		if (self::$backend==self::BACKEND_DOCTRINE and self::$DOCTRINE) {
-			$msg = self::$DOCTRINE->errorCode() . ': ';
-			$errorInfo = self::$DOCTRINE->errorInfo();
+		if (self::$connection) {
+			$msg = self::$connection->errorCode() . ': ';
+			$errorInfo = self::$connection->errorInfo();
 			if (is_array($errorInfo)) {
 				$msg .= 'SQLSTATE = '.$errorInfo[0] . ', ';
 				$msg .= 'Driver Code = '.$errorInfo[1] . ', ';
