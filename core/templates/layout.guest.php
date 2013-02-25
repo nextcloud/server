@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="ng-csp">
 	<head>
 		<title>ownCloud</title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
