@@ -863,6 +863,10 @@ var dragOptions={
 		$('#fileList tr td.filename').addClass('ui-draggable');
 	}
 }
+// sane browsers support using the distance option
+if ( ! $.browser.msie) {
+	dragOptions['distance'] = 20;
+} 
 
 var folderDropOptions={
 	drop: function( event, ui ) {
