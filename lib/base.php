@@ -324,6 +324,8 @@ class OC {
 		if (session_start() === false){
 			OC_Log::write('core', 'Session could not be initialized', 
 				OC_Log::ERROR);
+			echo 'Session could not be initialized. Please contact your system';
+			echo ' administrator';
 			header('HTTP/1.1 500 Internal Server Error');
 			exit(1);
 		}
