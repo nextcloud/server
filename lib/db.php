@@ -129,6 +129,7 @@ class OC_DB {
 							'path' => $datadir.'/'.$name.'.db',
 							'driver' => 'pdo_sqlite',
 					);
+					$connectionParams['adapter'] = '\OC\DB\AdapterSqlite';
 					break;
 				case 'mysql':
 					$connectionParams = array(
@@ -140,6 +141,7 @@ class OC_DB {
 							'charset' => 'UTF8',
 							'driver' => 'pdo_mysql',
 					);
+					$connectionParams['adapter'] = '\OC\DB\Adapter';
 					break;
 				case 'pgsql':
 					$connectionParams = array(
@@ -150,6 +152,7 @@ class OC_DB {
 							'dbname' => $name,
 							'driver' => 'pdo_pgsql',
 					);
+					$connectionParams['adapter'] = '\OC\DB\AdapterPgSql';
 					break;
 				case 'oci':
 					$connectionParams = array(
@@ -163,6 +166,7 @@ class OC_DB {
 					if (!empty($port)) {
 						$connectionParams['port'] = $port;
 					}
+					$connectionParams['adapter'] = '\OC\DB\AdapterOCI8';
 					break;
 				case 'mssql':
 					$connectionParams = array(
@@ -174,10 +178,12 @@ class OC_DB {
 							'charset' => 'UTF8',
 							'driver' => 'pdo_sqlsrv',
 					);
+					$connectionParams['adapter'] = '\OC\DB\AdapterSQLSrv';
 					break;
 				default:
 					return false;
 			}
+			$connectionParams['wrapperClass'] = 'OC\DB\Connection';
 			try {
 				self::$DOCTRINE = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
 			} catch(\Doctrine\DBAL\DBALException $e) {
