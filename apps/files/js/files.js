@@ -595,7 +595,7 @@ $(document).ready(function() {
 								var date=new Date();
 								FileList.addFile(name,0,date,false,hidden);
 								var tr=$('tr').filterAttr('data-file',name);
-								tr.data('mime','text/plain').data('id',result.data.id);
+								tr.attr('data-mime','text/plain');
 								tr.attr('data-id', result.data.id);
 								getMimeIcon('text/plain',function(path){
 									tr.find('td.filename').attr('style','background-image:url('+path+')');
