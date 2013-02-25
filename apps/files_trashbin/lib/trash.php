@@ -77,7 +77,7 @@ class Trashbin {
 				if ( $view->is_dir('files_versions'.$file_path) ) {
 					$trashbinSize += self::calculateSize(new \OC_FilesystemView('/'. $user.'/files_versions/'.$file_path));
 					$view->rename('files_versions'.$file_path, 'files_trashbin/versions'. $deleted.'.d'.$timestamp);
-				} else if ( $versions = \OCA\Files_Versions\Storage::getVersions($file_path) ) {
+				} else if ( $versions = \OCA\Files_Versions\Storage::getVersions($user, $file_path) ) {
 					foreach ($versions as $v) {
 						$trashbinSize += $view->filesize('files_versions'.$v['path'].'.v'.$v['version']);
 						$view->rename('files_versions'.$v['path'].'.v'.$v['version'], 'files_trashbin/versions'. $deleted.'.v'.$v['version'].'.d'.$timestamp);
