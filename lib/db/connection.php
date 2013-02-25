@@ -17,6 +17,9 @@ class Connection extends \Doctrine\DBAL\Connection {
 
 	protected $adapter;
 
+	protected $preparedQueries = array();
+	protected $cachingQueryStatementEnabled = true;
+
 	/**
 	 * Initializes a new instance of the Connection class.
 	 *
@@ -47,9 +50,19 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 */
 	public function prepare( $statement, $limit=null, $offset=null ) {
 		$statement = $this->replaceTablePrefix($statement);
-		// TODO: limit & offset
-		// TODO: prepared statement cache
-		return parent::prepare($statement);
+		if (!is_null($limit) && $limit != -1) {
+			// TODO: limit & offset
+		} else {
+			if (isset($this->preparedQueries[$statement]) && $this->cachingQueryStatementEnabled) {
+				return $this->preparedQueries[$statement];
+			}
+		}
+		$rawQuery = $statement;
+		$result = parent::prepare($statement);
+		if ((is_null($limit) || $limit == -1) && $this->cachingQueryStatementEnabled) {
+			$this->preparedQueries[$rawQuery] = $result;
+		}
+		return $result;
 	}
 
 	/**
@@ -119,5 +132,14 @@ class Connection extends \Doctrine\DBAL\Connection {
 	// internal use
 	public function replaceTablePrefix($statement) {
 		return str_replace( '*PREFIX*', $this->table_prefix, $statement );
+	}
+
+	public function enableQueryStatementCaching() {
+		$this->cachingQueryStatementEnabled = true;
+	}
+
+	public function disableQueryStatementCaching() {
+		$this->cachingQueryStatementEnabled = false;
+		$this->preparedQueries = array();
 	}
 }

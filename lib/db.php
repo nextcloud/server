@@ -43,9 +43,6 @@ class DatabaseException extends Exception {
 class OC_DB {
 	const BACKEND_DOCTRINE=2;
 
-	static private $preparedQueries = array();
-	static private $cachingEnabled = true;
-
 	/**
 	 * @var \Doctrine\DBAL\Connection
 	 */
@@ -102,7 +99,6 @@ class OC_DB {
 				return true;
 			}
 		}
-		self::$preparedQueries = array();
 		// The global data we need
 		$name = OC_Config::getValue( "dbname", "owncloud" );
 		$host = OC_Config::getValue( "dbhost", "" );
@@ -186,6 +182,11 @@ class OC_DB {
 			$connectionParams['table_prefix'] = OC_Config::getValue( "dbtableprefix", "oc_" );
 			try {
 				self::$DOCTRINE = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+				if ($type === 'sqlite' || $type === 'sqlite3') {
+					// Sqlite doesn't handle query caching and schema changes
+					// TODO: find a better way to handle this
+					self::$connection->disableQueryStatementCaching();
+				}
 			} catch(\Doctrine\DBAL\DBALException $e) {
 				OC_Log::write('core', $e->getMessage(), OC_Log::FATAL);
 				OC_User::setUserId(null);
@@ -219,12 +220,8 @@ class OC_DB {
 			}
 			$platform = self::$connection->getDatabasePlatform();
 			$query = $platform->modifyLimitQuery($query, $limit, $offset);
-		} else {
-			if (isset(self::$preparedQueries[$query]) and self::$cachingEnabled) {
-				return self::$preparedQueries[$query];
 			}
 		}
-		$rawQuery = $query;
 
 		// Optimize the query
 		$query = self::processQuery( $query );
@@ -247,12 +244,6 @@ class OC_DB {
 			}
 			// differentiate between query and manipulation
 			$result=new OC_DB_StatementWrapper($result, $isManipulation);
-		}
-		if ((is_null($limit) || $limit == -1) and self::$cachingEnabled ) {
-			$type = OC_Config::getValue( "dbtype", "sqlite" );
-			if( $type != 'sqlite' && $type != 'sqlite3' ) {
-				self::$preparedQueries[$rawQuery] = $result;
-			}
 		}
 		return $result;
 	}
@@ -358,7 +349,6 @@ class OC_DB {
 		// Cut connection if required
 		if(self::$connection) {
 			self::$connection->close();
-			self::$preparedQueries = array();
 		}
 
 		return true;
@@ -672,9 +662,10 @@ class OC_DB {
 	 * @param bool $enabled
 	 */
 	static public function enableCaching($enabled) {
-		if (!$enabled) {
-			self::$preparedQueries = array();
+		if ($enabled) {
+			self::$connection->enableQueryStatementCaching();
+		} else {
+			self::$connection->disableQueryStatementCaching();
 		}
-		self::$cachingEnabled = $enabled;
 	}
 }
