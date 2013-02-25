@@ -315,7 +315,8 @@ class Shared extends \OC\Files\Storage\Common {
 		if ($this->isCreatable(dirname($path2))) {
 			$source = $this->fopen($path1, 'r');
 			$target = $this->fopen($path2, 'w');
-			return \OC_Helper::streamCopy($source, $target);
+			list ($count, $result) = \OC_Helper::streamCopy($source, $target);
+			return $result;
 		}
 		return false;
 	}
