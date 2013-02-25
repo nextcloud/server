@@ -102,10 +102,10 @@ class Trashbin {
 
 		// get available disk space for user
 		$quota = \OCP\Util::computerFileSize(\OC_Preferences::getValue($user, 'files', 'quota'));
-		if ( $quota == null ) {
+		if ( $quota === null ) {
 			$quota = \OCP\Util::computerFileSize(\OC_Appconfig::getValue('files', 'default_quota'));
 		}
-		if ( $quota == null ) {
+		if ( $quota === null ) {
 			$quota = \OC\Files\Filesystem::free_space('/');
 		}
 
@@ -181,7 +181,7 @@ class Trashbin {
 				} else {
 					$versionedFile = $file;
 				}
-				if ( $result[0]['type'] == 'dir' ) {
+				if ( $result[0]['type'] === 'dir' ) {
 					$trashbinSize -= self::calculateSize(new \OC_FilesystemView('/'.$user.'/'.'files_trashbin/versions/'. $file));
 					$view->rename(\OC_Filesystem::normalizePath('files_trashbin/versions/'. $file), \OC_Filesystem::normalizePath('files_versions/'.$location.'/'.$filename.$ext));
 				} else if ( $versions = self::getVersionsFromTrash($versionedFile, $timestamp) ) {
@@ -199,7 +199,7 @@ class Trashbin {
 			
 			// Take care of encryption keys TODO! Get '.key' in file between file name and delete date (also for permanent delete!)
 			$parts = pathinfo($file);
-			if ( $result[0]['type'] == 'dir' ) {
+			if ( $result[0]['type'] === 'dir' ) {
 				$keyfile = \OC_Filesystem::normalizePath('files_trashbin/keyfiles/'.$parts['dirname'].'/'.$filename);
 			} else {
 				$keyfile = \OC_Filesystem::normalizePath('files_trashbin/keyfiles/'.$parts['dirname'].'/'.$filename.'.key');
@@ -208,7 +208,7 @@ class Trashbin {
 				$keyfile .= '.d'.$timestamp;
 			}
 			if ( \OCP\App::isEnabled('files_encryption') && $view->file_exists($keyfile) ) {
-				if ( $result[0]['type'] == 'dir' ) {
+				if ( $result[0]['type'] === 'dir' ) {
 					$trashbinSize -= self::calculateSize(new \OC_FilesystemView('/'.$user.'/'.$keyfile));
 					$view->rename($keyfile, 'files_encryption/keyfiles/'. $location.'/'.$filename);
 				} else {
