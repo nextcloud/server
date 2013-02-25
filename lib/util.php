@@ -556,10 +556,15 @@ class OC_Util {
 		if (!function_exists('curl_init')) {
 			return true;
 		}
-
 		$settings = array(
 			'baseUri' => OC_Helper::linkToRemote('webdav'),
 		);
+
+		// save the old timeout so that we can restore it later
+		$old_timeout=ini_get("default_socket_timeout");
+
+		// use a 5 sec timeout for the check. Should be enough for local requests.
+		ini_set("default_socket_timeout", 5);
 
 		$client = new \Sabre_DAV_Client($settings);
 
@@ -573,6 +578,9 @@ class OC_Util {
 			OC_Log::write('core', 'isWebDAVWorking: NO - Reason: '.$e, OC_Log::WARN);
 			$return = false;
 		}
+
+		// restore the original timeout
+		ini_set("default_socket_timeout", $old_timeout);
 
 		return $return;
 	}
