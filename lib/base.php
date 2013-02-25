@@ -320,8 +320,11 @@ class OC {
 		// set the session name to the instance id - which is unique
 		session_name(OC_Util::getInstanceId());
 
-		// (re)-initialize session
-		session_start();
+		// if session cant be started break with http 500 error
+		if (session_start() === false){
+			header('HTTP/1.1 500 Internal Server Error');
+			exit(1);
+		}
 
 		// regenerate session id periodically to avoid session fixation
 		if (!isset($_SESSION['SID_CREATED'])) {
