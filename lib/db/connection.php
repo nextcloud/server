@@ -14,7 +14,6 @@ use Doctrine\Common\EventManager;
 
 class Connection extends \Doctrine\DBAL\Connection {
 	protected $table_prefix;
-	protected $sequence_suffix;
 
 	protected $adapter;
 
@@ -32,8 +31,12 @@ class Connection extends \Doctrine\DBAL\Connection {
 		if (!isset($params['adapter'])) {
 			throw new Exception('adapter not set');
 		}
+		if (!isset($params['table_prefix'])) {
+			throw new Exception('table_prefix not set');
+		}
 		parent::__construct($params, $driver, $config, $eventManager);
 		$this->adapter = new $params['adapter']($this);
+		$this->table_prefix = $params['table_prefix'];
 	}
 
 	/**
@@ -43,7 +46,7 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 * @return \Doctrine\DBAL\Driver\Statement The prepared statement.
 	 */
 	public function prepare( $statement, $limit=null, $offset=null ) {
-		// TODO: prefix
+		$statement = $this->replaceTablePrefix($statement);
 		// TODO: limit & offset
 		// TODO: prepared statement cache
 		return parent::prepare($statement);
@@ -84,5 +87,10 @@ class Connection extends \Doctrine\DBAL\Connection {
 	{
 		// TODO: prefix
 		return parent::executeUpdate($query, $params, $types);
+	}
+
+	// internal use
+	public function replaceTablePrefix($statement) {
+		return str_replace( '*PREFIX*', $this->table_prefix, $statement );
 	}
 }
