@@ -35,7 +35,7 @@ class Storage {
 		6 => array('intervalEndsAfter' => -1,      'step' => 604800),
 	);
 
-	private static function getUidAndFilename($filename) {
+	public static function getUidAndFilename($filename) {
 		$uid = \OC\Files\Filesystem::getOwner($filename);
 		\OC\Files\Filesystem::initMountPoints($uid);
 		if ( $uid != \OCP\User::getUser() ) {
