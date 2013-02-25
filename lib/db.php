@@ -661,7 +661,14 @@ class DoctrineStatementWrapper {
 	 * provide numRows
 	 */
 	public function numRows() {
-		return $this->statement->rowCount();
+		$regex = '/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/i';
+		$queryString = $this->statement->getWrappedStatement()->queryString;
+		if (preg_match($regex, $queryString, $output) > 0) {
+			$query = OC_DB::prepare("SELECT COUNT(*) FROM {$output[1]}", PDO::FETCH_NUM);
+			return $query->execute($this->lastArguments)->fetchColumn();
+		}else{
+			return $this->statement->rowCount();
+		}
 	}
 
 	/**
