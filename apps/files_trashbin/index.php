@@ -9,7 +9,7 @@ OCP\Util::addScript('files', 'fileactions');
 $tmpl = new OCP\Template('files_trashbin', 'index', 'user');
 
 $user = \OCP\User::getUser();
-$view = new OC_Filesystemview('/'.$user.'/files_trashbin');
+$view = new OC_Filesystemview('/'.$user.'/files_trashbin/files');
 
 OCP\Util::addStyle('files', 'files');
 OCP\Util::addScript('files', 'filelist');
@@ -19,7 +19,6 @@ $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 $result = array();
 if ($dir) {
 	$dirlisting = true;
-	$view = new \OC_FilesystemView('/'.\OCP\User::getUser().'/files_trashbin');
 	$fullpath = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath($dir);
 	$dirContent = opendir($fullpath);
 	$i = 0;
@@ -96,6 +95,7 @@ $list->assign('disableDownloadActions', true);
 $tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
 $tmpl->assign('fileList', $list->fetchPage(), false);
 $tmpl->assign('files', $files);
+$tmpl->assign('dirlisting', $dirlisting);
 $tmpl->assign('dir', OC_Filesystem::normalizePath($view->getAbsolutePath()));
 
 $tmpl->printPage();
