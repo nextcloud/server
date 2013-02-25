@@ -25,7 +25,7 @@ class Test_App extends PHPUnit_Framework_TestCase {
 	}
 
 
-	public function testIsAppVersionCompatibleMultipleAppNumber(){
+	public function testIsAppVersionCompatibleSingleNumber(){
 		$oc = array(4);
 		$app = '4';
 
@@ -48,5 +48,19 @@ class Test_App extends PHPUnit_Framework_TestCase {
 		$this->assertFalse(OC_App::isAppVersionCompatible($oc, $app));
 	}
 
+	public function testIsAppVersionCompatibleShouldFailTwoVersionNumbers(){
+		$oc = array(4, 3, 1);
+		$app = '4.4';
+
+		$this->assertFalse(OC_App::isAppVersionCompatible($oc, $app));
+	}
+
+
+	public function testIsAppVersionCompatibleShouldFailOneVersionNumbers(){
+		$oc = array(4, 3, 1);
+		$app = '5';
+
+		$this->assertFalse(OC_App::isAppVersionCompatible($oc, $app));
+	}
 
 }
