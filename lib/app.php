@@ -223,8 +223,7 @@ class OC_App{
 			// check if the app is compatible with this version of ownCloud
 			$info=OC_App::getAppInfo($app);
 			$version=OC_Util::getVersion();
-			$fullVersion = (float) ($version[0] . '.' . $version[1] . $version[2]);
-			if(!isset($info['require']) or ($fullVersion < (float) $info['require'])) {
+			if(!isset($info['require']) or !self::isAppVersionCompatible($version, $info['require'])) {
 				OC_Log::write('core',
 					'App "'.$info['name'].'" can\'t be installed because it is'
 					.' not compatible with this version of ownCloud',
@@ -852,8 +851,7 @@ class OC_App{
 		foreach($apps as $app) {
 			// check if the app is compatible with this version of ownCloud
 			$info = OC_App::getAppInfo($app);
-			$fullVersion = (float) ($version[0] . '.' . $version[1] . $version[2]);
-			if(!isset($info['require']) or ($fullVersion < (float) $info['require'])) {
+			if(!isset($info['require']) or !self::isAppVersionCompatible($version, $info['require'])) {
 				OC_Log::write('core',
 					'App "'.$info['name'].'" ('.$app.') can\'t be used because it is'
 					.' not compatible with this version of ownCloud',
@@ -863,6 +861,36 @@ class OC_App{
 			}
 		}
 	}
+
+
+	/**
+	 * Compares the app version with the owncloud version to see if the app 
+	 * requires a newer version than the currently active one
+	 * @param array $owncloudVersions array with 3 entries: major minor bugfix
+	 * @param string $appRequired the required version from the xml 
+	 * major.minor.bugfix
+	 * @return boolean true if compatible, otherwise false
+	 */
+	public static function isAppVersionCompatible($owncloudVersions, $appRequired){
+		$appVersions = explode('.', $appRequired);
+
+		for($i=0; $i<count($appVersions); $i++){
+			$appVersion = (int) $appVersions[$i];
+
+			if(isset($owncloudVersions[$i])){
+				$owncloudVersion = $owncloudVersions[$i];
+			} else {
+				$owncloudVersion = 0;
+			}
+
+			if($owncloudVersion < $appVersion){
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 
 	/**
 	 * get the installed version of all apps
