@@ -824,8 +824,8 @@ OC.set=function(name, value) {
  */
 function sessionHeartBeat(){
 	OC.Router.registerLoadedCallback(function(){
+		var url = OC.Router.generate('heartbeat');
 		setInterval(function(){
-			var url = OC.Router.generate('heartbeat');
 			$.post(url);
 		}, 900000);
 	});
