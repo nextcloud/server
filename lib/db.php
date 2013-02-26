@@ -389,58 +389,7 @@ class OC_DB {
 	 */
 	public static function insertIfNotExist($table, $input) {
 		self::connect();
-		$table = self::$connection->replaceTablePrefix( $table );
-
-		if(is_null(self::$type)) {
-			self::$type=OC_Config::getValue( "dbtype", "sqlite" );
-		}
-		$type = self::$type;
-
-		$query = '';
-		$inserts = array_values($input);
-		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
-		if( $type == 'sqlite' || $type == 'sqlite3' ) {
-			// NOTE: For SQLite we have to use this clumsy approach
-			// otherwise all fieldnames used must have a unique key.
-			$query = 'SELECT * FROM `' . $table . '` WHERE ';
-			foreach($input as $key => $value) {
-				$query .= '`' . $key . '` = ? AND ';
-			}
-			$query = substr($query, 0, strlen($query) - 5);
-			try {
-				$result = self::executeAudited($query, $inserts);
-			} catch(DatabaseException $e) {
-				OC_Template::printExceptionErrorPage( $e );
-			}
-
-			if((int)$result->numRows() === 0) {
-				$query = 'INSERT INTO `' . $table . '` (`'
-					. implode('`,`', array_keys($input)) . '`) VALUES('
-					. str_repeat('?,', count($input)-1).'? ' . ')';
-			} else {
-				return 0; //no rows updated
-			}
-		} elseif( $type == 'pgsql' || $type == 'oci' || $type == 'mysql' || $type == 'mssql') {
-			$query = 'INSERT INTO `' .$table . '` (`'
-				. implode('`,`', array_keys($input)) . '`) SELECT '
-				. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
-				. 'FROM `' . $table . '` WHERE ';
-
-			foreach($input as $key => $value) {
-				$query .= '`' . $key . '` = ? AND ';
-			}
-			$query = substr($query, 0, strlen($query) - 5);
-			$query .= ' HAVING COUNT(*) = 0';
-			$inserts = array_merge($inserts, $inserts);
-		}
-
-		try {
-			$result = self::executeAudited($query, $inserts);
-		} catch(\Doctrine\DBAL\DBALException $e) {
-			OC_Template::printExceptionErrorPage( $e );
-		}
-
-		return $result;
+		return self::$connection->insertIfNotExist($table, $input);
 	}
 
 	/**

@@ -16,4 +16,45 @@ class AdapterSqlite extends Adapter {
 		$statement = str_ireplace( 'UNIX_TIMESTAMP()', 'strftime(\'%s\',\'now\')', $statement );
 		return $statement;
 	}
+
+	public function insertIfNotExist($table, $input) {
+		// NOTE: For SQLite we have to use this clumsy approach
+		// otherwise all fieldnames used must have a unique key.
+		$query = 'SELECT COUNT(*) FROM `' . $table . '` WHERE ';
+		foreach($input as $key => $value) {
+			$query .= '`' . $key . '` = ? AND ';
+		}
+		$query = substr($query, 0, strlen($query) - 5);
+		try {
+			$stmt = $this->conn->prepare($query);
+			$result = $stmt->execute(array($input));
+		} catch(\Doctrine\DBAL\DBALException $e) {
+			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
+			$entry .= 'Offending command was: ' . $query . '<br />';
+			OC_Log::write('core', $entry, OC_Log::FATAL);
+			error_log('DB error: '.$entry);
+			OC_Template::printErrorPage( $entry );
+		}
+
+		if ($stmt->fetchColumn() === 0) {
+			$query = 'INSERT INTO `' . $table . '` (`'
+				. implode('`,`', array_keys($input)) . '`) VALUES('
+				. str_repeat('?,', count($input)-1).'? ' . ')';
+		} else {
+			return 0; //no rows updated
+		}
+
+		try {
+			$statement = $this->conn->prepare($query);
+			$result = $statement->execute(array_values($input));
+		} catch(\Doctrine\DBAL\DBALException $e) {
+			$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
+			$entry .= 'Offending command was: ' . $query.'<br />';
+			OC_Log::write('core', $entry, OC_Log::FATAL);
+			error_log('DB error: ' . $entry);
+			OC_Template::printErrorPage( $entry );
+		}
+
+		return $result;
+	}
 }

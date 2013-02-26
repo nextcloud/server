@@ -138,8 +138,18 @@ class Connection extends \Doctrine\DBAL\Connection {
 		return parent::lastInsertId($seqName);
 	}
 
+	/**
+	 * @brief Insert a row if a matching row doesn't exists.
+	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
+	 * @param array $input. An array of fieldname/value pairs
+	 * @returns bool The return value from execute()
+	 */
+	public function insertIfNotExist($table, $input) {
+		return $this->adapter->insertIfNotExist($table, $input);
+	}
+
 	// internal use
-	public function replaceTablePrefix($statement) {
+	protected function replaceTablePrefix($statement) {
 		return str_replace( '*PREFIX*', $this->table_prefix, $statement );
 	}
 
