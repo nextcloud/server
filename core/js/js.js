@@ -827,6 +827,6 @@ function sessionHeartBeat(){
 		setInterval(function(){
 			var url = OC.Router.generate('heartbeat');
 			$.post(url);
-		}, 15000);
+		}, 900000);
 	});
 }
