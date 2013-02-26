@@ -580,7 +580,8 @@ class Util {
 	 * @brief Expand given path to all sub files & folders
 	 * @param Session $session
 	 * @param string $path path which needs to be updated
-	 * @return bool outcome of attempt to set keyfiles
+	 * @return array $pathsArray all found file paths
+	 * @note Paths of directories excluded, only *file* paths are returned
 	 */
 	public function getPaths( $path ) {
 		

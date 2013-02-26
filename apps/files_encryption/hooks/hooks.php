@@ -167,44 +167,60 @@ class Hooks {
 	 * @brief get all users with access to the file and encrypt the file key to each of them
 	 */
 	public static function postShared( $params ) {
-
-		// NOTE: $params is an array with these keys:
+	
+		// NOTE: $params has keys:
+		// [itemType] => file
 		// itemSource -> int, filecache file ID
+		// [parent] => 
+		// [itemTarget] => /13
 		// shareWith -> string, uid of user being shared to
 		// fileTarget -> path of file being shared
 		// uidOwner -> owner of the original file being shared
+		// [shareType] => 0
+		// [shareWith] => test1
+		// [uidOwner] => admin
+		// [permissions] => 17
+		// [fileSource] => 13
+		// [fileTarget] => /test8
+		// [id] => 10
+		// [token] => 
 		
-		$view = new \OC_FilesystemView( '/' );
-		$session = new Session();
-		$userId = \OCP\User::getUser();
-		$util = new Util( $view, $userId );
-		$path = $util->fileIdToPath( $params['itemSource'] );
+		// TODO: Should other kinds of item be encrypted too?
+		if ( $params['itemType'] === 'file' ) {
 		
-		$usersSharing = \OCP\Share::getUsersSharingFile( $path, true );
-		
-		$allPaths = $util->getPaths( $path );
-		
-		$failed = array();
-		
-		foreach ( $allPaths as $path ) {
-		
-			if ( ! $util->setSharedFileKeyfiles( $session, $usersSharing, $path ) ) {
+			$view = new \OC_FilesystemView( '/' );
+			$session = new Session();
+			$userId = \OCP\User::getUser();
+			$util = new Util( $view, $userId );
+			$path = $util->fileIdToPath( $params['itemSource'] );
 			
-				$failed[] = $path;
+			$usersSharing = \OCP\Share::getUsersSharingFile( $path, true );
+			
+			$allPaths = $util->getPaths( $path );
+			
+			$failed = array();
+			
+			foreach ( $allPaths as $path ) {
+			
+				if ( ! $util->setSharedFileKeyfiles( $session, $usersSharing, $path ) ) {
+				
+					$failed[] = $path;
+					
+				}
 				
 			}
 			
-		}
-		
-		// If no attempts to set keyfiles failed
-		if ( empty( $failed ) ) {
-		
-			return true;
+			// If no attempts to set keyfiles failed
+			if ( empty( $failed ) ) {
 			
-		} else {
-		
-			return false;
+				return true;
+				
+			} else {
 			
+				return false;
+				
+			}
+		
 		}
 		
 	}
@@ -213,15 +229,47 @@ class Hooks {
 	 * @brief 
 	 */
 	public static function postUnshare( $params ) {
-	
-// 		$view = new \OC_FilesystemView( '/' );
-// 		$session = new Session();
-// 		$userId = \OCP\User::getUser();
-// 		$util = new Util( $view, $userId );
-// 		$path = $util->fileIdToPath( $params['itemSource'] );
-// 		
-// 		return Crypt::updateKeyfile( $view, $util, $session, $userId, $path );
 		
+		// NOTE: $params has keys:
+		// [itemType] => file
+		// [itemSource] => 13
+		// [shareType] => 0
+		// [shareWith] => test1
+	
+		// TODO: Should other kinds of item be encrypted too?
+		if ( $params['itemType'] === 'file' ) {
+		
+			$view = new \OC_FilesystemView( '/' );
+			$session = new Session();
+			$userId = \OCP\User::getUser();
+			$util = new Util( $view, $userId );
+			$path = $util->fileIdToPath( $params['itemSource'] );
+		
+			$allPaths = $util->getPaths( $path );
+			
+			foreach ( $allPaths as $path ) {
+			
+				if ( ! Keymanager::delShareKey( $view, $userId, $path ) ) {
+				
+					$failed[] = $path;
+					
+				}
+				
+			}
+			
+			// If no attempts to set keyfiles failed
+			if ( empty( $failed ) ) {
+			
+				return true;
+				
+			} else {
+			
+				return false;
+				
+			}
+
+		}
+
 	}
 	
 	/**

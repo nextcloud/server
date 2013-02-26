@@ -351,6 +351,30 @@ class Keymanager {
 	}
 	
 	/**
+	 * @brief Delete a single user's shareKey for a single file
+	 */
+	public static function delShareKey( \OC_FilesystemView $view, $userId, $filePath ) {
+		
+		$trimmed = ltrim( $filePath, '/' );
+		$shareKeyPath =  '/' . $userId . '/files_encryption/share-keys/' . $trimmed . '.shareKey';
+		
+		// Unlink doesn't tell us if file was deleted (not found returns
+		// true), so we perform our own test
+		if ( $view->file_exists( $shareKeyPath ) ) {
+		
+			return $view->unlink( $shareKeyPath );
+			
+		} else {
+			
+			\OC_Log::write( 'Encryption library', 'Could not delete shareKey; does not exist: "' . $shareKeyPath, \OC_Log::ERROR );
+			
+			return false;
+			
+		}
+		
+	}
+	
+	/**
 	 * @brief Make preparations to vars and filesystem for saving a keyfile
 	 */
 	public static function keySetPreparation( \OC_FilesystemView $view, $path, $basePath, $userId ) {
