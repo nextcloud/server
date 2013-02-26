@@ -61,6 +61,7 @@ class Share {
 	private static $shareTypeGroupUserUnique = 2;
 	private static $backends = array();
 	private static $backendTypes = array();
+	private static $isResharingAllowed;
 
 	/**
 	* @brief Register a sharing backend class that implements OCP\Share_Backend for an item type
@@ -568,6 +569,24 @@ class Share {
 	}
 
 	/**
+	* @brief Check if resharing is allowed
+	* @return Returns true if allowed or false
+	*
+	* Resharing is allowed by default if not configured
+	*
+	*/
+	private static function isResharingAllowed() {
+		if (!isset(self::$isResharingAllowed)) {
+			if (\OC_Appconfig::getValue('core', 'shareapi_allow_resharing', 'yes') == 'yes') {
+				self::$isResharingAllowed = true;
+			} else {
+				self::$isResharingAllowed = false;
+			}
+		}
+		return self::$isResharingAllowed;
+	}
+
+	/**
 	* @brief Get a list of collection item types for the specified item type
 	* @param string Item type
 	* @return array
@@ -840,7 +859,10 @@ class Share {
 					continue;
 				}
 			}
-
+			// Check if resharing is allowed, if not remove share permission
+			if (isset($row['permissions']) && !self::isResharingAllowed()) {
+				$row['permissions'] &= ~PERMISSION_SHARE;
+			}
 			// Add display names to result
 			if ( isset($row['share_with']) && $row['share_with'] != '') {
 				$row['share_with_displayname'] = \OCP\User::getDisplayName($row['share_with']);
@@ -978,7 +1000,7 @@ class Share {
 				throw new \Exception($message);
 			}
 			// Check if share permissions is granted
-			if ((int)$checkReshare['permissions'] & PERMISSION_SHARE) {
+			if (self::isResharingAllowed() && (int)$checkReshare['permissions'] & PERMISSION_SHARE) {
 				if (~(int)$checkReshare['permissions'] & $permissions) {
 					$message = 'Sharing '.$itemSource
 						.' failed, because the permissions exceed permissions granted to '.$uidOwner;
