@@ -178,14 +178,14 @@ class OC_Util {
 		}
 
 		//common hint for all file permissons error messages
-		$permissionsHint="Permissions can usually be fixed by giving the webserver write access'
-			.' to the ownCloud directory";
+		$permissionsHint='Permissions can usually be fixed by giving the webserver write access'
+			.' to the ownCloud directory';
 
 		// Check if config folder is writable.
 		if(!is_writable(OC::$SERVERROOT."/config/") or !is_readable(OC::$SERVERROOT."/config/")) {
 			$errors[]=array('error'=>"Can't write into config directory 'config'",
-				'hint'=>"You can usually fix this by giving the webserver user write access'
-					.' to the config directory in owncloud");
+				'hint'=>'You can usually fix this by giving the webserver user write access'
+					.' to the config directory in owncloud');
 		}
 
 		// Check if there is a writable install folder.
@@ -194,8 +194,8 @@ class OC_Util {
 				|| !is_writable(OC_App::getInstallPath())
 				|| !is_readable(OC_App::getInstallPath()) ) {
 				$errors[]=array('error'=>"Can't write into apps directory",
-					'hint'=>"You can usually fix this by giving the webserver user write access'
-					.' to the apps directory in owncloud or disabling the appstore in the config file.");
+					'hint'=>'You can usually fix this by giving the webserver user write access'
+					.' to the apps directory in owncloud or disabling the appstore in the config file.');
 			}
 		}
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
