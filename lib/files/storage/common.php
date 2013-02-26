@@ -38,7 +38,11 @@ abstract class Common implements \OC\Files\Storage\Storage {
 			return 0; //by definition
 		} else {
 			$stat = $this->stat($path);
-			return $stat['size'];
+			if (isset($stat['size'])) {
+				return $stat['size'];
+			} else {
+				return 0;
+			}
 		}
 	}
 
@@ -79,7 +83,11 @@ abstract class Common implements \OC\Files\Storage\Storage {
 
 	public function filemtime($path) {
 		$stat = $this->stat($path);
-		return $stat['mtime'];
+		if (isset($stat['mtime'])) {
+			return $stat['mtime'];
+		} else {
+			return 0;
+		}
 	}
 
 	public function file_get_contents($path) {
