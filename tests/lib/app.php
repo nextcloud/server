@@ -40,6 +40,14 @@ class Test_App extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(OC_App::isAppVersionCompatible($oc, $app));
 	}
 
+
+	public function testIsAppVersionCompatibleComplex(){
+		$oc = array(5, 0, 0);
+		$app = '4.5.1';
+
+		$this->assertTrue(OC_App::isAppVersionCompatible($oc, $app));
+	}
+
 	
 	public function testIsAppVersionCompatibleShouldFail(){
 		$oc = array(4, 3, 1);

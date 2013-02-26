@@ -885,6 +885,8 @@ class OC_App{
 
 			if($owncloudVersion < $appVersion){
 				return false;
+			} elseif ($owncloudVersion > $appVersion) {
+				return true;
 			}
 		}
 
