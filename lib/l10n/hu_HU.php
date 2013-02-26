@@ -34,6 +34,7 @@
 "MySQL user '%s'@'%%' already exists" => "A '%s'@'%%' MySQL felhasználó már létezik",
 "Drop this user from MySQL." => "Törölje ezt a felhasználót a MySQL-ből.",
 "Offending command was: \"%s\", name: %s, password: %s" => "A hibát okozó parancs ez volt: \"%s\", login név: %s, jelszó: %s",
+"MS SQL username and/or password not valid: $s" => "Az MS SQL felhasználónév és/vagy jelszó érvénytelen: $s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Az Ön webkiszolgálója nincs megfelelően beállítva az állományok szinkronizálásához, mert a WebDAV-elérés úgy tűnik, nem működik.",
 "Please double check the <a href='%s'>installation guides</a>." => "Kérjük tüzetesen tanulmányozza át a <a href='%s'>telepítési útmutatót</a>.",
 "seconds ago" => "másodperce",

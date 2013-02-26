@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-26 00:05+0100\n"
-"PO-Revision-Date: 2013-02-25 23:05+0000\n"
+"POT-Creation-Date: 2013-02-27 00:08+0100\n"
+"PO-Revision-Date: 2013-02-26 09:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -184,7 +184,7 @@ msgstr "Fehlerhafter Befehl war: \"%s\", Name: %s, Passwort: %s"
 
 #: setup.php:631
 msgid "MS SQL username and/or password not valid: $s"
-msgstr ""
+msgstr "MS SQL Benutzername und/oder Passwort ungültig: $s"
 
 #: setup.php:849
 msgid ""

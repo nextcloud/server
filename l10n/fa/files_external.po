@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:32+0000\n"
+"POT-Creation-Date: 2013-02-27 00:08+0100\n"
+"PO-Revision-Date: 2013-02-26 08:30+0000\n"
 "Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr ""
 
 #: js/dropbox.js:73 js/google.js:72
 msgid "Fill out all required fields"
-msgstr ""
+msgstr "تمام قسمت های مورد نیاز را پر کنید"
 
 #: js/dropbox.js:85
 msgid "Please provide a valid Dropbox app key and secret."
@@ -89,7 +89,7 @@ msgstr ""
 
 #: templates/settings.php:86
 msgid "All Users"
-msgstr ""
+msgstr "تمام کاربران"
 
 #: templates/settings.php:87
 msgid "Groups"

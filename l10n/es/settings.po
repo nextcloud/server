@@ -23,8 +23,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-26 00:05+0100\n"
-"PO-Revision-Date: 2013-02-25 17:21+0000\n"
+"POT-Creation-Date: 2013-02-27 00:08+0100\n"
+"PO-Revision-Date: 2013-02-26 10:36+0000\n"
 "Last-Translator: Ricardo Hermosilla <ra.hermosillac@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -132,7 +132,7 @@ msgstr "Error"
 msgid "Updated"
 msgstr "Actualizado"
 
-#: js/personal.js:96
+#: js/personal.js:99
 msgid "Saving..."
 msgstr "Guardando..."
 

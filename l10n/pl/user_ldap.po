@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-26 00:04+0100\n"
-"PO-Revision-Date: 2013-02-25 12:13+0000\n"
+"POT-Creation-Date: 2013-02-27 00:08+0100\n"
+"PO-Revision-Date: 2013-02-26 10:10+0000\n"
 "Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -23,23 +23,23 @@ msgstr ""
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr ""
+msgstr "Nie można usunąć konfiguracji serwera"
 
 #: ajax/testConfiguration.php:36
 msgid "The configuration is valid and the connection could be established!"
-msgstr ""
+msgstr "Konfiguracja jest prawidłowa i można ustanowić połączenie!"
 
 #: ajax/testConfiguration.php:39
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr ""
+msgstr "Konfiguracja jest prawidłowa, ale Bind nie. Sprawdź ustawienia serwera i poświadczenia."
 
 #: ajax/testConfiguration.php:43
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr ""
+msgstr "Konfiguracja jest nieprawidłowa. Proszę przejrzeć logi dziennika ownCloud "
 
 #: js/settings.js:66
 msgid "Deletion failed"
@@ -47,7 +47,7 @@ msgstr "Skasowanie nie powiodło się"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr ""
+msgstr "Przejmij ustawienia z ostatnich konfiguracji serwera?"
 
 #: js/settings.js:83
 msgid "Keep settings?"
@@ -84,7 +84,7 @@ msgstr "<b>Ostrzeżenie:</b> Aplikacje user_ldap i user_webdavauth nie są  komp
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Ostrzeżenie:</b>  Moduł PHP LDAP nie jest zainstalowany i nie będzie działał. Poproś administratora o włączenie go."
 
 #: templates/settings.php:15
 msgid "Server configuration"
@@ -109,7 +109,7 @@ msgstr "Baza DN"
 
 #: templates/settings.php:27
 msgid "One Base DN per line"
-msgstr ""
+msgstr "Jedna baza DN na linię"
 
 #: templates/settings.php:28
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -192,17 +192,17 @@ msgstr "Port"
 
 #: templates/settings.php:59
 msgid "Backup (Replica) Host"
-msgstr ""
+msgstr "Kopia zapasowa (repliki) host"
 
 #: templates/settings.php:59
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr ""
+msgstr "Dać opcjonalnie  hosta kopii zapasowej . To musi być repliką głównego serwera LDAP/AD."
 
 #: templates/settings.php:60
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "Kopia zapasowa (repliki) Port"
 
 #: templates/settings.php:61
 msgid "Disable Main Server"
@@ -210,7 +210,7 @@ msgstr "Wyłącz serwer główny"
 
 #: templates/settings.php:61
 msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr ""
+msgstr "Po włączeniu, ownCloud tylko połączy się z serwerem repliki."
 
 #: templates/settings.php:62
 msgid "Use TLS"
@@ -218,7 +218,7 @@ msgstr "Użyj TLS"
 
 #: templates/settings.php:62
 msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr ""
+msgstr "Nie używaj go dodatkowo dla połączeń protokołu LDAPS, zakończy się niepowodzeniem."
 
 #: templates/settings.php:63
 msgid "Case insensitve LDAP server (Windows)"
@@ -244,7 +244,7 @@ msgstr "w sekundach. Zmiana opróżnia pamięć podręczną."
 
 #: templates/settings.php:67
 msgid "Directory Settings"
-msgstr ""
+msgstr "Ustawienia katalogów"
 
 #: templates/settings.php:69
 msgid "User Display Name Field"
@@ -260,7 +260,7 @@ msgstr "Drzewo bazy użytkowników"
 
 #: templates/settings.php:70
 msgid "One User Base DN per line"
-msgstr ""
+msgstr "Jeden użytkownik Bazy DN na linię"
 
 #: templates/settings.php:71
 msgid "User Search Attributes"
@@ -268,7 +268,7 @@ msgstr "Szukaj atrybutów"
 
 #: templates/settings.php:71 templates/settings.php:74
 msgid "Optional; one attribute per line"
-msgstr ""
+msgstr "Opcjonalnie; jeden atrybut w wierszu"
 
 #: templates/settings.php:72
 msgid "Group Display Name Field"
@@ -284,11 +284,11 @@ msgstr "Drzewo bazy grup"
 
 #: templates/settings.php:73
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "Jedna grupa bazy DN na linię"
 
 #: templates/settings.php:74
 msgid "Group Search Attributes"
-msgstr ""
+msgstr "Grupa atrybutów wyszukaj"
 
 #: templates/settings.php:75
 msgid "Group-Member association"
@@ -296,7 +296,7 @@ msgstr "Członek grupy stowarzyszenia"
 
 #: templates/settings.php:77
 msgid "Special Attributes"
-msgstr ""
+msgstr "Specjalne atrybuty"
 
 #: templates/settings.php:80
 msgid "in bytes"
