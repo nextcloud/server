@@ -32,4 +32,5 @@ RewriteRule ^remote/(.*) remote.php [QSA,L]
 AddType image/svg+xml svg svgz
 AddEncoding gzip svgz
 </IfModule>
+AddDefaultCharset utf-8
 Options -Indexes
