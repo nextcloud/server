@@ -589,8 +589,8 @@ class OC_User {
 	 * @param string $userid
 	 */
 	public static function enableUser($userid) {
-		$sql = "DELETE FROM `*PREFIX*preferences`'
-			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
+		$sql = 'DELETE FROM `*PREFIX*preferences`'
+			." WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
 		$stmt = OC_DB::prepare($sql);
 		if ( ! OC_DB::isError($stmt) ) {
 			$result = $stmt->execute(array($userid, 'core', 'enabled', 'false'));

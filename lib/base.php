@@ -162,9 +162,9 @@ class OC {
 			OC::$THIRDPARTYWEBROOT = rtrim(dirname(OC::$WEBROOT), '/');
 			OC::$THIRDPARTYROOT = rtrim(dirname(OC::$SERVERROOT), '/');
 		} else {
-			echo("3rdparty directory not found! Please put the ownCloud 3rdparty'
+			echo('3rdparty directory not found! Please put the ownCloud 3rdparty'
 				.' folder in the ownCloud folder or the folder above.'
-				.' You can also configure the location in the config.php file.");
+				.' You can also configure the location in the config.php file.');
 			exit;
 		}
 		// search the apps folder
@@ -188,8 +188,8 @@ class OC {
 		}
 
 		if (empty(OC::$APPSROOTS)) {
-			echo("apps directory not found! Please put the ownCloud apps folder in the ownCloud folder'
-				.' or the folder above. You can also configure the location in the config.php file.");
+			echo('apps directory not found! Please put the ownCloud apps folder in the ownCloud folder'
+				.' or the folder above. You can also configure the location in the config.php file.');
 			exit;
 		}
 		$paths = array();
@@ -214,8 +214,8 @@ class OC {
 			$tmpl = new OC_Template('', 'error', 'guest');
 			$tmpl->assign('errors', array(1 => array(
 				'error' => "Can't write into config directory 'config'",
-				'hint' => "You can usually fix this by giving the webserver user write access'
-					.' to the config directory in owncloud"
+				'hint' => 'You can usually fix this by giving the webserver user write access'
+					.' to the config directory in owncloud'
 			)));
 			$tmpl->printPage();
 			exit();

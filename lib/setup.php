@@ -261,8 +261,8 @@ class OC_Setup {
 		}
 
 		//fill the database if needed
-		$query="select count(*) from information_schema.tables'
-			.' where table_schema='$dbname' AND table_name = '{$dbtableprefix}users';";
+		$query='select count(*) from information_schema.tables'
+			." where table_schema='$dbname' AND table_name = '{$dbtableprefix}users';";
 		$result = mysql_query($query, $connection);
 		if($result) {
 			$row=mysql_fetch_row($result);
@@ -454,8 +454,8 @@ class OC_Setup {
 		}
 		//check for roles creation rights in oracle
 
-		$query="SELECT count(*) FROM user_role_privs, role_sys_privs'
-			.' WHERE user_role_privs.granted_role = role_sys_privs.role AND privilege = 'CREATE ROLE'";
+		$query='SELECT count(*) FROM user_role_privs, role_sys_privs'
+			." WHERE user_role_privs.granted_role = role_sys_privs.role AND privilege = 'CREATE ROLE'";
 		$stmt = oci_parse($connection, $query);
 		if (!$stmt) {
 			$entry = $l->t('DB Error: "%s"', array(oci_last_error($connection))) . '<br />';
