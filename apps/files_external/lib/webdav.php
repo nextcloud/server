@@ -313,7 +313,7 @@ class DAV extends \OC\Files\Storage\Common{
 		}
 	}
 
-	private function cleanPath($path) {
+	public function cleanPath($path) {
 		if ( ! $path || $path[0]=='/') {
 			return substr($path, 1);
 		} else {
