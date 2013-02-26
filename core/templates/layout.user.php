@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="ng-csp">
 	<head>
 		<title><?php echo !empty($_['application'])?$_['application'].' | ':'' ?>ownCloud
 			<?php echo !empty($_['user_displayname'])?' ('.$_['user_displayname'].') ':'' ?></title>
