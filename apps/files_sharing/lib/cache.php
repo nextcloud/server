@@ -125,8 +125,8 @@ class Shared_Cache extends Cache {
 	 * @return int file id
 	 */
 	public function put($file, array $data) {
-		if ($file == '' && isset($data['etag'])) {
-			\OCP\Config::setUserValue(\OCP\User::getUser(), 'files_sharing', 'etag', $data['etag']);
+		if ($file === '' && isset($data['etag'])) {
+			return \OCP\Config::setUserValue(\OCP\User::getUser(), 'files_sharing', 'etag', $data['etag']);
 		} else if ($cache = $this->getSourceCache($file)) {
 			return $cache->put($this->files[$file], $data);
 		}
