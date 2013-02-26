@@ -530,7 +530,7 @@ class OC_User {
 				$displayNames = array_merge($displayNames, $backendDisplayNames);
 			}
 		}
-		ksort($displayNames);
+		asort($displayNames);
 		return $displayNames;
 	}
 
