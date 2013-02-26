@@ -42,6 +42,7 @@ class OC_DB {
 	const BACKEND_MDB2=1;
 
 	static private $preparedQueries = array();
+	static private $cachingEnabled = true;
 
 	/**
 	 * @var MDB2_Driver_Common
@@ -356,7 +357,7 @@ class OC_DB {
 				}
 			}
 		} else {
-			if (isset(self::$preparedQueries[$query])) {
+			if (isset(self::$preparedQueries[$query]) and self::$cachingEnabled) {
 				return self::$preparedQueries[$query];
 			}
 		}
@@ -382,7 +383,7 @@ class OC_DB {
 			}
 			$result=new PDOStatementWrapper($result);
 		}
-		if (is_null($limit) || $limit == -1) {
+		if ((is_null($limit) || $limit == -1) and self::$cachingEnabled ) {
 			self::$preparedQueries[$rawQuery] = $result;
 		}
 		return $result;
@@ -914,6 +915,16 @@ class OC_DB {
 			$msg = '';
 		}
 		return $msg;
+	}
+
+	/**
+	 * @param bool $enabled
+	 */
+	static public function enableCaching($enabled) {
+		if (!$enabled) {
+			self::$preparedQueries = array();
+		}
+		self::$cachingEnabled = $enabled;
 	}
 }
 
