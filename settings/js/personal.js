@@ -31,7 +31,7 @@ $(document).ready(function(){
 		}
 
 	});
-	
+
 	$("#displaynamebutton").click( function(){
 		if ($('#displayName').val() != '' ) {
 			// Serialize the data
@@ -42,6 +42,9 @@ $(document).ready(function(){
 			$.post( 'ajax/changedisplayname.php', post, function(data){
 				if( data.status == "success" ){
 					$('#displaynamechanged').show();
+					$('#oldDisplayName').text($('#displayName').val());
+					// update displayName on the top right expand button
+					$('#expandDisplayName').text($('#displayName').val());
 				}
 				else{
 					$('#newdisplayname').val(data.data.displayName)
