@@ -584,6 +584,7 @@ function fillWindow(selector) {
 }
 
 $(document).ready(function(){
+	sessionHeartBeat();
 
 	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
 		replaceSVG();
@@ -815,3 +816,17 @@ OC.set=function(name, value) {
 	}
 	context[tail]=value;
 };
+
+
+/**
+ * Calls the server periodically every 15 mins to ensure that session doesnt
+ * time out
+ */
+function sessionHeartBeat(){
+	OC.Router.registerLoadedCallback(function(){
+		setInterval(function(){
+			var url = OC.Router.generate('heartbeat');
+			$.post(url);
+		}, 15000);
+	});
+}
