@@ -21,17 +21,28 @@
  *
  */
 
-// Todo:
+# Bugs
+# ----
+# Sharing a file to a user without encryption set up will not provide them with access but won't notify the sharer
+# Deleting files if keyfile is missing fails
+# When encryption app is disabled files become unreadable
+# Timeouts on first login due to encryption of very large files
+# MultiKeyEncrypt() may be failing
+
+
+# Missing features
+# ----------------
+# Unshare a file
+# Re-use existing keyfiles so they don't need version control
+# Make sure user knows if large files weren't encrypted
+# Trashbin support
+
+
+// Old Todo:
 //  - Crypt/decrypt button in the userinterface
 //  - Setting if crypto should be on by default
 //  - Add a setting "Don´t encrypt files larger than xx because of performance 
 //    reasons"
-//  - Transparent decrypt/encrypt in filesystem.php. Autodetect if a file is 
-//    encrypted (.encrypted extension)
-//  - Don't use a password directly as encryption key. but a key which is 
-//    stored on the server and encrypted with the user password. -> password 
-//    change faster
-//  - IMPORTANT! Check if the block lenght of the encrypted data stays the same
 
 namespace OCA\Encryption;
 
@@ -663,10 +674,14 @@ class Util {
 		}
 		
 		// Re-enc keyfile to (additional) sharekeys
-		$newShareKeys = Crypt::multiKeyEncrypt( $plainKeyfile, $userPubKeys );
-
-		// Save new sharekeys to all necessary user folders
-		if ( ! Keymanager::setShareKeys( $this->view, $filePath, $newShareKeys['keys'] ) ) {
+		$multiEncKey = Crypt::multiKeyEncrypt( $plainKeyfile, $userPubKeys );
+		
+		// Save the recrypted key to it's owner's keyfiles directory
+		// Save new sharekeys to all necessary user directory
+		if ( 
+			! Keymanager::setFileKey( $this->view, $filePath, $fileOwner, $multiEncKey['data'] )
+			|| ! Keymanager::setShareKeys( $this->view, $filePath, $multiEncKey['keys'] ) 
+		) {
 
 			trigger_error( "SET Share keys failed" );
 

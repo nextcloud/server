@@ -91,7 +91,8 @@ class Proxy extends \OC_FileProxy {
 		return false;
 	}
 	
-	public function preFile_put_contents( $path, &$data ) {
+	public function preFile_put_contents( $path, &$data ) { 
+		
 		// TODO check for existing key file and reuse it if possible to avoid problems with versioning etc.
 		if ( self::shouldEncrypt( $path ) ) {
 		
@@ -204,22 +205,22 @@ class Proxy extends \OC_FileProxy {
 			// Get the encrypted keyfile
 			$encKeyfile = Keymanager::getFileKey( $view, $fileOwner, $relPath );
 			
-			trigger_error("\$encKeyfile = ". var_export($encKeyfile, 1));
-			
 			// Attempt to fetch the user's shareKey
 			$shareKey = Keymanager::getShareKey( $view, $userId, $relPath );
-			
-			trigger_error("\$shareKey = ".var_export($shareKey, 1));
 			
 			// Check if key is shared or not
 			if ( $shareKey ) {
 				
 				\OC_FileProxy::$enabled = false;
 				
+// 				trigger_error("\$encKeyfile = $encKeyfile, \$shareKey = $shareKey, \$privateKey = $privateKey");
+				
 				// Decrypt keyfile with shareKey
 				$plainKeyfile = Crypt::multiKeyDecrypt( $encKeyfile, $shareKey, $privateKey );
 				
-				trigger_error("PROXY plainkeyfile = ". var_export($plainKeyfile, 1));
+// 				$plainKeyfile = $encKeyfile;
+				
+// 				trigger_error("PROXY plainkeyfile = ". var_export($plainKeyfile, 1));
 			
 			} else {
 				
@@ -229,6 +230,8 @@ class Proxy extends \OC_FileProxy {
 			}
 			
 			$plainData = Crypt::symmetricDecryptFileContent( $data, $plainKeyfile );
+			
+// 			trigger_error("PLAINDATA = ". var_export($plainData, 1));
 
 		} elseif (
 		Crypt::mode() == 'server' 

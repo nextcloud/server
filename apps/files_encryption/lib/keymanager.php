@@ -105,6 +105,8 @@ class Keymanager {
 	 */
 	public static function setFileKey( \OC_FilesystemView $view, $path, $userId, $catfile ) {
 		
+		\OC_FileProxy::$enabled = false;
+		
 		\OC\Files\Filesystem::initMountPoints($userId);
 		$basePath = '/' . $userId . '/files_encryption/keyfiles';
 		
@@ -112,14 +114,18 @@ class Keymanager {
 		
 		if ( $view->is_dir( $basePath . '/' . $targetPath ) ) {
 		
-			
+			// FIXME: write me
 		
 		} else {
 
 			// Save the keyfile in parallel directory
-			return $view->file_put_contents( $basePath . '/' . $targetPath . '.key', $catfile );
+			$result = $view->file_put_contents( $basePath . '/' . $targetPath . '.key', $catfile );
 		
 		}
+		
+		\OC_FileProxy::$enabled = true;
+		
+		return $result;
 		
 	}
 	
@@ -140,15 +146,21 @@ class Keymanager {
 		
 		$keyfilePath = '/' . $userId . '/files_encryption/keyfiles/' . $filePath_f . '.key';
 		
+		\OC_FileProxy::$enabled = false;
+		
 		if ( $view->file_exists( $keyfilePath ) ) {
 
-			return $view->file_get_contents( $keyfilePath );
+			$result =  $view->file_get_contents( $keyfilePath );
 			
 		} else {
 		
-			return false;
+			$result =  false;
 			
 		}
+		
+		\OC_FileProxy::$enabled = true;
+		
+		return $result;
 		
 	}
 	

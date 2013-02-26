@@ -391,6 +391,8 @@ class Crypt {
 	
 		if( openssl_seal( $plainContent, $sealed, $shareKeys, $publicKeys ) ) {
 		
+// 			trigger_error("SEALED = $sealed");
+			
 			$i = 0;
 			
 			// Ensure each shareKey is labelled with its 
