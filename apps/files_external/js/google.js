@@ -1,11 +1,11 @@
 $(document).ready(function() {
 
-	$('#externalStorage tbody tr.OC_Filestorage_Google').each(function(index, tr) {
+	$('#externalStorage tbody tr.\\\\OC\\\\Files\\\\Storage\\\\Google').each(function(index, tr) {
 		setupGoogleRow(tr);
 	});
 
-	$('#selectBackend').on('change', function() {
-		if ($(this).val() == 'OC_Filestorage_Google') {
+	$('#externalStorage').on('change', '#selectBackend', function() {
+		if ($(this).val() == '\\OC\\Files\\Storage\\Google') {
 			setupGoogleRow($('#externalStorage tbody>tr:last').prev('tr'));
 		}
 	});
@@ -43,18 +43,18 @@ $(document).ready(function() {
 		}
 	}
 
-	$('#externalStorage tbody').on('paste', 'tr.OC_Filestorage_Google td', function() {
+	$('#externalStorage').on('paste', 'tbody tr.\\\\OC\\\\Files\\\\Storage\\\\Google td', function() {
 		var tr = $(this).parent();
 		setTimeout(function() {
 			onGoogleInputsChange(tr);
 		}, 20);
 	});
 
-	$('#externalStorage tbody').on('keyup', 'tr.OC_Filestorage_Google td', function() {
+	$('#externalStorage').on('keyup', 'tbody tr.\\\\OC\\\\Files\\\\Storage\\\\Google td', function() {
 		onGoogleInputsChange($(this).parent());
 	});
 
-	$('#externalStorage tbody').on('change', 'tr.OC_Filestorage_Google .chzn-select', function() {
+	$('#externalStorage').on('change', 'tbody tr.\\\\OC\\\\Files\\\\Storage\\\\Google .chzn-select', function() {
 		onGoogleInputsChange($(this).parent().parent());
 	});
 
@@ -73,7 +73,7 @@ $(document).ready(function() {
 		}
 	}
 
-	$('.google').on('click', function(event) {
+	$('#externalStorage').on('click', '.google', function(event) {
 		event.preventDefault();
 		var tr = $(this).parent().parent();
 		var configured = $(this).parent().find('[data-parameter="configured"]');
