@@ -26,7 +26,7 @@ OC.Share={
 							var action = $(file).find('.fileactions .action').filterAttr('data-action', 'Share');
 							var img = action.find('img').attr('src', image);
 							action.addClass('permanent');
-							action.html(t('core', ' Shared')).prepend(img);
+							action.html(' '+t('core', 'Shared')).prepend(img);
 						}
 						var dir = $('#dir').val();
 						if (dir.length > 1) {
@@ -40,7 +40,7 @@ OC.Share={
 									if (img.attr('src') != OC.imagePath('core', 'actions/public')) {
 										img.attr('src', image);
 										action.addClass('permanent');
-										action.html(t('core', ' Shared')).prepend(img);
+										action.html(' '+t('core', 'Shared')).prepend(img);
 									}
 								}
 								last = path;
@@ -87,10 +87,10 @@ OC.Share={
 			var img = action.find('img').attr('src', image);
 			if (shares) {
 				action.addClass('permanent');
-				action.html(t('core', ' Shared')).prepend(img);
+				action.html(' '+t('core', 'Shared')).prepend(img);
 			} else {
 				action.removeClass('permanent');
-				action.html(t('core', ' Share')).prepend(img);
+				action.html(' '+t('core', 'Share')).prepend(img);
 			}
 		}
 		if (shares) {
