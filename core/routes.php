@@ -69,3 +69,8 @@ $this->create('app_script', '/apps/{app}/{file}')
 	->defaults(array('file' => 'index.php'))
 	->requirements(array('file' => '.*.php'))
 	->action('OC', 'loadAppScriptFile');
+
+// used for heartbeat
+$this->create('heartbeat', '/heartbeat')->action(function(){
+	// do nothing
+});
