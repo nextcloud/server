@@ -52,7 +52,7 @@ foreach($prefixes as $prefix) {
 if(count($prefixes) == 0) {
 	$scoHtml .= '<option value="" selected>1. Server</option>';
 }
-$tmpl->assign('serverConfigurationOptions', $scoHtml, false);
+$tmpl->assign('serverConfigurationOptions', $scoHtml);
 
 // assign default values
 if(!isset($ldap)) {
