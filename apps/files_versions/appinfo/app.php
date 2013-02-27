@@ -4,8 +4,6 @@
 OC::$CLASSPATH['OCA\Files_Versions\Storage'] = 'apps/files_versions/lib/versions.php';
 OC::$CLASSPATH['OCA\Files_Versions\Hooks'] = 'apps/files_versions/lib/hooks.php';
 
-OCP\App::registerAdmin('files_versions', 'settings');
-
 OCP\Util::addscript('files_versions', 'versions');
 
 // Listen to write signals

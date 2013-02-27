@@ -1,19 +1,9 @@
-$(document).ready(function() {
-        $('#versions').bind('change', function() {
-                var checked = 1;
-                if (!this.checked) {
-                        checked = 0;
-                }
-                $.post(OC.filePath('files_versions','ajax','togglesettings.php'), 'versions='+checked);
-        });
-});
-
 $(document).ready(function(){
 	if (typeof FileActions !== 'undefined') {
-		// Add history button to 'files/index.php'
+		// Add versions button to 'files/index.php'
 		FileActions.register(
 			'file'
-			, t('files_versions', 'History')
+			, t('files_versions', 'Versions')
 			, OC.PERMISSION_UPDATE
 			, function() {
 				// Specify icon for hitory button
