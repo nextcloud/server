@@ -3,7 +3,6 @@ OCP\JSON::checkAppEnabled('files_versions');
 
 $source = $_GET['source'];
 list ($uid, $filename) = OCA\Files_Versions\Storage::getUidAndFilename($source);
-
 $count = 5; //show the newest revisions
 if( ($versions = OCA\Files_Versions\Storage::getVersions($uid, $filename, $count)) ) {
 
