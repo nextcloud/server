@@ -9,9 +9,9 @@
 	// the older the file, the brighter the shade of grey; days*14
 	$relative_date_color = round((time()-$file['mtime'])/60/60/24*14);
 	if($relative_date_color>200) $relative_date_color = 200;
-	$name = str_replace('+', '%20', urlencode($file['name']));
+	$name = rawurlencode($file['name']);
 	$name = str_replace('%2F', '/', $name);
-	$directory = str_replace('+', '%20', urlencode($file['directory']));
+	$directory = rawurlencode($file['directory']);
 	$directory = str_replace('%2F', '/', $directory); ?>
 	<tr data-id="<?php echo $file['fileid']; ?>"
 		data-file="<?php echo $name;?>"
