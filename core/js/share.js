@@ -213,7 +213,7 @@ OC.Share={
 					}
 				});
 			}
-			$('#shareWith').autocomplete({minLength: 2, source: function(search, response) {
+			$('#shareWith').autocomplete({minLength: 1, source: function(search, response) {
 	// 			if (cache[search.term]) {
 	// 				response(cache[search.term]);
 	// 			} else {
