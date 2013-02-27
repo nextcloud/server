@@ -355,6 +355,8 @@ class Keymanager {
 	 */
 	public static function delShareKey( \OC_FilesystemView $view, $userId, $filePath ) {
 		
+		\OC_FileProxy::$enabled = false;
+		
 		$trimmed = ltrim( $filePath, '/' );
 		$shareKeyPath =  '/' . $userId . '/files_encryption/share-keys/' . $trimmed . '.shareKey';
 		
@@ -362,15 +364,21 @@ class Keymanager {
 		// true), so we perform our own test
 		if ( $view->file_exists( $shareKeyPath ) ) {
 		
-			return $view->unlink( $shareKeyPath );
+			$result = $view->unlink( $shareKeyPath );
 			
 		} else {
 			
+			trigger_error("Could not delete shareKey; does not exist: $shareKeyPath");
+			
 			\OC_Log::write( 'Encryption library', 'Could not delete shareKey; does not exist: "' . $shareKeyPath, \OC_Log::ERROR );
 			
-			return false;
+			$result = false;
 			
 		}
+		
+		\OC_FileProxy::$enabled = false;
+		
+		return $result;
 		
 	}
 	

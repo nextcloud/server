@@ -245,11 +245,13 @@ class Hooks {
 			$util = new Util( $view, $userId );
 			$path = $util->fileIdToPath( $params['itemSource'] );
 		
+			// If path is a folder, get all children
 			$allPaths = $util->getPaths( $path );
 			
 			foreach ( $allPaths as $path ) {
 			
-				if ( ! Keymanager::delShareKey( $view, $userId, $path ) ) {
+				// Unshare each child path
+				if ( ! Keymanager::delShareKey( $view, $params['shareWith'], $path ) ) {
 				
 					$failed[] = $path;
 					
