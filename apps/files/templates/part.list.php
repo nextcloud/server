@@ -34,9 +34,9 @@
 		<?php endif; ?>
 			<span class="nametext">
 				<?php if($file['type'] == 'dir'):?>
-					<?php p($file['name']);?>
+					<?php print_unescaped(htmlspecialchars($file['name']));?>
 				<?php else:?>
-					<?php p($file['basename']);?><span
+					<?php print_unescaped(htmlspecialchars($file['basename']));?><span
 						class='extension'><?php p($file['extension']);?></span>
 				<?php endif;?>
 			</span>
