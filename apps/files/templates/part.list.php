@@ -49,7 +49,7 @@
 		<td class="filesize"
 			title="<?php p(OCP\human_file_size($file['size'])); ?>"
 			style="color:rgb(<?php p($simple_size_color.','.$simple_size_color.','.$simple_size_color) ?>)">
-				<?php p($simple_file_size); ?>
+				<?php print_unescaped($simple_file_size); ?>
 		</td>
 		<td class="date">
 			<span class="modified"
