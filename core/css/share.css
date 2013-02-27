@@ -84,3 +84,5 @@
  a.showCruds:hover,a.unshare:hover {
  	opacity:1;
  }
+
+.reshare { white-space:normal; } /* fix shared by text going out of box */
