@@ -107,7 +107,7 @@ class OC_Request {
 		if (array_key_exists('PATH_INFO', $_SERVER)) {
 			$path_info = $_SERVER['PATH_INFO'];
 		}else{
-			$path_info = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
+			$path_info = self::getRawPathInfo();
 			// following is taken from Sabre_DAV_URLUtil::decodePathSegment
 			$path_info = rawurldecode($path_info);
 			$encoding = mb_detect_encoding($path_info, array('UTF-8', 'ISO-8859-1'));
@@ -119,6 +119,19 @@ class OC_Request {
 
 			}
 			// end copy
+		}
+		return $path_info;
+	}
+
+	/**
+	 * @brief get Path info from request, not urldecoded
+	 * @returns string Path info or false when not found
+	 */
+	public static function getRawPathInfo() {
+		$path_info = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
+		// Remove the query string from REQUEST_URI
+		if ($pos = strpos($path_info, '?')) {
+			$path_info = substr($path_info, 0, $pos);
 		}
 		return $path_info;
 	}
