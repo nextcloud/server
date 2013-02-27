@@ -626,25 +626,15 @@ class Util {
 	}
 	
 	/**
-	 * @brief Encrypt keyfile to multiple users
-	 * @param array $users list of users which should be able to access the file
-	 * @param string $filePath path of the file to be shared
+	 * @brief Decrypt a keyfile without knowing how it was encrypted
+	 * @param string $filePath
+	 * @param string $fileOwner
+	 * @param string $privateKey
+	 * @note Checks whether file was encrypted with openssl_seal or 
+	 *       openssl_encrypt, and decrypts accrdingly
 	 */
-	public function setSharedFileKeyfiles( Session $session, array $users, $filePath ) {
-	
-		// Make sure users are capable of sharing
-		$filteredUids = $this->filterShareReadyUsers( $users );
-		
-		// Get public keys for each user, ready for generating sharekeys
-		$userPubKeys = Keymanager::getPublicKeys( $this->view, $filteredUids ); // TODO: check this includes the owner's public key
+	public function decryptUnknownKeyfile( $filePath, $fileOwner, $privateKey ) {
 
-		\OC_FileProxy::$enabled = false;
-
-		// Get the current users's private key for decrypting existing keyfile
-		$privateKey = $session->getPrivateKey();
-		
-		$fileOwner = \OC\Files\Filesystem::getOwner( $filePath );
-		
 		// Get the encrypted keyfile
 		// NOTE: the keyfile format depends on how it was encrypted! At
 		// this stage we don't know how it was encrypted
@@ -670,6 +660,32 @@ class Util {
 			$plainKeyfile = Crypt::multiKeyDecrypt( $encKeyfile, $shareKey, $privateKey );
 			
 		}
+		
+		return $plainKeyfile;
+
+	}
+	
+	/**
+	 * @brief Encrypt keyfile to multiple users
+	 * @param array $users list of users which should be able to access the file
+	 * @param string $filePath path of the file to be shared
+	 */
+	public function setSharedFileKeyfiles( Session $session, array $users, $filePath ) {
+	
+		// Make sure users are capable of sharing
+		$filteredUids = $this->filterShareReadyUsers( $users );
+		
+		// Get public keys for each user, ready for generating sharekeys
+		$userPubKeys = Keymanager::getPublicKeys( $this->view, $filteredUids ); // TODO: check this includes the owner's public key
+
+		\OC_FileProxy::$enabled = false;
+
+		// Get the current users's private key for decrypting existing keyfile
+		$privateKey = $session->getPrivateKey();
+		
+		$fileOwner = \OC\Files\Filesystem::getOwner( $filePath );
+		
+		$plainKeyfile = $this->decryptUnknownKeyfile( $filePath, $fileOwner, $privateKey );
 		
 		// Re-enc keyfile to (additional) sharekeys
 		$multiEncKey = Crypt::multiKeyEncrypt( $plainKeyfile, $userPubKeys );

@@ -93,16 +93,17 @@ class Proxy extends \OC_FileProxy {
 	
 	public function preFile_put_contents( $path, &$data ) { 
 		
-		// TODO check for existing key file and reuse it if possible to avoid problems with versioning etc.
 		if ( self::shouldEncrypt( $path ) ) {
 		
 			// Stream put contents should have been converted to fopen
 			if ( !is_resource( $data ) ) {
 			
-				// TODO check who is the owner of the file in case of shared folders
 				$userId = \OCP\USER::getUser();
 				$rootView = new \OC_FilesystemView( '/' );
 				$util = new Util( $rootView, $userId );
+				$session = new Session();
+				$fileOwner = \OC\Files\Filesystem::getOwner( $path );
+				$privateKey = $session->getPrivateKey();
 				$filePath = $util->stripUserFilesPath( $path );
 				// Set the filesize for userland, before encrypting
 				$size = strlen( $data );
@@ -110,45 +111,62 @@ class Proxy extends \OC_FileProxy {
 				// Disable encryption proxy to prevent recursive calls
 				\OC_FileProxy::$enabled = false;
 				
+				// Check if there is an existing key we can reuse
+				if ( $encKeyfile = Keymanager::getFileKey( $rootView, $fileOwner, $filePath ) ) {
+				
+					$keyPreExists = true;
+				
+					// Decrypt the keyfile
+					$plainKey = $util->decryptUnknownKeyfile( $filePath, $fileOwner, $privateKey );
+				
+				} else {
+				
+					$keyPreExists = false;
+				
+					// Make a new key
+					$plainKey = Crypt::generateKey();
+				
+				}
+				
 				// Encrypt data
-				$encData = Crypt::symmetricEncryptFileContentKeyfile( $data );
+				$encData = Crypt::symmetricEncryptFileContent( $data, $plainKey );
 				
 				// Check if the keyfile needs to be shared
-				if ( ($userIds = \OCP\Share::getUsersSharingFile( $filePath, true )) ) {
-					
-// 					$fileOwner = \OC\Files\Filesystem::getOwner( $path );
+				if ( $userIds = \OCP\Share::getUsersSharingFile( $filePath, true ) ) {
 					
 					$publicKeys = Keymanager::getPublicKeys( $rootView, $userIds );
 					
 					\OC_FileProxy::$enabled = false;
 					
 					// Encrypt plain keyfile to multiple sharefiles
-					$multiEncrypted = Crypt::multiKeyEncrypt( $encData['key'], $publicKeys );
+					$multiEncrypted = Crypt::multiKeyEncrypt( $plainKey, $publicKeys );
 					
 					// Save sharekeys to user folders
+					// TODO: openssl_seal generates new shareKeys (envelope keys) each time data is encrypted, but will data still be decryptable using old shareKeys? If so we don't need to replace the old shareKeys here, we only need to set the new ones
 					Keymanager::setShareKeys( $rootView, $filePath, $multiEncrypted['keys'] );
 					
 					// Set encrypted keyfile as common varname
 					$encKey = $multiEncrypted['encrypted'];
-					
-					
 				
 				} else {
 				
 					$publicKey = Keymanager::getPublicKey( $rootView, $userId );
 				
 					// Encrypt plain data to a single user
-					$encKey = Crypt::keyEncrypt( $encData['key'], $publicKey );
+					$encKey = Crypt::keyEncrypt( $plainKey, $publicKey );
 				
 				}
 				
-				// TODO: Replace userID with ownerId so keyfile is saved centrally
+				// Save the key if its new
+				if ( ! $keyPreExists ) {
 				
-				// Save keyfile for newly encrypted file in parallel directory tree
-				Keymanager::setFileKey( $rootView, $filePath, $userId, $encKey );
+					// Save keyfile for newly encrypted file in parallel directory tree
+					Keymanager::setFileKey( $rootView, $filePath, $fileOwner, $encKey );
+					
+				}
 				
 				// Replace plain content with encrypted content by reference
-				$data = $encData['encrypted'];
+				$data = $encData;
 				
 				// Update the file cache with file info
 				\OC\Files\Filesystem::putFileInfo( $path, array( 'encrypted'=>true, 'size' => $size ), '' );
