@@ -340,13 +340,13 @@ class OC {
 		// regenerate session id periodically to avoid session fixation
 		if (!isset($_SESSION['SID_CREATED'])) {
 			$_SESSION['SID_CREATED'] = time();
-		} else if (time() - $_SESSION['SID_CREATED'] > 900) {
+		} else if (time() - $_SESSION['SID_CREATED'] > 60*60*12) {
 			session_regenerate_id(true);
 			$_SESSION['SID_CREATED'] = time();
 		}
 
 		// session timeout
-		if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 3600)) {
+		if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 60*60*24)) {
 			if (isset($_COOKIE[session_name()])) {
 				setcookie(session_name(), '', time() - 42000, '/');
 			}
