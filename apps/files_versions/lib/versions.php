@@ -107,7 +107,7 @@ class Storage {
 			// store a new version of a file
 			$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
 			$versionsSize = self::getVersionsSize($uid);
-			if (  $versionsSize === false || $versionSize < 0 ) {
+			if (  $versionsSize === false || $versionsSize < 0 ) {
 				$versionsSize = self::calculateSize($uid);
 			}
 
@@ -208,10 +208,10 @@ class Storage {
 		if( \OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true' ) {
 			$versions_fileview = new \OC\Files\View('/' . $uid . '/files_versions');
 
-			$versionsName = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
+			$versionsName = \OC_Filesystem::normalizePath(\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename));
 			$versions = array();
 			// fetch for old versions
-			$matches = glob( $versionsName.'.v*' );
+			$matches = glob(preg_quote($versionsName).'.v*' );
 
 			if ( !$matches ) {
 				return $versions;

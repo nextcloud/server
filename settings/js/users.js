@@ -116,9 +116,9 @@ var UserList = {
 		}
 		var added = false;
 		if (sort) {
-			username = username.toLowerCase();
+			displayname = displayname.toLowerCase();
 			$('tbody tr').each(function () {
-				if (username < $(this).attr('data-uid').toLowerCase()) {
+				if (displayname < $(this).attr('data-uid').toLowerCase()) {
 					$(tr).insertBefore($(this));
 					added = true;
 					return false;

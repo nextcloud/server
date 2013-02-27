@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-23 00:04+0100\n"
-"PO-Revision-Date: 2013-02-22 22:30+0000\n"
-"Last-Translator: asieriko <asieriko@gmail.com>\n"
+"POT-Creation-Date: 2013-02-27 14:35+0100\n"
+"PO-Revision-Date: 2013-02-27 13:35+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -120,7 +120,7 @@ msgstr "Errorea"
 msgid "Updated"
 msgstr "Eguneratuta"
 
-#: js/personal.js:96
+#: js/personal.js:99
 msgid "Saving..."
 msgstr "Gordetzen..."
 
@@ -211,19 +211,19 @@ msgstr "PHP 'fileinfo' modulua falta da. Modulu hau gaitzea aholkatzen dizugu mi
 msgid "Locale not working"
 msgstr "Lokala ez dabil"
 
-#: templates/admin.php:61
+#: templates/admin.php:63
+#, php-format
 msgid ""
-"This ownCloud server can't set system locale to "
-"\"en_US.UTF-8\"/\"en_US.UTF8\". This means that there might be problems with"
-" certain characters in file names. We strongly suggest to install the "
-"required packages on your system to support en_US.UTF-8/en_US.UTF8."
-msgstr "OwnClud zerbitzari honek ezin du sistemaren lokala \"en_US.UTF-8\"/\"en.US.UTF-8\" ezarri. Honek esan nahi du fitxategi izen batzuekin arazoak egon daitezkeela. Aholkatzen dugu zure sistemak en_US.UTF-8/en_US.UTF8 lokala onartzeko behar diren paketeak instala ditzazun."
+"This ownCloud server can't set system locale to %s. This means that there "
+"might be problems with certain characters in file names. We strongly suggest"
+" to install the required packages on your system to support %s."
+msgstr ""
 
-#: templates/admin.php:72
+#: templates/admin.php:75
 msgid "Internet connection not working"
 msgstr "Interneteko konexioak ez du funtzionatzen"
 
-#: templates/admin.php:75
+#: templates/admin.php:78
 msgid ""
 "This ownCloud server has no working internet connection. This means that "
 "some of the features like mounting of external storage, notifications about "
@@ -233,98 +233,98 @@ msgid ""
 " of ownCloud."
 msgstr "ownCloud zerbitzari honen interneteko konexioa ez dabil. Honek esan nahi du kanpoko biltegiratze zerbitzuak, eguneraketen informazioa edo bestelako aplikazioen instalazioa bezalako programek ez dutela funtzionatuko. Urrunetik fitxategiak eskuratzea eta e-postak bidaltzea ere ezinezkoa izan daiteke. onwCloud-en aukera guztiak erabili ahal izateko zerbitzari honetan interneteko konexioa gaitzea aholkatzen dizugu."
 
-#: templates/admin.php:89
+#: templates/admin.php:92
 msgid "Cron"
 msgstr "Cron"
 
-#: templates/admin.php:98
+#: templates/admin.php:101
 msgid "Execute one task with each page loaded"
 msgstr "Exekutatu zeregin bat orri karga bakoitzean"
 
-#: templates/admin.php:108
+#: templates/admin.php:111
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
 msgstr "cron.php webcron zerbitzu batean erregistratua dago. Deitu cron.php orria ownclouden erroan minuturo http bidez."
 
-#: templates/admin.php:118
+#: templates/admin.php:121
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
 msgstr "Erabili sistemaren cron zerbitzua. Deitu cron.php fitxategia owncloud karpetan minuturo sistemaren cron lan baten bidez."
 
-#: templates/admin.php:125
+#: templates/admin.php:128
 msgid "Sharing"
 msgstr "Partekatzea"
 
-#: templates/admin.php:131
+#: templates/admin.php:134
 msgid "Enable Share API"
 msgstr "Gaitu Elkarbanatze APIa"
 
-#: templates/admin.php:132
+#: templates/admin.php:135
 msgid "Allow apps to use the Share API"
 msgstr "Baimendu aplikazioak Elkarbanatze APIa erabiltzeko"
 
-#: templates/admin.php:139
+#: templates/admin.php:142
 msgid "Allow links"
 msgstr "Baimendu loturak"
 
-#: templates/admin.php:140
+#: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
 msgstr "Baimendu erabiltzaileak loturen bidez fitxategiak publikoki elkarbanatzen"
 
-#: templates/admin.php:147
+#: templates/admin.php:150
 msgid "Allow resharing"
 msgstr "Baimendu birpartekatzea"
 
-#: templates/admin.php:148
+#: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
 msgstr "Baimendu erabiltzaileak haiekin elkarbanatutako fitxategiak berriz ere elkarbanatzen"
 
-#: templates/admin.php:155
+#: templates/admin.php:158
 msgid "Allow users to share with anyone"
 msgstr "Baimendu erabiltzaileak edonorekin elkarbanatzen"
 
-#: templates/admin.php:158
+#: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
 msgstr "Baimendu erabiltzaileak bakarrik bere taldeko erabiltzaileekin elkarbanatzen"
 
-#: templates/admin.php:165
+#: templates/admin.php:168
 msgid "Security"
 msgstr "Segurtasuna"
 
-#: templates/admin.php:178
+#: templates/admin.php:181
 msgid "Enforce HTTPS"
 msgstr "Behartu HTTPS"
 
-#: templates/admin.php:179
+#: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr "Bezeroak konexio enkriptatu baten bidez ownCloud-era konektatzera behartzen du."
 
-#: templates/admin.php:182
+#: templates/admin.php:185
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
 msgstr "Mesedez konektatu ownCloud honetara HTTPS bidez SSL-ren beharra gaitu edo ezgaitzeko"
 
-#: templates/admin.php:192
+#: templates/admin.php:195
 msgid "Log"
 msgstr "Egunkaria"
 
-#: templates/admin.php:193
+#: templates/admin.php:196
 msgid "Log level"
 msgstr "Erregistro maila"
 
-#: templates/admin.php:220
+#: templates/admin.php:223
 msgid "More"
 msgstr "Gehiago"
 
-#: templates/admin.php:227 templates/personal.php:102
+#: templates/admin.php:230 templates/personal.php:102
 msgid "Version"
 msgstr "Bertsioa"
 
-#: templates/admin.php:230 templates/personal.php:105
+#: templates/admin.php:233 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
