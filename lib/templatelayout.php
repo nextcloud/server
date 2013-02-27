@@ -13,19 +13,19 @@ class OC_TemplateLayout extends OC_Template {
 		if( $renderas == 'user' ) {
 			parent::__construct( 'core', 'layout.user' );
 			if(in_array(OC_APP::getCurrentApp(), array('settings','admin', 'help'))!==false) {
-				$this->assign('bodyid', 'body-settings', false);
+				$this->assign('bodyid', 'body-settings');
 			}else{
-				$this->assign('bodyid', 'body-user', false);
+				$this->assign('bodyid', 'body-user');
 			}
 
 			// Add navigation entry
 			$this->assign( 'application', '', false );
 			$navigation = OC_App::getNavigation();
-			$this->assign( 'navigation', $navigation, false);
-			$this->assign( 'settingsnavigation', OC_App::getSettingsNavigation(), false);
+			$this->assign( 'navigation', $navigation);
+			$this->assign( 'settingsnavigation', OC_App::getSettingsNavigation());
 			foreach($navigation as $entry) {
 				if ($entry['active']) {
-					$this->assign( 'application', $entry['name'], false );
+					$this->assign( 'application', $entry['name'] );
 					break;
 				}
 			}

@@ -482,7 +482,7 @@ class OC_Template{
 	public static function printUserPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "user" );
 		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value, false );
+			$content->assign( $key, $value );
 		}
 		print $content->printPage();
 	}
@@ -497,7 +497,7 @@ class OC_Template{
 	public static function printAdminPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "admin" );
 		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value, false );
+			$content->assign( $key, $value );
 		}
 		return $content->printPage();
 	}
@@ -512,7 +512,7 @@ class OC_Template{
 	public static function printGuestPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "guest" );
 		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value, false );
+			$content->assign( $key, $value );
 		}
 		return $content->printPage();
 	}

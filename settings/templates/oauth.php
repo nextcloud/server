@@ -6,12 +6,12 @@
  */
 ?>
 <div id="oauth-request" class="guest-container">
-	<p><strong><?php echo $_['consumer']['name']; ?></strong> is requesting your permission to read, write, modify and delete data from the following apps:</p>
+	<p><strong><?php p($_['consumer']['name']); ?></strong> is requesting your permission to read, write, modify and delete data from the following apps:</p>
 	<ul>
 		<?php
 		// Foreach requested scope
 		foreach($_['consumer']['scopes'] as $app){
-			echo '<li>'.$app.'</li>';
+			print_unescaped('<li>'.OC_Util:sanitzeHTML($app).'</li>)';
 		}
 		?>
 	</ul>
