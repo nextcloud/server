@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-26 00:05+0100\n"
-"PO-Revision-Date: 2013-02-25 23:05+0000\n"
+"POT-Creation-Date: 2013-02-27 14:35+0100\n"
+"PO-Revision-Date: 2013-02-27 13:35+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -175,7 +175,8 @@ msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "La requête en cause est : \"%s\", nom : %s, mot de passe : %s"
 
 #: setup.php:631
-msgid "MS SQL username and/or password not valid: $s"
+#, php-format
+msgid "MS SQL username and/or password not valid: %s"
 msgstr ""
 
 #: setup.php:849

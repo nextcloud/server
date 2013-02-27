@@ -60,6 +60,7 @@
 "Text file" => "Textfil",
 "Folder" => "Mapp",
 "From link" => "Från länk",
+"Deleted files" => "Raderade filer",
 "Cancel upload" => "Avbryt uppladdning",
 "Nothing in here. Upload something!" => "Ingenting här. Ladda upp något!",
 "Download" => "Ladda ner",

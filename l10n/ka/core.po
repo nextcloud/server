@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 00:08+0100\n"
+"POT-Creation-Date: 2013-02-27 14:35+0100\n"
 "PO-Revision-Date: 2011-07-25 16:05+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Georgian (http://www.transifex.com/projects/p/owncloud/language/ka/)\n"
@@ -162,11 +162,11 @@ msgstr ""
 
 #: js/js.js:768
 msgid "seconds ago"
-msgstr ""
+msgstr "წამის წინ"
 
 #: js/js.js:769
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 წუთის წინ"
 
 #: js/js.js:770
 msgid "{minutes} minutes ago"
@@ -174,7 +174,7 @@ msgstr ""
 
 #: js/js.js:771
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 საათის წინ"
 
 #: js/js.js:772
 msgid "{hours} hours ago"
@@ -182,11 +182,11 @@ msgstr ""
 
 #: js/js.js:773
 msgid "today"
-msgstr ""
+msgstr "დღეს"
 
 #: js/js.js:774
 msgid "yesterday"
-msgstr ""
+msgstr "გუშინ"
 
 #: js/js.js:775
 msgid "{days} days ago"
@@ -293,7 +293,7 @@ msgstr ""
 
 #: js/share.js:185 templates/installation.php:47 templates/login.php:35
 msgid "Password"
-msgstr ""
+msgstr "პაროლი"
 
 #: js/share.js:189
 msgid "Email link to person"
@@ -433,11 +433,11 @@ msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "პერსონა"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "მომხმარებლები"
 
 #: strings.php:7
 msgid "Apps"
@@ -445,11 +445,11 @@ msgstr ""
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "ადმინისტრატორი"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "შველა"
 
 #: templates/403.php:12
 msgid "Access forbidden"

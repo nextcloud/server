@@ -31,7 +31,6 @@
 "Drop this user from MySQL" => "Απόρριψη αυτού του χρήστη από την MySQL",
 "MySQL user '%s'@'%%' already exists" => "Ο χρήστης '%s'@'%%' της MySQL υπάρχει ήδη",
 "Drop this user from MySQL." => "Απόρριψη αυτού του χρήστη από την MySQL",
-"MS SQL username and/or password not valid: $s" => "το όνομα χρήστη και/ή ο κωδικός της MS SQL  δεν είναι έγκυρα: $s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ο διακομιστής σας δεν έχει ρυθμιστεί κατάλληλα ώστε να επιτρέπει τον συγχρονισμό αρχείων γιατί η διεπαφή WebDAV πιθανόν να είναι κατεστραμμένη.",
 "Please double check the <a href='%s'>installation guides</a>." => "Ελέγξτε ξανά τις <a href='%s'>οδηγίες εγκατάστασης</a>.",
 "seconds ago" => "δευτερόλεπτα πριν",

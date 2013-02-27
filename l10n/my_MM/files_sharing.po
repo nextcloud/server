@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-25 00:05+0100\n"
+"POT-Creation-Date: 2013-02-27 14:34+0100\n"
 "PO-Revision-Date: 2012-08-12 22:35+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Burmese (Myanmar) (http://www.transifex.com/projects/p/owncloud/language/my_MM/)\n"
@@ -23,7 +23,7 @@ msgstr "စကားဝှက်"
 
 #: templates/authenticate.php:6
 msgid "Submit"
-msgstr ""
+msgstr "ထည့်သွင်းမည်"
 
 #: templates/public.php:10
 #, php-format
@@ -37,7 +37,7 @@ msgstr ""
 
 #: templates/public.php:19 templates/public.php:37
 msgid "Download"
-msgstr ""
+msgstr "ဒေါင်းလုတ်"
 
 #: templates/public.php:34
 msgid "No preview available for"

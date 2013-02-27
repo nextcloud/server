@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:30+0000\n"
+"POT-Creation-Date: 2013-02-27 14:34+0100\n"
+"PO-Revision-Date: 2013-02-27 10:10+0000\n"
 "Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -57,27 +57,27 @@ msgid ""
 "the HTML form"
 msgstr "A feltöltött fájl mérete meghaladja a MAX_FILE_SIZE paramétert, ami a HTML  formban került megadásra."
 
-#: ajax/upload.php:31
+#: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
 msgstr "Az eredeti fájlt csak részben sikerült feltölteni."
 
-#: ajax/upload.php:32
+#: ajax/upload.php:31
 msgid "No file was uploaded"
 msgstr "Nem töltődött fel semmi"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:32
 msgid "Missing a temporary folder"
 msgstr "Hiányzik egy ideiglenes mappa"
 
-#: ajax/upload.php:34
+#: ajax/upload.php:33
 msgid "Failed to write to disk"
 msgstr "Nem sikerült a lemezre történő írás"
 
-#: ajax/upload.php:52
+#: ajax/upload.php:51
 msgid "Not enough storage available"
 msgstr "Nincs elég szabad hely."
 
-#: ajax/upload.php:83
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "Érvénytelen mappa."
 
@@ -199,31 +199,31 @@ msgstr "Az URL nem lehet semmi."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Érvénytelen mappanév. A név használata csak a Owncloud számára lehetséges."
 
-#: js/files.js:949 templates/index.php:67
+#: js/files.js:953 templates/index.php:67
 msgid "Name"
 msgstr "Név"
 
-#: js/files.js:950 templates/index.php:78
+#: js/files.js:954 templates/index.php:78
 msgid "Size"
 msgstr "Méret"
 
-#: js/files.js:951 templates/index.php:80
+#: js/files.js:955 templates/index.php:80
 msgid "Modified"
 msgstr "Módosítva"
 
-#: js/files.js:970
+#: js/files.js:974
 msgid "1 folder"
 msgstr "1 mappa"
 
-#: js/files.js:972
+#: js/files.js:976
 msgid "{count} folders"
 msgstr "{count} mappa"
 
-#: js/files.js:980
+#: js/files.js:984
 msgid "1 file"
 msgstr "1 fájl"
 
-#: js/files.js:982
+#: js/files.js:986
 msgid "{count} files"
 msgstr "{count} fájl"
 
