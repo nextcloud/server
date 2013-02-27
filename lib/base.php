@@ -326,6 +326,7 @@ class OC {
 				OC_Log::ERROR);
 			
 			header('HTTP/1.1 500 Internal Server Error');
+			OC_Util::addStyle("styles");
 			$error = 'Session could not be initialized. Please contact your ';
 			$error .= 'system administrator';
 
@@ -459,8 +460,8 @@ class OC {
 		self::checkConfig();
 		self::checkInstalled();
 		self::checkSSL();
-		self::initTemplateEngine();
 		self::initSession();
+		self::initTemplateEngine();
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
