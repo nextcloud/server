@@ -36,8 +36,7 @@
 				<?php if($file['type'] == 'dir'):?>
 					<?php print_unescaped(htmlspecialchars($file['name']));?>
 				<?php else:?>
-					<?php print_unescaped(htmlspecialchars($file['basename']));?><span
-						class='extension'><?php p($file['extension']);?></span>
+					<?php print_unescaped(htmlspecialchars($file['basename']));?><span class='extension'><?php p($file['extension']);?></span>
 				<?php endif;?>
 			</span>
 			<?php if($file['type'] == 'dir'):?>
