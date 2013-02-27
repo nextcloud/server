@@ -24,15 +24,12 @@
 # Bugs
 # ----
 # Sharing a file to a user without encryption set up will not provide them with access but won't notify the sharer
-# Deleting files if keyfile is missing fails
 # When encryption app is disabled files become unreadable
 # Timeouts on first login due to encryption of very large files
-# MultiKeyEncrypt() may be failing
 
 
 # Missing features
 # ----------------
-# Unshare a file
 # Re-use existing keyfiles so they don't need version control
 # Make sure user knows if large files weren't encrypted
 # Trashbin support

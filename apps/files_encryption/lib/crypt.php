@@ -390,8 +390,6 @@ class Crypt {
 		$shareKeys = array();
 	
 		if( openssl_seal( $plainContent, $sealed, $shareKeys, $publicKeys ) ) {
-		
-// 			trigger_error("SEALED = $sealed");
 			
 			$i = 0;
 			

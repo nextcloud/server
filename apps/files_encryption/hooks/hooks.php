@@ -279,13 +279,8 @@ class Hooks {
 	 */
 	public static function postUnshareAll( $params ) {
 	
-// 		$view = new \OC_FilesystemView( '/' );
-// 		$session = new Session();
-// 		$userId = \OCP\User::getUser();
-// 		$util = new Util( $view, $userId );
-// 		$path = $util->fileIdToPath( $params['itemSource'] );
-// 		
-// 		return Crypt::updateKeyfile( $view, $util, $session, $userId, $path );
+		// NOTE: It appears that this is never called for files, so 
+		// we may not need to implement it
 		
 	}
 	
