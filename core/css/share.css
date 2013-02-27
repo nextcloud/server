@@ -32,6 +32,11 @@
  #shareWithList .cruds {
 	 margin-left:-10px;
  }
+
+#shareWithList .unshare img, #shareWithList .showCruds img {
+	vertical-align:text-bottom; /* properly align icons */
+}
+
  #dropdown label {
  	font-weight:400;
  }
@@ -84,3 +89,5 @@
  a.showCruds:hover,a.unshare:hover {
  	opacity:1;
  }
+
+.reshare { white-space:normal; } /* fix shared by text going out of box */
