@@ -139,6 +139,7 @@ input[type="submit"].enabled { background:#66f866; border:1px solid #5e5; -moz-b
 #body-login div.buttons { text-align:center; }
 #body-login p.info { width:22em; text-align:center; margin:2em auto; color:#777; text-shadow:#fff 0 1px 0; }
 #body-login p.info a { font-weight:bold; color:#777; }
+#body-login #submit.login { margin-right:7px; } /* quick fix for log in button not being aligned with input fields, should be properly fixed by input field width later */
 
 #login { min-height:30em; margin:2em auto 0; border-bottom:1px solid #f8f8f8; background:#eee; }
 #login form { width:22em; margin:2em auto 2em; padding:0; }
