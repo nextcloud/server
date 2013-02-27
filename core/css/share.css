@@ -32,6 +32,11 @@
  #shareWithList .cruds {
 	 margin-left:-10px;
  }
+
+#shareWithList .unshare img, #shareWithList .showCruds img {
+	vertical-align:text-bottom; /* properly align icons */
+}
+
  #dropdown label {
  	font-weight:400;
  }
