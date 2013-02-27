@@ -628,7 +628,7 @@ class OC_Setup {
 			} else {
 				$entry = '';
 			}
-			throw new Exception($l->t('MS SQL username and/or password not valid: $s', array($entry)));
+			throw new Exception($l->t('MS SQL username and/or password not valid: %s', array($entry)));
 		}
 
 		OC_Config::setValue('dbuser', $dbuser);
