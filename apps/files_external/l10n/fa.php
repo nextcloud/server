@@ -1,5 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Fill out all required fields" => "تمام قسمت های مورد نیاز را پر کنید",
 "External Storage" => "حافظه خارجی",
 "Configuration" => "پیکربندی",
 "Options" => "تنظیمات",

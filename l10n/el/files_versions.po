@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 14:20+0000\n"
-"Last-Translator: Dimitris M. <monopatis@gmail.com>\n"
+"POT-Creation-Date: 2013-02-28 00:04+0100\n"
+"PO-Revision-Date: 2013-02-27 23:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,18 +51,10 @@ msgstr "Μη διαθέσιμες παλιές εκδόσεις"
 msgid "No path specified"
 msgstr "Δεν καθορίστηκε διαδρομή"
 
-#: js/versions.js:16
-msgid "History"
-msgstr "Ιστορικό"
+#: js/versions.js:6
+msgid "Versions"
+msgstr ""
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
 msgstr "Επαναφορά ενός αρχείου σε προηγούμενη έκδοση πατώντας στο κουμπί επαναφοράς"
-
-#: templates/settings.php:3
-msgid "Files Versioning"
-msgstr "Εκδόσεις Αρχείων"
-
-#: templates/settings.php:4
-msgid "Enable"
-msgstr "Ενεργοποίηση"

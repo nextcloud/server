@@ -6,8 +6,5 @@
 "File %s could not be reverted to version %s" => "Datni %s nevarēja atgriezt uz versiju %s",
 "No old versions available" => "Nav pieejamu vecāku versiju",
 "No path specified" => "Nav norādīts ceļš",
-"History" => "Vēsture",
-"Revert a file to a previous version by clicking on its revert button" => "Atgriez datni uz iepriekšēju versiju, spiežot uz tās atgriešanas pogu",
-"Files Versioning" => "Datņu versiju izskošana",
-"Enable" => "Aktivēt"
+"Revert a file to a previous version by clicking on its revert button" => "Atgriez datni uz iepriekšēju versiju, spiežot uz tās atgriešanas pogu"
 );

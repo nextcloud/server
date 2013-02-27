@@ -6,8 +6,5 @@
 "File %s could not be reverted to version %s" => "Filen %s kunde inte återställas till version %s",
 "No old versions available" => "Inga gamla versioner finns tillgängliga",
 "No path specified" => "Ingen sökväg angiven",
-"History" => "Historik",
-"Revert a file to a previous version by clicking on its revert button" => "Återställ en fil till en tidigare version genom att klicka på knappen",
-"Files Versioning" => "Versionshantering av filer",
-"Enable" => "Aktivera"
+"Revert a file to a previous version by clicking on its revert button" => "Återställ en fil till en tidigare version genom att klicka på knappen"
 );

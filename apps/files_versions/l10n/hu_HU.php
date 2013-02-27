@@ -6,8 +6,5 @@
 "File %s could not be reverted to version %s" => "%s állományt nem sikerült átállítani erre a változatra: %s",
 "No old versions available" => "Nincs régebbi változat",
 "No path specified" => "Nincs megadva az útvonal",
-"History" => "Korábbi változatok",
-"Revert a file to a previous version by clicking on its revert button" => "Az állomány átállítható egy régebbi változatra, ha a gombra kattint",
-"Files Versioning" => "Az állományok verzionálása",
-"Enable" => "engedélyezve"
+"Revert a file to a previous version by clicking on its revert button" => "Az állomány átállítható egy régebbi változatra, ha a gombra kattint"
 );
