@@ -90,13 +90,13 @@ foreach (explode('/', $dir) as $i) {
 
 // make breadcrumb und filelist markup
 $list = new OCP\Template('files', 'part.list', '');
-$list->assign('files', $files, false);
-$list->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=', false);
-$list->assign('downloadURL', OCP\Util::linkToRoute('download', array('file' => '/')), false);
-$list->assign('disableSharing', false);
+$list->assign('files', $files);
+$list->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=');
+$list->assign('downloadURL', OCP\Util::linkToRoute('download', array('file' => '/')));
+$list->assign('disableSharing');
 $breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
-$breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
-$breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=', false);
+$breadcrumbNav->assign('breadcrumb', $breadcrumb);
+$breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files', 'index.php') . '?dir=');
 
 $permissions = OCP\PERMISSION_READ;
 if (\OC\Files\Filesystem::isCreatable($dir . '/')) {
@@ -125,8 +125,8 @@ if ($needUpgrade) {
 	OCP\Util::addscript('files', 'files');
 	OCP\Util::addscript('files', 'keyboardshortcuts');
 	$tmpl = new OCP\Template('files', 'index', 'user');
-	$tmpl->assign('fileList', $list->fetchPage(), false);
-	$tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
+	$tmpl->assign('fileList', $list->fetchPage());
+	$tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage());
 	$tmpl->assign('dir', \OC\Files\Filesystem::normalizePath($dir));
 	$tmpl->assign('isCreatable', \OC\Files\Filesystem::isCreatable($dir . '/'));
 	$tmpl->assign('permissions', $permissions);
