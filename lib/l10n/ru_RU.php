@@ -16,6 +16,8 @@
 "Files" => "Файлы",
 "Text" => "Текст",
 "Images" => "Изображения",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ваш веб сервер ещё не достаточно точно настроен для возможности синхронизации, т.к. похоже, что интерфейс WebDAV сломан.",
+"Please double check the <a href='%s'>installation guides</a>." => "Пожалуйста проверте дважды <a href='%s'>гиды по установке</a>.",
 "seconds ago" => "секунд назад",
 "1 minute ago" => "1 минуту назад",
 "%d minutes ago" => "%d минут назад",

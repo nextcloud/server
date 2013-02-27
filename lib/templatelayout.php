@@ -31,7 +31,7 @@ class OC_TemplateLayout extends OC_Template {
 			}
 			$user_displayname = OC_User::getDisplayName();
 			$this->assign( 'user_displayname', $user_displayname );
-		} else if ($renderas == 'guest') {
+		} else if ($renderas == 'guest' || $renderas == 'error') {
 			parent::__construct('core', 'layout.guest');
 		} else {
 			parent::__construct('core', 'layout.base');
@@ -39,7 +39,7 @@ class OC_TemplateLayout extends OC_Template {
 		// Add the js files
 		$jsfiles = self::findJavascriptFiles(OC_Util::$scripts);
 		$this->assign('jsfiles', array(), false);
-		if (OC_Config::getValue('installed', false)) {
+		if (OC_Config::getValue('installed', false) && $renderas!='error') {
 			$this->append( 'jsfiles', OC_Helper::linkToRoute('js_config'));
 		}
 		if (!empty(OC_Util::$core_scripts)) {
@@ -134,7 +134,8 @@ class OC_TemplateLayout extends OC_Template {
 					}
 				}
 				if(! $append) {
-					echo('css file not found: style:'.$style.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+					echo('css file not found: style:'.$style.' formfactor:'.$fext
+						.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 					die();
 				}
 			}
@@ -202,7 +203,8 @@ class OC_TemplateLayout extends OC_Template {
 					}
 				}
 				if(! $append) {
-					echo('js file not found: script:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+					echo('js file not found: script:'.$script.' formfactor:'.$fext
+						.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 					die();
 				}
 			}

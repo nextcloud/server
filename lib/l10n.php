@@ -97,7 +97,7 @@ class OC_L10N{
 		if ($this->app === true) {
 			return;
 		}
-		$app = $this->app;
+		$app = OC_App::cleanAppId($this->app);
 		$lang = $this->lang;
 		$this->app = true;
 		// Find the right language
@@ -343,7 +343,7 @@ class OC_L10N{
 		if(is_dir($dir)) {
 			$files=scandir($dir);
 			foreach($files as $file) {
-				if(substr($file, -4, 4) == '.php') {
+				if(substr($file, -4, 4) === '.php' && substr($file, 0, 4) !== 'l10n') {
 					$i = substr($file, 0, -4);
 					$available[] = $i;
 				}

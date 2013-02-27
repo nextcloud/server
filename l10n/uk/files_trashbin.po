@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# пан Володимир <volodya327@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:09+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -17,42 +18,60 @@ msgstr ""
 "Language: uk\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: js/trash.js:7 js/trash.js:94
+#: ajax/delete.php:40
+#, php-format
+msgid "Couldn't delete %s permanently"
+msgstr "Неможливо видалити %s назавжди"
+
+#: ajax/undelete.php:41
+#, php-format
+msgid "Couldn't restore %s"
+msgstr "Неможливо відновити %s"
+
+#: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
-msgstr ""
+msgstr "виконати операцію відновлення"
 
-#: js/trash.js:33
+#: js/trash.js:34
 msgid "delete file permanently"
-msgstr ""
+msgstr "видалити файл назавжди"
 
-#: js/trash.js:125 templates/index.php:17
+#: js/trash.js:121
+msgid "Delete permanently"
+msgstr "Видалити назавжди"
+
+#: js/trash.js:151 templates/index.php:17
 msgid "Name"
 msgstr "Ім'я"
 
-#: js/trash.js:126 templates/index.php:27
+#: js/trash.js:152 templates/index.php:27
 msgid "Deleted"
-msgstr ""
+msgstr "Видалено"
 
-#: js/trash.js:135
+#: js/trash.js:161
 msgid "1 folder"
 msgstr "1 папка"
 
-#: js/trash.js:137
+#: js/trash.js:163
 msgid "{count} folders"
 msgstr "{count} папок"
 
-#: js/trash.js:145
+#: js/trash.js:171
 msgid "1 file"
 msgstr "1 файл"
 
-#: js/trash.js:147
+#: js/trash.js:173
 msgid "{count} files"
 msgstr "{count} файлів"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "Нічого немає. Ваший кошик для сміття пустий!"
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr ""
+msgstr "Відновити"
+
+#: templates/index.php:30 templates/index.php:31
+msgid "Delete"
+msgstr "Видалити"

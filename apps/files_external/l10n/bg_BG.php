@@ -6,6 +6,7 @@
 "Backend" => "Администрация",
 "Configuration" => "Конфигурация",
 "Options" => "Опции",
+"Applicable" => "Приложимо",
 "None set" => "Няма избрано",
 "All Users" => "Всички потребители",
 "Groups" => "Групи",

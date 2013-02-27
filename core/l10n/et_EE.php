@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "No category to add?" => "Pole kategooriat, mida lisada?",
-"This category already exists: " => "See kategooria on juba olemas: ",
 "No categories selected for deletion." => "Kustutamiseks pole kategooriat valitud.",
 "Sunday" => "Pühapäev",
 "Monday" => "Esmaspäev",
@@ -25,6 +24,7 @@
 "seconds ago" => "sekundit tagasi",
 "1 minute ago" => "1 minut tagasi",
 "{minutes} minutes ago" => "{minutes} minutit tagasi",
+"1 hour ago" => "1 tund tagasi",
 "today" => "täna",
 "yesterday" => "eile",
 "{days} days ago" => "{days} päeva tagasi",

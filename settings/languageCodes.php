@@ -50,6 +50,17 @@ return array(
 'lv'=>'Latviešu',
 'mk'=>'македонски',
 'uk'=>'Українська',
-'vi'=>'tiếng việt',
+'vi'=>'Tiếng Việt',
 'zh_TW'=>'臺灣話',
+'af_ZA'=> 'Afrikaans',
+'bn_BD'=>'Bengali',
+'ta_LK'=>'தமிழ்',
+'zh_HK'=>'Chinese (Hong Kong)',
+'oc'=>'Occitan (post 1500)',
+'is'=>'Icelandic',
+'pl_PL'=>'Polski',
+'ka_GE'=>'Georgian for Georgia',
+'ku_IQ'=>'Kurdish Iraq',
+'ru_RU'=>'Русский язык',
+'si_LK'=>'Sinhala'
 );

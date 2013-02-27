@@ -5,7 +5,7 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "کاربر %s پوشه \"%s\" را با شما به اشتراک گذاشته است. پرونده برای دانلود اینجاست : %s",
 "Category type not provided." => "نوع دسته بندی ارائه نشده است.",
 "No category to add?" => "آیا گروه دیگری برای افزودن ندارید",
-"This category already exists: " => "این گروه از قبل اضافه شده",
+"This category already exists: %s" => "این دسته هم اکنون وجود دارد: %s",
 "Object type not provided." => "نوع شی ارائه نشده است.",
 "%s ID not provided." => "شناسه %s  ارائه نشده است.",
 "Error adding %s to favorites." => "خطای اضافه کردن %s  به علاقه مندی ها.",
@@ -53,6 +53,7 @@
 "Error" => "خطا",
 "The app name is not specified." => "نام برنامه تعیین نشده است.",
 "The required file {file} is not installed!" => "پرونده { پرونده} درخواست شده نصب نشده است !",
+"Shared" => "اشتراک گذاشته شده",
 "Share" => "اشتراک‌گزاری",
 "Error while sharing" => "خطا درحال به اشتراک گذاشتن",
 "Error while unsharing" => "خطا درحال لغو اشتراک",
@@ -64,6 +65,7 @@
 "Password protect" => "نگهداری کردن رمز عبور",
 "Password" => "گذرواژه",
 "Email link to person" => "پیوند ایمیل برای شخص.",
+"Send" => "ارسال",
 "Set expiration date" => "تنظیم تاریخ انقضا",
 "Expiration date" => "تاریخ انقضا",
 "Share via email:" => "از طریق ایمیل به اشتراک بگذارید :",
@@ -80,6 +82,10 @@
 "Password protected" => "نگهداری از رمز عبور",
 "Error unsetting expiration date" => "خطا در تنظیم نکردن تاریخ انقضا ",
 "Error setting expiration date" => "خطا در تنظیم تاریخ انقضا",
+"Sending ..." => "درحال ارسال ...",
+"Email sent" => "ایمیل ارسال شد",
+"The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "به روز رسانی ناموفق بود. لطفا این خطا را به  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">جامعه ی OwnCloud</a> گزارش نمایید.",
+"The update was successful. Redirecting you to ownCloud now." => "به روزرسانی موفقیت آمیز بود. در حال انتقال شما به OwnCloud.",
 "ownCloud password reset" => "پسورد ابرهای شما تغییرکرد",
 "Use the following link to reset your password: {link}" => "از لینک زیر جهت دوباره سازی پسورد استفاده کنید :\n{link}",
 "You will receive a link to reset your password via Email." => "شما یک نامه الکترونیکی حاوی یک لینک جهت بازسازی گذرواژه دریافت خواهید کرد.",
@@ -123,5 +129,6 @@
 "remember" => "بیاد آوری",
 "Log in" => "ورود",
 "prev" => "بازگشت",
-"next" => "بعدی"
+"next" => "بعدی",
+"Updating ownCloud to version %s, this may take a while." => "به روز رسانی OwnCloud به نسخه ی %s، این عملیات ممکن است زمان بر باشد."
 );

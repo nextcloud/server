@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-13 00:17+0100\n"
-"PO-Revision-Date: 2012-12-11 23:22+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -42,13 +42,13 @@ msgstr "Bonvolu provizi ŝlosilon de la aplikaĵo Dropbox validan kaj sekretan."
 msgid "Error configuring Google Drive storage"
 msgstr "Eraro dum agordado de la memorservo Google Drive"
 
-#: lib/config.php:434
+#: lib/config.php:398
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:435
+#: lib/config.php:401
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
@@ -100,7 +100,7 @@ msgid "Users"
 msgstr "Uzantoj"
 
 #: templates/settings.php:108 templates/settings.php:109
-#: templates/settings.php:149 templates/settings.php:150
+#: templates/settings.php:144 templates/settings.php:145
 msgid "Delete"
 msgstr "Forigi"
 
@@ -112,10 +112,10 @@ msgstr "Kapabligi malenan memorilon de uzanto"
 msgid "Allow users to mount their own external storage"
 msgstr "Permesi al uzantoj surmeti siajn proprajn malenajn memorilojn"
 
-#: templates/settings.php:139
+#: templates/settings.php:136
 msgid "SSL root certificates"
 msgstr "Radikaj SSL-atestoj"
 
-#: templates/settings.php:158
+#: templates/settings.php:154
 msgid "Import Root Certificate"
 msgstr "Enporti radikan ateston"

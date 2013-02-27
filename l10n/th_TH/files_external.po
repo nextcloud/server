@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-23 00:05+0100\n"
-"PO-Revision-Date: 2013-01-22 00:50+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
 "Last-Translator: AriesAnywhere Anywhere <ariesanywhere@gmail.com>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -42,13 +42,13 @@ msgstr "กรุณากรอกรหัส app key ของ Dropbox แล
 msgid "Error configuring Google Drive storage"
 msgstr "เกิดข้อผิดพลาดในการกำหนดค่าการจัดเก็บข้อมูลในพื้นที่ของ Google Drive"
 
-#: lib/config.php:434
+#: lib/config.php:398
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>คำเตือน:</b> \"smbclient\" ยังไม่ได้ถูกติดตั้ง. การชี้ CIFS/SMB เพื่อแชร์ข้อมูลไม่สามารถกระทำได้ กรุณาสอบถามข้อมูลเพิ่มเติมจากผู้ดูแลระบบเพื่อติดตั้ง."
 
-#: lib/config.php:435
+#: lib/config.php:401
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
@@ -116,6 +116,6 @@ msgstr "อนุญาตให้ผู้ใช้งานสามารถ
 msgid "SSL root certificates"
 msgstr "ใบรับรองความปลอดภัยด้วยระบบ SSL จาก Root"
 
-#: templates/settings.php:153
+#: templates/settings.php:154
 msgid "Import Root Certificate"
 msgstr "นำเข้าข้อมูลใบรับรองความปลอดภัยจาก Root"

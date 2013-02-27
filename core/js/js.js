@@ -8,7 +8,9 @@
 var oc_debug;
 var oc_webroot;
 var oc_requesttoken;
-oc_webroot = oc_webroot || location.pathname.substr(0, location.pathname.lastIndexOf('/'));
+if (typeof oc_webroot === "undefined") {
+	oc_webroot = location.pathname.substr(0, location.pathname.lastIndexOf('/'));
+}
 if (oc_debug !== true || typeof console === "undefined" || typeof console.log === "undefined") {
 	if (!window.console) {
 		window.console = {};
@@ -582,6 +584,7 @@ function fillWindow(selector) {
 }
 
 $(document).ready(function(){
+	sessionHeartBeat();
 
 	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
 		replaceSVG();
@@ -626,7 +629,8 @@ $(document).ready(function(){
 	});
 
 	// 'show password' checkbox
-	$('#password').showPassword();	
+	$('#password').showPassword();
+	$('#adminpass').showPassword();	
 	$('#pass2').showPassword();
 
 	//use infield labels
@@ -660,14 +664,14 @@ $(document).ready(function(){
 		}
 	});
 	$('#settings #expand').click(function(event) {
-		$('#settings #expanddiv').slideToggle();
+		$('#settings #expanddiv').slideToggle(200);
 		event.stopPropagation();
 	});
 	$('#settings #expanddiv').click(function(event){
 		event.stopPropagation();
 	});
-	$(window).click(function(){//hide the settings menu when clicking outside it
-		$('#settings #expanddiv').slideUp();
+	$(document).click(function(){//hide the settings menu when clicking outside it
+		$('#settings #expanddiv').slideUp(200);
 	});
 
 	// all the tipsy stuff needs to be here (in reverse order) to work
@@ -812,3 +816,17 @@ OC.set=function(name, value) {
 	}
 	context[tail]=value;
 };
+
+
+/**
+ * Calls the server periodically every 15 mins to ensure that session doesnt
+ * time out
+ */
+function sessionHeartBeat(){
+	OC.Router.registerLoadedCallback(function(){
+		var url = OC.Router.generate('heartbeat');
+		setInterval(function(){
+			$.post(url);
+		}, 900000);
+	});
+}

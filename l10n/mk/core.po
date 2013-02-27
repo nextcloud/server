@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-07 00:07+0100\n"
-"PO-Revision-Date: 2013-02-06 23:08+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -53,8 +53,9 @@ msgid "No category to add?"
 msgstr "Нема категорија да се додаде?"
 
 #: ajax/vcategories/add.php:37
-msgid "This category already exists: "
-msgstr "Оваа категорија веќе постои:"
+#, php-format
+msgid "This category already exists: %s"
+msgstr ""
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -158,59 +159,59 @@ msgstr "Ноември"
 msgid "December"
 msgstr "Декември"
 
-#: js/js.js:280
+#: js/js.js:286
 msgid "Settings"
 msgstr "Поставки"
 
-#: js/js.js:760
+#: js/js.js:767
 msgid "seconds ago"
 msgstr "пред секунди"
 
-#: js/js.js:761
+#: js/js.js:768
 msgid "1 minute ago"
 msgstr "пред 1 минута"
 
-#: js/js.js:762
+#: js/js.js:769
 msgid "{minutes} minutes ago"
 msgstr "пред {minutes} минути"
 
-#: js/js.js:763
+#: js/js.js:770
 msgid "1 hour ago"
 msgstr "пред 1 час"
 
-#: js/js.js:764
+#: js/js.js:771
 msgid "{hours} hours ago"
 msgstr "пред {hours} часови"
 
-#: js/js.js:765
+#: js/js.js:772
 msgid "today"
 msgstr "денеска"
 
-#: js/js.js:766
+#: js/js.js:773
 msgid "yesterday"
 msgstr "вчера"
 
-#: js/js.js:767
+#: js/js.js:774
 msgid "{days} days ago"
 msgstr "пред {days} денови"
 
-#: js/js.js:768
+#: js/js.js:775
 msgid "last month"
 msgstr "минатиот месец"
 
-#: js/js.js:769
+#: js/js.js:776
 msgid "{months} months ago"
 msgstr "пред {months} месеци"
 
-#: js/js.js:770
+#: js/js.js:777
 msgid "months ago"
 msgstr "пред месеци"
 
-#: js/js.js:771
+#: js/js.js:778
 msgid "last year"
 msgstr "минатата година"
 
-#: js/js.js:772
+#: js/js.js:779
 msgid "years ago"
 msgstr "пред години"
 
@@ -240,8 +241,8 @@ msgid "The object type is not specified."
 msgstr "Не е специфициран типот на објект."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
-#: js/share.js:583
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
+#: js/share.js:594
 msgid "Error"
 msgstr "Грешка"
 
@@ -253,15 +254,15 @@ msgstr "Името на апликацијата не е специфицира�
 msgid "The required file {file} is not installed!"
 msgstr "Задолжителната датотека {file} не е инсталирана!"
 
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
-msgid "Share"
-msgstr "Сподели"
-
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+#: js/share.js:29 js/share.js:43 js/share.js:90
 msgid "Shared"
 msgstr ""
 
-#: js/share.js:141 js/share.js:611
+#: js/share.js:93
+msgid "Share"
+msgstr "Сподели"
+
+#: js/share.js:141 js/share.js:622
 msgid "Error while sharing"
 msgstr "Грешка при споделување"
 
@@ -357,23 +358,23 @@ msgstr "избриши"
 msgid "share"
 msgstr "сподели"
 
-#: js/share.js:373 js/share.js:558
+#: js/share.js:373 js/share.js:569
 msgid "Password protected"
 msgstr "Заштитено со лозинка"
 
-#: js/share.js:571
+#: js/share.js:582
 msgid "Error unsetting expiration date"
 msgstr "Грешка при тргање на рокот на траење"
 
-#: js/share.js:583
+#: js/share.js:594
 msgid "Error setting expiration date"
 msgstr "Грешка при поставување на рок на траење"
 
-#: js/share.js:598
+#: js/share.js:609
 msgid "Sending ..."
 msgstr "Праќање..."
 
-#: js/share.js:609
+#: js/share.js:620
 msgid "Email sent"
 msgstr "Е-порака пратена"
 
@@ -388,7 +389,7 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
-#: lostpassword/controller.php:47
+#: lostpassword/controller.php:48
 msgid "ownCloud password reset"
 msgstr "ресетирање на лозинка за ownCloud"
 
@@ -469,7 +470,7 @@ msgstr "Уреди категории"
 msgid "Add"
 msgstr "Додади"
 
-#: templates/installation.php:23 templates/installation.php:31
+#: templates/installation.php:23 templates/installation.php:30
 msgid "Security Warning"
 msgstr "Безбедносно предупредување"
 
@@ -479,71 +480,75 @@ msgid ""
 "OpenSSL extension."
 msgstr "Не е достапен безбеден генератор на случајни броеви, Ве молам озвоможете го OpenSSL PHP додатокот."
 
-#: templates/installation.php:26
+#: templates/installation.php:25
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Без сигурен генератор на случајни броеви напаѓач може да ги предвиди жетоните за ресетирање на лозинка и да преземе контрола врз Вашата сметка. "
 
+#: templates/installation.php:31
+msgid ""
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
+msgstr ""
+
 #: templates/installation.php:32
 msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr "Вашата папка со податоци и датотеките е најверојатно достапна од интернет. .htaccess датотеката што ја овозможува ownCloud не фунционира. Силно препорачуваме да го исконфигурирате вашиот сервер за вашата папка со податоци не е достапна преку интернетт или преместете ја надвор од коренот на веб серверот."
+"For information how to properly configure your server, please see the <a "
+"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
+"target=\"_blank\">documentation</a>."
+msgstr ""
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Направете <strong>администраторска сметка</strong>"
 
-#: templates/installation.php:50
+#: templates/installation.php:52
 msgid "Advanced"
 msgstr "Напредно"
 
-#: templates/installation.php:52
+#: templates/installation.php:54
 msgid "Data folder"
 msgstr "Фолдер со податоци"
 
-#: templates/installation.php:59
+#: templates/installation.php:61
 msgid "Configure the database"
 msgstr "Конфигурирај ја базата"
 
-#: templates/installation.php:64 templates/installation.php:75
-#: templates/installation.php:85 templates/installation.php:95
+#: templates/installation.php:66 templates/installation.php:77
+#: templates/installation.php:87 templates/installation.php:97
 msgid "will be used"
 msgstr "ќе биде користено"
 
-#: templates/installation.php:107
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Корисник на база"
 
-#: templates/installation.php:111
+#: templates/installation.php:113
 msgid "Database password"
 msgstr "Лозинка на база"
 
-#: templates/installation.php:115
+#: templates/installation.php:117
 msgid "Database name"
 msgstr "Име на база"
 
-#: templates/installation.php:123
+#: templates/installation.php:125
 msgid "Database tablespace"
 msgstr "Табела во базата на податоци"
 
-#: templates/installation.php:129
+#: templates/installation.php:131
 msgid "Database host"
 msgstr "Сервер со база"
 
-#: templates/installation.php:134
+#: templates/installation.php:136
 msgid "Finish setup"
 msgstr "Заврши го подесувањето"
 
-#: templates/layout.guest.php:34
+#: templates/layout.guest.php:33
 msgid "web services under your control"
 msgstr "веб сервиси под Ваша контрола"
 
-#: templates/layout.user.php:49
+#: templates/layout.user.php:48
 msgid "Log out"
 msgstr "Одјава"
 

@@ -1,6 +1,5 @@
 <?php $TRANSLATIONS = array(
 "No category to add?" => "Nemate kategorija koje možete dodati?",
-"This category already exists: " => "Ova kategorija već postoji: ",
 "No categories selected for deletion." => "Nema odabranih kategorija za brisanje.",
 "Sunday" => "nedelja",
 "Monday" => "ponedeljak",

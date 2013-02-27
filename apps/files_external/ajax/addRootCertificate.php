@@ -1,6 +1,7 @@
 <?php
 
 OCP\JSON::checkAppEnabled('files_external');
+OCP\JSON::callCheck();
 
 if ( ! ($filename = $_FILES['rootcert_import']['name']) ) {
 	header("Location: settings/personal.php");
@@ -13,7 +14,7 @@ fclose($fh);
 $filename = $_FILES['rootcert_import']['name'];
 
 $view = new \OC\Files\View('/'.\OCP\User::getUser().'/files_external/uploads');
-if (!$view->file_exists('')){
+if (!$view->file_exists('')) {
 	$view->mkdir('');
 }
 
@@ -36,5 +37,5 @@ if ( $isValid ) {
 			OCP\Util::WARN);
 }
 
-header('Location: settings/personal.php');
+header('Location:' . OCP\Util::linkToRoute( "settings_personal" ));
 exit;

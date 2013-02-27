@@ -5,6 +5,8 @@
 "Fill out all required fields" => "Điền vào tất cả các trường bắt buộc",
 "Please provide a valid Dropbox app key and secret." => "Xin vui lòng cung cấp một ứng dụng Dropbox hợp lệ và mã bí mật.",
 "Error configuring Google Drive storage" => "Lỗi cấu hình lưu trữ Google Drive",
+"<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Cảnh báo:</b> \"smbclient\" chưa được cài đặt. Mount CIFS/SMB shares là không thể thực hiện được. Hãy hỏi người quản trị hệ thống để cài đặt nó.",
+"<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Cảnh báo:</b> FTP trong PHP chưa được cài đặt hoặc chưa được  mở. Mount FTP shares là không thể. Xin hãy yêu cầu quản trị hệ thống của bạn cài đặt nó.",
 "External Storage" => "Lưu trữ ngoài",
 "Mount point" => "Điểm gắn",
 "Backend" => "phụ trợ",

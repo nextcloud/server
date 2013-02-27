@@ -50,7 +50,8 @@ class OC_Connector_Sabre_QuotaPlugin extends Sabre_DAV_ServerPlugin {
 				$uri='/'.$uri;
 			}
 			list($parentUri, $newName) = Sabre_DAV_URLUtil::splitPath($uri);
-			if ($length > \OC\Files\Filesystem::free_space($parentUri)) {
+			$freeSpace = \OC\Files\Filesystem::free_space($parentUri);
+			if ($freeSpace !== \OC\Files\FREE_SPACE_UNKNOWN && $length > $freeSpace) {
 				throw new Sabre_DAV_Exception_InsufficientStorage();
 			}
 		}

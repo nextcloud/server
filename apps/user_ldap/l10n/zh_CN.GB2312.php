@@ -19,7 +19,6 @@
 "without any placeholder, e.g. \"objectClass=posixGroup\"." => "不能使用占位符，例如 \"objectClass=posixGroup\"。",
 "Port" => "端口",
 "Use TLS" => "使用 TLS",
-"Do not use it for SSL connections, it will fail." => "不要使用它进行 SSL 连接，会失败的。",
 "Case insensitve LDAP server (Windows)" => "大小写不敏感的 LDAP 服务器 (Windows)",
 "Turn off SSL certificate validation." => "关闭 SSL 证书校验。",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "如果只有使用此选项才能连接，请导入 LDAP 服务器的 SSL 证书到您的 ownCloud 服务器。",

@@ -114,8 +114,8 @@ class OC_Request {
 
 			switch($encoding) {
 
-			    case 'ISO-8859-1' :
-				    $path_info = utf8_encode($path_info);
+				case 'ISO-8859-1' :
+					$path_info = utf8_encode($path_info);
 
 			}
 			// end copy
@@ -148,5 +148,17 @@ class OC_Request {
 		else if( strpos($HTTP_ACCEPT_ENCODING, 'gzip') !== false )
 			return 'gzip';
 		return false;
+	}
+
+	/**
+	 * @brief Check if the requester sent along an mtime
+	 * @returns false or an mtime
+	 */
+	static public function hasModificationTime () {
+		if (isset($_SERVER['HTTP_X_OC_MTIME'])) {
+			return $_SERVER['HTTP_X_OC_MTIME'];
+		} else {
+			return false;
+		}
 	}
 }

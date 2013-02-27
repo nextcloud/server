@@ -5,7 +5,6 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "La uzanto %s kunhavigis la dosierujon “%s” kun vi. Ĝi elŝuteblas el tie ĉi: %s",
 "Category type not provided." => "Ne proviziĝis tipon de kategorio.",
 "No category to add?" => "Ĉu neniu kategorio estas aldonota?",
-"This category already exists: " => "Ĉi tiu kategorio jam ekzistas: ",
 "Object type not provided." => "Ne proviziĝis tipon de objekto.",
 "%s ID not provided." => "Ne proviziĝis ID-on de %s.",
 "Error adding %s to favorites." => "Eraro dum aldono de %s al favoratoj.",

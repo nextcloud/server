@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-31 00:27+0100\n"
-"PO-Revision-Date: 2013-01-30 06:20+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:32+0000\n"
 "Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -28,11 +28,11 @@ msgstr "Prístup povolený"
 msgid "Error configuring Dropbox storage"
 msgstr "Chyba pri konfigurácii úložiska Dropbox"
 
-#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:41
+#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
 msgid "Grant access"
 msgstr "Povoliť prístup"
 
-#: js/dropbox.js:73 js/google.js:73
+#: js/dropbox.js:73 js/google.js:72
 msgid "Fill out all required fields"
 msgstr "Vyplňte všetky vyžadované kolónky"
 
@@ -40,17 +40,17 @@ msgstr "Vyplňte všetky vyžadované kolónky"
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr "Zadajte platný kľúč aplikácie a heslo Dropbox"
 
-#: js/google.js:26 js/google.js:74 js/google.js:79
+#: js/google.js:26 js/google.js:73 js/google.js:78
 msgid "Error configuring Google Drive storage"
 msgstr "Chyba pri konfigurácii úložiska Google drive"
 
-#: lib/config.php:405
+#: lib/config.php:398
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Upozornenie:</b> \"smbclient\" nie je nainštalovaný. Nie je možné pripojenie oddielov CIFS/SMB. Požiadajte administrátora systému, nech ho nainštaluje."
 
-#: lib/config.php:406
+#: lib/config.php:401
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
@@ -91,7 +91,7 @@ msgstr "Žiadne nastavené"
 
 #: templates/settings.php:86
 msgid "All Users"
-msgstr "Všetci užívatelia"
+msgstr "Všetci používatelia"
 
 #: templates/settings.php:87
 msgid "Groups"
@@ -99,7 +99,7 @@ msgstr "Skupiny"
 
 #: templates/settings.php:95
 msgid "Users"
-msgstr "Užívatelia"
+msgstr "Používatelia"
 
 #: templates/settings.php:108 templates/settings.php:109
 #: templates/settings.php:144 templates/settings.php:145
@@ -112,12 +112,12 @@ msgstr "Povoliť externé úložisko"
 
 #: templates/settings.php:125
 msgid "Allow users to mount their own external storage"
-msgstr "Povoliť užívateľom pripojiť ich vlastné externé úložisko"
+msgstr "Povoliť používateľom pripojiť ich vlastné externé úložisko"
 
 #: templates/settings.php:136
 msgid "SSL root certificates"
 msgstr "Koreňové SSL certifikáty"
 
-#: templates/settings.php:153
+#: templates/settings.php:154
 msgid "Import Root Certificate"
 msgstr "Importovať koreňový certifikát"

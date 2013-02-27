@@ -8,7 +8,7 @@ return array(
 		'root'=>'/test',
 	),
 	'webdav'=>array(
-		'run'=>true,
+		'run'=>false,
 		'host'=>'localhost',
 		'user'=>'test',
 		'password'=>'test',
@@ -30,7 +30,7 @@ return array(
 		'root'=>'/',
 	),
 	'smb'=>array(
-		'run'=>true,
+		'run'=>false,
 		'user'=>'test',
 		'password'=>'test',
 		'host'=>'localhost',
@@ -51,5 +51,12 @@ return array(
 		'app_secret' => '',
 		'token' => '',
 		'token_secret' => ''
+	),
+	'sftp' => array (
+		'run'=>false,
+		'host'=>'localhost',
+		'user'=>'test',
+		'password'=>'test',
+		'root'=>'/test'
 	)
 );

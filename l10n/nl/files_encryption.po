@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# André Koot <meneer@tken.net>, 2013.
 # Lennart Weijl <lenny@weijl.org>, 2013.
 # Richard Bos <radoeka@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-06 00:05+0100\n"
-"PO-Revision-Date: 2013-02-05 23:05+0000\n"
+"POT-Creation-Date: 2013-02-10 00:08+0100\n"
+"PO-Revision-Date: 2013-02-09 23:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -19,43 +20,21 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/settings-personal.js:17
-msgid ""
-"Please switch to your ownCloud client and change your encryption password to"
-" complete the conversion."
-msgstr ""
-
-#: js/settings-personal.js:17
-msgid "switched to client side encryption"
-msgstr "overgeschakeld naar client side encryptie"
-
-#: js/settings-personal.js:21
-msgid "Change encryption password to login password"
-msgstr "Verander encryptie wachtwoord naar login wachtwoord"
-
-#: js/settings-personal.js:25
-msgid "Please check your passwords and try again."
-msgstr "Controleer uw wachtwoorden en probeer het opnieuw."
-
-#: js/settings-personal.js:25
-msgid "Could not change your file encryption password to your login password"
-msgstr "Kon het bestandsencryptie wachtwoord niet veranderen naar het login wachtwoord"
-
 #: templates/settings-personal.php:4 templates/settings.php:5
 msgid "Encryption"
 msgstr "Versleuteling"
 
 #: templates/settings-personal.php:7
 msgid "File encryption is enabled."
-msgstr ""
+msgstr "Bestandsversleuteling geactiveerd."
 
 #: templates/settings-personal.php:11
 msgid "The following file types will not be encrypted:"
-msgstr ""
+msgstr "De volgende bestandstypen zullen niet worden versleuteld:"
 
 #: templates/settings.php:7
 msgid "Exclude the following file types from encryption:"
-msgstr ""
+msgstr "Sluit de volgende bestandstypen uit van versleuteling:"
 
 #: templates/settings.php:12
 msgid "None"

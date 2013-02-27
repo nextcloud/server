@@ -11,16 +11,16 @@ OCP\Util::addScript('files', 'fileactions');
 $tmpl = new OCP\Template('files_trashbin', 'index', 'user');
 
 $user = \OCP\User::getUser();
-$view = new OC_Filesystemview('/'.$user.'/files_trashbin');
+$view = new OC_Filesystemview('/'.$user.'/files_trashbin/files');
 
 OCP\Util::addStyle('files', 'files');
 OCP\Util::addScript('files', 'filelist');
 
 $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 
+$result = array();
 if ($dir) {
 	$dirlisting = true;
-	$view = new \OC_FilesystemView('/'.\OCP\User::getUser().'/files_trashbin');
 	$fullpath = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath($dir);
 	$dirContent = opendir($fullpath);
 	$i = 0;
@@ -29,7 +29,7 @@ if ($dir) {
 			$pos = strpos($dir.'/', '/', 1);
 			$tmp = substr($dir, 0, $pos);
 			$pos = strrpos($tmp, '.d');
-			$timestamp = substr($tmp,$pos+2);
+			$timestamp = substr($tmp, $pos+2);
 			$result[] = array(
 					'id' => $entryName,
 					'timestamp' => $timestamp,
@@ -39,11 +39,11 @@ if ($dir) {
 					);
 		}
 	}
-	closedir($fullpath);
-		
+	closedir($dirContent);
+
 } else {
 	$dirlisting = false;
-	$query = \OC_DB::prepare('SELECT id,location,timestamp,type,mime FROM *PREFIX*files_trash WHERE user=?');
+	$query = \OC_DB::prepare('SELECT `id`,`location`,`timestamp`,`type`,`mime` FROM `*PREFIX*files_trash` WHERE user = ?');
 	$result = $query->execute(array($user))->fetchAll();
 }
 
@@ -81,8 +81,8 @@ function fileCmp($a, $b) {
 usort($files, "fileCmp");
 
 // Make breadcrumb
-$breadcrumb = array(array('dir' => '', 'name' => 'Trash'));
 $pathtohere = '';
+$breadcrumb = array();
 foreach (explode('/', $dir) as $i) {
 	if ($i != '') {
 		if ( preg_match('/^(.+)\.d[0-9]+$/', $i, $match) ) {
@@ -107,6 +107,7 @@ $list->assign('disableSharing', true);
 $list->assign('dirlisting', $dirlisting);
 $list->assign('disableDownloadActions', true);
 $tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
+$tmpl->assign('dirlisting', $dirlisting);
 $tmpl->assign('fileList', $list->fetchPage(), false);
 $tmpl->assign('files', $files);
 $tmpl->assign('dir', \OC\Files\Filesystem::normalizePath($view->getAbsolutePath()));

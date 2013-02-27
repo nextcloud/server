@@ -26,12 +26,6 @@ if(OC_User::isAdminUser(OC_User::getUser())) {
 $username = $_POST["username"];
 $password = $_POST["password"];
 
-// Does the group exist?
-if(OC_User::userExists($username)) {
-	OC_JSON::error(array("data" => array( "message" => "User already exists" )));
-	exit();
-}
-
 // Return Success story
 try {
 	if (!OC_User::createUser($username, $password)) {

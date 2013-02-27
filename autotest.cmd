@@ -4,14 +4,14 @@
 :: @author Thomas Müller
 :: @author Tobias Ramforth (translated into Windows batch file)
 ::
-:: @copyright 2012 Thomas Müller thomas.mueller@tmit.eu
+:: @copyright 2012, 2013 Thomas Müller thomas.mueller@tmit.eu
 ::
 @echo off
 
 set DATADIR=data-autotest
 set BASEDIR=%~dp0
 
-:: create autoconfig for sqlite, mysql and postgresql
+:: create autoconfig for sqlite, mysql, postgresql and mssql
 echo ^<?php                                      > .\tests\autoconfig-sqlite.php
 echo $AUTOCONFIG ^= array ^(                     >> .\tests\autoconfig-sqlite.php
 echo  'installed' ^=^> false^,                   >> .\tests\autoconfig-sqlite.php
@@ -50,16 +50,35 @@ echo   'dbhost' ^=^> 'localhost'^,               >> .\tests\autoconfig-pgsql.php
 echo   'dbpass' ^=^> 'owncloud'^,                >> .\tests\autoconfig-pgsql.php
 echo ^)^;                                        >> .\tests\autoconfig-pgsql.php
 
+echo ^<?php                                      > .\tests\autoconfig-mssql.php
+echo $AUTOCONFIG ^= array ^(                     >> .\tests\autoconfig-mssql.php
+echo   'installed' ^=^> false^,                  >> .\tests\autoconfig-mssql.php
+echo   'dbtype' ^=^> 'mssql'^,                   >> .\tests\autoconfig-mssql.php
+echo   'dbtableprefix' ^=^> 'oc_'^,              >> .\tests\autoconfig-mssql.php
+echo   'adminlogin' ^=^> 'admin'^,               >> .\tests\autoconfig-mssql.php
+echo   'adminpass' ^=^> 'admin'^,                >> .\tests\autoconfig-mssql.php
+echo   'directory' ^=^> '%BASEDIR%%DATADIR%'^,   >> .\tests\autoconfig-mssql.php
+echo   'dbuser' ^=^> 'oc_autotest'^,             >> .\tests\autoconfig-mssql.php
+echo   'dbname' ^=^> 'oc_autotest'^,             >> .\tests\autoconfig-mssql.php
+echo   'dbhost' ^=^> 'localhost\sqlexpress'^,    >> .\tests\autoconfig-mssql.php
+echo   'dbpass' ^=^> 'owncloud'^,                >> .\tests\autoconfig-mssql.php
+echo ^)^;                                        >> .\tests\autoconfig-mssql.php
+
 echo localhost:5432:*:oc_autotest:owncloud > %APPDATA%\postgresql\pgpass.conf
 
 ::
 :: start test execution
 ::
-::call:execute_tests "sqlite"
-call:execute_tests "mysql"
-::call:execute_tests "mssql"
-::call:execute_tests "ora"
-::call:execute_tests "pgsql"
+if [%1] == [] (
+	echo "Running on all database backends"
+	call:execute_tests "sqlite"
+	call:execute_tests "mysql"
+	call:execute_tests "mssql"
+	::call:execute_tests "ora"
+	call:execute_tests "pgsql"
+) else (
+	call:execute_tests "%1"
+)
 
 goto:eof
 
@@ -83,6 +102,9 @@ goto:eof
 	if "%~1" == "mysql" mysql -u oc_autotest -powncloud -e "DROP DATABASE oc_autotest"
 	
 	if "%~1" == "pgsql" dropdb -h localhost -p 5432 -U oc_autotest -w oc_autotest
+
+	:: we assume a sqlexpress installation
+	if "%~1" == "mssql" sqlcmd -S localhost\sqlexpress -U oc_autotest -P owncloud -Q "IF EXISTS (SELECT name FROM sys.databases WHERE name=N'oc_autotest') DROP DATABASE [oc_autotest]"
 	
 	:: copy autoconfig
 	copy /y %BASEDIR%\tests\autoconfig-%~1.php %BASEDIR%\config\autoconfig.php
@@ -96,9 +118,8 @@ goto:eof
 	rmdir /s /q coverage-html-%~1
 	md coverage-html-%~1
 	php -f enable_all.php
-	::phpunit --log-junit autotest-results-%~1.xml --coverage-clover autotest-clover-%~1.xml --coverage-html coverage-html-%~1
-	::phpunit --bootstrap bootstrap.php --configuration phpunit.xml
-	php win32-phpunit.php --bootstrap bootstrap.php --configuration phpunit.xml --log-junit autotest-results-%~1.xml --coverage-clover autotest-clover-%~1.xml --coverage-html coverage-html-%~1
+
+	php win32-phpunit.php --bootstrap bootstrap.php --configuration phpunit-autotest.xml --log-junit autotest-results-%~1.xml --coverage-clover autotest-clover-%~1.xml --coverage-html coverage-html-%~1
 	echo "Done with testing %~1 ..."
 	cd %BASEDIR%
 goto:eof
@@ -114,4 +135,10 @@ goto:eof
 ::  - to enable dropdb I decided to add following line to pg_hba.conf (this is not the safest way but I don't care for the testing machine):
 :: local	all	all	trust
 ::
+:: NOTES on mssql:
+::  we assume the usage of a local installed sqlexpress
+::  create a user 'oc_autotest' with password 'owncloud' and assign the server role 'dbcreator'
+::  make sure the sqlserver is configured to allow sql authentication
+::
+
 

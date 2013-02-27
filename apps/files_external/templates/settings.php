@@ -5,8 +5,9 @@
 		<table id="externalStorage" data-admin='<?php echo json_encode($_['isAdminPage']); ?>'>
 			<thead>
 				<tr>
-					<th><?php echo $l->t('Mount point'); ?></th>
-					<th><?php echo $l->t('Backend'); ?></th>
+					<th></th>
+					<th><?php echo $l->t('Folder name'); ?></th>
+					<th><?php echo $l->t('External storage'); ?></th>
 					<th><?php echo $l->t('Configuration'); ?></th>
 					<!--<th><?php echo $l->t('Options'); ?></th> -->
 					<?php if ($_['isAdminPage']) echo '<th>'.$l->t('Applicable').'</th>'; ?>
@@ -17,14 +18,19 @@
 			<?php $_['mounts'] = array_merge($_['mounts'], array('' => array())); ?>
 			<?php foreach ($_['mounts'] as $mountPoint => $mount): ?>
 				<tr <?php echo ($mountPoint != '') ? 'class="'.$mount['class'].'"' : 'id="addMountPoint"'; ?>>
+					<td class="status">
+					<?php if (isset($mount['status'])): ?>
+						<span class="<?php echo ($mount['status']) ? 'success' : 'error'; ?>"></span>
+					<?php endif; ?>
+					</td>
 					<td class="mountPoint"><input type="text" name="mountPoint"
-												  value="<?php echo $mountPoint; ?>"
-												  placeholder="<?php echo $l->t('Mount point'); ?>" /></td>
+												  value="<?php p($mountPoint); ?>"
+												  placeholder="<?php echo $l->t('Folder name'); ?>" /></td>
 					<?php if ($mountPoint == ''): ?>
 						<td class="backend">
 							<select id="selectBackend" data-configurations='<?php echo json_encode($_['backends']); ?>'>
 								<option value="" disabled selected
-										style="display:none;"><?php echo $l->t('Add mount point'); ?></option>
+										style="display:none;"><?php echo $l->t('Add storage'); ?></option>
 								<?php foreach ($_['backends'] as $class => $backend): ?>
 									<option value="<?php echo $class; ?>"><?php echo $backend['backend']; ?></option>
 								<?php endforeach; ?>
@@ -67,9 +73,8 @@
 									<?php endif; ?>
 								<?php endif; ?>
 							<?php endforeach; ?>
-							<?php if (isset($_['backends'][$mount['class']]['custom'])): ?>
-								<?php OCP\Util::addScript('files_external',
-														  $_['backends'][$mount['class']]['custom']); ?>
+							<?php if (isset($_['backends'][$mount['class']]['custom']) && !in_array('files_external/js/'.$_['backends'][$mount['class']]['custom'], \OC_Util::$scripts)): ?>
+								<?php OCP\Util::addScript('files_external', $_['backends'][$mount['class']]['custom']); ?>
 							<?php endif; ?>
 						<?php endif; ?>
 					</td>
@@ -83,7 +88,7 @@
 							<select class="chzn-select"
 									multiple style="width:20em;"
 									data-placeholder="<?php echo $l->t('None set'); ?>">
-								<option value="all"><?php echo $l->t('All Users'); ?></option>
+								<option value="all" <?php if (isset($mount['applicable']['users']) && in_array('all', $mount['applicable']['users'])) echo 'selected="selected"';?> ><?php echo $l->t('All Users'); ?></option>
 								<optgroup label="<?php echo $l->t('Groups'); ?>">
 								<?php foreach ($_['groups'] as $group): ?>
 									<option value="<?php echo $group; ?>(group)"
@@ -149,6 +154,7 @@
 			<?php endforeach; ?>
 			</tbody>
 		</table>
+		<input type="hidden" name="requesttoken" value="<?php echo $_['requesttoken']; ?>">
 		<input type="file" id="rootcert_import" name="rootcert_import" style="width:230px;">
 		<input type="submit" name="cert_import" value="<?php echo $l->t('Import Root Certificate'); ?>" />
 </fieldset>

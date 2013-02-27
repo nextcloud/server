@@ -4,6 +4,7 @@ OC.MountConfig={
 		if (mountPoint == '') {
 			return false;
 		}
+		var statusSpan = $(tr).find('.status span');
 		var backendClass = $(tr).find('.backend').data('class');
 		var configuration = $(tr).find('.configuration input');
 		var addMountPoint = true;
@@ -26,12 +27,20 @@ OC.MountConfig={
 				classOptions[$(input).data('parameter')] = $(input).val();
 			}
 		});
+		if ($('#externalStorage').data('admin') === true) {
+			var multiselect = $(tr).find('.chzn-select').val();
+			if (multiselect == null) {
+				return false;
+			}
+		}
 		if (addMountPoint) {
+			var status = false;
 			if ($('#externalStorage').data('admin') === true) {
 				var isPersonal = false;
-				var multiselect = $(tr).find('.chzn-select').val();
 				var oldGroups = $(tr).find('.applicable').data('applicable-groups');
 				var oldUsers = $(tr).find('.applicable').data('applicable-users');
+				var groups = [];
+				var users = [];
 				$.each(multiselect, function(index, value) {
 					var pos = value.indexOf('(group)');
 					if (pos != -1) {
@@ -40,30 +49,96 @@ OC.MountConfig={
 						if ($.inArray(applicable, oldGroups) != -1) {
 							oldGroups.splice($.inArray(applicable, oldGroups), 1);
 						}
+						groups.push(applicable);
 					} else {
 						var mountType = 'user';
 						var applicable = value;
 						if ($.inArray(applicable, oldUsers) != -1) {
 							oldUsers.splice($.inArray(applicable, oldUsers), 1);
 						}
+						users.push(applicable);
 					}
-					$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+					$.ajax({type: 'POST',
+						url: OC.filePath('files_external', 'ajax', 'addMountPoint.php'),
+						data: {
+							mountPoint: mountPoint,
+							'class': backendClass,
+							classOptions: classOptions,
+							mountType: mountType,
+							applicable: applicable,
+							isPersonal: isPersonal
+						},
+						async: false,
+						success: function(result) {
+							statusSpan.removeClass();
+							if (result && result.status == 'success' && result.data.message) {
+								status = true;
+								statusSpan.addClass('success');
+							} else {
+								statusSpan.addClass('error');
+							}
+						}
+					});
 				});
+				$(tr).find('.applicable').data('applicable-groups', groups);
+				$(tr).find('.applicable').data('applicable-users', users);
 				var mountType = 'group';
 				$.each(oldGroups, function(index, applicable) {
-					$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+					$.ajax({type: 'POST',
+						url: OC.filePath('files_external', 'ajax', 'removeMountPoint.php'),
+						data: {
+							mountPoint: mountPoint,
+							class: backendClass,
+							classOptions: classOptions,
+							mountType: mountType,
+							applicable: applicable,
+							isPersonal: isPersonal
+						},
+						async: false
+					});
 				});
 				var mountType = 'user';
 				$.each(oldUsers, function(index, applicable) {
-					$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+					$.ajax({type: 'POST',
+						url: OC.filePath('files_external', 'ajax', 'removeMountPoint.php'),
+						data: {
+							mountPoint: mountPoint,
+							class: backendClass,
+							classOptions: classOptions,
+							mountType: mountType,
+							applicable: applicable,
+							isPersonal: isPersonal
+						},
+						async: false
+					});
 				});
 			} else {
 				var isPersonal = true;
 				var mountType = 'user';
 				var applicable = OC.currentUser;
-				$.post(OC.filePath('files_external', 'ajax', 'addMountPoint.php'), { mountPoint: mountPoint, class: backendClass, classOptions: classOptions, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+				$.ajax({type: 'POST',
+					url: OC.filePath('files_external', 'ajax', 'addMountPoint.php'),
+					data: {
+						mountPoint: mountPoint,
+						'class': backendClass,
+						classOptions: classOptions,
+						mountType: mountType,
+						applicable: applicable,
+						isPersonal: isPersonal
+					},
+					async: false,
+					success: function(result) {
+						statusSpan.removeClass();
+						if (result && result.status == 'success' && result.data.message) {
+							status = true;
+							statusSpan.addClass('success');
+						} else {
+							statusSpan.addClass('error');
+						}
+					}
+				});
 			}
-			return true;
+			return status;
 		}
 	}
 };
@@ -71,7 +146,7 @@ OC.MountConfig={
 $(document).ready(function() {
 	$('.chzn-select').chosen();
 
-	$('#selectBackend').on('change', function() {
+	$('#externalStorage').on('change', '#selectBackend', function() {
 		var tr = $(this).parent().parent();
 		$('#externalStorage tbody').append($(tr).clone());
 		$('#externalStorage tbody tr').last().find('.mountPoint input').val('');
@@ -79,9 +154,10 @@ $(document).ready(function() {
 		var backendClass = $(this).val();
 		$(this).parent().text(selected);
 		if ($(tr).find('.mountPoint input').val() == '') {
-			$(tr).find('.mountPoint input').val(suggestMountPoint(selected.replace(/\s+/g, '')));
+			$(tr).find('.mountPoint input').val(suggestMountPoint(selected));
 		}
 		$(tr).addClass(backendClass);
+		$(tr).find('.status').append('<span class="waiting"></span>');
 		$(tr).find('.backend').data('class', backendClass);
 		var configurations = $(this).data('configurations');
 		var td = $(tr).find('td.configuration');
@@ -106,7 +182,11 @@ $(document).ready(function() {
 				return false;
 			}
 		});
-		$('.chz-select').chosen();
+		// Reset chosen
+		var chosen = $(tr).find('.applicable select');
+		chosen.parent().find('div').remove();
+		chosen.removeAttr('id').removeClass('chzn-done').css({display:'inline-block'});
+		chosen.chosen();
 		$(tr).find('td').last().attr('class', 'remove');
 		$(tr).find('td').last().removeAttr('style');
 		$(tr).removeAttr('id');
@@ -114,6 +194,11 @@ $(document).ready(function() {
 	});
 
 	function suggestMountPoint(defaultMountPoint) {
+		var pos = defaultMountPoint.indexOf('/');
+		if (pos !== -1) {
+			defaultMountPoint = defaultMountPoint.substring(0, pos);
+		}
+		defaultMountPoint = defaultMountPoint.replace(/\s+/g, '');
 		var i = 1;
 		var append = '';
 		var match = true;
@@ -135,11 +220,34 @@ $(document).ready(function() {
 		return defaultMountPoint+append;
 	}
 
-	$('#externalStorage').on('change', 'td', function() {
-		OC.MountConfig.saveStorage($(this).parent());
+	$('#externalStorage').on('paste', 'td', function() {
+		var tr = $(this).parent();
+		setTimeout(function() {
+			OC.MountConfig.saveStorage(tr);
+		}, 20);
 	});
 
-	$('td.remove>img').on('click', function() {
+	var timer;
+
+	$('#externalStorage').on('keyup', 'td input', function() {
+		clearTimeout(timer);
+		var tr = $(this).parent().parent();
+		if ($(this).val) {
+			timer = setTimeout(function() {
+				OC.MountConfig.saveStorage(tr);
+			}, 2000);
+		}
+	});
+
+	$('#externalStorage').on('change', 'td input:checkbox', function() {
+		OC.MountConfig.saveStorage($(this).parent().parent().parent());
+	});
+
+	$('#externalStorage').on('change', '.applicable .chzn-select', function() {
+		OC.MountConfig.saveStorage($(this).parent().parent());
+	});
+
+	$('#externalStorage').on('click', 'td.remove>img', function() {
 		var tr = $(this).parent().parent();
 		var mountPoint = $(tr).find('.mountPoint input').val();
 		if ( ! mountPoint) {
@@ -151,23 +259,25 @@ $(document).ready(function() {
 		if ($('#externalStorage').data('admin') === true) {
 			var isPersonal = false;
 			var multiselect = $(tr).find('.chzn-select').val();
-			$.each(multiselect, function(index, value) {
-				var pos = value.indexOf('(group)');
-				if (pos != -1) {
-					var mountType = 'group';
-					var applicable = value.substr(0, pos);
-				} else {
-					var mountType = 'user';
-					var applicable = value;
-				}
-				$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
-			});
+			if (multiselect != null) {
+				$.each(multiselect, function(index, value) {
+					var pos = value.indexOf('(group)');
+					if (pos != -1) {
+						var mountType = 'group';
+						var applicable = value.substr(0, pos);
+					} else {
+						var mountType = 'user';
+						var applicable = value;
+					}
+					$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
+				});
+			}
 		} else {
 			var mountType = 'user';
 			var applicable = OC.currentUser;
 			var isPersonal = true;
+			$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
 		}
-		$.post(OC.filePath('files_external', 'ajax', 'removeMountPoint.php'), { mountPoint: mountPoint, mountType: mountType, applicable: applicable, isPersonal: isPersonal });
 		$(tr).remove();
 	});
 
