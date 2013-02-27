@@ -17,7 +17,7 @@
 				foreach ($header['attributes'] as $name => $value) {
 					print_unescaped("$name='$value' ");
 				};
-				print_unescaped('/>)';
+				print_unescaped('/>');
 			?>
 		<?php endforeach; ?>
 	</head>
