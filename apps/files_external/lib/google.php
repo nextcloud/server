@@ -596,4 +596,11 @@ class Google extends \OC\Files\Storage\Common {
 
 	}
 
+	public function test() {
+		if ($this->free_space('')) {
+			return true;
+		}
+		return false;
+	}
+
 }

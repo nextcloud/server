@@ -334,6 +334,13 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		return implode('/', $output);
 	}
 
+	public function test() {
+		if ($this->stat('')) {
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * get the free space in the storage
 	 *
