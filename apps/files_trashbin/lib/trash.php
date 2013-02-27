@@ -102,7 +102,7 @@ class Trashbin {
 		
 		// get available disk space for user
 		$quota = \OC_Preferences::getValue($user, 'files', 'quota');
-		if ( $quota === null ) {
+		if ( $quota === null || $quota === 'default') {
 			$quota = \OC_Appconfig::getValue('files', 'default_quota');
 		}
 		if ( $quota === null ) {
