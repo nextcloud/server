@@ -94,7 +94,7 @@ class Storage {
 			// check mininterval if the file is being modified by the owner (all shared files should be versioned despite mininterval)
 			if ($uid == \OCP\User::getUser()) {
 				$versionsName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
-				$matches=glob($versionsName.'.v*');
+				$matches=glob(preg_quote($versionsName).'.v*');
 				if ( $matches ) {
 					sort($matches);
 					$parts=explode('.v',end($matches));
@@ -155,7 +155,7 @@ class Storage {
 			$versionsName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
 
 			// check for old versions
-			$matches=glob($versionsName.'.v*');
+			$matches=glob(preg_quote($versionsName).'.v*');
 			if(count($matches)>0) {
 				return true;
 			}else{
@@ -182,7 +182,7 @@ class Storage {
 			$versionsName = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
 			$versions = array();
 			// fetch for old versions
-			$matches = glob( $versionsName.'.v*' );
+			$matches = glob( preg_quote($versionsName).'.v*' );
 
 			sort( $matches );
 
@@ -248,7 +248,7 @@ class Storage {
 			$versionsName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
 
 			// check for old versions
-			$matches = glob( $versionsName.'.v*' );
+			$matches = glob( preg_quote($versionsName).'.v*' );
 
 			if( count( $matches ) > \OCP\Config::getSystemValue( 'files_versionmaxversions', Storage::DEFAULTMAXVERSIONS ) ) {
 
