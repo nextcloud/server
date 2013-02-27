@@ -1,9 +1,9 @@
 $(document).ready(function(){
 	if (typeof FileActions !== 'undefined') {
-		// Add history button to 'files/index.php'
+		// Add versions button to 'files/index.php'
 		FileActions.register(
 			'file'
-			, t('files_versions', 'History')
+			, t('files_versions', 'Versions')
 			, OC.PERMISSION_UPDATE
 			, function() {
 				// Specify icon for hitory button
