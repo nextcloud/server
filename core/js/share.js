@@ -24,9 +24,9 @@ OC.Share={
 						var file = $('tr').filterAttr('data-file', OC.basename(item));
 						if (file.length > 0) {
 							var action = $(file).find('.fileactions .action').filterAttr('data-action', 'Share');
-							action.find('img').attr('src', image);
+							var img = action.find('img').attr('src', image);
 							action.addClass('permanent');
-							action.html(t('core', 'Shared'));
+							action.html(' '+t('core', 'Shared')).prepend(img);
 						}
 						var dir = $('#dir').val();
 						if (dir.length > 1) {
@@ -40,7 +40,7 @@ OC.Share={
 									if (img.attr('src') != OC.imagePath('core', 'actions/public')) {
 										img.attr('src', image);
 										action.addClass('permanent');
-										action.html(t('core', 'Shared'));
+										action.html(' '+t('core', 'Shared')).prepend(img);
 									}
 								}
 								last = path;
@@ -84,13 +84,13 @@ OC.Share={
 			$('a.share[data-item="'+itemSource+'"]').css('background', 'url('+image+') no-repeat center');
 		} else {
 			var action = $(file).find('.fileactions .action').filterAttr('data-action', 'Share');
-			action.find('img').attr('src', image);
+			var img = action.find('img').attr('src', image);
 			if (shares) {
 				action.addClass('permanent');
-				action.html(t('core', 'Shared'));
+				action.html(' '+t('core', 'Shared')).prepend(img);
 			} else {
 				action.removeClass('permanent');
-				action.html(t('core', 'Share'));
+				action.html(' '+t('core', 'Share')).prepend(img);
 			}
 		}
 		if (shares) {
