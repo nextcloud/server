@@ -459,8 +459,8 @@ class OC {
 		self::checkConfig();
 		self::checkInstalled();
 		self::checkSSL();
-		self::initSession();
 		self::initTemplateEngine();
+		self::initSession();
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
