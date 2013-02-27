@@ -318,6 +318,7 @@ class Stream {
 		// one), save the newly generated keyfile
 		if ( ! $this->getKey() ) {
 		
+			// TODO: Reuse the keyfile, it it exists, instead of making a new one
 			$this->keyfile = Crypt::generateKey();
 			
 			$this->publicKey = Keymanager::getPublicKey( $this->rootView, $this->userId );

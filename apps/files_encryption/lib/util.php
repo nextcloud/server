@@ -692,6 +692,7 @@ class Util {
 		
 		// Save the recrypted key to it's owner's keyfiles directory
 		// Save new sharekeys to all necessary user directory
+		// TODO: Reuse the keyfile, it it exists, instead of making a new one
 		if ( 
 			! Keymanager::setFileKey( $this->view, $filePath, $fileOwner, $multiEncKey['data'] )
 			|| ! Keymanager::setShareKeys( $this->view, $filePath, $multiEncKey['keys'] ) 
