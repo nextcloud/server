@@ -384,7 +384,10 @@ class OC_DB {
 			$result=new PDOStatementWrapper($result);
 		}
 		if ((is_null($limit) || $limit == -1) and self::$cachingEnabled ) {
-			self::$preparedQueries[$rawQuery] = $result;
+			$type = OC_Config::getValue( "dbtype", "sqlite" );
+			if( $type != 'sqlite' && $type != 'sqlite3' ) {
+				self::$preparedQueries[$rawQuery] = $result;
+			}
 		}
 		return $result;
 	}
