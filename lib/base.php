@@ -597,7 +597,7 @@ class OC {
 		if (!self::$CLI) {
 			try {
 				OC_App::loadApps();
-				OC::getRouter()->match(OC_Request::getPathInfo());
+				OC::getRouter()->match(OC_Request::getRawPathInfo());
 				return;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
 				//header('HTTP/1.0 404 Not Found');
