@@ -222,7 +222,16 @@ class OC_Util {
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
-
+		if(!class_exists('DOMDocument')) {
+			$errors[] = array('error' => 'PHP module dom not installed.<br/>',
+				'hint' => 'Please ask your server administrator to install the module.');
+			$web_server_restart = false;
+		}
+		if(!function_exists('xml_parser_create')) {
+			$errors[] = array('error' => 'PHP module libxml not installed.<br/>',
+				'hint' => 'Please ask your server administrator to install the module.');
+			$web_server_restart = false;
+		}
 		if(!function_exists('mb_detect_encoding')) {
 			$errors[]=array('error'=>'PHP module mb multibyte not installed.<br/>',
 				'hint'=>'Please ask your server administrator to install the module.');
