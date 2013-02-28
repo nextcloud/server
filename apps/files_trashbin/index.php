@@ -3,6 +3,8 @@
 // Check if we are a user
 OCP\User::checkLoggedIn();
 
+OCP\App::setActiveNavigationEntry('files_index');
+
 OCP\Util::addScript('files_trashbin', 'trash');
 OCP\Util::addScript('files_trashbin', 'disableDefaultActions');
 OCP\Util::addScript('files', 'fileactions');
@@ -41,7 +43,7 @@ if ($dir) {
 
 } else {
 	$dirlisting = false;
-	$query = \OC_DB::prepare('SELECT id,location,timestamp,type,mime FROM *PREFIX*files_trash WHERE user=?');
+	$query = \OC_DB::prepare('SELECT `id`,`location`,`timestamp`,`type`,`mime` FROM `*PREFIX*files_trash` WHERE user = ?');
 	$result = $query->execute(array($user))->fetchAll();
 }
 
@@ -65,6 +67,18 @@ foreach ($result as $r) {
 	$i['permissions'] = OCP\PERMISSION_READ;
 	$files[] = $i;
 }
+
+function fileCmp($a, $b) {
+	if ($a['type'] == 'dir' and $b['type'] != 'dir') {
+		return -1;
+	} elseif ($a['type'] != 'dir' and $b['type'] == 'dir') {
+		return 1;
+	} else {
+		return strnatcasecmp($a['name'], $b['name']);
+	}
+}
+
+usort($files, "fileCmp");
 
 // Make breadcrumb
 $pathtohere = '';
@@ -93,9 +107,9 @@ $list->assign('disableSharing', true);
 $list->assign('dirlisting', $dirlisting);
 $list->assign('disableDownloadActions', true);
 $tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
+$tmpl->assign('dirlisting', $dirlisting);
 $tmpl->assign('fileList', $list->fetchPage(), false);
 $tmpl->assign('files', $files);
-$tmpl->assign('dirlisting', $dirlisting);
-$tmpl->assign('dir', OC_Filesystem::normalizePath($view->getAbsolutePath()));
+$tmpl->assign('dir', \OC\Files\Filesystem::normalizePath($view->getAbsolutePath()));
 
 $tmpl->printPage();

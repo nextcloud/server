@@ -26,7 +26,7 @@ OCP\User::checkLoggedIn();
 
 $filename = $_GET["file"];
 
-$view = new OC_FilesystemView('/'.\OCP\User::getUser().'/files_trashbin');
+$view = new OC_FilesystemView('/'.\OCP\User::getUser().'/files_trashbin/files');
 
 if(!$view->file_exists($filename)) {
 	header("HTTP/1.0 404 Not Found");
