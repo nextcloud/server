@@ -185,8 +185,8 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				$users = array();
 				$limit = 0;
 				$offset = 0;
-				while ($count < 4 && count($users) == $limit) {
-					$limit = 4 - $count;
+				while ($count < 15 && count($users) == $limit) {
+					$limit = 15 - $count;
 					if ($sharePolicy == 'groups_only') {
 						$users = OC_Group::DisplayNamesInGroups($groups, $_GET['search'], $limit, $offset);
 					} else {
@@ -209,7 +209,7 @@ if (isset($_POST['action']) && isset($_POST['itemType']) && isset($_POST['itemSo
 				}
 				$count = 0;
 				foreach ($groups as $group) {
-					if ($count < 4) {
+					if ($count < 15) {
 						if (stripos($group, $_GET['search']) !== false
 							&& (!isset($_GET['itemShares'])
 							|| !isset($_GET['itemShares'][OCP\Share::SHARE_TYPE_GROUP])
