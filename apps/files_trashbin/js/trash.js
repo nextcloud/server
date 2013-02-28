@@ -141,6 +141,29 @@ $(document).ready(function() {
 					});
 			});
 
+	$('#fileList').on('click', 'td.filename a', function(event) {
+		var mime = $(this).parent().parent().data('mime');
+		if (mime !== 'httpd/unix-directory') {
+			event.preventDefault();
+		}
+		var filename = $(this).parent().parent().attr('data-file');
+		var tr = $('tr').filterAttr('data-file',filename);
+		var renaming = tr.data('renaming');
+		if(!renaming && !FileList.isLoading(filename)){
+			if(mime.substr(0, 5) === 'text/'){ //no texteditor for now
+				return;
+			}
+			var type = $(this).parent().parent().data('type');
+			var permissions = $(this).parent().parent().data('permissions');
+			var action = FileActions.getDefault(mime, type, permissions);
+			if(action){
+				event.preventDefault();
+				action(filename);
+			}
+		}
+	});
+
+	FileActions.actions.dir = {};
 });
 
 function processSelection(){
@@ -206,4 +229,8 @@ function getSelectedFiles(property){
 		}
 	});
 	return files;
+}
+
+function fileDownloadPath(dir, file) {
+	return OC.filePath('files_trashbin', '', 'download.php') + '?file='+encodeURIComponent(file);
 }

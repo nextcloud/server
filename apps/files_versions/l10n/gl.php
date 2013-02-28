@@ -6,8 +6,5 @@
 "File %s could not be reverted to version %s" => "Non foi posíbel reverter o ficheiro %s á versión %s",
 "No old versions available" => "Non hai versións antigas dispoñíbeis",
 "No path specified" => "Non foi indicada a ruta",
-"History" => "Historial",
-"Revert a file to a previous version by clicking on its revert button" => "Reverta un ficheiro a unha versión anterior premendo no botón reversión",
-"Files Versioning" => "Sistema de versión de ficheiros",
-"Enable" => "Activar"
+"Revert a file to a previous version by clicking on its revert button" => "Reverta un ficheiro a unha versión anterior premendo no botón reversión"
 );

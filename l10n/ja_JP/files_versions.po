@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
-"PO-Revision-Date: 2013-02-08 04:20+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
+"POT-Creation-Date: 2013-02-28 00:04+0100\n"
+"PO-Revision-Date: 2013-02-27 23:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,18 +51,10 @@ msgstr "利用可能な古いバージョンはありません"
 msgid "No path specified"
 msgstr "パスが指定されていません"
 
-#: js/versions.js:16
-msgid "History"
-msgstr "履歴"
+#: js/versions.js:6
+msgid "Versions"
+msgstr ""
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
 msgstr "もとに戻すボタンをクリックすると、ファイルを過去のバージョンに戻します"
-
-#: templates/settings.php:3
-msgid "Files Versioning"
-msgstr "ファイルのバージョン管理"
-
-#: templates/settings.php:4
-msgid "Enable"
-msgstr "有効化"

@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-21 18:00+0000\n"
-"Last-Translator: Amir Reza Asadi <amirreza.asadi@live.com>\n"
+"POT-Creation-Date: 2013-02-28 00:04+0100\n"
+"PO-Revision-Date: 2013-02-27 23:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -51,18 +51,10 @@ msgstr "هیچ نسخه قدیمی در دسترس نیست"
 msgid "No path specified"
 msgstr "هیچ مسیری مشخص نشده است"
 
-#: js/versions.js:16
-msgid "History"
-msgstr "تاریخچه"
+#: js/versions.js:6
+msgid "Versions"
+msgstr ""
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
 msgstr "بازگردانی یک پرورنده به نسخه قدیمی اش از  طریق دکمه بازگردانی امکان پذیر است"
-
-#: templates/settings.php:3
-msgid "Files Versioning"
-msgstr "نسخه بندی پرونده ها"
-
-#: templates/settings.php:4
-msgid "Enable"
-msgstr "فعال"

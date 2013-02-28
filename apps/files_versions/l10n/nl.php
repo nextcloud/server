@@ -6,8 +6,5 @@
 "File %s could not be reverted to version %s" => "Bestand %s kon niet worden teruggedraaid naar versie %s",
 "No old versions available" => "Geen oudere versies beschikbaar",
 "No path specified" => "Geen pad opgegeven",
-"History" => "Geschiedenis",
-"Revert a file to a previous version by clicking on its revert button" => "Draai een bestand terug naar een voorgaande versie door te klikken op de terugdraai knop",
-"Files Versioning" => "Bestand versies",
-"Enable" => "Activeer"
+"Revert a file to a previous version by clicking on its revert button" => "Draai een bestand terug naar een voorgaande versie door te klikken op de terugdraai knop"
 );

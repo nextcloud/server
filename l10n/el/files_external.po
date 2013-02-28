@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:32+0000\n"
-"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
+"POT-Creation-Date: 2013-02-28 00:04+0100\n"
+"PO-Revision-Date: 2013-02-27 23:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,37 +23,33 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
+#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:16 js/google.js:34
 msgid "Access granted"
 msgstr "Προσβαση παρασχέθηκε"
 
-#: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
+#: js/dropbox.js:30 js/dropbox.js:96 js/dropbox.js:102
 msgid "Error configuring Dropbox storage"
 msgstr "Σφάλμα ρυθμίζωντας αποθήκευση Dropbox "
 
-#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
+#: js/dropbox.js:65 js/google.js:66
 msgid "Grant access"
 msgstr "Παροχή πρόσβασης"
 
-#: js/dropbox.js:73 js/google.js:72
-msgid "Fill out all required fields"
-msgstr "Συμπληρώστε όλα τα απαιτούμενα πεδία"
-
-#: js/dropbox.js:85
+#: js/dropbox.js:101
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr "Παρακαλούμε δώστε έγκυρο κλειδί Dropbox και μυστικό."
 
-#: js/google.js:26 js/google.js:73 js/google.js:78
+#: js/google.js:36 js/google.js:93
 msgid "Error configuring Google Drive storage"
 msgstr "Σφάλμα ρυθμίζωντας αποθήκευση Google Drive "
 
-#: lib/config.php:398
+#: lib/config.php:421
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Προσοχή:</b> Ο \"smbclient\" δεν εγκαταστάθηκε. Δεν είναι δυνατή η προσάρτηση CIFS/SMB. Παρακαλώ ενημερώστε τον διαχειριστή συστήματος να το εγκαταστήσει."
 
-#: lib/config.php:401
+#: lib/config.php:424
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
@@ -64,63 +60,63 @@ msgstr "<b>Προσοχή:</b> Η υποστήριξη FTP στην PHP δεν �
 msgid "External Storage"
 msgstr "Εξωτερικό Αποθηκευτικό Μέσο"
 
-#: templates/settings.php:8 templates/settings.php:22
-msgid "Mount point"
-msgstr "Σημείο προσάρτησης"
-
-#: templates/settings.php:9
-msgid "Backend"
-msgstr "Σύστημα υποστήριξης"
+#: templates/settings.php:9 templates/settings.php:28
+msgid "Folder name"
+msgstr ""
 
 #: templates/settings.php:10
+msgid "External storage"
+msgstr ""
+
+#: templates/settings.php:11
 msgid "Configuration"
 msgstr "Ρυθμίσεις"
 
-#: templates/settings.php:11
+#: templates/settings.php:12
 msgid "Options"
 msgstr "Επιλογές"
 
-#: templates/settings.php:12
+#: templates/settings.php:13
 msgid "Applicable"
 msgstr "Εφαρμόσιμο"
 
-#: templates/settings.php:27
-msgid "Add mount point"
-msgstr "Προσθήκη σημείου προσάρτησης"
+#: templates/settings.php:33
+msgid "Add storage"
+msgstr ""
 
-#: templates/settings.php:85
+#: templates/settings.php:90
 msgid "None set"
 msgstr "Κανένα επιλεγμένο"
 
-#: templates/settings.php:86
+#: templates/settings.php:91
 msgid "All Users"
 msgstr "Όλοι οι Χρήστες"
 
-#: templates/settings.php:87
+#: templates/settings.php:92
 msgid "Groups"
 msgstr "Ομάδες"
 
-#: templates/settings.php:95
+#: templates/settings.php:100
 msgid "Users"
 msgstr "Χρήστες"
 
-#: templates/settings.php:108 templates/settings.php:109
-#: templates/settings.php:144 templates/settings.php:145
+#: templates/settings.php:113 templates/settings.php:114
+#: templates/settings.php:149 templates/settings.php:150
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: templates/settings.php:124
+#: templates/settings.php:129
 msgid "Enable User External Storage"
 msgstr "Ενεργοποίηση Εξωτερικού Αποθηκευτικού Χώρου Χρήστη"
 
-#: templates/settings.php:125
+#: templates/settings.php:130
 msgid "Allow users to mount their own external storage"
 msgstr "Να επιτρέπεται στους χρήστες να προσαρτούν δικό τους εξωτερικό αποθηκευτικό χώρο"
 
-#: templates/settings.php:136
+#: templates/settings.php:141
 msgid "SSL root certificates"
 msgstr "Πιστοποιητικά SSL root"
 
-#: templates/settings.php:154
+#: templates/settings.php:159
 msgid "Import Root Certificate"
 msgstr "Εισαγωγή Πιστοποιητικού Root"

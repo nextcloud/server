@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-12 15:10+0100\n"
-"PO-Revision-Date: 2013-02-12 10:43+0000\n"
-"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
+"POT-Creation-Date: 2013-02-28 00:04+0100\n"
+"PO-Revision-Date: 2013-02-27 23:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -49,18 +49,10 @@ msgstr "Nincs régebbi változat"
 msgid "No path specified"
 msgstr "Nincs megadva az útvonal"
 
-#: js/versions.js:16
-msgid "History"
-msgstr "Korábbi változatok"
+#: js/versions.js:6
+msgid "Versions"
+msgstr ""
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
 msgstr "Az állomány átállítható egy régebbi változatra, ha a gombra kattint"
-
-#: templates/settings.php:3
-msgid "Files Versioning"
-msgstr "Az állományok verzionálása"
-
-#: templates/settings.php:4
-msgid "Enable"
-msgstr "engedélyezve"

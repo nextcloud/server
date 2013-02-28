@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-19 00:05+0100\n"
-"PO-Revision-Date: 2013-02-18 20:00+0000\n"
-"Last-Translator: atakan96 <tayancatakan@gmail.com>\n"
+"POT-Creation-Date: 2013-02-28 00:04+0100\n"
+"PO-Revision-Date: 2013-02-27 23:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,18 +50,10 @@ msgstr "Eski versiyonlar mevcut değil."
 msgid "No path specified"
 msgstr "Yama belirtilmemiş"
 
-#: js/versions.js:16
-msgid "History"
-msgstr "Geçmiş"
+#: js/versions.js:6
+msgid "Versions"
+msgstr ""
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
 msgstr ""
-
-#: templates/settings.php:3
-msgid "Files Versioning"
-msgstr "Dosya Sürümleri"
-
-#: templates/settings.php:4
-msgid "Enable"
-msgstr "Etkinleştir"
