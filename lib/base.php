@@ -162,9 +162,9 @@ class OC {
 			OC::$THIRDPARTYWEBROOT = rtrim(dirname(OC::$WEBROOT), '/');
 			OC::$THIRDPARTYROOT = rtrim(dirname(OC::$SERVERROOT), '/');
 		} else {
-			echo("3rdparty directory not found! Please put the ownCloud 3rdparty'
+			echo('3rdparty directory not found! Please put the ownCloud 3rdparty'
 				.' folder in the ownCloud folder or the folder above.'
-				.' You can also configure the location in the config.php file.");
+				.' You can also configure the location in the config.php file.');
 			exit;
 		}
 		// search the apps folder
@@ -188,8 +188,8 @@ class OC {
 		}
 
 		if (empty(OC::$APPSROOTS)) {
-			echo("apps directory not found! Please put the ownCloud apps folder in the ownCloud folder'
-				.' or the folder above. You can also configure the location in the config.php file.");
+			echo('apps directory not found! Please put the ownCloud apps folder in the ownCloud folder'
+				.' or the folder above. You can also configure the location in the config.php file.');
 			exit;
 		}
 		$paths = array();
@@ -214,8 +214,8 @@ class OC {
 			$tmpl = new OC_Template('', 'error', 'guest');
 			$tmpl->assign('errors', array(1 => array(
 				'error' => "Can't write into config directory 'config'",
-				'hint' => "You can usually fix this by giving the webserver user write access'
-					.' to the config directory in owncloud"
+				'hint' => 'You can usually fix this by giving the webserver user write access'
+					.' to the config directory in owncloud'
 			)));
 			$tmpl->printPage();
 			exit();
@@ -320,19 +320,33 @@ class OC {
 		// set the session name to the instance id - which is unique
 		session_name(OC_Util::getInstanceId());
 
-		// (re)-initialize session
-		session_start();
+		// if session cant be started break with http 500 error
+		if (session_start() === false){
+			OC_Log::write('core', 'Session could not be initialized', 
+				OC_Log::ERROR);
+			
+			header('HTTP/1.1 500 Internal Server Error');
+			OC_Util::addStyle("styles");
+			$error = 'Session could not be initialized. Please contact your ';
+			$error .= 'system administrator';
+
+			$tmpl = new OC_Template('', 'error', 'guest');
+			$tmpl->assign('errors', array(1 => array('error' => $error)));
+			$tmpl->printPage();
+
+			exit();
+		}
 
 		// regenerate session id periodically to avoid session fixation
 		if (!isset($_SESSION['SID_CREATED'])) {
 			$_SESSION['SID_CREATED'] = time();
-		} else if (time() - $_SESSION['SID_CREATED'] > 900) {
+		} else if (time() - $_SESSION['SID_CREATED'] > 60*60*12) {
 			session_regenerate_id(true);
 			$_SESSION['SID_CREATED'] = time();
 		}
 
 		// session timeout
-		if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 3600)) {
+		if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 60*60*24)) {
 			if (isset($_COOKIE[session_name()])) {
 				setcookie(session_name(), '', time() - 42000, '/');
 			}
@@ -583,7 +597,7 @@ class OC {
 		if (!self::$CLI) {
 			try {
 				OC_App::loadApps();
-				OC::getRouter()->match(OC_Request::getPathInfo());
+				OC::getRouter()->match(OC_Request::getRawPathInfo());
 				return;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
 				//header('HTTP/1.0 404 Not Found');

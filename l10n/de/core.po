@@ -19,12 +19,13 @@
 # Susi  <>, 2012.
 #   <thomas.mueller@tmit.eu>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
+# Tristan <blobbyjj@ymail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-18 00:05+0100\n"
-"PO-Revision-Date: 2013-02-17 14:10+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:20+0000\n"
 "Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -36,26 +37,26 @@ msgstr ""
 #: ajax/share.php:85
 #, php-format
 msgid "User %s shared a file with you"
-msgstr "Der Nutzer %s hat eine Datei mit dir geteilt"
+msgstr "Der Nutzer %s hat eine Datei mit Dir geteilt"
 
 #: ajax/share.php:87
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr "%s hat ein Verzeichnis mit dir geteilt"
+msgstr "%s hat ein Verzeichnis mit Dir geteilt"
 
 #: ajax/share.php:89
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr "%s hat die Datei \"%s\" mit dir geteilt. Sie ist hier zum Download verfügbar: %s"
+msgstr "%s hat die Datei \"%s\" mit Dir geteilt. Sie ist hier zum Download verfügbar: %s"
 
 #: ajax/share.php:91
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr "%s hat den Ordner \"%s\" mit dir geteilt. Er ist hier zum Download verfügbar: %s"
+msgstr "%s hat den Ordner \"%s\" mit Dir geteilt. Er ist hier zum Download verfügbar: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -289,11 +290,11 @@ msgstr "Fehler beim Ändern der Rechte"
 
 #: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
-msgstr "{owner} hat dies mit dir und der Gruppe {group} geteilt"
+msgstr "{owner} hat dies mit Dir und der Gruppe {group} geteilt"
 
 #: js/share.js:170
 msgid "Shared with you by {owner}"
-msgstr "{owner} hat dies mit dir geteilt"
+msgstr "{owner} hat dies mit Dir geteilt"
 
 #: js/share.js:175
 msgid "Share with"
@@ -301,7 +302,7 @@ msgstr "Teilen mit"
 
 #: js/share.js:180
 msgid "Share with link"
-msgstr "Über einen Link teilen"
+msgstr "Über einen Link freigegeben"
 
 #: js/share.js:183
 msgid "Password protect"
@@ -345,7 +346,7 @@ msgstr "Für {user} in {item} freigegeben"
 
 #: js/share.js:313
 msgid "Unshare"
-msgstr "Teilung aufheben"
+msgstr "Freigabe aufheben"
 
 #: js/share.js:325
 msgid "can edit"
@@ -402,7 +403,7 @@ msgstr "Das Update ist fehlgeschlagen. Bitte melden Sie dieses Problem an die <a
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Das Update war erfolgreich. Sie werden nun zu ownCloud weitergeleitet."
 
-#: lostpassword/controller.php:47
+#: lostpassword/controller.php:48
 msgid "ownCloud password reset"
 msgstr "ownCloud-Passwort zurücksetzen"
 
@@ -503,7 +504,7 @@ msgstr "Ohne einen sicheren Zufallszahlengenerator sind Angreifer in der Lage di
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr "Dein Daten-Verzeichnis und deine Dateien sind wahrscheinlich vom Internet aus erreichbar, weil die .htaccess-Datei nicht funktioniert."
+msgstr "Dein Datenverzeichnis und deine Dateien sind wahrscheinlich vom Internet aus erreichbar, weil die .htaccess-Datei nicht funktioniert."
 
 #: templates/installation.php:32
 msgid ""

@@ -6,8 +6,5 @@
 "File %s could not be reverted to version %s" => "ファイル %s をバージョン %s に戻せませんでした",
 "No old versions available" => "利用可能な古いバージョンはありません",
 "No path specified" => "パスが指定されていません",
-"History" => "履歴",
-"Revert a file to a previous version by clicking on its revert button" => "もとに戻すボタンをクリックすると、ファイルを過去のバージョンに戻します",
-"Files Versioning" => "ファイルのバージョン管理",
-"Enable" => "有効化"
+"Revert a file to a previous version by clicking on its revert button" => "もとに戻すボタンをクリックすると、ファイルを過去のバージョンに戻します"
 );

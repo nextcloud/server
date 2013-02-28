@@ -26,7 +26,7 @@ OC_Util::checkAdminUser();
 if($_POST) {
 	// CSRF check
 	OCP\JSON::callCheck();
-	
+
 	if(isset($_POST['webdav_url'])) {
 		OC_CONFIG::setValue('user_webdavauth_url', strip_tags($_POST['webdav_url']));
 	}

@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-18 00:05+0100\n"
-"PO-Revision-Date: 2013-02-17 12:50+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:20+0000\n"
 "Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -395,7 +395,7 @@ msgstr "Η ενημέρωση ήταν ανεπιτυχής. Παρακαλώ σ
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr "Η ενημέρωση ήταν επιτυχής. Μετάβαση στο ownCloud."
 
-#: lostpassword/controller.php:47
+#: lostpassword/controller.php:48
 msgid "ownCloud password reset"
 msgstr "Επαναφορά συνθηματικού ownCloud"
 

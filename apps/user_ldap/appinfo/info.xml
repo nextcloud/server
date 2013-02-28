@@ -7,7 +7,7 @@
 	This app is not compatible to the WebDAV user backend.</description>
 	<licence>AGPL</licence>
 	<author>Dominik Schmidt and Arthur Schiwon</author>
-	<require>4.91</require>
+	<require>4.93</require>
 	<shipped>true</shipped>
 	<types>
 		<authentication/>

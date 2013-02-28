@@ -66,10 +66,10 @@ var UserList = {
 		}
 	},
 
-	add: function (username, groups, subadmin, quota, sort) {
+	add: function (username, displayname, groups, subadmin, quota, sort) {
 		var tr = $('tbody tr').first().clone();
 		tr.attr('data-uid', username);
-		tr.attr('data-displayName', username);
+		tr.attr('data-displayName', displayname);
 		tr.find('td.name').text(username);
 		tr.find('td.displayName').text(username);
 		var groupsSelect = $('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="' + t('settings', 'Groups') + '"></select>').attr('data-username', username).attr('data-user-groups', groups);
@@ -116,9 +116,9 @@ var UserList = {
 		}
 		var added = false;
 		if (sort) {
-			username = username.toLowerCase();
+			displayname = displayname.toLowerCase();
 			$('tbody tr').each(function () {
-				if (username < $(this).attr('data-uid').toLowerCase()) {
+				if (displayname < $(this).attr('data-uid').toLowerCase()) {
 					$(tr).insertBefore($(this));
 					added = true;
 					return false;
@@ -138,7 +138,7 @@ var UserList = {
 		$.get(OC.Router.generate('settings_ajax_userlist', { offset: UserList.offset }), function (result) {
 			if (result.status === 'success') {
 				$.each(result.data, function (index, user) {
-					var tr = UserList.add(user.name, user.groups, user.subadmin, user.quota, false);
+					var tr = UserList.add(user.name, user.displayname, user.groups, user.subadmin, user.quota, false);
 					UserList.offset++;
 					if (index == 9) {
 						$(tr).bind('inview', function (event, isInView, visiblePartX, visiblePartY) {
@@ -373,7 +373,7 @@ $(document).ready(function () {
 					OC.dialogs.alert(result.data.message,
 						t('settings', 'Error creating user'));
 				} else {
-					UserList.add(username, result.data.groups, null, 'default', true);
+					UserList.add(username, username, result.data.groups, null, 'default', true);
 				}
 			}
 		);

@@ -62,12 +62,12 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 			}
 		} else {
 			$newPath = $this->path . '/' . $name;
-			
+
 			// mark file as partial while uploading (ignored by the scanner)
 			$partpath = $newPath . '.part';
-		
+
 			\OC\Files\Filesystem::file_put_contents($partpath, $data);
-			
+
 			//detect aborted upload
 			if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT' ) {
 				if (isset($_SERVER['CONTENT_LENGTH'])) {
@@ -80,10 +80,10 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 					}
 				}
 			}
-			
+
 			// rename to correct path
 			\OC\Files\Filesystem::rename($partpath, $newPath);
-			
+
 			// allow sync clients to send the mtime along in a header
 			$mtime = OC_Request::hasModificationTime();
 			if ($mtime !== false) {
@@ -91,7 +91,7 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 					header('X-OC-MTime: accepted');
 				}
 			}
-			
+
 			return OC_Connector_Sabre_Node::getETagPropertyForPath($newPath);
 		}
 

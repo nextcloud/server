@@ -52,7 +52,10 @@ if (version_compare($installedVersion, '0.3', '<')) {
 			}
 			catch (Exception $e) {
 				$update_error = true;
-				OCP\Util::writeLog('files_sharing', 'Upgrade Routine: Skipping sharing "'.$row['source'].'" to "'.$shareWith.'" (error is "'.$e->getMessage().'")', OCP\Util::WARN);
+				OCP\Util::writeLog('files_sharing',
+					'Upgrade Routine: Skipping sharing "'.$row['source'].'" to "'.$shareWith
+					.'" (error is "'.$e->getMessage().'")',
+					OCP\Util::WARN);
 			}
 			OC_Util::tearDownFS();
 		}

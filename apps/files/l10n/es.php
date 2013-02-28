@@ -60,6 +60,7 @@
 "Text file" => "Archivo de texto",
 "Folder" => "Carpeta",
 "From link" => "Desde el enlace",
+"Deleted files" => "Archivos eliminados",
 "Cancel upload" => "Cancelar subida",
 "Nothing in here. Upload something!" => "Aquí no hay nada. ¡Sube algo!",
 "Download" => "Descargar",

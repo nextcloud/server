@@ -24,7 +24,7 @@
 "replaced {new_name}" => "{new_name} wurde ersetzt",
 "undo" => "rückgängig machen",
 "replaced {new_name} with {old_name}" => "{old_name} wurde ersetzt durch {new_name}",
-"perform delete operation" => "Führe das Löschen aus",
+"perform delete operation" => "führe das Löschen aus",
 "'.' is an invalid file name." => "'.' ist kein gültiger Dateiname.",
 "File name cannot be empty." => "Der Dateiname darf nicht leer sein.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ungültiger Name, '\\', '/', '<', '>', ':', '\"', '|', '?' und '*' sind nicht zulässig.",
@@ -69,5 +69,5 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server.",
 "Files are being scanned, please wait." => "Dateien werden gescannt, bitte warten.",
 "Current scanning" => "Scanne",
-"Upgrading filesystem cache..." => "Aktualisiere den Dateisystem-Cache"
+"Upgrading filesystem cache..." => "Aktualisiere den Dateisystem-Cache..."
 );

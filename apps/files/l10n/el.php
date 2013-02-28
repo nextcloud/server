@@ -62,7 +62,7 @@
 "From link" => "Από σύνδεσμο",
 "Deleted files" => "Διαγραμμένα αρχεία",
 "Cancel upload" => "Ακύρωση αποστολής",
-"Nothing in here. Upload something!" => "Δεν υπάρχει τίποτα εδώ. Ανέβασε κάτι!",
+"Nothing in here. Upload something!" => "Δεν υπάρχει τίποτα εδώ. Μεταφορτώστε κάτι!",
 "Download" => "Λήψη",
 "Unshare" => "Διακοπή κοινής χρήσης",
 "Upload too large" => "Πολύ μεγάλο αρχείο προς αποστολή",

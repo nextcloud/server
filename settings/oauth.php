@@ -5,7 +5,7 @@
  * See the COPYING-README file.
  */
 
-require_once('../lib/base.php');
+require_once '../lib/base.php';
 // Logic
 $operation = isset($_GET['operation']) ? $_GET['operation'] : '';
 $server = OC_OAuth_server::init();
@@ -23,9 +23,10 @@ switch($operation){
 			$callbackfail = empty($_GET['callback_fail']) ? null : $_GET['callback_fail'];
 			$consumer = OC_OAuth_Server::register_consumer($_GET['name'], $_GET['url'], $callbacksuccess, $callbackfail);
 			
-			echo 'Registered consumer successfully! </br></br>Key: ' . $consumer->key . '</br>Secret: ' . $consumer->secret;
+			echo 'Registered consumer successfully! </br></br>Key: ' . $consumer->key
+				. '</br>Secret: ' . $consumer->secret;
 		}
-	break;
+		break;
 	
 	case 'request_token':
 		
@@ -38,7 +39,7 @@ switch($operation){
 			echo $exception->getMessage();
 		}
 	
-	break;
+		break;
 	case 'authorise';
 	
 		OC_API::checkLoggedIn();
@@ -61,9 +62,11 @@ switch($operation){
 		if(!empty($notfound)) {
 			// We need more apps :( Show error
 			if(count($notfound)==1) {
-				$message = 'requires that you have an extra app installed on your ownCloud. Please contact your ownCloud administrator and ask them to install the app below.';
+				$message = 'requires that you have an extra app installed on your ownCloud.'
+					.' Please contact your ownCloud administrator and ask them to install the app below.';
 			} else {
-				$message = 'requires that you have some extra apps installed on your ownCloud. Please contract your ownCloud administrator and ask them to install the apps below.';
+				$message = 'requires that you have some extra apps installed on your ownCloud.'
+					.' Please contract your ownCloud administrator and ask them to install the apps below.';
 			}
 			$t = new OC_Template('settings', 'oauth-required-apps', 'guest');
 			OC_Util::addStyle('settings', 'oauth');
@@ -77,7 +80,7 @@ switch($operation){
 			$t->assign('consumer', $consumer);
 			$t->printPage();
 		}
-	break;
+		break;
 	
 	case 'access_token';
 		try {
@@ -89,10 +92,10 @@ switch($operation){
 			echo $exception->getMessage();
 		}
 		
-	break;
+		break;
 	default:
 		// Something went wrong, we need an operation!
 		OC_Response::setStatus(400);
-	break;
+		break;
 	
 }

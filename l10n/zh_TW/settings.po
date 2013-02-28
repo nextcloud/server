@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-18 00:05+0100\n"
-"PO-Revision-Date: 2013-02-17 14:00+0000\n"
-"Last-Translator: ronnietse <tseronnie@ymail.com>\n"
+"POT-Creation-Date: 2013-02-27 14:35+0100\n"
+"PO-Revision-Date: 2013-02-27 13:35+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,8 +30,8 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "無法從 App Store 讀取清單"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:15
-#: ajax/togglegroups.php:18
+#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/togglegroups.php:20
 msgid "Authentication error"
 msgstr "認證錯誤"
 
@@ -79,12 +79,12 @@ msgstr "無效請求"
 msgid "Admins can't remove themself from the admin group"
 msgstr "管理者帳號無法從管理者群組中移除"
 
-#: ajax/togglegroups.php:28
+#: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
 msgstr "使用者加入群組%s錯誤"
 
-#: ajax/togglegroups.php:34
+#: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
 msgstr "使用者移出群組%s錯誤"
@@ -125,7 +125,7 @@ msgstr "錯誤"
 msgid "Updated"
 msgstr "已更新"
 
-#: js/personal.js:96
+#: js/personal.js:99
 msgid "Saving..."
 msgstr "儲存中..."
 
@@ -216,19 +216,19 @@ msgstr ""
 msgid "Locale not working"
 msgstr ""
 
-#: templates/admin.php:61
+#: templates/admin.php:63
+#, php-format
 msgid ""
-"This ownCloud server can't set system locale to "
-"\"en_US.UTF-8\"/\"en_US.UTF8\". This means that there might be problems with"
-" certain characters in file names. We strongly suggest to install the "
-"required packages on your system to support en_US.UTF-8/en_US.UTF8."
-msgstr ""
-
-#: templates/admin.php:72
-msgid "Internet connection not working"
+"This ownCloud server can't set system locale to %s. This means that there "
+"might be problems with certain characters in file names. We strongly suggest"
+" to install the required packages on your system to support %s."
 msgstr ""
 
 #: templates/admin.php:75
+msgid "Internet connection not working"
+msgstr ""
+
+#: templates/admin.php:78
 msgid ""
 "This ownCloud server has no working internet connection. This means that "
 "some of the features like mounting of external storage, notifications about "
@@ -238,98 +238,98 @@ msgid ""
 " of ownCloud."
 msgstr ""
 
-#: templates/admin.php:89
+#: templates/admin.php:92
 msgid "Cron"
 msgstr ""
 
-#: templates/admin.php:98
+#: templates/admin.php:101
 msgid "Execute one task with each page loaded"
 msgstr ""
 
-#: templates/admin.php:108
+#: templates/admin.php:111
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
 msgstr ""
 
-#: templates/admin.php:118
+#: templates/admin.php:121
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
 msgstr ""
 
-#: templates/admin.php:125
+#: templates/admin.php:128
 msgid "Sharing"
 msgstr ""
 
-#: templates/admin.php:131
+#: templates/admin.php:134
 msgid "Enable Share API"
 msgstr ""
 
-#: templates/admin.php:132
+#: templates/admin.php:135
 msgid "Allow apps to use the Share API"
 msgstr ""
 
-#: templates/admin.php:139
+#: templates/admin.php:142
 msgid "Allow links"
 msgstr ""
 
-#: templates/admin.php:140
+#: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
 msgstr ""
 
-#: templates/admin.php:147
+#: templates/admin.php:150
 msgid "Allow resharing"
 msgstr ""
 
-#: templates/admin.php:148
+#: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
 msgstr ""
 
-#: templates/admin.php:155
+#: templates/admin.php:158
 msgid "Allow users to share with anyone"
 msgstr ""
 
-#: templates/admin.php:158
+#: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
 msgstr ""
 
-#: templates/admin.php:165
+#: templates/admin.php:168
 msgid "Security"
 msgstr ""
 
-#: templates/admin.php:178
+#: templates/admin.php:181
 msgid "Enforce HTTPS"
 msgstr ""
 
-#: templates/admin.php:179
+#: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
 msgstr ""
 
-#: templates/admin.php:182
+#: templates/admin.php:185
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
 msgstr ""
 
-#: templates/admin.php:192
+#: templates/admin.php:195
 msgid "Log"
 msgstr ""
 
-#: templates/admin.php:193
+#: templates/admin.php:196
 msgid "Log level"
 msgstr ""
 
-#: templates/admin.php:220
+#: templates/admin.php:223
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:227 templates/personal.php:98
+#: templates/admin.php:230 templates/personal.php:102
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:230 templates/personal.php:100
+#: templates/admin.php:233 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -339,51 +339,51 @@ msgid ""
 "License\">AGPL</abbr></a>."
 msgstr "由<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社區</a>開發，<a href=\"https://github.com/owncloud\" target=\"_blank\">源代碼</a>在<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>許可證下發布。"
 
-#: templates/apps.php:10
+#: templates/apps.php:11
 msgid "Add your App"
 msgstr "添加你的 App"
 
-#: templates/apps.php:11
+#: templates/apps.php:12
 msgid "More Apps"
 msgstr "更多Apps"
 
-#: templates/apps.php:24
+#: templates/apps.php:28
 msgid "Select an App"
 msgstr "選擇一個應用程式"
 
-#: templates/apps.php:28
+#: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
 msgstr "查看應用程式頁面於 apps.owncloud.com"
 
-#: templates/apps.php:29
+#: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 msgstr "<span class=\"licence\"></span>-核准: <span class=\"author\"></span>"
 
-#: templates/apps.php:31
+#: templates/apps.php:38
 msgid "Update"
 msgstr "更新"
 
-#: templates/help.php:3
+#: templates/help.php:4
 msgid "User Documentation"
 msgstr "用戶說明文件"
 
-#: templates/help.php:4
+#: templates/help.php:6
 msgid "Administrator Documentation"
 msgstr "管理者說明文件"
 
-#: templates/help.php:6
+#: templates/help.php:9
 msgid "Online Documentation"
 msgstr "線上說明文件"
 
-#: templates/help.php:7
+#: templates/help.php:11
 msgid "Forum"
 msgstr "論壇"
 
-#: templates/help.php:9
+#: templates/help.php:14
 msgid "Bugtracker"
 msgstr "Bugtracker"
 
-#: templates/help.php:11
+#: templates/help.php:17
 msgid "Commercial Support"
 msgstr "商用支援"
 
@@ -392,79 +392,79 @@ msgstr "商用支援"
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
 msgstr "您已經使用了 <strong>%s</strong> ，目前可用空間為 <strong>%s</strong>"
 
-#: templates/personal.php:14
+#: templates/personal.php:15
 msgid "Get the apps to sync your files"
 msgstr ""
 
-#: templates/personal.php:25
+#: templates/personal.php:26
 msgid "Show First Run Wizard again"
 msgstr "再次顯示首次使用精靈"
 
-#: templates/personal.php:36 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
 msgid "Password"
 msgstr "密碼"
 
-#: templates/personal.php:37
+#: templates/personal.php:38
 msgid "Your password was changed"
 msgstr "你的密碼已更改"
 
-#: templates/personal.php:38
+#: templates/personal.php:39
 msgid "Unable to change your password"
 msgstr "無法變更你的密碼"
 
-#: templates/personal.php:39
+#: templates/personal.php:40
 msgid "Current password"
 msgstr "目前密碼"
 
-#: templates/personal.php:40
+#: templates/personal.php:42
 msgid "New password"
 msgstr "新密碼"
 
-#: templates/personal.php:42
+#: templates/personal.php:44
 msgid "Change password"
 msgstr "變更密碼"
 
-#: templates/personal.php:54 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:78
 msgid "Display Name"
 msgstr "顯示名稱"
 
-#: templates/personal.php:55
+#: templates/personal.php:57
 msgid "Your display name was changed"
 msgstr "已更改顯示名稱"
 
-#: templates/personal.php:56
+#: templates/personal.php:58
 msgid "Unable to change your display name"
 msgstr "無法更改您的顯示名稱"
 
-#: templates/personal.php:59
+#: templates/personal.php:61
 msgid "Change display name"
 msgstr "更改顯示名稱"
 
-#: templates/personal.php:68
+#: templates/personal.php:70
 msgid "Email"
 msgstr "電子郵件"
 
-#: templates/personal.php:69
+#: templates/personal.php:72
 msgid "Your email address"
 msgstr "你的電子郵件信箱"
 
-#: templates/personal.php:70
+#: templates/personal.php:73
 msgid "Fill in an email address to enable password recovery"
 msgstr "請填入電子郵件信箱以便回復密碼"
 
-#: templates/personal.php:76 templates/personal.php:77
+#: templates/personal.php:79 templates/personal.php:80
 msgid "Language"
 msgstr "語言"
 
-#: templates/personal.php:82
+#: templates/personal.php:86
 msgid "Help translate"
 msgstr "幫助翻譯"
 
-#: templates/personal.php:87
+#: templates/personal.php:91
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:89
+#: templates/personal.php:93
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "在您的檔案管理員中使用這個地址來連線到 ownCloud"
 

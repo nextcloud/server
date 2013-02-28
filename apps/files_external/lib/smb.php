@@ -18,22 +18,26 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 	private $share;
 
 	public function __construct($params) {
-		$this->host=$params['host'];
-		$this->user=$params['user'];
-		$this->password=$params['password'];
-		$this->share=$params['share'];
-		$this->root=isset($params['root'])?$params['root']:'/';
-		if ( ! $this->root || $this->root[0]!='/') {
-			$this->root='/'.$this->root;
-		}
-		if (substr($this->root, -1, 1)!='/') {
-			$this->root.='/';
-		}
-		if ( ! $this->share || $this->share[0]!='/') {
-			$this->share='/'.$this->share;
-		}
-		if(substr($this->share, -1, 1)=='/') {
-			$this->share = substr($this->share, 0, -1);
+		if (isset($params['host']) && isset($params['user']) && isset($params['password']) && isset($params['share'])) {
+			$this->host=$params['host'];
+			$this->user=$params['user'];
+			$this->password=$params['password'];
+			$this->share=$params['share'];
+			$this->root=isset($params['root'])?$params['root']:'/';
+			if ( ! $this->root || $this->root[0]!='/') {
+				$this->root='/'.$this->root;
+			}
+			if (substr($this->root, -1, 1)!='/') {
+				$this->root.='/';
+			}
+			if ( ! $this->share || $this->share[0]!='/') {
+				$this->share='/'.$this->share;
+			}
+			if (substr($this->share, -1, 1)=='/') {
+				$this->share = substr($this->share, 0, -1);
+			}
+		} else {
+			throw new \Exception();
 		}
 	}
 

@@ -35,7 +35,7 @@ var FileList={
 		if(extension){
 			name_span.append($('<span></span>').addClass('extension').text(extension));
 		}
-		//dirs can show the number of uploaded files 
+		//dirs can show the number of uploaded files
 		if (type == 'dir') {
 			link_elem.append($('<span></span>').attr({
 				'class': 'uploadtext',
@@ -44,7 +44,7 @@ var FileList={
 		}
 		td.append(link_elem);
 		tr.append(td);
-		
+
 		//size column
 		if(size!=t('files', 'Pending')){
 			simpleSize=simpleFileSize(size);
@@ -59,7 +59,7 @@ var FileList={
 			"style": 'color:rgb('+sizeColor+','+sizeColor+','+sizeColor+')'
 		}).text(simpleSize);
 		tr.append(td);
-		
+
 		// date column
 		var modifiedColor = Math.round((Math.round((new Date()).getTime() / 1000)-lastModifiedTime)/60/60/24*5);
 		td = $('<td></td>').attr({ "class": "date" });
@@ -87,7 +87,7 @@ var FileList={
 			lastModified,
 			$('#permissions').val()
 		);
-			
+
 		FileList.insertElement(name, 'file', tr.attr('data-file',name));
 		var row = $('tr').filterAttr('data-file',name);
 		if(loading){
@@ -101,7 +101,7 @@ var FileList={
 		FileActions.display(row.find('td.filename'));
 	},
 	addDir:function(name,size,lastModified,hidden){
-		
+
 		var tr = this.createRow(
 			'dir',
 			name,
@@ -111,7 +111,7 @@ var FileList={
 			lastModified,
 			$('#permissions').val()
 		);
-			
+
 		FileList.insertElement(name,'dir',tr);
 		var row = $('tr').filterAttr('data-file',name);
 		row.find('td.filename').draggable(dragOptions);
@@ -315,8 +315,8 @@ var FileList={
 	do_delete:function(files){
 		if(files.substr){
 			files=[files];
-		}	
-		for (var i in files) {
+		}
+		for (var i=0; i<files.length; i++) {
 			var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date").children(".action.delete");
 			var oldHTML = deleteAction[0].outerHTML;
 			var newHTML = '<img class="move2trash" data-action="Delete" title="'+t('files', 'perform delete operation')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
@@ -334,7 +334,7 @@ var FileList={
 					if (result.status == 'success') {
 						$.each(files,function(index,file){
 							var files = $('tr').filterAttr('data-file',file);
-							files.hide();
+							files.remove();
 							files.find('input[type="checkbox"]').removeAttr('checked');
 							files.removeClass('selected');
 						});
@@ -344,7 +344,7 @@ var FileList={
 							var deleteAction = $('tr').filterAttr('data-file',file).children("td.date").children(".move2trash");
 							deleteAction[0].outerHTML = oldHTML;
 						});
-					} 
+					}
 				});
 	}
 };

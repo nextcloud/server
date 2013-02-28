@@ -102,4 +102,3 @@ class Helper {
 		return true;
 	}
 }
-

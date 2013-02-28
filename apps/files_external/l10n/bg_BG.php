@@ -1,9 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Access granted" => "Достъпът е даден",
 "Grant access" => "Даване на достъп",
-"Fill out all required fields" => "Попълнете всички задължителни полета",
 "External Storage" => "Външно хранилище",
-"Backend" => "Администрация",
 "Configuration" => "Конфигурация",
 "Options" => "Опции",
 "Applicable" => "Приложимо",

@@ -60,6 +60,7 @@
 "Text file" => "Arquivo texto",
 "Folder" => "Pasta",
 "From link" => "Do link",
+"Deleted files" => "Arquivos apagados",
 "Cancel upload" => "Cancelar upload",
 "Nothing in here. Upload something!" => "Nada aqui.Carrege alguma coisa!",
 "Download" => "Baixar",

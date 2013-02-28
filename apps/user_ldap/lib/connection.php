@@ -357,9 +357,6 @@ class Connection {
 				case 'ldapAgentPassword':
 					$value = base64_encode($value);
 					break;
-				case 'homeFolderNamingRule':
-					$value = empty($value) ? 'opt:username' : $value;
-					break;
 				case 'ldapBase':
 				case 'ldapBaseUsers':
 				case 'ldapBaseGroups':
@@ -394,10 +391,10 @@ class Connection {
 		$config = array();
 		foreach($trans as $dbKey => $classKey) {
 			if($classKey == 'homeFolderNamingRule') {
-				if(strpos($this->config[$classKey], 'opt') === 0) {
-					$config[$dbKey] = '';
-				} else {
+				if(strpos($this->config[$classKey], 'attr:') === 0) {
 					$config[$dbKey] = substr($this->config[$classKey], 5);
+				} else {
+					$config[$dbKey] = '';
 				}
 				continue;
 			} else if((strpos($classKey, 'ldapBase') !== false)
@@ -540,7 +537,7 @@ class Connection {
 			'ldap_cache_ttl'                    => 600,
 			'ldap_uuid_attribute'				=> 'auto',
 			'ldap_override_uuid_attribute'		=> 0,
-			'home_folder_naming_rule'           => 'opt:username',
+			'home_folder_naming_rule'           => '',
 			'ldap_turn_off_cert_check'			=> 0,
 			'ldap_configuration_active'			=> 1,
 			'ldap_attributes_for_user_search'	=> '',

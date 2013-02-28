@@ -47,9 +47,9 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 
 		// mark file as partial while uploading (ignored by the scanner)
 		$partpath = $this->path . '.part';
-		
+
 		\OC\Files\Filesystem::file_put_contents($partpath, $data);
-		
+
 		//detect aborted upload
 		if (isset ($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'PUT' ) {
 			if (isset($_SERVER['CONTENT_LENGTH'])) {
@@ -62,10 +62,10 @@ class OC_Connector_Sabre_File extends OC_Connector_Sabre_Node implements Sabre_D
 				}
 			}
 		}
-		
+
 		// rename to correct path
 		\OC\Files\Filesystem::rename($partpath, $this->path);
-		
+
 		//allow sync clients to send the mtime along in a header
 		$mtime = OC_Request::hasModificationTime();
 		if ($mtime !== false) {

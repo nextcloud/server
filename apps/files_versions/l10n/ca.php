@@ -6,8 +6,5 @@
 "File %s could not be reverted to version %s" => "El fitxer %s no s'ha pogut revertir a la versió %s",
 "No old versions available" => "No hi ha versións antigues disponibles",
 "No path specified" => "No heu especificat el camí",
-"History" => "Historial",
-"Revert a file to a previous version by clicking on its revert button" => "Reverteix un fitxer a una versió anterior fent clic en el seu botó de reverteix",
-"Files Versioning" => "Fitxers de Versions",
-"Enable" => "Habilita"
+"Revert a file to a previous version by clicking on its revert button" => "Reverteix un fitxer a una versió anterior fent clic en el seu botó de reverteix"
 );

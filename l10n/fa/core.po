@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-15 00:05+0100\n"
-"PO-Revision-Date: 2013-02-14 11:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-27 00:08+0100\n"
+"PO-Revision-Date: 2013-02-26 07:50+0000\n"
+"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,24 +19,24 @@ msgstr ""
 "Language: fa\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:85
+#: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
 msgstr "کاربر %s  یک پرونده را با شما به اشتراک گذاشته است."
 
-#: ajax/share.php:87
+#: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr "کاربر %s  یک پوشه را با شما به اشتراک گذاشته است."
 
-#: ajax/share.php:89
+#: ajax/share.php:101
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr "کاربر %s پرونده \"%s\" را با شما به اشتراک گذاشته است. پرونده برای دانلود اینجاست : %s"
 
-#: ajax/share.php:91
+#: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -54,7 +54,7 @@ msgstr "آیا گروه دیگری برای افزودن ندارید"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "این دسته هم اکنون وجود دارد: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -82,79 +82,79 @@ msgstr "هیج دسته ای برای پاک شدن انتخاب نشده است
 msgid "Error removing %s from favorites."
 msgstr "خطای پاک کردن %s از علاقه مندی ها."
 
-#: js/config.php:32
+#: js/config.php:34
 msgid "Sunday"
 msgstr "یکشنبه"
 
-#: js/config.php:32
+#: js/config.php:35
 msgid "Monday"
 msgstr "دوشنبه"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Tuesday"
 msgstr "سه شنبه"
 
-#: js/config.php:32
+#: js/config.php:37
 msgid "Wednesday"
 msgstr "چهارشنبه"
 
-#: js/config.php:32
+#: js/config.php:38
 msgid "Thursday"
 msgstr "پنجشنبه"
 
-#: js/config.php:32
+#: js/config.php:39
 msgid "Friday"
 msgstr "جمعه"
 
-#: js/config.php:32
+#: js/config.php:40
 msgid "Saturday"
 msgstr "شنبه"
 
-#: js/config.php:33
+#: js/config.php:45
 msgid "January"
 msgstr "ژانویه"
 
-#: js/config.php:33
+#: js/config.php:46
 msgid "February"
 msgstr "فبریه"
 
-#: js/config.php:33
+#: js/config.php:47
 msgid "March"
 msgstr "مارس"
 
-#: js/config.php:33
+#: js/config.php:48
 msgid "April"
 msgstr "آوریل"
 
-#: js/config.php:33
+#: js/config.php:49
 msgid "May"
 msgstr "می"
 
-#: js/config.php:33
+#: js/config.php:50
 msgid "June"
 msgstr "ژوئن"
 
-#: js/config.php:33
+#: js/config.php:51
 msgid "July"
 msgstr "جولای"
 
-#: js/config.php:33
+#: js/config.php:52
 msgid "August"
 msgstr "آگوست"
 
-#: js/config.php:33
+#: js/config.php:53
 msgid "September"
 msgstr "سپتامبر"
 
-#: js/config.php:33
+#: js/config.php:54
 msgid "October"
 msgstr "اکتبر"
 
-#: js/config.php:33
+#: js/config.php:55
 msgid "November"
 msgstr "نوامبر"
 
-#: js/config.php:33
+#: js/config.php:56
 msgid "December"
 msgstr "دسامبر"
 
@@ -162,55 +162,55 @@ msgstr "دسامبر"
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: js/js.js:767
+#: js/js.js:768
 msgid "seconds ago"
 msgstr "ثانیه‌ها پیش"
 
-#: js/js.js:768
+#: js/js.js:769
 msgid "1 minute ago"
 msgstr "1 دقیقه پیش"
 
-#: js/js.js:769
+#: js/js.js:770
 msgid "{minutes} minutes ago"
 msgstr "{دقیقه ها} دقیقه های پیش"
 
-#: js/js.js:770
+#: js/js.js:771
 msgid "1 hour ago"
 msgstr "1 ساعت پیش"
 
-#: js/js.js:771
+#: js/js.js:772
 msgid "{hours} hours ago"
 msgstr "{ساعت ها} ساعت ها پیش"
 
-#: js/js.js:772
+#: js/js.js:773
 msgid "today"
 msgstr "امروز"
 
-#: js/js.js:773
+#: js/js.js:774
 msgid "yesterday"
 msgstr "دیروز"
 
-#: js/js.js:774
+#: js/js.js:775
 msgid "{days} days ago"
 msgstr "{روزها} روزهای پیش"
 
-#: js/js.js:775
+#: js/js.js:776
 msgid "last month"
 msgstr "ماه قبل"
 
-#: js/js.js:776
+#: js/js.js:777
 msgid "{months} months ago"
 msgstr "{ماه ها} ماه ها پیش"
 
-#: js/js.js:777
+#: js/js.js:778
 msgid "months ago"
 msgstr "ماه‌های قبل"
 
-#: js/js.js:778
+#: js/js.js:779
 msgid "last year"
 msgstr "سال قبل"
 
-#: js/js.js:779
+#: js/js.js:780
 msgid "years ago"
 msgstr "سال‌های قبل"
 
@@ -255,7 +255,7 @@ msgstr "پرونده { پرونده} درخواست شده نصب نشده اس�
 
 #: js/share.js:29 js/share.js:43 js/share.js:90
 msgid "Shared"
-msgstr ""
+msgstr "اشتراک گذاشته شده"
 
 #: js/share.js:93
 msgid "Share"
@@ -293,7 +293,7 @@ msgstr "به اشتراک گذاشتن با پیوند"
 msgid "Password protect"
 msgstr "نگهداری کردن رمز عبور"
 
-#: js/share.js:185 templates/installation.php:44 templates/login.php:35
+#: js/share.js:185 templates/installation.php:47 templates/login.php:35
 msgid "Password"
 msgstr "گذرواژه"
 
@@ -303,7 +303,7 @@ msgstr "پیوند ایمیل برای شخص."
 
 #: js/share.js:190
 msgid "Send"
-msgstr ""
+msgstr "ارسال"
 
 #: js/share.js:194
 msgid "Set expiration date"
@@ -371,24 +371,24 @@ msgstr "خطا در تنظیم تاریخ انقضا"
 
 #: js/share.js:609
 msgid "Sending ..."
-msgstr ""
+msgstr "درحال ارسال ..."
 
 #: js/share.js:620
 msgid "Email sent"
-msgstr ""
+msgstr "ایمیل ارسال شد"
 
 #: js/update.js:14
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "به روز رسانی ناموفق بود. لطفا این خطا را به  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">جامعه ی OwnCloud</a> گزارش نمایید."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "به روزرسانی موفقیت آمیز بود. در حال انتقال شما به OwnCloud."
 
-#: lostpassword/controller.php:47
+#: lostpassword/controller.php:48
 msgid "ownCloud password reset"
 msgstr "پسورد ابرهای شما تغییرکرد"
 
@@ -408,7 +408,7 @@ msgstr "تنظیم مجدد ایمیل را بفرستید."
 msgid "Request failed!"
 msgstr "درخواست رد شده است !"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:41
 #: templates/login.php:28
 msgid "Username"
 msgstr "شناسه"
@@ -469,85 +469,86 @@ msgstr "ویرایش گروه ها"
 msgid "Add"
 msgstr "افزودن"
 
-#: templates/installation.php:23 templates/installation.php:30
+#: templates/installation.php:24 templates/installation.php:31
 msgid "Security Warning"
 msgstr "اخطار امنیتی"
 
-#: templates/installation.php:24
+#: templates/installation.php:25
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "هیچ مولد تصادفی امن در دسترس نیست، لطفا فرمت PHP OpenSSL را فعال نمایید."
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "بدون وجود یک تولید کننده اعداد تصادفی امن ، یک مهاجم ممکن است این قابلیت را داشته باشد که پیشگویی کند پسوورد های راه انداز گرفته شده و کنترلی روی حساب کاربری شما داشته باشد ."
 
-#: templates/installation.php:31
+#: templates/installation.php:32
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr ""
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
 msgstr ""
 
-#: templates/installation.php:36
+#: templates/installation.php:37
 msgid "Create an <strong>admin account</strong>"
 msgstr "لطفا یک <strong> شناسه برای مدیر</strong> بسازید"
 
-#: templates/installation.php:52
+#: templates/installation.php:55
 msgid "Advanced"
 msgstr "حرفه ای"
 
-#: templates/installation.php:54
+#: templates/installation.php:57
 msgid "Data folder"
 msgstr "پوشه اطلاعاتی"
 
-#: templates/installation.php:61
+#: templates/installation.php:66
 msgid "Configure the database"
 msgstr "پایگاه داده برنامه ریزی شدند"
 
-#: templates/installation.php:66 templates/installation.php:77
-#: templates/installation.php:87 templates/installation.php:97
+#: templates/installation.php:71 templates/installation.php:83
+#: templates/installation.php:94 templates/installation.php:105
+#: templates/installation.php:117
 msgid "will be used"
 msgstr "استفاده خواهد شد"
 
-#: templates/installation.php:109
+#: templates/installation.php:129
 msgid "Database user"
 msgstr "شناسه پایگاه داده"
 
-#: templates/installation.php:113
+#: templates/installation.php:134
 msgid "Database password"
 msgstr "پسورد پایگاه داده"
 
-#: templates/installation.php:117
+#: templates/installation.php:139
 msgid "Database name"
 msgstr "نام پایگاه داده"
 
-#: templates/installation.php:125
+#: templates/installation.php:149
 msgid "Database tablespace"
 msgstr "جدول پایگاه داده"
 
-#: templates/installation.php:131
+#: templates/installation.php:156
 msgid "Database host"
 msgstr "هاست پایگاه داده"
 
-#: templates/installation.php:136
+#: templates/installation.php:162
 msgid "Finish setup"
 msgstr "اتمام نصب"
 
-#: templates/layout.guest.php:33
+#: templates/layout.guest.php:35
 msgid "web services under your control"
 msgstr "سرویس وب تحت کنترل شما"
 
-#: templates/layout.user.php:48
+#: templates/layout.user.php:53
 msgid "Log out"
 msgstr "خروج"
 
@@ -592,4 +593,4 @@ msgstr "بعدی"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "به روز رسانی OwnCloud به نسخه ی %s، این عملیات ممکن است زمان بر باشد."

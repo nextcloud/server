@@ -584,6 +584,7 @@ function fillWindow(selector) {
 }
 
 $(document).ready(function(){
+	sessionHeartBeat();
 
 	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
 		replaceSVG();
@@ -669,7 +670,7 @@ $(document).ready(function(){
 	$('#settings #expanddiv').click(function(event){
 		event.stopPropagation();
 	});
-	$(window).click(function(){//hide the settings menu when clicking outside it
+	$(document).click(function(){//hide the settings menu when clicking outside it
 		$('#settings #expanddiv').slideUp(200);
 	});
 
@@ -815,3 +816,17 @@ OC.set=function(name, value) {
 	}
 	context[tail]=value;
 };
+
+
+/**
+ * Calls the server periodically every 15 mins to ensure that session doesnt
+ * time out
+ */
+function sessionHeartBeat(){
+	OC.Router.registerLoadedCallback(function(){
+		var url = OC.Router.generate('heartbeat');
+		setInterval(function(){
+			$.post(url);
+		}, 900000);
+	});
+}
