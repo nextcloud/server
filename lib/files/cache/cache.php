@@ -313,6 +313,9 @@ class Cache {
 		}
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE `fileid` = ?');
 		$query->execute(array($entry['fileid']));
+
+		$permissionsCache = new Permissions($this->storageId);
+		$permissionsCache->remove($entry['fileid']);
 	}
 
 	/**
