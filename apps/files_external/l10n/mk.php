@@ -7,6 +7,7 @@
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Внимание:</b> \"smbclient\" не е инсталиран. Не е можно монтирање на CIFS/SMB дискови. Замолете го Вашиот систем администратор да го инсталира.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Внимание:</b> Не е овозможена или инсталирани FTP подршка во PHP. Не е можно монтирање на FTP дискови. Замолете го Вашиот систем администратор да го инсталира.",
 "External Storage" => "Надворешно складиште",
+"Folder name" => "Име на папка",
 "Configuration" => "Конфигурација",
 "Options" => "Опции",
 "Applicable" => "Применливо",

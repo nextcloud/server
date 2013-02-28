@@ -5,6 +5,7 @@
 "Please provide a valid Dropbox app key and secret." => "කරුණාකර වලංගු Dropbox යෙදුම් යතුරක් හා රහසක් ලබාදෙන්න.",
 "Error configuring Google Drive storage" => "Google Drive ගබඩාව වින්‍යාස කිරීමේ දෝශයක් ඇත",
 "External Storage" => "භාහිර ගබඩාව",
+"Folder name" => "ෆොල්ඩරයේ නම",
 "Configuration" => "වින්‍යාසය",
 "Options" => "විකල්පයන්",
 "Applicable" => "අදාළ",

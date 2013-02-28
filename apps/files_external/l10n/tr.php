@@ -3,6 +3,7 @@
 "Grant access" => "Erişim sağlandı",
 "Please provide a valid Dropbox app key and secret." => "Lütfen Dropbox app key ve secret temin ediniz",
 "External Storage" => "Harici Depolama",
+"Folder name" => "Dizin ismi",
 "Configuration" => "Yapılandırma",
 "Options" => "Seçenekler",
 "Applicable" => "Uygulanabilir",

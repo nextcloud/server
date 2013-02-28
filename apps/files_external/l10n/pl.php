@@ -7,6 +7,7 @@
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Ostrzeżenie:</b> \"smbclient\" nie jest zainstalowany. Zamontowanie katalogów CIFS/SMB nie jest możliwe. Skontaktuj sie z administratorem w celu zainstalowania.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Ostrzeżenie:</b> Wsparcie dla FTP w PHP nie jest zainstalowane lub włączone.  Skontaktuj sie z administratorem w celu zainstalowania lub włączenia go.",
 "External Storage" => "Zewnętrzna zasoby dyskowe",
+"Folder name" => "Nazwa folderu",
 "Configuration" => "Konfiguracja",
 "Options" => "Opcje",
 "Applicable" => "Zastosowanie",
