@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-01 00:05+0100\n"
+"PO-Revision-Date: 2013-02-28 07:20+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -123,7 +123,7 @@ msgstr "%s estabeleza o servidor da base de datos"
 
 #: setup.php:128 setup.php:320 setup.php:365
 msgid "PostgreSQL username and/or password not valid"
-msgstr "Nome de usuario e/ou contrasinal PostgreSQL incorrecto"
+msgstr "Nome de usuario e/ou contrasinal de PostgreSQL incorrecto"
 
 #: setup.php:129 setup.php:152 setup.php:229
 msgid "You need to enter either an existing account or the administrator."
@@ -131,11 +131,11 @@ msgstr "Deberá introducir unha conta existente ou o administrador."
 
 #: setup.php:151 setup.php:453 setup.php:520
 msgid "Oracle username and/or password not valid"
-msgstr "Nome de usuario e/ou contrasinal Oracle incorrecto"
+msgstr "Nome de usuario e/ou contrasinal de Oracle incorrecto"
 
 #: setup.php:228
 msgid "MySQL username and/or password not valid"
-msgstr "Nome de usuario e/ou contrasinal MySQL incorrecto"
+msgstr "Nome de usuario e/ou contrasinal de MySQL incorrecto"
 
 #: setup.php:282 setup.php:386 setup.php:395 setup.php:413 setup.php:423
 #: setup.php:432 setup.php:461 setup.php:527 setup.php:553 setup.php:560
@@ -178,7 +178,7 @@ msgstr "A orde ofensiva foi: «%s», nome: %s, contrasinal: %s"
 #: setup.php:631
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "Nome de usuario e/ou contrasinal de MS SQL incorrecto: %s"
 
 #: setup.php:849
 msgid ""

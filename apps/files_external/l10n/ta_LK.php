@@ -5,6 +5,7 @@
 "Please provide a valid Dropbox app key and secret." => "தயவுசெய்து ஒரு செல்லுபடியான Dropbox செயலி சாவி மற்றும் இரகசியத்தை வழங்குக. ",
 "Error configuring Google Drive storage" => "Google இயக்க சேமிப்பகத்தை தகமைப்பதில் வழு",
 "External Storage" => "வெளி சேமிப்பு",
+"Folder name" => "கோப்புறை பெயர்",
 "Configuration" => "தகவமைப்பு",
 "Options" => "தெரிவுகள்",
 "Applicable" => "பயன்படத்தக்க",

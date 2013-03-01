@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Folder name" => "Mappenavn",
 "Configuration" => "Konfigurasjon",
 "Options" => "Innstillinger",
 "All Users" => "Alle brukere",

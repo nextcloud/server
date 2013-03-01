@@ -6,5 +6,6 @@
 "File %s could not be reverted to version %s" => "El archivo %s no puede ser revertido a la version %s",
 "No old versions available" => "No hay versiones antiguas disponibles",
 "No path specified" => "Ruta no especificada",
+"Versions" => "Revisiones",
 "Revert a file to a previous version by clicking on its revert button" => "Revertir un archivo a una versión anterior haciendo clic en el boton de revertir"
 );

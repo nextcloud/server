@@ -5,6 +5,7 @@
 "Please provide a valid Dropbox app key and secret." => "Prašome įvesti teisingus Dropbox \"app key\" ir \"secret\".",
 "Error configuring Google Drive storage" => "Klaida nustatinėjant Google Drive talpyklą",
 "External Storage" => "Išorinės saugyklos",
+"Folder name" => "Katalogo pavadinimas",
 "Configuration" => "Konfigūracija",
 "Options" => "Nustatymai",
 "Applicable" => "Pritaikyti",

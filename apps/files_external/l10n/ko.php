@@ -7,6 +7,7 @@
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>경고:</b> \"smbclient\"가 설치되지 않았습니다. CIFS/SMB 공유 자원에 연결할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>경고:</b> PHP FTP 지원이 비활성화되어 있거나 설치되지 않았습니다. FTP 공유를 마운트할 수 없습니다. 시스템 관리자에게 설치를 요청하십시오.",
 "External Storage" => "외부 저장소",
+"Folder name" => "폴더 이름",
 "Configuration" => "설정",
 "Options" => "옵션",
 "Applicable" => "적용 가능",

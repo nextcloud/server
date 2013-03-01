@@ -7,6 +7,7 @@
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Προσοχή:</b> Ο \"smbclient\" δεν εγκαταστάθηκε. Δεν είναι δυνατή η προσάρτηση CIFS/SMB. Παρακαλώ ενημερώστε τον διαχειριστή συστήματος να το εγκαταστήσει.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Προσοχή:</b> Η υποστήριξη FTP στην PHP δεν ενεργοποιήθηκε ή εγκαταστάθηκε. Δεν είναι δυνατή η προσάρτηση FTP. Παρακαλώ ενημερώστε τον διαχειριστή συστήματος να το εγκαταστήσει.",
 "External Storage" => "Εξωτερικό Αποθηκευτικό Μέσο",
+"Folder name" => "Όνομα φακέλου",
 "Configuration" => "Ρυθμίσεις",
 "Options" => "Επιλογές",
 "Applicable" => "Εφαρμόσιμο",
