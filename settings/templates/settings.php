@@ -5,5 +5,5 @@
  */?>
 
 <?php foreach($_['forms'] as $form) {
-	echo $form;
+	print_unescaped($form);
 };
