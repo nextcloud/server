@@ -49,7 +49,8 @@
 			</div>
 		</div>
 		<div id="file_action_panel"></div>
-	<?php else:?>
+	<?php else: ?>
+		<div class="crumb last"><?php p($l->t('You don’t have write permissions here.'))?></div>
 		<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 	<?php endif;?>
 	<input type="hidden" name="permissions" value="<?php p($_['permissions']); ?>" id="permissions">

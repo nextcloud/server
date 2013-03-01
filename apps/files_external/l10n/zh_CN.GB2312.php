@@ -5,6 +5,7 @@
 "Please provide a valid Dropbox app key and secret." => "请提供一个有效的 Dropbox app key 和 secret。",
 "Error configuring Google Drive storage" => "配置 Google Drive 存储失败",
 "External Storage" => "外部存储",
+"Folder name" => "文件夹名",
 "Configuration" => "配置",
 "Options" => "选项",
 "Applicable" => "可应用",

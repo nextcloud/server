@@ -32,7 +32,7 @@ $(document).ready(function(){
 });
 
 function goToVersionPage(url){
-	window.location(url);
+	window.location.assign(url);
 }
 
 function createVersionsDropdown(filename, files) {

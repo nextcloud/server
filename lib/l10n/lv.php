@@ -34,6 +34,7 @@
 "MySQL user '%s'@'%%' already exists" => "MySQL lietotājs '%s'@'%%' jau eksistē",
 "Drop this user from MySQL." => "Izmest šo lietotāju no MySQL.",
 "Offending command was: \"%s\", name: %s, password: %s" => "Vainīgā komanda bija \"%s\", vārds: %s, parole: %s",
+"MS SQL username and/or password not valid: %s" => "Nav derīga MySQL parole un/vai lietotājvārds — %s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Jūsu serveris vēl nav pareizi iestatīts, lai ļautu sinhronizēt datnes, jo izskatās, ka WebDAV saskarne ir salauzta.",
 "Please double check the <a href='%s'>installation guides</a>." => "Lūdzu, vēlreiz pārbaudiet <a href='%s'>instalēšanas palīdzību</a>.",
 "seconds ago" => "sekundes atpakaļ",

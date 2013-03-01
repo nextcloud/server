@@ -5,6 +5,7 @@
 "Please provide a valid Dropbox app key and secret." => "נא לספק קוד יישום וסוד תקניים של Dropbox.",
 "Error configuring Google Drive storage" => "אירעה שגיאה בעת הגדרת אחסון ב־Google Drive",
 "External Storage" => "אחסון חיצוני",
+"Folder name" => "שם התיקייה",
 "Configuration" => "הגדרות",
 "Options" => "אפשרויות",
 "Applicable" => "ניתן ליישום",

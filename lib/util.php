@@ -75,7 +75,7 @@ class OC_Util {
 	public static function getVersion() {
 		// hint: We only can count up. Reset minor/patchlevel when
 		// updating major/minor version number.
-		return array(4, 94, 10);
+		return array(4, 95, 10);
 	}
 
 	/**
@@ -83,7 +83,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString() {
-		return '5.0 beta 2';
+		return '5.0 RC 1';
 	}
 
 	/**
@@ -464,13 +464,17 @@ class OC_Util {
 	 * @see OC_Util::callRegister()
 	 */
 	public static function isCallRegistered() {
+		if(!isset($_SESSION['requesttoken'])) {
+			return false;
+		}
+
 		if(isset($_GET['requesttoken'])) {
 			$token=$_GET['requesttoken'];
-		}elseif(isset($_POST['requesttoken'])) {
+		} elseif(isset($_POST['requesttoken'])) {
 			$token=$_POST['requesttoken'];
-		}elseif(isset($_SERVER['HTTP_REQUESTTOKEN'])) {
+		} elseif(isset($_SERVER['HTTP_REQUESTTOKEN'])) {
 			$token=$_SERVER['HTTP_REQUESTTOKEN'];
-		}else{
+		} else {
 			//no token found.
 			return false;
 		}
@@ -576,6 +580,9 @@ class OC_Util {
 		ini_set("default_socket_timeout", 5);
 
 		$client = new \Sabre_DAV_Client($settings);
+
+		// for this self test we don't care if the ssl certificate is self signed and the peer cannot be verified.
+		$client->setVerifyPeer(false);
 
 		$return = true;
 		try {

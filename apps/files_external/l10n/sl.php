@@ -7,6 +7,7 @@
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Opozorilo:</b> \"smbclient\" ni nameščen. Priklapljanje CIFS/SMB pogonov ni mogoče. Prosimo, prosite vašega skrbnika, če ga namesti.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Opozorilo:</b> FTP podpora v PHP ni omogočena ali nameščena. Priklapljanje FTP pogonov ni mogoče. Prosimo, prosite vašega skrbnika, če jo namesti ali omogoči.",
 "External Storage" => "Zunanja podatkovna shramba",
+"Folder name" => "Ime mape",
 "Configuration" => "Nastavitve",
 "Options" => "Možnosti",
 "Applicable" => "Se uporablja",
