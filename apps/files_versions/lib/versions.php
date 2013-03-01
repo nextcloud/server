@@ -35,7 +35,7 @@ class Storage {
 	const DEFAULTMININTERVAL=60; // 1 min
 	const DEFAULTMAXVERSIONS=50;
 
-	private static function getUidAndFilename($filename)
+	public static function getUidAndFilename($filename)
 	{		
 		if (\OCP\App::isEnabled('files_sharing')
 		    && substr($filename, 0, 7) == '/Shared'
@@ -87,13 +87,12 @@ class Storage {
 			if($files_view->filesize($filename)>\OCP\Config::getSystemValue('files_versionsmaxfilesize', Storage::DEFAULTMAXFILESIZE)) {
 				return false;
 			}
-
 			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
-			$versionsFolderName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('');
+			$versionsFolderName=\OC_User::getHome($uid).'/files_versions';
 			
 			// check mininterval if the file is being modified by the owner (all shared files should be versioned despite mininterval)
 			if ($uid == \OCP\User::getUser()) {
-				$versionsName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
+				$versionsName=\OC_user::getHome($uid).'/'.$versions_fileview->getInternalPath($filename);
 				$matches=glob(preg_quote($versionsName).'.v*');
 				if ( $matches ) {
 					sort($matches);
@@ -150,9 +149,8 @@ class Storage {
 	public static function isversioned($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			list($uid, $filename) = self::getUidAndFilename($filename);
-			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
 
-			$versionsName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
+			$versionsName=\OC_user::getHome($uid).'/files_versions/'.$filename;
 
 			// check for old versions
 			$matches=glob(preg_quote($versionsName).'.v*');
@@ -179,7 +177,7 @@ class Storage {
 			list($uid, $filename) = self::getUidAndFilename($filename);
 			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
 
-			$versionsName = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
+			$versionsName = \OC_User::getHome($uid).'/'.$versions_fileview->getInternalPath($filename);
 			$versions = array();
 			// fetch for old versions
 			$matches = glob( preg_quote($versionsName).'.v*' );
@@ -245,7 +243,7 @@ class Storage {
 			list($uid, $filename) = self::getUidAndFilename($filename);
 			$versions_fileview = new \OC_FilesystemView('/'.$uid.'/files_versions');
 
-			$versionsName=\OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath($filename);
+			$versionsName=\OC_User::getHome($uid).'/'.$versions_fileview->getInternalPath($filename);
 
 			// check for old versions
 			$matches = glob( preg_quote($versionsName).'.v*' );
@@ -271,7 +269,7 @@ class Storage {
 	 * @return true/false
 	 */
 	public function expireAll() {
-		$view = \OCP\Files::getStorage('files_versions');
+		$view = new \OC_FilesystemView('/'.\OCP\User::getUser().'/files_versions');
 		return $view->deleteAll('', true);
 	}
 }
