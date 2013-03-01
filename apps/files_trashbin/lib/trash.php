@@ -71,6 +71,7 @@ class Trashbin {
 				\OC_Log::write('files_trashbin', 'trash bin database couldn\'t be updated', \OC_log::ERROR);
 				return;
 			}
+			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash', array('path' => \OC\Files\Filesystem::normalizePath($file_path)));
 			
 			// Take care of file versions
 			if ( \OCP\App::isEnabled('files_versions') ) {
@@ -173,6 +174,7 @@ class Trashbin {
 		$mtime = $view->filemtime($source);
 		if( $view->rename($source, $target.$ext) ) {
 			$view->touch($target.$ext, $mtime);
+			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', array('path' => \OC\Files\Filesystem::normalizePath('/'.$location.'/'.$filename.$ext)));
 			if ($view->is_dir($target.$ext)) {
 				$trashbinSize -= self::calculateSize(new \OC\Files\View('/'.$user.'/'.$target.$ext));
 			} else {
