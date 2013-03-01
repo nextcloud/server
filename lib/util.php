@@ -464,6 +464,10 @@ class OC_Util {
 	 * @see OC_Util::callRegister()
 	 */
 	public static function isCallRegistered() {
+		if(!isset($_SESSION['requesttoken'])) {
+			return false;
+		}
+
 		if(isset($_GET['requesttoken'])) {
 			$token=$_GET['requesttoken'];
 		} elseif(isset($_POST['requesttoken'])) {
