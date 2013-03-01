@@ -6,8 +6,8 @@
 		<?php
 		if($_['showsysinfo'] == true) {
 			echo 'If you would like to support ownCloud\'s developers and'
-				.' report this error in our <a href="https://github.com/owncloud/core">bug tracker</a>,'
-				.' please copy the following informations into the description. <br><br><textarea readonly>';
+				.' report this error in our <a href="https://github.com/owncloud/core/blob/master/CONTRIBUTING.md">bug tracker</a>,'
+				.' please copy the following information into the description. <br><br><textarea readonly>';
 			echo 'Message: '  . $_['message'] . "\n";
 			echo 'Error Code: '  . $_['code'] . "\n";
 			echo 'File: '  . $_['file'] . "\n";
