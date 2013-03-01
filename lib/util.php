@@ -581,6 +581,9 @@ class OC_Util {
 
 		$client = new \Sabre_DAV_Client($settings);
 
+		// for this self test we don't care if the ssl certificate is self signed and the peer cannot be verified.
+		$client->setVerifyPeer(false);
+
 		$return = true;
 		try {
 			// test PROPFIND
