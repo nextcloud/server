@@ -851,7 +851,7 @@ class OC_Setup {
 				'http://doc.owncloud.org/server/5.0/admin_manual/installation.html');
 
 			$tmpl = new OC_Template('', 'error', 'guest');
-			$tmpl->assign('errors', array(1 => array('error' => $error, 'hint' => $hint)), false);
+			$tmpl->assign('errors', array(1 => array('error' => $error, 'hint' => $hint)));
 			$tmpl->printPage();
 			exit();
 		}

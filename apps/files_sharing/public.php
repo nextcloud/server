@@ -168,18 +168,17 @@ if (isset($path)) {
 				}
 			}
 			$list = new OCP\Template('files', 'part.list', '');
-			$list->assign('files', $files, false);
+			$list->assign('files', $files);
 			$list->assign('disableSharing', true);
-			$list->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=', false);
+			$list->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=');
 			$list->assign('downloadURL',
-				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=',
-				false);
+				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=');
 			$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
-			$breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
-			$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=', false);
+			$breadcrumbNav->assign('breadcrumb', $breadcrumb);
+			$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=');
 			$folder = new OCP\Template('files', 'index', '');
-			$folder->assign('fileList', $list->fetchPage(), false);
-			$folder->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
+			$folder->assign('fileList', $list->fetchPage());
+			$folder->assign('breadcrumb', $breadcrumbNav->fetchPage());
 			$folder->assign('dir', $getPath);
 			$folder->assign('isCreatable', false);
 			$folder->assign('permissions', 0);
@@ -188,7 +187,7 @@ if (isset($path)) {
 			$folder->assign('uploadMaxHumanFilesize', 0);
 			$folder->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 			$folder->assign('usedSpacePercent', 0);
-			$tmpl->assign('folder', $folder->fetchPage(), false);
+			$tmpl->assign('folder', $folder->fetchPage());
 			$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 			$tmpl->assign('downloadURL',
 				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=' . urlencode($getPath));

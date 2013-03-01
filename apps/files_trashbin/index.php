@@ -96,19 +96,18 @@ foreach (explode('/', $dir) as $i) {
 }
 
 $breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
-$breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
-$breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php') . '?dir=', false);
+$breadcrumbNav->assign('breadcrumb', $breadcrumb);
+$breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php') . '?dir=');
 
 $list = new OCP\Template('files_trashbin', 'part.list', '');
-$list->assign('files', $files, false);
-$list->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php'). '?dir='.$dir, false);
-$list->assign('downloadURL', OCP\Util::linkTo('files_trashbin', 'download.php') . '?file='.$dir, false);
+$list->assign('files', $files);
+$list->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php'). '?dir='.$dir);
+$list->assign('downloadURL', OCP\Util::linkTo('files_trashbin', 'download.php') . '?file='.$dir);
 $list->assign('disableSharing', true);
 $list->assign('dirlisting', $dirlisting);
 $list->assign('disableDownloadActions', true);
-$tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
-$tmpl->assign('dirlisting', $dirlisting);
-$tmpl->assign('fileList', $list->fetchPage(), false);
+$tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage());
+$tmpl->assign('fileList', $list->fetchPage());
 $tmpl->assign('files', $files);
 $tmpl->assign('dir', \OC\Files\Filesystem::normalizePath($view->getAbsolutePath()));
 

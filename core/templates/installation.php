@@ -1,8 +1,8 @@
-<input type='hidden' id='hasMySQL' value='<?php echo $_['hasMySQL'] ?>'>
-<input type='hidden' id='hasSQLite' value='<?php echo $_['hasSQLite'] ?>'>
-<input type='hidden' id='hasPostgreSQL' value='<?php echo $_['hasPostgreSQL'] ?>'>
-<input type='hidden' id='hasOracle' value='<?php echo $_['hasOracle'] ?>'>
-<input type='hidden' id='hasMSSQL' value='<?php echo $_['hasMSSQL'] ?>'>
+<input type='hidden' id='hasMySQL' value='<?php p($_['hasMySQL']) ?>'>
+<input type='hidden' id='hasSQLite' value='<?php p($_['hasSQLite']) ?>'>
+<input type='hidden' id='hasPostgreSQL' value='<?php p($_['hasPostgreSQL']) ?>'>
+<input type='hidden' id='hasOracle' value='<?php p($_['hasOracle']) ?>'>
+<input type='hidden' id='hasMSSQL' value='<?php p($_['hasMSSQL']) ?>'>
 <form action="index.php" method="post">
 <input type="hidden" name="install" value="true" />
 	<?php if(count($_['errors']) > 0): ?>
@@ -10,10 +10,10 @@
 		<?php foreach($_['errors'] as $err): ?>
 		<li>
 			<?php if(is_array($err)):?>
-				<?php print $err['error']; ?>
-				<p class='hint'><?php print $err['hint']; ?></p>
+				<?php print_unescaped($err['error']); ?>
+				<p class='hint'><?php print_unescaped($err['hint']); ?></p>
 			<?php else: ?>
-				<?php print $err; ?>
+				<?php print_unescaped($err); ?>
 			<?php endif; ?>
 		</li>
 		<?php endforeach; ?>
@@ -21,54 +21,54 @@
 	<?php endif; ?>
 	<?php if(!$_['secureRNG']): ?>
 	<fieldset class="warning">
-		<legend><strong><?php echo $l->t('Security Warning');?></strong></legend>
-		<p><?php echo $l->t('No secure random number generator is available, please enable the PHP OpenSSL extension.');?><br/>
-		<?php echo $l->t('Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account.');?></p>
+		<legend><strong><?php p($l->t('Security Warning'));?></strong></legend>
+		<p><?php p($l->t('No secure random number generator is available, please enable the PHP OpenSSL extension.'));?><br/>
+		<?php p($l->t('Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account.'));?></p>
 	</fieldset>
 	<?php endif; ?>
 	<?php if(!$_['htaccessWorking']): ?>
 	<fieldset class="warning">
-		<legend><strong><?php echo $l->t('Security Warning');?></strong></legend>
-		<p><?php echo $l->t('Your data directory and files are probably accessible from the internet because the .htaccess file does not work.');?><br>
-		<?php echo $l->t('For information how to properly configure your server, please see the <a href="http://doc.owncloud.org/server/5.0/admin_manual/installation.html" target="_blank">documentation</a>.');?></p>
+		<legend><strong><?php p($l->t('Security Warning'));?></strong></legend>
+		<p><?php p($l->t('Your data directory and files are probably accessible from the internet because the .htaccess file does not work.'));?><br>
+		<?php print_unescaped($l->t('For information how to properly configure your server, please see the <a href="http://doc.owncloud.org/server/5.0/admin_manual/installation.html" target="_blank">documentation</a>.'));?></p>
 	</fieldset>
 	<?php endif; ?>
 	<fieldset id="adminaccount">
-		<legend><?php echo $l->t( 'Create an <strong>admin account</strong>' ); ?></legend>
+		<legend><?php print_unescaped($l->t( 'Create an <strong>admin account</strong>' )); ?></legend>
 		<p class="infield grouptop">
 			<input type="text" name="adminlogin" id="adminlogin"
-				value="<?php print OC_Helper::init_var('adminlogin'); ?>" autocomplete="off" autofocus required />
-			<label for="adminlogin" class="infield"><?php echo $l->t( 'Username' ); ?></label>
-			<img class="svg" src="<?php echo image_path('', 'actions/user.svg'); ?>" alt="" />
+				value="<?php p(OC_Helper::init_var('adminlogin')); ?>" autocomplete="off" autofocus required />
+			<label for="adminlogin" class="infield"><?php p($l->t( 'Username' )); ?></label>
+			<img class="svg" src="<?php p(image_path('', 'actions/user.svg')); ?>" alt="" />
 		</p>
 		<p class="infield groupbottom">
 			<input type="password" name="adminpass" data-typetoggle="#show" id="adminpass"
-				value="<?php print OC_Helper::init_var('adminpass'); ?>" />
-			<label for="adminpass" class="infield"><?php echo $l->t( 'Password' ); ?></label>
-			<img class="svg" id="adminpass-icon" src="<?php echo image_path('', 'actions/password.svg'); ?>" alt="" />
+				value="<?php p(OC_Helper::init_var('adminpass')); ?>" />
+			<label for="adminpass" class="infield"><?php p($l->t( 'Password' )); ?></label>
+			<img class="svg" id="adminpass-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt="" />
 			<input type="checkbox" id="show" name="show" />
 			<label for="show"></label>
 		</p>
 	</fieldset>
 
 	<fieldset id="datadirField">
-		<legend><a id="showAdvanced"><?php echo $l->t( 'Advanced' ); ?> <img class="svg" src="<?php echo image_path('', 'actions/caret-dark.svg'); ?>" /></a></legend>
+		<legend><a id="showAdvanced"><?php p($l->t( 'Advanced' )); ?> <img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret-dark.svg')); ?>" /></a></legend>
 		<div id="datadirContent">
-			<label for="directory"><?php echo $l->t( 'Data folder' ); ?></label>
+			<label for="directory"><?php p($l->t( 'Data folder' )); ?></label>
 			<input type="text" name="directory" id="directory"
-				value="<?php print OC_Helper::init_var('directory', $_['directory']); ?>" />
+				value="<?php p(OC_Helper::init_var('directory', $_['directory'])); ?>" />
 		</div>
 	</fieldset>
 
 	<fieldset id='databaseField'>
 		<?php if($_['hasMySQL'] or $_['hasPostgreSQL'] or $_['hasOracle'] or $_['hasMSSQL'])
 			$hasOtherDB = true; else $hasOtherDB =false; //other than SQLite ?>
-		<legend><?php echo $l->t( 'Configure the database' ); ?></legend>
+		<legend><?php p($l->t( 'Configure the database' )); ?></legend>
 		<div id="selectDbType">
 		<?php if($_['hasSQLite']): ?>
 		<input type='hidden' id='hasSQLite' value="true" />
 		<?php if(!$hasOtherDB): ?>
-		<p>SQLite <?php echo $l->t( 'will be used' ); ?>.</p>
+		<p>SQLite <?php p($l->t( 'will be used' )); ?>.</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="sqlite" />
 		<?php else: ?>
 		<input type="radio" name="dbtype" value="sqlite" id="sqlite"
@@ -80,7 +80,7 @@
 		<?php if($_['hasMySQL']): ?>
 		<input type='hidden' id='hasMySQL' value='true'/>
 		<?php if(!$_['hasSQLite'] and !$_['hasPostgreSQL'] and !$_['hasOracle'] and !$_['hasMSSQL']): ?>
-		<p>MySQL <?php echo $l->t( 'will be used' ); ?>.</p>
+		<p>MySQL <?php p($l->t( 'will be used' )); ?>.</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="mysql" />
 		<?php else: ?>
 		<input type="radio" name="dbtype" value="mysql" id="mysql"
@@ -91,7 +91,7 @@
 
 		<?php if($_['hasPostgreSQL']): ?>
 		<?php if(!$_['hasSQLite'] and !$_['hasMySQL'] and !$_['hasOracle'] and !$_['hasMSSQL']): ?>
-		<p>PostgreSQL <?php echo $l->t( 'will be used' ); ?>.</p>
+		<p>PostgreSQL <?php p($l->t( 'will be used' )); ?>.</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="pgsql" />
 		<?php else: ?>
 		<label class="pgsql" for="pgsql">PostgreSQL</label>
@@ -102,7 +102,7 @@
 
 		<?php if($_['hasOracle']): ?>
 		<?php if(!$_['hasSQLite'] and !$_['hasMySQL'] and !$_['hasPostgreSQL'] and !$_['hasMSSQL']): ?>
-		<p>Oracle <?php echo $l->t( 'will be used' ); ?>.</p>
+		<p>Oracle <?php p($l->t( 'will be used' )); ?>.</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="oci" />
 		<?php else: ?>
 		<label class="oci" for="oci">Oracle</label>
@@ -114,7 +114,7 @@
 		<?php if($_['hasMSSQL']): ?>
 		<input type='hidden' id='hasMSSQL' value='true'/>
 		<?php if(!$_['hasSQLite'] and !$_['hasMySQL'] and !$_['hasPostgreSQL'] and !$_['hasOracle']): ?>
-		<p>MS SQL <?php echo $l->t( 'will be used' ); ?>.</p>
+		<p>MS SQL <?php p($l->t( 'will be used' )); ?>.</p>
 		<input type="hidden" id="dbtype" name="dbtype" value="mssql" />
 		<?php else: ?>
 		<label class="mssql" for="mssql">MS SQL</label>
@@ -126,19 +126,19 @@
 		<?php if($hasOtherDB): ?>
 		<div id="use_other_db">
 			<p class="infield grouptop">
-				<label for="dbuser" class="infield"><?php echo $l->t( 'Database user' ); ?></label>
+				<label for="dbuser" class="infield"><?php p($l->t( 'Database user' )); ?></label>
 				<input type="text" name="dbuser" id="dbuser"
-					value="<?php print OC_Helper::init_var('dbuser'); ?>" autocomplete="off" />
+					value="<?php p(OC_Helper::init_var('dbuser')); ?>" autocomplete="off" />
 			</p>
 			<p class="infield groupmiddle">
-				<label for="dbpass" class="infield"><?php echo $l->t( 'Database password' ); ?></label>
+				<label for="dbpass" class="infield"><?php p($l->t( 'Database password' )); ?></label>
 				<input type="password" name="dbpass" id="dbpass"
-					value="<?php print OC_Helper::init_var('dbpass'); ?>" />
+					value="<?php p(OC_Helper::init_var('dbpass')); ?>" />
 			</p>
 			<p class="infield groupmiddle">
-				<label for="dbname" class="infield"><?php echo $l->t( 'Database name' ); ?></label>
+				<label for="dbname" class="infield"><?php p($l->t( 'Database name' )); ?></label>
 				<input type="text" name="dbname" id="dbname"
-					value="<?php print OC_Helper::init_var('dbname'); ?>"
+					value="<?php p(OC_Helper::init_var('dbname')); ?>"
 					autocomplete="off" pattern="[0-9a-zA-Z$_-]+" />
 			</p>
 		</div>
@@ -146,18 +146,18 @@
 		<?php if($_['hasOracle']): ?>
 		<div id="use_oracle_db">
 			<p class="infield groupmiddle">
-				<label for="dbtablespace" class="infield"><?php echo $l->t( 'Database tablespace' ); ?></label>
+				<label for="dbtablespace" class="infield"><?php p($l->t( 'Database tablespace' )); ?></label>
 				<input type="text" name="dbtablespace" id="dbtablespace"
-					value="<?php print OC_Helper::init_var('dbtablespace'); ?>" autocomplete="off" />
+					value="<?php p(OC_Helper::init_var('dbtablespace')); ?>" autocomplete="off" />
 			</p>
 		</div>
 		<?php endif; ?>
 		<p class="infield groupbottom">
-			<label for="dbhost" class="infield" id="dbhostlabel"><?php echo $l->t( 'Database host' ); ?></label>
+			<label for="dbhost" class="infield" id="dbhostlabel"><?php p($l->t( 'Database host' )); ?></label>
 			<input type="text" name="dbhost" id="dbhost"
-				value="<?php print OC_Helper::init_var('dbhost', 'localhost'); ?>" />
+				value="<?php p(OC_Helper::init_var('dbhost', 'localhost')); ?>" />
 		</p>
 	</fieldset>
 
-	<div class="buttons"><input type="submit" class="primary" value="<?php echo $l->t( 'Finish setup' ); ?>" /></div>
+	<div class="buttons"><input type="submit" class="primary" value="<?php p($l->t( 'Finish setup' )); ?>" /></div>
 </form>
