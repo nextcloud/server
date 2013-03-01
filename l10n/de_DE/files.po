@@ -33,9 +33,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-23 00:04+0100\n"
-"PO-Revision-Date: 2013-02-22 23:00+0000\n"
-"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
+"POT-Creation-Date: 2013-03-02 00:03+0100\n"
+"PO-Revision-Date: 2013-03-01 23:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -108,7 +108,7 @@ msgstr "Dateien"
 msgid "Delete permanently"
 msgstr "Entgültig löschen"
 
-#: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
 msgid "Delete"
 msgstr "Löschen"
 
@@ -218,31 +218,31 @@ msgstr "Die URL darf nicht leer sein."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Ungültiger Verzeichnisname. Die Nutzung von \"Shared\" ist ownCloud vorbehalten"
 
-#: js/files.js:949 templates/index.php:67
+#: js/files.js:953 templates/index.php:68
 msgid "Name"
 msgstr "Name"
 
-#: js/files.js:950 templates/index.php:78
+#: js/files.js:954 templates/index.php:79
 msgid "Size"
 msgstr "Größe"
 
-#: js/files.js:951 templates/index.php:80
+#: js/files.js:955 templates/index.php:81
 msgid "Modified"
 msgstr "Bearbeitet"
 
-#: js/files.js:970
+#: js/files.js:974
 msgid "1 folder"
 msgstr "1 Ordner"
 
-#: js/files.js:972
+#: js/files.js:976
 msgid "{count} folders"
 msgstr "{count} Ordner"
 
-#: js/files.js:980
+#: js/files.js:984
 msgid "1 file"
 msgstr "1 Datei"
 
-#: js/files.js:982
+#: js/files.js:986
 msgid "{count} files"
 msgstr "{count} Dateien"
 
@@ -306,33 +306,37 @@ msgstr "Gelöschte Dateien"
 msgid "Cancel upload"
 msgstr "Upload abbrechen"
 
-#: templates/index.php:59
+#: templates/index.php:53
+msgid "You don’t have write permissions here."
+msgstr ""
+
+#: templates/index.php:60
 msgid "Nothing in here. Upload something!"
 msgstr "Alles leer. Bitte laden Sie etwas hoch!"
 
-#: templates/index.php:73
+#: templates/index.php:74
 msgid "Download"
 msgstr "Herunterladen"
 
-#: templates/index.php:85 templates/index.php:86
+#: templates/index.php:86 templates/index.php:87
 msgid "Unshare"
 msgstr "Nicht mehr freigeben"
 
-#: templates/index.php:105
+#: templates/index.php:106
 msgid "Upload too large"
 msgstr "Der Upload ist zu groß"
 
-#: templates/index.php:107
+#: templates/index.php:108
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server."
 
-#: templates/index.php:112
+#: templates/index.php:113
 msgid "Files are being scanned, please wait."
 msgstr "Dateien werden gescannt, bitte warten."
 
-#: templates/index.php:115
+#: templates/index.php:116
 msgid "Current scanning"
 msgstr "Scanne"
 

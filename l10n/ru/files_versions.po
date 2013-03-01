@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-28 00:04+0100\n"
-"PO-Revision-Date: 2013-02-27 23:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-02 00:03+0100\n"
+"PO-Revision-Date: 2013-03-01 05:30+0000\n"
+"Last-Translator: Langaru <langaru@gmail.com>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,17 +44,17 @@ msgstr "провал"
 msgid "File %s could not be reverted to version %s"
 msgstr "Файл %s не может быть возвращён к версии %s"
 
-#: history.php:68
+#: history.php:69
 msgid "No old versions available"
 msgstr "Нет доступных старых версий"
 
-#: history.php:73
+#: history.php:74
 msgid "No path specified"
 msgstr "Путь не указан"
 
 #: js/versions.js:6
 msgid "Versions"
-msgstr ""
+msgstr "Версии"
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"

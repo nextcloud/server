@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:31+0000\n"
-"Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
+"POT-Creation-Date: 2013-03-02 00:03+0100\n"
+"PO-Revision-Date: 2013-03-01 23:03+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -54,27 +54,27 @@ msgid ""
 "the HTML form"
 msgstr "Il file caricato supera il valore MAX_FILE_SIZE definito nel form HTML"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
 msgstr "Il file è stato parzialmente caricato"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:31
 msgid "No file was uploaded"
 msgstr "Nessun file è stato caricato"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:32
 msgid "Missing a temporary folder"
 msgstr "Cartella temporanea mancante"
 
-#: ajax/upload.php:34
+#: ajax/upload.php:33
 msgid "Failed to write to disk"
 msgstr "Scrittura su disco non riuscita"
 
-#: ajax/upload.php:52
+#: ajax/upload.php:51
 msgid "Not enough storage available"
 msgstr "Spazio di archiviazione insufficiente"
 
-#: ajax/upload.php:83
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "Cartella non valida."
 
@@ -86,7 +86,7 @@ msgstr "File"
 msgid "Delete permanently"
 msgstr "Elimina definitivamente"
 
-#: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
 msgid "Delete"
 msgstr "Elimina"
 
@@ -196,31 +196,31 @@ msgstr "L'URL non può essere vuoto."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nome della cartella non valido. L'uso di 'Shared' è riservato da ownCloud"
 
-#: js/files.js:949 templates/index.php:67
+#: js/files.js:953 templates/index.php:68
 msgid "Name"
 msgstr "Nome"
 
-#: js/files.js:950 templates/index.php:78
+#: js/files.js:954 templates/index.php:79
 msgid "Size"
 msgstr "Dimensione"
 
-#: js/files.js:951 templates/index.php:80
+#: js/files.js:955 templates/index.php:81
 msgid "Modified"
 msgstr "Modificato"
 
-#: js/files.js:970
+#: js/files.js:974
 msgid "1 folder"
 msgstr "1 cartella"
 
-#: js/files.js:972
+#: js/files.js:976
 msgid "{count} folders"
 msgstr "{count} cartelle"
 
-#: js/files.js:980
+#: js/files.js:984
 msgid "1 file"
 msgstr "1 file"
 
-#: js/files.js:982
+#: js/files.js:986
 msgid "{count} files"
 msgstr "{count} file"
 
@@ -284,33 +284,37 @@ msgstr "File eliminati"
 msgid "Cancel upload"
 msgstr "Annulla invio"
 
-#: templates/index.php:59
+#: templates/index.php:53
+msgid "You don’t have write permissions here."
+msgstr ""
+
+#: templates/index.php:60
 msgid "Nothing in here. Upload something!"
 msgstr "Non c'è niente qui. Carica qualcosa!"
 
-#: templates/index.php:73
+#: templates/index.php:74
 msgid "Download"
 msgstr "Scarica"
 
-#: templates/index.php:85 templates/index.php:86
+#: templates/index.php:86 templates/index.php:87
 msgid "Unshare"
 msgstr "Rimuovi condivisione"
 
-#: templates/index.php:105
+#: templates/index.php:106
 msgid "Upload too large"
 msgstr "Il file caricato è troppo grande"
 
-#: templates/index.php:107
+#: templates/index.php:108
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "I file che stai provando a caricare superano la dimensione massima consentita su questo server."
 
-#: templates/index.php:112
+#: templates/index.php:113
 msgid "Files are being scanned, please wait."
 msgstr "Scansione dei file in corso, attendi"
 
-#: templates/index.php:115
+#: templates/index.php:116
 msgid "Current scanning"
 msgstr "Scansione corrente"
 

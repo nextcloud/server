@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-26 00:04+0100\n"
-"PO-Revision-Date: 2013-02-25 12:42+0000\n"
-"Last-Translator: Cyryl Sochacki <cyrylsochacki@gmail.com>\n"
+"POT-Creation-Date: 2013-03-02 00:03+0100\n"
+"PO-Revision-Date: 2013-03-01 23:03+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -91,7 +91,7 @@ msgstr "Pliki"
 msgid "Delete permanently"
 msgstr "Trwale usuń"
 
-#: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
 msgid "Delete"
 msgstr "Usuwa element"
 
@@ -201,15 +201,15 @@ msgstr "URL nie może być pusty."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nazwa folderu nieprawidłowa. Wykorzystanie \"Shared\" jest zarezerwowane przez Owncloud"
 
-#: js/files.js:953 templates/index.php:67
+#: js/files.js:953 templates/index.php:68
 msgid "Name"
 msgstr "Nazwa"
 
-#: js/files.js:954 templates/index.php:78
+#: js/files.js:954 templates/index.php:79
 msgid "Size"
 msgstr "Rozmiar"
 
-#: js/files.js:955 templates/index.php:80
+#: js/files.js:955 templates/index.php:81
 msgid "Modified"
 msgstr "Czas modyfikacji"
 
@@ -289,33 +289,37 @@ msgstr "Pliki usnięte"
 msgid "Cancel upload"
 msgstr "Przestań wysyłać"
 
-#: templates/index.php:59
+#: templates/index.php:53
+msgid "You don’t have write permissions here."
+msgstr ""
+
+#: templates/index.php:60
 msgid "Nothing in here. Upload something!"
 msgstr "Brak zawartości. Proszę wysłać pliki!"
 
-#: templates/index.php:73
+#: templates/index.php:74
 msgid "Download"
 msgstr "Pobiera element"
 
-#: templates/index.php:85 templates/index.php:86
+#: templates/index.php:86 templates/index.php:87
 msgid "Unshare"
 msgstr "Nie udostępniaj"
 
-#: templates/index.php:105
+#: templates/index.php:106
 msgid "Upload too large"
 msgstr "Wysyłany plik ma za duży rozmiar"
 
-#: templates/index.php:107
+#: templates/index.php:108
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Pliki które próbujesz przesłać, przekraczają maksymalną, dopuszczalną wielkość."
 
-#: templates/index.php:112
+#: templates/index.php:113
 msgid "Files are being scanned, please wait."
 msgstr "Skanowanie plików, proszę czekać."
 
-#: templates/index.php:115
+#: templates/index.php:116
 msgid "Current scanning"
 msgstr "Aktualnie skanowane"
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-03-01 00:05+0100\n"
+"POT-Creation-Date: 2013-03-02 00:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -234,6 +234,10 @@ msgid "Not recommended, use for testing only."
 msgstr ""
 
 #: templates/settings.php:65
+msgid "Cache Time-To-Live"
+msgstr ""
+
+#: templates/settings.php:65
 msgid "in seconds. A change empties the cache."
 msgstr ""
 
@@ -293,13 +297,33 @@ msgstr ""
 msgid "Special Attributes"
 msgstr ""
 
+#: templates/settings.php:79
+msgid "Quota Field"
+msgstr ""
+
+#: templates/settings.php:80
+msgid "Quota Default"
+msgstr ""
+
 #: templates/settings.php:80
 msgid "in bytes"
+msgstr ""
+
+#: templates/settings.php:81
+msgid "Email Field"
+msgstr ""
+
+#: templates/settings.php:82
+msgid "User Home Folder Naming Rule"
 msgstr ""
 
 #: templates/settings.php:82
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute."
+msgstr ""
+
+#: templates/settings.php:86
+msgid "Test Configuration"
 msgstr ""
 
 #: templates/settings.php:86
