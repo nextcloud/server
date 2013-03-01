@@ -464,13 +464,17 @@ class OC_Util {
 	 * @see OC_Util::callRegister()
 	 */
 	public static function isCallRegistered() {
+		if(!isset($_SESSION['requesttoken'])) {
+			return false;
+		}
+
 		if(isset($_GET['requesttoken'])) {
 			$token=$_GET['requesttoken'];
-		}elseif(isset($_POST['requesttoken'])) {
+		} elseif(isset($_POST['requesttoken'])) {
 			$token=$_POST['requesttoken'];
-		}elseif(isset($_SERVER['HTTP_REQUESTTOKEN'])) {
+		} elseif(isset($_SERVER['HTTP_REQUESTTOKEN'])) {
 			$token=$_SERVER['HTTP_REQUESTTOKEN'];
-		}else{
+		} else {
 			//no token found.
 			return false;
 		}
