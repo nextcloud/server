@@ -31,6 +31,7 @@ class OC_TemplateLayout extends OC_Template {
 			}
 			$user_displayname = OC_User::getDisplayName();
 			$this->assign( 'user_displayname', $user_displayname );
+			$this->assign( 'user_uid', OC_User::getUser() );
 		} else if ($renderas == 'guest' || $renderas == 'error') {
 			parent::__construct('core', 'layout.guest');
 		} else {
