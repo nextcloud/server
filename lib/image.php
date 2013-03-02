@@ -35,7 +35,13 @@ class OC_Image {
 	* @returns string The mime type if the it could be determined, otherwise an empty string.
 	*/
 	static public function getMimeTypeForFile($filepath) {
-		$imagetype = exif_imagetype($filepath);
+		// exif_imagetype throws "read error!" if file is less than 12 byte
+		if (filesize($filepath) > 11) {
+			$imagetype = exif_imagetype($filepath);
+		}
+		else {
+			$imagetype = false;
+		}
 		return $imagetype ? image_type_to_mime_type($imagetype) : '';
 	}
 
@@ -385,7 +391,8 @@ class OC_Image {
 	* @returns An image resource or false on error
 	*/
 	public function loadFromFile($imagepath=false) {
-		if(!is_file($imagepath) || !file_exists($imagepath) || !is_readable($imagepath)) {
+		// exif_imagetype throws "read error!" if file is less than 12 byte
+		if(!is_file($imagepath) || !file_exists($imagepath) || filesize($imagepath) < 12 || !is_readable($imagepath)) {
 			// Debug output disabled because this method is tried before loadFromBase64?
 			OC_Log::write('core', 'OC_Image->loadFromFile, couldn\'t load: '.$imagepath, OC_Log::DEBUG);
 			return false;
