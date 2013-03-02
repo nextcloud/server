@@ -2,7 +2,7 @@
 <html class="ng-csp">
 	<head>
 		<title><?php p(!empty($_['application'])?$_['application'].' | ':'') ?>ownCloud
-			<?php p(!empty($_['user_displayname'])?' ('.$_['user_displayname'].') ':'') ?></title>
+			<?php p(trim($_['user_displayname']) != '' ?' ('.$_['user_displayname'].') ':'') ?></title>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="apple-itunes-app" content="app-id=543672169">
 		<link rel="shortcut icon" href="<?php print_unescaped(image_path('', 'favicon.png')); ?>" />
@@ -34,7 +34,7 @@
 
 			<ul id="settings" class="svg">
 				<span id="expand">
-					<span id="expandDisplayName"><?php p($_['user_displayname']) ?></span>
+					<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
 					<img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" />
 				</span>
 				<div id="expanddiv">
