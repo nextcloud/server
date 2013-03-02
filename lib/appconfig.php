@@ -33,11 +33,21 @@
  *
  */
 
+namespace OC;
+
+use \OC\DB\Connection;
+
 /**
  * This class provides an easy way for apps to store config values in the
  * database.
  */
-class OC_Appconfig{
+class AppConfig {
+	protected $conn;
+
+	public function __construct(Connection $conn) {
+		$this->conn = $conn;
+	}
+
 	/**
 	 * @brief Get all apps using the config
 	 * @return array with app ids
@@ -45,16 +55,14 @@ class OC_Appconfig{
 	 * This function returns a list of all apps that have at least one
 	 * entry in the appconfig table.
 	 */
-	public static function getApps() {
-		// No magic in here!
-		$query = OC_DB::prepare( 'SELECT DISTINCT `appid` FROM `*PREFIX*appconfig`' );
-		$result = $query->execute();
+	public function getApps() {
+		$query = 'SELECT DISTINCT `appid` FROM `*PREFIX*appconfig`';
+		$result = $this->conn->executeQuery( $query );
 
 		$apps = array();
-		while( $row = $result->fetchRow()) {
-			$apps[] = $row["appid"];
+		while( $appid = $result->fetchColumn()) {
+			$apps[] = $appid;
 		}
-
 		return $apps;
 	}
 
@@ -66,14 +74,13 @@ class OC_Appconfig{
 	 * This function gets all keys of an app. Please note that the values are
 	 * not returned.
 	 */
-	public static function getKeys( $app ) {
-		// No magic in here as well
-		$query = OC_DB::prepare( 'SELECT `configkey` FROM `*PREFIX*appconfig` WHERE `appid` = ?' );
-		$result = $query->execute( array( $app ));
+	public function getKeys( $app ) {
+		$query = 'SELECT `configkey` FROM `*PREFIX*appconfig` WHERE `appid` = ?';
+		$result = $this->conn->executeQuery( $query, array( $app ));
 
 		$keys = array();
-		while( $row = $result->fetchRow()) {
-			$keys[] = $row["configkey"];
+		while( $key = $result->fetchColumn()) {
+			$keys[] = $key;
 		}
 
 		return $keys;
@@ -89,15 +96,13 @@ class OC_Appconfig{
 	 * This function gets a value from the appconfig table. If the key does
 	 * not exist the default value will be returned
 	 */
-	public static function getValue( $app, $key, $default = null ) {
-		// At least some magic in here :-)
-		$query = OC_DB::prepare( 'SELECT `configvalue` FROM `*PREFIX*appconfig`'
-			.' WHERE `appid` = ? AND `configkey` = ?' );
-		$result = $query->execute( array( $app, $key ));
-		$row = $result->fetchRow();
+	public function getValue( $app, $key, $default = null ) {
+		$query = 'SELECT `configvalue` FROM `*PREFIX*appconfig`'
+			.' WHERE `appid` = ? AND `configkey` = ?';
+		$row = $this->conn->fetchAssoc($query, array( $app, $key ));
 		if($row) {
-			return $row["configvalue"];
-		}else{
+			return $row['configvalue'];
+		} else {
 			return $default;
 		}
 	}
@@ -108,8 +113,8 @@ class OC_Appconfig{
 	 * @param string $key
 	 * @return bool
 	 */
-	public static function hasKey($app, $key) {
-		$exists = self::getKeys( $app );
+	public function hasKey($app, $key) {
+		$exists = $this->getKeys( $app );
 		return in_array( $key, $exists );
 	}
 
@@ -118,21 +123,27 @@ class OC_Appconfig{
 	 * @param string $app app
 	 * @param string $key key
 	 * @param string $value value
-	 * @return bool
 	 *
 	 * Sets a value. If the key did not exist before it will be created.
 	 */
-	public static function setValue( $app, $key, $value ) {
-		// Does the key exist? yes: update. No: insert
-		if(! self::hasKey($app, $key)) {
-			$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*appconfig` ( `appid`, `configkey`, `configvalue` )'
-				.' VALUES( ?, ?, ? )' );
-			$query->execute( array( $app, $key, $value ));
-		}
-		else{
-			$query = OC_DB::prepare( 'UPDATE `*PREFIX*appconfig` SET `configvalue` = ?'
-				.' WHERE `appid` = ? AND `configkey` = ?' );
-			$query->execute( array( $value, $app, $key ));
+	public function setValue( $app, $key, $value ) {
+		// Does the key exist? no: insert, yes: update.
+		if ( !$this->hasKey($app, $key)) {
+			$data = array(
+				'appid' => $app,
+				'configkey' => $key,
+				'configvalue' => $value,
+			);
+			$this->conn->insert('*PREFIX*appconfig', $data);
+		} else {
+			$data = array(
+				'configvalue' => $value,
+			);
+			$where = array(
+				'appid' => $app,
+				'configkey' => $key,
+			);
+			$this->conn->update('*PREFIX*appconfig', $data, $where);
 		}
 	}
 
@@ -144,12 +155,12 @@ class OC_Appconfig{
 	 *
 	 * Deletes a key.
 	 */
-	public static function deleteKey( $app, $key ) {
-		// Boring!
-		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*appconfig` WHERE `appid` = ? AND `configkey` = ?' );
-		$query->execute( array( $app, $key ));
-
-		return true;
+	public function deleteKey( $app, $key ) {
+		$where = array(
+			'appid' => $app,
+			'configkey' => $key,
+		);
+		$this->conn->delete('*PREFIX*appconfig', $where);
 	}
 
 	/**
@@ -159,12 +170,11 @@ class OC_Appconfig{
 	 *
 	 * Removes all keys in appconfig belonging to the app.
 	 */
-	public static function deleteApp( $app ) {
-		// Nothing special
-		$query = OC_DB::prepare( 'DELETE FROM `*PREFIX*appconfig` WHERE `appid` = ?' );
-		$query->execute( array( $app ));
-
-		return true;
+	public function deleteApp( $app ) {
+		$where = array(
+			'appid' => $app,
+		);
+		$this->conn->delete('*PREFIX*appconfig', $where);
 	}
 
 	/**
@@ -173,31 +183,35 @@ class OC_Appconfig{
 	 * @param key
 	 * @return array
 	 */
-	public static function getValues($app, $key) {
-		if($app!==false and $key!==false) {
+	public function getValues($app, $key) {
+		if(($app!==false) == ($key!==false)) {
 			return false;
 		}
-		$fields='`configvalue`';
-		$where='WHERE';
-		$params=array();
+
+		$fields = '`configvalue`';
+		$where = 'WHERE';
+		$params = array();
 		if($app!==false) {
-			$fields.=', `configkey`';
-			$where.=' `appid` = ?';
-			$params[]=$app;
-			$key='configkey';
+			$fields .= ', `configkey`';
+			$where .= ' `appid` = ?';
+			$params[] = $app;
+			$key = 'configkey';
 		}else{
-			$fields.=', `appid`';
-			$where.=' `configkey` = ?';
-			$params[]=$key;
-			$key='appid';
+			$fields .= ', `appid`';
+			$where .= ' `configkey` = ?';
+			$params[] = $key;
+			$key = 'appid';
 		}
-		$queryString='SELECT '.$fields.' FROM `*PREFIX*appconfig` '.$where;
-		$query=OC_DB::prepare($queryString);
-		$result=$query->execute($params);
-		$values=array();
-		while($row=$result->fetchRow()) {
-			$values[$row[$key]]=$row['configvalue'];
+		$query = 'SELECT '.$fields.' FROM `*PREFIX*appconfig` '.$where;
+		$result = $this->conn->executeQuery( $query, $params );
+
+		$values = array();
+		while( $row = $result->fetch((\PDO::FETCH_ASSOC))) {
+			$values[$row[$key]] = $row['configvalue'];
 		}
+
 		return $values;
 	}
 }
+
+require_once __DIR__.'/legacy/'.basename(__FILE__);
