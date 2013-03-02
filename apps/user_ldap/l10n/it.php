@@ -63,7 +63,11 @@
 "Group Search Attributes" => "Attributi di ricerca gruppo",
 "Group-Member association" => "Associazione gruppo-utente ",
 "Special Attributes" => "Attributi speciali",
+"Quota Field" => "Campo Quota",
+"Quota Default" => "Quota predefinita",
 "in bytes" => "in byte",
+"Email Field" => "Campo Email",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Lascia vuoto per il nome utente (predefinito). Altrimenti, specifica un attributo LDAP/AD.",
+"Test Configuration" => "Prova configurazione",
 "Help" => "Aiuto"
 );

@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-02 00:03+0100\n"
-"PO-Revision-Date: 2013-03-01 23:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-03 00:05+0100\n"
+"PO-Revision-Date: 2013-03-02 08:10+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -240,7 +240,7 @@ msgstr "推奨しません、テスト目的でのみ利用してください。
 
 #: templates/settings.php:65
 msgid "Cache Time-To-Live"
-msgstr ""
+msgstr "キャッシュのTTL"
 
 #: templates/settings.php:65
 msgid "in seconds. A change empties the cache."
@@ -304,11 +304,11 @@ msgstr "特殊属性"
 
 #: templates/settings.php:79
 msgid "Quota Field"
-msgstr ""
+msgstr "クォータフィールド"
 
 #: templates/settings.php:80
 msgid "Quota Default"
-msgstr ""
+msgstr "クォータのデフォルト"
 
 #: templates/settings.php:80
 msgid "in bytes"
@@ -316,11 +316,11 @@ msgstr "バイト"
 
 #: templates/settings.php:81
 msgid "Email Field"
-msgstr ""
+msgstr "メールフィールド"
 
 #: templates/settings.php:82
 msgid "User Home Folder Naming Rule"
-msgstr ""
+msgstr "ユーザのホームフォルダ命名規則"
 
 #: templates/settings.php:82
 msgid ""
@@ -330,7 +330,7 @@ msgstr "ユーザ名を空のままにしてください（デフォルト）。
 
 #: templates/settings.php:86
 msgid "Test Configuration"
-msgstr ""
+msgstr "テスト設定"
 
 #: templates/settings.php:86
 msgid "Help"

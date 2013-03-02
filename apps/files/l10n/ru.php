@@ -62,6 +62,7 @@
 "From link" => "Из ссылки",
 "Deleted files" => "Удалённые файлы",
 "Cancel upload" => "Отмена загрузки",
+"You don’t have write permissions here." => "У вас нет разрешений на запись здесь.",
 "Nothing in here. Upload something!" => "Здесь ничего нет. Загрузите что-нибудь!",
 "Download" => "Скачать",
 "Unshare" => "Отменить публикацию",

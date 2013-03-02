@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-02 00:03+0100\n"
-"PO-Revision-Date: 2013-03-01 23:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-03 00:05+0100\n"
+"PO-Revision-Date: 2013-03-02 21:30+0000\n"
+"Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -238,7 +238,7 @@ msgstr "Ez da aholkatzen, erabili bakarrik frogak egiteko."
 
 #: templates/settings.php:65
 msgid "Cache Time-To-Live"
-msgstr ""
+msgstr "Katxearen Bizi-Iraupena"
 
 #: templates/settings.php:65
 msgid "in seconds. A change empties the cache."
@@ -302,11 +302,11 @@ msgstr "Atributu Bereziak"
 
 #: templates/settings.php:79
 msgid "Quota Field"
-msgstr ""
+msgstr "Kuota Eremua"
 
 #: templates/settings.php:80
 msgid "Quota Default"
-msgstr ""
+msgstr "Kuota Lehenetsia"
 
 #: templates/settings.php:80
 msgid "in bytes"
@@ -314,11 +314,11 @@ msgstr "bytetan"
 
 #: templates/settings.php:81
 msgid "Email Field"
-msgstr ""
+msgstr "Eposta eremua"
 
 #: templates/settings.php:82
 msgid "User Home Folder Naming Rule"
-msgstr ""
+msgstr "Erabiltzailearen Karpeta Nagusia Izendatzeko Patroia"
 
 #: templates/settings.php:82
 msgid ""
@@ -328,7 +328,7 @@ msgstr "Utzi hutsik erabiltzaile izenarako (lehentsia). Bestela zehaztu LDAP/AD 
 
 #: templates/settings.php:86
 msgid "Test Configuration"
-msgstr ""
+msgstr "Egiaztatu Konfigurazioa"
 
 #: templates/settings.php:86
 msgid "Help"

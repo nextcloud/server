@@ -62,6 +62,7 @@
 "From link" => "リンク",
 "Deleted files" => "削除ファイル",
 "Cancel upload" => "アップロードをキャンセル",
+"You don’t have write permissions here." => "あなたには書き込み権限がありません。",
 "Nothing in here. Upload something!" => "ここには何もありません。何かアップロードしてください。",
 "Download" => "ダウンロード",
 "Unshare" => "共有しない",

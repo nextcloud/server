@@ -62,6 +62,7 @@
 "From link" => "Estekatik",
 "Deleted files" => "Ezabatutako fitxategiak",
 "Cancel upload" => "Ezeztatu igoera",
+"You don’t have write permissions here." => "Ez duzu hemen idazteko baimenik.",
 "Nothing in here. Upload something!" => "Ez dago ezer. Igo zerbait!",
 "Download" => "Deskargatu",
 "Unshare" => "Ez elkarbanatu",

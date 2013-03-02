@@ -62,6 +62,7 @@
 "From link" => "Feltöltés linkről",
 "Deleted files" => "Törölt fájlok",
 "Cancel upload" => "A feltöltés megszakítása",
+"You don’t have write permissions here." => "Itt nincs írásjoga.",
 "Nothing in here. Upload something!" => "Itt nincs semmi. Töltsön fel valamit!",
 "Download" => "Letöltés",
 "Unshare" => "Megosztás visszavonása",
