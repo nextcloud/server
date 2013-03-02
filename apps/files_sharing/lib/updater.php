@@ -74,4 +74,14 @@ class Shared_Updater {
 		self::correctFolders($params['path']);
 	}
 
+	/**
+	 * @param array $params
+	 */
+	static public function shareHook($params) {
+		if ($params['itemType'] === 'file' || $param['itemType'] === 'folder') {
+			$id = \OC\Files\Filesystem::getPath($params['itemSource']);
+			self::correctFolders($id);
+		}
+	}
+
 }
