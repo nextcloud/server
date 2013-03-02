@@ -164,6 +164,11 @@ class OC_DB {
 		return true;
 	}
 
+	static public function getConnection() {
+		self::connect();
+		return self::$connection;
+	}
+
 	/**
 	 * @brief Prepare a SQL query
 	 * @param string $query Query string
