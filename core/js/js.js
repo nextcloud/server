@@ -348,15 +348,9 @@ OC.Notification={
 		}
 	},
 	show: function(text) {
-		if(text == ''){
-			return false;
-		}
-		if(OC.Notification.currentlyShownNotifications < 2){
-			var notification = $('#notification');
-			notification.hide();
-			notification.text(text);
-			notification.fadeIn().css("display","inline");
-			OC.Notification.currentlyShownNotifications++;
+		if(($('#notification').filter('span.undo').length == 1) || OC.Notification.isHidden()){
+			$('#notification').html(html);
+			$('#notification').fadeIn().css("display","inline");
 		}else{
 			OC.Notification.queuedNotifications.push($(text).html());
 		}
