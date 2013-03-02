@@ -323,14 +323,14 @@ class OC_Util {
 			$parameters[$value] = true;
 		}
 		if (!empty($_POST['user'])) {
-			$parameters["username"] = OC_Util::sanitizeHTML($_POST['user']).'"';
+			$parameters["username"] = $_POST['user'];
 			$parameters['user_autofocus'] = false;
 		} else {
 			$parameters["username"] = '';
 			$parameters['user_autofocus'] = true;
 		}
 		if (isset($_REQUEST['redirect_url'])) {
-			$redirect_url = OC_Util::sanitizeHTML($_REQUEST['redirect_url']);
+			$redirect_url = $_REQUEST['redirect_url'];
 			$parameters['redirect_url'] = urlencode($redirect_url);
 		}
 
