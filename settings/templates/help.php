@@ -10,7 +10,7 @@
 	<a class="button newquestion" href="http://forum.owncloud.org" target="_blank"><?php
 		p($l->t( 'Forum' )); ?></a>
 	<?php if($_['admin']) { ?>
-		<a class="button newquestion" href="https://github.com/owncloud/core/issues" target="_blank"><?php
+		<a class="button newquestion" href="https://github.com/owncloud/core/blob/master/CONTRIBUTING.md" target="_blank"><?php
 			p($l->t( 'Bugtracker' )); ?></a>
 	<?php } ?>
 	<a class="button newquestion" href="http://owncloud.com" target="_blank"><?php
