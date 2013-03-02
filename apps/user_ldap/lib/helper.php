@@ -54,7 +54,7 @@ class Helper {
 			WHERE `configkey` LIKE ?
 		';
 		if($activeConfigurations) {
-			$query .= ' AND `configvalue` = 1';
+			$query .= ' AND `configvalue` = \'1\'';
 		}
 		$query = \OCP\DB::prepare($query);
 
@@ -86,8 +86,8 @@ class Helper {
 			DELETE
 			FROM `*PREFIX*appconfig`
 			WHERE `configkey` LIKE ?
-				AND `appid` = "user_ldap"
-				AND `configkey` NOT IN ("enabled", "installed_version", "types", "bgjUpdateGroupsLastRun")
+				AND `appid` = \'user_ldap\'
+				AND `configkey` NOT IN (\'enabled\', \'installed_version\', \'types\', \'bgjUpdateGroupsLastRun\')
 		');
 		$res = $query->execute(array($prefix.'%'));
 
