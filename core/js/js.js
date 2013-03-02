@@ -317,7 +317,7 @@ OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
 OC.Notification={
-	queuedNotifications: new Array(),
+	queuedNotifications: [],
 	getDefaultNotificationFunction: null,
 	setDefault: function(callback) {
 		OC.Notification.getDefaultNotificationFunction = callback;
