@@ -596,7 +596,9 @@ class OC {
 
 		if (!self::$CLI) {
 			try {
-				OC_App::loadApps();
+				if (!OC_Config::getValue('maintenance', false)) {
+					OC_App::loadApps();
+				}
 				OC::getRouter()->match(OC_Request::getRawPathInfo());
 				return;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {
