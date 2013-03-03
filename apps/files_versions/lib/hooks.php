@@ -20,7 +20,7 @@ class Hooks {
 	public static function write_hook( $params ) {
 
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
-
+			
 			$versions = new Storage( new \OC_FilesystemView('') );
 
 			$path = $params[\OC_Filesystem::signal_param_path];
@@ -58,14 +58,16 @@ class Hooks {
 	 * of the stored versions along the actual file
 	 */
 	public static function rename_hook($params) {
-		$versions_fileview = \OCP\Files::getStorage('files_versions');
-		$rel_oldpath =  $params['oldpath'];
-		$abs_oldpath = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('').$rel_oldpath.'.v';
-		$abs_newpath = \OCP\Config::getSystemValue('datadirectory').$versions_fileview->getAbsolutePath('').$params['newpath'].'.v';
-		if(Storage::isversioned($rel_oldpath)) {
+		$versions_fileview = new \OC_FilesystemView('/'.\OCP\User::getUser().'files_versions');
+		list($oldpath_uid, $oldpath) = Storage::getUidAndFilename($params['oldpath']);
+		list($newpath_uid, $newpath) = Storage::getUidAndFilename($params['newpath']);
+		
+		$abs_oldpath = \OC_Filesystem::normalizePath(\OC_User::getHome($oldpath_uid).'/files_versions/'.$oldpath.'.v');
+		$abs_newpath = \OC_Filesystem::normalizePath(\OC_User::getHome($newpath_uid).'/files_versions/'.$newpath.'.v');
+		if(Storage::isversioned($oldpath)) {
 			$info=pathinfo($abs_newpath);
 			if(!file_exists($info['dirname'])) mkdir($info['dirname'],0750,true);
-			$versions = Storage::getVersions($rel_oldpath);
+			$versions = Storage::getVersions($oldpath);
 			foreach ($versions as $v) {
 				rename($abs_oldpath.$v['version'], $abs_newpath.$v['version']);
 			}
