@@ -126,14 +126,20 @@ a.action>img { max-height:16px; max-width:16px; vertical-align:text-bottom; }
 #fileList a.action {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
 	filter: alpha(opacity=0);
+	opacity: 0;
+	display:none;
 }
-#fileList tr:hover a.action {
+#fileList tr:hover a.action, #fileList a.action.permanent {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=.5)";
 	filter: alpha(opacity=.5);
+	opacity: .5;
+	display:inline;
 }
 #fileList tr:hover a.action:hover {
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=1)";
 	filter: alpha(opacity=1);
+	opacity: 1;
+	display:inline;
 }
 
 #scanning-message{ top:40%; left:40%; position:absolute; display:none; }
