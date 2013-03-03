@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Kiril <neohidra@gmail.com>, 2013.
 # Stefan Ilivanov <ilivanov@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:36+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-04 00:06+0100\n"
+"PO-Revision-Date: 2013-03-03 16:50+0000\n"
+"Last-Translator: Kiril <neohidra@gmail.com>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -111,7 +112,7 @@ msgstr "%s въведете име на базата с данни."
 #: setup.php:61
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s, не можете да ползвате точки в името на базата от данни"
 
 #: setup.php:64
 #, php-format
@@ -120,19 +121,19 @@ msgstr ""
 
 #: setup.php:128 setup.php:320 setup.php:365
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "Невалидно PostgreSQL потребителско име и/или парола"
 
 #: setup.php:129 setup.php:152 setup.php:229
 msgid "You need to enter either an existing account or the administrator."
-msgstr ""
+msgstr "Необходимо е да влезете в всъществуващ акаунт или като администратора"
 
 #: setup.php:151 setup.php:453 setup.php:520
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Невалидно Oracle потребителско име и/или парола"
 
 #: setup.php:228
 msgid "MySQL username and/or password not valid"
-msgstr ""
+msgstr "Невалидно MySQL потребителско име и/или парола"
 
 #: setup.php:282 setup.php:386 setup.php:395 setup.php:413 setup.php:423
 #: setup.php:432 setup.php:461 setup.php:527 setup.php:553 setup.php:560
@@ -140,7 +141,7 @@ msgstr ""
 #: setup.php:610
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "Грешка в базата от данни: \"%s\""
 
 #: setup.php:283 setup.php:387 setup.php:396 setup.php:414 setup.php:424
 #: setup.php:433 setup.php:462 setup.php:528 setup.php:554 setup.php:561
@@ -152,20 +153,20 @@ msgstr ""
 #: setup.php:299
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "MySQL потребителят '%s'@'localhost' вече съществува"
 
 #: setup.php:300
 msgid "Drop this user from MySQL"
-msgstr ""
+msgstr "Изтриване на потребителя от MySQL"
 
 #: setup.php:305
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
-msgstr ""
+msgstr "MySQL потребителят  '%s'@'%%' вече съществува."
 
 #: setup.php:306
 msgid "Drop this user from MySQL."
-msgstr ""
+msgstr "Изтриване на потребителя от MySQL."
 
 #: setup.php:579 setup.php:611
 #, php-format
@@ -175,7 +176,7 @@ msgstr ""
 #: setup.php:631
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "Невалидно MS SQL потребителско име и/или парола: %s"
 
 #: setup.php:849
 msgid ""
@@ -186,7 +187,7 @@ msgstr ""
 #: setup.php:850
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Моля направете повторна справка с <a href='%s'>ръководството за инсталиране</a>."
 
 #: template.php:113
 msgid "seconds ago"

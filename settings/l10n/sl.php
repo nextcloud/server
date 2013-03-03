@@ -41,6 +41,7 @@
 "Bugtracker" => "Sistem za sledenje napakam",
 "Commercial Support" => "Komercialna podpora",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Uporabljate <strong>%s</strong> od razpoložljivih <strong>%s</strong>",
+"Get the apps to sync your files" => "Pridobi programe za usklajevanje datotek",
 "Password" => "Geslo",
 "Your password was changed" => "Vaše geslo je spremenjeno",
 "Unable to change your password" => "Gesla ni mogoče spremeniti.",

@@ -48,6 +48,7 @@
 "Turn off SSL certificate validation." => "Vypnúť overovanie SSL certifikátu.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Ak pripojenie pracuje len s touto možnosťou, tak importujte SSL certifikát LDAP serveru do vášho servera ownCloud.",
 "Not recommended, use for testing only." => "Nie je doporučované, len pre testovacie účely.",
+"Cache Time-To-Live" => "Životnosť objektov v cache",
 "in seconds. A change empties the cache." => "v sekundách. Zmena vyprázdni vyrovnávaciu pamäť.",
 "Directory Settings" => "Nastavenie priečinka",
 "User Display Name Field" => "Pole pre zobrazenia mena používateľa",
@@ -63,7 +64,12 @@
 "Group Search Attributes" => "Atribúty vyhľadávania skupín",
 "Group-Member association" => "Priradenie člena skupiny",
 "Special Attributes" => "Špeciálne atribúty",
+"Quota Field" => "Pole kvóty",
+"Quota Default" => "Predvolená kvóta",
 "in bytes" => "v bajtoch",
+"Email Field" => "Pole email",
+"User Home Folder Naming Rule" => "Pravidlo pre nastavenie mena používateľského priečinka dát",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Nechajte prázdne pre používateľské meno (predvolené). Inak uveďte atribút LDAP/AD.",
+"Test Configuration" => "Test nastavenia",
 "Help" => "Pomoc"
 );

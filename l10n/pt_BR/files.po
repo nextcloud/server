@@ -17,8 +17,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-02 00:03+0100\n"
-"PO-Revision-Date: 2013-03-01 23:03+0000\n"
+"POT-Creation-Date: 2013-03-04 00:06+0100\n"
+"PO-Revision-Date: 2013-03-03 23:06+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -105,35 +105,31 @@ msgstr "Renomear"
 msgid "Pending"
 msgstr "Pendente"
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:251 js/filelist.js:253
 msgid "{new_name} already exists"
 msgstr "{new_name} já existe"
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:251 js/filelist.js:253
 msgid "replace"
 msgstr "substituir"
 
-#: js/filelist.js:253
+#: js/filelist.js:251
 msgid "suggest name"
 msgstr "sugerir nome"
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:251 js/filelist.js:253
 msgid "cancel"
 msgstr "cancelar"
 
-#: js/filelist.js:295
-msgid "replaced {new_name}"
-msgstr "substituído {new_name}"
-
-#: js/filelist.js:295 js/filelist.js:297
-msgid "undo"
-msgstr "desfazer"
-
-#: js/filelist.js:297
+#: js/filelist.js:298
 msgid "replaced {new_name} with {old_name}"
 msgstr "Substituído {old_name} por {new_name} "
 
-#: js/filelist.js:322
+#: js/filelist.js:298
+msgid "undo"
+msgstr "desfazer"
+
+#: js/filelist.js:323
 msgid "perform delete operation"
 msgstr "realizar operação de exclusão"
 

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-02 00:03+0100\n"
-"PO-Revision-Date: 2013-03-01 16:00+0000\n"
+"POT-Creation-Date: 2013-03-04 00:06+0100\n"
+"PO-Revision-Date: 2013-03-03 14:40+0000\n"
 "Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgstr "Používateľ %s zdieľa s Vami súbor"
 #: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr "Používateľ %s zdieľa s Vami adresár"
+msgstr "Používateľ %s zdieľa s Vami priečinok"
 
 #: ajax/share.php:101
 #, php-format
@@ -46,11 +46,11 @@ msgstr "Používateľ %s zdieľa s Vami súbor \"%s\".  Môžete si ho stiahnuť
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr "Používateľ %s zdieľa s Vami adresár \"%s\".  Môžete si ho stiahnuť tu: %s"
+msgstr "Používateľ %s zdieľa s Vami priečinok \"%s\".  Môžete si ho stiahnuť tu: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr "Neposkytnutý kategorický typ."
+msgstr "Neposkytnutý typ kategórie."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -59,7 +59,7 @@ msgstr "Žiadna kategória pre pridanie?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr "Kategéria: %s už existuje."
+msgstr "Kategória: %s už existuje."
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -167,55 +167,55 @@ msgstr "December"
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: js/js.js:768
+#: js/js.js:777
 msgid "seconds ago"
 msgstr "pred sekundami"
 
-#: js/js.js:769
+#: js/js.js:778
 msgid "1 minute ago"
 msgstr "pred minútou"
 
-#: js/js.js:770
+#: js/js.js:779
 msgid "{minutes} minutes ago"
 msgstr "pred {minutes} minútami"
 
-#: js/js.js:771
+#: js/js.js:780
 msgid "1 hour ago"
 msgstr "Pred 1 hodinou."
 
-#: js/js.js:772
+#: js/js.js:781
 msgid "{hours} hours ago"
 msgstr "Pred {hours} hodinami."
 
-#: js/js.js:773
+#: js/js.js:782
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:774
+#: js/js.js:783
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:775
+#: js/js.js:784
 msgid "{days} days ago"
 msgstr "pred {days} dňami"
 
-#: js/js.js:776
+#: js/js.js:785
 msgid "last month"
 msgstr "minulý mesiac"
 
-#: js/js.js:777
+#: js/js.js:786
 msgid "{months} months ago"
 msgstr "Pred {months} mesiacmi."
 
-#: js/js.js:778
+#: js/js.js:787
 msgid "months ago"
 msgstr "pred mesiacmi"
 
-#: js/js.js:779
+#: js/js.js:788
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:780
+#: js/js.js:789
 msgid "years ago"
 msgstr "pred rokmi"
 
@@ -256,7 +256,7 @@ msgstr "Nešpecifikované meno aplikácie."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr "Požadovaný súbor {file} nie je inštalovaný!"
+msgstr "Požadovaný súbor {file} nie je nainštalovaný!"
 
 #: js/share.js:29 js/share.js:43 js/share.js:90
 msgid "Shared"
@@ -264,7 +264,7 @@ msgstr "Zdieľané"
 
 #: js/share.js:93
 msgid "Share"
-msgstr "Zdieľaj"
+msgstr "Zdieľať"
 
 #: js/share.js:141 js/share.js:622
 msgid "Error while sharing"
@@ -344,7 +344,7 @@ msgstr "môže upraviť"
 
 #: js/share.js:327
 msgid "access control"
-msgstr "riadenie prístupu"
+msgstr "prístupové práva"
 
 #: js/share.js:330
 msgid "create"
@@ -368,11 +368,11 @@ msgstr "Chránené heslom"
 
 #: js/share.js:582
 msgid "Error unsetting expiration date"
-msgstr "Chyba pri odstraňovaní dátumu vypršania platnosti"
+msgstr "Chyba pri odstraňovaní dátumu expirácie"
 
 #: js/share.js:594
 msgid "Error setting expiration date"
-msgstr "Chyba pri nastavení dátumu vypršania platnosti"
+msgstr "Chyba pri nastavení dátumu expirácie"
 
 #: js/share.js:609
 msgid "Sending ..."
@@ -391,7 +391,7 @@ msgstr "Aktualizácia nebola úspešná. Problém nahláste na <a href=\"https:/
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr "Aktualizácia bola úspešná. Presmerovávam na ownCloud."
+msgstr "Aktualizácia bola úspešná. Presmerovávam na prihlasovaciu stránku."
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
@@ -509,7 +509,7 @@ msgstr "Vytvoriť <strong>administrátorský účet</strong>"
 
 #: templates/installation.php:55
 msgid "Advanced"
-msgstr "Pokročilé"
+msgstr "Rozšírené"
 
 #: templates/installation.php:57
 msgid "Data folder"
@@ -549,11 +549,11 @@ msgstr "Server databázy"
 msgid "Finish setup"
 msgstr "Dokončiť inštaláciu"
 
-#: templates/layout.guest.php:35
+#: templates/layout.guest.php:40
 msgid "web services under your control"
 msgstr "webové služby pod vašou kontrolou"
 
-#: templates/layout.user.php:53
+#: templates/layout.user.php:58
 msgid "Log out"
 msgstr "Odhlásiť"
 
@@ -585,7 +585,7 @@ msgstr "Prihlásiť sa"
 
 #: templates/login.php:49
 msgid "Alternative Logins"
-msgstr "Altrnatívne loginy"
+msgstr "Alternatívne prihlasovanie"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

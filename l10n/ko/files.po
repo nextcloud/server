@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-02 00:03+0100\n"
-"PO-Revision-Date: 2013-03-01 23:04+0000\n"
+"POT-Creation-Date: 2013-03-04 00:06+0100\n"
+"PO-Revision-Date: 2013-03-03 23:06+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -101,35 +101,31 @@ msgstr "이름 바꾸기"
 msgid "Pending"
 msgstr "보류 중"
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:251 js/filelist.js:253
 msgid "{new_name} already exists"
 msgstr "{new_name}이(가) 이미 존재함"
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:251 js/filelist.js:253
 msgid "replace"
 msgstr "바꾸기"
 
-#: js/filelist.js:253
+#: js/filelist.js:251
 msgid "suggest name"
 msgstr "이름 제안"
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:251 js/filelist.js:253
 msgid "cancel"
 msgstr "취소"
 
-#: js/filelist.js:295
-msgid "replaced {new_name}"
-msgstr "{new_name}을(를) 대체함"
-
-#: js/filelist.js:295 js/filelist.js:297
-msgid "undo"
-msgstr "실행 취소"
-
-#: js/filelist.js:297
+#: js/filelist.js:298
 msgid "replaced {new_name} with {old_name}"
 msgstr "{old_name}이(가) {new_name}(으)로 대체됨"
 
-#: js/filelist.js:322
+#: js/filelist.js:298
+msgid "undo"
+msgstr "실행 취소"
+
+#: js/filelist.js:323
 msgid "perform delete operation"
 msgstr ""
 
