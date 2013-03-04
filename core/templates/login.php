@@ -22,7 +22,7 @@
 			<?php endif; ?>
 		</ul>
 		<p class="infield grouptop">
-			<input type="text" name="user" id="user"
+			<input type="text" name="user" id="user" placeholder=""
 				   value="<?php p($_['username']); ?>"<?php p($_['user_autofocus'] ? ' autofocus' : ''); ?>
 				   autocomplete="on" required/>
 			<label for="user" class="infield"><?php p($l->t('Username')); ?></label>
@@ -30,7 +30,7 @@
 		</p>
 
 		<p class="infield groupbottom">
-			<input type="password" name="password" id="password" value="" data-typetoggle="#show"
+			<input type="password" name="password" id="password" value="" data-typetoggle="#show" placeholder=""
 				   required<?php p($_['user_autofocus'] ? '' : ' autofocus'); ?> />
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
 			<img class="svg" id="password-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt=""/>

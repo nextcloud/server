@@ -36,13 +36,13 @@
 	<fieldset id="adminaccount">
 		<legend><?php print_unescaped($l->t( 'Create an <strong>admin account</strong>' )); ?></legend>
 		<p class="infield grouptop">
-			<input type="text" name="adminlogin" id="adminlogin"
+			<input type="text" name="adminlogin" id="adminlogin" placeholder=""
 				value="<?php p(OC_Helper::init_var('adminlogin')); ?>" autocomplete="off" autofocus required />
 			<label for="adminlogin" class="infield"><?php p($l->t( 'Username' )); ?></label>
 			<img class="svg" src="<?php p(image_path('', 'actions/user.svg')); ?>" alt="" />
 		</p>
 		<p class="infield groupbottom">
-			<input type="password" name="adminpass" data-typetoggle="#show" id="adminpass"
+			<input type="password" name="adminpass" data-typetoggle="#show" id="adminpass" placeholder=""
 				value="<?php p(OC_Helper::init_var('adminpass')); ?>" />
 			<label for="adminpass" class="infield"><?php p($l->t( 'Password' )); ?></label>
 			<img class="svg" id="adminpass-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt="" />
@@ -127,17 +127,17 @@
 		<div id="use_other_db">
 			<p class="infield grouptop">
 				<label for="dbuser" class="infield"><?php p($l->t( 'Database user' )); ?></label>
-				<input type="text" name="dbuser" id="dbuser"
+				<input type="text" name="dbuser" id="dbuser" placeholder=""
 					value="<?php p(OC_Helper::init_var('dbuser')); ?>" autocomplete="off" />
 			</p>
 			<p class="infield groupmiddle">
 				<label for="dbpass" class="infield"><?php p($l->t( 'Database password' )); ?></label>
-				<input type="password" name="dbpass" id="dbpass"
+				<input type="password" name="dbpass" id="dbpass" placeholder=""
 					value="<?php p(OC_Helper::init_var('dbpass')); ?>" />
 			</p>
 			<p class="infield groupmiddle">
 				<label for="dbname" class="infield"><?php p($l->t( 'Database name' )); ?></label>
-				<input type="text" name="dbname" id="dbname"
+				<input type="text" name="dbname" id="dbname" placeholder=""
 					value="<?php p(OC_Helper::init_var('dbname')); ?>"
 					autocomplete="off" pattern="[0-9a-zA-Z$_-]+" />
 			</p>
@@ -147,14 +147,14 @@
 		<div id="use_oracle_db">
 			<p class="infield groupmiddle">
 				<label for="dbtablespace" class="infield"><?php p($l->t( 'Database tablespace' )); ?></label>
-				<input type="text" name="dbtablespace" id="dbtablespace"
+				<input type="text" name="dbtablespace" id="dbtablespace" placeholder=""
 					value="<?php p(OC_Helper::init_var('dbtablespace')); ?>" autocomplete="off" />
 			</p>
 		</div>
 		<?php endif; ?>
 		<p class="infield groupbottom">
 			<label for="dbhost" class="infield" id="dbhostlabel"><?php p($l->t( 'Database host' )); ?></label>
-			<input type="text" name="dbhost" id="dbhost"
+			<input type="text" name="dbhost" id="dbhost" placeholder=""
 				value="<?php p(OC_Helper::init_var('dbhost', 'localhost')); ?>" />
 		</p>
 	</fieldset>
