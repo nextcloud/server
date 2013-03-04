@@ -2,9 +2,11 @@
 <info>
 	<id>user_ldap</id>
 	<name>LDAP user and group backend</name>
-	<description>Authenticate users and groups by LDAP resp. Active Directoy.
+	<description>Authenticate users and groups by LDAP respectively Active
+		Directory.
 
-	This app is not compatible to the WebDAV user backend.</description>
+		This app is not compatible to the WebDAV user backend.
+	</description>
 	<licence>AGPL</licence>
 	<author>Dominik Schmidt and Arthur Schiwon</author>
 	<require>4.93</require>
