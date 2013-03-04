@@ -68,6 +68,8 @@ class Stream {
 	private $rootView; // a fsview object set to '/'
 
 	public function stream_open( $path, $mode, $options, &$opened_path ) {
+
+		$this->userId = \OCP\User::getUser();
 		
 		// Get access to filesystem via filesystemview object
 		if ( !self::$view ) {
@@ -82,9 +84,7 @@ class Stream {
 			$this->rootView = new \OC_FilesystemView( $this->userId . '/' );
 
 		}
-		
-		$this->userId = \OCP\User::getUser();
-		
+
 		// Get the bare file path
 		$path = str_replace( 'crypt://', '', $path );
 		
