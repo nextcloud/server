@@ -111,7 +111,7 @@ var UserList={
 			if (quotaSelect.find('option[value="'+quota+'"]').length > 0) {
 				quotaSelect.find('option[value="'+quota+'"]').attr('selected', 'selected');
 			} else {
-				quotaSelect.append('<option value="'+quota+'" selected="selected">'+quota+'</option>');
+				quotaSelect.append('<option value="'+escapeHTML(quota)+'" selected="selected">'+escapeHTML(quota)+'</option>');
 			}
 		}
 		var added = false;
