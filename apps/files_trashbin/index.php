@@ -104,7 +104,7 @@ $list->assign('files', $files);
 $list->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php'). '?dir='.$dir);
 $list->assign('downloadURL', OCP\Util::linkTo('files_trashbin', 'download.php') . '?file='.$dir);
 $list->assign('disableSharing', true);
-$list->assign('dirlisting', $dirlisting);
+$tmpl->assign('dirlisting', $dirlisting);
 $list->assign('disableDownloadActions', true);
 $tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage());
 $tmpl->assign('fileList', $list->fetchPage());
