@@ -442,12 +442,12 @@ class Storage {
 				}
 			}
 
-			// check if enough space is available after versions are rearranged.
-			// if not we delete the oldest versions until we meet the size limit for versions
-			$numOfVersions = count($all_versions);
+			// Check if enough space is available after versions are rearranged.
+			// If not we delete the oldest versions until we meet the size limit for versions,
+			// but always keep the two latest versions
+			$numOfVersions = count($all_versions) -2 ;
 			$i = 0;
-			while ($availableSpace < 0) {
-				if ($i = $numOfVersions-2) break; // keep at least the last version
+			while ($availableSpace < 0 && $i < $numOfVersions) {
 				$versions_fileview->unlink($all_versions[$i]['path'].'.v'.$all_versions[$i]['version']);
 				$versionsSize -= $all_versions[$i]['size'];
 				$availableSpace += $all_versions[$i]['size'];
