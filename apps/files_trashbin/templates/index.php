@@ -9,7 +9,7 @@
 	<div id="emptyfolder"><?php p($l->t('Nothing in here. Your trash bin is empty!'))?></div>
 <?php endif; ?>
 
-<table>
+<table id="filestable">
 	<thead>
 		<tr>
 			<th id='headerName'>
