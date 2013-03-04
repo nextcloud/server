@@ -351,16 +351,16 @@ class Storage {
 			$versions_fileview = new \OC\Files\View('/'.$uid.'/files_versions');
 
 			// get available disk space for user
-			$quota = \OC_Preferences::getValue($uid, 'files', 'quota');
-			if ( $quota === null ) {
+			$quota = \OC_Preferences::getValue($user, 'files', 'quota');
+			if ( $quota === null || $quota === 'default') {
 				$quota = \OC_Appconfig::getValue('files', 'default_quota');
 			}
-			if ( $quota === null ) {
+			if ( $quota === null || $quota === 'none' ) {
 				$quota = \OC\Files\Filesystem::free_space('/') / count(\OCP\User::getUsers());
 			} else {
 				$quota = \OCP\Util::computerFileSize($quota);
 			}
-
+			
 			// make sure that we have the current size of the version history
 			if ( $versionsSize === null ) {
 				$versionsSize = self::getVersionsSize($uid);

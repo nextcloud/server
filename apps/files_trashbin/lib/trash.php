@@ -108,7 +108,7 @@ class Trashbin {
 		if ( $quota === null || $quota === 'default') {
 			$quota = \OC_Appconfig::getValue('files', 'default_quota');
 		}
-		if ( $quota === null ) {
+		if ( $quota === null || $quota === 'none' ) {
 			$quota = \OC\Files\Filesystem::free_space('/') / count(\OCP\User::getUsers());
 		} else {
 			$quota = \OCP\Util::computerFileSize($quota);
