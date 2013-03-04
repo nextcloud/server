@@ -61,6 +61,7 @@
 "From link" => "Von einem Link",
 "Deleted files" => "Gelöschte Dateien",
 "Cancel upload" => "Upload abbrechen",
+"You don’t have write permissions here." => "Du besitzt hier keine Schreib-Berechtigung.",
 "Nothing in here. Upload something!" => "Alles leer. Lade etwas hoch!",
 "Download" => "Herunterladen",
 "Unshare" => "Nicht mehr freigeben",

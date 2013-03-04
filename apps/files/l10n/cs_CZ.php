@@ -61,6 +61,7 @@
 "From link" => "Z odkazu",
 "Deleted files" => "Odstraněné soubory",
 "Cancel upload" => "Zrušit odesílání",
+"You don’t have write permissions here." => "Nemáte zde práva zápisu.",
 "Nothing in here. Upload something!" => "Žádný obsah. Nahrajte něco.",
 "Download" => "Stáhnout",
 "Unshare" => "Zrušit sdílení",

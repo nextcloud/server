@@ -48,6 +48,7 @@
 "Turn off SSL certificate validation." => "Disattiva il controllo del certificato SSL.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Se la connessione funziona esclusivamente con questa opzione, importa il certificato SSL del server LDAP nel tuo server ownCloud.",
 "Not recommended, use for testing only." => "Non consigliato, utilizzare solo per test.",
+"Cache Time-To-Live" => "Tempo di vita della cache",
 "in seconds. A change empties the cache." => "in secondi. Il cambio svuota la cache.",
 "Directory Settings" => "Impostazioni delle cartelle",
 "User Display Name Field" => "Campo per la visualizzazione del nome utente",
@@ -67,6 +68,7 @@
 "Quota Default" => "Quota predefinita",
 "in bytes" => "in byte",
 "Email Field" => "Campo Email",
+"User Home Folder Naming Rule" => "Regola di assegnazione del nome della cartella utente",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Lascia vuoto per il nome utente (predefinito). Altrimenti, specifica un attributo LDAP/AD.",
 "Test Configuration" => "Prova configurazione",
 "Help" => "Aiuto"

@@ -33,8 +33,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-04 00:06+0100\n"
-"PO-Revision-Date: 2013-03-03 23:06+0000\n"
+"POT-Creation-Date: 2013-03-05 00:18+0100\n"
+"PO-Revision-Date: 2013-03-04 13:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -304,7 +304,7 @@ msgstr "Upload abbrechen"
 
 #: templates/index.php:53
 msgid "You don’t have write permissions here."
-msgstr ""
+msgstr "Sie haben keine Schreib-Berechtigungen hier."
 
 #: templates/index.php:60
 msgid "Nothing in here. Upload something!"

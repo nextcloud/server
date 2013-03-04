@@ -10,15 +10,16 @@
 #   <osos@openeyes.dk>, 2012.
 # Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
 #   <simon@rosmi.dk>, 2012.
+# Thomas <cronner@gmail.com>, 2013.
 # Thomas Tanghus <>, 2012.
 # Thomas Tanghus <thomas@tanghus.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-04 00:06+0100\n"
-"PO-Revision-Date: 2013-03-03 23:06+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-05 00:18+0100\n"
+"PO-Revision-Date: 2013-03-04 18:10+0000\n"
+"Last-Translator: cronner <cronner@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -279,7 +280,7 @@ msgstr "Fra link"
 
 #: templates/index.php:40
 msgid "Deleted files"
-msgstr ""
+msgstr "Slettede filer"
 
 #: templates/index.php:46
 msgid "Cancel upload"
@@ -287,7 +288,7 @@ msgstr "Fortryd upload"
 
 #: templates/index.php:53
 msgid "You don’t have write permissions here."
-msgstr ""
+msgstr "Du har ikke skriverettigheder her."
 
 #: templates/index.php:60
 msgid "Nothing in here. Upload something!"

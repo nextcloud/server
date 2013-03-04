@@ -7,13 +7,14 @@
 # Frederik Lassen <frederiklassen@gmail.com>, 2013.
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2012-2013.
 #   <osos@openeyes.dk>, 2012.
+# Thomas <cronner@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-05 00:18+0100\n"
+"PO-Revision-Date: 2013-03-04 18:10+0000\n"
+"Last-Translator: cronner <cronner@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -178,7 +179,7 @@ msgstr "Fejlende kommando var: \"%s\", navn: %s, password: %s"
 #: setup.php:631
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "MS SQL brugernavn og/eller adgangskode ikke er gyldigt: %s"
 
 #: setup.php:849
 msgid ""
