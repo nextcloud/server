@@ -64,7 +64,7 @@ class Upgrade {
 	 * @param array $data the data for the new cache
 	 */
 	function insert($data) {
-		if (!$this->inCache($data['storage'], $data['path_hash'])) {
+		if (!$this->inCache($data['storage'], $data['path_hash'], $data['id'])) {
 			$insertQuery = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache`
 					( `fileid`, `storage`, `path`, `path_hash`, `parent`, `name`, `mimetype`, `mimepart`, `size`, `mtime`, `encrypted` )
 					VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
@@ -78,12 +78,19 @@ class Upgrade {
 	/**
 	 * @param string $storage
 	 * @param string $pathHash
+	 * @param string $id
 	 * @return bool
 	 */
-	function inCache($storage, $pathHash) {
+	function inCache($storage, $pathHash, $id) {
 		$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
 		$result = $query->execute(array($storage, $pathHash));
-		return (bool)$result->fetchRow();
+		if ($result->fetchRow()) {
+			return true;
+		} else {
+			$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `fileid` = ?');
+			$result = $query->execute(array($id));
+			return (bool)$result->fetchRow();
+		}
 	}
 
 	/**
