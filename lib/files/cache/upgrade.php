@@ -82,15 +82,9 @@ class Upgrade {
 	 * @return bool
 	 */
 	function inCache($storage, $pathHash, $id) {
-		$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `storage` = ? AND `path_hash` = ?');
-		$result = $query->execute(array($storage, $pathHash));
-		if ($result->fetchRow()) {
-			return true;
-		} else {
-			$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `fileid` = ?');
-			$result = $query->execute(array($id));
-			return (bool)$result->fetchRow();
-		}
+		$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE (`storage` = ? AND `path_hash` = ?) OR `fileid` = ?');
+		$result = $query->execute(array($storage, $pathHash, $id));
+		return (bool)$result->fetchRow();
 	}
 
 	/**
