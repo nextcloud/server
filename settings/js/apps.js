@@ -18,7 +18,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			page.find('span.version').text('');
 		}
 		page.find('span.score').html(app.score);
-		page.find('p.description').html(app.description);
+		page.find('p.description').text(app.description);
 		page.find('img.preview').attr('src', app.preview);
 		page.find('small.externalapp').attr('style', 'visibility:visible');
 		page.find('span.author').text(app.author);
