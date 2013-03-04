@@ -142,14 +142,14 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	 * @param int $offset
 	 * @return array with display names (value) and user ids (key)
 	 */
-	public function DisplayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
-		$displayNames = '';
+	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+		$displayNames = array();
 		$users = $this->usersInGroup($gid, $search, $limit, $offset);
-		foreach ( $users as $user ) {
-			$DisplayNames[$user] = $user;
+		foreach ($users as $user) {
+			$displayNames[$user] = $user;
 		}
 
-		return $DisplayNames;
+		return $displayNames;
 	}
 
 }
