@@ -27,7 +27,7 @@ var UserList = {
 
 		// Provide user with option to undo
 		$('#notification').data('deleteuser', true);
-		OC.Notification.showHtml(t('users', 'deleted') + ' ' + uid + '<span class="undo">' + t('users', 'undo') + '</span>');
+		OC.Notification.showHtml(t('users', 'deleted') + ' ' + escapeHTML(uid) + '<span class="undo">' + t('users', 'undo') + '</span>');
 	},
 
 	/**
@@ -80,9 +80,9 @@ var UserList = {
 		}
 		var allGroups = String($('#content table').attr('data-groups')).split(', ');
 		$.each(allGroups, function (i, group) {
-			groupsSelect.append($('<option value="' + group + '">' + group + '</option>'));
+			groupsSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
 			if (typeof subadminSelect !== 'undefined' && group != 'admin') {
-				subadminSelect.append($('<option value="' + group + '">' + group + '</option>'));
+				subadminSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
 			}
 		});
 		tr.find('td.groups').append(groupsSelect);
@@ -111,7 +111,7 @@ var UserList = {
 			if (quotaSelect.find('option[value="' + quota + '"]').length > 0) {
 				quotaSelect.find('option[value="' + quota + '"]').attr('selected', 'selected');
 			} else {
-				quotaSelect.append('<option value="' + quota + '" selected="selected">' + quota + '</option>');
+				quotaSelect.append('<option value="' + escapeHTML(quota) + '" selected="selected">' + escapeHTML(quota) + '</option>');
 			}
 		}
 		var added = false;
@@ -224,7 +224,7 @@ var UserList = {
 			var addSubAdmin = function (group) {
 				$('select[multiple]').each(function (index, element) {
 					if ($(element).find('option[value="' + group + '"]').length == 0) {
-						$(element).append('<option value="' + group + '">' + group + '</option>');
+						$(element).append('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>');
 					}
 				})
 			};
