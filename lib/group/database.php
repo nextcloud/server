@@ -219,8 +219,8 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * @param int $offset
 	 * @return array with display names (value) and user ids (key)
 	 */
-	public function DisplayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
-		$displayNames = '';
+	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+		$displayNames = array();
 
 		$stmt = OC_DB::prepare('SELECT `*PREFIX*users`.`uid`, `*PREFIX*users`.`displayname`'
 			.' FROM `*PREFIX*users`'
