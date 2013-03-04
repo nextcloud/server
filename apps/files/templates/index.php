@@ -60,7 +60,7 @@
 	<div id="emptyfolder"><?php p($l->t('Nothing in here. Upload something!'))?></div>
 <?php endif; ?>
 
-<table>
+<table id="filestable">
 	<thead>
 		<tr>
 			<th id='headerName'>
