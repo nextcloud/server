@@ -200,7 +200,6 @@ class OC_Template{
 			.'img-src *; '
 			.'font-src \'self\' data:');
 		header('Content-Security-Policy:'.$policy); // Standard
-		header('X-WebKit-CSP:'.$policy); // Older webkit browsers
 
 		$this->findTemplate($name);
 	}
