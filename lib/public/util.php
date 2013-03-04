@@ -219,11 +219,11 @@ class Util {
 		$host_name = self::getServerHostName();
 		$defaultEmailAddress = $user_part.'@'.$host_name;
 
-		if (\PHPMailer::ValidateAddress($defaultEmailAddress)) {
+		if (\OC_Mail::ValidateAddress($defaultEmailAddress)) {
 			return $defaultEmailAddress;
 		}
 
-		// incase we cannot build a valid email address from the hostname let's fallback to 'localhost.localdomain'
+		// in case we cannot build a valid email address from the hostname let's fallback to 'localhost.localdomain'
 		return $user_part.'@localhost.localdomain';
 	}
 
