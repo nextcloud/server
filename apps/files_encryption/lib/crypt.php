@@ -56,7 +56,7 @@ class Crypt {
          */
 	public static function createKeypair() {
 		
-		$res = openssl_pkey_new();
+		$res = openssl_pkey_new(array('private_key_bits' => 4096));
 
 		// Get private key
 		openssl_pkey_export( $res, $privateKey );
@@ -450,7 +450,7 @@ class Crypt {
          * @returns encrypted file
          */
 	public static function keyEncrypt( $plainContent, $publicKey ) {
-		
+
 		openssl_public_encrypt( $plainContent, $encryptedContent, $publicKey );
 		
 		return $encryptedContent;
