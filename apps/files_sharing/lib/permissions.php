@@ -76,7 +76,7 @@ class Shared_Permissions extends Permissions {
 	 * @param int $fileId
 	 * @param string $user
 	 */
-	public function remove($fileId, $user) {
+	public function remove($fileId, $user = null) {
 		// Not a valid action for Shared Permissions
 	}
 
