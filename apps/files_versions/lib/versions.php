@@ -351,7 +351,7 @@ class Storage {
 			$versions_fileview = new \OC\Files\View('/'.$uid.'/files_versions');
 
 			// get available disk space for user
-			$quota = \OC_Preferences::getValue($user, 'files', 'quota');
+			$quota = \OC_Preferences::getValue($uid, 'files', 'quota');
 			if ( $quota === null || $quota === 'default') {
 				$quota = \OC_Appconfig::getValue('files', 'default_quota');
 			}
