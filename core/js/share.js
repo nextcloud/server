@@ -127,9 +127,9 @@ OC.Share={
 		var html = '<div id="dropdown" class="drop" data-item-type="'+itemType+'" data-item-source="'+itemSource+'">';
 		if (data !== false && data.reshare !== false && data.reshare.uid_owner !== undefined) {
 			if (data.reshare.share_type == OC.Share.SHARE_TYPE_GROUP) {
-				html += '<span class="reshare">'+t('core', 'Shared with you and the group')+' '+data.reshare.share_with+' '+t('core', 'by')+' '+data.reshare.uid_owner+'</span>';
+				html += '<span class="reshare">'+t('core', 'Shared with you and the group')+' '+escapeHTML(data.reshare.share_with)+' '+t('core', 'by')+' '+escapeHTML(data.reshare.uid_owner)+'</span>';
 			} else {
-				html += '<span class="reshare">'+t('core', 'Shared with you by')+' '+data.reshare.uid_owner+'</span>';
+				html += '<span class="reshare">'+t('core', 'Shared with you by')+' '+escapeHTML(data.reshare.uid_owner)+'</span>';
 			}
 			html += '<br />';
 		}
@@ -271,7 +271,7 @@ OC.Share={
 			if (permissions & OC.PERMISSION_SHARE) {
 				shareChecked = 'checked="checked"';
 			}
-			var html = '<li style="clear: both;" data-share-type="'+shareType+'" data-share-with="'+shareWith+'" title="' + shareWith + '">';
+			var html = '<li style="clear: both;" data-share-type="'+escapeHTML(shareType)+'" data-share-with="'+escapeHTML(shareWith)+'" title="' + escapeHTML(shareWith) + '">';
 			html += '<a href="#" class="unshare" style="display:none;"><img class="svg" alt="'+t('core', 'Unshare')+'" src="'+OC.imagePath('core', 'actions/delete')+'"/></a>';
 			if(shareWith.length > 14){
 				html += shareWith.substr(0,11) + '...';
