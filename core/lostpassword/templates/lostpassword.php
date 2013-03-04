@@ -9,7 +9,7 @@
 			<?php endif; ?>
 			<p class="infield">
 				<label for="user" class="infield"><?php echo $l->t( 'Username' ); ?></label>
-				<input type="text" name="user" id="user" value="" autocomplete="off" required autofocus />
+				<input type="text" name="user" id="user" placeholder="" value="" autocomplete="off" required autofocus />
 			</p>
 			<input type="submit" id="submit" value="<?php echo $l->t('Request reset'); ?>" />
 		<?php endif; ?>
