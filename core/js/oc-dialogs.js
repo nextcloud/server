@@ -129,13 +129,13 @@ var OCdialogs = {
 					var p;
 					if ($(c_id).data('multiselect') == true) {
 						p = [];
-						$(c_id+' .filepicker_element_selected #filename').each(function(i, elem) {
+						$(c_id+' .filepicker_element_selected .filename').each(function(i, elem) {
 							p.push(($(c_id).data('path')?$(c_id).data('path'):'')+'/'+$(elem).text());
 						});
 					} else {
 						var p = $(c_id).data('path');
 						if (p == undefined) p = '';
-						p = p+'/'+$(c_id+' .filepicker_element_selected #filename').text()
+						p = p+'/'+$(c_id+' .filepicker_element_selected .filename').text()
 					}
 					callback(p);
 					$(c_id).dialog('close');
@@ -216,13 +216,15 @@ var OCdialogs = {
 		}
 	},
 	fillFilePicker:function(r, dialog_content_id) {
-		var entry_template = '<div onclick="javascript:OC.dialogs.handlePickerClick(this, \'*ENTRYNAME*\',\''+dialog_content_id+'\')" data="*ENTRYTYPE*"><img src="*MIMETYPEICON*" style="margin-right:1em;"><span id="filename">*NAME*</span><div style="float:right;margin-right:1em;">*LASTMODDATE*</div></div>';
+		var entry_template = '<div data-entryname="*ENTRYNAME*" data-dcid="'+dialog_content_id+'" data="*ENTRYTYPE*"><img src="*MIMETYPEICON*" style="margin-right:1em;"><span class="filename">*NAME*</span><div style="float:right;margin-right:1em;">*LASTMODDATE*</div></div>';
 		var names = '';
 		$.each(r.data, function(index, a) {
 			names += entry_template.replace('*LASTMODDATE*', OC.mtime2date(a.mtime)).replace('*NAME*', a.name).replace('*MIMETYPEICON*', a.mimetype_icon).replace('*ENTRYNAME*', a.name).replace('*ENTRYTYPE*', a.type);
 		});
 		
-		$(dialog_content_id + ' #filelist').html(names);
+		$(dialog_content_id + ' #filelist').html(names).on('click', '[data="file"]', function() {
+			OC.dialogs.handlePickerClick(this, $(this).data('entryname'), $(this).data('dcid'));
+		});
 		$(dialog_content_id + ' .filepicker_loader').css('visibility', 'hidden');
 	},
 	handleTreeListSelect:function(event) {
