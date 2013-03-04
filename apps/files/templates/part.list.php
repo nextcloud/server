@@ -15,7 +15,7 @@
 	$directory = str_replace('%2F', '/', $directory); ?>
 	<tr data-id="<?php p($file['fileid']); ?>"
 		data-file="<?php p($name);?>"
-		data-type="<?php p($file['type'] == 'dir')?'dir':'file'?>"
+		data-type="<?php ($file['type'] == 'dir')?p('dir'):p('file')?>"
 		data-mime="<?php p($file['mimetype'])?>"
 		data-size='<?php p($file['size']);?>'
 		data-permissions='<?php p($file['permissions']); ?>'>
