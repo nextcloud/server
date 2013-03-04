@@ -9,7 +9,7 @@
 	$directory = str_replace('+', '%20', urlencode($file['directory']));
 	$directory = str_replace('%2F', '/', $directory); ?>
 	<tr data-filename="<?php p($file['name']);?>"
-		data-type="<?php p(($file['type'] == 'dir')?'dir':'file')?>"
+		data-type="<?php ($file['type'] == 'dir')?p('dir'):p('file')?>"
 		data-mime="<?php p($file['mimetype'])?>"
 		data-permissions='<?php p($file['permissions']); ?>'
 		<?php if ( $_['dirlisting'] ): ?>
