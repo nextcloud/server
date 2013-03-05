@@ -143,7 +143,7 @@ class Group_Proxy extends lib\Proxy implements \OCP\GroupInterface {
 		$displayNames = array();
 
 		foreach($this->backends as $backend) {
-		    $backendUsers = $backend->displayNamesInGroup($gid, $search, $limit, $offset);
+			$backendUsers = $backend->displayNamesInGroup($gid, $search, $limit, $offset);
 			if (is_array($backendUsers)) {
 				$displayNames = array_merge($displayNames, $backendUsers);
 			}
