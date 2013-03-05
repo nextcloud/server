@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
+"Project-Id-Version: ownCloud Core 5.0.0\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-03-04 00:06+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ajax/delete.php:22
+#: ajax/delete.php:40
 #, php-format
 msgid "Couldn't delete %s permanently"
 msgstr ""
@@ -27,35 +27,39 @@ msgstr ""
 msgid "Couldn't restore %s"
 msgstr ""
 
-#: js/trash.js:7 js/trash.js:94
+#: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
 msgstr ""
 
-#: js/trash.js:33
+#: js/trash.js:34
 msgid "delete file permanently"
 msgstr ""
 
-#: js/trash.js:125 templates/index.php:17
+#: js/trash.js:121
+msgid "Delete permanently"
+msgstr ""
+
+#: js/trash.js:174 templates/index.php:17
 msgid "Name"
 msgstr ""
 
-#: js/trash.js:126 templates/index.php:27
+#: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
 msgstr ""
 
-#: js/trash.js:135
+#: js/trash.js:184
 msgid "1 folder"
 msgstr ""
 
-#: js/trash.js:137
+#: js/trash.js:186
 msgid "{count} folders"
 msgstr ""
 
-#: js/trash.js:145
+#: js/trash.js:194
 msgid "1 file"
 msgstr ""
 
-#: js/trash.js:147
+#: js/trash.js:196
 msgid "{count} files"
 msgstr ""
 
@@ -65,4 +69,8 @@ msgstr ""
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
+msgstr ""
+
+#: templates/index.php:30 templates/index.php:31
+msgid "Delete"
 msgstr ""

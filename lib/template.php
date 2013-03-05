@@ -147,7 +147,7 @@ function html_select_options($options, $selected, $params=array()) {
 			$label = $label[$label_name];
 		}
 		$select = in_array($value, $selected) ? ' selected="selected"' : '';
-		$html .= '<option value="' . $value . '"' . $select . '>' . $label . '</option>'."\n";
+		$html .= '<option value="' . OC_Util::sanitizeHTML($value) . '"' . $select . '>' . OC_Util::sanitizeHTML($label) . '</option>'."\n";
 	}
 	return $html;
 }
@@ -192,7 +192,13 @@ class OC_Template{
 
 		// Content Security Policy
 		// If you change the standard policy, please also change it in config.sample.php
-		$policy = OC_Config::getValue('custom_csp_policy',  'default-src \'self\'; script-src \'self\' \'unsafe-eval\'; style-src \'self\' \'unsafe-inline\'; frame-src *; img-src *; font-src \'self\' data:');
+		$policy = OC_Config::getValue('custom_csp_policy',
+			'default-src \'self\'; '
+			.'script-src \'self\' \'unsafe-eval\'; '
+			.'style-src \'self\' \'unsafe-inline\'; '
+			.'frame-src *; '
+			.'img-src *; '
+			.'font-src \'self\' data:');
 		header('Content-Security-Policy:'.$policy); // Standard
 		header('X-WebKit-CSP:'.$policy); // Older webkit browsers
 
@@ -215,7 +221,8 @@ class OC_Template{
 				$mode='tablet';
 			}elseif(stripos($_SERVER['HTTP_USER_AGENT'], 'iphone')>0) {
 				$mode='mobile';
-			}elseif((stripos($_SERVER['HTTP_USER_AGENT'], 'N9')>0) and (stripos($_SERVER['HTTP_USER_AGENT'], 'nokia')>0)) {
+			}elseif((stripos($_SERVER['HTTP_USER_AGENT'], 'N9')>0)
+				and (stripos($_SERVER['HTTP_USER_AGENT'], 'nokia')>0)) {
 				$mode='mobile';
 			}else{
 				$mode='default';
@@ -285,7 +292,8 @@ class OC_Template{
 				if ($this->checkPathForTemplate(OC::$SERVERROOT."/themes/$theme/$app/templates/", $name, $fext)) {
 				}elseif ($this->checkPathForTemplate(OC::$SERVERROOT."/$app/templates/", $name, $fext)) {
 				}else{
-					echo('template not found: template:'.$name.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+					echo('template not found: template:'.$name.' formfactor:'.$fext
+						.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 					die();
 				}
 
@@ -295,7 +303,8 @@ class OC_Template{
 			if ($this->checkPathForTemplate(OC::$SERVERROOT."/themes/$theme/core/templates/", $name, $fext)) {
 			} elseif ($this->checkPathForTemplate(OC::$SERVERROOT."/core/templates/", $name, $fext)) {
 			}else{
-				echo('template not found: template:'.$name.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+				echo('template not found: template:'.$name.' formfactor:'.$fext
+					.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 				die();
 			}
 		}
@@ -332,7 +341,6 @@ class OC_Template{
 	 * @brief Assign variables
 	 * @param string $key key
 	 * @param string $value value
-	 * @param bool $sanitizeHTML false, if data shouldn't get passed through htmlentities
 	 * @return bool
 	 *
 	 * This function assigns a variable. It can be accessed via $_[$key] in
@@ -340,8 +348,7 @@ class OC_Template{
 	 *
 	 * If the key existed before, it will be overwritten
 	 */
-	public function assign( $key, $value, $sanitizeHTML=true ) {
-		if($sanitizeHTML == true) $value=OC_Util::sanitizeHTML($value);
+	public function assign( $key, $value) {
 		$this->vars[$key] = $value;
 		return true;
 	}
@@ -404,9 +411,6 @@ class OC_Template{
 
 		if( $this->renderas ) {
 			$page = new OC_TemplateLayout($this->renderas);
-			if($this->renderas == 'user') {
-				$page->assign('requesttoken', $this->vars['requesttoken']);
-			}
 
 			// Add custom headers
 			$page->assign('headers', $this->headers, false);
@@ -478,7 +482,7 @@ class OC_Template{
 	public static function printUserPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "user" );
 		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value, false );
+			$content->assign( $key, $value );
 		}
 		print $content->printPage();
 	}
@@ -493,7 +497,7 @@ class OC_Template{
 	public static function printAdminPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "admin" );
 		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value, false );
+			$content->assign( $key, $value );
 		}
 		return $content->printPage();
 	}
@@ -508,7 +512,7 @@ class OC_Template{
 	public static function printGuestPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "guest" );
 		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value, false );
+			$content->assign( $key, $value );
 		}
 		return $content->printPage();
 	}
@@ -519,8 +523,10 @@ class OC_Template{
 		* @param string $hint An option hint message
 		*/
 	public static function printErrorPage( $error_msg, $hint = '' ) {
+		$content = new OC_Template( '', 'error', 'error' );
 		$errors = array(array('error' => $error_msg, 'hint' => $hint));
-		OC_Template::printGuestPage("", "error", array("errors" => $errors));
+		$content->assign( 'errors', $errors, false );
+		$content->printPage();
 		die();
 	}
 }

@@ -4,6 +4,7 @@ $RUNTIME_NOAPPS = true;
 require_once '../../lib/base.php';
 
 if (OC::checkUpgrade(false)) {
+	\OC_DB::enableCaching(false);
 	$updateEventSource = new OC_EventSource();
 	$watcher = new UpdateWatcher($updateEventSource);
 	OC_Hook::connect('update', 'success', $watcher, 'success');

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Amir Reza Asadi <amirreza.asadi@live.com>, 2013.
 # mahdi Kereshteh <miki_mika1362@yahoo.com>, 2013.
 # Mohammad Dashtizadeh <mohammad@dashtizadeh.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-08 00:10+0100\n"
-"PO-Revision-Date: 2013-02-07 23:11+0000\n"
+"POT-Creation-Date: 2013-02-28 00:04+0100\n"
+"PO-Revision-Date: 2013-02-27 23:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -22,11 +23,11 @@ msgstr ""
 #: ajax/rollbackVersion.php:15
 #, php-format
 msgid "Could not revert: %s"
-msgstr ""
+msgstr "بازگردانی امکان ناپذیر است: %s"
 
 #: history.php:40
 msgid "success"
-msgstr ""
+msgstr "موفقیت"
 
 #: history.php:42
 #, php-format
@@ -35,7 +36,7 @@ msgstr ""
 
 #: history.php:49
 msgid "failure"
-msgstr ""
+msgstr "شکست"
 
 #: history.php:51
 #, php-format
@@ -44,24 +45,16 @@ msgstr ""
 
 #: history.php:68
 msgid "No old versions available"
-msgstr ""
+msgstr "هیچ نسخه قدیمی در دسترس نیست"
 
 #: history.php:73
 msgid "No path specified"
-msgstr ""
+msgstr "هیچ مسیری مشخص نشده است"
 
-#: js/versions.js:16
-msgid "History"
-msgstr "تاریخچه"
+#: js/versions.js:6
+msgid "Versions"
+msgstr ""
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
-msgstr ""
-
-#: templates/settings.php:3
-msgid "Files Versioning"
-msgstr ""
-
-#: templates/settings.php:4
-msgid "Enable"
-msgstr "فعال"
+msgstr "بازگردانی یک پرورنده به نسخه قدیمی اش از  طریق دکمه بازگردانی امکان پذیر است"

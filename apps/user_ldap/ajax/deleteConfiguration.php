@@ -27,7 +27,7 @@ OCP\JSON::checkAppEnabled('user_ldap');
 OCP\JSON::callCheck();
 
 $prefix = $_POST['ldap_serverconfig_chooser'];
-if(\OCA\user_ldap\lib\Helper::deleteServerConfiguration($prefix)){
+if(\OCA\user_ldap\lib\Helper::deleteServerConfiguration($prefix)) {
 	OCP\JSON::success();
 } else {
 	$l=OC_L10N::get('user_ldap');

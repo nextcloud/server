@@ -81,7 +81,7 @@ var FileActions = {
 			event.data.actionFunc(file);
 		};
 
-		$.each(actions, function (name, action) {
+		var addAction = function (name, action) {
 			// NOTE: Temporary fix to prevent rename action in root of Shared directory
 			if (name === 'Rename' && $('#dir').val() === '/Shared') {
 				return true;
@@ -92,7 +92,7 @@ var FileActions = {
 				if (img.call) {
 					img = img(file);
 				}
-				var html = '<a href="#" class="action" data-action="'+name+'">';
+				var html = '<a href="#" class="action" data-action="' + name + '">';
 				if (img) {
 					html += '<img class ="svg" src="' + img + '" /> ';
 				}
@@ -101,18 +101,27 @@ var FileActions = {
 				var element = $(html);
 				element.data('action', name);
 				//alert(element);
-				element.on('click',{a:null, elem:parent, actionFunc:actions[name]},actionHandler);
+				element.on('click', {a: null, elem: parent, actionFunc: actions[name]}, actionHandler);
 				parent.find('a.name>span.fileactions').append(element);
 			}
 
+		};
+
+		$.each(actions, function (name, action) {
+			if (name !== 'Share') {
+				addAction(name, action);
+			}
 		});
+		if(actions.Share){
+			addAction('Share', actions.Share);
+		}
 
 		if (actions['Delete']) {
 			var img = FileActions.icons['Delete'];
 			if (img.call) {
 				img = img(file);
 			}
-			if  (typeof trashBinApp !== 'undefined' && trashBinApp) {
+			if (typeof trashBinApp !== 'undefined' && trashBinApp) {
 				var html = '<a href="#" original-title="' + t('files', 'Delete permanently') + '" class="action delete" />';
 			} else {
 				var html = '<a href="#" original-title="' + t('files', 'Delete') + '" class="action delete" />';
@@ -122,7 +131,7 @@ var FileActions = {
 				element.append($('<img class ="svg" src="' + img + '"/>'));
 			}
 			element.data('action', actions['Delete']);
-			element.on('click',{a:null, elem:parent, actionFunc:actions['Delete']},actionHandler);
+			element.on('click', {a: null, elem: parent, actionFunc: actions['Delete']}, actionHandler);
 			parent.parent().children().last().append(element);
 		}
 	},
@@ -146,7 +155,7 @@ $(document).ready(function () {
 	} else {
 		var downloadScope = 'file';
 	}
-	
+
 	if (typeof disableDownloadActions == 'undefined' || !disableDownloadActions) {
 		FileActions.register(downloadScope, 'Download', OC.PERMISSION_READ, function () {
 			return OC.imagePath('core', 'actions/download');
@@ -154,11 +163,11 @@ $(document).ready(function () {
 			window.location = OC.filePath('files', 'ajax', 'download.php') + '?files=' + encodeURIComponent(filename) + '&dir=' + encodeURIComponent($('#dir').val());
 		});
 	}
-	
-	$('#fileList tr').each(function(){
+
+	$('#fileList tr').each(function () {
 		FileActions.display($(this).children('td.filename'));
 	});
-	
+
 });
 
 FileActions.register('all', 'Delete', OC.PERMISSION_DELETE, function () {

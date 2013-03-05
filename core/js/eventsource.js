@@ -87,8 +87,10 @@ OC.EventSource.prototype={
 	useFallBack:false,
 	fallBackCallBack:function(type,data){
 		if(type){
-			for(var i=0;i<this.listeners[type].length;i++){
-				this.listeners[type][i](data);
+			if (typeof this.listeners['done'] != 'undefined') {
+				for(var i=0;i<this.listeners[type].length;i++){
+					this.listeners[type][i](data);
+				}
 			}
 		}else{
 			for(var i=0;i<this.typelessListeners.length;i++){
@@ -117,6 +119,8 @@ OC.EventSource.prototype={
 		}
 	},
 	close:function(){
-		this.source.close();
+		if (typeof this.source !='undefined') {
+			this.source.close();
+		}
 	}
 }

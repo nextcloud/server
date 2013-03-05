@@ -40,7 +40,7 @@ class Hooks {
 	
 		// Manually initialise Filesystem{} singleton with correct 
 		// fake root path, in order to avoid fatal webdav errors
-		\OC\Files\Filesystem::init( $params['uid'] . '/' . 'files' . '/' );
+		\OC\Files\Filesystem::init( $params['uid'], $params['uid'] . '/' . 'files' . '/' );
 	
 		$view = new \OC_FilesystemView( '/' );
 
@@ -165,16 +165,6 @@ class Hooks {
 	 * @brief 
 	 */
 	public static function postShared( $params ) {
-		
-		// Delete existing catfile
-		Keymanager::deleteFileKey(  );
-		
-		// Generate new catfile and env keys
-		Crypt::multiKeyEncrypt( $plainContent, $publicKeys );
-		
-		// Save env keys to user folders
-		
-		
 	}
 	
 	/**

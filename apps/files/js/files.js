@@ -114,7 +114,7 @@ $(document).ready(function() {
 		$(this).parent().children('#file_upload_start').trigger('click');
 		return false;
 	});
-	
+
 	// Show trash bin
 	$('#trash a').live('click', function() {
 		window.location=OC.filePath('files_trashbin', '', 'index.php');
@@ -162,9 +162,10 @@ $(document).ready(function() {
 			var tr=$('tr').filterAttr('data-file',filename);
 			var renaming=tr.data('renaming');
 			if(!renaming && !FileList.isLoading(filename)){
-				var mime=$(this).parent().parent().data('mime');
-				var type=$(this).parent().parent().data('type');
-				var permissions = $(this).parent().parent().data('permissions');
+				FileActions.currentFile = $(this).parent();
+				var mime=FileActions.getCurrentMimeType();
+				var type=FileActions.getCurrentType();
+				var permissions = FileActions.getCurrentPermissions();
 				var action=FileActions.getDefault(mime,type, permissions);
 				if(action){
 					event.preventDefault();
@@ -523,7 +524,7 @@ $(document).ready(function() {
 		crumb.text(text);
 	}
 
-	$(window).click(function(){
+	$(document).click(function(){
 		$('#new>ul').hide();
 		$('#new').removeClass('active');
 		$('#new li').each(function(i,element){
@@ -594,7 +595,7 @@ $(document).ready(function() {
 								var date=new Date();
 								FileList.addFile(name,0,date,false,hidden);
 								var tr=$('tr').filterAttr('data-file',name);
-								tr.data('mime','text/plain').data('id',result.data.id);
+								tr.attr('data-mime','text/plain');
 								tr.attr('data-id', result.data.id);
 								getMimeIcon('text/plain',function(path){
 									tr.find('td.filename').attr('style','background-image:url('+path+')');
@@ -685,9 +686,10 @@ $(document).ready(function() {
 		breadcrumbsWidth += $(breadcrumb).get(0).offsetWidth;
 	});
 
-	if ($('#controls .actions').length > 0) {
-		breadcrumbsWidth += $('#controls .actions').get(0).offsetWidth;
-	}
+
+	$.each($('#controls .actions>div'), function(index, action) {
+		breadcrumbsWidth += $(action).get(0).offsetWidth;
+	});
 
 	function resizeBreadcrumbs(firstRun) {
 		var width = $(this).width();
@@ -815,26 +817,26 @@ var createDragShadow = function(event){
 		//select dragged file
 		$(event.target).parents('tr').find('td input:first').prop('checked',true);
 	}
-	
+
 	var selectedFiles = getSelectedFiles();
-	
+
 	if (!isDragSelected && selectedFiles.length == 1) {
 		//revert the selection
 		$(event.target).parents('tr').find('td input:first').prop('checked',false);
 	}
-	
+
 	//also update class when we dragged more than one file
 	if (selectedFiles.length > 1) {
 		$(event.target).parents('tr').addClass('selected');
 	}
-	
+
 	// build dragshadow
 	var dragshadow = $('<table class="dragshadow"></table>');
 	var tbody = $('<tbody></tbody>');
 	dragshadow.append(tbody);
-	
+
 	var dir=$('#dir').val();
-	
+
 	$(selectedFiles).each(function(i,elem){
 		var newtr = $('<tr data-dir="'+dir+'" data-filename="'+elem.name+'">'
 						+'<td class="filename">'+elem.name+'</td><td class="size">'+humanFileSize(elem.size)+'</td>'
@@ -848,7 +850,7 @@ var createDragShadow = function(event){
 			});
 		}
 	});
-	
+
 	return dragshadow;
 }
 
@@ -861,6 +863,10 @@ var dragOptions={
 		$('#fileList tr td.filename').addClass('ui-draggable');
 	}
 }
+// sane browsers support using the distance option
+if ( ! $.browser.msie) {
+	dragOptions['distance'] = 20;
+} 
 
 var folderDropOptions={
 	drop: function( event, ui ) {
@@ -868,9 +874,9 @@ var folderDropOptions={
 		if ($(event.target).parents('tr').find('td input:first').prop('checked') === true) {
 			return false;
 		}
-		
+
 		var target=$.trim($(this).find('.nametext').text());
-		
+
 		var files = ui.helper.find('tr');
 		$(files).each(function(i,row){
 			var dir = $(row).data('dir');

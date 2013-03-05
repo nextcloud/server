@@ -200,7 +200,8 @@ class OC_Files {
 			$errors = array(
 				array(
 					'error' => $l->t('ZIP download is turned off.'),
-					'hint' => $l->t('Files need to be downloaded one by one.') . '<br/><a href="javascript:history.back()">' . $l->t('Back to Files') . '</a>',
+					'hint' => $l->t('Files need to be downloaded one by one.')
+						. '<br/><a href="javascript:history.back()">' . $l->t('Back to Files') . '</a>',
 				)
 			);
 			$tmpl->assign('errors', $errors);
@@ -225,7 +226,9 @@ class OC_Files {
 				$errors = array(
 					array(
 						'error' => $l->t('Selected files too large to generate zip file.'),
-						'hint' => 'Download the files in smaller chunks, seperately or kindly ask your administrator.<br/><a href="javascript:history.back()">' . $l->t('Back to Files') . '</a>',
+						'hint' => 'Download the files in smaller chunks, seperately'
+							.' or kindly ask your administrator.<br/><a href="javascript:history.back()">'
+							. $l->t('Back to Files') . '</a>',
 					)
 				);
 				$tmpl->assign('errors', $errors);
@@ -287,7 +290,9 @@ class OC_Files {
 			file_put_contents(OC::$SERVERROOT . '/.htaccess', $htaccess);
 			return OC_Helper::computerFileSize($size);
 		} else {
-			OC_Log::write('files', 'Can\'t write upload limit to ' . OC::$SERVERROOT . '/.htaccess. Please check the file permissions', OC_Log::WARN);
+			OC_Log::write('files',
+				'Can\'t write upload limit to ' . OC::$SERVERROOT . '/.htaccess. Please check the file permissions',
+				OC_Log::WARN);
 		}
 		return false;
 	}

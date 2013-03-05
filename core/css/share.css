@@ -24,6 +24,18 @@
  #shareWithList li {
  	padding-top:.1em;
  }
+ 
+ #shareWithList li:first-child {
+	 white-space:normal;
+ }
+
+ #shareWithList .cruds {
+	 margin-left:-10px;
+ }
+
+#shareWithList .unshare img, #shareWithList .showCruds img {
+	vertical-align:text-bottom; /* properly align icons */
+}
 
  #dropdown label {
  	font-weight:400;
@@ -43,6 +55,7 @@
  	float:right;
  	opacity:.5;
  	padding:.3em 0 0 .3em !important;
+	margin-top:-5px;
  }
 
  #link {
@@ -76,3 +89,11 @@
  a.showCruds:hover,a.unshare:hover {
  	opacity:1;
  }
+
+.reshare { white-space:normal; } /* fix shared by text going out of box */
+
+.ui-autocomplete { /* limit dropdown height to 4 1/2 entries */
+	max-height:103px;
+	overflow-y:auto;
+	overflow-x:hidden;
+}

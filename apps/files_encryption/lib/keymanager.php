@@ -46,6 +46,8 @@ class Keymanager {
 
 	/**
 	 * @brief retrieve public key for a specified user
+	 * @param \OC_FilesystemView $view
+	 * @param $userId
 	 * @return string public key or false
 	 */
 	public static function getPublicKey( \OC_FilesystemView $view, $userId ) {
@@ -56,6 +58,8 @@ class Keymanager {
 	
 	/**
 	 * @brief retrieve both keys from a user (private and public)
+	 * @param \OC_FilesystemView $view
+	 * @param $userId
 	 * @return array keys: privateKey, publicKey
 	 */
 	public static function getUserKeys( \OC_FilesystemView $view, $userId ) {
@@ -144,8 +148,11 @@ class Keymanager {
 	
 	/**
 	 * @brief retrieve keyfile for an encrypted file
-	 * @param string file name
-	 * @return string file key or false on failure
+	 * @param \OC_FilesystemView $view
+	 * @param $userId
+	 * @param $filePath
+	 * @internal param \OCA\Encryption\file $string name
+	 * @return string file key or false
 	 * @note The keyfile returned is asymmetrically encrypted. Decryption
 	 * of the keyfile must be performed by client code
 	 */
@@ -213,12 +220,11 @@ class Keymanager {
 		
 		\OC_FileProxy::$enabled = false;
 		
-		if ( !$view->file_exists( '' ) ) $view->mkdir( '' );
+		if ( !$view->file_exists( '' ) )
+			$view->mkdir( '' );
 		
 		return $view->file_put_contents( $user . '.private.key', $key );
-		
-		\OC_FileProxy::$enabled = true;
-		
+
 	}
 	
 	/**
@@ -246,16 +252,24 @@ class Keymanager {
 		
 		\OC_FileProxy::$enabled = false;
 		
-		if ( !$view->file_exists( '' ) ) $view->mkdir( '' );
+		if ( !$view->file_exists( '' ) )
+			$view->mkdir( '' );
 		
 		return $view->file_put_contents( \OCP\User::getUser() . '.public.key', $key );
-		
-		\OC_FileProxy::$enabled = true;
+
 		
 	}
 	
 	/**
-	 * @note 'shareKey' is a more user-friendly name for env_key
+	 * @brief store file encryption key
+	 *
+	 * @param string $path relative path of the file, including filename
+	 * @param string $key
+	 * @param null $view
+	 * @param string $dbClassName
+	 * @return bool true/false
+	 * @note The keyfile is not encrypted here. Client code must
+	 * asymmetrically encrypt the keyfile before passing it to this method
 	 */
 	public static function setShareKey( \OC_FilesystemView $view, $path, $userId, $shareKey ) {
 		
@@ -289,30 +303,14 @@ class Keymanager {
 		return $targetPath;
 	
 	}
-	
-	/**
-	 * @brief change password of private encryption key
-	 *
-	 * @param string $oldpasswd old password
-	 * @param string $newpasswd new password
-	 * @return bool true/false
-	 */
-	public static function changePasswd($oldpasswd, $newpasswd) {
-		
-		if ( \OCP\User::checkPassword(\OCP\User::getUser(), $newpasswd) ) {
-			return Crypt::changekeypasscode($oldpasswd, $newpasswd);
-		}
-		return false;
-		
-	}
-	
+
 	/**
 	 * @brief Fetch the legacy encryption key from user files
 	 * @param string $login used to locate the legacy key
 	 * @param string $passphrase used to decrypt the legacy key
 	 * @return true / false
 	 *
-	 * if the key is left out, the default handeler will be used
+	 * if the key is left out, the default handler will be used
 	 */
 	public function getLegacyKey() {
 		

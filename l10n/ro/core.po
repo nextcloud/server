@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
-"PO-Revision-Date: 2013-02-08 23:12+0000\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -162,59 +162,59 @@ msgstr "Noiembrie"
 msgid "December"
 msgstr "Decembrie"
 
-#: js/js.js:284
+#: js/js.js:286
 msgid "Settings"
 msgstr "Configurări"
 
-#: js/js.js:764
+#: js/js.js:767
 msgid "seconds ago"
 msgstr "secunde în urmă"
 
-#: js/js.js:765
+#: js/js.js:768
 msgid "1 minute ago"
 msgstr "1 minut în urmă"
 
-#: js/js.js:766
+#: js/js.js:769
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minute in urma"
 
-#: js/js.js:767
+#: js/js.js:770
 msgid "1 hour ago"
 msgstr "Acum o ora"
 
-#: js/js.js:768
+#: js/js.js:771
 msgid "{hours} hours ago"
 msgstr "{hours} ore în urmă"
 
-#: js/js.js:769
+#: js/js.js:772
 msgid "today"
 msgstr "astăzi"
 
-#: js/js.js:770
+#: js/js.js:773
 msgid "yesterday"
 msgstr "ieri"
 
-#: js/js.js:771
+#: js/js.js:774
 msgid "{days} days ago"
 msgstr "{days} zile in urma"
 
-#: js/js.js:772
+#: js/js.js:775
 msgid "last month"
 msgstr "ultima lună"
 
-#: js/js.js:773
+#: js/js.js:776
 msgid "{months} months ago"
 msgstr "{months} luni în urmă"
 
-#: js/js.js:774
+#: js/js.js:777
 msgid "months ago"
 msgstr "luni în urmă"
 
-#: js/js.js:775
+#: js/js.js:778
 msgid "last year"
 msgstr "ultimul an"
 
-#: js/js.js:776
+#: js/js.js:779
 msgid "years ago"
 msgstr "ani în urmă"
 
@@ -244,8 +244,8 @@ msgid "The object type is not specified."
 msgstr "Tipul obiectului nu a fost specificat"
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
-#: js/share.js:583
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
+#: js/share.js:594
 msgid "Error"
 msgstr "Eroare"
 
@@ -257,15 +257,15 @@ msgstr "Numele aplicației nu a fost specificat"
 msgid "The required file {file} is not installed!"
 msgstr "Fișierul obligatoriu {file} nu este instalat!"
 
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
-msgid "Share"
-msgstr "Partajează"
-
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+#: js/share.js:29 js/share.js:43 js/share.js:90
 msgid "Shared"
 msgstr ""
 
-#: js/share.js:141 js/share.js:611
+#: js/share.js:93
+msgid "Share"
+msgstr "Partajează"
+
+#: js/share.js:141 js/share.js:622
 msgid "Error while sharing"
 msgstr "Eroare la partajare"
 
@@ -361,23 +361,23 @@ msgstr "ștergere"
 msgid "share"
 msgstr "partajare"
 
-#: js/share.js:373 js/share.js:558
+#: js/share.js:373 js/share.js:569
 msgid "Password protected"
 msgstr "Protejare cu parolă"
 
-#: js/share.js:571
+#: js/share.js:582
 msgid "Error unsetting expiration date"
 msgstr "Eroare la anularea datei de expirare"
 
-#: js/share.js:583
+#: js/share.js:594
 msgid "Error setting expiration date"
 msgstr "Eroare la specificarea datei de expirare"
 
-#: js/share.js:598
+#: js/share.js:609
 msgid "Sending ..."
 msgstr "Se expediază..."
 
-#: js/share.js:609
+#: js/share.js:620
 msgid "Email sent"
 msgstr "Mesajul a fost expediat"
 
@@ -392,7 +392,7 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
-#: lostpassword/controller.php:47
+#: lostpassword/controller.php:48
 msgid "ownCloud password reset"
 msgstr "Resetarea parolei ownCloud "
 

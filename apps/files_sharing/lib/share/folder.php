@@ -33,7 +33,8 @@ class OC_Share_Backend_Folder extends OC_Share_Backend_File implements OCP\Share
 		}
 		while (!empty($parents)) {
 			$parents = "'".implode("','", $parents)."'";
-			$query = OC_DB::prepare('SELECT `fileid`, `name`, `mimetype` FROM `*PREFIX*filecache` WHERE `parent` IN ('.$parents.')');
+			$query = OC_DB::prepare('SELECT `fileid`, `name`, `mimetype` FROM `*PREFIX*filecache`'
+				.' WHERE `parent` IN ('.$parents.')');
 			$result = $query->execute();
 			$parents = array();
 			while ($file = $result->fetchRow()) {

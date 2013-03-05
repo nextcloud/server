@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
 "External Storage" => "外部儲存裝置",
-"Mount point" => "掛載點",
+"Folder name" => "資料夾名稱",
 "None set" => "尚未設定",
 "All Users" => "所有使用者",
 "Groups" => "群組",

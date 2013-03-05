@@ -59,9 +59,11 @@ class Util {
 	 * @param string $fromname
 	 * @param bool $html
 	 */
-	public static function sendMail( $toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html = 0, $altbody = '', $ccaddress = '', $ccname = '', $bcc = '') {
+	public static function sendMail( $toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname,
+		$html = 0, $altbody = '', $ccaddress = '', $ccname = '', $bcc = '') {
 		// call the internal mail class
-		\OC_MAIL::send($toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname, $html, $altbody, $ccaddress, $ccname, $bcc);
+		\OC_MAIL::send($toaddress, $toname, $subject, $mailtext, $fromaddress, $fromname,
+			$html, $altbody, $ccaddress, $ccname, $bcc);
 	}
 
 	/**
@@ -215,11 +217,14 @@ class Util {
 	 */
 	public static function getDefaultEmailAddress($user_part) {
 		$host_name = self::getServerHostName();
-		// handle localhost installations
-		if ($host_name === 'localhost') {
-			$host_name = "example.com";
+		$defaultEmailAddress = $user_part.'@'.$host_name;
+
+		if (\PHPMailer::ValidateAddress($defaultEmailAddress)) {
+			return $defaultEmailAddress;
 		}
-		return $user_part.'@'.$host_name;
+
+		// incase we cannot build a valid email address from the hostname let's fallback to 'localhost.localdomain'
+		return $user_part.'@localhost.localdomain';
 	}
 
 	/**
@@ -340,7 +345,8 @@ class Util {
 	/**
 	 * @brief Used to sanitize HTML
 	 *
-	 * This function is used to sanitize HTML and should be applied on any string or array of strings before displaying it on a web page.
+	 * This function is used to sanitize HTML and should be applied on any
+	 * string or array of strings before displaying it on a web page.
 	 *
 	 * @param string|array of strings
 	 * @return array with sanitized strings or a single sinitized string, depends on the input parameter.

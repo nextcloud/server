@@ -200,7 +200,9 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * @return array with user ids
 	 */
 	public function usersInGroup($gid, $search = '', $limit = null, $offset = null) {
-		$stmt = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` LIKE ?', $limit, $offset);
+		$stmt = OC_DB::prepare('SELECT `uid` FROM `*PREFIX*group_user` WHERE `gid` = ? AND `uid` LIKE ?',
+			$limit,
+			$offset);
 		$result = $stmt->execute(array($gid, $search.'%'));
 		$users = array();
 		while ($row = $result->fetchRow()) {
@@ -208,7 +210,7 @@ class OC_Group_Database extends OC_Group_Backend {
 		}
 		return $users;
 	}
-	
+
 	/**
 	 * @brief get a list of all display names in a group
 	 * @param string $gid
@@ -220,13 +222,18 @@ class OC_Group_Database extends OC_Group_Backend {
 	public function DisplayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		$displayNames = '';
 
-		$stmt = OC_DB::prepare('SELECT `*PREFIX*users`.`uid`, `*PREFIX*users`.`displayname` FROM `*PREFIX*users` INNER JOIN `*PREFIX*group_user` ON `*PREFIX*group_user`.`uid` = `*PREFIX*users`.`uid`  WHERE `gid` = ? AND `*PREFIX*group_user.uid` LIKE ?', $limit, $offset);
+		$stmt = OC_DB::prepare('SELECT `*PREFIX*users`.`uid`, `*PREFIX*users`.`displayname`'
+			.' FROM `*PREFIX*users`'
+			.' INNER JOIN `*PREFIX*group_user` ON `*PREFIX*group_user`.`uid` = `*PREFIX*users`.`uid`'
+			.' WHERE `gid` = ? AND `*PREFIX*group_user`.`uid` LIKE ?',
+			$limit,
+			$offset);
 		$result = $stmt->execute(array($gid, $search.'%'));
 		$users = array();
 		while ($row = $result->fetchRow()) {
 			$displayName = trim($row['displayname'], ' ');
 			$displayNames[$row['uid']] = empty($displayName) ? $row['uid'] : $displayName;
-		}		
+		}
 		return $displayNames;
 	}
 }

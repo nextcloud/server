@@ -33,12 +33,16 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 
 	private static $tempFiles = array();
 
-	// TODO options: storage class, encryption server side, encrypt before upload?
+	// TODO Update to new AWS SDK
 
 	public function __construct($params) {
-		$this->id = 'amazon::' . $params['key'] . md5($params['secret']);
-		$this->s3 = new \AmazonS3(array('key' => $params['key'], 'secret' => $params['secret']));
-		$this->bucket = $params['bucket'];
+		if (isset($params['key']) && isset($params['secret']) && isset($params['bucket'])) {
+			$this->id = 'amazon::' . $params['key'] . md5($params['secret']);
+			$this->s3 = new \AmazonS3(array('key' => $params['key'], 'secret' => $params['secret']));
+			$this->bucket = $params['bucket'];
+		} else {
+			throw new \Exception();
+		}
 	}
 
 	private function getObject($path) {
@@ -229,11 +233,6 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		return false;
 	}
 
-	public function free_space($path) {
-		// Infinite?
-		return false;
-	}
-
 	public function touch($path, $mtime = null) {
 		if (is_null($mtime)) {
 			$mtime = time();
@@ -243,6 +242,14 @@ class AmazonS3 extends \OC\Files\Storage\Common {
 		}
 		$response = $this->s3->update_object($this->bucket, $path, array('meta' => array('LastModified' => $mtime)));
 		return $response->isOK();
+	}
+
+	public function test() {
+		$test = $this->s3->get_canonical_user_id();
+		if (isset($test['id']) && $test['id'] != '') {
+			return true;
+		}
+		return false;
 	}
 
 }

@@ -18,7 +18,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 			page.find('span.version').text('');
 		}
 		page.find('span.score').html(app.score);
-		page.find('p.description').html(app.description);
+		page.find('p.description').text(app.description);
 		page.find('img.preview').attr('src', app.preview);
 		page.find('small.externalapp').attr('style', 'visibility:visible');
 		page.find('span.author').text(app.author);
@@ -134,7 +134,7 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					if(container.children('li[data-id="'+entry.id+'"]').length === 0){
 						var li=$('<li></li>');
 						li.attr('data-id', entry.id);
-						var img= $('<img></img>').attr({ src: entry.icon, class:'icon'});
+						var img= $('<img class="icon"/>').attr({ src: entry.icon});
 						var a=$('<a></a>').attr('href', entry.href);
 						a.text(entry.name);
 						a.prepend(img);

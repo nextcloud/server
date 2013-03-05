@@ -24,9 +24,9 @@ OC.Share={
 						var file = $('tr').filterAttr('data-file', OC.basename(item));
 						if (file.length > 0) {
 							var action = $(file).find('.fileactions .action').filterAttr('data-action', 'Share');
-							action.find('img').attr('src', image);
+							var img = action.find('img').attr('src', image);
 							action.addClass('permanent');
-							action.html(action.html().replace(t('core', 'Share'), t('core', 'Shared')));
+							action.html(' '+t('core', 'Shared')).prepend(img);
 						}
 						var dir = $('#dir').val();
 						if (dir.length > 1) {
@@ -40,7 +40,7 @@ OC.Share={
 									if (img.attr('src') != OC.imagePath('core', 'actions/public')) {
 										img.attr('src', image);
 										action.addClass('permanent');
-										action.html(action.html().replace(t('core', 'Share'), t('core', 'Shared')));
+										action.html(' '+t('core', 'Shared')).prepend(img);
 									}
 								}
 								last = path;
@@ -84,13 +84,13 @@ OC.Share={
 			$('a.share[data-item="'+itemSource+'"]').css('background', 'url('+image+') no-repeat center');
 		} else {
 			var action = $(file).find('.fileactions .action').filterAttr('data-action', 'Share');
-			action.find('img').attr('src', image);
+			var img = action.find('img').attr('src', image);
 			if (shares) {
 				action.addClass('permanent');
-				action.html(action.html().replace(t('core', 'Share'), t('core', 'Shared')));
+				action.html(' '+t('core', 'Shared')).prepend(img);
 			} else {
 				action.removeClass('permanent');
-				action.html(action.html().replace(t('core', 'Shared'), t('core', 'Share')));
+				action.html(' '+t('core', 'Share')).prepend(img);
 			}
 		}
 		if (shares) {
@@ -186,8 +186,8 @@ OC.Share={
 				html += '</div>';
 				html += '</div>';
 				html += '<form id="emailPrivateLink" >';
-				html += '<input id="email" style="display:none; width:65%;" value="" placeholder="'+t('core', 'Email link to person')+'" type="text" />';
-				html += '<input id="emailButton" style="display:none; float:right;" type="submit" value="'+t('core', 'Send')+'" />';
+				html += '<input id="email" style="display:none; width:62%;" value="" placeholder="'+t('core', 'Email link to person')+'" type="text" />';
+				html += '<input id="emailButton" style="display:none;" type="submit" value="'+t('core', 'Send')+'" />';
 				html += '</form>';
 			}
 			html += '<div id="expiration">';
@@ -213,7 +213,7 @@ OC.Share={
 					}
 				});
 			}
-			$('#shareWith').autocomplete({minLength: 2, source: function(search, response) {
+			$('#shareWith').autocomplete({minLength: 1, source: function(search, response) {
 	// 			if (cache[search.term]) {
 	// 				response(cache[search.term]);
 	// 			} else {
@@ -309,12 +309,12 @@ OC.Share={
 			if (permissions & OC.PERMISSION_SHARE) {
 				shareChecked = 'checked="checked"';
 			}
-			var html = '<li style="clear: both;" data-share-type="'+shareType+'" data-share-with="'+shareWith+'" title="' + shareWith + '">';
+			var html = '<li style="clear: both;" data-share-type="'+escapeHTML(shareType)+'" data-share-with="'+escapeHTML(shareWith)+'" title="' + escapeHTML(shareWith) + '">';
 			html += '<a href="#" class="unshare" style="display:none;"><img class="svg" alt="'+t('core', 'Unshare')+'" src="'+OC.imagePath('core', 'actions/delete')+'"/></a>';
 			if(shareWith.length > 14){
-				html += shareWithDisplayName.substr(0,11) + '...';
+				html += escapeHTML(shareWithDisplayName.substr(0,11) + '...');
 			}else{
-				html += shareWithDisplayName;
+				html += escapeHTML(shareWithDisplayName);
 			}
 			if (possiblePermissions & OC.PERMISSION_CREATE || possiblePermissions & OC.PERMISSION_UPDATE || possiblePermissions & OC.PERMISSION_DELETE) {
 				if (editChecked == '') {
