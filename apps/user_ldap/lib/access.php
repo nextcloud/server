@@ -650,7 +650,7 @@ abstract class Access {
 		$linkResources = array_pad(array(), count($base), $link_resource);
 		$sr = ldap_search($linkResources, $base, $filter, $attr);
 		$error = ldap_errno($link_resource);
-		if(!is_array($sr) || $error > 0) {
+		if(!is_array($sr) || $error != 0) {
 			\OCP\Util::writeLog('user_ldap',
 				'Error when searching: '.ldap_error($link_resource).' code '.ldap_errno($link_resource),
 				\OCP\Util::ERROR);
