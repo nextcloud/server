@@ -61,6 +61,7 @@
 "From link" => "Vanaf link",
 "Deleted files" => "Verwijderde bestanden",
 "Cancel upload" => "Upload afbreken",
+"You don’t have write permissions here." => "U hebt hier geen schrijfpermissies.",
 "Nothing in here. Upload something!" => "Er bevindt zich hier niets. Upload een bestand!",
 "Download" => "Download",
 "Unshare" => "Stop delen",

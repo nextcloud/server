@@ -61,6 +61,7 @@
 "From link" => "No saites",
 "Deleted files" => "Dzēstās datnes",
 "Cancel upload" => "Atcelt augšupielādi",
+"You don’t have write permissions here." => "Jums nav tiesību šeit rakstīt.",
 "Nothing in here. Upload something!" => "Te vēl nekas nav. Rīkojies, sāc augšupielādēt!",
 "Download" => "Lejupielādēt",
 "Unshare" => "Pārtraukt dalīšanos",
