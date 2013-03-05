@@ -1103,20 +1103,6 @@ class Share {
 				} else {
 					$fileTarget = null;
 				}
-				\OC_Hook::emit('OCP\Share', 'post_shared', array(
-					'itemType' => $itemType,
-					'itemSource' => $itemSource,
-					'itemTarget' => $itemTarget,
-					'parent' => $parent,
-					'shareType' => self::$shareTypeGroupUserUnique,
-					'shareWith' => $uid,
-					'uidOwner' => $uidOwner,
-					'permissions' => $permissions,
-					'fileSource' => $fileSource,
-					'fileTarget' => $fileTarget,
-					'id' => $parent,
-					'token' => $token
-				));
 				// Insert an extra row for the group share if the item or file target is unique for this user
 				if ($itemTarget != $groupItemTarget || (isset($fileSource) && $fileTarget != $groupFileTarget)) {
 					$query->execute(array($itemType, $itemSource, $itemTarget, $parent,
@@ -1125,6 +1111,20 @@ class Share {
 					$id = \OC_DB::insertid('*PREFIX*share');
 				}
 			}
+			\OC_Hook::emit('OCP\Share', 'post_shared', array(
+				'itemType' => $itemType,
+				'itemSource' => $itemSource,
+				'itemTarget' => $groupItemTarget,
+				'parent' => $parent,
+				'shareType' => $shareType,
+				'shareWith' => $uid,
+				'uidOwner' => $uidOwner,
+				'permissions' => $permissions,
+				'fileSource' => $fileSource,
+				'fileTarget' => $groupFileTarget,
+				'id' => $parent,
+				'token' => $token
+			));
 			if ($parentFolder === true) {
 				// Return parent folders to preserve file target paths for potential children
 				return $parentFolders;
