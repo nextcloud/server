@@ -14,7 +14,7 @@
 	<fieldset id="ldapSettings-1">
 		<p><label for="ldap_serverconfig_chooser"><?php p($l->t('Server configuration'));?></label>
 		<select id="ldap_serverconfig_chooser" name="ldap_serverconfig_chooser">
-		<?php p($_['serverConfigurationOptions']); ?>
+		<?php print_unescaped($_['serverConfigurationOptions']); ?>
 		<option value="NEW"><?php p($l->t('Add Server Configuration'));?></option>
 		</select>
 		<button id="ldap_action_delete_configuration"
