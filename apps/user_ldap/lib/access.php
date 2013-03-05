@@ -144,6 +144,9 @@ abstract class Access {
 			'\;' => '\5c3B',
 			'\"' => '\5c22',
 			'\#' => '\5c23',
+			'('  => '\28',
+			')'  => '\29',
+			'*'  => '\2A',
 		);
 		$dn = str_replace(array_keys($replacements), array_values($replacements), $dn);
 
