@@ -41,6 +41,7 @@
 "Bugtracker" => "问题跟踪器",
 "Commercial Support" => "商业支持",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "你已使用 <strong>%s</strong>，有效空间 <strong>%s</strong>",
+"Get the apps to sync your files" => "安装应用进行文件同步",
 "Password" => "密码",
 "Your password was changed" => "密码已修改",
 "Unable to change your password" => "无法修改密码",

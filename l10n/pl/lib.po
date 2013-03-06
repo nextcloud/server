@@ -5,14 +5,15 @@
 # Translators:
 # Cyryl Sochacki <>, 2012.
 # Cyryl Sochacki <cyrylsochacki@gmail.com>, 2012-2013.
+# Maciej Tarmas <maciej@tarmas.com>, 2013.
 # Marcin Małecki <gerber@tkdami.net>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-04 00:06+0100\n"
+"PO-Revision-Date: 2013-03-03 07:30+0000\n"
+"Last-Translator: Maciej Tarmas <maciej@tarmas.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -177,7 +178,7 @@ msgstr "Niepoprawne polecania:  \"%s\", nazwa: %s, hasło: %s"
 #: setup.php:631
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "Nazwa i/lub hasło serwera MS SQL jest niepoprawne: %s."
 
 #: setup.php:849
 msgid ""

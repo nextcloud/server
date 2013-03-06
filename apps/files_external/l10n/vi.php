@@ -7,6 +7,7 @@
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Cảnh báo:</b> \"smbclient\" chưa được cài đặt. Mount CIFS/SMB shares là không thể thực hiện được. Hãy hỏi người quản trị hệ thống để cài đặt nó.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Cảnh báo:</b> FTP trong PHP chưa được cài đặt hoặc chưa được  mở. Mount FTP shares là không thể. Xin hãy yêu cầu quản trị hệ thống của bạn cài đặt nó.",
 "External Storage" => "Lưu trữ ngoài",
+"Folder name" => "Tên thư mục",
 "Configuration" => "Cấu hình",
 "Options" => "Tùy chọn",
 "Applicable" => "Áp dụng",

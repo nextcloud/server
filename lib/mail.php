@@ -119,4 +119,12 @@ class OC_Mail {
 		return($txt);
 
 	}
+
+	/**
+	 * @param string $emailAddress a given email address to be validated
+	 * @return bool
+	 */
+	public static function ValidateAddress($emailAddress) {
+		return PHPMailer::ValidateAddress($emailAddress);
+	}
 }

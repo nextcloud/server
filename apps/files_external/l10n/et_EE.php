@@ -5,6 +5,7 @@
 "Please provide a valid Dropbox app key and secret." => "Palun sisesta korrektne Dropboxi rakenduse võti ja salasõna.",
 "Error configuring Google Drive storage" => "Viga Google Drive'i salvestusruumi seadistamisel",
 "External Storage" => "Väline salvestuskoht",
+"Folder name" => "Kausta nimi",
 "Configuration" => "Seadistamine",
 "Options" => "Valikud",
 "Applicable" => "Rakendatav",

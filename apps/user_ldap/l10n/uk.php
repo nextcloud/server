@@ -48,6 +48,7 @@
 "Turn off SSL certificate validation." => "Вимкнути перевірку SSL сертифіката.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Якщо з'єднання працює лише з цією опцією, імпортуйте SSL сертифікат LDAP сервера у ваший ownCloud сервер.",
 "Not recommended, use for testing only." => "Не рекомендується, використовуйте лише для тестів.",
+"Cache Time-To-Live" => "Час актуальності Кеша",
 "in seconds. A change empties the cache." => "в секундах. Зміна очищує кеш.",
 "Directory Settings" => "Налаштування Каталога",
 "User Display Name Field" => "Поле, яке відображає Ім'я Користувача",
@@ -63,7 +64,12 @@
 "Group Search Attributes" => "Пошукові Атрибути Групи",
 "Group-Member association" => "Асоціація Група-Член",
 "Special Attributes" => "Спеціальні Атрибути",
+"Quota Field" => "Поле Квоти",
+"Quota Default" => "Квота за замовчанням",
 "in bytes" => "в байтах",
+"Email Field" => "Поле Ел. пошти",
+"User Home Folder Naming Rule" => "Правило іменування домашньої теки користувача",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Залиште порожнім для імені користувача (за замовчанням). Інакше, вкажіть атрибут LDAP/AD.",
+"Test Configuration" => "Тестове налаштування",
 "Help" => "Допомога"
 );

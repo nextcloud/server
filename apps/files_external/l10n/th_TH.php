@@ -7,6 +7,7 @@
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>คำเตือน:</b> \"smbclient\" ยังไม่ได้ถูกติดตั้ง. การชี้ CIFS/SMB เพื่อแชร์ข้อมูลไม่สามารถกระทำได้ กรุณาสอบถามข้อมูลเพิ่มเติมจากผู้ดูแลระบบเพื่อติดตั้ง.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>คำเตือน:</b> การสนับสนุนการใช้งาน FTP ในภาษา PHP ยังไม่ได้ถูกเปิดใช้งานหรือถูกติดตั้ง. การชี้ FTP เพื่อแชร์ข้อมูลไม่สามารถดำเนินการได้ กรุณาสอบถามข้อมูลเพิ่มเติมจากผู้ดูแลระบบเพื่อติดตั้ง",
 "External Storage" => "พื้นทีจัดเก็บข้อมูลจากภายนอก",
+"Folder name" => "ชื่อโฟลเดอร์",
 "Configuration" => "การกำหนดค่า",
 "Options" => "ตัวเลือก",
 "Applicable" => "สามารถใช้งานได้",

@@ -147,7 +147,7 @@ function html_select_options($options, $selected, $params=array()) {
 			$label = $label[$label_name];
 		}
 		$select = in_array($value, $selected) ? ' selected="selected"' : '';
-		$html .= '<option value="' . $value . '"' . $select . '>' . $label . '</option>'."\n";
+		$html .= '<option value="' . OC_Util::sanitizeHTML($value) . '"' . $select . '>' . OC_Util::sanitizeHTML($label) . '</option>'."\n";
 	}
 	return $html;
 }
@@ -200,7 +200,6 @@ class OC_Template{
 			.'img-src *; '
 			.'font-src \'self\' data:');
 		header('Content-Security-Policy:'.$policy); // Standard
-		header('X-WebKit-CSP:'.$policy); // Older webkit browsers
 
 		$this->findTemplate($name);
 	}
@@ -341,7 +340,6 @@ class OC_Template{
 	 * @brief Assign variables
 	 * @param string $key key
 	 * @param string $value value
-	 * @param bool $sanitizeHTML false, if data shouldn't get passed through htmlentities
 	 * @return bool
 	 *
 	 * This function assigns a variable. It can be accessed via $_[$key] in
@@ -349,8 +347,7 @@ class OC_Template{
 	 *
 	 * If the key existed before, it will be overwritten
 	 */
-	public function assign( $key, $value, $sanitizeHTML=true ) {
-		if($sanitizeHTML == true) $value=OC_Util::sanitizeHTML($value);
+	public function assign( $key, $value) {
 		$this->vars[$key] = $value;
 		return true;
 	}
@@ -484,7 +481,7 @@ class OC_Template{
 	public static function printUserPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "user" );
 		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value, false );
+			$content->assign( $key, $value );
 		}
 		print $content->printPage();
 	}
@@ -499,7 +496,7 @@ class OC_Template{
 	public static function printAdminPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "admin" );
 		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value, false );
+			$content->assign( $key, $value );
 		}
 		return $content->printPage();
 	}
@@ -514,7 +511,7 @@ class OC_Template{
 	public static function printGuestPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "guest" );
 		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value, false );
+			$content->assign( $key, $value );
 		}
 		return $content->printPage();
 	}

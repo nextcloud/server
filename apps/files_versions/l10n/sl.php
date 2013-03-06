@@ -1,5 +1,3 @@
 <?php $TRANSLATIONS = array(
-"History" => "Zgodovina",
-"Files Versioning" => "Sledenje različicam",
-"Enable" => "Omogoči"
+"No old versions available" => "Starejših različic ni na voljo"
 );

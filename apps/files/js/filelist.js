@@ -246,14 +246,17 @@ var FileList={
 	},
 	checkName:function(oldName, newName, isNewFile) {
 		if (isNewFile || $('tr').filterAttr('data-file', newName).length > 0) {
-			$('#notification').data('oldName', oldName);
-			$('#notification').data('newName', newName);
-			$('#notification').data('isNewFile', isNewFile);
-            if (isNewFile) {
-                OC.Notification.showHtml(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="suggest">'+t('files', 'suggest name')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
-            } else {
-                OC.Notification.showHtml(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
-            }
+			var html;
+			if(isNewFile){
+				html = t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="suggest">'+t('files', 'suggest name')+'</span>&nbsp;<span class="cancel">'+t('files', 'cancel')+'</span>';
+			}else{
+				html = t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>';
+			}
+			html = $('<span>' + html + '</span>');
+			html.attr('data-oldName', oldName);
+			html.attr('data-newName', newName);
+			html.attr('data-isNewFile', isNewFile);
+            OC.Notification.showHtml(html);
 			return true;
 		} else {
 			return false;
@@ -291,9 +294,7 @@ var FileList={
 		FileList.lastAction = function() {
 			FileList.finishReplace();
 		};
-		if (isNewFile) {
-			OC.Notification.showHtml(t('files', 'replaced {new_name}', {new_name: newName})+'<span class="undo">'+t('files', 'undo')+'</span>');
-		} else {
+		if (!isNewFile) {
             OC.Notification.showHtml(t('files', 'replaced {new_name} with {old_name}', {new_name: newName}, {old_name: oldName})+'<span class="undo">'+t('files', 'undo')+'</span>');
 		}
 	},
@@ -376,19 +377,19 @@ $(document).ready(function(){
 		FileList.lastAction = null;
         OC.Notification.hide();
 	});
-	$('#notification').on('click', '.replace', function() {
+	$('#notification:first-child').on('click', '.replace', function() {
         OC.Notification.hide(function() {
-            FileList.replace($('#notification').data('oldName'), $('#notification').data('newName'), $('#notification').data('isNewFile'));
+            FileList.replace($('#notification > span').attr('data-oldName'), $('#notification > span').attr('data-newName'), $('#notification > span').attr('data-isNewFile'));
         });
 	});
-	$('#notification').on('click', '.suggest', function() {
-		$('tr').filterAttr('data-file', $('#notification').data('oldName')).show();
+	$('#notification:first-child').on('click', '.suggest', function() {
+		$('tr').filterAttr('data-file', $('#notification > span').attr('data-oldName')).show();
         OC.Notification.hide();
 	});
-	$('#notification').on('click', '.cancel', function() {
-		if ($('#notification').data('isNewFile')) {
+	$('#notification:first-child').on('click', '.cancel', function() {
+		if ($('#notification > span').attr('data-isNewFile')) {
 			FileList.deleteCanceled = false;
-			FileList.deleteFiles = [$('#notification').data('oldName')];
+			FileList.deleteFiles = [$('#notification > span').attr('data-oldName')];
 		}
 	});
 	FileList.useUndo=(window.onbeforeunload)?true:false;

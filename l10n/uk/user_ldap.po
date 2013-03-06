@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-19 00:05+0100\n"
-"PO-Revision-Date: 2013-02-18 10:30+0000\n"
+"POT-Creation-Date: 2013-03-06 00:07+0100\n"
+"PO-Revision-Date: 2013-03-05 12:31+0000\n"
 "Last-Translator: volodya327 <volodya327@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -238,6 +238,10 @@ msgid "Not recommended, use for testing only."
 msgstr "Не рекомендується, використовуйте лише для тестів."
 
 #: templates/settings.php:65
+msgid "Cache Time-To-Live"
+msgstr "Час актуальності Кеша"
+
+#: templates/settings.php:65
 msgid "in seconds. A change empties the cache."
 msgstr "в секундах. Зміна очищує кеш."
 
@@ -297,15 +301,35 @@ msgstr "Асоціація Група-Член"
 msgid "Special Attributes"
 msgstr "Спеціальні Атрибути"
 
+#: templates/settings.php:79
+msgid "Quota Field"
+msgstr "Поле Квоти"
+
+#: templates/settings.php:80
+msgid "Quota Default"
+msgstr "Квота за замовчанням"
+
 #: templates/settings.php:80
 msgid "in bytes"
 msgstr "в байтах"
+
+#: templates/settings.php:81
+msgid "Email Field"
+msgstr "Поле Ел. пошти"
+
+#: templates/settings.php:82
+msgid "User Home Folder Naming Rule"
+msgstr "Правило іменування домашньої теки користувача"
 
 #: templates/settings.php:82
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Залиште порожнім для імені користувача (за замовчанням). Інакше, вкажіть атрибут LDAP/AD."
+
+#: templates/settings.php:86
+msgid "Test Configuration"
+msgstr "Тестове налаштування"
 
 #: templates/settings.php:86
 msgid "Help"

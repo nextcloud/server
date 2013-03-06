@@ -48,6 +48,7 @@
 "Turn off SSL certificate validation." => "Ezgaitu SSL ziurtagirien egiaztapena.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Konexioa aukera hau ezinbestekoa badu, inportatu LDAP zerbitzariaren SSL ziurtagiria zure ownCloud zerbitzarian.",
 "Not recommended, use for testing only." => "Ez da aholkatzen, erabili bakarrik frogak egiteko.",
+"Cache Time-To-Live" => "Katxearen Bizi-Iraupena",
 "in seconds. A change empties the cache." => "segundutan. Aldaketak katxea husten du.",
 "Directory Settings" => "Karpetaren Ezarpenak",
 "User Display Name Field" => "Erabiltzaileen bistaratzeko izena duen eremua",
@@ -63,7 +64,12 @@
 "Group Search Attributes" => "Taldekatu Bilaketa Atributuak ",
 "Group-Member association" => "Talde-Kide elkarketak",
 "Special Attributes" => "Atributu Bereziak",
+"Quota Field" => "Kuota Eremua",
+"Quota Default" => "Kuota Lehenetsia",
 "in bytes" => "bytetan",
+"Email Field" => "Eposta eremua",
+"User Home Folder Naming Rule" => "Erabiltzailearen Karpeta Nagusia Izendatzeko Patroia",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Utzi hutsik erabiltzaile izenarako (lehentsia). Bestela zehaztu LDAP/AD atributua.",
+"Test Configuration" => "Egiaztatu Konfigurazioa",
 "Help" => "Laguntza"
 );

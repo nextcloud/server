@@ -199,7 +199,7 @@ class View {
 		@ob_end_clean();
 		$handle = $this->fopen($path, 'rb');
 		if ($handle) {
-			$chunkSize = 8192; // 8 MB chunks
+			$chunkSize = 8192; // 8 kB chunks
 			while (!feof($handle)) {
 				echo fread($handle, $chunkSize);
 				flush();

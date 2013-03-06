@@ -1,12 +1,12 @@
 <?php
 
-OC::$CLASSPATH['OCA\Encryption\Crypt'] = 'apps/files_encryption/lib/crypt.php';
-OC::$CLASSPATH['OCA\Encryption\Hooks'] = 'apps/files_encryption/hooks/hooks.php';
-OC::$CLASSPATH['OCA\Encryption\Util'] = 'apps/files_encryption/lib/util.php';
-OC::$CLASSPATH['OCA\Encryption\Keymanager'] = 'apps/files_encryption/lib/keymanager.php';
-OC::$CLASSPATH['OCA\Encryption\Stream'] = 'apps/files_encryption/lib/stream.php';
-OC::$CLASSPATH['OCA\Encryption\Proxy'] = 'apps/files_encryption/lib/proxy.php';
-OC::$CLASSPATH['OCA\Encryption\Session'] = 'apps/files_encryption/lib/session.php';
+OC::$CLASSPATH['OCA\Encryption\Crypt'] = 'files_encryption/lib/crypt.php';
+OC::$CLASSPATH['OCA\Encryption\Hooks'] = 'files_encryption/hooks/hooks.php';
+OC::$CLASSPATH['OCA\Encryption\Util'] = 'files_encryption/lib/util.php';
+OC::$CLASSPATH['OCA\Encryption\Keymanager'] = 'files_encryption/lib/keymanager.php';
+OC::$CLASSPATH['OCA\Encryption\Stream'] = 'files_encryption/lib/stream.php';
+OC::$CLASSPATH['OCA\Encryption\Proxy'] = 'files_encryption/lib/proxy.php';
+OC::$CLASSPATH['OCA\Encryption\Session'] = 'files_encryption/lib/session.php';
 
 OC_FileProxy::register( new OCA\Encryption\Proxy() );
 

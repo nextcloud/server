@@ -8,13 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-02-28 00:04+0100\n"
+"POT-Creation-Date: 2013-03-06 00:07+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: ajax/move.php:17
@@ -82,7 +82,7 @@ msgstr ""
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
 msgid "Delete"
 msgstr ""
 
@@ -95,35 +95,31 @@ msgstr ""
 msgid "Pending"
 msgstr ""
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:251 js/filelist.js:253
 msgid "{new_name} already exists"
 msgstr ""
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:251 js/filelist.js:253
 msgid "replace"
 msgstr ""
 
-#: js/filelist.js:253
+#: js/filelist.js:251
 msgid "suggest name"
 msgstr ""
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:251 js/filelist.js:253
 msgid "cancel"
 msgstr ""
 
-#: js/filelist.js:295
-msgid "replaced {new_name}"
-msgstr ""
-
-#: js/filelist.js:295 js/filelist.js:297
-msgid "undo"
-msgstr ""
-
-#: js/filelist.js:297
+#: js/filelist.js:298
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:322
+#: js/filelist.js:298
+msgid "undo"
+msgstr ""
+
+#: js/filelist.js:323
 msgid "perform delete operation"
 msgstr ""
 
@@ -192,15 +188,15 @@ msgstr ""
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:953 templates/index.php:67
+#: js/files.js:953 templates/index.php:68
 msgid "Name"
 msgstr ""
 
-#: js/files.js:954 templates/index.php:78
+#: js/files.js:954 templates/index.php:79
 msgid "Size"
 msgstr ""
 
-#: js/files.js:955 templates/index.php:80
+#: js/files.js:955 templates/index.php:81
 msgid "Modified"
 msgstr ""
 
@@ -280,33 +276,37 @@ msgstr ""
 msgid "Cancel upload"
 msgstr ""
 
-#: templates/index.php:59
+#: templates/index.php:53
+msgid "You don’t have write permissions here."
+msgstr ""
+
+#: templates/index.php:60
 msgid "Nothing in here. Upload something!"
 msgstr ""
 
-#: templates/index.php:73
+#: templates/index.php:74
 msgid "Download"
 msgstr ""
 
-#: templates/index.php:85 templates/index.php:86
+#: templates/index.php:86 templates/index.php:87
 msgid "Unshare"
 msgstr ""
 
-#: templates/index.php:105
+#: templates/index.php:106
 msgid "Upload too large"
 msgstr ""
 
-#: templates/index.php:107
+#: templates/index.php:108
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr ""
 
-#: templates/index.php:112
+#: templates/index.php:113
 msgid "Files are being scanned, please wait."
 msgstr ""
 
-#: templates/index.php:115
+#: templates/index.php:116
 msgid "Current scanning"
 msgstr ""
 

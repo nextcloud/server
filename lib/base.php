@@ -539,7 +539,7 @@ class OC {
 				'setting locale to en_US.UTF-8/en_US.UTF8 failed. Support is probably not installed on your system',
 				OC_Log::ERROR);
 		}
-		if (OC_Config::getValue('installed', false)) {
+		if (OC_Config::getValue('installed', false) && !self::checkUpgrade(false)) {
 			if (OC_Appconfig::getValue('core', 'backgroundjobs_mode', 'ajax') == 'ajax') {
 				OC_Util::addScript('backgroundjobs');
 			}
@@ -596,7 +596,9 @@ class OC {
 
 		if (!self::$CLI) {
 			try {
-				OC_App::loadApps();
+				if (!OC_Config::getValue('maintenance', false)) {
+					OC_App::loadApps();
+				}
 				OC::getRouter()->match(OC_Request::getRawPathInfo());
 				return;
 			} catch (Symfony\Component\Routing\Exception\ResourceNotFoundException $e) {

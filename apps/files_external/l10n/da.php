@@ -7,6 +7,7 @@
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b> Advarsel: </ b> \"smbclient\" ikke er installeret. Montering af CIFS / SMB delinger er ikke muligt. Spørg din systemadministrator om at installere det.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b> Advarsel: </ b> FTP-understøttelse i PHP ikke er aktiveret eller installeret. Montering af FTP delinger er ikke muligt. Spørg din systemadministrator om at installere det.",
 "External Storage" => "Ekstern opbevaring",
+"Folder name" => "Mappenavn",
 "Configuration" => "Opsætning",
 "Options" => "Valgmuligheder",
 "Applicable" => "Kan anvendes",

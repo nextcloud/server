@@ -71,16 +71,19 @@ class Trashbin {
 				\OC_Log::write('files_trashbin', 'trash bin database couldn\'t be updated', \OC_log::ERROR);
 				return;
 			}
+			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_moveToTrash',
+					array('filePath' => \OC\Files\Filesystem::normalizePath($file_path),
+							'trashPath' => \OC\Files\Filesystem::normalizePath($deleted.'.d'.$timestamp)));
 			
 			// Take care of file versions
 			if ( \OCP\App::isEnabled('files_versions') ) {
-				if ( $view->is_dir('files_versions'.$file_path) ) {
+				if ( $view->is_dir('files_versions/'.$file_path) ) {
 					$trashbinSize += self::calculateSize(new \OC\Files\View('/'. $user.'/files_versions/'.$file_path));
-					$view->rename('files_versions'.$file_path, 'files_trashbin/versions'. $deleted.'.d'.$timestamp);
+					$view->rename('files_versions/'.$file_path, 'files_trashbin/versions'. $deleted.'.d'.$timestamp);
 				} else if ( $versions = \OCA\Files_Versions\Storage::getVersions($user, $file_path) ) {
 					foreach ($versions as $v) {
 						$trashbinSize += $view->filesize('files_versions'.$v['path'].'.v'.$v['version']);
-						$view->rename('files_versions'.$v['path'].'.v'.$v['version'], 'files_trashbin/versions'. $deleted.'.v'.$v['version'].'.d'.$timestamp);
+						$view->rename('files_versions'.$v['path'].'.v'.$v['version'], 'files_trashbin/versions/'. $deleted.'.v'.$v['version'].'.d'.$timestamp);
 					}
 				}
 			}
@@ -105,7 +108,7 @@ class Trashbin {
 		if ( $quota === null || $quota === 'default') {
 			$quota = \OC_Appconfig::getValue('files', 'default_quota');
 		}
-		if ( $quota === null ) {
+		if ( $quota === null || $quota === 'none' ) {
 			$quota = \OC\Files\Filesystem::free_space('/') / count(\OCP\User::getUsers());
 		} else {
 			$quota = \OCP\Util::computerFileSize($quota);
@@ -173,6 +176,9 @@ class Trashbin {
 		$mtime = $view->filemtime($source);
 		if( $view->rename($source, $target.$ext) ) {
 			$view->touch($target.$ext, $mtime);
+			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', 
+					array('filePath' => \OC\Files\Filesystem::normalizePath('/'.$location.'/'.$filename.$ext),
+							'trashPath' => \OC\Files\Filesystem::normalizePath($file)));
 			if ($view->is_dir($target.$ext)) {
 				$trashbinSize -= self::calculateSize(new \OC\Files\View('/'.$user.'/'.$target.$ext));
 			} else {
@@ -411,7 +417,7 @@ class Trashbin {
 	 */
 	private static function getVersionsFromTrash($filename, $timestamp) {
 		$view = new \OC\Files\View('/'.\OCP\User::getUser().'/files_trashbin/versions');
-		$versionsName = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath($filename);
+		$versionsName = $view->getLocalFile($filename);
 		$versions = array();
 		if ($timestamp ) {
 			// fetch for old versions

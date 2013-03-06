@@ -7,6 +7,7 @@
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Atenție:</b> \"smbclient\" nu este instalat. Montarea mediilor CIFS/SMB partajate nu este posibilă. Solicită administratorului sistemului tău să îl instaleaze.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Atenție:</b> suportul pentru FTP în PHP nu este activat sau instalat. Montarea mediilor FPT partajate nu este posibilă. Solicită administratorului sistemului tău să îl instaleze.",
 "External Storage" => "Stocare externă",
+"Folder name" => "Denumire director",
 "Configuration" => "Configurație",
 "Options" => "Opțiuni",
 "Applicable" => "Aplicabil",

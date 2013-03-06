@@ -43,6 +43,7 @@
 "Module 'fileinfo' missing" => "Модуль 'fileinfo' потерян",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "PHP модуль 'fileinfo' потерян. Мы настоятельно рекомендуем включить этот модуль для получения лучших результатов в mime-типе обнаружения.",
 "Locale not working" => "Локализация не работает",
+"This ownCloud server can't set system locale to %s. This means that there might be problems with certain characters in file names. We strongly suggest to install the required packages on your system to support %s." => "Этот сервер ownCloud не может установить язык системы на %s. Это означает, что могут быть проблемы с некоторыми символами в именах файлов. Мы настоятельно рекомендуем установить необходимые пакеты в вашей системе для поддержки %s.",
 "Internet connection not working" => "Интернет соединение не работает",
 "This ownCloud server has no working internet connection. This means that some of the features like mounting of external storage, notifications about updates or installation of 3rd party apps don´t work. Accessing files from remote and sending of notification emails might also not work. We suggest to enable internet connection for this server if you want to have all features of ownCloud." => "Этот сервер ownCloud не имеет ни одного рабочего интернет соединения. Это значит, что некоторые возможности, такие как монтаж внешних носителей, уведомления о обновлениях или установки 3го рода приложений,не работают.",
 "Cron" => "Демон",

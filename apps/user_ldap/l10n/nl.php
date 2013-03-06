@@ -48,6 +48,7 @@
 "Turn off SSL certificate validation." => "Schakel SSL certificaat validatie uit.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Als de connectie alleen werkt met deze optie, importeer dan het LDAP server SSL certificaat naar je ownCloud server.",
 "Not recommended, use for testing only." => "Niet aangeraden, gebruik alleen voor test doeleinden.",
+"Cache Time-To-Live" => "Cache time-to-live",
 "in seconds. A change empties the cache." => "in seconden. Een verandering maakt de cache leeg.",
 "Directory Settings" => "Mapinstellingen",
 "User Display Name Field" => "Gebruikers Schermnaam Veld",
@@ -63,7 +64,12 @@
 "Group Search Attributes" => "Attributen voor groepszoekopdrachten",
 "Group-Member association" => "Groepslid associatie",
 "Special Attributes" => "Speciale attributen",
+"Quota Field" => "Quota veld",
+"Quota Default" => "Quota standaard",
 "in bytes" => "in bytes",
+"Email Field" => "E-mailveld",
+"User Home Folder Naming Rule" => "Gebruikers Home map naamgevingsregel",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Laat leeg voor de gebruikersnaam (standaard). Of, specificeer een LDAP/AD attribuut.",
+"Test Configuration" => "Test configuratie",
 "Help" => "Help"
 );

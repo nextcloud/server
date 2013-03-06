@@ -348,12 +348,11 @@ class OC_VCategories {
 				self::$relations[] = array('objid' => $id, 'category' => $name);
 			}
 		}
-		if(count($newones) > 0) {
-			$this->categories = array_merge($this->categories, $newones);
-			if($sync === true) {
-				$this->save();
-			}
+		$this->categories = array_merge($this->categories, $newones);
+		if($sync === true) {
+			$this->save();
 		}
+
 		return true;
 	}
 

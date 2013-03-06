@@ -34,6 +34,7 @@
 "MySQL user '%s'@'%%' already exists" => "Usuário MySQL '%s'@'%%' já existe",
 "Drop this user from MySQL." => "Derrube este usuário do MySQL.",
 "Offending command was: \"%s\", name: %s, password: %s" => "Comando ofensivo era: \"%s\", nome: %s, senha: %s",
+"MS SQL username and/or password not valid: %s" => "Nome de usuário e/ou senha MS SQL inválido(s): %s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Seu servidor web não está configurado corretamente para permitir sincronização de arquivos porque a interface WebDAV parece estar quebrada.",
 "Please double check the <a href='%s'>installation guides</a>." => "Por favor, confira os <a href='%s'>guias de instalação</a>.",
 "seconds ago" => "segundos atrás",

@@ -7,6 +7,7 @@
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Aðvörun:</b> \"smbclient\" er ekki uppsettur. Uppsetning á CIFS/SMB gagnasvæðum er ekki möguleg. Hafðu samband við kerfisstjóra til að fá hann uppsettan.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Aðvörun:</b> FTP stuðningur í PHP er ekki virkur. Uppsetning á FTP gagnasvæðum er ekki möguleg. Hafðu samband við kerfisstjóra til að fá hann uppsettan.",
 "External Storage" => "Ytri gagnageymsla",
+"Folder name" => "Nafn möppu",
 "Configuration" => "Uppsetning",
 "Options" => "Stillingar",
 "Applicable" => "Gilt",
