@@ -519,12 +519,13 @@ class OC_Template{
 	/**
 		* @brief Print a fatal error page and terminates the script
 		* @param string $error The error message to show
-		* @param string $hint An option hint message
+		* @param string $hint An optional hint message 
+		* Warning: All data passed to $hint needs to get sanitized using OC_Util::sanitizeHTML
 		*/
 	public static function printErrorPage( $error_msg, $hint = '' ) {
 		$content = new OC_Template( '', 'error', 'error' );
 		$errors = array(array('error' => $error_msg, 'hint' => $hint));
-		$content->assign( 'errors', $errors, false );
+		$content->assign( 'errors', $errors );
 		$content->printPage();
 		die();
 	}
