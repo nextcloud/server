@@ -277,6 +277,10 @@ class OC {
 					OC_Log::write('core',
 						'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion,
 						OC_Log::DEBUG);
+					$minimizerCSS = new OC_Minimizer_CSS();
+					$minimizerCSS->clearCache();
+					$minimizerJS = new OC_Minimizer_JS();
+					$minimizerJS->clearCache();
 					OC_Util::addscript('update');
 					$tmpl = new OC_Template('', 'update', 'guest');
 					$tmpl->assign('version', OC_Util::getVersionString());
