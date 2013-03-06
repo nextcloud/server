@@ -107,7 +107,9 @@ class OC_Connector_Sabre_Directory extends OC_Connector_Sabre_Node implements Sa
 	public function createDirectory($name) {
 
 		$newPath = $this->path . '/' . $name;
-		\OC\Files\Filesystem::mkdir($newPath);
+		if(!\OC\Files\Filesystem::mkdir($newPath)) {
+			throw new Sabre_DAV_Exception_Forbidden('Could not create directory '.$newPath);
+		}
 
 	}
 
