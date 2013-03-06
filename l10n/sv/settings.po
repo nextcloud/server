@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-07 00:16+0100\n"
+"PO-Revision-Date: 2013-03-06 01:50+0000\n"
+"Last-Translator: Lokal_Profil <lokal_profil@hotmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -156,19 +156,19 @@ msgstr "Radera"
 
 #: js/users.js:191
 msgid "add group"
-msgstr ""
+msgstr "lägg till grupp"
 
 #: js/users.js:352
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Ett giltigt användarnamn måste anges"
 
 #: js/users.js:353 js/users.js:359 js/users.js:374
 msgid "Error creating user"
-msgstr ""
+msgstr "Fel vid skapande av användare"
 
 #: js/users.js:358
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Ett giltigt lösenord måste anges"
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
@@ -204,7 +204,7 @@ msgstr "Var god kontrollera <a href='%s'>installationsguiden</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Modulen \"fileinfo\" saknas"
 
 #: templates/admin.php:47
 msgid ""
@@ -260,7 +260,7 @@ msgstr ""
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr ""
+msgstr "Dela"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
@@ -272,7 +272,7 @@ msgstr ""
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "Tillåt länkar"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
@@ -280,23 +280,23 @@ msgstr ""
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr ""
+msgstr "Tillåt vidaredelning"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Tillåt användare att dela vidare filer som delats med dem"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Tillåt delning med alla"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Tillåt bara delning med användare i egna grupper"
 
 #: templates/admin.php:168
 msgid "Security"
-msgstr ""
+msgstr "Säkerhet"
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
@@ -315,7 +315,7 @@ msgstr ""
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr ""
+msgstr "Logg"
 
 #: templates/admin.php:196
 msgid "Log level"

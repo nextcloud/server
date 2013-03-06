@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-04 00:06+0100\n"
-"PO-Revision-Date: 2013-03-03 23:06+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-07 00:16+0100\n"
+"PO-Revision-Date: 2013-03-06 01:40+0000\n"
+"Last-Translator: Lokal_Profil <lokal_profil@hotmail.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -285,7 +285,7 @@ msgstr "Avbryt uppladdning"
 
 #: templates/index.php:53
 msgid "You don’t have write permissions here."
-msgstr ""
+msgstr "Du saknar skrivbehörighet här."
 
 #: templates/index.php:60
 msgid "Nothing in here. Upload something!"

@@ -15,7 +15,7 @@
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Advertencia:</b> El módulo LDAP de PHP no está instalado, el sistema no funcionará. Por favor consulte al administrador del sistema para instalarlo.",
 "Server configuration" => "Configuración del Servidor",
 "Add Server Configuration" => "Agregar configuracion del servidor",
-"Host" => "Máquina",
+"Host" => "Servidor",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Puede omitir el protocolo, excepto si requiere SSL. En ese caso, empiece con ldaps://",
 "Base DN" => "DN base",
 "One Base DN per line" => "Un DN Base por línea",
@@ -48,6 +48,7 @@
 "Turn off SSL certificate validation." => "Apagar la validación por certificado SSL.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Si la conexión sólo funciona con esta opción, importe el certificado SSL del servidor LDAP en su servidor ownCloud.",
 "Not recommended, use for testing only." => "No recomendado, sólo para pruebas.",
+"Cache Time-To-Live" => "Cache TTL",
 "in seconds. A change empties the cache." => "en segundos. Un cambio vacía la cache.",
 "Directory Settings" => "Configuracion de directorio",
 "User Display Name Field" => "Campo de nombre de usuario a mostrar",
@@ -63,7 +64,11 @@
 "Group Search Attributes" => "Atributos de busqueda de grupo",
 "Group-Member association" => "Asociación Grupo-Miembro",
 "Special Attributes" => "Atributos especiales",
+"Quota Field" => "Cuota",
+"Quota Default" => "Cuota por defecto",
 "in bytes" => "en bytes",
+"Email Field" => "E-mail",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Vacío para el nombre de usuario (por defecto). En otro caso, especifique un atributo LDAP/AD.",
+"Test Configuration" => "Configuración de prueba",
 "Help" => "Ayuda"
 );

@@ -63,7 +63,9 @@
 "Group Search Attributes" => "Gruppsökningsattribut",
 "Group-Member association" => "Attribut för gruppmedlemmar",
 "Special Attributes" => "Specialattribut",
+"Quota Field" => "Kvotfält",
 "in bytes" => "i bytes",
+"Email Field" => "E-postfält",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Lämnas tomt för användarnamn (standard). Ange annars ett LDAP/AD-attribut.",
 "Help" => "Hjälp"
 );
