@@ -417,10 +417,6 @@ class Shared extends \OC\Files\Storage\Common {
 			\OC\Files\Filesystem::mount('\OC\Files\Storage\Shared',
 				array('sharedFolder' => '/Shared'),
 				$user_dir.'/Shared/');
-			\OC_Hook::connect('OC_Filesystem', 'post_write', '\OC\Files\Cache\Shared_Updater', 'writeHook');
-			\OC_Hook::connect('OC_Filesystem', 'post_delete', '\OC\Files\Cache\Shared_Updater', 'deleteHook');
-			\OC_Hook::connect('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Shared_Updater', 'renameHook');
-			\OC_Hook::connect('OCP\Share', 'post_shared', '\OC\Files\Cache\Shared_Updater', 'shareHook');
 		}
 	}
 

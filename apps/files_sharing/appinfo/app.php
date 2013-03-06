@@ -11,3 +11,8 @@ OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'set
 OCP\Share::registerBackend('file', 'OC_Share_Backend_File');
 OCP\Share::registerBackend('folder', 'OC_Share_Backend_Folder', 'file');
 OCP\Util::addScript('files_sharing', 'share');
+\OC_Hook::connect('OC_Filesystem', 'post_write', '\OC\Files\Cache\Shared_Updater', 'writeHook');
+\OC_Hook::connect('OC_Filesystem', 'post_delete', '\OC\Files\Cache\Shared_Updater', 'deleteHook');
+\OC_Hook::connect('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Shared_Updater', 'renameHook');
+\OC_Hook::connect('OCP\Share', 'post_shared', '\OC\Files\Cache\Shared_Updater', 'shareHook');
+\OC_Hook::connect('OCP\Share', 'post_unshare', '\OC\Files\Cache\Shared_Updater', 'shareHook');
