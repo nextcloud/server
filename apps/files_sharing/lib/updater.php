@@ -35,12 +35,18 @@ class Shared_Updater {
 		// Correct Shared folders of other users shared with
 		$users = \OCP\Share::getUsersItemShared('file', $info['fileid'], $uidOwner, true);
 		if (!empty($users)) {
-			foreach ($users as $user) {
-				// The ETag of the logged in user should already be updated
-				if ($user !== $uid) {
-					$etag = \OC\Files\Filesystem::getETag(''); 
-					\OCP\Config::setUserValue($user, 'files_sharing', 'etag', $etag);
+			while (!empty($users)) {
+				$reshareUsers = array();
+				foreach ($users as $user) {
+					// The ETag of the logged in user should already be updated
+					if ($user !== $uid) {
+						$etag = \OC\Files\Filesystem::getETag('');
+						\OCP\Config::setUserValue($user, 'files_sharing', 'etag', $etag);
+						// Look for reshares
+						$reshareUsers = array_merge($reshareUsers, \OCP\Share::getUsersItemShared('file', $info['fileid'], $user, true));
+					}
 				}
+				$users = $reshareUsers;
 			}
 			// Correct folders of shared file owner
 			$target = substr($target, 8);
