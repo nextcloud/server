@@ -49,8 +49,9 @@ class OC_Files {
 			isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
 			$xsendfile = true;
 		}
-		if(strpos($files, ';')) {
-			$files=explode(';', $files);
+
+		if (count($files) == 1) {
+			$files = $files[0];
 		}
 
 		if (is_array($files)) {
