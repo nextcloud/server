@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#  <dudanogueira@gmail.com>, 2013.
 #   <dudanogueira@gmail.com>, 2012.
 #   <fred.maranhao@gmail.com>, 2012.
 # Guilherme Maluf Balzana <guimalufb@gmail.com>, 2012.
@@ -17,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-04 00:06+0100\n"
-"PO-Revision-Date: 2013-03-03 23:06+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-08 00:25+0100\n"
+"PO-Revision-Date: 2013-03-07 12:10+0000\n"
+"Last-Translator: dudanogueira <dudanogueira@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -30,12 +31,12 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr "Não possível mover %s - Um arquivo com este nome já existe"
+msgstr "Impossível mover %s - Um arquivo com este nome já existe"
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr "Não possível mover %s"
+msgstr "Impossível mover %s"
 
 #: ajax/rename.php:22 ajax/rename.php:25
 msgid "Unable to rename file"
@@ -43,7 +44,7 @@ msgstr "Impossível renomear arquivo"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
-msgstr "Nenhum arquivo foi transferido. Erro desconhecido"
+msgstr "Nenhum arquivo foi enviado. Erro desconhecido"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
@@ -100,8 +101,8 @@ msgstr "Excluir"
 msgid "Rename"
 msgstr "Renomear"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:292 js/files.js:408
-#: js/files.js:439
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
+#: js/files.js:440
 msgid "Pending"
 msgstr "Pendente"
 
@@ -149,80 +150,80 @@ msgstr "Nome inválido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr "Seu armazenamento está cheio, arquivos não serão mais atualizados nem sincronizados!"
+msgstr "Seu armazenamento está cheio, arquivos não podem mais ser atualizados ou sincronizados!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Seu armazenamento está quase cheio ({usedSpacePercent}%)"
 
-#: js/files.js:225
+#: js/files.js:226
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Seu download está sendo preparado. Isto pode levar algum tempo se os arquivos forem grandes."
 
-#: js/files.js:262
+#: js/files.js:263
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Impossível enviar seus arquivo como diretório ou ele tem 0 bytes."
+msgstr "Impossível enviar seus arquivo por ele ser um diretório ou ter 0 bytes."
 
-#: js/files.js:262
+#: js/files.js:263
 msgid "Upload Error"
 msgstr "Erro de envio"
 
-#: js/files.js:273
+#: js/files.js:274
 msgid "Close"
 msgstr "Fechar"
 
-#: js/files.js:312
+#: js/files.js:313
 msgid "1 file uploading"
 msgstr "enviando 1 arquivo"
 
-#: js/files.js:315 js/files.js:370 js/files.js:385
+#: js/files.js:316 js/files.js:371 js/files.js:386
 msgid "{count} files uploading"
 msgstr "Enviando {count} arquivos"
 
-#: js/files.js:388 js/files.js:423
+#: js/files.js:389 js/files.js:424
 msgid "Upload cancelled."
 msgstr "Envio cancelado."
 
-#: js/files.js:497
+#: js/files.js:498
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Upload em andamento. Sair da página agora resultará no cancelamento do envio."
 
-#: js/files.js:570
+#: js/files.js:571
 msgid "URL cannot be empty."
 msgstr "URL não pode ficar em branco"
 
-#: js/files.js:575
+#: js/files.js:576
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nome de pasta inválido. O uso de 'Shared' é reservado para o Owncloud"
 
-#: js/files.js:953 templates/index.php:68
+#: js/files.js:954 templates/index.php:68
 msgid "Name"
 msgstr "Nome"
 
-#: js/files.js:954 templates/index.php:79
+#: js/files.js:955 templates/index.php:79
 msgid "Size"
 msgstr "Tamanho"
 
-#: js/files.js:955 templates/index.php:81
+#: js/files.js:956 templates/index.php:81
 msgid "Modified"
 msgstr "Modificado"
 
-#: js/files.js:974
+#: js/files.js:975
 msgid "1 folder"
 msgstr "1 pasta"
 
-#: js/files.js:976
+#: js/files.js:977
 msgid "{count} folders"
 msgstr "{count} pastas"
 
-#: js/files.js:984
+#: js/files.js:985
 msgid "1 file"
 msgstr "1 arquivo"
 
-#: js/files.js:986
+#: js/files.js:987
 msgid "{count} files"
 msgstr "{count} arquivos"
 
@@ -244,7 +245,7 @@ msgstr "max. possível:"
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr "Necessário para multiplos arquivos e diretório de downloads."
+msgstr "Necessário para download de múltiplos arquivos e diretórios."
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
@@ -288,7 +289,7 @@ msgstr "Cancelar upload"
 
 #: templates/index.php:53
 msgid "You don’t have write permissions here."
-msgstr ""
+msgstr "Você não possui permissão de escrita aqui."
 
 #: templates/index.php:60
 msgid "Nothing in here. Upload something!"
@@ -322,4 +323,4 @@ msgstr "Scanning atual"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr "Aprimorando cache do sistema de arquivos..."
+msgstr "Atualizando cache do sistema de arquivos..."

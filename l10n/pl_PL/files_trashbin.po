@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-21 00:14+0100\n"
-"PO-Revision-Date: 2013-02-20 23:14+0000\n"
+"POT-Creation-Date: 2013-03-08 00:25+0100\n"
+"PO-Revision-Date: 2013-03-07 23:25+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (Poland) (http://www.transifex.com/projects/p/owncloud/language/pl_PL/)\n"
 "MIME-Version: 1.0\n"
@@ -39,27 +39,27 @@ msgstr ""
 msgid "Delete permanently"
 msgstr ""
 
-#: js/trash.js:151 templates/index.php:17
+#: js/trash.js:174 templates/index.php:17
 msgid "Name"
 msgstr ""
 
-#: js/trash.js:152 templates/index.php:27
+#: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
 msgstr ""
 
-#: js/trash.js:161
+#: js/trash.js:184
 msgid "1 folder"
 msgstr ""
 
-#: js/trash.js:163
+#: js/trash.js:186
 msgid "{count} folders"
 msgstr ""
 
-#: js/trash.js:171
+#: js/trash.js:194
 msgid "1 file"
 msgstr ""
 
-#: js/trash.js:173
+#: js/trash.js:196
 msgid "{count} files"
 msgstr ""
 
@@ -73,4 +73,8 @@ msgstr ""
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
+msgstr ""
+
+#: templates/part.breadcrumb.php:9
+msgid "Deleted Files"
 msgstr ""

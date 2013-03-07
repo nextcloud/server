@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-23 00:04+0100\n"
-"PO-Revision-Date: 2013-02-22 23:00+0000\n"
-"Last-Translator: a.tangemann <a.tangemann@web.de>\n"
+"POT-Creation-Date: 2013-03-08 00:25+0100\n"
+"PO-Revision-Date: 2013-03-07 23:25+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,27 +46,27 @@ msgstr "Datei dauerhaft löschen"
 msgid "Delete permanently"
 msgstr "Endgültig löschen"
 
-#: js/trash.js:151 templates/index.php:17
+#: js/trash.js:174 templates/index.php:17
 msgid "Name"
 msgstr "Name"
 
-#: js/trash.js:152 templates/index.php:27
+#: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
 msgstr "Gelöscht"
 
-#: js/trash.js:161
+#: js/trash.js:184
 msgid "1 folder"
 msgstr "1 Ordner"
 
-#: js/trash.js:163
+#: js/trash.js:186
 msgid "{count} folders"
 msgstr "{count} Ordner"
 
-#: js/trash.js:171
+#: js/trash.js:194
 msgid "1 file"
 msgstr "1 Datei"
 
-#: js/trash.js:173
+#: js/trash.js:196
 msgid "{count} files"
 msgstr "{count} Dateien"
 
@@ -81,3 +81,7 @@ msgstr "Wiederherstellen"
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
 msgstr "Löschen"
+
+#: templates/part.breadcrumb.php:9
+msgid "Deleted Files"
+msgstr ""
