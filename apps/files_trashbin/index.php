@@ -98,7 +98,7 @@ foreach (explode('/', $dir) as $i) {
 $breadcrumbNav = new OCP\Template('files_trashbin', 'part.breadcrumb', '');
 $breadcrumbNav->assign('breadcrumb', $breadcrumb);
 $breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php') . '?dir=');
-$breadcrumbNav->assign('home', OCP\Util::linkTo('files', 'index.php') . '?dir=');
+$breadcrumbNav->assign('home', OCP\Util::linkTo('files', 'index.php'));
 
 $list = new OCP\Template('files_trashbin', 'part.list', '');
 $list->assign('files', $files);
