@@ -45,11 +45,7 @@ class Shared extends \OC\Files\Storage\Common {
 	*/
 	private function getFile($target) {
 		if (!isset($this->files[$target])) {
-			$source = \OC_Share_Backend_File::getSource($target);
-			if ($source) {
-				$source['path'] = '/'.$source['uid_owner'].'/'.$source['path'];
-			}
-			$this->files[$target] = $source;
+			$this->files[$target] = \OC_Share_Backend_File::getSource($target);
 		}
 		return $this->files[$target];
 	}
@@ -62,8 +58,16 @@ class Shared extends \OC\Files\Storage\Common {
 	private function getSourcePath($target) {
 		$source = $this->getFile($target);
 		if ($source) {
-			\OC\Files\Filesystem::initMountPoints($source['uid_owner']);
-			return $source['path'];
+			if (!isset($source['fullPath'])) {
+				\OC\Files\Filesystem::initMountPoints($source['fileOwner']);
+				$mount = \OC\Files\Mount::findByNumericId($source['storage']);
+				if ($mount) {
+					$this->files[$target]['fullPath'] = $mount->getMountPoint().$source['path'];
+				} else {
+					$this->files[$target]['fullPath'] = false;
+				}
+			}
+			return $this->files[$target]['fullPath'];
 		}
 		return false;
 	}
@@ -430,7 +434,7 @@ class Shared extends \OC\Files\Storage\Common {
 		}
 		$source = $this->getFile($path);
 		if ($source) {
-			return $source['uid_owner'];
+			return $source['fileOwner'];
 		}
 		return false;
 	}
