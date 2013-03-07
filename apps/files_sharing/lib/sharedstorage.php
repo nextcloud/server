@@ -49,15 +49,12 @@ class Shared extends \OC\Files\Storage\Common {
 			if (pathinfo($target, PATHINFO_EXTENSION) === 'part') {
 				$source = \OC_Share_Backend_File::getSource(substr($target, 0, -5));
 				if ($source) {
-					$source['path'] = '/'.$source['uid_owner'].'/'.$source['path'].'.part';
+					$source['path'] .= '.part';
 					// All partial files have delete permission
 					$source['permissions'] |= \OCP\PERMISSION_DELETE;
 				}
 			} else {
 				$source = \OC_Share_Backend_File::getSource($target);
-				if ($source) {
-					$source['path'] = '/'.$source['uid_owner'].'/'.$source['path'];
-				}
 			}
 			$this->files[$target] = $source;
 		}
@@ -72,8 +69,16 @@ class Shared extends \OC\Files\Storage\Common {
 	private function getSourcePath($target) {
 		$source = $this->getFile($target);
 		if ($source) {
-			\OC\Files\Filesystem::initMountPoints($source['uid_owner']);
-			return $source['path'];
+			if (!isset($source['fullPath'])) {
+				\OC\Files\Filesystem::initMountPoints($source['fileOwner']);
+				$mount = \OC\Files\Mount::findByNumericId($source['storage']);
+				if ($mount) {
+					$this->files[$target]['fullPath'] = $mount->getMountPoint().$source['path'];
+				} else {
+					$this->files[$target]['fullPath'] = false;
+				}
+			}
+			return $this->files[$target]['fullPath'];
 		}
 		return false;
 	}
@@ -449,7 +454,7 @@ class Shared extends \OC\Files\Storage\Common {
 		}
 		$source = $this->getFile($path);
 		if ($source) {
-			return $source['uid_owner'];
+			return $source['fileOwner'];
 		}
 		return false;
 	}

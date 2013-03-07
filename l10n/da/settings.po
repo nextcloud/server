@@ -7,7 +7,7 @@
 # Frederik Lassen <frederiklassen@gmail.com>, 2013.
 #   <icewind1991@gmail.com>, 2012.
 #   <mikkelbjerglarsen@gmail.com>, 2011.
-# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011-2012.
+# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011-2013.
 # Ole Holm Frandsen <froksen@gmail.com>, 2012.
 # Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
 #   <simon@rosmi.dk>, 2012.
@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-05 00:18+0100\n"
-"PO-Revision-Date: 2013-03-04 18:30+0000\n"
-"Last-Translator: cronner <cronner@gmail.com>\n"
+"POT-Creation-Date: 2013-03-07 00:16+0100\n"
+"PO-Revision-Date: 2013-03-06 11:50+0000\n"
+"Last-Translator: Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -239,7 +239,7 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "Denne ownCloud-server har ikke en fungerende forbindelse til internettet. Det betyder, at visse funktioner som montering af eksterne drev, oplysninger om opdatering eller installation af eksterne applikationer ikke fungerer. Det vil sandsynligvis heller ikke fungere at tilgå filer fra eksterne drev eller informationsemails. Vi opfordrer til at etablere forbindelse til internettet for denne server, såfremt du ønsker alle ownClouds funktioner."
 
 #: templates/admin.php:92
 msgid "Cron"

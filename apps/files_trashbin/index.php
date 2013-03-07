@@ -95,15 +95,17 @@ foreach (explode('/', $dir) as $i) {
 	}
 }
 
-$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
+$breadcrumbNav = new OCP\Template('files_trashbin', 'part.breadcrumb', '');
 $breadcrumbNav->assign('breadcrumb', $breadcrumb);
 $breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php') . '?dir=');
+$breadcrumbNav->assign('home', OCP\Util::linkTo('files', 'index.php'));
 
 $list = new OCP\Template('files_trashbin', 'part.list', '');
 $list->assign('files', $files);
 $list->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php'). '?dir='.$dir);
 $list->assign('downloadURL', OCP\Util::linkTo('files_trashbin', 'download.php') . '?file='.$dir);
 $list->assign('disableSharing', true);
+$list->assign('dirlisting', $dirlisting);
 $tmpl->assign('dirlisting', $dirlisting);
 $list->assign('disableDownloadActions', true);
 $tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage());

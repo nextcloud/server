@@ -61,6 +61,7 @@
 "From link" => "Från länk",
 "Deleted files" => "Raderade filer",
 "Cancel upload" => "Avbryt uppladdning",
+"You don’t have write permissions here." => "Du saknar skrivbehörighet här.",
 "Nothing in here. Upload something!" => "Ingenting här. Ladda upp något!",
 "Download" => "Ladda ner",
 "Unshare" => "Sluta dela",
