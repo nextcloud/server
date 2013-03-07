@@ -39,7 +39,7 @@ class Mount extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(2, count(\OC\Files\Mount::findIn('/')));
 
 		$id = $mount->getStorageId();
-		$this->assertEquals(array($mount), \OC\Files\Mount::findById($id));
+		$this->assertEquals(array($mount), \OC\Files\Mount::findByStorageId($id));
 
 		$mount2 = new \OC\Files\Mount($storage, '/foo/bar');
 		$this->assertEquals(array($mount, $mount2), \OC\Files\Mount::findByStorageId($id));
