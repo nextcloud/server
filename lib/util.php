@@ -172,7 +172,7 @@ class OC_Util {
 		if(!(is_callable('sqlite_open') or class_exists('SQLite3'))
 			and !is_callable('mysql_connect')
 			and !is_callable('pg_connect')) {
-			$errors[]=array('error'=>'No database drivers (sqlite, mysql, or postgresql) installed.<br/>',
+			$errors[]=array('error'=>'No database drivers (sqlite, mysql, or postgresql) installed.',
 				'hint'=>'');//TODO: sane hint
 			$web_server_restart= true;
 		}
@@ -218,74 +218,74 @@ class OC_Util {
 		}
 		// check if all required php modules are present
 		if(!class_exists('ZipArchive')) {
-			$errors[]=array('error'=>'PHP module zip not installed.<br/>',
+			$errors[]=array('error'=>'PHP module zip not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!class_exists('DOMDocument')) {
-			$errors[] = array('error' => 'PHP module dom not installed.<br/>',
+			$errors[] = array('error' => 'PHP module dom not installed.',
 				'hint' => 'Please ask your server administrator to install the module.');
 			$web_server_restart = false;
 		}
 		if(!function_exists('xml_parser_create')) {
-			$errors[] = array('error' => 'PHP module libxml not installed.<br/>',
+			$errors[] = array('error' => 'PHP module libxml not installed.',
 				'hint' => 'Please ask your server administrator to install the module.');
 			$web_server_restart = false;
 		}
 		if(!function_exists('mb_detect_encoding')) {
-			$errors[]=array('error'=>'PHP module mb multibyte not installed.<br/>',
+			$errors[]=array('error'=>'PHP module mb multibyte not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('ctype_digit')) {
-			$errors[]=array('error'=>'PHP module ctype is not installed.<br/>',
+			$errors[]=array('error'=>'PHP module ctype is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('json_encode')) {
-			$errors[]=array('error'=>'PHP module JSON is not installed.<br/>',
+			$errors[]=array('error'=>'PHP module JSON is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('imagepng')) {
-			$errors[]=array('error'=>'PHP module GD is not installed.<br/>',
+			$errors[]=array('error'=>'PHP module GD is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('gzencode')) {
-			$errors[]=array('error'=>'PHP module zlib is not installed.<br/>',
+			$errors[]=array('error'=>'PHP module zlib is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('iconv')) {
-			$errors[]=array('error'=>'PHP module iconv is not installed.<br/>',
+			$errors[]=array('error'=>'PHP module iconv is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(!function_exists('simplexml_load_string')) {
-			$errors[]=array('error'=>'PHP module SimpleXML is not installed.<br/>',
+			$errors[]=array('error'=>'PHP module SimpleXML is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(floatval(phpversion())<5.3) {
-			$errors[]=array('error'=>'PHP 5.3 is required.<br/>',
+			$errors[]=array('error'=>'PHP 5.3 is required.',
 				'hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher.'
 					.' PHP 5.2 is no longer supported by ownCloud and the PHP community.');
 			$web_server_restart= false;
 		}
 		if(!defined('PDO::ATTR_DRIVER_NAME')) {
-			$errors[]=array('error'=>'PHP PDO module is not installed.<br/>',
+			$errors[]=array('error'=>'PHP PDO module is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
 		if(ini_get('safe_mode')) {
-			$errors[]=array('error'=>'PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly.<br/>',
+			$errors[]=array('error'=>'PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly.',
 				'hint'=>'PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config.');
 			$web_server_restart= false;
 		}
 
 		if($web_server_restart) {
-			$errors[]=array('error'=>'PHP modules have been installed, but they are still listed as missing?<br/>',
+			$errors[]=array('error'=>'PHP modules have been installed, but they are still listed as missing?',
 				'hint'=>'Please ask your server administrator to restart the web server.');
 		}
 
