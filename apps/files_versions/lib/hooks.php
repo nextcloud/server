@@ -21,6 +21,12 @@ class Hooks {
 
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
 			$path = $params[\OC\Files\Filesystem::signal_param_path];
+			$pos = strrpos($path, '.part');
+			if ($pos) {
+				error_log("old path: $path");
+				$path = substr($path, 0, $pos);
+				error_log("new path: $path");
+			}
 			if($path<>'') {
 				Storage::store($path);
 			}
