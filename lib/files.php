@@ -78,7 +78,13 @@ class OC_Files {
 				}
 			}
 			$zip->close();
-			$name = basename($dir) . '.zip';
+			$basename = basename($dir);
+			if ($basename) {
+				$name = $basename . '.zip';
+			} else {
+				$name = 'owncloud.zip';
+			}
+			
 			set_time_limit($executionTime);
 		} elseif (\OC\Files\Filesystem::is_dir($dir . '/' . $files)) {
 			self::validateZipDownload($dir, $files);
