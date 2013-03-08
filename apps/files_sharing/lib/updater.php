@@ -85,8 +85,20 @@ class Shared_Updater {
 	 */
 	static public function shareHook($params) {
 		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
-			$id = \OC\Files\Filesystem::getPath($params['fileSource']);
-			self::correctFolders($id);
+			$uidOwner = \OCP\User::getUser();
+			$users = \OCP\Share::getUsersItemShared('file', $params['fileSource'], $uidOwner, true);
+			if (!empty($users)) {
+				while (!empty($users)) {
+					$reshareUsers = array();
+					foreach ($users as $user) {
+						$etag = \OC\Files\Filesystem::getETag('');
+						\OCP\Config::setUserValue($user, 'files_sharing', 'etag', $etag);
+						// Look for reshares
+						$reshareUsers = array_merge($reshareUsers, \OCP\Share::getUsersItemShared('file', $params['fileSource'], $user, true));
+					}
+					$users = $reshareUsers;
+				}
+			}
 		}
 	}
 
