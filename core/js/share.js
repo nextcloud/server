@@ -84,10 +84,10 @@ OC.Share={
 				var img = action.find('img').attr('src', image);
 				if (shares) {
 					action.addClass('permanent');
-					action.html(' '+t('core', 'Shared')).prepend(img);
+					action.html(' '+ escapeHTML(t('core', 'Shared'))).prepend(img);
 				} else {
 					action.removeClass('permanent');
-					action.html(' '+t('core', 'Share')).prepend(img);
+					action.html(' '+ escapeHTML(t('core', 'Share'))).prepend(img);
 				}
 			}
 		}
