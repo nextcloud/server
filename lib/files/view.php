@@ -603,7 +603,7 @@ class View {
 			if ($path == null) {
 				return false;
 			}
-			foreach ($hooks as $h) if ($h == "write") error_log("write triggered by $operation for $path");
+
 			$run = $this->runHooks($hooks, $path);
 			list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($run and $storage) {
