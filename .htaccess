@@ -1,5 +1,4 @@
 <IfModule mod_fcgid.c>
-php_value cgi.fix_pathinfo 1
 <IfModule mod_setenvif.c>
 <IfModule mod_headers.c>
 SetEnvIfNoCase ^Authorization$ "(.+)" XAUTHORIZATION=$1
