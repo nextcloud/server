@@ -12,5 +12,6 @@
 "{count} files" => "{count} fitxategi",
 "Nothing in here. Your trash bin is empty!" => "Ez dago ezer ez. Zure zakarrontzia hutsik dago!",
 "Restore" => "Berrezarri",
-"Delete" => "Ezabatu"
+"Delete" => "Ezabatu",
+"Deleted Files" => "Ezabatutako Fitxategiak"
 );

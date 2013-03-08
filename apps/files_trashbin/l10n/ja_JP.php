@@ -12,5 +12,6 @@
 "{count} files" => "{count} ファイル",
 "Nothing in here. Your trash bin is empty!" => "ここには何もありません。ゴミ箱は空です！",
 "Restore" => "復元",
-"Delete" => "削除"
+"Delete" => "削除",
+"Deleted Files" => "削除されたファイル"
 );

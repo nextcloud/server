@@ -5,6 +5,7 @@
 "User %s shared the folder \"%s\" with you. It is available for download here: %s" => "Uporanik %s je dal mapo \"%s\" v souporabo z vami. Prenesete je lahko tukaj: %s",
 "Category type not provided." => "Vrsta kategorije ni podana.",
 "No category to add?" => "Ni kategorije za dodajanje?",
+"This category already exists: %s" => "Kategorija že obstaja: %s",
 "Object type not provided." => "Vrsta predmeta ni podana.",
 "%s ID not provided." => "%s ID ni podan.",
 "Error adding %s to favorites." => "Napaka pri dodajanju %s med priljubljene.",
@@ -52,6 +53,7 @@
 "Error" => "Napaka",
 "The app name is not specified." => "Ime aplikacije ni podano.",
 "The required file {file} is not installed!" => "Zahtevana datoteka {file} ni nameščena!",
+"Shared" => "V souporabi",
 "Share" => "Souporaba",
 "Error while sharing" => "Napaka med souporabo",
 "Error while unsharing" => "Napaka med odstranjevanjem souporabe",
@@ -124,6 +126,8 @@
 "Lost your password?" => "Ali ste pozabili geslo?",
 "remember" => "Zapomni si me",
 "Log in" => "Prijava",
+"Alternative Logins" => "Druge prijavne možnosti",
 "prev" => "nazaj",
-"next" => "naprej"
+"next" => "naprej",
+"Updating ownCloud to version %s, this may take a while." => "Posodabljanje sistema ownCloud na različico %s je lahko dolgotrajno."
 );

@@ -8,6 +8,7 @@
 "Missing a temporary folder" => "Manjka začasna mapa",
 "Failed to write to disk" => "Pisanje na disk je spodletelo",
 "Files" => "Datoteke",
+"Delete permanently" => "Izbriši trajno",
 "Delete" => "Izbriši",
 "Rename" => "Preimenuj",
 "Pending" => "V čakanju ...",

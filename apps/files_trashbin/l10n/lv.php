@@ -12,5 +12,6 @@
 "{count} files" => "{count} datnes",
 "Nothing in here. Your trash bin is empty!" => "Šeit nekā nav. Jūsu miskaste ir tukša!",
 "Restore" => "Atjaunot",
-"Delete" => "Dzēst"
+"Delete" => "Dzēst",
+"Deleted Files" => "Dzēstās datnes"
 );
