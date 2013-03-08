@@ -141,7 +141,9 @@ if (isset($path)) {
 			OCP\Util::addscript('files', 'keyboardshortcuts');
 			$files = array();
 			$rootLength = strlen($basePath) + 1;
+			$totalSize = 0;
 			foreach (\OC\Files\Filesystem::getDirectoryContent($path) as $i) {
+				$totalSize += $i['size'];
 				$i['date'] = OCP\Util::formatDate($i['mtime']);
 				if ($i['type'] == 'file') {
 					$fileinfo = pathinfo($i['name']);
@@ -188,7 +190,9 @@ if (isset($path)) {
 			$folder->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 			$folder->assign('usedSpacePercent', 0);
 			$tmpl->assign('folder', $folder->fetchPage());
-			$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
+			$allowZip = OCP\Config::getSystemValue('allowZipDownload', true)
+						&& $totalSize <= OCP\Config::getSystemValue('maxZipInputSize', OCP\Util::computerFileSize('800 MB'));
+			$tmpl->assign('allowZipDownload', intval($allowZip));
 			$tmpl->assign('downloadURL',
 				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=' . urlencode($getPath));
 		} else {
