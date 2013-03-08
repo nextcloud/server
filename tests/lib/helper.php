@@ -146,4 +146,46 @@ class Test_Helper extends PHPUnit_Framework_TestCase {
 		$result = OC_Helper::recursiveArraySearch($haystack, "NotFound");
 		$this->assertFalse($result);
 	}
+
+	function testBuildNotExistingFileNameForView() {
+		$viewMock = $this->getMock('\OC\Files\View', array(), array(), '', false);
+		$this->assertEquals('/filename', OC_Helper::buildNotExistingFileNameForView('/', 'filename', $viewMock));
+		$this->assertEquals('dir/filename.ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename.ext', $viewMock));
+
+		$viewMock->expects($this->at(0))
+			->method('file_exists')
+			->will($this->returnValue(true));
+		$this->assertEquals('dir/filename (2).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename.ext', $viewMock));
+
+		$viewMock->expects($this->at(0))
+			->method('file_exists')
+			->will($this->returnValue(true));
+		$viewMock->expects($this->at(1))
+			->method('file_exists')
+			->will($this->returnValue(true));
+		$this->assertEquals('dir/filename (3).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename.ext', $viewMock));
+
+		$viewMock->expects($this->at(0))
+			->method('file_exists')
+			->will($this->returnValue(true));
+		$this->assertEquals('dir/filename (2).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename (1).ext', $viewMock));
+
+		$viewMock->expects($this->at(0))
+			->method('file_exists')
+			->will($this->returnValue(true));
+		$viewMock->expects($this->at(1))
+			->method('file_exists')
+			->will($this->returnValue(true));
+		$this->assertEquals('dir/filename (3).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename (2).ext', $viewMock));
+
+		$viewMock->expects($this->at(0))
+			->method('file_exists')
+			->will($this->returnValue(true));
+		$this->assertEquals('dir/filename(2).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1).ext', $viewMock));
+
+		$viewMock->expects($this->at(0))
+			->method('file_exists')
+			->will($this->returnValue(true));
+		$this->assertEquals('dir/filename(1) (2).ext', OC_Helper::buildNotExistingFileNameForView('dir', 'filename(1) (1).ext', $viewMock));
+	}
 }
