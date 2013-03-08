@@ -245,7 +245,14 @@ class View {
 		if (!is_null($mtime) and !is_numeric($mtime)) {
 			$mtime = strtotime($mtime);
 		}
-		return $this->basicOperation('touch', $path, array('write'), $mtime);
+		
+		$hooks = array('touch');
+		
+		if (!$this->file_exists($path)) {
+			$hooks[] = 'write';
+		}
+		
+		return $this->basicOperation('touch', $path, $hooks, $mtime);
 	}
 
 	public function file_get_contents($path) {
@@ -596,6 +603,7 @@ class View {
 			if ($path == null) {
 				return false;
 			}
+
 			$run = $this->runHooks($hooks, $path);
 			list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($run and $storage) {

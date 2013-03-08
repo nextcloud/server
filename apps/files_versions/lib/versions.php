@@ -61,7 +61,7 @@ class Storage {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * write to the database how much space is in use for versions
 	 * 
@@ -82,6 +82,14 @@ class Storage {
 	 */
 	public static function store($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+			
+			// if the file gets streamed we need to remove the .part extension
+			// to get the right target
+			$ext = pathinfo($filename, PATHINFO_EXTENSION);
+			if ($ext === 'part') {
+				$filename = substr($filename, 0, strlen($filename)-5);
+			}
+			
 			list($uid, $filename) = self::getUidAndFilename($filename);
 
 			$files_view = new \OC\Files\View('/'.$uid .'/files');
