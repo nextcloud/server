@@ -38,13 +38,10 @@ class Shared_Updater {
 			while (!empty($users)) {
 				$reshareUsers = array();
 				foreach ($users as $user) {
-					// The ETag of the logged in user should already be updated
-					if ($user !== $uid) {
-						$etag = \OC\Files\Filesystem::getETag('');
-						\OCP\Config::setUserValue($user, 'files_sharing', 'etag', $etag);
-						// Look for reshares
-						$reshareUsers = array_merge($reshareUsers, \OCP\Share::getUsersItemShared('file', $info['fileid'], $user, true));
-					}
+					$etag = \OC\Files\Filesystem::getETag('');
+					\OCP\Config::setUserValue($user, 'files_sharing', 'etag', $etag);
+					// Look for reshares
+					$reshareUsers = array_merge($reshareUsers, \OCP\Share::getUsersItemShared('file', $info['fileid'], $user, true));
 				}
 				$users = $reshareUsers;
 			}

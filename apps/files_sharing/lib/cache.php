@@ -42,16 +42,19 @@ class Shared_Cache extends Cache {
 	 */
 	private function getSourceCache($target) {
 		$source = \OC_Share_Backend_File::getSource($target);
-		if (isset($source['path'])) {
-			$source['path'] = '/' . $source['uid_owner'] . '/' . $source['path'];
-			\OC\Files\Filesystem::initMountPoints($source['uid_owner']);
-			list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($source['path']);
-			if ($storage) {
-				$this->files[$target] = $internalPath;
-				$cache = $storage->getCache();
-				$this->storageId = $storage->getId();
-				$this->numericId = $cache->getNumericStorageId();
-				return $cache;
+		if (isset($source['path']) && isset($source['fileOwner'])) {
+			\OC\Files\Filesystem::initMountPoints($source['fileOwner']);
+			$mount = \OC\Files\Mount::findByNumericId($source['storage']);
+			if ($mount) {
+				$fullPath = $mount->getMountPoint().$source['path'];
+				list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($fullPath);
+				if ($storage) {
+					$this->files[$target] = $internalPath;
+					$cache = $storage->getCache();
+					$this->storageId = $storage->getId();
+					$this->numericId = $cache->getNumericStorageId();
+					return $cache;
+				}
 			}
 		}
 		return false;
