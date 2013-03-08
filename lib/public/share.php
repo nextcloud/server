@@ -406,6 +406,7 @@ class Share {
 			\OC_Hook::emit('OCP\Share', 'pre_unshare', array(
 				'itemType' => $itemType,
 				'itemSource' => $itemSource,
+				'fileSource' => $item['file_source'],
 				'shareType' => $shareType,
 				'shareWith' => $shareWith,
 			));
