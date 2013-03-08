@@ -34,6 +34,7 @@
 "MySQL user '%s'@'%%' already exists" => "Používateľ '%s'@'%%' už v MySQL existuje",
 "Drop this user from MySQL." => "Zahodiť používateľa z MySQL.",
 "Offending command was: \"%s\", name: %s, password: %s" => "Podozrivý príkaz bol: \"%s\", meno: %s, heslo: %s",
+"MS SQL username and/or password not valid: %s" => "Používateľské meno, alebo heslo MS SQL nie je platné: %s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Váš webový server nie je správne nastavený na synchronizáciu, pretože rozhranie WebDAV je poškodené.",
 "Please double check the <a href='%s'>installation guides</a>." => "Prosím skontrolujte <a href='%s'>inštalačnú príručku</a>.",
 "seconds ago" => "pred sekundami",

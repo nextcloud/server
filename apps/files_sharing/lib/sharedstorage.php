@@ -45,11 +45,7 @@ class Shared extends \OC\Files\Storage\Common {
 	*/
 	private function getFile($target) {
 		if (!isset($this->files[$target])) {
-			$source = \OC_Share_Backend_File::getSource($target);
-			if ($source) {
-				$source['path'] = '/'.$source['uid_owner'].'/'.$source['path'];
-			}
-			$this->files[$target] = $source;
+			$this->files[$target] = \OC_Share_Backend_File::getSource($target);
 		}
 		return $this->files[$target];
 	}
@@ -62,8 +58,16 @@ class Shared extends \OC\Files\Storage\Common {
 	private function getSourcePath($target) {
 		$source = $this->getFile($target);
 		if ($source) {
-			\OC\Files\Filesystem::initMountPoints($source['uid_owner']);
-			return $source['path'];
+			if (!isset($source['fullPath'])) {
+				\OC\Files\Filesystem::initMountPoints($source['fileOwner']);
+				$mount = \OC\Files\Mount::findByNumericId($source['storage']);
+				if ($mount) {
+					$this->files[$target]['fullPath'] = $mount->getMountPoint().$source['path'];
+				} else {
+					$this->files[$target]['fullPath'] = false;
+				}
+			}
+			return $this->files[$target]['fullPath'];
 		}
 		return false;
 	}
@@ -240,7 +244,8 @@ class Shared extends \OC\Files\Storage\Common {
 	public function file_put_contents($path, $data) {
 		if ($source = $this->getSourcePath($path)) {
 			// Check if permission is granted
-			if (($this->file_exists($path) && !$this->isUpdatable($path)) || ($this->is_dir($path) && !$this->isCreatable($path))) {
+			if (($this->file_exists($path) && !$this->isUpdatable($path))
+				|| ($this->is_dir($path) && !$this->isCreatable($path))) {
 				return false;
 			}
 			$info = array(
@@ -314,7 +319,8 @@ class Shared extends \OC\Files\Storage\Common {
 		if ($this->isCreatable(dirname($path2))) {
 			$source = $this->fopen($path1, 'r');
 			$target = $this->fopen($path2, 'w');
-			return \OC_Helper::streamCopy($source, $target);
+			list ($count, $result) = \OC_Helper::streamCopy($source, $target);
+			return $result;
 		}
 		return false;
 	}
@@ -390,9 +396,12 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public static function setup($options) {
-		if (!\OCP\User::isLoggedIn() || \OCP\User::getUser() != $options['user'] || \OCP\Share::getItemsSharedWith('file')) {
+		if (!\OCP\User::isLoggedIn() || \OCP\User::getUser() != $options['user']
+			|| \OCP\Share::getItemsSharedWith('file')) {
 			$user_dir = $options['user_dir'];
-			\OC\Files\Filesystem::mount('\OC\Files\Storage\Shared', array('sharedFolder' => '/Shared'), $user_dir.'/Shared/');
+			\OC\Files\Filesystem::mount('\OC\Files\Storage\Shared',
+				array('sharedFolder' => '/Shared'),
+				$user_dir.'/Shared/');
 		}
 	}
 
@@ -425,7 +434,7 @@ class Shared extends \OC\Files\Storage\Common {
 		}
 		$source = $this->getFile($path);
 		if ($source) {
-			return $source['uid_owner'];
+			return $source['fileOwner'];
 		}
 		return false;
 	}

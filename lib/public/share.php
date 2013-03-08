@@ -61,6 +61,7 @@ class Share {
 	private static $shareTypeGroupUserUnique = 2;
 	private static $backends = array();
 	private static $backendTypes = array();
+	private static $isResharingAllowed;
 
 	/**
 	* @brief Register a sharing backend class that implements OCP\Share_Backend for an item type
@@ -384,7 +385,7 @@ class Share {
 				'itemSource' => $itemSource,
 				'shareType' => $shareType,
 				'shareWith' => $shareWith,
-			));			
+			));
 			self::delete($item['id']);
 			return true;
 		}
@@ -404,7 +405,7 @@ class Share {
 				'itemType' => $itemType,
 				'itemSource' => $itemSource,
 				'shares' => $shares
-			));			
+			));
 			foreach ($shares as $share) {
 				self::delete($share['id']);
 			}
@@ -565,6 +566,24 @@ class Share {
 		$message = 'Sharing backend for '.$itemType.' not found';
 		\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 		throw new \Exception($message);
+	}
+
+	/**
+	* @brief Check if resharing is allowed
+	* @return Returns true if allowed or false
+	*
+	* Resharing is allowed by default if not configured
+	*
+	*/
+	private static function isResharingAllowed() {
+		if (!isset(self::$isResharingAllowed)) {
+			if (\OC_Appconfig::getValue('core', 'shareapi_allow_resharing', 'yes') == 'yes') {
+				self::$isResharingAllowed = true;
+			} else {
+				self::$isResharingAllowed = false;
+			}
+		}
+		return self::$isResharingAllowed;
 	}
 
 	/**
@@ -767,7 +786,7 @@ class Share {
 					} else {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`,
 							`*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`,
-							`file_source`, `path`, `file_target`, `permissions`, `stime`, `expiration`, `token`';
+							`file_source`, `path`, `file_target`, `permissions`, `stime`, `expiration`, `token`, `storage`';
 					}
 				} else {
 					$select = '*';
@@ -840,7 +859,10 @@ class Share {
 					continue;
 				}
 			}
-
+			// Check if resharing is allowed, if not remove share permission
+			if (isset($row['permissions']) && !self::isResharingAllowed()) {
+				$row['permissions'] &= ~PERMISSION_SHARE;
+			}
 			// Add display names to result
 			if ( isset($row['share_with']) && $row['share_with'] != '') {
 				$row['share_with_displayname'] = \OCP\User::getDisplayName($row['share_with']);
@@ -848,7 +870,7 @@ class Share {
 			if ( isset($row['uid_owner']) && $row['uid_owner'] != '') {
 				$row['displayname_owner'] = \OCP\User::getDisplayName($row['uid_owner']);
 			}
-			
+
 			$items[$row['id']] = $row;
 		}
 		if (!empty($items)) {
@@ -978,7 +1000,7 @@ class Share {
 				throw new \Exception($message);
 			}
 			// Check if share permissions is granted
-			if ((int)$checkReshare['permissions'] & PERMISSION_SHARE) {
+			if (self::isResharingAllowed() && (int)$checkReshare['permissions'] & PERMISSION_SHARE) {
 				if (~(int)$checkReshare['permissions'] & $permissions) {
 					$message = 'Sharing '.$itemSource
 						.' failed, because the permissions exceed permissions granted to '.$uidOwner;

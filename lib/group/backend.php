@@ -33,6 +33,7 @@ define('OC_GROUP_BACKEND_CREATE_GROUP',      0x00000001);
 define('OC_GROUP_BACKEND_DELETE_GROUP',      0x00000010);
 define('OC_GROUP_BACKEND_ADD_TO_GROUP',      0x00000100);
 define('OC_GROUP_BACKEND_REMOVE_FROM_GOUP',  0x00001000);
+define('OC_GROUP_BACKEND_GET_DISPLAYNAME',   0x00010000);
 
 /**
  * Abstract base class for user management
@@ -43,6 +44,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 		OC_GROUP_BACKEND_DELETE_GROUP => 'deleteGroup',
 		OC_GROUP_BACKEND_ADD_TO_GROUP => 'addToGroup',
 		OC_GROUP_BACKEND_REMOVE_FROM_GOUP => 'removeFromGroup',
+		OC_GROUP_BACKEND_GET_DISPLAYNAME => 'displayNamesInGroup',
 	);
 
 	/**
@@ -133,7 +135,7 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	public function usersInGroup($gid, $search = '', $limit = -1, $offset = 0) {
 		return array();
 	}
-	
+
 	/**
 	 * @brief get a list of all display names in a group
 	 * @param string $gid
@@ -142,14 +144,14 @@ abstract class OC_Group_Backend implements OC_Group_Interface {
 	 * @param int $offset
 	 * @return array with display names (value) and user ids (key)
 	 */
-	public function DisplayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
-		$displayNames = '';
+	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+		$displayNames = array();
 		$users = $this->usersInGroup($gid, $search, $limit, $offset);
-		foreach ( $users as $user ) {
-			$DisplayNames[$user] = $user;
+		foreach ($users as $user) {
+			$displayNames[$user] = $user;
 		}
-			
-		return $DisplayNames;
+
+		return $displayNames;
 	}
 
 }

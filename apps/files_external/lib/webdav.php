@@ -23,28 +23,32 @@ class DAV extends \OC\Files\Storage\Common{
 	private static $tempFiles=array();
 
 	public function __construct($params) {
-		$host = $params['host'];
-		//remove leading http[s], will be generated in createBaseUri()
-		if (substr($host, 0, 8) == "https://") $host = substr($host, 8);
-		else if (substr($host, 0, 7) == "http://") $host = substr($host, 7);
-		$this->host=$host;
-		$this->user=$params['user'];
-		$this->password=$params['password'];
-		if (isset($params['secure'])) {
-			if (is_string($params['secure'])) {
-				$this->secure = ($params['secure'] === 'true');
+		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
+			$host = $params['host'];
+			//remove leading http[s], will be generated in createBaseUri()
+			if (substr($host, 0, 8) == "https://") $host = substr($host, 8);
+			else if (substr($host, 0, 7) == "http://") $host = substr($host, 7);
+			$this->host=$host;
+			$this->user=$params['user'];
+			$this->password=$params['password'];
+			if (isset($params['secure'])) {
+				if (is_string($params['secure'])) {
+					$this->secure = ($params['secure'] === 'true');
+				} else {
+					$this->secure = (bool)$params['secure'];
+				}
 			} else {
-				$this->secure = (bool)$params['secure'];
+				$this->secure = false;
+			}
+			$this->root=isset($params['root'])?$params['root']:'/';
+			if ( ! $this->root || $this->root[0]!='/') {
+				$this->root='/'.$this->root;
+			}
+			if (substr($this->root, -1, 1)!='/') {
+				$this->root.='/';
 			}
 		} else {
-			$this->secure = false;
-		}
-		$this->root=isset($params['root'])?$params['root']:'/';
-		if ( ! $this->root || $this->root[0]!='/') {
-			$this->root='/'.$this->root;
-		}
-		if (substr($this->root, -1, 1)!='/') {
-			$this->root.='/';
+			throw new \Exception();
 		}
 	}
 
@@ -54,11 +58,11 @@ class DAV extends \OC\Files\Storage\Common{
 		}
 		$this->ready = true;
 
-		$settings = array(
-			'baseUri' => $this->createBaseUri(),
-			'userName' => $this->user,
-			'password' => $this->password,
-		);
+			$settings = array(
+				'baseUri' => $this->createBaseUri(),
+				'userName' => $this->user,
+				'password' => $this->password,
+			);
 
 		$this->client = new \Sabre_DAV_Client($settings);
 
@@ -69,7 +73,7 @@ class DAV extends \OC\Files\Storage\Common{
 				$this->client->addTrustedCertificates($certPath);
 			}
 		}
-		//create the root folder if necesary
+		//create the root folder if necessary
 		$this->mkdir('');
 	}
 
@@ -222,7 +226,7 @@ class DAV extends \OC\Files\Storage\Common{
 				return 0;
 			}
 		} catch(\Exception $e) {
-			return 0;
+			return \OC\Files\FREE_SPACE_UNKNOWN;
 		}
 	}
 
@@ -313,7 +317,7 @@ class DAV extends \OC\Files\Storage\Common{
 		}
 	}
 
-	private function cleanPath($path) {
+	public function cleanPath($path) {
 		if ( ! $path || $path[0]=='/') {
 			return substr($path, 1);
 		} else {

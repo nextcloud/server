@@ -3,6 +3,7 @@
 "Configuration" => "پیکربندی",
 "Options" => "تنظیمات",
 "Applicable" => "قابل اجرا",
+"All Users" => "تمام کاربران",
 "Groups" => "گروه ها",
 "Users" => "کاربران",
 "Delete" => "حذف",

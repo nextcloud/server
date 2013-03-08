@@ -43,7 +43,7 @@ if (isset($_GET['t'])) {
 			$path = \OC\Files\Filesystem::getPath($linkItem['file_source']);
 		}
 	}
-} 
+}
 if (isset($path)) {
 	if (!isset($linkItem['item_type'])) {
 		OCP\Util::writeLog('share', 'No item type set for share id: ' . $linkItem['id'], \OCP\Util::ERROR);
@@ -141,7 +141,9 @@ if (isset($path)) {
 			OCP\Util::addscript('files', 'keyboardshortcuts');
 			$files = array();
 			$rootLength = strlen($basePath) + 1;
+			$totalSize = 0;
 			foreach (\OC\Files\Filesystem::getDirectoryContent($path) as $i) {
+				$totalSize += $i['size'];
 				$i['date'] = OCP\Util::formatDate($i['mtime']);
 				if ($i['type'] == 'file') {
 					$fileinfo = pathinfo($i['name']);
@@ -168,16 +170,17 @@ if (isset($path)) {
 				}
 			}
 			$list = new OCP\Template('files', 'part.list', '');
-			$list->assign('files', $files, false);
+			$list->assign('files', $files);
 			$list->assign('disableSharing', true);
-			$list->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=', false);
-			$list->assign('downloadURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=', false);
+			$list->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=');
+			$list->assign('downloadURL',
+				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=');
 			$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
-			$breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
-			$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=', false);
+			$breadcrumbNav->assign('breadcrumb', $breadcrumb);
+			$breadcrumbNav->assign('baseURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&path=');
 			$folder = new OCP\Template('files', 'index', '');
-			$folder->assign('fileList', $list->fetchPage(), false);
-			$folder->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
+			$folder->assign('fileList', $list->fetchPage());
+			$folder->assign('breadcrumb', $breadcrumbNav->fetchPage());
 			$folder->assign('dir', $getPath);
 			$folder->assign('isCreatable', false);
 			$folder->assign('permissions', 0);
@@ -186,9 +189,12 @@ if (isset($path)) {
 			$folder->assign('uploadMaxHumanFilesize', 0);
 			$folder->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 			$folder->assign('usedSpacePercent', 0);
-			$tmpl->assign('folder', $folder->fetchPage(), false);
-			$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
-			$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=' . urlencode($getPath));
+			$tmpl->assign('folder', $folder->fetchPage());
+			$allowZip = OCP\Config::getSystemValue('allowZipDownload', true)
+						&& $totalSize <= OCP\Config::getSystemValue('maxZipInputSize', OCP\Util::computerFileSize('800 MB'));
+			$tmpl->assign('allowZipDownload', intval($allowZip));
+			$tmpl->assign('downloadURL',
+				OCP\Util::linkToPublic('files') . $urlLinkIdentifiers . '&download&path=' . urlencode($getPath));
 		} else {
 			$tmpl->assign('dir', $dir);
 
@@ -209,4 +215,3 @@ if (isset($path)) {
 header('HTTP/1.0 404 Not Found');
 $tmpl = new OCP\Template('', '404', 'guest');
 $tmpl->printPage();
-

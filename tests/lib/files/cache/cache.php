@@ -8,6 +8,12 @@
 
 namespace Test\Files\Cache;
 
+class LongId extends \OC\Files\Storage\Temporary {
+	public function getId() {
+		return 'long:' . str_repeat('foo', 50) . parent::getId();
+	}
+}
+
 class Cache extends \PHPUnit_Framework_TestCase {
 	/**
 	 * @var \OC\Files\Storage\Temporary $storage;
@@ -221,6 +227,15 @@ class Cache extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(25, $cachedData['mtime']);
 	}
 
+	function testLongId() {
+		$storage = new LongId(array());
+		$cache = $storage->getCache();
+		$storageId = $storage->getId();
+		$data = array('size' => 1000, 'mtime' => 20, 'mimetype' => 'foo/file');
+		$id = $cache->put('foo', $data);
+		$this->assertEquals(array(md5($storageId), 'foo'), \OC\Files\Cache\Cache::getById($id));
+	}
+
 	public function tearDown() {
 		$this->cache->clear();
 	}
@@ -230,4 +245,3 @@ class Cache extends \PHPUnit_Framework_TestCase {
 		$this->cache = new \OC\Files\Cache\Cache($this->storage);
 	}
 }
-

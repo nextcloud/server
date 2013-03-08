@@ -217,11 +217,14 @@ class Util {
 	 */
 	public static function getDefaultEmailAddress($user_part) {
 		$host_name = self::getServerHostName();
-		// handle localhost installations
-		if ($host_name === 'localhost') {
-			$host_name = "example.com";
+		$defaultEmailAddress = $user_part.'@'.$host_name;
+
+		if (\OC_Mail::ValidateAddress($defaultEmailAddress)) {
+			return $defaultEmailAddress;
 		}
-		return $user_part.'@'.$host_name;
+
+		// in case we cannot build a valid email address from the hostname let's fallback to 'localhost.localdomain'
+		return $user_part.'@localhost.localdomain';
 	}
 
 	/**

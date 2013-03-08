@@ -85,7 +85,7 @@
 "Sending ..." => "Enviant...",
 "Email sent" => "El correu electrónic s'ha enviat",
 "The update was unsuccessful. Please report this issue to the <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>." => "L'actualització ha estat incorrecte. Comuniqueu aquest error a <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">la comunitat ownCloud</a>.",
-"The update was successful. Redirecting you to ownCloud now." => "L'actualització ha estat correcte. Ara sou redireccionat a ownCloud.",
+"The update was successful. Redirecting you to ownCloud now." => "L'actualització ha estat correcte. Ara us redirigim a ownCloud.",
 "ownCloud password reset" => "estableix de nou la contrasenya Owncloud",
 "Use the following link to reset your password: {link}" => "Useu l'enllaç següent per restablir la contrasenya: {link}",
 "You will receive a link to reset your password via Email." => "Rebreu un enllaç al correu electrònic per reiniciar la contrasenya.",

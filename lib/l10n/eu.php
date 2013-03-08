@@ -34,6 +34,7 @@
 "MySQL user '%s'@'%%' already exists" => "MySQL '%s'@'%%' erabiltzailea dagoeneko existitzen da",
 "Drop this user from MySQL." => "Ezabatu erabiltzaile hau MySQLtik.",
 "Offending command was: \"%s\", name: %s, password: %s" => "Errorea komando honek sortu du: \"%s\", izena: %s, pasahitza: %s",
+"MS SQL username and/or password not valid: %s" => "MS SQL erabiltzaile izena edota pasahitza ez dira egokiak: %s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Zure web zerbitzaria ez dago oraindik ongi konfiguratuta fitxategien sinkronizazioa egiteko, WebDAV interfazea ongi ez dagoela dirudi.",
 "Please double check the <a href='%s'>installation guides</a>." => "Mesedez begiratu <a href='%s'>instalazio gidak</a>.",
 "seconds ago" => "orain dela segundu batzuk",

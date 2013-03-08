@@ -51,12 +51,12 @@ class Legacy {
 			$this->cacheHasItems = false;
 			return false;
 		}
-		
+
 		if ($result === false || property_exists($result, 'error_message_prefix')) {
 			$this->cacheHasItems = false;
 			return false;
-		}		
-		
+		}
+
 		$this->cacheHasItems = (bool)$result->fetchRow();
 		return $this->cacheHasItems;
 	}

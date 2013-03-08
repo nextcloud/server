@@ -513,11 +513,16 @@ class OC_Helper {
 		if(!$source or !$target) {
 			return false;
 		}
-		$count=0;
+		$result = true;
+		$count = 0;
 		while(!feof($source)) {
-			$count+=fwrite($target, fread($source, 8192));
+			if ( ( $c = fwrite($target, fread($source, 8192)) ) === false) {
+				$result = false;
+			} else {
+				$count += $c;
+			}
 		}
-		return $count;
+		return array($count, $result);
 	}
 
 	/**
@@ -762,9 +767,13 @@ class OC_Helper {
 		$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 
 		$freeSpace = \OC\Files\Filesystem::free_space($dir);
-		$freeSpace = max($freeSpace, 0);
+		if($freeSpace !== \OC\Files\FREE_SPACE_UNKNOWN){
+			$freeSpace = max($freeSpace, 0);
 
-		return min($maxUploadFilesize, $freeSpace);
+			return min($maxUploadFilesize, $freeSpace);
+		} else {
+			return $maxUploadFilesize;
+		}
 	}
 
 	/**

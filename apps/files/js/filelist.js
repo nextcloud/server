@@ -35,7 +35,7 @@ var FileList={
 		if(extension){
 			name_span.append($('<span></span>').addClass('extension').text(extension));
 		}
-		//dirs can show the number of uploaded files 
+		//dirs can show the number of uploaded files
 		if (type == 'dir') {
 			link_elem.append($('<span></span>').attr({
 				'class': 'uploadtext',
@@ -44,7 +44,7 @@ var FileList={
 		}
 		td.append(link_elem);
 		tr.append(td);
-		
+
 		//size column
 		if(size!=t('files', 'Pending')){
 			simpleSize=simpleFileSize(size);
@@ -59,7 +59,7 @@ var FileList={
 			"style": 'color:rgb('+sizeColor+','+sizeColor+','+sizeColor+')'
 		}).text(simpleSize);
 		tr.append(td);
-		
+
 		// date column
 		var modifiedColor = Math.round((Math.round((new Date()).getTime() / 1000)-lastModifiedTime)/60/60/24*5);
 		td = $('<td></td>').attr({ "class": "date" });
@@ -87,7 +87,7 @@ var FileList={
 			lastModified,
 			$('#permissions').val()
 		);
-			
+
 		FileList.insertElement(name, 'file', tr.attr('data-file',name));
 		var row = $('tr').filterAttr('data-file',name);
 		if(loading){
@@ -101,7 +101,7 @@ var FileList={
 		FileActions.display(row.find('td.filename'));
 	},
 	addDir:function(name,size,lastModified,hidden){
-		
+
 		var tr = this.createRow(
 			'dir',
 			name,
@@ -111,7 +111,7 @@ var FileList={
 			lastModified,
 			$('#permissions').val()
 		);
-			
+
 		FileList.insertElement(name,'dir',tr);
 		var row = $('tr').filterAttr('data-file',name);
 		row.find('td.filename').draggable(dragOptions);
@@ -246,14 +246,17 @@ var FileList={
 	},
 	checkName:function(oldName, newName, isNewFile) {
 		if (isNewFile || $('tr').filterAttr('data-file', newName).length > 0) {
-			$('#notification').data('oldName', oldName);
-			$('#notification').data('newName', newName);
-			$('#notification').data('isNewFile', isNewFile);
-            if (isNewFile) {
-                OC.Notification.showHtml(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="suggest">'+t('files', 'suggest name')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
-            } else {
-                OC.Notification.showHtml(t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>');
-            }
+			var html;
+			if(isNewFile){
+				html = t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="suggest">'+t('files', 'suggest name')+'</span>&nbsp;<span class="cancel">'+t('files', 'cancel')+'</span>';
+			}else{
+				html = t('files', '{new_name} already exists', {new_name: escapeHTML(newName)})+'<span class="replace">'+t('files', 'replace')+'</span><span class="cancel">'+t('files', 'cancel')+'</span>';
+			}
+			html = $('<span>' + html + '</span>');
+			html.attr('data-oldName', oldName);
+			html.attr('data-newName', newName);
+			html.attr('data-isNewFile', isNewFile);
+            OC.Notification.showHtml(html);
 			return true;
 		} else {
 			return false;
@@ -291,9 +294,7 @@ var FileList={
 		FileList.lastAction = function() {
 			FileList.finishReplace();
 		};
-		if (isNewFile) {
-			OC.Notification.showHtml(t('files', 'replaced {new_name}', {new_name: newName})+'<span class="undo">'+t('files', 'undo')+'</span>');
-		} else {
+		if (!isNewFile) {
             OC.Notification.showHtml(t('files', 'replaced {new_name} with {old_name}', {new_name: newName}, {old_name: oldName})+'<span class="undo">'+t('files', 'undo')+'</span>');
 		}
 	},
@@ -315,8 +316,8 @@ var FileList={
 	do_delete:function(files){
 		if(files.substr){
 			files=[files];
-		}	
-		for (var i in files) {
+		}
+		for (var i=0; i<files.length; i++) {
 			var deleteAction = $('tr').filterAttr('data-file',files[i]).children("td.date").children(".action.delete");
 			var oldHTML = deleteAction[0].outerHTML;
 			var newHTML = '<img class="move2trash" data-action="Delete" title="'+t('files', 'perform delete operation')+'" src="'+ OC.imagePath('core', 'loading.gif') +'"></a>';
@@ -334,7 +335,7 @@ var FileList={
 					if (result.status == 'success') {
 						$.each(files,function(index,file){
 							var files = $('tr').filterAttr('data-file',file);
-							files.hide();
+							files.remove();
 							files.find('input[type="checkbox"]').removeAttr('checked');
 							files.removeClass('selected');
 						});
@@ -344,7 +345,7 @@ var FileList={
 							var deleteAction = $('tr').filterAttr('data-file',file).children("td.date").children(".move2trash");
 							deleteAction[0].outerHTML = oldHTML;
 						});
-					} 
+					}
 				});
 	}
 };
@@ -376,19 +377,19 @@ $(document).ready(function(){
 		FileList.lastAction = null;
         OC.Notification.hide();
 	});
-	$('#notification').on('click', '.replace', function() {
+	$('#notification:first-child').on('click', '.replace', function() {
         OC.Notification.hide(function() {
-            FileList.replace($('#notification').data('oldName'), $('#notification').data('newName'), $('#notification').data('isNewFile'));
+            FileList.replace($('#notification > span').attr('data-oldName'), $('#notification > span').attr('data-newName'), $('#notification > span').attr('data-isNewFile'));
         });
 	});
-	$('#notification').on('click', '.suggest', function() {
-		$('tr').filterAttr('data-file', $('#notification').data('oldName')).show();
+	$('#notification:first-child').on('click', '.suggest', function() {
+		$('tr').filterAttr('data-file', $('#notification > span').attr('data-oldName')).show();
         OC.Notification.hide();
 	});
-	$('#notification').on('click', '.cancel', function() {
-		if ($('#notification').data('isNewFile')) {
+	$('#notification:first-child').on('click', '.cancel', function() {
+		if ($('#notification > span').attr('data-isNewFile')) {
 			FileList.deleteCanceled = false;
-			FileList.deleteFiles = [$('#notification').data('oldName')];
+			FileList.deleteFiles = [$('#notification > span').attr('data-oldName')];
 		}
 	});
 	FileList.useUndo=(window.onbeforeunload)?true:false;

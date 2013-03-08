@@ -13,10 +13,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 23:09+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
-"Language-Team: German (Germany) (http://www.transifex.com/projects/p/owncloud/language/de_DE/)\n"
+"POT-Creation-Date: 2013-02-17 00:24+0100\n"
+"PO-Revision-Date: 2013-02-16 23:00+0000\n"
+"Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
+"Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,11 +33,11 @@ msgstr "Datei-Verschlüsselung ist aktiviert"
 
 #: templates/settings-personal.php:11
 msgid "The following file types will not be encrypted:"
-msgstr "Die folgenden Datei-Typen werden nicht verschlüsselt:"
+msgstr "Die folgenden Dateitypen werden nicht verschlüsselt:"
 
 #: templates/settings.php:7
 msgid "Exclude the following file types from encryption:"
-msgstr "Die folgenden Datei-Typen von der Verschlüsselung ausnehmen:"
+msgstr "Die folgenden Dateitypen von der Verschlüsselung ausnehmen:"
 
 #: templates/settings.php:12
 msgid "None"

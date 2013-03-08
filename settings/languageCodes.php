@@ -62,5 +62,9 @@ return array(
 'ka_GE'=>'Georgian for Georgia',
 'ku_IQ'=>'Kurdish Iraq',
 'ru_RU'=>'Русский язык',
-'si_LK'=>'Sinhala'
+'si_LK'=>'Sinhala',
+'be'=>'Belarusian',
+'ka'=>'Kartuli (Georgian)',
+'my_MM'=>'Burmese - MYANMAR ',
+'ur_PK'	=>'Urdu (Pakistan)'
 );

@@ -1,4 +1,5 @@
 <IfModule mod_fcgid.c>
+php_value cgi.fix_pathinfo 1
 <IfModule mod_setenvif.c>
 <IfModule mod_headers.c>
 SetEnvIfNoCase ^Authorization$ "(.+)" XAUTHORIZATION=$1
@@ -32,4 +33,5 @@ RewriteRule ^remote/(.*) remote.php [QSA,L]
 AddType image/svg+xml svg svgz
 AddEncoding gzip svgz
 </IfModule>
+AddDefaultCharset utf-8
 Options -Indexes

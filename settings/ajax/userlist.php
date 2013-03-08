@@ -29,10 +29,11 @@ if (isset($_GET['offset'])) {
 }
 $users = array();
 if (OC_User::isAdminUser(OC_User::getUser())) {
-	$batch = OC_User::getUsers('', 10, $offset);
-	foreach ($batch as $user) {
+	$batch = OC_User::getDisplayNames('', 10, $offset);
+	foreach ($batch as $user => $displayname) {
 		$users[] = array(
 			'name' => $user,
+			'displayname' => $displayname,
 			'groups' => join(', ', OC_Group::getUserGroups($user)),
 			'subadmin' => join(', ', OC_SubAdmin::getSubAdminsGroups($user)),
 			'quota' => OC_Preferences::getValue($user, 'files', 'quota', 'default'));
@@ -43,6 +44,7 @@ if (OC_User::isAdminUser(OC_User::getUser())) {
 	foreach ($batch as $user) {
 		$users[] = array(
 			'name' => $user,
+			'displayname' => OC_User::determineDisplayName($user),
 			'groups' => join(', ', OC_Group::getUserGroups($user)),
 			'quota' => OC_Preferences::getValue($user, 'files', 'quota', 'default'));
 	}

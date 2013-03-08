@@ -437,7 +437,7 @@ class OC_User {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @brief Check whether user can change his display name
 	 * @param $uid The username
@@ -530,7 +530,7 @@ class OC_User {
 				$displayNames = array_merge($displayNames, $backendDisplayNames);
 			}
 		}
-		ksort($displayNames);
+		asort($displayNames);
 		return $displayNames;
 	}
 
@@ -589,8 +589,8 @@ class OC_User {
 	 * @param string $userid
 	 */
 	public static function enableUser($userid) {
-		$sql = "DELETE FROM `*PREFIX*preferences`'
-			.' WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
+		$sql = 'DELETE FROM `*PREFIX*preferences`'
+			." WHERE `userid` = ? AND `appid` = ? AND `configkey` = ? AND `configvalue` = ?";
 		$stmt = OC_DB::prepare($sql);
 		if ( ! OC_DB::isError($stmt) ) {
 			$result = $stmt->execute(array($userid, 'core', 'enabled', 'false'));

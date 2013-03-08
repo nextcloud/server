@@ -42,7 +42,9 @@ class Jobs {
 		$actualGroups = self::getGroupBE()->getGroups();
 
 		if(empty($actualGroups) && empty($knownGroups)) {
-			\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – groups do not seem to be configured properly, aborting.', \OCP\Util::INFO);
+			\OCP\Util::writeLog('user_ldap',
+				'bgJ "updateGroups" – groups do not seem to be configured properly, aborting.',
+				\OCP\Util::INFO);
 			\OCP\Config::setAppValue('user_ldap', 'bgjUpdateGroupsLastRun', time());
 			return;
 		}
@@ -75,19 +77,25 @@ class Jobs {
 		    $hasChanged = false;
 		    foreach(array_diff($knownUsers, $actualUsers) as $removedUser) {
 		        \OCP\Util::emitHook('OC_User', 'post_removeFromGroup', array('uid' => $removedUser, 'gid' => $group));
-		        \OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – "'.$removedUser.'" removed from "'.$group.'".', \OCP\Util::INFO);
+		        \OCP\Util::writeLog('user_ldap',
+				'bgJ "updateGroups" – "'.$removedUser.'" removed from "'.$group.'".',
+				\OCP\Util::INFO);
 		        $hasChanged = true;
 		    }
 		    foreach(array_diff($actualUsers, $knownUsers) as $addedUser) {
 		        \OCP\Util::emitHook('OC_User', 'post_addFromGroup', array('uid' => $addedUser, 'gid' => $group));
-		        \OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – "'.$addedUser.'" added to "'.$group.'".', \OCP\Util::INFO);
+		        \OCP\Util::writeLog('user_ldap',
+				'bgJ "updateGroups" – "'.$addedUser.'" added to "'.$group.'".',
+				\OCP\Util::INFO);
 		        $hasChanged = true;
 		    }
 		    if($hasChanged) {
 				$query->execute(array(serialize($actualUsers), $group));
 		    }
 		}
-		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – FINISHED dealing with known Groups.', \OCP\Util::DEBUG);
+		\OCP\Util::writeLog('user_ldap',
+			'bgJ "updateGroups" – FINISHED dealing with known Groups.',
+			\OCP\Util::DEBUG);
 	}
 
 	static private function handleCreatedGroups($createdGroups) {
@@ -98,11 +106,15 @@ class Jobs {
 			VALUES (?, ?)
 		');
 		foreach($createdGroups as $createdGroup) {
-			\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – new group "'.$createdGroup.'" found.', \OCP\Util::INFO);
+			\OCP\Util::writeLog('user_ldap',
+				'bgJ "updateGroups" – new group "'.$createdGroup.'" found.',
+				\OCP\Util::INFO);
 			$users = serialize(self::getGroupBE()->usersInGroup($createdGroup));
 		    $query->execute(array($createdGroup, $users));
 		}
-		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – FINISHED dealing with created Groups.', \OCP\Util::DEBUG);
+		\OCP\Util::writeLog('user_ldap',
+			'bgJ "updateGroups" – FINISHED dealing with created Groups.',
+			\OCP\Util::DEBUG);
 	}
 
 	static private function handleRemovedGroups($removedGroups) {
@@ -113,10 +125,14 @@ class Jobs {
 			WHERE `owncloudname` = ?
 		');
 		foreach($removedGroups as $removedGroup) {
-			\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – group "'.$removedGroup.'" was removed.', \OCP\Util::INFO);
+			\OCP\Util::writeLog('user_ldap',
+				'bgJ "updateGroups" – group "'.$removedGroup.'" was removed.',
+				\OCP\Util::INFO);
 		    $query->execute(array($removedGroup));
 		}
-		\OCP\Util::writeLog('user_ldap', 'bgJ "updateGroups" – FINISHED dealing with removed groups.', \OCP\Util::DEBUG);
+		\OCP\Util::writeLog('user_ldap',
+			'bgJ "updateGroups" – FINISHED dealing with removed groups.',
+			\OCP\Util::DEBUG);
 	}
 
 	static private function getConnector() {

@@ -110,7 +110,7 @@ class OC_User_Database extends OC_User_Backend {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * @brief Set display name
 	 * @param $uid The username
@@ -146,7 +146,7 @@ class OC_User_Database extends OC_User_Backend {
 			}
 		}
 	}
-	
+
 	/**
 	 * @brief Get a list of all display names
 	 * @returns array with  all displayNames (value) and the correspondig uids (key)
@@ -162,7 +162,7 @@ class OC_User_Database extends OC_User_Backend {
 		while ($row = $result->fetchRow()) {
 			$displayNames[$row['uid']] = $row['displayname'];
 		}
-		
+
 		// let's see if we can also find some users who don't have a display name yet
 		$query = OC_DB::prepare('SELECT `uid`, `displayname` FROM `*PREFIX*users`'
 			.' WHERE LOWER(`uid`) LIKE LOWER(?)', $limit, $offset);
@@ -173,11 +173,11 @@ class OC_User_Database extends OC_User_Backend {
 				$displayNames[$row['uid']] = $row['uid'];
 			}
 		}
-		
-		
+
+
 		return $displayNames;
 	}
-	
+
 	/**
 	 * @brief Check if the password is correct
 	 * @param $uid The username

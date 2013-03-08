@@ -6,8 +6,6 @@
 "File %s could not be reverted to version %s" => "Datei %s konnte nicht auf Version %s zurückgesetzt werden",
 "No old versions available" => "Keine älteren Versionen verfügbar",
 "No path specified" => "Kein Pfad angegeben",
-"History" => "Historie",
-"Revert a file to a previous version by clicking on its revert button" => "Setzen Sie eine Datei durch klicken auf den Zurücksetzen Button zurück",
-"Files Versioning" => "Dateiversionierung",
-"Enable" => "Aktivieren"
+"Versions" => "Versionen",
+"Revert a file to a previous version by clicking on its revert button" => "Setze eine Datei durch klicken auf den Zurücksetzen Button zurück"
 );

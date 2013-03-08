@@ -40,8 +40,8 @@ class Dropbox extends \OC\Files\Storage\Common {
 			&& isset($params['token'])
 			&& isset($params['token_secret'])
 		) {
-			$this->id = 'dropbox::'.$params['app_key'] . $params['token']. '/' . $params['root'];
-			$this->root=isset($params['root'])?$params['root']:'';
+			$this->root = isset($params['root']) ? $params['root'] : '';
+			$this->id = 'dropbox::'.$params['app_key'] . $params['token']. '/' . $this->root;
 			$oauth = new \Dropbox_OAuth_Curl($params['app_key'], $params['app_secret']);
 			$oauth->setToken($params['token'], $params['token_secret']);
 			$this->dropbox = new \Dropbox_API($oauth, 'dropbox');

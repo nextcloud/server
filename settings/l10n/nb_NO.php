@@ -34,6 +34,7 @@
 "Administrator Documentation" => "Administratordokumentasjon",
 "Commercial Support" => "Kommersiell støtte",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Du har brukt <strong>%s</strong> av tilgjengelig <strong>%s</strong>",
+"Get the apps to sync your files" => "Få dine apps til å synkronisere dine filer",
 "Password" => "Passord",
 "Your password was changed" => "Passord har blitt endret",
 "Unable to change your password" => "Kunne ikke endre passordet ditt",
