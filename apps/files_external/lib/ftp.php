@@ -17,6 +17,18 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 
 	private static $tempFiles=array();
 
+	/**
+	 * check if php-ftp is installed
+	 */
+	public static function checkDependencies() {
+		if (function_exists('ftp_login')) {
+			return(true);
+		} else {
+			$l = new \OC_L10N('files_external');
+			return $l->t('<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it.');
+		}
+	}
+
 	public function __construct($params) {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
 			$this->host=$params['host'];

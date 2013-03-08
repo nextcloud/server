@@ -17,6 +17,20 @@ class SMB extends \OC\Files\Storage\StreamWrapper{
 	private $root;
 	private $share;
 
+	/**
+	 * check if smbclient is installed
+	 */
+	public static function checkDependencies() {
+		if (function_exists('shell_exec')) {
+			$output = shell_exec('which smbclient');
+			if (!empty($output)) {
+				return true;
+			}
+		}
+		$l = new \OC_L10N('files_external');
+		return $l->t('<b>Warning:</b> "smbclient" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it.');
+	}
+
 	public function __construct($params) {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password']) && isset($params['share'])) {
 			$this->host=$params['host'];
