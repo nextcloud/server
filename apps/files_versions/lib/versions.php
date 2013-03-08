@@ -61,7 +61,7 @@ class Storage {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * write to the database how much space is in use for versions
 	 * 
@@ -107,7 +107,6 @@ class Storage {
 
 			// store a new version of a file
 			$users_view->copy('files'.$filename, 'files_versions'.$filename.'.v'.$users_view->filemtime('files'.$filename));
-			error_log("version created!");
 			$versionsSize = self::getVersionsSize($uid);
 			if (  $versionsSize === false || $versionsSize < 0 ) {
 				$versionsSize = self::calculateSize($uid);
