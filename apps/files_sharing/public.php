@@ -211,7 +211,9 @@ if ($linkItem) {
 			OCP\Util::addScript('files', 'filelist');
 			$files = array();
 			$rootLength = strlen($basePath) + 1;
+			$totalSize = 0;
 			foreach (OC_Files::getDirectoryContent($path) as $i) {
+				$totalSize += $i['size'];
 				$i['date'] = OCP\Util::formatDate($i['mtime']);
 				if ($i['type'] == 'file') {
 					$fileinfo = pathinfo($i['name']);
@@ -259,7 +261,9 @@ if ($linkItem) {
 			$folder->assign('uploadMaxHumanFilesize', 0);
 			$folder->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
 			$tmpl->assign('folder', $folder->fetchPage(), false);
-			$tmpl->assign('allowZipDownload', intval(OCP\Config::getSystemValue('allowZipDownload', true)));
+			$allowZip = OCP\Config::getSystemValue('allowZipDownload', true)
+				&& $totalSize <= OCP\Config::getSystemValue('maxZipInputSize', OCP\Util::computerFileSize('800 MB'));
+			$tmpl->assign('allowZipDownload', intval($allowZip));
 			$tmpl->assign('downloadURL', OCP\Util::linkToPublic('files').$urlLinkIdentifiers.'&download&path='.urlencode($getPath));
 		} else {
 			// Show file preview if viewer is available
