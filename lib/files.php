@@ -128,7 +128,7 @@ class OC_Files {
 				header('Content-Type: '.\OC\Files\Filesystem::getMimeType($filename));
 				header("Content-Length: ".\OC\Files\Filesystem::filesize($filename));
 				list($storage) = \OC\Files\Filesystem::resolvePath($filename);
-				if ($storage instanceof \OC\File\Storage\Local) {
+				if ($storage instanceof \OC\Files\Storage\Local) {
 					self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));
 				}
 			}
