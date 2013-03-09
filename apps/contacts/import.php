@@ -25,11 +25,16 @@ function writeProgress($pct) {
 }
 writeProgress('10');
 $view = $file = null;
+$inputfile = strtr($_POST['file'], array('/' => '', "\\" => ''));
+if(OC_Filesystem::isFileBlacklisted($inputfile)) {
+	OCP\JSON::error(array('data' => array('message' => 'Upload of blacklisted file: ' . $inputfile)));
+	exit();
+}
 if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
 	$view = OCP\Files::getStorage('contacts');
-	$file = $view->file_get_contents('/' . $_POST['file']);
+	$file = $view->file_get_contents('/' . $inputfile);
 } else {
-	$file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $_POST['file']);
+	$file = OC_Filesystem::file_get_contents($_POST['path'] . '/' . $inputfile);
 }
 if(!$file) {
 	OCP\JSON::error(array('message' => 'Import file was empty.'));
@@ -115,7 +120,7 @@ if(count($parts) == 1){
 $imported = 0;
 $failed = 0;
 if(!count($importready) > 0) {
-	OCP\JSON::error(array('data' => (array('message' => 'No contacts to import in .'.$_POST['file'].' Please check if the file is corrupted.'))));
+	OCP\JSON::error(array('data' => (array('message' => 'No contacts to import in .'.$inputfile.' Please check if the file is corrupted.'))));
 	exit();
 }
 foreach($importready as $import){
@@ -135,8 +140,8 @@ if(is_writable('import_tmp/')){
 	unlink($progressfile);
 }
 if(isset($_POST['fstype']) && $_POST['fstype'] == 'OC_FilesystemView') {
-	if(!$view->unlink('/' . $_POST['file'])) {
-		OCP\Util::writeLog('contacts','Import: Error unlinking OC_FilesystemView ' . '/' . $_POST['file'], OCP\Util::ERROR);
+	if(!$view->unlink('/' . $inputfile)) {
+		OCP\Util::writeLog('contacts','Import: Error unlinking OC_FilesystemView ' . '/' . $inputfile, OCP\Util::ERROR);
 	}
 }
 OCP\JSON::success(array('data' => array('imported'=>$imported, 'failed'=>$failed)));

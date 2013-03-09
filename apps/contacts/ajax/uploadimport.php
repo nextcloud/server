@@ -35,7 +35,11 @@ $tmpfile = md5(rand());
 
 // If it is a Drag'n'Drop transfer it's handled here.
 $fn = (isset($_SERVER['HTTP_X_FILE_NAME']) ? $_SERVER['HTTP_X_FILE_NAME'] : false);
+$fn = strtr($fn, array('/' => '', "\\" => ''));
 if($fn) {
+	if(OC_Filesystem::isFileBlacklisted($fn)) {
+		bailOut($l10n->t('Upload of blacklisted file:') . $fn);
+	}
 	if($view->file_put_contents('/'.$tmpfile, file_get_contents('php://input'))) {
 		OCP\JSON::success(array('data' => array('path'=>'', 'file'=>$tmpfile)));
 		exit();
@@ -66,6 +70,10 @@ $file=$_FILES['importfile'];
 
 $tmpfname = tempnam(get_temp_dir(), "occOrig");
 if(file_exists($file['tmp_name'])) {
+	$filename = strtr($file['name'], array('/' => '', "\\" => ''));
+	if(OC_Filesystem::isFileBlacklisted($filename)) {
+		bailOut($l10n->t('Upload of blacklisted file:') . $filename);
+	}
 	if($view->file_put_contents('/'.$tmpfile, file_get_contents($file['tmp_name']))) {
 		OCP\JSON::success(array('data' => array('path'=>'', 'file'=>$tmpfile)));
 	} else {
