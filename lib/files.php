@@ -345,12 +345,18 @@ class OC_Files {
 		$zipLimit = OC_Config::getValue('maxZipInputSize', OC_Helper::computerFileSize('800 MB'));
 		if($zipLimit > 0) {
 			$totalsize = 0;
-			if(is_array($files)) {
-				foreach($files as $file) {
-					$totalsize += OC_Filesystem::filesize($dir.'/'.$file);
+			if(!is_array($files)) {
+				$files = array($files);
+			}
+			foreach($files as $file) {
+				$path = $dir.'/'.$file;
+				if(OC_Filesystem::is_dir($path)) {
+					foreach(OC_Files::getDirectoryContent($path) as $i) {
+						$totalsize += $i['size'];
+					}
+				} else {
+					$totalsize += OC_Filesystem::filesize($path);
 				}
-			}else{
-				$totalsize += OC_Filesystem::filesize($dir.'/'.$files);
 			}
 			if($totalsize > $zipLimit) {
 				$l = OC_L10N::get('lib');
