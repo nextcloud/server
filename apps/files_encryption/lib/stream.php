@@ -68,42 +68,33 @@ class Stream {
 	private $rootView; // a fsview object set to '/'
 
 	public function stream_open( $path, $mode, $options, &$opened_path ) {
-
+		
 		$this->userId = \OCP\User::getUser();
 		
-		// Get access to filesystem via filesystemview object
-		if ( !self::$view ) {
+		if ( ! isset( $this->rootView ) ) {
 
-			self::$view = new \OC_FilesystemView( $this->userId . '/' );
-
-		}
-		
-		// Set rootview object if necessary
-		if ( ! $this->rootView ) {
-
-			$this->rootView = new \OC_FilesystemView( $this->userId . '/' );
+			$this->rootView = new \OC_FilesystemView( '/' );
 
 		}
 
-		// Get the bare file path
-		$path = str_replace( 'crypt://', '', $path );
+		// Strip identifier text from path
+		$this->rawPath = str_replace( 'crypt://', '', $path );
 		
-		$this->rawPath = $path;
-		
-		$this->path_f = $this->userId . '/files/' . $path;
+		// Set file path relative to user files dir
+		$this->relPath = $this->userId . '/files/' . $this->rawPath;
 		
 		if ( 
-		dirname( $path ) == 'streams' 
-		and isset( self::$sourceStreams[basename( $path )] ) 
+		dirname( $this->rawPath ) == 'streams' 
+		and isset( self::$sourceStreams[basename( $this->rawPath )] ) 
 		) {
 		
 			// Is this just for unit testing purposes?
 
-			$this->handle = self::$sourceStreams[basename( $path )]['stream'];
+			$this->handle = self::$sourceStreams[basename( $this->rawPath )]['stream'];
 
-			$this->path = self::$sourceStreams[basename( $path )]['path'];
+			$this->path = self::$sourceStreams[basename( $this->rawPath )]['path'];
 
-			$this->size = self::$sourceStreams[basename( $path )]['size'];
+			$this->size = self::$sourceStreams[basename( $this->rawPath )]['size'];
 
 		} else {
 
@@ -114,38 +105,35 @@ class Stream {
 			or $mode == 'wb+' 
 			) {
 
+				// We're writing a new file so start write counter with 0 bytes
 				$this->size = 0;
 
 			} else {
 				
+				$this->size = $this->rootView->filesize( $this->relPath, $mode );
 				
-				
-				$this->size = self::$view->filesize( $this->path_f, $mode );
-				
-				//$this->size = filesize( $path );
+				//$this->size = filesize( $this->rawPath );
 				
 			}
 
 			// Disable fileproxies so we can open the source file without recursive encryption
 			\OC_FileProxy::$enabled = false;
 
-			//$this->handle = fopen( $path, $mode );
+			//$this->handle = fopen( $this->rawPath, $mode );
 			
-			$this->handle = self::$view->fopen( $this->path_f, $mode );
+			$this->handle = $this->rootView->fopen( $this->relPath, $mode );
 			
 			\OC_FileProxy::$enabled = true;
 
-			if ( !is_resource( $this->handle ) ) {
+			if ( ! is_resource( $this->handle ) ) {
 
-				\OCP\Util::writeLog( 'files_encryption', 'failed to open '.$path, \OCP\Util::ERROR );
+				\OCP\Util::writeLog( 'files_encryption', 'failed to open file "'.$this->rootView . '"', \OCP\Util::ERROR );
 
+			} else {
+			
+				$this->meta = stream_get_meta_data( $this->handle );
+				
 			}
-
-		}
-
-		if ( is_resource( $this->handle ) ) {
-
-			$this->meta = stream_get_meta_data( $this->handle );
 
 		}
 
@@ -238,7 +226,7 @@ class Stream {
 		
 		// If a keyfile already exists for a file named identically to 
 		// file to be written
-		if ( self::$view->file_exists( $this->userId . '/'. 'files_encryption' . '/' . 'keyfiles' . '/' . $this->rawPath . '.key' ) ) {
+		if ( $this->rootView->file_exists( $this->userId . '/'. 'files_encryption' . '/' . 'keyfiles' . '/' . $this->rawPath . '.key' ) ) {
 		
 			// TODO: add error handling for when file exists but no 
 			// keyfile

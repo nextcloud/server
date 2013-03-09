@@ -416,13 +416,13 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
 	function testIsEncryptedContent() {
 		
-		$this->assertFalse( Encryption\Crypt::isCatfile( $this->dataUrl ) );
+		$this->assertFalse( Encryption\Crypt::isCatfileContent( $this->dataUrl ) );
 		
-		$this->assertFalse( Encryption\Crypt::isCatfile( $this->legacyEncryptedData ) );
+		$this->assertFalse( Encryption\Crypt::isCatfileContent( $this->legacyEncryptedData ) );
 		
 		$keyfileContent = Encryption\Crypt::symmetricEncryptFileContent( $this->dataUrl, 'hat' );
 
-		$this->assertTrue( Encryption\Crypt::isCatfile( $keyfileContent ) );
+		$this->assertTrue( Encryption\Crypt::isCatfileContent( $keyfileContent ) );
 		
 	}
 	

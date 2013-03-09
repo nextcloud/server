@@ -24,13 +24,12 @@
 # Bugs
 # ----
 # Sharing a file to a user without encryption set up will not provide them with access but won't notify the sharer
-# When encryption app is disabled files become unreadable
 # Timeouts on first login due to encryption of very large files
 
 
 # Missing features
 # ----------------
-# Re-use existing keyfiles so they don't need version control
+# Re-use existing keyfiles so they don't need version control (part implemented, stream{} and util{} remain)
 # Make sure user knows if large files weren't encrypted
 # Trashbin support
 
@@ -280,14 +279,14 @@ class Util {
 						// will eat server resources :(
 						if ( 
 							Keymanager::getFileKey( $this->view, $this->userId, $file ) 
-							&& Crypt::isCatfile( $data )
+							&& Crypt::isCatfileContent( $data )
 						) {
 						
 							$found['encrypted'][] = array( 'name' => $file, 'path' => $filePath );
 						
 						// If the file uses old 
 						// encryption system
-						} elseif (  Crypt::isLegacyEncryptedContent( $this->view->file_get_contents( $filePath ), $relPath ) ) {
+						} elseif (  Crypt::isLegacyEncryptedContent( $this->tail( $filePath, 3 ), $relPath ) ) {
 							
 							$found['legacy'][] = array( 'name' => $file, 'path' => $filePath );
 							
@@ -325,6 +324,49 @@ class Util {
 	}
 	
         /**
+         * @brief Fetch the last lines of a file efficiently
+         * @note Safe to use on large files; does not read entire file to memory
+         * @note Derivative of http://tekkie.flashbit.net/php/tail-functionality-in-php
+         */
+	public function tail( $filename, $numLines ) {
+		
+		\OC_FileProxy::$enabled = false;
+		
+		$text = '';
+		$pos = -1;
+		$handle = $this->view->fopen( $filename, 'r' );
+
+		while ( $numLines > 0 ) {
+		
+			--$pos;
+
+			if( fseek( $handle, $pos, SEEK_END ) !== 0 ) {
+			
+				rewind( $handle );
+				$numLines = 0;
+				
+			} elseif ( fgetc( $handle ) === "\n" ) {
+			
+				--$numLines;
+				
+			}
+
+			$block_size = ( -$pos ) % 8192;
+			if ( $block_size === 0 || $numLines === 0 ) {
+			
+				$text = fread( $handle, ( $block_size === 0 ? 8192 : $block_size ) ) . $text;
+				
+			}
+		}
+
+		fclose( $handle );
+		
+		\OC_FileProxy::$enabled = true;
+		
+		return $text;
+	}
+	
+        /**
          * @brief Check if a given path identifies an encrypted file
          * @return true / false
          */
@@ -338,7 +380,7 @@ class Util {
 		
 		\OC_FileProxy::$enabled = true;
 		
-		return Crypt::isCatfile( $data );
+		return Crypt::isCatfileContent( $data );
 	
 	}
 	
@@ -403,22 +445,32 @@ class Util {
 		
 			// Encrypt unencrypted files
 			foreach ( $found['plain'] as $plainFile ) {
+			
+				// Open plain file handle
 				
-				// Fetch data from file
-				$plainData = $this->view->file_get_contents( $plainFile['path'] );
 				
-				// Encrypt data, generate catfile
-				$encrypted = Crypt::keyEncryptKeyfile( $plainData, $publicKey );
+				// Open enc file handle
+				
+				
+				// Read plain file in chunks
+				
 				
 				$relPath = $this->stripUserFilesPath( $plainFile['path'] );
 				
-				// Save keyfile
-				Keymanager::setFileKey( $this->view, $relPath, $this->userId, $encrypted['key'] );
+				// Open handle with for binary reading
+				$plainHandle = $this->view->fopen( $plainFile['path'], 'rb' );
+				// Open handle with for binary writing
+				$encHandle = fopen( 'crypt://' . 'var/www/oc6/data/' . $plainFile['path'] . '.tmp', 'ab' );
 				
 				// Overwrite the existing file with the encrypted one
-				$this->view->file_put_contents( $plainFile['path'], $encrypted['data'] );
+				//$this->view->file_put_contents( $plainFile['path'], $encrypted['data'] );
+				$size = stream_copy_to_stream( $plainHandle, $encHandle );
 				
-				$size = strlen( $encrypted['data'] );
+				// Fetch the key that has just been set/updated by the stream
+				$encKey = Keymanager::getFileKey( $relPath );
+				
+				// Save keyfile
+				Keymanager::setFileKey( $this->view, $relPath, $this->userId, $encKey );
 				
 				// Add the file to the cache
 				\OC\Files\Filesystem::putFileInfo( $plainFile['path'], array( 'encrypted'=>true, 'size' => $size ), '' );

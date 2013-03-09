@@ -114,7 +114,7 @@ class Crypt {
          * @return true / false
          * @note see also OCA\Encryption\Util->isEncryptedPath()
          */
-	public static function isCatfile( $content ) {
+	public static function isCatfileContent( $content ) {
 	
 		if ( !$content ) {
 		
@@ -179,7 +179,7 @@ class Crypt {
 		if ( 
 			isset( $metadata['encrypted'] ) 
 			and $metadata['encrypted'] === true 
-			and ! self::isCatfile( $data ) 
+			and ! self::isCatfileContent( $data ) 
 		) {
 		
 			return true;

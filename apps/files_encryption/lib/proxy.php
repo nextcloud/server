@@ -74,7 +74,7 @@ class Proxy extends \OC_FileProxy {
 			
 		}
 		
-		if ( Crypt::isCatfile( $path ) ) {
+		if ( Crypt::isCatfileContent( $path ) ) {
 		
 			return true;
 			
@@ -209,7 +209,7 @@ class Proxy extends \OC_FileProxy {
 		// If data is a catfile
 		if ( 
 			Crypt::mode() == 'server' 
-			&& Crypt::isCatfile( $data ) 
+			&& Crypt::isCatfileContent( $data ) 
 		) {
 		
 			// TODO use get owner to find correct location of key files for shared files
@@ -439,7 +439,7 @@ class Proxy extends \OC_FileProxy {
 
 	public function postGetMimeType( $path, $mime ) {
 		
-		if ( Crypt::isCatfile( $path ) ) {
+		if ( Crypt::isCatfileContent( $path ) ) {
 		
 			$mime = \OCP\Files::getMimeType( 'crypt://' . $path, 'w' );
 		
@@ -451,7 +451,7 @@ class Proxy extends \OC_FileProxy {
 
 	public function postStat( $path, $data ) {
 	
-		if ( Crypt::isCatfile( $path ) ) {
+		if ( Crypt::isCatfileContent( $path ) ) {
 		
 			$cached = \OC\Files\Filesystem::getFileInfo( $path, '' );
 			
@@ -464,7 +464,7 @@ class Proxy extends \OC_FileProxy {
 
 	public function postFileSize( $path, $size ) {
 		
-		if ( Crypt::isCatfile( $path ) ) {
+		if ( Crypt::isCatfileContent( $path ) ) {
 			
 			$cached = \OC\Files\Filesystem::getFileInfo( $path, '' );
 			
