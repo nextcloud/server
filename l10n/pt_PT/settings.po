@@ -8,16 +8,16 @@
 #  <duartegrilo@gmail.com>, 2013.
 # Duarte Velez Grilo <duartegrilo@gmail.com>, 2012-2013.
 #   <geral@ricardolameiro.pt>, 2012.
-# Helder Meneses <helder.meneses@gmail.com>, 2012.
+# Helder Meneses <helder.meneses@gmail.com>, 2012-2013.
 # Miguel Sousa <migueljorgesousa@sapo.pt>, 2013.
 #   <rjgpp.1994@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-06 00:07+0100\n"
+"PO-Revision-Date: 2013-03-05 11:39+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -221,7 +221,7 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "Este servidor de ownCloud não consegue definir a codificação de caracteres para %s. Isto significa que pode haver problemas com alguns caracteres nos nomes dos ficheiros. É fortemente recomendado que instale o pacote recomendado para ser possível ver caracteres codificados em %s."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"

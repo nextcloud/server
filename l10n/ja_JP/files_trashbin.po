@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:32+0000\n"
+"POT-Creation-Date: 2013-03-08 00:25+0100\n"
+"PO-Revision-Date: 2013-03-07 23:25+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -40,27 +40,27 @@ msgstr "ファイルを完全に削除する"
 msgid "Delete permanently"
 msgstr "完全に削除する"
 
-#: js/trash.js:151 templates/index.php:17
+#: js/trash.js:174 templates/index.php:17
 msgid "Name"
 msgstr "名前"
 
-#: js/trash.js:152 templates/index.php:27
+#: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
 msgstr "削除済み"
 
-#: js/trash.js:161
+#: js/trash.js:184
 msgid "1 folder"
 msgstr "1 フォルダ"
 
-#: js/trash.js:163
+#: js/trash.js:186
 msgid "{count} folders"
 msgstr "{count} フォルダ"
 
-#: js/trash.js:171
+#: js/trash.js:194
 msgid "1 file"
 msgstr "1 ファイル"
 
-#: js/trash.js:173
+#: js/trash.js:196
 msgid "{count} files"
 msgstr "{count} ファイル"
 
@@ -75,3 +75,7 @@ msgstr "復元"
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
 msgstr "削除"
+
+#: templates/part.breadcrumb.php:9
+msgid "Deleted Files"
+msgstr ""

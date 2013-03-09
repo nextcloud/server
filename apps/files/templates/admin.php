@@ -16,7 +16,7 @@
 			   <?php if ($_['allowZipDownload']): ?> checked="checked"<?php endif; ?> />
 		<label for="allowZipDownload"><?php p($l->t( 'Enable ZIP-download' )); ?></label><br/>
 
-		<input name="maxZipInputSize" id="maxZipInputSize" style="width:180px;" value='<?php p($_['maxZipInputSize']) ?>'
+		<input type="text" name="maxZipInputSize" id="maxZipInputSize" style="width:180px;" value='<?php p($_['maxZipInputSize']) ?>'
 			   title="<?php p($l->t( '0 is unlimited' )); ?>"
 			   <?php if (!$_['allowZipDownload']): ?> disabled="disabled"<?php endif; ?> /><br />
 		<em><?php p($l->t( 'Maximum input size for ZIP files' )); ?> </em><br />

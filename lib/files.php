@@ -49,8 +49,9 @@ class OC_Files {
 			isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
 			$xsendfile = true;
 		}
-		if(strpos($files, ';')) {
-			$files=explode(';', $files);
+
+		if (count($files) == 1) {
+			$files = $files[0];
 		}
 
 		if (is_array($files)) {
@@ -77,7 +78,13 @@ class OC_Files {
 				}
 			}
 			$zip->close();
-			$name = basename($dir) . '.zip';
+			$basename = basename($dir);
+			if ($basename) {
+				$name = $basename . '.zip';
+			} else {
+				$name = 'owncloud.zip';
+			}
+			
 			set_time_limit($executionTime);
 		} elseif (\OC\Files\Filesystem::is_dir($dir . '/' . $files)) {
 			self::validateZipDownload($dir, $files);
@@ -212,12 +219,18 @@ class OC_Files {
 		$zipLimit = OC_Config::getValue('maxZipInputSize', OC_Helper::computerFileSize('800 MB'));
 		if ($zipLimit > 0) {
 			$totalsize = 0;
-			if (is_array($files)) {
-				foreach ($files as $file) {
-					$totalsize += \OC\Files\Filesystem::filesize($dir . '/' . $file);
+			if(!is_array($files)) {
+				$files = array($files);
+			}
+			foreach ($files as $file) {
+				$path = $dir . '/' . $file;
+				if(\OC\Files\Filesystem::is_dir($path)) {
+					foreach (\OC\Files\Filesystem::getDirectoryContent($path) as $i) {
+						$totalsize += $i['size'];
+					}
+				} else {
+					$totalsize += \OC\Files\Filesystem::filesize($path);
 				}
-			} else {
-				$totalsize += \OC\Files\Filesystem::filesize($dir . '/' . $files);
 			}
 			if ($totalsize > $zipLimit) {
 				$l = OC_L10N::get('lib');

@@ -1,8 +1,8 @@
 <?php $TRANSLATIONS = array(
-"Could not move %s - File with this name already exists" => "Não possível mover %s - Um arquivo com este nome já existe",
-"Could not move %s" => "Não possível mover %s",
+"Could not move %s - File with this name already exists" => "Impossível mover %s - Um arquivo com este nome já existe",
+"Could not move %s" => "Impossível mover %s",
 "Unable to rename file" => "Impossível renomear arquivo",
-"No file was uploaded. Unknown error" => "Nenhum arquivo foi transferido. Erro desconhecido",
+"No file was uploaded. Unknown error" => "Nenhum arquivo foi enviado. Erro desconhecido",
 "There is no error, the file uploaded with success" => "Não houve nenhum erro, o arquivo foi transferido com sucesso",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "O arquivo enviado excede a diretiva upload_max_filesize no php.ini: ",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "O arquivo carregado excede o MAX_FILE_SIZE que foi especificado no formulário HTML",
@@ -27,10 +27,10 @@
 "'.' is an invalid file name." => "'.' é um nome de arquivo inválido.",
 "File name cannot be empty." => "O nome do arquivo não pode estar vazio.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nome inválido, '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são permitidos.",
-"Your storage is full, files can not be updated or synced anymore!" => "Seu armazenamento está cheio, arquivos não serão mais atualizados nem sincronizados!",
+"Your storage is full, files can not be updated or synced anymore!" => "Seu armazenamento está cheio, arquivos não podem mais ser atualizados ou sincronizados!",
 "Your storage is almost full ({usedSpacePercent}%)" => "Seu armazenamento está quase cheio ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Seu download está sendo preparado. Isto pode levar algum tempo se os arquivos forem grandes.",
-"Unable to upload your file as it is a directory or has 0 bytes" => "Impossível enviar seus arquivo como diretório ou ele tem 0 bytes.",
+"Unable to upload your file as it is a directory or has 0 bytes" => "Impossível enviar seus arquivo por ele ser um diretório ou ter 0 bytes.",
 "Upload Error" => "Erro de envio",
 "Close" => "Fechar",
 "1 file uploading" => "enviando 1 arquivo",
@@ -50,7 +50,7 @@
 "File handling" => "Tratamento de Arquivo",
 "Maximum upload size" => "Tamanho máximo para carregar",
 "max. possible: " => "max. possível:",
-"Needed for multi-file and folder downloads." => "Necessário para multiplos arquivos e diretório de downloads.",
+"Needed for multi-file and folder downloads." => "Necessário para download de múltiplos arquivos e diretórios.",
 "Enable ZIP-download" => "Habilitar ZIP-download",
 "0 is unlimited" => "0 para ilimitado",
 "Maximum input size for ZIP files" => "Tamanho máximo para arquivo ZIP",
@@ -61,6 +61,7 @@
 "From link" => "Do link",
 "Deleted files" => "Arquivos apagados",
 "Cancel upload" => "Cancelar upload",
+"You don’t have write permissions here." => "Você não possui permissão de escrita aqui.",
 "Nothing in here. Upload something!" => "Nada aqui.Carrege alguma coisa!",
 "Download" => "Baixar",
 "Unshare" => "Descompartilhar",
@@ -68,5 +69,5 @@
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "Os arquivos que você está tentando carregar excedeu o tamanho máximo para arquivos no servidor.",
 "Files are being scanned, please wait." => "Arquivos sendo escaneados, por favor aguarde.",
 "Current scanning" => "Scanning atual",
-"Upgrading filesystem cache..." => "Aprimorando cache do sistema de arquivos..."
+"Upgrading filesystem cache..." => "Atualizando cache do sistema de arquivos..."
 );

@@ -42,17 +42,7 @@ OCP\Util::addstyle('user_ldap', 'settings');
 $tmpl = new OCP\Template('user_ldap', 'settings');
 
 $prefixes = \OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes();
-$scoHtml = '';
-$i = 1;
-$sel = ' selected';
-foreach($prefixes as $prefix) {
-	$scoHtml .= '<option value="'.$prefix.'"'.$sel.'>'.$i++.'. Server</option>';
-	$sel = '';
-}
-if(count($prefixes) == 0) {
-	$scoHtml .= '<option value="" selected>1. Server</option>';
-}
-$tmpl->assign('serverConfigurationOptions', $scoHtml);
+$tmpl->assign('serverConfigurationPrefixes', $prefixes);
 
 // assign default values
 if(!isset($ldap)) {

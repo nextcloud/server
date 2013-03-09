@@ -1,9 +1,21 @@
 <?php $TRANSLATIONS = array(
+"Access granted" => "Tilgang innvilget",
+"Error configuring Dropbox storage" => "Feil ved konfigurering av Dropbox-lagring",
+"Grant access" => "Gi tilgang",
+"External Storage" => "Ekstern lagring",
 "Folder name" => "Mappenavn",
+"External storage" => "Ekstern lagringsplass",
 "Configuration" => "Konfigurasjon",
 "Options" => "Innstillinger",
+"Applicable" => "Anvendelig",
+"Add storage" => "Legg til lagringsplass",
+"None set" => "Ingen valgt",
 "All Users" => "Alle brukere",
 "Groups" => "Grupper",
 "Users" => "Brukere",
-"Delete" => "Slett"
+"Delete" => "Slett",
+"Enable User External Storage" => "Aktiver ekstern lagring for bruker",
+"Allow users to mount their own external storage" => "Tillat brukere å koble til egne eksterne lagringsmedium",
+"SSL root certificates" => "SSL root-sertifikater",
+"Import Root Certificate" => "Importer root-sertifikat"
 );

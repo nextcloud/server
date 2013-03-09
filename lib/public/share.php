@@ -786,7 +786,7 @@ class Share {
 					} else {
 						$select = '`*PREFIX*share`.`id`, `item_type`, `item_source`, `item_target`,
 							`*PREFIX*share`.`parent`, `share_type`, `share_with`, `uid_owner`,
-							`file_source`, `path`, `file_target`, `permissions`, `stime`, `expiration`, `token`';
+							`file_source`, `path`, `file_target`, `permissions`, `stime`, `expiration`, `token`, `storage`';
 					}
 				} else {
 					$select = '*';

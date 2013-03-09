@@ -61,7 +61,7 @@ class Storage {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * write to the database how much space is in use for versions
 	 * 
@@ -82,6 +82,14 @@ class Storage {
 	 */
 	public static function store($filename) {
 		if(\OCP\Config::getSystemValue('files_versions', Storage::DEFAULTENABLED)=='true') {
+			
+			// if the file gets streamed we need to remove the .part extension
+			// to get the right target
+			$ext = pathinfo($filename, PATHINFO_EXTENSION);
+			if ($ext === 'part') {
+				$filename = substr($filename, 0, strlen($filename)-5);
+			}
+			
 			list($uid, $filename) = self::getUidAndFilename($filename);
 
 			$files_view = new \OC\Files\View('/'.$uid .'/files');
@@ -442,12 +450,12 @@ class Storage {
 				}
 			}
 
-			// check if enough space is available after versions are rearranged.
-			// if not we delete the oldest versions until we meet the size limit for versions
-			$numOfVersions = count($all_versions);
+			// Check if enough space is available after versions are rearranged.
+			// If not we delete the oldest versions until we meet the size limit for versions,
+			// but always keep the two latest versions
+			$numOfVersions = count($all_versions) -2 ;
 			$i = 0;
-			while ($availableSpace < 0) {
-				if ($i = $numOfVersions-2) break; // keep at least the last version
+			while ($availableSpace < 0 && $i < $numOfVersions) {
 				$versions_fileview->unlink($all_versions[$i]['path'].'.v'.$all_versions[$i]['version']);
 				$versionsSize -= $all_versions[$i]['size'];
 				$availableSpace += $all_versions[$i]['size'];

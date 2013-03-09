@@ -349,7 +349,7 @@ OC.Notification={
 	},
 	show: function(text) {
 		if(($('#notification').filter('span.undo').length == 1) || OC.Notification.isHidden()){
-			$('#notification').html(html);
+			$('#notification').html(text);
 			$('#notification').fadeIn().css("display","inline");
 		}else{
 			OC.Notification.queuedNotifications.push($(text).html());

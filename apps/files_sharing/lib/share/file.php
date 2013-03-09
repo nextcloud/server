@@ -73,7 +73,9 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 		if ($format == self::FORMAT_SHARED_STORAGE) {
 			// Only 1 item should come through for this format call
 			return array(
+				'parent' => $items[key($items)]['parent'],
 				'path' => $items[key($items)]['path'],
+				'storage' => $items[key($items)]['storage'],
 				'permissions' => $items[key($items)]['permissions'],
 				'uid_owner' => $items[key($items)]['uid_owner']
 			);
@@ -139,13 +141,28 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 			$source = \OCP\Share::getItemSharedWith('folder', $folder, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
 			if ($source) {
 				$source['path'] = $source['path'].substr($target, strlen($folder));
-				return $source;
 			}
 		} else {
 			$source = \OCP\Share::getItemSharedWith('file', $target, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE);
-			if ($source) {
-				return $source;
+		}
+		if ($source) {
+			if (isset($source['parent'])) {
+				$parent = $source['parent'];
+				while (isset($parent)) {
+					$query = \OC_DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
+					$item = $query->execute(array($parent))->fetchRow();
+					if (isset($item['parent'])) {
+						$parent = $item['parent'];
+					} else {
+						$fileOwner = $item['uid_owner'];
+						break;
+					}
+				}
+			} else {
+				$fileOwner = $source['uid_owner'];
 			}
+			$source['fileOwner'] = $fileOwner;
+			return $source;
 		}
 		\OCP\Util::writeLog('files_sharing', 'File source not found for: '.$target, \OCP\Util::ERROR);
 		return false;

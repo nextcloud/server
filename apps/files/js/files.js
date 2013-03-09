@@ -220,14 +220,15 @@ $(document).ready(function() {
 	});
 
 	$('.download').click('click',function(event) {
-		var files=getSelectedFiles('name').join(';');
+		var files=getSelectedFiles('name');
+		var fileslist = JSON.stringify(files);
 		var dir=$('#dir').val()||'/';
 		OC.Notification.show(t('files','Your download is being prepared. This might take some time if the files are big.'));
 		// use special download URL if provided, e.g. for public shared files
 		if ( (downloadURL = document.getElementById("downloadURL")) ) {
 			window.location=downloadURL.value+"&download&files="+files;
 		} else {
-			window.location=OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: files });
+			window.location=OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: fileslist });
 		}
 		return false;
 	});

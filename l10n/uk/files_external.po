@@ -5,13 +5,14 @@
 # Translators:
 #   <skoptev@ukr.net>, 2012.
 #   <victor.dubiniuk@gmail.com>, 2012.
+# пан Володимир <volodya327@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-01 00:05+0100\n"
-"PO-Revision-Date: 2013-02-27 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-06 00:07+0100\n"
+"PO-Revision-Date: 2013-03-05 12:31+0000\n"
+"Last-Translator: volodya327 <volodya327@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -62,7 +63,7 @@ msgstr "Ім'я теки"
 
 #: templates/settings.php:10
 msgid "External storage"
-msgstr ""
+msgstr "Зовнішнє сховище"
 
 #: templates/settings.php:11
 msgid "Configuration"
@@ -78,7 +79,7 @@ msgstr "Придатний"
 
 #: templates/settings.php:33
 msgid "Add storage"
-msgstr ""
+msgstr "Додати сховище"
 
 #: templates/settings.php:90
 msgid "None set"

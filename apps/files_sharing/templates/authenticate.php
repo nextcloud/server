@@ -2,7 +2,7 @@
 	<fieldset>
 		<p class="infield">
 			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
-			<input type="password" name="password" id="password" value="" autofocus />
+			<input type="password" name="password" id="password" placeholder="" value="" autofocus />
 			<input type="submit" value="<?php p($l->t('Submit')); ?>" />
 		</p>
 	</fieldset>

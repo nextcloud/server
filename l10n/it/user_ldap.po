@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-03 00:05+0100\n"
-"PO-Revision-Date: 2013-03-02 00:40+0000\n"
+"POT-Creation-Date: 2013-03-05 00:18+0100\n"
+"PO-Revision-Date: 2013-03-04 14:30+0000\n"
 "Last-Translator: Vincenzo Reale <vinx.reale@gmail.com>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -238,7 +238,7 @@ msgstr "Non consigliato, utilizzare solo per test."
 
 #: templates/settings.php:65
 msgid "Cache Time-To-Live"
-msgstr ""
+msgstr "Tempo di vita della cache"
 
 #: templates/settings.php:65
 msgid "in seconds. A change empties the cache."
@@ -318,7 +318,7 @@ msgstr "Campo Email"
 
 #: templates/settings.php:82
 msgid "User Home Folder Naming Rule"
-msgstr ""
+msgstr "Regola di assegnazione del nome della cartella utente"
 
 #: templates/settings.php:82
 msgid ""

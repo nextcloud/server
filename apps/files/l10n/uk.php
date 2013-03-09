@@ -61,6 +61,7 @@
 "From link" => "З посилання",
 "Deleted files" => "Видалено файлів",
 "Cancel upload" => "Перервати завантаження",
+"You don’t have write permissions here." => "У вас тут немає прав на запис.",
 "Nothing in here. Upload something!" => "Тут нічого немає. Відвантажте що-небудь!",
 "Download" => "Завантажити",
 "Unshare" => "Заборонити доступ",

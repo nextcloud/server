@@ -5,13 +5,14 @@
 # Translators:
 #   <daniel@mouxy.net>, 2012.
 # Duarte Velez Grilo <duartegrilo@gmail.com>, 2012.
+# Helder Meneses <helder.meneses@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-01 00:05+0100\n"
-"PO-Revision-Date: 2013-02-27 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-06 00:07+0100\n"
+"PO-Revision-Date: 2013-03-05 11:40+0000\n"
+"Last-Translator: Helder Meneses <helder.meneses@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,7 +44,7 @@ msgstr "Erro ao configurar o armazenamento do Google Drive"
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
-msgstr "<b>Aviso:</b> O cliente \"smbclient\" não está instalado. Não é possível montar as partilhas CIFS/SMB . Peça ao seu administrador para instalar."
+msgstr "<b>Atenção:</b> O cliente \"smbclient\" não está instalado. Não é possível montar as partilhas CIFS/SMB . Peça ao seu administrador para instalar."
 
 #: lib/config.php:424
 msgid ""
@@ -62,7 +63,7 @@ msgstr "Nome da pasta"
 
 #: templates/settings.php:10
 msgid "External storage"
-msgstr ""
+msgstr "Armazenamento Externo"
 
 #: templates/settings.php:11
 msgid "Configuration"
@@ -78,11 +79,11 @@ msgstr "Aplicável"
 
 #: templates/settings.php:33
 msgid "Add storage"
-msgstr ""
+msgstr "Adicionar armazenamento"
 
 #: templates/settings.php:90
 msgid "None set"
-msgstr "Nenhum configurado"
+msgstr "Não definido"
 
 #: templates/settings.php:91
 msgid "All Users"
@@ -99,7 +100,7 @@ msgstr "Utilizadores"
 #: templates/settings.php:113 templates/settings.php:114
 #: templates/settings.php:149 templates/settings.php:150
 msgid "Delete"
-msgstr "Apagar"
+msgstr "Eliminar"
 
 #: templates/settings.php:129
 msgid "Enable User External Storage"
