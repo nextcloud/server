@@ -5,6 +5,7 @@
 # Translators:
 #  <>, 2013.
 #   <>, 2012.
+# Matej Urbančič <>, 2013.
 #   <peter.perosa@gmail.com>, 2012.
 # Peter Peroša <peter.perosa@gmail.com>, 2012.
 #   <urossolar@hotmail.com>, 2012.
@@ -12,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-09 00:05+0100\n"
-"PO-Revision-Date: 2013-03-08 21:20+0000\n"
+"POT-Creation-Date: 2013-03-10 00:05+0100\n"
+"PO-Revision-Date: 2013-03-09 09:30+0000\n"
 "Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -354,7 +355,7 @@ msgstr "posodobi"
 
 #: js/share.js:336
 msgid "delete"
-msgstr "izbriše"
+msgstr "izbriši"
 
 #: js/share.js:339
 msgid "share"
@@ -374,7 +375,7 @@ msgstr "Napaka med nastavljanjem datuma preteka"
 
 #: js/share.js:609
 msgid "Sending ..."
-msgstr "Pošiljam ..."
+msgstr "Pošiljanje ..."
 
 #: js/share.js:620
 msgid "Email sent"
@@ -385,11 +386,11 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "Posodobitev ni uspela. Pošljite poročilo o napaki na sistemu <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud</a>."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "Posodobitev je uspešno končana. Stran bo preusmerjena na oblak ownCloud."
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
@@ -418,11 +419,11 @@ msgstr "Uporabniško Ime"
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr "Zahtevaj ponastavitev"
+msgstr "Zahtevaj ponovno nastavitev"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "Geslo je ponastavljeno"
+msgstr "Geslo je ponovno nastavljeno"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
@@ -492,14 +493,14 @@ msgstr "Brez varnega generatorja naključnih števil lahko napadalec napove žet
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "Podatkovna mapa in datoteke so najverjetneje javno dostopni preko interneta, saj datoteka .htaccess ni ustrezno nastavljena."
 
 #: templates/installation.php:33
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Navodila, kako pravilno namestiti strežnik, so na straneh <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentacije</a>."
 
 #: templates/installation.php:37
 msgid "Create an <strong>admin account</strong>"
@@ -511,7 +512,7 @@ msgstr "Napredne možnosti"
 
 #: templates/installation.php:57
 msgid "Data folder"
-msgstr "Mapa s podatki"
+msgstr "Podatkovna mapa"
 
 #: templates/installation.php:66
 msgid "Configure the database"
@@ -525,7 +526,7 @@ msgstr "bo uporabljen"
 
 #: templates/installation.php:129
 msgid "Database user"
-msgstr "Uporabnik zbirke"
+msgstr "Uporabnik podatkovne zbirke"
 
 #: templates/installation.php:134
 msgid "Database password"
@@ -545,7 +546,7 @@ msgstr "Gostitelj podatkovne zbirke"
 
 #: templates/installation.php:162
 msgid "Finish setup"
-msgstr "Dokončaj namestitev"
+msgstr "Končaj namestitev"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"

@@ -48,6 +48,7 @@
 "Turn off SSL certificate validation." => "Izslēgt SSL sertifikātu validēšanu.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Ja savienojums darbojas ar šo opciju, importē LDAP serveru SSL sertifikātu savā ownCloud serverī.",
 "Not recommended, use for testing only." => "Nav ieteicams, izmanto tikai testēšanai!",
+"Cache Time-To-Live" => "Kešatmiņas dzīvlaiks",
 "in seconds. A change empties the cache." => "sekundēs. Izmaiņas iztukšos kešatmiņu.",
 "Directory Settings" => "Direktorijas iestatījumi",
 "User Display Name Field" => "Lietotāja redzamā vārda lauks",
@@ -63,7 +64,12 @@
 "Group Search Attributes" => "Grupu meklēšanas atribūts",
 "Group-Member association" => "Grupu piederības asociācija",
 "Special Attributes" => "Īpašie atribūti",
+"Quota Field" => "Kvotu lauks",
+"Quota Default" => "Kvotas noklusējums",
 "in bytes" => "baitos",
+"Email Field" => "E-pasta lauks",
+"User Home Folder Naming Rule" => "Lietotāja mājas mapes nosaukšanas kārtula",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Atstāt tukšu lietotāja vārdam (noklusējuma). Citādi, norādi LDAP/AD atribūtu.",
+"Test Configuration" => "Testa konfigurācija",
 "Help" => "Palīdzība"
 );

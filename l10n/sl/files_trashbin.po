@@ -4,12 +4,13 @@
 # 
 # Translators:
 #  <>, 2013.
+# Matej Urbančič <>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-09 00:05+0100\n"
-"PO-Revision-Date: 2013-03-08 21:40+0000\n"
+"POT-Creation-Date: 2013-03-10 00:05+0100\n"
+"PO-Revision-Date: 2013-03-09 19:30+0000\n"
 "Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +22,7 @@ msgstr ""
 #: ajax/delete.php:40
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr "Datoteke %s ni mogoče trajno izbrisati."
+msgstr "Datoteke %s ni mogoče dokončno izbrisati."
 
 #: ajax/undelete.php:41
 #, php-format
@@ -34,11 +35,11 @@ msgstr "izvedi opravilo obnavljanja"
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr "izbriši datoteko trajno"
+msgstr "dokončno izbriši datoteko"
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr "Izbriši trajno"
+msgstr "Izbriši dokončno"
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
@@ -46,7 +47,7 @@ msgstr "Ime"
 
 #: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
-msgstr "izbrisano"
+msgstr "Izbrisano"
 
 #: js/trash.js:184
 msgid "1 folder"

@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-09 00:05+0100\n"
-"PO-Revision-Date: 2013-03-08 22:10+0000\n"
+"POT-Creation-Date: 2013-03-10 00:06+0100\n"
+"PO-Revision-Date: 2013-03-09 07:30+0000\n"
 "Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -103,38 +103,38 @@ msgstr "Določi podatkovno mapo."
 #: setup.php:55
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "%s - vnos uporabniškega imena podatkovne zbirke."
 
 #: setup.php:58
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "%s - vnos imena podatkovne zbirke."
 
 #: setup.php:61
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s - v imenu podatkovne zbirke ni dovoljeno vpisati pik."
 
 #: setup.php:64
 #, php-format
 msgid "%s set the database host."
-msgstr ""
+msgstr "%s - vnos gostitelja podatkovne zbirke."
 
 #: setup.php:128 setup.php:320 setup.php:365
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "Uporabniško ime ali geslo PostgreSQL ni pravilno"
 
 #: setup.php:129 setup.php:152 setup.php:229
 msgid "You need to enter either an existing account or the administrator."
-msgstr ""
+msgstr "Prijaviti se je treba v obstoječi ali pa skrbniški račun."
 
 #: setup.php:151 setup.php:453 setup.php:520
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Uporabniško ime ali geslo Oracle ni pravilno"
 
 #: setup.php:228
 msgid "MySQL username and/or password not valid"
-msgstr ""
+msgstr "Uporabniško ime ali geslo MySQL ni pravilno"
 
 #: setup.php:282 setup.php:386 setup.php:395 setup.php:413 setup.php:423
 #: setup.php:432 setup.php:461 setup.php:527 setup.php:553 setup.php:560
@@ -149,35 +149,35 @@ msgstr "Napaka podatkovne zbirke: \"%s\""
 #: setup.php:572 setup.php:588 setup.php:596 setup.php:605
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "Napačni ukaz je: \"%s\""
 
 #: setup.php:299
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "Uporabnik MySQL '%s'@'localhost' že obstaja."
 
 #: setup.php:300
 msgid "Drop this user from MySQL"
-msgstr ""
+msgstr "Odstrani uporabnika s podatkovne zbirke MySQL"
 
 #: setup.php:305
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
-msgstr ""
+msgstr "Uporabnik MySQL '%s'@'%%' že obstaja."
 
 #: setup.php:306
 msgid "Drop this user from MySQL."
-msgstr ""
+msgstr "Odstrani uporabnika s podatkovne zbirke MySQL"
 
 #: setup.php:579 setup.php:611
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "Napačni ukaz je: \"%s\", ime: %s, geslo: %s"
 
 #: setup.php:631
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "Uporabniško ime ali geslo MS SQL ni pravilno: %s"
 
 #: setup.php:849
 msgid ""

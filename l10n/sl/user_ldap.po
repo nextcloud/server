@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-09 00:05+0100\n"
-"PO-Revision-Date: 2013-03-08 22:03+0000\n"
+"POT-Creation-Date: 2013-03-10 00:05+0100\n"
+"PO-Revision-Date: 2013-03-09 13:10+0000\n"
 "Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr ""
+msgstr "Brisanje nastavitev strežnika je spodletelo."
 
 #: ajax/testConfiguration.php:36
 msgid "The configuration is valid and the connection could be established!"
@@ -66,24 +66,24 @@ msgstr ""
 
 #: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "Ali res želite izbrisati trenutne nastavitve strežnika?"
 
 #: js/settings.js:137
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "Potrdi brisanje"
 
 #: templates/settings.php:8
 msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behaviour. Please ask your system administrator to "
 "disable one of them."
-msgstr "<b>Opozorilo:</b> Aplikaciji user_ldap in user_webdavauth nista združljivi. Morda boste opazili nepričakovano obnašanje sistema. Prosimo, prosite vašega skrbnika, da eno od aplikacij onemogoči."
+msgstr "<b>Opozorilo:</b> možnosti user_ldap in user_webdavauth nista združljivi. Pri uporabi je mogoče nepričakovano obnašanje sistema. Eno izmed možnosti je priporočeno onemgočiti."
 
 #: templates/settings.php:11
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Opozorilo:</b> modul PHP LDAP mora biti nameščen, sicer vmesnik ne bo deloval. Paket je treba namestiti."
 
 #: templates/settings.php:15
 msgid "Server configuration"
@@ -91,7 +91,7 @@ msgstr ""
 
 #: templates/settings.php:31
 msgid "Add Server Configuration"
-msgstr ""
+msgstr "Dodaj nastavitve strežnika"
 
 #: templates/settings.php:36
 msgid "Host"
@@ -131,7 +131,7 @@ msgstr "Geslo"
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
-msgstr "Za anonimni dostop sta polji DN in geslo prazni."
+msgstr "Za brezimni dostop sta polji DN in geslo prazni."
 
 #: templates/settings.php:50
 msgid "User Login Filter"
@@ -142,7 +142,7 @@ msgstr "Filter prijav uporabnikov"
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr "Določi filter, uporabljen pri prijavi. %%uid nadomesti uporabniško ime za prijavo."
+msgstr "Določi filter, uporabljen pri prijavi. %%uid nadomesti uporabniško ime v postopku prijave."
 
 #: templates/settings.php:54
 #, php-format
@@ -205,7 +205,7 @@ msgstr ""
 
 #: templates/settings.php:74
 msgid "Disable Main Server"
-msgstr ""
+msgstr "Onemogoči glavni strežnik"
 
 #: templates/settings.php:74
 msgid "When switched on, ownCloud will only connect to the replica server."
@@ -225,13 +225,13 @@ msgstr "Strežnik LDAP ne upošteva velikosti črk (Windows)"
 
 #: templates/settings.php:77
 msgid "Turn off SSL certificate validation."
-msgstr "Onemogoči potrditev veljavnosti potrdila SSL."
+msgstr "Onemogoči določanje veljavnosti potrdila SSL."
 
 #: templates/settings.php:77
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr "V primeru, da povezava deluje le s to možnostjo, uvozite potrdilo SSL iz strežnika LDAP na vaš strežnik ownCloud."
+msgstr "Kadar deluje povezava le s to možnostjo, uvozite potrdilo SSL iz strežnika LDAP na vaš strežnik ownCloud."
 
 #: templates/settings.php:77
 msgid "Not recommended, use for testing only."
@@ -263,7 +263,7 @@ msgstr "Osnovno uporabniško drevo"
 
 #: templates/settings.php:83
 msgid "One User Base DN per line"
-msgstr ""
+msgstr "Eno osnovno uporabniško ime DN na vrstico"
 
 #: templates/settings.php:84
 msgid "User Search Attributes"
@@ -287,15 +287,15 @@ msgstr "Osnovno drevo skupine"
 
 #: templates/settings.php:86
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "Eno osnovno ime skupine DN na vrstico"
 
 #: templates/settings.php:87
 msgid "Group Search Attributes"
-msgstr ""
+msgstr "Atributi iskanja skupine"
 
 #: templates/settings.php:88
 msgid "Group-Member association"
-msgstr "Povezava člana skupine"
+msgstr "Povezava član-skupina"
 
 #: templates/settings.php:90
 msgid "Special Attributes"
@@ -303,11 +303,11 @@ msgstr "Posebni atributi"
 
 #: templates/settings.php:92
 msgid "Quota Field"
-msgstr ""
+msgstr "Polje količinske omejitve"
 
 #: templates/settings.php:93
 msgid "Quota Default"
-msgstr ""
+msgstr "Privzeta količinska omejitev"
 
 #: templates/settings.php:93
 msgid "in bytes"
@@ -325,11 +325,11 @@ msgstr ""
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr "Pustite prazno za uporabniško ime (privzeto). V nasprotnem primeru navedite atribut LDAP/AD."
+msgstr "Pustite prazno za uporabniško ime (privzeto), sicer navedite atribut LDAP/AD."
 
 #: templates/settings.php:99
 msgid "Test Configuration"
-msgstr ""
+msgstr "Preizkusne nastavitve"
 
 #: templates/settings.php:99
 msgid "Help"

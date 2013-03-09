@@ -5,6 +5,7 @@
 # Translators:
 #  <>, 2013.
 #   <>, 2012.
+# Matej Urbančič <>, 2013.
 #   <peter.perosa@gmail.com>, 2012.
 # Peter Peroša <peter.perosa@gmail.com>, 2012-2013.
 #   <urossolar@hotmail.com>, 2011, 2012.
@@ -12,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-09 00:05+0100\n"
-"PO-Revision-Date: 2013-03-08 21:30+0000\n"
+"POT-Creation-Date: 2013-03-10 00:06+0100\n"
+"PO-Revision-Date: 2013-03-09 22:50+0000\n"
 "Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -386,7 +387,7 @@ msgstr "Podpora strankam"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "Uporabljate <strong>%s</strong> od razpoložljivih <strong>%s</strong>"
+msgstr "Uporabljenega je <strong>%s</strong> od razpoložljivih <strong>%s</strong> prostora."
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
@@ -442,11 +443,11 @@ msgstr "Elektronska pošta"
 
 #: templates/personal.php:72
 msgid "Your email address"
-msgstr "Vaš elektronski naslov"
+msgstr "Osebni elektronski naslov"
 
 #: templates/personal.php:73
 msgid "Fill in an email address to enable password recovery"
-msgstr "Vpišite vaš elektronski naslov in s tem omogočite obnovitev gesla"
+msgstr "Vpišite osebni elektronski naslov in s tem omogočite obnovitev gesla"
 
 #: templates/personal.php:79 templates/personal.php:80
 msgid "Language"
