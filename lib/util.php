@@ -211,7 +211,7 @@ class OC_Util {
 						."'chown -R www-data:www-data /path/to/your/owncloud/install/data' ");
 			}
 		} else if(!is_writable($CONFIG_DATADIRECTORY) or !is_readable($CONFIG_DATADIRECTORY)) {
-			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') not writable by ownCloud<br/>',
+			$errors[]=array('error'=>'Data directory ('.$CONFIG_DATADIRECTORY.') not writable by ownCloud',
 				'hint'=>$permissionsHint);
 		} else {
 			$errors = array_merge($errors, self::checkDataDirectoryPermissions($CONFIG_DATADIRECTORY));
@@ -309,7 +309,7 @@ class OC_Util {
 				clearstatcache();
 				$prems = substr(decoct(@fileperms($dataDirectory)), -3);
 				if (substr($prems, 2, 1) != '0') {
-					$errors[] = array('error' => 'Data directory ('.$dataDirectory.') is readable for other users<br/>',
+					$errors[] = array('error' => 'Data directory ('.$dataDirectory.') is readable for other users',
 						'hint' => $permissionsModHint);
 				}
 			}
