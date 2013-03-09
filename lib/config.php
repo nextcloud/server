@@ -133,11 +133,11 @@ class OC_Config{
 		// read all file in config dir ending by config.php
 		$config_files = glob( OC::$SERVERROOT."/config/*.config.php");
 
-		//Sort array naturally :
-		natsort($config_files);
-
 		//Filter only regular files
 		$config_files = array_filter($config_files, 'is_file');
+
+		//Sort array naturally :
+		natsort($config_files);
 
 		// Add default config
 		array_unshift($config_files,OC::$SERVERROOT."/config/config.php");
