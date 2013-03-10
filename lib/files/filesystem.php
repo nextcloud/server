@@ -221,11 +221,16 @@ class Filesystem {
 
 		$root = \OC_User::getHome($user);
 		self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
+		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
 
+		//move config file to it's new position
+		if (is_file(\OC::$SERVERROOT . '/config/mount.json')) {
+			rename(\OC::$SERVERROOT . '/config/mount.json', $datadir . '/mount.json');
+		}
 		// Load system mount points
-		if (is_file(\OC::$SERVERROOT . '/config/mount.php') or is_file(\OC::$SERVERROOT . '/config/mount.json')) {
-			if (is_file(\OC::$SERVERROOT . '/config/mount.json')) {
-				$mountConfig = json_decode(file_get_contents(\OC::$SERVERROOT . '/config/mount.json'), true);
+		if (is_file(\OC::$SERVERROOT . '/config/mount.php') or is_file($datadir . '/mount.json')) {
+			if (is_file($datadir . '/mount.json')) {
+				$mountConfig = json_decode(file_get_contents($datadir . '/mount.json'), true);
 			} elseif (is_file(\OC::$SERVERROOT . '/config/mount.php')) {
 				$mountConfig = $parser->parsePHP(file_get_contents(\OC::$SERVERROOT . '/config/mount.php'));
 			}
