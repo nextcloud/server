@@ -48,6 +48,7 @@
 "Turn off SSL certificate validation." => "Ne ellenőrizzük az SSL-tanúsítvány érvényességét",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Ha a kapcsolat csak ezzel a beállítással működik, akkor importálja az LDAP-kiszolgáló SSL tanúsítványát az ownCloud kiszolgálóra!",
 "Not recommended, use for testing only." => "Nem javasolt, csak tesztelésre érdemes használni.",
+"Cache Time-To-Live" => "A gyorsítótár tárolási időtartama",
 "in seconds. A change empties the cache." => "másodpercben. A változtatás törli a cache tartalmát.",
 "Directory Settings" => "Címtár beállítások",
 "User Display Name Field" => "A felhasználónév mezője",
@@ -63,7 +64,12 @@
 "Group Search Attributes" => "A csoportok lekérdezett attribútumai",
 "Group-Member association" => "A csoporttagság attribútuma",
 "Special Attributes" => "Különleges attribútumok",
+"Quota Field" => "Kvóta mező",
+"Quota Default" => "Alapértelmezett kvóta",
 "in bytes" => "bájtban",
+"Email Field" => "Email mező",
+"User Home Folder Naming Rule" => "A home könyvtár elérési útvonala",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Hagyja üresen, ha a felhasználónevet kívánja használni. Ellenkező esetben adjon meg egy LDAP/AD attribútumot!",
+"Test Configuration" => "A beállítások tesztelése",
 "Help" => "Súgó"
 );

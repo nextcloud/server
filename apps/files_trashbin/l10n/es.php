@@ -12,5 +12,6 @@
 "{count} files" => "{count} archivos",
 "Nothing in here. Your trash bin is empty!" => "Nada aqui. La papelera esta vacia!",
 "Restore" => "Recuperar",
-"Delete" => "Eliminar"
+"Delete" => "Eliminar",
+"Deleted Files" => "Archivos Eliminados"
 );

@@ -34,6 +34,7 @@
 "MySQL user '%s'@'%%' already exists" => "MySQL gebruiker '%s'@'%%' bestaat al",
 "Drop this user from MySQL." => "Verwijder deze gebruiker uit MySQL.",
 "Offending command was: \"%s\", name: %s, password: %s" => "Onjuiste commando was: \"%s\", naam: %s, wachtwoord: %s",
+"MS SQL username and/or password not valid: %s" => "MS SQL gebruikersnaam en/of wachtwoord niet geldig: %s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Uw webserver is nog niet goed ingesteld voor bestandssynchronisatie omdat de WebDAV interface verbroken lijkt.",
 "Please double check the <a href='%s'>installation guides</a>." => "Conntroleer de <a href='%s'>installatie handleiding</a> goed.",
 "seconds ago" => "seconden geleden",

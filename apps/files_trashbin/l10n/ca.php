@@ -12,5 +12,6 @@
 "{count} files" => "{count} fitxers",
 "Nothing in here. Your trash bin is empty!" => "La paperera està buida!",
 "Restore" => "Recupera",
-"Delete" => "Esborra"
+"Delete" => "Esborra",
+"Deleted Files" => "Fitxers eliminats"
 );

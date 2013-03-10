@@ -114,7 +114,7 @@ $(document).ready(function() {
 		$(this).parent().children('#file_upload_start').trigger('click');
 		return false;
 	});
-	
+
 	// Show trash bin
 	$('#trash a').live('click', function() {
 		window.location=OC.filePath('files_trashbin', '', 'index.php');
@@ -220,14 +220,15 @@ $(document).ready(function() {
 	});
 
 	$('.download').click('click',function(event) {
-		var files=getSelectedFiles('name').join(';');
+		var files=getSelectedFiles('name');
+		var fileslist = JSON.stringify(files);
 		var dir=$('#dir').val()||'/';
 		OC.Notification.show(t('files','Your download is being prepared. This might take some time if the files are big.'));
 		// use special download URL if provided, e.g. for public shared files
 		if ( (downloadURL = document.getElementById("downloadURL")) ) {
 			window.location=downloadURL.value+"&download&files="+files;
 		} else {
-			window.location=OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: files });
+			window.location=OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: fileslist });
 		}
 		return false;
 	});
@@ -524,7 +525,7 @@ $(document).ready(function() {
 		crumb.text(text);
 	}
 
-	$(window).click(function(){
+	$(document).click(function(){
 		$('#new>ul').hide();
 		$('#new').removeClass('active');
 		$('#new li').each(function(i,element){
@@ -595,7 +596,7 @@ $(document).ready(function() {
 								var date=new Date();
 								FileList.addFile(name,0,date,false,hidden);
 								var tr=$('tr').filterAttr('data-file',name);
-								tr.data('mime','text/plain').data('id',result.data.id);
+								tr.attr('data-mime','text/plain');
 								tr.attr('data-id', result.data.id);
 								getMimeIcon('text/plain',function(path){
 									tr.find('td.filename').attr('style','background-image:url('+path+')');
@@ -817,26 +818,26 @@ var createDragShadow = function(event){
 		//select dragged file
 		$(event.target).parents('tr').find('td input:first').prop('checked',true);
 	}
-	
+
 	var selectedFiles = getSelectedFiles();
-	
+
 	if (!isDragSelected && selectedFiles.length == 1) {
 		//revert the selection
 		$(event.target).parents('tr').find('td input:first').prop('checked',false);
 	}
-	
+
 	//also update class when we dragged more than one file
 	if (selectedFiles.length > 1) {
 		$(event.target).parents('tr').addClass('selected');
 	}
-	
+
 	// build dragshadow
 	var dragshadow = $('<table class="dragshadow"></table>');
 	var tbody = $('<tbody></tbody>');
 	dragshadow.append(tbody);
-	
+
 	var dir=$('#dir').val();
-	
+
 	$(selectedFiles).each(function(i,elem){
 		var newtr = $('<tr data-dir="'+dir+'" data-filename="'+elem.name+'">'
 						+'<td class="filename">'+elem.name+'</td><td class="size">'+humanFileSize(elem.size)+'</td>'
@@ -850,7 +851,7 @@ var createDragShadow = function(event){
 			});
 		}
 	});
-	
+
 	return dragshadow;
 }
 
@@ -863,6 +864,10 @@ var dragOptions={
 		$('#fileList tr td.filename').addClass('ui-draggable');
 	}
 }
+// sane browsers support using the distance option
+if ( ! $.browser.msie) {
+	dragOptions['distance'] = 20;
+} 
 
 var folderDropOptions={
 	drop: function( event, ui ) {
@@ -870,9 +875,9 @@ var folderDropOptions={
 		if ($(event.target).parents('tr').find('td input:first').prop('checked') === true) {
 			return false;
 		}
-		
+
 		var target=$.trim($(this).find('.nametext').text());
-		
+
 		var files = ui.helper.find('tr');
 		$(files).each(function(i,row){
 			var dir = $(row).data('dir');

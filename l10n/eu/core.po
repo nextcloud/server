@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:20+0000\n"
+"POT-Creation-Date: 2013-02-23 00:04+0100\n"
+"PO-Revision-Date: 2013-02-22 22:30+0000\n"
 "Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -21,29 +21,29 @@ msgstr ""
 "Language: eu\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:85
+#: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
-msgstr "%s erabiltzaileak zurekin fitxategi bat partekatu du "
+msgstr "%s erabiltzaileak zurekin fitxategi bat elkarbanatu du "
 
-#: ajax/share.php:87
+#: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr "%s erabiltzaileak zurekin karpeta bat partekatu du "
+msgstr "%s erabiltzaileak zurekin karpeta bat elkarbanatu du "
 
-#: ajax/share.php:89
+#: ajax/share.php:101
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr "%s erabiltzaileak \"%s\" fitxategia zurekin partekatu du. Hemen duzu eskuragarri:  %s"
+msgstr "%s erabiltzaileak \"%s\" fitxategia zurekin elkarbanatu du. Hemen duzu eskuragarri:  %s"
 
-#: ajax/share.php:91
+#: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr "%s erabiltzaileak \"%s\" karpeta zurekin partekatu du. Hemen duzu eskuragarri:  %s"
+msgstr "%s erabiltzaileak \"%s\" karpeta zurekin elkarbanatu du. Hemen duzu eskuragarri:  %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -84,79 +84,79 @@ msgstr "Ez da ezabatzeko kategoriarik hautatu."
 msgid "Error removing %s from favorites."
 msgstr "Errorea gertatu da %s gogokoetatik ezabatzean."
 
-#: js/config.php:32
+#: js/config.php:34
 msgid "Sunday"
 msgstr "Igandea"
 
-#: js/config.php:32
+#: js/config.php:35
 msgid "Monday"
 msgstr "Astelehena"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Tuesday"
 msgstr "Asteartea"
 
-#: js/config.php:32
+#: js/config.php:37
 msgid "Wednesday"
 msgstr "Asteazkena"
 
-#: js/config.php:32
+#: js/config.php:38
 msgid "Thursday"
 msgstr "Osteguna"
 
-#: js/config.php:32
+#: js/config.php:39
 msgid "Friday"
 msgstr "Ostirala"
 
-#: js/config.php:32
+#: js/config.php:40
 msgid "Saturday"
 msgstr "Larunbata"
 
-#: js/config.php:33
+#: js/config.php:45
 msgid "January"
 msgstr "Urtarrila"
 
-#: js/config.php:33
+#: js/config.php:46
 msgid "February"
 msgstr "Otsaila"
 
-#: js/config.php:33
+#: js/config.php:47
 msgid "March"
 msgstr "Martxoa"
 
-#: js/config.php:33
+#: js/config.php:48
 msgid "April"
 msgstr "Apirila"
 
-#: js/config.php:33
+#: js/config.php:49
 msgid "May"
 msgstr "Maiatza"
 
-#: js/config.php:33
+#: js/config.php:50
 msgid "June"
 msgstr "Ekaina"
 
-#: js/config.php:33
+#: js/config.php:51
 msgid "July"
 msgstr "Uztaila"
 
-#: js/config.php:33
+#: js/config.php:52
 msgid "August"
 msgstr "Abuztua"
 
-#: js/config.php:33
+#: js/config.php:53
 msgid "September"
 msgstr "Iraila"
 
-#: js/config.php:33
+#: js/config.php:54
 msgid "October"
 msgstr "Urria"
 
-#: js/config.php:33
+#: js/config.php:55
 msgid "November"
 msgstr "Azaroa"
 
-#: js/config.php:33
+#: js/config.php:56
 msgid "December"
 msgstr "Abendua"
 
@@ -277,11 +277,11 @@ msgstr "Errore bat egon da baimenak aldatzean"
 
 #: js/share.js:168
 msgid "Shared with you and the group {group} by {owner}"
-msgstr "{owner}-k zu eta {group} taldearekin partekatuta"
+msgstr "{owner}-k zu eta {group} taldearekin elkarbanatuta"
 
 #: js/share.js:170
 msgid "Shared with you by {owner}"
-msgstr "{owner}-k zurekin partekatuta"
+msgstr "{owner}-k zurekin elkarbanatuta"
 
 #: js/share.js:175
 msgid "Share with"
@@ -295,7 +295,7 @@ msgstr "Elkarbanatu lotura batekin"
 msgid "Password protect"
 msgstr "Babestu pasahitzarekin"
 
-#: js/share.js:185 templates/installation.php:44 templates/login.php:35
+#: js/share.js:185 templates/installation.php:46 templates/login.php:35
 msgid "Password"
 msgstr "Pasahitza"
 
@@ -329,7 +329,7 @@ msgstr "Berriz elkarbanatzea ez dago baimendua"
 
 #: js/share.js:292
 msgid "Shared in {item} with {user}"
-msgstr "{user}ekin {item}-n partekatuta"
+msgstr "{user}ekin {item}-n elkarbanatuta"
 
 #: js/share.js:313
 msgid "Unshare"
@@ -410,7 +410,7 @@ msgstr "Berrezartzeko eposta bidali da."
 msgid "Request failed!"
 msgstr "Eskariak huts egin du!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:40
 #: templates/login.php:28
 msgid "Username"
 msgstr "Erabiltzaile izena"
@@ -504,52 +504,52 @@ msgstr "Zure zerbitzaria ongi konfiguratzeko informazioa eskuratzeko, begiratu  
 msgid "Create an <strong>admin account</strong>"
 msgstr "Sortu <strong>kudeatzaile kontu<strong> bat"
 
-#: templates/installation.php:52
+#: templates/installation.php:54
 msgid "Advanced"
 msgstr "Aurreratua"
 
-#: templates/installation.php:54
+#: templates/installation.php:56
 msgid "Data folder"
 msgstr "Datuen karpeta"
 
-#: templates/installation.php:61
+#: templates/installation.php:65
 msgid "Configure the database"
 msgstr "Konfiguratu datu basea"
 
-#: templates/installation.php:66 templates/installation.php:77
-#: templates/installation.php:87 templates/installation.php:97
+#: templates/installation.php:70 templates/installation.php:82
+#: templates/installation.php:93 templates/installation.php:104
 msgid "will be used"
 msgstr "erabiliko da"
 
-#: templates/installation.php:109
+#: templates/installation.php:117
 msgid "Database user"
 msgstr "Datubasearen erabiltzailea"
 
-#: templates/installation.php:113
+#: templates/installation.php:122
 msgid "Database password"
 msgstr "Datubasearen pasahitza"
 
-#: templates/installation.php:117
+#: templates/installation.php:127
 msgid "Database name"
 msgstr "Datubasearen izena"
 
-#: templates/installation.php:125
+#: templates/installation.php:137
 msgid "Database tablespace"
 msgstr "Datu basearen taula-lekua"
 
-#: templates/installation.php:131
+#: templates/installation.php:144
 msgid "Database host"
 msgstr "Datubasearen hostalaria"
 
-#: templates/installation.php:136
+#: templates/installation.php:150
 msgid "Finish setup"
 msgstr "Bukatu konfigurazioa"
 
-#: templates/layout.guest.php:33
+#: templates/layout.guest.php:35
 msgid "web services under your control"
 msgstr "web zerbitzuak zure kontrolpean"
 
-#: templates/layout.user.php:48
+#: templates/layout.user.php:53
 msgid "Log out"
 msgstr "Saioa bukatu"
 

@@ -12,5 +12,6 @@
 "{count} files" => "{count} soubory",
 "Nothing in here. Your trash bin is empty!" => "Žádný obsah. Váš koš je prázdný.",
 "Restore" => "Obnovit",
-"Delete" => "Smazat"
+"Delete" => "Smazat",
+"Deleted Files" => "Smazané soubory"
 );

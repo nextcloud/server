@@ -199,7 +199,7 @@ class View {
 		@ob_end_clean();
 		$handle = $this->fopen($path, 'rb');
 		if ($handle) {
-			$chunkSize = 8192; // 8 MB chunks
+			$chunkSize = 8192; // 8 kB chunks
 			while (!feof($handle)) {
 				echo fread($handle, $chunkSize);
 				flush();
@@ -245,7 +245,14 @@ class View {
 		if (!is_null($mtime) and !is_numeric($mtime)) {
 			$mtime = strtotime($mtime);
 		}
-		return $this->basicOperation('touch', $path, array('write'), $mtime);
+		
+		$hooks = array('touch');
+		
+		if (!$this->file_exists($path)) {
+			$hooks[] = 'write';
+		}
+		
+		return $this->basicOperation('touch', $path, $hooks, $mtime);
 	}
 
 	public function file_get_contents($path) {
@@ -285,7 +292,7 @@ class View {
 				}
 				$target = $this->fopen($path, 'w');
 				if ($target) {
-					$count = \OC_Helper::streamCopy($data, $target);
+					list ($count, $result) = \OC_Helper::streamCopy($data, $target);
 					fclose($target);
 					fclose($data);
 					if ($this->fakeRoot == Filesystem::getRoot()) {
@@ -303,7 +310,7 @@ class View {
 						);
 					}
 					\OC_FileProxy::runPostProxies('file_put_contents', $absolutePath, $count);
-					return $count > 0;
+					return $result;
 				} else {
 					return false;
 				}
@@ -361,10 +368,9 @@ class View {
 				} else {
 					$source = $this->fopen($path1 . $postFix1, 'r');
 					$target = $this->fopen($path2 . $postFix2, 'w');
-					$count = \OC_Helper::streamCopy($source, $target);
+					list($count, $result) = \OC_Helper::streamCopy($source, $target);
 					list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
 					$storage1->unlink($internalPath1);
-					$result = $count > 0;
 				}
 				if ($this->fakeRoot == Filesystem::getRoot()) {
 					\OC_Hook::emit(
@@ -444,7 +450,7 @@ class View {
 				} else {
 					$source = $this->fopen($path1 . $postFix1, 'r');
 					$target = $this->fopen($path2 . $postFix2, 'w');
-					$result = \OC_Helper::streamCopy($source, $target);
+					list($count, $result) = \OC_Helper::streamCopy($source, $target);
 				}
 				if ($this->fakeRoot == Filesystem::getRoot()) {
 					\OC_Hook::emit(
@@ -597,6 +603,7 @@ class View {
 			if ($path == null) {
 				return false;
 			}
+
 			$run = $this->runHooks($hooks, $path);
 			list($storage, $internalPath) = Filesystem::resolvePath($absolutePath . $postFix);
 			if ($run and $storage) {
@@ -961,7 +968,7 @@ class View {
 	 */
 	public function getPath($id) {
 		list($storage, $internalPath) = Cache\Cache::getById($id);
-		$mounts = Mount::findById($storage);
+		$mounts = Mount::findByStorageId($storage);
 		foreach ($mounts as $mount) {
 			/**
 			 * @var \OC\Files\Mount $mount

@@ -12,5 +12,6 @@
 "{count} files" => "{count} Dateien",
 "Nothing in here. Your trash bin is empty!" => "Nichts zu löschen, der Papierkorb ist leer!",
 "Restore" => "Wiederherstellen",
-"Delete" => "Löschen"
+"Delete" => "Löschen",
+"Deleted Files" => "Gelöschte Dateien"
 );

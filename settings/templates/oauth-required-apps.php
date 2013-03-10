@@ -6,14 +6,14 @@
  */
 ?>
 <div id="oauth-request" class="guest-container">
-	<p><strong><?php echo $_['consumer']['name'].'</strong> '.$_['message']; ?></p>
+	<p><strong><?php print_unescaped(OC_Util::sanitizeHTML($_['consumer']['name']).'</strong> '.OC_Util::sanitizeHTML($_['message'])); ?></p>
 	<ul>
 		<?php
 		// Foreach requested scope
 		foreach($_['requiredapps'] as $requiredapp){
-			echo '<li>'.$requiredapp.'</li>';
+			print_unescaped('<li>'.OC_Util::sanitizeHTML($requiredapp).'</li>');
 		}
 		?>
 	</ul>
-	<a href="<?php echo OC::$WEBROOT; ?>" id="back-home" class="button">Back to ownCloud</a>
+	<a href="<?php print_unescaped(OC::$WEBROOT); ?>" id="back-home" class="button">Back to ownCloud</a>
 </div>

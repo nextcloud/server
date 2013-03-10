@@ -39,10 +39,10 @@ class Mount extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(2, count(\OC\Files\Mount::findIn('/')));
 
 		$id = $mount->getStorageId();
-		$this->assertEquals(array($mount), \OC\Files\Mount::findById($id));
+		$this->assertEquals(array($mount), \OC\Files\Mount::findByStorageId($id));
 
 		$mount2 = new \OC\Files\Mount($storage, '/foo/bar');
-		$this->assertEquals(array($mount, $mount2), \OC\Files\Mount::findById($id));
+		$this->assertEquals(array($mount, $mount2), \OC\Files\Mount::findByStorageId($id));
 	}
 
 	public function testLong() {
@@ -51,8 +51,8 @@ class Mount extends \PHPUnit_Framework_TestCase {
 
 		$id = $mount->getStorageId();
 		$storageId = $storage->getId();
-		$this->assertEquals(array($mount), \OC\Files\Mount::findById($id));
-		$this->assertEquals(array($mount), \OC\Files\Mount::findById($storageId));
-		$this->assertEquals(array($mount), \OC\Files\Mount::findById(md5($storageId)));
+		$this->assertEquals(array($mount), \OC\Files\Mount::findByStorageId($id));
+		$this->assertEquals(array($mount), \OC\Files\Mount::findByStorageId($storageId));
+		$this->assertEquals(array($mount), \OC\Files\Mount::findByStorageId(md5($storageId)));
 	}
 }

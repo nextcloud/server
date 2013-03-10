@@ -21,7 +21,7 @@
 *
 */
 
-require_once 'apps/user_webdavauth/user_webdavauth.php';
+require_once OC_App::getAppPath('user_webdavauth').'/user_webdavauth.php';
 
 OC_APP::registerAdmin('user_webdavauth', 'settings');
 

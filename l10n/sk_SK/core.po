@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:20+0000\n"
+"POT-Creation-Date: 2013-03-04 00:06+0100\n"
+"PO-Revision-Date: 2013-03-03 14:40+0000\n"
 "Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -24,33 +24,33 @@ msgstr ""
 "Language: sk_SK\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: ajax/share.php:85
+#: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
 msgstr "Používateľ %s zdieľa s Vami súbor"
 
-#: ajax/share.php:87
+#: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr "Používateľ %s zdieľa s Vami adresár"
+msgstr "Používateľ %s zdieľa s Vami priečinok"
 
-#: ajax/share.php:89
+#: ajax/share.php:101
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr "Používateľ %s zdieľa s Vami súbor \"%s\".  Môžete si ho stiahnuť tu: %s"
 
-#: ajax/share.php:91
+#: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr "Používateľ %s zdieľa s Vami adresár \"%s\".  Môžete si ho stiahnuť tu: %s"
+msgstr "Používateľ %s zdieľa s Vami priečinok \"%s\".  Môžete si ho stiahnuť tu: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr "Neposkytnutý kategorický typ."
+msgstr "Neposkytnutý typ kategórie."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -59,7 +59,7 @@ msgstr "Žiadna kategória pre pridanie?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr "Kategéria: %s už existuje."
+msgstr "Kategória: %s už existuje."
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -87,79 +87,79 @@ msgstr "Neboli vybrané žiadne kategórie pre odstránenie."
 msgid "Error removing %s from favorites."
 msgstr "Chyba pri odstraňovaní %s z obľúbených položiek."
 
-#: js/config.php:32
+#: js/config.php:34
 msgid "Sunday"
 msgstr "Nedeľa"
 
-#: js/config.php:32
+#: js/config.php:35
 msgid "Monday"
 msgstr "Pondelok"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Tuesday"
 msgstr "Utorok"
 
-#: js/config.php:32
+#: js/config.php:37
 msgid "Wednesday"
 msgstr "Streda"
 
-#: js/config.php:32
+#: js/config.php:38
 msgid "Thursday"
 msgstr "Štvrtok"
 
-#: js/config.php:32
+#: js/config.php:39
 msgid "Friday"
 msgstr "Piatok"
 
-#: js/config.php:32
+#: js/config.php:40
 msgid "Saturday"
 msgstr "Sobota"
 
-#: js/config.php:33
+#: js/config.php:45
 msgid "January"
 msgstr "Január"
 
-#: js/config.php:33
+#: js/config.php:46
 msgid "February"
 msgstr "Február"
 
-#: js/config.php:33
+#: js/config.php:47
 msgid "March"
 msgstr "Marec"
 
-#: js/config.php:33
+#: js/config.php:48
 msgid "April"
 msgstr "Apríl"
 
-#: js/config.php:33
+#: js/config.php:49
 msgid "May"
 msgstr "Máj"
 
-#: js/config.php:33
+#: js/config.php:50
 msgid "June"
 msgstr "Jún"
 
-#: js/config.php:33
+#: js/config.php:51
 msgid "July"
 msgstr "Júl"
 
-#: js/config.php:33
+#: js/config.php:52
 msgid "August"
 msgstr "August"
 
-#: js/config.php:33
+#: js/config.php:53
 msgid "September"
 msgstr "September"
 
-#: js/config.php:33
+#: js/config.php:54
 msgid "October"
 msgstr "Október"
 
-#: js/config.php:33
+#: js/config.php:55
 msgid "November"
 msgstr "November"
 
-#: js/config.php:33
+#: js/config.php:56
 msgid "December"
 msgstr "December"
 
@@ -167,55 +167,55 @@ msgstr "December"
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: js/js.js:767
+#: js/js.js:777
 msgid "seconds ago"
 msgstr "pred sekundami"
 
-#: js/js.js:768
+#: js/js.js:778
 msgid "1 minute ago"
 msgstr "pred minútou"
 
-#: js/js.js:769
+#: js/js.js:779
 msgid "{minutes} minutes ago"
 msgstr "pred {minutes} minútami"
 
-#: js/js.js:770
+#: js/js.js:780
 msgid "1 hour ago"
 msgstr "Pred 1 hodinou."
 
-#: js/js.js:771
+#: js/js.js:781
 msgid "{hours} hours ago"
 msgstr "Pred {hours} hodinami."
 
-#: js/js.js:772
+#: js/js.js:782
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:773
+#: js/js.js:783
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:774
+#: js/js.js:784
 msgid "{days} days ago"
 msgstr "pred {days} dňami"
 
-#: js/js.js:775
+#: js/js.js:785
 msgid "last month"
 msgstr "minulý mesiac"
 
-#: js/js.js:776
+#: js/js.js:786
 msgid "{months} months ago"
 msgstr "Pred {months} mesiacmi."
 
-#: js/js.js:777
+#: js/js.js:787
 msgid "months ago"
 msgstr "pred mesiacmi"
 
-#: js/js.js:778
+#: js/js.js:788
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:779
+#: js/js.js:789
 msgid "years ago"
 msgstr "pred rokmi"
 
@@ -256,7 +256,7 @@ msgstr "Nešpecifikované meno aplikácie."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr "Požadovaný súbor {file} nie je inštalovaný!"
+msgstr "Požadovaný súbor {file} nie je nainštalovaný!"
 
 #: js/share.js:29 js/share.js:43 js/share.js:90
 msgid "Shared"
@@ -264,7 +264,7 @@ msgstr "Zdieľané"
 
 #: js/share.js:93
 msgid "Share"
-msgstr "Zdieľaj"
+msgstr "Zdieľať"
 
 #: js/share.js:141 js/share.js:622
 msgid "Error while sharing"
@@ -298,13 +298,13 @@ msgstr "Zdieľať cez odkaz"
 msgid "Password protect"
 msgstr "Chrániť heslom"
 
-#: js/share.js:185 templates/installation.php:44 templates/login.php:35
+#: js/share.js:185 templates/installation.php:47 templates/login.php:35
 msgid "Password"
 msgstr "Heslo"
 
 #: js/share.js:189
 msgid "Email link to person"
-msgstr "Odoslať odkaz osobe e-mailom"
+msgstr "Odoslať odkaz emailom"
 
 #: js/share.js:190
 msgid "Send"
@@ -344,7 +344,7 @@ msgstr "môže upraviť"
 
 #: js/share.js:327
 msgid "access control"
-msgstr "riadenie prístupu"
+msgstr "prístupové práva"
 
 #: js/share.js:330
 msgid "create"
@@ -352,11 +352,11 @@ msgstr "vytvoriť"
 
 #: js/share.js:333
 msgid "update"
-msgstr "aktualizácia"
+msgstr "aktualizovať"
 
 #: js/share.js:336
 msgid "delete"
-msgstr "zmazať"
+msgstr "vymazať"
 
 #: js/share.js:339
 msgid "share"
@@ -368,11 +368,11 @@ msgstr "Chránené heslom"
 
 #: js/share.js:582
 msgid "Error unsetting expiration date"
-msgstr "Chyba pri odstraňovaní dátumu vypršania platnosti"
+msgstr "Chyba pri odstraňovaní dátumu expirácie"
 
 #: js/share.js:594
 msgid "Error setting expiration date"
-msgstr "Chyba pri nastavení dátumu vypršania platnosti"
+msgstr "Chyba pri nastavení dátumu expirácie"
 
 #: js/share.js:609
 msgid "Sending ..."
@@ -391,7 +391,7 @@ msgstr "Aktualizácia nebola úspešná. Problém nahláste na <a href=\"https:/
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr "Aktualizácia bola úspešná. Presmerovávam na ownCloud."
+msgstr "Aktualizácia bola úspešná. Presmerovávam na prihlasovaciu stránku."
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
@@ -413,7 +413,7 @@ msgstr "Obnovovací email bol odoslaný."
 msgid "Request failed!"
 msgstr "Požiadavka zlyhala!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:41
 #: templates/login.php:28
 msgid "Username"
 msgstr "Prihlasovacie meno"
@@ -436,7 +436,7 @@ msgstr "Nové heslo"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "Obnova hesla"
+msgstr "Obnovenie hesla"
 
 #: strings.php:5
 msgid "Personal"
@@ -474,85 +474,86 @@ msgstr "Úprava kategórií"
 msgid "Add"
 msgstr "Pridať"
 
-#: templates/installation.php:23 templates/installation.php:30
+#: templates/installation.php:24 templates/installation.php:31
 msgid "Security Warning"
 msgstr "Bezpečnostné varovanie"
 
-#: templates/installation.php:24
+#: templates/installation.php:25
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "Nie je dostupný žiadny bezpečný generátor náhodných čísel, prosím, povoľte rozšírenie OpenSSL v PHP."
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Bez bezpečného generátora náhodných čísel môže útočník predpovedať token pre obnovu hesla a prevziať kontrolu nad vaším kontom."
 
-#: templates/installation.php:31
+#: templates/installation.php:32
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "Váš priečinok s dátami a súbormi je dostupný z internetu, lebo súbor .htaccess nefunguje."
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
 msgstr "Pre informácie, ako správne nastaviť Váš server sa pozrite do <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentácie</a>."
 
-#: templates/installation.php:36
+#: templates/installation.php:37
 msgid "Create an <strong>admin account</strong>"
 msgstr "Vytvoriť <strong>administrátorský účet</strong>"
 
-#: templates/installation.php:52
+#: templates/installation.php:55
 msgid "Advanced"
-msgstr "Pokročilé"
+msgstr "Rozšírené"
 
-#: templates/installation.php:54
+#: templates/installation.php:57
 msgid "Data folder"
 msgstr "Priečinok dát"
 
-#: templates/installation.php:61
+#: templates/installation.php:66
 msgid "Configure the database"
 msgstr "Nastaviť databázu"
 
-#: templates/installation.php:66 templates/installation.php:77
-#: templates/installation.php:87 templates/installation.php:97
+#: templates/installation.php:71 templates/installation.php:83
+#: templates/installation.php:94 templates/installation.php:105
+#: templates/installation.php:117
 msgid "will be used"
 msgstr "bude použité"
 
-#: templates/installation.php:109
+#: templates/installation.php:129
 msgid "Database user"
 msgstr "Hostiteľ databázy"
 
-#: templates/installation.php:113
+#: templates/installation.php:134
 msgid "Database password"
 msgstr "Heslo databázy"
 
-#: templates/installation.php:117
+#: templates/installation.php:139
 msgid "Database name"
 msgstr "Meno databázy"
 
-#: templates/installation.php:125
+#: templates/installation.php:149
 msgid "Database tablespace"
 msgstr "Tabuľkový priestor databázy"
 
-#: templates/installation.php:131
+#: templates/installation.php:156
 msgid "Database host"
 msgstr "Server databázy"
 
-#: templates/installation.php:136
+#: templates/installation.php:162
 msgid "Finish setup"
 msgstr "Dokončiť inštaláciu"
 
-#: templates/layout.guest.php:33
+#: templates/layout.guest.php:40
 msgid "web services under your control"
 msgstr "webové služby pod vašou kontrolou"
 
-#: templates/layout.user.php:48
+#: templates/layout.user.php:58
 msgid "Log out"
 msgstr "Odhlásiť"
 
@@ -584,7 +585,7 @@ msgstr "Prihlásiť sa"
 
 #: templates/login.php:49
 msgid "Alternative Logins"
-msgstr "Altrnatívne loginy"
+msgstr "Alternatívne prihlasovanie"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

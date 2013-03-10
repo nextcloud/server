@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-15 00:05+0100\n"
-"PO-Revision-Date: 2013-02-14 09:30+0000\n"
+"POT-Creation-Date: 2013-03-01 00:05+0100\n"
+"PO-Revision-Date: 2013-02-28 07:10+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -52,18 +52,10 @@ msgstr "Non hai versións antigas dispoñíbeis"
 msgid "No path specified"
 msgstr "Non foi indicada a ruta"
 
-#: js/versions.js:16
-msgid "History"
-msgstr "Historial"
+#: js/versions.js:6
+msgid "Versions"
+msgstr "Versións"
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
 msgstr "Reverta un ficheiro a unha versión anterior premendo no botón reversión"
-
-#: templates/settings.php:3
-msgid "Files Versioning"
-msgstr "Sistema de versión de ficheiros"
-
-#: templates/settings.php:4
-msgid "Enable"
-msgstr "Activar"

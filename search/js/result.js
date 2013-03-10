@@ -28,7 +28,7 @@ OC.search.showResults=function(results){
 				OC.search.hide();
 				event.stopPropagation();
 			});
-			$(window).click(function(event){
+			$(document).click(function(event){
 				OC.search.hide();
 			});
 			OC.search.lastResults=results;

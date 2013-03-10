@@ -5,5 +5,6 @@
 "1 file" => "1 dosiero",
 "{count} files" => "{count} dosierujoj",
 "Restore" => "Restaŭri",
-"Delete" => "Forigi"
+"Delete" => "Forigi",
+"Deleted Files" => "Forigitaj dosieroj"
 );

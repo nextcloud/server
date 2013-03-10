@@ -12,5 +12,6 @@
 "{count} files" => "{count} αρχεία",
 "Nothing in here. Your trash bin is empty!" => "Δεν υπάρχει τίποτα εδώ. Ο κάδος σας είναι άδειος!",
 "Restore" => "Επαναφορά",
-"Delete" => "Διαγραφή"
+"Delete" => "Διαγραφή",
+"Deleted Files" => "Διαγραμμένα Αρχεία"
 );

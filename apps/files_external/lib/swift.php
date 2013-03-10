@@ -264,27 +264,31 @@ class SWIFT extends \OC\Files\Storage\Common{
 	private function getSubContainerFile($container) {
 		try {
 			return $container->get_object(self::SUBCONTAINER_FILE);
-		} catch(NoSuchObjectException $e) {
+		} catch(\NoSuchObjectException $e) {
 			return $container->create_object(self::SUBCONTAINER_FILE);
 		}
 	}
 
 	public function __construct($params) {
-		$this->token=$params['token'];
-		$this->host=$params['host'];
-		$this->user=$params['user'];
-		$this->root=isset($params['root'])?$params['root']:'/';
-		if (isset($params['secure'])) {
-			if (is_string($params['secure'])) {
-				$this->secure = ($params['secure'] === 'true');
+		if (isset($params['token']) && isset($params['host']) && isset($params['user'])) {
+			$this->token=$params['token'];
+			$this->host=$params['host'];
+			$this->user=$params['user'];
+			$this->root=isset($params['root'])?$params['root']:'/';
+			if (isset($params['secure'])) {
+				if (is_string($params['secure'])) {
+					$this->secure = ($params['secure'] === 'true');
+				} else {
+					$this->secure = (bool)$params['secure'];
+				}
 			} else {
-				$this->secure = (bool)$params['secure'];
+				$this->secure = false;
+			}
+			if ( ! $this->root || $this->root[0]!='/') {
+				$this->root='/'.$this->root;
 			}
 		} else {
-			$this->secure = false;
-		}
-		if ( ! $this->root || $this->root[0]!='/') {
-			$this->root='/'.$this->root;
+			throw new \Exception();
 		}
 
 	}

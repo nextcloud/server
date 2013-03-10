@@ -12,5 +12,6 @@
 "{count} files" => "{count} filer",
 "Nothing in here. Your trash bin is empty!" => "Ingenting här. Din papperskorg är tom!",
 "Restore" => "Återskapa",
-"Delete" => "Radera"
+"Delete" => "Radera",
+"Deleted Files" => "Raderade filer"
 );

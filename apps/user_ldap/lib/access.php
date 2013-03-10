@@ -144,6 +144,9 @@ abstract class Access {
 			'\;' => '\5c3B',
 			'\"' => '\5c22',
 			'\#' => '\5c23',
+			'('  => '\28',
+			')'  => '\29',
+			'*'  => '\2A',
 		);
 		$dn = str_replace(array_keys($replacements), array_values($replacements), $dn);
 
@@ -624,7 +627,8 @@ abstract class Access {
 	 * @brief executes an LDAP search
 	 * @param $filter the LDAP filter for the search
 	 * @param $base an array containing the LDAP subtree(s) that shall be searched
-	 * @param $attr optional, when a certain attribute shall be filtered out
+	 * @param $attr optional, array, one or more attributes that shall be
+	 * retrieved. Results will according to the order in the array.
 	 * @returns array with the search result
 	 *
 	 * Executes an LDAP search
@@ -649,13 +653,21 @@ abstract class Access {
 		$linkResources = array_pad(array(), count($base), $link_resource);
 		$sr = ldap_search($linkResources, $base, $filter, $attr);
 		$error = ldap_errno($link_resource);
-		if(!is_array($sr) || $error > 0) {
+		if(!is_array($sr) || $error != 0) {
 			\OCP\Util::writeLog('user_ldap',
 				'Error when searching: '.ldap_error($link_resource).' code '.ldap_errno($link_resource),
 				\OCP\Util::ERROR);
 			\OCP\Util::writeLog('user_ldap', 'Attempt for Paging?  '.print_r($pagedSearchOK, true), \OCP\Util::ERROR);
 			return array();
 		}
+
+		// Do the server-side sorting
+		foreach(array_reverse($attr) as $sortAttr){
+			foreach($sr as $searchResource) {
+				ldap_sort($link_resource, $searchResource, $sortAttr);
+			}
+		}
+
 		$findings = array();
 		foreach($sr as $key => $res) {
 		    $findings = array_merge($findings, ldap_get_entries($link_resource, $res ));

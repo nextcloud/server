@@ -313,6 +313,9 @@ class Cache {
 		}
 		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*filecache` WHERE `fileid` = ?');
 		$query->execute(array($entry['fileid']));
+
+		$permissionsCache = new Permissions($this->storageId);
+		$permissionsCache->remove($entry['fileid']);
 	}
 
 	/**
@@ -500,8 +503,8 @@ class Cache {
 	public function getIncomplete() {
 		$query = \OC_DB::prepare('SELECT `path` FROM `*PREFIX*filecache`'
 			. ' WHERE `storage` = ? AND `size` = -1 ORDER BY `fileid` DESC LIMIT 1');
-		$query->execute(array($this->numericId));
-		if ($row = $query->fetchRow()) {
+		$result = $query->execute(array($this->numericId));
+		if ($row = $result->fetchRow()) {
 			return $row['path'];
 		} else {
 			return false;

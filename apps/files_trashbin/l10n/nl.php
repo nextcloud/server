@@ -12,5 +12,6 @@
 "{count} files" => "{count} bestanden",
 "Nothing in here. Your trash bin is empty!" => "Niets te vinden. Uw prullenbak is leeg!",
 "Restore" => "Herstellen",
-"Delete" => "Verwijder"
+"Delete" => "Verwijder",
+"Deleted Files" => "Verwijderde bestanden"
 );

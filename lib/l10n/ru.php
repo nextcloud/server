@@ -34,6 +34,7 @@
 "MySQL user '%s'@'%%' already exists" => "Пользователь MySQL '%s'@'%%' уже существует",
 "Drop this user from MySQL." => "Удалить этого пользователя из MySQL.",
 "Offending command was: \"%s\", name: %s, password: %s" => "Вызываемая команда была: \"%s\", имя: %s, пароль: %s",
+"MS SQL username and/or password not valid: %s" => "Имя пользователя и/или пароль MS SQL не подходит: %s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ваш веб сервер до сих пор не настроен правильно для возможности синхронизации файлов, похоже что проблема в неисправности интерфейса WebDAV.",
 "Please double check the <a href='%s'>installation guides</a>." => "Пожалуйста, дважды просмотрите <a href='%s'>инструкции по установке</a>.",
 "seconds ago" => "менее минуты",

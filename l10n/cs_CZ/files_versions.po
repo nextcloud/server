@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
-"PO-Revision-Date: 2013-02-08 06:40+0000\n"
+"POT-Creation-Date: 2013-03-01 00:05+0100\n"
+"PO-Revision-Date: 2013-02-28 07:20+0000\n"
 "Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -50,18 +50,10 @@ msgstr "Nejsou dostupné žádné starší verze"
 msgid "No path specified"
 msgstr "Nezadána cesta"
 
-#: js/versions.js:16
-msgid "History"
-msgstr "Historie"
+#: js/versions.js:6
+msgid "Versions"
+msgstr "Verze"
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
 msgstr "Navraťte soubor do předchozí verze kliknutím na tlačítko navrátit"
-
-#: templates/settings.php:3
-msgid "Files Versioning"
-msgstr "Verzování souborů"
-
-#: templates/settings.php:4
-msgid "Enable"
-msgstr "Povolit"

@@ -4,6 +4,7 @@ $RUNTIME_NOAPPS = true;
 require_once '../../lib/base.php';
 
 if (OC::checkUpgrade(false)) {
+	\OC_DB::enableCaching(false);
 	$updateEventSource = new OC_EventSource();
 	$watcher = new UpdateWatcher($updateEventSource);
 	OC_Hook::connect('update', 'success', $watcher, 'success');
@@ -16,10 +17,6 @@ if (OC::checkUpgrade(false)) {
 	} catch (Exception $exception) {
 		$watcher->failure($exception->getMessage());
 	}
-	$minimizerCSS = new OC_Minimizer_CSS();
-	$minimizerCSS->clearCache();
-	$minimizerJS = new OC_Minimizer_JS();
-	$minimizerJS->clearCache();
 	OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
 	OC_App::checkAppsRequirements();
 	// load all apps to also upgrade enabled apps

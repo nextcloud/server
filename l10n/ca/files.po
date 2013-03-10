@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:30+0000\n"
-"Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
+"POT-Creation-Date: 2013-03-04 00:06+0100\n"
+"PO-Revision-Date: 2013-03-03 23:06+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,27 +57,27 @@ msgid ""
 "the HTML form"
 msgstr "El fitxer de pujada excedeix la directiva MAX_FILE_SIZE especificada al formulari HTML"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
 msgstr "El fitxer només s'ha pujat parcialment"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:31
 msgid "No file was uploaded"
 msgstr "El fitxer no s'ha pujat"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:32
 msgid "Missing a temporary folder"
 msgstr "S'ha perdut un fitxer temporal"
 
-#: ajax/upload.php:34
+#: ajax/upload.php:33
 msgid "Failed to write to disk"
 msgstr "Ha fallat en escriure al disc"
 
-#: ajax/upload.php:52
+#: ajax/upload.php:51
 msgid "Not enough storage available"
 msgstr "No hi ha prou espai disponible"
 
-#: ajax/upload.php:83
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "Directori no vàlid."
 
@@ -89,7 +89,7 @@ msgstr "Fitxers"
 msgid "Delete permanently"
 msgstr "Esborra permanentment"
 
-#: js/fileactions.js:127 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
 msgid "Delete"
 msgstr "Suprimeix"
 
@@ -102,35 +102,31 @@ msgstr "Reanomena"
 msgid "Pending"
 msgstr "Pendents"
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:251 js/filelist.js:253
 msgid "{new_name} already exists"
 msgstr "{new_name} ja existeix"
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:251 js/filelist.js:253
 msgid "replace"
 msgstr "substitueix"
 
-#: js/filelist.js:253
+#: js/filelist.js:251
 msgid "suggest name"
 msgstr "sugereix un nom"
 
-#: js/filelist.js:253 js/filelist.js:255
+#: js/filelist.js:251 js/filelist.js:253
 msgid "cancel"
 msgstr "cancel·la"
 
-#: js/filelist.js:295
-msgid "replaced {new_name}"
-msgstr "s'ha substituït {new_name}"
-
-#: js/filelist.js:295 js/filelist.js:297
-msgid "undo"
-msgstr "desfés"
-
-#: js/filelist.js:297
+#: js/filelist.js:298
 msgid "replaced {new_name} with {old_name}"
 msgstr "s'ha substituït {old_name} per {new_name}"
 
-#: js/filelist.js:322
+#: js/filelist.js:298
+msgid "undo"
+msgstr "desfés"
+
+#: js/filelist.js:323
 msgid "perform delete operation"
 msgstr "executa d'operació d'esborrar"
 
@@ -199,31 +195,31 @@ msgstr "La URL no pot ser buida"
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nom de carpeta no vàlid. L'ús de 'Shared' està reservat per Owncloud"
 
-#: js/files.js:949 templates/index.php:67
+#: js/files.js:953 templates/index.php:68
 msgid "Name"
 msgstr "Nom"
 
-#: js/files.js:950 templates/index.php:78
+#: js/files.js:954 templates/index.php:79
 msgid "Size"
 msgstr "Mida"
 
-#: js/files.js:951 templates/index.php:80
+#: js/files.js:955 templates/index.php:81
 msgid "Modified"
 msgstr "Modificat"
 
-#: js/files.js:970
+#: js/files.js:974
 msgid "1 folder"
 msgstr "1 carpeta"
 
-#: js/files.js:972
+#: js/files.js:976
 msgid "{count} folders"
 msgstr "{count} carpetes"
 
-#: js/files.js:980
+#: js/files.js:984
 msgid "1 file"
 msgstr "1 fitxer"
 
-#: js/files.js:982
+#: js/files.js:986
 msgid "{count} files"
 msgstr "{count} fitxers"
 
@@ -287,33 +283,37 @@ msgstr "Fitxers esborrats"
 msgid "Cancel upload"
 msgstr "Cancel·la la pujada"
 
-#: templates/index.php:59
+#: templates/index.php:53
+msgid "You don’t have write permissions here."
+msgstr "No teniu permisos d'escriptura aquí."
+
+#: templates/index.php:60
 msgid "Nothing in here. Upload something!"
 msgstr "Res per aquí. Pugeu alguna cosa!"
 
-#: templates/index.php:73
+#: templates/index.php:74
 msgid "Download"
 msgstr "Baixa"
 
-#: templates/index.php:85 templates/index.php:86
+#: templates/index.php:86 templates/index.php:87
 msgid "Unshare"
 msgstr "Deixa de compartir"
 
-#: templates/index.php:105
+#: templates/index.php:106
 msgid "Upload too large"
 msgstr "La pujada és massa gran"
 
-#: templates/index.php:107
+#: templates/index.php:108
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada del servidor"
 
-#: templates/index.php:112
+#: templates/index.php:113
 msgid "Files are being scanned, please wait."
 msgstr "S'estan escanejant els fitxers, espereu"
 
-#: templates/index.php:115
+#: templates/index.php:116
 msgid "Current scanning"
 msgstr "Actualment escanejant"
 

@@ -41,7 +41,7 @@ class Hooks {
 			if($path<>'') {
 				Storage::delete($path);
 			}
-		
+
 		}
 	}
 
@@ -59,8 +59,8 @@ class Hooks {
 			if($oldpath<>'' && $newpath<>'') {
 				Storage::rename( $oldpath, $newpath );
 			}
-		
+
 		}
 	}
-	
+
 }

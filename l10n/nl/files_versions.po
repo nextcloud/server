@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-12 15:10+0100\n"
-"PO-Revision-Date: 2013-02-12 09:46+0000\n"
+"POT-Creation-Date: 2013-03-06 00:07+0100\n"
+"PO-Revision-Date: 2013-03-05 20:10+0000\n"
 "Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -42,26 +42,18 @@ msgstr "mislukking"
 msgid "File %s could not be reverted to version %s"
 msgstr "Bestand %s kon niet worden teruggedraaid naar versie %s"
 
-#: history.php:68
+#: history.php:69
 msgid "No old versions available"
 msgstr "Geen oudere versies beschikbaar"
 
-#: history.php:73
+#: history.php:74
 msgid "No path specified"
 msgstr "Geen pad opgegeven"
 
-#: js/versions.js:16
-msgid "History"
-msgstr "Geschiedenis"
+#: js/versions.js:6
+msgid "Versions"
+msgstr "Versies"
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
 msgstr "Draai een bestand terug naar een voorgaande versie door te klikken op de terugdraai knop"
-
-#: templates/settings.php:3
-msgid "Files Versioning"
-msgstr "Bestand versies"
-
-#: templates/settings.php:4
-msgid "Enable"
-msgstr "Activeer"

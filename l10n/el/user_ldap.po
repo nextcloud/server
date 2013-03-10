@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-18 00:05+0100\n"
-"PO-Revision-Date: 2013-02-17 13:00+0000\n"
-"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
+"POT-Creation-Date: 2013-03-02 00:03+0100\n"
+"PO-Revision-Date: 2013-03-01 23:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -241,6 +241,10 @@ msgid "Not recommended, use for testing only."
 msgstr "Δεν προτείνεται, χρήση μόνο για δοκιμές."
 
 #: templates/settings.php:65
+msgid "Cache Time-To-Live"
+msgstr ""
+
+#: templates/settings.php:65
 msgid "in seconds. A change empties the cache."
 msgstr "σε δευτερόλεπτα. Μια αλλαγή αδειάζει την μνήμη cache."
 
@@ -300,15 +304,35 @@ msgstr "Group-Member association"
 msgid "Special Attributes"
 msgstr ""
 
+#: templates/settings.php:79
+msgid "Quota Field"
+msgstr ""
+
+#: templates/settings.php:80
+msgid "Quota Default"
+msgstr ""
+
 #: templates/settings.php:80
 msgid "in bytes"
 msgstr "σε bytes"
+
+#: templates/settings.php:81
+msgid "Email Field"
+msgstr ""
+
+#: templates/settings.php:82
+msgid "User Home Folder Naming Rule"
+msgstr ""
 
 #: templates/settings.php:82
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Αφήστε το κενό για το όνομα χρήστη (προεπιλογή). Διαφορετικά, συμπληρώστε μία ιδιότητα LDAP/AD."
+
+#: templates/settings.php:86
+msgid "Test Configuration"
+msgstr ""
 
 #: templates/settings.php:86
 msgid "Help"

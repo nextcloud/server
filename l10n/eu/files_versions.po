@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-13 00:03+0100\n"
-"PO-Revision-Date: 2013-02-12 22:10+0000\n"
+"POT-Creation-Date: 2013-03-03 00:05+0100\n"
+"PO-Revision-Date: 2013-03-02 21:30+0000\n"
 "Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -42,26 +42,18 @@ msgstr "errorea"
 msgid "File %s could not be reverted to version %s"
 msgstr "%s fitxategia ezin da %s bertsiora leheneratu"
 
-#: history.php:68
+#: history.php:69
 msgid "No old versions available"
 msgstr "Ez dago bertsio zaharrik eskuragarri"
 
-#: history.php:73
+#: history.php:74
 msgid "No path specified"
 msgstr "Ez da bidea zehaztu"
 
-#: js/versions.js:16
-msgid "History"
-msgstr "Historia"
+#: js/versions.js:6
+msgid "Versions"
+msgstr "Bertsioak"
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
 msgstr "Itzuli fitxategi bat aurreko bertsio batera leheneratu bere leheneratu botoia sakatuz"
-
-#: templates/settings.php:3
-msgid "Files Versioning"
-msgstr "Fitxategien Bertsioak"
-
-#: templates/settings.php:4
-msgid "Enable"
-msgstr "Gaitu"

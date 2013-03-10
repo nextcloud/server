@@ -12,5 +12,6 @@
 "{count} files" => "{count} tập tin",
 "Nothing in here. Your trash bin is empty!" => "Không có gì ở đây. Thùng rác của bạn rỗng!",
 "Restore" => "Khôi phục",
-"Delete" => "Xóa"
+"Delete" => "Xóa",
+"Deleted Files" => "File đã xóa"
 );

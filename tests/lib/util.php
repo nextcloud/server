@@ -42,4 +42,9 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		$result = strlen(OC_Util::generate_random_bytes(59));
 		$this->assertEquals(59, $result);
 	}
+
+	function testGetDefaultEmailAddress() {
+		$email = \OCP\Util::getDefaultEmailAddress("no-reply");
+		$this->assertEquals('no-reply@localhost.localdomain', $email);
+	}
 }

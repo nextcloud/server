@@ -8,5 +8,6 @@
 "{count} files" => "{count} ไฟล์",
 "Nothing in here. Your trash bin is empty!" => "ไม่มีอะไรอยู่ในนี้ ถังขยะของคุณยังว่างอยู่",
 "Restore" => "คืนค่า",
-"Delete" => "ลบ"
+"Delete" => "ลบ",
+"Deleted Files" => "ไฟล์ที่ลบทิ้ง"
 );

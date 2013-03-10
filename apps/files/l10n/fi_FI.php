@@ -56,6 +56,7 @@
 "From link" => "Linkistä",
 "Deleted files" => "Poistetut tiedostot",
 "Cancel upload" => "Peru lähetys",
+"You don’t have write permissions here." => "Tunnuksellasi ei ole kirjoitusoikeuksia tänne.",
 "Nothing in here. Upload something!" => "Täällä ei ole mitään. Lähetä tänne jotakin!",
 "Download" => "Lataa",
 "Unshare" => "Peru jakaminen",

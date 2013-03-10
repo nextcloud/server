@@ -91,7 +91,7 @@
 "Admin" => "நிர்வாகி",
 "Help" => "உதவி",
 "Access forbidden" => "அணுக தடை",
-"Cloud not found" => "Cloud கண்டுப்பிடிப்படவில்லை",
+"Cloud not found" => "Cloud காணப்படவில்லை",
 "Edit categories" => "வகைகளை தொகுக்க",
 "Add" => "சேர்க்க",
 "Security Warning" => "பாதுகாப்பு எச்சரிக்கை",

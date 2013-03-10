@@ -6,13 +6,13 @@
 # Jan Krejci <krejca85@gmail.com>, 2012.
 # Martin  <fireball@atlas.cz>, 2012.
 # Michal Hrušecký <Michal@hrusecky.net>, 2012.
-# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012.
+# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:32+0000\n"
+"POT-Creation-Date: 2013-03-01 00:05+0100\n"
+"PO-Revision-Date: 2013-02-28 07:20+0000\n"
 "Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -21,37 +21,33 @@ msgstr ""
 "Language: cs_CZ\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: js/dropbox.js:7 js/dropbox.js:25 js/google.js:7 js/google.js:23
+#: js/dropbox.js:7 js/dropbox.js:28 js/google.js:16 js/google.js:34
 msgid "Access granted"
 msgstr "Přístup povolen"
 
-#: js/dropbox.js:28 js/dropbox.js:74 js/dropbox.js:79 js/dropbox.js:86
+#: js/dropbox.js:30 js/dropbox.js:96 js/dropbox.js:102
 msgid "Error configuring Dropbox storage"
 msgstr "Chyba při nastavení úložiště Dropbox"
 
-#: js/dropbox.js:34 js/dropbox.js:45 js/google.js:31 js/google.js:40
+#: js/dropbox.js:65 js/google.js:66
 msgid "Grant access"
 msgstr "Povolit přístup"
 
-#: js/dropbox.js:73 js/google.js:72
-msgid "Fill out all required fields"
-msgstr "Vyplňte všechna povinná pole"
-
-#: js/dropbox.js:85
+#: js/dropbox.js:101
 msgid "Please provide a valid Dropbox app key and secret."
 msgstr "Zadejte, prosím, platný klíč a bezpečnostní frázi aplikace Dropbox."
 
-#: js/google.js:26 js/google.js:73 js/google.js:78
+#: js/google.js:36 js/google.js:93
 msgid "Error configuring Google Drive storage"
 msgstr "Chyba při nastavení úložiště Google Drive"
 
-#: lib/config.php:398
+#: lib/config.php:421
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Varování:</b> není nainstalován program \"smbclient\". Není možné připojení oddílů CIFS/SMB. Prosím požádejte svého správce systému ať jej nainstaluje."
 
-#: lib/config.php:401
+#: lib/config.php:424
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
@@ -62,63 +58,63 @@ msgstr "<b>Varování:</b> není nainstalována, nebo povolena, podpora FTP v PH
 msgid "External Storage"
 msgstr "Externí úložiště"
 
-#: templates/settings.php:8 templates/settings.php:22
-msgid "Mount point"
-msgstr "Přípojný bod"
-
-#: templates/settings.php:9
-msgid "Backend"
-msgstr "Podpůrná vrstva"
+#: templates/settings.php:9 templates/settings.php:28
+msgid "Folder name"
+msgstr "Název složky"
 
 #: templates/settings.php:10
+msgid "External storage"
+msgstr "Externí úložiště"
+
+#: templates/settings.php:11
 msgid "Configuration"
 msgstr "Nastavení"
 
-#: templates/settings.php:11
+#: templates/settings.php:12
 msgid "Options"
 msgstr "Možnosti"
 
-#: templates/settings.php:12
+#: templates/settings.php:13
 msgid "Applicable"
 msgstr "Přístupný pro"
 
-#: templates/settings.php:27
-msgid "Add mount point"
-msgstr "Přidat bod připojení"
+#: templates/settings.php:33
+msgid "Add storage"
+msgstr "Přidat úložiště"
 
-#: templates/settings.php:85
+#: templates/settings.php:90
 msgid "None set"
 msgstr "Nenastaveno"
 
-#: templates/settings.php:86
+#: templates/settings.php:91
 msgid "All Users"
 msgstr "Všichni uživatelé"
 
-#: templates/settings.php:87
+#: templates/settings.php:92
 msgid "Groups"
 msgstr "Skupiny"
 
-#: templates/settings.php:95
+#: templates/settings.php:100
 msgid "Users"
 msgstr "Uživatelé"
 
-#: templates/settings.php:108 templates/settings.php:109
-#: templates/settings.php:144 templates/settings.php:145
+#: templates/settings.php:113 templates/settings.php:114
+#: templates/settings.php:149 templates/settings.php:150
 msgid "Delete"
 msgstr "Smazat"
 
-#: templates/settings.php:124
+#: templates/settings.php:129
 msgid "Enable User External Storage"
 msgstr "Zapnout externí uživatelské úložiště"
 
-#: templates/settings.php:125
+#: templates/settings.php:130
 msgid "Allow users to mount their own external storage"
 msgstr "Povolit uživatelům připojení jejich vlastních externích úložišť"
 
-#: templates/settings.php:136
+#: templates/settings.php:141
 msgid "SSL root certificates"
 msgstr "Kořenové certifikáty SSL"
 
-#: templates/settings.php:154
+#: templates/settings.php:159
 msgid "Import Root Certificate"
 msgstr "Importovat kořenového certifikátu"

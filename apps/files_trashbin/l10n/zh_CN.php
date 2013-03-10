@@ -4,5 +4,6 @@
 "{count} folders" => "{count} 个文件夹",
 "1 file" => "1 个文件",
 "{count} files" => "{count} 个文件",
-"Delete" => "删除"
+"Delete" => "删除",
+"Deleted Files" => "已删除文件"
 );

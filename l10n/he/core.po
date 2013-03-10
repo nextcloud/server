@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-25 00:05+0100\n"
+"PO-Revision-Date: 2013-02-24 12:10+0000\n"
+"Last-Translator: Gilad Naaman <gilad.doom@gmail.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,24 +22,24 @@ msgstr ""
 "Language: he\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/share.php:85
+#: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
 msgstr "המשתמש %s שיתף אתך קובץ"
 
-#: ajax/share.php:87
+#: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr "המשתמש %s שיתף אתך תיקייה"
 
-#: ajax/share.php:89
+#: ajax/share.php:101
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr "המשתמש %s שיתף אתך את הקובץ „%s“. ניתן להוריד את הקובץ מכאן: %s"
 
-#: ajax/share.php:91
+#: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -57,7 +57,7 @@ msgstr "אין קטגוריה להוספה?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "הקטגוריה הבאה כבר קיימת: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -85,79 +85,79 @@ msgstr "לא נבחרו קטגוריות למחיקה"
 msgid "Error removing %s from favorites."
 msgstr "שגיאה בהסרת %s מהמועדפים."
 
-#: js/config.php:32
+#: js/config.php:34
 msgid "Sunday"
 msgstr "יום ראשון"
 
-#: js/config.php:32
+#: js/config.php:35
 msgid "Monday"
 msgstr "יום שני"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Tuesday"
 msgstr "יום שלישי"
 
-#: js/config.php:32
+#: js/config.php:37
 msgid "Wednesday"
 msgstr "יום רביעי"
 
-#: js/config.php:32
+#: js/config.php:38
 msgid "Thursday"
 msgstr "יום חמישי"
 
-#: js/config.php:32
+#: js/config.php:39
 msgid "Friday"
 msgstr "יום שישי"
 
-#: js/config.php:32
+#: js/config.php:40
 msgid "Saturday"
 msgstr "שבת"
 
-#: js/config.php:33
+#: js/config.php:45
 msgid "January"
 msgstr "ינואר"
 
-#: js/config.php:33
+#: js/config.php:46
 msgid "February"
 msgstr "פברואר"
 
-#: js/config.php:33
+#: js/config.php:47
 msgid "March"
 msgstr "מרץ"
 
-#: js/config.php:33
+#: js/config.php:48
 msgid "April"
 msgstr "אפריל"
 
-#: js/config.php:33
+#: js/config.php:49
 msgid "May"
 msgstr "מאי"
 
-#: js/config.php:33
+#: js/config.php:50
 msgid "June"
 msgstr "יוני"
 
-#: js/config.php:33
+#: js/config.php:51
 msgid "July"
 msgstr "יולי"
 
-#: js/config.php:33
+#: js/config.php:52
 msgid "August"
 msgstr "אוגוסט"
 
-#: js/config.php:33
+#: js/config.php:53
 msgid "September"
 msgstr "ספטמבר"
 
-#: js/config.php:33
+#: js/config.php:54
 msgid "October"
 msgstr "אוקטובר"
 
-#: js/config.php:33
+#: js/config.php:55
 msgid "November"
 msgstr "נובמבר"
 
-#: js/config.php:33
+#: js/config.php:56
 msgid "December"
 msgstr "דצמבר"
 
@@ -258,7 +258,7 @@ msgstr "הקובץ הנדרש {file} אינו מותקן!"
 
 #: js/share.js:29 js/share.js:43 js/share.js:90
 msgid "Shared"
-msgstr ""
+msgstr "שותף"
 
 #: js/share.js:93
 msgid "Share"
@@ -296,7 +296,7 @@ msgstr "שיתוף עם קישור"
 msgid "Password protect"
 msgstr "הגנה בססמה"
 
-#: js/share.js:185 templates/installation.php:44 templates/login.php:35
+#: js/share.js:185 templates/installation.php:46 templates/login.php:35
 msgid "Password"
 msgstr "ססמה"
 
@@ -385,11 +385,11 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "תהליך העדכון לא הושלם בהצלחה. נא דווח את הבעיה ב<a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">קהילת ownCloud</a>."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "תהליך העדכון הסתיים בהצלחה. עכשיו מנתב אותך אל ownCloud."
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
@@ -411,7 +411,7 @@ msgstr "איפוס שליחת דוא״ל."
 msgid "Request failed!"
 msgstr "הבקשה נכשלה!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:40
 #: templates/login.php:28
 msgid "Username"
 msgstr "שם משתמש"
@@ -492,65 +492,65 @@ msgstr "ללא מחולל מספרים אקראיים מאובטח תוקף יכ
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "תיקיית וקבצי המידע שלך כנראה נגישים מהאינטרנט מכיוון שקובץ ה.htaccess לא עובד."
 
 #: templates/installation.php:32
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "לקבלת מידע להגדרה נכונה של השרת שלך, ראה את ה<a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">תיעוד</a>."
 
 #: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "יצירת <strong>חשבון מנהל</strong>"
 
-#: templates/installation.php:52
+#: templates/installation.php:54
 msgid "Advanced"
 msgstr "מתקדם"
 
-#: templates/installation.php:54
+#: templates/installation.php:56
 msgid "Data folder"
 msgstr "תיקיית נתונים"
 
-#: templates/installation.php:61
+#: templates/installation.php:65
 msgid "Configure the database"
 msgstr "הגדרת מסד הנתונים"
 
-#: templates/installation.php:66 templates/installation.php:77
-#: templates/installation.php:87 templates/installation.php:97
+#: templates/installation.php:70 templates/installation.php:82
+#: templates/installation.php:93 templates/installation.php:104
 msgid "will be used"
 msgstr "ינוצלו"
 
-#: templates/installation.php:109
+#: templates/installation.php:117
 msgid "Database user"
 msgstr "שם משתמש במסד הנתונים"
 
-#: templates/installation.php:113
+#: templates/installation.php:122
 msgid "Database password"
 msgstr "ססמת מסד הנתונים"
 
-#: templates/installation.php:117
+#: templates/installation.php:127
 msgid "Database name"
 msgstr "שם מסד הנתונים"
 
-#: templates/installation.php:125
+#: templates/installation.php:137
 msgid "Database tablespace"
 msgstr "מרחב הכתובות של מסד הנתונים"
 
-#: templates/installation.php:131
+#: templates/installation.php:144
 msgid "Database host"
 msgstr "שרת בסיס נתונים"
 
-#: templates/installation.php:136
+#: templates/installation.php:150
 msgid "Finish setup"
 msgstr "סיום התקנה"
 
-#: templates/layout.guest.php:33
+#: templates/layout.guest.php:35
 msgid "web services under your control"
 msgstr "שירותי רשת בשליטתך"
 
-#: templates/layout.user.php:48
+#: templates/layout.user.php:53
 msgid "Log out"
 msgstr "התנתקות"
 
@@ -582,7 +582,7 @@ msgstr "כניסה"
 
 #: templates/login.php:49
 msgid "Alternative Logins"
-msgstr ""
+msgstr "כניסות אלטרנטיביות"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

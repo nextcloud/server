@@ -12,5 +12,6 @@
 "{count} files" => "{count} tiedostoa",
 "Nothing in here. Your trash bin is empty!" => "Tyhjää täynnä! Roskakorissa ei ole mitään.",
 "Restore" => "Palauta",
-"Delete" => "Poista"
+"Delete" => "Poista",
+"Deleted Files" => "Poistetut tiedostot"
 );

@@ -12,5 +12,6 @@
 "{count} files" => "{count} файлів",
 "Nothing in here. Your trash bin is empty!" => "Нічого немає. Ваший кошик для сміття пустий!",
 "Restore" => "Відновити",
-"Delete" => "Видалити"
+"Delete" => "Видалити",
+"Deleted Files" => "Видалено Файлів"
 );

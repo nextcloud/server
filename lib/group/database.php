@@ -210,7 +210,7 @@ class OC_Group_Database extends OC_Group_Backend {
 		}
 		return $users;
 	}
-	
+
 	/**
 	 * @brief get a list of all display names in a group
 	 * @param string $gid
@@ -219,8 +219,8 @@ class OC_Group_Database extends OC_Group_Backend {
 	 * @param int $offset
 	 * @return array with display names (value) and user ids (key)
 	 */
-	public function DisplayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
-		$displayNames = '';
+	public function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+		$displayNames = array();
 
 		$stmt = OC_DB::prepare('SELECT `*PREFIX*users`.`uid`, `*PREFIX*users`.`displayname`'
 			.' FROM `*PREFIX*users`'
@@ -233,7 +233,7 @@ class OC_Group_Database extends OC_Group_Backend {
 		while ($row = $result->fetchRow()) {
 			$displayName = trim($row['displayname'], ' ');
 			$displayNames[$row['uid']] = empty($displayName) ? $row['uid'] : $displayName;
-		}		
+		}
 		return $displayNames;
 	}
 }

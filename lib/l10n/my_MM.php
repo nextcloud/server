@@ -2,6 +2,7 @@
 "Help" => "အကူအညီ",
 "Users" => "သုံးစွဲသူ",
 "Apps" => "Apps",
+"Admin" => "အက်ဒမင်",
 "ZIP download is turned off." => "ZIP ဒေါင်းလုတ်ကိုပိတ်ထားသည်",
 "Files need to be downloaded one by one." => "ဖိုင်များသည် တစ်ခုပြီး တစ်ခုဒေါင်းလုတ်ချရန်လိုအပ်သည်",
 "Back to Files" => "ဖိုင်သို့ပြန်သွားမည်",
