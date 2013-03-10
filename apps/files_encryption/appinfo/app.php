@@ -7,6 +7,7 @@ OC::$CLASSPATH['OCA\Encryption\Keymanager'] = 'files_encryption/lib/keymanager.p
 OC::$CLASSPATH['OCA\Encryption\Stream'] = 'files_encryption/lib/stream.php';
 OC::$CLASSPATH['OCA\Encryption\Proxy'] = 'files_encryption/lib/proxy.php';
 OC::$CLASSPATH['OCA\Encryption\Session'] = 'files_encryption/lib/session.php';
+OC::$CLASSPATH['OCA\Encryption\Capabilities'] = 'files_encryption/lib/capabilities.php';
 
 OC_FileProxy::register( new OCA\Encryption\Proxy() );
 
