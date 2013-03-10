@@ -147,7 +147,7 @@ class OC_DB {
 							'host' => $host,
 							'port' => $port,
 							'dbname' => $name,
-							'driver' => 'pdo_mysql',
+							'driver' => 'pdo_pgsql',
 					);
 					break;
 				case 'oci':
@@ -162,13 +162,14 @@ class OC_DB {
 					);
 					break;
 				case 'mssql':
-					$dsn = array(
-						'phptype' => 'sqlsrv',
-						'username' => $user,
-						'password' => $pass,
-						'hostspec' => $host,
-						'database' => $name
-					);                    
+					$connectionParams = array(
+							'user' => $user,
+							'password' => $pass,
+							'host' => $host,
+							'port' => $port,
+							'dbname' => $name,
+							'driver' => 'pdo_sqlsrv',
+					);
 					break;
 				default:
 					return false;
