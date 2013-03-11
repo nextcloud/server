@@ -234,11 +234,20 @@ class OC_Migrate{
 					OC_Log::write( 'migration', 'User doesn\'t exist', OC_Log::ERROR );
 					return json_encode( array( 'success' => false ) );
 				}
+
+				// Check if the username is valid
+				if( preg_match( '/[^a-zA-Z0-9 _\.@\-]/', $json->exporteduser )) {
+					OC_Log::write( 'migration', 'Username is not valid', OC_Log::ERROR );
+					return json_encode( array( 'success' => false ) );
+				}
+
 				// Copy data
 				$userfolder = $extractpath . $json->exporteduser;
 				$newuserfolder = $datadir . '/' . self::$uid;
 				foreach(scandir($userfolder) as $file){
-					if($file !== '.' && $file !== '..' && is_dir($file)){
+					if($file !== '.' && $file !== '..' && is_dir($file)) {
+						$file = str_replace(array('/', '\\'), '',  $file);
+
 						// Then copy the folder over
 						OC_Helper::copyr($userfolder.'/'.$file, $newuserfolder.'/'.$file);
 					}
