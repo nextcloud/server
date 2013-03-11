@@ -254,7 +254,7 @@ class Filesystem {
 			}
 			if (isset($mountConfig['user'])) {
 				foreach ($mountConfig['user'] as $mountUser => $mounts) {
-					if ($user === 'all' or strtolower($mountUser) === strtolower($user)) {
+					if ($mountUser === 'all' or strtolower($mountUser) === strtolower($user)) {
 						foreach ($mounts as $mountPoint => $options) {
 							$mountPoint = self::setUserVars($user, $mountPoint);
 							foreach ($options as &$option) {
