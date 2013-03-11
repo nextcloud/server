@@ -45,7 +45,18 @@ class Shared extends \OC\Files\Storage\Common {
 	*/
 	private function getFile($target) {
 		if (!isset($this->files[$target])) {
-			$this->files[$target] = \OC_Share_Backend_File::getSource($target);
+			// Check for partial files
+			if (pathinfo($target, PATHINFO_EXTENSION) === 'part') {
+				$source = \OC_Share_Backend_File::getSource(substr($target, 0, -5));
+				if ($source) {
+					$source['path'] .= '.part';
+					// All partial files have delete permission
+					$source['permissions'] |= \OCP\PERMISSION_DELETE;
+				}
+			} else {
+				$source = \OC_Share_Backend_File::getSource($target);
+			}
+			$this->files[$target] = $source;
 		}
 		return $this->files[$target];
 	}
@@ -280,33 +291,42 @@ class Shared extends \OC\Files\Storage\Common {
 	}
 
 	public function rename($path1, $path2) {
-		// Renaming/moving is only allowed within shared folders
-		$pos1 = strpos($path1, '/', 1);
-		$pos2 = strpos($path2, '/', 1);
-		if ($pos1 !== false && $pos2 !== false && ($oldSource = $this->getSourcePath($path1))) {
-			$newSource = $this->getSourcePath(dirname($path2)).'/'.basename($path2);
-			if (dirname($path1) == dirname($path2)) {
-				// Rename the file if UPDATE permission is granted
-				if ($this->isUpdatable($path1)) {
-					list($storage, $oldInternalPath) = \OC\Files\Filesystem::resolvePath($oldSource);
-					list( , $newInternalPath) = \OC\Files\Filesystem::resolvePath($newSource);
-					return $storage->rename($oldInternalPath, $newInternalPath);
-				}
-			} else {
-				// Move the file if DELETE and CREATE permissions are granted
-				if ($this->isDeletable($path1) && $this->isCreatable(dirname($path2))) {
-					// Get the root shared folder
-					$folder1 = substr($path1, 0, $pos1);
-					$folder2 = substr($path2, 0, $pos2);
-					// Copy and unlink the file if it exists in a different shared folder
-					if ($folder1 != $folder2) {
-						if ($this->copy($path1, $path2)) {
-							return $this->unlink($path1);
-						}
-					} else {
+		// Check for partial files
+		if (pathinfo($path1, PATHINFO_EXTENSION) === 'part') {
+			if ($oldSource = $this->getSourcePath($path1)) {
+				list($storage, $oldInternalPath) = \OC\Files\Filesystem::resolvePath($oldSource);
+				$newInternalPath = substr($oldInternalPath, 0, -5);
+				return $storage->rename($oldInternalPath, $newInternalPath);
+			}
+		} else {
+			// Renaming/moving is only allowed within shared folders
+			$pos1 = strpos($path1, '/', 1);
+			$pos2 = strpos($path2, '/', 1);
+			if ($pos1 !== false && $pos2 !== false && ($oldSource = $this->getSourcePath($path1))) {
+				$newSource = $this->getSourcePath(dirname($path2)).'/'.basename($path2);
+				if (dirname($path1) == dirname($path2)) {
+					// Rename the file if UPDATE permission is granted
+					if ($this->isUpdatable($path1)) {
 						list($storage, $oldInternalPath) = \OC\Files\Filesystem::resolvePath($oldSource);
 						list( , $newInternalPath) = \OC\Files\Filesystem::resolvePath($newSource);
 						return $storage->rename($oldInternalPath, $newInternalPath);
+					}
+				} else {
+					// Move the file if DELETE and CREATE permissions are granted
+					if ($this->isDeletable($path1) && $this->isCreatable(dirname($path2))) {
+						// Get the root shared folder
+						$folder1 = substr($path1, 0, $pos1);
+						$folder2 = substr($path2, 0, $pos2);
+						// Copy and unlink the file if it exists in a different shared folder
+						if ($folder1 != $folder2) {
+							if ($this->copy($path1, $path2)) {
+								return $this->unlink($path1);
+							}
+						} else {
+							list($storage, $oldInternalPath) = \OC\Files\Filesystem::resolvePath($oldSource);
+							list( , $newInternalPath) = \OC\Files\Filesystem::resolvePath($newSource);
+							return $storage->rename($oldInternalPath, $newInternalPath);
+						}
 					}
 				}
 			}
@@ -371,7 +391,7 @@ class Shared extends \OC\Files\Storage\Common {
 
 	public function free_space($path) {
 		if ($path == '') {
-			return -1;
+			return \OC\Files\FREE_SPACE_UNKNOWN;
 		}
 		$source = $this->getSourcePath($path);
 		if ($source) {

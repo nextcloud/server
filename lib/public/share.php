@@ -199,6 +199,29 @@ class Share {
 	}
 
 	/**
+	* Get all users an item is shared with
+	* @param string Item type
+	* @param string Item source
+	* @param string Owner
+	* @param bool Include collections
+	* @return Return array of users
+	*/
+	public static function getUsersItemShared($itemType, $itemSource, $uidOwner, $includeCollections = false) {
+		$users = array();
+		$items = self::getItems($itemType, $itemSource, null, null, $uidOwner, self::FORMAT_NONE, null, -1, $includeCollections);
+		if ($items) {
+			foreach ($items as $item) {
+				if ((int)$item['share_type'] === self::SHARE_TYPE_USER) {
+					$users[] = $item['share_with'];
+				} else if ((int)$item['share_type'] === self::SHARE_TYPE_GROUP) {
+					$users = array_merge($users, \OC_Group::usersInGroup($item['share_with']));
+				}
+			}
+		}
+		return $users;
+	}
+
+	/**
 	* @brief Share an item with a user, group, or via private link
 	* @param string Item type
 	* @param string Item source
@@ -383,6 +406,7 @@ class Share {
 			\OC_Hook::emit('OCP\Share', 'pre_unshare', array(
 				'itemType' => $itemType,
 				'itemSource' => $itemSource,
+				'fileSource' => $item['file_source'],
 				'shareType' => $shareType,
 				'shareWith' => $shareWith,
 			));
@@ -1102,20 +1126,6 @@ class Share {
 				} else {
 					$fileTarget = null;
 				}
-				\OC_Hook::emit('OCP\Share', 'post_shared', array(
-					'itemType' => $itemType,
-					'itemSource' => $itemSource,
-					'itemTarget' => $itemTarget,
-					'parent' => $parent,
-					'shareType' => self::$shareTypeGroupUserUnique,
-					'shareWith' => $uid,
-					'uidOwner' => $uidOwner,
-					'permissions' => $permissions,
-					'fileSource' => $fileSource,
-					'fileTarget' => $fileTarget,
-					'id' => $parent,
-					'token' => $token
-				));
 				// Insert an extra row for the group share if the item or file target is unique for this user
 				if ($itemTarget != $groupItemTarget || (isset($fileSource) && $fileTarget != $groupFileTarget)) {
 					$query->execute(array($itemType, $itemSource, $itemTarget, $parent,
@@ -1124,6 +1134,20 @@ class Share {
 					$id = \OC_DB::insertid('*PREFIX*share');
 				}
 			}
+			\OC_Hook::emit('OCP\Share', 'post_shared', array(
+				'itemType' => $itemType,
+				'itemSource' => $itemSource,
+				'itemTarget' => $groupItemTarget,
+				'parent' => $parent,
+				'shareType' => $shareType,
+				'shareWith' => $uid,
+				'uidOwner' => $uidOwner,
+				'permissions' => $permissions,
+				'fileSource' => $fileSource,
+				'fileTarget' => $groupFileTarget,
+				'id' => $parent,
+				'token' => $token
+			));
 			if ($parentFolder === true) {
 				// Return parent folders to preserve file target paths for potential children
 				return $parentFolders;
