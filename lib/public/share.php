@@ -783,7 +783,7 @@ class Share {
 		if ($format == self::FORMAT_STATUSES) {
 			if ($itemType == 'file' || $itemType == 'folder') {
 				$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`,'
-					.' `share_type`, `file_source`, `path`, `expiration`';
+					.' `share_type`, `file_source`, `path`, `expiration`, `storage`';
 			} else {
 				$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `expiration`';
 			}
@@ -792,7 +792,7 @@ class Share {
 				if ($itemType == 'file' || $itemType == 'folder') {
 					$select = '`*PREFIX*share`.`id`, `item_type`, `*PREFIX*share`.`parent`,'
 						.' `share_type`, `share_with`, `file_source`, `path`, `permissions`, `stime`,'
-						.' `expiration`, `token`';
+						.' `expiration`, `token`, `storage`';
 				} else {
 					$select = '`id`, `item_type`, `item_source`, `parent`, `share_type`, `share_with`, `permissions`,'
 						.' `stime`, `file_source`, `expiration`, `token`';
@@ -828,6 +828,7 @@ class Share {
 		$items = array();
 		$targets = array();
 		$switchedItems = array();
+		$mounts = array();
 		while ($row = $result->fetchRow()) {
 			// Filter out duplicate group shares for users with unique targets
 			if ($row['share_type'] == self::$shareTypeGroupUserUnique && isset($items[$row['parent']])) {
@@ -872,8 +873,13 @@ class Share {
 				if (isset($row['parent'])) {
 					$row['path'] = '/Shared/'.basename($row['path']);
 				} else {
-					// Strip 'files' from path
-					$row['path'] = substr($row['path'], 5);
+					if (!isset($mounts[$row['storage']])) {
+						$mounts[$row['storage']] = \OC\Files\Mount::findByNumericId($row['storage']);
+					}
+					if ($mounts[$row['storage']]) {
+						$path = $mounts[$row['storage']]->getMountPoint().$row['path'];
+						$row['path'] = substr($path, $root);
+					}
 				}
 			}
 			if (isset($row['expiration'])) {
@@ -981,15 +987,14 @@ class Share {
 				return $items;
 			} else if ($format == self::FORMAT_STATUSES) {
 				$statuses = array();
-				// Switch column to path for files and folders, used for determining statuses inside of folders
-				if ($itemType == 'file' || $itemType == 'folder') {
-					$column = 'path';
-				}
 				foreach ($items as $item) {
 					if ($item['share_type'] == self::SHARE_TYPE_LINK) {
-						$statuses[$item[$column]] = true;
+						$statuses[$item[$column]]['link'] = true;
 					} else if (!isset($statuses[$item[$column]])) {
-						$statuses[$item[$column]] = false;
+						$statuses[$item[$column]]['link'] = false;
+					}
+					if ($itemType == 'file' || $itemType == 'folder') {
+						$statuses[$item[$column]]['path'] = $item['path'];
 					}
 				}
 				return $statuses;
