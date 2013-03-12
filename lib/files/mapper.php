@@ -219,10 +219,8 @@ class Mapper
 		// remove unwanted characters
 		$text = preg_replace('~[^-\w]+~', '', $text);
 
-		if (empty($text))
-		{
-			// TODO: we better generate a guid in this case
-			return 'n-a';
+		if (empty($text)) {
+			return uniqid();
 		}
 
 		return $text;
