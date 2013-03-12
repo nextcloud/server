@@ -203,7 +203,10 @@ class Cache {
 
 			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*filecache`(' . implode(', ', $queryParts) . ')'
 				. ' VALUES(' . implode(', ', $valuesPlaceholder) . ')');
-			$query->execute($params);
+			$result = $query->execute($params);
+			if (\MDB2::isError($result)) {
+				\OCP\Util::writeLog('cache', 'Insert to cache failed: '.$result, \OCP\Util::ERROR);
+			}
 
 			return (int)\OC_DB::insertid('*PREFIX*filecache');
 		}
