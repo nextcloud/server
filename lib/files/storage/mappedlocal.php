@@ -50,7 +50,7 @@ class MappedLocal extends \OC\Files\Storage\Common{
 				continue;
 			}
 
-			$logicalFilePath = $this->mapper->physicalToLogic($physicalPath.DIRECTORY_SEPARATOR.$file);
+			$logicalFilePath = $this->mapper->physicalToLogic($physicalPath.'/'.$file);
 
 			$file= $this->mapper->stripRootFolder($logicalFilePath, $logicalPath);
 			$file = $this->stripLeading($file);
@@ -130,7 +130,7 @@ class MappedLocal extends \OC\Files\Storage\Common{
 	public function file_get_contents($path) {
 		return file_get_contents($this->buildPath($path));
 	}
-	public function file_put_contents($path, $data) {//trigger_error("$path = ".var_export($path, 1));
+	public function file_put_contents($path, $data) {
 		return file_put_contents($this->buildPath($path), $data);
 	}
 	public function unlink($path) {
@@ -280,7 +280,7 @@ class MappedLocal extends \OC\Files\Storage\Common{
 		foreach (scandir($physicalDir) as $item) {
 			if ($item == '.' || $item == '..')
 				continue;
-			$physicalItem = $this->mapper->physicalToLogic($physicalDir.DIRECTORY_SEPARATOR.$item);
+			$physicalItem = $this->mapper->physicalToLogic($physicalDir.'/'.$item);
 			$item = substr($physicalItem, strlen($physicalDir)+1);
 
 			if(strstr(strtolower($item), strtolower($query)) !== false) {
@@ -329,6 +329,9 @@ class MappedLocal extends \OC\Files\Storage\Common{
 
 	private function stripLeading($path) {
 		if(strpos($path, '/') === 0) {
+			$path = substr($path, 1);
+		}
+		if(strpos($path, '\\') === 0) {
 			$path = substr($path, 1);
 		}
 		if ($path === false) {
