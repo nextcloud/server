@@ -8,6 +8,7 @@
 
 require_once 'archive.php';
 
+if (!OC_Util::runningOnWindows()) {
 class Test_Archive_TAR extends Test_Archive {
 	protected function getExisting() {
 		$dir = OC::$SERVERROOT . '/tests/data';
@@ -17,4 +18,5 @@ class Test_Archive_TAR extends Test_Archive {
 	protected function getNew() {
 		return new OC_Archive_TAR(OCP\Files::tmpFile('.tar.gz'));
 	}
+}
 }
