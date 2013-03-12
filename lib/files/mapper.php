@@ -149,7 +149,7 @@ class Mapper
 
 		// detect duplicates
 		while ($this->resolvePhysicalPath($physicalPath) !== null) {
-			$physicalPath = $this->slugifyPath($physicalPath, $index++);
+			$physicalPath = $this->slugifyPath($logicPath, $index++);
 		}
 
 		// insert the new path mapping if requested
