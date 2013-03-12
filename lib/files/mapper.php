@@ -210,7 +210,7 @@ class Mapper
 
 		// transliterate
 		if (function_exists('iconv')) {
-			$text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+			$text = iconv('utf-8', 'us-ascii//TRANSLIT//IGNORE', $text);
 		}
 
 		// lowercase
