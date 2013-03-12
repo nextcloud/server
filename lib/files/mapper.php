@@ -77,7 +77,9 @@ class Mapper
 		$result = $query->execute(array($path1.'%'));
 		$updateQuery = \OC_DB::prepare('UPDATE `*PREFIX*file_map`'
 			.' SET `logic_path` = ?'
-			.' AND `physic_path` = ?'
+			.' , `logic_path_hash` = ?'
+			.' , `physic_path` = ?'
+			.' , `physic_path_hash` = ?'
 			.' WHERE `logic_path` = ?');
 		while( $row = $result->fetchRow()) {
 			$currentLogic = $row['logic_path'];
@@ -86,7 +88,7 @@ class Mapper
 			$newPhysic = $physicPath2.$this->stripRootFolder($currentPhysic, $physicPath1);
 			if ($path1 !== $currentLogic) {
 				try {
-					$updateQuery->execute(array($newLogic, $newPhysic, $currentLogic));
+					$updateQuery->execute(array($newLogic, md5($newLogic), $newPhysic, md5($newPhysic), $currentLogic));
 				} catch (\Exception $e) {
 					error_log('Mapper::Copy failed '.$currentLogic.' -> '.$newLogic.'\n'.$e);
 					throw $e;
@@ -190,7 +192,7 @@ class Mapper
 			array_push($sluggedElements, $last.'-'.$index);
 		}
 
-		$sluggedPath = $this->unchangedPhysicalRoot.implode(DIRECTORY_SEPARATOR, $sluggedElements);
+		$sluggedPath = $this->unchangedPhysicalRoot.implode('/', $sluggedElements);
 		return $this->stripLast($sluggedPath);
 	}
 
