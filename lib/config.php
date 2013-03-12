@@ -155,7 +155,11 @@ class OC_Config{
 	 */
 	public static function writeData() {
 		// Create a php file ...
-		$content = "<?php\n\$CONFIG = ";
+		$content = "<?php\n ";
+		if (defined('DEBUG') && DEBUG) {
+			$content .= "define('DEBUG',true);\n";
+		}
+		$content .= "\$CONFIG = ";
 		$content .= var_export(self::$cache, true);
 		$content .= ";\n";
 
