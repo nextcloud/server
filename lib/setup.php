@@ -70,6 +70,13 @@ class OC_Setup {
 			$password = htmlspecialchars_decode($options['adminpass']);
 			$datadir = htmlspecialchars_decode($options['directory']);
 
+			if (OC_Util::runningOnWindows()) {
+				$datadir = realpath($datadir);
+				if (substr($datadir, -1) == '\\') {
+					$datadir = substr_replace($datadir ,"",-1);
+				}
+			}
+
 			//use sqlite3 when available, otherise sqlite2 will be used.
 			if($dbtype=='sqlite' and class_exists('SQLite3')) {
 				$dbtype='sqlite3';
