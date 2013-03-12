@@ -50,7 +50,7 @@ class OC_Files {
 			$xsendfile = true;
 		}
 
-		if (count($files) == 1) {
+		if (is_array($files) && count($files) == 1) {
 			$files = $files[0];
 		}
 
