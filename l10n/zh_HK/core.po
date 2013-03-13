@@ -4,13 +4,14 @@
 # 
 # Translators:
 #   <amanda.shuuemura@gmail.com>, 2012.
+# Dennis <dtsang29@hotmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
-"PO-Revision-Date: 2013-02-08 23:12+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-14 00:05+0100\n"
+"PO-Revision-Date: 2013-03-13 06:10+0000\n"
+"Last-Translator: dtsang29 <dtsang29@hotmail.com>\n"
 "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/projects/p/owncloud/language/zh_HK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,24 +19,24 @@ msgstr ""
 "Language: zh_HK\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:85
+#: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
 msgstr ""
 
-#: ajax/share.php:87
+#: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr ""
 
-#: ajax/share.php:89
+#: ajax/share.php:101
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr ""
 
-#: ajax/share.php:91
+#: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -81,135 +82,135 @@ msgstr ""
 msgid "Error removing %s from favorites."
 msgstr ""
 
-#: js/config.php:32
+#: js/config.php:34
 msgid "Sunday"
-msgstr ""
+msgstr "星期日"
 
-#: js/config.php:32
+#: js/config.php:35
 msgid "Monday"
-msgstr ""
+msgstr "星期一"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Tuesday"
-msgstr ""
+msgstr "星期二"
 
-#: js/config.php:32
+#: js/config.php:37
 msgid "Wednesday"
-msgstr ""
+msgstr "星期三"
 
-#: js/config.php:32
+#: js/config.php:38
 msgid "Thursday"
-msgstr ""
+msgstr "星期四"
 
-#: js/config.php:32
+#: js/config.php:39
 msgid "Friday"
-msgstr ""
+msgstr "星期五"
 
-#: js/config.php:32
+#: js/config.php:40
 msgid "Saturday"
-msgstr ""
+msgstr "星期六"
 
-#: js/config.php:33
+#: js/config.php:45
 msgid "January"
-msgstr ""
+msgstr "一月"
 
-#: js/config.php:33
+#: js/config.php:46
 msgid "February"
-msgstr ""
+msgstr "二月"
 
-#: js/config.php:33
+#: js/config.php:47
 msgid "March"
-msgstr ""
+msgstr "三月"
 
-#: js/config.php:33
+#: js/config.php:48
 msgid "April"
-msgstr ""
+msgstr "四月"
 
-#: js/config.php:33
+#: js/config.php:49
 msgid "May"
-msgstr ""
+msgstr "五月"
 
-#: js/config.php:33
+#: js/config.php:50
 msgid "June"
-msgstr ""
+msgstr "六月"
 
-#: js/config.php:33
+#: js/config.php:51
 msgid "July"
-msgstr ""
+msgstr "七月"
 
-#: js/config.php:33
+#: js/config.php:52
 msgid "August"
-msgstr ""
+msgstr "八月"
 
-#: js/config.php:33
+#: js/config.php:53
 msgid "September"
-msgstr ""
+msgstr "九月"
 
-#: js/config.php:33
+#: js/config.php:54
 msgid "October"
-msgstr ""
+msgstr "十月"
 
-#: js/config.php:33
+#: js/config.php:55
 msgid "November"
-msgstr ""
+msgstr "十一月"
 
-#: js/config.php:33
+#: js/config.php:56
 msgid "December"
-msgstr ""
+msgstr "十二月"
 
-#: js/js.js:284
+#: js/js.js:286
 msgid "Settings"
-msgstr ""
+msgstr "設定"
 
-#: js/js.js:764
+#: js/js.js:777
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:765
+#: js/js.js:778
 msgid "1 minute ago"
 msgstr ""
 
-#: js/js.js:766
+#: js/js.js:779
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:767
+#: js/js.js:780
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:768
+#: js/js.js:781
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:769
+#: js/js.js:782
 msgid "today"
-msgstr ""
+msgstr "今日"
 
-#: js/js.js:770
+#: js/js.js:783
 msgid "yesterday"
-msgstr ""
+msgstr "昨日"
 
-#: js/js.js:771
+#: js/js.js:784
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:772
+#: js/js.js:785
 msgid "last month"
-msgstr ""
+msgstr "前一月"
 
-#: js/js.js:773
+#: js/js.js:786
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:774
+#: js/js.js:787
 msgid "months ago"
-msgstr ""
+msgstr "個月之前"
 
-#: js/js.js:775
+#: js/js.js:788
 msgid "last year"
 msgstr ""
 
-#: js/js.js:776
+#: js/js.js:789
 msgid "years ago"
 msgstr ""
 
@@ -219,19 +220,19 @@ msgstr ""
 
 #: js/oc-dialogs.js:146 js/oc-dialogs.js:166
 msgid "Cancel"
-msgstr ""
+msgstr "取消"
 
 #: js/oc-dialogs.js:162
 msgid "No"
-msgstr ""
+msgstr "No"
 
 #: js/oc-dialogs.js:163
 msgid "Yes"
-msgstr ""
+msgstr "Yes"
 
 #: js/oc-dialogs.js:180
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -239,10 +240,10 @@ msgid "The object type is not specified."
 msgstr ""
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
-#: js/share.js:583
+#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
+#: js/share.js:578
 msgid "Error"
-msgstr ""
+msgstr "錯誤"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
@@ -252,129 +253,129 @@ msgstr ""
 msgid "The required file {file} is not installed!"
 msgstr ""
 
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
-msgid "Share"
-msgstr ""
-
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+#: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
-msgstr ""
+msgstr "已分享"
 
-#: js/share.js:141 js/share.js:611
+#: js/share.js:90
+msgid "Share"
+msgstr "分享"
+
+#: js/share.js:125 js/share.js:606
 msgid "Error while sharing"
-msgstr ""
+msgstr "分享時發生錯誤"
+
+#: js/share.js:136
+msgid "Error while unsharing"
+msgstr "取消分享時發生錯誤"
+
+#: js/share.js:143
+msgid "Error while changing permissions"
+msgstr "更改權限時發生錯誤"
 
 #: js/share.js:152
-msgid "Error while unsharing"
-msgstr ""
+msgid "Shared with you and the group {group} by {owner}"
+msgstr "{owner}與你及群組的分享"
+
+#: js/share.js:154
+msgid "Shared with you by {owner}"
+msgstr "{owner}與你的分享"
 
 #: js/share.js:159
-msgid "Error while changing permissions"
-msgstr ""
-
-#: js/share.js:168
-msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
-
-#: js/share.js:170
-msgid "Shared with you by {owner}"
-msgstr ""
-
-#: js/share.js:175
 msgid "Share with"
-msgstr ""
+msgstr "分享"
 
-#: js/share.js:180
+#: js/share.js:164
 msgid "Share with link"
-msgstr ""
+msgstr "以連結分享"
 
-#: js/share.js:183
+#: js/share.js:167
 msgid "Password protect"
-msgstr ""
+msgstr "密碼保護"
 
-#: js/share.js:185 templates/installation.php:44 templates/login.php:35
+#: js/share.js:169 templates/installation.php:47 templates/login.php:35
 msgid "Password"
-msgstr ""
+msgstr "密碼"
 
-#: js/share.js:189
+#: js/share.js:173
 msgid "Email link to person"
 msgstr ""
 
-#: js/share.js:190
+#: js/share.js:174
 msgid "Send"
-msgstr ""
+msgstr "傳送"
 
-#: js/share.js:194
+#: js/share.js:178
 msgid "Set expiration date"
-msgstr ""
+msgstr "設定分享期限"
 
-#: js/share.js:195
+#: js/share.js:179
 msgid "Expiration date"
-msgstr ""
+msgstr "分享期限"
 
-#: js/share.js:227
+#: js/share.js:211
 msgid "Share via email:"
-msgstr ""
+msgstr "以電郵分享"
 
-#: js/share.js:229
+#: js/share.js:213
 msgid "No people found"
-msgstr ""
+msgstr "找不到"
 
-#: js/share.js:256
+#: js/share.js:240
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:292
+#: js/share.js:276
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:313
+#: js/share.js:297
 msgid "Unshare"
-msgstr ""
+msgstr "取消分享"
 
-#: js/share.js:325
+#: js/share.js:309
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:327
+#: js/share.js:311
 msgid "access control"
 msgstr ""
 
-#: js/share.js:330
+#: js/share.js:314
 msgid "create"
-msgstr ""
+msgstr "新增"
 
-#: js/share.js:333
+#: js/share.js:317
 msgid "update"
-msgstr ""
+msgstr "更新"
 
-#: js/share.js:336
+#: js/share.js:320
 msgid "delete"
-msgstr ""
+msgstr "刪除"
 
-#: js/share.js:339
+#: js/share.js:323
 msgid "share"
-msgstr ""
+msgstr "分享"
 
-#: js/share.js:373 js/share.js:558
+#: js/share.js:357 js/share.js:553
 msgid "Password protected"
-msgstr ""
+msgstr "密碼保護"
 
-#: js/share.js:571
+#: js/share.js:566
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:583
+#: js/share.js:578
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:598
+#: js/share.js:593
 msgid "Sending ..."
-msgstr ""
+msgstr "傳送中"
 
-#: js/share.js:609
+#: js/share.js:604
 msgid "Email sent"
-msgstr ""
+msgstr "郵件已傳"
 
 #: js/update.js:14
 msgid ""
@@ -385,72 +386,72 @@ msgstr ""
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "更新成功, 正"
 
-#: lostpassword/controller.php:47
+#: lostpassword/controller.php:48
 msgid "ownCloud password reset"
 msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr ""
+msgstr "請用以下連結重設你的密碼: {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "你將收到一封電郵"
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "重設密碼郵件已傳"
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "請求失敗"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:41
 #: templates/login.php:28
 msgid "Username"
-msgstr ""
+msgstr "用戶名稱"
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr ""
+msgstr "重設"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "你的密碼已被重設"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "前往登入版面"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr ""
+msgstr "新密碼"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr ""
+msgstr "重設密碼"
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "個人"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "用戶"
 
 #: strings.php:7
 msgid "Apps"
-msgstr ""
+msgstr "軟件"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "管理"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "幫助"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -458,7 +459,7 @@ msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr ""
+msgstr "未找到Cloud"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -466,115 +467,116 @@ msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr ""
+msgstr "加入"
 
-#: templates/installation.php:23 templates/installation.php:30
+#: templates/installation.php:24 templates/installation.php:31
 msgid "Security Warning"
 msgstr ""
 
-#: templates/installation.php:24
+#: templates/installation.php:25
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr ""
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr ""
 
-#: templates/installation.php:31
+#: templates/installation.php:32
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr ""
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
 msgstr ""
 
-#: templates/installation.php:36
+#: templates/installation.php:37
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
+msgstr "建立管理員帳戶"
 
-#: templates/installation.php:52
+#: templates/installation.php:55
 msgid "Advanced"
-msgstr ""
+msgstr "進階"
 
-#: templates/installation.php:54
+#: templates/installation.php:57
 msgid "Data folder"
 msgstr ""
 
-#: templates/installation.php:61
+#: templates/installation.php:66
 msgid "Configure the database"
-msgstr ""
+msgstr "設定資料庫"
 
-#: templates/installation.php:66 templates/installation.php:77
-#: templates/installation.php:87 templates/installation.php:97
-msgid "will be used"
-msgstr ""
-
-#: templates/installation.php:109
-msgid "Database user"
-msgstr ""
-
-#: templates/installation.php:113
-msgid "Database password"
-msgstr ""
-
+#: templates/installation.php:71 templates/installation.php:83
+#: templates/installation.php:94 templates/installation.php:105
 #: templates/installation.php:117
-msgid "Database name"
-msgstr ""
+msgid "will be used"
+msgstr "將被使用"
 
-#: templates/installation.php:125
+#: templates/installation.php:129
+msgid "Database user"
+msgstr "資料庫帳戶"
+
+#: templates/installation.php:134
+msgid "Database password"
+msgstr "資料庫密碼"
+
+#: templates/installation.php:139
+msgid "Database name"
+msgstr "資料庫名稱"
+
+#: templates/installation.php:149
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:131
+#: templates/installation.php:156
 msgid "Database host"
 msgstr ""
 
-#: templates/installation.php:136
+#: templates/installation.php:162
 msgid "Finish setup"
 msgstr ""
 
-#: templates/layout.guest.php:33
+#: templates/layout.guest.php:40
 msgid "web services under your control"
 msgstr ""
 
-#: templates/layout.user.php:48
+#: templates/layout.user.php:58
 msgid "Log out"
-msgstr ""
+msgstr "登出"
 
 #: templates/login.php:10
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "自動登入被拒"
 
 #: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "如果你近期未曾更改密碼, 你的帳號可能被洩露!"
 
 #: templates/login.php:13
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "請更改你的密碼以保護你的帳戶"
 
 #: templates/login.php:19
 msgid "Lost your password?"
-msgstr ""
+msgstr "忘記密碼"
 
 #: templates/login.php:41
 msgid "remember"
-msgstr ""
+msgstr "記住"
 
 #: templates/login.php:43
 msgid "Log in"
-msgstr ""
+msgstr "登入"
 
 #: templates/login.php:49
 msgid "Alternative Logins"
@@ -582,13 +584,13 @@ msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr ""
+msgstr "前一步"
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr ""
+msgstr "下一步"
 
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "ownCloud (ver. %s)更新中, 請耐心等侯"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-28 00:04+0100\n"
-"PO-Revision-Date: 2013-02-27 23:04+0000\n"
+"POT-Creation-Date: 2013-03-14 00:05+0100\n"
+"PO-Revision-Date: 2013-03-13 02:10+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/projects/p/owncloud/language/zh_HK/)\n"
 "MIME-Version: 1.0\n"
@@ -37,13 +37,13 @@ msgstr ""
 msgid "Error configuring Google Drive storage"
 msgstr ""
 
-#: lib/config.php:421
+#: lib/config.php:423
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:424
+#: lib/config.php:426
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
@@ -88,16 +88,16 @@ msgstr ""
 
 #: templates/settings.php:92
 msgid "Groups"
-msgstr ""
+msgstr "群組"
 
 #: templates/settings.php:100
 msgid "Users"
-msgstr ""
+msgstr "用戶"
 
 #: templates/settings.php:113 templates/settings.php:114
 #: templates/settings.php:149 templates/settings.php:150
 msgid "Delete"
-msgstr ""
+msgstr "刪除"
 
 #: templates/settings.php:129
 msgid "Enable User External Storage"
