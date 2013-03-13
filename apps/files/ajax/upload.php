@@ -71,6 +71,7 @@ if (strpos($dir, '..') === false) {
 				'size' => $meta['size'],
 				'id' => $meta['fileid'],
 				'name' => basename($target),
+				'originalname'=>$files['name'][$i],
 				'uploadMaxFilesize' => $maxUploadFilesize,
 				'maxHumanFilesize' => $maxHumanFilesize
 			);
