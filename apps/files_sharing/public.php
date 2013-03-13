@@ -113,7 +113,13 @@ if (isset($path)) {
 	// Download the file
 	if (isset($_GET['download'])) {
 		if (isset($_GET['files'])) { // download selected files
-			OC_Files::get($path, $_GET['files'], $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+			$files = urldecode($_GET['files']);
+			$files_list = json_decode($files);
+			// in case we get only a single file
+			if ($files_list === NULL ) {
+				$files_list = array($files);
+			}
+			OC_Files::get($path, $files_list, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
 		} else {
 			OC_Files::get($dir, $file, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
 		}
