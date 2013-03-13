@@ -140,7 +140,7 @@ class OC_Files {
 	* @param boolean $only_header ; boolean to only send header of the request
 	*/
 	public static function get($dir,$files, $only_header = false) {
-		if (count($files) == 1) {
+		if (is_array($files) && count($files) == 1) {
 			$files = $files[0];
 		}
 		
