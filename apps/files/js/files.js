@@ -386,9 +386,10 @@ $(document).ready(function() {
 				 * @param data
 				 */
 				stop: function(e, data) {
-					if(data.dataType != 'iframe ') {
+					if(data.dataType !== 'iframe') {
 						$('#upload input.stop').hide();
 					}
+
 					//IE < 10 does not fire the necessary events for the progress bar.
 					if($.browser.msie && parseInt($.browser.version) < 10) {
 						return;
@@ -563,6 +564,7 @@ $(document).ready(function() {
 
 					var eventSource=new OC.EventSource(OC.filePath('files','ajax','newfile.php'),{dir:$('#dir').val(),source:name,filename:localName});
 					eventSource.listen('progress',function(progress){
+						//IE < 10 does not fire the necessary events for the progress bar.
 						if($.browser.msie && parseInt($.browser.version) < 10) {
 						} else {
 							$('#uploadprogressbar').progressbar('value',progress);
