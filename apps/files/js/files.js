@@ -205,7 +205,7 @@ $(document).ready(function() {
 		$('#notification').fadeIn();
 		// use special download URL if provided, e.g. for public shared files
 		if ( (downloadURL = document.getElementById("downloadURL")) ) {
-			window.location=downloadURL.value+"&download&files="+files;
+			window.location=downloadURL.value+"&download&files="+encodeURIComponent(fileslist);
 		} else {
 			window.location=OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: fileslist });
 		}
