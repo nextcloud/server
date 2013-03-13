@@ -72,8 +72,9 @@ var FileActions={
 		parent.children('a.name').append('<span class="fileactions" />');
 		var defaultAction=FileActions.getDefault(FileActions.getCurrentMimeType(),FileActions.getCurrentType(), FileActions.getCurrentPermissions());
 		for(name in actions){
-			// NOTE: Temporary fix to prevent rename action in root of Shared directory
-			if (name == 'Rename' && $('#dir').val() == '/Shared') {
+			// NOTE: Temporary fix to prevent rename action in root of Shared directory and Shared action for Shared folder
+			if (name == 'Rename' && $('#dir').val() == '/Shared' ||
+					(name == 'Share' &&  $('#dir').val() == '/' && file == 'Shared')) {
 				continue;
 			}
 			if((name=='Download' || actions[name]!=defaultAction) && name!='Delete'){
