@@ -59,6 +59,7 @@
 			<img class="svg" id="adminpass-icon" src="<?php print_unescaped(image_path('', 'actions/password.svg')); ?>" alt="" />
 			<input type="checkbox" id="show" name="show" />
 			<label for="show"></label>
+			<div class="strengthify-wrapper"></div>
 		</p>
 	</fieldset>
 
