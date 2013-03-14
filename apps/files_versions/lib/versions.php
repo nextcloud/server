@@ -164,7 +164,7 @@ class Storage {
 		
 		// if the file already exists than it was a upload of a existing file
 		// over the web interface -> store() is the right function we need here
-		if ($files_view->file_exists($newpath)) {
+		if ($files_view->file_exists($new_path)) {
 			return self::store($newpath);
 		}
 		
