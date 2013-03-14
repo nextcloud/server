@@ -128,7 +128,7 @@
 "If you did not change your password recently, your account may be compromised!" => "V nedávné době jste nezměnili své heslo, Váš účet může být kompromitován.",
 "Please change your password to secure your account again." => "Změňte, prosím, své heslo pro opětovné zabezpečení Vašeho účtu.",
 "Lost your password?" => "Ztratili jste své heslo?",
-"remember" => "zapamatovat si",
+"remember" => "zapamatovat",
 "Log in" => "Přihlásit",
 "Alternative Logins" => "Alternativní přihlášení",
 "prev" => "předchozí",

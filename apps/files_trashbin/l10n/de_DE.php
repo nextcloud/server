@@ -13,5 +13,5 @@
 "Nothing in here. Your trash bin is empty!" => "Nichts zu löschen, Ihr Papierkorb ist leer!",
 "Restore" => "Wiederherstellen",
 "Delete" => "Löschen",
-"Deleted Files" => "gelöschte Dateien"
+"Deleted Files" => "Gelöschte Dateien"
 );
