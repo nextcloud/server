@@ -64,7 +64,7 @@ class Trashbin {
 		$trashbinSize += self::copy_recursive($file_path, 'files_trashbin/files/'.$deleted.'.d'.$timestamp, $view);
 
 		if ( $view->file_exists('files_trashbin/files/'.$deleted.'.d'.$timestamp) ) {
-			$query = \OC_DB::prepare("INSERT INTO *PREFIX*files_trash (id,timestamp,location,type,mime,user) VALUES (?,?,?,?,?,?)");
+			$query = \OC_DB::prepare("INSERT INTO *PREFIX*files_trash (`id`,`timestamp`,`location`,`type`,`mime`,`user`) VALUES (?,?,?,?,?,?)");
 			$result = $query->execute(array($deleted, $timestamp, $location, $type, $mime, $user));
 			if ( !$result ) { // if file couldn't be added to the database than also don't store it in the trash bin.
 				$view->deleteAll('files_trashbin/files/'.$deleted.'.d'.$timestamp);
@@ -144,8 +144,8 @@ class Trashbin {
 			$trashbinSize = self::calculateSize(new \OC\Files\View('/'. $user.'/files_trashbin'));
 		}
 		if ( $timestamp ) {
-			$query = \OC_DB::prepare('SELECT location,type FROM *PREFIX*files_trash'
-				.' WHERE user=? AND id=? AND timestamp=?');
+			$query = \OC_DB::prepare('SELECT `location`,`type` FROM *PREFIX*files_trash'
+				.' WHERE `user`=? AND `id`=? AND `timestamp`=?');
 			$result = $query->execute(array($user,$filename,$timestamp))->fetchAll();
 			if ( count($result) != 1 ) {
 				\OC_Log::write('files_trashbin', 'trash bin database inconsistent!', \OC_Log::ERROR);
@@ -228,7 +228,7 @@ class Trashbin {
 			}
 			
 			if ( $timestamp ) {
-				$query = \OC_DB::prepare('DELETE FROM *PREFIX*files_trash WHERE user=? AND id=? AND timestamp=?');
+				$query = \OC_DB::prepare('DELETE FROM *PREFIX*files_trash WHERE `user`=? AND `id`=? AND `timestamp`=?');
 				$query->execute(array($user,$filename,$timestamp));
 			}
 
@@ -259,7 +259,7 @@ class Trashbin {
 		}
 
 		if ( $timestamp ) {
-			$query = \OC_DB::prepare('DELETE FROM *PREFIX*files_trash WHERE user=? AND id=? AND timestamp=?');
+			$query = \OC_DB::prepare('DELETE FROM *PREFIX*files_trash WHERE `user`=? AND `id`=? AND `timestamp`=?');
 			$query->execute(array($user,$filename,$timestamp));
 			$file = $filename.'.d'.$timestamp;
 		} else {
@@ -344,7 +344,7 @@ class Trashbin {
 		$view = new \OC\Files\View('/'.$user);
 		$size = 0;
 
-		$query = \OC_DB::prepare('SELECT location,type,id,timestamp FROM *PREFIX*files_trash WHERE user=?');
+		$query = \OC_DB::prepare('SELECT `location`,`type`,`id`,`timestamp` FROM *PREFIX*files_trash WHERE `user`=?');
 		$result = $query->execute(array($user))->fetchAll();
 
 		$retention_obligation = \OC_Config::getValue('trashbin_retention_obligation',
@@ -362,8 +362,8 @@ class Trashbin {
 		$availableSpace = $availableSpace + $size;
 		// if size limit for trash bin reached, delete oldest files in trash bin
 		if ($availableSpace < 0) {
-			$query = \OC_DB::prepare('SELECT location,type,id,timestamp FROM *PREFIX*files_trash'
-				.' WHERE user=? ORDER BY timestamp ASC');
+			$query = \OC_DB::prepare('SELECT `location`,`type`,`id`,`timestamp` FROM *PREFIX*files_trash'
+				.' WHERE `user`=? ORDER BY `timestamp` ASC');
 			$result = $query->execute(array($user))->fetchAll();
 			$length = count($result);
 			$i = 0;
@@ -490,7 +490,7 @@ class Trashbin {
 	 * @return mixed trash bin size or false if no trash bin size is stored
 	 */
 	private static function getTrashbinSize($user) {
-		$query = \OC_DB::prepare('SELECT size FROM *PREFIX*files_trashsize WHERE user=?');
+		$query = \OC_DB::prepare('SELECT `size` FROM *PREFIX*files_trashsize WHERE `user`=?');
 		$result = $query->execute(array($user))->fetchAll();
 
 		if ($result) {
@@ -507,9 +507,9 @@ class Trashbin {
 	 */
 	private static function setTrashbinSize($user, $size) {
 		if ( self::getTrashbinSize($user) === false) {
-			$query = \OC_DB::prepare('INSERT INTO *PREFIX*files_trashsize (size, user) VALUES (?, ?)');
+			$query = \OC_DB::prepare('INSERT INTO *PREFIX*files_trashsize (`size`, `user`) VALUES (?, ?)');
 		}else {
-			$query = \OC_DB::prepare('UPDATE *PREFIX*files_trashsize SET size=? WHERE user=?');
+			$query = \OC_DB::prepare('UPDATE *PREFIX*files_trashsize SET `size`=? WHERE `user`=?');
 		}
 		$query->execute(array($size, $user));
 	}
