@@ -151,6 +151,7 @@ class Scanner {
 	private function isIgnoredFile($file) {
 		if ($file === '.' || $file === '..'
 			|| pathinfo($file, PATHINFO_EXTENSION) === 'part'
+			|| \OC\Files\Filesystem::isFileBlacklisted($file)
 		) {
 			return true;
 		}
