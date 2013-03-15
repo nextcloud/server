@@ -812,11 +812,19 @@ class OC_Helper {
 			$used = 0;
 		}
 		$free = \OC\Files\Filesystem::free_space();
-		$total = $free + $used;
+		if ($free >= 0){
+			$total = $free + $used;
+		} else {
+			$total = $free; //either unknown or unlimited
+		}
 		if ($total == 0) {
 			$total = 1; // prevent division by zero
 		}
-		$relative = round(($used / $total) * 10000) / 100;
+		if ($total >= 0){
+			$relative = round(($used / $total) * 10000) / 100;
+		} else {
+			$relative = 0;
+		}
 
 		return array('free' => $free, 'used' => $used, 'total' => $total, 'relative' => $relative);
 	}
