@@ -165,7 +165,7 @@ class Storage {
 		// if the file already exists than it was a upload of a existing file
 		// over the web interface -> store() is the right function we need here
 		if ($files_view->file_exists($newpath)) {
-			return self::store($newpath);
+			return self::store($new_path);
 		}
 		
 		$abs_newpath = $versions_view->getLocalFile($newpath);
