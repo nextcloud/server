@@ -109,7 +109,7 @@
 			<?php endforeach; ?>
 			</tbody>
 		</table>
-        <input type="file" id="rootcert_import" name="rootcert_import" style="width:230px;">
+        <input type="file" id="rootcert_import" name="rootcert_import">
         <input type="submit" name="cert_import" value="<?php echo $l->t('Import Root Certificate'); ?>" />
 		<?php endif; ?>
 </fieldset>
