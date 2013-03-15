@@ -1,0 +1,346 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Andreas Tangemann <a.tangemann@web.de>, 2013.
+#   <blobbyjj@ymail.com>, 2012.
+# I Robot <thomas.mueller@tmit.eu>, 2012.
+# Marcel Kühlhorn <susefan93@gmx.de>, 2013.
+# Maurice Preuß <>, 2012.
+#   <niko@nik-o-mat.de>, 2012.
+# Phi Lieb <>, 2012.
+#  <robert.neumann01@gmail.com>, 2013.
+#  <stefan.niedermann@googlemail.com>, 2013.
+# Susi <>, 2013.
+#   <transifex-2.7.mensaje@spamgourmet.com>, 2012.
+#   <transifex.3.mensaje@spamgourmet.com>, 2012.
+# Tristan <blobbyjj@ymail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-03-06 00:07+0100\n"
+"PO-Revision-Date: 2013-03-05 21:40+0000\n"
+"Last-Translator: a.tangemann <a.tangemann@web.de>\n"
+"Language-Team: German (Germany) <translations@owncloud.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/deleteConfiguration.php:34
+msgid "Failed to delete the server configuration"
+msgstr "Das Löschen der Server-Konfiguration schlug fehl"
+
+#: ajax/testConfiguration.php:36
+msgid "The configuration is valid and the connection could be established!"
+msgstr "Die Konfiguration ist gültig und die Verbindung konnte hergestellt werden!"
+
+#: ajax/testConfiguration.php:39
+msgid ""
+"The configuration is valid, but the Bind failed. Please check the server "
+"settings and credentials."
+msgstr "Die Konfiguration ist gültig, aber das Herstellen der Verbindung schlug fehl. Bitte überprüfen Sie die Server-Einstellungen und Zertifikate."
+
+#: ajax/testConfiguration.php:43
+msgid ""
+"The configuration is invalid. Please look in the ownCloud log for further "
+"details."
+msgstr "Die Konfiguration ist ungültig. Weitere Details können Sie im ownCloud-Log nachlesen."
+
+#: js/settings.js:66
+msgid "Deletion failed"
+msgstr "Löschen fehlgeschlagen"
+
+#: js/settings.js:82
+msgid "Take over settings from recent server configuration?"
+msgstr "Sollen die Einstellungen der letzten Serverkonfiguration übernommen werden?"
+
+#: js/settings.js:83
+msgid "Keep settings?"
+msgstr "Einstellungen behalten?"
+
+#: js/settings.js:97
+msgid "Cannot add server configuration"
+msgstr "Das Hinzufügen der Serverkonfiguration schlug fehl"
+
+#: js/settings.js:121
+msgid "Connection test succeeded"
+msgstr "Verbindungstest erfolgreich"
+
+#: js/settings.js:126
+msgid "Connection test failed"
+msgstr "Verbindungstest fehlgeschlagen"
+
+#: js/settings.js:136
+msgid "Do you really want to delete the current Server Configuration?"
+msgstr "Möchten Sie die Serverkonfiguration wirklich löschen?"
+
+#: js/settings.js:137
+msgid "Confirm Deletion"
+msgstr "Löschung bestätigen"
+
+#: templates/settings.php:8
+msgid ""
+"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
+" experience unexpected behaviour. Please ask your system administrator to "
+"disable one of them."
+msgstr "<b>Warnung:</b> Die Anwendungen user_ldap und user_webdavauth sind inkompatibel. Es kann demzufolge zu unerwarteten Verhalten kommen. Bitten Sie Ihren Systemadministator eine der beiden Anwendungen zu deaktivieren."
+
+#: templates/settings.php:11
+msgid ""
+"<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
+"work. Please ask your system administrator to install it."
+msgstr "<b>Warnung:</b> Da das PHP-Modul für LDAP ist nicht installiert, das Backend wird nicht funktionieren. Bitten Sie Ihren Systemadministrator das Modul zu installieren."
+
+#: templates/settings.php:15
+msgid "Server configuration"
+msgstr "Serverkonfiguration"
+
+#: templates/settings.php:18
+msgid "Add Server Configuration"
+msgstr "Serverkonfiguration hinzufügen"
+
+#: templates/settings.php:23
+msgid "Host"
+msgstr "Host"
+
+#: templates/settings.php:25
+msgid ""
+"You can omit the protocol, except you require SSL. Then start with ldaps://"
+msgstr "Sie können das Protokoll auslassen, außer wenn Sie SSL benötigen. Beginnen Sie dann mit ldaps://"
+
+#: templates/settings.php:26
+msgid "Base DN"
+msgstr "Basis-DN"
+
+#: templates/settings.php:27
+msgid "One Base DN per line"
+msgstr "Ein Base DN pro Zeile"
+
+#: templates/settings.php:28
+msgid "You can specify Base DN for users and groups in the Advanced tab"
+msgstr "Sie können Basis-DN für Benutzer und Gruppen in dem \"Erweitert\"-Reiter konfigurieren"
+
+#: templates/settings.php:30
+msgid "User DN"
+msgstr "Benutzer-DN"
+
+#: templates/settings.php:32
+msgid ""
+"The DN of the client user with which the bind shall be done, e.g. "
+"uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
+"empty."
+msgstr "Der DN des Benutzers für LDAP-Bind, z.B.: uid=agent,dc=example,dc=com. Für anonymen Zugriff lassen Sie DN und Passwort leer."
+
+#: templates/settings.php:33
+msgid "Password"
+msgstr "Passwort"
+
+#: templates/settings.php:36
+msgid "For anonymous access, leave DN and Password empty."
+msgstr "Lassen Sie die Felder von DN und Passwort für anonymen Zugang leer."
+
+#: templates/settings.php:37
+msgid "User Login Filter"
+msgstr "Benutzer-Login-Filter"
+
+#: templates/settings.php:40
+#, php-format
+msgid ""
+"Defines the filter to apply, when login is attempted. %%uid replaces the "
+"username in the login action."
+msgstr "Bestimmt den angewendeten Filter, wenn eine Anmeldung versucht wird. %%uid ersetzt den Benutzernamen bei dem Anmeldeversuch."
+
+#: templates/settings.php:41
+#, php-format
+msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
+msgstr "verwenden Sie %%uid Platzhalter, z. B. \"uid=%%uid\""
+
+#: templates/settings.php:42
+msgid "User List Filter"
+msgstr "Benutzer-Filter-Liste"
+
+#: templates/settings.php:45
+msgid "Defines the filter to apply, when retrieving users."
+msgstr "Definiert den Filter für die Anfrage der Benutzer."
+
+#: templates/settings.php:46
+msgid "without any placeholder, e.g. \"objectClass=person\"."
+msgstr "ohne Platzhalter, z.B.: \"objectClass=person\""
+
+#: templates/settings.php:47
+msgid "Group Filter"
+msgstr "Gruppen-Filter"
+
+#: templates/settings.php:50
+msgid "Defines the filter to apply, when retrieving groups."
+msgstr "Definiert den Filter für die Anfrage der Gruppen."
+
+#: templates/settings.php:51
+msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
+msgstr "ohne Platzhalter, z.B.: \"objectClass=posixGroup\""
+
+#: templates/settings.php:55
+msgid "Connection Settings"
+msgstr "Verbindungseinstellungen"
+
+#: templates/settings.php:57
+msgid "Configuration Active"
+msgstr "Konfiguration aktiv"
+
+#: templates/settings.php:57
+msgid "When unchecked, this configuration will be skipped."
+msgstr "Wenn nicht angehakt, wird diese Konfiguration übersprungen."
+
+#: templates/settings.php:58
+msgid "Port"
+msgstr "Port"
+
+#: templates/settings.php:59
+msgid "Backup (Replica) Host"
+msgstr "Back-Up (Replikation) Host"
+
+#: templates/settings.php:59
+msgid ""
+"Give an optional backup host. It must be a replica of the main LDAP/AD "
+"server."
+msgstr "Geben Sie einen optionalen Backup Host an. Es muss ein Replikat des Haupt- LDAP/AD Servers sein."
+
+#: templates/settings.php:60
+msgid "Backup (Replica) Port"
+msgstr "Back-Up (Replikation) Port"
+
+#: templates/settings.php:61
+msgid "Disable Main Server"
+msgstr "Hauptserver deaktivieren"
+
+#: templates/settings.php:61
+msgid "When switched on, ownCloud will only connect to the replica server."
+msgstr "Wenn eingeschaltet wird sich die ownCloud nur mit dem Replikat-Server verbinden."
+
+#: templates/settings.php:62
+msgid "Use TLS"
+msgstr "Nutze TLS"
+
+#: templates/settings.php:62
+msgid "Do not use it additionally for LDAPS connections, it will fail."
+msgstr "Benutzen Sie es nicht in Verbindung mit LDAPS Verbindungen, es wird fehlschlagen."
+
+#: templates/settings.php:63
+msgid "Case insensitve LDAP server (Windows)"
+msgstr "LDAP-Server (Windows: Groß- und Kleinschreibung bleibt unbeachtet)"
+
+#: templates/settings.php:64
+msgid "Turn off SSL certificate validation."
+msgstr "Schalten Sie die SSL-Zertifikatsprüfung aus."
+
+#: templates/settings.php:64
+msgid ""
+"If connection only works with this option, import the LDAP server's SSL "
+"certificate in your ownCloud server."
+msgstr "Falls die Verbindung es erfordert, muss das SSL-Zertifikat des LDAP-Server importiert werden."
+
+#: templates/settings.php:64
+msgid "Not recommended, use for testing only."
+msgstr "Nicht empfohlen, nur zu Testzwecken."
+
+#: templates/settings.php:65
+msgid "Cache Time-To-Live"
+msgstr "Speichere Time-To-Live zwischen"
+
+#: templates/settings.php:65
+msgid "in seconds. A change empties the cache."
+msgstr "in Sekunden. Eine Änderung leert den Cache."
+
+#: templates/settings.php:67
+msgid "Directory Settings"
+msgstr "Verzeichniseinstellungen"
+
+#: templates/settings.php:69
+msgid "User Display Name Field"
+msgstr "Feld für den Anzeigenamen des Benutzers"
+
+#: templates/settings.php:69
+msgid "The LDAP attribute to use to generate the user`s ownCloud name."
+msgstr "Das LDAP-Attribut für die Generierung des Benutzernamens in ownCloud. "
+
+#: templates/settings.php:70
+msgid "Base User Tree"
+msgstr "Basis-Benutzerbaum"
+
+#: templates/settings.php:70
+msgid "One User Base DN per line"
+msgstr "Ein Benutzer Base DN pro Zeile"
+
+#: templates/settings.php:71
+msgid "User Search Attributes"
+msgstr "Benutzer-Suche Eigenschaften"
+
+#: templates/settings.php:71 templates/settings.php:74
+msgid "Optional; one attribute per line"
+msgstr "Optional; ein Attribut pro Zeile"
+
+#: templates/settings.php:72
+msgid "Group Display Name Field"
+msgstr "Feld für den Anzeigenamen der Gruppe"
+
+#: templates/settings.php:72
+msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
+msgstr "Das LDAP-Attribut für die Generierung des Gruppennamens in ownCloud. "
+
+#: templates/settings.php:73
+msgid "Base Group Tree"
+msgstr "Basis-Gruppenbaum"
+
+#: templates/settings.php:73
+msgid "One Group Base DN per line"
+msgstr "Ein Gruppen Base DN pro Zeile"
+
+#: templates/settings.php:74
+msgid "Group Search Attributes"
+msgstr "Gruppen-Suche Eigenschaften"
+
+#: templates/settings.php:75
+msgid "Group-Member association"
+msgstr "Assoziation zwischen Gruppe und Benutzer"
+
+#: templates/settings.php:77
+msgid "Special Attributes"
+msgstr "Besondere Eigenschaften"
+
+#: templates/settings.php:79
+msgid "Quota Field"
+msgstr "Kontingent Feld"
+
+#: templates/settings.php:80
+msgid "Quota Default"
+msgstr "Kontingent Standard"
+
+#: templates/settings.php:80
+msgid "in bytes"
+msgstr "in Bytes"
+
+#: templates/settings.php:81
+msgid "Email Field"
+msgstr "E-Mail Feld"
+
+#: templates/settings.php:82
+msgid "User Home Folder Naming Rule"
+msgstr "Benennungsregel für das Heimatverzeichnis des Benutzers"
+
+#: templates/settings.php:82
+msgid ""
+"Leave empty for user name (default). Otherwise, specify an LDAP/AD "
+"attribute."
+msgstr "Ohne Eingabe wird der Benutzername (Standard) verwendet. Anderenfall trage ein LDAP/AD-Attribut ein."
+
+#: templates/settings.php:86
+msgid "Test Configuration"
+msgstr "Testkonfiguration"
+
+#: templates/settings.php:86
+msgid "Help"
+msgstr "Hilfe"

@@ -1,0 +1,66 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <blobbyjj@ymail.com>, 2012.
+# I Robot <thomas.mueller@tmit.eu>, 2012.
+#   <mail@felixmoeller.de>, 2012.
+# Marcel Kühlhorn <susefan93@gmx.de>, 2013.
+#  <niko@nik-o-mat.de>, 2013.
+#   <niko@nik-o-mat.de>, 2012.
+#  <robert.neumann01@gmail.com>, 2013.
+#  <stefan.niedermann@googlemail.com>, 2013.
+#   <thomas.mueller@tmit.eu>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-03-06 00:07+0100\n"
+"PO-Revision-Date: 2013-03-05 21:26+0000\n"
+"Last-Translator: a.tangemann <a.tangemann@web.de>\n"
+"Language-Team: German (Germany) <translations@owncloud.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/rollbackVersion.php:15
+#, php-format
+msgid "Could not revert: %s"
+msgstr "Konnte %s nicht zurücksetzen"
+
+#: history.php:40
+msgid "success"
+msgstr "Erfolgreich"
+
+#: history.php:42
+#, php-format
+msgid "File %s was reverted to version %s"
+msgstr "Die Datei %s wurde zur Version %s zurückgesetzt"
+
+#: history.php:49
+msgid "failure"
+msgstr "Fehlgeschlagen"
+
+#: history.php:51
+#, php-format
+msgid "File %s could not be reverted to version %s"
+msgstr "Die Datei %s konnte nicht zur Version %s zurückgesetzt werden"
+
+#: history.php:69
+msgid "No old versions available"
+msgstr "Keine älteren Versionen verfügbar"
+
+#: history.php:74
+msgid "No path specified"
+msgstr "Kein Pfad angegeben"
+
+#: js/versions.js:6
+msgid "Versions"
+msgstr "Versionen"
+
+#: templates/history.php:20
+msgid "Revert a file to a previous version by clicking on its revert button"
+msgstr "Setze eine Datei durch Klicken auf den Zurücksetzen-Button auf eine frühere Version zurück"

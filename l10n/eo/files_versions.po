@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-14 02:05+0200\n"
-"PO-Revision-Date: 2012-10-13 02:50+0000\n"
-"Last-Translator: Mariano <mstreet@kde.org.ar>\n"
+"POT-Creation-Date: 2013-02-28 00:04+0100\n"
+"PO-Revision-Date: 2013-02-27 23:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,26 +18,41 @@ msgstr ""
 "Language: eo\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: js/settings-personal.js:31 templates/settings-personal.php:10
-msgid "Expire all versions"
-msgstr "Eksvalidigi ĉiujn eldonojn"
+#: ajax/rollbackVersion.php:15
+#, php-format
+msgid "Could not revert: %s"
+msgstr ""
 
-#: js/versions.js:16
-msgid "History"
-msgstr "Historio"
+#: history.php:40
+msgid "success"
+msgstr ""
 
-#: templates/settings-personal.php:4
+#: history.php:42
+#, php-format
+msgid "File %s was reverted to version %s"
+msgstr ""
+
+#: history.php:49
+msgid "failure"
+msgstr ""
+
+#: history.php:51
+#, php-format
+msgid "File %s could not be reverted to version %s"
+msgstr ""
+
+#: history.php:68
+msgid "No old versions available"
+msgstr ""
+
+#: history.php:73
+msgid "No path specified"
+msgstr ""
+
+#: js/versions.js:6
 msgid "Versions"
-msgstr "Eldonoj"
+msgstr ""
 
-#: templates/settings-personal.php:7
-msgid "This will delete all existing backup versions of your files"
-msgstr "Ĉi tio forigos ĉiujn estantajn sekurkopiajn eldonojn de viaj dosieroj"
-
-#: templates/settings.php:3
-msgid "Files Versioning"
-msgstr "Dosiereldonigo"
-
-#: templates/settings.php:4
-msgid "Enable"
-msgstr "Kapabligi"
+#: templates/history.php:20
+msgid "Revert a file to a previous version by clicking on its revert button"
+msgstr ""

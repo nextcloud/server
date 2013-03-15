@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<info>
+	<id>files_trashbin</id>
+	<name>Deleted files</name>
+	<description>Keep a copy of deleted files so that they can be restored if needed</description>
+	<licence>AGPL</licence>
+	<author>Bjoern Schiessle</author>
+	<shipped>true</shipped>
+	<require>4.9</require>
+	<default_enable/>
+	<types>
+		<filesystem/>
+	</types>
+</info>

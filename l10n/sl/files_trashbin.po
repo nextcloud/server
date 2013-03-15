@@ -1,0 +1,82 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#  <>, 2013.
+# Matej Urbančič <>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-03-10 00:05+0100\n"
+"PO-Revision-Date: 2013-03-09 19:30+0000\n"
+"Last-Translator: mateju <>\n"
+"Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sl\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+
+#: ajax/delete.php:40
+#, php-format
+msgid "Couldn't delete %s permanently"
+msgstr "Datoteke %s ni mogoče dokončno izbrisati."
+
+#: ajax/undelete.php:41
+#, php-format
+msgid "Couldn't restore %s"
+msgstr "Ni mogoče obnoviti %s"
+
+#: js/trash.js:7 js/trash.js:96
+msgid "perform restore operation"
+msgstr "izvedi opravilo obnavljanja"
+
+#: js/trash.js:34
+msgid "delete file permanently"
+msgstr "dokončno izbriši datoteko"
+
+#: js/trash.js:121
+msgid "Delete permanently"
+msgstr "Izbriši dokončno"
+
+#: js/trash.js:174 templates/index.php:17
+msgid "Name"
+msgstr "Ime"
+
+#: js/trash.js:175 templates/index.php:27
+msgid "Deleted"
+msgstr "Izbrisano"
+
+#: js/trash.js:184
+msgid "1 folder"
+msgstr "1 mapa"
+
+#: js/trash.js:186
+msgid "{count} folders"
+msgstr "{count} map"
+
+#: js/trash.js:194
+msgid "1 file"
+msgstr "1 datoteka"
+
+#: js/trash.js:196
+msgid "{count} files"
+msgstr "{count} datotek"
+
+#: templates/index.php:9
+msgid "Nothing in here. Your trash bin is empty!"
+msgstr "Mapa smeti je prazna."
+
+#: templates/index.php:20 templates/index.php:22
+msgid "Restore"
+msgstr "Obnovi"
+
+#: templates/index.php:30 templates/index.php:31
+msgid "Delete"
+msgstr "Izbriši"
+
+#: templates/part.breadcrumb.php:9
+msgid "Deleted Files"
+msgstr "Izbrisane datoteke"

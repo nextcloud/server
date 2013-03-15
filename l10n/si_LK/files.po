@@ -1,0 +1,317 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Anushke Guneratne <anushke@gmail.com>, 2012.
+# Chamara Disanayake <chamara@nic.lk>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-03-04 00:06+0100\n"
+"PO-Revision-Date: 2013-03-03 23:06+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: si_LK\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:27 ajax/move.php:30
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/rename.php:22 ajax/rename.php:25
+msgid "Unable to rename file"
+msgstr ""
+
+#: ajax/upload.php:19
+msgid "No file was uploaded. Unknown error"
+msgstr "ගොනුවක් උඩුගත නොවුනි. නොහැඳිනු දෝෂයක්"
+
+#: ajax/upload.php:26
+msgid "There is no error, the file uploaded with success"
+msgstr "නිවැරදි ව ගොනුව උඩුගත කෙරිනි"
+
+#: ajax/upload.php:27
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+msgstr ""
+
+#: ajax/upload.php:29
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr "උඩුගත කළ ගොනුවේ විශාලත්වය HTML පෝරමයේ නියම කළ ඇති MAX_FILE_SIZE විශාලත්වයට වඩා වැඩිය"
+
+#: ajax/upload.php:30
+msgid "The uploaded file was only partially uploaded"
+msgstr "උඩුගත කළ ගොනුවේ කොටසක් පමණක් උඩුගත විය"
+
+#: ajax/upload.php:31
+msgid "No file was uploaded"
+msgstr "කිසිදු ගොනවක් උඩුගත නොවිනි"
+
+#: ajax/upload.php:32
+msgid "Missing a temporary folder"
+msgstr "තාවකාලික ෆොල්ඩරයක් සොයාගත නොහැක"
+
+#: ajax/upload.php:33
+msgid "Failed to write to disk"
+msgstr "තැටිගත කිරීම අසාර්ථකයි"
+
+#: ajax/upload.php:51
+msgid "Not enough storage available"
+msgstr ""
+
+#: ajax/upload.php:82
+msgid "Invalid directory."
+msgstr ""
+
+#: appinfo/app.php:10
+msgid "Files"
+msgstr "ගොනු"
+
+#: js/fileactions.js:125
+msgid "Delete permanently"
+msgstr ""
+
+#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
+msgid "Delete"
+msgstr "මකන්න"
+
+#: js/fileactions.js:193
+msgid "Rename"
+msgstr "නැවත නම් කරන්න"
+
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:292 js/files.js:408
+#: js/files.js:439
+msgid "Pending"
+msgstr ""
+
+#: js/filelist.js:251 js/filelist.js:253
+msgid "{new_name} already exists"
+msgstr ""
+
+#: js/filelist.js:251 js/filelist.js:253
+msgid "replace"
+msgstr "ප්‍රතිස්ථාපනය කරන්න"
+
+#: js/filelist.js:251
+msgid "suggest name"
+msgstr "නමක් යෝජනා කරන්න"
+
+#: js/filelist.js:251 js/filelist.js:253
+msgid "cancel"
+msgstr "අත් හරින්න"
+
+#: js/filelist.js:298
+msgid "replaced {new_name} with {old_name}"
+msgstr ""
+
+#: js/filelist.js:298
+msgid "undo"
+msgstr "නිෂ්ප්‍රභ කරන්න"
+
+#: js/filelist.js:323
+msgid "perform delete operation"
+msgstr ""
+
+#: js/files.js:52
+msgid "'.' is an invalid file name."
+msgstr ""
+
+#: js/files.js:56
+msgid "File name cannot be empty."
+msgstr ""
+
+#: js/files.js:64
+msgid ""
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
+"allowed."
+msgstr ""
+
+#: js/files.js:78
+msgid "Your storage is full, files can not be updated or synced anymore!"
+msgstr ""
+
+#: js/files.js:82
+msgid "Your storage is almost full ({usedSpacePercent}%)"
+msgstr ""
+
+#: js/files.js:225
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr ""
+
+#: js/files.js:262
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr ""
+
+#: js/files.js:262
+msgid "Upload Error"
+msgstr "උඩුගත කිරීමේ දෝශයක්"
+
+#: js/files.js:273
+msgid "Close"
+msgstr "වසන්න"
+
+#: js/files.js:312
+msgid "1 file uploading"
+msgstr "1 ගොනුවක් උඩගත කෙරේ"
+
+#: js/files.js:315 js/files.js:370 js/files.js:385
+msgid "{count} files uploading"
+msgstr ""
+
+#: js/files.js:388 js/files.js:423
+msgid "Upload cancelled."
+msgstr "උඩුගත කිරීම අත් හරින්න ලදී"
+
+#: js/files.js:497
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr "උඩුගතකිරීමක් සිදුවේ. පිටුව හැර යාමෙන් එය නැවතෙනු ඇත"
+
+#: js/files.js:570
+msgid "URL cannot be empty."
+msgstr "යොමුව හිස් විය නොහැක"
+
+#: js/files.js:575
+msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
+msgstr ""
+
+#: js/files.js:953 templates/index.php:68
+msgid "Name"
+msgstr "නම"
+
+#: js/files.js:954 templates/index.php:79
+msgid "Size"
+msgstr "ප්‍රමාණය"
+
+#: js/files.js:955 templates/index.php:81
+msgid "Modified"
+msgstr "වෙනස් කළ"
+
+#: js/files.js:974
+msgid "1 folder"
+msgstr "1 ෆොල්ඩරයක්"
+
+#: js/files.js:976
+msgid "{count} folders"
+msgstr ""
+
+#: js/files.js:984
+msgid "1 file"
+msgstr "1 ගොනුවක්"
+
+#: js/files.js:986
+msgid "{count} files"
+msgstr ""
+
+#: lib/helper.php:11 templates/index.php:18
+msgid "Upload"
+msgstr "උඩුගත කිරීම"
+
+#: templates/admin.php:5
+msgid "File handling"
+msgstr "ගොනු පරිහරණය"
+
+#: templates/admin.php:7
+msgid "Maximum upload size"
+msgstr "උඩුගත කිරීමක උපරිම ප්‍රමාණය"
+
+#: templates/admin.php:10
+msgid "max. possible: "
+msgstr "හැකි උපරිමය:"
+
+#: templates/admin.php:15
+msgid "Needed for multi-file and folder downloads."
+msgstr "බහු-ගොනු හා ෆොල්ඩර බාගත කිරීමට අවශ්‍යයි"
+
+#: templates/admin.php:17
+msgid "Enable ZIP-download"
+msgstr "ZIP-බාගත කිරීම් සක්‍රිය කරන්න"
+
+#: templates/admin.php:20
+msgid "0 is unlimited"
+msgstr "0 යනු සීමාවක් නැති බවය"
+
+#: templates/admin.php:22
+msgid "Maximum input size for ZIP files"
+msgstr "ZIP ගොනු සඳහා දැමිය හැකි උපරිම විශාලතවය"
+
+#: templates/admin.php:26
+msgid "Save"
+msgstr "සුරකින්න"
+
+#: templates/index.php:7
+msgid "New"
+msgstr "නව"
+
+#: templates/index.php:10
+msgid "Text file"
+msgstr "පෙළ ගොනුව"
+
+#: templates/index.php:12
+msgid "Folder"
+msgstr "ෆෝල්ඩරය"
+
+#: templates/index.php:14
+msgid "From link"
+msgstr "යොමුවෙන්"
+
+#: templates/index.php:40
+msgid "Deleted files"
+msgstr ""
+
+#: templates/index.php:46
+msgid "Cancel upload"
+msgstr "උඩුගත කිරීම අත් හරින්න"
+
+#: templates/index.php:53
+msgid "You don’t have write permissions here."
+msgstr ""
+
+#: templates/index.php:60
+msgid "Nothing in here. Upload something!"
+msgstr "මෙහි කිසිවක් නොමැත. යමක් උඩුගත කරන්න"
+
+#: templates/index.php:74
+msgid "Download"
+msgstr "බාගත කිරීම"
+
+#: templates/index.php:86 templates/index.php:87
+msgid "Unshare"
+msgstr "නොබෙදු"
+
+#: templates/index.php:106
+msgid "Upload too large"
+msgstr "උඩුගත කිරීම විශාල වැඩිය"
+
+#: templates/index.php:108
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr "ඔබ උඩුගත කිරීමට තැත් කරන ගොනු මෙම සේවාදායකයා උඩුගත කිරීමට ඉඩදී ඇති උපරිම ගොනු විශාලත්වයට වඩා වැඩිය"
+
+#: templates/index.php:113
+msgid "Files are being scanned, please wait."
+msgstr "ගොනු පරික්ෂා කෙරේ. මඳක් රැඳී සිටින්න"
+
+#: templates/index.php:116
+msgid "Current scanning"
+msgstr "වර්තමාන පරික්ෂාව"
+
+#: templates/upgrade.php:2
+msgid "Upgrading filesystem cache..."
+msgstr ""

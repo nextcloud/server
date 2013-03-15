@@ -1,3 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Expire all versions" => "Panaikinti visų versijų galiojimą"
+"History" => "Istorija",
+"Files Versioning" => "Failų versijos",
+"Enable" => "Įjungti"
 );

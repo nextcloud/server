@@ -1,10 +1,32 @@
 /**
+ * Disable console output unless DEBUG mode is enabled.
+ * Add 
+ *	 define('DEBUG', true);
+ * To the end of config/config.php to enable debug mode.
+ * The undefined checks fix the broken ie8 console
+ */
+var oc_debug;
+var oc_webroot;
+var oc_requesttoken;
+if (typeof oc_webroot === "undefined") {
+	oc_webroot = location.pathname.substr(0, location.pathname.lastIndexOf('/'));
+}
+if (oc_debug !== true || typeof console === "undefined" || typeof console.log === "undefined") {
+	if (!window.console) {
+		window.console = {};
+	}
+	var methods = ['log', 'debug', 'warn', 'info', 'error', 'assert'];
+	for (var i = 0; i < methods.length; i++) {
+		console[methods[i]] = function () { };
+	}
+}
+
+/**
  * translate a string
  * @param app the id of the app for which to translate the string
  * @param text the string to translate
  * @return string
  */
-
 function t(app,text, vars){
 	if( !( t.cache[app] )){
 		$.ajax(OC.filePath('core','ajax','translations.php'),{
@@ -21,14 +43,14 @@ function t(app,text, vars){
 			t.cache[app] = [];
 		}
 	}
-	var _build = function(text, vars) {
+	var _build = function (text, vars) {
 		return text.replace(/{([^{}]*)}/g,
 			function (a, b) {
 				var r = vars[b];
 				return typeof r === 'string' || typeof r === 'number' ? r : a;
 			}
 		);
-	}
+	};
 	if( typeof( t.cache[app][text] ) !== 'undefined' ){
 		if(typeof vars === 'object') {
 			return _build(t.cache[app][text], vars);
@@ -62,7 +84,7 @@ function escapeHTML(s) {
 * @return string
 */
 function fileDownloadPath(dir, file) {
-	return OC.filePath('files', 'ajax', 'download.php')+'&files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir);
+	return OC.filePath('files', 'ajax', 'download.php')+'?files='+encodeURIComponent(file)+'&dir='+encodeURIComponent(dir);
 }
 
 var OC={
@@ -72,7 +94,7 @@ var OC={
 	PERMISSION_DELETE:8,
 	PERMISSION_SHARE:16,
 	webroot:oc_webroot,
-	appswebroots:oc_appswebroots,
+	appswebroots:(typeof oc_appswebroots !== 'undefined') ? oc_appswebroots:false,
 	currentUser:(typeof oc_current_user!=='undefined')?oc_current_user:false,
 	coreApps:['', 'admin','log','search','settings','core','3rdparty'],
 	/**
@@ -85,6 +107,27 @@ var OC={
 		return OC.filePath(app,'',file);
 	},
 	/**
+	 * Creates an url for remote use
+	 * @param string $service id
+	 * @return string the url
+	 *
+	 * Returns a url to the given service.
+	 */
+	linkToRemoteBase:function(service) {
+		return OC.webroot + '/remote.php/' + service;
+	},
+	/**
+	 * @brief Creates an absolute url for remote use
+	 * @param string $service id
+	 * @param bool $add_slash
+	 * @return string the url
+	 *
+	 * Returns a absolute url to the given service.
+	 */
+	linkToRemote:function(service) {
+		return window.location.protocol + '//' + window.location.host + OC.linkToRemoteBase(service);
+	},
+	/**
 	 * get the absolute url for a file in an app
 	 * @param app the id of the app
 	 * @param type the type of the file to link to (e.g. css,img,ajax.template)
@@ -95,9 +138,9 @@ var OC={
 		var isCore=OC.coreApps.indexOf(app)!==-1,
 			link=OC.webroot;
 		if((file.substring(file.length-3) === 'php' || file.substring(file.length-3) === 'css') && !isCore){
-			link+='/?app=' + app;
+			link+='/index.php/apps/' + app;
 			if (file != 'index.php') {
-				link+='&getfile=';
+				link+='/';
 				if(type){
 					link+=encodeURI(type + '/');
 				}
@@ -113,7 +156,12 @@ var OC={
 			}
 			link+=file;
 		}else{
-			link+='/';
+			if ((app == 'settings' || app == 'core' || app == 'search') && type == 'ajax') {
+				link+='/index.php/';
+			}
+			else {
+				link+='/';
+			}
 			if(!isCore){
 				link+='apps/';
 			}
@@ -268,6 +316,50 @@ OC.search.lastResults={};
 OC.addStyle.loaded=[];
 OC.addScript.loaded=[];
 
+OC.Notification={
+	queuedNotifications: [],
+	getDefaultNotificationFunction: null,
+	setDefault: function(callback) {
+		OC.Notification.getDefaultNotificationFunction = callback;
+	},
+	hide: function(callback) {
+		$('#notification').fadeOut('400', function(){
+			if (OC.Notification.isHidden()) {
+				if (OC.Notification.getDefaultNotificationFunction) {
+					OC.Notification.getDefaultNotificationFunction.call();
+				}
+			}
+			if (callback) {
+				callback.call();
+			}
+			$('#notification').empty();
+			if(OC.Notification.queuedNotifications.length > 0){
+				OC.Notification.showHtml(OC.Notification.queuedNotifications[0]);
+				OC.Notification.queuedNotifications.shift();
+			}
+		});
+	},
+	showHtml: function(html) {
+		if(($('#notification').filter('span.undo').length == 1) || OC.Notification.isHidden()){
+			$('#notification').html(html);
+			$('#notification').fadeIn().css("display","inline");
+		}else{
+			OC.Notification.queuedNotifications.push(html);
+		}
+	},
+	show: function(text) {
+		if(($('#notification').filter('span.undo').length == 1) || OC.Notification.isHidden()){
+			$('#notification').html(text);
+			$('#notification').fadeIn().css("display","inline");
+		}else{
+			OC.Notification.queuedNotifications.push($(text).html());
+		}
+	},
+	isHidden: function() {
+		return ($("#notification").text() === '');
+	}
+};
+
 OC.Breadcrumb={
 	container:null,
 	crumbs:[],
@@ -277,7 +369,6 @@ OC.Breadcrumb={
 		}
 		var crumb=$('<div/>');
 		crumb.addClass('crumb').addClass('last');
-		crumb.attr('style','background-image:url("'+OC.imagePath('core','breadcrumb')+'")');
 
 		var crumbLink=$('<a/>');
 		crumbLink.attr('href',link);
@@ -322,8 +413,15 @@ if(typeof localStorage !=='undefined' && localStorage !== null){
 			return localStorage.setItem(OC.localStorage.namespace+name,JSON.stringify(item));
 		},
 		getItem:function(name){
-			if(localStorage.getItem(OC.localStorage.namespace+name)===null){return null;}
-			return JSON.parse(localStorage.getItem(OC.localStorage.namespace+name));
+			var item = localStorage.getItem(OC.localStorage.namespace+name);
+			if(item===null) {
+				return null;
+			} else if (typeof JSON === 'undefined') {
+				//fallback to jquery for IE6/7/8
+				return $.parseJSON(item);
+			} else {
+				return JSON.parse(item);
+			}
 		}
 	};
 }else{
@@ -459,10 +557,9 @@ function replaceSVG(){
  */
 function object(o) {
 	function F() {}
-    F.prototype = o;
+	F.prototype = o;
 	return new F();
 }
-
 
 /**
  * Fills height of window. (more precise than height: 100%;)
@@ -476,6 +573,7 @@ function fillHeight(selector) {
 	if(selector.outerHeight() > selector.height()){
 		selector.css('height', height-(selector.outerHeight()-selector.height()) + 'px');
 	}
+	console.warn("This function is deprecated! Use CSS instead");
 }
 
 /**
@@ -491,16 +589,11 @@ function fillWindow(selector) {
 	if(selector.outerWidth() > selector.width()){
 		selector.css('width', width-(selector.outerWidth()-selector.width()) + 'px');
 	}
+	console.warn("This function is deprecated! Use CSS instead");
 }
 
 $(document).ready(function(){
-
-	$(window).resize(function () {
-		fillHeight($('#leftcontent'));
-		fillWindow($('#content'));
-		fillWindow($('#rightcontent'));
-	});
-	$(window).trigger('resize');
+	sessionHeartBeat();
 
 	if(!SVGSupport()){ //replace all svg images with png images for browser that dont support svg
 		replaceSVG();
@@ -545,6 +638,8 @@ $(document).ready(function(){
 	});
 
 	// 'show password' checkbox
+	$('#password').showPassword();
+	$('#adminpass').showPassword();	
 	$('#pass2').showPassword();
 
 	//use infield labels
@@ -578,23 +673,22 @@ $(document).ready(function(){
 		}
 	});
 	$('#settings #expand').click(function(event) {
-		$('#settings #expanddiv').slideToggle();
+		$('#settings #expanddiv').slideToggle(200);
 		event.stopPropagation();
 	});
 	$('#settings #expanddiv').click(function(event){
 		event.stopPropagation();
 	});
-	$(window).click(function(){//hide the settings menu when clicking outside it
-		if($('body').attr("id")==="body-user"){
-			$('#settings #expanddiv').slideUp();
-		}
+	$(document).click(function(){//hide the settings menu when clicking outside it
+		$('#settings #expanddiv').slideUp(200);
 	});
 
 	// all the tipsy stuff needs to be here (in reverse order) to work
 	$('.jp-controls .jp-previous').tipsy({gravity:'nw', fade:true, live:true});
 	$('.jp-controls .jp-next').tipsy({gravity:'n', fade:true, live:true});
+	$('.displayName .action').tipsy({gravity:'se', fade:true, live:true});
 	$('.password .action').tipsy({gravity:'se', fade:true, live:true});
-	$('.file_upload_button_wrapper').tipsy({gravity:'w', fade:true});
+	$('#upload').tipsy({gravity:'w', fade:true});
 	$('.selectedActions a').tipsy({gravity:'s', fade:true, live:true});
 	$('a.delete').tipsy({gravity: 'e', fade:true, live:true});
 	$('a.action').tipsy({gravity:'s', fade:true, live:true});
@@ -636,7 +730,7 @@ if (!Array.prototype.map){
 
 /**
  * Filter Jquery selector by attribute value
- **/
+ */
 $.fn.filterAttr = function(attr_name, attr_value) {
 	return this.filter(function() { return $(this).attr(attr_name) === attr_value; });
 };
@@ -644,7 +738,7 @@ $.fn.filterAttr = function(attr_name, attr_value) {
 function humanFileSize(size) {
 	var humanList = ['B', 'kB', 'MB', 'GB', 'TB'];
 	// Calculate Log with base 1024: size = 1024 ** order
-	var order = Math.floor(Math.log(size) / Math.log(1024));
+	var order = size?Math.floor(Math.log(size) / Math.log(1024)):0;
 	// Stay in range of the byte sizes that are defined
 	order = Math.min(humanList.length - 1, order);
 	var readableFormat = humanList[order];
@@ -667,9 +761,32 @@ function formatDate(date){
 	if(typeof date=='number'){
 		date=new Date(date);
 	}
-	var monthNames = [ t('files','January'), t('files','February'), t('files','March'), t('files','April'), t('files','May'), t('files','June'),
-	t('files','July'), t('files','August'), t('files','September'), t('files','October'), t('files','November'), t('files','December') ];
-	return monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear()+', '+((date.getHours()<10)?'0':'')+date.getHours()+':'+((date.getMinutes()<10)?'0':'')+date.getMinutes();
+	return $.datepicker.formatDate(datepickerFormatDate, date)+' '+date.getHours()+':'+((date.getMinutes()<10)?'0':'')+date.getMinutes();
+}
+
+/**
+ * takes an absolute timestamp and return a string with a human-friendly relative date
+ * @param int a Unix timestamp
+ */
+function relative_modified_date(timestamp) {
+	var timediff = Math.round((new Date()).getTime() / 1000) - timestamp;
+	var diffminutes = Math.round(timediff/60);
+	var diffhours = Math.round(diffminutes/60);
+	var diffdays = Math.round(diffhours/24);
+	var diffmonths = Math.round(diffdays/31);
+	if(timediff < 60) { return t('core','seconds ago'); }
+	else if(timediff < 120) { return t('core','1 minute ago'); }
+	else if(timediff < 3600) { return t('core','{minutes} minutes ago',{minutes: diffminutes}); }
+	else if(timediff < 7200) { return t('core','1 hour ago'); }
+	else if(timediff < 86400) { return t('core','{hours} hours ago',{hours: diffhours}); }
+	else if(timediff < 86400) { return t('core','today'); }
+	else if(timediff < 172800) { return t('core','yesterday'); }
+	else if(timediff < 2678400) { return t('core','{days} days ago',{days: diffdays}); }
+	else if(timediff < 5184000) { return t('core','last month'); }
+	else if(timediff < 31556926) { return t('core','{months} months ago',{months: diffmonths}); }
+	//else if(timediff < 31556926) { return t('core','months ago'); }
+	else if(timediff < 63113852) { return t('core','last year'); }
+	else { return t('core','years ago'); }
 }
 
 /**
@@ -708,3 +825,17 @@ OC.set=function(name, value) {
 	}
 	context[tail]=value;
 };
+
+
+/**
+ * Calls the server periodically every 15 mins to ensure that session doesnt
+ * time out
+ */
+function sessionHeartBeat(){
+	OC.Router.registerLoadedCallback(function(){
+		var url = OC.Router.generate('heartbeat');
+		setInterval(function(){
+			$.post(url);
+		}, 900000);
+	});
+}

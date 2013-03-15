@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-14 02:05+0200\n"
+"Project-Id-Version: ownCloud Core 5.0.0\n"
+"Report-Msgid-Bugs-To: translations@owncloud.org\n"
+"POT-Creation-Date: 2013-03-15 00:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,18 +17,22 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: templates/settings.php:3
+#: templates/settings-personal.php:4 templates/settings.php:5
 msgid "Encryption"
 msgstr ""
 
-#: templates/settings.php:4
-msgid "Exclude the following file types from encryption"
+#: templates/settings-personal.php:7
+msgid "File encryption is enabled."
 msgstr ""
 
-#: templates/settings.php:5
+#: templates/settings-personal.php:11
+msgid "The following file types will not be encrypted:"
+msgstr ""
+
+#: templates/settings.php:7
+msgid "Exclude the following file types from encryption:"
+msgstr ""
+
+#: templates/settings.php:12
 msgid "None"
-msgstr ""
-
-#: templates/settings.php:10
-msgid "Enable Encryption"
 msgstr ""

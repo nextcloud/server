@@ -130,7 +130,7 @@
    </field>
 
    <index>
-    <name>ldap_group_members</name>
+    <name>ldap_group_members_index</name>
     <unique>true</unique>
     <field>
      <name>owncloudname</name>

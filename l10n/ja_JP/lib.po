@@ -4,13 +4,15 @@
 # 
 # Translators:
 # Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>, 2012.
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013.
+# YANO Tetsu <tetuyano+transi@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-04 02:01+0200\n"
-"PO-Revision-Date: 2012-09-03 15:55+0000\n"
-"Last-Translator: Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>\n"
+"POT-Creation-Date: 2013-03-02 00:03+0100\n"
+"PO-Revision-Date: 2013-03-01 05:10+0000\n"
+"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,51 +20,55 @@ msgstr ""
 "Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: app.php:288
+#: app.php:349
 msgid "Help"
 msgstr "ヘルプ"
 
-#: app.php:295
+#: app.php:362
 msgid "Personal"
 msgstr "個人設定"
 
-#: app.php:300
+#: app.php:373
 msgid "Settings"
 msgstr "設定"
 
-#: app.php:305
+#: app.php:385
 msgid "Users"
 msgstr "ユーザ"
 
-#: app.php:312
+#: app.php:398
 msgid "Apps"
 msgstr "アプリ"
 
-#: app.php:314
+#: app.php:406
 msgid "Admin"
 msgstr "管理者"
 
-#: files.php:280
+#: files.php:202
 msgid "ZIP download is turned off."
 msgstr "ZIPダウンロードは無効です。"
 
-#: files.php:281
+#: files.php:203
 msgid "Files need to be downloaded one by one."
 msgstr "ファイルは1つずつダウンロードする必要があります。"
 
-#: files.php:281 files.php:306
+#: files.php:204 files.php:231
 msgid "Back to Files"
 msgstr "ファイルに戻る"
 
-#: files.php:305
+#: files.php:228
 msgid "Selected files too large to generate zip file."
 msgstr "選択したファイルはZIPファイルの生成には大きすぎます。"
+
+#: helper.php:228
+msgid "couldn't be determined"
+msgstr "測定できませんでした"
 
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "アプリケーションは無効です"
 
-#: json.php:39 json.php:63 json.php:75
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "認証エラー"
 
@@ -70,57 +76,186 @@ msgstr "認証エラー"
 msgid "Token expired. Please reload page."
 msgstr "トークンが無効になりました。ページを再読込してください。"
 
-#: template.php:87
+#: search/provider/file.php:17 search/provider/file.php:35
+msgid "Files"
+msgstr "ファイル"
+
+#: search/provider/file.php:26 search/provider/file.php:33
+msgid "Text"
+msgstr "TTY TDD"
+
+#: search/provider/file.php:29
+msgid "Images"
+msgstr "画像"
+
+#: setup.php:34
+msgid "Set an admin username."
+msgstr "管理者のユーザ名を設定。"
+
+#: setup.php:37
+msgid "Set an admin password."
+msgstr "管理者のパスワードを設定。"
+
+#: setup.php:40
+msgid "Specify a data folder."
+msgstr "データフォルダを指定。"
+
+#: setup.php:55
+#, php-format
+msgid "%s enter the database username."
+msgstr "%s のデータベースのユーザ名を入力してください。"
+
+#: setup.php:58
+#, php-format
+msgid "%s enter the database name."
+msgstr "%s のデータベース名を入力してください。"
+
+#: setup.php:61
+#, php-format
+msgid "%s you may not use dots in the database name"
+msgstr "%s ではデータベース名にドットを利用できないかもしれません。"
+
+#: setup.php:64
+#, php-format
+msgid "%s set the database host."
+msgstr "%s にデータベースホストを設定します。"
+
+#: setup.php:128 setup.php:320 setup.php:365
+msgid "PostgreSQL username and/or password not valid"
+msgstr "PostgreSQLのユーザ名もしくはパスワードは有効ではありません"
+
+#: setup.php:129 setup.php:152 setup.php:229
+msgid "You need to enter either an existing account or the administrator."
+msgstr "既存のアカウントもしくは管理者のどちらかを入力する必要があります。"
+
+#: setup.php:151 setup.php:453 setup.php:520
+msgid "Oracle username and/or password not valid"
+msgstr "Oracleのユーザ名もしくはパスワードは有効ではありません"
+
+#: setup.php:228
+msgid "MySQL username and/or password not valid"
+msgstr "MySQLのユーザ名もしくはパスワードは有効ではありません"
+
+#: setup.php:282 setup.php:386 setup.php:395 setup.php:413 setup.php:423
+#: setup.php:432 setup.php:461 setup.php:527 setup.php:553 setup.php:560
+#: setup.php:571 setup.php:578 setup.php:587 setup.php:595 setup.php:604
+#: setup.php:610
+#, php-format
+msgid "DB Error: \"%s\""
+msgstr "DBエラー: \"%s\""
+
+#: setup.php:283 setup.php:387 setup.php:396 setup.php:414 setup.php:424
+#: setup.php:433 setup.php:462 setup.php:528 setup.php:554 setup.php:561
+#: setup.php:572 setup.php:588 setup.php:596 setup.php:605
+#, php-format
+msgid "Offending command was: \"%s\""
+msgstr "違反コマンド: \"%s\""
+
+#: setup.php:299
+#, php-format
+msgid "MySQL user '%s'@'localhost' exists already."
+msgstr "MySQLのユーザ '%s'@'localhost' はすでに存在します。"
+
+#: setup.php:300
+msgid "Drop this user from MySQL"
+msgstr "MySQLからこのユーザを削除"
+
+#: setup.php:305
+#, php-format
+msgid "MySQL user '%s'@'%%' already exists"
+msgstr "MySQLのユーザ '%s'@'%%' はすでに存在します。"
+
+#: setup.php:306
+msgid "Drop this user from MySQL."
+msgstr "MySQLからこのユーザを削除する。"
+
+#: setup.php:579 setup.php:611
+#, php-format
+msgid "Offending command was: \"%s\", name: %s, password: %s"
+msgstr "違反コマンド: \"%s\"、名前: %s、パスワード: %s"
+
+#: setup.php:631
+#, php-format
+msgid "MS SQL username and/or password not valid: %s"
+msgstr "MS SQL サーバーのユーザー名/パスワードが正しくありません: %s"
+
+#: setup.php:849
+msgid ""
+"Your web server is not yet properly setup to allow files synchronization "
+"because the WebDAV interface seems to be broken."
+msgstr "WebDAVインタフェースが動作していないと考えられるため、あなたのWEBサーバはまだファイルの同期を許可するように適切な設定がされていません。"
+
+#: setup.php:850
+#, php-format
+msgid "Please double check the <a href='%s'>installation guides</a>."
+msgstr "<a href='%s'>インストールガイド</a>をよく確認してください。"
+
+#: template.php:113
 msgid "seconds ago"
 msgstr "秒前"
 
-#: template.php:88
+#: template.php:114
 msgid "1 minute ago"
 msgstr "1分前"
 
-#: template.php:89
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d 分前"
 
-#: template.php:92
+#: template.php:116
+msgid "1 hour ago"
+msgstr "1 時間前"
+
+#: template.php:117
+#, php-format
+msgid "%d hours ago"
+msgstr "%d 時間前"
+
+#: template.php:118
 msgid "today"
 msgstr "今日"
 
-#: template.php:93
+#: template.php:119
 msgid "yesterday"
 msgstr "昨日"
 
-#: template.php:94
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "%d 日前"
 
-#: template.php:95
+#: template.php:121
 msgid "last month"
 msgstr "先月"
 
-#: template.php:96
-msgid "months ago"
-msgstr "月前"
+#: template.php:122
+#, php-format
+msgid "%d months ago"
+msgstr "%d 分前"
 
-#: template.php:97
+#: template.php:123
 msgid "last year"
 msgstr "昨年"
 
-#: template.php:98
+#: template.php:124
 msgid "years ago"
 msgstr "年前"
 
-#: updater.php:66
+#: updater.php:78
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
 msgstr "%s が利用可能です。<a href=\"%s\">詳細情報</a> を確認ください"
 
-#: updater.php:68
+#: updater.php:81
 msgid "up to date"
 msgstr "最新です"
 
-#: updater.php:71
+#: updater.php:84
 msgid "updates check is disabled"
 msgstr "更新チェックは無効です"
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "カテゴリ \"%s\" が見つかりませんでした"

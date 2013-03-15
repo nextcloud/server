@@ -40,6 +40,12 @@ source_file = templates/files_sharing.pot
 source_lang = en
 type = PO
 
+[owncloud.files_trashbin]
+file_filter = <lang>/files_trashbin.po
+source_file = templates/files_trashbin.pot
+source_lang = en
+type = PO
+
 [owncloud.files_versions]
 file_filter = <lang>/files_versions.po
 source_file = templates/files_versions.pot
@@ -49,6 +55,12 @@ type = PO
 [owncloud.user_ldap]
 file_filter = <lang>/user_ldap.po
 source_file = templates/user_ldap.pot
+source_lang = en
+type = PO
+
+[owncloud.user_webdavauth]
+file_filter = <lang>/user_webdavauth.po
+source_file = templates/user_webdavauth.pot
 source_lang = en
 type = PO
 

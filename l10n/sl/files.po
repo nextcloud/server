@@ -3,6 +3,8 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <>, 2012.
+# Matej Urbančič <>, 2013.
 #   <peter.perosa@gmail.com>, 2012.
 # Peter Peroša <peter.perosa@gmail.com>, 2012.
 #   <urossolar@hotmail.com>, 2012.
@@ -10,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-26 13:19+0200\n"
-"PO-Revision-Date: 2012-09-26 11:20+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-15 00:05+0100\n"
+"PO-Revision-Date: 2013-03-14 18:00+0000\n"
+"Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,230 +22,238 @@ msgstr ""
 "Language: sl\n"
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
-#: ajax/upload.php:20
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr "Ni mogoče premakniti %s - datoteka s tem imenom že obstaja"
+
+#: ajax/move.php:27 ajax/move.php:30
+#, php-format
+msgid "Could not move %s"
+msgstr "Ni mogoče premakniti %s"
+
+#: ajax/rename.php:22 ajax/rename.php:25
+msgid "Unable to rename file"
+msgstr "Ni mogoče preimenovati datoteke"
+
+#: ajax/upload.php:19
+msgid "No file was uploaded. Unknown error"
+msgstr "Ni poslane nobene datoteke. Neznana napaka."
+
+#: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Datoteka je bila uspešno naložena."
+msgstr "Datoteka je uspešno poslana."
 
-#: ajax/upload.php:21
-msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr "Naložena datoteka presega velikost, ki jo določa parameter upload_max_filesize v datoteki php.ini"
+#: ajax/upload.php:27
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+msgstr "Poslana datoteka presega dovoljeno velikost, ki je določena z možnostjo upload_max_filesize v datoteki php.ini:"
 
-#: ajax/upload.php:22
+#: ajax/upload.php:29
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Naložena datoteka presega velikost, ki jo določa parameter MAX_FILE_SIZE v HTML obrazcu"
+msgstr "Poslana datoteka presega velikost, ki jo določa parameter največje dovoljene velikosti v obrazcu HTML."
 
-#: ajax/upload.php:23
+#: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Datoteka je bila le delno naložena"
+msgstr "Datoteka je le delno naložena"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:31
 msgid "No file was uploaded"
 msgstr "Nobena datoteka ni bila naložena"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:32
 msgid "Missing a temporary folder"
 msgstr "Manjka začasna mapa"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:33
 msgid "Failed to write to disk"
 msgstr "Pisanje na disk je spodletelo"
 
-#: appinfo/app.php:6
+#: ajax/upload.php:51
+msgid "Not enough storage available"
+msgstr "Na voljo ni dovolj prostora"
+
+#: ajax/upload.php:82
+msgid "Invalid directory."
+msgstr "Neveljavna mapa."
+
+#: appinfo/app.php:12
 msgid "Files"
 msgstr "Datoteke"
 
-#: js/fileactions.js:108 templates/index.php:62
-msgid "Unshare"
-msgstr "Odstrani iz souporabe"
+#: js/fileactions.js:125
+msgid "Delete permanently"
+msgstr "Izbriši trajno"
 
-#: js/fileactions.js:110 templates/index.php:64
+#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
 msgid "Delete"
 msgstr "Izbriši"
 
-#: js/fileactions.js:182
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr "Preimenuj"
 
-#: js/filelist.js:190 js/filelist.js:192
-msgid "already exists"
-msgstr "že obstaja"
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
+#: js/files.js:440
+msgid "Pending"
+msgstr "V čakanju ..."
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:251 js/filelist.js:253
+msgid "{new_name} already exists"
+msgstr "{new_name} že obstaja"
+
+#: js/filelist.js:251 js/filelist.js:253
 msgid "replace"
-msgstr "nadomesti"
+msgstr "zamenjaj"
 
-#: js/filelist.js:190
+#: js/filelist.js:251
 msgid "suggest name"
 msgstr "predlagaj ime"
 
-#: js/filelist.js:190 js/filelist.js:192
+#: js/filelist.js:251 js/filelist.js:253
 msgid "cancel"
-msgstr "ekliči"
+msgstr "prekliči"
 
-#: js/filelist.js:239 js/filelist.js:241
-msgid "replaced"
-msgstr "nadomeščen"
+#: js/filelist.js:298
+msgid "replaced {new_name} with {old_name}"
+msgstr "preimenovano ime {new_name} z imenom {old_name}"
 
-#: js/filelist.js:239 js/filelist.js:241 js/filelist.js:273 js/filelist.js:275
+#: js/filelist.js:298
 msgid "undo"
 msgstr "razveljavi"
 
-#: js/filelist.js:241
-msgid "with"
-msgstr "z"
+#: js/filelist.js:323
+msgid "perform delete operation"
+msgstr "izvedi opravilo brisanja"
 
-#: js/filelist.js:273
-msgid "unshared"
-msgstr "odstranjeno iz souporabe"
+#: js/files.js:52
+msgid "'.' is an invalid file name."
+msgstr "'.' je neveljavno ime datoteke."
 
-#: js/filelist.js:275
-msgid "deleted"
-msgstr "izbrisano"
+#: js/files.js:56
+msgid "File name cannot be empty."
+msgstr "Ime datoteke ne sme biti prazno polje."
 
-#: js/files.js:179
-msgid "generating ZIP-file, it may take some time."
-msgstr "Ustvarjam ZIP datoteko. To lahko traja nekaj časa."
+#: js/files.js:64
+msgid ""
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
+"allowed."
+msgstr "Neveljavno ime, znaki '\\', '/', '<', '>', ':', '\"', '|', '?' in '*' niso dovoljeni."
 
-#: js/files.js:208
+#: js/files.js:78
+msgid "Your storage is full, files can not be updated or synced anymore!"
+msgstr "Shramba je povsem napolnjena. Datotek ni več mogoče posodabljati in usklajevati!"
+
+#: js/files.js:82
+msgid "Your storage is almost full ({usedSpacePercent}%)"
+msgstr "Mesto za shranjevanje je skoraj polno ({usedSpacePercent}%)"
+
+#: js/files.js:226
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr "Postopek priprave datoteke za prejem je lahko dolgotrajen, če je datoteka zelo velika."
+
+#: js/files.js:263
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Nalaganje ni mogoče, saj gre za mapo, ali pa ima datoteka velikost 0 bajtov."
+msgstr "Pošiljanje ni mogoče, saj gre za mapo, ali pa je datoteka velikosti 0 bajtov."
 
-#: js/files.js:208
+#: js/files.js:263
 msgid "Upload Error"
-msgstr "Napaka pri nalaganju"
+msgstr "Napaka med pošiljanjem"
 
-#: js/files.js:236 js/files.js:341 js/files.js:371
-msgid "Pending"
-msgstr "Na čakanju"
+#: js/files.js:274
+msgid "Close"
+msgstr "Zapri"
 
-#: js/files.js:256
+#: js/files.js:313
 msgid "1 file uploading"
-msgstr ""
+msgstr "Pošiljanje 1 datoteke"
 
-#: js/files.js:259 js/files.js:304 js/files.js:319
-msgid "files uploading"
-msgstr ""
+#: js/files.js:316 js/files.js:371 js/files.js:386
+msgid "{count} files uploading"
+msgstr "pošiljanje {count} datotek"
 
-#: js/files.js:322 js/files.js:355
+#: js/files.js:389 js/files.js:424
 msgid "Upload cancelled."
-msgstr "Nalaganje je bilo preklicano."
+msgstr "Pošiljanje je preklicano."
 
-#: js/files.js:424
+#: js/files.js:498
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Nalaganje datoteke je v teku. Če zapustite to stran zdaj, boste nalaganje preklicali."
+msgstr "V teku je pošiljanje datoteke. Če zapustite to stran zdaj, bo pošiljanje preklicano."
 
-#: js/files.js:494
-msgid "Invalid name, '/' is not allowed."
-msgstr "Neveljavno ime. Znak '/' ni dovoljen."
+#: js/files.js:571
+msgid "URL cannot be empty."
+msgstr "Naslov URL ne sme biti prazna vrednost."
 
-#: js/files.js:667
-msgid "files scanned"
-msgstr "pregledanih datotek"
+#: js/files.js:576
+msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
+msgstr "Neveljavno ime mape. Uporaba oznake \"Souporaba\" je zadržan za sistem ownCloud."
 
-#: js/files.js:675
-msgid "error while scanning"
-msgstr "napaka med pregledovanjem datotek"
-
-#: js/files.js:748 templates/index.php:48
+#: js/files.js:954 templates/index.php:68
 msgid "Name"
 msgstr "Ime"
 
-#: js/files.js:749 templates/index.php:56
+#: js/files.js:955 templates/index.php:79
 msgid "Size"
 msgstr "Velikost"
 
-#: js/files.js:750 templates/index.php:58
+#: js/files.js:956 templates/index.php:81
 msgid "Modified"
 msgstr "Spremenjeno"
 
-#: js/files.js:777
-msgid "folder"
-msgstr "mapa"
+#: js/files.js:975
+msgid "1 folder"
+msgstr "1 mapa"
 
-#: js/files.js:779
-msgid "folders"
-msgstr "mape"
+#: js/files.js:977
+msgid "{count} folders"
+msgstr "{count} map"
 
-#: js/files.js:787
-msgid "file"
-msgstr "datoteka"
+#: js/files.js:985
+msgid "1 file"
+msgstr "1 datoteka"
 
-#: js/files.js:789
-msgid "files"
-msgstr "datoteke"
+#: js/files.js:987
+msgid "{count} files"
+msgstr "{count} datotek"
 
-#: js/files.js:833
-msgid "seconds ago"
-msgstr ""
-
-#: js/files.js:834
-msgid "minute ago"
-msgstr ""
-
-#: js/files.js:835
-msgid "minutes ago"
-msgstr ""
-
-#: js/files.js:838
-msgid "today"
-msgstr ""
-
-#: js/files.js:839
-msgid "yesterday"
-msgstr ""
-
-#: js/files.js:840
-msgid "days ago"
-msgstr ""
-
-#: js/files.js:841
-msgid "last month"
-msgstr ""
-
-#: js/files.js:843
-msgid "months ago"
-msgstr ""
-
-#: js/files.js:844
-msgid "last year"
-msgstr ""
-
-#: js/files.js:845
-msgid "years ago"
-msgstr ""
+#: lib/helper.php:11 templates/index.php:18
+msgid "Upload"
+msgstr "Pošlji"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr "Rokovanje z datotekami"
+msgstr "Upravljanje z datotekami"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr "Največja velikost za nalaganje"
+msgstr "Največja velikost za pošiljanja"
 
-#: templates/admin.php:7
+#: templates/admin.php:10
 msgid "max. possible: "
 msgstr "največ mogoče:"
 
-#: templates/admin.php:9
+#: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr "Potrebno za prenose večih datotek in map."
+msgstr "Uporabljeno za prejem več datotek in map."
 
-#: templates/admin.php:9
+#: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr "Omogoči ZIP-prejemanje"
+msgstr "Omogoči prejemanje arhivov ZIP"
 
-#: templates/admin.php:11
+#: templates/admin.php:20
 msgid "0 is unlimited"
-msgstr "0 je neskončno"
+msgstr "0 predstavlja neomejeno vrednost"
 
-#: templates/admin.php:12
+#: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr "Največja vhodna velikost za ZIP datoteke"
+msgstr "Največja vhodna velikost za datoteke ZIP"
 
-#: templates/admin.php:14
+#: templates/admin.php:26
 msgid "Save"
 msgstr "Shrani"
 
@@ -251,52 +261,60 @@ msgstr "Shrani"
 msgid "New"
 msgstr "Nova"
 
-#: templates/index.php:9
+#: templates/index.php:10
 msgid "Text file"
 msgstr "Besedilna datoteka"
 
-#: templates/index.php:10
+#: templates/index.php:12
 msgid "Folder"
 msgstr "Mapa"
 
-#: templates/index.php:11
-msgid "From url"
-msgstr "Iz url naslova"
-
-#: templates/index.php:20
-msgid "Upload"
-msgstr "Naloži"
-
-#: templates/index.php:27
-msgid "Cancel upload"
-msgstr "Prekliči nalaganje"
+#: templates/index.php:14
+msgid "From link"
+msgstr "Iz povezave"
 
 #: templates/index.php:40
+msgid "Deleted files"
+msgstr "Izbrisane datoteke"
+
+#: templates/index.php:46
+msgid "Cancel upload"
+msgstr "Prekliči pošiljanje"
+
+#: templates/index.php:53
+msgid "You don’t have write permissions here."
+msgstr "Za to mesto ni ustreznih dovoljenj za pisanje."
+
+#: templates/index.php:60
 msgid "Nothing in here. Upload something!"
-msgstr "Tukaj ni ničesar. Naložite kaj!"
+msgstr "Tukaj še ni ničesar. Najprej je treba kakšno datoteko poslati v oblak!"
 
-#: templates/index.php:50
-msgid "Share"
-msgstr "Souporaba"
-
-#: templates/index.php:52
+#: templates/index.php:74
 msgid "Download"
-msgstr "Prenesi"
+msgstr "Prejmi"
 
-#: templates/index.php:75
+#: templates/index.php:86 templates/index.php:87
+msgid "Unshare"
+msgstr "Odstrani iz souporabe"
+
+#: templates/index.php:106
 msgid "Upload too large"
-msgstr "Nalaganje ni mogoče, ker je preveliko"
+msgstr "Prekoračenje omejitve velikosti"
 
-#: templates/index.php:77
+#: templates/index.php:108
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Datoteke, ki jih želite naložiti, presegajo največjo dovoljeno velikost na tem strežniku."
+msgstr "Datoteke, ki jih želite poslati, presegajo največjo dovoljeno velikost na strežniku."
 
-#: templates/index.php:82
+#: templates/index.php:113
 msgid "Files are being scanned, please wait."
-msgstr "Preiskujem datoteke, prosimo počakajte."
+msgstr "Poteka preučevanje datotek, počakajte ..."
 
-#: templates/index.php:85
+#: templates/index.php:116
 msgid "Current scanning"
-msgstr "Trenutno preiskujem"
+msgstr "Trenutno poteka preučevanje"
+
+#: templates/upgrade.php:2
+msgid "Upgrading filesystem cache..."
+msgstr "Nadgrajevanje predpomnilnika datotečnega sistema ..."

@@ -1,19 +1,9 @@
-$(document).ready(function() {
-        $('#versions').bind('change', function() {
-                var checked = 1;
-                if (!this.checked) {
-                        checked = 0;
-                }
-                $.post(OC.filePath('files_versions','ajax','togglesettings.php'), 'versions='+checked);
-        });
-});
-
 $(document).ready(function(){
 	if (typeof FileActions !== 'undefined') {
-		// Add history button to 'files/index.php'
+		// Add versions button to 'files/index.php'
 		FileActions.register(
 			'file'
-			, t('files_versions', 'History')
+			, t('files_versions', 'Versions')
 			, OC.PERMISSION_UPDATE
 			, function() {
 				// Specify icon for hitory button
@@ -41,6 +31,10 @@ $(document).ready(function(){
 	}
 });
 
+function goToVersionPage(url){
+	window.location.assign(url);
+}
+
 function createVersionsDropdown(filename, files) {
 
 	var historyUrl = OC.linkTo('files_versions', 'history.php') + '?path='+encodeURIComponent( $( '#dir' ).val() ).replace( /%2F/g, '/' )+'/'+encodeURIComponent( filename );
@@ -51,7 +45,7 @@ function createVersionsDropdown(filename, files) {
 	html += '<option value=""></option>';
 	html += '</select>';
 	html += '</div>';
-	html += '<input type="button" value="All versions..." onclick="window.location=\''+historyUrl+'\'" name="makelink" id="makelink" />';
+	html += '<input type="button" value="All versions..." name="makelink" id="makelink" />';
 	html += '<input id="link" style="display:none; width:90%;" />';
 
 	if (filename) {
@@ -61,6 +55,10 @@ function createVersionsDropdown(filename, files) {
 		$(html).appendTo($('thead .share'));
 	}
 
+	$("#makelink").click(function() {
+		goToVersionPage(historyUrl);
+	});
+
 	$.ajax({
 		type: 'GET',
 		url: OC.filePath('files_versions', 'ajax', 'getVersions.php'),
@@ -68,12 +66,11 @@ function createVersionsDropdown(filename, files) {
 		data: { source: files },
 		async: false,
 		success: function( versions ) {
-			
+
 			if (versions) {
 				$.each( versions, function(index, row ) {
 					addVersion( row );
 				});
-				$('#found_versions').chosen();
 			} else {
 				$('#found_versions').hide();
 				$('#makelink').hide();
@@ -128,7 +125,7 @@ function createVersionsDropdown(filename, files) {
 
 		version.appendTo('#found_versions');
 	}
-	
+
 	$('tr').filterAttr('data-file',filename).addClass('mouseOver');
 	$('#dropdown').show('blind');
 
@@ -144,6 +141,6 @@ $(this).click(
 		});
 	}
 
-	
+
 	}
 );

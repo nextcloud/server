@@ -69,7 +69,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 */
 	public function inGroup($uid, $gid) {
 		if(isset($this->groups[$gid])) {
-			return (array_search($uid,$this->groups[$gid])!==false);
+			return (array_search($uid, $this->groups[$gid])!==false);
 		}else{
 			return false;
 		}
@@ -85,7 +85,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 */
 	public function addToGroup($uid, $gid) {
 		if(isset($this->groups[$gid])) {
-			if(array_search($uid,$this->groups[$gid])===false) {
+			if(array_search($uid, $this->groups[$gid])===false) {
 				$this->groups[$gid][]=$uid;
 				return true;
 			}else{
@@ -104,9 +104,9 @@ class OC_Group_Dummy extends OC_Group_Backend {
 	 *
 	 * removes the user from a group.
 	 */
-	public function removeFromGroup($uid,$gid) {
+	public function removeFromGroup($uid, $gid) {
 		if(isset($this->groups[$gid])) {
-			if(($index=array_search($uid,$this->groups[$gid]))!==false) {
+			if(($index=array_search($uid, $this->groups[$gid]))!==false) {
 				unset($this->groups[$gid][$index]);
 			}else{
 				return false;
@@ -128,7 +128,7 @@ class OC_Group_Dummy extends OC_Group_Backend {
 		$groups=array();
 		$allGroups=array_keys($this->groups);
 		foreach($allGroups as $group) {
-			if($this->inGroup($uid,$group)) {
+			if($this->inGroup($uid, $group)) {
 				$groups[]=$group;
 			}
 		}

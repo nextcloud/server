@@ -11,4 +11,3 @@ if ( $view->file_exists($file) ) {
 	$view->unlink($file);
 	OC_Mount_Config::createCertificateBundle();
 }
-

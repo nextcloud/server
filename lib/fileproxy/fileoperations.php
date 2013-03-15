@@ -23,15 +23,15 @@
 /**
  * check if standard file operations
  */
- 
+
 class OC_FileProxy_FileOperations extends OC_FileProxy{
 	static $rootView;
 
 	public function premkdir($path) {
-		if(!self::$rootView){
-			self::$rootView = new OC_FilesystemView('');
+		if(!self::$rootView) {
+			self::$rootView = new \OC\Files\View('');
 		}
 		return !self::$rootView->file_exists($path);
 	}
-	
+
 }

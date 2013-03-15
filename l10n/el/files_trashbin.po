@@ -1,0 +1,81 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Dimitris M. <monopatis@gmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-03-09 00:05+0100\n"
+"PO-Revision-Date: 2013-03-07 23:41+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: el\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/delete.php:40
+#, php-format
+msgid "Couldn't delete %s permanently"
+msgstr "Αδύνατη η μόνιμη διαγραφή του %s"
+
+#: ajax/undelete.php:41
+#, php-format
+msgid "Couldn't restore %s"
+msgstr "Αδυναμία επαναφοράς %s"
+
+#: js/trash.js:7 js/trash.js:96
+msgid "perform restore operation"
+msgstr "εκτέλεση λειτουργία επαναφοράς"
+
+#: js/trash.js:34
+msgid "delete file permanently"
+msgstr "μόνιμη διαγραφή αρχείου"
+
+#: js/trash.js:121
+msgid "Delete permanently"
+msgstr "Μόνιμη διαγραφή"
+
+#: js/trash.js:174 templates/index.php:17
+msgid "Name"
+msgstr "Όνομα"
+
+#: js/trash.js:175 templates/index.php:27
+msgid "Deleted"
+msgstr "Διαγράφηκε"
+
+#: js/trash.js:184
+msgid "1 folder"
+msgstr "1 φάκελος"
+
+#: js/trash.js:186
+msgid "{count} folders"
+msgstr "{count} φάκελοι"
+
+#: js/trash.js:194
+msgid "1 file"
+msgstr "1 αρχείο"
+
+#: js/trash.js:196
+msgid "{count} files"
+msgstr "{count} αρχεία"
+
+#: templates/index.php:9
+msgid "Nothing in here. Your trash bin is empty!"
+msgstr "Δεν υπάρχει τίποτα εδώ. Ο κάδος σας είναι άδειος!"
+
+#: templates/index.php:20 templates/index.php:22
+msgid "Restore"
+msgstr "Επαναφορά"
+
+#: templates/index.php:30 templates/index.php:31
+msgid "Delete"
+msgstr "Διαγραφή"
+
+#: templates/part.breadcrumb.php:9
+msgid "Deleted Files"
+msgstr "Διαγραμμένα Αρχεία"

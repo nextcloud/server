@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Encryption" => "Salaus",
-"Exclude the following file types from encryption" => "Jätä seuraavat tiedostotyypit salaamatta",
-"None" => "Ei mitään",
-"Enable Encryption" => "Käytä salausta"
+"File encryption is enabled." => "Tiedostojen salaus on käytössä.",
+"The following file types will not be encrypted:" => "Seuraavia tiedostotyyppejä ei salata:",
+"Exclude the following file types from encryption:" => "Älä salaa seuravia tiedostotyyppejä:",
+"None" => "Ei mitään"
 );

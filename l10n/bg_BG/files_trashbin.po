@@ -1,0 +1,82 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Kiril <neohidra@gmail.com>, 2013.
+# Stefan Ilivanov <ilivanov@gmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-03-08 00:25+0100\n"
+"PO-Revision-Date: 2013-03-07 23:25+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: bg_BG\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/delete.php:40
+#, php-format
+msgid "Couldn't delete %s permanently"
+msgstr "Невъзможно изтриване на %s завинаги"
+
+#: ajax/undelete.php:41
+#, php-format
+msgid "Couldn't restore %s"
+msgstr "Невъзможно възтановяване на %s"
+
+#: js/trash.js:7 js/trash.js:96
+msgid "perform restore operation"
+msgstr "извършване на действие по възстановяване"
+
+#: js/trash.js:34
+msgid "delete file permanently"
+msgstr "изтриване на файла завинаги"
+
+#: js/trash.js:121
+msgid "Delete permanently"
+msgstr "Изтриване завинаги"
+
+#: js/trash.js:174 templates/index.php:17
+msgid "Name"
+msgstr "Име"
+
+#: js/trash.js:175 templates/index.php:27
+msgid "Deleted"
+msgstr "Изтрито"
+
+#: js/trash.js:184
+msgid "1 folder"
+msgstr "1 папка"
+
+#: js/trash.js:186
+msgid "{count} folders"
+msgstr "{count} папки"
+
+#: js/trash.js:194
+msgid "1 file"
+msgstr "1 файл"
+
+#: js/trash.js:196
+msgid "{count} files"
+msgstr "{count} файла"
+
+#: templates/index.php:9
+msgid "Nothing in here. Your trash bin is empty!"
+msgstr "Няма нищо. Кофата е празна!"
+
+#: templates/index.php:20 templates/index.php:22
+msgid "Restore"
+msgstr "Възтановяване"
+
+#: templates/index.php:30 templates/index.php:31
+msgid "Delete"
+msgstr "Изтриване"
+
+#: templates/part.breadcrumb.php:9
+msgid "Deleted Files"
+msgstr ""

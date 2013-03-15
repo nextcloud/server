@@ -1,3 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Enable Files Versioning" => "Slå på versjonering"
+"History" => "Historie",
+"Files Versioning" => "Fil versjonering",
+"Enable" => "Aktiver"
 );

@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-24 02:01+0200\n"
-"PO-Revision-Date: 2012-09-23 16:45+0000\n"
+"POT-Creation-Date: 2013-02-14 00:05+0100\n"
+"PO-Revision-Date: 2013-02-13 22:01+0000\n"
 "Last-Translator: sedir <philippi.sedir@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -44,6 +44,6 @@ msgstr "Baixar"
 msgid "No preview available for"
 msgstr "Nenhuma visualização disponível para"
 
-#: templates/public.php:37
+#: templates/public.php:35
 msgid "web services under your control"
 msgstr "web services sob seu controle"

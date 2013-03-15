@@ -1,16 +1,7 @@
 <?php
 
-// Init owncloud
-require_once '../../lib/base.php';
 OCP\JSON::callCheck();
-
-// Check if we are a user
-if( !OC_User::isLoggedIn() || !OC_Group::inGroup( OC_User::getUser(), 'admin' )) {
-	OC_JSON::error(array("data" => array( "message" => $l->t("Authentication error") )));
-	exit();
-}
-
-OCP\JSON::callCheck();
+OC_JSON::checkAdminUser();
 
 $groupname = $_POST["groupname"];
 

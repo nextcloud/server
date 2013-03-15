@@ -1,0 +1,258 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-02-27 14:35+0100\n"
+"PO-Revision-Date: 2013-02-27 13:36+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Swahili (Kenya) (http://www.transifex.com/projects/p/owncloud/language/sw_KE/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sw_KE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: app.php:349
+msgid "Help"
+msgstr ""
+
+#: app.php:362
+msgid "Personal"
+msgstr ""
+
+#: app.php:373
+msgid "Settings"
+msgstr ""
+
+#: app.php:385
+msgid "Users"
+msgstr ""
+
+#: app.php:398
+msgid "Apps"
+msgstr ""
+
+#: app.php:406
+msgid "Admin"
+msgstr ""
+
+#: files.php:202
+msgid "ZIP download is turned off."
+msgstr ""
+
+#: files.php:203
+msgid "Files need to be downloaded one by one."
+msgstr ""
+
+#: files.php:204 files.php:231
+msgid "Back to Files"
+msgstr ""
+
+#: files.php:228
+msgid "Selected files too large to generate zip file."
+msgstr ""
+
+#: helper.php:228
+msgid "couldn't be determined"
+msgstr ""
+
+#: json.php:28
+msgid "Application is not enabled"
+msgstr ""
+
+#: json.php:39 json.php:62 json.php:73
+msgid "Authentication error"
+msgstr ""
+
+#: json.php:51
+msgid "Token expired. Please reload page."
+msgstr ""
+
+#: search/provider/file.php:17 search/provider/file.php:35
+msgid "Files"
+msgstr ""
+
+#: search/provider/file.php:26 search/provider/file.php:33
+msgid "Text"
+msgstr ""
+
+#: search/provider/file.php:29
+msgid "Images"
+msgstr ""
+
+#: setup.php:34
+msgid "Set an admin username."
+msgstr ""
+
+#: setup.php:37
+msgid "Set an admin password."
+msgstr ""
+
+#: setup.php:40
+msgid "Specify a data folder."
+msgstr ""
+
+#: setup.php:55
+#, php-format
+msgid "%s enter the database username."
+msgstr ""
+
+#: setup.php:58
+#, php-format
+msgid "%s enter the database name."
+msgstr ""
+
+#: setup.php:61
+#, php-format
+msgid "%s you may not use dots in the database name"
+msgstr ""
+
+#: setup.php:64
+#, php-format
+msgid "%s set the database host."
+msgstr ""
+
+#: setup.php:128 setup.php:320 setup.php:365
+msgid "PostgreSQL username and/or password not valid"
+msgstr ""
+
+#: setup.php:129 setup.php:152 setup.php:229
+msgid "You need to enter either an existing account or the administrator."
+msgstr ""
+
+#: setup.php:151 setup.php:453 setup.php:520
+msgid "Oracle username and/or password not valid"
+msgstr ""
+
+#: setup.php:228
+msgid "MySQL username and/or password not valid"
+msgstr ""
+
+#: setup.php:282 setup.php:386 setup.php:395 setup.php:413 setup.php:423
+#: setup.php:432 setup.php:461 setup.php:527 setup.php:553 setup.php:560
+#: setup.php:571 setup.php:578 setup.php:587 setup.php:595 setup.php:604
+#: setup.php:610
+#, php-format
+msgid "DB Error: \"%s\""
+msgstr ""
+
+#: setup.php:283 setup.php:387 setup.php:396 setup.php:414 setup.php:424
+#: setup.php:433 setup.php:462 setup.php:528 setup.php:554 setup.php:561
+#: setup.php:572 setup.php:588 setup.php:596 setup.php:605
+#, php-format
+msgid "Offending command was: \"%s\""
+msgstr ""
+
+#: setup.php:299
+#, php-format
+msgid "MySQL user '%s'@'localhost' exists already."
+msgstr ""
+
+#: setup.php:300
+msgid "Drop this user from MySQL"
+msgstr ""
+
+#: setup.php:305
+#, php-format
+msgid "MySQL user '%s'@'%%' already exists"
+msgstr ""
+
+#: setup.php:306
+msgid "Drop this user from MySQL."
+msgstr ""
+
+#: setup.php:579 setup.php:611
+#, php-format
+msgid "Offending command was: \"%s\", name: %s, password: %s"
+msgstr ""
+
+#: setup.php:631
+#, php-format
+msgid "MS SQL username and/or password not valid: %s"
+msgstr ""
+
+#: setup.php:849
+msgid ""
+"Your web server is not yet properly setup to allow files synchronization "
+"because the WebDAV interface seems to be broken."
+msgstr ""
+
+#: setup.php:850
+#, php-format
+msgid "Please double check the <a href='%s'>installation guides</a>."
+msgstr ""
+
+#: template.php:113
+msgid "seconds ago"
+msgstr ""
+
+#: template.php:114
+msgid "1 minute ago"
+msgstr ""
+
+#: template.php:115
+#, php-format
+msgid "%d minutes ago"
+msgstr ""
+
+#: template.php:116
+msgid "1 hour ago"
+msgstr ""
+
+#: template.php:117
+#, php-format
+msgid "%d hours ago"
+msgstr ""
+
+#: template.php:118
+msgid "today"
+msgstr ""
+
+#: template.php:119
+msgid "yesterday"
+msgstr ""
+
+#: template.php:120
+#, php-format
+msgid "%d days ago"
+msgstr ""
+
+#: template.php:121
+msgid "last month"
+msgstr ""
+
+#: template.php:122
+#, php-format
+msgid "%d months ago"
+msgstr ""
+
+#: template.php:123
+msgid "last year"
+msgstr ""
+
+#: template.php:124
+msgid "years ago"
+msgstr ""
+
+#: updater.php:78
+#, php-format
+msgid "%s is available. Get <a href=\"%s\">more information</a>"
+msgstr ""
+
+#: updater.php:81
+msgid "up to date"
+msgstr ""
+
+#: updater.php:84
+msgid "updates check is disabled"
+msgstr ""
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr ""

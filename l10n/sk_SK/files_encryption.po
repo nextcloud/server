@@ -3,14 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# georg <georg007@gmail.com>, 2013.
 #   <intense.feel@gmail.com>, 2012.
+# Marián Hvolka <marian.hvolka@stuba.sk>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-06 02:01+0200\n"
-"PO-Revision-Date: 2012-09-05 17:32+0000\n"
-"Last-Translator: intense <intense.feel@gmail.com>\n"
+"POT-Creation-Date: 2013-02-11 15:39+0100\n"
+"PO-Revision-Date: 2013-02-11 13:10+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,18 +20,22 @@ msgstr ""
 "Language: sk_SK\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: templates/settings.php:3
+#: templates/settings-personal.php:4 templates/settings.php:5
 msgid "Encryption"
 msgstr "Šifrovanie"
 
-#: templates/settings.php:4
-msgid "Exclude the following file types from encryption"
-msgstr "Vynechať nasledujúce súbory pri šifrovaní"
+#: templates/settings-personal.php:7
+msgid "File encryption is enabled."
+msgstr "Šifrovanie súborov nastavené."
 
-#: templates/settings.php:5
+#: templates/settings-personal.php:11
+msgid "The following file types will not be encrypted:"
+msgstr "Uvedené typy súborov nebudú šifrované:"
+
+#: templates/settings.php:7
+msgid "Exclude the following file types from encryption:"
+msgstr "Nešifrovať uvedené typy súborov"
+
+#: templates/settings.php:12
 msgid "None"
 msgstr "Žiadne"
-
-#: templates/settings.php:10
-msgid "Enable Encryption"
-msgstr "Zapnúť šifrovanie"

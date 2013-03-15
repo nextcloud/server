@@ -1,0 +1,156 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-01-17 00:26+0100\n"
+"PO-Revision-Date: 2013-01-16 23:26+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sq\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: app.php:301
+msgid "Help"
+msgstr ""
+
+#: app.php:308
+msgid "Personal"
+msgstr ""
+
+#: app.php:313
+msgid "Settings"
+msgstr ""
+
+#: app.php:318
+msgid "Users"
+msgstr ""
+
+#: app.php:325
+msgid "Apps"
+msgstr ""
+
+#: app.php:327
+msgid "Admin"
+msgstr ""
+
+#: files.php:365
+msgid "ZIP download is turned off."
+msgstr ""
+
+#: files.php:366
+msgid "Files need to be downloaded one by one."
+msgstr ""
+
+#: files.php:366 files.php:391
+msgid "Back to Files"
+msgstr ""
+
+#: files.php:390
+msgid "Selected files too large to generate zip file."
+msgstr ""
+
+#: helper.php:228
+msgid "couldn't be determined"
+msgstr ""
+
+#: json.php:28
+msgid "Application is not enabled"
+msgstr ""
+
+#: json.php:39 json.php:62 json.php:73
+msgid "Authentication error"
+msgstr ""
+
+#: json.php:51
+msgid "Token expired. Please reload page."
+msgstr ""
+
+#: search/provider/file.php:17 search/provider/file.php:35
+msgid "Files"
+msgstr ""
+
+#: search/provider/file.php:26 search/provider/file.php:33
+msgid "Text"
+msgstr ""
+
+#: search/provider/file.php:29
+msgid "Images"
+msgstr ""
+
+#: template.php:113
+msgid "seconds ago"
+msgstr ""
+
+#: template.php:114
+msgid "1 minute ago"
+msgstr ""
+
+#: template.php:115
+#, php-format
+msgid "%d minutes ago"
+msgstr ""
+
+#: template.php:116
+msgid "1 hour ago"
+msgstr ""
+
+#: template.php:117
+#, php-format
+msgid "%d hours ago"
+msgstr ""
+
+#: template.php:118
+msgid "today"
+msgstr ""
+
+#: template.php:119
+msgid "yesterday"
+msgstr ""
+
+#: template.php:120
+#, php-format
+msgid "%d days ago"
+msgstr ""
+
+#: template.php:121
+msgid "last month"
+msgstr ""
+
+#: template.php:122
+#, php-format
+msgid "%d months ago"
+msgstr ""
+
+#: template.php:123
+msgid "last year"
+msgstr ""
+
+#: template.php:124
+msgid "years ago"
+msgstr ""
+
+#: updater.php:75
+#, php-format
+msgid "%s is available. Get <a href=\"%s\">more information</a>"
+msgstr ""
+
+#: updater.php:77
+msgid "up to date"
+msgstr ""
+
+#: updater.php:80
+msgid "updates check is disabled"
+msgstr ""
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr ""

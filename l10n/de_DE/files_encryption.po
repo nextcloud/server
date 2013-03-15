@@ -1,0 +1,44 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#  <admin@kaio.ws>, 2013.
+# Andreas Tangemann <a.tangemann@web.de>, 2013.
+#   <driz@i2pmail.org>, 2012.
+# Marc-Andre Husyk <member@wue.de>, 2013.
+# Marcel Kühlhorn <susefan93@gmx.de>, 2013.
+# Susi <>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-02-17 00:24+0100\n"
+"PO-Revision-Date: 2013-02-16 23:00+0000\n"
+"Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
+"Language-Team: German (Germany) <translations@owncloud.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de_DE\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/settings-personal.php:4 templates/settings.php:5
+msgid "Encryption"
+msgstr "Verschlüsselung"
+
+#: templates/settings-personal.php:7
+msgid "File encryption is enabled."
+msgstr "Datei-Verschlüsselung ist aktiviert"
+
+#: templates/settings-personal.php:11
+msgid "The following file types will not be encrypted:"
+msgstr "Die folgenden Dateitypen werden nicht verschlüsselt:"
+
+#: templates/settings.php:7
+msgid "Exclude the following file types from encryption:"
+msgstr "Die folgenden Dateitypen von der Verschlüsselung ausnehmen:"
+
+#: templates/settings.php:12
+msgid "None"
+msgstr "Keine"

@@ -1,0 +1,81 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#  <mbouzada@gmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-03-09 00:05+0100\n"
+"PO-Revision-Date: 2013-03-07 23:40+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: gl\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/delete.php:40
+#, php-format
+msgid "Couldn't delete %s permanently"
+msgstr "Non foi posíbel eliminar %s permanente"
+
+#: ajax/undelete.php:41
+#, php-format
+msgid "Couldn't restore %s"
+msgstr "Non foi posíbel restaurar %s"
+
+#: js/trash.js:7 js/trash.js:96
+msgid "perform restore operation"
+msgstr "realizar a operación de restauración"
+
+#: js/trash.js:34
+msgid "delete file permanently"
+msgstr "eliminar o ficheiro permanentemente"
+
+#: js/trash.js:121
+msgid "Delete permanently"
+msgstr "Eliminar permanentemente"
+
+#: js/trash.js:174 templates/index.php:17
+msgid "Name"
+msgstr "Nome"
+
+#: js/trash.js:175 templates/index.php:27
+msgid "Deleted"
+msgstr "Eliminado"
+
+#: js/trash.js:184
+msgid "1 folder"
+msgstr "1 cartafol"
+
+#: js/trash.js:186
+msgid "{count} folders"
+msgstr "{count} cartafoles"
+
+#: js/trash.js:194
+msgid "1 file"
+msgstr "1 ficheiro"
+
+#: js/trash.js:196
+msgid "{count} files"
+msgstr "{count} ficheiros"
+
+#: templates/index.php:9
+msgid "Nothing in here. Your trash bin is empty!"
+msgstr "Aquí non hai nada. O cesto do lixo está baleiro!"
+
+#: templates/index.php:20 templates/index.php:22
+msgid "Restore"
+msgstr "Restablecer"
+
+#: templates/index.php:30 templates/index.php:31
+msgid "Delete"
+msgstr "Eliminar"
+
+#: templates/part.breadcrumb.php:9
+msgid "Deleted Files"
+msgstr "Ficheiros eliminados"

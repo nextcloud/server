@@ -91,7 +91,8 @@ class OC_Appconfig{
 	 */
 	public static function getValue( $app, $key, $default = null ) {
 		// At least some magic in here :-)
-		$query = OC_DB::prepare( 'SELECT `configvalue` FROM `*PREFIX*appconfig` WHERE `appid` = ? AND `configkey` = ?' );
+		$query = OC_DB::prepare( 'SELECT `configvalue` FROM `*PREFIX*appconfig`'
+			.' WHERE `appid` = ? AND `configkey` = ?' );
 		$result = $query->execute( array( $app, $key ));
 		$row = $result->fetchRow();
 		if($row) {
@@ -107,7 +108,7 @@ class OC_Appconfig{
 	 * @param string $key
 	 * @return bool
 	 */
-	public static function hasKey($app,$key) {
+	public static function hasKey($app, $key) {
 		$exists = self::getKeys( $app );
 		return in_array( $key, $exists );
 	}
@@ -123,12 +124,14 @@ class OC_Appconfig{
 	 */
 	public static function setValue( $app, $key, $value ) {
 		// Does the key exist? yes: update. No: insert
-		if(! self::hasKey($app,$key)) {
-			$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*appconfig` ( `appid`, `configkey`, `configvalue` ) VALUES( ?, ?, ? )' );
+		if(! self::hasKey($app, $key)) {
+			$query = OC_DB::prepare( 'INSERT INTO `*PREFIX*appconfig` ( `appid`, `configkey`, `configvalue` )'
+				.' VALUES( ?, ?, ? )' );
 			$query->execute( array( $app, $key, $value ));
 		}
 		else{
-			$query = OC_DB::prepare( 'UPDATE `*PREFIX*appconfig` SET `configvalue` = ? WHERE `appid` = ? AND `configkey` = ?' );
+			$query = OC_DB::prepare( 'UPDATE `*PREFIX*appconfig` SET `configvalue` = ?'
+				.' WHERE `appid` = ? AND `configkey` = ?' );
 			$query->execute( array( $value, $app, $key ));
 		}
 	}
@@ -170,7 +173,7 @@ class OC_Appconfig{
 	 * @param key
 	 * @return array
 	 */
-	public static function getValues($app,$key) {
+	public static function getValues($app, $key) {
 		if($app!==false and $key!==false) {
 			return false;
 		}

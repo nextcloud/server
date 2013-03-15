@@ -1,0 +1,82 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# André <lokal_profil@hotmail.com>, 2013.
+# Magnus Höglund <magnus@linux.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-03-09 00:05+0100\n"
+"PO-Revision-Date: 2013-03-07 23:41+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sv\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/delete.php:40
+#, php-format
+msgid "Couldn't delete %s permanently"
+msgstr "Kunde inte radera %s permanent"
+
+#: ajax/undelete.php:41
+#, php-format
+msgid "Couldn't restore %s"
+msgstr "Kunde inte återställa %s"
+
+#: js/trash.js:7 js/trash.js:96
+msgid "perform restore operation"
+msgstr "utför återställning"
+
+#: js/trash.js:34
+msgid "delete file permanently"
+msgstr "radera filen permanent"
+
+#: js/trash.js:121
+msgid "Delete permanently"
+msgstr "Radera permanent"
+
+#: js/trash.js:174 templates/index.php:17
+msgid "Name"
+msgstr "Namn"
+
+#: js/trash.js:175 templates/index.php:27
+msgid "Deleted"
+msgstr "Raderad"
+
+#: js/trash.js:184
+msgid "1 folder"
+msgstr "1 mapp"
+
+#: js/trash.js:186
+msgid "{count} folders"
+msgstr "{count} mappar"
+
+#: js/trash.js:194
+msgid "1 file"
+msgstr "1 fil"
+
+#: js/trash.js:196
+msgid "{count} files"
+msgstr "{count} filer"
+
+#: templates/index.php:9
+msgid "Nothing in here. Your trash bin is empty!"
+msgstr "Ingenting här. Din papperskorg är tom!"
+
+#: templates/index.php:20 templates/index.php:22
+msgid "Restore"
+msgstr "Återskapa"
+
+#: templates/index.php:30 templates/index.php:31
+msgid "Delete"
+msgstr "Radera"
+
+#: templates/part.breadcrumb.php:9
+msgid "Deleted Files"
+msgstr "Raderade filer"

@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Encryption" => "Verschlüsselung",
-"Exclude the following file types from encryption" => "Die folgenden Dateitypen von der Verschlüsselung ausnehmen",
-"None" => "Keine",
-"Enable Encryption" => "Verschlüsselung aktivieren"
+"File encryption is enabled." => "Dateiverschlüsselung ist aktiviert",
+"The following file types will not be encrypted:" => "Die folgenden Dateitypen werden nicht verschlüsselt:",
+"Exclude the following file types from encryption:" => "Schließe die folgenden Dateitypen von der Verschlüsselung aus:",
+"None" => "Keine"
 );

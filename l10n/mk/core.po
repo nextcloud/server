@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-28 23:34+0200\n"
-"PO-Revision-Date: 2012-09-28 21:34+0000\n"
-"Last-Translator: I Robot <thomas.mueller@tmit.eu>\n"
+"POT-Creation-Date: 2013-02-22 00:06+0100\n"
+"PO-Revision-Date: 2013-02-20 23:20+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,208 +20,376 @@ msgstr ""
 "Language: mk\n"
 "Plural-Forms: nplurals=2; plural=(n % 10 == 1 && n % 100 != 11) ? 0 : 1;\n"
 
-#: ajax/vcategories/add.php:23 ajax/vcategories/delete.php:23
-msgid "Application name not provided."
-msgstr "Име за апликацијата не е доставено."
+#: ajax/share.php:85
+#, php-format
+msgid "User %s shared a file with you"
+msgstr "Корисникот %s сподели датотека со Вас"
 
-#: ajax/vcategories/add.php:29
+#: ajax/share.php:87
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr "Корисникот %s сподели папка со Вас"
+
+#: ajax/share.php:89
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr "Корисникот %s ја сподели датотека „%s“ со Вас. Достапна е за преземање тука: %s"
+
+#: ajax/share.php:91
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr "Корисникот %s ја сподели папката „%s“ со Вас. Достапна е за преземање тука: %s"
+
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr "Не беше доставен тип на категорија."
+
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr "Нема категорија да се додаде?"
 
-#: ajax/vcategories/add.php:36
-msgid "This category already exists: "
-msgstr "Оваа категорија веќе постои:"
-
-#: js/js.js:213 templates/layout.user.php:49 templates/layout.user.php:50
-msgid "Settings"
-msgstr "Поставки"
-
-#: js/js.js:645
-msgid "January"
-msgstr "Јануари"
-
-#: js/js.js:645
-msgid "February"
-msgstr "Февруари"
-
-#: js/js.js:645
-msgid "March"
-msgstr "Март"
-
-#: js/js.js:645
-msgid "April"
-msgstr "Април"
-
-#: js/js.js:645
-msgid "May"
-msgstr "Мај"
-
-#: js/js.js:645
-msgid "June"
-msgstr "Јуни"
-
-#: js/js.js:646
-msgid "July"
-msgstr "Јули"
-
-#: js/js.js:646
-msgid "August"
-msgstr "Август"
-
-#: js/js.js:646
-msgid "September"
-msgstr "Септември"
-
-#: js/js.js:646
-msgid "October"
-msgstr "Октомври"
-
-#: js/js.js:646
-msgid "November"
-msgstr "Ноември"
-
-#: js/js.js:646
-msgid "December"
-msgstr "Декември"
-
-#: js/oc-dialogs.js:123
-msgid "Choose"
+#: ajax/vcategories/add.php:37
+#, php-format
+msgid "This category already exists: %s"
 msgstr ""
 
-#: js/oc-dialogs.js:143 js/oc-dialogs.js:163
-msgid "Cancel"
-msgstr "Откажи"
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr "Не беше доставен тип на објект."
 
-#: js/oc-dialogs.js:159
-msgid "No"
-msgstr "Не"
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr "%s ID не беше доставено."
 
-#: js/oc-dialogs.js:160
-msgid "Yes"
-msgstr "Да"
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr "Грешка при додавање %s во омилени."
 
-#: js/oc-dialogs.js:177
-msgid "Ok"
-msgstr "Во ред"
-
-#: js/oc-vcategories.js:68
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
 msgstr "Не е одбрана категорија за бришење."
 
-#: js/oc-vcategories.js:68 js/share.js:114 js/share.js:121 js/share.js:489
-#: js/share.js:501
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr "Грешка при бришење на %s од омилени."
+
+#: js/config.php:32
+msgid "Sunday"
+msgstr "Недела"
+
+#: js/config.php:32
+msgid "Monday"
+msgstr "Понеделник"
+
+#: js/config.php:32
+msgid "Tuesday"
+msgstr "Вторник"
+
+#: js/config.php:32
+msgid "Wednesday"
+msgstr "Среда"
+
+#: js/config.php:32
+msgid "Thursday"
+msgstr "Четврток"
+
+#: js/config.php:32
+msgid "Friday"
+msgstr "Петок"
+
+#: js/config.php:32
+msgid "Saturday"
+msgstr "Сабота"
+
+#: js/config.php:33
+msgid "January"
+msgstr "Јануари"
+
+#: js/config.php:33
+msgid "February"
+msgstr "Февруари"
+
+#: js/config.php:33
+msgid "March"
+msgstr "Март"
+
+#: js/config.php:33
+msgid "April"
+msgstr "Април"
+
+#: js/config.php:33
+msgid "May"
+msgstr "Мај"
+
+#: js/config.php:33
+msgid "June"
+msgstr "Јуни"
+
+#: js/config.php:33
+msgid "July"
+msgstr "Јули"
+
+#: js/config.php:33
+msgid "August"
+msgstr "Август"
+
+#: js/config.php:33
+msgid "September"
+msgstr "Септември"
+
+#: js/config.php:33
+msgid "October"
+msgstr "Октомври"
+
+#: js/config.php:33
+msgid "November"
+msgstr "Ноември"
+
+#: js/config.php:33
+msgid "December"
+msgstr "Декември"
+
+#: js/js.js:286
+msgid "Settings"
+msgstr "Поставки"
+
+#: js/js.js:767
+msgid "seconds ago"
+msgstr "пред секунди"
+
+#: js/js.js:768
+msgid "1 minute ago"
+msgstr "пред 1 минута"
+
+#: js/js.js:769
+msgid "{minutes} minutes ago"
+msgstr "пред {minutes} минути"
+
+#: js/js.js:770
+msgid "1 hour ago"
+msgstr "пред 1 час"
+
+#: js/js.js:771
+msgid "{hours} hours ago"
+msgstr "пред {hours} часови"
+
+#: js/js.js:772
+msgid "today"
+msgstr "денеска"
+
+#: js/js.js:773
+msgid "yesterday"
+msgstr "вчера"
+
+#: js/js.js:774
+msgid "{days} days ago"
+msgstr "пред {days} денови"
+
+#: js/js.js:775
+msgid "last month"
+msgstr "минатиот месец"
+
+#: js/js.js:776
+msgid "{months} months ago"
+msgstr "пред {months} месеци"
+
+#: js/js.js:777
+msgid "months ago"
+msgstr "пред месеци"
+
+#: js/js.js:778
+msgid "last year"
+msgstr "минатата година"
+
+#: js/js.js:779
+msgid "years ago"
+msgstr "пред години"
+
+#: js/oc-dialogs.js:126
+msgid "Choose"
+msgstr "Избери"
+
+#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+msgid "Cancel"
+msgstr "Откажи"
+
+#: js/oc-dialogs.js:162
+msgid "No"
+msgstr "Не"
+
+#: js/oc-dialogs.js:163
+msgid "Yes"
+msgstr "Да"
+
+#: js/oc-dialogs.js:180
+msgid "Ok"
+msgstr "Во ред"
+
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr "Не е специфициран типот на објект."
+
+#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
+#: js/share.js:594
 msgid "Error"
 msgstr "Грешка"
 
-#: js/share.js:103
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr "Името на апликацијата не е специфицирано."
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr "Задолжителната датотека {file} не е инсталирана!"
+
+#: js/share.js:29 js/share.js:43 js/share.js:90
+msgid "Shared"
+msgstr ""
+
+#: js/share.js:93
+msgid "Share"
+msgstr "Сподели"
+
+#: js/share.js:141 js/share.js:622
 msgid "Error while sharing"
-msgstr ""
+msgstr "Грешка при споделување"
 
-#: js/share.js:114
+#: js/share.js:152
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Грешка при прекин на споделување"
 
-#: js/share.js:121
+#: js/share.js:159
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Грешка при промена на привилегии"
 
-#: js/share.js:130
-msgid "Shared with you and the group"
-msgstr ""
+#: js/share.js:168
+msgid "Shared with you and the group {group} by {owner}"
+msgstr "Споделено со Вас и групата {group} од {owner}"
 
-#: js/share.js:130
-msgid "by"
-msgstr ""
+#: js/share.js:170
+msgid "Shared with you by {owner}"
+msgstr "Споделено со Вас од {owner}"
 
-#: js/share.js:132
-msgid "Shared with you by"
-msgstr ""
-
-#: js/share.js:137
+#: js/share.js:175
 msgid "Share with"
-msgstr ""
+msgstr "Сподели со"
 
-#: js/share.js:142
+#: js/share.js:180
 msgid "Share with link"
-msgstr ""
+msgstr "Сподели со врска"
 
-#: js/share.js:143
+#: js/share.js:183
 msgid "Password protect"
-msgstr ""
+msgstr "Заштити со лозинка"
 
-#: js/share.js:147 templates/installation.php:30 templates/login.php:13
+#: js/share.js:185 templates/installation.php:44 templates/login.php:35
 msgid "Password"
 msgstr "Лозинка"
 
-#: js/share.js:152
+#: js/share.js:189
+msgid "Email link to person"
+msgstr "Прати врска по е-пошта на личност"
+
+#: js/share.js:190
+msgid "Send"
+msgstr "Прати"
+
+#: js/share.js:194
 msgid "Set expiration date"
-msgstr ""
+msgstr "Постави рок на траење"
 
-#: js/share.js:153
+#: js/share.js:195
 msgid "Expiration date"
-msgstr ""
+msgstr "Рок на траење"
 
-#: js/share.js:185
+#: js/share.js:227
 msgid "Share via email:"
-msgstr ""
+msgstr "Сподели по е-пошта:"
 
-#: js/share.js:187
+#: js/share.js:229
 msgid "No people found"
-msgstr ""
+msgstr "Не се најдени луѓе"
 
-#: js/share.js:214
+#: js/share.js:256
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Повторно споделување не е дозволено"
 
-#: js/share.js:250
-msgid "Shared in"
-msgstr ""
+#: js/share.js:292
+msgid "Shared in {item} with {user}"
+msgstr "Споделено во {item} со {user}"
 
-#: js/share.js:250
-msgid "with"
-msgstr ""
-
-#: js/share.js:271
+#: js/share.js:313
 msgid "Unshare"
-msgstr ""
+msgstr "Не споделувај"
 
-#: js/share.js:279
+#: js/share.js:325
 msgid "can edit"
-msgstr ""
+msgstr "може да се измени"
 
-#: js/share.js:281
+#: js/share.js:327
 msgid "access control"
-msgstr ""
+msgstr "контрола на пристап"
 
-#: js/share.js:284
+#: js/share.js:330
 msgid "create"
-msgstr ""
+msgstr "креирај"
 
-#: js/share.js:287
+#: js/share.js:333
 msgid "update"
-msgstr ""
+msgstr "ажурирај"
 
-#: js/share.js:290
+#: js/share.js:336
 msgid "delete"
-msgstr ""
+msgstr "избриши"
 
-#: js/share.js:293
+#: js/share.js:339
 msgid "share"
-msgstr ""
+msgstr "сподели"
 
-#: js/share.js:317 js/share.js:476
+#: js/share.js:373 js/share.js:569
 msgid "Password protected"
-msgstr ""
+msgstr "Заштитено со лозинка"
 
-#: js/share.js:489
+#: js/share.js:582
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Грешка при тргање на рокот на траење"
 
-#: js/share.js:501
+#: js/share.js:594
 msgid "Error setting expiration date"
+msgstr "Грешка при поставување на рок на траење"
+
+#: js/share.js:609
+msgid "Sending ..."
+msgstr "Праќање..."
+
+#: js/share.js:620
+msgid "Email sent"
+msgstr "Е-порака пратена"
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
 msgstr ""
 
-#: lostpassword/index.php:26
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr ""
+
+#: lostpassword/controller.php:48
 msgid "ownCloud password reset"
 msgstr "ресетирање на лозинка за ownCloud"
 
@@ -234,19 +402,19 @@ msgid "You will receive a link to reset your password via Email."
 msgstr "Ќе добиете врска по е-пошта за да може да ја ресетирате Вашата лозинка."
 
 #: lostpassword/templates/lostpassword.php:5
-msgid "Requested"
-msgstr "Побарано"
+msgid "Reset email send."
+msgstr "Порката за ресетирање на лозинка пратена."
 
 #: lostpassword/templates/lostpassword.php:8
-msgid "Login failed!"
-msgstr "Најавата не успеа!"
+msgid "Request failed!"
+msgstr "Барањето не успеа!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:26
-#: templates/login.php:9
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: templates/login.php:28
 msgid "Username"
 msgstr "Корисничко име"
 
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Побарајте ресетирање"
 
@@ -298,78 +466,121 @@ msgstr "Облакот не е најден"
 msgid "Edit categories"
 msgstr "Уреди категории"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "Додади"
 
+#: templates/installation.php:23 templates/installation.php:30
+msgid "Security Warning"
+msgstr "Безбедносно предупредување"
+
 #: templates/installation.php:24
+msgid ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr "Не е достапен безбеден генератор на случајни броеви, Ве молам озвоможете го OpenSSL PHP додатокот."
+
+#: templates/installation.php:25
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr "Без сигурен генератор на случајни броеви напаѓач може да ги предвиди жетоните за ресетирање на лозинка и да преземе контрола врз Вашата сметка. "
+
+#: templates/installation.php:31
+msgid ""
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
+msgstr ""
+
+#: templates/installation.php:32
+msgid ""
+"For information how to properly configure your server, please see the <a "
+"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
+"target=\"_blank\">documentation</a>."
+msgstr ""
+
+#: templates/installation.php:36
 msgid "Create an <strong>admin account</strong>"
 msgstr "Направете <strong>администраторска сметка</strong>"
 
-#: templates/installation.php:36
+#: templates/installation.php:52
 msgid "Advanced"
 msgstr "Напредно"
 
-#: templates/installation.php:38
+#: templates/installation.php:54
 msgid "Data folder"
 msgstr "Фолдер со податоци"
 
-#: templates/installation.php:45
+#: templates/installation.php:61
 msgid "Configure the database"
 msgstr "Конфигурирај ја базата"
 
-#: templates/installation.php:50 templates/installation.php:61
-#: templates/installation.php:71 templates/installation.php:81
+#: templates/installation.php:66 templates/installation.php:77
+#: templates/installation.php:87 templates/installation.php:97
 msgid "will be used"
 msgstr "ќе биде користено"
 
-#: templates/installation.php:93
+#: templates/installation.php:109
 msgid "Database user"
 msgstr "Корисник на база"
 
-#: templates/installation.php:97
+#: templates/installation.php:113
 msgid "Database password"
 msgstr "Лозинка на база"
 
-#: templates/installation.php:101
+#: templates/installation.php:117
 msgid "Database name"
 msgstr "Име на база"
 
-#: templates/installation.php:109
+#: templates/installation.php:125
 msgid "Database tablespace"
-msgstr ""
+msgstr "Табела во базата на податоци"
 
-#: templates/installation.php:115
+#: templates/installation.php:131
 msgid "Database host"
 msgstr "Сервер со база"
 
-#: templates/installation.php:120
+#: templates/installation.php:136
 msgid "Finish setup"
 msgstr "Заврши го подесувањето"
 
-#: templates/layout.guest.php:36
+#: templates/layout.guest.php:33
 msgid "web services under your control"
 msgstr "веб сервиси под Ваша контрола"
 
-#: templates/layout.user.php:34
+#: templates/layout.user.php:48
 msgid "Log out"
 msgstr "Одјава"
 
-#: templates/login.php:6
+#: templates/login.php:10
+msgid "Automatic logon rejected!"
+msgstr "Одбиена автоматска најава!"
+
+#: templates/login.php:11
+msgid ""
+"If you did not change your password recently, your account may be "
+"compromised!"
+msgstr "Ако не сте ја промениле лозинката во скоро време, вашата сметка може да е компромитирана"
+
+#: templates/login.php:13
+msgid "Please change your password to secure your account again."
+msgstr "Ве молам сменете ја лозинката да ја обезбедите вашата сметка повторно."
+
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Ја заборавивте лозинката?"
 
-#: templates/login.php:17
+#: templates/login.php:41
 msgid "remember"
 msgstr "запамти"
 
-#: templates/login.php:18
+#: templates/login.php:43
 msgid "Log in"
 msgstr "Најава"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Одјавени сте."
+#: templates/login.php:49
+msgid "Alternative Logins"
+msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -378,3 +589,8 @@ msgstr "претходно"
 #: templates/part.pagenavi.php:20
 msgid "next"
 msgstr "следно"
+
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr ""

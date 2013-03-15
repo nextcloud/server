@@ -20,8 +20,6 @@
  *
  */
 
-require_once '../../lib/base.php';
-
 OC_JSON::callCheck();
 OC_JSON::checkSubAdminUser();
 if (isset($_GET['offset'])) {
@@ -30,13 +28,14 @@ if (isset($_GET['offset'])) {
 	$offset = 0;
 }
 $users = array();
-if (OC_Group::inGroup(OC_User::getUser(), 'admin')) {
-	$batch = OC_User::getUsers('', 10, $offset);
-	foreach ($batch as $user) {
+if (OC_User::isAdminUser(OC_User::getUser())) {
+	$batch = OC_User::getDisplayNames('', 10, $offset);
+	foreach ($batch as $user => $displayname) {
 		$users[] = array(
-			'name' => $user, 
-			'groups' => join(', ', OC_Group::getUserGroups($user)), 
-			'subadmin' => join(', ', OC_SubAdmin::getSubAdminsGroups($user)), 
+			'name' => $user,
+			'displayname' => $displayname,
+			'groups' => join(', ', OC_Group::getUserGroups($user)),
+			'subadmin' => join(', ', OC_SubAdmin::getSubAdminsGroups($user)),
 			'quota' => OC_Preferences::getValue($user, 'files', 'quota', 'default'));
 	}
 } else {
@@ -44,8 +43,9 @@ if (OC_Group::inGroup(OC_User::getUser(), 'admin')) {
 	$batch = OC_Group::usersInGroups($groups, '', 10, $offset);
 	foreach ($batch as $user) {
 		$users[] = array(
-			'name' => $user, 
-			'groups' => join(', ', OC_Group::getUserGroups($user)), 
+			'name' => $user,
+			'displayname' => OC_User::determineDisplayName($user),
+			'groups' => join(', ', OC_Group::getUserGroups($user)),
 			'quota' => OC_Preferences::getValue($user, 'files', 'quota', 'default'));
 	}
 }

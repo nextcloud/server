@@ -1,0 +1,36 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <aoiob4305@gmail.com>, 2013.
+# 남자사람  <cessnagi@gmail.com>, 2012.
+# Park Shinjo <kde@peremen.name>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-01-31 17:02+0100\n"
+"PO-Revision-Date: 2013-01-31 08:10+0000\n"
+"Last-Translator: Shinjo Park <kde@peremen.name>\n"
+"Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ko\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: templates/settings.php:3
+msgid "WebDAV Authentication"
+msgstr "WebDAV 인증"
+
+#: templates/settings.php:4
+msgid "URL: http://"
+msgstr "URL: http://"
+
+#: templates/settings.php:6
+msgid ""
+"ownCloud will send the user credentials to this URL. This plugin checks the "
+"response and will interpret the HTTP statuscodes 401 and 403 as invalid "
+"credentials, and all other responses as valid credentials."
+msgstr "ownCloud에서 이 URL로 사용자 인증 정보를 보냅니다. 이 플러그인은 응답을 확인하여 HTTP 상태 코드 401이나 403이 돌아온 경우에 잘못된 인증 정보로 간주합니다. 다른 모든 상태 코드는 올바른 인증 정보로 간주합니다."

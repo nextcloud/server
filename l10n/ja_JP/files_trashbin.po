@@ -1,0 +1,81 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-03-09 00:05+0100\n"
+"PO-Revision-Date: 2013-03-07 23:40+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ja_JP\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ajax/delete.php:40
+#, php-format
+msgid "Couldn't delete %s permanently"
+msgstr "%s を完全に削除出来ませんでした"
+
+#: ajax/undelete.php:41
+#, php-format
+msgid "Couldn't restore %s"
+msgstr "%s を復元出来ませんでした"
+
+#: js/trash.js:7 js/trash.js:96
+msgid "perform restore operation"
+msgstr "復元操作を実行する"
+
+#: js/trash.js:34
+msgid "delete file permanently"
+msgstr "ファイルを完全に削除する"
+
+#: js/trash.js:121
+msgid "Delete permanently"
+msgstr "完全に削除する"
+
+#: js/trash.js:174 templates/index.php:17
+msgid "Name"
+msgstr "名前"
+
+#: js/trash.js:175 templates/index.php:27
+msgid "Deleted"
+msgstr "削除済み"
+
+#: js/trash.js:184
+msgid "1 folder"
+msgstr "1 フォルダ"
+
+#: js/trash.js:186
+msgid "{count} folders"
+msgstr "{count} フォルダ"
+
+#: js/trash.js:194
+msgid "1 file"
+msgstr "1 ファイル"
+
+#: js/trash.js:196
+msgid "{count} files"
+msgstr "{count} ファイル"
+
+#: templates/index.php:9
+msgid "Nothing in here. Your trash bin is empty!"
+msgstr "ここには何もありません。ゴミ箱は空です！"
+
+#: templates/index.php:20 templates/index.php:22
+msgid "Restore"
+msgstr "復元"
+
+#: templates/index.php:30 templates/index.php:31
+msgid "Delete"
+msgstr "削除"
+
+#: templates/part.breadcrumb.php:9
+msgid "Deleted Files"
+msgstr "削除されたファイル"

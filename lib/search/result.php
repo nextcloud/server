@@ -15,7 +15,7 @@ class OC_Search_Result{
 	 * @param string $link link for the result
 	 * @param string $type the type of result as human readable string ('File', 'Music', etc)
 	 */
-	public function __construct($name,$text,$link,$type) {
+	public function __construct($name, $text, $link, $type) {
 		$this->name=$name;
 		$this->text=$text;
 		$this->link=$link;

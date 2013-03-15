@@ -25,14 +25,14 @@ if($doBreadcrumb) {
 	}
 
 	$breadcrumbNav = new OCP\Template( "files", "part.breadcrumb", "" );
-	$breadcrumbNav->assign( "breadcrumb", $breadcrumb );
+	$breadcrumbNav->assign( "breadcrumb", $breadcrumb, false );
 
 	$data['breadcrumb'] = $breadcrumbNav->fetchPage();
 }
 
 // make filelist
 $files = array();
-foreach( OC_Files::getdirectorycontent( $dir ) as $i ) {
+foreach( \OC\Files\Filesystem::getDirectoryContent( $dir ) as $i ) {
 	$i["date"] = OCP\Util::formatDate($i["mtime"] );
 	$files[] = $i;
 }

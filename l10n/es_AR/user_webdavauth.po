@@ -1,0 +1,36 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2012.
+# CJTess <claudio.tessone@gmail.com>, 2013.
+#   <claudio.tessone@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-01-31 00:27+0100\n"
+"PO-Revision-Date: 2013-01-30 16:22+0000\n"
+"Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
+"Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es_AR\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/settings.php:3
+msgid "WebDAV Authentication"
+msgstr "Autenticación de WevDAV"
+
+#: templates/settings.php:4
+msgid "URL: http://"
+msgstr "URL: http://"
+
+#: templates/settings.php:6
+msgid ""
+"ownCloud will send the user credentials to this URL. This plugin checks the "
+"response and will interpret the HTTP statuscodes 401 and 403 as invalid "
+"credentials, and all other responses as valid credentials."
+msgstr "onwCloud enviará las credenciales de usuario a esta URL. Este complemento verifica la respuesta e interpretará los códigos de respuesta HTTP 401 y 403 como credenciales inválidas y todas las otras respuestas como credenciales válidas."

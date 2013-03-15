@@ -10,4 +10,10 @@ if ($_POST['isPersonal'] == 'true') {
 	OCP\JSON::checkAdminUser();
 	$isPersonal = false;
 }
-OC_Mount_Config::addMountPoint($_POST['mountPoint'], $_POST['class'], $_POST['classOptions'], $_POST['mountType'], $_POST['applicable'], $isPersonal);
+$status = OC_Mount_Config::addMountPoint($_POST['mountPoint'],
+							   $_POST['class'],
+							   $_POST['classOptions'],
+							   $_POST['mountType'],
+							   $_POST['applicable'],
+							   $isPersonal);
+OCP\JSON::success(array('data' => array('message' => $status)));

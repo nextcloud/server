@@ -1,0 +1,81 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Vincenzo Reale <vinx.reale@gmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-03-09 00:05+0100\n"
+"PO-Revision-Date: 2013-03-07 23:41+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: it\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/delete.php:40
+#, php-format
+msgid "Couldn't delete %s permanently"
+msgstr "Impossibile eliminare %s definitivamente"
+
+#: ajax/undelete.php:41
+#, php-format
+msgid "Couldn't restore %s"
+msgstr "Impossibile ripristinare %s"
+
+#: js/trash.js:7 js/trash.js:96
+msgid "perform restore operation"
+msgstr "esegui operazione di ripristino"
+
+#: js/trash.js:34
+msgid "delete file permanently"
+msgstr "elimina il file definitivamente"
+
+#: js/trash.js:121
+msgid "Delete permanently"
+msgstr "Elimina definitivamente"
+
+#: js/trash.js:174 templates/index.php:17
+msgid "Name"
+msgstr "Nome"
+
+#: js/trash.js:175 templates/index.php:27
+msgid "Deleted"
+msgstr "Eliminati"
+
+#: js/trash.js:184
+msgid "1 folder"
+msgstr "1 cartella"
+
+#: js/trash.js:186
+msgid "{count} folders"
+msgstr "{count} cartelle"
+
+#: js/trash.js:194
+msgid "1 file"
+msgstr "1 file"
+
+#: js/trash.js:196
+msgid "{count} files"
+msgstr "{count} file"
+
+#: templates/index.php:9
+msgid "Nothing in here. Your trash bin is empty!"
+msgstr "Qui non c'è niente. Il tuo cestino è vuoto."
+
+#: templates/index.php:20 templates/index.php:22
+msgid "Restore"
+msgstr "Ripristina"
+
+#: templates/index.php:30 templates/index.php:31
+msgid "Delete"
+msgstr "Elimina"
+
+#: templates/part.breadcrumb.php:9
+msgid "Deleted Files"
+msgstr "File eliminati"

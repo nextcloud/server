@@ -66,39 +66,42 @@ var OCdialogs = {
 	/**
 	* prompt user for input with custom form
 	* fields should be passed in following format: [{text:'prompt text', name:'return name', type:'input type', value: 'dafault value'},...]
+	* select example 	var fields=[{text:'Test', name:'test', type:'select', options:[{text:'hallo',value:1},{text:'hallo1',value:2}] }];
 	* @param fields to display 
 	* @param title dialog title
 	* @param callback which will be triggered when user press OK (user answers will be passed to callback in following format: [{name:'return name', value: 'user value'},...])
 	*/
 	form:function(fields, title, callback, modal) {
 		var content = '<table>';
-		for (var a in fields) {
-			content += '<tr><td>'+fields[a].text+'</td><td>';
-			var type=fields[a].type;
+		$.each(fields, function(index, val){
+			content += '<tr><td>'+val.text+'</td><td>';
+			var type=val.type;
+			
 			if (type == 'text' || type == 'checkbox' || type == 'password') {
-				content += '<input type="'+type+'" name="'+fields[a].name+'"';
+				content += '<input type="'+type+'" name="'+val.name+'"';
 				if (type == 'checkbox') {
-					if (fields[a].value != undefined && fields[a].value == true) {
+					if (val.value != undefined && val.value == true) {
 						content += ' checked="checked">';
 					} else {
 						content += '>';
 					}
-				} else if (type == 'text' || type == 'password' && fields[a].value) {
-					content += ' value="'+fields[a].value+'">';
+				} else if (type == 'text' || type == 'password' && val.value) {
+					content += ' value="'+val.value+'">';
 				}
 			} else if (type == 'select') {
-				content += '<select name="'+fields[a].name+'"';
-				if (fields[a].value != undefined) {
-					content += ' value="'+fields[a].value+'"';
+				content += '<select name="'+val.name+'"';
+				if (val.value != undefined) {
+					content += ' value="'+val.value+'"';
 				}
 				content += '>';
-				for (var o in fields[a].options) {
-					content += '<option value="'+fields[a].options[o].value+'">'+fields[a].options[o].text+'</option>';
-				}
+				$.each(val.options, function(index, valo){
+					content += '<option value="'+valo.value+'">'+valo.text+'</option>';
+				});
 				content += '</select>';
 			}
 			content += '</td></tr>';
-		}
+
+		});
 		content += '</table>';
 		OCdialogs.message(content, title, OCdialogs.FORM_DIALOG, OCdialogs.OK_CANCEL_BUTTONS, callback, modal);
 	},
@@ -126,13 +129,13 @@ var OCdialogs = {
 					var p;
 					if ($(c_id).data('multiselect') == true) {
 						p = [];
-						$(c_id+' .filepicker_element_selected #filename').each(function(i, elem) {
+						$(c_id+' .filepicker_element_selected .filename').each(function(i, elem) {
 							p.push(($(c_id).data('path')?$(c_id).data('path'):'')+'/'+$(elem).text());
 						});
 					} else {
 						var p = $(c_id).data('path');
 						if (p == undefined) p = '';
-						p = p+'/'+$(c_id+' .filepicker_element_selected #filename').text()
+						p = p+'/'+$(c_id+' .filepicker_element_selected .filename').text()
 					}
 					callback(p);
 					$(c_id).dialog('close');
@@ -213,12 +216,15 @@ var OCdialogs = {
 		}
 	},
 	fillFilePicker:function(r, dialog_content_id) {
-		var entry_template = '<div onclick="javascript:OC.dialogs.handlePickerClick(this, \'*ENTRYNAME*\',\''+dialog_content_id+'\')" data="*ENTRYTYPE*"><img src="*MIMETYPEICON*" style="margin-right:1em;"><span id="filename">*NAME*</span><div style="float:right;margin-right:1em;">*LASTMODDATE*</div></div>';
+		var entry_template = '<div data-entryname="*ENTRYNAME*" data-dcid="'+dialog_content_id+'" data="*ENTRYTYPE*"><img src="*MIMETYPEICON*" style="margin-right:1em;"><span class="filename">*NAME*</span><div style="float:right;margin-right:1em;">*LASTMODDATE*</div></div>';
 		var names = '';
-		for (var a in r.data) {
-			names += entry_template.replace('*LASTMODDATE*', OC.mtime2date(r.data[a].mtime)).replace('*NAME*', r.data[a].name).replace('*MIMETYPEICON*', r.data[a].mimetype_icon).replace('*ENTRYNAME*', r.data[a].name).replace('*ENTRYTYPE*', r.data[a].type);
-		}
-		$(dialog_content_id + ' #filelist').html(names);
+		$.each(r.data, function(index, a) {
+			names += entry_template.replace('*LASTMODDATE*', OC.mtime2date(a.mtime)).replace('*NAME*', a.name).replace('*MIMETYPEICON*', a.mimetype_icon).replace('*ENTRYNAME*', a.name).replace('*ENTRYTYPE*', a.type);
+		});
+		
+		$(dialog_content_id + ' #filelist').html(names).on('click', '[data="file"]', function() {
+			OC.dialogs.handlePickerClick(this, $(this).data('entryname'), $(this).data('dcid'));
+		});
 		$(dialog_content_id + ' .filepicker_loader').css('visibility', 'hidden');
 	},
 	handleTreeListSelect:function(event) {

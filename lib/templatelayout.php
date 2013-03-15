@@ -12,44 +12,39 @@ class OC_TemplateLayout extends OC_Template {
 
 		if( $renderas == 'user' ) {
 			parent::__construct( 'core', 'layout.user' );
-			if(in_array(OC_APP::getCurrentApp(),array('settings','admin','help'))!==false) {
-				$this->assign('bodyid','body-settings', false);
+			if(in_array(OC_APP::getCurrentApp(), array('settings','admin', 'help'))!==false) {
+				$this->assign('bodyid', 'body-settings');
 			}else{
-				$this->assign('bodyid','body-user', false);
+				$this->assign('bodyid', 'body-user');
 			}
 
 			// Add navigation entry
+			$this->assign( 'application', '', false );
 			$navigation = OC_App::getNavigation();
-			$this->assign( 'navigation', $navigation, false);
-			$this->assign( 'settingsnavigation', OC_App::getSettingsNavigation(), false);
+			$this->assign( 'navigation', $navigation);
+			$this->assign( 'settingsnavigation', OC_App::getSettingsNavigation());
 			foreach($navigation as $entry) {
 				if ($entry['active']) {
-					$this->assign( 'application', $entry['name'], false );
+					$this->assign( 'application', $entry['name'] );
 					break;
 				}
 			}
-		} else if ($renderas == 'guest') {
+			$user_displayname = OC_User::getDisplayName();
+			$this->assign( 'user_displayname', $user_displayname );
+			$this->assign( 'user_uid', OC_User::getUser() );
+		} else if ($renderas == 'guest' || $renderas == 'error') {
 			parent::__construct('core', 'layout.guest');
 		} else {
 			parent::__construct('core', 'layout.base');
 		}
-
-		$apps_paths = array();
-		foreach(OC_App::getEnabledApps() as $app) {
-			$apps_paths[$app] = OC_App::getAppWebPath($app);
-		}
-		$this->assign( 'apps_paths', str_replace('\\/', '/',json_encode($apps_paths)),false ); // Ugly unescape slashes waiting for better solution
-
-		if (OC_Config::getValue('installed', false) && !OC_AppConfig::getValue('core', 'remote_core.css', false)) {
-			OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
-			OC_AppConfig::setValue('core', 'remote_core.js', '/core/minimizer.php');
-		}
-
 		// Add the js files
 		$jsfiles = self::findJavascriptFiles(OC_Util::$scripts);
 		$this->assign('jsfiles', array(), false);
+		if (OC_Config::getValue('installed', false) && $renderas!='error') {
+			$this->append( 'jsfiles', OC_Helper::linkToRoute('js_config'));
+		}
 		if (!empty(OC_Util::$core_scripts)) {
-			$this->append( 'jsfiles', OC_Helper::linkToRemote('core.js', false));
+			$this->append( 'jsfiles', OC_Helper::linkToRemoteBase('core.js', false));
 		}
 		foreach($jsfiles as $info) {
 			$root = $info[0];
@@ -62,7 +57,7 @@ class OC_TemplateLayout extends OC_Template {
 		$cssfiles = self::findStylesheetFiles(OC_Util::$styles);
 		$this->assign('cssfiles', array());
 		if (!empty(OC_Util::$core_styles)) {
-			$this->append( 'cssfiles', OC_Helper::linkToRemote('core.css', false));
+			$this->append( 'cssfiles', OC_Helper::linkToRemoteBase('core.css', false));
 		}
 		foreach($cssfiles as $info) {
 			$root = $info[0];
@@ -97,13 +92,13 @@ class OC_TemplateLayout extends OC_Template {
 	 * @param $web base for path
 	 * @param $file the filename
 	 */
-        static public function appendIfExist(&$files, $root, $webroot, $file) {
-                if (is_file($root.'/'.$file)) {
+	static public function appendIfExist(&$files, $root, $webroot, $file) {
+		if (is_file($root.'/'.$file)) {
 			$files[] = array($root, $webroot, $file);
 			return true;
-                }
-                return false;
-        }
+		}
+		return false;
+	}
 
 	static public function findStylesheetFiles($styles) {
 		// Read the selected theme from the config file
@@ -130,11 +125,18 @@ class OC_TemplateLayout extends OC_Template {
 				// or in apps?
 				foreach( OC::$APPSROOTS as $apps_dir)
 				{
-					if(self::appendIfExist($files, $apps_dir['path'], $apps_dir['url'], "$style$fext.css")) { $append =true; break; }
-					elseif(self::appendIfExist($files, $apps_dir['path'], $apps_dir['url'], "$style.css")) { $append =true; break; }
+					if(self::appendIfExist($files, $apps_dir['path'], $apps_dir['url'], "$style$fext.css")) {
+						$append = true;
+						break;
+					}
+					elseif(self::appendIfExist($files, $apps_dir['path'], $apps_dir['url'], "$style.css")) {
+						$append = true;
+						break;
+					}
 				}
 				if(! $append) {
-					echo('css file not found: style:'.$style.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+					echo('css file not found: style:'.$style.' formfactor:'.$fext
+						.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 					die();
 				}
 			}
@@ -192,11 +194,18 @@ class OC_TemplateLayout extends OC_Template {
 				// Is it part of an app?
 				$append = false;
 				foreach( OC::$APPSROOTS as $apps_dir) {
-					if(self::appendIfExist($files, $apps_dir['path'], OC::$WEBROOT.$apps_dir['url'], "$script$fext.js")) { $append =true; break; }
-					elseif(self::appendIfExist($files, $apps_dir['path'], OC::$WEBROOT.$apps_dir['url'], "$script.js")) { $append =true; break; }
+					if(self::appendIfExist($files, $apps_dir['path'], OC::$WEBROOT.$apps_dir['url'], "$script$fext.js")) {
+						$append = true;
+						break;
+					}
+					elseif(self::appendIfExist($files, $apps_dir['path'], OC::$WEBROOT.$apps_dir['url'], "$script.js")) {
+						$append = true;
+						break;
+					}
 				}
 				if(! $append) {
-					echo('js file not found: script:'.$script.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+					echo('js file not found: script:'.$script.' formfactor:'.$fext
+						.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 					die();
 				}
 			}

@@ -1,5 +1,5 @@
 <?php
-$RUNTIME_NOAPPS = TRUE;
+$RUNTIME_NOAPPS = true;
 require_once 'lib/base.php';
 if (!isset($_GET['service'])) {
 	header('HTTP/1.0 404 Not Found');

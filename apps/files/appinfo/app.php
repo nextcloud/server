@@ -1,8 +1,14 @@
 <?php
-$l=OC_L10N::get('files');
+OC::$CLASSPATH['OCA\Files\Capabilities'] = 'apps/files/lib/capabilities.php';
 
-OCP\App::registerAdmin('files','admin');
+$l = OC_L10N::get('files');
 
-OCP\App::addNavigationEntry( array( "id" => "files_index", "order" => 0, "href" => OCP\Util::linkTo( "files", "index.php" ), "icon" => OCP\Util::imagePath( "core", "places/home.svg" ), "name" => $l->t("Files") ));
+OCP\App::registerAdmin('files', 'admin');
+
+OCP\App::addNavigationEntry( array( "id" => "files_index",
+									"order" => 0,
+									"href" => OCP\Util::linkTo( "files", "index.php" ),
+									"icon" => OCP\Util::imagePath( "core", "places/files.svg" ),
+									"name" => $l->t("Files") ));
 
 OC_Search::registerProvider('OC_Search_Provider_File');

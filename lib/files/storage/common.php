@@ -1,0 +1,353 @@
+<?php
+/**
+ * Copyright (c) 2012 Robin Appelman <icewind@owncloud.com>
+ * This file is licensed under the Affero General Public License version 3 or
+ * later.
+ * See the COPYING-README file.
+ */
+
+namespace OC\Files\Storage;
+
+/**
+ * Storage backend class for providing common filesystem operation methods
+ * which are not storage-backend specific.
+ *
+ * \OC\Files\Storage\Common is never used directly; it is extended by all other
+ * storage backends, where its methods may be overridden, and additional
+ * (backend-specific) methods are defined.
+ *
+ * Some \OC\Files\Storage\Common methods call functions which are first defined
+ * in classes which extend it, e.g. $this->stat() .
+ */
+
+abstract class Common implements \OC\Files\Storage\Storage {
+
+	public function __construct($parameters) {
+	}
+
+	public function is_dir($path) {
+		return $this->filetype($path) == 'dir';
+	}
+
+	public function is_file($path) {
+		return $this->filetype($path) == 'file';
+	}
+
+	public function filesize($path) {
+		if ($this->is_dir($path)) {
+			return 0; //by definition
+		} else {
+			$stat = $this->stat($path);
+			if (isset($stat['size'])) {
+				return $stat['size'];
+			} else {
+				return 0;
+			}
+		}
+	}
+
+	public function isCreatable($path) {
+		if ($this->is_dir($path) && $this->isUpdatable($path)) {
+			return true;
+		}
+		return false;
+	}
+
+	public function isDeletable($path) {
+		return $this->isUpdatable($path);
+	}
+
+	public function isSharable($path) {
+		return $this->isReadable($path);
+	}
+
+	public function getPermissions($path) {
+		$permissions = 0;
+		if ($this->isCreatable($path)) {
+			$permissions |= \OCP\PERMISSION_CREATE;
+		}
+		if ($this->isReadable($path)) {
+			$permissions |= \OCP\PERMISSION_READ;
+		}
+		if ($this->isUpdatable($path)) {
+			$permissions |= \OCP\PERMISSION_UPDATE;
+		}
+		if ($this->isDeletable($path)) {
+			$permissions |= \OCP\PERMISSION_DELETE;
+		}
+		if ($this->isSharable($path)) {
+			$permissions |= \OCP\PERMISSION_SHARE;
+		}
+		return $permissions;
+	}
+
+	public function filemtime($path) {
+		$stat = $this->stat($path);
+		if (isset($stat['mtime'])) {
+			return $stat['mtime'];
+		} else {
+			return 0;
+		}
+	}
+
+	public function file_get_contents($path) {
+		$handle = $this->fopen($path, "r");
+		if (!$handle) {
+			return false;
+		}
+		$size = $this->filesize($path);
+		if ($size == 0) {
+			return '';
+		}
+		return fread($handle, $size);
+	}
+
+	public function file_put_contents($path, $data) {
+		$handle = $this->fopen($path, "w");
+		return fwrite($handle, $data);
+	}
+
+	public function rename($path1, $path2) {
+		if ($this->copy($path1, $path2)) {
+			return $this->unlink($path1);
+		} else {
+			return false;
+		}
+	}
+
+	public function copy($path1, $path2) {
+		$source = $this->fopen($path1, 'r');
+		$target = $this->fopen($path2, 'w');
+		list($count, $result) = \OC_Helper::streamCopy($source, $target);
+		return $result;
+	}
+
+	/**
+	 * @brief Deletes all files and folders recursively within a directory
+	 * @param string $directory The directory whose contents will be deleted
+	 * @param bool $empty Flag indicating whether directory will be emptied
+	 * @returns bool
+	 *
+	 * @note By default the directory specified by $directory will be
+	 * deleted together with its contents. To avoid this set $empty to true
+	 */
+	public function deleteAll($directory, $empty = false) {
+		$directory = trim($directory, '/');
+
+		if (!$this->file_exists(\OCP\USER::getUser() . '/' . $directory)
+			|| !$this->is_dir(\OCP\USER::getUser() . '/' . $directory)
+		) {
+			return false;
+		} elseif (!$this->isReadable(\OCP\USER::getUser() . '/' . $directory)) {
+			return false;
+		} else {
+			$directoryHandle = $this->opendir(\OCP\USER::getUser() . '/' . $directory);
+			while ($contents = readdir($directoryHandle)) {
+				if ($contents != '.' && $contents != '..') {
+					$path = $directory . "/" . $contents;
+					if ($this->is_dir($path)) {
+						$this->deleteAll($path);
+					} else {
+						$this->unlink(\OCP\USER::getUser() . '/' . $path); // TODO: make unlink use same system path as is_dir
+					}
+				}
+			}
+			//$this->closedir( $directoryHandle ); // TODO: implement closedir in OC_FSV
+			if ($empty == false) {
+				if (!$this->rmdir($directory)) {
+					return false;
+				}
+			}
+			return true;
+		}
+
+	}
+
+	public function getMimeType($path) {
+		if (!$this->file_exists($path)) {
+			return false;
+		}
+		if ($this->is_dir($path)) {
+			return 'httpd/unix-directory';
+		}
+		$source = $this->fopen($path, 'r');
+		if (!$source) {
+			return false;
+		}
+		$head = fread($source, 8192); //8kb should suffice to determine a mimetype
+		if ($pos = strrpos($path, '.')) {
+			$extension = substr($path, $pos);
+		} else {
+			$extension = '';
+		}
+		$tmpFile = \OC_Helper::tmpFile($extension);
+		file_put_contents($tmpFile, $head);
+		$mime = \OC_Helper::getMimeType($tmpFile);
+		unlink($tmpFile);
+		return $mime;
+	}
+
+	public function hash($type, $path, $raw = false) {
+		$tmpFile = $this->getLocalFile($path);
+		$hash = hash($type, $tmpFile, $raw);
+		unlink($tmpFile);
+		return $hash;
+	}
+
+	public function search($query) {
+		return $this->searchInDir($query);
+	}
+
+	public function getLocalFile($path) {
+		return $this->toTmpFile($path);
+	}
+
+	private function toTmpFile($path) { //no longer in the storage api, still useful here
+		$source = $this->fopen($path, 'r');
+		if (!$source) {
+			return false;
+		}
+		if ($pos = strrpos($path, '.')) {
+			$extension = substr($path, $pos);
+		} else {
+			$extension = '';
+		}
+		$tmpFile = \OC_Helper::tmpFile($extension);
+		$target = fopen($tmpFile, 'w');
+		\OC_Helper::streamCopy($source, $target);
+		return $tmpFile;
+	}
+
+	public function getLocalFolder($path) {
+		$baseDir = \OC_Helper::tmpFolder();
+		$this->addLocalFolder($path, $baseDir);
+		return $baseDir;
+	}
+
+	private function addLocalFolder($path, $target) {
+		if ($dh = $this->opendir($path)) {
+			while ($file = readdir($dh)) {
+				if ($file !== '.' and $file !== '..') {
+					if ($this->is_dir($path . '/' . $file)) {
+						mkdir($target . '/' . $file);
+						$this->addLocalFolder($path . '/' . $file, $target . '/' . $file);
+					} else {
+						$tmp = $this->toTmpFile($path . '/' . $file);
+						rename($tmp, $target . '/' . $file);
+					}
+				}
+			}
+		}
+	}
+
+	protected function searchInDir($query, $dir = '') {
+		$files = array();
+		$dh = $this->opendir($dir);
+		if ($dh) {
+			while ($item = readdir($dh)) {
+				if ($item == '.' || $item == '..') continue;
+				if (strstr(strtolower($item), strtolower($query)) !== false) {
+					$files[] = $dir . '/' . $item;
+				}
+				if ($this->is_dir($dir . '/' . $item)) {
+					$files = array_merge($files, $this->searchInDir($query, $dir . '/' . $item));
+				}
+			}
+		}
+		return $files;
+	}
+
+	/**
+	 * check if a file or folder has been updated since $time
+	 *
+	 * @param string $path
+	 * @param int $time
+	 * @return bool
+	 */
+	public function hasUpdated($path, $time) {
+		return $this->filemtime($path) > $time;
+	}
+
+	public function getCache($path = '') {
+		return new \OC\Files\Cache\Cache($this);
+	}
+
+	public function getScanner($path = '') {
+		return new \OC\Files\Cache\Scanner($this);
+	}
+
+	public function getPermissionsCache($path = '') {
+		return new \OC\Files\Cache\Permissions($this);
+	}
+
+	public function getWatcher($path = '') {
+		return new \OC\Files\Cache\Watcher($this);
+	}
+
+	/**
+	 * get the owner of a path
+	 *
+	 * @param string $path The path to get the owner
+	 * @return string uid or false
+	 */
+	public function getOwner($path) {
+		return \OC_User::getUser();
+	}
+
+	/**
+	 * get the ETag for a file or folder
+	 *
+	 * @param string $path
+	 * @return string
+	 */
+	public function getETag($path) {
+		$ETagFunction = \OC_Connector_Sabre_Node::$ETagFunction;
+		if ($ETagFunction) {
+			$hash = call_user_func($ETagFunction, $path);
+			return $hash;
+		} else {
+			return uniqid();
+		}
+	}
+
+	/**
+	 * clean a path, i.e. remove all redundant '.' and '..'
+	 * making sure that it can't point to higher than '/'
+	 *
+	 * @param $path The path to clean
+	 * @return string cleaned path
+	 */
+	public function cleanPath($path) {
+		if (strlen($path) == 0 or $path[0] != '/') {
+			$path = '/' . $path;
+		}
+
+		$output = array();
+		foreach (explode('/', $path) as $chunk) {
+			if ($chunk == '..') {
+				array_pop($output);
+			} else if ($chunk == '.') {
+			} else {
+				$output[] = $chunk;
+			}
+		}
+		return implode('/', $output);
+	}
+
+	public function test() {
+		if ($this->stat('')) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * get the free space in the storage
+	 *
+	 * @param $path
+	 * return int
+	 */
+	public function free_space($path) {
+		return \OC\Files\FREE_SPACE_UNKNOWN;
+	}
+}

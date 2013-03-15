@@ -3,14 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Marián Hvolka <marian.hvolka@stuba.sk>, 2013.
 #   <martin.babik@gmail.com>, 2012.
+# Roman Priesol <roman@priesol.net>, 2012.
+#   <zatroch.martin@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-22 01:14+0200\n"
-"PO-Revision-Date: 2012-09-21 11:28+0000\n"
-"Last-Translator: martinb <martin.babik@gmail.com>\n"
+"POT-Creation-Date: 2013-03-01 00:05+0100\n"
+"PO-Revision-Date: 2013-02-28 15:10+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,109 +21,242 @@ msgstr ""
 "Language: sk_SK\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
-#: app.php:285
+#: app.php:349
 msgid "Help"
 msgstr "Pomoc"
 
-#: app.php:292
+#: app.php:362
 msgid "Personal"
 msgstr "Osobné"
 
-#: app.php:297
+#: app.php:373
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: app.php:302
+#: app.php:385
 msgid "Users"
-msgstr "Užívatelia"
+msgstr "Používatelia"
 
-#: app.php:309
+#: app.php:398
 msgid "Apps"
 msgstr "Aplikácie"
 
-#: app.php:311
+#: app.php:406
 msgid "Admin"
-msgstr "Správca"
+msgstr "Administrátor"
 
-#: files.php:309
+#: files.php:202
 msgid "ZIP download is turned off."
 msgstr "Sťahovanie súborov ZIP je vypnuté."
 
-#: files.php:310
+#: files.php:203
 msgid "Files need to be downloaded one by one."
 msgstr "Súbory musia byť nahrávané jeden za druhým."
 
-#: files.php:310 files.php:335
+#: files.php:204 files.php:231
 msgid "Back to Files"
 msgstr "Späť na súbory"
 
-#: files.php:334
+#: files.php:228
 msgid "Selected files too large to generate zip file."
-msgstr "Zvolené súbory sú príliž veľké na vygenerovanie zip súboru."
+msgstr "Zvolené súbory sú príliš veľké na vygenerovanie zip súboru."
+
+#: helper.php:228
+msgid "couldn't be determined"
+msgstr "nedá sa zistiť"
 
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "Aplikácia nie je zapnutá"
 
-#: json.php:39 json.php:63 json.php:75
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "Chyba autentifikácie"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "Token vypršal. Obnovte, prosím, stránku."
 
-#: template.php:87
+#: search/provider/file.php:17 search/provider/file.php:35
+msgid "Files"
+msgstr "Súbory"
+
+#: search/provider/file.php:26 search/provider/file.php:33
+msgid "Text"
+msgstr "Text"
+
+#: search/provider/file.php:29
+msgid "Images"
+msgstr "Obrázky"
+
+#: setup.php:34
+msgid "Set an admin username."
+msgstr "Zadajte používateľské meno administrátora."
+
+#: setup.php:37
+msgid "Set an admin password."
+msgstr "Zadajte heslo administrátora."
+
+#: setup.php:40
+msgid "Specify a data folder."
+msgstr "Zadajte priečinok pre dáta."
+
+#: setup.php:55
+#, php-format
+msgid "%s enter the database username."
+msgstr "Zadajte používateľské meno %s databázy.."
+
+#: setup.php:58
+#, php-format
+msgid "%s enter the database name."
+msgstr "Zadajte názov databázy pre %s databázy."
+
+#: setup.php:61
+#, php-format
+msgid "%s you may not use dots in the database name"
+msgstr "V názve databázy %s nemôžete používať bodky"
+
+#: setup.php:64
+#, php-format
+msgid "%s set the database host."
+msgstr "Zadajte názov počítača s databázou %s."
+
+#: setup.php:128 setup.php:320 setup.php:365
+msgid "PostgreSQL username and/or password not valid"
+msgstr "Používateľské meno a/alebo heslo pre PostgreSQL databázu je neplatné"
+
+#: setup.php:129 setup.php:152 setup.php:229
+msgid "You need to enter either an existing account or the administrator."
+msgstr "Musíte zadať jestvujúci účet alebo administrátora."
+
+#: setup.php:151 setup.php:453 setup.php:520
+msgid "Oracle username and/or password not valid"
+msgstr "Používateľské meno a/alebo heslo pre Oracle databázu je neplatné"
+
+#: setup.php:228
+msgid "MySQL username and/or password not valid"
+msgstr "Používateľské meno a/alebo heslo pre MySQL databázu je neplatné"
+
+#: setup.php:282 setup.php:386 setup.php:395 setup.php:413 setup.php:423
+#: setup.php:432 setup.php:461 setup.php:527 setup.php:553 setup.php:560
+#: setup.php:571 setup.php:578 setup.php:587 setup.php:595 setup.php:604
+#: setup.php:610
+#, php-format
+msgid "DB Error: \"%s\""
+msgstr "Chyba DB: \"%s\""
+
+#: setup.php:283 setup.php:387 setup.php:396 setup.php:414 setup.php:424
+#: setup.php:433 setup.php:462 setup.php:528 setup.php:554 setup.php:561
+#: setup.php:572 setup.php:588 setup.php:596 setup.php:605
+#, php-format
+msgid "Offending command was: \"%s\""
+msgstr "Podozrivý príkaz bol: \"%s\""
+
+#: setup.php:299
+#, php-format
+msgid "MySQL user '%s'@'localhost' exists already."
+msgstr "Používateľ '%s'@'localhost' už v MySQL existuje."
+
+#: setup.php:300
+msgid "Drop this user from MySQL"
+msgstr "Zahodiť používateľa z MySQL."
+
+#: setup.php:305
+#, php-format
+msgid "MySQL user '%s'@'%%' already exists"
+msgstr "Používateľ '%s'@'%%' už v MySQL existuje"
+
+#: setup.php:306
+msgid "Drop this user from MySQL."
+msgstr "Zahodiť používateľa z MySQL."
+
+#: setup.php:579 setup.php:611
+#, php-format
+msgid "Offending command was: \"%s\", name: %s, password: %s"
+msgstr "Podozrivý príkaz bol: \"%s\", meno: %s, heslo: %s"
+
+#: setup.php:631
+#, php-format
+msgid "MS SQL username and/or password not valid: %s"
+msgstr "Používateľské meno, alebo heslo MS SQL nie je platné: %s"
+
+#: setup.php:849
+msgid ""
+"Your web server is not yet properly setup to allow files synchronization "
+"because the WebDAV interface seems to be broken."
+msgstr "Váš webový server nie je správne nastavený na synchronizáciu, pretože rozhranie WebDAV je poškodené."
+
+#: setup.php:850
+#, php-format
+msgid "Please double check the <a href='%s'>installation guides</a>."
+msgstr "Prosím skontrolujte <a href='%s'>inštalačnú príručku</a>."
+
+#: template.php:113
 msgid "seconds ago"
-msgstr ""
+msgstr "pred sekundami"
 
-#: template.php:88
+#: template.php:114
 msgid "1 minute ago"
 msgstr "pred 1 minútou"
 
-#: template.php:89
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "pred %d minútami"
 
-#: template.php:92
+#: template.php:116
+msgid "1 hour ago"
+msgstr "Pred 1 hodinou"
+
+#: template.php:117
+#, php-format
+msgid "%d hours ago"
+msgstr "Pred %d hodinami."
+
+#: template.php:118
 msgid "today"
 msgstr "dnes"
 
-#: template.php:93
+#: template.php:119
 msgid "yesterday"
 msgstr "včera"
 
-#: template.php:94
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "pred %d dňami"
 
-#: template.php:95
+#: template.php:121
 msgid "last month"
 msgstr "minulý mesiac"
 
-#: template.php:96
-msgid "months ago"
-msgstr "pred mesiacmi"
+#: template.php:122
+#, php-format
+msgid "%d months ago"
+msgstr "Pred %d mesiacmi."
 
-#: template.php:97
+#: template.php:123
 msgid "last year"
 msgstr "minulý rok"
 
-#: template.php:98
+#: template.php:124
 msgid "years ago"
 msgstr "pred rokmi"
 
-#: updater.php:66
+#: updater.php:78
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s je dostupné. Získať <a href=\"%s\">pre viac informácií</a>"
 
-#: updater.php:68
+#: updater.php:81
 msgid "up to date"
 msgstr "aktuálny"
 
-#: updater.php:71
+#: updater.php:84
 msgid "updates check is disabled"
 msgstr "sledovanie aktualizácií je vypnuté"
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "Nemožno nájsť danú kategóriu \"%s\""

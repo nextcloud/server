@@ -36,7 +36,7 @@
  * The return value of the post-proxy will be used as the new result of the operation
  * The operations that have a post-proxy are:
  * file_get_contents, is_file, is_dir, file_exists, stat, is_readable,
- * is_writable, fileatime, filemtime, filectime, file_get_contents,
+ * is_writable, filemtime, filectime, file_get_contents,
  * getMimeType, hash, fopen, free_space and search
  */
 
@@ -51,8 +51,8 @@ class OC_FileProxy{
 	 *
 	 * this implements a dummy proxy for all operations
 	 */
-	public function __call($function,$arguments) {
-		if(substr($function,0,3)=='pre') {
+	public function __call($function, $arguments) {
+		if(substr($function, 0, 3)=='pre') {
 			return true;
 		}else{
 			return $arguments[1];
@@ -70,7 +70,7 @@ class OC_FileProxy{
 	public static function getProxies($operation) {
 		$proxies=array();
 		foreach(self::$proxies as $proxy) {
-			if(method_exists($proxy,$operation)) {
+			if(method_exists($proxy, $operation)) {
 				$proxies[]=$proxy;
 			}
 		}
@@ -85,7 +85,7 @@ class OC_FileProxy{
 		$proxies=self::getProxies($operation);
 		foreach($proxies as $proxy) {
 			if(!is_null($filepath2)) {
-				if($proxy->$operation($filepath,$filepath2)===false) {
+				if($proxy->$operation($filepath, $filepath2)===false) {
 					return false;
 				}
 			}else{
@@ -97,14 +97,14 @@ class OC_FileProxy{
 		return true;
 	}
 
-	public static function runPostProxies($operation,$path,$result) {
+	public static function runPostProxies($operation, $path, $result) {
 		if(!self::$enabled) {
 			return $result;
 		}
 		$operation='post'.$operation;
 		$proxies=self::getProxies($operation);
 		foreach($proxies as $proxy) {
-			$result=$proxy->$operation($path,$result);
+			$result=$proxy->$operation($path, $result);
 		}
 		return $result;
 	}

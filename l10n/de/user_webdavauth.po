@@ -1,0 +1,37 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#   <blobbyjj@ymail.com>, 2012.
+# Marcel Kühlhorn <susefan93@gmx.de>, 2013.
+#   <mibunrui@gmx.de>, 2013.
+#   <seeed@freenet.de>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-02-21 00:14+0100\n"
+"PO-Revision-Date: 2013-02-20 22:10+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
+"Language-Team: German <translations@owncloud.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: templates/settings.php:3
+msgid "WebDAV Authentication"
+msgstr "WebDAV Authentifikation"
+
+#: templates/settings.php:4
+msgid "URL: http://"
+msgstr "URL: http://"
+
+#: templates/settings.php:7
+msgid ""
+"ownCloud will send the user credentials to this URL. This plugin checks the "
+"response and will interpret the HTTP statuscodes 401 and 403 as invalid "
+"credentials, and all other responses as valid credentials."
+msgstr "ownCloud sendet die Benutzerdaten an diese URL. Dieses Plugin prüft die Antwort und wird die Statuscodes 401 und 403 als ungültige Daten und alle anderen Antworten als gültige Daten interpretieren."

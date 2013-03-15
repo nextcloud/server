@@ -144,4 +144,13 @@ class OC_Cache {
 		return self::$isFast;
 	}
 
+	static public function generateCacheKeyFromFiles($files) {
+		$key = '';
+		sort($files);
+		foreach($files as $file) {
+			$stat = stat($file);
+			$key .= $file.$stat['mtime'].$stat['size'];
+		}
+		return md5($key);
+	}
 }

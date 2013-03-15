@@ -42,14 +42,14 @@ abstract class OC_Archive{
 	 * @param string source either a local file or string data
 	 * @return bool
 	 */
-	abstract function addFile($path,$source='');
+	abstract function addFile($path, $source='');
 	/**
 	 * rename a file or folder in the archive
 	 * @param string source
 	 * @param string dest
 	 * @return bool
 	 */
-	abstract function rename($source,$dest);
+	abstract function rename($source, $dest);
 	/**
 	 * get the uncompressed size of a file in the archive
 	 * @param string path
@@ -85,7 +85,7 @@ abstract class OC_Archive{
 	 * @param string dest
 	 * @return bool
 	 */
-	abstract function extractFile($path,$dest);
+	abstract function extractFile($path, $dest);
 	/**
 	 * extract the archive
 	 * @param string path
@@ -111,14 +111,14 @@ abstract class OC_Archive{
 	 * @param string mode
 	 * @return resource
 	 */
-	abstract function getStream($path,$mode);
+	abstract function getStream($path, $mode);
 	/**
 	 * add a folder and all it's content
 	 * @param string $path
 	 * @param string source
 	 * @return bool
 	 */
-	function addRecursive($path,$source) {
+	function addRecursive($path, $source) {
 		if($dh=opendir($source)) {
 			$this->addFolder($path);
 			while($file=readdir($dh)) {

@@ -1,0 +1,35 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Dumitru Ursu <>, 2013.
+#   <laur.cristescu@gmail.com>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-01-27 00:04+0100\n"
+"PO-Revision-Date: 2013-01-26 00:09+0000\n"
+"Last-Translator: Dimon Pockemon <>\n"
+"Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: ro\n"
+"Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
+
+#: templates/settings.php:3
+msgid "WebDAV Authentication"
+msgstr "Autentificare WebDAV"
+
+#: templates/settings.php:4
+msgid "URL: http://"
+msgstr "URL: http://"
+
+#: templates/settings.php:6
+msgid ""
+"ownCloud will send the user credentials to this URL. This plugin checks the "
+"response and will interpret the HTTP statuscodes 401 and 403 as invalid "
+"credentials, and all other responses as valid credentials."
+msgstr "ownCloud va trimite datele de autentificare la acest URL. Acest modul verifică răspunsul și va interpreta codurile de status HTTP 401 sau 403 ca fiind date de autentificare invalide, și orice alt răspuns ca fiind date valide."

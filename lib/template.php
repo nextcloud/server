@@ -22,6 +22,22 @@
  */
 
 /**
+ * Prints an XSS escaped string
+ * @param string $string the string which will be escaped and printed
+ */
+function p($string) {
+	print(OC_Util::sanitizeHTML($string));
+}
+
+/**
+ * Prints an unescaped string
+ * @param string $string the string which will be printed as it is
+ */
+function print_unescaped($string) {
+	print($string);
+}
+
+/**
  * @brief make OC_Helper::linkTo available as a simple function
  * @param string $app app
  * @param string $file file
@@ -69,15 +85,25 @@ function human_file_size( $bytes ) {
 }
 
 function simple_file_size($bytes) {
-	$mbytes = round($bytes/(1024*1024),1);
-	if($bytes == 0) { return '0'; }
-	else if($mbytes < 0.1) { return '&lt; 0.1'; }
-	else if($mbytes > 1000) { return '&gt; 1000'; }
-	else { return number_format($mbytes, 1); }
+	if ($bytes < 0) {
+		return '?';
+	}
+	$mbytes = round($bytes / (1024 * 1024), 1);
+	if ($bytes == 0) {
+		return '0';
+	}
+	if ($mbytes < 0.1) {
+		return '&lt; 0.1';
+	}
+	if ($mbytes > 1000) {
+		return '&gt; 1000';
+	} else {
+		return number_format($mbytes, 1);
+	}
 }
 
 function relative_modified_date($timestamp) {
-    $l=OC_L10N::get('lib');
+	$l=OC_L10N::get('lib');
 	$timediff = time() - $timestamp;
 	$diffminutes = round($timediff/60);
 	$diffhours = round($diffminutes/60);
@@ -86,14 +112,14 @@ function relative_modified_date($timestamp) {
 
 	if($timediff < 60) { return $l->t('seconds ago'); }
 	else if($timediff < 120) { return $l->t('1 minute ago'); }
-	else if($timediff < 3600) { return $l->t('%d minutes ago',$diffminutes); }
-	//else if($timediff < 7200) { return '1 hour ago'; }
-	//else if($timediff < 86400) { return $diffhours.' hours ago'; }
+	else if($timediff < 3600) { return $l->t('%d minutes ago', $diffminutes); }
+	else if($timediff < 7200) { return $l->t('1 hour ago'); }
+	else if($timediff < 86400) { return $l->t('%d hours ago', $diffhours); }
 	else if((date('G')-$diffhours) > 0) { return $l->t('today'); }
 	else if((date('G')-$diffhours) > -24) { return $l->t('yesterday'); }
-	else if($timediff < 2678400) { return $l->t('%d days ago',$diffdays); }
+	else if($timediff < 2678400) { return $l->t('%d days ago', $diffdays); }
 	else if($timediff < 5184000) { return $l->t('last month'); }
-	else if((date('n')-$diffmonths) > 0) { return $l->t('months ago'); }
+	else if((date('n')-$diffmonths) > 0) { return $l->t('%d months ago', $diffmonths); }
 	else if($timediff < 63113852) { return $l->t('last year'); }
 	else { return $l->t('years ago'); }
 }
@@ -121,7 +147,7 @@ function html_select_options($options, $selected, $params=array()) {
 			$label = $label[$label_name];
 		}
 		$select = in_array($value, $selected) ? ' selected="selected"' : '';
-		$html .= '<option value="' . $value . '"' . $select . '>' . $label . '</option>'."\n";
+		$html .= '<option value="' . OC_Util::sanitizeHTML($value) . '"' . $select . '>' . OC_Util::sanitizeHTML($label) . '</option>'."\n";
 	}
 	return $html;
 }
@@ -156,14 +182,24 @@ class OC_Template{
 		$this->application = $app;
 		$this->vars = array();
 		$this->vars['requesttoken'] = OC_Util::callRegister();
-		$this->vars['requestlifespan'] = OC_Util::$callLifespan;
 		$parts = explode('/', $app); // fix translation when app is something like core/lostpassword
 		$this->l10n = OC_L10N::get($parts[0]);
 
 		// Some headers to enhance security
-		header('X-Frame-Options: Sameorigin');
-		header('X-XSS-Protection: 1; mode=block');
-		header('X-Content-Type-Options: nosniff');
+		header('X-Frame-Options: Sameorigin'); // Disallow iFraming from other domains
+		header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
+		header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
+
+		// Content Security Policy
+		// If you change the standard policy, please also change it in config.sample.php
+		$policy = OC_Config::getValue('custom_csp_policy',
+			'default-src \'self\'; '
+			.'script-src \'self\' \'unsafe-eval\'; '
+			.'style-src \'self\' \'unsafe-inline\'; '
+			.'frame-src *; '
+			.'img-src *; '
+			.'font-src \'self\' data:');
+		header('Content-Security-Policy:'.$policy); // Standard
 
 		$this->findTemplate($name);
 	}
@@ -180,11 +216,12 @@ class OC_Template{
 	public static function detectFormfactor() {
 		// please add more useragent strings for other devices
 		if(isset($_SERVER['HTTP_USER_AGENT'])) {
-			if(stripos($_SERVER['HTTP_USER_AGENT'],'ipad')>0) {
+			if(stripos($_SERVER['HTTP_USER_AGENT'], 'ipad')>0) {
 				$mode='tablet';
-			}elseif(stripos($_SERVER['HTTP_USER_AGENT'],'iphone')>0) {
+			}elseif(stripos($_SERVER['HTTP_USER_AGENT'], 'iphone')>0) {
 				$mode='mobile';
-			}elseif((stripos($_SERVER['HTTP_USER_AGENT'],'N9')>0) and (stripos($_SERVER['HTTP_USER_AGENT'],'nokia')>0)) {
+			}elseif((stripos($_SERVER['HTTP_USER_AGENT'], 'N9')>0)
+				and (stripos($_SERVER['HTTP_USER_AGENT'], 'nokia')>0)) {
 				$mode='mobile';
 			}else{
 				$mode='default';
@@ -254,7 +291,8 @@ class OC_Template{
 				if ($this->checkPathForTemplate(OC::$SERVERROOT."/themes/$theme/$app/templates/", $name, $fext)) {
 				}elseif ($this->checkPathForTemplate(OC::$SERVERROOT."/$app/templates/", $name, $fext)) {
 				}else{
-					echo('template not found: template:'.$name.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+					echo('template not found: template:'.$name.' formfactor:'.$fext
+						.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 					die();
 				}
 
@@ -264,7 +302,8 @@ class OC_Template{
 			if ($this->checkPathForTemplate(OC::$SERVERROOT."/themes/$theme/core/templates/", $name, $fext)) {
 			} elseif ($this->checkPathForTemplate(OC::$SERVERROOT."/core/templates/", $name, $fext)) {
 			}else{
-				echo('template not found: template:'.$name.' formfactor:'.$fext.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
+				echo('template not found: template:'.$name.' formfactor:'.$fext
+					.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 				die();
 			}
 		}
@@ -301,7 +340,6 @@ class OC_Template{
 	 * @brief Assign variables
 	 * @param string $key key
 	 * @param string $value value
-	 * @param bool $sanitizeHTML false, if data shouldn't get passed through htmlentities
 	 * @return bool
 	 *
 	 * This function assigns a variable. It can be accessed via $_[$key] in
@@ -309,8 +347,7 @@ class OC_Template{
 	 *
 	 * If the key existed before, it will be overwritten
 	 */
-	public function assign( $key, $value, $sanitizeHTML=true ) {
-		if($sanitizeHTML == true) $value=OC_Util::sanitizeHTML($value);
+	public function assign( $key, $value) {
 		$this->vars[$key] = $value;
 		return true;
 	}
@@ -341,7 +378,7 @@ class OC_Template{
 	 * @param string $text the text content for the element
 	 */
 	public function addHeader( $tag, $attributes, $text='') {
-		$this->headers[]=array('tag'=>$tag,'attributes'=>$attributes,'text'=>$text);
+		$this->headers[]=array('tag'=>$tag,'attributes'=>$attributes, 'text'=>$text);
 	}
 
 	/**
@@ -373,15 +410,11 @@ class OC_Template{
 
 		if( $this->renderas ) {
 			$page = new OC_TemplateLayout($this->renderas);
-			if($this->renderas == 'user') {
-				$page->assign('requesttoken', $this->vars['requesttoken']);
-				$page->assign('requestlifespan', $this->vars['requestlifespan']);
-			}
 
 			// Add custom headers
-			$page->assign('headers',$this->headers, false);
+			$page->assign('headers', $this->headers, false);
 			foreach(OC_Util::$headers as $header) {
-				$page->append('headers',$header);
+				$page->append('headers', $header);
 			}
 
 			$page->assign( "content", $data, false );
@@ -405,7 +438,7 @@ class OC_Template{
 
 		// Execute the template
 		ob_start();
-		include( $this->template ); // <-- we have to use include because we pass $_!
+		include $this->template; // <-- we have to use include because we pass $_!
 		$data = ob_get_contents();
 		@ob_end_clean();
 
@@ -430,7 +463,7 @@ class OC_Template{
 
 		// Include
 		ob_start();
-		include( $this->path.$file.'.php' );
+		include $this->path.$file.'.php';
 		$data = ob_get_contents();
 		@ob_end_clean();
 
@@ -448,7 +481,7 @@ class OC_Template{
 	public static function printUserPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "user" );
 		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value, false );
+			$content->assign( $key, $value );
 		}
 		print $content->printPage();
 	}
@@ -463,7 +496,7 @@ class OC_Template{
 	public static function printAdminPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "admin" );
 		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value, false );
+			$content->assign( $key, $value );
 		}
 		return $content->printPage();
 	}
@@ -478,8 +511,22 @@ class OC_Template{
 	public static function printGuestPage( $application, $name, $parameters = array() ) {
 		$content = new OC_Template( $application, $name, "guest" );
 		foreach( $parameters as $key => $value ) {
-			$content->assign( $key, $value, false );
+			$content->assign( $key, $value );
 		}
 		return $content->printPage();
+	}
+
+	/**
+		* @brief Print a fatal error page and terminates the script
+		* @param string $error The error message to show
+		* @param string $hint An optional hint message 
+		* Warning: All data passed to $hint needs to get sanitized using OC_Util::sanitizeHTML
+		*/
+	public static function printErrorPage( $error_msg, $hint = '' ) {
+		$content = new OC_Template( '', 'error', 'error' );
+		$errors = array(array('error' => $error_msg, 'hint' => $hint));
+		$content->assign( 'errors', $errors );
+		$content->printPage();
+		die();
 	}
 }

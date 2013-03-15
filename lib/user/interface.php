@@ -57,4 +57,24 @@ interface OC_User_Interface {
 	*/
 	public function userExists($uid);
 
+	/**
+	 * @brief get display name of the user
+	 * @param $uid user ID of the user
+	 * @return display name
+	 */
+	public function getDisplayName($uid);
+
+	/**
+	 * @brief Get a list of all display names
+	 * @returns array with  all displayNames (value) and the corresponding uids (key)
+	 *
+	 * Get a list of all display names and user ids.
+	 */
+	public function getDisplayNames($search = '', $limit = null, $offset = null);
+
+	/**
+	 * @brief Check if a user list is available or not
+	 * @return boolean if users can be listed or not
+	 */
+	public function hasUserListings();
 }

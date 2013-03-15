@@ -58,22 +58,24 @@ class OC_L10N{
 	 * Localization
 	 */
 	private $localizations = array(
-		'date' => 'd.m.Y',
-		'datetime' => 'd.m.Y H:i:s',
-		'time' => 'H:i:s');
+		'jsdate' => 'dd.mm.yy',
+		'date' => '%d.%m.%Y',
+		'datetime' => '%d.%m.%Y %H:%M:%S',
+		'time' => '%H:%M:%S',
+		'firstday' => 0);
 
 	/**
 	 * get an L10N instance
 	 * @return OC_L10N
 	 */
-	public static function get($app,$lang=null) {
+	public static function get($app, $lang=null) {
 		if(is_null($lang)) {
 			if(!isset(self::$instances[$app])) {
 				self::$instances[$app]=new OC_L10N($app);
 			}
 			return self::$instances[$app];
 		}else{
-			return new OC_L10N($app,$lang);
+			return new OC_L10N($app, $lang);
 		}
 	}
 
@@ -95,7 +97,7 @@ class OC_L10N{
 		if ($this->app === true) {
 			return;
 		}
-		$app = $this->app;
+		$app = OC_App::cleanAppId($this->app);
 		$lang = $this->lang;
 		$this->app = true;
 		// Find the right language
@@ -113,12 +115,14 @@ class OC_L10N{
 			$i18ndir = self::findI18nDir($app);
 			// Localization is in /l10n, Texts are in $i18ndir
 			// (Just no need to define date/time format etc. twice)
-			if((OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC_App::getAppPath($app).'/l10n/') ||
-				OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/core/l10n/') ||
-				OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/lib/l10n/') ||
-				OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/settings')) && file_exists($i18ndir.$lang.'.php')) {
+			if((OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC_App::getAppPath($app).'/l10n/')
+				|| OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/core/l10n/')
+				|| OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/lib/l10n/')
+				|| OC_Helper::issubdirectory($i18ndir.$lang.'.php', OC::$SERVERROOT.'/settings')
+				)
+				&& file_exists($i18ndir.$lang.'.php')) {
 				// Include the file, save the data from $CONFIG
-				include(strip_tags($i18ndir).strip_tags($lang).'.php');
+				include strip_tags($i18ndir).strip_tags($lang).'.php';
 				if(isset($TRANSLATIONS) && is_array($TRANSLATIONS)) {
 					$this->translations = $TRANSLATIONS;
 				}
@@ -126,7 +130,7 @@ class OC_L10N{
 
 			if(file_exists(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php')) {
 				// Include the file, save the data from $CONFIG
-				include(OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php');
+				include OC::$SERVERROOT.'/core/l10n/l10n-'.$lang.'.php';
 				if(isset($LOCALIZATIONS) && is_array($LOCALIZATIONS)) {
 					$this->localizations = array_merge($this->localizations, $LOCALIZATIONS);
 				}
@@ -137,15 +141,15 @@ class OC_L10N{
 		}
 	}
 
-    /**
-     * @brief Translating
-     * @param $text String The text we need a translation for
-     * @param array $parameters default:array() Parameters for sprintf
-     * @return \OC_L10N_String Translation or the same text
-     *
-     * Returns the translation. If no translation is found, $text will be
-     * returned.
-     */
+	/**
+	 * @brief Translating
+	 * @param $text String The text we need a translation for
+	 * @param array $parameters default:array() Parameters for sprintf
+	 * @return \OC_L10N_String Translation or the same text
+	 *
+	 * Returns the translation. If no translation is found, $text will be
+	 * returned.
+	 */
 	public function t($text, $parameters = array()) {
 		return new OC_L10N_String($this, $text, $parameters);
 	}
@@ -165,7 +169,7 @@ class OC_L10N{
 	 *
 	 */
 	public function tA($textArray) {
-		OC_Log::write('core', 'DEPRECATED: the method tA is deprecated and will be removed soon.',OC_Log::WARN);
+		OC_Log::write('core', 'DEPRECATED: the method tA is deprecated and will be removed soon.', OC_Log::WARN);
 		$result = array();
 		foreach($textArray as $key => $text) {
 			$result[$key] = (string)$this->t($text);
@@ -216,8 +220,21 @@ class OC_L10N{
 			case 'time':
 				if($data instanceof DateTime) return $data->format($this->localizations[$type]);
 				elseif(is_string($data)) $data = strtotime($data);
-				return date($this->localizations[$type], $data);
+				$locales = array(self::findLanguage());
+				if (strlen($locales[0]) == 2) {
+					$locales[] = $locales[0].'_'.strtoupper($locales[0]);
+				}
+				setlocale(LC_TIME, $locales);
+				$format = $this->localizations[$type];
+				// Check for Windows to find and replace the %e modifier correctly
+				if (strtoupper(substr(PHP_OS, 0, 3)) == 'WIN') {
+					$format = preg_replace('#(?<!%)((?:%%)*)%e#', '\1%#d', $format);
+				}
+				return strftime($format, $data);
 				break;
+			case 'firstday':
+			case 'jsdate':
+				return $this->localizations[$type];
 			default:
 				return false;
 		}
@@ -270,7 +287,7 @@ class OC_L10N{
 		}
 
 		if(isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-			$accepted_languages = preg_split('/,\s*/', $_SERVER['HTTP_ACCEPT_LANGUAGE']);
+			$accepted_languages = preg_split('/,\s*/', strtolower($_SERVER['HTTP_ACCEPT_LANGUAGE']));
 			if(is_array($app)) {
 				$available = $app;
 			}
@@ -279,8 +296,14 @@ class OC_L10N{
 			}
 			foreach($accepted_languages as $i) {
 				$temp = explode(';', $i);
-				if(array_search($temp[0], $available) !== false) {
-					return $temp[0];
+				$temp[0] = str_replace('-', '_', $temp[0]);
+				if( ($key = array_search($temp[0], $available)) !== false) {
+					return $available[$key];
+				}
+				foreach($available as $l) {
+					if ( $temp[0] == substr($l, 0, 2) ) {
+						return $l;
+					}
 				}
 			}
 		}
@@ -320,7 +343,7 @@ class OC_L10N{
 		if(is_dir($dir)) {
 			$files=scandir($dir);
 			foreach($files as $file) {
-				if(substr($file, -4, 4) == '.php') {
+				if(substr($file, -4, 4) === '.php' && substr($file, 0, 4) !== 'l10n') {
 					$i = substr($file, 0, -4);
 					$available[] = $i;
 				}

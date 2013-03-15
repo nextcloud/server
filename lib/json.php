@@ -57,8 +57,7 @@ class OC_JSON{
 	* Check if the user is a admin, send json error msg if not
 	*/
 	public static function checkAdminUser() {
-		self::checkLoggedIn();
-		if( !OC_Group::inGroup( OC_User::getUser(), 'admin' )) {
+		if( !OC_User::isAdminUser(OC_User::getUser())) {
 			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 			exit();
@@ -69,8 +68,7 @@ class OC_JSON{
 	* Check if the user is a subadmin, send json error msg if not
 	*/
 	public static function checkSubAdminUser() {
-		self::checkLoggedIn();
-		if(!OC_Group::inGroup(OC_User::getUser(),'admin') && !OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
+		if(!OC_SubAdmin::isSubAdmin(OC_User::getUser())) {
 			$l = OC_L10N::get('lib');
 			self::error(array( 'data' => array( 'message' => $l->t('Authentication error') )));
 			exit();
@@ -105,7 +103,7 @@ class OC_JSON{
 	/**
 	* Encode and print $data in json format
 	*/
-	public static function encodedPrint($data,$setContentType=true) {
+	public static function encodedPrint($data, $setContentType=true) {
 		// Disable mimesniffing, don't move this to setContentTypeHeader!
 		header( 'X-Content-Type-Options: nosniff' );
 		if($setContentType) {

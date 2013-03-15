@@ -1,0 +1,82 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# georg <georg007@gmail.com>, 2013.
+# Marián Hvolka <marian.hvolka@stuba.sk>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-03-09 00:05+0100\n"
+"PO-Revision-Date: 2013-03-07 23:40+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sk_SK\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+
+#: ajax/delete.php:40
+#, php-format
+msgid "Couldn't delete %s permanently"
+msgstr "Nemožno zmazať %s navždy"
+
+#: ajax/undelete.php:41
+#, php-format
+msgid "Couldn't restore %s"
+msgstr "Nemožno obnoviť %s"
+
+#: js/trash.js:7 js/trash.js:96
+msgid "perform restore operation"
+msgstr "vykonať obnovu"
+
+#: js/trash.js:34
+msgid "delete file permanently"
+msgstr "trvalo zmazať súbor"
+
+#: js/trash.js:121
+msgid "Delete permanently"
+msgstr "Zmazať  trvalo"
+
+#: js/trash.js:174 templates/index.php:17
+msgid "Name"
+msgstr "Meno"
+
+#: js/trash.js:175 templates/index.php:27
+msgid "Deleted"
+msgstr "Zmazané"
+
+#: js/trash.js:184
+msgid "1 folder"
+msgstr "1 priečinok"
+
+#: js/trash.js:186
+msgid "{count} folders"
+msgstr "{count} priečinkov"
+
+#: js/trash.js:194
+msgid "1 file"
+msgstr "1 súbor"
+
+#: js/trash.js:196
+msgid "{count} files"
+msgstr "{count} súborov"
+
+#: templates/index.php:9
+msgid "Nothing in here. Your trash bin is empty!"
+msgstr "Žiadny obsah. Kôš je prázdny!"
+
+#: templates/index.php:20 templates/index.php:22
+msgid "Restore"
+msgstr "Obnoviť"
+
+#: templates/index.php:30 templates/index.php:31
+msgid "Delete"
+msgstr "Zmazať"
+
+#: templates/part.breadcrumb.php:9
+msgid "Deleted Files"
+msgstr "Zmazané súbory"

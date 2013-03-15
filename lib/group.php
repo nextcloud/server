@@ -65,15 +65,8 @@ class OC_Group {
 	 *
 	 * Tries to create a new group. If the group name already exists, false will
 	 * be returned. Basic checking of Group name
-	 *
-	 * Allowed characters in the username are: "a-z", "A-Z", "0-9" and "_.@-"
 	 */
 	public static function createGroup( $gid ) {
-		// Check the name for bad characters
-		// Allowed are: "a-z", "A-Z", "0-9" and "_.@-"
-		if( preg_match( '/[^a-zA-Z0-9 _\.@\-]/', $gid )) {
-			return false;
-		}
 		// No empty group names!
 		if( !$gid ) {
 			return false;
@@ -146,7 +139,7 @@ class OC_Group {
 	 */
 	public static function inGroup( $uid, $gid ) {
 		foreach(self::$_usedBackends as $backend) {
-			if($backend->inGroup($uid,$gid)) {
+			if($backend->inGroup($uid, $gid)) {
 				return true;
 			}
 		}
@@ -230,7 +223,7 @@ class OC_Group {
 	public static function getUserGroups( $uid ) {
 		$groups=array();
 		foreach(self::$_usedBackends as $backend) {
-			$groups=array_merge($backend->getUserGroups($uid),$groups);
+			$groups=array_merge($backend->getUserGroups($uid), $groups);
 		}
 		asort($groups);
 		return $groups;
@@ -292,5 +285,46 @@ class OC_Group {
 			$users = array_merge(array_diff(self::usersInGroup($gid, $search, $limit, $offset), $users), $users);
 		}
 		return $users;
+	}
+
+	/**
+	 * @brief get a list of all display names in a group
+	 * @returns array with display names (value) and user ids(key)
+	 */
+	public static function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+		$displayNames=array();
+		foreach(self::$_usedBackends as $backend) {
+			if($backend->implementsActions(OC_GROUP_BACKEND_GET_DISPLAYNAME)) {
+				$displayNames = array_merge($backend->displayNamesInGroup($gid, $search, $limit, $offset), $displayNames);
+			} else {
+				$users = $backend->usersInGroup($gid, $search, $limit, $offset);
+				$names = array_combine($users, $users);
+				$displayNames = array_merge($names, $displayNames);
+			}
+		}
+		return $displayNames;
+	}
+
+	/**
+	 * @brief get a list of all display names in several groups
+	 * @param array $gids
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
+	 * @return array with display names (Key) user ids (value)
+	 */
+	public static function displayNamesInGroups($gids, $search = '', $limit = -1, $offset = 0) {
+		$displayNames = array();
+		foreach ($gids as $gid) {
+			// TODO Need to apply limits to groups as total
+			$diff = array_diff(
+				self::displayNamesInGroup($gid, $search, $limit, $offset),
+				$displayNames
+			);
+			if ($diff) {
+				$displayNames = array_merge($diff, $displayNames);
+			}
+		}
+		return $displayNames;
 	}
 }

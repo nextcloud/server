@@ -1,0 +1,81 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+# Gilad Naaman <gilad.doom@gmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-03-08 00:25+0100\n"
+"PO-Revision-Date: 2013-03-07 23:25+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: he\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/delete.php:40
+#, php-format
+msgid "Couldn't delete %s permanently"
+msgstr "בלתי אפשרי למחוק את %s לצמיתות"
+
+#: ajax/undelete.php:41
+#, php-format
+msgid "Couldn't restore %s"
+msgstr "בלתי אפשרי לשחזר את %s"
+
+#: js/trash.js:7 js/trash.js:96
+msgid "perform restore operation"
+msgstr "בצע פעולת שחזור"
+
+#: js/trash.js:34
+msgid "delete file permanently"
+msgstr "מחק קובץ לצמיתות"
+
+#: js/trash.js:121
+msgid "Delete permanently"
+msgstr "מחק לצמיתות"
+
+#: js/trash.js:174 templates/index.php:17
+msgid "Name"
+msgstr "שם"
+
+#: js/trash.js:175 templates/index.php:27
+msgid "Deleted"
+msgstr "נמחק"
+
+#: js/trash.js:184
+msgid "1 folder"
+msgstr "תיקייה אחת"
+
+#: js/trash.js:186
+msgid "{count} folders"
+msgstr "{count} תיקיות"
+
+#: js/trash.js:194
+msgid "1 file"
+msgstr "קובץ אחד"
+
+#: js/trash.js:196
+msgid "{count} files"
+msgstr "{count} קבצים"
+
+#: templates/index.php:9
+msgid "Nothing in here. Your trash bin is empty!"
+msgstr "שום דבר כאן. סל המחזור שלך ריק!"
+
+#: templates/index.php:20 templates/index.php:22
+msgid "Restore"
+msgstr "שחזר"
+
+#: templates/index.php:30 templates/index.php:31
+msgid "Delete"
+msgstr "מחיקה"
+
+#: templates/part.breadcrumb.php:9
+msgid "Deleted Files"
+msgstr ""

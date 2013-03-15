@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Expire all versions" => "Kõikide versioonide aegumine",
-"Versions" => "Versioonid",
-"This will delete all existing backup versions of your files" => "See kustutab kõik sinu failidest tehtud varuversiooni"
+"success" => "korras",
+"failure" => "ebaõnnestus",
+"No old versions available" => "Vanu versioone pole saadaval",
+"No path specified" => "Asukohta pole määratud"
 );

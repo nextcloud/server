@@ -1,70 +1,67 @@
 <?php
 
-$hasSQLite = (is_callable('sqlite_open') or class_exists('SQLite3'));
-$hasMySQL = is_callable('mysql_connect');
-$hasPostgreSQL = is_callable('pg_connect');
-$hasOracle = is_callable('oci_connect');
-$datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
-$opts = array(
-	'hasSQLite' => $hasSQLite,
-	'hasMySQL' => $hasMySQL,
-	'hasPostgreSQL' => $hasPostgreSQL,
-	'hasOracle' => $hasOracle,
-	'directory' => $datadir,
-	'errors' => array(),
-);
+class DatabaseSetupException extends Exception
+{
+	private $hint;
 
-if(isset($_POST['install']) AND $_POST['install']=='true') {
-	// We have to launch the installation process :
-	$e = OC_Setup::install($_POST);
-	$errors = array('errors' => $e);
+	public function __construct($message, $hint, $code = 0, Exception $previous = null) {
+		$this->hint = $hint;
+		parent::__construct($message, $code, $previous);
+	}
 
-	if(count($e) > 0) {
-		//OC_Template::printGuestPage("", "error", array("errors" => $errors));
-		$options = array_merge($_POST, $opts, $errors);
-		OC_Template::printGuestPage("", "installation", $options);
+	public function __toString() {
+		return __CLASS__ . ": [{$this->code}]: {$this->message} ({$this->hint})\n";
 	}
-	else {
-		header("Location: ".OC::$WEBROOT.'/');
-		exit();
+
+	public function getHint() {
+		return $this->hint;
 	}
-}
-else {
-	OC_Template::printGuestPage("", "installation", $opts);
 }
 
 class OC_Setup {
+
+	public static function getTrans(){
+		return OC_L10N::get('lib');
+	}
+
 	public static function install($options) {
+		$l = self::getTrans();
+
 		$error = array();
 		$dbtype = $options['dbtype'];
 
 		if(empty($options['adminlogin'])) {
-			$error[] = 'Set an admin username.';
+			$error[] = $l->t('Set an admin username.');
 		}
 		if(empty($options['adminpass'])) {
-			$error[] = 'Set an admin password.';
+			$error[] = $l->t('Set an admin password.');
 		}
 		if(empty($options['directory'])) {
-			$error[] = 'Specify a data folder.';
+			$error[] = $l->t('Specify a data folder.');
 		}
 
-		if($dbtype=='mysql' or $dbtype == 'pgsql' or $dbtype == 'oci') { //mysql and postgresql needs more config options
-			if($dbtype=='mysql')
+		if($dbtype == 'mysql' or $dbtype == 'pgsql' or $dbtype == 'oci' or $dbtype == 'mssql') { //mysql and postgresql needs more config options
+			if($dbtype == 'mysql')
 				$dbprettyname = 'MySQL';
-			else if($dbtype=='pgsql')
-					$dbprettyname = 'PostgreSQL';
+			else if($dbtype == 'pgsql')
+				$dbprettyname = 'PostgreSQL';
+			else if ($dbtype == 'mssql')
+				$dbprettyname = 'MS SQL Server';
 			else
-					$dbprettyname = 'Oracle';
+				$dbprettyname = 'Oracle';
 
 
 			if(empty($options['dbuser'])) {
-				$error[] = "$dbprettyname enter the database username.";
+				$error[] = $l->t("%s enter the database username.", array($dbprettyname));
 			}
 			if(empty($options['dbname'])) {
-				$error[] = "$dbprettyname enter the database name.";
+				$error[] = $l->t("%s enter the database name.", array($dbprettyname));
+			}
+			if(substr_count($options['dbname'], '.') >= 1) {
+				$error[] = $l->t("%s you may not use dots in the database name", array($dbprettyname));
 			}
 			if($dbtype != 'oci' && empty($options['dbhost'])) {
-				$error[] = "$dbprettyname set the database host.";
+				$error[] = $l->t("%s set the database host.", array($dbprettyname));
 			}
 		}
 
@@ -85,68 +82,32 @@ class OC_Setup {
 			//write the config file
 			OC_Config::setValue('datadirectory', $datadir);
 			OC_Config::setValue('dbtype', $dbtype);
-			OC_Config::setValue('version',implode('.',OC_Util::getVersion()));
+			OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
 			if($dbtype == 'mysql') {
 				$dbuser = $options['dbuser'];
 				$dbpass = $options['dbpass'];
 				$dbname = $options['dbname'];
 				$dbhost = $options['dbhost'];
 				$dbtableprefix = isset($options['dbtableprefix']) ? $options['dbtableprefix'] : 'oc_';
+
 				OC_Config::setValue('dbname', $dbname);
 				OC_Config::setValue('dbhost', $dbhost);
 				OC_Config::setValue('dbtableprefix', $dbtableprefix);
 
-				//check if the database user has admin right
-				$connection = @mysql_connect($dbhost, $dbuser, $dbpass);
-				if(!$connection) {
+				try {
+					self::setupMySQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $username);
+				} catch (DatabaseSetupException $e) {
 					$error[] = array(
-						'error' => 'MySQL username and/or password not valid',
-						'hint' => 'You need to enter either an existing account or the administrator.'
+						'error' => $e->getMessage(),
+						'hint' => $e->getHint()
 					);
 					return($error);
-				}
-				else {
-					$oldUser=OC_Config::getValue('dbuser', false);
-
-					$query="SELECT user FROM mysql.user WHERE user='$dbuser'"; //this should be enough to check for admin rights in mysql
-					if(mysql_query($query, $connection)) {
-						//use the admin login data for the new database user
-
-						//add prefix to the mysql user name to prevent collisions
-						$dbusername=substr('oc_'.$username,0,16);
-						if($dbusername!=$oldUser) {
-							//hash the password so we don't need to store the admin config in the config file
-							$dbpassword=md5(time().$password);
-
-							self::createDBUser($dbusername, $dbpassword, $connection);
-
-							OC_Config::setValue('dbuser', $dbusername);
-							OC_Config::setValue('dbpassword', $dbpassword);
-						}
-
-						//create the database
-						self::createDatabase($dbname, $dbusername, $connection);
-					}
-					else {
-						if($dbuser!=$oldUser) {
-							OC_Config::setValue('dbuser', $dbuser);
-							OC_Config::setValue('dbpassword', $dbpass);
-						}
-
-						//create the database
-						self::createDatabase($dbname, $dbuser, $connection);
-					}
-
-					//fill the database if needed
-					$query="select count(*) from information_schema.tables where table_schema='$dbname' AND table_name = '{$dbtableprefix}users';";
-					$result = mysql_query($query,$connection);
-					if($result) {
-						$row=mysql_fetch_row($result);
-					}
-					if(!$result or $row[0]==0) {
-						OC_DB::createDbFromStructure('db_structure.xml');
-					}
-					mysql_close($connection);
+				} catch (Exception $e) {
+					$error[] = array(
+						'error' => $e->getMessage(),
+						'hint' => ''
+					);
+					return($error);
 				}
 			}
 			elseif($dbtype == 'pgsql') {
@@ -155,81 +116,19 @@ class OC_Setup {
 				$dbname = $options['dbname'];
 				$dbhost = $options['dbhost'];
 				$dbtableprefix = isset($options['dbtableprefix']) ? $options['dbtableprefix'] : 'oc_';
-				OC_CONFIG::setValue('dbname', $dbname);
-				OC_CONFIG::setValue('dbhost', $dbhost);
-				OC_CONFIG::setValue('dbtableprefix', $dbtableprefix);
 
-				$e_host = addslashes($dbhost);
-				$e_user = addslashes($dbuser);
-				$e_password = addslashes($dbpass);
-				//check if the database user has admin right
-				$connection_string = "host='$e_host' dbname=postgres user='$e_user' password='$e_password'";
-				$connection = @pg_connect($connection_string);
-				if(!$connection) {
+				OC_Config::setValue('dbname', $dbname);
+				OC_Config::setValue('dbhost', $dbhost);
+				OC_Config::setValue('dbtableprefix', $dbtableprefix);
+
+				try {
+					self::setupPostgreSQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $username);
+				} catch (Exception $e) {
 					$error[] = array(
-						'error' => 'PostgreSQL username and/or password not valid',
-						'hint' => 'You need to enter either an existing account or the administrator.'
+						'error' => $l->t('PostgreSQL username and/or password not valid'),
+						'hint' => $l->t('You need to enter either an existing account or the administrator.')
 					);
 					return $error;
-				}
-				else {
-					$e_user = pg_escape_string($dbuser);
-					//check for roles creation rights in postgresql
-					$query="SELECT 1 FROM pg_roles WHERE rolcreaterole=TRUE AND rolname='$e_user'";
-					$result = pg_query($connection, $query);
-					if($result and pg_num_rows($result) > 0) {
-						//use the admin login data for the new database user
-
-						//add prefix to the postgresql user name to prevent collisions
-						$dbusername='oc_'.$username;
-						//create a new password so we don't need to store the admin config in the config file
-						$dbpassword=md5(time());
-
-						self::pg_createDBUser($dbusername, $dbpassword, $connection);
-
-						OC_CONFIG::setValue('dbuser', $dbusername);
-						OC_CONFIG::setValue('dbpassword', $dbpassword);
-
-						//create the database
-						self::pg_createDatabase($dbname, $dbusername, $connection);
-					}
-					else {
-						OC_CONFIG::setValue('dbuser', $dbuser);
-						OC_CONFIG::setValue('dbpassword', $dbpass);
-
-						//create the database
-						self::pg_createDatabase($dbname, $dbuser, $connection);
-					}
-
-					// the connection to dbname=postgres is not needed anymore
-					pg_close($connection);
-
-					// connect to the ownCloud database (dbname=$dbname) an check if it needs to be filled
-					$dbuser = OC_CONFIG::getValue('dbuser');
-					$dbpass = OC_CONFIG::getValue('dbpassword');
-
-					$e_host = addslashes($dbhost);
-					$e_dbname = addslashes($dbname);
-					$e_user = addslashes($dbuser);
-					$e_password = addslashes($dbpass);
-
-					$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' password='$e_password'";
-					$connection = @pg_connect($connection_string);
-					if(!$connection) {
-						$error[] = array(
-							'error' => 'PostgreSQL username and/or password not valid',
-							'hint' => 'You need to enter either an existing account or the administrator.'
-						);
-					} else {
-						$query = "select count(*) FROM pg_class WHERE relname='{$dbtableprefix}users' limit 1";
-						$result = pg_query($connection, $query);
-						if($result) {
-							$row = pg_fetch_row($result);
-						}
-						if(!$result or $row[0]==0) {
-							OC_DB::createDbFromStructure('db_structure.xml');
-						}
-					}
 				}
 			}
 			elseif($dbtype == 'oci') {
@@ -239,116 +138,43 @@ class OC_Setup {
 				$dbtablespace = $options['dbtablespace'];
 				$dbhost = isset($options['dbhost'])?$options['dbhost']:'';
 				$dbtableprefix = isset($options['dbtableprefix']) ? $options['dbtableprefix'] : 'oc_';
-				OC_CONFIG::setValue('dbname', $dbname);
-				OC_CONFIG::setValue('dbtablespace', $dbtablespace);
-				OC_CONFIG::setValue('dbhost', $dbhost);
-				OC_CONFIG::setValue('dbtableprefix', $dbtableprefix);
 
-				$e_host = addslashes($dbhost);
-				$e_dbname = addslashes($dbname);
-				//check if the database user has admin right
-				if ($e_host == '') {
-					$easy_connect_string = $e_dbname; // use dbname as easy connect name
-				} else {
-					$easy_connect_string = '//'.$e_host.'/'.$e_dbname;
-				}
-				$connection = @oci_connect($dbuser, $dbpass, $easy_connect_string);
-				if(!$connection) {
-					$e = oci_error();
+				OC_Config::setValue('dbname', $dbname);
+				OC_Config::setValue('dbtablespace', $dbtablespace);
+				OC_Config::setValue('dbhost', $dbhost);
+				OC_Config::setValue('dbtableprefix', $dbtableprefix);
+
+				try {
+					self::setupOCIDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $dbtablespace, $username);
+				} catch (Exception $e) {
 					$error[] = array(
-						'error' => 'Oracle username and/or password not valid',
+						'error' => $l->t('Oracle username and/or password not valid'),
+						'hint' => $l->t('You need to enter either an existing account or the administrator.')
+					);
+					return $error;
+				}
+			}
+			elseif ($dbtype == 'mssql') {
+				$dbuser = $options['dbuser'];
+				$dbpass = $options['dbpass'];
+				$dbname = $options['dbname'];
+				$dbhost = $options['dbhost'];
+				$dbtableprefix = isset($options['dbtableprefix']) ? $options['dbtableprefix'] : 'oc_';
+
+				OC_Config::setValue('dbname', $dbname);
+				OC_Config::setValue('dbhost', $dbhost);
+				OC_Config::setValue('dbuser', $dbuser);
+				OC_Config::setValue('dbpassword', $dbpass);
+				OC_Config::setValue('dbtableprefix', $dbtableprefix);
+
+				try {
+					self::setupMSSQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix);
+				} catch (Exception $e) {
+					$error[] = array(
+						'error' => 'MS SQL username and/or password not valid',
 						'hint' => 'You need to enter either an existing account or the administrator.'
 					);
 					return $error;
-				} else {
-					//check for roles creation rights in oracle
-
-					$query="SELECT count(*) FROM user_role_privs, role_sys_privs WHERE user_role_privs.granted_role = role_sys_privs.role AND privilege = 'CREATE ROLE'";
-					$stmt = oci_parse($connection, $query);
-					if (!$stmt) {
-						$entry='DB Error: "'.oci_last_error($connection).'"<br />';
-						$entry.='Offending command was: '.$query.'<br />';
-						echo($entry);
-					}
-					$result = oci_execute($stmt);
-					if($result) {
-						$row = oci_fetch_row($stmt);
-					}
-					if($result and $row[0] > 0) {
-						//use the admin login data for the new database user
-
-						//add prefix to the oracle user name to prevent collisions
-						$dbusername='oc_'.$username;
-						//create a new password so we don't need to store the admin config in the config file
-						$dbpassword=md5(time().$dbpass);
-
-						//oracle passwords are treated as identifiers:
-						//  must start with aphanumeric char
-						//  needs to be shortened to 30 bytes, as the two " needed to escape the identifier count towards the identifier length.
-						$dbpassword=substr($dbpassword, 0, 30);
-
-						self::oci_createDBUser($dbusername, $dbpassword, $dbtablespace, $connection);
-
-						OC_CONFIG::setValue('dbuser', $dbusername);
-						OC_CONFIG::setValue('dbname', $dbusername);
-						OC_CONFIG::setValue('dbpassword', $dbpassword);
-
-						//create the database not neccessary, oracle implies user = schema
-						//self::oci_createDatabase($dbname, $dbusername, $connection);
-					} else {
-
-						OC_CONFIG::setValue('dbuser', $dbuser);
-						OC_CONFIG::setValue('dbname', $dbname);
-						OC_CONFIG::setValue('dbpassword', $dbpass);
-
-						//create the database not neccessary, oracle implies user = schema
-						//self::oci_createDatabase($dbname, $dbuser, $connection);
-					}
-
-					//FIXME check tablespace exists: select * from user_tablespaces
-
-					// the connection to dbname=oracle is not needed anymore
-					oci_close($connection);
-
-					// connect to the oracle database (schema=$dbuser) an check if the schema needs to be filled
-					$dbuser = OC_CONFIG::getValue('dbuser');
-					//$dbname = OC_CONFIG::getValue('dbname');
-					$dbpass = OC_CONFIG::getValue('dbpassword');
-
-					$e_host = addslashes($dbhost);
-					$e_dbname = addslashes($dbname);
-
-					if ($e_host == '') {
-						$easy_connect_string = $e_dbname; // use dbname as easy connect name
-					} else {
-						$easy_connect_string = '//'.$e_host.'/'.$e_dbname;
-					}
-					$connection = @oci_connect($dbuser, $dbpass, $easy_connect_string);
-					if(!$connection) {
-						$error[] = array(
-							'error' => 'Oracle username and/or password not valid',
-							'hint' => 'You need to enter either an existing account or the administrator.'
-						);
-						return $error;
-					} else {
-						$query = "SELECT count(*) FROM user_tables WHERE table_name = :un";
-						$stmt = oci_parse($connection, $query);
-						$un = $dbtableprefix.'users';
-						oci_bind_by_name($stmt, ':un', $un);
-						if (!$stmt) {
-							$entry='DB Error: "'.oci_last_error($connection).'"<br />';
-							$entry.='Offending command was: '.$query.'<br />';
-							echo($entry);
-						}
-						$result = oci_execute($stmt);
-
-						if($result) {
-							$row = oci_fetch_row($stmt);
-						}
-						if(!$result or $row[0]==0) {
-							OC_DB::createDbFromStructure('db_structure.xml');
-						}
-					}
 				}
 			}
 			else {
@@ -369,8 +195,10 @@ class OC_Setup {
 			}
 
 			if(count($error) == 0) {
-				OC_Appconfig::setValue('core', 'installedat',microtime(true));
-				OC_Appconfig::setValue('core', 'lastupdatedat',microtime(true));
+				OC_Appconfig::setValue('core', 'installedat', microtime(true));
+				OC_Appconfig::setValue('core', 'lastupdatedat', microtime(true));
+				OC_AppConfig::setValue('core', 'remote_core.css', '/core/minimizer.php');
+				OC_AppConfig::setValue('core', 'remote_core.js', '/core/minimizer.php');
 
 				OC_Group::createGroup('admin');
 				OC_Group::addToGroup($username, 'admin');
@@ -392,62 +220,199 @@ class OC_Setup {
 		return $error;
 	}
 
-	public static function createDatabase($name,$user,$connection) {
+	private static function setupMySQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $username) {
+		//check if the database user has admin right
+		$l = self::getTrans();
+		$connection = @mysql_connect($dbhost, $dbuser, $dbpass);
+		if(!$connection) {
+			throw new DatabaseSetupException($l->t('MySQL username and/or password not valid'),
+				$l->t('You need to enter either an existing account or the administrator.'));
+		}
+		$oldUser=OC_Config::getValue('dbuser', false);
+
+		//this should be enough to check for admin rights in mysql
+		$query="SELECT user FROM mysql.user WHERE user='$dbuser'";
+		if(mysql_query($query, $connection)) {
+			//use the admin login data for the new database user
+
+			//add prefix to the mysql user name to prevent collisions
+			$dbusername=substr('oc_'.$username, 0, 16);
+			if($dbusername!=$oldUser) {
+				//hash the password so we don't need to store the admin config in the config file
+				$dbpassword=md5(time().$dbpass);
+
+				self::createDBUser($dbusername, $dbpassword, $connection);
+
+				OC_Config::setValue('dbuser', $dbusername);
+				OC_Config::setValue('dbpassword', $dbpassword);
+			}
+
+			//create the database
+			self::createMySQLDatabase($dbname, $dbusername, $connection);
+		}
+		else {
+			if($dbuser!=$oldUser) {
+				OC_Config::setValue('dbuser', $dbuser);
+				OC_Config::setValue('dbpassword', $dbpass);
+			}
+
+			//create the database
+			self::createMySQLDatabase($dbname, $dbuser, $connection);
+		}
+
+		//fill the database if needed
+		$query='select count(*) from information_schema.tables'
+			." where table_schema='$dbname' AND table_name = '{$dbtableprefix}users';";
+		$result = mysql_query($query, $connection);
+		if($result) {
+			$row=mysql_fetch_row($result);
+		}
+		if(!$result or $row[0]==0) {
+			OC_DB::createDbFromStructure('db_structure.xml');
+		}
+		mysql_close($connection);
+	}
+
+	private static function createMySQLDatabase($name, $user, $connection) {
 		//we cant use OC_BD functions here because we need to connect as the administrative user.
+		$l = self::getTrans();
 		$query = "CREATE DATABASE IF NOT EXISTS  `$name`";
 		$result = mysql_query($query, $connection);
 		if(!$result) {
-			$entry='DB Error: "'.mysql_error($connection).'"<br />';
-			$entry.='Offending command was: '.$query.'<br />';
-			echo($entry);
+			$entry = $l->t('DB Error: "%s"', array(mysql_error($connection))) . '<br />';
+			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+			\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
 		}
 		$query="GRANT ALL PRIVILEGES ON  `$name` . * TO  '$user'";
-		$result = mysql_query($query, $connection); //this query will fail if there aren't the right permissons, ignore the error
+
+		//this query will fail if there aren't the right permissions, ignore the error
+		mysql_query($query, $connection);
 	}
 
-	private static function createDBUser($name,$password,$connection) {
+	private static function createDBUser($name, $password, $connection) {
 		// we need to create 2 accounts, one for global use and one for local user. if we don't specify the local one,
 		// the anonymous user would take precedence when there is one.
+		$l = self::getTrans();
 		$query = "CREATE USER '$name'@'localhost' IDENTIFIED BY '$password'";
 		$result = mysql_query($query, $connection);
+		if (!$result) {
+			throw new DatabaseSetupException($l->t("MySQL user '%s'@'localhost' exists already.",
+				array($name)), $l->t("Drop this user from MySQL", array($name)));
+		}
 		$query = "CREATE USER '$name'@'%' IDENTIFIED BY '$password'";
 		$result = mysql_query($query, $connection);
+		if (!$result) {
+			throw new DatabaseSetupException($l->t("MySQL user '%s'@'%%' already exists", array($name)),
+				$l->t("Drop this user from MySQL."));
+		}
 	}
 
-	public static function pg_createDatabase($name,$user,$connection) {
+	private static function setupPostgreSQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $username) {
+		$e_host = addslashes($dbhost);
+		$e_user = addslashes($dbuser);
+		$e_password = addslashes($dbpass);
+		$l = self::getTrans();
+
+		//check if the database user has admin rights
+		$connection_string = "host='$e_host' dbname=postgres user='$e_user' password='$e_password'";
+		$connection = @pg_connect($connection_string);
+		if(!$connection) {
+			throw new Exception($l->t('PostgreSQL username and/or password not valid'));
+		}
+		$e_user = pg_escape_string($dbuser);
+		//check for roles creation rights in postgresql
+		$query="SELECT 1 FROM pg_roles WHERE rolcreaterole=TRUE AND rolname='$e_user'";
+		$result = pg_query($connection, $query);
+		if($result and pg_num_rows($result) > 0) {
+			//use the admin login data for the new database user
+
+			//add prefix to the postgresql user name to prevent collisions
+			$dbusername='oc_'.$username;
+			//create a new password so we don't need to store the admin config in the config file
+			$dbpassword=md5(time());
+
+			self::pg_createDBUser($dbusername, $dbpassword, $connection);
+
+			OC_Config::setValue('dbuser', $dbusername);
+			OC_Config::setValue('dbpassword', $dbpassword);
+
+			//create the database
+			self::pg_createDatabase($dbname, $dbusername, $connection);
+		}
+		else {
+			OC_Config::setValue('dbuser', $dbuser);
+			OC_Config::setValue('dbpassword', $dbpass);
+
+			//create the database
+			self::pg_createDatabase($dbname, $dbuser, $connection);
+		}
+
+		// the connection to dbname=postgres is not needed anymore
+		pg_close($connection);
+
+		// connect to the ownCloud database (dbname=$dbname) and check if it needs to be filled
+		$dbuser = OC_Config::getValue('dbuser');
+		$dbpass = OC_Config::getValue('dbpassword');
+
+		$e_host = addslashes($dbhost);
+		$e_dbname = addslashes($dbname);
+		$e_user = addslashes($dbuser);
+		$e_password = addslashes($dbpass);
+
+		$connection_string = "host='$e_host' dbname='$e_dbname' user='$e_user' password='$e_password'";
+		$connection = @pg_connect($connection_string);
+		if(!$connection) {
+			throw new Exception($l->t('PostgreSQL username and/or password not valid'));
+		}
+		$query = "select count(*) FROM pg_class WHERE relname='{$dbtableprefix}users' limit 1";
+		$result = pg_query($connection, $query);
+		if($result) {
+			$row = pg_fetch_row($result);
+		}
+		if(!$result or $row[0]==0) {
+			OC_DB::createDbFromStructure('db_structure.xml');
+		}
+	}
+
+	private static function pg_createDatabase($name, $user, $connection) {
+
 		//we cant use OC_BD functions here because we need to connect as the administrative user.
+		$l = self::getTrans();
 		$e_name = pg_escape_string($name);
 		$e_user = pg_escape_string($user);
 		$query = "select datname from pg_database where datname = '$e_name'";
 		$result = pg_query($connection, $query);
 		if(!$result) {
-			$entry='DB Error: "'.pg_last_error($connection).'"<br />';
-			$entry.='Offending command was: '.$query.'<br />';
-			echo($entry);
+			$entry = $l->t('DB Error: "%s"', array(pg_last_error($connection))) . '<br />';
+			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+			\OC_Log::write('setup.pg', $entry, \OC_Log::WARN);
 		}
 		if(! pg_fetch_row($result)) {
 			//The database does not exists... let's create it
 			$query = "CREATE DATABASE \"$e_name\" OWNER \"$e_user\"";
 			$result = pg_query($connection, $query);
 			if(!$result) {
-				$entry='DB Error: "'.pg_last_error($connection).'"<br />';
-				$entry.='Offending command was: '.$query.'<br />';
-				echo($entry);
+				$entry = $l->t('DB Error: "%s"', array(pg_last_error($connection))) . '<br />';
+				$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+				\OC_Log::write('setup.pg', $entry, \OC_Log::WARN);
+			}
+			else {
+				$query = "REVOKE ALL PRIVILEGES ON DATABASE \"$e_name\" FROM PUBLIC";
+				pg_query($connection, $query);
 			}
 		}
-		$query = "REVOKE ALL PRIVILEGES ON DATABASE \"$e_name\" FROM PUBLIC";
-		$result = pg_query($connection, $query);
 	}
 
-	private static function pg_createDBUser($name,$password,$connection) {
+	private static function pg_createDBUser($name, $password, $connection) {
+		$l = self::getTrans();
 		$e_name = pg_escape_string($name);
 		$e_password = pg_escape_string($password);
 		$query = "select * from pg_roles where rolname='$e_name';";
 		$result = pg_query($connection, $query);
 		if(!$result) {
-			$entry='DB Error: "'.pg_last_error($connection).'"<br />';
-			$entry.='Offending command was: '.$query.'<br />';
-			echo($entry);
+			$entry = $l->t('DB Error: "%s"', array(pg_last_error($connection))) . '<br />';
+			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+			\OC_Log::write('setup.pg', $entry, \OC_Log::WARN);
 		}
 
 		if(! pg_fetch_row($result)) {
@@ -455,21 +420,124 @@ class OC_Setup {
 			$query = "CREATE USER \"$e_name\" CREATEDB PASSWORD '$e_password';";
 			$result = pg_query($connection, $query);
 			if(!$result) {
-				$entry='DB Error: "'.pg_last_error($connection).'"<br />';
-				$entry.='Offending command was: '.$query.'<br />';
-				echo($entry);
+				$entry = $l->t('DB Error: "%s"', array(pg_last_error($connection))) . '<br />';
+				$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+				\OC_Log::write('setup.pg', $entry, \OC_Log::WARN);
 			}
 		}
 		else { // change password of the existing role
 			$query = "ALTER ROLE \"$e_name\" WITH PASSWORD '$e_password';";
 			$result = pg_query($connection, $query);
 			if(!$result) {
-				$entry='DB Error: "'.pg_last_error($connection).'"<br />';
-				$entry.='Offending command was: '.$query.'<br />';
-				echo($entry);
+				$entry = $l->t('DB Error: "%s"', array(pg_last_error($connection))) . '<br />';
+				$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+				\OC_Log::write('setup.pg', $entry, \OC_Log::WARN);
 			}
 		}
 	}
+
+	private static function setupOCIDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $dbtablespace,
+		$username) {
+		$l = self::getTrans();
+		$e_host = addslashes($dbhost);
+		$e_dbname = addslashes($dbname);
+		//check if the database user has admin right
+		if ($e_host == '') {
+			$easy_connect_string = $e_dbname; // use dbname as easy connect name
+		} else {
+			$easy_connect_string = '//'.$e_host.'/'.$e_dbname;
+		}
+		$connection = @oci_connect($dbuser, $dbpass, $easy_connect_string);
+		if(!$connection) {
+			$e = oci_error();
+			throw new Exception($l->t('Oracle username and/or password not valid'));
+		}
+		//check for roles creation rights in oracle
+
+		$query='SELECT count(*) FROM user_role_privs, role_sys_privs'
+			." WHERE user_role_privs.granted_role = role_sys_privs.role AND privilege = 'CREATE ROLE'";
+		$stmt = oci_parse($connection, $query);
+		if (!$stmt) {
+			$entry = $l->t('DB Error: "%s"', array(oci_last_error($connection))) . '<br />';
+			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
+		}
+		$result = oci_execute($stmt);
+		if($result) {
+			$row = oci_fetch_row($stmt);
+		}
+		if($result and $row[0] > 0) {
+			//use the admin login data for the new database user
+
+			//add prefix to the oracle user name to prevent collisions
+			$dbusername='oc_'.$username;
+			//create a new password so we don't need to store the admin config in the config file
+			$dbpassword=md5(time().$dbpass);
+
+			//oracle passwords are treated as identifiers:
+			//  must start with aphanumeric char
+			//  needs to be shortened to 30 bytes, as the two " needed to escape the identifier count towards the identifier length.
+			$dbpassword=substr($dbpassword, 0, 30);
+
+			self::oci_createDBUser($dbusername, $dbpassword, $dbtablespace, $connection);
+
+			OC_Config::setValue('dbuser', $dbusername);
+			OC_Config::setValue('dbname', $dbusername);
+			OC_Config::setValue('dbpassword', $dbpassword);
+
+			//create the database not neccessary, oracle implies user = schema
+			//self::oci_createDatabase($dbname, $dbusername, $connection);
+		} else {
+
+			OC_Config::setValue('dbuser', $dbuser);
+			OC_Config::setValue('dbname', $dbname);
+			OC_Config::setValue('dbpassword', $dbpass);
+
+			//create the database not neccessary, oracle implies user = schema
+			//self::oci_createDatabase($dbname, $dbuser, $connection);
+		}
+
+		//FIXME check tablespace exists: select * from user_tablespaces
+
+		// the connection to dbname=oracle is not needed anymore
+		oci_close($connection);
+
+		// connect to the oracle database (schema=$dbuser) an check if the schema needs to be filled
+		$dbuser = OC_Config::getValue('dbuser');
+		//$dbname = OC_Config::getValue('dbname');
+		$dbpass = OC_Config::getValue('dbpassword');
+
+		$e_host = addslashes($dbhost);
+		$e_dbname = addslashes($dbname);
+
+		if ($e_host == '') {
+			$easy_connect_string = $e_dbname; // use dbname as easy connect name
+		} else {
+			$easy_connect_string = '//'.$e_host.'/'.$e_dbname;
+		}
+		$connection = @oci_connect($dbuser, $dbpass, $easy_connect_string);
+		if(!$connection) {
+			throw new Exception($l->t('Oracle username and/or password not valid'));
+		}
+		$query = "SELECT count(*) FROM user_tables WHERE table_name = :un";
+		$stmt = oci_parse($connection, $query);
+		$un = $dbtableprefix.'users';
+		oci_bind_by_name($stmt, ':un', $un);
+		if (!$stmt) {
+			$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
+		}
+		$result = oci_execute($stmt);
+
+		if($result) {
+			$row = oci_fetch_row($stmt);
+		}
+		if(!$result or $row[0]==0) {
+			OC_DB::createDbFromStructure('db_structure.xml');
+		}
+	}
+
 	/**
 	 *
 	 * @param String $name
@@ -478,20 +546,20 @@ class OC_Setup {
 	 * @param resource $connection
 	 */
 	private static function oci_createDBUser($name, $password, $tablespace, $connection) {
-
+		$l = self::getTrans();
 		$query = "SELECT * FROM all_users WHERE USERNAME = :un";
 		$stmt = oci_parse($connection, $query);
 		if (!$stmt) {
-			$entry='DB Error: "'.oci_error($connection).'"<br />';
-			$entry.='Offending command was: '.$query.'<br />';
-			echo($entry);
+			$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
 		oci_bind_by_name($stmt, ':un', $name);
 		$result = oci_execute($stmt);
 		if(!$result) {
-			$entry='DB Error: "'.oci_error($connection).'"<br />';
-			$entry.='Offending command was: '.$query.'<br />';
-			echo($entry);
+			$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
 
 		if(! oci_fetch_row($stmt)) {
@@ -500,55 +568,239 @@ class OC_Setup {
 			$query = 'CREATE USER '.$name.' IDENTIFIED BY "'.$password.'" DEFAULT TABLESPACE '.$tablespace; //TODO set default tablespace
 			$stmt = oci_parse($connection, $query);
 			if (!$stmt) {
-				$entry='DB Error: "'.oci_error($connection).'"<br />';
-				$entry.='Offending command was: '.$query.'<br />';
-				echo($entry);
+				$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+				$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+				\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 			}
 			//oci_bind_by_name($stmt, ':un', $name);
 			$result = oci_execute($stmt);
 			if(!$result) {
-				$entry='DB Error: "'.oci_error($connection).'"<br />';
-				$entry.='Offending command was: '.$query.', name:'.$name.', password:'.$password.'<br />';
-				echo($entry);
+				$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+				$entry .= $l->t('Offending command was: "%s", name: %s, password: %s',
+					array($query, $name, $password)) . '<br />';
+				\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 			}
 		} else { // change password of the existing role
 			$query = "ALTER USER :un IDENTIFIED BY :pw";
 			$stmt = oci_parse($connection, $query);
 			if (!$stmt) {
-				$entry='DB Error: "'.oci_error($connection).'"<br />';
-				$entry.='Offending command was: '.$query.'<br />';
-				echo($entry);
+				$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+				$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+				\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 			}
 			oci_bind_by_name($stmt, ':un', $name);
 			oci_bind_by_name($stmt, ':pw', $password);
 			$result = oci_execute($stmt);
 			if(!$result) {
-				$entry='DB Error: "'.oci_error($connection).'"<br />';
-				$entry.='Offending command was: '.$query.'<br />';
-				echo($entry);
+				$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+				$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+				\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 			}
 		}
-		// grant neccessary roles
+		// grant necessary roles
 		$query = 'GRANT CREATE SESSION, CREATE TABLE, CREATE SEQUENCE, CREATE TRIGGER, UNLIMITED TABLESPACE TO '.$name;
 		$stmt = oci_parse($connection, $query);
 		if (!$stmt) {
-			$entry='DB Error: "'.oci_error($connection).'"<br />';
-			$entry.='Offending command was: '.$query.'<br />';
-			echo($entry);
+			$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+			$entry .= $l->t('Offending command was: "%s"', array($query)) . '<br />';
+			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
 		$result = oci_execute($stmt);
 		if(!$result) {
-			$entry='DB Error: "'.oci_error($connection).'"<br />';
-			$entry.='Offending command was: '.$query.', name:'.$name.', password:'.$password.'<br />';
-			echo($entry);
+			$entry = $l->t('DB Error: "%s"', array(oci_error($connection))) . '<br />';
+			$entry .= $l->t('Offending command was: "%s", name: %s, password: %s',
+				array($query, $name, $password)) . '<br />';
+			\OC_Log::write('setup.oci', $entry, \OC_Log::WARN);
 		}
+	}
+
+	private static function setupMSSQLDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix) {
+		$l = self::getTrans();
+
+		//check if the database user has admin right
+		$masterConnectionInfo = array( "Database" => "master", "UID" => $dbuser, "PWD" => $dbpass);
+
+		$masterConnection = @sqlsrv_connect($dbhost, $masterConnectionInfo);
+		if(!$masterConnection) {
+			$entry = null;
+			if( ($errors = sqlsrv_errors() ) != null) {
+				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+			} else {
+				$entry = '';
+			}
+			throw new Exception($l->t('MS SQL username and/or password not valid: %s', array($entry)));
+		}
+
+		OC_Config::setValue('dbuser', $dbuser);
+		OC_Config::setValue('dbpassword', $dbpass);
+
+		self::mssql_createDBLogin($dbuser, $dbpass, $masterConnection);
+
+		self::mssql_createDatabase($dbname, $masterConnection);
+
+		self::mssql_createDBUser($dbuser, $dbname, $masterConnection);
+
+		sqlsrv_close($masterConnection);
+
+		self::mssql_createDatabaseStructure($dbhost, $dbname, $dbuser, $dbpass, $dbtableprefix);
+	}
+
+	private static function mssql_createDBLogin($name, $password, $connection) {
+		$query = "SELECT * FROM master.sys.server_principals WHERE name = '".$name."';";
+		$result = sqlsrv_query($connection, $query);
+		if ($result === false) {
+			if ( ($errors = sqlsrv_errors() ) != null) {
+				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+			} else {
+				$entry = '';
+			}
+			$entry.='Offending command was: '.$query.'<br />';
+			\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+		} else {
+			$row = sqlsrv_fetch_array($result);
+
+			if ($row === false) {
+				if ( ($errors = sqlsrv_errors() ) != null) {
+					$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+				} else {
+					$entry = '';
+				}
+				$entry.='Offending command was: '.$query.'<br />';
+				\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+			} else {
+				if ($row == null) {
+					$query = "CREATE LOGIN [".$name."] WITH PASSWORD = '".$password."';";
+					$result = sqlsrv_query($connection, $query);
+					if (!$result or $result === false) {
+						if ( ($errors = sqlsrv_errors() ) != null) {
+							$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+						} else {
+							$entry = '';
+						}
+						$entry.='Offending command was: '.$query.'<br />';
+						\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+					}
+				}
+			}
+		}
+	}
+
+	private static function mssql_createDBUser($name, $dbname, $connection) {
+		$query = "SELECT * FROM [".$dbname."].sys.database_principals WHERE name = '".$name."';";
+		$result = sqlsrv_query($connection, $query);
+		if ($result === false) {
+			if ( ($errors = sqlsrv_errors() ) != null) {
+				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+			} else {
+				$entry = '';
+			}
+			$entry.='Offending command was: '.$query.'<br />';
+			\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+		} else {
+			$row = sqlsrv_fetch_array($result);
+
+			if ($row === false) {
+				if ( ($errors = sqlsrv_errors() ) != null) {
+					$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+				} else {
+					$entry = '';
+				}
+				$entry.='Offending command was: '.$query.'<br />';
+				\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+			} else {
+				if ($row == null) {
+					$query = "USE [".$dbname."]; CREATE USER [".$name."] FOR LOGIN [".$name."];";
+					$result = sqlsrv_query($connection, $query);
+					if (!$result || $result === false) {
+						if ( ($errors = sqlsrv_errors() ) != null) {
+							$entry = 'DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+						} else {
+							$entry = '';
+						}
+						$entry.='Offending command was: '.$query.'<br />';
+						\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+					}
+				}
+
+				$query = "USE [".$dbname."]; EXEC sp_addrolemember 'db_owner', '".$name."';";
+				$result = sqlsrv_query($connection, $query);
+				if (!$result || $result === false) {
+					if ( ($errors = sqlsrv_errors() ) != null) {
+						$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+					} else {
+						$entry = '';
+					}
+					$entry.='Offending command was: '.$query.'<br />';
+					\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+				}
+			}
+		}
+	}
+
+	private static function mssql_createDatabase($dbname, $connection) {
+		$query = "CREATE DATABASE [".$dbname."];";
+		$result = sqlsrv_query($connection, $query);
+		if (!$result || $result === false) {
+			if ( ($errors = sqlsrv_errors() ) != null) {
+				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+			} else {
+				$entry = '';
+			}
+			$entry.='Offending command was: '.$query.'<br />';
+			\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+		}
+	}
+
+	private static function mssql_createDatabaseStructure($dbhost, $dbname, $dbuser, $dbpass, $dbtableprefix) {
+		$connectionInfo = array( "Database" => $dbname, "UID" => $dbuser, "PWD" => $dbpass);
+
+		$connection = @sqlsrv_connect($dbhost, $connectionInfo);
+
+		//fill the database if needed
+		$query = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '{$dbname}' AND TABLE_NAME = '{$dbtableprefix}users'";
+		$result = sqlsrv_query($connection, $query);
+		if ($result === false) {
+			if ( ($errors = sqlsrv_errors() ) != null) {
+				$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+			} else {
+				$entry = '';
+			}
+			$entry.='Offending command was: '.$query.'<br />';
+			\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+		} else {
+			$row = sqlsrv_fetch_array($result);
+
+			if ($row === false) {
+				if ( ($errors = sqlsrv_errors() ) != null) {
+					$entry='DB Error: "'.print_r(sqlsrv_errors()).'"<br />';
+				} else {
+					$entry = '';
+				}
+				$entry.='Offending command was: '.$query.'<br />';
+				\OC_Log::write('setup.mssql', $entry, \OC_Log::WARN);
+			} else {
+				if ($row == null) {
+					OC_DB::createDbFromStructure('db_structure.xml');
+				}
+			}
+		}
+
+		sqlsrv_close($connection);
 	}
 
 	/**
 	 * create .htaccess files for apache hosts
 	 */
 	private static function createHtaccess() {
-		$content = "ErrorDocument 403 ".OC::$WEBROOT."/core/templates/403.php\n";//custom 403 error page
+		$content = "<IfModule mod_fcgid.c>\n";
+		$content.= "<IfModule mod_setenvif.c>\n";
+		$content.= "<IfModule mod_headers.c>\n";
+		$content.= "SetEnvIfNoCase ^Authorization$ \"(.+)\" XAUTHORIZATION=$1\n";
+		$content.= "RequestHeader set XAuthorization %{XAUTHORIZATION}e env=XAUTHORIZATION\n";
+		$content.= "</IfModule>\n";
+		$content.= "</IfModule>\n";
+		$content.= "</IfModule>\n";
+		$content.= "ErrorDocument 403 ".OC::$WEBROOT."/core/templates/403.php\n";//custom 403 error page
 		$content.= "ErrorDocument 404 ".OC::$WEBROOT."/core/templates/404.php\n";//custom 404 error page
 		$content.= "<IfModule mod_php5.c>\n";
 		$content.= "php_value upload_max_filesize 512M\n";//upload limit
@@ -567,12 +819,41 @@ class OC_Setup {
 		$content.= "RewriteRule ^apps/([^/]*)/(.*\.(css|php))$ index.php?app=$1&getfile=$2 [QSA,L]\n";
 		$content.= "RewriteRule ^remote/(.*) remote.php [QSA,L]\n";
 		$content.= "</IfModule>\n";
+		$content.= "<IfModule mod_mime.c>\n";
+		$content.= "AddType image/svg+xml svg svgz\n";
+		$content.= "AddEncoding gzip svgz\n";
+		$content.= "</IfModule>\n";
 		$content.= "Options -Indexes\n";
 		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 
+		self::protectDataDirectory();
+	}
+
+	public static function protectDataDirectory() {
 		$content = "deny from all\n";
 		$content.= "IndexIgnore *";
 		file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/.htaccess', $content);
 		file_put_contents(OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data').'/index.html', '');
+	}
+
+	/**
+	 * @brief Post installation checks
+	 */
+	public static function postSetupCheck($params) {
+		// setup was successful -> webdav testing now
+		$l = self::getTrans();
+		if (OC_Util::isWebDAVWorking()) {
+			header("Location: ".OC::$WEBROOT.'/');
+		} else {
+
+			$error = $l->t('Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken.');
+			$hint = $l->t('Please double check the <a href=\'%s\'>installation guides</a>.',
+				'http://doc.owncloud.org/server/5.0/admin_manual/installation.html');
+
+			$tmpl = new OC_Template('', 'error', 'guest');
+			$tmpl->assign('errors', array(1 => array('error' => $error, 'hint' => $hint)));
+			$tmpl->printPage();
+			exit();
+		}
 	}
 }
