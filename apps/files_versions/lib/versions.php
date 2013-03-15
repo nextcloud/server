@@ -156,11 +156,18 @@ class Storage {
 	/**
 	 * rename versions of a file
 	 */
-	public static function rename($oldpath, $newpath) {
-		list($uid, $oldpath) = self::getUidAndFilename($oldpath);
-		list($uidn, $newpath) = self::getUidAndFilename($newpath);
+	public static function rename($old_path, $new_path) {
+		list($uid, $oldpath) = self::getUidAndFilename($old_path);
+		list($uidn, $newpath) = self::getUidAndFilename($new_path);
 		$versions_view = new \OC\Files\View('/'.$uid .'/files_versions');
 		$files_view = new \OC\Files\View('/'.$uid .'/files');
+		
+		// if the file already exists than it was a upload of a existing file
+		// over the web interface -> store() is the right function we need here
+		if ($files_view->file_exists($newpath)) {
+			return self::store($new_path);
+		}
+		
 		$abs_newpath = $versions_view->getLocalFile($newpath);
 
 		if ( $files_view->is_dir($oldpath) && $versions_view->is_dir($oldpath) ) {
