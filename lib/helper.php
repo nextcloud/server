@@ -764,7 +764,8 @@ class OC_Helper {
 	public static function maxUploadFilesize($dir) {
 		$upload_max_filesize = OCP\Util::computerFileSize(ini_get('upload_max_filesize'));
 		$post_max_size = OCP\Util::computerFileSize(ini_get('post_max_size'));
-		if ($upload_max_filesize === 0 and $post_max_size === 0) {
+		$freeSpace = \OC\Files\Filesystem::free_space($dir);
+		if ($upload_max_filesize == 0 and $post_max_size == 0) {
 			$maxUploadFilesize = \OC\Files\FREE_SPACE_UNLIMITED;
 		} elseif ($upload_max_filesize === 0 or $post_max_size === 0) {
 			$maxUploadFilesize = max($upload_max_filesize, $post_max_size); //only the non 0 value counts
@@ -772,7 +773,6 @@ class OC_Helper {
 			$maxUploadFilesize = min($upload_max_filesize, $post_max_size);
 		}
 
-		$freeSpace = \OC\Files\Filesystem::free_space($dir);
 		if($freeSpace !== \OC\Files\FREE_SPACE_UNKNOWN){
 			$freeSpace = max($freeSpace, 0);
 

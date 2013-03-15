@@ -23,8 +23,10 @@
 					  method="post"
 					  enctype="multipart/form-data"
 					  target="file_upload_target_1">
+					<?php if($_['uploadMaxFilesize'] >= 0):?>
 					<input type="hidden" name="MAX_FILE_SIZE" id="max_upload"
 						   value="<?php p($_['uploadMaxFilesize']) ?>">
+					<?php endif;?>
 					<!-- Send the requesttoken, this is needed for older IE versions
 						 because they don't send the CSRF token via HTTP header in this case -->
 					<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" id="requesttoken">
