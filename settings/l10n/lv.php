@@ -95,7 +95,7 @@
 "Change display name" => "Mainīt redzamo vārdu",
 "Email" => "E-pasts",
 "Your email address" => "Jūsu e-pasta adrese",
-"Fill in an email address to enable password recovery" => "Ievadiet epasta adresi, lai vēlāk varētu atgūt paroli, ja būs nepieciešamība",
+"Fill in an email address to enable password recovery" => "Ievadiet e-pasta adresi, lai vēlāk varētu atgūt paroli, ja būs nepieciešamība",
 "Language" => "Valoda",
 "Help translate" => "Palīdzi tulkot",
 "WebDAV" => "WebDAV",

@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-02 00:03+0100\n"
-"PO-Revision-Date: 2013-03-01 23:04+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-16 22:17+0100\n"
+"PO-Revision-Date: 2013-03-16 14:30+0000\n"
+"Last-Translator: marguerite su <i@marguerite.su>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,23 +21,23 @@ msgstr ""
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr ""
+msgstr "未能删除服务器配置"
 
 #: ajax/testConfiguration.php:36
 msgid "The configuration is valid and the connection could be established!"
-msgstr ""
+msgstr "配置有效，能够建立连接！"
 
 #: ajax/testConfiguration.php:39
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr ""
+msgstr "配置有效但绑定失败。请检查服务器设置和认证信息。"
 
 #: ajax/testConfiguration.php:43
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr ""
+msgstr "配置无效。更多细节请查看 ownCloud 日志。"
 
 #: js/settings.js:66
 msgid "Deletion failed"
@@ -45,31 +45,31 @@ msgstr "删除失败"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr ""
+msgstr "从近期的服务器配置中导入设置？"
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr ""
+msgstr "保留设置吗？"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "无法添加服务器配置"
 
 #: js/settings.js:121
 msgid "Connection test succeeded"
-msgstr ""
+msgstr "连接测试成功"
 
 #: js/settings.js:126
 msgid "Connection test failed"
-msgstr ""
+msgstr "连接测试失败"
 
 #: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "您真的想要删除当前服务器配置吗？"
 
 #: js/settings.js:137
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "确认删除"
 
 #: templates/settings.php:8
 msgid ""
@@ -82,254 +82,254 @@ msgstr "<b>警告：</b>应用 user_ldap 和 user_webdavauth 不兼容。您可�
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>警告：</b> PHP LDAP 模块未安装，后端将无法工作。请请求您的系统管理员安装该模块。"
 
 #: templates/settings.php:15
 msgid "Server configuration"
-msgstr ""
+msgstr "服务器配置"
 
-#: templates/settings.php:18
+#: templates/settings.php:31
 msgid "Add Server Configuration"
-msgstr ""
+msgstr "添加服务器配置"
 
-#: templates/settings.php:23
+#: templates/settings.php:36
 msgid "Host"
 msgstr "主机"
 
-#: templates/settings.php:25
+#: templates/settings.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
 msgstr "可以忽略协议，但如要使用SSL，则需以ldaps://开头"
 
-#: templates/settings.php:26
+#: templates/settings.php:39
 msgid "Base DN"
 msgstr "Base DN"
 
-#: templates/settings.php:27
+#: templates/settings.php:40
 msgid "One Base DN per line"
-msgstr ""
+msgstr "每行一个基本判别名"
 
-#: templates/settings.php:28
+#: templates/settings.php:41
 msgid "You can specify Base DN for users and groups in the Advanced tab"
 msgstr "您可以在高级选项卡里为用户和组指定Base DN"
 
-#: templates/settings.php:30
+#: templates/settings.php:43
 msgid "User DN"
 msgstr "User DN"
 
-#: templates/settings.php:32
+#: templates/settings.php:45
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
 msgstr "客户端使用的DN必须与绑定的相同，比如uid=agent,dc=example,dc=com\n如需匿名访问，将DN和密码保留为空"
 
-#: templates/settings.php:33
+#: templates/settings.php:46
 msgid "Password"
 msgstr "密码"
 
-#: templates/settings.php:36
+#: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
 msgstr "启用匿名访问，将DN和密码保留为空"
 
-#: templates/settings.php:37
+#: templates/settings.php:50
 msgid "User Login Filter"
 msgstr "用户登录过滤"
 
-#: templates/settings.php:40
+#: templates/settings.php:53
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
 msgstr "定义当尝试登录时的过滤器。 在登录过程中，%%uid将会被用户名替换"
 
-#: templates/settings.php:41
+#: templates/settings.php:54
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
 msgstr "使用 %%uid作为占位符，例如“uid=%%uid”"
 
-#: templates/settings.php:42
+#: templates/settings.php:55
 msgid "User List Filter"
 msgstr "用户列表过滤"
 
-#: templates/settings.php:45
+#: templates/settings.php:58
 msgid "Defines the filter to apply, when retrieving users."
 msgstr "定义拉取用户时的过滤器"
 
-#: templates/settings.php:46
+#: templates/settings.php:59
 msgid "without any placeholder, e.g. \"objectClass=person\"."
 msgstr "没有任何占位符,如 \"objectClass=person\"."
 
-#: templates/settings.php:47
+#: templates/settings.php:60
 msgid "Group Filter"
 msgstr "组过滤"
 
-#: templates/settings.php:50
+#: templates/settings.php:63
 msgid "Defines the filter to apply, when retrieving groups."
 msgstr "定义拉取组信息时的过滤器"
 
-#: templates/settings.php:51
+#: templates/settings.php:64
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
 msgstr "无需占位符，例如\"objectClass=posixGroup\""
 
-#: templates/settings.php:55
+#: templates/settings.php:68
 msgid "Connection Settings"
-msgstr ""
+msgstr "连接设置"
 
-#: templates/settings.php:57
+#: templates/settings.php:70
 msgid "Configuration Active"
-msgstr ""
+msgstr "现行配置"
 
-#: templates/settings.php:57
+#: templates/settings.php:70
 msgid "When unchecked, this configuration will be skipped."
-msgstr ""
+msgstr "当反选后，此配置将被忽略。"
 
-#: templates/settings.php:58
+#: templates/settings.php:71
 msgid "Port"
 msgstr "端口"
 
-#: templates/settings.php:59
+#: templates/settings.php:72
 msgid "Backup (Replica) Host"
-msgstr ""
+msgstr "备份 (镜像) 主机"
 
-#: templates/settings.php:59
+#: templates/settings.php:72
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr ""
+msgstr "给出一个可选的备份主机。它必须为主 LDAP/AD 服务器的一个镜像。"
 
-#: templates/settings.php:60
+#: templates/settings.php:73
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "备份 (镜像) 端口"
 
-#: templates/settings.php:61
+#: templates/settings.php:74
 msgid "Disable Main Server"
-msgstr ""
+msgstr "禁用主服务器"
 
-#: templates/settings.php:61
+#: templates/settings.php:74
 msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr ""
+msgstr "当开启后，ownCloud 将仅连接到镜像服务器。"
 
-#: templates/settings.php:62
+#: templates/settings.php:75
 msgid "Use TLS"
 msgstr "使用TLS"
 
-#: templates/settings.php:62
+#: templates/settings.php:75
 msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr ""
+msgstr "对于 LDAPS 连接不要额外启用它，连接必然失败。"
 
-#: templates/settings.php:63
+#: templates/settings.php:76
 msgid "Case insensitve LDAP server (Windows)"
 msgstr "大小写敏感LDAP服务器(Windows)"
 
-#: templates/settings.php:64
+#: templates/settings.php:77
 msgid "Turn off SSL certificate validation."
 msgstr "关闭SSL证书验证"
 
-#: templates/settings.php:64
+#: templates/settings.php:77
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
 msgstr "如果链接仅在此选项时可用，在您的ownCloud服务器中导入LDAP服务器的SSL证书。"
 
-#: templates/settings.php:64
+#: templates/settings.php:77
 msgid "Not recommended, use for testing only."
 msgstr "暂不推荐，仅供测试"
 
-#: templates/settings.php:65
+#: templates/settings.php:78
 msgid "Cache Time-To-Live"
-msgstr ""
+msgstr "缓存存活时间"
 
-#: templates/settings.php:65
+#: templates/settings.php:78
 msgid "in seconds. A change empties the cache."
 msgstr "以秒计。修改将清空缓存。"
 
-#: templates/settings.php:67
+#: templates/settings.php:80
 msgid "Directory Settings"
-msgstr ""
+msgstr "目录设置"
 
-#: templates/settings.php:69
+#: templates/settings.php:82
 msgid "User Display Name Field"
 msgstr "用户显示名称字段"
 
-#: templates/settings.php:69
+#: templates/settings.php:82
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
 msgstr "用来生成用户的ownCloud名称的 LDAP属性"
 
-#: templates/settings.php:70
+#: templates/settings.php:83
 msgid "Base User Tree"
 msgstr "基础用户树"
 
-#: templates/settings.php:70
+#: templates/settings.php:83
 msgid "One User Base DN per line"
-msgstr ""
+msgstr "每行一个用户基准判别名"
 
-#: templates/settings.php:71
+#: templates/settings.php:84
 msgid "User Search Attributes"
-msgstr ""
+msgstr "用户搜索属性"
 
-#: templates/settings.php:71 templates/settings.php:74
+#: templates/settings.php:84 templates/settings.php:87
 msgid "Optional; one attribute per line"
-msgstr ""
+msgstr "可选;每行一个属性"
 
-#: templates/settings.php:72
+#: templates/settings.php:85
 msgid "Group Display Name Field"
 msgstr "组显示名称字段"
 
-#: templates/settings.php:72
+#: templates/settings.php:85
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
 msgstr "用来生成组的ownCloud名称的LDAP属性"
 
-#: templates/settings.php:73
+#: templates/settings.php:86
 msgid "Base Group Tree"
 msgstr "基础组树"
 
-#: templates/settings.php:73
+#: templates/settings.php:86
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "每行一个群组基准判别名"
 
-#: templates/settings.php:74
+#: templates/settings.php:87
 msgid "Group Search Attributes"
-msgstr ""
+msgstr "群组搜索属性"
 
-#: templates/settings.php:75
+#: templates/settings.php:88
 msgid "Group-Member association"
 msgstr "组成员关联"
 
-#: templates/settings.php:77
+#: templates/settings.php:90
 msgid "Special Attributes"
-msgstr ""
+msgstr "特殊属性"
 
-#: templates/settings.php:79
+#: templates/settings.php:92
 msgid "Quota Field"
-msgstr ""
+msgstr "配额字段"
 
-#: templates/settings.php:80
+#: templates/settings.php:93
 msgid "Quota Default"
-msgstr ""
+msgstr "默认配额"
 
-#: templates/settings.php:80
+#: templates/settings.php:93
 msgid "in bytes"
 msgstr "字节数"
 
-#: templates/settings.php:81
+#: templates/settings.php:94
 msgid "Email Field"
-msgstr ""
+msgstr "电邮字段"
 
-#: templates/settings.php:82
+#: templates/settings.php:95
 msgid "User Home Folder Naming Rule"
-msgstr ""
+msgstr "用户主目录命名规则"
 
-#: templates/settings.php:82
+#: templates/settings.php:95
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "将用户名称留空(默认)。否则指定一个LDAP/AD属性"
 
-#: templates/settings.php:86
+#: templates/settings.php:99
 msgid "Test Configuration"
-msgstr ""
+msgstr "测试配置"
 
-#: templates/settings.php:86
+#: templates/settings.php:99
 msgid "Help"
 msgstr "帮助"

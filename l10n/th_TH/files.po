@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-04 00:06+0100\n"
-"PO-Revision-Date: 2013-03-03 23:06+0000\n"
+"POT-Creation-Date: 2013-03-16 22:17+0100\n"
+"PO-Revision-Date: 2013-03-14 23:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +76,7 @@ msgstr "เหลือพื้นที่ไม่เพียงสำหร
 msgid "Invalid directory."
 msgstr "ไดเร็กทอรี่ไม่ถูกต้อง"
 
-#: appinfo/app.php:10
+#: appinfo/app.php:12
 msgid "Files"
 msgstr "ไฟล์"
 
@@ -92,8 +92,8 @@ msgstr "ลบ"
 msgid "Rename"
 msgstr "เปลี่ยนชื่อ"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:292 js/files.js:408
-#: js/files.js:439
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
+#: js/files.js:440
 msgid "Pending"
 msgstr "อยู่ระหว่างดำเนินการ"
 
@@ -147,74 +147,74 @@ msgstr "พื้นที่จัดเก็บข้อมูลของค
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "พื้นที่จัดเก็บข้อมูลของคุณใกล้เต็มแล้ว ({usedSpacePercent}%)"
 
-#: js/files.js:225
+#: js/files.js:226
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "กำลังเตรียมดาวน์โหลดข้อมูล หากไฟล์มีขนาดใหญ่ อาจใช้เวลาสักครู่"
 
-#: js/files.js:262
+#: js/files.js:263
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "ไม่สามารถอัพโหลดไฟล์ของคุณได้ เนื่องจากไฟล์ดังกล่าวเป็นไดเร็กทอรี่หรือมีขนาด 0 ไบต์"
 
-#: js/files.js:262
+#: js/files.js:263
 msgid "Upload Error"
 msgstr "เกิดข้อผิดพลาดในการอัพโหลด"
 
-#: js/files.js:273
+#: js/files.js:274
 msgid "Close"
 msgstr "ปิด"
 
-#: js/files.js:312
+#: js/files.js:313
 msgid "1 file uploading"
 msgstr "กำลังอัพโหลดไฟล์ 1 ไฟล์"
 
-#: js/files.js:315 js/files.js:370 js/files.js:385
+#: js/files.js:316 js/files.js:371 js/files.js:386
 msgid "{count} files uploading"
 msgstr "กำลังอัพโหลด {count} ไฟล์"
 
-#: js/files.js:388 js/files.js:423
+#: js/files.js:389 js/files.js:424
 msgid "Upload cancelled."
 msgstr "การอัพโหลดถูกยกเลิก"
 
-#: js/files.js:497
+#: js/files.js:498
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "การอัพโหลดไฟล์กำลังอยู่ในระหว่างดำเนินการ การออกจากหน้าเว็บนี้จะทำให้การอัพโหลดถูกยกเลิก"
 
-#: js/files.js:570
+#: js/files.js:571
 msgid "URL cannot be empty."
 msgstr "URL ไม่สามารถเว้นว่างได้"
 
-#: js/files.js:575
+#: js/files.js:576
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "ชื่อโฟลเดอร์ไม่ถูกต้อง การใช้งาน 'แชร์' สงวนไว้สำหรับ Owncloud เท่านั้น"
 
-#: js/files.js:953 templates/index.php:68
+#: js/files.js:954 templates/index.php:68
 msgid "Name"
 msgstr "ชื่อ"
 
-#: js/files.js:954 templates/index.php:79
+#: js/files.js:955 templates/index.php:79
 msgid "Size"
 msgstr "ขนาด"
 
-#: js/files.js:955 templates/index.php:81
+#: js/files.js:956 templates/index.php:81
 msgid "Modified"
 msgstr "ปรับปรุงล่าสุด"
 
-#: js/files.js:974
+#: js/files.js:975
 msgid "1 folder"
 msgstr "1 โฟลเดอร์"
 
-#: js/files.js:976
+#: js/files.js:977
 msgid "{count} folders"
 msgstr "{count} โฟลเดอร์"
 
-#: js/files.js:984
+#: js/files.js:985
 msgid "1 file"
 msgstr "1 ไฟล์"
 
-#: js/files.js:986
+#: js/files.js:987
 msgid "{count} files"
 msgstr "{count} ไฟล์"
 

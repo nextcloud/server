@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-04 00:06+0100\n"
-"PO-Revision-Date: 2013-03-03 23:06+0000\n"
+"POT-Creation-Date: 2013-03-16 22:17+0100\n"
+"PO-Revision-Date: 2013-03-14 23:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -79,7 +79,7 @@ msgstr "Không đủ không gian lưu trữ"
 msgid "Invalid directory."
 msgstr "Thư mục không hợp lệ"
 
-#: appinfo/app.php:10
+#: appinfo/app.php:12
 msgid "Files"
 msgstr "Tập tin"
 
@@ -95,8 +95,8 @@ msgstr "Xóa"
 msgid "Rename"
 msgstr "Sửa tên"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:292 js/files.js:408
-#: js/files.js:439
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
+#: js/files.js:440
 msgid "Pending"
 msgstr "Chờ"
 
@@ -150,74 +150,74 @@ msgstr "Your storage is full, files can not be updated or synced anymore!"
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Your storage is almost full ({usedSpacePercent}%)"
 
-#: js/files.js:225
+#: js/files.js:226
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Your download is being prepared. This might take some time if the files are big."
 
-#: js/files.js:262
+#: js/files.js:263
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Không thể tải lên tập tin này do nó là một thư mục hoặc kích thước tập tin bằng 0 byte"
 
-#: js/files.js:262
+#: js/files.js:263
 msgid "Upload Error"
 msgstr "Tải lên lỗi"
 
-#: js/files.js:273
+#: js/files.js:274
 msgid "Close"
 msgstr "Đóng"
 
-#: js/files.js:312
+#: js/files.js:313
 msgid "1 file uploading"
 msgstr "1 tệp tin đang được tải lên"
 
-#: js/files.js:315 js/files.js:370 js/files.js:385
+#: js/files.js:316 js/files.js:371 js/files.js:386
 msgid "{count} files uploading"
 msgstr "{count} tập tin đang tải lên"
 
-#: js/files.js:388 js/files.js:423
+#: js/files.js:389 js/files.js:424
 msgid "Upload cancelled."
 msgstr "Hủy tải lên"
 
-#: js/files.js:497
+#: js/files.js:498
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này."
 
-#: js/files.js:570
+#: js/files.js:571
 msgid "URL cannot be empty."
 msgstr "URL không được để trống."
 
-#: js/files.js:575
+#: js/files.js:576
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 
-#: js/files.js:953 templates/index.php:68
+#: js/files.js:954 templates/index.php:68
 msgid "Name"
 msgstr "Tên"
 
-#: js/files.js:954 templates/index.php:79
+#: js/files.js:955 templates/index.php:79
 msgid "Size"
 msgstr "Kích cỡ"
 
-#: js/files.js:955 templates/index.php:81
+#: js/files.js:956 templates/index.php:81
 msgid "Modified"
 msgstr "Thay đổi"
 
-#: js/files.js:974
+#: js/files.js:975
 msgid "1 folder"
 msgstr "1 thư mục"
 
-#: js/files.js:976
+#: js/files.js:977
 msgid "{count} folders"
 msgstr "{count} thư mục"
 
-#: js/files.js:984
+#: js/files.js:985
 msgid "1 file"
 msgstr "1 tập tin"
 
-#: js/files.js:986
+#: js/files.js:987
 msgid "{count} files"
 msgstr "{count} tập tin"
 

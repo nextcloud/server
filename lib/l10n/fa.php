@@ -14,6 +14,7 @@
 "Files" => "پرونده‌ها",
 "Text" => "متن",
 "Images" => "تصاویر",
+"Specify a data folder." => "پوشه ای برای داده ها مشخص کنید.",
 "seconds ago" => "ثانیه‌ها پیش",
 "1 minute ago" => "1 دقیقه پیش",
 "%d minutes ago" => "%d دقیقه پیش",
