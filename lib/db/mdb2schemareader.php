@@ -124,17 +124,13 @@ class OC_DB_MDB2SchemaReader {
 		}
 		if (isset($name) && isset($type)) {
 			if (empty($options['default'])) {
-				if ($type == 'integer') {
-					if (empty($options['default'])) {
-						if (empty($options['notnull'])) {
-							unset($options['default']);
-						}
-						else {
-							$options['default'] = 0;
-						}
-					}
+				if (empty($options['notnull']) || !$options['notnull']) {
+					unset($options['default']);
 				}
-				if (!empty($options['autoincrement'])) {
+				if ($type == 'integer') {
+					$options['default'] = 0;
+				}
+				if (!empty($options['autoincrement']) && $options['autoincrement']) {
 					unset($options['default']);
 				}
 			}
