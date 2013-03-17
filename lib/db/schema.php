@@ -53,6 +53,12 @@ class OC_DB_Schema {
 				$fromSchema->dropTable($table->getName());
 			}
 		}
+		// remove sequences we don't know about
+		foreach($fromSchema->getSequences() as $table) {
+			if (!$toSchema->hasSequence($table->getName())) {
+				$fromSchema->dropSequence($table->getName());
+			}
+		}
 
 		$comparator = new \Doctrine\DBAL\Schema\Comparator();
 		$schemaDiff = $comparator->compare($fromSchema, $toSchema);
