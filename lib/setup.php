@@ -178,7 +178,7 @@ class OC_Setup {
 				}
 			}
 			else {
-				//delete the old sqlite database first, might cause infinte loops otherwise
+				//delete the old sqlite database first, might cause infinite loops otherwise
 				if(file_exists("$datadir/owncloud.db")) {
 					unlink("$datadir/owncloud.db");
 				}

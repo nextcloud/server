@@ -308,7 +308,7 @@ class OC_DB {
 	 */
 	public static function getDbStructure( $file, $mode=MDB2_SCHEMA_DUMP_STRUCTURE) {
 		self::connectDoctrine();
-		return OC_DB_Schema::getDbStructure(self::$connection, $file);
+		return OC_DB_Schema::getDbStructure(self::$DOCTRINE, $file);
 	}
 
 	/**
@@ -320,7 +320,7 @@ class OC_DB {
 	 */
 	public static function createDbFromStructure( $file ) {
 		self::connectDoctrine();
-		return OC_DB_Schema::createDbFromStructure(self::$connection, $file);
+		return OC_DB_Schema::createDbFromStructure(self::$DOCTRINE, $file);
 		/* FIXME: use CURRENT_TIMESTAMP for all databases. mysql supports it as a default for DATETIME since 5.6.5 [1]
 		 * as a fallback we could use <default>0000-01-01 00:00:00</default> everywhere
 		 * [1] http://bugs.mysql.com/bug.php?id=27645
@@ -343,7 +343,7 @@ class OC_DB {
 	public static function updateDbFromStructure($file) {
 		self::connectDoctrine();
 		try {
-			$result = OC_DB_Schema::updateDbFromStructure(self::$connection, $file);
+			$result = OC_DB_Schema::updateDbFromStructure(self::$DOCTRINE, $file);
 		} catch (Exception $e) {
 			OC_Log::write('core', 'Failed to update database structure ('.$e.')', OC_Log::FATAL);
 			throw $e;
@@ -543,7 +543,7 @@ class OC_DB {
 	 */
 	public static function dropTable($tableName) {
 		self::connectDoctrine();
-		OC_DB_Schema::dropTable(self::$connection, $tableName);
+		OC_DB_Schema::dropTable(self::$DOCTRINE, $tableName);
 	}
 
 	/**
@@ -552,7 +552,7 @@ class OC_DB {
 	 */
 	public static function removeDBStructure($file) {
 		self::connectDoctrine();
-		OC_DB_Schema::removeDBStructure(self::$connection, $file);
+		OC_DB_Schema::removeDBStructure(self::$DOCTRINE, $file);
 	}
 
 	/**
@@ -561,7 +561,7 @@ class OC_DB {
 	 */
 	public static function replaceDB( $file ) {
 		self::connectDoctrine();
-		OC_DB_Schema::replaceDB(self::$connection, $file);
+		OC_DB_Schema::replaceDB(self::$DOCTRINE, $file);
 	}
 
 	/**
