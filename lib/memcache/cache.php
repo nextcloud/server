@@ -20,6 +20,8 @@ abstract class Cache {
 			return new XCache($global);
 		} elseif (APC::isAvailable()) {
 			return new APC($global);
+		} elseif (Memcached::isAvailable()) {
+			return new Memcached($global);
 		} else {
 			return null;
 		}
@@ -65,5 +67,7 @@ abstract class Cache {
 	/**
 	 * @return bool
 	 */
-	//static public function isAvailable();
+	static public function isAvailable() {
+		return XCache::isAvailable() || APC::isAvailable() || Memcached::isAvailable();
+	}
 }
