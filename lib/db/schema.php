@@ -76,8 +76,6 @@ class OC_DB_Schema {
 		$toSchema = clone $fromSchema;
 		$toSchema->dropTable('user');
 		$sql = $fromSchema->getMigrateToSql($toSchema, $conn->getDatabasePlatform());
-		var_dump($sql);
-		die;
 		$conn->execute($sql);
 	}
 

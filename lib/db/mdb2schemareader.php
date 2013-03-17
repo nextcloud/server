@@ -29,7 +29,7 @@ class OC_DB_MDB2SchemaReader {
 					self::loadTable($schema, $child);
 					break;
 				default:
-					var_dump($child->getName());
+					throw new DomainException('Unknown element: '.$child->getName());
 
 			}
 		}
@@ -52,7 +52,7 @@ class OC_DB_MDB2SchemaReader {
 					self::loadDeclaration($table, $child);
 					break;
 				default:
-					var_dump($child->getName());
+					throw new DomainException('Unknown element: '.$child->getName());
 
 			}
 		}
@@ -68,7 +68,7 @@ class OC_DB_MDB2SchemaReader {
 					self::loadIndex($table, $child);
 					break;
 				default:
-					var_dump($child->getName());
+					throw new DomainException('Unknown element: '.$child->getName());
 
 			}
 		}
@@ -118,16 +118,11 @@ class OC_DB_MDB2SchemaReader {
 					$options['default'] = $default;
 					break;
 				default:
-					var_dump($child->getName());
+					throw new DomainException('Unknown element: '.$child->getName());
 
 			}
 		}
 		if (isset($name) && isset($type)) {
-		if ($name == 'x') {
-			var_dump($name, $type, $options);
-			echo '<pre>';
-			debug_print_backtrace();
-		}
 			if (empty($options['default'])) {
 				if ($type == 'integer') {
 					if (empty($options['default'])) {
@@ -187,13 +182,13 @@ class OC_DB_MDB2SchemaReader {
 							case 'sorting':
 								break;
 							default:
-								var_dump($field->getName());
+								throw new DomainException('Unknown element: '.$field->getName());
 
 						}
 					}
 					break;
 				default:
-					var_dump($child->getName());
+					throw new DomainException('Unknown element: '.$child->getName());
 
 			}
 		}
@@ -207,7 +202,7 @@ class OC_DB_MDB2SchemaReader {
 				$table->addIndex($fields, $name);
 			}
 		} else {
-			var_dump($name, $fields);
+			throw new DomainException('Empty index definition: '.$name.' options:'. print_r($fields, true));
 		}
 	}
 
