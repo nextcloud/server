@@ -15,41 +15,14 @@ class OC_Cache {
 	 * @var OC_Cache $global_cache
 	 */
 	static protected $global_cache;
-	/**
-	 * @var OC_Cache $global_cache_fast
-	 */
-	static protected $global_cache_fast;
-	/**
-	 * @var OC_Cache $user_cache_fast
-	 */
-	static protected $user_cache_fast;
-	static protected $isFast=null;
 
 	/**
 	 * get the global cache
 	 * @return OC_Cache
 	 */
-	static public function getGlobalCache($fast=false) {
+	static public function getGlobalCache() {
 		if (!self::$global_cache) {
-			self::$global_cache_fast = null;
-			if (!self::$global_cache_fast && function_exists('xcache_set')) {
-				self::$global_cache_fast = new OC_Cache_XCache(true);
-			}
-			if (!self::$global_cache_fast && function_exists('apc_store')) {
-				self::$global_cache_fast = new OC_Cache_APC(true);
-			}
-
 			self::$global_cache = new OC_Cache_FileGlobal();
-			if (self::$global_cache_fast) {
-				self::$global_cache = new OC_Cache_Broker(self::$global_cache_fast, self::$global_cache);
-			}
-		}
-		if($fast) {
-			if(self::$global_cache_fast) {
-				return self::$global_cache_fast;
-			}else{
-				return false;
-			}
 		}
 		return self::$global_cache;
 	}
@@ -58,34 +31,16 @@ class OC_Cache {
 	 * get the user cache
 	 * @return OC_Cache
 	 */
-	static public function getUserCache($fast=false) {
+	static public function getUserCache() {
 		if (!self::$user_cache) {
-			self::$user_cache_fast = null;
-			if (!self::$user_cache_fast && function_exists('xcache_set')) {
-				self::$user_cache_fast = new OC_Cache_XCache();
-			}
-			if (!self::$user_cache_fast && function_exists('apc_store')) {
-				self::$user_cache_fast = new OC_Cache_APC();
-			}
-
 			self::$user_cache = new OC_Cache_File();
-			if (self::$user_cache_fast) {
-				self::$user_cache = new OC_Cache_Broker(self::$user_cache_fast, self::$user_cache);
-			}
-		}
-
-		if($fast) {
-			if(self::$user_cache_fast) {
-				return self::$user_cache_fast;
-			}else{
-				return false;
-			}
 		}
 		return self::$user_cache;
 	}
 
 	/**
 	 * get a value from the user cache
+	 * @param string $key
 	 * @return mixed
 	 */
 	static public function get($key) {
@@ -95,6 +50,9 @@ class OC_Cache {
 
 	/**
 	 * set a value in the user cache
+	 * @param string $key
+	 * @param mixed $value
+	 * @param int $ttl
 	 * @return bool
 	 */
 	static public function set($key, $value, $ttl=0) {
@@ -107,6 +65,7 @@ class OC_Cache {
 
 	/**
 	 * check if a value is set in the user cache
+	 * @param string $key
 	 * @return bool
 	 */
 	static public function hasKey($key) {
@@ -116,6 +75,7 @@ class OC_Cache {
 
 	/**
 	 * remove an item from the user cache
+	 * @param string $key
 	 * @return bool
 	 */
 	static public function remove($key) {
@@ -131,17 +91,6 @@ class OC_Cache {
 	static public function clear($prefix='') {
 		$user_cache = self::getUserCache();
 		return $user_cache->clear($prefix);
-	}
-
-	/**
-	 * check if a fast memory based cache is available
-	 * @return true
-	 */
-	static public function isFast() {
-		if(is_null(self::$isFast)) {
-			self::$isFast=function_exists('xcache_set') || function_exists('apc_store');
-		}
-		return self::$isFast;
 	}
 
 	static public function generateCacheKeyFromFiles($files) {

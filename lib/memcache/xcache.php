@@ -6,13 +6,15 @@
  * See the COPYING-README file.
  */
 
-class OC_Cache_XCache {
+namespace OC\Memcache;
+
+class XCache extends Cache {
 	protected $prefix;
 
 	public function __construct($global = false) {
-		$this->prefix = OC_Util::getInstanceId().'/';
+		$this->prefix = \OC_Util::getInstanceId().'/';
 		if (!$global) {
-			$this->prefix .= OC_User::getUser().'/';
+			$this->prefix .= \OC_User::getUser().'/';
 		}
 	}
 
@@ -44,13 +46,24 @@ class OC_Cache_XCache {
 	}
 
 	public function clear($prefix='') {
-		if(!function_exists('xcache_unset_by_prefix')) {
-			function xcache_unset_by_prefix($prefix) {
-				// Since we can't clear targetted cache, we'll clear all. :(
-				xcache_clear_cache(XC_TYPE_VAR, 0);
-			}
-		}
 		xcache_unset_by_prefix($this->getNamespace().$prefix);
 		return true;
+	}
+
+	static public function isAvailable(){
+		if (!extension_loaded('xcache')) {
+			return false;
+		} elseif (\OC::$CLI) {
+			return false;
+		}else{
+			return true;
+		}
+	}
+}
+
+if(!function_exists('xcache_unset_by_prefix')) {
+	function xcache_unset_by_prefix($prefix) {
+		// Since we can't clear targetted cache, we'll clear all. :(
+		xcache_clear_cache(\XC_TYPE_VAR, 0);
 	}
 }

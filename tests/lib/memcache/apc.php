@@ -20,12 +20,12 @@
 *
 */
 
-class Test_Cache_XCache extends Test_Cache {
+class Test_Memcache_APC extends Test_Cache {
 	public function setUp() {
-		if(!function_exists('xcache_get')) {
-			$this->markTestSkipped('The xcache extension is not available.');
+		if(!\OC\Memcache\APC::isAvailable()) {
+			$this->markTestSkipped('The apc extension is not available.');
 			return;
 		}
-		$this->instance=new OC_Cache_XCache();
+		$this->instance=new \OC\Memcache\APC();
 	}
 }
