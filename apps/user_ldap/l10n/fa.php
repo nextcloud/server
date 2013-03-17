@@ -11,6 +11,7 @@
 "Add Server Configuration" => "افزودن پیکربندی سرور",
 "Host" => "میزبانی",
 "Password" => "رمز عبور",
+"Group Filter" => "فیلتر گروه",
 "Port" => "درگاه",
 "in bytes" => "در بایت",
 "Help" => "راه‌نما"

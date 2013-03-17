@@ -61,6 +61,7 @@
 "From link" => "Bağlantıdan",
 "Deleted files" => "Dosyalar silindi",
 "Cancel upload" => "Yüklemeyi iptal et",
+"You don’t have write permissions here." => "Buraya erişim hakkınız yok.",
 "Nothing in here. Upload something!" => "Burada hiçbir şey yok. Birşeyler yükleyin!",
 "Download" => "İndir",
 "Unshare" => "Paylaşılmayan",

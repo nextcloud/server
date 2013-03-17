@@ -6,21 +6,22 @@
 # Aranel Surion <aranel@aranelsurion.org>, 2011-2013.
 # Emre  <emresaracoglu@live.com>, 2012.
 #   <info@beyboo.de>, 2012.
+# ismail yenigul <ismail.yenigul@surgate.com>, 2013.
 # Necdet Yücel <necdetyucel@gmail.com>, 2012.
 # Tolga Gezginiş <tgezginis@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-15 00:05+0100\n"
+"PO-Revision-Date: 2013-03-14 09:41+0000\n"
+"Last-Translator: ismail yenigül <ismail.yenigul@surgate.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: tr\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
@@ -191,7 +192,7 @@ msgstr "Kurulum Uyarısı"
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Web sunucunuz dosya transferi için düzgün bir şekilde yapılandırılmamış. WevDAV arabirimini sorunlu gözüküyor."
 
 #: templates/admin.php:33
 #, php-format
@@ -210,7 +211,7 @@ msgstr ""
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "Locale çalışmıyor."
 
 #: templates/admin.php:63
 #, php-format
@@ -222,7 +223,7 @@ msgstr ""
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
-msgstr ""
+msgstr "İnternet bağlantısı çalışmıyor"
 
 #: templates/admin.php:78
 msgid ""
@@ -236,7 +237,7 @@ msgstr ""
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
@@ -256,23 +257,23 @@ msgstr ""
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr ""
+msgstr "Paylaşım"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr ""
+msgstr "Paylaşım API'sini etkinleştir."
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Uygulamaların paylaşım API'sini kullanmasına izin ver"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "Bağlantıları izin ver."
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Kullanıcıların nesneleri paylaşımı için herkese açık bağlantılara izin ver"
 
 #: templates/admin.php:150
 msgid "Allow resharing"
@@ -296,7 +297,7 @@ msgstr "Güvenlik"
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "HTTPS bağlantısına zorla"
 
 #: templates/admin.php:182
 msgid ""
@@ -315,7 +316,7 @@ msgstr "Kayıtlar"
 
 #: templates/admin.php:196
 msgid "Log level"
-msgstr ""
+msgstr "Günlük seviyesi"
 
 #: templates/admin.php:223
 msgid "More"
@@ -386,7 +387,7 @@ msgstr "Ticari Destek"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Kullandığınız:<strong>%s</strong> seçilebilecekler: <strong>%s</strong>"
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"

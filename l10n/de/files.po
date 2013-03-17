@@ -28,9 +28,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-05 00:18+0100\n"
-"PO-Revision-Date: 2013-03-04 13:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-16 22:17+0100\n"
+"PO-Revision-Date: 2013-03-14 23:20+0000\n"
+"Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,7 +95,7 @@ msgstr "Nicht genug Speicherplatz verfügbar"
 msgid "Invalid directory."
 msgstr "Ungültiges Verzeichnis."
 
-#: appinfo/app.php:10
+#: appinfo/app.php:12
 msgid "Files"
 msgstr "Dateien"
 
@@ -111,8 +111,8 @@ msgstr "Löschen"
 msgid "Rename"
 msgstr "Umbenennen"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:292 js/files.js:408
-#: js/files.js:439
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
+#: js/files.js:440
 msgid "Pending"
 msgstr "Ausstehend"
 
@@ -166,74 +166,74 @@ msgstr "Ihr Speicherplatz ist voll, Dateien können nicht mehr aktualisiert oder
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Ihr Speicherplatz ist fast aufgebraucht ({usedSpacePercent}%)"
 
-#: js/files.js:225
+#: js/files.js:226
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Dein Download wird vorbereitet. Dies kann bei größeren Dateien etwas dauern."
 
-#: js/files.js:262
+#: js/files.js:263
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Deine Datei kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist."
 
-#: js/files.js:262
+#: js/files.js:263
 msgid "Upload Error"
 msgstr "Fehler beim Upload"
 
-#: js/files.js:273
+#: js/files.js:274
 msgid "Close"
 msgstr "Schließen"
 
-#: js/files.js:312
+#: js/files.js:313
 msgid "1 file uploading"
 msgstr "Eine Datei wird hoch geladen"
 
-#: js/files.js:315 js/files.js:370 js/files.js:385
+#: js/files.js:316 js/files.js:371 js/files.js:386
 msgid "{count} files uploading"
 msgstr "{count} Dateien werden hochgeladen"
 
-#: js/files.js:388 js/files.js:423
+#: js/files.js:389 js/files.js:424
 msgid "Upload cancelled."
 msgstr "Upload abgebrochen."
 
-#: js/files.js:497
+#: js/files.js:498
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Dateiupload läuft. Wenn Du die Seite jetzt verlässt, wird der Upload abgebrochen."
 
-#: js/files.js:570
+#: js/files.js:571
 msgid "URL cannot be empty."
 msgstr "Die URL darf nicht leer sein."
 
-#: js/files.js:575
+#: js/files.js:576
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Ungültiger Verzeichnisname. Die Nutzung von \"Shared\" ist ownCloud vorbehalten."
 
-#: js/files.js:953 templates/index.php:68
+#: js/files.js:954 templates/index.php:68
 msgid "Name"
 msgstr "Name"
 
-#: js/files.js:954 templates/index.php:79
+#: js/files.js:955 templates/index.php:79
 msgid "Size"
 msgstr "Größe"
 
-#: js/files.js:955 templates/index.php:81
+#: js/files.js:956 templates/index.php:81
 msgid "Modified"
 msgstr "Bearbeitet"
 
-#: js/files.js:974
+#: js/files.js:975
 msgid "1 folder"
 msgstr "1 Ordner"
 
-#: js/files.js:976
+#: js/files.js:977
 msgid "{count} folders"
 msgstr "{count} Ordner"
 
-#: js/files.js:984
+#: js/files.js:985
 msgid "1 file"
 msgstr "1 Datei"
 
-#: js/files.js:986
+#: js/files.js:987
 msgid "{count} files"
 msgstr "{count} Dateien"
 

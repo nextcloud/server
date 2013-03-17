@@ -168,6 +168,7 @@ class OC_DB {
 							'host' => $host,
 							'port' => $port,
 							'dbname' => $name,
+							'charset' => 'UTF8',
 							'driver' => 'pdo_sqlsrv',
 					);
 					break;

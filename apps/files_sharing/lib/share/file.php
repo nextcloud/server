@@ -93,6 +93,7 @@ class OC_Share_Backend_File implements OCP\Share_Backend_File_Dependent {
 				$file['size'] = $item['size'];
 				$file['mtime'] = $item['mtime'];
 				$file['encrypted'] = $item['encrypted'];
+				$file['etag'] = $item['etag'];
 				$files[] = $file;
 			}
 			return $files;

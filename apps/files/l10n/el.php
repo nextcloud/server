@@ -61,6 +61,7 @@
 "From link" => "Από σύνδεσμο",
 "Deleted files" => "Διαγραμμένα αρχεία",
 "Cancel upload" => "Ακύρωση αποστολής",
+"You don’t have write permissions here." => "Δεν έχετε δικαιώματα εγγραφής εδώ.",
 "Nothing in here. Upload something!" => "Δεν υπάρχει τίποτα εδώ. Μεταφορτώστε κάτι!",
 "Download" => "Λήψη",
 "Unshare" => "Διακοπή κοινής χρήσης",

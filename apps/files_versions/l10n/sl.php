@@ -3,7 +3,7 @@
 "success" => "uspešno",
 "File %s was reverted to version %s" => "Datoteka %s je povrnjena na različico %s.",
 "failure" => "spodletelo",
-"File %s could not be reverted to version %s" => "Datoteka %s ni mogoče povrniti na različico %s.",
+"File %s could not be reverted to version %s" => "Datoteke %s ni mogoče povrniti na različico %s.",
 "No old versions available" => "Ni starejših različic.",
 "No path specified" => "Ni določene poti",
 "Versions" => "Različice",

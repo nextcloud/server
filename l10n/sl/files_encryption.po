@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-09 00:05+0100\n"
-"PO-Revision-Date: 2013-03-08 21:52+0000\n"
+"POT-Creation-Date: 2013-03-13 00:05+0100\n"
+"PO-Revision-Date: 2013-03-12 14:30+0000\n"
 "Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgstr "Navedene vrste datotek ne bodo šifrirane:"
 
 #: templates/settings.php:7
 msgid "Exclude the following file types from encryption:"
-msgstr "Izloči navedene vrste datotek med šifriranjem:"
+msgstr "Ne šifriraj navedenih vrst datotek:"
 
 #: templates/settings.php:12
 msgid "None"

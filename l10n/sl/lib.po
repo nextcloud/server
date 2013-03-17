@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-10 00:06+0100\n"
-"PO-Revision-Date: 2013-03-09 07:30+0000\n"
+"POT-Creation-Date: 2013-03-12 00:13+0100\n"
+"PO-Revision-Date: 2013-03-11 08:50+0000\n"
 "Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -46,7 +46,7 @@ msgstr "Skrbništvo"
 
 #: files.php:209
 msgid "ZIP download is turned off."
-msgstr "Prejem datotek ZIP je onemogočen."
+msgstr "Prejemanje datotek v paketu ZIP je onemogočeno."
 
 #: files.php:210
 msgid "Files need to be downloaded one by one."
@@ -236,7 +236,7 @@ msgstr "Pred %d meseci"
 
 #: template.php:123
 msgid "last year"
-msgstr "lani"
+msgstr "lansko leto"
 
 #: template.php:124
 msgid "years ago"

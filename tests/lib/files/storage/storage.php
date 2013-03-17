@@ -224,8 +224,7 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testSearchInSubFolder() {
-		$this->instance->mkdir('sub')
-		;
+		$this->instance->mkdir('sub');
 		$textFile = \OC::$SERVERROOT . '/tests/data/lorem.txt';
 		$this->instance->file_put_contents('/sub/lorem.txt', file_get_contents($textFile, 'r'));
 		$pngFile = \OC::$SERVERROOT . '/tests/data/logo-wide.png';

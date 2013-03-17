@@ -12,5 +12,6 @@
 "{count} files" => "{count} fájl",
 "Nothing in here. Your trash bin is empty!" => "Itt nincs semmi. Az Ön szemetes mappája üres!",
 "Restore" => "Visszaállítás",
-"Delete" => "Törlés"
+"Delete" => "Törlés",
+"Deleted Files" => "Törölt fájlok"
 );

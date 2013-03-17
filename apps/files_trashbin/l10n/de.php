@@ -3,7 +3,7 @@
 "Couldn't restore %s" => "Konnte %s nicht wiederherstellen",
 "perform restore operation" => "Wiederherstellung ausführen",
 "delete file permanently" => "Datei dauerhaft löschen",
-"Delete permanently" => "Permanent löschen",
+"Delete permanently" => "Endgültig löschen",
 "Name" => "Name",
 "Deleted" => "gelöscht",
 "1 folder" => "1 Ordner",

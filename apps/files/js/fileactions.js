@@ -112,7 +112,7 @@ var FileActions = {
 				addAction(name, action);
 			}
 		});
-		if(actions.Share){
+		if(actions.Share && !($('#dir').val() === '/' && file === 'Shared')){
 			addAction('Share', actions.Share);
 		}
 

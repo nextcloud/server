@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
+"POT-Creation-Date: 2013-03-15 00:05+0100\n"
+"PO-Revision-Date: 2013-03-14 09:41+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: tr\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: app.php:349
 msgid "Help"
@@ -43,19 +43,19 @@ msgstr "Uygulamalar"
 msgid "Admin"
 msgstr "Yönetici"
 
-#: files.php:202
+#: files.php:209
 msgid "ZIP download is turned off."
 msgstr "ZIP indirmeleri kapatılmıştır."
 
-#: files.php:203
+#: files.php:210
 msgid "Files need to be downloaded one by one."
 msgstr "Dosyaların birer birer indirilmesi gerekmektedir."
 
-#: files.php:204 files.php:231
+#: files.php:211 files.php:244
 msgid "Back to Files"
 msgstr "Dosyalara dön"
 
-#: files.php:228
+#: files.php:241
 msgid "Selected files too large to generate zip file."
 msgstr "Seçilen dosyalar bir zip dosyası oluşturmak için fazla büyüktür."
 
@@ -182,7 +182,7 @@ msgstr ""
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Web sunucunuz dosya transferi için düzgün bir şekilde yapılandırılmamış. WevDAV arabirimini sorunlu gözüküyor."
 
 #: setup.php:850
 #, php-format

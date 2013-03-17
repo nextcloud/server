@@ -54,6 +54,8 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		Filesystem::clearMounts();
 		Filesystem::mount($this->storage, array(), '/' . self::$user . '/files');
 
+		\OC_Hook::clear('OC_Filesystem');
+
 		\OC_Hook::connect('OC_Filesystem', 'post_write', '\OC\Files\Cache\Updater', 'writeHook');
 		\OC_Hook::connect('OC_Filesystem', 'post_delete', '\OC\Files\Cache\Updater', 'deleteHook');
 		\OC_Hook::connect('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Updater', 'renameHook');
@@ -137,11 +139,10 @@ class Updater extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($this->cache->inCache('foo.txt'));
 		$this->assertTrue($this->cache->inCache('bar.txt'));
 		$cachedData = $this->cache->get('bar.txt');
-		$this->assertNotEquals($fooCachedData['etag'], $cachedData['etag']);
+		$this->assertEquals($fooCachedData['fileid'], $cachedData['fileid']);
 		$mtime = $cachedData['mtime'];
 		$cachedData = $this->cache->get('');
 		$this->assertEquals(3 * $textSize + $imageSize, $cachedData['size']);
 		$this->assertNotEquals($rootCachedData['etag'], $cachedData['etag']);
-		$this->assertEquals($mtime, $cachedData['mtime']);
 	}
 }

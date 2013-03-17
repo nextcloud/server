@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-01 00:05+0100\n"
-"PO-Revision-Date: 2013-02-28 20:41+0000\n"
+"POT-Creation-Date: 2013-03-16 22:17+0100\n"
+"PO-Revision-Date: 2013-03-15 17:00+0000\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -444,7 +444,7 @@ msgstr "Jūsu e-pasta adrese"
 
 #: templates/personal.php:73
 msgid "Fill in an email address to enable password recovery"
-msgstr "Ievadiet epasta adresi, lai vēlāk varētu atgūt paroli, ja būs nepieciešamība"
+msgstr "Ievadiet e-pasta adresi, lai vēlāk varētu atgūt paroli, ja būs nepieciešamība"
 
 #: templates/personal.php:79 templates/personal.php:80
 msgid "Language"

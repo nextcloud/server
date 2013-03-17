@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-05 00:18+0100\n"
-"PO-Revision-Date: 2013-03-04 16:30+0000\n"
-"Last-Translator: Amir Reza Asadi <amirreza.asadi@live.com>\n"
+"POT-Creation-Date: 2013-03-16 22:17+0100\n"
+"PO-Revision-Date: 2013-03-16 07:10+0000\n"
+"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -46,7 +46,7 @@ msgstr "افزودن گروه امکان پذیر نیست"
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr ""
+msgstr "برنامه را نمی توان فعال ساخت."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -79,20 +79,20 @@ msgstr "مدیران نمی توانند خود را از گروه مدیریت 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "امکان افزودن کاربر به گروه %s نیست"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "امکان حذف کاربر از گروه %s نیست"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "برنامه را نمی توان به هنگام ساخت."
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "بهنگام شده به  {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
@@ -112,7 +112,7 @@ msgstr "در حال بروز رسانی..."
 
 #: js/apps.js:87
 msgid "Error while updating app"
-msgstr ""
+msgstr "خطا در هنگام بهنگام سازی برنامه"
 
 #: js/apps.js:87
 msgid "Error"
@@ -136,7 +136,7 @@ msgstr "بازگشت"
 
 #: js/users.js:62
 msgid "Unable to remove user"
-msgstr ""
+msgstr "حذف کاربر امکان پذیر نیست"
 
 #: js/users.js:75 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
@@ -157,7 +157,7 @@ msgstr "افزودن گروه"
 
 #: js/users.js:352
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "نام کاربری صحیح باید وارد شود"
 
 #: js/users.js:353 js/users.js:359 js/users.js:374
 msgid "Error creating user"
@@ -165,7 +165,7 @@ msgstr "خطا در ایجاد کاربر"
 
 #: js/users.js:358
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "رمز عبور صحیح باید وارد شود"
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
@@ -463,7 +463,7 @@ msgstr ""
 
 #: templates/personal.php:93
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "از این نشانی برای اتصال به ownCloud خودتان در بخش مدیریت فایل خودتان استفاده کنید"
 
 #: templates/users.php:21 templates/users.php:77
 msgid "Login Name"

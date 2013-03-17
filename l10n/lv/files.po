@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-06 00:07+0100\n"
-"PO-Revision-Date: 2013-03-05 16:30+0000\n"
+"POT-Creation-Date: 2013-03-16 22:17+0100\n"
+"PO-Revision-Date: 2013-03-14 23:20+0000\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -77,7 +77,7 @@ msgstr "Nav pietiekami daudz vietas"
 msgid "Invalid directory."
 msgstr "Nederīga direktorija."
 
-#: appinfo/app.php:10
+#: appinfo/app.php:12
 msgid "Files"
 msgstr "Datnes"
 
@@ -93,8 +93,8 @@ msgstr "Dzēst"
 msgid "Rename"
 msgstr "Pārsaukt"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:292 js/files.js:408
-#: js/files.js:439
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
+#: js/files.js:440
 msgid "Pending"
 msgstr "Gaida savu kārtu"
 
@@ -148,74 +148,74 @@ msgstr "Jūsu krātuve ir pilna, datnes vairs nevar augšupielādēt vai sinhron
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Jūsu krātuve ir gandrīz pilna ({usedSpacePercent}%)"
 
-#: js/files.js:225
+#: js/files.js:226
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Tiek sagatavota lejupielāde. Tas var aizņemt kādu laiciņu, ja datnes ir lielas."
 
-#: js/files.js:262
+#: js/files.js:263
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Nevar augšupielādēt jūsu datni, jo tā ir direktorija vai arī tās izmērs ir 0 baiti"
 
-#: js/files.js:262
+#: js/files.js:263
 msgid "Upload Error"
 msgstr "Kļūda augšupielādējot"
 
-#: js/files.js:273
+#: js/files.js:274
 msgid "Close"
 msgstr "Aizvērt"
 
-#: js/files.js:312
+#: js/files.js:313
 msgid "1 file uploading"
 msgstr "Augšupielādē 1 datni"
 
-#: js/files.js:315 js/files.js:370 js/files.js:385
+#: js/files.js:316 js/files.js:371 js/files.js:386
 msgid "{count} files uploading"
 msgstr "augšupielādē {count} datnes"
 
-#: js/files.js:388 js/files.js:423
+#: js/files.js:389 js/files.js:424
 msgid "Upload cancelled."
 msgstr "Augšupielāde ir atcelta."
 
-#: js/files.js:497
+#: js/files.js:498
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Notiek augšupielāde. Pametot lapu tagad, tiks atcelta augšupielāde."
 
-#: js/files.js:570
+#: js/files.js:571
 msgid "URL cannot be empty."
 msgstr "URL nevar būt tukšs."
 
-#: js/files.js:575
+#: js/files.js:576
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nederīgs mapes nosaukums. “Koplietots” izmantojums ir rezervēts ownCloud servisam."
 
-#: js/files.js:953 templates/index.php:68
+#: js/files.js:954 templates/index.php:68
 msgid "Name"
 msgstr "Nosaukums"
 
-#: js/files.js:954 templates/index.php:79
+#: js/files.js:955 templates/index.php:79
 msgid "Size"
 msgstr "Izmērs"
 
-#: js/files.js:955 templates/index.php:81
+#: js/files.js:956 templates/index.php:81
 msgid "Modified"
 msgstr "Mainīts"
 
-#: js/files.js:974
+#: js/files.js:975
 msgid "1 folder"
 msgstr "1 mape"
 
-#: js/files.js:976
+#: js/files.js:977
 msgid "{count} folders"
 msgstr "{count} mapes"
 
-#: js/files.js:984
+#: js/files.js:985
 msgid "1 file"
 msgstr "1 datne"
 
-#: js/files.js:986
+#: js/files.js:987
 msgid "{count} files"
 msgstr "{count} datnes"
 

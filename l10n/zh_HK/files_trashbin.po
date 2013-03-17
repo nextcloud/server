@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-08 00:25+0100\n"
-"PO-Revision-Date: 2013-03-07 23:25+0000\n"
+"POT-Creation-Date: 2013-03-15 00:05+0100\n"
+"PO-Revision-Date: 2013-03-14 09:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/projects/p/owncloud/language/zh_HK/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr ""
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
-msgstr ""
+msgstr "名稱"
 
 #: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
@@ -73,7 +73,7 @@ msgstr ""
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
-msgstr ""
+msgstr "刪除"
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"

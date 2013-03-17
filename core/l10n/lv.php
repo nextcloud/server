@@ -122,7 +122,7 @@
 "Database tablespace" => "Datubāzes tabulas telpa",
 "Database host" => "Datubāzes serveris",
 "Finish setup" => "Pabeigt iestatīšanu",
-"web services under your control" => "jūsu vadībā esošie tīmekļa servisi",
+"web services under your control" => "tīmekļa servisi tavā varā",
 "Log out" => "Izrakstīties",
 "Automatic logon rejected!" => "Automātiskā ierakstīšanās ir noraidīta!",
 "If you did not change your password recently, your account may be compromised!" => "Ja neesat pēdējā laikā mainījis paroli, iespējams, ka jūsu konts ir kompromitēts.",

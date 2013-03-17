@@ -10,8 +10,9 @@ OC.Share={
 		// Load all share icons
 		$.get(OC.filePath('core', 'ajax', 'share.php'), { fetch: 'getItemsSharedStatuses', itemType: itemType }, function(result) {
 			if (result && result.status === 'success') {
-				$.each(result.data, function(item, hasLink) {
-					OC.Share.statuses[item] = hasLink;
+				$.each(result.data, function(item, data) {
+					OC.Share.statuses[item] = data;
+					var hasLink = data['link'];
 					// Links override shared in terms of icon display
 					if (hasLink) {
 						var image = OC.imagePath('core', 'actions/public');
@@ -21,30 +22,33 @@ OC.Share={
 					if (itemType != 'file' && itemType != 'folder') {
 						$('a.share[data-item="'+item+'"]').css('background', 'url('+image+') no-repeat center');
 					} else {
-						var file = $('tr').filterAttr('data-file', OC.basename(item));
+						var file = $('tr').filterAttr('data-id', item);
 						if (file.length > 0) {
 							var action = $(file).find('.fileactions .action').filterAttr('data-action', 'Share');
 							var img = action.find('img').attr('src', image);
 							action.addClass('permanent');
 							action.html(' '+t('core', 'Shared')).prepend(img);
-						}
-						var dir = $('#dir').val();
-						if (dir.length > 1) {
-							var last = '';
-							var path = dir;
-							// Search for possible parent folders that are shared
-							while (path != last) {
-								if (path == item) {
-									var action = $('.fileactions .action').filterAttr('data-action', 'Share');
-									var img = action.find('img');
-									if (img.attr('src') != OC.imagePath('core', 'actions/public')) {
-										img.attr('src', image);
-										action.addClass('permanent');
-										action.html(' '+t('core', 'Shared')).prepend(img);
+						} else {
+							var dir = $('#dir').val();
+							if (dir.length > 1) {
+								var last = '';
+								var path = dir;
+								// Search for possible parent folders that are shared
+								while (path != last) {
+									if (path == data['path']) {
+										var actions = $('.fileactions .action').filterAttr('data-action', 'Share');
+										$.each(actions, function(index, action) {
+											var img = $(action).find('img');
+											if (img.attr('src') != OC.imagePath('core', 'actions/public')) {
+												img.attr('src', image);
+												$(action).addClass('permanent');
+												$(action).html(' '+t('core', 'Shared')).prepend(img);
+											}
+										});
 									}
+									last = path;
+									path = OC.Share.dirname(path);
 								}
-								last = path;
-								path = OC.Share.dirname(path);
 							}
 						}
 					}
@@ -53,15 +57,6 @@ OC.Share={
 		});
 	},
 	updateIcon:function(itemType, itemSource) {
-		if (itemType == 'file' || itemType == 'folder') {
-			var file = $('tr').filterAttr('data-id', String(itemSource));
-			var filename = file.data('file');
-			if ($('#dir').val() == '/') {
-				itemSource = $('#dir').val() + filename;
-			} else {
-				itemSource = $('#dir').val() + '/' + filename;
-			}
-		}
 		var shares = false;
 		var link = false;
 		var image = OC.imagePath('core', 'actions/share');
@@ -83,18 +78,21 @@ OC.Share={
 		if (itemType != 'file' && itemType != 'folder') {
 			$('a.share[data-item="'+itemSource+'"]').css('background', 'url('+image+') no-repeat center');
 		} else {
-			var action = $(file).find('.fileactions .action').filterAttr('data-action', 'Share');
-			var img = action.find('img').attr('src', image);
-			if (shares) {
-				action.addClass('permanent');
-				action.html(' '+t('core', 'Shared')).prepend(img);
-			} else {
-				action.removeClass('permanent');
-				action.html(' '+t('core', 'Share')).prepend(img);
+			var file = $('tr').filterAttr('data-id', String(itemSource));
+			if (file.length > 0) {
+				var action = $(file).find('.fileactions .action').filterAttr('data-action', 'Share');
+				var img = action.find('img').attr('src', image);
+				if (shares) {
+					action.addClass('permanent');
+					action.html(' '+ escapeHTML(t('core', 'Shared'))).prepend(img);
+				} else {
+					action.removeClass('permanent');
+					action.html(' '+ escapeHTML(t('core', 'Share'))).prepend(img);
+				}
 			}
 		}
 		if (shares) {
-			OC.Share.statuses[itemSource] = link;
+			OC.Share.statuses[itemSource]['link'] = link;
 		} else {
 			delete OC.Share.statuses[itemSource];
 		}
@@ -102,21 +100,7 @@ OC.Share={
 	loadItem:function(itemType, itemSource) {
 		var data = '';
 		var checkReshare = true;
-		// Switch file sources to path to check if status is set
-		if (itemType == 'file' || itemType == 'folder') {
-			var filename = $('tr').filterAttr('data-id', String(itemSource)).data('file');
-			if ($('#dir').val() == '/') {
-				var item = $('#dir').val() + filename;
-			} else {
-				var item = $('#dir').val() + '/' + filename;
-			}
-			if (item.substring(0, 8) != '/Shared/') {
-				checkReshare = false;
-			}
-		} else {
-			var item = itemSource;
-		}
-		if (typeof OC.Share.statuses[item] === 'undefined') {
+		if (typeof OC.Share.statuses[itemSource] === 'undefined') {
 			// NOTE: Check does not always work and misses some shares, fix later
 			checkShares = true;
 		} else {
