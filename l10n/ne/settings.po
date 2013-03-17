@@ -3,31 +3,28 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <icewind1991@gmail.com>, 2012.
-#   <shiningmoon25@gmail.com>, 2012.
-#   <tarek.taha@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
 "POT-Creation-Date: 2013-03-18 00:05+0100\n"
-"PO-Revision-Date: 2013-03-17 09:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
-"Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
+"PO-Revision-Date: 2011-07-25 16:05+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Nepali (http://www.transifex.com/projects/p/owncloud/language/ne/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ar\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
+"Language: ne\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "فشل تحميل القائمة من الآب ستور"
+msgstr ""
 
 #: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "لم يتم التأكد من الشخصية بنجاح"
+msgstr ""
 
 #: ajax/changedisplayname.php:32
 msgid "Unable to change display name"
@@ -35,53 +32,53 @@ msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr "المجموعة موجودة مسبقاً"
+msgstr ""
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr "فشل إضافة المجموعة"
+msgstr ""
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr "فشل عملية تفعيل التطبيق"
+msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "تم حفظ البريد الإلكتروني"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "البريد الإلكتروني غير صالح"
+msgstr ""
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr "فشل إزالة المجموعة"
+msgstr ""
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr "فشل إزالة المستخدم"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr "تم تغيير اللغة"
+msgstr ""
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "طلبك غير مفهوم"
+msgstr ""
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr "لا يستطيع المدير إزالة حسابه من مجموعة المديرين"
+msgstr ""
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "فشل إضافة المستخدم الى المجموعة %s"
+msgstr ""
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "فشل إزالة المستخدم من المجموعة %s"
+msgstr ""
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
@@ -93,11 +90,11 @@ msgstr ""
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr "إيقاف"
+msgstr ""
 
 #: js/apps.js:36 js/apps.js:64
 msgid "Enable"
-msgstr "تفعيل"
+msgstr ""
 
 #: js/apps.js:55
 msgid "Please wait...."
@@ -113,7 +110,7 @@ msgstr ""
 
 #: js/apps.js:87
 msgid "Error"
-msgstr "خطأ"
+msgstr ""
 
 #: js/apps.js:90
 msgid "Updated"
@@ -121,7 +118,7 @@ msgstr ""
 
 #: js/personal.js:99
 msgid "Saving..."
-msgstr "حفظ"
+msgstr ""
 
 #: js/users.js:30
 msgid "deleted"
@@ -129,7 +126,7 @@ msgstr ""
 
 #: js/users.js:30
 msgid "undo"
-msgstr "تراجع"
+msgstr ""
 
 #: js/users.js:62
 msgid "Unable to remove user"
@@ -138,15 +135,15 @@ msgstr ""
 #: js/users.js:75 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
-msgstr "مجموعات"
+msgstr ""
 
 #: js/users.js:78 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
-msgstr "مدير المجموعة"
+msgstr ""
 
 #: js/users.js:99 templates/users.php:161
 msgid "Delete"
-msgstr "حذف"
+msgstr ""
 
 #: js/users.js:191
 msgid "add group"
@@ -166,11 +163,11 @@ msgstr ""
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
-msgstr "__language_name__"
+msgstr ""
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr "تحذير أمان"
+msgstr ""
 
 #: templates/admin.php:18
 msgid ""
@@ -317,11 +314,11 @@ msgstr ""
 
 #: templates/admin.php:223
 msgid "More"
-msgstr "المزيد"
+msgstr ""
 
 #: templates/admin.php:230 templates/personal.php:102
 msgid "Version"
-msgstr "إصدار"
+msgstr ""
 
 #: templates/admin.php:233 templates/personal.php:105
 msgid ""
@@ -331,60 +328,60 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "طوّر من قبل <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud مجتمع</a>, الـ <a href=\"https://github.com/owncloud\" target=\"_blank\">النص المصدري</a> مرخص بموجب <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">رخصة أفيرو العمومية</abbr></a>."
+msgstr ""
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr "أضف تطبيقاتك"
+msgstr ""
 
 #: templates/apps.php:12
 msgid "More Apps"
-msgstr "المزيد من التطبيقات"
+msgstr ""
 
 #: templates/apps.php:28
 msgid "Select an App"
-msgstr "إختر تطبيقاً"
+msgstr ""
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
-msgstr "راجع صفحة التطبيق على apps.owncloud.com"
+msgstr ""
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr "<span class=\"licence\"></span>-ترخيص من قبل <span class=\"author\"></span>"
+msgstr ""
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr "حدث"
+msgstr ""
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr "كتاب توثيق المستخدم"
+msgstr ""
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr "كتاب توثيق المدير"
+msgstr ""
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr "توثيق متوفر على الشبكة"
+msgstr ""
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr "منتدى"
+msgstr ""
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr "تعقب علة"
+msgstr ""
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr "دعم تجاري"
+msgstr ""
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "تم إستهلاك <strong>%s</strong> من المتوفر <strong>%s</strong>"
+msgstr ""
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
@@ -396,27 +393,27 @@ msgstr ""
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:79
 msgid "Password"
-msgstr "كلمات السر"
+msgstr ""
 
 #: templates/personal.php:38
 msgid "Your password was changed"
-msgstr "لقد تم تغيير كلمة السر"
+msgstr ""
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr "لم يتم تعديل كلمة السر بنجاح"
+msgstr ""
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr "كلمات السر الحالية"
+msgstr ""
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr "كلمات سر جديدة"
+msgstr ""
 
 #: templates/personal.php:44
 msgid "Change password"
-msgstr "عدل كلمة السر"
+msgstr ""
 
 #: templates/personal.php:56 templates/users.php:78
 msgid "Display Name"
@@ -436,31 +433,31 @@ msgstr ""
 
 #: templates/personal.php:70
 msgid "Email"
-msgstr "العنوان البريدي"
+msgstr ""
 
 #: templates/personal.php:72
 msgid "Your email address"
-msgstr "عنوانك البريدي"
+msgstr ""
 
 #: templates/personal.php:73
 msgid "Fill in an email address to enable password recovery"
-msgstr "أدخل عنوانك البريدي لتفعيل استرجاع كلمة المرور"
+msgstr ""
 
 #: templates/personal.php:79 templates/personal.php:80
 msgid "Language"
-msgstr "اللغة"
+msgstr ""
 
 #: templates/personal.php:86
 msgid "Help translate"
-msgstr "ساعد في الترجمه"
+msgstr ""
 
 #: templates/personal.php:91
 msgid "WebDAV"
-msgstr "WebDAV"
+msgstr ""
 
 #: templates/personal.php:93
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "إستخدم هذا العنوان للإتصال بـ ownCloud في مدير الملفات"
+msgstr ""
 
 #: templates/users.php:21 templates/users.php:77
 msgid "Login Name"
@@ -468,7 +465,7 @@ msgstr ""
 
 #: templates/users.php:32
 msgid "Create"
-msgstr "انشئ"
+msgstr ""
 
 #: templates/users.php:35
 msgid "Default Storage"
@@ -480,7 +477,7 @@ msgstr ""
 
 #: templates/users.php:59 templates/users.php:154
 msgid "Other"
-msgstr "شيء آخر"
+msgstr ""
 
 #: templates/users.php:84
 msgid "Storage"
