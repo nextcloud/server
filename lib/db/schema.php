@@ -32,7 +32,7 @@ class OC_DB_Schema {
 	 * TODO: write more documentation
 	 */
 	public static function createDbFromStructure( $conn, $file ) {
-		$toSchema = OC_DB_MDB2SchemaReader::loadSchemaFromFile($file);
+		$toSchema = OC_DB_MDB2SchemaReader::loadSchemaFromFile($file, $conn->getDatabasePlatform());
 		return self::executeSchemaChange($conn, $toSchema);
 	}
 
@@ -45,7 +45,7 @@ class OC_DB_Schema {
 		$sm = $conn->getSchemaManager();
 		$fromSchema = $sm->createSchema();
 
-		$toSchema = OC_DB_MDB2SchemaReader::loadSchemaFromFile($file);
+		$toSchema = OC_DB_MDB2SchemaReader::loadSchemaFromFile($file, $conn->getDatabasePlatform());
 
 		// remove tables we don't know about
 		foreach($fromSchema->getTables() as $table) {
@@ -84,7 +84,7 @@ class OC_DB_Schema {
 	 * @param string $file the xml file describing the tables
 	 */
 	public static function removeDBStructure($conn, $file) {
-		$fromSchema = OC_DB_MDB2SchemaReader::loadSchemaFromFile($file);
+		$fromSchema = OC_DB_MDB2SchemaReader::loadSchemaFromFile($file, $conn->getDatabasePlatform());
 		$toSchema = clone $fromSchema;
 		foreach($toSchema->getTables() as $table) {
 			$toSchema->dropTable($table->getName());

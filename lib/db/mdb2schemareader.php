@@ -9,10 +9,12 @@
 class OC_DB_MDB2SchemaReader {
 	static protected $DBNAME;
 	static protected $DBTABLEPREFIX;
+	static protected $platform;
 
-	public static function loadSchemaFromFile($file) {
+	public static function loadSchemaFromFile($file, $platform) {
 		self::$DBNAME  = OC_Config::getValue( "dbname", "owncloud" );
 		self::$DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
+		self::$platform = $platform;
 		$schema = new \Doctrine\DBAL\Schema\Schema();
 		$xml = simplexml_load_file($file);
 		foreach($xml->children() as $child) {
@@ -173,6 +175,10 @@ class OC_DB_MDB2SchemaReader {
 						switch($field->getName()) {
 							case 'name':
 								$field_name = (string)$field;
+								$keywords = self::$platform->getReservedKeywordsList();
+								if ($keywords->isKeyword($field_name)) {
+									$field_name = self::$platform->quoteIdentifier($field_name);
+								}
 								$fields[] = $field_name;
 								break;
 							case 'sorting':
