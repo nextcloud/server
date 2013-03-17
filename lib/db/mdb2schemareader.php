@@ -138,10 +138,7 @@ class OC_DB_MDB2SchemaReader {
 			}
 			if ($type == 'integer') {
 				$length = $options['length'];
-				if ($length == 1) {
-					$type = 'boolean';
-				}
-				else if ($length < 4) {
+				if ($length < 4) {
 					$type = 'smallint';
 				}
 				else if ($length > 4) {
