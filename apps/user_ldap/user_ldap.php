@@ -180,6 +180,11 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	* @return boolean
 	*/
 	public function getHome($uid) {
+		// user Exists check required as it is not done in user proxy!
+		if(!$this->userExists($uid)) {
+			return false;
+		}
+
 		$cacheKey = 'getHome'.$uid;
 		if($this->connection->isCached($cacheKey)) {
 			return $this->connection->getFromCache($cacheKey);
