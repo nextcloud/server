@@ -20,6 +20,10 @@ class OC_Filestorage_Local extends OC_Filestorage_Common{
 		return opendir($this->datadir.$path);
 	}
 	public function is_dir($path) {
+		//workaround to detect /Shared as folder, only needed for OC4.5
+		if($path == "files/Shared") {
+			return true;
+		}
 		if(substr($path,-1)=='/') {
 			$path=substr($path,0,-1);
 		}

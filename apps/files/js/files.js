@@ -198,15 +198,16 @@ $(document).ready(function() {
 	});
 
 	$('.download').click('click',function(event) {
-		var files=getSelectedFiles('name').join(';');
+		var files=getSelectedFiles('name');
+		var fileslist = JSON.stringify(files);
 		var dir=$('#dir').val()||'/';
 		$('#notification').text(t('files','generating ZIP-file, it may take some time.'));
 		$('#notification').fadeIn();
 		// use special download URL if provided, e.g. for public shared files
 		if ( (downloadURL = document.getElementById("downloadURL")) ) {
-			window.location=downloadURL.value+"&download&files="+files;
+			window.location=downloadURL.value+"&download&files="+encodeURIComponent(fileslist);
 		} else {
-			window.location=OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: files });
+			window.location=OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: fileslist });
 		}
 		return false;
 	});

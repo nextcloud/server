@@ -136,14 +136,14 @@ class OC_Files {
 	* return the content of a file or return a zip file containning multiply files
 	*
 	* @param dir  $dir
-	* @param file $file ; seperated list of files to download
+	* @param file $file array of files
 	* @param boolean $only_header ; boolean to only send header of the request
 	*/
 	public static function get($dir,$files, $only_header = false) {
-		if(strpos($files,';')) {
-			$files=explode(';',$files);
+		if (is_array($files) && count($files) == 1) {
+			$files = $files[0];
 		}
-
+		
 		if(is_array($files)) {
 			self::validateZipDownload($dir,$files);
 			$executionTime = intval(ini_get('max_execution_time'));
