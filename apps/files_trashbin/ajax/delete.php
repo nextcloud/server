@@ -10,6 +10,7 @@ $list = json_decode($files);
 $error = array();
 $success = array();
 
+
 $i = 0;
 foreach ($list as $file) {
 	if ( $dirlisting=='0') {
@@ -28,6 +29,7 @@ foreach ($list as $file) {
 		$i++;
 	} else {
 		$error[] = $filename;
+		OC_Log::write('trashbin','can\'t delete ' . $filename . ' permanently.', OC_Log::ERROR);
 	}
 }
 
