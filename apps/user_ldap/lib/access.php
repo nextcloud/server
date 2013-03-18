@@ -62,7 +62,10 @@ abstract class Access {
 		$dn = $this->DNasBaseParameter($dn);
 		$rr = @ldap_read($cr, $dn, $filter, array($attr));
 		if(!is_resource($rr)) {
-			\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
+			if(!empty($attr)) {
+				//do not throw this message on userExists check, irritates
+				\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
+			}
 			//in case an error occurs , e.g. object does not exist
 			return false;
 		}
