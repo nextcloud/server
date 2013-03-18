@@ -643,7 +643,9 @@ $(document).ready(function(){
 	$('#pass2').showPassword();
 
 	//use infield labels
-	$("label.infield").inFieldLabels();
+	$("label.infield").inFieldLabels({
+		pollDuration: 100
+	});
 
 	var checkShowCredentials = function() {
 		var empty = false;
