@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-06 00:07+0100\n"
-"PO-Revision-Date: 2013-03-05 20:10+0000\n"
+"POT-Creation-Date: 2013-03-19 00:04+0100\n"
+"PO-Revision-Date: 2013-03-18 14:40+0000\n"
 "Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -45,19 +45,19 @@ msgstr "Apps"
 msgid "Admin"
 msgstr "Beheerder"
 
-#: files.php:202
+#: files.php:209
 msgid "ZIP download is turned off."
 msgstr "ZIP download is uitgeschakeld."
 
-#: files.php:203
+#: files.php:210
 msgid "Files need to be downloaded one by one."
 msgstr "Bestanden moeten één voor één worden gedownload."
 
-#: files.php:204 files.php:231
+#: files.php:211 files.php:244
 msgid "Back to Files"
 msgstr "Terug naar bestanden"
 
-#: files.php:228
+#: files.php:241
 msgid "Selected files too large to generate zip file."
 msgstr "De geselecteerde bestanden zijn te groot om een zip bestand te maken."
 
@@ -189,7 +189,7 @@ msgstr "Uw webserver is nog niet goed ingesteld voor bestandssynchronisatie omda
 #: setup.php:850
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr "Conntroleer de <a href='%s'>installatie handleiding</a> goed."
+msgstr "Controleer de <a href='%s'>installatiehandleiding</a> goed."
 
 #: template.php:113
 msgid "seconds ago"

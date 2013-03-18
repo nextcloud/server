@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-03-18 00:05+0100\n"
+"POT-Creation-Date: 2013-03-19 00:04+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -160,55 +160,55 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:777
+#: js/js.js:779
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:778
+#: js/js.js:780
 msgid "1 minute ago"
 msgstr ""
 
-#: js/js.js:779
+#: js/js.js:781
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:780
+#: js/js.js:782
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:781
+#: js/js.js:783
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:782
+#: js/js.js:784
 msgid "today"
 msgstr ""
 
-#: js/js.js:783
+#: js/js.js:785
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:784
+#: js/js.js:786
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:785
+#: js/js.js:787
 msgid "last month"
 msgstr ""
 
-#: js/js.js:786
+#: js/js.js:788
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:787
+#: js/js.js:789
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:788
+#: js/js.js:790
 msgid "last year"
 msgstr ""
 
-#: js/js.js:789
+#: js/js.js:791
 msgid "years ago"
 msgstr ""
 
