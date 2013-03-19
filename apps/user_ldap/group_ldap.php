@@ -139,6 +139,9 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		if(!$this->enabled) {
 			return array();
 		}
+		if(!$this->groupExists($gid)) {
+			return false;
+		}
 		$cachekey = 'usersInGroup-'.$gid.'-'.$search.'-'.$limit.'-'.$offset;
 		// check for cache of the exact query
 		$groupUsers = $this->connection->getFromCache($cachekey);
@@ -214,6 +217,12 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 	 * @returns array with display names (value) and user ids(key)
 	 */
 	public function displayNamesInGroup($gid, $search, $limit, $offset) {
+		if(!$this->enabled) {
+			return array();
+		}
+		if(!$this->groupExists($gid)) {
+			return false;
+		}
 		$users = $this->usersInGroup($gid, $search, $limit, $offset);
 		$displayNames = array();
 		foreach($users as $user) {
