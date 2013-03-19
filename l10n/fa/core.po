@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 00:08+0100\n"
-"PO-Revision-Date: 2013-02-26 07:50+0000\n"
+"POT-Creation-Date: 2013-03-16 22:17+0100\n"
+"PO-Revision-Date: 2013-03-16 13:00+0000\n"
 "Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -162,55 +162,55 @@ msgstr "دسامبر"
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: js/js.js:768
+#: js/js.js:777
 msgid "seconds ago"
 msgstr "ثانیه‌ها پیش"
 
-#: js/js.js:769
+#: js/js.js:778
 msgid "1 minute ago"
 msgstr "1 دقیقه پیش"
 
-#: js/js.js:770
+#: js/js.js:779
 msgid "{minutes} minutes ago"
 msgstr "{دقیقه ها} دقیقه های پیش"
 
-#: js/js.js:771
+#: js/js.js:780
 msgid "1 hour ago"
 msgstr "1 ساعت پیش"
 
-#: js/js.js:772
+#: js/js.js:781
 msgid "{hours} hours ago"
 msgstr "{ساعت ها} ساعت ها پیش"
 
-#: js/js.js:773
+#: js/js.js:782
 msgid "today"
 msgstr "امروز"
 
-#: js/js.js:774
+#: js/js.js:783
 msgid "yesterday"
 msgstr "دیروز"
 
-#: js/js.js:775
+#: js/js.js:784
 msgid "{days} days ago"
 msgstr "{روزها} روزهای پیش"
 
-#: js/js.js:776
+#: js/js.js:785
 msgid "last month"
 msgstr "ماه قبل"
 
-#: js/js.js:777
+#: js/js.js:786
 msgid "{months} months ago"
 msgstr "{ماه ها} ماه ها پیش"
 
-#: js/js.js:778
+#: js/js.js:787
 msgid "months ago"
 msgstr "ماه‌های قبل"
 
-#: js/js.js:779
+#: js/js.js:788
 msgid "last year"
 msgstr "سال قبل"
 
-#: js/js.js:780
+#: js/js.js:789
 msgid "years ago"
 msgstr "سال‌های قبل"
 
@@ -240,8 +240,8 @@ msgid "The object type is not specified."
 msgstr "نوع شی تعیین نشده است."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
-#: js/share.js:594
+#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
+#: js/share.js:578
 msgid "Error"
 msgstr "خطا"
 
@@ -253,127 +253,127 @@ msgstr "نام برنامه تعیین نشده است."
 msgid "The required file {file} is not installed!"
 msgstr "پرونده { پرونده} درخواست شده نصب نشده است !"
 
-#: js/share.js:29 js/share.js:43 js/share.js:90
+#: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
 msgstr "اشتراک گذاشته شده"
 
-#: js/share.js:93
+#: js/share.js:90
 msgid "Share"
 msgstr "اشتراک‌گزاری"
 
-#: js/share.js:141 js/share.js:622
+#: js/share.js:125 js/share.js:606
 msgid "Error while sharing"
 msgstr "خطا درحال به اشتراک گذاشتن"
 
-#: js/share.js:152
+#: js/share.js:136
 msgid "Error while unsharing"
 msgstr "خطا درحال لغو اشتراک"
 
-#: js/share.js:159
+#: js/share.js:143
 msgid "Error while changing permissions"
 msgstr "خطا در حال تغییر مجوز"
 
-#: js/share.js:168
+#: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "به اشتراک گذاشته شده با شما و گروه {گروه} توسط {دارنده}"
 
-#: js/share.js:170
+#: js/share.js:154
 msgid "Shared with you by {owner}"
 msgstr "به اشتراک گذاشته شده با شما توسط { دارنده}"
 
-#: js/share.js:175
+#: js/share.js:159
 msgid "Share with"
 msgstr "به اشتراک گذاشتن با"
 
-#: js/share.js:180
+#: js/share.js:164
 msgid "Share with link"
 msgstr "به اشتراک گذاشتن با پیوند"
 
-#: js/share.js:183
+#: js/share.js:167
 msgid "Password protect"
 msgstr "نگهداری کردن رمز عبور"
 
-#: js/share.js:185 templates/installation.php:47 templates/login.php:35
+#: js/share.js:169 templates/installation.php:47 templates/login.php:35
 msgid "Password"
 msgstr "گذرواژه"
 
-#: js/share.js:189
+#: js/share.js:173
 msgid "Email link to person"
 msgstr "پیوند ایمیل برای شخص."
 
-#: js/share.js:190
+#: js/share.js:174
 msgid "Send"
 msgstr "ارسال"
 
-#: js/share.js:194
+#: js/share.js:178
 msgid "Set expiration date"
 msgstr "تنظیم تاریخ انقضا"
 
-#: js/share.js:195
+#: js/share.js:179
 msgid "Expiration date"
 msgstr "تاریخ انقضا"
 
-#: js/share.js:227
+#: js/share.js:211
 msgid "Share via email:"
 msgstr "از طریق ایمیل به اشتراک بگذارید :"
 
-#: js/share.js:229
+#: js/share.js:213
 msgid "No people found"
 msgstr "کسی یافت نشد"
 
-#: js/share.js:256
+#: js/share.js:240
 msgid "Resharing is not allowed"
 msgstr "اشتراک گذاری مجدد مجاز نمی باشد"
 
-#: js/share.js:292
+#: js/share.js:276
 msgid "Shared in {item} with {user}"
 msgstr "به اشتراک گذاشته شده در {بخش} با {کاربر}"
 
-#: js/share.js:313
+#: js/share.js:297
 msgid "Unshare"
 msgstr "لغو اشتراک"
 
-#: js/share.js:325
+#: js/share.js:309
 msgid "can edit"
 msgstr "می توان ویرایش کرد"
 
-#: js/share.js:327
+#: js/share.js:311
 msgid "access control"
 msgstr "کنترل دسترسی"
 
-#: js/share.js:330
+#: js/share.js:314
 msgid "create"
 msgstr "ایجاد"
 
-#: js/share.js:333
+#: js/share.js:317
 msgid "update"
 msgstr "به روز"
 
-#: js/share.js:336
+#: js/share.js:320
 msgid "delete"
 msgstr "پاک کردن"
 
-#: js/share.js:339
+#: js/share.js:323
 msgid "share"
 msgstr "به اشتراک گذاشتن"
 
-#: js/share.js:373 js/share.js:569
+#: js/share.js:357 js/share.js:553
 msgid "Password protected"
 msgstr "نگهداری از رمز عبور"
 
-#: js/share.js:582
+#: js/share.js:566
 msgid "Error unsetting expiration date"
 msgstr "خطا در تنظیم نکردن تاریخ انقضا "
 
-#: js/share.js:594
+#: js/share.js:578
 msgid "Error setting expiration date"
 msgstr "خطا در تنظیم تاریخ انقضا"
 
-#: js/share.js:609
+#: js/share.js:593
 msgid "Sending ..."
 msgstr "درحال ارسال ..."
 
-#: js/share.js:620
+#: js/share.js:604
 msgid "Email sent"
 msgstr "ایمیل ارسال شد"
 
@@ -489,14 +489,14 @@ msgstr "بدون وجود یک تولید کننده اعداد تصادفی ا�
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "فایلها و فهرست های داده های شما قابل از اینترنت قابل دسترسی هستند، چونکه فایل htacces. کار نمی کند."
 
 #: templates/installation.php:33
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "برای مطلع شدن از چگونگی تنظیم سرورتان،لطفا <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">این</a> را ببینید."
 
 #: templates/installation.php:37
 msgid "Create an <strong>admin account</strong>"
@@ -544,11 +544,11 @@ msgstr "هاست پایگاه داده"
 msgid "Finish setup"
 msgstr "اتمام نصب"
 
-#: templates/layout.guest.php:35
+#: templates/layout.guest.php:40
 msgid "web services under your control"
 msgstr "سرویس وب تحت کنترل شما"
 
-#: templates/layout.user.php:53
+#: templates/layout.user.php:58
 msgid "Log out"
 msgstr "خروج"
 
@@ -580,7 +580,7 @@ msgstr "ورود"
 
 #: templates/login.php:49
 msgid "Alternative Logins"
-msgstr ""
+msgstr "ورود متناوب"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

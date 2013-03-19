@@ -41,7 +41,7 @@
 "Give an optional backup host. It must be a replica of the main LDAP/AD server." => "Podati je treba izbirno varnostno kopijo gostitelja. Ta mora biti natančna replika strežnika LDAP/AD.",
 "Backup (Replica) Port" => "Varnostna kopija (replika) podatka vrat",
 "Disable Main Server" => "Onemogoči glavni strežnik",
-"When switched on, ownCloud will only connect to the replica server." => "Ob priklopu bo strežnik ownCloud povezan le z kopijo (repliko) strežnika.",
+"When switched on, ownCloud will only connect to the replica server." => "Ob priklopu bo strežnik ownCloud povezan le s kopijo (repliko) strežnika.",
 "Use TLS" => "Uporabi TLS",
 "Do not use it additionally for LDAPS connections, it will fail." => "Strežnika ni priporočljivo uporabljati za povezave LDAPS. Povezava bo spodletela.",
 "Case insensitve LDAP server (Windows)" => "Strežnik LDAP ne upošteva velikosti črk (Windows)",

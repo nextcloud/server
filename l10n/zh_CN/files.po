@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-04 00:06+0100\n"
-"PO-Revision-Date: 2013-03-03 23:06+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-16 22:17+0100\n"
+"PO-Revision-Date: 2013-03-14 23:20+0000\n"
+"Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -75,19 +75,19 @@ msgstr "写入磁盘失败"
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
-msgstr ""
+msgstr "没有足够的存储空间"
 
 #: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "无效文件夹。"
 
-#: appinfo/app.php:10
+#: appinfo/app.php:12
 msgid "Files"
 msgstr "文件"
 
 #: js/fileactions.js:125
 msgid "Delete permanently"
-msgstr ""
+msgstr "永久删除"
 
 #: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
 msgid "Delete"
@@ -97,8 +97,8 @@ msgstr "删除"
 msgid "Rename"
 msgstr "重命名"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:292 js/files.js:408
-#: js/files.js:439
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
+#: js/files.js:440
 msgid "Pending"
 msgstr "操作等待中"
 
@@ -128,7 +128,7 @@ msgstr "撤销"
 
 #: js/filelist.js:323
 msgid "perform delete operation"
-msgstr ""
+msgstr "进行删除操作"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -146,80 +146,80 @@ msgstr "无效名称，'\\', '/', '<', '>', ':', '\"', '|', '?' 和 '*' 不被�
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "您的存储空间已满，文件将无法更新或同步！"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "您的存储空间即将用完 ({usedSpacePercent}%)"
 
-#: js/files.js:225
+#: js/files.js:226
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "下载正在准备中。如果文件较大可能会花费一些时间。"
 
-#: js/files.js:262
+#: js/files.js:263
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "无法上传文件，因为它是一个目录或者大小为 0 字节"
 
-#: js/files.js:262
+#: js/files.js:263
 msgid "Upload Error"
 msgstr "上传错误"
 
-#: js/files.js:273
+#: js/files.js:274
 msgid "Close"
 msgstr "关闭"
 
-#: js/files.js:312
+#: js/files.js:313
 msgid "1 file uploading"
 msgstr "1个文件上传中"
 
-#: js/files.js:315 js/files.js:370 js/files.js:385
+#: js/files.js:316 js/files.js:371 js/files.js:386
 msgid "{count} files uploading"
 msgstr "{count} 个文件上传中"
 
-#: js/files.js:388 js/files.js:423
+#: js/files.js:389 js/files.js:424
 msgid "Upload cancelled."
 msgstr "上传已取消"
 
-#: js/files.js:497
+#: js/files.js:498
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "文件正在上传中。现在离开此页会导致上传动作被取消。"
 
-#: js/files.js:570
+#: js/files.js:571
 msgid "URL cannot be empty."
 msgstr "URL不能为空"
 
-#: js/files.js:575
+#: js/files.js:576
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "无效文件夹名。'共享' 是 Owncloud 预留的文件夹名。"
 
-#: js/files.js:953 templates/index.php:68
+#: js/files.js:954 templates/index.php:68
 msgid "Name"
 msgstr "名称"
 
-#: js/files.js:954 templates/index.php:79
+#: js/files.js:955 templates/index.php:79
 msgid "Size"
 msgstr "大小"
 
-#: js/files.js:955 templates/index.php:81
+#: js/files.js:956 templates/index.php:81
 msgid "Modified"
 msgstr "修改日期"
 
-#: js/files.js:974
+#: js/files.js:975
 msgid "1 folder"
 msgstr "1个文件夹"
 
-#: js/files.js:976
+#: js/files.js:977
 msgid "{count} folders"
 msgstr "{count} 个文件夹"
 
-#: js/files.js:984
+#: js/files.js:985
 msgid "1 file"
 msgstr "1 个文件"
 
-#: js/files.js:986
+#: js/files.js:987
 msgid "{count} files"
 msgstr "{count} 个文件"
 
@@ -277,7 +277,7 @@ msgstr "来自链接"
 
 #: templates/index.php:40
 msgid "Deleted files"
-msgstr ""
+msgstr "删除文件"
 
 #: templates/index.php:46
 msgid "Cancel upload"
@@ -285,7 +285,7 @@ msgstr "取消上传"
 
 #: templates/index.php:53
 msgid "You don’t have write permissions here."
-msgstr ""
+msgstr "您没有写权限"
 
 #: templates/index.php:60
 msgid "Nothing in here. Upload something!"
@@ -319,4 +319,4 @@ msgstr "当前扫描"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "正在更新文件系统缓存..."

@@ -38,7 +38,7 @@
 				src="<?php print_unescaped(image_path('', 'logo-wide.svg')); ?>" alt="ownCloud" /></a>
 
 			<ul id="settings" class="svg">
-				<span id="expand">
+				<span id="expand" tabindex="0" role="link">
 					<span id="expandDisplayName"><?php  p(trim($_['user_displayname']) != '' ? $_['user_displayname'] : $_['user_uid']) ?></span>
 					<img class="svg" src="<?php print_unescaped(image_path('', 'actions/caret.svg')); ?>" />
 				</span>

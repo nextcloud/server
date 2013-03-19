@@ -53,7 +53,7 @@ class Storage {
 	 * @return mixed versions size or false if no versions size is stored
 	 */
 	private static function getVersionsSize($user) {
-		$query = \OC_DB::prepare('SELECT size FROM *PREFIX*files_versions WHERE user=?');
+		$query = \OC_DB::prepare('SELECT `size` FROM *PREFIX*files_versions WHERE `user`=?');
 		$result = $query->execute(array($user))->fetchAll();
 		
 		if ($result) {
@@ -70,9 +70,9 @@ class Storage {
 	 */
 	private static function setVersionsSize($user, $size) {
 		if ( self::getVersionsSize($user) === false) {
-			$query = \OC_DB::prepare('INSERT INTO *PREFIX*files_versions (size, user) VALUES (?, ?)');
+			$query = \OC_DB::prepare('INSERT INTO *PREFIX*files_versions (`size`, `user`) VALUES (?, ?)');
 		}else {
-			$query = \OC_DB::prepare('UPDATE *PREFIX*files_versions SET size=? WHERE user=?');
+			$query = \OC_DB::prepare('UPDATE *PREFIX*files_versions SET `size`=? WHERE `user`=?');
 		}
 		$query->execute(array($size, $user));
 	}
@@ -156,11 +156,18 @@ class Storage {
 	/**
 	 * rename versions of a file
 	 */
-	public static function rename($oldpath, $newpath) {
-		list($uid, $oldpath) = self::getUidAndFilename($oldpath);
-		list($uidn, $newpath) = self::getUidAndFilename($newpath);
+	public static function rename($old_path, $new_path) {
+		list($uid, $oldpath) = self::getUidAndFilename($old_path);
+		list($uidn, $newpath) = self::getUidAndFilename($new_path);
 		$versions_view = new \OC\Files\View('/'.$uid .'/files_versions');
 		$files_view = new \OC\Files\View('/'.$uid .'/files');
+		
+		// if the file already exists than it was a upload of a existing file
+		// over the web interface -> store() is the right function we need here
+		if ($files_view->file_exists($newpath)) {
+			return self::store($new_path);
+		}
+		
 		$abs_newpath = $versions_view->getLocalFile($newpath);
 
 		if ( $files_view->is_dir($oldpath) && $versions_view->is_dir($oldpath) ) {

@@ -398,8 +398,8 @@ class OC {
 		ini_set('arg_separator.output', '&amp;');
 
 		// try to switch magic quotes off.
-		if (get_magic_quotes_gpc()) {
-			@set_magic_quotes_runtime(false);
+		if (get_magic_quotes_gpc()==1) {
+			ini_set('magic_quotes_runtime', 0);
 		}
 
 		//try to configure php to enable big file uploads.

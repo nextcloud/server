@@ -4,14 +4,15 @@
 # 
 # Translators:
 # Amir Reza Asadi <amirreza.asadi@live.com>, 2013.
+# mahdi Kereshteh <miki_mika1362@yahoo.com>, 2013.
 # Mohammad Dashtizadeh <mohammad@dashtizadeh.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-16 22:17+0100\n"
+"PO-Revision-Date: 2013-03-16 08:40+0000\n"
+"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,19 +44,19 @@ msgstr "  برنامه ها"
 msgid "Admin"
 msgstr "مدیر"
 
-#: files.php:202
+#: files.php:209
 msgid "ZIP download is turned off."
 msgstr "دانلود به صورت فشرده غیر فعال است"
 
-#: files.php:203
+#: files.php:210
 msgid "Files need to be downloaded one by one."
 msgstr "فایل ها باید به صورت یکی یکی دانلود شوند"
 
-#: files.php:204 files.php:231
+#: files.php:211 files.php:244
 msgid "Back to Files"
 msgstr "بازگشت به فایل ها"
 
-#: files.php:228
+#: files.php:241
 msgid "Selected files too large to generate zip file."
 msgstr "فایل های انتخاب شده بزرگتر از آن هستند که بتوان یک فایل فشرده تولید کرد"
 
@@ -97,7 +98,7 @@ msgstr ""
 
 #: setup.php:40
 msgid "Specify a data folder."
-msgstr ""
+msgstr "پوشه ای برای داده ها مشخص کنید."
 
 #: setup.php:55
 #, php-format

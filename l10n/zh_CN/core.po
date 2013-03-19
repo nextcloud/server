@@ -8,14 +8,15 @@
 # Phoenix Nemo <>, 2012.
 #  <rainofchaos@gmail.com>, 2013.
 #   <suiy02@gmail.com>, 2012.
+#  <wengxt@gmail.com>, 2013.
 #   <wengxt@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-16 22:17+0100\n"
+"PO-Revision-Date: 2013-03-16 14:00+0000\n"
+"Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,24 +24,24 @@ msgstr ""
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:85
+#: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
 msgstr "用户 %s 与您共享了一个文件"
 
-#: ajax/share.php:87
+#: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr "用户 %s 与您共享了一个文件夹"
 
-#: ajax/share.php:89
+#: ajax/share.php:101
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr "用户 %s 与您共享了文件\"%s\"。文件下载地址：%s"
 
-#: ajax/share.php:91
+#: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -58,7 +59,7 @@ msgstr "没有可添加分类？"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "此分类已存在：%s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -86,79 +87,79 @@ msgstr "没有选择要删除的类别"
 msgid "Error removing %s from favorites."
 msgstr "从收藏夹中移除%s时出错。"
 
-#: js/config.php:32
+#: js/config.php:34
 msgid "Sunday"
 msgstr "星期日"
 
-#: js/config.php:32
+#: js/config.php:35
 msgid "Monday"
 msgstr "星期一"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Tuesday"
 msgstr "星期二"
 
-#: js/config.php:32
+#: js/config.php:37
 msgid "Wednesday"
 msgstr "星期三"
 
-#: js/config.php:32
+#: js/config.php:38
 msgid "Thursday"
 msgstr "星期四"
 
-#: js/config.php:32
+#: js/config.php:39
 msgid "Friday"
 msgstr "星期五"
 
-#: js/config.php:32
+#: js/config.php:40
 msgid "Saturday"
 msgstr "星期六"
 
-#: js/config.php:33
+#: js/config.php:45
 msgid "January"
 msgstr "一月"
 
-#: js/config.php:33
+#: js/config.php:46
 msgid "February"
 msgstr "二月"
 
-#: js/config.php:33
+#: js/config.php:47
 msgid "March"
 msgstr "三月"
 
-#: js/config.php:33
+#: js/config.php:48
 msgid "April"
 msgstr "四月"
 
-#: js/config.php:33
+#: js/config.php:49
 msgid "May"
 msgstr "五月"
 
-#: js/config.php:33
+#: js/config.php:50
 msgid "June"
 msgstr "六月"
 
-#: js/config.php:33
+#: js/config.php:51
 msgid "July"
 msgstr "七月"
 
-#: js/config.php:33
+#: js/config.php:52
 msgid "August"
 msgstr "八月"
 
-#: js/config.php:33
+#: js/config.php:53
 msgid "September"
 msgstr "九月"
 
-#: js/config.php:33
+#: js/config.php:54
 msgid "October"
 msgstr "十月"
 
-#: js/config.php:33
+#: js/config.php:55
 msgid "November"
 msgstr "十一月"
 
-#: js/config.php:33
+#: js/config.php:56
 msgid "December"
 msgstr "十二月"
 
@@ -166,55 +167,55 @@ msgstr "十二月"
 msgid "Settings"
 msgstr "设置"
 
-#: js/js.js:767
+#: js/js.js:777
 msgid "seconds ago"
 msgstr "秒前"
 
-#: js/js.js:768
+#: js/js.js:778
 msgid "1 minute ago"
 msgstr "一分钟前"
 
-#: js/js.js:769
+#: js/js.js:779
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分钟前"
 
-#: js/js.js:770
+#: js/js.js:780
 msgid "1 hour ago"
 msgstr "1小时前"
 
-#: js/js.js:771
+#: js/js.js:781
 msgid "{hours} hours ago"
 msgstr "{hours} 小时前"
 
-#: js/js.js:772
+#: js/js.js:782
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:773
+#: js/js.js:783
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:774
+#: js/js.js:784
 msgid "{days} days ago"
 msgstr "{days} 天前"
 
-#: js/js.js:775
+#: js/js.js:785
 msgid "last month"
 msgstr "上月"
 
-#: js/js.js:776
+#: js/js.js:786
 msgid "{months} months ago"
 msgstr "{months} 月前"
 
-#: js/js.js:777
+#: js/js.js:787
 msgid "months ago"
 msgstr "月前"
 
-#: js/js.js:778
+#: js/js.js:788
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:779
+#: js/js.js:789
 msgid "years ago"
 msgstr "年前"
 
@@ -244,8 +245,8 @@ msgid "The object type is not specified."
 msgstr "未指定对象类型。"
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
-#: js/share.js:594
+#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
+#: js/share.js:578
 msgid "Error"
 msgstr "错误"
 
@@ -257,127 +258,127 @@ msgstr "未指定App名称。"
 msgid "The required file {file} is not installed!"
 msgstr "所需文件{file}未安装！"
 
-#: js/share.js:29 js/share.js:43 js/share.js:90
+#: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
 msgstr "已共享"
 
-#: js/share.js:93
+#: js/share.js:90
 msgid "Share"
 msgstr "共享"
 
-#: js/share.js:141 js/share.js:622
+#: js/share.js:125 js/share.js:606
 msgid "Error while sharing"
 msgstr "共享时出错"
 
-#: js/share.js:152
+#: js/share.js:136
 msgid "Error while unsharing"
 msgstr "取消共享时出错"
 
-#: js/share.js:159
+#: js/share.js:143
 msgid "Error while changing permissions"
 msgstr "修改权限时出错"
 
-#: js/share.js:168
+#: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "{owner}共享给您及{group}组"
 
-#: js/share.js:170
+#: js/share.js:154
 msgid "Shared with you by {owner}"
 msgstr " {owner}与您共享"
 
-#: js/share.js:175
+#: js/share.js:159
 msgid "Share with"
 msgstr "共享"
 
-#: js/share.js:180
+#: js/share.js:164
 msgid "Share with link"
 msgstr "共享链接"
 
-#: js/share.js:183
+#: js/share.js:167
 msgid "Password protect"
 msgstr "密码保护"
 
-#: js/share.js:185 templates/installation.php:44 templates/login.php:35
+#: js/share.js:169 templates/installation.php:47 templates/login.php:35
 msgid "Password"
 msgstr "密码"
 
-#: js/share.js:189
+#: js/share.js:173
 msgid "Email link to person"
 msgstr "发送链接到个人"
 
-#: js/share.js:190
+#: js/share.js:174
 msgid "Send"
 msgstr "发送"
 
-#: js/share.js:194
+#: js/share.js:178
 msgid "Set expiration date"
 msgstr "设置过期日期"
 
-#: js/share.js:195
+#: js/share.js:179
 msgid "Expiration date"
 msgstr "过期日期"
 
-#: js/share.js:227
+#: js/share.js:211
 msgid "Share via email:"
 msgstr "通过Email共享"
 
-#: js/share.js:229
+#: js/share.js:213
 msgid "No people found"
 msgstr "未找到此人"
 
-#: js/share.js:256
+#: js/share.js:240
 msgid "Resharing is not allowed"
 msgstr "不允许二次共享"
 
-#: js/share.js:292
+#: js/share.js:276
 msgid "Shared in {item} with {user}"
 msgstr "在{item} 与 {user}共享。"
 
-#: js/share.js:313
+#: js/share.js:297
 msgid "Unshare"
 msgstr "取消共享"
 
-#: js/share.js:325
+#: js/share.js:309
 msgid "can edit"
 msgstr "可以修改"
 
-#: js/share.js:327
+#: js/share.js:311
 msgid "access control"
 msgstr "访问控制"
 
-#: js/share.js:330
+#: js/share.js:314
 msgid "create"
 msgstr "创建"
 
-#: js/share.js:333
+#: js/share.js:317
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:336
+#: js/share.js:320
 msgid "delete"
 msgstr "删除"
 
-#: js/share.js:339
+#: js/share.js:323
 msgid "share"
 msgstr "共享"
 
-#: js/share.js:373 js/share.js:569
+#: js/share.js:357 js/share.js:553
 msgid "Password protected"
 msgstr "密码已受保护"
 
-#: js/share.js:582
+#: js/share.js:566
 msgid "Error unsetting expiration date"
 msgstr "取消设置过期日期时出错"
 
-#: js/share.js:594
+#: js/share.js:578
 msgid "Error setting expiration date"
 msgstr "设置过期日期时出错"
 
-#: js/share.js:609
+#: js/share.js:593
 msgid "Sending ..."
 msgstr "正在发送..."
 
-#: js/share.js:620
+#: js/share.js:604
 msgid "Email sent"
 msgstr "邮件已发送"
 
@@ -386,11 +387,11 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "更新不成功。请汇报将此问题汇报给  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud 社区</a>。"
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "更新成功。正在重定向至 ownCloud。"
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
@@ -412,7 +413,7 @@ msgstr "重置邮件已发送。"
 msgid "Request failed!"
 msgstr "请求失败！"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:41
 #: templates/login.php:28
 msgid "Username"
 msgstr "用户名"
@@ -473,85 +474,86 @@ msgstr "编辑分类"
 msgid "Add"
 msgstr "添加"
 
-#: templates/installation.php:23 templates/installation.php:30
+#: templates/installation.php:24 templates/installation.php:31
 msgid "Security Warning"
 msgstr "安全警告"
 
-#: templates/installation.php:24
+#: templates/installation.php:25
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "随机数生成器无效，请启用PHP的OpenSSL扩展"
 
-#: templates/installation.php:25
+#: templates/installation.php:26
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "没有安全随机码生成器，攻击者可能会猜测密码重置信息从而窃取您的账户"
 
-#: templates/installation.php:31
+#: templates/installation.php:32
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "您的数据目录和文件可能可以直接被互联网访问，因为 .htaccess 并未正常工作。"
 
-#: templates/installation.php:32
+#: templates/installation.php:33
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "关于如何配置服务器，请参见 <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">此文档</a>。"
 
-#: templates/installation.php:36
+#: templates/installation.php:37
 msgid "Create an <strong>admin account</strong>"
 msgstr "创建<strong>管理员账号</strong>"
 
-#: templates/installation.php:52
+#: templates/installation.php:55
 msgid "Advanced"
 msgstr "高级"
 
-#: templates/installation.php:54
+#: templates/installation.php:57
 msgid "Data folder"
 msgstr "数据目录"
 
-#: templates/installation.php:61
+#: templates/installation.php:66
 msgid "Configure the database"
 msgstr "配置数据库"
 
-#: templates/installation.php:66 templates/installation.php:77
-#: templates/installation.php:87 templates/installation.php:97
+#: templates/installation.php:71 templates/installation.php:83
+#: templates/installation.php:94 templates/installation.php:105
+#: templates/installation.php:117
 msgid "will be used"
 msgstr "将被使用"
 
-#: templates/installation.php:109
+#: templates/installation.php:129
 msgid "Database user"
 msgstr "数据库用户"
 
-#: templates/installation.php:113
+#: templates/installation.php:134
 msgid "Database password"
 msgstr "数据库密码"
 
-#: templates/installation.php:117
+#: templates/installation.php:139
 msgid "Database name"
 msgstr "数据库名"
 
-#: templates/installation.php:125
+#: templates/installation.php:149
 msgid "Database tablespace"
 msgstr "数据库表空间"
 
-#: templates/installation.php:131
+#: templates/installation.php:156
 msgid "Database host"
 msgstr "数据库主机"
 
-#: templates/installation.php:136
+#: templates/installation.php:162
 msgid "Finish setup"
 msgstr "安装完成"
 
-#: templates/layout.guest.php:33
+#: templates/layout.guest.php:40
 msgid "web services under your control"
 msgstr "由您掌控的网络服务"
 
-#: templates/layout.user.php:48
+#: templates/layout.user.php:58
 msgid "Log out"
 msgstr "注销"
 
@@ -583,7 +585,7 @@ msgstr "登录"
 
 #: templates/login.php:49
 msgid "Alternative Logins"
-msgstr ""
+msgstr "其他登录方式"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

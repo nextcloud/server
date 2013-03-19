@@ -21,14 +21,15 @@
 #   <thomas.mueller@tmit.eu>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
 # Tristan <blobbyjj@ymail.com>, 2013.
+#  <uu.kabum@gmail.com>, 2013.
 #  <wachhund@wachhund.to>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-01 00:05+0100\n"
-"PO-Revision-Date: 2013-02-28 08:40+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-15 00:05+0100\n"
+"PO-Revision-Date: 2013-03-14 14:41+0000\n"
+"Last-Translator: kabum <uu.kabum@gmail.com>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -232,7 +233,7 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr "Dieser ownCloud Server kann die Ländereinstellung nicht auf %s ändern. Dies bedeutet dass es Probleme mit bestimmten Zeichen in Dateinamen geben könnte. Wir empfehlen die für %s benötigten Pakete auf ihrem System zu installieren."
+msgstr "Dieser ownCloud Server kann die Ländereinstellung nicht auf %s ändern. Dies bedeutet, dass es Probleme mit bestimmten Zeichen in Dateinamen geben könnte. Wir empfehlen die für %s benötigten Pakete auf ihrem System zu installieren."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"

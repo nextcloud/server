@@ -292,8 +292,10 @@ class OC_DB {
 						'username' => $user,
 						'password' => $pass,
 						'hostspec' => $host,
-						'database' => $name
-					);                    
+						'database' => $name,
+						'charset' => 'UTF-8'
+					);
+					$options['portability'] = $options['portability'] - MDB2_PORTABILITY_EMPTY_TO_NULL;
 					break;
 				default:
 					return false;

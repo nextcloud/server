@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-10 00:05+0100\n"
-"PO-Revision-Date: 2013-03-09 16:20+0000\n"
+"POT-Creation-Date: 2013-03-16 22:17+0100\n"
+"PO-Revision-Date: 2013-03-16 06:50+0000\n"
 "Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -72,13 +72,13 @@ msgstr "نوشتن بر روی دیسک سخت ناموفق بود"
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
-msgstr ""
+msgstr "فضای کافی در دسترس نیست"
 
 #: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "فهرست راهنما نامعتبر می باشد."
 
-#: appinfo/app.php:10
+#: appinfo/app.php:12
 msgid "Files"
 msgstr "فایل ها"
 
@@ -125,7 +125,7 @@ msgstr "بازگشت"
 
 #: js/filelist.js:323
 msgid "perform delete operation"
-msgstr ""
+msgstr "انجام عمل حذف"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -143,11 +143,11 @@ msgstr "نام نامعتبر ،  '\\', '/', '<', '>', ':', '\"', '|', '?'  و '
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "فضای ذخیره ی شما کاملا پر است، بیش از این فایلها بهنگام یا همگام سازی نمی توانند بشوند!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "فضای ذخیره ی شما تقریبا پر است ({usedSpacePercent}%)"
 
 #: js/files.js:226
 msgid ""
@@ -282,7 +282,7 @@ msgstr "متوقف کردن بار گذاری"
 
 #: templates/index.php:53
 msgid "You don’t have write permissions here."
-msgstr ""
+msgstr "شما اجازه ی نوشتن در اینجا را ندارید"
 
 #: templates/index.php:60
 msgid "Nothing in here. Upload something!"
@@ -316,4 +316,4 @@ msgstr "بازرسی کنونی"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "بهبود فایل سیستمی ذخیره گاه..."

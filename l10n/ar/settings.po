@@ -3,16 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Ahmad Matalqah <houfa2005@yahoo.com>, 2013.
 #   <icewind1991@gmail.com>, 2012.
+# Raed Chammem <shemada@gmail.com>, 2013.
 #   <shiningmoon25@gmail.com>, 2012.
 #   <tarek.taha@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-19 00:04+0100\n"
+"PO-Revision-Date: 2013-03-18 11:00+0000\n"
+"Last-Translator: Matalqah <houfa2005@yahoo.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -31,7 +33,7 @@ msgstr "لم يتم التأكد من الشخصية بنجاح"
 
 #: ajax/changedisplayname.php:32
 msgid "Unable to change display name"
-msgstr ""
+msgstr "تعذر تغيير اسم الحساب"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -85,11 +87,11 @@ msgstr "فشل إزالة المستخدم من المجموعة %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "تعذر تحديث التطبيق."
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "تم التحديث الى "
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
@@ -101,15 +103,15 @@ msgstr "تفعيل"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "الرجاء الانتظار ..."
 
 #: js/apps.js:84
 msgid "Updating...."
-msgstr ""
+msgstr "جاري التحديث ..."
 
 #: js/apps.js:87
 msgid "Error while updating app"
-msgstr ""
+msgstr "حصل خطأ أثناء تحديث التطبيق"
 
 #: js/apps.js:87
 msgid "Error"
@@ -117,7 +119,7 @@ msgstr "خطأ"
 
 #: js/apps.js:90
 msgid "Updated"
-msgstr ""
+msgstr "تم التحديث بنجاح"
 
 #: js/personal.js:99
 msgid "Saving..."
@@ -125,15 +127,15 @@ msgstr "حفظ"
 
 #: js/users.js:30
 msgid "deleted"
-msgstr ""
+msgstr "تم الحذف"
 
 #: js/users.js:30
 msgid "undo"
-msgstr ""
+msgstr "تراجع"
 
 #: js/users.js:62
 msgid "Unable to remove user"
-msgstr ""
+msgstr "تعذر حذف المستخدم"
 
 #: js/users.js:75 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
@@ -150,19 +152,19 @@ msgstr "حذف"
 
 #: js/users.js:191
 msgid "add group"
-msgstr ""
+msgstr "اضافة مجموعة"
 
 #: js/users.js:352
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "يجب ادخال اسم مستخدم صحيح"
 
 #: js/users.js:353 js/users.js:359 js/users.js:374
 msgid "Error creating user"
-msgstr ""
+msgstr "حصل خطأ اثناء انشاء مستخدم"
 
 #: js/users.js:358
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "يجب ادخال كلمة مرور صحيحة"
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
@@ -179,36 +181,36 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "مجلدات data  وملفاتك قد تكون قابلة للوصول اليها عن طريق شبكة الانترنت. ملف .htaccess الذي وفرته Owncloud لا يعمل . نقترح أن تقوم باعداد خادمك بطريقة تجعل مجلد data غير قابل للوصول اليه عن طريق الانترنت أو أن تقوم بتغيير مساره الى خارج مسار مجلد الصفحات الافتراضي document root الخاص بخادم الويب ."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "تحذير في التنصيب"
 
 #: templates/admin.php:32
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "اعدادات خادمك غير صحيحة بشكل تسمح لك بمزامنة ملفاتك وذلك بسبب أن واجهة WebDAV تبدو معطلة"
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "الرجاء التحقق من <a href='%s'>دليل التنصيب</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "الموديل 'fileinfo' مفقود"
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "موديل  'fileinfo' الخاص بالـPHP  مفقود . نوصي بتفعيل هذا الموديل للحصول على أفضل النتائج مع خاصية التحقق "
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "اللغه لا تعمل"
 
 #: templates/admin.php:63
 #, php-format
@@ -216,11 +218,11 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "لم يتمكن خادم ownCloud هذا كم ضبط لغة النظام الى %s . هذا يعني انه قد يكون هناك أخطاء في اسماء الملفات. نحن نوصي ان تقوم بتركيب الحزم اللازمة لدعم %s على نظامك . "
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
-msgstr ""
+msgstr "الاتصال بالانترنت لا يعمل"
 
 #: templates/admin.php:78
 msgid ""
@@ -230,90 +232,90 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "خادم الـ Owncloud  هذا غير متصل بالانترنت. هذا يعني أن بعض الميزات مثل الربط بوحدة تخزينية خارجيه, التنبيهات الخاصة بالتحديثات أو تركيب تطبيقات من مصادر خارجية لن يعمل . كما ان الوصول الى الملفات من خارج الخادم وارسال رسائل البريد التنبيهية لن تعمل أيضا . نقترح أن تفعل خدمة الانترنت في هذا الخادم اذا أردت ان تستفيد من كافة ميزات Owncloud"
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr ""
+msgstr "مجدول"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "قم بتنفيذ مهمة واحدة مع كل صفحة تم تحميلها"
 
 #: templates/admin.php:111
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php مسجلة في خدمة webcron . قم باستدعاء صفحة cron.php الموجودة في owncloud root مره كل دقيقة عن طريق بروتوكول http"
 
 #: templates/admin.php:121
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "قم باستخدام خدمة cron . قم باستدعاء ملف cron.php الموجود في مجلد Owncloud  عن طريق system cronjob مره كل دقيقة"
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr ""
+msgstr "مشاركة"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr ""
+msgstr "السماح بالمشاركة عن طريق الAPI "
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "السماح للتطبيقات بالمشاركة عن طريق الAPI"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "السماح بالعناوين"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "السماح للمستعملين بمشاركة البنود للعموم عن طريق الروابط "
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr ""
+msgstr "السماح بإعادة المشاركة "
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "السماح للمستخدمين باعادة مشاركة الملفات التي تم مشاركتها معهم"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "السماح للمستعملين بإعادة المشاركة مع أي أحد  "
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "السماح للمستعمينٍ لإعادة المشاركة فقط مع المستعملين في مجموعاتهم"
 
 #: templates/admin.php:168
 msgid "Security"
-msgstr ""
+msgstr "حماية"
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "فرض HTTPS"
 
 #: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "اجبار المستخدم بالاتصال مع Owncloud  عن طريق اتصال مشفر"
 
 #: templates/admin.php:185
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "الرجاء الاتصال مع خادم Owncloud  هذا عن طريق HTTPS لتفعيل أو تعطيل اجبار الدخول باستخدام "
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr ""
+msgstr "سجل"
 
 #: templates/admin.php:196
 msgid "Log level"
-msgstr ""
+msgstr "مستوى السجل"
 
 #: templates/admin.php:223
 msgid "More"
@@ -388,11 +390,11 @@ msgstr "تم إستهلاك <strong>%s</strong> من المتوفر <strong>%s</
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "احصل على التطبيقات لمزامنة ملفاتك"
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
-msgstr ""
+msgstr "ابدأ خطوات بداية التشغيل من جديد"
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:79
 msgid "Password"
@@ -420,19 +422,19 @@ msgstr "عدل كلمة السر"
 
 #: templates/personal.php:56 templates/users.php:78
 msgid "Display Name"
-msgstr ""
+msgstr "اسم الحساب"
 
 #: templates/personal.php:57
 msgid "Your display name was changed"
-msgstr ""
+msgstr "تم تغيير اسم حسابك بنجاح"
 
 #: templates/personal.php:58
 msgid "Unable to change your display name"
-msgstr ""
+msgstr "تعذر تغيير اسم حسابك"
 
 #: templates/personal.php:61
 msgid "Change display name"
-msgstr ""
+msgstr "تغيير اسم الحساب"
 
 #: templates/personal.php:70
 msgid "Email"
@@ -464,7 +466,7 @@ msgstr "إستخدم هذا العنوان للإتصال بـ ownCloud في م�
 
 #: templates/users.php:21 templates/users.php:77
 msgid "Login Name"
-msgstr ""
+msgstr "اسم الدخول"
 
 #: templates/users.php:32
 msgid "Create"
@@ -472,11 +474,11 @@ msgstr "انشئ"
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr ""
+msgstr "وحدة التخزين الافتراضية"
 
 #: templates/users.php:41 templates/users.php:139
 msgid "Unlimited"
-msgstr ""
+msgstr "غير محدود"
 
 #: templates/users.php:59 templates/users.php:154
 msgid "Other"
@@ -484,16 +486,16 @@ msgstr "شيء آخر"
 
 #: templates/users.php:84
 msgid "Storage"
-msgstr ""
+msgstr "وحدة التخزين"
 
 #: templates/users.php:95
 msgid "change display name"
-msgstr ""
+msgstr "تغيير اسم الحساب"
 
 #: templates/users.php:99
 msgid "set new password"
-msgstr ""
+msgstr "اعداد كلمة مرور جديدة"
 
 #: templates/users.php:134
 msgid "Default"
-msgstr ""
+msgstr "افتراضي"

@@ -62,7 +62,10 @@ abstract class Access {
 		$dn = $this->DNasBaseParameter($dn);
 		$rr = @ldap_read($cr, $dn, $filter, array($attr));
 		if(!is_resource($rr)) {
-			\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
+			if(!empty($attr)) {
+				//do not throw this message on userExists check, irritates
+				\OCP\Util::writeLog('user_ldap', 'readAttribute failed for DN '.$dn, \OCP\Util::DEBUG);
+			}
 			//in case an error occurs , e.g. object does not exist
 			return false;
 		}
@@ -84,7 +87,7 @@ abstract class Access {
 			for($i=0;$i<$result[$attr]['count'];$i++) {
 				if($this->resemblesDN($attr)) {
 					$values[] = $this->sanitizeDN($result[$attr][$i]);
-				} elseif(strtolower($attr) == 'objectguid') {
+				} elseif(strtolower($attr) == 'objectguid' || strtolower($attr) == 'guid') {
 					$values[] = $this->convertObjectGUID2Str($result[$attr][$i]);
 				} else {
 					$values[] = $result[$attr][$i];
@@ -895,7 +898,7 @@ abstract class Access {
 		}
 
 		//for now, supported (known) attributes are entryUUID, nsuniqueid, objectGUID
-		$testAttributes = array('entryuuid', 'nsuniqueid', 'objectguid');
+		$testAttributes = array('entryuuid', 'nsuniqueid', 'objectguid', 'guid');
 
 		foreach($testAttributes as $attribute) {
 			\OCP\Util::writeLog('user_ldap', 'Testing '.$attribute.' as UUID attr', \OCP\Util::DEBUG);

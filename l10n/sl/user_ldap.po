@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-12 00:13+0100\n"
-"PO-Revision-Date: 2013-03-11 18:30+0000\n"
+"POT-Creation-Date: 2013-03-13 00:05+0100\n"
+"PO-Revision-Date: 2013-03-12 14:30+0000\n"
 "Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -209,7 +209,7 @@ msgstr "Onemogoči glavni strežnik"
 
 #: templates/settings.php:74
 msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr "Ob priklopu bo strežnik ownCloud povezan le z kopijo (repliko) strežnika."
+msgstr "Ob priklopu bo strežnik ownCloud povezan le s kopijo (repliko) strežnika."
 
 #: templates/settings.php:75
 msgid "Use TLS"

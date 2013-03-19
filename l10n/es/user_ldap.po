@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-07 00:16+0100\n"
-"PO-Revision-Date: 2013-03-06 21:20+0000\n"
+"POT-Creation-Date: 2013-03-18 00:05+0100\n"
+"PO-Revision-Date: 2013-03-17 10:50+0000\n"
 "Last-Translator: Raul Fernandez Garcia <raulfg3@gmail.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -324,7 +324,7 @@ msgstr "E-mail"
 
 #: templates/settings.php:95
 msgid "User Home Folder Naming Rule"
-msgstr ""
+msgstr "Regla para la carpeta Home de usuario"
 
 #: templates/settings.php:95
 msgid ""
