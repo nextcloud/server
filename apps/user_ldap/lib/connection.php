@@ -212,7 +212,6 @@ class Connection {
 	 */
 	private function readConfiguration($force = false) {
 		if((!$this->configured || $force) && !is_null($this->configID)) {
-			$defaults = $this->getDefaults();
 			$v = 'getValue';
 			$this->config['ldapHost']       = $this->$v('ldap_host');
 			$this->config['ldapBackupHost'] = $this->$v('ldap_backup_host');
