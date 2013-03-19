@@ -49,6 +49,7 @@ nbproject
 
 # phpStorm
 .idea
+*.iml
 
 # geany
 *.geany
