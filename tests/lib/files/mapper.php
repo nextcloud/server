@@ -34,8 +34,19 @@ class Mapper extends \PHPUnit_Framework_TestCase {
 	}
 
 	public function testSlugifyPath() {
+		// with extension
 		$this->assertEquals('D:/text.txt', $this->mapper->slugifyPath('D:/text.txt'));
 		$this->assertEquals('D:/text-2.txt', $this->mapper->slugifyPath('D:/text.txt', 2));
 		$this->assertEquals('D:/a/b/text.txt', $this->mapper->slugifyPath('D:/a/b/text.txt'));
+
+		// without extension
+		$this->assertEquals('D:/text', $this->mapper->slugifyPath('D:/text'));
+		$this->assertEquals('D:/text-2', $this->mapper->slugifyPath('D:/text', 2));
+		$this->assertEquals('D:/a/b/text', $this->mapper->slugifyPath('D:/a/b/text'));
+
+		// with double dot
+		$this->assertEquals('D:/text-text.txt', $this->mapper->slugifyPath('D:/text.text.txt'));
+		$this->assertEquals('D:/text-text-2.txt', $this->mapper->slugifyPath('D:/text.text.txt', 2));
+		$this->assertEquals('D:/a/b/text-text.txt', $this->mapper->slugifyPath('D:/a/b/text.text.txt'));
 	}
 }

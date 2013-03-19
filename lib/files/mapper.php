@@ -191,8 +191,8 @@ class Mapper
 
 		// apply index to file name
 		if ($index !== null) {
-			array_pop($sluggedElements);
-			array_push($sluggedElements, $filename.'-'.$index);
+			$last= array_pop($sluggedElements);
+			array_push($sluggedElements, $last.'-'.$index);
 		}
 
 		// add back the extension
