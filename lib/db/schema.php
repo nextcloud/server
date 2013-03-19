@@ -101,19 +101,19 @@ class OC_DB_Schema {
 	}
 
 	/**
-	 * @brief replaces the owncloud tables with a new set
+	 * @brief replaces the ownCloud tables with a new set
 	 * @param $file string path to the MDB2 xml db export file
 	 */
 	public static function replaceDB( $conn, $file ) {
 		$apps = OC_App::getAllApps();
 		self::beginTransaction();
 		// Delete the old tables
-		self::removeDBStructure( OC::$SERVERROOT . '/db_structure.xml' );
+		self::removeDBStructure( $conn, OC::$SERVERROOT . '/db_structure.xml' );
 
 		foreach($apps as $app) {
 			$path = OC_App::getAppPath($app).'/appinfo/database.xml';
 			if(file_exists($path)) {
-				self::removeDBStructure( $path );
+				self::removeDBStructure( $conn, $path );
 			}
 		}
 

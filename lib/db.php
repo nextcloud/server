@@ -196,6 +196,7 @@ class OC_DB {
 	 * @param string $query Query string
 	 * @param int $limit
 	 * @param int $offset
+	 * @throws DatabaseException
 	 * @return \Doctrine\DBAL\Statement prepared SQL query
 	 *
 	 * SQL query via Doctrine prepare(), needs to be execute()'d!
@@ -235,7 +236,7 @@ class OC_DB {
 			try {
 				$result=self::$connection->prepare($query);
 			} catch(\Doctrine\DBAL\DBALException $e) {
-				throw new DatabaseException($e->getMessage(), $query);
+				throw new \DatabaseException($e->getMessage(), $query);
 			}
 			$result=new DoctrineStatementWrapper($result);
 		}
@@ -338,6 +339,7 @@ class OC_DB {
 	/**
 	 * @brief update the database scheme
 	 * @param string $file file to read structure from
+	 * @throws Exception
 	 * @return bool
 	 */
 	public static function updateDbFromStructure($file) {
@@ -367,7 +369,7 @@ class OC_DB {
 	 * @brief Insert a row if a matching row doesn't exists.
 	 * @param string $table. The table to insert into in the form '*PREFIX*tableName'
 	 * @param array $input. An array of fieldname/value pairs
-	 * @returns The return value from DoctrineStatementWrapper->execute()
+	 * @return bool return value from DoctrineStatementWrapper->execute()
 	 */
 	public static function insertIfNotExist($table, $input) {
 		self::connect();
@@ -398,6 +400,7 @@ class OC_DB {
 				OC_Log::write('core', $entry, OC_Log::FATAL);
 				error_log('DB error: '.$entry);
 				OC_Template::printErrorPage( $entry );
+				return false;
 			}
 
 			if($result->numRows() == 0) {
@@ -430,6 +433,7 @@ class OC_DB {
 			OC_Log::write('core', $entry, OC_Log::FATAL);
 			error_log('DB error: ' . $entry);
 			OC_Template::printErrorPage( $entry );
+			return false;
 		}
 
 		return $result->execute();
@@ -556,7 +560,7 @@ class OC_DB {
 	}
 
 	/**
-	 * @brief replaces the owncloud tables with a new set
+	 * @brief replaces the ownCloud tables with a new set
 	 * @param $file string path to the MDB2 xml db export file
 	 */
 	public static function replaceDB( $file ) {
@@ -799,6 +803,7 @@ class DoctrineStatementWrapper {
 	 * Provide a simple fetchOne.
 	 * fetch single column from the next row
 	 * @param int $colnum the column number to fetch
+	 * @return string
 	 */
 	public function fetchOne($colnum = 0) {
 		return $this->statement->fetchColumn($colnum);

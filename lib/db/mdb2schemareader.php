@@ -11,6 +11,12 @@ class OC_DB_MDB2SchemaReader {
 	static protected $DBTABLEPREFIX;
 	static protected $platform;
 
+	/**
+	 * @param $file
+	 * @param $platform
+	 * @return \Doctrine\DBAL\Schema\Schema
+	 * @throws DomainException
+	 */
 	public static function loadSchemaFromFile($file, $platform) {
 		self::$DBNAME  = OC_Config::getValue( "dbname", "owncloud" );
 		self::$DBTABLEPREFIX = OC_Config::getValue( "dbtableprefix", "oc_" );
@@ -38,6 +44,11 @@ class OC_DB_MDB2SchemaReader {
 		return $schema;
 	}
 
+	/**
+	 * @param\Doctrine\DBAL\Schema\Schema $schema
+	 * @param $xml
+	 * @throws DomainException
+	 */
 	private static function loadTable($schema, $xml) {
 		foreach($xml->children() as $child) {
 			switch($child->getName()) {
@@ -60,6 +71,11 @@ class OC_DB_MDB2SchemaReader {
 		}
 	}
 
+	/**
+	 * @param \Doctrine\DBAL\Schema\Table $table
+	 * @param $xml
+	 * @throws DomainException
+	 */
 	private static function loadDeclaration($table, $xml) {
 		foreach($xml->children() as $child) {
 			switch($child->getName()) {
