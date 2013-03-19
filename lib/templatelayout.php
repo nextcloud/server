@@ -37,6 +37,7 @@ class OC_TemplateLayout extends OC_Template {
 		} else {
 			parent::__construct('core', 'layout.base');
 		}
+		$versionParameter = '?' . md5(implode(OC_Util::getVersion()));
 		// Add the js files
 		$jsfiles = self::findJavascriptFiles(OC_Util::$scripts);
 		$this->assign('jsfiles', array(), false);
@@ -44,20 +45,20 @@ class OC_TemplateLayout extends OC_Template {
 			$this->append( 'jsfiles', OC_Helper::linkToRoute('js_config'));
 		}
 		if (!empty(OC_Util::$core_scripts)) {
-			$this->append( 'jsfiles', OC_Helper::linkToRemoteBase('core.js', false));
+			$this->append( 'jsfiles', OC_Helper::linkToRemoteBase('core.js', false) . $versionParameter);
 		}
 		foreach($jsfiles as $info) {
 			$root = $info[0];
 			$web = $info[1];
 			$file = $info[2];
-			$this->append( 'jsfiles', $web.'/'.$file);
+			$this->append( 'jsfiles', $web.'/'.$file . $versionParameter);
 		}
 
 		// Add the css files
 		$cssfiles = self::findStylesheetFiles(OC_Util::$styles);
 		$this->assign('cssfiles', array());
 		if (!empty(OC_Util::$core_styles)) {
-			$this->append( 'cssfiles', OC_Helper::linkToRemoteBase('core.css', false));
+			$this->append( 'cssfiles', OC_Helper::linkToRemoteBase('core.css', false) . $versionParameter);
 		}
 		foreach($cssfiles as $info) {
 			$root = $info[0];
@@ -77,10 +78,10 @@ class OC_TemplateLayout extends OC_Template {
 				$app = $paths[0];
 				unset($paths[0]);
 				$path = implode('/', $paths);
-				$this->append( 'cssfiles', OC_Helper::linkTo($app, $path));
+				$this->append( 'cssfiles', OC_Helper::linkTo($app, $path) . $versionParameter);
 			}
 			else {
-				$this->append( 'cssfiles', $web.'/'.$file);
+				$this->append( 'cssfiles', $web.'/'.$file . $versionParameter);
 			}
 		}
 	}
