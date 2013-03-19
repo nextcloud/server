@@ -217,6 +217,10 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	 * @return display name
 	 */
 	public function getDisplayName($uid) {
+		if(!$this->userExists($uid)) {
+			return false;
+		}
+
 		$cacheKey = 'getDisplayName'.$uid;
 		if(!is_null($displayName = $this->connection->getFromCache($cacheKey))) {
 			return $displayName;
