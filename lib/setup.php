@@ -71,10 +71,7 @@ class OC_Setup {
 			$datadir = htmlspecialchars_decode($options['directory']);
 
 			if (OC_Util::runningOnWindows()) {
-				$datadir = realpath($datadir);
-				if (substr($datadir, -1) == '\\') {
-					$datadir = substr_replace($datadir ,"",-1);
-				}
+				$datadir = rtrim(realpath($datadir), '\\');
 			}
 
 			//use sqlite3 when available, otherise sqlite2 will be used.
