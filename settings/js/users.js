@@ -6,6 +6,7 @@
 
 var UserList = {
 	useUndo: true,
+	availableGroups: [],
 
 	/**
 	 * @brief Initiate user deletion process in UI
@@ -78,8 +79,7 @@ var UserList = {
 			var subadminSelect = $('<select multiple="multiple" class="subadminsselect" data-placehoder="subadmins" title="' + t('settings', 'Group Admin') + '">').attr('data-username', username).attr('data-user-groups', groups).attr('data-subadmin', subadmin);
 			tr.find('td.subadmins').empty();
 		}
-		var allGroups = String($('#content table').attr('data-groups')).split(', ');
-		$.each(allGroups, function (i, group) {
+		$.each(this.availableGroups, function (i, group) {
 			groupsSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
 			if (typeof subadminSelect !== 'undefined' && group != 'admin') {
 				subadminSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
@@ -188,7 +188,6 @@ var UserList = {
 						});
 					}
 				});
-				console.log('length', result.data.length);
 				if (result.data.length > 0) {
 					UserList.doSort();
 				}
@@ -218,7 +217,14 @@ var UserList = {
 							username: user,
 							group: group
 						},
-						function () {
+						function (response) {
+							if(response.status === 'success' && response.data.action === 'add') {
+								if(UserList.availableGroups.indexOf(response.data.gropname) === -1) {
+									UserList.availableGroups.push(response.data.gropname);
+								}
+							} else {
+								OC.Notification.show(response.data.message);
+							}
 						}
 					);
 				};
@@ -289,6 +295,7 @@ var UserList = {
 $(document).ready(function () {
 
 	UserList.doSort();
+	UserList.availableGroups = $('#content table').attr('data-groups').split(', ');
 	UserList.offset = $('tbody tr').length;
 	$('tbody tr:last').bind('inview', function (event, isInView, visiblePartX, visiblePartY) {
 		OC.Router.registerLoadedCallback(function () {
@@ -421,6 +428,8 @@ $(document).ready(function () {
 					OC.dialogs.alert(result.data.message,
 						t('settings', 'Error creating user'));
 				} else {
+					var addedGroups = result.data.groups.split(', ');
+					UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
 					if($('tr[data-uid="' + username + '"]').length === 0) {
 						UserList.add(username, username, result.data.groups, null, 'default', true);
 					}
