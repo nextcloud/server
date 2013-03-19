@@ -90,7 +90,11 @@ class Mount {
 	public function getStorageId() {
 		if (!$this->storageId) {
 			if (is_null($this->storage)) {
-				$this->storage = $this->createStorage();
+				$storage = $this->createStorage(); //FIXME: start using exceptions
+				if (is_null($storage)) {
+					return null;
+				}
+				$this->storage = $storage;
 			}
 			$this->storageId = $this->storage->getId();
 			if (strlen($this->storageId) > 64) {
