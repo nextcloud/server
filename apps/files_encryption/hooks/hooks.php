@@ -29,9 +29,6 @@ namespace OCA\Encryption;
 
 class Hooks {
 
-	// TODO: use passphrase for encrypting private key that is separate to 
-	// the login password
-
 	/**
 	 * @brief Startup encryption backend upon user login
 	 * @note This method should never be called for users using client side encryption
@@ -196,12 +193,15 @@ class Hooks {
 			
 			$usersSharing = \OCP\Share::getUsersSharingFile( $path, true );
 			
+			// Recursively expand path to include subfiles
 			$allPaths = $util->getPaths( $path );
 			
 			$failed = array();
 			
+			// Loop through all subfiles
 			foreach ( $allPaths as $path ) {
 			
+				// Attempt to set shareKey
 				if ( ! $util->setSharedFileKeyfiles( $session, $usersSharing, $path ) ) {
 				
 					$failed[] = $path;

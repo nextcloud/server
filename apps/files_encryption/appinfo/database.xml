@@ -18,6 +18,14 @@
 				<type>text</type>
 				<notnull>true</notnull>
 				<length>64</length>
+				<comments>What client-side / server-side configuration is used</comments>
+			</field>
+			<field>
+				<name>recovery</name>
+				<type>boolean</type>
+				<notnull>true</notnull>
+				<default>0</default>
+				<comments>Whether encryption key recovery is enabled</comments>
 			</field>
 		</declaration>
 	</table>

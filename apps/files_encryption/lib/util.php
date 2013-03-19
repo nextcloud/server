@@ -153,45 +153,24 @@ class Util {
          */
 	public function setupServerSide( $passphrase = null ) {
 		
-		// Create user dir
-		if( !$this->view->file_exists( $this->userDir ) ) {
+		// Set directories to check / create
+		$setUpDirs = array( 
+			$this->userDir
+			, $this->userFilesDir
+			, $this->publicKeyDir
+			, $this->encryptionDir
+			, $this->keyfilesPath
+			, $this->shareKeysPath
+		);
 		
-			$this->view->mkdir( $this->userDir );
+		// Check / create all necessary dirs
+		foreach ( $setUpDirs as $dirPath ) {
 		
-		}
-		
-		// Create user files dir
-		if( !$this->view->file_exists( $this->userFilesDir ) ) {
-		
-			$this->view->mkdir( $this->userFilesDir );
-		
-		}
-		
-		// Create shared public key directory
-		if( !$this->view->file_exists( $this->publicKeyDir ) ) {
-		
-			$this->view->mkdir( $this->publicKeyDir );
-		
-		}
-		
-		// Create encryption app directory
-		if( !$this->view->file_exists( $this->encryptionDir ) ) {
-		
-			$this->view->mkdir( $this->encryptionDir );
-		
-		}
-		
-		// Create mirrored keyfile directory
-		if( !$this->view->file_exists( $this->keyfilesPath ) ) {
-		
-			$this->view->mkdir( $this->keyfilesPath );
-		
-		}
-
-		// Create mirrored share env keys directory
-		if( !$this->view->file_exists( $this->shareKeysPath ) ) {
-		
-			$this->view->mkdir( $this->shareKeysPath );
+			if( !$this->view->file_exists( $dirPath ) ) {
+			
+				$this->view->mkdir( $dirPath );
+			
+			}
 		
 		}
 		
@@ -220,6 +199,20 @@ class Util {
 		}
 		
 		return true;
+	
+	}
+	
+	public function recoveryEnabled(  ) {
+	
+		$sql = 'SELECT * FROM `*PREFIX*myusers` WHERE id = ?';
+		$args = array(1);
+
+		$query = \OCP\DB::prepare($sql);
+		$result = $query->execute($args);
+
+		while($row = $result->fetchRow()) {
+			$userName = $row['username'];
+		}	
 	
 	}
 	
@@ -737,6 +730,7 @@ class Util {
 		
 		$fileOwner = \OC\Files\Filesystem::getOwner( $filePath );
 		
+		// Decrypt keyfile
 		$plainKeyfile = $this->decryptUnknownKeyfile( $filePath, $fileOwner, $privateKey );
 		
 		// Re-enc keyfile to (additional) sharekeys
