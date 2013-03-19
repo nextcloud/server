@@ -703,11 +703,11 @@ class DoctrineStatementWrapper {
 	}
 
 	private function tryFixSubstringLastArgumentDataForMSSQL($input) {
-		$query = $this->statement->queryString;
+		$query = $this->statement->getWrappedStatement()->queryString;
 		$pos = stripos ($query, 'SUBSTRING');
 
 		if ( $pos === false) {
-			return;
+			return $input;
 		}
 
 		try {
