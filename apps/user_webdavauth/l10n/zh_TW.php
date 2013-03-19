@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"WebDAV URL: http://" => "WebDAV 網址 http://"
+"WebDAV Authentication" => "WebDAV 認證",
+"URL: http://" => "網址：http://"
 );

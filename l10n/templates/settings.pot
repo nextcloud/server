@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-03-19 00:04+0100\n"
+"POT-Creation-Date: 2013-03-20 00:02+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -145,19 +145,19 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: js/users.js:191
+#: js/users.js:237
 msgid "add group"
 msgstr ""
 
-#: js/users.js:352
+#: js/users.js:400
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:401 js/users.js:407 js/users.js:422
 msgid "Error creating user"
 msgstr ""
 
-#: js/users.js:358
+#: js/users.js:406
 msgid "A valid password must be provided"
 msgstr ""
 

@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#  <admin@alphacorp.tk>, 2013.
 # Donahue Chuang <soshinwu@gmail.com>, 2012.
 #   <dw4dev@gmail.com>, 2012.
 #   <nfsmwlin@gmail.com>, 2013.
@@ -16,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-20 00:02+0100\n"
+"PO-Revision-Date: 2013-03-19 04:00+0000\n"
+"Last-Translator: Hydriz <admin@alphacorp.tk>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -154,21 +155,21 @@ msgstr "群組 管理員"
 msgid "Delete"
 msgstr "刪除"
 
-#: js/users.js:191
+#: js/users.js:237
 msgid "add group"
 msgstr "新增群組"
 
-#: js/users.js:352
+#: js/users.js:400
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "一定要提供一個有效的用戶名"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:401 js/users.js:407 js/users.js:422
 msgid "Error creating user"
-msgstr ""
+msgstr "創建用戶時出現錯誤"
 
-#: js/users.js:358
+#: js/users.js:406
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "一定要提供一個有效的密碼"
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
@@ -240,7 +241,7 @@ msgstr ""
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr ""
+msgstr "定期執行"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
@@ -272,7 +273,7 @@ msgstr ""
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "允許連結"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
@@ -280,7 +281,7 @@ msgstr ""
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr ""
+msgstr "允許轉貼分享"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
@@ -296,7 +297,7 @@ msgstr ""
 
 #: templates/admin.php:168
 msgid "Security"
-msgstr ""
+msgstr "安全性"
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
@@ -315,11 +316,11 @@ msgstr ""
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr ""
+msgstr "紀錄"
 
 #: templates/admin.php:196
 msgid "Log level"
-msgstr ""
+msgstr "紀錄層級"
 
 #: templates/admin.php:223
 msgid "More"
@@ -394,7 +395,7 @@ msgstr "您已經使用了 <strong>%s</strong> ，目前可用空間為 <strong>
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "獲取那些同步您的文件的應用程序"
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"

@@ -1,5 +1,11 @@
 <?php $TRANSLATIONS = array(
-"History" => "歷史",
-"Files Versioning" => "檔案版本化中...",
-"Enable" => "啟用"
+"Could not revert: %s" => "無法還原：%s",
+"success" => "成功",
+"File %s was reverted to version %s" => "檔案 %s 已被復原至版本 %s",
+"failure" => "失敗",
+"File %s could not be reverted to version %s" => "檔案 %s 無法復原至版本 %s",
+"No old versions available" => "沒有舊的版本",
+"No path specified" => "沒有指定路線",
+"Versions" => "版本",
+"Revert a file to a previous version by clicking on its revert button" => "按一按復原的按鈕，就能把一個檔案復原至以前的版本"
 );
