@@ -28,7 +28,13 @@
 			<div id="imgframe">
 				<img src="<?php p($_['downloadURL']); ?>" />
 			</div>
-		<?php endif; ?>
+		<?php elseif (substr($_['mimetype'], 0, strpos($_['mimetype'], '/')) == 'video'): ?>
+			<div id="imgframe">
+				<video tabindex="0" controls="" autoplay="">
+				<source src="<?php p($_['downloadURL']); ?>" type="<?php p($_['mimetype']); ?>" />
+				</video>
+			</div>
+		<?php else: ?>
 		<ul id="noPreview">
 			<li class="error">
 				<?php p($l->t('No preview available for').' '.$_['fileTarget']); ?><br />
@@ -37,6 +43,7 @@
 					/><?php p($l->t('Download'))?></a>
 			</li>
 		</ul>
+		<?php endif; ?>
 	<?php endif; ?>
 </div>
 <footer><p class="info"><a href="http://owncloud.org/">ownCloud</a> &ndash;
