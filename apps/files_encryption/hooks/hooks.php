@@ -40,7 +40,6 @@ class Hooks {
 		\OC\Files\Filesystem::init( $params['uid'] . '/' . 'files' . '/' );
 	
 		$view = new \OC_FilesystemView( '/' );
-
 		$util = new Util( $view, $params['uid'] );
 		
 		// Check files_encryption infrastructure is ready for action
@@ -61,7 +60,6 @@ class Hooks {
 		$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
 		
 		$session = new Session();
-		
 		$session->setPrivateKey( $privateKey, $params['uid'] );
 		
 		$view1 = new \OC_FilesystemView( '/' . $params['uid'] );

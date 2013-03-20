@@ -31,7 +31,12 @@
 # ----------------
 # Re-use existing keyfiles so they don't need version control (part implemented, stream{} and util{} remain)
 # Make sure user knows if large files weren't encrypted
-# Trashbin support
+
+
+# Test
+# ----
+# Test that writing files works when recovery is enabled, and sharing API is disabled
+# Test trashbin support
 
 
 // Old Todo:
@@ -202,18 +207,71 @@ class Util {
 	
 	}
 	
-	public function recoveryEnabled(  ) {
+	/**
+	 * @brief Check whether pwd recovery is enabled for a given user
+	 * @return bool
+	 * @note If records are not being returned, check for a hidden space 
+	 *       at the start of the uid in db
+	 */
+	public function recoveryEnabled() {
 	
-		$sql = 'SELECT * FROM `*PREFIX*myusers` WHERE id = ?';
-		$args = array(1);
+		$sql = 'SELECT 
+				recovery 
+			FROM 
+				`*PREFIX*encryption` 
+			WHERE 
+				uid = ?';
+				
+		$args = array( $this->userId );
 
-		$query = \OCP\DB::prepare($sql);
-		$result = $query->execute($args);
-
-		while($row = $result->fetchRow()) {
-			$userName = $row['username'];
-		}	
+		$query = \OCP\DB::prepare( $sql );
+		
+		$result = $query->execute( $args );
+		
+		// Set default in case no records found
+		$recoveryEnabled = 0;
+		
+		while( $row = $result->fetchRow() ) {
+		
+			$recoveryEnabled = $row['recovery'];
+			
+		}
+		
+		return $recoveryEnabled;
 	
+	}
+	
+	/**
+	 * @brief Enable / disable pwd recovery for a given user
+	 * @param bool $enabled Whether to enable or disable recovery
+	 * @return bool
+	 */
+	public function setRecovery( $enabled ) {
+	
+		$sql = 'UPDATE 
+				*PREFIX*encryption 
+			SET 
+				recovery = ? 
+			WHERE 
+				uid = ?';
+		
+		// Ensure value is an integer
+		$enabled = intval( $enabled );
+		
+		$args = array( $enabled, $this->userId );
+
+		$query = \OCP\DB::prepare( $sql );
+		
+		if ( $query->execute( $args ) ) {
+		
+			return true;
+			
+		} else {
+		
+			return false;
+			
+		}
+		
 	}
 	
 	/**

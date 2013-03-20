@@ -57,6 +57,7 @@ class Keymanager {
 		return $view->file_get_contents( '/public-keys/' . '/' . $userId . '.public.key' );
 		
 		\OC_FileProxy::$enabled = true;
+		
 	}
 	
 	/**

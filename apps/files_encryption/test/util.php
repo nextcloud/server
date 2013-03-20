@@ -164,6 +164,26 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 		# then false will be returned. Use strict ordering?
 		
 	}
+	
+	function testRecoveryEnabled() {
+		
+		$util = new Encryption\Util( $this->view, $this->userId );
+		
+		// Record the value so we can return it to it's original state later
+		$enabled = $util->recoveryEnabled();
+		
+		$this->assertTrue( $util->setRecovery( 1 ) );
+		
+		$this->assertEquals( 1, $util->recoveryEnabled() );
+		
+		$this->assertTrue( $util->setRecovery( 0 ) );
+		
+		$this->assertEquals( 0, $util->recoveryEnabled() );
+		
+		// Return the setting to it's previous state
+		$this->assertTrue( $util->setRecovery( $enabled ) );
+		
+	}
 
 // 	/**
 // 	 * @brief test decryption using legacy blowfish method

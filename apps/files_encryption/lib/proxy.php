@@ -131,31 +131,49 @@ class Proxy extends \OC_FileProxy {
 				// Encrypt data
 				$encData = Crypt::symmetricEncryptFileContent( $data, $plainKey );
 				
-				// Check if the keyfile needs to be shared
-				if ( $userIds = \OCP\Share::getUsersSharingFile( $filePath, true ) ) {
-					
-					$publicKeys = Keymanager::getPublicKeys( $rootView, $userIds );
-					
-					\OC_FileProxy::$enabled = false;
-					
-					// Encrypt plain keyfile to multiple sharefiles
-					$multiEncrypted = Crypt::multiKeyEncrypt( $plainKey, $publicKeys );
-					
-					// Save sharekeys to user folders
-					// TODO: openssl_seal generates new shareKeys (envelope keys) each time data is encrypted, but will data still be decryptable using old shareKeys? If so we don't need to replace the old shareKeys here, we only need to set the new ones
-					Keymanager::setShareKeys( $rootView, $filePath, $multiEncrypted['keys'] );
-					
-					// Set encrypted keyfile as common varname
-					$encKey = $multiEncrypted['encrypted'];
+				// Check if key recovery is enabled
+				$recoveryEnabled = $util->recoveryEnabled();
 				
-				} else {
+				// Make sure that a share key is generated for the owner too
+				$userIds = array( $userId );
 				
-					$publicKey = Keymanager::getPublicKey( $rootView, $userId );
+				if ( \OCP\Share::isEnabled() ) {
 				
-					// Encrypt plain data to a single user
-					$encKey = Crypt::keyEncrypt( $plainKey, $publicKey );
+					// Find out who, if anyone, is sharing the file
+					$shareUids = \OCP\Share::getUsersSharingFile( $filePath, true );
+					
+					$userIds = array_merge( $userIds, $shareUids );
 				
 				}
+				
+				// If recovery is enabled, add the 
+				// Admin UID to list of users to share to
+				if ( $recoveryEnabled ) {
+				
+					// FIXME: Create a separate admin user purely for recovery, and create method in util for fetching this id from DB?
+					$adminUid = 'recoveryAdmin';
+				
+					$userIds[] = $adminUid;
+					
+				}
+				
+				// Remove duplicate UIDs
+				$uniqueUserIds = array_unique ( $userIds );
+				
+				// Fetch public keys for all users who will share the file
+				$publicKeys = Keymanager::getPublicKeys( $rootView, $uniqueUserIds );
+				
+				\OC_FileProxy::$enabled = false;
+				
+				// Encrypt plain keyfile to multiple sharefiles
+				$multiEncrypted = Crypt::multiKeyEncrypt( $plainKey, $publicKeys );
+				
+				// Save sharekeys to user folders
+				// TODO: openssl_seal generates new shareKeys (envelope keys) each time data is encrypted, but will data still be decryptable using old shareKeys? If so we don't need to replace the old shareKeys here, we only need to set the new ones
+				Keymanager::setShareKeys( $rootView, $filePath, $multiEncrypted['keys'] );
+				
+				// Set encrypted keyfile as common varname
+				$encKey = $multiEncrypted['data'];
 				
 				// Save the key if its new
 				if ( ! $keyPreExists ) {
