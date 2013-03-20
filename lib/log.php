@@ -38,7 +38,7 @@ class Log {
 	 */
 	public function emergency($message, array $context = array())
 	{
-		$this->log(OC_Log::FATAL, $message, $context);
+		$this->log(self::FATAL, $message, $context);
 	}
 
 	/**
@@ -80,7 +80,7 @@ class Log {
 	 */
 	public function error($message, array $context = array())
 	{
-		$this->log(OC_Log::ERROR, $message, $context);
+		$this->log(self::ERROR, $message, $context);
 	}
 
 	/**
@@ -95,7 +95,7 @@ class Log {
 	 */
 	public function warning($message, array $context = array())
 	{
-		$this->log(OC_Log::WARN, $message, $context);
+		$this->log(self::WARN, $message, $context);
 	}
 
 	/**
@@ -121,7 +121,7 @@ class Log {
 	 */
 	public function info($message, array $context = array())
 	{
-		$this->log(OC_Log::INFO, $message, $context);
+		$this->log(self::INFO, $message, $context);
 	}
 
 	/**
@@ -133,7 +133,7 @@ class Log {
 	 */
 	public function debug($message, array $context = array())
 	{
-		$this->log(OC_Log::DEBUG, $message, $context);
+		$this->log(self::DEBUG, $message, $context);
 	}
 
 	/**
@@ -151,7 +151,7 @@ class Log {
 		} else {
 			$app = 'no app in context';
 		}
-		OC_Log::write($app, $message, $level);
+		\OC_Log::write($app, $message, $level);
 	}
 }
 
