@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-16 22:17+0100\n"
-"PO-Revision-Date: 2013-03-16 14:00+0000\n"
-"Last-Translator: Xuetian Weng <wengxt@gmail.com>\n"
+"POT-Creation-Date: 2013-03-22 00:03+0100\n"
+"PO-Revision-Date: 2013-03-21 23:03+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -167,55 +167,55 @@ msgstr "十二月"
 msgid "Settings"
 msgstr "设置"
 
-#: js/js.js:777
+#: js/js.js:779
 msgid "seconds ago"
 msgstr "秒前"
 
-#: js/js.js:778
+#: js/js.js:780
 msgid "1 minute ago"
 msgstr "一分钟前"
 
-#: js/js.js:779
+#: js/js.js:781
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分钟前"
 
-#: js/js.js:780
+#: js/js.js:782
 msgid "1 hour ago"
 msgstr "1小时前"
 
-#: js/js.js:781
+#: js/js.js:783
 msgid "{hours} hours ago"
 msgstr "{hours} 小时前"
 
-#: js/js.js:782
+#: js/js.js:784
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:783
+#: js/js.js:785
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:784
+#: js/js.js:786
 msgid "{days} days ago"
 msgstr "{days} 天前"
 
-#: js/js.js:785
+#: js/js.js:787
 msgid "last month"
 msgstr "上月"
 
-#: js/js.js:786
+#: js/js.js:788
 msgid "{months} months ago"
 msgstr "{months} 月前"
 
-#: js/js.js:787
+#: js/js.js:789
 msgid "months ago"
 msgstr "月前"
 
-#: js/js.js:788
+#: js/js.js:790
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:789
+#: js/js.js:791
 msgid "years ago"
 msgstr "年前"
 
@@ -298,7 +298,7 @@ msgstr "共享链接"
 msgid "Password protect"
 msgstr "密码保护"
 
-#: js/share.js:169 templates/installation.php:47 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:35
 msgid "Password"
 msgstr "密码"
 
@@ -413,7 +413,7 @@ msgstr "重置邮件已发送。"
 msgid "Request failed!"
 msgstr "请求失败！"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:41
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
 #: templates/login.php:28
 msgid "Username"
 msgstr "用户名"
@@ -475,77 +475,86 @@ msgid "Add"
 msgstr "添加"
 
 #: templates/installation.php:24 templates/installation.php:31
+#: templates/installation.php:38
 msgid "Security Warning"
 msgstr "安全警告"
 
 #: templates/installation.php:25
+msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
+msgstr ""
+
+#: templates/installation.php:26
+msgid "Please update your PHP installation to use ownCloud securely."
+msgstr ""
+
+#: templates/installation.php:32
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "随机数生成器无效，请启用PHP的OpenSSL扩展"
 
-#: templates/installation.php:26
+#: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "没有安全随机码生成器，攻击者可能会猜测密码重置信息从而窃取您的账户"
 
-#: templates/installation.php:32
+#: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "您的数据目录和文件可能可以直接被互联网访问，因为 .htaccess 并未正常工作。"
 
-#: templates/installation.php:33
+#: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
 msgstr "关于如何配置服务器，请参见 <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">此文档</a>。"
 
-#: templates/installation.php:37
+#: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
 msgstr "创建<strong>管理员账号</strong>"
 
-#: templates/installation.php:55
+#: templates/installation.php:62
 msgid "Advanced"
 msgstr "高级"
 
-#: templates/installation.php:57
+#: templates/installation.php:64
 msgid "Data folder"
 msgstr "数据目录"
 
-#: templates/installation.php:66
+#: templates/installation.php:73
 msgid "Configure the database"
 msgstr "配置数据库"
 
-#: templates/installation.php:71 templates/installation.php:83
-#: templates/installation.php:94 templates/installation.php:105
-#: templates/installation.php:117
+#: templates/installation.php:78 templates/installation.php:90
+#: templates/installation.php:101 templates/installation.php:112
+#: templates/installation.php:124
 msgid "will be used"
 msgstr "将被使用"
 
-#: templates/installation.php:129
+#: templates/installation.php:136
 msgid "Database user"
 msgstr "数据库用户"
 
-#: templates/installation.php:134
+#: templates/installation.php:141
 msgid "Database password"
 msgstr "数据库密码"
 
-#: templates/installation.php:139
+#: templates/installation.php:146
 msgid "Database name"
 msgstr "数据库名"
 
-#: templates/installation.php:149
+#: templates/installation.php:156
 msgid "Database tablespace"
 msgstr "数据库表空间"
 
-#: templates/installation.php:156
+#: templates/installation.php:163
 msgid "Database host"
 msgstr "数据库主机"
 
-#: templates/installation.php:162
+#: templates/installation.php:169
 msgid "Finish setup"
 msgstr "安装完成"
 

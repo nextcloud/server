@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-22 00:06+0100\n"
-"PO-Revision-Date: 2013-02-20 23:20+0000\n"
-"Last-Translator: saosangm <saosangmo@yahoo.com>\n"
+"POT-Creation-Date: 2013-03-22 00:03+0100\n"
+"PO-Revision-Date: 2013-03-21 23:03+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,24 +23,24 @@ msgstr ""
 "Language: vi\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/share.php:85
+#: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
 msgstr "%s chia sẻ tập tin này cho bạn"
 
-#: ajax/share.php:87
+#: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr "%s chia sẻ thư mục này cho bạn"
 
-#: ajax/share.php:89
+#: ajax/share.php:101
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr "Người dùng %s chia sẻ tập tin \"%s\" cho bạn .Bạn có thể tải tại đây : %s"
 
-#: ajax/share.php:91
+#: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -86,79 +86,79 @@ msgstr "Không có thể loại nào được chọn để xóa."
 msgid "Error removing %s from favorites."
 msgstr "Lỗi xóa %s từ mục yêu thích."
 
-#: js/config.php:32
+#: js/config.php:34
 msgid "Sunday"
 msgstr "Chủ nhật"
 
-#: js/config.php:32
+#: js/config.php:35
 msgid "Monday"
 msgstr "Thứ 2"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Tuesday"
 msgstr "Thứ 3"
 
-#: js/config.php:32
+#: js/config.php:37
 msgid "Wednesday"
 msgstr "Thứ 4"
 
-#: js/config.php:32
+#: js/config.php:38
 msgid "Thursday"
 msgstr "Thứ 5"
 
-#: js/config.php:32
+#: js/config.php:39
 msgid "Friday"
 msgstr "Thứ "
 
-#: js/config.php:32
+#: js/config.php:40
 msgid "Saturday"
 msgstr "Thứ 7"
 
-#: js/config.php:33
+#: js/config.php:45
 msgid "January"
 msgstr "Tháng 1"
 
-#: js/config.php:33
+#: js/config.php:46
 msgid "February"
 msgstr "Tháng 2"
 
-#: js/config.php:33
+#: js/config.php:47
 msgid "March"
 msgstr "Tháng 3"
 
-#: js/config.php:33
+#: js/config.php:48
 msgid "April"
 msgstr "Tháng 4"
 
-#: js/config.php:33
+#: js/config.php:49
 msgid "May"
 msgstr "Tháng 5"
 
-#: js/config.php:33
+#: js/config.php:50
 msgid "June"
 msgstr "Tháng 6"
 
-#: js/config.php:33
+#: js/config.php:51
 msgid "July"
 msgstr "Tháng 7"
 
-#: js/config.php:33
+#: js/config.php:52
 msgid "August"
 msgstr "Tháng 8"
 
-#: js/config.php:33
+#: js/config.php:53
 msgid "September"
 msgstr "Tháng 9"
 
-#: js/config.php:33
+#: js/config.php:54
 msgid "October"
 msgstr "Tháng 10"
 
-#: js/config.php:33
+#: js/config.php:55
 msgid "November"
 msgstr "Tháng 11"
 
-#: js/config.php:33
+#: js/config.php:56
 msgid "December"
 msgstr "Tháng 12"
 
@@ -166,55 +166,55 @@ msgstr "Tháng 12"
 msgid "Settings"
 msgstr "Cài đặt"
 
-#: js/js.js:767
+#: js/js.js:779
 msgid "seconds ago"
 msgstr "vài giây trước"
 
-#: js/js.js:768
+#: js/js.js:780
 msgid "1 minute ago"
 msgstr "1 phút trước"
 
-#: js/js.js:769
+#: js/js.js:781
 msgid "{minutes} minutes ago"
 msgstr "{minutes} phút trước"
 
-#: js/js.js:770
+#: js/js.js:782
 msgid "1 hour ago"
 msgstr "1 giờ trước"
 
-#: js/js.js:771
+#: js/js.js:783
 msgid "{hours} hours ago"
 msgstr "{hours} giờ trước"
 
-#: js/js.js:772
+#: js/js.js:784
 msgid "today"
 msgstr "hôm nay"
 
-#: js/js.js:773
+#: js/js.js:785
 msgid "yesterday"
 msgstr "hôm qua"
 
-#: js/js.js:774
+#: js/js.js:786
 msgid "{days} days ago"
 msgstr "{days} ngày trước"
 
-#: js/js.js:775
+#: js/js.js:787
 msgid "last month"
 msgstr "tháng trước"
 
-#: js/js.js:776
+#: js/js.js:788
 msgid "{months} months ago"
 msgstr "{months} tháng trước"
 
-#: js/js.js:777
+#: js/js.js:789
 msgid "months ago"
 msgstr "tháng trước"
 
-#: js/js.js:778
+#: js/js.js:790
 msgid "last year"
 msgstr "năm trước"
 
-#: js/js.js:779
+#: js/js.js:791
 msgid "years ago"
 msgstr "năm trước"
 
@@ -244,8 +244,8 @@ msgid "The object type is not specified."
 msgstr "Loại đối tượng không được chỉ định."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
-#: js/share.js:594
+#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
+#: js/share.js:578
 msgid "Error"
 msgstr "Lỗi"
 
@@ -257,127 +257,127 @@ msgstr "Tên ứng dụng không được chỉ định."
 msgid "The required file {file} is not installed!"
 msgstr "Tập tin cần thiết {file} không được cài đặt!"
 
-#: js/share.js:29 js/share.js:43 js/share.js:90
+#: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
 msgstr "Được chia sẻ"
 
-#: js/share.js:93
+#: js/share.js:90
 msgid "Share"
 msgstr "Chia sẻ"
 
-#: js/share.js:141 js/share.js:622
+#: js/share.js:125 js/share.js:606
 msgid "Error while sharing"
 msgstr "Lỗi trong quá trình chia sẻ"
 
-#: js/share.js:152
+#: js/share.js:136
 msgid "Error while unsharing"
 msgstr "Lỗi trong quá trình gỡ chia sẻ"
 
-#: js/share.js:159
+#: js/share.js:143
 msgid "Error while changing permissions"
 msgstr "Lỗi trong quá trình phân quyền"
 
-#: js/share.js:168
+#: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Đã được chia sẽ với bạn và nhóm {group} bởi {owner}"
 
-#: js/share.js:170
+#: js/share.js:154
 msgid "Shared with you by {owner}"
 msgstr "Đã được chia sẽ bởi {owner}"
 
-#: js/share.js:175
+#: js/share.js:159
 msgid "Share with"
 msgstr "Chia sẻ với"
 
-#: js/share.js:180
+#: js/share.js:164
 msgid "Share with link"
 msgstr "Chia sẻ với liên kết"
 
-#: js/share.js:183
+#: js/share.js:167
 msgid "Password protect"
 msgstr "Mật khẩu bảo vệ"
 
-#: js/share.js:185 templates/installation.php:44 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:35
 msgid "Password"
 msgstr "Mật khẩu"
 
-#: js/share.js:189
+#: js/share.js:173
 msgid "Email link to person"
 msgstr "Liên kết email tới cá nhân"
 
-#: js/share.js:190
+#: js/share.js:174
 msgid "Send"
 msgstr "Gởi"
 
-#: js/share.js:194
+#: js/share.js:178
 msgid "Set expiration date"
 msgstr "Đặt ngày kết thúc"
 
-#: js/share.js:195
+#: js/share.js:179
 msgid "Expiration date"
 msgstr "Ngày kết thúc"
 
-#: js/share.js:227
+#: js/share.js:211
 msgid "Share via email:"
 msgstr "Chia sẻ thông qua email"
 
-#: js/share.js:229
+#: js/share.js:213
 msgid "No people found"
 msgstr "Không tìm thấy người nào"
 
-#: js/share.js:256
+#: js/share.js:240
 msgid "Resharing is not allowed"
 msgstr "Chia sẻ lại không được cho phép"
 
-#: js/share.js:292
+#: js/share.js:276
 msgid "Shared in {item} with {user}"
 msgstr "Đã được chia sẽ trong {item} với {user}"
 
-#: js/share.js:313
+#: js/share.js:297
 msgid "Unshare"
 msgstr "Gỡ bỏ chia sẻ"
 
-#: js/share.js:325
+#: js/share.js:309
 msgid "can edit"
 msgstr "có thể chỉnh sửa"
 
-#: js/share.js:327
+#: js/share.js:311
 msgid "access control"
 msgstr "quản lý truy cập"
 
-#: js/share.js:330
+#: js/share.js:314
 msgid "create"
 msgstr "tạo"
 
-#: js/share.js:333
+#: js/share.js:317
 msgid "update"
 msgstr "cập nhật"
 
-#: js/share.js:336
+#: js/share.js:320
 msgid "delete"
 msgstr "xóa"
 
-#: js/share.js:339
+#: js/share.js:323
 msgid "share"
 msgstr "chia sẻ"
 
-#: js/share.js:373 js/share.js:569
+#: js/share.js:357 js/share.js:553
 msgid "Password protected"
 msgstr "Mật khẩu bảo vệ"
 
-#: js/share.js:582
+#: js/share.js:566
 msgid "Error unsetting expiration date"
 msgstr "Lỗi không thiết lập ngày kết thúc"
 
-#: js/share.js:594
+#: js/share.js:578
 msgid "Error setting expiration date"
 msgstr "Lỗi cấu hình ngày kết thúc"
 
-#: js/share.js:609
+#: js/share.js:593
 msgid "Sending ..."
 msgstr "Đang gởi ..."
 
-#: js/share.js:620
+#: js/share.js:604
 msgid "Email sent"
 msgstr "Email đã được gửi"
 
@@ -412,7 +412,7 @@ msgstr "Thiết lập lại email gởi."
 msgid "Request failed!"
 msgstr "Yêu cầu  của bạn không thành công !"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
 #: templates/login.php:28
 msgid "Username"
 msgstr "Tên người dùng"
@@ -473,85 +473,95 @@ msgstr "Sửa thể loại"
 msgid "Add"
 msgstr "Thêm"
 
-#: templates/installation.php:23 templates/installation.php:30
+#: templates/installation.php:24 templates/installation.php:31
+#: templates/installation.php:38
 msgid "Security Warning"
 msgstr "Cảnh bảo bảo mật"
 
-#: templates/installation.php:24
+#: templates/installation.php:25
+msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
+msgstr ""
+
+#: templates/installation.php:26
+msgid "Please update your PHP installation to use ownCloud securely."
+msgstr ""
+
+#: templates/installation.php:32
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "Không an toàn ! chức năng random number generator đã có sẵn ,vui lòng bật  PHP OpenSSL extension."
 
-#: templates/installation.php:25
+#: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Nếu không có random number generator , Hacker có thể  thiết lập lại mật khẩu và chiếm tài khoản của bạn."
 
-#: templates/installation.php:31
+#: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "Thư mục và file dữ liệu của bạn có thể được truy cập từ internet bởi vì file .htaccess không hoạt động"
 
-#: templates/installation.php:32
+#: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
 msgstr "Để biết thêm cách cấu hình máy chủ của bạn, xin xem <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">tài liệu</a>."
 
-#: templates/installation.php:36
+#: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
 msgstr "Tạo một <strong>tài khoản quản trị</strong>"
 
-#: templates/installation.php:52
+#: templates/installation.php:62
 msgid "Advanced"
 msgstr "Nâng cao"
 
-#: templates/installation.php:54
+#: templates/installation.php:64
 msgid "Data folder"
 msgstr "Thư mục dữ liệu"
 
-#: templates/installation.php:61
+#: templates/installation.php:73
 msgid "Configure the database"
 msgstr "Cấu hình cơ sở dữ liệu"
 
-#: templates/installation.php:66 templates/installation.php:77
-#: templates/installation.php:87 templates/installation.php:97
+#: templates/installation.php:78 templates/installation.php:90
+#: templates/installation.php:101 templates/installation.php:112
+#: templates/installation.php:124
 msgid "will be used"
 msgstr "được sử dụng"
 
-#: templates/installation.php:109
+#: templates/installation.php:136
 msgid "Database user"
 msgstr "Người dùng cơ sở dữ liệu"
 
-#: templates/installation.php:113
+#: templates/installation.php:141
 msgid "Database password"
 msgstr "Mật khẩu cơ sở dữ liệu"
 
-#: templates/installation.php:117
+#: templates/installation.php:146
 msgid "Database name"
 msgstr "Tên cơ sở dữ liệu"
 
-#: templates/installation.php:125
+#: templates/installation.php:156
 msgid "Database tablespace"
 msgstr "Cơ sở dữ liệu tablespace"
 
-#: templates/installation.php:131
+#: templates/installation.php:163
 msgid "Database host"
 msgstr "Database host"
 
-#: templates/installation.php:136
+#: templates/installation.php:169
 msgid "Finish setup"
 msgstr "Cài đặt hoàn tất"
 
-#: templates/layout.guest.php:33
+#: templates/layout.guest.php:40
 msgid "web services under your control"
 msgstr "các dịch vụ web dưới sự kiểm soát của bạn"
 
-#: templates/layout.user.php:48
+#: templates/layout.user.php:58
 msgid "Log out"
 msgstr "Đăng xuất"
 

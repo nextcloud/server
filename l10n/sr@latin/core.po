@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
-"PO-Revision-Date: 2013-02-08 23:12+0000\n"
+"POT-Creation-Date: 2013-03-22 00:03+0100\n"
+"PO-Revision-Date: 2013-03-21 23:03+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/projects/p/owncloud/language/sr@latin/)\n"
 "MIME-Version: 1.0\n"
@@ -18,24 +18,24 @@ msgstr ""
 "Language: sr@latin\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ajax/share.php:85
+#: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
 msgstr ""
 
-#: ajax/share.php:87
+#: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
 msgstr ""
 
-#: ajax/share.php:89
+#: ajax/share.php:101
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
 msgstr ""
 
-#: ajax/share.php:91
+#: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
@@ -81,135 +81,135 @@ msgstr ""
 msgid "Error removing %s from favorites."
 msgstr ""
 
-#: js/config.php:32
+#: js/config.php:34
 msgid "Sunday"
 msgstr "Nedelja"
 
-#: js/config.php:32
+#: js/config.php:35
 msgid "Monday"
 msgstr "Ponedeljak"
 
-#: js/config.php:32
+#: js/config.php:36
 msgid "Tuesday"
 msgstr "Utorak"
 
-#: js/config.php:32
+#: js/config.php:37
 msgid "Wednesday"
 msgstr "Sreda"
 
-#: js/config.php:32
+#: js/config.php:38
 msgid "Thursday"
 msgstr "Četvrtak"
 
-#: js/config.php:32
+#: js/config.php:39
 msgid "Friday"
 msgstr "Petak"
 
-#: js/config.php:32
+#: js/config.php:40
 msgid "Saturday"
 msgstr "Subota"
 
-#: js/config.php:33
+#: js/config.php:45
 msgid "January"
 msgstr "Januar"
 
-#: js/config.php:33
+#: js/config.php:46
 msgid "February"
 msgstr "Februar"
 
-#: js/config.php:33
+#: js/config.php:47
 msgid "March"
 msgstr "Mart"
 
-#: js/config.php:33
+#: js/config.php:48
 msgid "April"
 msgstr "April"
 
-#: js/config.php:33
+#: js/config.php:49
 msgid "May"
 msgstr "Maj"
 
-#: js/config.php:33
+#: js/config.php:50
 msgid "June"
 msgstr "Jun"
 
-#: js/config.php:33
+#: js/config.php:51
 msgid "July"
 msgstr "Jul"
 
-#: js/config.php:33
+#: js/config.php:52
 msgid "August"
 msgstr "Avgust"
 
-#: js/config.php:33
+#: js/config.php:53
 msgid "September"
 msgstr "Septembar"
 
-#: js/config.php:33
+#: js/config.php:54
 msgid "October"
 msgstr "Oktobar"
 
-#: js/config.php:33
+#: js/config.php:55
 msgid "November"
 msgstr "Novembar"
 
-#: js/config.php:33
+#: js/config.php:56
 msgid "December"
 msgstr "Decembar"
 
-#: js/js.js:284
+#: js/js.js:286
 msgid "Settings"
 msgstr "Podešavanja"
 
-#: js/js.js:764
+#: js/js.js:779
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:765
+#: js/js.js:780
 msgid "1 minute ago"
 msgstr ""
 
-#: js/js.js:766
+#: js/js.js:781
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:767
+#: js/js.js:782
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:768
+#: js/js.js:783
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:769
+#: js/js.js:784
 msgid "today"
 msgstr ""
 
-#: js/js.js:770
+#: js/js.js:785
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:771
+#: js/js.js:786
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:772
+#: js/js.js:787
 msgid "last month"
 msgstr ""
 
-#: js/js.js:773
+#: js/js.js:788
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:774
+#: js/js.js:789
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:775
+#: js/js.js:790
 msgid "last year"
 msgstr ""
 
-#: js/js.js:776
+#: js/js.js:791
 msgid "years ago"
 msgstr ""
 
@@ -239,8 +239,8 @@ msgid "The object type is not specified."
 msgstr ""
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:571
-#: js/share.js:583
+#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
+#: js/share.js:578
 msgid "Error"
 msgstr ""
 
@@ -252,127 +252,127 @@ msgstr ""
 msgid "The required file {file} is not installed!"
 msgstr ""
 
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
-msgid "Share"
-msgstr ""
-
-#: js/share.js:29 js/share.js:43 js/share.js:90 js/share.js:93
+#: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
 msgstr ""
 
-#: js/share.js:141 js/share.js:611
+#: js/share.js:90
+msgid "Share"
+msgstr ""
+
+#: js/share.js:125 js/share.js:606
 msgid "Error while sharing"
 msgstr ""
 
-#: js/share.js:152
+#: js/share.js:136
 msgid "Error while unsharing"
 msgstr ""
 
-#: js/share.js:159
+#: js/share.js:143
 msgid "Error while changing permissions"
 msgstr ""
 
-#: js/share.js:168
+#: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
 msgstr ""
 
-#: js/share.js:170
+#: js/share.js:154
 msgid "Shared with you by {owner}"
 msgstr ""
 
-#: js/share.js:175
+#: js/share.js:159
 msgid "Share with"
 msgstr ""
 
-#: js/share.js:180
+#: js/share.js:164
 msgid "Share with link"
 msgstr ""
 
-#: js/share.js:183
+#: js/share.js:167
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:185 templates/installation.php:44 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:35
 msgid "Password"
 msgstr "Lozinka"
 
-#: js/share.js:189
+#: js/share.js:173
 msgid "Email link to person"
 msgstr ""
 
-#: js/share.js:190
+#: js/share.js:174
 msgid "Send"
 msgstr ""
 
-#: js/share.js:194
+#: js/share.js:178
 msgid "Set expiration date"
 msgstr ""
 
-#: js/share.js:195
+#: js/share.js:179
 msgid "Expiration date"
 msgstr ""
 
-#: js/share.js:227
+#: js/share.js:211
 msgid "Share via email:"
 msgstr ""
 
-#: js/share.js:229
+#: js/share.js:213
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:256
+#: js/share.js:240
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:292
+#: js/share.js:276
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:313
+#: js/share.js:297
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:325
+#: js/share.js:309
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:327
+#: js/share.js:311
 msgid "access control"
 msgstr ""
 
-#: js/share.js:330
+#: js/share.js:314
 msgid "create"
 msgstr ""
 
-#: js/share.js:333
+#: js/share.js:317
 msgid "update"
 msgstr ""
 
-#: js/share.js:336
+#: js/share.js:320
 msgid "delete"
 msgstr ""
 
-#: js/share.js:339
+#: js/share.js:323
 msgid "share"
 msgstr ""
 
-#: js/share.js:373 js/share.js:558
+#: js/share.js:357 js/share.js:553
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:571
+#: js/share.js:566
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:583
+#: js/share.js:578
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:598
+#: js/share.js:593
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:609
+#: js/share.js:604
 msgid "Email sent"
 msgstr ""
 
@@ -387,7 +387,7 @@ msgstr ""
 msgid "The update was successful. Redirecting you to ownCloud now."
 msgstr ""
 
-#: lostpassword/controller.php:47
+#: lostpassword/controller.php:48
 msgid "ownCloud password reset"
 msgstr ""
 
@@ -407,7 +407,7 @@ msgstr ""
 msgid "Request failed!"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:39
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
 #: templates/login.php:28
 msgid "Username"
 msgstr "Korisničko ime"
@@ -468,85 +468,95 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: templates/installation.php:23 templates/installation.php:30
+#: templates/installation.php:24 templates/installation.php:31
+#: templates/installation.php:38
 msgid "Security Warning"
 msgstr ""
 
-#: templates/installation.php:24
+#: templates/installation.php:25
+msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
+msgstr ""
+
+#: templates/installation.php:26
+msgid "Please update your PHP installation to use ownCloud securely."
+msgstr ""
+
+#: templates/installation.php:32
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr ""
 
-#: templates/installation.php:25
+#: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr ""
 
-#: templates/installation.php:31
+#: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr ""
 
-#: templates/installation.php:32
+#: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
 msgstr ""
 
-#: templates/installation.php:36
+#: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
 msgstr "Napravi <strong>administrativni nalog</strong>"
 
-#: templates/installation.php:52
+#: templates/installation.php:62
 msgid "Advanced"
 msgstr "Napredno"
 
-#: templates/installation.php:54
+#: templates/installation.php:64
 msgid "Data folder"
 msgstr "Facikla podataka"
 
-#: templates/installation.php:61
+#: templates/installation.php:73
 msgid "Configure the database"
 msgstr "Podešavanje baze"
 
-#: templates/installation.php:66 templates/installation.php:77
-#: templates/installation.php:87 templates/installation.php:97
+#: templates/installation.php:78 templates/installation.php:90
+#: templates/installation.php:101 templates/installation.php:112
+#: templates/installation.php:124
 msgid "will be used"
 msgstr "će biti korišćen"
 
-#: templates/installation.php:109
+#: templates/installation.php:136
 msgid "Database user"
 msgstr "Korisnik baze"
 
-#: templates/installation.php:113
+#: templates/installation.php:141
 msgid "Database password"
 msgstr "Lozinka baze"
 
-#: templates/installation.php:117
+#: templates/installation.php:146
 msgid "Database name"
 msgstr "Ime baze"
 
-#: templates/installation.php:125
+#: templates/installation.php:156
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:131
+#: templates/installation.php:163
 msgid "Database host"
 msgstr "Domaćin baze"
 
-#: templates/installation.php:136
+#: templates/installation.php:169
 msgid "Finish setup"
 msgstr "Završi podešavanje"
 
-#: templates/layout.guest.php:33
+#: templates/layout.guest.php:40
 msgid "web services under your control"
 msgstr ""
 
-#: templates/layout.user.php:48
+#: templates/layout.user.php:58
 msgid "Log out"
 msgstr "Odjava"
 

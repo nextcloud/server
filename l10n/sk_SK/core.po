@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-04 00:06+0100\n"
-"PO-Revision-Date: 2013-03-03 14:40+0000\n"
-"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
+"POT-Creation-Date: 2013-03-22 00:03+0100\n"
+"PO-Revision-Date: 2013-03-21 23:03+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -167,55 +167,55 @@ msgstr "December"
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: js/js.js:777
+#: js/js.js:779
 msgid "seconds ago"
 msgstr "pred sekundami"
 
-#: js/js.js:778
+#: js/js.js:780
 msgid "1 minute ago"
 msgstr "pred minútou"
 
-#: js/js.js:779
+#: js/js.js:781
 msgid "{minutes} minutes ago"
 msgstr "pred {minutes} minútami"
 
-#: js/js.js:780
+#: js/js.js:782
 msgid "1 hour ago"
 msgstr "Pred 1 hodinou."
 
-#: js/js.js:781
+#: js/js.js:783
 msgid "{hours} hours ago"
 msgstr "Pred {hours} hodinami."
 
-#: js/js.js:782
+#: js/js.js:784
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:783
+#: js/js.js:785
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:784
+#: js/js.js:786
 msgid "{days} days ago"
 msgstr "pred {days} dňami"
 
-#: js/js.js:785
+#: js/js.js:787
 msgid "last month"
 msgstr "minulý mesiac"
 
-#: js/js.js:786
+#: js/js.js:788
 msgid "{months} months ago"
 msgstr "Pred {months} mesiacmi."
 
-#: js/js.js:787
+#: js/js.js:789
 msgid "months ago"
 msgstr "pred mesiacmi"
 
-#: js/js.js:788
+#: js/js.js:790
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:789
+#: js/js.js:791
 msgid "years ago"
 msgstr "pred rokmi"
 
@@ -245,8 +245,8 @@ msgid "The object type is not specified."
 msgstr "Nešpecifikovaný typ objektu."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
-#: js/share.js:594
+#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
+#: js/share.js:578
 msgid "Error"
 msgstr "Chyba"
 
@@ -258,127 +258,127 @@ msgstr "Nešpecifikované meno aplikácie."
 msgid "The required file {file} is not installed!"
 msgstr "Požadovaný súbor {file} nie je nainštalovaný!"
 
-#: js/share.js:29 js/share.js:43 js/share.js:90
+#: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
 msgstr "Zdieľané"
 
-#: js/share.js:93
+#: js/share.js:90
 msgid "Share"
 msgstr "Zdieľať"
 
-#: js/share.js:141 js/share.js:622
+#: js/share.js:125 js/share.js:606
 msgid "Error while sharing"
 msgstr "Chyba počas zdieľania"
 
-#: js/share.js:152
+#: js/share.js:136
 msgid "Error while unsharing"
 msgstr "Chyba počas ukončenia zdieľania"
 
-#: js/share.js:159
+#: js/share.js:143
 msgid "Error while changing permissions"
 msgstr "Chyba počas zmeny oprávnení"
 
-#: js/share.js:168
+#: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
 msgstr "Zdieľané s vami a so skupinou {group} používateľom {owner}"
 
-#: js/share.js:170
+#: js/share.js:154
 msgid "Shared with you by {owner}"
 msgstr "Zdieľané s vami používateľom {owner}"
 
-#: js/share.js:175
+#: js/share.js:159
 msgid "Share with"
 msgstr "Zdieľať s"
 
-#: js/share.js:180
+#: js/share.js:164
 msgid "Share with link"
 msgstr "Zdieľať cez odkaz"
 
-#: js/share.js:183
+#: js/share.js:167
 msgid "Password protect"
 msgstr "Chrániť heslom"
 
-#: js/share.js:185 templates/installation.php:47 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:35
 msgid "Password"
 msgstr "Heslo"
 
-#: js/share.js:189
+#: js/share.js:173
 msgid "Email link to person"
 msgstr "Odoslať odkaz emailom"
 
-#: js/share.js:190
+#: js/share.js:174
 msgid "Send"
 msgstr "Odoslať"
 
-#: js/share.js:194
+#: js/share.js:178
 msgid "Set expiration date"
 msgstr "Nastaviť dátum expirácie"
 
-#: js/share.js:195
+#: js/share.js:179
 msgid "Expiration date"
 msgstr "Dátum expirácie"
 
-#: js/share.js:227
+#: js/share.js:211
 msgid "Share via email:"
 msgstr "Zdieľať cez e-mail:"
 
-#: js/share.js:229
+#: js/share.js:213
 msgid "No people found"
 msgstr "Používateľ nenájdený"
 
-#: js/share.js:256
+#: js/share.js:240
 msgid "Resharing is not allowed"
 msgstr "Zdieľanie už zdieľanej položky nie je povolené"
 
-#: js/share.js:292
+#: js/share.js:276
 msgid "Shared in {item} with {user}"
 msgstr "Zdieľané v {item} s {user}"
 
-#: js/share.js:313
+#: js/share.js:297
 msgid "Unshare"
 msgstr "Zrušiť zdieľanie"
 
-#: js/share.js:325
+#: js/share.js:309
 msgid "can edit"
 msgstr "môže upraviť"
 
-#: js/share.js:327
+#: js/share.js:311
 msgid "access control"
 msgstr "prístupové práva"
 
-#: js/share.js:330
+#: js/share.js:314
 msgid "create"
 msgstr "vytvoriť"
 
-#: js/share.js:333
+#: js/share.js:317
 msgid "update"
 msgstr "aktualizovať"
 
-#: js/share.js:336
+#: js/share.js:320
 msgid "delete"
 msgstr "vymazať"
 
-#: js/share.js:339
+#: js/share.js:323
 msgid "share"
 msgstr "zdieľať"
 
-#: js/share.js:373 js/share.js:569
+#: js/share.js:357 js/share.js:553
 msgid "Password protected"
 msgstr "Chránené heslom"
 
-#: js/share.js:582
+#: js/share.js:566
 msgid "Error unsetting expiration date"
 msgstr "Chyba pri odstraňovaní dátumu expirácie"
 
-#: js/share.js:594
+#: js/share.js:578
 msgid "Error setting expiration date"
 msgstr "Chyba pri nastavení dátumu expirácie"
 
-#: js/share.js:609
+#: js/share.js:593
 msgid "Sending ..."
 msgstr "Odosielam ..."
 
-#: js/share.js:620
+#: js/share.js:604
 msgid "Email sent"
 msgstr "Email odoslaný"
 
@@ -413,7 +413,7 @@ msgstr "Obnovovací email bol odoslaný."
 msgid "Request failed!"
 msgstr "Požiadavka zlyhala!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:41
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
 #: templates/login.php:28
 msgid "Username"
 msgstr "Prihlasovacie meno"
@@ -475,77 +475,86 @@ msgid "Add"
 msgstr "Pridať"
 
 #: templates/installation.php:24 templates/installation.php:31
+#: templates/installation.php:38
 msgid "Security Warning"
 msgstr "Bezpečnostné varovanie"
 
 #: templates/installation.php:25
+msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
+msgstr ""
+
+#: templates/installation.php:26
+msgid "Please update your PHP installation to use ownCloud securely."
+msgstr ""
+
+#: templates/installation.php:32
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "Nie je dostupný žiadny bezpečný generátor náhodných čísel, prosím, povoľte rozšírenie OpenSSL v PHP."
 
-#: templates/installation.php:26
+#: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Bez bezpečného generátora náhodných čísel môže útočník predpovedať token pre obnovu hesla a prevziať kontrolu nad vaším kontom."
 
-#: templates/installation.php:32
+#: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "Váš priečinok s dátami a súbormi je dostupný z internetu, lebo súbor .htaccess nefunguje."
 
-#: templates/installation.php:33
+#: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
 msgstr "Pre informácie, ako správne nastaviť Váš server sa pozrite do <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentácie</a>."
 
-#: templates/installation.php:37
+#: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
 msgstr "Vytvoriť <strong>administrátorský účet</strong>"
 
-#: templates/installation.php:55
+#: templates/installation.php:62
 msgid "Advanced"
 msgstr "Rozšírené"
 
-#: templates/installation.php:57
+#: templates/installation.php:64
 msgid "Data folder"
 msgstr "Priečinok dát"
 
-#: templates/installation.php:66
+#: templates/installation.php:73
 msgid "Configure the database"
 msgstr "Nastaviť databázu"
 
-#: templates/installation.php:71 templates/installation.php:83
-#: templates/installation.php:94 templates/installation.php:105
-#: templates/installation.php:117
+#: templates/installation.php:78 templates/installation.php:90
+#: templates/installation.php:101 templates/installation.php:112
+#: templates/installation.php:124
 msgid "will be used"
 msgstr "bude použité"
 
-#: templates/installation.php:129
+#: templates/installation.php:136
 msgid "Database user"
 msgstr "Hostiteľ databázy"
 
-#: templates/installation.php:134
+#: templates/installation.php:141
 msgid "Database password"
 msgstr "Heslo databázy"
 
-#: templates/installation.php:139
+#: templates/installation.php:146
 msgid "Database name"
 msgstr "Meno databázy"
 
-#: templates/installation.php:149
+#: templates/installation.php:156
 msgid "Database tablespace"
 msgstr "Tabuľkový priestor databázy"
 
-#: templates/installation.php:156
+#: templates/installation.php:163
 msgid "Database host"
 msgstr "Server databázy"
 
-#: templates/installation.php:162
+#: templates/installation.php:169
 msgid "Finish setup"
 msgstr "Dokončiť inštaláciu"
 
