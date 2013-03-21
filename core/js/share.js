@@ -241,7 +241,8 @@ OC.Share={
 				var insert = '';
 				if(item.label.length > 8 && item.label.substr(item.label.length-8) === ' (group)') {
 					// current label is group
-					insert = ' style="font-weight:bold;"';
+					insert = ' class="ocGroup"'; // attribute to insert
+					// remove "(group)"
 					item.label = item.label.substring(0, item.label.length-8)
 				}
 				return $( "<li>" )
