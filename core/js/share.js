@@ -235,7 +235,19 @@ OC.Share={
 				});
 				return false;
 			}
-			});
+			})
+			// customize internal _renderItem function to display groups and users differently
+			.data("ui-autocomplete")._renderItem = function( ul, item ) {
+				var insert = '';
+				if(item.label.length > 8 && item.label.substr(item.label.length-8) === ' (group)') {
+					// current label is group
+					insert = ' style="font-weight:bold;"';
+					item.label = item.label.substring(0, item.label.length-8)
+				}
+				return $( "<li>" )
+					.append( $( "<a" + insert + ">" ).text( item.label ) )
+					.appendTo( ul );
+			};
 		} else {
 			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Resharing is not allowed')+'" style="width:90%;" disabled="disabled"/>';
 			html += '</div>';
