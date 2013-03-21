@@ -78,6 +78,8 @@ class OC {
 	 * SPL autoload
 	 */
 	public static function autoload($className) {
+		$className = trim($className, '\\');
+		
 		if (array_key_exists($className, OC::$CLASSPATH)) {
 			$path = OC::$CLASSPATH[$className];
 			/** @TODO: Remove this when necessary
