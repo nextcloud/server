@@ -10,6 +10,8 @@ namespace OC\Files\Storage;
 
 /**
  * Provide a common interface to all different storage options
+ *
+ * All paths passed to the storage are relative to the storage and should NOT have a leading slash.
  */
 interface Storage {
 	/**
@@ -301,6 +303,13 @@ interface Storage {
 	 */
 	public function getScanner($path = '');
 
+
+	/**
+	 * get the user id of the owner of a file or folder
+	 *
+	 * @param string $path
+	 * @return string
+	 */
 	public function getOwner($path);
 
 	/**
