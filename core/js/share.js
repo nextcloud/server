@@ -238,15 +238,13 @@ OC.Share={
 			})
 			// customize internal _renderItem function to display groups and users differently
 			.data("ui-autocomplete")._renderItem = function( ul, item ) {
-				var insert = '';
+				var insert = $( "<a>" ).text( item.label );
 				if(item.label.length > 8 && item.label.substr(item.label.length-8) === ' (group)') {
-					// current label is group
-					insert = ' class="ocGroup"'; // attribute to insert
-					// remove "(group)"
-					item.label = item.label.substring(0, item.label.length-8)
+					// current label is group - wrap "strong" element
+					insert = insert.wrapInner('<strong>');
 				}
 				return $( "<li>" )
-					.append( $( "<a" + insert + ">" ).text( item.label ) )
+					.append( insert )
 					.appendTo( ul );
 			};
 		} else {
