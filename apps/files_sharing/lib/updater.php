@@ -68,8 +68,8 @@ class Shared_Updater {
 	 * @param array $params
 	 */
 	static public function renameHook($params) {
-		self::correctFolders($params['oldpath']);
 		self::correctFolders($params['newpath']);
+		self::correctFolders(pathinfo($params['oldpath'], PATHINFO_DIRNAME));
 	}
 
 	/**
