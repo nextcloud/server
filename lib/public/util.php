@@ -217,6 +217,7 @@ class Util {
 	 */
 	public static function getDefaultEmailAddress($user_part) {
 		$host_name = self::getServerHostName();
+		$host_name = \OC_Config::getValue('mail_domain', $host_name);
 		$defaultEmailAddress = $user_part.'@'.$host_name;
 
 		if (\OC_Mail::ValidateAddress($defaultEmailAddress)) {
