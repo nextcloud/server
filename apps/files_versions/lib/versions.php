@@ -53,7 +53,7 @@ class Storage {
 	 * @return mixed versions size or false if no versions size is stored
 	 */
 	private static function getVersionsSize($user) {
-		$query = \OC_DB::prepare('SELECT `size` FROM *PREFIX*files_versions WHERE `user`=?');
+		$query = \OC_DB::prepare('SELECT `size` FROM `*PREFIX*files_versions` WHERE `user`=?');
 		$result = $query->execute(array($user))->fetchAll();
 		
 		if ($result) {
@@ -70,9 +70,9 @@ class Storage {
 	 */
 	private static function setVersionsSize($user, $size) {
 		if ( self::getVersionsSize($user) === false) {
-			$query = \OC_DB::prepare('INSERT INTO *PREFIX*files_versions (`size`, `user`) VALUES (?, ?)');
+			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*files_versions` (`size`, `user`) VALUES (?, ?)');
 		}else {
-			$query = \OC_DB::prepare('UPDATE *PREFIX*files_versions SET `size`=? WHERE `user`=?');
+			$query = \OC_DB::prepare('UPDATE `*PREFIX*files_versions` SET `size`=? WHERE `user`=?');
 		}
 		$query->execute(array($size, $user));
 	}
