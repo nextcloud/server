@@ -67,7 +67,8 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 */
 	public function executeQuery($query, array $params = array(), $types = array(), QueryCacheProfile $qcp = null)
 	{
-		// TODO: prefix
+		$query = $this->replaceTablePrefix($query);
+		// TODO: fixup
 		return parent::executeQuery($query, $params, $types, $qcp);
 	}
 
@@ -85,8 +86,34 @@ class Connection extends \Doctrine\DBAL\Connection {
 	 */
 	public function executeUpdate($query, array $params = array(), array $types = array())
 	{
-		// TODO: prefix
+		$query = $this->replaceTablePrefix($query);
+		// TODO: fixup
 		return parent::executeUpdate($query, $params, $types);
+	}
+
+	/**
+	 * Returns the ID of the last inserted row, or the last value from a sequence object,
+	 * depending on the underlying driver.
+	 *
+	 * Note: This method may not return a meaningful or consistent result across different drivers,
+	 * because the underlying database may not even support the notion of AUTO_INCREMENT/IDENTITY
+	 * columns or sequences.
+	 *
+	 * @param string $seqName Name of the sequence object from which the ID should be returned.
+	 * @return string A string representation of the last inserted ID.
+	 */
+	public function lastInsertId($seqName = null)
+	{
+		if ($seqName) {
+			$seqName = $this->replaceTablePrefix($seqName);
+		}
+		return $this->adapter->lastInsertId($seqName);
+	}
+
+	// internal use
+	public function realLastInsertId($seqName = null)
+	{
+		return parent::lastInsertId($seqName);
 	}
 
 	// internal use

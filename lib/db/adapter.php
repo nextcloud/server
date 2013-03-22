@@ -14,4 +14,8 @@ class Adapter {
 	public function __construct($conn) {
 		$this->conn = $conn;
 	}
+
+	public function lastInsertId($table) {
+		return $this->conn->realLastInsertId($table);
+	}
 }

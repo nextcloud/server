@@ -345,34 +345,7 @@ class OC_DB {
 	 */
 	public static function insertid($table=null) {
 		self::connect();
-		$type = OC_Config::getValue( "dbtype", "sqlite" );
-		if( $type === 'pgsql' ) {
-			$result = self::executeAudited('SELECT lastval() AS id');
-			$row = $result->fetchRow();
-			self::raiseExceptionOnError($row, 'fetching row for insertid failed');
-			return $row['id'];
-		} else if( $type === 'mssql') {
-			if($table !== null) {
-				$table = self::$connection->replaceTablePrefix( $table );
-			}
-			return self::$connection->lastInsertId($table);
-		}
-		if( $type === 'oci' ) {
-			if($table !== null) {
-				$prefix = OC_Config::getValue( "dbtableprefix", "oc_" );
-				$suffix = '_SEQ';
-				$table = '"'.str_replace( '*PREFIX*', $prefix, $table ).$suffix.'"';
-			}
-			return self::$connection->lastInsertId($table);
-		} else {
-			if($table !== null) {
-				$suffix = OC_Config::getValue( "dbsequencesuffix", "_id_seq" );
-				$table = self::$connection->replaceTablePrefix( $table ).$suffix;
-			}
-			$result = self::$connection->lastInsertId($table);
-		}
-		self::raiseExceptionOnError($result, 'insertid failed');
-		return $result;
+		return self::$connection->lastInsertId($table);
 	}
 
 	/**

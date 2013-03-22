@@ -10,4 +10,12 @@
 namespace OC\DB;
 
 class AdapterOCI8 extends Adapter {
+	public function lastInsertId($table) {
+		if($table !== null) {
+			$suffix = '_SEQ';
+			$table = '"'.$table.$suffix.'"';
+			$table = $this->conn->replaceTablePrefix( $table );
+		}
+		return $this->conn->lastInsertId($table);
+	}
 }
