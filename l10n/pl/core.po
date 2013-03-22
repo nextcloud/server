@@ -11,6 +11,7 @@
 # Marcin Małecki <gerber@tkdami.net>, 2011, 2012.
 # Marcin Małecki <mosslar@gmail.com>, 2011.
 # Marco Oliver Grunwald <marco@mgrvnwald.com>, 2013.
+# Michał Plichta <mplichta@gmail.com>, 2013.
 #   <mosslar@gmail.com>, 2011.
 #   <mplichta@gmail.com>, 2012.
 # Piotr Sokół <psokol@jabster.pl>, 2012.
@@ -19,9 +20,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-22 00:03+0100\n"
-"PO-Revision-Date: 2013-03-21 23:03+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-23 00:03+0100\n"
+"PO-Revision-Date: 2013-03-22 09:10+0000\n"
+"Last-Translator: emc <mplichta@gmail.com>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -486,11 +487,11 @@ msgstr "Ostrzeżenie o zabezpieczeniach"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "Twója wersja PHP jest narażona na NULL Byte attack (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "Proszę uaktualnij swoją instalacje PHP, aby używać ownCloud bezpiecznie."
 
 #: templates/installation.php:32
 msgid ""

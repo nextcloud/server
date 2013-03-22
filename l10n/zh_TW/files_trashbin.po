@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#  <admin@alphacorp.tk>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-09 00:05+0100\n"
-"PO-Revision-Date: 2013-03-07 23:40+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-23 00:02+0100\n"
+"PO-Revision-Date: 2013-03-22 09:40+0000\n"
+"Last-Translator: Hydriz <admin@alphacorp.tk>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -17,23 +18,23 @@ msgstr ""
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/delete.php:40
+#: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "無法永久刪除%s"
 
-#: ajax/undelete.php:41
+#: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "無法復原%s"
 
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
-msgstr ""
+msgstr "進行復原動作"
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr ""
+msgstr "永久刪除文件"
 
 #: js/trash.js:121
 msgid "Delete permanently"
@@ -45,7 +46,7 @@ msgstr "名稱"
 
 #: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
-msgstr ""
+msgstr "已刪除"
 
 #: js/trash.js:184
 msgid "1 folder"
@@ -65,11 +66,11 @@ msgstr "{count} 個檔案"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "這裏沒東西。您的垃圾桶是空的！"
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr ""
+msgstr "復原"
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"

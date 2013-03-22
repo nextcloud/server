@@ -32,9 +32,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-21 00:03+0100\n"
-"PO-Revision-Date: 2013-03-20 08:50+0000\n"
-"Last-Translator: traductor <transifex-2.7.mensaje@spamgourmet.com>\n"
+"POT-Creation-Date: 2013-03-23 00:03+0100\n"
+"PO-Revision-Date: 2013-03-22 11:20+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -292,7 +292,7 @@ msgstr "Links erlauben"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr "Benutzern erlauben, Items per öffentlichem Link zu teilen"
+msgstr "Benutzern erlauben, Inhalte per öffentlichem Link zu teilen"
 
 #: templates/admin.php:150
 msgid "Allow resharing"
@@ -300,15 +300,15 @@ msgstr "Erlaube weiterverteilen"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr "Erlaubt Nutzern mit ihnen geteilte Inhalte erneut zu teilen"
+msgstr "Erlaubt Benutzern, mit ihnen geteilte Inhalte erneut zu teilen"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr "Erlaube Nutzern mit jedem zu teilen"
+msgstr "Erlaube Benutzern, mit jedem zu teilen"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr "Erlaube Nutzern nur mit Nutzern in ihrer Gruppe zu teilen"
+msgstr "Erlaube Benutzern, nur mit Nutzern in ihrer Gruppe zu teilen"
 
 #: templates/admin.php:168
 msgid "Security"

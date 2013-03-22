@@ -65,10 +65,10 @@
 "Group-Member association" => "Assoziation zwischen Gruppe und Benutzer",
 "Special Attributes" => "Besondere Eigenschaften",
 "Quota Field" => "Kontingent Feld",
-"Quota Default" => "Kontingent Standard",
+"Quota Default" => "Standard Kontingent",
 "in bytes" => "in Bytes",
 "Email Field" => "E-Mail Feld",
-"User Home Folder Naming Rule" => "Benennungsregel für das Heimatverzeichnis des Benutzers",
+"User Home Folder Naming Rule" => "Benennungsregel für das Home-Verzeichnis des Benutzers",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Ohne Eingabe wird der Benutzername (Standard) verwendet. Anderenfall trage ein LDAP/AD-Attribut ein.",
 "Test Configuration" => "Testkonfiguration",
 "Help" => "Hilfe"

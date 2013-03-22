@@ -27,9 +27,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-15 00:05+0100\n"
-"PO-Revision-Date: 2013-03-14 14:41+0000\n"
-"Last-Translator: kabum <uu.kabum@gmail.com>\n"
+"POT-Creation-Date: 2013-03-23 00:03+0100\n"
+"PO-Revision-Date: 2013-03-22 11:20+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -102,11 +102,11 @@ msgstr "Der Benutzer konnte nicht aus der Gruppe %s entfernt werden"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr "Die App konnte nicht geupdated werden."
+msgstr "Die App konnte nicht aktualisiert werden."
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr "Update zu {appversion}"
+msgstr "Aktualisiere zu {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
@@ -122,7 +122,7 @@ msgstr "Bitte warten..."
 
 #: js/apps.js:84
 msgid "Updating...."
-msgstr "Update..."
+msgstr "Aktualisierung..."
 
 #: js/apps.js:87
 msgid "Error while updating app"
@@ -134,7 +134,7 @@ msgstr "Fehler"
 
 #: js/apps.js:90
 msgid "Updated"
-msgstr "Geupdated"
+msgstr "Aktualisiert"
 
 #: js/personal.js:99
 msgid "Saving..."
@@ -165,19 +165,19 @@ msgstr "Gruppenadministrator"
 msgid "Delete"
 msgstr "Löschen"
 
-#: js/users.js:191
+#: js/users.js:237
 msgid "add group"
 msgstr "Gruppe hinzufügen"
 
-#: js/users.js:352
+#: js/users.js:400
 msgid "A valid username must be provided"
 msgstr "Es muss ein gültiger Benutzername angegeben werden"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:401 js/users.js:407 js/users.js:422
 msgid "Error creating user"
-msgstr "Beim anlegen des Benutzers ist ein Fehler aufgetreten"
+msgstr "Beim Anlegen des Benutzers ist ein Fehler aufgetreten"
 
-#: js/users.js:358
+#: js/users.js:406
 msgid "A valid password must be provided"
 msgstr "Es muss ein gültiges Passwort angegeben werden"
 
@@ -233,7 +233,7 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr "Dieser ownCloud Server kann die Ländereinstellung nicht auf %s ändern. Dies bedeutet, dass es Probleme mit bestimmten Zeichen in Dateinamen geben könnte. Wir empfehlen die für %s benötigten Pakete auf ihrem System zu installieren."
+msgstr "Dieser ownCloud Server kann die Ländereinstellung nicht auf %s ändern. Dies bedeutet, dass es Probleme mit bestimmten Zeichen in Dateinamen geben könnte. Wir empfehlen die für %s benötigten Pakete auf Deinem System zu installieren."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
@@ -287,23 +287,23 @@ msgstr "Erlaube Links"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr "Erlaube Benutzern Inhalte über öffentliche Links zu teilen"
+msgstr "Erlaube Benutzern, Inhalte über öffentliche Links zu teilen"
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr "Erlaube erneutes teilen"
+msgstr "Erlaube erneutes Teilen"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr "Erlaube Benutzern mit ihnen geteilte Inhalte erneut zu teilen"
+msgstr "Erlaube Benutzern, mit ihnen geteilte Inhalte erneut zu teilen"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr "Erlaube Benutzern mit jedem zu teilen"
+msgstr "Erlaube Benutzern, mit jedem zu teilen"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr "Erlaube Benutzern nur mit Benutzern ihrer Gruppe zu teilen"
+msgstr "Erlaube Benutzern, nur mit Benutzern ihrer Gruppe zu teilen"
 
 #: templates/admin.php:168
 msgid "Security"
@@ -372,7 +372,7 @@ msgstr "<span class=\"licence\"></span>-lizenziert von <span class=\"author\"></
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr "Update durchführen"
+msgstr "Aktualisierung durchführen"
 
 #: templates/help.php:4
 msgid "User Documentation"

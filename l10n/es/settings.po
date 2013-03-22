@@ -7,6 +7,7 @@
 # Daniel Manterola <daniel_manterola@dfml.cl>, 2013.
 #   <davidlopez.david@gmail.com>, 2012.
 # Javier Llorente <javier@opensuse.org>, 2012.
+#  <juanma@kde.org.ar>, 2013.
 #   <juanma@kde.org.ar>, 2011-2012.
 # Marcos <djoser.horus@gmail.com>, 2013.
 #   <monty_2731@hotmail.com>, 2011.
@@ -24,9 +25,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-01 00:05+0100\n"
-"PO-Revision-Date: 2013-02-28 22:41+0000\n"
-"Last-Translator: Marcos <djoser.horus@gmail.com>\n"
+"POT-Creation-Date: 2013-03-23 00:03+0100\n"
+"PO-Revision-Date: 2013-03-22 02:40+0000\n"
+"Last-Translator: juanman <juanma@kde.org.ar>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -162,19 +163,19 @@ msgstr "Grupo admin"
 msgid "Delete"
 msgstr "Eliminar"
 
-#: js/users.js:191
+#: js/users.js:237
 msgid "add group"
 msgstr "Añadir Grupo"
 
-#: js/users.js:352
+#: js/users.js:400
 msgid "A valid username must be provided"
 msgstr "Se debe usar un nombre de usuario  valido"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:401 js/users.js:407 js/users.js:422
 msgid "Error creating user"
 msgstr "Error al crear usuario"
 
-#: js/users.js:358
+#: js/users.js:406
 msgid "A valid password must be provided"
 msgstr "Se debe usar una contraseña valida"
 
@@ -264,7 +265,7 @@ msgstr "cron.php es un sistema webcron registrado. Llame a la página cron.php e
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr "Utilizar el servicio con del sistema. Llame al archivo cron.php en la carpeta de owncloud vía un sistema conjob una vez por minuto."
+msgstr "Utilizar el servicio cron del sistema. Llame al archivo cron.php en la carpeta de owncloud a través de un cronjob del sistema una vez por minuto."
 
 #: templates/admin.php:128
 msgid "Sharing"
@@ -276,7 +277,7 @@ msgstr "Activar API de Compartición"
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr "Permitir a las aplicaciones a que usen la API de Compartición"
+msgstr "Permitir a las aplicaciones utilizar la API de Compartición"
 
 #: templates/admin.php:142
 msgid "Allow links"
@@ -319,7 +320,7 @@ msgstr "Forzar la conexión de los clientes a ownCloud con una conexión encript
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr "Por favor, conecte esta instancia de ownCloud vía HTTPS para activar o desactivar la aplicación SSL"
+msgstr "Por favor, conecte esta instancia de ownCloud vía HTTPS para activar o desactivar la aplicación de SSL."
 
 #: templates/admin.php:195
 msgid "Log"
