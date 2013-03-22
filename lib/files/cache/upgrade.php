@@ -36,7 +36,6 @@ class Upgrade {
 			return;
 		}
 		\OC_Hook::emit('\OC\Files\Cache\Upgrade', 'migrate_path', $path);
-
 		if ($row = $this->legacy->get($path)) {
 			$data = $this->getNewData($row);
 			if ($data) {
@@ -250,5 +249,26 @@ class Upgrade {
 	 */
 	static function upgradeDone($user) {
 		\OCP\Config::setUserValue($user, 'files', 'cache_version', 5);
+	}
+
+	/**
+	 * Does a "silent" upgrade, i.e. without an Event-Source as triggered
+	 * on User-Login via Ajax. This method is called within the regular
+	 * ownCloud upgrade.
+	 *
+	 * @param string $user a User ID
+	 */
+	public static function doSilentUpgrade($user) {
+		if(!self::needUpgrade($user)) {
+			return;
+		}
+		$legacy = new \OC\Files\Cache\Legacy($user);
+		if ($legacy->hasItems()) {
+			\OC_DB::beginTransaction();
+			$upgrade = new \OC\Files\Cache\Upgrade($legacy);
+			$upgrade->upgradePath('/' . $user . '/files');
+			\OC_DB::commit();
+		}
+		\OC\Files\Cache\Upgrade::upgradeDone($user);
 	}
 }
