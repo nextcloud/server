@@ -38,10 +38,12 @@ class Shared_Updater {
 			while (!empty($users)) {
 				$reshareUsers = array();
 				foreach ($users as $user) {
-					$etag = \OC\Files\Filesystem::getETag('');
-					\OCP\Config::setUserValue($user, 'files_sharing', 'etag', $etag);
-					// Look for reshares
-					$reshareUsers = array_merge($reshareUsers, \OCP\Share::getUsersItemShared('file', $info['fileid'], $user, true));
+					if ( $user !== $uidOwner ) {
+						$etag = \OC\Files\Filesystem::getETag('');
+						\OCP\Config::setUserValue($user, 'files_sharing', 'etag', $etag);
+						// Look for reshares
+						$reshareUsers = array_merge($reshareUsers, \OCP\Share::getUsersItemShared('file', $info['fileid'], $user, true));
+					}
 				}
 				$users = $reshareUsers;
 			}
@@ -88,10 +90,12 @@ class Shared_Updater {
 				while (!empty($users)) {
 					$reshareUsers = array();
 					foreach ($users as $user) {
-						$etag = \OC\Files\Filesystem::getETag('');
-						\OCP\Config::setUserValue($user, 'files_sharing', 'etag', $etag);
-						// Look for reshares
-						$reshareUsers = array_merge($reshareUsers, \OCP\Share::getUsersItemShared('file', $params['fileSource'], $user, true));
+						if ($user !== $uidOwner) {
+							$etag = \OC\Files\Filesystem::getETag('');
+							\OCP\Config::setUserValue($user, 'files_sharing', 'etag', $etag);
+							// Look for reshares
+							$reshareUsers = array_merge($reshareUsers, \OCP\Share::getUsersItemShared('file', $params['fileSource'], $user, true));
+						}
 					}
 					$users = $reshareUsers;
 				}
