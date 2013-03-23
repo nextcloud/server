@@ -75,7 +75,13 @@ OC.Settings.Apps = OC.Settings.Apps || {
 					element.data('active',true);
 					element.val(t('settings','Disable'));
 				}
-			},'json');
+			},'json')
+			.fail(function() { 
+				OC.dialogs.alert('Error while enabling app','Error');
+				element.data('active',false);
+				OC.Settings.Apps.removeNavigation(appid);
+				element.val(t('settings','Enable'));
+			});
 			$('#leftcontent li[data-id="'+appid+'"]').addClass('active');
 		}
 	},
