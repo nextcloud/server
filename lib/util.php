@@ -278,7 +278,10 @@ class OC_Util {
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
-		if(ini_get('safe_mode')) {
+		if (((strtolower(@ini_get('safe_mode')) == 'on')
+			|| (strtolower(@ini_get('safe_mode')) == 'yes')
+			|| (strtolower(@ini_get('safe_mode')) == 'true')
+			|| (ini_get("safe_mode") == 1 ))) {
 			$errors[]=array('error'=>'PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly.',
 				'hint'=>'PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config.');
 			$web_server_restart= false;
