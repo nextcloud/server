@@ -91,7 +91,7 @@ class Scanner {
 	 * scan all the files in a folder and store them in the cache
 	 *
 	 * @param string $path
-	 * @param SCAN_RECURSIVE/SCAN_SHALLOW $recursive
+	 * @param bool $recursive
 	 * @param bool $onlyChilds
 	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
 	 */

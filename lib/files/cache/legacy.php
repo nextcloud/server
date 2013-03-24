@@ -20,6 +20,11 @@ class Legacy {
 		$this->user = $user;
 	}
 
+	/**
+	 * get the numbers of items in the legacy cache
+	 *
+	 * @return int
+	 */
 	function getCount() {
 		$query = \OC_DB::prepare('SELECT COUNT(`id`) AS `count` FROM `*PREFIX*fscache` WHERE `user` = ?');
 		$result = $query->execute(array($this->user));
@@ -62,6 +67,8 @@ class Legacy {
 	}
 
 	/**
+	 * get an item from the legacy cache
+	 *
 	 * @param string|int $path
 	 * @return array
 	 */
@@ -76,6 +83,8 @@ class Legacy {
 	}
 
 	/**
+	 * get all child items of an item from the legacy cache
+	 *
 	 * @param int $id
 	 * @return array
 	 */

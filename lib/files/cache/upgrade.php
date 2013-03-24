@@ -26,10 +26,10 @@ class Upgrade {
 	}
 
 	/**
-	 * Preform a shallow upgrade
+	 * Preform a upgrade a path and it's childs
 	 *
 	 * @param string $path
-	 * @param int $mode
+	 * @param bool $mode
 	 */
 	function upgradePath($path, $mode = Scanner::SCAN_RECURSIVE) {
 		if (!$this->legacy->hasItems()) {
@@ -47,7 +47,10 @@ class Upgrade {
 	}
 
 	/**
+	 * upgrade all child elements of an item
+	 *
 	 * @param int $id
+	 * @param bool $mode
 	 */
 	function upgradeChilds($id, $mode = Scanner::SCAN_RECURSIVE) {
 		$children = $this->legacy->getChildren($id);
@@ -64,6 +67,8 @@ class Upgrade {
 	}
 
 	/**
+	 * insert data into the new cache
+	 *
 	 * @param array $data the data for the new cache
 	 */
 	function insert($data) {
@@ -79,6 +84,8 @@ class Upgrade {
 	}
 
 	/**
+	 * check if an item is already in the new cache
+	 *
 	 * @param string $storage
 	 * @param string $pathHash
 	 * @param string $id
@@ -135,6 +142,8 @@ class Upgrade {
 	}
 
 	/**
+	 * get the numeric id for a mimetype
+	 *
 	 * @param string $mimetype
 	 * @param \OC\Files\Storage\Storage $storage
 	 * @return int

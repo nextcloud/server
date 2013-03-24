@@ -16,7 +16,7 @@ class Updater {
 	/**
 	 * resolve a path to a storage and internal path
 	 *
-	 * @param string $path
+	 * @param string $path the relative path
 	 * @return array consisting of the storage and the internal path
 	 */
 	static public function resolvePath($path) {
@@ -24,6 +24,11 @@ class Updater {
 		return $view->resolvePath($path);
 	}
 
+	/**
+	 * preform a write update
+	 *
+	 * @param string $path the relative path of the file
+	 */
 	static public function writeUpdate($path) {
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
@@ -39,6 +44,11 @@ class Updater {
 		}
 	}
 
+	/**
+	 * preform a delete update
+	 *
+	 * @param string $path the relative path of the file
+	 */
 	static public function deleteUpdate($path) {
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
@@ -53,6 +63,12 @@ class Updater {
 		}
 	}
 
+	/**
+	 * preform a rename update
+	 *
+	 * @param string $from the relative path of the source file
+	 * @param string $to the relative path of the target file
+	 */
 	static public function renameUpdate($from, $to) {
 		/**
 		 * @var \OC\Files\Storage\Storage $storageFrom
