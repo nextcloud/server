@@ -90,7 +90,7 @@ class Legacy {
 			$relativePath = '';
 		}
 		$query = \OC_DB::prepare('SELECT `propertyvalue` FROM `*PREFIX*properties` WHERE `userid` = ? AND propertypath = ? AND propertyname = "{DAV:}getetag"');
-		$result = $query->execute(array($user, $relativePath));
+		$result = $query->execute(array($user, '/' . $relativePath));
 		if ($row = $result->fetchRow()) {
 			return trim($row['propertyvalue'], '"');
 		} else {
