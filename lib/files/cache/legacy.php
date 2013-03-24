@@ -79,7 +79,23 @@ class Legacy {
 			$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*fscache` WHERE `path` = ?');
 		}
 		$result = $query->execute(array($path));
-		return $result->fetchRow();
+		$data = $result->fetchRow();
+		$data['etag'] = $this->getEtag($data['path']);
+		return $data;
+	}
+
+	function getEtag($path) {
+		list(, $user, , $relativePath) = explode('/', $path, 4);
+		if (is_null($relativePath)) {
+			$relativePath = '';
+		}
+		$query = \OC_DB::prepare('SELECT `propertyvalue` FROM `*PREFIX*properties` WHERE `userid` = ? AND propertypath = ? AND propertyname = "{DAV:}getetag"');
+		$result = $query->execute(array($user, $relativePath));
+		if ($row = $result->fetchRow()) {
+			return trim($row['propertyvalue'], '"');
+		} else {
+			return '';
+		}
 	}
 
 	/**
@@ -91,6 +107,10 @@ class Legacy {
 	function getChildren($id) {
 		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*fscache` WHERE `parent` = ?');
 		$result = $query->execute(array($id));
-		return $result->fetchAll();
+		$data = $result->fetchAll();
+		foreach ($data as $i => $item) {
+			$data[$i]['etag'] = $this->getEtag($item['path']);
+		}
+		return $data;
 	}
 }

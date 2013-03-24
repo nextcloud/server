@@ -134,6 +134,7 @@ class Upgrade {
 		 */
 		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($data['path']);
 		if ($storage) {
+			$newData['etag'] = $data['etag'];
 			$newData['path_hash'] = md5($internalPath);
 			$newData['path'] = $internalPath;
 			$newData['storage'] = $this->getNumericId($storage);
