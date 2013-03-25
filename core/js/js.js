@@ -637,22 +637,23 @@ $(document).ready(function(){
 		}
 	});
 
-	// 'show password' checkbox
-	
-	var hideToggleBtn = function(input, label) {
+	var setShowPassword = function(input, label) {
 		// 'show password' checkbox
-		input.showPassword().keyup(function(){
-			if (input.val().length == 0) {
-				label.hide();
-			} else {
-				label.css("display", "inline").show();
-			}
-		});
-		label.hide();
+			setTimeout(function() {
+				input.showPassword().keyup(function(){
+					if (input.val().length == 0) {
+						label.hide();
+					}
+					else {
+						label.css("display", "inline").show();
+					}
+				});
+			},200);
+			label.hide();
 	};
-	hideToggleBtn($('#password'), $('label[for=show]'));
-	hideToggleBtn($('#adminpass'), $('label[for=show]'));
-	hideToggleBtn($('#pass2'), $('label[for=personal-show]'));
+	setShowPassword($('#password'), $('label[for=show]'));
+	setShowPassword($('#adminpass'), $('label[for=show]'));
+	setShowPassword($('#pass2'), $('label[for=personal-show]'));
 
 	//use infield labels
 	$("label.infield").inFieldLabels({
