@@ -36,7 +36,6 @@ if (OC::checkUpgrade(false)) {
  * @param UpdateWatcher $watcher
  */
 function __doFileCacheUpgrade($watcher) {
-	file_put_contents('/tmp/debug', "START\n", FILE_APPEND);
 	$query = \OC_DB::prepare('
 		SELECT DISTINCT user
 		FROM`*PREFIX*fscache`
@@ -47,7 +46,6 @@ function __doFileCacheUpgrade($watcher) {
 		return;
 	}
 	$step = 100 / count($users);
-	file_put_contents('/tmp/debug', 'Step '. print_r($step, true)."\n", FILE_APPEND);
 	$percentCompleted = 0;
 	$lastPercentCompletedOutput = 0;
 	$startInfoShown = false;
