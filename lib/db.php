@@ -640,7 +640,7 @@ class OC_DB {
 			// otherwise all fieldnames used must have a unique key.
 			$query = 'SELECT * FROM "' . $table . '" WHERE ';
 			foreach($input as $key => $value) {
-				$query .= '"' .$key . '"' . ' = ? AND ';
+				$query .= '"' . $key . '" = ? AND ';
 			}
 			$query = substr($query, 0, strlen($query) - 5);
 			try {
