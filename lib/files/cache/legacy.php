@@ -84,6 +84,12 @@ class Legacy {
 		return $data;
 	}
 
+	/**
+	 * Get the ETag for the given path
+	 *
+	 * @param type $path
+	 * @return string
+	 */
 	function getEtag($path) {
 		list(, $user, , $relativePath) = explode('/', $path, 4);
 		if (is_null($relativePath)) {
