@@ -666,7 +666,7 @@ class OC_DB {
 			$query = 'INSERT INTO `' .$table . '` (`'
 				. implode('`,`', array_keys($input)) . '`) SELECT '
 				. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
-				. 'FROM ' . $table . ' WHERE ';
+				. 'FROM `' . $table . '` WHERE ';
 
 			foreach($input as $key => $value) {
 				$query .= '`' . $key . '` = ? AND ';
