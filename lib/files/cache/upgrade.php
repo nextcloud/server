@@ -143,62 +143,11 @@ class Upgrade {
 			$newData['storage_object'] = $storage;
 			$newData['mimetype'] = $this->getMimetypeId($newData['mimetype'], $storage);
 			$newData['mimepart'] = $this->getMimetypeId($newData['mimepart'], $storage);
-			$newData['etag'] = $this->getETag($data['path'], $data['user'], $internalPath, $storage);
 			return $newData;
 		} else {
 			\OC_Log::write('core', 'Unable to migrate data from old cache for '.$data['path'].' because the storage was not found', \OC_Log::ERROR);
 			return false;
 		}
-	}
-
-	/**
-	 * get a file`s E-Tag
-	 *
-	 * @param string $legacyPath in the form of a legacy path
-	 * @param string $user the user ID the file referred to in path belongs to
-	 * @param string $internalPath
-	 * @param \OC\Files\Storage\Storage $storage
-	 * @return string Etag
-	 */
-	function getETag($legacyPath, $user, $internalPath, $storage) {
-		static $queryGetETag = null;
-		static $queryCleanUp = null;
-
-		//the path in the database is stored wo /$user/files
-		//we need to strip it off, care is taken if user == files
-		$offset = strpos($legacyPath,  '/files/', 2) + 6;
-		$legacyPath = substr($legacyPath, $offset);
-
-		//Look for the E-Tag in the old database
-		if(is_null($queryGetETag)) {
-			$queryGetETag = \OC_DB::prepare('
-				SELECT `propertyvalue`
-				FROM `*PREFIX*properties`
-				WHERE `propertyname` = \'{DAV:}getetag\'
-					AND `propertypath` = ?
-					AND `userid` = ?
-				', 1);
-		}
-		$result = $queryGetETag->execute(array($legacyPath, $user));
-		$etag = $result->fetchOne();
-
-		if($etag) {
-			if(is_null($queryCleanUp)) {
-				$queryCleanUp = \OC_DB::prepare('
-					DELETE FROM `*PREFIX*properties`
-					WHERE `propertyname` = \'{DAV:}getetag\'
-						AND `propertypath` = ?
-						AND `userid` = ?
-					');
-			}
-
-			//On success: remove the old DB entry and return the value
-			$queryCleanUp->execute(array($legacyPath, $user));
-			return $etag;
-		}
-
-		//No etag detected, determine it with new methods
-		return $storage->getETag($internalPath);
 	}
 
 	/**
