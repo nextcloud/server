@@ -651,6 +651,22 @@
 				<length>255</length>
 			</field>
 
+			<index>
+				<name>property_index</name>
+				<field>
+					<name>propertyname</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>propertypath</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>userid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
 		</declaration>
 
 	</table>
