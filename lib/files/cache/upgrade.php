@@ -169,7 +169,7 @@ class Upgrade {
 				WHERE `propertyname` = \'{DAV:}getetag\'
 					AND `propertypath` = ?
 					AND `userid` = ?
-				LIMIT 1');
+				', 1);
 		}
 		$result = $queryGetETag->execute(array($legacyPath, $user));
 		$etag = $result->fetchOne();
@@ -181,7 +181,6 @@ class Upgrade {
 					WHERE `propertyname` = \'{DAV:}getetag\'
 						AND `propertypath` = ?
 						AND `userid` = ?
-					LIMIT 1
 					');
 			}
 
