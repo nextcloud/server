@@ -82,13 +82,13 @@
 				<?php if ($_['permissions'] & OCP\PERMISSION_DELETE): ?>
 <!-- 					NOTE: Temporary fix to allow unsharing of files in root of Shared folder -->
 					<?php if ($_['dir'] == '/Shared'): ?>
-						<span class="selectedActions"><a href="" class="delete">
+						<span class="selectedActions"><a href="" class="delete-selected">
 							<?php p($l->t('Unshare'))?>
 							<img class="svg" alt="<?php p($l->t('Unshare'))?>"
 								 src="<?php print_unescaped(OCP\image_path("core", "actions/delete.svg")); ?>" />
 						</a></span>
 					<?php else: ?>
-						<span class="selectedActions"><a href="" class="delete">
+						<span class="selectedActions"><a href="" class="delete-selected">
 							<?php p($l->t('Delete'))?>
 							<img class="svg" alt="<?php p($l->t('Delete'))?>"
 								 src="<?php print_unescaped(OCP\image_path("core", "actions/delete.svg")); ?>" />

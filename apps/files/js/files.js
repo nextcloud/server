@@ -233,7 +233,7 @@ $(document).ready(function() {
 		return false;
 	});
 
-	$('.delete').click(function(event) {
+	$('.delete-selected').click(function(event) {
 		var files=getSelectedFiles('name');
 		event.preventDefault();
 		FileList.do_delete(files);
