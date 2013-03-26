@@ -202,22 +202,14 @@ class Proxy extends \OC_FileProxy {
 	 * @param string $data Data that has been read from file
 	 */
 	public function postFile_get_contents( $path, $data ) {
-	
+
 		// FIXME: $path for shared files is just /uid/files/Shared/filepath
 		
 		$userId = \OCP\USER::getUser();
 		$view = new \OC_FilesystemView( '/' );
 		$util = new Util( $view, $userId );
 		
-		if ( $util->isSharedPath( $path ) ) {
-		
-			$relPath = $util->stripSharedFilePath( $path );
-		
-		} else {
-		
-			$relPath = $util->stripUserFilesPath( $path );
-		
-		}
+		$relPath = $util->stripUserFilesPath( $path );
 		
 	
 		// TODO check for existing key file and reuse it if possible to avoid problems with versioning etc.
