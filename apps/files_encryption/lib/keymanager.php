@@ -28,6 +28,22 @@ namespace OCA\Encryption;
  * @note Where a method requires a view object, it's root must be '/'
  */
 class Keymanager {
+
+	/**
+	 * @brief get uid of the owners of the file and the path to the file
+	 * @param $filename
+	 * @return array
+	 */
+	public static function getUidAndFilename($filename) {
+		$uid = \OC\Files\Filesystem::getOwner($filename);
+		\OC\Files\Filesystem::initMountPoints($uid);
+		if ( $uid != \OCP\User::getUser() ) {
+			$info = \OC\Files\Filesystem::getFileInfo($filename);
+			$ownerView = new \OC\Files\View('/'.$uid.'/files');
+			$filename = $ownerView->getPath($info['fileid']);
+		}
+		return array($uid, $filename);
+	}
 		
 	/**
 	 * @brief retrieve the ENCRYPTED private key from a user
@@ -264,15 +280,17 @@ class Keymanager {
 	 * asymmetrically encrypt the keyfile before passing it to this method
 	 */
 	public static function setShareKey( \OC_FilesystemView $view, $path, $userId, $shareKey ) {
+
+		list($owner, $filename) = self::getUidAndFilename($path);
+
+		$basePath = '/' . $owner . '/files_encryption/share-keys';
 		
-		$basePath = '/' . $userId . '/files_encryption/share-keys';
+		$shareKeyPath = self::keySetPreparation( $view, $filename, $basePath, $owner );
 		
-		$shareKeyPath = self::keySetPreparation( $view, $path, $basePath, $userId );
-		
-		$writePath = $basePath . '/' . $shareKeyPath . '.shareKey';
+		$writePath = $basePath . '/' . $shareKeyPath . '.' . $userId . '.shareKey';
 		
 		\OC_FileProxy::$enabled = false;
-		
+
 		$result = $view->file_put_contents( $writePath, $shareKey );
 		
 		if ( 
@@ -295,7 +313,7 @@ class Keymanager {
 	 * @return bool
 	 */
 	public static function setShareKeys( \OC_FilesystemView $view, $path, array $shareKeys ) {
-	
+
 		// $shareKeys must be  an array with the following format:
 		// [userId] => [encrypted key]
 		
@@ -395,9 +413,14 @@ class Keymanager {
 		isset( $path_parts['dirname'] )
 		&& ! $view->file_exists( $basePath . '/' . $path_parts['dirname'] ) 
 		) {
-		
-			$view->mkdir( $basePath . '/' . $path_parts['dirname'] );
-			
+			$sub_dirs = explode(DIRECTORY_SEPARATOR, $basePath . '/' . $path_parts['dirname']);
+			$dir = '';
+			foreach ($sub_dirs as $sub_dir) {
+				$dir .= '/' . $sub_dir;
+				if (!$view->is_dir($dir)) {
+					$view->mkdir($dir);
+				}
+			}
 		}
 		
 		return $targetPath;
