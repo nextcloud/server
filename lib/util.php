@@ -418,7 +418,8 @@ class OC_Util {
     public static function getInstanceId() {
         $id = OC_Config::getValue('instanceid', null);
         if(is_null($id)) {
-            $id = uniqid();
+            // We need to guarantee at least one letter in instanceid so it can be used as the session_name
+            $id = 'oc' . uniqid();
             OC_Config::setValue('instanceid', $id);
         }
         return $id;
