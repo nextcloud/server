@@ -638,9 +638,9 @@ class OC_DB {
 		if( $type == 'sqlite' || $type == 'sqlite3' ) {
 			// NOTE: For SQLite we have to use this clumsy approach
 			// otherwise all fieldnames used must have a unique key.
-			$query = 'SELECT * FROM "' . $table . '" WHERE ';
+			$query = 'SELECT * FROM `' . $table . '` WHERE ';
 			foreach($input as $key => $value) {
-				$query .= '"' . $key . '" = ? AND ';
+				$query .= '`' . $key . '` = ? AND ';
 			}
 			$query = substr($query, 0, strlen($query) - 5);
 			try {
@@ -656,8 +656,8 @@ class OC_DB {
 			}
 
 			if((int)$result->numRows() === 0) {
-				$query = 'INSERT INTO "' . $table . '" ("'
-					. implode('","', array_keys($input)) . '") VALUES('
+				$query = 'INSERT INTO `' . $table . '` (`'
+					. implode('`,`', array_keys($input)) . '`) VALUES('
 					. str_repeat('?,', count($input)-1).'? ' . ')';
 			} else {
 				return true;
