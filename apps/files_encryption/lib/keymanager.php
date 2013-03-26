@@ -363,11 +363,7 @@ class Keymanager {
 		
 		\OC_FileProxy::$enabled = false;
 
-		$util = new Util( $view, $userId );
-
-		list($owner, $filename) = $util->getUidAndFilename($filePath);
-
-		$shareKeyPath = '/' . $owner . '/files_encryption/share-keys/' . $filename;
+		$shareKeyPath = '/' . $userId . '/files_encryption/share-keys/' . $filePath;
 
 		$absPath = $view->getLocalFile($shareKeyPath);
 

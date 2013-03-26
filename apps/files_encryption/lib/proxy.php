@@ -291,17 +291,22 @@ class Proxy extends \OC_FileProxy {
 		\OC_FileProxy::$enabled = false;
 		
 		$view = new \OC_FilesystemView( '/' );
-		
+
 		$userId = \OCP\USER::getUser();
-		
+
+		$util = new Util( $view, $userId );
+
 		// Format path to be relative to user files dir
 		$trimmed = ltrim( $path, '/' );
 		$split = explode( '/', $trimmed );
 		$sliced = array_slice( $split, 2 );
 		$relPath = implode( '/', $sliced );
-		$filePath = $userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/'. $relPath;
+
+		list($owner, $ownerPath) = $util->getUidAndFilename($relPath);
+
+		$filePath = $owner . '/' . 'files_encryption' . '/' . 'keyfiles' . '/'. $ownerPath;
 		
-		if ( $view->is_dir( $path ) ) {
+		if ( $view->is_dir( $ownerPath ) ) {
 			
 			// Dirs must be handled separately as deleteFileKey 
 			// doesn't handle them
@@ -312,8 +317,8 @@ class Proxy extends \OC_FileProxy {
 			// Delete keyfile & shareKey so it isn't orphaned
 			if (
 				! ( 
-					Keymanager::deleteFileKey( $view, $userId, $relPath )
-					&& Keymanager::delShareKey( $view, $userId, $relPath ) 
+					Keymanager::deleteFileKey( $view, $owner, $ownerPath )
+					&& Keymanager::delShareKey( $view, $owner, $ownerPath )
 				)
 			) {
 			
