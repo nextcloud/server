@@ -75,7 +75,8 @@ class Scanner {
 				}
 			}
 			if($cacheData = $this->cache->get($file)) {
-				if ($data['mtime'] === $cacheData['mtime']) {
+				if ($data['mtime'] === $cacheData['mtime'] &&
+					$data['size'] === $cacheData['size']) {
 					$data['etag'] = $cacheData['etag'];
 				}
 			}
