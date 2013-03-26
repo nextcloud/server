@@ -302,30 +302,17 @@ class Proxy extends \OC_FileProxy {
 		list($owner, $ownerPath) = $util->getUidAndFilename($relPath);
 
 		$filePath = $owner . '/' . 'files_encryption' . '/' . 'keyfiles' . '/'. $ownerPath;
+
+		// Delete keyfile & shareKey so it isn't orphaned
+		if (
+			! (
+				Keymanager::deleteFileKey( $view, $owner, $ownerPath )
+				&& Keymanager::delShareKey( $view, $owner, $ownerPath )
+			)
+		) {
 		
-		if ( $view->is_dir( $ownerPath ) ) {
-			
-			// Dirs must be handled separately as deleteFileKey 
-			// doesn't handle them
-			$view->unlink( $filePath );
-			
-		} else {
-		
-			// Delete keyfile & shareKey so it isn't orphaned
-			if (
-				! ( 
-					Keymanager::deleteFileKey( $view, $owner, $ownerPath )
-					&& Keymanager::delShareKey( $view, $owner, $ownerPath )
-				)
-			) {
-			
-				\OC_Log::write( 'Encryption library', 'Keyfile or shareKey could not be deleted for file "'.$filePath.'"', \OC_Log::ERROR );
+			\OC_Log::write( 'Encryption library', 'Keyfile or shareKey could not be deleted for file "'.$filePath.'"', \OC_Log::ERROR );
 				
-				
-			}
-			
-			
-		
 		}
 		
 		\OC_FileProxy::$enabled = true;

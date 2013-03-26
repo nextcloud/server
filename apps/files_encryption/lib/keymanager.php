@@ -178,21 +178,27 @@ class Keymanager {
 	public static function deleteFileKey( \OC_FilesystemView $view, $userId, $path ) {
 		
 		$trimmed = ltrim( $path, '/' );
-		$keyPath =  '/' . $userId . '/files_encryption/keyfiles/' . $trimmed . '.key';
-		
-		// Unlink doesn't tell us if file was deleted (not found returns
-		// true), so we perform our own test
-		if ( $view->file_exists( $keyPath ) ) {
-		
-			return $view->unlink( $keyPath );
-			
-		} else {
+		$keyPath =  '/' . $userId . '/files_encryption/keyfiles/' . $trimmed;
+
+		$result = false;
+
+		if ( $view->is_dir($keyPath) ) {
+
+			$result = $view->unlink($keyPath);
+
+		} else if ( $view->file_exists( $keyPath.'.key' ) ) {
+
+			$result = $view->unlink( $keyPath.'.key' );
+
+		}
+
+		if ( !$result ) {
 			
 			\OC_Log::write( 'Encryption library', 'Could not delete keyfile; does not exist: "' . $keyPath, \OC_Log::ERROR );
-			
-			return false;
-			
+
 		}
+
+		return $result;
 		
 	}
 	
@@ -365,22 +371,28 @@ class Keymanager {
 
 		$shareKeyPath = '/' . $userId . '/files_encryption/share-keys/' . $filePath;
 
-		$absPath = $view->getLocalFile($shareKeyPath);
+		$result = false;
 
-		$matches = glob(preg_quote($absPath).'.*.shareKey' );
+		if ( $view->is_dir($shareKeyPath) ) {
+			$result = $view->unlink($shareKeyPath);
+		} else {
+			$absPath = $view->getLocalFile($shareKeyPath);
 
-		if ( $matches ) {
+			$matches = glob(preg_quote($absPath).'.*.shareKey' );
 
-			foreach ( $matches as $ma ) {
-				unlink($ma);
+			if ( $matches ) {
+
+				foreach ( $matches as $ma ) {
+					unlink($ma);
+				}
+
 			}
 
-		} else {
-			
+			$result = true;
+		}
+
+		if ( !result ) {
 			\OC_Log::write( 'Encryption library', 'Could not delete shareKey; does not exist: "' . $shareKeyPath, \OC_Log::ERROR );
-			
-			$result = false;
-			
 		}
 		
 		\OC_FileProxy::$enabled = false;
