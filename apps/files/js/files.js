@@ -407,7 +407,9 @@ $(document).ready(function() {
 												$('tr').filterAttr('data-file',file.name).data('mime',file.mime).data('id',file.id);
 												var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
 												if(size==t('files','Pending')){
-													$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
+													var sizeElement = $('tr').filterAttr('data-file',file.name).find('td.filesize');
+													sizeElement.text(simpleFileSize(file.size));
+													sizeElement.attr('title',humanFileSize(file.size));
 												}
 												//TODO update file upload size limit
 												FileList.loadingDone(file.name, file.id);
@@ -438,7 +440,9 @@ $(document).ready(function() {
 								$('tr').filterAttr('data-file',file.name).data('mime',file.mime).data('id',file.id);
 								var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
 								if(size==t('files','Pending')){
-									$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
+									var sizeElement = $('tr').filterAttr('data-file',file.name).find('td.filesize');
+									sizeElement.text(simpleFileSize(file.size));
+									sizeElement.attr('title',humanFileSize(file.size));
 								}
 								//TODO update file upload size limit
 								FileList.loadingDone(file.name, file.id);
