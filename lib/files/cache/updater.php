@@ -115,6 +115,13 @@ class Updater {
 	/**
 	 * @param array $params
 	 */
+	static public function touchHook($params) {
+		self::writeUpdate($params['path']);
+	}
+
+	/**
+	 * @param array $params
+	 */
 	static public function renameHook($params) {
 		self::renameUpdate($params['oldpath'], $params['newpath']);
 	}
