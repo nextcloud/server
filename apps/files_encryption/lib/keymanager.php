@@ -28,23 +28,6 @@ namespace OCA\Encryption;
  * @note Where a method requires a view object, it's root must be '/'
  */
 class Keymanager {
-
-	/**
-	 * @brief get uid of the owners of the file and the path to the file
-	 * @param $filename
-	 * @return array
-	 */
-	public static function getUidAndFilename($filename) {
-		$uid = \OC\Files\Filesystem::getOwner($filename);
-
-		\OC\Files\Filesystem::initMountPoints($uid);
-		if ( $uid != \OCP\User::getUser() ) {
-			$info = \OC\Files\Filesystem::getFileInfo($filename);
-			$ownerView = new \OC\Files\View('/'.$uid.'/files');
-			$filename = $ownerView->getPath($info['fileid']);
-		}
-		return array($uid, $filename);
-	}
 		
 	/**
 	 * @brief retrieve the ENCRYPTED private key from a user
@@ -282,7 +265,9 @@ class Keymanager {
 	 */
 	public static function setShareKey( \OC_FilesystemView $view, $path, $userId, $shareKey ) {
 
-		list($owner, $filename) = self::getUidAndFilename($path);
+		$util = new Util( $view, $userId );
+
+		list($owner, $filename) = $util->getUidAndFilename($path);
 
 		$basePath = '/' . $owner . '/files_encryption/share-keys';
 		
@@ -349,7 +334,10 @@ class Keymanager {
 	public static function getShareKey( \OC_FilesystemView $view, $userId, $filePath ) {
 		
 		\OC_FileProxy::$enabled = false;
-		list($owner, $filename) = self::getUidAndFilename($filePath);
+
+		$util = new Util( $view, $userId );
+
+		list($owner, $filename) = $util->getUidAndFilename($filePath);
 
 		$shareKeyPath = '/' . $owner . '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey';
 		if ( $view->file_exists( $shareKeyPath ) ) {

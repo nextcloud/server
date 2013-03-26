@@ -815,4 +815,21 @@ class Util {
 		return true;
 	}
 
+		/**
+	 * @brief get uid of the owners of the file and the path to the file
+	 * @param $filename
+	 * @return array
+	 */
+	public function getUidAndFilename($filename) {
+		$uid = \OC\Files\Filesystem::getOwner($filename);
+
+		\OC\Files\Filesystem::initMountPoints($uid);
+		if ( $uid != \OCP\User::getUser() ) {
+			$info = \OC\Files\Filesystem::getFileInfo($filename);
+			$ownerView = new \OC\Files\View('/'.$uid.'/files');
+			$filename = $ownerView->getPath($info['fileid']);
+		}
+		return array($uid, $filename);
+	}
+
 }
