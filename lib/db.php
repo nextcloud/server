@@ -676,8 +676,6 @@ class OC_DB {
 			$inserts = array_merge($inserts, $inserts);
 		}
 
-		// TODO: oci should be use " (quote) instead of ` (backtick)?
-
 		try {
 			$result = self::prepare($query);
 		} catch(PDOException $e) {
