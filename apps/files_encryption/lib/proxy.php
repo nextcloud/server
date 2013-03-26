@@ -227,11 +227,10 @@ class Proxy extends \OC_FileProxy {
 			$privateKey = $session->getPrivateKey( $userId );
 			
 			// Get the file owner so we can retrieve its keyfile
-			$fileOwner = \OC\Files\Filesystem::getOwner( $relPath ); //NOTE: This might be false! make sure the path passed to it is right
-			$fileOwner = 'admin'; // FIXME: Manually set the correct UID for now
-			
+			list($fileOwner, $ownerPath) = $util->getUidAndFilename($relPath);
+
 			// Get the encrypted keyfile
-			$encKeyfile = Keymanager::getFileKey( $view, $fileOwner, $relPath );
+			$encKeyfile = Keymanager::getFileKey( $view, $fileOwner, $ownerPath );
 			
 			// Attempt to fetch the user's shareKey
 			$shareKey = Keymanager::getShareKey( $view, $userId, $relPath );
