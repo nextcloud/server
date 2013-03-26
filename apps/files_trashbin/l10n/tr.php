@@ -12,5 +12,6 @@
 "{count} files" => "{count} dosya",
 "Nothing in here. Your trash bin is empty!" => "Burası boş. Çöp kutun tamamen boş.",
 "Restore" => "Geri yükle",
-"Delete" => "Sil"
+"Delete" => "Sil",
+"Deleted Files" => "Silinen Dosyalar"
 );

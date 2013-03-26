@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-16 22:17+0100\n"
-"PO-Revision-Date: 2013-03-14 23:20+0000\n"
+"POT-Creation-Date: 2013-03-27 00:08+0100\n"
+"PO-Revision-Date: 2013-03-26 11:31+0000\n"
 "Last-Translator: volodya327 <volodya327@gmail.com>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -86,7 +86,7 @@ msgstr "Файли"
 msgid "Delete permanently"
 msgstr "Видалити назавжди"
 
-#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
+#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Видалити"
 
@@ -192,15 +192,15 @@ msgstr "URL не може бути пустим."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Невірне ім'я теки. Використання \"Shared\" зарезервовано Owncloud"
 
-#: js/files.js:954 templates/index.php:68
+#: js/files.js:954 templates/index.php:70
 msgid "Name"
 msgstr "Ім'я"
 
-#: js/files.js:955 templates/index.php:79
+#: js/files.js:955 templates/index.php:81
 msgid "Size"
 msgstr "Розмір"
 
-#: js/files.js:956 templates/index.php:81
+#: js/files.js:956 templates/index.php:83
 msgid "Modified"
 msgstr "Змінено"
 
@@ -272,45 +272,45 @@ msgstr "Папка"
 msgid "From link"
 msgstr "З посилання"
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Deleted files"
 msgstr "Видалено файлів"
 
-#: templates/index.php:46
+#: templates/index.php:48
 msgid "Cancel upload"
 msgstr "Перервати завантаження"
 
-#: templates/index.php:53
+#: templates/index.php:55
 msgid "You don’t have write permissions here."
 msgstr "У вас тут немає прав на запис."
 
-#: templates/index.php:60
+#: templates/index.php:62
 msgid "Nothing in here. Upload something!"
 msgstr "Тут нічого немає. Відвантажте що-небудь!"
 
-#: templates/index.php:74
+#: templates/index.php:76
 msgid "Download"
 msgstr "Завантажити"
 
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
 msgstr "Заборонити доступ"
 
-#: templates/index.php:106
+#: templates/index.php:108
 msgid "Upload too large"
 msgstr "Файл занадто великий"
 
-#: templates/index.php:108
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Файли,що ви намагаєтесь відвантажити перевищують максимальний дозволений розмір файлів на цьому сервері."
 
-#: templates/index.php:113
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
 msgstr "Файли скануються, зачекайте, будь-ласка."
 
-#: templates/index.php:116
+#: templates/index.php:118
 msgid "Current scanning"
 msgstr "Поточне сканування"
 

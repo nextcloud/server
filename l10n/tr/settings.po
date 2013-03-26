@@ -4,7 +4,9 @@
 # 
 # Translators:
 # Aranel Surion <aranel@aranelsurion.org>, 2011-2013.
+# Caner Başaran <basaran.caner@gmail.com>, 2013.
 # Emre  <emresaracoglu@live.com>, 2012.
+# H.Oktay Tefenli <otefenli@gmail.com>, 2013.
 #   <info@beyboo.de>, 2012.
 # ismail yenigul <ismail.yenigul@surgate.com>, 2013.
 # Necdet Yücel <necdetyucel@gmail.com>, 2012.
@@ -13,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-15 00:05+0100\n"
-"PO-Revision-Date: 2013-03-14 09:41+0000\n"
-"Last-Translator: ismail yenigül <ismail.yenigul@surgate.com>\n"
+"POT-Creation-Date: 2013-03-27 00:08+0100\n"
+"PO-Revision-Date: 2013-03-26 11:10+0000\n"
+"Last-Translator: Caner Başaran <basaran.caner@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -98,7 +100,7 @@ msgstr "{appversion} Güncelle"
 msgid "Disable"
 msgstr "Etkin değil"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
 msgstr "Etkin"
 
@@ -106,19 +108,19 @@ msgstr "Etkin"
 msgid "Please wait...."
 msgstr "Lütfen bekleyin...."
 
-#: js/apps.js:84
+#: js/apps.js:90
 msgid "Updating...."
 msgstr "Güncelleniyor...."
 
-#: js/apps.js:87
+#: js/apps.js:93
 msgid "Error while updating app"
 msgstr "Uygulama güncellenirken hata"
 
-#: js/apps.js:87
+#: js/apps.js:93
 msgid "Error"
 msgstr "Hata"
 
-#: js/apps.js:90
+#: js/apps.js:96
 msgid "Updated"
 msgstr "Güncellendi"
 
@@ -151,19 +153,19 @@ msgstr "Yönetici Grubu "
 msgid "Delete"
 msgstr "Sil"
 
-#: js/users.js:191
+#: js/users.js:237
 msgid "add group"
 msgstr "grup ekle"
 
-#: js/users.js:352
+#: js/users.js:400
 msgid "A valid username must be provided"
 msgstr "Geçerli bir kullanıcı adı mutlaka sağlanmalı"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:401 js/users.js:407 js/users.js:422
 msgid "Error creating user"
 msgstr "Kullanıcı oluşturulurken hata"
 
-#: js/users.js:358
+#: js/users.js:406
 msgid "A valid password must be provided"
 msgstr "Geçerli bir parola mutlaka sağlanmalı"
 
@@ -197,7 +199,7 @@ msgstr "Web sunucunuz dosya transferi için düzgün bir şekilde yapılandırı
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Lütfen <a href='%s'>kurulum kılavuzlarını</a> iki kez kontrol edin."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -207,7 +209,7 @@ msgstr "Modül 'fileinfo' kayıp"
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "PHP modülü 'fileinfo' kayıp. MIME-tip tanıma ile en iyi sonuçları elde etmek için bu modülü etkinleştirmenizi öneririz."
 
 #: templates/admin.php:58
 msgid "Locale not working"
@@ -233,7 +235,7 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "ownCloud sunucusunun internet bağlantısı yok. Bu nedenle harici depolama bağlantısı, güncelleştirme bildirimleri veya 3. parti uygulama kurma gibi bazı özellikler çalışmayacaktır. Uzak dosyalara erişim ve e-posta ile bildirim gönderme çalışmayacak. Eğer ownCloud tüm özelliklerini kullanmak istiyorsanız, internet bağlantısı gerekmektedir."
 
 #: templates/admin.php:92
 msgid "Cron"
@@ -285,7 +287,7 @@ msgstr ""
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Kullanıcıların herşeyi paylaşmalarına izin ver"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"

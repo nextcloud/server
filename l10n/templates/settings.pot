@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-03-23 00:03+0100\n"
+"POT-Creation-Date: 2013-03-27 00:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,7 +92,7 @@ msgstr ""
 msgid "Disable"
 msgstr ""
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
 msgstr ""
 
@@ -100,19 +100,19 @@ msgstr ""
 msgid "Please wait...."
 msgstr ""
 
-#: js/apps.js:84
+#: js/apps.js:90
 msgid "Updating...."
 msgstr ""
 
-#: js/apps.js:87
+#: js/apps.js:93
 msgid "Error while updating app"
 msgstr ""
 
-#: js/apps.js:87
+#: js/apps.js:93
 msgid "Error"
 msgstr ""
 
-#: js/apps.js:90
+#: js/apps.js:96
 msgid "Updated"
 msgstr ""
 

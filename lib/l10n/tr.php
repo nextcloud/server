@@ -17,6 +17,7 @@
 "Text" => "Metin",
 "Images" => "Resimler",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Web sunucunuz dosya transferi için düzgün bir şekilde yapılandırılmamış. WevDAV arabirimini sorunlu gözüküyor.",
+"Please double check the <a href='%s'>installation guides</a>." => "Lütfen <a href='%s'>kurulum kılavuzlarını</a> iki kez kontrol edin.",
 "seconds ago" => "saniye önce",
 "1 minute ago" => "1 dakika önce",
 "%d minutes ago" => "%d dakika önce",

@@ -107,6 +107,8 @@
 "Edit categories" => "Kategorileri düzenle",
 "Add" => "Ekle",
 "Security Warning" => "Güvenlik Uyarisi",
+"Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "PHP sürümünüz NULL Byte saldırısına açık (CVE-2006-7243)",
+"Please update your PHP installation to use ownCloud securely." => "ownCloud'u güvenli olarak kullanmak için, lütfen PHP kurulumunuzu güncelleyin.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Güvenli rasgele sayı üreticisi bulunamadı. Lütfen PHP OpenSSL eklentisini etkinleştirin.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Güvenli rasgele sayı üreticisi olmadan saldırganlar parola sıfırlama simgelerini tahmin edip hesabınızı ele geçirebilir.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Veri klasörünüz ve dosyalarınız .htaccess dosyası çalışmadığı için internet'ten erişime açık.",

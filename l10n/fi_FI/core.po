@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-22 00:03+0100\n"
-"PO-Revision-Date: 2013-03-21 23:03+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-27 00:08+0100\n"
+"PO-Revision-Date: 2013-03-26 11:31+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -50,7 +50,7 @@ msgstr "Käyttäjä %s jakoi kansion \"%s\" kanssasi. Se on ladattavissa täält
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "Luokan tyyppiä ei määritelty."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -59,7 +59,7 @@ msgstr "Ei lisättävää luokkaa?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "Luokka on jo olemassa: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -260,7 +260,7 @@ msgstr "Vaadittua tiedostoa {file} ei ole asennettu!"
 
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
-msgstr ""
+msgstr "Jaettu"
 
 #: js/share.js:90
 msgid "Share"
@@ -481,11 +481,11 @@ msgstr "Turvallisuusvaroitus"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "PHP-asennuksesi on haavoittuvainen NULL Byte -hyökkäykselle (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "Päivitä PHP-asennuksesi käyttääksesi ownCloudia turvallisesti."
 
 #: templates/installation.php:32
 msgid ""
@@ -594,7 +594,7 @@ msgstr "Kirjaudu sisään"
 
 #: templates/login.php:49
 msgid "Alternative Logins"
-msgstr ""
+msgstr "Vaihtoehtoiset kirjautumiset"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

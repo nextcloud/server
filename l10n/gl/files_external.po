@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-01 00:05+0100\n"
-"PO-Revision-Date: 2013-02-28 07:20+0000\n"
+"POT-Creation-Date: 2013-03-27 00:08+0100\n"
+"PO-Revision-Date: 2013-03-26 11:32+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -40,13 +40,13 @@ msgstr "Forneza unha chave correcta e segreda do Dropbox."
 msgid "Error configuring Google Drive storage"
 msgstr "Produciuse un erro ao configurar o almacenamento en Google Drive"
 
-#: lib/config.php:421
+#: lib/config.php:423
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Aviso:</b> «smbclient» non está instalado. Non é posibel a montaxe de comparticións CIFS/SMB. Consulte co administrador do sistema para instalalo."
 
-#: lib/config.php:424
+#: lib/config.php:426
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "

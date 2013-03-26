@@ -32,8 +32,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-23 00:03+0100\n"
-"PO-Revision-Date: 2013-03-22 11:20+0000\n"
+"POT-Creation-Date: 2013-03-27 00:08+0100\n"
+"PO-Revision-Date: 2013-03-23 20:50+0000\n"
 "Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -117,7 +117,7 @@ msgstr "Update zu {appversion}"
 msgid "Disable"
 msgstr "Deaktivieren"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
 msgstr "Aktivieren"
 
@@ -125,19 +125,19 @@ msgstr "Aktivieren"
 msgid "Please wait...."
 msgstr "Bitte warten...."
 
-#: js/apps.js:84
+#: js/apps.js:90
 msgid "Updating...."
 msgstr "Update..."
 
-#: js/apps.js:87
+#: js/apps.js:93
 msgid "Error while updating app"
 msgstr "Es ist ein Fehler während des Updates aufgetreten"
 
-#: js/apps.js:87
+#: js/apps.js:93
 msgid "Error"
 msgstr "Fehler"
 
-#: js/apps.js:90
+#: js/apps.js:96
 msgid "Updated"
 msgstr "Aktualisiert"
 

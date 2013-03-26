@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Hydriz Scholz <admin@alphacorp.tk>, 2013.
 # Pellaeon Lin <nfsmwlin@gmail.com>, 2013.
 #   <sofia168@livemail.tw>, 2012.
 #   <ywang1007+transifex@gmail.com>, 2012.
@@ -11,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-27 00:08+0100\n"
+"PO-Revision-Date: 2013-03-26 11:10+0000\n"
+"Last-Translator: Hydriz <admin@alphacorp.tk>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,19 +46,19 @@ msgstr "應用程式"
 msgid "Admin"
 msgstr "管理"
 
-#: files.php:202
+#: files.php:209
 msgid "ZIP download is turned off."
 msgstr "ZIP 下載已關閉"
 
-#: files.php:203
+#: files.php:210
 msgid "Files need to be downloaded one by one."
 msgstr "檔案需要逐一下載"
 
-#: files.php:204 files.php:231
+#: files.php:211 files.php:244
 msgid "Back to Files"
 msgstr "回到檔案列表"
 
-#: files.php:228
+#: files.php:241
 msgid "Selected files too large to generate zip file."
 msgstr "選擇的檔案太大以致於無法產生壓縮檔"
 
@@ -91,11 +92,11 @@ msgstr "圖片"
 
 #: setup.php:34
 msgid "Set an admin username."
-msgstr ""
+msgstr "設置一個管理員用戶名。"
 
 #: setup.php:37
 msgid "Set an admin password."
-msgstr ""
+msgstr "設置一個管理員密碼。"
 
 #: setup.php:40
 msgid "Specify a data folder."
@@ -121,72 +122,72 @@ msgstr ""
 msgid "%s set the database host."
 msgstr ""
 
-#: setup.php:128 setup.php:320 setup.php:365
+#: setup.php:132 setup.php:324 setup.php:369
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "PostgreSQL用戶名和/或密碼無效"
 
-#: setup.php:129 setup.php:152 setup.php:229
+#: setup.php:133 setup.php:156 setup.php:233
 msgid "You need to enter either an existing account or the administrator."
-msgstr ""
+msgstr "您必須輸入一個現有的賬戶或管理員"
 
-#: setup.php:151 setup.php:453 setup.php:520
+#: setup.php:155 setup.php:457 setup.php:524
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Oracle用戶名和/或密碼無效"
 
-#: setup.php:228
+#: setup.php:232
 msgid "MySQL username and/or password not valid"
-msgstr ""
+msgstr "MySQL用戶名和/或密碼無效"
 
-#: setup.php:282 setup.php:386 setup.php:395 setup.php:413 setup.php:423
-#: setup.php:432 setup.php:461 setup.php:527 setup.php:553 setup.php:560
-#: setup.php:571 setup.php:578 setup.php:587 setup.php:595 setup.php:604
-#: setup.php:610
+#: setup.php:286 setup.php:390 setup.php:399 setup.php:417 setup.php:427
+#: setup.php:436 setup.php:465 setup.php:531 setup.php:557 setup.php:564
+#: setup.php:575 setup.php:582 setup.php:591 setup.php:599 setup.php:608
+#: setup.php:614
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr ""
 
-#: setup.php:283 setup.php:387 setup.php:396 setup.php:414 setup.php:424
-#: setup.php:433 setup.php:462 setup.php:528 setup.php:554 setup.php:561
-#: setup.php:572 setup.php:588 setup.php:596 setup.php:605
+#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
+#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
+#: setup.php:576 setup.php:592 setup.php:600 setup.php:609
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr ""
 
-#: setup.php:299
+#: setup.php:303
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr ""
 
-#: setup.php:300
+#: setup.php:304
 msgid "Drop this user from MySQL"
 msgstr ""
 
-#: setup.php:305
+#: setup.php:309
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr ""
 
-#: setup.php:306
+#: setup.php:310
 msgid "Drop this user from MySQL."
 msgstr ""
 
-#: setup.php:579 setup.php:611
+#: setup.php:583 setup.php:615
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr ""
 
-#: setup.php:631
+#: setup.php:635
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
 msgstr ""
 
-#: setup.php:849
+#: setup.php:853
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "您的網頁伺服器尚未被正確設定來進行檔案同步，因為您的 WebDAV 界面似乎無法使用。"
 
-#: setup.php:850
+#: setup.php:854
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "請參考<a href='%s'>安裝指南</a>。"

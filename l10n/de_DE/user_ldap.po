@@ -13,6 +13,7 @@
 #  <robert.neumann01@gmail.com>, 2013.
 #  <stefan.niedermann@googlemail.com>, 2013.
 # Susi <>, 2013.
+#  <transifex-2.7.mensaje@spamgourmet.com>, 2013.
 #   <transifex-2.7.mensaje@spamgourmet.com>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
 # Tristan <blobbyjj@ymail.com>, 2013.
@@ -20,9 +21,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-23 00:02+0100\n"
-"PO-Revision-Date: 2013-03-22 09:50+0000\n"
-"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
+"POT-Creation-Date: 2013-03-27 00:08+0100\n"
+"PO-Revision-Date: 2013-03-26 11:32+0000\n"
+"Last-Translator: traductor <transifex-2.7.mensaje@spamgourmet.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -93,7 +94,7 @@ msgstr "<b>Warnung:</b> Die Anwendungen user_ldap und user_webdavauth sind inkom
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr "<b>Warnung:</b> Da das PHP-Modul für LDAP ist nicht installiert, das Backend wird nicht funktionieren. Bitten Sie Ihren Systemadministrator das Modul zu installieren."
+msgstr "<b>Warnung:</b> Da das PHP-Modul für LDAP nicht installiert ist, wird das Backend nicht funktionieren. Bitten Sie Ihren Systemadministrator das Modul zu installieren."
 
 #: templates/settings.php:15
 msgid "Server configuration"
@@ -133,7 +134,7 @@ msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr "Der DN des Benutzers für LDAP-Bind, z.B.: uid=agent,dc=example,dc=com. Für anonymen Zugriff lassen Sie DN und Passwort leer."
+msgstr "Der DN des Benutzers für LDAP-Bind, z.B.: uid=agent,dc=example,dc=com. Für einen anonymen Zugriff lassen Sie DN und Passwort leer."
 
 #: templates/settings.php:46
 msgid "Password"
@@ -141,7 +142,7 @@ msgstr "Passwort"
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
-msgstr "Lassen Sie die Felder von DN und Passwort für anonymen Zugang leer."
+msgstr "Lassen Sie die Felder von DN und Passwort für einen anonymen Zugang leer."
 
 #: templates/settings.php:50
 msgid "User Login Filter"
@@ -152,7 +153,7 @@ msgstr "Benutzer-Login-Filter"
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr "Bestimmt den angewendeten Filter, wenn eine Anmeldung versucht wird. %%uid ersetzt den Benutzernamen bei dem Anmeldeversuch."
+msgstr "Bestimmt den angewendeten Filter, wenn eine Anmeldung durchgeführt wird. %%uid ersetzt den Benutzernamen bei dem Anmeldeversuch."
 
 #: templates/settings.php:54
 #, php-format
@@ -207,7 +208,7 @@ msgstr "Back-Up (Replikation) Host"
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr "Geben Sie einen optionalen Backup Host an. Es muss ein Replikat des Haupt- LDAP/AD Servers sein."
+msgstr "Geben Sie einen optionalen Backup-Host an. Es muss ein Replikat des Haupt-LDAP/AD Servers sein."
 
 #: templates/settings.php:73
 msgid "Backup (Replica) Port"
@@ -219,11 +220,11 @@ msgstr "Hauptserver deaktivieren"
 
 #: templates/settings.php:74
 msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr "Wenn eingeschaltet wird sich die ownCloud nur mit dem Replikat-Server verbinden."
+msgstr "Wenn eingeschaltet, wird sich die ownCloud nur mit dem Replikat-Server verbinden."
 
 #: templates/settings.php:75
 msgid "Use TLS"
-msgstr "Nutze TLS"
+msgstr "Benutze TLS"
 
 #: templates/settings.php:75
 msgid "Do not use it additionally for LDAPS connections, it will fail."
@@ -277,7 +278,7 @@ msgstr "Ein Benutzer Base DN pro Zeile"
 
 #: templates/settings.php:84
 msgid "User Search Attributes"
-msgstr "Benutzer-Suche Eigenschaften"
+msgstr "Eigenschaften der Benutzer-Suche"
 
 #: templates/settings.php:84 templates/settings.php:87
 msgid "Optional; one attribute per line"
@@ -301,7 +302,7 @@ msgstr "Ein Gruppen Base DN pro Zeile"
 
 #: templates/settings.php:87
 msgid "Group Search Attributes"
-msgstr "Gruppen-Suche Eigenschaften"
+msgstr "Eigenschaften der Gruppen-Suche"
 
 #: templates/settings.php:88
 msgid "Group-Member association"
@@ -313,11 +314,11 @@ msgstr "Besondere Eigenschaften"
 
 #: templates/settings.php:92
 msgid "Quota Field"
-msgstr "Kontingent Feld"
+msgstr "Kontingent-Feld"
 
 #: templates/settings.php:93
 msgid "Quota Default"
-msgstr "Standard Kontingent"
+msgstr "Standard-Kontingent"
 
 #: templates/settings.php:93
 msgid "in bytes"
@@ -325,7 +326,7 @@ msgstr "in Bytes"
 
 #: templates/settings.php:94
 msgid "Email Field"
-msgstr "E-Mail Feld"
+msgstr "E-Mail-Feld"
 
 #: templates/settings.php:95
 msgid "User Home Folder Naming Rule"
@@ -335,7 +336,7 @@ msgstr "Benennungsregel für das Home-Verzeichnis des Benutzers"
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr "Ohne Eingabe wird der Benutzername (Standard) verwendet. Anderenfall trage ein LDAP/AD-Attribut ein."
+msgstr "Ohne Eingabe wird der Benutzername (Standard) verwendet. Anderenfalls tragen Sie bitte ein LDAP/AD-Attribut ein."
 
 #: templates/settings.php:99
 msgid "Test Configuration"

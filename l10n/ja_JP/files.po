@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-16 22:17+0100\n"
-"PO-Revision-Date: 2013-03-14 23:20+0000\n"
+"POT-Creation-Date: 2013-03-27 00:08+0100\n"
+"PO-Revision-Date: 2013-03-26 11:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -87,7 +87,7 @@ msgstr "ファイル"
 msgid "Delete permanently"
 msgstr "完全に削除する"
 
-#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
+#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "削除"
 
@@ -193,15 +193,15 @@ msgstr "URLは空にできません。"
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "無効なフォルダ名です。'Shared' の利用は ownCloud が予約済みです。"
 
-#: js/files.js:954 templates/index.php:68
+#: js/files.js:954 templates/index.php:70
 msgid "Name"
 msgstr "名前"
 
-#: js/files.js:955 templates/index.php:79
+#: js/files.js:955 templates/index.php:81
 msgid "Size"
 msgstr "サイズ"
 
-#: js/files.js:956 templates/index.php:81
+#: js/files.js:956 templates/index.php:83
 msgid "Modified"
 msgstr "更新日時"
 
@@ -273,45 +273,45 @@ msgstr "フォルダ"
 msgid "From link"
 msgstr "リンク"
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Deleted files"
 msgstr "削除ファイル"
 
-#: templates/index.php:46
+#: templates/index.php:48
 msgid "Cancel upload"
 msgstr "アップロードをキャンセル"
 
-#: templates/index.php:53
+#: templates/index.php:55
 msgid "You don’t have write permissions here."
 msgstr "あなたには書き込み権限がありません。"
 
-#: templates/index.php:60
+#: templates/index.php:62
 msgid "Nothing in here. Upload something!"
 msgstr "ここには何もありません。何かアップロードしてください。"
 
-#: templates/index.php:74
+#: templates/index.php:76
 msgid "Download"
 msgstr "ダウンロード"
 
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
 msgstr "共有しない"
 
-#: templates/index.php:106
+#: templates/index.php:108
 msgid "Upload too large"
 msgstr "ファイルサイズが大きすぎます"
 
-#: templates/index.php:108
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "アップロードしようとしているファイルは、サーバで規定された最大サイズを超えています。"
 
-#: templates/index.php:113
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
 msgstr "ファイルをスキャンしています、しばらくお待ちください。"
 
-#: templates/index.php:116
+#: templates/index.php:118
 msgid "Current scanning"
 msgstr "スキャン中"
 

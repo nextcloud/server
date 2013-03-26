@@ -10,7 +10,7 @@
 "{count} folders" => "{count} carpetas",
 "1 file" => "1 archivo",
 "{count} files" => "{count} archivos",
-"Nothing in here. Your trash bin is empty!" => "Nada aqui. La papelera esta vacia!",
+"Nothing in here. Your trash bin is empty!" => "No hay nada aquí. ¡Tu papelera esta vacía!",
 "Restore" => "Recuperar",
 "Delete" => "Eliminar",
 "Deleted Files" => "Archivos Eliminados"

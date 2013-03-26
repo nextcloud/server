@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-16 22:17+0100\n"
-"PO-Revision-Date: 2013-03-14 23:20+0000\n"
+"POT-Creation-Date: 2013-03-27 00:08+0100\n"
+"PO-Revision-Date: 2013-03-26 11:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -89,7 +89,7 @@ msgstr "Fitxers"
 msgid "Delete permanently"
 msgstr "Esborra permanentment"
 
-#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
+#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Suprimeix"
 
@@ -195,15 +195,15 @@ msgstr "La URL no pot ser buida"
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nom de carpeta no vàlid. L'ús de 'Shared' està reservat per Owncloud"
 
-#: js/files.js:954 templates/index.php:68
+#: js/files.js:954 templates/index.php:70
 msgid "Name"
 msgstr "Nom"
 
-#: js/files.js:955 templates/index.php:79
+#: js/files.js:955 templates/index.php:81
 msgid "Size"
 msgstr "Mida"
 
-#: js/files.js:956 templates/index.php:81
+#: js/files.js:956 templates/index.php:83
 msgid "Modified"
 msgstr "Modificat"
 
@@ -275,45 +275,45 @@ msgstr "Carpeta"
 msgid "From link"
 msgstr "Des d'enllaç"
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Deleted files"
 msgstr "Fitxers esborrats"
 
-#: templates/index.php:46
+#: templates/index.php:48
 msgid "Cancel upload"
 msgstr "Cancel·la la pujada"
 
-#: templates/index.php:53
+#: templates/index.php:55
 msgid "You don’t have write permissions here."
 msgstr "No teniu permisos d'escriptura aquí."
 
-#: templates/index.php:60
+#: templates/index.php:62
 msgid "Nothing in here. Upload something!"
 msgstr "Res per aquí. Pugeu alguna cosa!"
 
-#: templates/index.php:74
+#: templates/index.php:76
 msgid "Download"
 msgstr "Baixa"
 
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
 msgstr "Deixa de compartir"
 
-#: templates/index.php:106
+#: templates/index.php:108
 msgid "Upload too large"
 msgstr "La pujada és massa gran"
 
-#: templates/index.php:108
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Els fitxers que esteu intentant pujar excedeixen la mida màxima de pujada del servidor"
 
-#: templates/index.php:113
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
 msgstr "S'estan escanejant els fitxers, espereu"
 
-#: templates/index.php:116
+#: templates/index.php:118
 msgid "Current scanning"
 msgstr "Actualment escanejant"
 

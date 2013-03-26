@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-16 22:17+0100\n"
-"PO-Revision-Date: 2013-03-16 06:50+0000\n"
+"POT-Creation-Date: 2013-03-27 00:08+0100\n"
+"PO-Revision-Date: 2013-03-26 11:31+0000\n"
 "Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -86,7 +86,7 @@ msgstr "فایل ها"
 msgid "Delete permanently"
 msgstr "حذف قطعی"
 
-#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
+#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "پاک کردن"
 
@@ -192,15 +192,15 @@ msgstr "URL  نمی تواند خالی باشد."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "نام پوشه نامعتبر است. استفاده از \" به اشتراک گذاشته شده \" متعلق به سایت Owncloud است."
 
-#: js/files.js:954 templates/index.php:68
+#: js/files.js:954 templates/index.php:70
 msgid "Name"
 msgstr "نام"
 
-#: js/files.js:955 templates/index.php:79
+#: js/files.js:955 templates/index.php:81
 msgid "Size"
 msgstr "اندازه"
 
-#: js/files.js:956 templates/index.php:81
+#: js/files.js:956 templates/index.php:83
 msgid "Modified"
 msgstr "تغییر یافته"
 
@@ -272,45 +272,45 @@ msgstr "پوشه"
 msgid "From link"
 msgstr "از پیوند"
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Deleted files"
 msgstr "فایل های حذف شده"
 
-#: templates/index.php:46
+#: templates/index.php:48
 msgid "Cancel upload"
 msgstr "متوقف کردن بار گذاری"
 
-#: templates/index.php:53
+#: templates/index.php:55
 msgid "You don’t have write permissions here."
 msgstr "شما اجازه ی نوشتن در اینجا را ندارید"
 
-#: templates/index.php:60
+#: templates/index.php:62
 msgid "Nothing in here. Upload something!"
 msgstr "اینجا هیچ چیز نیست."
 
-#: templates/index.php:74
+#: templates/index.php:76
 msgid "Download"
 msgstr "بارگیری"
 
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
 msgstr "لغو اشتراک"
 
-#: templates/index.php:106
+#: templates/index.php:108
 msgid "Upload too large"
 msgstr "حجم بارگذاری بسیار زیاد است"
 
-#: templates/index.php:108
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد"
 
-#: templates/index.php:113
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
 msgstr "پرونده ها در حال بازرسی هستند لطفا صبر کنید"
 
-#: templates/index.php:116
+#: templates/index.php:118
 msgid "Current scanning"
 msgstr "بازرسی کنونی"
 

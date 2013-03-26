@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-16 22:17+0100\n"
-"PO-Revision-Date: 2013-03-14 23:20+0000\n"
+"POT-Creation-Date: 2013-03-27 00:08+0100\n"
+"PO-Revision-Date: 2013-03-26 11:31+0000\n"
 "Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -85,7 +85,7 @@ msgstr "Datnes"
 msgid "Delete permanently"
 msgstr "Dzēst pavisam"
 
-#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
+#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Dzēst"
 
@@ -191,15 +191,15 @@ msgstr "URL nevar būt tukšs."
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nederīgs mapes nosaukums. “Koplietots” izmantojums ir rezervēts ownCloud servisam."
 
-#: js/files.js:954 templates/index.php:68
+#: js/files.js:954 templates/index.php:70
 msgid "Name"
 msgstr "Nosaukums"
 
-#: js/files.js:955 templates/index.php:79
+#: js/files.js:955 templates/index.php:81
 msgid "Size"
 msgstr "Izmērs"
 
-#: js/files.js:956 templates/index.php:81
+#: js/files.js:956 templates/index.php:83
 msgid "Modified"
 msgstr "Mainīts"
 
@@ -271,45 +271,45 @@ msgstr "Mape"
 msgid "From link"
 msgstr "No saites"
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Deleted files"
 msgstr "Dzēstās datnes"
 
-#: templates/index.php:46
+#: templates/index.php:48
 msgid "Cancel upload"
 msgstr "Atcelt augšupielādi"
 
-#: templates/index.php:53
+#: templates/index.php:55
 msgid "You don’t have write permissions here."
 msgstr "Jums nav tiesību šeit rakstīt."
 
-#: templates/index.php:60
+#: templates/index.php:62
 msgid "Nothing in here. Upload something!"
 msgstr "Te vēl nekas nav. Rīkojies, sāc augšupielādēt!"
 
-#: templates/index.php:74
+#: templates/index.php:76
 msgid "Download"
 msgstr "Lejupielādēt"
 
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
 msgstr "Pārtraukt dalīšanos"
 
-#: templates/index.php:106
+#: templates/index.php:108
 msgid "Upload too large"
 msgstr "Datne ir par lielu, lai to augšupielādētu"
 
-#: templates/index.php:108
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Augšupielādējamās datnes pārsniedz servera pieļaujamo datņu augšupielādes apjomu"
 
-#: templates/index.php:113
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
 msgstr "Datnes šobrīd tiek caurskatītas, lūdzu, uzgaidiet."
 
-#: templates/index.php:116
+#: templates/index.php:118
 msgid "Current scanning"
 msgstr "Šobrīd tiek caurskatīts"
 
