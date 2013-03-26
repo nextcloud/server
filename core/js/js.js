@@ -638,18 +638,15 @@ $(document).ready(function(){
 	});
 
 	var setShowPassword = function(input, label) {
-		// 'show password' checkbox
-			setTimeout(function() {
-				input.showPassword().keyup(function(){
-					if (input.val().length == 0) {
-						label.hide();
-					}
-					else {
-						label.css("display", "inline").show();
-					}
-				});
-			},200);
-			label.hide();
+		input.showPassword().keyup(function(){
+			if (input.val().length == 0) {
+				label.hide();
+			}
+			else {
+				label.css("display", "inline").show();
+			}
+		});
+		label.hide();
 	};
 	setShowPassword($('#password'), $('label[for=show]'));
 	setShowPassword($('#adminpass'), $('label[for=show]'));
