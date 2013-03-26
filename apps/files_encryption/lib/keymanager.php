@@ -36,6 +36,7 @@ class Keymanager {
 	 */
 	public static function getUidAndFilename($filename) {
 		$uid = \OC\Files\Filesystem::getOwner($filename);
+
 		\OC\Files\Filesystem::initMountPoints($uid);
 		if ( $uid != \OCP\User::getUser() ) {
 			$info = \OC\Files\Filesystem::getFileInfo($filename);
@@ -348,11 +349,9 @@ class Keymanager {
 	public static function getShareKey( \OC_FilesystemView $view, $userId, $filePath ) {
 		
 		\OC_FileProxy::$enabled = false;
-		
-		$filePath_f = ltrim( $filePath, '/' );
-		
-		$shareKeyPath = '/' . $userId . '/files_encryption/share-keys/' . $filePath_f . '.shareKey';
-		
+		list($owner, $filename) = self::getUidAndFilename($filePath);
+
+		$shareKeyPath = '/' . $owner . '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey';
 		if ( $view->file_exists( $shareKeyPath ) ) {
 			
 			$result = $view->file_get_contents( $shareKeyPath );
