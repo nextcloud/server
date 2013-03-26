@@ -77,6 +77,9 @@ $CONFIG = array(
 /* URL of the appstore to use, server should understand OCS */
 "appstoreurl" => "http://api.apps.owncloud.com/v1",
 
+/* Domain name used by ownCloud for the sender mail address, e.g. no-reply@example.com */
+"mail_domain" => "example.com",
+
 /* Enable SMTP class debugging */
 "mail_smtpdebug" => false,
 
