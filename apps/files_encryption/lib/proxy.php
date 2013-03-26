@@ -297,10 +297,7 @@ class Proxy extends \OC_FileProxy {
 		$util = new Util( $view, $userId );
 
 		// Format path to be relative to user files dir
-		$trimmed = ltrim( $path, '/' );
-		$split = explode( '/', $trimmed );
-		$sliced = array_slice( $split, 2 );
-		$relPath = implode( '/', $sliced );
+		$relPath = $util->stripUserFilesPath($path);
 
 		list($owner, $ownerPath) = $util->getUidAndFilename($relPath);
 
