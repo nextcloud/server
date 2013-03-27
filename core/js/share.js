@@ -271,7 +271,7 @@ OC.Share={
 			}
 			var collectionList = $('#shareWithList li').filterAttr('data-collection', item);
 			if (collectionList.length > 0) {
-				$(collectionList).append(', '+shareWith);
+				$(collectionList).append(', '+shareWithDisplayName);
 			} else {
 				var html = '<li style="clear: both;" data-collection="'+item+'">'+t('core', 'Shared in {item} with {user}', {'item': item, user: shareWithDisplayName})+'</li>';
 				$('#shareWithList').prepend(html);
