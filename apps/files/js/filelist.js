@@ -354,7 +354,8 @@ var FileList={
 $(document).ready(function(){
 
 	// handle upload events
-	$('#file_upload_start').on('fileuploaddrop', function(e, data) {
+	var file_upload_start = $('#file_upload_start');
+	file_upload_start.on('fileuploaddrop', function(e, data) {
 		// only handle drop to dir if fileList exists
 		if ($('#fileList').length > 0) {
 			var dropTarget = $(e.originalEvent.target).closest('tr');
@@ -377,7 +378,7 @@ $(document).ready(function(){
 			}
 		}
 	});
-	$('#file_upload_start').on('fileuploadadd', function(e, data) {
+	file_upload_start.on('fileuploadadd', function(e, data) {
 		// only add to fileList if it exists
 		if ($('#fileList').length > 0) {
 
@@ -421,7 +422,7 @@ $(document).ready(function(){
 			}
 		}
 	});
-	$('#file_upload_start').on('fileuploaddone', function(e, data) {
+	file_upload_start.on('fileuploaddone', function(e, data) {
 		// only update the fileList if it exists
 		if ($('#fileList').length > 0) {
 			var response;
@@ -472,7 +473,7 @@ $(document).ready(function(){
 			}
 		}
 	});
-	$('#file_upload_start').on('fileuploadfail', function(e, data) {
+	file_upload_start.on('fileuploadfail', function(e, data) {
 		// only update the fileList if it exists
 		// cleanup files, error notification has been shown by fileupload code
 		var tr = data.context;
