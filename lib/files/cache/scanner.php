@@ -62,7 +62,7 @@ class Scanner {
 	 * @return array with metadata of the scanned file
 	 */
 	public function scanFile($file, $checkExisting = false) {
-		if (!$this->isIgnoredFile($file)) {
+		if (!self::isIgnoredFile($file)) {
 			\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
 			$data = $this->getData($file);
 			if ($data) {
@@ -90,7 +90,6 @@ class Scanner {
 			}
 			return $data;
 		}
-		\OCP\Util::writeLog('scanner', 'Ignoring '.$file.' and not triggering scan_file hook.', \OCP\Util::DEBUG);
 		return null;
 	}
 
@@ -155,9 +154,7 @@ class Scanner {
 	 * @return boolean
 	 */
 	private function isIgnoredDir($dir) {
-		if ($dir === '.' || $dir === '..'
-			|| \OC\Files\Filesystem::isFileBlacklisted($file)
-		) {
+		if ($dir === '.' || $dir === '..') {
 			return true;
 		}
 		return false;
@@ -169,7 +166,7 @@ class Scanner {
 	 * @param String $file
 	 * @return boolean
 	 */
-	private function isIgnoredFile($file) {
+	public static function isIgnoredFile($file) {
 		if (pathinfo($file, PATHINFO_EXTENSION) === 'part'
 			|| \OC\Files\Filesystem::isFileBlacklisted($file)
 		) {
