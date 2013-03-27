@@ -391,7 +391,7 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 	text-shadow: 0 1px 0 rgba(255,255,255,.9);
 }
 #app-navigation li.active {
-	background-color: #ccc;
+	background-color: #ddd;
 	text-shadow: 0 1px 0 rgba(255,255,255,.7);
 }
 
@@ -423,7 +423,7 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 	color: #333;
 }
 #app-navigation li:hover > a {
-	background-color: #ccc;
+	background-color: #ddd;
 }
 #app-navigation > ul > li:hover {
 	border-top: 1px solid #ccc;
