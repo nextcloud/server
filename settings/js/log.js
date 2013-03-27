@@ -33,9 +33,8 @@ OC.Log={
 	showLess:function(count){
 		count = count || 10;
 		$('#moreLog').css('display', '');
-		$('html, body').animate({scrollTop: $(document).height()}, 800);
 		while(OC.Log.loaded > 3 && count){
-			$('#log tr').last().remove()
+			$('#log tr').last().remove();
 			OC.Log.loaded -= 1;
 			count--;
 		}
