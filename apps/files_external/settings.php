@@ -32,6 +32,7 @@ $tmpl->assign('mounts', OC_Mount_Config::getSystemMountPoints());
 $tmpl->assign('backends', OC_Mount_Config::getBackends());
 $tmpl->assign('groups', OC_Group::getGroups());
 $tmpl->assign('users', OCP\User::getUsers());
+$tmpl->assign('userDisplayNames', OC_User::getDisplayNames());
 $tmpl->assign('dependencies', OC_Mount_Config::checkDependencies());
 $tmpl->assign('allowUserMounting', OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes'));
 return $tmpl->fetchPage();
