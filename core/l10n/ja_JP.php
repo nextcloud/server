@@ -107,6 +107,8 @@
 "Edit categories" => "カテゴリを編集",
 "Add" => "追加",
 "Security Warning" => "セキュリティ警告",
+"Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "あなたのPHPのバージョンには、Null Byte攻撃(CVE-2006-7243)という脆弱性が含まれています。",
+"Please update your PHP installation to use ownCloud securely." => "ownCloud を安全に利用するに、PHPの更新を行なってください。",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "セキュアな乱数生成器が利用可能ではありません。PHPのOpenSSL拡張を有効にして下さい。",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "セキュアな乱数生成器が無い場合、攻撃者はパスワードリセットのトークンを予測してアカウントを乗っ取られる可能性があります。",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => ".htaccess ファイルが動作していないため、おそらくあなたのデータディレクトリもしくはファイルはインターネットからアクセス可能です。",

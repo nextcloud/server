@@ -6,13 +6,14 @@
 # Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>, 2012.
 # Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2012-2013.
 #   <tetuyano+transi@gmail.com>, 2012.
+# YANO Tetsu <tetuyano+transi@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-28 00:02+0100\n"
+"PO-Revision-Date: 2013-03-27 10:10+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -477,11 +478,11 @@ msgstr "セキュリティ警告"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "あなたのPHPのバージョンには、Null Byte攻撃(CVE-2006-7243)という脆弱性が含まれています。"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "ownCloud を安全に利用するに、PHPの更新を行なってください。"
 
 #: templates/installation.php:32
 msgid ""
