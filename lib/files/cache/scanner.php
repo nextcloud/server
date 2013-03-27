@@ -74,12 +74,15 @@ class Scanner {
 					$this->scanFile($parent);
 				}
 			}
-			if ($checkExisting and $cacheData = $this->cache->get($file)) {
+			if($cacheData = $this->cache->get($file)) {
+				if ($data['mtime'] === $cacheData['mtime'] &&
+					$data['size'] === $cacheData['size']) {
+					$data['etag'] = $cacheData['etag'];
+				}
+			}
+			if ($checkExisting and $cacheData) {
 				if ($data['size'] === -1) {
 					$data['size'] = $cacheData['size'];
-				}
-				if ($data['mtime'] === $cacheData['mtime']) {
-					$data['etag'] = $cacheData['etag'];
 				}
 			}
 			$this->cache->put($file, $data);
