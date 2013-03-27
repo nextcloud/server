@@ -184,7 +184,7 @@ if ($linkItem) {
 				if ($files_list === NULL ) {
 					$files_list = array($files);
 				}
-				OC_Files::get($path, files_list, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
+				OC_Files::get($path, $files_list, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
 			} else if (isset($_GET['path']) && $_GET['path'] != '' ) { // download a file from a shared directory
 				OC_Files::get($dir, $file, $_SERVER['REQUEST_METHOD'] == 'HEAD' ? true : false);
 			} else { // download the whole shared directory
