@@ -253,7 +253,7 @@ $(document).ready(function() {
 				//singleFileUploads is on by default, so the data.files array will always have length 1
 				add: function(e, data) {
 
-					if(data.files[0].type == '' && data.files[0].size == 4096)
+					if(data.files[0].type === '' && data.files[0].size == 4096)
 					{
 						data.textStatus = 'dirorzero';
 						data.errorThrown = t('files','Unable to upload your file as it is a directory or has 0 bytes');
