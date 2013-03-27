@@ -556,7 +556,7 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 }
 
 /* icons */
-.folder-icon { background-image: url('%webroot%/core/img/places/folder.png'); }
+.folder-icon { background-image: url('%webroot%/core/img/places/folder.svg'); }
 .delete-icon { background-image: url('%webroot%/core/img/actions/delete.svg'); }
 .delete-icon:hover { background-image: url('%webroot%/core/img/actions/delete-hover.svg'); }
 .edit-icon { background-image: url('%webroot%/core/img/actions/rename.svg'); }
