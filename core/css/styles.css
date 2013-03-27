@@ -362,56 +362,95 @@ div.crumb.last { font-weight:bold; background:none; padding-right:10px; }
 div.crumb a{ padding: 0.9em 0 0.7em 0; }
 
 
+
 /* ---- APP STYLING ---- */
-#app { height: 100%; width: 100%; }
+#app {
+	height: 100%;
+	width: 100%;
+}
+
 /* Navigation: folder like structure */
 #app-navigation {
-	width: 250px; height: 100%; float: left; padding-bottom: 32px;
+	width: 250px;
+	height: 100%;
+	float: left;
+	padding-bottom: 32px;
 	-moz-box-sizing: border-box; box-sizing: border-box;
-	border-right: 1px solid #ccc; background-color: #f8f8f8;
+	background-color: #f8f8f8;
+	border-right: 1px solid #ccc;
 }
 #app-navigation > ul {
-	height: 100%; overflow: auto;
+	height: 100%;
+	overflow: auto;
 	-moz-box-sizing: border-box; box-sizing: border-box;
 }
 #app-navigation li {
-	width: 100%; position: relative;
+	position: relative;
+	width: 100%;
 	-moz-box-sizing: border-box; box-sizing: border-box;
-	text-shadow: 0 1px 0 rgba(255, 255, 255, .9);
+	text-shadow: 0 1px 0 rgba(255,255,255,.9);
 }
-#app-navigation li.active {	background-color: #ccc;	text-shadow: 0 1px 0 rgba(255,255,255,.7); }
+#app-navigation li.active {
+	background-color: #ccc;
+	text-shadow: 0 1px 0 rgba(255,255,255,.7);
+}
 
+/* special rules for first-level entries and folders */
 #app-navigation > ul > li {
-	border-bottom: 1px solid #ddd;
-	border-top: 1px solid #fff;
 	background-color: #eee;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #ddd;
 }
-#app-navigation > ul > li.active { border-bottom: 1px solid #ccc; border-top: 1px solid #ccc; }
+#app-navigation > ul > li.active {
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
 
 #app-navigation ul.with-icon a {
 	padding-left: 32px;
-	background-size: 16px 16px;	background-repeat: no-repeat; 
-	background-position: 10px center;
+	background-size: 16px 16px; background-position: 10px center; background-repeat: no-repeat;
 }
 
 #app-navigation li > a {
-	display: block; width: 100%; padding: 0 16px; overflow: hidden; line-height: 32px;
+	display: block;
+	width: 100%;
+	padding: 0 16px;
+	overflow: hidden;
 	-moz-box-sizing: border-box; box-sizing: border-box;
-	white-space: nowrap; text-overflow: ellipsis; color: #333;
+	line-height: 32px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: #333;
 }
-#app-navigation li:hover > a { background-color: #ccc; }
-#app-navigation > ul > li:hover { border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;}
+#app-navigation li:hover > a {
+	background-color: #ccc;
+}
+#app-navigation > ul > li:hover {
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
 
 #app-navigation li.collapsible > button.collapse {
-	display: none; position: absolute; left: 6px; top: 5px; height: 16px; width: 16px;
+	display: none;
+	position: absolute;
+	left: 6px;
+	top: 5px;
+	height: 16px;
+	width: 16px;
 	background: none; background-image: url('%webroot%/core/img/actions/triangle-s.svg');
-	background-repeat: no-repeat; background-size: 16px 16px;
-	border: none; border-radius: 0; outline: none !important;
+	background-size: 16px 16px; background-repeat: no-repeat;
+	border: none;
+	border-radius: 0;
+	outline: none !important;
 	box-shadow: none;
 }
 
-#app-navigation li.collapsible:hover > a { background-image: none; }
-#app-navigation li.collapsible:hover > button.collapse { display: block; }
+#app-navigation li.collapsible:hover > a {
+	background-image: none;
+}
+#app-navigation li.collapsible:hover > button.collapse {
+	display: block;
+}
 
 #app-navigation li.collapsible button.collapse {
 	-moz-transform: rotate(-90deg);
@@ -420,7 +459,6 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 	-o-transform:rotate(-90deg);
 	transform: rotate(-90deg);
 }
-
 #app-navigation li.collapsible.open button.collapse {
 	-moz-transform: rotate(0);
 	-webkit-transform: rotate(0);
@@ -430,9 +468,16 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 }
 
 /* Second level nesting for lists */
-#app-navigation > ul ul { display: none; }
-#app-navigation > ul ul li > a { padding-left: 32px; }
-#app-navigation > ul.with-icon ul li > a { padding-left: 48px; background-position: 24px center; }
+#app-navigation > ul ul {
+	display: none;
+}
+#app-navigation > ul ul li > a {
+	padding-left: 32px;
+}
+#app-navigation > ul.with-icon ul li > a {
+	padding-left: 48px;
+	background-position: 24px center;
+}
 
 #app-navigation .open {
 	background-image: linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
@@ -443,12 +488,13 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 }
 
 #app-navigation > ul li.open:hover {
-	-webkit-box-shadow: inset 0 0 3px #cccccc;
-	box-shadow: inset 0 0 3px #cccccc;
+	-moz-box-shadow: inset 0 0 3px #ccc; -webkit-box-shadow: inset 0 0 3px #ccc; box-shadow: inset 0 0 3px #ccc;
 	border-top: 1px solid #ccc;
 }
 
-#app-navigation > ul li.open ul { display: block; }
+#app-navigation > ul li.open ul {
+	display: block;
+}
 
 /* drag and drop */
 #app-navigation .drag-and-drop {
@@ -459,29 +505,55 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 	transition: padding-bottom 500ms ease 0s;
 	padding-bottom: 40px;
 }
-#app-navigation .personalblock > legend { padding: 10px 0; margin: 0; }
-#app-navigation .error { color: #DD1144; }
+#app-navigation .personalblock > legend { /* TODO @Raydiation: still needed? */
+	padding: 10px 0; margin: 0;
+}
+#app-navigation .error {
+	color: #dd1144;
+}
 
 
 
 /* Part where the content will be loaded into */
-#app-content { height: 100%; overflow-y: auto; }
+#app-content {
+	height: 100%;
+	overflow-y: auto;
+}
 
 /* settings area */
-#app-settings {	position: fixed; width: 249px; bottom: 0; border-top: 1px solid #ccc; }
-#app-settings-header { background-color: #eee; }
-#app-settings-content {	background-color: #eee;	display: none; padding: 10px; }
-#app-settings.open #app-settings-content { display: block; }
+#app-settings {
+	position: fixed;
+	width: 249px;
+	bottom: 0;
+	border-top: 1px solid #ccc;
+}
+#app-settings-header {
+	background-color: #eee;
+}
+#app-settings-content {
+	display: none;
+	padding: 10px;
+	background-color: #eee;
+}
+#app-settings.open #app-settings-content {
+	display: block;
+}
 
 .settings-button {
-	height: 32px; width: 100%; padding: 0;	margin: 0; display: block;
-	background-image: url('%webroot%/core/img/actions/settings.png');
-	background-repeat: no-repeat; background-position: 10px center;
-	background-color: transparent;
+	display: block;
+	height: 32px;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	background-color: transparent; background-image: url('%webroot%/core/img/actions/settings.png');
+	background-position: 10px center; background-repeat: no-repeat;
 	box-shadow: none;
-	border-radius: 0; border: 0;
+	border: 0;
+	border-radius: 0;
 }
-.settings-button:hover { background-color: #ddd; }
+.settings-button:hover {
+	background-color: #ddd;
+}
 
 /* icons */
 .folder-icon { background-image: url('%webroot%/core/img/places/folder.png'); }
@@ -492,7 +564,6 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 /* buttons */
 button.loading {
 	background-image: url('%webroot%/core/img/loading.gif');
-	background-position: right 10px center;
-	background-repeat: no-repeat;
+	background-position: right 10px center; background-repeat: no-repeat;
 	padding-right: 30px;
 }
