@@ -545,7 +545,7 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 	width: 100%;
 	padding: 0;
 	margin: 0;
-	background-color: transparent; background-image: url('%webroot%/core/img/actions/settings.png');
+	background-color: transparent; background-image: url('%webroot%/core/img/actions/settings.svg');
 	background-position: 10px center; background-repeat: no-repeat;
 	box-shadow: none;
 	border: 0;
