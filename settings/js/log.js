@@ -26,8 +26,21 @@ OC.Log={
 				if(!result.remain){
 					$('#moreLog').css('display', 'none');
 				}
+				$('#lessLog').css('display', '');
 			}
 		});
+	},
+	showLess:function(count){
+		count = count || 10;
+		$('#moreLog').css('display', '');
+		$('html, body').animate({scrollTop: $(document).height()}, 800);
+		while(OC.Log.loaded > 3 && count){
+			$('#log tr').last().remove()
+			OC.Log.loaded -= 1;
+			count--;
+		}
+		if(OC.Log.loaded <= 3)
+			$('#lessLog').css('display', 'none');
 	},
 	addEntries:function(entries){
 		for(var i=0;i<entries.length;i++){
@@ -36,15 +49,15 @@ OC.Log={
 			var levelTd=$('<td/>');
 			levelTd.text(OC.Log.levels[entry.level]);
 			row.append(levelTd);
-			
+
 			var appTd=$('<td/>');
 			appTd.text(entry.app);
 			row.append(appTd);
-			
+
 			var messageTd=$('<td/>');
 			messageTd.text(entry.message);
 			row.append(messageTd);
-			
+
 			var timeTd=$('<td/>');
 			timeTd.text(formatDate(entry.time*1000));
 			row.append(timeTd);
@@ -57,5 +70,8 @@ OC.Log={
 $(document).ready(function(){
 	$('#moreLog').click(function(){
 		OC.Log.getMore();
+	})
+	$('#lessLog').click(function(){
+		OC.Log.showLess();
 	})
 });

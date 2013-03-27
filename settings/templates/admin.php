@@ -221,6 +221,7 @@ endfor;?>
 	</table>
 	<?php if ($_['entriesremain']): ?>
 	<input id='moreLog' type='button' value='<?php p($l->t('More'));?>...'>
+	<input id='lessLog' type='button' style='display:none' value='<?php p($l->t('Less'));?>...'>
 	<?php endif; ?>
 
 </fieldset>
