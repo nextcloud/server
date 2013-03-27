@@ -390,7 +390,7 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 	-moz-box-sizing: border-box; box-sizing: border-box;
 	text-shadow: 0 1px 0 rgba(255,255,255,.9);
 }
-#app-navigation li.active {
+#app-navigation .active { /* active navigation entry or folder */
 	background-color: #ddd;
 	text-shadow: 0 1px 0 rgba(255,255,255,.7);
 }
@@ -401,12 +401,12 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 	border-top: 1px solid #fff;
 	border-bottom: 1px solid #ddd;
 }
-#app-navigation > ul > li.active {
+#app-navigation > ul > .active {
 	border-top: 1px solid #ccc;
 	border-bottom: 1px solid #ccc;
 }
 
-#app-navigation ul.with-icon a {
+#app-navigation .with-icon a {
 	padding-left: 32px;
 	background-size: 16px 16px; background-position: 10px center; background-repeat: no-repeat;
 }
@@ -430,8 +430,10 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 	border-bottom: 1px solid #ccc;
 }
 
-#app-navigation li.collapsible > button.collapse {
-	display: none;
+#app-navigation .collapse {
+	display: none; /* hide collapse button intially */
+}
+#app-navigation .collapsible > .collapse {
 	position: absolute;
 	left: 6px;
 	top: 5px;
@@ -444,22 +446,21 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 	outline: none !important;
 	box-shadow: none;
 }
-
-#app-navigation li.collapsible:hover > a {
+#app-navigation .collapsible:hover > a {
 	background-image: none;
 }
-#app-navigation li.collapsible:hover > button.collapse {
+#app-navigation .collapsible:hover > .collapse {
 	display: block;
 }
 
-#app-navigation li.collapsible button.collapse {
+#app-navigation .collapsible .collapse {
 	-moz-transform: rotate(-90deg);
 	-webkit-transform: rotate(-90deg);
 	-ms-transform:rotate(-90deg);
 	-o-transform:rotate(-90deg);
 	transform: rotate(-90deg);
 }
-#app-navigation li.collapsible.open button.collapse {
+#app-navigation .collapsible.open .collapse {
 	-moz-transform: rotate(0);
 	-webkit-transform: rotate(0);
 	-ms-transform:rotate(0);
@@ -474,7 +475,7 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 #app-navigation > ul ul li > a {
 	padding-left: 32px;
 }
-#app-navigation > ul.with-icon ul li > a {
+#app-navigation > .with-icon ul li > a {
 	padding-left: 48px;
 	background-position: 24px center;
 }
@@ -487,12 +488,12 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 	background-image: -ms-linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
 }
 
-#app-navigation > ul li.open:hover {
+#app-navigation > ul .open:hover {
 	-moz-box-shadow: inset 0 0 3px #ccc; -webkit-box-shadow: inset 0 0 3px #ccc; box-shadow: inset 0 0 3px #ccc;
 	border-top: 1px solid #ccc;
 }
 
-#app-navigation > ul li.open ul {
+#app-navigation > ul .open ul {
 	display: block;
 }
 
