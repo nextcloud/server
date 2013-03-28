@@ -49,7 +49,7 @@ usort( $combinedApps, 'app_sort' );
 
 $tmpl = new OC_Template( "settings", "apps", "user" );
 
-$tmpl->assign('apps', $combinedApps, false);
+$tmpl->assign('apps', $combinedApps);
 
 $appid = (isset($_GET['appid'])?strip_tags($_GET['appid']):'');
 

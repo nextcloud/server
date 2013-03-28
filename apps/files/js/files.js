@@ -114,7 +114,7 @@ $(document).ready(function() {
 		$(this).parent().children('#file_upload_start').trigger('click');
 		return false;
 	});
-	
+
 	// Show trash bin
 	$('#trash a').live('click', function() {
 		window.location=OC.filePath('files_trashbin', '', 'index.php');
@@ -162,9 +162,10 @@ $(document).ready(function() {
 			var tr=$('tr').filterAttr('data-file',filename);
 			var renaming=tr.data('renaming');
 			if(!renaming && !FileList.isLoading(filename)){
-				var mime=$(this).parent().parent().data('mime');
-				var type=$(this).parent().parent().data('type');
-				var permissions = $(this).parent().parent().data('permissions');
+				FileActions.currentFile = $(this).parent();
+				var mime=FileActions.getCurrentMimeType();
+				var type=FileActions.getCurrentType();
+				var permissions = FileActions.getCurrentPermissions();
 				var action=FileActions.getDefault(mime,type, permissions);
 				if(action){
 					event.preventDefault();
@@ -219,19 +220,20 @@ $(document).ready(function() {
 	});
 
 	$('.download').click('click',function(event) {
-		var files=getSelectedFiles('name').join(';');
+		var files=getSelectedFiles('name');
+		var fileslist = JSON.stringify(files);
 		var dir=$('#dir').val()||'/';
 		OC.Notification.show(t('files','Your download is being prepared. This might take some time if the files are big.'));
 		// use special download URL if provided, e.g. for public shared files
 		if ( (downloadURL = document.getElementById("downloadURL")) ) {
-			window.location=downloadURL.value+"&download&files="+files;
+			window.location=downloadURL.value+"&download&files="+encodeURIComponent(fileslist);
 		} else {
-			window.location=OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: files });
+			window.location=OC.filePath('files', 'ajax', 'download.php') + '?'+ $.param({ dir: dir, files: fileslist });
 		}
 		return false;
 	});
 
-	$('.delete').click(function(event) {
+	$('.delete-selected').click(function(event) {
 		var files=getSelectedFiles('name');
 		event.preventDefault();
 		FileList.do_delete(files);
@@ -405,7 +407,9 @@ $(document).ready(function() {
 												$('tr').filterAttr('data-file',file.name).data('mime',file.mime).data('id',file.id);
 												var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
 												if(size==t('files','Pending')){
-													$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
+													var sizeElement = $('tr').filterAttr('data-file',file.name).find('td.filesize');
+													sizeElement.text(simpleFileSize(file.size));
+													sizeElement.attr('title',humanFileSize(file.size));
 												}
 												//TODO update file upload size limit
 												FileList.loadingDone(file.name, file.id);
@@ -436,7 +440,9 @@ $(document).ready(function() {
 								$('tr').filterAttr('data-file',file.name).data('mime',file.mime).data('id',file.id);
 								var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
 								if(size==t('files','Pending')){
-									$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
+									var sizeElement = $('tr').filterAttr('data-file',file.name).find('td.filesize');
+									sizeElement.text(simpleFileSize(file.size));
+									sizeElement.attr('title',humanFileSize(file.size));
 								}
 								//TODO update file upload size limit
 								FileList.loadingDone(file.name, file.id);
@@ -457,6 +463,10 @@ $(document).ready(function() {
 				// TODO: show nice progress bar in file row
 			},
 			progressall: function(e, data) {
+				//IE < 10 does not fire the necessary events for the progress bar.
+				if($.browser.msie && parseInt($.browser.version) < 10) {
+					return;
+				}
 				var progress = (data.loaded/data.total)*100;
 				$('#uploadprogressbar').progressbar('value',progress);
 			},
@@ -475,6 +485,11 @@ $(document).ready(function() {
 				if(data.dataType != 'iframe ') {
 					$('#upload input.stop').hide();
 				}
+				//IE < 10 does not fire the necessary events for the progress bar.
+				if($.browser.msie && parseInt($.browser.version) < 10) {
+					return;
+				}
+
 				$('#uploadprogressbar').progressbar('value',100);
 				$('#uploadprogressbar').fadeOut();
 			}
@@ -523,7 +538,7 @@ $(document).ready(function() {
 		crumb.text(text);
 	}
 
-	$(window).click(function(){
+	$(document).click(function(){
 		$('#new>ul').hide();
 		$('#new').removeClass('active');
 		$('#new li').each(function(i,element){
@@ -594,7 +609,7 @@ $(document).ready(function() {
 								var date=new Date();
 								FileList.addFile(name,0,date,false,hidden);
 								var tr=$('tr').filterAttr('data-file',name);
-								tr.data('mime','text/plain').data('id',result.data.id);
+								tr.attr('data-mime','text/plain');
 								tr.attr('data-id', result.data.id);
 								getMimeIcon('text/plain',function(path){
 									tr.find('td.filename').attr('style','background-image:url('+path+')');
@@ -635,12 +650,19 @@ $(document).ready(function() {
 						localName=(localName.match(/:\/\/(.[^/]+)/)[1]).replace('www.','');
 					}
 					localName = getUniqueName(localName);
-					$('#uploadprogressbar').progressbar({value:0});
-					$('#uploadprogressbar').fadeIn();
+					//IE < 10 does not fire the necessary events for the progress bar.
+					if($.browser.msie && parseInt($.browser.version) < 10) {
+					} else {
+						$('#uploadprogressbar').progressbar({value:0});
+						$('#uploadprogressbar').fadeIn();
+					}
 
 					var eventSource=new OC.EventSource(OC.filePath('files','ajax','newfile.php'),{dir:$('#dir').val(),source:name,filename:localName});
 					eventSource.listen('progress',function(progress){
-						$('#uploadprogressbar').progressbar('value',progress);
+						if($.browser.msie && parseInt($.browser.version) < 10) {
+						} else {
+							$('#uploadprogressbar').progressbar('value',progress);
+						}
 					});
 					eventSource.listen('success',function(data){
 						var mime=data.mime;
@@ -685,9 +707,10 @@ $(document).ready(function() {
 		breadcrumbsWidth += $(breadcrumb).get(0).offsetWidth;
 	});
 
-	if ($('#controls .actions').length > 0) {
-		breadcrumbsWidth += $('#controls .actions').get(0).offsetWidth;
-	}
+
+	$.each($('#controls .actions>div'), function(index, action) {
+		breadcrumbsWidth += $(action).get(0).offsetWidth;
+	});
 
 	function resizeBreadcrumbs(firstRun) {
 		var width = $(this).width();
@@ -815,26 +838,26 @@ var createDragShadow = function(event){
 		//select dragged file
 		$(event.target).parents('tr').find('td input:first').prop('checked',true);
 	}
-	
+
 	var selectedFiles = getSelectedFiles();
-	
+
 	if (!isDragSelected && selectedFiles.length == 1) {
 		//revert the selection
 		$(event.target).parents('tr').find('td input:first').prop('checked',false);
 	}
-	
+
 	//also update class when we dragged more than one file
 	if (selectedFiles.length > 1) {
 		$(event.target).parents('tr').addClass('selected');
 	}
-	
+
 	// build dragshadow
 	var dragshadow = $('<table class="dragshadow"></table>');
 	var tbody = $('<tbody></tbody>');
 	dragshadow.append(tbody);
-	
+
 	var dir=$('#dir').val();
-	
+
 	$(selectedFiles).each(function(i,elem){
 		var newtr = $('<tr data-dir="'+dir+'" data-filename="'+elem.name+'">'
 						+'<td class="filename">'+elem.name+'</td><td class="size">'+humanFileSize(elem.size)+'</td>'
@@ -848,7 +871,7 @@ var createDragShadow = function(event){
 			});
 		}
 	});
-	
+
 	return dragshadow;
 }
 
@@ -861,6 +884,10 @@ var dragOptions={
 		$('#fileList tr td.filename').addClass('ui-draggable');
 	}
 }
+// sane browsers support using the distance option
+if ( ! $.browser.msie) {
+	dragOptions['distance'] = 20;
+} 
 
 var folderDropOptions={
 	drop: function( event, ui ) {
@@ -868,9 +895,9 @@ var folderDropOptions={
 		if ($(event.target).parents('tr').find('td input:first').prop('checked') === true) {
 			return false;
 		}
-		
+
 		var target=$.trim($(this).find('.nametext').text());
-		
+
 		var files = ui.helper.find('tr');
 		$(files).each(function(i,row){
 			var dir = $(row).data('dir');

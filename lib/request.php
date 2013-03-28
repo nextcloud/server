@@ -107,18 +107,31 @@ class OC_Request {
 		if (array_key_exists('PATH_INFO', $_SERVER)) {
 			$path_info = $_SERVER['PATH_INFO'];
 		}else{
-			$path_info = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
+			$path_info = self::getRawPathInfo();
 			// following is taken from Sabre_DAV_URLUtil::decodePathSegment
 			$path_info = rawurldecode($path_info);
 			$encoding = mb_detect_encoding($path_info, array('UTF-8', 'ISO-8859-1'));
 
 			switch($encoding) {
 
-			    case 'ISO-8859-1' :
-				    $path_info = utf8_encode($path_info);
+				case 'ISO-8859-1' :
+					$path_info = utf8_encode($path_info);
 
 			}
 			// end copy
+		}
+		return $path_info;
+	}
+
+	/**
+	 * @brief get Path info from request, not urldecoded
+	 * @returns string Path info or false when not found
+	 */
+	public static function getRawPathInfo() {
+		$path_info = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
+		// Remove the query string from REQUEST_URI
+		if ($pos = strpos($path_info, '?')) {
+			$path_info = substr($path_info, 0, $pos);
 		}
 		return $path_info;
 	}
@@ -148,5 +161,17 @@ class OC_Request {
 		else if( strpos($HTTP_ACCEPT_ENCODING, 'gzip') !== false )
 			return 'gzip';
 		return false;
+	}
+
+	/**
+	 * @brief Check if the requester sent along an mtime
+	 * @returns false or an mtime
+	 */
+	static public function hasModificationTime () {
+		if (isset($_SERVER['HTTP_X_OC_MTIME'])) {
+			return $_SERVER['HTTP_X_OC_MTIME'];
+		} else {
+			return false;
+		}
 	}
 }

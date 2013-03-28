@@ -16,7 +16,7 @@ class Updater {
 	/**
 	 * resolve a path to a storage and internal path
 	 *
-	 * @param string $path
+	 * @param string $path the relative path
 	 * @return array consisting of the storage and the internal path
 	 */
 	static public function resolvePath($path) {
@@ -24,6 +24,11 @@ class Updater {
 		return $view->resolvePath($path);
 	}
 
+	/**
+	 * preform a write update
+	 *
+	 * @param string $path the relative path of the file
+	 */
 	static public function writeUpdate($path) {
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
@@ -39,6 +44,11 @@ class Updater {
 		}
 	}
 
+	/**
+	 * preform a delete update
+	 *
+	 * @param string $path the relative path of the file
+	 */
 	static public function deleteUpdate($path) {
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
@@ -54,11 +64,41 @@ class Updater {
 	}
 
 	/**
-	* Update the mtime and ETag of all parent folders
-	*
-	* @param string $path
-	* @param string $time
-	*/
+	 * preform a rename update
+	 *
+	 * @param string $from the relative path of the source file
+	 * @param string $to the relative path of the target file
+	 */
+	static public function renameUpdate($from, $to) {
+		/**
+		 * @var \OC\Files\Storage\Storage $storageFrom
+		 * @var \OC\Files\Storage\Storage $storageTo
+		 * @var string $internalFrom
+		 * @var string $internalTo
+		 */
+		list($storageFrom, $internalFrom) = self::resolvePath($from);
+		list($storageTo, $internalTo) = self::resolvePath($to);
+		if ($storageFrom && $storageTo) {
+			if ($storageFrom === $storageTo) {
+				$cache = $storageFrom->getCache($internalFrom);
+				$cache->move($internalFrom, $internalTo);
+				$cache->correctFolderSize($internalFrom);
+				$cache->correctFolderSize($internalTo);
+				self::correctFolder($from, time());
+				self::correctFolder($to, time());
+			} else {
+				self::deleteUpdate($from);
+				self::writeUpdate($to);
+			}
+		}
+	}
+
+	/**
+	 * Update the mtime and ETag of all parent folders
+	 *
+	 * @param string $path
+	 * @param string $time
+	 */
 	static public function correctFolder($path, $time) {
 		if ($path !== '' && $path !== '/') {
 			$parent = dirname($path);
@@ -66,9 +106,9 @@ class Updater {
 				$parent = '';
 			}
 			/**
-			* @var \OC\Files\Storage\Storage $storage
-			* @var string $internalPath
-			*/
+			 * @var \OC\Files\Storage\Storage $storage
+			 * @var string $internalPath
+			 */
 			list($storage, $internalPath) = self::resolvePath($parent);
 			if ($storage) {
 				$cache = $storage->getCache();
@@ -91,9 +131,15 @@ class Updater {
 	/**
 	 * @param array $params
 	 */
+	static public function touchHook($params) {
+		self::writeUpdate($params['path']);
+	}
+
+	/**
+	 * @param array $params
+	 */
 	static public function renameHook($params) {
-		self::deleteUpdate($params['oldpath']);
-		self::writeUpdate($params['newpath']);
+		self::renameUpdate($params['oldpath'], $params['newpath']);
 	}
 
 	/**

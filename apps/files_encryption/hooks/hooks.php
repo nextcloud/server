@@ -29,6 +29,9 @@ namespace OCA\Encryption;
 
 class Hooks {
 
+	// TODO: use passphrase for encrypting private key that is separate to 
+	// the login password
+
 	/**
 	 * @brief Startup encryption backend upon user login
 	 * @note This method should never be called for users using client side encryption
@@ -40,6 +43,7 @@ class Hooks {
 		\OC\Files\Filesystem::init( $params['uid'] . '/' . 'files' . '/' );
 	
 		$view = new \OC_FilesystemView( '/' );
+
 		$util = new Util( $view, $params['uid'] );
 		
 		// Check files_encryption infrastructure is ready for action
@@ -60,6 +64,7 @@ class Hooks {
 		$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
 		
 		$session = new Session();
+		
 		$session->setPrivateKey( $privateKey, $params['uid'] );
 		
 		$view1 = new \OC_FilesystemView( '/' . $params['uid'] );
@@ -134,7 +139,7 @@ class Hooks {
 	/**
 	 * @brief update the encryption key of the file uploaded by the client
 	 */
-	public static function updateKeyfileFromClient( $params ) {
+	public static function updateKeyfile( $params ) {
 	
 		if ( Crypt::mode() == 'client' ) {
 			
@@ -159,7 +164,7 @@ class Hooks {
 	}
 	
 	/**
-	 * @brief get all users with access to the file and encrypt the file key to each of them
+	 * @brief 
 	 */
 	public static function postShared( $params ) {
 	

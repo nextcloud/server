@@ -20,6 +20,11 @@ class Legacy {
 		$this->user = $user;
 	}
 
+	/**
+	 * get the numbers of items in the legacy cache
+	 *
+	 * @return int
+	 */
 	function getCount() {
 		$query = \OC_DB::prepare('SELECT COUNT(`id`) AS `count` FROM `*PREFIX*fscache` WHERE `user` = ?');
 		$result = $query->execute(array($this->user));
@@ -51,11 +56,19 @@ class Legacy {
 			$this->cacheHasItems = false;
 			return false;
 		}
+
+		if ($result === false || property_exists($result, 'error_message_prefix')) {
+			$this->cacheHasItems = false;
+			return false;
+		}
+
 		$this->cacheHasItems = (bool)$result->fetchRow();
 		return $this->cacheHasItems;
 	}
 
 	/**
+	 * get an item from the legacy cache
+	 *
 	 * @param string|int $path
 	 * @return array
 	 */
@@ -66,16 +79,47 @@ class Legacy {
 			$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*fscache` WHERE `path` = ?');
 		}
 		$result = $query->execute(array($path));
-		return $result->fetchRow();
+		$data = $result->fetchRow();
+		$data['etag'] = $this->getEtag($data['path']);
+		return $data;
 	}
 
 	/**
+	 * Get the ETag for the given path
+	 *
+	 * @param type $path
+	 * @return string
+	 */
+	function getEtag($path) {
+		static $query = null;
+		list(, $user, , $relativePath) = explode('/', $path, 4);
+		if (is_null($relativePath)) {
+			$relativePath = '';
+		}
+		if(is_null($query)){
+			$query = \OC_DB::prepare('SELECT `propertyvalue` FROM `*PREFIX*properties` WHERE `userid` = ? AND propertypath = ? AND propertyname = "{DAV:}getetag"');
+		}
+		$result = $query->execute(array($user, '/' . $relativePath));
+		if ($row = $result->fetchRow()) {
+			return trim($row['propertyvalue'], '"');
+		} else {
+			return '';
+		}
+	}
+
+	/**
+	 * get all child items of an item from the legacy cache
+	 *
 	 * @param int $id
 	 * @return array
 	 */
 	function getChildren($id) {
 		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*fscache` WHERE `parent` = ?');
 		$result = $query->execute(array($id));
-		return $result->fetchAll();
+		$data = $result->fetchAll();
+		foreach ($data as $i => $item) {
+			$data[$i]['etag'] = $this->getEtag($item['path']);
+		}
+		return $data;
 	}
 }

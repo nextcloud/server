@@ -1,9 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Please switch to your ownCloud client and change your encryption password to complete the conversion." => "Por favor, use o seu cliente de sincronização do ownCloud e altere a sua password de encriptação para concluír a conversão.",
-"switched to client side encryption" => "Alterado para encriptação do lado do cliente",
-"Change encryption password to login password" => "Alterar a password de encriptação para a password de login",
-"Please check your passwords and try again." => "Por favor verifique as suas paswords e tente de novo.",
-"Could not change your file encryption password to your login password" => "Não foi possível alterar a password de encriptação de ficheiros para a sua password de login",
 "Encryption" => "Encriptação",
+"File encryption is enabled." => "A encriptação de ficheiros está ligada",
+"The following file types will not be encrypted:" => "Os seguintes ficheiros não serão encriptados:",
+"Exclude the following file types from encryption:" => "Excluir da encriptação os seguintes tipos de ficheiro:",
 "None" => "Nenhum"
 );

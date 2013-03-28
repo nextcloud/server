@@ -62,27 +62,30 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 		 * @var string $internalPath
 		 */
 		list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($path);
-		$owner=$storage->getOwner($internalPath);
+		$owner = $storage->getOwner($internalPath);
 		if (!$owner) {
 			return -1;
 		}
 
-		$totalSpace=$this->getQuota($owner);
-		if($totalSpace==-1) {
+		$totalSpace = $this->getQuota($owner);
+		if($totalSpace == -1) {
 			return -1;
 		}
 
 		$view = new \OC\Files\View("/".$owner."/files");
 
-		$rootInfo=$view->getFileInfo('/');
-		$usedSpace=isset($rootInfo['size'])?$rootInfo['size']:0;
-		return $totalSpace-$usedSpace;
+		$rootInfo = $view->getFileInfo('/');
+		$usedSpace = isset($rootInfo['size'])?$rootInfo['size']:0;
+		return $totalSpace - $usedSpace;
 	}
 
 	public function postFree_space($path, $space) {
 		$free=$this->getFreeSpace($path);
 		if($free==-1) {
 			return $space;
+		}
+		if ($space < 0){
+			return $free;
 		}
 		return min($free, $space);
 	}
@@ -95,7 +98,7 @@ class OC_FileProxy_Quota extends OC_FileProxy{
 	}
 
 	public function preCopy($path1, $path2) {
-		if(!self::$rootView){
+		if(!self::$rootView) {
 			self::$rootView = new \OC\Files\View('');
 		}
 		return (self::$rootView->filesize($path1)<$this->getFreeSpace($path2) or $this->getFreeSpace($path2)==-1);

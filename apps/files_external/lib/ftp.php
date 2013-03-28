@@ -18,26 +18,31 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 	private static $tempFiles=array();
 
 	public function __construct($params) {
-		$this->host=$params['host'];
-		$this->user=$params['user'];
-		$this->password=$params['password'];
-		if (isset($params['secure'])) {
-			if (is_string($params['secure'])) {
-				$this->secure = ($params['secure'] === 'true');
+		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
+			$this->host=$params['host'];
+			$this->user=$params['user'];
+			$this->password=$params['password'];
+			if (isset($params['secure'])) {
+				if (is_string($params['secure'])) {
+					$this->secure = ($params['secure'] === 'true');
+				} else {
+					$this->secure = (bool)$params['secure'];
+				}
 			} else {
-				$this->secure = (bool)$params['secure'];
+				$this->secure = false;
+			}
+			$this->root=isset($params['root'])?$params['root']:'/';
+			if ( ! $this->root || $this->root[0]!='/') {
+				$this->root='/'.$this->root;
+			}
+			//create the root folder if necessary
+			if ( ! $this->is_dir('')) {
+				$this->mkdir('');
 			}
 		} else {
-			$this->secure = false;
+			throw new \Exception();
 		}
-		$this->root=isset($params['root'])?$params['root']:'/';
-		if ( ! $this->root || $this->root[0]!='/') {
-			$this->root='/'.$this->root;
-		}
-		//create the root folder if necesary
-		if ( ! $this->is_dir('')) {
-			$this->mkdir('');
-		}
+		
 	}
 
 	public function getId(){
@@ -68,7 +73,7 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 			case 'ab':
 				//these are supported by the wrapper
 				$context = stream_context_create(array('ftp' => array('overwrite' => true)));
-				return fopen($this->constructUrl($path),$mode, false,$context);
+				return fopen($this->constructUrl($path), $mode, false, $context);
 			case 'r+':
 			case 'w+':
 			case 'wb+':
@@ -83,13 +88,13 @@ class FTP extends \OC\Files\Storage\StreamWrapper{
 				} else {
 					$ext='';
 				}
-				$tmpFile=OCP\Files::tmpFile($ext);
+				$tmpFile=\OCP\Files::tmpFile($ext);
 				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
 				if ($this->file_exists($path)) {
 					$this->getFile($path, $tmpFile);
 				}
 				self::$tempFiles[$tmpFile]=$path;
-				return fopen('close://'.$tmpFile,$mode);
+				return fopen('close://'.$tmpFile, $mode);
 		}
 		return false;
 	}

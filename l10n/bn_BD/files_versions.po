@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-08 00:10+0100\n"
-"PO-Revision-Date: 2013-02-07 23:11+0000\n"
+"POT-Creation-Date: 2013-03-01 00:05+0100\n"
+"PO-Revision-Date: 2013-02-27 23:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -48,18 +48,10 @@ msgstr ""
 msgid "No path specified"
 msgstr ""
 
-#: js/versions.js:16
-msgid "History"
-msgstr "ইতিহাস"
+#: js/versions.js:6
+msgid "Versions"
+msgstr "ভার্সন"
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
 msgstr ""
-
-#: templates/settings.php:3
-msgid "Files Versioning"
-msgstr "ফাইল ভার্সন করা"
-
-#: templates/settings.php:4
-msgid "Enable"
-msgstr "সক্রিয় "

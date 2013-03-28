@@ -210,7 +210,7 @@ class SWIFT extends \OC\Files\Storage\Common{
 				return false;
 			} else {
 				$fh=fopen($tmpFile, 'a');
-				fwrite($fh,$name . "\n");
+				fwrite($fh, $name . "\n");
 			}
 		} catch(\Exception $e) {
 			file_put_contents($tmpFile, $name . "\n");
@@ -264,33 +264,37 @@ class SWIFT extends \OC\Files\Storage\Common{
 	private function getSubContainerFile($container) {
 		try {
 			return $container->get_object(self::SUBCONTAINER_FILE);
-		} catch(NoSuchObjectException $e) {
+		} catch(\NoSuchObjectException $e) {
 			return $container->create_object(self::SUBCONTAINER_FILE);
 		}
 	}
 
 	public function __construct($params) {
-		$this->token=$params['token'];
-		$this->host=$params['host'];
-		$this->user=$params['user'];
-		$this->root=isset($params['root'])?$params['root']:'/';
-		if (isset($params['secure'])) {
-			if (is_string($params['secure'])) {
-				$this->secure = ($params['secure'] === 'true');
+		if (isset($params['token']) && isset($params['host']) && isset($params['user'])) {
+			$this->token=$params['token'];
+			$this->host=$params['host'];
+			$this->user=$params['user'];
+			$this->root=isset($params['root'])?$params['root']:'/';
+			if (isset($params['secure'])) {
+				if (is_string($params['secure'])) {
+					$this->secure = ($params['secure'] === 'true');
+				} else {
+					$this->secure = (bool)$params['secure'];
+				}
 			} else {
-				$this->secure = (bool)$params['secure'];
+				$this->secure = false;
+			}
+			if ( ! $this->root || $this->root[0]!='/') {
+				$this->root='/'.$this->root;
 			}
 		} else {
-			$this->secure = false;
-		}
-		if ( ! $this->root || $this->root[0]!='/') {
-			$this->root='/'.$this->root;
+			throw new \Exception();
 		}
 
 	}
 
 	private function init(){
-		if($this->ready){
+		if($this->ready) {
 			return;
 		}
 		$this->ready = true;
@@ -476,10 +480,6 @@ class SWIFT extends \OC\Files\Storage\Common{
 			$this->fromTmpFile($tmpFile, self::$tempFiles[$tmpFile]);
 			unlink($tmpFile);
 		}
-	}
-
-	public function free_space($path) {
-		return 1024*1024*1024*8;
 	}
 
 	public function touch($path, $mtime=null) {

@@ -1,11 +1,11 @@
-<?php 
+<?php
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
-$files = $_REQUEST['files'];
-$dirlisting = $_REQUEST['dirlisting'];
-$list = explode(';', $files);
+$files = $_POST['files'];
+$dirlisting = $_POST['dirlisting'];
+$list = json_decode($files);
 
 $error = array();
 $success = array();
@@ -21,9 +21,10 @@ foreach ($list as $file) {
 		$filename = $path_parts['basename'];
 		$timestamp = null;
 	}
-	
+
 	if ( !OCA\Files_Trashbin\Trashbin::restore($file, $filename, $timestamp) ) {
 		$error[] = $filename;
+		OC_Log::write('trashbin','can\'t restore ' . $filename, OC_Log::ERROR);
 	} else {
 		$success[$i]['filename'] = $file;
 		$success[$i]['timestamp'] = $timestamp;
@@ -38,7 +39,7 @@ if ( $error ) {
 		$filelist .= $e.', ';
 	}
 	$l = OC_L10N::get('files_trashbin');
-	$message = $l->t("Couldn't restore %s", array(rtrim($filelist,', ')));
+	$message = $l->t("Couldn't restore %s", array(rtrim($filelist, ', ')));
 	OCP\JSON::error(array("data" => array("message" => $message,
 										  "success" => $success, "error" => $error)));
 } else {

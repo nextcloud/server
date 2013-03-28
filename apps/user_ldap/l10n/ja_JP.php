@@ -48,6 +48,7 @@
 "Turn off SSL certificate validation." => "SSL証明書の確認を無効にする。",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "接続がこのオプションでのみ動作する場合は、LDAPサーバのSSL証明書をownCloudサーバにインポートしてください。",
 "Not recommended, use for testing only." => "推奨しません、テスト目的でのみ利用してください。",
+"Cache Time-To-Live" => "キャッシュのTTL",
 "in seconds. A change empties the cache." => "秒。変更後にキャッシュがクリアされます。",
 "Directory Settings" => "ディレクトリ設定",
 "User Display Name Field" => "ユーザ表示名のフィールド",
@@ -63,7 +64,12 @@
 "Group Search Attributes" => "グループ検索属性",
 "Group-Member association" => "グループとメンバーの関連付け",
 "Special Attributes" => "特殊属性",
+"Quota Field" => "クォータフィールド",
+"Quota Default" => "クォータのデフォルト",
 "in bytes" => "バイト",
+"Email Field" => "メールフィールド",
+"User Home Folder Naming Rule" => "ユーザのホームフォルダ命名規則",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "ユーザ名を空のままにしてください（デフォルト）。そうでない場合は、LDAPもしくはADの属性を指定してください。",
+"Test Configuration" => "テスト設定",
 "Help" => "ヘルプ"
 );

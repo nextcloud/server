@@ -1,0 +1,3 @@
+[submodule "3rdparty"]
+	path = 3rdparty
+	url = git://github.com/owncloud/3rdparty.git

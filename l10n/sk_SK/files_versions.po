@@ -4,14 +4,15 @@
 # 
 # Translators:
 # georg <georg007@gmail.com>, 2013.
+# Marián Hvolka <marian.hvolka@stuba.sk>, 2013.
 #   <martin.babik@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
-"PO-Revision-Date: 2013-02-08 22:40+0000\n"
-"Last-Translator: georg007 <georg007@gmail.com>\n"
+"POT-Creation-Date: 2013-03-01 00:05+0100\n"
+"PO-Revision-Date: 2013-02-28 15:20+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,16 +23,16 @@ msgstr ""
 #: ajax/rollbackVersion.php:15
 #, php-format
 msgid "Could not revert: %s"
-msgstr ""
+msgstr "Nemožno obnoviť: %s"
 
 #: history.php:40
 msgid "success"
-msgstr "uspech"
+msgstr "úspech"
 
 #: history.php:42
 #, php-format
 msgid "File %s was reverted to version %s"
-msgstr "Subror %s bol vrateny na verziu %s"
+msgstr "Súbor %s bol obnovený na verziu %s"
 
 #: history.php:49
 msgid "failure"
@@ -40,7 +41,7 @@ msgstr "chyba"
 #: history.php:51
 #, php-format
 msgid "File %s could not be reverted to version %s"
-msgstr ""
+msgstr "Súbor %s nemohol byť obnovený na verziu %s"
 
 #: history.php:68
 msgid "No old versions available"
@@ -50,18 +51,10 @@ msgstr "Nie sú dostupné žiadne staršie verzie"
 msgid "No path specified"
 msgstr "Nevybrali ste cestu"
 
-#: js/versions.js:16
-msgid "History"
-msgstr "História"
+#: js/versions.js:6
+msgid "Versions"
+msgstr "Verzie"
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
-msgstr ""
-
-#: templates/settings.php:3
-msgid "Files Versioning"
-msgstr "Vytváranie verzií súborov"
-
-#: templates/settings.php:4
-msgid "Enable"
-msgstr "Zapnúť"
+msgstr "Obnovte súbor do predošlej verzie kliknutím na tlačítko obnoviť"

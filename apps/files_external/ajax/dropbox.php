@@ -4,6 +4,8 @@ require_once 'Dropbox/autoload.php';
 
 OCP\JSON::checkAppEnabled('files_external');
 OCP\JSON::checkLoggedIn();
+OCP\JSON::callCheck();
+
 if (isset($_POST['app_key']) && isset($_POST['app_secret'])) {
 	$oauth = new Dropbox_OAuth_Curl($_POST['app_key'], $_POST['app_secret']);
 	if (isset($_POST['step'])) {

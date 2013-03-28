@@ -1,0 +1,315 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-03-04 00:06+0100\n"
+"PO-Revision-Date: 2013-03-03 23:06+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Burmese (Myanmar) (http://www.transifex.com/projects/p/owncloud/language/my_MM/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: my_MM\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr ""
+
+#: ajax/move.php:27 ajax/move.php:30
+#, php-format
+msgid "Could not move %s"
+msgstr ""
+
+#: ajax/rename.php:22 ajax/rename.php:25
+msgid "Unable to rename file"
+msgstr ""
+
+#: ajax/upload.php:19
+msgid "No file was uploaded. Unknown error"
+msgstr ""
+
+#: ajax/upload.php:26
+msgid "There is no error, the file uploaded with success"
+msgstr ""
+
+#: ajax/upload.php:27
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+msgstr ""
+
+#: ajax/upload.php:29
+msgid ""
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
+"the HTML form"
+msgstr ""
+
+#: ajax/upload.php:30
+msgid "The uploaded file was only partially uploaded"
+msgstr ""
+
+#: ajax/upload.php:31
+msgid "No file was uploaded"
+msgstr ""
+
+#: ajax/upload.php:32
+msgid "Missing a temporary folder"
+msgstr ""
+
+#: ajax/upload.php:33
+msgid "Failed to write to disk"
+msgstr ""
+
+#: ajax/upload.php:51
+msgid "Not enough storage available"
+msgstr ""
+
+#: ajax/upload.php:82
+msgid "Invalid directory."
+msgstr ""
+
+#: appinfo/app.php:10
+msgid "Files"
+msgstr "ဖိုင်များ"
+
+#: js/fileactions.js:125
+msgid "Delete permanently"
+msgstr ""
+
+#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
+msgid "Delete"
+msgstr ""
+
+#: js/fileactions.js:193
+msgid "Rename"
+msgstr ""
+
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:292 js/files.js:408
+#: js/files.js:439
+msgid "Pending"
+msgstr ""
+
+#: js/filelist.js:251 js/filelist.js:253
+msgid "{new_name} already exists"
+msgstr ""
+
+#: js/filelist.js:251 js/filelist.js:253
+msgid "replace"
+msgstr ""
+
+#: js/filelist.js:251
+msgid "suggest name"
+msgstr ""
+
+#: js/filelist.js:251 js/filelist.js:253
+msgid "cancel"
+msgstr ""
+
+#: js/filelist.js:298
+msgid "replaced {new_name} with {old_name}"
+msgstr ""
+
+#: js/filelist.js:298
+msgid "undo"
+msgstr ""
+
+#: js/filelist.js:323
+msgid "perform delete operation"
+msgstr ""
+
+#: js/files.js:52
+msgid "'.' is an invalid file name."
+msgstr ""
+
+#: js/files.js:56
+msgid "File name cannot be empty."
+msgstr ""
+
+#: js/files.js:64
+msgid ""
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
+"allowed."
+msgstr ""
+
+#: js/files.js:78
+msgid "Your storage is full, files can not be updated or synced anymore!"
+msgstr ""
+
+#: js/files.js:82
+msgid "Your storage is almost full ({usedSpacePercent}%)"
+msgstr ""
+
+#: js/files.js:225
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr ""
+
+#: js/files.js:262
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr ""
+
+#: js/files.js:262
+msgid "Upload Error"
+msgstr ""
+
+#: js/files.js:273
+msgid "Close"
+msgstr ""
+
+#: js/files.js:312
+msgid "1 file uploading"
+msgstr ""
+
+#: js/files.js:315 js/files.js:370 js/files.js:385
+msgid "{count} files uploading"
+msgstr ""
+
+#: js/files.js:388 js/files.js:423
+msgid "Upload cancelled."
+msgstr ""
+
+#: js/files.js:497
+msgid ""
+"File upload is in progress. Leaving the page now will cancel the upload."
+msgstr ""
+
+#: js/files.js:570
+msgid "URL cannot be empty."
+msgstr ""
+
+#: js/files.js:575
+msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
+msgstr ""
+
+#: js/files.js:953 templates/index.php:68
+msgid "Name"
+msgstr ""
+
+#: js/files.js:954 templates/index.php:79
+msgid "Size"
+msgstr ""
+
+#: js/files.js:955 templates/index.php:81
+msgid "Modified"
+msgstr ""
+
+#: js/files.js:974
+msgid "1 folder"
+msgstr ""
+
+#: js/files.js:976
+msgid "{count} folders"
+msgstr ""
+
+#: js/files.js:984
+msgid "1 file"
+msgstr ""
+
+#: js/files.js:986
+msgid "{count} files"
+msgstr ""
+
+#: lib/helper.php:11 templates/index.php:18
+msgid "Upload"
+msgstr ""
+
+#: templates/admin.php:5
+msgid "File handling"
+msgstr ""
+
+#: templates/admin.php:7
+msgid "Maximum upload size"
+msgstr ""
+
+#: templates/admin.php:10
+msgid "max. possible: "
+msgstr ""
+
+#: templates/admin.php:15
+msgid "Needed for multi-file and folder downloads."
+msgstr ""
+
+#: templates/admin.php:17
+msgid "Enable ZIP-download"
+msgstr ""
+
+#: templates/admin.php:20
+msgid "0 is unlimited"
+msgstr ""
+
+#: templates/admin.php:22
+msgid "Maximum input size for ZIP files"
+msgstr ""
+
+#: templates/admin.php:26
+msgid "Save"
+msgstr ""
+
+#: templates/index.php:7
+msgid "New"
+msgstr ""
+
+#: templates/index.php:10
+msgid "Text file"
+msgstr ""
+
+#: templates/index.php:12
+msgid "Folder"
+msgstr ""
+
+#: templates/index.php:14
+msgid "From link"
+msgstr ""
+
+#: templates/index.php:40
+msgid "Deleted files"
+msgstr ""
+
+#: templates/index.php:46
+msgid "Cancel upload"
+msgstr ""
+
+#: templates/index.php:53
+msgid "You don’t have write permissions here."
+msgstr ""
+
+#: templates/index.php:60
+msgid "Nothing in here. Upload something!"
+msgstr ""
+
+#: templates/index.php:74
+msgid "Download"
+msgstr "ဒေါင်းလုတ်"
+
+#: templates/index.php:86 templates/index.php:87
+msgid "Unshare"
+msgstr ""
+
+#: templates/index.php:106
+msgid "Upload too large"
+msgstr ""
+
+#: templates/index.php:108
+msgid ""
+"The files you are trying to upload exceed the maximum size for file uploads "
+"on this server."
+msgstr ""
+
+#: templates/index.php:113
+msgid "Files are being scanned, please wait."
+msgstr ""
+
+#: templates/index.php:116
+msgid "Current scanning"
+msgstr ""
+
+#: templates/upgrade.php:2
+msgid "Upgrading filesystem cache..."
+msgstr ""

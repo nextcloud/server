@@ -11,9 +11,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
-"PO-Revision-Date: 2013-02-08 23:12+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-27 00:08+0100\n"
+"PO-Revision-Date: 2013-03-26 11:31+0000\n"
+"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,16 +24,16 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "%s نمی تواند حرکت کند - در حال حاضر پرونده با این نام وجود دارد. "
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "%s نمی تواند حرکت کند "
 
 #: ajax/rename.php:22 ajax/rename.php:25
 msgid "Unable to rename file"
-msgstr ""
+msgstr "قادر به تغییر نام پرونده نیست."
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -54,81 +54,78 @@ msgid ""
 "the HTML form"
 msgstr "حداکثر حجم مجاز برای بارگذاری از طریق HTML \nMAX_FILE_SIZE"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
 msgstr "مقدار کمی از فایل بارگذاری شده"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:31
 msgid "No file was uploaded"
 msgstr "هیچ فایلی بارگذاری نشده"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:32
 msgid "Missing a temporary folder"
 msgstr "یک پوشه موقت گم شده است"
 
-#: ajax/upload.php:34
+#: ajax/upload.php:33
 msgid "Failed to write to disk"
 msgstr "نوشتن بر روی دیسک سخت ناموفق بود"
 
-#: ajax/upload.php:52
+#: ajax/upload.php:51
 msgid "Not enough storage available"
-msgstr ""
+msgstr "فضای کافی در دسترس نیست"
 
-#: ajax/upload.php:83
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "فهرست راهنما نامعتبر می باشد."
 
-#: appinfo/app.php:10
+#: appinfo/app.php:12
 msgid "Files"
 msgstr "فایل ها"
 
-#: js/fileactions.js:117 templates/index.php:85 templates/index.php:86
-msgid "Unshare"
-msgstr "لغو اشتراک"
-
-#: js/fileactions.js:119
+#: js/fileactions.js:125
 msgid "Delete permanently"
-msgstr ""
+msgstr "حذف قطعی"
 
-#: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "پاک کردن"
 
-#: js/fileactions.js:187
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr "تغییرنام"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
+#: js/files.js:440
+msgid "Pending"
+msgstr "در انتظار"
+
+#: js/filelist.js:251 js/filelist.js:253
 msgid "{new_name} already exists"
 msgstr "{نام _جدید} در حال حاضر وجود دارد."
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:251 js/filelist.js:253
 msgid "replace"
 msgstr "جایگزین"
 
-#: js/filelist.js:208
+#: js/filelist.js:251
 msgid "suggest name"
 msgstr "پیشنهاد نام"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:251 js/filelist.js:253
 msgid "cancel"
 msgstr "لغو"
 
-#: js/filelist.js:253
-msgid "replaced {new_name}"
-msgstr "{نام _جدید} جایگزین شد "
-
-#: js/filelist.js:253 js/filelist.js:255
-msgid "undo"
-msgstr "بازگشت"
-
-#: js/filelist.js:255
+#: js/filelist.js:298
 msgid "replaced {new_name} with {old_name}"
 msgstr "{نام_جدید} با { نام_قدیمی} جایگزین شد."
 
-#: js/filelist.js:280
+#: js/filelist.js:298
+msgid "undo"
+msgstr "بازگشت"
+
+#: js/filelist.js:323
 msgid "perform delete operation"
-msgstr ""
+msgstr "انجام عمل حذف"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -146,84 +143,80 @@ msgstr "نام نامعتبر ،  '\\', '/', '<', '>', ':', '\"', '|', '?'  و '
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "فضای ذخیره ی شما کاملا پر است، بیش از این فایلها بهنگام یا همگام سازی نمی توانند بشوند!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "فضای ذخیره ی شما تقریبا پر است ({usedSpacePercent}%)"
 
-#: js/files.js:224
+#: js/files.js:226
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "دانلود شما در حال آماده شدن است. در صورتیکه پرونده ها بزرگ باشند ممکن است مدتی طول بکشد."
 
-#: js/files.js:261
+#: js/files.js:263
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "ناتوان در بارگذاری یا فایل یک پوشه است یا 0بایت دارد"
 
-#: js/files.js:261
+#: js/files.js:263
 msgid "Upload Error"
 msgstr "خطا در بار گذاری"
 
-#: js/files.js:278
+#: js/files.js:274
 msgid "Close"
 msgstr "بستن"
 
-#: js/files.js:297 js/files.js:413 js/files.js:444
-msgid "Pending"
-msgstr "در انتظار"
-
-#: js/files.js:317
+#: js/files.js:313
 msgid "1 file uploading"
 msgstr "1 پرونده آپلود شد."
 
-#: js/files.js:320 js/files.js:375 js/files.js:390
+#: js/files.js:316 js/files.js:371 js/files.js:386
 msgid "{count} files uploading"
 msgstr "{ شمار } فایل های در حال آپلود"
 
-#: js/files.js:393 js/files.js:428
+#: js/files.js:389 js/files.js:424
 msgid "Upload cancelled."
 msgstr "بار گذاری لغو شد"
 
-#: js/files.js:502
+#: js/files.js:498
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "آپلودکردن پرونده در حال پیشرفت است. در صورت خروج از صفحه آپلود لغو میگردد. "
 
-#: js/files.js:575
+#: js/files.js:571
 msgid "URL cannot be empty."
 msgstr "URL  نمی تواند خالی باشد."
 
-#: js/files.js:580
+#: js/files.js:576
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "نام پوشه نامعتبر است. استفاده از \" به اشتراک گذاشته شده \" متعلق به سایت Owncloud است."
 
-#: js/files.js:953 templates/index.php:67
+#: js/files.js:954 templates/index.php:70
 msgid "Name"
 msgstr "نام"
 
-#: js/files.js:954 templates/index.php:78
+#: js/files.js:955 templates/index.php:81
 msgid "Size"
 msgstr "اندازه"
 
-#: js/files.js:955 templates/index.php:80
+#: js/files.js:956 templates/index.php:83
 msgid "Modified"
 msgstr "تغییر یافته"
 
-#: js/files.js:974
+#: js/files.js:975
 msgid "1 folder"
 msgstr "1 پوشه"
 
-#: js/files.js:976
+#: js/files.js:977
 msgid "{count} folders"
 msgstr "{ شمار} پوشه ها"
 
-#: js/files.js:984
+#: js/files.js:985
 msgid "1 file"
 msgstr "1 پرونده"
 
-#: js/files.js:986
+#: js/files.js:987
 msgid "{count} files"
 msgstr "{ شمار } فایل ها"
 
@@ -279,40 +272,48 @@ msgstr "پوشه"
 msgid "From link"
 msgstr "از پیوند"
 
-#: templates/index.php:40
-msgid "Trash"
-msgstr ""
+#: templates/index.php:42
+msgid "Deleted files"
+msgstr "فایل های حذف شده"
 
-#: templates/index.php:46
+#: templates/index.php:48
 msgid "Cancel upload"
 msgstr "متوقف کردن بار گذاری"
 
-#: templates/index.php:59
+#: templates/index.php:55
+msgid "You don’t have write permissions here."
+msgstr "شما اجازه ی نوشتن در اینجا را ندارید"
+
+#: templates/index.php:62
 msgid "Nothing in here. Upload something!"
 msgstr "اینجا هیچ چیز نیست."
 
-#: templates/index.php:73
+#: templates/index.php:76
 msgid "Download"
 msgstr "بارگیری"
 
-#: templates/index.php:105
+#: templates/index.php:88 templates/index.php:89
+msgid "Unshare"
+msgstr "لغو اشتراک"
+
+#: templates/index.php:108
 msgid "Upload too large"
 msgstr "حجم بارگذاری بسیار زیاد است"
 
-#: templates/index.php:107
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "فایلها بیش از حد تعیین شده در این سرور هستند\nمترجم:با تغییر فایل php,ini میتوان این محدودیت را برطرف کرد"
 
-#: templates/index.php:112
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
 msgstr "پرونده ها در حال بازرسی هستند لطفا صبر کنید"
 
-#: templates/index.php:115
+#: templates/index.php:118
 msgid "Current scanning"
 msgstr "بازرسی کنونی"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "بهبود فایل سیستمی ذخیره گاه..."

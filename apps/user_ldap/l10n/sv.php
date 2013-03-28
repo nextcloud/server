@@ -43,6 +43,7 @@
 "Disable Main Server" => "Inaktivera huvudserver",
 "When switched on, ownCloud will only connect to the replica server." => "När denna är påkopplad kommer ownCloud att koppla upp till replika-servern, endast.",
 "Use TLS" => "Använd TLS",
+"Do not use it additionally for LDAPS connections, it will fail." => "Använd inte för LDAPS-anslutningar, det kommer inte att fungera.",
 "Case insensitve LDAP server (Windows)" => "LDAP-servern är okänslig för gemener och versaler (Windows)",
 "Turn off SSL certificate validation." => "Stäng av verifiering av SSL-certifikat.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Om anslutningen bara fungerar med det här alternativet, importera LDAP-serverns SSL-certifikat i din ownCloud-server.",
@@ -62,7 +63,9 @@
 "Group Search Attributes" => "Gruppsökningsattribut",
 "Group-Member association" => "Attribut för gruppmedlemmar",
 "Special Attributes" => "Specialattribut",
+"Quota Field" => "Kvotfält",
 "in bytes" => "i bytes",
+"Email Field" => "E-postfält",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Lämnas tomt för användarnamn (standard). Ange annars ett LDAP/AD-attribut.",
 "Help" => "Hjälp"
 );

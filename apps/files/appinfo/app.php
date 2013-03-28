@@ -1,4 +1,6 @@
 <?php
+OC::$CLASSPATH['OCA\Files\Capabilities'] = 'apps/files/lib/capabilities.php';
+
 $l = OC_L10N::get('files');
 
 OCP\App::registerAdmin('files', 'admin');

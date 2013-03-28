@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Failed to delete the server configuration" => "Selhalo smazání konfigurace serveru",
+"Failed to delete the server configuration" => "Selhalo smazání nastavení serveru",
 "The configuration is valid and the connection could be established!" => "Nastavení je v pořádku a spojení bylo navázáno.",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "Konfigurace je v pořádku, ale spojení selhalo. Zkontrolujte, prosím, nastavení serveru a přihlašovací údaje.",
 "The configuration is invalid. Please look in the ownCloud log for further details." => "Nastavení je neplatné. Zkontrolujte, prosím, záznam ownCloud pro další podrobnosti.",
@@ -48,6 +48,7 @@
 "Turn off SSL certificate validation." => "Vypnout ověřování SSL certifikátu.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Pokud připojení pracuje pouze s touto možností, tak importujte SSL certifikát SSL serveru do Vašeho serveru ownCloud",
 "Not recommended, use for testing only." => "Není doporučeno, pouze pro testovací účely.",
+"Cache Time-To-Live" => "TTL vyrovnávací paměti",
 "in seconds. A change empties the cache." => "ve vteřinách. Změna vyprázdní vyrovnávací paměť.",
 "Directory Settings" => "Nastavení adresáře",
 "User Display Name Field" => "Pole pro zobrazované jméno uživatele",
@@ -63,7 +64,12 @@
 "Group Search Attributes" => "Atributy vyhledávání skupin",
 "Group-Member association" => "Asociace člena skupiny",
 "Special Attributes" => "Speciální atributy",
+"Quota Field" => "Pole pro kvótu",
+"Quota Default" => "Výchozí kvóta",
 "in bytes" => "v bajtech",
+"Email Field" => "Pole e-mailu",
+"User Home Folder Naming Rule" => "Pravidlo pojmenování domovské složky uživatele",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Ponechte prázdné pro uživatelské jméno (výchozí). Jinak uveďte LDAP/AD parametr.",
+"Test Configuration" => "Vyzkoušet nastavení",
 "Help" => "Nápověda"
 );

@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#  <admin@alphacorp.tk>, 2013.
 # Pellaeon Lin <nfsmwlin@gmail.com>, 2013.
 # ywang  <ywang1007@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-06 00:05+0100\n"
-"PO-Revision-Date: 2013-02-05 23:05+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-20 00:02+0100\n"
+"PO-Revision-Date: 2013-03-19 03:40+0000\n"
+"Last-Translator: Hydriz <admin@alphacorp.tk>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,43 +20,21 @@ msgstr ""
 "Language: zh_TW\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: js/settings-personal.js:17
-msgid ""
-"Please switch to your ownCloud client and change your encryption password to"
-" complete the conversion."
-msgstr "請至您的 ownCloud 客戶端程式修改您的加密密碼以完成轉換。"
-
-#: js/settings-personal.js:17
-msgid "switched to client side encryption"
-msgstr "已切換為客戶端加密"
-
-#: js/settings-personal.js:21
-msgid "Change encryption password to login password"
-msgstr "將加密密碼修改為登入密碼"
-
-#: js/settings-personal.js:25
-msgid "Please check your passwords and try again."
-msgstr "請檢查您的密碼並再試一次。"
-
-#: js/settings-personal.js:25
-msgid "Could not change your file encryption password to your login password"
-msgstr "無法變更您的檔案加密密碼為登入密碼"
-
 #: templates/settings-personal.php:4 templates/settings.php:5
 msgid "Encryption"
 msgstr "加密"
 
 #: templates/settings-personal.php:7
 msgid "File encryption is enabled."
-msgstr ""
+msgstr "檔案加密已被啟用"
 
 #: templates/settings-personal.php:11
 msgid "The following file types will not be encrypted:"
-msgstr ""
+msgstr "以下的文件類型不會被加密："
 
 #: templates/settings.php:7
 msgid "Exclude the following file types from encryption:"
-msgstr ""
+msgstr "從加密中排除的檔案類型："
 
 #: templates/settings.php:12
 msgid "None"

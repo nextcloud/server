@@ -4,7 +4,6 @@ owncloud
 config/config.php
 config/mount.php
 apps/inc.php
-3rdparty
 
 # ignore all apps except core ones
 apps/*
@@ -50,6 +49,7 @@ nbproject
 
 # phpStorm
 .idea
+*.iml
 
 # geany
 *.geany

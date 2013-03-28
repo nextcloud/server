@@ -3,22 +3,24 @@
 // Check if we are a user
 OCP\User::checkLoggedIn();
 
+OCP\App::setActiveNavigationEntry('files_index');
+
 OCP\Util::addScript('files_trashbin', 'trash');
 OCP\Util::addScript('files_trashbin', 'disableDefaultActions');
 OCP\Util::addScript('files', 'fileactions');
 $tmpl = new OCP\Template('files_trashbin', 'index', 'user');
 
 $user = \OCP\User::getUser();
-$view = new OC_Filesystemview('/'.$user.'/files_trashbin');
+$view = new OC_Filesystemview('/'.$user.'/files_trashbin/files');
 
 OCP\Util::addStyle('files', 'files');
 OCP\Util::addScript('files', 'filelist');
 
 $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 
+$result = array();
 if ($dir) {
 	$dirlisting = true;
-	$view = new \OC_FilesystemView('/'.\OCP\User::getUser().'/files_trashbin');
 	$fullpath = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath($dir);
 	$dirContent = opendir($fullpath);
 	$i = 0;
@@ -27,7 +29,7 @@ if ($dir) {
 			$pos = strpos($dir.'/', '/', 1);
 			$tmp = substr($dir, 0, $pos);
 			$pos = strrpos($tmp, '.d');
-			$timestamp = substr($tmp,$pos+2);
+			$timestamp = substr($tmp, $pos+2);
 			$result[] = array(
 					'id' => $entryName,
 					'timestamp' => $timestamp,
@@ -37,11 +39,11 @@ if ($dir) {
 					);
 		}
 	}
-	closedir($fullpath);
-		
+	closedir($dirContent);
+
 } else {
 	$dirlisting = false;
-	$query = \OC_DB::prepare('SELECT id,location,timestamp,type,mime FROM *PREFIX*files_trash WHERE user=?');
+	$query = \OC_DB::prepare('SELECT `id`,`location`,`timestamp`,`type`,`mime` FROM `*PREFIX*files_trash` WHERE `user` = ?');
 	$result = $query->execute(array($user))->fetchAll();
 }
 
@@ -66,9 +68,21 @@ foreach ($result as $r) {
 	$files[] = $i;
 }
 
+function fileCmp($a, $b) {
+	if ($a['type'] == 'dir' and $b['type'] != 'dir') {
+		return -1;
+	} elseif ($a['type'] != 'dir' and $b['type'] == 'dir') {
+		return 1;
+	} else {
+		return strnatcasecmp($a['name'], $b['name']);
+	}
+}
+
+usort($files, "fileCmp");
+
 // Make breadcrumb
-$breadcrumb = array(array('dir' => '', 'name' => 'Trash'));
 $pathtohere = '';
+$breadcrumb = array();
 foreach (explode('/', $dir) as $i) {
 	if ($i != '') {
 		if ( preg_match('/^(.+)\.d[0-9]+$/', $i, $match) ) {
@@ -81,20 +95,22 @@ foreach (explode('/', $dir) as $i) {
 	}
 }
 
-$breadcrumbNav = new OCP\Template('files', 'part.breadcrumb', '');
-$breadcrumbNav->assign('breadcrumb', $breadcrumb, false);
-$breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php') . '?dir=', false);
+$breadcrumbNav = new OCP\Template('files_trashbin', 'part.breadcrumb', '');
+$breadcrumbNav->assign('breadcrumb', $breadcrumb);
+$breadcrumbNav->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php') . '?dir=');
+$breadcrumbNav->assign('home', OCP\Util::linkTo('files', 'index.php'));
 
 $list = new OCP\Template('files_trashbin', 'part.list', '');
-$list->assign('files', $files, false);
-$list->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php'). '?dir='.$dir, false);
-$list->assign('downloadURL', OCP\Util::linkTo('files_trashbin', 'download.php') . '?file='.$dir, false);
+$list->assign('files', $files);
+$list->assign('baseURL', OCP\Util::linkTo('files_trashbin', 'index.php'). '?dir='.$dir);
+$list->assign('downloadURL', OCP\Util::linkTo('files_trashbin', 'download.php') . '?file='.$dir);
 $list->assign('disableSharing', true);
 $list->assign('dirlisting', $dirlisting);
+$tmpl->assign('dirlisting', $dirlisting);
 $list->assign('disableDownloadActions', true);
-$tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage(), false);
-$tmpl->assign('fileList', $list->fetchPage(), false);
+$tmpl->assign('breadcrumb', $breadcrumbNav->fetchPage());
+$tmpl->assign('fileList', $list->fetchPage());
 $tmpl->assign('files', $files);
-$tmpl->assign('dir', OC_Filesystem::normalizePath($view->getAbsolutePath()));
+$tmpl->assign('dir', \OC\Files\Filesystem::normalizePath($view->getAbsolutePath()));
 
 $tmpl->printPage();

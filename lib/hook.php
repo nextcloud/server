@@ -20,22 +20,23 @@ class OC_Hook{
 	 * TODO: write example
 	 */
 	static public function connect( $signalclass, $signalname, $slotclass, $slotname ) {
-		// If we're trying to connect to an emitting class that isn't 
+		// If we're trying to connect to an emitting class that isn't
 		// yet registered, register it
 		if( !array_key_exists( $signalclass, self::$registered )) {
 			self::$registered[$signalclass] = array();
 		}
-		// If we're trying to connect to an emitting method that isn't 
+		// If we're trying to connect to an emitting method that isn't
 		// yet registered, register it with the emitting class
-		if( !array_key_exists( $signalname, self::$registered[$signalclass] )) {			
+		if( !array_key_exists( $signalname, self::$registered[$signalclass] )) {
 			self::$registered[$signalclass][$signalname] = array();
 		}
-		
+
 		// Connect the hook handler to the requested emitter
 		self::$registered[$signalclass][$signalname][] = array(
-		  "class" => $slotclass,
-		  "name" => $slotname );
-		
+				"class" => $slotclass,
+				"name" => $slotname
+		);
+
 		// No chance for failure ;-)
 		return true;
 	}
@@ -52,25 +53,27 @@ class OC_Hook{
 	 * TODO: write example
 	 */
 	static public function emit( $signalclass, $signalname, $params = array()) {
-		
+
 		// Return false if no hook handlers are listening to this
 		// emitting class
 		if( !array_key_exists( $signalclass, self::$registered )) {
 			return false;
 		}
-		
+
 		// Return false if no hook handlers are listening to this
 		// emitting method
 		if( !array_key_exists( $signalname, self::$registered[$signalclass] )) {
 			return false;
 		}
-		
+
 		// Call all slots
 		foreach( self::$registered[$signalclass][$signalname] as $i ) {
 			try {
 				call_user_func( array( $i["class"], $i["name"] ), $params );
 			} catch (Exception $e){
-				OC_Log::write('hook', 'error while running hook (' . $i["class"] . '::' . $i["name"] . '): '.$e->getMessage(), OC_Log::ERROR);
+				OC_Log::write('hook',
+					'error while running hook (' . $i["class"] . '::' . $i["name"] . '): '.$e->getMessage(),
+					OC_Log::ERROR);
 			}
 		}
 

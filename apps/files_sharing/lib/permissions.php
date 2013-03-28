@@ -33,7 +33,8 @@ class Shared_Permissions extends Permissions {
 		if ($fileId == -1) {
 			return \OCP\PERMISSION_READ;
 		}
-		$source = \OCP\Share::getItemSharedWithBySource('file', $fileId, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE, null, true);
+		$source = \OCP\Share::getItemSharedWithBySource('file', $fileId, \OC_Share_Backend_File::FORMAT_SHARED_STORAGE,
+			null, true);
 		if ($source) {
 			return $source['permissions'];
 		} else {
@@ -75,7 +76,7 @@ class Shared_Permissions extends Permissions {
 	 * @param int $fileId
 	 * @param string $user
 	 */
-	public function remove($fileId, $user) {
+	public function remove($fileId, $user = null) {
 		// Not a valid action for Shared Permissions
 	}
 

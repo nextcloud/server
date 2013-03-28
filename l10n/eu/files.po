@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-09 00:12+0100\n"
-"PO-Revision-Date: 2013-02-08 23:12+0000\n"
+"POT-Creation-Date: 2013-03-27 00:08+0100\n"
+"PO-Revision-Date: 2013-03-26 11:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -24,16 +24,16 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Ezin da %s mugitu - Izen hau duen fitxategia dagoeneko existitzen da"
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Ezin dira fitxategiak mugitu %s"
 
 #: ajax/rename.php:22 ajax/rename.php:25
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Ezin izan da fitxategia berrizendatu"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -54,81 +54,78 @@ msgid ""
 "the HTML form"
 msgstr "Igotako fitxategiaren tamaina HTML inprimakiko MAX_FILESIZE direktiban adierazitakoa baino handiagoa da"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
 msgstr "Igotako fitxategiaren zati bat baino gehiago ez da igo"
 
-#: ajax/upload.php:32
+#: ajax/upload.php:31
 msgid "No file was uploaded"
 msgstr "Ez da fitxategirik igo"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:32
 msgid "Missing a temporary folder"
 msgstr "Aldi baterako karpeta falta da"
 
-#: ajax/upload.php:34
+#: ajax/upload.php:33
 msgid "Failed to write to disk"
 msgstr "Errore bat izan da diskoan idazterakoan"
 
-#: ajax/upload.php:52
+#: ajax/upload.php:51
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Ez dago behar aina leku erabilgarri,"
 
-#: ajax/upload.php:83
+#: ajax/upload.php:82
 msgid "Invalid directory."
 msgstr "Baliogabeko karpeta."
 
-#: appinfo/app.php:10
+#: appinfo/app.php:12
 msgid "Files"
 msgstr "Fitxategiak"
 
-#: js/fileactions.js:117 templates/index.php:85 templates/index.php:86
-msgid "Unshare"
-msgstr "Ez elkarbanatu"
-
-#: js/fileactions.js:119
+#: js/fileactions.js:125
 msgid "Delete permanently"
-msgstr ""
+msgstr "Ezabatu betirako"
 
-#: js/fileactions.js:121 templates/index.php:91 templates/index.php:92
+#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Ezabatu"
 
-#: js/fileactions.js:187
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr "Berrizendatu"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
+#: js/files.js:440
+msgid "Pending"
+msgstr "Zain"
+
+#: js/filelist.js:251 js/filelist.js:253
 msgid "{new_name} already exists"
 msgstr "{new_name} dagoeneko existitzen da"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:251 js/filelist.js:253
 msgid "replace"
 msgstr "ordeztu"
 
-#: js/filelist.js:208
+#: js/filelist.js:251
 msgid "suggest name"
 msgstr "aholkatu izena"
 
-#: js/filelist.js:208 js/filelist.js:210
+#: js/filelist.js:251 js/filelist.js:253
 msgid "cancel"
 msgstr "ezeztatu"
 
-#: js/filelist.js:253
-msgid "replaced {new_name}"
-msgstr "ordezkatua {new_name}"
-
-#: js/filelist.js:253 js/filelist.js:255
-msgid "undo"
-msgstr "desegin"
-
-#: js/filelist.js:255
+#: js/filelist.js:298
 msgid "replaced {new_name} with {old_name}"
 msgstr " {new_name}-k {old_name} ordezkatu du"
 
-#: js/filelist.js:280
+#: js/filelist.js:298
+msgid "undo"
+msgstr "desegin"
+
+#: js/filelist.js:323
 msgid "perform delete operation"
-msgstr ""
+msgstr "Ezabatu"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -152,78 +149,74 @@ msgstr "Zure biltegiratzea beterik dago, ezingo duzu aurrerantzean fitxategirik 
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Zure biltegiratzea nahiko beterik dago (%{usedSpacePercent})"
 
-#: js/files.js:224
+#: js/files.js:226
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Zure deskarga prestatu egin behar da. Denbora bat har lezake fitxategiak handiak badira. "
 
-#: js/files.js:261
+#: js/files.js:263
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Ezin da zure fitxategia igo, karpeta bat da edo 0 byt ditu"
 
-#: js/files.js:261
+#: js/files.js:263
 msgid "Upload Error"
 msgstr "Igotzean errore bat suertatu da"
 
-#: js/files.js:278
+#: js/files.js:274
 msgid "Close"
 msgstr "Itxi"
 
-#: js/files.js:297 js/files.js:413 js/files.js:444
-msgid "Pending"
-msgstr "Zain"
-
-#: js/files.js:317
+#: js/files.js:313
 msgid "1 file uploading"
 msgstr "fitxategi 1 igotzen"
 
-#: js/files.js:320 js/files.js:375 js/files.js:390
+#: js/files.js:316 js/files.js:371 js/files.js:386
 msgid "{count} files uploading"
 msgstr "{count} fitxategi igotzen"
 
-#: js/files.js:393 js/files.js:428
+#: js/files.js:389 js/files.js:424
 msgid "Upload cancelled."
 msgstr "Igoera ezeztatuta"
 
-#: js/files.js:502
+#: js/files.js:498
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Fitxategien igoera martxan da. Orria orain uzteak igoera ezeztatutko du."
 
-#: js/files.js:575
+#: js/files.js:571
 msgid "URL cannot be empty."
 msgstr "URLa ezin da hutsik egon."
 
-#: js/files.js:580
+#: js/files.js:576
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Baliogabeako karpeta izena. 'Shared' izena Owncloudek erreserbatzen du"
 
-#: js/files.js:953 templates/index.php:67
+#: js/files.js:954 templates/index.php:70
 msgid "Name"
 msgstr "Izena"
 
-#: js/files.js:954 templates/index.php:78
+#: js/files.js:955 templates/index.php:81
 msgid "Size"
 msgstr "Tamaina"
 
-#: js/files.js:955 templates/index.php:80
+#: js/files.js:956 templates/index.php:83
 msgid "Modified"
 msgstr "Aldatuta"
 
-#: js/files.js:974
+#: js/files.js:975
 msgid "1 folder"
 msgstr "karpeta bat"
 
-#: js/files.js:976
+#: js/files.js:977
 msgid "{count} folders"
 msgstr "{count} karpeta"
 
-#: js/files.js:984
+#: js/files.js:985
 msgid "1 file"
 msgstr "fitxategi bat"
 
-#: js/files.js:986
+#: js/files.js:987
 msgid "{count} files"
 msgstr "{count} fitxategi"
 
@@ -279,40 +272,48 @@ msgstr "Karpeta"
 msgid "From link"
 msgstr "Estekatik"
 
-#: templates/index.php:40
-msgid "Trash"
-msgstr ""
+#: templates/index.php:42
+msgid "Deleted files"
+msgstr "Ezabatutako fitxategiak"
 
-#: templates/index.php:46
+#: templates/index.php:48
 msgid "Cancel upload"
 msgstr "Ezeztatu igoera"
 
-#: templates/index.php:59
+#: templates/index.php:55
+msgid "You don’t have write permissions here."
+msgstr "Ez duzu hemen idazteko baimenik."
+
+#: templates/index.php:62
 msgid "Nothing in here. Upload something!"
 msgstr "Ez dago ezer. Igo zerbait!"
 
-#: templates/index.php:73
+#: templates/index.php:76
 msgid "Download"
 msgstr "Deskargatu"
 
-#: templates/index.php:105
+#: templates/index.php:88 templates/index.php:89
+msgid "Unshare"
+msgstr "Ez elkarbanatu"
+
+#: templates/index.php:108
 msgid "Upload too large"
 msgstr "Igotakoa handiegia da"
 
-#: templates/index.php:107
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Igotzen saiatzen ari zaren fitxategiak zerbitzari honek igotzeko onartzen duena baino handiagoak dira."
 
-#: templates/index.php:112
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
 msgstr "Fitxategiak eskaneatzen ari da, itxoin mezedez."
 
-#: templates/index.php:115
+#: templates/index.php:118
 msgid "Current scanning"
 msgstr "Orain eskaneatzen ari da"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "Fitxategi sistemaren katxea eguneratzen..."

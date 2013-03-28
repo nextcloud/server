@@ -77,6 +77,9 @@ $CONFIG = array(
 /* URL of the appstore to use, server should understand OCS */
 "appstoreurl" => "http://api.apps.owncloud.com/v1",
 
+/* Domain name used by ownCloud for the sender mail address, e.g. no-reply@example.com */
+"mail_domain" => "example.com",
+
 /* Enable SMTP class debugging */
 "mail_smtpdebug" => false,
 
@@ -114,6 +117,9 @@ $CONFIG = array(
 /* How long should ownCloud keep deleted files in the trash bin, default value:  180 days */
 'trashbin_retention_obligation' => 180,
 
+/* allow user to change his display name, if it is supported by the back-end */
+'allow_user_to_change_display_name' => true,
+
 /* Check 3rdparty apps for malicious code fragments */
 "appcodechecker" => "",
 
@@ -133,7 +139,7 @@ $CONFIG = array(
 "remember_login_cookie_lifetime" => 60*60*24*15,
 
 /* Custom CSP policy, changing this will overwrite the standard policy */
-"custom_csp_policy" => "default-src \'self\'; script-src \'self\' \'unsafe-eval\'; style-src \'self\' \'unsafe-inline\'; frame-src *; img-src *; font-src \'self\' data:",
+"custom_csp_policy" => "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; frame-src *; img-src *; font-src 'self' data:",
 
 /* The directory where the user data is stored, default to data in the owncloud
  * directory. The sqlite database is also stored here, when sqlite is used.

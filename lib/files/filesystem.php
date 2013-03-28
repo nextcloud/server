@@ -29,6 +29,9 @@
 
 namespace OC\Files;
 
+const FREE_SPACE_UNKNOWN = -2;
+const FREE_SPACE_UNLIMITED = -3;
+
 class Filesystem {
 	public static $loaded = false;
 	/**
@@ -135,7 +138,9 @@ class Filesystem {
 
 	/**
 	 * get the mountpoint of the storage object for a path
-	( note: because a storage is not always mounted inside the fakeroot, the returned mountpoint is relative to the absolute root of the filesystem and doesn't take the chroot into account
+	 * ( note: because a storage is not always mounted inside the fakeroot, the
+	 * returned mountpoint is relative to the absolute root of the filesystem
+	 * and doesn't take the chroot into account )
 	 *
 	 * @param string $path
 	 * @return string
@@ -190,14 +195,14 @@ class Filesystem {
 		}
 	}
 
-	static public function init($root) {
+	static public function init($user, $root) {
 		if (self::$defaultInstance) {
 			return false;
 		}
 		self::$defaultInstance = new View($root);
 
 		//load custom mount config
-		self::initMountPoints();
+		self::initMountPoints($user);
 
 		self::$loaded = true;
 
@@ -213,9 +218,23 @@ class Filesystem {
 		if ($user == '') {
 			$user = \OC_User::getUser();
 		}
+		$parser = new \OC\ArrayParser();
+
+		$root = \OC_User::getHome($user);
+		self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
+		$datadir = \OC_Config::getValue("datadirectory", \OC::$SERVERROOT . "/data");
+
+		//move config file to it's new position
+		if (is_file(\OC::$SERVERROOT . '/config/mount.json')) {
+			rename(\OC::$SERVERROOT . '/config/mount.json', $datadir . '/mount.json');
+		}
 		// Load system mount points
-		if (is_file(\OC::$SERVERROOT . '/config/mount.php')) {
-			$mountConfig = include 'config/mount.php';
+		if (is_file(\OC::$SERVERROOT . '/config/mount.php') or is_file($datadir . '/mount.json')) {
+			if (is_file($datadir . '/mount.json')) {
+				$mountConfig = json_decode(file_get_contents($datadir . '/mount.json'), true);
+			} elseif (is_file(\OC::$SERVERROOT . '/config/mount.php')) {
+				$mountConfig = $parser->parsePHP(file_get_contents(\OC::$SERVERROOT . '/config/mount.php'));
+			}
 			if (isset($mountConfig['global'])) {
 				foreach ($mountConfig['global'] as $mountPoint => $options) {
 					self::mount($options['class'], $options['options'], $mountPoint);
@@ -236,7 +255,7 @@ class Filesystem {
 			}
 			if (isset($mountConfig['user'])) {
 				foreach ($mountConfig['user'] as $mountUser => $mounts) {
-					if ($user === 'all' or strtolower($mountUser) === strtolower($user)) {
+					if ($mountUser === 'all' or strtolower($mountUser) === strtolower($user)) {
 						foreach ($mounts as $mountPoint => $options) {
 							$mountPoint = self::setUserVars($user, $mountPoint);
 							foreach ($options as &$option) {
@@ -249,10 +268,12 @@ class Filesystem {
 			}
 		}
 		// Load personal mount points
-		$root = \OC_User::getHome($user);
-		self::mount('\OC\Files\Storage\Local', array('datadir' => $root), $user);
-		if (is_file($root . '/mount.php')) {
-			$mountConfig = include $root . '/mount.php';
+		if (is_file($root . '/mount.php') or is_file($root . '/mount.json')) {
+			if (is_file($root . '/mount.json')) {
+				$mountConfig = json_decode(file_get_contents($root . '/mount.json'), true);
+			} elseif (is_file($root . '/mount.php')) {
+				$mountConfig = $parser->parsePHP(file_get_contents($root . '/mount.php'));
+			}
 			if (isset($mountConfig['user'][$user])) {
 				foreach ($mountConfig['user'][$user] as $mountPoint => $options) {
 					self::mount($options['class'], $options['options'], $mountPoint);
@@ -318,7 +339,8 @@ class Filesystem {
 
 	/**
 	 * return the path to a local version of the file
-	 * we need this because we can't know if a file is stored local or not from outside the filestorage and for some purposes a local file is needed
+	 * we need this because we can't know if a file is stored local or not from
+	 * outside the filestorage and for some purposes a local file is needed
 	 *
 	 * @param string $path
 	 * @return string
@@ -374,18 +396,26 @@ class Filesystem {
 	 * @param array $data from hook
 	 */
 	static public function isBlacklisted($data) {
-		$blacklist = \OC_Config::getValue('blacklisted_files', array('.htaccess'));
 		if (isset($data['path'])) {
 			$path = $data['path'];
 		} else if (isset($data['newpath'])) {
 			$path = $data['newpath'];
 		}
 		if (isset($path)) {
-			$filename = strtolower(basename($path));
-			if (in_array($filename, $blacklist)) {
+			if (self::isFileBlacklisted($path)) {
 				$data['run'] = false;
 			}
 		}
+	}
+
+	/**
+	 * @param string $filename
+	 * @return bool
+	 */
+	static public function isFileBlacklisted($filename) {
+		$blacklist = \OC_Config::getValue('blacklisted_files', array('.htaccess'));
+		$filename = strtolower(basename($filename));
+		return (in_array($filename, $blacklist));
 	}
 
 	/**
@@ -610,11 +640,11 @@ class Filesystem {
 	}
 
 	/**
-	* Get the owner for a file or folder
-	*
-	* @param string $path
-	* @return string
-	*/
+	 * Get the owner for a file or folder
+	 *
+	 * @param string $path
+	 * @return string
+	 */
 	public static function getOwner($path) {
 		return self::$defaultInstance->getOwner($path);
 	}
@@ -631,6 +661,7 @@ class Filesystem {
 }
 
 \OC_Hook::connect('OC_Filesystem', 'post_write', '\OC\Files\Cache\Updater', 'writeHook');
+\OC_Hook::connect('OC_Filesystem', 'post_touch', '\OC\Files\Cache\Updater', 'touchHook');
 \OC_Hook::connect('OC_Filesystem', 'post_delete', '\OC\Files\Cache\Updater', 'deleteHook');
 \OC_Hook::connect('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Updater', 'renameHook');
 

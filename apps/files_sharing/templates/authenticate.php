@@ -1,9 +1,9 @@
-<form action="<?php echo $_['URL']; ?>" method="post">
+<form action="<?php p($_['URL']); ?>" method="post">
 	<fieldset>
-		<p>
-			<label for="password" class="infield"><?php echo $l->t('Password'); ?></label>
-			<input type="password" name="password" id="password" value="" />
-			<input type="submit" value="<?php echo $l->t('Submit'); ?>" />
+		<p class="infield">
+			<label for="password" class="infield"><?php p($l->t('Password')); ?></label>
+			<input type="password" name="password" id="password" placeholder="" value="" autofocus />
+			<input type="submit" value="<?php p($l->t('Submit')); ?>" />
 		</p>
 	</fieldset>
 </form>

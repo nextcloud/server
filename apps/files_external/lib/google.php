@@ -268,7 +268,7 @@ class Google extends \OC\Files\Storage\Common {
 						$name .= '.'.$extension;
 					}
 				}
-				$files[] = $name;
+				$files[] = basename($name);
 				// Cache entry for future use
 				$this->entries[$name] = $entry;
 			}
@@ -594,6 +594,13 @@ class Google extends \OC\Files\Storage\Common {
 
 	public function touch($path, $mtime = null) {
 
+	}
+
+	public function test() {
+		if ($this->free_space('')) {
+			return true;
+		}
+		return false;
 	}
 
 }

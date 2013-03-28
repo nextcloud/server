@@ -90,9 +90,16 @@ class Mount {
 	public function getStorageId() {
 		if (!$this->storageId) {
 			if (is_null($this->storage)) {
-				$this->storage = $this->createStorage();
+				$storage = $this->createStorage(); //FIXME: start using exceptions
+				if (is_null($storage)) {
+					return null;
+				}
+				$this->storage = $storage;
 			}
 			$this->storageId = $this->storage->getId();
+			if (strlen($this->storageId) > 64) {
+				$this->storageId = md5($this->storageId);
+			}
 		}
 		return $this->storageId;
 	}
@@ -173,10 +180,15 @@ class Mount {
 	}
 
 	/**
+	 * Find mounts by storage id
+	 *
 	 * @param string $id
-	 * @return \OC\Files\Storage\Storage[]
+	 * @return Mount[]
 	 */
-	public static function findById($id) {
+	public static function findByStorageId($id) {
+		if (strlen($id) > 64) {
+			$id = md5($id);
+		}
 		$result = array();
 		foreach (self::$mounts as $mount) {
 			if ($mount->getStorageId() === $id) {
@@ -184,5 +196,25 @@ class Mount {
 			}
 		}
 		return $result;
+	}
+
+	/**
+	 * Find mounts by numeric storage id
+	 *
+	 * @param string $id
+	 * @return Mount
+	 */
+	public static function findByNumericId($id) {
+		$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*storages` WHERE `numeric_id` = ?');
+		$result = $query->execute(array($id))->fetchOne();
+		if ($result) {
+			$id = $result;
+			foreach (self::$mounts as $mount) {
+				if ($mount->getStorageId() === $id) {
+					return $mount;
+				}
+			}
+		}
+		return false;
 	}
 }

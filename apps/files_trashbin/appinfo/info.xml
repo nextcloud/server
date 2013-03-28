@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <info>
 	<id>files_trashbin</id>
-	<name>Trash</name>
-	<description>Trash bin</description>
+	<name>Deleted files</name>
+	<description>Keep a copy of deleted files so that they can be restored if needed</description>
 	<licence>AGPL</licence>
 	<author>Bjoern Schiessle</author>
 	<shipped>true</shipped>

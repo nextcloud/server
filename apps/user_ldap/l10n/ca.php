@@ -48,6 +48,7 @@
 "Turn off SSL certificate validation." => "Desactiva la validació de certificat SSL.",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Si la connexió només funciona amb aquesta opció, importeu el certificat SSL del servidor LDAP en el vostre servidor ownCloud.",
 "Not recommended, use for testing only." => "No recomanat, ús només per proves.",
+"Cache Time-To-Live" => "Memòria de cau Time-To-Live",
 "in seconds. A change empties the cache." => "en segons. Un canvi buidarà la memòria de cau.",
 "Directory Settings" => "Arranjaments de carpetes",
 "User Display Name Field" => "Camp per mostrar el nom d'usuari",
@@ -63,7 +64,12 @@
 "Group Search Attributes" => "Atributs de cerca de grup",
 "Group-Member association" => "Associació membres-grup",
 "Special Attributes" => "Atributs especials",
+"Quota Field" => "Camp de quota",
+"Quota Default" => "Quota per defecte",
 "in bytes" => "en bytes",
+"Email Field" => "Camp de correu electrònic",
+"User Home Folder Naming Rule" => "Norma per anomenar la carpeta arrel d'usuari",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Deixeu-ho buit pel nom d'usuari (per defecte). Altrament, especifiqueu un atribut LDAP/AD.",
+"Test Configuration" => "Comprovació de la configuració",
 "Help" => "Ajuda"
 );

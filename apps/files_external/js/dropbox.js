@@ -15,6 +15,9 @@ $(document).ready(function() {
 				if (pos != -1 && window.location.search.substr(pos, $(token).val().length) == $(token).val()) {
 					var token_secret = $(this).find('.configuration [data-parameter="token_secret"]');
 					var tr = $(this);
+					var statusSpan = $(tr).find('.status span');
+					statusSpan.removeClass();
+					statusSpan.addClass('waiting');
 					$.post(OC.filePath('files_external', 'ajax', 'dropbox.php'), { step: 2, app_key: app_key, app_secret: app_secret, request_token: $(token).val(), request_token_secret: $(token_secret).val() }, function(result) {
 						if (result && result.status == 'success') {
 							$(token).val(result.access_token);
@@ -24,23 +27,40 @@ $(document).ready(function() {
 							$(tr).find('.configuration input').attr('disabled', 'disabled');
 							$(tr).find('.configuration').append('<span id="access" style="padding-left:0.5em;">'+t('files_external', 'Access granted')+'</span>');
 						} else {
-							OC.dialogs.alert(result.data.message,
-                                t('files_external', 'Error configuring Dropbox storage')
-                            );
+							OC.dialogs.alert(result.data.message, t('files_external', 'Error configuring Dropbox storage'));
 						}
 					});
 				}
-			} else if ($(this).find('.mountPoint input').val() != '' && $(config).find('[data-parameter="app_key"]').val() != '' && $(config).find('[data-parameter="app_secret"]').val() != '' && $(this).find('.dropbox').length == 0) {
-				$(this).find('.configuration').append('<a class="button dropbox">'+t('files_external', 'Grant access')+'</a>');
+			} else {
+				onDropboxInputsChange($(this));
 			}
 		}
 	});
 
-	$('#externalStorage tbody').on('keyup', 'tr input', function() {
-		var tr = $(this).parent().parent();
-		if ($(tr).hasClass('\\\\OC\\\\Files\\\\Storage\\\\Dropbox') && $(tr).find('[data-parameter="configured"]').val() != 'true') {
+	$('#externalStorage').on('paste', 'tbody tr.\\\\OC\\\\Files\\\\Storage\\\\Dropbox td', function() {
+		var tr = $(this).parent();
+		setTimeout(function() {
+			onDropboxInputsChange(tr);
+		}, 20);
+	});
+
+	$('#externalStorage').on('keyup', 'tbody tr.\\\\OC\\\\Files\\\\Storage\\\\Dropbox td', function() {
+		onDropboxInputsChange($(this).parent());
+	});
+
+	$('#externalStorage').on('change', 'tbody tr.\\\\OC\\\\Files\\\\Storage\\\\Dropbox .chzn-select', function() {
+		onDropboxInputsChange($(this).parent().parent());
+	});
+
+	function onDropboxInputsChange(tr) {
+		if ($(tr).find('[data-parameter="configured"]').val() != 'true') {
 			var config = $(tr).find('.configuration');
-			if ($(tr).find('.mountPoint input').val() != '' && $(config).find('[data-parameter="app_key"]').val() != '' && $(config).find('[data-parameter="app_secret"]').val() != '') {
+			if ($(tr).find('.mountPoint input').val() != ''
+				&& $(config).find('[data-parameter="app_key"]').val() != ''
+				&& $(config).find('[data-parameter="app_secret"]').val() != ''
+				&& ($(tr).find('.chzn-select').length == 0
+				|| $(tr).find('.chzn-select').val() != null))
+			{
 				if ($(tr).find('.dropbox').length == 0) {
 					$(config).append('<a class="button dropbox">'+t('files_external', 'Grant access')+'</a>');
 				} else {
@@ -50,41 +70,37 @@ $(document).ready(function() {
 				$(tr).find('.dropbox').hide();
 			}
 		}
-	});
+	}
 
-	$('.dropbox').on('click', function(event) {
+	$('#externalStorage').on('click', '.dropbox', function(event) {
 		event.preventDefault();
+		var tr = $(this).parent().parent();
 		var app_key = $(this).parent().find('[data-parameter="app_key"]').val();
 		var app_secret = $(this).parent().find('[data-parameter="app_secret"]').val();
+		var statusSpan = $(tr).find('.status span');
 		if (app_key != '' && app_secret != '') {
 			var tr = $(this).parent().parent();
 			var configured = $(this).parent().find('[data-parameter="configured"]');
 			var token = $(this).parent().find('[data-parameter="token"]');
 			var token_secret = $(this).parent().find('[data-parameter="token_secret"]');
-			$.post(OC.filePath('files_external', 'ajax', 'dropbox.php'), { step: 1, app_key: app_key, app_secret: app_secret, callback: window.location.href }, function(result) {
+			$.post(OC.filePath('files_external', 'ajax', 'dropbox.php'), { step: 1, app_key: app_key, app_secret: app_secret, callback: location.protocol + '//' + location.host + location.pathname }, function(result) {
 				if (result && result.status == 'success') {
 					$(configured).val('false');
 					$(token).val(result.data.request_token);
 					$(token_secret).val(result.data.request_token_secret);
-					if (OC.MountConfig.saveStorage(tr)) {
-						window.location = result.data.url;
-					} else {
-						OC.dialogs.alert(
-                            t('files_external', 'Fill out all required fields'),
-                            t('files_external', 'Error configuring Dropbox storage')
-                        );
-					}
+					OC.MountConfig.saveStorage(tr);
+					statusSpan.removeClass();
+					statusSpan.addClass('waiting');
+					window.location = result.data.url;
 				} else {
-					OC.dialogs.alert(result.data.message,
-                        t('files_external', 'Error configuring Dropbox storage')
-                    );
+					OC.dialogs.alert(result.data.message, t('files_external', 'Error configuring Dropbox storage'));
 				}
 			});
 		} else {
 			OC.dialogs.alert(
-                t('files_external', 'Please provide a valid Dropbox app key and secret.'),
-                t('files_external', 'Error configuring Dropbox storage')
-            );
+				t('files_external', 'Please provide a valid Dropbox app key and secret.'),
+				t('files_external', 'Error configuring Dropbox storage')
+			);
 		}
 	});
 

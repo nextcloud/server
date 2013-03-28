@@ -112,7 +112,8 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 			return $ldap_users;
 		}
 
-		// if we'd pass -1 to LDAP search, we'd end up in a Protocol error. With a limit of 0, we get 0 results. So we pass null.
+		// if we'd pass -1 to LDAP search, we'd end up in a Protocol
+		// error. With a limit of 0, we get 0 results. So we pass null.
 		if($limit <= 0) {
 			$limit = null;
 		}
@@ -121,9 +122,12 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 			$this->getFilterPartForUserSearch($search)
 		));
 
-		\OCP\Util::writeLog('user_ldap', 'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter, \OCP\Util::DEBUG);
+		\OCP\Util::writeLog('user_ldap',
+			'getUsers: Options: search '.$search.' limit '.$limit.' offset '.$offset.' Filter: '.$filter,
+			\OCP\Util::DEBUG);
 		//do the search and translate results to owncloud names
-		$ldap_users = $this->fetchListOfUsers($filter, array($this->connection->ldapUserDisplayName, 'dn'), $limit, $offset);
+		$ldap_users = $this->fetchListOfUsers($filter, array($this->connection->ldapUserDisplayName, 'dn'),
+			$limit, $offset);
 		$ldap_users = $this->ownCloudUserNames($ldap_users);
 		\OCP\Util::writeLog('user_ldap', 'getUsers: '.count($ldap_users). ' Users found', \OCP\Util::DEBUG);
 
@@ -171,40 +175,44 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	}
 
 	/**
-	* @brief determine the user's home directory
-	* @param string $uid the owncloud username
-	* @return boolean
-	*/
-	private function determineHomeDir($uid) {
-		if(strpos($this->connection->homeFolderNamingRule, 'attr:') === 0) {
-			$attr = substr($this->connection->homeFolderNamingRule, strlen('attr:'));
-			$homedir = $this->readAttribute($this->username2dn($uid), $attr);
-			if($homedir) {
-				$homedir = \OCP\Config::getSystemValue( "datadirectory", \OC::$SERVERROOT."/data" ) . '/' . $homedir[0];
-				\OCP\Config::setUserValue($uid, 'user_ldap', 'homedir', $homedir);
-				return $homedir;
-			}
-		}
-
-		//fallback and default: username
-		$homedir = \OCP\Config::getSystemValue( "datadirectory", \OC::$SERVERROOT."/data" ) . '/' . $uid;
-		\OCP\Config::setUserValue($uid, 'user_ldap', 'homedir', $homedir);
-		return $homedir;
-	}
-
-	/**
 	* @brief get the user's home directory
 	* @param string $uid the username
 	* @return boolean
 	*/
 	public function getHome($uid) {
-		if($this->userExists($uid)) {
-			$homedir = \OCP\Config::getUserValue($uid, 'user_ldap', 'homedir', false);
-			if(!$homedir) {
-				$homedir = $this->determineHomeDir($uid);
-			}
-			return $homedir;
+		// user Exists check required as it is not done in user proxy!
+		if(!$this->userExists($uid)) {
+			return false;
 		}
+
+		$cacheKey = 'getHome'.$uid;
+		if($this->connection->isCached($cacheKey)) {
+			return $this->connection->getFromCache($cacheKey);
+		}
+		if(strpos($this->connection->homeFolderNamingRule, 'attr:') === 0) {
+			$attr = substr($this->connection->homeFolderNamingRule, strlen('attr:'));
+			$homedir = $this->readAttribute($this->username2dn($uid), $attr);
+			if($homedir && isset($homedir[0])) {
+				$path = $homedir[0];
+				//if attribute's value is an absolute path take this, otherwise append it to data dir
+				//check for / at the beginning or pattern c:\ resp. c:/
+				if(
+					'/' == $path[0]
+					|| (3 < strlen($path) && ctype_alpha($path[0])
+						&& $path[1] == ':' && ('\\' == $path[2] || '/' == $path[2]))
+				) {
+					$homedir = $path;
+				} else {
+					$homedir = \OCP\Config::getSystemValue('datadirectory',
+						\OC::$SERVERROOT.'/data' ) . '/' . $homedir[0];
+				}
+				$this->connection->writeToCache($cacheKey, $homedir);
+				return $homedir;
+			}
+		}
+
+		//false will apply default behaviour as defined and done by OC_User
+		$this->connection->writeToCache($cacheKey, false);
 		return false;
 	}
 
@@ -214,6 +222,10 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	 * @return display name
 	 */
 	public function getDisplayName($uid) {
+		if(!$this->userExists($uid)) {
+			return false;
+		}
+
 		$cacheKey = 'getDisplayName'.$uid;
 		if(!is_null($displayName = $this->connection->getFromCache($cacheKey))) {
 			return $displayName;
@@ -224,7 +236,7 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 			$this->connection->ldapUserDisplayName);
 
 		if($displayName && (count($displayName) > 0)) {
-			$this->connection->writeToCache($cacheKey, $displayName);
+			$this->connection->writeToCache($cacheKey, $displayName[0]);
 			return $displayName[0];
 		}
 
@@ -261,7 +273,16 @@ class USER_LDAP extends lib\Access implements \OCP\UserInterface {
 	* compared with OC_USER_BACKEND_CREATE_USER etc.
 	*/
 	public function implementsActions($actions) {
-		return (bool)((OC_USER_BACKEND_CHECK_PASSWORD | OC_USER_BACKEND_GET_HOME) & $actions);
+		return (bool)((OC_USER_BACKEND_CHECK_PASSWORD
+			| OC_USER_BACKEND_GET_HOME
+			| OC_USER_BACKEND_GET_DISPLAYNAME)
+			& $actions);
 	}
 
+	/**
+	 * @return bool
+	 */
+	public function hasUserListings() {
+		return true;
+	}
 }

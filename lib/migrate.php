@@ -167,7 +167,19 @@ class OC_Migrate{
 				self::$content = new OC_Migration_Content( self::$zip );
 				// Creates a zip with the owncloud system files
 				self::$content->addDir( OC::$SERVERROOT . '/', false, '/');
-				foreach (array(".git", "3rdparty", "apps", "core", "files", "l10n", "lib", "ocs", "search", "settings", "tests") as $dir) {
+				foreach (array(
+					".git",
+					"3rdparty",
+					"apps",
+					"core",
+					"files",
+					"l10n",
+					"lib",
+					"ocs",
+					"search",
+					"settings",
+					"tests"
+				) as $dir) {
 					self::$content->addDir( OC::$SERVERROOT . '/' . $dir, true, "/");
 				}
 				break;
@@ -181,7 +193,7 @@ class OC_Migrate{
 			return json_encode( array( 'success' => false ) );
 		}
 		return json_encode( array( 'success' => true, 'data' => self::$zippath ) );
-	 }
+	}
 
 	/**
 	* @brief imports a user, or owncloud instance
@@ -234,18 +246,29 @@ class OC_Migrate{
 					OC_Log::write( 'migration', 'User doesn\'t exist', OC_Log::ERROR );
 					return json_encode( array( 'success' => false ) );
 				}
+
+				// Check if the username is valid
+				if( preg_match( '/[^a-zA-Z0-9 _\.@\-]/', $json->exporteduser )) {
+					OC_Log::write( 'migration', 'Username is not valid', OC_Log::ERROR );
+					return json_encode( array( 'success' => false ) );
+				}
+
 				// Copy data
 				$userfolder = $extractpath . $json->exporteduser;
 				$newuserfolder = $datadir . '/' . self::$uid;
 				foreach(scandir($userfolder) as $file){
 					if($file !== '.' && $file !== '..' && is_dir($file)) {
+						$file = str_replace(array('/', '\\'), '',  $file);
+
 						// Then copy the folder over
 						OC_Helper::copyr($userfolder.'/'.$file, $newuserfolder.'/'.$file);
 					}
 				}
 				// Import user app data
 				if(file_exists($extractpath . $json->exporteduser . '/migration.db')) {
-					if( !$appsimported = self::importAppData( $extractpath . $json->exporteduser . '/migration.db', $json, self::$uid ) ) {
+					if( !$appsimported = self::importAppData( $extractpath . $json->exporteduser . '/migration.db',
+						$json,
+						self::$uid ) ) {
 						return json_encode( array( 'success' => false ) );
 					}
 				}
@@ -553,7 +576,9 @@ class OC_Migrate{
 			return false;
 		}
 		if ( self::$zip->open( self::$zippath, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE ) !== true ) {
-			OC_Log::write('migration', 'Failed to create the zip with error: '.self::$zip->getStatusString(), OC_Log::ERROR);
+			OC_Log::write('migration',
+				'Failed to create the zip with error: '.self::$zip->getStatusString(),
+				OC_Log::ERROR);
 			return false;
 		} else {
 			return true;
@@ -610,7 +635,9 @@ class OC_Migrate{
 			if( isset( $info->apps->$id ) ) {
 				// Is the app installed
 				if( !OC_App::isEnabled( $id ) ) {
-					OC_Log::write( 'migration', 'App: ' . $id . ' is not installed, can\'t import data.', OC_Log::INFO );
+					OC_Log::write( 'migration',
+					'App: ' . $id . ' is not installed, can\'t import data.',
+					OC_Log::INFO );
 					$appsstatus[$id] = 'notsupported';
 				} else {
 					// Did it succeed on export?
@@ -624,7 +651,9 @@ class OC_Migrate{
 						// Then do the import
 						if( !$appsstatus[$id] = $provider->import( $info->apps->$id, $importinfo ) ) {
 							// Failed to import app
-							OC_Log::write( 'migration', 'Failed to import app data for user: ' . self::$uid . ' for app: ' . $id, OC_Log::ERROR );
+							OC_Log::write( 'migration',
+								'Failed to import app data for user: ' . self::$uid . ' for app: ' . $id,
+								OC_Log::ERROR );
 						}
 					} else {
 						// Add to failed list

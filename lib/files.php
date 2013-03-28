@@ -49,8 +49,9 @@ class OC_Files {
 			isset($_SERVER['MOD_X_ACCEL_REDIRECT_ENABLED'])) {
 			$xsendfile = true;
 		}
-		if(strpos($files, ';')) {
-			$files=explode(';', $files);
+
+		if (is_array($files) && count($files) == 1) {
+			$files = $files[0];
 		}
 
 		if (is_array($files)) {
@@ -77,7 +78,13 @@ class OC_Files {
 				}
 			}
 			$zip->close();
-			$name = basename($dir) . '.zip';
+			$basename = basename($dir);
+			if ($basename) {
+				$name = $basename . '.zip';
+			} else {
+				$name = 'owncloud.zip';
+			}
+			
 			set_time_limit($executionTime);
 		} elseif (\OC\Files\Filesystem::is_dir($dir . '/' . $files)) {
 			self::validateZipDownload($dir, $files);
@@ -121,7 +128,7 @@ class OC_Files {
 				header('Content-Type: '.\OC\Files\Filesystem::getMimeType($filename));
 				header("Content-Length: ".\OC\Files\Filesystem::filesize($filename));
 				list($storage) = \OC\Files\Filesystem::resolvePath($filename);
-				if ($storage instanceof \OC\File\Storage\Local) {
+				if ($storage instanceof \OC\Files\Storage\Local) {
 					self::addSendfileHeader(\OC\Files\Filesystem::getLocalFile($filename));
 				}
 			}
@@ -200,7 +207,8 @@ class OC_Files {
 			$errors = array(
 				array(
 					'error' => $l->t('ZIP download is turned off.'),
-					'hint' => $l->t('Files need to be downloaded one by one.') . '<br/><a href="javascript:history.back()">' . $l->t('Back to Files') . '</a>',
+					'hint' => $l->t('Files need to be downloaded one by one.')
+						. '<br/><a href="javascript:history.back()">' . $l->t('Back to Files') . '</a>',
 				)
 			);
 			$tmpl->assign('errors', $errors);
@@ -211,12 +219,18 @@ class OC_Files {
 		$zipLimit = OC_Config::getValue('maxZipInputSize', OC_Helper::computerFileSize('800 MB'));
 		if ($zipLimit > 0) {
 			$totalsize = 0;
-			if (is_array($files)) {
-				foreach ($files as $file) {
-					$totalsize += \OC\Files\Filesystem::filesize($dir . '/' . $file);
+			if(!is_array($files)) {
+				$files = array($files);
+			}
+			foreach ($files as $file) {
+				$path = $dir . '/' . $file;
+				if(\OC\Files\Filesystem::is_dir($path)) {
+					foreach (\OC\Files\Filesystem::getDirectoryContent($path) as $i) {
+						$totalsize += $i['size'];
+					}
+				} else {
+					$totalsize += \OC\Files\Filesystem::filesize($path);
 				}
-			} else {
-				$totalsize += \OC\Files\Filesystem::filesize($dir . '/' . $files);
 			}
 			if ($totalsize > $zipLimit) {
 				$l = OC_L10N::get('lib');
@@ -225,7 +239,9 @@ class OC_Files {
 				$errors = array(
 					array(
 						'error' => $l->t('Selected files too large to generate zip file.'),
-						'hint' => 'Download the files in smaller chunks, seperately or kindly ask your administrator.<br/><a href="javascript:history.back()">' . $l->t('Back to Files') . '</a>',
+						'hint' => 'Download the files in smaller chunks, seperately'
+							.' or kindly ask your administrator.<br/><a href="javascript:history.back()">'
+							. $l->t('Back to Files') . '</a>',
 					)
 				);
 				$tmpl->assign('errors', $errors);
@@ -287,7 +303,9 @@ class OC_Files {
 			file_put_contents(OC::$SERVERROOT . '/.htaccess', $htaccess);
 			return OC_Helper::computerFileSize($size);
 		} else {
-			OC_Log::write('files', 'Can\'t write upload limit to ' . OC::$SERVERROOT . '/.htaccess. Please check the file permissions', OC_Log::WARN);
+			OC_Log::write('files',
+				'Can\'t write upload limit to ' . OC::$SERVERROOT . '/.htaccess. Please check the file permissions',
+				OC_Log::WARN);
 		}
 		return false;
 	}

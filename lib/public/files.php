@@ -31,7 +31,8 @@
 namespace OCP;
 
 /**
- * This class provides access to the internal filesystem abstraction layer. Use this class exlusively if you want to access files
+ * This class provides access to the internal filesystem abstraction layer. Use
+ * this class exlusively if you want to access files
  */
 class Files {
 	/**
@@ -55,13 +56,24 @@ class Files {
 	}
 
 	/**
+	 * search for files by mimetype
+	 *
+	 * @param string $query
+	 * @return array
+	 */
+	public function searchByMime($mimetype) {
+		return(\OC\Files\Filesystem::searchByMime( $mimetype ));
+	}
+
+	/**
 	 * copy the contents of one stream to another
 	 * @param resource source
 	 * @param resource target
 	 * @return int the number of bytes copied
 	 */
 	public static function streamCopy( $source, $target ) {
-		return(\OC_Helper::streamCopy( $source, $target ));
+		list($count, $result) = \OC_Helper::streamCopy( $source, $target );
+		return $count;
 	}
 
 	/**

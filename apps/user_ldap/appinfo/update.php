@@ -58,7 +58,9 @@ foreach($objects as $object) {
 		try {
 			$updateQuery->execute(array($newDN, $uuid, $dn['ldap_dn']));
 		} catch(Exception $e) {
-		    \OCP\Util::writeLog('user_ldap', 'Could not update '.$object.' '.$dn['ldap_dn'].' in the mappings table. ', \OCP\Util::WARN);
+			\OCP\Util::writeLog('user_ldap',
+				'Could not update '.$object.' '.$dn['ldap_dn'].' in the mappings table. ',
+				\OCP\Util::WARN);
 		}
 
 	}
@@ -88,3 +90,7 @@ if(!isset($connector)) {
 //it is required, that connections do have ldap_configuration_active setting stored in the database
 $connector->getConfiguration();
 $connector->saveConfiguration();
+
+// we don't save it anymore, was a well-meant bad idea. Clean up database.
+$query = OC_DB::prepare('DELETE FROM `*PREFIX*preferences` WHERE `appid` = ? AND `configkey` = ?');
+$query->execute(array('user_ldap' , 'homedir'));

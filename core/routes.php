@@ -6,6 +6,10 @@
  * See the COPYING-README file.
  */
 
+// Post installation check
+$this->create('post_setup_check', '/post-setup-check')
+	->action('OC_Setup', 'postSetupCheck');
+
 // Core ajax actions
 // Search
 $this->create('search_ajax_search', '/search/ajax/search.php')
@@ -65,3 +69,8 @@ $this->create('app_script', '/apps/{app}/{file}')
 	->defaults(array('file' => 'index.php'))
 	->requirements(array('file' => '.*.php'))
 	->action('OC', 'loadAppScriptFile');
+
+// used for heartbeat
+$this->create('heartbeat', '/heartbeat')->action(function(){
+	// do nothing
+});

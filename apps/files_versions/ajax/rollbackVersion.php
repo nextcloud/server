@@ -14,4 +14,3 @@ if(OCA\Files_Versions\Storage::rollback( $file, $revision )) {
 	$l = OC_L10N::get('files_versions');
 	OCP\JSON::error(array("data" => array( "message" => $l->t("Could not revert: %s", array($file) ))));
 }
-

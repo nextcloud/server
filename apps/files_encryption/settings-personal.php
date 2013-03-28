@@ -12,8 +12,6 @@ $blackList = explode( ',', \OCP\Config::getAppValue( 'files_encryption', 'type_b
 
 $tmpl->assign( 'blacklist', $blackList );
 
-OCP\Util::addscript('files_encryption','settings-personal');
-
 return $tmpl->fetchPage();
 
 return null;
