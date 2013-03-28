@@ -291,7 +291,7 @@ $(document).ready(function() {
 
 					//show cancel button
 					if(data.dataType !== 'iframe') {
-						$('#upload input.stop').show();
+						$('#uploadprogresswrapper input.stop').show();
 					}
 				},
 				/**
@@ -305,9 +305,6 @@ $(document).ready(function() {
 					}
 					$('#uploadprogressbar').progressbar({value:0});
 					$('#uploadprogressbar').fadeIn();
-					if(data.dataType != 'iframe ') {
-						$('#upload input.stop').show();
-					}
 				},
 				fail: function(e, data) {
 					if (typeof data.textStatus !== 'undefined' && data.textStatus !== 'success' ) {
@@ -382,7 +379,7 @@ $(document).ready(function() {
 				 */
 				stop: function(e, data) {
 					if(data.dataType !== 'iframe') {
-						$('#upload input.stop').hide();
+						$('#uploadprogresswrapper input.stop').hide();
 					}
 
 					//IE < 10 does not fire the necessary events for the progress bar.
