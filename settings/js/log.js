@@ -65,7 +65,6 @@ OC.Log={
 }
 
 $(document).ready(function(){
-	$('#lessLog').hide(); // initially hide the less button
 	$('#moreLog').click(function(){
 		OC.Log.getMore();
 	})
