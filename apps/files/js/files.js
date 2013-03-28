@@ -407,7 +407,9 @@ $(document).ready(function() {
 												$('tr').filterAttr('data-file',file.name).data('mime',file.mime).data('id',file.id);
 												var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
 												if(size==t('files','Pending')){
-													$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
+													var sizeElement = $('tr').filterAttr('data-file',file.name).find('td.filesize');
+													sizeElement.text(simpleFileSize(file.size));
+													sizeElement.attr('title',humanFileSize(file.size));
 												}
 												//TODO update file upload size limit
 												FileList.loadingDone(file.name, file.id);
@@ -438,7 +440,9 @@ $(document).ready(function() {
 								$('tr').filterAttr('data-file',file.name).data('mime',file.mime).data('id',file.id);
 								var size = $('tr').filterAttr('data-file',file.name).find('td.filesize').text();
 								if(size==t('files','Pending')){
-									$('tr').filterAttr('data-file',file.name).find('td.filesize').text(file.size);
+									var sizeElement = $('tr').filterAttr('data-file',file.name).find('td.filesize');
+									sizeElement.text(simpleFileSize(file.size));
+									sizeElement.attr('title',humanFileSize(file.size));
 								}
 								//TODO update file upload size limit
 								FileList.loadingDone(file.name, file.id);
@@ -459,6 +463,10 @@ $(document).ready(function() {
 				// TODO: show nice progress bar in file row
 			},
 			progressall: function(e, data) {
+				//IE < 10 does not fire the necessary events for the progress bar.
+				if($.browser.msie && parseInt($.browser.version) < 10) {
+					return;
+				}
 				var progress = (data.loaded/data.total)*100;
 				$('#uploadprogressbar').progressbar('value',progress);
 			},
@@ -477,6 +485,11 @@ $(document).ready(function() {
 				if(data.dataType != 'iframe ') {
 					$('#upload input.stop').hide();
 				}
+				//IE < 10 does not fire the necessary events for the progress bar.
+				if($.browser.msie && parseInt($.browser.version) < 10) {
+					return;
+				}
+
 				$('#uploadprogressbar').progressbar('value',100);
 				$('#uploadprogressbar').fadeOut();
 			}
@@ -637,12 +650,19 @@ $(document).ready(function() {
 						localName=(localName.match(/:\/\/(.[^/]+)/)[1]).replace('www.','');
 					}
 					localName = getUniqueName(localName);
-					$('#uploadprogressbar').progressbar({value:0});
-					$('#uploadprogressbar').fadeIn();
+					//IE < 10 does not fire the necessary events for the progress bar.
+					if($.browser.msie && parseInt($.browser.version) < 10) {
+					} else {
+						$('#uploadprogressbar').progressbar({value:0});
+						$('#uploadprogressbar').fadeIn();
+					}
 
 					var eventSource=new OC.EventSource(OC.filePath('files','ajax','newfile.php'),{dir:$('#dir').val(),source:name,filename:localName});
 					eventSource.listen('progress',function(progress){
-						$('#uploadprogressbar').progressbar('value',progress);
+						if($.browser.msie && parseInt($.browser.version) < 10) {
+						} else {
+							$('#uploadprogressbar').progressbar('value',progress);
+						}
 					});
 					eventSource.listen('success',function(data){
 						var mime=data.mime;
