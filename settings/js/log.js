@@ -17,30 +17,27 @@ OC.Log={
 	levels:['Debug','Info','Warning','Error','Fatal'],
 	loaded:3,//are initially loaded
 	getMore:function(count){
-		if(!count){
-			count=10;
-		}
+		count = count || 10;
 		$.get(OC.filePath('settings','ajax','getlog.php'),{offset:OC.Log.loaded,count:count},function(result){
 			if(result.status=='success'){
 				OC.Log.addEntries(result.data);
 				$('html, body').animate({scrollTop: $(document).height()}, 800);
 				if(!result.remain){
-					$('#moreLog').css('display', 'none');
+					$('#moreLog').hide();
 				}
-				$('#lessLog').css('display', '');
+				$('#lessLog').show();
 			}
 		});
 	},
 	showLess:function(count){
 		count = count || 10;
-		$('#moreLog').css('display', '');
-		while(OC.Log.loaded > 3 && count){
-			$('#log tr').last().remove();
-			OC.Log.loaded -= 1;
-			count--;
-		}
+		//calculate remaining items - at least 3
+		OC.Log.loaded = Math.max(3,OC.Log.loaded-count);
+		$('#moreLog').hide();
+		// remove all non-remaining items
+		$('#log tr').slice(OC.Log.loaded).remove();
 		if(OC.Log.loaded <= 3)
-			$('#lessLog').css('display', 'none');
+			$('#lessLog').hide();
 	},
 	addEntries:function(entries){
 		for(var i=0;i<entries.length;i++){
@@ -68,6 +65,7 @@ OC.Log={
 }
 
 $(document).ready(function(){
+	$('#lessLog').hide(); // initially hide the less button
 	$('#moreLog').click(function(){
 		OC.Log.getMore();
 	})
