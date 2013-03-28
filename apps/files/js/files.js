@@ -295,7 +295,7 @@ $(document).ready(function() {
 					}
 
 					//show cancel button
-					if(data.dataType !== 'iframe') {
+					if($('html.lte9').length === 0 && data.dataType !== 'iframe') {
 						$('#uploadprogresswrapper input.stop').show();
 					}
 				},
@@ -305,7 +305,7 @@ $(document).ready(function() {
 				 */
 				start: function(e) {
 					//IE < 10 does not fire the necessary events for the progress bar.
-					if($.browser.msie && parseInt($.browser.version) < 10) {
+					if($('html.lte9').length > 0) {
 						return;
 					}
 					$('#uploadprogressbar').progressbar({value:0});
@@ -332,7 +332,7 @@ $(document).ready(function() {
 				},
 				progressall: function(e, data) {
 					//IE < 10 does not fire the necessary events for the progress bar.
-					if($.browser.msie && parseInt($.browser.version) < 10) {
+					if($('html.lte9').length > 0) {
 						return;
 					}
 					var progress = (data.loaded/data.total)*100;
@@ -388,7 +388,7 @@ $(document).ready(function() {
 					}
 
 					//IE < 10 does not fire the necessary events for the progress bar.
-					if($.browser.msie && parseInt($.browser.version) < 10) {
+					if($('html.lte9').length > 0) {
 						return;
 					}
 
@@ -553,7 +553,7 @@ $(document).ready(function() {
 					}
 					localName = getUniqueName(localName);
 					//IE < 10 does not fire the necessary events for the progress bar.
-					if($.browser.msie && parseInt($.browser.version) < 10) {
+					if($('html.lte9').length > 0) {
 					} else {
 						$('#uploadprogressbar').progressbar({value:0});
 						$('#uploadprogressbar').fadeIn();
@@ -562,7 +562,7 @@ $(document).ready(function() {
 					var eventSource=new OC.EventSource(OC.filePath('files','ajax','newfile.php'),{dir:$('#dir').val(),source:name,filename:localName});
 					eventSource.listen('progress',function(progress){
 						//IE < 10 does not fire the necessary events for the progress bar.
-						if($.browser.msie && parseInt($.browser.version) < 10) {
+						if($('html.lte9').length > 0) {
 						} else {
 							$('#uploadprogressbar').progressbar('value',progress);
 						}
@@ -802,7 +802,7 @@ var dragOptions={
 	}
 }
 // sane browsers support using the distance option
-if ( ! $.browser.msie) {
+if ( $('html.ie').length === 0) {
 	dragOptions['distance'] = 20;
 } 
 
