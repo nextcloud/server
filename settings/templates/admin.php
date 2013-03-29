@@ -201,7 +201,7 @@ if (!$_['internetconnectionworking']) {
 		<?php endif;
 endfor;?>
 </select>
-	<table id='log'>
+	<table id="log">
 		<?php foreach ($_['entries'] as $entry): ?>
 		<tr>
 			<td>
@@ -220,7 +220,8 @@ endfor;?>
 		<?php endforeach;?>
 	</table>
 	<?php if ($_['entriesremain']): ?>
-	<input id='moreLog' type='button' value='<?php p($l->t('More'));?>...'>
+	<input id="moreLog" type="button" value="<?php p($l->t('More'));?>...">
+	<input id="lessLog" type="button" value="<?php p($l->t('Less'));?>...">
 	<?php endif; ?>
 
 </fieldset>
