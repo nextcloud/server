@@ -411,18 +411,19 @@ class OC_Util {
 		exit();
 	}
 
-	/**
-	 * get an id unqiue for this instance
-	 * @return string
-	 */
-	public static function getInstanceId() {
-		$id=OC_Config::getValue('instanceid', null);
-		if(is_null($id)) {
-			$id=uniqid();
-			OC_Config::setValue('instanceid', $id);
-		}
-		return $id;
-	}
+    /**
+     * get an id unique for this instance
+     * @return string
+     */
+    public static function getInstanceId() {
+        $id = OC_Config::getValue('instanceid', null);
+        if(is_null($id)) {
+            // We need to guarantee at least one letter in instanceid so it can be used as the session_name
+            $id = 'oc' . uniqid();
+            OC_Config::setValue('instanceid', $id);
+        }
+        return $id;
+    }
 
 	/**
 	 * @brief Static lifespan (in seconds) when a request token expires.

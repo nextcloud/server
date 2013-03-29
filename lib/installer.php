@@ -134,8 +134,10 @@ class OC_Installer{
 		}
 
 		// check if the app is compatible with this version of ownCloud
-		$version=OC_Util::getVersion();
-		if(!isset($info['require']) or ($version[0]>$info['require'])) {
+		if(
+            !isset($info['require'])
+            or !OC_App::isAppVersionCompatible(OC_Util::getVersion(), $info['require'])
+        ) {
 			OC_Log::write('core',
 				'App can\'t be installed because it is not compatible with this version of ownCloud',
 				OC_Log::ERROR);
