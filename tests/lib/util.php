@@ -54,4 +54,9 @@ class Test_Util extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('no-reply@example.com', $email);
 		OC_Config::deleteKey('mail_domain');
 	}
+
+  function testGetInstanceIdGeneratesValidId() {
+    OC_Config::deleteKey('instanceid');
+    $this->assertStringStartsWith('oc', OC_Util::getInstanceId());
+  }
 }
