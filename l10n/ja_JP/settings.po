@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-02 00:03+0100\n"
-"PO-Revision-Date: 2013-03-01 05:10+0000\n"
-"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
+"POT-Creation-Date: 2013-03-30 00:04+0100\n"
+"PO-Revision-Date: 2013-03-29 23:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -97,7 +97,7 @@ msgstr "{appversion} に更新"
 msgid "Disable"
 msgstr "無効"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
 msgstr "有効"
 
@@ -105,19 +105,19 @@ msgstr "有効"
 msgid "Please wait...."
 msgstr "しばらくお待ちください。"
 
-#: js/apps.js:84
+#: js/apps.js:90
 msgid "Updating...."
 msgstr "更新中...."
 
-#: js/apps.js:87
+#: js/apps.js:93
 msgid "Error while updating app"
 msgstr "アプリの更新中にエラーが発生"
 
-#: js/apps.js:87
+#: js/apps.js:93
 msgid "Error"
 msgstr "エラー"
 
-#: js/apps.js:90
+#: js/apps.js:96
 msgid "Updated"
 msgstr "更新済み"
 
@@ -125,24 +125,24 @@ msgstr "更新済み"
 msgid "Saving..."
 msgstr "保存中..."
 
-#: js/users.js:30
+#: js/users.js:31
 msgid "deleted"
 msgstr "削除"
 
-#: js/users.js:30
+#: js/users.js:31
 msgid "undo"
 msgstr "元に戻す"
 
-#: js/users.js:62
+#: js/users.js:63
 msgid "Unable to remove user"
 msgstr "ユーザを削除出来ません"
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: js/users.js:76 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "グループ"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:79 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "グループ管理者"
 
@@ -150,19 +150,19 @@ msgstr "グループ管理者"
 msgid "Delete"
 msgstr "削除"
 
-#: js/users.js:191
+#: js/users.js:243
 msgid "add group"
 msgstr "グループを追加"
 
-#: js/users.js:352
+#: js/users.js:407
 msgid "A valid username must be provided"
 msgstr "有効なユーザ名を指定する必要があります"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:408 js/users.js:414 js/users.js:429
 msgid "Error creating user"
 msgstr "ユーザ作成エラー"
 
-#: js/users.js:358
+#: js/users.js:413
 msgid "A valid password must be provided"
 msgstr "有効なパスワードを指定する必要があります"
 
@@ -321,11 +321,15 @@ msgstr "ログレベル"
 msgid "More"
 msgstr "詳細"
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:224
+msgid "Less"
+msgstr ""
+
+#: templates/admin.php:231 templates/personal.php:102
 msgid "Version"
 msgstr "バージョン"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:234 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

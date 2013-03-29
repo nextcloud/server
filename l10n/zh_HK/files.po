@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 14:50+0000\n"
+"POT-Creation-Date: 2013-03-30 00:04+0100\n"
+"PO-Revision-Date: 2013-03-28 02:40+0000\n"
 "Last-Translator: amanda.shuuemura <amanda.shuuemura@gmail.com>\n"
 "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/projects/p/owncloud/language/zh_HK/)\n"
 "MIME-Version: 1.0\n"
@@ -92,7 +92,7 @@ msgid "Rename"
 msgstr ""
 
 #: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
-#: js/files.js:440
+#: js/files.js:442
 msgid "Pending"
 msgstr ""
 
@@ -162,7 +162,7 @@ msgstr ""
 
 #: js/files.js:274
 msgid "Close"
-msgstr ""
+msgstr "關閉"
 
 #: js/files.js:313
 msgid "1 file uploading"
@@ -172,48 +172,48 @@ msgstr ""
 msgid "{count} files uploading"
 msgstr ""
 
-#: js/files.js:389 js/files.js:424
+#: js/files.js:389 js/files.js:426
 msgid "Upload cancelled."
 msgstr ""
 
-#: js/files.js:498
+#: js/files.js:511
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/files.js:571
+#: js/files.js:584
 msgid "URL cannot be empty."
 msgstr ""
 
-#: js/files.js:576
+#: js/files.js:589
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:954 templates/index.php:70
+#: js/files.js:974 templates/index.php:70
 msgid "Name"
 msgstr "名稱"
 
-#: js/files.js:955 templates/index.php:81
+#: js/files.js:975 templates/index.php:81
 msgid "Size"
 msgstr ""
 
-#: js/files.js:956 templates/index.php:83
+#: js/files.js:976 templates/index.php:83
 msgid "Modified"
 msgstr ""
 
-#: js/files.js:975
+#: js/files.js:995
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:977
+#: js/files.js:997
 msgid "{count} folders"
 msgstr "{}文件夾"
 
-#: js/files.js:985
+#: js/files.js:1005
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:987
+#: js/files.js:1007
 msgid "{count} files"
 msgstr ""
 

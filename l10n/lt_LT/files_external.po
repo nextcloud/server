@@ -5,13 +5,14 @@
 # Translators:
 #   <andrejuszl@gmail.com>, 2012.
 # Dr. ROX  <to.dr.rox@gmail.com>, 2012.
+# Mindaugas <min2lizz@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:32+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-30 00:04+0100\n"
+"PO-Revision-Date: 2013-03-29 13:00+0000\n"
+"Last-Translator: Min2liz <min2lizz@gmail.com>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,14 +44,14 @@ msgstr "Klaida nustatinėjant Google Drive talpyklą"
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Įspėjimas:</b> \"smbclient\" nėra įdiegtas. CIFS/SMB dalinimasis nėra galimas. Prašome susisiekti su sistemos administratoriumi kad būtų įdiegtas \"smbclient\""
 
 #: lib/config.php:426
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
-msgstr ""
+msgstr "<b>Įspėjimas:</b> FTP palaikymas PHP sistemoje nėra įjungtas arba nėra įdiegtas.  FTP dalinimosi įjungimas nėra galimas. Prašome susisiekti su sistemos administratoriumi kad būtų įdiegtas FTP palaikymas. "
 
 #: templates/settings.php:3
 msgid "External Storage"
@@ -62,7 +63,7 @@ msgstr "Katalogo pavadinimas"
 
 #: templates/settings.php:10
 msgid "External storage"
-msgstr ""
+msgstr "Išorinė saugykla"
 
 #: templates/settings.php:11
 msgid "Configuration"
@@ -78,7 +79,7 @@ msgstr "Pritaikyti"
 
 #: templates/settings.php:33
 msgid "Add storage"
-msgstr ""
+msgstr "Pridėti saugyklą"
 
 #: templates/settings.php:90
 msgid "None set"

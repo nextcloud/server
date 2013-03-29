@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Bawl <transifex@bawl.dk>, 2013.
 # Frederik Lassen <frederiklassen@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-08 00:25+0100\n"
-"PO-Revision-Date: 2013-03-07 23:25+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-30 00:04+0100\n"
+"PO-Revision-Date: 2013-03-29 21:30+0000\n"
+"Last-Translator: Bawl <transifex@bawl.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -18,12 +19,12 @@ msgstr ""
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/delete.php:40
+#: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
 msgstr "Kunne ikke slette %s permanent"
 
-#: ajax/undelete.php:41
+#: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
 msgstr "Kunne ikke gendanne %s"
@@ -78,4 +79,4 @@ msgstr "Slet"
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr ""
+msgstr "Slettede filer"

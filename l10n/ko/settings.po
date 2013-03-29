@@ -12,9 +12,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-22 00:03+0100\n"
-"PO-Revision-Date: 2013-03-21 00:50+0000\n"
-"Last-Translator: Harim Park <fofwisdom@gmail.com>\n"
+"POT-Creation-Date: 2013-03-30 00:04+0100\n"
+"PO-Revision-Date: 2013-03-29 23:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -97,7 +97,7 @@ msgstr ""
 msgid "Disable"
 msgstr "비활성화"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
 msgstr "활성화"
 
@@ -105,19 +105,19 @@ msgstr "활성화"
 msgid "Please wait...."
 msgstr ""
 
-#: js/apps.js:84
+#: js/apps.js:90
 msgid "Updating...."
 msgstr ""
 
-#: js/apps.js:87
+#: js/apps.js:93
 msgid "Error while updating app"
 msgstr ""
 
-#: js/apps.js:87
+#: js/apps.js:93
 msgid "Error"
 msgstr "오류"
 
-#: js/apps.js:90
+#: js/apps.js:96
 msgid "Updated"
 msgstr ""
 
@@ -125,24 +125,24 @@ msgstr ""
 msgid "Saving..."
 msgstr "저장 중..."
 
-#: js/users.js:30
+#: js/users.js:31
 msgid "deleted"
 msgstr "삭제"
 
-#: js/users.js:30
+#: js/users.js:31
 msgid "undo"
 msgstr "되돌리기"
 
-#: js/users.js:62
+#: js/users.js:63
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: js/users.js:76 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "그룹"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:79 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "그룹 관리자"
 
@@ -150,19 +150,19 @@ msgstr "그룹 관리자"
 msgid "Delete"
 msgstr "삭제"
 
-#: js/users.js:237
+#: js/users.js:243
 msgid "add group"
 msgstr ""
 
-#: js/users.js:400
+#: js/users.js:407
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:401 js/users.js:407 js/users.js:422
+#: js/users.js:408 js/users.js:414 js/users.js:429
 msgid "Error creating user"
 msgstr ""
 
-#: js/users.js:406
+#: js/users.js:413
 msgid "A valid password must be provided"
 msgstr ""
 
@@ -321,11 +321,15 @@ msgstr ""
 msgid "More"
 msgstr "더 중요함"
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:224
+msgid "Less"
+msgstr ""
+
+#: templates/admin.php:231 templates/personal.php:102
 msgid "Version"
 msgstr "버전"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:234 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

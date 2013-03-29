@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Bawl <transifex@bawl.dk>, 2013.
 #   <cronner@gmail.com>, 2012.
 # Frederik Lassen <frederiklassen@gmail.com>, 2013.
 #   <mikkelbjerglarsen@gmail.com>, 2011, 2012.
@@ -17,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-03-30 00:04+0100\n"
+"PO-Revision-Date: 2013-03-29 21:10+0000\n"
+"Last-Translator: Bawl <transifex@bawl.dk>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -248,8 +249,8 @@ msgid "The object type is not specified."
 msgstr "Objekttypen er ikke angivet."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
-#: js/share.js:578
+#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr "Fejl"
 
@@ -269,7 +270,7 @@ msgstr "Delt"
 msgid "Share"
 msgstr "Del"
 
-#: js/share.js:125 js/share.js:606
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr "Fejl under deling"
 
@@ -329,59 +330,59 @@ msgstr "Del via email:"
 msgid "No people found"
 msgstr "Ingen personer fundet"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr "Videredeling ikke tilladt"
 
-#: js/share.js:276
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr "Delt i {item} med {user}"
 
-#: js/share.js:297
+#: js/share.js:308
 msgid "Unshare"
 msgstr "Fjern deling"
 
-#: js/share.js:309
+#: js/share.js:320
 msgid "can edit"
 msgstr "kan redigere"
 
-#: js/share.js:311
+#: js/share.js:322
 msgid "access control"
 msgstr "Adgangskontrol"
 
-#: js/share.js:314
+#: js/share.js:325
 msgid "create"
 msgstr "opret"
 
-#: js/share.js:317
+#: js/share.js:328
 msgid "update"
 msgstr "opdater"
 
-#: js/share.js:320
+#: js/share.js:331
 msgid "delete"
 msgstr "slet"
 
-#: js/share.js:323
+#: js/share.js:334
 msgid "share"
 msgstr "del"
 
-#: js/share.js:357 js/share.js:553
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr "Beskyttet med adgangskode"
 
-#: js/share.js:566
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr "Fejl ved fjernelse af udløbsdato"
 
-#: js/share.js:578
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr "Fejl under sætning af udløbsdato"
 
-#: js/share.js:593
+#: js/share.js:604
 msgid "Sending ..."
 msgstr "Sender ..."
 
-#: js/share.js:604
+#: js/share.js:615
 msgid "Email sent"
 msgstr "E-mail afsendt"
 
@@ -484,11 +485,11 @@ msgstr "Sikkerhedsadvarsel"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "Din PHP-version er sårbar overfor et NULL Byte angreb (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "Opdater venligs din PHP-installation for at kunne bruge ownCloud sikkert."
 
 #: templates/installation.php:32
 msgid ""

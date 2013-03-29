@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
+"POT-Creation-Date: 2013-03-30 00:04+0100\n"
+"PO-Revision-Date: 2013-03-29 23:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -94,7 +94,7 @@ msgstr "Uuenda versioonile {appversion}"
 msgid "Disable"
 msgstr "Lülita välja"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
 msgstr "Lülita sisse"
 
@@ -102,19 +102,19 @@ msgstr "Lülita sisse"
 msgid "Please wait...."
 msgstr "Palun oota..."
 
-#: js/apps.js:84
+#: js/apps.js:90
 msgid "Updating...."
 msgstr "Uuendamine..."
 
-#: js/apps.js:87
+#: js/apps.js:93
 msgid "Error while updating app"
 msgstr "Viga rakenduse uuendamisel"
 
-#: js/apps.js:87
+#: js/apps.js:93
 msgid "Error"
 msgstr "Viga"
 
-#: js/apps.js:90
+#: js/apps.js:96
 msgid "Updated"
 msgstr "Uuendatud"
 
@@ -122,24 +122,24 @@ msgstr "Uuendatud"
 msgid "Saving..."
 msgstr "Salvestamine..."
 
-#: js/users.js:30
+#: js/users.js:31
 msgid "deleted"
 msgstr "kustutatud"
 
-#: js/users.js:30
+#: js/users.js:31
 msgid "undo"
 msgstr "tagasi"
 
-#: js/users.js:62
+#: js/users.js:63
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: js/users.js:76 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "Grupid"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:79 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "Grupi admin"
 
@@ -147,19 +147,19 @@ msgstr "Grupi admin"
 msgid "Delete"
 msgstr "Kustuta"
 
-#: js/users.js:191
+#: js/users.js:243
 msgid "add group"
 msgstr "lisa grupp"
 
-#: js/users.js:352
+#: js/users.js:407
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:408 js/users.js:414 js/users.js:429
 msgid "Error creating user"
 msgstr "Viga kasutaja loomisel"
 
-#: js/users.js:358
+#: js/users.js:413
 msgid "A valid password must be provided"
 msgstr ""
 
@@ -318,11 +318,15 @@ msgstr "Logi tase"
 msgid "More"
 msgstr "Rohkem"
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:224
+msgid "Less"
+msgstr ""
+
+#: templates/admin.php:231 templates/personal.php:102
 msgid "Version"
 msgstr "Versioon"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:234 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

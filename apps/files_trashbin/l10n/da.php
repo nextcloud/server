@@ -12,5 +12,6 @@
 "{count} files" => "{count} filer",
 "Nothing in here. Your trash bin is empty!" => "Intet at se her. Din papirkurv er tom!",
 "Restore" => "Gendan",
-"Delete" => "Slet"
+"Delete" => "Slet",
+"Deleted Files" => "Slettede filer"
 );
