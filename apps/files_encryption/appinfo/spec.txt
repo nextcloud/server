@@ -35,6 +35,18 @@ that file must have their sharekeys changed also. The keyfile and catfile
 however need only changing in the owners files, as there is only one copy of
 these.
 
+Publicly shared files (public links)
+------------------------------------
+
+Files shared via public links use a separate system user account called 'ownCloud'. All public files are shared to that user's public key, and the private key is used to access the files when the public link is used in browser.
+
+This means that files shared via public links are accessible only to users who know the shared URL, or to admins who know the 'ownCloud' user password.
+
+Lost password recovery
+----------------------
+
+In order to enable users to read their encrypted files in the event of a password loss/reset scenario, administrators can choose to enable a 'recoveryAdmin' account. This is a user that all user files will automatically be shared to of the option is enabled. This allows the recoveryAdmin user to generate new keyfiles for the user. By default the UID of the recoveryAdmin is 'recoveryAdmin'.
+
 Notes
 -----
 

@@ -391,8 +391,10 @@ class Keymanager {
 			$result = true;
 		}
 
-		if ( !result ) {
+		if ( ! $result ) {
+			
 			\OC_Log::write( 'Encryption library', 'Could not delete shareKey; does not exist: "' . $shareKeyPath, \OC_Log::ERROR );
+		
 		}
 		
 		\OC_FileProxy::$enabled = false;

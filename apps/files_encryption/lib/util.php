@@ -638,7 +638,7 @@ class Util {
 	/**
 	 * @brief Filter an array of UIDs to return only ones ready for sharing
 	 * @param array $unfilteredUsers users to be checked for sharing readiness
-	 * @return array $userIds filtered users
+	 * @return multi-dimensional array. keys: ready, unready
 	 */
 	public function filterShareReadyUsers( $unfilteredUsers ) {
 	
@@ -649,6 +649,8 @@ class Util {
 		foreach ( $unfilteredUsers as $user ) {
 		
 			$util = new Util( $this->view, $user );
+			
+			$readyIds = $unreadyIds = array();
 				
 			// Check that the user is encryption capable, or is the
 			// public system user 'ownCloud' (for public shares)
@@ -657,22 +659,26 @@ class Util {
 				or $user == 'ownCloud' 
 			) {
 			
-				// Construct array of just UIDs for Keymanager{}
-				$userIds[] = $user;
+				// Construct array of ready UIDs for Keymanager{}
+				$readyIds[] = $user;
 				
 			} else {
-					
+				
+				// Construct array of unready UIDs for Keymanager{}
+				$unreadyIds[] = $user;
+				
 				// Log warning; we can't do necessary setup here
 				// because we don't have the user passphrase
-				// TODO: Provide user feedback indicating that
-				// sharing failed
 				\OC_Log::write( 'Encryption library', '"'.$user.'" is not setup for encryption', \OC_Log::WARN );
 		
 			}
 		
 		}
 		
-		return $userIds;
+		return array ( 
+			'ready' => $userIds
+			, 'unready' => $unreadyIds
+		);
 		
 	}
 	
@@ -778,8 +784,18 @@ class Util {
 		// Make sure users are capable of sharing
 		$filteredUids = $this->filterShareReadyUsers( $users );
 		
+// 		trigger_error( print_r($filteredUids, 1) );
+		
+		if ( ! empty( $filteredUids['unready'] ) ) {
+		
+			// Notify user of unready userDir
+			// TODO: Move this out of here; it belongs somewhere else
+			\OCP\JSON::error();
+			
+		}
+		
 		// Get public keys for each user, ready for generating sharekeys
-		$userPubKeys = Keymanager::getPublicKeys( $this->view, $filteredUids ); // TODO: check this includes the owner's public key
+		$userPubKeys = Keymanager::getPublicKeys( $this->view, $filteredUids['ready'] ); // TODO: check this includes the owner's public key
 
 		\OC_FileProxy::$enabled = false;
 
@@ -814,8 +830,30 @@ class Util {
 
 		return true;
 	}
+	
+	/**
+	 * @brief Returns the users who are sharing a file, including the file owner
+	 * @param $path Relative path of the file, like files/file.txt
+	 * @return $users array of UIDs
+	 * @note This wraps the OCP\Share method, but includes the owner even if 
+	 *       the file isn't registered in sharing API
+	 */
+	public function getUsersSharingFile( $path ) {
+	
+		$users = \OCP\Share::getUsersSharingFile( $path, true, true );
+		
+		// FIXME: this is returning empty :/
+		$owner = \OC\Files\Filesystem::getOwner( $path );
+		
+// 		trigger_error( var_export( $owner, 1));
+		
+		$users[] = $owner;
+		
+		return array_unique( $users );
+	
+	}
 
-		/**
+	/**
 	 * @brief get uid of the owners of the file and the path to the file
 	 * @param $filename
 	 * @return array

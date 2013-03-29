@@ -127,7 +127,7 @@ class Stream {
 
 			if ( ! is_resource( $this->handle ) ) {
 
-				\OCP\Util::writeLog( 'files_encryption', 'failed to open file "'.$this->rootView . '"', \OCP\Util::ERROR );
+				\OCP\Util::writeLog( 'files_encryption', 'failed to open file "' . $this->relPath . '"', \OCP\Util::ERROR );
 
 			} else {
 			

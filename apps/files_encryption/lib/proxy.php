@@ -140,7 +140,7 @@ class Proxy extends \OC_FileProxy {
 				if ( \OCP\Share::isEnabled() ) {
 				
 					// Find out who, if anyone, is sharing the file
-					$shareUids = \OCP\Share::getUsersSharingFile( $filePath, true );
+					$shareUids = \OCP\Share::getUsersSharingFile( $filePath, true, true, true );
 					
 					$userIds = array_merge( $userIds, $shareUids );
 				

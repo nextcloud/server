@@ -40,7 +40,7 @@ class Hooks {
 	
 		// Manually initialise Filesystem{} singleton with correct 
 		// fake root path, in order to avoid fatal webdav errors
-		\OC\Files\Filesystem::init( $params['uid'] . '/' . 'files' . '/' );
+		\OC\Files\Filesystem::init( $params['uid'], '/' . 'files' . '/' );
 	
 		$view = new \OC_FilesystemView( '/' );
 
@@ -194,7 +194,8 @@ class Hooks {
 			$util = new Util( $view, $userId );
 			$path = $util->fileIdToPath( $params['itemSource'] );
 			
-			$usersSharing = \OCP\Share::getUsersSharingFile( $path, true );
+			// Note: this currently doesn't include the owner due to  \OC\Files\Filesystem::getOwner()
+			$usersSharing = $util->getUsersSharingFile( $path );
 			
 			// Recursively expand path to include subfiles
 			$allPaths = $util->getPaths( $path );
