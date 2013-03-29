@@ -541,9 +541,13 @@ class OC_VCategories {
 	* 	Defaults to the type set in the instance
 	* @returns boolean Returns false on error.
 	*/
-	public function purgeObjects($ids, $type = null) {
+	public function purgeObjects(array $ids, $type = null) {
 		$type = is_null($type) ? $this->type : $type;
-		$updates = array();
+		if(count($ids) === 0) {
+			// job done ;)
+			return true;
+		}
+		$updates = $ids();
 		try {
 			$query = 'DELETE FROM `' . self::RELATION_TABLE . '` ';
 			$query .= 'WHERE `objid` IN (' . str_repeat('?,', count($ids)-1) . '?) ';
@@ -557,7 +561,7 @@ class OC_VCategories {
 				return false;
 			}
 		} catch(Exception $e) {
-			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
+			OCP\Util::writeLog('core', __METHOD__.', exception: ' . $e->getMessage(),
 				OCP\Util::ERROR);
 			return false;
 		}
