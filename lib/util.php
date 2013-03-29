@@ -630,16 +630,26 @@ class OC_Util {
 	 * Check if the ownCloud server can connect to the internet
 	 */
 	public static function isinternetconnectionworking() {
-
+		$proxy = OC_Config::getValue('proxy', '');
+		if($proxy <> '') {
+			list($proxy_host, $proxy_port) = explode(':',$proxy);
+			$connected = @fsockopen($proxy_host, $proxy_port, $errno, $errstr, 5);
+			if ($connected) {
+				fclose($connected);
+				return true;
+			}
+			\OC_Log::write('core', 'Couldn\'t connect to proxy server', \OC_log::WARN);
+			return false;
+		}
 		// try to connect to owncloud.org to see if http connections to the internet are possible.
-		$connected = @fsockopen("www.owncloud.org", 80);
+		$connected = @fsockopen("www.owncloud.org", 80, $errno, $errstr, 10);
 		if ($connected) {
 			fclose($connected);
 			return true;
 		}else{
 
 			// second try in case one server is down
-			$connected = @fsockopen("apps.owncloud.com", 80);
+			$connected = @fsockopen("apps.owncloud.com", 80, $errno, $errstr, 10);
 			if ($connected) {
 				fclose($connected);
 				return true;
