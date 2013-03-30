@@ -367,7 +367,7 @@ class OC_DB {
 
 		// Optimize the query
 		$query = self::processQuery( $query );
-		if(defined('LOG_QUERIES') && LOG_QUERIES === true) {
+		if(OC_Config::getValue( "log_query", false)) {
 			OC_Log::write('core', 'DB prepare : '.$query, OC_Log::DEBUG);
 		}
 		self::connect();
@@ -954,7 +954,7 @@ class PDOStatementWrapper{
 	 * make execute return the result instead of a bool
 	 */
 	public function execute($input=array()) {
-		if(defined('LOG_QUERIES') && LOG_QUERIES === true) {
+		if(OC_Config::getValue( "log_query", false)) {
 			$params_str = str_replace("\n"," ",var_export($input,true));
 			OC_Log::write('core', 'DB execute with arguments : '.$params_str, OC_Log::DEBUG);
 		}
