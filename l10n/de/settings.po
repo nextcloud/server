@@ -27,8 +27,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-30 00:04+0100\n"
-"PO-Revision-Date: 2013-03-29 23:04+0000\n"
+"POT-Creation-Date: 2013-03-31 00:01+0100\n"
+"PO-Revision-Date: 2013-03-29 23:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -338,7 +338,7 @@ msgstr "Mehr"
 
 #: templates/admin.php:224
 msgid "Less"
-msgstr ""
+msgstr "Weniger"
 
 #: templates/admin.php:231 templates/personal.php:102
 msgid "Version"

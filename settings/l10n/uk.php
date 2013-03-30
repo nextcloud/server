@@ -66,6 +66,7 @@
 "Log" => "Протокол",
 "Log level" => "Рівень протоколювання",
 "More" => "Більше",
+"Less" => "Менше",
 "Version" => "Версія",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Розроблено <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud громадою</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">вихідний код</a> має ліцензію <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
 "Add your App" => "Додати свою програму",

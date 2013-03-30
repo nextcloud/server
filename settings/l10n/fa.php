@@ -41,6 +41,7 @@
 "Allow users to share items to the public with links" => "اجازه دادن به کاربران برای اشتراک گذاری آیتم ها با عموم از طریق پیوند ها",
 "Security" => "امنیت",
 "More" => "بیش‌تر",
+"Less" => "کم‌تر",
 "Version" => "نسخه",
 "Add your App" => "برنامه خود را بیافزایید",
 "More Apps" => "برنامه های بیشتر",

@@ -46,6 +46,7 @@
 "Log" => "紀錄",
 "Log level" => "紀錄層級",
 "More" => "更多",
+"Less" => "少",
 "Version" => "版本",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "由<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud 社區</a>開發，<a href=\"https://github.com/owncloud\" target=\"_blank\">源代碼</a>在<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>許可證下發布。",
 "Add your App" => "添加你的 App",

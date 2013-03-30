@@ -37,6 +37,7 @@
 "Log" => "Logi",
 "Log level" => "Logi tase",
 "More" => "Rohkem",
+"Less" => "Vähem",
 "Version" => "Versioon",
 "Add your App" => "Lisa oma rakendus",
 "More Apps" => "Veel rakendusi",

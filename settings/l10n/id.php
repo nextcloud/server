@@ -16,6 +16,7 @@
 "__language_name__" => "__language_name__",
 "Security Warning" => "peringatan keamanan",
 "More" => "lagi",
+"Less" => "kurang",
 "Add your App" => "Tambahkan App anda",
 "Select an App" => "Pilih satu aplikasi",
 "See application page at apps.owncloud.com" => "Lihat halaman aplikasi di apps.owncloud.com",

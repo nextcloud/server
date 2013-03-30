@@ -66,6 +66,7 @@
 "Log" => "Dnevnik",
 "Log level" => "Raven beleženja",
 "More" => "Več",
+"Less" => "Manj",
 "Version" => "Različica",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Programski paket razvija <a href=\"http://ownCloud.org/contact\" target=\"_blank\">skupnost ownCloud</a>. <a href=\"https://github.com/owncloud\" target=\"_blank\">Izvorna koda</a> je objavljena pod pogoji <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Splošnega javnega dovoljenja Affero\">AGPL</abbr></a>.",
 "Add your App" => "Dodaj program",

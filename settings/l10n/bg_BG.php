@@ -20,6 +20,7 @@
 "__language_name__" => "__language_name__",
 "Please double check the <a href='%s'>installation guides</a>." => "Моля направете повторна справка с <a href='%s'>ръководството за инсталиране</a>.",
 "More" => "Още",
+"Less" => "По-малко",
 "Version" => "Версия",
 "Add your App" => "Добавете Ваше приложение",
 "More Apps" => "Още приложения",

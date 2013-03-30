@@ -61,6 +61,7 @@
 "Log" => "Καταγραφές",
 "Log level" => "Επίπεδο καταγραφής",
 "More" => "Περισσότερα",
+"Less" => "Λιγότερα",
 "Version" => "Έκδοση",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Αναπτύχθηκε από την <a href=\"http://ownCloud.org/contact\" target=\"_blank\">κοινότητα ownCloud</a>, ο <a href=\"https://github.com/owncloud\" target=\"_blank\">πηγαίος κώδικας</a> είναι υπό άδεια χρήσης <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
 "Add your App" => "Πρόσθεστε τη Δικιά σας Εφαρμογή",
