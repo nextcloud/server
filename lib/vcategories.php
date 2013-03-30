@@ -547,7 +547,7 @@ class OC_VCategories {
 			// job done ;)
 			return true;
 		}
-		$updates = $ids();
+		$updates = $ids;
 		try {
 			$query = 'DELETE FROM `' . self::RELATION_TABLE . '` ';
 			$query .= 'WHERE `objid` IN (' . str_repeat('?,', count($ids)-1) . '?) ';
