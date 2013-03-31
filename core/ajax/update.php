@@ -37,8 +37,8 @@ if (OC::checkUpgrade(false)) {
  */
 function __doFileCacheUpgrade($watcher) {
 	$query = \OC_DB::prepare('
-		SELECT DISTINCT user
-		FROM`*PREFIX*fscache`
+		SELECT DISTINCT `user`
+		FROM `*PREFIX*fscache`
 	');
 	$result = $query->execute();
 	$users = $result->fetchAll();
