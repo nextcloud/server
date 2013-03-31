@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
+"POT-Creation-Date: 2013-04-01 00:02+0200\n"
+"PO-Revision-Date: 2013-03-31 22:00+0000\n"
 "Last-Translator: asieriko <asieriko@gmail.com>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -242,8 +242,8 @@ msgid "The object type is not specified."
 msgstr "Objetu mota ez dago zehaztuta."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
-#: js/share.js:578
+#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr "Errorea"
 
@@ -263,7 +263,7 @@ msgstr "Elkarbanatuta"
 msgid "Share"
 msgstr "Elkarbanatu"
 
-#: js/share.js:125 js/share.js:606
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr "Errore bat egon da elkarbanatzean"
 
@@ -323,59 +323,59 @@ msgstr "Elkarbanatu eposta bidez:"
 msgid "No people found"
 msgstr "Ez da inor aurkitu"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr "Berriz elkarbanatzea ez dago baimendua"
 
-#: js/share.js:276
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr "{user}ekin {item}-n elkarbanatuta"
 
-#: js/share.js:297
+#: js/share.js:308
 msgid "Unshare"
 msgstr "Ez elkarbanatu"
 
-#: js/share.js:309
+#: js/share.js:320
 msgid "can edit"
 msgstr "editatu dezake"
 
-#: js/share.js:311
+#: js/share.js:322
 msgid "access control"
 msgstr "sarrera kontrola"
 
-#: js/share.js:314
+#: js/share.js:325
 msgid "create"
 msgstr "sortu"
 
-#: js/share.js:317
+#: js/share.js:328
 msgid "update"
 msgstr "eguneratu"
 
-#: js/share.js:320
+#: js/share.js:331
 msgid "delete"
 msgstr "ezabatu"
 
-#: js/share.js:323
+#: js/share.js:334
 msgid "share"
 msgstr "elkarbanatu"
 
-#: js/share.js:357 js/share.js:553
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr "Pasahitzarekin babestuta"
 
-#: js/share.js:566
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr "Errorea izan da muga data kentzean"
 
-#: js/share.js:578
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr "Errore bat egon da muga data ezartzean"
 
-#: js/share.js:593
+#: js/share.js:604
 msgid "Sending ..."
 msgstr "Bidaltzen ..."
 
-#: js/share.js:604
+#: js/share.js:615
 msgid "Email sent"
 msgstr "Eposta bidalia"
 

@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
+"POT-Creation-Date: 2013-04-01 00:02+0200\n"
+"PO-Revision-Date: 2013-03-31 22:00+0000\n"
 "Last-Translator: rogerc <rcalvoi@yahoo.com>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -242,8 +242,8 @@ msgid "The object type is not specified."
 msgstr "No s'ha especificat el tipus d'objecte."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
-#: js/share.js:578
+#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr "Error"
 
@@ -263,7 +263,7 @@ msgstr "Compartit"
 msgid "Share"
 msgstr "Comparteix"
 
-#: js/share.js:125 js/share.js:606
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr "Error en compartir"
 
@@ -323,59 +323,59 @@ msgstr "Comparteix per correu electrònic"
 msgid "No people found"
 msgstr "No s'ha trobat ningú"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr "No es permet compartir de nou"
 
-#: js/share.js:276
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr "Compartit en {item} amb {user}"
 
-#: js/share.js:297
+#: js/share.js:308
 msgid "Unshare"
 msgstr "Deixa de compartir"
 
-#: js/share.js:309
+#: js/share.js:320
 msgid "can edit"
 msgstr "pot editar"
 
-#: js/share.js:311
+#: js/share.js:322
 msgid "access control"
 msgstr "control d'accés"
 
-#: js/share.js:314
+#: js/share.js:325
 msgid "create"
 msgstr "crea"
 
-#: js/share.js:317
+#: js/share.js:328
 msgid "update"
 msgstr "actualitza"
 
-#: js/share.js:320
+#: js/share.js:331
 msgid "delete"
 msgstr "elimina"
 
-#: js/share.js:323
+#: js/share.js:334
 msgid "share"
 msgstr "comparteix"
 
-#: js/share.js:357 js/share.js:553
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr "Protegeix amb contrasenya"
 
-#: js/share.js:566
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr "Error en eliminar la data d'expiració"
 
-#: js/share.js:578
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr "Error en establir la data d'expiració"
 
-#: js/share.js:593
+#: js/share.js:604
 msgid "Sending ..."
 msgstr "Enviant..."
 
-#: js/share.js:604
+#: js/share.js:615
 msgid "Email sent"
 msgstr "El correu electrónic s'ha enviat"
 

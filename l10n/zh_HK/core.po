@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
+"POT-Creation-Date: 2013-04-01 00:02+0200\n"
+"PO-Revision-Date: 2013-03-31 22:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/projects/p/owncloud/language/zh_HK/)\n"
 "MIME-Version: 1.0\n"
@@ -240,8 +240,8 @@ msgid "The object type is not specified."
 msgstr ""
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
-#: js/share.js:578
+#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr "錯誤"
 
@@ -261,7 +261,7 @@ msgstr "已分享"
 msgid "Share"
 msgstr "分享"
 
-#: js/share.js:125 js/share.js:606
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr "分享時發生錯誤"
 
@@ -321,59 +321,59 @@ msgstr "以電郵分享"
 msgid "No people found"
 msgstr "找不到"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:276
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:297
+#: js/share.js:308
 msgid "Unshare"
 msgstr "取消分享"
 
-#: js/share.js:309
+#: js/share.js:320
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:311
+#: js/share.js:322
 msgid "access control"
 msgstr ""
 
-#: js/share.js:314
+#: js/share.js:325
 msgid "create"
 msgstr "新增"
 
-#: js/share.js:317
+#: js/share.js:328
 msgid "update"
 msgstr "更新"
 
-#: js/share.js:320
+#: js/share.js:331
 msgid "delete"
 msgstr "刪除"
 
-#: js/share.js:323
+#: js/share.js:334
 msgid "share"
 msgstr "分享"
 
-#: js/share.js:357 js/share.js:553
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr "密碼保護"
 
-#: js/share.js:566
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:578
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:593
+#: js/share.js:604
 msgid "Sending ..."
 msgstr "傳送中"
 
-#: js/share.js:604
+#: js/share.js:615
 msgid "Email sent"
 msgstr "郵件已傳"
 

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
+"POT-Creation-Date: 2013-04-01 00:02+0200\n"
+"PO-Revision-Date: 2013-03-31 22:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -240,8 +240,8 @@ msgid "The object type is not specified."
 msgstr "অবজেক্টের ধরণটি সুনির্দিষ্ট নয়।"
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
-#: js/share.js:578
+#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr "সমস্যা"
 
@@ -261,7 +261,7 @@ msgstr "ভাগাভাগিকৃত"
 msgid "Share"
 msgstr "ভাগাভাগি কর"
 
-#: js/share.js:125 js/share.js:606
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr "ভাগাভাগি করতে সমস্যা দেখা দিয়েছে  "
 
@@ -321,59 +321,59 @@ msgstr "ই-মেইলের মাধ্যমে ভাগাভাগি �
 msgid "No people found"
 msgstr "কোন ব্যক্তি খুঁজে পাওয়া গেল না"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr "পূনঃরায় ভাগাভাগি অনুমোদিত নয়"
 
-#: js/share.js:276
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr "{user} এর সাথে {item} ভাগাভাগি করা হয়েছে"
 
-#: js/share.js:297
+#: js/share.js:308
 msgid "Unshare"
 msgstr "ভাগাভাগি বাতিল কর"
 
-#: js/share.js:309
+#: js/share.js:320
 msgid "can edit"
 msgstr "সম্পাদনা করতে পারবেন"
 
-#: js/share.js:311
+#: js/share.js:322
 msgid "access control"
 msgstr "অধিগম্যতা নিয়ন্ত্রণ"
 
-#: js/share.js:314
+#: js/share.js:325
 msgid "create"
 msgstr "তৈরী করুন"
 
-#: js/share.js:317
+#: js/share.js:328
 msgid "update"
 msgstr "পরিবর্ধন কর"
 
-#: js/share.js:320
+#: js/share.js:331
 msgid "delete"
 msgstr "মুছে ফেল"
 
-#: js/share.js:323
+#: js/share.js:334
 msgid "share"
 msgstr "ভাগাভাগি কর"
 
-#: js/share.js:357 js/share.js:553
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr "কূটশব্দদ্বারা সুরক্ষিত"
 
-#: js/share.js:566
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr "মেয়াদোত্তীর্ণ হওয়ার তারিখ নির্ধারণ বাতিল করতে সমস্যা দেখা দিয়েছে"
 
-#: js/share.js:578
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr "মেয়াদোত্তীর্ণ হওয়ার তারিখ নির্ধারণ করতে সমস্যা দেখা দিয়েছে"
 
-#: js/share.js:593
+#: js/share.js:604
 msgid "Sending ..."
 msgstr "পাঠানো হচ্ছে......"
 
-#: js/share.js:604
+#: js/share.js:615
 msgid "Email sent"
 msgstr "ই-মেইল পাঠানো হয়েছে"
 

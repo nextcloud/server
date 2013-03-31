@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
+"POT-Creation-Date: 2013-04-01 00:02+0200\n"
+"PO-Revision-Date: 2013-03-31 22:00+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -245,8 +245,8 @@ msgid "The object type is not specified."
 msgstr ""
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
-#: js/share.js:578
+#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr "Virhe"
 
@@ -266,7 +266,7 @@ msgstr "Jaettu"
 msgid "Share"
 msgstr "Jaa"
 
-#: js/share.js:125 js/share.js:606
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr "Virhe jaettaessa"
 
@@ -326,59 +326,59 @@ msgstr "Jaa sähköpostilla:"
 msgid "No people found"
 msgstr "Henkilöitä ei löytynyt"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr "Jakaminen uudelleen ei ole salittu"
 
-#: js/share.js:276
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:297
+#: js/share.js:308
 msgid "Unshare"
 msgstr "Peru jakaminen"
 
-#: js/share.js:309
+#: js/share.js:320
 msgid "can edit"
 msgstr "voi muokata"
 
-#: js/share.js:311
+#: js/share.js:322
 msgid "access control"
 msgstr "Pääsyn hallinta"
 
-#: js/share.js:314
+#: js/share.js:325
 msgid "create"
 msgstr "luo"
 
-#: js/share.js:317
+#: js/share.js:328
 msgid "update"
 msgstr "päivitä"
 
-#: js/share.js:320
+#: js/share.js:331
 msgid "delete"
 msgstr "poista"
 
-#: js/share.js:323
+#: js/share.js:334
 msgid "share"
 msgstr "jaa"
 
-#: js/share.js:357 js/share.js:553
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr "Salasanasuojattu"
 
-#: js/share.js:566
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr "Virhe purettaessa eräpäivää"
 
-#: js/share.js:578
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr "Virhe päättymispäivää asettaessa"
 
-#: js/share.js:593
+#: js/share.js:604
 msgid "Sending ..."
 msgstr "Lähetetään..."
 
-#: js/share.js:604
+#: js/share.js:615
 msgid "Email sent"
 msgstr "Sähköposti lähetetty"
 

@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
+"POT-Creation-Date: 2013-04-01 00:02+0200\n"
+"PO-Revision-Date: 2013-03-31 22:00+0000\n"
 "Last-Translator: otefenli <otefenli@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -245,8 +245,8 @@ msgid "The object type is not specified."
 msgstr "Nesne türü belirtilmemiş."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
-#: js/share.js:578
+#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr "Hata"
 
@@ -266,7 +266,7 @@ msgstr "Paylaşılan"
 msgid "Share"
 msgstr "Paylaş"
 
-#: js/share.js:125 js/share.js:606
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr "Paylaşım sırasında hata  "
 
@@ -326,59 +326,59 @@ msgstr "Eposta ile paylaş"
 msgid "No people found"
 msgstr "Kişi bulunamadı"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr "Tekrar paylaşmaya izin verilmiyor"
 
-#: js/share.js:276
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr " {item} içinde  {user} ile paylaşılanlarlar"
 
-#: js/share.js:297
+#: js/share.js:308
 msgid "Unshare"
 msgstr "Paylaşılmayan"
 
-#: js/share.js:309
+#: js/share.js:320
 msgid "can edit"
 msgstr "düzenleyebilir"
 
-#: js/share.js:311
+#: js/share.js:322
 msgid "access control"
 msgstr "erişim kontrolü"
 
-#: js/share.js:314
+#: js/share.js:325
 msgid "create"
 msgstr "oluştur"
 
-#: js/share.js:317
+#: js/share.js:328
 msgid "update"
 msgstr "güncelle"
 
-#: js/share.js:320
+#: js/share.js:331
 msgid "delete"
 msgstr "sil"
 
-#: js/share.js:323
+#: js/share.js:334
 msgid "share"
 msgstr "paylaş"
 
-#: js/share.js:357 js/share.js:553
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr "Paralo korumalı"
 
-#: js/share.js:566
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr "Geçerlilik tarihi tanımlama kaldırma hatası"
 
-#: js/share.js:578
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr "Geçerlilik tarihi tanımlama hatası"
 
-#: js/share.js:593
+#: js/share.js:604
 msgid "Sending ..."
 msgstr "Gönderiliyor..."
 
-#: js/share.js:604
+#: js/share.js:615
 msgid "Email sent"
 msgstr "Eposta gönderildi"
 

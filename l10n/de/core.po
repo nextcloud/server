@@ -24,8 +24,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 13:20+0000\n"
+"POT-Creation-Date: 2013-04-01 00:02+0200\n"
+"PO-Revision-Date: 2013-03-31 22:00+0000\n"
 "Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -255,8 +255,8 @@ msgid "The object type is not specified."
 msgstr "Der Objekttyp ist nicht angegeben."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
-#: js/share.js:578
+#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr "Fehler"
 
@@ -276,7 +276,7 @@ msgstr "Geteilt"
 msgid "Share"
 msgstr "Teilen"
 
-#: js/share.js:125 js/share.js:606
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr "Fehler beim Teilen"
 
@@ -336,59 +336,59 @@ msgstr "Über eine E-Mail teilen:"
 msgid "No people found"
 msgstr "Niemand gefunden"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr "Weiterverteilen ist nicht erlaubt"
 
-#: js/share.js:276
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr "Für {user} in {item} freigegeben"
 
-#: js/share.js:297
+#: js/share.js:308
 msgid "Unshare"
 msgstr "Freigabe aufheben"
 
-#: js/share.js:309
+#: js/share.js:320
 msgid "can edit"
 msgstr "kann bearbeiten"
 
-#: js/share.js:311
+#: js/share.js:322
 msgid "access control"
 msgstr "Zugriffskontrolle"
 
-#: js/share.js:314
+#: js/share.js:325
 msgid "create"
 msgstr "erstellen"
 
-#: js/share.js:317
+#: js/share.js:328
 msgid "update"
 msgstr "aktualisieren"
 
-#: js/share.js:320
+#: js/share.js:331
 msgid "delete"
 msgstr "löschen"
 
-#: js/share.js:323
+#: js/share.js:334
 msgid "share"
 msgstr "teilen"
 
-#: js/share.js:357 js/share.js:553
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr "Durch ein Passwort geschützt"
 
-#: js/share.js:566
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr "Fehler beim entfernen des Ablaufdatums"
 
-#: js/share.js:578
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr "Fehler beim Setzen des Ablaufdatums"
 
-#: js/share.js:593
+#: js/share.js:604
 msgid "Sending ..."
 msgstr "Sende ..."
 
-#: js/share.js:604
+#: js/share.js:615
 msgid "Email sent"
 msgstr "E-Mail wurde verschickt"
 

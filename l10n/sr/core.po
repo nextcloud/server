@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
+"POT-Creation-Date: 2013-04-01 00:02+0200\n"
+"PO-Revision-Date: 2013-03-31 22:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -241,8 +241,8 @@ msgid "The object type is not specified."
 msgstr "Врста објекта није подешена."
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
-#: js/share.js:578
+#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr "Грешка"
 
@@ -262,7 +262,7 @@ msgstr ""
 msgid "Share"
 msgstr "Дељење"
 
-#: js/share.js:125 js/share.js:606
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr "Грешка у дељењу"
 
@@ -322,59 +322,59 @@ msgstr "Подели поштом:"
 msgid "No people found"
 msgstr "Особе нису пронађене."
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr "Поновно дељење није дозвољено"
 
-#: js/share.js:276
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr "Подељено унутар {item} са {user}"
 
-#: js/share.js:297
+#: js/share.js:308
 msgid "Unshare"
 msgstr "Не дели"
 
-#: js/share.js:309
+#: js/share.js:320
 msgid "can edit"
 msgstr "може да мења"
 
-#: js/share.js:311
+#: js/share.js:322
 msgid "access control"
 msgstr "права приступа"
 
-#: js/share.js:314
+#: js/share.js:325
 msgid "create"
 msgstr "направи"
 
-#: js/share.js:317
+#: js/share.js:328
 msgid "update"
 msgstr "ажурирај"
 
-#: js/share.js:320
+#: js/share.js:331
 msgid "delete"
 msgstr "обриши"
 
-#: js/share.js:323
+#: js/share.js:334
 msgid "share"
 msgstr "подели"
 
-#: js/share.js:357 js/share.js:553
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr "Заштићено лозинком"
 
-#: js/share.js:566
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr "Грешка код поништавања датума истека"
 
-#: js/share.js:578
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr "Грешка код постављања датума истека"
 
-#: js/share.js:593
+#: js/share.js:604
 msgid "Sending ..."
 msgstr "Шаљем..."
 
-#: js/share.js:604
+#: js/share.js:615
 msgid "Email sent"
 msgstr "Порука је послата"
 
