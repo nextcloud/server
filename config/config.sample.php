@@ -135,6 +135,10 @@ $CONFIG = array(
 /* Loglevel to start logging at. 0=DEBUG, 1=INFO, 2=WARN, 3=ERROR (default is WARN) */
 "loglevel" => "",
 
+/* Append All database query and parameters to the log file.
+ (whatch out, this option can increase the size of your log file)*/
+"log_query" => false,
+
 /* Lifetime of the remember login cookie, default is 15 days */
 "remember_login_cookie_lifetime" => 60*60*24*15,
 
