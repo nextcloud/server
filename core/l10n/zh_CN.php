@@ -128,7 +128,6 @@
 "If you did not change your password recently, your account may be compromised!" => "如果您没有最近修改您的密码，您的帐户可能会受到影响！",
 "Please change your password to secure your account again." => "请修改您的密码，以保护您的账户安全。",
 "Lost your password?" => "忘记密码？",
-"remember" => "记住",
 "Log in" => "登录",
 "Alternative Logins" => "其他登录方式",
 "prev" => "上一页",

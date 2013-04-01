@@ -107,6 +107,8 @@
 "Edit categories" => "Wijzigen categorieën",
 "Add" => "Toevoegen",
 "Security Warning" => "Beveiligingswaarschuwing",
+"Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "Uw PHP versie is kwetsbaar voor de NULL byte aanval (CVE-2006-7243)",
+"Please update your PHP installation to use ownCloud securely." => "Werk uw PHP installatie bij om ownCloud veilig te kunnen gebruiken.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Er kon geen willekeurig nummer worden gegenereerd. Zet de PHP OpenSSL extentie aan.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Zonder random nummer generator is het mogelijk voor een aanvaller om de reset tokens van wachtwoorden te voorspellen. Dit kan leiden tot het inbreken op uw account.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Uw gegevensdirectory en bestanden zijn vermoedelijk bereikbaar vanaf het internet omdat het .htaccess bestand niet werkt.",
