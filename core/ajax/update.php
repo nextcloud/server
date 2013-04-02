@@ -36,11 +36,15 @@ if (OC::checkUpgrade(false)) {
  * @param UpdateWatcher $watcher
  */
 function __doFileCacheUpgrade($watcher) {
-	$query = \OC_DB::prepare('
+	try {
+		$query = \OC_DB::prepare('
 		SELECT DISTINCT `user`
 		FROM `*PREFIX*fscache`
-	');
-	$result = $query->execute();
+		');
+		$result = $query->execute();
+	} catch (\Exception $e) {
+		return;
+	}
 	$users = $result->fetchAll();
 	if(count($users) == 0) {
 		return;
