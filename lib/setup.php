@@ -91,34 +91,22 @@ class OC_Setup {
 		OC_Config::setValue('datadirectory', $datadir);
 		OC_Config::setValue('dbtype', $dbtype);
 		OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
-		if ($dbtype == 'mysql' or $dbtype == 'pgsql' or $dbtype == 'oci' or $dbtype == 'mssql') { // these needs more config options
-			$dbuser = $options['dbuser'];
-			$dbpass = $options['dbpass'];
-			$dbname = $options['dbname'];
-			$dbhost = isset($options['dbhost']) ? $options['dbhost'] : ''; // dbhost contents is checked above
-			$dbtableprefix = isset($options['dbtableprefix']) ? $options['dbtableprefix'] : 'oc_';
-
-			OC_Config::setValue('dbname', $dbname);
-			OC_Config::setValue('dbhost', $dbhost);
-			OC_Config::setValue('dbtableprefix', $dbtableprefix);
-		}
 		try {
 			if ($dbtype == 'mysql') {
-				\OC\Setup\MySQL::setupDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $username);
+				$db_setup = new \OC\Setup\MySQL(self::getTrans(), $options);
+				$db_setup->setupDatabase($username);
 			}
 			elseif($dbtype == 'pgsql') {
-				\OC\Setup\PostgreSQL::setupDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $username);
+				$db_setup = new \OC\Setup\PostgreSQL(self::getTrans(), $options);
+				$db_setup->setupDatabase($username);
 			}
 			elseif($dbtype == 'oci') {
-				if (array_key_exists('dbtablespace', $options)) {
-					$dbtablespace = $options['dbtablespace'];
-				} else {
-					$dbtablespace = 'USERS';
-				}
-				\OC\Setup\OCI::setupDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix, $dbtablespace, $username);
+				$db_setup = new \OC\Setup\OCI(self::getTrans(), $options);
+				$db_setup->setupDatabase($username);
 			}
 			elseif ($dbtype == 'mssql') {
-				\OC\Setup\MSSQL::setupDatabase($dbhost, $dbuser, $dbpass, $dbname, $dbtableprefix);
+				$db_setup = new \OC\Setup\MSSQL(self::getTrans(), $options);
+				$db_setup->setupDatabase($username);
 			}
 			else { // sqlite
 				//delete the old sqlite database first, might cause infinte loops otherwise
