@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
+"POT-Creation-Date: 2013-04-03 00:03+0200\n"
 "PO-Revision-Date: 2012-08-12 22:34+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
@@ -92,7 +92,7 @@ msgstr ""
 
 #: templates/settings.php:100
 msgid "Users"
-msgstr ""
+msgstr "Përdoruesit"
 
 #: templates/settings.php:113 templates/settings.php:114
 #: templates/settings.php:149 templates/settings.php:150

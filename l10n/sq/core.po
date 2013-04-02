@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#  <rapid_odeen@zoho.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2011-07-25 16:05+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-04-03 00:03+0200\n"
+"PO-Revision-Date: 2013-04-02 17:00+0000\n"
+"Last-Translator: Odeen <rapid_odeen@zoho.com>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,7 +48,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr ""
+msgstr "Asnjë kategori për të shtuar?"
 
 #: ajax/vcategories/add.php:37
 #, php-format
@@ -73,7 +74,7 @@ msgstr ""
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Nuk selektuar për tu eliminuar asnjë kategori."
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -110,55 +111,55 @@ msgstr ""
 
 #: js/config.php:45
 msgid "January"
-msgstr ""
+msgstr "Janar"
 
 #: js/config.php:46
 msgid "February"
-msgstr ""
+msgstr "Shkurt"
 
 #: js/config.php:47
 msgid "March"
-msgstr ""
+msgstr "Mars"
 
 #: js/config.php:48
 msgid "April"
-msgstr ""
+msgstr "Prill"
 
 #: js/config.php:49
 msgid "May"
-msgstr ""
+msgstr "Maj"
 
 #: js/config.php:50
 msgid "June"
-msgstr ""
+msgstr "Qershor"
 
 #: js/config.php:51
 msgid "July"
-msgstr ""
+msgstr "Korrik"
 
 #: js/config.php:52
 msgid "August"
-msgstr ""
+msgstr "Gusht"
 
 #: js/config.php:53
 msgid "September"
-msgstr ""
+msgstr "Shtator"
 
 #: js/config.php:54
 msgid "October"
-msgstr ""
+msgstr "Tetor"
 
 #: js/config.php:55
 msgid "November"
-msgstr ""
+msgstr "Nëntor"
 
 #: js/config.php:56
 msgid "December"
-msgstr ""
+msgstr "Dhjetor"
 
 #: js/js.js:286
 msgid "Settings"
-msgstr ""
+msgstr "Parametrat"
 
 #: js/js.js:779
 msgid "seconds ago"
@@ -214,23 +215,23 @@ msgstr ""
 
 #: js/oc-dialogs.js:126
 msgid "Choose"
-msgstr ""
+msgstr "Zgjidh"
 
 #: js/oc-dialogs.js:146 js/oc-dialogs.js:166
 msgid "Cancel"
-msgstr ""
+msgstr "Anulo"
 
 #: js/oc-dialogs.js:162
 msgid "No"
-msgstr ""
+msgstr "Jo"
 
 #: js/oc-dialogs.js:163
 msgid "Yes"
-msgstr ""
+msgstr "Po"
 
 #: js/oc-dialogs.js:180
 msgid "Ok"
-msgstr ""
+msgstr "Në rregull"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -238,10 +239,10 @@ msgid "The object type is not specified."
 msgstr ""
 
 #: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
-#: js/share.js:578
+#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
-msgstr ""
+msgstr "Veprim i gabuar"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
@@ -259,7 +260,7 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: js/share.js:125 js/share.js:606
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr ""
 
@@ -293,7 +294,7 @@ msgstr ""
 
 #: js/share.js:169 templates/installation.php:54 templates/login.php:35
 msgid "Password"
-msgstr ""
+msgstr "Kodi"
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -319,59 +320,59 @@ msgstr ""
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:276
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:297
+#: js/share.js:308
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:309
+#: js/share.js:320
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:311
+#: js/share.js:322
 msgid "access control"
 msgstr ""
 
-#: js/share.js:314
+#: js/share.js:325
 msgid "create"
 msgstr ""
 
-#: js/share.js:317
+#: js/share.js:328
 msgid "update"
 msgstr ""
 
-#: js/share.js:320
+#: js/share.js:331
 msgid "delete"
 msgstr ""
 
-#: js/share.js:323
+#: js/share.js:334
 msgid "share"
 msgstr ""
 
-#: js/share.js:357 js/share.js:553
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:566
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:578
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:593
+#: js/share.js:604
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:604
+#: js/share.js:615
 msgid "Email sent"
 msgstr ""
 
@@ -388,15 +389,15 @@ msgstr ""
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "Rivendosja e kodit të ownCloud-it"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr ""
+msgstr "Përdor lidhjen në vijim për të rivendosur kodin: {link}"
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "Do të të vijë një email që përmban një lidhje për ta rivendosur kodin."
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
@@ -409,63 +410,63 @@ msgstr ""
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
 #: templates/login.php:28
 msgid "Username"
-msgstr ""
+msgstr "Përdoruesi"
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr ""
+msgstr "Bëj kërkesë për rivendosjen"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "Kodi yt u rivendos"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "Tek faqja e hyrjes"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr ""
+msgstr "Kodi i ri"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr ""
+msgstr "Rivendos kodin"
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "Personale"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "Përdoruesit"
 
 #: strings.php:7
 msgid "Apps"
-msgstr ""
+msgstr "App"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "Ndihmë"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "Ndalohet hyrja"
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr ""
+msgstr "Cloud-i nuk u gjet"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Ndrysho kategoritë"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr ""
+msgstr "Shto"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -507,57 +508,57 @@ msgstr ""
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
+msgstr "Krijo një <strong>llogari administruesi</strong>"
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr ""
+msgstr "Të përparuara"
 
 #: templates/installation.php:64
 msgid "Data folder"
-msgstr ""
+msgstr "Emri i dosjes"
 
 #: templates/installation.php:73
 msgid "Configure the database"
-msgstr ""
+msgstr "Konfiguro database-in"
 
 #: templates/installation.php:78 templates/installation.php:90
 #: templates/installation.php:101 templates/installation.php:112
 #: templates/installation.php:124
 msgid "will be used"
-msgstr ""
+msgstr "do të përdoret"
 
 #: templates/installation.php:136
 msgid "Database user"
-msgstr ""
+msgstr "Përdoruesi i database-it"
 
 #: templates/installation.php:141
 msgid "Database password"
-msgstr ""
+msgstr "Kodi i database-it"
 
 #: templates/installation.php:146
 msgid "Database name"
-msgstr ""
+msgstr "Emri i database-it"
 
 #: templates/installation.php:156
 msgid "Database tablespace"
-msgstr ""
+msgstr "Tablespace-i i database-it"
 
 #: templates/installation.php:163
 msgid "Database host"
-msgstr ""
+msgstr "Pozicioni (host) i database-it"
 
 #: templates/installation.php:169
 msgid "Finish setup"
-msgstr ""
+msgstr "Mbaro setup-in"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr ""
+msgstr "shërbime web nën kontrollin tënd"
 
 #: templates/layout.user.php:58
 msgid "Log out"
-msgstr ""
+msgstr "Dalje"
 
 #: templates/login.php:10
 msgid "Automatic logon rejected!"
@@ -575,15 +576,15 @@ msgstr ""
 
 #: templates/login.php:19
 msgid "Lost your password?"
-msgstr ""
+msgstr "Ke humbur kodin?"
 
 #: templates/login.php:41
 msgid "remember"
-msgstr ""
+msgstr "kujto"
 
 #: templates/login.php:43
 msgid "Log in"
-msgstr ""
+msgstr "Hyrje"
 
 #: templates/login.php:49
 msgid "Alternative Logins"
@@ -591,11 +592,11 @@ msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr ""
+msgstr "mbrapa"
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr ""
+msgstr "para"
 
 #: templates/update.php:3
 #, php-format

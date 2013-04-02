@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
+"POT-Creation-Date: 2013-04-03 00:03+0200\n"
 "PO-Revision-Date: 2012-07-27 22:23+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
@@ -19,27 +19,27 @@ msgstr ""
 
 #: app.php:349
 msgid "Help"
-msgstr ""
+msgstr "Ndihmë"
 
 #: app.php:362
 msgid "Personal"
-msgstr ""
+msgstr "Personale"
 
 #: app.php:373
 msgid "Settings"
-msgstr ""
+msgstr "Parametrat"
 
 #: app.php:385
 msgid "Users"
-msgstr ""
+msgstr "Përdoruesit"
 
 #: app.php:398
 msgid "Apps"
-msgstr ""
+msgstr "App"
 
 #: app.php:406
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: files.php:209
 msgid "ZIP download is turned off."

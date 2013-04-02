@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-30 00:04+0100\n"
-"PO-Revision-Date: 2013-03-29 23:04+0000\n"
+"POT-Creation-Date: 2013-04-03 00:03+0200\n"
+"PO-Revision-Date: 2013-04-02 17:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -110,7 +110,7 @@ msgstr ""
 
 #: js/apps.js:93
 msgid "Error"
-msgstr ""
+msgstr "Veprim i gabuar"
 
 #: js/apps.js:96
 msgid "Updated"
@@ -397,7 +397,7 @@ msgstr ""
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:79
 msgid "Password"
-msgstr ""
+msgstr "Kodi"
 
 #: templates/personal.php:38
 msgid "Your password was changed"
@@ -413,7 +413,7 @@ msgstr ""
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr ""
+msgstr "Kodi i ri"
 
 #: templates/personal.php:44
 msgid "Change password"
