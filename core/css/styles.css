@@ -360,3 +360,211 @@ div.crumb { float:left; display:block; background:url('../img/breadcrumb.svg') n
 div.crumb:first-child { padding:10px 20px 10px 5px; }
 div.crumb.last { font-weight:bold; background:none; padding-right:10px; }
 div.crumb a{ padding: 0.9em 0 0.7em 0; }
+
+
+
+/* ---- APP STYLING ---- */
+#app {
+	height: 100%;
+	width: 100%;
+}
+
+/* Navigation: folder like structure */
+#app-navigation {
+	width: 250px;
+	height: 100%;
+	float: left;
+	padding-bottom: 32px;
+	-moz-box-sizing: border-box; box-sizing: border-box;
+	background-color: #f8f8f8;
+	border-right: 1px solid #ccc;
+}
+#app-navigation > ul {
+	height: 100%;
+	overflow: auto;
+	-moz-box-sizing: border-box; box-sizing: border-box;
+}
+#app-navigation li {
+	position: relative;
+	width: 100%;
+	-moz-box-sizing: border-box; box-sizing: border-box;
+	text-shadow: 0 1px 0 rgba(255,255,255,.9);
+}
+#app-navigation .active { /* active navigation entry or folder */
+	background-color: #ddd;
+	text-shadow: 0 1px 0 rgba(255,255,255,.7);
+}
+
+/* special rules for first-level entries and folders */
+#app-navigation > ul > li {
+	background-color: #eee;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #ddd;
+}
+#app-navigation > ul > .active {
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+#app-navigation .with-icon a {
+	padding-left: 32px;
+	background-size: 16px 16px; background-position: 10px center; background-repeat: no-repeat;
+}
+
+#app-navigation li > a {
+	display: block;
+	width: 100%;
+	padding: 0 16px;
+	overflow: hidden;
+	-moz-box-sizing: border-box; box-sizing: border-box;
+	line-height: 32px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	color: #333;
+}
+#app-navigation li:hover > a {
+	background-color: #ddd;
+}
+#app-navigation > ul > li:hover {
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+}
+
+#app-navigation .collapse {
+	display: none; /* hide collapse button intially */
+}
+#app-navigation .collapsible > .collapse {
+	position: absolute;
+	left: 6px;
+	top: 5px;
+	height: 16px;
+	width: 16px;
+	background: none; background-image: url('../img/actions/triangle-s.svg');
+	background-size: 16px 16px; background-repeat: no-repeat;
+	border: none;
+	border-radius: 0;
+	outline: none !important;
+	box-shadow: none;
+}
+#app-navigation .collapsible:hover > a {
+	background-image: none;
+}
+#app-navigation .collapsible:hover > .collapse {
+	display: block;
+}
+
+#app-navigation .collapsible .collapse {
+	-moz-transform: rotate(-90deg);
+	-webkit-transform: rotate(-90deg);
+	-ms-transform:rotate(-90deg);
+	-o-transform:rotate(-90deg);
+	transform: rotate(-90deg);
+}
+#app-navigation .collapsible.open .collapse {
+	-moz-transform: rotate(0);
+	-webkit-transform: rotate(0);
+	-ms-transform:rotate(0);
+	-o-transform:rotate(0);
+	transform: rotate(0);
+}
+
+/* Second level nesting for lists */
+#app-navigation > ul ul {
+	display: none;
+}
+#app-navigation > ul ul li > a {
+	padding-left: 32px;
+}
+#app-navigation > .with-icon ul li > a {
+	padding-left: 48px;
+	background-position: 24px center;
+}
+
+#app-navigation .open {
+	background-image: linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
+	background-image: -o-linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
+	background-image: -moz-linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
+	background-image: -webkit-linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
+	background-image: -ms-linear-gradient(top, rgb(238,238,238) 0%, rgb(245,245,245) 100%);
+}
+
+#app-navigation > ul .open:hover {
+	-moz-box-shadow: inset 0 0 3px #ccc; -webkit-box-shadow: inset 0 0 3px #ccc; box-shadow: inset 0 0 3px #ccc;
+	border-top: 1px solid #ccc;
+}
+
+#app-navigation > ul .open ul {
+	display: block;
+}
+
+/* drag and drop */
+#app-navigation .drag-and-drop {
+	-moz-transition: padding-bottom 500ms ease 0s;
+	-o-transition: padding-bottom 500ms ease 0s;
+	-webkit-transition: padding-bottom 500ms ease 0s;
+	-ms-transition: padding-bottom 500ms ease 0s;
+	transition: padding-bottom 500ms ease 0s;
+	padding-bottom: 40px;
+}
+#app-navigation .personalblock > legend { /* TODO @Raydiation: still needed? */
+	padding: 10px 0; margin: 0;
+}
+#app-navigation .error {
+	color: #dd1144;
+}
+
+
+
+/* Part where the content will be loaded into */
+#app-content {
+	height: 100%;
+	overflow-y: auto;
+}
+
+/* settings area */
+#app-settings {
+	position: fixed;
+	width: 249px;
+	bottom: 0;
+	border-top: 1px solid #ccc;
+}
+#app-settings-header {
+	background-color: #eee;
+}
+#app-settings-content {
+	display: none;
+	padding: 10px;
+	background-color: #eee;
+}
+#app-settings.open #app-settings-content {
+	display: block;
+}
+
+.settings-button {
+	display: block;
+	height: 32px;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	background-color: transparent; background-image: url('../img/actions/settings.svg');
+	background-position: 10px center; background-repeat: no-repeat;
+	box-shadow: none;
+	border: 0;
+	border-radius: 0;
+}
+.settings-button:hover {
+	background-color: #ddd;
+}
+
+/* icons */
+.folder-icon { background-image: url('../img/places/folder.svg'); }
+.delete-icon { background-image: url('../img/actions/delete.svg'); }
+.delete-icon:hover { background-image: url('../img/actions/delete-hover.svg'); }
+.edit-icon { background-image: url('../img/actions/rename.svg'); }
+
+/* buttons */
+button.loading {
+	background-image: url('../img/loading.gif');
+	background-position: right 10px center; background-repeat: no-repeat;
+	padding-right: 30px;
+}
