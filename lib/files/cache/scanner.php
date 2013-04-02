@@ -62,39 +62,42 @@ class Scanner {
 	 * @return array with metadata of the scanned file
 	 */
 	public function scanFile($file, $checkExisting = false) {
-		\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
-		$data = $this->getData($file);
-		if ($data) {
-			if ($file) {
-				$parent = dirname($file);
-				if ($parent === '.') {
-					$parent = '';
+		if (!self::isIgnoredFile($file)) {
+			\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
+			$data = $this->getData($file);
+			if ($data) {
+				if ($file) {
+					$parent = dirname($file);
+					if ($parent === '.') {
+						$parent = '';
+					}
+					if (!$this->cache->inCache($parent)) {
+						$this->scanFile($parent);
+					}
 				}
-				if (!$this->cache->inCache($parent)) {
-					$this->scanFile($parent);
+				if($cacheData = $this->cache->get($file)) {
+					if ($data['mtime'] === $cacheData['mtime'] &&
+						$data['size'] === $cacheData['size']) {
+						$data['etag'] = $cacheData['etag'];
+					}
 				}
+				if ($checkExisting and $cacheData) {
+					if ($data['size'] === -1) {
+						$data['size'] = $cacheData['size'];
+					}
+				}
+				$this->cache->put($file, $data);
 			}
-			if($cacheData = $this->cache->get($file)) {
-				if ($data['mtime'] === $cacheData['mtime'] &&
-					$data['size'] === $cacheData['size']) {
-					$data['etag'] = $cacheData['etag'];
-				}
-			}
-			if ($checkExisting and $cacheData) {
-				if ($data['size'] === -1) {
-					$data['size'] = $cacheData['size'];
-				}
-			}
-			$this->cache->put($file, $data);
+			return $data;
 		}
-		return $data;
+		return null;
 	}
 
 	/**
 	 * scan all the files in a folder and store them in the cache
 	 *
 	 * @param string $path
-	 * @param SCAN_RECURSIVE/SCAN_SHALLOW $recursive
+	 * @param bool $recursive
 	 * @param bool $onlyChilds
 	 * @return int the size of the scanned folder or -1 if the size is unknown at this stage
 	 */
@@ -109,7 +112,7 @@ class Scanner {
 		if ($this->storage->is_dir($path) && ($dh = $this->storage->opendir($path))) {
 			\OC_DB::beginTransaction();
 			while ($file = readdir($dh)) {
-				if (!$this->isIgnoredFile($file)) {
+				if (!$this->isIgnoredDir($file)) {
 					$child = ($path) ? $path . '/' . $file : $file;
 					$data = $this->scanFile($child, $recursive === self::SCAN_SHALLOW);
 					if ($data) {
@@ -145,15 +148,27 @@ class Scanner {
 	}
 
 	/**
+	 * @brief check if the directory should be ignored when scanning
+	 * NOTE: the special directories . and .. would cause never ending recursion
+	 * @param String $dir
+	 * @return boolean
+	 */
+	private function isIgnoredDir($dir) {
+		if ($dir === '.' || $dir === '..') {
+			return true;
+		}
+		return false;
+	}
+	/**
 	 * @brief check if the file should be ignored when scanning
 	 * NOTE: files with a '.part' extension are ignored as well!
 	 *       prevents unfinished put requests to be scanned
 	 * @param String $file
 	 * @return boolean
 	 */
-	private function isIgnoredFile($file) {
-		if ($file === '.' || $file === '..'
-			|| pathinfo($file, PATHINFO_EXTENSION) === 'part'
+	public static function isIgnoredFile($file) {
+		if (pathinfo($file, PATHINFO_EXTENSION) === 'part'
+			|| \OC\Files\Filesystem::isFileBlacklisted($file)
 		) {
 			return true;
 		}
