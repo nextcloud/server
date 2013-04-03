@@ -37,11 +37,7 @@ filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endC
 
 
 /* INPUTS */
-input[type="text"],
-input[type="password"],
-input[type="search"],
-input[type="number"],
-input[type="email"],
+input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"],
 textarea, select,
 button, .button,
 #quota, div.jp-progress, .pager li a {
@@ -80,8 +76,7 @@ input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#
 
 
 /* BUTTONS */
-input[type="submit"],
-input[type="button"],
+input[type="submit"], input[type="button"],
 button, .button,
 #quota, div.jp-progress, select, .pager li a {
 	width:auto; padding:.4em;
