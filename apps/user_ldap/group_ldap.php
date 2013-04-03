@@ -181,7 +181,7 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 				//we got uids, need to get their DNs to 'tranlsate' them to usernames
 				$filter = $this->combineFilterWithAnd(array(
 					\OCP\Util::mb_str_replace('%uid', $member,
-						$this->connection>ldapLoginFilter, 'UTF-8'),
+						$this->connection->ldapLoginFilter, 'UTF-8'),
 					$this->getFilterPartForUserSearch($search)
 				));
 				$ldap_users = $this->fetchListOfUsers($filter, 'dn');
