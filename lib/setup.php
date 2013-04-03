@@ -19,6 +19,14 @@ class DatabaseSetupException extends Exception
 }
 
 class OC_Setup {
+	static $db_setup_classes = array(
+		'mysql' => '\OC\Setup\MySQL',
+		'pgsql' => '\OC\Setup\PostgreSQL',
+		'oci'   => '\OC\Setup\OCI',
+		'mssql' => '\OC\Setup\MSSQL',
+		'sqlite' => '\OC\Setup\Sqlite',
+		'sqlite3' => '\OC\Setup\Sqlite',
+	);
 
 	public static function getTrans(){
 		return OC_L10N::get('lib');
@@ -40,30 +48,13 @@ class OC_Setup {
 			$options['directory'] = OC::$SERVERROOT."/data";
 		}
 
-		if($dbtype == 'mysql' or $dbtype == 'pgsql' or $dbtype == 'oci' or $dbtype == 'mssql') { // these needs more config options
-			if($dbtype == 'mysql')
-				$dbprettyname = 'MySQL';
-			else if($dbtype == 'pgsql')
-				$dbprettyname = 'PostgreSQL';
-			else if ($dbtype == 'mssql')
-				$dbprettyname = 'MS SQL Server';
-			else
-				$dbprettyname = 'Oracle';
-
-
-			if(empty($options['dbuser'])) {
-				$error[] = $l->t("%s enter the database username.", array($dbprettyname));
-			}
-			if(empty($options['dbname'])) {
-				$error[] = $l->t("%s enter the database name.", array($dbprettyname));
-			}
-			if(substr_count($options['dbname'], '.') >= 1) {
-				$error[] = $l->t("%s you may not use dots in the database name", array($dbprettyname));
-			}
-			if($dbtype != 'oci' && empty($options['dbhost'])) {
-				$options['dbhost'] = 'localhost';
-			}
+		if (!isset(self::$db_setup_classes[$dbtype])) {
+			$dbtype = 'sqlite';
 		}
+
+		$class = self::$db_setup_classes[$dbtype];
+		$db_setup = new $class(self::getTrans());
+		$error = array_merge($error, $db_setup->validate($options));
 
 		if(count($error) != 0) {
 			return $error;
@@ -91,17 +82,8 @@ class OC_Setup {
 		OC_Config::setValue('datadirectory', $datadir);
 		OC_Config::setValue('dbtype', $dbtype);
 		OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
-		$db_setup_classes = array(
-			'mysql' => '\OC\Setup\MySQL',
-			'pgsql' => '\OC\Setup\PostgreSQL',
-			'oci'   => '\OC\Setup\OCI',
-			'mssql' => '\OC\Setup\MSSQL',
-			'sqlite' => '\OC\Setup\Sqlite',
-			'sqlite3' => '\OC\Setup\Sqlite',
-		);
 		try {
-			$class = $db_setup_classes[$dbtype];
-			$db_setup = new $class(self::getTrans(), $options);
+			$db_setup->initialize($options);
 			$db_setup->setupDatabase($username);
 		} catch (DatabaseSetupException $e) {
 			$error[] = array(

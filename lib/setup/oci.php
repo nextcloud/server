@@ -3,6 +3,8 @@
 namespace OC\Setup;
 
 class OCI extends AbstractDatabase {
+	public $dbprettyname = 'Oracle';
+
 	protected $dbtablespace;
 
 	public function initialize($config) {

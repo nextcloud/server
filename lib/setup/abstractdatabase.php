@@ -12,14 +12,27 @@ abstract class AbstractDatabase {
 
 	public function __construct($trans, $config) {
 		$this->trans = $trans;
-		$this->initialize($config);
+	}
+
+	public function validate($config) {
+		$errors = array();
+		if(empty($config['dbuser'])) {
+			$errors[] = $this->trans->t("%s enter the database username.", array($this->dbprettyname));
+		}
+		if(empty($config['dbname'])) {
+			$errors[] = $this->trans->t("%s enter the database name.", array($this->dbprettyname));
+		}
+		if(substr_count($config['dbname'], '.') >= 1) {
+			$errors[] = $this->trans->t("%s you may not use dots in the database name", array($this->dbprettyname));
+		}
+		return $errors;
 	}
 
 	public function initialize($config) {
 		$dbuser = $config['dbuser'];
 		$dbpass = $config['dbpass'];
 		$dbname = $config['dbname'];
-		$dbhost = isset($config['dbhost']) ? $config['dbhost'] : ''; // dbhost contents is checked earlier
+		$dbhost = !empty($config['dbhost']) ? $config['dbhost'] : 'localhost';
 		$dbtableprefix = isset($config['dbtableprefix']) ? $config['dbtableprefix'] : 'oc_';
 
 		\OC_Config::setValue('dbname', $dbname);

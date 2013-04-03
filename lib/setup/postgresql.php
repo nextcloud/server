@@ -3,6 +3,8 @@
 namespace OC\Setup;
 
 class PostgreSQL extends AbstractDatabase {
+	public $dbprettyname = 'PostgreSQL';
+
 	public function setupDatabase($username) {
 		$e_host = addslashes($this->dbhost);
 		$e_user = addslashes($this->dbuser);

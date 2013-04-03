@@ -3,6 +3,8 @@
 namespace OC\Setup;
 
 class MySQL extends AbstractDatabase {
+	public $dbprettyname = 'MySQL';
+
 	public function setupDatabase($username) {
 		//check if the database user has admin right
 		$connection = @mysql_connect($this->dbhost, $this->dbuser, $this->dbpassword);
