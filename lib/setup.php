@@ -333,7 +333,7 @@ class OC_Setup {
 			//add prefix to the postgresql user name to prevent collisions
 			$dbusername='oc_'.$username;
 			//create a new password so we don't need to store the admin config in the config file
-			$dbpassword=md5(time());
+			$dbpassword=md5(OC_Util::generate_random_bytes(30));
 
 			self::pg_createDBUser($dbusername, $dbpassword, $connection);
 
