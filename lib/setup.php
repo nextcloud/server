@@ -91,32 +91,18 @@ class OC_Setup {
 		OC_Config::setValue('datadirectory', $datadir);
 		OC_Config::setValue('dbtype', $dbtype);
 		OC_Config::setValue('version', implode('.', OC_Util::getVersion()));
+		$db_setup_classes = array(
+			'mysql' => '\OC\Setup\MySQL',
+			'pgsql' => '\OC\Setup\PostgreSQL',
+			'oci'   => '\OC\Setup\OCI',
+			'mssql' => '\OC\Setup\MSSQL',
+			'sqlite' => '\OC\Setup\Sqlite',
+			'sqlite3' => '\OC\Setup\Sqlite',
+		);
 		try {
-			if ($dbtype == 'mysql') {
-				$db_setup = new \OC\Setup\MySQL(self::getTrans(), $options);
-				$db_setup->setupDatabase($username);
-			}
-			elseif($dbtype == 'pgsql') {
-				$db_setup = new \OC\Setup\PostgreSQL(self::getTrans(), $options);
-				$db_setup->setupDatabase($username);
-			}
-			elseif($dbtype == 'oci') {
-				$db_setup = new \OC\Setup\OCI(self::getTrans(), $options);
-				$db_setup->setupDatabase($username);
-			}
-			elseif ($dbtype == 'mssql') {
-				$db_setup = new \OC\Setup\MSSQL(self::getTrans(), $options);
-				$db_setup->setupDatabase($username);
-			}
-			else { // sqlite
-				//delete the old sqlite database first, might cause infinte loops otherwise
-				if(file_exists("$datadir/owncloud.db")) {
-					unlink("$datadir/owncloud.db");
-				}
-				//in case of sqlite, we can always fill the database
-				error_log("creating sqlite db");
-				OC_DB::createDbFromStructure('db_structure.xml');
-			}
+			$class = $db_setup_classes[$dbtype];
+			$db_setup = new $class(self::getTrans(), $options);
+			$db_setup->setupDatabase($username);
 		} catch (DatabaseSetupException $e) {
 			$error[] = array(
 				'error' => $e->getMessage(),
