@@ -37,8 +37,14 @@ filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endC
 
 
 /* INPUTS */
-input[type="text"], input[type="password"], input[type="search"], input[type="number"], input[type="email"],
-textarea, select, button, .button, #quota, div.jp-progress, .pager li a {
+input[type="text"],
+input[type="password"],
+input[type="search"],
+input[type="number"],
+input[type="email"],
+textarea, select,
+button, .button,
+#quota, div.jp-progress, .pager li a {
 	width:10em; margin:.3em; padding:.6em .5em .4em;
 	font-size:1em; font-family:Arial, Verdana, sans-serif;
 	background:#fff; color:#333; border:1px solid #ddd; outline:none;
@@ -74,14 +80,22 @@ input[type="checkbox"]:hover+label, input[type="checkbox"]:focus+label { color:#
 
 
 /* BUTTONS */
-input[type="submit"], input[type="button"], button, .button, #quota, div.jp-progress, select, .pager li a {
+input[type="submit"],
+input[type="button"],
+button, .button,
+#quota, div.jp-progress, select, .pager li a {
 	width:auto; padding:.4em;
 	background-color:rgba(240,240,240,.9); font-weight:bold; color:#555; text-shadow:rgba(255,255,255,.9) 0 1px 0; border:1px solid rgba(190,190,190,.9); cursor:pointer;
 	-moz-box-shadow:0 1px 1px rgba(255,255,255,.9), 0 1px 1px rgba(255,255,255,.9) inset; -webkit-box-shadow:0 1px 1px rgba(255,255,255,.9), 0 1px 1px rgba(255,255,255,.9) inset; box-shadow:0 1px 1px rgba(255,255,255,.9), 0 1px 1px rgba(255,255,255,.9) inset;
 	-moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;
 }
-input[type="submit"]:hover, input[type="submit"]:focus, input[type="button"]:hover, select:hover, select:focus, select:active, input[type="button"]:focus, .button:hover {
-	background:rgba(250,250,250,.9); color:#333;
+input[type="submit"]:hover, input[type="submit"]:focus,
+input[type="button"]:hover, input[type="button"]:focus,
+button:hover, button:focus,
+.button:hover, .button:focus,
+select:hover, select:focus, select:active {
+	background:rgba(250,250,250,.9);
+	color:#333;
 }
 input[type="submit"] img, input[type="button"] img, button img, .button img { cursor:pointer; }
 #header .button { border:none; -moz-box-shadow:none; -webkit-box-shadow:none; box-shadow:none; }
