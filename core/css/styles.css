@@ -100,6 +100,15 @@ select:hover, select:focus, select:active {
 input[type="submit"] img, input[type="button"] img, button img, .button img { cursor:pointer; }
 #header .button { border:none; -moz-box-shadow:none; -webkit-box-shadow:none; box-shadow:none; }
 
+/* disabled input fields and buttons */
+input:disabled, input:disabled:hover, input:disabled:focus,
+button:disabled, button:disabled:hover, button:disabled:focus,
+.button:disabled, .button:disabled:hover, .button:disabled:focus {
+	background: rgba(230,230,230,.9);
+	color: #999;
+	cursor: default;
+}
+
 /* Primary action button, use sparingly */
 .primary, input[type="submit"].primary, input[type="button"].primary, button.primary, .button.primary {
 	border:1px solid #1d2d44;
