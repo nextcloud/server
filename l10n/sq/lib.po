@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-03 00:03+0200\n"
+"POT-Creation-Date: 2013-04-04 00:06+0200\n"
 "PO-Revision-Date: 2012-07-27 22:23+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
@@ -189,11 +189,11 @@ msgstr ""
 
 #: template.php:113
 msgid "seconds ago"
-msgstr ""
+msgstr "sekonda më parë"
 
 #: template.php:114
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 minutë më parë"
 
 #: template.php:115
 #, php-format
@@ -202,7 +202,7 @@ msgstr ""
 
 #: template.php:116
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 orë më parë"
 
 #: template.php:117
 #, php-format
@@ -211,11 +211,11 @@ msgstr ""
 
 #: template.php:118
 msgid "today"
-msgstr ""
+msgstr "sot"
 
 #: template.php:119
 msgid "yesterday"
-msgstr ""
+msgstr "dje"
 
 #: template.php:120
 #, php-format
@@ -224,7 +224,7 @@ msgstr ""
 
 #: template.php:121
 msgid "last month"
-msgstr ""
+msgstr "muajin e shkuar"
 
 #: template.php:122
 #, php-format
@@ -233,11 +233,11 @@ msgstr ""
 
 #: template.php:123
 msgid "last year"
-msgstr ""
+msgstr "vitin e shkuar"
 
 #: template.php:124
 msgid "years ago"
-msgstr ""
+msgstr "vite më parë"
 
 #: updater.php:78
 #, php-format

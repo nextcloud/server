@@ -6,6 +6,7 @@
 # Aranel Surion <aranel@aranelsurion.org>, 2011-2013.
 # Caner Başaran <basaran.caner@gmail.com>, 2013.
 # Emre  <emresaracoglu@live.com>, 2012.
+# Fatih Aşıcı <fatih.asici@gmail.com>, 2013.
 # H.Oktay Tefenli <otefenli@gmail.com>, 2013.
 #   <info@beyboo.de>, 2012.
 # ismail yenigul <ismail.yenigul@surgate.com>, 2013.
@@ -15,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-31 00:01+0100\n"
-"PO-Revision-Date: 2013-03-29 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-04 00:06+0200\n"
+"PO-Revision-Date: 2013-04-03 18:50+0000\n"
+"Last-Translator: Fatih Aşıcı <fatih.asici@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -171,7 +172,7 @@ msgstr "Geçerli bir parola mutlaka sağlanmalı"
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
-msgstr "__dil_adı__"
+msgstr "Türkçe"
 
 #: templates/admin.php:15
 msgid "Security Warning"
@@ -221,7 +222,7 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "Bu ownCloud sunucusu sistem yerelini %s olarak değiştiremedi. Bu, dosya adlarındaki bazı karakterler ile sorun yaşanabileceği anlamına gelir. %s yerelini desteklemek için gerekli paketleri kurmanızı şiddetle öneririz."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
@@ -243,19 +244,19 @@ msgstr "Cron"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Yüklenen her sayfa ile bir görev çalıştır"
 
 #: templates/admin.php:111
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php bir webcron hizmetinde kaydedilir. Owncloud kökündeki cron.php sayfasını http üzerinden dakikada bir çağır."
 
 #: templates/admin.php:121
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Sistemin cron hizmetini kullan. Bir sistem cronjob'ı ile owncloud klasöründeki cron.php dosyasını dakikada bir çağır."
 
 #: templates/admin.php:128
 msgid "Sharing"
@@ -283,7 +284,7 @@ msgstr "Paylaşıma izin ver"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Kullanıcıların kendileri ile paylaşılan öğeleri yeniden paylaşmasına izin ver"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
@@ -291,7 +292,7 @@ msgstr "Kullanıcıların herşeyi paylaşmalarına izin ver"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Kullanıcıların sadece kendi gruplarındaki kullanıcılarla paylaşmasına izin ver"
 
 #: templates/admin.php:168
 msgid "Security"
@@ -304,13 +305,13 @@ msgstr "HTTPS bağlantısına zorla"
 #: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "İstemcileri ownCloud'a şifreli bir bağlantı ile bağlanmaya zorlar."
 
 #: templates/admin.php:185
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "SSL zorlamasını etkinleştirmek ya da devre dışı bırakmak için lütfen bu ownCloud örneğine HTTPS ile bağlanın."
 
 #: templates/admin.php:195
 msgid "Log"
@@ -453,7 +454,7 @@ msgstr "Eposta adresiniz"
 
 #: templates/personal.php:73
 msgid "Fill in an email address to enable password recovery"
-msgstr "Parola sıfırlamayı aktifleştirmek için eposta adresi girin"
+msgstr "Parola kurtarmayı etkinleştirmek için bir eposta adresi girin"
 
 #: templates/personal.php:79 templates/personal.php:80
 msgid "Language"
