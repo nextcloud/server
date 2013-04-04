@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-01 00:02+0200\n"
-"PO-Revision-Date: 2013-03-31 22:01+0000\n"
+"POT-Creation-Date: 2013-04-05 00:21+0200\n"
+"PO-Revision-Date: 2013-04-04 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -182,12 +182,12 @@ msgstr ""
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Web server anda belum terkonfigurasi untuk mengijinkan sinkronisasi berkas karena sepertinya antarmuka WebDAV rusak."
 
 #: setup.php:854
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Silakan periksa ulang <a href='%s'>panduan instalasi</a>."
 
 #: template.php:113
 msgid "seconds ago"

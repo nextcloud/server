@@ -3,6 +3,7 @@
 "Couldn't restore %s" => "Tidak dapat memulihkan %s",
 "perform restore operation" => "jalankan operasi pemulihan",
 "delete file permanently" => "hapus berkas secara permanen",
+"Delete permanently" => "hapus secara permanen",
 "Name" => "Nama",
 "Deleted" => "Dihapus",
 "1 folder" => "1 map",

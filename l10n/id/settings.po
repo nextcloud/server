@@ -7,13 +7,14 @@
 # Muhammad Fauzan <yosanpro@gmail.com>, 2012.
 # Muhammad Panji <sumodirjo@gmail.com>, 2012.
 # Muhammad Radifar <m_radifar05@yahoo.com>, 2011.
+# Widya Walesa <walecha99@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-31 00:01+0100\n"
-"PO-Revision-Date: 2013-03-29 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-05 00:22+0200\n"
+"PO-Revision-Date: 2013-04-04 08:00+0000\n"
+"Last-Translator: w41l <walecha99@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,7 +24,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Tidak dapat memuat daftar dari App Store"
 
 #: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
@@ -32,19 +33,19 @@ msgstr "autentikasi bermasalah"
 
 #: ajax/changedisplayname.php:32
 msgid "Unable to change display name"
-msgstr ""
+msgstr "Tidak dapat mengubah tampilan nama"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr ""
+msgstr "Grup sudah ada"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr ""
+msgstr "Tidak dapat menambah grup"
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Tidak dapat mengaktifkan app."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -56,11 +57,11 @@ msgstr "Email tidak sah"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Tidak dapat menghapus grup"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Tidak dapat menghapus pengguna"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -72,25 +73,25 @@ msgstr "Permintaan tidak valid"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "Admin tidak dapat menghapus dirinya sendiri dari grup admin"
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Tidak dapat menambahkan pengguna ke grup %s"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Tidak dapat menghapus pengguna dari grup %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Tidak dapat memperbarui app."
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Perbarui ke {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
@@ -102,15 +103,15 @@ msgstr "Aktifkan"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "Mohon tunggu...."
 
 #: js/apps.js:90
 msgid "Updating...."
-msgstr ""
+msgstr "Memperbarui...."
 
 #: js/apps.js:93
 msgid "Error while updating app"
-msgstr ""
+msgstr "Gagal ketika memperbarui app"
 
 #: js/apps.js:93
 msgid "Error"
@@ -118,7 +119,7 @@ msgstr "kesalahan"
 
 #: js/apps.js:96
 msgid "Updated"
-msgstr ""
+msgstr "Updated"
 
 #: js/personal.js:99
 msgid "Saving..."
@@ -134,7 +135,7 @@ msgstr "batal dikerjakan"
 
 #: js/users.js:63
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Tidak dapat menghapus pengguna"
 
 #: js/users.js:76 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
@@ -151,19 +152,19 @@ msgstr "Hapus"
 
 #: js/users.js:243
 msgid "add group"
-msgstr ""
+msgstr "tambah grup"
 
 #: js/users.js:407
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Tuliskan nama pengguna yang benar"
 
 #: js/users.js:408 js/users.js:414 js/users.js:429
 msgid "Error creating user"
-msgstr ""
+msgstr "Gagal membuat pengguna"
 
 #: js/users.js:413
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Tuliskan sandi yang benar"
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
@@ -180,26 +181,26 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Direktori data dan berkas anda kemungkinan dapat diakses dari internet. Berkas .htaccess yang disediakan oleh ownCloud tidak bekerja. Kami sangat menyarankan anda untuk mengkonfigurasi webserver anda sehingga direktori data tidak lagi dapat diakses atau pindahkan direktori data ke luar root dokumen webserver."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "Peingatan Setup"
 
 #: templates/admin.php:32
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Web server anda belum terkonfigurasi untuk mengijinkan sinkronisasi berkas karena sepertinya antarmuka WebDAV rusak."
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Silakan periksa ulang <a href='%s'>panduan instalasi</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Module 'fileinfo' tidak ada"
 
 #: templates/admin.php:47
 msgid ""
@@ -326,7 +327,7 @@ msgstr "kurang"
 
 #: templates/admin.php:231 templates/personal.php:102
 msgid "Version"
-msgstr ""
+msgstr "Versi"
 
 #: templates/admin.php:234 templates/personal.php:105
 msgid ""
@@ -336,7 +337,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "Dikembangkan oleh <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunitas ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">kode sumber</a> dilisensikan di bawah <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:11
 msgid "Add your App"
@@ -356,7 +357,7 @@ msgstr "Lihat halaman aplikasi di apps.owncloud.com"
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-dilisensikan oleh <span class=\"author\"></span>"
 
 #: templates/apps.php:38
 msgid "Update"
@@ -364,32 +365,32 @@ msgstr "Pembaruan"
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr ""
+msgstr "Dokumentasi Pengguna"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Dokumentasi Administrator"
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr ""
+msgstr "Dokumentasi Online"
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr ""
+msgstr "Forum"
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr ""
+msgstr "Bugtracker"
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr ""
+msgstr "Dukungan Komersial"
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Anda telah menggunakan <strong>%s</strong> dari total <strong>%s</strong>"
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
@@ -405,7 +406,7 @@ msgstr "Password"
 
 #: templates/personal.php:38
 msgid "Your password was changed"
-msgstr ""
+msgstr "Sandi anda telah diubah"
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
@@ -425,19 +426,19 @@ msgstr "Rubah password"
 
 #: templates/personal.php:56 templates/users.php:78
 msgid "Display Name"
-msgstr ""
+msgstr "Tampilan Nama"
 
 #: templates/personal.php:57
 msgid "Your display name was changed"
-msgstr ""
+msgstr "Tampilan nama ada telah diubah"
 
 #: templates/personal.php:58
 msgid "Unable to change your display name"
-msgstr ""
+msgstr "Tidak dapat mengubah tampilan nama anda"
 
 #: templates/personal.php:61
 msgid "Change display name"
-msgstr ""
+msgstr "Ubah tampilan nama"
 
 #: templates/personal.php:70
 msgid "Email"
@@ -461,15 +462,15 @@ msgstr "Bantu menerjemahkan"
 
 #: templates/personal.php:91
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:93
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Gunakan alamat ini untuk terhubung dengan ownCloud anda dalam file manager anda"
 
 #: templates/users.php:21 templates/users.php:77
 msgid "Login Name"
-msgstr ""
+msgstr "Nama Login"
 
 #: templates/users.php:32
 msgid "Create"
@@ -477,11 +478,11 @@ msgstr "Buat"
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr ""
+msgstr "Penyimpanan Default"
 
 #: templates/users.php:41 templates/users.php:139
 msgid "Unlimited"
-msgstr ""
+msgstr "Tak terbatas"
 
 #: templates/users.php:59 templates/users.php:154
 msgid "Other"
@@ -489,16 +490,16 @@ msgstr "Lain-lain"
 
 #: templates/users.php:84
 msgid "Storage"
-msgstr ""
+msgstr "Penyimpanan"
 
 #: templates/users.php:95
 msgid "change display name"
-msgstr ""
+msgstr "ubah tampilan nama"
 
 #: templates/users.php:99
 msgid "set new password"
-msgstr ""
+msgstr "sandi baru"
 
 #: templates/users.php:134
 msgid "Default"
-msgstr ""
+msgstr "Default"

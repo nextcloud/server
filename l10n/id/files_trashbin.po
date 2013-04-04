@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-08 00:25+0100\n"
-"PO-Revision-Date: 2013-03-07 23:25+0000\n"
+"POT-Creation-Date: 2013-04-05 00:21+0200\n"
+"PO-Revision-Date: 2013-04-04 06:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -18,12 +18,12 @@ msgstr ""
 "Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/delete.php:40
+#: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
 msgstr "Tidak dapat menghapus permanen %s"
 
-#: ajax/undelete.php:41
+#: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
 msgstr "Tidak dapat memulihkan %s"
@@ -38,7 +38,7 @@ msgstr "hapus berkas secara permanen"
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr ""
+msgstr "hapus secara permanen"
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"

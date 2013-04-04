@@ -15,6 +15,8 @@
 "Files" => "Berkas",
 "Text" => "teks",
 "Images" => "Gambar",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Web server anda belum terkonfigurasi untuk mengijinkan sinkronisasi berkas karena sepertinya antarmuka WebDAV rusak.",
+"Please double check the <a href='%s'>installation guides</a>." => "Silakan periksa ulang <a href='%s'>panduan instalasi</a>.",
 "seconds ago" => "beberapa detik yang lalu",
 "1 minute ago" => "1 menit lalu",
 "%d minutes ago" => "%d menit lalu",

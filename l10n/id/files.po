@@ -6,13 +6,14 @@
 # Muhammad Fauzan <yosanpro@gmail.com>, 2012.
 # Muhammad Panji <sumodirjo@gmail.com>, 2012.
 # Muhammad Radifar <m_radifar05@yahoo.com>, 2011.
+# Widya Walesa <walecha99@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-05 00:21+0200\n"
+"PO-Revision-Date: 2013-04-04 09:00+0000\n"
+"Last-Translator: w41l <walecha99@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,20 +24,20 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Tidak dapat memindahkan %s - Berkas dengan nama ini sudah ada"
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Tidak dapat memindahkan %s"
 
 #: ajax/rename.php:22 ajax/rename.php:25
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Tidak dapat mengubah nama berkas"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "Tidak ada berkas yang diunggah. Kesalahan tidak diketahui"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
@@ -45,7 +46,7 @@ msgstr "Tidak ada galat, berkas sukses diunggah"
 #: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr ""
+msgstr "File yang diunggah melampaui directive upload_max_filesize di php.ini"
 
 #: ajax/upload.php:29
 msgid ""
@@ -71,11 +72,11 @@ msgstr "Gagal menulis ke disk"
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Ruang simpan tidak mencukupi"
 
 #: ajax/upload.php:82
 msgid "Invalid directory."
-msgstr ""
+msgstr "Direktori salah."
 
 #: appinfo/app.php:12
 msgid "Files"
@@ -83,7 +84,7 @@ msgstr "Berkas"
 
 #: js/fileactions.js:125
 msgid "Delete permanently"
-msgstr ""
+msgstr "hapus secara permanen"
 
 #: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
@@ -91,16 +92,16 @@ msgstr "Hapus"
 
 #: js/fileactions.js:193
 msgid "Rename"
-msgstr ""
+msgstr "Ubah nama"
 
 #: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
-#: js/files.js:440
+#: js/files.js:442
 msgid "Pending"
 msgstr "Menunggu"
 
 #: js/filelist.js:251 js/filelist.js:253
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} sudah ada"
 
 #: js/filelist.js:251 js/filelist.js:253
 msgid "replace"
@@ -108,7 +109,7 @@ msgstr "mengganti"
 
 #: js/filelist.js:251
 msgid "suggest name"
-msgstr ""
+msgstr "sarankan nama"
 
 #: js/filelist.js:251 js/filelist.js:253
 msgid "cancel"
@@ -116,7 +117,7 @@ msgstr "batalkan"
 
 #: js/filelist.js:298
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "mengganti {new_name} dengan {old_name}"
 
 #: js/filelist.js:298
 msgid "undo"
@@ -124,35 +125,35 @@ msgstr "batal dikerjakan"
 
 #: js/filelist.js:323
 msgid "perform delete operation"
-msgstr ""
+msgstr "jalankan operasi penghapusan"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' adalah nama berkas yang salah."
 
 #: js/files.js:56
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Nama berkas tidak boleh kosong."
 
 #: js/files.js:64
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Nama salah, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' tidak diijinkan."
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Ruang simpan anda penuh, berkas tidak dapat diperbarui atau disinkronkan lagi!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Ruang simpan hampir penuh ({usedSpacePercent}%)"
 
 #: js/files.js:226
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
+msgstr "Unduhan anda sedang disiapkan. Proses dapat berlangsung cukup lama jika berkas  berukuran besar."
 
 #: js/files.js:263
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
@@ -168,54 +169,54 @@ msgstr "tutup"
 
 #: js/files.js:313
 msgid "1 file uploading"
-msgstr ""
+msgstr "1 berkas diunggah"
 
 #: js/files.js:316 js/files.js:371 js/files.js:386
 msgid "{count} files uploading"
-msgstr ""
+msgstr "{count} berkas diunggah"
 
-#: js/files.js:389 js/files.js:424
+#: js/files.js:389 js/files.js:426
 msgid "Upload cancelled."
 msgstr "Pengunggahan dibatalkan."
 
-#: js/files.js:498
+#: js/files.js:511
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Berkas sedang diunggah. Meninggalkan halaman ini akan membatalkan proses."
 
-#: js/files.js:571
+#: js/files.js:584
 msgid "URL cannot be empty."
 msgstr "tautan tidak boleh kosong"
 
-#: js/files.js:576
+#: js/files.js:589
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "Nama map salah. Nama 'Shared' telah digunakan oleh Owncloud."
 
-#: js/files.js:954 templates/index.php:70
+#: js/files.js:974 templates/index.php:70
 msgid "Name"
 msgstr "Nama"
 
-#: js/files.js:955 templates/index.php:81
+#: js/files.js:975 templates/index.php:81
 msgid "Size"
 msgstr "Ukuran"
 
-#: js/files.js:956 templates/index.php:83
+#: js/files.js:976 templates/index.php:83
 msgid "Modified"
 msgstr "Dimodifikasi"
 
-#: js/files.js:975
+#: js/files.js:995
 msgid "1 folder"
 msgstr "1 map"
 
-#: js/files.js:977
+#: js/files.js:997
 msgid "{count} folders"
 msgstr "{count} map"
 
-#: js/files.js:985
+#: js/files.js:1005
 msgid "1 file"
 msgstr "1 berkas"
 
-#: js/files.js:987
+#: js/files.js:1007
 msgid "{count} files"
 msgstr "{count} berkas"
 
@@ -269,11 +270,11 @@ msgstr "Folder"
 
 #: templates/index.php:14
 msgid "From link"
-msgstr ""
+msgstr "Dari tautan"
 
 #: templates/index.php:42
 msgid "Deleted files"
-msgstr ""
+msgstr "Berkas terhapus"
 
 #: templates/index.php:48
 msgid "Cancel upload"
@@ -281,7 +282,7 @@ msgstr "Batal mengunggah"
 
 #: templates/index.php:55
 msgid "You don’t have write permissions here."
-msgstr ""
+msgstr "Anda tidak memiliki ijin menulis di sini."
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
@@ -315,4 +316,4 @@ msgstr "Sedang memindai"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "Memperbarui cache filesystem..."
