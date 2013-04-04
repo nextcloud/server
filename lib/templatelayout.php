@@ -37,7 +37,7 @@ class OC_TemplateLayout extends OC_Template {
 		} else {
 			parent::__construct('core', 'layout.base');
 		}
-		$versionParameter = '?' . md5(implode(OC_Util::getVersion()));
+		$versionParameter = '?v=' . md5(implode(OC_Util::getVersion()));
 		// Add the js files
 		$jsfiles = self::findJavascriptFiles(OC_Util::$scripts);
 		$this->assign('jsfiles', array(), false);
