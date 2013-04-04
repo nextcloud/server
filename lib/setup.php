@@ -243,7 +243,7 @@ class OC_Setup {
 			$dbusername=substr('oc_'.$username, 0, 16);
 			if($dbusername!=$oldUser) {
 				//hash the password so we don't need to store the admin config in the config file
-				$dbpassword=md5(time().$dbpass);
+				$dbpassword=OC_Util::generate_random_bytes(30);
 
 				self::createDBUser($dbusername, $dbpassword, $connection);
 
@@ -333,7 +333,7 @@ class OC_Setup {
 			//add prefix to the postgresql user name to prevent collisions
 			$dbusername='oc_'.$username;
 			//create a new password so we don't need to store the admin config in the config file
-			$dbpassword=md5(time());
+			$dbpassword=OC_Util::generate_random_bytes(30);
 
 			self::pg_createDBUser($dbusername, $dbpassword, $connection);
 
@@ -476,7 +476,7 @@ class OC_Setup {
 			//add prefix to the oracle user name to prevent collisions
 			$dbusername='oc_'.$username;
 			//create a new password so we don't need to store the admin config in the config file
-			$dbpassword=md5(time().$dbpass);
+			$dbpassword=OC_Util::generate_random_bytes(30);
 
 			//oracle passwords are treated as identifiers:
 			//  must start with aphanumeric char
