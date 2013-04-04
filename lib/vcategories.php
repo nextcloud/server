@@ -551,7 +551,6 @@ class OC_VCategories {
 		try {
 			$query = 'DELETE FROM `' . self::RELATION_TABLE . '` ';
 			$query .= 'WHERE `objid` IN (' . str_repeat('?,', count($ids)-1) . '?) ';
-			$updates = $ids;
 			$query .= 'AND `type`= ?';
 			$updates[] = $type;
 			$stmt = OCP\DB::prepare($query);
