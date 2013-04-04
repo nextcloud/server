@@ -615,7 +615,7 @@ $(document).ready(function() {
 									tr.find('td.filename').attr('style','background-image:url('+path+')');
 								});
 							} else {
-								OC.dialogs.alert(result.data.message, 'Error');
+								OC.dialogs.alert(result.data.message, t('files', 'Error'));
 							}
 						}
 					);
@@ -631,7 +631,7 @@ $(document).ready(function() {
 								var tr=$('tr').filterAttr('data-file',name);
 								tr.attr('data-id', result.data.id);
 							} else {
-								OC.dialogs.alert(result.data.message, 'Error');
+								OC.dialogs.alert(result.data.message, t('files', 'Error'));
 							}
 						}
 					);
@@ -920,7 +920,7 @@ var folderDropOptions={
 						$('#notification').fadeIn();
 					}
 				} else {
-					OC.dialogs.alert(t('Error moving file'));
+					OC.dialogs.alert(t('Error moving file'), t('files', 'Error'));
 				}
 			});
 		});
@@ -958,7 +958,7 @@ var crumbDropOptions={
 						$('#notification').fadeIn();
 					}
 				} else {
-					OC.dialogs.alert(t('Error moving file'));
+					OC.dialogs.alert(t('Error moving file'), t('files', 'Error'));
 				}
 			});
 		});
