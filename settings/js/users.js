@@ -219,8 +219,8 @@ var UserList = {
 						},
 						function (response) {
 							if(response.status === 'success') {
-								if(UserList.availableGroups.indexOf(response.data.gropname) === -1 && response.data.action === 'add') {
-									UserList.availableGroups.push(response.data.gropname);
+								if(UserList.availableGroups.indexOf(response.data.groupname) === -1 && response.data.action === 'add') {
+									UserList.availableGroups.push(response.data.groupname);
 								}
 							} else {
 								OC.Notification.show(response.data.message);
