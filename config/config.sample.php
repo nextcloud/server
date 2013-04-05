@@ -56,10 +56,10 @@ $CONFIG = array(
 /* Theme to use for ownCloud */
 "theme" => "",
 
-/* Path to the 3rdparty directory */
+/* Path to the parent directory of the 3rdparty directory */
 "3rdpartyroot" => "",
 
-/* URL to the 3rdparty directory, as seen by the browser */
+/* URL to the parent directory of the 3rdparty directory, as seen by the browser */
 "3rdpartyurl" => "",
 
 /* Default app to load on login */
