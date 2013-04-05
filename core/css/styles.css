@@ -253,7 +253,7 @@ fieldset.warning a { color:#b94a48 !important; font-weight:bold; }
 	text-decoration:none; font-size:10px; text-align:center;
 	color:#fff; text-shadow:#000 0 -1px 0;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; filter:alpha(opacity=50); opacity:.5;
-	white-space:nowrap; overflow:hidden; text-overflow:ellipsis; // ellipsize long app names
+	white-space:nowrap; overflow:hidden; text-overflow:ellipsis; /* ellipsize long app names */
 }
 	#navigation a:hover, #navigation a:focus { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; filter:alpha(opacity=80); opacity:.8; }
 	#navigation a.active { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
