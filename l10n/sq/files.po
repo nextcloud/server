@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-04 00:05+0200\n"
+"POT-Creation-Date: 2013-04-06 00:04+0200\n"
 "PO-Revision-Date: 2011-08-13 02:19+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
@@ -76,7 +76,7 @@ msgstr ""
 
 #: appinfo/app.php:12
 msgid "Files"
-msgstr ""
+msgstr "Skedarët"
 
 #: js/fileactions.js:125
 msgid "Delete permanently"

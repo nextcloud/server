@@ -3,177 +3,171 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#  <>, 2013.
-#   <>, 2012.
-# Matej Urbančič <>, 2013.
-#   <peter.perosa@gmail.com>, 2012.
-# Peter Peroša <peter.perosa@gmail.com>, 2012-2013.
-#   <urossolar@hotmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
 "POT-Creation-Date: 2013-04-06 00:04+0200\n"
-"PO-Revision-Date: 2013-04-05 17:50+0000\n"
-"Last-Translator: mateju <>\n"
-"Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
+"PO-Revision-Date: 2011-07-25 16:05+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Kannada (http://www.transifex.com/projects/p/owncloud/language/kn/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: sl\n"
-"Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
+"Language: kn\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "Ni mogoče naložiti seznama iz središča App Store"
+msgstr ""
 
 #: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "Napaka overitve"
+msgstr ""
 
 #: ajax/changedisplayname.php:32
 msgid "Unable to change display name"
-msgstr "Prikazanega imena ni mogoče spremeniti."
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr "Skupina že obstaja"
+msgstr ""
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr "Skupine ni mogoče dodati"
+msgstr ""
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr "Programa ni mogoče omogočiti."
+msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "Elektronski naslov je shranjen"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "Neveljaven elektronski naslov"
+msgstr ""
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr "Skupine ni mogoče izbrisati"
+msgstr ""
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr "Uporabnika ni mogoče izbrisati"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr "Jezik je spremenjen"
+msgstr ""
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "Neveljavna zahteva"
+msgstr ""
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr "Skrbnikov ni mogoče odstraniti iz skupine skrbnikov (admin)"
+msgstr ""
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "Uporabnika ni mogoče dodati k skupini %s"
+msgstr ""
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "Uporabnika ni mogoče odstraniti iz skupine %s"
+msgstr ""
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr "Programa ni mogoče posodobiti."
+msgstr ""
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr "Posodobi na {appversion}"
+msgstr ""
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr "Onemogoči"
+msgstr ""
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "Omogoči"
+msgstr ""
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr "Počakajte ..."
+msgstr ""
 
 #: js/apps.js:90
 msgid "Updating...."
-msgstr "Poteka posodabljanje ..."
+msgstr ""
 
 #: js/apps.js:93
 msgid "Error while updating app"
-msgstr "Prišlo je do napake med posodabljanjem programa."
+msgstr ""
 
 #: js/apps.js:93
 msgid "Error"
-msgstr "Napaka"
+msgstr ""
 
 #: js/apps.js:96
 msgid "Updated"
-msgstr "Posodobljeno"
+msgstr ""
 
 #: js/personal.js:99
 msgid "Saving..."
-msgstr "Poteka shranjevanje ..."
+msgstr ""
 
 #: js/users.js:31
 msgid "deleted"
-msgstr "izbrisano"
+msgstr ""
 
 #: js/users.js:31
 msgid "undo"
-msgstr "razveljavi"
+msgstr ""
 
 #: js/users.js:63
 msgid "Unable to remove user"
-msgstr "Uporabnika ni mogoče odstraniti"
+msgstr ""
 
 #: js/users.js:76 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
-msgstr "Skupine"
+msgstr ""
 
 #: js/users.js:79 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
-msgstr "Skrbnik skupine"
+msgstr ""
 
 #: js/users.js:99 templates/users.php:161
 msgid "Delete"
-msgstr "Izbriši"
+msgstr ""
 
 #: js/users.js:243
 msgid "add group"
-msgstr "dodaj skupino"
+msgstr ""
 
 #: js/users.js:407
 msgid "A valid username must be provided"
-msgstr "Navedeno mora biti veljavno uporabniško ime"
+msgstr ""
 
 #: js/users.js:408 js/users.js:414 js/users.js:429
 msgid "Error creating user"
-msgstr "Napaka ustvarjanja uporabnika"
+msgstr ""
 
 #: js/users.js:413
 msgid "A valid password must be provided"
-msgstr "Navedeno mora biti veljavno geslo"
+msgstr ""
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
-msgstr "Slovenščina"
+msgstr ""
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr "Varnostno opozorilo"
+msgstr ""
 
 #: templates/admin.php:18
 msgid ""
@@ -182,36 +176,36 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "Trenutno je dostop do podatkovne mape in datotek najverjetneje omogočen vsem uporabnikom na omrežju. Datoteka .htaccess, vključena v ownCloud, namreč ni ustrezno nastavljena. Priporočljivo je nastaviti spletni strežnik tako, da mapa podatkov ne bo javno dostopna, ali pa, da jo prestavite v podrejeno mapo korenske mape spletnega strežnika."
+msgstr ""
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr "Opozorilo nastavitve"
+msgstr ""
 
 #: templates/admin.php:32
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "Spletni stražnik še ni ustrezno nastavljen in ne omogoča usklajevanja, saj je nastavitev WebDAV okvarjena."
+msgstr ""
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr "Preverite <a href='%s'>navodila namestitve</a>."
+msgstr ""
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr "Manjka modul 'fileinfo'."
+msgstr ""
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr "Manjka modul PHP 'fileinfo'. Priporočljivo je omogočiti ta modul za popolno zaznavanje vrst MIME."
+msgstr ""
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr "Jezikovne prilagoditve ne delujejo."
+msgstr ""
 
 #: templates/admin.php:63
 #, php-format
@@ -219,11 +213,11 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr "Na strežniku ownCloud ni mogoče nastaviti jezikovnih določil na jezik %s. Najverjetneje so težave s posebnimi znaki v imenih datotek. Priporočljivo je namestiti zahtevane pakete za podporo jeziku %s."
+msgstr ""
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
-msgstr "Internetna povezava ne deluje."
+msgstr ""
 
 #: templates/admin.php:78
 msgid ""
@@ -233,102 +227,102 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr "Strežnik ownCloud je brez delujoče internetne povezave. To pomeni, da bodo nekatere možnosti onemogočene. Ne bo mogoče priklapljati zunanjih priklopnih točk, ne bo obvestil o posodobitvah ali namestitvah programske opreme, prav tako najverjetneje ne bo mogoče pošiljati obvestilnih sporočil preko elektronske pošte. Za uporabo vseh zmožnosti oblaka ownCloud, mora biti internetna povezava vzpostavljena in delujoča."
+msgstr ""
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr "Periodično opravilo"
+msgstr ""
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
-msgstr "Izvedi eno nalogo z vsako naloženo stranjo."
+msgstr ""
 
 #: templates/admin.php:111
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr "Datoteka cron.php je vpisana pri storitvi webcron. Preko protokola HTTP je datoteka cron.php, ki se nahaja v korenski mapi ownCloud, klicana enkrat na minuto."
+msgstr ""
 
 #: templates/admin.php:121
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr "Uporaba sistemske storitve cron. Preko sistemskega posla cron je datoteka cron.php, ki se nahaja v mapi ownCloud, klicana enkrat na minuto."
+msgstr ""
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr "Souporaba"
+msgstr ""
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr "Omogoči API souporabe"
+msgstr ""
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr "Dovoli programom uporabo vmesnika API souporabe"
+msgstr ""
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr "Dovoli povezave"
+msgstr ""
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr "Uporabnikom dovoli souporabo predmetov z javnimi povezavami"
+msgstr ""
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr "Dovoli nadaljnjo souporabo"
+msgstr ""
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr "Uporabnikom dovoli nadaljnjo souporabo predmetov"
+msgstr ""
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr "Uporabnikom dovoli souporabo s komerkoli"
+msgstr ""
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr "Uporabnikom dovoli souporabo z ostalimi uporabniki njihove skupine"
+msgstr ""
 
 #: templates/admin.php:168
 msgid "Security"
-msgstr "Varnost"
+msgstr ""
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
-msgstr "Zahtevaj uporabo HTTPS"
+msgstr ""
 
 #: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr "Zahtevaj šifrirano povezovanje odjemalcev v oblak ownCloud"
+msgstr ""
 
 #: templates/admin.php:185
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr "Prijava mora biti vzpostavljena z uporabo protokola HTTPS za omogočanje šifriranja SSL."
+msgstr ""
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr "Dnevnik"
+msgstr ""
 
 #: templates/admin.php:196
 msgid "Log level"
-msgstr "Raven beleženja"
+msgstr ""
 
 #: templates/admin.php:223
 msgid "More"
-msgstr "Več"
+msgstr ""
 
 #: templates/admin.php:224
 msgid "Less"
-msgstr "Manj"
+msgstr ""
 
 #: templates/admin.php:231 templates/personal.php:102
 msgid "Version"
-msgstr "Različica"
+msgstr ""
 
 #: templates/admin.php:234 templates/personal.php:105
 msgid ""
@@ -338,169 +332,169 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "Programski paket razvija <a href=\"http://ownCloud.org/contact\" target=\"_blank\">skupnost ownCloud</a>. <a href=\"https://github.com/owncloud\" target=\"_blank\">Izvorna koda</a> je objavljena pod pogoji <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Splošnega javnega dovoljenja Affero\">AGPL</abbr></a>."
+msgstr ""
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr "Dodaj program"
+msgstr ""
 
 #: templates/apps.php:12
 msgid "More Apps"
-msgstr "Več programov"
+msgstr ""
 
 #: templates/apps.php:28
 msgid "Select an App"
-msgstr "Izbor programa"
+msgstr ""
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
-msgstr "Obiščite spletno stran programa na apps.owncloud.com"
+msgstr ""
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr "<span class=\"licence\"></span>-z dovoljenjem <span class=\"author\"></span>"
+msgstr ""
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr "Posodobi"
+msgstr ""
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr "Uporabniška dokumentacija"
+msgstr ""
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr "Skrbniška dokumentacija"
+msgstr ""
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr "Spletna dokumentacija"
+msgstr ""
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr "Forum"
+msgstr ""
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr "Sledilnik hroščev"
+msgstr ""
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr "Podpora strankam"
+msgstr ""
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "Uporabljenega je <strong>%s</strong> od razpoložljivih <strong>%s</strong> prostora."
+msgstr ""
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr "Pridobi programe za usklajevanje datotek"
+msgstr ""
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
-msgstr "Zaženi čarovnika prvega zagona"
+msgstr ""
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:79
 msgid "Password"
-msgstr "Geslo"
+msgstr ""
 
 #: templates/personal.php:38
 msgid "Your password was changed"
-msgstr "Geslo je spremenjeno"
+msgstr ""
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr "Gesla ni mogoče spremeniti."
+msgstr ""
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr "Trenutno geslo"
+msgstr ""
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr "Novo geslo"
+msgstr ""
 
 #: templates/personal.php:44
 msgid "Change password"
-msgstr "Spremeni geslo"
+msgstr ""
 
 #: templates/personal.php:56 templates/users.php:78
 msgid "Display Name"
-msgstr "Prikazano ime"
+msgstr ""
 
 #: templates/personal.php:57
 msgid "Your display name was changed"
-msgstr "Prikazano ime je spremenjeno."
+msgstr ""
 
 #: templates/personal.php:58
 msgid "Unable to change your display name"
-msgstr "Prikazanega imena ni mogoče spremeniti."
+msgstr ""
 
 #: templates/personal.php:61
 msgid "Change display name"
-msgstr "Spremeni prikazano ime"
+msgstr ""
 
 #: templates/personal.php:70
 msgid "Email"
-msgstr "Elektronska pošta"
+msgstr ""
 
 #: templates/personal.php:72
 msgid "Your email address"
-msgstr "Osebni elektronski naslov"
+msgstr ""
 
 #: templates/personal.php:73
 msgid "Fill in an email address to enable password recovery"
-msgstr "Vpišite osebni elektronski naslov in s tem omogočite obnovitev gesla"
+msgstr ""
 
 #: templates/personal.php:79 templates/personal.php:80
 msgid "Language"
-msgstr "Jezik"
+msgstr ""
 
 #: templates/personal.php:86
 msgid "Help translate"
-msgstr "Sodelujte pri prevajanju"
+msgstr ""
 
 #: templates/personal.php:91
 msgid "WebDAV"
-msgstr "WebDAV"
+msgstr ""
 
 #: templates/personal.php:93
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "Ta naslov uporabite za povezavo upravljalnika datotek z oblakom ownCloud."
+msgstr ""
 
 #: templates/users.php:21 templates/users.php:77
 msgid "Login Name"
-msgstr "Prijavno ime"
+msgstr ""
 
 #: templates/users.php:32
 msgid "Create"
-msgstr "Ustvari"
+msgstr ""
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr "Privzeta shramba"
+msgstr ""
 
 #: templates/users.php:41 templates/users.php:139
 msgid "Unlimited"
-msgstr "Neomejeno"
+msgstr ""
 
 #: templates/users.php:59 templates/users.php:154
 msgid "Other"
-msgstr "Drugo"
+msgstr ""
 
 #: templates/users.php:84
 msgid "Storage"
-msgstr "Shramba"
+msgstr ""
 
 #: templates/users.php:95
 msgid "change display name"
-msgstr "spremeni prikazano ime"
+msgstr ""
 
 #: templates/users.php:99
 msgid "set new password"
-msgstr "nastavi novo geslo"
+msgstr ""
 
 #: templates/users.php:134
 msgid "Default"
-msgstr "Privzeto"
+msgstr ""

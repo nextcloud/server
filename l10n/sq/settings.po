@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-04 00:06+0200\n"
-"PO-Revision-Date: 2013-04-03 10:40+0000\n"
+"POT-Creation-Date: 2013-04-06 00:04+0200\n"
+"PO-Revision-Date: 2013-04-05 11:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 #: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr ""
+msgstr "Gabim gjatë vërtetimit të identitetit"
 
 #: ajax/changedisplayname.php:32
 msgid "Unable to change display name"
@@ -186,12 +186,12 @@ msgstr ""
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Serveri web i juaji nuk është konfiguruar akoma për të lejuar sinkronizimin e skedarëve sepse ndërfaqja WebDAV mund të jetë e dëmtuar."
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Ju lutemi kontrolloni mirë <a href='%s'>shoqëruesin e instalimit</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
