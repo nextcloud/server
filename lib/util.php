@@ -618,8 +618,8 @@ class OC_Util {
 		$result = setlocale(LC_ALL, 'en_US.UTF-8', 'en_US.UTF8');
 		if($result == false) {
 			return false;
-        }
-        return true;
+		}
+		return true;
 	}
 
 	/**
