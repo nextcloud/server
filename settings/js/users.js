@@ -218,8 +218,8 @@ var UserList = {
 							group: group
 						},
 						function (response) {
-							if(response.status === 'success' && response.data.action === 'add') {
-								if(UserList.availableGroups.indexOf(response.data.gropname) === -1) {
+							if(response.status === 'success') {
+								if(UserList.availableGroups.indexOf(response.data.gropname) === -1 && response.data.action === 'add') {
 									UserList.availableGroups.push(response.data.gropname);
 								}
 							} else {
