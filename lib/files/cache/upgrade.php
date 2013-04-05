@@ -120,6 +120,10 @@ class Upgrade {
 	 * @return array
 	 */
 	function getNewData($data) {
+		//Make sure there is a path, otherwise we can do nothing.
+		if(!isset($data['path'])) {
+			return false;
+		}
 		$newData = $data;
 		/**
 		 * @var \OC\Files\Storage\Storage $storage
