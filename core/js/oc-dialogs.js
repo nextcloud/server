@@ -151,6 +151,12 @@ var OCdialogs = {
 
 		$(dialog_id + ' #dirtree').focus().change( {dcid: dialog_id}, OCdialogs.handleTreeListSelect );
 		$(dialog_id + ' #dirup').click( {dcid: dialog_id}, OCdialogs.filepickerDirUp );
+		$(dialog_id + ' #filelist').click('[data="file"]', function() {
+			OCdialogs.handlePickerClick(this, $(this).data('entryname'), $(this).data('dcid'));
+		});
+		$(dialog_id + ' #filelist').on('click', '[data="dir"]', function() {
+			OCdialogs.handlePickerClick(this, $(this).data('entryname'), $(this).data('dcid'));
+		});
 
 		$(dialog_id).ready(function(){
 			$.getJSON(OC.filePath('files', 'ajax', 'rawlist.php'), { mimetype: mimetype_filter } ,function(request) {
@@ -310,12 +316,7 @@ var OCdialogs = {
 			files += template.replace('*LASTMODDATE*', OC.mtime2date(sorted[i].mtime)).replace('*NAME*', escapeHTML(sorted[i].name)).replace('*MIMETYPEICON*', sorted[i].mimetype_icon).replace('*ENTRYNAME*', escapeHTML(sorted[i].name)).replace('*ENTRYTYPE*', escapeHTML(sorted[i].type));
 		}
 
-		$(dialog_content_id + ' #filelist').html(files).on('click', '[data="file"]', function() {
-			OCdialogs.handlePickerClick(this, $(this).data('entryname'), $(this).data('dcid'));
-		});
-		$(dialog_content_id + ' #filelist').html(files).on('click', '[data="dir"]', function() {
-			OCdialogs.handlePickerClick(this, $(this).data('entryname'), $(this).data('dcid'));
-		});
+		$(dialog_content_id + ' #filelist').html(files);
 		$(dialog_content_id + ' .filepicker_loader').css('visibility', 'hidden');
 	},
 	/**
@@ -334,9 +335,10 @@ var OCdialogs = {
 
 		$(dialog_id + ' #dirtree').html(paths);
 	},
-
+	/**
+	 * handle selection made in the tree list
+	*/
 	handleTreeListSelect:function(event) {
-		// fails at paths with &
 		if ($("option:selected", this).html().indexOf('/') !== -1) { // if there's a slash in the selected path, don't append it
 			$(event.data.dcid).data('path', $("option:selected", this).html());
 		} else {
@@ -360,7 +362,9 @@ var OCdialogs = {
 			function(request) { OCdialogs.fillTreeList(request, event.data.dcid) }
 		);
 	},
-	// go one directory up
+	/**
+	 * go one directory up
+	*/
 	filepickerDirUp:function(event) {
 		var old_path = $(event.data.dcid).data('path');
 		if ( old_path !== "/") {
@@ -388,11 +392,10 @@ var OCdialogs = {
 			);
 		}
 	},
-	// this function is in early development state, please dont use it unless you know what you are doing
+	/**
+	 * handle clicks made in the filepicker
+	*/
 	handlePickerClick:function(element, name, dialog_content_id) {
-		var datapath = $(dialog_content_id).data('path');
-		if (datapath === undefined) { datapath = '' };
-		datapath += name;
 		if ( $(element).attr('data') === 'file' ){
 			if ( $(dialog_content_id).data('multiselect') !== true) {
 				$(dialog_content_id + ' .filepicker_element_selected').removeClass('filepicker_element_selected');
@@ -400,7 +403,7 @@ var OCdialogs = {
 			$(element).toggleClass('filepicker_element_selected');
 			return;
 		} else if ( $(element).attr('data') === 'dir' ) {
-			datapath += '/';
+			var datapath = escapeHTML( $(dialog_content_id).data('path') + name + '/' );
 			$(dialog_content_id).data('path', datapath);
 			$(dialog_content_id + ' .filepicker_loader').css('visibility', 'visible');
 			$.getJSON(
