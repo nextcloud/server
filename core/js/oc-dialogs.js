@@ -31,7 +31,7 @@ var OCdialogs = {
 	* @param modal make the dialog modal
 	*/
 	alert:function(text, title, callback, modal) {
-		var content = '<p><span class="ui-icon ui-icon-alert"></span>' + text + '</p>';
+		var content = '<p><span class="ui-icon ui-icon-alert"></span>' + escapeHTML(text) + '</p>';
 		OCdialogs.message(content, title, OCdialogs.ALERT_DIALOG, OCdialogs.OK_BUTTON, callback, modal);
 	},
 	/**
@@ -42,7 +42,7 @@ var OCdialogs = {
 	* @param modal make the dialog modal
 	*/
 	info:function(text, title, callback, modal) {
-		var content = '<p><span class="ui-icon ui-icon-info"></span>' + text + '</p>';
+		var content = '<p><span class="ui-icon ui-icon-info"></span>' + escapeHTML(text) + '</p>';
 		OCdialogs.message(content, title, OCdialogs.ALERT_DIALOG, OCdialogs.OK_BUTTON, callback, modal);
 	},
 	/**
@@ -53,7 +53,7 @@ var OCdialogs = {
 	* @param modal make the dialog modal
 	*/
 	confirm:function(text, title, callback, modal) {
-		var content = '<p><span class="ui-icon ui-icon-notice"></span>' + text + '</p>';
+		var content = '<p><span class="ui-icon ui-icon-notice"></span>' + escapeHTML(text) + '</p>';
 		OCdialogs.message(content, title, OCdialogs.ALERT_DIALOG, OCdialogs.YES_NO_BUTTONS, callback, modal);
 	},
 	/**
@@ -64,7 +64,7 @@ var OCdialogs = {
 	* @param modal make the dialog modal
 	*/
 	prompt:function(text, title, default_value, callback, modal) {
-		var content = '<p><span class="ui-icon ui-icon-pencil"></span>' + text + ':<br/><input type="text" id="oc-dialog-prompt-input" value="' + default_value + '" style="width:90%"></p>';
+		var content = '<p><span class="ui-icon ui-icon-pencil"></span>' + escapeHTML(text) + ':<br/><input type="text" id="oc-dialog-prompt-input" value="' + escapeHTML(default_value) + '" style="width:90%"></p>';
 		OCdialogs.message(content, title, OCdialogs.PROMPT_DIALOG, OCdialogs.OK_BUTTON, callback, modal);
 	},
 	/**
@@ -80,7 +80,7 @@ var OCdialogs = {
 	form:function(fields, title, callback, modal) {
 		var content = '<table>';
 		$.each(fields, function(index, field){
-			content += '<tr><td>' + field.text + '</td><td>';
+			content += '<tr><td>' + escapeHTML(field.text) + '</td><td>';
 			var type = field.type;
 			
 			if (type === 'text' || type === 'checkbox' || type === 'password') {
@@ -88,17 +88,17 @@ var OCdialogs = {
 				if (type === 'checkbox' && field.value === true) {
 					content += ' checked="checked"';
 				} else if (type === 'text' || type === 'password' && val.value) {
-					content += ' value="' + field.value + '"';
+					content += ' value="' + escapeHTML(field.value) + '"';
 				}
 				content += '>';
 			} else if (type === 'select') {
-				content += '<select name="' + field.name + '"';
+				content += '<select name="' + escapeHTML(field.name) + '"';
 				if (field.value !== undefined) {
-					content += ' value="' + field.value + '"';
+					content += ' value="' + escapeHTML(field.value) + '"';
 				}
 				content += '>';
 				$.each(field.options, function(index, field_option){
-					content += '<option value="' + field_option.value + '">' + field_option.text + '</option>';
+					content += '<option value="' + escapeHTML(field_option.value) + '">' + escapeHTML(field_option.text) + '</option>';
 				});
 				content += '</select>';
 			}
@@ -109,8 +109,8 @@ var OCdialogs = {
 
 		var dialog_name = 'oc-dialog-' + OCdialogs.dialogs_counter + '-content';
 		var dialog_id = '#' + dialog_name;
-		var dialog_div = '<div id="' + dialog_name + '" title="' + title + '">' + content + '</div>';
-		if (modal === undefined) modal = false;
+		var dialog_div = '<div id="' + dialog_name + '" title="' + escapeHTML(title) + '">' + escapeHTML(content) + '</div>';
+		if (modal === undefined) { modal = false };
 		$('body').append(dialog_div);
 		var buttonlist = [{
 			text: t('core', 'Ok'),
@@ -140,10 +140,10 @@ var OCdialogs = {
 	filepicker:function(title, callback, multiselect, mimetype_filter, modal) {
 		var dialog_name = 'oc-dialog-' + OCdialogs.dialogs_counter + '-content';
 		var dialog_id = '#' + dialog_name;
-		var dialog_div = '<div id="' + dialog_name + '" title="' + title + '"><button id="dirup">↑</button><select id="dirtree"></select><div id="filelist"></div><div class="filepicker_loader"><img src="' + OC.filePath('gallery','img','loading.gif') + '"></div></div>';
-		if (modal === undefined) modal = false;
-		if (multiselect === undefined) multiselect = false;
-		if (mimetype_filter === undefined) mimetype_filter = '';
+		var dialog_div = '<div id="' + dialog_name + '" title="' + escapeHTML(title) + '"><button id="dirup">↑</button><select id="dirtree"></select><div id="filelist"></div><div class="filepicker_loader"><img src="' + OC.filePath('gallery','img','loading.gif') + '"></div></div>';
+		if (modal === undefined) { modal = false };
+		if (multiselect === undefined) { multiselect = false };
+		if (mimetype_filter === undefined) { mimetype_filter = '' };
 
 		$('body').append(dialog_div);
 
@@ -154,15 +154,15 @@ var OCdialogs = {
 
 		$(dialog_id).ready(function(){
 			$.getJSON(OC.filePath('files', 'ajax', 'rawlist.php'), { mimetype: mimetype_filter } ,function(request) {
-				OCdialogs.fillFilePicker(request, dialog_id)
+				OCdialogs.fillFilePicker(request, dialog_id);
 			});
 			$.getJSON(OC.filePath('files', 'ajax', 'rawlist.php'), { mimetype: "httpd/unix-directory" }, function(request) {
-				OCdialogs.fillTreeList(request, dialog_id)
+				OCdialogs.fillTreeList(request, dialog_id);
 			});
 		}).data('multiselect', multiselect).data('mimetype',mimetype_filter);
 
 		// build buttons
-		var function_to_call = function() {
+		var functionToCall = function() {
 			if (callback !== undefined) {
 				var datapath;
 				if (multiselect === true) {
@@ -172,7 +172,7 @@ var OCdialogs = {
 					});
 				} else {
 					var datapath = $(dialog_id).data('path');
-					datapath += $(dialog_id+' .filepicker_element_selected .filename').text()
+					datapath += $(dialog_id+' .filepicker_element_selected .filename').text();
 				}
 				callback(datapath);
 				$(dialog_id).dialog('close');
@@ -180,7 +180,7 @@ var OCdialogs = {
 		};
 		var buttonlist = [{
 			text: t('core', 'Choose'), 
-			click: function_to_call
+			click: functionToCall
 			},
 			{
 			text: t('core', 'Cancel'), 
@@ -202,8 +202,8 @@ var OCdialogs = {
 	message:function(content, title, dialog_type, buttons, callback, modal) {
 		var dialog_name = 'oc-dialog-' + OCdialogs.dialogs_counter + '-content';
 		var dialog_id = '#' + dialog_name;
-		var dialog_div = '<div id="' + dialog_name + '" title="' + title + '">' + content + '</div>';
-		if (modal === undefined) modal = false;
+		var dialog_div = '<div id="' + dialog_name + '" title="' + escapeHTML(title) + '">' + escapeHTML(content) + '</div>';
+		if (modal === undefined) { modal = false };
 		$('body').append(dialog_div);
 		var buttonlist = [];
 		switch (buttons) {
@@ -211,25 +211,25 @@ var OCdialogs = {
 				buttonlist = [{
 					text: t('core', 'Yes'),
 					click: function(){
-						if (callback !== undefined) callback(true);
+						if (callback !== undefined) { callback(true) };
 						$(dialog_id).dialog('close');
 					}
 				},
 				{
 					text: t('core', 'No'),
 					click: function(){
-						if (callback !== undefined) callback(false);
+						if (callback !== undefined) { callback(false) };
 						$(dialog_id).dialog('close');
 					}
 				}];
 			break;
 			case OCdialogs.OK_BUTTON:
-				var function_to_call;
+				var functionToCall;
 				switch(dialog_type) {
 					case OCdialogs.ALERT_DIALOG:
-						function_to_call = function() {
+						functionToCall = function() {
 							$(dialog_id).dialog('close');
-							if(callback !== undefined) callback();
+							if(callback !== undefined) { callback() };
 						};
 					break;
 					case OCdialogs.PROMPT_DIALOG:
@@ -237,12 +237,12 @@ var OCdialogs = {
 							text: t('core', 'Cancel'),
 							click: function() { $(dialog_id).dialog('close'); }
 						};
-						function_to_call = function() { OCdialogs.prompt_ok_handler(callback, dialog_id); };
+						functionToCall = function() { OCdialogs.prompt_ok_handler(callback, dialog_id); };
 					break;
 				}
 				buttonlist[0] = {
 					text: t('core', 'Ok'),
-					click: function_to_call
+					click: functionToCall
 				};
 			break;
 		};
@@ -275,7 +275,7 @@ var OCdialogs = {
 
 	prompt_ok_handler: function(callback, dialog_id) {
 		$(dialog_id).dialog('close');
-		if (callback !== undefined) callback($(dialog_id + " input#oc-dialog-prompt-input").val());
+		if (callback !== undefined) { callback($(dialog_id + " input#oc-dialog-prompt-input").val()) };
 	},
 
 	form_ok_handler: function(callback, dialog_id) {
@@ -294,10 +294,10 @@ var OCdialogs = {
 	 * fills the filepicker with files
 	*/
 	fillFilePicker:function(request, dialog_content_id) {
-		var template = '<div data-entryname="*ENTRYNAME*" data-dcid="' + dialog_content_id + '" data="*ENTRYTYPE*"><img src="*MIMETYPEICON*" style="margin: 2px 1em 0 4px;"><span class="filename">*NAME*</span><div style="float:right;margin-right:1em;">*LASTMODDATE*</div></div>';
+		var template = '<div data-entryname="*ENTRYNAME*" data-dcid="' + escapeHTML(dialog_content_id) + '" data="*ENTRYTYPE*"><img src="*MIMETYPEICON*" style="margin: 2px 1em 0 4px;"><span class="filename">*NAME*</span><div style="float:right;margin-right:1em;">*LASTMODDATE*</div></div>';
 		var files = '';
 		$.each(request.data, function(index, file) {
-			files += template.replace('*LASTMODDATE*', OC.mtime2date(file.mtime)).replace('*NAME*', file.name).replace('*MIMETYPEICON*', file.mimetype_icon).replace('*ENTRYNAME*', file.name).replace('*ENTRYTYPE*', file.type);
+			files += template.replace('*LASTMODDATE*', OC.mtime2date(file.mtime)).replace('*NAME*', escapeHTML(file.name)).replace('*MIMETYPEICON*', file.mimetype_icon).replace('*ENTRYNAME*', escapeHTML(file.name)).replace('*ENTRYTYPE*', escapeHTML(file.type));
 		});
 		
 		$(dialog_content_id + ' #filelist').html(files).on('click', '[data="file"]', function() {
@@ -310,11 +310,11 @@ var OCdialogs = {
 	*/
 	fillTreeList: function(request, dialog_id) {
 		var template = '<option value="*COUNT*">*NAME*</option>';
-		var paths = '<option value="0">' + $(dialog_id).data('path') + '</option>';
+		var paths = '<option value="0">' + escapeHTML($(dialog_id).data('path')) + '</option>';
 		var count = 1;
 		$.each(request.data, function(index, file) {
 			if (file.mimetype === "httpd/unix-directory") {
-				paths += template.replace('*COUNT*', count).replace('*NAME*', file.name);
+				paths += template.replace('*COUNT*', count).replace('*NAME*', escapeHTML(file.name));
 				count++;
 			}
 		});
@@ -378,7 +378,7 @@ var OCdialogs = {
 	// this function is in early development state, please dont use it unless you know what you are doing
 	handlePickerClick:function(element, name, dialog_content_id) {
 		var datapath = $(dialog_content_id).data('path');
-		if (datapath === undefined) datapath = '';
+		if (datapath === undefined) { datapath = '' };
 		datapath += name;
 		if ( $(element).attr('data') === 'file' ){
 			if ( $(dialog_content_id).data('multiselect') !== true) {
@@ -390,7 +390,7 @@ var OCdialogs = {
 		$(dialog_content_id).data('path', datapath);
 		$(dialog_content_id + ' #dirtree option:last').removeAttr('selected');
 		var newval = parseInt($(dialog_content_id + ' #dirtree option:last').val())+1;
-		$(dialog_content_id + ' #dirtree').append('<option selected="selected" value="'+newval+'">'+name+'</option>');
+		$(dialog_content_id + ' #dirtree').append('<option selected="selected" value="'+ newval + '">' + escapeHTML(name) + '</option>');
 		$(dialog_content_id + ' .filepicker_loader').css('visibility', 'visible');
 		$.getJSON(
 			OC.filePath('files', 'ajax', 'rawlist.php'),
