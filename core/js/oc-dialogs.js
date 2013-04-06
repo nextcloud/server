@@ -64,7 +64,8 @@ var OCdialogs = {
 	* @param modal make the dialog modal
 	*/
 	prompt:function(text, title, default_value, callback, modal) {
-		var content = '<p><span class="ui-icon ui-icon-pencil"></span>' + escapeHTML(text) + ':<br/><input type="text" id="oc-dialog-prompt-input" value="' + escapeHTML(default_value) + '" style="width:90%"></p>';
+		var input = '<input type="text" id="oc-dialog-prompt-input" value="' + escapeHTML(default_value) + '" style="width:90%">';
+		var content = '<p><span class="ui-icon ui-icon-pencil"></span>' + escapeHTML(text) + ':<br/>' + input + '</p>';
 		OCdialogs.message(content, title, OCdialogs.PROMPT_DIALOG, OCdialogs.OK_BUTTON, callback, modal);
 	},
 	/**
@@ -140,7 +141,9 @@ var OCdialogs = {
 	filepicker:function(title, callback, multiselect, mimetype_filter, modal) {
 		var dialog_name = 'oc-dialog-' + OCdialogs.dialogs_counter + '-content';
 		var dialog_id = '#' + dialog_name;
-		var dialog_div = '<div id="' + dialog_name + '" title="' + escapeHTML(title) + '"><button id="dirup">↑</button><select id="dirtree"></select><div id="filelist"></div><div class="filepicker_loader"><img src="' + OC.filePath('gallery','img','loading.gif') + '"></div></div>';
+		var dialog_content = '<button id="dirup">↑</button><select id="dirtree"></select><div id="filelist"></div>';
+		var dialog_loader = '<div class="filepicker_loader"><img src="' + OC.filePath('gallery','img','loading.gif') + '"></div>';
+		var dialog_div = '<div id="' + dialog_name + '" title="' + escapeHTML(title) + '">' + dialog_content + dialog_loader + '</div>';
 		if (modal === undefined) { modal = false };
 		if (multiselect === undefined) { multiselect = false };
 		if (mimetype_filter === undefined) { mimetype_filter = '' };
@@ -151,12 +154,6 @@ var OCdialogs = {
 
 		$(dialog_id + ' #dirtree').focus().change( {dcid: dialog_id}, OCdialogs.handleTreeListSelect );
 		$(dialog_id + ' #dirup').click( {dcid: dialog_id}, OCdialogs.filepickerDirUp );
-		$(dialog_id + ' #filelist').click('[data="dir"]', function() {
-			OCdialogs.handlePickerClick(this, $(this).data('entryname'), $(this).data('dcid'));
-		});
-		$(dialog_id + ' #filelist').on('click', '[data="file"]', function() {
-			OCdialogs.handlePickerClick(this, $(this).data('entryname'), $(this).data('dcid'));
-		});
 
 		$(dialog_id).ready(function(){
 			$.getJSON(OC.filePath('files', 'ajax', 'rawlist.php'), { mimetype: mimetype_filter } ,function(request) {
@@ -300,7 +297,8 @@ var OCdialogs = {
 	 * fills the filepicker with files
 	*/
 	fillFilePicker:function(request, dialog_content_id) {
-		var template = '<div data-entryname="*ENTRYNAME*" data-dcid="' + escapeHTML(dialog_content_id) + '" data="*ENTRYTYPE*"><img src="*MIMETYPEICON*" style="margin: 2px 1em 0 4px;"><span class="filename">*NAME*</span><div style="float:right;margin-right:1em;">*LASTMODDATE*</div></div>';
+		var template_content = '<img src="*MIMETYPEICON*" style="margin: 2px 1em 0 4px;"><span class="filename">*NAME*</span><div style="float:right;margin-right:1em;">*LASTMODDATE*</div>';
+		var template = '<div data-entryname="*ENTRYNAME*" data-dcid="' + escapeHTML(dialog_content_id) + '" data="*ENTRYTYPE*">*CONTENT*</div>';
 		var files = '';
 		var dirs = [];
 		var others = [];
@@ -313,10 +311,15 @@ var OCdialogs = {
 		});
 		var sorted = dirs.concat(others);
 		for (var i = 0; i < sorted.length; i++) {
-			files += template.replace('*LASTMODDATE*', OC.mtime2date(sorted[i].mtime)).replace('*NAME*', escapeHTML(sorted[i].name)).replace('*MIMETYPEICON*', sorted[i].mimetype_icon).replace('*ENTRYNAME*', escapeHTML(sorted[i].name)).replace('*ENTRYTYPE*', escapeHTML(sorted[i].type));
+			files_content = template_content.replace('*LASTMODDATE*', OC.mtime2date(sorted[i].mtime)).replace('*NAME*', escapeHTML(sorted[i].name)).replace('*MIMETYPEICON*', sorted[i].mimetype_icon);
+			files += template.replace('*ENTRYNAME*', escapeHTML(sorted[i].name)).replace('*ENTRYTYPE*', escapeHTML(sorted[i].type)).replace('*CONTENT*', files_content);
 		}
 
 		$(dialog_content_id + ' #filelist').html(files);
+		$('#filelist div').click(function() {
+			OCdialogs.handlePickerClick($(this), $(this).data('entryname'), dialog_content_id);
+		});
+
 		$(dialog_content_id + ' .filepicker_loader').css('visibility', 'hidden');
 	},
 	/**
