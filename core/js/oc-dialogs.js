@@ -151,10 +151,10 @@ var OCdialogs = {
 
 		$(dialog_id + ' #dirtree').focus().change( {dcid: dialog_id}, OCdialogs.handleTreeListSelect );
 		$(dialog_id + ' #dirup').click( {dcid: dialog_id}, OCdialogs.filepickerDirUp );
-		$(dialog_id + ' #filelist').click('[data="file"]', function() {
+		$(dialog_id + ' #filelist').click('[data="dir"]', function() {
 			OCdialogs.handlePickerClick(this, $(this).data('entryname'), $(this).data('dcid'));
 		});
-		$(dialog_id + ' #filelist').on('click', '[data="dir"]', function() {
+		$(dialog_id + ' #filelist').on('click', '[data="file"]', function() {
 			OCdialogs.handlePickerClick(this, $(this).data('entryname'), $(this).data('dcid'));
 		});
 
@@ -174,7 +174,7 @@ var OCdialogs = {
 				if (multiselect === true) {
 					datapath = [];
 					$(dialog_id + ' .filepicker_element_selected .filename').each(function(index, element) {
-						datapath.push( $(dialog_id).data('path') + $(elem).text() );
+						datapath.push( $(dialog_id).data('path') + $(element).text() );
 					});
 				} else {
 					var datapath = $(dialog_id).data('path');
