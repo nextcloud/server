@@ -243,7 +243,7 @@ class OC_User_Database extends OC_User_Backend {
 			OC_Log::write('core', OC_DB::getErrorMessage($result), OC_Log::ERROR);
 			return false;
 		}
-		return $result->fetchColumn() > 0;
+		return $result->fetchOne() > 0;
 	}
 
 	/**
