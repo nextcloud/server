@@ -11,7 +11,7 @@ var OCCategories= {
 			try {
 				var jsondata = jQuery.parseJSON(response);
 				if(response.status == 'error') {
-					OC.dialogs.alert(response.data.message, 'Error');
+					OC.dialogs.alert(response.data.message, t('core', 'Error'));
 					return;
 				}
 			} catch(e) {
@@ -77,7 +77,7 @@ var OCCategories= {
 		if(jsondata.status == 'success') {
 			OCCategories._update(jsondata.data.categories);
 		} else {
-			OC.dialogs.alert(jsondata.data.message, 'Error');
+			OC.dialogs.alert(jsondata.data.message, t('core', 'Error'));
 		}
 	},
 	favorites:function(type, cb) {
@@ -107,7 +107,7 @@ var OCCategories= {
 				cb(jsondata);
 			} else {
 				if(jsondata.status !== 'success') {
-					OC.dialogs.alert(jsondata.data.message, 'Error');
+					OC.dialogs.alert(jsondata.data.message, t('core', 'Error'));
 				}
 			}
 		});
@@ -169,7 +169,7 @@ var OCCategories= {
 				if(jsondata.status === 'success') {
 					OCCategories._update(jsondata.data.categories);
 				} else {
-					OC.dialogs.alert(jsondata.data.message, 'Error');
+					OC.dialogs.alert(jsondata.data.message, t('core', 'Error'));
 				}
 			}
 		});
@@ -186,7 +186,7 @@ var OCCategories= {
 				if(jsondata.status === 'success') {
 					OCCategories._update(jsondata.data.categories);
 				} else {
-					OC.dialogs.alert(jsondata.data.message, 'Error');
+					OC.dialogs.alert(jsondata.data.message, t('core', 'Error'));
 				}
 			}
 		}).error(function(xhr){
@@ -196,7 +196,7 @@ var OCCategories= {
 				if(typeof cb == 'function') {
 					cb({status:'error', data:{message:errormessage}});
 				} else {
-					OC.dialogs.alert(errormessage);
+					OC.dialogs.alert(errormessage, t('core', 'Error'));
 				}
 			}
 		});
