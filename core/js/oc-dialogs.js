@@ -296,10 +296,20 @@ var OCdialogs = {
 	fillFilePicker:function(request, dialog_content_id) {
 		var template = '<div data-entryname="*ENTRYNAME*" data-dcid="' + escapeHTML(dialog_content_id) + '" data="*ENTRYTYPE*"><img src="*MIMETYPEICON*" style="margin: 2px 1em 0 4px;"><span class="filename">*NAME*</span><div style="float:right;margin-right:1em;">*LASTMODDATE*</div></div>';
 		var files = '';
+		var dirs = [];
+		var others = [];
 		$.each(request.data, function(index, file) {
-			files += template.replace('*LASTMODDATE*', OC.mtime2date(file.mtime)).replace('*NAME*', escapeHTML(file.name)).replace('*MIMETYPEICON*', file.mimetype_icon).replace('*ENTRYNAME*', escapeHTML(file.name)).replace('*ENTRYTYPE*', escapeHTML(file.type));
+			if (file.type === 'dir') {
+				dirs.push(file);
+			} else {
+				others.push(file);
+			}
 		});
-		
+		var sorted = dirs.concat(others);
+		for (var i = 0; i < sorted.length; i++) {
+			files += template.replace('*LASTMODDATE*', OC.mtime2date(sorted[i].mtime)).replace('*NAME*', escapeHTML(sorted[i].name)).replace('*MIMETYPEICON*', sorted[i].mimetype_icon).replace('*ENTRYNAME*', escapeHTML(sorted[i].name)).replace('*ENTRYTYPE*', escapeHTML(sorted[i].type));
+		}
+
 		$(dialog_content_id + ' #filelist').html(files).on('click', '[data="file"]', function() {
 			OCdialogs.handlePickerClick(this, $(this).data('entryname'), $(this).data('dcid'));
 		});
