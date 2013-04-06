@@ -303,6 +303,9 @@ var OCdialogs = {
 		$(dialog_content_id + ' #filelist').html(files).on('click', '[data="file"]', function() {
 			OCdialogs.handlePickerClick(this, $(this).data('entryname'), $(this).data('dcid'));
 		});
+		$(dialog_content_id + ' #filelist').html(files).on('click', '[data="dir"]', function() {
+			OCdialogs.handlePickerClick(this, $(this).data('entryname'), $(this).data('dcid'));
+		});
 		$(dialog_content_id + ' .filepicker_loader').css('visibility', 'hidden');
 	},
 	/**
@@ -386,19 +389,26 @@ var OCdialogs = {
 			}
 			$(element).toggleClass('filepicker_element_selected');
 			return;
+		} else if ( $(element).attr('data') === 'dir' ) {
+			datapath += '/';
+			$(dialog_content_id).data('path', datapath);
+			$(dialog_content_id + ' .filepicker_loader').css('visibility', 'visible');
+			$.getJSON(
+				OC.filePath('files', 'ajax', 'rawlist.php'),
+				{
+					dir: datapath,
+					mimetype: $(dialog_content_id).data('mimetype')
+				},
+				function(request){ OCdialogs.fillFilePicker(request, dialog_content_id) }
+			);
+			$.getJSON(
+				OC.filePath('files', 'ajax', 'rawlist.php'),
+				{
+					dir: datapath,
+					mimetype: "httpd/unix-directory"
+				},
+				function(request) { OCdialogs.fillTreeList(request, dialog_content_id) }
+			);
 		}
-		$(dialog_content_id).data('path', datapath);
-		$(dialog_content_id + ' #dirtree option:last').removeAttr('selected');
-		var newval = parseInt($(dialog_content_id + ' #dirtree option:last').val())+1;
-		$(dialog_content_id + ' #dirtree').append('<option selected="selected" value="'+ newval + '">' + escapeHTML(name) + '</option>');
-		$(dialog_content_id + ' .filepicker_loader').css('visibility', 'visible');
-		$.getJSON(
-			OC.filePath('files', 'ajax', 'rawlist.php'),
-			{
-				dir: datapath,
-				mimetype: $(dialog_content_id).data('mimetype')
-			},
-			function(request){ OCdialogs.fillFilePicker(request, dialog_content_id) }
-		);
 	}
 };
