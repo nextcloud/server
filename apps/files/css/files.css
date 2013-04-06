@@ -45,7 +45,11 @@
 }
 
 #uploadprogresswrapper { float: right; position: relative; }
-#uploadprogresswrapper #uploadprogressbar { position:relative; display:inline-block; width:10em; height:1.5em; top:.4em; }
+#uploadprogresswrapper #uploadprogressbar {
+	position:relative; float: right;
+	margin-left: 12px; width:10em; height:1.5em; top:.4em;
+	display:inline-block;
+}
 
 /* FILE TABLE */
 
