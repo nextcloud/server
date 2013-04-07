@@ -35,7 +35,8 @@
 					'style'		:	$element.attr('style'),
 					'size'		:	$element.attr('size'),
 					'name'		:	$element.attr('name')+'-clone',
-					'tabindex' 	:	$element.attr('tabindex')
+					'tabindex' 	:	$element.attr('tabindex'),
+					'autocomplete'	:	'off'
 				});
 					
 				return $clone;
