@@ -621,10 +621,11 @@ class Filesystem {
 	 * get the content of a directory
 	 *
 	 * @param string $directory path under datadirectory
+	 * @param string $mimetype_filter limit returned content to this mimetype or mimepart
 	 * @return array
 	 */
-	public static function getDirectoryContent($directory) {
-		return self::$defaultInstance->getDirectoryContent($directory);
+	public static function getDirectoryContent($directory, $mimetype_filter = '') {
+		return self::$defaultInstance->getDirectoryContent($directory, $mimetype_filter);
 	}
 
 	/**
