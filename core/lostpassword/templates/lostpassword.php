@@ -1,4 +1,4 @@
-<?php if $_['requested']): ?>
+<?php if ($_['requested']): ?>
 	<div class="success"><p>
 	<?php
 		echo $l->t('The link to reset your password has been sent to your email.');
