@@ -1145,7 +1145,7 @@ class Share {
 				'itemTarget' => $groupItemTarget,
 				'parent' => $parent,
 				'shareType' => $shareType,
-				'shareWith' => $uid,
+				'shareWith' => $shareWith['group'],
 				'uidOwner' => $uidOwner,
 				'permissions' => $permissions,
 				'fileSource' => $fileSource,
