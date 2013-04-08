@@ -328,12 +328,8 @@ var OCdialogs = {
 	fillTreeList: function(request, dialog_id) {
 		var template = '<option value="*COUNT*">*NAME*</option>';
 		var paths = '<option value="0">' + escapeHTML($(dialog_id).data('path')) + '</option>';
-		var count = 1;
 		$.each(request.data, function(index, file) {
-			if (file.mimetype === "httpd/unix-directory") {
-				paths += template.replace('*COUNT*', count).replace('*NAME*', escapeHTML(file.name));
-				count++;
-			}
+			paths += template.replace('*COUNT*', index).replace('*NAME*', escapeHTML(file.name));
 		});
 
 		$(dialog_id + ' #dirtree').html(paths);
