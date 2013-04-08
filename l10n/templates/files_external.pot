@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-04-06 00:04+0200\n"
+"POT-Creation-Date: 2013-04-08 02:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,13 +37,13 @@ msgstr ""
 msgid "Error configuring Google Drive storage"
 msgstr ""
 
-#: lib/config.php:423
+#: lib/config.php:424
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr ""
 
-#: lib/config.php:426
+#: lib/config.php:427
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting "
 "of FTP shares is not possible. Please ask your system administrator to "

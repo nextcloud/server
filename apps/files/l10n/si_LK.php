@@ -13,8 +13,6 @@
 "suggest name" => "නමක් යෝජනා කරන්න",
 "cancel" => "අත් හරින්න",
 "undo" => "නිෂ්ප්‍රභ කරන්න",
-"Upload Error" => "උඩුගත කිරීමේ දෝශයක්",
-"Close" => "වසන්න",
 "1 file uploading" => "1 ගොනුවක් උඩගත කෙරේ",
 "Upload cancelled." => "උඩුගත කිරීම අත් හරින්න ලදී",
 "File upload is in progress. Leaving the page now will cancel the upload." => "උඩුගතකිරීමක් සිදුවේ. පිටුව හැර යාමෙන් එය නැවතෙනු ඇත",

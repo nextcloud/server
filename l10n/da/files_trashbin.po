@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-30 00:04+0100\n"
-"PO-Revision-Date: 2013-03-29 21:30+0000\n"
-"Last-Translator: Bawl <transifex@bawl.dk>\n"
+"POT-Creation-Date: 2013-04-08 02:12+0200\n"
+"PO-Revision-Date: 2013-04-08 00:13+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -32,6 +32,10 @@ msgstr "Kunne ikke gendanne %s"
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
 msgstr "udfør gendannelsesoperation"
+
+#: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
+msgid "Error"
+msgstr ""
 
 #: js/trash.js:34
 msgid "delete file permanently"

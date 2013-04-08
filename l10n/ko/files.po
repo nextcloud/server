@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
+"POT-Creation-Date: 2013-04-08 02:12+0200\n"
+"PO-Revision-Date: 2013-04-08 00:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +76,7 @@ msgstr "디스크에 쓰지 못했습니다"
 msgid "Not enough storage available"
 msgstr ""
 
-#: ajax/upload.php:82
+#: ajax/upload.php:83
 msgid "Invalid directory."
 msgstr "올바르지 않은 디렉터리입니다."
 
@@ -96,37 +96,44 @@ msgstr "삭제"
 msgid "Rename"
 msgstr "이름 바꾸기"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
-#: js/files.js:440
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
 msgstr "보류 중"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
 msgstr "{new_name}이(가) 이미 존재함"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:252 js/filelist.js:254
 msgid "replace"
 msgstr "바꾸기"
 
-#: js/filelist.js:251
+#: js/filelist.js:252
 msgid "suggest name"
 msgstr "이름 제안"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:252 js/filelist.js:254
 msgid "cancel"
 msgstr "취소"
 
-#: js/filelist.js:298
+#: js/filelist.js:299
 msgid "replaced {new_name} with {old_name}"
 msgstr "{old_name}이(가) {new_name}(으)로 대체됨"
 
-#: js/filelist.js:298
+#: js/filelist.js:299
 msgid "undo"
 msgstr "실행 취소"
 
-#: js/filelist.js:323
+#: js/filelist.js:324
 msgid "perform delete operation"
+msgstr ""
+
+#: js/filelist.js:406
+msgid "1 file uploading"
+msgstr "파일 1개 업로드 중"
+
+#: js/filelist.js:409 js/filelist.js:463
+msgid "files uploading"
 msgstr ""
 
 #: js/files.js:52
@@ -157,68 +164,60 @@ msgid ""
 "big."
 msgstr "다운로드가 준비 중입니다. 파일 크기가 크다면 시간이 오래 걸릴 수도 있습니다."
 
-#: js/files.js:263
+#: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "이 파일은 디렉터리이거나 비어 있기 때문에 업로드할 수 없습니다"
 
-#: js/files.js:263
-msgid "Upload Error"
-msgstr "업로드 오류"
+#: js/files.js:272
+msgid "Not enough space available"
+msgstr ""
 
-#: js/files.js:274
-msgid "Close"
-msgstr "닫기"
-
-#: js/files.js:313
-msgid "1 file uploading"
-msgstr "파일 1개 업로드 중"
-
-#: js/files.js:316 js/files.js:371 js/files.js:386
-msgid "{count} files uploading"
-msgstr "파일 {count}개 업로드 중"
-
-#: js/files.js:389 js/files.js:424
+#: js/files.js:312
 msgid "Upload cancelled."
 msgstr "업로드가 취소되었습니다."
 
-#: js/files.js:498
+#: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "파일 업로드가 진행 중입니다. 이 페이지를 벗어나면 업로드가 취소됩니다."
 
-#: js/files.js:571
+#: js/files.js:481
 msgid "URL cannot be empty."
 msgstr "URL을 입력해야 합니다."
 
-#: js/files.js:576
+#: js/files.js:486
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "폴더 이름이 유효하지 않습니다. "
 
-#: js/files.js:954 templates/index.php:70
+#: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
+msgid "Error"
+msgstr ""
+
+#: js/files.js:872 templates/index.php:70
 msgid "Name"
 msgstr "이름"
 
-#: js/files.js:955 templates/index.php:81
+#: js/files.js:873 templates/index.php:81
 msgid "Size"
 msgstr "크기"
 
-#: js/files.js:956 templates/index.php:83
+#: js/files.js:874 templates/index.php:83
 msgid "Modified"
 msgstr "수정됨"
 
-#: js/files.js:975
+#: js/files.js:893
 msgid "1 folder"
 msgstr "폴더 1개"
 
-#: js/files.js:977
+#: js/files.js:895
 msgid "{count} folders"
 msgstr "폴더 {count}개"
 
-#: js/files.js:985
+#: js/files.js:903
 msgid "1 file"
 msgstr "파일 1개"
 
-#: js/files.js:987
+#: js/files.js:905
 msgid "{count} files"
 msgstr "파일 {count}개"
 

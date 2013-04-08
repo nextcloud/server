@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-04-06 00:04+0200\n"
+"POT-Creation-Date: 2013-04-08 02:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,6 +29,10 @@ msgstr ""
 
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
+msgstr ""
+
+#: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
+msgid "Error"
 msgstr ""
 
 #: js/trash.js:34

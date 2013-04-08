@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
+"POT-Creation-Date: 2013-04-08 02:12+0200\n"
+"PO-Revision-Date: 2013-04-08 00:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -77,7 +77,7 @@ msgstr "Ha fallat en escriure al disc"
 msgid "Not enough storage available"
 msgstr "No hi ha prou espai disponible"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:83
 msgid "Invalid directory."
 msgstr "Directori no vàlid."
 
@@ -97,38 +97,45 @@ msgstr "Suprimeix"
 msgid "Rename"
 msgstr "Reanomena"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
-#: js/files.js:440
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
 msgstr "Pendents"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
 msgstr "{new_name} ja existeix"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:252 js/filelist.js:254
 msgid "replace"
 msgstr "substitueix"
 
-#: js/filelist.js:251
+#: js/filelist.js:252
 msgid "suggest name"
 msgstr "sugereix un nom"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:252 js/filelist.js:254
 msgid "cancel"
 msgstr "cancel·la"
 
-#: js/filelist.js:298
+#: js/filelist.js:299
 msgid "replaced {new_name} with {old_name}"
 msgstr "s'ha substituït {old_name} per {new_name}"
 
-#: js/filelist.js:298
+#: js/filelist.js:299
 msgid "undo"
 msgstr "desfés"
 
-#: js/filelist.js:323
+#: js/filelist.js:324
 msgid "perform delete operation"
 msgstr "executa d'operació d'esborrar"
+
+#: js/filelist.js:406
+msgid "1 file uploading"
+msgstr "1 fitxer pujant"
+
+#: js/filelist.js:409 js/filelist.js:463
+msgid "files uploading"
+msgstr ""
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -158,68 +165,60 @@ msgid ""
 "big."
 msgstr "S'està preparant la baixada. Pot trigar una estona si els fitxers són grans."
 
-#: js/files.js:263
+#: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "No es pot pujar el fitxer perquè és una carpeta o té 0 bytes"
 
-#: js/files.js:263
-msgid "Upload Error"
-msgstr "Error en la pujada"
+#: js/files.js:272
+msgid "Not enough space available"
+msgstr ""
 
-#: js/files.js:274
-msgid "Close"
-msgstr "Tanca"
-
-#: js/files.js:313
-msgid "1 file uploading"
-msgstr "1 fitxer pujant"
-
-#: js/files.js:316 js/files.js:371 js/files.js:386
-msgid "{count} files uploading"
-msgstr "{count} fitxers en pujada"
-
-#: js/files.js:389 js/files.js:424
+#: js/files.js:312
 msgid "Upload cancelled."
 msgstr "La pujada s'ha cancel·lat."
 
-#: js/files.js:498
+#: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Hi ha una pujada en curs. Si abandoneu la pàgina la pujada es cancel·larà."
 
-#: js/files.js:571
+#: js/files.js:481
 msgid "URL cannot be empty."
 msgstr "La URL no pot ser buida"
 
-#: js/files.js:576
+#: js/files.js:486
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Nom de carpeta no vàlid. L'ús de 'Shared' està reservat per Owncloud"
 
-#: js/files.js:954 templates/index.php:70
+#: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
+msgid "Error"
+msgstr ""
+
+#: js/files.js:872 templates/index.php:70
 msgid "Name"
 msgstr "Nom"
 
-#: js/files.js:955 templates/index.php:81
+#: js/files.js:873 templates/index.php:81
 msgid "Size"
 msgstr "Mida"
 
-#: js/files.js:956 templates/index.php:83
+#: js/files.js:874 templates/index.php:83
 msgid "Modified"
 msgstr "Modificat"
 
-#: js/files.js:975
+#: js/files.js:893
 msgid "1 folder"
 msgstr "1 carpeta"
 
-#: js/files.js:977
+#: js/files.js:895
 msgid "{count} folders"
 msgstr "{count} carpetes"
 
-#: js/files.js:985
+#: js/files.js:903
 msgid "1 file"
 msgstr "1 fitxer"
 
-#: js/files.js:987
+#: js/files.js:905
 msgid "{count} files"
 msgstr "{count} fitxers"
 

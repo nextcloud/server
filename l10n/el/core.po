@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-01 00:02+0200\n"
-"PO-Revision-Date: 2013-03-31 22:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-08 02:12+0200\n"
+"PO-Revision-Date: 2013-04-07 21:40+0000\n"
+"Last-Translator: Efstathios Iosifidis <iefstathios@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -169,55 +169,55 @@ msgstr "Δεκέμβριος"
 msgid "Settings"
 msgstr "Ρυθμίσεις"
 
-#: js/js.js:779
+#: js/js.js:707
 msgid "seconds ago"
 msgstr "δευτερόλεπτα πριν"
 
-#: js/js.js:780
+#: js/js.js:708
 msgid "1 minute ago"
 msgstr "1 λεπτό πριν"
 
-#: js/js.js:781
+#: js/js.js:709
 msgid "{minutes} minutes ago"
 msgstr "{minutes} λεπτά πριν"
 
-#: js/js.js:782
+#: js/js.js:710
 msgid "1 hour ago"
 msgstr "1 ώρα πριν"
 
-#: js/js.js:783
+#: js/js.js:711
 msgid "{hours} hours ago"
 msgstr "{hours} ώρες πριν"
 
-#: js/js.js:784
+#: js/js.js:712
 msgid "today"
 msgstr "σήμερα"
 
-#: js/js.js:785
+#: js/js.js:713
 msgid "yesterday"
 msgstr "χτες"
 
-#: js/js.js:786
+#: js/js.js:714
 msgid "{days} days ago"
 msgstr "{days} ημέρες πριν"
 
-#: js/js.js:787
+#: js/js.js:715
 msgid "last month"
 msgstr "τελευταίο μήνα"
 
-#: js/js.js:788
+#: js/js.js:716
 msgid "{months} months ago"
 msgstr "{months} μήνες πριν"
 
-#: js/js.js:789
+#: js/js.js:717
 msgid "months ago"
 msgstr "μήνες πριν"
 
-#: js/js.js:790
+#: js/js.js:718
 msgid "last year"
 msgstr "τελευταίο χρόνο"
 
-#: js/js.js:791
+#: js/js.js:719
 msgid "years ago"
 msgstr "χρόνια πριν"
 
@@ -246,8 +246,10 @@ msgstr "Οκ"
 msgid "The object type is not specified."
 msgstr "Δεν καθορίστηκε ο τύπος του αντικειμένου."
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
 msgstr "Σφάλμα"
@@ -487,7 +489,7 @@ msgstr ""
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "Παρακαλώ ενημερώστε την εγκατάσταση PHP σας ώστε να χρησιμοποιήσετε ασφαλέστερα το ownCloud."
 
 #: templates/installation.php:32
 msgid ""

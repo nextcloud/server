@@ -107,6 +107,7 @@
 "Edit categories" => "Επεξεργασία κατηγοριών",
 "Add" => "Προσθήκη",
 "Security Warning" => "Προειδοποίηση Ασφαλείας",
+"Please update your PHP installation to use ownCloud securely." => "Παρακαλώ ενημερώστε την εγκατάσταση PHP σας ώστε να χρησιμοποιήσετε ασφαλέστερα το ownCloud.",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "Δεν είναι διαθέσιμο το πρόσθετο δημιουργίας τυχαίων αριθμών ασφαλείας, παρακαλώ ενεργοποιήστε το πρόσθετο της PHP, OpenSSL.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "Χωρίς το πρόσθετο δημιουργίας τυχαίων αριθμών ασφαλείας, μπορεί να διαρρεύσει ο λογαριασμός σας από επιθέσεις στο διαδίκτυο.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "Ο κατάλογος δεδομένων και τα αρχεία σας είναι πιθανό προσβάσιμα από το internet γιατί δεν δουλεύει το αρχείο .htaccess.",

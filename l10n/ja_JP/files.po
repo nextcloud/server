@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
+"POT-Creation-Date: 2013-04-08 02:12+0200\n"
+"PO-Revision-Date: 2013-04-08 00:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +75,7 @@ msgstr "ディスクへの書き込みに失敗しました"
 msgid "Not enough storage available"
 msgstr "ストレージに十分な空き容量がありません"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:83
 msgid "Invalid directory."
 msgstr "無効なディレクトリです。"
 
@@ -95,38 +95,45 @@ msgstr "削除"
 msgid "Rename"
 msgstr "名前の変更"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
-#: js/files.js:440
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
 msgstr "保留"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
 msgstr "{new_name} はすでに存在しています"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:252 js/filelist.js:254
 msgid "replace"
 msgstr "置き換え"
 
-#: js/filelist.js:251
+#: js/filelist.js:252
 msgid "suggest name"
 msgstr "推奨名称"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:252 js/filelist.js:254
 msgid "cancel"
 msgstr "キャンセル"
 
-#: js/filelist.js:298
+#: js/filelist.js:299
 msgid "replaced {new_name} with {old_name}"
 msgstr "{old_name} を {new_name} に置換"
 
-#: js/filelist.js:298
+#: js/filelist.js:299
 msgid "undo"
 msgstr "元に戻す"
 
-#: js/filelist.js:323
+#: js/filelist.js:324
 msgid "perform delete operation"
 msgstr "削除を実行"
+
+#: js/filelist.js:406
+msgid "1 file uploading"
+msgstr "ファイルを1つアップロード中"
+
+#: js/filelist.js:409 js/filelist.js:463
+msgid "files uploading"
+msgstr ""
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -156,68 +163,60 @@ msgid ""
 "big."
 msgstr "ダウンロードの準備中です。ファイルサイズが大きい場合は少し時間がかかるかもしれません。"
 
-#: js/files.js:263
+#: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "ディレクトリもしくは0バイトのファイルはアップロードできません"
 
-#: js/files.js:263
-msgid "Upload Error"
-msgstr "アップロードエラー"
+#: js/files.js:272
+msgid "Not enough space available"
+msgstr ""
 
-#: js/files.js:274
-msgid "Close"
-msgstr "閉じる"
-
-#: js/files.js:313
-msgid "1 file uploading"
-msgstr "ファイルを1つアップロード中"
-
-#: js/files.js:316 js/files.js:371 js/files.js:386
-msgid "{count} files uploading"
-msgstr "{count} ファイルをアップロード中"
-
-#: js/files.js:389 js/files.js:424
+#: js/files.js:312
 msgid "Upload cancelled."
 msgstr "アップロードはキャンセルされました。"
 
-#: js/files.js:498
+#: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "ファイル転送を実行中です。今このページから移動するとアップロードが中止されます。"
 
-#: js/files.js:571
+#: js/files.js:481
 msgid "URL cannot be empty."
 msgstr "URLは空にできません。"
 
-#: js/files.js:576
+#: js/files.js:486
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "無効なフォルダ名です。'Shared' の利用は ownCloud が予約済みです。"
 
-#: js/files.js:954 templates/index.php:70
+#: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
+msgid "Error"
+msgstr ""
+
+#: js/files.js:872 templates/index.php:70
 msgid "Name"
 msgstr "名前"
 
-#: js/files.js:955 templates/index.php:81
+#: js/files.js:873 templates/index.php:81
 msgid "Size"
 msgstr "サイズ"
 
-#: js/files.js:956 templates/index.php:83
+#: js/files.js:874 templates/index.php:83
 msgid "Modified"
 msgstr "更新日時"
 
-#: js/files.js:975
+#: js/files.js:893
 msgid "1 folder"
 msgstr "1 フォルダ"
 
-#: js/files.js:977
+#: js/files.js:895
 msgid "{count} folders"
 msgstr "{count} フォルダ"
 
-#: js/files.js:985
+#: js/files.js:903
 msgid "1 file"
 msgstr "1 ファイル"
 
-#: js/files.js:987
+#: js/files.js:905
 msgid "{count} files"
 msgstr "{count} ファイル"
 

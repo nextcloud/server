@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-01 00:02+0200\n"
-"PO-Revision-Date: 2013-03-31 22:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-08 02:12+0200\n"
+"PO-Revision-Date: 2013-04-06 10:50+0000\n"
+"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -162,55 +162,55 @@ msgstr "دسامبر"
 msgid "Settings"
 msgstr "تنظیمات"
 
-#: js/js.js:779
+#: js/js.js:707
 msgid "seconds ago"
 msgstr "ثانیه‌ها پیش"
 
-#: js/js.js:780
+#: js/js.js:708
 msgid "1 minute ago"
 msgstr "1 دقیقه پیش"
 
-#: js/js.js:781
+#: js/js.js:709
 msgid "{minutes} minutes ago"
 msgstr "{دقیقه ها} دقیقه های پیش"
 
-#: js/js.js:782
+#: js/js.js:710
 msgid "1 hour ago"
 msgstr "1 ساعت پیش"
 
-#: js/js.js:783
+#: js/js.js:711
 msgid "{hours} hours ago"
 msgstr "{ساعت ها} ساعت ها پیش"
 
-#: js/js.js:784
+#: js/js.js:712
 msgid "today"
 msgstr "امروز"
 
-#: js/js.js:785
+#: js/js.js:713
 msgid "yesterday"
 msgstr "دیروز"
 
-#: js/js.js:786
+#: js/js.js:714
 msgid "{days} days ago"
 msgstr "{روزها} روزهای پیش"
 
-#: js/js.js:787
+#: js/js.js:715
 msgid "last month"
 msgstr "ماه قبل"
 
-#: js/js.js:788
+#: js/js.js:716
 msgid "{months} months ago"
 msgstr "{ماه ها} ماه ها پیش"
 
-#: js/js.js:789
+#: js/js.js:717
 msgid "months ago"
 msgstr "ماه‌های قبل"
 
-#: js/js.js:790
+#: js/js.js:718
 msgid "last year"
 msgstr "سال قبل"
 
-#: js/js.js:791
+#: js/js.js:719
 msgid "years ago"
 msgstr "سال‌های قبل"
 
@@ -239,8 +239,10 @@ msgstr "قبول"
 msgid "The object type is not specified."
 msgstr "نوع شی تعیین نشده است."
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
 msgstr "خطا"
@@ -476,11 +478,11 @@ msgstr "اخطار امنیتی"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "نسخه ی PHP شما در برابر حملات NULL Byte آسیب پذیر است.(CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "لطفا برنامه ی PHP خودتان را بروز کنید تا بتوانید ایمن تر از ownCloud استفاده کنید."
 
 #: templates/installation.php:32
 msgid ""

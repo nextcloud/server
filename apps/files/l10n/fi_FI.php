@@ -29,8 +29,6 @@
 "Your storage is almost full ({usedSpacePercent}%)" => "Tallennustila on melkein loppu ({usedSpacePercent}%)",
 "Your download is being prepared. This might take some time if the files are big." => "Lataustasi valmistellaan. Tämä saattaa kestää hetken, jos tiedostot ovat suuria kooltaan.",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Tiedoston lähetys epäonnistui, koska sen koko on 0 tavua tai kyseessä on kansio",
-"Upload Error" => "Lähetysvirhe.",
-"Close" => "Sulje",
 "Upload cancelled." => "Lähetys peruttu.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Tiedoston lähetys on meneillään. Sivulta poistuminen nyt peruu tiedoston lähetyksen.",
 "URL cannot be empty." => "Verkko-osoite ei voi olla tyhjä",

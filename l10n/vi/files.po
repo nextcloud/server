@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
+"POT-Creation-Date: 2013-04-08 02:12+0200\n"
+"PO-Revision-Date: 2013-04-08 00:13+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +75,7 @@ msgstr "Không thể ghi "
 msgid "Not enough storage available"
 msgstr "Không đủ không gian lưu trữ"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:83
 msgid "Invalid directory."
 msgstr "Thư mục không hợp lệ"
 
@@ -95,38 +95,45 @@ msgstr "Xóa"
 msgid "Rename"
 msgstr "Sửa tên"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
-#: js/files.js:440
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
 msgstr "Chờ"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
 msgstr "{new_name} đã tồn tại"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:252 js/filelist.js:254
 msgid "replace"
 msgstr "thay thế"
 
-#: js/filelist.js:251
+#: js/filelist.js:252
 msgid "suggest name"
 msgstr "tên gợi ý"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:252 js/filelist.js:254
 msgid "cancel"
 msgstr "hủy"
 
-#: js/filelist.js:298
+#: js/filelist.js:299
 msgid "replaced {new_name} with {old_name}"
 msgstr "đã thay thế {new_name} bằng {old_name}"
 
-#: js/filelist.js:298
+#: js/filelist.js:299
 msgid "undo"
 msgstr "lùi lại"
 
-#: js/filelist.js:323
+#: js/filelist.js:324
 msgid "perform delete operation"
 msgstr "thực hiện việc xóa"
+
+#: js/filelist.js:406
+msgid "1 file uploading"
+msgstr "1 tệp tin đang được tải lên"
+
+#: js/filelist.js:409 js/filelist.js:463
+msgid "files uploading"
+msgstr ""
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -156,68 +163,60 @@ msgid ""
 "big."
 msgstr "Your download is being prepared. This might take some time if the files are big."
 
-#: js/files.js:263
+#: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "Không thể tải lên tập tin này do nó là một thư mục hoặc kích thước tập tin bằng 0 byte"
 
-#: js/files.js:263
-msgid "Upload Error"
-msgstr "Tải lên lỗi"
+#: js/files.js:272
+msgid "Not enough space available"
+msgstr ""
 
-#: js/files.js:274
-msgid "Close"
-msgstr "Đóng"
-
-#: js/files.js:313
-msgid "1 file uploading"
-msgstr "1 tệp tin đang được tải lên"
-
-#: js/files.js:316 js/files.js:371 js/files.js:386
-msgid "{count} files uploading"
-msgstr "{count} tập tin đang tải lên"
-
-#: js/files.js:389 js/files.js:424
+#: js/files.js:312
 msgid "Upload cancelled."
 msgstr "Hủy tải lên"
 
-#: js/files.js:498
+#: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này."
 
-#: js/files.js:571
+#: js/files.js:481
 msgid "URL cannot be empty."
 msgstr "URL không được để trống."
 
-#: js/files.js:576
+#: js/files.js:486
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 
-#: js/files.js:954 templates/index.php:70
+#: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
+msgid "Error"
+msgstr ""
+
+#: js/files.js:872 templates/index.php:70
 msgid "Name"
 msgstr "Tên"
 
-#: js/files.js:955 templates/index.php:81
+#: js/files.js:873 templates/index.php:81
 msgid "Size"
 msgstr "Kích cỡ"
 
-#: js/files.js:956 templates/index.php:83
+#: js/files.js:874 templates/index.php:83
 msgid "Modified"
 msgstr "Thay đổi"
 
-#: js/files.js:975
+#: js/files.js:893
 msgid "1 folder"
 msgstr "1 thư mục"
 
-#: js/files.js:977
+#: js/files.js:895
 msgid "{count} folders"
 msgstr "{count} thư mục"
 
-#: js/files.js:985
+#: js/files.js:903
 msgid "1 file"
 msgstr "1 tập tin"
 
-#: js/files.js:987
+#: js/files.js:905
 msgid "{count} files"
 msgstr "{count} tập tin"
 

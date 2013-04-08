@@ -16,9 +16,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-31 00:01+0100\n"
-"PO-Revision-Date: 2013-03-29 23:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-08 02:13+0200\n"
+"PO-Revision-Date: 2013-04-06 14:40+0000\n"
+"Last-Translator: Magnus Höglund <magnus@linux.com>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -109,6 +109,10 @@ msgstr "Aktivera"
 msgid "Please wait...."
 msgstr "Var god vänta..."
 
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+msgid "Error"
+msgstr "Fel"
+
 #: js/apps.js:90
 msgid "Updating...."
 msgstr "Uppdaterar..."
@@ -116,10 +120,6 @@ msgstr "Uppdaterar..."
 #: js/apps.js:93
 msgid "Error while updating app"
 msgstr "Fel uppstod vid uppdatering av appen"
-
-#: js/apps.js:93
-msgid "Error"
-msgstr "Fel"
 
 #: js/apps.js:96
 msgid "Updated"
@@ -139,7 +139,7 @@ msgstr "ångra"
 
 #: js/users.js:63
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Kan inte ta bort användare"
 
 #: js/users.js:76 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
@@ -189,7 +189,7 @@ msgstr "Din datakatalog och dina filer är förmodligen tillgängliga från Inte
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "Installationsvarning"
 
 #: templates/admin.php:32
 msgid ""
@@ -210,7 +210,7 @@ msgstr "Modulen \"fileinfo\" saknas"
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "PHP-modulen 'fileinfo' saknas. Vi rekommenderar starkt att aktivera den här modulen för att kunna upptäcka korrekt mime-typ."
 
 #: templates/admin.php:58
 msgid "Locale not working"
@@ -398,7 +398,7 @@ msgstr "Du har använt <strong>%s</strong> av tillgängliga <strong>%s</strong>"
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Skaffa appar för att synkronisera dina filer"
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"

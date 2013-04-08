@@ -11,8 +11,6 @@
 "cancel" => "ofbriechen",
 "undo" => "réckgängeg man",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Kann deng Datei net eroplueden well et en Dossier ass oder 0 byte grouss ass.",
-"Upload Error" => "Fehler beim eroplueden",
-"Close" => "Zoumaachen",
 "Upload cancelled." => "Upload ofgebrach.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach.",
 "Name" => "Numm",

@@ -6,7 +6,6 @@
 "Missing a temporary folder" => "Manglar ei mellombels mappe",
 "Files" => "Filer",
 "Delete" => "Slett",
-"Close" => "Lukk",
 "Name" => "Namn",
 "Size" => "Storleik",
 "Modified" => "Endra",
