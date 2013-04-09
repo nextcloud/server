@@ -247,8 +247,13 @@ class OC_Util {
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
-		if(!function_exists('imagepng')) {
+		if(!extension_loaded('gd') || !function_exists('gd_info')) {
 			$errors[]=array('error'=>'PHP module GD is not installed.',
+				'hint'=>'Please ask your server administrator to install the module.');
+			$web_server_restart= false;
+		}
+		if(!class_exists('Locale')) {
+			$errors[]=array('error'=>'PHP module intl is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
