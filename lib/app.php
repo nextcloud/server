@@ -851,7 +851,11 @@ class OC_App{
 		foreach($apps as $app) {
 			// check if the app is compatible with this version of ownCloud
 			$info = OC_App::getAppInfo($app);
-			if(!isset($info['require']) or !self::isAppVersionCompatible($version, $info['require'])) {
+			if(!isset($info['require']) 
+				or !self::isAppVersionCompatible($version, $info['require'])
+				// manually disable files_archive app since it has been removed
+				// and cause update problems
+				or $app === 'files_archive') {
 				OC_Log::write('core',
 					'App "'.$info['name'].'" ('.$app.') can\'t be used because it is'
 					.' not compatible with this version of ownCloud',
