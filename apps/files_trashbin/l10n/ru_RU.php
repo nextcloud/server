@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "%s не может быть удалён навсегда",
 "Couldn't restore %s" => "%s не может быть восстановлен",
 "perform restore operation" => "выполнить операцию восстановления",
+"Error" => "Ошибка",
 "delete file permanently" => "удалить файл навсегда",
 "Delete permanently" => "Удалить навсегда",
 "Name" => "Имя",

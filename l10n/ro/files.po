@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-08 02:12+0200\n"
-"PO-Revision-Date: 2013-04-08 00:13+0000\n"
+"POT-Creation-Date: 2013-04-09 02:09+0200\n"
+"PO-Revision-Date: 2013-04-08 02:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -170,7 +170,7 @@ msgstr "Nu s-a putut încărca fișierul tău deoarece pare să fie un director 
 
 #: js/files.js:272
 msgid "Not enough space available"
-msgstr ""
+msgstr "Nu este suficient spațiu disponibil"
 
 #: js/files.js:312
 msgid "Upload cancelled."
@@ -191,7 +191,7 @@ msgstr "Invalid folder name. Usage of 'Shared' is reserved by Ownclou"
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
-msgstr ""
+msgstr "Eroare"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"

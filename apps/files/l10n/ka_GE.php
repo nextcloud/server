@@ -19,6 +19,7 @@
 "Unable to upload your file as it is a directory or has 0 bytes" => "თქვენი ფაილის ატვირთვა ვერ მოხერხდა. ის არის საქაღალდე და შეიცავს 0 ბაიტს",
 "Upload cancelled." => "ატვირთვა შეჩერებულ იქნა.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "მიმდინარეობს ფაილის ატვირთვა. სხვა გვერდზე გადასვლა გამოიწვევს ატვირთვის შეჩერებას",
+"Error" => "შეცდომა",
 "Name" => "სახელი",
 "Size" => "ზომა",
 "Modified" => "შეცვლილია",

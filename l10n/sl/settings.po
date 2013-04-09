@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-06 00:04+0200\n"
-"PO-Revision-Date: 2013-04-05 17:50+0000\n"
+"POT-Creation-Date: 2013-04-09 02:10+0200\n"
+"PO-Revision-Date: 2013-04-08 02:20+0000\n"
 "Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -106,6 +106,10 @@ msgstr "Omogoči"
 msgid "Please wait...."
 msgstr "Počakajte ..."
 
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+msgid "Error"
+msgstr "Napaka"
+
 #: js/apps.js:90
 msgid "Updating...."
 msgstr "Poteka posodabljanje ..."
@@ -113,10 +117,6 @@ msgstr "Poteka posodabljanje ..."
 #: js/apps.js:93
 msgid "Error while updating app"
 msgstr "Prišlo je do napake med posodabljanjem programa."
-
-#: js/apps.js:93
-msgid "Error"
-msgstr "Napaka"
 
 #: js/apps.js:96
 msgid "Updated"

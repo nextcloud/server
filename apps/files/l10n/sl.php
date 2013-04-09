@@ -36,6 +36,7 @@
 "File upload is in progress. Leaving the page now will cancel the upload." => "V teku je pošiljanje datoteke. Če zapustite to stran zdaj, bo pošiljanje preklicano.",
 "URL cannot be empty." => "Naslov URL ne sme biti prazna vrednost.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Neveljavno ime mape. Uporaba oznake \"Souporaba\" je zadržan za sistem ownCloud.",
+"Error" => "Napaka",
 "Name" => "Ime",
 "Size" => "Velikost",
 "Modified" => "Spremenjeno",

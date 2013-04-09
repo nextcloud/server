@@ -34,8 +34,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-08 02:12+0200\n"
-"PO-Revision-Date: 2013-04-08 00:13+0000\n"
+"POT-Creation-Date: 2013-04-09 02:09+0200\n"
+"PO-Revision-Date: 2013-04-08 02:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -191,7 +191,7 @@ msgstr "Ihre Datei kann nicht hochgeladen werden, da sie entweder ein Verzeichni
 
 #: js/files.js:272
 msgid "Not enough space available"
-msgstr ""
+msgstr "Nicht genügend Speicherplatz verfügbar"
 
 #: js/files.js:312
 msgid "Upload cancelled."
@@ -212,7 +212,7 @@ msgstr "Ungültiger Verzeichnisname. Die Nutzung von \"Shared\" ist ownCloud vor
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"

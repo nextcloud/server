@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#  <rapid_odeen@zoho.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-06 00:04+0200\n"
-"PO-Revision-Date: 2013-04-05 11:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-09 02:10+0200\n"
+"PO-Revision-Date: 2013-04-08 13:30+0000\n"
+"Last-Translator: Odeen <rapid_odeen@zoho.com>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,7 +25,7 @@ msgstr ""
 #: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "Gabim gjatë vërtetimit të identitetit"
+msgstr "Veprim i gabuar gjatë vërtetimit të identitetit"
 
 #: ajax/changedisplayname.php:32
 msgid "Unable to change display name"
@@ -100,6 +101,10 @@ msgstr ""
 msgid "Please wait...."
 msgstr ""
 
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+msgid "Error"
+msgstr "Veprim i gabuar"
+
 #: js/apps.js:90
 msgid "Updating...."
 msgstr ""
@@ -107,10 +112,6 @@ msgstr ""
 #: js/apps.js:93
 msgid "Error while updating app"
 msgstr ""
-
-#: js/apps.js:93
-msgid "Error"
-msgstr "Veprim i gabuar"
 
 #: js/apps.js:96
 msgid "Updated"
@@ -143,7 +144,7 @@ msgstr ""
 
 #: js/users.js:99 templates/users.php:161
 msgid "Delete"
-msgstr ""
+msgstr "Elimino"
 
 #: js/users.js:243
 msgid "add group"
@@ -356,7 +357,7 @@ msgstr ""
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr ""
+msgstr "Azhurno"
 
 #: templates/help.php:4
 msgid "User Documentation"

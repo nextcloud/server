@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-05 00:21+0200\n"
-"PO-Revision-Date: 2013-04-04 09:00+0000\n"
+"POT-Creation-Date: 2013-04-09 02:10+0200\n"
+"PO-Revision-Date: 2013-04-08 02:20+0000\n"
 "Last-Translator: w41l <walecha99@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -166,55 +166,55 @@ msgstr "Desember"
 msgid "Settings"
 msgstr "Setelan"
 
-#: js/js.js:779
+#: js/js.js:707
 msgid "seconds ago"
 msgstr "beberapa detik yang lalu"
 
-#: js/js.js:780
+#: js/js.js:708
 msgid "1 minute ago"
 msgstr "1 menit lalu"
 
-#: js/js.js:781
+#: js/js.js:709
 msgid "{minutes} minutes ago"
 msgstr "{minutes} menit yang lalu"
 
-#: js/js.js:782
+#: js/js.js:710
 msgid "1 hour ago"
 msgstr "1 jam yang lalu"
 
-#: js/js.js:783
+#: js/js.js:711
 msgid "{hours} hours ago"
 msgstr "{hours} jam yang lalu"
 
-#: js/js.js:784
+#: js/js.js:712
 msgid "today"
 msgstr "hari ini"
 
-#: js/js.js:785
+#: js/js.js:713
 msgid "yesterday"
 msgstr "kemarin"
 
-#: js/js.js:786
+#: js/js.js:714
 msgid "{days} days ago"
 msgstr "{days} hari yang lalu"
 
-#: js/js.js:787
+#: js/js.js:715
 msgid "last month"
 msgstr "bulan kemarin"
 
-#: js/js.js:788
+#: js/js.js:716
 msgid "{months} months ago"
 msgstr "{months} bulan yang lalu"
 
-#: js/js.js:789
+#: js/js.js:717
 msgid "months ago"
 msgstr "beberapa bulan lalu"
 
-#: js/js.js:790
+#: js/js.js:718
 msgid "last year"
 msgstr "tahun kemarin"
 
-#: js/js.js:791
+#: js/js.js:719
 msgid "years ago"
 msgstr "beberapa tahun lalu"
 
@@ -243,8 +243,10 @@ msgstr "Oke"
 msgid "The object type is not specified."
 msgstr "Tipe obyek tidak ditentukan."
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
 msgstr "gagal"

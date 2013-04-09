@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "%s jäädavalt kustutamine ebaõnnestus",
 "Couldn't restore %s" => "%s ei saa taastada",
 "perform restore operation" => "soorita taastamine",
+"Error" => "Viga",
 "delete file permanently" => "kustuta fail jäädavalt",
 "Delete permanently" => "Kustuta jäädavalt",
 "Name" => "Nimi",

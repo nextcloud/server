@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-01 00:02+0200\n"
-"PO-Revision-Date: 2013-03-31 22:00+0000\n"
+"POT-Creation-Date: 2013-04-09 02:10+0200\n"
+"PO-Revision-Date: 2013-04-08 02:20+0000\n"
 "Last-Translator: otefenli <otefenli@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -167,55 +167,55 @@ msgstr "Aralık"
 msgid "Settings"
 msgstr "Ayarlar"
 
-#: js/js.js:779
+#: js/js.js:707
 msgid "seconds ago"
 msgstr "saniye önce"
 
-#: js/js.js:780
+#: js/js.js:708
 msgid "1 minute ago"
 msgstr "1 dakika önce"
 
-#: js/js.js:781
+#: js/js.js:709
 msgid "{minutes} minutes ago"
 msgstr "{minutes} dakika önce"
 
-#: js/js.js:782
+#: js/js.js:710
 msgid "1 hour ago"
 msgstr "1 saat önce"
 
-#: js/js.js:783
+#: js/js.js:711
 msgid "{hours} hours ago"
 msgstr "{hours} saat önce"
 
-#: js/js.js:784
+#: js/js.js:712
 msgid "today"
 msgstr "bugün"
 
-#: js/js.js:785
+#: js/js.js:713
 msgid "yesterday"
 msgstr "dün"
 
-#: js/js.js:786
+#: js/js.js:714
 msgid "{days} days ago"
 msgstr "{days} gün önce"
 
-#: js/js.js:787
+#: js/js.js:715
 msgid "last month"
 msgstr "geçen ay"
 
-#: js/js.js:788
+#: js/js.js:716
 msgid "{months} months ago"
 msgstr "{months} ay önce"
 
-#: js/js.js:789
+#: js/js.js:717
 msgid "months ago"
 msgstr "ay önce"
 
-#: js/js.js:790
+#: js/js.js:718
 msgid "last year"
 msgstr "geçen yıl"
 
-#: js/js.js:791
+#: js/js.js:719
 msgid "years ago"
 msgstr "yıl önce"
 
@@ -244,8 +244,10 @@ msgstr "Tamam"
 msgid "The object type is not specified."
 msgstr "Nesne türü belirtilmemiş."
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
 msgstr "Hata"

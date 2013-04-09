@@ -17,6 +17,7 @@
 "Unable to upload your file as it is a directory or has 0 bytes" => "Nemoguće poslati datoteku jer je prazna ili je direktorij",
 "Upload cancelled." => "Slanje poništeno.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Učitavanje datoteke. Napuštanjem stranice će prekinuti učitavanje.",
+"Error" => "Greška",
 "Name" => "Naziv",
 "Size" => "Veličina",
 "Modified" => "Zadnja promjena",

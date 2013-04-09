@@ -36,6 +36,7 @@
 "File upload is in progress. Leaving the page now will cancel the upload." => "عملية رفع الملفات قيد التنفيذ. اغلاق الصفحة سوف يلغي عملية رفع الملفات.",
 "URL cannot be empty." => "عنوان ال URL  لا يجوز أن يكون فارغا.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "إسم مجلد غير صحيح. استخدام مصطلح \"Shared\" محجوز للنظام",
+"Error" => "خطأ",
 "Name" => "الاسم",
 "Size" => "حجم",
 "Modified" => "معدل",

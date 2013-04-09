@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-31 00:01+0100\n"
-"PO-Revision-Date: 2013-03-29 23:20+0000\n"
+"POT-Creation-Date: 2013-04-09 02:10+0200\n"
+"PO-Revision-Date: 2013-04-08 02:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -104,6 +104,10 @@ msgstr "Engedélyezés"
 msgid "Please wait...."
 msgstr "Kérem várjon..."
 
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+msgid "Error"
+msgstr "Hiba"
+
 #: js/apps.js:90
 msgid "Updating...."
 msgstr "Frissítés folyamatban..."
@@ -111,10 +115,6 @@ msgstr "Frissítés folyamatban..."
 #: js/apps.js:93
 msgid "Error while updating app"
 msgstr "Hiba történt a programfrissítés közben"
-
-#: js/apps.js:93
-msgid "Error"
-msgstr "Hiba"
 
 #: js/apps.js:96
 msgid "Updated"

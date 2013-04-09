@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#  <rapid_odeen@zoho.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-08 02:12+0200\n"
-"PO-Revision-Date: 2013-04-08 00:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-09 02:09+0200\n"
+"PO-Revision-Date: 2013-04-08 13:40+0000\n"
+"Last-Translator: Odeen <rapid_odeen@zoho.com>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +38,7 @@ msgstr ""
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Nuk pati veprime të gabuara, skedari u ngarkua me sukses"
 
 #: ajax/upload.php:27
 msgid ""
@@ -48,23 +49,23 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Skedari i ngarkuar tejkalon udhëzimin MAX_FILE_SIZE të specifikuar në formularin HTML"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Skedari i ngarkuar u ngarkua vetëm pjesërisht"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Nuk u ngarkua asnjë skedar"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Një dosje e përkohshme nuk u gjet"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Ruajtja në disk dështoi"
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
@@ -80,11 +81,11 @@ msgstr "Skedarët"
 
 #: js/fileactions.js:125
 msgid "Delete permanently"
-msgstr ""
+msgstr "Elimino përfundimisht"
 
 #: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr ""
+msgstr "Elimino"
 
 #: js/fileactions.js:193
 msgid "Rename"
@@ -185,51 +186,51 @@ msgstr ""
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
-msgstr ""
+msgstr "Veprim i gabuar"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr ""
+msgstr "Emri"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
-msgstr ""
+msgstr "Dimensioni"
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr ""
+msgstr "Modifikuar"
 
 #: js/files.js:893
 msgid "1 folder"
-msgstr ""
+msgstr "1 dosje"
 
 #: js/files.js:895
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} dosje"
 
 #: js/files.js:903
 msgid "1 file"
-msgstr ""
+msgstr "1 skedar"
 
 #: js/files.js:905
 msgid "{count} files"
-msgstr ""
+msgstr "{count} skedarë"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr ""
+msgstr "Ngarko"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Trajtimi i skedarit"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr ""
+msgstr "Dimensioni maksimal i ngarkimit"
 
 #: templates/admin.php:10
 msgid "max. possible: "
-msgstr ""
+msgstr "maks. i mundur:"
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
@@ -253,15 +254,15 @@ msgstr "Ruaj"
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "I ri"
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr ""
+msgstr "Skedar teksti"
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr ""
+msgstr "Dosje"
 
 #: templates/index.php:14
 msgid "From link"
@@ -281,7 +282,7 @@ msgstr ""
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
-msgstr ""
+msgstr "Këtu nuk ka asgjë. Ngarkoni diçka!"
 
 #: templates/index.php:76
 msgid "Download"
@@ -293,13 +294,13 @@ msgstr "Hiq ndarjen"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr ""
+msgstr "Ngarkimi është shumë i madh"
 
 #: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr ""
+msgstr "Skedarët që doni të ngarkoni tejkalojnë dimensionet maksimale për ngarkimet në këtë server."
 
 #: templates/index.php:115
 msgid "Files are being scanned, please wait."

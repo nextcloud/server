@@ -36,6 +36,7 @@
 "File upload is in progress. Leaving the page now will cancel the upload." => "Tập tin tải lên đang được xử lý. Nếu bạn rời khỏi trang bây giờ sẽ hủy quá trình này.",
 "URL cannot be empty." => "URL không được để trống.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Invalid folder name. Usage of 'Shared' is reserved by Owncloud",
+"Error" => "Lỗi",
 "Name" => "Tên",
 "Size" => "Kích cỡ",
 "Modified" => "Thay đổi",

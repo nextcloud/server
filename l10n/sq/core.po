@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-04 00:06+0200\n"
-"PO-Revision-Date: 2013-04-03 14:10+0000\n"
+"POT-Creation-Date: 2013-04-09 02:10+0200\n"
+"PO-Revision-Date: 2013-04-08 13:20+0000\n"
 "Last-Translator: Odeen <rapid_odeen@zoho.com>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -70,7 +70,7 @@ msgstr "Mungon ID-ja e %s."
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr "Gabim gjatë shtimit të %s tek të parapëlqyerat."
+msgstr "Veprim i gabuar gjatë shtimit të %s tek të parapëlqyerat."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -79,7 +79,7 @@ msgstr "Nuk selektuar për tu eliminuar asnjë kategori."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr "Gabim gjatë heqjes së %s nga të parapëlqyerat."
+msgstr "Veprim i gabuar gjatë heqjes së %s nga të parapëlqyerat."
 
 #: js/config.php:34
 msgid "Sunday"
@@ -161,55 +161,55 @@ msgstr "Dhjetor"
 msgid "Settings"
 msgstr "Parametrat"
 
-#: js/js.js:779
+#: js/js.js:707
 msgid "seconds ago"
 msgstr "sekonda më parë"
 
-#: js/js.js:780
+#: js/js.js:708
 msgid "1 minute ago"
 msgstr "1 minutë më parë"
 
-#: js/js.js:781
+#: js/js.js:709
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minuta më parë"
 
-#: js/js.js:782
+#: js/js.js:710
 msgid "1 hour ago"
 msgstr "1 orë më parë"
 
-#: js/js.js:783
+#: js/js.js:711
 msgid "{hours} hours ago"
 msgstr "{hours} orë më parë"
 
-#: js/js.js:784
+#: js/js.js:712
 msgid "today"
 msgstr "sot"
 
-#: js/js.js:785
+#: js/js.js:713
 msgid "yesterday"
 msgstr "dje"
 
-#: js/js.js:786
+#: js/js.js:714
 msgid "{days} days ago"
 msgstr "{days} ditë më parë"
 
-#: js/js.js:787
+#: js/js.js:715
 msgid "last month"
 msgstr "muajin e shkuar"
 
-#: js/js.js:788
+#: js/js.js:716
 msgid "{months} months ago"
 msgstr "{months} muaj më parë"
 
-#: js/js.js:789
+#: js/js.js:717
 msgid "months ago"
 msgstr "muaj më parë"
 
-#: js/js.js:790
+#: js/js.js:718
 msgid "last year"
 msgstr "vitin e shkuar"
 
-#: js/js.js:791
+#: js/js.js:719
 msgid "years ago"
 msgstr "vite më parë"
 
@@ -238,8 +238,10 @@ msgstr "Në rregull"
 msgid "The object type is not specified."
 msgstr "Nuk është specifikuar tipi i objektit."
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
 msgstr "Veprim i gabuar"
@@ -262,15 +264,15 @@ msgstr "Nda"
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
-msgstr "Gabim gjatë ndarjes"
+msgstr "Veprim i gabuar gjatë ndarjes"
 
 #: js/share.js:136
 msgid "Error while unsharing"
-msgstr "Gabim gjatë heqjes së ndarjes"
+msgstr "Veprim i gabuar gjatë heqjes së ndarjes"
 
 #: js/share.js:143
 msgid "Error while changing permissions"
-msgstr "Gabim gjatë ndryshimit të lejeve"
+msgstr "Veprim i gabuar gjatë ndryshimit të lejeve"
 
 #: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
@@ -346,7 +348,7 @@ msgstr "krijo"
 
 #: js/share.js:328
 msgid "update"
-msgstr "fresko"
+msgstr "azhurno"
 
 #: js/share.js:331
 msgid "delete"
@@ -362,11 +364,11 @@ msgstr "Mbrojtur me kod"
 
 #: js/share.js:577
 msgid "Error unsetting expiration date"
-msgstr "Gabim gjatë heqjes së datës së përfundimit"
+msgstr "Veprim i gabuar gjatë heqjes së datës së përfundimit"
 
 #: js/share.js:589
 msgid "Error setting expiration date"
-msgstr "Gabim gjatë caktimit të datës së përfundimit"
+msgstr "Veprim i gabuar gjatë caktimit të datës së përfundimit"
 
 #: js/share.js:604
 msgid "Sending ..."

@@ -11,6 +11,7 @@
 #   <henrique@meira.net>, 2012.
 #   <philippi.sedir@gmail.com>, 2012.
 # Rodrigo Tavares <rodrigo.st23@hotmail.com>, 2013.
+# Sedir G. Morais <philippi.sedir@gmail.com>, 2013.
 # Thiago Vicente <thiagovice@gmail.com>, 2012.
 # Unforgiving Fallout <>, 2012.
 # Van Der Fran <transifex@vanderland.com>, 2011, 2012.
@@ -18,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-01 00:02+0200\n"
-"PO-Revision-Date: 2013-03-31 22:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-09 02:10+0200\n"
+"PO-Revision-Date: 2013-04-08 06:40+0000\n"
+"Last-Translator: sedir <philippi.sedir@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -171,55 +172,55 @@ msgstr "dezembro"
 msgid "Settings"
 msgstr "Configurações"
 
-#: js/js.js:779
+#: js/js.js:707
 msgid "seconds ago"
 msgstr "segundos atrás"
 
-#: js/js.js:780
+#: js/js.js:708
 msgid "1 minute ago"
 msgstr "1 minuto atrás"
 
-#: js/js.js:781
+#: js/js.js:709
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minutos atrás"
 
-#: js/js.js:782
+#: js/js.js:710
 msgid "1 hour ago"
 msgstr "1 hora atrás"
 
-#: js/js.js:783
+#: js/js.js:711
 msgid "{hours} hours ago"
 msgstr "{hours} horas atrás"
 
-#: js/js.js:784
+#: js/js.js:712
 msgid "today"
 msgstr "hoje"
 
-#: js/js.js:785
+#: js/js.js:713
 msgid "yesterday"
 msgstr "ontem"
 
-#: js/js.js:786
+#: js/js.js:714
 msgid "{days} days ago"
 msgstr "{days} dias atrás"
 
-#: js/js.js:787
+#: js/js.js:715
 msgid "last month"
 msgstr "último mês"
 
-#: js/js.js:788
+#: js/js.js:716
 msgid "{months} months ago"
 msgstr "{months} meses atrás"
 
-#: js/js.js:789
+#: js/js.js:717
 msgid "months ago"
 msgstr "meses atrás"
 
-#: js/js.js:790
+#: js/js.js:718
 msgid "last year"
 msgstr "último ano"
 
-#: js/js.js:791
+#: js/js.js:719
 msgid "years ago"
 msgstr "anos atrás"
 
@@ -248,8 +249,10 @@ msgstr "Ok"
 msgid "The object type is not specified."
 msgstr "O tipo de objeto não foi especificado."
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
 msgstr "Erro"
@@ -485,11 +488,11 @@ msgstr "Aviso de Segurança"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "Sua versão do PHP está vulnerável ao ataque NULL Byte (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "Por favor atualize sua instalação do PHP para utilizar o ownCloud de forma segura."
 
 #: templates/installation.php:32
 msgid ""

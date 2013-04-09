@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-04 00:06+0200\n"
-"PO-Revision-Date: 2013-04-03 18:50+0000\n"
+"POT-Creation-Date: 2013-04-09 02:10+0200\n"
+"PO-Revision-Date: 2013-04-08 02:20+0000\n"
 "Last-Translator: Fatih Aşıcı <fatih.asici@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -109,6 +109,10 @@ msgstr "Etkin"
 msgid "Please wait...."
 msgstr "Lütfen bekleyin...."
 
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+msgid "Error"
+msgstr "Hata"
+
 #: js/apps.js:90
 msgid "Updating...."
 msgstr "Güncelleniyor...."
@@ -116,10 +120,6 @@ msgstr "Güncelleniyor...."
 #: js/apps.js:93
 msgid "Error while updating app"
 msgstr "Uygulama güncellenirken hata"
-
-#: js/apps.js:93
-msgid "Error"
-msgstr "Hata"
 
 #: js/apps.js:96
 msgid "Updated"

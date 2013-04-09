@@ -20,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-08 02:12+0200\n"
-"PO-Revision-Date: 2013-04-08 00:13+0000\n"
+"POT-Creation-Date: 2013-04-09 02:09+0200\n"
+"PO-Revision-Date: 2013-04-08 02:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -177,7 +177,7 @@ msgstr "No ha sido posible subir tu archivo porque es un directorio o tiene 0 by
 
 #: js/files.js:272
 msgid "Not enough space available"
-msgstr ""
+msgstr "No hay suficiente espacio disponible"
 
 #: js/files.js:312
 msgid "Upload cancelled."
@@ -198,7 +198,7 @@ msgstr "Nombre de carpeta invalido. El uso de \"Shared\" esta reservado para Own
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"

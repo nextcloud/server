@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-01 00:02+0200\n"
-"PO-Revision-Date: 2013-03-31 22:00+0000\n"
+"POT-Creation-Date: 2013-04-09 02:10+0200\n"
+"PO-Revision-Date: 2013-04-08 02:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -163,55 +163,55 @@ msgstr "Децембар"
 msgid "Settings"
 msgstr "Подешавања"
 
-#: js/js.js:779
+#: js/js.js:707
 msgid "seconds ago"
 msgstr "пре неколико секунди"
 
-#: js/js.js:780
+#: js/js.js:708
 msgid "1 minute ago"
 msgstr "пре 1 минут"
 
-#: js/js.js:781
+#: js/js.js:709
 msgid "{minutes} minutes ago"
 msgstr "пре {minutes} минута"
 
-#: js/js.js:782
+#: js/js.js:710
 msgid "1 hour ago"
 msgstr "Пре једног сата"
 
-#: js/js.js:783
+#: js/js.js:711
 msgid "{hours} hours ago"
 msgstr "Пре {hours} сата (сати)"
 
-#: js/js.js:784
+#: js/js.js:712
 msgid "today"
 msgstr "данас"
 
-#: js/js.js:785
+#: js/js.js:713
 msgid "yesterday"
 msgstr "јуче"
 
-#: js/js.js:786
+#: js/js.js:714
 msgid "{days} days ago"
 msgstr "пре {days} дана"
 
-#: js/js.js:787
+#: js/js.js:715
 msgid "last month"
 msgstr "прошлог месеца"
 
-#: js/js.js:788
+#: js/js.js:716
 msgid "{months} months ago"
 msgstr "Пре {months} месеца (месеци)"
 
-#: js/js.js:789
+#: js/js.js:717
 msgid "months ago"
 msgstr "месеци раније"
 
-#: js/js.js:790
+#: js/js.js:718
 msgid "last year"
 msgstr "прошле године"
 
-#: js/js.js:791
+#: js/js.js:719
 msgid "years ago"
 msgstr "година раније"
 
@@ -240,8 +240,10 @@ msgstr "У реду"
 msgid "The object type is not specified."
 msgstr "Врста објекта није подешена."
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
 msgstr "Грешка"

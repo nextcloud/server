@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-01 00:02+0200\n"
-"PO-Revision-Date: 2013-03-31 22:00+0000\n"
+"POT-Creation-Date: 2013-04-09 02:10+0200\n"
+"PO-Revision-Date: 2013-04-08 02:20+0000\n"
 "Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -167,55 +167,55 @@ msgstr "December"
 msgid "Settings"
 msgstr "Nastavenia"
 
-#: js/js.js:779
+#: js/js.js:707
 msgid "seconds ago"
 msgstr "pred sekundami"
 
-#: js/js.js:780
+#: js/js.js:708
 msgid "1 minute ago"
 msgstr "pred minútou"
 
-#: js/js.js:781
+#: js/js.js:709
 msgid "{minutes} minutes ago"
 msgstr "pred {minutes} minútami"
 
-#: js/js.js:782
+#: js/js.js:710
 msgid "1 hour ago"
 msgstr "Pred 1 hodinou."
 
-#: js/js.js:783
+#: js/js.js:711
 msgid "{hours} hours ago"
 msgstr "Pred {hours} hodinami."
 
-#: js/js.js:784
+#: js/js.js:712
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:785
+#: js/js.js:713
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:786
+#: js/js.js:714
 msgid "{days} days ago"
 msgstr "pred {days} dňami"
 
-#: js/js.js:787
+#: js/js.js:715
 msgid "last month"
 msgstr "minulý mesiac"
 
-#: js/js.js:788
+#: js/js.js:716
 msgid "{months} months ago"
 msgstr "Pred {months} mesiacmi."
 
-#: js/js.js:789
+#: js/js.js:717
 msgid "months ago"
 msgstr "pred mesiacmi"
 
-#: js/js.js:790
+#: js/js.js:718
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:791
+#: js/js.js:719
 msgid "years ago"
 msgstr "pred rokmi"
 
@@ -244,8 +244,10 @@ msgstr "Ok"
 msgid "The object type is not specified."
 msgstr "Nešpecifikovaný typ objektu."
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
 msgstr "Chyba"

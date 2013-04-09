@@ -18,8 +18,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-05 00:22+0200\n"
-"PO-Revision-Date: 2013-04-03 23:20+0000\n"
+"POT-Creation-Date: 2013-04-09 02:10+0200\n"
+"PO-Revision-Date: 2013-04-08 02:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -111,6 +111,10 @@ msgstr "Habilitar"
 msgid "Please wait...."
 msgstr "Por favor, aguarde..."
 
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+msgid "Error"
+msgstr "Erro"
+
 #: js/apps.js:90
 msgid "Updating...."
 msgstr "Atualizando..."
@@ -118,10 +122,6 @@ msgstr "Atualizando..."
 #: js/apps.js:93
 msgid "Error while updating app"
 msgstr "Erro ao atualizar aplicativo"
-
-#: js/apps.js:93
-msgid "Error"
-msgstr "Erro"
 
 #: js/apps.js:96
 msgid "Updated"

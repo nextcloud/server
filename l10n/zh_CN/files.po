@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-08 02:12+0200\n"
-"PO-Revision-Date: 2013-04-08 00:13+0000\n"
+"POT-Creation-Date: 2013-04-09 02:09+0200\n"
+"PO-Revision-Date: 2013-04-08 02:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -171,7 +171,7 @@ msgstr "无法上传文件，因为它是一个目录或者大小为 0 字节"
 
 #: js/files.js:272
 msgid "Not enough space available"
-msgstr ""
+msgstr "没有足够可用空间"
 
 #: js/files.js:312
 msgid "Upload cancelled."
@@ -192,7 +192,7 @@ msgstr "无效文件夹名。'共享' 是 Owncloud 预留的文件夹名。"
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
-msgstr ""
+msgstr "错误"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"

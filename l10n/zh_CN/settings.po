@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-31 00:01+0100\n"
-"PO-Revision-Date: 2013-03-29 23:20+0000\n"
+"POT-Creation-Date: 2013-04-09 02:10+0200\n"
+"PO-Revision-Date: 2013-04-08 02:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -108,6 +108,10 @@ msgstr "启用"
 msgid "Please wait...."
 msgstr "请稍等...."
 
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+msgid "Error"
+msgstr "错误"
+
 #: js/apps.js:90
 msgid "Updating...."
 msgstr "正在更新...."
@@ -115,10 +119,6 @@ msgstr "正在更新...."
 #: js/apps.js:93
 msgid "Error while updating app"
 msgstr "更新 app 时出错"
-
-#: js/apps.js:93
-msgid "Error"
-msgstr "错误"
 
 #: js/apps.js:96
 msgid "Updated"

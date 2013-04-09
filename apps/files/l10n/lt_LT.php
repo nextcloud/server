@@ -19,6 +19,7 @@
 "Unable to upload your file as it is a directory or has 0 bytes" => "Neįmanoma įkelti failo - jo dydis gali būti 0 bitų arba tai katalogas",
 "Upload cancelled." => "Įkėlimas atšauktas.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Failo įkėlimas pradėtas. Jei paliksite šį puslapį, įkėlimas nutrūks.",
+"Error" => "Klaida",
 "Name" => "Pavadinimas",
 "Size" => "Dydis",
 "Modified" => "Pakeista",

@@ -17,6 +17,7 @@
 "Upload cancelled." => "උඩුගත කිරීම අත් හරින්න ලදී",
 "File upload is in progress. Leaving the page now will cancel the upload." => "උඩුගතකිරීමක් සිදුවේ. පිටුව හැර යාමෙන් එය නැවතෙනු ඇත",
 "URL cannot be empty." => "යොමුව හිස් විය නොහැක",
+"Error" => "දෝෂයක්",
 "Name" => "නම",
 "Size" => "ප්‍රමාණය",
 "Modified" => "වෙනස් කළ",

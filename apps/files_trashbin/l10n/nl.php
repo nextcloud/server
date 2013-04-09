@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "Kon %s niet permanent verwijderen",
 "Couldn't restore %s" => "Kon %s niet herstellen",
 "perform restore operation" => "uitvoeren restore operatie",
+"Error" => "Fout",
 "delete file permanently" => "verwijder bestanden definitief",
 "Delete permanently" => "Verwijder definitief",
 "Name" => "Naam",

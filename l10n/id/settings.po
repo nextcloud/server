@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-05 00:22+0200\n"
-"PO-Revision-Date: 2013-04-04 08:00+0000\n"
+"POT-Creation-Date: 2013-04-09 02:10+0200\n"
+"PO-Revision-Date: 2013-04-08 02:20+0000\n"
 "Last-Translator: w41l <walecha99@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -105,6 +105,10 @@ msgstr "Aktifkan"
 msgid "Please wait...."
 msgstr "Mohon tunggu...."
 
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+msgid "Error"
+msgstr "kesalahan"
+
 #: js/apps.js:90
 msgid "Updating...."
 msgstr "Memperbarui...."
@@ -112,10 +116,6 @@ msgstr "Memperbarui...."
 #: js/apps.js:93
 msgid "Error while updating app"
 msgstr "Gagal ketika memperbarui app"
-
-#: js/apps.js:93
-msgid "Error"
-msgstr "kesalahan"
 
 #: js/apps.js:96
 msgid "Updated"

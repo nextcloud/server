@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "Kunne ikke slette %s permanent",
 "Couldn't restore %s" => "Kunne ikke gendanne %s",
 "perform restore operation" => "udfør gendannelsesoperation",
+"Error" => "Fejl",
 "delete file permanently" => "slet fil permanent",
 "Delete permanently" => "Slet permanent",
 "Name" => "Navn",

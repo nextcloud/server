@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-02 00:03+0200\n"
-"PO-Revision-Date: 2013-04-01 09:39+0000\n"
+"POT-Creation-Date: 2013-04-09 02:10+0200\n"
+"PO-Revision-Date: 2013-04-08 02:20+0000\n"
 "Last-Translator: leonfeng <rainofchaos@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -167,55 +167,55 @@ msgstr "十二月"
 msgid "Settings"
 msgstr "设置"
 
-#: js/js.js:779
+#: js/js.js:707
 msgid "seconds ago"
 msgstr "秒前"
 
-#: js/js.js:780
+#: js/js.js:708
 msgid "1 minute ago"
 msgstr "一分钟前"
 
-#: js/js.js:781
+#: js/js.js:709
 msgid "{minutes} minutes ago"
 msgstr "{minutes} 分钟前"
 
-#: js/js.js:782
+#: js/js.js:710
 msgid "1 hour ago"
 msgstr "1小时前"
 
-#: js/js.js:783
+#: js/js.js:711
 msgid "{hours} hours ago"
 msgstr "{hours} 小时前"
 
-#: js/js.js:784
+#: js/js.js:712
 msgid "today"
 msgstr "今天"
 
-#: js/js.js:785
+#: js/js.js:713
 msgid "yesterday"
 msgstr "昨天"
 
-#: js/js.js:786
+#: js/js.js:714
 msgid "{days} days ago"
 msgstr "{days} 天前"
 
-#: js/js.js:787
+#: js/js.js:715
 msgid "last month"
 msgstr "上月"
 
-#: js/js.js:788
+#: js/js.js:716
 msgid "{months} months ago"
 msgstr "{months} 月前"
 
-#: js/js.js:789
+#: js/js.js:717
 msgid "months ago"
 msgstr "月前"
 
-#: js/js.js:790
+#: js/js.js:718
 msgid "last year"
 msgstr "去年"
 
-#: js/js.js:791
+#: js/js.js:719
 msgid "years ago"
 msgstr "年前"
 
@@ -244,8 +244,10 @@ msgstr "好"
 msgid "The object type is not specified."
 msgstr "未指定对象类型。"
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
 msgstr "错误"

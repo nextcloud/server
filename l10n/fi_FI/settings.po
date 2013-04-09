@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-31 00:01+0100\n"
-"PO-Revision-Date: 2013-03-30 09:30+0000\n"
+"POT-Creation-Date: 2013-04-09 02:10+0200\n"
+"PO-Revision-Date: 2013-04-08 02:20+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -103,6 +103,10 @@ msgstr "Käytä"
 msgid "Please wait...."
 msgstr "Odota hetki..."
 
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+msgid "Error"
+msgstr "Virhe"
+
 #: js/apps.js:90
 msgid "Updating...."
 msgstr "Päivitetään..."
@@ -110,10 +114,6 @@ msgstr "Päivitetään..."
 #: js/apps.js:93
 msgid "Error while updating app"
 msgstr "Virhe sovellusta päivittäessä"
-
-#: js/apps.js:93
-msgid "Error"
-msgstr "Virhe"
 
 #: js/apps.js:96
 msgid "Updated"

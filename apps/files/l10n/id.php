@@ -36,6 +36,7 @@
 "File upload is in progress. Leaving the page now will cancel the upload." => "Berkas sedang diunggah. Meninggalkan halaman ini akan membatalkan proses.",
 "URL cannot be empty." => "tautan tidak boleh kosong",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Nama map salah. Nama 'Shared' telah digunakan oleh Owncloud.",
+"Error" => "kesalahan",
 "Name" => "Nama",
 "Size" => "Ukuran",
 "Modified" => "Dimodifikasi",

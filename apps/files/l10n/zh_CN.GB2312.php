@@ -21,6 +21,7 @@
 "Upload cancelled." => "上传取消了",
 "File upload is in progress. Leaving the page now will cancel the upload." => "文件正在上传。关闭页面会取消上传。",
 "URL cannot be empty." => "网址不能为空。",
+"Error" => "出错",
 "Name" => "名字",
 "Size" => "大小",
 "Modified" => "修改日期",

@@ -13,6 +13,7 @@
 "cancel" => "Batal",
 "Unable to upload your file as it is a directory or has 0 bytes" => "Tidak boleh memuatnaik fail anda kerana mungkin ianya direktori atau saiz fail 0 bytes",
 "Upload cancelled." => "Muatnaik dibatalkan.",
+"Error" => "Ralat",
 "Name" => "Nama ",
 "Size" => "Saiz",
 "Modified" => "Dimodifikasi",

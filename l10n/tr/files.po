@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-08 02:12+0200\n"
-"PO-Revision-Date: 2013-04-08 00:13+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-09 02:09+0200\n"
+"PO-Revision-Date: 2013-04-08 13:30+0000\n"
+"Last-Translator: ismail yenigül <ismail.yenigul@surgate.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -135,7 +135,7 @@ msgstr "1 dosya yüklendi"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "Dosyalar yükleniyor"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -171,7 +171,7 @@ msgstr "Dosyanızın boyutu 0 byte olduğundan veya bir dizin olduğundan yükle
 
 #: js/files.js:272
 msgid "Not enough space available"
-msgstr ""
+msgstr "Yeterli disk alanı yok"
 
 #: js/files.js:312
 msgid "Upload cancelled."
@@ -192,7 +192,7 @@ msgstr "Geçersiz dizin adı. Shared isminin kullanımı Owncloud tarafından re
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
-msgstr ""
+msgstr "Hata"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"

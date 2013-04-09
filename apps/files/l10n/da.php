@@ -36,6 +36,7 @@
 "File upload is in progress. Leaving the page now will cancel the upload." => "Fil upload kører. Hvis du forlader siden nu, vil uploadet blive annuleret.",
 "URL cannot be empty." => "URLen kan ikke være tom.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Ugyldigt mappenavn. Brug af \"Shared\" er forbeholdt Owncloud",
+"Error" => "Fejl",
 "Name" => "Navn",
 "Size" => "Størrelse",
 "Modified" => "Ændret",

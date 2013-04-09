@@ -29,6 +29,7 @@
 "Upload cancelled." => "Üleslaadimine tühistati.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Faili üleslaadimine on töös.  Lehelt lahkumine katkestab selle üleslaadimise.",
 "URL cannot be empty." => "URL ei saa olla tühi.",
+"Error" => "Viga",
 "Name" => "Nimi",
 "Size" => "Suurus",
 "Modified" => "Muudetud",

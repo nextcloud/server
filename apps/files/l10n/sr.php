@@ -21,6 +21,7 @@
 "Unable to upload your file as it is a directory or has 0 bytes" => "Не могу да отпремим датотеку као фасциклу или она има 0 бајтова",
 "Upload cancelled." => "Отпремање је прекинуто.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "Отпремање датотеке је у току. Ако сада напустите страницу, прекинућете отпремање.",
+"Error" => "Грешка",
 "Name" => "Назив",
 "Size" => "Величина",
 "Modified" => "Измењено",

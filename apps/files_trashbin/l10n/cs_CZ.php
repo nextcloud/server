@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "Nelze trvale odstranit %s",
 "Couldn't restore %s" => "Nelze obnovit %s",
 "perform restore operation" => "provést obnovu",
+"Error" => "Chyba",
 "delete file permanently" => "trvale odstranit soubor",
 "Delete permanently" => "Trvale odstranit",
 "Name" => "Název",

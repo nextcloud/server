@@ -24,6 +24,7 @@
 "Upload cancelled." => "ההעלאה בוטלה.",
 "File upload is in progress. Leaving the page now will cancel the upload." => "מתבצעת כעת העלאת קבצים. עזיבה של העמוד תבטל את ההעלאה.",
 "URL cannot be empty." => "קישור אינו יכול להיות ריק.",
+"Error" => "שגיאה",
 "Name" => "שם",
 "Size" => "גודל",
 "Modified" => "זמן שינוי",
