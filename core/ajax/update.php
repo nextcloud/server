@@ -11,7 +11,7 @@ if (OC::checkUpgrade(false)) {
 	$watcher = new UpdateWatcher($updateEventSource);
 	OC_Hook::connect('update', 'success', $watcher, 'success');
 	OC_Hook::connect('update', 'error', $watcher, 'error');
-	OC_Hook::connect('update', 'error', $watcher, 'failure');
+	OC_Hook::connect('update', 'failure', $watcher, 'failure');
 	$watcher->success('Turned on maintenance mode');
 	try {
 		$result = OC_DB::updateDbFromStructure(OC::$SERVERROOT.'/db_structure.xml');
