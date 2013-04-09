@@ -345,11 +345,13 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 .ui-datepicker-prev,.ui-datepicker-next{ border:1px solid #ddd; background:#ffffff; }
 
 /* ---- DIALOGS ---- */
-#dirtree {width:100%;}
-#filelist {height:270px; overflow:scroll; background-color:white; width:100%;}
+#dirup {width:4%;}
+#dirtree {width:92%;}
+#filelist {height:270px; overflow-y:auto; background-color:white; width:100%;}
 .filepicker_element_selected { background-color:lightblue;}
-.filepicker_loader {height:120px; width:100%; background-color:#333; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; filter:alpha(opacity=30); opacity:.3; visibility:visible; position:absolute; top:0; left:0; text-align:center; padding-top:150px;}
-
+.filepicker_loader {height:170px; width:100%; background-color:#333; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; filter:alpha(opacity=30); opacity:.3; visibility:visible; position:absolute; top:0; left:0; text-align:center; padding-top:150px;}
+.ui-dialog {position:fixed !important;}
+span.ui-icon {float: left; margin: 3px 7px 30px 0;}
 
 /* ---- CATEGORIES ---- */
 #categoryform .scrollarea { position:absolute; left:10px; top:10px; right:10px; bottom:50px; overflow:auto; border:1px solid #ddd; background:#f8f8f8; }
