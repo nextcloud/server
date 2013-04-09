@@ -55,7 +55,7 @@ $_['subadmingroups'] = array_flip($items);
 					<?php p($_['default_quota']);?>
 				</option>
 				<?php endif;?>
-				<option value='other'>
+				<option data-new value='other'>
 					<?php p($l->t('Other'));?>
 					...
 				</option>
