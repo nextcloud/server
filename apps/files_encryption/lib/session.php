@@ -27,32 +27,44 @@ namespace OCA\Encryption;
  */
 
 class Session {
+
+	private $view;
 	
 	/**
 	 * @brief if session is started, check if ownCloud key pair is set up, if not create it
 	 * 
 	 * The ownCloud key pair is used to allow public link sharing even if encryption is enabled
 	 */
-	public function __construct() {
+	public function __construct( \OC_FilesystemView $view ) {
 		
-		$view = new \OC\Files\View('/');
-		if (!$view->is_dir('owncloud_private_key')) {
-			$view->mkdir('owncloud_private_key');
+		$this->view = $view;
+		
+		if ( ! $this->view->is_dir( 'owncloud_private_key' ) ) {
+		
+			$this->view->mkdir('owncloud_private_key');
 		}
 		
-		if (!$view->file_exists("/public-keys/owncloud.public.key") || !$view->file_exists("/owncloud_private_key/owncloud.private.key") ) {
+		
+		if ( 
+			! $this->view->file_exists("/public-keys/owncloud.public.key") 
+			|| ! $this->view->file_exists("/owncloud_private_key/owncloud.private.key" ) 
+		) {
 
 			$keypair = Crypt::createKeypair();
 			
 			\OC_FileProxy::$enabled = false;
+			
 			// Save public key
-			$view->file_put_contents( '/public-keys/ownCloud.public.key', $keypair['publicKey'] );
+			$this->view->file_put_contents( '/public-keys/owncloud.public.key', $keypair['publicKey'] );
+			
 			// Encrypt private key empthy passphrase
 			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], '' );
+			
 			// Save private key
-			$view->file_put_contents( '/owncloud_private_key/ownCloud.private.key', $encryptedPrivateKey );
+			$this->view->file_put_contents( '/owncloud_private_key/owncloud.private.key', $encryptedPrivateKey );
 			
 			\OC_FileProxy::$enabled = true;
+			
 		}
 	}
 
