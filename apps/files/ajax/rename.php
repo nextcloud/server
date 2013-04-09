@@ -13,7 +13,7 @@ $newname = stripslashes($_GET["newname"]);
 
 $l = OC_L10N::get('files');
 
-if ( $newname !== '.' and ($dir != '' || $file != 'Shared') and $newname !== '.') {
+if ( $newname !== '.' and ($dir != '' || $file != 'Shared') and $newname !== 'Shared' ) {
 	$targetFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $newname);
 	$sourceFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $file);
 	if(\OC\Files\Filesystem::rename($sourceFile, $targetFile)) {
@@ -21,6 +21,8 @@ if ( $newname !== '.' and ($dir != '' || $file != 'Shared') and $newname !== '.'
 	} else {
 		OCP\JSON::error(array("data" => array( "message" => $l->t("Unable to rename file") )));
 	}
-}else{
+} elseif( $newname === 'Shared' ) {
+	OCP\JSON::error(array("data" => array( "message" => $l->t("Invalid folder name. Usage of 'Shared' is reserved by Owncloud") )));
+} else {
 	OCP\JSON::error(array("data" => array( "message" => $l->t("Unable to rename file") )));
 }
