@@ -439,12 +439,16 @@ class Sabre_DAV_Browser_Plugin extends Sabre_DAV_ServerPlugin {
      */
     protected function getLocalAssetPath($assetName) {
 
+        $assetDir = realpath(__DIR__ . '/assets') . '/';
+        $path = $assetDir . $assetName;
+
         // Making sure people aren't trying to escape from the base path.
-        $assetSplit = explode('/', $assetName);
-        if (in_array('..',$assetSplit)) {
-            throw new Sabre_DAV_Exception('Incorrect asset path');
+        $path = realpath($path);
+
+        if ($path === false || substr($path, 0, strlen($assetDir))!==$assetDir) {
+            throw new Sabre_DAV_Exception_Forbidden('Path does not exist, or escaping from the base path was detected');
         }
-        $path = __DIR__ . '/assets/' . $assetName;
+
         return $path;
 
     }
