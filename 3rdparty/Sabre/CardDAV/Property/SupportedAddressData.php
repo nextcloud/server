@@ -31,7 +31,7 @@ class Sabre_CardDAV_Property_SupportedAddressData extends Sabre_DAV_Property {
         if (is_null($supportedData)) {
             $supportedData = array(
                 array('contentType' => 'text/vcard', 'version' => '3.0'),
-                array('contentType' => 'text/vcard', 'version' => '4.0'),
+                // array('contentType' => 'text/vcard', 'version' => '4.0'),
             );
         }
 
