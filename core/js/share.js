@@ -133,14 +133,14 @@ OC.Share={
 					callback();
 				}
 			} else {
-				OC.dialogs.alert(t('core', 'Error'), t('core', 'Error while unsharing'));
+				OC.dialogs.alert(t('core', 'Error while unsharing'), t('core', 'Error'));
 			}
 		});
 	},
 	setPermissions:function(itemType, itemSource, shareType, shareWith, permissions) {
 		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setPermissions', itemType: itemType, itemSource: itemSource, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
 			if (!result || result.status !== 'success') {
-				OC.dialogs.alert(t('core', 'Error'), t('core', 'Error while changing permissions'));
+				OC.dialogs.alert(t('core', 'Error while changing permissions'), t('core', 'Error'));
 			}
 		});
 	},
@@ -563,7 +563,7 @@ $(document).ready(function() {
 			var itemSource = $('#dropdown').data('item-source');
 			$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setExpirationDate', itemType: itemType, itemSource: itemSource, date: '' }, function(result) {
 				if (!result || result.status !== 'success') {
-					OC.dialogs.alert(t('core', 'Error'), t('core', 'Error unsetting expiration date'));
+					OC.dialogs.alert(t('core', 'Error unsetting expiration date'), t('core', 'Error'));
 				}
 				$('#expirationDate').hide();
 			});
@@ -575,7 +575,7 @@ $(document).ready(function() {
 		var itemSource = $('#dropdown').data('item-source');
 		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setExpirationDate', itemType: itemType, itemSource: itemSource, date: $(this).val() }, function(result) {
 			if (!result || result.status !== 'success') {
-				OC.dialogs.alert(t('core', 'Error'), t('core', 'Error setting expiration date'));
+				OC.dialogs.alert(t('core', 'Error setting expiration date'), t('core', 'Error'));
 			}
 		});
 	});
