@@ -635,6 +635,11 @@ class OC_Util {
 	 */
 	public static function isinternetconnectionworking() {
 
+		// in case there is no internet connection on purpose there is no need to display a warning
+		if (!\OC_Config::getValue("has_internet_connection", true)) {
+			return true;
+		}
+
 		// try to connect to owncloud.org to see if http connections to the internet are possible.
 		$connected = @fsockopen("www.owncloud.org", 80);
 		if ($connected) {

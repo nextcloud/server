@@ -126,7 +126,10 @@ $CONFIG = array(
 /* Check if ownCloud is up to date */
 "updatechecker" => true,
 
-/* Place to log to, can be owncloud and syslog (owncloud is log menu item in admin menu) */
+/* Are we connected to the internet or are we running in a closed network? */
+"has_internet_connection" => true,
+
+	/* Place to log to, can be owncloud and syslog (owncloud is log menu item in admin menu) */
 "log_type" => "owncloud",
 
 /* File for the owncloud logger to log to, (default is ownloud.log in the data dir */
