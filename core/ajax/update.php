@@ -5,6 +5,8 @@ require_once '../../lib/base.php';
 
 if (OC::checkUpgrade(false)) {
 	\OC_DB::enableCaching(false);
+	OC_Config::setValue('maintenance', true);
+	OC_Log::write('core', 'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, OC_Log::WARN);
 	$updateEventSource = new OC_EventSource();
 	$watcher = new UpdateWatcher($updateEventSource);
 	OC_Hook::connect('update', 'success', $watcher, 'success');
@@ -99,6 +101,7 @@ class UpdateWatcher {
 		OC_Util::obEnd();
 		$this->eventSource->send('failure', $message);
 		$this->eventSource->close();
+		OC_Config::setValue('maintenance', false);
 		die();
 	}
 
