@@ -47,6 +47,20 @@ Lost password recovery
 
 In order to enable users to read their encrypted files in the event of a password loss/reset scenario, administrators can choose to enable a 'recoveryAdmin' account. This is a user that all user files will automatically be shared to of the option is enabled. This allows the recoveryAdmin user to generate new keyfiles for the user. By default the UID of the recoveryAdmin is 'recoveryAdmin'.
 
+OC_FilesystemView
+-----------------
+
+files_encryption deals extensively with paths and the filesystem. In order to minimise bugs, it makes calls to filesystem methods in a consistent way: OC_FilesystemView{} objects always use '/' as their root, and specify paths each time particular methods are called. e.g. do this:
+
+$view->file_exists( 'path/to/file' );
+
+Not:
+
+$view->chroot( 'path/to' );
+$view->file_exists( 'file' );
+
+Using this convention means that $view objects are more predictable and less likely to break. Problems with paths are the #1 cause of bugs in this app, and consistent $view handling is an important way to prevent them.
+
 Notes
 -----
 
