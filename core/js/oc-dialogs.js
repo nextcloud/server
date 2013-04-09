@@ -110,7 +110,7 @@ var OCdialogs = {
 
 		var dialog_name = 'oc-dialog-' + OCdialogs.dialogs_counter + '-content';
 		var dialog_id = '#' + dialog_name;
-		var dialog_div = '<div id="' + dialog_name + '" title="' + escapeHTML(title) + '">' + escapeHTML(content) + '</div>';
+		var dialog_div = '<div id="' + dialog_name + '" title="' + escapeHTML(title) + '">' + content + '</div>';
 		if (modal === undefined) { modal = false };
 		$('body').append(dialog_div);
 		var buttonlist = [{
@@ -205,7 +205,7 @@ var OCdialogs = {
 	message:function(content, title, dialog_type, buttons, callback, modal) {
 		var dialog_name = 'oc-dialog-' + OCdialogs.dialogs_counter + '-content';
 		var dialog_id = '#' + dialog_name;
-		var dialog_div = '<div id="' + dialog_name + '" title="' + escapeHTML(title) + '">' + escapeHTML(content) + '</div>';
+		var dialog_div = '<div id="' + dialog_name + '" title="' + escapeHTML(title) + '">' + content + '</div>';
 		if (modal === undefined) { modal = false };
 		$('body').append(dialog_div);
 		var buttonlist = [];
@@ -285,7 +285,7 @@ var OCdialogs = {
 		if (callback !== undefined) {
 			var valuelist = [];
 			$(dialog_id + ' input, ' + dialog_id + ' select').each(function(index, element) {
-				valuelist[index] = { name: $(elem).attr('name'), value: OCdialogs.determineValue(elem) };
+				valuelist[index] = { name: $(element).attr('name'), value: OCdialogs.determineValue(element) };
 			});
 			$(dialog_id).dialog('close');
 			callback(valuelist);
