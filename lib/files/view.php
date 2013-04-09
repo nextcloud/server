@@ -731,6 +731,7 @@ class View {
 	 * get the content of a directory
 	 *
 	 * @param string $directory path under datadirectory
+	 * @param string $mimetype_filter limit returned content to this mimetype or mimepart
 	 * @return array
 	 */
 	public function getDirectoryContent($directory, $mimetype_filter = '') {
