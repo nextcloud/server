@@ -38,7 +38,8 @@ class Session {
 	public function __construct( \OC_FilesystemView $view ) {
 		
 		$this->view = $view;
-		
+
+
 		if ( ! $this->view->is_dir( 'owncloud_private_key' ) ) {
 		
 			$this->view->mkdir('owncloud_private_key');
@@ -55,6 +56,11 @@ class Session {
 			\OC_FileProxy::$enabled = false;
 			
 			// Save public key
+
+			if (!$view->is_dir('/public-keys')) {
+				$view->mkdir('/public-keys');
+			}
+
 			$this->view->file_put_contents( '/public-keys/owncloud.public.key', $keypair['publicKey'] );
 			
 			// Encrypt private key empthy passphrase
