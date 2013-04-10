@@ -61,9 +61,11 @@ class Trashbin {
 		if ( $trashbinSize === false || $trashbinSize < 0 ) {
 			$trashbinSize = self::calculateSize(new \OC\Files\View('/'. $user.'/files_trashbin'));
 		}
-		$trashbinSize += self::copy_recursive($file_path, 'files_trashbin/files/'.$deleted.'.d'.$timestamp, $view);
-
+		
+		$sizeOfAddedFiles = self::copy_recursive($file_path, 'files_trashbin/files/'.$deleted.'.d'.$timestamp, $view);
+		
 		if ( $view->file_exists('files_trashbin/files/'.$deleted.'.d'.$timestamp) ) {
+			$trashbinSize += $sizeOfAddedFiles;
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`type`,`mime`,`user`) VALUES (?,?,?,?,?,?)");
 			$result = $query->execute(array($deleted, $timestamp, $location, $type, $mime, $user));
 			if ( !$result ) { // if file couldn't be added to the database than also don't store it in the trash bin.
