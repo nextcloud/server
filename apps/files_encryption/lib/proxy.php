@@ -101,7 +101,7 @@ class Proxy extends \OC_FileProxy {
 				$userId = \OCP\USER::getUser();
 				$rootView = new \OC_FilesystemView( '/' );
 				$util = new Util( $rootView, $userId );
-				$session = new Session($rootView);
+				$session = new Session( $rootView );
 				$fileOwner = \OC\Files\Filesystem::getOwner( $path );
 				$privateKey = $session->getPrivateKey();
 				$filePath = $util->stripUserFilesPath( $path );
@@ -115,9 +115,16 @@ class Proxy extends \OC_FileProxy {
 				if ( $encKeyfile = Keymanager::getFileKey( $rootView, $fileOwner, $filePath ) ) {
 				
 					$keyPreExists = true;
-				
+					
+					// Fetch shareKey
+					$shareKey = Keymanager::getShareKey( $rootView, $userId, $filePath );
+					
 					// Decrypt the keyfile
-					$plainKey = $util->decryptUnknownKeyfile( $filePath, $fileOwner, $privateKey );
+					$plainKey = Crypt::multiKeyDecrypt( $encKeyfile, $shareKey, $privateKey );
+					
+					trigger_error("\$shareKey = $shareKey");
+					
+					trigger_error("\$plainKey = $plainKey");
 				
 				} else {
 				
@@ -170,6 +177,7 @@ class Proxy extends \OC_FileProxy {
 				
 				// Save sharekeys to user folders
 				// TODO: openssl_seal generates new shareKeys (envelope keys) each time data is encrypted, but will data still be decryptable using old shareKeys? If so we don't need to replace the old shareKeys here, we only need to set the new ones
+				
 				Keymanager::setShareKeys( $rootView, $filePath, $multiEncrypted['keys'] );
 				
 				// Set encrypted keyfile as common varname
@@ -219,15 +227,18 @@ class Proxy extends \OC_FileProxy {
 		// If data is a catfile
 		if ( 
 			Crypt::mode() == 'server' 
-			&& Crypt::isCatfileContent( $data ) 
+			&& Crypt::isCatfileContent( $data ) // TODO: Do we really need this check? Can't we assume it is properly encrypted?
 		) {
 		
-			// TODO use get owner to find correct location of key files for shared files
-			$session = new Session($view);
+			// TODO: use get owner to find correct location of key files for shared files
+			$session = new Session( $view );
 			$privateKey = $session->getPrivateKey( $userId );
 			
 			// Get the file owner so we can retrieve its keyfile
-			list($fileOwner, $ownerPath) = $util->getUidAndFilename($relPath);
+// 			list( $fileOwner, $ownerPath ) = $util->getUidAndFilename( $relPath );
+
+			$fileOwner = \OC\Files\Filesystem::getOwner( $path );
+			$ownerPath = $util->stripUserFilesPath( $path );  // TODO: Don't trust $path, fetch owner path
 
 			// Get the encrypted keyfile
 			$encKeyfile = Keymanager::getFileKey( $view, $fileOwner, $ownerPath );
@@ -235,27 +246,9 @@ class Proxy extends \OC_FileProxy {
 			// Attempt to fetch the user's shareKey
 			$shareKey = Keymanager::getShareKey( $view, $userId, $relPath );
 			
-			// Check if key is shared or not
-			if ( $shareKey ) {
-				
-				\OC_FileProxy::$enabled = false;
-				
-// 				trigger_error("\$encKeyfile = $encKeyfile, \$shareKey = $shareKey, \$privateKey = $privateKey");
-				
-				// Decrypt keyfile with shareKey
-				$plainKeyfile = Crypt::multiKeyDecrypt( $encKeyfile, $shareKey, $privateKey );
-				
-// 				$plainKeyfile = $encKeyfile;
-				
-// 				trigger_error("PROXY plainkeyfile = ". var_export($plainKeyfile, 1));
-			
-			} else {
-				
-				// If key is unshared, decrypt with user private key
-				$plainKeyfile = Crypt::keyDecrypt( $encKeyfile, $privateKey );
-			
-			}
-			
+			// Decrypt keyfile with shareKey
+			$plainKeyfile = Crypt::multiKeyDecrypt( $encKeyfile, $shareKey, $privateKey );
+		
 			$plainData = Crypt::symmetricDecryptFileContent( $data, $plainKeyfile );
 			
 // 			trigger_error("PLAINDATA = ". var_export($plainData, 1));

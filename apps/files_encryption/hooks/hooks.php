@@ -63,7 +63,7 @@ class Hooks {
 		
 		$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
 		
-		$session = new Session($view);
+		$session = new Session( $view );
 		
 		$session->setPrivateKey( $privateKey, $params['uid'] );
 		
@@ -116,8 +116,8 @@ class Hooks {
 		// is in use (client-side encryption does not have access to 
 		// the necessary keys)
 		if ( Crypt::mode() == 'server' ) {
-			$view = new \OC_FilesystemView( '/' );
-			$session = new Session($view);
+			
+			$session = new Session();
 			
 			// Get existing decrypted private key
 			$privateKey = $session->getPrivateKey();
@@ -189,7 +189,7 @@ class Hooks {
 		if ( $params['itemType'] === 'file' ) {
 		
 			$view = new \OC_FilesystemView( '/' );
-			$session = new Session($view);
+			$session = new Session();
 			$userId = \OCP\User::getUser();
 			$util = new Util( $view, $userId );
 			$path = $util->fileIdToPath( $params['itemSource'] );
@@ -244,7 +244,7 @@ class Hooks {
 		if ( $params['itemType'] === 'file' ) {
 		
 			$view = new \OC_FilesystemView( '/' );
-			$session = new Session($view);
+			$session = new Session();
 			$userId = \OCP\User::getUser();
 			$util = new Util( $view, $userId );
 			$path = $util->fileIdToPath( $params['itemSource'] );

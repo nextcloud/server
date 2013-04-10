@@ -16,11 +16,14 @@ $(document).ready(function(){
 	// Trigger ajax on recoveryAdmin status change
 	$( 'input:radio[name="adminEnableRecovery"]' ).change( 
 		function() {
+			
+			var foo = $( this ).val();
+			
 			$.post( 
-				'../ajax/adminrecovery.php'
-				, $( this ).val()
+				OC.filePath('files_encryption', 'ajax', 'adminrecovery.php')
+				, { adminEnableRecovery: foo, recoveryPassword: 'password' }
 				,  function( data ) {
-					// TODO: provide user with feedback of outcome
+					alert( data );
 				}
 			);
 		}

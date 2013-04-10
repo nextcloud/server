@@ -24,6 +24,8 @@ $loader->register();
 use \Mockery as m;
 use OCA\Encryption;
 
+\OC_User::login( 'admin', 'admin' );
+
 class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 	
 	function setUp() {
@@ -183,6 +185,16 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 		// Return the setting to it's previous state
 		$this->assertTrue( $util->setRecovery( $enabled ) );
 		
+	}
+	
+	function testGetUidAndFilename() {
+	
+		\OC_User::setUserId( 'admin' );
+		
+		$this->util->getUidAndFilename( 'test1.txt' );
+		
+		
+	
 	}
 
 // 	/**

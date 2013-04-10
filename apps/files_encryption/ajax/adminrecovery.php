@@ -15,6 +15,8 @@ use OCA\Encryption;
 \OCP\JSON::checkAppEnabled( 'files_encryption' );
 \OCP\JSON::callCheck();
 
+$return = $doSetup = false;
+
 if ( 
 	isset( $_POST['adminEnableRecovery'] ) 
 	&& $_POST['adminEnableRecovery'] == 1
@@ -47,7 +49,7 @@ if (
 		// If the recoveryAdmin UID exists but doesn't have admin rights
 		} else {
 		
-			\OCP\JSON::error();
+			$return = false;
 			
 		}
 		
@@ -63,10 +65,12 @@ if (
 		$util->setupServerSide( $_POST['recoveryPassword'] );
 		
 		// Store the UID in the DB
-		OC_Appconfig::setValue( 'encryption', 'recoveryAdminUid', $recoveryAdminUid );
+		OC_Appconfig::setValue( 'files_encryption', 'recoveryAdminUid', $recoveryAdminUid );
 		
-		\OCP\JSON::success();
+		$return = true;
 		
 	}
 	
 }
+
+($return) ? OC_JSON::success() : OC_JSON::error();

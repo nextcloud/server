@@ -52,7 +52,7 @@
 // 		$this->userId = 'admin';
 // 		$this->pass = 'admin';
 // 		
-// 		$this->session = new Encryption\Session();
+// 		$this->session = new Encryption\Session( $view ); // FIXME: Provide a $view object for use here
 // 		
 // $this->session->setPrivateKey( 
 // '-----BEGIN PRIVATE KEY-----

@@ -24,13 +24,17 @@
 # Bugs
 # ----
 # Sharing a file to a user without encryption set up will not provide them with access but won't notify the sharer
-# Timeouts on first login due to encryption of very large files
+# Sharing files to other users currently broken (due to merge + ongoing implementation of support for lost password recovery)
+# Timeouts on first login due to encryption of very large files (fix in progress, as a result streaming is currently broken)
+# Sharing all files to admin for recovery purposes still in progress
+# Possibly public links are broken (not tested since last merge of master)
+# getOwner() currently returns false in all circumstances, unsure what code is returning this...
 
 
 # Missing features
 # ----------------
-# Re-use existing keyfiles so they don't need version control (part implemented, stream{} and util{} remain)
 # Make sure user knows if large files weren't encrypted
+# Support for resharing encrypted files
 
 
 # Test
@@ -122,7 +126,8 @@ class Util {
 		$this->userId = $userId;
 		$this->client = $client;
 		$this->userDir =  '/' . $this->userId;
-		$this->userFilesDir =  '/' . $this->userId . '/' . 'files';
+		$this->fileFolderName = 'files';
+		$this->userFilesDir =  '/' . $this->userId . '/' . $this->fileFolderName; // TODO: Does this need to be user configurable?
 		$this->publicKeyDir =  '/' . 'public-keys';
 		$this->encryptionDir =  '/' . $this->userId . '/' . 'files_encryption';
 		$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
@@ -690,7 +695,6 @@ class Util {
 	
 	/**
 	 * @brief Expand given path to all sub files & folders
-	 * @param Session $session
 	 * @param string $path path which needs to be updated
 	 * @return array $pathsArray all found file paths
 	 * @note Paths of directories excluded, only *file* paths are returned
@@ -747,6 +751,8 @@ class Util {
 	 * @param string $privateKey
 	 * @note Checks whether file was encrypted with openssl_seal or 
 	 *       openssl_encrypt, and decrypts accrdingly
+	 * @note This was used when 2 types of encryption for keyfiles was used, 
+	 *       but now we've switched to exclusively using openssl_seal()
 	 */
 	public function decryptUnknownKeyfile( $filePath, $fileOwner, $privateKey ) {
 
@@ -861,19 +867,55 @@ class Util {
 
 	/**
 	 * @brief get uid of the owners of the file and the path to the file
-	 * @param $filename
+	 * @param $shareFilePath Path of the file to check 
+	 * @note $shareFilePath must be relative to data/UID/files. Files 
+	 *       relative to /Shared are also acceptable
 	 * @return array
 	 */
-	public function getUidAndFilename($filename) {
-		$uid = \OC\Files\Filesystem::getOwner($filename);
-
-		\OC\Files\Filesystem::initMountPoints($uid);
-		if ( $uid != \OCP\User::getUser() ) {
-			$info = \OC\Files\Filesystem::getFileInfo($filename);
-			$ownerView = new \OC\Files\View('/'.$uid.'/files');
-			$filename = $ownerView->getPath($info['fileid']);
+	public function getUidAndFilename( $shareFilePath ) {
+	
+		$fileOwnerUid = \OC\Files\Filesystem::getOwner( $shareFilePath );
+		
+		// Check that UID is valid
+		if ( ! \OCP\User::userExists( $fileOwnerUid ) ) {
+		
+			throw new \Exception( 'Could not find owner (UID = "' . var_export( $fileOwnerUid, 1 ) . '") of file "' . $shareFilePath . '"' );
+			
 		}
-		return array($uid, $filename);
+
+		// NOTE: Bah, this dependency should be elsewhere
+		\OC\Files\Filesystem::initMountPoints( $fileOwnerUid );
+		
+		// If the file owner is the currently logged in user
+		if ( $fileOwnerUid == $this->userId ) {
+		
+			// Assume the path supplied is correct
+			$filename = $shareFilePath;
+			
+		} else {
+		
+			$info = \OC\Files\Filesystem::getFileInfo( $shareFilePath );
+			$ownerView = new \OC\Files\View( '/' . $fileOwnerUid . '/files' );
+			
+			// Fetch real file path from DB
+			$filename = $ownerView->getPath( $info['fileid'] ); // TODO: Check that this returns a path without including the user data dir
+		
+		}
+		
+		// Make path relative for use by $view
+		$relpath = $fileOwnerUid . '/' . $this->fileFolderName . '/' . $filename;
+		
+		// Check that the filename we're using is working
+		if ( $this->view->file_exists( $relpath ) ) {
+		
+			return array ( $fileOwnerUid, $relpath );
+			
+		} else {
+		
+			throw new \Exception( 'Supplied path could not be resolved "' . $shareFilePath . '"' );
+			
+		}
+		
 	}
 
 }
