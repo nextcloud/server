@@ -24,7 +24,7 @@ OCP\Util::connectHook( 'OCP\Share', 'post_unshareAll', 'OCA\Encryption\Hooks', '
 OCP\Util::connectHook( 'OC_Webdav_Properties', 'update', 'OCA\Encryption\Hooks', 'updateKeyfileFromClient' );
 
 stream_wrapper_register( 'crypt', 'OCA\Encryption\Stream' );
-$view = new OC\Files\View('/');
+$view = new OC_FilesystemView('/');
 $session = new OCA\Encryption\Session($view);
 
 if ( 
