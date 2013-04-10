@@ -236,7 +236,7 @@ class Stream {
 			
 			$this->getUser();
 			
-			$session = new Session();
+			$session = new Session($this->rootView);
 			
 			$privateKey = $session->getPrivateKey( $this->userId );
 			

@@ -101,7 +101,7 @@ class Proxy extends \OC_FileProxy {
 				$userId = \OCP\USER::getUser();
 				$rootView = new \OC_FilesystemView( '/' );
 				$util = new Util( $rootView, $userId );
-				$session = new Session();
+				$session = new Session($rootView);
 				$fileOwner = \OC\Files\Filesystem::getOwner( $path );
 				$privateKey = $session->getPrivateKey();
 				$filePath = $util->stripUserFilesPath( $path );
@@ -223,7 +223,7 @@ class Proxy extends \OC_FileProxy {
 		) {
 		
 			// TODO use get owner to find correct location of key files for shared files
-			$session = new Session();
+			$session = new Session($view);
 			$privateKey = $session->getPrivateKey( $userId );
 			
 			// Get the file owner so we can retrieve its keyfile
