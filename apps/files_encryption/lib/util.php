@@ -518,7 +518,7 @@ class Util {
 				$size = stream_copy_to_stream( $plainHandle, $encHandle );
 				
 				// Fetch the key that has just been set/updated by the stream
-				$encKey = Keymanager::getFileKey( $relPath );
+				$encKey = Keymanager::getFileKey( $this->view, $this->userId, $relPath );
 				
 				// Save keyfile
 				Keymanager::setFileKey( $this->view, $relPath, $this->userId, $encKey );
