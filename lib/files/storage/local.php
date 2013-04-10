@@ -95,7 +95,7 @@ class Local extends \OC\Files\Storage\Common{
 		// sets the modification time of the file to the given value.
 		// If mtime is nil the current time is set.
 		// note that the access time of the file always changes to the current time.
-		if(!$this->isUpdatable($path)) {
+		if($this->file_exists($path) and !$this->isUpdatable($path)) {
 			return false;
 		}
 		if(!is_null($mtime)) {
