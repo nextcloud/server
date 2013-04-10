@@ -65,14 +65,14 @@ class OCI extends AbstractDatabase {
 			//add prefix to the oracle user name to prevent collisions
 			$this->dbuser='oc_'.$username;
 			//create a new password so we don't need to store the admin config in the config file
-			$this->dbpassword=OC_Util::generate_random_bytes(30);
+			$this->dbpassword=\OC_Util::generate_random_bytes(30);
 
 			//oracle passwords are treated as identifiers:
 			//  must start with aphanumeric char
 			//  needs to be shortened to 30 bytes, as the two " needed to escape the identifier count towards the identifier length.
 			$this->dbpassword=substr($this->dbpassword, 0, 30);
 
-			$this->createDBUser($this->dbtablespace, $connection);
+			$this->createDBUser($connection);
 
 			\OC_Config::setValue('dbuser', $this->dbusername);
 			\OC_Config::setValue('dbname', $this->dbusername);
@@ -136,10 +136,9 @@ class OCI extends AbstractDatabase {
 	 *
 	 * @param String $name
 	 * @param String $password
-	 * @param String $tablespace
 	 * @param resource $connection
 	 */
-	private function createDBUser($tablespace, $connection) {
+	private function createDBUser($connection) {
 		$name = $this->dbuser;
 		$password = $this->password;
 		$query = "SELECT * FROM all_users WHERE USERNAME = :un";

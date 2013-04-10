@@ -43,6 +43,6 @@ abstract class AbstractDatabase {
 		$this->dbpassword = $dbpass;
 		$this->dbname = $dbname;
 		$this->dbhost = $dbhost;
-		$this->tableprefix = $tableprefix;
+		$this->tableprefix = $dbtableprefix;
 	}
 }

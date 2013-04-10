@@ -6,6 +6,7 @@ class Sqlite extends AbstractDatabase {
 	public $dbprettyname = 'Sqlite';
 
 	public function validate($config) {
+		return array();
 	}
 
 	public function initialize($config) {

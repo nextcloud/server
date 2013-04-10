@@ -23,7 +23,7 @@ class MySQL extends AbstractDatabase {
 			$this->dbuser=substr('oc_'.$username, 0, 16);
 			if($this->dbuser!=$oldUser) {
 				//hash the password so we don't need to store the admin config in the config file
-				$this->dbpassword=OC_Util::generate_random_bytes(30);
+				$this->dbpassword=\OC_Util::generate_random_bytes(30);
 
 				$this->createDBUser($connection);
 
@@ -46,7 +46,7 @@ class MySQL extends AbstractDatabase {
 
 		//fill the database if needed
 		$query='select count(*) from information_schema.tables'
-			." where table_schema='".$this->dbname."' AND table_name = '".$this->dbtableprefix."users';";
+			." where table_schema='".$this->dbname."' AND table_name = '".$this->tableprefix."users';";
 		$result = mysql_query($query, $connection);
 		if($result) {
 			$row=mysql_fetch_row($result);

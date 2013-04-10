@@ -33,7 +33,7 @@ class PostgreSQL extends AbstractDatabase {
 			//add prefix to the postgresql user name to prevent collisions
 			$this->dbuser='oc_'.$username;
 			//create a new password so we don't need to store the admin config in the config file
-			$this->dbpassword=OC_Util::generate_random_bytes(30);
+			$this->dbpassword=\OC_Util::generate_random_bytes(30);
 
 			$this->createDBUser($connection);
 
@@ -69,7 +69,7 @@ class PostgreSQL extends AbstractDatabase {
 			throw new \DatabaseSetupException($this->trans->t('PostgreSQL username and/or password not valid'),
 					$this->trans->t('You need to enter either an existing account or the administrator.'));
 		}
-		$query = "select count(*) FROM pg_class WHERE relname='".$this->dbtableprefix."users' limit 1";
+		$query = "select count(*) FROM pg_class WHERE relname='".$this->tableprefix."users' limit 1";
 		$result = pg_query($connection, $query);
 		if($result) {
 			$row = pg_fetch_row($result);

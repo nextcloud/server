@@ -149,7 +149,7 @@ class MSSQL extends AbstractDatabase {
 		//fill the database if needed
 		$query = "SELECT * FROM INFORMATION_SCHEMA.TABLES"
 			." WHERE TABLE_SCHEMA = '".$this->dbname."'"
-			." AND TABLE_NAME = '".$this->dbtableprefix."users'";
+			." AND TABLE_NAME = '".$this->tableprefix."users'";
 		$result = sqlsrv_query($connection, $query);
 		if ($result === false) {
 			if ( ($errors = sqlsrv_errors() ) != null) {
