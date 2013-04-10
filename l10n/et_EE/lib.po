@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Pisike Sipelgas <pisike.sipelgas@gmail.com>, 2013.
 # Rivo Zängov <eraser@eraser.ee>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-01 00:02+0200\n"
-"PO-Revision-Date: 2013-03-31 22:01+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-10 02:08+0200\n"
+"PO-Revision-Date: 2013-04-09 10:00+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,7 +61,7 @@ msgstr "Valitud failid on ZIP-faili loomiseks liiga suured."
 
 #: helper.php:228
 msgid "couldn't be determined"
-msgstr ""
+msgstr "Ei suuda tuvastada"
 
 #: json.php:28
 msgid "Application is not enabled"
@@ -101,38 +102,38 @@ msgstr "Määra andmete kaust."
 #: setup.php:55
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "%s sisesta andmebaasi kasutajatunnus"
 
 #: setup.php:58
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "%s sisesta andmebaasi nimi."
 
 #: setup.php:61
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s punktide kasutamine andmebaasi nimes pole lubatud"
 
 #: setup.php:64
 #, php-format
 msgid "%s set the database host."
-msgstr ""
+msgstr "%s määra andmebaasi server."
 
 #: setup.php:132 setup.php:324 setup.php:369
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "PostgreSQL kasutajatunnus ja/või parool pole õiged"
 
 #: setup.php:133 setup.php:156 setup.php:233
 msgid "You need to enter either an existing account or the administrator."
-msgstr ""
+msgstr "Sisesta kas juba olemasolev konto või administrator."
 
 #: setup.php:155 setup.php:457 setup.php:524
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Oracle kasutajatunnus ja/või parool pole õiged"
 
 #: setup.php:232
 msgid "MySQL username and/or password not valid"
-msgstr ""
+msgstr "MySQL kasutajatunnus ja/või parool pole õiged"
 
 #: setup.php:286 setup.php:390 setup.php:399 setup.php:417 setup.php:427
 #: setup.php:436 setup.php:465 setup.php:531 setup.php:557 setup.php:564
@@ -147,12 +148,12 @@ msgstr "Andmebaasi viga: \"%s\""
 #: setup.php:576 setup.php:592 setup.php:600 setup.php:609
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "Tõrkuv käsk oli: \"%s\""
 
 #: setup.php:303
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "MySQL kasutaja '%s'@'localhost' on juba olemas."
 
 #: setup.php:304
 msgid "Drop this user from MySQL"
@@ -161,7 +162,7 @@ msgstr "Kustuta see kasutaja MySQL-ist"
 #: setup.php:309
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
-msgstr ""
+msgstr "MySQL kasutaja '%s'@'%%' on juba olemas"
 
 #: setup.php:310
 msgid "Drop this user from MySQL."
@@ -170,23 +171,23 @@ msgstr "Kustuta see kasutaja MySQL-ist."
 #: setup.php:583 setup.php:615
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "Tõrkuv käsk oli: \"%s\", nimi: %s, parool: %s"
 
 #: setup.php:635
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "MS SQL kasutajatunnus ja/või parool pole õiged: %s"
 
 #: setup.php:853
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Veebiserveri ei ole veel korralikult seadistatud võimaldamaks failide sünkroniseerimist, kuna WebDAV liides näib olevat mittetoimiv."
 
 #: setup.php:854
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Palun tutvu veelkord <a href='%s'>paigalduse juhenditega</a>."
 
 #: template.php:113
 msgid "seconds ago"
@@ -256,4 +257,4 @@ msgstr "uuenduste kontrollimine on välja lülitatud"
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "Ei leia kategooriat \"%s\""

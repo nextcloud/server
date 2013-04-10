@@ -11,14 +11,15 @@
 # Konstantinos Tzanidis <tzanidis@gmail.com>, 2012.
 # Marios Bekatoros <>, 2012.
 # Petros Kyladitis <petros.kyladitis@gmail.com>, 2011-2012.
+# Wasilis Mandratzis <m.wasilis@yahoo.de>, 2013.
 # Γιάννης Ανθυμίδης <yannanth@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:09+0200\n"
-"PO-Revision-Date: 2013-04-08 02:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-10 02:08+0200\n"
+"PO-Revision-Date: 2013-04-09 01:30+0000\n"
+"Last-Translator: Wasilis <m.wasilis@yahoo.de>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -137,7 +138,7 @@ msgstr "1 αρχείο ανεβαίνει"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "αρχεία ανεβαίνουν"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."

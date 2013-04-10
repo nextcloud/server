@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 02:20+0000\n"
+"POT-Creation-Date: 2013-04-10 02:08+0200\n"
+"PO-Revision-Date: 2013-04-09 05:40+0000\n"
 "Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -219,7 +219,7 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "این سرور ownCloud نمی تواند سیستم محلی را بر روی %s تنظیم کند.این به این معنی ست که ممکن است با کاراکترهای خاصی در نام فایل ها مشکل داشته باشد.ما اکیداً نصب کردن بسته های لازم را بر روی سیستم خودتان برای پشتیبانی %s توصیه می کنیم."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
@@ -233,7 +233,7 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "این سرور OwnCloud ارتباط اینترنتی ندارد.این بدین معناست که بعضی از خصوصیات نظیر خارج کردن منبع ذخیره ی خارجی، اطلاعات در مورد بروزرسانی ها یا نصب برنامه های نوع 3ام کار نمی کنند.دسترسی به فایل ها از راه دور و ارسال آگاه سازی ایمیل ها ممکن است همچنان کار نکنند.اگرشما همه ی خصوصیات OwnCloud می خواهید ما پیشنهاد می کنیم تا ارتباط اینترنتی مربوط به این سرور را فعال کنید."
 
 #: templates/admin.php:92
 msgid "Cron"
@@ -241,7 +241,7 @@ msgstr ""
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "اجرای یک وظیفه با هر بار بارگذاری صفحه"
 
 #: templates/admin.php:111
 msgid ""
@@ -261,15 +261,15 @@ msgstr "اشتراک گذاری"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr ""
+msgstr "فعال کردن API اشتراک گذاری"
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "اجازه ی برنامه ها برای استفاده از API اشتراک گذاری"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "اجازه ی لینک ها"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
@@ -281,15 +281,15 @@ msgstr "مجوز اشتراک گذاری مجدد"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "اجازه به کاربران برای اشتراک گذاری دوباره با آنها"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "اجازه به کابران برای اشتراک گذاری با همه"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "اجازه به کاربران برای اشتراک گذاری ، تنها با دیگر کابران گروه خودشان"
 
 #: templates/admin.php:168
 msgid "Security"
@@ -297,12 +297,12 @@ msgstr "امنیت"
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "وادار کردن HTTPS"
 
 #: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "وادار کردن مشتریان برای ارتباط با ownCloud از طریق رمزگذاری ارتباط"
 
 #: templates/admin.php:185
 msgid ""

@@ -6,5 +6,6 @@
 "File %s could not be reverted to version %s" => "Berkas %s gagal dikembalikan ke versi %s",
 "No old versions available" => "Versi lama tidak tersedia",
 "No path specified" => "Lokasi tidak ditentukan",
-"Revert a file to a previous version by clicking on its revert button" => "Kembalikan berkas ke versi sebelumnya dengan mengklik tombol kembalikan"
+"Versions" => "Versi",
+"Revert a file to a previous version by clicking on its revert button" => "Kembalikan berkas ke versi sebelumnya dengan mengeklik tombol kembalikan"
 );

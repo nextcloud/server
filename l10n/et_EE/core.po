@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Pisike Sipelgas <pisike.sipelgas@gmail.com>, 2013.
 # Rivo Zängov <eraser@eraser.ee>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 02:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-10 02:08+0200\n"
+"PO-Revision-Date: 2013-04-09 09:40+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,30 +22,30 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "Kasutaja %s jagas Sinuga faili"
 
 #: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "Kasutaja %s jagas Sinuga kataloogi."
 
 #: ajax/share.php:101
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "Kasutaja %s jagas Sinuga faili \"%s\". See on allalaadimiseks saadaval siin: %s"
 
 #: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "Kasutaja %s jagas Sinuga kataloogi \"%s\". See on allalaadimiseks saadaval siin: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "Kategooria tüüp puudub."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -53,24 +54,24 @@ msgstr "Pole kategooriat, mida lisada?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "See kategooria juba eksisteerib: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "Objekti tüüb puudub."
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "%s ID puudub"
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Viga %s lisamisel lemmikutesse."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -79,7 +80,7 @@ msgstr "Kustutamiseks pole kategooriat valitud."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Viga %s eemaldamisel lemmikutest"
 
 #: js/config.php:34
 msgid "Sunday"
@@ -179,7 +180,7 @@ msgstr "1 tund tagasi"
 
 #: js/js.js:711
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "{hours} tundi tagasi"
 
 #: js/js.js:712
 msgid "today"
@@ -199,7 +200,7 @@ msgstr "viimasel kuul"
 
 #: js/js.js:716
 msgid "{months} months ago"
-msgstr ""
+msgstr "{months} kuud tagasi"
 
 #: js/js.js:717
 msgid "months ago"
@@ -213,30 +214,30 @@ msgstr "viimasel aastal"
 msgid "years ago"
 msgstr "aastat tagasi"
 
-#: js/oc-dialogs.js:126
-msgid "Choose"
-msgstr "Vali"
+#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
+msgid "Ok"
+msgstr "Ok"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
 msgstr "Loobu"
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "Ei"
+#: js/oc-dialogs.js:185
+msgid "Choose"
+msgstr "Vali"
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:215
 msgid "Yes"
 msgstr "Jah"
 
-#: js/oc-dialogs.js:180
-msgid "Ok"
-msgstr "Ok"
+#: js/oc-dialogs.js:222
+msgid "No"
+msgstr "Ei"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "Objekti tüüb pole määratletud"
 
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
@@ -248,15 +249,15 @@ msgstr "Viga"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "Rakenduse nimi ole määratletud"
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "Vajalikku faili {file} pole paigaldatud!"
 
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
-msgstr ""
+msgstr "Jagatud"
 
 #: js/share.js:90
 msgid "Share"
@@ -276,7 +277,7 @@ msgstr "Viga õiguste muutmisel"
 
 #: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Jagatud sinu ja {group} grupiga {owner} poolt"
 
 #: js/share.js:154
 msgid "Shared with you by {owner}"
@@ -300,11 +301,11 @@ msgstr "Parool"
 
 #: js/share.js:173
 msgid "Email link to person"
-msgstr ""
+msgstr "Saada link isikule emailiga"
 
 #: js/share.js:174
 msgid "Send"
-msgstr ""
+msgstr "Saada"
 
 #: js/share.js:178
 msgid "Set expiration date"
@@ -328,7 +329,7 @@ msgstr "Edasijagamine pole lubatud"
 
 #: js/share.js:287
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Jagatud {item} kasutajaga {user}"
 
 #: js/share.js:308
 msgid "Unshare"
@@ -372,22 +373,22 @@ msgstr "Viga aegumise kuupäeva määramisel"
 
 #: js/share.js:604
 msgid "Sending ..."
-msgstr ""
+msgstr "Saadan ..."
 
 #: js/share.js:615
 msgid "Email sent"
-msgstr ""
+msgstr "Email saadetud"
 
 #: js/update.js:14
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "Uuendus ebaõnnestus. Palun teavita probleemidest  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud kogukonda</a>."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "Uuendus oli edukas. Kohe suunatakse Sind ownCloudi."
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
@@ -477,36 +478,36 @@ msgstr "Turvahoiatus"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "Sinu PHP versioon on haavatav NULL Baidi (CVE-2006-7243) rünnakuga."
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "Palun uuenda oma paigaldatud PHP-d tagamaks ownCloudi turvalisus."
 
 #: templates/installation.php:32
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Turvalist juhuslike numbrite generaatorit pole saadaval. Palun luba PHP-s OpenSSL laiendus."
 
 #: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "Ilma turvalise juhuslike numbrite generaatorita võib ründaja ennustada paroolivahetuse võtme ning hõivata su konto."
 
 #: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "Su andmete kataloog ja failid on tõenäoliselt internetist vabalt saadaval kuna .htaccess fail ei toimi."
 
 #: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Serveri korrektseks seadistuseks palun tutvu <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentatsiooniga</a>."
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
@@ -590,7 +591,7 @@ msgstr "Logi sisse"
 
 #: templates/login.php:49
 msgid "Alternative Logins"
-msgstr ""
+msgstr "Alternatiivsed meldimised"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -603,4 +604,4 @@ msgstr "järgm"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "Uuendan ownCloudi versioonile %s. Läheb pisut aega."

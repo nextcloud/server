@@ -13,5 +13,6 @@
 "{count} files" => "{count} faili",
 "Nothing in here. Your trash bin is empty!" => "Siin pole midagi. Sinu prügikast on tühi!",
 "Restore" => "Taasta",
-"Delete" => "Kustuta"
+"Delete" => "Kustuta",
+"Deleted Files" => "Kustutatud failid"
 );

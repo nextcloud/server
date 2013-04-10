@@ -25,6 +25,7 @@
 "undo" => "بازگشت",
 "perform delete operation" => "انجام عمل حذف",
 "1 file uploading" => "1 پرونده آپلود شد.",
+"files uploading" => "بارگذاری فایل ها",
 "'.' is an invalid file name." => "'.'   یک نام پرونده نامعتبر است.",
 "File name cannot be empty." => "نام پرونده نمی تواند خالی باشد.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "نام نامعتبر ،  '\\', '/', '<', '>', ':', '\"', '|', '?'  و '*'  مجاز نمی باشند.",

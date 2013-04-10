@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
+"POT-Creation-Date: 2013-04-10 02:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -212,24 +212,24 @@ msgstr ""
 msgid "years ago"
 msgstr ""
 
-#: js/oc-dialogs.js:126
-msgid "Choose"
+#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
+msgid "Ok"
 msgstr ""
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
 msgstr ""
 
-#: js/oc-dialogs.js:162
-msgid "No"
+#: js/oc-dialogs.js:185
+msgid "Choose"
 msgstr ""
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:215
 msgid "Yes"
 msgstr ""
 
-#: js/oc-dialogs.js:180
-msgid "Ok"
+#: js/oc-dialogs.js:222
+msgid "No"
 msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102

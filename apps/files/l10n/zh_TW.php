@@ -25,6 +25,7 @@
 "undo" => "復原",
 "perform delete operation" => "進行刪除動作",
 "1 file uploading" => "1 個檔案正在上傳",
+"files uploading" => "檔案正在上傳中",
 "'.' is an invalid file name." => "'.' 是不合法的檔名。",
 "File name cannot be empty." => "檔名不能為空。",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "檔名不合法，不允許 '\\', '/', '<', '>', ':', '\"', '|', '?' 和 '*' 。",

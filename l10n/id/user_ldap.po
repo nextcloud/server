@@ -4,14 +4,15 @@
 # 
 # Translators:
 #   <mr.pige_ina@yahoo.co.id>, 2012.
+#  <romihardiyanto@gmail.com>, 2013.
 # Widya Walesa <walecha99@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:32+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-10 02:08+0200\n"
+"PO-Revision-Date: 2013-04-09 14:40+0000\n"
+"Last-Translator: rodin <romihardiyanto@gmail.com>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -238,7 +239,7 @@ msgstr "tidak disarankan, gunakan hanya untuk pengujian."
 
 #: templates/settings.php:78
 msgid "Cache Time-To-Live"
-msgstr ""
+msgstr "Gunakan Tembolok untuk Time-To-Live"
 
 #: templates/settings.php:78
 msgid "in seconds. A change empties the cache."
@@ -302,11 +303,11 @@ msgstr "Atribut Khusus"
 
 #: templates/settings.php:92
 msgid "Quota Field"
-msgstr ""
+msgstr "Bidang Kuota"
 
 #: templates/settings.php:93
 msgid "Quota Default"
-msgstr ""
+msgstr "Kuota Baku"
 
 #: templates/settings.php:93
 msgid "in bytes"
@@ -314,11 +315,11 @@ msgstr "dalam bytes"
 
 #: templates/settings.php:94
 msgid "Email Field"
-msgstr ""
+msgstr "Bidang Email"
 
 #: templates/settings.php:95
 msgid "User Home Folder Naming Rule"
-msgstr ""
+msgstr "Aturan Penamaan Folder Home Pengguna"
 
 #: templates/settings.php:95
 msgid ""
@@ -328,7 +329,7 @@ msgstr "Biarkan nama pengguna kosong (default). Atau tetapkan atribut LDAP/AD."
 
 #: templates/settings.php:99
 msgid "Test Configuration"
-msgstr ""
+msgstr "Uji Konfigurasi"
 
 #: templates/settings.php:99
 msgid "Help"

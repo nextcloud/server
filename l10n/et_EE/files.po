@@ -4,14 +4,15 @@
 # 
 # Translators:
 #   <dagor.vint@hotmail.com>, 2012.
+# Pisike Sipelgas <pisike.sipelgas@gmail.com>, 2013.
 # Rivo Zängov <eraser@eraser.ee>, 2011-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:09+0200\n"
-"PO-Revision-Date: 2013-04-08 02:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-10 02:08+0200\n"
+"PO-Revision-Date: 2013-04-09 09:20+0000\n"
+"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,7 +23,7 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Ei saa liigutada faili %s - samanimeline fail on juba olemas"
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
@@ -44,7 +45,7 @@ msgstr "Ühtegi viga pole, fail on üles laetud"
 #: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr ""
+msgstr "Üleslaetava faili suurus ületab php.ini poolt määratud upload_max_filesize suuruse"
 
 #: ajax/upload.php:29
 msgid ""
@@ -122,7 +123,7 @@ msgstr "tagasi"
 
 #: js/filelist.js:324
 msgid "perform delete operation"
-msgstr ""
+msgstr "teosta kustutamine"
 
 #: js/filelist.js:406
 msgid "1 file uploading"
@@ -130,7 +131,7 @@ msgstr "1 faili üleslaadimisel"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "failide üleslaadimine"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -148,17 +149,17 @@ msgstr "Vigane nimi, '\\', '/', '<', '>', ':', '\"', '|', '?' ja '*' pole lubatu
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Sinu andmemaht on täis! Faile ei uuendata ja sünkroniseerimist ei toimu!"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Su andmemaht on peaaegu täis ({usedSpacePercent}%)"
 
 #: js/files.js:226
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
+msgstr "Valmistatakse allalaadimist. See võib võtta veidi aega kui on tegu suurte failidega. "
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
@@ -166,7 +167,7 @@ msgstr "Sinu faili üleslaadimine ebaõnnestus, kuna see on kaust või selle suu
 
 #: js/files.js:272
 msgid "Not enough space available"
-msgstr ""
+msgstr "Pole piisavalt ruumi"
 
 #: js/files.js:312
 msgid "Upload cancelled."
@@ -183,7 +184,7 @@ msgstr "URL ei saa olla tühi."
 
 #: js/files.js:486
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "Vigane kataloogi nimi. 'Shared' kasutamine on reserveeritud ownCloud poolt."
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
@@ -271,7 +272,7 @@ msgstr "Allikast"
 
 #: templates/index.php:42
 msgid "Deleted files"
-msgstr ""
+msgstr "Kustutatud failid"
 
 #: templates/index.php:48
 msgid "Cancel upload"
@@ -279,7 +280,7 @@ msgstr "Tühista üleslaadimine"
 
 #: templates/index.php:55
 msgid "You don’t have write permissions here."
-msgstr ""
+msgstr "Siin puudvad Sul kirjutamisõigused."
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
@@ -313,4 +314,4 @@ msgstr "Praegune skannimine"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "Uuendan failisüsteemi puhvrit..."
