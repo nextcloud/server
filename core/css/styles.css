@@ -266,16 +266,19 @@ fieldset.warning a { color:#b94a48 !important; font-weight:bold; }
 	overflow:hidden; box-sizing:border-box; -moz-box-sizing:border-box;
 }
 #navigation:hover { overflow-y:auto; }
-#navigation a {
-	display:block; padding:8px 0 4px;
+#navigation a span {
+	display:block;
 	text-decoration:none; font-size:10px; text-align:center;
 	color:#fff; text-shadow:#000 0 -1px 0;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; filter:alpha(opacity=50); opacity:.5;
 	white-space:nowrap; overflow:hidden; text-overflow:ellipsis; /* ellipsize long app names */
 }
 	#navigation a:hover, #navigation a:focus { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; filter:alpha(opacity=80); opacity:.8; }
-	#navigation a.active { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
-	#navigation .icon { display:block; width:32px; height:32px; margin:0 16px 0; }
+	#navigation a.active .icon, #navigation a.active span { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; }
+	#navigation .icon {
+		display:block; width:32px; height:32px; margin:0 16px 0; padding:8px 0 4px; 	
+		-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; filter:alpha(opacity=50); opacity:.5;
+	}
 	#navigation li:first-child a { padding-top:16px; }
 
 

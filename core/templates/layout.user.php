@@ -75,7 +75,9 @@
 						<a href="<?php print_unescaped($entry['href']); ?>" title=""
 							<?php if( $entry['active'] ): ?> class="active"<?php endif; ?>>
 							<img class="icon svg" src="<?php print_unescaped($entry['icon']); ?>"/>
-							<?php p($entry['name']); ?>
+							<span>
+								<?php p($entry['name']); ?>
+							</span>
 						</a>
 					</li>
 				<?php endforeach; ?>
