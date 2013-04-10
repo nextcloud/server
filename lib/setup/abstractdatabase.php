@@ -10,7 +10,7 @@ abstract class AbstractDatabase {
 	protected $dbhost;
 	protected $tableprefix;
 
-	public function __construct($trans, $config) {
+	public function __construct($trans) {
 		$this->trans = $trans;
 	}
 
