@@ -17,7 +17,7 @@ class OCI extends AbstractDatabase {
 		\OC_Config::setValue('dbtablespace', $this->dbtablespace);
 	}
 
-	public function setupDatabase($dbtablespace, $username) {
+	public function setupDatabase($username) {
 		$e_host = addslashes($this->dbhost);
 		$e_dbname = addslashes($this->dbname);
 		//check if the database user has admin right
@@ -72,7 +72,7 @@ class OCI extends AbstractDatabase {
 			//  needs to be shortened to 30 bytes, as the two " needed to escape the identifier count towards the identifier length.
 			$this->dbpassword=substr($this->dbpassword, 0, 30);
 
-			$this->createDBUser($dbtablespace, $connection);
+			$this->createDBUser($this->dbtablespace, $connection);
 
 			\OC_Config::setValue('dbuser', $this->dbusername);
 			\OC_Config::setValue('dbname', $this->dbusername);
