@@ -83,7 +83,7 @@ class OC_Util {
 	 * @return string
 	 */
 	public static function getVersionString() {
-		return '5.0.5 RC1';
+		return '5.0.5';
 	}
 
 	/**
