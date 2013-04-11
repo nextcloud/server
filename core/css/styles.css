@@ -12,7 +12,7 @@ table, td, th { vertical-align:middle; }
 a { border:0; color:#000; text-decoration:none;}
 a, a *, input, input *, select, .button span, li, label { cursor:pointer; }
 ul { list-style:none; }
-body { background:#fefefe; font:normal .8em/1.6em "Lucida Grande", Arial, Verdana, sans-serif; color:#000; }
+body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Arial,FreeSans,sans-serif; color:#000; }
 
 
 /* HEADERS */
@@ -42,7 +42,7 @@ textarea, select,
 button, .button,
 #quota, div.jp-progress, .pager li a {
 	width:10em; margin:.3em; padding:.6em .5em .4em;
-	font-size:1em; font-family:Arial, Verdana, sans-serif;
+	font-size:1em;
 	background:#fff; color:#333; border:1px solid #ddd; outline:none;
 	-moz-box-shadow:0 1px 1px #fff, 0 2px 0 #bbb inset; -webkit-box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset; box-shadow:0 1px 1px #fff, 0 1px 0 #bbb inset;
 	-moz-border-radius:.5em; -webkit-border-radius:.5em; border-radius:.5em;
