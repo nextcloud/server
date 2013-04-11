@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 02:20+0000\n"
+"POT-Creation-Date: 2013-04-11 02:09+0200\n"
+"PO-Revision-Date: 2013-04-10 17:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -125,44 +125,44 @@ msgstr ""
 msgid "Saving..."
 msgstr "저장 중..."
 
-#: js/users.js:31
+#: js/users.js:43
 msgid "deleted"
 msgstr "삭제"
 
-#: js/users.js:31
+#: js/users.js:43
 msgid "undo"
 msgstr "되돌리기"
 
-#: js/users.js:63
+#: js/users.js:75
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:76 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "그룹"
 
-#: js/users.js:79 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "그룹 관리자"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr "삭제"
 
-#: js/users.js:243
+#: js/users.js:262
 msgid "add group"
 msgstr ""
 
-#: js/users.js:407
+#: js/users.js:414
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:408 js/users.js:414 js/users.js:429
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
 msgstr ""
 
-#: js/users.js:413
+#: js/users.js:420
 msgid "A valid password must be provided"
 msgstr ""
 
@@ -394,7 +394,7 @@ msgstr "현재 공간 <strong>%s</strong>/<strong>%s</strong>을(를) 사용 중
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "앱을 이용하여 당신의 파일을 동기화 할 수 있습니다."
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"

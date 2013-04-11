@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-04-10 02:08+0200\n"
+"POT-Creation-Date: 2013-04-11 02:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,44 +120,44 @@ msgstr ""
 msgid "Saving..."
 msgstr ""
 
-#: js/users.js:31
+#: js/users.js:43
 msgid "deleted"
 msgstr ""
 
-#: js/users.js:31
+#: js/users.js:43
 msgid "undo"
 msgstr ""
 
-#: js/users.js:63
+#: js/users.js:75
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:76 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr ""
 
-#: js/users.js:79 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr ""
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr ""
 
-#: js/users.js:243
+#: js/users.js:262
 msgid "add group"
 msgstr ""
 
-#: js/users.js:407
+#: js/users.js:414
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:408 js/users.js:414 js/users.js:429
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
 msgstr ""
 
-#: js/users.js:413
+#: js/users.js:420
 msgid "A valid password must be provided"
 msgstr ""
 

@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-30 00:04+0100\n"
-"PO-Revision-Date: 2013-03-29 23:04+0000\n"
+"POT-Creation-Date: 2013-04-11 02:09+0200\n"
+"PO-Revision-Date: 2013-04-10 10:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Interlingua (http://www.transifex.com/projects/p/owncloud/language/ia/)\n"
 "MIME-Version: 1.0\n"
@@ -102,16 +102,16 @@ msgstr ""
 msgid "Please wait...."
 msgstr ""
 
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+msgid "Error"
+msgstr ""
+
 #: js/apps.js:90
 msgid "Updating...."
 msgstr ""
 
 #: js/apps.js:93
 msgid "Error while updating app"
-msgstr ""
-
-#: js/apps.js:93
-msgid "Error"
 msgstr ""
 
 #: js/apps.js:96
@@ -122,44 +122,44 @@ msgstr ""
 msgid "Saving..."
 msgstr ""
 
-#: js/users.js:31
+#: js/users.js:43
 msgid "deleted"
 msgstr ""
 
-#: js/users.js:31
+#: js/users.js:43
 msgid "undo"
 msgstr ""
 
-#: js/users.js:63
+#: js/users.js:75
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:76 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "Gruppos"
 
-#: js/users.js:79 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr ""
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr "Deler"
 
-#: js/users.js:243
+#: js/users.js:262
 msgid "add group"
 msgstr ""
 
-#: js/users.js:407
+#: js/users.js:414
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:408 js/users.js:414 js/users.js:429
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
 msgstr ""
 
-#: js/users.js:413
+#: js/users.js:420
 msgid "A valid password must be provided"
 msgstr ""
 
@@ -391,7 +391,7 @@ msgstr ""
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Obtene le apps (applicationes) pro synchronizar tu files"
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"

@@ -25,6 +25,7 @@
 "undo" => "desfés",
 "perform delete operation" => "executa d'operació d'esborrar",
 "1 file uploading" => "1 fitxer pujant",
+"files uploading" => "fitxers pujant",
 "'.' is an invalid file name." => "'.' és un nom no vàlid per un fitxer.",
 "File name cannot be empty." => "El nom del fitxer no pot ser buit.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "El nóm no és vàlid, '\\', '/', '<', '>', ':', '\"', '|', '?' i '*' no estan permesos.",

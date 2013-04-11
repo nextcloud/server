@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 13:40+0000\n"
+"POT-Creation-Date: 2013-04-11 02:08+0200\n"
+"PO-Revision-Date: 2013-04-10 09:00+0000\n"
 "Last-Translator: Odeen <rapid_odeen@zoho.com>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -21,16 +21,16 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "Nuk munda ta eliminoj përfundimisht %s"
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "Nuk munda ta rivendos %s"
 
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
-msgstr ""
+msgstr "ekzekuto operacionin e rivendosjes"
 
 #: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
 msgid "Error"
@@ -38,7 +38,7 @@ msgstr "Veprim i gabuar"
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr ""
+msgstr "eliminoje përfundimisht skedarin"
 
 #: js/trash.js:121
 msgid "Delete permanently"
@@ -70,11 +70,11 @@ msgstr "{count} skedarë"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "Këtu nuk ka asgjë. Koshi juaj është bosh!"
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr ""
+msgstr "Rivendos"
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"

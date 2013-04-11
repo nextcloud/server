@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 13:30+0000\n"
+"POT-Creation-Date: 2013-04-11 02:09+0200\n"
+"PO-Revision-Date: 2013-04-10 09:20+0000\n"
 "Last-Translator: Odeen <rapid_odeen@zoho.com>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -121,44 +121,44 @@ msgstr ""
 msgid "Saving..."
 msgstr ""
 
-#: js/users.js:31
+#: js/users.js:43
 msgid "deleted"
 msgstr ""
 
-#: js/users.js:31
+#: js/users.js:43
 msgid "undo"
-msgstr ""
+msgstr "anulo"
 
-#: js/users.js:63
+#: js/users.js:75
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:76 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr ""
 
-#: js/users.js:79 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr ""
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr "Elimino"
 
-#: js/users.js:243
+#: js/users.js:262
 msgid "add group"
 msgstr ""
 
-#: js/users.js:407
+#: js/users.js:414
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:408 js/users.js:414 js/users.js:429
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
 msgstr ""
 
-#: js/users.js:413
+#: js/users.js:420
 msgid "A valid password must be provided"
 msgstr ""
 
