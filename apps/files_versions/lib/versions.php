@@ -279,6 +279,18 @@ class Storage {
 
 	}
 
+
+	/**
+	 * @brief deletes used space for files versions in db if user was deleted
+	 *
+	 * @param type $uid id of deleted user
+	 * @return result of db delete operation
+	 */
+	public static function deleteUser($uid) {
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_versions` WHERE `user`=?');
+		return $query->execute(array($uid));
+	}
+
 	/**
 	 * @brief get the size of all stored versions from a given user
 	 * @param $uid id from the user
