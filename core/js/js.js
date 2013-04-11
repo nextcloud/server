@@ -591,10 +591,20 @@ $(document).ready(function(){
 		}
 	});
 
-	// 'show password' checkbox
-	$('#password').showPassword();
-	$('#adminpass').showPassword();	
-	$('#pass2').showPassword();
+	var setShowPassword = function(input, label) {
+		input.showPassword().keyup(function(){
+			if (input.val().length == 0) {
+				label.hide();
+			}
+			else {
+				label.css("display", "inline").show();
+			}
+		});
+		label.hide();
+	};
+	setShowPassword($('#password'), $('label[for=show]'));
+	setShowPassword($('#adminpass'), $('label[for=show]'));
+	setShowPassword($('#pass2'), $('label[for=personal-show]'));
 
 	//use infield labels
 	$("label.infield").inFieldLabels({
