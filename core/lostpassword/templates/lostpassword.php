@@ -1,11 +1,9 @@
 <?php if ($_['requested']): ?>
 	<div class="success"><p>
 	<?php
-		echo $l->t('The link to reset your password has been sent to your email.');
-		echo "</p><p>";
-		echo $l->t('If you do not receive it within a reasonable amount of time, check your spam/junk folders.');
-		echo "</p><p>";
-		echo $l->t('If it is not there ask your local administrator .');
+		echo $l->t('The link to reset your password has been sent to your email.</p>
+		<p>If you do not receive it within a reasonable amount of time, check your spam/junk folders.</p>
+		<p>If it is not there ask your local administrator .');
 	?>
 	</p></div>
 <?php else: ?>
@@ -13,11 +11,7 @@
 		<fieldset>
 			<?php if ($_['error']): ?>
 				<div class="errors"><p>
-				<?php
-					echo $l->t('Request failed!');
-					echo "</p><p>";
-					echo $l->t('Did you make sure the Email was right?');
-				?>
+				<?php echo $l->t('Request failed!</p><p>Did you make sure the Email was right?'); ?>
 				</p></div>
 			<?php endif; ?>
 			<?php echo $l->t('You will receive a link to reset your password via Email.'); ?>
