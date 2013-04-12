@@ -52,7 +52,7 @@ class Stream {
 	// TODO: make all below properties private again once unit testing is 
 	// configured correctly
 	public $rawPath; // The raw path received by stream_open
-	public $path_f; // The raw path formatted to include username and data dir
+	public $relPath; // rel path to users file dir
 	private $userId;
 	private $handle; // Resource returned by fopen
 	private $path;
@@ -80,8 +80,9 @@ class Stream {
 		// Strip identifier text from path
 		$this->rawPath = str_replace( 'crypt://', '', $path );
 		
-		// Set file path relative to user files dir
-		$this->relPath = $this->userId . '/files/' . $this->rawPath;
+		// Set file path relative to user files dir (7 = string length of '/files/')
+		$this->relPath = substr($this->rawPath, strlen($this->userId)+7);
+		//$this->relPath = $this->userId . '/files/' . $this->rawPath;
 		
 		if ( 
 		dirname( $this->rawPath ) == 'streams' 
@@ -110,7 +111,7 @@ class Stream {
 
 			} else {
 				
-				$this->size = $this->rootView->filesize( $this->relPath, $mode );
+				$this->size = $this->rootView->filesize( $this->rawPath, $mode );
 				
 				//$this->size = filesize( $this->rawPath );
 				
@@ -121,13 +122,13 @@ class Stream {
 
 			//$this->handle = fopen( $this->rawPath, $mode );
 			
-			$this->handle = $this->rootView->fopen( $this->relPath, $mode );
+			$this->handle = $this->rootView->fopen( $this->rawPath, $mode );
 			
 			\OC_FileProxy::$enabled = true;
 
 			if ( ! is_resource( $this->handle ) ) {
 
-				\OCP\Util::writeLog( 'files_encryption', 'failed to open file "' . $this->relPath . '"', \OCP\Util::ERROR );
+				\OCP\Util::writeLog( 'files_encryption', 'failed to open file "' . $this->rawPath . '"', \OCP\Util::ERROR );
 
 			} else {
 			
@@ -226,13 +227,13 @@ class Stream {
 		
 		// If a keyfile already exists for a file named identically to 
 		// file to be written
-		if ( $this->rootView->file_exists( $this->userId . '/'. 'files_encryption' . '/' . 'keyfiles' . '/' . $this->rawPath . '.key' ) ) {
+		if ( $this->rootView->file_exists( $this->userId . '/'. 'files_encryption' . '/' . 'keyfiles' . '/' . $this->relPath . '.key' ) ) {
 		
 			// TODO: add error handling for when file exists but no 
 			// keyfile
 			
 			// Fetch existing keyfile
-			$this->encKeyfile = Keymanager::getFileKey( $this->rootView, $this->userId, $this->rawPath );
+			$this->encKeyfile = Keymanager::getFileKey( $this->rootView, $this->userId, $this->relPath );
 			
 			$this->getUser();
 			
@@ -317,7 +318,7 @@ class Stream {
 			$userId = \OCP\User::getUser();
 			
 			// Save the new encrypted file key
-			Keymanager::setFileKey( $view, $this->rawPath, $userId, $this->encKeyfile );
+			Keymanager::setFileKey( $view, $this->relPath, $userId, $this->encKeyfile );
 			
 		}
 

@@ -511,17 +511,20 @@ class Util {
 				// Open handle with for binary reading
 				$plainHandle = $this->view->fopen( $plainFile['path'], 'rb' );
 				// Open handle with for binary writing
-				$encHandle = fopen( 'crypt://' . 'var/www/oc6/data/' . $plainFile['path'] . '.tmp', 'ab' );
+
+				$encHandle = fopen( 'crypt://' . $plainFile['path'] . '.tmp', 'wb' );
 				
 				// Overwrite the existing file with the encrypted one
 				//$this->view->file_put_contents( $plainFile['path'], $encrypted['data'] );
 				$size = stream_copy_to_stream( $plainHandle, $encHandle );
-				
+
+				$this->view->rename($plainFile['path'] . '.tmp', $plainFile['path']);
+
 				// Fetch the key that has just been set/updated by the stream
-				$encKey = Keymanager::getFileKey( $this->view, $this->userId, $relPath );
+				//$encKey = Keymanager::getFileKey( $this->view, $this->userId, $relPath );
 				
 				// Save keyfile
-				Keymanager::setFileKey( $this->view, $relPath, $this->userId, $encKey );
+				//Keymanager::setFileKey( $this->view, $relPath, $this->userId, $encKey );
 				
 				// Add the file to the cache
 				\OC\Files\Filesystem::putFileInfo( $plainFile['path'], array( 'encrypted'=>true, 'size' => $size ), '' );

@@ -113,16 +113,18 @@ class Keymanager {
 		
 		$targetPath = self::keySetPreparation( $view, $path, $basePath, $userId );
 		
-		if ( $view->is_dir( $basePath . '/' . $targetPath ) ) {
-		
-			// FIXME: write me
-		
-		} else {
+		if ( !$view->is_dir( $basePath . '/' . $targetPath ) ) {
 
-			// Save the keyfile in parallel directory
-			$result = $view->file_put_contents( $basePath . '/' . $targetPath . '.key', $catfile );
-		
+			// create all parent folders
+			$info=pathinfo($basePath . '/' . $targetPath);
+			$keyfileFolderName=$view->getLocalFolder($info['dirname']);
+			if(!file_exists($keyfileFolderName)) {
+				mkdir($keyfileFolderName, 0750, true);
+			}
 		}
+		
+		$result = $view->file_put_contents( $basePath . '/' . $targetPath . '.key', $catfile );
+		
 		
 		\OC_FileProxy::$enabled = true;
 		
