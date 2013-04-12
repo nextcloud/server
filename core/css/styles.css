@@ -89,7 +89,7 @@ input[type="button"]:hover, input[type="button"]:focus,
 button:hover, button:focus,
 .button:hover, .button:focus,
 select:hover, select:focus, select:active {
-	background:rgba(250,250,250,.9);
+	background-color:rgba(250,250,250,.9);
 	color:#333;
 }
 input[type="submit"] img, input[type="button"] img, button img, .button img { cursor:pointer; }
