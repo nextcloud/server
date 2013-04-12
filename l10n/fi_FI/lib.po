@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-01 00:02+0200\n"
-"PO-Revision-Date: 2013-03-31 22:01+0000\n"
+"POT-Creation-Date: 2013-04-12 02:09+0200\n"
+"PO-Revision-Date: 2013-04-11 06:20+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -156,7 +156,7 @@ msgstr "MySQL-käyttäjä '%s'@'localhost' on jo olemassa."
 
 #: setup.php:304
 msgid "Drop this user from MySQL"
-msgstr ""
+msgstr "Pudota tämä käyttäjä MySQL:stä"
 
 #: setup.php:309
 #, php-format
@@ -165,7 +165,7 @@ msgstr "MySQL-käyttäjä '%s'@'%%' on jo olemassa"
 
 #: setup.php:310
 msgid "Drop this user from MySQL."
-msgstr ""
+msgstr "Pudota tämä käyttäjä MySQL:stä."
 
 #: setup.php:583 setup.php:615
 #, php-format

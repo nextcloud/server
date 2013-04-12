@@ -7,15 +7,16 @@
 #   <intense.feel@gmail.com>, 2012.
 # Marián Hvolka <marian.hvolka@stuba.sk>, 2013.
 #   <martin.babik@gmail.com>, 2012.
+# Martin Zatroch <zatroch.martin@gmail.com>, 2013.
 # Roman Priesol <roman@priesol.net>, 2012.
 #   <zatroch.martin@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:09+0200\n"
-"PO-Revision-Date: 2013-04-08 02:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-12 02:09+0200\n"
+"PO-Revision-Date: 2013-04-11 12:51+0000\n"
+"Last-Translator: martin <zatroch.martin@gmail.com>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -134,7 +135,7 @@ msgstr "1 súbor sa posiela "
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "nahrávanie súborov"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."

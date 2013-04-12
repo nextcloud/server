@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-31 00:01+0100\n"
-"PO-Revision-Date: 2013-03-30 09:40+0000\n"
+"POT-Creation-Date: 2013-04-12 02:09+0200\n"
+"PO-Revision-Date: 2013-04-11 06:20+0000\n"
 "Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -43,7 +43,7 @@ msgstr "Tiedoston %s palautus versioon %s epäonnistui"
 
 #: history.php:69
 msgid "No old versions available"
-msgstr "Vanhoja ei ole saatavilla"
+msgstr "Vanhoja versioita ei ole saatavilla"
 
 #: history.php:74
 msgid "No path specified"

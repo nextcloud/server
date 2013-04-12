@@ -25,6 +25,7 @@
 "undo" => "zpět",
 "perform delete operation" => "provést smazání",
 "1 file uploading" => "odesílá se 1 soubor",
+"files uploading" => "soubory se odesílají",
 "'.' is an invalid file name." => "'.' je neplatným názvem souboru.",
 "File name cannot be empty." => "Název souboru nemůže být prázdný řetězec.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Neplatný název, znaky '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nejsou povoleny.",

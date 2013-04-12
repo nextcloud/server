@@ -22,15 +22,16 @@
 # Thomas Müller <>, 2012.
 #   <transifex.3.mensaje@spamgourmet.com>, 2012.
 #   <transifex.com@mail.simonzoellner.de>, 2013.
+#  <uu.kabum@gmail.com>, 2013.
 #   <uu.kabum@gmail.com>, 2013.
 #  <wachhund@wachhund.to>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:09+0200\n"
-"PO-Revision-Date: 2013-04-08 02:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-12 02:09+0200\n"
+"PO-Revision-Date: 2013-04-11 06:50+0000\n"
+"Last-Translator: kabum <uu.kabum@gmail.com>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -149,7 +150,7 @@ msgstr "Eine Datei wird hoch geladen"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "Dateien werden hoch geladen"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."

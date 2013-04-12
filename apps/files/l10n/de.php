@@ -25,6 +25,7 @@
 "undo" => "rückgängig machen",
 "perform delete operation" => "Löschvorgang ausführen",
 "1 file uploading" => "Eine Datei wird hoch geladen",
+"files uploading" => "Dateien werden hoch geladen",
 "'.' is an invalid file name." => "'.' ist kein gültiger Dateiname.",
 "File name cannot be empty." => "Der Dateiname darf nicht leer sein.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Ungültiger Name, '\\', '/', '<', '>', ':', '\"', '|', '?' und '*' sind nicht zulässig.",

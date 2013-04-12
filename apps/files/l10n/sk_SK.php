@@ -25,6 +25,7 @@
 "undo" => "vrátiť",
 "perform delete operation" => "vykonať zmazanie",
 "1 file uploading" => "1 súbor sa posiela ",
+"files uploading" => "nahrávanie súborov",
 "'.' is an invalid file name." => "'.' je neplatné meno súboru.",
 "File name cannot be empty." => "Meno súboru nemôže byť prázdne",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nesprávne meno, '\\', '/', '<', '>', ':', '\"', '|', '?' a '*' nie sú povolené hodnoty.",
