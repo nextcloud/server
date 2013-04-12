@@ -82,6 +82,8 @@ abstract class StreamWrapper extends \OC\Files\Storage\Common{
 			$fh = $this->fopen($path, 'a');
 			fwrite($fh, '');
 			fclose($fh);
+
+			return true;
 		} else {
 			return false;//not supported
 		}

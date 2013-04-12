@@ -113,6 +113,15 @@ class OC_Mount_Config {
 				'password' => '*Password',
 				'root' => '&Root'));
 
+		$backends['\OC\Files\Storage\iRODS']=array(
+			'backend' => 'iRODS',
+			'configuration' => array(
+				'host' => 'Host',
+				'port' => 'Port',
+				'user' => 'Username',
+				'password' => '*Password',
+				'zone' => 'Zone'));
+
 		return($backends);
 	}
 
