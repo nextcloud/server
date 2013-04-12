@@ -344,7 +344,7 @@ class Util {
 						// If the file is not encrypted
 						} else {
 						
-							$found['plain'][] = array( 'name' => $file, 'path' => $filePath );
+							$found['plain'][] = array( 'name' => $file, 'path' => $relPath );
 						
 						}
 					

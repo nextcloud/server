@@ -51,7 +51,7 @@ class Stream {
 
 	// TODO: make all below properties private again once unit testing is 
 	// configured correctly
-	public $rawPath; // The raw path received by stream_open
+	public $rawPath; // The raw path relative to the data dir
 	public $relPath; // rel path to users file dir
 	private $userId;
 	private $handle; // Resource returned by fopen
@@ -77,12 +77,11 @@ class Stream {
 
 		}
 
-		// Strip identifier text from path
-		$this->rawPath = str_replace( 'crypt://', '', $path );
+		// Strip identifier text from path, this gives us the path relative to data/<user>/files
+		$this->relPath = str_replace( 'crypt://', '', $path );
 		
-		// Set file path relative to user files dir (7 = string length of '/files/')
-		$this->relPath = substr($this->rawPath, strlen($this->userId)+7);
-		//$this->relPath = $this->userId . '/files/' . $this->rawPath;
+		// rawPath is relative to the data directory
+		$this->rawPath = $this->userId . '/files/' . $this->relPath;
 		
 		if ( 
 		dirname( $this->rawPath ) == 'streams' 
