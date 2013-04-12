@@ -505,20 +505,22 @@ class Util {
 				
 				// Read plain file in chunks
 				
-				
-				$relPath = $this->stripUserFilesPath( $plainFile['path'] );
-				
+				//relative to data/<user>/file
+				$relPath = $plainFile['path'];
+				//relative to /data
+				$rawPath = $this->userId . '/files/' .  $plainFile['path'];
+
 				// Open handle with for binary reading
-				$plainHandle = $this->view->fopen( $plainFile['path'], 'rb' );
+				$plainHandle = $this->view->fopen( $rawPath, 'rb' );
 				// Open handle with for binary writing
 
-				$encHandle = fopen( 'crypt://' . $plainFile['path'] . '.tmp', 'wb' );
+				$encHandle = fopen( 'crypt://' . $relPath . '.tmp', 'wb' );
 				
 				// Overwrite the existing file with the encrypted one
 				//$this->view->file_put_contents( $plainFile['path'], $encrypted['data'] );
 				$size = stream_copy_to_stream( $plainHandle, $encHandle );
 
-				$this->view->rename($plainFile['path'] . '.tmp', $plainFile['path']);
+				$this->view->rename($rawPath . '.tmp', $rawPath);
 
 				// Fetch the key that has just been set/updated by the stream
 				//$encKey = Keymanager::getFileKey( $this->view, $this->userId, $relPath );
@@ -545,18 +547,19 @@ class Util {
 					// Recrypt data, generate catfile
 					$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKey, $newPassphrase );
 					
-					$relPath = $this->stripUserFilesPath( $legacyFile['path'] );
+					$relPath = $legacyFile['path'];
+					$rawPath = $this->userId . '/files/' .  $plainFile['path'];
 					
 					// Save keyfile
 					Keymanager::setFileKey( $this->view, $relPath, $this->userId, $recrypted['key'] );
 					
 					// Overwrite the existing file with the encrypted one
-					$this->view->file_put_contents( $legacyFile['path'], $recrypted['data'] );
+					$this->view->file_put_contents( $rawPath, $recrypted['data'] );
 					
 					$size = strlen( $recrypted['data'] );
 					
 					// Add the file to the cache
-					\OC\Files\Filesystem::putFileInfo( $legacyFile['path'], array( 'encrypted'=>true, 'size' => $size ), '' );
+					\OC\Files\Filesystem::putFileInfo( $rawPath, array( 'encrypted'=>true, 'size' => $size ), '' );
 				
 				}
 				
