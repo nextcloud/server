@@ -3,6 +3,7 @@
 If you have questions about how to use ownCloud, please direct these to the [mailing list][mailinglist] or our [forum][forum]. We are also available on [IRC][irc].
 
 ### Guidelines
+* Please search the existing issues first, it's likely that your issue was already reported.
 * [Report the issue](https://github.com/owncloud/core/issues/new) using our [template][template], it includes all the informations we need to track down the issue.
 * This repository is *only* for issues within the ownCloud core code. Issues in other compontents should be reported in their own repositores: 
   - [Android client](https://github.com/owncloud/android/issues)
@@ -15,8 +16,7 @@ If you have questions about how to use ownCloud, please direct these to the [mai
       - [News](https://github.com/owncloud/news/issues)
       - [Notes](https://github.com/owncloud/notes/issues)
       - [Shorty](https://github.com/owncloud/shorty/issues)
-      - [other pps](https://github.com/owncloud/apps/issues) (e.g. Contacts, Pictures, Music, ...)
-* Search the existing issues first, it's likely that your issue was already reported.
+      - [other apps](https://github.com/owncloud/apps/issues) (e.g. Contacts, Pictures, Music, ...)
 
 If your issue appears to be a bug, and hasn't been reported, open a new issue.
 
