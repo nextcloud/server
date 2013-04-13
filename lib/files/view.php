@@ -370,7 +370,9 @@ class View {
 					$target = $this->fopen($path2 . $postFix2, 'w');
 					list($count, $result) = \OC_Helper::streamCopy($source, $target);
 					list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
-					$storage1->unlink($internalPath1);
+					if ($result !== false) {
+						$storage1->unlink($internalPath1);
+					}
 				}
 				if ($this->fakeRoot == Filesystem::getRoot() && $result !== false) {
 					\OC_Hook::emit(
