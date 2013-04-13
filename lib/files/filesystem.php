@@ -23,6 +23,7 @@
  *   post_rename(oldpath,newpath)
  *   copy(oldpath,newpath, &run) (if the newpath doesn't exists yes, copy, create and write will be emitted in that order)
  *   post_rename(oldpath,newpath)
+ *   post_initMountPoints(user, user_dir)
  *
  *   the &run parameter can be set to false to prevent the operation from occurring
  */
@@ -280,6 +281,9 @@ class Filesystem {
 				}
 			}
 		}
+
+		// Chance to mount for other storages
+		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', array('user' => $user, 'user_dir' => $root));
 	}
 
 	/**
