@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-11 02:09+0200\n"
-"PO-Revision-Date: 2013-04-10 09:20+0000\n"
+"POT-Creation-Date: 2013-04-13 02:12+0200\n"
+"PO-Revision-Date: 2013-04-12 16:20+0000\n"
 "Last-Translator: Odeen <rapid_odeen@zoho.com>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -390,7 +390,7 @@ msgstr ""
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Merrni app-et për sinkronizimin e skedarëve tuaj"
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"

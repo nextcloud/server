@@ -25,6 +25,7 @@
 "undo" => "cofnij",
 "perform delete operation" => "wykonaj operację usunięcia",
 "1 file uploading" => "1 plik wczytywany",
+"files uploading" => "pliki wczytane",
 "'.' is an invalid file name." => "„.” jest nieprawidłową nazwą pliku.",
 "File name cannot be empty." => "Nazwa pliku nie może być pusta.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nieprawidłowa nazwa. Znaki '\\', '/', '<', '>', ':', '\"', '|', '?' oraz '*' są niedozwolone.",

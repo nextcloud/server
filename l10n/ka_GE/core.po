@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 02:20+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-13 02:12+0200\n"
+"PO-Revision-Date: 2013-04-12 07:48+0000\n"
+"Last-Translator: drlinux64 <romeo@energo-pro.ge>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,30 +22,30 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "მომხმარებელმა  %s გაგიზიარათ ფაილი"
 
 #: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "მომხმარებელმა  %s გაგიზიარათ ფოლდერი"
 
 #: ajax/share.php:101
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "მომხმარებელმა %s გაგიზიარათ ფაილი \"%s\". ის ხელმისაწვდომია გადმოსაწერად აქ: %s"
 
 #: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "მომხმარებელმა %s გაგიზიარათ ფოლდერი \"%s\". ის ხელმისაწვდომია გადმოსაწერად აქ: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "კატეგორიის ტიპი არ არის განხილული."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -54,24 +54,24 @@ msgstr "არ არის კატეგორია დასამატე
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "კატეგორია უკვე არსებობს: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "ობიექტის ტიპი არ არის განხილული."
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "%s ID არ არის განხილული"
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "შეცდომა %s–ის ფევორიტებში დამატების დროს."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -80,7 +80,7 @@ msgstr "სარედაქტირებელი კატეგორი�
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "შეცდომა  %s–ის ფევორიტებიდან წაშლის დროს."
 
 #: js/config.php:34
 msgid "Sunday"
@@ -162,82 +162,82 @@ msgstr "დეკემბერი"
 msgid "Settings"
 msgstr "პარამეტრები"
 
-#: js/js.js:707
+#: js/js.js:717
 msgid "seconds ago"
 msgstr "წამის წინ"
 
-#: js/js.js:708
+#: js/js.js:718
 msgid "1 minute ago"
 msgstr "1 წუთის წინ"
 
-#: js/js.js:709
+#: js/js.js:719
 msgid "{minutes} minutes ago"
 msgstr "{minutes} წუთის წინ"
 
-#: js/js.js:710
+#: js/js.js:720
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 საათის წინ"
 
-#: js/js.js:711
+#: js/js.js:721
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "{hours} საათის წინ"
 
-#: js/js.js:712
+#: js/js.js:722
 msgid "today"
 msgstr "დღეს"
 
-#: js/js.js:713
+#: js/js.js:723
 msgid "yesterday"
 msgstr "გუშინ"
 
-#: js/js.js:714
+#: js/js.js:724
 msgid "{days} days ago"
 msgstr "{days} დღის წინ"
 
-#: js/js.js:715
+#: js/js.js:725
 msgid "last month"
 msgstr "გასულ თვეში"
 
-#: js/js.js:716
+#: js/js.js:726
 msgid "{months} months ago"
-msgstr ""
+msgstr "{months} თვის წინ"
 
-#: js/js.js:717
+#: js/js.js:727
 msgid "months ago"
 msgstr "თვის წინ"
 
-#: js/js.js:718
+#: js/js.js:728
 msgid "last year"
 msgstr "ბოლო წელს"
 
-#: js/js.js:719
+#: js/js.js:729
 msgid "years ago"
 msgstr "წლის წინ"
 
-#: js/oc-dialogs.js:126
-msgid "Choose"
-msgstr "არჩევა"
+#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
+msgid "Ok"
+msgstr "დიახ"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
 msgstr "უარყოფა"
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "არა"
+#: js/oc-dialogs.js:185
+msgid "Choose"
+msgstr "არჩევა"
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:215
 msgid "Yes"
 msgstr "კი"
 
-#: js/oc-dialogs.js:180
-msgid "Ok"
-msgstr "დიახ"
+#: js/oc-dialogs.js:222
+msgid "No"
+msgstr "არა"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "ობიექტის ტიპი არ არის მითითებული."
 
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
@@ -249,15 +249,15 @@ msgstr "შეცდომა"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "აპლიკაციის სახელი არ არის მითითებული."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "მოთხოვნილი ფაილი  {file} არ არის დაინსტალირებული."
 
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
-msgstr ""
+msgstr "გაზიარებული"
 
 #: js/share.js:90
 msgid "Share"
@@ -277,11 +277,11 @@ msgstr "შეცდომა დაშვების ცვლილები�
 
 #: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "გაზიარდა თქვენთვის და ჯგუფისთვის {group}, {owner}–ის მიერ"
 
 #: js/share.js:154
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "გაზიარდა თქვენთვის {owner}–ის მიერ"
 
 #: js/share.js:159
 msgid "Share with"
@@ -301,11 +301,11 @@ msgstr "პაროლი"
 
 #: js/share.js:173
 msgid "Email link to person"
-msgstr ""
+msgstr "ლინკის პიროვნების იმეილზე გაგზავნა"
 
 #: js/share.js:174
 msgid "Send"
-msgstr ""
+msgstr "გაგზავნა"
 
 #: js/share.js:178
 msgid "Set expiration date"
@@ -329,7 +329,7 @@ msgstr "მეორეჯერ გაზიარება არ არის
 
 #: js/share.js:287
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "გაზიარდა {item}–ში  {user}–ის მიერ"
 
 #: js/share.js:308
 msgid "Unshare"
@@ -373,22 +373,22 @@ msgstr "შეცდომა ვადის გასვლის მითი
 
 #: js/share.js:604
 msgid "Sending ..."
-msgstr ""
+msgstr "გაგზავნა ...."
 
 #: js/share.js:615
 msgid "Email sent"
-msgstr ""
+msgstr "იმეილი გაიგზავნა"
 
 #: js/update.js:14
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "განახლება ვერ განხორციელდა. გთხოვთ შეგვატყობინოთ ამ პრობლემის შესახებ აქ: <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "განახლება ვერ განხორციელდა. გადამისამართება თქვენს ownCloud–ზე."
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
@@ -404,11 +404,11 @@ msgstr "თქვენ მოგივათ პაროლის შესა
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr ""
+msgstr "რესეტის მეილი გაიგზავნა"
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr ""
+msgstr "მოთხოვნა შეწყდა!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
 #: templates/login.php:28
@@ -478,11 +478,11 @@ msgstr "უსაფრთხოების გაფრთხილება"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "თქვენი PHP ვერსია შეიცავს საფრთხეს  NULL Byte შეტევებისთვის (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "იმისათვის რომ გამოიყენოთ ownCloud უსაფრთხოდ, გთხოვთ განაახლოთ თქვენი  PHP ვერსია."
 
 #: templates/installation.php:32
 msgid ""
@@ -500,14 +500,14 @@ msgstr "შემთხვევითი სიმბოლოების გ�
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "თქვენი data დირექტორია და ფაილები დაშვებადია ინტერნეტში რადგან  .htaccess ფაილი არ მუშაობს."
 
 #: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "სერვერის კორექტულად დასაკონფიგურირებლად, ნახეთ შემდეგი  <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">დოკუმენტაცია</a>."
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
@@ -515,7 +515,7 @@ msgstr "შექმენი <strong>ადმინ ექაუნტი</str
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr "Advanced"
+msgstr "დამატებითი ფუნქციები"
 
 #: templates/installation.php:64
 msgid "Data folder"
@@ -571,11 +571,11 @@ msgstr "ავტომატური შესვლა უარყოფი�
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "თუ თქვენ არ შეცვლით პაროლს, თქვენი ანგარიში შეიძლება იყოს დაშვებადი სხვებისთვის"
 
 #: templates/login.php:13
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "გთხოვთ შეცვალოთ თქვენი პაროლი, თქვენი ანგარიშის დასაცავად."
 
 #: templates/login.php:19
 msgid "Lost your password?"
@@ -591,7 +591,7 @@ msgstr "შესვლა"
 
 #: templates/login.php:49
 msgid "Alternative Logins"
-msgstr ""
+msgstr "ალტერნატიული Login–ი"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -604,4 +604,4 @@ msgstr "შემდეგი"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "ownCloud–ის განახლება %s–ვერსიამდე. ეს მოითხოვს გარკვეულ დროს."
