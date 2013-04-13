@@ -605,6 +605,7 @@ $(document).ready(function(){
 	setShowPassword($('#password'), $('label[for=show]'));
 	setShowPassword($('#adminpass'), $('label[for=show]'));
 	setShowPassword($('#pass2'), $('label[for=personal-show]'));
+	setShowPassword($('#dbpass'), $('label[for=dbpassword]'));
 
 	//use infield labels
 	$("label.infield").inFieldLabels({
