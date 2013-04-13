@@ -8,7 +8,14 @@ If you have questions about how to use ownCloud, please direct these to the [mai
   - [Android client](https://github.com/owncloud/android/issues)
   - [iOS client](https://github.com/owncloud/ios-issues/issues)
   - [Desktop client](https://github.com/owncloud/mirall/issues)
-  - [ownCloud apps](https://github.com/owncloud/apps/issues) (e.g. Calendar, Contacts...)
+  - Apps:
+      - [Bookmarks](https://github.com/owncloud/bookmarks/issues)
+      - [Calendar](https://github.com/owncloud/calendar/issues)
+      - [Mail](https://github.com/owncloud/mail/issues)
+      - [News](https://github.com/owncloud/news/issues)
+      - [Notes](https://github.com/owncloud/notes/issues)
+      - [Shorty](https://github.com/owncloud/shorty/issues)
+      - [other ownCloud apps](https://github.com/owncloud/apps/issues) (e.g. Contacts, Gallery...)
 * Search the existing issues first, it's likely that your issue was already reported.
 
 If your issue appears to be a bug, and hasn't been reported, open a new issue.
