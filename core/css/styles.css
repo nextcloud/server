@@ -221,11 +221,11 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 #login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
 
 /* Show password toggle */
-#show { position:absolute; right:1em; top:.8em; float:right; }
-#show, #personal-show { display:none; }
-#show + label { right:1em; top:1.25em!important; }
-#show:checked + label, #personal-show:checked + label { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; filter:alpha(opacity=80); opacity:.8; }
-#show + label, #personal-show + label {
+#show, #dbpassword { position:absolute; right:1em; top:.8em; float:right; }
+#show, #dbpassword, #personal-show { display:none; }
+#show + label, #dbpassword + label { right:1em; top:1.25em!important; }
+#show:checked + label, #dbpassword:checked + label, #personal-show:checked + label { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; filter:alpha(opacity=80); opacity:.8; }
+#show + label, #dbpassword + label, #personal-show + label {
 	position:absolute!important; height:14px; width:24px;
 	background-image:url("../img/actions/toggle.png"); background-repeat:no-repeat;
 	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=30)"; filter:alpha(opacity=30); opacity:.3;
