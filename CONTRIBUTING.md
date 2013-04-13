@@ -15,7 +15,7 @@ If you have questions about how to use ownCloud, please direct these to the [mai
       - [News](https://github.com/owncloud/news/issues)
       - [Notes](https://github.com/owncloud/notes/issues)
       - [Shorty](https://github.com/owncloud/shorty/issues)
-      - [other ownCloud apps](https://github.com/owncloud/apps/issues) (e.g. Contacts, Gallery...)
+      - [other pps](https://github.com/owncloud/apps/issues) (e.g. Contacts, Pictures, Music, ...)
 * Search the existing issues first, it's likely that your issue was already reported.
 
 If your issue appears to be a bug, and hasn't been reported, open a new issue.
