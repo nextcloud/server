@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-04-13 02:12+0200\n"
+"POT-Creation-Date: 2013-04-14 02:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -160,55 +160,55 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:717
+#: js/js.js:718
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:718
+#: js/js.js:719
 msgid "1 minute ago"
 msgstr ""
 
-#: js/js.js:719
+#: js/js.js:720
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:720
+#: js/js.js:721
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:721
+#: js/js.js:722
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:722
+#: js/js.js:723
 msgid "today"
 msgstr ""
 
-#: js/js.js:723
+#: js/js.js:724
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:724
+#: js/js.js:725
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:725
+#: js/js.js:726
 msgid "last month"
 msgstr ""
 
-#: js/js.js:726
+#: js/js.js:727
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:727
+#: js/js.js:728
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:728
+#: js/js.js:729
 msgid "last year"
 msgstr ""
 
-#: js/js.js:729
+#: js/js.js:730
 msgid "years ago"
 msgstr ""
 
@@ -533,23 +533,23 @@ msgstr ""
 msgid "Database user"
 msgstr ""
 
-#: templates/installation.php:141
+#: templates/installation.php:143
 msgid "Database password"
 msgstr ""
 
-#: templates/installation.php:146
+#: templates/installation.php:148
 msgid "Database name"
 msgstr ""
 
-#: templates/installation.php:156
+#: templates/installation.php:158
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:163
+#: templates/installation.php:165
 msgid "Database host"
 msgstr ""
 
-#: templates/installation.php:169
+#: templates/installation.php:171
 msgid "Finish setup"
 msgstr ""
 
