@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-10 02:08+0200\n"
-"PO-Revision-Date: 2013-04-09 03:10+0000\n"
-"Last-Translator: orinx <orinx@orinx.com>\n"
+"POT-Creation-Date: 2013-04-15 02:09+0200\n"
+"PO-Revision-Date: 2013-04-14 13:40+0000\n"
+"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -64,11 +64,11 @@ msgstr "只有檔案的一部分被上傳"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "無已上傳檔案"
+msgstr "沒有檔案被上傳"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "遺失暫存資料夾"
+msgstr "找不到暫存資料夾"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -185,11 +185,11 @@ msgstr "檔案上傳中。離開此頁面將會取消上傳。"
 
 #: js/files.js:481
 msgid "URL cannot be empty."
-msgstr "URL 不能為空白."
+msgstr "URL 不能為空白。"
 
 #: js/files.js:486
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr "無效的資料夾名稱，'Shared' 的使用被 Owncloud 保留"
+msgstr "無效的資料夾名稱，'Shared' 的使用被 ownCloud 保留"
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
@@ -285,11 +285,11 @@ msgstr "取消上傳"
 
 #: templates/index.php:55
 msgid "You don’t have write permissions here."
-msgstr "您在這裏沒有編輯權。"
+msgstr "您在這裡沒有編輯權。"
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
-msgstr "沒有任何東西。請上傳內容！"
+msgstr "這裡什麼也沒有，上傳一些東西吧！"
 
 #: templates/index.php:76
 msgid "Download"
@@ -307,7 +307,7 @@ msgstr "上傳過大"
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "您試圖上傳的檔案已超過伺服器的最大檔案大小限制。　"
+msgstr "您試圖上傳的檔案已超過伺服器的最大檔案大小限制。"
 
 #: templates/index.php:115
 msgid "Files are being scanned, please wait."
@@ -319,4 +319,4 @@ msgstr "目前掃描"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr "正在更新檔案系統快取..."
+msgstr "正在升級檔案系統快取..."

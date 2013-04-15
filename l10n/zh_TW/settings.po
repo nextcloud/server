@@ -18,9 +18,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-10 02:08+0200\n"
-"PO-Revision-Date: 2013-04-09 03:20+0000\n"
-"Last-Translator: orinx <orinx@orinx.com>\n"
+"POT-Creation-Date: 2013-04-15 02:10+0200\n"
+"PO-Revision-Date: 2013-04-14 13:20+0000\n"
+"Last-Translator: pellaeon <nfsmwlin@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -131,44 +131,44 @@ msgstr "已更新"
 msgid "Saving..."
 msgstr "儲存中..."
 
-#: js/users.js:31
+#: js/users.js:43
 msgid "deleted"
 msgstr "已刪除"
 
-#: js/users.js:31
+#: js/users.js:43
 msgid "undo"
 msgstr "復原"
 
-#: js/users.js:63
+#: js/users.js:75
 msgid "Unable to remove user"
 msgstr "無法刪除用戶"
 
-#: js/users.js:76 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "群組"
 
-#: js/users.js:79 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "群組 管理員"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr "刪除"
 
-#: js/users.js:243
+#: js/users.js:262
 msgid "add group"
 msgstr "新增群組"
 
-#: js/users.js:407
+#: js/users.js:414
 msgid "A valid username must be provided"
 msgstr "一定要提供一個有效的用戶名"
 
-#: js/users.js:408 js/users.js:414 js/users.js:429
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
 msgstr "創建用戶時出現錯誤"
 
-#: js/users.js:413
+#: js/users.js:420
 msgid "A valid password must be provided"
 msgstr "一定要提供一個有效的密碼"
 
@@ -191,7 +191,7 @@ msgstr "您的資料目錄 (Data Directory) 和檔案可能可以由網際網路
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "設定警告"
 
 #: templates/admin.php:32
 msgid ""
@@ -216,7 +216,7 @@ msgstr "未偵測到 PHP 模組 'fileinfo'。我們強烈建議啟用這個模�
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "語系無法運作"
 
 #: templates/admin.php:63
 #, php-format
@@ -224,7 +224,7 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "ownCloud 伺服器無法將系統語系設為 %s ，可能有一些檔名中的字元有問題，建議您安裝所有所需的套件以支援 %s 。"
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
@@ -238,7 +238,7 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "這臺 ownCloud 伺服器沒有連接到網際網路，因此有些功能像是掛載外部儲存空間、更新 ownCloud 或應用程式的通知沒有辦法運作。透過網際網路存取檔案還有電子郵件通知可能也無法運作。如果想要 ownCloud 完整的功能，建議您將這臺伺服器連接至網際網路。"
 
 #: templates/admin.php:92
 msgid "Cron"
@@ -258,11 +258,11 @@ msgstr ""
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "使用系統的 cron 服務，每分鐘執行一次 owncloud 資料夾中的 cron.php 。"
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr ""
+msgstr "分享"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
@@ -416,7 +416,7 @@ msgstr "你的密碼已更改"
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr "無法變更你的密碼"
+msgstr "無法變更您的密碼"
 
 #: templates/personal.php:40
 msgid "Current password"
@@ -452,7 +452,7 @@ msgstr "電子郵件"
 
 #: templates/personal.php:72
 msgid "Your email address"
-msgstr "你的電子郵件信箱"
+msgstr "您的電子郵件信箱"
 
 #: templates/personal.php:73
 msgid "Fill in an email address to enable password recovery"
@@ -480,7 +480,7 @@ msgstr "登入名稱"
 
 #: templates/users.php:32
 msgid "Create"
-msgstr "創造"
+msgstr "建立"
 
 #: templates/users.php:35
 msgid "Default Storage"
