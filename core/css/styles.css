@@ -336,17 +336,17 @@ div.jp-play-bar, div.jp-seek-bar { padding:0; }
 li.update, li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; background:#ffe .8em .8em no-repeat;  border:1px solid #ccc; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; cursor:default; }
 .error { color:#FF3B3B; }
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { overflow:hidden; text-overflow:ellipsis; }
-.hint { background-image:url('../img/actions/info.png'); background-repeat:no-repeat; color:#777777; padding-left:25px; background-position:0 0.3em;}
+.hint { background-image:url('../img/actions/info.png'); background-repeat:no-repeat; color:#777; padding-left:25px; background-position:0 0.3em;}
 .separator { display:inline; border-left:1px solid #d3d3d3; border-right:1px solid #fff; height:10px; width:0px; margin:4px; }
 
 a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;padding-top:0px;padding-bottom:2px; text-decoration:none; margin-top:5px }
 
-.exception{color:#000000;}
+.exception{color:#000;}
 .exception textarea{width:95%;height:200px;background:#ffe;border:0;}
 
 .ui-icon-circle-triangle-e{ background-image:url('../img/actions/play-next.svg'); }
 .ui-icon-circle-triangle-w{ background-image:url('../img/actions/play-previous.svg'); }
-.ui-datepicker-prev,.ui-datepicker-next{ border:1px solid #ddd; background:#ffffff; }
+.ui-datepicker-prev,.ui-datepicker-next{ border:1px solid #ddd; background:#fff; }
 
 /* ---- DIALOGS ---- */
 #dirup {width:4%;}
@@ -367,7 +367,7 @@ span.ui-icon {float: left; margin: 3px 7px 30px 0;}
 #category_addinput { width:10em; }
 
 /* ---- APP SETTINGS ---- */
-.popup { background-color:white; border-radius:10px 10px 10px 10px; box-shadow:0 0 20px #888888; color:#333333; padding:10px; position:fixed !important; z-index:200; }
+.popup { background-color:white; border-radius:10px 10px 10px 10px; box-shadow:0 0 20px #888; color:#333; padding:10px; position:fixed !important; z-index:200; }
 .popup.topright { top:7em; right:1em; }
 .popup.bottomleft { bottom:1em; left:33em; }
 .popup .close { position:absolute; top:0.2em; right:0.2em; height:20px; width:20px; background:url('../img/actions/delete.svg') no-repeat center; }
