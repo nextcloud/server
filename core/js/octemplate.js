@@ -5,11 +5,16 @@
  *
  * Usage examples:
  *
- *	var str = 'Bake, uncovered, until the {greasystuff} is melted and the {pasta} is heated through, about {min} minutes.'
- *	$(str).octemplate({greasystuff: 'cheese', pasta: 'macaroni', min: 10});
+ *	var htmlStr = '<p>Bake, uncovered, until the {greasystuff} is melted and the {pasta} is heated through, about {min} minutes.</p>'
+ *	$(htmlStr).octemplate({greasystuff: 'cheese', pasta: 'macaroni', min: 10});
  *
  * 	var htmlStr = '<p>Welcome back {user}</p>';
  *	$(htmlStr).octemplate({user: 'John Q. Public'}, {escapeFunction: null});
+ *
+ * Be aware that the target string must be wrapped in an HTML element for the plugin to work. The following won't work:
+ * 
+ *      var textStr = 'Welcome back {user}';
+ *      $(textStr).octemplate({user: 'John Q. Public'});
  *
  * For anything larger than one-liners, you can use a simple $.get() ajax request to get the template,
  * or you can embed them it the page using the text/template type:
