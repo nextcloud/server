@@ -414,7 +414,8 @@ div.crumb a{ padding: 0.9em 0 0.7em 0; }
 	-moz-box-sizing: border-box; box-sizing: border-box;
 	text-shadow: 0 1px 0 rgba(255,255,255,.9);
 }
-#app-navigation .active { /* active navigation entry or folder */
+#app-navigation .active,
+#app-navigation .active a { /* active navigation entry or folder */
 	background-color: #ddd;
 	text-shadow: 0 1px 0 rgba(255,255,255,.7);
 }
