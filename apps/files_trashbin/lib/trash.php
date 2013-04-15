@@ -375,6 +375,7 @@ class Trashbin {
 			$filename = $r['id'];
 			if ( $r['timestamp'] < $limit ) {
 				$size += self::delete($filename, $timestamp);
+				\OC_Log::write('files_trashbin', 'remove "'.$filename.'" fom trash bin because it is older than '.$retention_obligation, \OC_log::INFO);
 			}
 		}
 		$availableSpace = $availableSpace + $size;
@@ -387,6 +388,7 @@ class Trashbin {
 			$i = 0;
 			while ( $i < $length &&   $availableSpace < 0 ) {
 				$tmp = self::delete($result[$i]['id'], $result[$i]['timestamp']);
+				\OC_Log::write('files_trashbin', 'remove "'.$result[$i]['id'].'" ('.$tmp.'B) to meet the limit of trash bin size (50% of available quota)', \OC_log::INFO);
 				$availableSpace += $tmp;
 				$size += $tmp;
 				$i++;
