@@ -8,12 +8,10 @@
  * Post the email address change to the server.
  */
 function changeEmailAddress(){
-    emailInfo = $('#lostpassword #email');
-    console.log("Timout done.");
+    emailInfo = $('#email');
     if (emailInfo.val() === emailInfo.defaultValue){
         return;
     }
-    //event.preventDefault();
     emailInfo.defaultValue = emailInfo.val();
     OC.msg.startSaving('#lostpassword .msg');
     var post = $( "#lostpassword" ).serialize();
@@ -80,7 +78,7 @@ $(document).ready(function(){
 
 	});
 
-    $('#lostpassword #email').keyup(function(){
+    $('#email').keyup(function(){
         if(typeof timeout !== 'undefined'){
             clearTimeout(timeout);
         }
