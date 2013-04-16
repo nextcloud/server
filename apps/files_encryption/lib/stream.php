@@ -239,13 +239,15 @@ class Stream {
 			// Fetch existing keyfile
 			$this->encKeyfile = Keymanager::getFileKey( $this->rootView, $this->userId, $this->relPath );
 			
-			$this->getUser();
+			$this->setUserProperty();
 			
 			$session = new Session( $this->rootView );
 			
 			$privateKey = $session->getPrivateKey( $this->userId );
 			
-			$this->keyfile = Crypt::keyDecrypt( $this->encKeyfile, $privateKey );
+			$shareKey = Keymanager::getShareKey( $this->rootView, $this->userId, $this->relPath );
+			
+			$this->keyfile = Crypt::multiKeyDecrypt( $this->encKeyfile, $shareKey, $privateKey );
 			
 			return true;
 			
@@ -257,7 +259,7 @@ class Stream {
 		
 	}
 	
-	public function getuser() {
+	public function setUserProperty() {
 	
 		// Only get the user again if it isn't already set
 		if ( empty( $this->userId ) ) {
