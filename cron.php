@@ -21,7 +21,7 @@
 */
 
 // Unfortunately we need this class for shutdown function
-class my_temporary_cron_class {
+class TemporaryCronClass {
 	public static $sent = false;
 	public static $lockfile = "";
 	public static $keeplock = false;
@@ -30,12 +30,12 @@ class my_temporary_cron_class {
 // We use this function to handle (unexpected) shutdowns
 function handleUnexpectedShutdown() {
 	// Delete lockfile
-	if( !my_temporary_cron_class::$keeplock && file_exists( my_temporary_cron_class::$lockfile )) {
-		unlink( my_temporary_cron_class::$lockfile );
+	if( !TemporaryCronClass::$keeplock && file_exists( TemporaryCronClass::$lockfile )) {
+		unlink( TemporaryCronClass::$lockfile );
 	}
 	
 	// Say goodbye if the app did not shutdown properly
-	if( !my_temporary_cron_class::$sent ) {
+	if( !TemporaryCronClass::$sent ) {
 		if( OC::$CLI ) {
 			echo 'Unexpected error!'.PHP_EOL;
 		}
@@ -64,7 +64,7 @@ OC_Helper::cleanTmpNoClean();
 // Exit if background jobs are disabled!
 $appmode = OC_BackgroundJob::getExecutionType();
 if( $appmode == 'none' ) {
-	my_temporary_cron_class::$sent = true;
+	TemporaryCronClass::$sent = true;
 	if( OC::$CLI ) {
 		echo 'Background Jobs are disabled!'.PHP_EOL;
 	}
@@ -76,7 +76,7 @@ if( $appmode == 'none' ) {
 
 if( OC::$CLI ) {
 	// Create lock file first
-	my_temporary_cron_class::$lockfile = OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' ).'/cron.lock';
+	TemporaryCronClass::$lockfile = OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' ).'/cron.lock';
 	
 	// We call ownCloud from the CLI (aka cron)
 	if( $appmode != 'cron' ) {
@@ -85,15 +85,15 @@ if( OC::$CLI ) {
 	}
 
 	// check if backgroundjobs is still running
-	if( file_exists( my_temporary_cron_class::$lockfile )) {
-		my_temporary_cron_class::$keeplock = true;
-		my_temporary_cron_class::$sent = true;
+	if( file_exists( TemporaryCronClass::$lockfile )) {
+		TemporaryCronClass::$keeplock = true;
+		TemporaryCronClass::$sent = true;
 		echo "Another instance of cron.php is still running!";
 		exit( 1 );
 	}
 
 	// Create a lock file
-	touch( my_temporary_cron_class::$lockfile );
+	touch( TemporaryCronClass::$lockfile );
 
 	// Work
 	OC_BackgroundJob_Worker::doAllSteps();
@@ -112,5 +112,5 @@ else{
 }
 
 // done!
-my_temporary_cron_class::$sent = true;
+TemporaryCronClass::$sent = true;
 exit();
