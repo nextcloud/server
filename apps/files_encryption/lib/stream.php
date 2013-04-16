@@ -224,6 +224,11 @@ class Stream {
 	 */
 	public function getKey() {
 		
+        // fix performance issues
+        if(isset($this->keyfile) && isset($this->encKeyfile)) {
+            return true;
+        }
+        
 		// If a keyfile already exists for a file named identically to 
 		// file to be written
 		if ( $this->rootView->file_exists( $this->userId . '/'. 'files_encryption' . '/' . 'keyfiles' . '/' . $this->relPath . '.key' ) ) {
