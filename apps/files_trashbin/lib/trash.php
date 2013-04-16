@@ -104,27 +104,8 @@ class Trashbin {
 		} else {
 			\OC_Log::write('files_trashbin', 'Couldn\'t move '.$file_path.' to the trash bin', \OC_log::ERROR);
 		}
-		
-		// get available disk space for user
-		$quota = \OC_Preferences::getValue($user, 'files', 'quota');
-		if ( $quota === null || $quota === 'default') {
-			$quota = \OC_Appconfig::getValue('files', 'default_quota');
-		}
-		if ( $quota === null || $quota === 'none' ) {
-			$quota = \OC\Files\Filesystem::free_space('/') / count(\OCP\User::getUsers());
-		} else {
-			$quota = \OCP\Util::computerFileSize($quota);
-		}
-		
-		// calculate available space for trash bin
-		$rootInfo = $view->getFileInfo('/files');
-		$free = $quota-$rootInfo['size']; // remaining free space for user
-		if ( $free > 0 ) {
-			$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $trashbinSize; // how much space can be used for versions
-		} else {
-			$availableSpace = $free-$trashbinSize;
-		}
-		$trashbinSize -= self::expire($availableSpace);
+
+		$trashbinSize -= self::expire($trashbinSize);
 		
 		self::setTrashbinSize($user, $trashbinSize);
 
@@ -353,13 +334,52 @@ class Trashbin {
 	}
 
 	/**
-	 * clean up the trash bin
-	 * @param max. available disk space for trashbin
+	 * calculate remaining free space for trash bin
+	 *
+	 * @param $trashbinSize current size of the trash bin
+	 * @return available free space for trash bin
 	 */
-	private static function expire($availableSpace) {
+	private static function calculateFreeSpace($trashbinSize) {
+		$softQuota = true;
+		$user = \OCP\User::getUser();
+		$quota = \OC_Preferences::getValue($user, 'files', 'quota');
+		$view = new \OC\Files\View('/'.$user);
+		if ( $quota === null || $quota === 'default') {
+			$quota = \OC_Appconfig::getValue('files', 'default_quota');
+		}
+		if ( $quota === null || $quota === 'none' ) {
+			$quota = \OC\Files\Filesystem::free_space('/');
+			$softQuota = false;
+		} else {
+			$quota = \OCP\Util::computerFileSize($quota);
+		}
+
+		// calculate available space for trash bin
+		// subtract size of files and current trash bin size from quota
+		if ($softQuota) {
+			$rootInfo = $view->getFileInfo('/files/');
+			$free = $quota-$rootInfo['size']; // remaining free space for user
+			if ( $free > 0 ) {
+				$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $trashbinSize; // how much space can be used for versions
+			} else {
+				$availableSpace = $free-$trashbinSize;
+			}
+		} else {
+			$availableSpace = $quota;
+		}
+
+		return $availableSpace;
+	}
+
+	/**
+	 * clean up the trash bin
+	 * @param current size of the trash bin
+	 */
+	private static function expire($trashbinSize) {
 
 		$user = \OCP\User::getUser();
 		$view = new \OC\Files\View('/'.$user);
+		$availableSpace = self::calculateFreeSpace($trashbinSize);
 		$size = 0;
 
 		$query = \OC_DB::prepare('SELECT `location`,`type`,`id`,`timestamp` FROM `*PREFIX*files_trash` WHERE `user`=?');
