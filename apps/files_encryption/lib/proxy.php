@@ -138,34 +138,9 @@ class Proxy extends \OC_FileProxy {
 				// Encrypt data
 				$encData = Crypt::symmetricEncryptFileContent( $data, $plainKey );
 				
-				// Check if key recovery is enabled
-				$recoveryEnabled = $util->recoveryEnabled();
+				$sharingEnabled = \OCP\Share::isEnabled();
 				
-				// Make sure that a share key is generated for the owner too
-				$userIds = array( $userId );
-				
-				if ( \OCP\Share::isEnabled() ) {
-				
-					// Find out who, if anyone, is sharing the file
-					$shareUids = \OCP\Share::getUsersSharingFile( $filePath, true, true, true );
-					
-					$userIds = array_merge( $userIds, $shareUids );
-				
-				}
-				
-				// If recovery is enabled, add the 
-				// Admin UID to list of users to share to
-				if ( $recoveryEnabled ) {
-				
-					// FIXME: Create a separate admin user purely for recovery, and create method in util for fetching this id from DB?
-					$adminUid = 'recoveryAdmin';
-				
-					$userIds[] = $adminUid;
-					
-				}
-				
-				// Remove duplicate UIDs
-				$uniqueUserIds = array_unique ( $userIds );
+				$uniqueUserIds = $util->getSharingUsersArray( $sharingEnabled, $filePath );
 				
 				// Fetch public keys for all users who will share the file
 				$publicKeys = Keymanager::getPublicKeys( $rootView, $uniqueUserIds );
@@ -280,6 +255,8 @@ class Proxy extends \OC_FileProxy {
 	 */
 	public function preUnlink( $path ) {
 	
+		$path = Keymanager::fixPartialFilePath( $path );
+	
 		// Disable encryption proxy to prevent recursive calls
 		\OC_FileProxy::$enabled = false;
 		
@@ -290,17 +267,20 @@ class Proxy extends \OC_FileProxy {
 		$util = new Util( $view, $userId );
 
 		// Format path to be relative to user files dir
-		$relPath = $util->stripUserFilesPath($path);
+		$relPath = $util->stripUserFilesPath( $path );
 
-		list($owner, $ownerPath) = $util->getUidAndFilename($relPath);
+// 		list( $owner, $ownerPath ) = $util->getUidAndFilename( $relPath );
 
-		$filePath = $owner . '/' . 'files_encryption' . '/' . 'keyfiles' . '/'. $ownerPath;
+		$fileOwner = \OC\Files\Filesystem::getOwner( $path );
+		$ownerPath = $util->stripUserFilesPath( $path );  // TODO: Don't trust $path, fetch owner path
+
+		$filePath = $fileOwner . '/' . 'files_encryption' . '/' . 'keyfiles' . '/'. $ownerPath;
 
 		// Delete keyfile & shareKey so it isn't orphaned
 		if (
 			! (
-				Keymanager::deleteFileKey( $view, $owner, $ownerPath )
-				&& Keymanager::delShareKey( $view, $owner, $ownerPath )
+				Keymanager::deleteFileKey( $view, $fileOwner, $ownerPath )
+				&& Keymanager::delShareKey( $view, $fileOwner, $ownerPath )
 			)
 		) {
 		

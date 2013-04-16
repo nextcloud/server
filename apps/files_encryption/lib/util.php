@@ -864,7 +864,46 @@ class Util {
 		return array_unique( $users );
 	
 	}
+	
+	/**
+	 * @brief Find, sanitise and format users sharing a file
+	 * @note This wraps other methods into a portable bundle
+	 */
+	public function getSharingUsersArray( $sharingEnabled, $filePath ) {
 
+		// Check if key recovery is enabled
+		$recoveryEnabled = $this->recoveryEnabled();
+		
+		// Make sure that a share key is generated for the owner too
+		$userIds = array( $this->userId );
+		
+		if ( $sharingEnabled ) {
+		
+			// Find out who, if anyone, is sharing the file
+			$shareUids = \OCP\Share::getUsersSharingFile( $filePath, true, true, true );
+			
+			$userIds = array_merge( $userIds, $shareUids );
+		
+		}
+		
+		// If recovery is enabled, add the 
+		// Admin UID to list of users to share to
+		if ( $recoveryEnabled ) {
+		
+			// FIXME: Create a separate admin user purely for recovery, and create method in util for fetching this id from DB?
+			$adminUid = 'recoveryAdmin';
+		
+			$userIds[] = $adminUid;
+			
+		}
+		
+		// Remove duplicate UIDs
+		$uniqueUserIds = array_unique ( $userIds );
+		
+		return $uniqueUserIds;
+
+	}
+		
 	/**
 	 * @brief get uid of the owners of the file and the path to the file
 	 * @param $shareFilePath Path of the file to check 

@@ -44,6 +44,9 @@ namespace OCA\Encryption;
  * buffer size used internally by PHP. The encryption process makes the input 
  * data longer, and input is chunked into smaller pieces in order to result in 
  * a 8192 encrypted block size.
+ * @note When files are deleted via webdav, or when they are updated and the 
+ * previous version deleted, this is handled by OC\Files\View, and thus the 
+ * encryption proxies are used and keyfiles deleted.
  */
 class Stream {
 
@@ -171,17 +174,21 @@ class Stream {
 // 
 		// Get the data from the file handle
 		$data = fread( $this->handle, 8192 );
+		
+		$result = '';
  
 		if ( strlen( $data ) ) {
 			
-			$this->getKey();
+			if ( ! $this->getKey() ) {
+				
+				// Error! We don't have a key to decrypt the file with
+				throw new \Exception( 'Encryption key not found for "' . $this->rawPath . '" during attempted read via stream' );
 			
-			$result = Crypt::symmetricDecryptFileContent( $data, $this->keyfile );
+			}
 			
-		} else {
-
-			$result = '';
-
+			// Decrypt data
+			$result = Crypt::symmetricDecryptFileContent( $data, $this->plainKey );
+			
 		}
 
 // 		$length = $this->size - $pos;
@@ -224,18 +231,20 @@ class Stream {
 	 */
 	public function getKey() {
 		
-        // fix performance issues
-        if(isset($this->keyfile) && isset($this->encKeyfile)) {
-            return true;
-        }
-        
-		// If a keyfile already exists for a file named identically to 
-		// file to be written
-		if ( $this->rootView->file_exists( $this->userId . '/'. 'files_encryption' . '/' . 'keyfiles' . '/' . $this->relPath . '.key' ) ) {
+		// Check if key is already set
+		if ( isset( $this->plainKey ) && isset( $this->encKeyfile ) ) {
 		
-			// TODO: add error handling for when file exists but no 
-			// keyfile
+			return true;
+		
+		}
+		
+		// Avoid problems with .part file extensions
+		$this->relPath = Keymanager::fixPartialFilePath( $this->relPath );
+	
+		// If a keyfile already exists
+		if ( $this->rootView->file_exists( $this->userId . '/'. 'files_encryption' . '/' . 'keyfiles' . '/' . $this->relPath . '.key' ) ) {
 			
+			// Fetch and decrypt keyfile
 			// Fetch existing keyfile
 			$this->encKeyfile = Keymanager::getFileKey( $this->rootView, $this->userId, $this->relPath );
 			
@@ -247,12 +256,17 @@ class Stream {
 			
 			$shareKey = Keymanager::getShareKey( $this->rootView, $this->userId, $this->relPath );
 			
-			$this->keyfile = Crypt::multiKeyDecrypt( $this->encKeyfile, $shareKey, $privateKey );
+			$this->plainKey = Crypt::multiKeyDecrypt( $this->encKeyfile, $shareKey, $privateKey );
+			
+			trigger_error( '$this->relPath = '.$this->relPath );
+			trigger_error( '$this->userId = '.$this->userId);
+			trigger_error( '$this->encKeyfile  = '.$this->encKeyfile );
+			trigger_error( '$this->plainKey1 = '.var_export($this->plainKey, 1));
 			
 			return true;
 			
 		} else {
-		
+			
 			return false;
 		
 		}
@@ -303,7 +317,7 @@ class Stream {
 		$pointer = ftell( $this->handle );
 		
 		// Make sure the userId is set
-		$this->getuser();
+		$this->setUserProperty();
 		
 		// TODO: Check if file is shared, if so, use multiKeyEncrypt and
 		// save shareKeys in necessary user directories
@@ -313,21 +327,34 @@ class Stream {
 		// one), save the newly generated keyfile
 		if ( ! $this->getKey() ) {
 		
-			// TODO: Reuse the keyfile, it it exists, instead of making a new one
-			$this->keyfile = Crypt::generateKey();
+			$util = new Util( $this->rootView, $this->userId );
+		
+			$this->plainKey = Crypt::generateKey();
 			
 			$this->publicKey = Keymanager::getPublicKey( $this->rootView, $this->userId );
 			
-			$this->encKeyfile = Crypt::keyEncrypt( $this->keyfile, $this->publicKey );
+			$sharingEnabled = \OCP\Share::isEnabled();
+			
+			$uniqueUserIds = $util->getSharingUsersArray( $sharingEnabled, $this->relPath );
+			
+			// Fetch public keys for all users who will share the file
+			$publicKeys = Keymanager::getPublicKeys( $this->rootView, $uniqueUserIds );
+			
+			$this->encKeyfiles = Crypt::multiKeyEncrypt( $this->plainKey, $publicKeys );
 			
 			$view = new \OC_FilesystemView( '/' );
-			$userId = \OCP\User::getUser();
 			
 			// Save the new encrypted file key
-			Keymanager::setFileKey( $view, $this->relPath, $userId, $this->encKeyfile );
+			Keymanager::setShareKeys( $view, $this->relPath, $this->encKeyfiles['keys'] );
+			
+// 			trigger_error( '$this->relPath = '.$this->relPath );
+// 			trigger_error( '$this->userId = '.$this->userId);
+// 			trigger_error( '$this->encKeyfile  = '.var_export($this->encKeyfiles, 1) );
 			
 		}
-
+		
+// 		trigger_error( '$this->plainKey2 = '.var_export($this->plainKey, 1));
+		
 		// If extra data is left over from the last round, make sure it 
 		// is integrated into the next 6126 / 8192 block
 		if ( $this->writeCache ) {
@@ -355,7 +382,7 @@ class Stream {
 // 			
 // 			fseek( $this->handle, - ( $currentPos % 8192 ), SEEK_CUR );
 // 
-// 			$block = Crypt::symmetricDecryptFileContent( $unencryptedNewBlock, $this->keyfile );
+// 			$block = Crypt::symmetricDecryptFileContent( $unencryptedNewBlock, $this->plainKey );
 // 
 // 			$x =  substr( $block, 0, $currentPos % 8192 );
 // 
@@ -396,7 +423,7 @@ class Stream {
 				// Read the chunk from the start of $data
 				$chunk = substr( $data, 0, 6126 );
 				
-				$encrypted = $this->preWriteEncrypt( $chunk, $this->keyfile );
+				$encrypted = $this->preWriteEncrypt( $chunk, $this->plainKey );
 				
 				// Write the data chunk to disk. This will be 
 				// attended to the last data chunk if the file
@@ -461,7 +488,7 @@ class Stream {
 			// Set keyfile property for file in question
 			$this->getKey();
 			
-			$encrypted = $this->preWriteEncrypt( $this->writeCache, $this->keyfile );
+			$encrypted = $this->preWriteEncrypt( $this->writeCache, $this->plainKey );
 			
 			fwrite( $this->handle, $encrypted );
 			

@@ -71,3 +71,7 @@ Notes
   their files are scanned to detect unencrypted and legacy encrypted files, and 
   they are (re)encrypted as necessary. This may present a performance issue; we
   need to monitor this.
+- When files are saved to ownCloud via WebDAV, a .part file extension is used so
+  that the file isn't cached before the upload has been completed. .part files 
+  are not compatible with files_encrytion's key management system however, so 
+  we have to always sanitise such paths manually before using them.
