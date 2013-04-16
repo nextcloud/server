@@ -14,9 +14,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-10 02:08+0200\n"
-"PO-Revision-Date: 2013-04-09 14:40+0000\n"
-"Last-Translator: rodin <romihardiyanto@gmail.com>\n"
+"POT-Creation-Date: 2013-04-16 02:09+0200\n"
+"PO-Revision-Date: 2013-04-16 00:09+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -167,55 +167,55 @@ msgstr "Desember"
 msgid "Settings"
 msgstr "Setelan"
 
-#: js/js.js:707
+#: js/js.js:718
 msgid "seconds ago"
 msgstr "beberapa detik yang lalu"
 
-#: js/js.js:708
+#: js/js.js:719
 msgid "1 minute ago"
 msgstr "1 menit yang lalu"
 
-#: js/js.js:709
+#: js/js.js:720
 msgid "{minutes} minutes ago"
 msgstr "{minutes} menit yang lalu"
 
-#: js/js.js:710
+#: js/js.js:721
 msgid "1 hour ago"
 msgstr "1 jam yang lalu"
 
-#: js/js.js:711
+#: js/js.js:722
 msgid "{hours} hours ago"
 msgstr "{hours} jam yang lalu"
 
-#: js/js.js:712
+#: js/js.js:723
 msgid "today"
 msgstr "hari ini"
 
-#: js/js.js:713
+#: js/js.js:724
 msgid "yesterday"
 msgstr "kemarin"
 
-#: js/js.js:714
+#: js/js.js:725
 msgid "{days} days ago"
 msgstr "{days} hari yang lalu"
 
-#: js/js.js:715
+#: js/js.js:726
 msgid "last month"
 msgstr "bulan kemarin"
 
-#: js/js.js:716
+#: js/js.js:727
 msgid "{months} months ago"
 msgstr "{months} bulan yang lalu"
 
-#: js/js.js:717
+#: js/js.js:728
 msgid "months ago"
 msgstr "beberapa bulan lalu"
 
-#: js/js.js:718
+#: js/js.js:729
 msgid "last year"
 msgstr "tahun kemarin"
 
-#: js/js.js:719
+#: js/js.js:730
 msgid "years ago"
 msgstr "beberapa tahun lalu"
 
@@ -540,23 +540,23 @@ msgstr "akan digunakan"
 msgid "Database user"
 msgstr "Pengguna basis data"
 
-#: templates/installation.php:141
+#: templates/installation.php:143
 msgid "Database password"
 msgstr "Sandi basis data"
 
-#: templates/installation.php:146
+#: templates/installation.php:148
 msgid "Database name"
 msgstr "Nama basis data"
 
-#: templates/installation.php:156
+#: templates/installation.php:158
 msgid "Database tablespace"
 msgstr "Tablespace basis data"
 
-#: templates/installation.php:163
+#: templates/installation.php:165
 msgid "Database host"
 msgstr "Host basis data"
 
-#: templates/installation.php:169
+#: templates/installation.php:171
 msgid "Finish setup"
 msgstr "Selesaikan instalasi"
 

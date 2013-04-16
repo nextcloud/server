@@ -4,12 +4,13 @@
 # 
 # Translators:
 # Daniel Pinto <daniel@mouxy.net>, 2013.
+# Helder Meneses <helder.meneses@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 02:21+0000\n"
+"POT-Creation-Date: 2013-04-16 02:09+0200\n"
+"PO-Revision-Date: 2013-04-16 00:11+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +31,7 @@ msgstr "Não foi possível restaurar %s"
 
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
-msgstr "Restaurar"
+msgstr "executar a operação de restauro"
 
 #: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
 msgid "Error"
@@ -70,7 +71,7 @@ msgstr "{count} ficheiros"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr "Não ha ficheiros. O lixo está vazio"
+msgstr "Não hà ficheiros. O lixo está vazio!"
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"

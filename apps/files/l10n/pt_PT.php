@@ -25,6 +25,7 @@
 "undo" => "desfazer",
 "perform delete operation" => "Executar a tarefa de apagar",
 "1 file uploading" => "A enviar 1 ficheiro",
+"files uploading" => "A enviar os ficheiros",
 "'.' is an invalid file name." => "'.' não é um nome de ficheiro válido!",
 "File name cannot be empty." => "O nome do ficheiro não pode estar vazio.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nome Inválido, os caracteres '\\', '/', '<', '>', ':', '\"', '|', '?' e '*' não são permitidos.",

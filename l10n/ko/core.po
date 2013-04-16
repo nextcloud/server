@@ -12,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 02:20+0000\n"
+"POT-Creation-Date: 2013-04-16 02:09+0200\n"
+"PO-Revision-Date: 2013-04-16 00:09+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -165,77 +165,77 @@ msgstr "12월"
 msgid "Settings"
 msgstr "설정"
 
-#: js/js.js:707
+#: js/js.js:718
 msgid "seconds ago"
 msgstr "초 전"
 
-#: js/js.js:708
+#: js/js.js:719
 msgid "1 minute ago"
 msgstr "1분 전"
 
-#: js/js.js:709
+#: js/js.js:720
 msgid "{minutes} minutes ago"
 msgstr "{minutes}분 전"
 
-#: js/js.js:710
+#: js/js.js:721
 msgid "1 hour ago"
 msgstr "1시간 전"
 
-#: js/js.js:711
+#: js/js.js:722
 msgid "{hours} hours ago"
 msgstr "{hours}시간 전"
 
-#: js/js.js:712
+#: js/js.js:723
 msgid "today"
 msgstr "오늘"
 
-#: js/js.js:713
+#: js/js.js:724
 msgid "yesterday"
 msgstr "어제"
 
-#: js/js.js:714
+#: js/js.js:725
 msgid "{days} days ago"
 msgstr "{days}일 전"
 
-#: js/js.js:715
+#: js/js.js:726
 msgid "last month"
 msgstr "지난 달"
 
-#: js/js.js:716
+#: js/js.js:727
 msgid "{months} months ago"
 msgstr "{months}개월 전"
 
-#: js/js.js:717
+#: js/js.js:728
 msgid "months ago"
 msgstr "개월 전"
 
-#: js/js.js:718
+#: js/js.js:729
 msgid "last year"
 msgstr "작년"
 
-#: js/js.js:719
+#: js/js.js:730
 msgid "years ago"
 msgstr "년 전"
 
-#: js/oc-dialogs.js:126
-msgid "Choose"
-msgstr "선택"
+#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
+msgid "Ok"
+msgstr "승락"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
 msgstr "취소"
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "아니요"
+#: js/oc-dialogs.js:185
+msgid "Choose"
+msgstr "선택"
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:215
 msgid "Yes"
 msgstr "예"
 
-#: js/oc-dialogs.js:180
-msgid "Ok"
-msgstr "승락"
+#: js/oc-dialogs.js:222
+msgid "No"
+msgstr "아니요"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -538,23 +538,23 @@ msgstr "사용될 예정"
 msgid "Database user"
 msgstr "데이터베이스 사용자"
 
-#: templates/installation.php:141
+#: templates/installation.php:143
 msgid "Database password"
 msgstr "데이터베이스 암호"
 
-#: templates/installation.php:146
+#: templates/installation.php:148
 msgid "Database name"
 msgstr "데이터베이스 이름"
 
-#: templates/installation.php:156
+#: templates/installation.php:158
 msgid "Database tablespace"
 msgstr "데이터베이스 테이블 공간"
 
-#: templates/installation.php:163
+#: templates/installation.php:165
 msgid "Database host"
 msgstr "데이터베이스 호스트"
 
-#: templates/installation.php:169
+#: templates/installation.php:171
 msgid "Finish setup"
 msgstr "설치 완료"
 

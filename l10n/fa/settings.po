@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-10 02:08+0200\n"
-"PO-Revision-Date: 2013-04-09 05:40+0000\n"
-"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
+"POT-Creation-Date: 2013-04-16 02:09+0200\n"
+"PO-Revision-Date: 2013-04-16 00:10+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -126,44 +126,44 @@ msgstr "بروز رسانی انجام شد"
 msgid "Saving..."
 msgstr "درحال ذخیره ..."
 
-#: js/users.js:31
+#: js/users.js:43
 msgid "deleted"
 msgstr "حذف شده"
 
-#: js/users.js:31
+#: js/users.js:43
 msgid "undo"
 msgstr "بازگشت"
 
-#: js/users.js:63
+#: js/users.js:75
 msgid "Unable to remove user"
 msgstr "حذف کاربر امکان پذیر نیست"
 
-#: js/users.js:76 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "گروه ها"
 
-#: js/users.js:79 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "گروه مدیران"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr "پاک کردن"
 
-#: js/users.js:243
+#: js/users.js:262
 msgid "add group"
 msgstr "افزودن گروه"
 
-#: js/users.js:407
+#: js/users.js:414
 msgid "A valid username must be provided"
 msgstr "نام کاربری صحیح باید وارد شود"
 
-#: js/users.js:408 js/users.js:414 js/users.js:429
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
 msgstr "خطا در ایجاد کاربر"
 
-#: js/users.js:413
+#: js/users.js:420
 msgid "A valid password must be provided"
 msgstr "رمز عبور صحیح باید وارد شود"
 
