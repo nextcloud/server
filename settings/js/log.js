@@ -46,7 +46,11 @@ OC.Log={
 			row.append(messageTd);
 			
 			var timeTd=$('<td/>');
-			timeTd.text(formatDate(entry.time*1000));
+			if(isNaN(entry.time)){
+				timeTd.text(entry.time);
+			} else {
+				timeTd.text(formatDate(entry.time*1000));
+			}
 			row.append(timeTd);
 			$('#log').append(row);
 		}
