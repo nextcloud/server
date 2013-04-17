@@ -23,13 +23,13 @@ body { background:#fefefe; font:normal .8em/1.6em "Helvetica Neue",Helvetica,Ari
 #body-login #header { margin: -2em auto 0; text-align:center; height:10em; padding:1em 0 .5em;
  -moz-box-shadow:0 0 1em rgba(0, 0, 0, .5); -webkit-box-shadow:0 0 1em rgba(0, 0, 0, .5); box-shadow:0 0 1em rgba(0, 0, 0, .5);
 background:#1d2d44; /* Old browsers */
-background:-moz-linear-gradient(top, #35537a 0%, #1d2d42 100%); /* FF3.6+ */
-background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#35537a), color-stop(100%,#1d2d42)); /* Chrome,Safari4+ */
-background:-webkit-linear-gradient(top, #35537a 0%,#1d2d42 100%); /* Chrome10+,Safari5.1+ */
-background:-o-linear-gradient(top, #35537a 0%,#1d2d42 100%); /* Opera11.10+ */
-background:-ms-linear-gradient(top, #35537a 0%,#1d2d42 100%); /* IE10+ */
-background:linear-gradient(top, #35537a 0%,#1d2d42 100%); /* W3C */
-filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d42',GradientType=0 ); /* IE6-9 */ }
+background:-moz-linear-gradient(top, #35537a 0%, #1d2d44 100%); /* FF3.6+ */
+background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#35537a), color-stop(100%,#1d2d44)); /* Chrome,Safari4+ */
+background:-webkit-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* Chrome10+,Safari5.1+ */
+background:-o-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* Opera11.10+ */
+background:-ms-linear-gradient(top, #35537a 0%,#1d2d44 100%); /* IE10+ */
+background:linear-gradient(top, #35537a 0%,#1d2d44 100%); /* W3C */
+filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#35537a', endColorstr='#1d2d44',GradientType=0 ); /* IE6-9 */ }
 
 #owncloud { position:absolute; top:0; left:0; padding:6px; padding-bottom:0; }
 .header-right { float:right; vertical-align:middle; padding:0.5em; }
@@ -119,7 +119,7 @@ a.disabled, a.disabled:hover, a.disabled:focus {
 	}
 	.primary:active, input[type="submit"].primary:active, input[type="button"].primary:active, button.primary:active, .button.primary:active {
 		border:1px solid #1d2d44;
-		background:#1d2d42; color:#bbb; text-shadow:#000 0 -1px 0;
+		background:#1d2d44; color:#bbb; text-shadow:#000 0 -1px 0;
 		-moz-box-shadow:0 1px 1px #fff,0 1px 1px 0 rgba(0,0,0,.2) inset; -webkit-box-shadow:0 1px 1px #fff,0 1px 1px 0 rgba(0,0,0,.2) inset; box-shadow:0 1px 1px #fff,0 1px 1px 0 rgba(0,0,0,.2) inset;
 	}
 
