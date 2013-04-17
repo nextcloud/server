@@ -278,7 +278,7 @@ class OC {
 					OC_Config::setValue('maintenance', true);
 					OC_Log::write('core',
 						'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion,
-						OC_Log::DEBUG);
+						OC_Log::WARN);
 					$minimizerCSS = new OC_Minimizer_CSS();
 					$minimizerCSS->clearCache();
 					$minimizerJS = new OC_Minimizer_JS();
