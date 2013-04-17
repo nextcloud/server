@@ -225,7 +225,7 @@ class Stream {
 	}
 	
 	/**
-	 * @brief Get the keyfile for the current file, generate one if necessary
+	 * @brief Fetch the plain encryption key for the file and set it as plainKey property
 	 * @param bool $generate if true, a new key will be generated if none can be found
 	 * @return bool true on key found and set, false on key not found and new key generated and set
 	 */
@@ -258,10 +258,10 @@ class Stream {
 			
 			$this->plainKey = Crypt::multiKeyDecrypt( $this->encKeyfile, $shareKey, $privateKey );
 			
-			trigger_error( '$this->relPath = '.$this->relPath );
-			trigger_error( '$this->userId = '.$this->userId);
-			trigger_error( '$this->encKeyfile  = '.$this->encKeyfile );
-			trigger_error( '$this->plainKey1 = '.var_export($this->plainKey, 1));
+// 			trigger_error( '$this->relPath = '.$this->relPath );
+// 			trigger_error( '$this->userId = '.$this->userId);
+// 			trigger_error( '$this->encKeyfile  = '.$this->encKeyfile );
+// 			trigger_error( '$this->plainKey1 = '.var_export($this->plainKey, 1));
 			
 			return true;
 			
@@ -319,40 +319,44 @@ class Stream {
 		// Make sure the userId is set
 		$this->setUserProperty();
 		
-		// TODO: Check if file is shared, if so, use multiKeyEncrypt and
-		// save shareKeys in necessary user directories
-		
 		// Get / generate the keyfile for the file we're handling
 		// If we're writing a new file (not overwriting an existing 
 		// one), save the newly generated keyfile
 		if ( ! $this->getKey() ) {
 		
-			$util = new Util( $this->rootView, $this->userId );
-		
 			$this->plainKey = Crypt::generateKey();
-			
-			$this->publicKey = Keymanager::getPublicKey( $this->rootView, $this->userId );
-			
-			$sharingEnabled = \OCP\Share::isEnabled();
-			
-			$uniqueUserIds = $util->getSharingUsersArray( $sharingEnabled, $this->relPath );
-			
-			// Fetch public keys for all users who will share the file
-			$publicKeys = Keymanager::getPublicKeys( $this->rootView, $uniqueUserIds );
-			
-			$this->encKeyfiles = Crypt::multiKeyEncrypt( $this->plainKey, $publicKeys );
-			
-			$view = new \OC_FilesystemView( '/' );
-			
-			// Save the new encrypted file key
-			Keymanager::setShareKeys( $view, $this->relPath, $this->encKeyfiles['keys'] );
-			
-// 			trigger_error( '$this->relPath = '.$this->relPath );
-// 			trigger_error( '$this->userId = '.$this->userId);
-// 			trigger_error( '$this->encKeyfile  = '.var_export($this->encKeyfiles, 1) );
 			
 		}
 		
+		// Fetch user's public key
+		$this->publicKey = Keymanager::getPublicKey( $this->rootView, $this->userId );
+		
+		// Check if OC sharing api is enabled
+		$sharingEnabled = \OCP\Share::isEnabled();
+		
+		$util = new Util( $this->rootView, $this->userId );
+		
+		// Get all users sharing the file
+		$uniqueUserIds = $util->getSharingUsersArray( $sharingEnabled, $this->relPath );
+		
+		// Fetch public keys for all sharing users
+		$publicKeys = Keymanager::getPublicKeys( $this->rootView, $uniqueUserIds );
+		
+		// Encrypt enc key for all sharing users
+		$this->encKeyfiles = Crypt::multiKeyEncrypt( $this->plainKey, $publicKeys );
+		
+		$view = new \OC_FilesystemView( '/' );
+		
+		// Save the new encrypted file key
+		Keymanager::setFileKey( $this->rootView, $this->relPath, $this->userId, $this->encKeyfiles['data'] );
+		
+		// Save the sharekeys
+		Keymanager::setShareKeys( $view, $this->relPath, $this->encKeyfiles['keys'] );
+		
+// 		trigger_error( "\$this->encKeyfiles['data'] = ".$this->encKeyfiles['data'] );
+// 		trigger_error( '$this->relPath = '.$this->relPath );
+// 		trigger_error( '$this->userId = '.$this->userId);
+// 		trigger_error( '$this->encKeyfile  = '.var_export($this->encKeyfiles, 1) );
 // 		trigger_error( '$this->plainKey2 = '.var_export($this->plainKey, 1));
 		
 		// If extra data is left over from the last round, make sure it 
@@ -396,7 +400,7 @@ class Stream {
 		
 // 		// While there still remains somed data to be processed & written
 		while( strlen( $data ) > 0 ) {
-// 			
+		
 // 			// Remaining length for this iteration, not of the 
 //			// entire file (may be greater than 8192 bytes)
 // 			$remainingLength = strlen( $data );
@@ -404,7 +408,7 @@ class Stream {
 // 			// If data remaining to be written is less than the 
 //			// size of 1 6126 byte block
 			if ( strlen( $data ) < 6126 ) {
-				
+		
 				// Set writeCache to contents of $data
 				// The writeCache will be carried over to the 
 				// next write round, and added to the start of 
@@ -425,6 +429,8 @@ class Stream {
 				
 				$encrypted = $this->preWriteEncrypt( $chunk, $this->plainKey );
 				
+				trigger_error("\$encrypted = $encrypted");
+				
 				// Write the data chunk to disk. This will be 
 				// attended to the last data chunk if the file
 				// being handled totals more than 6126 bytes
@@ -441,7 +447,7 @@ class Stream {
 			}
 		
 		}
-
+		
 		$this->size = max( $this->size, $pointer + $length );
 		
 		return $length;
@@ -493,7 +499,7 @@ class Stream {
 			fwrite( $this->handle, $encrypted );
 			
 			$this->writeCache = '';
-		
+			
 		}
 	
 	}
@@ -501,16 +507,16 @@ class Stream {
 	public function stream_close() {
 	
 		$this->flush();
-
+		
 		if ( 
 		$this->meta['mode']!='r' 
 		and $this->meta['mode']!='rb' 
 		) {
-
+			
 			\OC\Files\Filesystem::putFileInfo( $this->path, array( 'encrypted' => true, 'size' => $this->size ), '' );
 
 		}
-
+		
 		return fclose( $this->handle );
 
 	}

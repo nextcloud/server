@@ -122,9 +122,8 @@ class Proxy extends \OC_FileProxy {
 					// Decrypt the keyfile
 					$plainKey = Crypt::multiKeyDecrypt( $encKeyfile, $shareKey, $privateKey );
 					
-					trigger_error("\$shareKey = $shareKey");
-					
-					trigger_error("\$plainKey = $plainKey");
+// 					trigger_error("\$shareKey = $shareKey");
+// 					trigger_error("\$plainKey = $plainKey");
 				
 				} else {
 				

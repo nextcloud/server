@@ -29,6 +29,9 @@
 # Sharing all files to admin for recovery purposes still in progress
 # Possibly public links are broken (not tested since last merge of master)
 # getOwner() currently returns false in all circumstances, unsure what code is returning this...
+# encryptAll during login mangles paths: /files/files/
+# encryptAll is accessing files via encryption proxy - perhaps proxies should be disabled?
+# Sharekeys appear to not be deleted when their parent file is, and thus get orphaned
 
 
 # Missing features
