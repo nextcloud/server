@@ -269,10 +269,30 @@ fieldset.warning a { color:#b94a48 !important; font-weight:bold; }
 	color:#fff; text-shadow:#000 0 -1px 0;
 	white-space:nowrap; overflow:hidden; text-overflow:ellipsis; /* ellipsize long app names */
 }
+
 	/* icon opacity and hover effect */
-	#navigation a { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; filter:alpha(opacity=50); opacity:.5; } /* 50% opacity when inactive */
-	#navigation a:hover, #navigation a:focus { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)"; filter:alpha(opacity=80); opacity:.8; } /* 80% opacity when hovered or focused */
-	#navigation a.active { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)"; filter:alpha(opacity=100); opacity:1; } /* full opacity for the active app */
+	#navigation a img,
+	#navigation a span {
+		/* 50% opacity when inactive */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+		filter: alpha(opacity=50);
+		opacity: .5;
+	}
+	#navigation a:hover img, #navigation a:focus img,
+	#navigation a:hover span, #navigation a:focus span {
+		/* 80% opacity when hovered or focused */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+		filter: alpha(opacity=80);
+		opacity: .8;
+	}
+	#navigation a.active img,
+	#navigation a.active span {
+		 /* full opacity for the active app */
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+		filter: alpha(opacity=100);
+		opacity: 1;
+	}
+
 	/* positioning */
 	#navigation .icon {
 		display:block;
