@@ -132,7 +132,9 @@ class OC_L10N{
 						$transFile = OC::$SERVERROOT.'/themes/'.$theme.substr($transFile, strlen(OC::$SERVERROOT));
 						if (file_exists($transFile)) {
 							include $transFile;
-							$this->translations = array_merge($this->translations, $TRANSLATIONS);
+							if (isset($TRANSLATIONS) && is_array($TRANSLATIONS)) {
+								$this->translations = array_merge($this->translations, $TRANSLATIONS);
+							}
 						}
 					}
 				}
