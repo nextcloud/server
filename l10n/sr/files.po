@@ -5,13 +5,14 @@
 # Translators:
 # Ivan Petrović <ivan@ipplusstudio.com>, 2012.
 # Slobodan Terzić <githzerai06@gmail.com>, 2011, 2012.
+#  <theranchcowboy@gmail.com>, 2013.
 #   <theranchcowboy@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-16 02:09+0200\n"
-"PO-Revision-Date: 2013-04-16 00:10+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -23,20 +24,20 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "Не могу да преместим %s – датотека с овим именом већ постоји"
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "Не могу да преместим %s"
 
 #: ajax/rename.php:22 ajax/rename.php:25
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Не могу да преименујем датотеку"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "Ниједна датотека није отпремљена услед непознате грешке"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
@@ -71,11 +72,11 @@ msgstr "Не могу да пишем на диск"
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Нема довољно простора"
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
-msgstr ""
+msgstr "неисправна фасцикла."
 
 #: appinfo/app.php:12
 msgid "Files"
@@ -83,7 +84,7 @@ msgstr "Датотеке"
 
 #: js/fileactions.js:125
 msgid "Delete permanently"
-msgstr ""
+msgstr "Обриши за стално"
 
 #: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
@@ -123,7 +124,7 @@ msgstr "опозови"
 
 #: js/filelist.js:324
 msgid "perform delete operation"
-msgstr ""
+msgstr "обриши"
 
 #: js/filelist.js:406
 msgid "1 file uploading"
@@ -131,15 +132,15 @@ msgstr "Отпремам 1 датотеку"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "датотеке се отпремају"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "Датотека „.“ је неисправног имена."
 
 #: js/files.js:56
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Име датотеке не може бити празно."
 
 #: js/files.js:64
 msgid ""
@@ -149,17 +150,17 @@ msgstr "Неисправан назив. Следећи знакови нису 
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Ваше складиште је пуно. Датотеке више не могу бити ажуриране ни синхронизоване."
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Ваше складиште је скоро па пуно ({usedSpacePercent}%)"
 
 #: js/files.js:226
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
+msgstr "Припремам преузимање. Ово може да потраје ако су датотеке велике."
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
@@ -167,7 +168,7 @@ msgstr "Не могу да отпремим датотеку као фасцик
 
 #: js/files.js:272
 msgid "Not enough space available"
-msgstr ""
+msgstr "Нема довољно простора"
 
 #: js/files.js:312
 msgid "Upload cancelled."
@@ -180,11 +181,11 @@ msgstr "Отпремање датотеке је у току. Ако сада н
 
 #: js/files.js:481
 msgid "URL cannot be empty."
-msgstr ""
+msgstr "Адреса не може бити празна."
 
 #: js/files.js:486
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "Неисправно име фасцикле. Фасцикла „Shared“ је резервисана за ownCloud."
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
@@ -272,7 +273,7 @@ msgstr "Са везе"
 
 #: templates/index.php:42
 msgid "Deleted files"
-msgstr ""
+msgstr "Обрисане датотеке"
 
 #: templates/index.php:48
 msgid "Cancel upload"
@@ -280,7 +281,7 @@ msgstr "Прекини отпремање"
 
 #: templates/index.php:55
 msgid "You don’t have write permissions here."
-msgstr ""
+msgstr "Овде немате дозволу за писање."
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
@@ -314,4 +315,4 @@ msgstr "Тренутно скенирање"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "Дограђујем кеш система датотека…"

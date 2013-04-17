@@ -16,6 +16,8 @@
 "Files" => "Датотеке",
 "Text" => "Текст",
 "Images" => "Слике",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ваш веб сервер тренутно не подржава синхронизацију датотека јер се чини да је WebDAV сучеље неисправно.",
+"Please double check the <a href='%s'>installation guides</a>." => "Погледајте <a href='%s'>водиче за инсталацију</a>.",
 "seconds ago" => "пре неколико секунди",
 "1 minute ago" => "пре 1 минут",
 "%d minutes ago" => "пре %d минута",
