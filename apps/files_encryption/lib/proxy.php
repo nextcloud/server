@@ -254,6 +254,11 @@ class Proxy extends \OC_FileProxy {
 	 */
 	public function preUnlink( $path ) {
 	
+		// let the trashbin handle this  
+		if ( \OCP\App::isEnabled('files_trashbin') ) {
+		     return true;
+		}
+		
 		$path = Keymanager::fixPartialFilePath( $path );
 	
 		// Disable encryption proxy to prevent recursive calls
