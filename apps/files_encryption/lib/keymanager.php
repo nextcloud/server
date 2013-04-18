@@ -108,7 +108,8 @@ class Keymanager {
 		
 		\OC_FileProxy::$enabled = false;
 
-		$util = new Util($view, $userId);
+		//here we need the currently logged in user, while userId can be a different user
+		$util = new Util($view, \OCP\User::getUser());
 		list($owner, $filename) = $util->getUidAndFilename($path);
 
 		$basePath = '/' . $owner . '/files_encryption/keyfiles';
@@ -168,7 +169,7 @@ class Keymanager {
 	 */
 	public static function getFileKey( \OC_FilesystemView $view, $userId, $filePath ) {
 		
-		$util = new Util($view, $userId);
+		$util = new Util($view, \OCP\User::getUser());
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
 		$filePath_f = ltrim( $filename, '/' );
 		
@@ -298,7 +299,8 @@ class Keymanager {
 	 */
 	public static function setShareKey( \OC_FilesystemView $view, $path, $userId, $shareKey ) {
 
-		$util = new Util( $view, $userId );
+		//here we need the currently logged in user, while userId can be a different user
+		$util = new Util( $view, \OCP\User::getUser() );
 
 		list($owner, $filename) = $util->getUidAndFilename($path);
 
@@ -368,7 +370,8 @@ class Keymanager {
 		
 		\OC_FileProxy::$enabled = false;
 
-		$util = new Util( $view, $userId );
+		//here we need the currently logged in user, while userId can be a different user
+		$util = new Util( $view, \OCP\User::getUser() );
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
 
