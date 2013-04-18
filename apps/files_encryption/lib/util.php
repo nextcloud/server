@@ -878,12 +878,15 @@ class Util {
 		$recoveryEnabled = $this->recoveryEnabled();
 		
 		// Make sure that a share key is generated for the owner too
-		$userIds = array( $this->userId );
-		
+		list($owner, $ownerPath) = $this->getUidAndFilename($filePath);
+
+		//$userIds = array( $this->userId );
+		$userIds = array();
+
 		if ( $sharingEnabled ) {
 		
 			// Find out who, if anyone, is sharing the file
-			$shareUids = \OCP\Share::getUsersSharingFile( $filePath, true, true, true );
+			$shareUids = \OCP\Share::getUsersSharingFile( $ownerPath, $owner,true, true, true );
 			
 			$userIds = array_merge( $userIds, $shareUids );
 		
