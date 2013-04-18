@@ -657,14 +657,12 @@ class Util {
 	public function filterShareReadyUsers( $unfilteredUsers ) {
 	
 		// This array will collect the filtered IDs
-		$userIds = array();
+		$readyIds = $unreadyIds = array();
 	
 		// Loop through users and create array of UIDs that need new keyfiles
 		foreach ( $unfilteredUsers as $user ) {
 		
 			$util = new Util( $this->view, $user );
-			
-			$readyIds = $unreadyIds = array();
 				
 			// Check that the user is encryption capable, or is the
 			// public system user 'ownCloud' (for public shares)
@@ -690,7 +688,7 @@ class Util {
 		}
 		
 		return array ( 
-			'ready' => $userIds
+			'ready' => $readyIds
 			, 'unready' => $unreadyIds
 		);
 		
@@ -810,7 +808,7 @@ class Util {
 		}
 		
 		// Get public keys for each user, ready for generating sharekeys
-		$userPubKeys = Keymanager::getPublicKeys( $this->view, $filteredUids['ready'] ); // TODO: check this includes the owner's public key
+		$userPubKeys = Keymanager::getPublicKeys( $this->view, $filteredUids['ready'] );
 
 		\OC_FileProxy::$enabled = false;
 
@@ -844,28 +842,6 @@ class Util {
 		\OC_FileProxy::$enabled = true;
 
 		return true;
-	}
-	
-	/**
-	 * @brief Returns the users who are sharing a file, including the file owner
-	 * @param $path Relative path of the file, like files/file.txt
-	 * @return $users array of UIDs
-	 * @note This wraps the OCP\Share method, but includes the owner even if 
-	 *       the file isn't registered in sharing API
-	 */
-	public function getUsersSharingFile( $path ) {
-	
-		$users = \OCP\Share::getUsersSharingFile( $path, true, true );
-		
-		// FIXME: this is returning empty :/
-		$owner = \OC\Files\Filesystem::getOwner( $path );
-		
-// 		trigger_error( var_export( $owner, 1));
-		
-		$users[] = $owner;
-		
-		return array_unique( $users );
-	
 	}
 	
 	/**
