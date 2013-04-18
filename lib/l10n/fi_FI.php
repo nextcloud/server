@@ -18,7 +18,6 @@
 "Images" => "Kuvat",
 "Set an admin username." => "Aseta ylläpitäjän käyttäjätunnus.",
 "Set an admin password." => "Aseta ylläpitäjän salasana.",
-"Specify a data folder." => "Määritä datakansio.",
 "%s enter the database username." => "%s anna tietokannan käyttäjätunnus.",
 "%s enter the database name." => "%s anna tietokannan nimi.",
 "%s you may not use dots in the database name" => "%s et voi käyttää pisteitä tietokannan nimessä",

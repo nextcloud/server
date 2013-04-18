@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Denis <reg.transifex.net@demitel.ru>, 2013.
-# Denis  <reg.transifex.net@demitel.ru>, 2012.
-#   <k0ldbl00d@gmail.com>, 2012.
-# Mihail Vasiliev <mickvav@gmail.com>, 2012.
-#   <mpolr21@gmail.com>, 2012.
-# Sergey <sergey@markevich.ru>, 2013.
-#   <victor.dubiniuk@gmail.com>, 2012.
-# Дмитрий <langaru@gmail.com>, 2013.
+# Denis <reg.transifex.net@demitel.ru>, 2013
+# Denis <reg.transifex.net@demitel.ru>, 2012
+# k0ldbl00d <k0ldbl00d@gmail.com>, 2012
+# Mihail Vasiliev <mickvav@gmail.com>, 2012
+# mPolr <mpolr21@gmail.com>, 2012
+# m4rkell <sergey@markevich.ru>, 2013
+# VicDeo <victor.dubiniuk@gmail.com>, 2012
+# Langaru <langaru@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -100,10 +100,6 @@ msgstr "Установить имя пользователя для admin."
 #: setup.php:37
 msgid "Set an admin password."
 msgstr "становит пароль для admin."
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "Указать папку данных."
 
 #: setup.php:55
 #, php-format

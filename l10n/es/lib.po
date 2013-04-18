@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013.
-#  <juanma@kde.org.ar>, 2013.
-#   <juanma@kde.org.ar>, 2012.
-# Marcos <djoser.horus@gmail.com>, 2013.
-# Raul Fernandez Garcia <raulfg3@gmail.com>, 2012.
-# Ricardo A. Hermosilla Carrillo <ra.hermosillac@gmail.com>, 2013.
-# Rubén Trujillo <rubentrf@gmail.com>, 2012.
-#   <sergio@entrecables.com>, 2012.
+# Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013
+# juanman <juanma@kde.org.ar>, 2013
+# juanman <juanma@kde.org.ar>, 2012
+# Marcos <djoser.horus@gmail.com>, 2013
+# Raul Fernandez Garcia <raulfg3@gmail.com>, 2012
+# Ricardo Hermosilla <ra.hermosillac@gmail.com>, 2013
+# Rubén Trujillo <rubentrf@gmail.com>, 2012
+# scambra <sergio@entrecables.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -100,10 +100,6 @@ msgstr "Configurar un nombre de usuario del administrador"
 #: setup.php:37
 msgid "Set an admin password."
 msgstr "Configurar la contraseña del administrador."
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "Especificar la carpeta de datos."
 
 #: setup.php:55
 #, php-format

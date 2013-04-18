@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Hydriz Scholz <admin@alphacorp.tk>, 2013.
-# Pellaeon Lin <nfsmwlin@gmail.com>, 2013.
-#   <sofia168@livemail.tw>, 2012.
-#   <ywang1007+transifex@gmail.com>, 2012.
-# ywang  <ywang1007@gmail.com>, 2012.
+# Hydriz <admin@alphacorp.tk>, 2013
+# pellaeon <nfsmwlin@gmail.com>, 2013
+# sofiasu <sofia168@livemail.tw>, 2012
+# ywang <ywang1007@gmail.com>, 2012
+# ywang <ywang1007@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -97,10 +97,6 @@ msgstr "設置一個管理員用戶名。"
 #: setup.php:37
 msgid "Set an admin password."
 msgstr "設置一個管理員密碼。"
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr ""
 
 #: setup.php:55
 #, php-format

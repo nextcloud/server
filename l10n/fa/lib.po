@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Amir Reza Asadi <amirreza.asadi@live.com>, 2013.
-# mahdi Kereshteh <miki_mika1362@yahoo.com>, 2013.
-# Mohammad Dashtizadeh <mohammad@dashtizadeh.net>, 2012.
+# Amir Reza Asadi <amirreza.asadi@live.com>, 2013
+# miki_mika1362 <miki_mika1362@yahoo.com>, 2013
+# Mohammad Dashtizadeh <mohammad@dashtizadeh.net>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -95,10 +95,6 @@ msgstr ""
 #: setup.php:37
 msgid "Set an admin password."
 msgstr ""
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "پوشه ای برای داده ها مشخص کنید."
 
 #: setup.php:55
 #, php-format

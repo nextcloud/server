@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <dzubchikd@gmail.com>, 2012.
-#   <skoptev@ukr.net>, 2012.
-#   <victor.dubiniuk@gmail.com>, 2012.
-#   <volodya327@gmail.com>, 2013.
-# пан Володимир <volodya327@gmail.com>, 2013.
+# Dmytro Dzubenko <dzubchikd@gmail.com>, 2012
+# skoptev <skoptev@ukr.net>, 2012
+# VicDeo <victor.dubiniuk@gmail.com>, 2012
+# volodya327 <volodya327@gmail.com>, 2013
+# volodya327 <volodya327@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -97,10 +97,6 @@ msgstr "Встановіть ім'я адміністратора."
 #: setup.php:37
 msgid "Set an admin password."
 msgstr "Встановіть пароль адміністратора."
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "Вкажіть теку для даних."
 
 #: setup.php:55
 #, php-format

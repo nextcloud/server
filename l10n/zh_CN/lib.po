@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <appweb.cn@gmail.com>, 2012.
-# marguerite su <i@marguerite.su>, 2013.
-#   <rainofchaos@gmail.com>, 2012.
+# hanfeng <appweb.cn@gmail.com>, 2012
+# marguerite su <i@marguerite.su>, 2013
+# leonfeng <rainofchaos@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -95,10 +95,6 @@ msgstr "请设置一个管理员用户名。"
 #: setup.php:37
 msgid "Set an admin password."
 msgstr "请设置一个管理员密码。"
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "请指定一个数据目录。"
 
 #: setup.php:55
 #, php-format

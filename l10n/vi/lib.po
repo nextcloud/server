@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <mattheu.9x@gmail.com>, 2012.
-#   <mattheu_9x@yahoo.com>, 2012.
-# sao sang <saosangmo@yahoo.com>, 2013.
-# Sơn Nguyễn <sonnghit@gmail.com>, 2012.
+# mattheu_9x <mattheu.9x@gmail.com>, 2012
+# mattheu_9x <mattheu.9x@gmail.com>, 2012
+# saosangm <saosangmo@yahoo.com>, 2013
+# Sơn Nguyễn <sonnghit@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -95,10 +95,6 @@ msgstr ""
 
 #: setup.php:37
 msgid "Set an admin password."
-msgstr ""
-
-#: setup.php:40
-msgid "Specify a data folder."
 msgstr ""
 
 #: setup.php:55

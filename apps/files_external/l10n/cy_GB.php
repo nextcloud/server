@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Users" => "Defnyddwyr"
+"Users" => "Defnyddwyr",
+"Delete" => "Dileu"
 );

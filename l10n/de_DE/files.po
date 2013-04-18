@@ -3,40 +3,40 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <admin@s-goecker.de>, 2012.
-# Andreas Tangemann <a.tangemann@web.de>, 2013.
-#   <a.tangemann@web.de>, 2012-2013.
-#   <blobbyjj@ymail.com>, 2012.
-# I Robot <owncloud-bot@tmit.eu>, 2012-2013.
-# I Robot <thomas.mueller@tmit.eu>, 2012.
-# Jan-Christoph Borchardt <hey@jancborchardt.net>, 2012.
-# Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
-# Jan-Christoph Borchardt <jan@unhosted.org>, 2011.
-#   <lukas@statuscode.ch>, 2012.
-#   <mail@felixmoeller.de>, 2012.
-# Marcel Kühlhorn <susefan93@gmx.de>, 2012-2013.
-#   <markus.thiel@desico.de>, 2013.
-# Michael Krell <m4dmike.mni@gmail.com>, 2012.
-#   <nelsonfritsch@gmail.com>, 2012.
-#   <niko@nik-o-mat.de>, 2012.
-# Phi Lieb <>, 2012.
-# Phillip Schichtel <quick_wango@code-infection.de>, 2013.
-#  <robert.neumann01@gmail.com>, 2013.
-#  <stefan.niedermann@googlemail.com>, 2013.
-#   <Steve_Reichert@gmx.de>, 2013.
-# Susi <>, 2013.
-#   <thomas.mueller@tmit.eu>, 2012.
-# Thomas Müller <>, 2012.
-#  <transifex-2.7.mensaje@spamgourmet.com>, 2013.
-#   <transifex.3.mensaje@spamgourmet.com>, 2012.
-# Tristan <blobbyjj@ymail.com>, 2013.
+# goeck <admin@s-goecker.de>, 2012
+# a.tangemann <a.tangemann@web.de>, 2013
+# a.tangemann <a.tangemann@web.de>, 2012-2013
+# Mirodin <blobbyjj@ymail.com>, 2012
+# I Robot <owncloud-bot@tmit.eu>, 2012-2013
+# I Robot <owncloud-bot@tmit.eu>, 2012
+# Jan-Christoph Borchardt <hey@jancborchardt.net>, 2012
+# Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011
+# Jan-Christoph Borchardt <jan@unhosted.org>, 2011
+# Lukas Reschke <lukas@statuscode.ch>, 2012
+# fmms <mail@felixmoeller.de>, 2012
+# Marcel Kühlhorn <susefan93@gmx.de>, 2012-2013
+# thiel <markus.thiel@desico.de>, 2013
+# Michael Krell <m4dmike.mni@gmail.com>, 2012
+# piccobello <nelsonfritsch@gmail.com>, 2012
+# JamFX <niko@nik-o-mat.de>, 2012
+# Phi Lieb <>, 2012
+# quick_wango <quick_wango@code-infection.de>, 2013
+# robN <robert.neumann01@gmail.com>, 2013
+# stefanniedermann <stefan.niedermann@googlemail.com>, 2013
+# Valermos <Steve_Reichert@gmx.de>, 2013
+# Susi <>, 2013
+# I Robot <owncloud-bot@tmit.eu>, 2012
+# Thomas Müller <>, 2012
+# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2013
+# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2012
+# Mirodin <blobbyjj@ymail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-18 02:03+0200\n"
+"PO-Revision-Date: 2013-04-17 08:22+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"

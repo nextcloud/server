@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013.
-# CJTess <claudio.tessone@gmail.com>, 2013.
-#   <claudio.tessone@gmail.com>, 2012.
-# Javier Victor Mariano Bruno <koryyyy@gmail.com>, 2013.
+# Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013
+# cjtess <claudio.tessone@gmail.com>, 2013
+# cjtess <claudio.tessone@gmail.com>, 2012
+# Javier Victor Mariano Bruno <koryyyy@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -96,10 +96,6 @@ msgstr "Configurar un nombre de administrador"
 #: setup.php:37
 msgid "Set an admin password."
 msgstr "Configurar una palabra clave de administrador"
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "Especificar un directorio de datos"
 
 #: setup.php:55
 #, php-format

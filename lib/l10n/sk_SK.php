@@ -18,7 +18,6 @@
 "Images" => "Obrázky",
 "Set an admin username." => "Zadajte používateľské meno administrátora.",
 "Set an admin password." => "Zadajte heslo administrátora.",
-"Specify a data folder." => "Zadajte priečinok pre dáta.",
 "%s enter the database username." => "Zadajte používateľské meno %s databázy..",
 "%s enter the database name." => "Zadajte názov databázy pre %s databázy.",
 "%s you may not use dots in the database name" => "V názve databázy %s nemôžete používať bodky",

@@ -18,7 +18,6 @@
 "Images" => "Pildid",
 "Set an admin username." => "Määra admin kasutajanimi.",
 "Set an admin password." => "Määra admini parool.",
-"Specify a data folder." => "Määra andmete kaust.",
 "%s enter the database username." => "%s sisesta andmebaasi kasutajatunnus",
 "%s enter the database name." => "%s sisesta andmebaasi nimi.",
 "%s you may not use dots in the database name" => "%s punktide kasutamine andmebaasi nimes pole lubatud",

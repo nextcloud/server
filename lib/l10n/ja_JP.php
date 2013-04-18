@@ -18,7 +18,6 @@
 "Images" => "画像",
 "Set an admin username." => "管理者のユーザ名を設定。",
 "Set an admin password." => "管理者のパスワードを設定。",
-"Specify a data folder." => "データフォルダを指定。",
 "%s enter the database username." => "%s のデータベースのユーザ名を入力してください。",
 "%s enter the database name." => "%s のデータベース名を入力してください。",
 "%s you may not use dots in the database name" => "%s ではデータベース名にドットを利用できないかもしれません。",

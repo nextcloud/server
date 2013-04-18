@@ -65,7 +65,7 @@
 "Please connect to this ownCloud instance via HTTPS to enable or disable the SSL enforcement." => "常にSSL接続を有効／無効にするために、HTTPS経由でこの ownCloud に接続して下さい。",
 "Log" => "ログ",
 "Log level" => "ログレベル",
-"More" => "詳細",
+"More" => "もっと見る",
 "Less" => "閉じる",
 "Version" => "バージョン",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud コミュニティ</a>により開発されています。 <a href=\"https://github.com/owncloud\" target=\"_blank\">ソースコード</a>は、<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> ライセンスの下で提供されています。",

@@ -3,22 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <blobbyjj@ymail.com>, 2012.
-# I Robot <owncloud-bot@tmit.eu>, 2013.
-# I Robot <thomas.mueller@tmit.eu>, 2012.
-# Jan-Christoph Borchardt <hey@jancborchardt.net>, 2012.
-# Marcel Kühlhorn <susefan93@gmx.de>, 2012-2013.
-# Phi Lieb <>, 2012.
-#  <stefan.niedermann@googlemail.com>, 2013.
-#   <thomas.mueller@tmit.eu>, 2012.
-#   <transifex.3.mensaje@spamgourmet.com>, 2012.
-# Tristan <blobbyjj@ymail.com>, 2013.
+# Mirodin <blobbyjj@ymail.com>, 2012
+# I Robot <owncloud-bot@tmit.eu>, 2013
+# I Robot <owncloud-bot@tmit.eu>, 2012
+# Jan-Christoph Borchardt <hey@jancborchardt.net>, 2012
+# Marcel Kühlhorn <susefan93@gmx.de>, 2012-2013
+# Phi Lieb <>, 2012
+# stefanniedermann <stefan.niedermann@googlemail.com>, 2013
+# I Robot <owncloud-bot@tmit.eu>, 2012
+# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2012
+# Mirodin <blobbyjj@ymail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -102,10 +102,6 @@ msgstr "Setze Administrator Benutzername."
 #: setup.php:37
 msgid "Set an admin password."
 msgstr "Setze Administrator Passwort"
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "Datei-Verzeichnis angeben."
 
 #: setup.php:55
 #, php-format
@@ -195,7 +191,7 @@ msgstr "Dein Web-Server ist noch nicht für Datei-Synchronisation bereit, weil d
 #: setup.php:854
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr "Bitte prüfe die <a href='%s'>Instalationsanleitungen</a>."
+msgstr "Bitte prüfe die <a href='%s'>Installationsanleitungen</a>."
 
 #: template.php:113
 msgid "seconds ago"

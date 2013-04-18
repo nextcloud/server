@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Adam Toth <adazlord@gmail.com>, 2012.
-#  <gyonkibendeguz@gmail.com>, 2013.
-# Laszlo Tornoci <torlasz@gmail.com>, 2013.
+# Adam Toth <adazlord@gmail.com>, 2012
+# gyeben <gyonkibendeguz@gmail.com>, 2013
+# Laszlo Tornoci <torlasz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -95,10 +95,6 @@ msgstr "Állítson be egy felhasználói nevet az adminisztrációhoz."
 #: setup.php:37
 msgid "Set an admin password."
 msgstr "Állítson be egy jelszót az adminisztrációhoz."
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "Adja meg az adatokat tartalmazó könyvtár nevét."
 
 #: setup.php:55
 #, php-format

@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Dimitris M. <monopatis@gmail.com>, 2013.
-# Efstathios Iosifidis <iefstathios@gmail.com>, 2013.
-# Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
-#  <vagelis@cyberdest.com>, 2013.
-# Wasilis Mandratzis <m.wasilis@yahoo.de>, 2013.
+# Dimitris M. <monopatis@gmail.com>, 2013
+# Efstathios Iosifidis <iefstathios@gmail.com>, 2013
+# Efstathios Iosifidis <iosifidis@opensuse.org>, 2012
+# xneo1 <vagelis@cyberdest.com>, 2013
+# Wasilis <m.wasilis@yahoo.de>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -97,10 +97,6 @@ msgstr "Εισάγετε όνομα χρήστη διαχειριστή."
 #: setup.php:37
 msgid "Set an admin password."
 msgstr "Εισάγετε συνθηματικό διαχειριστή."
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "Καθορίστε τον φάκελο δεδομένων."
 
 #: setup.php:55
 #, php-format

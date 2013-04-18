@@ -18,7 +18,6 @@
 "Images" => "Imaxes",
 "Set an admin username." => "Estabeleza un nome de usuario administrador",
 "Set an admin password." => "Estabeleza un contrasinal de administrador",
-"Specify a data folder." => "Especifique un cartafol de datos.",
 "%s enter the database username." => "%s introduza o nome de usuario da base de datos",
 "%s enter the database name." => "%s introduza o nome da base de datos",
 "%s you may not use dots in the database name" => "%s non se poden empregar puntos na base de datos",

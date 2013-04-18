@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <cronner@gmail.com>, 2012.
-# Frederik Lassen <frederiklassen@gmail.com>, 2013.
-# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2012-2013.
-#   <osos@openeyes.dk>, 2012.
-# Thomas <cronner@gmail.com>, 2013.
+# cronner <cronner@gmail.com>, 2012
+# Frederik Lassen <frederiklassen@gmail.com>, 2013
+# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2012-2013
+# osos <osos@openeyes.dk>, 2012
+# cronner <cronner@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:04+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -97,10 +97,6 @@ msgstr "Angiv et admin brugernavn."
 #: setup.php:37
 msgid "Set an admin password."
 msgstr "Angiv et admin kodeord."
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "Specificer en data mappe."
 
 #: setup.php:55
 #, php-format

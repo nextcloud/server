@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <dudanogueira@gmail.com>, 2012.
-# Frederico Freire Boaventura <fboaventura@live.com>, 2013.
-#   <glauber.guimaraes@poli.ufrj.br>, 2012.
-#   <philippi.sedir@gmail.com>, 2012.
-# Rodrigo Tavares <rodrigo.st23@hotmail.com>, 2013.
+# dudanogueira <dudanogueira@gmail.com>, 2012
+# fboaventura <fboaventura@live.com>, 2013
+# Schopfer <glauber.guimaraes@poli.ufrj.br>, 2012
+# sedir <philippi.sedir@gmail.com>, 2012
+# Rodrigo Tavares <rodrigo.st23@hotmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:05+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -97,10 +97,6 @@ msgstr "Defina um nome de usuário de administrador."
 #: setup.php:37
 msgid "Set an admin password."
 msgstr "Defina uma senha de administrador."
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "Especifique uma pasta de dados."
 
 #: setup.php:55
 #, php-format

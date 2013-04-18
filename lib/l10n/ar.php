@@ -18,7 +18,6 @@
 "Images" => "صور",
 "Set an admin username." => "اعداد اسم مستخدم للمدير",
 "Set an admin password." => "اعداد كلمة مرور للمدير",
-"Specify a data folder." => "تحديد مجلد ",
 "%s enter the database username." => "%s ادخل اسم المستخدم الخاص بقاعدة البيانات.",
 "%s enter the database name." => "%s ادخل اسم فاعدة البيانات",
 "%s you may not use dots in the database name" => "%s لا يسمح لك باستخدام نقطه (.) في اسم قاعدة البيانات",

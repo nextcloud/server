@@ -18,7 +18,6 @@
 "Images" => "სურათები",
 "Set an admin username." => "დააყენეთ ადმინისტრატორის სახელი.",
 "Set an admin password." => "დააყენეთ ადმინისტრატორის პაროლი.",
-"Specify a data folder." => "მიუთითეთ data ფოლდერი.",
 "%s enter the database username." => "%s შეიყვანეთ ბაზის იუზერნეიმი.",
 "%s enter the database name." => "%s შეიყვანეთ ბაზის სახელი.",
 "%s you may not use dots in the database name" => "%s არ მიუთითოთ წერტილი ბაზის სახელში",

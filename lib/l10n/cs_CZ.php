@@ -18,7 +18,6 @@
 "Images" => "Obrázky",
 "Set an admin username." => "Zadejte uživatelské jméno správce.",
 "Set an admin password." => "Zadejte heslo správce.",
-"Specify a data folder." => "Určete složku dat.",
 "%s enter the database username." => "Zadejte uživatelské jméno %s databáze.",
 "%s enter the database name." => "Zadejte název databáze pro %s databáze.",
 "%s you may not use dots in the database name" => "V názvu databáze %s nesmíte používat tečky.",

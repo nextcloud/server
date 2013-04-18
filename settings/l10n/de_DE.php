@@ -39,7 +39,7 @@
 "Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Ihr Datenverzeichnis und Ihre Dateien sind wahrscheinlich über das Internet erreichbar. Die von ownCloud bereitgestellte .htaccess Datei funktioniert nicht. Wir empfehlen Ihnen dringend, Ihren Webserver so zu konfigurieren, dass das Datenverzeichnis nicht mehr über das Internet erreichbar ist. Alternativ können Sie auch das Datenverzeichnis aus dem Dokumentenverzeichnis des Webservers verschieben.",
 "Setup Warning" => "Einrichtungswarnung",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ihr Web-Server ist noch nicht für eine Datei-Synchronisation konfiguriert, weil die WebDAV-Schnittstelle vermutlich defekt ist.",
-"Please double check the <a href='%s'>installation guides</a>." => "Bitte prüfen Sie die <a href='%s'>Instalationsanleitungen</a>.",
+"Please double check the <a href='%s'>installation guides</a>." => "Bitte prüfen Sie die <a href='%s'>Installationsanleitungen</a>.",
 "Module 'fileinfo' missing" => "Das Modul 'fileinfo' fehlt",
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this module to get best results with mime-type detection." => "Das PHP-Modul 'fileinfo' fehlt. Wir empfehlen Ihnen dieses Modul zu aktivieren, um die besten Resultate bei der Bestimmung der Dateitypen zu erzielen.",
 "Locale not working" => "Die Lokalisierung funktioniert nicht",

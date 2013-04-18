@@ -1,3 +1,4 @@
 <?php $TRANSLATIONS = array(
-"Error" => "Gwall"
+"Error" => "Gwall",
+"Delete" => "Dileu"
 );
