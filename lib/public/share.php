@@ -127,21 +127,21 @@ class Share {
 	/**
 	* @brief Find which users can access a shared item
 	* @param $path to the file
+	* @param $user owner of the file
 	* @param include owner to the list of users with access to the file
 	* @return array
 	* @note $path needs to be relative to user data dir, e.g. 'file.txt' 
 	*       not '/admin/data/file.txt'
 	*/
-	public static function getUsersSharingFile( $path, $includeOwner = false, $removeDuplicates = true ) {
+	public static function getUsersSharingFile( $path, $user, $includeOwner = false, $removeDuplicates = true ) {
 
-		$user = \OCP\User::getUser();
 		$path_parts = explode(DIRECTORY_SEPARATOR, trim($path, DIRECTORY_SEPARATOR));
 		$path = '';
 		$shares = array();
-		
+		$view = new \OC\Files\View('/'.$user.'/files/');
 		foreach ($path_parts as $p) {
 			$path .= '/'.$p;
-			$meta = \OC\Files\Filesystem::getFileInfo(\OC_Filesystem::normalizePath($path));
+			$meta = $view->getFileInfo(\OC_Filesystem::normalizePath($path));
 			$source = $meta['fileid'];
 			
 			// Fetch all shares of this file path from DB
@@ -203,12 +203,9 @@ class Share {
 				$shares[] = "ownCloud";
 			}
 		}
-
-		if ( ! empty( $shares ) ) {
-			// Include owner in list of users, if requested
-			if ( $includeOwner ) {
-				$shares[] = $user;
-			}
+		// Include owner in list of users, if requested
+		if ( $includeOwner ) {
+			$shares[] = $user;
 		}
 		
 	return array_unique($shares);
