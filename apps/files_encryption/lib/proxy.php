@@ -146,7 +146,6 @@ class Proxy extends \OC_FileProxy {
 				$multiEncrypted = Crypt::multiKeyEncrypt( $plainKey, $publicKeys );
 				
 				// Save sharekeys to user folders
-				// TODO: openssl_seal generates new shareKeys (envelope keys) each time data is encrypted, but will data still be decryptable using old shareKeys? If so we don't need to replace the old shareKeys here, we only need to set the new ones
 				
 				Keymanager::setShareKeys( $rootView, $filePath, $multiEncrypted['keys'] );
 				
