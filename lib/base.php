@@ -324,7 +324,8 @@ class OC {
 		ini_set('session.cookie_httponly', '1;');
 
 		// set the cookie path to the ownCloud directory
-		ini_set('session.cookie_path', OC::$WEBROOT);
+		$cookie_path = OC::$WEBROOT ?: '/';
+		ini_set('session.cookie_path', $cookie_path);
 
 		// set the session name to the instance id - which is unique
 		session_name(OC_Util::getInstanceId());
@@ -357,7 +358,7 @@ class OC {
 		// session timeout
 		if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 60*60*24)) {
 			if (isset($_COOKIE[session_name()])) {
-				setcookie(session_name(), '', time() - 42000, OC::$WEBROOT);
+				setcookie(session_name(), '', time() - 42000, $cookie_path);
 			}
 			session_unset();
 			session_destroy();
