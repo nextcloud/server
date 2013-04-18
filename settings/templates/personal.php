@@ -82,7 +82,7 @@ if($_['displayNameChangeSupported']) {
 		<?php foreach($_['commonlanguages'] as $language):?>
 			<option value="<?php p($language['code']);?>"><?php p($language['name']);?></option>
 		<?php endforeach;?>
-		<option class="divider">––––––––––</option>
+		<optgroup label="––––––––––"><option class="languagedivider">-</option></optgroup>
 		<?php foreach($_['languages'] as $language):?>
 			<option value="<?php p($language['code']);?>"><?php p($language['name']);?></option>
 		<?php endforeach;?>
