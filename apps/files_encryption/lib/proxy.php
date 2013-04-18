@@ -113,8 +113,6 @@ class Proxy extends \OC_FileProxy {
 				
 				// Check if there is an existing key we can reuse
 				if ( $encKeyfile = Keymanager::getFileKey( $rootView, $fileOwner, $filePath ) ) {
-				
-					$keyPreExists = true;
 					
 					// Fetch shareKey
 					$shareKey = Keymanager::getShareKey( $rootView, $userId, $filePath );
@@ -126,8 +124,6 @@ class Proxy extends \OC_FileProxy {
 // 					trigger_error("\$plainKey = $plainKey");
 				
 				} else {
-				
-					$keyPreExists = false;
 				
 					// Make a new key
 					$plainKey = Crypt::generateKey();
@@ -157,14 +153,9 @@ class Proxy extends \OC_FileProxy {
 				// Set encrypted keyfile as common varname
 				$encKey = $multiEncrypted['data'];
 				
-				// Save the key if its new
-				if ( ! $keyPreExists ) {
-				
-					// Save keyfile for newly encrypted file in parallel directory tree
-					Keymanager::setFileKey( $rootView, $filePath, $fileOwner, $encKey );
-					
-				}
-				
+				// Save keyfile for newly encrypted file in parallel directory tree
+				Keymanager::setFileKey( $rootView, $filePath, $fileOwner, $encKey );
+
 				// Replace plain content with encrypted content by reference
 				$data = $encData;
 				
