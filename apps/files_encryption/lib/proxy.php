@@ -439,9 +439,41 @@ class Proxy extends \OC_FileProxy {
 
 	public function postFileSize( $path, $size ) {
 		
-		if ( Crypt::isCatfileContent( $path ) ) {
+		// Reformat path for use with OC_FSV
+		$path_split = explode( '/', $path );
+		$path_f = implode( '/', array_slice( $path_split, 3 ) );
+		
+		if ( Crypt::isEncryptedMeta( $path_f ) ) {
 			
-			$cached = \OC\Files\Filesystem::getFileInfo( $path, '' );
+			// Disable encryption proxy to prevent recursive calls
+			\OC_FileProxy::$enabled = false;
+				
+			// get file info
+			$cached = \OC\Files\Filesystem::getFileInfo( $path_f, '' );
+			
+			// calculate last chunk nr
+			$lastChunckNr = floor( $size / 8192);
+			
+			// open stream
+			$result = fopen( 'crypt://'.$path_f, "r" );
+			
+			// calculate last chunk position
+			$lastChunckPos = ( $lastChunckNr * 8192 );
+			
+			// seek to end
+			fseek( $result, $lastChunckPos );
+			
+			// get the content of the last chunck
+			$lastChunkContent = fgets( $result );
+			
+			// calc the real filesize with the size of the last chunk
+			$realSize = ( ( $lastChunckNr * 6126 ) + strlen( $lastChunkContent ) );
+			
+			// enable proxy
+			\OC_FileProxy::$enabled = true;
+			
+			// set the size
+			$cached['size'] = $realSize;
 			
 			return  $cached['size'];
 		
