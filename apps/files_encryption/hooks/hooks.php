@@ -189,13 +189,13 @@ class Hooks {
 		if ( $params['itemType'] === 'file' ) {
 		
 			$view = new \OC_FilesystemView( '/' );
-			$session = new Session();
+			$session = new Session($view);
 			$userId = \OCP\User::getUser();
 			$util = new Util( $view, $userId );
 			$path = $util->fileIdToPath( $params['itemSource'] );
-			
-			// Note: this currently doesn't include the owner due to  \OC\Files\Filesystem::getOwner()
-			$usersSharing = $util->getUsersSharingFile( $path );
+
+			$sharingEnabled = \OCP\Share::isEnabled();
+			$usersSharing = $util->getSharingUsersArray( $sharingEnabled, $path);
 			
 			// Recursively expand path to include subfiles
 			$allPaths = $util->getPaths( $path );
