@@ -13,7 +13,7 @@ $success = array();
 
 $i = 0;
 foreach ($list as $file) {
-	if ( $dirlisting=='0') {
+	if ( $dirlisting === '0') {
 		$delimiter = strrpos($file, '.d');
 		$filename = substr($file, 0, $delimiter);
 		$timestamp =  substr($file, $delimiter+2);
