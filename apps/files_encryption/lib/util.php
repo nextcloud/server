@@ -909,19 +909,19 @@ class Util {
 		
 	/**
 	 * @brief get uid of the owners of the file and the path to the file
-	 * @param $shareFilePath Path of the file to check 
+	 * @param $path Path of the file to check
 	 * @note $shareFilePath must be relative to data/UID/files. Files 
 	 *       relative to /Shared are also acceptable
 	 * @return array
 	 */
-	public function getUidAndFilename( $shareFilePath ) {
-	
-		$fileOwnerUid = \OC\Files\Filesystem::getOwner( $shareFilePath );
+	public function getUidAndFilename( $path ) {
+
+		$fileOwnerUid = \OC\Files\Filesystem::getOwner( $path );
 		
 		// Check that UID is valid
 		if ( ! \OCP\User::userExists( $fileOwnerUid ) ) {
 		
-			throw new \Exception( 'Could not find owner (UID = "' . var_export( $fileOwnerUid, 1 ) . '") of file "' . $shareFilePath . '"' );
+			throw new \Exception( 'Could not find owner (UID = "' . var_export( $fileOwnerUid, 1 ) . '") of file "' . $path . '"' );
 			
 		}
 
@@ -932,11 +932,11 @@ class Util {
 		if ( $fileOwnerUid == $this->userId ) {
 		
 			// Assume the path supplied is correct
-			$filename = $shareFilePath;
+			$filename = $path;
 			
 		} else {
 		
-			$info = \OC\Files\Filesystem::getFileInfo( $shareFilePath );
+			$info = \OC\Files\Filesystem::getFileInfo( $path );
 			$ownerView = new \OC\Files\View( '/' . $fileOwnerUid . '/files' );
 			
 			// Fetch real file path from DB
@@ -954,7 +954,7 @@ class Util {
 			
 		} else {
 		
-			throw new \Exception( 'Supplied path could not be resolved "' . $shareFilePath . '"' );
+			throw new \Exception( 'Supplied path could not be resolved "' . $path . '"' );
 			
 		}
 		
