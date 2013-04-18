@@ -103,6 +103,7 @@ class OC {
 					require_once $fullPath;
 					return false;
 				}
+				// If not found in the root of the app directory, insert '/lib' after app id and try again.
 				$libpath = substr($path, 0, strpos($path, '/')) . '/lib' . substr($path, strpos($path, '/'));
 				$fullPath = stream_resolve_include_path($appDir['path'] . '/' . $libpath);
 				if (file_exists($fullPath)) {
