@@ -20,6 +20,7 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 	private $port;
 	private $zone;
 	private $root;
+	private $use_logon_credentials;
 
 	public function __construct($params) {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
@@ -27,12 +28,20 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 			$this->port=$params['port'];
 			$this->user=$params['user'];
 			$this->password=$params['password'];
+			$this->use_logon_credentials=$params['use_logon_credentials'];
 			$this->zone=$params['zone'];
 
 			$this->root=isset($params['root'])?$params['root']:'/';
 			if ( ! $this->root || $this->root[0]!='/') {
 				$this->root='/'.$this->root;
 			}
+
+			if ($this->use_logon_credentials && isset($_SESSION['irods-credentials']) )
+			{
+				$this->user = $_SESSION['irods-credentials']['uid'];
+				$this->password = $_SESSION['irods-credentials']['password'];
+			}
+
 			//create the root folder if necessary
 			if ( ! $this->is_dir('')) {
 				$this->mkdir('');
@@ -41,6 +50,10 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 			throw new \Exception();
 		}
 		
+	}
+
+	public static function login( $params ) {
+		$_SESSION['irods-credentials'] = $params;
 	}
 
 	public function getId(){
@@ -56,49 +69,4 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 		$userWithZone = $this->user.'.'.$this->zone;
 		return 'rods://'.$userWithZone.':'.$this->password.'@'.$this->host.':'.$this->port.$this->root.$path;
 	}
-
-//	public function fopen($path,$mode) {
-//		$this->init();
-//		switch($mode) {
-//			case 'r':
-//			case 'rb':
-//			case 'w':
-//			case 'wb':
-//			case 'a':
-//			case 'ab':
-//				//these are supported by the wrapper
-//				$context = stream_context_create(array('ftp' => array('overwrite' => true)));
-//				return fopen($this->constructUrl($path), $mode, false, $context);
-//			case 'r+':
-//			case 'w+':
-//			case 'wb+':
-//			case 'a+':
-//			case 'x':
-//			case 'x+':
-//			case 'c':
-//			case 'c+':
-//				//emulate these
-//				if (strrpos($path, '.')!==false) {
-//					$ext=substr($path, strrpos($path, '.'));
-//				} else {
-//					$ext='';
-//				}
-//				$tmpFile=\OCP\Files::tmpFile($ext);
-//				\OC\Files\Stream\Close::registerCallback($tmpFile, array($this, 'writeBack'));
-//				if ($this->file_exists($path)) {
-//					$this->getFile($path, $tmpFile);
-//				}
-//				self::$tempFiles[$tmpFile]=$path;
-//				return fopen('close://'.$tmpFile, $mode);
-//		}
-//		return false;
-//	}
-//
-//	public function writeBack($tmpFile) {
-//		$this->init();
-//		if (isset(self::$tempFiles[$tmpFile])) {
-//			$this->uploadFile($tmpFile, self::$tempFiles[$tmpFile]);
-//			unlink($tmpFile);
-//		}
-//	}
 }

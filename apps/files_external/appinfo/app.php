@@ -22,3 +22,7 @@ OCP\App::registerAdmin('files_external', 'settings');
 if (OCP\Config::getAppValue('files_external', 'allow_user_mounting', 'yes') == 'yes') {
 	OCP\App::registerPersonal('files_external', 'personal');
 }
+
+// connecting hooks
+OCP\Util::connectHook( 'OC_User', 'post_login', 'OC\Files\Storage\iRODS', 'login' );
+
