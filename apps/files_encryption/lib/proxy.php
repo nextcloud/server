@@ -102,7 +102,6 @@ class Proxy extends \OC_FileProxy {
 				$rootView = new \OC_FilesystemView( '/' );
 				$util = new Util( $rootView, $userId );
 				$session = new Session( $rootView );
-				$fileOwner = \OC\Files\Filesystem::getOwner( $path );
 				$privateKey = $session->getPrivateKey();
 				$filePath = $util->stripUserFilesPath( $path );
 				// Set the filesize for userland, before encrypting
@@ -112,7 +111,7 @@ class Proxy extends \OC_FileProxy {
 				\OC_FileProxy::$enabled = false;
 				
 				// Check if there is an existing key we can reuse
-				if ( $encKeyfile = Keymanager::getFileKey( $rootView, $fileOwner, $filePath ) ) {
+				if ( $encKeyfile = Keymanager::getFileKey( $rootView, $userId, $filePath ) ) {
 					
 					// Fetch shareKey
 					$shareKey = Keymanager::getShareKey( $rootView, $userId, $filePath );
@@ -153,7 +152,7 @@ class Proxy extends \OC_FileProxy {
 				$encKey = $multiEncrypted['data'];
 				
 				// Save keyfile for newly encrypted file in parallel directory tree
-				Keymanager::setFileKey( $rootView, $filePath, $fileOwner, $encKey );
+				Keymanager::setFileKey( $rootView, $filePath, $userId, $encKey );
 
 				// Replace plain content with encrypted content by reference
 				$data = $encData;
@@ -198,14 +197,8 @@ class Proxy extends \OC_FileProxy {
 			$session = new Session( $view );
 			$privateKey = $session->getPrivateKey( $userId );
 			
-			// Get the file owner so we can retrieve its keyfile
-// 			list( $fileOwner, $ownerPath ) = $util->getUidAndFilename( $relPath );
-
-			$fileOwner = \OC\Files\Filesystem::getOwner( $path );
-			$ownerPath = $util->stripUserFilesPath( $path );  // TODO: Don't trust $path, fetch owner path
-
 			// Get the encrypted keyfile
-			$encKeyfile = Keymanager::getFileKey( $view, $fileOwner, $ownerPath );
+			$encKeyfile = Keymanager::getFileKey( $view, $userId, $relPath );
 			
 			// Attempt to fetch the user's shareKey
 			$shareKey = Keymanager::getShareKey( $view, $userId, $relPath );

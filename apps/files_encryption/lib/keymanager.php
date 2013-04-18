@@ -107,11 +107,13 @@ class Keymanager {
 	public static function setFileKey( \OC_FilesystemView $view, $path, $userId, $catfile ) {
 		
 		\OC_FileProxy::$enabled = false;
+
+		$util = new Util($view, $userId);
+		list($owner, $filename) = $util->getUidAndFilename($path);
+
+		$basePath = '/' . $owner . '/files_encryption/keyfiles';
 		
-		\OC\Files\Filesystem::initMountPoints($userId);
-		$basePath = '/' . $userId . '/files_encryption/keyfiles';
-		
-		$targetPath = self::keySetPreparation( $view, $path, $basePath, $userId );
+		$targetPath = self::keySetPreparation( $view, $filename, $basePath, $owner );
 		
 		if ( !$view->is_dir( $basePath . '/' . $targetPath ) ) {
 
@@ -166,10 +168,11 @@ class Keymanager {
 	 */
 	public static function getFileKey( \OC_FilesystemView $view, $userId, $filePath ) {
 		
-		\OC\Files\Filesystem::initMountPoints($userId);
-		$filePath_f = ltrim( $filePath, '/' );
+		$util = new Util($view, $userId);
+		list($owner, $filename) = $util->getUidAndFilename($filePath);
+		$filePath_f = ltrim( $filename, '/' );
 		
-		$keyfilePath = '/' . $userId . '/files_encryption/keyfiles/' . $filePath_f . '.key';
+		$keyfilePath = '/' . $owner . '/files_encryption/keyfiles/' . $filePath_f . '.key';
 		
 		\OC_FileProxy::$enabled = false;
 		
