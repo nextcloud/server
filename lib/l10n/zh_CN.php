@@ -18,7 +18,6 @@
 "Images" => "图片",
 "Set an admin username." => "请设置一个管理员用户名。",
 "Set an admin password." => "请设置一个管理员密码。",
-"Specify a data folder." => "请指定一个数据目录。",
 "%s enter the database username." => "%s 输入数据库用户名。",
 "%s enter the database name." => "%s 输入数据库名称。",
 "%s you may not use dots in the database name" => "%s 您不能在数据库名称中使用英文句号。",

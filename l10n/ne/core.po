@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-22 00:03+0100\n"
-"PO-Revision-Date: 2013-03-21 23:03+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Nepali (http://www.transifex.com/projects/p/owncloud/language/ne/)\n"
 "MIME-Version: 1.0\n"
@@ -160,76 +160,76 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: js/js.js:779
+#: js/js.js:718
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:780
+#: js/js.js:719
 msgid "1 minute ago"
 msgstr ""
 
-#: js/js.js:781
+#: js/js.js:720
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:782
+#: js/js.js:721
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:783
+#: js/js.js:722
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:784
+#: js/js.js:723
 msgid "today"
 msgstr ""
 
-#: js/js.js:785
+#: js/js.js:724
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:786
+#: js/js.js:725
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:787
+#: js/js.js:726
 msgid "last month"
 msgstr ""
 
-#: js/js.js:788
+#: js/js.js:727
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:789
+#: js/js.js:728
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:790
+#: js/js.js:729
 msgid "last year"
 msgstr ""
 
-#: js/js.js:791
+#: js/js.js:730
 msgid "years ago"
 msgstr ""
 
-#: js/oc-dialogs.js:126
-msgid "Choose"
+#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
+msgid "Ok"
 msgstr ""
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
 msgstr ""
 
-#: js/oc-dialogs.js:162
-msgid "No"
+#: js/oc-dialogs.js:185
+msgid "Choose"
 msgstr ""
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:215
 msgid "Yes"
 msgstr ""
 
-#: js/oc-dialogs.js:180
-msgid "Ok"
+#: js/oc-dialogs.js:222
+msgid "No"
 msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
@@ -237,9 +237,11 @@ msgstr ""
 msgid "The object type is not specified."
 msgstr ""
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
-#: js/share.js:578
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr ""
 
@@ -259,7 +261,7 @@ msgstr ""
 msgid "Share"
 msgstr ""
 
-#: js/share.js:125 js/share.js:606
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr ""
 
@@ -319,59 +321,59 @@ msgstr ""
 msgid "No people found"
 msgstr ""
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr ""
 
-#: js/share.js:276
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:297
+#: js/share.js:308
 msgid "Unshare"
 msgstr ""
 
-#: js/share.js:309
+#: js/share.js:320
 msgid "can edit"
 msgstr ""
 
-#: js/share.js:311
+#: js/share.js:322
 msgid "access control"
 msgstr ""
 
-#: js/share.js:314
+#: js/share.js:325
 msgid "create"
 msgstr ""
 
-#: js/share.js:317
+#: js/share.js:328
 msgid "update"
 msgstr ""
 
-#: js/share.js:320
+#: js/share.js:331
 msgid "delete"
 msgstr ""
 
-#: js/share.js:323
+#: js/share.js:334
 msgid "share"
 msgstr ""
 
-#: js/share.js:357 js/share.js:553
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr ""
 
-#: js/share.js:566
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:578
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:593
+#: js/share.js:604
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:604
+#: js/share.js:615
 msgid "Email sent"
 msgstr ""
 
@@ -531,23 +533,23 @@ msgstr ""
 msgid "Database user"
 msgstr ""
 
-#: templates/installation.php:141
+#: templates/installation.php:143
 msgid "Database password"
 msgstr ""
 
-#: templates/installation.php:146
+#: templates/installation.php:148
 msgid "Database name"
 msgstr ""
 
-#: templates/installation.php:156
+#: templates/installation.php:158
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:163
+#: templates/installation.php:165
 msgid "Database host"
 msgstr ""
 
-#: templates/installation.php:169
+#: templates/installation.php:171
 msgid "Finish setup"
 msgstr ""
 

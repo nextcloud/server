@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-09 02:10+0200\n"
-"PO-Revision-Date: 2013-04-08 02:20+0000\n"
+"POT-Creation-Date: 2013-04-17 02:21+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -124,48 +124,48 @@ msgstr "更新 app 时出错"
 msgid "Updated"
 msgstr "已更新"
 
-#: js/personal.js:99
+#: js/personal.js:109
 msgid "Saving..."
 msgstr "正在保存"
 
-#: js/users.js:31
+#: js/users.js:43
 msgid "deleted"
 msgstr "已经删除"
 
-#: js/users.js:31
+#: js/users.js:43
 msgid "undo"
 msgstr "撤销"
 
-#: js/users.js:63
+#: js/users.js:75
 msgid "Unable to remove user"
 msgstr "无法移除用户"
 
-#: js/users.js:76 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "组"
 
-#: js/users.js:79 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "组管理员"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr "删除"
 
-#: js/users.js:243
+#: js/users.js:262
 msgid "add group"
 msgstr "添加组"
 
-#: js/users.js:407
+#: js/users.js:414
 msgid "A valid username must be provided"
 msgstr "必须提供合法的用户名"
 
-#: js/users.js:408 js/users.js:414 js/users.js:429
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
 msgstr "创建用户出错"
 
-#: js/users.js:413
+#: js/users.js:420
 msgid "A valid password must be provided"
 msgstr "必须提供合法的密码"
 

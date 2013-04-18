@@ -55,7 +55,7 @@
 "0 is unlimited" => "0を指定した場合は無制限",
 "Maximum input size for ZIP files" => "ZIPファイルへの最大入力サイズ",
 "Save" => "保存",
-"New" => "新規",
+"New" => "新規作成",
 "Text file" => "テキストファイル",
 "Folder" => "フォルダ",
 "From link" => "リンク",

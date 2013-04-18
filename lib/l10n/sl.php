@@ -18,7 +18,6 @@
 "Images" => "Slike",
 "Set an admin username." => "Nastavi uporabniško ime skrbnika.",
 "Set an admin password." => "Nastavi geslo skrbnika.",
-"Specify a data folder." => "Določi podatkovno mapo.",
 "%s enter the database username." => "%s - vnos uporabniškega imena podatkovne zbirke.",
 "%s enter the database name." => "%s - vnos imena podatkovne zbirke.",
 "%s you may not use dots in the database name" => "%s - v imenu podatkovne zbirke ni dovoljeno uporabljati pik.",

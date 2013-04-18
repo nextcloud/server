@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <>, 2012.
-# Matej Urbančič <>, 2013.
-# Peter Peroša <peter.perosa@gmail.com>, 2012.
+# mateju <>, 2012
+# mateju <>, 2013
+# Peter Peroša <peter.perosa@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-06 00:04+0200\n"
-"PO-Revision-Date: 2013-04-05 17:40+0000\n"
-"Last-Translator: mateju <>\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,10 +95,6 @@ msgstr "Nastavi uporabniško ime skrbnika."
 #: setup.php:37
 msgid "Set an admin password."
 msgstr "Nastavi geslo skrbnika."
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "Določi podatkovno mapo."
 
 #: setup.php:55
 #, php-format

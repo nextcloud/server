@@ -18,7 +18,6 @@
 "Images" => "Gambar",
 "Set an admin username." => "Setel nama pengguna admin.",
 "Set an admin password." => "Setel sandi admin.",
-"Specify a data folder." => "Tentukan folder data.",
 "%s enter the database username." => "%s masukkan nama pengguna basis data.",
 "%s enter the database name." => "%s masukkan nama basis data.",
 "%s you may not use dots in the database name" => "%sAnda tidak boleh menggunakan karakter titik pada nama basis data",

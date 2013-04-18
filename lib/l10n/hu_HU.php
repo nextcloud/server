@@ -18,7 +18,6 @@
 "Images" => "Képek",
 "Set an admin username." => "Állítson be egy felhasználói nevet az adminisztrációhoz.",
 "Set an admin password." => "Állítson be egy jelszót az adminisztrációhoz.",
-"Specify a data folder." => "Adja meg az adatokat tartalmazó könyvtár nevét.",
 "%s enter the database username." => "%s adja meg az adatbázist elérő felhasználó login nevét.",
 "%s enter the database name." => "%s adja meg az adatbázis nevét.",
 "%s you may not use dots in the database name" => "%s az adatbázis neve nem tartalmazhat pontot",

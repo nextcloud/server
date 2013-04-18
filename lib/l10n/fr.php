@@ -18,7 +18,6 @@
 "Images" => "Images",
 "Set an admin username." => "Spécifiez un nom d'utilisateur pour l'administrateur.",
 "Set an admin password." => "Spécifiez un mot de passe administrateur.",
-"Specify a data folder." => "Spécifiez un répertoire pour les données.",
 "%s enter the database username." => "%s entrez le nom d'utilisateur de la base de données.",
 "%s enter the database name." => "%s entrez le nom de la base de données.",
 "%s you may not use dots in the database name" => "%s vous nez pouvez pas utiliser de points dans le nom de la base de données",

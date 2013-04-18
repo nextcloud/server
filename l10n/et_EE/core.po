@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-10 02:08+0200\n"
-"PO-Revision-Date: 2013-04-09 09:40+0000\n"
-"Last-Translator: pisike.sipelgas <pisike.sipelgas@gmail.com>\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -162,55 +162,55 @@ msgstr "Detsember"
 msgid "Settings"
 msgstr "Seaded"
 
-#: js/js.js:707
+#: js/js.js:718
 msgid "seconds ago"
 msgstr "sekundit tagasi"
 
-#: js/js.js:708
+#: js/js.js:719
 msgid "1 minute ago"
 msgstr "1 minut tagasi"
 
-#: js/js.js:709
+#: js/js.js:720
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minutit tagasi"
 
-#: js/js.js:710
+#: js/js.js:721
 msgid "1 hour ago"
 msgstr "1 tund tagasi"
 
-#: js/js.js:711
+#: js/js.js:722
 msgid "{hours} hours ago"
 msgstr "{hours} tundi tagasi"
 
-#: js/js.js:712
+#: js/js.js:723
 msgid "today"
 msgstr "täna"
 
-#: js/js.js:713
+#: js/js.js:724
 msgid "yesterday"
 msgstr "eile"
 
-#: js/js.js:714
+#: js/js.js:725
 msgid "{days} days ago"
 msgstr "{days} päeva tagasi"
 
-#: js/js.js:715
+#: js/js.js:726
 msgid "last month"
 msgstr "viimasel kuul"
 
-#: js/js.js:716
+#: js/js.js:727
 msgid "{months} months ago"
 msgstr "{months} kuud tagasi"
 
-#: js/js.js:717
+#: js/js.js:728
 msgid "months ago"
 msgstr "kuu tagasi"
 
-#: js/js.js:718
+#: js/js.js:729
 msgid "last year"
 msgstr "viimasel aastal"
 
-#: js/js.js:719
+#: js/js.js:730
 msgid "years ago"
 msgstr "aastat tagasi"
 
@@ -535,23 +535,23 @@ msgstr "kasutatakse"
 msgid "Database user"
 msgstr "Andmebaasi kasutaja"
 
-#: templates/installation.php:141
+#: templates/installation.php:143
 msgid "Database password"
 msgstr "Andmebaasi parool"
 
-#: templates/installation.php:146
+#: templates/installation.php:148
 msgid "Database name"
 msgstr "Andmebasi nimi"
 
-#: templates/installation.php:156
+#: templates/installation.php:158
 msgid "Database tablespace"
 msgstr "Andmebaasi tabeliruum"
 
-#: templates/installation.php:163
+#: templates/installation.php:165
 msgid "Database host"
 msgstr "Andmebaasi host"
 
-#: templates/installation.php:169
+#: templates/installation.php:171
 msgid "Finish setup"
 msgstr "Lõpeta seadistamine"
 

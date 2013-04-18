@@ -18,7 +18,6 @@
 "Images" => "Εικόνες",
 "Set an admin username." => "Εισάγετε όνομα χρήστη διαχειριστή.",
 "Set an admin password." => "Εισάγετε συνθηματικό διαχειριστή.",
-"Specify a data folder." => "Καθορίστε τον φάκελο δεδομένων.",
 "%s enter the database username." => "%s εισάγετε το όνομα χρήστη της βάσης δεδομένων.",
 "%s enter the database name." => "%s εισάγετε το όνομα της βάσης δεδομένων.",
 "%s you may not use dots in the database name" => "%s μάλλον δεν χρησιμοποιείτε τελείες στο όνομα της βάσης δεδομένων",

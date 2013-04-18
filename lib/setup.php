@@ -37,7 +37,7 @@ class OC_Setup {
 			$error[] = $l->t('Set an admin password.');
 		}
 		if(empty($options['directory'])) {
-			$error[] = $l->t('Specify a data folder.');
+			$options['directory'] = OC::$SERVERROOT."/data";
 		}
 
 		if($dbtype == 'mysql' or $dbtype == 'pgsql' or $dbtype == 'oci' or $dbtype == 'mssql') { //mysql and postgresql needs more config options

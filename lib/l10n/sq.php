@@ -18,7 +18,6 @@
 "Images" => "Foto",
 "Set an admin username." => "Cakto emrin e administratorit.",
 "Set an admin password." => "Cakto kodin e administratorit.",
-"Specify a data folder." => "Specifiko dosjen e të dhënave.",
 "%s enter the database username." => "% shkruani përdoruesin e database-it.",
 "%s enter the database name." => "%s shkruani emrin e database-it.",
 "%s you may not use dots in the database name" => "%s nuk mund të përdorni pikat tek emri i database-it",

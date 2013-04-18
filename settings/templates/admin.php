@@ -214,7 +214,11 @@ endfor;?>
 				<?php p($entry->message);?>
 			</td>
 			<td>
-				<?php p(OC_Util::formatDate($entry->time));?>
+				<?php if(is_int($entry->time)){
+					p(OC_Util::formatDate($entry->time)); 
+				} else {
+					p($entry->time);
+				}?>
 			</td>
 		</tr>
 		<?php endforeach;?>

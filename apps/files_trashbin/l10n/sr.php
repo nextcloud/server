@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "perform restore operation" => "врати у претходно стање",
 "Error" => "Грешка",
+"Delete permanently" => "Обриши за стално",
 "Name" => "Име",
 "Deleted" => "Обрисано",
 "1 folder" => "1 фасцикла",

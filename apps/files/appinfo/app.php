@@ -12,3 +12,10 @@ OCP\App::addNavigationEntry( array( "id" => "files_index",
 									"name" => $l->t("Files") ));
 
 OC_Search::registerProvider('OC_Search_Provider_File');
+
+// cache hooks must be connected before all other apps.
+// since 'files' is always loaded first the hooks need to be connected here
+\OC_Hook::connect('OC_Filesystem', 'post_write', '\OC\Files\Cache\Updater', 'writeHook');
+\OC_Hook::connect('OC_Filesystem', 'post_touch', '\OC\Files\Cache\Updater', 'touchHook');
+\OC_Hook::connect('OC_Filesystem', 'post_delete', '\OC\Files\Cache\Updater', 'deleteHook');
+\OC_Hook::connect('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Updater', 'renameHook');

@@ -25,6 +25,7 @@
 "undo" => "annuler",
 "perform delete operation" => "effectuer l'opération de suppression",
 "1 file uploading" => "1 fichier en cours de téléchargement",
+"files uploading" => "fichiers en cours de téléchargement",
 "'.' is an invalid file name." => "'.' n'est pas un nom de fichier valide.",
 "File name cannot be empty." => "Le nom de fichier ne peut être vide.",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "Nom invalide, les caractères '\\', '/', '<', '>', ':', '\"', '|', '?' et '*' ne sont pas autorisés.",

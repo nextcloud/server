@@ -910,7 +910,6 @@
 				<name>displayname</name>
 				<type>text</type>
 				<default></default>
-				<notnull>true</notnull>
 				<length>64</length>
 			</field>
 
