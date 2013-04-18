@@ -950,7 +950,7 @@ class Util {
 		// Check that the filename we're using is working
 		if ( $this->view->file_exists( $relpath ) ) {
 		
-			return array ( $fileOwnerUid, $relpath );
+			return array ( $fileOwnerUid, $filename );
 			
 		} else {
 		
