@@ -240,22 +240,27 @@ class Hooks {
 		// [shareType] => 0
 		// [shareWith] => test1
 	
-		// TODO: Should other kinds of item be encrypted too?
-		if ( $params['itemType'] === 'file' ) {
+		if ( $params['itemType'] === 'file' ||  $params['itemType'] === 'folder' ) {
 		
 			$view = new \OC_FilesystemView( '/' );
-			$session = new Session();
+			$session = new Session($view);
 			$userId = \OCP\User::getUser();
 			$util = new Util( $view, $userId );
 			$path = $util->fileIdToPath( $params['itemSource'] );
-		
+
+			if ($params['shareType'] == \OCP\Share::SHARE_TYPE_GROUP) {
+				$userIds = \OC_Group::usersInGroup($params['shareWith']);
+			} else {
+				$userIds = array($params['shareWith']);
+			}
+
 			// If path is a folder, get all children
 			$allPaths = $util->getPaths( $path );
 			
 			foreach ( $allPaths as $path ) {
 			
 				// Unshare each child path
-				if ( ! Keymanager::delShareKey( $view, $params['shareWith'], $path ) ) {
+				if ( ! Keymanager::delShareKey( $view, $userIds, $path ) ) {
 				
 					$failed[] = $path;
 					

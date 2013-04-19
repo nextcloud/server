@@ -395,27 +395,28 @@ class Keymanager {
 	/**
 	 * @brief Delete a single user's shareKey for a single file
 	 */
-	public static function delShareKey( \OC_FilesystemView $view, $userId, $filePath ) {
+	public static function delShareKey( \OC_FilesystemView $view, $userIds, $filePath ) {
 		
 		\OC_FileProxy::$enabled = false;
 
-		$shareKeyPath = '/' . $userId . '/files_encryption/share-keys/' . $filePath;
+		//here we need the currently logged in user, while userId can be a different user
+		$util = new Util( $view, \OCP\User::getUser() );
+
+		list($owner, $filename) = $util->getUidAndFilename($filePath);
+
+		$shareKeyPath = '/' . $owner . '/files_encryption/share-keys/' . $filename;
 
 		$result = false;
 
 		if ( $view->is_dir($shareKeyPath) ) {
-			$result = $view->unlink($shareKeyPath);
+
+			$localPath = \OC_Filesystem::normalizePath($view->getLocalFolder($shareKeyPath));
+			$result = self::recursiveDelShareKeys($localPath, $userIds);
+
 		} else {
-			$absPath = $view->getLocalFile($shareKeyPath);
 
-			$matches = glob(preg_quote($absPath).'.*.shareKey' );
-
-			if ( $matches ) {
-
-				foreach ( $matches as $ma ) {
-					unlink($ma);
-				}
-
+			foreach ($userIds as $userId) {
+				$view->unlink($shareKeyPath.'.'.$userId.'.shareKey');
 			}
 
 			$result = true;
@@ -432,7 +433,28 @@ class Keymanager {
 		return $result;
 		
 	}
-	
+
+	/**
+	 * @brief recursively delete share keys from given users
+	 *
+	 * @param type $dir directory
+	 * @param type $userIds user ids for which the share keys should be deleted
+	 */
+	private static function recursiveDelShareKeys($dir, $userIds) {
+		foreach ($userIds as $userId) {
+			$completePath = $dir.'/.*'.'.'.$userId.'.shareKey';
+			$matches = glob(preg_quote($dir).'/*'.preg_quote('.'.$userId.'.shareKey'));
+		}
+		foreach ($matches as $ma)  {
+			unlink($ma);
+		}
+		$subdirs = $directories = glob(preg_quote($dir) . '/*' , GLOB_ONLYDIR);
+		foreach ( $subdirs as $subdir ) {
+			self::recursiveDelShareKeys($subdir, $userIds);
+		}
+		return $true;
+	}
+
 	/**
 	 * @brief Make preparations to vars and filesystem for saving a keyfile
 	 */
