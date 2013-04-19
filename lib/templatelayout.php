@@ -173,18 +173,15 @@ class OC_TemplateLayout extends OC_Template {
 
 			}else{
 				// Is it part of an app?
-				$append = false;
-				foreach( OC::$APPSROOTS as $apps_dir) {
-					if(self::appendIfExist($files, $apps_dir['path'], OC::$WEBROOT.$apps_dir['url'], "$script$fext.js")) {
-						$append = true;
-						break;
-					}
-					elseif(self::appendIfExist($files, $apps_dir['path'], OC::$WEBROOT.$apps_dir['url'], "$script.js")) {
-						$append = true;
-						break;
-					}
+				$app = substr($script, 0, strpos($script, '/'));
+				$script = substr($script, strpos($script, '/')+1);
+				$app_path = OC_App::getAppPath($app);
+				$app_url = OC_App::getAppWebPath($app);
+				if(self::appendIfExist($files, $app_path, $app_url, "$script$fext.js")) {
 				}
-				if(! $append) {
+				elseif(self::appendIfExist($files, $app_path, $app_url, "$script.js")) {
+				}
+				else {
 					echo('js file not found: script:'.$script.' formfactor:'.$fext
 						.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 					die();
