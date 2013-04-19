@@ -212,49 +212,10 @@ class Trashbin {
 			} else {
 				$trashbinSize -= $view->filesize($target.$ext);
 			}
-			// if versioning app is enabled, copy versions from the trash bin back to the original location
-			if ( \OCP\App::isEnabled('files_versions') ) {
-				if ($timestamp ) {
-					$versionedFile = $filename;
-				} else {
-					$versionedFile = $file;
-				}
-				if ( $result[0]['type'] === 'dir' ) {
-					$trashbinSize -= self::calculateSize(new \OC\Files\View('/'.$user.'/'.'files_trashbin/versions/'. $file));
-					$view->rename(\OC\Files\Filesystem::normalizePath('files_trashbin/versions/'. $file), \OC\Files\Filesystem::normalizePath('files_versions/'.$location.'/'.$filename.$ext));
-				} else if ( $versions = self::getVersionsFromTrash($versionedFile, $timestamp) ) {
-					foreach ($versions as $v) {
-						if ($timestamp ) {
-							$trashbinSize -= $view->filesize('files_trashbin/versions/'.$versionedFile.'.v'.$v.'.d'.$timestamp);
-							$view->rename('files_trashbin/versions/'.$versionedFile.'.v'.$v.'.d'.$timestamp, 'files_versions/'.$location.'/'.$filename.$ext.'.v'.$v);
-						} else {
-							$trashbinSize -= $view->filesize('files_trashbin/versions/'.$versionedFile.'.v'.$v);
-							$view->rename('files_trashbin/versions/'.$versionedFile.'.v'.$v, 'files_versions/'.$location.'/'.$filename.$ext.'.v'.$v);
-						}
-					}
-				}
-			}
-			
-			// Take care of encryption keys TODO! Get '.key' in file between file name and delete date (also for permanent delete!)
-			$parts = pathinfo($file);
-			if ( $result[0]['type'] === 'dir' ) {
-				$keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/'.$parts['dirname'].'/'.$filename);
-			} else {
-				$keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/'.$parts['dirname'].'/'.$filename.'.key');
-			}
-			if ($timestamp) {
-				$keyfile .= '.d'.$timestamp;
-			}
-			if ( \OCP\App::isEnabled('files_encryption') && $view->file_exists($keyfile) ) {
-				if ( $result[0]['type'] === 'dir' ) {
-					$trashbinSize -= self::calculateSize(new \OC\Files\View('/'.$user.'/'.$keyfile));
-					$view->rename($keyfile, 'files_encryption/keyfiles/'. $location.'/'.$filename);
-				} else {
-					$trashbinSize -= $view->filesize($keyfile);
-					$view->rename($keyfile, 'files_encryption/keyfiles/'. $location.'/'.$filename.'.key');
-				}
-			}
-			
+
+			$trashbinSize -= self::restoreVersions($view, $file, $filename, $ext, $location, $timestamp);
+			$trashbinSize -= self::restoreEncryptionKeys($view, $file, $filename, $ext, $location, $timestamp);
+
 			if ( $timestamp ) {
 				$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=? AND `id`=? AND `timestamp`=?');
 				$query->execute(array($user,$filename,$timestamp));
@@ -263,11 +224,77 @@ class Trashbin {
 			self::setTrashbinSize($user, $trashbinSize);
 			
 			return true;
-		} else {
-			\OC_Log::write('files_trashbin', 'Couldn\'t restore file from trash bin, '.$filename, \OC_log::ERROR);
 		}
 
 		return false;
+	}
+
+		/**
+	 * @brief restore versions from trash bin
+	 *
+	 * @param $view file view
+	 * @param $file complete path to file
+	 * @param $filename name of file
+	 * @param $ext file extension in case a file with the same $filename already exists
+	 * @param $location location if file
+	 * @param $timestamp deleteion time
+	 * @return size of restored versions
+	 */
+	private static function restoreVersions($view, $file, $filename, $ext, $location, $timestamp) {
+		$size = 0;
+		if (\OCP\App::isEnabled('files_versions')) {
+			$user = \OCP\User::getUser();
+			if ($timestamp) {
+				$versionedFile = $filename;
+			} else {
+				$versionedFile = $file;
+			}
+			if ($result[0]['type'] === 'dir') {
+				$size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . 'files_trashbin/versions/' . $file));
+				$view->rename(\OC\Files\Filesystem::normalizePath('files_trashbin/versions/' . $file), \OC\Files\Filesystem::normalizePath('files_versions/' . $location . '/' . $filename . $ext));
+			} else if ($versions = self::getVersionsFromTrash($versionedFile, $timestamp)) {
+				foreach ($versions as $v) {
+					if ($timestamp) {
+						$size += $view->filesize('files_trashbin/versions/' . $versionedFile . '.v' . $v . '.d' . $timestamp);
+						$view->rename('files_trashbin/versions/' . $versionedFile . '.v' . $v . '.d' . $timestamp, 'files_versions/' . $location . '/' . $filename . $ext . '.v' . $v);
+					} else {
+						$size += $view->filesize('files_trashbin/versions/' . $versionedFile . '.v' . $v);
+						$view->rename('files_trashbin/versions/' . $versionedFile . '.v' . $v, 'files_versions/' . $location . '/' . $filename . $ext . '.v' . $v);
+					}
+				}
+			}
+		}
+		return $size;
+	}
+
+	private static function restoreEncryptionKeys($view, $file, $filename, $ext, $location, $timestamp) {
+		// Take care of encryption keys TODO! Get '.key' in file between file name and delete date (also for permanent delete!)
+		$size = 0;
+		if (\OCP\App::isEnabled('files_encryption')) {
+			$user = \OCP\User::getUser();
+			if ($view->file_exists($keyfile)) {
+				$parts = pathinfo($file);
+				if ($result[0]['type'] === 'dir') {
+					$keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/' . $parts['dirname'] . '/' . $filename);
+				} else {
+					$keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/' . $parts['dirname'] . '/' . $filename . '.key');
+				}
+				if ($timestamp) {
+					$keyfile .= '.d' . $timestamp;
+				}
+				if ($result[0]['type'] === 'dir') {
+					$size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $keyfile));
+					$view->rename($keyfile, 'files_encryption/keyfiles/' . $location . '/' . $filename);
+				} else {
+					$size += $view->filesize($keyfile);
+					$view->rename($keyfile, 'files_encryption/keyfiles/' . $location . '/' . $filename . '.key');
+				}
+			}
+
+			//TODO restore share-keys
+			//...
+		}
+		return $size;
 	}
 
 	/**
