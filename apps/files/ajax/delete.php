@@ -8,7 +8,7 @@ OCP\JSON::callCheck();
 
 // Get data
 $dir = stripslashes($_POST["dir"]);
-$files = isset($_POST["file"]) ? stripslashes($_POST["file"]) : stripslashes($_POST["files"]);
+$files = isset($_POST["file"]) ? $_POST["file"] : $_POST["files"];
 
 $files = json_decode($files);
 $filesWithError = '';
