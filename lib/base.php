@@ -561,7 +561,11 @@ class OC {
 	 */
 	public static function registerCacheHooks() {
 		// register cache cleanup jobs
-		\OCP\BackgroundJob::registerJob('OC_Cache_FileGlobalGC');
+		try { //if this is executed before the upgrade to the new backgroundjob system is completed it will throw an exception
+			\OCP\BackgroundJob::registerJob('OC_Cache_FileGlobalGC');
+		} catch (Exception $e) {
+
+		}
 		OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
 	}
 
