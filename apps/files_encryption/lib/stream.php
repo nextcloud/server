@@ -513,7 +513,7 @@ class Stream {
 		and $this->meta['mode']!='rb' 
 		) {
 			
-			\OC\Files\Filesystem::putFileInfo( $this->path, array( 'encrypted' => true, 'size' => $this->size ), '' );
+			\OC\Files\Filesystem::putFileInfo( $this->relPath, array( 'encrypted' => true, 'size' => $this->size ), '' );
 
 		}
 		
