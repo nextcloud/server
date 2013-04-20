@@ -94,7 +94,11 @@ if (OC::$CLI) {
 	touch(TemporaryCronClass::$lockfile);
 
 	// Work
-	OC_BackgroundJob_Worker::doAllSteps();
+	$jobList = new \OC\BackgroundJob\JobList();
+	$jobs = $jobList->getAll();
+	foreach ($jobs as $job) {
+		$job->execute($jobList);
+	}
 } else {
 	// We call cron.php from some website
 	if ($appmode == 'cron') {
@@ -102,7 +106,10 @@ if (OC::$CLI) {
 		OC_JSON::error(array('data' => array('message' => 'Backgroundjobs are using system cron!')));
 	} else {
 		// Work and success :-)
-		OC_BackgroundJob_Worker::doNextStep();
+		$jobList = new \OC\BackgroundJob\JobList();
+		$job = $jobList->getNext();
+		$job->execute($jobList);
+		$jobList->setLastJob($job);
 		OC_JSON::success();
 	}
 }

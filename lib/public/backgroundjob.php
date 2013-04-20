@@ -59,7 +59,7 @@ class BackgroundJob {
 
 	/**
 	 * @brief sets the background jobs execution type
-	 * @param $type execution type
+	 * @param string $type execution type
 	 * @return boolean
 	 *
 	 * This method sets the execution type of the background jobs. Possible types
@@ -70,71 +70,12 @@ class BackgroundJob {
 	}
 
 	/**
-	 * @brief creates a regular task
-	 * @param $klass class name
-	 * @param $method method name
-	 * @return true
+	 * @param \OC\BackgroundJob\Job|string $job
+	 * @param mixed $argument
 	 */
-	public static function addRegularTask( $klass, $method ) {
-		return \OC_BackgroundJob_RegularTask::register( $klass, $method );
+	public static function registerJob($job, $argument = null){
+		$jobList = new \OC\BackgroundJob\JobList();
+		$jobList->add($job, $argument);
 	}
 
-	/**
-	 * @brief gets all regular tasks
-	 * @return associative array
-	 *
-	 * key is string "$klass-$method", value is array( $klass, $method )
-	 */
-	static public function allRegularTasks() {
-		return \OC_BackgroundJob_RegularTask::all();
-	}
-
-	/**
-	 * @brief Gets one queued task
-	 * @param $id ID of the task
-	 * @return associative array
-	 */
-	public static function findQueuedTask( $id ) {
-		return \OC_BackgroundJob_QueuedTask::find( $id );
-	}
-
-	/**
-	 * @brief Gets all queued tasks
-	 * @return array with associative arrays
-	 */
-	public static function allQueuedTasks() {
-		return \OC_BackgroundJob_QueuedTask::all();
-	}
-
-	/**
-	 * @brief Gets all queued tasks of a specific app
-	 * @param $app app name
-	 * @return array with associative arrays
-	 */
-	public static function queuedTaskWhereAppIs( $app ) {
-		return \OC_BackgroundJob_QueuedTask::whereAppIs( $app );
-	}
-
-	/**
-	 * @brief queues a task
-	 * @param $app app name
-	 * @param $klass class name
-	 * @param $method method name
-	 * @param $parameters all useful data as text
-	 * @return id of task
-	 */
-	public static function addQueuedTask( $app, $klass, $method, $parameters ) {
-		return \OC_BackgroundJob_QueuedTask::add( $app, $klass, $method, $parameters );
-	}
-
-	/**
-	 * @brief deletes a queued task
-	 * @param $id id of task
-	 * @return true/false
-	 *
-	 * Deletes a report
-	 */
-	public static function deleteQueuedTask( $id ) {
-		return \OC_BackgroundJob_QueuedTask::delete( $id );
-	}
 }

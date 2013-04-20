@@ -561,7 +561,7 @@ class OC {
 	 */
 	public static function registerCacheHooks() {
 		// register cache cleanup jobs
-		OC_BackgroundJob_RegularTask::register('OC_Cache_FileGlobal', 'gc');
+		\OCP\BackgroundJob::registerJob('OC_Cache_FileGlobalGC');
 		OC_Hook::connect('OC_User', 'post_login', 'OC_Cache_File', 'loginListener');
 	}
 
