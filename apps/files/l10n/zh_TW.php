@@ -34,7 +34,7 @@
 "Your download is being prepared. This might take some time if the files are big." => "正在準備您的下載，若您的檔案較大，將會需要更多時間。",
 "Unable to upload your file as it is a directory or has 0 bytes" => "無法上傳您的檔案因為它可能是一個目錄或檔案大小為0",
 "Not enough space available" => "沒有足夠的可用空間",
-"Upload cancelled." => "上傳取消",
+"Upload cancelled." => "上傳已取消",
 "File upload is in progress. Leaving the page now will cancel the upload." => "檔案上傳中。離開此頁面將會取消上傳。",
 "URL cannot be empty." => "URL 不能為空白。",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "無效的資料夾名稱，'Shared' 的使用被 ownCloud 保留",
