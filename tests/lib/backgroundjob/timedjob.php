@@ -13,7 +13,7 @@ class TestTimedJob extends \OC\BackgroundJob\TimedJob {
 		$this->setInterval(10);
 	}
 
-	public function run() {
+	public function run($argument) {
 		throw new JobRun(); //throw an exception so we can detect if this function is called
 	}
 }

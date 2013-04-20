@@ -26,17 +26,20 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 
 	/**
 	 * @param \OC\BackgroundJob\Job|string $job
+	 * @param mixed $argument
 	 */
-	public function add($job) {
-		if (!$this->has($job)) {
+	public function add($job, $argument = null) {
+		$job->setArgument($argument);
+		if (!$this->has($job, null)) {
 			$this->jobs[] = $job;
 		}
 	}
 
 	/**
 	 * @param \OC\BackgroundJob\Job|string $job
+	 * @param mixed $argument
 	 */
-	public function remove($job) {
+	public function remove($job, $argument = null) {
 		$index = array_search($job, $this->jobs);
 		if ($index !== false) {
 			unset($this->jobs[$index]);
@@ -47,9 +50,10 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	 * check if a job is in the list
 	 *
 	 * @param $job
+	 * @param mixed $argument
 	 * @return bool
 	 */
-	public function has($job) {
+	public function has($job, $argument) {
 		return array_search($job, $this->jobs) !== false;
 	}
 

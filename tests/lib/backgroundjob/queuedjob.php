@@ -9,7 +9,7 @@
 namespace Test\BackgroundJob;
 
 class TestQueuedJob extends \OC\BackgroundJob\QueuedJob {
-	public function run() {
+	public function run($argument) {
 		throw new JobRun(); //throw an exception so we can detect if this function is called
 	}
 }
@@ -32,11 +32,11 @@ class QueuedJob extends \PHPUnit_Framework_TestCase {
 
 	public function testJobShouldBeRemoved() {
 		try {
-			$this->assertTrue($this->jobList->has($this->job));
+			$this->assertTrue($this->jobList->has($this->job, null));
 			$this->job->execute($this->jobList);
 			$this->fail("job should have been run");
 		} catch (JobRun $e) {
-			$this->assertFalse($this->jobList->has($this->job));
+			$this->assertFalse($this->jobList->has($this->job, null));
 		}
 	}
 }
