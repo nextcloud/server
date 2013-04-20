@@ -517,6 +517,7 @@ class Cache {
 	/**
 	 * get the storage id of the storage for a file and the internal path of the file
 	 *
+	 * @param int $id
 	 * @return array, first element holding the storage id, second the path
 	 */
 	static public function getById($id) {
