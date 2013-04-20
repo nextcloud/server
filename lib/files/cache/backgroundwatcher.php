@@ -12,6 +12,18 @@ use \OC\Files\Mount;
 use \OC\Files\Filesystem;
 
 class BackgroundWatcher {
+	static $folderMimetype = null;
+
+	static private function getFolderMimetype() {
+		if (!is_null(self::$folderMimetype)) {
+			return self::$folderMimetype;
+		}
+		$query = \OC_DB::prepare('SELECT `id` FROM `*PREFIX*mimetypes` WHERE `mimetype` = ?');
+		$result = $query->execute(array('httpd/unix-directory'));
+		$row = $result->fetchRow();
+		return $row['id'];
+	}
+
 	static private function checkUpdate($id) {
 		$cacheItem = Cache::getById($id);
 		if (is_null($cacheItem)) {
@@ -42,10 +54,15 @@ class BackgroundWatcher {
 	 * get the next fileid in the cache
 	 *
 	 * @param int $previous
+	 * @param bool $folder
 	 * @return int
 	 */
-	static private function getNextFileId($previous) {
-		$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `fileid` > ? ORDER BY `fileid` ASC', 1);
+	static private function getNextFileId($previous, $folder) {
+		if ($folder) {
+			$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `fileid` > ? AND mimetype = ' . self::getFolderMimetype() . ' ORDER BY `fileid` ASC', 1);
+		} else {
+			$query = \OC_DB::prepare('SELECT `fileid` FROM `*PREFIX*filecache` WHERE `fileid` > ? AND mimetype != ' . self::getFolderMimetype() . ' ORDER BY `fileid` ASC', 1);
+		}
 		$result = $query->execute(array($previous));
 		if ($row = $result->fetchRow()) {
 			return $row['fileid'];
@@ -55,18 +72,32 @@ class BackgroundWatcher {
 	}
 
 	static public function checkNext() {
-		$previous = \OC_Appconfig::getValue('files', 'backgroundwatcher_previous', 0);
-		$next = self::getNextFileId($previous);
-		error_log($next);
-		\OC_Appconfig::setValue('files', 'backgroundwatcher_previous', $next);
-		self::checkUpdate($next);
+		// check both 1 file and 1 folder, this way new files are detected quicker because there are less folders than files usually
+		$previousFile = \OC_Appconfig::getValue('files', 'backgroundwatcher_previous_file', 0);
+		$previousFolder = \OC_Appconfig::getValue('files', 'backgroundwatcher_previous_folder', 0);
+		$nextFile = self::getNextFileId($previousFile, false);
+		$nextFolder = self::getNextFileId($previousFolder, true);
+		\OC_Appconfig::setValue('files', 'backgroundwatcher_previous_file', $nextFile);
+		\OC_Appconfig::setValue('files', 'backgroundwatcher_previous_folder', $nextFolder);
+		if ($nextFile > 0) {
+			self::checkUpdate($nextFile);
+		}
+		if ($nextFolder > 0) {
+			self::checkUpdate($nextFolder);
+		}
 	}
 
 	static public function checkAll() {
 		$previous = 0;
 		$next = 1;
 		while ($next != 0) {
-			$next = self::getNextFileId($previous);
+			$next = self::getNextFileId($previous, true);
+			self::checkUpdate($next);
+		}
+		$previous = 0;
+		$next = 1;
+		while ($next != 0) {
+			$next = self::getNextFileId($previous, false);
 			self::checkUpdate($next);
 		}
 	}
