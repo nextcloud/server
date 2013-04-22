@@ -668,7 +668,7 @@ class Util {
 			// public system user 'ownCloud' (for public shares)
 			if ( 
 				$util->ready() 
-				or $user == 'ownCloud' 
+				or $user == 'owncloud'
 			) {
 			
 				// Construct array of ready UIDs for Keymanager{}

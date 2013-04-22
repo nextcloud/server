@@ -200,7 +200,7 @@ class Share {
 			}
 			
 			if ($result->fetchRow()) {
-				$shares[] = "ownCloud";
+				$shares[] = "owncloud";
 			}
 		}
 		// Include owner in list of users, if requested
