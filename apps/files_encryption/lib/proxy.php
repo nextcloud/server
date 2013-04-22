@@ -237,6 +237,11 @@ class Proxy extends \OC_FileProxy {
 	 */
 	public function preUnlink( $path ) {
 	
+		// let the trashbin handle this  
+		if ( \OCP\App::isEnabled('files_trashbin') ) {
+		     return true;
+		}
+		
 		$path = Keymanager::fixPartialFilePath( $path );
 	
 		// Disable encryption proxy to prevent recursive calls
@@ -283,38 +288,54 @@ class Proxy extends \OC_FileProxy {
 	 * @return bool Result of rename()
 	 * @note This is pre rather than post because using post didn't work
 	 */
-	public function preRename( $oldPath, $newPath ) {
-		
-		// Disable encryption proxy to prevent recursive calls
-		\OC_FileProxy::$enabled = false;
-		
-		$view = new \OC_FilesystemView( '/' );
-		
-		$userId = \OCP\USER::getUser();
-	
-		// Format paths to be relative to user files dir
-		$oldTrimmed = ltrim( $oldPath, '/' );
-		$oldSplit = explode( '/', $oldTrimmed );
-		$oldSliced = array_slice( $oldSplit, 2 );
-		$oldRelPath = implode( '/', $oldSliced );
-		$oldKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $oldRelPath . '.key';
-		
-		$newTrimmed = ltrim( $newPath, '/' );
-		$newSplit = explode( '/', $newTrimmed );
-		$newSliced = array_slice( $newSplit, 2 );
-		$newRelPath = implode( '/', $newSliced );
-		$newKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $newRelPath . '.key';
-		
-		// Rename keyfile so it isn't orphaned
-		$result = $view->rename( $oldKeyfilePath, $newKeyfilePath );
-		
-		\OC_FileProxy::$enabled = true;
-		
-		return $result;
-	
-	}
-	
-	public function postFopen( $path, &$result ){
+	public function preRename( $oldPath, $newPath )
+    {
+
+        // Disable encryption proxy to prevent recursive calls
+        \OC_FileProxy::$enabled = false;
+
+        $view = new \OC_FilesystemView('/');
+
+        $userId = \OCP\USER::getUser();
+
+        // Format paths to be relative to user files dir
+        $oldTrimmed = ltrim($oldPath, '/');
+        $oldSplit = explode('/', $oldTrimmed);
+        $oldSliced = array_slice($oldSplit, 2);
+        $oldRelPath = implode('/', $oldSliced);
+        $oldKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $oldRelPath;
+
+
+        $newTrimmed = ltrim($newPath, '/');
+        $newSplit = explode('/', $newTrimmed);
+        $newSliced = array_slice($newSplit, 2);
+        $newRelPath = implode('/', $newSliced);
+        $newKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $newRelPath;
+
+        // add key ext if this is not an folder
+        if (!$view->is_dir($oldKeyfilePath)) {
+            $oldKeyfilePath .= '.key';
+            $newKeyfilePath .= '.key';
+        } else {
+            // handle share-keys folders
+            $oldShareKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $oldRelPath;
+            $newShareKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $newRelPath;
+            $view->rename($oldShareKeyfilePath, $newShareKeyfilePath);
+        }
+
+        //TODO add support for share-keys files
+        //...
+
+        // Rename keyfile so it isn't orphaned
+        $result = $view->rename($oldKeyfilePath, $newKeyfilePath);
+
+        \OC_FileProxy::$enabled = true;
+
+        return $result;
+
+    }
+
+    public function postFopen( $path, &$result ){
 	
 		if ( !$result ) {
 		
@@ -416,17 +437,55 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	public function postFileSize( $path, $size ) {
-		
-		if ( Crypt::isCatfileContent( $path ) ) {
-			
-			$cached = \OC\Files\Filesystem::getFileInfo( $path, '' );
-			
-			return  $cached['size'];
-		
-		} else {
-		
-			return $size;
-			
-		}
+
+        // Reformat path for use with OC_FSV
+        $path_split = explode('/', $path);
+        $path_f = implode('/', array_slice($path_split, 3));
+
+        $view = new \OC_FilesystemView( '/' );
+        $userId = \OCP\User::getUser();
+        $util = new Util( $view, $userId );
+
+        if ($util->isEncryptedPath($path)) {
+
+            // Disable encryption proxy to prevent recursive calls
+            \OC_FileProxy::$enabled = false;
+
+            // get file info
+            $cached = \OC\Files\Filesystem::getFileInfo($path_f, '');
+
+            // calculate last chunk nr
+            $lastChunckNr = floor($size / 8192);
+
+            // open stream
+            $result = fopen('crypt://' . $path_f, "r");
+
+            if(is_resource($result)) {
+                // calculate last chunk position
+                $lastChunckPos = ($lastChunckNr * 8192);
+
+                // seek to end
+                fseek($result, $lastChunckPos);
+
+                // get the content of the last chunck
+                $lastChunkContent = fgets($result);
+
+                // calc the real file size with the size of the last chunk
+                $realSize = (($lastChunckNr * 6126) + strlen($lastChunkContent));
+
+                // set the size
+                $cached['size'] = $realSize;
+            }
+
+            // enable proxy
+            \OC_FileProxy::$enabled = true;
+
+            return $cached['size'];
+
+        } else {
+
+            return $size;
+
+        }
 	}
 }
