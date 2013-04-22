@@ -805,15 +805,10 @@ class Util {
 		// Make sure that a share key is generated for the owner too
 		list($owner, $ownerPath) = $this->getUidAndFilename($filePath);
 
-		//$userIds = array( $this->userId );
-		$userIds = array();
-
 		if ( $sharingEnabled ) {
 		
 			// Find out who, if anyone, is sharing the file
-			$shareUids = \OCP\Share::getUsersSharingFile( $ownerPath, $owner,true, true, true );
-			
-			$userIds = array_merge( $userIds, $shareUids );
+			$userIds = \OCP\Share::getUsersSharingFile( $ownerPath, $owner,true, true, true );
 		
 		}
 		
@@ -889,7 +884,7 @@ class Util {
 	}
 
 	/**
-	 *@ brief geo recursively through a dir and collect all files and sub files.
+	 * @brief geo recursively through a dir and collect all files and sub files.
 	 * @param type $dir relative to the users files folder
 	 * @return array with list of files relative to the users files folder
 	 */
