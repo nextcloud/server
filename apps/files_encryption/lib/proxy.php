@@ -134,7 +134,7 @@ class Proxy extends \OC_FileProxy {
 				
 				$sharingEnabled = \OCP\Share::isEnabled();
 				
-				$uniqueUserIds = $util->getSharingUsersArray( $sharingEnabled, $filePath );
+				$uniqueUserIds = $util->getSharingUsersArray( $sharingEnabled, $filePath, $userId );
 				
 				// Fetch public keys for all users who will share the file
 				$publicKeys = Keymanager::getPublicKeys( $rootView, $uniqueUserIds );

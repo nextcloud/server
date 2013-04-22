@@ -848,7 +848,7 @@ class Util {
 	 * @brief Find, sanitise and format users sharing a file
 	 * @note This wraps other methods into a portable bundle
 	 */
-	public function getSharingUsersArray( $sharingEnabled, $filePath ) {
+	public function getSharingUsersArray( $sharingEnabled, $filePath, $currentUserId = false ) {
 
 		// Check if key recovery is enabled
 		$recoveryEnabled = $this->recoveryEnabled();
@@ -878,7 +878,12 @@ class Util {
 			$userIds[] = $adminUid;
 			
 		}
-		
+
+        // add current user if given
+        if($currentUserId != false) {
+            $userIds[] = $currentUserId;
+        }
+
 		// Remove duplicate UIDs
 		$uniqueUserIds = array_unique ( $userIds );
 		

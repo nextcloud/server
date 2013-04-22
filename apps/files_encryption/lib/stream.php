@@ -335,14 +335,10 @@ class Stream {
 		
 		$util = new Util( $this->rootView, $this->userId );
 		
-		// Get all users sharing the file
-		$uniqueUserIds = $util->getSharingUsersArray( $sharingEnabled, $this->relPath );
+		// Get all users sharing the file includes current user
+		$uniqueUserIds = $util->getSharingUsersArray( $sharingEnabled, $this->relPath, $this->userId);
 
-        // allways add current user
-        $uniqueUserIds[] = $this->userId;
-        array_unique( $uniqueUserIds );
-
-		// Fetch public keys for all sharing users
+        // Fetch public keys for all sharing users
 		$publicKeys = Keymanager::getPublicKeys( $this->rootView, $uniqueUserIds );
 
         // Encrypt enc key for all sharing users
