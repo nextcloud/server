@@ -266,7 +266,7 @@ class Proxy extends \OC_FileProxy {
 			)
 		) {
 		
-			\OC_Log::write( 'Encryption library', 'Keyfile or shareKey could not be deleted for file "'.$filePath.'"', \OC_Log::ERROR );
+			\OC_Log::write( 'Encryption library', 'Keyfile or shareKey could not be deleted for file "'.$ownerPath.'"', \OC_Log::ERROR );
 				
 		}
 		
