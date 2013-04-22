@@ -21,7 +21,6 @@
 "yesterday" => "vakar",
 "%d days ago" => "prieš %d dienų",
 "last month" => "praėjusį mėnesį",
-"months ago" => "prieš mėnesį",
 "last year" => "pereitais metais",
 "years ago" => "prieš metus",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s yra galimas. Platesnė <a href=\"%s\">informacija čia</a>",

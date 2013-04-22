@@ -30,7 +30,7 @@
  * For an example see /tests/lib/user/dummy.php
  */
 
-abstract class Test_User_Backend extends UnitTestCase {
+abstract class Test_User_Backend extends PHPUnit_Framework_TestCase {
 	/**
 	 * @var OC_User_Backend $backend
 	 */
@@ -53,18 +53,18 @@ abstract class Test_User_Backend extends UnitTestCase {
 		$name2=$this->getUser();
 		$this->backend->createUser($name1, '');
 		$count=count($this->backend->getUsers())-$startCount;
-		$this->assertEqual(1, $count);
+		$this->assertEquals(1, $count);
 		$this->assertTrue((array_search($name1, $this->backend->getUsers())!==false));
 		$this->assertFalse((array_search($name2, $this->backend->getUsers())!==false));
 		$this->backend->createUser($name2, '');
 		$count=count($this->backend->getUsers())-$startCount;
-		$this->assertEqual(2, $count);
+		$this->assertEquals(2, $count);
 		$this->assertTrue((array_search($name1, $this->backend->getUsers())!==false));
 		$this->assertTrue((array_search($name2, $this->backend->getUsers())!==false));
 
 		$this->backend->deleteUser($name2);
 		$count=count($this->backend->getUsers())-$startCount;
-		$this->assertEqual(1, $count);
+		$this->assertEquals(1, $count);
 		$this->assertTrue((array_search($name1, $this->backend->getUsers())!==false));
 		$this->assertFalse((array_search($name2, $this->backend->getUsers())!==false));
 	}

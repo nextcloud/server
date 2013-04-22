@@ -4,13 +4,15 @@
 # 
 # Translators:
 #   <dzubchikd@gmail.com>, 2012.
+#   <skoptev@ukr.net>, 2012.
 # Soul Kim <warlock.rf@gmail.com>, 2012.
+# пан Володимир <volodya327@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-09 00:01+0100\n"
-"PO-Revision-Date: 2012-11-08 17:25+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -19,190 +21,237 @@ msgstr ""
 "Language: uk\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: ajax/upload.php:20
+#: ajax/move.php:17
+#, php-format
+msgid "Could not move %s - File with this name already exists"
+msgstr "Не вдалося перемістити %s - Файл з таким ім'ям вже існує"
+
+#: ajax/move.php:27 ajax/move.php:30
+#, php-format
+msgid "Could not move %s"
+msgstr "Не вдалося перемістити %s"
+
+#: ajax/rename.php:22 ajax/rename.php:25
+msgid "Unable to rename file"
+msgstr "Не вдалося перейменувати файл"
+
+#: ajax/upload.php:19
+msgid "No file was uploaded. Unknown error"
+msgstr "Не завантажено жодного файлу. Невідома помилка"
+
+#: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Файл успішно відвантажено без помилок."
+msgstr "Файл успішно вивантажено без помилок."
 
-#: ajax/upload.php:21
-msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr "Розмір відвантаженого файлу перевищує директиву upload_max_filesize в php.ini"
+#: ajax/upload.php:27
+msgid ""
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: "
+msgstr "Розмір звантаження перевищує upload_max_filesize параметра в php.ini: "
 
-#: ajax/upload.php:22
+#: ajax/upload.php:29
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr "Розмір відвантаженого файлу перевищує директиву MAX_FILE_SIZE вказану в HTML формі"
 
-#: ajax/upload.php:23
+#: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
 msgstr "Файл відвантажено лише частково"
 
-#: ajax/upload.php:24
+#: ajax/upload.php:31
 msgid "No file was uploaded"
 msgstr "Не відвантажено жодного файлу"
 
-#: ajax/upload.php:25
+#: ajax/upload.php:32
 msgid "Missing a temporary folder"
 msgstr "Відсутній тимчасовий каталог"
 
-#: ajax/upload.php:26
+#: ajax/upload.php:33
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Невдалося записати на диск"
 
-#: appinfo/app.php:6
+#: ajax/upload.php:51
+msgid "Not enough storage available"
+msgstr "Місця більше немає"
+
+#: ajax/upload.php:83
+msgid "Invalid directory."
+msgstr "Невірний каталог."
+
+#: appinfo/app.php:12
 msgid "Files"
 msgstr "Файли"
 
-#: js/fileactions.js:108 templates/index.php:64
-msgid "Unshare"
-msgstr "Заборонити доступ"
+#: js/fileactions.js:125
+msgid "Delete permanently"
+msgstr "Видалити назавжди"
 
-#: js/fileactions.js:110 templates/index.php:66
+#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Видалити"
 
-#: js/fileactions.js:172
+#: js/fileactions.js:193
 msgid "Rename"
-msgstr ""
+msgstr "Перейменувати"
 
-#: js/filelist.js:194 js/filelist.js:196
-msgid "{new_name} already exists"
-msgstr ""
-
-#: js/filelist.js:194 js/filelist.js:196
-msgid "replace"
-msgstr ""
-
-#: js/filelist.js:194
-msgid "suggest name"
-msgstr ""
-
-#: js/filelist.js:194 js/filelist.js:196
-msgid "cancel"
-msgstr ""
-
-#: js/filelist.js:243
-msgid "replaced {new_name}"
-msgstr ""
-
-#: js/filelist.js:243 js/filelist.js:245 js/filelist.js:277 js/filelist.js:279
-msgid "undo"
-msgstr "відмінити"
-
-#: js/filelist.js:245
-msgid "replaced {new_name} with {old_name}"
-msgstr ""
-
-#: js/filelist.js:277
-msgid "unshared {files}"
-msgstr ""
-
-#: js/filelist.js:279
-msgid "deleted {files}"
-msgstr ""
-
-#: js/files.js:171
-msgid "generating ZIP-file, it may take some time."
-msgstr "Створення ZIP-файлу, це може зайняти певний час."
-
-#: js/files.js:206
-msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Неможливо завантажити ваш файл тому, що він тека або файл розміром 0 байт"
-
-#: js/files.js:206
-msgid "Upload Error"
-msgstr "Помилка завантаження"
-
-#: js/files.js:234 js/files.js:339 js/files.js:369
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
 msgstr "Очікування"
 
-#: js/files.js:254
+#: js/filelist.js:252 js/filelist.js:254
+msgid "{new_name} already exists"
+msgstr "{new_name} вже існує"
+
+#: js/filelist.js:252 js/filelist.js:254
+msgid "replace"
+msgstr "заміна"
+
+#: js/filelist.js:252
+msgid "suggest name"
+msgstr "запропонуйте назву"
+
+#: js/filelist.js:252 js/filelist.js:254
+msgid "cancel"
+msgstr "відміна"
+
+#: js/filelist.js:299
+msgid "replaced {new_name} with {old_name}"
+msgstr "замінено {new_name} на {old_name}"
+
+#: js/filelist.js:299
+msgid "undo"
+msgstr "відмінити"
+
+#: js/filelist.js:324
+msgid "perform delete operation"
+msgstr "виконати операцію видалення"
+
+#: js/filelist.js:406
 msgid "1 file uploading"
-msgstr ""
+msgstr "1 файл завантажується"
 
-#: js/files.js:257 js/files.js:302 js/files.js:317
-msgid "{count} files uploading"
-msgstr ""
+#: js/filelist.js:409 js/filelist.js:463
+msgid "files uploading"
+msgstr "файли завантажуються"
 
-#: js/files.js:320 js/files.js:353
+#: js/files.js:52
+msgid "'.' is an invalid file name."
+msgstr "'.' це невірне ім'я файлу."
+
+#: js/files.js:56
+msgid "File name cannot be empty."
+msgstr " Ім'я файлу не може бути порожнім."
+
+#: js/files.js:64
+msgid ""
+"Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
+"allowed."
+msgstr "Невірне ім'я, '\\', '/', '<', '>', ':', '\"', '|', '?' та '*' не дозволені."
+
+#: js/files.js:78
+msgid "Your storage is full, files can not be updated or synced anymore!"
+msgstr "Ваше сховище переповнене, файли більше не можуть бути оновлені або синхронізовані !"
+
+#: js/files.js:82
+msgid "Your storage is almost full ({usedSpacePercent}%)"
+msgstr "Ваше сховище майже повне ({usedSpacePercent}%)"
+
+#: js/files.js:226
+msgid ""
+"Your download is being prepared. This might take some time if the files are "
+"big."
+msgstr "Ваше завантаження готується. Це може зайняти деякий час, якщо файли завеликі."
+
+#: js/files.js:259
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr "Неможливо завантажити ваш файл тому, що він тека або файл розміром 0 байт"
+
+#: js/files.js:272
+msgid "Not enough space available"
+msgstr "Місця більше немає"
+
+#: js/files.js:312
 msgid "Upload cancelled."
 msgstr "Завантаження перервано."
 
-#: js/files.js:422
+#: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Виконується завантаження файлу. Закриття цієї сторінки приведе до відміни завантаження."
 
-#: js/files.js:492
-msgid "Invalid name, '/' is not allowed."
-msgstr "Некоректне ім'я, '/' не дозволено."
+#: js/files.js:481
+msgid "URL cannot be empty."
+msgstr "URL не може бути пустим."
 
-#: js/files.js:673
-msgid "{count} files scanned"
-msgstr ""
+#: js/files.js:486
+msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
+msgstr "Невірне ім'я теки. Використання \"Shared\" зарезервовано Owncloud"
 
-#: js/files.js:681
-msgid "error while scanning"
-msgstr ""
+#: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
+msgid "Error"
+msgstr "Помилка"
 
-#: js/files.js:754 templates/index.php:50
+#: js/files.js:872 templates/index.php:70
 msgid "Name"
 msgstr "Ім'я"
 
-#: js/files.js:755 templates/index.php:58
+#: js/files.js:873 templates/index.php:81
 msgid "Size"
 msgstr "Розмір"
 
-#: js/files.js:756 templates/index.php:60
+#: js/files.js:874 templates/index.php:83
 msgid "Modified"
 msgstr "Змінено"
 
-#: js/files.js:783
+#: js/files.js:893
 msgid "1 folder"
-msgstr ""
+msgstr "1 папка"
 
-#: js/files.js:785
+#: js/files.js:895
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} папок"
 
-#: js/files.js:793
+#: js/files.js:903
 msgid "1 file"
-msgstr ""
+msgstr "1 файл"
 
-#: js/files.js:795
+#: js/files.js:905
 msgid "{count} files"
-msgstr ""
+msgstr "{count} файлів"
+
+#: lib/helper.php:11 templates/index.php:18
+msgid "Upload"
+msgstr "Відвантажити"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Робота з файлами"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
 msgstr "Максимальний розмір відвантажень"
 
-#: templates/admin.php:7
+#: templates/admin.php:10
 msgid "max. possible: "
 msgstr "макс.можливе:"
 
-#: templates/admin.php:9
+#: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Необхідно для мульти-файлового та каталогового завантаження."
 
-#: templates/admin.php:9
+#: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "Активувати ZIP-завантаження"
 
-#: templates/admin.php:11
+#: templates/admin.php:20
 msgid "0 is unlimited"
 msgstr "0 є безліміт"
 
-#: templates/admin.php:12
+#: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Максимальний розмір завантажуємого ZIP файлу"
 
-#: templates/admin.php:15
+#: templates/admin.php:26
 msgid "Save"
 msgstr "Зберегти"
 
@@ -210,52 +259,60 @@ msgstr "Зберегти"
 msgid "New"
 msgstr "Створити"
 
-#: templates/index.php:9
+#: templates/index.php:10
 msgid "Text file"
 msgstr "Текстовий файл"
 
-#: templates/index.php:10
+#: templates/index.php:12
 msgid "Folder"
 msgstr "Папка"
 
-#: templates/index.php:11
+#: templates/index.php:14
 msgid "From link"
-msgstr ""
+msgstr "З посилання"
 
-#: templates/index.php:22
-msgid "Upload"
-msgstr "Відвантажити"
+#: templates/index.php:42
+msgid "Deleted files"
+msgstr "Видалено файлів"
 
-#: templates/index.php:29
+#: templates/index.php:48
 msgid "Cancel upload"
 msgstr "Перервати завантаження"
 
-#: templates/index.php:42
+#: templates/index.php:55
+msgid "You don’t have write permissions here."
+msgstr "У вас тут немає прав на запис."
+
+#: templates/index.php:62
 msgid "Nothing in here. Upload something!"
 msgstr "Тут нічого немає. Відвантажте що-небудь!"
 
-#: templates/index.php:52
-msgid "Share"
-msgstr "Поділитися"
-
-#: templates/index.php:54
+#: templates/index.php:76
 msgid "Download"
 msgstr "Завантажити"
 
-#: templates/index.php:77
+#: templates/index.php:88 templates/index.php:89
+msgid "Unshare"
+msgstr "Заборонити доступ"
+
+#: templates/index.php:108
 msgid "Upload too large"
 msgstr "Файл занадто великий"
 
-#: templates/index.php:79
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Файли,що ви намагаєтесь відвантажити перевищують максимальний дозволений розмір файлів на цьому сервері."
 
-#: templates/index.php:84
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
 msgstr "Файли скануються, зачекайте, будь-ласка."
 
-#: templates/index.php:87
+#: templates/index.php:118
 msgid "Current scanning"
 msgstr "Поточне сканування"
+
+#: templates/upgrade.php:2
+msgid "Upgrading filesystem cache..."
+msgstr "Оновлення кеша файлової системи..."

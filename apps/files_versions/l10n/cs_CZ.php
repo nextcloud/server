@@ -1,8 +1,11 @@
 <?php $TRANSLATIONS = array(
-"Expire all versions" => "Vypršet všechny verze",
-"History" => "Historie",
+"Could not revert: %s" => "Nelze navrátit: %s",
+"success" => "úspěch",
+"File %s was reverted to version %s" => "Soubor %s byl navrácen na verzi %s",
+"failure" => "sehlhání",
+"File %s could not be reverted to version %s" => "Soubor %s nemohl být navrácen na verzi %s",
+"No old versions available" => "Nejsou dostupné žádné starší verze",
+"No path specified" => "Nezadána cesta",
 "Versions" => "Verze",
-"This will delete all existing backup versions of your files" => "Odstraní všechny existující zálohované verze Vašich souborů",
-"Files Versioning" => "Verzování souborů",
-"Enable" => "Povolit"
+"Revert a file to a previous version by clicking on its revert button" => "Navraťte soubor do předchozí verze kliknutím na tlačítko navrátit"
 );

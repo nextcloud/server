@@ -1,8 +1,11 @@
 <?php $TRANSLATIONS = array(
-"Expire all versions" => "Alle versies laten verlopen",
-"History" => "Geschiedenis",
+"Could not revert: %s" => "Kon niet terugdraaien: %s",
+"success" => "succes",
+"File %s was reverted to version %s" => "Bestand %s is teruggedraaid naar versie %s",
+"failure" => "mislukking",
+"File %s could not be reverted to version %s" => "Bestand %s kon niet worden teruggedraaid naar versie %s",
+"No old versions available" => "Geen oudere versies beschikbaar",
+"No path specified" => "Geen pad opgegeven",
 "Versions" => "Versies",
-"This will delete all existing backup versions of your files" => "Dit zal alle bestaande backup versies van uw bestanden verwijderen",
-"Files Versioning" => "Bestand versies",
-"Enable" => "Activeer"
+"Revert a file to a previous version by clicking on its revert button" => "Draai een bestand terug naar een voorgaande versie door te klikken op de terugdraai knop"
 );

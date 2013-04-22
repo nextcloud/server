@@ -3,12 +3,15 @@
 // fix webdav properties,add namespace in front of the property, update for OC4.5
 $installedVersion=OCP\Config::getAppValue('files', 'installed_version');
 if (version_compare($installedVersion, '1.1.6', '<')) {
-	$query = OC_DB::prepare( "SELECT `propertyname`, `propertypath`, `userid` FROM `*PREFIX*properties`" );
+	$query = OC_DB::prepare( 'SELECT `propertyname`, `propertypath`, `userid` FROM `*PREFIX*properties`' );
 	$result = $query->execute();
-	$updateQuery = OC_DB::prepare('UPDATE `*PREFIX*properties` SET `propertyname` = ? WHERE `userid` = ? AND `propertypath` = ?');
+	$updateQuery = OC_DB::prepare('UPDATE `*PREFIX*properties`'
+								.' SET `propertyname` = ?'
+								.' WHERE `userid` = ?'
+								.' AND `propertypath` = ?');
 	while( $row = $result->fetchRow()) {
-		if ( $row["propertyname"][0] != '{' ) {
-			$updateQuery->execute(array('{DAV:}' + $row["propertyname"], $row["userid"], $row["propertypath"]));
+		if ( $row['propertyname'][0] != '{' ) {
+			$updateQuery->execute(array('{DAV:}' + $row['propertyname'], $row['userid'], $row['propertypath']));
 		}
 	}
 }
@@ -36,10 +39,11 @@ foreach($filesToRemove as $file) {
 	if(!file_exists($filepath)) {
 		continue;
 	}
-    $success = OCP\Files::rmdirr($filepath);
-    if($success === false) {
+	$success = OCP\Files::rmdirr($filepath);
+	if($success === false) {
 		//probably not sufficient privileges, give up and give a message.
-		OCP\Util::writeLog('files', 'Could not clean /files/ directory. Please remove everything except webdav.php from ' . OC::$SERVERROOT . '/files/', OCP\Util::ERROR);
+		OCP\Util::writeLog('files', 'Could not clean /files/ directory.'
+				.' Please remove everything except webdav.php from ' . OC::$SERVERROOT . '/files/', OCP\Util::ERROR);
 		break;
-    }
+	}
 }

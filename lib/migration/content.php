@@ -66,7 +66,7 @@ class OC_Migration_Content{
 
 		// Die if we have an error (error means: bad query, not 0 results!)
 		if( PEAR::isError( $query ) ) {
-			$entry = 'DB Error: "'.$result->getMessage().'"<br />';
+			$entry = 'DB Error: "'.$query->getMessage().'"<br />';
 			$entry .= 'Offending command was: '.$query.'<br />';
 			OC_Log::write( 'migration', $entry, OC_Log::FATAL );
 			return false;
@@ -185,13 +185,13 @@ class OC_Migration_Content{
 	* @return bool
 	*/
 	public function addDir( $dir, $recursive=true, $internaldir='' ) {
-	    $dirname = basename($dir);
-	    $this->zip->addEmptyDir($internaldir . $dirname);
-	    $internaldir.=$dirname.='/';
+		$dirname = basename($dir);
+		$this->zip->addEmptyDir($internaldir . $dirname);
+		$internaldir.=$dirname.='/';
 		if( !file_exists( $dir ) ) {
 			return false;
 		}
-	    if ($dirhandle = opendir($dir)) {
+		if ($dirhandle = opendir($dir)) {
 			while (false !== ( $file = readdir($dirhandle))) {
 
 				if (( $file != '.' ) && ( $file != '..' )) {
@@ -204,11 +204,11 @@ class OC_Migration_Content{
 				}
 			}
 			closedir($dirhandle);
-	    } else {
+		} else {
 			OC_Log::write('admin_export', "Was not able to open directory: " . $dir, OC_Log::ERROR);
 			return false;
-	    }
-	    return true;
+		}
+		return true;
 	}
 
 	/**
@@ -236,7 +236,9 @@ class OC_Migration_Content{
 	*/
 	public function finish() {
 		if( !$this->zip->close() ) {
-			OC_Log::write( 'migration', 'Failed to write the zip file with error: '.$this->zip->getStatusString(), OC_Log::ERROR );
+			OC_Log::write( 'migration',
+				'Failed to write the zip file with error: '.$this->zip->getStatusString(),
+				OC_Log::ERROR );
 			return false;
 		}
 		$this->cleanup();

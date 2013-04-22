@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-09-27 02:01+0200\n"
-"PO-Revision-Date: 2012-09-26 13:27+0000\n"
-"Last-Translator: g.ciprian <g.ciprian@osn.ro>\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,24 +26,24 @@ msgstr "Parolă"
 msgid "Submit"
 msgstr "Trimite"
 
-#: templates/public.php:9
+#: templates/public.php:10
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr "%s a partajat directorul %s cu tine"
 
-#: templates/public.php:11
+#: templates/public.php:13
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr "%s a partajat fișierul %s cu tine"
 
-#: templates/public.php:14 templates/public.php:30
+#: templates/public.php:19 templates/public.php:43
 msgid "Download"
 msgstr "Descarcă"
 
-#: templates/public.php:29
+#: templates/public.php:40
 msgid "No preview available for"
 msgstr "Nici o previzualizare disponibilă pentru "
 
-#: templates/public.php:37
+#: templates/public.php:50
 msgid "web services under your control"
 msgstr "servicii web controlate de tine"

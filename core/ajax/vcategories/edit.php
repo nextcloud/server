@@ -16,16 +16,18 @@ function debug($msg) {
 }
 
 OC_JSON::checkLoggedIn();
-$app = isset($_GET['app'])?$_GET['app']:null;
 
-if(is_null($app)) {
-	bailOut('Application name not provided.');
+$l = OC_L10N::get('core');
+
+$type = isset($_GET['type']) ? $_GET['type'] : null;
+
+if(is_null($type)) {
+	bailOut($l->t('Category type not provided.'));
 }
 
-OC_JSON::checkAppEnabled($app);
-$tmpl = new OC_TEMPLATE("core", "edit_categories_dialog");
+$tmpl = new OCP\Template("core", "edit_categories_dialog");
 
-$vcategories = new OC_VCategories($app);
+$vcategories = new OC_VCategories($type);
 $categories = $vcategories->categories();
 debug(print_r($categories, true));
 $tmpl->assign('categories', $categories);

@@ -286,4 +286,45 @@ class OC_Group {
 		}
 		return $users;
 	}
+
+	/**
+	 * @brief get a list of all display names in a group
+	 * @returns array with display names (value) and user ids(key)
+	 */
+	public static function displayNamesInGroup($gid, $search = '', $limit = -1, $offset = 0) {
+		$displayNames=array();
+		foreach(self::$_usedBackends as $backend) {
+			if($backend->implementsActions(OC_GROUP_BACKEND_GET_DISPLAYNAME)) {
+				$displayNames = array_merge($backend->displayNamesInGroup($gid, $search, $limit, $offset), $displayNames);
+			} else {
+				$users = $backend->usersInGroup($gid, $search, $limit, $offset);
+				$names = array_combine($users, $users);
+				$displayNames = array_merge($names, $displayNames);
+			}
+		}
+		return $displayNames;
+	}
+
+	/**
+	 * @brief get a list of all display names in several groups
+	 * @param array $gids
+	 * @param string $search
+	 * @param int $limit
+	 * @param int $offset
+	 * @return array with display names (Key) user ids (value)
+	 */
+	public static function displayNamesInGroups($gids, $search = '', $limit = -1, $offset = 0) {
+		$displayNames = array();
+		foreach ($gids as $gid) {
+			// TODO Need to apply limits to groups as total
+			$diff = array_diff(
+				self::displayNamesInGroup($gid, $search, $limit, $offset),
+				$displayNames
+			);
+			if ($diff) {
+				$displayNames = array_merge($diff, $displayNames);
+			}
+		}
+		return $displayNames;
+	}
 }

@@ -3,17 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Denis  <reg.transifex.net@demitel.ru>, 2012.
-#   <k0ldbl00d@gmail.com>, 2012.
-#   <mpolr21@gmail.com>, 2012.
-#   <victor.dubiniuk@gmail.com>, 2012.
+# Denis <reg.transifex.net@demitel.ru>, 2013
+# Denis <reg.transifex.net@demitel.ru>, 2012
+# k0ldbl00d <k0ldbl00d@gmail.com>, 2012
+# Mihail Vasiliev <mickvav@gmail.com>, 2012
+# mPolr <mpolr21@gmail.com>, 2012
+# m4rkell <sergey@markevich.ru>, 2013
+# VicDeo <victor.dubiniuk@gmail.com>, 2012
+# Langaru <langaru@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-31 00:01+0100\n"
-"PO-Revision-Date: 2012-10-30 06:32+0000\n"
-"Last-Translator: k0ldbl00d <k0ldbl00d@gmail.com>\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:04+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,51 +25,55 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-#: app.php:285
+#: app.php:349
 msgid "Help"
 msgstr "Помощь"
 
-#: app.php:292
+#: app.php:362
 msgid "Personal"
 msgstr "Личное"
 
-#: app.php:297
+#: app.php:373
 msgid "Settings"
 msgstr "Настройки"
 
-#: app.php:302
+#: app.php:385
 msgid "Users"
 msgstr "Пользователи"
 
-#: app.php:309
+#: app.php:398
 msgid "Apps"
 msgstr "Приложения"
 
-#: app.php:311
+#: app.php:406
 msgid "Admin"
 msgstr "Admin"
 
-#: files.php:328
+#: files.php:209
 msgid "ZIP download is turned off."
 msgstr "ZIP-скачивание отключено."
 
-#: files.php:329
+#: files.php:210
 msgid "Files need to be downloaded one by one."
 msgstr "Файлы должны быть загружены по одному."
 
-#: files.php:329 files.php:354
+#: files.php:211 files.php:244
 msgid "Back to Files"
 msgstr "Назад к файлам"
 
-#: files.php:353
+#: files.php:241
 msgid "Selected files too large to generate zip file."
 msgstr "Выбранные файлы слишком велики, чтобы создать zip файл."
+
+#: helper.php:228
+msgid "couldn't be determined"
+msgstr "Невозможно установить"
 
 #: json.php:28
 msgid "Application is not enabled"
 msgstr "Приложение не разрешено"
 
-#: json.php:39 json.php:64 json.php:77 json.php:89
+#: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
 msgstr "Ошибка аутентификации"
 
@@ -85,57 +93,170 @@ msgstr "Текст"
 msgid "Images"
 msgstr "Изображения"
 
-#: template.php:103
+#: setup.php:34
+msgid "Set an admin username."
+msgstr "Установить имя пользователя для admin."
+
+#: setup.php:37
+msgid "Set an admin password."
+msgstr "становит пароль для admin."
+
+#: setup.php:55
+#, php-format
+msgid "%s enter the database username."
+msgstr "%s введите имя пользователя базы данных."
+
+#: setup.php:58
+#, php-format
+msgid "%s enter the database name."
+msgstr "%s введите имя базы данных."
+
+#: setup.php:61
+#, php-format
+msgid "%s you may not use dots in the database name"
+msgstr "%s Вы не можете использовать точки в имени базы данных"
+
+#: setup.php:64
+#, php-format
+msgid "%s set the database host."
+msgstr "%s задайте хост базы данных."
+
+#: setup.php:132 setup.php:324 setup.php:369
+msgid "PostgreSQL username and/or password not valid"
+msgstr "Неверное имя пользователя и/или пароль PostgreSQL"
+
+#: setup.php:133 setup.php:156 setup.php:233
+msgid "You need to enter either an existing account or the administrator."
+msgstr "Вы должны войти или в существующий аккаунт или под администратором."
+
+#: setup.php:155 setup.php:457 setup.php:524
+msgid "Oracle username and/or password not valid"
+msgstr "Неверное имя пользователя и/или пароль Oracle"
+
+#: setup.php:232
+msgid "MySQL username and/or password not valid"
+msgstr "Неверное имя пользователя и/или пароль MySQL"
+
+#: setup.php:286 setup.php:390 setup.php:399 setup.php:417 setup.php:427
+#: setup.php:436 setup.php:465 setup.php:531 setup.php:557 setup.php:564
+#: setup.php:575 setup.php:582 setup.php:591 setup.php:599 setup.php:608
+#: setup.php:614
+#, php-format
+msgid "DB Error: \"%s\""
+msgstr "Ошибка БД: \"%s\""
+
+#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
+#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
+#: setup.php:576 setup.php:592 setup.php:600 setup.php:609
+#, php-format
+msgid "Offending command was: \"%s\""
+msgstr "Вызываемая команда была: \"%s\""
+
+#: setup.php:303
+#, php-format
+msgid "MySQL user '%s'@'localhost' exists already."
+msgstr "Пользователь MySQL '%s'@'localhost' уже существует."
+
+#: setup.php:304
+msgid "Drop this user from MySQL"
+msgstr "Удалить этого пользователя из MySQL"
+
+#: setup.php:309
+#, php-format
+msgid "MySQL user '%s'@'%%' already exists"
+msgstr "Пользователь MySQL '%s'@'%%' уже существует"
+
+#: setup.php:310
+msgid "Drop this user from MySQL."
+msgstr "Удалить этого пользователя из MySQL."
+
+#: setup.php:583 setup.php:615
+#, php-format
+msgid "Offending command was: \"%s\", name: %s, password: %s"
+msgstr "Вызываемая команда была: \"%s\", имя: %s, пароль: %s"
+
+#: setup.php:635
+#, php-format
+msgid "MS SQL username and/or password not valid: %s"
+msgstr "Имя пользователя и/или пароль MS SQL не подходит: %s"
+
+#: setup.php:853
+msgid ""
+"Your web server is not yet properly setup to allow files synchronization "
+"because the WebDAV interface seems to be broken."
+msgstr "Ваш веб сервер до сих пор не настроен правильно для возможности синхронизации файлов, похоже что проблема в неисправности интерфейса WebDAV."
+
+#: setup.php:854
+#, php-format
+msgid "Please double check the <a href='%s'>installation guides</a>."
+msgstr "Пожалуйста, дважды просмотрите <a href='%s'>инструкции по установке</a>."
+
+#: template.php:113
 msgid "seconds ago"
 msgstr "менее минуты"
 
-#: template.php:104
+#: template.php:114
 msgid "1 minute ago"
 msgstr "1 минуту назад"
 
-#: template.php:105
+#: template.php:115
 #, php-format
 msgid "%d minutes ago"
 msgstr "%d минут назад"
 
-#: template.php:108
+#: template.php:116
+msgid "1 hour ago"
+msgstr "час назад"
+
+#: template.php:117
+#, php-format
+msgid "%d hours ago"
+msgstr "%d часов назад"
+
+#: template.php:118
 msgid "today"
 msgstr "сегодня"
 
-#: template.php:109
+#: template.php:119
 msgid "yesterday"
 msgstr "вчера"
 
-#: template.php:110
+#: template.php:120
 #, php-format
 msgid "%d days ago"
 msgstr "%d дней назад"
 
-#: template.php:111
+#: template.php:121
 msgid "last month"
 msgstr "в прошлом месяце"
 
-#: template.php:112
-msgid "months ago"
-msgstr "месяцы назад"
+#: template.php:122
+#, php-format
+msgid "%d months ago"
+msgstr "%d месяцев назад"
 
-#: template.php:113
+#: template.php:123
 msgid "last year"
 msgstr "в прошлом году"
 
-#: template.php:114
+#: template.php:124
 msgid "years ago"
 msgstr "годы назад"
 
-#: updater.php:75
+#: updater.php:78
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
 msgstr "Возможно обновление до %s. <a href=\"%s\">Подробнее</a>"
 
-#: updater.php:77
+#: updater.php:81
 msgid "up to date"
 msgstr "актуальная версия"
 
-#: updater.php:80
+#: updater.php:84
 msgid "updates check is disabled"
 msgstr "проверка обновлений отключена"
+
+#: vcategories.php:188 vcategories.php:249
+#, php-format
+msgid "Could not find category \"%s\""
+msgstr "Категория \"%s\"  не найдена"

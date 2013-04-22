@@ -33,8 +33,11 @@ class OC_Log_Owncloud {
 	 * Init class data
 	 */
 	public static function init() {
-		$datadir=OC_Config::getValue( "datadirectory", OC::$SERVERROOT.'/data' );
-		self::$logFile=OC_Config::getValue( "logfile", $datadir.'/owncloud.log' );
+		$defaultLogFile = OC_Config::getValue("datadirectory", OC::$SERVERROOT.'/data').'/owncloud.log';
+		self::$logFile = OC_Config::getValue("logfile", $defaultLogFile);
+		if (!file_exists(self::$logFile)) {
+			self::$logFile = $defaultLogFile;
+		}
 	}
 
 	/**
@@ -46,10 +49,13 @@ class OC_Log_Owncloud {
 	public static function write($app, $message, $level) {
 		$minLevel=min(OC_Config::getValue( "loglevel", OC_Log::WARN ), OC_Log::ERROR);
 		if($level>=$minLevel) {
-			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level, 'time'=>time());
-			$fh=fopen(self::$logFile, 'a');
-			fwrite($fh, json_encode($entry)."\n");
-			fclose($fh);
+			$time = date("F d, Y H:i:s", time());
+			$entry=array('app'=>$app, 'message'=>$message, 'level'=>$level, 'time'=> $time);
+			$handle = @fopen(self::$logFile, 'a');
+			if ($handle) {
+				fwrite($handle, json_encode($entry)."\n");
+				fclose($handle);
+			}
 		}
 	}
 
@@ -76,7 +82,8 @@ class OC_Log_Owncloud {
 				$ch = fgetc($handle);
 				if ($ch == "\n" || $pos == 0) {
 					if ($line != '') {
-						// Add the first character if at the start of the file, because it doesn't hit the else in the loop
+						// Add the first character if at the start of the file,
+						// because it doesn't hit the else in the loop
 						if ($pos == 0) {
 							$line = $ch.$line;
 						}

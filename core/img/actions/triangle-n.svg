@@ -57,10 +57,10 @@
      showgrid="true"
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="1025"
-     inkscape:window-x="-2"
-     inkscape:window-y="-3"
+     inkscape:window-width="1280"
+     inkscape:window-height="773"
+     inkscape:window-x="0"
+     inkscape:window-y="-1"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata6082">
@@ -79,14 +79,10 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer">
     <path
+       style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#000000;fill-opacity:1;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+       d="M 12,12 8,3.9999999 3.9999999,11.989 z"
+       id="path3716"
        inkscape:connector-curvature="0"
-       d="M 14.5,15 1.5,15 8,3 14.5,15 z"
-       id="path2843-0-1-6-6"
-       style="opacity:0.6;color:#000000;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
-    <path
-       inkscape:connector-curvature="0"
-       d="m 14.5,13.49996 -13,0 6.49999,-12 6.50001,12 z"
-       id="path2843-39-5-5"
-       style="opacity:0.7;color:#000000;fill:url(#linearGradient7308);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate" />
+       sodipodi:nodetypes="cccc" />
   </g>
 </svg>

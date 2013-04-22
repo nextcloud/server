@@ -14,17 +14,21 @@
 "Token expired. Please reload page." => "Ĵetono eksvalidiĝis. Bonvolu reŝargi la paĝon.",
 "Files" => "Dosieroj",
 "Text" => "Teksto",
+"Images" => "Bildoj",
 "seconds ago" => "sekundojn antaŭe",
 "1 minute ago" => "antaŭ 1 minuto",
 "%d minutes ago" => "antaŭ %d minutoj",
+"1 hour ago" => "antaŭ 1 horo",
+"%d hours ago" => "antaŭ %d horoj",
 "today" => "hodiaŭ",
 "yesterday" => "hieraŭ",
 "%d days ago" => "antaŭ %d tagoj",
 "last month" => "lasta monato",
-"months ago" => "monatojn antaŭe",
+"%d months ago" => "antaŭ %d monatoj",
 "last year" => "lasta jaro",
 "years ago" => "jarojn antaŭe",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s haveblas. Ekhavu <a href=\"%s\">pli da informo</a>",
 "up to date" => "ĝisdata",
-"updates check is disabled" => "ĝisdateckontrolo estas malkapabligita"
+"updates check is disabled" => "ĝisdateckontrolo estas malkapabligita",
+"Could not find category \"%s\"" => "Ne troviĝis kategorio “%s”"
 );

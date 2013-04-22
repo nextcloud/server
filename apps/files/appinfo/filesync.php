@@ -24,16 +24,16 @@
 $RUNTIME_APPTYPES=array('filesystem', 'authentication', 'logging');
 OC_App::loadApps($RUNTIME_APPTYPES);
 if(!OC_User::isLoggedIn()) {
-        if(!isset($_SERVER['PHP_AUTH_USER'])) {
-                header('WWW-Authenticate: Basic realm="ownCloud Server"');
-                header('HTTP/1.0 401 Unauthorized');
-                echo 'Valid credentials must be supplied';
-                exit();
-        } else {
-                if(!OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
-                        exit();
-                }
-        }
+	if(!isset($_SERVER['PHP_AUTH_USER'])) {
+		header('WWW-Authenticate: Basic realm="ownCloud Server"');
+		header('HTTP/1.0 401 Unauthorized');
+		echo 'Valid credentials must be supplied';
+		exit();
+	} else {
+		if(!OC_User::login($_SERVER["PHP_AUTH_USER"], $_SERVER["PHP_AUTH_PW"])) {
+			exit();
+		}
+	}
 }
 
 list($type, $file) = explode('/', substr($path_info, 1+strlen($service)+1), 2);
@@ -43,7 +43,7 @@ if ($type != 'oc_chunked') {
 	die;
 }
 
-if (!OC_Filesystem::is_file($file)) {
+if (!\OC\Files\Filesystem::is_file($file)) {
 	OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
 	die;
 }
@@ -51,7 +51,7 @@ if (!OC_Filesystem::is_file($file)) {
 switch($_SERVER['REQUEST_METHOD']) {
 	case 'PUT':
 		$input = fopen("php://input", "r");
-		$org_file = OC_Filesystem::fopen($file, 'rb');
+		$org_file = \OC\Files\Filesystem::fopen($file, 'rb');
 		$info = array(
 			'name' => basename($file),
 		);

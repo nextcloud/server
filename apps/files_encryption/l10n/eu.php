@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Encryption" => "Enkriptazioa",
-"Exclude the following file types from encryption" => "Ez enkriptatu hurrengo fitxategi motak",
-"None" => "Bat ere ez",
-"Enable Encryption" => "Gaitu enkriptazioa"
+"File encryption is enabled." => "Fitxategien enkriptazioa gaituta dago.",
+"The following file types will not be encrypted:" => "Hurrengo fitxategi motak ez dira enkriptatuko:",
+"Exclude the following file types from encryption:" => "Baztertu hurrengo fitxategi motak enkriptatzetik:",
+"None" => "Bat ere ez"
 );

@@ -19,7 +19,7 @@
 * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-class Test_Share extends UnitTestCase {
+class Test_Share extends PHPUnit_Framework_TestCase {
 
 	protected $itemType;
 	protected $userBackend;
@@ -28,7 +28,7 @@ class Test_Share extends UnitTestCase {
 	protected $groupBackend;
 	protected $group1;
 	protected $group2;
-
+	protected $resharing;
 
 	public function setUp() {
 		OC_User::clearBackends();
@@ -54,11 +54,16 @@ class Test_Share extends UnitTestCase {
 		OC_Group::addToGroup($this->user2, $this->group2);
 		OC_Group::addToGroup($this->user4, $this->group2);
 		OCP\Share::registerBackend('test', 'Test_Share_Backend');
+		OC_Hook::clear('OCP\\Share');
+		OC::registerShareHooks();
+		$this->resharing = OC_Appconfig::getValue('core', 'shareapi_allow_resharing', 'yes');
+		OC_Appconfig::setValue('core', 'shareapi_allow_resharing', 'yes');
 	}
 
 	public function tearDown() {
 		$query = OC_DB::prepare('DELETE FROM `*PREFIX*share` WHERE `item_type` = ?');
 		$query->execute(array('test'));
+		OC_Appconfig::setValue('core', 'shareapi_allow_resharing', $this->resharing);
 	}
 
 	public function testShareInvalidShareType() {

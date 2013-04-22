@@ -17,7 +17,6 @@
 "yesterday" => "ièr",
 "%d days ago" => "%d jorns a",
 "last month" => "mes passat",
-"months ago" => "meses  a",
 "last year" => "an passat",
 "years ago" => "ans a",
 "up to date" => "a jorn",

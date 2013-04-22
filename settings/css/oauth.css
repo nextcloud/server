@@ -1,0 +1,4 @@
+.guest-container{ width:35%; margin: 2em auto 0 auto; }
+#oauth-request a.button{ float: right; }
+#oauth-request ul li{ list-style: disc; }
+#oauth-request ul { margin-left: 2em; margin-top: 1em; }

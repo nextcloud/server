@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<info>
+	<id>files_trashbin</id>
+	<name>Deleted files</name>
+	<description>
+	ownCloud keeps a copy of your deleted files in case you need them again. 
+	To make sure that the user doesn't run out of memory the deleted files app
+	manages the size of the deleted files for the user. By default deleted files
+	stay in the trash bin for 180 days. ownCloud checks the age of the files
+	every time a new files gets moved to the deleted files and remove all files
+	older than 180 days. The user can adjust this value in the config.php by
+	setting the "trashbin_retention_obligation" value.
+
+	Beside that the delted files app take care to never use more that 50% of
+	your currently available free space. If your deleted files exceed this limit
+	ownCloud deletes the oldest versions until it meets the memory usage limit
+	again.
+	</description>
+	<licence>AGPL</licence>
+	<author>Bjoern Schiessle</author>
+	<shipped>true</shipped>
+	<require>4.9</require>
+	<default_enable/>
+	<types>
+		<filesystem/>
+	</types>
+</info>

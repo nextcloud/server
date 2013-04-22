@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Pisike Sipelgas <pisike.sipelgas@gmail.com>, 2013.
 # Rivo Zängov <eraser@eraser.ee>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-11-09 00:01+0100\n"
-"PO-Revision-Date: 2012-11-08 17:26+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -18,193 +19,378 @@ msgstr ""
 "Language: et_EE\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/vcategories/add.php:22 ajax/vcategories/delete.php:22
-msgid "Application name not provided."
-msgstr "Rakenduse nime pole sisestatud."
+#: ajax/share.php:97
+#, php-format
+msgid "User %s shared a file with you"
+msgstr "Kasutaja %s jagas Sinuga faili"
 
-#: ajax/vcategories/add.php:28
+#: ajax/share.php:99
+#, php-format
+msgid "User %s shared a folder with you"
+msgstr "Kasutaja %s jagas Sinuga kataloogi."
+
+#: ajax/share.php:101
+#, php-format
+msgid ""
+"User %s shared the file \"%s\" with you. It is available for download here: "
+"%s"
+msgstr "Kasutaja %s jagas Sinuga faili \"%s\". See on allalaadimiseks saadaval siin: %s"
+
+#: ajax/share.php:104
+#, php-format
+msgid ""
+"User %s shared the folder \"%s\" with you. It is available for download "
+"here: %s"
+msgstr "Kasutaja %s jagas Sinuga kataloogi \"%s\". See on allalaadimiseks saadaval siin: %s"
+
+#: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
+msgid "Category type not provided."
+msgstr "Kategooria tüüp puudub."
+
+#: ajax/vcategories/add.php:30
 msgid "No category to add?"
 msgstr "Pole kategooriat, mida lisada?"
 
-#: ajax/vcategories/add.php:35
-msgid "This category already exists: "
-msgstr "See kategooria on juba olemas: "
+#: ajax/vcategories/add.php:37
+#, php-format
+msgid "This category already exists: %s"
+msgstr "See kategooria juba eksisteerib: %s"
 
-#: js/js.js:243 templates/layout.user.php:59 templates/layout.user.php:60
-msgid "Settings"
-msgstr "Seaded"
+#: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
+#: ajax/vcategories/favorites.php:24
+#: ajax/vcategories/removeFromFavorites.php:26
+msgid "Object type not provided."
+msgstr "Objekti tüüb puudub."
 
-#: js/js.js:687
-msgid "seconds ago"
-msgstr "sekundit tagasi"
+#: ajax/vcategories/addToFavorites.php:30
+#: ajax/vcategories/removeFromFavorites.php:30
+#, php-format
+msgid "%s ID not provided."
+msgstr "%s ID puudub"
 
-#: js/js.js:688
-msgid "1 minute ago"
-msgstr "1 minut tagasi"
+#: ajax/vcategories/addToFavorites.php:35
+#, php-format
+msgid "Error adding %s to favorites."
+msgstr "Viga %s lisamisel lemmikutesse."
 
-#: js/js.js:689
-msgid "{minutes} minutes ago"
-msgstr "{minutes} minutit tagasi"
-
-#: js/js.js:692
-msgid "today"
-msgstr "täna"
-
-#: js/js.js:693
-msgid "yesterday"
-msgstr "eile"
-
-#: js/js.js:694
-msgid "{days} days ago"
-msgstr "{days} päeva tagasi"
-
-#: js/js.js:695
-msgid "last month"
-msgstr "viimasel kuul"
-
-#: js/js.js:697
-msgid "months ago"
-msgstr "kuu tagasi"
-
-#: js/js.js:698
-msgid "last year"
-msgstr "viimasel aastal"
-
-#: js/js.js:699
-msgid "years ago"
-msgstr "aastat tagasi"
-
-#: js/oc-dialogs.js:126
-msgid "Choose"
-msgstr "Vali"
-
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
-msgid "Cancel"
-msgstr "Loobu"
-
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "Ei"
-
-#: js/oc-dialogs.js:163
-msgid "Yes"
-msgstr "Jah"
-
-#: js/oc-dialogs.js:180
-msgid "Ok"
-msgstr "Ok"
-
-#: js/oc-vcategories.js:68
+#: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
 msgstr "Kustutamiseks pole kategooriat valitud."
 
-#: js/oc-vcategories.js:68 js/share.js:135 js/share.js:142 js/share.js:525
-#: js/share.js:537
+#: ajax/vcategories/removeFromFavorites.php:35
+#, php-format
+msgid "Error removing %s from favorites."
+msgstr "Viga %s eemaldamisel lemmikutest"
+
+#: js/config.php:34
+msgid "Sunday"
+msgstr "Pühapäev"
+
+#: js/config.php:35
+msgid "Monday"
+msgstr "Esmaspäev"
+
+#: js/config.php:36
+msgid "Tuesday"
+msgstr "Teisipäev"
+
+#: js/config.php:37
+msgid "Wednesday"
+msgstr "Kolmapäev"
+
+#: js/config.php:38
+msgid "Thursday"
+msgstr "Neljapäev"
+
+#: js/config.php:39
+msgid "Friday"
+msgstr "Reede"
+
+#: js/config.php:40
+msgid "Saturday"
+msgstr "Laupäev"
+
+#: js/config.php:45
+msgid "January"
+msgstr "Jaanuar"
+
+#: js/config.php:46
+msgid "February"
+msgstr "Veebruar"
+
+#: js/config.php:47
+msgid "March"
+msgstr "Märts"
+
+#: js/config.php:48
+msgid "April"
+msgstr "Aprill"
+
+#: js/config.php:49
+msgid "May"
+msgstr "Mai"
+
+#: js/config.php:50
+msgid "June"
+msgstr "Juuni"
+
+#: js/config.php:51
+msgid "July"
+msgstr "Juuli"
+
+#: js/config.php:52
+msgid "August"
+msgstr "August"
+
+#: js/config.php:53
+msgid "September"
+msgstr "September"
+
+#: js/config.php:54
+msgid "October"
+msgstr "Oktoober"
+
+#: js/config.php:55
+msgid "November"
+msgstr "November"
+
+#: js/config.php:56
+msgid "December"
+msgstr "Detsember"
+
+#: js/js.js:286
+msgid "Settings"
+msgstr "Seaded"
+
+#: js/js.js:718
+msgid "seconds ago"
+msgstr "sekundit tagasi"
+
+#: js/js.js:719
+msgid "1 minute ago"
+msgstr "1 minut tagasi"
+
+#: js/js.js:720
+msgid "{minutes} minutes ago"
+msgstr "{minutes} minutit tagasi"
+
+#: js/js.js:721
+msgid "1 hour ago"
+msgstr "1 tund tagasi"
+
+#: js/js.js:722
+msgid "{hours} hours ago"
+msgstr "{hours} tundi tagasi"
+
+#: js/js.js:723
+msgid "today"
+msgstr "täna"
+
+#: js/js.js:724
+msgid "yesterday"
+msgstr "eile"
+
+#: js/js.js:725
+msgid "{days} days ago"
+msgstr "{days} päeva tagasi"
+
+#: js/js.js:726
+msgid "last month"
+msgstr "viimasel kuul"
+
+#: js/js.js:727
+msgid "{months} months ago"
+msgstr "{months} kuud tagasi"
+
+#: js/js.js:728
+msgid "months ago"
+msgstr "kuu tagasi"
+
+#: js/js.js:729
+msgid "last year"
+msgstr "viimasel aastal"
+
+#: js/js.js:730
+msgid "years ago"
+msgstr "aastat tagasi"
+
+#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
+msgid "Ok"
+msgstr "Ok"
+
+#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
+msgid "Cancel"
+msgstr "Loobu"
+
+#: js/oc-dialogs.js:185
+msgid "Choose"
+msgstr "Vali"
+
+#: js/oc-dialogs.js:215
+msgid "Yes"
+msgstr "Jah"
+
+#: js/oc-dialogs.js:222
+msgid "No"
+msgstr "Ei"
+
+#: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
+#: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
+msgid "The object type is not specified."
+msgstr "Objekti tüüb pole määratletud"
+
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr "Viga"
 
-#: js/share.js:124
+#: js/oc-vcategories.js:179
+msgid "The app name is not specified."
+msgstr "Rakenduse nimi ole määratletud"
+
+#: js/oc-vcategories.js:194
+msgid "The required file {file} is not installed!"
+msgstr "Vajalikku faili {file} pole paigaldatud!"
+
+#: js/share.js:30 js/share.js:45 js/share.js:87
+msgid "Shared"
+msgstr "Jagatud"
+
+#: js/share.js:90
+msgid "Share"
+msgstr "Jaga"
+
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr "Viga jagamisel"
 
-#: js/share.js:135
+#: js/share.js:136
 msgid "Error while unsharing"
 msgstr "Viga jagamise lõpetamisel"
 
-#: js/share.js:142
+#: js/share.js:143
 msgid "Error while changing permissions"
 msgstr "Viga õiguste muutmisel"
 
-#: js/share.js:151
+#: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Jagatud sinu ja {group} grupiga {owner} poolt"
 
-#: js/share.js:153
+#: js/share.js:154
 msgid "Shared with you by {owner}"
 msgstr "Sinuga jagas {owner}"
 
-#: js/share.js:158
+#: js/share.js:159
 msgid "Share with"
 msgstr "Jaga"
 
-#: js/share.js:163
+#: js/share.js:164
 msgid "Share with link"
 msgstr "Jaga lingiga"
 
-#: js/share.js:164
+#: js/share.js:167
 msgid "Password protect"
 msgstr "Parooliga kaitstud"
 
-#: js/share.js:168 templates/installation.php:42 templates/login.php:24
-#: templates/verify.php:13
+#: js/share.js:169 templates/installation.php:54 templates/login.php:35
 msgid "Password"
 msgstr "Parool"
 
 #: js/share.js:173
+msgid "Email link to person"
+msgstr "Saada link isikule emailiga"
+
+#: js/share.js:174
+msgid "Send"
+msgstr "Saada"
+
+#: js/share.js:178
 msgid "Set expiration date"
 msgstr "Määra aegumise kuupäev"
 
-#: js/share.js:174
+#: js/share.js:179
 msgid "Expiration date"
 msgstr "Aegumise kuupäev"
 
-#: js/share.js:206
+#: js/share.js:211
 msgid "Share via email:"
 msgstr "Jaga e-postiga:"
 
-#: js/share.js:208
+#: js/share.js:213
 msgid "No people found"
 msgstr "Ühtegi inimest ei leitud"
 
-#: js/share.js:235
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr "Edasijagamine pole lubatud"
 
-#: js/share.js:271
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Jagatud {item} kasutajaga {user}"
 
-#: js/share.js:292
+#: js/share.js:308
 msgid "Unshare"
 msgstr "Lõpeta jagamine"
 
-#: js/share.js:304
+#: js/share.js:320
 msgid "can edit"
 msgstr "saab muuta"
 
-#: js/share.js:306
+#: js/share.js:322
 msgid "access control"
 msgstr "ligipääsukontroll"
 
-#: js/share.js:309
+#: js/share.js:325
 msgid "create"
 msgstr "loo"
 
-#: js/share.js:312
+#: js/share.js:328
 msgid "update"
 msgstr "uuenda"
 
-#: js/share.js:315
+#: js/share.js:331
 msgid "delete"
 msgstr "kustuta"
 
-#: js/share.js:318
+#: js/share.js:334
 msgid "share"
 msgstr "jaga"
 
-#: js/share.js:343 js/share.js:512 js/share.js:514
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr "Parooliga kaitstud"
 
-#: js/share.js:525
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr "Viga aegumise kuupäeva eemaldamisel"
 
-#: js/share.js:537
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr "Viga aegumise kuupäeva määramisel"
 
-#: lostpassword/controller.php:47
+#: js/share.js:604
+msgid "Sending ..."
+msgstr "Saadan ..."
+
+#: js/share.js:615
+msgid "Email sent"
+msgstr "Email saadetud"
+
+#: js/update.js:14
+msgid ""
+"The update was unsuccessful. Please report this issue to the <a "
+"href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
+"community</a>."
+msgstr "Uuendus ebaõnnestus. Palun teavita probleemidest  <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud kogukonda</a>."
+
+#: js/update.js:18
+msgid "The update was successful. Redirecting you to ownCloud now."
+msgstr "Uuendus oli edukas. Kohe suunatakse Sind ownCloudi."
+
+#: lostpassword/controller.php:48
 msgid "ownCloud password reset"
 msgstr "ownCloud parooli taastamine"
 
@@ -224,8 +410,8 @@ msgstr "Taastamise e-kiri on saadetud."
 msgid "Request failed!"
 msgstr "Päring ebaõnnestus!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:38
-#: templates/login.php:20
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: templates/login.php:28
 msgid "Username"
 msgstr "Kasutajanimi"
 
@@ -281,193 +467,131 @@ msgstr "Pilve ei leitud"
 msgid "Edit categories"
 msgstr "Muuda kategooriaid"
 
-#: templates/edit_categories_dialog.php:14
+#: templates/edit_categories_dialog.php:16
 msgid "Add"
 msgstr "Lisa"
 
-#: templates/installation.php:23 templates/installation.php:31
+#: templates/installation.php:24 templates/installation.php:31
+#: templates/installation.php:38
 msgid "Security Warning"
 msgstr "Turvahoiatus"
 
-#: templates/installation.php:24
-msgid ""
-"No secure random number generator is available, please enable the PHP "
-"OpenSSL extension."
-msgstr ""
+#: templates/installation.php:25
+msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
+msgstr "Sinu PHP versioon on haavatav NULL Baidi (CVE-2006-7243) rünnakuga."
 
 #: templates/installation.php:26
-msgid ""
-"Without a secure random number generator an attacker may be able to predict "
-"password reset tokens and take over your account."
-msgstr ""
+msgid "Please update your PHP installation to use ownCloud securely."
+msgstr "Palun uuenda oma paigaldatud PHP-d tagamaks ownCloudi turvalisus."
 
 #: templates/installation.php:32
 msgid ""
-"Your data directory and your files are probably accessible from the "
-"internet. The .htaccess file that ownCloud provides is not working. We "
-"strongly suggest that you configure your webserver in a way that the data "
-"directory is no longer accessible or you move the data directory outside the"
-" webserver document root."
-msgstr ""
+"No secure random number generator is available, please enable the PHP "
+"OpenSSL extension."
+msgstr "Turvalist juhuslike numbrite generaatorit pole saadaval. Palun luba PHP-s OpenSSL laiendus."
 
-#: templates/installation.php:36
+#: templates/installation.php:33
+msgid ""
+"Without a secure random number generator an attacker may be able to predict "
+"password reset tokens and take over your account."
+msgstr "Ilma turvalise juhuslike numbrite generaatorita võib ründaja ennustada paroolivahetuse võtme ning hõivata su konto."
+
+#: templates/installation.php:39
+msgid ""
+"Your data directory and files are probably accessible from the internet "
+"because the .htaccess file does not work."
+msgstr "Su andmete kataloog ja failid on tõenäoliselt internetist vabalt saadaval kuna .htaccess fail ei toimi."
+
+#: templates/installation.php:40
+msgid ""
+"For information how to properly configure your server, please see the <a "
+"href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
+"target=\"_blank\">documentation</a>."
+msgstr "Serveri korrektseks seadistuseks palun tutvu <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentatsiooniga</a>."
+
+#: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
 msgstr "Loo <strong>admini konto</strong>"
 
-#: templates/installation.php:48
+#: templates/installation.php:62
 msgid "Advanced"
 msgstr "Lisavalikud"
 
-#: templates/installation.php:50
+#: templates/installation.php:64
 msgid "Data folder"
 msgstr "Andmete kaust"
 
-#: templates/installation.php:57
+#: templates/installation.php:73
 msgid "Configure the database"
 msgstr "Seadista andmebaasi"
 
-#: templates/installation.php:62 templates/installation.php:73
-#: templates/installation.php:83 templates/installation.php:93
+#: templates/installation.php:78 templates/installation.php:90
+#: templates/installation.php:101 templates/installation.php:112
+#: templates/installation.php:124
 msgid "will be used"
 msgstr "kasutatakse"
 
-#: templates/installation.php:105
+#: templates/installation.php:136
 msgid "Database user"
 msgstr "Andmebaasi kasutaja"
 
-#: templates/installation.php:109
+#: templates/installation.php:143
 msgid "Database password"
 msgstr "Andmebaasi parool"
 
-#: templates/installation.php:113
+#: templates/installation.php:148
 msgid "Database name"
 msgstr "Andmebasi nimi"
 
-#: templates/installation.php:121
+#: templates/installation.php:158
 msgid "Database tablespace"
 msgstr "Andmebaasi tabeliruum"
 
-#: templates/installation.php:127
+#: templates/installation.php:165
 msgid "Database host"
 msgstr "Andmebaasi host"
 
-#: templates/installation.php:132
+#: templates/installation.php:171
 msgid "Finish setup"
 msgstr "Lõpeta seadistamine"
 
-#: templates/layout.guest.php:15 templates/layout.user.php:16
-msgid "Sunday"
-msgstr "Pühapäev"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:16
-msgid "Monday"
-msgstr "Esmaspäev"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:16
-msgid "Tuesday"
-msgstr "Teisipäev"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:16
-msgid "Wednesday"
-msgstr "Kolmapäev"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:16
-msgid "Thursday"
-msgstr "Neljapäev"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:16
-msgid "Friday"
-msgstr "Reede"
-
-#: templates/layout.guest.php:15 templates/layout.user.php:16
-msgid "Saturday"
-msgstr "Laupäev"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "January"
-msgstr "Jaanuar"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "February"
-msgstr "Veebruar"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "March"
-msgstr "Märts"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "April"
-msgstr "Aprill"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "May"
-msgstr "Mai"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "June"
-msgstr "Juuni"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "July"
-msgstr "Juuli"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "August"
-msgstr "August"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "September"
-msgstr "September"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "October"
-msgstr "Oktoober"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "November"
-msgstr "November"
-
-#: templates/layout.guest.php:16 templates/layout.user.php:17
-msgid "December"
-msgstr "Detsember"
-
-#: templates/layout.guest.php:41
+#: templates/layout.guest.php:40
 msgid "web services under your control"
 msgstr "veebiteenused sinu kontrolli all"
 
-#: templates/layout.user.php:44
+#: templates/layout.user.php:58
 msgid "Log out"
 msgstr "Logi välja"
 
-#: templates/login.php:8
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Automaatne sisselogimine lükati tagasi!"
 
-#: templates/login.php:9
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Kui sa ei muutnud oma parooli hiljut, siis võib su kasutajakonto olla ohustatud!"
 
-#: templates/login.php:10
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Palun muuda parooli, et oma kasutajakonto uuesti turvata."
 
-#: templates/login.php:15
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Kaotasid oma parooli?"
 
-#: templates/login.php:27
+#: templates/login.php:41
 msgid "remember"
 msgstr "pea meeles"
 
-#: templates/login.php:28
+#: templates/login.php:43
 msgid "Log in"
 msgstr "Logi sisse"
 
-#: templates/logout.php:1
-msgid "You are logged out."
-msgstr "Sa oled välja loginud"
+#: templates/login.php:49
+msgid "Alternative Logins"
+msgstr "Alternatiivsed meldimised"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -477,16 +601,7 @@ msgstr "eelm"
 msgid "next"
 msgstr "järgm"
 
-#: templates/verify.php:5
-msgid "Security Warning!"
-msgstr "turvahoiatus!"
-
-#: templates/verify.php:6
-msgid ""
-"Please verify your password. <br/>For security reasons you may be "
-"occasionally asked to enter your password again."
-msgstr ""
-
-#: templates/verify.php:16
-msgid "Verify"
-msgstr "Kinnita"
+#: templates/update.php:3
+#, php-format
+msgid "Updating ownCloud to version %s, this may take a while."
+msgstr "Uuendan ownCloudi versioonile %s. Läheb pisut aega."

@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Encryption" => "Шифрування",
-"Exclude the following file types from encryption" => "Не шифрувати файли наступних типів",
-"None" => "Жоден",
-"Enable Encryption" => "Включити шифрування"
+"File encryption is enabled." => "Увімкнуто шифрування файлів.",
+"The following file types will not be encrypted:" => "Такі типи файлів шифруватись не будуть:",
+"Exclude the following file types from encryption:" => "Виключити наступні типи файлів з ​​шифрування:",
+"None" => "Жоден"
 );

@@ -6,7 +6,7 @@
  * See the COPYING-README file.
  */
 
-class Test_DBSchema extends UnitTestCase {
+class Test_DBSchema extends PHPUnit_Framework_TestCase {
 	protected static $schema_file = 'static://test_db_scheme';
 	protected static $schema_file2 = 'static://test_db_scheme2';
 	protected $test_prefix;
@@ -91,9 +91,15 @@ class Test_DBSchema extends UnitTestCase {
 				break;
 			case 'pgsql':
 				$sql = "SELECT tablename AS table_name, schemaname AS schema_name "
-				. "FROM pg_tables WHERE schemaname NOT LIKE 'pg_%' "
-				.  "AND schemaname != 'information_schema' "
-				.  "AND tablename = '".$table."'";
+					. "FROM pg_tables WHERE schemaname NOT LIKE 'pg_%' "
+					.  "AND schemaname != 'information_schema' "
+					.  "AND tablename = '".$table."'";
+				$query = OC_DB::prepare($sql);
+				$result = $query->execute(array());
+				$exists = $result && $result->fetchOne();
+				break;
+			case 'mssql':
+				$sql = "SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '{$table}'";
 				$query = OC_DB::prepare($sql);
 				$result = $query->execute(array());
 				$exists = $result && $result->fetchOne();

@@ -37,10 +37,19 @@
 
 			<index>
 				<name>appconfig_appid_key_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
 				<field>
 					<name>appid</name>
 					<sorting>ascending</sorting>
 				</field>
+				<field>
+					<name>configkey</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+			<index>
+				<name>appconfig_config_key_index</name>
 				<field>
 					<name>configkey</name>
 					<sorting>ascending</sorting>
@@ -53,15 +62,156 @@
 
 	<table>
 
-		<name>*dbprefix*fscache</name>
+		<name>*dbprefix*storages</name>
 
 		<declaration>
 
 			<field>
 				<name>id</name>
-				<autoincrement>1</autoincrement>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>numeric_id</name>
 				<type>integer</type>
 				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<length>4</length>
+			</field>
+
+			<index>
+				<name>storages_id_index</name>
+				<unique>true</unique>
+				<field>
+					<name>id</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*file_map</name>
+
+		<declaration>
+
+			<field>
+				<name>logic_path</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>512</length>
+			</field>
+
+			<field>
+				<name>logic_path_hash</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>32</length>
+			</field>
+
+			<field>
+				<name>physic_path</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>512</length>
+			</field>
+
+			<field>
+				<name>physic_path_hash</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>32</length>
+			</field>
+
+			<index>
+				<name>file_map_lp_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>logic_path_hash</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>file_map_pp_index</name>
+				<unique>true</unique>
+				<field>
+					<name>physic_path_hash</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*mimetypes</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>mimetype</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<index>
+				<name>mimetype_id_index</name>
+				<unique>true</unique>
+				<field>
+					<name>mimetype</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*filecache</name>
+
+		<declaration>
+
+			<field>
+				<name>fileid</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>storage</name>
+				<type>integer</type>
+				<default></default>
 				<notnull>true</notnull>
 				<length>4</length>
 			</field>
@@ -85,9 +235,9 @@
 			<field>
 				<name>parent</name>
 				<type>integer</type>
-				<default>0</default>
+				<default></default>
 				<notnull>true</notnull>
-				<length>8</length>
+				<length>4</length>
 			</field>
 
 			<field>
@@ -95,7 +245,122 @@
 				<type>text</type>
 				<default></default>
 				<notnull>true</notnull>
-				<length>300</length>
+				<length>250</length>
+			</field>
+
+			<field>
+				<name>mimetype</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>mimepart</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>size</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>8</length>
+			</field>
+
+			<field>
+				<name>mtime</name>
+				<type>integer</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>encrypted</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>etag</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>40</length>
+			</field>
+
+			<index>
+				<name>fs_storage_path_hash</name>
+				<unique>true</unique>
+				<field>
+					<name>storage</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>path_hash</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>fs_parent_name_hash</name>
+				<field>
+					<name>parent</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>name</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>fs_storage_mimetype</name>
+				<field>
+					<name>storage</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>mimetype</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>fs_storage_mimepart</name>
+				<field>
+					<name>storage</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>mimepart</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*permissions</name>
+
+		<declaration>
+
+			<field>
+				<name>fileid</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>4</length>
 			</field>
 
 			<field>
@@ -107,101 +372,23 @@
 			</field>
 
 			<field>
-				<name>size</name>
+				<name>permissions</name>
 				<type>integer</type>
 				<default>0</default>
 				<notnull>true</notnull>
-				<length>8</length>
-			</field>
-
-			<field>
-				<name>ctime</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<length>8</length>
-			</field>
-
-			<field>
-				<name>mtime</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<length>8</length>
-			</field>
-
-			<field>
-				<name>mimetype</name>
-				<type>text</type>
-				<default></default>
-				<notnull>true</notnull>
-				<length>96</length>
-			</field>
-
-			<field>
-				<name>mimepart</name>
-				<type>text</type>
-				<default></default>
-				<notnull>true</notnull>
-				<length>32</length>
-			</field>
-
-			<field>
-				<name>encrypted</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<length>1</length>
-			</field>
-
-			<field>
-				<name>versioned</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<length>1</length>
-			</field>
-
-			<field>
-				<name>writable</name>
-				<type>integer</type>
-				<default>0</default>
-				<notnull>true</notnull>
-				<length>1</length>
+				<length>4</length>
 			</field>
 
 			<index>
-				<name>fscache_path_hash_index</name>
+				<name>id_user_index</name>
+				<unique>true</unique>
+				<primary>true</primary>
 				<field>
-					<name>path_hash</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
-
-			<index>
-				<name>parent_index</name>
-				<field>
-					<name>parent</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
-
-			<index>
-				<name>name_index</name>
-				<field>
-					<name>name</name>
-					<sorting>ascending</sorting>
-				</field>
-			</index>
-
-			<index>
-				<name>parent_name_index</name>
-				<field>
-					<name>parent</name>
+					<name>fileid</name>
 					<sorting>ascending</sorting>
 				</field>
 				<field>
-					<name>name</name>
+					<name>user</name>
 					<sorting>ascending</sorting>
 				</field>
 			</index>
@@ -232,6 +419,20 @@
 				<length>64</length>
 			</field>
 
+			<index>
+				<name>gu_gid_uid_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>gid</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
 		</declaration>
 
 	</table>
@@ -257,6 +458,27 @@
 				<notnull>true</notnull>
 				<length>64</length>
 			</field>
+			<index>
+				<name>group_admin_uid</name>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>ga_gid_uid_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
+				<field>
+					<name>gid</name>
+					<sorting>ascending</sorting>
+				</field>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 
 		</declaration>
 
@@ -406,6 +628,8 @@
 
 			<index>
 				<name>pref_userid_appid_key_index</name>
+				<primary>true</primary>
+				<unique>true</unique>
 				<field>
 					<name>userid</name>
 					<sorting>ascending</sorting>
@@ -429,6 +653,15 @@
 		<name>*dbprefix*properties</name>
 
 		<declaration>
+
+			<field>
+				<name>id</name>
+				<autoincrement>1</autoincrement>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<length>4</length>
+			</field>
 
 			<field>
 				<name>userid</name>
@@ -460,6 +693,14 @@
 				<notnull>true</notnull>
 				<length>255</length>
 			</field>
+
+			<index>
+				<name>property_index</name>
+				<field>
+					<name>userid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 
 		</declaration>
 
@@ -581,6 +822,21 @@
 				<notnull>false</notnull>
 			</field>
 
+			<field>
+				<name>token</name>
+				<type>text</type>
+				<default></default>
+				<notnull>false</notnull>
+				<length>32</length>
+			</field>
+
+			<index>
+				<name>token_index</name>
+				<field>
+					<name>token</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
 		</declaration>
 
 	</table>
@@ -651,6 +907,13 @@
 			</field>
 
 			<field>
+				<name>displayname</name>
+				<type>text</type>
+				<default></default>
+				<length>64</length>
+			</field>
+
+			<field>
 				<name>password</name>
 				<type>text</type>
 				<default></default>
@@ -666,6 +929,127 @@
 					<sorting>ascending</sorting>
 				</field>
 			</index>
+
+		</declaration>
+
+	</table>
+
+	<table>
+
+		<name>*dbprefix*vcategory</name>
+
+		<declaration>
+
+			<field>
+				<name>id</name>
+				<type>integer</type>
+				<default>0</default>
+				<notnull>true</notnull>
+				<autoincrement>1</autoincrement>
+				<unsigned>true</unsigned>
+				<length>4</length>
+			</field>
+
+			<field>
+				<name>uid</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>type</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>64</length>
+			</field>
+
+			<field>
+				<name>category</name>
+				<type>text</type>
+				<default></default>
+				<notnull>true</notnull>
+				<length>255</length>
+			</field>
+
+			<index>
+				<name>uid_index</name>
+				<field>
+					<name>uid</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>type_index</name>
+				<field>
+					<name>type</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+			<index>
+				<name>category_index</name>
+				<field>
+					<name>category</name>
+					<sorting>ascending</sorting>
+				</field>
+			</index>
+
+		</declaration>
+	</table>
+
+	<table>
+
+		<name>*dbprefix*vcategory_to_object</name>
+
+		<declaration>
+
+		<field>
+			<name>objid</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+			<length>4</length>
+		</field>
+
+		<field>
+			<name>categoryid</name>
+			<type>integer</type>
+			<default>0</default>
+			<notnull>true</notnull>
+			<unsigned>true</unsigned>
+			<length>4</length>
+		</field>
+
+		<field>
+			<name>type</name>
+			<type>text</type>
+			<default></default>
+			<notnull>true</notnull>
+			<length>64</length>
+		</field>
+
+		<index>
+			<primary>true</primary>
+			<unique>true</unique>
+			<name>category_object_index</name>
+			<field>
+				<name>categoryid</name>
+				<sorting>ascending</sorting>
+			</field>
+			<field>
+				<name>objid</name>
+				<sorting>ascending</sorting>
+			</field>
+			<field>
+				<name>type</name>
+				<sorting>ascending</sorting>
+			</field>
+		</index>
 
 		</declaration>
 

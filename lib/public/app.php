@@ -89,7 +89,7 @@ class App {
 	 * @param $page string page to be included
 	*/
 	public static function registerPersonal( $app, $page ) {
-		return \OC_App::registerPersonal( $app, $page );
+		\OC_App::registerPersonal( $app, $page );
 	}
 
 	/**
@@ -98,7 +98,7 @@ class App {
 	 * @param $page string page to be included
 	 */
 	public static function registerAdmin( $app, $page ) {
-		return \OC_App::registerAdmin( $app, $page );
+		\OC_App::registerAdmin( $app, $page );
 	}
 
 	/**
@@ -125,10 +125,9 @@ class App {
 	/**
 	 * @brief Check if the app is enabled, redirects to home if not
 	 * @param $app app
-	 * @returns true/false
 	*/
 	public static function checkAppEnabled( $app ) {
-		return \OC_Util::checkAppEnabled( $app );
+		\OC_Util::checkAppEnabled( $app );
 	}
 
 	/**

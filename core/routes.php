@@ -6,6 +6,10 @@
  * See the COPYING-README file.
  */
 
+// Post installation check
+$this->create('post_setup_check', '/post-setup-check')
+	->action('OC_Setup', 'postSetupCheck');
+
 // Core ajax actions
 // Search
 $this->create('search_ajax_search', '/search/ajax/search.php')
@@ -24,8 +28,17 @@ $this->create('core_ajax_vcategories_add', '/core/ajax/vcategories/add.php')
 	->actionInclude('core/ajax/vcategories/add.php');
 $this->create('core_ajax_vcategories_delete', '/core/ajax/vcategories/delete.php')
 	->actionInclude('core/ajax/vcategories/delete.php');
+$this->create('core_ajax_vcategories_addtofavorites', '/core/ajax/vcategories/addToFavorites.php')
+	->actionInclude('core/ajax/vcategories/addToFavorites.php');
+$this->create('core_ajax_vcategories_removefromfavorites', '/core/ajax/vcategories/removeFromFavorites.php')
+	->actionInclude('core/ajax/vcategories/removeFromFavorites.php');
+$this->create('core_ajax_vcategories_favorites', '/core/ajax/vcategories/favorites.php')
+	->actionInclude('core/ajax/vcategories/favorites.php');
 $this->create('core_ajax_vcategories_edit', '/core/ajax/vcategories/edit.php')
 	->actionInclude('core/ajax/vcategories/edit.php');
+// oC JS config
+$this->create('js_config', '/core/js/config.js')
+	->actionInclude('core/js/config.php');
 // Routing
 $this->create('core_ajax_routes', '/core/routes.json')
 	->action('OC_Router', 'JSRoutes');
@@ -56,3 +69,8 @@ $this->create('app_script', '/apps/{app}/{file}')
 	->defaults(array('file' => 'index.php'))
 	->requirements(array('file' => '.*.php'))
 	->action('OC', 'loadAppScriptFile');
+
+// used for heartbeat
+$this->create('heartbeat', '/heartbeat')->action(function(){
+	// do nothing
+});

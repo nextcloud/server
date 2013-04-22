@@ -8,6 +8,15 @@
 
 class OC_Request {
 	/**
+	 * @brief Check overwrite condition
+	 * @returns true/false
+	 */
+	private static function isOverwriteCondition() {
+		$regex = '/' . OC_Config::getValue('overwritecondaddr', '')  . '/';
+		return $regex === '//' or preg_match($regex, $_SERVER['REMOTE_ADDR']) === 1;
+	}
+
+	/**
 	 * @brief Returns the server host
 	 * @returns the server host
 	 *
@@ -17,6 +26,9 @@ class OC_Request {
 	public static function serverHost() {
 		if(OC::$CLI) {
 			return 'localhost';
+		}
+		if(OC_Config::getValue('overwritehost', '')<>'' and self::isOverwriteCondition()) {
+			return OC_Config::getValue('overwritehost');
 		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
 			if (strpos($_SERVER['HTTP_X_FORWARDED_HOST'], ",") !== false) {
@@ -40,6 +52,9 @@ class OC_Request {
 	* Returns the server protocol. It respects reverse proxy servers and load balancers
 	*/
 	public static function serverProtocol() {
+		if(OC_Config::getValue('overwriteprotocol', '')<>'' and self::isOverwriteCondition()) {
+			return OC_Config::getValue('overwriteprotocol');
+		}
 		if (isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
 			$proto = strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']);
 		}else{
@@ -53,6 +68,38 @@ class OC_Request {
 	}
 
 	/**
+	 * @brief Returns the request uri
+	 * @returns the request uri
+	 *
+	 * Returns the request uri, even if the website uses one or more
+	 * reverse proxies
+	 */
+	public static function requestUri() {
+		$uri = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '';
+		if (OC_Config::getValue('overwritewebroot', '') <> '' and self::isOverwriteCondition()) {
+			$uri = self::scriptName() . substr($uri, strlen($_SERVER['SCRIPT_NAME']));
+		}
+		return $uri;
+	}
+
+	/**
+	 * @brief Returns the script name
+	 * @returns the script name
+	 *
+	 * Returns the script name, even if the website uses one or more
+	 * reverse proxies
+	 */
+	public static function scriptName() {
+		$name = $_SERVER['SCRIPT_NAME'];
+		if (OC_Config::getValue('overwritewebroot', '') <> '' and self::isOverwriteCondition()) {
+			$serverroot = str_replace("\\", '/', substr(__DIR__, 0, -4));
+			$suburi = str_replace("\\", "/", substr(realpath($_SERVER["SCRIPT_FILENAME"]), strlen($serverroot)));
+			$name = OC_Config::getValue('overwritewebroot', '') . $suburi;
+		}
+		return $name;
+	}
+
+	/**
 	 * @brief get Path info from request
 	 * @returns string Path info or false when not found
 	 */
@@ -60,18 +107,31 @@ class OC_Request {
 		if (array_key_exists('PATH_INFO', $_SERVER)) {
 			$path_info = $_SERVER['PATH_INFO'];
 		}else{
-			$path_info = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
+			$path_info = self::getRawPathInfo();
 			// following is taken from Sabre_DAV_URLUtil::decodePathSegment
 			$path_info = rawurldecode($path_info);
 			$encoding = mb_detect_encoding($path_info, array('UTF-8', 'ISO-8859-1'));
 
 			switch($encoding) {
 
-			    case 'ISO-8859-1' :
-				$path_info = utf8_encode($path_info);
+				case 'ISO-8859-1' :
+					$path_info = utf8_encode($path_info);
 
 			}
 			// end copy
+		}
+		return $path_info;
+	}
+
+	/**
+	 * @brief get Path info from request, not urldecoded
+	 * @returns string Path info or false when not found
+	 */
+	public static function getRawPathInfo() {
+		$path_info = substr($_SERVER['REQUEST_URI'], strlen($_SERVER['SCRIPT_NAME']));
+		// Remove the query string from REQUEST_URI
+		if ($pos = strpos($path_info, '?')) {
+			$path_info = substr($path_info, 0, $pos);
 		}
 		return $path_info;
 	}
@@ -101,5 +161,17 @@ class OC_Request {
 		else if( strpos($HTTP_ACCEPT_ENCODING, 'gzip') !== false )
 			return 'gzip';
 		return false;
+	}
+
+	/**
+	 * @brief Check if the requester sent along an mtime
+	 * @returns false or an mtime
+	 */
+	static public function hasModificationTime () {
+		if (isset($_SERVER['HTTP_X_OC_MTIME'])) {
+			return $_SERVER['HTTP_X_OC_MTIME'];
+		} else {
+			return false;
+		}
 	}
 }

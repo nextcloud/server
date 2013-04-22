@@ -32,7 +32,7 @@ class OC_EventSource{
 	private $fallBackId=0;
 
 	public function __construct() {
-		@ob_end_clean();
+		OC_Util::obEnd();
 		header('Cache-Control: no-cache');
 		$this->fallback=isset($_GET['fallback']) and $_GET['fallback']=='true';
 		if($this->fallback) {
@@ -62,7 +62,8 @@ class OC_EventSource{
 			$type=null;
 		}
 		if($this->fallback) {
-			$response='<script type="text/javascript">window.parent.OC.EventSource.fallBackCallBack('.$this->fallBackId.',"'.$type.'",'.json_encode($data).')</script>'.PHP_EOL;
+			$response='<script type="text/javascript">window.parent.OC.EventSource.fallBackCallBack('
+				.$this->fallBackId.',"'.$type.'",'.json_encode($data).')</script>'.PHP_EOL;
 			echo $response;
 		}else{
 			if($type) {

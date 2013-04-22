@@ -4,13 +4,14 @@
 # 
 # Translators:
 # Duarte Velez Grilo <duartegrilo@gmail.com>, 2012.
+# Helder Meneses <helder.meneses@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-10-01 02:04+0200\n"
-"PO-Revision-Date: 2012-09-30 22:25+0000\n"
-"Last-Translator: Duarte Velez Grilo <duartegrilo@gmail.com>\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,30 +21,30 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "Password"
-msgstr "Palavra-Passe"
+msgstr "Password"
 
 #: templates/authenticate.php:6
 msgid "Submit"
 msgstr "Submeter"
 
-#: templates/public.php:9
+#: templates/public.php:10
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr "%s partilhou a pasta %s consigo"
 
-#: templates/public.php:11
+#: templates/public.php:13
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr "%s partilhou o ficheiro %s consigo"
 
-#: templates/public.php:14 templates/public.php:30
+#: templates/public.php:19 templates/public.php:43
 msgid "Download"
-msgstr "Descarregar"
+msgstr "Transferir"
 
-#: templates/public.php:29
+#: templates/public.php:40
 msgid "No preview available for"
 msgstr "Não há pré-visualização para"
 
-#: templates/public.php:37
+#: templates/public.php:50
 msgid "web services under your control"
 msgstr "serviços web sob o seu controlo"
