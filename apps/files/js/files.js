@@ -757,9 +757,9 @@ var createDragShadow = function(event){
 	var dir=$('#dir').val();
 
 	$(selectedFiles).each(function(i,elem){
-		var newtr = $('<tr data-dir="'+dir+'" data-filename="'+elem.name+'">'
-						+'<td class="filename">'+elem.name+'</td><td class="size">'+humanFileSize(elem.size)+'</td>'
-					 +'</tr>');
+		var newtr = $('<tr/>').attr('data-dir', dir).attr('data-filename', elem.name);
+		newtr.append($('<td/>').addClass('filename').text(elem.name));
+		newtr.append($('<td/>').addClass('size').text(humanFileSize(elem.size)));
 		tbody.append(newtr);
 		if (elem.type === 'dir') {
 			newtr.find('td.filename').attr('style','background-image:url('+OC.imagePath('core', 'filetypes/folder.png')+')');
