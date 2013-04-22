@@ -939,4 +939,24 @@ class Util {
 		
 	}
 
+	/**
+	 *@ brief geo recursively through a dir and collect all files and sub files.
+	 * @param type $dir relative to the users files folder
+	 * @return array with list of files relative to the users files folder
+	 */
+	public function getAllFiles($dir) {
+		$result = array();
+		$path = $this->view->getLocalFile();
+		$content = $this->view->getDirectoryContent("/".$this->userFilesDir.'/'.$this->filesFolderName.$dir);
+
+		foreach ($content as $c) {
+			if ($c['type'] === "dir" ) {
+				$result = array_merge($result, $this->getAllFiles(substr($c['path'],5)));
+			} else {
+				$result[] = substr($c['path'], 5);
+			}
+		}
+		return $result;
+	}
+
 }

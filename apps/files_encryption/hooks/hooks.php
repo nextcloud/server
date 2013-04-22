@@ -166,8 +166,8 @@ class Hooks {
 	/**
 	 * @brief 
 	 */
-	public static function postShared( $params ) {
-	
+	public static function postShared($params) {
+
 		// NOTE: $params has keys:
 		// [itemType] => file
 		// itemSource -> int, filecache file ID
@@ -183,50 +183,46 @@ class Hooks {
 		// [fileSource] => 13
 		// [fileTarget] => /test8
 		// [id] => 10
-		// [token] => 
-		
+		// [token] =>
 		// TODO: Should other kinds of item be encrypted too?
-		if ( $params['itemType'] === 'file' ) {
-		
-			$view = new \OC_FilesystemView( '/' );
+		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
+
+			$view = new \OC_FilesystemView('/');
 			$session = new Session($view);
 			$userId = \OCP\User::getUser();
-			$util = new Util( $view, $userId );
-			$path = $util->fileIdToPath( $params['itemSource'] );
+			$util = new Util($view, $userId);
+			$path = $util->fileIdToPath($params['itemSource']);
 
 			$sharingEnabled = \OCP\Share::isEnabled();
-			$usersSharing = $util->getSharingUsersArray( $sharingEnabled, $path);
-			
-			// Recursively expand path to include subfiles
-			$allPaths = $util->getPaths( $path );
-			
-			$failed = array();
-			
-			// Loop through all subfiles
-			foreach ( $allPaths as $path ) {
-			
-				// Attempt to set shareKey
-				if ( ! $util->setSharedFileKeyfiles( $session, $usersSharing, $path ) ) {
-				
-					$failed[] = $path;
-					
-				}
-				
-			}
-			
-			// If no attempts to set keyfiles failed
-			if ( empty( $failed ) ) {
-			
-				return true;
-				
+
+			if ($params['itemType'] === 'folder') {
+				//list($owner, $ownerPath) = $util->getUidAndFilename($filePath);
+				$allFiles = $util->getAllFiles($path);
 			} else {
-			
-				return false;
-				
+				$allFiles = array($path);
 			}
-		
+
+			foreach ($allFiles as $path) {
+				$usersSharing = $util->getSharingUsersArray($sharingEnabled, $path);
+
+				$failed = array();
+
+				// Attempt to set shareKey
+				if (!$util->setSharedFileKeyfiles($session, $usersSharing, $path)) {
+
+					$failed[] = $path;
+				}
+			}
+
+			// If no attempts to set keyfiles failed
+			if (empty($failed)) {
+
+				return true;
+			} else {
+
+				return false;
+			}
 		}
-		
 	}
 	
 	/**
