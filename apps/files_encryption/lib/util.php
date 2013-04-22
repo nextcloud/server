@@ -337,7 +337,7 @@ class Util {
 						// scanning every file like this
 						// will eat server resources :(
 						if ( 
-							Keymanager::getFileKey( $this->view, $this->userId, $file ) 
+							Keymanager::getFileKey( $this->view, $this->userId, $relPath )
 							&& Crypt::isCatfileContent( $data )
 						) {
 						
