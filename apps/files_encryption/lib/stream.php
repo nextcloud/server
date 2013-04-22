@@ -101,6 +101,9 @@ class Stream {
 
 		} else {
 
+            // Disable fileproxies so we can get the file size and open the source file without recursive encryption
+            \OC_FileProxy::$enabled = false;
+
 			if ( 
 			$mode == 'w' 
 			or $mode == 'w+' 
@@ -118,9 +121,6 @@ class Stream {
 				//$this->size = filesize( $this->rawPath );
 				
 			}
-
-			// Disable fileproxies so we can open the source file without recursive encryption
-			\OC_FileProxy::$enabled = false;
 
 			//$this->handle = fopen( $this->rawPath, $mode );
 			
@@ -240,14 +240,13 @@ class Stream {
 		
 		// Avoid problems with .part file extensions
 		$this->relPath = Keymanager::fixPartialFilePath( $this->relPath );
-	
+
+        // Fetch and decrypt keyfile
+        // Fetch existing keyfile
+        $this->encKeyfile = Keymanager::getFileKey( $this->rootView, $this->userId, $this->relPath );
+
 		// If a keyfile already exists
-		if ( $this->rootView->file_exists( $this->userId . '/'. 'files_encryption' . '/' . 'keyfiles' . '/' . $this->relPath . '.key' ) ) {
-			
-			// Fetch and decrypt keyfile
-			// Fetch existing keyfile
-			$this->encKeyfile = Keymanager::getFileKey( $this->rootView, $this->userId, $this->relPath );
-			
+		if ( $this->encKeyfile ) {
 			$this->setUserProperty();
 			
 			$session = new Session( $this->rootView );
@@ -338,11 +337,15 @@ class Stream {
 		
 		// Get all users sharing the file
 		$uniqueUserIds = $util->getSharingUsersArray( $sharingEnabled, $this->relPath );
-		
+
+        // allways add current user
+        $uniqueUserIds[] = $this->userId;
+        array_unique( $uniqueUserIds );
+
 		// Fetch public keys for all sharing users
 		$publicKeys = Keymanager::getPublicKeys( $this->rootView, $uniqueUserIds );
-		
-		// Encrypt enc key for all sharing users
+
+        // Encrypt enc key for all sharing users
 		$this->encKeyfiles = Crypt::multiKeyEncrypt( $this->plainKey, $publicKeys );
 		
 		$view = new \OC_FilesystemView( '/' );
@@ -429,7 +432,7 @@ class Stream {
 				
 				$encrypted = $this->preWriteEncrypt( $chunk, $this->plainKey );
 				
-				trigger_error("\$encrypted = $encrypted");
+				//trigger_error("\$encrypted = $encrypted");
 				
 				// Write the data chunk to disk. This will be 
 				// attended to the last data chunk if the file
