@@ -187,6 +187,7 @@ class OC_Setup {
 					unlink("$datadir/owncloud.db");
 				}
 				//in case of sqlite, we can always fill the database
+				error_log("creating sqlite db");
 				OC_DB::createDbFromStructure('db_structure.xml');
 			}
 
@@ -195,7 +196,7 @@ class OC_Setup {
 				OC_User::createUser($username, $password);
 			}
 			catch(Exception $exception) {
-				$error[] = $exception->getMessage();
+				$error[] = 'Error while trying to create admin user: ' . $exception->getMessage();
 			}
 
 			if(count($error) == 0) {
