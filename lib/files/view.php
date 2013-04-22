@@ -245,13 +245,13 @@ class View {
 		if (!is_null($mtime) and !is_numeric($mtime)) {
 			$mtime = strtotime($mtime);
 		}
-		
+
 		$hooks = array('touch');
-		
+
 		if (!$this->file_exists($path)) {
 			$hooks[] = 'write';
 		}
-		
+
 		return $this->basicOperation('touch', $path, $hooks, $mtime);
 	}
 
@@ -263,11 +263,12 @@ class View {
 		if (is_resource($data)) { //not having to deal with streams in file_put_contents makes life easier
 			$absolutePath = Filesystem::normalizePath($this->getAbsolutePath($path));
 			if (\OC_FileProxy::runPreProxies('file_put_contents', $absolutePath, $data)
-				&& Filesystem::isValidPath($path)) {
+				&& Filesystem::isValidPath($path)
+			) {
 				$path = $this->getRelativePath($absolutePath);
 				$exists = $this->file_exists($path);
 				$run = true;
-				if ($this->fakeRoot == Filesystem::getRoot() && ! Cache\Scanner::isIgnoredFile($path) ) {
+				if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isIgnoredFile($path)) {
 					if (!$exists) {
 						\OC_Hook::emit(
 							Filesystem::CLASSNAME,
@@ -295,7 +296,7 @@ class View {
 					list ($count, $result) = \OC_Helper::streamCopy($data, $target);
 					fclose($target);
 					fclose($data);
-					if ($this->fakeRoot == Filesystem::getRoot() && ! Cache\Scanner::isIgnoredFile($path) ) {
+					if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isIgnoredFile($path)) {
 						if (!$exists) {
 							\OC_Hook::emit(
 								Filesystem::CLASSNAME,
@@ -335,8 +336,11 @@ class View {
 		$postFix2 = (substr($path2, -1, 1) === '/') ? '/' : '';
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($path1));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($path2));
-		if (\OC_FileProxy::runPreProxies('rename', $absolutePath1, $absolutePath2)
-			and Filesystem::isValidPath($path2)) {
+		if (
+			\OC_FileProxy::runPreProxies('rename', $absolutePath1, $absolutePath2)
+			and Filesystem::isValidPath($path2)
+			and Filesystem::isValidPath($path1)
+		) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
 
@@ -396,7 +400,11 @@ class View {
 		$postFix2 = (substr($path2, -1, 1) === '/') ? '/' : '';
 		$absolutePath1 = Filesystem::normalizePath($this->getAbsolutePath($path1));
 		$absolutePath2 = Filesystem::normalizePath($this->getAbsolutePath($path2));
-		if (\OC_FileProxy::runPreProxies('copy', $absolutePath1, $absolutePath2) and Filesystem::isValidPath($path2)) {
+		if (
+			\OC_FileProxy::runPreProxies('copy', $absolutePath1, $absolutePath2)
+			and Filesystem::isValidPath($path2)
+			and Filesystem::isValidPath($path1)
+		) {
 			$path1 = $this->getRelativePath($absolutePath1);
 			$path2 = $this->getRelativePath($absolutePath2);
 
@@ -627,7 +635,7 @@ class View {
 	private function runHooks($hooks, $path, $post = false) {
 		$prefix = ($post) ? 'post_' : '';
 		$run = true;
-		if (Filesystem::$loaded and $this->fakeRoot == Filesystem::getRoot() && ! Cache\Scanner::isIgnoredFile($path) ) {
+		if (Filesystem::$loaded and $this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isIgnoredFile($path)) {
 			foreach ($hooks as $hook) {
 				if ($hook != 'read') {
 					\OC_Hook::emit(
@@ -931,11 +939,11 @@ class View {
 	}
 
 	/**
-	* Get the owner for a file or folder
-	*
-	* @param string $path
-	* @return string
-	*/
+	 * Get the owner for a file or folder
+	 *
+	 * @param string $path
+	 * @return string
+	 */
 	public function getOwner($path) {
 		return $this->basicOperation('getOwner', $path);
 	}
