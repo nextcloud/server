@@ -64,7 +64,7 @@ class Trashbin {
 		}
 		
 		$sizeOfAddedFiles = self::copy_recursive($file_path, 'files_trashbin/files/'.$filename.'.d'.$timestamp, $view);
-		
+
 		if ( $view->file_exists('files_trashbin/files/'.$filename.'.d'.$timestamp) ) {
 			$trashbinSize += $sizeOfAddedFiles;
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`type`,`mime`,`user`) VALUES (?,?,?,?,?,?)");
@@ -141,6 +141,7 @@ class Trashbin {
 
             //retain key files
 			$keyfile = \OC\Files\Filesystem::normalizePath('files_encryption/keyfiles/' . $file_path);
+
             if ($view->is_dir($keyfile) || $view->file_exists($keyfile . '.key')) {
 
             	$user = \OCP\User::getUser();
@@ -176,7 +177,8 @@ class Trashbin {
      * @return bool
      */
 	public static function restore($file, $filename, $timestamp) {
-		$user = \OCP\User::getUser();
+
+        $user = \OCP\User::getUser();
 		$view = new \OC\Files\View('/'.$user);
 		
 		$trashbinSize = self::getTrashbinSize($user);
@@ -221,9 +223,6 @@ class Trashbin {
         // restore file
         $restoreResult = $view->rename($source, $target.$ext);
 
-        // enable proxy
-        \OC_FileProxy::$enabled = true;
-
         // handle the restore result
         if( $restoreResult ) {
         	$view->touch($target.$ext, $mtime);
@@ -236,7 +235,7 @@ class Trashbin {
 				$trashbinSize -= $view->filesize($target.$ext);
 			}
 
-			$trashbinSize -= self::restoreVersions($view, $file, $filename, $ext, $location, $timestamp);
+            $trashbinSize -= self::restoreVersions($view, $file, $filename, $ext, $location, $timestamp);
 			$trashbinSize -= self::restoreEncryptionKeys($view, $file, $filename, $ext, $location, $timestamp);
 
 			if ( $timestamp ) {
@@ -245,9 +244,15 @@ class Trashbin {
 			}
 
 			self::setTrashbinSize($user, $trashbinSize);
-			
+
+            // enable proxy
+            \OC_FileProxy::$enabled = true;
+
 			return true;
 		}
+
+        // enable proxy
+        \OC_FileProxy::$enabled = true;
 
 		return false;
 	}
@@ -302,7 +307,7 @@ class Trashbin {
      * @param $location location if file
      * @param $timestamp deleteion time
      *
-     * @return size of restored versions
+     * @return size of restored encrypted file
      */
     private static function restoreEncryptionKeys($view, $file, $filename, $ext, $location, $timestamp) {
 		// Take care of encryption keys TODO! Get '.key' in file between file name and delete date (also for permanent delete!)
@@ -310,28 +315,41 @@ class Trashbin {
 		if (\OCP\App::isEnabled('files_encryption')) {
 			$user = \OCP\User::getUser();
 
-            $parts = pathinfo($file);
-            if ($view->is_dir('/files_trashbin/files/'.$file)) {
-                $keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/' . $parts['dirname'] . '/' . $filename);
+            $path_parts = pathinfo($file);
+            $source_location = $path_parts['dirname'];
+
+            if ($view->is_dir('/files_trashbin/keyfiles/'.$file)) {
+                if($source_location != '.') {
+                    $keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/' . $source_location . '/' . $filename);
+                } else {
+                    $keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/' . $filename);
+                }
             } else {
-                $keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/' . $parts['dirname'] . '/' . $filename . '.key');
+                $keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/' . $source_location . '/' . $filename . '.key');
             }
 
-			if ($view->file_exists($keyfile)) {
-				if ($timestamp) {
-					$keyfile .= '.d' . $timestamp;
-				}
-				if ($view->is_dir('/files_trashbin/files/'.$file)) {
-					$size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $keyfile));
-					$view->rename($keyfile, 'files_encryption/keyfiles/' . $location . '/' . $filename);
+            if ($timestamp) {
+                $keyfile .= '.d' . $timestamp;
+            }
+
+            // disable proxy to prevent recursive calls
+            \OC_FileProxy::$enabled = false;
+
+            if ($view->file_exists($keyfile)) {
+            	if ($view->is_dir($keyfile)) {
+            		$size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $keyfile));
+            		$view->rename($keyfile, 'files_encryption/keyfiles/' . $location . '/' . $filename);
 				} else {
 					$size += $view->filesize($keyfile);
-					$view->rename($keyfile, 'files_encryption/keyfiles/' . $location . '/' . $filename . '.key');
+            		$view->rename($keyfile, 'files_encryption/keyfiles/' . $location . '/' . $filename . '.key');
 				}
 			}
 
-			//TODO restore share-keys
-			//...
+            //TODO restore share-keys
+            //...
+
+            // enable proxy
+            \OC_FileProxy::$enabled = true;
 		}
 		return $size;
 	}
