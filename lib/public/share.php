@@ -150,10 +150,10 @@ class Share {
 					FROM
 					`*PREFIX*share`
 					WHERE
-					item_source = ? AND share_type = ? AND uid_owner = ?'
+					item_source = ? AND share_type = ?'
 			);
 			
-			$result = $query->execute( array( $source,  self::SHARE_TYPE_USER, $user ) );
+			$result = $query->execute( array( $source,  self::SHARE_TYPE_USER ) );
 
 			if ( \OC_DB::isError( $result ) ) {
 				\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR );
@@ -170,10 +170,10 @@ class Share {
 					FROM
 					`*PREFIX*share`
 					WHERE
-					item_source = ? AND share_type = ? AND uid_owner = ?'
+					item_source = ? AND share_type = ?'
 			);
 			
-			$result = $query->execute( array( $source, self::SHARE_TYPE_GROUP, $user ) );
+			$result = $query->execute( array( $source, self::SHARE_TYPE_GROUP ) );
 
 			if ( \OC_DB::isError( $result ) ) {
 				\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR );
@@ -190,17 +190,17 @@ class Share {
 					FROM
 					`*PREFIX*share`
 					WHERE
-					item_source = ? AND share_type = ? AND uid_owner = ?'
+					item_source = ? AND share_type = ?'
 			);
 			
-			$result = $query->execute( array( $source, self::SHARE_TYPE_LINK, $user ) );
+			$result = $query->execute( array( $source, self::SHARE_TYPE_LINK ) );
 			
 			if ( \OC_DB::isError( $result ) ) {
 				\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR );
 			}
 			
 			if ($result->fetchRow()) {
-				$shares[] = "ownCloud";
+				$shares[] = "owncloud";
 			}
 		}
 		// Include owner in list of users, if requested

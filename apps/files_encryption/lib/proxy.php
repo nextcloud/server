@@ -256,18 +256,13 @@ class Proxy extends \OC_FileProxy {
 		// Format path to be relative to user files dir
 		$relPath = $util->stripUserFilesPath( $path );
 
-// 		list( $owner, $ownerPath ) = $util->getUidAndFilename( $relPath );
-
-		$fileOwner = \OC\Files\Filesystem::getOwner( $path );
-		$ownerPath = $util->stripUserFilesPath( $path );  // TODO: Don't trust $path, fetch owner path
-
-		$filePath = $fileOwner . '/' . 'files_encryption' . '/' . 'keyfiles' . '/'. $ownerPath;
+ 		list( $owner, $ownerPath ) = $util->getUidAndFilename( $relPath );
 
 		// Delete keyfile & shareKey so it isn't orphaned
 		if (
 			! (
-				Keymanager::deleteFileKey( $view, $fileOwner, $ownerPath )
-				&& Keymanager::delShareKey( $view, $fileOwner, $ownerPath )
+				Keymanager::deleteFileKey( $view, $owner, $ownerPath )
+				&& Keymanager::delAllShareKeys( $view, $owner, $ownerPath )
 			)
 		) {
 		

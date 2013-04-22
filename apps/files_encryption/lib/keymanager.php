@@ -54,7 +54,7 @@ class Keymanager {
 		
 		\OC_FileProxy::$enabled = false;
 		
-		return $view->file_get_contents( '/public-keys/' . '/' . $userId . '.public.key' );
+		return $view->file_get_contents( '/public-keys/' . $userId . '.public.key' );
 		
 		\OC_FileProxy::$enabled = true;
 		
@@ -391,7 +391,26 @@ class Keymanager {
 		return $result;
 		
 	}
-	
+
+	/**
+	 * @brief delete all share keys of a given file
+	 * @param \OC_FilesystemView $view
+	 * @param type $userId owner of the file
+	 * @param type $filePath path to the file, relative to the owners file dir
+	 */
+	public static function delAllShareKeys(\OC_FilesystemView $view, $userId, $filePath) {
+		
+		if ($view->is_dir($userId.'/files/'.$filePath)) {
+			$view->unlink($userId.'/files_encryption/share-keys/'.$filePath);
+		} else {
+			$localKeyPath = $view->getLocalFile($userId.'/files_encryption/share-keys/'.$filePath);
+			$matches = glob(preg_quote($localKeyPath).'*.shareKey');
+			foreach ($matches as $ma) {
+				unlink($ma);
+			}
+		}
+	}
+
 	/**
 	 * @brief Delete a single user's shareKey for a single file
 	 */
