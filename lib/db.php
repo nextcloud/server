@@ -633,18 +633,20 @@ class OC_DB {
 		$type = self::$type;
 
 		$query = '';
+		$inserts = array_values($input);
 		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
 		if( $type == 'sqlite' || $type == 'sqlite3' ) {
 			// NOTE: For SQLite we have to use this clumsy approach
 			// otherwise all fieldnames used must have a unique key.
-			$query = 'SELECT * FROM "' . $table . '" WHERE ';
+			$query = 'SELECT * FROM `' . $table . '` WHERE ';
 			foreach($input as $key => $value) {
-				$query .= $key . " = '" . $value . '\' AND ';
+				$query .= '`' . $key . '` = ? AND ';
 			}
 			$query = substr($query, 0, strlen($query) - 5);
 			try {
 				$stmt = self::prepare($query);
-				$result = $stmt->execute();
+				$result = $stmt->execute($inserts);
+
 			} catch(PDOException $e) {
 				$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
 				$entry .= 'Offending command was: ' . $query . '<br />';
@@ -653,27 +655,26 @@ class OC_DB {
 				OC_Template::printErrorPage( $entry );
 			}
 
-			if($result->numRows() == 0) {
-				$query = 'INSERT INTO "' . $table . '" ("'
-					. implode('","', array_keys($input)) . '") VALUES("'
-					. implode('","', array_values($input)) . '")';
+			if((int)$result->numRows() === 0) {
+				$query = 'INSERT INTO `' . $table . '` (`'
+					. implode('`,`', array_keys($input)) . '`) VALUES('
+					. str_repeat('?,', count($input)-1).'? ' . ')';
 			} else {
 				return true;
 			}
 		} elseif( $type == 'pgsql' || $type == 'oci' || $type == 'mysql' || $type == 'mssql') {
-			$query = 'INSERT INTO `' .$table . '` ('
-				. implode(',', array_keys($input)) . ') SELECT \''
-				. implode('\',\'', array_values($input)) . '\' FROM ' . $table . ' WHERE ';
+			$query = 'INSERT INTO `' .$table . '` (`'
+				. implode('`,`', array_keys($input)) . '`) SELECT '
+				. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
+				. 'FROM `' . $table . '` WHERE ';
 
 			foreach($input as $key => $value) {
-				$query .= $key . " = '" . $value . '\' AND ';
+				$query .= '`' . $key . '` = ? AND ';
 			}
 			$query = substr($query, 0, strlen($query) - 5);
 			$query .= ' HAVING COUNT(*) = 0';
+			$inserts = array_merge($inserts, $inserts);
 		}
-
-		// TODO: oci should be use " (quote) instead of ` (backtick).
-		//OC_Log::write('core', __METHOD__ . ', type: ' . $type . ', query: ' . $query, OC_Log::DEBUG);
 
 		try {
 			$result = self::prepare($query);
@@ -685,7 +686,7 @@ class OC_DB {
 			OC_Template::printErrorPage( $entry );
 		}
 
-		return $result->execute();
+		return $result->execute($inserts);
 	}
 
 	/**
