@@ -196,7 +196,6 @@ class Hooks {
 			$sharingEnabled = \OCP\Share::isEnabled();
 
 			if ($params['itemType'] === 'folder') {
-				//list($owner, $ownerPath) = $util->getUidAndFilename($filePath);
 				$allFiles = $util->getAllFiles($path);
 			} else {
 				$allFiles = array($path);
@@ -250,13 +249,21 @@ class Hooks {
 				$userIds = array($params['shareWith']);
 			}
 
-			// If path is a folder, get all children
-			$allPaths = $util->getPaths( $path );
+			if ($params['itemType'] === 'folder') {
+				$allFiles = $util->getAllFiles($path);
+			} else {
+				$allFiles = array($path);
+			}
+
 			
-			foreach ( $allPaths as $path ) {
-			
-				// Unshare each child path
-				if ( ! Keymanager::delShareKey( $view, $userIds, $path ) ) {
+			foreach ( $allFiles as $path ) {
+
+				// check if the user still has access to the file, otherwise delete share key
+				$sharingUsers = $util->getSharingUsersArray(true, $path);
+
+				// Unshare every user who no longer has access to the file
+				$delUsers = array_diff($userIds, $sharingUsers);
+				if ( ! Keymanager::delShareKey( $view, $delUsers, $path ) ) {
 				
 					$failed[] = $path;
 					

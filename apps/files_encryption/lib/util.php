@@ -693,58 +693,7 @@ class Util {
 		);
 		
 	}
-	
-	/**
-	 * @brief Expand given path to all sub files & folders
-	 * @param string $path path which needs to be updated
-	 * @return array $pathsArray all found file paths
-	 * @note Paths of directories excluded, only *file* paths are returned
-	 */
-	public function getPaths( $path ) {
 		
-		// Default return value is success
-		$result = true;
-	
-		// Make path include 'files' dir for OC_FSV operations
-		$fPath = 'files' . $path;
-		
-		// If we're handling a single file
-		if ( ! $this->view->is_dir( $fPath ) ) {
-			
-			$pathsArray[] = $path;
-			
-		// If we're handling a folder (recursively)
-		} else {
-		
-			$subFiles = $this->view->getDirectoryContent( $fPath );
-			
-			foreach ( $subFiles as $file ) {
-			
-				$filePath = substr( $file['path'], 5 );
-				
-				// If this is a nested file
-				if ( ! $this->view->is_dir( $fPath ) ) {
-					
-					// Add the file path to array
-					$pathsArray[] = $path;
-					
-				} else {
-				
-					// If this is a nested folder
-					$dirPaths = $this->getPaths( $filePath );
-					
-					// Add all subfiles & folders to the array
-					$pathsArray = array_merge( $dirPaths, $pathsArray );
-					
-				}
-			}
-			
-		}
-		
-		return $pathsArray;
-
-	}
-	
 	/**
 	 * @brief Decrypt a keyfile without knowing how it was encrypted
 	 * @param string $filePath
