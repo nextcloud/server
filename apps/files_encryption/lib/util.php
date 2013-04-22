@@ -895,8 +895,8 @@ class Util {
 	 */
 	public function getAllFiles($dir) {
 		$result = array();
-		$path = $this->view->getLocalFile();
-		$content = $this->view->getDirectoryContent("/".$this->userFilesDir.'/'.$this->filesFolderName.$dir);
+		
+		$content = $this->view->getDirectoryContent($this->userFilesDir.$dir);
 
 		foreach ($content as $c) {
 			if ($c['type'] === "dir" ) {
