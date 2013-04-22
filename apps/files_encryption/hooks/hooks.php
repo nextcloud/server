@@ -193,8 +193,18 @@ class Hooks {
 			$util = new Util($view, $userId);
 			$path = $util->fileIdToPath($params['itemSource']);
 
+			//check if this is a reshare action, that's true if the item source is already shared with me
+			$sharedItem = \OCP\Share::getItemSharedWithBySource($params['itemType'], $params['itemSource']);
+			if ($sharedItem) {
+				// if it is a re-share than the file is located in my Shared folder
+				$path = '/Shared'.$sharedItem['file_target'];
+			} else {
+				$path = $util->fileIdToPath($params['itemSource']);
+			}
+
 			$sharingEnabled = \OCP\Share::isEnabled();
 
+			// if a folder was shared, get a list if all (sub-)folders
 			if ($params['itemType'] === 'folder') {
 				$allFiles = $util->getAllFiles($path);
 			} else {
@@ -243,12 +253,14 @@ class Hooks {
 			$util = new Util( $view, $userId );
 			$path = $util->fileIdToPath( $params['itemSource'] );
 
+			// for group shares get a list of the group members
 			if ($params['shareType'] == \OCP\Share::SHARE_TYPE_GROUP) {
 				$userIds = \OC_Group::usersInGroup($params['shareWith']);
 			} else {
 				$userIds = array($params['shareWith']);
 			}
 
+			// if we unshare a folder we need a list of all (sub-)files
 			if ($params['itemType'] === 'folder') {
 				$allFiles = $util->getAllFiles($path);
 			} else {
