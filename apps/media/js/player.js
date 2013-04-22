@@ -53,8 +53,8 @@ var PlayList={
 					}else{
 						var next=0;
 					}
-					$('.jp-next').attr('title',items[next].name);
-					$('.jp-previous').attr('title',items[previous].name);
+					$('.jp-next').attr('title',escapeHTML(items[next].name));
+					$('.jp-previous').attr('title',escapeHTML(items[previous].name));
 					if (typeof Collection !== 'undefined') {
 						Collection.registerPlay();
 					}
@@ -96,7 +96,7 @@ var PlayList={
 			},
 			play:function(event){
 				OC.localStorage.setItem('playlist_playing',true);
-				document.title = "\u25b8 " + event.jPlayer.status.media.name + " - " + event.jPlayer.status.media.artist + " - ownCloud";
+				document.title = "\u25b8 " + escapeHTML(event.jPlayer.status.media.name) + " - " + escapeHTML(event.jPlayer.status.media.artist) + " - ownCloud";
 			},
 			supplied:type,
 			ready:function(){

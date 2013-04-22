@@ -14,8 +14,8 @@ PlayList.render=function(){
 		var item=PlayList.items[i];
 		var li=$('<li/>');
 		li.attr('class', 'jp-playlist-' + i);
-		li.attr('title', item.artist + ' - ' + item.name + '<br/>(' + item.album + ')');
-		var div = $('<div class="label">' + item.name + '</div>');
+		li.attr('title', escapeHTML(item.artist) + ' - ' + escapeHTML(item.name) + '<br/>(' + escapeHTML(item.album) + ')');
+		var div = $('<div class="label">' + escapeHTML(item.name) + '</div>');
 		li.append(div);
 		$('.jp-playlist-' + i).tipsy({gravity:'w', fade:true, live:true, html:true});
 		var img=$('<img class="remove svg action" src="'+OC.imagePath('core','actions/delete')+'"/>');
