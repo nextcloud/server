@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-18 02:04+0200\n"
-"PO-Revision-Date: 2013-04-17 21:00+0000\n"
+"POT-Creation-Date: 2013-04-22 01:58+0200\n"
+"PO-Revision-Date: 2013-04-21 20:40+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Welsh (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/cy_GB/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 #: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr ""
+msgstr "Gwall dilysu"
 
 #: ajax/changedisplayname.php:32
 msgid "Unable to change display name"
@@ -126,7 +126,7 @@ msgstr ""
 
 #: js/users.js:43
 msgid "undo"
-msgstr ""
+msgstr "dadwneud"
 
 #: js/users.js:75
 msgid "Unable to remove user"
@@ -186,12 +186,12 @@ msgstr ""
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Nid yw eich gweinydd wedi'i gyflunio eto i ganiatáu cydweddu ffeiliau oherwydd bod y rhyngwyneb WebDAV wedi torri."
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Gwiriwch y <a href='%s'>canllawiau gosod</a> eto."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
