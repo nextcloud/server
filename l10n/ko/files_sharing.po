@@ -4,14 +4,15 @@
 # 
 # Translators:
 # 남자사람  <cessnagi@gmail.com>, 2012.
+# Park Shinjo <kde@peremen.name>, 2013.
 # Shinjo Park <kde@peremen.name>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2012-12-10 00:11+0100\n"
-"PO-Revision-Date: 2012-12-09 06:12+0000\n"
-"Last-Translator: Shinjo Park <kde@peremen.name>\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,24 +28,24 @@ msgstr "암호"
 msgid "Submit"
 msgstr "제출"
 
-#: templates/public.php:17
+#: templates/public.php:10
 #, php-format
 msgid "%s shared the folder %s with you"
 msgstr "%s 님이 폴더 %s을(를) 공유하였습니다"
 
-#: templates/public.php:19
+#: templates/public.php:13
 #, php-format
 msgid "%s shared the file %s with you"
 msgstr "%s 님이 파일 %s을(를) 공유하였습니다"
 
-#: templates/public.php:22 templates/public.php:38
+#: templates/public.php:19 templates/public.php:43
 msgid "Download"
 msgstr "다운로드"
 
-#: templates/public.php:37
+#: templates/public.php:40
 msgid "No preview available for"
 msgstr "다음 항목을 미리 볼 수 없음:"
 
-#: templates/public.php:43
+#: templates/public.php:50
 msgid "web services under your control"
 msgstr "내가 관리하는 웹 서비스"

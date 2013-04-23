@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Error" => "வழு",
 "Name" => "பெயர்",
 "1 folder" => "1 கோப்புறை",
 "{count} folders" => "{எண்ணிக்கை} கோப்புறைகள்",

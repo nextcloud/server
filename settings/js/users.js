@@ -4,6 +4,18 @@
  * See the COPYING-README file.
  */
 
+function setQuota (uid, quota, ready) {
+	$.post(
+		OC.filePath('settings', 'ajax', 'setquota.php'),
+		{username: uid, quota: quota},
+		function (result) {
+			if (ready) {
+				ready(result.data.quota);
+			}
+		}
+	);
+}
+
 var UserList = {
 	useUndo: true,
 	availableGroups: [],
@@ -118,6 +130,13 @@ var UserList = {
 		if (sort) {
 			UserList.doSort();
 		}
+
+		quotaSelect.singleSelect();
+		quotaSelect.on('change', function () {
+			var uid = $(this).parent().parent().attr('data-uid');
+			var quota = $(this).val();
+			setQuota(uid, quota);
+		});
 	},
 	// From http://my.opera.com/GreyWyvern/blog/show.dml/1671288
 	alphanum: function(a, b) {
@@ -218,9 +237,9 @@ var UserList = {
 							group: group
 						},
 						function (response) {
-							if(response.status === 'success' && response.data.action === 'add') {
-								if(UserList.availableGroups.indexOf(response.data.gropname) === -1) {
-									UserList.availableGroups.push(response.data.gropname);
+							if(response.status === 'success') {
+								if(UserList.availableGroups.indexOf(response.data.groupname) === -1 && response.data.action === 'add') {
+									UserList.availableGroups.push(response.data.groupname);
 								}
 							} else {
 								OC.Notification.show(response.data.message);
@@ -302,18 +321,6 @@ $(document).ready(function () {
 			UserList.update();
 		});
 	});
-
-	function setQuota (uid, quota, ready) {
-		$.post(
-			OC.filePath('settings', 'ajax', 'setquota.php'),
-			{username: uid, quota: quota},
-			function (result) {
-				if (ready) {
-					ready(result.data.quota);
-				}
-			}
-		);
-	}
 
 	$('select[multiple]').each(function (index, element) {
 		UserList.applyMultiplySelect($(element));

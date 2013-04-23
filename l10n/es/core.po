@@ -3,27 +3,27 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Felix Liberio <felix.liberio@gmail.com>, 2013.
-#   <javierkaiser@gmail.com>, 2012.
-# Javier Llorente <javier@opensuse.org>, 2012.
-#  <juanma@kde.org.ar>, 2013.
-#   <juanma@kde.org.ar>, 2011-2013.
-#   <malmirk@gmail.com>, 2012.
-# oSiNaReF  <>, 2012.
-# Raul Fernandez Garcia <raulfg3@gmail.com>, 2012.
-#   <rodrigo.calvo@gmail.com>, 2012.
-#   <rom1dep@gmail.com>, 2011.
-# Rubén Trujillo <rubentrf@gmail.com>, 2012.
-#   <sergioballesterossolanas@gmail.com>, 2011-2012.
-#   <sergio@entrecables.com>, 2012.
-# Vladimir Martinez Sierra <vladimirmartinezsierra@gmail.com>, 2013.
+# felix.liberio <felix.liberio@gmail.com>, 2013
+# Javierkaiser <javierkaiser@gmail.com>, 2012
+# Javier Llorente <javier@opensuse.org>, 2012
+# juanman <juanma@kde.org.ar>, 2013
+# juanman <juanma@kde.org.ar>, 2011-2013
+# malmirk <malmirk@gmail.com>, 2012
+# oSiNaReF <>, 2012
+# Raul Fernandez Garcia <raulfg3@gmail.com>, 2012
+# rodrigo.calvo <rodrigo.calvo@gmail.com>, 2012
+# Romain DEP. <rom1dep@gmail.com>, 2011
+# Rubén Trujillo <rubentrf@gmail.com>, 2012
+# xsergiolpx <sergioballesterossolanas@gmail.com>, 2011-2012
+# scambra <sergio@entrecables.com>, 2012
+# msvladimir <vladimirmartinezsierra@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
-"Last-Translator: juanman <juanma@kde.org.ar>\n"
+"POT-Creation-Date: 2013-04-23 01:58+0200\n"
+"PO-Revision-Date: 2013-04-22 18:40+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -174,86 +174,88 @@ msgstr "Diciembre"
 msgid "Settings"
 msgstr "Ajustes"
 
-#: js/js.js:779
+#: js/js.js:718
 msgid "seconds ago"
 msgstr "hace segundos"
 
-#: js/js.js:780
+#: js/js.js:719
 msgid "1 minute ago"
 msgstr "hace 1 minuto"
 
-#: js/js.js:781
+#: js/js.js:720
 msgid "{minutes} minutes ago"
 msgstr "hace {minutes} minutos"
 
-#: js/js.js:782
+#: js/js.js:721
 msgid "1 hour ago"
 msgstr "Hace 1 hora"
 
-#: js/js.js:783
+#: js/js.js:722
 msgid "{hours} hours ago"
 msgstr "Hace {hours} horas"
 
-#: js/js.js:784
+#: js/js.js:723
 msgid "today"
 msgstr "hoy"
 
-#: js/js.js:785
+#: js/js.js:724
 msgid "yesterday"
 msgstr "ayer"
 
-#: js/js.js:786
+#: js/js.js:725
 msgid "{days} days ago"
 msgstr "hace {days} días"
 
-#: js/js.js:787
+#: js/js.js:726
 msgid "last month"
 msgstr "mes pasado"
 
-#: js/js.js:788
+#: js/js.js:727
 msgid "{months} months ago"
 msgstr "Hace {months} meses"
 
-#: js/js.js:789
+#: js/js.js:728
 msgid "months ago"
 msgstr "hace meses"
 
-#: js/js.js:790
+#: js/js.js:729
 msgid "last year"
 msgstr "año pasado"
 
-#: js/js.js:791
+#: js/js.js:730
 msgid "years ago"
 msgstr "hace años"
 
-#: js/oc-dialogs.js:126
-msgid "Choose"
-msgstr "Seleccionar"
+#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
+msgid "Ok"
+msgstr "Aceptar"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "No"
+#: js/oc-dialogs.js:185
+msgid "Choose"
+msgstr "Seleccionar"
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:215
 msgid "Yes"
 msgstr "Sí"
 
-#: js/oc-dialogs.js:180
-msgid "Ok"
-msgstr "Aceptar"
+#: js/oc-dialogs.js:222
+msgid "No"
+msgstr "No"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
 msgstr "El tipo de objeto no se ha especificado."
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
-#: js/share.js:578
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr "Fallo"
 
@@ -273,7 +275,7 @@ msgstr "Compartido"
 msgid "Share"
 msgstr "Compartir"
 
-#: js/share.js:125 js/share.js:606
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr "Error compartiendo"
 
@@ -305,7 +307,7 @@ msgstr "Compartir con enlace"
 msgid "Password protect"
 msgstr "Protegido por contraseña"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Contraseña"
 
@@ -333,59 +335,59 @@ msgstr "compartido via e-mail:"
 msgid "No people found"
 msgstr "No se encontró gente"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr "No se permite compartir de nuevo"
 
-#: js/share.js:276
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr "Compartido en {item} con {user}"
 
-#: js/share.js:297
+#: js/share.js:308
 msgid "Unshare"
 msgstr "No compartir"
 
-#: js/share.js:309
+#: js/share.js:320
 msgid "can edit"
 msgstr "puede editar"
 
-#: js/share.js:311
+#: js/share.js:322
 msgid "access control"
 msgstr "control de acceso"
 
-#: js/share.js:314
+#: js/share.js:325
 msgid "create"
 msgstr "crear"
 
-#: js/share.js:317
+#: js/share.js:328
 msgid "update"
 msgstr "modificar"
 
-#: js/share.js:320
+#: js/share.js:331
 msgid "delete"
 msgstr "eliminar"
 
-#: js/share.js:323
+#: js/share.js:334
 msgid "share"
 msgstr "compartir"
 
-#: js/share.js:357 js/share.js:553
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr "Protegido por contraseña"
 
-#: js/share.js:566
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr "Error al eliminar la fecha de caducidad"
 
-#: js/share.js:578
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr "Error estableciendo fecha de caducidad"
 
-#: js/share.js:593
+#: js/share.js:604
 msgid "Sending ..."
 msgstr "Enviando..."
 
-#: js/share.js:604
+#: js/share.js:615
 msgid "Email sent"
 msgstr "Correo electrónico enviado"
 
@@ -421,7 +423,7 @@ msgid "Request failed!"
 msgstr "Pedido fallado!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
 msgstr "Nombre de usuario"
 
@@ -531,37 +533,37 @@ msgstr "Avanzado"
 msgid "Data folder"
 msgstr "Directorio de almacenamiento"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Configurar la base de datos"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "se utilizarán"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Usuario de la base de datos"
 
-#: templates/installation.php:141
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Contraseña de la base de datos"
 
-#: templates/installation.php:146
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Nombre de la base de datos"
 
-#: templates/installation.php:156
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Espacio de tablas de la base de datos"
 
-#: templates/installation.php:163
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Host de la base de datos"
 
-#: templates/installation.php:169
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Completar la instalación"
 
@@ -573,33 +575,33 @@ msgstr "servicios web bajo tu control"
 msgid "Log out"
 msgstr "Salir"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "¡Inicio de sesión automático rechazado!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Si usted no ha cambiado su contraseña recientemente, ¡puede que su cuenta esté comprometida!"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Por favor cambie su contraseña para asegurar su cuenta nuevamente."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "¿Has perdido tu contraseña?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "recuérdame"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Entrar"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Nombre de usuarios alternativos"
 

@@ -130,14 +130,24 @@ class OC_Config{
 			return true;
 		}
 
-		if( !file_exists( OC::$SERVERROOT."/config/config.php" )) {
-			return false;
-		}
+		// read all file in config dir ending by config.php
+		$config_files = glob( OC::$SERVERROOT."/config/*.config.php");
 
-		// Include the file, save the data from $CONFIG
-		include OC::$SERVERROOT."/config/config.php";
-		if( isset( $CONFIG ) && is_array( $CONFIG )) {
-			self::$cache = $CONFIG;
+		//Filter only regular files
+		$config_files = array_filter($config_files, 'is_file');
+
+		//Sort array naturally :
+		natsort($config_files);
+
+		// Add default config
+		array_unshift($config_files,OC::$SERVERROOT."/config/config.php");
+
+		//Include file and merge config
+		foreach($config_files as $file){
+			include $file;
+			if( isset( $CONFIG ) && is_array( $CONFIG )) {
+				self::$cache = array_merge(self::$cache, $CONFIG);
+			}
 		}
 
 		// We cached everything

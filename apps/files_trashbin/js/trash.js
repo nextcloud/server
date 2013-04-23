@@ -16,7 +16,7 @@ $(document).ready(function() {
 						row.parentNode.removeChild(row);
 					}
 					if (result.status != 'success') {
-						OC.dialogs.alert(result.data.message, 'Error');
+						OC.dialogs.alert(result.data.message, t('core', 'Error'));
 					}
 				});
 
@@ -43,7 +43,7 @@ $(document).ready(function() {
 						row.parentNode.removeChild(row);
 					}
 					if (result.status != 'success') {
-						OC.dialogs.alert(result.data.message, 'Error');
+						OC.dialogs.alert(result.data.message, t('core', 'Error'));
 					}
 				});
 
@@ -111,7 +111,7 @@ $(document).ready(function() {
 							row.parentNode.removeChild(row);
 						}
 						if (result.status != 'success') {
-							OC.dialogs.alert(result.data.message, 'Error');
+							OC.dialogs.alert(result.data.message, t('core', 'Error'));
 						}
 					});
 			});
@@ -136,7 +136,7 @@ $(document).ready(function() {
 							row.parentNode.removeChild(row);
 						}
 						if (result.status != 'success') {
-							OC.dialogs.alert(result.data.message, 'Error');
+							OC.dialogs.alert(result.data.message, t('core', 'Error'));
 						}
 					});
 			});

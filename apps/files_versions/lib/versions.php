@@ -279,6 +279,18 @@ class Storage {
 
 	}
 
+
+	/**
+	 * @brief deletes used space for files versions in db if user was deleted
+	 *
+	 * @param type $uid id of deleted user
+	 * @return result of db delete operation
+	 */
+	public static function deleteUser($uid) {
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_versions` WHERE `user`=?');
+		return $query->execute(array($uid));
+	}
+
 	/**
 	 * @brief get the size of all stored versions from a given user
 	 * @param $uid id from the user
@@ -366,12 +378,14 @@ class Storage {
 			$versions_fileview = new \OC\Files\View('/'.$uid.'/files_versions');
 
 			// get available disk space for user
+			$softQuota = true;
 			$quota = \OC_Preferences::getValue($uid, 'files', 'quota');
 			if ( $quota === null || $quota === 'default') {
 				$quota = \OC_Appconfig::getValue('files', 'default_quota');
 			}
 			if ( $quota === null || $quota === 'none' ) {
-				$quota = \OC\Files\Filesystem::free_space('/') / count(\OCP\User::getUsers());
+				$quota = \OC\Files\Filesystem::free_space('/');
+				$softQuota = false;
 			} else {
 				$quota = \OCP\Util::computerFileSize($quota);
 			}
@@ -385,14 +399,20 @@ class Storage {
 			}
 
 			// calculate available space for version history
-			$files_view = new \OC\Files\View('/'.$uid.'/files');
-			$rootInfo = $files_view->getFileInfo('/');
-			$free = $quota-$rootInfo['size']; // remaining free space for user
-			if ( $free > 0 ) {
-				$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions
+			// subtract size of files and current versions size from quota
+			if ($softQuota) {
+				$files_view = new \OC\Files\View('/'.$uid.'/files');
+				$rootInfo = $files_view->getFileInfo('/');
+				$free = $quota-$rootInfo['size']; // remaining free space for user
+				if ( $free > 0 ) {
+					$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $versionsSize; // how much space can be used for versions
+				} else {
+					$availableSpace = $free-$versionsSize;
+				}
 			} else {
-				$availableSpace = $free-$versionsSize;
+				$availableSpace = $quota;
 			}
+
 
 			// after every 1000s run reduce the number of all versions not only for the current file
 			$random = rand(0, 1000);

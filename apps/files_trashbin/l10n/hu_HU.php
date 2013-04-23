@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "Nem sikerült %s végleges törlése",
 "Couldn't restore %s" => "Nem sikerült %s visszaállítása",
 "perform restore operation" => "a visszaállítás végrehajtása",
+"Error" => "Hiba",
 "delete file permanently" => "az állomány végleges törlése",
 "Delete permanently" => "Végleges törlés",
 "Name" => "Név",

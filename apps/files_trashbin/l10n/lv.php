@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "Nevarēja pilnībā izdzēst %s",
 "Couldn't restore %s" => "Nevarēja atjaunot %s",
 "perform restore operation" => "veikt atjaunošanu",
+"Error" => "Kļūda",
 "delete file permanently" => "dzēst datni pavisam",
 "Delete permanently" => "Dzēst pavisam",
 "Name" => "Nosaukums",

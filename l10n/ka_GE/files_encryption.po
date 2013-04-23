@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Romeo Pirtskhalava <romeo@energo-pro.ge>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-10 00:08+0100\n"
-"PO-Revision-Date: 2013-02-09 23:09+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -19,20 +20,20 @@ msgstr ""
 
 #: templates/settings-personal.php:4 templates/settings.php:5
 msgid "Encryption"
-msgstr ""
+msgstr "ენკრიპცია"
 
 #: templates/settings-personal.php:7
 msgid "File encryption is enabled."
-msgstr ""
+msgstr "ფაილის ენკრიპცია ჩართულია."
 
 #: templates/settings-personal.php:11
 msgid "The following file types will not be encrypted:"
-msgstr ""
+msgstr "შემდეგი ფაილური ტიპების ენკრიპცია არ მოხდება:"
 
 #: templates/settings.php:7
 msgid "Exclude the following file types from encryption:"
-msgstr ""
+msgstr "ამოიღე შემდეგი ფაილის ტიპები ენკრიპციიდან:"
 
 #: templates/settings.php:12
 msgid "None"
-msgstr ""
+msgstr "არა"

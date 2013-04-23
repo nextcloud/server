@@ -18,7 +18,6 @@
 "Images" => "Afbeeldingen",
 "Set an admin username." => "Stel de gebruikersnaam van de beheerder in.",
 "Set an admin password." => "Stel een beheerderswachtwoord in.",
-"Specify a data folder." => "Geef een datamap op.",
 "%s enter the database username." => "%s opgeven database gebruikersnaam.",
 "%s enter the database name." => "%s opgeven databasenaam.",
 "%s you may not use dots in the database name" => "%s er mogen geen puntjes in de databasenaam voorkomen",

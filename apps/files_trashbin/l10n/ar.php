@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "تعذّر حذف%s بشكل دائم",
 "Couldn't restore %s" => "تعذّر استرجاع %s ",
 "perform restore operation" => "إبدء عملية الإستعادة",
+"Error" => "خطأ",
 "delete file permanently" => "حذف بشكل دائم",
 "Delete permanently" => "حذف بشكل دائم",
 "Name" => "اسم",

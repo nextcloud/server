@@ -892,10 +892,10 @@ class MDB2_Driver_sqlite3 extends MDB2_Driver_Common
         $connection = $this->getConnection();
         if (PEAR::isError($connection)) {
             return $connection;
-		}
+        }
         $statement =$this->connection->prepare($query);
         if (!$statement) {
-            return $this->db->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
+            return $this->raiseError(MDB2_ERROR_NOT_FOUND, null, null,
                         'unable to prepare statement: '.$query);
         }
 

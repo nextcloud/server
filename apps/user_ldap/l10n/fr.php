@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Failed to delete the server configuration" => "Échec de la suppression de la configuration du serveur",
-"The configuration is valid and the connection could be established!" => "La configuration est valide est la connexion peut être établie !",
+"The configuration is valid and the connection could be established!" => "La configuration est valide et la connexion peut être établie !",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "La configuration est valide, mais le lien ne peut être établi. Veuillez vérifier les paramètres du serveur ainsi que vos identifiants de connexion.",
 "The configuration is invalid. Please look in the ownCloud log for further details." => "La configuration est invalide. Veuillez vous référer aux fichiers de journaux ownCloud pour plus d'information.",
 "Deletion failed" => "La suppression a échoué",

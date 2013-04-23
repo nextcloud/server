@@ -4,6 +4,22 @@
  * See the COPYING-README file.
  */
 
+/**
+ * Post the email address change to the server.
+ */
+function changeEmailAddress(){
+    emailInfo = $('#email');
+    if (emailInfo.val() === emailInfo.defaultValue){
+        return;
+    }
+    emailInfo.defaultValue = emailInfo.val();
+    OC.msg.startSaving('#lostpassword .msg');
+    var post = $( "#lostpassword" ).serialize();
+    $.post( 'ajax/lostpassword.php', post, function(data){
+        OC.msg.finishedSaving('#lostpassword .msg', data);
+    });
+}
+
 $(document).ready(function(){
 	$("#passwordbutton").click( function(){
 		if ($('#pass1').val() != '' && $('#pass2').val() != '') {
@@ -62,18 +78,12 @@ $(document).ready(function(){
 
 	});
 
-	$('#lostpassword #email').blur(function(event){
-		if ($(this).val() == this.defaultValue){
-			return;
-		}
-		event.preventDefault();
-		this.defaultValue = $(this).val();
-		OC.msg.startSaving('#lostpassword .msg');
-		var post = $( "#lostpassword" ).serialize();
-		$.post( 'ajax/lostpassword.php', post, function(data){
-			OC.msg.finishedSaving('#lostpassword .msg', data);
-		});
-	});
+    $('#email').keyup(function(){
+        if(typeof timeout !== 'undefined'){
+            clearTimeout(timeout);
+        }
+        timeout = setTimeout('changeEmailAddress()',1000);
+    });
 
 	$("#languageinput").chosen();
 

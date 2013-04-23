@@ -64,6 +64,14 @@ class Test_App extends PHPUnit_Framework_TestCase {
 	}
 
 
+	public function testIsAppVersionCompatibleShouldWorkForPreAlpha(){
+		$oc = array(5, 0, 3);
+		$app = '4.93';
+
+		$this->assertTrue(OC_App::isAppVersionCompatible($oc, $app));
+	}
+
+
 	public function testIsAppVersionCompatibleShouldFailOneVersionNumbers(){
 		$oc = array(4, 3, 1);
 		$app = '5';

@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "Αδύνατη η μόνιμη διαγραφή του %s",
 "Couldn't restore %s" => "Αδυναμία επαναφοράς %s",
 "perform restore operation" => "εκτέλεση λειτουργία επαναφοράς",
+"Error" => "Σφάλμα",
 "delete file permanently" => "μόνιμη διαγραφή αρχείου",
 "Delete permanently" => "Μόνιμη διαγραφή",
 "Name" => "Όνομα",

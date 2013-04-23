@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Amir Reza Asadi <amirreza.asadi@live.com>, 2013.
-# mahdi Kereshteh <miki_mika1362@yahoo.com>, 2013.
-# Mohammad Dashtizadeh <mohammad@dashtizadeh.net>, 2012.
+# Amir Reza Asadi <amirreza.asadi@live.com>, 2013
+# miki_mika1362 <miki_mika1362@yahoo.com>, 2013
+# Mohammad Dashtizadeh <mohammad@dashtizadeh.net>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:10+0000\n"
-"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,10 +95,6 @@ msgstr ""
 #: setup.php:37
 msgid "Set an admin password."
 msgstr ""
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "پوشه ای برای داده ها مشخص کنید."
 
 #: setup.php:55
 #, php-format
@@ -183,12 +179,12 @@ msgstr ""
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "احتمالاً وب سرور شما طوری تنظیم نشده است که اجازه ی همگام سازی فایلها را بدهد زیرا به نظر میرسد رابط WebDAV از کار افتاده است."
 
 #: setup.php:854
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "لطفاً دوباره <a href='%s'>راهنمای نصب</a>را بررسی کنید."
 
 #: template.php:113
 msgid "seconds ago"

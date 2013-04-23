@@ -3,37 +3,37 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <admin@s-goecker.de>, 2011-2012.
-# Andreas Tangemann <a.tangemann@web.de>, 2013.
-#   <blobbyjj@ymail.com>, 2012.
-#   <icewind1991@gmail.com>, 2012.
-# I Robot <owncloud-bot@tmit.eu>, 2012-2013.
-# I Robot <thomas.mueller@tmit.eu>, 2012.
-# Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
-# Jan T <jan-temesinko@web.de>, 2012.
-# Lukas Reschke <lukas@statuscode.ch>, 2013.
-#   <lukas@statuscode.ch>, 2012.
-#   <mail@felixmoeller.de>, 2012.
-# Marcel Kühlhorn <susefan93@gmx.de>, 2012-2013.
-#   <nelsonfritsch@gmail.com>, 2012.
-#   <niko@nik-o-mat.de>, 2012.
-# Phi Lieb <>, 2012.
-# Phillip Schichtel <quick_wango@code-infection.de>, 2013.
-#  <robert.neumann01@gmail.com>, 2013.
-#   <seeed@freenet.de>, 2012.
-#  <stefan.niedermann@googlemail.com>, 2013.
-# Susi <>, 2013.
-#   <thomas.mueller@tmit.eu>, 2012.
-#  <transifex-2.7.mensaje@spamgourmet.com>, 2013.
-#   <transifex-2.7.mensaje@spamgourmet.com>, 2012.
-#   <transifex.3.mensaje@spamgourmet.com>, 2012.
-# Tristan <blobbyjj@ymail.com>, 2013.
+# goeck <admin@s-goecker.de>, 2011-2012
+# a.tangemann <a.tangemann@web.de>, 2013
+# Mirodin <blobbyjj@ymail.com>, 2012
+# Robin Appelman <icewind1991@gmail.com>, 2012
+# I Robot <owncloud-bot@tmit.eu>, 2012-2013
+# I Robot <owncloud-bot@tmit.eu>, 2012
+# Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011
+# Jan T <jan-temesinko@web.de>, 2012
+# Lukas Reschke <lukas@statuscode.ch>, 2013
+# Lukas Reschke <lukas@statuscode.ch>, 2012
+# fmms <mail@felixmoeller.de>, 2012
+# Marcel Kühlhorn <susefan93@gmx.de>, 2012-2013
+# piccobello <nelsonfritsch@gmail.com>, 2012
+# JamFX <niko@nik-o-mat.de>, 2012
+# Phi Lieb <>, 2012
+# quick_wango <quick_wango@code-infection.de>, 2013
+# robN <robert.neumann01@gmail.com>, 2013
+# seeed <seeed@freenet.de>, 2012
+# stefanniedermann <stefan.niedermann@googlemail.com>, 2013
+# Susi <>, 2013
+# I Robot <owncloud-bot@tmit.eu>, 2012
+# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2013
+# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2012
+# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2012
+# Mirodin <blobbyjj@ymail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-23 20:50+0000\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-17 07:20+0000\n"
 "Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
@@ -125,6 +125,10 @@ msgstr "Aktivieren"
 msgid "Please wait...."
 msgstr "Bitte warten...."
 
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+msgid "Error"
+msgstr "Fehler"
+
 #: js/apps.js:90
 msgid "Updating...."
 msgstr "Update..."
@@ -133,56 +137,52 @@ msgstr "Update..."
 msgid "Error while updating app"
 msgstr "Es ist ein Fehler während des Updates aufgetreten"
 
-#: js/apps.js:93
-msgid "Error"
-msgstr "Fehler"
-
 #: js/apps.js:96
 msgid "Updated"
 msgstr "Aktualisiert"
 
-#: js/personal.js:99
+#: js/personal.js:109
 msgid "Saving..."
 msgstr "Speichern..."
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "deleted"
 msgstr "gelöscht"
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "undo"
 msgstr "rückgängig machen"
 
-#: js/users.js:62
+#: js/users.js:75
 msgid "Unable to remove user"
 msgstr "Der Benutzer konnte nicht entfernt werden."
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "Gruppen"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "Gruppenadministrator"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr "Löschen"
 
-#: js/users.js:237
+#: js/users.js:262
 msgid "add group"
 msgstr "Gruppe hinzufügen"
 
-#: js/users.js:400
+#: js/users.js:414
 msgid "A valid username must be provided"
 msgstr "Es muss ein gültiger Benutzername angegeben werden"
 
-#: js/users.js:401 js/users.js:407 js/users.js:422
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
 msgstr "Beim Erstellen des Benutzers ist ein Fehler aufgetreten"
 
-#: js/users.js:406
+#: js/users.js:420
 msgid "A valid password must be provided"
 msgstr "Es muss ein gültiges Passwort angegeben werden"
 
@@ -216,7 +216,7 @@ msgstr "Ihr Web-Server ist noch nicht für eine Datei-Synchronisation konfigurie
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr "Bitte prüfen Sie die <a href='%s'>Instalationsanleitungen</a>."
+msgstr "Bitte prüfen Sie die <a href='%s'>Installationsanleitungen</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -337,15 +337,19 @@ msgstr "Log"
 msgid "Log level"
 msgstr "Log-Level"
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "Mehr"
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:228
+msgid "Less"
+msgstr "Weniger"
+
+#: templates/admin.php:235 templates/personal.php:102
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:238 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

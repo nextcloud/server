@@ -339,6 +339,7 @@ class OC_Mount_Config {
 		}
 		$content = json_encode($data);
 		@file_put_contents($file, $content);
+		@chmod($file, 0640);
 	}
 
 	/**

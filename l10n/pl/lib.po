@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Cyryl Sochacki <>, 2012.
-# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2012-2013.
-# Maciej Tarmas <maciej@tarmas.com>, 2013.
-# Marcin Małecki <gerber@tkdami.net>, 2012-2013.
+# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2012
+# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2012-2013
+# Maciej Tarmas <maciej@tarmas.pl>, 2013
+# Marcin Małecki <gerber@tkdami.net>, 2012-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:00+0000\n"
-"Last-Translator: Maciej Tarmas <maciej@tarmas.pl>\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,10 +96,6 @@ msgstr "Ustaw nazwę administratora."
 #: setup.php:37
 msgid "Set an admin password."
 msgstr "Ustaw hasło administratora."
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "Określ folder danych."
 
 #: setup.php:55
 #, php-format

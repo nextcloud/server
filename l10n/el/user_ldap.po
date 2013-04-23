@@ -9,12 +9,13 @@
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013.
 # Konstantinos Tzanidis <tzanidis@gmail.com>, 2012.
 # Marios Bekatoros <>, 2012.
+# Wasilis Mandratzis <m.wasilis@yahoo.de>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:32+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +50,7 @@ msgstr "Η διαγραφή απέτυχε"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr ""
+msgstr "Πάρτε πάνω από τις πρόσφατες ρυθμίσεις διαμόρφωσης του διακομιστή?"
 
 #: js/settings.js:83
 msgid "Keep settings?"
@@ -111,7 +112,7 @@ msgstr "Base DN"
 
 #: templates/settings.php:40
 msgid "One Base DN per line"
-msgstr ""
+msgstr "Ένα DN Βάσης ανά γραμμή "
 
 #: templates/settings.php:41
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -182,11 +183,11 @@ msgstr "Ρυθμίσεις Σύνδεσης"
 
 #: templates/settings.php:70
 msgid "Configuration Active"
-msgstr ""
+msgstr "Ενεργοποιηση ρυθμισεων"
 
 #: templates/settings.php:70
 msgid "When unchecked, this configuration will be skipped."
-msgstr ""
+msgstr "Όταν δεν είναι επιλεγμένο, αυτή η ρύθμιση θα πρέπει να παραλειφθεί. "
 
 #: templates/settings.php:71
 msgid "Port"
@@ -194,25 +195,25 @@ msgstr "Θύρα"
 
 #: templates/settings.php:72
 msgid "Backup (Replica) Host"
-msgstr ""
+msgstr "Δημιουργία αντιγράφων ασφαλείας (Replica) Host "
 
 #: templates/settings.php:72
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr ""
+msgstr "Δώστε μια προαιρετική εφεδρική υποδοχή. Πρέπει να είναι ένα αντίγραφο του κύριου LDAP / AD διακομιστη."
 
 #: templates/settings.php:73
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "Δημιουργία αντιγράφων ασφαλείας (Replica) Υποδοχη"
 
 #: templates/settings.php:74
 msgid "Disable Main Server"
-msgstr ""
+msgstr "Απενεργοποιηση του κεντρικου διακομιστη"
 
 #: templates/settings.php:74
 msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr ""
+msgstr "Όταν ενεργοποιηθεί, με το ownCloud θα συνδεθείτε με το διακομιστή ρεπλίκα."
 
 #: templates/settings.php:75
 msgid "Use TLS"
@@ -220,7 +221,7 @@ msgstr "Χρήση TLS"
 
 #: templates/settings.php:75
 msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr ""
+msgstr "Μην το χρησιμοποιήσετε επιπροσθέτως, για LDAPS συνδέσεις , θα αποτύχει."
 
 #: templates/settings.php:76
 msgid "Case insensitve LDAP server (Windows)"
@@ -242,7 +243,7 @@ msgstr "Δεν προτείνεται, χρήση μόνο για δοκιμές
 
 #: templates/settings.php:78
 msgid "Cache Time-To-Live"
-msgstr ""
+msgstr "Cache Time-To-Live"
 
 #: templates/settings.php:78
 msgid "in seconds. A change empties the cache."
@@ -266,15 +267,15 @@ msgstr "Base User Tree"
 
 #: templates/settings.php:83
 msgid "One User Base DN per line"
-msgstr ""
+msgstr "Ένα DN βάσης χρηστών ανά γραμμή"
 
 #: templates/settings.php:84
 msgid "User Search Attributes"
-msgstr ""
+msgstr "Χαρακτηριστικά αναζήτησης των χρηστών "
 
 #: templates/settings.php:84 templates/settings.php:87
 msgid "Optional; one attribute per line"
-msgstr ""
+msgstr "Προαιρετικά? Ένα χαρακτηριστικό ανά γραμμή "
 
 #: templates/settings.php:85
 msgid "Group Display Name Field"
@@ -290,11 +291,11 @@ msgstr "Base Group Tree"
 
 #: templates/settings.php:86
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "Μια ομαδικη Βάση DN ανά γραμμή"
 
 #: templates/settings.php:87
 msgid "Group Search Attributes"
-msgstr ""
+msgstr "Ομάδα Χαρακτηριστικων Αναζήτηση"
 
 #: templates/settings.php:88
 msgid "Group-Member association"
@@ -302,15 +303,15 @@ msgstr "Group-Member association"
 
 #: templates/settings.php:90
 msgid "Special Attributes"
-msgstr ""
+msgstr "Ειδικά Χαρακτηριστικά "
 
 #: templates/settings.php:92
 msgid "Quota Field"
-msgstr ""
+msgstr "Ποσοσταση πεδιου"
 
 #: templates/settings.php:93
 msgid "Quota Default"
-msgstr ""
+msgstr "Προκαθισμενο πεδιο"
 
 #: templates/settings.php:93
 msgid "in bytes"
@@ -318,11 +319,11 @@ msgstr "σε bytes"
 
 #: templates/settings.php:94
 msgid "Email Field"
-msgstr ""
+msgstr "Email τυπος"
 
 #: templates/settings.php:95
 msgid "User Home Folder Naming Rule"
-msgstr ""
+msgstr "Χρήστης Προσωπικόςφάκελος Ονομασία Κανόνας "
 
 #: templates/settings.php:95
 msgid ""
@@ -332,7 +333,7 @@ msgstr "Αφήστε το κενό για το όνομα χρήστη (προε
 
 #: templates/settings.php:99
 msgid "Test Configuration"
-msgstr ""
+msgstr "Δοκιμαστικες ρυθμισεις"
 
 #: templates/settings.php:99
 msgid "Help"

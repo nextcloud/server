@@ -343,9 +343,9 @@ class Cache {
 			$query->execute(array($targetPath, md5($targetPath), $child['fileid']));
 		}
 
-		$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET `path` = ?, `path_hash` = ?, `parent` =?'
+		$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET `path` = ?, `path_hash` = ?, `name` = ?, `parent` =?'
 			. ' WHERE `fileid` = ?');
-		$query->execute(array($target, md5($target), $newParentId, $sourceId));
+		$query->execute(array($target, md5($target), basename($target), $newParentId, $sourceId));
 	}
 
 	/**

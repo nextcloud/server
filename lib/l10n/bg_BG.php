@@ -18,7 +18,6 @@
 "Images" => "Снимки",
 "Set an admin username." => "Въведете потребителско име за администратор.",
 "Set an admin password." => "Въведете парола за администратор.",
-"Specify a data folder." => "Укажете папка за данни",
 "%s enter the database username." => "%s въведете потребителско име за базата с данни.",
 "%s enter the database name." => "%s въведете име на базата с данни.",
 "%s you may not use dots in the database name" => "%s, не можете да ползвате точки в името на базата от данни",

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-03-28 00:02+0100\n"
+"POT-Creation-Date: 2013-04-23 01:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -100,6 +100,10 @@ msgstr ""
 msgid "Please wait...."
 msgstr ""
 
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
+msgid "Error"
+msgstr ""
+
 #: js/apps.js:90
 msgid "Updating...."
 msgstr ""
@@ -108,56 +112,52 @@ msgstr ""
 msgid "Error while updating app"
 msgstr ""
 
-#: js/apps.js:93
-msgid "Error"
-msgstr ""
-
 #: js/apps.js:96
 msgid "Updated"
 msgstr ""
 
-#: js/personal.js:99
+#: js/personal.js:109
 msgid "Saving..."
 msgstr ""
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "deleted"
 msgstr ""
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "undo"
 msgstr ""
 
-#: js/users.js:62
+#: js/users.js:75
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr ""
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr ""
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr ""
 
-#: js/users.js:237
+#: js/users.js:262
 msgid "add group"
 msgstr ""
 
-#: js/users.js:400
+#: js/users.js:414
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:401 js/users.js:407 js/users.js:422
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
 msgstr ""
 
-#: js/users.js:406
+#: js/users.js:420
 msgid "A valid password must be provided"
 msgstr ""
 
@@ -312,15 +312,19 @@ msgstr ""
 msgid "Log level"
 msgstr ""
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr ""
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:228
+msgid "Less"
+msgstr ""
+
+#: templates/admin.php:235 templates/personal.php:102
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:238 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank"
 "\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" "

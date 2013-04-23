@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Error" => "Klaida",
 "Name" => "Pavadinimas",
 "1 folder" => "1 aplankalas",
 "{count} folders" => "{count} aplankalai",

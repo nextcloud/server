@@ -19,9 +19,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-19 00:04+0100\n"
-"PO-Revision-Date: 2013-03-18 14:40+0000\n"
-"Last-Translator: André Koot <meneer@tken.net>\n"
+"POT-Creation-Date: 2013-04-17 02:21+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -104,7 +104,7 @@ msgstr "Bijwerken naar {appversion}"
 msgid "Disable"
 msgstr "Uitschakelen"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
 msgstr "Inschakelen"
 
@@ -112,64 +112,64 @@ msgstr "Inschakelen"
 msgid "Please wait...."
 msgstr "Even geduld aub...."
 
-#: js/apps.js:84
-msgid "Updating...."
-msgstr "Bijwerken...."
-
-#: js/apps.js:87
-msgid "Error while updating app"
-msgstr "Fout bij bijwerken app"
-
-#: js/apps.js:87
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
 msgstr "Fout"
 
 #: js/apps.js:90
+msgid "Updating...."
+msgstr "Bijwerken...."
+
+#: js/apps.js:93
+msgid "Error while updating app"
+msgstr "Fout bij bijwerken app"
+
+#: js/apps.js:96
 msgid "Updated"
 msgstr "Bijgewerkt"
 
-#: js/personal.js:99
+#: js/personal.js:109
 msgid "Saving..."
 msgstr "Aan het bewaren....."
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "deleted"
 msgstr "verwijderd"
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "undo"
 msgstr "ongedaan maken"
 
-#: js/users.js:62
+#: js/users.js:75
 msgid "Unable to remove user"
 msgstr "Kon gebruiker niet verwijderen"
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "Groepen"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "Groep beheerder"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr "verwijderen"
 
-#: js/users.js:191
+#: js/users.js:262
 msgid "add group"
 msgstr "toevoegen groep"
 
-#: js/users.js:352
+#: js/users.js:414
 msgid "A valid username must be provided"
 msgstr "Er moet een geldige gebruikersnaam worden opgegeven"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
 msgstr "Fout bij aanmaken gebruiker"
 
-#: js/users.js:358
+#: js/users.js:420
 msgid "A valid password must be provided"
 msgstr "Er moet een geldig wachtwoord worden opgegeven"
 
@@ -328,11 +328,15 @@ msgstr "Log niveau"
 msgid "More"
 msgstr "Meer"
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:224
+msgid "Less"
+msgstr "Minder"
+
+#: templates/admin.php:231 templates/personal.php:102
 msgid "Version"
 msgstr "Versie"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:234 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

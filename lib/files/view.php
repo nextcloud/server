@@ -267,7 +267,7 @@ class View {
 				$path = $this->getRelativePath($absolutePath);
 				$exists = $this->file_exists($path);
 				$run = true;
-				if ($this->fakeRoot == Filesystem::getRoot()) {
+				if ($this->fakeRoot == Filesystem::getRoot() && ! Cache\Scanner::isIgnoredFile($path) ) {
 					if (!$exists) {
 						\OC_Hook::emit(
 							Filesystem::CLASSNAME,
@@ -295,7 +295,7 @@ class View {
 					list ($count, $result) = \OC_Helper::streamCopy($data, $target);
 					fclose($target);
 					fclose($data);
-					if ($this->fakeRoot == Filesystem::getRoot()) {
+					if ($this->fakeRoot == Filesystem::getRoot() && ! Cache\Scanner::isIgnoredFile($path) ) {
 						if (!$exists) {
 							\OC_Hook::emit(
 								Filesystem::CLASSNAME,
@@ -627,7 +627,7 @@ class View {
 	private function runHooks($hooks, $path, $post = false) {
 		$prefix = ($post) ? 'post_' : '';
 		$run = true;
-		if (Filesystem::$loaded and $this->fakeRoot == Filesystem::getRoot()) {
+		if (Filesystem::$loaded and $this->fakeRoot == Filesystem::getRoot() && ! Cache\Scanner::isIgnoredFile($path) ) {
 			foreach ($hooks as $hook) {
 				if ($hook != 'read') {
 					\OC_Hook::emit(
@@ -731,6 +731,7 @@ class View {
 	 * get the content of a directory
 	 *
 	 * @param string $directory path under datadirectory
+	 * @param string $mimetype_filter limit returned content to this mimetype or mimepart
 	 * @return array
 	 */
 	public function getDirectoryContent($directory, $mimetype_filter = '') {

@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "%s را نمی توان برای همیشه حذف کرد",
 "Couldn't restore %s" => "%s را نمی توان بازگرداند",
 "perform restore operation" => "انجام عمل بازگرداندن",
+"Error" => "خطا",
 "delete file permanently" => "حذف فایل برای همیشه",
 "Delete permanently" => "حذف قطعی",
 "Name" => "نام",

@@ -48,6 +48,7 @@
 "Turn off SSL certificate validation." => "matikan validasi sertivikat SSL",
 "If connection only works with this option, import the LDAP server's SSL certificate in your ownCloud server." => "Jika koneksi hanya bekerja dengan opsi ini, impor sertifikat SSL server LDAP dari server ownCloud anda.",
 "Not recommended, use for testing only." => "tidak disarankan, gunakan hanya untuk pengujian.",
+"Cache Time-To-Live" => "Gunakan Tembolok untuk Time-To-Live",
 "in seconds. A change empties the cache." => "dalam detik. perubahan mengosongkan cache",
 "Directory Settings" => "Pengaturan Direktori",
 "User Display Name Field" => "Bidang Tampilan Nama Pengguna",
@@ -63,7 +64,12 @@
 "Group Search Attributes" => "Atribut Pencarian Grup",
 "Group-Member association" => "asosiasi Anggota-Grup",
 "Special Attributes" => "Atribut Khusus",
+"Quota Field" => "Bidang Kuota",
+"Quota Default" => "Kuota Baku",
 "in bytes" => "dalam bytes",
+"Email Field" => "Bidang Email",
+"User Home Folder Naming Rule" => "Aturan Penamaan Folder Home Pengguna",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Biarkan nama pengguna kosong (default). Atau tetapkan atribut LDAP/AD.",
+"Test Configuration" => "Uji Konfigurasi",
 "Help" => "bantuan"
 );

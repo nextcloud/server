@@ -18,7 +18,6 @@
 "Images" => "Attēli",
 "Set an admin username." => "Iestatiet administratora lietotājvārdu.",
 "Set an admin password." => "Iestatiet administratora paroli.",
-"Specify a data folder." => "Norādiet datu mapi.",
 "%s enter the database username." => "%s ievadiet datubāzes lietotājvārdu.",
 "%s enter the database name." => "%s ievadiet datubāzes nosaukumu.",
 "%s you may not use dots in the database name" => "%s datubāžu nosaukumos nedrīkst izmantot punktus",

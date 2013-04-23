@@ -56,10 +56,10 @@ $CONFIG = array(
 /* Theme to use for ownCloud */
 "theme" => "",
 
-/* Path to the 3rdparty directory */
+/* Path to the parent directory of the 3rdparty directory */
 "3rdpartyroot" => "",
 
-/* URL to the 3rdparty directory, as seen by the browser */
+/* URL to the parent directory of the 3rdparty directory, as seen by the browser */
 "3rdpartyurl" => "",
 
 /* Default app to load on login */
@@ -126,7 +126,10 @@ $CONFIG = array(
 /* Check if ownCloud is up to date */
 "updatechecker" => true,
 
-/* Place to log to, can be owncloud and syslog (owncloud is log menu item in admin menu) */
+/* Are we connected to the internet or are we running in a closed network? */
+"has_internet_connection" => true,
+
+	/* Place to log to, can be owncloud and syslog (owncloud is log menu item in admin menu) */
 "log_type" => "owncloud",
 
 /* File for the owncloud logger to log to, (default is ownloud.log in the data dir */
@@ -134,6 +137,10 @@ $CONFIG = array(
 
 /* Loglevel to start logging at. 0=DEBUG, 1=INFO, 2=WARN, 3=ERROR (default is WARN) */
 "loglevel" => "",
+
+/* Append All database query and parameters to the log file.
+ (whatch out, this option can increase the size of your log file)*/
+"log_query" => false,
 
 /* Lifetime of the remember login cookie, default is 15 days */
 "remember_login_cookie_lifetime" => 60*60*24*15,

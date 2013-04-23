@@ -63,6 +63,7 @@
 		<div id="datadirContent">
 			<label for="directory"><?php p($l->t( 'Data folder' )); ?></label>
 			<input type="text" name="directory" id="directory"
+				placeholder="<?php p(OC::$SERVERROOT."/data"); ?>"
 				value="<?php p(OC_Helper::init_var('directory', $_['directory'])); ?>" />
 		</div>
 	</fieldset>
@@ -138,9 +139,11 @@
 					value="<?php p(OC_Helper::init_var('dbuser')); ?>" autocomplete="off" />
 			</p>
 			<p class="infield groupmiddle">
-				<label for="dbpass" class="infield"><?php p($l->t( 'Database password' )); ?></label>
-				<input type="password" name="dbpass" id="dbpass" placeholder=""
+				<input type="password" name="dbpass" id="dbpass" placeholder="" data-typetoggle="#dbpassword" 
 					value="<?php p(OC_Helper::init_var('dbpass')); ?>" />
+				<label for="dbpass" class="infield"><?php p($l->t( 'Database password' )); ?></label>
+				<input type="checkbox" id="dbpassword" name="dbpassword" />
+				<label for="dbpassword"></label>
 			</p>
 			<p class="infield groupmiddle">
 				<label for="dbname" class="infield"><?php p($l->t( 'Database name' )); ?></label>
