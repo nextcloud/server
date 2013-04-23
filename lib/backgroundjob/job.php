@@ -40,6 +40,6 @@ abstract class Job {
 	}
 
 	public function getLastRun() {
-		return $this->lastRun();
+		return $this->lastRun;
 	}
 }
