@@ -54,11 +54,9 @@ if($_['displayNameChangeSupported']) {
 <form id="displaynameform">
 	<fieldset class="personalblock">
 		<legend><strong><?php echo $l->t('Display Name');?></strong></legend>
-		<div id="displaynamechanged"><?php p($l->t('Your display name was changed'));?></div>
-		<div id="displaynameerror"><?php p($l->t('Unable to change your display name'));?></div>
 		<input type="text" id="displayName" name="displayName" value="<?php p($_['displayName'])?>" />
+        <span class="msg"></span>
 		<input type="hidden" id="oldDisplayName" name="oldDisplayName" value="<?php p($_['displayName'])?>" />
-		<input id="displaynamebutton" type="submit" value="<?php p($l->t('Change display name'));?>" />
 	</fieldset>
 </form>
 <?php
