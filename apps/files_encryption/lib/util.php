@@ -24,20 +24,16 @@
 # Bugs
 # ----
 # Sharing a file to a user without encryption set up will not provide them with access but won't notify the sharer
-# Sharing files to other users currently broken (due to merge + ongoing implementation of support for lost password recovery)
 # Timeouts on first login due to encryption of very large files (fix in progress, as a result streaming is currently broken)
 # Sharing all files to admin for recovery purposes still in progress
 # Possibly public links are broken (not tested since last merge of master)
-# getOwner() currently returns false in all circumstances, unsure what code is returning this...
 # encryptAll during login mangles paths: /files/files/
 # encryptAll is accessing files via encryption proxy - perhaps proxies should be disabled?
-# Sharekeys appear to not be deleted when their parent file is, and thus get orphaned
 
 
 # Missing features
 # ----------------
 # Make sure user knows if large files weren't encrypted
-# Support for resharing encrypted files
 
 
 # Test
