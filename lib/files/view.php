@@ -724,6 +724,9 @@ class View {
 				$data['permissions'] = $permissions;
 			}
 		}
+
+        $data = \OC_FileProxy::runPostProxies('getFileInfo', $path, $data);
+
 		return $data;
 	}
 
