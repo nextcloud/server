@@ -91,14 +91,14 @@ class Proxy extends \OC_FileProxy {
 		return false;
 	}
 	
-	public function preFile_put_contents( $path, &$data ) { 
-		
-		if ( self::shouldEncrypt( $path ) ) {
-		
-			// Stream put contents should have been converted to fopen
+	public function preFile_put_contents( $path, &$data ) {
+
+        if ( self::shouldEncrypt( $path ) ) {
+
+        	// Stream put contents should have been converted to fopen
 			if ( !is_resource( $data ) ) {
-			
-				$userId = \OCP\USER::getUser();
+
+                $userId = \OCP\USER::getUser();
 				$rootView = new \OC_FilesystemView( '/' );
 				$util = new Util( $rootView, $userId );
 				$session = new Session( $rootView );
@@ -135,8 +135,8 @@ class Proxy extends \OC_FileProxy {
 				$sharingEnabled = \OCP\Share::isEnabled();
 				
 				$uniqueUserIds = $util->getSharingUsersArray( $sharingEnabled, $filePath, $userId );
-				
-				// Fetch public keys for all users who will share the file
+
+                // Fetch public keys for all users who will share the file
 				$publicKeys = Keymanager::getPublicKeys( $rootView, $uniqueUserIds );
 				
 				\OC_FileProxy::$enabled = false;
@@ -165,7 +165,8 @@ class Proxy extends \OC_FileProxy {
 				
 			}
 		}
-		
+
+        return true;
 	}
 	
 	/**
@@ -174,7 +175,7 @@ class Proxy extends \OC_FileProxy {
 	 */
 	public function postFile_get_contents( $path, $data ) {
 
-		// FIXME: $path for shared files is just /uid/files/Shared/filepath
+        // FIXME: $path for shared files is just /uid/files/Shared/filepath
 		
 		$userId = \OCP\USER::getUser();
 		$view = new \OC_FilesystemView( '/' );
@@ -300,7 +301,6 @@ class Proxy extends \OC_FileProxy {
         $oldRelPath = implode('/', $oldSliced);
         $oldKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $oldRelPath;
 
-
         $newTrimmed = ltrim($newPath, '/');
         $newSplit = explode('/', $newTrimmed);
         $newSliced = array_slice($newSplit, 2);
@@ -331,14 +331,14 @@ class Proxy extends \OC_FileProxy {
     }
 
     public function postFopen( $path, &$result ){
-	
-		if ( !$result ) {
+
+        if ( !$result ) {
 		
 			return $result;
 			
 		}
-		
-		// Reformat path for use with OC_FSV
+
+        // Reformat path for use with OC_FSV
 		$path_split = explode( '/', $path );
 		$path_f = implode( '/', array_slice( $path_split, 3 ) );
 		
@@ -394,8 +394,8 @@ class Proxy extends \OC_FileProxy {
 // 				fclose( $tmp );
 			
 			}
-			
-			$result = fopen( 'crypt://'.$path_f, $meta['mode'] );
+
+            $result = fopen( 'crypt://'.$path_f, $meta['mode'] );
 		
 		}
 		
@@ -407,8 +407,8 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	public function postGetMimeType( $path, $mime ) {
-		
-		if ( Crypt::isCatfileContent( $path ) ) {
+
+        if ( Crypt::isCatfileContent( $path ) ) {
 		
 			$mime = \OCP\Files::getMimeType( 'crypt://' . $path, 'w' );
 		
@@ -418,9 +418,28 @@ class Proxy extends \OC_FileProxy {
 		
 	}
 
+    public function postGetFileInfo( $path, $data ) {
+
+        // if path is a folder do nothing
+        if(is_array($data) && array_key_exists('size', $data)) {
+            // Disable encryption proxy to prevent recursive calls
+            \OC_FileProxy::$enabled = false;
+
+            // get file size
+            $data['size'] = self::postFileSize($path, $data['size']);
+
+            // Re-enable the proxy
+            \OC_FileProxy::$enabled = true;
+
+            trigger_error('postGetFileInfo '.$path.' size: '.$data['size']);
+        }
+
+        return $data;
+    }
+
 	public function postStat( $path, $data ) {
-	
-		if ( Crypt::isCatfileContent( $path ) ) {
+
+        if ( Crypt::isCatfileContent( $path ) ) {
 		
 			$cached = \OC\Files\Filesystem::getFileInfo( $path, '' );
 			
@@ -433,29 +452,38 @@ class Proxy extends \OC_FileProxy {
 
 	public function postFileSize( $path, $size ) {
 
+        $view = new \OC_FilesystemView( '/' );
+
+        // if path is a folder do nothing
+        if($view->is_dir($path)) {
+            return $size;
+        }
+
         // Reformat path for use with OC_FSV
         $path_split = explode('/', $path);
         $path_f = implode('/', array_slice($path_split, 3));
 
-        $view = new \OC_FilesystemView( '/' );
         $userId = \OCP\User::getUser();
         $util = new Util( $view, $userId );
 
-        if ($util->isEncryptedPath($path)) {
+
+        // FIXME: is there a better solution to check if file belongs to files path?
+        // only get file size if file is in 'files' path
+        if (count($path_split) >= 2  && $path_split[2] == 'files' && $util->isEncryptedPath($path)) {
 
             // Disable encryption proxy to prevent recursive calls
             \OC_FileProxy::$enabled = false;
-
-            // get file info
-            $cached = \OC\Files\Filesystem::getFileInfo($path_f, '');
-
-            // calculate last chunk nr
-            $lastChunckNr = floor($size / 8192);
 
             // open stream
             $result = fopen('crypt://' . $path_f, "r");
 
             if(is_resource($result)) {
+                // don't trust the given size, allways get the size from filesystem
+                $size = $view->filesize($path);
+
+                // calculate last chunk nr
+                $lastChunckNr = floor($size / 8192);
+
                 // calculate last chunk position
                 $lastChunckPos = ($lastChunckNr * 8192);
 
@@ -469,13 +497,13 @@ class Proxy extends \OC_FileProxy {
                 $realSize = (($lastChunckNr * 6126) + strlen($lastChunkContent));
 
                 // set the size
-                $cached['size'] = $realSize;
+                $size = $realSize;
             }
 
             // enable proxy
             \OC_FileProxy::$enabled = true;
 
-            return $cached['size'];
+            return $size;
 
         } else {
 
