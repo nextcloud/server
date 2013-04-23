@@ -22,7 +22,7 @@
 
 class OC_OCS_Result{
 
-	private $data, $message, $statusCode, $items, $perPage;
+	protected $data, $message, $statusCode, $items, $perPage;
 
 	/**
 	 * create the OCS_Result object
