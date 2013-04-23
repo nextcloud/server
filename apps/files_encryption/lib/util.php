@@ -492,7 +492,7 @@ class Util {
 	 * @note Encryption is recursive
 	 */
 	public function encryptAll( $publicKey, $dirPath, $legacyPassphrase = null, $newPassphrase = null ) {
-	
+		
 		if ( $found = $this->findEncFiles( $dirPath ) ) {
 		
 			// Disable proxy to prevent file being encrypted twice

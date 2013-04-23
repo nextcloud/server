@@ -118,9 +118,6 @@ class Proxy extends \OC_FileProxy {
 					
 					// Decrypt the keyfile
 					$plainKey = Crypt::multiKeyDecrypt( $encKeyfile, $shareKey, $privateKey );
-					
-// 					trigger_error("\$shareKey = $shareKey");
-// 					trigger_error("\$plainKey = $plainKey");
 				
 				} else {
 				
@@ -207,8 +204,6 @@ class Proxy extends \OC_FileProxy {
 			$plainKeyfile = Crypt::multiKeyDecrypt( $encKeyfile, $shareKey, $privateKey );
 		
 			$plainData = Crypt::symmetricDecryptFileContent( $data, $plainKeyfile );
-			
-// 			trigger_error("PLAINDATA = ". var_export($plainData, 1));
 
 		} elseif (
 		Crypt::mode() == 'server' 
