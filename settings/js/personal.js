@@ -21,7 +21,7 @@ function changeEmailAddress(){
 }
 
 /**
- * Post the email address change to the server.
+ * Post the display name change to the server.
  */
 function changeDisplayName(){
     if ($('#displayName').val() !== '' ) {
