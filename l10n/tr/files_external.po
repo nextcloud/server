@@ -3,16 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Caner Başaran <basaran.caner@gmail.com>, 2013.
-# Necdet Yücel <necdetyucel@gmail.com>, 2012.
-# TayançKILIÇLI <tayancatakan@gmail.com>, 2013.
+# Caner Başaran <basaran.caner@gmail.com>, 2013
+# Necdet Yücel <necdetyucel@gmail.com>, 2012
+# atakan96 <tayancatakan@gmail.com>, 2013
+# KAT.RAT12 <spanish.katerina@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-23 01:58+0200\n"
+"PO-Revision-Date: 2013-04-22 15:10+0000\n"
+"Last-Translator: KAT.RAT12 <spanish.katerina@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -44,14 +45,14 @@ msgstr "Google Drive depo yapılandırma hatası"
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Uyari.</b>''smbclient''yüklü değil. Mont etme CIFS/SMB hissenin mümkün değildir. Lutfen kullanici sistemin sormak onu yuklemek ici,  "
 
 #: lib/config.php:427
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
-msgstr ""
+msgstr "<Uyari.</b>. Sistem FTP PHPden aktif degil veya yuklemedi. Monte etme hissenin FTP mumkun degildir. Lutfen kullaniici sistemin sormak onu yuklemek icin."
 
 #: templates/settings.php:3
 msgid "External Storage"

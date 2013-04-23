@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Jan Krejci <krejca85@gmail.com>, 2011.
-# Martin  <fireball@atlas.cz>, 2011-2012.
-# Michal Hrušecký <Michal@hrusecky.net>, 2012.
-# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012-2013.
+# Jan Krejci <krejca85@gmail.com>, 2011
+# Martin <fireball@atlas.cz>, 2011-2012
+# Michal Hrušecký <Michal@hrusecky.net>, 2012
+# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-23 01:58+0200\n"
+"PO-Revision-Date: 2013-04-22 11:21+0000\n"
+"Last-Translator: cernydav <info@senman.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -297,7 +297,7 @@ msgstr "Sdílet s odkazem"
 msgid "Password protect"
 msgstr "Chránit heslem"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Heslo"
 
@@ -413,7 +413,7 @@ msgid "Request failed!"
 msgstr "Požadavek selhal."
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
 msgstr "Uživatelské jméno"
 
@@ -523,37 +523,37 @@ msgstr "Pokročilé"
 msgid "Data folder"
 msgstr "Složka s daty"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Nastavit databázi"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "bude použito"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Uživatel databáze"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Heslo databáze"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Název databáze"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Tabulkový prostor databáze"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Hostitel databáze"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Dokončit nastavení"
 
@@ -565,33 +565,33 @@ msgstr "webové služby pod Vaší kontrolou"
 msgid "Log out"
 msgstr "Odhlásit se"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automatické přihlášení odmítnuto."
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "V nedávné době jste nezměnili své heslo, Váš účet může být kompromitován."
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Změňte, prosím, své heslo pro opětovné zabezpečení Vašeho účtu."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Ztratili jste své heslo?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "zapamatovat"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Přihlásit"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Alternativní přihlášení"
 
