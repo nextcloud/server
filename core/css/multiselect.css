@@ -29,6 +29,10 @@
  	white-space:nowrap;
  }
 
+ ul.multiselectoptions>li>label {
+	margin-left: 5px;
+ }
+
  div.multiselect {
  	display:inline-block;
  	max-width:400px;
