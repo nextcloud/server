@@ -142,7 +142,6 @@ class Proxy extends \OC_FileProxy {
 				$multiEncrypted = Crypt::multiKeyEncrypt( $plainKey, $publicKeys );
 				
 				// Save sharekeys to user folders
-				
 				Keymanager::setShareKeys( $rootView, $filePath, $multiEncrypted['keys'] );
 				
 				// Set encrypted keyfile as common varname
