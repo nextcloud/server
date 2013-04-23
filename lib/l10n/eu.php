@@ -18,7 +18,6 @@
 "Images" => "Irudiak",
 "Set an admin username." => "Ezarri administraziorako erabiltzaile izena.",
 "Set an admin password." => "Ezarri administraziorako pasahitza.",
-"Specify a data folder." => "Zehaztu data karpeta.",
 "%s enter the database username." => "%s sartu datu basearen erabiltzaile izena.",
 "%s enter the database name." => "%s sartu datu basearen izena.",
 "%s you may not use dots in the database name" => "%s ezin duzu punturik erabili datu basearen izenean.",

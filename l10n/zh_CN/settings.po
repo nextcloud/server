@@ -15,9 +15,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-15 00:05+0100\n"
-"PO-Revision-Date: 2013-03-14 18:12+0000\n"
-"Last-Translator: ccb <ccb3275@gmail.com>\n"
+"POT-Creation-Date: 2013-04-17 02:21+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -100,7 +100,7 @@ msgstr "更新至 {appversion}"
 msgid "Disable"
 msgstr "禁用"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
 msgstr "启用"
 
@@ -108,64 +108,64 @@ msgstr "启用"
 msgid "Please wait...."
 msgstr "请稍等...."
 
-#: js/apps.js:84
-msgid "Updating...."
-msgstr "正在更新...."
-
-#: js/apps.js:87
-msgid "Error while updating app"
-msgstr "更新 app 时出错"
-
-#: js/apps.js:87
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
 msgstr "错误"
 
 #: js/apps.js:90
+msgid "Updating...."
+msgstr "正在更新...."
+
+#: js/apps.js:93
+msgid "Error while updating app"
+msgstr "更新 app 时出错"
+
+#: js/apps.js:96
 msgid "Updated"
 msgstr "已更新"
 
-#: js/personal.js:99
+#: js/personal.js:109
 msgid "Saving..."
 msgstr "正在保存"
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "deleted"
 msgstr "已经删除"
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "undo"
 msgstr "撤销"
 
-#: js/users.js:62
+#: js/users.js:75
 msgid "Unable to remove user"
 msgstr "无法移除用户"
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "组"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "组管理员"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr "删除"
 
-#: js/users.js:191
+#: js/users.js:262
 msgid "add group"
 msgstr "添加组"
 
-#: js/users.js:352
+#: js/users.js:414
 msgid "A valid username must be provided"
 msgstr "必须提供合法的用户名"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
 msgstr "创建用户出错"
 
-#: js/users.js:358
+#: js/users.js:420
 msgid "A valid password must be provided"
 msgstr "必须提供合法的密码"
 
@@ -324,11 +324,15 @@ msgstr "日志级别"
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:224
+msgid "Less"
+msgstr "更少"
+
+#: templates/admin.php:231 templates/personal.php:102
 msgid "Version"
 msgstr "版本"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:234 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

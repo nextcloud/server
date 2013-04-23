@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "无法彻底删除文件%s",
 "Couldn't restore %s" => "无法恢复%s",
 "perform restore operation" => "执行恢复操作",
+"Error" => "错误",
 "delete file permanently" => "彻底删除文件",
 "Delete permanently" => "永久删除",
 "Name" => "名称",

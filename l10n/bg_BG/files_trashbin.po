@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-08 00:25+0100\n"
-"PO-Revision-Date: 2013-03-07 23:25+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -19,12 +19,12 @@ msgstr ""
 "Language: bg_BG\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/delete.php:40
+#: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
 msgstr "Невъзможно изтриване на %s завинаги"
 
-#: ajax/undelete.php:41
+#: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
 msgstr "Невъзможно възтановяване на %s"
@@ -32,6 +32,10 @@ msgstr "Невъзможно възтановяване на %s"
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
 msgstr "извършване на действие по възстановяване"
+
+#: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
+msgid "Error"
+msgstr "Грешка"
 
 #: js/trash.js:34
 msgid "delete file permanently"

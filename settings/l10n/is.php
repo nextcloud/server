@@ -25,6 +25,7 @@
 "Security Warning" => "Öryggis aðvörun",
 "Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Gagnamappan þín er að öllum líkindum aðgengileg frá internetinu. Skráin .htaccess sem fylgir með ownCloud er ekki að virka. Við mælum eindregið með því að þú stillir vefþjóninn þannig að gagnamappan verði ekki aðgengileg frá internetinu eða færir hana út fyrir vefrótina.",
 "More" => "Meira",
+"Less" => "Minna",
 "Version" => "Útgáfa",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Þróað af <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud samfélaginu</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">forrita kóðinn</a> er skráðu með <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
 "Add your App" => "Bæta við forriti",

@@ -75,7 +75,7 @@ class OC_Util {
 	public static function getVersion() {
 		// hint: We only can count up. Reset minor/patchlevel when
 		// updating major/minor version number.
-		return array(5, 80, 01);
+		return array(5, 80, 02);
 	}
 
 	/**
@@ -419,7 +419,7 @@ class OC_Util {
         $id = OC_Config::getValue('instanceid', null);
         if(is_null($id)) {
             // We need to guarantee at least one letter in instanceid so it can be used as the session_name
-            $id = 'oc' . uniqid();
+            $id = 'oc' . OC_Util::generate_random_bytes(10);
             OC_Config::setValue('instanceid', $id);
         }
         return $id;
@@ -595,7 +595,7 @@ class OC_Util {
 		} catch(\Sabre_DAV_Exception_NotAuthenticated $e) {
 			$return = true;
 		} catch(\Exception $e) {
-			OC_Log::write('core', 'isWebDAVWorking: NO - Reason: '.$e, OC_Log::WARN);
+			OC_Log::write('core', 'isWebDAVWorking: NO - Reason: '.$e->getMessage(). ' ('.get_class($e).')', OC_Log::WARN);
 			$return = false;
 		}
 
@@ -618,8 +618,8 @@ class OC_Util {
 		$result = setlocale(LC_ALL, 'en_US.UTF-8', 'en_US.UTF8');
 		if($result == false) {
 			return false;
-        }
-        return true;
+		}
+		return true;
 	}
 
 	/**
@@ -634,6 +634,11 @@ class OC_Util {
 	 * Check if the ownCloud server can connect to the internet
 	 */
 	public static function isinternetconnectionworking() {
+
+		// in case there is no internet connection on purpose there is no need to display a warning
+		if (!\OC_Config::getValue("has_internet_connection", true)) {
+			return true;
+		}
 
 		// try to connect to owncloud.org to see if http connections to the internet are possible.
 		$connected = @fsockopen("www.owncloud.org", 80);

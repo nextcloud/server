@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Jan Krejci <krejca85@gmail.com>, 2011.
-# Martin  <fireball@atlas.cz>, 2011-2012.
-# Michal Hrušecký <Michal@hrusecky.net>, 2012.
-# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012-2013.
+# Jan Krejci <krejca85@gmail.com>, 2011
+# Martin <fireball@atlas.cz>, 2011-2012
+# Michal Hrušecký <Michal@hrusecky.net>, 2012
+# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
-"Last-Translator: Tomáš Chvátal <tomas.chvatal@gmail.com>\n"
+"POT-Creation-Date: 2013-04-23 01:58+0200\n"
+"PO-Revision-Date: 2013-04-22 11:21+0000\n"
+"Last-Translator: cernydav <info@senman.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -164,86 +164,88 @@ msgstr "Prosinec"
 msgid "Settings"
 msgstr "Nastavení"
 
-#: js/js.js:779
+#: js/js.js:718
 msgid "seconds ago"
 msgstr "před pár vteřinami"
 
-#: js/js.js:780
+#: js/js.js:719
 msgid "1 minute ago"
 msgstr "před minutou"
 
-#: js/js.js:781
+#: js/js.js:720
 msgid "{minutes} minutes ago"
 msgstr "před {minutes} minutami"
 
-#: js/js.js:782
+#: js/js.js:721
 msgid "1 hour ago"
 msgstr "před hodinou"
 
-#: js/js.js:783
+#: js/js.js:722
 msgid "{hours} hours ago"
 msgstr "před {hours} hodinami"
 
-#: js/js.js:784
+#: js/js.js:723
 msgid "today"
 msgstr "dnes"
 
-#: js/js.js:785
+#: js/js.js:724
 msgid "yesterday"
 msgstr "včera"
 
-#: js/js.js:786
+#: js/js.js:725
 msgid "{days} days ago"
 msgstr "před {days} dny"
 
-#: js/js.js:787
+#: js/js.js:726
 msgid "last month"
 msgstr "minulý mesíc"
 
-#: js/js.js:788
+#: js/js.js:727
 msgid "{months} months ago"
 msgstr "před {months} měsíci"
 
-#: js/js.js:789
+#: js/js.js:728
 msgid "months ago"
 msgstr "před měsíci"
 
-#: js/js.js:790
+#: js/js.js:729
 msgid "last year"
 msgstr "minulý rok"
 
-#: js/js.js:791
+#: js/js.js:730
 msgid "years ago"
 msgstr "před lety"
 
-#: js/oc-dialogs.js:126
-msgid "Choose"
-msgstr "Vybrat"
+#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
+msgid "Ok"
+msgstr "Ok"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
 msgstr "Zrušit"
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "Ne"
+#: js/oc-dialogs.js:185
+msgid "Choose"
+msgstr "Vybrat"
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:215
 msgid "Yes"
 msgstr "Ano"
 
-#: js/oc-dialogs.js:180
-msgid "Ok"
-msgstr "Ok"
+#: js/oc-dialogs.js:222
+msgid "No"
+msgstr "Ne"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
 msgstr "Není určen typ objektu."
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
-#: js/share.js:578
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr "Chyba"
 
@@ -263,7 +265,7 @@ msgstr "Sdílené"
 msgid "Share"
 msgstr "Sdílet"
 
-#: js/share.js:125 js/share.js:606
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr "Chyba při sdílení"
 
@@ -295,7 +297,7 @@ msgstr "Sdílet s odkazem"
 msgid "Password protect"
 msgstr "Chránit heslem"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Heslo"
 
@@ -323,59 +325,59 @@ msgstr "Sdílet e-mailem:"
 msgid "No people found"
 msgstr "Žádní lidé nenalezeni"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr "Sdílení již sdílené položky není povoleno"
 
-#: js/share.js:276
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr "Sdíleno v {item} s {user}"
 
-#: js/share.js:297
+#: js/share.js:308
 msgid "Unshare"
 msgstr "Zrušit sdílení"
 
-#: js/share.js:309
+#: js/share.js:320
 msgid "can edit"
 msgstr "lze upravovat"
 
-#: js/share.js:311
+#: js/share.js:322
 msgid "access control"
 msgstr "řízení přístupu"
 
-#: js/share.js:314
+#: js/share.js:325
 msgid "create"
 msgstr "vytvořit"
 
-#: js/share.js:317
+#: js/share.js:328
 msgid "update"
 msgstr "aktualizovat"
 
-#: js/share.js:320
+#: js/share.js:331
 msgid "delete"
 msgstr "smazat"
 
-#: js/share.js:323
+#: js/share.js:334
 msgid "share"
 msgstr "sdílet"
 
-#: js/share.js:357 js/share.js:553
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr "Chráněno heslem"
 
-#: js/share.js:566
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr "Chyba při odstraňování data vypršení platnosti"
 
-#: js/share.js:578
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr "Chyba při nastavení data vypršení platnosti"
 
-#: js/share.js:593
+#: js/share.js:604
 msgid "Sending ..."
 msgstr "Odesílám..."
 
-#: js/share.js:604
+#: js/share.js:615
 msgid "Email sent"
 msgstr "E-mail odeslán"
 
@@ -411,7 +413,7 @@ msgid "Request failed!"
 msgstr "Požadavek selhal."
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
 msgstr "Uživatelské jméno"
 
@@ -521,37 +523,37 @@ msgstr "Pokročilé"
 msgid "Data folder"
 msgstr "Složka s daty"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Nastavit databázi"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "bude použito"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Uživatel databáze"
 
-#: templates/installation.php:141
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Heslo databáze"
 
-#: templates/installation.php:146
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Název databáze"
 
-#: templates/installation.php:156
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Tabulkový prostor databáze"
 
-#: templates/installation.php:163
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Hostitel databáze"
 
-#: templates/installation.php:169
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Dokončit nastavení"
 
@@ -563,33 +565,33 @@ msgstr "webové služby pod Vaší kontrolou"
 msgid "Log out"
 msgstr "Odhlásit se"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automatické přihlášení odmítnuto."
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "V nedávné době jste nezměnili své heslo, Váš účet může být kompromitován."
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Změňte, prosím, své heslo pro opětovné zabezpečení Vašeho účtu."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Ztratili jste své heslo?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "zapamatovat"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Přihlásit"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Alternativní přihlášení"
 

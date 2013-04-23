@@ -18,7 +18,6 @@
 "Images" => "Billeder",
 "Set an admin username." => "Angiv et admin brugernavn.",
 "Set an admin password." => "Angiv et admin kodeord.",
-"Specify a data folder." => "Specificer en data mappe.",
 "%s enter the database username." => "%s indtast database brugernavnet.",
 "%s enter the database name." => "%s indtast database navnet.",
 "%s you may not use dots in the database name" => "%s du må ikke bruge punktummer i databasenavnet.",

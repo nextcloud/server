@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
+"POT-Creation-Date: 2013-04-17 02:21+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -95,7 +95,7 @@ msgstr "Päivitä versioon {appversion}"
 msgid "Disable"
 msgstr "Poista käytöstä"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
 msgstr "Käytä"
 
@@ -103,64 +103,64 @@ msgstr "Käytä"
 msgid "Please wait...."
 msgstr "Odota hetki..."
 
-#: js/apps.js:84
-msgid "Updating...."
-msgstr "Päivitetään..."
-
-#: js/apps.js:87
-msgid "Error while updating app"
-msgstr "Virhe sovellusta päivittäessä"
-
-#: js/apps.js:87
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
 msgstr "Virhe"
 
 #: js/apps.js:90
+msgid "Updating...."
+msgstr "Päivitetään..."
+
+#: js/apps.js:93
+msgid "Error while updating app"
+msgstr "Virhe sovellusta päivittäessä"
+
+#: js/apps.js:96
 msgid "Updated"
 msgstr "Päivitetty"
 
-#: js/personal.js:99
+#: js/personal.js:109
 msgid "Saving..."
 msgstr "Tallennetaan..."
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "deleted"
 msgstr "poistettu"
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "undo"
 msgstr "kumoa"
 
-#: js/users.js:62
+#: js/users.js:75
 msgid "Unable to remove user"
 msgstr "Käyttäjän poistaminen ei onnistunut"
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "Ryhmät"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "Ryhmän ylläpitäjä"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr "Poista"
 
-#: js/users.js:191
+#: js/users.js:262
 msgid "add group"
 msgstr "lisää ryhmä"
 
-#: js/users.js:352
+#: js/users.js:414
 msgid "A valid username must be provided"
 msgstr ""
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
 msgstr "Virhe käyttäjää luotaessa"
 
-#: js/users.js:358
+#: js/users.js:420
 msgid "A valid password must be provided"
 msgstr ""
 
@@ -319,11 +319,15 @@ msgstr "Lokitaso"
 msgid "More"
 msgstr "Enemmän"
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:224
+msgid "Less"
+msgstr "Vähemmän"
+
+#: templates/admin.php:231 templates/personal.php:102
 msgid "Version"
 msgstr "Versio"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:234 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -472,7 +476,7 @@ msgstr "Luo"
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr ""
+msgstr "Oletustallennustila"
 
 #: templates/users.php:41 templates/users.php:139
 msgid "Unlimited"
@@ -484,7 +488,7 @@ msgstr "Muu"
 
 #: templates/users.php:84
 msgid "Storage"
-msgstr ""
+msgstr "Tallennustila"
 
 #: templates/users.php:95
 msgid "change display name"

@@ -21,8 +21,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:31+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -174,86 +174,88 @@ msgstr "december"
 msgid "Settings"
 msgstr "Instellingen"
 
-#: js/js.js:779
+#: js/js.js:718
 msgid "seconds ago"
 msgstr "seconden geleden"
 
-#: js/js.js:780
+#: js/js.js:719
 msgid "1 minute ago"
 msgstr "1 minuut geleden"
 
-#: js/js.js:781
+#: js/js.js:720
 msgid "{minutes} minutes ago"
 msgstr "{minutes} minuten geleden"
 
-#: js/js.js:782
+#: js/js.js:721
 msgid "1 hour ago"
 msgstr "1 uur geleden"
 
-#: js/js.js:783
+#: js/js.js:722
 msgid "{hours} hours ago"
 msgstr "{hours} uren geleden"
 
-#: js/js.js:784
+#: js/js.js:723
 msgid "today"
 msgstr "vandaag"
 
-#: js/js.js:785
+#: js/js.js:724
 msgid "yesterday"
 msgstr "gisteren"
 
-#: js/js.js:786
+#: js/js.js:725
 msgid "{days} days ago"
 msgstr "{days} dagen geleden"
 
-#: js/js.js:787
+#: js/js.js:726
 msgid "last month"
 msgstr "vorige maand"
 
-#: js/js.js:788
+#: js/js.js:727
 msgid "{months} months ago"
 msgstr "{months} maanden geleden"
 
-#: js/js.js:789
+#: js/js.js:728
 msgid "months ago"
 msgstr "maanden geleden"
 
-#: js/js.js:790
+#: js/js.js:729
 msgid "last year"
 msgstr "vorig jaar"
 
-#: js/js.js:791
+#: js/js.js:730
 msgid "years ago"
 msgstr "jaar geleden"
 
-#: js/oc-dialogs.js:126
-msgid "Choose"
-msgstr "Kies"
+#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
+msgid "Ok"
+msgstr "Ok"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "Nee"
+#: js/oc-dialogs.js:185
+msgid "Choose"
+msgstr "Kies"
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:215
 msgid "Yes"
 msgstr "Ja"
 
-#: js/oc-dialogs.js:180
-msgid "Ok"
-msgstr "Ok"
+#: js/oc-dialogs.js:222
+msgid "No"
+msgstr "Nee"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
 msgstr "Het object type is niet gespecificeerd."
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
-#: js/share.js:578
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr "Fout"
 
@@ -273,7 +275,7 @@ msgstr "Gedeeld"
 msgid "Share"
 msgstr "Delen"
 
-#: js/share.js:125 js/share.js:606
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr "Fout tijdens het delen"
 
@@ -333,59 +335,59 @@ msgstr "Deel via email:"
 msgid "No people found"
 msgstr "Geen mensen gevonden"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr "Verder delen is niet toegestaan"
 
-#: js/share.js:276
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr "Gedeeld in {item} met {user}"
 
-#: js/share.js:297
+#: js/share.js:308
 msgid "Unshare"
 msgstr "Stop met delen"
 
-#: js/share.js:309
+#: js/share.js:320
 msgid "can edit"
 msgstr "kan wijzigen"
 
-#: js/share.js:311
+#: js/share.js:322
 msgid "access control"
 msgstr "toegangscontrole"
 
-#: js/share.js:314
+#: js/share.js:325
 msgid "create"
 msgstr "maak"
 
-#: js/share.js:317
+#: js/share.js:328
 msgid "update"
 msgstr "bijwerken"
 
-#: js/share.js:320
+#: js/share.js:331
 msgid "delete"
 msgstr "verwijderen"
 
-#: js/share.js:323
+#: js/share.js:334
 msgid "share"
 msgstr "deel"
 
-#: js/share.js:357 js/share.js:553
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr "Wachtwoord beveiligd"
 
-#: js/share.js:566
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr "Fout tijdens het verwijderen van de verval datum"
 
-#: js/share.js:578
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr "Fout tijdens het instellen van de vervaldatum"
 
-#: js/share.js:593
+#: js/share.js:604
 msgid "Sending ..."
 msgstr "Versturen ..."
 
-#: js/share.js:604
+#: js/share.js:615
 msgid "Email sent"
 msgstr "E-mail verzonden"
 
@@ -488,11 +490,11 @@ msgstr "Beveiligingswaarschuwing"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "Uw PHP versie is kwetsbaar voor de NULL byte aanval (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "Werk uw PHP installatie bij om ownCloud veilig te kunnen gebruiken."
 
 #: templates/installation.php:32
 msgid ""
@@ -545,23 +547,23 @@ msgstr "zal gebruikt worden"
 msgid "Database user"
 msgstr "Gebruiker database"
 
-#: templates/installation.php:141
+#: templates/installation.php:143
 msgid "Database password"
 msgstr "Wachtwoord database"
 
-#: templates/installation.php:146
+#: templates/installation.php:148
 msgid "Database name"
 msgstr "Naam database"
 
-#: templates/installation.php:156
+#: templates/installation.php:158
 msgid "Database tablespace"
 msgstr "Database tablespace"
 
-#: templates/installation.php:163
+#: templates/installation.php:165
 msgid "Database host"
 msgstr "Database server"
 
-#: templates/installation.php:169
+#: templates/installation.php:171
 msgid "Finish setup"
 msgstr "Installatie afronden"
 

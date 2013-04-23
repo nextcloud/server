@@ -23,6 +23,7 @@
  *   post_rename(oldpath,newpath)
  *   copy(oldpath,newpath, &run) (if the newpath doesn't exists yes, copy, create and write will be emitted in that order)
  *   post_rename(oldpath,newpath)
+ *   post_initMountPoints(user, user_dir)
  *
  *   the &run parameter can be set to false to prevent the operation from occurring
  */
@@ -280,6 +281,9 @@ class Filesystem {
 				}
 			}
 		}
+
+		// Chance to mount for other storages
+		\OC_Hook::emit('OC_Filesystem', 'post_initMountPoints', array('user' => $user, 'user_dir' => $root));
 	}
 
 	/**
@@ -621,10 +625,11 @@ class Filesystem {
 	 * get the content of a directory
 	 *
 	 * @param string $directory path under datadirectory
+	 * @param string $mimetype_filter limit returned content to this mimetype or mimepart
 	 * @return array
 	 */
-	public static function getDirectoryContent($directory) {
-		return self::$defaultInstance->getDirectoryContent($directory);
+	public static function getDirectoryContent($directory, $mimetype_filter = '') {
+		return self::$defaultInstance->getDirectoryContent($directory, $mimetype_filter);
 	}
 
 	/**
@@ -659,10 +664,5 @@ class Filesystem {
 		return self::$defaultInstance->getETag($path);
 	}
 }
-
-\OC_Hook::connect('OC_Filesystem', 'post_write', '\OC\Files\Cache\Updater', 'writeHook');
-\OC_Hook::connect('OC_Filesystem', 'post_touch', '\OC\Files\Cache\Updater', 'touchHook');
-\OC_Hook::connect('OC_Filesystem', 'post_delete', '\OC\Files\Cache\Updater', 'deleteHook');
-\OC_Hook::connect('OC_Filesystem', 'post_rename', '\OC\Files\Cache\Updater', 'renameHook');
 
 \OC_Util::setupFS();

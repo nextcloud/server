@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Kiril <neohidra@gmail.com>, 2013.
-# Stefan Ilivanov <ilivanov@gmail.com>, 2013.
+# Kiril <neohidra@gmail.com>, 2013
+# Stefan Ilivanov <ilivanov@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:10+0000\n"
-"Last-Translator: Kiril <neohidra@gmail.com>\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -94,10 +94,6 @@ msgstr "Въведете потребителско име за админист
 #: setup.php:37
 msgid "Set an admin password."
 msgstr "Въведете парола за администратор."
-
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "Укажете папка за данни"
 
 #: setup.php:55
 #, php-format

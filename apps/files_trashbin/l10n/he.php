@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "בלתי אפשרי למחוק את %s לצמיתות",
 "Couldn't restore %s" => "בלתי אפשרי לשחזר את %s",
 "perform restore operation" => "בצע פעולת שחזור",
+"Error" => "שגיאה",
 "delete file permanently" => "מחק קובץ לצמיתות",
 "Delete permanently" => "מחק לצמיתות",
 "Name" => "שם",

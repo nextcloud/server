@@ -24,20 +24,16 @@
 # Bugs
 # ----
 # Sharing a file to a user without encryption set up will not provide them with access but won't notify the sharer
-# Sharing files to other users currently broken (due to merge + ongoing implementation of support for lost password recovery)
 # Timeouts on first login due to encryption of very large files (fix in progress, as a result streaming is currently broken)
 # Sharing all files to admin for recovery purposes still in progress
 # Possibly public links are broken (not tested since last merge of master)
-# getOwner() currently returns false in all circumstances, unsure what code is returning this...
 # encryptAll during login mangles paths: /files/files/
 # encryptAll is accessing files via encryption proxy - perhaps proxies should be disabled?
-# Sharekeys appear to not be deleted when their parent file is, and thus get orphaned
 
 
 # Missing features
 # ----------------
 # Make sure user knows if large files weren't encrypted
-# Support for resharing encrypted files
 
 
 # Test
@@ -496,7 +492,7 @@ class Util {
 	 * @note Encryption is recursive
 	 */
 	public function encryptAll( $publicKey, $dirPath, $legacyPassphrase = null, $newPassphrase = null ) {
-	
+		
 		if ( $found = $this->findEncFiles( $dirPath ) ) {
 		
 			// Disable proxy to prevent file being encrypted twice
@@ -504,37 +500,39 @@ class Util {
 		
 			// Encrypt unencrypted files
 			foreach ( $found['plain'] as $plainFile ) {
-			
-				// Open plain file handle
-				
-				
-				// Open enc file handle
-				
-				
-				// Read plain file in chunks
 				
 				//relative to data/<user>/file
 				$relPath = $plainFile['path'];
+				
 				//relative to /data
 				$rawPath = $this->userId . '/files/' .  $plainFile['path'];
-
-				// Open handle with for binary reading
-				$plainHandle = $this->view->fopen( $rawPath, 'rb' );
-				// Open handle with for binary writing
-
-				$encHandle = fopen( 'crypt://' . $relPath . '.tmp', 'wb' );
 				
-				// Overwrite the existing file with the encrypted one
-				//$this->view->file_put_contents( $plainFile['path'], $encrypted['data'] );
-				$size = stream_copy_to_stream( $plainHandle, $encHandle );
-
-				$this->view->rename($rawPath . '.tmp', $rawPath);
-
-				// Fetch the key that has just been set/updated by the stream
-				//$encKey = Keymanager::getFileKey( $this->view, $this->userId, $relPath );
+				// Open plain file handle for binary reading
+				$plainHandle1 = $this->view->fopen( $rawPath, 'rb' );
 				
-				// Save keyfile
-				//Keymanager::setFileKey( $this->view, $relPath, $this->userId, $encKey );
+				// 2nd handle for moving plain file - view->rename() doesn't work, this is a workaround
+				$plainHandle2 = $this->view->fopen( $rawPath . '.plaintmp', 'wb' );
+				
+				// Move plain file to a temporary location
+				stream_copy_to_stream( $plainHandle1, $plainHandle2 );
+				
+				// Close access to original file
+// 				$this->view->fclose( $plainHandle1 ); // not implemented in view{}
+				
+				// Delete original plain file so we can rename enc file later
+				$this->view->unlink( $rawPath );
+				
+				// Open enc file handle for binary writing, with same filename as original plain file
+				$encHandle = fopen( 'crypt://' . $relPath, 'wb' );
+				
+				// Save data from plain stream to new encrypted file via enc stream
+				// NOTE: Stream{} will be invoked for handling 
+				// the encryption, and should handle all keys 
+				// and their generation etc. automatically
+				$size = stream_copy_to_stream( $plainHandle2, $encHandle );
+				
+				// Delete temporary plain copy of file
+				$this->view->unlink( $rawPath . '.plaintmp' );
 				
 				// Add the file to the cache
 				\OC\Files\Filesystem::putFileInfo( $plainFile['path'], array( 'encrypted'=>true, 'size' => $size ), '' );

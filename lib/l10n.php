@@ -298,10 +298,16 @@ class OC_L10N{
 				$temp = explode(';', $i);
 				$temp[0] = str_replace('-', '_', $temp[0]);
 				if( ($key = array_search($temp[0], $available)) !== false) {
+					if (is_null($app)) {
+						self::$language = $available[$key];
+					}
 					return $available[$key];
 				}
 				foreach($available as $l) {
 					if ( $temp[0] == substr($l, 0, 2) ) {
+						if (is_null($app)) {
+							self::$language = $l;
+						}
 						return $l;
 					}
 				}

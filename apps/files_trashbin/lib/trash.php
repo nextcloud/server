@@ -61,9 +61,11 @@ class Trashbin {
 		if ( $trashbinSize === false || $trashbinSize < 0 ) {
 			$trashbinSize = self::calculateSize(new \OC\Files\View('/'. $user.'/files_trashbin'));
 		}
-		$trashbinSize += self::copy_recursive($file_path, 'files_trashbin/files/'.$deleted.'.d'.$timestamp, $view);
-
+		
+		$sizeOfAddedFiles = self::copy_recursive($file_path, 'files_trashbin/files/'.$deleted.'.d'.$timestamp, $view);
+		
 		if ( $view->file_exists('files_trashbin/files/'.$deleted.'.d'.$timestamp) ) {
+			$trashbinSize += $sizeOfAddedFiles;
 			$query = \OC_DB::prepare("INSERT INTO `*PREFIX*files_trash` (`id`,`timestamp`,`location`,`type`,`mime`,`user`) VALUES (?,?,?,?,?,?)");
 			$result = $query->execute(array($deleted, $timestamp, $location, $type, $mime, $user));
 			if ( !$result ) { // if file couldn't be added to the database than also don't store it in the trash bin.
@@ -102,27 +104,8 @@ class Trashbin {
 		} else {
 			\OC_Log::write('files_trashbin', 'Couldn\'t move '.$file_path.' to the trash bin', \OC_log::ERROR);
 		}
-		
-		// get available disk space for user
-		$quota = \OC_Preferences::getValue($user, 'files', 'quota');
-		if ( $quota === null || $quota === 'default') {
-			$quota = \OC_Appconfig::getValue('files', 'default_quota');
-		}
-		if ( $quota === null || $quota === 'none' ) {
-			$quota = \OC\Files\Filesystem::free_space('/') / count(\OCP\User::getUsers());
-		} else {
-			$quota = \OCP\Util::computerFileSize($quota);
-		}
-		
-		// calculate available space for trash bin
-		$rootInfo = $view->getFileInfo('/files');
-		$free = $quota-$rootInfo['size']; // remaining free space for user
-		if ( $free > 0 ) {
-			$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $trashbinSize; // how much space can be used for versions
-		} else {
-			$availableSpace = $free-$trashbinSize;
-		}
-		$trashbinSize -= self::expire($availableSpace);
+
+		$trashbinSize -= self::expire($trashbinSize);
 		
 		self::setTrashbinSize($user, $trashbinSize);
 
@@ -335,13 +318,68 @@ class Trashbin {
 	}
 
 	/**
-	 * clean up the trash bin
-	 * @param max. available disk space for trashbin
+	 * @brief deletes used space for trash bin in db if user was deleted
+	 *
+	 * @param type $uid id of deleted user
+	 * @return result of db delete operation
 	 */
-	private static function expire($availableSpace) {
+	public static function deleteUser($uid) {
+		$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trash` WHERE `user`=?');
+		$result = $query->execute(array($uid));
+		if ($result) {
+			$query = \OC_DB::prepare('DELETE FROM `*PREFIX*files_trashsize` WHERE `user`=?');
+			return $query->execute(array($uid));
+		}
+		return false;
+	}
+
+	/**
+	 * calculate remaining free space for trash bin
+	 *
+	 * @param $trashbinSize current size of the trash bin
+	 * @return available free space for trash bin
+	 */
+	private static function calculateFreeSpace($trashbinSize) {
+		$softQuota = true;
+		$user = \OCP\User::getUser();
+		$quota = \OC_Preferences::getValue($user, 'files', 'quota');
+		$view = new \OC\Files\View('/'.$user);
+		if ( $quota === null || $quota === 'default') {
+			$quota = \OC_Appconfig::getValue('files', 'default_quota');
+		}
+		if ( $quota === null || $quota === 'none' ) {
+			$quota = \OC\Files\Filesystem::free_space('/');
+			$softQuota = false;
+		} else {
+			$quota = \OCP\Util::computerFileSize($quota);
+		}
+
+		// calculate available space for trash bin
+		// subtract size of files and current trash bin size from quota
+		if ($softQuota) {
+			$rootInfo = $view->getFileInfo('/files/');
+			$free = $quota-$rootInfo['size']; // remaining free space for user
+			if ( $free > 0 ) {
+				$availableSpace = ($free * self::DEFAULTMAXSIZE / 100) - $trashbinSize; // how much space can be used for versions
+			} else {
+				$availableSpace = $free-$trashbinSize;
+			}
+		} else {
+			$availableSpace = $quota;
+		}
+
+		return $availableSpace;
+	}
+
+	/**
+	 * clean up the trash bin
+	 * @param current size of the trash bin
+	 */
+	private static function expire($trashbinSize) {
 
 		$user = \OCP\User::getUser();
 		$view = new \OC\Files\View('/'.$user);
+		$availableSpace = self::calculateFreeSpace($trashbinSize);
 		$size = 0;
 
 		$query = \OC_DB::prepare('SELECT `location`,`type`,`id`,`timestamp` FROM `*PREFIX*files_trash` WHERE `user`=?');
@@ -357,6 +395,7 @@ class Trashbin {
 			$filename = $r['id'];
 			if ( $r['timestamp'] < $limit ) {
 				$size += self::delete($filename, $timestamp);
+				\OC_Log::write('files_trashbin', 'remove "'.$filename.'" fom trash bin because it is older than '.$retention_obligation, \OC_log::INFO);
 			}
 		}
 		$availableSpace = $availableSpace + $size;
@@ -369,6 +408,7 @@ class Trashbin {
 			$i = 0;
 			while ( $i < $length &&   $availableSpace < 0 ) {
 				$tmp = self::delete($result[$i]['id'], $result[$i]['timestamp']);
+				\OC_Log::write('files_trashbin', 'remove "'.$result[$i]['id'].'" ('.$tmp.'B) to meet the limit of trash bin size (50% of available quota)', \OC_log::INFO);
 				$availableSpace += $tmp;
 				$size += $tmp;
 				$i++;

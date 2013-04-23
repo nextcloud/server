@@ -3,18 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>, 2012.
-# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2012-2013.
-# <tetuyano+transi@gmail.com>, 2012.
-#   <tetuyano+transi@gmail.com>, 2012.
-# YANO Tetsu <tetuyano+transi@gmail.com>, 2013.
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2012
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2012-2013
+# tt yn <tetuyano+transi@gmail.com>, 2012
+# tt yn <tetuyano+transi@gmail.com>, 2012
+# tt yn <tetuyano+transi@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-02 00:03+0100\n"
-"PO-Revision-Date: 2013-03-01 05:10+0000\n"
-"Last-Translator: tt yn <tetuyano+transi@gmail.com>\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-17 08:10+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -97,7 +97,7 @@ msgstr "{appversion} に更新"
 msgid "Disable"
 msgstr "無効"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
 msgstr "有効"
 
@@ -105,64 +105,64 @@ msgstr "有効"
 msgid "Please wait...."
 msgstr "しばらくお待ちください。"
 
-#: js/apps.js:84
-msgid "Updating...."
-msgstr "更新中...."
-
-#: js/apps.js:87
-msgid "Error while updating app"
-msgstr "アプリの更新中にエラーが発生"
-
-#: js/apps.js:87
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
 msgstr "エラー"
 
 #: js/apps.js:90
+msgid "Updating...."
+msgstr "更新中...."
+
+#: js/apps.js:93
+msgid "Error while updating app"
+msgstr "アプリの更新中にエラーが発生"
+
+#: js/apps.js:96
 msgid "Updated"
 msgstr "更新済み"
 
-#: js/personal.js:99
+#: js/personal.js:109
 msgid "Saving..."
 msgstr "保存中..."
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "deleted"
 msgstr "削除"
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "undo"
 msgstr "元に戻す"
 
-#: js/users.js:62
+#: js/users.js:75
 msgid "Unable to remove user"
 msgstr "ユーザを削除出来ません"
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "グループ"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "グループ管理者"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr "削除"
 
-#: js/users.js:191
+#: js/users.js:262
 msgid "add group"
 msgstr "グループを追加"
 
-#: js/users.js:352
+#: js/users.js:414
 msgid "A valid username must be provided"
 msgstr "有効なユーザ名を指定する必要があります"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
 msgstr "ユーザ作成エラー"
 
-#: js/users.js:358
+#: js/users.js:420
 msgid "A valid password must be provided"
 msgstr "有効なパスワードを指定する必要があります"
 
@@ -317,15 +317,19 @@ msgstr "ログ"
 msgid "Log level"
 msgstr "ログレベル"
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
-msgstr "詳細"
+msgstr "もっと見る"
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:228
+msgid "Less"
+msgstr "閉じる"
+
+#: templates/admin.php:235 templates/personal.php:102
 msgid "Version"
 msgstr "バージョン"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:238 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -333,7 +337,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>により開発されています、<a href=\"https://github.com/owncloud\" target=\"_blank\">ソースコード</a>ライセンスは、<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> ライセンスにより提供されています。"
+msgstr "<a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud コミュニティ</a>により開発されています。 <a href=\"https://github.com/owncloud\" target=\"_blank\">ソースコード</a>は、<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> ライセンスの下で提供されています。"
 
 #: templates/apps.php:11
 msgid "Add your App"
@@ -390,11 +394,11 @@ msgstr "現在、<strong>%s</strong> / <strong>%s</strong> を利用していま
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr "あなたのファイルを同期するためのアプリを取得"
+msgstr "ファイルを同期するためのアプリを取得"
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
-msgstr "初回実行ウィザードを再度表示する"
+msgstr "初回ウィザードを再表示する"
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:79
 msgid "Password"

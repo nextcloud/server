@@ -2,7 +2,9 @@
 "Couldn't delete %s permanently" => "Tidak dapat menghapus permanen %s",
 "Couldn't restore %s" => "Tidak dapat memulihkan %s",
 "perform restore operation" => "jalankan operasi pemulihan",
+"Error" => "kesalahan",
 "delete file permanently" => "hapus berkas secara permanen",
+"Delete permanently" => "hapus secara permanen",
 "Name" => "Nama",
 "Deleted" => "Dihapus",
 "1 folder" => "1 map",
@@ -11,5 +13,6 @@
 "{count} files" => "{count} berkas",
 "Nothing in here. Your trash bin is empty!" => "Tempat sampah anda kosong!",
 "Restore" => "Pulihkan",
-"Delete" => "Hapus"
+"Delete" => "Hapus",
+"Deleted Files" => "Berkas yang Dihapus"
 );

@@ -86,6 +86,9 @@ class Stream {
 		// rawPath is relative to the data directory
 		$this->rawPath = $this->userId . '/files/' . $this->relPath;
 		
+		// Fix .part filenames
+		$this->rawPath = Keymanager::fixPartialFilePath( $this->rawPath );
+		
 		if ( 
 		dirname( $this->rawPath ) == 'streams' 
 		and isset( self::$sourceStreams[basename( $this->rawPath )] ) 
@@ -257,11 +260,6 @@ class Stream {
 			
 			$this->plainKey = Crypt::multiKeyDecrypt( $this->encKeyfile, $shareKey, $privateKey );
 			
-// 			trigger_error( '$this->relPath = '.$this->relPath );
-// 			trigger_error( '$this->userId = '.$this->userId);
-// 			trigger_error( '$this->encKeyfile  = '.$this->encKeyfile );
-// 			trigger_error( '$this->plainKey1 = '.var_export($this->plainKey, 1));
-			
 			return true;
 			
 		} else {
@@ -352,12 +350,6 @@ class Stream {
 		// Save the sharekeys
 		Keymanager::setShareKeys( $view, $this->relPath, $this->encKeyfiles['keys'] );
 		
-// 		trigger_error( "\$this->encKeyfiles['data'] = ".$this->encKeyfiles['data'] );
-// 		trigger_error( '$this->relPath = '.$this->relPath );
-// 		trigger_error( '$this->userId = '.$this->userId);
-// 		trigger_error( '$this->encKeyfile  = '.var_export($this->encKeyfiles, 1) );
-// 		trigger_error( '$this->plainKey2 = '.var_export($this->plainKey, 1));
-		
 		// If extra data is left over from the last round, make sure it 
 		// is integrated into the next 6126 / 8192 block
 		if ( $this->writeCache ) {
@@ -420,15 +412,13 @@ class Stream {
 
 				// Clear $data ready for next round
 				$data = '';
-// 
+				
 			} else {
 				
 				// Read the chunk from the start of $data
 				$chunk = substr( $data, 0, 6126 );
 				
 				$encrypted = $this->preWriteEncrypt( $chunk, $this->plainKey );
-				
-				//trigger_error("\$encrypted = $encrypted");
 				
 				// Write the data chunk to disk. This will be 
 				// attended to the last data chunk if the file
@@ -515,9 +505,9 @@ class Stream {
 			\OC\Files\Filesystem::putFileInfo( $this->relPath, array( 'encrypted' => true, 'size' => $this->size ), '' );
 
 		}
-		
-		return fclose( $this->handle );
 
+		return fclose( $this->handle );
+		
 	}
 
 }

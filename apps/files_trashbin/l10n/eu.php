@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "Ezin izan da %s betirako ezabatu",
 "Couldn't restore %s" => "Ezin izan da %s berreskuratu",
 "perform restore operation" => "berreskuratu",
+"Error" => "Errorea",
 "delete file permanently" => "ezabatu fitxategia betirako",
 "Delete permanently" => "Ezabatu betirako",
 "Name" => "Izena",

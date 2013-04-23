@@ -19,7 +19,7 @@ $hasOracle = is_callable('oci_connect');
 $hasMSSQL = is_callable('sqlsrv_connect');
 $datadir = OC_Config::getValue('datadirectory', OC::$SERVERROOT.'/data');
 $vulnerableToNullByte = false;
-if(file_exists(__FILE__."\0Nullbyte")) { // Check if the used PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)
+if(@file_exists(__FILE__."\0Nullbyte")) { // Check if the used PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)
 	$vulnerableToNullByte = true;
 } 
 

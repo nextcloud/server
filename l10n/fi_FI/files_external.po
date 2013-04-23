@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:32+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -40,13 +40,13 @@ msgstr "Anna kelvollinen Dropbox-sovellusavain ja salainen vastaus."
 msgid "Error configuring Google Drive storage"
 msgstr "Virhe Google Drive levyn asetuksia tehtäessä"
 
-#: lib/config.php:423
+#: lib/config.php:424
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Varoitus:</b> \"smbclient\" ei ole asennettuna. CIFS-/SMB-jakojen liittäminen ei ole mahdollista. Pyydä järjestelmän ylläpitäjää asentamaan smbclient."
 
-#: lib/config.php:426
+#: lib/config.php:427
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
@@ -63,7 +63,7 @@ msgstr "Kansion nimi"
 
 #: templates/settings.php:10
 msgid "External storage"
-msgstr ""
+msgstr "Ulkoinen tallennustila"
 
 #: templates/settings.php:11
 msgid "Configuration"
@@ -79,7 +79,7 @@ msgstr "Sovellettavissa"
 
 #: templates/settings.php:33
 msgid "Add storage"
-msgstr ""
+msgstr "Lisää tallennustila"
 
 #: templates/settings.php:90
 msgid "None set"

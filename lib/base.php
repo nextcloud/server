@@ -278,7 +278,7 @@ class OC {
 					OC_Config::setValue('maintenance', true);
 					OC_Log::write('core',
 						'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion,
-						OC_Log::DEBUG);
+						OC_Log::WARN);
 					$minimizerCSS = new OC_Minimizer_CSS();
 					$minimizerCSS->clearCache();
 					$minimizerJS = new OC_Minimizer_JS();
@@ -323,6 +323,10 @@ class OC {
 		// prevents javascript from accessing php session cookies
 		ini_set('session.cookie_httponly', '1;');
 
+		// set the cookie path to the ownCloud directory
+		$cookie_path = OC::$WEBROOT ?: '/';
+		ini_set('session.cookie_path', $cookie_path);
+
 		// set the session name to the instance id - which is unique
 		session_name(OC_Util::getInstanceId());
 
@@ -354,7 +358,7 @@ class OC {
 		// session timeout
 		if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 60*60*24)) {
 			if (isset($_COOKIE[session_name()])) {
-				setcookie(session_name(), '', time() - 42000, '/');
+				setcookie(session_name(), '', time() - 42000, $cookie_path);
 			}
 			session_unset();
 			session_destroy();

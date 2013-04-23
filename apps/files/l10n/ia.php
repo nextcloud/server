@@ -4,7 +4,6 @@
 "Missing a temporary folder" => "Manca un dossier temporari",
 "Files" => "Files",
 "Delete" => "Deler",
-"Close" => "Clauder",
 "Name" => "Nomine",
 "Size" => "Dimension",
 "Modified" => "Modificate",

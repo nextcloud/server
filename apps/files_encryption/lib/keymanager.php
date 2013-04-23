@@ -106,6 +106,7 @@ class Keymanager {
 	 */
 	public static function setFileKey( \OC_FilesystemView $view, $path, $userId, $catfile ) {
 		
+		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
 		//here we need the currently logged in user, while userId can be a different user
@@ -129,7 +130,7 @@ class Keymanager {
 		$result = $view->file_put_contents( $basePath . '/' . $targetPath . '.key', $catfile );
 		
 		
-		\OC_FileProxy::$enabled = true;
+		\OC_FileProxy::$enabled = $proxyStatus;
 		
 		return $result;
 		

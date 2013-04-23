@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#  <romihardiyanto@gmail.com>, 2013.
 # Widya Walesa <walecha99@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-08 00:25+0100\n"
-"PO-Revision-Date: 2013-03-07 23:25+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -18,12 +19,12 @@ msgstr ""
 "Language: id\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: ajax/delete.php:40
+#: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
 msgstr "Tidak dapat menghapus permanen %s"
 
-#: ajax/undelete.php:41
+#: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
 msgstr "Tidak dapat memulihkan %s"
@@ -32,13 +33,17 @@ msgstr "Tidak dapat memulihkan %s"
 msgid "perform restore operation"
 msgstr "jalankan operasi pemulihan"
 
+#: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
+msgid "Error"
+msgstr "kesalahan"
+
 #: js/trash.js:34
 msgid "delete file permanently"
 msgstr "hapus berkas secara permanen"
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr ""
+msgstr "hapus secara permanen"
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
@@ -78,4 +83,4 @@ msgstr "Hapus"
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr ""
+msgstr "Berkas yang Dihapus"

@@ -25,6 +25,7 @@
 "Security Warning" => "Безбедносно предупредување",
 "Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "Вашата папка со податоци и датотеките е најверојатно достапна од интернет. .htaccess датотеката што ја овозможува ownCloud не фунционира. Силно препорачуваме да го исконфигурирате вашиот сервер за вашата папка со податоци не е достапна преку интернетт или преместете ја надвор од коренот на веб серверот.",
 "More" => "Повеќе",
+"Less" => "Помалку",
 "Version" => "Верзија",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Развој од <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud заедницата</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">изворниот код</a> е лиценциран со<a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
 "Add your App" => "Додадете ја Вашата апликација",

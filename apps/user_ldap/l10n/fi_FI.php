@@ -40,6 +40,7 @@
 "Base Group Tree" => "Ryhmien juuri",
 "Group-Member association" => "Ryhmän ja jäsenen assosiaatio (yhteys)",
 "in bytes" => "tavuissa",
+"Email Field" => "Sähköpostikenttä",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "Jätä tyhjäksi käyttäjänimi (oletusasetus). Muutoin anna LDAP/AD-atribuutti.",
 "Help" => "Ohje"
 );

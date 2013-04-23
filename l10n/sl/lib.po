@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <>, 2012.
-# Matej Urbančič <>, 2013.
-# Peter Peroša <peter.perosa@gmail.com>, 2012.
+# mateju <>, 2012
+# mateju <>, 2013
+# Peter Peroša <peter.perosa@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-27 00:08+0100\n"
-"PO-Revision-Date: 2013-03-26 11:10+0000\n"
-"Last-Translator: mateju <>\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,10 +96,6 @@ msgstr "Nastavi uporabniško ime skrbnika."
 msgid "Set an admin password."
 msgstr "Nastavi geslo skrbnika."
 
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "Določi podatkovno mapo."
-
 #: setup.php:55
 #, php-format
 msgid "%s enter the database username."
@@ -113,7 +109,7 @@ msgstr "%s - vnos imena podatkovne zbirke."
 #: setup.php:61
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr "%s - v imenu podatkovne zbirke ni dovoljeno vpisati pik."
+msgstr "%s - v imenu podatkovne zbirke ni dovoljeno uporabljati pik."
 
 #: setup.php:64
 #, php-format
@@ -122,7 +118,7 @@ msgstr "%s - vnos gostitelja podatkovne zbirke."
 
 #: setup.php:132 setup.php:324 setup.php:369
 msgid "PostgreSQL username and/or password not valid"
-msgstr "Uporabniško ime ali geslo PostgreSQL ni pravilno"
+msgstr "Uporabniško ime ali geslo PostgreSQL ni veljavno"
 
 #: setup.php:133 setup.php:156 setup.php:233
 msgid "You need to enter either an existing account or the administrator."
@@ -130,11 +126,11 @@ msgstr "Prijaviti se je treba v obstoječi ali pa skrbniški račun."
 
 #: setup.php:155 setup.php:457 setup.php:524
 msgid "Oracle username and/or password not valid"
-msgstr "Uporabniško ime ali geslo Oracle ni pravilno"
+msgstr "Uporabniško ime ali geslo Oracle ni veljavno"
 
 #: setup.php:232
 msgid "MySQL username and/or password not valid"
-msgstr "Uporabniško ime ali geslo MySQL ni pravilno"
+msgstr "Uporabniško ime ali geslo MySQL ni veljavno"
 
 #: setup.php:286 setup.php:390 setup.php:399 setup.php:417 setup.php:427
 #: setup.php:436 setup.php:465 setup.php:531 setup.php:557 setup.php:564
@@ -177,7 +173,7 @@ msgstr "Napačni ukaz je: \"%s\", ime: %s, geslo: %s"
 #: setup.php:635
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr "Uporabniško ime ali geslo MS SQL ni pravilno: %s"
+msgstr "Uporabniško ime ali geslo MS SQL ni veljavno: %s"
 
 #: setup.php:853
 msgid ""

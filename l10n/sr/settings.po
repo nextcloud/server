@@ -5,12 +5,13 @@
 # Translators:
 #   <marko@evizo.com>, 2012.
 # Slobodan Terzić <githzerai06@gmail.com>, 2011, 2012.
+#  <theranchcowboy@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
+"POT-Creation-Date: 2013-04-17 02:21+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +31,7 @@ msgstr "Грешка при аутентификацији"
 
 #: ajax/changedisplayname.php:32
 msgid "Unable to change display name"
-msgstr ""
+msgstr "Не могу да променим име за приказ"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -84,84 +85,84 @@ msgstr "Не могу да уклоним корисника из групе %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Не могу да ажурирам апликацију."
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Ажурирај на {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "Искључи"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
 msgstr "Укључи"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "Сачекајте…"
 
-#: js/apps.js:84
-msgid "Updating...."
-msgstr ""
-
-#: js/apps.js:87
-msgid "Error while updating app"
-msgstr ""
-
-#: js/apps.js:87
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
 msgstr "Грешка"
 
 #: js/apps.js:90
-msgid "Updated"
-msgstr ""
+msgid "Updating...."
+msgstr "Ажурирам…"
 
-#: js/personal.js:99
+#: js/apps.js:93
+msgid "Error while updating app"
+msgstr "Грешка при ажурирању апликације"
+
+#: js/apps.js:96
+msgid "Updated"
+msgstr "Ажурирано"
+
+#: js/personal.js:109
 msgid "Saving..."
 msgstr "Чување у току..."
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "deleted"
-msgstr ""
+msgstr "обрисано"
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "undo"
 msgstr "опозови"
 
-#: js/users.js:62
+#: js/users.js:75
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Не могу да уклоним корисника"
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "Групе"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "Управник групе"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr "Обриши"
 
-#: js/users.js:191
+#: js/users.js:262
 msgid "add group"
-msgstr ""
+msgstr "додај групу"
 
-#: js/users.js:352
+#: js/users.js:414
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Морате унети исправно корисничко име"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
-msgstr ""
+msgstr "Грешка при прављењу корисника"
 
-#: js/users.js:358
+#: js/users.js:420
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Морате унети исправну лозинку"
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
@@ -182,32 +183,32 @@ msgstr "Тренутно су ваши подаци и датотеке дост
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "Упозорење о подешавању"
 
 #: templates/admin.php:32
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Ваш веб сервер тренутно не подржава синхронизацију датотека јер се чини да је WebDAV сучеље неисправно."
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Погледајте <a href='%s'>водиче за инсталацију</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Недостаје модул „fileinfo“"
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "Недостаје PHP модул „fileinfo“. Препоручујемо вам да га омогућите да бисте добили најбоље резултате с откривањем MIME врста."
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "Локализација не ради"
 
 #: templates/admin.php:63
 #, php-format
@@ -219,7 +220,7 @@ msgstr ""
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Веза с интернетом не ради"
 
 #: templates/admin.php:78
 msgid ""
@@ -237,7 +238,7 @@ msgstr ""
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Изврши један задатак са сваком учитаном страницом"
 
 #: templates/admin.php:111
 msgid ""
@@ -253,52 +254,52 @@ msgstr ""
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr ""
+msgstr "Дељење"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr ""
+msgstr "Омогући API Share"
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Дозвољава апликацијама да користе API Share"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "Дозволи везе"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Дозволи корисницима да деле ставке с другима путем веза"
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr ""
+msgstr "Дозволи поновно дељење"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Дозволи корисницима да поновно деле ставке с другима"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Дозволи корисницима да деле са било ким"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Дозволи корисницима да деле само са корисницима у њиховим групама"
 
 #: templates/admin.php:168
 msgid "Security"
-msgstr ""
+msgstr "Безбедност"
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Наметни HTTPS"
 
 #: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Намеће клијентима да се повежу са ownCloud-ом путем шифроване везе."
 
 #: templates/admin.php:185
 msgid ""
@@ -308,21 +309,25 @@ msgstr ""
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr ""
+msgstr "Бележење"
 
 #: templates/admin.php:196
 msgid "Log level"
-msgstr ""
+msgstr "Ниво бележења"
 
 #: templates/admin.php:223
 msgid "More"
-msgstr ""
+msgstr "Више"
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:224
+msgid "Less"
+msgstr "Мање"
+
+#: templates/admin.php:231 templates/personal.php:102
 msgid "Version"
-msgstr ""
+msgstr "Верзија"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:234 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -358,27 +363,27 @@ msgstr "Ажурирај"
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr ""
+msgstr "Корисничка документација"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Администраторска документација"
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr ""
+msgstr "Мрежна документација"
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr ""
+msgstr "Форум"
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr ""
+msgstr "Праћење грешака"
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr ""
+msgstr "Комерцијална подршка"
 
 #: templates/personal.php:8
 #, php-format
@@ -387,7 +392,7 @@ msgstr "Искористили сте <strong>%s</strong> од дозвољен�
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Преузмите апликације ради синхронизовања датотека"
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
@@ -419,19 +424,19 @@ msgstr "Измени лозинку"
 
 #: templates/personal.php:56 templates/users.php:78
 msgid "Display Name"
-msgstr ""
+msgstr "Име за приказ"
 
 #: templates/personal.php:57
 msgid "Your display name was changed"
-msgstr ""
+msgstr "Ваше име за приказ је промењено"
 
 #: templates/personal.php:58
 msgid "Unable to change your display name"
-msgstr ""
+msgstr "Не могу да променим ваше име за приказ"
 
 #: templates/personal.php:61
 msgid "Change display name"
-msgstr ""
+msgstr "Промени име за приказ"
 
 #: templates/personal.php:70
 msgid "Email"
@@ -455,15 +460,15 @@ msgstr " Помозите у превођењу"
 
 #: templates/personal.php:91
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:93
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Користите ову адресу да се повежете са ownCloud-ом у управљачу датотекама"
 
 #: templates/users.php:21 templates/users.php:77
 msgid "Login Name"
-msgstr ""
+msgstr "Корисничко име"
 
 #: templates/users.php:32
 msgid "Create"
@@ -471,11 +476,11 @@ msgstr "Направи"
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr ""
+msgstr "Подразумевано складиште"
 
 #: templates/users.php:41 templates/users.php:139
 msgid "Unlimited"
-msgstr ""
+msgstr "Неограничено"
 
 #: templates/users.php:59 templates/users.php:154
 msgid "Other"
@@ -483,16 +488,16 @@ msgstr "Друго"
 
 #: templates/users.php:84
 msgid "Storage"
-msgstr ""
+msgstr "Складиште"
 
 #: templates/users.php:95
 msgid "change display name"
-msgstr ""
+msgstr "промени име за приказ"
 
 #: templates/users.php:99
 msgid "set new password"
-msgstr ""
+msgstr "постави нову лозинку"
 
 #: templates/users.php:134
 msgid "Default"
-msgstr ""
+msgstr "Подразумевано"
