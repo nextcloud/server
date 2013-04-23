@@ -15,4 +15,4 @@ $data = array();
 
 OC_JSON::success(array(
 	"data" => $entries,
-	"remain"=>(count(OC_Log_Owncloud::getEntries(1, $offset + $offset)) != 0) ? true : false));
+	"remain"=>(count(OC_Log_Owncloud::getEntries(1, $offset + $count)) != 0) ? true : false));
