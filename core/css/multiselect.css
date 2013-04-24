@@ -29,6 +29,12 @@
  	white-space:nowrap;
  }
 
+ ul.multiselectoptions>li>input[type="checkbox"] {
+	margin-top: 3px;
+	margin-right: 5px;
+	margin-left: 3px;
+ }
+
  div.multiselect {
  	display:inline-block;
  	max-width:400px;
