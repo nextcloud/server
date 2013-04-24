@@ -103,7 +103,7 @@ class OC_TemplateLayout extends OC_Template {
 
 	static public function findStylesheetFiles($styles) {
 		// Read the selected theme from the config file
-		$theme=OC_Config::getValue( 'theme' );
+		$theme = OC_Util::getTheme();
 
 		// Read the detected formfactor and use the right file name.
 		$fext = self::getFormFactorExtension();
@@ -162,7 +162,7 @@ class OC_TemplateLayout extends OC_Template {
 
 	static public function findJavascriptFiles($scripts) {
 		// Read the selected theme from the config file
-		$theme=OC_Config::getValue( 'theme' );
+		$theme = OC_Util::getTheme();
 
 		// Read the detected formfactor and use the right file name.
 		$fext = self::getFormFactorExtension();
