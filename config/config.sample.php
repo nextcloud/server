@@ -146,7 +146,7 @@ $CONFIG = array(
 "remember_login_cookie_lifetime" => 60*60*24*15,
 
 /* Custom CSP policy, changing this will overwrite the standard policy */
-"custom_csp_policy" => "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; frame-src *; img-src *; font-src 'self' data:",
+"custom_csp_policy" => "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; frame-src *; img-src *; font-src 'self' data:; media-src *",
 
 /* Enable/disable X-Frame-Restriction */
 /* HIGH SECURITY RISK IF DISABLED*/

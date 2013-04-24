@@ -203,7 +203,8 @@ class OC_Template{
 			.'style-src \'self\' \'unsafe-inline\'; '
 			.'frame-src *; '
 			.'img-src *; '
-			.'font-src \'self\' data:');
+			.'font-src \'self\' data:; '
+			.'media-src *');
 		header('Content-Security-Policy:'.$policy); // Standard
 
 		$this->findTemplate($name);
