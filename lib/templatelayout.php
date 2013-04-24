@@ -18,6 +18,20 @@ class OC_TemplateLayout extends OC_Template {
 				$this->assign('bodyid', 'body-user');
 			}
 
+			// Update notification
+			if(OC_Config::getValue('updatechecker', true) === true) {
+				$data=OC_Updater::check();
+				if(isset($data['version']) && $data['version'] != '' and $data['version'] !== Array() && OC_User::isAdminUser(OC_User::getUser())) {
+					$this->assign('updateAvailable', true);
+					$this->assign('updateVersion', $data['versionstring']);
+					$this->assign('updateLink', $data['web']);
+				} else {
+					$this->assign('updateAvailable', false); // No update available or not an admin user
+				}
+			} else {
+				$this->assign('updateAvailable', false); // Update check is disabled
+			}
+
 			// Add navigation entry
 			$this->assign( 'application', '', false );
 			$navigation = OC_App::getNavigation();
