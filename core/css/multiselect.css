@@ -29,8 +29,10 @@
  	white-space:nowrap;
  }
 
- ul.multiselectoptions>li>label {
-	margin-left: 5px;
+ ul.multiselectoptions>li>input[type="checkbox"] {
+	margin-top: 3px;
+	margin-right: 5px;
+	margin-left: 3px;
  }
 
  div.multiselect {
