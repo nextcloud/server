@@ -12,6 +12,7 @@
 "Failed to write to disk" => "Eroare la scriere pe disc",
 "Invalid directory." => "Director invalid.",
 "Files" => "Fișiere",
+"Share" => "Partajează",
 "Delete" => "Șterge",
 "Rename" => "Redenumire",
 "Pending" => "În așteptare",

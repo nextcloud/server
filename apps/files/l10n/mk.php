@@ -8,6 +8,7 @@
 "Missing a temporary folder" => "Не постои привремена папка",
 "Failed to write to disk" => "Неуспеав да запишам на диск",
 "Files" => "Датотеки",
+"Share" => "Сподели",
 "Delete" => "Избриши",
 "Rename" => "Преименувај",
 "Pending" => "Чека",

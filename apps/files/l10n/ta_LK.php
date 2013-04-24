@@ -7,6 +7,7 @@
 "Missing a temporary folder" => "ஒரு தற்காலிகமான கோப்புறையை காணவில்லை",
 "Failed to write to disk" => "வட்டில் எழுத முடியவில்லை",
 "Files" => "கோப்புகள்",
+"Share" => "பகிர்வு",
 "Delete" => "அழிக்க",
 "Rename" => "பெயர்மாற்றம்",
 "Pending" => "நிலுவையிலுள்ள",

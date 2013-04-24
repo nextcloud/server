@@ -13,6 +13,7 @@
 "Not enough storage available" => "Ez dago behar aina leku erabilgarri,",
 "Invalid directory." => "Baliogabeko karpeta.",
 "Files" => "Fitxategiak",
+"Share" => "Elkarbanatu",
 "Delete permanently" => "Ezabatu betirako",
 "Delete" => "Ezabatu",
 "Rename" => "Berrizendatu",

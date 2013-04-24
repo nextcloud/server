@@ -8,6 +8,7 @@
 "Missing a temporary folder" => "תיקייה זמנית חסרה",
 "Failed to write to disk" => "הכתיבה לכונן נכשלה",
 "Files" => "קבצים",
+"Share" => "שתף",
 "Delete permanently" => "מחק לצמיתות",
 "Delete" => "מחיקה",
 "Rename" => "שינוי שם",

@@ -12,6 +12,7 @@
 "Failed to write to disk" => "ডিস্কে লিখতে ব্যর্থ",
 "Invalid directory." => "ভুল ডিরেক্টরি",
 "Files" => "ফাইল",
+"Share" => "ভাগাভাগি কর",
 "Delete" => "মুছে ফেল",
 "Rename" => "পূনঃনামকরণ",
 "Pending" => "মুলতুবি",

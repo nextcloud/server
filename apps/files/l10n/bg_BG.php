@@ -3,6 +3,7 @@
 "Failed to write to disk" => "Възникна проблем при запис в диска",
 "Invalid directory." => "Невалидна директория.",
 "Files" => "Файлове",
+"Share" => "Споделяне",
 "Delete permanently" => "Изтриване завинаги",
 "Delete" => "Изтриване",
 "Rename" => "Преименуване",

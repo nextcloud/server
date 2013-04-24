@@ -13,6 +13,7 @@
 "Not enough storage available" => "Niet genoeg opslagruimte beschikbaar",
 "Invalid directory." => "Ongeldige directory.",
 "Files" => "Bestanden",
+"Share" => "Delen",
 "Delete permanently" => "Verwijder definitief",
 "Delete" => "Verwijder",
 "Rename" => "Hernoem",

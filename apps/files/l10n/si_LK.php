@@ -7,6 +7,7 @@
 "Missing a temporary folder" => "තාවකාලික ෆොල්ඩරයක් සොයාගත නොහැක",
 "Failed to write to disk" => "තැටිගත කිරීම අසාර්ථකයි",
 "Files" => "ගොනු",
+"Share" => "බෙදා හදා ගන්න",
 "Delete" => "මකන්න",
 "Rename" => "නැවත නම් කරන්න",
 "replace" => "ප්‍රතිස්ථාපනය කරන්න",

@@ -13,6 +13,7 @@
 "Not enough storage available" => "No hay suficiente espacio disponible",
 "Invalid directory." => "Directorio invalido.",
 "Files" => "Archivos",
+"Share" => "Compartir",
 "Delete permanently" => "Eliminar permanentemente",
 "Delete" => "Eliminar",
 "Rename" => "Renombrar",

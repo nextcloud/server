@@ -3,6 +3,7 @@
 "No file was uploaded" => "Nulle file esseva incargate",
 "Missing a temporary folder" => "Manca un dossier temporari",
 "Files" => "Files",
+"Share" => "Compartir",
 "Delete" => "Deler",
 "Close" => "Clauder",
 "Name" => "Nomine",

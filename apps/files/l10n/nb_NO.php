@@ -7,6 +7,7 @@
 "Missing a temporary folder" => "Mangler en midlertidig mappe",
 "Failed to write to disk" => "Klarte ikke å skrive til disk",
 "Files" => "Filer",
+"Share" => "Del",
 "Delete permanently" => "Slett permanent",
 "Delete" => "Slett",
 "Rename" => "Omdøp",

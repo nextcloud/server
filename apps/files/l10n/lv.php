@@ -13,6 +13,7 @@
 "Not enough storage available" => "Nav pietiekami daudz vietas",
 "Invalid directory." => "Nederīga direktorija.",
 "Files" => "Datnes",
+"Share" => "Dalīties",
 "Delete permanently" => "Dzēst pavisam",
 "Delete" => "Dzēst",
 "Rename" => "Pārsaukt",

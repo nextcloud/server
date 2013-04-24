@@ -11,6 +11,7 @@
 "Not enough storage available" => "Saadaval pole piisavalt ruumi",
 "Invalid directory." => "Vigane kaust.",
 "Files" => "Failid",
+"Share" => "Jaga",
 "Delete permanently" => "Kustuta jäädavalt",
 "Delete" => "Kustuta",
 "Rename" => "ümber",

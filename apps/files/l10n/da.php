@@ -13,6 +13,7 @@
 "Not enough storage available" => "Der er ikke nok plads til rådlighed",
 "Invalid directory." => "Ugyldig mappe.",
 "Files" => "Filer",
+"Share" => "Del",
 "Delete permanently" => "Slet permanent",
 "Delete" => "Slet",
 "Rename" => "Omdøb",
