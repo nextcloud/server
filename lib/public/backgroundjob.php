@@ -29,21 +29,16 @@
 namespace OCP;
 
 /**
- * This class provides functions to manage backgroundjobs in ownCloud
+ * This class provides functions to register backgroundjobs in ownCloud
  *
- * There are two kind of background jobs in ownCloud: regular tasks and
- * queued tasks.
+ * To create a new backgroundjob create a new class that inharits from either \OC\BackgroundJob\Job,
+ * \OC\BackgroundJob\QueuedJob or \OC\BackgroundJob\TimedJob and register it using
+ * \OCP\BackgroundJob->registerJob($job, $argument), $argument will be passed to the run() function
+ * of the job when the job is executed.
  *
- * Regular tasks have to be registered in appinfo.php and
- * will run on a regular base. Fetching news could be a task that should run
- * frequently.
- *
- * Queued tasks have to be registered each time you want to execute them.
- * An example of the queued task would be the creation of the thumbnail. As
- * soon as the user uploads a picture the gallery app registers the queued
- * task "create thumbnail" and saves the path in the parameter instead of doing
- * the work right away. This makes the app more responsive. As soon as the task
- * is done it will be deleted from the list.
+ * A regular Job will be executed every time cron.php is run, a QueuedJob will only run once and a TimedJob
+ * will only run at a specific interval which is to be specified in the constructor of the job by calling
+ * $this->setInterval($interval) with $interval in seconds.
  */
 class BackgroundJob {
 	/**
@@ -77,5 +72,4 @@ class BackgroundJob {
 		$jobList = new \OC\BackgroundJob\JobList();
 		$jobList->add($job, $argument);
 	}
-
 }
