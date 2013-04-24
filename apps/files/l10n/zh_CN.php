@@ -25,6 +25,7 @@
 "undo" => "撤销",
 "perform delete operation" => "进行删除操作",
 "1 file uploading" => "1个文件上传中",
+"files uploading" => "文件上传中",
 "'.' is an invalid file name." => "'.' 是一个无效的文件名。",
 "File name cannot be empty." => "文件名不能为空。",
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not allowed." => "无效名称，'\\', '/', '<', '>', ':', '\"', '|', '?' 和 '*' 不被允许使用。",

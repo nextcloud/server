@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <adn.adin@gmail.com>, 2011.
-# Stefan Ilivanov <ilivanov@gmail.com>, 2011,2013.
-# Yasen Pramatarov <yasen@lindeas.com>, 2012.
+# adin <adn.adin@gmail.com>, 2011
+# Stefan Ilivanov <ilivanov@gmail.com>, 2011,2013
+# Yasen Pramatarov <yasen@lindeas.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-24 01:58+0200\n"
+"PO-Revision-Date: 2013-04-23 09:20+0000\n"
+"Last-Translator: Stefan Ilivanov <ilivanov@gmail.com>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,11 +47,11 @@ msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr ""
+msgstr "Email адреса е записан"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr ""
+msgstr "Невалиден Email адрес"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -89,7 +89,7 @@ msgstr ""
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Обновяване до {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
@@ -150,7 +150,7 @@ msgstr "Изтриване"
 
 #: js/users.js:262
 msgid "add group"
-msgstr ""
+msgstr "нова група"
 
 #: js/users.js:414
 msgid "A valid username must be provided"
@@ -234,7 +234,7 @@ msgstr ""
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr ""
+msgstr "Крон"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
@@ -254,7 +254,7 @@ msgstr ""
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr ""
+msgstr "Споделяне"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
@@ -315,19 +315,19 @@ msgstr ""
 msgid "Log level"
 msgstr ""
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "Още"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Less"
 msgstr "По-малко"
 
-#: templates/admin.php:231 templates/personal.php:102
+#: templates/admin.php:235 templates/personal.php:102
 msgid "Version"
 msgstr "Версия"
 
-#: templates/admin.php:234 templates/personal.php:105
+#: templates/admin.php:238 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
