@@ -12,10 +12,11 @@
 				<?php print_unescaped($l->t('Request failed!<br>Did you make sure your email/username was right?')); ?>
 				</p></div>
 			<?php endif; ?>
-			<?php print_unescaped($l->t('You will receive a link to reset your password via Email.')=; ?>
+			<?php print_unescaped($l->t('You will receive a link to reset your password via Email.')); ?>
 			<p class="infield">
-				<label for="user" class="infield"><?php print_unescaped($l->t( 'Username' )); ?></label>
 				<input type="text" name="user" id="user" placeholder="" value="" autocomplete="off" required autofocus />
+				<label for="user" class="infield"><?php print_unescaped($l->t( 'Username' )); ?></label>
+				<img class="svg" src="<?php print_unescaped(image_path('', 'actions/user.svg')); ?>" alt=""/>
 			</p>
 			<input type="submit" id="submit" value="<?php print_unescaped($l->t('Request reset')); ?>" />
 		</fieldset>
