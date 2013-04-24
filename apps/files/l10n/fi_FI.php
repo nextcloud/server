@@ -4,6 +4,7 @@
 "Unable to rename file" => "Tiedoston nimeäminen uudelleen ei onnistunut",
 "No file was uploaded. Unknown error" => "Tiedostoa ei lähetetty. Tuntematon virhe",
 "There is no error, the file uploaded with success" => "Ei virheitä, tiedosto lähetettiin onnistuneesti",
+"The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Lähetetyn tiedoston koko ylittää php.ini-tiedoston upload_max_filesize-säännön:",
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Lähetetty tiedosto ylittää HTML-lomakkeessa määritetyn MAX_FILE_SIZE-arvon ylärajan",
 "The uploaded file was only partially uploaded" => "Tiedoston lähetys onnistui vain osittain",
 "No file was uploaded" => "Yhtäkään tiedostoa ei lähetetty",

@@ -4,6 +4,7 @@
 "Connection test succeeded" => "Bağlantı testi başarılı oldu",
 "Connection test failed" => "Bağlantı testi başarısız oldu",
 "Confirm Deletion" => "Silmeyi onayla",
+"<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may experience unexpected behaviour. Please ask your system administrator to disable one of them." => "<b>Uyari </b> Apps kullanici_Idap ve user_webdavauth uyunmayan. Bu belki sik degil. Lutfen sistem yonetici sormak on aktif yapmaya. ",
 "Host" => "Sunucu",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Protokol atlamak edesin, sadece SSL istiyorsaniz. O zaman, idapsile baslamak. ",
 "Base DN" => "Ana DN",

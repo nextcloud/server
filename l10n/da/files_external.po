@@ -6,14 +6,14 @@
 # Bawl <transifex@bawl.dk>, 2013
 # cronner <cronner@gmail.com>, 2012
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2012
-# Ole Holm Frandsen <froksen@gmail.com>, 2012
+# Ole Holm Frandsen <froksen@gmail.com>, 2012-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 01:57+0200\n"
-"PO-Revision-Date: 2013-04-23 23:58+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-25 01:55+0200\n"
+"PO-Revision-Date: 2013-04-24 18:30+0000\n"
+"Last-Translator: Ole Holm Frandsen <froksen@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -59,7 +59,7 @@ msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
 "your system administrator to install it."
-msgstr ""
+msgstr "<b>Advarsel:</b> Understøttelsen for Curl i PHP er enten ikke aktiveret eller ikke installeret. Det er ikke muligt, at montere ownCloud / WebDAV eller GoogleDrive. Spørg din system administrator om at installere det. "
 
 #: templates/settings.php:3
 msgid "External Storage"

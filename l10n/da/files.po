@@ -6,7 +6,7 @@
 # cronner <cronner@gmail.com>, 2012
 # Frederik Lassen <frederiklassen@gmail.com>, 2013
 # Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011-2013
-# Ole Holm Frandsen <froksen@gmail.com>, 2012
+# Ole Holm Frandsen <froksen@gmail.com>, 2012-2013
 # osos <osos@openeyes.dk>, 2012
 # Pascal d'Hermilly <pascal@dhermilly.dk>, 2011
 # muunsim <simon@rosmi.dk>, 2012
@@ -17,9 +17,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 18:30+0200\n"
-"PO-Revision-Date: 2013-04-24 16:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-25 01:55+0200\n"
+"PO-Revision-Date: 2013-04-24 18:30+0000\n"
+"Last-Translator: Ole Holm Frandsen <froksen@gmail.com>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -142,7 +142,7 @@ msgstr "1 fil uploades"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "uploader filer"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -178,7 +178,7 @@ msgstr "Kunne ikke uploade din fil, da det enten er en mappe eller er tom"
 
 #: js/files.js:272
 msgid "Not enough space available"
-msgstr ""
+msgstr "ikke nok tilgængelig ledig plads "
 
 #: js/files.js:312
 msgid "Upload cancelled."
