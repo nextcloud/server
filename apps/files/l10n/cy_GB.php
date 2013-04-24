@@ -13,6 +13,7 @@
 "Not enough storage available" => "Dim digon o le storio ar gael",
 "Invalid directory." => "Cyfeiriadur annilys.",
 "Files" => "Ffeiliau",
+"Share" => "Rhannu",
 "Delete permanently" => "Dileu'n barhaol",
 "Delete" => "Dileu",
 "Rename" => "Ailenwi",

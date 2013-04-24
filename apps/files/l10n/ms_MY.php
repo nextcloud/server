@@ -7,6 +7,7 @@
 "Missing a temporary folder" => "Folder sementara hilang",
 "Failed to write to disk" => "Gagal untuk disimpan",
 "Files" => "fail",
+"Share" => "Kongsi",
 "Delete" => "Padam",
 "Pending" => "Dalam proses",
 "replace" => "ganti",

@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Georgi Stanojevski <glisha@gmail.com>, 2012.
-# Miroslav Jovanovic <j.miroslav@gmail.com>, 2012.
-# Miroslav Jovanovic <jmiroslav@softhome.net>, 2012.
+# Georgi Stanojevski <glisha@gmail.com>, 2012
+# Miroslav Jovanovic <j.miroslav@gmail.com>, 2012
+# Miroslav Jovanovic <jmiroslav@softhome.net>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 18:30+0200\n"
+"PO-Revision-Date: 2013-04-24 16:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -296,7 +296,7 @@ msgstr "Сподели со врска"
 msgid "Password protect"
 msgstr "Заштити со лозинка"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Лозинка"
 
@@ -412,7 +412,7 @@ msgid "Request failed!"
 msgstr "Барањето не успеа!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
 msgstr "Корисничко име"
 
@@ -522,37 +522,37 @@ msgstr "Напредно"
 msgid "Data folder"
 msgstr "Фолдер со податоци"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Конфигурирај ја базата"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "ќе биде користено"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Корисник на база"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Лозинка на база"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Име на база"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Табела во базата на податоци"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Сервер со база"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Заврши го подесувањето"
 
@@ -564,33 +564,33 @@ msgstr "веб сервиси под Ваша контрола"
 msgid "Log out"
 msgstr "Одјава"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Одбиена автоматска најава!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Ако не сте ја промениле лозинката во скоро време, вашата сметка може да е компромитирана"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Ве молам сменете ја лозинката да ја обезбедите вашата сметка повторно."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Ја заборавивте лозинката?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "запамти"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Најава"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr ""
 

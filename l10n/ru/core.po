@@ -3,24 +3,24 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Denis  <reg.transifex.net@demitel.ru>, 2012.
-#   <jekader@gmail.com>, 2011, 2012.
-#   <k0ldbl00d@gmail.com>, 2012.
-# Mihail Vasiliev <mickvav@gmail.com>, 2012.
-#   <semen@sam002.net>, 2012.
-# Sergey <sergey@markevich.ru>, 2013.
-#   <sharov3@gmail.com>, 2013.
-#   <skoptev@ukr.net>, 2012.
-#   <tony.mccourin@gmail.com>, 2011.
-# Victor Bravo <>, 2012.
-#   <victor.dubiniuk@gmail.com>, 2012.
-# Дмитрий <langaru@gmail.com>, 2013.
+# Denis <reg.transifex.net@demitel.ru>, 2012
+# jekader <jekader@gmail.com>, 2011, 2012
+# k0ldbl00d <k0ldbl00d@gmail.com>, 2012
+# Mihail Vasiliev <mickvav@gmail.com>, 2012
+# sam002 <semen@sam002.net>, 2012
+# m4rkell <sergey@markevich.ru>, 2013
+# adol <sharov3@gmail.com>, 2013
+# skoptev <skoptev@ukr.net>, 2012
+# tonymc <tony.mccourin@gmail.com>, 2011
+# Victor Bravo <>, 2012
+# VicDeo <victor.dubiniuk@gmail.com>, 2012
+# Langaru <langaru@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 18:30+0200\n"
+"PO-Revision-Date: 2013-04-24 16:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -305,7 +305,7 @@ msgstr "Поделиться с ссылкой"
 msgid "Password protect"
 msgstr "Защитить паролем"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Пароль"
 
@@ -421,7 +421,7 @@ msgid "Request failed!"
 msgstr "Запрос не удался!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
 msgstr "Имя пользователя"
 
@@ -531,37 +531,37 @@ msgstr "Дополнительно"
 msgid "Data folder"
 msgstr "Директория с данными"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Настройка базы данных"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "будет использовано"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Имя пользователя для базы данных"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Пароль для базы данных"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Название базы данных"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Табличое пространство базы данных"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Хост базы данных"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Завершить установку"
 
@@ -573,33 +573,33 @@ msgstr "Сетевые службы под твоим контролем"
 msgid "Log out"
 msgstr "Выйти"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Автоматический вход в систему отключен!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Если Вы недавно не меняли свой пароль, то Ваша учетная запись может быть скомпрометирована!"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Пожалуйста, смените пароль, чтобы обезопасить свою учетную запись."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Забыли пароль?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "запомнить"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Войти"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Альтернативные имена пользователя"
 

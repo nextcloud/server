@@ -3,20 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <daniel@mouxy.net>, 2012-2013.
-# Daniel Pinto <daniel@mouxy.net>, 2013.
-#  <duartegrilo@gmail.com>, 2013.
-# Duarte Velez Grilo <duartegrilo@gmail.com>, 2012.
-#   <helder.meneses@gmail.com>, 2011, 2012.
-# Helder Meneses <helder.meneses@gmail.com>, 2012-2013.
-# Nelson Rosado <nelsontrosado@gmail.com>, 2012.
-#   <rjgpp.1994@gmail.com>, 2012.
+# Mouxy <daniel@mouxy.net>, 2012-2013
+# Mouxy <daniel@mouxy.net>, 2013
+# Duarte Velez Grilo <duartegrilo@gmail.com>, 2013
+# Duarte Velez Grilo <duartegrilo@gmail.com>, 2012
+# Helder Meneses <helder.meneses@gmail.com>, 2011, 2012
+# Helder Meneses <helder.meneses@gmail.com>, 2012-2013
+# Nelson Rosado <nelsontrosado@gmail.com>, 2012
+# rjgpp1994 <rjgpp.1994@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 18:30+0200\n"
+"PO-Revision-Date: 2013-04-24 16:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -301,7 +301,7 @@ msgstr "Partilhar com link"
 msgid "Password protect"
 msgstr "Proteger com palavra-passe"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Palavra chave"
 
@@ -417,7 +417,7 @@ msgid "Request failed!"
 msgstr "O pedido falhou!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
 msgstr "Utilizador"
 
@@ -527,37 +527,37 @@ msgstr "Avançado"
 msgid "Data folder"
 msgstr "Pasta de dados"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Configure a base de dados"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "vai ser usada"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Utilizador da base de dados"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Password da base de dados"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Nome da base de dados"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Tablespace da base de dados"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Anfitrião da base de dados"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Acabar instalação"
 
@@ -569,33 +569,33 @@ msgstr "serviços web sob o seu controlo"
 msgid "Log out"
 msgstr "Sair"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Login automático rejeitado!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Se não mudou a sua palavra-passe recentemente, a sua conta pode ter sido comprometida!"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Por favor mude a sua palavra-passe para assegurar a sua conta de novo."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Esqueceu-se da sua password?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "lembrar"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Entrar"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Contas de acesso alternativas"
 

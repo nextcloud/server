@@ -13,6 +13,7 @@
 "Not enough storage available" => "Spazio di archiviazione insufficiente",
 "Invalid directory." => "Cartella non valida.",
 "Files" => "File",
+"Share" => "Condividi",
 "Delete permanently" => "Elimina definitivamente",
 "Delete" => "Elimina",
 "Rename" => "Rinomina",

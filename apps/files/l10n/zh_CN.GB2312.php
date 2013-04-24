@@ -7,6 +7,7 @@
 "Missing a temporary folder" => "丢失了一个临时文件夹",
 "Failed to write to disk" => "写磁盘失败",
 "Files" => "文件",
+"Share" => "分享",
 "Delete" => "删除",
 "Rename" => "重命名",
 "Pending" => "Pending",

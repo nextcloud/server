@@ -13,6 +13,7 @@
 "Not enough storage available" => "Нема довољно простора",
 "Invalid directory." => "неисправна фасцикла.",
 "Files" => "Датотеке",
+"Share" => "Дели",
 "Delete permanently" => "Обриши за стално",
 "Delete" => "Обриши",
 "Rename" => "Преименуј",

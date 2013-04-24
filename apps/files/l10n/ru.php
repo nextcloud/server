@@ -13,6 +13,7 @@
 "Not enough storage available" => "Недостаточно доступного места в хранилище",
 "Invalid directory." => "Неправильный каталог.",
 "Files" => "Файлы",
+"Share" => "Открыть доступ",
 "Delete permanently" => "Удалено навсегда",
 "Delete" => "Удалить",
 "Rename" => "Переименовать",

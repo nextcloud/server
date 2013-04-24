@@ -13,6 +13,7 @@
 "Not enough storage available" => "Ruang penyimpanan tidak mencukupi",
 "Invalid directory." => "Direktori tidak valid.",
 "Files" => "Berkas",
+"Share" => "Bagikan",
 "Delete permanently" => "Hapus secara permanen",
 "Delete" => "Hapus",
 "Rename" => "Ubah nama",

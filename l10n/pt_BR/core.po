@@ -3,24 +3,24 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <dudanogueira@gmail.com>, 2012.
-#   <duda.nogueira@metasys.com.br>, 2011.
-#   <fred.maranhao@gmail.com>, 2012.
-#   <glauber.guimaraes@poli.ufrj.br>, 2012.
-# Guilherme Maluf Balzana <guimalufb@gmail.com>, 2012.
-#   <henrique@meira.net>, 2012.
-#   <philippi.sedir@gmail.com>, 2012.
-# Rodrigo Tavares <rodrigo.st23@hotmail.com>, 2013.
-# Sedir G. Morais <philippi.sedir@gmail.com>, 2013.
-# Thiago Vicente <thiagovice@gmail.com>, 2012.
-# Unforgiving Fallout <>, 2012.
-# Van Der Fran <transifex@vanderland.com>, 2011, 2012.
+# dudanogueira <dudanogueira@gmail.com>, 2012
+# dudanogueira <dudanogueira@gmail.com>, 2011
+# FredMaranhao <fred.maranhao@gmail.com>, 2012
+# Schopfer <glauber.guimaraes@poli.ufrj.br>, 2012
+# Guilherme Maluf Balzana <guimalufb@gmail.com>, 2012
+# henriquemeira <henrique@meira.net>, 2012
+# sedir <philippi.sedir@gmail.com>, 2012
+# Rodrigo Tavares <rodrigo.st23@hotmail.com>, 2013
+# sedir <philippi.sedir@gmail.com>, 2013
+# Thiago Vicente <thiagovice@gmail.com>, 2012
+# Unforgiving Fallout <>, 2012
+# Van Der Fran <transifex@vanderland.com>, 2011, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 18:30+0200\n"
+"PO-Revision-Date: 2013-04-24 16:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -305,7 +305,7 @@ msgstr "Compartilhar com link"
 msgid "Password protect"
 msgstr "Proteger com senha"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Senha"
 
@@ -421,7 +421,7 @@ msgid "Request failed!"
 msgstr "A requisição falhou!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
 msgstr "Nome de Usuário"
 
@@ -531,37 +531,37 @@ msgstr "Avançado"
 msgid "Data folder"
 msgstr "Pasta de dados"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Configurar o banco de dados"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "será usado"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Usuário do banco de dados"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Senha do banco de dados"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Nome do banco de dados"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Espaço de tabela do banco de dados"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Host do banco de dados"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Concluir configuração"
 
@@ -573,33 +573,33 @@ msgstr "serviços web sob seu controle"
 msgid "Log out"
 msgstr "Sair"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Entrada Automática no Sistema Rejeitada!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Se você não mudou a sua senha recentemente, a sua conta pode estar comprometida!"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Por favor troque sua senha para tornar sua conta segura novamente."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Esqueceu sua senha?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "lembrar"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Fazer login"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Logins alternativos"
 

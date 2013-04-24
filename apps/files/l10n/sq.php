@@ -13,6 +13,7 @@
 "Not enough storage available" => "Nuk ka mbetur hapësirë memorizimi e mjaftueshme",
 "Invalid directory." => "Dosje e pavlefshme.",
 "Files" => "Skedarët",
+"Share" => "Nda",
 "Delete permanently" => "Elimino përfundimisht",
 "Delete" => "Elimino",
 "Rename" => "Riemërto",

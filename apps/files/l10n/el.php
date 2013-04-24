@@ -13,6 +13,7 @@
 "Not enough storage available" => "Μη επαρκής διαθέσιμος αποθηκευτικός χώρος",
 "Invalid directory." => "Μη έγκυρος φάκελος.",
 "Files" => "Αρχεία",
+"Share" => "Διαμοιρασμός",
 "Delete permanently" => "Μόνιμη διαγραφή",
 "Delete" => "Διαγραφή",
 "Rename" => "Μετονομασία",

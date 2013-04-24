@@ -13,6 +13,7 @@
 "Not enough storage available" => "Yeterli disk alanı yok",
 "Invalid directory." => "Geçersiz dizin.",
 "Files" => "Dosyalar",
+"Share" => "Paylaş",
 "Delete permanently" => "Kalıcı olarak sil",
 "Delete" => "Sil",
 "Rename" => "İsim değiştir.",

@@ -6,6 +6,7 @@
 "Missing a temporary folder" => "Un dorsièr temporari manca",
 "Failed to write to disk" => "L'escriptura sul disc a fracassat",
 "Files" => "Fichièrs",
+"Share" => "Parteja",
 "Delete" => "Escafa",
 "Rename" => "Torna nomenar",
 "Pending" => "Al esperar",

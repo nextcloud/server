@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Adam Toth <adazlord@gmail.com>, 2012.
-# Laszlo Tornoci <torlasz@gmail.com>, 2013.
-#   <mail@tamas-nagy.net>, 2011.
-# Peter Borsa <peter.borsa@gmail.com>, 2012.
-# Tamas Nagy <mail@tamas-nagy.net>, 2013.
+# Adam Toth <adazlord@gmail.com>, 2012
+# Laszlo Tornoci <torlasz@gmail.com>, 2013
+# Tamas Nagy <mail@tamas-nagy.net>, 2011
+# Peter Borsa <peter.borsa@gmail.com>, 2012
+# Tamas Nagy <mail@tamas-nagy.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 18:30+0200\n"
+"PO-Revision-Date: 2013-04-24 16:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -298,7 +298,7 @@ msgstr "Link megadásával osztom meg"
 msgid "Password protect"
 msgstr "Jelszóval is védem"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Jelszó"
 
@@ -414,7 +414,7 @@ msgid "Request failed!"
 msgstr "Nem sikerült a kérést teljesíteni!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
 msgstr "Felhasználónév"
 
@@ -524,37 +524,37 @@ msgstr "Haladó"
 msgid "Data folder"
 msgstr "Adatkönyvtár"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Adatbázis konfigurálása"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "adatbázist fogunk használni"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Adatbázis felhasználónév"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Adatbázis jelszó"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Az adatbázis neve"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Az adatbázis táblázattér (tablespace)"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Adatbázis szerver"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "A beállítások befejezése"
 
@@ -566,33 +566,33 @@ msgstr "webszolgáltatások saját kézben"
 msgid "Log out"
 msgstr "Kilépés"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Az automatikus bejelentkezés sikertelen!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Ha mostanában nem módosította a jelszavát, akkor lehetséges, hogy idegenek jutottak be a rendszerbe az Ön nevében!"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "A biztonsága érdekében változtassa meg a jelszavát!"
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Elfelejtette a jelszavát?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "emlékezzen"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Bejelentkezés"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Alternatív bejelentkezés"
 

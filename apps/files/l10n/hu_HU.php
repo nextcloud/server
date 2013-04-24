@@ -13,6 +13,7 @@
 "Not enough storage available" => "Nincs elég szabad hely.",
 "Invalid directory." => "Érvénytelen mappa.",
 "Files" => "Fájlok",
+"Share" => "Megosztás",
 "Delete permanently" => "Végleges törlés",
 "Delete" => "Törlés",
 "Rename" => "Átnevezés",

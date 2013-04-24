@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# AriesAnywhere Anywhere <ariesanywhere@gmail.com>, 2012-2013.
-# AriesAnywhere Anywhere <ariesanywherer@gmail.com>, 2012.
+# AriesAnywhere Anywhere <ariesanywhere@gmail.com>, 2012-2013
+# AriesAnywhere Anywhere <ariesanywhere@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 18:30+0200\n"
+"PO-Revision-Date: 2013-04-24 16:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -295,7 +295,7 @@ msgstr "แชร์ด้วยลิงก์"
 msgid "Password protect"
 msgstr "ใส่รหัสผ่านไว้"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "รหัสผ่าน"
 
@@ -411,7 +411,7 @@ msgid "Request failed!"
 msgstr "คำร้องขอล้มเหลว!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
 msgstr "ชื่อผู้ใช้งาน"
 
@@ -521,37 +521,37 @@ msgstr "ขั้นสูง"
 msgid "Data folder"
 msgstr "โฟลเดอร์เก็บข้อมูล"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "กำหนดค่าฐานข้อมูล"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "จะถูกใช้"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "ชื่อผู้ใช้งานฐานข้อมูล"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "รหัสผ่านฐานข้อมูล"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "ชื่อฐานข้อมูล"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "พื้นที่ตารางในฐานข้อมูล"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Database host"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "ติดตั้งเรียบร้อยแล้ว"
 
@@ -563,33 +563,33 @@ msgstr "web services under your control"
 msgid "Log out"
 msgstr "ออกจากระบบ"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "การเข้าสู่ระบบอัตโนมัติถูกปฏิเสธแล้ว"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "หากคุณยังไม่ได้เปลี่ยนรหัสผ่านของคุณเมื่อเร็วๆนี้, บัญชีของคุณอาจถูกบุกรุกโดยผู้อื่น"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "กรุณาเปลี่ยนรหัสผ่านของคุณอีกครั้ง เพื่อป้องกันบัญชีของคุณให้ปลอดภัย"
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "ลืมรหัสผ่าน?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "จำรหัสผ่าน"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "เข้าสู่ระบบ"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr ""
 

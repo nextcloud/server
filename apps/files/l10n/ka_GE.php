@@ -13,6 +13,7 @@
 "Not enough storage available" => "საცავში საკმარისი ადგილი არ არის",
 "Invalid directory." => "დაუშვებელი დირექტორია.",
 "Files" => "ფაილები",
+"Share" => "გაზიარება",
 "Delete permanently" => "სრულად წაშლა",
 "Delete" => "წაშლა",
 "Rename" => "გადარქმევა",

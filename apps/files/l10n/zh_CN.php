@@ -13,6 +13,7 @@
 "Not enough storage available" => "没有足够的存储空间",
 "Invalid directory." => "无效文件夹。",
 "Files" => "文件",
+"Share" => "分享",
 "Delete permanently" => "永久删除",
 "Delete" => "删除",
 "Rename" => "重命名",

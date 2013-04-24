@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-20 01:59+0200\n"
-"PO-Revision-Date: 2013-04-19 19:00+0000\n"
+"POT-Creation-Date: 2013-04-24 18:30+0200\n"
+"PO-Revision-Date: 2013-04-24 16:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -299,7 +299,7 @@ msgstr "Omogoči souporabo preko povezave"
 msgid "Password protect"
 msgstr "Zaščiti z geslom"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Geslo"
 
@@ -415,7 +415,7 @@ msgid "Request failed!"
 msgstr "Zahteva je spodletela!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
 msgstr "Uporabniško Ime"
 
@@ -567,33 +567,33 @@ msgstr "spletne storitve pod vašim nadzorom"
 msgid "Log out"
 msgstr "Odjava"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Samodejno prijavljanje je zavrnjeno!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "V primeru, da gesla za dostop že nekaj časa niste spremenili, je račun lahko ogrožen!"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Spremenite geslo za izboljšanje zaščite računa."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Ali ste pozabili geslo?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "zapomni si"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Prijava"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Druge prijavne možnosti"
 

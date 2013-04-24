@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# CJTess <claudio.tessone@gmail.com>, 2013.
-#   <claudio.tessone@gmail.com>, 2012-2013.
-#   <javierkaiser@gmail.com>, 2012.
+# cjtess <claudio.tessone@gmail.com>, 2013
+# cjtess <claudio.tessone@gmail.com>, 2012-2013
+# Javierkaiser <javierkaiser@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 18:30+0200\n"
+"PO-Revision-Date: 2013-04-24 16:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -296,7 +296,7 @@ msgstr "Compartir con link"
 msgid "Password protect"
 msgstr "Proteger con contraseña "
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Contraseña"
 
@@ -412,7 +412,7 @@ msgid "Request failed!"
 msgstr "Error en el pedido!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
 msgstr "Nombre de usuario"
 
@@ -522,37 +522,37 @@ msgstr "Avanzado"
 msgid "Data folder"
 msgstr "Directorio de almacenamiento"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Configurar la base de datos"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "se utilizarán"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Usuario de la base de datos"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Contraseña de la base de datos"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Nombre de la base de datos"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Espacio de tablas de la base de datos"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Host de la base de datos"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Completar la instalación"
 
@@ -564,33 +564,33 @@ msgstr "servicios web sobre los que tenés control"
 msgid "Log out"
 msgstr "Cerrar la sesión"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "¡El inicio de sesión automático fue rechazado!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "¡Si no cambiaste tu contraseña recientemente, puede ser que tu cuenta esté comprometida!"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Por favor, cambiá tu contraseña para fortalecer nuevamente la seguridad de tu cuenta."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "¿Perdiste tu contraseña?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "recordame"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Entrar"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Nombre alternativos de usuarios"
 

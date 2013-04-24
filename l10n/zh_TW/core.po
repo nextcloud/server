@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-20 01:59+0200\n"
-"PO-Revision-Date: 2013-04-19 04:10+0000\n"
+"POT-Creation-Date: 2013-04-24 18:30+0200\n"
+"PO-Revision-Date: 2013-04-24 16:00+0000\n"
 "Last-Translator: admachen <admachen@gmail.com>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -300,7 +300,7 @@ msgstr "使用連結分享"
 msgid "Password protect"
 msgstr "密碼保護"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "密碼"
 
@@ -416,7 +416,7 @@ msgid "Request failed!"
 msgstr "請求失敗！"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
 msgstr "使用者名稱"
 
@@ -568,33 +568,33 @@ msgstr "由您控制的網路服務"
 msgid "Log out"
 msgstr "登出"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "自動登入被拒！"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "如果您最近並未更改密碼，您的帳號可能已經遭到入侵！"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "請更改您的密碼以再次取得您帳戶的控制權。"
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "忘記密碼？"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "記住"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "登入"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "替代登入方法"
 

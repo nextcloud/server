@@ -3,19 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <ajarmund@gmail.com>, 2011, 2012.
-# Christer Eriksson <post@hc3web.com>, 2012.
-# Daniel  <i18n@daniel.priv.no>, 2012.
-#   <espenbye@me.com>, 2012.
-#   <hdalgrav@gmail.com>, 2012.
-#   <itssmail@yahoo.no>, 2012.
-#   <runesudden@gmail.com>, 2012.
+# anjar <ajarmund@gmail.com>, 2011, 2012
+# Christer Eriksson <post@hc3web.com>, 2012
+# Daniel <i18n@daniel.priv.no>, 2012
+# espenbye <espenbye@me.com>, 2012
+# hdalgrav <hdalgrav@gmail.com>, 2012
+# owncloud <itssmail@yahoo.no>, 2012
+# runesudden <runesudden@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 18:30+0200\n"
+"PO-Revision-Date: 2013-04-24 16:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -300,7 +300,7 @@ msgstr "Del med link"
 msgid "Password protect"
 msgstr "Passordbeskyttet"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Passord"
 
@@ -416,7 +416,7 @@ msgid "Request failed!"
 msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
 msgstr "Brukernavn"
 
@@ -526,37 +526,37 @@ msgstr "Avansert"
 msgid "Data folder"
 msgstr "Datamappe"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Konfigurer databasen"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "vil bli brukt"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Databasebruker"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Databasepassord"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Databasenavn"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Database tabellområde"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Databasevert"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Fullfør oppsetting"
 
@@ -568,33 +568,33 @@ msgstr "nettjenester under din kontroll"
 msgid "Log out"
 msgstr "Logg ut"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automatisk pålogging avvist!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Hvis du ikke har endret passordet ditt nylig kan kontoen din være kompromitert"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Vennligst skift passord for å gjøre kontoen din sikker igjen."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Mistet passordet ditt?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "husk"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Logg inn"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr ""
 

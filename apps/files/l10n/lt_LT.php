@@ -6,6 +6,7 @@
 "Missing a temporary folder" => "Nėra laikinojo katalogo",
 "Failed to write to disk" => "Nepavyko įrašyti į diską",
 "Files" => "Failai",
+"Share" => "Dalintis",
 "Delete" => "Ištrinti",
 "Rename" => "Pervadinti",
 "Pending" => "Laukiantis",

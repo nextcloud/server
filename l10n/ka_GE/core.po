@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-22 01:58+0200\n"
-"PO-Revision-Date: 2013-04-21 18:40+0000\n"
+"POT-Creation-Date: 2013-04-24 18:30+0200\n"
+"PO-Revision-Date: 2013-04-24 16:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -295,7 +295,7 @@ msgstr "გაუზიარე ლინკით"
 msgid "Password protect"
 msgstr "პაროლით დაცვა"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "პაროლი"
 
@@ -411,7 +411,7 @@ msgid "Request failed!"
 msgstr "მოთხოვნა შეწყდა!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
 msgstr "მომხმარებელი"
 
@@ -563,33 +563,33 @@ msgstr "თქვენი კონტროლის ქვეშ მყოფ
 msgid "Log out"
 msgstr "გამოსვლა"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "ავტომატური შესვლა უარყოფილია!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "თუ თქვენ არ შეცვლით პაროლს, თქვენი ანგარიში შეიძლება იყოს დაშვებადი სხვებისთვის"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "გთხოვთ შეცვალოთ თქვენი პაროლი, თქვენი ანგარიშის დასაცავად."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "დაგავიწყდათ პაროლი?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "დამახსოვრება"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "შესვლა"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "ალტერნატიული Login–ი"
 
