@@ -467,11 +467,11 @@ class OC {
 		stream_wrapper_register('close', 'OC\Files\Stream\Close');
 		stream_wrapper_register('oc', 'OC\Files\Stream\OC');
 
+		self::initTemplateEngine();
 		self::checkConfig();
 		self::checkInstalled();
 		self::checkSSL();
 		self::initSession();
-		self::initTemplateEngine();
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
