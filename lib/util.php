@@ -795,4 +795,25 @@ class OC_Util {
 		return (substr(PHP_OS, 0, 3) === "WIN");
 	}
 
+
+	/**
+	 * Handles the case that there may not be a theme, then check if a "default"
+	 * theme exists and take that one
+	 * @return string the theme
+	 */
+	public static function getTheme() {
+		$theme = OC_Config::getValue("theme");
+
+		if(is_null($theme)) {
+			
+			if(is_dir(OC::$SERVERROOT . '/themes/default')) {
+				$theme = 'default';
+			}
+
+		}
+
+		return $theme;
+	}
+
+
 }

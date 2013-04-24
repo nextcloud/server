@@ -272,7 +272,7 @@ class OC_Template{
 	protected function findTemplate($name)
 	{
 		// Read the selected theme from the config file
-		$theme=OC_Config::getValue( "theme" );
+		$theme = OC_Util::getTheme();
 
 		// Read the detected formfactor and use the right file name.
 		$fext = self::getFormFactorExtension();
