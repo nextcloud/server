@@ -159,7 +159,7 @@ class OC_Helper {
 	 */
 	public static function imagePath( $app, $image ) {
 		// Read the selected theme from the config file
-		$theme=OC_Config::getValue( "theme" );
+		$theme = OC_Util::getTheme();
 
 		// Check if the app is in the app folder
 		if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/img/$image" )) {
