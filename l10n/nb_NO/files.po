@@ -3,21 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <ajarmund@gmail.com>, 2011, 2012.
-# Arvid Nornes <arvid.nornes@gmail.com>, 2012.
-# Christer Eriksson <post@hc3web.com>, 2012.
-# Daniel  <i18n@daniel.priv.no>, 2012.
-#   <espenbye@me.com>, 2012.
-#   <hdalgrav@gmail.com>, 2012.
-#   <olamaekle@gmail.com>, 2012.
-#   <runesudden@gmail.com>, 2012.
-#   <sindre@haverstad.com>, 2012.
+# anjar <ajarmund@gmail.com>, 2011, 2012
+# Arvid Nornes <arvid.nornes@gmail.com>, 2012
+# Christer Eriksson <post@hc3web.com>, 2012
+# Daniel <i18n@daniel.priv.no>, 2012
+# espenbye <espenbye@me.com>, 2012
+# hdalgrav <hdalgrav@gmail.com>, 2012
+# olamaekle <olamaekle@gmail.com>, 2012
+# runesudden <runesudden@gmail.com>, 2012
+# sindrejh <sindre@haverstad.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 17:44+0200\n"
+"PO-Revision-Date: 2013-04-24 15:44+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -87,15 +87,19 @@ msgstr ""
 msgid "Files"
 msgstr "Filer"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr ""
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Slett permanent"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Slett"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Omdøp"
 

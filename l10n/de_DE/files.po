@@ -16,7 +16,7 @@
 # fmms <mail@felixmoeller.de>, 2012
 # Marcel Kühlhorn <susefan93@gmx.de>, 2012-2013
 # thiel <markus.thiel@desico.de>, 2013
-# Michael Krell <m4dmike.mni@gmail.com>, 2012
+# Michael Krell, 2012
 # piccobello <nelsonfritsch@gmail.com>, 2012
 # JamFX <niko@nik-o-mat.de>, 2012
 # Phi Lieb <>, 2012
@@ -34,9 +34,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-18 02:03+0200\n"
-"PO-Revision-Date: 2013-04-17 08:22+0000\n"
-"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
+"POT-Creation-Date: 2013-04-24 17:44+0200\n"
+"PO-Revision-Date: 2013-04-24 15:44+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -105,15 +105,19 @@ msgstr "Ungültiges Verzeichnis."
 msgid "Files"
 msgstr "Dateien"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr ""
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Entgültig löschen"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Löschen"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Umbenennen"
 

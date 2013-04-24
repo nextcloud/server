@@ -3,19 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <bury1000@gmail.com>, 2012.
-#   <joan@montane.cat>, 2012.
-#   <josep_tomas@hotmail.com>, 2012.
-# Josep Tomàs <jtomas.binsoft@gmail.com>, 2012.
-#  <rcalvoi@yahoo.com>, 2013.
-#   <rcalvoi@yahoo.com>, 2011-2013.
-#   <sacoo2@hotmail.com>, 2013.
+# bury1000 <bury1000@gmail.com>, 2012
+# jmontane <joan@montane.cat>, 2012
+# Josep Tomàs <jtomas.binsoft@gmail.com>, 2012
+# Josep Tomàs <jtomas.binsoft@gmail.com>, 2012
+# rogerc <rcalvoi@yahoo.com>, 2013
+# rogerc <rcalvoi@yahoo.com>, 2011-2013
+# aseques <sacoo2@hotmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 17:44+0200\n"
+"PO-Revision-Date: 2013-04-24 15:44+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -85,15 +85,19 @@ msgstr "Directori no vàlid."
 msgid "Files"
 msgstr "Fitxers"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr ""
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Esborra permanentment"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Suprimeix"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Reanomena"
 

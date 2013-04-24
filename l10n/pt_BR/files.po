@@ -3,24 +3,24 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#  <dudanogueira@gmail.com>, 2013.
-#   <dudanogueira@gmail.com>, 2012.
-#   <fred.maranhao@gmail.com>, 2012.
-# Guilherme Maluf Balzana <guimalufb@gmail.com>, 2012.
-#   <philippi.sedir@gmail.com>, 2012.
-# Rodrigo Tavares <rodrigo.st23@hotmail.com>, 2013.
-# Sedir G. Morais <philippi.sedir@gmail.com>, 2013.
-#   <targinosilveira@gmail.com>, 2012.
-# Thiago Vicente <thiagovice@gmail.com>, 2012.
-# Tulio Simoes Martins Padilha <tuliouel@gmail.com>, 2013.
-# Unforgiving Fallout <>, 2012.
-# Van Der Fran <transifex@vanderland.com>, 2011, 2012.
+# dudanogueira <dudanogueira@gmail.com>, 2013
+# dudanogueira <dudanogueira@gmail.com>, 2012
+# FredMaranhao <fred.maranhao@gmail.com>, 2012
+# Guilherme Maluf Balzana <guimalufb@gmail.com>, 2012
+# sedir <philippi.sedir@gmail.com>, 2012
+# Rodrigo Tavares <rodrigo.st23@hotmail.com>, 2013
+# sedir <philippi.sedir@gmail.com>, 2013
+# targinosilveira <targinosilveira@gmail.com>, 2012
+# Thiago Vicente <thiagovice@gmail.com>, 2012
+# tuliouel <tuliouel@gmail.com>, 2013
+# Unforgiving Fallout <>, 2012
+# Van Der Fran <transifex@vanderland.com>, 2011, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 17:44+0200\n"
+"PO-Revision-Date: 2013-04-24 15:44+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -90,15 +90,19 @@ msgstr "Diretório inválido."
 msgid "Files"
 msgstr "Arquivos"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr ""
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Excluir permanentemente"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Excluir"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Renomear"
 

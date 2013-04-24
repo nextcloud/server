@@ -3,19 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <ari.takalo@iki.fi>, 2012.
-# Jesse Jaara <jesse.jaara@gmail.com>, 2012.
-# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012-2013.
-# Johannes Korpela <>, 2012.
-# Pekka Sutela <pekka.sutela@gmail.com>, 2012.
-#   <tehoratopato@gmail.com>, 2012.
-#   <tscooter@hotmail.com>, 2012.
+# variaatiox <ari.takalo@iki.fi>, 2012
+# Jesse Jaara <jesse.jaara@gmail.com>, 2012
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012-2013
+# Johannes Korpela <>, 2012
+# Pekka Sutela <pekka.sutela@gmail.com>, 2012
+# teho <tehoratopato@gmail.com>, 2012
+# tscooter <tscooter@hotmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 17:44+0200\n"
+"PO-Revision-Date: 2013-04-24 05:10+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -300,7 +300,7 @@ msgstr "Jaa linkillä"
 msgid "Password protect"
 msgstr "Suojaa salasanalla"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Salasana"
 
@@ -416,7 +416,7 @@ msgid "Request failed!"
 msgstr "Pyyntö epäonnistui!"
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
 msgstr "Käyttäjätunnus"
 
@@ -526,37 +526,37 @@ msgstr "Lisäasetukset"
 msgid "Data folder"
 msgstr "Datakansio"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Muokkaa tietokantaa"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "käytetään"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Tietokannan käyttäjä"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Tietokannan salasana"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Tietokannan nimi"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Tietokannan taulukkotila"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Tietokantapalvelin"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Viimeistele asennus"
 
@@ -568,33 +568,33 @@ msgstr "verkkopalvelut hallinnassasi"
 msgid "Log out"
 msgstr "Kirjaudu ulos"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automaattinen sisäänkirjautuminen hylättiin!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Jos et vaihtanut salasanaasi äskettäin, tilisi saattaa olla murrettu."
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Vaihda salasanasi suojataksesi tilisi uudelleen."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Unohditko salasanasi?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "muista"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Kirjaudu sisään"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Vaihtoehtoiset kirjautumiset"
 

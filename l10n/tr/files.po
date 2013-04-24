@@ -3,19 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Aranel Surion <aranel@aranelsurion.org>, 2011, 2012.
-# Caner Başaran <basaran.caner@gmail.com>, 2012.
-# Emre  <emresaracoglu@live.com>, 2012.
-#   <info@beyboo.de>, 2012.
-# ismail yenigul <ismail.yenigul@surgate.com>, 2013.
-# Necdet Yücel <necdetyucel@gmail.com>, 2012.
-# TayançKILIÇLI <tayancatakan@gmail.com>, 2013.
+# Aranel Surion <aranel@aranelsurion.org>, 2011, 2012
+# Caner Başaran <basaran.caner@gmail.com>, 2012
+# Emre Saraçoğlu <emresaracoglu@live.com>, 2012
+# alpere <info@beyboo.de>, 2012
+# ismail yenigül <ismail.yenigul@surgate.com>, 2013
+# Necdet Yücel <necdetyucel@gmail.com>, 2012
+# atakan96 <tayancatakan@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 17:44+0200\n"
+"PO-Revision-Date: 2013-04-24 15:44+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -85,15 +85,19 @@ msgstr "Geçersiz dizin."
 msgid "Files"
 msgstr "Dosyalar"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr ""
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Kalıcı olarak sil"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Sil"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "İsim değiştir."
 

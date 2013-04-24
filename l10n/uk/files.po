@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <dzubchikd@gmail.com>, 2012.
-#   <skoptev@ukr.net>, 2012.
-# Soul Kim <warlock.rf@gmail.com>, 2012.
-# пан Володимир <volodya327@gmail.com>, 2013.
+# Dmytro Dzubenko <dzubchikd@gmail.com>, 2012
+# skoptev <skoptev@ukr.net>, 2012
+# Soul Kim <warlock.rf@gmail.com>, 2012
+# volodya327 <volodya327@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 17:44+0200\n"
+"PO-Revision-Date: 2013-04-24 15:44+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -82,15 +82,19 @@ msgstr "Невірний каталог."
 msgid "Files"
 msgstr "Файли"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr ""
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Видалити назавжди"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Видалити"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Перейменувати"
 

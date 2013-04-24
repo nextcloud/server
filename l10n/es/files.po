@@ -3,26 +3,26 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Agustin Ferrario <>, 2012.
-# Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013.
-#  <davidlopez.david@gmail.com>, 2013.
-#   <devianpctek@gmail.com>, 2012.
-# Javier Llorente <javier@opensuse.org>, 2012.
-#  <juanma@kde.org.ar>, 2013.
-#   <juanma@kde.org.ar>, 2012-2013.
-#   <karvayoEdgar@gmail.com>, 2013.
-# Ricardo A. Hermosilla Carrillo <ra.hermosillac@gmail.com>, 2013.
-# Rubén Trujillo <rubentrf@gmail.com>, 2012.
-#  <sergioballesterossolanas@gmail.com>, 2013.
-#   <sergioballesterossolanas@gmail.com>, 2011-2012.
-#   <sergio@entrecables.com>, 2012.
-# Vladimir Martinez Sierra <vladimirmartinezsierra@gmail.com>, 2013.
+# Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2012
+# Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013
+# telco2011 <davidlopez.david@gmail.com>, 2013
+# Luis Medina <devianpctek@gmail.com>, 2012
+# Javier Llorente <javier@opensuse.org>, 2012
+# juanman <juanma@kde.org.ar>, 2013
+# juanman <juanma@kde.org.ar>, 2012-2013
+# karv <karvayoEdgar@gmail.com>, 2013
+# Ricardo Hermosilla <ra.hermosillac@gmail.com>, 2013
+# Rubén Trujillo <rubentrf@gmail.com>, 2012
+# xsergiolpx <sergioballesterossolanas@gmail.com>, 2013
+# xsergiolpx <sergioballesterossolanas@gmail.com>, 2011-2012
+# scambra <sergio@entrecables.com>, 2012
+# msvladimir <vladimirmartinezsierra@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 17:44+0200\n"
+"PO-Revision-Date: 2013-04-24 15:44+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -92,15 +92,19 @@ msgstr "Directorio invalido."
 msgid "Files"
 msgstr "Archivos"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr ""
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Eliminar permanentemente"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Eliminar"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Renombrar"
 

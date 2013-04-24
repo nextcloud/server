@@ -3,26 +3,26 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Denis  <reg.transifex.net@demitel.ru>, 2012.
-#   <jekader@gmail.com>, 2012.
-#   <lankme@gmail.com>, 2012.
-#   <mpolr21@gmail.com>, 2012.
-# Nick Remeslennikov <homolibere@gmail.com>, 2012.
-#   <semen@sam002.net>, 2012.
-# Sergey <sergey@markevich.ru>, 2013.
-#   <sharov3@gmail.com>, 2013.
-#   <skoptev@ukr.net>, 2012.
-#   <tony.mccourin@gmail.com>, 2011.
-# Victor Ashirov <victor.ashirov@gmail.com>, 2013.
-# Victor Bravo <>, 2012.
-#   <victor.dubiniuk@gmail.com>, 2012.
-# Дмитрий <langaru@gmail.com>, 2013.
+# Denis <reg.transifex.net@demitel.ru>, 2012
+# jekader <jekader@gmail.com>, 2012
+# Yaroslav Petrov <lankme@gmail.com>, 2012
+# mPolr <mpolr21@gmail.com>, 2012
+# Nick Remeslennikov <homolibere@gmail.com>, 2012
+# sam002 <semen@sam002.net>, 2012
+# m4rkell <sergey@markevich.ru>, 2013
+# adol <sharov3@gmail.com>, 2013
+# skoptev <skoptev@ukr.net>, 2012
+# tonymc <tony.mccourin@gmail.com>, 2011
+# unixoid <victor.ashirov@gmail.com>, 2013
+# Victor Bravo <>, 2012
+# VicDeo <victor.dubiniuk@gmail.com>, 2012
+# Langaru <langaru@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 17:44+0200\n"
+"PO-Revision-Date: 2013-04-24 15:44+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -92,15 +92,19 @@ msgstr "Неправильный каталог."
 msgid "Files"
 msgstr "Файлы"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr ""
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Удалено навсегда"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Удалить"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Переименовать"
 

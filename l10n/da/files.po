@@ -3,22 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <cronner@gmail.com>, 2012.
-# Frederik Lassen <frederiklassen@gmail.com>, 2013.
-# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011-2013.
-# Ole Holm Frandsen <froksen@gmail.com>, 2012.
-#   <osos@openeyes.dk>, 2012.
-# Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
-#   <simon@rosmi.dk>, 2012.
-# Thomas <cronner@gmail.com>, 2013.
-# Thomas Tanghus <>, 2012.
-# Thomas Tanghus <thomas@tanghus.net>, 2012.
+# cronner <cronner@gmail.com>, 2012
+# Frederik Lassen <frederiklassen@gmail.com>, 2013
+# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011-2013
+# Ole Holm Frandsen <froksen@gmail.com>, 2012
+# osos <osos@openeyes.dk>, 2012
+# Pascal d'Hermilly <pascal@dhermilly.dk>, 2011
+# muunsim <simon@rosmi.dk>, 2012
+# cronner <cronner@gmail.com>, 2013
+# Thomas Tanghus <thomas@tanghus.net>, 2012
+# Thomas Tanghus <thomas@tanghus.net>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 17:44+0200\n"
+"PO-Revision-Date: 2013-04-24 15:44+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -88,15 +88,19 @@ msgstr "Ugyldig mappe."
 msgid "Files"
 msgstr "Filer"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr ""
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Slet permanent"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Slet"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Omdøb"
 

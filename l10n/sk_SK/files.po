@@ -3,19 +3,19 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# georg <georg007@gmail.com>, 2013.
-#   <intense.feel@gmail.com>, 2012.
-# Marián Hvolka <marian.hvolka@stuba.sk>, 2013.
-#   <martin.babik@gmail.com>, 2012.
-# Martin Zatroch <zatroch.martin@gmail.com>, 2013.
-# Roman Priesol <roman@priesol.net>, 2012.
-#   <zatroch.martin@gmail.com>, 2012.
+# georg007 <georg007@gmail.com>, 2013
+# intense <intense.feel@gmail.com>, 2012
+# mhh <marian.hvolka@stuba.sk>, 2013
+# martinb <martin.babik@gmail.com>, 2012
+# martin <zatroch.martin@gmail.com>, 2013
+# Roman Priesol <roman@priesol.net>, 2012
+# martin <zatroch.martin@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 17:44+0200\n"
+"PO-Revision-Date: 2013-04-24 15:44+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -85,15 +85,19 @@ msgstr "Neplatný priečinok"
 msgid "Files"
 msgstr "Súbory"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr ""
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Zmazať  trvalo"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Odstrániť"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Premenovať"
 

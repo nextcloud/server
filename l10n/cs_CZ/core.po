@@ -3,6 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# cernydav <info@senman.cz>, 2013
 # Jan Krejci <krejca85@gmail.com>, 2011
 # Martin <fireball@atlas.cz>, 2011-2012
 # Michal Hrušecký <Michal@hrusecky.net>, 2012
@@ -11,8 +12,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 01:58+0200\n"
-"PO-Revision-Date: 2013-04-23 11:53+0000\n"
+"POT-Creation-Date: 2013-04-24 17:44+0200\n"
+"PO-Revision-Date: 2013-04-24 15:20+0000\n"
 "Last-Translator: cernydav <info@senman.cz>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -198,7 +199,7 @@ msgstr "před {days} dny"
 
 #: js/js.js:726
 msgid "last month"
-msgstr "minulý mesíc"
+msgstr "minulý měsíc"
 
 #: js/js.js:727
 msgid "{months} months ago"
@@ -375,7 +376,7 @@ msgstr "Chyba při nastavení data vypršení platnosti"
 
 #: js/share.js:604
 msgid "Sending ..."
-msgstr "Odesílám..."
+msgstr "Odesílám ..."
 
 #: js/share.js:615
 msgid "Email sent"

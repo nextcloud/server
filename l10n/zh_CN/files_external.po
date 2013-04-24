@@ -6,13 +6,14 @@
 # hanfeng <appweb.cn@gmail.com>, 2012
 # Dianjin Wang <1132321739qq@gmail.com>, 2012
 # marguerite su <i@marguerite.su>, 2013
+# zhangmin <zm1990s@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 01:57+0200\n"
-"PO-Revision-Date: 2013-04-23 23:58+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-24 17:44+0200\n"
+"PO-Revision-Date: 2013-04-24 04:00+0000\n"
+"Last-Translator: zhangmin <zm1990s@gmail.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -58,7 +59,7 @@ msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
 "your system administrator to install it."
-msgstr ""
+msgstr "<b>警告：</b> PHP中未启用或未安装Curl支持。ownCloud / WebDAV 或 GoogleDrive 不能挂载。请请求您的系统管理员安装该它。"
 
 #: templates/settings.php:3
 msgid "External Storage"

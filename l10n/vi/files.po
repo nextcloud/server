@@ -3,17 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <khanhnd@kenhgiaiphap.vn>, 2012.
-#   <mattheu.9x@gmail.com>, 2012.
-#   <mattheu_9x@yahoo.com>, 2012.
-# sao sang <saosangmo@yahoo.com>, 2013.
-# Sơn Nguyễn <sonnghit@gmail.com>, 2012.
+# khanhnd <khanhnd@kenhgiaiphap.vn>, 2012
+# mattheu_9x <mattheu.9x@gmail.com>, 2012
+# mattheu_9x <mattheu.9x@gmail.com>, 2012
+# saosangm <saosangmo@yahoo.com>, 2013
+# Sơn Nguyễn <sonnghit@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-24 17:44+0200\n"
+"PO-Revision-Date: 2013-04-24 15:44+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -83,15 +83,19 @@ msgstr "Thư mục không hợp lệ"
 msgid "Files"
 msgstr "Tập tin"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr ""
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Xóa vĩnh vễn"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Xóa"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Sửa tên"
 
