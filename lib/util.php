@@ -810,7 +810,7 @@ class OC_Util {
 
 		if(is_null($theme)) {
 			
-			if(is_dir(__DIR__ . '/../themes/default')) {
+			if(is_dir(OC::$SERVERROOT . '/themes/default')) {
 				$theme = 'default';
 			}
 
