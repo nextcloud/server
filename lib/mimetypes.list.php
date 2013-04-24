@@ -98,5 +98,9 @@ return array(
 	'epub' => 'application/epub+zip',
 	'mobi' => 'application/x-mobipocket-ebook',
 	'exe' => 'application',
-	'msi' => 'application'
+	'msi' => 'application',
+	'md' => 'text/markdown',
+	'markdown' => 'text/markdown',
+	'mdown' => 'text/markdown',
+	'mdwn' => 'text/markdown'
 );
