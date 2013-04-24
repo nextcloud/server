@@ -113,6 +113,7 @@ var FileActions = {
 			}
 		});
 		if(actions.Share && !($('#dir').val() === '/' && file === 'Shared')){
+			// t('files', 'Share')
 			addAction('Share', actions.Share);
 		}
 
