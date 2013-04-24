@@ -99,6 +99,19 @@ class DummyJobList extends \OC\BackgroundJob\JobList {
 	}
 
 	/**
+	 * @param int $id
+	 * @return Job
+	 */
+	public function getById($id) {
+		foreach ($this->jobs as $job) {
+			if ($job->getId() === $id) {
+				return $job;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * get the id of the last ran job
 	 *
 	 * @return int

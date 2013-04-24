@@ -42,4 +42,8 @@ abstract class Job {
 	public function getLastRun() {
 		return $this->lastRun;
 	}
+
+	public function getArgument() {
+		return $this->argument;
+	}
 }

@@ -111,6 +111,20 @@ class JobList {
 	}
 
 	/**
+	 * @param int $id
+	 * @return Job
+	 */
+	public function getById($id) {
+		$query = \OC_DB::prepare('SELECT `id`, `class`, `last_run`, `argument` FROM `*PREFIX*jobs` WHERE `id` = ?');
+		$result = $query->execute(array($id));
+		if ($row = $result->fetchRow()) {
+			return $this->buildJob($row);
+		} else {
+			return null;
+		}
+	}
+
+	/**
 	 * get the job object from a row in the db
 	 *
 	 * @param array $row
