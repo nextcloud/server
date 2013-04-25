@@ -310,6 +310,7 @@ class Filesystem {
 	 */
 	static public function tearDown() {
 		self::clearMounts();
+		self::$defaultInstance = null;
 	}
 
 	/**
