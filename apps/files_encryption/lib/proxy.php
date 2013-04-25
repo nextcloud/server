@@ -343,13 +343,13 @@ class Proxy extends \OC_FileProxy {
         \OC_FileProxy::$enabled = false;
 
         $view = new \OC_FilesystemView('/');
+        $session = new Session($view);
         $userId = \OCP\User::getUser();
         $util = new Util( $view, $userId );
 
         // Reformat path for use with OC_FSV
         $newPathSplit = explode( '/', $newPath );
         $newPathRelative = implode( '/', array_slice( $newPathSplit, 3 ) );
-        $newPathRelativeToUser = implode( '/', array_slice( $newPathSplit, 2 ) );
 
         // get file info from database/cache
         //$newFileInfo = \OC\Files\Filesystem::getFileInfo($newPathRelative);
@@ -386,7 +386,18 @@ class Proxy extends \OC_FileProxy {
 
             $view->putFileInfo( $newPath, $cached );
 
+            // get sharing app state
+            $sharingEnabled = \OCP\Share::isEnabled();
+
+            // get users
+            $usersSharing = $util->getSharingUsersArray($sharingEnabled, $newPathRelative);
+
+            // update sharing-keys
+            $util->setSharedFileKeyfiles($session, $usersSharing, $newPathRelative);
         }
+
+
+
 
         \OC_FileProxy::$enabled = $proxyStatus;
 
