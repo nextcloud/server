@@ -87,10 +87,7 @@ class Stream {
 		// rawPath is relative to the data directory
 		$this->rawPath = $this->userId . '/files/' . $this->relPath;
 		
-		// Fix .part filenames
-		$this->rawPath = Keymanager::fixPartialFilePath( $this->rawPath );
-		
-		if ( 
+		if (
 		dirname( $this->rawPath ) == 'streams' 
 		and isset( self::$sourceStreams[basename( $this->rawPath )] ) 
 		) {
@@ -244,10 +241,7 @@ class Stream {
 		
 		}
 		
-		// Avoid problems with .part file extensions
-		$this->relPath = Keymanager::fixPartialFilePath( $this->relPath );
-
-        // Fetch and decrypt keyfile
+		// Fetch and decrypt keyfile
         // Fetch existing keyfile
         $this->encKeyfile = Keymanager::getFileKey( $this->rootView, $this->userId, $this->relPath );
 

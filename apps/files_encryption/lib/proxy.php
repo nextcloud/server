@@ -237,8 +237,6 @@ class Proxy extends \OC_FileProxy {
 		     return true;
 		}
 		
-		$path = Keymanager::fixPartialFilePath( $path );
-	
 		// Disable encryption proxy to prevent recursive calls
         $proxyStatus = \OC_FileProxy::$enabled;
         \OC_FileProxy::$enabled = false;
@@ -307,6 +305,15 @@ class Proxy extends \OC_FileProxy {
         if (!$view->is_dir($oldKeyfilePath)) {
             $oldKeyfilePath .= '.key';
             $newKeyfilePath .= '.key';
+
+            // handle share-keys
+            $localKeyPath = $view->getLocalFile($userId.'/files_encryption/share-keys/'.$oldRelPath);
+            $matches = glob(preg_quote($localKeyPath).'*.shareKey');
+            foreach ($matches as $src) {
+                $dst = str_replace($oldRelPath, $newRelPath, $src);
+                rename($src, $dst);
+            }
+
         } else {
             // handle share-keys folders
             $oldShareKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $oldRelPath;
@@ -314,15 +321,76 @@ class Proxy extends \OC_FileProxy {
             $view->rename($oldShareKeyfilePath, $newShareKeyfilePath);
         }
 
-        //TODO add support for share-keys files
-        //...
-
         // Rename keyfile so it isn't orphaned
         $result = $view->rename($oldKeyfilePath, $newKeyfilePath);
 
         \OC_FileProxy::$enabled = $proxyStatus;
 
         return $result;
+
+    }
+
+    /**
+     * @brief When a file is renamed, rename its keyfile also
+     * @return bool Result of rename()
+     * @note This is pre rather than post because using post didn't work
+     */
+    public function postRename( $oldPath, $newPath )
+    {
+
+        // Disable encryption proxy to prevent recursive calls
+        $proxyStatus = \OC_FileProxy::$enabled;
+        \OC_FileProxy::$enabled = false;
+
+        $view = new \OC_FilesystemView('/');
+        $userId = \OCP\User::getUser();
+        $util = new Util( $view, $userId );
+
+        // Reformat path for use with OC_FSV
+        $newPathSplit = explode( '/', $newPath );
+        $newPathRelative = implode( '/', array_slice( $newPathSplit, 3 ) );
+        $newPathRelativeToUser = implode( '/', array_slice( $newPathSplit, 2 ) );
+
+        // get file info from database/cache
+        //$newFileInfo = \OC\Files\Filesystem::getFileInfo($newPathRelative);
+
+        if ($util->isEncryptedPath($newPath)) {
+            $cached = $view->getFileInfo($newPath);
+            $cached['encrypted'] = 1;
+
+            // get the size from filesystem
+            $size = $view->filesize($newPath);
+
+            // calculate last chunk nr
+            $lastChunckNr = floor($size / 8192);
+
+            // open stream
+            $result = fopen('crypt://' . $newPathRelative, "r");
+
+            if(is_resource($result)) {
+                // calculate last chunk position
+                $lastChunckPos = ($lastChunckNr * 8192);
+
+                // seek to end
+                fseek($result, $lastChunckPos);
+
+                // get the content of the last chunck
+                $lastChunkContent = fread($result, 8192);
+
+                // calc the real file size with the size of the last chunk
+                $realSize = (($lastChunckNr * 6126) + strlen($lastChunkContent));
+
+                // set the size
+                $cached['unencrypted_size'] = $realSize;
+            }
+
+            $view->putFileInfo( $newPath, $cached );
+
+        }
+
+        \OC_FileProxy::$enabled = $proxyStatus;
+
+        return true;
 
     }
 
@@ -424,10 +492,10 @@ class Proxy extends \OC_FileProxy {
 
         // if path is a folder do nothing
         if(is_array($data) && array_key_exists('size', $data)) {
+
             // Disable encryption proxy to prevent recursive calls
             $proxyStatus = \OC_FileProxy::$enabled;
             \OC_FileProxy::$enabled = false;
-
 
             // get file size
             $data['size'] = self::postFileSize($path, $data['size']);
@@ -461,8 +529,6 @@ class Proxy extends \OC_FileProxy {
             return $size;
         }
 
-        $path = Keymanager::fixPartialFilePath( $path );
-
         // Reformat path for use with OC_FSV
         $path_split = explode('/', $path);
         $path_f = implode('/', array_slice($path_split, 3));
@@ -474,7 +540,7 @@ class Proxy extends \OC_FileProxy {
         if(is_array($fileInfo) && $fileInfo['encrypted'] == 1) {
             return $fileInfo['unencrypted_size'];
         } else {
-            return $fileInfo['size'];
+            return $size;
         }
 	}
 }

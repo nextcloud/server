@@ -140,28 +140,6 @@ class Keymanager {
 	}
 	
 	/**
-	 * @brief Remove .path extension from a file path
-	 * @param string $path Path that may identify a .part file
-	 * @return string File path without .part extension
-	 */
-	public static function fixPartialFilePath( $path ) {
-	
-		if ( preg_match( '/\.part$/', $path ) ) {
-		
-			$newLength = strlen( $path ) - 5;
-			$fPath = substr( $path, 0, $newLength );
-			
-			return $fPath;
-			
-		} else {
-		
-			return $path;
-			
-		}
-	
-	}
-	
-	/**
 	 * @brief retrieve keyfile for an encrypted file
 	 * @param \OC_FilesystemView $view
 	 * @param $userId
