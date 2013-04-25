@@ -10,9 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-07 00:16+0100\n"
-"PO-Revision-Date: 2013-03-06 01:40+0000\n"
-"Last-Translator: Lokal_Profil <lokal_profil@hotmail.com>\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:23+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Swedish (http://www.transifex.com/projects/p/owncloud/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -239,7 +239,7 @@ msgstr "Rekommenderas inte, använd bara för test. "
 
 #: templates/settings.php:78
 msgid "Cache Time-To-Live"
-msgstr ""
+msgstr "Cache Time-To-Live"
 
 #: templates/settings.php:78
 msgid "in seconds. A change empties the cache."
@@ -307,7 +307,7 @@ msgstr "Kvotfält"
 
 #: templates/settings.php:93
 msgid "Quota Default"
-msgstr ""
+msgstr "Datakvot standard"
 
 #: templates/settings.php:93
 msgid "in bytes"
@@ -319,7 +319,7 @@ msgstr "E-postfält"
 
 #: templates/settings.php:95
 msgid "User Home Folder Naming Rule"
-msgstr ""
+msgstr "Namnregel för hemkatalog"
 
 #: templates/settings.php:95
 msgid ""
@@ -329,7 +329,7 @@ msgstr "Lämnas tomt för användarnamn (standard). Ange annars ett LDAP/AD-attr
 
 #: templates/settings.php:99
 msgid "Test Configuration"
-msgstr ""
+msgstr "Testa konfigurationen"
 
 #: templates/settings.php:99
 msgid "Help"

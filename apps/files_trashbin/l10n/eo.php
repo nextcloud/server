@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Error" => "Eraro",
 "Name" => "Nomo",
 "1 folder" => "1 dosierujo",
 "{count} folders" => "{count} dosierujoj",

@@ -7,6 +7,7 @@
 "Add your App" => "Adder tu application",
 "Select an App" => "Selectionar un app",
 "Update" => "Actualisar",
+"Get the apps to sync your files" => "Obtene le apps (applicationes) pro synchronizar tu files",
 "Password" => "Contrasigno",
 "Unable to change your password" => "Non pote cambiar tu contrasigno",
 "Current password" => "Contrasigno currente",

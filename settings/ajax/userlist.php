@@ -44,7 +44,7 @@ if (OC_User::isAdminUser(OC_User::getUser())) {
 	foreach ($batch as $user) {
 		$users[] = array(
 			'name' => $user,
-			'displayname' => OC_User::determineDisplayName($user),
+			'displayname' => OC_User::getDisplayName($user),
 			'groups' => join(', ', OC_Group::getUserGroups($user)),
 			'quota' => OC_Preferences::getValue($user, 'files', 'quota', 'default'));
 	}

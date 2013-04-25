@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Pisike Sipelgas <pisike.sipelgas@gmail.com>, 2013.
 # Rivo Zängov <eraser@eraser.ee>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-28 00:04+0100\n"
-"PO-Revision-Date: 2013-02-27 23:04+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +22,7 @@ msgstr ""
 #: ajax/rollbackVersion.php:15
 #, php-format
 msgid "Could not revert: %s"
-msgstr ""
+msgstr "Ei suuda taastada faili: %s"
 
 #: history.php:40
 msgid "success"
@@ -30,7 +31,7 @@ msgstr "korras"
 #: history.php:42
 #, php-format
 msgid "File %s was reverted to version %s"
-msgstr ""
+msgstr "Fail %s taastati versioonile %s"
 
 #: history.php:49
 msgid "failure"
@@ -39,20 +40,20 @@ msgstr "ebaõnnestus"
 #: history.php:51
 #, php-format
 msgid "File %s could not be reverted to version %s"
-msgstr ""
+msgstr "Faili %s ei saa taastada versioonile %s"
 
-#: history.php:68
+#: history.php:69
 msgid "No old versions available"
 msgstr "Vanu versioone pole saadaval"
 
-#: history.php:73
+#: history.php:74
 msgid "No path specified"
 msgstr "Asukohta pole määratud"
 
 #: js/versions.js:6
 msgid "Versions"
-msgstr ""
+msgstr "Versioonid"
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
-msgstr ""
+msgstr "Taasta fail varasemale versioonile klikkides \"Revert\" nupule"

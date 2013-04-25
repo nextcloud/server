@@ -2,6 +2,7 @@
 "Help" => "Hëllef",
 "Personal" => "Perséinlech",
 "Settings" => "Astellungen",
+"Admin" => "Admin",
 "Authentication error" => "Authentifikatioun's Fehler",
 "Files" => "Dateien",
 "Text" => "SMS",

@@ -51,7 +51,8 @@ class Helper {
 		$query = '
 			SELECT DISTINCT `configkey`
 			FROM `*PREFIX*appconfig`
-			WHERE `configkey` LIKE ?
+			WHERE `appid` = \'user_ldap\'
+				AND `configkey` LIKE ?
 		';
 		if($activeConfigurations) {
 			$query .= ' AND `configvalue` = \'1\'';

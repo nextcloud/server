@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-16 22:17+0100\n"
-"PO-Revision-Date: 2013-03-15 17:00+0000\n"
-"Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -36,14 +36,14 @@ msgstr "%s ar jums dalījās ar mapi %s"
 msgid "%s shared the file %s with you"
 msgstr "%s ar jums dalījās ar datni %s"
 
-#: templates/public.php:19 templates/public.php:37
+#: templates/public.php:19 templates/public.php:43
 msgid "Download"
 msgstr "Lejupielādēt"
 
-#: templates/public.php:34
+#: templates/public.php:40
 msgid "No preview available for"
 msgstr "Nav pieejams priekšskatījums priekš"
 
-#: templates/public.php:43
+#: templates/public.php:50
 msgid "web services under your control"
 msgstr "jūsu vadībā esošie tīmekļa servisi"

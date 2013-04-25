@@ -2,6 +2,7 @@
 "Access granted" => "Достъпът е даден",
 "Grant access" => "Даване на достъп",
 "External Storage" => "Външно хранилище",
+"Folder name" => "Име на папката",
 "Configuration" => "Конфигурация",
 "Options" => "Опции",
 "Applicable" => "Приложимо",

@@ -75,7 +75,7 @@ class OC_Util {
 	public static function getVersion() {
 		// hint: We only can count up. Reset minor/patchlevel when
 		// updating major/minor version number.
-		return array(5, 80, 00);
+		return array(5, 80, 02);
 	}
 
 	/**
@@ -278,7 +278,10 @@ class OC_Util {
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart= false;
 		}
-		if(ini_get('safe_mode')) {
+		if (((strtolower(@ini_get('safe_mode')) == 'on')
+			|| (strtolower(@ini_get('safe_mode')) == 'yes')
+			|| (strtolower(@ini_get('safe_mode')) == 'true')
+			|| (ini_get("safe_mode") == 1 ))) {
 			$errors[]=array('error'=>'PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly.',
 				'hint'=>'PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config.');
 			$web_server_restart= false;
@@ -408,18 +411,19 @@ class OC_Util {
 		exit();
 	}
 
-	/**
-	 * get an id unqiue for this instance
-	 * @return string
-	 */
-	public static function getInstanceId() {
-		$id=OC_Config::getValue('instanceid', null);
-		if(is_null($id)) {
-			$id=uniqid();
-			OC_Config::setValue('instanceid', $id);
-		}
-		return $id;
-	}
+    /**
+     * get an id unique for this instance
+     * @return string
+     */
+    public static function getInstanceId() {
+        $id = OC_Config::getValue('instanceid', null);
+        if(is_null($id)) {
+            // We need to guarantee at least one letter in instanceid so it can be used as the session_name
+            $id = 'oc' . OC_Util::generate_random_bytes(10);
+            OC_Config::setValue('instanceid', $id);
+        }
+        return $id;
+    }
 
 	/**
 	 * @brief Static lifespan (in seconds) when a request token expires.
@@ -591,7 +595,7 @@ class OC_Util {
 		} catch(\Sabre_DAV_Exception_NotAuthenticated $e) {
 			$return = true;
 		} catch(\Exception $e) {
-			OC_Log::write('core', 'isWebDAVWorking: NO - Reason: '.$e, OC_Log::WARN);
+			OC_Log::write('core', 'isWebDAVWorking: NO - Reason: '.$e->getMessage(). ' ('.get_class($e).')', OC_Log::WARN);
 			$return = false;
 		}
 
@@ -614,8 +618,8 @@ class OC_Util {
 		$result = setlocale(LC_ALL, 'en_US.UTF-8', 'en_US.UTF8');
 		if($result == false) {
 			return false;
-        }
-        return true;
+		}
+		return true;
 	}
 
 	/**
@@ -630,6 +634,11 @@ class OC_Util {
 	 * Check if the ownCloud server can connect to the internet
 	 */
 	public static function isinternetconnectionworking() {
+
+		// in case there is no internet connection on purpose there is no need to display a warning
+		if (!\OC_Config::getValue("has_internet_connection", true)) {
+			return true;
+		}
 
 		// try to connect to owncloud.org to see if http connections to the internet are possible.
 		$connected = @fsockopen("www.owncloud.org", 80);
@@ -785,5 +794,26 @@ class OC_Util {
 	public static function runningOnWindows() {
 		return (substr(PHP_OS, 0, 3) === "WIN");
 	}
+
+
+	/**
+	 * Handles the case that there may not be a theme, then check if a "default"
+	 * theme exists and take that one
+	 * @return string the theme
+	 */
+	public static function getTheme() {
+		$theme = OC_Config::getValue("theme");
+
+		if(is_null($theme)) {
+			
+			if(is_dir(OC::$SERVERROOT . '/themes/default')) {
+				$theme = 'default';
+			}
+
+		}
+
+		return $theme;
+	}
+
 
 }

@@ -22,6 +22,7 @@
 "Security Warning" => "ආරක්ෂක නිවේදනයක්",
 "Your data directory and your files are probably accessible from the internet. The .htaccess file that ownCloud provides is not working. We strongly suggest that you configure your webserver in a way that the data directory is no longer accessible or you move the data directory outside the webserver document root." => "ඔබගේ දත්ත ඩිරෙක්ටරිය හා ගොනුවලට අන්තර්ජාලයෙන් පිවිසිය හැක. ownCloud සපයා ඇති .htaccess ගොනුව ක්‍රියාකරන්නේ නැත. අපි තරයේ කියා සිටිනුයේ නම්, මෙම දත්ත හා ගොනු එසේ පිවිසීමට නොහැකි වන ලෙස ඔබේ වෙබ් සේවාදායකයා  වින්‍යාස කරන ලෙස හෝ එම ඩිරෙක්ටරිය වෙබ් මූලයෙන් පිටතට ගෙනයන ලෙසය.",
 "More" => "වැඩි",
+"Less" => "අඩු",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "නිපදන ලද්දේ <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud සමාජයෙන්</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">මුල් කේතය </a>ලයිසන්ස් කර ඇත්තේ <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> යටතේ.",
 "Add your App" => "යෙදුමක් එක් කිරීම",
 "More Apps" => "තවත් යෙදුම්",

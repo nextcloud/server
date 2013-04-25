@@ -28,6 +28,7 @@
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ваш веб сервер ещё не достаточно точно настроен для возможности синхронизации, т.к. похоже, что интерфейс WebDAV сломан.",
 "Please double check the <a href='%s'>installation guides</a>." => "Пожалуйста проверте дважды <a href='%s'>гиды по установке</a>.",
 "More" => "Подробнее",
+"Less" => "Меньше",
 "Version" => "Версия",
 "Developed by the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>." => "Разработанный <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a> is licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>.",
 "Add your App" => "Добавить Ваше приложение",

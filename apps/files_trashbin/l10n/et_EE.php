@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "%s jäädavalt kustutamine ebaõnnestus",
 "Couldn't restore %s" => "%s ei saa taastada",
 "perform restore operation" => "soorita taastamine",
+"Error" => "Viga",
 "delete file permanently" => "kustuta fail jäädavalt",
 "Delete permanently" => "Kustuta jäädavalt",
 "Name" => "Nimi",
@@ -12,5 +13,6 @@
 "{count} files" => "{count} faili",
 "Nothing in here. Your trash bin is empty!" => "Siin pole midagi. Sinu prügikast on tühi!",
 "Restore" => "Taasta",
-"Delete" => "Kustuta"
+"Delete" => "Kustuta",
+"Deleted Files" => "Kustutatud failid"
 );

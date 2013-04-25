@@ -229,7 +229,9 @@ class OC_DB {
 
 		// Optimize the query
 		$query = self::processQuery( $query );
-
+		if(OC_Config::getValue( "log_query", false)) {
+			OC_Log::write('core', 'DB prepare : '.$query, OC_Log::DEBUG);
+		}
 		self::connect();
 		// return the result
 		if (self::$backend == self::BACKEND_DOCTRINE) {
@@ -382,18 +384,19 @@ class OC_DB {
 		$type = self::$type;
 
 		$query = '';
+		$inserts = array_values($input);
 		// differences in escaping of table names ('`' for mysql) and getting the current timestamp
 		if( $type == 'sqlite' || $type == 'sqlite3' ) {
 			// NOTE: For SQLite we have to use this clumsy approach
 			// otherwise all fieldnames used must have a unique key.
-			$query = 'SELECT * FROM "' . $table . '" WHERE ';
+			$query = 'SELECT * FROM `' . $table . '` WHERE ';
 			foreach($input as $key => $value) {
-				$query .= $key . " = '" . $value . '\' AND ';
+				$query .= '`' . $key . '` = ? AND ';
 			}
 			$query = substr($query, 0, strlen($query) - 5);
 			try {
 				$stmt = self::prepare($query);
-				$result = $stmt->execute();
+				$result = $stmt->execute($inserts);
 			} catch(\Doctrine\DBAL\DBALException $e) {
 				$entry = 'DB Error: "'.$e->getMessage() . '"<br />';
 				$entry .= 'Offending command was: ' . $query . '<br />';
@@ -403,27 +406,26 @@ class OC_DB {
 				return false;
 			}
 
-			if($result->numRows() == 0) {
-				$query = 'INSERT INTO "' . $table . '" ("'
-					. implode('","', array_keys($input)) . '") VALUES("'
-					. implode('","', array_values($input)) . '")';
+			if((int)$result->numRows() === 0) {
+				$query = 'INSERT INTO `' . $table . '` (`'
+					. implode('`,`', array_keys($input)) . '`) VALUES('
+					. str_repeat('?,', count($input)-1).'? ' . ')';
 			} else {
 				return true;
 			}
 		} elseif( $type == 'pgsql' || $type == 'oci' || $type == 'mysql' || $type == 'mssql') {
-			$query = 'INSERT INTO `' .$table . '` ('
-				. implode(',', array_keys($input)) . ') SELECT \''
-				. implode('\',\'', array_values($input)) . '\' FROM ' . $table . ' WHERE ';
+			$query = 'INSERT INTO `' .$table . '` (`'
+				. implode('`,`', array_keys($input)) . '`) SELECT '
+				. str_repeat('?,', count($input)-1).'? ' // Is there a prettier alternative?
+				. 'FROM `' . $table . '` WHERE ';
 
 			foreach($input as $key => $value) {
-				$query .= $key . " = '" . $value . '\' AND ';
+				$query .= '`' . $key . '` = ? AND ';
 			}
 			$query = substr($query, 0, strlen($query) - 5);
 			$query .= ' HAVING COUNT(*) = 0';
+			$inserts = array_merge($inserts, $inserts);
 		}
-
-		// TODO: oci should be use " (quote) instead of ` (backtick).
-		//OC_Log::write('core', __METHOD__ . ', type: ' . $type . ', query: ' . $query, OC_Log::DEBUG);
 
 		try {
 			$result = self::prepare($query);
@@ -436,7 +438,7 @@ class OC_DB {
 			return false;
 		}
 
-		return $result->execute();
+		return $result->execute($inserts);
 	}
 
 	/**
@@ -668,7 +670,7 @@ class DoctrineStatementWrapper {
 		$regex = '/^SELECT\s+(?:ALL\s+|DISTINCT\s+)?(?:.*?)\s+FROM\s+(.*)$/i';
 		$queryString = $this->statement->getWrappedStatement()->queryString;
 		if (preg_match($regex, $queryString, $output) > 0) {
-			$query = OC_DB::prepare("SELECT COUNT(*) FROM {$output[1]}", PDO::FETCH_NUM);
+			$query = OC_DB::prepare("SELECT COUNT(*) FROM {$output[1]}");
 			return $query->execute($this->lastArguments)->fetchColumn();
 		}else{
 			return $this->statement->rowCount();
@@ -679,6 +681,10 @@ class DoctrineStatementWrapper {
 	 * make execute return the result instead of a bool
 	 */
 	public function execute($input=array()) {
+		if(OC_Config::getValue( "log_query", false)) {
+			$params_str = str_replace("\n"," ",var_export($input,true));
+			OC_Log::write('core', 'DB execute with arguments : '.$params_str, OC_Log::DEBUG);
+		}
 		$this->lastArguments = $input;
 		if (count($input) > 0) {
 

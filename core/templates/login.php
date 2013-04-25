@@ -4,23 +4,14 @@
 	<?php if (!empty($_['redirect_url'])) {
 		print_unescaped('<input type="hidden" name="redirect_url" value="' . OC_Util::sanitizeHTML($_['redirect_url']) . '" />');
 	} ?>
-		<ul>
-			<?php if (isset($_['invalidcookie']) && ($_['invalidcookie'])): ?>
-			<li class="errors">
-				<?php p($l->t('Automatic logon rejected!')); ?><br>
-				<small><?php p($l->t('If you did not change your password recently, your account may be compromised!')); ?></small>
-				<br>
-				<small><?php p($l->t('Please change your password to secure your account again.')); ?></small>
-			</li>
-			<?php endif; ?>
-			<?php if (isset($_['invalidpassword']) && ($_['invalidpassword'])): ?>
-			<a href="<?php print_unescaped(OC_Helper::linkToRoute('core_lostpassword_index')) ?>">
-				<li class="errors">
-					<?php p($l->t('Lost your password?')); ?>
-				</li>
-			</a>
-			<?php endif; ?>
-		</ul>
+		<?php if (isset($_['invalidcookie']) && ($_['invalidcookie'])): ?>
+		<div class="warning">
+			<?php p($l->t('Automatic logon rejected!')); ?><br>
+			<small><?php p($l->t('If you did not change your password recently, your account may be compromised!')); ?></small>
+			<br>
+			<small><?php p($l->t('Please change your password to secure your account again.')); ?></small>
+		</div>
+		<?php endif; ?>
 		<p class="infield grouptop">
 			<input type="text" name="user" id="user" placeholder=""
 				   value="<?php p($_['username']); ?>"<?php p($_['user_autofocus'] ? ' autofocus' : ''); ?>
@@ -37,6 +28,13 @@
 			<input type="checkbox" id="show" name="show" />
 			<label for="show"></label>
 		</p>
+
+		<?php if (isset($_['invalidpassword']) && ($_['invalidpassword'])): ?>
+		<a class="warning" href="<?php print_unescaped(OC_Helper::linkToRoute('core_lostpassword_index')) ?>">
+			<?php p($l->t('Lost your password?')); ?>
+		</a>
+		<?php endif; ?>
+
 		<input type="checkbox" name="remember_login" value="1" id="remember_login"/><label
 			for="remember_login"><?php p($l->t('remember')); ?></label>
 		<input type="hidden" name="timezone-offset" id="timezone-offset"/>

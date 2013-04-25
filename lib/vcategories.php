@@ -536,23 +536,31 @@ class OC_VCategories {
 
 	/**
 	* @brief Delete category/object relations from the db
-	* @param int $id The id of the object
+	* @param array $ids The ids of the objects
 	* @param string $type The type of object (event/contact/task/journal).
 	* 	Defaults to the type set in the instance
 	* @returns boolean Returns false on error.
 	*/
-	public function purgeObject($id, $type = null) {
+	public function purgeObjects(array $ids, $type = null) {
 		$type = is_null($type) ? $this->type : $type;
+		if(count($ids) === 0) {
+			// job done ;)
+			return true;
+		}
+		$updates = $ids;
 		try {
-			$stmt = OCP\DB::prepare('DELETE FROM `' . self::RELATION_TABLE . '` '
-					. 'WHERE `objid` = ? AND `type`= ?');
-			$result = $stmt->execute(array($id, $type));
+			$query = 'DELETE FROM `' . self::RELATION_TABLE . '` ';
+			$query .= 'WHERE `objid` IN (' . str_repeat('?,', count($ids)-1) . '?) ';
+			$query .= 'AND `type`= ?';
+			$updates[] = $type;
+			$stmt = OCP\DB::prepare($query);
+			$result = $stmt->execute($updates);
 			if (OC_DB::isError($result)) {
 				OC_Log::write('core', __METHOD__. 'DB error: ' . OC_DB::getErrorMessage($result), OC_Log::ERROR);
 				return false;
 			}
 		} catch(Exception $e) {
-			OCP\Util::writeLog('core', __METHOD__.', exception: '.$e->getMessage(),
+			OCP\Util::writeLog('core', __METHOD__.', exception: ' . $e->getMessage(),
 				OCP\Util::ERROR);
 			return false;
 		}

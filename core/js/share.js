@@ -133,14 +133,14 @@ OC.Share={
 					callback();
 				}
 			} else {
-				OC.dialogs.alert(t('core', 'Error'), t('core', 'Error while unsharing'));
+				OC.dialogs.alert(t('core', 'Error while unsharing'), t('core', 'Error'));
 			}
 		});
 	},
 	setPermissions:function(itemType, itemSource, shareType, shareWith, permissions) {
 		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setPermissions', itemType: itemType, itemSource: itemSource, shareType: shareType, shareWith: shareWith, permissions: permissions }, function(result) {
 			if (!result || result.status !== 'success') {
-				OC.dialogs.alert(t('core', 'Error'), t('core', 'Error while changing permissions'));
+				OC.dialogs.alert(t('core', 'Error while changing permissions'), t('core', 'Error'));
 			}
 		});
 	},
@@ -235,7 +235,18 @@ OC.Share={
 				});
 				return false;
 			}
-			});
+			})
+			// customize internal _renderItem function to display groups and users differently
+			.data("ui-autocomplete")._renderItem = function( ul, item ) {
+				var insert = $( "<a>" ).text( item.label );
+				if(item.label.length > 8 && item.label.substr(item.label.length-8) === ' (group)') {
+					// current label is group - wrap "strong" element
+					insert = insert.wrapInner('<strong>');
+				}
+				return $( "<li>" )
+					.append( insert )
+					.appendTo( ul );
+			};
 		} else {
 			html += '<input id="shareWith" type="text" placeholder="'+t('core', 'Resharing is not allowed')+'" style="width:90%;" disabled="disabled"/>';
 			html += '</div>';
@@ -271,7 +282,7 @@ OC.Share={
 			}
 			var collectionList = $('#shareWithList li').filterAttr('data-collection', item);
 			if (collectionList.length > 0) {
-				$(collectionList).append(', '+shareWith);
+				$(collectionList).append(', '+shareWithDisplayName);
 			} else {
 				var html = '<li style="clear: both;" data-collection="'+item+'">'+t('core', 'Shared in {item} with {user}', {'item': item, user: shareWithDisplayName})+'</li>';
 				$('#shareWithList').prepend(html);
@@ -383,7 +394,7 @@ OC.Share={
 }
 
 $(document).ready(function() {
-	
+
 	if(typeof monthNames != 'undefined'){
 		$.datepicker.setDefaults({
 			monthNames: monthNames,
@@ -421,7 +432,7 @@ $(document).ready(function() {
 
 	$(this).click(function(event) {
 		var target = $(event.target);
-		var isMatched = !target.is('.drop, .ui-datepicker-next, .ui-datepicker-prev, .ui-icon') 
+		var isMatched = !target.is('.drop, .ui-datepicker-next, .ui-datepicker-prev, .ui-icon')
 			&& !target.closest('#ui-datepicker-div').length;
 		if (OC.Share.droppedDown && isMatched && $('#dropdown').has(event.target).length === 0) {
 			OC.Share.hideDropDown();
@@ -563,19 +574,19 @@ $(document).ready(function() {
 			var itemSource = $('#dropdown').data('item-source');
 			$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setExpirationDate', itemType: itemType, itemSource: itemSource, date: '' }, function(result) {
 				if (!result || result.status !== 'success') {
-					OC.dialogs.alert(t('core', 'Error'), t('core', 'Error unsetting expiration date'));
+					OC.dialogs.alert(t('core', 'Error unsetting expiration date'), t('core', 'Error'));
 				}
 				$('#expirationDate').hide();
 			});
 		}
 	});
-	
+
 	$(document).on('change', '#dropdown #expirationDate', function() {
 		var itemType = $('#dropdown').data('item-type');
 		var itemSource = $('#dropdown').data('item-source');
 		$.post(OC.filePath('core', 'ajax', 'share.php'), { action: 'setExpirationDate', itemType: itemType, itemSource: itemSource, date: $(this).val() }, function(result) {
 			if (!result || result.status !== 'success') {
-				OC.dialogs.alert(t('core', 'Error'), t('core', 'Error setting expiration date'));
+				OC.dialogs.alert(t('core', 'Error setting expiration date'), t('core', 'Error'));
 			}
 		});
 	});

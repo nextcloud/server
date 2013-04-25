@@ -9,12 +9,13 @@
 # Efstathios Iosifidis <iefstathios@gmail.com>, 2013.
 # Konstantinos Tzanidis <tzanidis@gmail.com>, 2012.
 # Marios Bekatoros <>, 2012.
+# Wasilis Mandratzis <m.wasilis@yahoo.de>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-02 00:03+0100\n"
-"PO-Revision-Date: 2013-03-01 23:04+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:23+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +50,7 @@ msgstr "Η διαγραφή απέτυχε"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr ""
+msgstr "Πάρτε πάνω από τις πρόσφατες ρυθμίσεις διαμόρφωσης του διακομιστή?"
 
 #: js/settings.js:83
 msgid "Keep settings?"
@@ -92,248 +93,248 @@ msgstr "<b>Προσοχή:</b> Το άρθρωμα PHP LDAP δεν είναι ε
 msgid "Server configuration"
 msgstr "Ρυθμίσεις Διακομιστή"
 
-#: templates/settings.php:18
+#: templates/settings.php:31
 msgid "Add Server Configuration"
 msgstr "Προσθήκη Ρυθμίσεων Διακομιστή"
 
-#: templates/settings.php:23
+#: templates/settings.php:36
 msgid "Host"
 msgstr "Διακομιστής"
 
-#: templates/settings.php:25
+#: templates/settings.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
 msgstr "Μπορείτε να παραλείψετε το πρωτόκολλο, εκτός αν απαιτείται SSL. Σε αυτή την περίπτωση ξεκινήστε με ldaps://"
 
-#: templates/settings.php:26
+#: templates/settings.php:39
 msgid "Base DN"
 msgstr "Base DN"
 
-#: templates/settings.php:27
+#: templates/settings.php:40
 msgid "One Base DN per line"
-msgstr ""
+msgstr "Ένα DN Βάσης ανά γραμμή "
 
-#: templates/settings.php:28
+#: templates/settings.php:41
 msgid "You can specify Base DN for users and groups in the Advanced tab"
 msgstr "Μπορείτε να καθορίσετε το Base DN για χρήστες και ομάδες από την καρτέλα Προηγμένες ρυθμίσεις"
 
-#: templates/settings.php:30
+#: templates/settings.php:43
 msgid "User DN"
 msgstr "User DN"
 
-#: templates/settings.php:32
+#: templates/settings.php:45
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
 msgstr "Το DN του χρήστη πελάτη με το οποίο θα πρέπει να γίνει η σύνδεση, π.χ. uid=agent,dc=example,dc=com. Για χρήση χωρίς πιστοποίηση, αφήστε το DN και τον Κωδικό κενά."
 
-#: templates/settings.php:33
+#: templates/settings.php:46
 msgid "Password"
 msgstr "Συνθηματικό"
 
-#: templates/settings.php:36
+#: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
 msgstr "Για ανώνυμη πρόσβαση, αφήστε κενά τα πεδία DN και Pasword."
 
-#: templates/settings.php:37
+#: templates/settings.php:50
 msgid "User Login Filter"
 msgstr "User Login Filter"
 
-#: templates/settings.php:40
+#: templates/settings.php:53
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
 msgstr "Καθορίζει το φίλτρο που θα ισχύει κατά την προσπάθεια σύνδεσης χρήστη. %%uid αντικαθιστά το όνομα χρήστη κατά τη σύνδεση. "
 
-#: templates/settings.php:41
+#: templates/settings.php:54
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
 msgstr "χρησιμοποιήστε τη μεταβλητή %%uid, π.χ. \"uid=%%uid\""
 
-#: templates/settings.php:42
+#: templates/settings.php:55
 msgid "User List Filter"
 msgstr "User List Filter"
 
-#: templates/settings.php:45
+#: templates/settings.php:58
 msgid "Defines the filter to apply, when retrieving users."
 msgstr "Καθορίζει το φίλτρο που θα ισχύει κατά την ανάκτηση επαφών."
 
-#: templates/settings.php:46
+#: templates/settings.php:59
 msgid "without any placeholder, e.g. \"objectClass=person\"."
 msgstr "χωρίς κάποια μεταβλητή, π.χ. \"objectClass=άτομο\"."
 
-#: templates/settings.php:47
+#: templates/settings.php:60
 msgid "Group Filter"
 msgstr "Group Filter"
 
-#: templates/settings.php:50
+#: templates/settings.php:63
 msgid "Defines the filter to apply, when retrieving groups."
 msgstr "Καθορίζει το φίλτρο που θα ισχύει κατά την ανάκτηση ομάδων."
 
-#: templates/settings.php:51
+#: templates/settings.php:64
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
 msgstr "χωρίς κάποια μεταβλητή, π.χ. \"objectClass=ΟμάδαPosix\"."
 
-#: templates/settings.php:55
+#: templates/settings.php:68
 msgid "Connection Settings"
 msgstr "Ρυθμίσεις Σύνδεσης"
 
-#: templates/settings.php:57
+#: templates/settings.php:70
 msgid "Configuration Active"
-msgstr ""
+msgstr "Ενεργοποιηση ρυθμισεων"
 
-#: templates/settings.php:57
+#: templates/settings.php:70
 msgid "When unchecked, this configuration will be skipped."
-msgstr ""
+msgstr "Όταν δεν είναι επιλεγμένο, αυτή η ρύθμιση θα πρέπει να παραλειφθεί. "
 
-#: templates/settings.php:58
+#: templates/settings.php:71
 msgid "Port"
 msgstr "Θύρα"
 
-#: templates/settings.php:59
+#: templates/settings.php:72
 msgid "Backup (Replica) Host"
-msgstr ""
+msgstr "Δημιουργία αντιγράφων ασφαλείας (Replica) Host "
 
-#: templates/settings.php:59
+#: templates/settings.php:72
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr ""
+msgstr "Δώστε μια προαιρετική εφεδρική υποδοχή. Πρέπει να είναι ένα αντίγραφο του κύριου LDAP / AD διακομιστη."
 
-#: templates/settings.php:60
+#: templates/settings.php:73
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "Δημιουργία αντιγράφων ασφαλείας (Replica) Υποδοχη"
 
-#: templates/settings.php:61
+#: templates/settings.php:74
 msgid "Disable Main Server"
-msgstr ""
+msgstr "Απενεργοποιηση του κεντρικου διακομιστη"
 
-#: templates/settings.php:61
+#: templates/settings.php:74
 msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr ""
+msgstr "Όταν ενεργοποιηθεί, με το ownCloud θα συνδεθείτε με το διακομιστή ρεπλίκα."
 
-#: templates/settings.php:62
+#: templates/settings.php:75
 msgid "Use TLS"
 msgstr "Χρήση TLS"
 
-#: templates/settings.php:62
+#: templates/settings.php:75
 msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr ""
+msgstr "Μην το χρησιμοποιήσετε επιπροσθέτως, για LDAPS συνδέσεις , θα αποτύχει."
 
-#: templates/settings.php:63
+#: templates/settings.php:76
 msgid "Case insensitve LDAP server (Windows)"
 msgstr "LDAP server (Windows) με διάκριση πεζών-ΚΕΦΑΛΑΙΩΝ"
 
-#: templates/settings.php:64
+#: templates/settings.php:77
 msgid "Turn off SSL certificate validation."
 msgstr "Απενεργοποίηση επικύρωσης πιστοποιητικού SSL."
 
-#: templates/settings.php:64
+#: templates/settings.php:77
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
 msgstr "Εάν η σύνδεση δουλεύει μόνο με αυτή την επιλογή, εισάγετε το LDAP SSL πιστοποιητικό του διακομιστή στον ownCloud server σας."
 
-#: templates/settings.php:64
+#: templates/settings.php:77
 msgid "Not recommended, use for testing only."
 msgstr "Δεν προτείνεται, χρήση μόνο για δοκιμές."
 
-#: templates/settings.php:65
+#: templates/settings.php:78
 msgid "Cache Time-To-Live"
-msgstr ""
+msgstr "Cache Time-To-Live"
 
-#: templates/settings.php:65
+#: templates/settings.php:78
 msgid "in seconds. A change empties the cache."
 msgstr "σε δευτερόλεπτα. Μια αλλαγή αδειάζει την μνήμη cache."
 
-#: templates/settings.php:67
+#: templates/settings.php:80
 msgid "Directory Settings"
 msgstr "Ρυθμίσεις Καταλόγου"
 
-#: templates/settings.php:69
+#: templates/settings.php:82
 msgid "User Display Name Field"
 msgstr "Πεδίο Ονόματος Χρήστη"
 
-#: templates/settings.php:69
+#: templates/settings.php:82
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
 msgstr "Η ιδιότητα LDAP που θα χρησιμοποιείται για τη δημιουργία του ονόματος χρήστη του ownCloud."
 
-#: templates/settings.php:70
+#: templates/settings.php:83
 msgid "Base User Tree"
 msgstr "Base User Tree"
 
-#: templates/settings.php:70
+#: templates/settings.php:83
 msgid "One User Base DN per line"
-msgstr ""
+msgstr "Ένα DN βάσης χρηστών ανά γραμμή"
 
-#: templates/settings.php:71
+#: templates/settings.php:84
 msgid "User Search Attributes"
-msgstr ""
+msgstr "Χαρακτηριστικά αναζήτησης των χρηστών "
 
-#: templates/settings.php:71 templates/settings.php:74
+#: templates/settings.php:84 templates/settings.php:87
 msgid "Optional; one attribute per line"
-msgstr ""
+msgstr "Προαιρετικά? Ένα χαρακτηριστικό ανά γραμμή "
 
-#: templates/settings.php:72
+#: templates/settings.php:85
 msgid "Group Display Name Field"
 msgstr "Group Display Name Field"
 
-#: templates/settings.php:72
+#: templates/settings.php:85
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
 msgstr "Η ιδιότητα LDAP που θα χρησιμοποιείται για τη δημιουργία του ονόματος ομάδας του ownCloud."
 
-#: templates/settings.php:73
+#: templates/settings.php:86
 msgid "Base Group Tree"
 msgstr "Base Group Tree"
 
-#: templates/settings.php:73
+#: templates/settings.php:86
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "Μια ομαδικη Βάση DN ανά γραμμή"
 
-#: templates/settings.php:74
+#: templates/settings.php:87
 msgid "Group Search Attributes"
-msgstr ""
+msgstr "Ομάδα Χαρακτηριστικων Αναζήτηση"
 
-#: templates/settings.php:75
+#: templates/settings.php:88
 msgid "Group-Member association"
 msgstr "Group-Member association"
 
-#: templates/settings.php:77
+#: templates/settings.php:90
 msgid "Special Attributes"
-msgstr ""
+msgstr "Ειδικά Χαρακτηριστικά "
 
-#: templates/settings.php:79
+#: templates/settings.php:92
 msgid "Quota Field"
-msgstr ""
+msgstr "Ποσοσταση πεδιου"
 
-#: templates/settings.php:80
+#: templates/settings.php:93
 msgid "Quota Default"
-msgstr ""
+msgstr "Προκαθισμενο πεδιο"
 
-#: templates/settings.php:80
+#: templates/settings.php:93
 msgid "in bytes"
 msgstr "σε bytes"
 
-#: templates/settings.php:81
+#: templates/settings.php:94
 msgid "Email Field"
-msgstr ""
+msgstr "Email τυπος"
 
-#: templates/settings.php:82
+#: templates/settings.php:95
 msgid "User Home Folder Naming Rule"
-msgstr ""
+msgstr "Χρήστης Προσωπικόςφάκελος Ονομασία Κανόνας "
 
-#: templates/settings.php:82
+#: templates/settings.php:95
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
 msgstr "Αφήστε το κενό για το όνομα χρήστη (προεπιλογή). Διαφορετικά, συμπληρώστε μία ιδιότητα LDAP/AD."
 
-#: templates/settings.php:86
+#: templates/settings.php:99
 msgid "Test Configuration"
-msgstr ""
+msgstr "Δοκιμαστικες ρυθμισεις"
 
-#: templates/settings.php:86
+#: templates/settings.php:99
 msgid "Help"
 msgstr "Βοήθεια"

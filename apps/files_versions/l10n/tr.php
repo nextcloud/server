@@ -6,5 +6,6 @@
 "File %s could not be reverted to version %s" => "Dosya %s, %s versiyonuna döndürülemedi.",
 "No old versions available" => "Eski versiyonlar mevcut değil.",
 "No path specified" => "Yama belirtilmemiş",
-"Versions" => "Sürümler"
+"Versions" => "Sürümler",
+"Revert a file to a previous version by clicking on its revert button" => "Dosyanın önceki sürümüne geri dönmek için, değişiklikleri geri al butonuna tıklayın"
 );

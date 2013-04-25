@@ -4,13 +4,14 @@
 # 
 # Translators:
 #   <bluehattree@126.com>, 2012.
+# HO Gin Wang <kopisee@qq.com>, 2013.
 # marguerite su <i@marguerite.su>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 14:35+0100\n"
-"PO-Revision-Date: 2013-02-27 13:35+0000\n"
+"POT-Creation-Date: 2013-04-17 02:21+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -30,7 +31,7 @@ msgstr "认证错误"
 
 #: ajax/changedisplayname.php:32
 msgid "Unable to change display name"
-msgstr ""
+msgstr "无法更改显示名称"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -70,7 +71,7 @@ msgstr "非法请求"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "管理员无法将自己从管理组中移除"
 
 #: ajax/togglegroups.php:30
 #, php-format
@@ -84,84 +85,84 @@ msgstr "未能将用户从群组 %s 移除"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "应用无法升级。"
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "升级至{appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
 msgstr "禁用"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
 msgstr "启用"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "请稍候……"
 
-#: js/apps.js:84
-msgid "Updating...."
-msgstr ""
-
-#: js/apps.js:87
-msgid "Error while updating app"
-msgstr ""
-
-#: js/apps.js:87
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
 msgstr "出错"
 
 #: js/apps.js:90
-msgid "Updated"
-msgstr ""
+msgid "Updating...."
+msgstr "升级中……"
 
-#: js/personal.js:99
+#: js/apps.js:93
+msgid "Error while updating app"
+msgstr "应用升级时出现错误"
+
+#: js/apps.js:96
+msgid "Updated"
+msgstr "已升级"
+
+#: js/personal.js:109
 msgid "Saving..."
 msgstr "保存中..."
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "deleted"
 msgstr "删除"
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "undo"
 msgstr "撤销"
 
-#: js/users.js:62
+#: js/users.js:75
 msgid "Unable to remove user"
-msgstr ""
+msgstr "无法移除用户"
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "组"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "群组管理员"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr "删除"
 
-#: js/users.js:191
+#: js/users.js:262
 msgid "add group"
-msgstr ""
+msgstr "添加群组"
 
-#: js/users.js:352
+#: js/users.js:414
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "请填写有效用户名"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
-msgstr ""
+msgstr "新增用户时出现错误"
 
-#: js/users.js:358
+#: js/users.js:420
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "请填写有效密码"
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
@@ -182,18 +183,18 @@ msgstr "您的数据文件夹和您的文件或许能够从互联网访问。own
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "配置注意"
 
 #: templates/admin.php:32
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "因WebDAV接口故障，您的网络服务器好像并未允许文件同步。"
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "请双击<a href='%s'>安装向导</a>。"
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -207,7 +208,7 @@ msgstr ""
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "区域设置未运作"
 
 #: templates/admin.php:63
 #, php-format
@@ -219,7 +220,7 @@ msgstr ""
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
-msgstr ""
+msgstr "互联网连接未运作"
 
 #: templates/admin.php:78
 msgid ""
@@ -233,7 +234,7 @@ msgstr ""
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
@@ -257,48 +258,48 @@ msgstr ""
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr ""
+msgstr "开启分享API"
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "允许应用使用分享API"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "允许链接"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "允许用户通过链接共享内容"
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr ""
+msgstr "允许转帖"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "允许用户再次共享已共享的内容"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "允许用户向任何人分享"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "只允许用户向所在群组中的其他用户分享"
 
 #: templates/admin.php:168
 msgid "Security"
-msgstr ""
+msgstr "安全"
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "强制HTTPS"
 
 #: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "强制客户端通过加密连接与ownCloud连接"
 
 #: templates/admin.php:185
 msgid ""
@@ -318,11 +319,15 @@ msgstr ""
 msgid "More"
 msgstr "更多"
 
-#: templates/admin.php:230 templates/personal.php:102
-msgid "Version"
-msgstr ""
+#: templates/admin.php:224
+msgid "Less"
+msgstr "更少"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:231 templates/personal.php:102
+msgid "Version"
+msgstr "版本"
+
+#: templates/admin.php:234 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -358,40 +363,40 @@ msgstr "更新"
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr ""
+msgstr "用户文档"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "管理员文档"
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr ""
+msgstr "在线说明文档"
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr ""
+msgstr "论坛"
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr ""
+msgstr "Bug追踪者"
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr ""
+msgstr "商业支持"
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "您已使用<strong>%s</strong>/<strong>%s</strong>"
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "获取应用并同步您的文件"
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
-msgstr ""
+msgstr "再次显示首次运行向导"
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:79
 msgid "Password"
@@ -419,19 +424,19 @@ msgstr "改变密码"
 
 #: templates/personal.php:56 templates/users.php:78
 msgid "Display Name"
-msgstr ""
+msgstr "显示名称"
 
 #: templates/personal.php:57
 msgid "Your display name was changed"
-msgstr ""
+msgstr "您的显示名称已修改"
 
 #: templates/personal.php:58
 msgid "Unable to change your display name"
-msgstr ""
+msgstr "无法修改您的显示名称"
 
 #: templates/personal.php:61
 msgid "Change display name"
-msgstr ""
+msgstr "更改显示名称"
 
 #: templates/personal.php:70
 msgid "Email"
@@ -455,15 +460,15 @@ msgstr "帮助翻译"
 
 #: templates/personal.php:91
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:93
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "使用此地址来在您的文件管理器中连接您的ownCloud"
 
 #: templates/users.php:21 templates/users.php:77
 msgid "Login Name"
-msgstr ""
+msgstr "登录名"
 
 #: templates/users.php:32
 msgid "Create"
@@ -471,11 +476,11 @@ msgstr "新建"
 
 #: templates/users.php:35
 msgid "Default Storage"
-msgstr ""
+msgstr "默认容量"
 
 #: templates/users.php:41 templates/users.php:139
 msgid "Unlimited"
-msgstr ""
+msgstr "无限制"
 
 #: templates/users.php:59 templates/users.php:154
 msgid "Other"
@@ -483,16 +488,16 @@ msgstr "其他的"
 
 #: templates/users.php:84
 msgid "Storage"
-msgstr ""
+msgstr "容量"
 
 #: templates/users.php:95
 msgid "change display name"
-msgstr ""
+msgstr "更改显示名称"
 
 #: templates/users.php:99
 msgid "set new password"
-msgstr ""
+msgstr "设置新的密码"
 
 #: templates/users.php:134
 msgid "Default"
-msgstr ""
+msgstr "默认"

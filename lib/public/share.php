@@ -661,6 +661,7 @@ class Share {
 			}
 		}
 		$backend = self::getBackend($itemType);
+		$collectionTypes = false;
 		// Get filesystem root to add it to the file target and remove from the
 		// file source, match file_source with the file cache
 		if ($itemType == 'file' || $itemType == 'folder') {
@@ -1145,7 +1146,7 @@ class Share {
 				'itemTarget' => $groupItemTarget,
 				'parent' => $parent,
 				'shareType' => $shareType,
-				'shareWith' => $uid,
+				'shareWith' => $shareWith['group'],
 				'uidOwner' => $uidOwner,
 				'permissions' => $permissions,
 				'fileSource' => $fileSource,

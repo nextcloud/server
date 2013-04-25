@@ -23,8 +23,10 @@
 					  method="post"
 					  enctype="multipart/form-data"
 					  target="file_upload_target_1">
+					<?php if($_['uploadMaxFilesize'] >= 0):?>
 					<input type="hidden" name="MAX_FILE_SIZE" id="max_upload"
 						   value="<?php p($_['uploadMaxFilesize']) ?>">
+					<?php endif;?>
 					<!-- Send the requesttoken, this is needed for older IE versions
 						 because they don't send the CSRF token via HTTP header in this case -->
 					<input type="hidden" name="requesttoken" value="<?php p($_['requesttoken']) ?>" id="requesttoken">
@@ -50,7 +52,7 @@
 		</div>
 		<div id="file_action_panel"></div>
 	<?php else:?>
-		<div class="crumb last"><?php p($l->t('You don’t have write permissions here.'))?></div>
+		<div class="actions"><input type="button" disabled value="<?php p($l->t('You don’t have write permissions here.'))?>"></div>
 		<input type="hidden" name="dir" value="<?php p($_['dir']) ?>" id="dir">
 	<?php endif;?>
 	<input type="hidden" name="permissions" value="<?php p($_['permissions']); ?>" id="permissions">
@@ -82,13 +84,13 @@
 				<?php if ($_['permissions'] & OCP\PERMISSION_DELETE): ?>
 <!-- 					NOTE: Temporary fix to allow unsharing of files in root of Shared folder -->
 					<?php if ($_['dir'] == '/Shared'): ?>
-						<span class="selectedActions"><a href="" class="delete">
+						<span class="selectedActions"><a href="" class="delete-selected">
 							<?php p($l->t('Unshare'))?>
 							<img class="svg" alt="<?php p($l->t('Unshare'))?>"
 								 src="<?php print_unescaped(OCP\image_path("core", "actions/delete.svg")); ?>" />
 						</a></span>
 					<?php else: ?>
-						<span class="selectedActions"><a href="" class="delete">
+						<span class="selectedActions"><a href="" class="delete-selected">
 							<?php p($l->t('Delete'))?>
 							<img class="svg" alt="<?php p($l->t('Delete'))?>"
 								 src="<?php print_unescaped(OCP\image_path("core", "actions/delete.svg")); ?>" />

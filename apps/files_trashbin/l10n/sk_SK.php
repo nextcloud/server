@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "Nemožno zmazať %s navždy",
 "Couldn't restore %s" => "Nemožno obnoviť %s",
 "perform restore operation" => "vykonať obnovu",
+"Error" => "Chyba",
 "delete file permanently" => "trvalo zmazať súbor",
 "Delete permanently" => "Zmazať  trvalo",
 "Name" => "Meno",

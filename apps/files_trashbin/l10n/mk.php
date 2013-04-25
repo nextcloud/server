@@ -1,4 +1,5 @@
 <?php $TRANSLATIONS = array(
+"Error" => "Грешка",
 "Name" => "Име",
 "1 folder" => "1 папка",
 "{count} folders" => "{count} папки",

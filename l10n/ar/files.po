@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <tarek.taha@gmail.com>, 2011, 2012.
+# Matalqah <houfa2005@yahoo.com>, 2013
+# blackcoder <tarek.taha@gmail.com>, 2011, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-16 22:17+0100\n"
-"PO-Revision-Date: 2013-03-14 23:20+0000\n"
+"POT-Creation-Date: 2013-04-24 18:30+0200\n"
+"PO-Revision-Date: 2013-04-24 16:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -21,20 +22,20 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "فشل في نقل الملف %s - يوجد ملف بنفس هذا الاسم"
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "فشل في نقل %s"
 
 #: ajax/rename.php:22 ajax/rename.php:25
 msgid "Unable to rename file"
-msgstr ""
+msgstr "فشل في اعادة تسمية الملف"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "لم يتم رفع أي ملف , خطأ غير معروف"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
@@ -43,7 +44,7 @@ msgstr "تم ترفيع الملفات بنجاح."
 #: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr ""
+msgstr "حجم الملف المرفوع تجاوز قيمة  upload_max_filesize الموجودة في ملف php.ini "
 
 #: ajax/upload.php:29
 msgid ""
@@ -65,157 +66,160 @@ msgstr "المجلد المؤقت غير موجود"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "خطأ في الكتابة على القرص الصلب"
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
-msgstr ""
+msgstr "لا يوجد مساحة تخزينية كافية"
 
-#: ajax/upload.php:82
+#: ajax/upload.php:83
 msgid "Invalid directory."
-msgstr ""
+msgstr "مسار غير صحيح."
 
 #: appinfo/app.php:12
 msgid "Files"
 msgstr "الملفات"
 
-#: js/fileactions.js:125
-msgid "Delete permanently"
-msgstr ""
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "شارك"
 
-#: js/fileactions.js:127 templates/index.php:92 templates/index.php:93
+#: js/fileactions.js:126
+msgid "Delete permanently"
+msgstr "حذف بشكل دائم"
+
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "محذوف"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
-msgstr ""
+msgstr "إعادة تسميه"
 
-#: js/filelist.js:49 js/filelist.js:52 js/files.js:293 js/files.js:409
-#: js/files.js:440
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr ""
+msgstr "قيد الانتظار"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} موجود مسبقا"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:252 js/filelist.js:254
 msgid "replace"
-msgstr ""
+msgstr "استبدال"
 
-#: js/filelist.js:251
+#: js/filelist.js:252
 msgid "suggest name"
-msgstr ""
+msgstr "اقترح إسم"
 
-#: js/filelist.js:251 js/filelist.js:253
+#: js/filelist.js:252 js/filelist.js:254
 msgid "cancel"
-msgstr ""
+msgstr "إلغاء"
 
-#: js/filelist.js:298
+#: js/filelist.js:299
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "استبدل {new_name}  بـ  {old_name}"
 
-#: js/filelist.js:298
+#: js/filelist.js:299
 msgid "undo"
-msgstr ""
+msgstr "تراجع"
 
-#: js/filelist.js:323
+#: js/filelist.js:324
 msgid "perform delete operation"
+msgstr "جاري تنفيذ عملية الحذف"
+
+#: js/filelist.js:406
+msgid "1 file uploading"
+msgstr "جاري رفع 1 ملف"
+
+#: js/filelist.js:409 js/filelist.js:463
+msgid "files uploading"
 msgstr ""
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "\".\" اسم ملف غير صحيح."
 
 #: js/files.js:56
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "اسم الملف لا يجوز أن يكون فارغا"
 
 #: js/files.js:64
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "اسم غير صحيح , الرموز  '\\', '/', '<', '>', ':', '\"', '|', '?' و \"*\" غير مسموح استخدامها"
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "مساحتك التخزينية ممتلئة, لا يمكم تحديث ملفاتك أو مزامنتها بعد الآن !"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "مساحتك التخزينية امتلأت تقريبا "
 
 #: js/files.js:226
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
+msgstr "جاري تجهيز عملية التحميل. قد تستغرق بعض الوقت اذا كان حجم الملفات كبير."
 
-#: js/files.js:263
+#: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr "فشل في رفع ملفاتك , إما أنها مجلد أو حجمها 0 بايت"
+
+#: js/files.js:272
+msgid "Not enough space available"
 msgstr ""
 
-#: js/files.js:263
-msgid "Upload Error"
-msgstr ""
-
-#: js/files.js:274
-msgid "Close"
-msgstr "إغلق"
-
-#: js/files.js:313
-msgid "1 file uploading"
-msgstr ""
-
-#: js/files.js:316 js/files.js:371 js/files.js:386
-msgid "{count} files uploading"
-msgstr ""
-
-#: js/files.js:389 js/files.js:424
+#: js/files.js:312
 msgid "Upload cancelled."
-msgstr ""
+msgstr "تم إلغاء عملية رفع الملفات ."
 
-#: js/files.js:498
+#: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "عملية رفع الملفات قيد التنفيذ. اغلاق الصفحة سوف يلغي عملية رفع الملفات."
 
-#: js/files.js:571
+#: js/files.js:481
 msgid "URL cannot be empty."
-msgstr ""
+msgstr "عنوان ال URL  لا يجوز أن يكون فارغا."
 
-#: js/files.js:576
+#: js/files.js:486
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "إسم مجلد غير صحيح. استخدام مصطلح \"Shared\" محجوز للنظام"
 
-#: js/files.js:954 templates/index.php:68
+#: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
+msgid "Error"
+msgstr "خطأ"
+
+#: js/files.js:872 templates/index.php:70
 msgid "Name"
 msgstr "الاسم"
 
-#: js/files.js:955 templates/index.php:79
+#: js/files.js:873 templates/index.php:81
 msgid "Size"
 msgstr "حجم"
 
-#: js/files.js:956 templates/index.php:81
+#: js/files.js:874 templates/index.php:83
 msgid "Modified"
 msgstr "معدل"
 
-#: js/files.js:975
+#: js/files.js:893
 msgid "1 folder"
-msgstr ""
+msgstr "مجلد عدد 1"
 
-#: js/files.js:977
+#: js/files.js:895
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} مجلدات"
 
-#: js/files.js:985
+#: js/files.js:903
 msgid "1 file"
-msgstr ""
+msgstr "ملف واحد"
 
-#: js/files.js:987
+#: js/files.js:905
 msgid "{count} files"
-msgstr ""
+msgstr "{count} ملفات"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
@@ -223,7 +227,7 @@ msgstr "إرفع"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "التعامل مع الملف"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
@@ -231,23 +235,23 @@ msgstr "الحد الأقصى لحجم الملفات التي يمكن رفعه
 
 #: templates/admin.php:10
 msgid "max. possible: "
-msgstr ""
+msgstr "الحد الأقصى المسموح به"
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "اجباري للسماح بالتحميل المتعدد للمجلدات والملفات"
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "تفعيل خاصية تحميل ملفات ZIP"
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 = غير محدود"
 
 #: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "الحد الأقصى المسموح به لملفات ZIP"
 
 #: templates/admin.php:26
 msgid "Save"
@@ -267,50 +271,50 @@ msgstr "مجلد"
 
 #: templates/index.php:14
 msgid "From link"
-msgstr ""
+msgstr "من رابط"
 
-#: templates/index.php:40
+#: templates/index.php:42
 msgid "Deleted files"
-msgstr ""
+msgstr "حذف الملفات"
 
-#: templates/index.php:46
+#: templates/index.php:48
 msgid "Cancel upload"
-msgstr ""
+msgstr "إلغاء رفع الملفات"
 
-#: templates/index.php:53
+#: templates/index.php:55
 msgid "You don’t have write permissions here."
-msgstr ""
+msgstr "لا تملك صلاحيات الكتابة هنا."
 
-#: templates/index.php:60
+#: templates/index.php:62
 msgid "Nothing in here. Upload something!"
 msgstr "لا يوجد شيء هنا. إرفع بعض الملفات!"
 
-#: templates/index.php:74
+#: templates/index.php:76
 msgid "Download"
 msgstr "تحميل"
 
-#: templates/index.php:86 templates/index.php:87
+#: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
 msgstr "إلغاء مشاركة"
 
-#: templates/index.php:106
+#: templates/index.php:108
 msgid "Upload too large"
 msgstr "حجم الترفيع أعلى من المسموح"
 
-#: templates/index.php:108
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "حجم الملفات التي تريد ترفيعها أعلى من المسموح على الخادم."
 
-#: templates/index.php:113
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "يرجى الانتظار , جاري فحص الملفات ."
 
-#: templates/index.php:116
+#: templates/index.php:118
 msgid "Current scanning"
-msgstr ""
+msgstr "الفحص الحالي"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "تحديث ذاكرة التخزين المؤقت(الكاش)  الخاصة بملفات النظام ..."

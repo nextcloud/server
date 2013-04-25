@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-12 00:13+0100\n"
-"PO-Revision-Date: 2013-03-11 13:00+0000\n"
-"Last-Translator: mateju <>\n"
+"POT-Creation-Date: 2013-04-17 02:21+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -98,7 +98,7 @@ msgstr "Posodobi na {appversion}"
 msgid "Disable"
 msgstr "Onemogoči"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
 msgstr "Omogoči"
 
@@ -106,64 +106,64 @@ msgstr "Omogoči"
 msgid "Please wait...."
 msgstr "Počakajte ..."
 
-#: js/apps.js:84
-msgid "Updating...."
-msgstr "Poteka posodabljanje ..."
-
-#: js/apps.js:87
-msgid "Error while updating app"
-msgstr "Prišlo je do napake med posodabljanjem programa."
-
-#: js/apps.js:87
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
 msgstr "Napaka"
 
 #: js/apps.js:90
+msgid "Updating...."
+msgstr "Poteka posodabljanje ..."
+
+#: js/apps.js:93
+msgid "Error while updating app"
+msgstr "Prišlo je do napake med posodabljanjem programa."
+
+#: js/apps.js:96
 msgid "Updated"
 msgstr "Posodobljeno"
 
-#: js/personal.js:99
+#: js/personal.js:109
 msgid "Saving..."
 msgstr "Poteka shranjevanje ..."
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "deleted"
 msgstr "izbrisano"
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "undo"
 msgstr "razveljavi"
 
-#: js/users.js:62
+#: js/users.js:75
 msgid "Unable to remove user"
 msgstr "Uporabnika ni mogoče odstraniti"
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "Skupine"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "Skrbnik skupine"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr "Izbriši"
 
-#: js/users.js:191
+#: js/users.js:262
 msgid "add group"
 msgstr "dodaj skupino"
 
-#: js/users.js:352
+#: js/users.js:414
 msgid "A valid username must be provided"
 msgstr "Navedeno mora biti veljavno uporabniško ime"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
 msgstr "Napaka ustvarjanja uporabnika"
 
-#: js/users.js:358
+#: js/users.js:420
 msgid "A valid password must be provided"
 msgstr "Navedeno mora biti veljavno geslo"
 
@@ -182,7 +182,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "Trenutno je dostop do podatkovne mape in datotek najverjetneje omogočen vsem uporabnikom na omrežju. Datoteka .htaccess, vključena v ownCloud namreč ni ustrezno nastavljena. Priporočljivo je nastaviti spletni strežnik tako, da mapa podatkov ne bo javno dostopna, ali pa, da jo prestavite v podmapo korenske mape spletnega strežnika."
+msgstr "Trenutno je dostop do podatkovne mape in datotek najverjetneje omogočen vsem uporabnikom na omrežju. Datoteka .htaccess, vključena v ownCloud, namreč ni ustrezno nastavljena. Priporočljivo je nastaviti spletni strežnik tako, da mapa podatkov ne bo javno dostopna, ali pa, da jo prestavite v podrejeno mapo korenske mape spletnega strežnika."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -237,7 +237,7 @@ msgstr "Strežnik ownCloud je brez delujoče internetne povezave. To pomeni, da 
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr "Cron"
+msgstr "Periodično opravilo"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
@@ -308,7 +308,7 @@ msgstr "Zahtevaj šifrirano povezovanje odjemalcev v oblak ownCloud"
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr "Prijava mora biti vzpostavljena z uporabo protokolo HTTPS za omogočanje šifriranja SSL."
+msgstr "Prijava mora biti vzpostavljena z uporabo protokola HTTPS za omogočanje šifriranja SSL."
 
 #: templates/admin.php:195
 msgid "Log"
@@ -322,11 +322,15 @@ msgstr "Raven beleženja"
 msgid "More"
 msgstr "Več"
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:224
+msgid "Less"
+msgstr "Manj"
+
+#: templates/admin.php:231 templates/personal.php:102
 msgid "Version"
 msgstr "Različica"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:234 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

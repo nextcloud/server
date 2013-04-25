@@ -1,5 +1,6 @@
 <?php $TRANSLATIONS = array(
 "perform restore operation" => "ดำเนินการคืนค่า",
+"Error" => "ข้อผิดพลาด",
 "Name" => "ชื่อ",
 "Deleted" => "ลบแล้ว",
 "1 folder" => "1 โฟลเดอร์",

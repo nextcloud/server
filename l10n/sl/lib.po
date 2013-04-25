@@ -3,16 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <>, 2012.
-# Matej Urbančič <>, 2013.
-# Peter Peroša <peter.perosa@gmail.com>, 2012.
+# mateju <>, 2012
+# mateju <>, 2013
+# Peter Peroša <peter.perosa@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-12 00:13+0100\n"
-"PO-Revision-Date: 2013-03-11 08:50+0000\n"
-"Last-Translator: mateju <>\n"
+"POT-Creation-Date: 2013-04-18 02:04+0200\n"
+"PO-Revision-Date: 2013-04-18 00:05+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,10 +96,6 @@ msgstr "Nastavi uporabniško ime skrbnika."
 msgid "Set an admin password."
 msgstr "Nastavi geslo skrbnika."
 
-#: setup.php:40
-msgid "Specify a data folder."
-msgstr "Določi podatkovno mapo."
-
 #: setup.php:55
 #, php-format
 msgid "%s enter the database username."
@@ -113,79 +109,79 @@ msgstr "%s - vnos imena podatkovne zbirke."
 #: setup.php:61
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr "%s - v imenu podatkovne zbirke ni dovoljeno vpisati pik."
+msgstr "%s - v imenu podatkovne zbirke ni dovoljeno uporabljati pik."
 
 #: setup.php:64
 #, php-format
 msgid "%s set the database host."
 msgstr "%s - vnos gostitelja podatkovne zbirke."
 
-#: setup.php:128 setup.php:320 setup.php:365
+#: setup.php:132 setup.php:324 setup.php:369
 msgid "PostgreSQL username and/or password not valid"
-msgstr "Uporabniško ime ali geslo PostgreSQL ni pravilno"
+msgstr "Uporabniško ime ali geslo PostgreSQL ni veljavno"
 
-#: setup.php:129 setup.php:152 setup.php:229
+#: setup.php:133 setup.php:156 setup.php:233
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Prijaviti se je treba v obstoječi ali pa skrbniški račun."
 
-#: setup.php:151 setup.php:453 setup.php:520
+#: setup.php:155 setup.php:457 setup.php:524
 msgid "Oracle username and/or password not valid"
-msgstr "Uporabniško ime ali geslo Oracle ni pravilno"
+msgstr "Uporabniško ime ali geslo Oracle ni veljavno"
 
-#: setup.php:228
+#: setup.php:232
 msgid "MySQL username and/or password not valid"
-msgstr "Uporabniško ime ali geslo MySQL ni pravilno"
+msgstr "Uporabniško ime ali geslo MySQL ni veljavno"
 
-#: setup.php:282 setup.php:386 setup.php:395 setup.php:413 setup.php:423
-#: setup.php:432 setup.php:461 setup.php:527 setup.php:553 setup.php:560
-#: setup.php:571 setup.php:578 setup.php:587 setup.php:595 setup.php:604
-#: setup.php:610
+#: setup.php:286 setup.php:390 setup.php:399 setup.php:417 setup.php:427
+#: setup.php:436 setup.php:465 setup.php:531 setup.php:557 setup.php:564
+#: setup.php:575 setup.php:582 setup.php:591 setup.php:599 setup.php:608
+#: setup.php:614
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "Napaka podatkovne zbirke: \"%s\""
 
-#: setup.php:283 setup.php:387 setup.php:396 setup.php:414 setup.php:424
-#: setup.php:433 setup.php:462 setup.php:528 setup.php:554 setup.php:561
-#: setup.php:572 setup.php:588 setup.php:596 setup.php:605
+#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
+#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
+#: setup.php:576 setup.php:592 setup.php:600 setup.php:609
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "Napačni ukaz je: \"%s\""
 
-#: setup.php:299
+#: setup.php:303
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr "Uporabnik MySQL '%s'@'localhost' že obstaja."
 
-#: setup.php:300
+#: setup.php:304
 msgid "Drop this user from MySQL"
 msgstr "Odstrani uporabnika s podatkovne zbirke MySQL"
 
-#: setup.php:305
+#: setup.php:309
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr "Uporabnik MySQL '%s'@'%%' že obstaja."
 
-#: setup.php:306
+#: setup.php:310
 msgid "Drop this user from MySQL."
 msgstr "Odstrani uporabnika s podatkovne zbirke MySQL"
 
-#: setup.php:579 setup.php:611
+#: setup.php:583 setup.php:615
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Napačni ukaz je: \"%s\", ime: %s, geslo: %s"
 
-#: setup.php:631
+#: setup.php:635
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr "Uporabniško ime ali geslo MS SQL ni pravilno: %s"
+msgstr "Uporabniško ime ali geslo MS SQL ni veljavno: %s"
 
-#: setup.php:849
+#: setup.php:853
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Spletni stražnik še ni ustrezno nastavljen in ne omogoča usklajevanja, saj je nastavitev WebDAV okvarjena."
 
-#: setup.php:850
+#: setup.php:854
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Preverite <a href='%s'>navodila namestitve</a>."

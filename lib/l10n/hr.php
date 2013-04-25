@@ -3,6 +3,7 @@
 "Personal" => "Osobno",
 "Settings" => "Postavke",
 "Users" => "Korisnici",
+"Admin" => "Administrator",
 "Authentication error" => "Greška kod autorizacije",
 "Files" => "Datoteke",
 "Text" => "Tekst",

@@ -167,11 +167,18 @@ class Mapper
 		$query->execute(array($logicPath, $physicalPath, md5($logicPath), md5($physicalPath)));
 	}
 
-	private function slugifyPath($path, $index=null) {
+	public function slugifyPath($path, $index=null) {
 		$path = $this->stripRootFolder($path, $this->unchangedPhysicalRoot);
 
 		$pathElements = explode('/', $path);
 		$sluggedElements = array();
+
+		// rip off the extension ext from last element
+		$last= end($pathElements);
+		$parts = pathinfo($last);
+		$filename = $parts['filename'];
+		array_pop($pathElements);
+		array_push($pathElements, $filename);
 
 		foreach ($pathElements as $pathElement) {
 			// remove empty elements
@@ -179,17 +186,19 @@ class Mapper
 				continue;
 			}
 
-			// TODO: remove file ext before slugify on last element
 			$sluggedElements[] = self::slugify($pathElement);
 		}
 
-		//
-		// TODO: add the index before the file extension
-		//
+		// apply index to file name
 		if ($index !== null) {
-			$last= end($sluggedElements);
-			array_pop($sluggedElements);
+			$last= array_pop($sluggedElements);
 			array_push($sluggedElements, $last.'-'.$index);
+		}
+
+		// add back the extension
+		if (isset($parts['extension'])) {
+			$last= array_pop($sluggedElements);
+			array_push($sluggedElements, $last.'.'.$parts['extension']);
 		}
 
 		$sluggedPath = $this->unchangedPhysicalRoot.implode('/', $sluggedElements);

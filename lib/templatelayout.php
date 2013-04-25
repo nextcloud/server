@@ -37,6 +37,7 @@ class OC_TemplateLayout extends OC_Template {
 		} else {
 			parent::__construct('core', 'layout.base');
 		}
+		$versionParameter = '?v=' . md5(implode(OC_Util::getVersion()));
 		// Add the js files
 		$jsfiles = self::findJavascriptFiles(OC_Util::$scripts);
 		$this->assign('jsfiles', array(), false);
@@ -44,20 +45,20 @@ class OC_TemplateLayout extends OC_Template {
 			$this->append( 'jsfiles', OC_Helper::linkToRoute('js_config'));
 		}
 		if (!empty(OC_Util::$core_scripts)) {
-			$this->append( 'jsfiles', OC_Helper::linkToRemoteBase('core.js', false));
+			$this->append( 'jsfiles', OC_Helper::linkToRemoteBase('core.js', false) . $versionParameter);
 		}
 		foreach($jsfiles as $info) {
 			$root = $info[0];
 			$web = $info[1];
 			$file = $info[2];
-			$this->append( 'jsfiles', $web.'/'.$file);
+			$this->append( 'jsfiles', $web.'/'.$file . $versionParameter);
 		}
 
 		// Add the css files
 		$cssfiles = self::findStylesheetFiles(OC_Util::$styles);
 		$this->assign('cssfiles', array());
 		if (!empty(OC_Util::$core_styles)) {
-			$this->append( 'cssfiles', OC_Helper::linkToRemoteBase('core.css', false));
+			$this->append( 'cssfiles', OC_Helper::linkToRemoteBase('core.css', false) . $versionParameter);
 		}
 		foreach($cssfiles as $info) {
 			$root = $info[0];
@@ -77,7 +78,7 @@ class OC_TemplateLayout extends OC_Template {
 				$app = $paths[0];
 				unset($paths[0]);
 				$path = implode('/', $paths);
-				$this->append( 'cssfiles', OC_Helper::linkTo($app, $path));
+				$this->append( 'cssfiles', OC_Helper::linkTo($app, $path) . $versionParameter);
 			}
 			else {
 				$this->append( 'cssfiles', $web.'/'.$file);
@@ -102,7 +103,7 @@ class OC_TemplateLayout extends OC_Template {
 
 	static public function findStylesheetFiles($styles) {
 		// Read the selected theme from the config file
-		$theme=OC_Config::getValue( 'theme' );
+		$theme = OC_Util::getTheme();
 
 		// Read the detected formfactor and use the right file name.
 		$fext = self::getFormFactorExtension();
@@ -110,7 +111,8 @@ class OC_TemplateLayout extends OC_Template {
 		$files = array();
 		foreach($styles as $style) {
 			// is it in 3rdparty?
-			if(self::appendIfExist($files, OC::$THIRDPARTYROOT, OC::$THIRDPARTYWEBROOT, $style.'.css')) {
+			if(strpos($style, '3rdparty') === 0 &&
+				self::appendIfExist($files, OC::$THIRDPARTYROOT, OC::$THIRDPARTYWEBROOT, $style.'.css')) {
 
 			// or in the owncloud root?
 			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "$style$fext.css" )) {
@@ -160,7 +162,7 @@ class OC_TemplateLayout extends OC_Template {
 
 	static public function findJavascriptFiles($scripts) {
 		// Read the selected theme from the config file
-		$theme=OC_Config::getValue( 'theme' );
+		$theme = OC_Util::getTheme();
 
 		// Read the detected formfactor and use the right file name.
 		$fext = self::getFormFactorExtension();
@@ -168,7 +170,8 @@ class OC_TemplateLayout extends OC_Template {
 		$files = array();
 		foreach($scripts as $script) {
 			// Is it in 3rd party?
-			if(self::appendIfExist($files, OC::$THIRDPARTYROOT, OC::$THIRDPARTYWEBROOT, $script.'.js')) {
+			if(strpos($script, '3rdparty') === 0 &&
+				self::appendIfExist($files, OC::$THIRDPARTYROOT, OC::$THIRDPARTYWEBROOT, $script.'.js')) {
 
 			// Is it in apps and overwritten by the theme?
 			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/apps/$script$fext.js" )) {

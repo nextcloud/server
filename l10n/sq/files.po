@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Odeen <rapid_odeen@zoho.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-01-20 00:05+0100\n"
-"PO-Revision-Date: 2013-01-19 23:05+0000\n"
+"POT-Creation-Date: 2013-04-24 18:30+0200\n"
+"PO-Revision-Date: 2013-04-24 16:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -17,291 +18,302 @@ msgstr ""
 "Language: sq\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ajax/delete.php:28 ajax/getstoragestats.php:11 ajax/upload.php:17
-#: ajax/upload.php:76 templates/index.php:18
-msgid "Upload"
-msgstr ""
-
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "%s nuk u spostua - Aty ekziston një skedar me të njëjtin emër"
 
-#: ajax/move.php:24
+#: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "%s nuk u spostua"
 
-#: ajax/rename.php:19
+#: ajax/rename.php:22 ajax/rename.php:25
 msgid "Unable to rename file"
-msgstr ""
+msgstr "Nuk është i mundur riemërtimi i skedarit"
 
-#: ajax/upload.php:20
+#: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "Nuk u ngarkua asnjë skedar. Veprim i gabuar i panjohur"
 
-#: ajax/upload.php:30
+#: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Nuk pati veprime të gabuara, skedari u ngarkua me sukses"
 
-#: ajax/upload.php:31
+#: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr ""
+msgstr "Skedari i ngarkuar tejkalon udhëzimin upload_max_filesize tek php.ini:"
 
-#: ajax/upload.php:33
+#: ajax/upload.php:29
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Skedari i ngarkuar tejkalon udhëzimin MAX_FILE_SIZE të specifikuar në formularin HTML"
 
-#: ajax/upload.php:35
+#: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Skedari i ngarkuar u ngarkua vetëm pjesërisht"
 
-#: ajax/upload.php:36
+#: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Nuk u ngarkua asnjë skedar"
 
-#: ajax/upload.php:37
+#: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Një dosje e përkohshme nuk u gjet"
 
-#: ajax/upload.php:38
+#: ajax/upload.php:33
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Ruajtja në disk dështoi"
 
-#: ajax/upload.php:57
-msgid "Not enough space available"
-msgstr ""
+#: ajax/upload.php:51
+msgid "Not enough storage available"
+msgstr "Nuk ka mbetur hapësirë memorizimi e mjaftueshme"
 
-#: ajax/upload.php:91
+#: ajax/upload.php:83
 msgid "Invalid directory."
-msgstr ""
+msgstr "Dosje e pavlefshme."
 
-#: appinfo/app.php:10
+#: appinfo/app.php:12
 msgid "Files"
-msgstr ""
+msgstr "Skedarët"
 
-#: js/fileactions.js:117 templates/index.php:82 templates/index.php:83
-msgid "Unshare"
-msgstr ""
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Nda"
 
-#: js/fileactions.js:119 templates/index.php:88 templates/index.php:89
+#: js/fileactions.js:126
+msgid "Delete permanently"
+msgstr "Elimino përfundimisht"
+
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr ""
+msgstr "Elimino"
 
-#: js/fileactions.js:181
+#: js/fileactions.js:194
 msgid "Rename"
-msgstr ""
+msgstr "Riemërto"
 
-#: js/filelist.js:205 js/filelist.js:207
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
+msgid "Pending"
+msgstr "Pezulluar"
+
+#: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} ekziston"
 
-#: js/filelist.js:205 js/filelist.js:207
+#: js/filelist.js:252 js/filelist.js:254
 msgid "replace"
-msgstr ""
+msgstr "zëvëndëso"
 
-#: js/filelist.js:205
+#: js/filelist.js:252
 msgid "suggest name"
-msgstr ""
+msgstr "sugjero një emër"
 
-#: js/filelist.js:205 js/filelist.js:207
+#: js/filelist.js:252 js/filelist.js:254
 msgid "cancel"
-msgstr ""
+msgstr "anulo"
 
-#: js/filelist.js:254
-msgid "replaced {new_name}"
-msgstr ""
-
-#: js/filelist.js:254 js/filelist.js:256 js/filelist.js:288 js/filelist.js:290
-msgid "undo"
-msgstr ""
-
-#: js/filelist.js:256
+#: js/filelist.js:299
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "U zëvëndësua {new_name} me {old_name}"
 
-#: js/filelist.js:288
-msgid "unshared {files}"
-msgstr ""
+#: js/filelist.js:299
+msgid "undo"
+msgstr "anulo"
 
-#: js/filelist.js:290
-msgid "deleted {files}"
-msgstr ""
+#: js/filelist.js:324
+msgid "perform delete operation"
+msgstr "ekzekuto operacionin e eliminimit"
 
-#: js/files.js:48
+#: js/filelist.js:406
+msgid "1 file uploading"
+msgstr "Po ngarkohet 1 skedar"
+
+#: js/filelist.js:409 js/filelist.js:463
+msgid "files uploading"
+msgstr "po ngarkoj skedarët"
+
+#: js/files.js:52
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' është emër i pavlefshëm."
 
-#: js/files.js:53
+#: js/files.js:56
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "Emri i skedarit nuk mund të jetë bosh."
 
-#: js/files.js:62
+#: js/files.js:64
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Emër i pavlefshëm, '\\', '/', '<', '>', ':', '\"', '|', '?' dhe '*' nuk lejohen."
 
-#: js/files.js:204
+#: js/files.js:78
+msgid "Your storage is full, files can not be updated or synced anymore!"
+msgstr "Hapësira juaj e memorizimit është plot, nuk mund të ngarkoni apo sinkronizoni më skedarët."
+
+#: js/files.js:82
+msgid "Your storage is almost full ({usedSpacePercent}%)"
+msgstr "Hapësira juaj e memorizimit është gati plot ({usedSpacePercent}%)"
+
+#: js/files.js:226
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
-
-#: js/files.js:242
-msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
-
-#: js/files.js:242
-msgid "Upload Error"
-msgstr ""
+msgstr "Shkarkimi juaj po përgatitet. Mund të duhet pak kohë nqse skedarët janë të mëdhenj."
 
 #: js/files.js:259
-msgid "Close"
-msgstr ""
+msgid "Unable to upload your file as it is a directory or has 0 bytes"
+msgstr "Nuk është i mundur ngarkimi i skedarit tuaj sepse është dosje ose ka dimension 0 byte"
 
-#: js/files.js:278 js/files.js:397 js/files.js:431
-msgid "Pending"
-msgstr ""
+#: js/files.js:272
+msgid "Not enough space available"
+msgstr "Nuk ka hapësirë memorizimi e mjaftueshme"
 
-#: js/files.js:298
-msgid "1 file uploading"
-msgstr ""
-
-#: js/files.js:301 js/files.js:357 js/files.js:372
-msgid "{count} files uploading"
-msgstr ""
-
-#: js/files.js:376 js/files.js:414
+#: js/files.js:312
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Ngarkimi u anulua."
 
-#: js/files.js:486
+#: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Ngarkimi i skedarit është në vazhdim. Nqse ndërroni faqen tani ngarkimi do të anulohet."
 
-#: js/files.js:559
+#: js/files.js:481
 msgid "URL cannot be empty."
-msgstr ""
+msgstr "URL-i nuk mund të jetë bosh."
 
-#: js/files.js:565
+#: js/files.js:486
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "Emri i dosjes është i pavlefshëm. Përdorimi i \"Shared\" është i rezervuar nga Owncloud-i."
 
-#: js/files.js:775
-msgid "{count} files scanned"
-msgstr ""
+#: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
+msgid "Error"
+msgstr "Veprim i gabuar"
 
-#: js/files.js:783
-msgid "error while scanning"
-msgstr ""
-
-#: js/files.js:857 templates/index.php:64
+#: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr ""
+msgstr "Emri"
 
-#: js/files.js:858 templates/index.php:75
+#: js/files.js:873 templates/index.php:81
 msgid "Size"
-msgstr ""
+msgstr "Dimensioni"
 
-#: js/files.js:859 templates/index.php:77
+#: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr ""
+msgstr "Modifikuar"
 
-#: js/files.js:878
+#: js/files.js:893
 msgid "1 folder"
-msgstr ""
+msgstr "1 dosje"
 
-#: js/files.js:880
+#: js/files.js:895
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} dosje"
 
-#: js/files.js:888
+#: js/files.js:903
 msgid "1 file"
-msgstr ""
+msgstr "1 skedar"
 
-#: js/files.js:890
+#: js/files.js:905
 msgid "{count} files"
-msgstr ""
+msgstr "{count} skedarë"
+
+#: lib/helper.php:11 templates/index.php:18
+msgid "Upload"
+msgstr "Ngarko"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Trajtimi i skedarit"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr ""
+msgstr "Dimensioni maksimal i ngarkimit"
 
 #: templates/admin.php:10
 msgid "max. possible: "
-msgstr ""
+msgstr "maks. i mundur:"
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Duhet për shkarkimin e dosjeve dhe të skedarëve"
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "Aktivizo shkarkimin e ZIP-eve"
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 është i pakufizuar"
 
 #: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Dimensioni maksimal i ngarkimit të skedarëve ZIP"
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr ""
+msgstr "Ruaj"
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "I ri"
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr ""
+msgstr "Skedar teksti"
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr ""
+msgstr "Dosje"
 
 #: templates/index.php:14
 msgid "From link"
-msgstr ""
+msgstr "Nga lidhja"
 
-#: templates/index.php:41
+#: templates/index.php:42
+msgid "Deleted files"
+msgstr "Skedarë të eliminuar"
+
+#: templates/index.php:48
 msgid "Cancel upload"
-msgstr ""
+msgstr "Anulo ngarkimin"
 
-#: templates/index.php:56
+#: templates/index.php:55
+msgid "You don’t have write permissions here."
+msgstr "Nuk keni të drejta për të shkruar këtu."
+
+#: templates/index.php:62
 msgid "Nothing in here. Upload something!"
-msgstr ""
+msgstr "Këtu nuk ka asgjë. Ngarkoni diçka!"
 
-#: templates/index.php:70
+#: templates/index.php:76
 msgid "Download"
-msgstr ""
+msgstr "Shkarko"
 
-#: templates/index.php:102
+#: templates/index.php:88 templates/index.php:89
+msgid "Unshare"
+msgstr "Hiq ndarjen"
+
+#: templates/index.php:108
 msgid "Upload too large"
-msgstr ""
+msgstr "Ngarkimi është shumë i madh"
 
-#: templates/index.php:104
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr ""
+msgstr "Skedarët që doni të ngarkoni tejkalojnë dimensionet maksimale për ngarkimet në këtë server."
 
-#: templates/index.php:109
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Skedarët po analizohen, ju lutemi pritni."
 
-#: templates/index.php:112
+#: templates/index.php:118
 msgid "Current scanning"
-msgstr ""
+msgstr "Analizimi aktual"
+
+#: templates/upgrade.php:2
+msgid "Upgrading filesystem cache..."
+msgstr "Po përmirësoj memorjen e filesystem-it..."

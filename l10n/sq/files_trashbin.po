@@ -1,0 +1,85 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# 
+# Translators:
+#  <rapid_odeen@zoho.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: ownCloud\n"
+"Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: sq\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ajax/delete.php:42
+#, php-format
+msgid "Couldn't delete %s permanently"
+msgstr "Nuk munda ta eliminoj përfundimisht %s"
+
+#: ajax/undelete.php:42
+#, php-format
+msgid "Couldn't restore %s"
+msgstr "Nuk munda ta rivendos %s"
+
+#: js/trash.js:7 js/trash.js:96
+msgid "perform restore operation"
+msgstr "ekzekuto operacionin e rivendosjes"
+
+#: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
+msgid "Error"
+msgstr "Veprim i gabuar"
+
+#: js/trash.js:34
+msgid "delete file permanently"
+msgstr "eliminoje përfundimisht skedarin"
+
+#: js/trash.js:121
+msgid "Delete permanently"
+msgstr "Elimino përfundimisht"
+
+#: js/trash.js:174 templates/index.php:17
+msgid "Name"
+msgstr "Emri"
+
+#: js/trash.js:175 templates/index.php:27
+msgid "Deleted"
+msgstr "Eliminuar"
+
+#: js/trash.js:184
+msgid "1 folder"
+msgstr "1 dosje"
+
+#: js/trash.js:186
+msgid "{count} folders"
+msgstr "{count} dosje"
+
+#: js/trash.js:194
+msgid "1 file"
+msgstr "1 skedar"
+
+#: js/trash.js:196
+msgid "{count} files"
+msgstr "{count} skedarë"
+
+#: templates/index.php:9
+msgid "Nothing in here. Your trash bin is empty!"
+msgstr "Këtu nuk ka asgjë. Koshi juaj është bosh!"
+
+#: templates/index.php:20 templates/index.php:22
+msgid "Restore"
+msgstr "Rivendos"
+
+#: templates/index.php:30 templates/index.php:31
+msgid "Delete"
+msgstr "Elimino"
+
+#: templates/part.breadcrumb.php:9
+msgid "Deleted Files"
+msgstr "Skedarë të eliminuar"

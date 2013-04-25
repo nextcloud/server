@@ -139,6 +139,9 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 		if(!$this->enabled) {
 			return array();
 		}
+		if(!$this->groupExists($gid)) {
+			return array();
+		}
 		$cachekey = 'usersInGroup-'.$gid.'-'.$search.'-'.$limit.'-'.$offset;
 		// check for cache of the exact query
 		$groupUsers = $this->connection->getFromCache($cachekey);
@@ -178,7 +181,7 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 				//we got uids, need to get their DNs to 'tranlsate' them to usernames
 				$filter = $this->combineFilterWithAnd(array(
 					\OCP\Util::mb_str_replace('%uid', $member,
-						$this->connection>ldapLoginFilter, 'UTF-8'),
+						$this->connection->ldapLoginFilter, 'UTF-8'),
 					$this->getFilterPartForUserSearch($search)
 				));
 				$ldap_users = $this->fetchListOfUsers($filter, 'dn');
@@ -214,6 +217,12 @@ class GROUP_LDAP extends lib\Access implements \OCP\GroupInterface {
 	 * @returns array with display names (value) and user ids(key)
 	 */
 	public function displayNamesInGroup($gid, $search, $limit, $offset) {
+		if(!$this->enabled) {
+			return array();
+		}
+		if(!$this->groupExists($gid)) {
+			return array();
+		}
 		$users = $this->usersInGroup($gid, $search, $limit, $offset);
 		$displayNames = array();
 		foreach($users as $user) {

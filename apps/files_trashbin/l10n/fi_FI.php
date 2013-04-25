@@ -2,6 +2,7 @@
 "Couldn't delete %s permanently" => "Kohdetta %s ei voitu poistaa pysyvästi",
 "Couldn't restore %s" => "Kohteen %s palautus epäonnistui",
 "perform restore operation" => "suorita palautustoiminto",
+"Error" => "Virhe",
 "delete file permanently" => "poista tiedosto pysyvästi",
 "Delete permanently" => "Poista pysyvästi",
 "Name" => "Nimi",

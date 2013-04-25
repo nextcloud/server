@@ -257,4 +257,10 @@ abstract class Storage extends \PHPUnit_Framework_TestCase {
 		$content = stream_get_contents($fh);
 		$this->assertEquals(file_get_contents($textFile), $content);
 	}
+
+	public function testTouchCreateFile(){
+		$this->assertFalse($this->instance->file_exists('foo'));
+		$this->instance->touch('foo');
+		$this->assertTrue($this->instance->file_exists('foo'));
+	}
 }

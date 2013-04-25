@@ -79,6 +79,7 @@ span.version { margin-left:1em; margin-right:1em; color:#555; }
 
 /* LOG */
 #log { white-space:normal; }
+#lessLog { display:none; }
 
 /* ADMIN */
 span.securitywarning {color:#C33; font-weight:bold; }

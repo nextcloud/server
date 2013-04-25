@@ -3,15 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <aldis@udris.lv>, 2012.
-# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013.
+# CPDZ <aldis@udris.lv>, 2012
+# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-16 22:17+0100\n"
-"PO-Revision-Date: 2013-03-15 17:00+0000\n"
-"Last-Translator: Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>\n"
+"POT-Creation-Date: 2013-04-24 18:30+0200\n"
+"PO-Revision-Date: 2013-04-24 16:00+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -162,86 +162,88 @@ msgstr "Decembris"
 msgid "Settings"
 msgstr "Iestatījumi"
 
-#: js/js.js:777
+#: js/js.js:718
 msgid "seconds ago"
 msgstr "sekundes atpakaļ"
 
-#: js/js.js:778
+#: js/js.js:719
 msgid "1 minute ago"
 msgstr "pirms 1 minūtes"
 
-#: js/js.js:779
+#: js/js.js:720
 msgid "{minutes} minutes ago"
 msgstr "pirms {minutes} minūtēm"
 
-#: js/js.js:780
+#: js/js.js:721
 msgid "1 hour ago"
 msgstr "pirms 1 stundas"
 
-#: js/js.js:781
+#: js/js.js:722
 msgid "{hours} hours ago"
 msgstr "pirms {hours} stundām"
 
-#: js/js.js:782
+#: js/js.js:723
 msgid "today"
 msgstr "šodien"
 
-#: js/js.js:783
+#: js/js.js:724
 msgid "yesterday"
 msgstr "vakar"
 
-#: js/js.js:784
+#: js/js.js:725
 msgid "{days} days ago"
 msgstr "pirms {days} dienām"
 
-#: js/js.js:785
+#: js/js.js:726
 msgid "last month"
 msgstr "pagājušajā mēnesī"
 
-#: js/js.js:786
+#: js/js.js:727
 msgid "{months} months ago"
 msgstr "pirms {months} mēnešiem"
 
-#: js/js.js:787
+#: js/js.js:728
 msgid "months ago"
 msgstr "mēnešus atpakaļ"
 
-#: js/js.js:788
+#: js/js.js:729
 msgid "last year"
 msgstr "gājušajā gadā"
 
-#: js/js.js:789
+#: js/js.js:730
 msgid "years ago"
 msgstr "gadus atpakaļ"
 
-#: js/oc-dialogs.js:126
-msgid "Choose"
-msgstr "Izvēlieties"
+#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
+msgid "Ok"
+msgstr "Labi"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
 msgstr "Atcelt"
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "Nē"
+#: js/oc-dialogs.js:185
+msgid "Choose"
+msgstr "Izvēlieties"
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:215
 msgid "Yes"
 msgstr "Jā"
 
-#: js/oc-dialogs.js:180
-msgid "Ok"
-msgstr "Labi"
+#: js/oc-dialogs.js:222
+msgid "No"
+msgstr "Nē"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
 msgstr "Nav norādīts objekta tips."
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:136 js/share.js:143 js/share.js:566
-#: js/share.js:578
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr "Kļūda"
 
@@ -261,7 +263,7 @@ msgstr "Kopīgs"
 msgid "Share"
 msgstr "Dalīties"
 
-#: js/share.js:125 js/share.js:606
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr "Kļūda, daloties"
 
@@ -293,7 +295,7 @@ msgstr "Dalīties ar saiti"
 msgid "Password protect"
 msgstr "Aizsargāt ar paroli"
 
-#: js/share.js:169 templates/installation.php:47 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Parole"
 
@@ -321,59 +323,59 @@ msgstr "Dalīties, izmantojot e-pastu:"
 msgid "No people found"
 msgstr "Nav atrastu cilvēku"
 
-#: js/share.js:240
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr "Atkārtota dalīšanās nav atļauta"
 
-#: js/share.js:276
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr "Dalījās ar {item} ar {user}"
 
-#: js/share.js:297
+#: js/share.js:308
 msgid "Unshare"
 msgstr "Beigt dalīties"
 
-#: js/share.js:309
+#: js/share.js:320
 msgid "can edit"
 msgstr "var rediģēt"
 
-#: js/share.js:311
+#: js/share.js:322
 msgid "access control"
 msgstr "piekļuves vadība"
 
-#: js/share.js:314
+#: js/share.js:325
 msgid "create"
 msgstr "izveidot"
 
-#: js/share.js:317
+#: js/share.js:328
 msgid "update"
 msgstr "atjaunināt"
 
-#: js/share.js:320
+#: js/share.js:331
 msgid "delete"
 msgstr "dzēst"
 
-#: js/share.js:323
+#: js/share.js:334
 msgid "share"
 msgstr "dalīties"
 
-#: js/share.js:357 js/share.js:553
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr "Aizsargāts ar paroli"
 
-#: js/share.js:566
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr "Kļūda, noņemot termiņa datumu"
 
-#: js/share.js:578
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr "Kļūda, iestatot termiņa datumu"
 
-#: js/share.js:593
+#: js/share.js:604
 msgid "Sending ..."
 msgstr "Sūta..."
 
-#: js/share.js:604
+#: js/share.js:615
 msgid "Email sent"
 msgstr "Vēstule nosūtīta"
 
@@ -408,8 +410,8 @@ msgstr "Atstatīt e-pasta sūtīšanu."
 msgid "Request failed!"
 msgstr "Pieprasījums neizdevās!"
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:41
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "Lietotājvārds"
 
@@ -470,77 +472,86 @@ msgid "Add"
 msgstr "Pievienot"
 
 #: templates/installation.php:24 templates/installation.php:31
+#: templates/installation.php:38
 msgid "Security Warning"
 msgstr "Brīdinājums par drošību"
 
 #: templates/installation.php:25
+msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
+msgstr ""
+
+#: templates/installation.php:26
+msgid "Please update your PHP installation to use ownCloud securely."
+msgstr ""
+
+#: templates/installation.php:32
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr "Nav pieejams drošs nejaušu skaitļu ģenerators. Lūdzu, aktivējiet PHP OpenSSL paplašinājumu."
 
-#: templates/installation.php:26
+#: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr "Bez droša nejaušu skaitļu ģeneratora uzbrucējs var paredzēt paroļu atjaunošanas marķierus un pārņem jūsu kontu."
 
-#: templates/installation.php:32
+#: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr "Visticamāk, jūsu datu direktorija un datnes ir pieejamas no interneta, jo .htaccess datne nedarbojas."
 
-#: templates/installation.php:33
+#: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
 msgstr "Lai uzzinātu, kā pareizi jākonfigurē šis serveris, skatiet <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentāciju</a>."
 
-#: templates/installation.php:37
+#: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
 msgstr "Izveidot <strong>administratora kontu</strong>"
 
-#: templates/installation.php:55
+#: templates/installation.php:62
 msgid "Advanced"
 msgstr "Paplašināti"
 
-#: templates/installation.php:57
+#: templates/installation.php:64
 msgid "Data folder"
 msgstr "Datu mape"
 
-#: templates/installation.php:66
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Konfigurēt datubāzi"
 
-#: templates/installation.php:71 templates/installation.php:83
-#: templates/installation.php:94 templates/installation.php:105
-#: templates/installation.php:117
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "tiks izmantots"
 
-#: templates/installation.php:129
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Datubāzes lietotājs"
 
-#: templates/installation.php:134
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Datubāzes parole"
 
-#: templates/installation.php:139
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Datubāzes nosaukums"
 
-#: templates/installation.php:149
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Datubāzes tabulas telpa"
 
-#: templates/installation.php:156
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Datubāzes serveris"
 
-#: templates/installation.php:162
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Pabeigt iestatīšanu"
 
@@ -552,33 +563,33 @@ msgstr "tīmekļa servisi tavā varā"
 msgid "Log out"
 msgstr "Izrakstīties"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automātiskā ierakstīšanās ir noraidīta!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Ja neesat pēdējā laikā mainījis paroli, iespējams, ka jūsu konts ir kompromitēts."
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Lūdzu, nomainiet savu paroli, lai atkal nodrošinātu savu kontu."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Aizmirsāt paroli?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "atcerēties"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Ierakstīties"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Alternatīvās pieteikšanās"
 

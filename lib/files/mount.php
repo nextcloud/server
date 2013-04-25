@@ -90,7 +90,11 @@ class Mount {
 	public function getStorageId() {
 		if (!$this->storageId) {
 			if (is_null($this->storage)) {
-				$this->storage = $this->createStorage();
+				$storage = $this->createStorage(); //FIXME: start using exceptions
+				if (is_null($storage)) {
+					return null;
+				}
+				$this->storage = $storage;
 			}
 			$this->storageId = $this->storage->getId();
 			if (strlen($this->storageId) > 64) {
@@ -132,6 +136,7 @@ class Mount {
 	 * @return Mount
 	 */
 	public static function find($path) {
+		\OC_Util::setupFS();
 		$path = self::formatPath($path);
 		if (isset(self::$mounts[$path])) {
 			return self::$mounts[$path];
@@ -159,6 +164,7 @@ class Mount {
 	 * @return Mount[]
 	 */
 	public static function findIn($path) {
+		\OC_Util::setupFS();
 		$path = self::formatPath($path);
 		$result = array();
 		$pathLength = strlen($path);
@@ -182,6 +188,7 @@ class Mount {
 	 * @return Mount[]
 	 */
 	public static function findByStorageId($id) {
+		\OC_Util::setupFS();
 		if (strlen($id) > 64) {
 			$id = md5($id);
 		}

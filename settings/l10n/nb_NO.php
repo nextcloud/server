@@ -24,6 +24,7 @@
 "__language_name__" => "__language_name__",
 "Security Warning" => "Sikkerhetsadvarsel",
 "More" => "Mer",
+"Less" => "Mindre",
 "Version" => "Versjon",
 "Add your App" => "Legg til din App",
 "More Apps" => "Flere Apps",

@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-27 00:08+0100\n"
-"PO-Revision-Date: 2013-02-26 10:41+0000\n"
-"Last-Translator: adilch <adilone@gmail.com>\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Urdu (Pakistan) (http://www.transifex.com/projects/p/owncloud/language/ur_PK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -161,86 +161,88 @@ msgstr "دسمبر"
 msgid "Settings"
 msgstr "سیٹینگز"
 
-#: js/js.js:768
+#: js/js.js:718
 msgid "seconds ago"
 msgstr ""
 
-#: js/js.js:769
+#: js/js.js:719
 msgid "1 minute ago"
 msgstr ""
 
-#: js/js.js:770
+#: js/js.js:720
 msgid "{minutes} minutes ago"
 msgstr ""
 
-#: js/js.js:771
+#: js/js.js:721
 msgid "1 hour ago"
 msgstr ""
 
-#: js/js.js:772
+#: js/js.js:722
 msgid "{hours} hours ago"
 msgstr ""
 
-#: js/js.js:773
+#: js/js.js:723
 msgid "today"
 msgstr ""
 
-#: js/js.js:774
+#: js/js.js:724
 msgid "yesterday"
 msgstr ""
 
-#: js/js.js:775
+#: js/js.js:725
 msgid "{days} days ago"
 msgstr ""
 
-#: js/js.js:776
+#: js/js.js:726
 msgid "last month"
 msgstr ""
 
-#: js/js.js:777
+#: js/js.js:727
 msgid "{months} months ago"
 msgstr ""
 
-#: js/js.js:778
+#: js/js.js:728
 msgid "months ago"
 msgstr ""
 
-#: js/js.js:779
+#: js/js.js:729
 msgid "last year"
 msgstr ""
 
-#: js/js.js:780
+#: js/js.js:730
 msgid "years ago"
 msgstr ""
 
-#: js/oc-dialogs.js:126
-msgid "Choose"
-msgstr "منتخب کریں"
+#: js/oc-dialogs.js:117 js/oc-dialogs.js:247
+msgid "Ok"
+msgstr "اوکے"
 
-#: js/oc-dialogs.js:146 js/oc-dialogs.js:166
+#: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
 msgstr "منسوخ کریں"
 
-#: js/oc-dialogs.js:162
-msgid "No"
-msgstr "نہیں"
+#: js/oc-dialogs.js:185
+msgid "Choose"
+msgstr "منتخب کریں"
 
-#: js/oc-dialogs.js:163
+#: js/oc-dialogs.js:215
 msgid "Yes"
 msgstr "ہاں"
 
-#: js/oc-dialogs.js:180
-msgid "Ok"
-msgstr "اوکے"
+#: js/oc-dialogs.js:222
+msgid "No"
+msgstr "نہیں"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
 msgstr ""
 
-#: js/oc-vcategories.js:95 js/oc-vcategories.js:125 js/oc-vcategories.js:136
-#: js/oc-vcategories.js:195 js/share.js:152 js/share.js:159 js/share.js:582
-#: js/share.js:594
+#: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
+#: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
+#: js/oc-vcategories.js:172 js/oc-vcategories.js:189 js/oc-vcategories.js:195
+#: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
+#: js/share.js:589
 msgid "Error"
 msgstr "ایرر"
 
@@ -252,127 +254,127 @@ msgstr ""
 msgid "The required file {file} is not installed!"
 msgstr ""
 
-#: js/share.js:29 js/share.js:43 js/share.js:90
+#: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
 msgstr ""
 
-#: js/share.js:93
+#: js/share.js:90
 msgid "Share"
 msgstr ""
 
-#: js/share.js:141 js/share.js:622
+#: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
 msgstr "شئیرنگ کے دوران ایرر"
 
-#: js/share.js:152
+#: js/share.js:136
 msgid "Error while unsharing"
 msgstr "شئیرنگ ختم کرنے  کے دوران ایرر"
 
-#: js/share.js:159
+#: js/share.js:143
 msgid "Error while changing permissions"
 msgstr "اختیارات کو تبدیل کرنے کے دوران ایرر"
 
-#: js/share.js:168
+#: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
 msgstr ""
 
-#: js/share.js:170
+#: js/share.js:154
 msgid "Shared with you by {owner}"
 msgstr ""
 
-#: js/share.js:175
+#: js/share.js:159
 msgid "Share with"
 msgstr "اس کے ساتھ شئیر کریں"
 
-#: js/share.js:180
+#: js/share.js:164
 msgid "Share with link"
 msgstr "لنک کے ساتھ شئیر کریں"
 
-#: js/share.js:183
+#: js/share.js:167
 msgid "Password protect"
 msgstr "پاسورڈ سے محفوظ کریں"
 
-#: js/share.js:185 templates/installation.php:47 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:35
 msgid "Password"
 msgstr "پاسورڈ"
 
-#: js/share.js:189
+#: js/share.js:173
 msgid "Email link to person"
 msgstr ""
 
-#: js/share.js:190
+#: js/share.js:174
 msgid "Send"
 msgstr ""
 
-#: js/share.js:194
+#: js/share.js:178
 msgid "Set expiration date"
 msgstr "تاریخ معیاد سیٹ کریں"
 
-#: js/share.js:195
+#: js/share.js:179
 msgid "Expiration date"
 msgstr "تاریخ معیاد"
 
-#: js/share.js:227
+#: js/share.js:211
 msgid "Share via email:"
 msgstr ""
 
-#: js/share.js:229
+#: js/share.js:213
 msgid "No people found"
 msgstr "کوئی لوگ نہیں ملے۔"
 
-#: js/share.js:256
+#: js/share.js:251
 msgid "Resharing is not allowed"
 msgstr "دوبارہ شئیر کرنے کی اجازت نہیں"
 
-#: js/share.js:292
+#: js/share.js:287
 msgid "Shared in {item} with {user}"
 msgstr ""
 
-#: js/share.js:313
+#: js/share.js:308
 msgid "Unshare"
 msgstr "شئیرنگ ختم کریں"
 
-#: js/share.js:325
+#: js/share.js:320
 msgid "can edit"
 msgstr "ایڈٹ کر سکے"
 
-#: js/share.js:327
+#: js/share.js:322
 msgid "access control"
 msgstr "اسیس کنٹرول"
 
-#: js/share.js:330
+#: js/share.js:325
 msgid "create"
 msgstr "نیا بنائیں"
 
-#: js/share.js:333
+#: js/share.js:328
 msgid "update"
 msgstr "اپ ڈیٹ"
 
-#: js/share.js:336
+#: js/share.js:331
 msgid "delete"
 msgstr "ختم کریں"
 
-#: js/share.js:339
+#: js/share.js:334
 msgid "share"
 msgstr "شئیر کریں"
 
-#: js/share.js:373 js/share.js:569
+#: js/share.js:368 js/share.js:564
 msgid "Password protected"
 msgstr "پاسورڈ سے محفوظ کیا گیا ہے"
 
-#: js/share.js:582
+#: js/share.js:577
 msgid "Error unsetting expiration date"
 msgstr ""
 
-#: js/share.js:594
+#: js/share.js:589
 msgid "Error setting expiration date"
 msgstr ""
 
-#: js/share.js:609
+#: js/share.js:604
 msgid "Sending ..."
 msgstr ""
 
-#: js/share.js:620
+#: js/share.js:615
 msgid "Email sent"
 msgstr ""
 
@@ -407,7 +409,7 @@ msgstr ""
 msgid "Request failed!"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:41
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
 #: templates/login.php:28
 msgid "Username"
 msgstr "یوزر نیم"
@@ -469,85 +471,94 @@ msgid "Add"
 msgstr "شامل کریں"
 
 #: templates/installation.php:24 templates/installation.php:31
+#: templates/installation.php:38
 msgid "Security Warning"
 msgstr ""
 
 #: templates/installation.php:25
+msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
+msgstr ""
+
+#: templates/installation.php:26
+msgid "Please update your PHP installation to use ownCloud securely."
+msgstr ""
+
+#: templates/installation.php:32
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
 msgstr ""
 
-#: templates/installation.php:26
+#: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
 msgstr ""
 
-#: templates/installation.php:32
+#: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
 msgstr ""
 
-#: templates/installation.php:33
+#: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
 msgstr ""
 
-#: templates/installation.php:37
+#: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
 msgstr "ایک<strong> ایڈمن اکاؤنٹ</strong> بنائیں"
 
-#: templates/installation.php:55
+#: templates/installation.php:62
 msgid "Advanced"
 msgstr "ایڈوانسڈ"
 
-#: templates/installation.php:57
+#: templates/installation.php:64
 msgid "Data folder"
 msgstr "ڈیٹا فولڈر"
 
-#: templates/installation.php:66
+#: templates/installation.php:73
 msgid "Configure the database"
 msgstr "ڈیٹا بیس کونفگر کریں"
 
-#: templates/installation.php:71 templates/installation.php:83
-#: templates/installation.php:94 templates/installation.php:105
-#: templates/installation.php:117
+#: templates/installation.php:78 templates/installation.php:90
+#: templates/installation.php:101 templates/installation.php:112
+#: templates/installation.php:124
 msgid "will be used"
 msgstr "استعمال ہو گا"
 
-#: templates/installation.php:129
+#: templates/installation.php:136
 msgid "Database user"
 msgstr "ڈیٹابیس یوزر"
 
-#: templates/installation.php:134
+#: templates/installation.php:143
 msgid "Database password"
 msgstr "ڈیٹابیس پاسورڈ"
 
-#: templates/installation.php:139
+#: templates/installation.php:148
 msgid "Database name"
 msgstr "ڈیٹابیس کا نام"
 
-#: templates/installation.php:149
+#: templates/installation.php:158
 msgid "Database tablespace"
 msgstr "ڈیٹابیس ٹیبل سپیس"
 
-#: templates/installation.php:156
+#: templates/installation.php:165
 msgid "Database host"
 msgstr "ڈیٹابیس ہوسٹ"
 
-#: templates/installation.php:162
+#: templates/installation.php:171
 msgid "Finish setup"
 msgstr "سیٹ اپ ختم کریں"
 
-#: templates/layout.guest.php:35
+#: templates/layout.guest.php:40
 msgid "web services under your control"
 msgstr "آپ کے اختیار میں ویب سروسیز"
 
-#: templates/layout.user.php:53
+#: templates/layout.user.php:58
 msgid "Log out"
 msgstr "لاگ آؤٹ"
 

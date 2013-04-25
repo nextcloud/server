@@ -13,9 +13,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-03-16 22:17+0100\n"
-"PO-Revision-Date: 2013-03-16 07:10+0000\n"
-"Last-Translator: miki_mika1362 <miki_mika1362@yahoo.com>\n"
+"POT-Creation-Date: 2013-04-17 02:21+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -98,7 +98,7 @@ msgstr "بهنگام شده به  {appversion}"
 msgid "Disable"
 msgstr "غیرفعال"
 
-#: js/apps.js:36 js/apps.js:64
+#: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
 msgstr "فعال"
 
@@ -106,64 +106,64 @@ msgstr "فعال"
 msgid "Please wait...."
 msgstr "لطفا صبر کنید ..."
 
-#: js/apps.js:84
-msgid "Updating...."
-msgstr "در حال بروز رسانی..."
-
-#: js/apps.js:87
-msgid "Error while updating app"
-msgstr "خطا در هنگام بهنگام سازی برنامه"
-
-#: js/apps.js:87
+#: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
 msgstr "خطا"
 
 #: js/apps.js:90
+msgid "Updating...."
+msgstr "در حال بروز رسانی..."
+
+#: js/apps.js:93
+msgid "Error while updating app"
+msgstr "خطا در هنگام بهنگام سازی برنامه"
+
+#: js/apps.js:96
 msgid "Updated"
 msgstr "بروز رسانی انجام شد"
 
-#: js/personal.js:99
+#: js/personal.js:109
 msgid "Saving..."
 msgstr "درحال ذخیره ..."
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "deleted"
 msgstr "حذف شده"
 
-#: js/users.js:30
+#: js/users.js:43
 msgid "undo"
 msgstr "بازگشت"
 
-#: js/users.js:62
+#: js/users.js:75
 msgid "Unable to remove user"
 msgstr "حذف کاربر امکان پذیر نیست"
 
-#: js/users.js:75 templates/users.php:26 templates/users.php:80
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
 #: templates/users.php:105
 msgid "Groups"
 msgstr "گروه ها"
 
-#: js/users.js:78 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
-msgstr ""
+msgstr "گروه مدیران"
 
-#: js/users.js:99 templates/users.php:161
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr "پاک کردن"
 
-#: js/users.js:191
+#: js/users.js:262
 msgid "add group"
 msgstr "افزودن گروه"
 
-#: js/users.js:352
+#: js/users.js:414
 msgid "A valid username must be provided"
 msgstr "نام کاربری صحیح باید وارد شود"
 
-#: js/users.js:353 js/users.js:359 js/users.js:374
+#: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
 msgstr "خطا در ایجاد کاربر"
 
-#: js/users.js:358
+#: js/users.js:420
 msgid "A valid password must be provided"
 msgstr "رمز عبور صحیح باید وارد شود"
 
@@ -182,7 +182,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "احتمالاً فهرست و فایلهای شما از طریق اینترنت قابل دسترسی هستند. فایل با فرمت .htaccess که ownCloud اراده کرده است دیگر کار نمی کند. ما قویاً توصیه می کنیم که شما وب سرور خودتان را طوری تنظیم کنید که فهرست اطلاعات شما غیر قابل دسترسی باشند یا فهرست اطلاعات را به خارج از ریشه ی اصلی وب سرور انتقال دهید."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -192,22 +192,22 @@ msgstr "هشدار راه اندازی"
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "احتمالاً وب سرور شما طوری تنظیم نشده است که اجازه ی همگام سازی فایلها را بدهد زیرا به نظر میرسد رابط WebDAV از کار افتاده است."
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "لطفاً دوباره <a href='%s'>راهنمای نصب</a>را بررسی کنید."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "ماژول 'fileinfo' از کار افتاده"
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "ماژول 'fileinfo' PHP از کار افتاده است.ما اکیدا توصیه می کنیم که این ماژول را فعال کنید تا نتایج بهتری به وسیله ی mime-type detection دریافت کنید."
 
 #: templates/admin.php:58
 msgid "Locale not working"
@@ -219,7 +219,7 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "این سرور ownCloud نمی تواند سیستم محلی را بر روی %s تنظیم کند.این به این معنی ست که ممکن است با کاراکترهای خاصی در نام فایل ها مشکل داشته باشد.ما اکیداً نصب کردن بسته های لازم را بر روی سیستم خودتان برای پشتیبانی %s توصیه می کنیم."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
@@ -233,7 +233,7 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "این سرور OwnCloud ارتباط اینترنتی ندارد.این بدین معناست که بعضی از خصوصیات نظیر خارج کردن منبع ذخیره ی خارجی، اطلاعات در مورد بروزرسانی ها یا نصب برنامه های نوع 3ام کار نمی کنند.دسترسی به فایل ها از راه دور و ارسال آگاه سازی ایمیل ها ممکن است همچنان کار نکنند.اگرشما همه ی خصوصیات OwnCloud می خواهید ما پیشنهاد می کنیم تا ارتباط اینترنتی مربوط به این سرور را فعال کنید."
 
 #: templates/admin.php:92
 msgid "Cron"
@@ -241,7 +241,7 @@ msgstr ""
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "اجرای یک وظیفه با هر بار بارگذاری صفحه"
 
 #: templates/admin.php:111
 msgid ""
@@ -261,15 +261,15 @@ msgstr "اشتراک گذاری"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr ""
+msgstr "فعال کردن API اشتراک گذاری"
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "اجازه ی برنامه ها برای استفاده از API اشتراک گذاری"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "اجازه ی لینک ها"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
@@ -277,19 +277,19 @@ msgstr "اجازه دادن به کاربران برای اشتراک گذاری
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr ""
+msgstr "مجوز اشتراک گذاری مجدد"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "اجازه به کاربران برای اشتراک گذاری دوباره با آنها"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "اجازه به کابران برای اشتراک گذاری با همه"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "اجازه به کاربران برای اشتراک گذاری ، تنها با دیگر کابران گروه خودشان"
 
 #: templates/admin.php:168
 msgid "Security"
@@ -297,12 +297,12 @@ msgstr "امنیت"
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "وادار کردن HTTPS"
 
 #: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "وادار کردن مشتریان برای ارتباط با ownCloud از طریق رمزگذاری ارتباط"
 
 #: templates/admin.php:185
 msgid ""
@@ -322,11 +322,15 @@ msgstr ""
 msgid "More"
 msgstr "بیش‌تر"
 
-#: templates/admin.php:230 templates/personal.php:102
+#: templates/admin.php:224
+msgid "Less"
+msgstr "کم‌تر"
+
+#: templates/admin.php:231 templates/personal.php:102
 msgid "Version"
 msgstr "نسخه"
 
-#: templates/admin.php:233 templates/personal.php:105
+#: templates/admin.php:234 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -334,7 +338,7 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "توسعه یافته به وسیله ی  <a href=\"http://ownCloud.org/contact\" target=\"_blank\">انجمن ownCloud</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">کد اصلی</a> مجاز زیر گواهی <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:11
 msgid "Add your App"
@@ -354,7 +358,7 @@ msgstr "صفحه این اٌپ را در apps.owncloud.com ببینید"
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-مجاز از طرف <span class=\"author\"></span>"
 
 #: templates/apps.php:38
 msgid "Update"
@@ -387,11 +391,11 @@ msgstr "پشتیبانی تجاری"
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "شما استفاده کردید از <strong>%s</strong> از میزان در دسترس <strong>%s</strong>"
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "برنامه ها را دریافت کنید تا فایل هایتان را همگام سازید"
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"

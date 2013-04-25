@@ -4,8 +4,21 @@
  * See the COPYING-README file.
  */
 
+function setQuota (uid, quota, ready) {
+	$.post(
+		OC.filePath('settings', 'ajax', 'setquota.php'),
+		{username: uid, quota: quota},
+		function (result) {
+			if (ready) {
+				ready(result.data.quota);
+			}
+		}
+	);
+}
+
 var UserList = {
 	useUndo: true,
+	availableGroups: [],
 
 	/**
 	 * @brief Initiate user deletion process in UI
@@ -71,15 +84,14 @@ var UserList = {
 		tr.attr('data-uid', username);
 		tr.attr('data-displayName', displayname);
 		tr.find('td.name').text(username);
-		tr.find('td.displayName').text(username);
+		tr.find('td.displayName').text(displayname);
 		var groupsSelect = $('<select multiple="multiple" class="groupsselect" data-placehoder="Groups" title="' + t('settings', 'Groups') + '"></select>').attr('data-username', username).attr('data-user-groups', groups);
 		tr.find('td.groups').empty();
 		if (tr.find('td.subadmins').length > 0) {
 			var subadminSelect = $('<select multiple="multiple" class="subadminsselect" data-placehoder="subadmins" title="' + t('settings', 'Group Admin') + '">').attr('data-username', username).attr('data-user-groups', groups).attr('data-subadmin', subadmin);
 			tr.find('td.subadmins').empty();
 		}
-		var allGroups = String($('#content table').attr('data-groups')).split(', ');
-		$.each(allGroups, function (i, group) {
+		$.each(this.availableGroups, function (i, group) {
 			groupsSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
 			if (typeof subadminSelect !== 'undefined' && group != 'admin') {
 				subadminSelect.append($('<option value="' + escapeHTML(group) + '">' + escapeHTML(group) + '</option>'));
@@ -114,30 +126,78 @@ var UserList = {
 				quotaSelect.append('<option value="' + escapeHTML(quota) + '" selected="selected">' + escapeHTML(quota) + '</option>');
 			}
 		}
-		var added = false;
+		$(tr).appendTo('tbody');
 		if (sort) {
-			displayname = displayname.toLowerCase();
-			$('tbody tr').each(function () {
-				if (displayname < $(this).attr('data-uid').toLowerCase()) {
-					$(tr).insertBefore($(this));
-					added = true;
-					return false;
-				}
-			});
+			UserList.doSort();
 		}
-		if (!added) {
-			$(tr).appendTo('tbody');
-		}
-		return tr;
-	},
 
-	update: function () {
-		if (typeof UserList.offset === 'undefined') {
-			UserList.offset = $('tbody tr').length;
+		quotaSelect.singleSelect();
+		quotaSelect.on('change', function () {
+			var uid = $(this).parent().parent().attr('data-uid');
+			var quota = $(this).val();
+			setQuota(uid, quota);
+		});
+	},
+	// From http://my.opera.com/GreyWyvern/blog/show.dml/1671288
+	alphanum: function(a, b) {
+		function chunkify(t) {
+			var tz = [], x = 0, y = -1, n = 0, i, j;
+
+			while (i = (j = t.charAt(x++)).charCodeAt(0)) {
+			var m = (i == 46 || (i >=48 && i <= 57));
+			if (m !== n) {
+				tz[++y] = "";
+				n = m;
+			}
+			tz[y] += j;
+			}
+			return tz;
 		}
+
+		var aa = chunkify(a.toLowerCase());
+		var bb = chunkify(b.toLowerCase());
+
+		for (x = 0; aa[x] && bb[x]; x++) {
+			if (aa[x] !== bb[x]) {
+			var c = Number(aa[x]), d = Number(bb[x]);
+			if (c == aa[x] && d == bb[x]) {
+				return c - d;
+			} else return (aa[x] > bb[x]) ? 1 : -1;
+			}
+		}
+		return aa.length - bb.length;
+	},
+	doSort: function() {
+		var self = this;
+		var rows = $('tbody tr').get();
+
+		rows.sort(function(a, b) {
+			return UserList.alphanum($(a).find('td.name').text(), $(b).find('td.name').text());
+		});
+
+		var items = [];
+		$.each(rows, function(index, row) {
+			items.push(row);
+			if(items.length === 100) {
+				$('tbody').append(items);
+				items = [];
+			}
+		});
+		if(items.length > 0) {
+			$('tbody').append(items);
+		}
+	},
+	update: function () {
+		if (UserList.updating) {
+			return;
+		}
+		UserList.updating = true;
 		$.get(OC.Router.generate('settings_ajax_userlist', { offset: UserList.offset }), function (result) {
 			if (result.status === 'success') {
 				$.each(result.data, function (index, user) {
+					if($('tr[data-uid="' + user.name + '"]').length > 0) {
+						return true;
+					}
 					var tr = UserList.add(user.name, user.displayname, user.groups, user.subadmin, user.quota, false);
 					UserList.offset++;
 					if (index == 9) {
@@ -147,7 +207,11 @@ var UserList = {
 						});
 					}
 				});
+				if (result.data.length > 0) {
+					UserList.doSort();
+				}
 			}
+			UserList.updating = false;
 		});
 	},
 
@@ -172,7 +236,14 @@ var UserList = {
 							username: user,
 							group: group
 						},
-						function () {
+						function (response) {
+							if(response.status === 'success') {
+								if(UserList.availableGroups.indexOf(response.data.groupname) === -1 && response.data.action === 'add') {
+									UserList.availableGroups.push(response.data.groupname);
+								}
+							} else {
+								OC.Notification.show(response.data.message);
+							}
 						}
 					);
 				};
@@ -242,23 +313,14 @@ var UserList = {
 
 $(document).ready(function () {
 
+	UserList.doSort();
+	UserList.availableGroups = $('#content table').attr('data-groups').split(', ');
+	UserList.offset = $('tbody tr').length;
 	$('tbody tr:last').bind('inview', function (event, isInView, visiblePartX, visiblePartY) {
 		OC.Router.registerLoadedCallback(function () {
 			UserList.update();
 		});
 	});
-
-	function setQuota (uid, quota, ready) {
-		$.post(
-			OC.filePath('settings', 'ajax', 'setquota.php'),
-			{username: uid, quota: quota},
-			function (result) {
-				if (ready) {
-					ready(result.data.quota);
-				}
-			}
-		);
-	}
 
 	$('select[multiple]').each(function (index, element) {
 		UserList.applyMultiplySelect($(element));
@@ -373,7 +435,11 @@ $(document).ready(function () {
 					OC.dialogs.alert(result.data.message,
 						t('settings', 'Error creating user'));
 				} else {
-					UserList.add(username, username, result.data.groups, null, 'default', true);
+					var addedGroups = result.data.groups.split(', ');
+					UserList.availableGroups = $.unique($.merge(UserList.availableGroups, addedGroups));
+					if($('tr[data-uid="' + username + '"]').length === 0) {
+						UserList.add(username, username, result.data.groups, null, 'default', true);
+					}
 				}
 			}
 		);

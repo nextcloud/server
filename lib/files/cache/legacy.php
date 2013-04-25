@@ -20,6 +20,11 @@ class Legacy {
 		$this->user = $user;
 	}
 
+	/**
+	 * get the numbers of items in the legacy cache
+	 *
+	 * @return int
+	 */
 	function getCount() {
 		$query = \OC_DB::prepare('SELECT COUNT(`id`) AS `count` FROM `*PREFIX*fscache` WHERE `user` = ?');
 		$result = $query->execute(array($this->user));
@@ -62,6 +67,8 @@ class Legacy {
 	}
 
 	/**
+	 * get an item from the legacy cache
+	 *
 	 * @param string|int $path
 	 * @return array
 	 */
@@ -72,16 +79,59 @@ class Legacy {
 			$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*fscache` WHERE `path` = ?');
 		}
 		$result = $query->execute(array($path));
-		return $result->fetchRow();
+		$data = $result->fetchRow();
+		$data['etag'] = $this->getEtag($data['path'], $data['user']);
+		return $data;
 	}
 
 	/**
+	 * Get the ETag for the given path
+	 *
+	 * @param type $path
+	 * @return string
+	 */
+	function getEtag($path, $user = null) {
+		static $query = null;
+
+		$pathDetails = explode('/', $path, 4);
+		if((!$user) && !isset($pathDetails[1])) {
+			//no user!? Too odd, return empty string.
+			return '';
+		} else if(!$user) {
+			//guess user from path, if no user passed.
+			$user = $pathDetails[1];
+		}
+
+		if(!isset($pathDetails[3]) || is_null($pathDetails[3])) {
+			$relativePath = '';
+		} else {
+			$relativePath = $pathDetails[3];
+		}
+
+		if(is_null($query)){
+			$query = \OC_DB::prepare('SELECT `propertyvalue` FROM `*PREFIX*properties` WHERE `userid` = ? AND `propertypath` = ? AND `propertyname` = \'{DAV:}getetag\'');
+		}
+		$result = $query->execute(array($user, '/' . $relativePath));
+		if ($row = $result->fetchRow()) {
+			return trim($row['propertyvalue'], '"');
+		} else {
+			return '';
+		}
+	}
+
+	/**
+	 * get all child items of an item from the legacy cache
+	 *
 	 * @param int $id
 	 * @return array
 	 */
 	function getChildren($id) {
 		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*fscache` WHERE `parent` = ?');
 		$result = $query->execute(array($id));
-		return $result->fetchAll();
+		$data = $result->fetchAll();
+		foreach ($data as $i => $item) {
+			$data[$i]['etag'] = $this->getEtag($item['path'], $item['user']);
+		}
+		return $data;
 	}
 }

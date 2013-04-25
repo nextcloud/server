@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#  <kristjan.schmidt@googlemail.com>, 2013.
 # Mariano  <mstreet@kde.org.ar>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-02-28 00:04+0100\n"
-"PO-Revision-Date: 2013-02-27 23:04+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -21,38 +22,38 @@ msgstr ""
 #: ajax/rollbackVersion.php:15
 #, php-format
 msgid "Could not revert: %s"
-msgstr ""
+msgstr "Ne eblas malfari: %s"
 
 #: history.php:40
 msgid "success"
-msgstr ""
+msgstr "sukceso"
 
 #: history.php:42
 #, php-format
 msgid "File %s was reverted to version %s"
-msgstr ""
+msgstr "Dosiero %s estis malfarita al versio %s"
 
 #: history.php:49
 msgid "failure"
-msgstr ""
+msgstr "malsukceso"
 
 #: history.php:51
 #, php-format
 msgid "File %s could not be reverted to version %s"
-msgstr ""
+msgstr "Ne eblis malfari dosieron %s al versio %s"
 
-#: history.php:68
+#: history.php:69
 msgid "No old versions available"
-msgstr ""
+msgstr "Neniu malnova versio disponeblas"
 
-#: history.php:73
+#: history.php:74
 msgid "No path specified"
-msgstr ""
+msgstr "Neniu vojo estas specifita"
 
 #: js/versions.js:6
 msgid "Versions"
-msgstr ""
+msgstr "Versioj"
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
-msgstr ""
+msgstr "Malfari dosieron al antaŭa versio per klako sur sia malfarad-butono"
