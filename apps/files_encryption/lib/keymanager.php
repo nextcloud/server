@@ -51,12 +51,15 @@ class Keymanager {
 	 * @return string public key or false
 	 */
 	public static function getPublicKey( \OC_FilesystemView $view, $userId ) {
-		
+
+        $proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 		
-		return $view->file_get_contents( '/public-keys/' . $userId . '.public.key' );
+		$result =  $view->file_get_contents( '/public-keys/' . $userId . '.public.key' );
 		
-		\OC_FileProxy::$enabled = true;
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+        return $result;
 		
 	}
 	
@@ -175,7 +178,8 @@ class Keymanager {
 		$filePath_f = ltrim( $filename, '/' );
 		
 		$keyfilePath = '/' . $owner . '/files_encryption/keyfiles/' . $filePath_f . '.key';
-		
+
+        $proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 		
 		if ( $view->file_exists( $keyfilePath ) ) {
@@ -188,7 +192,7 @@ class Keymanager {
 			
 		}
 		
-		\OC_FileProxy::$enabled = true;
+		\OC_FileProxy::$enabled = $proxyStatus;
 		
 		return $result;
 		
@@ -243,15 +247,17 @@ class Keymanager {
 		$user = \OCP\User::getUser();
 		
 		$view = new \OC_FilesystemView( '/' . $user . '/files_encryption' );
-		
+
+        $proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 		
 		if ( !$view->file_exists( '' ) ) $view->mkdir( '' );
 		
-		return $view->file_put_contents( $user . '.private.key', $key );
+		$result =  $view->file_put_contents( $user . '.private.key', $key );
 		
-		\OC_FileProxy::$enabled = true;
-		
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+        return $result;
 	}
 	
 	/**
@@ -276,14 +282,17 @@ class Keymanager {
 	public static function setPublicKey( $key ) {
 		
 		$view = new \OC_FilesystemView( '/public-keys' );
-		
+
+        $proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 		
 		if ( !$view->file_exists( '' ) ) $view->mkdir( '' );
 		
-		return $view->file_put_contents( \OCP\User::getUser() . '.public.key', $key );
+		$result =  $view->file_put_contents( \OCP\User::getUser() . '.public.key', $key );
 		
-		\OC_FileProxy::$enabled = true;
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+        return $result;
 		
 	}
 	
@@ -310,11 +319,14 @@ class Keymanager {
 		$shareKeyPath = self::keySetPreparation( $view, $filename, $basePath, $owner );
 		
 		$writePath = $basePath . '/' . $shareKeyPath . '.' . $userId . '.shareKey';
-		
+
+        $proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
 		$result = $view->file_put_contents( $writePath, $shareKey );
-		
+
+        \OC_FileProxy::$enabled = $proxyStatus;
+
 		if ( 
 			is_int( $result ) 
 			&& $result > 0
@@ -368,7 +380,8 @@ class Keymanager {
 	 * of the keyfile must be performed by client code
 	 */
 	public static function getShareKey( \OC_FilesystemView $view, $userId, $filePath ) {
-		
+
+        $proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
 		//here we need the currently logged in user, while userId can be a different user
@@ -387,7 +400,7 @@ class Keymanager {
 			
 		}
 		
-		\OC_FileProxy::$enabled = true;
+		\OC_FileProxy::$enabled = $proxyStatus;
 		
 		return $result;
 		
@@ -416,7 +429,8 @@ class Keymanager {
 	 * @brief Delete a single user's shareKey for a single file
 	 */
 	public static function delShareKey( \OC_FilesystemView $view, $userIds, $filePath ) {
-		
+
+        $proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
 		//here we need the currently logged in user, while userId can be a different user
@@ -448,7 +462,7 @@ class Keymanager {
 		
 		}
 		
-		\OC_FileProxy::$enabled = false;
+		\OC_FileProxy::$enabled = $proxyStatus;
 		
 		return $result;
 		
@@ -472,7 +486,7 @@ class Keymanager {
 		foreach ( $subdirs as $subdir ) {
 			self::recursiveDelShareKeys($subdir, $userIds);
 		}
-		return $true;
+		return true;
 	}
 
 	/**
