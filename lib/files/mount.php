@@ -136,6 +136,7 @@ class Mount {
 	 * @return Mount
 	 */
 	public static function find($path) {
+		\OC_Util::setupFS();
 		$path = self::formatPath($path);
 		if (isset(self::$mounts[$path])) {
 			return self::$mounts[$path];
@@ -163,6 +164,7 @@ class Mount {
 	 * @return Mount[]
 	 */
 	public static function findIn($path) {
+		\OC_Util::setupFS();
 		$path = self::formatPath($path);
 		$result = array();
 		$pathLength = strlen($path);
@@ -186,6 +188,7 @@ class Mount {
 	 * @return Mount[]
 	 */
 	public static function findByStorageId($id) {
+		\OC_Util::setupFS();
 		if (strlen($id) > 64) {
 			$id = md5($id);
 		}
