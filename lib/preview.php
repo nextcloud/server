@@ -1,28 +1,139 @@
 <?php
 /**
- * Copyright (c) 2012 Frank Karlitschek frank@owncloud.org
+ * Copyright (c) 2013 Frank Karlitschek frank@owncloud.org
+ * Copyright (c) 2013 Georg Ehrke georg@ownCloud.com
  * This file is licensed under the Affero General Public License version 3 or
  * later.
  * See the COPYING-README file.
  */
-
 /*
-TODO:
-  - delete thumbnails if files change. 
-  - make it work with external filesystem files. 
-  - movies support
-  - pdf support
-  - mp3/id3 support
-  - more file types
-
-*/
-
-
+ * Thumbnails:
+ * structure of filename:
+ * /data/user/thumbnails/pathhash/x-y.png
+ * 
+ */
 
 class OC_Preview {
-
-	// the thumbnail cache folder
+	//the thumbnail  folder
 	const THUMBNAILS_FOLDER = 'thumbnails';
+	const MAX_SCALE_FACTOR = 2;
+
+	//fileview object
+	static private $fileview = null;
+
+	//preview providers
+	static private $providers = array();
+	static private $registeredProviders = array();
+
+	/**
+	 * @brief check if thumbnail or bigger version of thumbnail of file is cached
+	 * @param $file The path to the file where you want a thumbnail from
+	 * @param $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
+	 * @param $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
+	 * @return mixed (bool / string) 
+	 *					false if thumbnail does not exist
+	 *					path to thumbnail if thumbnail exists
+	*/
+	private static function isCached($file, $maxX, $maxY, $scalingup){
+		$fileinfo = self::$fileview->getFileInfo($file);
+		$fileid = self::$fileinfo['fileid'];
+		
+		//echo self::THUMBNAILS_FOLDER . PATH_SEPARATOR . $fileid;
+		if(!self::$fileview->is_dir(self::THUMBNAILS_FOLDER . PATH_SEPARATOR . $fileid)){
+			return false;
+		}
+		
+		//does a preview with the wanted height and width already exist?
+		if(self::$fileview->file_exists(self::THUMBNAILS_FOLDER . PATH_SEPARATOR . $fileid . PATH_SEPARATOR . $x . '-' . $y . '.png')){
+			return self::THUMBNAILS_FOLDER . PATH_SEPARATOR . $fileid . PATH_SEPARATOR . $x . '-' . $y . '.png';
+		}
+		
+		$wantedaspectratio = $maxX / $maxY;
+		
+		//array for usable cached thumbnails
+		$possiblethumbnails = array();
+		
+		$allthumbnails = self::$fileview->getDirectoryContent(self::THUMBNAILS_FOLDER . PATH_SEPARATOR . $fileid);
+		foreach($allthumbnails as $thumbnail){
+			$size = explode('-', $thumbnail['name']);
+			$x = $size[0];
+			$y = $size[1];
+			
+			$aspectratio = $x / $y;
+			if($aspectratio != $wantedaspectratio){
+				continue;
+			}
+			
+			if($x < $maxX || $y < $maxY){
+				if($scalingup){
+					$scalefactor = $maxX / $x;
+					if($scalefactor > self::MAX_SCALE_FACTOR){
+						continue;
+					}
+				}else{
+					continue;
+				}
+			}
+			
+			$possiblethumbnails[$x] = $thumbnail['path'];
+		}
+		
+		if(count($possiblethumbnails) === 0){
+			return false;
+		}
+		
+		if(count($possiblethumbnails) === 1){
+			return current($possiblethumbnails);
+		}
+		
+		ksort($possiblethumbnails);
+		
+		if(key(reset($possiblethumbnails)) > $maxX){
+			return current(reset($possiblethumbnails));
+		}
+		
+		if(key(end($possiblethumbnails)) < $maxX){
+			return current(end($possiblethumbnails));
+		}
+		
+		foreach($possiblethumbnails as $width => $path){
+			if($width < $maxX){
+				continue;
+			}else{
+				return $path;
+			}
+		}
+	}
+
+	/**
+	 * @brief delete a preview with a specfic height and width
+	 * @param $file path to the file
+	 * @param $x width of preview
+	 * @param $y height of preview
+	 * @return image
+	*/
+	public static function deletePreview($file, $x, $y){
+		self::init();
+		
+		$fileinfo = self::$fileview->getFileInfo($file);
+		$fileid = self::$fileinfo['fileid'];
+		
+		return self::$fileview->unlink(self::THUMBNAILS_FOLDER . PATH_SEPARATOR . $fileid . PATH_SEPARATOR . $x . '-' . $y . '.png');
+	}
+
+	/**
+	 * @brief deletes all previews of a file
+	 * @param $file path of file
+	 * @return bool
+	*/
+	public static function deleteAllPrevies($file){
+		self::init();
+		
+		$fileinfo = self::$fileview->getFileInfo($file);
+		$fileid = self::$fileinfo['fileid'];
+		
+		return self::$fielview->rmdir(self::THUMBNAILS_FOLDER . PATH_SEPARATOR . $fileid);
+	}
 
 	/**
 	 * @brief return a preview of a file
@@ -32,146 +143,115 @@ class OC_Preview {
 	 * @param $scaleup Scale smaller images up to the thumbnail size or not. Might look ugly
 	 * @return image
 	*/
-	static public function show($file,$maxX,$maxY,$scalingup) {
-		// get the mimetype of the file
-		$mimetype=explode('/',OC_FileSystem::getMimeType($file));
-		// it´s an image
-		if($mimetype[0]=='image'){
-			OCP\Response::enableCaching(3600 * 24); // 24 hour
-			$image=OC_PreviewImage::getThumbnail($file,$maxX,$maxY,$scalingup);
-			$image->show();
+	public static function getPreview($file, $maxX, $maxY, $scalingup){
+		self::init();
+		
+		$cached = self::isCached($file, $maxX, $maxY);
+		if($cached){
+			$image = new \OC_Image($cached);
+			if($image->width() != $maxX && $image->height != $maxY){
+				$image->preciseResize($maxX, $maxY);
+			}
+			return $image;
+		}
+		
+		$mimetype = self::$fileview->getMimeType($file);
+		
+		$preview;
+		
+		foreach(self::$providers as $supportedmimetype => $provider){
+			if(!preg_match($supportedmimetype, $mimetype)){
+				continue;
+			}
+			
+			$preview = $provider->getThumbnail($file, $maxX, $maxY, $scalingup);
+			
+			if(!$preview){
+				continue;
+			}
+			
+			if(!($preview instanceof \OC_Image)){
+				$preview = @new \OC_Image($preview);
+			}
+			
+			//cache thumbnail
+			$preview->save(self::$filesview->getAbsolutePath(self::THUMBNAILS_FOLDER . PATH_SEPARATOR . $fileid . PATH_SEPARATOR . $x . '-' . $y . '.png'));
+			
+			break;
+		}
+		
+		return $preview;
+	}
 
-		// it´s a video
-		}elseif($mimetype[0]=='video'){
-			OCP\Response::enableCaching(3600 * 24); // 24 hour
-			OC_PreviewMovie::getThumbnail($file,$maxX,$maxY,$scalingup);
-
-		// it´s something else. Let´s create a dummy preview
-		}else{
-			header('Content-type: image/png');
-			OC_PreviewUnknown::getThumbnail($maxX,$maxY);
+	/**
+	 * @brief return a preview of a file
+	 * @param $file The path to the file where you want a thumbnail from
+	 * @param $maxX The maximum X size of the thumbnail. It can be smaller depending on the shape of the image
+	 * @param $maxY The maximum Y size of the thumbnail. It can be smaller depending on the shape of the image
+	 * @param $scaleup Scale smaller images up to the thumbnail size or not. Might look ugly
+	 * @return image
+	*/
+	public static function showPreview($file, $maxX, $maxY, $scalingup = true, $fontsize = 12){
+		OCP\Response::enableCaching(3600 * 24); // 24 hour
+		$preview = self::getPreview($file, $maxX, $maxY, $scalingup, $fontsize);
+		$preview->show();
+	}
+	
+	/**
+	 * @brief check whether or not providers and views are initialized and initialize if not
+	 * @return void
+	*/
+	private static function init(){
+		if(empty(self::$providers)){
+			self::initProviders();
+		}
+		if(is_null(self::$thumbnailsview) || is_null(self::$userlandview)){
+			self::initViews();
 		}
 	}
 
+	/**
+	 * @brief register a new preview provider to be used
+	 * @param string $provider class name of a OC_Preview_Provider
+	 * @return void
+	 */
+	public static function registerProvider($class, $options=array()){
+		self::$registeredProviders[]=array('class'=>$class, 'options'=>$options);
+	}
 
-}
-
-
-
-class OC_PreviewImage {
-
-        public static function getThumbnail($path,$maxX,$maxY,$scalingup) {
-
-                $thumbnails_view = new \OC_FilesystemView('/'.\OCP\User::getUser() .'/'.OC_Preview::THUMBNAILS_FOLDER);
-
-                // is a preview already in the cache?
-                if ($thumbnails_view->file_exists($path.'-'.$maxX.'-'.$maxY.'-'.$scalingup)) {
-                        return new \OC_Image($thumbnails_view->getLocalFile($path.'-'.$maxX.'-'.$maxY.'-'.$scalingup));
-                }
-
-                // does the sourcefile exist?
-                if (!\OC_Filesystem::file_exists($path)) {
-                        \OC_Log::write('Preview', 'File '.$path.' don\'t exists', \OC_Log::WARN);
-                        return false;
-                }
-
-                // open the source image
-                $image = new \OC_Image();
-                $image->loadFromFile(\OC_Filesystem::getLocalFile($path));
-                if (!$image->valid()) return false;
-
-                // fix the orientation
-                $image->fixOrientation();
-
-                // calculate the right preview size
-                $Xsize=$image->width();
-                $Ysize=$image->height();
-                if (($Xsize/$Ysize)>($maxX/$maxY)) {
-                        $factor=$maxX/$Xsize;
-                } else {
-                        $factor=$maxY/$Ysize;
-                }
-
-                // only scale up if requested
-                if($scalingup==false) {
-                        if($factor>1) $factor=1;
-                }
-                $newXsize=$Xsize*$factor;
-                $newYsize=$Ysize*$factor;
-
-                // resize
-                $ret = $image->preciseResize($newXsize, $newYsize);
-                if (!$ret) {
-                        \OC_Log::write('Preview', 'Couldn\'t resize image', \OC_Log::ERROR);
-                        unset($image);
-                        return false;
-                }
-
-                // store in cache
-                $l = $thumbnails_view->getLocalFile($path.'-'.$maxX.'-'.$maxY.'-'.$scalingup);
-                $image->save($l);
-
-                return $image;
-
-
-        }
-
-
-
-}
-
-
-class OC_PreviewMovie {
-
-        public static function isAvailable() {
-		$check=shell_exec('ffmpeg');
-		if($check==NULL) return(false); else return(true);
-        }
-
-        public static function getThumbnail($path,$maxX,$maxY,$scalingup) {
-                $thumbnails_view = new \OC_FilesystemView('/'.\OCP\User::getUser() .'/'.OC_Preview::THUMBNAILS_FOLDER);
-
-                // is a preview already in the cache?
-                if ($thumbnails_view->file_exists($path.'-'.$maxX.'-'.$maxY.'-'.$scalingup)) {
-                        return new \OC_Image($thumbnails_view->getLocalFile($path.'-'.$maxX.'-'.$maxY.'-'.$scalingup));
-                }
-
-                // does the sourcefile exist?
-                if (!\OC_Filesystem::file_exists($path)) {
-                        \OC_Log::write('Preview', 'File '.$path.' don\'t exists', \OC_Log::WARN);
-                        return false;
-                }
-
-                // call ffmpeg to do the screenshot
-                shell_exec('ffmpeg -y  -i {'.escapeshellarg($path).'} -f mjpeg -vframes 1 -ss 1 -s {'.escapeshellarg($maxX).'}x{'.escapeshellarg($maxY).'} {.'.$thumbnails_view->getLocalFile($path.'-'.$maxX.'-'.$maxY.'-'.$scalingup).'}');
-
-                // output the generated Preview
-                $thumbnails_view->getLocalFile($path.'-'.$maxX.'-'.$maxY.'-'.$scalingup);
-                unset($thumbnails_view);
-        }
-
-
-}
-
-
-class OC_PreviewUnknown {
-        public static function getThumbnail($maxX,$maxY) {
-			
-		// check if GD is installed
-		if(!extension_loaded('gd') || !function_exists('gd_info')) {
-			OC_Log::write('preview', __METHOD__.'(): GD module not installed', OC_Log::ERROR);
-			return false;
+	/**
+	 * @brief create instances of all the registered preview providers
+	 * @return void
+	 */
+	private static function initProviders(){
+		if(count(self::$providers)>0) {
+			return;
 		}
-
-		// create a white image
-		$image = imagecreatetruecolor($maxX, $maxY);
-		$color = imagecolorallocate($image, 255, 255, 255);
-		imagefill($image, 0, 0, $color);
-
-		// output the image
-		imagepng($image);
-		imagedestroy($image);
-        }
-
+		
+		foreach(self::$registeredProviders as $provider) {
+			$class=$provider['class'];
+			$options=$provider['options'];
+			
+			$object = new $class($options);
+			
+			self::$providers[$object->getMimeType()] = $object;
+		}
+			
+		$keys = array_map('strlen', array_keys(self::$providers));
+		array_multisort($keys, SORT_DESC, self::$providers);
+	}
+	
+	/**
+	 * @brief initialize a new \OC\Files\View object
+	 * @return void
+	*/
+	private static function initViews(){
+		if(is_null(self::$fileview)){
+			self::$fileview = new OC\Files\View();
+		}
+	}
+	
+	public static function previewRouter($params){
+		var_dump($params);
+	}
 }
-
