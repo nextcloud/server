@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-25 01:55+0200\n"
-"PO-Revision-Date: 2013-04-24 23:54+0000\n"
+"POT-Creation-Date: 2013-04-26 01:56+0200\n"
+"PO-Revision-Date: 2013-04-25 00:20+0000\n"
 "Last-Translator: KAT.RAT12 <spanish.katerina@gmail.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -26,19 +26,19 @@ msgstr ""
 
 #: ajax/testConfiguration.php:36
 msgid "The configuration is valid and the connection could be established!"
-msgstr ""
+msgstr "Uyunlama mantikli ve baglama yerlestirmek edebilmi."
 
 #: ajax/testConfiguration.php:39
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr ""
+msgstr "Uyunlama gecerli, fakat Baglama yapamadi. Lutfen kontrol yapmak, eger bu iyi yerlertirdi. "
 
 #: ajax/testConfiguration.php:43
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr ""
+msgstr "Uyunma mantikli degil. Lutfen log daha kontrol yapmak. "
 
 #: js/settings.js:66
 msgid "Deletion failed"
@@ -46,7 +46,7 @@ msgstr "Silme başarısız oldu"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr ""
+msgstr "Parametri sonadan uyunlama cikarmak mi?"
 
 #: js/settings.js:83
 msgid "Keep settings?"
@@ -54,7 +54,7 @@ msgstr "Ayarları kalsınmı?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "Sunucu uyunlama birlemek edemen. "
 
 #: js/settings.js:121
 msgid "Connection test succeeded"
@@ -66,7 +66,7 @@ msgstr "Bağlantı testi başarısız oldu"
 
 #: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "Hakikatten, Sonuncu Funksyon durmak istiyor mi?"
 
 #: js/settings.js:137
 msgid "Confirm Deletion"
@@ -83,7 +83,7 @@ msgstr "<b>Uyari </b> Apps kullanici_Idap ve user_webdavauth uyunmayan. Bu belki
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Ihbar <b> Modulu PHP LDAP yuklemdi degil, backend calismacak. Lutfen sistem yonetici sormak  yuklemek icin."
 
 #: templates/settings.php:15
 msgid "Server configuration"
@@ -108,7 +108,7 @@ msgstr "Ana DN"
 
 #: templates/settings.php:40
 msgid "One Base DN per line"
-msgstr ""
+msgstr "Bir Tabani DN herbir dizi. "
 
 #: templates/settings.php:41
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -287,7 +287,7 @@ msgstr "Temel Grup Ağacı"
 
 #: templates/settings.php:86
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "Bir Grubu Tabani DN her dizgi. "
 
 #: templates/settings.php:87
 msgid "Group Search Attributes"

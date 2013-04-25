@@ -3,30 +3,30 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Art O. Pal <artopal@fastmail.fm>, 2012.
-# Daniel Manterola <daniel_manterola@dfml.cl>, 2013.
-#   <davidlopez.david@gmail.com>, 2012.
-# Javier Llorente <javier@opensuse.org>, 2012.
-#  <juanma@kde.org.ar>, 2013.
-#   <juanma@kde.org.ar>, 2011-2012.
-# Marcos <djoser.horus@gmail.com>, 2013.
-#   <monty_2731@hotmail.com>, 2011.
-# oSiNaReF  <>, 2012.
-#  <pedro.navia@etecsa.cu>, 2013.
-#   <pggx999@gmail.com>, 2012.
-# Raul Fernandez Garcia <raulfg3@gmail.com>, 2012.
-# Ricardo A. Hermosilla Carrillo <ra.hermosillac@gmail.com>, 2013.
-#   <rodrigo.calvo@gmail.com>, 2012.
-#   <rom1dep@gmail.com>, 2011.
-# Rubén Trujillo <rubentrf@gmail.com>, 2012.
-#   <sergioballesterossolanas@gmail.com>, 2011-2012.
-# Vladimir Martinez Sierra <vladimirmartinezsierra@gmail.com>, 2013.
+# Art O. Pal <artopal@fastmail.fm>, 2012
+# dfml <daniel_manterola@dfml.cl>, 2013
+# telco2011 <davidlopez.david@gmail.com>, 2012
+# Javier Llorente <javier@opensuse.org>, 2012
+# juanman <juanma@kde.org.ar>, 2013
+# juanman <juanma@kde.org.ar>, 2011-2012
+# Marcos <djoser.horus@gmail.com>, 2013
+# Dante_King <monty_2731@hotmail.com>, 2011
+# oSiNaReF  <>, 2012
+# pedro.navia <pedro.navia@etecsa.cu>, 2013
+# pggx999 <pggx999@gmail.com>, 2012
+# Raul Fernandez Garcia <raulfg3@gmail.com>, 2012
+# Ricardo Hermosilla <ra.hermosillac@gmail.com>, 2013
+# rodrigo.calvo <rodrigo.calvo@gmail.com>, 2012
+# Romain DEP. <rom1dep@gmail.com>, 2011
+# Rubén Trujillo <rubentrf@gmail.com>, 2012
+# xsergiolpx <sergioballesterossolanas@gmail.com>, 2011-2012
+# msvladimir <vladimirmartinezsierra@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-26 01:56+0200\n"
+"PO-Revision-Date: 2013-04-25 23:56+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -39,12 +39,16 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Imposible cargar la lista desde el App Store"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
 msgstr "Error de autenticación"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr ""
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr "Incapaz de cambiar el nombre"
 
@@ -134,7 +138,7 @@ msgstr "Error mientras se actualizaba"
 msgid "Updated"
 msgstr "Actualizado"
 
-#: js/personal.js:109
+#: js/personal.js:115
 msgid "Saving..."
 msgstr "Guardando..."
 
@@ -150,16 +154,16 @@ msgstr "deshacer"
 msgid "Unable to remove user"
 msgstr "No se puede quitar el usuario"
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:88 templates/users.php:26 templates/users.php:78
+#: templates/users.php:103
 msgid "Groups"
 msgstr "Grupos"
 
-#: js/users.js:91 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
 msgstr "Grupo admin"
 
-#: js/users.js:111 templates/users.php:161
+#: js/users.js:111 templates/users.php:155
 msgid "Delete"
 msgstr "Eliminar"
 
@@ -330,19 +334,19 @@ msgstr "Historial"
 msgid "Log level"
 msgstr "Nivel de Historial"
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "Más"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:231 templates/personal.php:102
+#: templates/admin.php:235 templates/personal.php:100
 msgid "Version"
 msgstr "Version"
 
-#: templates/admin.php:234 templates/personal.php:105
+#: templates/admin.php:238 templates/personal.php:103
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -413,7 +417,7 @@ msgstr "Obtener las apps para sincronizar sus archivos"
 msgid "Show First Run Wizard again"
 msgstr "Mostrar asistente para iniciar otra vez"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Contraseña"
 
@@ -437,82 +441,70 @@ msgstr "Nueva contraseña:"
 msgid "Change password"
 msgstr "Cambiar contraseña"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
 msgstr "Nombre a mostrar"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr "Su nombre fue cambiado"
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr "Incapaz de cambiar su nombre"
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr "Cambiar nombre"
-
-#: templates/personal.php:70
+#: templates/personal.php:68
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: templates/personal.php:72
+#: templates/personal.php:70
 msgid "Your email address"
 msgstr "Tu dirección de correo"
 
-#: templates/personal.php:73
+#: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
 msgstr "Escribe una dirección de correo electrónico para restablecer la contraseña"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
 msgstr "Idioma"
 
-#: templates/personal.php:86
+#: templates/personal.php:84
 msgid "Help translate"
 msgstr "Ayúdanos a traducir"
 
-#: templates/personal.php:91
+#: templates/personal.php:89
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:93
+#: templates/personal.php:91
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Use esta dirección para conectarse a su cuenta de ownCloud en el administrador de archivos"
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
 msgstr "Nombre de usuario"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "Crear"
 
-#: templates/users.php:35
+#: templates/users.php:33
 msgid "Default Storage"
 msgstr "Almacenamiento Predeterminado"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
 msgstr "Ilimitado"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:57 templates/users.php:148
 msgid "Other"
 msgstr "Otro"
 
-#: templates/users.php:84
+#: templates/users.php:82
 msgid "Storage"
 msgstr "Alamacenamiento"
 
-#: templates/users.php:95
+#: templates/users.php:93
 msgid "change display name"
 msgstr "Cambiar nombre a mostrar"
 
-#: templates/users.php:99
+#: templates/users.php:97
 msgid "set new password"
 msgstr "Configurar nueva contraseña"
 
-#: templates/users.php:134
+#: templates/users.php:128
 msgid "Default"
 msgstr "Predeterminado"
