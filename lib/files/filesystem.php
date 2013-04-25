@@ -289,7 +289,7 @@ class Filesystem {
 	/**
 	 * fill in the correct values for $user
 	 *
-	 * @param string $input
+	 * @param string $user
 	 * @param string $input
 	 * @return string
 	 */
