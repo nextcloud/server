@@ -880,7 +880,7 @@ class Util {
 			
 		} else {
 		
-			throw new \Exception( 'Supplied path could not be resolved "' . $path . '"' );
+			return false;
 			
 		}
 		

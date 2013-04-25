@@ -337,7 +337,12 @@ class Proxy extends \OC_FileProxy {
         // Reformat path for use with OC_FSV
 		$path_split = explode( '/', $path );
 		$path_f = implode( '/', array_slice( $path_split, 3 ) );
-		
+
+        // FIXME: handling for /userId/cache used by webdav for chunking. The cache chunks are NOT encrypted
+        if($path_split[2] == 'cache') {
+            return $result;
+        }
+
 		// Disable encryption proxy to prevent recursive calls
         $proxyStatus = \OC_FileProxy::$enabled;
         \OC_FileProxy::$enabled = false;
