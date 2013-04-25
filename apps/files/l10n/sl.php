@@ -13,6 +13,7 @@
 "Not enough storage available" => "Na voljo ni dovolj prostora",
 "Invalid directory." => "Neveljavna mapa.",
 "Files" => "Datoteke",
+"Share" => "Souporaba",
 "Delete permanently" => "Izbriši trajno",
 "Delete" => "Izbriši",
 "Rename" => "Preimenuj",

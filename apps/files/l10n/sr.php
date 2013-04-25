@@ -7,6 +7,8 @@
 "Missing a temporary folder" => "Недостаје привремена фасцикла",
 "Failed to write to disk" => "Не могу да пишем на диск",
 "Files" => "Датотеке",
+"Share" => "Дели",
+"Delete permanently" => "Обриши за стално",
 "Delete" => "Обриши",
 "Rename" => "Преименуј",
 "Pending" => "На чекању",

@@ -12,6 +12,7 @@
 "Failed to write to disk" => "디스크에 쓰지 못했습니다",
 "Invalid directory." => "올바르지 않은 디렉터리입니다.",
 "Files" => "파일",
+"Share" => "공유",
 "Delete" => "삭제",
 "Rename" => "이름 바꾸기",
 "Pending" => "보류 중",

@@ -6,6 +6,7 @@
 "Missing a temporary folder" => "Et feelt en temporären Dossier",
 "Failed to write to disk" => "Konnt net op den Disk schreiwen",
 "Files" => "Dateien",
+"Share" => "Deelen",
 "Delete" => "Läschen",
 "replace" => "ersetzen",
 "cancel" => "ofbriechen",

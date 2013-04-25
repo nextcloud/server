@@ -13,6 +13,7 @@
 "Not enough storage available" => "Nedostatek dostupného úložného prostoru",
 "Invalid directory." => "Neplatný adresář",
 "Files" => "Soubory",
+"Share" => "Sdílet",
 "Delete permanently" => "Trvale odstranit",
 "Delete" => "Smazat",
 "Rename" => "Přejmenovat",

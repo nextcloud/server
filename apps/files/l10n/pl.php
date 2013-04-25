@@ -13,6 +13,7 @@
 "Not enough storage available" => "Za mało dostępnego miejsca",
 "Invalid directory." => "Zła ścieżka.",
 "Files" => "Pliki",
+"Share" => "Udostępnij",
 "Delete permanently" => "Trwale usuń",
 "Delete" => "Usuń",
 "Rename" => "Zmień nazwę",

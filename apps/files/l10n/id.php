@@ -6,6 +6,8 @@
 "Missing a temporary folder" => "Kehilangan folder temporer",
 "Failed to write to disk" => "Gagal menulis ke disk",
 "Files" => "Berkas",
+"Share" => "Bagikan",
+"Delete permanently" => "Hapus secara permanen",
 "Delete" => "Hapus",
 "Pending" => "Menunggu",
 "replace" => "mengganti",

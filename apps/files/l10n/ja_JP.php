@@ -13,6 +13,7 @@
 "Not enough storage available" => "ストレージに十分な空き容量がありません",
 "Invalid directory." => "無効なディレクトリです。",
 "Files" => "ファイル",
+"Share" => "共有",
 "Delete permanently" => "完全に削除する",
 "Delete" => "削除",
 "Rename" => "名前の変更",

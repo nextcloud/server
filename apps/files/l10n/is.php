@@ -12,6 +12,7 @@
 "Failed to write to disk" => "Tókst ekki að skrifa á disk",
 "Invalid directory." => "Ógild mappa.",
 "Files" => "Skrár",
+"Share" => "Deila",
 "Delete" => "Eyða",
 "Rename" => "Endurskýra",
 "Pending" => "Bíður",

@@ -13,6 +13,7 @@
 "Not enough storage available" => "Nedostatok dostupného úložného priestoru",
 "Invalid directory." => "Neplatný priečinok",
 "Files" => "Súbory",
+"Share" => "Zdieľať",
 "Delete permanently" => "Zmazať  trvalo",
 "Delete" => "Odstrániť",
 "Rename" => "Premenovať",

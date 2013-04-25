@@ -13,6 +13,7 @@
 "Not enough storage available" => "Không đủ không gian lưu trữ",
 "Invalid directory." => "Thư mục không hợp lệ",
 "Files" => "Tập tin",
+"Share" => "Chia sẻ",
 "Delete permanently" => "Xóa vĩnh vễn",
 "Delete" => "Xóa",
 "Rename" => "Sửa tên",

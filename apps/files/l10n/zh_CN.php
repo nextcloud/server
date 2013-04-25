@@ -12,6 +12,8 @@
 "Failed to write to disk" => "写入磁盘失败",
 "Invalid directory." => "无效文件夹。",
 "Files" => "文件",
+"Share" => "分享",
+"Delete permanently" => "永久删除",
 "Delete" => "删除",
 "Rename" => "重命名",
 "Pending" => "操作等待中",

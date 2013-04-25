@@ -6,6 +6,7 @@
 "Missing a temporary folder" => "Nedostaje privremena mapa",
 "Failed to write to disk" => "Neuspjelo pisanje na disk",
 "Files" => "Datoteke",
+"Share" => "Podijeli",
 "Delete" => "Briši",
 "Rename" => "Promjeni ime",
 "Pending" => "U tijeku",

@@ -6,6 +6,8 @@
 "Missing a temporary folder" => "დროებითი საქაღალდე არ არსებობს",
 "Failed to write to disk" => "შეცდომა დისკზე ჩაწერისას",
 "Files" => "ფაილები",
+"Share" => "გაზიარება",
+"Delete permanently" => "სრულად წაშლა",
 "Delete" => "წაშლა",
 "Rename" => "გადარქმევა",
 "Pending" => "მოცდის რეჟიმში",

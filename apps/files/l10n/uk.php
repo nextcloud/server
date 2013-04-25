@@ -13,6 +13,7 @@
 "Not enough storage available" => "Місця більше немає",
 "Invalid directory." => "Невірний каталог.",
 "Files" => "Файли",
+"Share" => "Поділитися",
 "Delete permanently" => "Видалити назавжди",
 "Delete" => "Видалити",
 "Rename" => "Перейменувати",

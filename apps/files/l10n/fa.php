@@ -12,6 +12,7 @@
 "Failed to write to disk" => "نوشتن بر روی دیسک سخت ناموفق بود",
 "Invalid directory." => "فهرست راهنما نامعتبر می باشد.",
 "Files" => "فایل ها",
+"Share" => "اشتراک‌گذاری",
 "Delete permanently" => "حذف قطعی",
 "Delete" => "پاک کردن",
 "Rename" => "تغییرنام",
