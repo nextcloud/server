@@ -205,7 +205,7 @@ class OC_Preview {
 		if(empty(self::$providers)){
 			self::initProviders();
 		}
-		if(is_null(self::$thumbnailsview) || is_null(self::$userlandview)){
+		if(is_null(self::$fileview)){
 			self::initViews();
 		}
 	}
@@ -247,11 +247,37 @@ class OC_Preview {
 	*/
 	private static function initViews(){
 		if(is_null(self::$fileview)){
-			self::$fileview = new OC\Files\View();
+			//does this work with LDAP?
+			self::$fileview = new OC\Files\View(OC_User::getUser());
 		}
 	}
 	
 	public static function previewRouter($params){
-		var_dump($params);
+		self::init();
+		
+		$file = (string) urldecode($_GET['file']);
+		$maxX = (int) $_GET['x'];
+		$maxY = (int) $_GET['y'];
+		$scalingup = (bool) $_GET['scalingup'];
+		
+		$path = 'files/' . $file;
+		
+		if($maxX === 0 || $maxY === 0){
+			OC_Log::write('core', 'Can not create preview with 0px width or 0px height', OC_Log::DEBUG);
+			exit;
+		}
+		
+		var_dump(self::$fileview->file_exists($path));
+		var_dump(self::$fileview->getDirectoryContent());
+		var_dump(self::$fileview->getDirectoryContent('files/'));
+		var_dump($path);
+		var_dump(self::$fileview->filesize($path));
+		var_dump(self::$fileview->getAbsolutePath('/'));
+		
+		if(!self::$fileview->filesize($path)){
+			OC_Response::setStatus(OC_Response::STATUS_NOT_FOUND);
+		}
+		
+		self::showPreview($file, $maxX, $maxY, $scalingup);
 	}
 }
