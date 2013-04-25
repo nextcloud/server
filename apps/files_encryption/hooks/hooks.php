@@ -40,7 +40,8 @@ class Hooks {
 	
 		// Manually initialise Filesystem{} singleton with correct 
 		// fake root path, in order to avoid fatal webdav errors
-		\OC\Files\Filesystem::init( $params['uid'], '/' . 'files' . '/' );
+        // NOTE: disabled because this give errors on webdav!
+		//\OC\Files\Filesystem::init( $params['uid'], '/' . 'files' . '/' );
 	
 		$view = new \OC_FilesystemView( '/' );
 
@@ -66,8 +67,10 @@ class Hooks {
 		$session = new Session( $view );
 		
 		$session->setPrivateKey( $privateKey, $params['uid'] );
-		
-		$view1 = new \OC_FilesystemView( '/' . $params['uid'] );
+
+        //FIXME: disabled because it gets called each time a user do an operation on iPhone
+        //FIXME: we need a better place doing this and maybe only one time or by user
+		/*$view1 = new \OC_FilesystemView( '/' . $params['uid'] );
 		
 		// Set legacy encryption key if it exists, to support 
 		// depreciated encryption system
@@ -86,12 +89,12 @@ class Hooks {
 		
 		$publicKey = Keymanager::getPublicKey( $view, $params['uid'] );
 		
-		\OC_FileProxy::$enabled = false;
+		\OC_FileProxy::$enabled = false;*/
 		
 		// Encrypt existing user files:
 		// This serves to upgrade old versions of the encryption
 		// app (see appinfo/spec.txt)
-		if ( 
+		/*if (
 			$util->encryptAll( $publicKey,  '/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password'] )
 		) {
 			
@@ -100,7 +103,7 @@ class Hooks {
 				, \OC_Log::INFO 
 			);
 		
-		}
+		}*/
 
 		return true;
 
