@@ -108,7 +108,8 @@ class Proxy extends \OC_FileProxy {
 				$size = strlen( $data );
 				
 				// Disable encryption proxy to prevent recursive calls
-				\OC_FileProxy::$enabled = false;
+                $proxyStatus = \OC_FileProxy::$enabled;
+                \OC_FileProxy::$enabled = false;
 				
 				// Check if there is an existing key we can reuse
 				if ( $encKeyfile = Keymanager::getFileKey( $rootView, $userId, $filePath ) ) {
@@ -135,10 +136,8 @@ class Proxy extends \OC_FileProxy {
 
                 // Fetch public keys for all users who will share the file
 				$publicKeys = Keymanager::getPublicKeys( $rootView, $uniqueUserIds );
-				
-				\OC_FileProxy::$enabled = false;
-				
-				// Encrypt plain keyfile to multiple sharefiles
+
+                // Encrypt plain keyfile to multiple sharefiles
 				$multiEncrypted = Crypt::multiKeyEncrypt( $plainKey, $publicKeys );
 				
 				// Save sharekeys to user folders
@@ -157,7 +156,7 @@ class Proxy extends \OC_FileProxy {
 				\OC\Files\Filesystem::putFileInfo( $path, array( 'encrypted'=>true, 'size' => $size ), '' );
 				
 				// Re-enable proxy - our work is done
-				\OC_FileProxy::$enabled = true;
+				\OC_FileProxy::$enabled = $proxyStatus;
 				
 			}
 		}
@@ -182,9 +181,10 @@ class Proxy extends \OC_FileProxy {
 	
 		// TODO check for existing key file and reuse it if possible to avoid problems with versioning etc.
 		// Disable encryption proxy to prevent recursive calls
-		\OC_FileProxy::$enabled = false;
-		
-		// If data is a catfile
+        $proxyStatus = \OC_FileProxy::$enabled;
+        \OC_FileProxy::$enabled = false;
+
+        // If data is a catfile
 		if ( 
 			Crypt::mode() == 'server' 
 			&& Crypt::isCatfileContent( $data ) // TODO: Do we really need this check? Can't we assume it is properly encrypted?
@@ -215,7 +215,7 @@ class Proxy extends \OC_FileProxy {
 			
 		}
 		
-		\OC_FileProxy::$enabled = true;
+		\OC_FileProxy::$enabled = $proxyStatus;
 		
 		if ( ! isset( $plainData ) ) {
 		
@@ -240,7 +240,8 @@ class Proxy extends \OC_FileProxy {
 		$path = Keymanager::fixPartialFilePath( $path );
 	
 		// Disable encryption proxy to prevent recursive calls
-		\OC_FileProxy::$enabled = false;
+        $proxyStatus = \OC_FileProxy::$enabled;
+        \OC_FileProxy::$enabled = false;
 		
 		$view = new \OC_FilesystemView( '/' );
 
@@ -265,7 +266,7 @@ class Proxy extends \OC_FileProxy {
 				
 		}
 		
-		\OC_FileProxy::$enabled = true;
+		\OC_FileProxy::$enabled = $proxyStatus;
 		
 		// If we don't return true then file delete will fail; better
 		// to leave orphaned keyfiles than to disallow file deletion
@@ -282,6 +283,7 @@ class Proxy extends \OC_FileProxy {
     {
 
         // Disable encryption proxy to prevent recursive calls
+        $proxyStatus = \OC_FileProxy::$enabled;
         \OC_FileProxy::$enabled = false;
 
         $view = new \OC_FilesystemView('/');
@@ -318,7 +320,7 @@ class Proxy extends \OC_FileProxy {
         // Rename keyfile so it isn't orphaned
         $result = $view->rename($oldKeyfilePath, $newKeyfilePath);
 
-        \OC_FileProxy::$enabled = true;
+        \OC_FileProxy::$enabled = $proxyStatus;
 
         return $result;
 
@@ -337,9 +339,10 @@ class Proxy extends \OC_FileProxy {
 		$path_f = implode( '/', array_slice( $path_split, 3 ) );
 		
 		// Disable encryption proxy to prevent recursive calls
-		\OC_FileProxy::$enabled = false;
-		
-		$meta = stream_get_meta_data( $result );
+        $proxyStatus = \OC_FileProxy::$enabled;
+        \OC_FileProxy::$enabled = false;
+
+        $meta = stream_get_meta_data( $result );
 		
 		$view = new \OC_FilesystemView( '' );
 		
@@ -369,13 +372,13 @@ class Proxy extends \OC_FileProxy {
 		
 		// NOTE: this is the case for new files saved via WebDAV
 		
-			if ( 
-			$view->file_exists( $path ) 
-			and $view->filesize( $path ) > 0 
-			) {
-				$x = $view->file_get_contents( $path );
-				
-				$tmp = tmpfile();
+//			if (
+//			$view->file_exists( $path )
+//			and $view->filesize( $path ) > 0
+//			) {
+//				$x = $view->file_get_contents( $path );
+//
+//				$tmp = tmpfile();
 				
 // 				// Make a temporary copy of the original file
 // 				\OCP\Files::streamCopy( $result, $tmp );
@@ -387,14 +390,14 @@ class Proxy extends \OC_FileProxy {
 // 				
 // 				fclose( $tmp );
 			
-			}
+//			}
 
             $result = fopen( 'crypt://'.$path_f, $meta['mode'] );
 		
 		}
 		
 		// Re-enable the proxy
-		\OC_FileProxy::$enabled = true;
+		\OC_FileProxy::$enabled = $proxyStatus;
 		
 		return $result;
 	
@@ -417,15 +420,15 @@ class Proxy extends \OC_FileProxy {
         // if path is a folder do nothing
         if(is_array($data) && array_key_exists('size', $data)) {
             // Disable encryption proxy to prevent recursive calls
+            $proxyStatus = \OC_FileProxy::$enabled;
             \OC_FileProxy::$enabled = false;
+
 
             // get file size
             $data['size'] = self::postFileSize($path, $data['size']);
 
             // Re-enable the proxy
-            \OC_FileProxy::$enabled = true;
-
-            trigger_error('postGetFileInfo '.$path.' size: '.$data['size']);
+            \OC_FileProxy::$enabled = $proxyStatus;
         }
 
         return $data;
@@ -437,7 +440,7 @@ class Proxy extends \OC_FileProxy {
 		
 			$cached = \OC\Files\Filesystem::getFileInfo( $path, '' );
 			
-			$data['size'] = $cached['size'];
+			$data['size'] = $cached['unencrypted_size'];
 			
 		}
 		
@@ -453,56 +456,20 @@ class Proxy extends \OC_FileProxy {
             return $size;
         }
 
+        $path = Keymanager::fixPartialFilePath( $path );
+
         // Reformat path for use with OC_FSV
         $path_split = explode('/', $path);
         $path_f = implode('/', array_slice($path_split, 3));
 
-        $userId = \OCP\User::getUser();
-        $util = new Util( $view, $userId );
+        // get file info from database/cache
+        $fileInfo = \OC\Files\Filesystem::getFileInfo($path_f);
 
-
-        // FIXME: is there a better solution to check if file belongs to files path?
-        // only get file size if file is in 'files' path
-        if (count($path_split) >= 2  && $path_split[2] == 'files' && $util->isEncryptedPath($path)) {
-
-            // Disable encryption proxy to prevent recursive calls
-            \OC_FileProxy::$enabled = false;
-
-            // open stream
-            $result = fopen('crypt://' . $path_f, "r");
-
-            if(is_resource($result)) {
-                // don't trust the given size, allways get the size from filesystem
-                $size = $view->filesize($path);
-
-                // calculate last chunk nr
-                $lastChunckNr = floor($size / 8192);
-
-                // calculate last chunk position
-                $lastChunckPos = ($lastChunckNr * 8192);
-
-                // seek to end
-                fseek($result, $lastChunckPos);
-
-                // get the content of the last chunck
-                $lastChunkContent = fgets($result);
-
-                // calc the real file size with the size of the last chunk
-                $realSize = (($lastChunckNr * 6126) + strlen($lastChunkContent));
-
-                // set the size
-                $size = $realSize;
-            }
-
-            // enable proxy
-            \OC_FileProxy::$enabled = true;
-
-            return $size;
-
+        // if file is encrypted return real file size
+        if(is_array($fileInfo) && $fileInfo['encrypted'] == 1) {
+            return $fileInfo['unencrypted_size'];
         } else {
-
-            return $size;
-
+            return $fileInfo['size'];
         }
 	}
 }

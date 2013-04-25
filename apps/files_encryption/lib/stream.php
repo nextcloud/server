@@ -64,6 +64,7 @@ class Stream {
 	private $count;
 	private $writeCache;
 	public $size;
+    public $unencryptedSize;
 	private $publicKey;
 	private $keyfile;
 	private $encKeyfile;
@@ -105,6 +106,7 @@ class Stream {
 		} else {
 
             // Disable fileproxies so we can get the file size and open the source file without recursive encryption
+            $proxyStatus = \OC_FileProxy::$enabled;
             \OC_FileProxy::$enabled = false;
 
 			if ( 
@@ -116,6 +118,7 @@ class Stream {
 
 				// We're writing a new file so start write counter with 0 bytes
 				$this->size = 0;
+                $this->unencryptedSize = 0;
 
 			} else {
 				
@@ -129,7 +132,7 @@ class Stream {
 			
 			$this->handle = $this->rootView->fopen( $this->rawPath, $mode );
 			
-			\OC_FileProxy::$enabled = true;
+			\OC_FileProxy::$enabled = $proxyStatus;
 
 			if ( ! is_resource( $this->handle ) ) {
 
@@ -301,7 +304,7 @@ class Stream {
 		// automatically attempted when the file is written to disk - 
 		// we are handling that separately here and we don't want to 
 		// get into an infinite loop
-		\OC_FileProxy::$enabled = false;
+		//\OC_FileProxy::$enabled = false;
 		
 		// Get the length of the unencrypted data that we are handling
 		$length = strlen( $data );
@@ -438,7 +441,8 @@ class Stream {
 		}
 		
 		$this->size = max( $this->size, $pointer + $length );
-		
+        $this->unencryptedSize += $length;
+
 		return $length;
 
 	}
@@ -501,9 +505,7 @@ class Stream {
 		$this->meta['mode']!='r' 
 		and $this->meta['mode']!='rb' 
 		) {
-			
-			\OC\Files\Filesystem::putFileInfo( $this->relPath, array( 'encrypted' => true, 'size' => $this->size ), '' );
-
+			\OC\Files\Filesystem::putFileInfo( $this->relPath, array( 'encrypted' => 1, 'size' => $this->size, 'unencrypted_size' => $this->unencryptedSize ), '' );
 		}
 
 		return fclose( $this->handle );
