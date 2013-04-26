@@ -427,7 +427,9 @@ class Connection {
 				'No group filter is specified, LDAP group feature will not be used.',
 				\OCP\Util::INFO);
 		}
-		if(!in_array($this->config['ldapUuidAttribute'], array('auto', 'entryuuid', 'nsuniqueid', 'objectguid'))
+		$uuidAttributes = array(
+			'auto', 'entryuuid', 'nsuniqueid', 'objectguid', 'guid');
+		if(!in_array($this->config['ldapUuidAttribute'], $uuidAttributes)
 			&& (!is_null($this->configID))) {
 			\OCP\Config::setAppValue($this->configID, $this->configPrefix.'ldap_uuid_attribute', 'auto');
 			\OCP\Util::writeLog('user_ldap',
