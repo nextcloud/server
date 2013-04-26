@@ -527,7 +527,7 @@ class OC_User {
 		foreach (self::$_usedBackends as $backend) {
 			$backendDisplayNames = $backend->getDisplayNames($search, $limit, $offset);
 			if (is_array($backendDisplayNames)) {
-				$displayNames = array_merge($displayNames, $backendDisplayNames);
+				$displayNames = $displayNames + $backendDisplayNames;
 			}
 		}
 		asort($displayNames);
