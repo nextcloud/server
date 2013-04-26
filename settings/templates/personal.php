@@ -76,11 +76,16 @@ if($_['displayNameChangeSupported']) {
 	<fieldset class="personalblock">
 		<legend><strong><?php p($l->t('Language'));?></strong></legend>
 		<select id="languageinput" class="chzen-select" name="lang" data-placeholder="<?php p($l->t('Language'));?>">
+		<option value="<?php p($_['activelanguage']['code']);?>"><?php p($_['activelanguage']['name']);?></option>
+		<?php foreach($_['commonlanguages'] as $language):?>
+			<option value="<?php p($language['code']);?>"><?php p($language['name']);?></option>
+		<?php endforeach;?>
+		<optgroup label="––––––––––"><option class="languagedivider">-</option></optgroup>
 		<?php foreach($_['languages'] as $language):?>
 			<option value="<?php p($language['code']);?>"><?php p($language['name']);?></option>
 		<?php endforeach;?>
 		</select>
-		<a href="https://www.transifex.net/projects/p/owncloud/team/<?php p($_['languages'][0]['code']);?>/"
+		<a href="https://www.transifex.net/projects/p/owncloud/team/<?php p($_['activelanguage']['code']);?>/"
 			target="_blank"><em><?php p($l->t('Help translate'));?></em></a>
 	</fieldset>
 </form>
