@@ -64,25 +64,8 @@ class OC_TemplateLayout extends OC_Template {
 			$root = $info[0];
 			$web = $info[1];
 			$file = $info[2];
-			$paths = explode('/', $file);
 
-			$in_root = false;
-			foreach(OC::$APPSROOTS as $app_root) {
-				if($root == $app_root['path']) {
-					$in_root = true;
-					break;
-				}
-			}
-
-			if($in_root ) {
-				$app = $paths[0];
-				unset($paths[0]);
-				$path = implode('/', $paths);
-				$this->append( 'cssfiles', OC_Helper::linkTo($app, $path) . $versionParameter);
-			}
-			else {
-				$this->append( 'cssfiles', $web.'/'.$file);
-			}
+			$this->append( 'cssfiles', $web.'/'.$file . $versionParameter);
 		}
 	}
 
@@ -123,20 +106,15 @@ class OC_TemplateLayout extends OC_Template {
 			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "core/$style.css" )) {
 
 			}else{
-				$append = false;
-				// or in apps?
-				foreach( OC::$APPSROOTS as $apps_dir)
-				{
-					if(self::appendIfExist($files, $apps_dir['path'], $apps_dir['url'], "$style$fext.css")) {
-						$append = true;
-						break;
-					}
-					elseif(self::appendIfExist($files, $apps_dir['path'], $apps_dir['url'], "$style.css")) {
-						$append = true;
-						break;
-					}
+				$app = substr($style, 0, strpos($style, '/'));
+				$style = substr($style, strpos($style, '/')+1);
+				$app_path = OC_App::getAppPath($app);
+				$app_url = OC::$WEBROOT . '/index.php/apps/' . $app;
+				if(self::appendIfExist($files, $app_path, $app_url, "$style$fext.css")) {
 				}
-				if(! $append) {
+				elseif(self::appendIfExist($files, $app_path, $app_url, "$style.css")) {
+				}
+				else {
 					echo('css file not found: style:'.$style.' formfactor:'.$fext
 						.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 					die();
@@ -195,18 +173,15 @@ class OC_TemplateLayout extends OC_Template {
 
 			}else{
 				// Is it part of an app?
-				$append = false;
-				foreach( OC::$APPSROOTS as $apps_dir) {
-					if(self::appendIfExist($files, $apps_dir['path'], OC::$WEBROOT.$apps_dir['url'], "$script$fext.js")) {
-						$append = true;
-						break;
-					}
-					elseif(self::appendIfExist($files, $apps_dir['path'], OC::$WEBROOT.$apps_dir['url'], "$script.js")) {
-						$append = true;
-						break;
-					}
+				$app = substr($script, 0, strpos($script, '/'));
+				$script = substr($script, strpos($script, '/')+1);
+				$app_path = OC_App::getAppPath($app);
+				$app_url = OC_App::getAppWebPath($app);
+				if(self::appendIfExist($files, $app_path, $app_url, "$script$fext.js")) {
 				}
-				if(! $append) {
+				elseif(self::appendIfExist($files, $app_path, $app_url, "$script.js")) {
+				}
+				else {
 					echo('js file not found: script:'.$script.' formfactor:'.$fext
 						.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 					die();
