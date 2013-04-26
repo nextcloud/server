@@ -220,6 +220,8 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 }
 #login #databaseField .infield { padding-left:0; }
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
+#login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
+#login .success { background:#d7fed7; border:1px solid #0f0; width: 35%; margin: 30px auto; padding:1em; text-align: center;}
 
 /* Show password toggle */
 #show, #dbpassword { position:absolute; right:1em; top:.8em; float:right; }
