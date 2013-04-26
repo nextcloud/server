@@ -137,16 +137,17 @@ class Trashbin {
 			$user = \OCP\User::getUser();
 
             // disable proxy to prevent recursive calls
+            $proxyStatus = \OC_FileProxy::$enabled;
             \OC_FileProxy::$enabled = false;
 
-            //retain key files
+            // retain key files
 			$keyfile = \OC\Files\Filesystem::normalizePath('files_encryption/keyfiles/' . $file_path);
 
             if ($view->is_dir($keyfile) || $view->file_exists($keyfile . '.key')) {
-
             	$user = \OCP\User::getUser();
+                // move keyfiles
 			    if ($view->is_dir($keyfile)) {
-					$size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $keyfile));
+                    $size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $keyfile));
 					$view->rename($keyfile, 'files_trashbin/keyfiles/' . $filename . '.d' . $timestamp);
 				} else {
 					$size += $view->filesize($keyfile . '.key');
@@ -154,16 +155,47 @@ class Trashbin {
 				}
 			}
 
-            // TODO needs review, only handle folders atm?
-			// retain per user encryption key for keyfile
+            // retain share keys
 			$sharekeys = \OC\Files\Filesystem::normalizePath('files_encryption/share-keys/' . $file_path);
+
 			if ($view->is_dir($sharekeys)) {
 				$size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $sharekeys));
-				$view->rename($keyfile, 'files_trashbin/share-keys/' . $sharekeys . '.d' . $timestamp);
-			}
+				$view->rename($sharekeys, 'files_trashbin/share-keys/' . $filename . '.d' . $timestamp);
+			} else {
+                // get local path to share-keys
+                $localShareKeysPath = $view->getLocalFile($sharekeys);
+
+                // handle share-keys
+                $matches = glob(preg_quote($localShareKeysPath).'*.shareKey');
+                foreach ($matches as $src) {
+                    // get source file parts
+                    $pathinfo = pathinfo($src);
+
+                    // we only want to keep the owners key so we can access the private key
+                    $ownerShareKey = $filename . '.' . $user. '.shareKey';
+
+                    // if we found the share-key for the owner, we need to move it to files_trashbin
+                    if($pathinfo['basename'] == $ownerShareKey) {
+
+                        // calculate size
+                        $size += $view->filesize($sharekeys. '.' . $user. '.shareKey');
+
+                        // move file
+                        $view->rename($sharekeys. '.' . $user. '.shareKey', 'files_trashbin/share-keys/' . $ownerShareKey . '.d' . $timestamp);
+                    } else {
+
+                        // calculate size
+                        $size += filesize($src);
+
+                        // don't keep other share-keys
+                        unlink($src);
+                    }
+                }
+
+            }
 
             // enable proxy
-            \OC_FileProxy::$enabled = true;
+            \OC_FileProxy::$enabled = $proxyStatus;
 		}
 		return $size;
 	}
@@ -321,8 +353,10 @@ class Trashbin {
             if ($view->is_dir('/files_trashbin/keyfiles/'.$file)) {
                 if($source_location != '.') {
                     $keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/' . $source_location . '/' . $filename);
+                    $sharekey = \OC\Files\Filesystem::normalizePath('files_trashbin/share-keys/' . $source_location . '/' . $filename);
                 } else {
                     $keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/' . $filename);
+                    $sharekey = \OC\Files\Filesystem::normalizePath('files_trashbin/share-keys/' . $filename);
                 }
             } else {
                 $keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/' . $source_location . '/' . $filename . '.key');
@@ -333,23 +367,64 @@ class Trashbin {
             }
 
             // disable proxy to prevent recursive calls
+            $proxyStatus = \OC_FileProxy::$enabled;
             \OC_FileProxy::$enabled = false;
 
             if ($view->file_exists($keyfile)) {
+                // handle directory
             	if ($view->is_dir($keyfile)) {
-            		$size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $keyfile));
+
+                    // handle keyfiles
+                    $size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $keyfile));
             		$view->rename($keyfile, 'files_encryption/keyfiles/' . $location . '/' . $filename);
+
+                    // handle share-keys
+                    if ($timestamp) {
+                        $sharekey .= '.d' . $timestamp;
+                    }
+                    $view->rename($sharekey, 'files_encryption/share-keys/' . $location . '/' . $filename);
+
 				} else {
+                    // handle keyfiles
 					$size += $view->filesize($keyfile);
             		$view->rename($keyfile, 'files_encryption/keyfiles/' . $location . '/' . $filename . '.key');
+
+                    // handle share-keys
+                    $ownerShareKey = \OC\Files\Filesystem::normalizePath('files_trashbin/share-keys/' . $source_location . '/' . $filename . '.' . $user. '.shareKey');
+                    if ($timestamp) {
+                        $ownerShareKey .= '.d' . $timestamp;
+                    }
+
+                    $size += $view->filesize($ownerShareKey);
+
+                    // move only owners key
+                    $view->rename($ownerShareKey, 'files_encryption/share-keys/' . $location . '/' . $filename . '.' . $user. '.shareKey');
+
+                    // try to re-share if file is shared
+                    $filesystemView = new \OC_FilesystemView('/');
+                    $session = new \OCA\Encryption\Session($filesystemView);
+                    $util = new \OCA\Encryption\Util($filesystemView, $user);
+
+                    // fix the file size
+                    $absolutePath = \OC\Files\Filesystem::normalizePath('/' . $user . '/files/'. $location. '/' .$filename);
+                    $util->fixFileSize($absolutePath);
+
+                    // get current sharing state
+                    $sharingEnabled = \OCP\Share::isEnabled();
+
+                    // get the final filename
+                    $target = \OC\Files\Filesystem::normalizePath($location.'/'.$filename);
+
+                    // get users sharing this file
+                    $usersSharing = $util->getSharingUsersArray($sharingEnabled, $target.$ext, $user);
+
+                    // Attempt to set shareKey
+                    $util->setSharedFileKeyfiles($session, $usersSharing, $target.$ext);
 				}
 			}
 
-            //TODO restore share-keys
-            //...
-
             // enable proxy
-            \OC_FileProxy::$enabled = true;
+            \OC_FileProxy::$enabled = $proxyStatus;
 		}
 		return $size;
 	}
