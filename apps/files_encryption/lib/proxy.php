@@ -351,41 +351,7 @@ class Proxy extends \OC_FileProxy {
         $newPathSplit = explode( '/', $newPath );
         $newPathRelative = implode( '/', array_slice( $newPathSplit, 3 ) );
 
-        // get file info from database/cache
-        //$newFileInfo = \OC\Files\Filesystem::getFileInfo($newPathRelative);
-
-        if ($util->isEncryptedPath($newPath)) {
-            $cached = $view->getFileInfo($newPath);
-            $cached['encrypted'] = 1;
-
-            // get the size from filesystem
-            $size = $view->filesize($newPath);
-
-            // calculate last chunk nr
-            $lastChunckNr = floor($size / 8192);
-
-            // open stream
-            $result = fopen('crypt://' . $newPathRelative, "r");
-
-            if(is_resource($result)) {
-                // calculate last chunk position
-                $lastChunckPos = ($lastChunckNr * 8192);
-
-                // seek to end
-                fseek($result, $lastChunckPos);
-
-                // get the content of the last chunck
-                $lastChunkContent = fread($result, 8192);
-
-                // calc the real file size with the size of the last chunk
-                $realSize = (($lastChunckNr * 6126) + strlen($lastChunkContent));
-
-                // set the size
-                $cached['unencrypted_size'] = $realSize;
-            }
-
-            $view->putFileInfo( $newPath, $cached );
-
+        if($util->fixFileSize($newPath)) {
             // get sharing app state
             $sharingEnabled = \OCP\Share::isEnabled();
 
@@ -396,13 +362,9 @@ class Proxy extends \OC_FileProxy {
             $util->setSharedFileKeyfiles($session, $usersSharing, $newPathRelative);
         }
 
-
-
-
         \OC_FileProxy::$enabled = $proxyStatus;
 
         return true;
-
     }
 
     public function postFopen( $path, &$result ){

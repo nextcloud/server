@@ -421,10 +421,10 @@ class Util {
 		return $text;
 	}
 	
-        /**
-         * @brief Check if a given path identifies an encrypted file
-         * @return true / false
-         */
+    /**
+     * @brief Check if a given path identifies an encrypted file
+     * @return true / false
+     */
 	public function isEncryptedPath( $path ) {
 	
 		// Disable encryption proxy so data retreived is in its 
@@ -438,7 +438,67 @@ class Util {
 		return Crypt::isCatfileContent( $data );
 	
 	}
-	
+
+    /**
+     * @brief fix the file size of the encrypted file
+     *
+     * @param $path absolute path
+     * @return true / false if file is encrypted
+     */
+
+    public function fixFileSize($path) {
+        $result = false;
+
+        // Disable encryption proxy to prevent recursive calls
+        $proxyStatus = \OC_FileProxy::$enabled;
+        \OC_FileProxy::$enabled = false;
+
+        if ($this->isEncryptedPath($path)) {
+
+            // Reformat path for use with OC_FSV
+            $pathSplit = explode( '/', $path );
+            $pathRelative = implode( '/', array_slice( $pathSplit, 3 ) );
+
+            $cached = $this->view->getFileInfo($path);
+            $cached['encrypted'] = 1;
+
+            // get the size from filesystem
+            $size = $this->view->filesize($path);
+
+            // calculate last chunk nr
+            $lastChunckNr = floor($size / 8192);
+
+            // open stream
+            $result = fopen('crypt://' . $pathRelative, "r");
+
+            if(is_resource($result)) {
+                // calculate last chunk position
+                $lastChunckPos = ($lastChunckNr * 8192);
+
+                // seek to end
+                fseek($result, $lastChunckPos);
+
+                // get the content of the last chunk
+                $lastChunkContent = fread($result, 8192);
+
+                // calc the real file size with the size of the last chunk
+                $realSize = (($lastChunckNr * 6126) + strlen($lastChunkContent));
+
+                // set the size
+                $cached['unencrypted_size'] = $realSize;
+            }
+
+            // put file info
+            $this->view->putFileInfo( $path, $cached );
+
+            $result = true;
+        }
+
+        \OC_FileProxy::$enabled = $proxyStatus;
+
+        return $result;
+    }
+
 	/**
 	 * @brief Format a path to be relative to the /user/files/ directory
 	 */
