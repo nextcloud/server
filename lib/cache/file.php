@@ -14,6 +14,7 @@ class OC_Cache_File{
 			return $this->storage;
 		}
 		if(OC_User::isLoggedIn()) {
+			\OC\Files\Filesystem::initMountPoints(OC_User::getUser());
 			$subdir = 'cache';
 			$view = new \OC\Files\View('/'.OC_User::getUser());
 			if(!$view->file_exists($subdir)) {
