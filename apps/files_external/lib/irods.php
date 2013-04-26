@@ -11,6 +11,7 @@ namespace OC\Files\Storage;
 set_include_path(get_include_path() . PATH_SEPARATOR .
 	\OC_App::getAppPath('files_external') . '/3rdparty/irodsphp/prods/src');
 
+require_once 'ProdsConfig.inc.php';
 require_once 'ProdsStreamer.class.php';
 
 class iRODS extends \OC\Files\Storage\StreamWrapper{
@@ -21,6 +22,7 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 	private $zone;
 	private $root;
 	private $use_logon_credentials;
+	private $auth_mode;
 
 	public function __construct($params) {
 		if (isset($params['host']) && isset($params['user']) && isset($params['password'])) {
@@ -30,6 +32,7 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 			$this->password=$params['password'];
 			$this->use_logon_credentials=$params['use_logon_credentials'];
 			$this->zone=$params['zone'];
+			$this->auth_mode=isset($params['auth_mode']) ? $params['auth_mode'] : '';
 
 			$this->root=isset($params['root'])?$params['root']:'/';
 			if ( ! $this->root || $this->root[0]!='/') {
@@ -67,6 +70,9 @@ class iRODS extends \OC\Files\Storage\StreamWrapper{
 	 */
 	public function constructUrl($path) {
 		$userWithZone = $this->user.'.'.$this->zone;
+		if ($this->auth_mode === '') {
+			$userWithZone .= $this->auth_mode;
+		}
 		return 'rods://'.$userWithZone.':'.$this->password.'@'.$this->host.':'.$this->port.$this->root.$path;
 	}
 }

@@ -121,6 +121,7 @@ class OC_Mount_Config {
 				'use_logon_credentials' => '!Use ownCloud login',
 				'user' => 'Username',
 				'password' => '*Password',
+				'auth_mode' => 'Authentication Mode',
 				'zone' => 'Zone'));
 
 		return($backends);
