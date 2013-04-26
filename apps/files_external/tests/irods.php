@@ -10,6 +10,8 @@ namespace Test\Files\Storage;
 
 class iRODS extends Storage {
 
+	protected $backupGlobals = FALSE;
+
 	private $config;
 
 	public function setUp() {
