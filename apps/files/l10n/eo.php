@@ -12,6 +12,7 @@
 "Failed to write to disk" => "Malsukcesis skribo al disko",
 "Invalid directory." => "Nevalida dosierujo.",
 "Files" => "Dosieroj",
+"Share" => "Kunhavigi",
 "Delete" => "Forigi",
 "Rename" => "Alinomigi",
 "Pending" => "Traktotaj",

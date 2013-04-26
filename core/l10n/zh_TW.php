@@ -103,7 +103,7 @@
 "Admin" => "管理者",
 "Help" => "幫助",
 "Access forbidden" => "存取被拒",
-"Cloud not found" => "未發現雲",
+"Cloud not found" => "未發現雲端",
 "Edit categories" => "編輯分類",
 "Add" => "增加",
 "Security Warning" => "安全性警告",

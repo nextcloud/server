@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Kurdish (Iraq) (http://www.transifex.com/projects/p/owncloud/language/ku_IQ/)\n"
 "MIME-Version: 1.0\n"
@@ -78,15 +78,19 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr ""
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr ""
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr ""
 
@@ -177,7 +181,7 @@ msgstr ""
 
 #: js/files.js:481
 msgid "URL cannot be empty."
-msgstr "ناونیشانی به‌سته‌ر نابێت به‌تاڵ بێت."
+msgstr ""
 
 #: js/files.js:486
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
@@ -185,11 +189,11 @@ msgstr ""
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
-msgstr "هه‌ڵه"
+msgstr ""
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr "ناو"
+msgstr ""
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
@@ -217,7 +221,7 @@ msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "بارکردن"
+msgstr ""
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -249,7 +253,7 @@ msgstr ""
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr "پاشکه‌وتکردن"
+msgstr ""
 
 #: templates/index.php:7
 msgid "New"
@@ -261,7 +265,7 @@ msgstr ""
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr "بوخچه"
+msgstr ""
 
 #: templates/index.php:14
 msgid "From link"
@@ -285,7 +289,7 @@ msgstr ""
 
 #: templates/index.php:76
 msgid "Download"
-msgstr "داگرتن"
+msgstr ""
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"

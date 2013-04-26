@@ -3,19 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <ajarmund@gmail.com>, 2011, 2012.
-# Christer Eriksson <post@hc3web.com>, 2012.
-# Daniel  <i18n@daniel.priv.no>, 2012.
-#   <espenbye@me.com>, 2012.
-#   <hdalgrav@gmail.com>, 2012.
-#   <itssmail@yahoo.no>, 2012.
-#   <runesudden@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +47,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr "Ingen kategorier å legge til?"
+msgstr ""
 
 #: ajax/vcategories/add.php:37
 #, php-format
@@ -80,7 +73,7 @@ msgstr ""
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "Ingen kategorier merket for sletting."
+msgstr ""
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -89,155 +82,155 @@ msgstr ""
 
 #: js/config.php:34
 msgid "Sunday"
-msgstr "Søndag"
+msgstr ""
 
 #: js/config.php:35
 msgid "Monday"
-msgstr "Mandag"
+msgstr ""
 
 #: js/config.php:36
 msgid "Tuesday"
-msgstr "Tirsdag"
+msgstr ""
 
 #: js/config.php:37
 msgid "Wednesday"
-msgstr "Onsdag"
+msgstr ""
 
 #: js/config.php:38
 msgid "Thursday"
-msgstr "Torsdag"
+msgstr ""
 
 #: js/config.php:39
 msgid "Friday"
-msgstr "Fredag"
+msgstr ""
 
 #: js/config.php:40
 msgid "Saturday"
-msgstr "Lørdag"
+msgstr ""
 
 #: js/config.php:45
 msgid "January"
-msgstr "Januar"
+msgstr ""
 
 #: js/config.php:46
 msgid "February"
-msgstr "Februar"
+msgstr ""
 
 #: js/config.php:47
 msgid "March"
-msgstr "Mars"
+msgstr ""
 
 #: js/config.php:48
 msgid "April"
-msgstr "April"
+msgstr ""
 
 #: js/config.php:49
 msgid "May"
-msgstr "Mai"
+msgstr ""
 
 #: js/config.php:50
 msgid "June"
-msgstr "Juni"
+msgstr ""
 
 #: js/config.php:51
 msgid "July"
-msgstr "Juli"
+msgstr ""
 
 #: js/config.php:52
 msgid "August"
-msgstr "August"
+msgstr ""
 
 #: js/config.php:53
 msgid "September"
-msgstr "September"
+msgstr ""
 
 #: js/config.php:54
 msgid "October"
-msgstr "Oktober"
+msgstr ""
 
 #: js/config.php:55
 msgid "November"
-msgstr "November"
+msgstr ""
 
 #: js/config.php:56
 msgid "December"
-msgstr "Desember"
+msgstr ""
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "Innstillinger"
+msgstr ""
 
 #: js/js.js:718
 msgid "seconds ago"
-msgstr "sekunder siden"
+msgstr ""
 
 #: js/js.js:719
 msgid "1 minute ago"
-msgstr "1 minutt siden"
+msgstr ""
 
 #: js/js.js:720
 msgid "{minutes} minutes ago"
-msgstr "{minutes} minutter siden"
+msgstr ""
 
 #: js/js.js:721
 msgid "1 hour ago"
-msgstr "1 time siden"
+msgstr ""
 
 #: js/js.js:722
 msgid "{hours} hours ago"
-msgstr "{hours} timer siden"
+msgstr ""
 
 #: js/js.js:723
 msgid "today"
-msgstr "i dag"
+msgstr ""
 
 #: js/js.js:724
 msgid "yesterday"
-msgstr "i går"
+msgstr ""
 
 #: js/js.js:725
 msgid "{days} days ago"
-msgstr "{days} dager siden"
+msgstr ""
 
 #: js/js.js:726
 msgid "last month"
-msgstr "forrige måned"
+msgstr ""
 
 #: js/js.js:727
 msgid "{months} months ago"
-msgstr "{months} måneder siden"
+msgstr ""
 
 #: js/js.js:728
 msgid "months ago"
-msgstr "måneder siden"
+msgstr ""
 
 #: js/js.js:729
 msgid "last year"
-msgstr "forrige år"
+msgstr ""
 
 #: js/js.js:730
 msgid "years ago"
-msgstr "år siden"
+msgstr ""
 
 #: js/oc-dialogs.js:117 js/oc-dialogs.js:247
 msgid "Ok"
-msgstr "Ok"
+msgstr ""
 
 #: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
-msgstr "Avbryt"
+msgstr ""
 
 #: js/oc-dialogs.js:185
 msgid "Choose"
-msgstr "Velg"
+msgstr ""
 
 #: js/oc-dialogs.js:215
 msgid "Yes"
-msgstr "Ja"
+msgstr ""
 
 #: js/oc-dialogs.js:222
 msgid "No"
-msgstr "Nei"
+msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -250,7 +243,7 @@ msgstr ""
 #: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
-msgstr "Feil"
+msgstr ""
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
@@ -266,11 +259,11 @@ msgstr ""
 
 #: js/share.js:90
 msgid "Share"
-msgstr "Del"
+msgstr ""
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
-msgstr "Feil under deling"
+msgstr ""
 
 #: js/share.js:136
 msgid "Error while unsharing"
@@ -290,19 +283,19 @@ msgstr ""
 
 #: js/share.js:159
 msgid "Share with"
-msgstr "Del med"
+msgstr ""
 
 #: js/share.js:164
 msgid "Share with link"
-msgstr "Del med link"
+msgstr ""
 
 #: js/share.js:167
 msgid "Password protect"
-msgstr "Passordbeskyttet"
+msgstr ""
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "Passord"
+msgstr ""
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -310,23 +303,23 @@ msgstr ""
 
 #: js/share.js:174
 msgid "Send"
-msgstr "Send"
+msgstr ""
 
 #: js/share.js:178
 msgid "Set expiration date"
-msgstr "Set utløpsdato"
+msgstr ""
 
 #: js/share.js:179
 msgid "Expiration date"
-msgstr "Utløpsdato"
+msgstr ""
 
 #: js/share.js:211
 msgid "Share via email:"
-msgstr "Del på epost"
+msgstr ""
 
 #: js/share.js:213
 msgid "No people found"
-msgstr "Ingen personer funnet"
+msgstr ""
 
 #: js/share.js:251
 msgid "Resharing is not allowed"
@@ -338,35 +331,35 @@ msgstr ""
 
 #: js/share.js:308
 msgid "Unshare"
-msgstr "Avslutt deling"
+msgstr ""
 
 #: js/share.js:320
 msgid "can edit"
-msgstr "kan endre"
+msgstr ""
 
 #: js/share.js:322
 msgid "access control"
-msgstr "tilgangskontroll"
+msgstr ""
 
 #: js/share.js:325
 msgid "create"
-msgstr "opprett"
+msgstr ""
 
 #: js/share.js:328
 msgid "update"
-msgstr "oppdater"
+msgstr ""
 
 #: js/share.js:331
 msgid "delete"
-msgstr "slett"
+msgstr ""
 
 #: js/share.js:334
 msgid "share"
-msgstr "del"
+msgstr ""
 
 #: js/share.js:368 js/share.js:564
 msgid "Password protected"
-msgstr "Passordbeskyttet"
+msgstr ""
 
 #: js/share.js:577
 msgid "Error unsetting expiration date"
@@ -374,15 +367,15 @@ msgstr ""
 
 #: js/share.js:589
 msgid "Error setting expiration date"
-msgstr "Kan ikke sette utløpsdato"
+msgstr ""
 
 #: js/share.js:604
 msgid "Sending ..."
-msgstr "Sender..."
+msgstr ""
 
 #: js/share.js:615
 msgid "Email sent"
-msgstr "E-post sendt"
+msgstr ""
 
 #: js/update.js:14
 msgid ""
@@ -397,15 +390,15 @@ msgstr ""
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
-msgstr "Tilbakestill ownCloud passord"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr "Bruk følgende lenke for å tilbakestille passordet ditt: {link}"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "Du burde motta detaljer om å tilbakestille passordet ditt via epost."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
@@ -416,70 +409,70 @@ msgid "Request failed!"
 msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
-msgstr "Brukernavn"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr "Anmod tilbakestilling"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "Passordet ditt ble tilbakestilt"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr "Til innlogginssiden"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "Nytt passord"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "Tilbakestill passord"
+msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr "Personlig"
+msgstr ""
 
 #: strings.php:6
 msgid "Users"
-msgstr "Brukere"
+msgstr ""
 
 #: strings.php:7
 msgid "Apps"
-msgstr "Apper"
+msgstr ""
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Admin"
+msgstr ""
 
 #: strings.php:9
 msgid "Help"
-msgstr "Hjelp"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Tilgang nektet"
+msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr "Sky ikke funnet"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Rediger kategorier"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "Legg til"
+msgstr ""
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
 msgid "Security Warning"
-msgstr "Sikkerhetsadvarsel"
+msgstr ""
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
@@ -516,95 +509,95 @@ msgstr ""
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
-msgstr "opprett en <strong>administrator-konto</strong>"
+msgstr ""
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr "Avansert"
+msgstr ""
 
 #: templates/installation.php:64
 msgid "Data folder"
-msgstr "Datamappe"
+msgstr ""
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
-msgstr "Konfigurer databasen"
+msgstr ""
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
-msgstr "vil bli brukt"
+msgstr ""
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
-msgstr "Databasebruker"
+msgstr ""
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
-msgstr "Databasepassord"
+msgstr ""
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
-msgstr "Databasenavn"
+msgstr ""
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
-msgstr "Database tabellområde"
+msgstr ""
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
-msgstr "Databasevert"
+msgstr ""
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
-msgstr "Fullfør oppsetting"
+msgstr ""
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "nettjenester under din kontroll"
+msgstr ""
 
 #: templates/layout.user.php:58
 msgid "Log out"
-msgstr "Logg ut"
+msgstr ""
+
+#: templates/login.php:9
+msgid "Automatic logon rejected!"
+msgstr ""
 
 #: templates/login.php:10
-msgid "Automatic logon rejected!"
-msgstr "Automatisk pålogging avvist!"
-
-#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr "Hvis du ikke har endret passordet ditt nylig kan kontoen din være kompromitert"
+msgstr ""
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr "Vennligst skift passord for å gjøre kontoen din sikker igjen."
+msgstr ""
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
-msgstr "Mistet passordet ditt?"
+msgstr ""
+
+#: templates/login.php:39
+msgid "remember"
+msgstr ""
 
 #: templates/login.php:41
-msgid "remember"
-msgstr "husk"
-
-#: templates/login.php:43
 msgid "Log in"
-msgstr "Logg inn"
+msgstr ""
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr "forrige"
+msgstr ""
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr "neste"
+msgstr ""
 
 #: templates/update.php:3
 #, php-format

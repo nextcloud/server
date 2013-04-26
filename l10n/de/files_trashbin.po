@@ -3,17 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# I Robot <owncloud-bot@tmit.eu>, 2013
-# Marcel Kühlhorn <susefan93@gmx.de>, 2013
-# Mirodin <blobbyjj@ymail.com>, 2013
-# Wachhund <wachhund@wachhund.to>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-18 02:03+0200\n"
-"PO-Revision-Date: 2013-04-17 07:26+0000\n"
-"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,65 +20,65 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr "Konnte %s nicht dauerhaft löschen"
+msgstr ""
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr "Konnte %s nicht wiederherstellen"
+msgstr ""
 
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
-msgstr "Wiederherstellung ausführen"
+msgstr ""
 
 #: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
 msgid "Error"
-msgstr "Fehler"
+msgstr ""
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr "Datei dauerhaft löschen"
+msgstr ""
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr "Endgültig löschen"
+msgstr ""
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
-msgstr "Name"
+msgstr ""
 
 #: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
-msgstr "gelöscht"
+msgstr ""
 
 #: js/trash.js:184
 msgid "1 folder"
-msgstr "1 Ordner"
+msgstr ""
 
 #: js/trash.js:186
 msgid "{count} folders"
-msgstr "{count} Ordner"
+msgstr ""
 
 #: js/trash.js:194
 msgid "1 file"
-msgstr "1 Datei"
+msgstr ""
 
 #: js/trash.js:196
 msgid "{count} files"
-msgstr "{count} Dateien"
+msgstr ""
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr "Nichts zu löschen, der Papierkorb ist leer!"
+msgstr ""
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr "Wiederherstellen"
+msgstr ""
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
-msgstr "Löschen"
+msgstr ""
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr "Gelöschte Dateien"
+msgstr ""

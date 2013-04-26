@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#  <admin@alphacorp.tk>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Taiwan) (http://www.transifex.com/projects/p/owncloud/language/zh_TW/)\n"
 "MIME-Version: 1.0\n"
@@ -21,65 +20,65 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr "無法永久刪除%s"
+msgstr ""
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr "無法復原%s"
+msgstr ""
 
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
-msgstr "進行復原動作"
+msgstr ""
 
 #: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
 msgid "Error"
-msgstr "錯誤"
+msgstr ""
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr "永久刪除文件"
+msgstr ""
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr "永久刪除"
+msgstr ""
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
-msgstr "名稱"
+msgstr ""
 
 #: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
-msgstr "已刪除"
+msgstr ""
 
 #: js/trash.js:184
 msgid "1 folder"
-msgstr "1 個資料夾"
+msgstr ""
 
 #: js/trash.js:186
 msgid "{count} folders"
-msgstr "{count} 個資料夾"
+msgstr ""
 
 #: js/trash.js:194
 msgid "1 file"
-msgstr "1 個檔案"
+msgstr ""
 
 #: js/trash.js:196
 msgid "{count} files"
-msgstr "{count} 個檔案"
+msgstr ""
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr "這裏沒東西。您的垃圾桶是空的！"
+msgstr ""
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr "復原"
+msgstr ""
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
-msgstr "刪除"
+msgstr ""
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr "已刪除的檔案"
+msgstr ""

@@ -103,7 +103,7 @@ class OC_TemplateLayout extends OC_Template {
 
 	static public function findStylesheetFiles($styles) {
 		// Read the selected theme from the config file
-		$theme=OC_Config::getValue( 'theme' );
+		$theme = OC_Util::getTheme();
 
 		// Read the detected formfactor and use the right file name.
 		$fext = self::getFormFactorExtension();
@@ -111,7 +111,8 @@ class OC_TemplateLayout extends OC_Template {
 		$files = array();
 		foreach($styles as $style) {
 			// is it in 3rdparty?
-			if(self::appendIfExist($files, OC::$THIRDPARTYROOT, OC::$THIRDPARTYWEBROOT, $style.'.css')) {
+			if(strpos($style, '3rdparty') === 0 &&
+				self::appendIfExist($files, OC::$THIRDPARTYROOT, OC::$THIRDPARTYWEBROOT, $style.'.css')) {
 
 			// or in the owncloud root?
 			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "$style$fext.css" )) {
@@ -161,7 +162,7 @@ class OC_TemplateLayout extends OC_Template {
 
 	static public function findJavascriptFiles($scripts) {
 		// Read the selected theme from the config file
-		$theme=OC_Config::getValue( 'theme' );
+		$theme = OC_Util::getTheme();
 
 		// Read the detected formfactor and use the right file name.
 		$fext = self::getFormFactorExtension();
@@ -169,7 +170,8 @@ class OC_TemplateLayout extends OC_Template {
 		$files = array();
 		foreach($scripts as $script) {
 			// Is it in 3rd party?
-			if(self::appendIfExist($files, OC::$THIRDPARTYROOT, OC::$THIRDPARTYWEBROOT, $script.'.js')) {
+			if(strpos($script, '3rdparty') === 0 &&
+				self::appendIfExist($files, OC::$THIRDPARTYROOT, OC::$THIRDPARTYWEBROOT, $script.'.js')) {
 
 			// Is it in apps and overwritten by the theme?
 			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "themes/$theme/apps/$script$fext.js" )) {

@@ -3,19 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Aranel Surion <aranel@aranelsurion.org>, 2011, 2012.
-# Caner Başaran <basaran.caner@gmail.com>, 2012.
-# H.Oktay Tefenli <otefenli@gmail.com>, 2013.
-#   <info@beyboo.de>, 2012.
-# ismail yenigul <ismail.yenigul@surgate.com>, 2013.
-# Necdet Yücel <necdetyucel@gmail.com>, 2012.
-# TayançKILIÇLI <tayancatakan@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -27,222 +20,222 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
-msgstr "%s kullanıcısı sizinle bir dosyayı paylaştı"
+msgstr ""
 
 #: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr "%s kullanıcısı sizinle bir dizini paylaştı"
+msgstr ""
 
 #: ajax/share.php:101
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr "%s kullanıcısı \"%s\" dosyasını sizinle paylaştı. %s adresinden indirilebilir"
+msgstr ""
 
 #: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr "%s kullanıcısı \"%s\" dizinini sizinle paylaştı. %s adresinden indirilebilir"
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr "Kategori türü desteklenmemektedir."
+msgstr ""
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr "Eklenecek kategori yok?"
+msgstr ""
 
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr "Bu kategori zaten mevcut:  %s"
+msgstr ""
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr "Nesne türü desteklenmemektedir."
+msgstr ""
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr "%s ID belirtilmedi."
+msgstr ""
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr "%s favorilere eklenirken hata oluştu"
+msgstr ""
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "Silmek için bir kategori seçilmedi"
+msgstr ""
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr "%s favorilere çıkarılırken hata oluştu"
+msgstr ""
 
 #: js/config.php:34
 msgid "Sunday"
-msgstr "Pazar"
+msgstr ""
 
 #: js/config.php:35
 msgid "Monday"
-msgstr "Pazartesi"
+msgstr ""
 
 #: js/config.php:36
 msgid "Tuesday"
-msgstr "Salı"
+msgstr ""
 
 #: js/config.php:37
 msgid "Wednesday"
-msgstr "Çarşamba"
+msgstr ""
 
 #: js/config.php:38
 msgid "Thursday"
-msgstr "Perşembe"
+msgstr ""
 
 #: js/config.php:39
 msgid "Friday"
-msgstr "Cuma"
+msgstr ""
 
 #: js/config.php:40
 msgid "Saturday"
-msgstr "Cumartesi"
+msgstr ""
 
 #: js/config.php:45
 msgid "January"
-msgstr "Ocak"
+msgstr ""
 
 #: js/config.php:46
 msgid "February"
-msgstr "Şubat"
+msgstr ""
 
 #: js/config.php:47
 msgid "March"
-msgstr "Mart"
+msgstr ""
 
 #: js/config.php:48
 msgid "April"
-msgstr "Nisan"
+msgstr ""
 
 #: js/config.php:49
 msgid "May"
-msgstr "Mayıs"
+msgstr ""
 
 #: js/config.php:50
 msgid "June"
-msgstr "Haziran"
+msgstr ""
 
 #: js/config.php:51
 msgid "July"
-msgstr "Temmuz"
+msgstr ""
 
 #: js/config.php:52
 msgid "August"
-msgstr "Ağustos"
+msgstr ""
 
 #: js/config.php:53
 msgid "September"
-msgstr "Eylül"
+msgstr ""
 
 #: js/config.php:54
 msgid "October"
-msgstr "Ekim"
+msgstr ""
 
 #: js/config.php:55
 msgid "November"
-msgstr "Kasım"
+msgstr ""
 
 #: js/config.php:56
 msgid "December"
-msgstr "Aralık"
+msgstr ""
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "Ayarlar"
+msgstr ""
 
 #: js/js.js:718
 msgid "seconds ago"
-msgstr "saniye önce"
+msgstr ""
 
 #: js/js.js:719
 msgid "1 minute ago"
-msgstr "1 dakika önce"
+msgstr ""
 
 #: js/js.js:720
 msgid "{minutes} minutes ago"
-msgstr "{minutes} dakika önce"
+msgstr ""
 
 #: js/js.js:721
 msgid "1 hour ago"
-msgstr "1 saat önce"
+msgstr ""
 
 #: js/js.js:722
 msgid "{hours} hours ago"
-msgstr "{hours} saat önce"
+msgstr ""
 
 #: js/js.js:723
 msgid "today"
-msgstr "bugün"
+msgstr ""
 
 #: js/js.js:724
 msgid "yesterday"
-msgstr "dün"
+msgstr ""
 
 #: js/js.js:725
 msgid "{days} days ago"
-msgstr "{days} gün önce"
+msgstr ""
 
 #: js/js.js:726
 msgid "last month"
-msgstr "geçen ay"
+msgstr ""
 
 #: js/js.js:727
 msgid "{months} months ago"
-msgstr "{months} ay önce"
+msgstr ""
 
 #: js/js.js:728
 msgid "months ago"
-msgstr "ay önce"
+msgstr ""
 
 #: js/js.js:729
 msgid "last year"
-msgstr "geçen yıl"
+msgstr ""
 
 #: js/js.js:730
 msgid "years ago"
-msgstr "yıl önce"
+msgstr ""
 
 #: js/oc-dialogs.js:117 js/oc-dialogs.js:247
 msgid "Ok"
-msgstr "Tamam"
+msgstr ""
 
 #: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
-msgstr "İptal"
+msgstr ""
 
 #: js/oc-dialogs.js:185
 msgid "Choose"
-msgstr "seç"
+msgstr ""
 
 #: js/oc-dialogs.js:215
 msgid "Yes"
-msgstr "Evet"
+msgstr ""
 
 #: js/oc-dialogs.js:222
 msgid "No"
-msgstr "Hayır"
+msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr "Nesne türü belirtilmemiş."
+msgstr ""
 
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
@@ -250,363 +243,363 @@ msgstr "Nesne türü belirtilmemiş."
 #: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
-msgstr "Hata"
+msgstr ""
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr "uygulama adı belirtilmedi."
+msgstr ""
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr "İhtiyaç duyulan {file} dosyası kurulu değil."
+msgstr ""
 
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
-msgstr "Paylaşılan"
+msgstr ""
 
 #: js/share.js:90
 msgid "Share"
-msgstr "Paylaş"
+msgstr ""
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
-msgstr "Paylaşım sırasında hata  "
+msgstr ""
 
 #: js/share.js:136
 msgid "Error while unsharing"
-msgstr "Paylaşım iptal ediliyorken hata"
+msgstr ""
 
 #: js/share.js:143
 msgid "Error while changing permissions"
-msgstr "İzinleri değiştirirken hata oluştu"
+msgstr ""
 
 #: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
-msgstr " {owner} tarafından sizinle ve {group} ile paylaştırılmış"
+msgstr ""
 
 #: js/share.js:154
 msgid "Shared with you by {owner}"
-msgstr "{owner} trafından sizinle paylaştırıldı"
+msgstr ""
 
 #: js/share.js:159
 msgid "Share with"
-msgstr "ile Paylaş"
+msgstr ""
 
 #: js/share.js:164
 msgid "Share with link"
-msgstr "Bağlantı ile paylaş"
+msgstr ""
 
 #: js/share.js:167
 msgid "Password protect"
-msgstr "Şifre korunması"
+msgstr ""
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "Parola"
+msgstr ""
 
 #: js/share.js:173
 msgid "Email link to person"
-msgstr "Kişiye e-posta linki"
+msgstr ""
 
 #: js/share.js:174
 msgid "Send"
-msgstr "Gönder"
+msgstr ""
 
 #: js/share.js:178
 msgid "Set expiration date"
-msgstr "Son kullanma tarihini ayarla"
+msgstr ""
 
 #: js/share.js:179
 msgid "Expiration date"
-msgstr "Son kullanım tarihi"
+msgstr ""
 
 #: js/share.js:211
 msgid "Share via email:"
-msgstr "Eposta ile paylaş"
+msgstr ""
 
 #: js/share.js:213
 msgid "No people found"
-msgstr "Kişi bulunamadı"
+msgstr ""
 
 #: js/share.js:251
 msgid "Resharing is not allowed"
-msgstr "Tekrar paylaşmaya izin verilmiyor"
+msgstr ""
 
 #: js/share.js:287
 msgid "Shared in {item} with {user}"
-msgstr " {item} içinde  {user} ile paylaşılanlarlar"
+msgstr ""
 
 #: js/share.js:308
 msgid "Unshare"
-msgstr "Paylaşılmayan"
+msgstr ""
 
 #: js/share.js:320
 msgid "can edit"
-msgstr "düzenleyebilir"
+msgstr ""
 
 #: js/share.js:322
 msgid "access control"
-msgstr "erişim kontrolü"
+msgstr ""
 
 #: js/share.js:325
 msgid "create"
-msgstr "oluştur"
+msgstr ""
 
 #: js/share.js:328
 msgid "update"
-msgstr "güncelle"
+msgstr ""
 
 #: js/share.js:331
 msgid "delete"
-msgstr "sil"
+msgstr ""
 
 #: js/share.js:334
 msgid "share"
-msgstr "paylaş"
+msgstr ""
 
 #: js/share.js:368 js/share.js:564
 msgid "Password protected"
-msgstr "Paralo korumalı"
+msgstr ""
 
 #: js/share.js:577
 msgid "Error unsetting expiration date"
-msgstr "Geçerlilik tarihi tanımlama kaldırma hatası"
+msgstr ""
 
 #: js/share.js:589
 msgid "Error setting expiration date"
-msgstr "Geçerlilik tarihi tanımlama hatası"
+msgstr ""
 
 #: js/share.js:604
 msgid "Sending ..."
-msgstr "Gönderiliyor..."
+msgstr ""
 
 #: js/share.js:615
 msgid "Email sent"
-msgstr "Eposta gönderildi"
+msgstr ""
 
 #: js/update.js:14
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr "Güncelleme başarılı olmadı. Lütfen bu hatayı bildirin <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>."
+msgstr ""
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr "Güncelleme başarılı. ownCloud'a yönlendiriliyor."
+msgstr ""
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
-msgstr "ownCloud parola sıfırlama"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr "Bu bağlantıyı kullanarak parolanızı sıfırlayın: {link}"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "Parolanızı sıfırlamak için bir bağlantı Eposta olarak gönderilecek."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr "Sıfırlama epostası gönderildi."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr "İstek reddedildi!"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
-msgstr "Kullanıcı adı"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr "Sıfırlama iste"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "Parolanız sıfırlandı"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr "Giriş sayfasına git"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "Yeni parola"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "Parolayı sıfırla"
+msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr "Kişisel"
+msgstr ""
 
 #: strings.php:6
 msgid "Users"
-msgstr "Kullanıcılar"
+msgstr ""
 
 #: strings.php:7
 msgid "Apps"
-msgstr "Uygulamalar"
+msgstr ""
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Yönetici"
+msgstr ""
 
 #: strings.php:9
 msgid "Help"
-msgstr "Yardı"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Erişim yasaklı"
+msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr "Bulut bulunamadı"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Kategorileri düzenle"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "Ekle"
+msgstr ""
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
 msgid "Security Warning"
-msgstr "Güvenlik Uyarisi"
+msgstr ""
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr "PHP sürümünüz NULL Byte saldırısına açık (CVE-2006-7243)"
+msgstr ""
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr "ownCloud'u güvenli olarak kullanmak için, lütfen PHP kurulumunuzu güncelleyin."
+msgstr ""
 
 #: templates/installation.php:32
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr "Güvenli rasgele sayı üreticisi bulunamadı. Lütfen PHP OpenSSL eklentisini etkinleştirin."
+msgstr ""
 
 #: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr "Güvenli rasgele sayı üreticisi olmadan saldırganlar parola sıfırlama simgelerini tahmin edip hesabınızı ele geçirebilir."
+msgstr ""
 
 #: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr "Veri klasörünüz ve dosyalarınız .htaccess dosyası çalışmadığı için internet'ten erişime açık."
+msgstr ""
 
 #: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr "Server'ınızı nasıl ayarlayacağınıza dair bilgi için, lütfen bu linki ziyaret edin <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentation</a>."
+msgstr ""
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
-msgstr "Bir <strong>yönetici hesabı</strong> oluşturun"
+msgstr ""
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr "Gelişmiş"
+msgstr ""
 
 #: templates/installation.php:64
 msgid "Data folder"
-msgstr "Veri klasörü"
+msgstr ""
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
-msgstr "Veritabanını ayarla"
+msgstr ""
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
-msgstr "kullanılacak"
+msgstr ""
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
-msgstr "Veritabanı kullanıcı adı"
+msgstr ""
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
-msgstr "Veritabanı parolası"
+msgstr ""
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
-msgstr "Veritabanı adı"
+msgstr ""
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
-msgstr "Veritabanı tablo alanı"
+msgstr ""
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
-msgstr "Veritabanı sunucusu"
+msgstr ""
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
-msgstr "Kurulumu tamamla"
+msgstr ""
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "kontrolünüzdeki web servisleri"
+msgstr ""
 
 #: templates/layout.user.php:58
 msgid "Log out"
-msgstr "Çıkış yap"
+msgstr ""
+
+#: templates/login.php:9
+msgid "Automatic logon rejected!"
+msgstr ""
 
 #: templates/login.php:10
-msgid "Automatic logon rejected!"
-msgstr "Otomatik oturum açma reddedildi!"
-
-#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr "Yakın zamanda parolanızı değiştirmedi iseniz hesabınız riske girebilir."
+msgstr ""
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr "Hesabınızı korumak için lütfen parolanızı değiştirin."
+msgstr ""
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
-msgstr "Parolanızı mı unuttunuz?"
+msgstr ""
+
+#: templates/login.php:39
+msgid "remember"
+msgstr ""
 
 #: templates/login.php:41
-msgid "remember"
-msgstr "hatırla"
-
-#: templates/login.php:43
 msgid "Log in"
-msgstr "Giriş yap"
+msgstr ""
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
-msgstr "Alternatif Girişler"
+msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr "önceki"
+msgstr ""
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr "sonraki"
+msgstr ""
 
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "Owncloud %s versiyonuna güncelleniyor. Biraz zaman alabilir."
+msgstr ""

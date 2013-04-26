@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <kaztraz@gmail.com>, 2012.
-#   <sveinng@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -22,34 +20,34 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
-msgstr "Notandinn %s deildi skrá með þér"
+msgstr ""
 
 #: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr "Notandinn %s deildi möppu með þér"
+msgstr ""
 
 #: ajax/share.php:101
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr "Notandinn %s deildi skránni \"%s\" með þér. Hægt er að hlaða henni niður hér: %s"
+msgstr ""
 
 #: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr "Notandinn %s deildi möppunni \"%s\" með þér. Hægt er að hlaða henni niður hér: %s"
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr "Flokkur ekki gefin"
+msgstr ""
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr "Enginn flokkur til að bæta við?"
+msgstr ""
 
 #: ajax/vcategories/add.php:37
 #, php-format
@@ -60,184 +58,184 @@ msgstr ""
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr "Tegund ekki í boði."
+msgstr ""
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr "%s ID ekki í boði."
+msgstr ""
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr "Villa við að bæta %s við eftirlæti."
+msgstr ""
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "Enginn flokkur valinn til eyðingar."
+msgstr ""
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr "Villa við að fjarlægja %s úr eftirlæti."
+msgstr ""
 
 #: js/config.php:34
 msgid "Sunday"
-msgstr "Sunnudagur"
+msgstr ""
 
 #: js/config.php:35
 msgid "Monday"
-msgstr "Mánudagur"
+msgstr ""
 
 #: js/config.php:36
 msgid "Tuesday"
-msgstr "Þriðjudagur"
+msgstr ""
 
 #: js/config.php:37
 msgid "Wednesday"
-msgstr "Miðvikudagur"
+msgstr ""
 
 #: js/config.php:38
 msgid "Thursday"
-msgstr "Fimmtudagur"
+msgstr ""
 
 #: js/config.php:39
 msgid "Friday"
-msgstr "Föstudagur"
+msgstr ""
 
 #: js/config.php:40
 msgid "Saturday"
-msgstr "Laugardagur"
+msgstr ""
 
 #: js/config.php:45
 msgid "January"
-msgstr "Janúar"
+msgstr ""
 
 #: js/config.php:46
 msgid "February"
-msgstr "Febrúar"
+msgstr ""
 
 #: js/config.php:47
 msgid "March"
-msgstr "Mars"
+msgstr ""
 
 #: js/config.php:48
 msgid "April"
-msgstr "Apríl"
+msgstr ""
 
 #: js/config.php:49
 msgid "May"
-msgstr "Maí"
+msgstr ""
 
 #: js/config.php:50
 msgid "June"
-msgstr "Júní"
+msgstr ""
 
 #: js/config.php:51
 msgid "July"
-msgstr "Júlí"
+msgstr ""
 
 #: js/config.php:52
 msgid "August"
-msgstr "Ágúst"
+msgstr ""
 
 #: js/config.php:53
 msgid "September"
-msgstr "September"
+msgstr ""
 
 #: js/config.php:54
 msgid "October"
-msgstr "Október"
+msgstr ""
 
 #: js/config.php:55
 msgid "November"
-msgstr "Nóvember"
+msgstr ""
 
 #: js/config.php:56
 msgid "December"
-msgstr "Desember"
+msgstr ""
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "Stillingar"
+msgstr ""
 
 #: js/js.js:718
 msgid "seconds ago"
-msgstr "sek síðan"
+msgstr ""
 
 #: js/js.js:719
 msgid "1 minute ago"
-msgstr "1 min síðan"
+msgstr ""
 
 #: js/js.js:720
 msgid "{minutes} minutes ago"
-msgstr "{minutes} min síðan"
+msgstr ""
 
 #: js/js.js:721
 msgid "1 hour ago"
-msgstr "Fyrir 1 klst."
+msgstr ""
 
 #: js/js.js:722
 msgid "{hours} hours ago"
-msgstr "fyrir {hours} klst."
+msgstr ""
 
 #: js/js.js:723
 msgid "today"
-msgstr "í dag"
+msgstr ""
 
 #: js/js.js:724
 msgid "yesterday"
-msgstr "í gær"
+msgstr ""
 
 #: js/js.js:725
 msgid "{days} days ago"
-msgstr "{days} dagar síðan"
+msgstr ""
 
 #: js/js.js:726
 msgid "last month"
-msgstr "síðasta mánuði"
+msgstr ""
 
 #: js/js.js:727
 msgid "{months} months ago"
-msgstr "fyrir {months} mánuðum"
+msgstr ""
 
 #: js/js.js:728
 msgid "months ago"
-msgstr "mánuðir síðan"
+msgstr ""
 
 #: js/js.js:729
 msgid "last year"
-msgstr "síðasta ári"
+msgstr ""
 
 #: js/js.js:730
 msgid "years ago"
-msgstr "árum síðan"
+msgstr ""
 
 #: js/oc-dialogs.js:117 js/oc-dialogs.js:247
 msgid "Ok"
-msgstr "Í lagi"
+msgstr ""
 
 #: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
-msgstr "Hætta við"
+msgstr ""
 
 #: js/oc-dialogs.js:185
 msgid "Choose"
-msgstr "Veldu"
+msgstr ""
 
 #: js/oc-dialogs.js:215
 msgid "Yes"
-msgstr "Já"
+msgstr ""
 
 #: js/oc-dialogs.js:222
 msgid "No"
-msgstr "Nei"
+msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr "Tegund ekki tilgreind"
+msgstr ""
 
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
@@ -245,15 +243,15 @@ msgstr "Tegund ekki tilgreind"
 #: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
-msgstr "Villa"
+msgstr ""
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr "Nafn forrits ekki tilgreint"
+msgstr ""
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr "Umbeðina skráin {file} ekki tiltæk!"
+msgstr ""
 
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
@@ -261,123 +259,123 @@ msgstr ""
 
 #: js/share.js:90
 msgid "Share"
-msgstr "Deila"
+msgstr ""
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
-msgstr "Villa við deilingu"
+msgstr ""
 
 #: js/share.js:136
 msgid "Error while unsharing"
-msgstr "Villa við að hætta deilingu"
+msgstr ""
 
 #: js/share.js:143
 msgid "Error while changing permissions"
-msgstr "Villa við að breyta aðgangsheimildum"
+msgstr ""
 
 #: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
-msgstr "Deilt með þér og hópnum {group} af {owner}"
+msgstr ""
 
 #: js/share.js:154
 msgid "Shared with you by {owner}"
-msgstr "Deilt með þér af {owner}"
+msgstr ""
 
 #: js/share.js:159
 msgid "Share with"
-msgstr "Deila með"
+msgstr ""
 
 #: js/share.js:164
 msgid "Share with link"
-msgstr "Deila með veftengli"
+msgstr ""
 
 #: js/share.js:167
 msgid "Password protect"
-msgstr "Verja með lykilorði"
+msgstr ""
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "Lykilorð"
+msgstr ""
 
 #: js/share.js:173
 msgid "Email link to person"
-msgstr "Senda vefhlekk í tölvupóstu til notenda"
+msgstr ""
 
 #: js/share.js:174
 msgid "Send"
-msgstr "Senda"
+msgstr ""
 
 #: js/share.js:178
 msgid "Set expiration date"
-msgstr "Setja gildistíma"
+msgstr ""
 
 #: js/share.js:179
 msgid "Expiration date"
-msgstr "Gildir til"
+msgstr ""
 
 #: js/share.js:211
 msgid "Share via email:"
-msgstr "Deila með tölvupósti:"
+msgstr ""
 
 #: js/share.js:213
 msgid "No people found"
-msgstr "Engir notendur fundust"
+msgstr ""
 
 #: js/share.js:251
 msgid "Resharing is not allowed"
-msgstr "Endurdeiling er ekki leyfð"
+msgstr ""
 
 #: js/share.js:287
 msgid "Shared in {item} with {user}"
-msgstr "Deilt með {item} ásamt {user}"
+msgstr ""
 
 #: js/share.js:308
 msgid "Unshare"
-msgstr "Hætta deilingu"
+msgstr ""
 
 #: js/share.js:320
 msgid "can edit"
-msgstr "getur breytt"
+msgstr ""
 
 #: js/share.js:322
 msgid "access control"
-msgstr "aðgangsstýring"
+msgstr ""
 
 #: js/share.js:325
 msgid "create"
-msgstr "mynda"
+msgstr ""
 
 #: js/share.js:328
 msgid "update"
-msgstr "uppfæra"
+msgstr ""
 
 #: js/share.js:331
 msgid "delete"
-msgstr "eyða"
+msgstr ""
 
 #: js/share.js:334
 msgid "share"
-msgstr "deila"
+msgstr ""
 
 #: js/share.js:368 js/share.js:564
 msgid "Password protected"
-msgstr "Verja með lykilorði"
+msgstr ""
 
 #: js/share.js:577
 msgid "Error unsetting expiration date"
-msgstr "Villa við að aftengja gildistíma"
+msgstr ""
 
 #: js/share.js:589
 msgid "Error setting expiration date"
-msgstr "Villa við að setja gildistíma"
+msgstr ""
 
 #: js/share.js:604
 msgid "Sending ..."
-msgstr "Sendi ..."
+msgstr ""
 
 #: js/share.js:615
 msgid "Email sent"
-msgstr "Tölvupóstur sendur"
+msgstr ""
 
 #: js/update.js:14
 msgid ""
@@ -392,89 +390,89 @@ msgstr ""
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
-msgstr "endursetja ownCloud lykilorð"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr "Notað eftirfarandi veftengil til að endursetja lykilorðið þitt: {link}"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "Þú munt fá veftengil í tölvupósti til að endursetja lykilorðið."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr "Beiðni um endursetningu send."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr "Beiðni mistókst!"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
-msgstr "Notendanafn"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr "Endursetja lykilorð"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "Lykilorðið þitt hefur verið endursett."
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr "Fara á innskráningarsíðu"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "Nýtt lykilorð"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "Endursetja lykilorð"
+msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr "Persónustillingar"
+msgstr ""
 
 #: strings.php:6
 msgid "Users"
-msgstr "Notendur"
+msgstr ""
 
 #: strings.php:7
 msgid "Apps"
-msgstr "Forrit"
+msgstr ""
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Vefstjórn"
+msgstr ""
 
 #: strings.php:9
 msgid "Help"
-msgstr "Hjálp"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Aðgangur bannaður"
+msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr "Ský finnst ekki"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Breyta flokkum"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "Bæta"
+msgstr ""
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
 msgid "Security Warning"
-msgstr "Öryggis aðvörun"
+msgstr ""
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
@@ -488,13 +486,13 @@ msgstr ""
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr "Enginn traustur slembitölugjafi í boði, vinsamlegast virkjaðu PHP OpenSSL viðbótina."
+msgstr ""
 
 #: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr "Án öruggs slembitölugjafa er mögulegt að sjá fyrir öryggis auðkenni til að endursetja lykilorð og komast inn á aðganginn þinn."
+msgstr ""
 
 #: templates/installation.php:39
 msgid ""
@@ -511,97 +509,97 @@ msgstr ""
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
-msgstr "Útbúa <strong>vefstjóra aðgang</strong>"
+msgstr ""
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr "Ítarlegt"
+msgstr ""
 
 #: templates/installation.php:64
 msgid "Data folder"
-msgstr "Gagnamappa"
+msgstr ""
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
-msgstr "Stilla gagnagrunn"
+msgstr ""
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
-msgstr "verður notað"
+msgstr ""
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
-msgstr "Gagnagrunns notandi"
+msgstr ""
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
-msgstr "Gagnagrunns lykilorð"
+msgstr ""
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
-msgstr "Nafn gagnagrunns"
+msgstr ""
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
-msgstr "Töflusvæði gagnagrunns"
+msgstr ""
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
-msgstr "Netþjónn gagnagrunns"
+msgstr ""
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
-msgstr "Virkja uppsetningu"
+msgstr ""
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "vefþjónusta undir þinni stjórn"
+msgstr ""
 
 #: templates/layout.user.php:58
 msgid "Log out"
-msgstr "Útskrá"
+msgstr ""
+
+#: templates/login.php:9
+msgid "Automatic logon rejected!"
+msgstr ""
 
 #: templates/login.php:10
-msgid "Automatic logon rejected!"
-msgstr "Sjálfvirkri innskráningu hafnað!"
-
-#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr "Ef þú breyttir ekki lykilorðinu þínu fyrir skömmu, er mögulegt að einhver annar hafi komist inn á aðganginn þinn."
+msgstr ""
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr "Vinsamlegast breyttu lykilorðinu þínu til að tryggja öryggi þitt."
+msgstr ""
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
-msgstr "Týndir þú lykilorðinu?"
+msgstr ""
+
+#: templates/login.php:39
+msgid "remember"
+msgstr ""
 
 #: templates/login.php:41
-msgid "remember"
-msgstr "muna eftir mér"
-
-#: templates/login.php:43
 msgid "Log in"
-msgstr "<strong>Skrá inn</strong>"
+msgstr ""
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr "fyrra"
+msgstr ""
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr "næsta"
+msgstr ""
 
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "Uppfæri ownCloud í útgáfu %s, það gæti tekið smá stund."
+msgstr ""

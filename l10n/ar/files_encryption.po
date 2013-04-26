@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <hussein-atef@hotmail.com>, 2012.
-# Raed Chammem <shemada@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -21,20 +19,20 @@ msgstr ""
 
 #: templates/settings-personal.php:4 templates/settings.php:5
 msgid "Encryption"
-msgstr "التشفير"
+msgstr ""
 
 #: templates/settings-personal.php:7
 msgid "File encryption is enabled."
-msgstr "تشفير الملفات فعال."
+msgstr ""
 
 #: templates/settings-personal.php:11
 msgid "The following file types will not be encrypted:"
-msgstr "الملفات الاتية لن يتم تشفيرها:"
+msgstr ""
 
 #: templates/settings.php:7
 msgid "Exclude the following file types from encryption:"
-msgstr "إستثناء أنواع الملفات الاتية من التشفير: "
+msgstr ""
 
 #: templates/settings.php:12
 msgid "None"
-msgstr "لا شيء"
+msgstr ""

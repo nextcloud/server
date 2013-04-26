@@ -13,6 +13,7 @@
 "Not enough storage available" => "เหลือพื้นที่ไม่เพียงสำหรับใช้งาน",
 "Invalid directory." => "ไดเร็กทอรี่ไม่ถูกต้อง",
 "Files" => "ไฟล์",
+"Share" => "แชร์",
 "Delete" => "ลบ",
 "Rename" => "เปลี่ยนชื่อ",
 "Pending" => "อยู่ระหว่างดำเนินการ",

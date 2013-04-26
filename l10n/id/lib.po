@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Mohamad Hasan Al Banna <se7entime@gmail.com>, 2013
-# elmakong <mr.pige_ina@yahoo.co.id>, 2012
-# rodin <romihardiyanto@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-18 02:04+0200\n"
-"PO-Revision-Date: 2013-04-18 00:04+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -22,236 +19,236 @@ msgstr ""
 
 #: app.php:349
 msgid "Help"
-msgstr "Bantuan"
+msgstr ""
 
 #: app.php:362
 msgid "Personal"
-msgstr "Pribadi"
+msgstr ""
 
 #: app.php:373
 msgid "Settings"
-msgstr "Setelan"
+msgstr ""
 
 #: app.php:385
 msgid "Users"
-msgstr "Pengguna"
+msgstr ""
 
 #: app.php:398
 msgid "Apps"
-msgstr "Aplikasi"
+msgstr ""
 
 #: app.php:406
 msgid "Admin"
-msgstr "Admin"
+msgstr ""
 
 #: files.php:209
 msgid "ZIP download is turned off."
-msgstr "Pengunduhan ZIP dimatikan."
+msgstr ""
 
 #: files.php:210
 msgid "Files need to be downloaded one by one."
-msgstr "Berkas harus diunduh satu persatu."
+msgstr ""
 
 #: files.php:211 files.php:244
 msgid "Back to Files"
-msgstr "Kembali ke Daftar Berkas"
+msgstr ""
 
 #: files.php:241
 msgid "Selected files too large to generate zip file."
-msgstr "Berkas yang dipilih terlalu besar untuk dibuat berkas zip-nya."
+msgstr ""
 
 #: helper.php:228
 msgid "couldn't be determined"
-msgstr "tidak dapat ditentukan"
+msgstr ""
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr "Aplikasi tidak diaktifkan"
+msgstr ""
 
 #: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
-msgstr "Galat saat autentikasi"
+msgstr ""
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr "Token kedaluwarsa. Silakan muat ulang halaman."
+msgstr ""
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
-msgstr "Berkas"
+msgstr ""
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr "Teks"
+msgstr ""
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr "Gambar"
+msgstr ""
 
 #: setup.php:34
 msgid "Set an admin username."
-msgstr "Setel nama pengguna admin."
+msgstr ""
 
 #: setup.php:37
 msgid "Set an admin password."
-msgstr "Setel sandi admin."
+msgstr ""
 
 #: setup.php:55
 #, php-format
 msgid "%s enter the database username."
-msgstr "%s masukkan nama pengguna basis data."
+msgstr ""
 
 #: setup.php:58
 #, php-format
 msgid "%s enter the database name."
-msgstr "%s masukkan nama basis data."
+msgstr ""
 
 #: setup.php:61
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr "%sAnda tidak boleh menggunakan karakter titik pada nama basis data"
+msgstr ""
 
 #: setup.php:64
 #, php-format
 msgid "%s set the database host."
-msgstr "%s setel host basis data."
+msgstr ""
 
-#: setup.php:132 setup.php:324 setup.php:369
+#: setup.php:132 setup.php:325 setup.php:370
 msgid "PostgreSQL username and/or password not valid"
-msgstr "Nama pengguna dan/atau sandi PostgreSQL tidak valid"
+msgstr ""
 
-#: setup.php:133 setup.php:156 setup.php:233
+#: setup.php:133 setup.php:156 setup.php:234
 msgid "You need to enter either an existing account or the administrator."
-msgstr "Anda harus memasukkan akun yang sudah ada atau administrator."
+msgstr ""
 
-#: setup.php:155 setup.php:457 setup.php:524
+#: setup.php:155 setup.php:458 setup.php:525
 msgid "Oracle username and/or password not valid"
-msgstr "Nama pengguna dan/atau sandi Oracle tidak valid"
+msgstr ""
 
-#: setup.php:232
+#: setup.php:233
 msgid "MySQL username and/or password not valid"
-msgstr "Nama pengguna dan/atau sandi MySQL tidak valid"
-
-#: setup.php:286 setup.php:390 setup.php:399 setup.php:417 setup.php:427
-#: setup.php:436 setup.php:465 setup.php:531 setup.php:557 setup.php:564
-#: setup.php:575 setup.php:582 setup.php:591 setup.php:599 setup.php:608
-#: setup.php:614
-#, php-format
-msgid "DB Error: \"%s\""
-msgstr "Galat Basis Data: \"%s\""
+msgstr ""
 
 #: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
 #: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
-#: setup.php:576 setup.php:592 setup.php:600 setup.php:609
+#: setup.php:576 setup.php:583 setup.php:592 setup.php:600 setup.php:609
+#: setup.php:615
+#, php-format
+msgid "DB Error: \"%s\""
+msgstr ""
+
+#: setup.php:288 setup.php:392 setup.php:401 setup.php:419 setup.php:429
+#: setup.php:438 setup.php:467 setup.php:533 setup.php:559 setup.php:566
+#: setup.php:577 setup.php:593 setup.php:601 setup.php:610
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr "Perintah yang bermasalah: \"%s\""
-
-#: setup.php:303
-#, php-format
-msgid "MySQL user '%s'@'localhost' exists already."
-msgstr "Pengguna MySQL '%s'@'localhost' sudah ada."
+msgstr ""
 
 #: setup.php:304
-msgid "Drop this user from MySQL"
-msgstr "Hapus pengguna ini dari MySQL"
-
-#: setup.php:309
 #, php-format
-msgid "MySQL user '%s'@'%%' already exists"
-msgstr "Pengguna MySQL '%s'@'%%' sudah ada."
+msgid "MySQL user '%s'@'localhost' exists already."
+msgstr ""
+
+#: setup.php:305
+msgid "Drop this user from MySQL"
+msgstr ""
 
 #: setup.php:310
-msgid "Drop this user from MySQL."
-msgstr "Hapus pengguna ini dari MySQL."
+#, php-format
+msgid "MySQL user '%s'@'%%' already exists"
+msgstr ""
 
-#: setup.php:583 setup.php:615
+#: setup.php:311
+msgid "Drop this user from MySQL."
+msgstr ""
+
+#: setup.php:584 setup.php:616
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr "Perintah yang bermasalah: \"%s\", nama pengguna: %s, sandi: %s"
+msgstr ""
 
-#: setup.php:635
+#: setup.php:636
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr "Nama pengguna dan/atau sandi MySQL tidak valid: %s"
+msgstr ""
 
-#: setup.php:853
+#: setup.php:858
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "Web server Anda belum dikonfigurasikan dengan baik untuk mengizinkan sinkronisasi berkas karena tampaknya antarmuka WebDAV rusak."
+msgstr ""
 
-#: setup.php:854
+#: setup.php:859
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr "Silakan periksa ulang <a href='%s'>panduan instalasi</a>."
+msgstr ""
 
 #: template.php:113
 msgid "seconds ago"
-msgstr "beberapa detik yang lalu"
+msgstr ""
 
 #: template.php:114
 msgid "1 minute ago"
-msgstr "1 menit yang lalu"
+msgstr ""
 
 #: template.php:115
 #, php-format
 msgid "%d minutes ago"
-msgstr "%d menit yang lalu"
+msgstr ""
 
 #: template.php:116
 msgid "1 hour ago"
-msgstr "1 jam yang lalu"
+msgstr ""
 
 #: template.php:117
 #, php-format
 msgid "%d hours ago"
-msgstr "%d jam yang lalu"
+msgstr ""
 
 #: template.php:118
 msgid "today"
-msgstr "hari ini"
+msgstr ""
 
 #: template.php:119
 msgid "yesterday"
-msgstr "kemarin"
+msgstr ""
 
 #: template.php:120
 #, php-format
 msgid "%d days ago"
-msgstr "%d hari yang lalu"
+msgstr ""
 
 #: template.php:121
 msgid "last month"
-msgstr "bulan kemarin"
+msgstr ""
 
 #: template.php:122
 #, php-format
 msgid "%d months ago"
-msgstr "%d bulan yang lalu"
+msgstr ""
 
 #: template.php:123
 msgid "last year"
-msgstr "tahun kemarin"
+msgstr ""
 
 #: template.php:124
 msgid "years ago"
-msgstr "beberapa tahun lalu"
+msgstr ""
 
 #: updater.php:78
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr "%s tersedia. Dapatkan <a href=\"%s\">info lebih lanjut</a>"
+msgstr ""
 
 #: updater.php:81
 msgid "up to date"
-msgstr "terbaru"
+msgstr ""
 
 #: updater.php:84
 msgid "updates check is disabled"
-msgstr "Pemeriksaan pembaruan dinonaktifkan."
+msgstr ""
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr "Tidak dapat menemukan kategori \"%s\""
+msgstr ""

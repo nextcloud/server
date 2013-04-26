@@ -186,10 +186,15 @@ class OC_Template{
 		$this->l10n = OC_L10N::get($parts[0]);
 
 		// Some headers to enhance security
-		header('X-Frame-Options: Sameorigin'); // Disallow iFraming from other domains
 		header('X-XSS-Protection: 1; mode=block'); // Enforce browser based XSS filters
 		header('X-Content-Type-Options: nosniff'); // Disable sniffing the content type for IE
 
+		// iFrame Restriction Policy
+		$xFramePolicy = OC_Config::getValue('xframe_restriction', true);
+		if($xFramePolicy) {
+			header('X-Frame-Options: Sameorigin'); // Disallow iFraming from other domains
+		}
+		
 		// Content Security Policy
 		// If you change the standard policy, please also change it in config.sample.php
 		$policy = OC_Config::getValue('custom_csp_policy',
@@ -198,7 +203,8 @@ class OC_Template{
 			.'style-src \'self\' \'unsafe-inline\'; '
 			.'frame-src *; '
 			.'img-src *; '
-			.'font-src \'self\' data:');
+			.'font-src \'self\' data:; '
+			.'media-src *');
 		header('Content-Security-Policy:'.$policy); // Standard
 
 		$this->findTemplate($name);
@@ -272,7 +278,7 @@ class OC_Template{
 	protected function findTemplate($name)
 	{
 		// Read the selected theme from the config file
-		$theme=OC_Config::getValue( "theme" );
+		$theme = OC_Util::getTheme();
 
 		// Read the detected formfactor and use the right file name.
 		$fext = self::getFormFactorExtension();

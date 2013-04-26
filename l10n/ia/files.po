@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Emilio Sepúlveda <djfunkinmixer@gmail.com>, 2011.
-# Emilio Sepúlveda <emisepulvedam@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Interlingua (http://www.transifex.com/projects/p/owncloud/language/ia/)\n"
 "MIME-Version: 1.0\n"
@@ -54,15 +52,15 @@ msgstr ""
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Le file incargate solmente esseva incargate partialmente"
+msgstr ""
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Nulle file esseva incargate"
+msgstr ""
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Manca un dossier temporari"
+msgstr ""
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -78,17 +76,21 @@ msgstr ""
 
 #: appinfo/app.php:12
 msgid "Files"
-msgstr "Files"
+msgstr ""
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr ""
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr "Deler"
+msgstr ""
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr ""
 
@@ -191,15 +193,15 @@ msgstr ""
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr "Nomine"
+msgstr ""
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
-msgstr "Dimension"
+msgstr ""
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr "Modificate"
+msgstr ""
 
 #: js/files.js:893
 msgid "1 folder"
@@ -219,7 +221,7 @@ msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "Incargar"
+msgstr ""
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -227,7 +229,7 @@ msgstr ""
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr "Dimension maxime de incargamento"
+msgstr ""
 
 #: templates/admin.php:10
 msgid "max. possible: "
@@ -251,19 +253,19 @@ msgstr ""
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr "Salveguardar"
+msgstr ""
 
 #: templates/index.php:7
 msgid "New"
-msgstr "Nove"
+msgstr ""
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr "File de texto"
+msgstr ""
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr "Dossier"
+msgstr ""
 
 #: templates/index.php:14
 msgid "From link"
@@ -283,11 +285,11 @@ msgstr ""
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
-msgstr "Nihil hic. Incarga alcun cosa!"
+msgstr ""
 
 #: templates/index.php:76
 msgid "Download"
-msgstr "Discargar"
+msgstr ""
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
@@ -295,7 +297,7 @@ msgstr ""
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Incargamento troppo longe"
+msgstr ""
 
 #: templates/index.php:110
 msgid ""

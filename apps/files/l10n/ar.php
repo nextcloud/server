@@ -13,6 +13,7 @@
 "Not enough storage available" => "لا يوجد مساحة تخزينية كافية",
 "Invalid directory." => "مسار غير صحيح.",
 "Files" => "الملفات",
+"Share" => "شارك",
 "Delete permanently" => "حذف بشكل دائم",
 "Delete" => "محذوف",
 "Rename" => "إعادة تسميه",

@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <sim0n@trypill.org>, 2011-2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Luxembourgish (http://www.transifex.com/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +37,7 @@ msgstr ""
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Keen Feeler, Datei ass komplett ropgelueden ginn"
+msgstr ""
 
 #: ajax/upload.php:27
 msgid ""
@@ -49,23 +48,23 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Déi ropgelueden Datei ass méi grouss wei d'MAX_FILE_SIZE Eegenschaft déi an der HTML form uginn ass"
+msgstr ""
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Déi ropgelueden Datei ass nëmmen hallef ropgelueden ginn"
+msgstr ""
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Et ass keng Datei ropgelueden ginn"
+msgstr ""
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Et feelt en temporären Dossier"
+msgstr ""
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
-msgstr "Konnt net op den Disk schreiwen"
+msgstr ""
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
@@ -77,17 +76,21 @@ msgstr ""
 
 #: appinfo/app.php:12
 msgid "Files"
-msgstr "Dateien"
+msgstr ""
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr ""
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr "Läschen"
+msgstr ""
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr ""
 
@@ -101,7 +104,7 @@ msgstr ""
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "replace"
-msgstr "ersetzen"
+msgstr ""
 
 #: js/filelist.js:252
 msgid "suggest name"
@@ -109,7 +112,7 @@ msgstr ""
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "cancel"
-msgstr "ofbriechen"
+msgstr ""
 
 #: js/filelist.js:299
 msgid "replaced {new_name} with {old_name}"
@@ -117,7 +120,7 @@ msgstr ""
 
 #: js/filelist.js:299
 msgid "undo"
-msgstr "réckgängeg man"
+msgstr ""
 
 #: js/filelist.js:324
 msgid "perform delete operation"
@@ -161,7 +164,7 @@ msgstr ""
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Kann deng Datei net eroplueden well et en Dossier ass oder 0 byte grouss ass."
+msgstr ""
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -169,12 +172,12 @@ msgstr ""
 
 #: js/files.js:312
 msgid "Upload cancelled."
-msgstr "Upload ofgebrach."
+msgstr ""
 
 #: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach."
+msgstr ""
 
 #: js/files.js:481
 msgid "URL cannot be empty."
@@ -186,19 +189,19 @@ msgstr ""
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
-msgstr "Fehler"
+msgstr ""
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr "Numm"
+msgstr ""
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
-msgstr "Gréisst"
+msgstr ""
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr "Geännert"
+msgstr ""
 
 #: js/files.js:893
 msgid "1 folder"
@@ -218,51 +221,51 @@ msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "Eroplueden"
+msgstr ""
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr "Fichier handling"
+msgstr ""
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr "Maximum Upload Gréisst "
+msgstr ""
 
 #: templates/admin.php:10
 msgid "max. possible: "
-msgstr "max. méiglech:"
+msgstr ""
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr "Gett gebraucht fir multi-Fichier an Dossier Downloads."
+msgstr ""
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr "ZIP-download erlaben"
+msgstr ""
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
-msgstr "0 ass onlimitéiert"
+msgstr ""
 
 #: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr "Maximal Gréisst fir ZIP Fichieren"
+msgstr ""
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr "Späicheren"
+msgstr ""
 
 #: templates/index.php:7
 msgid "New"
-msgstr "Nei"
+msgstr ""
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr "Text Fichier"
+msgstr ""
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr "Dossier"
+msgstr ""
 
 #: templates/index.php:14
 msgid "From link"
@@ -274,7 +277,7 @@ msgstr ""
 
 #: templates/index.php:48
 msgid "Cancel upload"
-msgstr "Upload ofbriechen"
+msgstr ""
 
 #: templates/index.php:55
 msgid "You don’t have write permissions here."
@@ -282,33 +285,33 @@ msgstr ""
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
-msgstr "Hei ass näischt. Lued eppes rop!"
+msgstr ""
 
 #: templates/index.php:76
 msgid "Download"
-msgstr "Eroflueden"
+msgstr ""
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "Net méi deelen"
+msgstr ""
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Upload ze grouss"
+msgstr ""
 
 #: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Déi Dateien déi Dir probéiert erop ze lueden sinn méi grouss wei déi Maximal Gréisst déi op dësem Server erlaabt ass."
+msgstr ""
 
 #: templates/index.php:115
 msgid "Files are being scanned, please wait."
-msgstr "Fichieren gi gescannt, war weg."
+msgstr ""
 
 #: templates/index.php:118
 msgid "Current scanning"
-msgstr "Momentane Scan"
+msgstr ""
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

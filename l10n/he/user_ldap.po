@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Gilad Naaman <gilad.doom@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:23+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +39,7 @@ msgstr ""
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr "מחיקה נכשלה"
+msgstr ""
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
@@ -93,7 +92,7 @@ msgstr ""
 
 #: templates/settings.php:36
 msgid "Host"
-msgstr "מארח"
+msgstr ""
 
 #: templates/settings.php:38
 msgid ""
@@ -114,7 +113,7 @@ msgstr ""
 
 #: templates/settings.php:43
 msgid "User DN"
-msgstr "DN משתמש"
+msgstr ""
 
 #: templates/settings.php:45
 msgid ""
@@ -125,15 +124,15 @@ msgstr ""
 
 #: templates/settings.php:46
 msgid "Password"
-msgstr "סיסמא"
+msgstr ""
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
-msgstr "לגישה אנונימית, השאר את הDM והסיסמא ריקים."
+msgstr ""
 
 #: templates/settings.php:50
 msgid "User Login Filter"
-msgstr "סנן כניסת משתמש"
+msgstr ""
 
 #: templates/settings.php:53
 #, php-format
@@ -149,7 +148,7 @@ msgstr ""
 
 #: templates/settings.php:55
 msgid "User List Filter"
-msgstr "סנן רשימת משתמשים"
+msgstr ""
 
 #: templates/settings.php:58
 msgid "Defines the filter to apply, when retrieving users."
@@ -161,7 +160,7 @@ msgstr ""
 
 #: templates/settings.php:60
 msgid "Group Filter"
-msgstr "סנן קבוצה"
+msgstr ""
 
 #: templates/settings.php:63
 msgid "Defines the filter to apply, when retrieving groups."
@@ -185,7 +184,7 @@ msgstr ""
 
 #: templates/settings.php:71
 msgid "Port"
-msgstr "פורט"
+msgstr ""
 
 #: templates/settings.php:72
 msgid "Backup (Replica) Host"
@@ -241,7 +240,7 @@ msgstr ""
 
 #: templates/settings.php:78
 msgid "in seconds. A change empties the cache."
-msgstr "בשניות. שינוי מרוקן את המטמון."
+msgstr ""
 
 #: templates/settings.php:80
 msgid "Directory Settings"
@@ -309,7 +308,7 @@ msgstr ""
 
 #: templates/settings.php:93
 msgid "in bytes"
-msgstr "בבתים"
+msgstr ""
 
 #: templates/settings.php:94
 msgid "Email Field"
@@ -331,4 +330,4 @@ msgstr ""
 
 #: templates/settings.php:99
 msgid "Help"
-msgstr "עזרה"
+msgstr ""

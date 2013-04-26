@@ -3,26 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# André Koot <meneer@tken.net>, 2012-2013.
-#   <bart.formosus@gmail.com>, 2011.
-#   <didi.debian@cknow.org>, 2012.
-# Erik Bent <hj.bent.60@gmail.com>, 2012.
-#   <icewind1991@gmail.com>, 2011.
-#   <jos@gelauff.net>, 2012.
-#   <koen@vervloesem.eu>, 2011.
-#   <lenny@weijl.org>, 2012.
-# Martin Wildeman <mhwildeman@gmail.com>, 2012.
-#   <pietje8501@gmail.com>, 2012.
-# Richard Bos <radoeka@gmail.com>, 2012.
-#   <transifex@thisnet.nl>, 2012.
-#   <translator@it-dept.eu>, 2012.
-#   <webbsite-mark@hotmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -34,222 +20,222 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
-msgstr "Gebruiker %s deelde een bestand met u"
+msgstr ""
 
 #: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr "Gebruiker %s deelde een map met u"
+msgstr ""
 
 #: ajax/share.php:101
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr "Gebruiker %s deelde bestand \"%s\" met u. Het is hier te downloaden: %s"
+msgstr ""
 
 #: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr "Gebruiker %s deelde de map \"%s\" met u. De map is hier beschikbaar voor download: %s"
+msgstr ""
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr "Categorie type niet opgegeven."
+msgstr ""
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr "Geen categorie toevoegen?"
+msgstr ""
 
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr "Deze categorie bestaat al: %s"
+msgstr ""
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr "Object type niet opgegeven."
+msgstr ""
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr "%s ID niet opgegeven."
+msgstr ""
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr "Toevoegen van %s aan favorieten is mislukt."
+msgstr ""
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "Geen categorie geselecteerd voor verwijdering."
+msgstr ""
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr "Verwijderen %s van favorieten is mislukt."
+msgstr ""
 
 #: js/config.php:34
 msgid "Sunday"
-msgstr "Zondag"
+msgstr ""
 
 #: js/config.php:35
 msgid "Monday"
-msgstr "Maandag"
+msgstr ""
 
 #: js/config.php:36
 msgid "Tuesday"
-msgstr "Dinsdag"
+msgstr ""
 
 #: js/config.php:37
 msgid "Wednesday"
-msgstr "Woensdag"
+msgstr ""
 
 #: js/config.php:38
 msgid "Thursday"
-msgstr "Donderdag"
+msgstr ""
 
 #: js/config.php:39
 msgid "Friday"
-msgstr "Vrijdag"
+msgstr ""
 
 #: js/config.php:40
 msgid "Saturday"
-msgstr "Zaterdag"
+msgstr ""
 
 #: js/config.php:45
 msgid "January"
-msgstr "januari"
+msgstr ""
 
 #: js/config.php:46
 msgid "February"
-msgstr "februari"
+msgstr ""
 
 #: js/config.php:47
 msgid "March"
-msgstr "maart"
+msgstr ""
 
 #: js/config.php:48
 msgid "April"
-msgstr "april"
+msgstr ""
 
 #: js/config.php:49
 msgid "May"
-msgstr "mei"
+msgstr ""
 
 #: js/config.php:50
 msgid "June"
-msgstr "juni"
+msgstr ""
 
 #: js/config.php:51
 msgid "July"
-msgstr "juli"
+msgstr ""
 
 #: js/config.php:52
 msgid "August"
-msgstr "augustus"
+msgstr ""
 
 #: js/config.php:53
 msgid "September"
-msgstr "september"
+msgstr ""
 
 #: js/config.php:54
 msgid "October"
-msgstr "oktober"
+msgstr ""
 
 #: js/config.php:55
 msgid "November"
-msgstr "november"
+msgstr ""
 
 #: js/config.php:56
 msgid "December"
-msgstr "december"
+msgstr ""
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "Instellingen"
+msgstr ""
 
 #: js/js.js:718
 msgid "seconds ago"
-msgstr "seconden geleden"
+msgstr ""
 
 #: js/js.js:719
 msgid "1 minute ago"
-msgstr "1 minuut geleden"
+msgstr ""
 
 #: js/js.js:720
 msgid "{minutes} minutes ago"
-msgstr "{minutes} minuten geleden"
+msgstr ""
 
 #: js/js.js:721
 msgid "1 hour ago"
-msgstr "1 uur geleden"
+msgstr ""
 
 #: js/js.js:722
 msgid "{hours} hours ago"
-msgstr "{hours} uren geleden"
+msgstr ""
 
 #: js/js.js:723
 msgid "today"
-msgstr "vandaag"
+msgstr ""
 
 #: js/js.js:724
 msgid "yesterday"
-msgstr "gisteren"
+msgstr ""
 
 #: js/js.js:725
 msgid "{days} days ago"
-msgstr "{days} dagen geleden"
+msgstr ""
 
 #: js/js.js:726
 msgid "last month"
-msgstr "vorige maand"
+msgstr ""
 
 #: js/js.js:727
 msgid "{months} months ago"
-msgstr "{months} maanden geleden"
+msgstr ""
 
 #: js/js.js:728
 msgid "months ago"
-msgstr "maanden geleden"
+msgstr ""
 
 #: js/js.js:729
 msgid "last year"
-msgstr "vorig jaar"
+msgstr ""
 
 #: js/js.js:730
 msgid "years ago"
-msgstr "jaar geleden"
+msgstr ""
 
 #: js/oc-dialogs.js:117 js/oc-dialogs.js:247
 msgid "Ok"
-msgstr "Ok"
+msgstr ""
 
 #: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
-msgstr "Annuleren"
+msgstr ""
 
 #: js/oc-dialogs.js:185
 msgid "Choose"
-msgstr "Kies"
+msgstr ""
 
 #: js/oc-dialogs.js:215
 msgid "Yes"
-msgstr "Ja"
+msgstr ""
 
 #: js/oc-dialogs.js:222
 msgid "No"
-msgstr "Nee"
+msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr "Het object type is niet gespecificeerd."
+msgstr ""
 
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
@@ -257,363 +243,363 @@ msgstr "Het object type is niet gespecificeerd."
 #: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
-msgstr "Fout"
+msgstr ""
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr "De app naam is niet gespecificeerd."
+msgstr ""
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr "Het vereiste bestand {file} is niet geïnstalleerd!"
+msgstr ""
 
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
-msgstr "Gedeeld"
+msgstr ""
 
 #: js/share.js:90
 msgid "Share"
-msgstr "Delen"
+msgstr ""
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
-msgstr "Fout tijdens het delen"
+msgstr ""
 
 #: js/share.js:136
 msgid "Error while unsharing"
-msgstr "Fout tijdens het stoppen met delen"
+msgstr ""
 
 #: js/share.js:143
 msgid "Error while changing permissions"
-msgstr "Fout tijdens het veranderen van permissies"
+msgstr ""
 
 #: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
-msgstr "Gedeeld met u en de groep {group} door {owner}"
+msgstr ""
 
 #: js/share.js:154
 msgid "Shared with you by {owner}"
-msgstr "Gedeeld met u door {owner}"
+msgstr ""
 
 #: js/share.js:159
 msgid "Share with"
-msgstr "Deel met"
+msgstr ""
 
 #: js/share.js:164
 msgid "Share with link"
-msgstr "Deel met link"
+msgstr ""
 
 #: js/share.js:167
 msgid "Password protect"
-msgstr "Wachtwoord beveiliging"
+msgstr ""
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "Wachtwoord"
+msgstr ""
 
 #: js/share.js:173
 msgid "Email link to person"
-msgstr "E-mail link naar persoon"
+msgstr ""
 
 #: js/share.js:174
 msgid "Send"
-msgstr "Versturen"
+msgstr ""
 
 #: js/share.js:178
 msgid "Set expiration date"
-msgstr "Stel vervaldatum in"
+msgstr ""
 
 #: js/share.js:179
 msgid "Expiration date"
-msgstr "Vervaldatum"
+msgstr ""
 
 #: js/share.js:211
 msgid "Share via email:"
-msgstr "Deel via email:"
+msgstr ""
 
 #: js/share.js:213
 msgid "No people found"
-msgstr "Geen mensen gevonden"
+msgstr ""
 
 #: js/share.js:251
 msgid "Resharing is not allowed"
-msgstr "Verder delen is niet toegestaan"
+msgstr ""
 
 #: js/share.js:287
 msgid "Shared in {item} with {user}"
-msgstr "Gedeeld in {item} met {user}"
+msgstr ""
 
 #: js/share.js:308
 msgid "Unshare"
-msgstr "Stop met delen"
+msgstr ""
 
 #: js/share.js:320
 msgid "can edit"
-msgstr "kan wijzigen"
+msgstr ""
 
 #: js/share.js:322
 msgid "access control"
-msgstr "toegangscontrole"
+msgstr ""
 
 #: js/share.js:325
 msgid "create"
-msgstr "maak"
+msgstr ""
 
 #: js/share.js:328
 msgid "update"
-msgstr "bijwerken"
+msgstr ""
 
 #: js/share.js:331
 msgid "delete"
-msgstr "verwijderen"
+msgstr ""
 
 #: js/share.js:334
 msgid "share"
-msgstr "deel"
+msgstr ""
 
 #: js/share.js:368 js/share.js:564
 msgid "Password protected"
-msgstr "Wachtwoord beveiligd"
+msgstr ""
 
 #: js/share.js:577
 msgid "Error unsetting expiration date"
-msgstr "Fout tijdens het verwijderen van de verval datum"
+msgstr ""
 
 #: js/share.js:589
 msgid "Error setting expiration date"
-msgstr "Fout tijdens het instellen van de vervaldatum"
+msgstr ""
 
 #: js/share.js:604
 msgid "Sending ..."
-msgstr "Versturen ..."
+msgstr ""
 
 #: js/share.js:615
 msgid "Email sent"
-msgstr "E-mail verzonden"
+msgstr ""
 
 #: js/update.js:14
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr "De update is niet geslaagd. Meld dit probleem aan bij de <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud community</a>."
+msgstr ""
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr "De update is geslaagd. U wordt teruggeleid naar uw eigen ownCloud."
+msgstr ""
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
-msgstr "ownCloud wachtwoord herstellen"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr "Gebruik de volgende link om je wachtwoord te resetten: {link}"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "U ontvangt een link om uw wachtwoord opnieuw in te stellen via e-mail."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
-msgstr "Reset e-mail verstuurd."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:8
 msgid "Request failed!"
-msgstr "Verzoek mislukt!"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
-msgstr "Gebruikersnaam"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr "Resetaanvraag"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "Je wachtwoord is gewijzigd"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr "Naar de login-pagina"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "Nieuw wachtwoord"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "Reset wachtwoord"
+msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr "Persoonlijk"
+msgstr ""
 
 #: strings.php:6
 msgid "Users"
-msgstr "Gebruikers"
+msgstr ""
 
 #: strings.php:7
 msgid "Apps"
-msgstr "Apps"
+msgstr ""
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Beheerder"
+msgstr ""
 
 #: strings.php:9
 msgid "Help"
-msgstr "Help"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Toegang verboden"
+msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr "Cloud niet gevonden"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Wijzigen categorieën"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "Toevoegen"
+msgstr ""
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
 msgid "Security Warning"
-msgstr "Beveiligingswaarschuwing"
+msgstr ""
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr "Uw PHP versie is kwetsbaar voor de NULL byte aanval (CVE-2006-7243)"
+msgstr ""
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr "Werk uw PHP installatie bij om ownCloud veilig te kunnen gebruiken."
+msgstr ""
 
 #: templates/installation.php:32
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr "Er kon geen willekeurig nummer worden gegenereerd. Zet de PHP OpenSSL extentie aan."
+msgstr ""
 
 #: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr "Zonder random nummer generator is het mogelijk voor een aanvaller om de reset tokens van wachtwoorden te voorspellen. Dit kan leiden tot het inbreken op uw account."
+msgstr ""
 
 #: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr "Uw gegevensdirectory en bestanden zijn vermoedelijk bereikbaar vanaf het internet omdat het .htaccess bestand niet werkt."
+msgstr ""
 
 #: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr "Informatie over het configureren van uw server is hier te vinden <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">documentatie</a>."
+msgstr ""
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
-msgstr "Maak een <strong>beheerdersaccount</strong> aan"
+msgstr ""
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr "Geavanceerd"
+msgstr ""
 
 #: templates/installation.php:64
 msgid "Data folder"
-msgstr "Gegevensmap"
+msgstr ""
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
-msgstr "Configureer de database"
+msgstr ""
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
-msgstr "zal gebruikt worden"
+msgstr ""
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
-msgstr "Gebruiker database"
+msgstr ""
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
-msgstr "Wachtwoord database"
+msgstr ""
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
-msgstr "Naam database"
+msgstr ""
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
-msgstr "Database tablespace"
+msgstr ""
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
-msgstr "Database server"
+msgstr ""
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
-msgstr "Installatie afronden"
+msgstr ""
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "Webdiensten in eigen beheer"
+msgstr ""
 
 #: templates/layout.user.php:58
 msgid "Log out"
-msgstr "Afmelden"
+msgstr ""
+
+#: templates/login.php:9
+msgid "Automatic logon rejected!"
+msgstr ""
 
 #: templates/login.php:10
-msgid "Automatic logon rejected!"
-msgstr "Automatische aanmelding geweigerd!"
-
-#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr "Als u uw wachtwoord niet onlangs heeft aangepast, kan uw account overgenomen zijn!"
+msgstr ""
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr "Wijzig uw wachtwoord zodat uw account weer beveiligd is."
+msgstr ""
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
-msgstr "Uw wachtwoord vergeten?"
+msgstr ""
+
+#: templates/login.php:39
+msgid "remember"
+msgstr ""
 
 #: templates/login.php:41
-msgid "remember"
-msgstr "onthoud gegevens"
-
-#: templates/login.php:43
 msgid "Log in"
-msgstr "Meld je aan"
+msgstr ""
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
-msgstr "Alternatieve inlogs"
+msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr "vorige"
+msgstr ""
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr "volgende"
+msgstr ""
 
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr "Updaten ownCloud naar versie %s, dit kan even duren."
+msgstr ""

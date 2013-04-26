@@ -13,6 +13,7 @@
 "Not enough storage available" => "No hi ha prou espai disponible",
 "Invalid directory." => "Directori no vàlid.",
 "Files" => "Fitxers",
+"Share" => "Comparteix",
 "Delete permanently" => "Esborra permanentment",
 "Delete" => "Suprimeix",
 "Rename" => "Reanomena",

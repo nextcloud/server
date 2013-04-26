@@ -187,6 +187,7 @@ class OC_Setup {
 					unlink("$datadir/owncloud.db");
 				}
 				//in case of sqlite, we can always fill the database
+				error_log("creating sqlite db");
 				OC_DB::createDbFromStructure('db_structure.xml');
 			}
 
@@ -195,7 +196,7 @@ class OC_Setup {
 				OC_User::createUser($username, $password);
 			}
 			catch(Exception $exception) {
-				$error[] = $exception->getMessage();
+				$error[] = 'Error while trying to create admin user: ' . $exception->getMessage();
 			}
 
 			if(count($error) == 0) {
@@ -827,6 +828,10 @@ class OC_Setup {
 		$content.= "AddType image/svg+xml svg svgz\n";
 		$content.= "AddEncoding gzip svgz\n";
 		$content.= "</IfModule>\n";
+		$content.= "<IfModule dir_module>\n";
+		$content.= "DirectoryIndex index.php index.html\n";
+		$content.= "</IfModule>\n";
+		$content.= "AddDefaultCharset utf-8\n";
 		$content.= "Options -Indexes\n";
 		@file_put_contents(OC::$SERVERROOT.'/.htaccess', $content); //supress errors in case we don't have permissions for it
 

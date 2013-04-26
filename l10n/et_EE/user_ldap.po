@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Pisike Sipelgas <pisike.sipelgas@gmail.com>, 2013.
-# Rivo Zängov <eraser@eraser.ee>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -21,315 +19,315 @@ msgstr ""
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr "Serveri seadistuse kustutamine ebaõnnestus"
+msgstr ""
 
 #: ajax/testConfiguration.php:36
 msgid "The configuration is valid and the connection could be established!"
-msgstr "Seadistus on korrektne ning ühendus on olemas!"
+msgstr ""
 
 #: ajax/testConfiguration.php:39
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr "Seadistus on korrektne, kuid ühendus ebaõnnestus. Palun kontrolli serveri seadeid ja ühenduseks kasutatavaid kasutajatunnuseid."
+msgstr ""
 
 #: ajax/testConfiguration.php:43
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr "Seadistus on vigane. Palun vaata ownCloud logist täpsemalt."
+msgstr ""
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr "Kustutamine ebaõnnestus"
+msgstr ""
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr "Võta sätted viimasest serveri seadistusest?"
+msgstr ""
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr "Säilitada seadistus?"
+msgstr ""
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr "Ei suuda lisada serveri seadistust"
+msgstr ""
 
 #: js/settings.js:121
 msgid "Connection test succeeded"
-msgstr "Test ühendus õnnestus"
+msgstr ""
 
 #: js/settings.js:126
 msgid "Connection test failed"
-msgstr "Test ühendus ebaõnnestus"
+msgstr ""
 
 #: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr "Oled kindel, et tahad kustutada praegust serveri seadistust?"
+msgstr ""
 
 #: js/settings.js:137
 msgid "Confirm Deletion"
-msgstr "Kinnita kustutamine"
+msgstr ""
 
 #: templates/settings.php:8
 msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behaviour. Please ask your system administrator to "
 "disable one of them."
-msgstr "<b>Hoiatus:</b> rakendused user_ldap ja user_webdavauht ei ole ühilduvad. Töös võib esineda ootamatuid tõrkeid.\nPalu oma süsteemihalduril üks neist rakendustest kasutusest eemaldada."
+msgstr ""
 
 #: templates/settings.php:11
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr "<b>Hoiatus:</b>PHP LDAP moodul pole paigaldatud ning LDAP kasutamine ei ole võimalik. Palu oma süsteeihaldurit see paigaldada."
+msgstr ""
 
 #: templates/settings.php:15
 msgid "Server configuration"
-msgstr "Serveri seadistus"
+msgstr ""
 
 #: templates/settings.php:31
 msgid "Add Server Configuration"
-msgstr "Lisa serveri seadistus"
+msgstr ""
 
 #: templates/settings.php:36
 msgid "Host"
-msgstr "Host"
+msgstr ""
 
 #: templates/settings.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr "Sa ei saa protokolli ära jätta, välja arvatud siis, kui sa nõuad SSL-ühendust. Sel juhul alusta eesliitega ldaps://"
+msgstr ""
 
 #: templates/settings.php:39
 msgid "Base DN"
-msgstr "Baas DN"
+msgstr ""
 
 #: templates/settings.php:40
 msgid "One Base DN per line"
-msgstr "Üks baas-DN rea kohta"
+msgstr ""
 
 #: templates/settings.php:41
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr "Sa saad kasutajate ja gruppide baas DN-i määrata lisavalikute vahekaardilt"
+msgstr ""
 
 #: templates/settings.php:43
 msgid "User DN"
-msgstr "Kasutaja DN"
+msgstr ""
 
 #: templates/settings.php:45
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr "Klientkasutaja DN, kellega seotakse, nt. uid=agent,dc=näidis,dc=com. Anonüümseks ligipääsuks jäta DN ja parool tühjaks."
+msgstr ""
 
 #: templates/settings.php:46
 msgid "Password"
-msgstr "Parool"
+msgstr ""
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
-msgstr "Anonüümseks ligipääsuks jäta DN ja parool tühjaks."
+msgstr ""
 
 #: templates/settings.php:50
 msgid "User Login Filter"
-msgstr "Kasutajanime filter"
+msgstr ""
 
 #: templates/settings.php:53
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr "Määrab sisselogimisel kasutatava filtri. %%uid asendab sisselogimistegevuses kasutajanime."
+msgstr ""
 
 #: templates/settings.php:54
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr "kasuta %%uid kohatäitjat, nt. \"uid=%%uid\""
+msgstr ""
 
 #: templates/settings.php:55
 msgid "User List Filter"
-msgstr "Kasutajate nimekirja filter"
+msgstr ""
 
 #: templates/settings.php:58
 msgid "Defines the filter to apply, when retrieving users."
-msgstr "Määrab kasutajaid hankides filtri, mida rakendatakse."
+msgstr ""
 
 #: templates/settings.php:59
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr "ilma ühegi kohatäitjata, nt. \"objectClass=person\"."
+msgstr ""
 
 #: templates/settings.php:60
 msgid "Group Filter"
-msgstr "Grupi filter"
+msgstr ""
 
 #: templates/settings.php:63
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr "Määrab gruppe hankides filtri, mida rakendatakse."
+msgstr ""
 
 #: templates/settings.php:64
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr "ilma ühegi kohatäitjata, nt. \"objectClass=posixGroup\"."
+msgstr ""
 
 #: templates/settings.php:68
 msgid "Connection Settings"
-msgstr "Ühenduse seaded"
+msgstr ""
 
 #: templates/settings.php:70
 msgid "Configuration Active"
-msgstr "Seadistus aktiivne"
+msgstr ""
 
 #: templates/settings.php:70
 msgid "When unchecked, this configuration will be skipped."
-msgstr "Kui märkimata, siis seadistust ei kasutata"
+msgstr ""
 
 #: templates/settings.php:71
 msgid "Port"
-msgstr "Port"
+msgstr ""
 
 #: templates/settings.php:72
 msgid "Backup (Replica) Host"
-msgstr "Varuserver"
+msgstr ""
 
 #: templates/settings.php:72
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr "Lisa täiendav LDAP/AD server, mida replikeeritakse peaserveriga."
+msgstr ""
 
 #: templates/settings.php:73
 msgid "Backup (Replica) Port"
-msgstr "Varuserveri (replika) ldap port"
+msgstr ""
 
 #: templates/settings.php:74
 msgid "Disable Main Server"
-msgstr "Ära kasuta peaserverit"
+msgstr ""
 
 #: templates/settings.php:74
 msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr "Märgituna ownCloud ühendub ainult varuserverisse."
+msgstr ""
 
 #: templates/settings.php:75
 msgid "Use TLS"
-msgstr "Kasutaja TLS"
+msgstr ""
 
 #: templates/settings.php:75
 msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr "LDAPS puhul ära kasuta. Ühendus ei toimi."
+msgstr ""
 
 #: templates/settings.php:76
 msgid "Case insensitve LDAP server (Windows)"
-msgstr "Mittetõstutundlik LDAP server (Windows)"
+msgstr ""
 
 #: templates/settings.php:77
 msgid "Turn off SSL certificate validation."
-msgstr "Lülita SSL sertifikaadi kontrollimine välja."
+msgstr ""
 
 #: templates/settings.php:77
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr "Kui ühendus toimib ainult selle valikuga, siis impordi LDAP serveri SSL sertifikaat oma ownCloud serverisse."
+msgstr ""
 
 #: templates/settings.php:77
 msgid "Not recommended, use for testing only."
-msgstr "Pole soovitatav, kasuta ainult testimiseks."
+msgstr ""
 
 #: templates/settings.php:78
 msgid "Cache Time-To-Live"
-msgstr "Puhvri iga"
+msgstr ""
 
 #: templates/settings.php:78
 msgid "in seconds. A change empties the cache."
-msgstr "sekundites. Muudatus tühjendab vahemälu."
+msgstr ""
 
 #: templates/settings.php:80
 msgid "Directory Settings"
-msgstr "Kataloogi seaded"
+msgstr ""
 
 #: templates/settings.php:82
 msgid "User Display Name Field"
-msgstr "Kasutaja näidatava nime väli"
+msgstr ""
 
 #: templates/settings.php:82
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr "LDAP omadus, mida kasutatakse kasutaja ownCloudi nime loomiseks."
+msgstr ""
 
 #: templates/settings.php:83
 msgid "Base User Tree"
-msgstr "Baaskasutaja puu"
+msgstr ""
 
 #: templates/settings.php:83
 msgid "One User Base DN per line"
-msgstr "Üks kasutajate baas-DN rea kohta"
+msgstr ""
 
 #: templates/settings.php:84
 msgid "User Search Attributes"
-msgstr "Kasutaja otsingu atribuudid"
+msgstr ""
 
 #: templates/settings.php:84 templates/settings.php:87
 msgid "Optional; one attribute per line"
-msgstr "Valikuline; üks atribuut rea kohta"
+msgstr ""
 
 #: templates/settings.php:85
 msgid "Group Display Name Field"
-msgstr "Grupi näidatava nime väli"
+msgstr ""
 
 #: templates/settings.php:85
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr "LDAP omadus, mida kasutatakse ownCloudi grupi nime loomiseks."
+msgstr ""
 
 #: templates/settings.php:86
 msgid "Base Group Tree"
-msgstr "Baasgrupi puu"
+msgstr ""
 
 #: templates/settings.php:86
 msgid "One Group Base DN per line"
-msgstr "Üks grupi baas-DN rea kohta"
+msgstr ""
 
 #: templates/settings.php:87
 msgid "Group Search Attributes"
-msgstr "Grupi otsingu atribuudid"
+msgstr ""
 
 #: templates/settings.php:88
 msgid "Group-Member association"
-msgstr "Grupiliikme seotus"
+msgstr ""
 
 #: templates/settings.php:90
 msgid "Special Attributes"
-msgstr "Spetsiifilised atribuudid"
+msgstr ""
 
 #: templates/settings.php:92
 msgid "Quota Field"
-msgstr "Mahupiirangu atribuut"
+msgstr ""
 
 #: templates/settings.php:93
 msgid "Quota Default"
-msgstr "Vaikimisi mahupiirang"
+msgstr ""
 
 #: templates/settings.php:93
 msgid "in bytes"
-msgstr "baitides"
+msgstr ""
 
 #: templates/settings.php:94
 msgid "Email Field"
-msgstr "Email atribuut"
+msgstr ""
 
 #: templates/settings.php:95
 msgid "User Home Folder Naming Rule"
-msgstr "Kasutaja kodukataloogi nimetamise reegel"
+msgstr ""
 
 #: templates/settings.php:95
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr "Kasutajanime (vaikeväärtus) kasutamiseks jäta tühjaks. Vastasel juhul määra LDAP/AD omadus."
+msgstr ""
 
 #: templates/settings.php:99
 msgid "Test Configuration"
-msgstr "Testi seadistust"
+msgstr ""
 
 #: templates/settings.php:99
 msgid "Help"
-msgstr "Abiinfo"
+msgstr ""

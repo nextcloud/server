@@ -101,7 +101,7 @@
 "Users" => "Kullanıcılar",
 "Apps" => "Uygulamalar",
 "Admin" => "Yönetici",
-"Help" => "Yardı",
+"Help" => "Yardım",
 "Access forbidden" => "Erişim yasaklı",
 "Cloud not found" => "Bulut bulunamadı",
 "Edit categories" => "Kategorileri düzenle",

@@ -595,7 +595,7 @@ class OC_Util {
 		} catch(\Sabre_DAV_Exception_NotAuthenticated $e) {
 			$return = true;
 		} catch(\Exception $e) {
-			OC_Log::write('core', 'isWebDAVWorking: NO - Reason: '.$e, OC_Log::WARN);
+			OC_Log::write('core', 'isWebDAVWorking: NO - Reason: '.$e->getMessage(). ' ('.get_class($e).')', OC_Log::WARN);
 			$return = false;
 		}
 
@@ -794,5 +794,26 @@ class OC_Util {
 	public static function runningOnWindows() {
 		return (substr(PHP_OS, 0, 3) === "WIN");
 	}
+
+
+	/**
+	 * Handles the case that there may not be a theme, then check if a "default"
+	 * theme exists and take that one
+	 * @return string the theme
+	 */
+	public static function getTheme() {
+		$theme = OC_Config::getValue("theme");
+
+		if(is_null($theme)) {
+			
+			if(is_dir(OC::$SERVERROOT . '/themes/default')) {
+				$theme = 'default';
+			}
+
+		}
+
+		return $theme;
+	}
+
 
 }

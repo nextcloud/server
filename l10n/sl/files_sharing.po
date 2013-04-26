@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <>, 2012.
-# Peter Peroša <peter.perosa@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -21,30 +19,30 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "Password"
-msgstr "Geslo"
+msgstr ""
 
 #: templates/authenticate.php:6
 msgid "Submit"
-msgstr "Pošlji"
+msgstr ""
 
 #: templates/public.php:10
 #, php-format
 msgid "%s shared the folder %s with you"
-msgstr "Oseba %s je določila mapo %s za souporabo"
+msgstr ""
 
 #: templates/public.php:13
 #, php-format
 msgid "%s shared the file %s with you"
-msgstr "Oseba %s je določila datoteko %s za souporabo"
+msgstr ""
 
 #: templates/public.php:19 templates/public.php:43
 msgid "Download"
-msgstr "Prejmi"
+msgstr ""
 
 #: templates/public.php:40
 msgid "No preview available for"
-msgstr "Predogled ni na voljo za"
+msgstr ""
 
 #: templates/public.php:50
 msgid "web services under your control"
-msgstr "spletne storitve pod vašim nadzorom"
+msgstr ""

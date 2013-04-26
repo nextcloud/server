@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <andrejuszl@gmail.com>, 2012.
-# Denisas Kulumbegašvili <>, 2012.
-# Dr. ROX  <to.dr.rox@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +37,7 @@ msgstr ""
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Klaidų nėra, failas įkeltas sėkmingai"
+msgstr ""
 
 #: ajax/upload.php:27
 msgid ""
@@ -51,23 +48,23 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Įkeliamo failo dydis viršija MAX_FILE_SIZE parametrą, kuris yra nustatytas HTML formoje"
+msgstr ""
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Failas buvo įkeltas tik dalinai"
+msgstr ""
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Nebuvo įkeltas nė vienas failas"
+msgstr ""
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Nėra laikinojo katalogo"
+msgstr ""
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
-msgstr "Nepavyko įrašyti į diską"
+msgstr ""
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
@@ -79,47 +76,51 @@ msgstr ""
 
 #: appinfo/app.php:12
 msgid "Files"
-msgstr "Failai"
+msgstr ""
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr ""
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr "Ištrinti"
+msgstr ""
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
-msgstr "Pervadinti"
+msgstr ""
 
 #: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr "Laukiantis"
+msgstr ""
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
-msgstr "{new_name} jau egzistuoja"
+msgstr ""
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "replace"
-msgstr "pakeisti"
+msgstr ""
 
 #: js/filelist.js:252
 msgid "suggest name"
-msgstr "pasiūlyti pavadinimą"
+msgstr ""
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "cancel"
-msgstr "atšaukti"
+msgstr ""
 
 #: js/filelist.js:299
 msgid "replaced {new_name} with {old_name}"
-msgstr "pakeiskite {new_name} į {old_name}"
+msgstr ""
 
 #: js/filelist.js:299
 msgid "undo"
-msgstr "anuliuoti"
+msgstr ""
 
 #: js/filelist.js:324
 msgid "perform delete operation"
@@ -127,7 +128,7 @@ msgstr ""
 
 #: js/filelist.js:406
 msgid "1 file uploading"
-msgstr "įkeliamas 1 failas"
+msgstr ""
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
@@ -163,7 +164,7 @@ msgstr ""
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Neįmanoma įkelti failo - jo dydis gali būti 0 bitų arba tai katalogas"
+msgstr ""
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -171,12 +172,12 @@ msgstr ""
 
 #: js/files.js:312
 msgid "Upload cancelled."
-msgstr "Įkėlimas atšauktas."
+msgstr ""
 
 #: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Failo įkėlimas pradėtas. Jei paliksite šį puslapį, įkėlimas nutrūks."
+msgstr ""
 
 #: js/files.js:481
 msgid "URL cannot be empty."
@@ -188,83 +189,83 @@ msgstr ""
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
-msgstr "Klaida"
+msgstr ""
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr "Pavadinimas"
+msgstr ""
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
-msgstr "Dydis"
+msgstr ""
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr "Pakeista"
+msgstr ""
 
 #: js/files.js:893
 msgid "1 folder"
-msgstr "1 aplankalas"
+msgstr ""
 
 #: js/files.js:895
 msgid "{count} folders"
-msgstr "{count} aplankalai"
+msgstr ""
 
 #: js/files.js:903
 msgid "1 file"
-msgstr "1 failas"
+msgstr ""
 
 #: js/files.js:905
 msgid "{count} files"
-msgstr "{count} failai"
+msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "Įkelti"
+msgstr ""
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr "Failų tvarkymas"
+msgstr ""
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr "Maksimalus įkeliamo failo dydis"
+msgstr ""
 
 #: templates/admin.php:10
 msgid "max. possible: "
-msgstr "maks. galima:"
+msgstr ""
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr "Reikalinga daugybinui failų ir aplankalų atsisiuntimui."
+msgstr ""
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr "Įjungti atsisiuntimą ZIP archyvu"
+msgstr ""
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
-msgstr "0 yra neribotas"
+msgstr ""
 
 #: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr "Maksimalus ZIP archyvo failo dydis"
+msgstr ""
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr "Išsaugoti"
+msgstr ""
 
 #: templates/index.php:7
 msgid "New"
-msgstr "Naujas"
+msgstr ""
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr "Teksto failas"
+msgstr ""
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr "Katalogas"
+msgstr ""
 
 #: templates/index.php:14
 msgid "From link"
@@ -276,7 +277,7 @@ msgstr ""
 
 #: templates/index.php:48
 msgid "Cancel upload"
-msgstr "Atšaukti siuntimą"
+msgstr ""
 
 #: templates/index.php:55
 msgid "You don’t have write permissions here."
@@ -284,33 +285,33 @@ msgstr ""
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
-msgstr "Čia tuščia. Įkelkite ką nors!"
+msgstr ""
 
 #: templates/index.php:76
 msgid "Download"
-msgstr "Atsisiųsti"
+msgstr ""
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "Nebesidalinti"
+msgstr ""
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Įkėlimui failas per didelis"
+msgstr ""
 
 #: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Bandomų įkelti failų dydis viršija maksimalų leidžiamą šiame serveryje"
+msgstr ""
 
 #: templates/index.php:115
 msgid "Files are being scanned, please wait."
-msgstr "Skenuojami failai, prašome palaukti."
+msgstr ""
 
 #: templates/index.php:118
 msgid "Current scanning"
-msgstr "Šiuo metu skenuojama"
+msgstr ""
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
