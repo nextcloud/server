@@ -478,7 +478,9 @@ class OC {
 		self::checkConfig();
 		self::checkInstalled();
 		self::checkSSL();
-		self::initSession();
+		if ( !self::$CLI ) {
+			self::initSession();
+		}
 
 		$errors = OC_Util::checkServer();
 		if (count($errors) > 0) {
