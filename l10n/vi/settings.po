@@ -3,19 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# khanhnd <khanhnd@kenhgiaiphap.vn>, 2012
-# mattheu_9x <mattheu.9x@gmail.com>, 2012
-# mattheu_9x <mattheu.9x@gmail.com>, 2012
-# saosangm <saosangmo@yahoo.com>, 2013
-# Sơn Nguyễn <sonnghit@gmail.com>, 2012
-# Sơn Nguyễn <sonnghit@gmail.com>, 2012
-# vlinhd11 <vlinhd11@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 01:56+0200\n"
-"PO-Revision-Date: 2013-04-25 23:56+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -26,12 +19,12 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "Không thể tải danh sách ứng dụng từ App Store"
+msgstr ""
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "Lỗi xác thực"
+msgstr ""
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
@@ -39,105 +32,105 @@ msgstr ""
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
-msgstr "Không thể thay đổi tên hiển thị"
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr "Nhóm đã tồn tại"
+msgstr ""
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr "Không thể thêm nhóm"
+msgstr ""
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr "không thể kích hoạt ứng dụng."
+msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "Lưu email"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "Email không hợp lệ"
+msgstr ""
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr "Không thể xóa nhóm"
+msgstr ""
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr "Không thể xóa người dùng"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr "Ngôn ngữ đã được thay đổi"
+msgstr ""
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "Yêu cầu không hợp lệ"
+msgstr ""
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr "Quản trị viên không thể loại bỏ chính họ khỏi nhóm quản lý"
+msgstr ""
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "Không thể thêm người dùng vào nhóm %s"
+msgstr ""
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "Không thể xóa người dùng từ nhóm %s"
+msgstr ""
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr "Không thể cập nhật ứng dụng"
+msgstr ""
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr "Cập nhật lên {appversion}"
+msgstr ""
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr "Tắt"
+msgstr ""
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "Bật"
+msgstr ""
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr "Xin hãy đợi..."
+msgstr ""
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
-msgstr "Lỗi"
+msgstr ""
 
 #: js/apps.js:90
 msgid "Updating...."
-msgstr "Đang cập nhật..."
+msgstr ""
 
 #: js/apps.js:93
 msgid "Error while updating app"
-msgstr "Lỗi khi cập nhật ứng dụng"
+msgstr ""
 
 #: js/apps.js:96
 msgid "Updated"
-msgstr "Đã cập nhật"
+msgstr ""
 
 #: js/personal.js:115
 msgid "Saving..."
-msgstr "Đang tiến hành lưu ..."
+msgstr ""
 
 #: js/users.js:43
 msgid "deleted"
-msgstr "đã xóa"
+msgstr ""
 
 #: js/users.js:43
 msgid "undo"
-msgstr "lùi lại"
+msgstr ""
 
 #: js/users.js:75
 msgid "Unable to remove user"
@@ -146,15 +139,15 @@ msgstr ""
 #: js/users.js:88 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
 msgid "Groups"
-msgstr "Nhóm"
+msgstr ""
 
 #: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
-msgstr "Nhóm quản trị"
+msgstr ""
 
 #: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr "Xóa"
+msgstr ""
 
 #: js/users.js:262
 msgid "add group"
@@ -174,11 +167,11 @@ msgstr ""
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
-msgstr "__Ngôn ngữ___"
+msgstr ""
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr "Cảnh bảo bảo mật"
+msgstr ""
 
 #: templates/admin.php:18
 msgid ""
@@ -187,7 +180,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "Thư mục dữ liệu và những tập tin của bạn có thể dễ dàng bị truy cập từ mạng. Tập tin .htaccess do ownCloud cung cấp không hoạt động. Chúng tôi đề nghị bạn nên cấu hình lại máy chủ web để thư mục dữ liệu không còn bị truy cập hoặc bạn nên di chuyển thư mục dữ liệu ra bên ngoài thư mục gốc của máy chủ."
+msgstr ""
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -325,15 +318,15 @@ msgstr ""
 
 #: templates/admin.php:227
 msgid "More"
-msgstr "hơn"
+msgstr ""
 
 #: templates/admin.php:228
 msgid "Less"
-msgstr "ít"
+msgstr ""
 
 #: templates/admin.php:235 templates/personal.php:100
 msgid "Version"
-msgstr "Phiên bản"
+msgstr ""
 
 #: templates/admin.php:238 templates/personal.php:103
 msgid ""
@@ -343,157 +336,157 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "Được phát triển bởi <a href=\"http://ownCloud.org/contact\" target=\"_blank\">cộng đồng ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">mã nguồn </a> đã được cấp phép theo chuẩn <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+msgstr ""
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr "Thêm ứng dụng của bạn"
+msgstr ""
 
 #: templates/apps.php:12
 msgid "More Apps"
-msgstr "Nhiều ứng dụng hơn"
+msgstr ""
 
 #: templates/apps.php:28
 msgid "Select an App"
-msgstr "Chọn một ứng dụng"
+msgstr ""
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
-msgstr "Xem nhiều ứng dụng hơn tại apps.owncloud.com"
+msgstr ""
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr "<span class=\"licence\"></span>-Giấy phép được cấp bởi  <span class=\"author\"></span>"
+msgstr ""
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr "Cập nhật"
+msgstr ""
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr "Tài liệu người sử dụng"
+msgstr ""
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr "Tài liệu quản trị"
+msgstr ""
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr "Tài liệu trực tuyến"
+msgstr ""
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr "Diễn đàn"
+msgstr ""
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr "Hệ ghi nhận lỗi"
+msgstr ""
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr "Hỗ trợ có phí"
+msgstr ""
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "Bạn đã sử dụng <strong>%s </ strong> có sẵn <strong> %s </ strong>"
+msgstr ""
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr "Nhận ứng dụng để đồng bộ file của bạn"
+msgstr ""
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
-msgstr "Hiện lại việc chạy đồ thuật khởi đầu"
+msgstr ""
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr "Mật khẩu"
+msgstr ""
 
 #: templates/personal.php:38
 msgid "Your password was changed"
-msgstr "Mật khẩu của bạn đã được thay đổi."
+msgstr ""
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr "Không thể đổi mật khẩu"
+msgstr ""
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr "Mật khẩu cũ"
+msgstr ""
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr "Mật khẩu mới "
+msgstr ""
 
 #: templates/personal.php:44
 msgid "Change password"
-msgstr "Đổi mật khẩu"
+msgstr ""
 
 #: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
-msgstr "Tên hiển thị"
+msgstr ""
 
 #: templates/personal.php:68
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
 #: templates/personal.php:70
 msgid "Your email address"
-msgstr "Email của bạn"
+msgstr ""
 
 #: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
-msgstr "Nhập địa chỉ email của bạn để khôi phục lại mật khẩu"
+msgstr ""
 
 #: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
-msgstr "Ngôn ngữ"
+msgstr ""
 
 #: templates/personal.php:84
 msgid "Help translate"
-msgstr "Hỗ trợ dịch thuật"
+msgstr ""
 
 #: templates/personal.php:89
 msgid "WebDAV"
-msgstr "WebDAV"
+msgstr ""
 
 #: templates/personal.php:91
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "Sử dụng địa chỉ này để kết nối ownCloud của bạn trong trình quản lý file của bạn"
+msgstr ""
 
 #: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
-msgstr "Tên đăng nhập"
+msgstr ""
 
 #: templates/users.php:30
 msgid "Create"
-msgstr "Tạo"
+msgstr ""
 
 #: templates/users.php:33
 msgid "Default Storage"
-msgstr "Bộ nhớ mặc định"
+msgstr ""
 
 #: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
-msgstr "Không giới hạn"
+msgstr ""
 
 #: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr "Khác"
+msgstr ""
 
 #: templates/users.php:82
 msgid "Storage"
-msgstr "Bộ nhớ"
+msgstr ""
 
 #: templates/users.php:93
 msgid "change display name"
-msgstr "Thay đổi tên hiển thị"
+msgstr ""
 
 #: templates/users.php:97
 msgid "set new password"
-msgstr "đặt mật khẩu mới"
+msgstr ""
 
 #: templates/users.php:128
 msgid "Default"
-msgstr "Mặc định"
+msgstr ""

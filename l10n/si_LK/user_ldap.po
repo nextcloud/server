@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Anushke Guneratne <anushke@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:23+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +39,7 @@ msgstr ""
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr "මකාදැමීම අසාර්ථකයි"
+msgstr ""
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
@@ -93,12 +92,12 @@ msgstr ""
 
 #: templates/settings.php:36
 msgid "Host"
-msgstr "සත්කාරකය"
+msgstr ""
 
 #: templates/settings.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr "SSL අවශ්‍යය වන විට පමණක් හැර, අන් අවස්ථාවන්හිදී ප්‍රොටොකෝලය අත් හැරිය හැක. භාවිතා කරන විට ldaps:// ලෙස ආරම්භ කරන්න"
+msgstr ""
 
 #: templates/settings.php:39
 msgid "Base DN"
@@ -125,7 +124,7 @@ msgstr ""
 
 #: templates/settings.php:46
 msgid "Password"
-msgstr "මුර පදය"
+msgstr ""
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
@@ -133,7 +132,7 @@ msgstr ""
 
 #: templates/settings.php:50
 msgid "User Login Filter"
-msgstr "පරිශීලක පිවිසුම් පෙරහන"
+msgstr ""
 
 #: templates/settings.php:53
 #, php-format
@@ -149,7 +148,7 @@ msgstr ""
 
 #: templates/settings.php:55
 msgid "User List Filter"
-msgstr "පරිශීලක ලැයිස්තු පෙරහන"
+msgstr ""
 
 #: templates/settings.php:58
 msgid "Defines the filter to apply, when retrieving users."
@@ -161,11 +160,11 @@ msgstr ""
 
 #: templates/settings.php:60
 msgid "Group Filter"
-msgstr "කණ්ඩායම් පෙරහන"
+msgstr ""
 
 #: templates/settings.php:63
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr "කණ්ඩායම් සොයා ලබාගන්නා විට, යොදන පෙරහන නියම කරයි"
+msgstr ""
 
 #: templates/settings.php:64
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
@@ -185,7 +184,7 @@ msgstr ""
 
 #: templates/settings.php:71
 msgid "Port"
-msgstr "තොට"
+msgstr ""
 
 #: templates/settings.php:72
 msgid "Backup (Replica) Host"
@@ -211,7 +210,7 @@ msgstr ""
 
 #: templates/settings.php:75
 msgid "Use TLS"
-msgstr "TLS භාවිතා කරන්න"
+msgstr ""
 
 #: templates/settings.php:75
 msgid "Do not use it additionally for LDAPS connections, it will fail."
@@ -233,7 +232,7 @@ msgstr ""
 
 #: templates/settings.php:77
 msgid "Not recommended, use for testing only."
-msgstr "නිර්දේශ කළ නොහැක. පරීක්ෂණ සඳහා පමණක් භාවිත කරන්න"
+msgstr ""
 
 #: templates/settings.php:78
 msgid "Cache Time-To-Live"
@@ -331,4 +330,4 @@ msgstr ""
 
 #: templates/settings.php:99
 msgid "Help"
-msgstr "උදව්"
+msgstr ""

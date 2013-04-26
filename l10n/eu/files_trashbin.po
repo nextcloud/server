@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#  <asieriko@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -21,65 +20,65 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr "Ezin izan da %s betirako ezabatu"
+msgstr ""
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr "Ezin izan da %s berreskuratu"
+msgstr ""
 
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
-msgstr "berreskuratu"
+msgstr ""
 
 #: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
 msgid "Error"
-msgstr "Errorea"
+msgstr ""
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr "ezabatu fitxategia betirako"
+msgstr ""
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr "Ezabatu betirako"
+msgstr ""
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
-msgstr "Izena"
+msgstr ""
 
 #: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
-msgstr "Ezabatuta"
+msgstr ""
 
 #: js/trash.js:184
 msgid "1 folder"
-msgstr "karpeta bat"
+msgstr ""
 
 #: js/trash.js:186
 msgid "{count} folders"
-msgstr "{count} karpeta"
+msgstr ""
 
 #: js/trash.js:194
 msgid "1 file"
-msgstr "fitxategi bat"
+msgstr ""
 
 #: js/trash.js:196
 msgid "{count} files"
-msgstr "{count} fitxategi"
+msgstr ""
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr "Ez dago ezer ez. Zure zakarrontzia hutsik dago!"
+msgstr ""
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr "Berrezarri"
+msgstr ""
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
-msgstr "Ezabatu"
+msgstr ""
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr "Ezabatutako Fitxategiak"
+msgstr ""

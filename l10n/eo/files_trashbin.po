@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr ""
 
 #: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
 msgid "Error"
-msgstr "Eraro"
+msgstr ""
 
 #: js/trash.js:34
 msgid "delete file permanently"
@@ -45,7 +45,7 @@ msgstr ""
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
-msgstr "Nomo"
+msgstr ""
 
 #: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
@@ -53,19 +53,19 @@ msgstr ""
 
 #: js/trash.js:184
 msgid "1 folder"
-msgstr "1 dosierujo"
+msgstr ""
 
 #: js/trash.js:186
 msgid "{count} folders"
-msgstr "{count} dosierujoj"
+msgstr ""
 
 #: js/trash.js:194
 msgid "1 file"
-msgstr "1 dosiero"
+msgstr ""
 
 #: js/trash.js:196
 msgid "{count} files"
-msgstr "{count} dosierujoj"
+msgstr ""
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
@@ -73,12 +73,12 @@ msgstr ""
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr "Restaŭri"
+msgstr ""
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
-msgstr "Forigi"
+msgstr ""
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr "Forigitaj dosieroj"
+msgstr ""

@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Emilio Sepúlveda <djfunkinmixer@gmail.com>, 2011
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 18:30+0200\n"
-"PO-Revision-Date: 2013-04-24 16:00+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Interlingua (http://www.transifex.com/projects/p/owncloud/language/ia/)\n"
 "MIME-Version: 1.0\n"
@@ -83,83 +82,83 @@ msgstr ""
 
 #: js/config.php:34
 msgid "Sunday"
-msgstr "Dominica"
+msgstr ""
 
 #: js/config.php:35
 msgid "Monday"
-msgstr "Lunedi"
+msgstr ""
 
 #: js/config.php:36
 msgid "Tuesday"
-msgstr "Martedi"
+msgstr ""
 
 #: js/config.php:37
 msgid "Wednesday"
-msgstr "Mercuridi"
+msgstr ""
 
 #: js/config.php:38
 msgid "Thursday"
-msgstr "Jovedi"
+msgstr ""
 
 #: js/config.php:39
 msgid "Friday"
-msgstr "Venerdi"
+msgstr ""
 
 #: js/config.php:40
 msgid "Saturday"
-msgstr "Sabbato"
+msgstr ""
 
 #: js/config.php:45
 msgid "January"
-msgstr "januario"
+msgstr ""
 
 #: js/config.php:46
 msgid "February"
-msgstr "Februario"
+msgstr ""
 
 #: js/config.php:47
 msgid "March"
-msgstr "Martio"
+msgstr ""
 
 #: js/config.php:48
 msgid "April"
-msgstr "April"
+msgstr ""
 
 #: js/config.php:49
 msgid "May"
-msgstr "Mai"
+msgstr ""
 
 #: js/config.php:50
 msgid "June"
-msgstr "Junio"
+msgstr ""
 
 #: js/config.php:51
 msgid "July"
-msgstr "Julio"
+msgstr ""
 
 #: js/config.php:52
 msgid "August"
-msgstr "Augusto"
+msgstr ""
 
 #: js/config.php:53
 msgid "September"
-msgstr "Septembre"
+msgstr ""
 
 #: js/config.php:54
 msgid "October"
-msgstr "Octobre"
+msgstr ""
 
 #: js/config.php:55
 msgid "November"
-msgstr "Novembre"
+msgstr ""
 
 #: js/config.php:56
 msgid "December"
-msgstr "Decembre"
+msgstr ""
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "Configurationes"
+msgstr ""
 
 #: js/js.js:718
 msgid "seconds ago"
@@ -219,7 +218,7 @@ msgstr ""
 
 #: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
-msgstr "Cancellar"
+msgstr ""
 
 #: js/oc-dialogs.js:185
 msgid "Choose"
@@ -260,7 +259,7 @@ msgstr ""
 
 #: js/share.js:90
 msgid "Share"
-msgstr "Compartir"
+msgstr ""
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
@@ -296,7 +295,7 @@ msgstr ""
 
 #: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "Contrasigno"
+msgstr ""
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -391,7 +390,7 @@ msgstr ""
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
-msgstr "Reinitialisation del contrasigno de ownCLoud"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -412,63 +411,63 @@ msgstr ""
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
-msgstr "Nomine de usator"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr "Requestar reinitialisation"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "Tu contrasigno esseva reinitialisate"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr "al pagina de initio de session"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "Nove contrasigno"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "Reinitialisar contrasigno"
+msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr "Personal"
+msgstr ""
 
 #: strings.php:6
 msgid "Users"
-msgstr "Usatores"
+msgstr ""
 
 #: strings.php:7
 msgid "Apps"
-msgstr "Applicationes"
+msgstr ""
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Administration"
+msgstr ""
 
 #: strings.php:9
 msgid "Help"
-msgstr "Adjuta"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Accesso prohibite"
+msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr "Nube non trovate"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Modificar categorias"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "Adder"
+msgstr ""
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -510,37 +509,37 @@ msgstr ""
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
-msgstr "Crear un <strong>conto de administration</strong>"
+msgstr ""
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr "Avantiate"
+msgstr ""
 
 #: templates/installation.php:64
 msgid "Data folder"
-msgstr "Dossier de datos"
+msgstr ""
 
 #: templates/installation.php:74
 msgid "Configure the database"
-msgstr "Configurar le base de datos"
+msgstr ""
 
 #: templates/installation.php:79 templates/installation.php:91
 #: templates/installation.php:102 templates/installation.php:113
 #: templates/installation.php:125
 msgid "will be used"
-msgstr "essera usate"
+msgstr ""
 
 #: templates/installation.php:137
 msgid "Database user"
-msgstr "Usator de base de datos"
+msgstr ""
 
 #: templates/installation.php:144
 msgid "Database password"
-msgstr "Contrasigno de base de datos"
+msgstr ""
 
 #: templates/installation.php:149
 msgid "Database name"
-msgstr "Nomine de base de datos"
+msgstr ""
 
 #: templates/installation.php:159
 msgid "Database tablespace"
@@ -548,7 +547,7 @@ msgstr ""
 
 #: templates/installation.php:166
 msgid "Database host"
-msgstr "Hospite de base de datos"
+msgstr ""
 
 #: templates/installation.php:172
 msgid "Finish setup"
@@ -556,11 +555,11 @@ msgstr ""
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "servicios web sub tu controlo"
+msgstr ""
 
 #: templates/layout.user.php:58
 msgid "Log out"
-msgstr "Clauder le session"
+msgstr ""
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
@@ -578,15 +577,15 @@ msgstr ""
 
 #: templates/login.php:34
 msgid "Lost your password?"
-msgstr "Tu perdeva le contrasigno?"
+msgstr ""
 
 #: templates/login.php:39
 msgid "remember"
-msgstr "memora"
+msgstr ""
 
 #: templates/login.php:41
 msgid "Log in"
-msgstr "Aperir session"
+msgstr ""
 
 #: templates/login.php:47
 msgid "Alternative Logins"
@@ -594,11 +593,11 @@ msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr "prev"
+msgstr ""
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr "prox"
+msgstr ""
 
 #: templates/update.php:3
 #, php-format

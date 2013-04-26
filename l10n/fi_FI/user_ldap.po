@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <jarkko.moilanen@want3d.fi>, 2012.
-# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012-2013.
-#   <tehoratopato@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:23+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +39,7 @@ msgstr ""
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr "Poisto epäonnistui"
+msgstr ""
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
@@ -50,19 +47,19 @@ msgstr ""
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr "Säilytetäänkö asetukset?"
+msgstr ""
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr "Palvelinasetusten lisäys epäonnistui"
+msgstr ""
 
 #: js/settings.js:121
 msgid "Connection test succeeded"
-msgstr "Yhteystesti onnistui"
+msgstr ""
 
 #: js/settings.js:126
 msgid "Connection test failed"
-msgstr "Yhteystesti epäonnistui"
+msgstr ""
 
 #: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"
@@ -70,7 +67,7 @@ msgstr ""
 
 #: js/settings.js:137
 msgid "Confirm Deletion"
-msgstr "Vahvista poisto"
+msgstr ""
 
 #: templates/settings.php:8
 msgid ""
@@ -95,16 +92,16 @@ msgstr ""
 
 #: templates/settings.php:36
 msgid "Host"
-msgstr "Isäntä"
+msgstr ""
 
 #: templates/settings.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr "Voit jättää protokollan määrittämättä, paitsi kun vaadit SSL:ää. Aloita silloin ldaps://"
+msgstr ""
 
 #: templates/settings.php:39
 msgid "Base DN"
-msgstr "Oletus DN"
+msgstr ""
 
 #: templates/settings.php:40
 msgid "One Base DN per line"
@@ -112,70 +109,70 @@ msgstr ""
 
 #: templates/settings.php:41
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr "Voit määrittää käyttäjien ja ryhmien oletus DN:n (distinguished name) 'tarkemmat asetukset'-välilehdeltä  "
+msgstr ""
 
 #: templates/settings.php:43
 msgid "User DN"
-msgstr "Käyttäjän DN"
+msgstr ""
 
 #: templates/settings.php:45
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr "Asiakasohjelman DN, jolla yhdistäminen tehdään, ts. uid=agent,dc=example,dc=com. Mahdollistaaksesi anonyymin yhteyden, jätä DN ja salasana tyhjäksi."
+msgstr ""
 
 #: templates/settings.php:46
 msgid "Password"
-msgstr "Salasana"
+msgstr ""
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
-msgstr "Jos haluat mahdollistaa anonyymin pääsyn, jätä DN ja Salasana tyhjäksi "
+msgstr ""
 
 #: templates/settings.php:50
 msgid "User Login Filter"
-msgstr "Login suodatus"
+msgstr ""
 
 #: templates/settings.php:53
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr "Määrittelee käytettävän suodattimen, kun sisäänkirjautumista yritetään. %%uid korvaa sisäänkirjautumisessa käyttäjätunnuksen."
+msgstr ""
 
 #: templates/settings.php:54
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr "käytä %%uid paikanvaraajaa, ts. \"uid=%%uid\""
+msgstr ""
 
 #: templates/settings.php:55
 msgid "User List Filter"
-msgstr "Käyttäjien suodatus"
+msgstr ""
 
 #: templates/settings.php:58
 msgid "Defines the filter to apply, when retrieving users."
-msgstr "Määrittelee käytettävän suodattimen, kun käyttäjiä haetaan.  "
+msgstr ""
 
 #: templates/settings.php:59
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr "ilman paikanvaraustermiä, ts. \"objectClass=person\"."
+msgstr ""
 
 #: templates/settings.php:60
 msgid "Group Filter"
-msgstr "Ryhmien suodatus"
+msgstr ""
 
 #: templates/settings.php:63
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr "Määrittelee käytettävän suodattimen, kun ryhmiä haetaan.  "
+msgstr ""
 
 #: templates/settings.php:64
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr "ilman paikanvaraustermiä, ts. \"objectClass=posixGroup\"."
+msgstr ""
 
 #: templates/settings.php:68
 msgid "Connection Settings"
-msgstr "Yhteysasetukset"
+msgstr ""
 
 #: templates/settings.php:70
 msgid "Configuration Active"
@@ -187,7 +184,7 @@ msgstr ""
 
 #: templates/settings.php:71
 msgid "Port"
-msgstr "Portti"
+msgstr ""
 
 #: templates/settings.php:72
 msgid "Backup (Replica) Host"
@@ -205,7 +202,7 @@ msgstr ""
 
 #: templates/settings.php:74
 msgid "Disable Main Server"
-msgstr "Poista pääpalvelin käytöstä"
+msgstr ""
 
 #: templates/settings.php:74
 msgid "When switched on, ownCloud will only connect to the replica server."
@@ -213,7 +210,7 @@ msgstr ""
 
 #: templates/settings.php:75
 msgid "Use TLS"
-msgstr "Käytä TLS:ää"
+msgstr ""
 
 #: templates/settings.php:75
 msgid "Do not use it additionally for LDAPS connections, it will fail."
@@ -221,21 +218,21 @@ msgstr ""
 
 #: templates/settings.php:76
 msgid "Case insensitve LDAP server (Windows)"
-msgstr "Kirjainkoosta piittamaton LDAP-palvelin (Windows)"
+msgstr ""
 
 #: templates/settings.php:77
 msgid "Turn off SSL certificate validation."
-msgstr "Poista käytöstä SSL-varmenteen vahvistus"
+msgstr ""
 
 #: templates/settings.php:77
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr "Jos yhteys toimii vain tällä valinnalla, siirrä LDAP-palvelimen SSL-varmenne ownCloud-palvelimellesi."
+msgstr ""
 
 #: templates/settings.php:77
 msgid "Not recommended, use for testing only."
-msgstr "Ei suositella, käytä vain testausta varten."
+msgstr ""
 
 #: templates/settings.php:78
 msgid "Cache Time-To-Live"
@@ -243,23 +240,23 @@ msgstr ""
 
 #: templates/settings.php:78
 msgid "in seconds. A change empties the cache."
-msgstr "sekunneissa. Muutos tyhjentää välimuistin."
+msgstr ""
 
 #: templates/settings.php:80
 msgid "Directory Settings"
-msgstr "Hakemistoasetukset"
+msgstr ""
 
 #: templates/settings.php:82
 msgid "User Display Name Field"
-msgstr "Käyttäjän näytettävän nimen kenttä"
+msgstr ""
 
 #: templates/settings.php:82
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr "LDAP-attribuutti, jota käytetään käyttäjän ownCloud-käyttäjänimenä "
+msgstr ""
 
 #: templates/settings.php:83
 msgid "Base User Tree"
-msgstr "Oletuskäyttäjäpuu"
+msgstr ""
 
 #: templates/settings.php:83
 msgid "One User Base DN per line"
@@ -275,15 +272,15 @@ msgstr ""
 
 #: templates/settings.php:85
 msgid "Group Display Name Field"
-msgstr "Ryhmän \"näytettävä nimi\"-kenttä"
+msgstr ""
 
 #: templates/settings.php:85
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr "LDAP-attribuutti, jota käytetään luomaan ryhmän ownCloud-nimi"
+msgstr ""
 
 #: templates/settings.php:86
 msgid "Base Group Tree"
-msgstr "Ryhmien juuri"
+msgstr ""
 
 #: templates/settings.php:86
 msgid "One Group Base DN per line"
@@ -295,7 +292,7 @@ msgstr ""
 
 #: templates/settings.php:88
 msgid "Group-Member association"
-msgstr "Ryhmän ja jäsenen assosiaatio (yhteys)"
+msgstr ""
 
 #: templates/settings.php:90
 msgid "Special Attributes"
@@ -311,11 +308,11 @@ msgstr ""
 
 #: templates/settings.php:93
 msgid "in bytes"
-msgstr "tavuissa"
+msgstr ""
 
 #: templates/settings.php:94
 msgid "Email Field"
-msgstr "Sähköpostikenttä"
+msgstr ""
 
 #: templates/settings.php:95
 msgid "User Home Folder Naming Rule"
@@ -325,7 +322,7 @@ msgstr ""
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr "Jätä tyhjäksi käyttäjänimi (oletusasetus). Muutoin anna LDAP/AD-atribuutti."
+msgstr ""
 
 #: templates/settings.php:99
 msgid "Test Configuration"
@@ -333,4 +330,4 @@ msgstr ""
 
 #: templates/settings.php:99
 msgid "Help"
-msgstr "Ohje"
+msgstr ""

@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# andrejuseu <andrejuszl@gmail.com>, 2012
-# Dr. ROX <to.dr.rox@gmail.com>, 2011, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 01:56+0200\n"
-"PO-Revision-Date: 2013-04-25 23:56+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -21,12 +19,12 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "Neįmanoma įkelti sąrašo iš Programų Katalogo"
+msgstr ""
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "Autentikacijos klaida"
+msgstr ""
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
@@ -46,15 +44,15 @@ msgstr ""
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr "Nepavyksta įjungti aplikacijos."
+msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "El. paštas išsaugotas"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "Netinkamas el. paštas"
+msgstr ""
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -66,11 +64,11 @@ msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr "Kalba pakeista"
+msgstr ""
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "Klaidinga užklausa"
+msgstr ""
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -96,11 +94,11 @@ msgstr ""
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr "Išjungti"
+msgstr ""
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "Įjungti"
+msgstr ""
 
 #: js/apps.js:55
 msgid "Please wait...."
@@ -108,7 +106,7 @@ msgstr ""
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
-msgstr "Klaida"
+msgstr ""
 
 #: js/apps.js:90
 msgid "Updating...."
@@ -124,7 +122,7 @@ msgstr ""
 
 #: js/personal.js:115
 msgid "Saving..."
-msgstr "Saugoma.."
+msgstr ""
 
 #: js/users.js:43
 msgid "deleted"
@@ -132,7 +130,7 @@ msgstr ""
 
 #: js/users.js:43
 msgid "undo"
-msgstr "anuliuoti"
+msgstr ""
 
 #: js/users.js:75
 msgid "Unable to remove user"
@@ -141,7 +139,7 @@ msgstr ""
 #: js/users.js:88 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
 msgid "Groups"
-msgstr "Grupės"
+msgstr ""
 
 #: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
@@ -149,7 +147,7 @@ msgstr ""
 
 #: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr "Ištrinti"
+msgstr ""
 
 #: js/users.js:262
 msgid "add group"
@@ -169,11 +167,11 @@ msgstr ""
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
-msgstr "Kalba"
+msgstr ""
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr "Saugumo pranešimas"
+msgstr ""
 
 #: templates/admin.php:18
 msgid ""
@@ -182,7 +180,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "Jūsų duomenų aplankalas ir Jūsų failai turbūt yra pasiekiami per internetą. Failas .htaccess, kuris duodamas, neveikia. Mes rekomenduojame susitvarkyti savo nustatymsu taip, kad failai nebūtų pasiekiami per internetą, arba persikelti juos kitur."
+msgstr ""
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -320,11 +318,11 @@ msgstr ""
 
 #: templates/admin.php:227
 msgid "More"
-msgstr "Daugiau"
+msgstr ""
 
 #: templates/admin.php:228
 msgid "Less"
-msgstr "Mažiau"
+msgstr ""
 
 #: templates/admin.php:235 templates/personal.php:100
 msgid "Version"
@@ -342,15 +340,15 @@ msgstr ""
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr "Pridėti programėlę"
+msgstr ""
 
 #: templates/apps.php:12
 msgid "More Apps"
-msgstr "Daugiau aplikacijų"
+msgstr ""
 
 #: templates/apps.php:28
 msgid "Select an App"
-msgstr "Pasirinkite programą"
+msgstr ""
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
@@ -358,11 +356,11 @@ msgstr ""
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr "<span class=\"licence\"></span>- autorius<span class=\"author\"></span>"
+msgstr ""
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr "Atnaujinti"
+msgstr ""
 
 #: templates/help.php:4
 msgid "User Documentation"
@@ -403,27 +401,27 @@ msgstr ""
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr "Slaptažodis"
+msgstr ""
 
 #: templates/personal.php:38
 msgid "Your password was changed"
-msgstr "Jūsų slaptažodis buvo pakeistas"
+msgstr ""
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr "Neįmanoma pakeisti slaptažodžio"
+msgstr ""
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr "Dabartinis slaptažodis"
+msgstr ""
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr "Naujas slaptažodis"
+msgstr ""
 
 #: templates/personal.php:44
 msgid "Change password"
-msgstr "Pakeisti slaptažodį"
+msgstr ""
 
 #: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
@@ -431,23 +429,23 @@ msgstr ""
 
 #: templates/personal.php:68
 msgid "Email"
-msgstr "El. paštas"
+msgstr ""
 
 #: templates/personal.php:70
 msgid "Your email address"
-msgstr "Jūsų el. pašto adresas"
+msgstr ""
 
 #: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
-msgstr "Pamiršto slaptažodžio atkūrimui įveskite savo el. pašto adresą"
+msgstr ""
 
 #: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
-msgstr "Kalba"
+msgstr ""
 
 #: templates/personal.php:84
 msgid "Help translate"
-msgstr "Padėkite išversti"
+msgstr ""
 
 #: templates/personal.php:89
 msgid "WebDAV"
@@ -463,7 +461,7 @@ msgstr ""
 
 #: templates/users.php:30
 msgid "Create"
-msgstr "Sukurti"
+msgstr ""
 
 #: templates/users.php:33
 msgid "Default Storage"
@@ -475,7 +473,7 @@ msgstr ""
 
 #: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr "Kita"
+msgstr ""
 
 #: templates/users.php:82
 msgid "Storage"

@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Dr. ROX  <to.dr.rox@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +39,7 @@ msgstr ""
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr "Ištrinti nepavyko"
+msgstr ""
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
@@ -125,7 +124,7 @@ msgstr ""
 
 #: templates/settings.php:46
 msgid "Password"
-msgstr "Slaptažodis"
+msgstr ""
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
@@ -161,7 +160,7 @@ msgstr ""
 
 #: templates/settings.php:60
 msgid "Group Filter"
-msgstr "Grupės filtras"
+msgstr ""
 
 #: templates/settings.php:63
 msgid "Defines the filter to apply, when retrieving groups."
@@ -185,7 +184,7 @@ msgstr ""
 
 #: templates/settings.php:71
 msgid "Port"
-msgstr "Prievadas"
+msgstr ""
 
 #: templates/settings.php:72
 msgid "Backup (Replica) Host"
@@ -211,7 +210,7 @@ msgstr ""
 
 #: templates/settings.php:75
 msgid "Use TLS"
-msgstr "Naudoti TLS"
+msgstr ""
 
 #: templates/settings.php:75
 msgid "Do not use it additionally for LDAPS connections, it will fail."
@@ -223,7 +222,7 @@ msgstr ""
 
 #: templates/settings.php:77
 msgid "Turn off SSL certificate validation."
-msgstr "Išjungti SSL sertifikato tikrinimą."
+msgstr ""
 
 #: templates/settings.php:77
 msgid ""
@@ -233,7 +232,7 @@ msgstr ""
 
 #: templates/settings.php:77
 msgid "Not recommended, use for testing only."
-msgstr "Nerekomenduojama, naudokite tik testavimui."
+msgstr ""
 
 #: templates/settings.php:78
 msgid "Cache Time-To-Live"
@@ -331,4 +330,4 @@ msgstr ""
 
 #: templates/settings.php:99
 msgid "Help"
-msgstr "Pagalba"
+msgstr ""

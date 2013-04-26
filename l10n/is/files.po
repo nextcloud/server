@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# sveinn <sveinng@gmail.com>, 2012-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 01:55+0200\n"
-"PO-Revision-Date: 2013-04-25 23:00+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Icelandic (http://www.transifex.com/projects/p/owncloud/language/is/)\n"
 "MIME-Version: 1.0\n"
@@ -21,51 +20,51 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr "Gat ekki fært %s - Skrá með þessu nafni er þegar til"
+msgstr ""
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr "Gat ekki fært %s"
+msgstr ""
 
 #: ajax/rename.php:22 ajax/rename.php:25
 msgid "Unable to rename file"
-msgstr "Gat ekki endurskýrt skrá"
+msgstr ""
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
-msgstr "Engin skrá var send inn. Óþekkt villa."
+msgstr ""
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Engin villa, innsending heppnaðist"
+msgstr ""
 
 #: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr "Innsend skrá er stærri en upload_max stillingin í php.ini:"
+msgstr ""
 
 #: ajax/upload.php:29
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Innsenda skráin er stærri en MAX_FILE_SIZE sem skilgreint er í HTML sniðinu."
+msgstr ""
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Einungis hluti af innsendri skrá skilaði sér"
+msgstr ""
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Engin skrá skilaði sér"
+msgstr ""
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Vantar bráðabirgðamöppu"
+msgstr ""
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
-msgstr "Tókst ekki að skrifa á disk"
+msgstr ""
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
@@ -73,15 +72,15 @@ msgstr ""
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
-msgstr "Ógild mappa."
+msgstr ""
 
 #: appinfo/app.php:12
 msgid "Files"
-msgstr "Skrár"
+msgstr ""
 
 #: js/fileactions.js:116
 msgid "Share"
-msgstr "Deila"
+msgstr ""
 
 #: js/fileactions.js:126
 msgid "Delete permanently"
@@ -89,39 +88,39 @@ msgstr ""
 
 #: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr "Eyða"
+msgstr ""
 
 #: js/fileactions.js:194
 msgid "Rename"
-msgstr "Endurskýra"
+msgstr ""
 
 #: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr "Bíður"
+msgstr ""
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
-msgstr "{new_name} er þegar til"
+msgstr ""
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "replace"
-msgstr "yfirskrifa"
+msgstr ""
 
 #: js/filelist.js:252
 msgid "suggest name"
-msgstr "stinga upp á nafni"
+msgstr ""
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "cancel"
-msgstr "hætta við"
+msgstr ""
 
 #: js/filelist.js:299
 msgid "replaced {new_name} with {old_name}"
-msgstr "yfirskrifaði {new_name} með {old_name}"
+msgstr ""
 
 #: js/filelist.js:299
 msgid "undo"
-msgstr "afturkalla"
+msgstr ""
 
 #: js/filelist.js:324
 msgid "perform delete operation"
@@ -129,7 +128,7 @@ msgstr ""
 
 #: js/filelist.js:406
 msgid "1 file uploading"
-msgstr "1 skrá innsend"
+msgstr ""
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
@@ -137,17 +136,17 @@ msgstr ""
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
-msgstr "'.' er ekki leyfilegt nafn."
+msgstr ""
 
 #: js/files.js:56
 msgid "File name cannot be empty."
-msgstr "Nafn skráar má ekki vera tómt"
+msgstr ""
 
 #: js/files.js:64
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr "Ógilt nafn, táknin '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' eru ekki leyfð."
+msgstr ""
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -165,112 +164,112 @@ msgstr ""
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Innsending á skrá mistókst, hugsanlega sendir þú möppu eða skráin er 0 bæti."
+msgstr ""
 
 #: js/files.js:272
 msgid "Not enough space available"
-msgstr "Ekki nægt pláss tiltækt"
+msgstr ""
 
 #: js/files.js:312
 msgid "Upload cancelled."
-msgstr "Hætt við innsendingu."
+msgstr ""
 
 #: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr "Innsending í gangi. Ef þú ferð af þessari síðu mun innsending misheppnast."
+msgstr ""
 
 #: js/files.js:481
 msgid "URL cannot be empty."
-msgstr "Vefslóð má ekki vera tóm."
+msgstr ""
 
 #: js/files.js:486
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr "Óleyfilegt nafn á möppu. Nafnið 'Shared' er frátekið fyrir Owncloud"
+msgstr ""
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
-msgstr "Villa"
+msgstr ""
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr "Nafn"
+msgstr ""
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
-msgstr "Stærð"
+msgstr ""
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr "Breytt"
+msgstr ""
 
 #: js/files.js:893
 msgid "1 folder"
-msgstr "1 mappa"
+msgstr ""
 
 #: js/files.js:895
 msgid "{count} folders"
-msgstr "{count} möppur"
+msgstr ""
 
 #: js/files.js:903
 msgid "1 file"
-msgstr "1 skrá"
+msgstr ""
 
 #: js/files.js:905
 msgid "{count} files"
-msgstr "{count} skrár"
+msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "Senda inn"
+msgstr ""
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr "Meðhöndlun skrár"
+msgstr ""
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr "Hámarks stærð innsendingar"
+msgstr ""
 
 #: templates/admin.php:10
 msgid "max. possible: "
-msgstr "hámark mögulegt: "
+msgstr ""
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr "Nauðsynlegt til að sækja margar skrár og möppur í einu."
+msgstr ""
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr "Virkja ZIP niðurhal."
+msgstr ""
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
-msgstr "0 er ótakmarkað"
+msgstr ""
 
 #: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr "Hámarks inntaksstærð fyrir ZIP skrár"
+msgstr ""
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr "Vista"
+msgstr ""
 
 #: templates/index.php:7
 msgid "New"
-msgstr "Nýtt"
+msgstr ""
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr "Texta skrá"
+msgstr ""
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr "Mappa"
+msgstr ""
 
 #: templates/index.php:14
 msgid "From link"
-msgstr "Af tengli"
+msgstr ""
 
 #: templates/index.php:42
 msgid "Deleted files"
@@ -278,7 +277,7 @@ msgstr ""
 
 #: templates/index.php:48
 msgid "Cancel upload"
-msgstr "Hætta við innsendingu"
+msgstr ""
 
 #: templates/index.php:55
 msgid "You don’t have write permissions here."
@@ -286,33 +285,33 @@ msgstr ""
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
-msgstr "Ekkert hér. Settu eitthvað inn!"
+msgstr ""
 
 #: templates/index.php:76
 msgid "Download"
-msgstr "Niðurhal"
+msgstr ""
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "Hætta deilingu"
+msgstr ""
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Innsend skrá er of stór"
+msgstr ""
 
 #: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Skrárnar sem þú ert að senda inn eru stærri en hámarks innsendingarstærð á þessum netþjóni."
+msgstr ""
 
 #: templates/index.php:115
 msgid "Files are being scanned, please wait."
-msgstr "Verið er að skima skrár, vinsamlegast hinkraðu."
+msgstr ""
 
 #: templates/index.php:118
 msgid "Current scanning"
-msgstr "Er að skima"
+msgstr ""
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

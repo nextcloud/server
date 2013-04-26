@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Cédric MARTIN <sid50.martin@gmail.com>, 2013.
-# Romain DEP. <rom1dep@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -22,65 +20,65 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr "Impossible d'effacer %s de façon permanente"
+msgstr ""
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr "Impossible de restaurer %s"
+msgstr ""
 
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
-msgstr "effectuer l'opération de restauration"
+msgstr ""
 
 #: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
 msgid "Error"
-msgstr "Erreur"
+msgstr ""
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr "effacer définitivement le fichier"
+msgstr ""
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr "Supprimer de façon définitive"
+msgstr ""
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
-msgstr "Nom"
+msgstr ""
 
 #: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
-msgstr "Effacé"
+msgstr ""
 
 #: js/trash.js:184
 msgid "1 folder"
-msgstr "1 dossier"
+msgstr ""
 
 #: js/trash.js:186
 msgid "{count} folders"
-msgstr "{count} dossiers"
+msgstr ""
 
 #: js/trash.js:194
 msgid "1 file"
-msgstr "1 fichier"
+msgstr ""
 
 #: js/trash.js:196
 msgid "{count} files"
-msgstr "{count} fichiers"
+msgstr ""
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr "Il n'y a rien ici. Votre corbeille est vide !"
+msgstr ""
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr "Restaurer"
+msgstr ""
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
-msgstr "Supprimer"
+msgstr ""
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr "Fichiers effacés"
+msgstr ""

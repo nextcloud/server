@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# suganthi <suganthi@nic.lk>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 01:57+0200\n"
-"PO-Revision-Date: 2013-04-23 23:58+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -20,23 +19,23 @@ msgstr ""
 
 #: js/dropbox.js:7 js/dropbox.js:28 js/google.js:16 js/google.js:34
 msgid "Access granted"
-msgstr "அனுமதி வழங்கப்பட்டது"
+msgstr ""
 
 #: js/dropbox.js:30 js/dropbox.js:96 js/dropbox.js:102
 msgid "Error configuring Dropbox storage"
-msgstr "Dropbox சேமிப்பை தகவமைப்பதில் வழு"
+msgstr ""
 
 #: js/dropbox.js:65 js/google.js:66
 msgid "Grant access"
-msgstr "அனுமதியை வழங்கல்"
+msgstr ""
 
 #: js/dropbox.js:101
 msgid "Please provide a valid Dropbox app key and secret."
-msgstr "தயவுசெய்து ஒரு செல்லுபடியான Dropbox செயலி சாவி மற்றும் இரகசியத்தை வழங்குக. "
+msgstr ""
 
 #: js/google.js:36 js/google.js:93
 msgid "Error configuring Google Drive storage"
-msgstr "Google இயக்க சேமிப்பகத்தை தகமைப்பதில் வழு"
+msgstr ""
 
 #: lib/config.php:431
 msgid ""
@@ -60,11 +59,11 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "External Storage"
-msgstr "வெளி சேமிப்பு"
+msgstr ""
 
 #: templates/settings.php:9 templates/settings.php:28
 msgid "Folder name"
-msgstr "கோப்புறை பெயர்"
+msgstr ""
 
 #: templates/settings.php:10
 msgid "External storage"
@@ -72,15 +71,15 @@ msgstr ""
 
 #: templates/settings.php:11
 msgid "Configuration"
-msgstr "தகவமைப்பு"
+msgstr ""
 
 #: templates/settings.php:12
 msgid "Options"
-msgstr "தெரிவுகள்"
+msgstr ""
 
 #: templates/settings.php:13
 msgid "Applicable"
-msgstr "பயன்படத்தக்க"
+msgstr ""
 
 #: templates/settings.php:33
 msgid "Add storage"
@@ -88,37 +87,37 @@ msgstr ""
 
 #: templates/settings.php:90
 msgid "None set"
-msgstr "தொகுப்பில்லா"
+msgstr ""
 
 #: templates/settings.php:91
 msgid "All Users"
-msgstr "பயனாளர்கள் எல்லாம்"
+msgstr ""
 
 #: templates/settings.php:92
 msgid "Groups"
-msgstr "குழுக்கள்"
+msgstr ""
 
 #: templates/settings.php:100
 msgid "Users"
-msgstr "பயனாளர்"
+msgstr ""
 
 #: templates/settings.php:113 templates/settings.php:114
 #: templates/settings.php:149 templates/settings.php:150
 msgid "Delete"
-msgstr "நீக்குக"
+msgstr ""
 
 #: templates/settings.php:129
 msgid "Enable User External Storage"
-msgstr "பயனாளர் வெளி சேமிப்பை இயலுமைப்படுத்துக"
+msgstr ""
 
 #: templates/settings.php:130
 msgid "Allow users to mount their own external storage"
-msgstr "பயனாளர் அவர்களுடைய சொந்த வெளியக சேமிப்பை ஏற்ற அனுமதிக்க"
+msgstr ""
 
 #: templates/settings.php:141
 msgid "SSL root certificates"
-msgstr "SSL வேர் சான்றிதழ்கள்"
+msgstr ""
 
 #: templates/settings.php:159
 msgid "Import Root Certificate"
-msgstr "வேர் சான்றிதழை இறக்குமதி செய்க"
+msgstr ""

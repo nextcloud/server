@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Emilio Sepúlveda <djfunkinmixer@gmail.com>, 2011
-# Emilio Sepúlveda <emisepulvedam@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 01:56+0200\n"
-"PO-Revision-Date: 2013-04-25 23:56+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Interlingua (http://www.transifex.com/projects/p/owncloud/language/ia/)\n"
 "MIME-Version: 1.0\n"
@@ -66,11 +64,11 @@ msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr "Linguage cambiate"
+msgstr ""
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "Requesta invalide"
+msgstr ""
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -141,7 +139,7 @@ msgstr ""
 #: js/users.js:88 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
 msgid "Groups"
-msgstr "Gruppos"
+msgstr ""
 
 #: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
@@ -149,7 +147,7 @@ msgstr ""
 
 #: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr "Deler"
+msgstr ""
 
 #: js/users.js:262
 msgid "add group"
@@ -169,7 +167,7 @@ msgstr ""
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
-msgstr "Interlingua"
+msgstr ""
 
 #: templates/admin.php:15
 msgid "Security Warning"
@@ -342,7 +340,7 @@ msgstr ""
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr "Adder tu application"
+msgstr ""
 
 #: templates/apps.php:12
 msgid "More Apps"
@@ -350,7 +348,7 @@ msgstr ""
 
 #: templates/apps.php:28
 msgid "Select an App"
-msgstr "Selectionar un app"
+msgstr ""
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
@@ -362,7 +360,7 @@ msgstr ""
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr "Actualisar"
+msgstr ""
 
 #: templates/help.php:4
 msgid "User Documentation"
@@ -395,7 +393,7 @@ msgstr ""
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr "Obtene le apps (applicationes) pro synchronizar tu files"
+msgstr ""
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
@@ -403,7 +401,7 @@ msgstr ""
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr "Contrasigno"
+msgstr ""
 
 #: templates/personal.php:38
 msgid "Your password was changed"
@@ -411,19 +409,19 @@ msgstr ""
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr "Non pote cambiar tu contrasigno"
+msgstr ""
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr "Contrasigno currente"
+msgstr ""
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr "Nove contrasigno"
+msgstr ""
 
 #: templates/personal.php:44
 msgid "Change password"
-msgstr "Cambiar contrasigno"
+msgstr ""
 
 #: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
@@ -431,11 +429,11 @@ msgstr ""
 
 #: templates/personal.php:68
 msgid "Email"
-msgstr "E-posta"
+msgstr ""
 
 #: templates/personal.php:70
 msgid "Your email address"
-msgstr "Tu adresse de e-posta"
+msgstr ""
 
 #: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
@@ -443,11 +441,11 @@ msgstr ""
 
 #: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
-msgstr "Linguage"
+msgstr ""
 
 #: templates/personal.php:84
 msgid "Help translate"
-msgstr "Adjuta a traducer"
+msgstr ""
 
 #: templates/personal.php:89
 msgid "WebDAV"
@@ -463,7 +461,7 @@ msgstr ""
 
 #: templates/users.php:30
 msgid "Create"
-msgstr "Crear"
+msgstr ""
 
 #: templates/users.php:33
 msgid "Default Storage"
@@ -475,7 +473,7 @@ msgstr ""
 
 #: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr "Altere"
+msgstr ""
 
 #: templates/users.php:82
 msgid "Storage"

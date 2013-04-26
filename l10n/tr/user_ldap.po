@@ -3,16 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Necdet Yücel <necdetyucel@gmail.com>, 2012
-# atakan96 <tayancatakan@gmail.com>, 2013
-# KAT.RAT12 <spanish.katerina@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 01:56+0200\n"
-"PO-Revision-Date: 2013-04-25 00:20+0000\n"
-"Last-Translator: KAT.RAT12 <spanish.katerina@gmail.com>\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:02+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,64 +23,64 @@ msgstr ""
 
 #: ajax/testConfiguration.php:36
 msgid "The configuration is valid and the connection could be established!"
-msgstr "Uyunlama mantikli ve baglama yerlestirmek edebilmi."
+msgstr ""
 
 #: ajax/testConfiguration.php:39
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr "Uyunlama gecerli, fakat Baglama yapamadi. Lutfen kontrol yapmak, eger bu iyi yerlertirdi. "
+msgstr ""
 
 #: ajax/testConfiguration.php:43
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr "Uyunma mantikli degil. Lutfen log daha kontrol yapmak. "
+msgstr ""
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr "Silme başarısız oldu"
+msgstr ""
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr "Parametri sonadan uyunlama cikarmak mi?"
+msgstr ""
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr "Ayarları kalsınmı?"
+msgstr ""
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr "Sunucu uyunlama birlemek edemen. "
+msgstr ""
 
 #: js/settings.js:121
 msgid "Connection test succeeded"
-msgstr "Bağlantı testi başarılı oldu"
+msgstr ""
 
 #: js/settings.js:126
 msgid "Connection test failed"
-msgstr "Bağlantı testi başarısız oldu"
+msgstr ""
 
 #: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr "Hakikatten, Sonuncu Funksyon durmak istiyor mi?"
+msgstr ""
 
 #: js/settings.js:137
 msgid "Confirm Deletion"
-msgstr "Silmeyi onayla"
+msgstr ""
 
 #: templates/settings.php:8
 msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behaviour. Please ask your system administrator to "
 "disable one of them."
-msgstr "<b>Uyari </b> Apps kullanici_Idap ve user_webdavauth uyunmayan. Bu belki sik degil. Lutfen sistem yonetici sormak on aktif yapmaya. "
+msgstr ""
 
 #: templates/settings.php:11
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr "<b>Ihbar <b> Modulu PHP LDAP yuklemdi degil, backend calismacak. Lutfen sistem yonetici sormak  yuklemek icin."
+msgstr ""
 
 #: templates/settings.php:15
 msgid "Server configuration"
@@ -95,87 +92,87 @@ msgstr ""
 
 #: templates/settings.php:36
 msgid "Host"
-msgstr "Sunucu"
+msgstr ""
 
 #: templates/settings.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr "Protokol atlamak edesin, sadece SSL istiyorsaniz. O zaman, idapsile baslamak. "
+msgstr ""
 
 #: templates/settings.php:39
 msgid "Base DN"
-msgstr "Ana DN"
+msgstr ""
 
 #: templates/settings.php:40
 msgid "One Base DN per line"
-msgstr "Bir Tabani DN herbir dizi. "
+msgstr ""
 
 #: templates/settings.php:41
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr "Base DN kullanicileri  ve kaynaklari icin tablosu Advanced tayin etmek ederiz. "
+msgstr ""
 
 #: templates/settings.php:43
 msgid "User DN"
-msgstr "Kullanıcı DN"
+msgstr ""
 
 #: templates/settings.php:45
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr "DN musterinin, kimle baglamaya yapacagiz,meselâ uid=agent.dc mesela, dc=com Gecinme adisiz ici, DN  ve Parola bos birakmak. "
+msgstr ""
 
 #: templates/settings.php:46
 msgid "Password"
-msgstr "Parola"
+msgstr ""
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
-msgstr "Anonim erişim için DN ve Parola alanlarını boş bırakın."
+msgstr ""
 
 #: templates/settings.php:50
 msgid "User Login Filter"
-msgstr "Kullanıcı Oturum Filtresi"
+msgstr ""
 
 #: templates/settings.php:53
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr "Filter uyunlamak icin tayin ediyor, ne zaman girişmek isteminiz. % % uid adi kullanici girismeye karsi koymacak. "
+msgstr ""
 
 #: templates/settings.php:54
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr "%%uid yer tutucusunu kullanın, örneğin \"uid=%%uid\""
+msgstr ""
 
 #: templates/settings.php:55
 msgid "User List Filter"
-msgstr "Kullanıcı Liste Filtresi"
+msgstr ""
 
 #: templates/settings.php:58
 msgid "Defines the filter to apply, when retrieving users."
-msgstr "Filter uyunmak icin tayin ediyor, ne zaman adi  kullanici geri aliyor. "
+msgstr ""
 
 #: templates/settings.php:59
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr "bir yer tutucusu olmadan, örneğin \"objectClass=person\""
+msgstr ""
 
 #: templates/settings.php:60
 msgid "Group Filter"
-msgstr "Grup Süzgeci"
+msgstr ""
 
 #: templates/settings.php:63
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr "Filter uyunmak icin tayin ediyor, ne zaman grubalari tekrar aliyor. "
+msgstr ""
 
 #: templates/settings.php:64
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr "siz bir yer tutucu, mes. 'objectClass=posixGroup ('posixGrubu''. "
+msgstr ""
 
 #: templates/settings.php:68
 msgid "Connection Settings"
-msgstr "Bağlantı ayarları"
+msgstr ""
 
 #: templates/settings.php:70
 msgid "Configuration Active"
@@ -187,7 +184,7 @@ msgstr ""
 
 #: templates/settings.php:71
 msgid "Port"
-msgstr "Port"
+msgstr ""
 
 #: templates/settings.php:72
 msgid "Backup (Replica) Host"
@@ -205,7 +202,7 @@ msgstr ""
 
 #: templates/settings.php:74
 msgid "Disable Main Server"
-msgstr "Ana sunucuyu devredışı birak"
+msgstr ""
 
 #: templates/settings.php:74
 msgid "When switched on, ownCloud will only connect to the replica server."
@@ -213,7 +210,7 @@ msgstr ""
 
 #: templates/settings.php:75
 msgid "Use TLS"
-msgstr "TLS kullan"
+msgstr ""
 
 #: templates/settings.php:75
 msgid "Do not use it additionally for LDAPS connections, it will fail."
@@ -225,17 +222,17 @@ msgstr ""
 
 #: templates/settings.php:77
 msgid "Turn off SSL certificate validation."
-msgstr "SSL sertifika doğrulamasını kapat."
+msgstr ""
 
 #: templates/settings.php:77
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr "Bagladiginda, bunla secene sadece calisiyor, sunucu LDAP SSL sunucun ithal etemek, dneyme sizine sunucu ownClouden. "
+msgstr ""
 
 #: templates/settings.php:77
 msgid "Not recommended, use for testing only."
-msgstr "Önerilmez, sadece test için kullanın."
+msgstr ""
 
 #: templates/settings.php:78
 msgid "Cache Time-To-Live"
@@ -243,7 +240,7 @@ msgstr ""
 
 #: templates/settings.php:78
 msgid "in seconds. A change empties the cache."
-msgstr "saniye cinsinden. Bir değişiklik önbelleği temizleyecektir."
+msgstr ""
 
 #: templates/settings.php:80
 msgid "Directory Settings"
@@ -251,7 +248,7 @@ msgstr ""
 
 #: templates/settings.php:82
 msgid "User Display Name Field"
-msgstr "Ekran Adi Kullanici, (Alan Adi Kullanici Ekrane)"
+msgstr ""
 
 #: templates/settings.php:82
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
@@ -259,7 +256,7 @@ msgstr ""
 
 #: templates/settings.php:83
 msgid "Base User Tree"
-msgstr "Temel Kullanıcı Ağacı"
+msgstr ""
 
 #: templates/settings.php:83
 msgid "One User Base DN per line"
@@ -275,19 +272,19 @@ msgstr ""
 
 #: templates/settings.php:85
 msgid "Group Display Name Field"
-msgstr "Grub Ekrane Alani Adi"
+msgstr ""
 
 #: templates/settings.php:85
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr "LDAP kullamayin grub adi ownCloud uremek icin. "
+msgstr ""
 
 #: templates/settings.php:86
 msgid "Base Group Tree"
-msgstr "Temel Grup Ağacı"
+msgstr ""
 
 #: templates/settings.php:86
 msgid "One Group Base DN per line"
-msgstr "Bir Grubu Tabani DN her dizgi. "
+msgstr ""
 
 #: templates/settings.php:87
 msgid "Group Search Attributes"
@@ -295,7 +292,7 @@ msgstr ""
 
 #: templates/settings.php:88
 msgid "Group-Member association"
-msgstr "Grup-Üye işbirliği"
+msgstr ""
 
 #: templates/settings.php:90
 msgid "Special Attributes"
@@ -311,7 +308,7 @@ msgstr ""
 
 #: templates/settings.php:93
 msgid "in bytes"
-msgstr "byte cinsinden"
+msgstr ""
 
 #: templates/settings.php:94
 msgid "Email Field"
@@ -325,7 +322,7 @@ msgstr ""
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr "Kullanıcı adı bölümünü boş bırakın (varsayılan). "
+msgstr ""
 
 #: templates/settings.php:99
 msgid "Test Configuration"
@@ -333,4 +330,4 @@ msgstr ""
 
 #: templates/settings.php:99
 msgid "Help"
-msgstr "Yardım"
+msgstr ""

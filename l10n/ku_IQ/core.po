@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <itkurd0@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Kurdish (Iraq) (http://www.transifex.com/projects/p/owncloud/language/ku_IQ/)\n"
 "MIME-Version: 1.0\n"
@@ -159,7 +158,7 @@ msgstr ""
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "ده‌ستكاری"
+msgstr ""
 
 #: js/js.js:718
 msgid "seconds ago"
@@ -244,7 +243,7 @@ msgstr ""
 #: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
-msgstr "هه‌ڵه"
+msgstr ""
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
@@ -294,9 +293,9 @@ msgstr ""
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "وشەی تێپەربو"
+msgstr ""
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -410,9 +409,9 @@ msgid "Request failed!"
 msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
-msgstr "ناوی به‌کارهێنه‌ر"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
@@ -428,11 +427,11 @@ msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "وشەی نهێنی نوێ"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "دووباره‌ كردنه‌وه‌ی وشه‌ی نهێنی"
+msgstr ""
 
 #: strings.php:5
 msgid "Personal"
@@ -440,19 +439,19 @@ msgstr ""
 
 #: strings.php:6
 msgid "Users"
-msgstr "به‌كارهێنه‌ر"
+msgstr ""
 
 #: strings.php:7
 msgid "Apps"
-msgstr "به‌رنامه‌كان"
+msgstr ""
 
 #: strings.php:8
 msgid "Admin"
-msgstr "به‌ڕێوه‌به‌ری سه‌ره‌كی"
+msgstr ""
 
 #: strings.php:9
 msgid "Help"
-msgstr "یارمەتی"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -460,7 +459,7 @@ msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr "هیچ نه‌دۆزرایه‌وه‌"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -468,7 +467,7 @@ msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "زیادکردن"
+msgstr ""
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -514,91 +513,91 @@ msgstr ""
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr "هه‌ڵبژاردنی پیشكه‌وتوو"
+msgstr ""
 
 #: templates/installation.php:64
 msgid "Data folder"
-msgstr "زانیاری فۆڵده‌ر"
+msgstr ""
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr ""
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr ""
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
-msgstr "به‌كارهێنه‌ری داتابه‌یس"
+msgstr ""
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
-msgstr "وشه‌ی نهێنی داتا به‌یس"
+msgstr ""
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
-msgstr "ناوی داتابه‌یس"
+msgstr ""
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
-msgstr "هۆستی داتابه‌یس"
+msgstr ""
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
-msgstr "كۆتایی هات ده‌ستكاریه‌كان"
+msgstr ""
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "ڕاژه‌ی وێب له‌ژێر چاودێریت دایه"
+msgstr ""
 
 #: templates/layout.user.php:58
 msgid "Log out"
-msgstr "چوونەدەرەوە"
+msgstr ""
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr ""
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr ""
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr ""
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr ""
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr ""
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr ""
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr "پێشتر"
+msgstr ""
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr "دواتر"
+msgstr ""
 
 #: templates/update.php:3
 #, php-format

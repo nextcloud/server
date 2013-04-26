@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Cyryl Sochacki <>, 2012.
-#   <mplichta@gmail.com>, 2012.
-# Paweł Ciecierski <pciecierski@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -22,30 +19,30 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "Password"
-msgstr "Hasło"
+msgstr ""
 
 #: templates/authenticate.php:6
 msgid "Submit"
-msgstr "Wyślij"
+msgstr ""
 
 #: templates/public.php:10
 #, php-format
 msgid "%s shared the folder %s with you"
-msgstr "%s współdzieli folder z tobą %s"
+msgstr ""
 
 #: templates/public.php:13
 #, php-format
 msgid "%s shared the file %s with you"
-msgstr "%s współdzieli z tobą plik %s"
+msgstr ""
 
 #: templates/public.php:19 templates/public.php:43
 msgid "Download"
-msgstr "Pobierz"
+msgstr ""
 
 #: templates/public.php:40
 msgid "No preview available for"
-msgstr "Podgląd nie jest dostępny dla"
+msgstr ""
 
 #: templates/public.php:50
 msgid "web services under your control"
-msgstr "Kontrolowane serwisy"
+msgstr ""

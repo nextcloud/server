@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# drlinux64 <romeo@energo-pro.ge>, 2012
-# drlinux64 <romeo@energo-pro.ge>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 01:56+0200\n"
-"PO-Revision-Date: 2013-04-25 23:56+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -21,12 +19,12 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "აპლიკაციების სია ვერ ჩამოიტვირთა App Store"
+msgstr ""
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "ავთენტიფიკაციის შეცდომა"
+msgstr ""
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
@@ -34,146 +32,146 @@ msgstr ""
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
-msgstr "დისფლეის სახელის შეცვლა ვერ მოხერხდა"
+msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr "ჯგუფი უკვე არსებობს"
+msgstr ""
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr "ჯგუფის დამატება ვერ მოხერხდა"
+msgstr ""
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr "ვერ მოხერხდა აპლიკაციის ჩართვა."
+msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "იმეილი შენახულია"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "არასწორი იმეილი"
+msgstr ""
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr "ჯგუფის წაშლა ვერ მოხერხდა"
+msgstr ""
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr "მომხმარებლის წაშლა ვერ მოხერხდა"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr "ენა შეცვლილია"
+msgstr ""
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "არასწორი მოთხოვნა"
+msgstr ""
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr "ადმინისტრატორებს არ შეუძლიათ საკუთარი თავის წაშლა ადმინ ჯგუფიდან"
+msgstr ""
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "მომხმარებლის დამატება ვერ მოხეხდა ჯგუფში %s"
+msgstr ""
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "მომხმარებლის წაშლა ვერ მოხეხდა ჯგუფიდან %s"
+msgstr ""
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr "ვერ მოხერხდა აპლიკაციის განახლება."
+msgstr ""
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr "განაახლე {appversion}–მდე"
+msgstr ""
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr "გამორთვა"
+msgstr ""
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "ჩართვა"
+msgstr ""
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr "დაიცადეთ...."
+msgstr ""
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
-msgstr "შეცდომა"
+msgstr ""
 
 #: js/apps.js:90
 msgid "Updating...."
-msgstr "მიმდინარეობს განახლება...."
+msgstr ""
 
 #: js/apps.js:93
 msgid "Error while updating app"
-msgstr "შეცდომა აპლიკაციის განახლების დროს"
+msgstr ""
 
 #: js/apps.js:96
 msgid "Updated"
-msgstr "განახლებულია"
+msgstr ""
 
 #: js/personal.js:115
 msgid "Saving..."
-msgstr "შენახვა..."
+msgstr ""
 
 #: js/users.js:43
 msgid "deleted"
-msgstr "წაშლილი"
+msgstr ""
 
 #: js/users.js:43
 msgid "undo"
-msgstr "დაბრუნება"
+msgstr ""
 
 #: js/users.js:75
 msgid "Unable to remove user"
-msgstr "მომხმარებლის წაშლა ვერ მოხერხდა"
+msgstr ""
 
 #: js/users.js:88 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
 msgid "Groups"
-msgstr "ჯგუფი"
+msgstr ""
 
 #: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
-msgstr "ჯგუფის ადმინისტრატორი"
+msgstr ""
 
 #: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr "წაშლა"
+msgstr ""
 
 #: js/users.js:262
 msgid "add group"
-msgstr "ჯგუფის დამატება"
+msgstr ""
 
 #: js/users.js:414
 msgid "A valid username must be provided"
-msgstr "უნდა მიუთითოთ არსებული მომხმარებლის სახელი"
+msgstr ""
 
 #: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
-msgstr "შეცდომა მომხმარებლის შექმნისას"
+msgstr ""
 
 #: js/users.js:420
 msgid "A valid password must be provided"
-msgstr "უნდა მიუთითოთ არსებული პაროლი"
+msgstr ""
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
-msgstr "__language_name__"
+msgstr ""
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr "უსაფრთხოების გაფრთხილება"
+msgstr ""
 
 #: templates/admin.php:18
 msgid ""
@@ -182,36 +180,36 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "თქვენი data დირექტორია და ფაილები არის დაშვებადი ინტერნეტიდან. .htaccess ფაილი რომელსაც ownCloud გვთავაზობს არ მუშაობს. ჩვენ გირჩევთ რომ თქვენი ვებსერვერი დააკონფიგურიროთ ისე რომ data დირექტორია არ იყოს დაშვებადი, ან გაიტანოთ data დირექტორია ვებსერვერის document root დირექტორიის გარეთ."
+msgstr ""
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr "გაფრთხილება დაყენებისას"
+msgstr ""
 
 #: templates/admin.php:32
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "თქვენი web სერვერი არ არის კონფიგურირებული ფაილ სინქრონიზაციისთვის, რადგან WebDAV ინტერფეისი შეიძლება იყოს გატეხილი."
+msgstr ""
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr "გთხოვთ გადაათვალიეროთ <a href='%s'>ინსტალაციის გზამკვლევი</a>."
+msgstr ""
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr "მოდული 'fileinfo'  არ არსებობს"
+msgstr ""
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr "PHP მოდული 'fileinfo' არ არსებობს. ჩვენ გირჩევთ რომ აუცილებლად ჩართოთ ეს მოდული, რომ მიიღოთ კარგი შედეგები mime-type–ს აღმოჩენისას."
+msgstr ""
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr "ლოკალიზაცია არ მუშაობს"
+msgstr ""
 
 #: templates/admin.php:63
 #, php-format
@@ -219,11 +217,11 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr "თქვენი ownCloud სერვერი ვერ აყენებს %s სისტემურ ენას. ეს გულისხმობს იმას რომ შეიძლება შეიქმნას პრობლემა გარკვეულ სიმბოლოებზე ფაილის სახელებში. ჩვენ გიჩევთ რომ დააინსტალიროთ საჭირო პაკეტები თქვენს სისტემაზე იმისათვის რომ იყოს %s –ის მხარდაჭერა."
+msgstr ""
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
-msgstr "ინტერნეტ კავშირი არ მუშაობს"
+msgstr ""
 
 #: templates/admin.php:78
 msgid ""
@@ -233,102 +231,102 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr "ownCloud სერვერს არ გააჩნია ინტერნეტთან კავშირი. ეს ნიშნავს იმას რომ გარკვეული ფუნქციები როგორიცაა ექსტერნალ საცავების მონტირება, შეტყობინებები განახლების შესახებ ან სხვადასხვა 3rd აპლიკაციების ინსტალაცია არ იმუშავებს. ფაილებთან წვდომა გარე სამყაროდან და შეტყობინების იმეილებიც აგრეთვე არ იმუშავებს. ჩვენ გირჩევთ რომ ჩართოთ ინტერნეტ კავშირი ამ სერვერისთვის იმისათვის რომ გქონდეთ ownCloud–ის ყველა ფუნქცია გააქტიურებული."
+msgstr ""
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr "Cron–ი"
+msgstr ""
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
-msgstr "გაუშვი თითო მოქმედება ყველა ჩატვირთულ გვერდზე"
+msgstr ""
 
 #: templates/admin.php:111
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr "cron.php რეგისტრირებულია webcron სერვისად. გაუშვით cron.php გვერდი რომელიც მოთავსებულია owncloud root დირექტორიაში, წუთში ერთხელ  http–ით."
+msgstr ""
 
 #: templates/admin.php:121
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr "გამოიყენე სისტემური cron სერვისი. გაუშვით cron.php ფაილი owncloud ფოლდერიდან სისტემურ cronjob–ში წუთში ერთხელ."
+msgstr ""
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr "გაზიარება"
+msgstr ""
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr "Share API–ის ჩართვა"
+msgstr ""
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr "დაუშვი აპლიკაციების უფლება  Share API –ზე"
+msgstr ""
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr "ლინკების დაშვება"
+msgstr ""
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr "მიეცი მომხმარებლებს უფლება რომ გააზიაროს ელემენტები საჯაროდ ლინკებით"
+msgstr ""
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr "გადაზიარების დაშვება"
+msgstr ""
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr "მიეცით მომხმარებლებს უფლება რომ გააზიაროს მისთვის გაზიარებული"
+msgstr ""
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr "მიეცით უფლება მომხმარებლებს გააზიაროს ყველასთვის"
+msgstr ""
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr "მიეცით უფლება მომხმარებლებს რომ გააზიაროს მხოლოდ თავიანთი ჯგუფისთვის"
+msgstr ""
 
 #: templates/admin.php:168
 msgid "Security"
-msgstr "უსაფრთხოება"
+msgstr ""
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
-msgstr "HTTPS–ის ჩართვა"
+msgstr ""
 
 #: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr "ვაიძულოთ მომხმარებლები რომ დაუკავშირდნენ ownCloud დაცული კავშირით (https)."
+msgstr ""
 
 #: templates/admin.php:185
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr "გთხოვთ დაუკავშირდეთ ownCloud–ს  HTTPS–ით რომ შეძლოთ SSL–ის ჩართვა გამორთვა."
+msgstr ""
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr "ლოგი"
+msgstr ""
 
 #: templates/admin.php:196
 msgid "Log level"
-msgstr "ლოგირების დონე"
+msgstr ""
 
 #: templates/admin.php:227
 msgid "More"
-msgstr "უფრო მეტი"
+msgstr ""
 
 #: templates/admin.php:228
 msgid "Less"
-msgstr "naklebi"
+msgstr ""
 
 #: templates/admin.php:235 templates/personal.php:100
 msgid "Version"
-msgstr "ვერსია"
+msgstr ""
 
 #: templates/admin.php:238 templates/personal.php:103
 msgid ""
@@ -338,157 +336,157 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "წარმოებულია <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud community</a>–ის მიერ. <a href=\"https://github.com/owncloud\" target=\"_blank\">source code</a>  ვრცელდება <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> ლიცენზიის ფარგლებში."
+msgstr ""
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr "დაამატე შენი აპლიკაცია"
+msgstr ""
 
 #: templates/apps.php:12
 msgid "More Apps"
-msgstr "უფრო მეტი აპლიკაციები"
+msgstr ""
 
 #: templates/apps.php:28
 msgid "Select an App"
-msgstr "აირჩიეთ აპლიკაცია"
+msgstr ""
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
-msgstr "ნახეთ აპლიკაციის გვერდი apps.owncloud.com –ზე"
+msgstr ""
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr "<span class=\"licence\"></span>-ლიცენსირებულია <span class=\"author\"></span>"
+msgstr ""
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr "განახლება"
+msgstr ""
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr "მომხმარებლის დოკუმენტაცია"
+msgstr ""
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr "ადმინისტრატორის დოკუმენტაცია"
+msgstr ""
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr "ონლაინ დოკუმენტაცია"
+msgstr ""
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr "ფორუმი"
+msgstr ""
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr "ბაგთრექერი"
+msgstr ""
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr "კომერციული მხარდაჭერა"
+msgstr ""
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "თქვენ გამოყენებული გაქვთ <strong>%s</strong> –ი –<strong>%s<strong>–დან"
+msgstr ""
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr "აპლიკაცია ფაილების სინქრონიზაციისთვის"
+msgstr ""
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
-msgstr "მაჩვენე თავიდან გაშვებული ვიზარდი"
+msgstr ""
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr "პაროლი"
+msgstr ""
 
 #: templates/personal.php:38
 msgid "Your password was changed"
-msgstr "თქვენი პაროლი შეიცვალა"
+msgstr ""
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr "თქვენი პაროლი არ შეიცვალა"
+msgstr ""
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr "მიმდინარე პაროლი"
+msgstr ""
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr "ახალი პაროლი"
+msgstr ""
 
 #: templates/personal.php:44
 msgid "Change password"
-msgstr "პაროლის შეცვლა"
+msgstr ""
 
 #: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
-msgstr "დისპლეის სახელი"
+msgstr ""
 
 #: templates/personal.php:68
 msgid "Email"
-msgstr "იმეილი"
+msgstr ""
 
 #: templates/personal.php:70
 msgid "Your email address"
-msgstr "თქვენი იმეილ მისამართი"
+msgstr ""
 
 #: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
-msgstr "შეავსეთ იმეილ მისამართის ველი პაროლის აღსადგენად"
+msgstr ""
 
 #: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
-msgstr "ენა"
+msgstr ""
 
 #: templates/personal.php:84
 msgid "Help translate"
-msgstr "თარგმნის დახმარება"
+msgstr ""
 
 #: templates/personal.php:89
 msgid "WebDAV"
-msgstr "WebDAV"
+msgstr ""
 
 #: templates/personal.php:91
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "გამოიყენე შემდეგი მისამართი ownCloud–თან დასაკავშირებლად შენს ფაილმენეჯერში"
+msgstr ""
 
 #: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
-msgstr "მომხმარებლის სახელი"
+msgstr ""
 
 #: templates/users.php:30
 msgid "Create"
-msgstr "შექმნა"
+msgstr ""
 
 #: templates/users.php:33
 msgid "Default Storage"
-msgstr "საწყისი საცავი"
+msgstr ""
 
 #: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
-msgstr "ულიმიტო"
+msgstr ""
 
 #: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr "სხვა"
+msgstr ""
 
 #: templates/users.php:82
 msgid "Storage"
-msgstr "საცავი"
+msgstr ""
 
 #: templates/users.php:93
 msgid "change display name"
-msgstr "შეცვალე დისფლეის სახელი"
+msgstr ""
 
 #: templates/users.php:97
 msgid "set new password"
-msgstr "დააყენეთ ახალი პაროლი"
+msgstr ""
 
 #: templates/users.php:128
 msgid "Default"
-msgstr "საწყისი პარამეტრები"
+msgstr ""

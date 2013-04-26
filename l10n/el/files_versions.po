@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Dimitris M. <monopatis@gmail.com>, 2012-2013.
-# Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012.
-# Nisok Kosin <nikos.efthimiou@gmail.com>, 2012.
-# Wasilis Mandratzis <m.wasilis@yahoo.de>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -24,38 +20,38 @@ msgstr ""
 #: ajax/rollbackVersion.php:15
 #, php-format
 msgid "Could not revert: %s"
-msgstr "Αδυναμία επαναφοράς του: %s"
+msgstr ""
 
 #: history.php:40
 msgid "success"
-msgstr "επιτυχία"
+msgstr ""
 
 #: history.php:42
 #, php-format
 msgid "File %s was reverted to version %s"
-msgstr "Το αρχείο %s επαναφέρθηκε στην έκδοση %s"
+msgstr ""
 
 #: history.php:49
 msgid "failure"
-msgstr "αποτυχία"
+msgstr ""
 
 #: history.php:51
 #, php-format
 msgid "File %s could not be reverted to version %s"
-msgstr "Το αρχείο %s δεν είναι δυνατό να επαναφερθεί στην έκδοση %s"
+msgstr ""
 
 #: history.php:69
 msgid "No old versions available"
-msgstr "Μη διαθέσιμες παλιές εκδόσεις"
+msgstr ""
 
 #: history.php:74
 msgid "No path specified"
-msgstr "Δεν καθορίστηκε διαδρομή"
+msgstr ""
 
 #: js/versions.js:6
 msgid "Versions"
-msgstr "Εκδόσεις"
+msgstr ""
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
-msgstr "Επαναφορά ενός αρχείου σε προηγούμενη έκδοση πατώντας στο κουμπί επαναφοράς"
+msgstr ""

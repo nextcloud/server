@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# AriesAnywhere Anywhere <ariesanywhere@gmail.com>, 2012-2013
-# AriesAnywhere Anywhere <ariesanywhere@gmail.com>, 2012
-# Robin Appelman <icewind1991@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 01:56+0200\n"
-"PO-Revision-Date: 2013-04-25 23:56+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -22,12 +19,12 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "ไม่สามารถโหลดรายการจาก App Store ได้"
+msgstr ""
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "เกิดข้อผิดพลาดเกี่ยวกับสิทธิ์การเข้าใช้งาน"
+msgstr ""
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
@@ -39,101 +36,101 @@ msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr "มีกลุ่มดังกล่าวอยู่ในระบบอยู่แล้ว"
+msgstr ""
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr "ไม่สามารถเพิ่มกลุ่มได้"
+msgstr ""
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr "ไม่สามารถเปิดใช้งานแอปได้"
+msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "อีเมลถูกบันทึกแล้ว"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "อีเมลไม่ถูกต้อง"
+msgstr ""
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr "ไม่สามารถลบกลุ่มได้"
+msgstr ""
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr "ไม่สามารถลบผู้ใช้งานได้"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr "เปลี่ยนภาษาเรียบร้อยแล้ว"
+msgstr ""
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "คำร้องขอไม่ถูกต้อง"
+msgstr ""
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr "ผู้ดูแลระบบไม่สามารถลบตัวเองออกจากกลุ่มผู้ดูแลได้"
+msgstr ""
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "ไม่สามารถเพิ่มผู้ใช้งานเข้าไปที่กลุ่ม %s ได้"
+msgstr ""
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "ไม่สามารถลบผู้ใช้งานออกจากกลุ่ม %s ได้"
+msgstr ""
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr "ไม่สามารถอัพเดทแอปฯ"
+msgstr ""
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr "อัพเดทไปเป็นรุ่น {appversion}"
+msgstr ""
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr "ปิดใช้งาน"
+msgstr ""
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "เปิดใช้งาน"
+msgstr ""
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr "กรุณารอสักครู่..."
+msgstr ""
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
-msgstr "ข้อผิดพลาด"
+msgstr ""
 
 #: js/apps.js:90
 msgid "Updating...."
-msgstr "กำลังอัพเดทข้อมูล..."
+msgstr ""
 
 #: js/apps.js:93
 msgid "Error while updating app"
-msgstr "เกิดข้อผิดพลาดในระหว่างการอัพเดทแอปฯ"
+msgstr ""
 
 #: js/apps.js:96
 msgid "Updated"
-msgstr "อัพเดทแล้ว"
+msgstr ""
 
 #: js/personal.js:115
 msgid "Saving..."
-msgstr "กำลังบันทึุกข้อมูล..."
+msgstr ""
 
 #: js/users.js:43
 msgid "deleted"
-msgstr "ลบแล้ว"
+msgstr ""
 
 #: js/users.js:43
 msgid "undo"
-msgstr "เลิกทำ"
+msgstr ""
 
 #: js/users.js:75
 msgid "Unable to remove user"
@@ -142,15 +139,15 @@ msgstr ""
 #: js/users.js:88 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
 msgid "Groups"
-msgstr "กลุ่ม"
+msgstr ""
 
 #: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
-msgstr "ผู้ดูแลกลุ่ม"
+msgstr ""
 
 #: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr "ลบ"
+msgstr ""
 
 #: js/users.js:262
 msgid "add group"
@@ -170,11 +167,11 @@ msgstr ""
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
-msgstr "ภาษาไทย"
+msgstr ""
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr "คำเตือนเกี่ยวกับความปลอดภัย"
+msgstr ""
 
 #: templates/admin.php:18
 msgid ""
@@ -183,7 +180,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "ไดเร็กทอรี่ข้อมูลและไฟล์ของคุณสามารถเข้าถึงได้จากอินเทอร์เน็ต ไฟล์ .htaccess ที่ ownCloud มีให้ไม่สามารถทำงานได้อย่างเหมาะสม เราขอแนะนำให้คุณกำหนดค่าเว็บเซิร์ฟเวอร์ใหม่ในรูปแบบที่ไดเร็กทอรี่เก็บข้อมูลไม่สามารถเข้าถึงได้อีกต่อไป หรือคุณได้ย้ายไดเร็กทอรี่ที่ใช้เก็บข้อมูลไปอยู่ภายนอกตำแหน่ง root ของเว็บเซิร์ฟเวอร์แล้ว"
+msgstr ""
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -321,15 +318,15 @@ msgstr ""
 
 #: templates/admin.php:227
 msgid "More"
-msgstr "มาก"
+msgstr ""
 
 #: templates/admin.php:228
 msgid "Less"
-msgstr "น้อย"
+msgstr ""
 
 #: templates/admin.php:235 templates/personal.php:100
 msgid "Version"
-msgstr "รุ่น"
+msgstr ""
 
 #: templates/admin.php:238 templates/personal.php:103
 msgid ""
@@ -339,60 +336,60 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "พัฒนาโดย the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ชุมชนผู้ใช้งาน ownCloud</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">ซอร์สโค้ด</a>อยู่ภายใต้สัญญาอนุญาตของ <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+msgstr ""
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr "เพิ่มแอปของคุณ"
+msgstr ""
 
 #: templates/apps.php:12
 msgid "More Apps"
-msgstr "แอปฯอื่นเพิ่มเติม"
+msgstr ""
 
 #: templates/apps.php:28
 msgid "Select an App"
-msgstr "เลือก App"
+msgstr ""
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
-msgstr "ดูหน้าแอพพลิเคชั่นที่ apps.owncloud.com"
+msgstr ""
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr "<span class=\"licence\"></span>-ลิขสิทธิ์การใช้งานโดย <span class=\"author\"></span>"
+msgstr ""
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr "อัพเดท"
+msgstr ""
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr "เอกสารคู่มือการใช้งานสำหรับผู้ใช้งาน"
+msgstr ""
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr "เอกสารคู่มือการใช้งานสำหรับผู้ดูแลระบบ"
+msgstr ""
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr "เอกสารคู่มือการใช้งานออนไลน์"
+msgstr ""
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr "กระดานสนทนา"
+msgstr ""
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr "Bugtracker"
+msgstr ""
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr "บริการลูกค้าแบบเสียค่าใช้จ่าย"
+msgstr ""
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "คุณได้ใช้งานไปแล้ว <strong>%s</strong> จากจำนวนที่สามารถใช้ได้ <strong>%s</strong>"
+msgstr ""
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
@@ -400,96 +397,96 @@ msgstr ""
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
-msgstr "แสดงหน้าจอวิซาร์ดนำทางครั้งแรกอีกครั้ง"
+msgstr ""
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr "รหัสผ่าน"
+msgstr ""
 
 #: templates/personal.php:38
 msgid "Your password was changed"
-msgstr "รหัสผ่านของคุณถูกเปลี่ยนแล้ว"
+msgstr ""
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr "ไม่สามารถเปลี่ยนรหัสผ่านของคุณได้"
+msgstr ""
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr "รหัสผ่านปัจจุบัน"
+msgstr ""
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr "รหัสผ่านใหม่"
+msgstr ""
 
 #: templates/personal.php:44
 msgid "Change password"
-msgstr "เปลี่ยนรหัสผ่าน"
+msgstr ""
 
 #: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
-msgstr "ชื่อที่ต้องการแสดง"
+msgstr ""
 
 #: templates/personal.php:68
 msgid "Email"
-msgstr "อีเมล์"
+msgstr ""
 
 #: templates/personal.php:70
 msgid "Your email address"
-msgstr "ที่อยู่อีเมล์ของคุณ"
+msgstr ""
 
 #: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
-msgstr "กรอกที่อยู่อีเมล์ของคุณเพื่อเปิดให้มีการกู้คืนรหัสผ่านได้"
+msgstr ""
 
 #: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
-msgstr "ภาษา"
+msgstr ""
 
 #: templates/personal.php:84
 msgid "Help translate"
-msgstr "ช่วยกันแปล"
+msgstr ""
 
 #: templates/personal.php:89
 msgid "WebDAV"
-msgstr "WebDAV"
+msgstr ""
 
 #: templates/personal.php:91
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "ใช้ที่อยู่นี้เพื่อเชื่อมต่อกับ ownCloud ในโปรแกรมจัดการไฟล์ของคุณ"
+msgstr ""
 
 #: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
-msgstr "ชื่อที่ใช้สำหรับเข้าสู่ระบบ"
+msgstr ""
 
 #: templates/users.php:30
 msgid "Create"
-msgstr "สร้าง"
+msgstr ""
 
 #: templates/users.php:33
 msgid "Default Storage"
-msgstr "พื้นที่จำกัดข้อมูลเริ่มต้น"
+msgstr ""
 
 #: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
-msgstr "ไม่จำกัดจำนวน"
+msgstr ""
 
 #: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr "อื่นๆ"
+msgstr ""
 
 #: templates/users.php:82
 msgid "Storage"
-msgstr "พื้นที่จัดเก็บข้อมูล"
+msgstr ""
 
 #: templates/users.php:93
 msgid "change display name"
-msgstr "เปลี่ยนชื่อที่ต้องการให้แสดง"
+msgstr ""
 
 #: templates/users.php:97
 msgid "set new password"
-msgstr "ตั้งค่ารหัสผ่านใหม่"
+msgstr ""
 
 #: templates/users.php:128
 msgid "Default"
-msgstr "ค่าเริ่มต้น"
+msgstr ""

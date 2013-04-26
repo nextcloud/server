@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Dennis <dtsang29@hotmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (Hong Kong) (http://www.transifex.com/projects/p/owncloud/language/zh_HK/)\n"
 "MIME-Version: 1.0\n"
@@ -25,7 +24,7 @@ msgstr ""
 
 #: history.php:40
 msgid "success"
-msgstr "成功"
+msgstr ""
 
 #: history.php:42
 #, php-format
@@ -34,7 +33,7 @@ msgstr ""
 
 #: history.php:49
 msgid "failure"
-msgstr "失敗"
+msgstr ""
 
 #: history.php:51
 #, php-format
@@ -43,7 +42,7 @@ msgstr ""
 
 #: history.php:69
 msgid "No old versions available"
-msgstr "沒有以往版本"
+msgstr ""
 
 #: history.php:74
 msgid "No path specified"
@@ -51,7 +50,7 @@ msgstr ""
 
 #: js/versions.js:6
 msgid "Versions"
-msgstr "版本"
+msgstr ""
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"

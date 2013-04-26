@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# sim0n <sim0n@trypill.org>, 2011-2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 01:56+0200\n"
-"PO-Revision-Date: 2013-04-25 23:56+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Luxembourgish (http://www.transifex.com/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
@@ -20,12 +19,12 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "Konnt Lescht net vum App Store lueden"
+msgstr ""
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "Authentifikatioun's Fehler"
+msgstr ""
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
@@ -49,11 +48,11 @@ msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "E-mail gespäichert"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "Ongülteg e-mail"
+msgstr ""
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -65,11 +64,11 @@ msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr "Sprooch huet geännert"
+msgstr ""
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "Ongülteg Requête"
+msgstr ""
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -95,11 +94,11 @@ msgstr ""
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr "Ofschalten"
+msgstr ""
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "Aschalten"
+msgstr ""
 
 #: js/apps.js:55
 msgid "Please wait...."
@@ -107,7 +106,7 @@ msgstr ""
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
-msgstr "Fehler"
+msgstr ""
 
 #: js/apps.js:90
 msgid "Updating...."
@@ -123,15 +122,15 @@ msgstr ""
 
 #: js/personal.js:115
 msgid "Saving..."
-msgstr "Speicheren..."
+msgstr ""
 
 #: js/users.js:43
 msgid "deleted"
-msgstr "geläscht"
+msgstr ""
 
 #: js/users.js:43
 msgid "undo"
-msgstr "réckgängeg man"
+msgstr ""
 
 #: js/users.js:75
 msgid "Unable to remove user"
@@ -140,15 +139,15 @@ msgstr ""
 #: js/users.js:88 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
 msgid "Groups"
-msgstr "Gruppen"
+msgstr ""
 
 #: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
-msgstr "Gruppen Admin"
+msgstr ""
 
 #: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr "Läschen"
+msgstr ""
 
 #: js/users.js:262
 msgid "add group"
@@ -168,11 +167,11 @@ msgstr ""
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
-msgstr "__language_name__"
+msgstr ""
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr "Sécherheets Warnung"
+msgstr ""
 
 #: templates/admin.php:18
 msgid ""
@@ -341,7 +340,7 @@ msgstr ""
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr "Setz deng App bei"
+msgstr ""
 
 #: templates/apps.php:12
 msgid "More Apps"
@@ -349,11 +348,11 @@ msgstr ""
 
 #: templates/apps.php:28
 msgid "Select an App"
-msgstr "Wiel eng Applikatioun aus"
+msgstr ""
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
-msgstr "Kuck dir d'Applicatioun's Säit op apps.owncloud.com un"
+msgstr ""
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -402,7 +401,7 @@ msgstr ""
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr "Passwuert"
+msgstr ""
 
 #: templates/personal.php:38
 msgid "Your password was changed"
@@ -410,19 +409,19 @@ msgstr ""
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr "Konnt däin Passwuert net änneren"
+msgstr ""
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr "Momentan 't Passwuert"
+msgstr ""
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr "Neit Passwuert"
+msgstr ""
 
 #: templates/personal.php:44
 msgid "Change password"
-msgstr "Passwuert änneren"
+msgstr ""
 
 #: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
@@ -430,23 +429,23 @@ msgstr ""
 
 #: templates/personal.php:68
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
 #: templates/personal.php:70
 msgid "Your email address"
-msgstr "Deng Email Adress"
+msgstr ""
 
 #: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
-msgstr "Gëff eng Email Adress an fir d'Passwuert recovery ze erlaben"
+msgstr ""
 
 #: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
-msgstr "Sprooch"
+msgstr ""
 
 #: templates/personal.php:84
 msgid "Help translate"
-msgstr "Hëllef iwwersetzen"
+msgstr ""
 
 #: templates/personal.php:89
 msgid "WebDAV"
@@ -462,7 +461,7 @@ msgstr ""
 
 #: templates/users.php:30
 msgid "Create"
-msgstr "Erstellen"
+msgstr ""
 
 #: templates/users.php:33
 msgid "Default Storage"
@@ -474,7 +473,7 @@ msgstr ""
 
 #: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr "Aner"
+msgstr ""
 
 #: templates/users.php:82
 msgid "Storage"

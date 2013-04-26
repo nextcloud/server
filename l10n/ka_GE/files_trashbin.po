@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# drlinux64 <romeo@energo-pro.ge>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-22 01:58+0200\n"
-"PO-Revision-Date: 2013-04-21 18:40+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
@@ -21,65 +20,65 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr "ფაილი %s–ის სრულად წაშლა ვერ მოხერხდა"
+msgstr ""
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr "%s–ის აღდგენა ვერ მოხერხდა"
+msgstr ""
 
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
-msgstr "მიმდინარეობს აღდგენის ოპერაცია"
+msgstr ""
 
 #: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
 msgid "Error"
-msgstr "შეცდომა"
+msgstr ""
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr "ფაილის სრულად წაშლა"
+msgstr ""
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr "სრულად წაშლა"
+msgstr ""
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
-msgstr "სახელი"
+msgstr ""
 
 #: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
-msgstr "წაშლილი"
+msgstr ""
 
 #: js/trash.js:184
 msgid "1 folder"
-msgstr "1 საქაღალდე"
+msgstr ""
 
 #: js/trash.js:186
 msgid "{count} folders"
-msgstr "{count} საქაღალდე"
+msgstr ""
 
 #: js/trash.js:194
 msgid "1 file"
-msgstr "1 ფაილი"
+msgstr ""
 
 #: js/trash.js:196
 msgid "{count} files"
-msgstr "{count} ფაილი"
+msgstr ""
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr "აქ არაფერი არ არის. სანაგვე ყუთი ცარიელია!"
+msgstr ""
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr "აღდგენა"
+msgstr ""
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
-msgstr "წაშლა"
+msgstr ""
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr "წაშლილი ფაილები"
+msgstr ""

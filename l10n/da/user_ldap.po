@@ -3,17 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <blah@blacksunset.dk>, 2012.
-#   <cronner@gmail.com>, 2012.
-# Frederik Lassen <frederiklassen@gmail.com>, 2012.
-# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2012.
-#   <sr@ybnet.dk>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +39,7 @@ msgstr ""
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr "Fejl ved sletning"
+msgstr ""
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
@@ -97,16 +92,16 @@ msgstr ""
 
 #: templates/settings.php:36
 msgid "Host"
-msgstr "Host"
+msgstr ""
 
 #: templates/settings.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr "Du kan udelade protokollen, medmindre du skal bruge SSL. Start i så fald med ldaps://"
+msgstr ""
 
 #: templates/settings.php:39
 msgid "Base DN"
-msgstr "Base DN"
+msgstr ""
 
 #: templates/settings.php:40
 msgid "One Base DN per line"
@@ -114,11 +109,11 @@ msgstr ""
 
 #: templates/settings.php:41
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr "You can specify Base DN for users and groups in the Advanced tab"
+msgstr ""
 
 #: templates/settings.php:43
 msgid "User DN"
-msgstr "Bruger DN"
+msgstr ""
 
 #: templates/settings.php:45
 msgid ""
@@ -129,15 +124,15 @@ msgstr ""
 
 #: templates/settings.php:46
 msgid "Password"
-msgstr "Kodeord"
+msgstr ""
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
-msgstr "For anonym adgang, skal du lade DN og Adgangskode tomme."
+msgstr ""
 
 #: templates/settings.php:50
 msgid "User Login Filter"
-msgstr "Bruger Login Filter"
+msgstr ""
 
 #: templates/settings.php:53
 #, php-format
@@ -153,11 +148,11 @@ msgstr ""
 
 #: templates/settings.php:55
 msgid "User List Filter"
-msgstr "Brugerliste Filter"
+msgstr ""
 
 #: templates/settings.php:58
 msgid "Defines the filter to apply, when retrieving users."
-msgstr "Definere filteret der bruges ved indlæsning af brugere."
+msgstr ""
 
 #: templates/settings.php:59
 msgid "without any placeholder, e.g. \"objectClass=person\"."
@@ -165,11 +160,11 @@ msgstr ""
 
 #: templates/settings.php:60
 msgid "Group Filter"
-msgstr "Gruppe Filter"
+msgstr ""
 
 #: templates/settings.php:63
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr "Definere filteret der bruges når der indlæses grupper."
+msgstr ""
 
 #: templates/settings.php:64
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
@@ -189,7 +184,7 @@ msgstr ""
 
 #: templates/settings.php:71
 msgid "Port"
-msgstr "Port"
+msgstr ""
 
 #: templates/settings.php:72
 msgid "Backup (Replica) Host"
@@ -215,7 +210,7 @@ msgstr ""
 
 #: templates/settings.php:75
 msgid "Use TLS"
-msgstr "Brug TLS"
+msgstr ""
 
 #: templates/settings.php:75
 msgid "Do not use it additionally for LDAPS connections, it will fail."
@@ -227,7 +222,7 @@ msgstr ""
 
 #: templates/settings.php:77
 msgid "Turn off SSL certificate validation."
-msgstr "Deaktiver SSL certifikat validering"
+msgstr ""
 
 #: templates/settings.php:77
 msgid ""
@@ -237,7 +232,7 @@ msgstr ""
 
 #: templates/settings.php:77
 msgid "Not recommended, use for testing only."
-msgstr "Anbefales ikke, brug kun for at teste."
+msgstr ""
 
 #: templates/settings.php:78
 msgid "Cache Time-To-Live"
@@ -253,7 +248,7 @@ msgstr ""
 
 #: templates/settings.php:82
 msgid "User Display Name Field"
-msgstr "User Display Name Field"
+msgstr ""
 
 #: templates/settings.php:82
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
@@ -261,7 +256,7 @@ msgstr ""
 
 #: templates/settings.php:83
 msgid "Base User Tree"
-msgstr "Base Bruger Træ"
+msgstr ""
 
 #: templates/settings.php:83
 msgid "One User Base DN per line"
@@ -285,7 +280,7 @@ msgstr ""
 
 #: templates/settings.php:86
 msgid "Base Group Tree"
-msgstr "Base Group Tree"
+msgstr ""
 
 #: templates/settings.php:86
 msgid "One Group Base DN per line"
@@ -297,7 +292,7 @@ msgstr ""
 
 #: templates/settings.php:88
 msgid "Group-Member association"
-msgstr "Group-Member association"
+msgstr ""
 
 #: templates/settings.php:90
 msgid "Special Attributes"
@@ -313,7 +308,7 @@ msgstr ""
 
 #: templates/settings.php:93
 msgid "in bytes"
-msgstr "i bytes"
+msgstr ""
 
 #: templates/settings.php:94
 msgid "Email Field"
@@ -335,4 +330,4 @@ msgstr ""
 
 #: templates/settings.php:99
 msgid "Help"
-msgstr "Hjælp"
+msgstr ""

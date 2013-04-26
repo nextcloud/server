@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# andrejuseu <andrejuszl@gmail.com>, 2012
-# Dr. ROX <to.dr.rox@gmail.com>, 2011, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 18:30+0200\n"
-"PO-Revision-Date: 2013-04-24 16:00+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +47,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr "Nepridėsite jokios kategorijos?"
+msgstr ""
 
 #: ajax/vcategories/add.php:37
 #, php-format
@@ -75,7 +73,7 @@ msgstr ""
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "Trynimui nepasirinkta jokia kategorija."
+msgstr ""
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -84,95 +82,95 @@ msgstr ""
 
 #: js/config.php:34
 msgid "Sunday"
-msgstr "Sekmadienis"
+msgstr ""
 
 #: js/config.php:35
 msgid "Monday"
-msgstr "Pirmadienis"
+msgstr ""
 
 #: js/config.php:36
 msgid "Tuesday"
-msgstr "Antradienis"
+msgstr ""
 
 #: js/config.php:37
 msgid "Wednesday"
-msgstr "Trečiadienis"
+msgstr ""
 
 #: js/config.php:38
 msgid "Thursday"
-msgstr "Ketvirtadienis"
+msgstr ""
 
 #: js/config.php:39
 msgid "Friday"
-msgstr "Penktadienis"
+msgstr ""
 
 #: js/config.php:40
 msgid "Saturday"
-msgstr "Šeštadienis"
+msgstr ""
 
 #: js/config.php:45
 msgid "January"
-msgstr "Sausis"
+msgstr ""
 
 #: js/config.php:46
 msgid "February"
-msgstr "Vasaris"
+msgstr ""
 
 #: js/config.php:47
 msgid "March"
-msgstr "Kovas"
+msgstr ""
 
 #: js/config.php:48
 msgid "April"
-msgstr "Balandis"
+msgstr ""
 
 #: js/config.php:49
 msgid "May"
-msgstr "Gegužė"
+msgstr ""
 
 #: js/config.php:50
 msgid "June"
-msgstr "Birželis"
+msgstr ""
 
 #: js/config.php:51
 msgid "July"
-msgstr "Liepa"
+msgstr ""
 
 #: js/config.php:52
 msgid "August"
-msgstr "Rugpjūtis"
+msgstr ""
 
 #: js/config.php:53
 msgid "September"
-msgstr "Rugsėjis"
+msgstr ""
 
 #: js/config.php:54
 msgid "October"
-msgstr "Spalis"
+msgstr ""
 
 #: js/config.php:55
 msgid "November"
-msgstr "Lapkritis"
+msgstr ""
 
 #: js/config.php:56
 msgid "December"
-msgstr "Gruodis"
+msgstr ""
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "Nustatymai"
+msgstr ""
 
 #: js/js.js:718
 msgid "seconds ago"
-msgstr "prieš sekundę"
+msgstr ""
 
 #: js/js.js:719
 msgid "1 minute ago"
-msgstr "Prieš 1 minutę"
+msgstr ""
 
 #: js/js.js:720
 msgid "{minutes} minutes ago"
-msgstr "Prieš {count} minutes"
+msgstr ""
 
 #: js/js.js:721
 msgid "1 hour ago"
@@ -184,19 +182,19 @@ msgstr ""
 
 #: js/js.js:723
 msgid "today"
-msgstr "šiandien"
+msgstr ""
 
 #: js/js.js:724
 msgid "yesterday"
-msgstr "vakar"
+msgstr ""
 
 #: js/js.js:725
 msgid "{days} days ago"
-msgstr "Prieš {days}  dienas"
+msgstr ""
 
 #: js/js.js:726
 msgid "last month"
-msgstr "praeitą mėnesį"
+msgstr ""
 
 #: js/js.js:727
 msgid "{months} months ago"
@@ -204,35 +202,35 @@ msgstr ""
 
 #: js/js.js:728
 msgid "months ago"
-msgstr "prieš mėnesį"
+msgstr ""
 
 #: js/js.js:729
 msgid "last year"
-msgstr "praeitais metais"
+msgstr ""
 
 #: js/js.js:730
 msgid "years ago"
-msgstr "prieš metus"
+msgstr ""
 
 #: js/oc-dialogs.js:117 js/oc-dialogs.js:247
 msgid "Ok"
-msgstr "Gerai"
+msgstr ""
 
 #: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
-msgstr "Atšaukti"
+msgstr ""
 
 #: js/oc-dialogs.js:185
 msgid "Choose"
-msgstr "Pasirinkite"
+msgstr ""
 
 #: js/oc-dialogs.js:215
 msgid "Yes"
-msgstr "Taip"
+msgstr ""
 
 #: js/oc-dialogs.js:222
 msgid "No"
-msgstr "Ne"
+msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -245,7 +243,7 @@ msgstr ""
 #: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
-msgstr "Klaida"
+msgstr ""
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
@@ -261,43 +259,43 @@ msgstr ""
 
 #: js/share.js:90
 msgid "Share"
-msgstr "Dalintis"
+msgstr ""
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
-msgstr "Klaida, dalijimosi metu"
+msgstr ""
 
 #: js/share.js:136
 msgid "Error while unsharing"
-msgstr "Klaida, kai atšaukiamas dalijimasis"
+msgstr ""
 
 #: js/share.js:143
 msgid "Error while changing permissions"
-msgstr "Klaida, keičiant privilegijas"
+msgstr ""
 
 #: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
-msgstr "Pasidalino su Jumis ir {group} grupe {owner}"
+msgstr ""
 
 #: js/share.js:154
 msgid "Shared with you by {owner}"
-msgstr "Pasidalino su Jumis {owner}"
+msgstr ""
 
 #: js/share.js:159
 msgid "Share with"
-msgstr "Dalintis su"
+msgstr ""
 
 #: js/share.js:164
 msgid "Share with link"
-msgstr "Dalintis nuoroda"
+msgstr ""
 
 #: js/share.js:167
 msgid "Password protect"
-msgstr "Apsaugotas slaptažodžiu"
+msgstr ""
 
 #: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "Slaptažodis"
+msgstr ""
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -309,67 +307,67 @@ msgstr ""
 
 #: js/share.js:178
 msgid "Set expiration date"
-msgstr "Nustatykite galiojimo laiką"
+msgstr ""
 
 #: js/share.js:179
 msgid "Expiration date"
-msgstr "Galiojimo laikas"
+msgstr ""
 
 #: js/share.js:211
 msgid "Share via email:"
-msgstr "Dalintis per el. paštą:"
+msgstr ""
 
 #: js/share.js:213
 msgid "No people found"
-msgstr "Žmonių nerasta"
+msgstr ""
 
 #: js/share.js:251
 msgid "Resharing is not allowed"
-msgstr "Dalijinasis išnaujo negalimas"
+msgstr ""
 
 #: js/share.js:287
 msgid "Shared in {item} with {user}"
-msgstr "Pasidalino {item} su {user}"
+msgstr ""
 
 #: js/share.js:308
 msgid "Unshare"
-msgstr "Nesidalinti"
+msgstr ""
 
 #: js/share.js:320
 msgid "can edit"
-msgstr "gali redaguoti"
+msgstr ""
 
 #: js/share.js:322
 msgid "access control"
-msgstr "priėjimo kontrolė"
+msgstr ""
 
 #: js/share.js:325
 msgid "create"
-msgstr "sukurti"
+msgstr ""
 
 #: js/share.js:328
 msgid "update"
-msgstr "atnaujinti"
+msgstr ""
 
 #: js/share.js:331
 msgid "delete"
-msgstr "ištrinti"
+msgstr ""
 
 #: js/share.js:334
 msgid "share"
-msgstr "dalintis"
+msgstr ""
 
 #: js/share.js:368 js/share.js:564
 msgid "Password protected"
-msgstr "Apsaugota slaptažodžiu"
+msgstr ""
 
 #: js/share.js:577
 msgid "Error unsetting expiration date"
-msgstr "Klaida nuimant galiojimo laiką"
+msgstr ""
 
 #: js/share.js:589
 msgid "Error setting expiration date"
-msgstr "Klaida nustatant galiojimo laiką"
+msgstr ""
 
 #: js/share.js:604
 msgid "Sending ..."
@@ -392,15 +390,15 @@ msgstr ""
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
-msgstr "ownCloud slaptažodžio atkūrimas"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr "Slaptažodio atkūrimui naudokite šią nuorodą: {link}"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "Elektroniniu paštu gausite nuorodą, su kuria galėsite iš naujo nustatyti slaptažodį."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
@@ -413,68 +411,68 @@ msgstr ""
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
-msgstr "Prisijungimo vardas"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr "Prašyti nustatymo iš najo"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "Jūsų slaptažodis buvo nustatytas iš naujo"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr "Į prisijungimo puslapį"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "Naujas slaptažodis"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "Atkurti slaptažodį"
+msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr "Asmeniniai"
+msgstr ""
 
 #: strings.php:6
 msgid "Users"
-msgstr "Vartotojai"
+msgstr ""
 
 #: strings.php:7
 msgid "Apps"
-msgstr "Programos"
+msgstr ""
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Administravimas"
+msgstr ""
 
 #: strings.php:9
 msgid "Help"
-msgstr "Pagalba"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Priėjimas draudžiamas"
+msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr "Negalima rasti"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Redaguoti kategorijas"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "Pridėti"
+msgstr ""
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
 msgid "Security Warning"
-msgstr "Saugumo pranešimas"
+msgstr ""
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
@@ -488,13 +486,13 @@ msgstr ""
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr "Saugaus atsitiktinių skaičių generatoriaus nėra, prašome įjungti PHP OpenSSL modulį."
+msgstr ""
 
 #: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr "Be saugaus atsitiktinių skaičių generatoriaus, piktavaliai gali atspėti Jūsų slaptažodį ir pasisavinti paskyrą."
+msgstr ""
 
 #: templates/installation.php:39
 msgid ""
@@ -511,83 +509,83 @@ msgstr ""
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
-msgstr "Sukurti <strong>administratoriaus paskyrą</strong>"
+msgstr ""
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr "Išplėstiniai"
+msgstr ""
 
 #: templates/installation.php:64
 msgid "Data folder"
-msgstr "Duomenų katalogas"
+msgstr ""
 
 #: templates/installation.php:74
 msgid "Configure the database"
-msgstr "Nustatyti duomenų bazę"
+msgstr ""
 
 #: templates/installation.php:79 templates/installation.php:91
 #: templates/installation.php:102 templates/installation.php:113
 #: templates/installation.php:125
 msgid "will be used"
-msgstr "bus naudojama"
+msgstr ""
 
 #: templates/installation.php:137
 msgid "Database user"
-msgstr "Duomenų bazės vartotojas"
+msgstr ""
 
 #: templates/installation.php:144
 msgid "Database password"
-msgstr "Duomenų bazės slaptažodis"
+msgstr ""
 
 #: templates/installation.php:149
 msgid "Database name"
-msgstr "Duomenų bazės pavadinimas"
+msgstr ""
 
 #: templates/installation.php:159
 msgid "Database tablespace"
-msgstr "Duomenų bazės loginis saugojimas"
+msgstr ""
 
 #: templates/installation.php:166
 msgid "Database host"
-msgstr "Duomenų bazės serveris"
+msgstr ""
 
 #: templates/installation.php:172
 msgid "Finish setup"
-msgstr "Baigti diegimą"
+msgstr ""
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "jūsų valdomos web paslaugos"
+msgstr ""
 
 #: templates/layout.user.php:58
 msgid "Log out"
-msgstr "Atsijungti"
+msgstr ""
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
-msgstr "Automatinis prisijungimas atmestas!"
+msgstr ""
 
 #: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr "Jei paskutinių metu nekeitėte savo slaptažodžio, Jūsų paskyra gali būti pavojuje!"
+msgstr ""
 
 #: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr "Prašome pasikeisti slaptažodį dar kartą, dėl paskyros saugumo."
+msgstr ""
 
 #: templates/login.php:34
 msgid "Lost your password?"
-msgstr "Pamiršote slaptažodį?"
+msgstr ""
 
 #: templates/login.php:39
 msgid "remember"
-msgstr "prisiminti"
+msgstr ""
 
 #: templates/login.php:41
 msgid "Log in"
-msgstr "Prisijungti"
+msgstr ""
 
 #: templates/login.php:47
 msgid "Alternative Logins"
@@ -595,11 +593,11 @@ msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr "atgal"
+msgstr ""
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr "kitas"
+msgstr ""
 
 #: templates/update.php:3
 #, php-format

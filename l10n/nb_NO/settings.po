@@ -3,20 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# anjar <ajarmund@gmail.com>, 2011
-# Arvid Nornes <arvid.nornes@gmail.com>, 2012
-# Christer Eriksson <post@hc3web.com>, 2012
-# Daniel <i18n@daniel.priv.no>, 2012
-# espenbye <espenbye@me.com>, 2012
-# hdalgrav <hdalgrav@gmail.com>, 2012
-# owncloud <itssmail@yahoo.no>, 2012
-# runesudden <runesudden@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 01:56+0200\n"
-"PO-Revision-Date: 2013-04-25 23:56+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -27,12 +19,12 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "Lasting av liste fra App Store feilet."
+msgstr ""
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "Autentikasjonsfeil"
+msgstr ""
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
@@ -44,39 +36,39 @@ msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr "Gruppen finnes allerede"
+msgstr ""
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr "Kan ikke legge til gruppe"
+msgstr ""
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr "Kan ikke aktivere app."
+msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "Epost lagret"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "Ugyldig epost"
+msgstr ""
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr "Kan ikke slette gruppe"
+msgstr ""
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr "Kan ikke slette bruker"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr "Språk endret"
+msgstr ""
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "Ugyldig forespørsel"
+msgstr ""
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -85,12 +77,12 @@ msgstr ""
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "Kan ikke legge bruker til gruppen %s"
+msgstr ""
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "Kan ikke slette bruker fra gruppen %s"
+msgstr ""
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
@@ -102,11 +94,11 @@ msgstr ""
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr "Slå avBehandle "
+msgstr ""
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "Slå på"
+msgstr ""
 
 #: js/apps.js:55
 msgid "Please wait...."
@@ -114,7 +106,7 @@ msgstr ""
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
-msgstr "Feil"
+msgstr ""
 
 #: js/apps.js:90
 msgid "Updating...."
@@ -130,15 +122,15 @@ msgstr ""
 
 #: js/personal.js:115
 msgid "Saving..."
-msgstr "Lagrer..."
+msgstr ""
 
 #: js/users.js:43
 msgid "deleted"
-msgstr "slettet"
+msgstr ""
 
 #: js/users.js:43
 msgid "undo"
-msgstr "angre"
+msgstr ""
 
 #: js/users.js:75
 msgid "Unable to remove user"
@@ -147,15 +139,15 @@ msgstr ""
 #: js/users.js:88 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
 msgid "Groups"
-msgstr "Grupper"
+msgstr ""
 
 #: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
-msgstr "Gruppeadministrator"
+msgstr ""
 
 #: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr "Slett"
+msgstr ""
 
 #: js/users.js:262
 msgid "add group"
@@ -175,11 +167,11 @@ msgstr ""
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
-msgstr "__language_name__"
+msgstr ""
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr "Sikkerhetsadvarsel"
+msgstr ""
 
 #: templates/admin.php:18
 msgid ""
@@ -326,15 +318,15 @@ msgstr ""
 
 #: templates/admin.php:227
 msgid "More"
-msgstr "Mer"
+msgstr ""
 
 #: templates/admin.php:228
 msgid "Less"
-msgstr "Mindre"
+msgstr ""
 
 #: templates/admin.php:235 templates/personal.php:100
 msgid "Version"
-msgstr "Versjon"
+msgstr ""
 
 #: templates/admin.php:238 templates/personal.php:103
 msgid ""
@@ -348,19 +340,19 @@ msgstr ""
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr "Legg til din App"
+msgstr ""
 
 #: templates/apps.php:12
 msgid "More Apps"
-msgstr "Flere Apps"
+msgstr ""
 
 #: templates/apps.php:28
 msgid "Select an App"
-msgstr "Velg en app"
+msgstr ""
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
-msgstr "Se applikasjonens side på apps.owncloud.org"
+msgstr ""
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -368,15 +360,15 @@ msgstr ""
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr "Oppdater"
+msgstr ""
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr "Brukerdokumentasjon"
+msgstr ""
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr "Administratordokumentasjon"
+msgstr ""
 
 #: templates/help.php:9
 msgid "Online Documentation"
@@ -392,16 +384,16 @@ msgstr ""
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr "Kommersiell støtte"
+msgstr ""
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "Du har brukt <strong>%s</strong> av tilgjengelig <strong>%s</strong>"
+msgstr ""
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr "Få dine apps til å synkronisere dine filer"
+msgstr ""
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
@@ -409,27 +401,27 @@ msgstr ""
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr "Passord"
+msgstr ""
 
 #: templates/personal.php:38
 msgid "Your password was changed"
-msgstr "Passord har blitt endret"
+msgstr ""
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr "Kunne ikke endre passordet ditt"
+msgstr ""
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr "Nåværende passord"
+msgstr ""
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr "Nytt passord"
+msgstr ""
 
 #: templates/personal.php:44
 msgid "Change password"
-msgstr "Endre passord"
+msgstr ""
 
 #: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
@@ -437,27 +429,27 @@ msgstr ""
 
 #: templates/personal.php:68
 msgid "Email"
-msgstr "E-post"
+msgstr ""
 
 #: templates/personal.php:70
 msgid "Your email address"
-msgstr "Din e-postadresse"
+msgstr ""
 
 #: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
-msgstr "Oppi epostadressen du vil tilbakestille passordet for"
+msgstr ""
 
 #: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
-msgstr "Språk"
+msgstr ""
 
 #: templates/personal.php:84
 msgid "Help translate"
-msgstr "Bidra til oversettelsen"
+msgstr ""
 
 #: templates/personal.php:89
 msgid "WebDAV"
-msgstr "WebDAV"
+msgstr ""
 
 #: templates/personal.php:91
 msgid "Use this address to connect to your ownCloud in your file manager"
@@ -469,7 +461,7 @@ msgstr ""
 
 #: templates/users.php:30
 msgid "Create"
-msgstr "Opprett"
+msgstr ""
 
 #: templates/users.php:33
 msgid "Default Storage"
@@ -481,7 +473,7 @@ msgstr ""
 
 #: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr "Annet"
+msgstr ""
 
 #: templates/users.php:82
 msgid "Storage"

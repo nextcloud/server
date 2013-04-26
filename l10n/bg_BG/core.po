@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# adin <adn.adin@gmail.com>, 2011
-# Jan-Christoph Borchardt <hey@jancborchardt.net>, 2011
-# Stefan Ilivanov <ilivanov@gmail.com>, 2011
-# Yasen Pramatarov <yasen@lindeas.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 18:30+0200\n"
-"PO-Revision-Date: 2013-04-24 16:00+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -162,15 +158,15 @@ msgstr ""
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "Настройки"
+msgstr ""
 
 #: js/js.js:718
 msgid "seconds ago"
-msgstr "преди секунди"
+msgstr ""
 
 #: js/js.js:719
 msgid "1 minute ago"
-msgstr "преди 1 минута"
+msgstr ""
 
 #: js/js.js:720
 msgid "{minutes} minutes ago"
@@ -178,7 +174,7 @@ msgstr ""
 
 #: js/js.js:721
 msgid "1 hour ago"
-msgstr "преди 1 час"
+msgstr ""
 
 #: js/js.js:722
 msgid "{hours} hours ago"
@@ -186,11 +182,11 @@ msgstr ""
 
 #: js/js.js:723
 msgid "today"
-msgstr "днес"
+msgstr ""
 
 #: js/js.js:724
 msgid "yesterday"
-msgstr "вчера"
+msgstr ""
 
 #: js/js.js:725
 msgid "{days} days ago"
@@ -198,7 +194,7 @@ msgstr ""
 
 #: js/js.js:726
 msgid "last month"
-msgstr "последният месец"
+msgstr ""
 
 #: js/js.js:727
 msgid "{months} months ago"
@@ -210,11 +206,11 @@ msgstr ""
 
 #: js/js.js:729
 msgid "last year"
-msgstr "последната година"
+msgstr ""
 
 #: js/js.js:730
 msgid "years ago"
-msgstr "последните години"
+msgstr ""
 
 #: js/oc-dialogs.js:117 js/oc-dialogs.js:247
 msgid "Ok"
@@ -222,7 +218,7 @@ msgstr ""
 
 #: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
-msgstr "Отказ"
+msgstr ""
 
 #: js/oc-dialogs.js:185
 msgid "Choose"
@@ -247,7 +243,7 @@ msgstr ""
 #: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
-msgstr "Грешка"
+msgstr ""
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
@@ -263,7 +259,7 @@ msgstr ""
 
 #: js/share.js:90
 msgid "Share"
-msgstr "Споделяне"
+msgstr ""
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
@@ -287,7 +283,7 @@ msgstr ""
 
 #: js/share.js:159
 msgid "Share with"
-msgstr "Споделено с"
+msgstr ""
 
 #: js/share.js:164
 msgid "Share with link"
@@ -299,7 +295,7 @@ msgstr ""
 
 #: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "Парола"
+msgstr ""
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -347,7 +343,7 @@ msgstr ""
 
 #: js/share.js:325
 msgid "create"
-msgstr "създаване"
+msgstr ""
 
 #: js/share.js:328
 msgid "update"
@@ -415,7 +411,7 @@ msgstr ""
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
-msgstr "Потребител"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
@@ -431,7 +427,7 @@ msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "Нова парола"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
@@ -439,23 +435,23 @@ msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr "Лични"
+msgstr ""
 
 #: strings.php:6
 msgid "Users"
-msgstr "Потребители"
+msgstr ""
 
 #: strings.php:7
 msgid "Apps"
-msgstr "Приложения"
+msgstr ""
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Админ"
+msgstr ""
 
 #: strings.php:9
 msgid "Help"
-msgstr "Помощ"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -471,7 +467,7 @@ msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "Добавяне"
+msgstr ""
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -559,7 +555,7 @@ msgstr ""
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "уеб услуги под Ваш контрол"
+msgstr ""
 
 #: templates/layout.user.php:58
 msgid "Log out"

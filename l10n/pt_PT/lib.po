@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Mouxy <daniel@mouxy.net>, 2012-2013
-# Mouxy <daniel@mouxy.net>, 2013
-# Duarte Velez Grilo <duartegrilo@gmail.com>, 2012
-# Helder Meneses <helder.meneses@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-18 02:04+0200\n"
-"PO-Revision-Date: 2013-04-18 00:05+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:01+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -23,236 +19,236 @@ msgstr ""
 
 #: app.php:349
 msgid "Help"
-msgstr "Ajuda"
+msgstr ""
 
 #: app.php:362
 msgid "Personal"
-msgstr "Pessoal"
+msgstr ""
 
 #: app.php:373
 msgid "Settings"
-msgstr "Configurações"
+msgstr ""
 
 #: app.php:385
 msgid "Users"
-msgstr "Utilizadores"
+msgstr ""
 
 #: app.php:398
 msgid "Apps"
-msgstr "Aplicações"
+msgstr ""
 
 #: app.php:406
 msgid "Admin"
-msgstr "Admin"
+msgstr ""
 
 #: files.php:209
 msgid "ZIP download is turned off."
-msgstr "Descarregamento em ZIP está desligado."
+msgstr ""
 
 #: files.php:210
 msgid "Files need to be downloaded one by one."
-msgstr "Os ficheiros precisam de ser descarregados um por um."
+msgstr ""
 
 #: files.php:211 files.php:244
 msgid "Back to Files"
-msgstr "Voltar a Ficheiros"
+msgstr ""
 
 #: files.php:241
 msgid "Selected files too large to generate zip file."
-msgstr "Os ficheiros seleccionados são grandes demais para gerar um ficheiro zip."
+msgstr ""
 
 #: helper.php:228
 msgid "couldn't be determined"
-msgstr "Não foi possível determinar"
+msgstr ""
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr "A aplicação não está activada"
+msgstr ""
 
 #: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
-msgstr "Erro na autenticação"
+msgstr ""
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr "O token expirou. Por favor recarregue a página."
+msgstr ""
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
-msgstr "Ficheiros"
+msgstr ""
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr "Texto"
+msgstr ""
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr "Imagens"
+msgstr ""
 
 #: setup.php:34
 msgid "Set an admin username."
-msgstr "Definir um nome de utilizador de administrador"
+msgstr ""
 
 #: setup.php:37
 msgid "Set an admin password."
-msgstr "Definiar uma password de administrador"
+msgstr ""
 
 #: setup.php:55
 #, php-format
 msgid "%s enter the database username."
-msgstr "%s introduza o nome de utilizador da base de dados"
+msgstr ""
 
 #: setup.php:58
 #, php-format
 msgid "%s enter the database name."
-msgstr "%s introduza o nome da base de dados"
+msgstr ""
 
 #: setup.php:61
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr "%s não é permitido utilizar pontos (.) no nome da base de dados"
+msgstr ""
 
 #: setup.php:64
 #, php-format
 msgid "%s set the database host."
-msgstr "%s defina o servidor da base de dados (geralmente localhost)"
+msgstr ""
 
-#: setup.php:132 setup.php:324 setup.php:369
+#: setup.php:132 setup.php:325 setup.php:370
 msgid "PostgreSQL username and/or password not valid"
-msgstr "Nome de utilizador/password do PostgreSQL inválido"
+msgstr ""
 
-#: setup.php:133 setup.php:156 setup.php:233
+#: setup.php:133 setup.php:156 setup.php:234
 msgid "You need to enter either an existing account or the administrator."
-msgstr "Precisa de introduzir uma conta existente ou de administrador"
+msgstr ""
 
-#: setup.php:155 setup.php:457 setup.php:524
+#: setup.php:155 setup.php:458 setup.php:525
 msgid "Oracle username and/or password not valid"
-msgstr "Nome de utilizador/password do Oracle inválida"
+msgstr ""
 
-#: setup.php:232
+#: setup.php:233
 msgid "MySQL username and/or password not valid"
-msgstr "Nome de utilizador/password do MySQL inválida"
-
-#: setup.php:286 setup.php:390 setup.php:399 setup.php:417 setup.php:427
-#: setup.php:436 setup.php:465 setup.php:531 setup.php:557 setup.php:564
-#: setup.php:575 setup.php:582 setup.php:591 setup.php:599 setup.php:608
-#: setup.php:614
-#, php-format
-msgid "DB Error: \"%s\""
-msgstr "Erro na BD: \"%s\""
+msgstr ""
 
 #: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
 #: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
-#: setup.php:576 setup.php:592 setup.php:600 setup.php:609
+#: setup.php:576 setup.php:583 setup.php:592 setup.php:600 setup.php:609
+#: setup.php:615
+#, php-format
+msgid "DB Error: \"%s\""
+msgstr ""
+
+#: setup.php:288 setup.php:392 setup.php:401 setup.php:419 setup.php:429
+#: setup.php:438 setup.php:467 setup.php:533 setup.php:559 setup.php:566
+#: setup.php:577 setup.php:593 setup.php:601 setup.php:610
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr "O comando gerador de erro foi: \"%s\""
-
-#: setup.php:303
-#, php-format
-msgid "MySQL user '%s'@'localhost' exists already."
-msgstr "O utilizador '%s'@'localhost' do MySQL já existe."
+msgstr ""
 
 #: setup.php:304
-msgid "Drop this user from MySQL"
-msgstr "Eliminar este utilizador do MySQL"
-
-#: setup.php:309
 #, php-format
-msgid "MySQL user '%s'@'%%' already exists"
-msgstr "O utilizador '%s'@'%%' do MySQL já existe"
+msgid "MySQL user '%s'@'localhost' exists already."
+msgstr ""
+
+#: setup.php:305
+msgid "Drop this user from MySQL"
+msgstr ""
 
 #: setup.php:310
-msgid "Drop this user from MySQL."
-msgstr "Eliminar este utilizador do MySQL"
+#, php-format
+msgid "MySQL user '%s'@'%%' already exists"
+msgstr ""
 
-#: setup.php:583 setup.php:615
+#: setup.php:311
+msgid "Drop this user from MySQL."
+msgstr ""
+
+#: setup.php:584 setup.php:616
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr "O comando gerador de erro foi: \"%s\", nome: %s, password: %s"
+msgstr ""
 
-#: setup.php:635
+#: setup.php:636
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr "Nome de utilizador/password do MySQL é inválido: %s"
+msgstr ""
 
-#: setup.php:853
+#: setup.php:858
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "O seu servidor web não está configurado correctamente para autorizar sincronização de ficheiros, pois o interface WebDAV parece estar com problemas."
+msgstr ""
 
-#: setup.php:854
+#: setup.php:859
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr "Por favor verifique <a href='%s'>installation guides</a>."
+msgstr ""
 
 #: template.php:113
 msgid "seconds ago"
-msgstr "há alguns segundos"
+msgstr ""
 
 #: template.php:114
 msgid "1 minute ago"
-msgstr "há 1 minuto"
+msgstr ""
 
 #: template.php:115
 #, php-format
 msgid "%d minutes ago"
-msgstr "há %d minutos"
+msgstr ""
 
 #: template.php:116
 msgid "1 hour ago"
-msgstr "Há 1 horas"
+msgstr ""
 
 #: template.php:117
 #, php-format
 msgid "%d hours ago"
-msgstr "Há %d horas"
+msgstr ""
 
 #: template.php:118
 msgid "today"
-msgstr "hoje"
+msgstr ""
 
 #: template.php:119
 msgid "yesterday"
-msgstr "ontem"
+msgstr ""
 
 #: template.php:120
 #, php-format
 msgid "%d days ago"
-msgstr "há %d dias"
+msgstr ""
 
 #: template.php:121
 msgid "last month"
-msgstr "mês passado"
+msgstr ""
 
 #: template.php:122
 #, php-format
 msgid "%d months ago"
-msgstr "Há %d meses atrás"
+msgstr ""
 
 #: template.php:123
 msgid "last year"
-msgstr "ano passado"
+msgstr ""
 
 #: template.php:124
 msgid "years ago"
-msgstr "há anos"
+msgstr ""
 
 #: updater.php:78
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr "%s está disponível. Obtenha <a href=\"%s\">mais informação</a>"
+msgstr ""
 
 #: updater.php:81
 msgid "up to date"
-msgstr "actualizado"
+msgstr ""
 
 #: updater.php:84
 msgid "updates check is disabled"
-msgstr "a verificação de actualizações está desligada"
+msgstr ""
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr "Não foi encontrado a categoria \"%s\""
+msgstr ""

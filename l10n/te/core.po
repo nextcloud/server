@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# వీవెన్ <veeven@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Telugu (http://www.transifex.com/projects/p/owncloud/language/te/)\n"
 "MIME-Version: 1.0\n"
@@ -53,7 +52,7 @@ msgstr ""
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr "ఈ వర్గం ఇప్పటికే ఉంది: %s"
+msgstr ""
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -83,143 +82,143 @@ msgstr ""
 
 #: js/config.php:34
 msgid "Sunday"
-msgstr "ఆదివారం"
+msgstr ""
 
 #: js/config.php:35
 msgid "Monday"
-msgstr "సోమవారం"
+msgstr ""
 
 #: js/config.php:36
 msgid "Tuesday"
-msgstr "మంగళవారం"
+msgstr ""
 
 #: js/config.php:37
 msgid "Wednesday"
-msgstr "బుధవారం"
+msgstr ""
 
 #: js/config.php:38
 msgid "Thursday"
-msgstr "గురువారం"
+msgstr ""
 
 #: js/config.php:39
 msgid "Friday"
-msgstr "శుక్రవారం"
+msgstr ""
 
 #: js/config.php:40
 msgid "Saturday"
-msgstr "శనివారం"
+msgstr ""
 
 #: js/config.php:45
 msgid "January"
-msgstr "జనవరి"
+msgstr ""
 
 #: js/config.php:46
 msgid "February"
-msgstr "ఫిబ్రవరి"
+msgstr ""
 
 #: js/config.php:47
 msgid "March"
-msgstr "మార్చి"
+msgstr ""
 
 #: js/config.php:48
 msgid "April"
-msgstr "ఏప్రిల్"
+msgstr ""
 
 #: js/config.php:49
 msgid "May"
-msgstr "మే"
+msgstr ""
 
 #: js/config.php:50
 msgid "June"
-msgstr "జూన్"
+msgstr ""
 
 #: js/config.php:51
 msgid "July"
-msgstr "జూలై"
+msgstr ""
 
 #: js/config.php:52
 msgid "August"
-msgstr "ఆగస్ట్"
+msgstr ""
 
 #: js/config.php:53
 msgid "September"
-msgstr "సెప్టెంబర్"
+msgstr ""
 
 #: js/config.php:54
 msgid "October"
-msgstr "అక్టోబర్"
+msgstr ""
 
 #: js/config.php:55
 msgid "November"
-msgstr "నవంబర్"
+msgstr ""
 
 #: js/config.php:56
 msgid "December"
-msgstr "డిసెంబర్"
+msgstr ""
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "అమరికలు"
+msgstr ""
 
 #: js/js.js:718
 msgid "seconds ago"
-msgstr "క్షణాల క్రితం"
+msgstr ""
 
 #: js/js.js:719
 msgid "1 minute ago"
-msgstr "1 నిమిషం క్రితం"
+msgstr ""
 
 #: js/js.js:720
 msgid "{minutes} minutes ago"
-msgstr "{minutes} నిమిషాల క్రితం"
+msgstr ""
 
 #: js/js.js:721
 msgid "1 hour ago"
-msgstr "1 గంట క్రితం"
+msgstr ""
 
 #: js/js.js:722
 msgid "{hours} hours ago"
-msgstr "{hours} గంటల క్రితం"
+msgstr ""
 
 #: js/js.js:723
 msgid "today"
-msgstr "ఈరోజు"
+msgstr ""
 
 #: js/js.js:724
 msgid "yesterday"
-msgstr "నిన్న"
+msgstr ""
 
 #: js/js.js:725
 msgid "{days} days ago"
-msgstr "{days} రోజుల క్రితం"
+msgstr ""
 
 #: js/js.js:726
 msgid "last month"
-msgstr "పోయిన నెల"
+msgstr ""
 
 #: js/js.js:727
 msgid "{months} months ago"
-msgstr "{months} నెలల క్రితం"
+msgstr ""
 
 #: js/js.js:728
 msgid "months ago"
-msgstr "నెలల క్రితం"
+msgstr ""
 
 #: js/js.js:729
 msgid "last year"
-msgstr "పోయిన సంవత్సరం"
+msgstr ""
 
 #: js/js.js:730
 msgid "years ago"
-msgstr "సంవత్సరాల క్రితం"
+msgstr ""
 
 #: js/oc-dialogs.js:117 js/oc-dialogs.js:247
 msgid "Ok"
-msgstr "సరే"
+msgstr ""
 
 #: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
-msgstr "రద్దుచేయి"
+msgstr ""
 
 #: js/oc-dialogs.js:185
 msgid "Choose"
@@ -227,11 +226,11 @@ msgstr ""
 
 #: js/oc-dialogs.js:215
 msgid "Yes"
-msgstr "అవును"
+msgstr ""
 
 #: js/oc-dialogs.js:222
 msgid "No"
-msgstr "కాదు"
+msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -244,7 +243,7 @@ msgstr ""
 #: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
-msgstr "పొరపాటు"
+msgstr ""
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
@@ -294,9 +293,9 @@ msgstr ""
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "సంకేతపదం"
+msgstr ""
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -304,7 +303,7 @@ msgstr ""
 
 #: js/share.js:174
 msgid "Send"
-msgstr "పంపించు"
+msgstr ""
 
 #: js/share.js:178
 msgid "Set expiration date"
@@ -312,7 +311,7 @@ msgstr ""
 
 #: js/share.js:179
 msgid "Expiration date"
-msgstr "కాలం చెల్లు తేదీ"
+msgstr ""
 
 #: js/share.js:211
 msgid "Share via email:"
@@ -352,7 +351,7 @@ msgstr ""
 
 #: js/share.js:331
 msgid "delete"
-msgstr "తొలగించు"
+msgstr ""
 
 #: js/share.js:334
 msgid "share"
@@ -410,9 +409,9 @@ msgid "Request failed!"
 msgstr ""
 
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: templates/login.php:19
 msgid "Username"
-msgstr "వాడుకరి పేరు"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
@@ -428,7 +427,7 @@ msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "కొత్త సంకేతపదం"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
@@ -440,7 +439,7 @@ msgstr ""
 
 #: strings.php:6
 msgid "Users"
-msgstr "వాడుకరులు"
+msgstr ""
 
 #: strings.php:7
 msgid "Apps"
@@ -452,7 +451,7 @@ msgstr ""
 
 #: strings.php:9
 msgid "Help"
-msgstr "సహాయం"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -468,7 +467,7 @@ msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "చేర్చు"
+msgstr ""
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -520,37 +519,37 @@ msgstr ""
 msgid "Data folder"
 msgstr ""
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr ""
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr ""
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr ""
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr ""
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr ""
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr ""
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr ""
 
@@ -560,35 +559,35 @@ msgstr ""
 
 #: templates/layout.user.php:58
 msgid "Log out"
-msgstr "నిష్క్రమించు"
+msgstr ""
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr ""
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr ""
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr ""
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
-msgstr "మీ సంకేతపదం పోయిందా?"
+msgstr ""
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr ""
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr ""
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr ""
 

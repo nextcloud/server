@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Davor Kustec <dkustec@gmail.com>, 2011, 2012
-# Domagoj Delimar <transifex.net@domdelimar.com>, 2012
-# fposavec <franz@franz-net.info>, 2012
-# Thomas Silađi <thomas.siladi@net.hr>, 2011, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-24 18:30+0200\n"
-"PO-Revision-Date: 2013-04-24 16:00+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +47,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr "Nemate kategorija koje možete dodati?"
+msgstr ""
 
 #: ajax/vcategories/add.php:37
 #, php-format
@@ -77,7 +73,7 @@ msgstr ""
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "Nema odabranih kategorija za brisanje."
+msgstr ""
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -86,87 +82,87 @@ msgstr ""
 
 #: js/config.php:34
 msgid "Sunday"
-msgstr "nedelja"
+msgstr ""
 
 #: js/config.php:35
 msgid "Monday"
-msgstr "ponedeljak"
+msgstr ""
 
 #: js/config.php:36
 msgid "Tuesday"
-msgstr "utorak"
+msgstr ""
 
 #: js/config.php:37
 msgid "Wednesday"
-msgstr "srijeda"
+msgstr ""
 
 #: js/config.php:38
 msgid "Thursday"
-msgstr "četvrtak"
+msgstr ""
 
 #: js/config.php:39
 msgid "Friday"
-msgstr "petak"
+msgstr ""
 
 #: js/config.php:40
 msgid "Saturday"
-msgstr "subota"
+msgstr ""
 
 #: js/config.php:45
 msgid "January"
-msgstr "Siječanj"
+msgstr ""
 
 #: js/config.php:46
 msgid "February"
-msgstr "Veljača"
+msgstr ""
 
 #: js/config.php:47
 msgid "March"
-msgstr "Ožujak"
+msgstr ""
 
 #: js/config.php:48
 msgid "April"
-msgstr "Travanj"
+msgstr ""
 
 #: js/config.php:49
 msgid "May"
-msgstr "Svibanj"
+msgstr ""
 
 #: js/config.php:50
 msgid "June"
-msgstr "Lipanj"
+msgstr ""
 
 #: js/config.php:51
 msgid "July"
-msgstr "Srpanj"
+msgstr ""
 
 #: js/config.php:52
 msgid "August"
-msgstr "Kolovoz"
+msgstr ""
 
 #: js/config.php:53
 msgid "September"
-msgstr "Rujan"
+msgstr ""
 
 #: js/config.php:54
 msgid "October"
-msgstr "Listopad"
+msgstr ""
 
 #: js/config.php:55
 msgid "November"
-msgstr "Studeni"
+msgstr ""
 
 #: js/config.php:56
 msgid "December"
-msgstr "Prosinac"
+msgstr ""
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "Postavke"
+msgstr ""
 
 #: js/js.js:718
 msgid "seconds ago"
-msgstr "sekundi prije"
+msgstr ""
 
 #: js/js.js:719
 msgid "1 minute ago"
@@ -186,11 +182,11 @@ msgstr ""
 
 #: js/js.js:723
 msgid "today"
-msgstr "danas"
+msgstr ""
 
 #: js/js.js:724
 msgid "yesterday"
-msgstr "jučer"
+msgstr ""
 
 #: js/js.js:725
 msgid "{days} days ago"
@@ -198,7 +194,7 @@ msgstr ""
 
 #: js/js.js:726
 msgid "last month"
-msgstr "prošli mjesec"
+msgstr ""
 
 #: js/js.js:727
 msgid "{months} months ago"
@@ -206,35 +202,35 @@ msgstr ""
 
 #: js/js.js:728
 msgid "months ago"
-msgstr "mjeseci"
+msgstr ""
 
 #: js/js.js:729
 msgid "last year"
-msgstr "prošlu godinu"
+msgstr ""
 
 #: js/js.js:730
 msgid "years ago"
-msgstr "godina"
+msgstr ""
 
 #: js/oc-dialogs.js:117 js/oc-dialogs.js:247
 msgid "Ok"
-msgstr "U redu"
+msgstr ""
 
 #: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
-msgstr "Odustani"
+msgstr ""
 
 #: js/oc-dialogs.js:185
 msgid "Choose"
-msgstr "Izaberi"
+msgstr ""
 
 #: js/oc-dialogs.js:215
 msgid "Yes"
-msgstr "Da"
+msgstr ""
 
 #: js/oc-dialogs.js:222
 msgid "No"
-msgstr "Ne"
+msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -247,7 +243,7 @@ msgstr ""
 #: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
-msgstr "Pogreška"
+msgstr ""
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
@@ -263,19 +259,19 @@ msgstr ""
 
 #: js/share.js:90
 msgid "Share"
-msgstr "Podijeli"
+msgstr ""
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
-msgstr "Greška prilikom djeljenja"
+msgstr ""
 
 #: js/share.js:136
 msgid "Error while unsharing"
-msgstr "Greška prilikom isključivanja djeljenja"
+msgstr ""
 
 #: js/share.js:143
 msgid "Error while changing permissions"
-msgstr "Greška prilikom promjena prava"
+msgstr ""
 
 #: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
@@ -287,19 +283,19 @@ msgstr ""
 
 #: js/share.js:159
 msgid "Share with"
-msgstr "Djeli sa"
+msgstr ""
 
 #: js/share.js:164
 msgid "Share with link"
-msgstr "Djeli preko link-a"
+msgstr ""
 
 #: js/share.js:167
 msgid "Password protect"
-msgstr "Zaštiti lozinkom"
+msgstr ""
 
 #: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "Lozinka"
+msgstr ""
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -311,23 +307,23 @@ msgstr ""
 
 #: js/share.js:178
 msgid "Set expiration date"
-msgstr "Postavi datum isteka"
+msgstr ""
 
 #: js/share.js:179
 msgid "Expiration date"
-msgstr "Datum isteka"
+msgstr ""
 
 #: js/share.js:211
 msgid "Share via email:"
-msgstr "Dijeli preko email-a:"
+msgstr ""
 
 #: js/share.js:213
 msgid "No people found"
-msgstr "Osobe nisu pronađene"
+msgstr ""
 
 #: js/share.js:251
 msgid "Resharing is not allowed"
-msgstr "Ponovo dijeljenje nije dopušteno"
+msgstr ""
 
 #: js/share.js:287
 msgid "Shared in {item} with {user}"
@@ -335,43 +331,43 @@ msgstr ""
 
 #: js/share.js:308
 msgid "Unshare"
-msgstr "Makni djeljenje"
+msgstr ""
 
 #: js/share.js:320
 msgid "can edit"
-msgstr "može mjenjat"
+msgstr ""
 
 #: js/share.js:322
 msgid "access control"
-msgstr "kontrola pristupa"
+msgstr ""
 
 #: js/share.js:325
 msgid "create"
-msgstr "kreiraj"
+msgstr ""
 
 #: js/share.js:328
 msgid "update"
-msgstr "ažuriraj"
+msgstr ""
 
 #: js/share.js:331
 msgid "delete"
-msgstr "izbriši"
+msgstr ""
 
 #: js/share.js:334
 msgid "share"
-msgstr "djeli"
+msgstr ""
 
 #: js/share.js:368 js/share.js:564
 msgid "Password protected"
-msgstr "Zaštita lozinkom"
+msgstr ""
 
 #: js/share.js:577
 msgid "Error unsetting expiration date"
-msgstr "Greška prilikom brisanja datuma isteka"
+msgstr ""
 
 #: js/share.js:589
 msgid "Error setting expiration date"
-msgstr "Greška prilikom postavljanja datuma isteka"
+msgstr ""
 
 #: js/share.js:604
 msgid "Sending ..."
@@ -394,15 +390,15 @@ msgstr ""
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
-msgstr "ownCloud resetiranje lozinke"
+msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr "Koristite ovaj link da biste poništili lozinku: {link}"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "Primit ćete link kako biste poništili zaporku putem e-maila."
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:5
 msgid "Reset email send."
@@ -415,63 +411,63 @@ msgstr ""
 #: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
-msgstr "Korisničko ime"
+msgstr ""
 
 #: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr "Zahtjev za resetiranjem"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "Vaša lozinka je resetirana"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr "Idi na stranicu za prijavu"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "Nova lozinka"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "Poništavanje lozinke"
+msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr "Osobno"
+msgstr ""
 
 #: strings.php:6
 msgid "Users"
-msgstr "Korisnici"
+msgstr ""
 
 #: strings.php:7
 msgid "Apps"
-msgstr "Aplikacije"
+msgstr ""
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Administrator"
+msgstr ""
 
 #: strings.php:9
 msgid "Help"
-msgstr "Pomoć"
+msgstr ""
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Pristup zabranjen"
+msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr "Cloud nije pronađen"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Uredi kategorije"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "Dodaj"
+msgstr ""
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -513,57 +509,57 @@ msgstr ""
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
-msgstr "Stvori <strong>administratorski račun</strong>"
+msgstr ""
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr "Dodatno"
+msgstr ""
 
 #: templates/installation.php:64
 msgid "Data folder"
-msgstr "Mapa baze podataka"
+msgstr ""
 
 #: templates/installation.php:74
 msgid "Configure the database"
-msgstr "Konfiguriraj bazu podataka"
+msgstr ""
 
 #: templates/installation.php:79 templates/installation.php:91
 #: templates/installation.php:102 templates/installation.php:113
 #: templates/installation.php:125
 msgid "will be used"
-msgstr "će se koristiti"
+msgstr ""
 
 #: templates/installation.php:137
 msgid "Database user"
-msgstr "Korisnik baze podataka"
+msgstr ""
 
 #: templates/installation.php:144
 msgid "Database password"
-msgstr "Lozinka baze podataka"
+msgstr ""
 
 #: templates/installation.php:149
 msgid "Database name"
-msgstr "Ime baze podataka"
+msgstr ""
 
 #: templates/installation.php:159
 msgid "Database tablespace"
-msgstr "Database tablespace"
+msgstr ""
 
 #: templates/installation.php:166
 msgid "Database host"
-msgstr "Poslužitelj baze podataka"
+msgstr ""
 
 #: templates/installation.php:172
 msgid "Finish setup"
-msgstr "Završi postavljanje"
+msgstr ""
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "web usluge pod vašom kontrolom"
+msgstr ""
 
 #: templates/layout.user.php:58
 msgid "Log out"
-msgstr "Odjava"
+msgstr ""
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
@@ -581,15 +577,15 @@ msgstr ""
 
 #: templates/login.php:34
 msgid "Lost your password?"
-msgstr "Izgubili ste lozinku?"
+msgstr ""
 
 #: templates/login.php:39
 msgid "remember"
-msgstr "zapamtiti"
+msgstr ""
 
 #: templates/login.php:41
 msgid "Log in"
-msgstr "Prijava"
+msgstr ""
 
 #: templates/login.php:47
 msgid "Alternative Logins"
@@ -597,11 +593,11 @@ msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr "prethodan"
+msgstr ""
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr "sljedeći"
+msgstr ""
 
 #: templates/update.php:3
 #, php-format

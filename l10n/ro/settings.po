@@ -3,19 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Claudiu <claudiu@tanaselia.ro>, 2011, 2012
-# Dimon Pockemon <>, 2012
-# Dimon Pockemon <>, 2013
-# Eugen Mihalache <eugemjj@gmail.com>, 2012
-# g.ciprian <g.ciprian@osn.ro>, 2012-2013
-# Robin Appelman <icewind1991@gmail.com>, 2012
-# iuranemo <iuranemo@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 01:56+0200\n"
-"PO-Revision-Date: 2013-04-25 23:56+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -26,12 +19,12 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "Imposibil de încărcat lista din App Store"
+msgstr ""
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "Eroare de autentificare"
+msgstr ""
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
@@ -43,53 +36,53 @@ msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr "Grupul există deja"
+msgstr ""
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr "Nu s-a putut adăuga grupul"
+msgstr ""
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr "Nu s-a putut activa aplicația."
+msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "E-mail salvat"
+msgstr ""
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr "E-mail nevalid"
+msgstr ""
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr "Nu s-a putut șterge grupul"
+msgstr ""
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr "Nu s-a putut șterge utilizatorul"
+msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr "Limba a fost schimbată"
+msgstr ""
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "Cerere eronată"
+msgstr ""
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr "Administratorii nu se pot șterge singuri din grupul admin"
+msgstr ""
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr "Nu s-a putut adăuga utilizatorul la grupul %s"
+msgstr ""
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr "Nu s-a putut elimina utilizatorul din grupul %s"
+msgstr ""
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
@@ -101,11 +94,11 @@ msgstr ""
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr "Dezactivați"
+msgstr ""
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "Activați"
+msgstr ""
 
 #: js/apps.js:55
 msgid "Please wait...."
@@ -113,7 +106,7 @@ msgstr ""
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
-msgstr "Eroare"
+msgstr ""
 
 #: js/apps.js:90
 msgid "Updating...."
@@ -129,15 +122,15 @@ msgstr ""
 
 #: js/personal.js:115
 msgid "Saving..."
-msgstr "Salvez..."
+msgstr ""
 
 #: js/users.js:43
 msgid "deleted"
-msgstr "șters"
+msgstr ""
 
 #: js/users.js:43
 msgid "undo"
-msgstr "Anulează ultima acțiune"
+msgstr ""
 
 #: js/users.js:75
 msgid "Unable to remove user"
@@ -146,15 +139,15 @@ msgstr ""
 #: js/users.js:88 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
 msgid "Groups"
-msgstr "Grupuri"
+msgstr ""
 
 #: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
-msgstr "Grupul Admin "
+msgstr ""
 
 #: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr "Șterge"
+msgstr ""
 
 #: js/users.js:262
 msgid "add group"
@@ -174,11 +167,11 @@ msgstr ""
 
 #: personal.php:29 personal.php:30
 msgid "__language_name__"
-msgstr "_language_name_"
+msgstr ""
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr "Avertisment de securitate"
+msgstr ""
 
 #: templates/admin.php:18
 msgid ""
@@ -187,7 +180,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr "Directorul tău de date și fișierele tale probabil sunt accesibile prin internet. Fișierul .htaccess oferit de ownCloud nu funcționează. Îți recomandăm să configurezi server-ul tău web într-un mod în care directorul de date să nu mai fie accesibil sau mută directorul de date în afara directorului root al server-ului web."
+msgstr ""
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -325,15 +318,15 @@ msgstr ""
 
 #: templates/admin.php:227
 msgid "More"
-msgstr "Mai mult"
+msgstr ""
 
 #: templates/admin.php:228
 msgid "Less"
-msgstr "Mai puțin"
+msgstr ""
 
 #: templates/admin.php:235 templates/personal.php:100
 msgid "Version"
-msgstr "Versiunea"
+msgstr ""
 
 #: templates/admin.php:238 templates/personal.php:103
 msgid ""
@@ -343,60 +336,60 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr "Dezvoltat de the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">comunitatea ownCloud</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">codul sursă</a> este licențiat sub <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
+msgstr ""
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr "Adaugă aplicația ta"
+msgstr ""
 
 #: templates/apps.php:12
 msgid "More Apps"
-msgstr "Mai multe aplicații"
+msgstr ""
 
 #: templates/apps.php:28
 msgid "Select an App"
-msgstr "Selectează o aplicație"
+msgstr ""
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
-msgstr "Vizualizează pagina applicației pe apps.owncloud.com"
+msgstr ""
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr "<span class=\"licence\"></span>-licențiat <span class=\"author\"></span>"
+msgstr ""
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr "Actualizare"
+msgstr ""
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr "Documentație utilizator"
+msgstr ""
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr "Documentație administrator"
+msgstr ""
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr "Documentație online"
+msgstr ""
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr "Forum"
+msgstr ""
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr "Urmărire bug-uri"
+msgstr ""
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr "Suport comercial"
+msgstr ""
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr "Ați utilizat <strong>%s</strong> din <strong>%s</strong> disponibile"
+msgstr ""
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
@@ -408,27 +401,27 @@ msgstr ""
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr "Parolă"
+msgstr ""
 
 #: templates/personal.php:38
 msgid "Your password was changed"
-msgstr "Parola a fost modificată"
+msgstr ""
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr "Imposibil de-ați schimbat parola"
+msgstr ""
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr "Parola curentă"
+msgstr ""
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr "Noua parolă"
+msgstr ""
 
 #: templates/personal.php:44
 msgid "Change password"
-msgstr "Schimbă parola"
+msgstr ""
 
 #: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
@@ -436,31 +429,31 @@ msgstr ""
 
 #: templates/personal.php:68
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
 #: templates/personal.php:70
 msgid "Your email address"
-msgstr "Adresa ta de email"
+msgstr ""
 
 #: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
-msgstr "Completează o adresă de mail pentru a-ți putea recupera parola"
+msgstr ""
 
 #: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
-msgstr "Limba"
+msgstr ""
 
 #: templates/personal.php:84
 msgid "Help translate"
-msgstr "Ajută la traducere"
+msgstr ""
 
 #: templates/personal.php:89
 msgid "WebDAV"
-msgstr "WebDAV"
+msgstr ""
 
 #: templates/personal.php:91
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr "Folosește această adresă pentru a conecta ownCloud cu managerul de fișiere"
+msgstr ""
 
 #: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
@@ -468,23 +461,23 @@ msgstr ""
 
 #: templates/users.php:30
 msgid "Create"
-msgstr "Crează"
+msgstr ""
 
 #: templates/users.php:33
 msgid "Default Storage"
-msgstr "Stocare implicită"
+msgstr ""
 
 #: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
-msgstr "Nelimitată"
+msgstr ""
 
 #: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr "Altele"
+msgstr ""
 
 #: templates/users.php:82
 msgid "Storage"
-msgstr "Stocare"
+msgstr ""
 
 #: templates/users.php:93
 msgid "change display name"
@@ -496,4 +489,4 @@ msgstr ""
 
 #: templates/users.php:128
 msgid "Default"
-msgstr "Implicită"
+msgstr ""

@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# వీవెన్ <veeven@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 01:56+0200\n"
-"PO-Revision-Date: 2013-04-25 23:56+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Telugu (http://www.transifex.com/projects/p/owncloud/language/te/)\n"
 "MIME-Version: 1.0\n"
@@ -107,7 +106,7 @@ msgstr ""
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
-msgstr "పొరపాటు"
+msgstr ""
 
 #: js/apps.js:90
 msgid "Updating...."
@@ -148,7 +147,7 @@ msgstr ""
 
 #: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr "తొలగించు"
+msgstr ""
 
 #: js/users.js:262
 msgid "add group"
@@ -319,7 +318,7 @@ msgstr ""
 
 #: templates/admin.php:227
 msgid "More"
-msgstr "మరిన్ని"
+msgstr ""
 
 #: templates/admin.php:228
 msgid "Less"
@@ -402,7 +401,7 @@ msgstr ""
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr "సంకేతపదం"
+msgstr ""
 
 #: templates/personal.php:38
 msgid "Your password was changed"
@@ -418,7 +417,7 @@ msgstr ""
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr "కొత్త సంకేతపదం"
+msgstr ""
 
 #: templates/personal.php:44
 msgid "Change password"
@@ -434,7 +433,7 @@ msgstr ""
 
 #: templates/personal.php:70
 msgid "Your email address"
-msgstr "మీ ఈమెయిలు చిరునామా"
+msgstr ""
 
 #: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
@@ -442,7 +441,7 @@ msgstr ""
 
 #: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
-msgstr "భాష"
+msgstr ""
 
 #: templates/personal.php:84
 msgid "Help translate"

@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <khanhnd@kenhgiaiphap.vn>, 2012.
-# sao sang <saosangmo@yahoo.com>, 2013.
-# Sơn Nguyễn <sonnghit@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-26 10:00+0200\n"
+"PO-Revision-Date: 2013-04-26 08:02+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -23,33 +20,33 @@ msgstr ""
 #: ajax/rollbackVersion.php:15
 #, php-format
 msgid "Could not revert: %s"
-msgstr "Không thể khôi phục: %s"
+msgstr ""
 
 #: history.php:40
 msgid "success"
-msgstr "thành công"
+msgstr ""
 
 #: history.php:42
 #, php-format
 msgid "File %s was reverted to version %s"
-msgstr "File %s đã được khôi phục về phiên bản %s"
+msgstr ""
 
 #: history.php:49
 msgid "failure"
-msgstr "Thất bại"
+msgstr ""
 
 #: history.php:51
 #, php-format
 msgid "File %s could not be reverted to version %s"
-msgstr "File %s không thể khôi phục về phiên bản %s"
+msgstr ""
 
 #: history.php:69
 msgid "No old versions available"
-msgstr "Không có phiên bản cũ nào"
+msgstr ""
 
 #: history.php:74
 msgid "No path specified"
-msgstr "Không chỉ ra đường dẫn rõ ràng"
+msgstr ""
 
 #: js/versions.js:6
 msgid "Versions"
@@ -57,4 +54,4 @@ msgstr ""
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
-msgstr "Khôi phục một file về phiên bản trước đó bằng cách click vào nút Khôi phục tương ứng"
+msgstr ""
