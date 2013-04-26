@@ -38,6 +38,7 @@ class OC_Util {
 
 		$CONFIG_DATADIRECTORY = OC_Config::getValue( "datadirectory", OC::$SERVERROOT."/data" );
 		//first set up the local "root" storage
+		\OC\Files\Filesystem::initMounts();
 		if(!self::$rootMounted) {
 			\OC\Files\Filesystem::mount('\OC\Files\Storage\Local', array('datadir'=>$CONFIG_DATADIRECTORY), '/');
 			self::$rootMounted=true;

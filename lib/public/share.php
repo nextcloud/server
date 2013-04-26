@@ -875,7 +875,7 @@ class Share {
 					$row['path'] = '/Shared/'.basename($row['path']);
 				} else {
 					if (!isset($mounts[$row['storage']])) {
-						$mounts[$row['storage']] = \OC\Files\Mount::findByNumericId($row['storage']);
+						$mounts[$row['storage']] = \OC\Files\Filesystem::getMountByNumericId($row['storage']);
 					}
 					if ($mounts[$row['storage']]) {
 						$path = $mounts[$row['storage']]->getMountPoint().$row['path'];
