@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-27 00:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Afrikaans (South Africa) (http://www.transifex.com/projects/p/owncloud/language/af_ZA/)\n"
 "MIME-Version: 1.0\n"
@@ -158,7 +158,7 @@ msgstr ""
 
 #: js/js.js:286
 msgid "Settings"
-msgstr ""
+msgstr "Instellings"
 
 #: js/js.js:718
 msgid "seconds ago"
@@ -295,7 +295,7 @@ msgstr ""
 
 #: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr ""
+msgstr "Wagwoord"
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -394,64 +394,67 @@ msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
+msgstr "Gebruik die volgende skakel om jou wagwoord te herstel: {link}"
+
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "Jy sal `n skakel via e-pos ontvang om jou wagwoord te herstel."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
-msgstr ""
+msgstr "Gebruikersnaam"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
-msgstr ""
+msgstr "Herstel-versoek"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "Jou wagwoord is herstel"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "Na aanteken-bladsy"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr ""
+msgstr "Nuwe wagwoord"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr ""
+msgstr "Herstel wagwoord"
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "Persoonlik"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "Gebruikers"
 
 #: strings.php:7
 msgid "Apps"
-msgstr ""
+msgstr "Toepassings"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "Hulp"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -459,7 +462,7 @@ msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr ""
+msgstr "Wolk nie gevind"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -509,11 +512,11 @@ msgstr ""
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
+msgstr "Skep `n <strong>admin-rekening</strong>"
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr ""
+msgstr "Gevorderd"
 
 #: templates/installation.php:64
 msgid "Data folder"
@@ -521,25 +524,25 @@ msgstr ""
 
 #: templates/installation.php:74
 msgid "Configure the database"
-msgstr ""
+msgstr "Stel databasis op"
 
 #: templates/installation.php:79 templates/installation.php:91
 #: templates/installation.php:102 templates/installation.php:113
 #: templates/installation.php:125
 msgid "will be used"
-msgstr ""
+msgstr "sal gebruik word"
 
 #: templates/installation.php:137
 msgid "Database user"
-msgstr ""
+msgstr "Databasis-gebruiker"
 
 #: templates/installation.php:144
 msgid "Database password"
-msgstr ""
+msgstr "Databasis-wagwoord"
 
 #: templates/installation.php:149
 msgid "Database name"
-msgstr ""
+msgstr "Databasis naam"
 
 #: templates/installation.php:159
 msgid "Database tablespace"
@@ -551,15 +554,15 @@ msgstr ""
 
 #: templates/installation.php:172
 msgid "Finish setup"
-msgstr ""
+msgstr "Maak opstelling klaar"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr ""
+msgstr "webdienste onder jou beheer"
 
 #: templates/layout.user.php:58
 msgid "Log out"
-msgstr ""
+msgstr "Teken uit"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
@@ -577,15 +580,15 @@ msgstr ""
 
 #: templates/login.php:34
 msgid "Lost your password?"
-msgstr ""
+msgstr "Jou wagwoord verloor?"
 
 #: templates/login.php:39
 msgid "remember"
-msgstr ""
+msgstr "onthou"
 
 #: templates/login.php:41
 msgid "Log in"
-msgstr ""
+msgstr "Teken aan"
 
 #: templates/login.php:47
 msgid "Alternative Logins"
@@ -593,11 +596,11 @@ msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr ""
+msgstr "vorige"
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr ""
+msgstr "volgende"
 
 #: templates/update.php:3
 #, php-format

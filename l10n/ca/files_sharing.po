@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -19,30 +19,30 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "Password"
-msgstr ""
+msgstr "Contrasenya"
 
 #: templates/authenticate.php:6
 msgid "Submit"
-msgstr ""
+msgstr "Envia"
 
 #: templates/public.php:10
 #, php-format
 msgid "%s shared the folder %s with you"
-msgstr ""
+msgstr "%s ha compartit la carpeta %s amb vós"
 
 #: templates/public.php:13
 #, php-format
 msgid "%s shared the file %s with you"
-msgstr ""
+msgstr "%s ha compartit el fitxer %s amb vós"
 
 #: templates/public.php:19 templates/public.php:43
 msgid "Download"
-msgstr ""
+msgstr "Baixa"
 
 #: templates/public.php:40
 msgid "No preview available for"
-msgstr ""
+msgstr "No hi ha vista prèvia disponible per a"
 
 #: templates/public.php:50
 msgid "web services under your control"
-msgstr ""
+msgstr "controleu els vostres serveis web"

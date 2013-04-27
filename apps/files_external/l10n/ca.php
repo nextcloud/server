@@ -17,7 +17,7 @@
 "All Users" => "Tots els usuaris",
 "Groups" => "Grups",
 "Users" => "Usuaris",
-"Delete" => "Elimina",
+"Delete" => "Esborra",
 "Enable User External Storage" => "Habilita l'emmagatzemament extern d'usuari",
 "Allow users to mount their own external storage" => "Permet als usuaris muntar el seu emmagatzemament extern propi",
 "SSL root certificates" => "Certificats SSL root",

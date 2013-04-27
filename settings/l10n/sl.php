@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ni mogoče naložiti seznama iz središča App Store",
-"Authentication error" => "Napaka overitve",
+"Authentication error" => "Napaka pri overjanju",
 "Unable to change display name" => "Prikazanega imena ni mogoče spremeniti.",
 "Group already exists" => "Skupina že obstaja",
 "Unable to add group" => "Skupine ni mogoče dodati",
@@ -91,7 +91,7 @@
 "New password" => "Novo geslo",
 "Change password" => "Spremeni geslo",
 "Display Name" => "Prikazano ime",
-"Email" => "Elektronska pošta",
+"Email" => "Elektronski naslov",
 "Your email address" => "Osebni elektronski naslov",
 "Fill in an email address to enable password recovery" => "Vpišite osebni elektronski naslov in s tem omogočite obnovitev gesla",
 "Language" => "Jezik",

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (Latin) (http://www.transifex.com/projects/p/owncloud/language/sr@latin/)\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr ""
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Nema greške, fajl je uspešno poslat"
 
 #: ajax/upload.php:27
 msgid ""
@@ -48,19 +48,19 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Poslati fajl prevazilazi direktivu MAX_FILE_SIZE koja je navedena u HTML formi"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Poslati fajl je samo delimično otpremljen!"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Nijedan fajl nije poslat"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Nedostaje privremena fascikla"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -76,7 +76,7 @@ msgstr ""
 
 #: appinfo/app.php:12
 msgid "Files"
-msgstr ""
+msgstr "Fajlovi"
 
 #: js/fileactions.js:116
 msgid "Share"
@@ -88,7 +88,7 @@ msgstr ""
 
 #: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr ""
+msgstr "Obriši"
 
 #: js/fileactions.js:194
 msgid "Rename"
@@ -193,15 +193,15 @@ msgstr ""
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr ""
+msgstr "Ime"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
-msgstr ""
+msgstr "Veličina"
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr ""
+msgstr "Zadnja izmena"
 
 #: js/files.js:893
 msgid "1 folder"
@@ -221,7 +221,7 @@ msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr ""
+msgstr "Pošalji"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -229,7 +229,7 @@ msgstr ""
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr ""
+msgstr "Maksimalna veličina pošiljke"
 
 #: templates/admin.php:10
 msgid "max. possible: "
@@ -253,7 +253,7 @@ msgstr ""
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr ""
+msgstr "Snimi"
 
 #: templates/index.php:7
 msgid "New"
@@ -285,11 +285,11 @@ msgstr ""
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
-msgstr ""
+msgstr "Ovde nema ničeg. Pošaljite nešto!"
 
 #: templates/index.php:76
 msgid "Download"
-msgstr ""
+msgstr "Preuzmi"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
@@ -297,13 +297,13 @@ msgstr ""
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr ""
+msgstr "Pošiljka je prevelika"
 
 #: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr ""
+msgstr "Fajlovi koje želite da pošaljete prevazilaze ograničenje maksimalne veličine pošiljke na ovom serveru."
 
 #: templates/index.php:115
 msgid "Files are being scanned, please wait."

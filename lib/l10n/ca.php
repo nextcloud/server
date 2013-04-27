@@ -47,7 +47,7 @@
 "last month" => "el mes passat",
 "%d months ago" => "fa %d mesos",
 "last year" => "l'any passat",
-"years ago" => "fa anys",
+"years ago" => "anys enrere",
 "%s is available. Get <a href=\"%s\">more information</a>" => "%s està disponible. Obtén <a href=\"%s\">més informació</a>",
 "up to date" => "actualitzat",
 "updates check is disabled" => "la comprovació d'actualitzacions està desactivada",

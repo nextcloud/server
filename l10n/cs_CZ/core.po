@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-27 00:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -20,222 +20,222 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "Uživatel %s s vámi sdílí soubor"
 
 #: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "Uživatel %s s vámi sdílí složku"
 
 #: ajax/share.php:101
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "Uživatel %s s vámi sdílí soubor \"%s\". Můžete jej stáhnout zde: %s"
 
 #: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "Uživatel %s s vámi sdílí složku \"%s\". Můžete ji stáhnout zde: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "Nezadán typ kategorie."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr ""
+msgstr "Žádná kategorie k přidání?"
 
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "Kategorie již existuje: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "Nezadán typ objektu."
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "Nezadáno ID %s."
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Chyba při přidávání %s k oblíbeným."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Žádné kategorie nebyly vybrány ke smazání."
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Chyba při odebírání %s z oblíbených."
 
 #: js/config.php:34
 msgid "Sunday"
-msgstr ""
+msgstr "Neděle"
 
 #: js/config.php:35
 msgid "Monday"
-msgstr ""
+msgstr "Pondělí"
 
 #: js/config.php:36
 msgid "Tuesday"
-msgstr ""
+msgstr "Úterý"
 
 #: js/config.php:37
 msgid "Wednesday"
-msgstr ""
+msgstr "Středa"
 
 #: js/config.php:38
 msgid "Thursday"
-msgstr ""
+msgstr "Čtvrtek"
 
 #: js/config.php:39
 msgid "Friday"
-msgstr ""
+msgstr "Pátek"
 
 #: js/config.php:40
 msgid "Saturday"
-msgstr ""
+msgstr "Sobota"
 
 #: js/config.php:45
 msgid "January"
-msgstr ""
+msgstr "Leden"
 
 #: js/config.php:46
 msgid "February"
-msgstr ""
+msgstr "Únor"
 
 #: js/config.php:47
 msgid "March"
-msgstr ""
+msgstr "Březen"
 
 #: js/config.php:48
 msgid "April"
-msgstr ""
+msgstr "Duben"
 
 #: js/config.php:49
 msgid "May"
-msgstr ""
+msgstr "Květen"
 
 #: js/config.php:50
 msgid "June"
-msgstr ""
+msgstr "Červen"
 
 #: js/config.php:51
 msgid "July"
-msgstr ""
+msgstr "Červenec"
 
 #: js/config.php:52
 msgid "August"
-msgstr ""
+msgstr "Srpen"
 
 #: js/config.php:53
 msgid "September"
-msgstr ""
+msgstr "Září"
 
 #: js/config.php:54
 msgid "October"
-msgstr ""
+msgstr "Říjen"
 
 #: js/config.php:55
 msgid "November"
-msgstr ""
+msgstr "Listopad"
 
 #: js/config.php:56
 msgid "December"
-msgstr ""
+msgstr "Prosinec"
 
 #: js/js.js:286
 msgid "Settings"
-msgstr ""
+msgstr "Nastavení"
 
 #: js/js.js:718
 msgid "seconds ago"
-msgstr ""
+msgstr "před pár vteřinami"
 
 #: js/js.js:719
 msgid "1 minute ago"
-msgstr ""
+msgstr "před minutou"
 
 #: js/js.js:720
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "před {minutes} minutami"
 
 #: js/js.js:721
 msgid "1 hour ago"
-msgstr ""
+msgstr "před hodinou"
 
 #: js/js.js:722
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "před {hours} hodinami"
 
 #: js/js.js:723
 msgid "today"
-msgstr ""
+msgstr "dnes"
 
 #: js/js.js:724
 msgid "yesterday"
-msgstr ""
+msgstr "včera"
 
 #: js/js.js:725
 msgid "{days} days ago"
-msgstr ""
+msgstr "před {days} dny"
 
 #: js/js.js:726
 msgid "last month"
-msgstr ""
+msgstr "minulý měsíc"
 
 #: js/js.js:727
 msgid "{months} months ago"
-msgstr ""
+msgstr "před {months} měsíci"
 
 #: js/js.js:728
 msgid "months ago"
-msgstr ""
+msgstr "před měsíci"
 
 #: js/js.js:729
 msgid "last year"
-msgstr ""
+msgstr "minulý rok"
 
 #: js/js.js:730
 msgid "years ago"
-msgstr ""
+msgstr "před lety"
 
 #: js/oc-dialogs.js:117 js/oc-dialogs.js:247
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
-msgstr ""
+msgstr "Zrušit"
 
 #: js/oc-dialogs.js:185
 msgid "Choose"
-msgstr ""
+msgstr "Vybrat"
 
 #: js/oc-dialogs.js:215
 msgid "Yes"
-msgstr ""
+msgstr "Ano"
 
 #: js/oc-dialogs.js:222
 msgid "No"
-msgstr ""
+msgstr "Ne"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "Není určen typ objektu."
 
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
@@ -243,363 +243,366 @@ msgstr ""
 #: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
-msgstr ""
+msgstr "Chyba"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "Není určen název aplikace."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "Požadovaný soubor {file} není nainstalován."
 
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
-msgstr ""
+msgstr "Sdílené"
 
 #: js/share.js:90
 msgid "Share"
-msgstr ""
+msgstr "Sdílet"
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
-msgstr ""
+msgstr "Chyba při sdílení"
 
 #: js/share.js:136
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Chyba při rušení sdílení"
 
 #: js/share.js:143
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Chyba při změně oprávnění"
 
 #: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "S Vámi a skupinou {group} sdílí {owner}"
 
 #: js/share.js:154
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "S Vámi sdílí {owner}"
 
 #: js/share.js:159
 msgid "Share with"
-msgstr ""
+msgstr "Sdílet s"
 
 #: js/share.js:164
 msgid "Share with link"
-msgstr ""
+msgstr "Sdílet s odkazem"
 
 #: js/share.js:167
 msgid "Password protect"
-msgstr ""
+msgstr "Chránit heslem"
 
 #: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr ""
+msgstr "Heslo"
 
 #: js/share.js:173
 msgid "Email link to person"
-msgstr ""
+msgstr "Odeslat osobě odkaz e-mailem"
 
 #: js/share.js:174
 msgid "Send"
-msgstr ""
+msgstr "Odeslat"
 
 #: js/share.js:178
 msgid "Set expiration date"
-msgstr ""
+msgstr "Nastavit datum vypršení platnosti"
 
 #: js/share.js:179
 msgid "Expiration date"
-msgstr ""
+msgstr "Datum vypršení platnosti"
 
 #: js/share.js:211
 msgid "Share via email:"
-msgstr ""
+msgstr "Sdílet e-mailem:"
 
 #: js/share.js:213
 msgid "No people found"
-msgstr ""
+msgstr "Žádní lidé nenalezeni"
 
 #: js/share.js:251
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Sdílení již sdílené položky není povoleno"
 
 #: js/share.js:287
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Sdíleno v {item} s {user}"
 
 #: js/share.js:308
 msgid "Unshare"
-msgstr ""
+msgstr "Zrušit sdílení"
 
 #: js/share.js:320
 msgid "can edit"
-msgstr ""
+msgstr "lze upravovat"
 
 #: js/share.js:322
 msgid "access control"
-msgstr ""
+msgstr "řízení přístupu"
 
 #: js/share.js:325
 msgid "create"
-msgstr ""
+msgstr "vytvořit"
 
 #: js/share.js:328
 msgid "update"
-msgstr ""
+msgstr "aktualizovat"
 
 #: js/share.js:331
 msgid "delete"
-msgstr ""
+msgstr "smazat"
 
 #: js/share.js:334
 msgid "share"
-msgstr ""
+msgstr "sdílet"
 
 #: js/share.js:368 js/share.js:564
 msgid "Password protected"
-msgstr ""
+msgstr "Chráněno heslem"
 
 #: js/share.js:577
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Chyba při odstraňování data vypršení platnosti"
 
 #: js/share.js:589
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Chyba při nastavení data vypršení platnosti"
 
 #: js/share.js:604
 msgid "Sending ..."
-msgstr ""
+msgstr "Odesílám ..."
 
 #: js/share.js:615
 msgid "Email sent"
-msgstr ""
+msgstr "E-mail odeslán"
 
 #: js/update.js:14
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "Aktualizace neproběhla úspěšně. Nahlaste prosím problém do <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">evidence chyb ownCloud</a>"
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "Aktualizace byla úspěšná. Přesměrovávám na ownCloud."
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "Obnovení hesla pro ownCloud"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
+msgstr "Heslo obnovíte použitím následujícího odkazu: {link}"
+
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "Bude Vám e-mailem zaslán odkaz pro obnovu hesla."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
-msgstr ""
+msgstr "Uživatelské jméno"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
-msgstr ""
+msgstr "Vyžádat obnovu"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "Vaše heslo bylo obnoveno"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "Na stránku přihlášení"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr ""
+msgstr "Nové heslo"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr ""
+msgstr "Obnovit heslo"
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "Osobní"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "Uživatelé"
 
 #: strings.php:7
 msgid "Apps"
-msgstr ""
+msgstr "Aplikace"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "Administrace"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "Nápověda"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "Přístup zakázán"
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr ""
+msgstr "Cloud nebyl nalezen"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Upravit kategorie"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr ""
+msgstr "Přidat"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
 msgid "Security Warning"
-msgstr ""
+msgstr "Bezpečnostní upozornění"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "Verze vašeho PHP je napadnutelná pomocí techniky \"NULL Byte\" (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "Aktualizujte prosím vaši instanci PHP pro bezpečné používání ownCloud."
 
 #: templates/installation.php:32
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Není dostupný žádný bezpečný generátor náhodných čísel. Povolte, prosím, rozšíření OpenSSL v PHP."
 
 #: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "Bez bezpečného generátoru náhodných čísel může útočník předpovědět token pro obnovu hesla a převzít kontrolu nad Vaším účtem."
 
 #: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "Váš adresář s daty a soubory jsou dostupné z internetu, protože soubor .htaccess nefunguje."
 
 #: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Pro informace jak správně nastavit váš server se podívejte do <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentace</a>."
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
+msgstr "Vytvořit <strong>účet správce</strong>"
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr ""
+msgstr "Pokročilé"
 
 #: templates/installation.php:64
 msgid "Data folder"
-msgstr ""
+msgstr "Složka s daty"
 
 #: templates/installation.php:74
 msgid "Configure the database"
-msgstr ""
+msgstr "Nastavit databázi"
 
 #: templates/installation.php:79 templates/installation.php:91
 #: templates/installation.php:102 templates/installation.php:113
 #: templates/installation.php:125
 msgid "will be used"
-msgstr ""
+msgstr "bude použito"
 
 #: templates/installation.php:137
 msgid "Database user"
-msgstr ""
+msgstr "Uživatel databáze"
 
 #: templates/installation.php:144
 msgid "Database password"
-msgstr ""
+msgstr "Heslo databáze"
 
 #: templates/installation.php:149
 msgid "Database name"
-msgstr ""
+msgstr "Název databáze"
 
 #: templates/installation.php:159
 msgid "Database tablespace"
-msgstr ""
+msgstr "Tabulkový prostor databáze"
 
 #: templates/installation.php:166
 msgid "Database host"
-msgstr ""
+msgstr "Hostitel databáze"
 
 #: templates/installation.php:172
 msgid "Finish setup"
-msgstr ""
+msgstr "Dokončit nastavení"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr ""
+msgstr "služby webu pod Vaší kontrolou"
 
 #: templates/layout.user.php:58
 msgid "Log out"
-msgstr ""
+msgstr "Odhlásit se"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Automatické přihlášení odmítnuto."
 
 #: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "V nedávné době jste nezměnili své heslo, Váš účet může být kompromitován."
 
 #: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Změňte, prosím, své heslo pro opětovné zabezpečení Vašeho účtu."
 
 #: templates/login.php:34
 msgid "Lost your password?"
-msgstr ""
+msgstr "Ztratili jste své heslo?"
 
 #: templates/login.php:39
 msgid "remember"
-msgstr ""
+msgstr "zapamatovat"
 
 #: templates/login.php:41
 msgid "Log in"
-msgstr ""
+msgstr "Přihlásit"
 
 #: templates/login.php:47
 msgid "Alternative Logins"
-msgstr ""
+msgstr "Alternativní přihlášení"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr ""
+msgstr "předchozí"
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr ""
+msgstr "následující"
 
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "Aktualizuji ownCloud na verzi %s, bude to chvíli trvat."

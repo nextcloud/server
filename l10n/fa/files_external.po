@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -59,7 +59,7 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "External Storage"
-msgstr ""
+msgstr "حافظه خارجی"
 
 #: templates/settings.php:9 templates/settings.php:28
 msgid "Folder name"
@@ -71,15 +71,15 @@ msgstr ""
 
 #: templates/settings.php:11
 msgid "Configuration"
-msgstr ""
+msgstr "پیکربندی"
 
 #: templates/settings.php:12
 msgid "Options"
-msgstr ""
+msgstr "تنظیمات"
 
 #: templates/settings.php:13
 msgid "Applicable"
-msgstr ""
+msgstr "قابل اجرا"
 
 #: templates/settings.php:33
 msgid "Add storage"
@@ -87,32 +87,32 @@ msgstr ""
 
 #: templates/settings.php:90
 msgid "None set"
-msgstr ""
+msgstr "تنظیم نشده"
 
 #: templates/settings.php:91
 msgid "All Users"
-msgstr ""
+msgstr "تمام کاربران"
 
 #: templates/settings.php:92
 msgid "Groups"
-msgstr ""
+msgstr "گروه ها"
 
 #: templates/settings.php:100
 msgid "Users"
-msgstr ""
+msgstr "کاربران"
 
 #: templates/settings.php:113 templates/settings.php:114
 #: templates/settings.php:149 templates/settings.php:150
 msgid "Delete"
-msgstr ""
+msgstr "حذف"
 
 #: templates/settings.php:129
 msgid "Enable User External Storage"
-msgstr ""
+msgstr "فعال سازی حافظه خارجی کاربر"
 
 #: templates/settings.php:130
 msgid "Allow users to mount their own external storage"
-msgstr ""
+msgstr "اجازه به کاربران برای متصل کردن منابع ذخیره ی خارجی خودشان"
 
 #: templates/settings.php:141
 msgid "SSL root certificates"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr ""
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Nema pogreške, datoteka je poslana uspješno."
 
 #: ajax/upload.php:27
 msgid ""
@@ -48,23 +48,23 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Poslana datoteka prelazi veličinu prikazanu u MAX_FILE_SIZE direktivi u HTML formi"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Poslana datoteka je parcijalno poslana"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Datoteka nije poslana"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Nedostaje privremeni direktorij"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Neuspjelo pisanje na disk"
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
@@ -76,11 +76,11 @@ msgstr ""
 
 #: appinfo/app.php:12
 msgid "Files"
-msgstr ""
+msgstr "Datoteke"
 
 #: js/fileactions.js:116
 msgid "Share"
-msgstr ""
+msgstr "Podijeli"
 
 #: js/fileactions.js:126
 msgid "Delete permanently"
@@ -88,15 +88,15 @@ msgstr ""
 
 #: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr ""
+msgstr "Obriši"
 
 #: js/fileactions.js:194
 msgid "Rename"
-msgstr ""
+msgstr "Promjeni ime"
 
 #: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr ""
+msgstr "U tijeku"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
@@ -104,15 +104,15 @@ msgstr ""
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "replace"
-msgstr ""
+msgstr "zamjeni"
 
 #: js/filelist.js:252
 msgid "suggest name"
-msgstr ""
+msgstr "predloži ime"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "cancel"
-msgstr ""
+msgstr "odustani"
 
 #: js/filelist.js:299
 msgid "replaced {new_name} with {old_name}"
@@ -120,7 +120,7 @@ msgstr ""
 
 #: js/filelist.js:299
 msgid "undo"
-msgstr ""
+msgstr "vrati"
 
 #: js/filelist.js:324
 msgid "perform delete operation"
@@ -128,11 +128,11 @@ msgstr ""
 
 #: js/filelist.js:406
 msgid "1 file uploading"
-msgstr ""
+msgstr "1 datoteka se učitava"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "datoteke se učitavaju"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -164,7 +164,7 @@ msgstr ""
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Nemoguće poslati datoteku jer je prazna ili je direktorij"
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -172,12 +172,12 @@ msgstr ""
 
 #: js/files.js:312
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Slanje poništeno."
 
 #: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Učitavanje datoteke. Napuštanjem stranice će prekinuti učitavanje."
 
 #: js/files.js:481
 msgid "URL cannot be empty."
@@ -189,19 +189,19 @@ msgstr ""
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
-msgstr ""
+msgstr "Greška"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr ""
+msgstr "Ime"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
-msgstr ""
+msgstr "Veličina"
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr ""
+msgstr "Zadnja promjena"
 
 #: js/files.js:893
 msgid "1 folder"
@@ -221,51 +221,51 @@ msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr ""
+msgstr "Učitaj"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "datoteka za rukovanje"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr ""
+msgstr "Maksimalna veličina prijenosa"
 
 #: templates/admin.php:10
 msgid "max. possible: "
-msgstr ""
+msgstr "maksimalna moguća: "
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Potrebno za preuzimanje više datoteke i mape"
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "Omogući ZIP-preuzimanje"
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 je \"bez limita\""
 
 #: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Maksimalna veličina za ZIP datoteke"
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr ""
+msgstr "Snimi"
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "novo"
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr ""
+msgstr "tekstualna datoteka"
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr ""
+msgstr "mapa"
 
 #: templates/index.php:14
 msgid "From link"
@@ -277,7 +277,7 @@ msgstr ""
 
 #: templates/index.php:48
 msgid "Cancel upload"
-msgstr ""
+msgstr "Prekini upload"
 
 #: templates/index.php:55
 msgid "You don’t have write permissions here."
@@ -285,33 +285,33 @@ msgstr ""
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
-msgstr ""
+msgstr "Nema ničega u ovoj mapi. Pošalji nešto!"
 
 #: templates/index.php:76
 msgid "Download"
-msgstr ""
+msgstr "Preuzimanje"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr ""
+msgstr "Makni djeljenje"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr ""
+msgstr "Prijenos je preobiman"
 
 #: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr ""
+msgstr "Datoteke koje pokušavate prenijeti prelaze maksimalnu veličinu za prijenos datoteka na ovom poslužitelju."
 
 #: templates/index.php:115
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Datoteke se skeniraju, molimo pričekajte."
 
 #: templates/index.php:118
 msgid "Current scanning"
-msgstr ""
+msgstr "Trenutno skeniranje"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

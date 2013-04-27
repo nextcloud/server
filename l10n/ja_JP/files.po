@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -20,299 +20,299 @@ msgstr ""
 #: ajax/move.php:17
 #, php-format
 msgid "Could not move %s - File with this name already exists"
-msgstr ""
+msgstr "%s を移動できませんでした ― この名前のファイルはすでに存在します"
 
 #: ajax/move.php:27 ajax/move.php:30
 #, php-format
 msgid "Could not move %s"
-msgstr ""
+msgstr "%s を移動できませんでした"
 
 #: ajax/rename.php:22 ajax/rename.php:25
 msgid "Unable to rename file"
-msgstr ""
+msgstr "ファイル名の変更ができません"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "ファイルは何もアップロードされていません。不明なエラー"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "エラーはありません。ファイルのアップロードは成功しました"
 
 #: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr ""
+msgstr "アップロードされたファイルはphp.ini の upload_max_filesize に設定されたサイズを超えています:"
 
 #: ajax/upload.php:29
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "アップロードファイルはHTMLフォームで指定された MAX_FILE_SIZE の制限を超えています"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "アップロードファイルは一部分だけアップロードされました"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr ""
+msgstr "ファイルはアップロードされませんでした"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "一時保存フォルダが見つかりません"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "ディスクへの書き込みに失敗しました"
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
-msgstr ""
+msgstr "ストレージに十分な空き容量がありません"
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
-msgstr ""
+msgstr "無効なディレクトリです。"
 
 #: appinfo/app.php:12
 msgid "Files"
-msgstr ""
+msgstr "ファイル"
 
 #: js/fileactions.js:116
 msgid "Share"
-msgstr ""
+msgstr "共有"
 
 #: js/fileactions.js:126
 msgid "Delete permanently"
-msgstr ""
+msgstr "完全に削除する"
 
 #: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr ""
+msgstr "削除"
 
 #: js/fileactions.js:194
 msgid "Rename"
-msgstr ""
+msgstr "名前の変更"
 
 #: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr ""
+msgstr "中断"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} はすでに存在しています"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "replace"
-msgstr ""
+msgstr "置き換え"
 
 #: js/filelist.js:252
 msgid "suggest name"
-msgstr ""
+msgstr "推奨名称"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "cancel"
-msgstr ""
+msgstr "キャンセル"
 
 #: js/filelist.js:299
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "{old_name} を {new_name} に置換"
 
 #: js/filelist.js:299
 msgid "undo"
-msgstr ""
+msgstr "元に戻す"
 
 #: js/filelist.js:324
 msgid "perform delete operation"
-msgstr ""
+msgstr "削除を実行"
 
 #: js/filelist.js:406
 msgid "1 file uploading"
-msgstr ""
+msgstr "ファイルを1つアップロード中"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "ファイルをアップロード中"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
-msgstr ""
+msgstr "'.' は無効なファイル名です。"
 
 #: js/files.js:56
 msgid "File name cannot be empty."
-msgstr ""
+msgstr "ファイル名を空にすることはできません。"
 
 #: js/files.js:64
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "無効な名前、'\\', '/', '<', '>', ':', '\"', '|', '?', '*' は使用できません。"
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "あなたのストレージは一杯です。ファイルの更新と同期はもうできません！"
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "あなたのストレージはほぼ一杯です（{usedSpacePercent}%）"
 
 #: js/files.js:226
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
-msgstr ""
+msgstr "ダウンロードの準備中です。ファイルサイズが大きい場合は少し時間がかかるかもしれません。"
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "ディレクトリもしくは0バイトのファイルはアップロードできません"
 
 #: js/files.js:272
 msgid "Not enough space available"
-msgstr ""
+msgstr "利用可能なスペースが十分にありません"
 
 #: js/files.js:312
 msgid "Upload cancelled."
-msgstr ""
+msgstr "アップロードはキャンセルされました。"
 
 #: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "ファイル転送を実行中です。今このページから移動するとアップロードが中止されます。"
 
 #: js/files.js:481
 msgid "URL cannot be empty."
-msgstr ""
+msgstr "URLは空にできません。"
 
 #: js/files.js:486
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
-msgstr ""
+msgstr "無効なフォルダ名です。'Shared' の利用は ownCloud が予約済みです。"
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
-msgstr ""
+msgstr "エラー"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr ""
+msgstr "名前"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
-msgstr ""
+msgstr "サイズ"
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr ""
+msgstr "変更"
 
 #: js/files.js:893
 msgid "1 folder"
-msgstr ""
+msgstr "1 フォルダ"
 
 #: js/files.js:895
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} フォルダ"
 
 #: js/files.js:903
 msgid "1 file"
-msgstr ""
+msgstr "1 ファイル"
 
 #: js/files.js:905
 msgid "{count} files"
-msgstr ""
+msgstr "{count} ファイル"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr ""
+msgstr "アップロード"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "ファイル操作"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr ""
+msgstr "最大アップロードサイズ"
 
 #: templates/admin.php:10
 msgid "max. possible: "
-msgstr ""
+msgstr "最大容量: "
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "複数ファイルおよびフォルダのダウンロードに必要"
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "ZIP形式のダウンロードを有効にする"
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0を指定した場合は無制限"
 
 #: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "ZIPファイルへの最大入力サイズ"
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr ""
+msgstr "保存"
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "新規作成"
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr ""
+msgstr "テキストファイル"
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr ""
+msgstr "フォルダ"
 
 #: templates/index.php:14
 msgid "From link"
-msgstr ""
+msgstr "リンク"
 
 #: templates/index.php:42
 msgid "Deleted files"
-msgstr ""
+msgstr "削除ファイル"
 
 #: templates/index.php:48
 msgid "Cancel upload"
-msgstr ""
+msgstr "アップロードをキャンセル"
 
 #: templates/index.php:55
 msgid "You don’t have write permissions here."
-msgstr ""
+msgstr "あなたには書き込み権限がありません。"
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
-msgstr ""
+msgstr "ここには何もありません。何かアップロードしてください。"
 
 #: templates/index.php:76
 msgid "Download"
-msgstr ""
+msgstr "ダウンロード"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr ""
+msgstr "共有解除"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr ""
+msgstr "アップロードには大きすぎます。"
 
 #: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr ""
+msgstr "アップロードしようとしているファイルは、サーバで規定された最大サイズを超えています。"
 
 #: templates/index.php:115
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "ファイルをスキャンしています、しばらくお待ちください。"
 
 #: templates/index.php:118
 msgid "Current scanning"
-msgstr ""
+msgstr "スキャン中"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "ファイルシステムキャッシュを更新中..."

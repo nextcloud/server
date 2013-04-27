@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -19,27 +19,27 @@ msgstr ""
 
 #: app.php:349
 msgid "Help"
-msgstr ""
+msgstr "Hjelp"
 
 #: app.php:362
 msgid "Personal"
-msgstr ""
+msgstr "Personleg"
 
 #: app.php:373
 msgid "Settings"
-msgstr ""
+msgstr "Innstillingar"
 
 #: app.php:385
 msgid "Users"
-msgstr ""
+msgstr "Brukarar"
 
 #: app.php:398
 msgid "Apps"
-msgstr ""
+msgstr "Applikasjonar"
 
 #: app.php:406
 msgid "Admin"
-msgstr ""
+msgstr "Administrer"
 
 #: files.php:209
 msgid "ZIP download is turned off."
@@ -67,7 +67,7 @@ msgstr ""
 
 #: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
-msgstr ""
+msgstr "Feil i autentisering"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
@@ -75,11 +75,11 @@ msgstr ""
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
-msgstr ""
+msgstr "Filer"
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr ""
+msgstr "Tekst"
 
 #: search/provider/file.php:29
 msgid "Images"

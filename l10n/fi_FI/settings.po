@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-27 02:17+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,139 +20,139 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Ei pystytä lataamaan listaa sovellusvarastosta (App Store)"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr ""
+msgstr "Tunnistautumisvirhe"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
-msgstr ""
+msgstr "Näyttönimesi on muutettu."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
-msgstr ""
+msgstr "Näyttönimen muuttaminen epäonnistui"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr ""
+msgstr "Ryhmä on jo olemassa"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr ""
+msgstr "Ryhmän lisäys epäonnistui"
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Sovelluksen käyttöönotto epäonnistui."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr ""
+msgstr "Sähköposti tallennettu"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr ""
+msgstr "Virheellinen sähköposti"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Ryhmän poisto epäonnistui"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Käyttäjän poisto epäonnistui"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr ""
+msgstr "Kieli on vaihdettu"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr ""
+msgstr "Virheellinen pyyntö"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "Ylläpitäjät eivät poistaa omia tunnuksiaan ylläpitäjien ryhmästä"
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Käyttäjän tai ryhmän %s lisääminen ei onnistu"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Käyttäjän poistaminen ryhmästä %s ei onnistu"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Sovelluksen päivitys epäonnistui."
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Päivitä versioon {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr ""
+msgstr "Poista käytöstä"
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr ""
+msgstr "Käytä"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "Odota hetki..."
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
-msgstr ""
+msgstr "Virhe"
 
 #: js/apps.js:90
 msgid "Updating...."
-msgstr ""
+msgstr "Päivitetään..."
 
 #: js/apps.js:93
 msgid "Error while updating app"
-msgstr ""
+msgstr "Virhe sovellusta päivittäessä"
 
 #: js/apps.js:96
 msgid "Updated"
-msgstr ""
+msgstr "Päivitetty"
 
-#: js/personal.js:115
+#: js/personal.js:118
 msgid "Saving..."
-msgstr ""
+msgstr "Tallennetaan..."
 
 #: js/users.js:43
 msgid "deleted"
-msgstr ""
+msgstr "poistettu"
 
 #: js/users.js:43
 msgid "undo"
-msgstr ""
+msgstr "kumoa"
 
 #: js/users.js:75
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Käyttäjän poistaminen ei onnistunut"
 
 #: js/users.js:88 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
 msgid "Groups"
-msgstr ""
+msgstr "Ryhmät"
 
 #: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
-msgstr ""
+msgstr "Ryhmän ylläpitäjä"
 
 #: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr ""
+msgstr "Poista"
 
 #: js/users.js:262
 msgid "add group"
-msgstr ""
+msgstr "lisää ryhmä"
 
 #: js/users.js:414
 msgid "A valid username must be provided"
@@ -159,19 +160,19 @@ msgstr ""
 
 #: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
-msgstr ""
+msgstr "Virhe käyttäjää luotaessa"
 
 #: js/users.js:420
 msgid "A valid password must be provided"
 msgstr ""
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
-msgstr ""
+msgstr "_kielen_nimi_"
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr ""
+msgstr "Turvallisuusvaroitus"
 
 #: templates/admin.php:18
 msgid ""
@@ -180,7 +181,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Data-kansio ja tiedostot ovat ehkä saavutettavissa Internetistä. .htaccess-tiedosto, jolla kontrolloidaan pääsyä, ei toimi. Suosittelemme, että muutat web-palvelimesi asetukset niin ettei data-kansio ole enää pääsyä tai siirrät data-kansion pois web-palvelimen tiedostojen juuresta."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -195,11 +196,11 @@ msgstr ""
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Lue tarkasti <a href='%s'>asennusohjeet</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Moduuli 'fileinfo' puuttuu"
 
 #: templates/admin.php:47
 msgid ""
@@ -221,7 +222,7 @@ msgstr ""
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Internet-yhteys ei toimi"
 
 #: templates/admin.php:78
 msgid ""
@@ -235,7 +236,7 @@ msgstr ""
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
@@ -255,52 +256,52 @@ msgstr ""
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr ""
+msgstr "Jakaminen"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr ""
+msgstr "Käytä jakamisen ohjelmointirajapintaa"
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Salli sovellusten käyttää jakamisen ohjelmointirajapintaa"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "Salli linkit"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Salli käyttäjien jakaa kohteita käyttäen linkkejä"
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr ""
+msgstr "Salli uudelleenjakaminen"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Mahdollistaa käyttäjien jakavan uudelleen heidän kanssaan jaettuja kohteita"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Salli käyttäjien jakaa kenen tahansa kanssa"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Salli jakaminen vain samoissa ryhmissä olevien käyttäjien kesken"
 
 #: templates/admin.php:168
 msgid "Security"
-msgstr ""
+msgstr "Tietoturva"
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Pakota HTTPS"
 
 #: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Pakottaa salaamaan ownCloudiin kohdistuvat yhteydet."
 
 #: templates/admin.php:185
 msgid ""
@@ -310,25 +311,25 @@ msgstr ""
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr ""
+msgstr "Loki"
 
 #: templates/admin.php:196
 msgid "Log level"
-msgstr ""
+msgstr "Lokitaso"
 
 #: templates/admin.php:227
 msgid "More"
-msgstr ""
+msgstr "Enemmän"
 
 #: templates/admin.php:228
 msgid "Less"
-msgstr ""
+msgstr "Vähemmän"
 
-#: templates/admin.php:235 templates/personal.php:100
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
-msgstr ""
+msgstr "Versio"
 
-#: templates/admin.php:238 templates/personal.php:103
+#: templates/admin.php:238 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -336,60 +337,60 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "Kehityksestä on vastannut <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud-yhteisö</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">lähdekoodi</a> on julkaistu lisenssin <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> alaisena."
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr ""
+msgstr "Lisää sovelluksesi"
 
 #: templates/apps.php:12
 msgid "More Apps"
-msgstr ""
+msgstr "Lisää sovelluksia"
 
 #: templates/apps.php:28
 msgid "Select an App"
-msgstr ""
+msgstr "Valitse sovellus"
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Katso sovellussivu osoitteessa apps.owncloud.com"
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-lisensoija <span class=\"author\"></span>"
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr ""
+msgstr "Päivitä"
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr ""
+msgstr "Käyttäjäohjeistus"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Ylläpito-ohjeistus"
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr ""
+msgstr "Verkko-ohjeistus"
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr ""
+msgstr "Keskustelupalsta"
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr ""
+msgstr "Ohjelmistovirheiden jäljitys"
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr ""
+msgstr "Kaupallinen tuki"
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Käytössäsi on <strong>%s</strong>/<strong>%s</strong>"
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
@@ -397,96 +398,96 @@ msgstr ""
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
-msgstr ""
+msgstr "Näytä ensimmäisen käyttökerran avustaja uudelleen"
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr ""
+msgstr "Salasana"
 
 #: templates/personal.php:38
 msgid "Your password was changed"
-msgstr ""
+msgstr "Salasanasi vaihdettiin"
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr ""
+msgstr "Salasanaasi ei voitu vaihtaa"
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr ""
+msgstr "Nykyinen salasana"
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr ""
+msgstr "Uusi salasana"
 
 #: templates/personal.php:44
 msgid "Change password"
-msgstr ""
+msgstr "Vaihda salasana"
 
 #: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
-msgstr ""
+msgstr "Näyttönimi"
 
 #: templates/personal.php:68
 msgid "Email"
-msgstr ""
+msgstr "Sähköpostiosoite"
 
 #: templates/personal.php:70
 msgid "Your email address"
-msgstr ""
+msgstr "Sähköpostiosoitteesi"
 
 #: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Anna sähköpostiosoitteesi, jotta unohdettu salasana on mahdollista palauttaa"
 
 #: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
-msgstr ""
-
-#: templates/personal.php:84
-msgid "Help translate"
-msgstr ""
+msgstr "Kieli"
 
 #: templates/personal.php:89
-msgid "WebDAV"
-msgstr ""
+msgid "Help translate"
+msgstr "Auta kääntämisessä"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
+msgid "WebDAV"
+msgstr "WebDAV"
+
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Käytä tätä osoitetta yhdistäessäsi ownCloudiisi tiedostonhallintaa käyttäen"
 
 #: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
-msgstr ""
+msgstr "Kirjautumisnimi"
 
 #: templates/users.php:30
 msgid "Create"
-msgstr ""
+msgstr "Luo"
 
 #: templates/users.php:33
 msgid "Default Storage"
-msgstr ""
+msgstr "Oletustallennustila"
 
 #: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
-msgstr ""
+msgstr "Rajoittamaton"
 
 #: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr ""
+msgstr "Muu"
 
 #: templates/users.php:82
 msgid "Storage"
-msgstr ""
+msgstr "Tallennustila"
 
 #: templates/users.php:93
 msgid "change display name"
-msgstr ""
+msgstr "vaihda näyttönimi"
 
 #: templates/users.php:97
 msgid "set new password"
-msgstr ""
+msgstr "aseta uusi salasana"
 
 #: templates/users.php:128
 msgid "Default"
-msgstr ""
+msgstr "Oletus"

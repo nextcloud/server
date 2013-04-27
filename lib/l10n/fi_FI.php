@@ -11,7 +11,7 @@
 "Selected files too large to generate zip file." => "Valitut tiedostot ovat liian suurikokoisia mahtuakseen zip-tiedostoon.",
 "couldn't be determined" => "ei voitu määrittää",
 "Application is not enabled" => "Sovellusta ei ole otettu käyttöön",
-"Authentication error" => "Todennusvirhe",
+"Authentication error" => "Tunnistautumisvirhe",
 "Token expired. Please reload page." => "Valtuutus vanheni. Lataa sivu uudelleen.",
 "Files" => "Tiedostot",
 "Text" => "Teksti",

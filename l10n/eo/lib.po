@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -19,43 +19,43 @@ msgstr ""
 
 #: app.php:349
 msgid "Help"
-msgstr ""
+msgstr "Helpo"
 
 #: app.php:362
 msgid "Personal"
-msgstr ""
+msgstr "Persona"
 
 #: app.php:373
 msgid "Settings"
-msgstr ""
+msgstr "Agordo"
 
 #: app.php:385
 msgid "Users"
-msgstr ""
+msgstr "Uzantoj"
 
 #: app.php:398
 msgid "Apps"
-msgstr ""
+msgstr "Aplikaĵoj"
 
 #: app.php:406
 msgid "Admin"
-msgstr ""
+msgstr "Administranto"
 
 #: files.php:209
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "ZIP-elŝuto estas malkapabligita."
 
 #: files.php:210
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "Dosieroj devas elŝutiĝi unuope."
 
 #: files.php:211 files.php:244
 msgid "Back to Files"
-msgstr ""
+msgstr "Reen al la dosieroj"
 
 #: files.php:241
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "La elektitaj dosieroj tro grandas por genero de ZIP-dosiero."
 
 #: helper.php:228
 msgid "couldn't be determined"
@@ -63,27 +63,27 @@ msgstr ""
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "La aplikaĵo ne estas kapabligita"
 
 #: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
-msgstr ""
+msgstr "Aŭtentiga eraro"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "Ĵetono eksvalidiĝis. Bonvolu reŝargi la paĝon."
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
-msgstr ""
+msgstr "Dosieroj"
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr ""
+msgstr "Teksto"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "Bildoj"
 
 #: setup.php:34
 msgid "Set an admin username."
@@ -185,70 +185,70 @@ msgstr ""
 
 #: template.php:113
 msgid "seconds ago"
-msgstr ""
+msgstr "sekundoj antaŭe"
 
 #: template.php:114
 msgid "1 minute ago"
-msgstr ""
+msgstr "antaŭ 1 minuto"
 
 #: template.php:115
 #, php-format
 msgid "%d minutes ago"
-msgstr ""
+msgstr "antaŭ %d minutoj"
 
 #: template.php:116
 msgid "1 hour ago"
-msgstr ""
+msgstr "antaŭ 1 horo"
 
 #: template.php:117
 #, php-format
 msgid "%d hours ago"
-msgstr ""
+msgstr "antaŭ %d horoj"
 
 #: template.php:118
 msgid "today"
-msgstr ""
+msgstr "hodiaŭ"
 
 #: template.php:119
 msgid "yesterday"
-msgstr ""
+msgstr "hieraŭ"
 
 #: template.php:120
 #, php-format
 msgid "%d days ago"
-msgstr ""
+msgstr "antaŭ %d tagoj"
 
 #: template.php:121
 msgid "last month"
-msgstr ""
+msgstr "lastamonate"
 
 #: template.php:122
 #, php-format
 msgid "%d months ago"
-msgstr ""
+msgstr "antaŭ %d monatoj"
 
 #: template.php:123
 msgid "last year"
-msgstr ""
+msgstr "lastajare"
 
 #: template.php:124
 msgid "years ago"
-msgstr ""
+msgstr "jaroj antaŭe"
 
 #: updater.php:78
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s haveblas. Ekhavu <a href=\"%s\">pli da informo</a>"
 
 #: updater.php:81
 msgid "up to date"
-msgstr ""
+msgstr "ĝisdata"
 
 #: updater.php:84
 msgid "updates check is disabled"
-msgstr ""
+msgstr "ĝisdateckontrolo estas malkapabligita"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "Ne troviĝis kategorio “%s”"

@@ -18,7 +18,7 @@
 "All Users" => "Todos los usuarios",
 "Groups" => "Grupos",
 "Users" => "Usuarios",
-"Delete" => "Eliiminar",
+"Delete" => "Eliminar",
 "Enable User External Storage" => "Habilitar almacenamiento de usuario externo",
 "Allow users to mount their own external storage" => "Permitir a los usuarios montar su propio almacenamiento externo",
 "SSL root certificates" => "Raíz de certificados SSL  ",

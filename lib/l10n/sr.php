@@ -21,7 +21,7 @@
 "seconds ago" => "пре неколико секунди",
 "1 minute ago" => "пре 1 минут",
 "%d minutes ago" => "пре %d минута",
-"1 hour ago" => "пре 1 сат",
+"1 hour ago" => "Пре једног сата",
 "%d hours ago" => "пре %d сата/и",
 "today" => "данас",
 "yesterday" => "јуче",

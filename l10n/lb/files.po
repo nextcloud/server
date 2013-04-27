@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Luxembourgish (http://www.transifex.com/projects/p/owncloud/language/lb/)\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr ""
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Keen Feeler, Datei ass komplett ropgelueden ginn"
 
 #: ajax/upload.php:27
 msgid ""
@@ -48,23 +48,23 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Déi ropgelueden Datei ass méi grouss wei d'MAX_FILE_SIZE Eegenschaft déi an der HTML form uginn ass"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Déi ropgelueden Datei ass nëmmen hallef ropgelueden ginn"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Et ass kee Fichier ropgeluede ginn"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Et feelt en temporären Dossier"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Konnt net op den Disk schreiwen"
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
@@ -76,11 +76,11 @@ msgstr ""
 
 #: appinfo/app.php:12
 msgid "Files"
-msgstr ""
+msgstr "Dateien"
 
 #: js/fileactions.js:116
 msgid "Share"
-msgstr ""
+msgstr "Deelen"
 
 #: js/fileactions.js:126
 msgid "Delete permanently"
@@ -88,7 +88,7 @@ msgstr ""
 
 #: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr ""
+msgstr "Läschen"
 
 #: js/fileactions.js:194
 msgid "Rename"
@@ -104,7 +104,7 @@ msgstr ""
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "replace"
-msgstr ""
+msgstr "ersetzen"
 
 #: js/filelist.js:252
 msgid "suggest name"
@@ -112,7 +112,7 @@ msgstr ""
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "cancel"
-msgstr ""
+msgstr "ofbriechen"
 
 #: js/filelist.js:299
 msgid "replaced {new_name} with {old_name}"
@@ -120,7 +120,7 @@ msgstr ""
 
 #: js/filelist.js:299
 msgid "undo"
-msgstr ""
+msgstr "réckgängeg man"
 
 #: js/filelist.js:324
 msgid "perform delete operation"
@@ -164,7 +164,7 @@ msgstr ""
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Kann deng Datei net eroplueden well et en Dossier ass oder 0 byte grouss ass."
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -172,12 +172,12 @@ msgstr ""
 
 #: js/files.js:312
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Upload ofgebrach."
 
 #: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "File Upload am gaang. Wann's de des Säit verléiss gëtt den Upload ofgebrach."
 
 #: js/files.js:481
 msgid "URL cannot be empty."
@@ -189,19 +189,19 @@ msgstr ""
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr ""
+msgstr "Numm"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
-msgstr ""
+msgstr "Gréisst"
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr ""
+msgstr "Geännert"
 
 #: js/files.js:893
 msgid "1 folder"
@@ -221,51 +221,51 @@ msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr ""
+msgstr "Eroplueden"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Fichier handling"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr ""
+msgstr "Maximum Upload Gréisst "
 
 #: templates/admin.php:10
 msgid "max. possible: "
-msgstr ""
+msgstr "max. méiglech:"
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Gett gebraucht fir multi-Fichier an Dossier Downloads."
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "ZIP-download erlaben"
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 ass onlimitéiert"
 
 #: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Maximal Gréisst fir ZIP Fichieren"
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr ""
+msgstr "Späicheren"
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "Nei"
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr ""
+msgstr "Text Fichier"
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr ""
+msgstr "Dossier"
 
 #: templates/index.php:14
 msgid "From link"
@@ -277,7 +277,7 @@ msgstr ""
 
 #: templates/index.php:48
 msgid "Cancel upload"
-msgstr ""
+msgstr "Upload ofbriechen"
 
 #: templates/index.php:55
 msgid "You don’t have write permissions here."
@@ -285,33 +285,33 @@ msgstr ""
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
-msgstr ""
+msgstr "Hei ass näischt. Lued eppes rop!"
 
 #: templates/index.php:76
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr ""
+msgstr "Net méi deelen"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr ""
+msgstr "Upload ze grouss"
 
 #: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr ""
+msgstr "Déi Dateien déi Dir probéiert erop ze lueden sinn méi grouss wei déi Maximal Gréisst déi op dësem Server erlaabt ass."
 
 #: templates/index.php:115
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Fichieren gi gescannt, war weg."
 
 #: templates/index.php:118
 msgid "Current scanning"
-msgstr ""
+msgstr "Momentane Scan"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

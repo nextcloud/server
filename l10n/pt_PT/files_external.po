@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -19,36 +19,36 @@ msgstr ""
 
 #: js/dropbox.js:7 js/dropbox.js:28 js/google.js:16 js/google.js:34
 msgid "Access granted"
-msgstr ""
+msgstr "Acesso autorizado"
 
 #: js/dropbox.js:30 js/dropbox.js:96 js/dropbox.js:102
 msgid "Error configuring Dropbox storage"
-msgstr ""
+msgstr "Erro ao configurar o armazenamento do Dropbox"
 
 #: js/dropbox.js:65 js/google.js:66
 msgid "Grant access"
-msgstr ""
+msgstr "Conceder acesso"
 
 #: js/dropbox.js:101
 msgid "Please provide a valid Dropbox app key and secret."
-msgstr ""
+msgstr "Por favor forneça uma \"app key\" e \"secret\" do Dropbox válidas."
 
 #: js/google.js:36 js/google.js:93
 msgid "Error configuring Google Drive storage"
-msgstr ""
+msgstr "Erro ao configurar o armazenamento do Google Drive"
 
 #: lib/config.php:431
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Atenção:</b> O cliente \"smbclient\" não está instalado. Não é possível montar as partilhas CIFS/SMB . Peça ao seu administrador para instalar."
 
 #: lib/config.php:434
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
-msgstr ""
+msgstr "<b>Aviso:</b> O suporte FTP no PHP não está activate ou instalado. Não é possível montar as partilhas FTP. Peça ao seu administrador para instalar."
 
 #: lib/config.php:437
 msgid ""
@@ -59,65 +59,65 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "External Storage"
-msgstr ""
+msgstr "Armazenamento Externo"
 
 #: templates/settings.php:9 templates/settings.php:28
 msgid "Folder name"
-msgstr ""
+msgstr "Nome da pasta"
 
 #: templates/settings.php:10
 msgid "External storage"
-msgstr ""
+msgstr "Armazenamento Externo"
 
 #: templates/settings.php:11
 msgid "Configuration"
-msgstr ""
+msgstr "Configuração"
 
 #: templates/settings.php:12
 msgid "Options"
-msgstr ""
+msgstr "Opções"
 
 #: templates/settings.php:13
 msgid "Applicable"
-msgstr ""
+msgstr "Aplicável"
 
 #: templates/settings.php:33
 msgid "Add storage"
-msgstr ""
+msgstr "Adicionar armazenamento"
 
 #: templates/settings.php:90
 msgid "None set"
-msgstr ""
+msgstr "Não definido"
 
 #: templates/settings.php:91
 msgid "All Users"
-msgstr ""
+msgstr "Todos os utilizadores"
 
 #: templates/settings.php:92
 msgid "Groups"
-msgstr ""
+msgstr "Grupos"
 
 #: templates/settings.php:100
 msgid "Users"
-msgstr ""
+msgstr "Utilizadores"
 
 #: templates/settings.php:113 templates/settings.php:114
 #: templates/settings.php:149 templates/settings.php:150
 msgid "Delete"
-msgstr ""
+msgstr "Eliminar"
 
 #: templates/settings.php:129
 msgid "Enable User External Storage"
-msgstr ""
+msgstr "Activar Armazenamento Externo para o Utilizador"
 
 #: templates/settings.php:130
 msgid "Allow users to mount their own external storage"
-msgstr ""
+msgstr "Permitir que os utilizadores montem o seu próprio armazenamento externo"
 
 #: templates/settings.php:141
 msgid "SSL root certificates"
-msgstr ""
+msgstr "Certificados SSL de raiz"
 
 #: templates/settings.php:159
 msgid "Import Root Certificate"
-msgstr ""
+msgstr "Importar Certificado Root"

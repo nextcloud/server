@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Help" => "Ndihmë",
 "Personal" => "Personale",
-"Settings" => "Parametrat",
+"Settings" => "Parametra",
 "Users" => "Përdoruesit",
 "Apps" => "App",
 "Admin" => "Admin",

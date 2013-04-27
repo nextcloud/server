@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-27 02:17+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -19,12 +19,12 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Ne eblis ŝargi liston el aplikaĵovendejo"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr ""
+msgstr "Aŭtentiga eraro"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
@@ -36,53 +36,53 @@ msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr ""
+msgstr "La grupo jam ekzistas"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr ""
+msgstr "Ne eblis aldoni la grupon"
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Ne eblis kapabligi la aplikaĵon."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr ""
+msgstr "La retpoŝtadreso konserviĝis"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr ""
+msgstr "Nevalida retpoŝtadreso"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Ne eblis forigi la grupon"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Ne eblis forigi la uzanton"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr ""
+msgstr "La lingvo estas ŝanĝita"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr ""
+msgstr "Nevalida peto"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "Administrantoj ne povas forigi sin mem el la administra grupo."
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Ne eblis aldoni la uzanton al la grupo %s"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Ne eblis forigi la uzantan el la grupo %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
@@ -94,11 +94,11 @@ msgstr ""
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr ""
+msgstr "Malkapabligi"
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr ""
+msgstr "Kapabligi"
 
 #: js/apps.js:55
 msgid "Please wait...."
@@ -106,7 +106,7 @@ msgstr ""
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
-msgstr ""
+msgstr "Eraro"
 
 #: js/apps.js:90
 msgid "Updating...."
@@ -120,17 +120,17 @@ msgstr ""
 msgid "Updated"
 msgstr ""
 
-#: js/personal.js:115
+#: js/personal.js:118
 msgid "Saving..."
-msgstr ""
+msgstr "Konservante..."
 
 #: js/users.js:43
 msgid "deleted"
-msgstr ""
+msgstr "forigita"
 
 #: js/users.js:43
 msgid "undo"
-msgstr ""
+msgstr "malfari"
 
 #: js/users.js:75
 msgid "Unable to remove user"
@@ -139,15 +139,15 @@ msgstr ""
 #: js/users.js:88 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
 msgid "Groups"
-msgstr ""
+msgstr "Grupoj"
 
 #: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
-msgstr ""
+msgstr "Grupadministranto"
 
 #: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr ""
+msgstr "Forigi"
 
 #: js/users.js:262
 msgid "add group"
@@ -165,13 +165,13 @@ msgstr ""
 msgid "A valid password must be provided"
 msgstr ""
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
-msgstr ""
+msgstr "Esperanto"
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr ""
+msgstr "Sekureca averto"
 
 #: templates/admin.php:18
 msgid ""
@@ -235,7 +235,7 @@ msgstr ""
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
@@ -255,39 +255,39 @@ msgstr ""
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr ""
+msgstr "Kunhavigo"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr ""
+msgstr "Kapabligi API-on por Kunhavigo"
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Kapabligi aplikaĵojn uzi la API-on pri Kunhavigo"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "Kapabligi ligilojn"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Kapabligi uzantojn kunhavigi erojn kun la publiko perligile"
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr ""
+msgstr "Kapabligi rekunhavigon"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Kapabligi uzantojn rekunhavigi erojn kunhavigitajn kun ili"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Kapabligi uzantojn kunhavigi kun ĉiu ajn"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Kapabligi uzantojn nur kunhavigi kun uzantoj el siaj grupoj"
 
 #: templates/admin.php:168
 msgid "Security"
@@ -310,25 +310,25 @@ msgstr ""
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr ""
+msgstr "Protokolo"
 
 #: templates/admin.php:196
 msgid "Log level"
-msgstr ""
+msgstr "Registronivelo"
 
 #: templates/admin.php:227
 msgid "More"
-msgstr ""
+msgstr "Pli"
 
 #: templates/admin.php:228
 msgid "Less"
-msgstr ""
+msgstr "Malpli"
 
-#: templates/admin.php:235 templates/personal.php:100
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
-msgstr ""
+msgstr "Eldono"
 
-#: templates/admin.php:238 templates/personal.php:103
+#: templates/admin.php:238 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -336,60 +336,60 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "Ellaborita de la <a href=\"http://ownCloud.org/contact\" target=\"_blank\">komunumo de ownCloud</a>, la <a href=\"https://github.com/owncloud\" target=\"_blank\">fontokodo</a> publikas laŭ la permesilo <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr ""
+msgstr "Aldonu vian aplikaĵon"
 
 #: templates/apps.php:12
 msgid "More Apps"
-msgstr ""
+msgstr "Pli da aplikaĵoj"
 
 #: templates/apps.php:28
 msgid "Select an App"
-msgstr ""
+msgstr "Elekti aplikaĵon"
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Vidu la paĝon pri aplikaĵoj ĉe apps.owncloud.com"
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"</span>-permesilhavigita de <span class=\"author\"></span>"
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr ""
+msgstr "Ĝisdatigi"
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr ""
+msgstr "Dokumentaro por uzantoj"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Dokumentaro por administrantoj"
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr ""
+msgstr "Reta dokumentaro"
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr ""
+msgstr "Forumo"
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr ""
+msgstr "Cimoraportejo"
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr ""
+msgstr "Komerca subteno"
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Vi uzas <strong>%s</strong> el la haveblaj <strong>%s</strong>"
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
@@ -401,27 +401,27 @@ msgstr ""
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr ""
+msgstr "Pasvorto"
 
 #: templates/personal.php:38
 msgid "Your password was changed"
-msgstr ""
+msgstr "Via pasvorto ŝanĝiĝis"
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr ""
+msgstr "Ne eblis ŝanĝi vian pasvorton"
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr ""
+msgstr "Nuna pasvorto"
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr ""
+msgstr "Nova pasvorto"
 
 #: templates/personal.php:44
 msgid "Change password"
-msgstr ""
+msgstr "Ŝanĝi la pasvorton"
 
 #: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
@@ -429,31 +429,31 @@ msgstr ""
 
 #: templates/personal.php:68
 msgid "Email"
-msgstr ""
+msgstr "Retpoŝto"
 
 #: templates/personal.php:70
 msgid "Your email address"
-msgstr ""
+msgstr "Via retpoŝta adreso"
 
 #: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Enigu retpoŝtadreson por kapabligi pasvortan restaŭron"
 
 #: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
-msgstr ""
-
-#: templates/personal.php:84
-msgid "Help translate"
-msgstr ""
+msgstr "Lingvo"
 
 #: templates/personal.php:89
-msgid "WebDAV"
-msgstr ""
+msgid "Help translate"
+msgstr "Helpu traduki"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
+msgid "WebDAV"
+msgstr "WebDAV"
+
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Uzu ĉi tiun adreson por konekti al via ownCloud vian dosieradministrilon"
 
 #: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
@@ -461,23 +461,23 @@ msgstr ""
 
 #: templates/users.php:30
 msgid "Create"
-msgstr ""
+msgstr "Krei"
 
 #: templates/users.php:33
 msgid "Default Storage"
-msgstr ""
+msgstr "Defaŭlta konservejo"
 
 #: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
-msgstr ""
+msgstr "Senlima"
 
 #: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr ""
+msgstr "Alia"
 
 #: templates/users.php:82
 msgid "Storage"
-msgstr ""
+msgstr "Konservejo"
 
 #: templates/users.php:93
 msgid "change display name"
@@ -489,4 +489,4 @@ msgstr ""
 
 #: templates/users.php:128
 msgid "Default"
-msgstr ""
+msgstr "Defaŭlta"

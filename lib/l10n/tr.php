@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Help" => "Yardı",
+"Help" => "Yardım",
 "Personal" => "Kişisel",
 "Settings" => "Ayarlar",
 "Users" => "Kullanıcılar",

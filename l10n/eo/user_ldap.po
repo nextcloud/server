@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:02+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr ""
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr ""
+msgstr "Forigo malsukcesis"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
@@ -92,16 +92,16 @@ msgstr ""
 
 #: templates/settings.php:36
 msgid "Host"
-msgstr ""
+msgstr "Gastigo"
 
 #: templates/settings.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "Vi povas neglekti la protokolon, escepte se vi bezonas SSL-on. Tiuokaze, komencu per ldaps://"
 
 #: templates/settings.php:39
 msgid "Base DN"
-msgstr ""
+msgstr "Bazo-DN"
 
 #: templates/settings.php:40
 msgid "One Base DN per line"
@@ -113,7 +113,7 @@ msgstr ""
 
 #: templates/settings.php:43
 msgid "User DN"
-msgstr ""
+msgstr "Uzanto-DN"
 
 #: templates/settings.php:45
 msgid ""
@@ -124,51 +124,51 @@ msgstr ""
 
 #: templates/settings.php:46
 msgid "Password"
-msgstr ""
+msgstr "Pasvorto"
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "Por sennoman aliron, lasu DN-on kaj Pasvorton malplenaj."
 
 #: templates/settings.php:50
 msgid "User Login Filter"
-msgstr ""
+msgstr "Filtrilo de uzantensaluto"
 
 #: templates/settings.php:53
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "Ĝi difinas la filtrilon aplikotan, kiam oni provas ensaluti. %%uid anstataŭigas la uzantonomon en la ensaluta ago."
 
 #: templates/settings.php:54
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr ""
+msgstr "uzu la referencilon %%uid, ekz.: \"uid=%%uid\""
 
 #: templates/settings.php:55
 msgid "User List Filter"
-msgstr ""
+msgstr "Filtrilo de uzantolisto"
 
 #: templates/settings.php:58
 msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
+msgstr "Ĝi difinas la filtrilon aplikotan, kiam veniĝas uzantoj."
 
 #: templates/settings.php:59
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
+msgstr "sen ajna referencilo, ekz.: \"objectClass=person\"."
 
 #: templates/settings.php:60
 msgid "Group Filter"
-msgstr ""
+msgstr "Filtrilo de grupo"
 
 #: templates/settings.php:63
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
+msgstr "Ĝi difinas la filtrilon aplikotan, kiam veniĝas grupoj."
 
 #: templates/settings.php:64
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "sen ajna referencilo, ekz.: \"objectClass=posixGroup\"."
 
 #: templates/settings.php:68
 msgid "Connection Settings"
@@ -184,7 +184,7 @@ msgstr ""
 
 #: templates/settings.php:71
 msgid "Port"
-msgstr ""
+msgstr "Pordo"
 
 #: templates/settings.php:72
 msgid "Backup (Replica) Host"
@@ -210,7 +210,7 @@ msgstr ""
 
 #: templates/settings.php:75
 msgid "Use TLS"
-msgstr ""
+msgstr "Uzi TLS-on"
 
 #: templates/settings.php:75
 msgid "Do not use it additionally for LDAPS connections, it will fail."
@@ -218,21 +218,21 @@ msgstr ""
 
 #: templates/settings.php:76
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "LDAP-servilo blinda je litergrandeco (Vindozo)"
 
 #: templates/settings.php:77
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "Malkapabligi validkontrolon de SSL-atestiloj."
 
 #: templates/settings.php:77
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr ""
+msgstr "Se la konekto nur funkcias kun ĉi tiu malnepro, enportu la SSL-atestilo de la LDAP-servilo en via ownCloud-servilo."
 
 #: templates/settings.php:77
 msgid "Not recommended, use for testing only."
-msgstr ""
+msgstr "Ne rekomendata, uzu ĝin nur por testoj."
 
 #: templates/settings.php:78
 msgid "Cache Time-To-Live"
@@ -240,7 +240,7 @@ msgstr ""
 
 #: templates/settings.php:78
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "sekunde. Ajna ŝanĝo malplenigas la kaŝmemoron."
 
 #: templates/settings.php:80
 msgid "Directory Settings"
@@ -248,15 +248,15 @@ msgstr ""
 
 #: templates/settings.php:82
 msgid "User Display Name Field"
-msgstr ""
+msgstr "Kampo de vidignomo de uzanto"
 
 #: templates/settings.php:82
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr ""
+msgstr "La atributo de LDAP uzota por generi la ownCloud-an nomon de la uzanto."
 
 #: templates/settings.php:83
 msgid "Base User Tree"
-msgstr ""
+msgstr "Baza uzantarbo"
 
 #: templates/settings.php:83
 msgid "One User Base DN per line"
@@ -272,15 +272,15 @@ msgstr ""
 
 #: templates/settings.php:85
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "Kampo de vidignomo de grupo"
 
 #: templates/settings.php:85
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr ""
+msgstr "La atributo de LDAP uzota por generi la ownCloud-an nomon de la grupo."
 
 #: templates/settings.php:86
 msgid "Base Group Tree"
-msgstr ""
+msgstr "Baza gruparbo"
 
 #: templates/settings.php:86
 msgid "One Group Base DN per line"
@@ -292,7 +292,7 @@ msgstr ""
 
 #: templates/settings.php:88
 msgid "Group-Member association"
-msgstr ""
+msgstr "Asocio de grupo kaj membro"
 
 #: templates/settings.php:90
 msgid "Special Attributes"
@@ -308,7 +308,7 @@ msgstr ""
 
 #: templates/settings.php:93
 msgid "in bytes"
-msgstr ""
+msgstr "duumoke"
 
 #: templates/settings.php:94
 msgid "Email Field"
@@ -322,7 +322,7 @@ msgstr ""
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr ""
+msgstr "Lasu malplena por uzantonomo (defaŭlto). Alie, specifu LDAP/AD-atributon."
 
 #: templates/settings.php:99
 msgid "Test Configuration"
@@ -330,4 +330,4 @@ msgstr ""
 
 #: templates/settings.php:99
 msgid "Help"
-msgstr ""
+msgstr "Helpo"

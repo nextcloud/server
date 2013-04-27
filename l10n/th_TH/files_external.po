@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -19,36 +19,36 @@ msgstr ""
 
 #: js/dropbox.js:7 js/dropbox.js:28 js/google.js:16 js/google.js:34
 msgid "Access granted"
-msgstr ""
+msgstr "การเข้าถึงได้รับอนุญาตแล้ว"
 
 #: js/dropbox.js:30 js/dropbox.js:96 js/dropbox.js:102
 msgid "Error configuring Dropbox storage"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการกำหนดค่าพื้นที่จัดเก็บข้อมูล Dropbox"
 
 #: js/dropbox.js:65 js/google.js:66
 msgid "Grant access"
-msgstr ""
+msgstr "อนุญาตให้เข้าถึงได้"
 
 #: js/dropbox.js:101
 msgid "Please provide a valid Dropbox app key and secret."
-msgstr ""
+msgstr "กรุณากรอกรหัส app key ของ Dropbox และรหัสลับ"
 
 #: js/google.js:36 js/google.js:93
 msgid "Error configuring Google Drive storage"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในการกำหนดค่าการจัดเก็บข้อมูลในพื้นที่ของ Google Drive"
 
 #: lib/config.php:431
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>คำเตือน:</b> \"smbclient\" ยังไม่ได้ถูกติดตั้ง. การชี้ CIFS/SMB เพื่อแชร์ข้อมูลไม่สามารถกระทำได้ กรุณาสอบถามข้อมูลเพิ่มเติมจากผู้ดูแลระบบเพื่อติดตั้ง."
 
 #: lib/config.php:434
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
-msgstr ""
+msgstr "<b>คำเตือน:</b> การสนับสนุนการใช้งาน FTP ในภาษา PHP ยังไม่ได้ถูกเปิดใช้งานหรือถูกติดตั้ง. การชี้ FTP เพื่อแชร์ข้อมูลไม่สามารถดำเนินการได้ กรุณาสอบถามข้อมูลเพิ่มเติมจากผู้ดูแลระบบเพื่อติดตั้ง"
 
 #: lib/config.php:437
 msgid ""
@@ -59,11 +59,11 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "External Storage"
-msgstr ""
+msgstr "พื้นทีจัดเก็บข้อมูลจากภายนอก"
 
 #: templates/settings.php:9 templates/settings.php:28
 msgid "Folder name"
-msgstr ""
+msgstr "ชื่อโฟลเดอร์"
 
 #: templates/settings.php:10
 msgid "External storage"
@@ -71,15 +71,15 @@ msgstr ""
 
 #: templates/settings.php:11
 msgid "Configuration"
-msgstr ""
+msgstr "การกำหนดค่า"
 
 #: templates/settings.php:12
 msgid "Options"
-msgstr ""
+msgstr "ตัวเลือก"
 
 #: templates/settings.php:13
 msgid "Applicable"
-msgstr ""
+msgstr "สามารถใช้งานได้"
 
 #: templates/settings.php:33
 msgid "Add storage"
@@ -87,37 +87,37 @@ msgstr ""
 
 #: templates/settings.php:90
 msgid "None set"
-msgstr ""
+msgstr "ยังไม่มีการกำหนด"
 
 #: templates/settings.php:91
 msgid "All Users"
-msgstr ""
+msgstr "ผู้ใช้งานทั้งหมด"
 
 #: templates/settings.php:92
 msgid "Groups"
-msgstr ""
+msgstr "กลุ่ม"
 
 #: templates/settings.php:100
 msgid "Users"
-msgstr ""
+msgstr "ผู้ใช้งาน"
 
 #: templates/settings.php:113 templates/settings.php:114
 #: templates/settings.php:149 templates/settings.php:150
 msgid "Delete"
-msgstr ""
+msgstr "ลบ"
 
 #: templates/settings.php:129
 msgid "Enable User External Storage"
-msgstr ""
+msgstr "เปิดให้มีการใช้พื้นที่จัดเก็บข้อมูลของผู้ใช้งานจากภายนอกได้"
 
 #: templates/settings.php:130
 msgid "Allow users to mount their own external storage"
-msgstr ""
+msgstr "อนุญาตให้ผู้ใช้งานสามารถชี้ตำแหน่งไปที่พื้นที่จัดเก็บข้อมูลภายนอกของตนเองได้"
 
 #: templates/settings.php:141
 msgid "SSL root certificates"
-msgstr ""
+msgstr "ใบรับรองความปลอดภัยด้วยระบบ SSL จาก Root"
 
 #: templates/settings.php:159
 msgid "Import Root Certificate"
-msgstr ""
+msgstr "นำเข้าข้อมูลใบรับรองความปลอดภัยจาก Root"

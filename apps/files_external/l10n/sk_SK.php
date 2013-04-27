@@ -17,7 +17,7 @@
 "All Users" => "Všetci používatelia",
 "Groups" => "Skupiny",
 "Users" => "Používatelia",
-"Delete" => "Odstrániť",
+"Delete" => "Zmazať",
 "Enable User External Storage" => "Povoliť externé úložisko",
 "Allow users to mount their own external storage" => "Povoliť používateľom pripojiť ich vlastné externé úložisko",
 "SSL root certificates" => "Koreňové SSL certifikáty",

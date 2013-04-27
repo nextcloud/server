@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:02+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr ""
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr ""
+msgstr "Ștergerea a eșuat"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
@@ -74,13 +74,13 @@ msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behaviour. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>Atentie:</b> Apps user_ldap si user_webdavauth sunt incompatibile. Este posibil sa experimentati un comportament neasteptat. Vă rugăm să întrebați administratorul de sistem pentru a dezactiva una dintre ele."
 
 #: templates/settings.php:11
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Atenție</b> Modulul PHP LDAP nu este instalat, infrastructura nu va funcționa. Contactează administratorul sistemului pentru al instala."
 
 #: templates/settings.php:15
 msgid "Server configuration"
@@ -92,83 +92,83 @@ msgstr ""
 
 #: templates/settings.php:36
 msgid "Host"
-msgstr ""
+msgstr "Gazdă"
 
 #: templates/settings.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "Puteți omite protocolul, decât dacă folosiți SSL. Atunci se începe cu ldaps://"
 
 #: templates/settings.php:39
 msgid "Base DN"
-msgstr ""
+msgstr "DN de bază"
 
 #: templates/settings.php:40
 msgid "One Base DN per line"
-msgstr ""
+msgstr "Un Base DN pe linie"
 
 #: templates/settings.php:41
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr ""
+msgstr "Puteți să specificați DN de bază pentru utilizatori și grupuri în fila Avansat"
 
 #: templates/settings.php:43
 msgid "User DN"
-msgstr ""
+msgstr "DN al utilizatorului"
 
 #: templates/settings.php:45
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr ""
+msgstr "DN-ul clientului utilizator cu care se va efectua conectarea, d.e. uid=agent,dc=example,dc=com. Pentru acces anonim, lăsăți DN și Parolă libere."
 
 #: templates/settings.php:46
 msgid "Password"
-msgstr ""
+msgstr "Parolă"
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "Pentru acces anonim, lăsați DN și Parolă libere."
 
 #: templates/settings.php:50
 msgid "User Login Filter"
-msgstr ""
+msgstr "Filtrare după Nume Utilizator"
 
 #: templates/settings.php:53
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "Definește fitrele care trebuie aplicate, când se încearcă conectarea. %%uid înlocuiește numele utilizatorului în procesul de conectare."
 
 #: templates/settings.php:54
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr ""
+msgstr "folosiți substituentul %%uid , d.e. \"uid=%%uid\""
 
 #: templates/settings.php:55
 msgid "User List Filter"
-msgstr ""
+msgstr "Filtrarea după lista utilizatorilor"
 
 #: templates/settings.php:58
 msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
+msgstr "Definește filtrele care trebui aplicate, când se peiau utilzatorii."
 
 #: templates/settings.php:59
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
+msgstr "fără substituenți, d.e. \"objectClass=person\"."
 
 #: templates/settings.php:60
 msgid "Group Filter"
-msgstr ""
+msgstr "Fitrare Grup"
 
 #: templates/settings.php:63
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
+msgstr "Definește filtrele care se aplică, când se preiau grupurile."
 
 #: templates/settings.php:64
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "fără substituenți, d.e. \"objectClass=posixGroup\""
 
 #: templates/settings.php:68
 msgid "Connection Settings"
@@ -184,7 +184,7 @@ msgstr ""
 
 #: templates/settings.php:71
 msgid "Port"
-msgstr ""
+msgstr "Portul"
 
 #: templates/settings.php:72
 msgid "Backup (Replica) Host"
@@ -210,7 +210,7 @@ msgstr ""
 
 #: templates/settings.php:75
 msgid "Use TLS"
-msgstr ""
+msgstr "Utilizează TLS"
 
 #: templates/settings.php:75
 msgid "Do not use it additionally for LDAPS connections, it will fail."
@@ -218,21 +218,21 @@ msgstr ""
 
 #: templates/settings.php:76
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "Server LDAP insensibil la majuscule (Windows)"
 
 #: templates/settings.php:77
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "Oprește validarea certificatelor SSL "
 
 #: templates/settings.php:77
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr ""
+msgstr "Dacă conexiunea lucrează doar cu această opțiune, importează certificatul SSL al serverului LDAP în serverul ownCloud."
 
 #: templates/settings.php:77
 msgid "Not recommended, use for testing only."
-msgstr ""
+msgstr "Nu este recomandat, a se utiliza doar pentru testare."
 
 #: templates/settings.php:78
 msgid "Cache Time-To-Live"
@@ -240,7 +240,7 @@ msgstr ""
 
 #: templates/settings.php:78
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "în secunde. O schimbare curăță memoria tampon."
 
 #: templates/settings.php:80
 msgid "Directory Settings"
@@ -248,19 +248,19 @@ msgstr ""
 
 #: templates/settings.php:82
 msgid "User Display Name Field"
-msgstr ""
+msgstr "Câmpul cu numele vizibil al utilizatorului"
 
 #: templates/settings.php:82
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr ""
+msgstr "Atributul LDAP folosit pentru a genera numele de utilizator din ownCloud."
 
 #: templates/settings.php:83
 msgid "Base User Tree"
-msgstr ""
+msgstr "Arborele de bază al Utilizatorilor"
 
 #: templates/settings.php:83
 msgid "One User Base DN per line"
-msgstr ""
+msgstr "Un User Base DN pe linie"
 
 #: templates/settings.php:84
 msgid "User Search Attributes"
@@ -272,19 +272,19 @@ msgstr ""
 
 #: templates/settings.php:85
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "Câmpul cu numele grupului"
 
 #: templates/settings.php:85
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr ""
+msgstr "Atributul LDAP folosit pentru a genera numele grupurilor din ownCloud"
 
 #: templates/settings.php:86
 msgid "Base Group Tree"
-msgstr ""
+msgstr "Arborele de bază al Grupurilor"
 
 #: templates/settings.php:86
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "Un Group Base DN pe linie"
 
 #: templates/settings.php:87
 msgid "Group Search Attributes"
@@ -292,7 +292,7 @@ msgstr ""
 
 #: templates/settings.php:88
 msgid "Group-Member association"
-msgstr ""
+msgstr "Asocierea Grup-Membru"
 
 #: templates/settings.php:90
 msgid "Special Attributes"
@@ -308,7 +308,7 @@ msgstr ""
 
 #: templates/settings.php:93
 msgid "in bytes"
-msgstr ""
+msgstr "în octeți"
 
 #: templates/settings.php:94
 msgid "Email Field"
@@ -322,7 +322,7 @@ msgstr ""
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr ""
+msgstr "Lăsați gol pentru numele de utilizator (implicit). În caz contrar, specificați un atribut LDAP / AD."
 
 #: templates/settings.php:99
 msgid "Test Configuration"
@@ -330,4 +330,4 @@ msgstr ""
 
 #: templates/settings.php:99
 msgid "Help"
-msgstr ""
+msgstr "Ajutor"

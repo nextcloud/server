@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
@@ -19,115 +19,115 @@ msgstr ""
 
 #: app.php:349
 msgid "Help"
-msgstr ""
+msgstr "Súgó"
 
 #: app.php:362
 msgid "Personal"
-msgstr ""
+msgstr "Személyes"
 
 #: app.php:373
 msgid "Settings"
-msgstr ""
+msgstr "Beállítások"
 
 #: app.php:385
 msgid "Users"
-msgstr ""
+msgstr "Felhasználók"
 
 #: app.php:398
 msgid "Apps"
-msgstr ""
+msgstr "Alkalmazások"
 
 #: app.php:406
 msgid "Admin"
-msgstr ""
+msgstr "Adminsztráció"
 
 #: files.php:209
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "A ZIP-letöltés nincs engedélyezve."
 
 #: files.php:210
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "A fájlokat egyenként kell letölteni."
 
 #: files.php:211 files.php:244
 msgid "Back to Files"
-msgstr ""
+msgstr "Vissza a Fájlokhoz"
 
 #: files.php:241
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "A kiválasztott fájlok túl nagyok a zip tömörítéshez."
 
 #: helper.php:228
 msgid "couldn't be determined"
-msgstr ""
+msgstr "nem határozható meg"
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "Az alkalmazás nincs engedélyezve"
 
 #: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
-msgstr ""
+msgstr "Azonosítási hiba"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "A token lejárt. Frissítse az oldalt."
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
-msgstr ""
+msgstr "Fájlok"
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr ""
+msgstr "Szöveg"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "Képek"
 
 #: setup.php:34
 msgid "Set an admin username."
-msgstr ""
+msgstr "Állítson be egy felhasználói nevet az adminisztrációhoz."
 
 #: setup.php:37
 msgid "Set an admin password."
-msgstr ""
+msgstr "Állítson be egy jelszót az adminisztrációhoz."
 
 #: setup.php:55
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "%s adja meg az adatbázist elérő felhasználó login nevét."
 
 #: setup.php:58
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "%s adja meg az adatbázis nevét."
 
 #: setup.php:61
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s az adatbázis neve nem tartalmazhat pontot"
 
 #: setup.php:64
 #, php-format
 msgid "%s set the database host."
-msgstr ""
+msgstr "%s adja meg az adatbázist szolgáltató számítógép nevét."
 
 #: setup.php:132 setup.php:325 setup.php:370
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "A PostgreSQL felhasználói név és/vagy jelszó érvénytelen"
 
 #: setup.php:133 setup.php:156 setup.php:234
 msgid "You need to enter either an existing account or the administrator."
-msgstr ""
+msgstr "Vagy egy létező felhasználó vagy az adminisztrátor bejelentkezési nevét kell megadnia"
 
 #: setup.php:155 setup.php:458 setup.php:525
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Az Oracle felhasználói név és/vagy jelszó érvénytelen"
 
 #: setup.php:233
 msgid "MySQL username and/or password not valid"
-msgstr ""
+msgstr "A MySQL felhasználói név és/vagy jelszó érvénytelen"
 
 #: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
 #: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
@@ -135,120 +135,120 @@ msgstr ""
 #: setup.php:615
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "Adatbázis hiba: \"%s\""
 
 #: setup.php:288 setup.php:392 setup.php:401 setup.php:419 setup.php:429
 #: setup.php:438 setup.php:467 setup.php:533 setup.php:559 setup.php:566
 #: setup.php:577 setup.php:593 setup.php:601 setup.php:610
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "A hibát ez a parancs okozta: \"%s\""
 
 #: setup.php:304
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "A '%s'@'localhost' MySQL felhasználó már létezik."
 
 #: setup.php:305
 msgid "Drop this user from MySQL"
-msgstr ""
+msgstr "Törölje ezt a felhasználót a MySQL-ből"
 
 #: setup.php:310
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
-msgstr ""
+msgstr "A '%s'@'%%' MySQL felhasználó már létezik"
 
 #: setup.php:311
 msgid "Drop this user from MySQL."
-msgstr ""
+msgstr "Törölje ezt a felhasználót a MySQL-ből."
 
 #: setup.php:584 setup.php:616
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "A hibát okozó parancs ez volt: \"%s\", login név: %s, jelszó: %s"
 
 #: setup.php:636
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "Az MS SQL felhasználónév és/vagy jelszó érvénytelen: %s"
 
 #: setup.php:858
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Az Ön webkiszolgálója nincs megfelelően beállítva az állományok szinkronizálásához, mert a WebDAV-elérés úgy tűnik, nem működik."
 
 #: setup.php:859
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Kérjük tüzetesen tanulmányozza át a <a href='%s'>telepítési útmutatót</a>."
 
 #: template.php:113
 msgid "seconds ago"
-msgstr ""
+msgstr "pár másodperce"
 
 #: template.php:114
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 perce"
 
 #: template.php:115
 #, php-format
 msgid "%d minutes ago"
-msgstr ""
+msgstr "%d perce"
 
 #: template.php:116
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 órája"
 
 #: template.php:117
 #, php-format
 msgid "%d hours ago"
-msgstr ""
+msgstr "%d órája"
 
 #: template.php:118
 msgid "today"
-msgstr ""
+msgstr "ma"
 
 #: template.php:119
 msgid "yesterday"
-msgstr ""
+msgstr "tegnap"
 
 #: template.php:120
 #, php-format
 msgid "%d days ago"
-msgstr ""
+msgstr "%d napja"
 
 #: template.php:121
 msgid "last month"
-msgstr ""
+msgstr "múlt hónapban"
 
 #: template.php:122
 #, php-format
 msgid "%d months ago"
-msgstr ""
+msgstr "%d hónapja"
 
 #: template.php:123
 msgid "last year"
-msgstr ""
+msgstr "tavaly"
 
 #: template.php:124
 msgid "years ago"
-msgstr ""
+msgstr "több éve"
 
 #: updater.php:78
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s elérhető. <a href=\"%s\">További információ</a>."
 
 #: updater.php:81
 msgid "up to date"
-msgstr ""
+msgstr "a legfrissebb változat"
 
 #: updater.php:84
 msgid "updates check is disabled"
-msgstr ""
+msgstr "A frissitések ellenőrzése nincs engedélyezve."
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "Ez a kategória nem található: \"%s\""

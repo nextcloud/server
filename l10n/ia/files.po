@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Interlingua (http://www.transifex.com/projects/p/owncloud/language/ia/)\n"
 "MIME-Version: 1.0\n"
@@ -52,15 +52,15 @@ msgstr ""
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Le file incargate solmente esseva incargate partialmente"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Nulle file esseva incargate."
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Manca un dossier temporari"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -76,11 +76,11 @@ msgstr ""
 
 #: appinfo/app.php:12
 msgid "Files"
-msgstr ""
+msgstr "Files"
 
 #: js/fileactions.js:116
 msgid "Share"
-msgstr ""
+msgstr "Compartir"
 
 #: js/fileactions.js:126
 msgid "Delete permanently"
@@ -88,7 +88,7 @@ msgstr ""
 
 #: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr ""
+msgstr "Deler"
 
 #: js/fileactions.js:194
 msgid "Rename"
@@ -193,15 +193,15 @@ msgstr ""
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr ""
+msgstr "Nomine"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
-msgstr ""
+msgstr "Dimension"
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr ""
+msgstr "Modificate"
 
 #: js/files.js:893
 msgid "1 folder"
@@ -221,7 +221,7 @@ msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr ""
+msgstr "Incargar"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -229,7 +229,7 @@ msgstr ""
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr ""
+msgstr "Dimension maxime de incargamento"
 
 #: templates/admin.php:10
 msgid "max. possible: "
@@ -253,19 +253,19 @@ msgstr ""
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr ""
+msgstr "Salveguardar"
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "Nove"
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr ""
+msgstr "File de texto"
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr ""
+msgstr "Dossier"
 
 #: templates/index.php:14
 msgid "From link"
@@ -285,11 +285,11 @@ msgstr ""
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
-msgstr ""
+msgstr "Nihil hic. Incarga alcun cosa!"
 
 #: templates/index.php:76
 msgid "Download"
-msgstr ""
+msgstr "Discargar"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
@@ -297,7 +297,7 @@ msgstr ""
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr ""
+msgstr "Incargamento troppo longe"
 
 #: templates/index.php:110
 msgid ""

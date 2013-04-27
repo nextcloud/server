@@ -11,6 +11,7 @@
 "Groups" => "Grupper",
 "Delete" => "Slett",
 "__language_name__" => "Nynorsk",
+"Log level" => "Log nivå",
 "Select an App" => "Vel ein applikasjon",
 "Update" => "Oppdater",
 "Password" => "Passord",

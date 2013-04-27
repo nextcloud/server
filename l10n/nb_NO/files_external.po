@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -19,15 +19,15 @@ msgstr ""
 
 #: js/dropbox.js:7 js/dropbox.js:28 js/google.js:16 js/google.js:34
 msgid "Access granted"
-msgstr ""
+msgstr "Tilgang innvilget"
 
 #: js/dropbox.js:30 js/dropbox.js:96 js/dropbox.js:102
 msgid "Error configuring Dropbox storage"
-msgstr ""
+msgstr "Feil ved konfigurering av Dropbox-lagring"
 
 #: js/dropbox.js:65 js/google.js:66
 msgid "Grant access"
-msgstr ""
+msgstr "Gi tilgang"
 
 #: js/dropbox.js:101
 msgid "Please provide a valid Dropbox app key and secret."
@@ -59,65 +59,65 @@ msgstr ""
 
 #: templates/settings.php:3
 msgid "External Storage"
-msgstr ""
+msgstr "Ekstern lagring"
 
 #: templates/settings.php:9 templates/settings.php:28
 msgid "Folder name"
-msgstr ""
+msgstr "Mappenavn"
 
 #: templates/settings.php:10
 msgid "External storage"
-msgstr ""
+msgstr "Ekstern lagringsplass"
 
 #: templates/settings.php:11
 msgid "Configuration"
-msgstr ""
+msgstr "Konfigurasjon"
 
 #: templates/settings.php:12
 msgid "Options"
-msgstr ""
+msgstr "Innstillinger"
 
 #: templates/settings.php:13
 msgid "Applicable"
-msgstr ""
+msgstr "Anvendelig"
 
 #: templates/settings.php:33
 msgid "Add storage"
-msgstr ""
+msgstr "Legg til lagringsplass"
 
 #: templates/settings.php:90
 msgid "None set"
-msgstr ""
+msgstr "Ingen valgt"
 
 #: templates/settings.php:91
 msgid "All Users"
-msgstr ""
+msgstr "Alle brukere"
 
 #: templates/settings.php:92
 msgid "Groups"
-msgstr ""
+msgstr "Grupper"
 
 #: templates/settings.php:100
 msgid "Users"
-msgstr ""
+msgstr "Brukere"
 
 #: templates/settings.php:113 templates/settings.php:114
 #: templates/settings.php:149 templates/settings.php:150
 msgid "Delete"
-msgstr ""
+msgstr "Slett"
 
 #: templates/settings.php:129
 msgid "Enable User External Storage"
-msgstr ""
+msgstr "Aktiver ekstern lagring for bruker"
 
 #: templates/settings.php:130
 msgid "Allow users to mount their own external storage"
-msgstr ""
+msgstr "Tillat brukere å koble til egne eksterne lagringsmedium"
 
 #: templates/settings.php:141
 msgid "SSL root certificates"
-msgstr ""
+msgstr "SSL root-sertifikater"
 
 #: templates/settings.php:159
 msgid "Import Root Certificate"
-msgstr ""
+msgstr "Importer root-sertifikat"

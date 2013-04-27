@@ -53,7 +53,7 @@
 "No people found" => "Žmonių nerasta",
 "Resharing is not allowed" => "Dalijinasis išnaujo negalimas",
 "Shared in {item} with {user}" => "Pasidalino {item} su {user}",
-"Unshare" => "Nesidalinti",
+"Unshare" => "Nebesidalinti",
 "can edit" => "gali redaguoti",
 "access control" => "priėjimo kontrolė",
 "create" => "sukurti",

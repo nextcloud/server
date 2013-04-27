@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -20,65 +20,65 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "Impossibile eliminare %s definitivamente"
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "Impossibile ripristinare %s"
 
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
-msgstr ""
+msgstr "esegui operazione di ripristino"
 
 #: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
 msgid "Error"
-msgstr ""
+msgstr "Errore"
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr ""
+msgstr "elimina il file definitivamente"
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr ""
+msgstr "Elimina definitivamente"
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
-msgstr ""
+msgstr "Eliminati"
 
 #: js/trash.js:184
 msgid "1 folder"
-msgstr ""
+msgstr "1 cartella"
 
 #: js/trash.js:186
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} cartelle"
 
 #: js/trash.js:194
 msgid "1 file"
-msgstr ""
+msgstr "1 file"
 
 #: js/trash.js:196
 msgid "{count} files"
-msgstr ""
+msgstr "{count} file"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "Qui non c'è niente. Il tuo cestino è vuoto."
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr ""
+msgstr "Ripristina"
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
-msgstr ""
+msgstr "Elimina"
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr ""
+msgstr "File eliminati"

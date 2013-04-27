@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-27 00:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/owncloud/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr ""
+msgstr "Tiada kategori untuk di tambah?"
 
 #: ajax/vcategories/add.php:37
 #, php-format
@@ -73,7 +73,7 @@ msgstr ""
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Tiada kategori dipilih untuk dibuang."
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -82,83 +82,83 @@ msgstr ""
 
 #: js/config.php:34
 msgid "Sunday"
-msgstr ""
+msgstr "Ahad"
 
 #: js/config.php:35
 msgid "Monday"
-msgstr ""
+msgstr "Isnin"
 
 #: js/config.php:36
 msgid "Tuesday"
-msgstr ""
+msgstr "Selasa"
 
 #: js/config.php:37
 msgid "Wednesday"
-msgstr ""
+msgstr "Rabu"
 
 #: js/config.php:38
 msgid "Thursday"
-msgstr ""
+msgstr "Khamis"
 
 #: js/config.php:39
 msgid "Friday"
-msgstr ""
+msgstr "Jumaat"
 
 #: js/config.php:40
 msgid "Saturday"
-msgstr ""
+msgstr "Sabtu"
 
 #: js/config.php:45
 msgid "January"
-msgstr ""
+msgstr "Januari"
 
 #: js/config.php:46
 msgid "February"
-msgstr ""
+msgstr "Februari"
 
 #: js/config.php:47
 msgid "March"
-msgstr ""
+msgstr "Mac"
 
 #: js/config.php:48
 msgid "April"
-msgstr ""
+msgstr "April"
 
 #: js/config.php:49
 msgid "May"
-msgstr ""
+msgstr "Mei"
 
 #: js/config.php:50
 msgid "June"
-msgstr ""
+msgstr "Jun"
 
 #: js/config.php:51
 msgid "July"
-msgstr ""
+msgstr "Julai"
 
 #: js/config.php:52
 msgid "August"
-msgstr ""
+msgstr "Ogos"
 
 #: js/config.php:53
 msgid "September"
-msgstr ""
+msgstr "September"
 
 #: js/config.php:54
 msgid "October"
-msgstr ""
+msgstr "Oktober"
 
 #: js/config.php:55
 msgid "November"
-msgstr ""
+msgstr "November"
 
 #: js/config.php:56
 msgid "December"
-msgstr ""
+msgstr "Disember"
 
 #: js/js.js:286
 msgid "Settings"
-msgstr ""
+msgstr "Tetapan"
 
 #: js/js.js:718
 msgid "seconds ago"
@@ -214,11 +214,11 @@ msgstr ""
 
 #: js/oc-dialogs.js:117 js/oc-dialogs.js:247
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
-msgstr ""
+msgstr "Batal"
 
 #: js/oc-dialogs.js:185
 msgid "Choose"
@@ -226,11 +226,11 @@ msgstr ""
 
 #: js/oc-dialogs.js:215
 msgid "Yes"
-msgstr ""
+msgstr "Ya"
 
 #: js/oc-dialogs.js:222
 msgid "No"
-msgstr ""
+msgstr "Tidak"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -243,7 +243,7 @@ msgstr ""
 #: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
-msgstr ""
+msgstr "Ralat"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
@@ -259,7 +259,7 @@ msgstr ""
 
 #: js/share.js:90
 msgid "Share"
-msgstr ""
+msgstr "Kongsi"
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
@@ -295,7 +295,7 @@ msgstr ""
 
 #: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr ""
+msgstr "Kata laluan"
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -390,89 +390,92 @@ msgstr ""
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "Set semula kata lalaun ownCloud"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
+msgstr "Guna pautan berikut untuk menetapkan semula kata laluan anda: {link}"
+
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "Anda akan menerima pautan untuk menetapkan semula kata laluan anda melalui emel"
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
-msgstr ""
+msgstr "Nama pengguna"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
-msgstr ""
+msgstr "Permintaan set semula"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "Kata laluan anda telah diset semula"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "Ke halaman log masuk"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr ""
+msgstr "Kata laluan baru"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr ""
+msgstr "Penetapan semula kata laluan"
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "Peribadi"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "Pengguna"
 
 #: strings.php:7
 msgid "Apps"
-msgstr ""
+msgstr "Aplikasi"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "Bantuan"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "Larangan akses"
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr ""
+msgstr "Awan tidak dijumpai"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Ubah kategori"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr ""
+msgstr "Tambah"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
 msgid "Security Warning"
-msgstr ""
+msgstr "Amaran keselamatan"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
@@ -509,37 +512,37 @@ msgstr ""
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
+msgstr "buat <strong>akaun admin</strong>"
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr ""
+msgstr "Maju"
 
 #: templates/installation.php:64
 msgid "Data folder"
-msgstr ""
+msgstr "Fail data"
 
 #: templates/installation.php:74
 msgid "Configure the database"
-msgstr ""
+msgstr "Konfigurasi pangkalan data"
 
 #: templates/installation.php:79 templates/installation.php:91
 #: templates/installation.php:102 templates/installation.php:113
 #: templates/installation.php:125
 msgid "will be used"
-msgstr ""
+msgstr "akan digunakan"
 
 #: templates/installation.php:137
 msgid "Database user"
-msgstr ""
+msgstr "Nama pengguna pangkalan data"
 
 #: templates/installation.php:144
 msgid "Database password"
-msgstr ""
+msgstr "Kata laluan pangkalan data"
 
 #: templates/installation.php:149
 msgid "Database name"
-msgstr ""
+msgstr "Nama pangkalan data"
 
 #: templates/installation.php:159
 msgid "Database tablespace"
@@ -547,19 +550,19 @@ msgstr ""
 
 #: templates/installation.php:166
 msgid "Database host"
-msgstr ""
+msgstr "Hos pangkalan data"
 
 #: templates/installation.php:172
 msgid "Finish setup"
-msgstr ""
+msgstr "Setup selesai"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr ""
+msgstr "Perkhidmatan web di bawah kawalan anda"
 
 #: templates/layout.user.php:58
 msgid "Log out"
-msgstr ""
+msgstr "Log keluar"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
@@ -577,15 +580,15 @@ msgstr ""
 
 #: templates/login.php:34
 msgid "Lost your password?"
-msgstr ""
+msgstr "Hilang kata laluan?"
 
 #: templates/login.php:39
 msgid "remember"
-msgstr ""
+msgstr "ingat"
 
 #: templates/login.php:41
 msgid "Log in"
-msgstr ""
+msgstr "Log masuk"
 
 #: templates/login.php:47
 msgid "Alternative Logins"
@@ -593,11 +596,11 @@ msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr ""
+msgstr "sebelum"
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr ""
+msgstr "seterus"
 
 #: templates/update.php:3
 #, php-format

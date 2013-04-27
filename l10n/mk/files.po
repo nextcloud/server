@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -33,38 +33,38 @@ msgstr ""
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "Ниту еден фајл не се вчита. Непозната грешка"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Датотеката беше успешно подигната."
 
 #: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr ""
+msgstr "Подигнатата датотека ја надминува upload_max_filesize директивата во php.ini:"
 
 #: ajax/upload.php:29
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Големината на датотеката ја надминува MAX_FILE_SIZE директивата која беше специфицирана во HTML формата"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Датотеката беше само делумно подигната."
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Не беше подигната датотека."
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Недостасува привремена папка"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Неуспеав да запишам на диск"
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
@@ -76,11 +76,11 @@ msgstr ""
 
 #: appinfo/app.php:12
 msgid "Files"
-msgstr ""
+msgstr "Датотеки"
 
 #: js/fileactions.js:116
 msgid "Share"
-msgstr ""
+msgstr "Сподели"
 
 #: js/fileactions.js:126
 msgid "Delete permanently"
@@ -88,39 +88,39 @@ msgstr ""
 
 #: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr ""
+msgstr "Избриши"
 
 #: js/fileactions.js:194
 msgid "Rename"
-msgstr ""
+msgstr "Преименувај"
 
 #: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr ""
+msgstr "Чека"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} веќе постои"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "replace"
-msgstr ""
+msgstr "замени"
 
 #: js/filelist.js:252
 msgid "suggest name"
-msgstr ""
+msgstr "предложи име"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "cancel"
-msgstr ""
+msgstr "откажи"
 
 #: js/filelist.js:299
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "заменета {new_name} со {old_name}"
 
 #: js/filelist.js:299
 msgid "undo"
-msgstr ""
+msgstr "врати"
 
 #: js/filelist.js:324
 msgid "perform delete operation"
@@ -128,7 +128,7 @@ msgstr ""
 
 #: js/filelist.js:406
 msgid "1 file uploading"
-msgstr ""
+msgstr "1 датотека се подига"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
@@ -146,7 +146,7 @@ msgstr ""
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Неправилно име. , '\\', '/', '<', '>', ':', '\"', '|', '?' и '*' не се дозволени."
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -164,7 +164,7 @@ msgstr ""
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Не може да се преземе вашата датотека бидејќи фолдерот во кој се наоѓа фајлот има големина од 0 бајти"
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -172,16 +172,16 @@ msgstr ""
 
 #: js/files.js:312
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Преземањето е прекинато."
 
 #: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Подигање на датотека е во тек. Напуштење на страницата ќе го прекине."
 
 #: js/files.js:481
 msgid "URL cannot be empty."
-msgstr ""
+msgstr "Адресата неможе да биде празна."
 
 #: js/files.js:486
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
@@ -189,87 +189,87 @@ msgstr ""
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
-msgstr ""
+msgstr "Грешка"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr ""
+msgstr "Име"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
-msgstr ""
+msgstr "Големина"
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr ""
+msgstr "Променето"
 
 #: js/files.js:893
 msgid "1 folder"
-msgstr ""
+msgstr "1 папка"
 
 #: js/files.js:895
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} папки"
 
 #: js/files.js:903
 msgid "1 file"
-msgstr ""
+msgstr "1 датотека"
 
 #: js/files.js:905
 msgid "{count} files"
-msgstr ""
+msgstr "{count} датотеки"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr ""
+msgstr "Подигни"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Ракување со датотеки"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr ""
+msgstr "Максимална големина за подигање"
 
 #: templates/admin.php:10
 msgid "max. possible: "
-msgstr ""
+msgstr "макс. можно:"
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Потребно за симнување повеќе-датотеки и папки."
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "Овозможи ZIP симнување "
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 е неограничено"
 
 #: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Максимална големина за внес на ZIP датотеки"
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr ""
+msgstr "Сними"
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "Ново"
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr ""
+msgstr "Текстуална датотека"
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr ""
+msgstr "Папка"
 
 #: templates/index.php:14
 msgid "From link"
-msgstr ""
+msgstr "Од врска"
 
 #: templates/index.php:42
 msgid "Deleted files"
@@ -277,7 +277,7 @@ msgstr ""
 
 #: templates/index.php:48
 msgid "Cancel upload"
-msgstr ""
+msgstr "Откажи прикачување"
 
 #: templates/index.php:55
 msgid "You don’t have write permissions here."
@@ -285,33 +285,33 @@ msgstr ""
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
-msgstr ""
+msgstr "Тука нема ништо. Снимете нешто!"
 
 #: templates/index.php:76
 msgid "Download"
-msgstr ""
+msgstr "Преземи"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr ""
+msgstr "Не споделувај"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr ""
+msgstr "Фајлот кој се вчитува е преголем"
 
 #: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr ""
+msgstr "Датотеките кои се обидувате да ги подигнете ја надминуваат максималната големина за подигнување датотеки на овој сервер."
 
 #: templates/index.php:115
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Се скенираат датотеки, ве молам почекајте."
 
 #: templates/index.php:118
 msgid "Current scanning"
-msgstr ""
+msgstr "Моментално скенирам"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

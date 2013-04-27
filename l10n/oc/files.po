@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Occitan (post 1500) (http://www.transifex.com/projects/p/owncloud/language/oc/)\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +37,7 @@ msgstr ""
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Amontcargament capitat, pas d'errors"
 
 #: ajax/upload.php:27
 msgid ""
@@ -48,23 +48,23 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Lo fichièr amontcargat es mai gròs que la directiva «MAX_FILE_SIZE» especifiada dins lo formulari HTML"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Lo fichièr foguèt pas completament amontcargat"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Cap de fichièrs son estats amontcargats"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Un dorsièr temporari manca"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "L'escriptura sul disc a fracassat"
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
@@ -76,11 +76,11 @@ msgstr ""
 
 #: appinfo/app.php:12
 msgid "Files"
-msgstr ""
+msgstr "Fichièrs"
 
 #: js/fileactions.js:116
 msgid "Share"
-msgstr ""
+msgstr "Parteja"
 
 #: js/fileactions.js:126
 msgid "Delete permanently"
@@ -88,15 +88,15 @@ msgstr ""
 
 #: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr ""
+msgstr "Escafa"
 
 #: js/fileactions.js:194
 msgid "Rename"
-msgstr ""
+msgstr "Torna nomenar"
 
 #: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr ""
+msgstr "Al esperar"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
@@ -104,15 +104,15 @@ msgstr ""
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "replace"
-msgstr ""
+msgstr "remplaça"
 
 #: js/filelist.js:252
 msgid "suggest name"
-msgstr ""
+msgstr "nom prepausat"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "cancel"
-msgstr ""
+msgstr "anulla"
 
 #: js/filelist.js:299
 msgid "replaced {new_name} with {old_name}"
@@ -120,7 +120,7 @@ msgstr ""
 
 #: js/filelist.js:299
 msgid "undo"
-msgstr ""
+msgstr "defar"
 
 #: js/filelist.js:324
 msgid "perform delete operation"
@@ -128,11 +128,11 @@ msgstr ""
 
 #: js/filelist.js:406
 msgid "1 file uploading"
-msgstr ""
+msgstr "1 fichièr al amontcargar"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "fichièrs al amontcargar"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -164,7 +164,7 @@ msgstr ""
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Impossible d'amontcargar lo teu fichièr qu'es un repertòri o que ten pas que 0 octet."
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -172,12 +172,12 @@ msgstr ""
 
 #: js/files.js:312
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Amontcargar anullat."
 
 #: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Un amontcargar es a se far. Daissar aquesta pagina ara tamparà lo cargament. "
 
 #: js/files.js:481
 msgid "URL cannot be empty."
@@ -189,19 +189,19 @@ msgstr ""
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr ""
+msgstr "Nom"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
-msgstr ""
+msgstr "Talha"
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr ""
+msgstr "Modificat"
 
 #: js/files.js:893
 msgid "1 folder"
@@ -221,51 +221,51 @@ msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr ""
+msgstr "Amontcarga"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Manejament de fichièr"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr ""
+msgstr "Talha maximum d'amontcargament"
 
 #: templates/admin.php:10
 msgid "max. possible: "
-msgstr ""
+msgstr "max. possible: "
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Requesit per avalcargar gropat de fichièrs e dorsièr"
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "Activa l'avalcargament de ZIP"
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 es pas limitat"
 
 #: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Talha maximum de dintrada per fichièrs ZIP"
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr ""
+msgstr "Enregistra"
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "Nòu"
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr ""
+msgstr "Fichièr de tèxte"
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr ""
+msgstr "Dorsièr"
 
 #: templates/index.php:14
 msgid "From link"
@@ -277,7 +277,7 @@ msgstr ""
 
 #: templates/index.php:48
 msgid "Cancel upload"
-msgstr ""
+msgstr " Anulla l'amontcargar"
 
 #: templates/index.php:55
 msgid "You don’t have write permissions here."
@@ -285,33 +285,33 @@ msgstr ""
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
-msgstr ""
+msgstr "Pas res dedins. Amontcarga qualquaren"
 
 #: templates/index.php:76
 msgid "Download"
-msgstr ""
+msgstr "Avalcarga"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr ""
+msgstr "Pas partejador"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr ""
+msgstr "Amontcargament tròp gròs"
 
 #: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr ""
+msgstr "Los fichièrs que sias a amontcargar son tròp pesucs per la talha maxi pel servidor."
 
 #: templates/index.php:115
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Los fiichièrs son a èsser explorats, "
 
 #: templates/index.php:118
 msgid "Current scanning"
-msgstr ""
+msgstr "Exploracion en cors"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -19,71 +19,71 @@ msgstr ""
 
 #: app.php:349
 msgid "Help"
-msgstr ""
+msgstr "Giúp đỡ"
 
 #: app.php:362
 msgid "Personal"
-msgstr ""
+msgstr "Cá nhân"
 
 #: app.php:373
 msgid "Settings"
-msgstr ""
+msgstr "Cài đặt"
 
 #: app.php:385
 msgid "Users"
-msgstr ""
+msgstr "Người dùng"
 
 #: app.php:398
 msgid "Apps"
-msgstr ""
+msgstr "Ứng dụng"
 
 #: app.php:406
 msgid "Admin"
-msgstr ""
+msgstr "Quản trị"
 
 #: files.php:209
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "Tải về ZIP đã bị tắt."
 
 #: files.php:210
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "Tập tin cần phải được tải về từng người một."
 
 #: files.php:211 files.php:244
 msgid "Back to Files"
-msgstr ""
+msgstr "Trở lại tập tin"
 
 #: files.php:241
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "Tập tin được chọn quá lớn để tạo tập tin ZIP."
 
 #: helper.php:228
 msgid "couldn't be determined"
-msgstr ""
+msgstr "không thể phát hiện được"
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "Ứng dụng không được BẬT"
 
 #: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
-msgstr ""
+msgstr "Lỗi xác thực"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "Mã Token đã hết hạn. Hãy tải lại trang."
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
-msgstr ""
+msgstr "Tập tin"
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr ""
+msgstr "Văn bản"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "Hình ảnh"
 
 #: setup.php:34
 msgid "Set an admin username."
@@ -185,70 +185,70 @@ msgstr ""
 
 #: template.php:113
 msgid "seconds ago"
-msgstr ""
+msgstr "vài giây trước"
 
 #: template.php:114
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 phút trước"
 
 #: template.php:115
 #, php-format
 msgid "%d minutes ago"
-msgstr ""
+msgstr "%d phút trước"
 
 #: template.php:116
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 giờ trước"
 
 #: template.php:117
 #, php-format
 msgid "%d hours ago"
-msgstr ""
+msgstr "%d giờ trước"
 
 #: template.php:118
 msgid "today"
-msgstr ""
+msgstr "hôm nay"
 
 #: template.php:119
 msgid "yesterday"
-msgstr ""
+msgstr "hôm qua"
 
 #: template.php:120
 #, php-format
 msgid "%d days ago"
-msgstr ""
+msgstr "%d ngày trước"
 
 #: template.php:121
 msgid "last month"
-msgstr ""
+msgstr "tháng trước"
 
 #: template.php:122
 #, php-format
 msgid "%d months ago"
-msgstr ""
+msgstr "%d tháng trước"
 
 #: template.php:123
 msgid "last year"
-msgstr ""
+msgstr "năm trước"
 
 #: template.php:124
 msgid "years ago"
-msgstr ""
+msgstr "năm trước"
 
 #: updater.php:78
 #, php-format
 msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
+msgstr "%s có sẵn.  <a href=\"%s\">xem thêm ở đây</a>"
 
 #: updater.php:81
 msgid "up to date"
-msgstr ""
+msgstr "đến ngày"
 
 #: updater.php:84
 msgid "updates check is disabled"
-msgstr ""
+msgstr "đã TĂT chức năng cập nhật "
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "không thể tìm thấy mục \"%s\""

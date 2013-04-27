@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -33,11 +33,11 @@ msgstr ""
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "Ingen filer ble lastet opp. Ukjent feil."
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Pust ut, ingen feil. Filen ble lastet opp problemfritt"
 
 #: ajax/upload.php:27
 msgid ""
@@ -48,23 +48,23 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Filen du prøvde å laste opp var større enn grensen satt i MAX_FILE_SIZE i HTML-skjemaet."
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Filen du prøvde å laste opp ble kun delvis lastet opp"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Ingen filer ble lastet opp"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Mangler midlertidig mappe"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "Klarte ikke å skrive til disk"
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
@@ -76,51 +76,51 @@ msgstr ""
 
 #: appinfo/app.php:12
 msgid "Files"
-msgstr ""
+msgstr "Filer"
 
 #: js/fileactions.js:116
 msgid "Share"
-msgstr ""
+msgstr "Del"
 
 #: js/fileactions.js:126
 msgid "Delete permanently"
-msgstr ""
+msgstr "Slett permanent"
 
 #: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr ""
+msgstr "Slett"
 
 #: js/fileactions.js:194
 msgid "Rename"
-msgstr ""
+msgstr "Omdøp"
 
 #: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr ""
+msgstr "Ventende"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} finnes allerede"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "replace"
-msgstr ""
+msgstr "erstatt"
 
 #: js/filelist.js:252
 msgid "suggest name"
-msgstr ""
+msgstr "foreslå navn"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "cancel"
-msgstr ""
+msgstr "avbryt"
 
 #: js/filelist.js:299
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "erstatt {new_name} med {old_name}"
 
 #: js/filelist.js:299
 msgid "undo"
-msgstr ""
+msgstr "angre"
 
 #: js/filelist.js:324
 msgid "perform delete operation"
@@ -128,11 +128,11 @@ msgstr ""
 
 #: js/filelist.js:406
 msgid "1 file uploading"
-msgstr ""
+msgstr "1 fil lastes opp"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "filer lastes opp"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -146,7 +146,7 @@ msgstr ""
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "Ugyldig navn, '\\', '/', '<', '>', ':', '\"', '|', '?' og '*' er ikke tillatt."
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -164,7 +164,7 @@ msgstr ""
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "Kan ikke laste opp filen din siden det er en mappe eller den har 0 bytes"
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -172,16 +172,16 @@ msgstr ""
 
 #: js/files.js:312
 msgid "Upload cancelled."
-msgstr ""
+msgstr "Opplasting avbrutt."
 
 #: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
+msgstr "Filopplasting pågår. Forlater du siden nå avbrytes opplastingen."
 
 #: js/files.js:481
 msgid "URL cannot be empty."
-msgstr ""
+msgstr "URL-en kan ikke være tom."
 
 #: js/files.js:486
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
@@ -189,87 +189,87 @@ msgstr ""
 
 #: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
-msgstr ""
+msgstr "Feil"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr ""
+msgstr "Navn"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
-msgstr ""
+msgstr "Størrelse"
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr ""
+msgstr "Endret"
 
 #: js/files.js:893
 msgid "1 folder"
-msgstr ""
+msgstr "1 mappe"
 
 #: js/files.js:895
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} mapper"
 
 #: js/files.js:903
 msgid "1 file"
-msgstr ""
+msgstr "1 fil"
 
 #: js/files.js:905
 msgid "{count} files"
-msgstr ""
+msgstr "{count} filer"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr ""
+msgstr "Last opp"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "Filhåndtering"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr ""
+msgstr "Maksimum opplastingsstørrelse"
 
 #: templates/admin.php:10
 msgid "max. possible: "
-msgstr ""
+msgstr "max. mulige:"
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "Nødvendig for å laste ned mapper og mer enn én fil om gangen."
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "Aktiver nedlasting av ZIP"
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 er ubegrenset"
 
 #: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "Maksimal størrelse på ZIP-filer"
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr ""
+msgstr "Lagre"
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "Ny"
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr ""
+msgstr "Tekstfil"
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr ""
+msgstr "Mappe"
 
 #: templates/index.php:14
 msgid "From link"
-msgstr ""
+msgstr "Fra link"
 
 #: templates/index.php:42
 msgid "Deleted files"
@@ -277,7 +277,7 @@ msgstr ""
 
 #: templates/index.php:48
 msgid "Cancel upload"
-msgstr ""
+msgstr "Avbryt opplasting"
 
 #: templates/index.php:55
 msgid "You don’t have write permissions here."
@@ -285,33 +285,33 @@ msgstr ""
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
-msgstr ""
+msgstr "Ingenting her. Last opp noe!"
 
 #: templates/index.php:76
 msgid "Download"
-msgstr ""
+msgstr "Last ned"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr ""
+msgstr "Avslutt deling"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr ""
+msgstr "Filen er for stor"
 
 #: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr ""
+msgstr "Filene du prøver å laste opp er for store for å laste opp til denne serveren."
 
 #: templates/index.php:115
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Skanner etter filer, vennligst vent."
 
 #: templates/index.php:118
 msgid "Current scanning"
-msgstr ""
+msgstr "Pågående skanning"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

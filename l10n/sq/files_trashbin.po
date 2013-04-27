@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -20,65 +20,65 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "Nuk munda ta eliminoj përfundimisht %s"
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "Nuk munda ta rivendos %s"
 
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
-msgstr ""
+msgstr "ekzekuto operacionin e rivendosjes"
 
 #: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
 msgid "Error"
-msgstr ""
+msgstr "Veprim i gabuar"
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr ""
+msgstr "eliminoje përfundimisht skedarin"
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr ""
+msgstr "Elimino përfundimisht"
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
-msgstr ""
+msgstr "Emri"
 
 #: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
-msgstr ""
+msgstr "Eliminuar"
 
 #: js/trash.js:184
 msgid "1 folder"
-msgstr ""
+msgstr "1 dosje"
 
 #: js/trash.js:186
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} dosje"
 
 #: js/trash.js:194
 msgid "1 file"
-msgstr ""
+msgstr "1 skedar"
 
 #: js/trash.js:196
 msgid "{count} files"
-msgstr ""
+msgstr "{count} skedarë"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "Këtu nuk ka asgjë. Koshi juaj është bosh!"
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr ""
+msgstr "Rivendos"
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
-msgstr ""
+msgstr "Elimino"
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr ""
+msgstr "Skedarë të eliminuar"

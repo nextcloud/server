@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "App Sotre'i nimekirja laadimine ebaõnnestus",
 "Authentication error" => "Autentimise viga",
+"Your display name has been changed." => "Sinu kuvatav nimi on muudetud.",
 "Unable to change display name" => "Ei saa muuta kuvatavat nime",
 "Group already exists" => "Grupp on juba olemas",
 "Unable to add group" => "Keela grupi lisamine",
@@ -17,7 +18,7 @@
 "Couldn't update app." => "Rakenduse uuendamine ebaõnnestus.",
 "Update to {appversion}" => "Uuenda versioonile {appversion}",
 "Disable" => "Lülita välja",
-"Enable" => "Lülita sisse",
+"Enable" => "Luba",
 "Please wait...." => "Palun oota...",
 "Error" => "Viga",
 "Updating...." => "Uuendamine...",

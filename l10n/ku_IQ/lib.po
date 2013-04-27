@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Kurdish (Iraq) (http://www.transifex.com/projects/p/owncloud/language/ku_IQ/)\n"
 "MIME-Version: 1.0\n"
@@ -19,7 +19,7 @@ msgstr ""
 
 #: app.php:349
 msgid "Help"
-msgstr ""
+msgstr "یارمەتی"
 
 #: app.php:362
 msgid "Personal"
@@ -27,19 +27,19 @@ msgstr ""
 
 #: app.php:373
 msgid "Settings"
-msgstr ""
+msgstr "ده‌ستكاری"
 
 #: app.php:385
 msgid "Users"
-msgstr ""
+msgstr "به‌كارهێنه‌ر"
 
 #: app.php:398
 msgid "Apps"
-msgstr ""
+msgstr "به‌رنامه‌كان"
 
 #: app.php:406
 msgid "Admin"
-msgstr ""
+msgstr "به‌ڕێوه‌به‌ری سه‌ره‌كی"
 
 #: files.php:209
 msgid "ZIP download is turned off."

@@ -89,8 +89,6 @@
 "ownCloud password reset" => "ailosod cyfrinair ownCloud",
 "Use the following link to reset your password: {link}" => "Defnyddiwch y ddolen hon i ailosod eich cyfrinair: {link}",
 "You will receive a link to reset your password via Email." => "Byddwch yn derbyn dolen drwy e-bost i ailosod eich cyfrinair.",
-"Reset email send." => "Ailosod anfon e-bost.",
-"Request failed!" => "Methodd y cais!",
 "Username" => "Enw defnyddiwr",
 "Request reset" => "Gwneud cais i ailosod",
 "Your password was reset" => "Ailosodwyd eich cyfrinair",

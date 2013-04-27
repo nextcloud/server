@@ -10,7 +10,7 @@
 "Back to Files" => "ගොනු වෙතට නැවත යන්න",
 "Selected files too large to generate zip file." => "තෝරාගත් ගොනු ZIP ගොනුවක් තැනීමට විශාල වැඩිය.",
 "Application is not enabled" => "යෙදුම සක්‍රිය කර නොමැත",
-"Authentication error" => "සත්‍යාපනය කිරීමේ දෝශයක්",
+"Authentication error" => "සත්‍යාපන දෝෂයක්",
 "Token expired. Please reload page." => "ටෝකනය කල් ඉකුත් වී ඇත. පිටුව නැවුම් කරන්න",
 "Files" => "ගොනු",
 "Text" => "පෙළ",

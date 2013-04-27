@@ -17,7 +17,7 @@
 "Couldn't update app." => "A program frissítése nem sikerült.",
 "Update to {appversion}" => "Frissítés erre a verzióra: {appversion}",
 "Disable" => "Letiltás",
-"Enable" => "Engedélyezés",
+"Enable" => "engedélyezve",
 "Please wait...." => "Kérem várjon...",
 "Error" => "Hiba",
 "Updating...." => "Frissítés folyamatban...",

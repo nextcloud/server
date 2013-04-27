@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-27 00:17+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hindi (http://www.transifex.com/projects/p/owncloud/language/hi/)\n"
 "MIME-Version: 1.0\n"
@@ -158,7 +158,7 @@ msgstr ""
 
 #: js/js.js:286
 msgid "Settings"
-msgstr ""
+msgstr "सेटिंग्स"
 
 #: js/js.js:718
 msgid "seconds ago"
@@ -295,7 +295,7 @@ msgstr ""
 
 #: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr ""
+msgstr "पासवर्ड"
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -394,32 +394,35 @@ msgstr ""
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
+msgstr "आगे दिये गये लिंक का उपयोग पासवर्ड बदलने के लिये किजीये: {link}"
+
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "पासवर्ड बदलने कि लिंक आपको ई-मेल द्वारा भेजी जायेगी|"
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
-msgstr ""
+msgstr "प्रयोक्ता का नाम"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "आपका पासवर्ड बदला गया है"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
@@ -427,7 +430,7 @@ msgstr ""
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr ""
+msgstr "नया पासवर्ड"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
@@ -435,15 +438,15 @@ msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "यक्तिगत"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "उपयोगकर्ता"
 
 #: strings.php:7
 msgid "Apps"
-msgstr ""
+msgstr "Apps"
 
 #: strings.php:8
 msgid "Admin"
@@ -451,7 +454,7 @@ msgstr ""
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "सहयोग"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -459,7 +462,7 @@ msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr ""
+msgstr "क्लौड नहीं मिला "
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -509,37 +512,37 @@ msgstr ""
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
+msgstr "व्यवस्थापक खाता बनाएँ"
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr ""
+msgstr "उन्नत"
 
 #: templates/installation.php:64
 msgid "Data folder"
-msgstr ""
+msgstr "डाटा फोल्डर"
 
 #: templates/installation.php:74
 msgid "Configure the database"
-msgstr ""
+msgstr "डेटाबेस कॉन्फ़िगर करें "
 
 #: templates/installation.php:79 templates/installation.php:91
 #: templates/installation.php:102 templates/installation.php:113
 #: templates/installation.php:125
 msgid "will be used"
-msgstr ""
+msgstr "उपयोग होगा"
 
 #: templates/installation.php:137
 msgid "Database user"
-msgstr ""
+msgstr "डेटाबेस उपयोगकर्ता"
 
 #: templates/installation.php:144
 msgid "Database password"
-msgstr ""
+msgstr "डेटाबेस पासवर्ड"
 
 #: templates/installation.php:149
 msgid "Database name"
-msgstr ""
+msgstr "डेटाबेस का नाम"
 
 #: templates/installation.php:159
 msgid "Database tablespace"
@@ -551,7 +554,7 @@ msgstr ""
 
 #: templates/installation.php:172
 msgid "Finish setup"
-msgstr ""
+msgstr "सेटअप समाप्त करे"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
@@ -559,7 +562,7 @@ msgstr ""
 
 #: templates/layout.user.php:58
 msgid "Log out"
-msgstr ""
+msgstr "लोग  आउट"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
@@ -581,7 +584,7 @@ msgstr ""
 
 #: templates/login.php:39
 msgid "remember"
-msgstr ""
+msgstr "याद रखें"
 
 #: templates/login.php:41
 msgid "Log in"
@@ -593,11 +596,11 @@ msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr ""
+msgstr "पिछला"
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr ""
+msgstr "अगला"
 
 #: templates/update.php:3
 #, php-format

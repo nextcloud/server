@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Ei pystytä lataamaan listaa sovellusvarastosta (App Store)",
-"Authentication error" => "Todennusvirhe",
+"Authentication error" => "Tunnistautumisvirhe",
+"Your display name has been changed." => "Näyttönimesi on muutettu.",
 "Unable to change display name" => "Näyttönimen muuttaminen epäonnistui",
 "Group already exists" => "Ryhmä on jo olemassa",
 "Unable to add group" => "Ryhmän lisäys epäonnistui",
@@ -78,7 +79,7 @@
 "New password" => "Uusi salasana",
 "Change password" => "Vaihda salasana",
 "Display Name" => "Näyttönimi",
-"Email" => "Sähköposti",
+"Email" => "Sähköpostiosoite",
 "Your email address" => "Sähköpostiosoitteesi",
 "Fill in an email address to enable password recovery" => "Anna sähköpostiosoitteesi, jotta unohdettu salasana on mahdollista palauttaa",
 "Language" => "Kieli",
