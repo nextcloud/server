@@ -89,7 +89,7 @@ class OC_API {
 		$responses = array();
 		foreach(self::$actions[$name] as $action) {
 			// Check authentication and availability
-			if(!self::isAuthorised(self::$actions[$name])) {
+			if(!self::isAuthorised($action)) {
 				$responses[] = array(
 					'app' => $action['app'],
 					'response' => new OC_OCS_Result(null, OC_API::RESPOND_UNAUTHORISED, 'Unauthorised'),
