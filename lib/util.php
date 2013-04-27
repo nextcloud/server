@@ -221,63 +221,63 @@ class OC_Util {
 		if(!class_exists('ZipArchive')) {
 			$errors[]=array('error'=>'PHP module zip not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(!class_exists('DOMDocument')) {
 			$errors[] = array('error' => 'PHP module dom not installed.',
 				'hint' => 'Please ask your server administrator to install the module.');
-			$web_server_restart = false;
+			$web_server_restart =true;
 		}
 		if(!function_exists('xml_parser_create')) {
 			$errors[] = array('error' => 'PHP module libxml not installed.',
 				'hint' => 'Please ask your server administrator to install the module.');
-			$web_server_restart = false;
+			$web_server_restart =true;
 		}
 		if(!function_exists('mb_detect_encoding')) {
 			$errors[]=array('error'=>'PHP module mb multibyte not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(!function_exists('ctype_digit')) {
 			$errors[]=array('error'=>'PHP module ctype is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(!function_exists('json_encode')) {
 			$errors[]=array('error'=>'PHP module JSON is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(!function_exists('imagepng')) {
 			$errors[]=array('error'=>'PHP module GD is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(!function_exists('gzencode')) {
 			$errors[]=array('error'=>'PHP module zlib is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(!function_exists('iconv')) {
 			$errors[]=array('error'=>'PHP module iconv is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(!function_exists('simplexml_load_string')) {
 			$errors[]=array('error'=>'PHP module SimpleXML is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(floatval(phpversion())<5.3) {
 			$errors[]=array('error'=>'PHP 5.3 is required.',
 				'hint'=>'Please ask your server administrator to update PHP to version 5.3 or higher.'
 					.' PHP 5.2 is no longer supported by ownCloud and the PHP community.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if(!defined('PDO::ATTR_DRIVER_NAME')) {
 			$errors[]=array('error'=>'PHP PDO module is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if (((strtolower(@ini_get('safe_mode')) == 'on')
 			|| (strtolower(@ini_get('safe_mode')) == 'yes')
@@ -285,7 +285,7 @@ class OC_Util {
 			|| (ini_get("safe_mode") == 1 ))) {
 			$errors[]=array('error'=>'PHP Safe Mode is enabled. ownCloud requires that it is disabled to work properly.',
 				'hint'=>'PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config.');
-			$web_server_restart= false;
+			$web_server_restart=true;
 		}
 		if (get_magic_quotes_gpc() == 1 ) {
 			$errors[]=array('error'=>'Magic Quotes is enabled. ownCloud requires that it is disabled to work properly.',
