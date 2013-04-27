@@ -287,6 +287,11 @@ class OC_Util {
 				'hint'=>'PHP Safe Mode is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config.');
 			$web_server_restart= false;
 		}
+		if (get_magic_quotes_gpc() == 1 ) {
+			$errors[]=array('error'=>'Magic Quotes is enabled. ownCloud requires that it is disabled to work properly.',
+				'hint'=>'Magic Quotes is a deprecated and mostly useless setting that should be disabled. Please ask your server administrator to disable it in php.ini or in your webserver config.');
+			$web_server_restart=true;
+		}
 
 		if($web_server_restart) {
 			$errors[]=array('error'=>'PHP modules have been installed, but they are still listed as missing?',
