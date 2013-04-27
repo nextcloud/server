@@ -453,7 +453,7 @@ class Util {
         $proxyStatus = \OC_FileProxy::$enabled;
         \OC_FileProxy::$enabled = false;
 
-        if ($this->isEncryptedPath($path)) {
+        if ($this->view->file_exists($path) && $this->isEncryptedPath($path)) {
 
             // Reformat path for use with OC_FSV
             $pathSplit = explode( '/', $path );
