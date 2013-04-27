@@ -310,5 +310,69 @@ class Hooks {
 		// we may not need to implement it
 		
 	}
-	
+
+
+    /**
+     * @brief after a file is renamed, rename its keyfile and share-keys also fix the file size and fix also the sharing
+     * @param array with oldpath and newpath
+     *
+     * This function is connected to the rename signal of OC_Filesystem and adjust the name and location
+     * of the stored versions along the actual file
+     */
+    public static function postRename($params) {
+        // Disable encryption proxy to prevent recursive calls
+        $proxyStatus = \OC_FileProxy::$enabled;
+        \OC_FileProxy::$enabled = false;
+
+        $view = new \OC_FilesystemView('/');
+        $session = new Session($view);
+        $userId = \OCP\User::getUser();
+        $util = new Util( $view, $userId );
+
+        // Format paths to be relative to user files dir
+        $oldKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $params['oldpath'];
+        $newKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $params['newpath'];
+
+        // add key ext if this is not an folder
+        if (!$view->is_dir($oldKeyfilePath)) {
+            $oldKeyfilePath .= '.key';
+            $newKeyfilePath .= '.key';
+
+            // handle share-keys
+            $localKeyPath = $view->getLocalFile($userId.'/files_encryption/share-keys/'.$params['oldpath']);
+            $matches = glob(preg_quote($localKeyPath).'*.shareKey');
+            foreach ($matches as $src) {
+                $dst = str_replace($params['oldpath'], $params['newpath'], $src);
+                rename($src, $dst);
+            }
+
+        } else {
+            // handle share-keys folders
+            $oldShareKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $params['oldpath'];
+            $newShareKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $params['newpath'];
+            $view->rename($oldShareKeyfilePath, $newShareKeyfilePath);
+        }
+
+        // Rename keyfile so it isn't orphaned
+        if($view->file_exists($oldKeyfilePath)) {
+            $view->rename($oldKeyfilePath, $newKeyfilePath);
+        }
+
+        // build the path to the file
+        $newPath = '/' . $userId . '/files' .$params['newpath'];
+        $newPathRelative = $params['newpath'];
+
+        if($util->fixFileSize($newPath)) {
+            // get sharing app state
+            $sharingEnabled = \OCP\Share::isEnabled();
+
+            // get users
+            $usersSharing = $util->getSharingUsersArray($sharingEnabled, $newPathRelative);
+
+            // update sharing-keys
+            $util->setSharedFileKeyfiles($session, $usersSharing, $newPathRelative);
+        }
+
+        \OC_FileProxy::$enabled = $proxyStatus;
+    }
 }

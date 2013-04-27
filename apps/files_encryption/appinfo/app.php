@@ -23,6 +23,9 @@ OCP\Util::connectHook( 'OCP\Share', 'post_unshareAll', 'OCA\Encryption\Hooks', '
 // Webdav-related hooks
 OCP\Util::connectHook( 'OC_Webdav_Properties', 'update', 'OCA\Encryption\Hooks', 'updateKeyfileFromClient' );
 
+// filesystem hooks
+OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OCA\Encryption\Hooks', 'postRename');
+
 stream_wrapper_register( 'crypt', 'OCA\Encryption\Stream' );
 
 $view = new OC_FilesystemView( '/' );
