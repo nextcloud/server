@@ -104,16 +104,24 @@ class Trashbin {
 	private static function retainVersions($view, $file_path, $filename, $timestamp) {
 		$size = 0;
         if (\OCP\App::isEnabled('files_versions')) {
-			$user = \OCP\User::getUser();
+
+            // disable proxy to prevent recursive calls
+            $proxyStatus = \OC_FileProxy::$enabled;
+            \OC_FileProxy::$enabled = false;
+
+            $user = \OCP\User::getUser();
 			if ($view->is_dir('files_versions/' . $file_path)) {
-				$size += self::calculateSize(new \OC\Files\View('/' . $user . '/files_versions/' . $file_path));
-				$view->rename('files_versions/' . $file_path, 'files_trashbin/versions' . $filename . '.d' . $timestamp);
+                $size += self::calculateSize(new \OC\Files\View('/' . $user . '/files_versions/' . $file_path));
+                $view->rename('files_versions/' . $file_path, 'files_trashbin/versions/' . $filename . '.d' . $timestamp);
 			} else if ($versions = \OCA\Files_Versions\Storage::getVersions($user, $file_path)) {
-				foreach ($versions as $v) {
+                foreach ($versions as $v) {
 					$size += $view->filesize('files_versions' . $v['path'] . '.v' . $v['version']);
-					$view->rename('files_versions' . $v['path'] . '.v' . $v['version'], 'files_trashbin/versions/' . $filename . '.v' . $v['version'] . '.d' . $timestamp);
+                	$view->rename('files_versions' . $v['path'] . '.v' . $v['version'], 'files_trashbin/versions/' . $filename . '.v' . $v['version'] . '.d' . $timestamp);
 				}
 			}
+
+            // enable proxy
+            \OC_FileProxy::$enabled = $proxyStatus;
 		}
 
 		return $size;
@@ -186,7 +194,7 @@ class Trashbin {
 
                         // calculate size
                         $size += filesize($src);
-
+                        
                         // don't keep other share-keys
                         unlink($src);
                     }
@@ -250,6 +258,7 @@ class Trashbin {
 		$mtime = $view->filemtime($source);
 
         // disable proxy to prevent recursive calls
+        $proxyStatus = \OC_FileProxy::$enabled;
         \OC_FileProxy::$enabled = false;
 
         // restore file
@@ -278,13 +287,13 @@ class Trashbin {
 			self::setTrashbinSize($user, $trashbinSize);
 
             // enable proxy
-            \OC_FileProxy::$enabled = true;
+            \OC_FileProxy::$enabled = $proxyStatus;
 
 			return true;
 		}
 
         // enable proxy
-        \OC_FileProxy::$enabled = true;
+        \OC_FileProxy::$enabled = $proxyStatus;
 
 		return false;
 	}
@@ -304,26 +313,34 @@ class Trashbin {
 	private static function restoreVersions($view, $file, $filename, $ext, $location, $timestamp) {
 		$size = 0;
 		if (\OCP\App::isEnabled('files_versions')) {
-			$user = \OCP\User::getUser();
+            // disable proxy to prevent recursive calls
+            $proxyStatus = \OC_FileProxy::$enabled;
+            \OC_FileProxy::$enabled = false;
+
+            $user = \OCP\User::getUser();
 			if ($timestamp) {
 				$versionedFile = $filename;
 			} else {
 				$versionedFile = $file;
 			}
-			if ($view->is_dir('/files_trashbin/files/'.$file)) {
+
+            if ($view->is_dir('/files_trashbin/versions/'.$file)) {
 				$size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . 'files_trashbin/versions/' . $file));
-				$view->rename(\OC\Files\Filesystem::normalizePath('files_trashbin/versions/' . $file), \OC\Files\Filesystem::normalizePath('files_versions/' . $location . '/' . $filename . $ext));
+            	$view->rename(\OC\Files\Filesystem::normalizePath('files_trashbin/versions/' . $file), \OC\Files\Filesystem::normalizePath('files_versions/' . $location . '/' . $filename . $ext));
 			} else if ($versions = self::getVersionsFromTrash($versionedFile, $timestamp)) {
-				foreach ($versions as $v) {
-					if ($timestamp) {
-						$size += $view->filesize('files_trashbin/versions/' . $versionedFile . '.v' . $v . '.d' . $timestamp);
-						$view->rename('files_trashbin/versions/' . $versionedFile . '.v' . $v . '.d' . $timestamp, 'files_versions/' . $location . '/' . $filename . $ext . '.v' . $v);
+                foreach ($versions as $v) {
+            		if ($timestamp) {
+            			$size += $view->filesize('files_trashbin/versions/' . $versionedFile . '.v' . $v . '.d' . $timestamp);
+                        $view->rename('files_trashbin/versions/' . $versionedFile . '.v' . $v . '.d' . $timestamp, 'files_versions/' . $location . '/' . $filename . $ext . '.v' . $v);
 					} else {
-						$size += $view->filesize('files_trashbin/versions/' . $versionedFile . '.v' . $v);
+            			$size += $view->filesize('files_trashbin/versions/' . $versionedFile . '.v' . $v);
 						$view->rename('files_trashbin/versions/' . $versionedFile . '.v' . $v, 'files_versions/' . $location . '/' . $filename . $ext . '.v' . $v);
 					}
 				}
 			}
+
+            // enable proxy
+            \OC_FileProxy::$enabled = $proxyStatus;
 		}
 		return $size;
 	}
@@ -376,18 +393,18 @@ class Trashbin {
 
                     // handle keyfiles
                     $size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $keyfile));
-            		$view->rename($keyfile, 'files_encryption/keyfiles/' . $location . '/' . $filename);
+            		$view->rename($keyfile, 'files_encryption/keyfiles/' . $location . '/' . $filename . $ext);
 
                     // handle share-keys
                     if ($timestamp) {
                         $sharekey .= '.d' . $timestamp;
                     }
-                    $view->rename($sharekey, 'files_encryption/share-keys/' . $location . '/' . $filename);
+                    $view->rename($sharekey, 'files_encryption/share-keys/' . $location . '/' . $filename . $ext);
 
 				} else {
                     // handle keyfiles
 					$size += $view->filesize($keyfile);
-            		$view->rename($keyfile, 'files_encryption/keyfiles/' . $location . '/' . $filename . '.key');
+            		$view->rename($keyfile, 'files_encryption/keyfiles/' . $location . '/' . $filename . $ext . '.key');
 
                     // handle share-keys
                     $ownerShareKey = \OC\Files\Filesystem::normalizePath('files_trashbin/share-keys/' . $source_location . '/' . $filename . '.' . $user. '.shareKey');
@@ -398,7 +415,7 @@ class Trashbin {
                     $size += $view->filesize($ownerShareKey);
 
                     // move only owners key
-                    $view->rename($ownerShareKey, 'files_encryption/share-keys/' . $location . '/' . $filename . '.' . $user. '.shareKey');
+                    $view->rename($ownerShareKey, 'files_encryption/share-keys/' . $location . '/' . $filename . $ext . '.' . $user. '.shareKey');
 
                     // try to re-share if file is shared
                     $filesystemView = new \OC_FilesystemView('/');
