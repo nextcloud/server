@@ -11,7 +11,7 @@ OC_API::register(
 	'/config',
 	array('OC_OCS_Config', 'apiConfig'),
 	'core',
-	OC_API::GUEST_AUT
+	OC_API::GUEST_AUTH
 	);
 // Person
 OC_API::register(
