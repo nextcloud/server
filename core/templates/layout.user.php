@@ -32,6 +32,9 @@
 	<body id="<?php p($_['bodyid']);?>">
 	<div id="notification-container">
 		<div id="notification"></div>
+		<?php if ($_['updateAvailable']): ?>
+			<div id="update-notification" style="display: inline;"><?php print_unescaped($l->t('%s is available. <a href="%s">Click here to get more information.', array($_['updateVersion'], $_['updateLink']))); ?></a></div>
+		<?php endif; ?>
 	</div>
 	<header><div id="header">
 			<a href="<?php print_unescaped(link_to('', 'index.php')); ?>" title="" id="owncloud"><img class="svg"
