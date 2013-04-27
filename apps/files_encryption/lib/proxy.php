@@ -438,10 +438,24 @@ class Proxy extends \OC_FileProxy {
 
         // if file is encrypted return real file size
         if (is_array($fileInfo) && $fileInfo['encrypted'] == 1) {
-            return $fileInfo['unencrypted_size'];
+            $size = $fileInfo['unencrypted_size'];
         } else {
-            return $size;
+            // self healing if file was removed from file cache
+            $userId = \OCP\User::getUser();
+            $util = new Util( $view, $userId );
+            $fixSize = $util->getFileSize($path);
+            if($fixSize > 0) {
+                $size = $fixSize;
+
+                $fileInfo['encrypted'] = 1;
+                $fileInfo['unencrypted_size'] = $size;
+
+                // put file info
+                $view->putFileInfo( $path, $fileInfo );
+            }
         }
+
+        return $size;
     }
 
     public function handleFile($path) {
