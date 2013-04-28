@@ -259,7 +259,9 @@ class OC_FilesystemView {
 	public function rename($path1,$path2){
 		$absolutePath1=$this->getAbsolutePath($path1);
 		$absolutePath2=$this->getAbsolutePath($path2);
-		if(OC_FileProxy::runPreProxies('rename',$absolutePath1,$absolutePath2) and OC_Filesystem::isValidPath($path2)){
+		if(OC_FileProxy::runPreProxies('rename',$absolutePath1,$absolutePath2)
+			and OC_Filesystem::isValidPath($path1)
+			and OC_Filesystem::isValidPath($path2)){
 			$path1=$this->getRelativePath($absolutePath1);
 			$path2=$this->getRelativePath($absolutePath2);
 			if($path1==null or $path2==null){
@@ -290,7 +292,9 @@ class OC_FilesystemView {
 	public function copy($path1,$path2){
 		$absolutePath1=$this->getAbsolutePath($path1);
 		$absolutePath2=$this->getAbsolutePath($path2);
-		if(OC_FileProxy::runPreProxies('copy',$absolutePath1,$absolutePath2) and OC_Filesystem::isValidPath($path2)){
+		if(OC_FileProxy::runPreProxies('copy',$absolutePath1,$absolutePath2)
+			and OC_Filesystem::isValidPath($path1)
+			and OC_Filesystem::isValidPath($path2)){
 			$path1=$this->getRelativePath($absolutePath1);
 			$path2=$this->getRelativePath($absolutePath2);
 			if($path1==null or $path2==null){
