@@ -46,7 +46,6 @@
 				<div id="uploadprogressbar"></div>
 				<input type="button" class="stop" style="display:none"
 					value="<?php p($l->t('Cancel upload'));?>"
-					onclick="javascript:Files.cancelUploads();"
 				/>
 			</div>
 		</div>
