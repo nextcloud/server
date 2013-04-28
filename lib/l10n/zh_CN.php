@@ -48,8 +48,5 @@
 "%d months ago" => "%d 月前",
 "last year" => "去年",
 "years ago" => "年前",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s 已存在。点此 <a href=\"%s\">获取更多信息</a>",
-"up to date" => "已更新。",
-"updates check is disabled" => "更新检查功能被禁用。",
 "Could not find category \"%s\"" => "无法找到分类 \"%s\""
 );

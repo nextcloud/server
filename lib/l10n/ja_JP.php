@@ -48,8 +48,5 @@
 "%d months ago" => "%d 分前",
 "last year" => "一年前",
 "years ago" => "年前",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s が利用可能です。<a href=\"%s\">詳細情報</a> を確認ください",
-"up to date" => "最新です",
-"updates check is disabled" => "更新チェックは無効です",
 "Could not find category \"%s\"" => "カテゴリ \"%s\" が見つかりませんでした"
 );

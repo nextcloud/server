@@ -48,8 +48,5 @@
 "%d months ago" => "Před %d měsíci",
 "last year" => "minulý rok",
 "years ago" => "před lety",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s je dostupná. Získat <a href=\"%s\">více informací</a>",
-"up to date" => "aktuální",
-"updates check is disabled" => "kontrola aktualizací je vypnuta",
 "Could not find category \"%s\"" => "Nelze nalézt kategorii \"%s\""
 );

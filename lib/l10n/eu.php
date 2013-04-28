@@ -48,8 +48,5 @@
 "%d months ago" => "orain dela %d hilabete",
 "last year" => "joan den urtean",
 "years ago" => "urte",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s eskuragarri dago. Lortu <a href=\"%s\">informazio gehiago</a>",
-"up to date" => "eguneratuta",
-"updates check is disabled" => "eguneraketen egiaztapena ez dago gaituta",
 "Could not find category \"%s\"" => "Ezin da \"%s\" kategoria aurkitu"
 );

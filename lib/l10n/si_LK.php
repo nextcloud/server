@@ -23,8 +23,5 @@
 "%d days ago" => "%d දිනකට පෙර",
 "last month" => "පෙර මාසයේ",
 "last year" => "පෙර අවුරුද්දේ",
-"years ago" => "අවුරුදු කීපයකට පෙර",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s යොදාගත හැක. <a href=\"%s\">තව විස්තර</a> ලබාගන්න",
-"up to date" => "යාවත්කාලීනයි",
-"updates check is disabled" => "යාවත්කාලීන බව පරීක්ෂණය අක්‍රියයි"
+"years ago" => "අවුරුදු කීපයකට පෙර"
 );

@@ -28,8 +28,5 @@
 "%d months ago" => "%d เดือนมาแล้ว",
 "last year" => "ปีที่แล้ว",
 "years ago" => "ปี ที่ผ่านมา",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s พร้อมให้ใช้งานได้แล้ว. <a href=\"%s\">ดูรายละเอียดเพิ่มเติม</a>",
-"up to date" => "ทันสมัย",
-"updates check is disabled" => "การตรวจสอบชุดอัพเดทถูกปิดใช้งานไว้",
 "Could not find category \"%s\"" => "ไม่พบหมวดหมู่ \"%s\""
 );

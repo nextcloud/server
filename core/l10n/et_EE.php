@@ -88,6 +88,7 @@
 "The update was successful. Redirecting you to ownCloud now." => "Uuendus oli edukas. Kohe suunatakse Sind ownCloudi.",
 "ownCloud password reset" => "ownCloud parooli taastamine",
 "Use the following link to reset your password: {link}" => "Kasuta järgnevat linki oma parooli taastamiseks: {link}",
+"Request failed!<br>Did you make sure your email/username was right?" => "Päring ebaõnnestus!<br>Oled sa veendunud, et e-post/kasutajanimi on õiged?",
 "You will receive a link to reset your password via Email." => "Sinu parooli taastamise link saadetakse sulle e-postile.",
 "Username" => "Kasutajanimi",
 "Request reset" => "Päringu taastamine",

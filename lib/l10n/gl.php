@@ -48,8 +48,5 @@
 "%d months ago" => "Vai %d meses",
 "last year" => "último ano",
 "years ago" => "anos atrás",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s está dispoñíbel. Obtéña <a href=\"%s\">máis información</a>",
-"up to date" => "actualizado",
-"updates check is disabled" => "a comprobación de actualizacións está desactivada",
 "Could not find category \"%s\"" => "Non foi posíbel atopar a categoría «%s»"
 );

@@ -27,8 +27,5 @@
 "%d months ago" => "%d மாதத்திற்கு முன்",
 "last year" => "கடந்த வருடம்",
 "years ago" => "வருடங்களுக்கு முன்",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s இன்னும் இருக்கின்றன. <a href=\"%s\">மேலதிக தகவல்களுக்கு</a> எடுக்க",
-"up to date" => "நவீன",
-"updates check is disabled" => "இற்றைப்படுத்தலை சரிபார்ப்பதை செயலற்றதாக்குக",
 "Could not find category \"%s\"" => "பிரிவு \"%s\" ஐ கண்டுப்பிடிக்க முடியவில்லை"
 );

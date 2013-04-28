@@ -88,6 +88,7 @@
 "The update was successful. Redirecting you to ownCloud now." => "Η ενημέρωση ήταν επιτυχής. Μετάβαση στο ownCloud.",
 "ownCloud password reset" => "Επαναφορά συνθηματικού ownCloud",
 "Use the following link to reset your password: {link}" => "Χρησιμοποιήστε τον ακόλουθο σύνδεσμο για να επανεκδόσετε τον κωδικό: {link}",
+"Request failed!<br>Did you make sure your email/username was right?" => "Η αίτηση απέτυχε! Βεβαιωθηκατε ότι το email σας / username ειναι σωστο? ",
 "You will receive a link to reset your password via Email." => "Θα λάβετε ένα σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας μέσω ηλεκτρονικού ταχυδρομείου.",
 "Username" => "Όνομα χρήστη",
 "Request reset" => "Επαναφορά αίτησης",

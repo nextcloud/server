@@ -27,8 +27,5 @@
 "%d months ago" => "antaŭ %d monatoj",
 "last year" => "lastajare",
 "years ago" => "jaroj antaŭe",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s haveblas. Ekhavu <a href=\"%s\">pli da informo</a>",
-"up to date" => "ĝisdata",
-"updates check is disabled" => "ĝisdateckontrolo estas malkapabligita",
 "Could not find category \"%s\"" => "Ne troviĝis kategorio “%s”"
 );

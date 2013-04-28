@@ -48,8 +48,5 @@
 "%d months ago" => "%d μήνες πριν",
 "last year" => "τελευταίο χρόνο",
 "years ago" => "χρόνια πριν",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s είναι διαθέσιμο. Δείτε <a href=\"%s\">περισσότερες πληροφορίες</a>",
-"up to date" => "ενημερωμένο",
-"updates check is disabled" => "ο έλεγχος ενημερώσεων είναι απενεργοποιημένος",
 "Could not find category \"%s\"" => "Αδυναμία εύρεσης κατηγορίας \"%s\""
 );

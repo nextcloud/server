@@ -48,8 +48,5 @@
 "%d months ago" => "%d hónapja",
 "last year" => "tavaly",
 "years ago" => "több éve",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s elérhető. <a href=\"%s\">További információ</a>.",
-"up to date" => "a legfrissebb változat",
-"updates check is disabled" => "A frissitések ellenőrzése nincs engedélyezve.",
 "Could not find category \"%s\"" => "Ez a kategória nem található: \"%s\""
 );

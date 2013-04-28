@@ -22,8 +22,5 @@
 "%d days ago" => "prieš %d dienų",
 "last month" => "praeitą mėnesį",
 "last year" => "praeitais metais",
-"years ago" => "prieš metus",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s yra galimas. Platesnė <a href=\"%s\">informacija čia</a>",
-"up to date" => "pilnai atnaujinta",
-"updates check is disabled" => "atnaujinimų tikrinimas išjungtas"
+"years ago" => "prieš metus"
 );

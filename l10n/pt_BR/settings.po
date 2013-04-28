@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Flávio Veras <flaviove@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:17+0200\n"
-"PO-Revision-Date: 2013-04-26 16:22+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 11:20+0000\n"
+"Last-Translator: Flávio Veras <flaviove@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,7 +29,7 @@ msgstr "Erro de autenticação"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
-msgstr ""
+msgstr "A exibição de seu nome foi alterada."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
@@ -48,7 +49,7 @@ msgstr "Não foi possível habilitar aplicativo."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr "E-mail guardado"
+msgstr "E-mail salvo"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
@@ -72,7 +73,7 @@ msgstr "Pedido inválido"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr "Admins não podem se remover do grupo admin"
+msgstr "Admins não podem ser removidos do grupo admin"
 
 #: ajax/togglegroups.php:30
 #, php-format
@@ -86,7 +87,7 @@ msgstr "Não foi possível remover usuário do grupo %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr "Não foi possível atualizar o app."
+msgstr "Não foi possível atualizar a app."
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
@@ -122,7 +123,7 @@ msgstr "Atualizado"
 
 #: js/personal.js:118
 msgid "Saving..."
-msgstr "Guardando..."
+msgstr "Salvando..."
 
 #: js/users.js:43
 msgid "deleted"
@@ -190,12 +191,12 @@ msgstr "Aviso de Configuração"
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "Seu servidor web não está configurado corretamente para permitir sincronização de arquivos porque a interface WebDAV parece estar quebrada."
+msgstr "Seu servidor web não está configurado corretamente para permitir sincronização de arquivos porque a interface WebDAV parece não estar funcionando."
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr "Por favor, confira os <a href='%s'>guias de instalação</a>."
+msgstr "Por favor, confira o <a href='%s'>guia de instalação</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -328,7 +329,7 @@ msgstr "Menos"
 msgid "Version"
 msgstr "Versão"
 
-#: templates/admin.php:238 templates/personal.php:108
+#: templates/admin.php:237 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "

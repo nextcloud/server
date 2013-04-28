@@ -48,8 +48,5 @@
 "%d months ago" => "%d bulan yang lalu",
 "last year" => "tahun kemarin",
 "years ago" => "beberapa tahun lalu",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s tersedia. Dapatkan <a href=\"%s\">info lebih lanjut</a>",
-"up to date" => "terbaru",
-"updates check is disabled" => "Pemeriksaan pembaruan dinonaktifkan.",
 "Could not find category \"%s\"" => "Tidak dapat menemukan kategori \"%s\""
 );

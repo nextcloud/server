@@ -48,8 +48,5 @@
 "%d months ago" => "Vor %d Monaten",
 "last year" => "Letztes Jahr",
 "years ago" => "Vor Jahren",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s ist verfügbar. <a href=\"%s\">Weitere Informationen</a>",
-"up to date" => "aktuell",
-"updates check is disabled" => "Die Update-Überprüfung ist ausgeschaltet",
 "Could not find category \"%s\"" => "Die Kategorie \"%s\" konnte nicht gefunden werden."
 );

@@ -48,8 +48,5 @@
 "%d months ago" => "Pred %d meseci",
 "last year" => "lansko leto",
 "years ago" => "let nazaj",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s je na voljo. <a href=\"%s\">Več podrobnosti.</a>",
-"up to date" => "posodobljeno",
-"updates check is disabled" => "preverjanje za posodobitve je onemogočeno",
 "Could not find category \"%s\"" => "Kategorije \"%s\" ni mogoče najti."
 );

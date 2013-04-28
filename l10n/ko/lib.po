@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 16:22+0000\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -234,19 +234,6 @@ msgstr "작년"
 #: template.php:124
 msgid "years ago"
 msgstr "년 전"
-
-#: updater.php:78
-#, php-format
-msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr "%s을(를) 사용할 수 있습니다. <a href=\"%s\">자세한 정보 보기</a>"
-
-#: updater.php:81
-msgid "up to date"
-msgstr "최신"
-
-#: updater.php:84
-msgid "updates check is disabled"
-msgstr "업데이트 확인이 비활성화됨"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

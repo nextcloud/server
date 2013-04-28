@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 16:22+0000\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -234,19 +234,6 @@ msgstr "கடந்த வருடம்"
 #: template.php:124
 msgid "years ago"
 msgstr "வருடங்களுக்கு முன்"
-
-#: updater.php:78
-#, php-format
-msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr "%s இன்னும் இருக்கின்றன. <a href=\"%s\">மேலதிக தகவல்களுக்கு</a> எடுக்க"
-
-#: updater.php:81
-msgid "up to date"
-msgstr "நவீன"
-
-#: updater.php:84
-msgid "updates check is disabled"
-msgstr "இற்றைப்படுத்தலை சரிபார்ப்பதை செயலற்றதாக்குக"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

@@ -88,6 +88,8 @@
 "The update was successful. Redirecting you to ownCloud now." => "Modernizare reusita! Vei fii redirectionat!",
 "ownCloud password reset" => "Resetarea parolei ownCloud ",
 "Use the following link to reset your password: {link}" => "Folosește următorul link pentru a reseta parola: {link}",
+"The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Linkul pentru resetarea parolei tale a fost trimis pe email. <br>Daca nu ai primit email-ul intr-un timp rezonabil, verifica folderul spam/junk. <br>Daca nu sunt acolo intreaba administratorul local.",
+"Request failed!<br>Did you make sure your email/username was right?" => "Cerere esuata!<br>Esti sigur ca email-ul/numele de utilizator sunt corecte?",
 "You will receive a link to reset your password via Email." => "Vei primi un mesaj prin care vei putea reseta parola via email",
 "Username" => "Nume utilizator",
 "Request reset" => "Cerere trimisă",

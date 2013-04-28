@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 16:22+0000\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -234,19 +234,6 @@ msgstr "שנה שעברה"
 #: template.php:124
 msgid "years ago"
 msgstr "שנים"
-
-#: updater.php:78
-#, php-format
-msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr "%s זמין. קבלת <a href=\"%s\">מידע נוסף</a>"
-
-#: updater.php:81
-msgid "up to date"
-msgstr "עדכני"
-
-#: updater.php:84
-msgid "updates check is disabled"
-msgstr "בדיקת עדכונים מנוטרלת"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

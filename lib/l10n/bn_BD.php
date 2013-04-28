@@ -23,8 +23,5 @@
 "%d days ago" => "%d  দিন পূর্বে",
 "last month" => "গত মাস",
 "last year" => "গত বছর",
-"years ago" => "বছর পূর্বে",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s এখন সুলভ।  <a href=\"%s\">আরও জানুন</a>",
-"up to date" => "সর্বশেষ",
-"updates check is disabled" => "পরিবর্ধন পরীক্ষণ করা বন্ধ রাখা হয়েছে"
+"years ago" => "বছর পূর্বে"
 );

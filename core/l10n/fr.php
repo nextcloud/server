@@ -88,6 +88,8 @@
 "The update was successful. Redirecting you to ownCloud now." => "La mise à jour a réussi. Vous êtes redirigé maintenant vers ownCloud.",
 "ownCloud password reset" => "Réinitialisation de votre mot de passe Owncloud",
 "Use the following link to reset your password: {link}" => "Utilisez le lien suivant pour réinitialiser votre mot de passe : {link}",
+"The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Le lien permettant de réinitialiser votre mot de passe vous a été transmis.<br>Si vous ne le recevez pas dans un délai raisonnable, vérifier votre boîte de pourriels.<br>Au besoin, contactez votre administrateur local.",
+"Request failed!<br>Did you make sure your email/username was right?" => "Requête en échec!<br>Avez-vous vérifié vos courriel/nom d'utilisateur?",
 "You will receive a link to reset your password via Email." => "Vous allez recevoir un e-mail contenant un lien pour réinitialiser votre mot de passe.",
 "Username" => "Nom d'utilisateur",
 "Request reset" => "Demander la réinitialisation",

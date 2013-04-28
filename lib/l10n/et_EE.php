@@ -18,7 +18,7 @@
 "Images" => "Pildid",
 "Set an admin username." => "Määra admin kasutajanimi.",
 "Set an admin password." => "Määra admini parool.",
-"%s enter the database username." => "%s sisesta andmebaasi kasutajatunnus",
+"%s enter the database username." => "%s sisesta andmebaasi kasutajatunnus.",
 "%s enter the database name." => "%s sisesta andmebaasi nimi.",
 "%s you may not use dots in the database name" => "%s punktide kasutamine andmebaasi nimes pole lubatud",
 "%s set the database host." => "%s määra andmebaasi server.",
@@ -48,8 +48,5 @@
 "%d months ago" => "%d kuud tagasi",
 "last year" => "viimasel aastal",
 "years ago" => "aastat tagasi",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s on saadaval. Vaata <a href=\"%s\">lisainfot</a>",
-"up to date" => "ajakohane",
-"updates check is disabled" => "uuenduste kontrollimine on välja lülitatud",
 "Could not find category \"%s\"" => "Ei leia kategooriat \"%s\""
 );

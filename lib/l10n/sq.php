@@ -48,8 +48,5 @@
 "%d months ago" => "%d muaj më parë",
 "last year" => "vitin e shkuar",
 "years ago" => "vite më parë",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s është i disponueshëm. <a href=\"%s\">Informohuni këtu</a>",
-"up to date" => "i azhornuar",
-"updates check is disabled" => "kontrollimi i azhurnimeve është i çaktivizuar",
 "Could not find category \"%s\"" => "Kategoria \"%s\" nuk u gjet"
 );

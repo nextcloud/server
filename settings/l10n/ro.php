@@ -57,6 +57,7 @@
 "Bugtracker" => "Urmărire bug-uri",
 "Commercial Support" => "Suport comercial",
 "You have used <strong>%s</strong> of the available <strong>%s</strong>" => "Ați utilizat <strong>%s</strong> din <strong>%s</strong> disponibile",
+"Get the apps to sync your files" => "Ia acum aplicatia pentru sincronizarea fisierelor ",
 "Password" => "Parolă",
 "Your password was changed" => "Parola a fost modificată",
 "Unable to change your password" => "Imposibil de-ați schimbat parola",

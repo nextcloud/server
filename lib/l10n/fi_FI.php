@@ -43,8 +43,5 @@
 "%d months ago" => "%d kuukautta sitten",
 "last year" => "viime vuonna",
 "years ago" => "vuotta sitten",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s on saatavilla. Lue <a href=\"%s\">lisätietoja</a>",
-"up to date" => "ajan tasalla",
-"updates check is disabled" => "päivitysten tarkistus on pois käytöstä",
 "Could not find category \"%s\"" => "Luokkaa \"%s\" ei löytynyt"
 );

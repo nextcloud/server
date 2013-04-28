@@ -27,8 +27,5 @@
 "%d months ago" => "%d måneder siden",
 "last year" => "forrige år",
 "years ago" => "år siden",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s er tilgjengelig. Få  <a href=\"%s\">mer informasjon</a>",
-"up to date" => "oppdatert",
-"updates check is disabled" => "versjonssjekk er avslått",
 "Could not find category \"%s\"" => "Kunne ikke finne kategori \"%s\""
 );

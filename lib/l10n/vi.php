@@ -28,8 +28,5 @@
 "%d months ago" => "%d tháng trước",
 "last year" => "năm trước",
 "years ago" => "năm trước",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s có sẵn.  <a href=\"%s\">xem thêm ở đây</a>",
-"up to date" => "đến ngày",
-"updates check is disabled" => "đã TĂT chức năng cập nhật ",
 "Could not find category \"%s\"" => "không thể tìm thấy mục \"%s\""
 );

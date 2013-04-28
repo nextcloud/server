@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 16:23+0000\n"
-"Last-Translator: drlinux64 <romeo@energo-pro.ge>\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 23:57+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -234,19 +234,6 @@ msgstr "ბოლო წელს"
 #: template.php:124
 msgid "years ago"
 msgstr "წლის წინ"
-
-#: updater.php:78
-#, php-format
-msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr "%s ხელმისაწვდომია. მიიღეთ <a href=\"%s\">უფრო მეტი ინფორმაცია</a>"
-
-#: updater.php:81
-msgid "up to date"
-msgstr "განახლებულია"
-
-#: updater.php:84
-msgid "updates check is disabled"
-msgstr "განახლების ძებნა გათიშულია"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
