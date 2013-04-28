@@ -116,7 +116,7 @@ $(document).ready(function() {
 	});
 
 	// Trigger cancelling of file upload
-	$('#uploadprogresswrapper stop').on('click', function() {
+	$('#uploadprogresswrapper .stop').on('click', function() {
 		Files.cancelUploads();
 	});
 
