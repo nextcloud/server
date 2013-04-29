@@ -52,14 +52,19 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		\OC_User::setUserId( 'admin' );
 		$this->userId = 'admin';
 		$this->pass = 'admin';
-		
-		\OC_Filesystem::init( '/' );
-		\OC_Filesystem::mount( 'OC_Filestorage_Local', array('datadir' => \OC_User::getHome($this->userId)), '/' );
-		
+
+        $userHome = \OC_User::getHome($this->userId);
+        if(!file_exists($userHome)) {
+            mkdir($userHome, 0777, true);
+        }
+        $dataDir = str_replace('/'.$this->userId, '', $userHome);
+
+        \OC\Files\Filesystem::mount( 'OC_Filestorage_Local', array('datadir' => $dataDir), '/' );
+        \OC\Files\Filesystem::init($this->userId, '/');
 	}
 	
 	function tearDown() {
-	
+
 	}
 
 	function testGenerateKey() {
@@ -222,35 +227,38 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
 	function testSymmetricStreamEncryptShortFileContent() { 
 		
-		$filename = 'tmp-'.time();
-		
+		$filename = 'tmp-'.time().'.test';
+
 		$cryptedFile = file_put_contents( 'crypt://' . $filename, $this->dataShort );
 		
 		// Test that data was successfully written
 		$this->assertTrue( is_int( $cryptedFile ) );
-		
-		
-		// Get file contents without using any wrapper to get it's actual contents on disk
-		$retreivedCryptedFile = $this->view->file_get_contents( $this->userId . '/files/' . $filename );
-		
+
+        // Get file contents without using any wrapper to get it's actual contents on disk
+		$absolutePath = \OC\Files\Filesystem::getLocalFile($this->userId . '/files/' . $filename);
+        $retreivedCryptedFile = file_get_contents($absolutePath);
+
 		// Check that the file was encrypted before being written to disk
 		$this->assertNotEquals( $this->dataShort, $retreivedCryptedFile );
-		
-		// Get private key
-		$encryptedPrivateKey = Encryption\Keymanager::getPrivateKey( $this->view, $this->userId );
-		
-		$decryptedPrivateKey = Encryption\Crypt::symmetricDecryptFileContent( $encryptedPrivateKey, $this->pass );
-		
-		
-		// Get keyfile
-		$encryptedKeyfile = Encryption\Keymanager::getFileKey( $this->view, $this->userId, $filename );
-		
-		$decryptedKeyfile = Encryption\Crypt::keyDecrypt( $encryptedKeyfile, $decryptedPrivateKey );
-		
-		
-		// Manually decrypt
-		$manualDecrypt = Encryption\Crypt::symmetricBlockDecryptFileContent( $retreivedCryptedFile, $decryptedKeyfile );
-		
+
+        // Get the encrypted keyfile
+        $encKeyfile = Encryption\Keymanager::getFileKey( $this->view, $this->userId, $filename );
+
+        // Attempt to fetch the user's shareKey
+        $shareKey = Encryption\Keymanager::getShareKey( $this->view, $this->userId, $filename );
+
+        // get session
+        $session = new Encryption\Session( $this->view );
+
+        // get private key
+        $privateKey = $session->getPrivateKey( $this->userId );
+
+        // Decrypt keyfile with shareKey
+        $plainKeyfile = Encryption\Crypt::multiKeyDecrypt( $encKeyfile, $shareKey, $privateKey );
+
+        // Manually decrypt
+        $manualDecrypt = Encryption\Crypt::symmetricDecryptFileContent( $retreivedCryptedFile, $plainKeyfile );
+
 		// Check that decrypted data matches
 		$this->assertEquals( $this->dataShort, $manualDecrypt );
 		
@@ -329,7 +337,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		$this->view->unlink( $filename );
 		
-		Encryption\Keymanager::deleteFileKey( $filename );
+		Encryption\Keymanager::deleteFileKey( $this->view, $this->userId, $filename );
 		
 	}
 	
