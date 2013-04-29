@@ -33,7 +33,7 @@
 	<div id="notification-container">
 		<div id="notification"></div>
 		<?php if ($_['updateAvailable']): ?>
-			<div id="update-notification" style="display: inline;"><?php print_unescaped($l->t('%s is available. <a href="%s">Click here to get more information.', array($_['updateVersion'], $_['updateLink']))); ?></a></div>
+			<div id="update-notification" style="display: inline;"><a href="<?php print_unescaped($_['updateLink']); ?>"><?php p($l->t('%s is available. Get more information on how to update.', array($_['updateVersion']))); ?></a></div>
 		<?php endif; ?>
 	</div>
 	<header><div id="header">
