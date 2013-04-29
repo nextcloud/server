@@ -119,8 +119,10 @@ class Hooks {
 		// is in use (client-side encryption does not have access to 
 		// the necessary keys)
 		if ( Crypt::mode() == 'server' ) {
-			
-			$session = new Session();
+
+            $view = new \OC_FilesystemView( '/' );
+
+			$session = new Session($view);
 			
 			// Get existing decrypted private key
 			$privateKey = $session->getPrivateKey();
