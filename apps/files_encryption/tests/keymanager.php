@@ -64,9 +64,13 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 	function testGetPrivateKey() {
 	
 		$key = Encryption\Keymanager::getPrivateKey( $this->view, $this->userId );
-		 
+
+        $privateKey = Encryption\Crypt::symmetricDecryptFileContent( $key, $this->pass);
+
 		// Will this length vary? Perhaps we should use a range instead
-		$this->assertEquals( 4388, strlen( $key ) );
+		$this->assertGreaterThan( 27, strlen( $privateKey ) );
+
+        $this->assertEquals( '-----BEGIN PRIVATE KEY-----', substr( $privateKey, 0, 27 ) );
 	
 	}
 	
@@ -74,7 +78,7 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		$key = Encryption\Keymanager::getPublicKey( $this->view, $this->userId );
 		
-		$this->assertEquals( 800, strlen( $key ) );
+		$this->assertGreaterThan( 26, strlen( $key ) );
 		
 		$this->assertEquals( '-----BEGIN PUBLIC KEY-----', substr( $key, 0, 26 ) );
 	}
@@ -122,9 +126,15 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 	
 		$keys = Encryption\Keymanager::getUserKeys( $this->view, $this->userId );
 		
-		$this->assertEquals( 800, strlen( $keys['publicKey'] ) );
+		$this->assertGreaterThan( 26, strlen( $keys['publicKey'] ) );
+
 		$this->assertEquals( '-----BEGIN PUBLIC KEY-----', substr( $keys['publicKey'], 0, 26 ) );
-		$this->assertEquals( 4388, strlen( $keys['privateKey'] ) );
+
+        $privateKey = Encryption\Crypt::symmetricDecryptFileContent( $keys['privateKey'], $this->pass);
+
+        $this->assertGreaterThan( 27, strlen( $keys['privateKey'] ) );
+
+        $this->assertEquals( '-----BEGIN PRIVATE KEY-----', substr( $privateKey, 0, 27 ) );
 	
 	}
 	
