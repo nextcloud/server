@@ -34,7 +34,9 @@ use OCA\Encryption;
 class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
 	function setUp() {
-		
+        // reset backend
+        \OC_User::useBackend('database');
+
 		// set content for encrypting / decrypting in tests
 		$this->dataLong = file_get_contents( realpath( dirname(__FILE__).'/../lib/crypt.php' ) );
 		$this->dataShort = 'hats';
@@ -54,13 +56,10 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->pass = 'admin';
 
         $userHome = \OC_User::getHome($this->userId);
-        if(!file_exists($userHome)) {
-            mkdir($userHome, 0777, true);
-        }
-        $dataDir = str_replace('/'.$this->userId, '', $userHome);
+        $this->dataDir = str_replace('/'.$this->userId, '', $userHome);
 
-        \OC\Files\Filesystem::mount( 'OC_Filestorage_Local', array('datadir' => $dataDir), '/' );
         \OC\Files\Filesystem::init($this->userId, '/');
+        \OC\Files\Filesystem::mount( 'OC_Filestorage_Local', array('datadir' => $this->dataDir), '/' );
 	}
 	
 	function tearDown() {
@@ -225,7 +224,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 // 		
 // 	}
 	
-	function testSymmetricStreamEncryptShortFileContent() { 
+	function testSymmetricStreamEncryptShortFileContent() {
 		
 		$filename = 'tmp-'.time().'.test';
 
@@ -234,9 +233,15 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		// Test that data was successfully written
 		$this->assertTrue( is_int( $cryptedFile ) );
 
+        // Disable encryption proxy to prevent recursive calls
+        $proxyStatus = \OC_FileProxy::$enabled;
+        \OC_FileProxy::$enabled = false;
+
         // Get file contents without using any wrapper to get it's actual contents on disk
-		$absolutePath = \OC\Files\Filesystem::getLocalFile($this->userId . '/files/' . $filename);
-        $retreivedCryptedFile = file_get_contents($absolutePath);
+        $retreivedCryptedFile = $this->view->file_get_contents($this->userId . '/files/' . $filename);
+
+        // Re-enable proxy - our work is done
+        \OC_FileProxy::$enabled = $proxyStatus;
 
 		// Check that the file was encrypted before being written to disk
 		$this->assertNotEquals( $this->dataShort, $retreivedCryptedFile );
@@ -261,7 +266,11 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 
 		// Check that decrypted data matches
 		$this->assertEquals( $this->dataShort, $manualDecrypt );
-		
+
+        // Teardown
+        $this->view->unlink( $filename );
+
+        Encryption\Keymanager::deleteFileKey( $this->view, $this->userId, $filename );
 	}
 	
 	/**
@@ -273,7 +282,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	function testSymmetricStreamEncryptLongFileContent() {
 		
 		// Generate a a random filename
-		$filename = 'tmp-'.time();
+		$filename = 'tmp-'.time().'.test';
 		
 		// Save long data as encrypted file using stream wrapper
 		$cryptedFile = file_put_contents( 'crypt://' . $filename, $this->dataLong.$this->dataLong );
@@ -281,12 +290,18 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		// Test that data was successfully written
 		$this->assertTrue( is_int( $cryptedFile ) );
 		
-		// Get file contents without using any wrapper to get it's actual contents on disk
-		$retreivedCryptedFile = $this->view->file_get_contents( $this->userId . '/files/' . $filename );
-		
-// 		echo "\n\n\$retreivedCryptedFile = $retreivedCryptedFile\n\n";
-		
-		// Check that the file was encrypted before being written to disk
+		// Disable encryption proxy to prevent recursive calls
+        $proxyStatus = \OC_FileProxy::$enabled;
+        \OC_FileProxy::$enabled = false;
+
+        // Get file contents without using any wrapper to get it's actual contents on disk
+        $retreivedCryptedFile = $this->view->file_get_contents($this->userId . '/files/' . $filename);
+
+        // Re-enable proxy - our work is done
+        \OC_FileProxy::$enabled = $proxyStatus;
+
+
+        // Check that the file was encrypted before being written to disk
 		$this->assertNotEquals( $this->dataLong.$this->dataLong, $retreivedCryptedFile );
 		
 		// Manuallly split saved file into separate IVs and encrypted chunks
@@ -298,38 +313,34 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$e = array( $r[0].$r[1], $r[2].$r[3], $r[4].$r[5], $r[6].$r[7], $r[8].$r[9], $r[10].$r[11], $r[12].$r[13] );//.$r[11], $r[12].$r[13], $r[14] );
 		
 		//print_r($e);
-		
-		
-		// Get private key
-		$encryptedPrivateKey = Encryption\Keymanager::getPrivateKey( $this->view, $this->userId );
-		
-		$decryptedPrivateKey = Encryption\Crypt::symmetricDecryptFileContent( $encryptedPrivateKey, $this->pass );
-		
-		
-		// Get keyfile
-		$encryptedKeyfile = Encryption\Keymanager::getFileKey( $this->view, $this->userId, $filename );
-		
-		$decryptedKeyfile = Encryption\Crypt::keyDecrypt( $encryptedKeyfile, $decryptedPrivateKey );
-		
-		
+
+        // Get the encrypted keyfile
+        $encKeyfile = Encryption\Keymanager::getFileKey( $this->view, $this->userId, $filename );
+
+        // Attempt to fetch the user's shareKey
+        $shareKey = Encryption\Keymanager::getShareKey( $this->view, $this->userId, $filename );
+
+        // get session
+        $session = new Encryption\Session( $this->view );
+
+        // get private key
+        $privateKey = $session->getPrivateKey( $this->userId );
+
+        // Decrypt keyfile with shareKey
+        $plainKeyfile = Encryption\Crypt::multiKeyDecrypt( $encKeyfile, $shareKey, $privateKey );
+
 		// Set var for reassembling decrypted content
 		$decrypt = '';
 		
 		// Manually decrypt chunk
 		foreach ($e as $e) {
-		
-// 			echo "\n\$e = $e";
 			
-			$chunkDecrypt = Encryption\Crypt::symmetricDecryptFileContent( $e, $decryptedKeyfile );
+			$chunkDecrypt = Encryption\Crypt::symmetricDecryptFileContent( $e, $plainKeyfile );
 			
 			// Assemble decrypted chunks
 			$decrypt .= $chunkDecrypt;
 			
-// 			echo "\n\$chunkDecrypt = $chunkDecrypt";
-			
 		}
-		
-// 		echo "\n\$decrypt = $decrypt";
 		
 		$this->assertEquals( $this->dataLong.$this->dataLong, $decrypt );
 		
