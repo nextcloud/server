@@ -50,8 +50,8 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
         $userHome = \OC_User::getHome($this->userId);
         $this->dataDir = str_replace('/'.$this->userId, '', $userHome);
 
-        \OC_Filesystem::init( $this->userId, '/' );
-		\OC_Filesystem::mount( 'OC_Filestorage_Local', array('datadir' => $this->dataDir), '/' );
+        \OC\Files\Filesystem::init( $this->userId, '/' );
+        \OC\Files\Filesystem::mount( 'OC_Filestorage_Local', array('datadir' => $this->dataDir), '/' );
 	
 	}
 	

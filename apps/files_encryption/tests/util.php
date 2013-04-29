@@ -29,19 +29,20 @@ use OCA\Encryption;
 class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 	
 	function setUp() {
-	
-		\OC_Filesystem::mount( 'OC_Filestorage_Local', array(), '/' );
-		
-		// set content for encrypting / decrypting in tests
+        // reset backend
+        \OC_User::useBackend('database');
+
+        \OC_User::setUserId( 'admin' );
+        $this->userId = 'admin';
+        $this->pass = 'admin';
+
+        // set content for encrypting / decrypting in tests
 		$this->dataUrl = realpath( dirname(__FILE__).'/../lib/crypt.php' );
 		$this->dataShort = 'hats';
 		$this->dataLong = file_get_contents( realpath( dirname(__FILE__).'/../lib/crypt.php' ) );
 		$this->legacyData = realpath( dirname(__FILE__).'/legacy-text.txt' );
 		$this->legacyEncryptedData = realpath( dirname(__FILE__).'/legacy-encrypted-text.txt' );
-		
-		$this->userId = 'admin';
-		$this->pass = 'admin';
-		
+
 		$keypair = Encryption\Crypt::createKeypair();
 		
 		$this->genPublicKey =  $keypair['publicKey'];
@@ -54,9 +55,15 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 		$this->privateKeyPath = $this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
 		
 		$this->view = new \OC_FilesystemView( '/' );
-		
-		$this->mockView = m::mock('OC_FilesystemView');
-		$this->util = new Encryption\Util( $this->mockView, $this->userId );
+
+        $userHome = \OC_User::getHome($this->userId);
+        $this->dataDir = str_replace('/'.$this->userId, '', $userHome);
+
+        \OC\Files\Filesystem::init( $this->userId, '/' );
+        \OC\Files\Filesystem::mount( 'OC_Filestorage_Local', array('datadir' => $this->dataDir), '/' );
+
+		$mockView = m::mock('OC_FilesystemView');
+		$this->util = new Encryption\Util( $mockView, $this->userId );
 	
 	}
 	
@@ -90,8 +97,8 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 	
 		$mockView = m::mock('OC_FilesystemView');
 		
-		$mockView->shouldReceive( 'file_exists' )->times(5)->andReturn( false );
-		$mockView->shouldReceive( 'mkdir' )->times(4)->andReturn( true );
+		$mockView->shouldReceive( 'file_exists' )->times(7)->andReturn( false );
+		$mockView->shouldReceive( 'mkdir' )->times(6)->andReturn( true );
 		$mockView->shouldReceive( 'file_put_contents' )->withAnyArgs();
 		
 		$util = new Encryption\Util( $mockView, $this->userId );
@@ -107,7 +114,7 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 	
 		$mockView = m::mock('OC_FilesystemView');
 		
-		$mockView->shouldReceive( 'file_exists' )->times(6)->andReturn( true );
+		$mockView->shouldReceive( 'file_exists' )->times(8)->andReturn( true );
 		$mockView->shouldReceive( 'file_put_contents' )->withAnyArgs();
 		
 		$util = new Encryption\Util( $mockView, $this->userId );
@@ -141,7 +148,7 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 	
 		$mockView = m::mock('OC_FilesystemView');
 		
-		$mockView->shouldReceive( 'file_exists' )->times(3)->andReturn( true );
+		$mockView->shouldReceive( 'file_exists' )->times(5)->andReturn( true );
 		
 		$util = new Encryption\Util( $mockView, $this->userId );
 		
@@ -190,11 +197,25 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 	function testGetUidAndFilename() {
 	
 		\OC_User::setUserId( 'admin' );
-		
-		$this->util->getUidAndFilename( 'test1.txt' );
-		
-		
-	
+
+        $filename = 'tmp-'.time().'.test';
+
+        // Disable encryption proxy to prevent recursive calls
+        $proxyStatus = \OC_FileProxy::$enabled;
+        \OC_FileProxy::$enabled = false;
+
+        $this->view->file_put_contents($this->userId . '/files/' . $filename, $this->dataShort);
+
+        // Re-enable proxy - our work is done
+        \OC_FileProxy::$enabled = $proxyStatus;
+
+        $util = new Encryption\Util( $this->view, $this->userId );
+
+        list($fileOwnerUid, $file) = $util->getUidAndFilename( $filename );
+
+        $this->assertEquals('admin', $fileOwnerUid);
+
+        $this->assertEquals($file, $filename);
 	}
 
 // 	/**

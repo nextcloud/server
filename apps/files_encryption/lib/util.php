@@ -204,7 +204,12 @@ class Util {
 			$this->view->file_put_contents( $this->privateKeyPath, $encryptedPrivateKey );
 			
 			\OC_FileProxy::$enabled = true;
-			
+
+            // create database configuration
+            $sql = 'INSERT INTO `*PREFIX*encryption` (`uid`,`mode`,`recovery`) VALUES (?,?,?)';
+            $args = array( $this->userId, 'server-side', 0);
+            $query = \OCP\DB::prepare( $sql );
+            $query->execute( $args );
 		}
 		
 		return true;
