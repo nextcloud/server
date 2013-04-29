@@ -68,7 +68,7 @@ class Scanner {
 			if ($data) {
 				if ($file) {
 					$parent = dirname($file);
-					if ($parent === '.') {
+					if ($parent === '.' or $parent === '/') {
 						$parent = '';
 					}
 					if (!$this->cache->inCache($parent)) {

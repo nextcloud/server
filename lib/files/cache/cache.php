@@ -430,7 +430,7 @@ class Cache {
 		$this->calculateFolderSize($path);
 		if ($path !== '') {
 			$parent = dirname($path);
-			if ($parent === '.') {
+			if ($parent === '.' or $parent === '/') {
 				$parent = '';
 			}
 			$this->correctFolderSize($parent);
