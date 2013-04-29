@@ -276,15 +276,10 @@ class OC_DB {
 							'phptype'  => 'oci8',
 							'username' => $user,
 							'password' => $pass,
+							'service'  => $name,
+							'hostspec' => $host,
 							'charset' => 'AL32UTF8',
 					);
-					if ($host != '') {
-						$dsn['hostspec'] = $host;
-						$dsn['database'] = $name;
-					} else { // use dbname for hostspec
-						$dsn['hostspec'] = $name;
-						$dsn['database'] = $user;
-					}
 					break;
 				case 'mssql':
 					$dsn = array(

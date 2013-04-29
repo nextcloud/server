@@ -173,8 +173,11 @@ class OC_App{
 		}
 		$apps=array('files');
 		$query = OC_DB::prepare( 'SELECT `appid` FROM `*PREFIX*appconfig`'
-			.' WHERE `configkey` = \'enabled\' AND `configvalue`=\'yes\'' );
+			.' WHERE `configkey` = \'enabled\' AND to_char(`configvalue`)=\'yes\'' );
 		$result=$query->execute();
+		if( \OC_DB::isError($result)) {
+			throw new DatabaseException($result->getMessage(), $query);
+		}
 		while($row=$result->fetchRow()) {
 			if(array_search($row['appid'], $apps)===false) {
 				$apps[]=$row['appid'];
