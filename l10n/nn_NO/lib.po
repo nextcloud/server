@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-29 01:58+0200\n"
-"PO-Revision-Date: 2013-04-28 22:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 17:40+0000\n"
+"Last-Translator: unhammer <unhammer+dill@mm.st>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -176,20 +176,20 @@ msgstr ""
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Tenaren din er ikkje enno rett innstilt til å tilby filsynkronisering sidan WebDAV-grensesnittet ser ut til å vera øydelagt."
 
 #: setup.php:859
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Ver vennleg og dobbeltsjekk <a href='%s'>installasjonsrettleiinga</a>."
 
 #: template.php:113
 msgid "seconds ago"
-msgstr ""
+msgstr "sekund sidan"
 
 #: template.php:114
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 minutt sidan"
 
 #: template.php:115
 #, php-format
@@ -198,7 +198,7 @@ msgstr ""
 
 #: template.php:116
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 time sidan"
 
 #: template.php:117
 #, php-format
@@ -207,11 +207,11 @@ msgstr ""
 
 #: template.php:118
 msgid "today"
-msgstr ""
+msgstr "i dag"
 
 #: template.php:119
 msgid "yesterday"
-msgstr ""
+msgstr "i går"
 
 #: template.php:120
 #, php-format
@@ -220,7 +220,7 @@ msgstr ""
 
 #: template.php:121
 msgid "last month"
-msgstr ""
+msgstr "førre månad"
 
 #: template.php:122
 #, php-format
@@ -229,11 +229,11 @@ msgstr ""
 
 #: template.php:123
 msgid "last year"
-msgstr ""
+msgstr "i fjor"
 
 #: template.php:124
 msgid "years ago"
-msgstr ""
+msgstr "år sidan"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

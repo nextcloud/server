@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
-"Unable to load list from App Store" => "Ni mogoče naložiti seznama iz središča App Store",
-"Authentication error" => "Napaka pri overjanju",
+"Unable to load list from App Store" => "Ni mogoče naložiti seznama iz programskega središča",
+"Authentication error" => "Napaka med overjanjem",
+"Your display name has been changed." => "Prikazano ime je bilo spremenjeno.",
 "Unable to change display name" => "Prikazanega imena ni mogoče spremeniti.",
 "Group already exists" => "Skupina že obstaja",
 "Unable to add group" => "Skupine ni mogoče dodati",

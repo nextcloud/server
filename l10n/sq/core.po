@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Odeen <rapid_odeen@zoho.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-28 01:57+0200\n"
-"PO-Revision-Date: 2013-04-27 23:57+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -401,11 +402,11 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "Lidhja për rivendosjen e kodit tuaj u dërgua tek email-i juaj.<br>Nëqoftëse nuk e merrni brenda një kohe të arsyeshme, kontrolloni dosjet e postës së padëshirueshme (spam).<br>Nëqoftëse nuk është as aty, pyesni administratorin tuaj lokal."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "Kërkesa dështoi!<br>A u siguruat që email-i/përdoruesi juaj ishte i saktë?"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
@@ -562,7 +563,7 @@ msgstr "shërbime web nën kontrollin tënd"
 
 #: templates/layout.user.php:36
 #, php-format
-msgid "%s is available. <a href=\"%s\">Click here to get more information."
+msgid "%s is available. Get more information on how to update."
 msgstr ""
 
 #: templates/layout.user.php:61

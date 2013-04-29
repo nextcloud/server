@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-29 01:58+0200\n"
-"PO-Revision-Date: 2013-04-28 11:30+0000\n"
-"Last-Translator: KAT.RAT12 <spanish.katerina@gmail.com>\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -564,7 +564,7 @@ msgstr "υπηρεσίες δικτύου υπό τον έλεγχό σας"
 
 #: templates/layout.user.php:36
 #, php-format
-msgid "%s is available. <a href=\"%s\">Click here to get more information."
+msgid "%s is available. Get more information on how to update."
 msgstr ""
 
 #: templates/layout.user.php:61

@@ -88,6 +88,8 @@
 "The update was successful. Redirecting you to ownCloud now." => "Azhurnimi u krye. Tani do t'ju kaloj tek ownCloud-i.",
 "ownCloud password reset" => "Rivendosja e kodit të ownCloud-it",
 "Use the following link to reset your password: {link}" => "Përdorni lidhjen në vijim për të rivendosur kodin: {link}",
+"The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Lidhja për rivendosjen e kodit tuaj u dërgua tek email-i juaj.<br>Nëqoftëse nuk e merrni brenda një kohe të arsyeshme, kontrolloni dosjet e postës së padëshirueshme (spam).<br>Nëqoftëse nuk është as aty, pyesni administratorin tuaj lokal.",
+"Request failed!<br>Did you make sure your email/username was right?" => "Kërkesa dështoi!<br>A u siguruat që email-i/përdoruesi juaj ishte i saktë?",
 "You will receive a link to reset your password via Email." => "Do t'iu vijë një email që përmban një lidhje për ta rivendosur kodin.",
 "Username" => "Përdoruesi",
 "Request reset" => "Bëj kërkesë për rivendosjen",

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# mateju <>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:29+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 18:20+0000\n"
+"Last-Translator: mateju <>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,14 +49,14 @@ msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
-msgstr "<b>Opozorilo:</b> podpora FTP v PHP ni omogočena ali pa ni nameščena. Priklapljanje pogonov FTP zato ni mogoče."
+msgstr "<b>Opozorilo:</b> podpora FTP v PHP ni omogočena ali pa ni nameščena. Priklapljanje pogonov FTP zato ne bo mogoče."
 
 #: lib/config.php:437
 msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
 "your system administrator to install it."
-msgstr ""
+msgstr "<b>Opozorilo:</b> podpora za Curl v PHP ni omogočena ali pa ni nameščena. Priklapljanje točke ownCloud / WebDAV ali GoogleDrive zato ne bo mogoče. Zahtevane pakete je treba pred uporabo namestiti."
 
 #: templates/settings.php:3
 msgid "External Storage"
@@ -108,7 +109,7 @@ msgstr "Izbriši"
 
 #: templates/settings.php:129
 msgid "Enable User External Storage"
-msgstr "Omogoči uporabniško zunanjo podatkovno shrambo"
+msgstr "Omogoči zunanjo uporabniško podatkovno shrambo"
 
 #: templates/settings.php:130
 msgid "Allow users to mount their own external storage"

@@ -88,6 +88,8 @@
 "The update was successful. Redirecting you to ownCloud now." => "Posodobitev je uspešno končana. Stran bo preusmerjena na oblak ownCloud.",
 "ownCloud password reset" => "Ponastavitev gesla za oblak ownCloud",
 "Use the following link to reset your password: {link}" => "Za ponastavitev gesla uporabite povezavo: {link}",
+"The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Povezava za ponastavitev gesla je bila poslana na elektronski naslov.<br>V kolikor sporočila ne prejmete v doglednem času, preverite tudi mape vsiljene pošte.<br>Če ne bo niti tam, stopite v stik s skrbnikom.",
+"Request failed!<br>Did you make sure your email/username was right?" => "Zahteva je spodletela!<br>Ali sta elektronski naslov oziroma uporabniško ime navedena pravilno?",
 "You will receive a link to reset your password via Email." => "Na elektronski naslov boste prejeli povezavo za ponovno nastavitev gesla.",
 "Username" => "Uporabniško ime",
 "Request reset" => "Zahtevaj ponovno nastavitev",

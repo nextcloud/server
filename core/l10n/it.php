@@ -125,7 +125,6 @@
 "Database host" => "Host del database",
 "Finish setup" => "Termina la configurazione",
 "web services under your control" => "servizi web nelle tue mani",
-"%s is available. <a href=\"%s\">Click here to get more information." => "%s è disponibile. <a href=\"%s\">Fai clic qui per ottenere ulteriori informazioni.",
 "Log out" => "Esci",
 "Automatic logon rejected!" => "Accesso automatico rifiutato.",
 "If you did not change your password recently, your account may be compromised!" => "Se non hai cambiato la password recentemente, il tuo account potrebbe essere compromesso.",

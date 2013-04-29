@@ -88,6 +88,8 @@
 "The update was successful. Redirecting you to ownCloud now." => "Обновление прошло успешно. Перенаправляемся в Ваш ownCloud...",
 "ownCloud password reset" => "Сброс пароля ",
 "Use the following link to reset your password: {link}" => "Используйте следующую ссылку чтобы сбросить пароль: {link}",
+"The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Ссылка для сброса пароля была отправлена ​​по электронной почте. <br> Если вы не получите его в пределах одной двух минут, проверьте папку спам. <br> Если это не возможно, обратитесь к Вашему администратору.",
+"Request failed!<br>Did you make sure your email/username was right?" => "Что-то не так. Вы уверены что Email / Имя пользователя указаны верно?",
 "You will receive a link to reset your password via Email." => "На ваш адрес Email выслана ссылка для сброса пароля.",
 "Username" => "Имя пользователя",
 "Request reset" => "Запросить сброс",

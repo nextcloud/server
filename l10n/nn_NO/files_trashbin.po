@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:30+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 14:40+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgstr ""
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr ""
+msgstr "Slett for godt"
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
@@ -53,19 +53,19 @@ msgstr ""
 
 #: js/trash.js:184
 msgid "1 folder"
-msgstr ""
+msgstr "1 mappe"
 
 #: js/trash.js:186
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} mapper"
 
 #: js/trash.js:194
 msgid "1 file"
-msgstr ""
+msgstr "1 fil"
 
 #: js/trash.js:196
 msgid "{count} files"
-msgstr ""
+msgstr "{count} filer"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"

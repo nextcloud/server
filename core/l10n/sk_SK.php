@@ -125,7 +125,6 @@
 "Database host" => "Server databázy",
 "Finish setup" => "Dokončiť inštaláciu",
 "web services under your control" => "webové služby pod Vašou kontrolou",
-"%s is available. <a href=\"%s\">Click here to get more information." => "%s je dostupná. <a href=\"%s\">Pre viac informácií kliknite tu.",
 "Log out" => "Odhlásiť",
 "Automatic logon rejected!" => "Automatické prihlásenie bolo zamietnuté!",
 "If you did not change your password recently, your account may be compromised!" => "V nedávnej dobe ste nezmenili svoje heslo, Váš účet môže byť kompromitovaný.",

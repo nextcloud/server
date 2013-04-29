@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-29 01:58+0200\n"
-"PO-Revision-Date: 2013-04-28 22:10+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 17:40+0000\n"
 "Last-Translator: unhammer <unhammer+dill@mm.st>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "Klarer ikkje å laste inn liste fra App Store"
+msgstr "Klarer ikkje å lasta inn liste fra app-butikken"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
@@ -73,7 +73,7 @@ msgstr "Ugyldig førespurnad"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr "Administratorar kan ikkje fjerna seg sjølv frå admin-gruppa"
+msgstr "Administratorar kan ikkje fjerna seg sjølve frå admin-gruppa"
 
 #: ajax/togglegroups.php:30
 #, php-format
@@ -103,7 +103,7 @@ msgstr "Slå på"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr "Ver vennleg og vent …"
+msgstr "Ver venleg og vent …"
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
@@ -111,31 +111,31 @@ msgstr "Feil"
 
 #: js/apps.js:90
 msgid "Updating...."
-msgstr ""
+msgstr "Oppdaterer …"
 
 #: js/apps.js:93
 msgid "Error while updating app"
-msgstr ""
+msgstr "Feil ved oppdatering av app"
 
 #: js/apps.js:96
 msgid "Updated"
-msgstr ""
+msgstr "Oppdatert"
 
 #: js/personal.js:118
 msgid "Saving..."
-msgstr ""
+msgstr "Lagrar …"
 
 #: js/users.js:43
 msgid "deleted"
-msgstr ""
+msgstr "sletta"
 
 #: js/users.js:43
 msgid "undo"
-msgstr ""
+msgstr "angra"
 
 #: js/users.js:75
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Klarte ikkje å fjerna brukaren"
 
 #: js/users.js:88 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
@@ -144,7 +144,7 @@ msgstr "Grupper"
 
 #: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
-msgstr ""
+msgstr "Gruppestyrar"
 
 #: js/users.js:111 templates/users.php:155
 msgid "Delete"
@@ -152,19 +152,19 @@ msgstr "Slett"
 
 #: js/users.js:262
 msgid "add group"
-msgstr ""
+msgstr "legg til gruppe"
 
 #: js/users.js:414
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Du må oppgje eit gyldig brukarnamn"
 
 #: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
-msgstr ""
+msgstr "Feil ved oppretting av brukar"
 
 #: js/users.js:420
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Du må oppgje eit gyldig passord"
 
 #: personal.php:35 personal.php:36
 msgid "__language_name__"
@@ -172,7 +172,7 @@ msgstr "Nynorsk"
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr ""
+msgstr "Tryggleiksåtvaring"
 
 #: templates/admin.php:18
 msgid ""
@@ -181,36 +181,36 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Datamappa og filene dine er sannsynlegvis tilgjengelege frå Internett. Fila .htaccess som ownCloud tilbyr fungerer ikkje. Me rår sterkt til at du set opp tenaren din slik at datamappa ikkje lenger er tilgjengeleg, eller at du flyttar datamappa vekk frå dokumentrota til tenaren."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "Oppsettsåtvaring"
 
 #: templates/admin.php:32
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Tenaren din er ikkje enno rett innstilt til å tilby filsynkronisering sidan WebDAV-grensesnittet ser ut til å vera øydelagt."
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Ver venleg og dobbeltsjekk <a href='%s'>installasjonsrettleiinga</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Modulen «fileinfo» manglar"
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "PHP-modulen «fileinfo» manglar. Me rår sterkt til å skru på denne modulen for å best mogleg oppdaga MIME-typar."
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "Regionaldata fungerer ikkje"
 
 #: templates/admin.php:63
 #, php-format
@@ -218,11 +218,11 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "Denne ownCloud-tenaren kan ikkje stilla regionen til %s. Dette tyder at det kan vera problem med visse teikn i filnamn. Me rår sterkt til å installera systempakkane som krevst for å støtta %s."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Nettilkoplinga fungerer ikkje"
 
 #: templates/admin.php:78
 msgid ""
@@ -232,86 +232,86 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr "Denne ownCloud-tenaren har ikkje nokon fungerande nettilkopling. Difor vil visse funksjonar, t.d. montering av ekstern lagring, varsling om oppdatering, eller installering av tredjepartsapplikasjonar ikkje fungera. Varslingsepostar og ekstern tilgang til filer vil kanskje heller ikkje fungera. Me foreslår at du skrur på nettilkoplinga til denne tenaren viss du vil bruka alle funksjonane til ownCloud."
+msgstr "Denne ownCloud-tenaren har ikkje nokon fungerande nettilkopling. Difor vil visse funksjonar, t.d. montering av ekstern lagring, varsling om oppdatering, eller installering av tredjepartsapplikasjonar ikkje fungera. Varslingsepostar og ekstern tilgang til filer vil kanskje heller ikkje fungera. Me foreslår at du skrur på nettilkoplinga til denne tenaren viss du vil nytta alle funksjonane til ownCloud."
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Utfør éi oppgåve for kvar sidelasting"
 
 #: templates/admin.php:111
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php er registrert ved ei webcron-teneste. Last sida cron.php i ownCloud-rota ein gong i minuttet over http."
 
 #: templates/admin.php:121
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Bruk cron-tenesta til systemet. Køyr fila cron.php i ownCloud-mappa frå ein cron-jobb på systemet ein gong i minuttet."
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr ""
+msgstr "Deling"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr ""
+msgstr "Skru på API-et for deling"
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "La app-ar bruka API-et til deling"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "Tillat lenkjer"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "La brukarar dela ting offentleg med lenkjer"
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr ""
+msgstr "Tillat vidaredeling"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "La brukarar vidaredela delte ting"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "La brukarar dela med kven som helst"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "La brukarar dela berre med brukarar i deira grupper"
 
 #: templates/admin.php:168
 msgid "Security"
-msgstr ""
+msgstr "Tryggleik"
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Krev HTTPS"
 
 #: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Krev at klientar koplar til ownCloud med ei kryptert tilkopling."
 
 #: templates/admin.php:185
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "Ver venleg og kopla denne ownCloud-instansen til via HTTPS for å skru av/på SSL-handhevinga."
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr ""
+msgstr "Logg"
 
 #: templates/admin.php:196
 msgid "Log level"
@@ -319,15 +319,15 @@ msgstr "Log nivå"
 
 #: templates/admin.php:227
 msgid "More"
-msgstr ""
+msgstr "Meir"
 
 #: templates/admin.php:228
 msgid "Less"
-msgstr ""
+msgstr "Mindre"
 
 #: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
-msgstr ""
+msgstr "Utgåve"
 
 #: templates/admin.php:237 templates/personal.php:108
 msgid ""
@@ -337,15 +337,15 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "<a href=\"https://github.com/owncloud\" target=\"_blank\">Kjeldekoden</a>, utvikla av <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud-fellesskapet</a>, er lisensiert under <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr ""
+msgstr "Legg til din app"
 
 #: templates/apps.php:12
 msgid "More Apps"
-msgstr ""
+msgstr "Fleire app-ar"
 
 #: templates/apps.php:28
 msgid "Select an App"
@@ -353,11 +353,11 @@ msgstr "Vel ein applikasjon"
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Sjå applikasjonssida på apps.owncloud.com"
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "Lisensiert under <span class=\"licence\"></span> av <span class=\"author\"></span>"
 
 #: templates/apps.php:38
 msgid "Update"
@@ -365,40 +365,40 @@ msgstr "Oppdater"
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr ""
+msgstr "Brukardokumentasjon"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Administratordokumentasjon"
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr ""
+msgstr "Dokumentasjon på nett"
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr ""
+msgstr "Forum"
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr ""
+msgstr "Feilsporar"
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr ""
+msgstr "Betalt brukarstøtte"
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Du har brukt <strong>%s</strong> av dine tilgjengelege <strong>%s</strong>"
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Få app-ar som kan synkronisera filene dine"
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
-msgstr ""
+msgstr "Vis Oppstartvegvisaren igjen"
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
@@ -406,7 +406,7 @@ msgstr "Passord"
 
 #: templates/personal.php:38
 msgid "Your password was changed"
-msgstr ""
+msgstr "Passordet ditt er endra"
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
@@ -426,7 +426,7 @@ msgstr "Endra passord"
 
 #: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
-msgstr ""
+msgstr "Visningsnamn"
 
 #: templates/personal.php:68
 msgid "Email"
@@ -446,19 +446,19 @@ msgstr "Språk"
 
 #: templates/personal.php:89
 msgid "Help translate"
-msgstr "Hjelp oss å oversett"
+msgstr "Hjelp oss å omsetja"
 
 #: templates/personal.php:94
 msgid "WebDAV"
-msgstr ""
+msgstr "WebDAV"
 
 #: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Bruk denne adressa for å kopla til din ownCloud frå filhandsamaren din"
 
 #: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
-msgstr ""
+msgstr "Innloggingsnamn"
 
 #: templates/users.php:30
 msgid "Create"
@@ -466,11 +466,11 @@ msgstr "Lag"
 
 #: templates/users.php:33
 msgid "Default Storage"
-msgstr ""
+msgstr "Standardlagring"
 
 #: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
-msgstr ""
+msgstr "Ubegrensa"
 
 #: templates/users.php:57 templates/users.php:148
 msgid "Other"
@@ -478,16 +478,16 @@ msgstr "Anna"
 
 #: templates/users.php:82
 msgid "Storage"
-msgstr ""
+msgstr "Lagring"
 
 #: templates/users.php:93
 msgid "change display name"
-msgstr ""
+msgstr "endra visningsnamn"
 
 #: templates/users.php:97
 msgid "set new password"
-msgstr ""
+msgstr "lag nytt passord"
 
 #: templates/users.php:128
 msgid "Default"
-msgstr ""
+msgstr "Standard"

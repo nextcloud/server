@@ -125,7 +125,6 @@
 "Database host" => "Database server",
 "Finish setup" => "Installatie afronden",
 "web services under your control" => "Webdiensten in eigen beheer",
-"%s is available. <a href=\"%s\">Click here to get more information." => "%s is beschikbaar. <a href=\"%s\">Klik hier voor meer informatie.",
 "Log out" => "Afmelden",
 "Automatic logon rejected!" => "Automatische aanmelding geweigerd!",
 "If you did not change your password recently, your account may be compromised!" => "Als u uw wachtwoord niet onlangs heeft aangepast, kan uw account overgenomen zijn!",
