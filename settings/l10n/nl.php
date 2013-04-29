@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Kan de lijst niet van de App store laden",
 "Authentication error" => "Authenticatie fout",
+"Your display name has been changed." => "Uw weergavenaam is gewijzigd.",
 "Unable to change display name" => "Kon de weergavenaam niet wijzigen",
 "Group already exists" => "Groep bestaat al",
 "Unable to add group" => "Niet in staat om groep toe te voegen",

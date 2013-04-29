@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# arkascha <foss@christian-reiner.info>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-28 01:57+0200\n"
-"PO-Revision-Date: 2013-04-27 23:57+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-29 01:58+0200\n"
+"PO-Revision-Date: 2013-04-28 06:40+0000\n"
+"Last-Translator: arkascha <foss@christian-reiner.info>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -401,11 +402,11 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "Der Link zum Rücksetzen Deines Passwort ist an Deine E-Mail-Adresse geschickt worden.<br>Wenn Du ihn nicht innerhalb einer vernünftigen Zeit empfängst prüfe Deine Spam-Verzeichnisse.<br>Wenn er nicht dort ist frage Deinen lokalen Administrator."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "Anfrage fehlgeschlagen!<br>Hast Du darauf geachtet, dass Deine E-Mail/Dein Benutzername korrekt war?"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
@@ -563,7 +564,7 @@ msgstr "Web-Services unter Deiner Kontrolle"
 #: templates/layout.user.php:36
 #, php-format
 msgid "%s is available. <a href=\"%s\">Click here to get more information."
-msgstr ""
+msgstr "%s ist verfügbar. <a href=\"%s\">Klicke hier für weitere Informationen."
 
 #: templates/layout.user.php:61
 msgid "Log out"

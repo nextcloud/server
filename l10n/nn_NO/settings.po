@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# unhammer <unhammer+dill@mm.st>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:17+0200\n"
-"PO-Revision-Date: 2013-04-26 08:31+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-29 01:58+0200\n"
+"PO-Revision-Date: 2013-04-28 22:10+0000\n"
+"Last-Translator: unhammer <unhammer+dill@mm.st>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,27 +25,27 @@ msgstr "Klarer ikkje å laste inn liste fra App Store"
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "Feil i autentisering"
+msgstr "Autentiseringsfeil"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
-msgstr ""
+msgstr "Visningsnamnet ditt er endra."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
-msgstr ""
+msgstr "Klarte ikkje å endra visningsnamnet"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr ""
+msgstr "Gruppa finst allereie"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr ""
+msgstr "Klarte ikkje å leggja til gruppa"
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Klarte ikkje å aktivera app-en."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
@@ -56,11 +57,11 @@ msgstr "Ugyldig e-postadresse"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Klarte ikkje å sletta gruppa"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Klarte ikkje å sletta brukaren"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -72,25 +73,25 @@ msgstr "Ugyldig førespurnad"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "Administratorar kan ikkje fjerna seg sjølv frå admin-gruppa"
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Klarte ikkje å leggja til brukaren til gruppa %s"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Klarte ikkje å fjerna brukaren frå gruppa %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Klarte ikkje å oppdatera app-en."
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Oppdater til {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
@@ -102,7 +103,7 @@ msgstr "Slå på"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "Ver vennleg og vent …"
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
@@ -231,7 +232,7 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "Denne ownCloud-tenaren har ikkje nokon fungerande nettilkopling. Difor vil visse funksjonar, t.d. montering av ekstern lagring, varsling om oppdatering, eller installering av tredjepartsapplikasjonar ikkje fungera. Varslingsepostar og ekstern tilgang til filer vil kanskje heller ikkje fungera. Me foreslår at du skrur på nettilkoplinga til denne tenaren viss du vil bruka alle funksjonane til ownCloud."
 
 #: templates/admin.php:92
 msgid "Cron"
@@ -328,7 +329,7 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:238 templates/personal.php:108
+#: templates/admin.php:237 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -429,15 +430,15 @@ msgstr ""
 
 #: templates/personal.php:68
 msgid "Email"
-msgstr "Epost"
+msgstr "E-post"
 
 #: templates/personal.php:70
 msgid "Your email address"
-msgstr "Din epost addresse"
+msgstr "Di epost-adresse"
 
 #: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
-msgstr "Fyll inn din e-post addresse for og kunne motta passord tilbakestilling"
+msgstr "Fyll inn e-postadressa di for å aktivera passordgjenoppretting"
 
 #: templates/personal.php:77 templates/personal.php:78
 msgid "Language"

@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# mbouzada <mbouzada@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-28 01:57+0200\n"
-"PO-Revision-Date: 2013-04-27 23:57+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-29 01:58+0200\n"
+"PO-Revision-Date: 2013-04-28 09:10+0000\n"
+"Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -401,11 +402,11 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "Envióuselle ao seu correo unha ligazón para restabelecer o seu contrasinal.<br>Se non o recibe nun prazo razoábel de tempo, revise o seu cartafol de correo lixo ou de non desexados.<br> Se non o atopa aí pregúntelle ao seu administrador local.."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "Non foi posíbel facer a petición!<br>Asegúrese de que o seu enderezo de correo ou nome de usuario é correcto."
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
@@ -563,7 +564,7 @@ msgstr "servizos web baixo o seu control"
 #: templates/layout.user.php:36
 #, php-format
 msgid "%s is available. <a href=\"%s\">Click here to get more information."
-msgstr ""
+msgstr "%s está dispoñíbel. <a href=\"%s\">Prema aquí para obter máis información."
 
 #: templates/layout.user.php:61
 msgid "Log out"

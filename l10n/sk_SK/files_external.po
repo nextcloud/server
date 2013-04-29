@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# mhh <marian.hvolka@stuba.sk>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:29+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-29 01:58+0200\n"
+"PO-Revision-Date: 2013-04-28 19:00+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -55,7 +56,7 @@ msgid ""
 "<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
 "Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
 "your system administrator to install it."
-msgstr ""
+msgstr "<b>Varovanie:</b> nie je nainštalovaná, alebo povolená, podpora Curl v PHP. Nie je možné pripojenie oddielov ownCloud, WebDAV, či GoogleDrive. Prosím požiadajte svojho administrátora systému, nech ju nainštaluje."
 
 #: templates/settings.php:3
 msgid "External Storage"

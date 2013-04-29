@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# mhh <marian.hvolka@stuba.sk>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-28 01:57+0200\n"
-"PO-Revision-Date: 2013-04-27 23:57+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-29 01:58+0200\n"
+"PO-Revision-Date: 2013-04-28 18:50+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -401,11 +402,11 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "Odkaz na obnovenie hesla bol odoslaný na Vašu emailovú adresu.<br>Ak ho v krátkej dobe neobdržíte, skontrolujte si Váš kôš a priečinok spam.<br>Ak ho ani tam nenájdete, kontaktujte svojho administrátora."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "Požiadavka zlyhala.<br>Uistili ste sa, že Vaše používateľské meno a email sú správne?"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
@@ -563,7 +564,7 @@ msgstr "webové služby pod Vašou kontrolou"
 #: templates/layout.user.php:36
 #, php-format
 msgid "%s is available. <a href=\"%s\">Click here to get more information."
-msgstr ""
+msgstr "%s je dostupná. <a href=\"%s\">Pre viac informácií kliknite tu."
 
 #: templates/layout.user.php:61
 msgid "Log out"
