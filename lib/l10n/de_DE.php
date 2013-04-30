@@ -34,10 +34,10 @@
 "Drop this user from MySQL." => "Lösche diesen Benutzer aus MySQL.",
 "Offending command was: \"%s\", name: %s, password: %s" => "Fehlerhafter Befehl war: \"%s\", Name: %s, Passwort: %s",
 "MS SQL username and/or password not valid: %s" => "MS SQL Benutzername und/oder Passwort ungültig: %s",
-"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ihr Web-Server ist noch nicht für Datei-Synchronisation bereit, weil die WebDAV-Schnittstelle vermutlich defekt ist.",
+"Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ihr Web-Server ist noch nicht für eine Datei-Synchronisation konfiguriert, weil die WebDAV-Schnittstelle vermutlich defekt ist.",
 "Please double check the <a href='%s'>installation guides</a>." => "Bitte prüfen Sie die <a href='%s'>Installationsanleitungen</a>.",
 "seconds ago" => "Gerade eben",
-"1 minute ago" => "Vor einer Minute",
+"1 minute ago" => "Vor 1 Minute",
 "%d minutes ago" => "Vor %d Minuten",
 "1 hour ago" => "Vor einer Stunde",
 "%d hours ago" => "Vor %d Stunden",
@@ -48,8 +48,5 @@
 "%d months ago" => "Vor %d Monaten",
 "last year" => "Letztes Jahr",
 "years ago" => "Vor  Jahren",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s ist verfügbar. <a href=\"%s\">Weitere Informationen</a>",
-"up to date" => "aktuell",
-"updates check is disabled" => "Die Update-Überprüfung ist ausgeschaltet",
 "Could not find category \"%s\"" => "Die Kategorie \"%s\" konnte nicht gefunden werden."
 );

@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Ahmed Noor Kader Mustajir Md Eusoff <sir.ade@gmail.com>, 2012.
-#   <hadri.hilmi@gmail.com>, 2011, 2012.
-# Hadri Hilmi <hadri.hilmi@gmail.com>, 2012.
-# Zulhilmi Rosnin <zulhilmi.rosnin@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/owncloud/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +37,7 @@ msgstr "Tiada fail dimuatnaik. Ralat tidak diketahui."
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Tiada ralat, fail berjaya dimuat naik."
+msgstr "Tiada ralat berlaku, fail berjaya dimuatnaik"
 
 #: ajax/upload.php:27
 msgid ""
@@ -52,19 +48,19 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Fail yang dimuat naik melebihi MAX_FILE_SIZE yang dinyatakan dalam form HTML "
+msgstr "Saiz fail yang dimuatnaik melebihi MAX_FILE_SIZE yang ditetapkan dalam borang HTML"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Sebahagian daripada fail telah dimuat naik. "
+msgstr "Fail yang dimuatnaik tidak lengkap"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Tiada fail yang dimuat naik"
+msgstr "Tiada fail dimuatnaik"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Folder sementara hilang"
+msgstr "Direktori sementara hilang"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -80,17 +76,21 @@ msgstr ""
 
 #: appinfo/app.php:12
 msgid "Files"
-msgstr "fail"
+msgstr "Fail-fail"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Kongsi"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Padam"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr ""
 
@@ -193,7 +193,7 @@ msgstr "Ralat"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr "Nama "
+msgstr "Nama"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
@@ -297,7 +297,7 @@ msgstr ""
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Muat naik terlalu besar"
+msgstr "Muatnaik terlalu besar"
 
 #: templates/index.php:110
 msgid ""

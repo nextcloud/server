@@ -3,21 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Aranel Surion <aranel@aranelsurion.org>, 2011, 2012
-# Caner Başaran <basaran.caner@gmail.com>, 2012
-# otefenli <otefenli@gmail.com>, 2013
-# ifthenelse <ifthenelse@gmx.com>, 2013
-# alpere <info@beyboo.de>, 2012
-# ismail yenigül <ismail.yenigul@surgate.com>, 2013
-# Necdet Yücel <necdetyucel@gmail.com>, 2012
-# atakan96 <tayancatakan@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-23 01:58+0200\n"
-"PO-Revision-Date: 2013-04-22 07:40+0000\n"
-"Last-Translator: ifthenelse <ifthenelse@gmx.com>\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -404,24 +396,27 @@ msgstr "ownCloud parola sıfırlama"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Bu bağlantıyı kullanarak parolanızı sıfırlayın: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Parolanızı sıfırlamak için bir bağlantı Eposta olarak gönderilecek."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "Sıfırlama epostası gönderildi."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "İstek reddedildi!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
-msgstr "Kullanıcı adı"
+msgstr "Kullanıcı Adı"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Sıfırlama iste"
 
@@ -563,9 +558,14 @@ msgstr "Kurulumu tamamla"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "kontrolünüzdeki web servisleri"
+msgstr "Bilgileriniz güvenli ve şifreli"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "Çıkış yap"
 

@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <bluehattree@126.com>, 2012.
-# marguerite su <i@marguerite.su>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +37,7 @@ msgstr "没有上传文件。未知错误"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "没有任何错误,文件上传成功了"
+msgstr "文件上传成功"
 
 #: ajax/upload.php:27
 msgid ""
@@ -50,19 +48,19 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "上传的文件超过了HTML表单指定的MAX_FILE_SIZE"
+msgstr "上传的文件超过了 HTML 表格中指定的 MAX_FILE_SIZE 选项"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "文件只有部分被上传"
+msgstr "文件部分上传"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "没有上传完成的文件"
+msgstr "没有上传文件"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "丢失了一个临时文件夹"
+msgstr "缺失临时文件夹"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -80,21 +78,25 @@ msgstr ""
 msgid "Files"
 msgstr "文件"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "分享"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "删除"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "重命名"
 
 #: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr "Pending"
+msgstr "等待中"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
@@ -130,7 +132,7 @@ msgstr "1 个文件正在上传"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "个文件正在上传"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -162,7 +164,7 @@ msgstr ""
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "不能上传你指定的文件,可能因为它是个文件夹或者大小为0"
+msgstr "不能上传您的文件，由于它是文件夹或者为空文件"
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -191,7 +193,7 @@ msgstr "出错"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr "名字"
+msgstr "名称"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
@@ -291,11 +293,11 @@ msgstr "下载"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "取消共享"
+msgstr "取消分享"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "上传的文件太大了"
+msgstr "上传过大"
 
 #: templates/index.php:110
 msgid ""

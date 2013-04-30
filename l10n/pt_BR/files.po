@@ -3,24 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#  <dudanogueira@gmail.com>, 2013.
-#   <dudanogueira@gmail.com>, 2012.
-#   <fred.maranhao@gmail.com>, 2012.
-# Guilherme Maluf Balzana <guimalufb@gmail.com>, 2012.
-#   <philippi.sedir@gmail.com>, 2012.
-# Rodrigo Tavares <rodrigo.st23@hotmail.com>, 2013.
-# Sedir G. Morais <philippi.sedir@gmail.com>, 2013.
-#   <targinosilveira@gmail.com>, 2012.
-# Thiago Vicente <thiagovice@gmail.com>, 2012.
-# Tulio Simoes Martins Padilha <tuliouel@gmail.com>, 2013.
-# Unforgiving Fallout <>, 2012.
-# Van Der Fran <transifex@vanderland.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +37,7 @@ msgstr "Nenhum arquivo foi enviado. Erro desconhecido"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Não houve nenhum erro, o arquivo foi transferido com sucesso"
+msgstr "Sem erros, o arquivo foi enviado com sucesso"
 
 #: ajax/upload.php:27
 msgid ""
@@ -60,15 +48,15 @@ msgstr "O arquivo enviado excede a diretiva upload_max_filesize no php.ini: "
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "O arquivo carregado excede o MAX_FILE_SIZE que foi especificado no formulário HTML"
+msgstr "O arquivo carregado excede o argumento MAX_FILE_SIZE especificado no formulário HTML"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "O arquivo foi transferido parcialmente"
+msgstr "O arquivo foi parcialmente enviado"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Nenhum arquivo foi transferido"
+msgstr "Nenhum arquivo enviado"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
@@ -90,15 +78,19 @@ msgstr "Diretório inválido."
 msgid "Files"
 msgstr "Arquivos"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Compartilhar"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Excluir permanentemente"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Excluir"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Renomear"
 
@@ -229,7 +221,7 @@ msgstr "{count} arquivos"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "Carregar"
+msgstr "Upload"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -261,7 +253,7 @@ msgstr "Tamanho máximo para arquivo ZIP"
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr "Salvar"
+msgstr "Guardar"
 
 #: templates/index.php:7
 msgid "New"
@@ -305,7 +297,7 @@ msgstr "Descompartilhar"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Arquivo muito grande"
+msgstr "Upload muito grande"
 
 #: templates/index.php:110
 msgid ""

@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2012
-# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2012-2013
-# Maciej Tarmas <maciej@tarmas.pl>, 2013
-# Marcin Małecki <gerber@tkdami.net>, 2012-2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-18 02:04+0200\n"
-"PO-Revision-Date: 2013-04-18 00:05+0000\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -117,75 +113,75 @@ msgstr "%s nie można używać kropki w nazwie bazy danych"
 msgid "%s set the database host."
 msgstr "%s ustaw hosta bazy danych."
 
-#: setup.php:132 setup.php:324 setup.php:369
+#: setup.php:132 setup.php:325 setup.php:370
 msgid "PostgreSQL username and/or password not valid"
 msgstr "PostgreSQL: Nazwa użytkownika i/lub hasło jest niepoprawne"
 
-#: setup.php:133 setup.php:156 setup.php:233
+#: setup.php:133 setup.php:156 setup.php:234
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Należy wprowadzić istniejące konto użytkownika lub  administratora."
 
-#: setup.php:155 setup.php:457 setup.php:524
+#: setup.php:155 setup.php:458 setup.php:525
 msgid "Oracle username and/or password not valid"
 msgstr "Oracle: Nazwa użytkownika i/lub hasło jest niepoprawne"
 
-#: setup.php:232
+#: setup.php:233
 msgid "MySQL username and/or password not valid"
 msgstr "MySQL: Nazwa użytkownika i/lub hasło jest niepoprawne"
 
-#: setup.php:286 setup.php:390 setup.php:399 setup.php:417 setup.php:427
-#: setup.php:436 setup.php:465 setup.php:531 setup.php:557 setup.php:564
-#: setup.php:575 setup.php:582 setup.php:591 setup.php:599 setup.php:608
-#: setup.php:614
+#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
+#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
+#: setup.php:576 setup.php:583 setup.php:592 setup.php:600 setup.php:609
+#: setup.php:615
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "Błąd DB: \"%s\""
 
-#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
-#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
-#: setup.php:576 setup.php:592 setup.php:600 setup.php:609
+#: setup.php:288 setup.php:392 setup.php:401 setup.php:419 setup.php:429
+#: setup.php:438 setup.php:467 setup.php:533 setup.php:559 setup.php:566
+#: setup.php:577 setup.php:593 setup.php:601 setup.php:610
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "Niepoprawna komenda: \"%s\""
 
-#: setup.php:303
+#: setup.php:304
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr "Użytkownik MySQL  '%s'@'localhost' już istnieje"
 
-#: setup.php:304
+#: setup.php:305
 msgid "Drop this user from MySQL"
 msgstr "Usuń tego użytkownika z MySQL"
 
-#: setup.php:309
+#: setup.php:310
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr "Użytkownik MySQL  '%s'@'%%t' już istnieje"
 
-#: setup.php:310
+#: setup.php:311
 msgid "Drop this user from MySQL."
 msgstr "Usuń tego użytkownika z MySQL."
 
-#: setup.php:583 setup.php:615
+#: setup.php:584 setup.php:616
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Niepoprawne polecania:  \"%s\", nazwa: %s, hasło: %s"
 
-#: setup.php:635
+#: setup.php:636
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
 msgstr "Nazwa i/lub hasło serwera MS SQL jest niepoprawne: %s."
 
-#: setup.php:853
+#: setup.php:858
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr "Serwer www nie jest jeszcze poprawnie ustawiony, aby umożliwić synchronizację plików, ponieważ interfejs WebDAV wydaje się być uszkodzony. Sprawdź ustawienia serwera."
+msgstr "Serwer internetowy nie jest jeszcze poprawnie skonfigurowany, aby umożliwić synchronizację plików, ponieważ interfejs WebDAV wydaje się być uszkodzony."
 
-#: setup.php:854
+#: setup.php:859
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr "Proszę sprawdź ponownie <a href='%s'>przewodnik instalacji</a>."
+msgstr "Sprawdź ponownie <a href='%s'>przewodniki instalacji</a>."
 
 #: template.php:113
 msgid "seconds ago"
@@ -202,7 +198,7 @@ msgstr "%d minut temu"
 
 #: template.php:116
 msgid "1 hour ago"
-msgstr "1 godzine temu"
+msgstr "1 godzinę temu"
 
 #: template.php:117
 #, php-format
@@ -211,7 +207,7 @@ msgstr "%d godzin temu"
 
 #: template.php:118
 msgid "today"
-msgstr "dzisiaj"
+msgstr "dziś"
 
 #: template.php:119
 msgid "yesterday"
@@ -224,7 +220,7 @@ msgstr "%d dni temu"
 
 #: template.php:121
 msgid "last month"
-msgstr "ostatni miesiąc"
+msgstr "w zeszłym miesiącu"
 
 #: template.php:122
 #, php-format
@@ -233,24 +229,11 @@ msgstr "%d miesiecy temu"
 
 #: template.php:123
 msgid "last year"
-msgstr "ostatni rok"
+msgstr "w zeszłym roku"
 
 #: template.php:124
 msgid "years ago"
 msgstr "lat temu"
-
-#: updater.php:78
-#, php-format
-msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr "%s jest dostępna. Uzyskaj <a href=\"%s\">więcej informacji</a>"
-
-#: updater.php:81
-msgid "up to date"
-msgstr "Aktualne"
-
-#: updater.php:84
-msgid "updates check is disabled"
-msgstr "wybór aktualizacji jest wyłączony"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

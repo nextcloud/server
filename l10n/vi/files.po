@@ -3,17 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <khanhnd@kenhgiaiphap.vn>, 2012.
-#   <mattheu.9x@gmail.com>, 2012.
-#   <mattheu_9x@yahoo.com>, 2012.
-# sao sang <saosangmo@yahoo.com>, 2013.
-# Sơn Nguyễn <sonnghit@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -53,15 +48,15 @@ msgstr "The uploaded file exceeds the upload_max_filesize directive in php.ini: 
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Kích thước những tập tin tải lên vượt quá MAX_FILE_SIZE đã được quy định"
+msgstr "Tập tin được tải lên vượt quá MAX_FILE_SIZE được quy định trong mẫu HTML"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Tập tin tải lên mới chỉ tải lên được một phần"
+msgstr "Các tập tin được tải lên chỉ tải lên được một phần"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Không có tập tin nào được tải lên"
+msgstr "Chưa có file nào được tải lên"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
@@ -83,21 +78,25 @@ msgstr "Thư mục không hợp lệ"
 msgid "Files"
 msgstr "Tập tin"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Chia sẻ"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Xóa vĩnh vễn"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Xóa"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Sửa tên"
 
 #: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr "Chờ"
+msgstr "Đang chờ"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
@@ -133,7 +132,7 @@ msgstr "1 tệp tin đang được tải lên"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "tệp tin đang được tải lên"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -165,7 +164,7 @@ msgstr "Your download is being prepared. This might take some time if the files 
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Không thể tải lên tập tin này do nó là một thư mục hoặc kích thước tập tin bằng 0 byte"
+msgstr "Không thể tải lên tập tin của bạn ,nó như là một thư mục hoặc có 0 byte"
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -290,11 +289,11 @@ msgstr "Không có gì ở đây .Hãy tải lên một cái gì đó !"
 
 #: templates/index.php:76
 msgid "Download"
-msgstr "Tải xuống"
+msgstr "Tải về"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "Không chia sẽ"
+msgstr "Bỏ chia sẻ"
 
 #: templates/index.php:108
 msgid "Upload too large"

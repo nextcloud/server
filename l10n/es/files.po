@@ -3,26 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Agustin Ferrario <>, 2012.
-# Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2013.
-#  <davidlopez.david@gmail.com>, 2013.
-#   <devianpctek@gmail.com>, 2012.
-# Javier Llorente <javier@opensuse.org>, 2012.
-#  <juanma@kde.org.ar>, 2013.
-#   <juanma@kde.org.ar>, 2012-2013.
-#   <karvayoEdgar@gmail.com>, 2013.
-# Ricardo A. Hermosilla Carrillo <ra.hermosillac@gmail.com>, 2013.
-# Rubén Trujillo <rubentrf@gmail.com>, 2012.
-#  <sergioballesterossolanas@gmail.com>, 2013.
-#   <sergioballesterossolanas@gmail.com>, 2011-2012.
-#   <sergio@entrecables.com>, 2012.
-# Vladimir Martinez Sierra <vladimirmartinezsierra@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -47,11 +33,11 @@ msgstr "No se puede renombrar el archivo"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
-msgstr "Fallo no se subió el fichero"
+msgstr "No se subió ningún archivo. Error desconocido"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "No se ha producido ningún error, el archivo se ha subido con éxito"
+msgstr "No hay ningún error, el archivo se ha subido con éxito"
 
 #: ajax/upload.php:27
 msgid ""
@@ -62,11 +48,11 @@ msgstr "El archivo que intentas subir sobrepasa el tamaño definido por la varia
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "El archivo que intentas subir sobrepasa el tamaño definido por la variable MAX_FILE_SIZE especificada en el formulario HTML"
+msgstr "El archivo subido sobrepasa la directiva MAX_FILE_SIZE especificada en el formulario HTML"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "El archivo que intentas subir solo se subió parcialmente"
+msgstr "El archivo se ha subido parcialmente"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
@@ -74,7 +60,7 @@ msgstr "No se ha subido ningún archivo"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Falta un directorio temporal"
+msgstr "Falta la carpeta temporal"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -92,21 +78,25 @@ msgstr "Directorio invalido."
 msgid "Files"
 msgstr "Archivos"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Compartir"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Eliminar permanentemente"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Eliminar"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Renombrar"
 
 #: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr "Pendiente"
+msgstr "Pendientes"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
@@ -174,7 +164,7 @@ msgstr "Tu descarga esta siendo preparada. Esto puede tardar algun tiempo si los
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "No ha sido posible subir tu archivo porque es un directorio o tiene 0 bytes"
+msgstr "Imposible subir su archivo, es un directorio o tiene 0 bytes"
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -303,11 +293,11 @@ msgstr "Descargar"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "Dejar de compartir"
+msgstr "No compartir"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "El archivo es demasiado grande"
+msgstr "bida demasido grande"
 
 #: templates/index.php:110
 msgid ""

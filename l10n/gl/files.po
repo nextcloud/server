@@ -3,17 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# antiparvos  <marcoslansgarza@gmail.com>, 2012-2013.
-# <mbouzada@gmail.com>, 2013.
-#  <mbouzada@gmail.com>, 2013.
-# Miguel Anxo Bouzada <mbouzada@gmail.com>, 2013.
-# Xosé M. Lamas <correo.xmgz@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -38,11 +33,11 @@ msgstr "Non é posíbel renomear o ficheiro"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
-msgstr "Non foi enviado ningún ficheiro. Produciuse un erro descoñecido."
+msgstr "Non se enviou ningún ficheiro. Produciuse un erro descoñecido."
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Non se produciu ningún erro. O ficheiro enviouse correctamente"
+msgstr "Non houbo erros, o ficheiro enviouse correctamente"
 
 #: ajax/upload.php:27
 msgid ""
@@ -53,11 +48,11 @@ msgstr "O ficheiro enviado excede a directiva indicada por upload_max_filesize d
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "O ficheiro enviado excede a directiva MAX_FILE_SIZE que foi indicada no formulario HTML"
+msgstr "O ficheiro enviado excede da directiva MAX_FILE_SIZE especificada no formulario HTML"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "O ficheiro enviado foi só parcialmente enviado"
+msgstr "O ficheiro so foi parcialmente enviado"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
@@ -65,7 +60,7 @@ msgstr "Non se enviou ningún ficheiro"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Falta un cartafol temporal"
+msgstr "Falta o cartafol temporal"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -83,15 +78,19 @@ msgstr "O directorio é incorrecto."
 msgid "Files"
 msgstr "Ficheiros"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Compartir"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Eliminar permanentemente"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Eliminar"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Renomear"
 

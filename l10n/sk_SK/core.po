@@ -3,19 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# georg <georg007@gmail.com>, 2013.
-#   <intense.feel@gmail.com>, 2011, 2012.
-# Marián Hvolka <marian.hvolka@stuba.sk>, 2013.
-#   <martin.babik@gmail.com>, 2012.
-#   <mehturt@gmail.com>, 2013.
-# Roman Priesol <roman@priesol.net>, 2012.
-#   <zatroch.martin@gmail.com>, 2012.
+# mhh <marian.hvolka@stuba.sk>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -181,7 +175,7 @@ msgstr "pred {minutes} minútami"
 
 #: js/js.js:721
 msgid "1 hour ago"
-msgstr "Pred 1 hodinou."
+msgstr "Pred 1 hodinou"
 
 #: js/js.js:722
 msgid "{hours} hours ago"
@@ -300,7 +294,7 @@ msgstr "Zdieľať cez odkaz"
 msgid "Password protect"
 msgstr "Chrániť heslom"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Heslo"
 
@@ -403,24 +397,27 @@ msgstr "Obnovenie hesla pre ownCloud"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Použite nasledujúci odkaz pre obnovenie vášho hesla: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr "Odkaz na obnovenie hesla bol odoslaný na Vašu emailovú adresu.<br>Ak ho v krátkej dobe neobdržíte, skontrolujte si Váš kôš a priečinok spam.<br>Ak ho ani tam nenájdete, kontaktujte svojho administrátora."
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr "Požiadavka zlyhala.<br>Uistili ste sa, že Vaše používateľské meno a email sú správne?"
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Odkaz pre obnovenie hesla obdržíte e-mailom."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "Obnovovací email bol odoslaný."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "Požiadavka zlyhala!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
-msgstr "Prihlasovacie meno"
+msgstr "Meno používateľa"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Požiadať o obnovenie"
 
@@ -454,7 +451,7 @@ msgstr "Aplikácie"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Administrácia"
+msgstr "Administrátor"
 
 #: strings.php:9
 msgid "Help"
@@ -470,7 +467,7 @@ msgstr "Nenájdené"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Úprava kategórií"
+msgstr "Upraviť kategórie"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
@@ -526,75 +523,80 @@ msgstr "Rozšírené"
 msgid "Data folder"
 msgstr "Priečinok dát"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Nastaviť databázu"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "bude použité"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Hostiteľ databázy"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Heslo databázy"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Meno databázy"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Tabuľkový priestor databázy"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Server databázy"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Dokončiť inštaláciu"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "webové služby pod vašou kontrolou"
+msgstr "webové služby pod Vašou kontrolou"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "Odhlásiť"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automatické prihlásenie bolo zamietnuté!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "V nedávnej dobe ste nezmenili svoje heslo, Váš účet môže byť kompromitovaný."
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Prosím, zmeňte svoje heslo pre opätovné zabezpečenie Vášho účtu"
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Zabudli ste heslo?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "zapamätať"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Prihlásiť sa"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Alternatívne prihlasovanie"
 

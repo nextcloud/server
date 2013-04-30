@@ -3,22 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <bbartlomiej@gmail.com>, 2013.
-# Cyryl Sochacki <>, 2012.
-# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2012-2013.
-# Maciej Tarmas <maciej@tarmas.com>, 2013.
-# Marcin Małecki <gerber@tkdami.net>, 2011-2012.
-# Mariusz <fisiu@opensuse.org>, 2013.
-#   <mosslar@gmail.com>, 2011.
-#   <mplichta@gmail.com>, 2012.
-# Piotr Sokół <psokol@jabster.pl>, 2012.
-#   <tomekde@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +37,7 @@ msgstr "Żaden plik nie został załadowany. Nieznany błąd"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Przesłano plik"
+msgstr "Nie było błędów, plik wysłano poprawnie."
 
 #: ajax/upload.php:27
 msgid ""
@@ -66,11 +56,11 @@ msgstr "Załadowany plik został wysłany tylko częściowo."
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Nie przesłano żadnego pliku"
+msgstr "Nie wysłano żadnego pliku"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Brak katalogu tymczasowego"
+msgstr "Brak folderu tymczasowego"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -88,15 +78,19 @@ msgstr "Zła ścieżka."
 msgid "Files"
 msgstr "Pliki"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Udostępnij"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Trwale usuń"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Usuń"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Zmień nazwę"
 
@@ -227,7 +221,7 @@ msgstr "Ilość plików: {count}"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "Prześlij"
+msgstr "Wyślij"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -271,7 +265,7 @@ msgstr "Plik tekstowy"
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr "Katalog"
+msgstr "Folder"
 
 #: templates/index.php:14
 msgid "From link"
@@ -299,11 +293,11 @@ msgstr "Pobierz"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "Nie udostępniaj"
+msgstr "Zatrzymaj współdzielenie"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Wysyłany plik ma za duży rozmiar"
+msgstr "Ładowany plik jest za duży"
 
 #: templates/index.php:110
 msgid ""

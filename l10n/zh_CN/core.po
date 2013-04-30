@@ -3,19 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <appweb.cn@gmail.com>, 2012.
-# Dianjin Wang <1132321739qq@gmail.com>, 2012.
-# Phoenix Nemo <>, 2012.
-#  <rainofchaos@gmail.com>, 2013.
-#   <suiy02@gmail.com>, 2012.
-#  <wengxt@gmail.com>, 2013.
-#   <wengxt@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/owncloud/language/zh_CN/)\n"
 "MIME-Version: 1.0\n"
@@ -266,7 +259,7 @@ msgstr "已共享"
 
 #: js/share.js:90
 msgid "Share"
-msgstr "共享"
+msgstr "分享"
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
@@ -290,7 +283,7 @@ msgstr " {owner}与您共享"
 
 #: js/share.js:159
 msgid "Share with"
-msgstr "共享"
+msgstr "分享之"
 
 #: js/share.js:164
 msgid "Share with link"
@@ -300,7 +293,7 @@ msgstr "共享链接"
 msgid "Password protect"
 msgstr "密码保护"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "密码"
 
@@ -403,24 +396,27 @@ msgstr "重置 ownCloud 密码"
 msgid "Use the following link to reset your password: {link}"
 msgstr "使用以下链接重置您的密码：{link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "您将会收到包含可以重置密码链接的邮件。"
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "重置邮件已发送。"
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "请求失败！"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "用户名"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "请求重置"
 
@@ -454,7 +450,7 @@ msgstr "应用"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "管理员"
+msgstr "管理"
 
 #: strings.php:9
 msgid "Help"
@@ -474,7 +470,7 @@ msgstr "编辑分类"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "添加"
+msgstr "增加"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -483,11 +479,11 @@ msgstr "安全警告"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "你的PHP版本容易受到空字节攻击 (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "为保证安全使用 ownCloud 请更新您的PHP。"
 
 #: templates/installation.php:32
 msgid ""
@@ -526,75 +522,80 @@ msgstr "高级"
 msgid "Data folder"
 msgstr "数据目录"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "配置数据库"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "将被使用"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "数据库用户"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "数据库密码"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "数据库名"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "数据库表空间"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "数据库主机"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "安装完成"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "由您掌控的网络服务"
+msgstr "您控制的web服务"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "注销"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "自动登录被拒绝！"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "如果您没有最近修改您的密码，您的帐户可能会受到影响！"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "请修改您的密码，以保护您的账户安全。"
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "忘记密码？"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
-msgstr ""
+msgstr "记住"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "登录"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "其他登录方式"
 

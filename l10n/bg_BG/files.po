@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Stefan Ilivanov <ilivanov@gmail.com>, 2011,2013.
-# Yasen Pramatarov <yasen@lindeas.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +37,7 @@ msgstr ""
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "Файлът е качен успешно"
 
 #: ajax/upload.php:27
 msgid ""
@@ -50,15 +48,15 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "Файлът който се опитвате да качите надвишава стойностите в MAX_FILE_SIZE в HTML формата."
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Файлът е качен частично"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Фахлът не бе качен"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
@@ -80,15 +78,19 @@ msgstr "Невалидна директория."
 msgid "Files"
 msgstr "Файлове"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Споделяне"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Изтриване завинаги"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Изтриване"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Преименуване"
 
@@ -301,11 +303,11 @@ msgstr "Файлът който сте избрали за качване е п�
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr ""
+msgstr "Файловете които се опитвате да качите са по-големи от позволеното за сървъра."
 
 #: templates/index.php:115
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "Файловете се претърсват, изчакайте."
 
 #: templates/index.php:118
 msgid "Current scanning"

@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Hossein nag <h.sname@yahoo.com>, 2012.
-# mahdi Kereshteh <miki_mika1362@yahoo.com>, 2013.
-# Mohammad Dashtizadeh <mohammad@dashtizadeh.net>, 2012.
-# vahid chakoshy <vchakoshy@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +37,7 @@ msgstr "هیچ فایلی آپلود نشد.خطای ناشناس"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "هیچ خطایی وجود ندارد فایل با موفقیت بار گذاری شد"
+msgstr "هیچ خطایی نیست بارگذاری پرونده موفقیت آمیز بود"
 
 #: ajax/upload.php:27
 msgid ""
@@ -52,19 +48,19 @@ msgstr "پرونده آپلود شده بیش ازدستور  ماکزیمم_ح�
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "حداکثر حجم مجاز برای بارگذاری از طریق HTML \nMAX_FILE_SIZE"
+msgstr "حداکثر حجم قابل بار گذاری از طریق HTML MAX_FILE_SIZE است"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "مقدار کمی از فایل بارگذاری شده"
+msgstr "پرونده بارگذاری شده فقط تاحدودی بارگذاری شده"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "هیچ فایلی بارگذاری نشده"
+msgstr "هیچ پروندهای بارگذاری نشده"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "یک پوشه موقت گم شده است"
+msgstr "یک پوشه موقت گم شده"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -80,17 +76,21 @@ msgstr "فهرست راهنما نامعتبر می باشد."
 
 #: appinfo/app.php:12
 msgid "Files"
-msgstr "فایل ها"
+msgstr "پرونده‌ها"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "اشتراک‌گذاری"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "حذف قطعی"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr "پاک کردن"
+msgstr "حذف"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "تغییرنام"
 
@@ -201,7 +201,7 @@ msgstr "اندازه"
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr "تغییر یافته"
+msgstr "تاریخ"
 
 #: js/files.js:893
 msgid "1 folder"
@@ -221,7 +221,7 @@ msgstr "{ شمار } فایل ها"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "بارگذاری"
+msgstr "بارگزاری"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -289,7 +289,7 @@ msgstr "اینجا هیچ چیز نیست."
 
 #: templates/index.php:76
 msgid "Download"
-msgstr "بارگیری"
+msgstr "دانلود"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
@@ -297,7 +297,7 @@ msgstr "لغو اشتراک"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "حجم بارگذاری بسیار زیاد است"
+msgstr "سایز فایل برای آپلود زیاد است(م.تنظیمات در php.ini)"
 
 #: templates/index.php:110
 msgid ""

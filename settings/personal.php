@@ -22,8 +22,14 @@ $email=OC_Preferences::getValue(OC_User::getUser(), 'settings', 'email', '');
 $userLang=OC_Preferences::getValue( OC_User::getUser(), 'core', 'lang', OC_L10N::findLanguage() );
 $languageCodes=OC_L10N::findAvailableLanguages();
 
+// array of common languages
+$commonlangcodes = array(
+	'en', 'es', 'fr', 'de', 'de_DE', 'ja_JP', 'nl', 'it', 'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'zh_CN', 'ko'
+);
+
 $languageNames=include 'languageCodes.php';
 $languages=array();
+$commonlanguages = array();
 foreach($languageCodes as $lang) {
 	$l=OC_L10N::get('settings', $lang);
 	if(substr($l->t('__language_name__'), 0, 1)!='_') {//first check if the language name is in the translation file
@@ -34,8 +40,12 @@ foreach($languageCodes as $lang) {
 		$ln=array('code'=>$lang, 'name'=>$lang);
 	}
 
+	// put apropriate languages into apropriate arrays, to print them sorted
+	// used language -> common languages -> divider -> other languages
 	if ($lang === $userLang) {
 		$userLang = $ln;
+	} elseif (in_array($lang, $commonlangcodes)) {
+		$commonlanguages[]=$ln;
 	} else {
 		$languages[]=$ln;
 	}
@@ -45,9 +55,6 @@ foreach($languageCodes as $lang) {
 usort( $languages, function ($a, $b) {
 	return strcmp($a['name'], $b['name']);
 });
-
-//put the current language in the front
-array_unshift($languages, $userLang);
 
 //links to clients
 $clients = array(
@@ -64,6 +71,8 @@ $tmpl->assign('usage_relative', $storageInfo['relative']);
 $tmpl->assign('clients', $clients);
 $tmpl->assign('email', $email);
 $tmpl->assign('languages', $languages);
+$tmpl->assign('commonlanguages', $commonlanguages);
+$tmpl->assign('activelanguage', $userLang);
 $tmpl->assign('passwordChangeSupported', OC_User::canUserChangePassword(OC_User::getUser()));
 $tmpl->assign('displayNameChangeSupported', OC_User::canUserChangeDisplayName(OC_User::getUser()));
 $tmpl->assign('displayName', OC_User::getDisplayName());

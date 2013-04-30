@@ -3,29 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Adalberto Rodrigues <rodrigues_adalberto@yahoo.fr>, 2013.
-# Cédric MARTIN <sid50.martin@gmail.com>, 2013.
-# Christophe Lherieau <skimpax@gmail.com>, 2012-2013.
-# Cyril Glapa <kyriog@gmail.com>, 2012.
-# David Basquin <dba@alternalease.fr>, 2013.
-#   <dba@alternalease.fr>, 2013.
-# froozeify <froozeify@mail.com>, 2013.
-# Geoffrey Guerrier <geoffrey.guerrier@gmail.com>, 2012.
-#   <gp4004@arghh.org>, 2012.
-#   <guiguidu31300@gmail.com>, 2012.
-# Guillaume Paumier <guillom.pom@gmail.com>, 2012.
-#   <life_0n_mars@live.fr>, 2012.
-# Nahir Mohamed <nahirmoha@gmail.com>, 2012.
-# Robert Di Rosa <>, 2012-2013.
-#   <rom1dep@gmail.com>, 2011.
-# Romain DEP. <rom1dep@gmail.com>, 2012-2013.
-#  <zrk951@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +37,7 @@ msgstr "Aucun fichier n'a été chargé. Erreur inconnue"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Aucune erreur, le fichier a été téléversé avec succès"
+msgstr "Il n'y a pas d'erreur, le fichier a été envoyé avec succes."
 
 #: ajax/upload.php:27
 msgid ""
@@ -65,19 +48,19 @@ msgstr "Le fichier envoyé dépasse la valeur upload_max_filesize située dans l
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Le fichier téléversé excède la valeur de MAX_FILE_SIZE spécifiée dans le formulaire HTML"
+msgstr "Le fichier envoyé dépasse la directive MAX_FILE_SIZE qui est spécifiée dans le formulaire HTML."
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Le fichier n'a été que partiellement téléversé"
+msgstr "Le fichier envoyé n'a été que partiellement envoyé."
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Aucun fichier n'a été téléversé"
+msgstr "Pas de fichier envoyé."
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Il manque un répertoire temporaire"
+msgstr "Absence de dossier temporaire."
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -95,21 +78,25 @@ msgstr "Dossier invalide."
 msgid "Files"
 msgstr "Fichiers"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Partager"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Supprimer de façon définitive"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Supprimer"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Renommer"
 
 #: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr "En cours"
+msgstr "En attente"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
@@ -177,7 +164,7 @@ msgstr "Votre téléchargement est cours de préparation. Ceci peut nécessiter 
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Impossible de charger vos fichiers car il s'agit d'un dossier ou le fichier fait 0 octet."
+msgstr "Impossible de téléverser votre fichier dans la mesure où il s'agit d'un répertoire ou d'un fichier de taille nulle"
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -310,7 +297,7 @@ msgstr "Ne plus partager"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Fichier trop volumineux"
+msgstr "Téléversement trop volumineux"
 
 #: templates/index.php:110
 msgid ""

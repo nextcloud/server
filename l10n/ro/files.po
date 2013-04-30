@@ -3,19 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Claudiu  <claudiu@tanaselia.ro>, 2011-2013.
-# Dimon Pockemon <>, 2012.
-# Dumitru Ursu <>, 2013.
-# Eugen Mihalache <eugemjj@gmail.com>, 2012.
-#   <g.ciprian@osn.ro>, 2012-2013.
-#   <laur.cristescu@gmail.com>, 2012.
+# ripkid666 <ripkid666@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 13:00+0000\n"
+"Last-Translator: ripkid666 <ripkid666@gmail.com>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,7 +38,7 @@ msgstr "Nici un fișier nu a fost încărcat. Eroare necunoscută"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Nicio eroare, fișierul a fost încărcat cu succes"
+msgstr "Nu a apărut nici o eroare, fișierul a fost încărcat cu succes"
 
 #: ajax/upload.php:27
 msgid ""
@@ -62,11 +57,11 @@ msgstr "Fișierul a fost încărcat doar parțial"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Niciun fișier încărcat"
+msgstr "Nu a fost încărcat nici un fișier"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Lipsește un dosar temporar"
+msgstr "Lipsește un director temporar"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -74,7 +69,7 @@ msgstr "Eroare la scriere pe disc"
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
-msgstr ""
+msgstr "Nu este suficient spațiu disponibil"
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
@@ -84,15 +79,19 @@ msgstr "Director invalid."
 msgid "Files"
 msgstr "Fișiere"
 
-#: js/fileactions.js:125
-msgid "Delete permanently"
-msgstr ""
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Partajează"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:126
+msgid "Delete permanently"
+msgstr "Stergere permanenta"
+
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Șterge"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Redenumire"
 
@@ -126,7 +125,7 @@ msgstr "Anulează ultima acțiune"
 
 #: js/filelist.js:324
 msgid "perform delete operation"
-msgstr ""
+msgstr "efectueaza operatiunea de stergere"
 
 #: js/filelist.js:406
 msgid "1 file uploading"
@@ -134,7 +133,7 @@ msgstr "un fișier se încarcă"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "fișiere se încarcă"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -152,11 +151,11 @@ msgstr "Nume invalid, '\\', '/', '<', '>', ':', '\"', '|', '?' si '*' nu sunt pe
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
-msgstr ""
+msgstr "Spatiul de stocare este plin, nu mai puteti incarca s-au sincroniza alte fisiere."
 
 #: js/files.js:82
 msgid "Your storage is almost full ({usedSpacePercent}%)"
-msgstr ""
+msgstr "Spatiul de stocare este aproape plin ({usedSpacePercent}%)"
 
 #: js/files.js:226
 msgid ""
@@ -223,7 +222,7 @@ msgstr "{count} fisiere"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "Încarcă"
+msgstr "Încărcare"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -255,7 +254,7 @@ msgstr "Dimensiunea maximă de intrare pentru fișiere compresate"
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr "Salvare"
+msgstr "Salvează"
 
 #: templates/index.php:7
 msgid "New"
@@ -275,7 +274,7 @@ msgstr "de la adresa"
 
 #: templates/index.php:42
 msgid "Deleted files"
-msgstr ""
+msgstr "Sterge fisierele"
 
 #: templates/index.php:48
 msgid "Cancel upload"
@@ -283,7 +282,7 @@ msgstr "Anulează încărcarea"
 
 #: templates/index.php:55
 msgid "You don’t have write permissions here."
-msgstr ""
+msgstr "Nu ai permisiunea de a sterge fisiere aici."
 
 #: templates/index.php:62
 msgid "Nothing in here. Upload something!"
@@ -295,7 +294,7 @@ msgstr "Descarcă"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "Anulează partajarea"
+msgstr "Anulare partajare"
 
 #: templates/index.php:108
 msgid "Upload too large"
@@ -317,4 +316,4 @@ msgstr "În curs de scanare"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."
-msgstr ""
+msgstr "Modernizare fisiere de sistem cache.."

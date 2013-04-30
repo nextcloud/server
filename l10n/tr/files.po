@@ -3,19 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Aranel Surion <aranel@aranelsurion.org>, 2011, 2012.
-# Caner Başaran <basaran.caner@gmail.com>, 2012.
-# Emre  <emresaracoglu@live.com>, 2012.
-#   <info@beyboo.de>, 2012.
-# ismail yenigul <ismail.yenigul@surgate.com>, 2013.
-# Necdet Yücel <necdetyucel@gmail.com>, 2012.
-# TayançKILIÇLI <tayancatakan@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +37,7 @@ msgstr "Dosya yüklenmedi. Bilinmeyen hata"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Bir hata yok, dosya başarıyla yüklendi"
+msgstr "Dosya başarıyla yüklendi, hata oluşmadı"
 
 #: ajax/upload.php:27
 msgid ""
@@ -55,19 +48,19 @@ msgstr "php.ini dosyasında upload_max_filesize ile belirtilen dosya yükleme s�
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Yüklenen dosya HTML formundaki MAX_FILE_SIZE sınırını aşıyor"
+msgstr "Yüklenecek dosyanın boyutu HTML formunda belirtilen MAX_FILE_SIZE limitini aşıyor"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Yüklenen dosyanın sadece bir kısmı yüklendi"
+msgstr "Dosya kısmen karşıya yüklenebildi"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Hiç dosya yüklenmedi"
+msgstr "Hiç dosya gönderilmedi"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Geçici bir klasör eksik"
+msgstr "Geçici dizin eksik"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -85,15 +78,19 @@ msgstr "Geçersiz dizin."
 msgid "Files"
 msgstr "Dosyalar"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Paylaş"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Kalıcı olarak sil"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Sil"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "İsim değiştir."
 
@@ -196,7 +193,7 @@ msgstr "Hata"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr "Ad"
+msgstr "İsim"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
@@ -300,7 +297,7 @@ msgstr "Paylaşılmayan"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Yüklemeniz çok büyük"
+msgstr "Yükleme çok büyük"
 
 #: templates/index.php:110
 msgid ""

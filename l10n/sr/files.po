@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Ivan Petrović <ivan@ipplusstudio.com>, 2012.
-# Slobodan Terzić <githzerai06@gmail.com>, 2011, 2012.
-#  <theranchcowboy@gmail.com>, 2013.
-#   <theranchcowboy@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -82,15 +78,19 @@ msgstr "неисправна фасцикла."
 msgid "Files"
 msgstr "Датотеке"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Дели"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Обриши за стално"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Обриши"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Преименуј"
 
@@ -193,7 +193,7 @@ msgstr "Грешка"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr "Назив"
+msgstr "Име"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"

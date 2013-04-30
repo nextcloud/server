@@ -3,19 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <blobbyjj@ymail.com>, 2012.
-#   <deh3nne@deviantdev.com>, 2012.
-# I Robot <thomas.mueller@tmit.eu>, 2012.
-#  <stefan.niedermann@googlemail.com>, 2013.
-#   <thomas.mueller@tmit.eu>, 2012.
-#   <transifex.3.mensaje@spamgourmet.com>, 2012.
+# arkascha <foss@christian-reiner.info>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 15:10+0000\n"
+"Last-Translator: arkascha <foss@christian-reiner.info>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,18 +38,25 @@ msgstr "Bitte tragen Sie einen gültigen Dropbox-App-Key mit Secret ein."
 msgid "Error configuring Google Drive storage"
 msgstr "Fehler beim Einrichten von Google Drive"
 
-#: lib/config.php:424
+#: lib/config.php:431
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Warnung:</b> \"smbclient\" ist nicht installiert. Das Einhängen von CIFS/SMB-Freigaben ist nicht möglich. Bitten Sie Ihren Systemadministrator, dies zu installieren."
 
-#: lib/config.php:427
+#: lib/config.php:434
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>Warnung::</b> Die FTP Unterstützung  von PHP ist nicht aktiviert oder installiert. Bitte wenden Sie sich an Ihren Systemadministrator."
+
+#: lib/config.php:437
+msgid ""
+"<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
+"Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
+"your system administrator to install it."
+msgstr "<b>Achtung:</b> Die Curl-Unterstützung  von PHP ist nicht aktiviert oder installiert. Das Laden von ownCloud / WebDAV oder GoogleDrive Freigaben ist nicht möglich. Bitte Sie Ihren Systemadministrator, das Modul zu installieren."
 
 #: templates/settings.php:3
 msgid "External Storage"

@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Dovix Dovix <dovix2003@gmail.com>, 2012.
-#   <ido.parag@gmail.com>, 2012.
-#   <tomerc+transifex.net@gmail.com>, 2011.
-# Yaron Shahrabani <sh.yaron@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +37,7 @@ msgstr "לא הועלה קובץ. טעות בלתי מזוהה."
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "לא אירעה תקלה, הקבצים הועלו בהצלחה"
+msgstr "לא התרחשה שגיאה, הקובץ הועלה בהצלחה"
 
 #: ajax/upload.php:27
 msgid ""
@@ -52,19 +48,19 @@ msgstr "הקבצים שנשלחו חורגים מהגודל שצוין בהגד�
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "הקובץ שהועלה חרג מההנחיה MAX_FILE_SIZE שצוינה בטופס ה־HTML"
+msgstr "הקובץ שהועלה גדוך מהערך MAX_FILE_SIZE שהוגדר בתופס HTML"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "הקובץ שהועלה הועלה בצורה חלקית"
+msgstr "הקובץ הועלה באופן חלקי בלבד"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "לא הועלו קבצים"
+msgstr "שום קובץ לא הועלה"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "תיקייה זמנית חסרה"
+msgstr "תקיה זמנית חסרה"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -82,15 +78,19 @@ msgstr ""
 msgid "Files"
 msgstr "קבצים"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "שתף"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "מחק לצמיתות"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "מחיקה"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "שינוי שם"
 

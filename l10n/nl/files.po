@@ -3,24 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# André Koot <meneer@tken.net>, 2012-2013.
-#   <bart.formosus@gmail.com>, 2011.
-#   <bartv@thisnet.nl>, 2011.
-#   <didi.debian@cknow.org>, 2012.
-# Erik Bent <hj.bent.60@gmail.com>, 2012.
-#   <icewind1991@gmail.com>, 2011.
-#   <jos@gelauff.net>, 2012.
-#   <koen@vervloesem.eu>, 2011.
-#   <lenny@weijl.org>, 2012.
-#   <pietje8501@gmail.com>, 2012.
-# Richard Bos <radoeka@gmail.com>, 2012.
-# Wilfred Dijksman <info@wdijksman.nl>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -49,7 +37,7 @@ msgstr "Er was geen bestand geladen.  Onbekende fout"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Geen fout opgetreden, bestand successvol geupload."
+msgstr "De upload van het bestand is goedgegaan."
 
 #: ajax/upload.php:27
 msgid ""
@@ -60,19 +48,19 @@ msgstr "Het geüploade bestand overscheidt de upload_max_filesize optie in php.i
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Het geüploade bestand is groter dan de MAX_FILE_SIZE richtlijn die is opgegeven in de HTML-formulier"
+msgstr "Het bestand overschrijdt de MAX_FILE_SIZE instelling dat is opgegeven in het HTML formulier"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Het bestand is slechts gedeeltelijk geupload"
+msgstr "Het bestand is gedeeltelijk geüpload"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Geen bestand geüpload"
+msgstr "Er is geen bestand geüpload"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Een tijdelijke map mist"
+msgstr "Er ontbreekt een tijdelijke map"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -90,21 +78,25 @@ msgstr "Ongeldige directory."
 msgid "Files"
 msgstr "Bestanden"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Delen"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Verwijder definitief"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Verwijder"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Hernoem"
 
 #: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr "Wachten"
+msgstr "In behandeling"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
@@ -172,7 +164,7 @@ msgstr "Uw download wordt voorbereid. Dit kan enige tijd duren bij grote bestand
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "uploaden van de file mislukt, het is of een directory of de bestandsgrootte is 0 bytes"
+msgstr "Het lukt niet om uw bestand te uploaded, omdat het een folder of 0 bytes is"
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -205,11 +197,11 @@ msgstr "Naam"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
-msgstr "Bestandsgrootte"
+msgstr "Grootte"
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr "Laatst aangepast"
+msgstr "Aangepast"
 
 #: js/files.js:893
 msgid "1 folder"
@@ -229,7 +221,7 @@ msgstr "{count} bestanden"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "Upload"
+msgstr "Uploaden"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -261,7 +253,7 @@ msgstr "Maximale grootte voor ZIP bestanden"
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr "Opslaan"
+msgstr "Bewaren"
 
 #: templates/index.php:7
 msgid "New"
@@ -297,15 +289,15 @@ msgstr "Er bevindt zich hier niets. Upload een bestand!"
 
 #: templates/index.php:76
 msgid "Download"
-msgstr "Download"
+msgstr "Downloaden"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "Stop delen"
+msgstr "Stop met delen"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Bestanden te groot"
+msgstr "Upload is te groot"
 
 #: templates/index.php:110
 msgid ""

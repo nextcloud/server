@@ -3,26 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Denis  <reg.transifex.net@demitel.ru>, 2012.
-#   <jekader@gmail.com>, 2012.
-#   <lankme@gmail.com>, 2012.
-#   <mpolr21@gmail.com>, 2012.
-# Nick Remeslennikov <homolibere@gmail.com>, 2012.
-#   <semen@sam002.net>, 2012.
-# Sergey <sergey@markevich.ru>, 2013.
-#   <sharov3@gmail.com>, 2013.
-#   <skoptev@ukr.net>, 2012.
-#   <tony.mccourin@gmail.com>, 2011.
-# Victor Ashirov <victor.ashirov@gmail.com>, 2013.
-# Victor Bravo <>, 2012.
-#   <victor.dubiniuk@gmail.com>, 2012.
-# Дмитрий <langaru@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -51,7 +37,7 @@ msgstr "Файл не был загружен. Неизвестная ошибк
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Файл успешно загружен"
+msgstr "Файл загружен успешно."
 
 #: ajax/upload.php:27
 msgid ""
@@ -62,11 +48,11 @@ msgstr "Файл превышает размер установленный uplo
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Файл превышает размер MAX_FILE_SIZE, указаный в HTML-форме"
+msgstr "Загружаемый файл превосходит значение переменной MAX_FILE_SIZE, указанной в форме HTML"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Файл был загружен не полностью"
+msgstr "Файл загружен частично"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
@@ -74,7 +60,7 @@ msgstr "Файл не был загружен"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Невозможно найти временную папку"
+msgstr "Отсутствует временная папка"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -92,15 +78,19 @@ msgstr "Неправильный каталог."
 msgid "Files"
 msgstr "Файлы"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Открыть доступ"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Удалено навсегда"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Удалить"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Переименовать"
 
@@ -142,7 +132,7 @@ msgstr "загружается 1 файл"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "файлы загружаются"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -174,7 +164,7 @@ msgstr "Загрузка началась. Это может потребова�
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Не удается загрузить файл размером 0 байт в каталог"
+msgstr "Файл не был загружен: его размер 0 байт либо это не файл, а директория."
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -203,7 +193,7 @@ msgstr "Ошибка"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr "Название"
+msgstr "Имя"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
@@ -231,7 +221,7 @@ msgstr "{count} файлов"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "Загрузить"
+msgstr "Загрузка"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -303,11 +293,11 @@ msgstr "Скачать"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "Отменить публикацию"
+msgstr "Закрыть общий доступ"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Файл слишком большой"
+msgstr "Файл слишком велик"
 
 #: templates/index.php:110
 msgid ""

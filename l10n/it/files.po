@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <cosenal@gmail.com>, 2011.
-# Francesco Apruzzese <cescoap@gmail.com>, 2011.
-#   <marco@carnazzo.it>, 2012.
-# Vincenzo Reale <vinx.reale@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Italian (http://www.transifex.com/projects/p/owncloud/language/it/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +37,7 @@ msgstr "Nessun file è stato inviato. Errore sconosciuto"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Non ci sono errori, file caricato con successo"
+msgstr "Non ci sono errori, il file è stato caricato correttamente"
 
 #: ajax/upload.php:27
 msgid ""
@@ -52,11 +48,11 @@ msgstr "Il file caricato supera la direttiva upload_max_filesize in php.ini:"
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Il file caricato supera il valore MAX_FILE_SIZE definito nel form HTML"
+msgstr "Il file inviato supera la direttiva MAX_FILE_SIZE specificata nel modulo HTML"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Il file è stato parzialmente caricato"
+msgstr "Il file è stato caricato solo parzialmente"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
@@ -64,7 +60,7 @@ msgstr "Nessun file è stato caricato"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Cartella temporanea mancante"
+msgstr "Manca una cartella temporanea"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -82,15 +78,19 @@ msgstr "Cartella non valida."
 msgid "Files"
 msgstr "File"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Condividi"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Elimina definitivamente"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Elimina"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Rinomina"
 
@@ -164,7 +164,7 @@ msgstr "Il tuo scaricamento è in fase di preparazione. Ciò potrebbe richiedere
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Impossibile inviare il file poiché è una cartella o ha dimensione 0 byte"
+msgstr "Impossibile caricare il file poiché è una cartella o ha una dimensione di 0 byte"
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -297,7 +297,7 @@ msgstr "Rimuovi condivisione"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Il file caricato è troppo grande"
+msgstr "Caricamento troppo grande"
 
 #: templates/index.php:110
 msgid ""

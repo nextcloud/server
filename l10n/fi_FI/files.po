@@ -3,17 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Jesse Jaara <jesse.jaara@gmail.com>, 2012.
-# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012-2013.
-# Johannes Korpela <>, 2012.
-#   <tehoratopato@gmail.com>, 2012.
-#   <tscooter@hotmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -47,13 +42,13 @@ msgstr "Ei virheitä, tiedosto lähetettiin onnistuneesti"
 #: ajax/upload.php:27
 msgid ""
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: "
-msgstr ""
+msgstr "Lähetetyn tiedoston koko ylittää php.ini-tiedoston upload_max_filesize-säännön:"
 
 #: ajax/upload.php:29
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Lähetetty tiedosto ylittää HTML-lomakkeessa määritetyn MAX_FILE_SIZE-arvon ylärajan"
+msgstr "Ladattavan tiedoston maksimikoko ylittää MAX_FILE_SIZE dirketiivin, joka on määritelty HTML-lomakkeessa"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
@@ -65,7 +60,7 @@ msgstr "Yhtäkään tiedostoa ei lähetetty"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Väliaikaiskansiota ei ole olemassa"
+msgstr "Tilapäiskansio puuttuu"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -83,15 +78,19 @@ msgstr "Virheellinen kansio."
 msgid "Files"
 msgstr "Tiedostot"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Jaa"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Poista pysyvästi"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Poista"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Nimeä uudelleen"
 
@@ -165,7 +164,7 @@ msgstr "Lataustasi valmistellaan. Tämä saattaa kestää hetken, jos tiedostot 
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Tiedoston lähetys epäonnistui, koska sen koko on 0 tavua tai kyseessä on kansio"
+msgstr "Tiedoston lähetys epäonnistui, koska sen koko on 0 tavua tai kyseessä on kansio."
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -202,7 +201,7 @@ msgstr "Koko"
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr "Muutettu"
+msgstr "Muokattu"
 
 #: js/files.js:893
 msgid "1 folder"

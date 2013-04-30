@@ -3,22 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Axilleas Pi <axilleas@archlinux.gr>, 2013.
-# Dimitris M. <monopatis@gmail.com>, 2012-2013.
-# Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012-2013.
-# Efstathios Iosifidis <iefstathios@gmail.com>, 2013.
-# Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
-# Konstantinos Tzanidis <tzanidis@gmail.com>, 2012.
-# Marios Bekatoros <>, 2012.
-# Petros Kyladitis <petros.kyladitis@gmail.com>, 2011-2013.
-# Wasilis Mandratzis <m.wasilis@yahoo.de>, 2013.
-# Γιάννης Ανθυμίδης <yannanth@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +48,7 @@ msgstr "Το αρχείο που εστάλει υπερβαίνει την οδ
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Το αρχείο υπερβαίνει την οδηγία μέγιστου επιτρεπτού μεγέθους \"MAX_FILE_SIZE\" που έχει οριστεί στην HTML φόρμα"
+msgstr "Το ανεβασμένο αρχείο υπερβαίνει το MAX_FILE_SIZE που ορίζεται στην  HTML φόρμα"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
@@ -88,15 +78,19 @@ msgstr "Μη έγκυρος φάκελος."
 msgid "Files"
 msgstr "Αρχεία"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Διαμοιρασμός"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Μόνιμη διαγραφή"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Διαγραφή"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Μετονομασία"
 
@@ -227,7 +221,7 @@ msgstr "{count} αρχεία"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "Αποστολή"
+msgstr "Μεταφόρτωση"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -299,7 +293,7 @@ msgstr "Λήψη"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "Διακοπή κοινής χρήσης"
+msgstr "Σταμάτημα διαμοιρασμού"
 
 #: templates/index.php:108
 msgid "Upload too large"

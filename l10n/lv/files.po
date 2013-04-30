@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <aldis@udris.lv>, 2012.
-# Imants Liepiņš <imzzinator@gmail.com>, 2012.
-# Rūdolfs Mazurs <rudolfs.mazurs@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Latvian (http://www.transifex.com/projects/p/owncloud/language/lv/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +37,7 @@ msgstr "Netika augšupielādēta neviena datne. Nezināma kļūda"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Augšupielāde pabeigta bez kļūdām"
+msgstr "Viss kārtībā, datne augšupielādēta veiksmīga"
 
 #: ajax/upload.php:27
 msgid ""
@@ -81,15 +78,19 @@ msgstr "Nederīga direktorija."
 msgid "Files"
 msgstr "Datnes"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Dalīties"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Dzēst pavisam"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Dzēst"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Pārsaukt"
 
@@ -163,7 +164,7 @@ msgstr "Tiek sagatavota lejupielāde. Tas var aizņemt kādu laiciņu, ja datnes
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Nevar augšupielādēt jūsu datni, jo tā ir direktorija vai arī tās izmērs ir 0 baiti"
+msgstr "Nevar augšupielādēt jūsu datni, jo tā ir direktorija vai arī tā ir 0 baitu liela"
 
 #: js/files.js:272
 msgid "Not enough space available"

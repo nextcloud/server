@@ -44,7 +44,7 @@ class Shared_Cache extends Cache {
 		$source = \OC_Share_Backend_File::getSource($target);
 		if (isset($source['path']) && isset($source['fileOwner'])) {
 			\OC\Files\Filesystem::initMountPoints($source['fileOwner']);
-			$mount = \OC\Files\Mount::findByNumericId($source['storage']);
+			$mount = \OC\Files\Filesystem::getMountByNumericId($source['storage']);
 			if ($mount) {
 				$fullPath = $mount->getMountPoint().$source['path'];
 				list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($fullPath);

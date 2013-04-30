@@ -15,7 +15,7 @@
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not work. Please ask your system administrator to install it." => "<b>Avís:</b> El mòdul PHP LDAP no està instal·lat, el dorsal no funcionarà. Demaneu a l'administrador del sistema que l'instal·li.",
 "Server configuration" => "Configuració del servidor",
 "Add Server Configuration" => "Afegeix la configuració del servidor",
-"Host" => "Màquina",
+"Host" => "Equip remot",
 "You can omit the protocol, except you require SSL. Then start with ldaps://" => "Podeu ometre el protocol, excepte si requeriu SSL. Llavors comenceu amb ldaps://",
 "Base DN" => "DN Base",
 "One Base DN per line" => "Una DN Base per línia",

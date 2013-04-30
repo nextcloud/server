@@ -3,20 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Denis <reg.transifex.net@demitel.ru>, 2013
-# Denis <reg.transifex.net@demitel.ru>, 2012
-# k0ldbl00d <k0ldbl00d@gmail.com>, 2012
-# Mihail Vasiliev <mickvav@gmail.com>, 2012
-# mPolr <mpolr21@gmail.com>, 2012
-# m4rkell <sergey@markevich.ru>, 2013
-# VicDeo <victor.dubiniuk@gmail.com>, 2012
-# Langaru <langaru@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-18 02:04+0200\n"
-"PO-Revision-Date: 2013-04-18 00:04+0000\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Russian (http://www.transifex.com/projects/p/owncloud/language/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +27,7 @@ msgstr "Личное"
 
 #: app.php:373
 msgid "Settings"
-msgstr "Настройки"
+msgstr "Конфигурация"
 
 #: app.php:385
 msgid "Users"
@@ -121,79 +113,79 @@ msgstr "%s Вы не можете использовать точки в име�
 msgid "%s set the database host."
 msgstr "%s задайте хост базы данных."
 
-#: setup.php:132 setup.php:324 setup.php:369
+#: setup.php:132 setup.php:325 setup.php:370
 msgid "PostgreSQL username and/or password not valid"
 msgstr "Неверное имя пользователя и/или пароль PostgreSQL"
 
-#: setup.php:133 setup.php:156 setup.php:233
+#: setup.php:133 setup.php:156 setup.php:234
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Вы должны войти или в существующий аккаунт или под администратором."
 
-#: setup.php:155 setup.php:457 setup.php:524
+#: setup.php:155 setup.php:458 setup.php:525
 msgid "Oracle username and/or password not valid"
 msgstr "Неверное имя пользователя и/или пароль Oracle"
 
-#: setup.php:232
+#: setup.php:233
 msgid "MySQL username and/or password not valid"
 msgstr "Неверное имя пользователя и/или пароль MySQL"
 
-#: setup.php:286 setup.php:390 setup.php:399 setup.php:417 setup.php:427
-#: setup.php:436 setup.php:465 setup.php:531 setup.php:557 setup.php:564
-#: setup.php:575 setup.php:582 setup.php:591 setup.php:599 setup.php:608
-#: setup.php:614
+#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
+#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
+#: setup.php:576 setup.php:583 setup.php:592 setup.php:600 setup.php:609
+#: setup.php:615
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "Ошибка БД: \"%s\""
 
-#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
-#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
-#: setup.php:576 setup.php:592 setup.php:600 setup.php:609
+#: setup.php:288 setup.php:392 setup.php:401 setup.php:419 setup.php:429
+#: setup.php:438 setup.php:467 setup.php:533 setup.php:559 setup.php:566
+#: setup.php:577 setup.php:593 setup.php:601 setup.php:610
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "Вызываемая команда была: \"%s\""
 
-#: setup.php:303
+#: setup.php:304
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr "Пользователь MySQL '%s'@'localhost' уже существует."
 
-#: setup.php:304
+#: setup.php:305
 msgid "Drop this user from MySQL"
 msgstr "Удалить этого пользователя из MySQL"
 
-#: setup.php:309
+#: setup.php:310
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr "Пользователь MySQL '%s'@'%%' уже существует"
 
-#: setup.php:310
+#: setup.php:311
 msgid "Drop this user from MySQL."
 msgstr "Удалить этого пользователя из MySQL."
 
-#: setup.php:583 setup.php:615
+#: setup.php:584 setup.php:616
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Вызываемая команда была: \"%s\", имя: %s, пароль: %s"
 
-#: setup.php:635
+#: setup.php:636
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
 msgstr "Имя пользователя и/или пароль MS SQL не подходит: %s"
 
-#: setup.php:853
+#: setup.php:858
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Ваш веб сервер до сих пор не настроен правильно для возможности синхронизации файлов, похоже что проблема в неисправности интерфейса WebDAV."
 
-#: setup.php:854
+#: setup.php:859
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Пожалуйста, дважды просмотрите <a href='%s'>инструкции по установке</a>."
 
 #: template.php:113
 msgid "seconds ago"
-msgstr "менее минуты"
+msgstr "несколько секунд назад"
 
 #: template.php:114
 msgid "1 minute ago"
@@ -241,20 +233,7 @@ msgstr "в прошлом году"
 
 #: template.php:124
 msgid "years ago"
-msgstr "годы назад"
-
-#: updater.php:78
-#, php-format
-msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr "Возможно обновление до %s. <a href=\"%s\">Подробнее</a>"
-
-#: updater.php:81
-msgid "up to date"
-msgstr "актуальная версия"
-
-#: updater.php:84
-msgid "updates check is disabled"
-msgstr "проверка обновлений отключена"
+msgstr "несколько лет назад"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

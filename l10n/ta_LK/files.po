@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <suganthi@nic.lk>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -79,15 +78,19 @@ msgstr ""
 msgid "Files"
 msgstr "கோப்புகள்"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "பகிர்வு"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr "அழிக்க"
+msgstr "நீக்குக"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "பெயர்மாற்றம்"
 
@@ -250,7 +253,7 @@ msgstr "ZIP கோப்புகளுக்கான ஆகக்கூடி�
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr "சேமிக்க"
+msgstr "சேமிக்க "
 
 #: templates/index.php:7
 msgid "New"

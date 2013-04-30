@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Martin  <fireball@atlas.cz>, 2011-2012.
-# Michal Hrušecký <Michal@hrusecky.net>, 2012.
-# Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Czech (Czech Republic) (http://www.transifex.com/projects/p/owncloud/language/cs_CZ/)\n"
 "MIME-Version: 1.0\n"
@@ -81,21 +78,25 @@ msgstr "Neplatný adresář"
 msgid "Files"
 msgstr "Soubory"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Sdílet"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Trvale odstranit"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Smazat"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Přejmenovat"
 
 #: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr "Čekající"
+msgstr "Nevyřízené"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
@@ -163,7 +164,7 @@ msgstr "Vaše soubory ke stažení se připravují. Pokud jsou velké může to 
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Nelze odeslat Váš soubor, protože je to adresář nebo má velikost 0 bajtů"
+msgstr "Nelze odeslat Váš soubor, protože je to adresář, nebo je jeho velikost 0 bajtů"
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -200,7 +201,7 @@ msgstr "Velikost"
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr "Změněno"
+msgstr "Upraveno"
 
 #: js/files.js:893
 msgid "1 folder"
@@ -296,7 +297,7 @@ msgstr "Zrušit sdílení"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Odeslaný soubor je příliš velký"
+msgstr "Odesílaný soubor je příliš velký"
 
 #: templates/index.php:110
 msgid ""

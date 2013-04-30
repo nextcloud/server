@@ -115,6 +115,11 @@ $(document).ready(function() {
 		return false;
 	});
 
+	// Trigger cancelling of file upload
+	$('#uploadprogresswrapper .stop').on('click', function() {
+		Files.cancelUploads();
+	});
+
 	// Show trash bin
 	$('#trash a').live('click', function() {
 		window.location=OC.filePath('files_trashbin', '', 'index.php');

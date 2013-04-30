@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <andrejuszl@gmail.com>, 2012.
-# Denisas Kulumbegašvili <>, 2012.
-# Dr. ROX  <to.dr.rox@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Lithuanian (Lithuania) (http://www.transifex.com/projects/p/owncloud/language/lt_LT/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +37,7 @@ msgstr ""
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Klaidų nėra, failas įkeltas sėkmingai"
+msgstr "Failas įkeltas sėkmingai, be klaidų"
 
 #: ajax/upload.php:27
 msgid ""
@@ -51,7 +48,7 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Įkeliamo failo dydis viršija MAX_FILE_SIZE parametrą, kuris yra nustatytas HTML formoje"
+msgstr "Įkeliamo failo dydis viršija MAX_FILE_SIZE nustatymą, kuris naudojamas HTML formoje."
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
@@ -59,7 +56,7 @@ msgstr "Failas buvo įkeltas tik dalinai"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Nebuvo įkeltas nė vienas failas"
+msgstr "Nebuvo įkeltas joks failas"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
@@ -81,15 +78,19 @@ msgstr ""
 msgid "Files"
 msgstr "Failai"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Dalintis"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Ištrinti"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Pervadinti"
 
@@ -302,7 +303,7 @@ msgstr "Įkėlimui failas per didelis"
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Bandomų įkelti failų dydis viršija maksimalų leidžiamą šiame serveryje"
+msgstr "Bandomų įkelti failų dydis viršija maksimalų, kuris leidžiamas šiame serveryje"
 
 #: templates/index.php:115
 msgid "Files are being scanned, please wait."

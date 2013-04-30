@@ -3,17 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <aoiob4305@gmail.com>, 2013.
-# 남자사람  <cessnagi@gmail.com>, 2012.
-# Harim Park <fofwisdom@gmail.com>, 2013.
-#   <limonade83@gmail.com>, 2012.
-# Shinjo Park <kde@peremen.name>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:17+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -26,12 +21,16 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "앱 스토어에서 목록을 가져올 수 없습니다"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
 msgstr "인증 오류"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr ""
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr ""
 
@@ -99,7 +98,7 @@ msgstr "비활성화"
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "활성화"
+msgstr "사용함"
 
 #: js/apps.js:55
 msgid "Please wait...."
@@ -121,7 +120,7 @@ msgstr ""
 msgid "Updated"
 msgstr ""
 
-#: js/personal.js:109
+#: js/personal.js:118
 msgid "Saving..."
 msgstr "저장 중..."
 
@@ -137,16 +136,16 @@ msgstr "되돌리기"
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:88 templates/users.php:26 templates/users.php:78
+#: templates/users.php:103
 msgid "Groups"
 msgstr "그룹"
 
-#: js/users.js:91 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
 msgstr "그룹 관리자"
 
-#: js/users.js:111 templates/users.php:161
+#: js/users.js:111 templates/users.php:155
 msgid "Delete"
 msgstr "삭제"
 
@@ -166,7 +165,7 @@ msgstr ""
 msgid "A valid password must be provided"
 msgstr ""
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
 msgstr "한국어"
 
@@ -236,7 +235,7 @@ msgstr ""
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr ""
+msgstr "크론"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
@@ -311,25 +310,25 @@ msgstr ""
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr ""
+msgstr "로그"
 
 #: templates/admin.php:196
 msgid "Log level"
-msgstr ""
+msgstr "로그 단계"
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "더 중요함"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Less"
 msgstr "덜 중요함"
 
-#: templates/admin.php:231 templates/personal.php:102
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
 msgstr "버전"
 
-#: templates/admin.php:234 templates/personal.php:105
+#: templates/admin.php:238 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -400,7 +399,7 @@ msgstr "앱을 이용하여 당신의 파일을 동기화 할 수 있습니다."
 msgid "Show First Run Wizard again"
 msgstr "첫 실행 마법사 다시 보이기"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "암호"
 
@@ -424,82 +423,70 @@ msgstr "새 암호"
 msgid "Change password"
 msgstr "암호 변경"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
 msgstr "표시 이름"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr ""
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr ""
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr ""
-
-#: templates/personal.php:70
+#: templates/personal.php:68
 msgid "Email"
 msgstr "이메일"
 
-#: templates/personal.php:72
+#: templates/personal.php:70
 msgid "Your email address"
 msgstr "이메일 주소"
 
-#: templates/personal.php:73
+#: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
 msgstr "암호 찾기 기능을 사용하려면 이메일 주소를 입력하십시오."
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
 msgstr "언어"
 
-#: templates/personal.php:86
+#: templates/personal.php:89
 msgid "Help translate"
 msgstr "번역 돕기"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:93
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "파일 관리자에서 ownCloud에 접속하려면 이 주소를 사용하십시오."
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
 msgstr "로그인 이름"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "만들기"
 
-#: templates/users.php:35
+#: templates/users.php:33
 msgid "Default Storage"
 msgstr "기본 저장소"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
 msgstr "무제한"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:57 templates/users.php:148
 msgid "Other"
 msgstr "기타"
 
-#: templates/users.php:84
+#: templates/users.php:82
 msgid "Storage"
 msgstr "저장소"
 
-#: templates/users.php:95
+#: templates/users.php:93
 msgid "change display name"
 msgstr "표시 이름 변경"
 
-#: templates/users.php:99
+#: templates/users.php:97
 msgid "set new password"
 msgstr "새 암호 설정"
 
-#: templates/users.php:134
+#: templates/users.php:128
 msgid "Default"
 msgstr "기본값"

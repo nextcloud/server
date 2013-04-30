@@ -3,25 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# André Koot <meneer@tken.net>, 2012-2013.
-#   <bart.formosus@gmail.com>, 2011.
-#   <bramdv@me.com>, 2012.
-#   <didi.debian@cknow.org>, 2012.
-# Erik Bent <hj.bent.60@gmail.com>, 2012.
-#   <icewind1991@gmail.com>, 2011, 2012.
-#   <jos@gelauff.net>, 2012.
-#   <koen@vervloesem.eu>, 2011.
-#   <lenny@weijl.org>, 2012.
-#   <pietje8501@gmail.com>, 2012.
-# Richard Bos <radoeka@gmail.com>, 2012.
-# Wilfred Dijksman <translate@wdijksman.nl>, 2013.
+# André Koot <meneer@tken.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-29 01:58+0200\n"
+"PO-Revision-Date: 2013-04-28 06:30+0000\n"
+"Last-Translator: André Koot <meneer@tken.net>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,12 +22,16 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Kan de lijst niet van de App store laden"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
 msgstr "Authenticatie fout"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr "Uw weergavenaam is gewijzigd."
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr "Kon de weergavenaam niet wijzigen"
 
@@ -76,7 +69,7 @@ msgstr "Taal aangepast"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "Ongeldig verzoek"
+msgstr "Ongeldige aanvraag"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -106,7 +99,7 @@ msgstr "Uitschakelen"
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "Inschakelen"
+msgstr "Activeer"
 
 #: js/apps.js:55
 msgid "Please wait...."
@@ -128,9 +121,9 @@ msgstr "Fout bij bijwerken app"
 msgid "Updated"
 msgstr "Bijgewerkt"
 
-#: js/personal.js:109
+#: js/personal.js:118
 msgid "Saving..."
-msgstr "Aan het bewaren....."
+msgstr "Opslaan"
 
 #: js/users.js:43
 msgid "deleted"
@@ -144,18 +137,18 @@ msgstr "ongedaan maken"
 msgid "Unable to remove user"
 msgstr "Kon gebruiker niet verwijderen"
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:88 templates/users.php:26 templates/users.php:78
+#: templates/users.php:103
 msgid "Groups"
 msgstr "Groepen"
 
-#: js/users.js:91 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
 msgstr "Groep beheerder"
 
-#: js/users.js:111 templates/users.php:161
+#: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr "verwijderen"
+msgstr "Verwijder"
 
 #: js/users.js:262
 msgid "add group"
@@ -173,7 +166,7 @@ msgstr "Fout bij aanmaken gebruiker"
 msgid "A valid password must be provided"
 msgstr "Er moet een geldig wachtwoord worden opgegeven"
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
 msgstr "Nederlands"
 
@@ -203,7 +196,7 @@ msgstr "Uw webserver is nog niet goed ingesteld voor bestandssynchronisatie omda
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr "Conntroleer de <a href='%s'>installatie handleiding</a> goed."
+msgstr "Controleer de <a href='%s'>installatiehandleiding</a> goed."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
@@ -324,19 +317,19 @@ msgstr "Log"
 msgid "Log level"
 msgstr "Log niveau"
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "Meer"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Less"
 msgstr "Minder"
 
-#: templates/admin.php:231 templates/personal.php:102
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
 msgstr "Versie"
 
-#: templates/admin.php:234 templates/personal.php:105
+#: templates/admin.php:237 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -407,7 +400,7 @@ msgstr "Download de apps om bestanden te synchen"
 msgid "Show First Run Wizard again"
 msgstr "Toon de Eerste start Wizard opnieuw"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Wachtwoord"
 
@@ -425,88 +418,76 @@ msgstr "Huidig wachtwoord"
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr "Nieuw wachtwoord"
+msgstr "Nieuw"
 
 #: templates/personal.php:44
 msgid "Change password"
 msgstr "Wijzig wachtwoord"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
 msgstr "Weergavenaam"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr "Uw weergavenaam is gewijzigd"
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr "Kon de weergavenaam niet wijzigen"
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr "Wijzig weergavenaam"
-
-#: templates/personal.php:70
+#: templates/personal.php:68
 msgid "Email"
 msgstr "E-mailadres"
 
-#: templates/personal.php:72
+#: templates/personal.php:70
 msgid "Your email address"
 msgstr "Uw e-mailadres"
 
-#: templates/personal.php:73
+#: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
 msgstr "Vul een e-mailadres in om wachtwoord reset uit te kunnen voeren"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
 msgstr "Taal"
 
-#: templates/personal.php:86
+#: templates/personal.php:89
 msgid "Help translate"
 msgstr "Help met vertalen"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:93
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Gebruik dit adres om te verbinden met uw ownCloud in uw bestandsbeheer"
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
 msgstr "Inlognaam"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "Creëer"
 
-#: templates/users.php:35
+#: templates/users.php:33
 msgid "Default Storage"
 msgstr "Default opslag"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
 msgstr "Ongelimiteerd"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr "Andere"
+msgstr "Anders"
 
-#: templates/users.php:84
+#: templates/users.php:82
 msgid "Storage"
 msgstr "Opslag"
 
-#: templates/users.php:95
+#: templates/users.php:93
 msgid "change display name"
 msgstr "wijzig weergavenaam"
 
-#: templates/users.php:99
+#: templates/users.php:97
 msgid "set new password"
 msgstr "Instellen nieuw wachtwoord"
 
-#: templates/users.php:134
+#: templates/users.php:128
 msgid "Default"
 msgstr "Default"

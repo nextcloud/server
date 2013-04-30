@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Mariano <mstreet@kde.org.ar>, 2013.
-# Mariano  <mstreet@kde.org.ar>, 2012.
-#   <mstreet@kde.org.ar>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Esperanto (http://www.transifex.com/projects/p/owncloud/language/eo/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +37,7 @@ msgstr "Neniu dosiero alŝutiĝis. Nekonata eraro."
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Ne estas eraro, la dosiero alŝutiĝis sukcese"
+msgstr "Ne estas eraro, la dosiero alŝutiĝis sukcese."
 
 #: ajax/upload.php:27
 msgid ""
@@ -55,15 +52,15 @@ msgstr "La dosiero alŝutita superas la regulon MAX_FILE_SIZE, kiu estas difinit
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "La alŝutita dosiero nur parte alŝutiĝis"
+msgstr "la alŝutita dosiero nur parte alŝutiĝis"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Neniu dosiero estas alŝutita"
+msgstr "Neniu dosiero alŝutiĝis."
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Mankas tempa dosierujo"
+msgstr "Mankas provizora dosierujo."
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -81,15 +78,19 @@ msgstr "Nevalida dosierujo."
 msgid "Files"
 msgstr "Dosieroj"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Kunhavigi"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Forigi"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Alinomigi"
 
@@ -131,7 +132,7 @@ msgstr "1 dosiero estas alŝutata"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "dosieroj estas alŝutataj"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -296,7 +297,7 @@ msgstr "Malkunhavigi"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Elŝuto tro larĝa"
+msgstr "Alŝuto tro larĝa"
 
 #: templates/index.php:110
 msgid ""

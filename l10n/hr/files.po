@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Davor Kustec <dkustec@gmail.com>, 2011, 2012.
-#   <franz@franz-net.info>, 2012.
-# Thomas Silađi <thomas.siladi@net.hr>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -40,7 +37,7 @@ msgstr ""
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Datoteka je poslana uspješno i bez pogrešaka"
+msgstr "Nema pogreške, datoteka je poslana uspješno."
 
 #: ajax/upload.php:27
 msgid ""
@@ -51,19 +48,19 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Poslana datoteka izlazi iz okvira MAX_FILE_SIZE direktive postavljene u HTML obrascu"
+msgstr "Poslana datoteka prelazi veličinu prikazanu u MAX_FILE_SIZE direktivi u HTML formi"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Datoteka je poslana samo djelomično"
+msgstr "Poslana datoteka je parcijalno poslana"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Ni jedna datoteka nije poslana"
+msgstr "Datoteka nije poslana"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Nedostaje privremena mapa"
+msgstr "Nedostaje privremeni direktorij"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -81,15 +78,19 @@ msgstr ""
 msgid "Files"
 msgstr "Datoteke"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Podijeli"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr "Briši"
+msgstr "Obriši"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Promjeni ime"
 
@@ -131,7 +132,7 @@ msgstr "1 datoteka se učitava"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "datoteke se učitavaju"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -192,7 +193,7 @@ msgstr "Greška"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr "Naziv"
+msgstr "Ime"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
@@ -220,7 +221,7 @@ msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "Pošalji"
+msgstr "Učitaj"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -288,11 +289,11 @@ msgstr "Nema ničega u ovoj mapi. Pošalji nešto!"
 
 #: templates/index.php:76
 msgid "Download"
-msgstr "Preuzmi"
+msgstr "Preuzimanje"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "Prekini djeljenje"
+msgstr "Makni djeljenje"
 
 #: templates/index.php:108
 msgid "Upload too large"

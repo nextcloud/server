@@ -3,17 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>, 2012.
-# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2012-2013.
-# <tetuyano+transi@gmail.com>, 2012.
-#   <tetuyano+transi@gmail.com>, 2012.
-# YANO Tetsu <tetuyano+transi@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -53,11 +48,11 @@ msgstr "アップロードされたファイルはphp.ini の upload_max_filesiz
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "アップロードされたファイルはHTMLのフォームに設定されたMAX_FILE_SIZEに設定されたサイズを超えています"
+msgstr "アップロードファイルはHTMLフォームで指定された MAX_FILE_SIZE の制限を超えています"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "ファイルは一部分しかアップロードされませんでした"
+msgstr "アップロードファイルは一部分だけアップロードされました"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
@@ -65,7 +60,7 @@ msgstr "ファイルはアップロードされませんでした"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "テンポラリフォルダが見つかりません"
+msgstr "一時保存フォルダが見つかりません"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -83,21 +78,25 @@ msgstr "無効なディレクトリです。"
 msgid "Files"
 msgstr "ファイル"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "共有"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "完全に削除する"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "削除"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "名前の変更"
 
 #: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr "保留"
+msgstr "中断"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
@@ -202,7 +201,7 @@ msgstr "サイズ"
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr "更新日時"
+msgstr "変更"
 
 #: js/files.js:893
 msgid "1 folder"
@@ -294,11 +293,11 @@ msgstr "ダウンロード"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "共有しない"
+msgstr "共有解除"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "ファイルサイズが大きすぎます"
+msgstr "アップロードには大きすぎます。"
 
 #: templates/index.php:110
 msgid ""

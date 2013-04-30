@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <d.chateau@laposte.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Occitan (post 1500) (http://www.transifex.com/projects/p/owncloud/language/oc/)\n"
 "MIME-Version: 1.0\n"
@@ -79,15 +78,19 @@ msgstr ""
 msgid "Files"
 msgstr "Fichièrs"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Parteja"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Escafa"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Torna nomenar"
 
@@ -129,7 +132,7 @@ msgstr "1 fichièr al amontcargar"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "fichièrs al amontcargar"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -290,7 +293,7 @@ msgstr "Avalcarga"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "Non parteja"
+msgstr "Pas partejador"
 
 #: templates/index.php:108
 msgid "Upload too large"

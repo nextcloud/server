@@ -3,19 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <bury1000@gmail.com>, 2012.
-#   <joan@montane.cat>, 2012.
-#   <josep_tomas@hotmail.com>, 2012.
-# Josep Tomàs <jtomas.binsoft@gmail.com>, 2012.
-#  <rcalvoi@yahoo.com>, 2013.
-#   <rcalvoi@yahoo.com>, 2011-2013.
-#   <sacoo2@hotmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +37,7 @@ msgstr "No s'ha carregat cap fitxer. Error desconegut"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "El fitxer s'ha pujat correctament"
+msgstr "No hi ha errors, el fitxer s'ha carregat correctament"
 
 #: ajax/upload.php:27
 msgid ""
@@ -55,19 +48,19 @@ msgstr "L’arxiu que voleu carregar supera el màxim definit en la directiva up
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "El fitxer de pujada excedeix la directiva MAX_FILE_SIZE especificada al formulari HTML"
+msgstr "El fitxer carregat supera la directiva MAX_FILE_SIZE especificada al formulari HTML"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "El fitxer només s'ha pujat parcialment"
+msgstr "El fitxer només s'ha carregat parcialment"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "El fitxer no s'ha pujat"
+msgstr "No s'ha carregat cap fitxer"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "S'ha perdut un fitxer temporal"
+msgstr "Falta un fitxer temporal"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -85,21 +78,25 @@ msgstr "Directori no vàlid."
 msgid "Files"
 msgstr "Fitxers"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Comparteix"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Esborra permanentment"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr "Suprimeix"
+msgstr "Esborra"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Reanomena"
 
 #: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr "Pendents"
+msgstr "Pendent"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
@@ -260,7 +257,7 @@ msgstr "Desa"
 
 #: templates/index.php:7
 msgid "New"
-msgstr "Nou"
+msgstr "Nova"
 
 #: templates/index.php:10
 msgid "Text file"

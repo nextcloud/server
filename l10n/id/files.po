@@ -3,17 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Muhammad Fauzan <yosanpro@gmail.com>, 2012.
-# Muhammad Panji <sumodirjo@gmail.com>, 2012.
-# Muhammad Radifar <m_radifar05@yahoo.com>, 2011.
-#  <romihardiyanto@gmail.com>, 2013.
-# Widya Walesa <walecha99@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +33,7 @@ msgstr "Tidak dapat mengubah nama berkas"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
-msgstr "Tidak ada berkas yang diunggah. Galat tidak dikenal"
+msgstr "Tidak ada berkas yang diunggah. Galat tidak dikenal."
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
@@ -83,15 +78,19 @@ msgstr "Direktori tidak valid."
 msgid "Files"
 msgstr "Berkas"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Bagikan"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Hapus secara permanen"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Hapus"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Ubah nama"
 
@@ -165,7 +164,7 @@ msgstr "Unduhan Anda sedang disiapkan. Prosesnya dapat berlangsung agak lama jik
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Gagal mengunggah berkas Anda karena berupa direktori atau ukurannya 0 byte"
+msgstr "Gagal mengunggah berkas Anda karena berupa direktori atau mempunyai ukuran 0 byte"
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -298,7 +297,7 @@ msgstr "Batalkan berbagi"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Unggahan terlalu besar"
+msgstr "Yang diunggah terlalu besar"
 
 #: templates/index.php:110
 msgid ""

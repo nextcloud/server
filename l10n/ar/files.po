@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Ahmad Matalqah <houfa2005@yahoo.com>, 2013.
-#   <tarek.taha@gmail.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Arabic (http://www.transifex.com/projects/p/owncloud/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -80,15 +78,19 @@ msgstr "مسار غير صحيح."
 msgid "Files"
 msgstr "الملفات"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "شارك"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "حذف بشكل دائم"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr "محذوف"
+msgstr "إلغاء"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "إعادة تسميه"
 
@@ -191,7 +193,7 @@ msgstr "خطأ"
 
 #: js/files.js:872 templates/index.php:70
 msgid "Name"
-msgstr "الاسم"
+msgstr "اسم"
 
 #: js/files.js:873 templates/index.php:81
 msgid "Size"
@@ -219,7 +221,7 @@ msgstr "{count} ملفات"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "إرفع"
+msgstr "رفع"
 
 #: templates/admin.php:5
 msgid "File handling"

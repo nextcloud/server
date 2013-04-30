@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# AriesAnywhere Anywhere <ariesanywhere@gmail.com>, 2012-2013.
-# AriesAnywhere Anywhere <ariesanywherer@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +37,7 @@ msgstr "ยังไม่มีไฟล์ใดที่ถูกอัพโ
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "ไม่มีข้อผิดพลาดใดๆ ไฟล์ถูกอัพโหลดเรียบร้อยแล้ว"
+msgstr "ไม่พบข้อผิดพลาดใดๆ, ไฟล์ถูกอัพโหลดเรียบร้อยแล้ว"
 
 #: ajax/upload.php:27
 msgid ""
@@ -50,19 +48,19 @@ msgstr "ขนาดไฟล์ที่อัพโหลดมีขนาด
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "ไฟล์ที่อัพโหลดมีขนาดเกินคำสั่ง MAX_FILE_SIZE ที่ระบุเอาไว้ในรูปแบบคำสั่งในภาษา HTML"
+msgstr "ไฟล์ที่อัพโหลดมีขนาดไฟล์ใหญ่เกินจำนวนที่กำหนดไว้ในคำสั่ง MAX_FILE_SIZE ที่ถูกระบุไว้ในรูปแบบของ HTML"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "ไฟล์ที่อัพโหลดยังไม่ได้ถูกอัพโหลดอย่างสมบูรณ์"
+msgstr "ไฟล์ถูกอัพโหลดได้เพียงบางส่วนเท่านั้น"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "ยังไม่มีไฟล์ที่ถูกอัพโหลด"
+msgstr "ไม่มีไฟล์ที่ถูกอัพโหลด"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "แฟ้มเอกสารชั่วคราวเกิดการสูญหาย"
+msgstr "โฟลเดอร์ชั่วคราวเกิดการสูญหาย"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -80,15 +78,19 @@ msgstr "ไดเร็กทอรี่ไม่ถูกต้อง"
 msgid "Files"
 msgstr "ไฟล์"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "แชร์"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "ลบ"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "เปลี่ยนชื่อ"
 
@@ -130,7 +132,7 @@ msgstr "กำลังอัพโหลดไฟล์ 1 ไฟล์"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "การอัพโหลดไฟล์"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -162,7 +164,7 @@ msgstr "กำลังเตรียมดาวน์โหลดข้อม
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "ไม่สามารถอัพโหลดไฟล์ของคุณได้ เนื่องจากไฟล์ดังกล่าวเป็นไดเร็กทอรี่หรือมีขนาด 0 ไบต์"
+msgstr "ไม่สามารถอัพโหลดไฟล์ของคุณได้ เนื่องจากไฟล์ดังกล่าวเป็นไดเร็กทอรี่ หรือ มีขนาดไฟล์ 0 ไบต์"
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -199,7 +201,7 @@ msgstr "ขนาด"
 
 #: js/files.js:874 templates/index.php:83
 msgid "Modified"
-msgstr "ปรับปรุงล่าสุด"
+msgstr "แก้ไขแล้ว"
 
 #: js/files.js:893
 msgid "1 folder"
@@ -291,7 +293,7 @@ msgstr "ดาวน์โหลด"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "ยกเลิกการแชร์ข้อมูล"
+msgstr "ยกเลิกการแชร์"
 
 #: templates/index.php:108
 msgid "Upload too large"

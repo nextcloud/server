@@ -3,22 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <cronner@gmail.com>, 2012.
-# Frederik Lassen <frederiklassen@gmail.com>, 2013.
-# Morten Juhl-Johansen Zölde-Fejér <morten@writtenandread.net>, 2011-2013.
-# Ole Holm Frandsen <froksen@gmail.com>, 2012.
-#   <osos@openeyes.dk>, 2012.
-# Pascal d'Hermilly <pascal@dhermilly.dk>, 2011.
-#   <simon@rosmi.dk>, 2012.
-# Thomas <cronner@gmail.com>, 2013.
-# Thomas Tanghus <>, 2012.
-# Thomas Tanghus <thomas@tanghus.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Danish (http://www.transifex.com/projects/p/owncloud/language/da/)\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +37,7 @@ msgstr "Ingen fil blev uploadet. Ukendt fejl."
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Der er ingen fejl, filen blev uploadet med success"
+msgstr "Der skete ingen fejl, filen blev succesfuldt uploadet"
 
 #: ajax/upload.php:27
 msgid ""
@@ -58,19 +48,19 @@ msgstr "Den uploadede fil overstiger upload_max_filesize direktivet i php.ini"
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Den uploadede fil overskrider MAX_FILE_SIZE -direktivet som er specificeret i HTML-formularen"
+msgstr "Den uploadede fil overstiger MAX_FILE_SIZE indstilingen, som specificeret i HTML formularen"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Den uploadede file blev kun delvist uploadet"
+msgstr "Filen blev kun delvist uploadet."
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Ingen fil blev uploadet"
+msgstr "Ingen fil uploadet"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Mangler en midlertidig mappe"
+msgstr "Manglende midlertidig mappe."
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -88,15 +78,19 @@ msgstr "Ugyldig mappe."
 msgid "Files"
 msgstr "Filer"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Del"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Slet permanent"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Slet"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Omdøb"
 
@@ -138,7 +132,7 @@ msgstr "1 fil uploades"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "uploader filer"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -170,11 +164,11 @@ msgstr "Dit download forberedes. Dette kan tage lidt tid ved større filer."
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Kunne ikke uploade din fil, da det enten er en mappe eller er tom"
+msgstr "Kan ikke uploade din fil - det er enten en mappe eller en fil med et indhold på 0 bytes."
 
 #: js/files.js:272
 msgid "Not enough space available"
-msgstr ""
+msgstr "ikke nok tilgængelig ledig plads "
 
 #: js/files.js:312
 msgid "Upload cancelled."
@@ -303,7 +297,7 @@ msgstr "Fjern deling"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Upload for stor"
+msgstr "Upload er for stor"
 
 #: templates/index.php:110
 msgid ""

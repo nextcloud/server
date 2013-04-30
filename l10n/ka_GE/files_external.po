@@ -3,14 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Romeo Pirtskhalava <romeo@energo-pro.ge>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 09:03+0000\n"
+"Last-Translator: drlinux64 <romeo@energo-pro.ge>\n"
 "Language-Team: Georgian (Georgia) (http://www.transifex.com/projects/p/owncloud/language/ka_GE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -38,18 +37,25 @@ msgstr "გთხოვთ მიუთითოთ Dropbox აპლიკა�
 msgid "Error configuring Google Drive storage"
 msgstr "შეცდომა Google Drive საცავის კონფიგურირების დროს"
 
-#: lib/config.php:424
+#: lib/config.php:431
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>გაფრთხილება:</b> \"smbclient\" არ არის ინსტალირებული. CIFS/SMB ზიარების მონტირება შეუძლებელია. გთხოვთ თხოვოთ თქვენს სისტემურ ადმინისტრატორებს დააინსტალიროს ის."
 
-#: lib/config.php:427
+#: lib/config.php:434
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>გაფრთხილება:</b>  FTP მხარდაჭერა არ არის აქტიური ან დაინსტალირებული. FTP ზიარის მონტირება შეუძლებელია. გთხოვთ თხოვოთ თქვენს სისტემურ ადმინისტრატორებს დააინსტალიროს ის."
+
+#: lib/config.php:437
+msgid ""
+"<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
+"Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
+"your system administrator to install it."
+msgstr "<b>გაფრთხილება:</b>PHP–ის Curl მხარდაჭერა არ არის ჩართული ან ინსტალირებული. ownCloud / WebDAV ან GoogleDrive–ის მონტირება შეუძლებელია. თხოვეთ თქვენს ადმინისტრატორს დააინსტალიროს ის."
 
 #: templates/settings.php:3
 msgid "External Storage"

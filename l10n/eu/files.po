@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#  <asieriko@gmail.com>, 2013.
-#   <asieriko@gmail.com>, 2012.
-# Asier Urio Larrea <asieriko@gmail.com>, 2011.
-# Piarres Beobide <pi@beobide.net>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +37,7 @@ msgstr "Ez da fitxategirik igo. Errore ezezaguna"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Ez da arazorik izan, fitxategia ongi igo da"
+msgstr "Ez da errorerik egon, fitxategia ongi igo da"
 
 #: ajax/upload.php:27
 msgid ""
@@ -52,11 +48,11 @@ msgstr "Igotako fitxategiak php.ini fitxategian ezarritako upload_max_filesize m
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Igotako fitxategiaren tamaina HTML inprimakiko MAX_FILESIZE direktiban adierazitakoa baino handiagoa da"
+msgstr "Igotako fitxategia HTML formularioan zehaztutako MAX_FILE_SIZE direktiba baino handidagoa da."
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Igotako fitxategiaren zati bat baino gehiago ez da igo"
+msgstr "Igotako fitxategiaren zati bat bakarrik igo da"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
@@ -64,7 +60,7 @@ msgstr "Ez da fitxategirik igo"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Aldi baterako karpeta falta da"
+msgstr "Aldi bateko karpeta falta da"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -82,15 +78,19 @@ msgstr "Baliogabeko karpeta."
 msgid "Files"
 msgstr "Fitxategiak"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Elkarbanatu"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Ezabatu betirako"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Ezabatu"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Berrizendatu"
 
@@ -132,7 +132,7 @@ msgstr "fitxategi 1 igotzen"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "fitxategiak igotzen"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -164,7 +164,7 @@ msgstr "Zure deskarga prestatu egin behar da. Denbora bat har lezake fitxategiak
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Ezin da zure fitxategia igo, karpeta bat da edo 0 byt ditu"
+msgstr "Ezin izan da zure fitxategia igo karpeta bat delako edo 0 byte dituelako"
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -297,7 +297,7 @@ msgstr "Ez elkarbanatu"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Igotakoa handiegia da"
+msgstr "Igoera handiegia da"
 
 #: templates/index.php:110
 msgid ""

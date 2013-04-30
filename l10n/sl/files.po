@@ -3,17 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# mateju <>, 2012
-# mateju <>, 2013
-# Peter Peroša <peter.perosa@gmail.com>, 2012
-# Peter Peroša <peter.perosa@gmail.com>, 2012
-# urossolar <urossolar@hotmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-20 01:58+0200\n"
-"PO-Revision-Date: 2013-04-19 20:20+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:27+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovenian (http://www.transifex.com/projects/p/owncloud/language/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -38,11 +33,11 @@ msgstr "Ni mogoče preimenovati datoteke"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
-msgstr "Ni poslane nobene datoteke. Neznana napaka."
+msgstr "Ni poslane datoteke. Neznana napaka."
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Datoteka je uspešno poslana."
+msgstr "Datoteka je uspešno naložena."
 
 #: ajax/upload.php:27
 msgid ""
@@ -57,11 +52,11 @@ msgstr "Poslana datoteka presega velikost, ki jo določa parameter največje dov
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Datoteka je le delno naložena"
+msgstr "Poslan je le del datoteke."
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Nobena datoteka ni bila naložena"
+msgstr "Ni poslane datoteke"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
@@ -83,15 +78,19 @@ msgstr "Neveljavna mapa."
 msgid "Files"
 msgstr "Datoteke"
 
-#: js/fileactions.js:125
-msgid "Delete permanently"
-msgstr "Izbriši trajno"
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Souporaba"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:126
+msgid "Delete permanently"
+msgstr "Izbriši dokončno"
+
+#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Izbriši"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Preimenuj"
 
@@ -165,7 +164,7 @@ msgstr "Postopek priprave datoteke za prejem je lahko dolgotrajen, če je datote
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Pošiljanje ni mogoče, saj gre za mapo, ali pa je datoteka velikosti 0 bajtov."
+msgstr "Pošiljanja ni mogoče izvesti, saj gre za mapo oziroma datoteko velikosti 0 bajtov."
 
 #: js/files.js:272
 msgid "Not enough space available"
@@ -258,7 +257,7 @@ msgstr "Shrani"
 
 #: templates/index.php:7
 msgid "New"
-msgstr "Nova"
+msgstr "Novo"
 
 #: templates/index.php:10
 msgid "Text file"
@@ -294,7 +293,7 @@ msgstr "Prejmi"
 
 #: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
-msgstr "Odstrani iz souporabe"
+msgstr "Prekliči souporabo"
 
 #: templates/index.php:108
 msgid "Upload too large"

@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <bluehattree@126.com>, 2012.
-# HO Gin Wang <kopisee@qq.com>, 2013.
-# marguerite su <i@marguerite.su>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Chinese (China) (GB2312) (http://www.transifex.com/projects/p/owncloud/language/zh_CN.GB2312/)\n"
 "MIME-Version: 1.0\n"
@@ -76,7 +73,7 @@ msgstr ""
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "没有选者要删除的分类."
+msgstr "没有选中要删除的分类。"
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -246,7 +243,7 @@ msgstr "未指定对象类型。"
 #: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
-msgstr "错误"
+msgstr "出错"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
@@ -296,7 +293,7 @@ msgstr "分享链接"
 msgid "Password protect"
 msgstr "密码保护"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "密码"
 
@@ -399,24 +396,27 @@ msgstr "私有云密码重置"
 msgid "Use the following link to reset your password: {link}"
 msgstr "使用下面的链接来重置你的密码:{link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "你将会收到一个重置密码的链接"
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "重置邮件已发送。"
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "请求失败！"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "用户名"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "要求重置"
 
@@ -438,7 +438,7 @@ msgstr "重置密码"
 
 #: strings.php:5
 msgid "Personal"
-msgstr "个人的"
+msgstr "私人"
 
 #: strings.php:6
 msgid "Users"
@@ -446,11 +446,11 @@ msgstr "用户"
 
 #: strings.php:7
 msgid "Apps"
-msgstr "应用程序"
+msgstr "程序"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "管理"
+msgstr "管理员"
 
 #: strings.php:9
 msgid "Help"
@@ -522,75 +522,80 @@ msgstr "进阶"
 msgid "Data folder"
 msgstr "数据存放文件夹"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "配置数据库"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "将会使用"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "数据库用户"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "数据库密码"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "数据库用户名"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "数据库表格空间"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "数据库主机"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "完成安装"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "你控制下的网络服务"
+msgstr "您控制的网络服务"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "注销"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "自动登录被拒绝！"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "如果您最近没有修改您的密码，那您的帐号可能被攻击了！"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "请修改您的密码以保护账户。"
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "忘记密码?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "备忘"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "登陆"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "备选登录"
 
