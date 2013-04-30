@@ -19,7 +19,7 @@ use OCA\Encryption;
 
 // This has to go here because otherwise session errors arise, and the private 
 // encryption key needs to be saved in the session
-\OC_User::login( 'admin', 'admin' );
+//\OC_User::login( 'admin', 'admin' );
 
 class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 	
@@ -52,7 +52,10 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 
         \OC\Files\Filesystem::init( $this->userId, '/' );
         \OC\Files\Filesystem::mount( 'OC_Filestorage_Local', array('datadir' => $this->dataDir), '/' );
-	
+
+        $params['uid'] = $this->userId;
+        $params['password'] = $this->pass;
+        OCA\Encryption\Hooks::login($params);
 	}
 	
 	function tearDown(){
