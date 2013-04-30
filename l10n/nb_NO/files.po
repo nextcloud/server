@@ -3,12 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <ajarmund@gmail.com>, 2011, 2012.
+# Arvid Nornes <arvid.nornes@gmail.com>, 2012.
+# Christer Eriksson <post@hc3web.com>, 2012.
+# Daniel  <i18n@daniel.priv.no>, 2012.
+#   <espenbye@me.com>, 2012.
+#   <hdalgrav@gmail.com>, 2012.
+#   <olamaekle@gmail.com>, 2012.
+#   <runesudden@gmail.com>, 2012.
+#   <sindre@haverstad.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:27+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Norwegian Bokmål (Norway) (http://www.transifex.com/projects/p/owncloud/language/nb_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +46,7 @@ msgstr "Ingen filer ble lastet opp. Ukjent feil."
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Pust ut, ingen feil. Filen ble lastet opp problemfritt"
+msgstr "Det er ingen feil. Filen ble lastet opp."
 
 #: ajax/upload.php:27
 msgid ""
@@ -48,19 +57,19 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Filen du prøvde å laste opp var større enn grensen satt i MAX_FILE_SIZE i HTML-skjemaet."
+msgstr "Filstørrelsen overskrider maksgrensen på MAX_FILE_SIZE som ble oppgitt i HTML-skjemaet"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Filen du prøvde å laste opp ble kun delvis lastet opp"
+msgstr "Filopplastningen ble bare delvis gjennomført"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Ingen filer ble lastet opp"
+msgstr "Ingen fil ble lastet opp"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Mangler midlertidig mappe"
+msgstr "Mangler en midlertidig mappe"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -78,19 +87,15 @@ msgstr ""
 msgid "Files"
 msgstr "Filer"
 
-#: js/fileactions.js:116
-msgid "Share"
-msgstr "Del"
-
-#: js/fileactions.js:126
+#: js/fileactions.js:125
 msgid "Delete permanently"
 msgstr "Slett permanent"
 
-#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Slett"
 
-#: js/fileactions.js:194
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr "Omdøp"
 
@@ -132,7 +137,7 @@ msgstr "1 fil lastes opp"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr "filer lastes opp"
+msgstr ""
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -297,7 +302,7 @@ msgstr "Avslutt deling"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Filen er for stor"
+msgstr "Opplasting for stor"
 
 #: templates/index.php:110
 msgid ""

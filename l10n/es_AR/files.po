@@ -3,13 +3,17 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2012-2013
+# cjtess <claudio.tessone@gmail.com>, 2013
+# cjtess <claudio.tessone@gmail.com>, 2012-2013
+# Javier Victor Mariano Bruno <koryyyy@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:27+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-20 01:58+0200\n"
+"PO-Revision-Date: 2013-04-19 09:10+0000\n"
+"Last-Translator: cjtess <claudio.tessone@gmail.com>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -37,7 +41,7 @@ msgstr "El archivo no fue subido. Error desconocido"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "No hay errores, el archivo fue subido con éxito"
+msgstr "No se han producido errores, el archivo se ha subido con éxito"
 
 #: ajax/upload.php:27
 msgid ""
@@ -48,19 +52,19 @@ msgstr "El archivo que intentás subir excede el tamaño definido por upload_max
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "El archivo subido sobrepasa el valor MAX_FILE_SIZE especificada en el formulario HTML"
+msgstr "El archivo que intentás subir sobrepasa el tamaño definido por la variable MAX_FILE_SIZE especificada en el formulario HTML"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "El archivo fue subido parcialmente"
+msgstr "El archivo que intentás subir solo se subió parcialmente"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "No se subió ningún archivo "
+msgstr "El archivo no fue subido"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Error en la carpera temporal"
+msgstr "Falta un directorio temporal"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -78,25 +82,21 @@ msgstr "Directorio invalido."
 msgid "Files"
 msgstr "Archivos"
 
-#: js/fileactions.js:116
-msgid "Share"
-msgstr "Compartir"
-
-#: js/fileactions.js:126
+#: js/fileactions.js:125
 msgid "Delete permanently"
 msgstr "Borrar de manera permanente"
 
-#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Borrar"
 
-#: js/fileactions.js:194
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr "Cambiar nombre"
 
 #: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
 msgid "Pending"
-msgstr "Pendientes"
+msgstr "Pendiente"
 
 #: js/filelist.js:252 js/filelist.js:254
 msgid "{new_name} already exists"
@@ -297,7 +297,7 @@ msgstr "Dejar de compartir"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "El tamaño del archivo que querés subir es demasiado grande"
+msgstr "El archivo es demasiado grande"
 
 #: templates/index.php:110
 msgid ""

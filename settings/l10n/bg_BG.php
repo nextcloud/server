@@ -41,7 +41,6 @@
 "Display Name" => "Екранно име",
 "Email" => "E-mail",
 "Your email address" => "Вашия email адрес",
-"Fill in an email address to enable password recovery" => "Въведете е-поща за възстановяване на паролата",
 "Language" => "Език",
 "Help translate" => "Помогнете с превода",
 "WebDAV" => "WebDAV",

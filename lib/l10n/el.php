@@ -42,11 +42,14 @@
 "1 hour ago" => "1 ώρα πριν",
 "%d hours ago" => "%d ώρες πριν",
 "today" => "σήμερα",
-"yesterday" => "χτες",
+"yesterday" => "χθές",
 "%d days ago" => "%d ημέρες πριν",
-"last month" => "τελευταίο μήνα",
+"last month" => "τον προηγούμενο μήνα",
 "%d months ago" => "%d μήνες πριν",
-"last year" => "τελευταίο χρόνο",
+"last year" => "τον προηγούμενο χρόνο",
 "years ago" => "χρόνια πριν",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s είναι διαθέσιμο. Δείτε <a href=\"%s\">περισσότερες πληροφορίες</a>",
+"up to date" => "ενημερωμένο",
+"updates check is disabled" => "ο έλεγχος ενημερώσεων είναι απενεργοποιημένος",
 "Could not find category \"%s\"" => "Αδυναμία εύρεσης κατηγορίας \"%s\""
 );

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"POT-Creation-Date: 2013-04-23 01:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,19 +78,15 @@ msgstr ""
 msgid "Files"
 msgstr ""
 
-#: js/fileactions.js:116
-msgid "Share"
-msgstr ""
-
-#: js/fileactions.js:126
+#: js/fileactions.js:125
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
+#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr ""
 
-#: js/fileactions.js:194
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr ""
 
@@ -156,66 +152,66 @@ msgstr ""
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr ""
 
-#: js/files.js:231
+#: js/files.js:226
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr ""
 
-#: js/files.js:264
+#: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr ""
 
-#: js/files.js:277
+#: js/files.js:272
 msgid "Not enough space available"
 msgstr ""
 
-#: js/files.js:317
+#: js/files.js:312
 msgid "Upload cancelled."
 msgstr ""
 
-#: js/files.js:413
+#: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr ""
 
-#: js/files.js:486
+#: js/files.js:481
 msgid "URL cannot be empty."
 msgstr ""
 
-#: js/files.js:491
+#: js/files.js:486
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
+#: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
 msgstr ""
 
-#: js/files.js:877 templates/index.php:69
+#: js/files.js:872 templates/index.php:70
 msgid "Name"
 msgstr ""
 
-#: js/files.js:878 templates/index.php:80
+#: js/files.js:873 templates/index.php:81
 msgid "Size"
 msgstr ""
 
-#: js/files.js:879 templates/index.php:82
+#: js/files.js:874 templates/index.php:83
 msgid "Modified"
 msgstr ""
 
-#: js/files.js:898
+#: js/files.js:893
 msgid "1 folder"
 msgstr ""
 
-#: js/files.js:900
+#: js/files.js:895
 msgid "{count} folders"
 msgstr ""
 
-#: js/files.js:908
+#: js/files.js:903
 msgid "1 file"
 msgstr ""
 
-#: js/files.js:910
+#: js/files.js:905
 msgid "{count} files"
 msgstr ""
 
@@ -279,37 +275,37 @@ msgstr ""
 msgid "Cancel upload"
 msgstr ""
 
-#: templates/index.php:54
+#: templates/index.php:55
 msgid "You don’t have write permissions here."
 msgstr ""
 
-#: templates/index.php:61
+#: templates/index.php:62
 msgid "Nothing in here. Upload something!"
 msgstr ""
 
-#: templates/index.php:75
+#: templates/index.php:76
 msgid "Download"
 msgstr ""
 
-#: templates/index.php:87 templates/index.php:88
+#: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
 msgstr ""
 
-#: templates/index.php:107
+#: templates/index.php:108
 msgid "Upload too large"
 msgstr ""
 
-#: templates/index.php:109
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr ""
 
-#: templates/index.php:114
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
 msgstr ""
 
-#: templates/index.php:117
+#: templates/index.php:118
 msgid "Current scanning"
 msgstr ""
 

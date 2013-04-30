@@ -44,9 +44,12 @@
 "today" => "hoy",
 "yesterday" => "ayer",
 "%d days ago" => "hace %d días",
-"last month" => "mes pasado",
+"last month" => "este mes",
 "%d months ago" => "Hace %d meses",
-"last year" => "año pasado",
+"last year" => "este año",
 "years ago" => "hace años",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s está disponible. Obtén <a href=\"%s\">más información</a>",
+"up to date" => "actualizado",
+"updates check is disabled" => "comprobar actualizaciones está desactivado",
 "Could not find category \"%s\"" => "No puede encontrar la categoria \"%s\""
 );

@@ -329,11 +329,6 @@ interface Storage {
 	public function getWatcher($path = '');
 
 	/**
-	 * @return \OC\Files\Cache\Storage
-	 */
-	public function getStorageCache();
-
-	/**
 	 * get the ETag for a file or folder
 	 *
 	 * @param string $path

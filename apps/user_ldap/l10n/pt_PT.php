@@ -22,7 +22,7 @@
 "You can specify Base DN for users and groups in the Advanced tab" => "Pode especificar o ND Base para utilizadores e grupos no separador Avançado",
 "User DN" => "DN do utilizador",
 "The DN of the client user with which the bind shall be done, e.g. uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password empty." => "O DN to cliente ",
-"Password" => "Password",
+"Password" => "Palavra-passe",
 "For anonymous access, leave DN and Password empty." => "Para acesso anónimo, deixe DN e a Palavra-passe vazios.",
 "User Login Filter" => "Filtro de login de utilizador",
 "Defines the filter to apply, when login is attempted. %%uid replaces the username in the login action." => "Define o filtro a aplicar, para aquando de uma tentativa de login. %%uid substitui o nome de utilizador utilizado.",

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"POT-Creation-Date: 2013-04-23 01:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -396,27 +396,24 @@ msgstr ""
 msgid "Use the following link to reset your password: {link}"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:4
-msgid ""
-"The link to reset your password has been sent to your email.<br>If you do "
-"not receive it within a reasonable amount of time, check your spam/junk "
-"folders.<br>If it is not there ask your local administrator ."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:12
-msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:5
+msgid "Reset email send."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:8
+msgid "Request failed!"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr ""
 
@@ -560,12 +557,7 @@ msgstr ""
 msgid "web services under your control"
 msgstr ""
 
-#: templates/layout.user.php:36
-#, php-format
-msgid "%s is available. Get more information on how to update."
-msgstr ""
-
-#: templates/layout.user.php:61
+#: templates/layout.user.php:58
 msgid "Log out"
 msgstr ""
 

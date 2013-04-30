@@ -1,3 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Versions" => "รุ่น"
+"History" => "ประวัติ",
+"Files Versioning" => "การกำหนดเวอร์ชั่นของไฟล์",
+"Enable" => "เปิดใช้งาน"
 );

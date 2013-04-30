@@ -39,7 +39,7 @@
 "URL cannot be empty." => "Адреса не може бити празна.",
 "Invalid folder name. Usage of 'Shared' is reserved by Owncloud" => "Неисправно име фасцикле. Фасцикла „Shared“ је резервисана за ownCloud.",
 "Error" => "Грешка",
-"Name" => "Име",
+"Name" => "Назив",
 "Size" => "Величина",
 "Modified" => "Измењено",
 "1 folder" => "1 фасцикла",

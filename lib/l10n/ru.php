@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Help" => "Помощь",
 "Personal" => "Личное",
-"Settings" => "Конфигурация",
+"Settings" => "Настройки",
 "Users" => "Пользователи",
 "Apps" => "Приложения",
 "Admin" => "Admin",
@@ -36,7 +36,7 @@
 "MS SQL username and/or password not valid: %s" => "Имя пользователя и/или пароль MS SQL не подходит: %s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Ваш веб сервер до сих пор не настроен правильно для возможности синхронизации файлов, похоже что проблема в неисправности интерфейса WebDAV.",
 "Please double check the <a href='%s'>installation guides</a>." => "Пожалуйста, дважды просмотрите <a href='%s'>инструкции по установке</a>.",
-"seconds ago" => "несколько секунд назад",
+"seconds ago" => "менее минуты",
 "1 minute ago" => "1 минуту назад",
 "%d minutes ago" => "%d минут назад",
 "1 hour ago" => "час назад",
@@ -47,6 +47,9 @@
 "last month" => "в прошлом месяце",
 "%d months ago" => "%d месяцев назад",
 "last year" => "в прошлом году",
-"years ago" => "несколько лет назад",
+"years ago" => "годы назад",
+"%s is available. Get <a href=\"%s\">more information</a>" => "Возможно обновление до %s. <a href=\"%s\">Подробнее</a>",
+"up to date" => "актуальная версия",
+"updates check is disabled" => "проверка обновлений отключена",
 "Could not find category \"%s\"" => "Категория \"%s\"  не найдена"
 );

@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Password" => "وشەی تێپەربو",
+"Password" => "تێپه‌ڕه‌وشه",
 "Submit" => "ناردن",
 "%s shared the folder %s with you" => "%s دابه‌شی کردووه‌ بوخچه‌ی %s له‌گه‌ڵ تۆ",
 "%s shared the file %s with you" => "%s دابه‌شی کردووه‌ په‌ڕگه‌یی %s له‌گه‌ڵ تۆ",

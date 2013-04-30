@@ -89,7 +89,7 @@ class OC_API {
 		$responses = array();
 		foreach(self::$actions[$name] as $action) {
 			// Check authentication and availability
-			if(!self::isAuthorised($action)) {
+			if(!self::isAuthorised(self::$actions[$name])) {
 				$responses[] = array(
 					'app' => $action['app'],
 					'response' => new OC_OCS_Result(null, OC_API::RESPOND_UNAUTHORISED, 'Unauthorised'),
@@ -155,11 +155,11 @@ class OC_API {
 			// They may have failed for different reasons (different status codes)
 			// Which reponse code should we return?
 			// Maybe any that are not OC_API::RESPOND_SERVER_ERROR
-			$response = reset($shipped['failed']);
+			$response = $shipped['failed'][0];
 			return $response;
 		} else {
 			// Return the third party failure result
-			$response = reset($thirdparty['failed']);
+			$response = $thirdparty['failed'][0];
 			return $response;
 		}
 		// Merge the successful responses

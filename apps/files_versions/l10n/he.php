@@ -1,3 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Versions" => "גרסאות"
+"History" => "היסטוריה",
+"Files Versioning" => "שמירת הבדלי גרסאות של קבצים",
+"Enable" => "הפעלה"
 );

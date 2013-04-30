@@ -6,7 +6,6 @@
 "Error configuring Google Drive storage" => "Erreur lors de la configuration du support de stockage Google Drive",
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares is not possible. Please ask your system administrator to install it." => "<b>Attention : </b> \"smbclient\" n'est pas installé. Le montage des partages CIFS/SMB n'est pas disponible. Contactez votre administrateur système pour l'installer.",
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting of FTP shares is not possible. Please ask your system administrator to install it." => "<b>Attention : </b> Le support FTP de PHP n'est pas activé ou installé. Le montage des partages FTP n'est pas disponible. Contactez votre administrateur système pour l'installer.",
-"<b>Warning:</b> The Curl support in PHP is not enabled or installed. Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask your system administrator to install it." => "<b>Attention :</b> Le support de Curl n'est pas activé ou installé dans PHP. Le montage de ownCloud / WebDAV ou GoogleDrive n'est pas possible. Contactez votre administrateur système pour l'installer.",
 "External Storage" => "Stockage externe",
 "Folder name" => "Nom du dossier",
 "External storage" => "Stockage externe",

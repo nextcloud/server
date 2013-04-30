@@ -3,13 +3,26 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# msoko <sokolovitch@yahoo.com>, 2013
+# felix.liberio <felix.liberio@gmail.com>, 2013
+# Javierkaiser <javierkaiser@gmail.com>, 2012
+# Javier Llorente <javier@opensuse.org>, 2012
+# juanman <juanma@kde.org.ar>, 2013
+# juanman <juanma@kde.org.ar>, 2011-2013
+# malmirk <malmirk@gmail.com>, 2012
+# oSiNaReF <>, 2012
+# Raul Fernandez Garcia <raulfg3@gmail.com>, 2012
+# rodrigo.calvo <rodrigo.calvo@gmail.com>, 2012
+# Romain DEP. <rom1dep@gmail.com>, 2011
+# Rubén Trujillo <rubentrf@gmail.com>, 2012
+# xsergiolpx <sergioballesterossolanas@gmail.com>, 2011-2012
+# scambra <sergio@entrecables.com>, 2012
+# msvladimir <vladimirmartinezsierra@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-30 01:57+0200\n"
-"PO-Revision-Date: 2013-04-29 23:57+0000\n"
+"POT-Creation-Date: 2013-04-23 01:58+0200\n"
+"PO-Revision-Date: 2013-04-22 18:40+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -244,7 +257,7 @@ msgstr "El tipo de objeto no se ha especificado."
 #: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
-msgstr "Error"
+msgstr "Fallo"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
@@ -397,27 +410,24 @@ msgstr "Reiniciar contraseña de ownCloud"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Utiliza el siguiente enlace para restablecer tu contraseña: {link}"
 
-#: lostpassword/templates/lostpassword.php:4
-msgid ""
-"The link to reset your password has been sent to your email.<br>If you do "
-"not receive it within a reasonable amount of time, check your spam/junk "
-"folders.<br>If it is not there ask your local administrator ."
-msgstr "El enlace para restablecer la contraseña ha sido enviada a su correo electrónico. <br> Si no lo recibe en un plazo razonable de tiempo, revise su spam / carpetas no deseados. <br> Si no está allí pregunte a su administrador local."
-
-#: lostpassword/templates/lostpassword.php:12
-msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr "Petición ha fallado! <br> ¿Usted asegúrese que su dirección de correo electrónico / nombre de usuario estaba justo?"
-
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
 msgstr "Recibirás un enlace por correo electrónico para restablecer tu contraseña"
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:5
+msgid "Reset email send."
+msgstr "Email de reconfiguración enviado."
+
+#: lostpassword/templates/lostpassword.php:8
+msgid "Request failed!"
+msgstr "Pedido fallado!"
+
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
 msgstr "Nombre de usuario"
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Solicitar restablecimiento"
 
@@ -451,7 +461,7 @@ msgstr "Aplicaciones"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Administración"
+msgstr "Administrador"
 
 #: strings.php:9
 msgid "Help"
@@ -471,7 +481,7 @@ msgstr "Editar categorías"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "Agregar"
+msgstr "Añadir"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -559,14 +569,9 @@ msgstr "Completar la instalación"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "Servicios web bajo su control"
+msgstr "servicios web bajo tu control"
 
-#: templates/layout.user.php:36
-#, php-format
-msgid "%s is available. Get more information on how to update."
-msgstr ""
-
-#: templates/layout.user.php:61
+#: templates/layout.user.php:58
 msgid "Log out"
 msgstr "Salir"
 

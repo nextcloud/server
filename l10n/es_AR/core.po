@@ -3,12 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# CJTess <claudio.tessone@gmail.com>, 2013.
+#   <claudio.tessone@gmail.com>, 2012-2013.
+#   <javierkaiser@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-30 01:57+0200\n"
-"PO-Revision-Date: 2013-04-29 23:57+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -73,7 +76,7 @@ msgstr "Error al agregar %s a favoritos. "
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "No se seleccionaron categorías para borrar."
+msgstr "No hay categorías seleccionadas para borrar."
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -110,55 +113,55 @@ msgstr "Sábado"
 
 #: js/config.php:45
 msgid "January"
-msgstr "enero"
+msgstr "Enero"
 
 #: js/config.php:46
 msgid "February"
-msgstr "febrero"
+msgstr "Febrero"
 
 #: js/config.php:47
 msgid "March"
-msgstr "marzo"
+msgstr "Marzo"
 
 #: js/config.php:48
 msgid "April"
-msgstr "abril"
+msgstr "Abril"
 
 #: js/config.php:49
 msgid "May"
-msgstr "mayo"
+msgstr "Mayo"
 
 #: js/config.php:50
 msgid "June"
-msgstr "junio"
+msgstr "Junio"
 
 #: js/config.php:51
 msgid "July"
-msgstr "julio"
+msgstr "Julio"
 
 #: js/config.php:52
 msgid "August"
-msgstr "agosto"
+msgstr "Agosto"
 
 #: js/config.php:53
 msgid "September"
-msgstr "septiembre"
+msgstr "Septiembre"
 
 #: js/config.php:54
 msgid "October"
-msgstr "octubre"
+msgstr "Octubre"
 
 #: js/config.php:55
 msgid "November"
-msgstr "noviembre"
+msgstr "Noviembre"
 
 #: js/config.php:56
 msgid "December"
-msgstr "diciembre"
+msgstr "Diciembre"
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "Configuración"
+msgstr "Ajustes"
 
 #: js/js.js:718
 msgid "seconds ago"
@@ -174,7 +177,7 @@ msgstr "hace {minutes} minutos"
 
 #: js/js.js:721
 msgid "1 hour ago"
-msgstr "1 hora atrás"
+msgstr "Hace 1 hora"
 
 #: js/js.js:722
 msgid "{hours} hours ago"
@@ -293,7 +296,7 @@ msgstr "Compartir con link"
 msgid "Password protect"
 msgstr "Proteger con contraseña "
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:169 templates/installation.php:54 templates/login.php:35
 msgid "Password"
 msgstr "Contraseña"
 
@@ -331,7 +334,7 @@ msgstr "Compartido en {item} con {user}"
 
 #: js/share.js:308
 msgid "Unshare"
-msgstr "Dejar de compartir"
+msgstr "Remover compartir"
 
 #: js/share.js:320
 msgid "can edit"
@@ -396,27 +399,24 @@ msgstr "Restablecer contraseña de ownCloud"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Usá este enlace para restablecer tu contraseña: {link}"
 
-#: lostpassword/templates/lostpassword.php:4
-msgid ""
-"The link to reset your password has been sent to your email.<br>If you do "
-"not receive it within a reasonable amount of time, check your spam/junk "
-"folders.<br>If it is not there ask your local administrator ."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:12
-msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
 msgstr "Vas a recibir un enlace por e-mail para restablecer tu contraseña"
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
-#: templates/login.php:19
+#: lostpassword/templates/lostpassword.php:5
+msgid "Reset email send."
+msgstr "Reiniciar envío de email."
+
+#: lostpassword/templates/lostpassword.php:8
+msgid "Request failed!"
+msgstr "Error en el pedido!"
+
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: templates/login.php:28
 msgid "Username"
 msgstr "Nombre de usuario"
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Solicitar restablecimiento"
 
@@ -430,7 +430,7 @@ msgstr "A la página de inicio de sesión"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "Nueva contraseña:"
+msgstr "Nueva contraseña"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
@@ -450,7 +450,7 @@ msgstr "Aplicaciones"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Administración"
+msgstr "Administrador"
 
 #: strings.php:9
 msgid "Help"
@@ -522,80 +522,75 @@ msgstr "Avanzado"
 msgid "Data folder"
 msgstr "Directorio de almacenamiento"
 
-#: templates/installation.php:74
+#: templates/installation.php:73
 msgid "Configure the database"
 msgstr "Configurar la base de datos"
 
-#: templates/installation.php:79 templates/installation.php:91
-#: templates/installation.php:102 templates/installation.php:113
-#: templates/installation.php:125
+#: templates/installation.php:78 templates/installation.php:90
+#: templates/installation.php:101 templates/installation.php:112
+#: templates/installation.php:124
 msgid "will be used"
 msgstr "se utilizarán"
 
-#: templates/installation.php:137
+#: templates/installation.php:136
 msgid "Database user"
 msgstr "Usuario de la base de datos"
 
-#: templates/installation.php:144
+#: templates/installation.php:143
 msgid "Database password"
 msgstr "Contraseña de la base de datos"
 
-#: templates/installation.php:149
+#: templates/installation.php:148
 msgid "Database name"
 msgstr "Nombre de la base de datos"
 
-#: templates/installation.php:159
+#: templates/installation.php:158
 msgid "Database tablespace"
 msgstr "Espacio de tablas de la base de datos"
 
-#: templates/installation.php:166
+#: templates/installation.php:165
 msgid "Database host"
 msgstr "Host de la base de datos"
 
-#: templates/installation.php:172
+#: templates/installation.php:171
 msgid "Finish setup"
 msgstr "Completar la instalación"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "servicios web controlados por vos"
+msgstr "servicios web sobre los que tenés control"
 
-#: templates/layout.user.php:36
-#, php-format
-msgid "%s is available. Get more information on how to update."
-msgstr ""
-
-#: templates/layout.user.php:61
+#: templates/layout.user.php:58
 msgid "Log out"
 msgstr "Cerrar la sesión"
 
-#: templates/login.php:9
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "¡El inicio de sesión automático fue rechazado!"
 
-#: templates/login.php:10
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "¡Si no cambiaste tu contraseña recientemente, puede ser que tu cuenta esté comprometida!"
 
-#: templates/login.php:12
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Por favor, cambiá tu contraseña para fortalecer nuevamente la seguridad de tu cuenta."
 
-#: templates/login.php:34
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "¿Perdiste tu contraseña?"
 
-#: templates/login.php:39
+#: templates/login.php:41
 msgid "remember"
 msgstr "recordame"
 
-#: templates/login.php:41
+#: templates/login.php:43
 msgid "Log in"
 msgstr "Entrar"
 
-#: templates/login.php:47
+#: templates/login.php:49
 msgid "Alternative Logins"
 msgstr "Nombre alternativos de usuarios"
 

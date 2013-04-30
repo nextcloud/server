@@ -3,13 +3,40 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# goeck <admin@s-goecker.de>, 2012
+# a.tangemann <a.tangemann@web.de>, 2013
+# a.tangemann <a.tangemann@web.de>, 2012-2013
+# Mirodin <blobbyjj@ymail.com>, 2012
+# I Robot <owncloud-bot@tmit.eu>, 2012-2013
+# I Robot <owncloud-bot@tmit.eu>, 2012
+# Jan-Christoph Borchardt <hey@jancborchardt.net>, 2012
+# Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011
+# Jan-Christoph Borchardt <jan@unhosted.org>, 2011
+# Lukas Reschke <lukas@statuscode.ch>, 2012
+# fmms <mail@felixmoeller.de>, 2012
+# Marcel Kühlhorn <susefan93@gmx.de>, 2012-2013
+# thiel <markus.thiel@desico.de>, 2013
+# Michael Krell <m4dmike.mni@gmail.com>, 2012
+# piccobello <nelsonfritsch@gmail.com>, 2012
+# JamFX <niko@nik-o-mat.de>, 2012
+# Phi Lieb <>, 2012
+# quick_wango <quick_wango@code-infection.de>, 2013
+# robN <robert.neumann01@gmail.com>, 2013
+# stefanniedermann <stefan.niedermann@googlemail.com>, 2013
+# Valermos <Steve_Reichert@gmx.de>, 2013
+# Susi <>, 2013
+# I Robot <owncloud-bot@tmit.eu>, 2012
+# Thomas Müller <>, 2012
+# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2013
+# traductor <transifex-2.7.mensaje@spamgourmet.com>, 2012
+# Mirodin <blobbyjj@ymail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-30 01:57+0200\n"
-"PO-Revision-Date: 2013-04-29 20:40+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-18 02:03+0200\n"
+"PO-Revision-Date: 2013-04-17 08:22+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,15 +75,15 @@ msgstr "Die hochgeladene Datei überschreitet die upload_max_filesize Vorgabe in
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Die Datei ist größer, als die MAX_FILE_SIZE Direktive erlaubt, die im HTML-Formular spezifiziert ist"
+msgstr "Die Größe der hochzuladenden Datei überschreitet die MAX_FILE_SIZE-Richtlinie, die im HTML-Formular angegeben wurde"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Die Datei konnte nur teilweise übertragen werden"
+msgstr "Die Datei wurde nur teilweise hochgeladen."
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Keine Datei konnte übertragen werden."
+msgstr "Es wurde keine Datei hochgeladen."
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
@@ -78,19 +105,15 @@ msgstr "Ungültiges Verzeichnis."
 msgid "Files"
 msgstr "Dateien"
 
-#: js/fileactions.js:116
-msgid "Share"
-msgstr "Teilen"
-
-#: js/fileactions.js:126
+#: js/fileactions.js:125
 msgid "Delete permanently"
-msgstr "Endgültig löschen"
+msgstr "Entgültig löschen"
 
-#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
+#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Löschen"
 
-#: js/fileactions.js:194
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr "Umbenennen"
 
@@ -156,66 +179,66 @@ msgstr "Ihr Speicher ist voll. Daher können keine Dateien mehr aktualisiert ode
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Ihr Speicher ist fast voll ({usedSpacePercent}%)"
 
-#: js/files.js:231
+#: js/files.js:226
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Ihr Download wird vorbereitet. Dies kann bei größeren Dateien einen Moment dauern."
 
-#: js/files.js:264
+#: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Ihre Datei kann nicht hochgeladen werden, weil es sich um einen Ordner handelt oder 0 Bytes groß ist."
+msgstr "Ihre Datei kann nicht hochgeladen werden, da sie entweder ein Verzeichnis oder 0 Bytes groß ist."
 
-#: js/files.js:277
+#: js/files.js:272
 msgid "Not enough space available"
 msgstr "Nicht genügend Speicherplatz verfügbar"
 
-#: js/files.js:317
+#: js/files.js:312
 msgid "Upload cancelled."
 msgstr "Upload abgebrochen."
 
-#: js/files.js:413
+#: js/files.js:408
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Der Dateiupload läuft. Wenn Sie die Seite jetzt verlassen, wird der Upload abgebrochen."
 
-#: js/files.js:486
+#: js/files.js:481
 msgid "URL cannot be empty."
 msgstr "Die URL darf nicht leer sein."
 
-#: js/files.js:491
+#: js/files.js:486
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Ungültiger Verzeichnisname. Die Nutzung von \"Shared\" ist ownCloud vorbehalten"
 
-#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
+#: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
 msgid "Error"
 msgstr "Fehler"
 
-#: js/files.js:877 templates/index.php:69
+#: js/files.js:872 templates/index.php:70
 msgid "Name"
 msgstr "Name"
 
-#: js/files.js:878 templates/index.php:80
+#: js/files.js:873 templates/index.php:81
 msgid "Size"
 msgstr "Größe"
 
-#: js/files.js:879 templates/index.php:82
+#: js/files.js:874 templates/index.php:83
 msgid "Modified"
 msgstr "Bearbeitet"
 
-#: js/files.js:898
+#: js/files.js:893
 msgid "1 folder"
 msgstr "1 Ordner"
 
-#: js/files.js:900
+#: js/files.js:895
 msgid "{count} folders"
 msgstr "{count} Ordner"
 
-#: js/files.js:908
+#: js/files.js:903
 msgid "1 file"
 msgstr "1 Datei"
 
-#: js/files.js:910
+#: js/files.js:905
 msgid "{count} files"
 msgstr "{count} Dateien"
 
@@ -279,37 +302,37 @@ msgstr "Gelöschte Dateien"
 msgid "Cancel upload"
 msgstr "Upload abbrechen"
 
-#: templates/index.php:54
+#: templates/index.php:55
 msgid "You don’t have write permissions here."
 msgstr "Sie haben hier keine Schreib-Berechtigungen."
 
-#: templates/index.php:61
+#: templates/index.php:62
 msgid "Nothing in here. Upload something!"
 msgstr "Alles leer. Bitte laden Sie etwas hoch!"
 
-#: templates/index.php:75
+#: templates/index.php:76
 msgid "Download"
 msgstr "Herunterladen"
 
-#: templates/index.php:87 templates/index.php:88
+#: templates/index.php:88 templates/index.php:89
 msgid "Unshare"
 msgstr "Freigabe aufheben"
 
-#: templates/index.php:107
+#: templates/index.php:108
 msgid "Upload too large"
 msgstr "Der Upload ist zu groß"
 
-#: templates/index.php:109
+#: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "Die Datei überschreitet die Maximalgröße für Uploads auf diesem Server."
 
-#: templates/index.php:114
+#: templates/index.php:115
 msgid "Files are being scanned, please wait."
 msgstr "Dateien werden gescannt, bitte warten."
 
-#: templates/index.php:117
+#: templates/index.php:118
 msgid "Current scanning"
 msgstr "Scanne"
 

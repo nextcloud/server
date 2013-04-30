@@ -3,12 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <dagor.vint@hotmail.com>, 2012.
+# Pisike Sipelgas <pisike.sipelgas@gmail.com>, 2013.
+# Rivo Zängov <eraser@eraser.ee>, 2011-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:27+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +40,7 @@ msgstr "Ühtegi faili ei laetud üles. Tundmatu viga"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Ühtegi tõrget polnud, fail on üles laetud"
+msgstr "Ühtegi viga pole, fail on üles laetud"
 
 #: ajax/upload.php:27
 msgid ""
@@ -48,7 +51,7 @@ msgstr "Üleslaetava faili suurus ületab php.ini poolt määratud upload_max_fi
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Üleslaetud fail ületab MAX_FILE_SIZE suuruse, mis on HTML vormi jaoks määratud"
+msgstr "Üles laetud faili suurus ületab HTML vormis määratud upload_max_filesize suuruse"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
@@ -78,19 +81,15 @@ msgstr "Vigane kaust."
 msgid "Files"
 msgstr "Failid"
 
-#: js/fileactions.js:116
-msgid "Share"
-msgstr "Jaga"
-
-#: js/fileactions.js:126
+#: js/fileactions.js:125
 msgid "Delete permanently"
 msgstr "Kustuta jäädavalt"
 
-#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
 msgstr "Kustuta"
 
-#: js/fileactions.js:194
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr "ümber"
 
@@ -164,7 +163,7 @@ msgstr "Valmistatakse allalaadimist. See võib võtta veidi aega kui on tegu suu
 
 #: js/files.js:259
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "Faili ei saa üles laadida, kuna see on kaust või selle suurus on 0 baiti"
+msgstr "Sinu faili üleslaadimine ebaõnnestus, kuna see on kaust või selle suurus on 0 baiti"
 
 #: js/files.js:272
 msgid "Not enough space available"

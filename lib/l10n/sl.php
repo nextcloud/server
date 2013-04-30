@@ -11,7 +11,7 @@
 "Selected files too large to generate zip file." => "Izbrane datoteke so prevelike za ustvarjanje datoteke arhiva zip.",
 "couldn't be determined" => "ni mogoče določiti",
 "Application is not enabled" => "Program ni omogočen",
-"Authentication error" => "Napaka pri overjanju",
+"Authentication error" => "Napaka overitve",
 "Token expired. Please reload page." => "Žeton je potekel. Stran je treba ponovno naložiti.",
 "Files" => "Datoteke",
 "Text" => "Besedilo",
@@ -44,9 +44,12 @@
 "today" => "danes",
 "yesterday" => "včeraj",
 "%d days ago" => "pred %d dnevi",
-"last month" => "zadnji mesec",
+"last month" => "prejšnji mesec",
 "%d months ago" => "Pred %d meseci",
 "last year" => "lansko leto",
-"years ago" => "let nazaj",
+"years ago" => "pred nekaj leti",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s je na voljo. <a href=\"%s\">Več podrobnosti.</a>",
+"up to date" => "posodobljeno",
+"updates check is disabled" => "preverjanje za posodobitve je onemogočeno",
 "Could not find category \"%s\"" => "Kategorije \"%s\" ni mogoče najti."
 );

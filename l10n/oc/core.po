@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <d.chateau@laposte.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-30 01:57+0200\n"
-"PO-Revision-Date: 2013-04-29 23:57+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Occitan (post 1500) (http://www.transifex.com/projects/p/owncloud/language/oc/)\n"
 "MIME-Version: 1.0\n"
@@ -110,43 +111,43 @@ msgstr "Dissabte"
 
 #: js/config.php:45
 msgid "January"
-msgstr "genièr"
+msgstr "Genièr"
 
 #: js/config.php:46
 msgid "February"
-msgstr "febrièr"
+msgstr "Febrièr"
 
 #: js/config.php:47
 msgid "March"
-msgstr "març"
+msgstr "Març"
 
 #: js/config.php:48
 msgid "April"
-msgstr "abril"
+msgstr "Abril"
 
 #: js/config.php:49
 msgid "May"
-msgstr "mai"
+msgstr "Mai"
 
 #: js/config.php:50
 msgid "June"
-msgstr "junh"
+msgstr "Junh"
 
 #: js/config.php:51
 msgid "July"
-msgstr "julhet"
+msgstr "Julhet"
 
 #: js/config.php:52
 msgid "August"
-msgstr "agost"
+msgstr "Agost"
 
 #: js/config.php:53
 msgid "September"
-msgstr "septembre"
+msgstr "Septembre"
 
 #: js/config.php:54
 msgid "October"
-msgstr "octobre"
+msgstr "Octobre"
 
 #: js/config.php:55
 msgid "November"
@@ -218,7 +219,7 @@ msgstr "D'accòrdi"
 
 #: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
-msgstr "Annula"
+msgstr "Anulla"
 
 #: js/oc-dialogs.js:185
 msgid "Choose"
@@ -293,7 +294,7 @@ msgstr "Parteja amb lo ligam"
 msgid "Password protect"
 msgstr "Parat per senhal"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:169 templates/installation.php:54 templates/login.php:35
 msgid "Password"
 msgstr "Senhal"
 
@@ -331,7 +332,7 @@ msgstr ""
 
 #: js/share.js:308
 msgid "Unshare"
-msgstr "Pas partejador"
+msgstr "Non parteje"
 
 #: js/share.js:320
 msgid "can edit"
@@ -396,27 +397,24 @@ msgstr "senhal d'ownCloud tornat botar"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Utiliza lo ligam seguent per tornar botar lo senhal : {link}"
 
-#: lostpassword/templates/lostpassword.php:4
-msgid ""
-"The link to reset your password has been sent to your email.<br>If you do "
-"not receive it within a reasonable amount of time, check your spam/junk "
-"folders.<br>If it is not there ask your local administrator ."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:12
-msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
 msgstr "Reçaupràs un ligam per tornar botar ton senhal via corrièl."
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
-#: templates/login.php:19
-msgid "Username"
-msgstr "Non d'usancièr"
+#: lostpassword/templates/lostpassword.php:5
+msgid "Reset email send."
+msgstr ""
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:8
+msgid "Request failed!"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: templates/login.php:28
+msgid "Username"
+msgstr "Nom d'usancièr"
+
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Tornar botar requesit"
 
@@ -430,7 +428,7 @@ msgstr "Pagina cap al login"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr "Senhal novèl"
+msgstr "Senhal nòu"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
@@ -522,37 +520,37 @@ msgstr "Avançat"
 msgid "Data folder"
 msgstr "Dorsièr de donadas"
 
-#: templates/installation.php:74
+#: templates/installation.php:73
 msgid "Configure the database"
 msgstr "Configura la basa de donadas"
 
-#: templates/installation.php:79 templates/installation.php:91
-#: templates/installation.php:102 templates/installation.php:113
-#: templates/installation.php:125
+#: templates/installation.php:78 templates/installation.php:90
+#: templates/installation.php:101 templates/installation.php:112
+#: templates/installation.php:124
 msgid "will be used"
 msgstr "serà utilizat"
 
-#: templates/installation.php:137
+#: templates/installation.php:136
 msgid "Database user"
 msgstr "Usancièr de la basa de donadas"
 
-#: templates/installation.php:144
+#: templates/installation.php:143
 msgid "Database password"
 msgstr "Senhal de la basa de donadas"
 
-#: templates/installation.php:149
+#: templates/installation.php:148
 msgid "Database name"
 msgstr "Nom de la basa de donadas"
 
-#: templates/installation.php:159
+#: templates/installation.php:158
 msgid "Database tablespace"
 msgstr "Espandi de taula de basa de donadas"
 
-#: templates/installation.php:166
+#: templates/installation.php:165
 msgid "Database host"
 msgstr "Òste de basa de donadas"
 
-#: templates/installation.php:172
+#: templates/installation.php:171
 msgid "Finish setup"
 msgstr "Configuracion acabada"
 
@@ -560,42 +558,37 @@ msgstr "Configuracion acabada"
 msgid "web services under your control"
 msgstr "Services web jos ton contraròtle"
 
-#: templates/layout.user.php:36
-#, php-format
-msgid "%s is available. Get more information on how to update."
-msgstr ""
-
-#: templates/layout.user.php:61
+#: templates/layout.user.php:58
 msgid "Log out"
 msgstr "Sortida"
 
-#: templates/login.php:9
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr ""
 
-#: templates/login.php:10
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr ""
 
-#: templates/login.php:12
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr ""
 
-#: templates/login.php:34
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "L'as perdut lo senhal ?"
 
-#: templates/login.php:39
+#: templates/login.php:41
 msgid "remember"
 msgstr "bremba-te"
 
-#: templates/login.php:41
+#: templates/login.php:43
 msgid "Log in"
 msgstr "Dintrada"
 
-#: templates/login.php:47
+#: templates/login.php:49
 msgid "Alternative Logins"
 msgstr ""
 

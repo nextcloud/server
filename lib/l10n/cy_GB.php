@@ -48,5 +48,8 @@
 "%d months ago" => "%d mis yn ôl",
 "last year" => "y llynedd",
 "years ago" => "blwyddyn yn ôl",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s ar gael. <a href=\"%s\">Mwy o wybodaeth</a>",
+"up to date" => "cyfredol",
+"updates check is disabled" => "gwirio am ddiweddariadau wedi'i analluogi",
 "Could not find category \"%s\"" => "Methu canfod categori \"%s\""
 );

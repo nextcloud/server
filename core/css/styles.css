@@ -220,8 +220,6 @@ label.infield { cursor:text !important; top:1.05em; left:.85em; }
 }
 #login #databaseField .infield { padding-left:0; }
 #login form input[type="checkbox"]+label { position:relative; margin:0; font-size:1em; text-shadow:#fff 0 1px 0; }
-#login form .errors { background:#fed7d7; border:1px solid #f00; list-style-indent:inside; margin:0 0 2em; padding:1em; }
-#login .success { background:#d7fed7; border:1px solid #0f0; width: 35%; margin: 30px auto; padding:1em; text-align: center;}
 
 /* Show password toggle */
 #show, #dbpassword { position:absolute; right:1em; top:.8em; float:right; }
@@ -344,8 +342,8 @@ li.update, li.error { width:640px; margin:4em auto; padding:1em 1em 1em 4em; bac
 .center { text-align:center; }
 
 #notification-container { position: fixed; top: 0px; width: 100%; text-align: center; z-index: 101; line-height: 1.2;}
-#notification, #update-notification { z-index:101; background-color:#fc4; border:0; padding:0 .7em .3em; display:none; position: relative; top:0; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
-#notification span, #update-notification span { cursor:pointer; font-weight:bold; margin-left:1em; }
+#notification { z-index:101; background-color:#fc4; border:0; padding:0 .7em .3em; display:none; position: relative; top:0; -moz-border-radius-bottomleft:1em; -webkit-border-bottom-left-radius:1em; border-bottom-left-radius:1em; -moz-border-radius-bottomright:1em; -webkit-border-bottom-right-radius:1em; border-bottom-right-radius:1em; }
+#notification span { cursor:pointer; font-weight:bold; margin-left:1em; }
 
 tr .action:not(.permanent), .selectedActions a { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; filter:alpha(opacity=0); opacity:0; }
 tr:hover .action, tr .action.permanent, .selectedActions a { -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)"; filter:alpha(opacity=50); opacity:.5; }

@@ -3,12 +3,18 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <khanhnd@kenhgiaiphap.vn>, 2012.
+#   <mattheu.9x@gmail.com>, 2012.
+#   <mattheu_9x@yahoo.com>, 2012.
+# sao sang <saosangmo@yahoo.com>, 2013.
+# Son Nguyen <sonnghit@gmail.com>, 2012.
+# Sơn Nguyễn <sonnghit@gmail.com>, 2012-2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-30 01:57+0200\n"
-"PO-Revision-Date: 2013-04-29 23:57+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -73,7 +79,7 @@ msgstr "Lỗi thêm %s vào mục yêu thích."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "Bạn chưa chọn mục để xóa"
+msgstr "Không có thể loại nào được chọn để xóa."
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -293,7 +299,7 @@ msgstr "Chia sẻ với liên kết"
 msgid "Password protect"
 msgstr "Mật khẩu bảo vệ"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:169 templates/installation.php:54 templates/login.php:35
 msgid "Password"
 msgstr "Mật khẩu"
 
@@ -331,7 +337,7 @@ msgstr "Đã được chia sẽ trong {item} với {user}"
 
 #: js/share.js:308
 msgid "Unshare"
-msgstr "Bỏ chia sẻ"
+msgstr "Gỡ bỏ chia sẻ"
 
 #: js/share.js:320
 msgid "can edit"
@@ -396,27 +402,24 @@ msgstr "Khôi phục mật khẩu Owncloud "
 msgid "Use the following link to reset your password: {link}"
 msgstr "Dùng đường dẫn sau để khôi phục lại mật khẩu : {link}"
 
-#: lostpassword/templates/lostpassword.php:4
-msgid ""
-"The link to reset your password has been sent to your email.<br>If you do "
-"not receive it within a reasonable amount of time, check your spam/junk "
-"folders.<br>If it is not there ask your local administrator ."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:12
-msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
 msgstr "Vui lòng kiểm tra Email để khôi phục lại mật khẩu."
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
-#: templates/login.php:19
-msgid "Username"
-msgstr "Tên đăng nhập"
+#: lostpassword/templates/lostpassword.php:5
+msgid "Reset email send."
+msgstr "Thiết lập lại email gởi."
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:8
+msgid "Request failed!"
+msgstr "Yêu cầu  của bạn không thành công !"
+
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: templates/login.php:28
+msgid "Username"
+msgstr "Tên người dùng"
+
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Yêu cầu thiết lập lại "
 
@@ -442,7 +445,7 @@ msgstr "Cá nhân"
 
 #: strings.php:6
 msgid "Users"
-msgstr "Người dùng"
+msgstr "Người sử dụng"
 
 #: strings.php:7
 msgid "Apps"
@@ -466,7 +469,7 @@ msgstr "Không tìm thấy Clound"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Sửa chuyên mục"
+msgstr "Sửa thể loại"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
@@ -522,80 +525,75 @@ msgstr "Nâng cao"
 msgid "Data folder"
 msgstr "Thư mục dữ liệu"
 
-#: templates/installation.php:74
+#: templates/installation.php:73
 msgid "Configure the database"
 msgstr "Cấu hình cơ sở dữ liệu"
 
-#: templates/installation.php:79 templates/installation.php:91
-#: templates/installation.php:102 templates/installation.php:113
-#: templates/installation.php:125
+#: templates/installation.php:78 templates/installation.php:90
+#: templates/installation.php:101 templates/installation.php:112
+#: templates/installation.php:124
 msgid "will be used"
 msgstr "được sử dụng"
 
-#: templates/installation.php:137
+#: templates/installation.php:136
 msgid "Database user"
 msgstr "Người dùng cơ sở dữ liệu"
 
-#: templates/installation.php:144
+#: templates/installation.php:143
 msgid "Database password"
 msgstr "Mật khẩu cơ sở dữ liệu"
 
-#: templates/installation.php:149
+#: templates/installation.php:148
 msgid "Database name"
 msgstr "Tên cơ sở dữ liệu"
 
-#: templates/installation.php:159
+#: templates/installation.php:158
 msgid "Database tablespace"
 msgstr "Cơ sở dữ liệu tablespace"
 
-#: templates/installation.php:166
+#: templates/installation.php:165
 msgid "Database host"
 msgstr "Database host"
 
-#: templates/installation.php:172
+#: templates/installation.php:171
 msgid "Finish setup"
 msgstr "Cài đặt hoàn tất"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "dịch vụ web dưới sự kiểm soát của bạn"
+msgstr "các dịch vụ web dưới sự kiểm soát của bạn"
 
-#: templates/layout.user.php:36
-#, php-format
-msgid "%s is available. Get more information on how to update."
-msgstr ""
-
-#: templates/layout.user.php:61
+#: templates/layout.user.php:58
 msgid "Log out"
 msgstr "Đăng xuất"
 
-#: templates/login.php:9
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Tự động đăng nhập đã bị từ chối !"
 
-#: templates/login.php:10
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Nếu bạn không thay đổi mật khẩu gần đây của bạn, tài khoản của bạn có thể gặp nguy hiểm!"
 
-#: templates/login.php:12
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Vui lòng thay đổi mật khẩu của bạn để đảm bảo tài khoản của bạn một lần nữa."
 
-#: templates/login.php:34
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Bạn quên mật khẩu ?"
 
-#: templates/login.php:39
+#: templates/login.php:41
 msgid "remember"
 msgstr "ghi nhớ"
 
-#: templates/login.php:41
+#: templates/login.php:43
 msgid "Log in"
 msgstr "Đăng nhập"
 
-#: templates/login.php:47
+#: templates/login.php:49
 msgid "Alternative Logins"
 msgstr "Đăng nhập khác"
 

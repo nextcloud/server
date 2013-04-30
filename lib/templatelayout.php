@@ -18,20 +18,6 @@ class OC_TemplateLayout extends OC_Template {
 				$this->assign('bodyid', 'body-user');
 			}
 
-			// Update notification
-			if(OC_Config::getValue('updatechecker', true) === true) {
-				$data=OC_Updater::check();
-				if(isset($data['version']) && $data['version'] != '' and $data['version'] !== Array() && OC_User::isAdminUser(OC_User::getUser())) {
-					$this->assign('updateAvailable', true);
-					$this->assign('updateVersion', $data['versionstring']);
-					$this->assign('updateLink', $data['web']);
-				} else {
-					$this->assign('updateAvailable', false); // No update available or not an admin user
-				}
-			} else {
-				$this->assign('updateAvailable', false); // Update check is disabled
-			}
-
 			// Add navigation entry
 			$this->assign( 'application', '', false );
 			$navigation = OC_App::getNavigation();
@@ -78,8 +64,25 @@ class OC_TemplateLayout extends OC_Template {
 			$root = $info[0];
 			$web = $info[1];
 			$file = $info[2];
+			$paths = explode('/', $file);
 
-			$this->append( 'cssfiles', $web.'/'.$file . $versionParameter);
+			$in_root = false;
+			foreach(OC::$APPSROOTS as $app_root) {
+				if($root == $app_root['path']) {
+					$in_root = true;
+					break;
+				}
+			}
+
+			if($in_root ) {
+				$app = $paths[0];
+				unset($paths[0]);
+				$path = implode('/', $paths);
+				$this->append( 'cssfiles', OC_Helper::linkTo($app, $path) . $versionParameter);
+			}
+			else {
+				$this->append( 'cssfiles', $web.'/'.$file);
+			}
 		}
 	}
 
@@ -120,15 +123,20 @@ class OC_TemplateLayout extends OC_Template {
 			}elseif(self::appendIfExist($files, OC::$SERVERROOT, OC::$WEBROOT, "core/$style.css" )) {
 
 			}else{
-				$app = substr($style, 0, strpos($style, '/'));
-				$style = substr($style, strpos($style, '/')+1);
-				$app_path = OC_App::getAppPath($app);
-				$app_url = OC::$WEBROOT . '/index.php/apps/' . $app;
-				if(self::appendIfExist($files, $app_path, $app_url, "$style$fext.css")) {
+				$append = false;
+				// or in apps?
+				foreach( OC::$APPSROOTS as $apps_dir)
+				{
+					if(self::appendIfExist($files, $apps_dir['path'], $apps_dir['url'], "$style$fext.css")) {
+						$append = true;
+						break;
+					}
+					elseif(self::appendIfExist($files, $apps_dir['path'], $apps_dir['url'], "$style.css")) {
+						$append = true;
+						break;
+					}
 				}
-				elseif(self::appendIfExist($files, $app_path, $app_url, "$style.css")) {
-				}
-				else {
+				if(! $append) {
 					echo('css file not found: style:'.$style.' formfactor:'.$fext
 						.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 					die();
@@ -187,15 +195,18 @@ class OC_TemplateLayout extends OC_Template {
 
 			}else{
 				// Is it part of an app?
-				$app = substr($script, 0, strpos($script, '/'));
-				$script = substr($script, strpos($script, '/')+1);
-				$app_path = OC_App::getAppPath($app);
-				$app_url = OC_App::getAppWebPath($app);
-				if(self::appendIfExist($files, $app_path, $app_url, "$script$fext.js")) {
+				$append = false;
+				foreach( OC::$APPSROOTS as $apps_dir) {
+					if(self::appendIfExist($files, $apps_dir['path'], OC::$WEBROOT.$apps_dir['url'], "$script$fext.js")) {
+						$append = true;
+						break;
+					}
+					elseif(self::appendIfExist($files, $apps_dir['path'], OC::$WEBROOT.$apps_dir['url'], "$script.js")) {
+						$append = true;
+						break;
+					}
 				}
-				elseif(self::appendIfExist($files, $app_path, $app_url, "$script.js")) {
-				}
-				else {
+				if(! $append) {
 					echo('js file not found: script:'.$script.' formfactor:'.$fext
 						.' webroot:'.OC::$WEBROOT.' serverroot:'.OC::$SERVERROOT);
 					die();

@@ -972,7 +972,7 @@ class View {
 	 */
 	public function getPath($id) {
 		list($storage, $internalPath) = Cache\Cache::getById($id);
-		$mounts = Filesystem::getMountByStorageId($storage);
+		$mounts = Mount::findByStorageId($storage);
 		foreach ($mounts as $mount) {
 			/**
 			 * @var \OC\Files\Mount $mount

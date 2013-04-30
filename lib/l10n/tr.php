@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Help" => "Yardım",
+"Help" => "Yardı",
 "Personal" => "Kişisel",
 "Settings" => "Ayarlar",
 "Users" => "Kullanıcılar",
@@ -40,5 +40,8 @@
 "%d months ago" => "%d ay önce",
 "last year" => "geçen yıl",
 "years ago" => "yıl önce",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s kullanılabilir durumda. <a href=\"%s\">Daha fazla bilgi</a> alın",
+"up to date" => "güncel",
+"updates check is disabled" => "güncelleme kontrolü kapalı",
 "Could not find category \"%s\"" => "\"%s\" kategorisi bulunamadı"
 );

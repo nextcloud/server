@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Help" => "المساعدة",
 "Personal" => "شخصي",
-"Settings" => "إعدادات",
+"Settings" => "تعديلات",
 "Users" => "المستخدمين",
 "Apps" => "التطبيقات",
 "Admin" => "المدير",
@@ -48,5 +48,8 @@
 "%d months ago" => "%d شهر مضت",
 "last year" => "السنةالماضية",
 "years ago" => "سنة مضت",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s متاح . احصل على <a href=\"%s\">المزيد من المعلومات </a>",
+"up to date" => "محدّث",
+"updates check is disabled" => "فحص التحديثات معطّل",
 "Could not find category \"%s\"" => "تعذر العثور على المجلد \"%s\""
 );

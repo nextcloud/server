@@ -1,3 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Versions" => "අනුවාද"
+"History" => "ඉතිහාසය",
+"Files Versioning" => "ගොනු අනුවාදයන්",
+"Enable" => "සක්‍රිය කරන්න"
 );

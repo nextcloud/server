@@ -1,5 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Password" => "סיסמא",
+"Password" => "ססמה",
 "Submit" => "שליחה",
 "%s shared the folder %s with you" => "%s שיתף עמך את התיקייה %s",
 "%s shared the file %s with you" => "%s שיתף עמך את הקובץ %s",

@@ -5,5 +5,5 @@
 "%s shared the file %s with you" => "%s compartilhou o arquivo %s com você",
 "Download" => "Baixar",
 "No preview available for" => "Nenhuma visualização disponível para",
-"web services under your control" => "serviços web sob seu controle"
+"web services under your control" => "web services sob seu controle"
 );

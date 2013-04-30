@@ -18,5 +18,7 @@
 "%d days ago" => "%d jorns a",
 "last month" => "mes passat",
 "last year" => "an passat",
-"years ago" => "ans a"
+"years ago" => "ans a",
+"up to date" => "a jorn",
+"updates check is disabled" => "la verificacion de mesa a jorn es inactiva"
 );

@@ -3,12 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Georgi Stanojevski <glisha@gmail.com>, 2012.
+# Miroslav Jovanovic <j.miroslav@gmail.com>, 2012.
+# Miroslav Jovanovic <jmiroslav@softhome.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:17+0200\n"
-"PO-Revision-Date: 2013-04-26 08:28+0000\n"
+"POT-Creation-Date: 2013-04-17 02:21+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Macedonian (http://www.transifex.com/projects/p/owncloud/language/mk/)\n"
 "MIME-Version: 1.0\n"
@@ -21,16 +24,12 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Неможам да вчитам листа од App Store"
 
-#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
 msgstr "Грешка во автентикација"
 
-#: ajax/changedisplayname.php:31
-msgid "Your display name has been changed."
-msgstr ""
-
-#: ajax/changedisplayname.php:34
+#: ajax/changedisplayname.php:32
 msgid "Unable to change display name"
 msgstr ""
 
@@ -68,7 +67,7 @@ msgstr "Јазикот е сменет"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "Неправилно барање"
+msgstr "неправилно барање"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -120,7 +119,7 @@ msgstr ""
 msgid "Updated"
 msgstr ""
 
-#: js/personal.js:118
+#: js/personal.js:109
 msgid "Saving..."
 msgstr "Снимам..."
 
@@ -136,16 +135,16 @@ msgstr "врати"
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:78
-#: templates/users.php:103
+#: js/users.js:88 templates/users.php:26 templates/users.php:80
+#: templates/users.php:105
 msgid "Groups"
 msgstr "Групи"
 
-#: js/users.js:91 templates/users.php:80 templates/users.php:115
+#: js/users.js:91 templates/users.php:82 templates/users.php:119
 msgid "Group Admin"
 msgstr "Администратор на група"
 
-#: js/users.js:111 templates/users.php:155
+#: js/users.js:111 templates/users.php:161
 msgid "Delete"
 msgstr "Избриши"
 
@@ -165,7 +164,7 @@ msgstr ""
 msgid "A valid password must be provided"
 msgstr ""
 
-#: personal.php:35 personal.php:36
+#: personal.php:29 personal.php:30
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -310,25 +309,25 @@ msgstr ""
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr "Записник"
+msgstr ""
 
 #: templates/admin.php:196
 msgid "Log level"
-msgstr "Ниво на логирање"
+msgstr ""
 
-#: templates/admin.php:227
+#: templates/admin.php:223
 msgid "More"
 msgstr "Повеќе"
 
-#: templates/admin.php:228
+#: templates/admin.php:224
 msgid "Less"
 msgstr "Помалку"
 
-#: templates/admin.php:235 templates/personal.php:105
+#: templates/admin.php:231 templates/personal.php:102
 msgid "Version"
 msgstr "Верзија"
 
-#: templates/admin.php:238 templates/personal.php:108
+#: templates/admin.php:234 templates/personal.php:105
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -399,7 +398,7 @@ msgstr ""
 msgid "Show First Run Wizard again"
 msgstr ""
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
 msgid "Password"
 msgstr "Лозинка"
 
@@ -423,70 +422,82 @@ msgstr "Нова лозинка"
 msgid "Change password"
 msgstr "Смени лозинка"
 
-#: templates/personal.php:56 templates/users.php:76
+#: templates/personal.php:56 templates/users.php:78
 msgid "Display Name"
 msgstr ""
 
-#: templates/personal.php:68
+#: templates/personal.php:57
+msgid "Your display name was changed"
+msgstr ""
+
+#: templates/personal.php:58
+msgid "Unable to change your display name"
+msgstr ""
+
+#: templates/personal.php:61
+msgid "Change display name"
+msgstr ""
+
+#: templates/personal.php:70
 msgid "Email"
 msgstr "Е-пошта"
 
-#: templates/personal.php:70
+#: templates/personal.php:72
 msgid "Your email address"
 msgstr "Вашата адреса за е-пошта"
 
-#: templates/personal.php:71
+#: templates/personal.php:73
 msgid "Fill in an email address to enable password recovery"
 msgstr "Пополни ја адресата за е-пошта за да може да ја обновуваш лозинката"
 
-#: templates/personal.php:77 templates/personal.php:78
+#: templates/personal.php:79 templates/personal.php:80
 msgid "Language"
 msgstr "Јазик"
 
-#: templates/personal.php:89
+#: templates/personal.php:86
 msgid "Help translate"
 msgstr "Помогни во преводот"
 
-#: templates/personal.php:94
+#: templates/personal.php:91
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:96
+#: templates/personal.php:93
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Користете ја оваа адреса да "
 
-#: templates/users.php:21 templates/users.php:75
+#: templates/users.php:21 templates/users.php:77
 msgid "Login Name"
 msgstr ""
 
-#: templates/users.php:30
+#: templates/users.php:32
 msgid "Create"
 msgstr "Создај"
 
-#: templates/users.php:33
+#: templates/users.php:35
 msgid "Default Storage"
 msgstr ""
 
-#: templates/users.php:39 templates/users.php:133
+#: templates/users.php:41 templates/users.php:139
 msgid "Unlimited"
 msgstr ""
 
-#: templates/users.php:57 templates/users.php:148
+#: templates/users.php:59 templates/users.php:154
 msgid "Other"
 msgstr "Останато"
 
-#: templates/users.php:82
+#: templates/users.php:84
 msgid "Storage"
 msgstr ""
 
-#: templates/users.php:93
+#: templates/users.php:95
 msgid "change display name"
 msgstr ""
 
-#: templates/users.php:97
+#: templates/users.php:99
 msgid "set new password"
 msgstr ""
 
-#: templates/users.php:128
+#: templates/users.php:134
 msgid "Default"
 msgstr ""

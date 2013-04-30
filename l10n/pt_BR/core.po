@@ -3,13 +3,24 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Flávio Veras <flaviove@gmail.com>, 2013
+#   <dudanogueira@gmail.com>, 2012.
+#   <duda.nogueira@metasys.com.br>, 2011.
+#   <fred.maranhao@gmail.com>, 2012.
+#   <glauber.guimaraes@poli.ufrj.br>, 2012.
+# Guilherme Maluf Balzana <guimalufb@gmail.com>, 2012.
+#   <henrique@meira.net>, 2012.
+#   <philippi.sedir@gmail.com>, 2012.
+# Rodrigo Tavares <rodrigo.st23@hotmail.com>, 2013.
+# Sedir G. Morais <philippi.sedir@gmail.com>, 2013.
+# Thiago Vicente <thiagovice@gmail.com>, 2012.
+# Unforgiving Fallout <>, 2012.
+# Van Der Fran <transifex@vanderland.com>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-30 01:57+0200\n"
-"PO-Revision-Date: 2013-04-29 23:57+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Brazil) (http://www.transifex.com/projects/p/owncloud/language/pt_BR/)\n"
 "MIME-Version: 1.0\n"
@@ -74,7 +85,7 @@ msgstr "Erro ao adicionar %s aos favoritos."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "Nenhuma categoria selecionada para remoção."
+msgstr "Nenhuma categoria selecionada para excluir."
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -159,7 +170,7 @@ msgstr "dezembro"
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "Ajustes"
+msgstr "Configurações"
 
 #: js/js.js:718
 msgid "seconds ago"
@@ -294,7 +305,7 @@ msgstr "Compartilhar com link"
 msgid "Password protect"
 msgstr "Proteger com senha"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:169 templates/installation.php:54 templates/login.php:35
 msgid "Password"
 msgstr "Senha"
 
@@ -397,27 +408,24 @@ msgstr "Redefinir senha ownCloud"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Use o seguinte link para redefinir sua senha: {link}"
 
-#: lostpassword/templates/lostpassword.php:4
-msgid ""
-"The link to reset your password has been sent to your email.<br>If you do "
-"not receive it within a reasonable amount of time, check your spam/junk "
-"folders.<br>If it is not there ask your local administrator ."
-msgstr "O link para redefinir sua senha foi enviada para o seu e-mail. <br> Se você não recebê-lo dentro de um período razoável de tempo, verifique o spam/lixo. <br> Se ele não estiver lá perguntar ao seu administrador local."
-
-#: lostpassword/templates/lostpassword.php:12
-msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr "O pedido falhou! <br>Certifique-se que seu e-mail/username estavam corretos?"
-
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
 msgstr "Você receberá um link para redefinir sua senha por e-mail."
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
-#: templates/login.php:19
-msgid "Username"
-msgstr "Nome de usuário"
+#: lostpassword/templates/lostpassword.php:5
+msgid "Reset email send."
+msgstr "Email de redefinição de senha enviado."
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:8
+msgid "Request failed!"
+msgstr "A requisição falhou!"
+
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: templates/login.php:28
+msgid "Username"
+msgstr "Nome de Usuário"
+
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
 msgstr "Pedir redefinição"
 
@@ -447,7 +455,7 @@ msgstr "Usuários"
 
 #: strings.php:7
 msgid "Apps"
-msgstr "Aplicações"
+msgstr "Apps"
 
 #: strings.php:8
 msgid "Admin"
@@ -523,37 +531,37 @@ msgstr "Avançado"
 msgid "Data folder"
 msgstr "Pasta de dados"
 
-#: templates/installation.php:74
+#: templates/installation.php:73
 msgid "Configure the database"
 msgstr "Configurar o banco de dados"
 
-#: templates/installation.php:79 templates/installation.php:91
-#: templates/installation.php:102 templates/installation.php:113
-#: templates/installation.php:125
+#: templates/installation.php:78 templates/installation.php:90
+#: templates/installation.php:101 templates/installation.php:112
+#: templates/installation.php:124
 msgid "will be used"
 msgstr "será usado"
 
-#: templates/installation.php:137
+#: templates/installation.php:136
 msgid "Database user"
 msgstr "Usuário do banco de dados"
 
-#: templates/installation.php:144
+#: templates/installation.php:143
 msgid "Database password"
 msgstr "Senha do banco de dados"
 
-#: templates/installation.php:149
+#: templates/installation.php:148
 msgid "Database name"
 msgstr "Nome do banco de dados"
 
-#: templates/installation.php:159
+#: templates/installation.php:158
 msgid "Database tablespace"
 msgstr "Espaço de tabela do banco de dados"
 
-#: templates/installation.php:166
+#: templates/installation.php:165
 msgid "Database host"
 msgstr "Host do banco de dados"
 
-#: templates/installation.php:172
+#: templates/installation.php:171
 msgid "Finish setup"
 msgstr "Concluir configuração"
 
@@ -561,42 +569,37 @@ msgstr "Concluir configuração"
 msgid "web services under your control"
 msgstr "serviços web sob seu controle"
 
-#: templates/layout.user.php:36
-#, php-format
-msgid "%s is available. Get more information on how to update."
-msgstr ""
-
-#: templates/layout.user.php:61
+#: templates/layout.user.php:58
 msgid "Log out"
 msgstr "Sair"
 
-#: templates/login.php:9
+#: templates/login.php:10
 msgid "Automatic logon rejected!"
 msgstr "Entrada Automática no Sistema Rejeitada!"
 
-#: templates/login.php:10
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Se você não mudou a sua senha recentemente, a sua conta pode estar comprometida!"
 
-#: templates/login.php:12
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr "Por favor troque sua senha para tornar sua conta segura novamente."
 
-#: templates/login.php:34
+#: templates/login.php:19
 msgid "Lost your password?"
 msgstr "Esqueceu sua senha?"
 
-#: templates/login.php:39
+#: templates/login.php:41
 msgid "remember"
 msgstr "lembrar"
 
-#: templates/login.php:41
+#: templates/login.php:43
 msgid "Log in"
 msgstr "Fazer login"
 
-#: templates/login.php:47
+#: templates/login.php:49
 msgid "Alternative Logins"
 msgstr "Logins alternativos"
 

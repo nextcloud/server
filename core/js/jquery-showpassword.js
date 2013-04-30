@@ -35,8 +35,7 @@
 					'style'		:	$element.attr('style'),
 					'size'		:	$element.attr('size'),
 					'name'		:	$element.attr('name')+'-clone',
-					'tabindex' 	:	$element.attr('tabindex'),
-					'autocomplete'	:	'off'
+					'tabindex' 	:	$element.attr('tabindex')
 				});
 					
 				return $clone;
@@ -103,16 +102,7 @@
 				$clone.bind('blur', function() { $input.trigger('focusout'); });
 				
 				setState( $checkbox, $input, $clone );
-
-				// set type of password field clone (type=text) to password right on submit
-				// to prevent browser save the value of this field
-				$clone.closest('form').submit(function(e) {
-					// .prop has to be used, because .attr throws
-					// an error while changing a type of an input
-					// element
-					$clone.prop('type', 'password');
-				});
-
+				
 				if( callback.fn ){
 					callback.fn( callback.args );
 				}

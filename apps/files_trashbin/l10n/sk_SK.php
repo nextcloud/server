@@ -5,7 +5,7 @@
 "Error" => "Chyba",
 "delete file permanently" => "trvalo zmazať súbor",
 "Delete permanently" => "Zmazať  trvalo",
-"Name" => "Názov",
+"Name" => "Meno",
 "Deleted" => "Zmazané",
 "1 folder" => "1 priečinok",
 "{count} folders" => "{count} priečinkov",

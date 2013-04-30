@@ -1,3 +1,5 @@
 <?php $TRANSLATIONS = array(
-"Versions" => "وه‌شان"
+"History" => "مێژوو",
+"Files Versioning" => "وه‌شانی په‌ڕگه",
+"Enable" => "چالاککردن"
 );

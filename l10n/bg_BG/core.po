@@ -3,12 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <adn.adin@gmail.com>, 2011.
+# Jan-Christoph Borchardt <JanCBorchardt@fsfe.org>, 2011.
+# Stefan Ilivanov <ilivanov@gmail.com>, 2011.
+# Yasen Pramatarov <yasen@lindeas.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-30 01:57+0200\n"
-"PO-Revision-Date: 2013-04-29 23:57+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -73,7 +77,7 @@ msgstr ""
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "Няма избрани категории за изтриване"
+msgstr ""
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -82,79 +86,79 @@ msgstr ""
 
 #: js/config.php:34
 msgid "Sunday"
-msgstr "Неделя"
+msgstr ""
 
 #: js/config.php:35
 msgid "Monday"
-msgstr "Понеделник"
+msgstr ""
 
 #: js/config.php:36
 msgid "Tuesday"
-msgstr "Вторник"
+msgstr ""
 
 #: js/config.php:37
 msgid "Wednesday"
-msgstr "Сряда"
+msgstr ""
 
 #: js/config.php:38
 msgid "Thursday"
-msgstr "Четвъртък"
+msgstr ""
 
 #: js/config.php:39
 msgid "Friday"
-msgstr "Петък"
+msgstr ""
 
 #: js/config.php:40
 msgid "Saturday"
-msgstr "Събота"
+msgstr ""
 
 #: js/config.php:45
 msgid "January"
-msgstr "Януари"
+msgstr ""
 
 #: js/config.php:46
 msgid "February"
-msgstr "Февруари"
+msgstr ""
 
 #: js/config.php:47
 msgid "March"
-msgstr "Март"
+msgstr ""
 
 #: js/config.php:48
 msgid "April"
-msgstr "Април"
+msgstr ""
 
 #: js/config.php:49
 msgid "May"
-msgstr "Май"
+msgstr ""
 
 #: js/config.php:50
 msgid "June"
-msgstr "Юни"
+msgstr ""
 
 #: js/config.php:51
 msgid "July"
-msgstr "Юли"
+msgstr ""
 
 #: js/config.php:52
 msgid "August"
-msgstr "Август"
+msgstr ""
 
 #: js/config.php:53
 msgid "September"
-msgstr "Септември"
+msgstr ""
 
 #: js/config.php:54
 msgid "October"
-msgstr "Октомври"
+msgstr ""
 
 #: js/config.php:55
 msgid "November"
-msgstr "Ноември"
+msgstr ""
 
 #: js/config.php:56
 msgid "December"
-msgstr "Декември"
+msgstr ""
 
 #: js/js.js:286
 msgid "Settings"
@@ -214,7 +218,7 @@ msgstr "последните години"
 
 #: js/oc-dialogs.js:117 js/oc-dialogs.js:247
 msgid "Ok"
-msgstr "Добре"
+msgstr ""
 
 #: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
@@ -226,11 +230,11 @@ msgstr ""
 
 #: js/oc-dialogs.js:215
 msgid "Yes"
-msgstr "Да"
+msgstr ""
 
 #: js/oc-dialogs.js:222
 msgid "No"
-msgstr "Не"
+msgstr ""
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -283,7 +287,7 @@ msgstr ""
 
 #: js/share.js:159
 msgid "Share with"
-msgstr "Споделено с"
+msgstr ""
 
 #: js/share.js:164
 msgid "Share with link"
@@ -293,7 +297,7 @@ msgstr ""
 msgid "Password protect"
 msgstr ""
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:26
+#: js/share.js:169 templates/installation.php:54 templates/login.php:35
 msgid "Password"
 msgstr "Парола"
 
@@ -343,7 +347,7 @@ msgstr ""
 
 #: js/share.js:325
 msgid "create"
-msgstr "създаване"
+msgstr ""
 
 #: js/share.js:328
 msgid "update"
@@ -396,33 +400,30 @@ msgstr ""
 msgid "Use the following link to reset your password: {link}"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:4
-msgid ""
-"The link to reset your password has been sent to your email.<br>If you do "
-"not receive it within a reasonable amount of time, check your spam/junk "
-"folders.<br>If it is not there ask your local administrator ."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:12
-msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:15
+#: lostpassword/templates/lostpassword.php:3
 msgid "You will receive a link to reset your password via Email."
-msgstr "Ще получите връзка за нулиране на паролата Ви."
+msgstr ""
 
-#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
-#: templates/login.php:19
+#: lostpassword/templates/lostpassword.php:5
+msgid "Reset email send."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:8
+msgid "Request failed!"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: templates/login.php:28
 msgid "Username"
-msgstr "Потребител"
+msgstr ""
 
-#: lostpassword/templates/lostpassword.php:21
+#: lostpassword/templates/lostpassword.php:14
 msgid "Request reset"
-msgstr "Нулиране на заявка"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "Вашата парола е нулирана"
+msgstr ""
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
@@ -434,7 +435,7 @@ msgstr "Нова парола"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
-msgstr "Нулиране на парола"
+msgstr ""
 
 #: strings.php:5
 msgid "Personal"
@@ -458,15 +459,15 @@ msgstr "Помощ"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr "Достъпът е забранен"
+msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr "облакът не намерен"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Редактиране на категориите"
+msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
@@ -512,100 +513,95 @@ msgstr ""
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
-msgstr "Създаване на <strong>админ профил</strong>"
+msgstr ""
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr "Разширено"
+msgstr ""
 
 #: templates/installation.php:64
 msgid "Data folder"
-msgstr "Директория за данни"
+msgstr ""
 
-#: templates/installation.php:74
+#: templates/installation.php:73
 msgid "Configure the database"
-msgstr "Конфигуриране на базата"
+msgstr ""
 
-#: templates/installation.php:79 templates/installation.php:91
-#: templates/installation.php:102 templates/installation.php:113
-#: templates/installation.php:125
+#: templates/installation.php:78 templates/installation.php:90
+#: templates/installation.php:101 templates/installation.php:112
+#: templates/installation.php:124
 msgid "will be used"
-msgstr "ще се ползва"
+msgstr ""
 
-#: templates/installation.php:137
+#: templates/installation.php:136
 msgid "Database user"
-msgstr "Потребител за базата"
+msgstr ""
 
-#: templates/installation.php:144
+#: templates/installation.php:143
 msgid "Database password"
-msgstr "Парола за базата"
+msgstr ""
 
-#: templates/installation.php:149
+#: templates/installation.php:148
 msgid "Database name"
-msgstr "Име на базата"
+msgstr ""
 
-#: templates/installation.php:159
+#: templates/installation.php:158
 msgid "Database tablespace"
 msgstr ""
 
-#: templates/installation.php:166
+#: templates/installation.php:165
 msgid "Database host"
-msgstr "Хост за базата"
+msgstr ""
 
-#: templates/installation.php:172
+#: templates/installation.php:171
 msgid "Finish setup"
-msgstr "Завършване на настройките"
+msgstr ""
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
 msgstr "уеб услуги под Ваш контрол"
 
-#: templates/layout.user.php:36
-#, php-format
-msgid "%s is available. Get more information on how to update."
-msgstr ""
-
-#: templates/layout.user.php:61
+#: templates/layout.user.php:58
 msgid "Log out"
-msgstr "Изход"
-
-#: templates/login.php:9
-msgid "Automatic logon rejected!"
 msgstr ""
 
 #: templates/login.php:10
+msgid "Automatic logon rejected!"
+msgstr ""
+
+#: templates/login.php:11
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr ""
 
-#: templates/login.php:12
+#: templates/login.php:13
 msgid "Please change your password to secure your account again."
 msgstr ""
 
-#: templates/login.php:34
+#: templates/login.php:19
 msgid "Lost your password?"
-msgstr "Забравена парола?"
-
-#: templates/login.php:39
-msgid "remember"
-msgstr "запомни"
+msgstr ""
 
 #: templates/login.php:41
-msgid "Log in"
-msgstr "Вход"
+msgid "remember"
+msgstr ""
 
-#: templates/login.php:47
+#: templates/login.php:43
+msgid "Log in"
+msgstr ""
+
+#: templates/login.php:49
 msgid "Alternative Logins"
 msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr "пред."
+msgstr ""
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr "следващо"
+msgstr ""
 
 #: templates/update.php:3
 #, php-format

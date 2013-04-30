@@ -23,12 +23,15 @@
 "%d minutes ago" => "%d minuter sedan",
 "1 hour ago" => "1 timme sedan",
 "%d hours ago" => "%d timmar sedan",
-"today" => "i dag",
-"yesterday" => "i går",
+"today" => "idag",
+"yesterday" => "igår",
 "%d days ago" => "%d dagar sedan",
 "last month" => "förra månaden",
 "%d months ago" => "%d månader sedan",
 "last year" => "förra året",
 "years ago" => "år sedan",
+"%s is available. Get <a href=\"%s\">more information</a>" => "%s finns. Få <a href=\"%s\">mer information</a>",
+"up to date" => "uppdaterad",
+"updates check is disabled" => "uppdateringskontroll är inaktiverad",
 "Could not find category \"%s\"" => "Kunde inte hitta kategorin \"%s\""
 );

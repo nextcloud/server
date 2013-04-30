@@ -3,12 +3,20 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+#   <daniel@mouxy.net>, 2012-2013.
+# Daniel Pinto <daniel@mouxy.net>, 2013.
+#  <duartegrilo@gmail.com>, 2013.
+# Duarte Velez Grilo <duartegrilo@gmail.com>, 2012.
+#   <geral@ricardolameiro.pt>, 2012.
+# Helder Meneses <helder.meneses@gmail.com>, 2012-2013.
+# Miguel Sousa <migueljorgesousa@sapo.pt>, 2013.
+#   <rjgpp.1994@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:27+0000\n"
+"POT-Creation-Date: 2013-04-17 02:20+0200\n"
+"PO-Revision-Date: 2013-04-17 00:21+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Portuguese (Portugal) (http://www.transifex.com/projects/p/owncloud/language/pt_PT/)\n"
 "MIME-Version: 1.0\n"
@@ -37,7 +45,7 @@ msgstr "Nenhum ficheiro foi carregado. Erro desconhecido"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Não ocorreram erros, o ficheiro foi submetido com sucesso"
+msgstr "Sem erro, ficheiro enviado com sucesso"
 
 #: ajax/upload.php:27
 msgid ""
@@ -48,19 +56,19 @@ msgstr "O ficheiro enviado excede o limite permitido na directiva do php.ini upl
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "O tamanho do ficheiro carregado ultrapassa o valor MAX_FILE_SIZE definido no formulário HTML"
+msgstr "O ficheiro enviado excede o diretivo MAX_FILE_SIZE especificado no formulário HTML"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "O ficheiro seleccionado foi apenas carregado parcialmente"
+msgstr "O ficheiro enviado só foi enviado parcialmente"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Nenhum ficheiro foi submetido"
+msgstr "Não foi enviado nenhum ficheiro"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Está a faltar a pasta temporária"
+msgstr "Falta uma pasta temporária"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -78,19 +86,15 @@ msgstr "Directório Inválido"
 msgid "Files"
 msgstr "Ficheiros"
 
-#: js/fileactions.js:116
-msgid "Share"
-msgstr "Partilhar"
-
-#: js/fileactions.js:126
+#: js/fileactions.js:125
 msgid "Delete permanently"
 msgstr "Eliminar permanentemente"
 
-#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
 msgid "Delete"
-msgstr "Eliminar"
+msgstr "Apagar"
 
-#: js/fileactions.js:194
+#: js/fileactions.js:193
 msgid "Rename"
 msgstr "Renomear"
 
@@ -221,7 +225,7 @@ msgstr "{count} ficheiros"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "Carregar"
+msgstr "Enviar"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -237,7 +241,7 @@ msgstr "max. possivel: "
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr "Necessário para multi download de ficheiros e pastas"
+msgstr "Necessário para descarregamento múltiplo de ficheiros e pastas"
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
@@ -297,13 +301,13 @@ msgstr "Deixar de partilhar"
 
 #: templates/index.php:108
 msgid "Upload too large"
-msgstr "Upload muito grande"
+msgstr "Envio muito grande"
 
 #: templates/index.php:110
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr "Os ficheiro que está a tentar enviar excedem o tamanho máximo de envio neste servidor."
+msgstr "Os ficheiros que está a tentar enviar excedem o tamanho máximo de envio permitido neste servidor."
 
 #: templates/index.php:115
 msgid "Files are being scanned, please wait."

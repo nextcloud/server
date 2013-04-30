@@ -64,7 +64,7 @@
 "You don’t have write permissions here." => "თქვენ არ გაქვთ ჩაწერის უფლება აქ.",
 "Nothing in here. Upload something!" => "აქ არაფერი არ არის. ატვირთე რამე!",
 "Download" => "ჩამოტვირთვა",
-"Unshare" => "გაუზიარებადი",
+"Unshare" => "გაზიარების მოხსნა",
 "Upload too large" => "ასატვირთი ფაილი ძალიან დიდია",
 "The files you are trying to upload exceed the maximum size for file uploads on this server." => "ფაილის ზომა რომლის ატვირთვასაც თქვენ აპირებთ, აჭარბებს სერვერზე დაშვებულ მაქსიმუმს.",
 "Files are being scanned, please wait." => "მიმდინარეობს ფაილების სკანირება, გთხოვთ დაელოდოთ.",

@@ -45,12 +45,7 @@ class Hooks {
 	
 		$view = new \OC_FilesystemView( '/' );
 
-        $userHome = \OC_User::getHome($params['uid']);
-        $dataDir = str_replace('/'.$params['uid'], '', $userHome);
-
-        \OC\Files\Filesystem::mount( 'OC_Filestorage_Local', array('datadir' => $dataDir .'/public-keys'), '/public-keys/' );
-
-        $util = new Util( $view, $params['uid'] );
+		$util = new Util( $view, $params['uid'] );
 		
 		// Check files_encryption infrastructure is ready for action
 		if ( ! $util->ready() ) {
