@@ -24,12 +24,13 @@ $languageCodes=OC_L10N::findAvailableLanguages();
 
 // array of common languages
 $commonlangcodes = array(
-	'en', 'es', 'fr', 'de', 'de_DE', 'ja_JP', 'nl', 'it', 'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'zh_CN', 'ko'
+	'en', 'es', 'fr', 'de', 'de_DE', 'ja_JP', 'ar', 'ru', 'nl', 'it', 'pt_BR', 'pt_PT', 'da', 'fi_FI', 'nb_NO', 'sv', 'zh_CN', 'ko'
 );
 
 $languageNames=include 'languageCodes.php';
 $languages=array();
-$commonlanguages = array();
+// Initialize array, so we can substitue later with our in $commonlangcodes specified order
+$commonlanguages = array_fill(0, count($commonlangcodes), "");
 foreach($languageCodes as $lang) {
 	$l=OC_L10N::get('settings', $lang);
 	if(substr($l->t('__language_name__'), 0, 1)!='_') {//first check if the language name is in the translation file
@@ -45,7 +46,7 @@ foreach($languageCodes as $lang) {
 	if ($lang === $userLang) {
 		$userLang = $ln;
 	} elseif (in_array($lang, $commonlangcodes)) {
-		$commonlanguages[]=$ln;
+		$commonlanguages[array_search($lang, $commonlangcodes)]=$ln;
 	} else {
 		$languages[]=$ln;
 	}
