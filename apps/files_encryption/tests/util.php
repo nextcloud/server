@@ -24,8 +24,6 @@ $loader->register();
 use \Mockery as m;
 use OCA\Encryption;
 
-\OC_User::login( 'admin', 'admin' );
-
 class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 	
 	function setUp() {
@@ -62,6 +60,10 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
         \OC\Files\Filesystem::init( $this->userId, '/' );
         \OC\Files\Filesystem::mount( 'OC_Filestorage_Local', array('datadir' => $this->dataDir), '/' );
 
+        $params['uid'] = $this->userId;
+        $params['password'] = $this->pass;
+        OCA\Encryption\Hooks::login($params);
+
 		$mockView = m::mock('OC_FilesystemView');
 		$this->util = new Encryption\Util( $mockView, $this->userId );
 	
@@ -75,6 +77,9 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 	
 	/**
 	 * @brief test that paths set during User construction are correct
+     *
+     *
+     *
 	 */
 	function testKeyPaths() {
 	

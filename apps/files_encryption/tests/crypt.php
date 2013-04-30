@@ -21,7 +21,6 @@ use OCA\Encryption;
 
 // This has to go here because otherwise session errors arise, and the private 
 // encryption key needs to be saved in the session
-\OC_User::login( 'admin', 'admin' );
 
 /**
  * @note It would be better to use Mockery here for mocking out the session 
@@ -37,7 +36,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
         // reset backend
         \OC_User::useBackend('database');
 
-		// set content for encrypting / decrypting in tests
+        // set content for encrypting / decrypting in tests
 		$this->dataLong = file_get_contents( realpath( dirname(__FILE__).'/../lib/crypt.php' ) );
 		$this->dataShort = 'hats';
 		$this->dataUrl = realpath( dirname(__FILE__).'/../lib/crypt.php' );
@@ -60,13 +59,17 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 
         \OC\Files\Filesystem::init($this->userId, '/');
         \OC\Files\Filesystem::mount( 'OC_Filestorage_Local', array('datadir' => $this->dataDir), '/' );
+
+        $params['uid'] = $this->userId;
+        $params['password'] = $this->pass;
+        OCA\Encryption\Hooks::login($params);
 	}
 	
 	function tearDown() {
 
 	}
 
-	function testGenerateKey() {
+    function testGenerateKey() {
 	
 		# TODO: use more accurate (larger) string length for test confirmation
 		
