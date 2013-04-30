@@ -31,6 +31,13 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('bookmarks');
 OCP\JSON::callCheck();
 
+// Check if it is a valid URL
+if (filter_var($_POST['url'], FILTER_VALIDATE_URL) === FALSE) {
+ OC_JSON::error();
+	exit();
+}
+
+
 require_once(OC::$APPSROOT . '/apps/bookmarks/bookmarksHelper.php');
 $id = addBookmark($_POST['url'], $_POST['title'], $_POST['tags']);
 OCP\JSON::success(array('data' => $id));
