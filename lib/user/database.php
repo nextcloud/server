@@ -46,7 +46,7 @@ class OC_User_Database extends OC_User_Backend {
 
 	private function getHasher() {
 		if(!self::$hasher) {
-			//we don't want to use DES based crypt(), since it doesn't return a has with a recognisable prefix
+			//we don't want to use DES based crypt(), since it doesn't return a hash with a recognisable prefix
 			$forcePortable=(CRYPT_BLOWFISH!=1);
 			self::$hasher=new PasswordHash(8, $forcePortable);
 		}
