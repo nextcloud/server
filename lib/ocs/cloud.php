@@ -47,9 +47,9 @@ class OC_OCS_Cloud {
 	/**
 	 * gets user info
 	 */
-	public static function getUser($parameters){
+	public static function getUser($parameters) {
 		// Check if they are viewing information on themselves
-		if($parameters['userid'] === OC_User::getUser()){
+		if($parameters['userid'] === OC_User::getUser()) {
 			// Self lookup
 			$quota = array();
 			$storage = OC_Helper::getStorageInfo();
