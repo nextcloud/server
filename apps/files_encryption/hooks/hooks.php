@@ -52,7 +52,9 @@ class Hooks {
 			
 			\OC_Log::write( 'Encryption library', 'User account "' . $params['uid'] . '" is not ready for encryption; configuration started', \OC_Log::DEBUG );
 			
-			return $util->setupServerSide( $params['password'] );
+			if(!$util->setupServerSide( $params['password'] )) {
+                return false;
+            }
 
 		}
 	
