@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# ubuntucymraeg <owen.llywelyn@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-30 01:57+0200\n"
-"PO-Revision-Date: 2013-04-29 23:57+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-01 01:59+0200\n"
+"PO-Revision-Date: 2013-04-30 15:00+0000\n"
+"Last-Translator: ubuntucymraeg <owen.llywelyn@gmail.com>\n"
 "Language-Team: Welsh (United Kingdom) (http://www.transifex.com/projects/p/owncloud/language/cy_GB/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -401,11 +402,11 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "Anfonwyd y ddolen i ailosod eich cyfrinair i'ch cyfeiriad ebost.<br>Os nad yw'n cyrraedd o fewn amser rhesymol gwiriwch eich plygell spam/sothach.<br>Os nad yw yno, cysylltwch â'ch gweinyddwr lleol."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "Methodd y cais!<br>Gwiriwch eich enw defnyddiwr ac ebost."
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
@@ -501,7 +502,7 @@ msgstr "Heb gynhyrchydd rhifau hap diogel efallai y gall ymosodwr ragweld tocynn
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr "Mwy na thebyg fod modd cyrraeddd eich cyfeiriadur data a ffeilau o'r rhyngrwyd oherwydd nid yw'r ffeil .htaccess yn gweithio. "
+msgstr "Mwy na thebyg fod modd cyrraedd eich cyfeiriadur data a ffeilau o'r rhyngrwyd oherwydd nid yw'r ffeil .htaccess yn gweithio. "
 
 #: templates/installation.php:40
 msgid ""
@@ -563,7 +564,7 @@ msgstr "gwasanaethau gwe a reolir gennych"
 #: templates/layout.user.php:36
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s ar gael. Mwy o wybodaeth am sut i ddiweddaru."
 
 #: templates/layout.user.php:61
 msgid "Log out"

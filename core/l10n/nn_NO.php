@@ -125,6 +125,7 @@
 "Database host" => "Databasetenar",
 "Finish setup" => "Fullfør oppsettet",
 "web services under your control" => "Vevtenester under din kontroll",
+"%s is available. Get more information on how to update." => "%s er tilgjengeleg. Få meir informasjon om korleis du oppdaterer.",
 "Log out" => "Logg ut",
 "Automatic logon rejected!" => "Automatisk innlogging avvist!",
 "If you did not change your password recently, your account may be compromised!" => "Viss du ikkje endra passordet ditt nyleg, så kan kontoen din vera kompromittert!",

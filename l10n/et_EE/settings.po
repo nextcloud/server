@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Rivo Zängov <eraser@eraser.ee>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:17+0200\n"
-"PO-Revision-Date: 2013-04-26 16:22+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-01 02:00+0200\n"
+"PO-Revision-Date: 2013-04-30 09:30+0000\n"
+"Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,7 +20,7 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr "App Sotre'i nimekirja laadimine ebaõnnestus"
+msgstr "App Store'i nimekirja laadimine ebaõnnestus"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
@@ -28,11 +29,11 @@ msgstr "Autentimise viga"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
-msgstr "Sinu kuvatav nimi on muudetud."
+msgstr "Sinu näidatav nimi on muudetud."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
-msgstr "Ei saa muuta kuvatavat nime"
+msgstr "Ei saa muuta näidatavat nime"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
@@ -56,11 +57,11 @@ msgstr "Vigane e-post"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr "Keela grupi kustutamine"
+msgstr "Grupi kustutamine ebaõnnestus"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr "Keela kasutaja kustutamine"
+msgstr "Kasutaja kustutamine ebaõnnestus"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
@@ -98,7 +99,7 @@ msgstr "Lülita välja"
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "Luba"
+msgstr "Lülita sisse"
 
 #: js/apps.js:55
 msgid "Please wait...."
@@ -134,7 +135,7 @@ msgstr "tagasi"
 
 #: js/users.js:75
 msgid "Unable to remove user"
-msgstr "Ei suuda kustutada kasutajat"
+msgstr "Ei suuda kustutada kasutajat eemaldada"
 
 #: js/users.js:88 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
@@ -328,7 +329,7 @@ msgstr "Vähem"
 msgid "Version"
 msgstr "Versioon"
 
-#: templates/admin.php:238 templates/personal.php:108
+#: templates/admin.php:237 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -384,7 +385,7 @@ msgstr "Vigade nimekiri"
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr "Tasuine kasutajatugi"
+msgstr "Tasuline kasutajatugi"
 
 #: templates/personal.php:8
 #, php-format

@@ -4,13 +4,14 @@
 # 
 # Translators:
 # msoko <sokolovitch@yahoo.com>, 2013
+# iGerli <stefano@aerosoles.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-30 01:57+0200\n"
-"PO-Revision-Date: 2013-04-29 23:57+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-01 01:59+0200\n"
+"PO-Revision-Date: 2013-04-30 11:30+0000\n"
+"Last-Translator: iGerli <stefano@aerosoles.net>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,26 +22,26 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
-msgstr "El usuario %s ha compartido un archivo contigo"
+msgstr "El usuario %s ha compartido un archivo contigo."
 
 #: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr "El usuario %s ha compartido una carpeta contigo"
+msgstr "El usuario %s ha compartido una carpeta contigo."
 
 #: ajax/share.php:101
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr "El usuario %s ha compartido el archivo \"%s\" contigo. Puedes descargarlo aquí: %s"
+msgstr "El usuario %s ha compartido el archivo \"%s\" contigo. Puedes descargarlo aquí: %s."
 
 #: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr "El usuario %s ha compartido la carpeta \"%s\" contigo. Puedes descargarla aquí: %s"
+msgstr "El usuario %s ha compartido la carpeta \"%s\" contigo. Puedes descargarla aquí: %s."
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
@@ -564,7 +565,7 @@ msgstr "Servicios web bajo su control"
 #: templates/layout.user.php:36
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s esta disponible. Obtén mas información de como actualizar."
 
 #: templates/layout.user.php:61
 msgid "Log out"
