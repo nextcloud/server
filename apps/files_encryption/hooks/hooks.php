@@ -200,13 +200,13 @@ class Hooks {
 			$util = new Util($view, $userId);
 			$path = $util->fileIdToPath($params['itemSource']);
 
-			//check if this is a reshare action, that's true if the item source is already shared with me
-			$sharedItem = \OCP\Share::getItemSharedWithBySource($params['itemType'], $params['itemSource']);
+            //check if this is a reshare action, that's true if the item source is already shared with me
+			$sharedItem = \OCP\Share::getItemSharedWithBySource($params['itemType'], $params['fileSource']);
 			if ($sharedItem) {
 				// if it is a re-share than the file is located in my Shared folder
 				$path = '/Shared'.$sharedItem['file_target'];
 			} else {
-				$path = $util->fileIdToPath($params['itemSource']);
+				$path = $util->fileIdToPath($params['fileSource']);
 			}
 
 			$sharingEnabled = \OCP\Share::isEnabled();
@@ -224,7 +224,7 @@ class Hooks {
 				$failed = array();
 
 				// Attempt to set shareKey
-				if (!$util->setSharedFileKeyfiles($session, $usersSharing, $path)) {
+ 				if (!$util->setSharedFileKeyfiles($session, $usersSharing, $path)) {
 
 					$failed[] = $path;
 				}

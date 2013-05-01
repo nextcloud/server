@@ -983,14 +983,21 @@ class Util {
 	 */
 	public function getAllFiles($dir) {
 		$result = array();
-		
-		$content = $this->view->getDirectoryContent($this->userFilesDir.$dir);
+
+        $content = $this->view->getDirectoryContent($this->userFilesDir.$dir);
+
+        // handling for re shared folders
+        $path_split = explode( '/', $dir );
+        $shared = '';
+        if($path_split[1] === 'Shared') {
+            $shared = '/Shared';
+        }
 
 		foreach ($content as $c) {
 			if ($c['type'] === "dir" ) {
-				$result = array_merge($result, $this->getAllFiles(substr($c['path'],5)));
+                $result = array_merge($result, $this->getAllFiles($shared.substr($c['path'],5)));
 			} else {
-				$result[] = substr($c['path'], 5);
+                $result[] = $shared.substr($c['path'], 5);
 			}
 		}
 		return $result;
