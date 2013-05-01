@@ -32,7 +32,7 @@ class Keymanager {
 	/**
 	 * @brief retrieve the ENCRYPTED private key from a user
 	 * 
-	 * @return string private key or false
+	 * @return string private key or false (hopefully)
 	 * @note the key returned by this method must be decrypted before use
 	 */
 	public static function getPrivateKey( \OC_FilesystemView $view, $user ) {

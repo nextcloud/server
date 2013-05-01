@@ -24,11 +24,8 @@
 # Bugs
 # ----
 # Sharing a file to a user without encryption set up will not provide them with access but won't notify the sharer
-# Timeouts on first login due to encryption of very large files (fix in progress, as a result streaming is currently broken)
 # Sharing all files to admin for recovery purposes still in progress
 # Possibly public links are broken (not tested since last merge of master)
-# encryptAll during login mangles paths: /files/files/
-# encryptAll is accessing files via encryption proxy - perhaps proxies should be disabled?
 
 
 # Missing features
@@ -204,12 +201,18 @@ class Util {
 			$this->view->file_put_contents( $this->privateKeyPath, $encryptedPrivateKey );
 			
 			\OC_FileProxy::$enabled = true;
-
-            // create database configuration
-            $sql = 'INSERT INTO `*PREFIX*encryption` (`uid`,`mode`,`recovery`) VALUES (?,?,?)';
-            $args = array( $this->userId, 'server-side', 0);
-            $query = \OCP\DB::prepare( $sql );
-            $query->execute( $args );
+			
+		}
+		
+		// If there's no record for this user's encryption preferences
+		if ( false === $this->recoveryEnabledForUser() ) {
+		
+			// create database configuration
+			$sql = 'INSERT INTO `*PREFIX*encryption` (`uid`,`mode`,`recovery`) VALUES (?,?,?)';
+			$args = array( $this->userId, 'server-side', 0);
+			$query = \OCP\DB::prepare( $sql );
+			$query->execute( $args );
+		
 		}
 		
 		return true;
@@ -218,11 +221,11 @@ class Util {
 	
 	/**
 	 * @brief Check whether pwd recovery is enabled for a given user
-	 * @return bool
+	 * @return 1 = yes, 0 = no, false = no record
 	 * @note If records are not being returned, check for a hidden space 
 	 *       at the start of the uid in db
 	 */
-	public function recoveryEnabled() {
+	public function recoveryEnabledForUser() {
 	
 		$sql = 'SELECT 
 				recovery 
@@ -237,16 +240,25 @@ class Util {
 		
 		$result = $query->execute( $args );
 		
-		// Set default in case no records found
-		$recoveryEnabled = 0;
+		$recoveryEnabled = array();
 		
 		while( $row = $result->fetchRow() ) {
 		
-			$recoveryEnabled = $row['recovery'];
+			$recoveryEnabled[] = $row['recovery'];
 			
 		}
 		
-		return $recoveryEnabled;
+		// If no record is found
+		if ( empty( $recoveryEnabled ) ) {
+		
+			return false;
+		
+		// If a record is found
+		} else {
+		
+			return $recoveryEnabled[0];
+			
+		}
 	
 	}
 	
@@ -255,20 +267,33 @@ class Util {
 	 * @param bool $enabled Whether to enable or disable recovery
 	 * @return bool
 	 */
-	public function setRecovery( $enabled ) {
+	public function setRecoveryForUser( $enabled ) {
 	
-		$sql = 'UPDATE 
-				*PREFIX*encryption 
-			SET 
-				recovery = ? 
-			WHERE 
-				uid = ?';
+		$recoveryStatus = $this->recoveryEnabledForUser();
+	
+		// If a record for this user already exists, update it
+		if ( false === $recoveryStatus ) {
 		
-		// Ensure value is an integer
-		$enabled = intval( $enabled );
+			$sql = 'INSERT INTO `*PREFIX*encryption` 
+					(`uid`,`mode`,`recovery`) 
+				VALUES (?,?,?)';
+				
+			$args = array( $this->userId, 'server-side', $enabled );
 		
-		$args = array( $enabled, $this->userId );
-
+		// Create a new record instead
+		} else {
+		
+			$sql = 'UPDATE 
+					*PREFIX*encryption 
+				SET 
+					recovery = ? 
+				WHERE 
+					uid = ?';
+			
+			$args = array( $enabled, $this->userId );
+		
+		}
+	
 		$query = \OCP\DB::prepare( $sql );
 		
 		if ( $query->execute( $args ) ) {
@@ -888,7 +913,7 @@ class Util {
 	public function getSharingUsersArray( $sharingEnabled, $filePath, $currentUserId = false ) {
 
 		// Check if key recovery is enabled
-		$recoveryEnabled = $this->recoveryEnabled();
+		$recoveryEnabled = $this->recoveryEnabledForUser();
 		
 		// Make sure that a share key is generated for the owner too
 		list($owner, $ownerPath) = $this->getUidAndFilename($filePath);

@@ -28,7 +28,7 @@ OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OCA\Encryption\Hooks', 'p
 
 stream_wrapper_register( 'crypt', 'OCA\Encryption\Stream' );
 
-$view = new OC_FilesystemView( '/' );
+$view = new \OC\Files\View( '/' );
 
 $session = new OCA\Encryption\Session( $view );
 
@@ -50,5 +50,5 @@ if (
 }
 
 // Register settings scripts
-OCP\App::registerAdmin( 'files_encryption', 'settings' );
+OCP\App::registerAdmin( 'files_encryption', 'settings-admin' );
 OCP\App::registerPersonal( 'files_encryption', 'settings-personal' );

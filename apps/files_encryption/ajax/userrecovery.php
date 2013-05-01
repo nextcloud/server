@@ -13,21 +13,18 @@ use OCA\Encryption;
 
 \OCP\JSON::checkLoggedIn();
 \OCP\JSON::checkAppEnabled( 'files_encryption' );
-\OCP\JSON::callCheck();
 
 if ( 
 	isset( $_POST['userEnableRecovery'] ) 
+	&& ( 0 == $_POST['userEnableRecovery'] || 1 == $_POST['userEnableRecovery'] )
 ) {
-
-	// Ensure preference is an integer
-	$recoveryEnabled = intval( $_POST['userEnableRecovery'] );
 
 	$userId = \OCP\USER::getUser();
 	$view = new \OC_FilesystemView( '/' );
-	$util = new Util( $view, $userId );
+	$util = new \OCA\Encryption\Util( $view, $userId );
 	
 	// Save recovery preference to DB
-	$result = $util->setRecovery( $recoveryEnabled );
+	$result = $util->setRecoveryForUser( $_POST['userEnableRecovery'] );
 	
 	if ( $result ) {
 	

@@ -179,23 +179,23 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 		
 	}
 	
-	function testRecoveryEnabled() {
+	function testRecoveryEnabledForUser() {
 		
 		$util = new Encryption\Util( $this->view, $this->userId );
 		
 		// Record the value so we can return it to it's original state later
-		$enabled = $util->recoveryEnabled();
+		$enabled = $util->recoveryEnabledForUser();
 		
-		$this->assertTrue( $util->setRecovery( 1 ) );
+		$this->assertTrue( $util->setRecoveryForUser( 1 ) );
 		
-		$this->assertEquals( 1, $util->recoveryEnabled() );
+		$this->assertEquals( 1, $util->recoveryEnabledForUser() );
 		
-		$this->assertTrue( $util->setRecovery( 0 ) );
+		$this->assertTrue( $util->setRecoveryForUser( 0 ) );
 		
-		$this->assertEquals( 0, $util->recoveryEnabled() );
+		$this->assertEquals( 0, $util->recoveryEnabledForUser() );
 		
 		// Return the setting to it's previous state
-		$this->assertTrue( $util->setRecovery( $enabled ) );
+		$this->assertTrue( $util->setRecoveryForUser( $enabled ) );
 		
 	}
 	

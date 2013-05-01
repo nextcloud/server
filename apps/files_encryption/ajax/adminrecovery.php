@@ -17,11 +17,12 @@ use OCA\Encryption;
 
 $return = $doSetup = false;
 
+// Enable recoveryAdmin
 if ( 
 	isset( $_POST['adminEnableRecovery'] ) 
-	&& $_POST['adminEnableRecovery'] == 1
-	&& isset( $_POST['recoveryPassword'] ) 
-	&& ! empty ( $_POST['recoveryPassword'] )
+	&& 1 == $_POST['adminEnableRecovery'] 
+// 	&& isset( $_POST['recoveryPassword'] ) 
+// 	&& ! empty ( $_POST['recoveryPassword'] )
 ) {
 
 	// TODO: Let the admin set this themselves
@@ -29,7 +30,7 @@ if (
 	
 	// If desired recoveryAdmin UID is already in use
 	if ( ! \OC_User::userExists( $recoveryAdminUid ) ) {
-	
+		
 		// Create new recoveryAdmin user
 		\OC_User::createUser( $recoveryAdminUid, $_POST['recoveryPassword'] );
 		
@@ -55,11 +56,11 @@ if (
 		
 	}
 	
-	// If recoveryAdmin has passed other checks
+	// Setup recoveryAdmin user for encryption
 	if ( $doSetup ) {
 		
 		$view = new \OC_FilesystemView( '/' );
-		$util = new Util( $view, $recoveryAdminUid );
+		$util = new \OCA\Encryption\Util( $view, $recoveryAdminUid );
 		
 		// Ensure recoveryAdmin is ready for encryption (has usable keypair etc.)
 		$util->setupServerSide( $_POST['recoveryPassword'] );
@@ -71,6 +72,20 @@ if (
 		
 	}
 	
+	// Set recoveryAdmin as enabled
+	OC_Appconfig::setValue( 'files_encryption', 'recoveryAdminEnabled', 1 );
+
+// Disable recoveryAdmin
+} elseif ( 
+	isset( $_POST['adminEnableRecovery'] ) 
+	&& 0 == $_POST['adminEnableRecovery'] 
+) {
+		
+		// Set recoveryAdmin as enabled
+		OC_Appconfig::setValue( 'files_encryption', 'recoveryAdminEnabled', 0 );
+		
+		$return = true;
+
 }
 
 ($return) ? OC_JSON::success() : OC_JSON::error();

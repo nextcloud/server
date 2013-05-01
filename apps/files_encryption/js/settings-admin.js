@@ -1,5 +1,6 @@
 /**
- * Copyright (c) 2011, Robin Appelman <icewind1991@gmail.com>
+ * Copyright (c) 2013, Sam Tuke <samtuke@owncloud.com>, Robin Appelman 
+ * <icewind1991@gmail.com>
  * This file is licensed under the Affero General Public License version 3 or later.
  * See the COPYING-README file.
  */
@@ -17,11 +18,11 @@ $(document).ready(function(){
 	$( 'input:radio[name="adminEnableRecovery"]' ).change( 
 		function() {
 			
-			var foo = $( this ).val();
+			var recoveryStatus = $( this ).val();
 			
 			$.post( 
-				OC.filePath('files_encryption', 'ajax', 'adminrecovery.php')
-				, { adminEnableRecovery: foo, recoveryPassword: 'password' }
+				OC.filePath( 'files_encryption', 'ajax', 'adminrecovery.php' )
+				, { adminEnableRecovery: recoveryStatus, recoveryPassword: 'password' }
 				,  function( data ) {
 					alert( data );
 				}
@@ -30,7 +31,7 @@ $(document).ready(function(){
 	);
 	
 	function blackListChange(){
-		var blackList=$('#encryption_blacklist').val().join(',');
-		OC.AppConfig.setValue('files_encryption','type_blacklist',blackList);
+		var blackList=$( '#encryption_blacklist' ).val().join( ',' );
+		OC.AppConfig.setValue( 'files_encryption', 'type_blacklist', blackList );
 	}
 })

@@ -35,22 +35,28 @@ class Session {
 	 * 
 	 * The ownCloud key pair is used to allow public link sharing even if encryption is enabled
 	 */
-	public function __construct( \OC_FilesystemView $view ) {
+	public function __construct( $view ) {
 		
 		$this->view = $view;
 
 
 		if ( ! $this->view->is_dir( 'owncloud_private_key' ) ) {
 		
-			$this->view->mkdir('owncloud_private_key');
+			$this->view->mkdir( 'owncloud_private_key' );
+			
 		}
 		
-		
 		if ( 
-			! $this->view->file_exists("/public-keys/owncloud.public.key") 
-			|| ! $this->view->file_exists("/owncloud_private_key/owncloud.private.key" ) 
+			! $this->view->file_exists( "/public-keys/owncloud.public.key" ) 
+			|| ! $this->view->file_exists( "/owncloud_private_key/owncloud.private.key" ) 
 		) {
-
+		
+			//FIXME: Bug: for some reason file_exists is returning 
+			// false in above if statement, and causing new keys 
+			// to be generated on each page load. At last check 
+			// our app.php is being executed 18 times per page load
+			// , causing 18 new keypairs and huge performance hit.
+			
 			$keypair = Crypt::createKeypair();
 			
 			\OC_FileProxy::$enabled = false;
