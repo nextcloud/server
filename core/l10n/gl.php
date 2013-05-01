@@ -125,6 +125,7 @@
 "Database host" => "Servidor da base de datos",
 "Finish setup" => "Rematar a configuración",
 "web services under your control" => "servizos web baixo o seu control",
+"%s is available. Get more information on how to update." => "%s está dispoñíbel. Obteña máis información sobre como actualizar.",
 "Log out" => "Desconectar",
 "Automatic logon rejected!" => "Rexeitouse a entrada automática",
 "If you did not change your password recently, your account may be compromised!" => "Se non fixo recentemente cambios de contrasinal é posíbel que a súa conta estea comprometida!",

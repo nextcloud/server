@@ -3,15 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <erviker@gmail.com>, 2012.
-#   <p.ixiemotion@gmail.com>, 2011.
+# unhammer <unhammer+dill@mm.st>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-01 01:59+0200\n"
+"PO-Revision-Date: 2013-04-30 06:50+0000\n"
+"Last-Translator: unhammer <unhammer+dill@mm.st>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,65 +21,65 @@ msgstr ""
 #: ajax/share.php:97
 #, php-format
 msgid "User %s shared a file with you"
-msgstr ""
+msgstr "Brukaren %s delte ei fil med deg"
 
 #: ajax/share.php:99
 #, php-format
 msgid "User %s shared a folder with you"
-msgstr ""
+msgstr "Brukaren %s delte ei mappe med deg"
 
 #: ajax/share.php:101
 #, php-format
 msgid ""
 "User %s shared the file \"%s\" with you. It is available for download here: "
 "%s"
-msgstr ""
+msgstr "Brukaren %s delte fila «%s» med deg. Du kan lasta ho ned her: %s"
 
 #: ajax/share.php:104
 #, php-format
 msgid ""
 "User %s shared the folder \"%s\" with you. It is available for download "
 "here: %s"
-msgstr ""
+msgstr "Brukaren %s delte mappa «%s» med deg. Du kan lasta ho ned her: %s"
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr ""
+msgstr "Ingen kategoritype."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr ""
+msgstr "Ingen kategori å leggja til?"
 
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "Denne kategorien finst alt: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr ""
+msgstr "Ingen objekttype."
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr ""
+msgstr "Ingen %s-ID."
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr ""
+msgstr "Klarte ikkje å leggja til %s i favorittar."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "Ingen kategoriar valt for sletting."
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr ""
+msgstr "Klarte ikkje å fjerna %s frå favorittar."
 
 #: js/config.php:34
 msgid "Sunday"
@@ -164,80 +163,80 @@ msgstr "Innstillingar"
 
 #: js/js.js:718
 msgid "seconds ago"
-msgstr ""
+msgstr "sekund sidan"
 
 #: js/js.js:719
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 minutt sidan"
 
 #: js/js.js:720
 msgid "{minutes} minutes ago"
-msgstr ""
+msgstr "{minutes} minutt sidan"
 
 #: js/js.js:721
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 time sidan"
 
 #: js/js.js:722
 msgid "{hours} hours ago"
-msgstr ""
+msgstr "{hours} timar sidan"
 
 #: js/js.js:723
 msgid "today"
-msgstr ""
+msgstr "i dag"
 
 #: js/js.js:724
 msgid "yesterday"
-msgstr ""
+msgstr "i går"
 
 #: js/js.js:725
 msgid "{days} days ago"
-msgstr ""
+msgstr "{days} dagar sidan"
 
 #: js/js.js:726
 msgid "last month"
-msgstr ""
+msgstr "førre månad"
 
 #: js/js.js:727
 msgid "{months} months ago"
-msgstr ""
+msgstr "{months) månader sidan"
 
 #: js/js.js:728
 msgid "months ago"
-msgstr ""
+msgstr "månader sidan"
 
 #: js/js.js:729
 msgid "last year"
-msgstr ""
+msgstr "i fjor"
 
 #: js/js.js:730
 msgid "years ago"
-msgstr ""
+msgstr "år sidan"
 
 #: js/oc-dialogs.js:117 js/oc-dialogs.js:247
 msgid "Ok"
-msgstr ""
+msgstr "Greitt"
 
 #: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
-msgstr "Kanseller"
+msgstr "Avbryt"
 
 #: js/oc-dialogs.js:185
 msgid "Choose"
-msgstr ""
+msgstr "Vel"
 
 #: js/oc-dialogs.js:215
 msgid "Yes"
-msgstr ""
+msgstr "Ja"
 
 #: js/oc-dialogs.js:222
 msgid "No"
-msgstr ""
+msgstr "Nei"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr ""
+msgstr "Objekttypen er ikkje spesifisert."
 
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
@@ -249,173 +248,176 @@ msgstr "Feil"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr ""
+msgstr "App-namnet er ikkje spesifisert."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr ""
+msgstr "Den kravde fila {file} er ikkje installert!"
 
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
-msgstr ""
+msgstr "Delt"
 
 #: js/share.js:90
 msgid "Share"
-msgstr ""
+msgstr "Del"
 
 #: js/share.js:125 js/share.js:617
 msgid "Error while sharing"
-msgstr ""
+msgstr "Feil ved deling"
 
 #: js/share.js:136
 msgid "Error while unsharing"
-msgstr ""
+msgstr "Feil ved udeling"
 
 #: js/share.js:143
 msgid "Error while changing permissions"
-msgstr ""
+msgstr "Feil ved endring av tillatingar"
 
 #: js/share.js:152
 msgid "Shared with you and the group {group} by {owner}"
-msgstr ""
+msgstr "Delt med deg og gruppa {group} av {owner}"
 
 #: js/share.js:154
 msgid "Shared with you by {owner}"
-msgstr ""
+msgstr "Delt med deg av {owner}"
 
 #: js/share.js:159
 msgid "Share with"
-msgstr ""
+msgstr "Del med"
 
 #: js/share.js:164
 msgid "Share with link"
-msgstr ""
+msgstr "Del med lenkje"
 
 #: js/share.js:167
 msgid "Password protect"
-msgstr ""
+msgstr "Passordvern"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Passord"
 
 #: js/share.js:173
 msgid "Email link to person"
-msgstr ""
+msgstr "Send lenkja over e-post"
 
 #: js/share.js:174
 msgid "Send"
-msgstr ""
+msgstr "Send"
 
 #: js/share.js:178
 msgid "Set expiration date"
-msgstr ""
+msgstr "Set utlaupsdato"
 
 #: js/share.js:179
 msgid "Expiration date"
-msgstr ""
+msgstr "Utlaupsdato"
 
 #: js/share.js:211
 msgid "Share via email:"
-msgstr ""
+msgstr "Del over e-post:"
 
 #: js/share.js:213
 msgid "No people found"
-msgstr ""
+msgstr "Fann ingen personar"
 
 #: js/share.js:251
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "Vidaredeling er ikkje tillate"
 
 #: js/share.js:287
 msgid "Shared in {item} with {user}"
-msgstr ""
+msgstr "Delt i {item} med {brukar}"
 
 #: js/share.js:308
 msgid "Unshare"
-msgstr ""
+msgstr "Udel"
 
 #: js/share.js:320
 msgid "can edit"
-msgstr ""
+msgstr "kan endra"
 
 #: js/share.js:322
 msgid "access control"
-msgstr ""
+msgstr "tilgangskontroll"
 
 #: js/share.js:325
 msgid "create"
-msgstr ""
+msgstr "lag"
 
 #: js/share.js:328
 msgid "update"
-msgstr ""
+msgstr "oppdater"
 
 #: js/share.js:331
 msgid "delete"
-msgstr ""
+msgstr "slett"
 
 #: js/share.js:334
 msgid "share"
-msgstr ""
+msgstr "del"
 
 #: js/share.js:368 js/share.js:564
 msgid "Password protected"
-msgstr ""
+msgstr "Passordverna"
 
 #: js/share.js:577
 msgid "Error unsetting expiration date"
-msgstr ""
+msgstr "Klarte ikkje å fjerna utlaupsdato"
 
 #: js/share.js:589
 msgid "Error setting expiration date"
-msgstr ""
+msgstr "Klarte ikkje å setja utlaupsdato"
 
 #: js/share.js:604
 msgid "Sending ..."
-msgstr ""
+msgstr "Sender …"
 
 #: js/share.js:615
 msgid "Email sent"
-msgstr ""
+msgstr "E-post sendt"
 
 #: js/update.js:14
 msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "Oppdateringa feila. Ver venleg og rapporter feilen til <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud-fellesskapet</a>."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "Oppdateringa er fullført. Sender deg vidare til ownCloud no."
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
-msgstr ""
+msgstr "Nullstilling av ownCloud-passord"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
-msgstr "Bruk føljane link til å tilbakestille passordet ditt: {link}"
+msgstr "Klikk følgjande lenkje til å nullstilla passordet ditt: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr "Lenkja til å nullstilla passordet med er sendt til e-posten din.<br>Sjå i spam-/søppelmappa di viss du ikkje ser e-posten innan rimeleg tid.<br>Spør din lokale administrator viss han ikkje er der heller."
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr "Førespurnaden feila!<br>Er du viss på at du skreiv inn rett e-post/brukarnamn?"
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
-msgstr "Du vil få ei lenkje for å nullstilla passordet via epost."
+msgstr "Du vil få ein e-post med ei lenkje for å nullstilla passordet."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "Brukarnamn"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Be om nullstilling"
 
@@ -425,7 +427,7 @@ msgstr "Passordet ditt er nullstilt"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr "Til innloggings sida"
+msgstr "Til innloggingssida"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
@@ -449,7 +451,7 @@ msgstr "Applikasjonar"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Administrer"
+msgstr "Admin"
 
 #: strings.php:9
 msgid "Help"
@@ -457,7 +459,7 @@ msgstr "Hjelp"
 
 #: templates/403.php:12
 msgid "Access forbidden"
-msgstr ""
+msgstr "Tilgang forbudt"
 
 #: templates/404.php:12
 msgid "Cloud not found"
@@ -465,7 +467,7 @@ msgstr "Fann ikkje skyen"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr ""
+msgstr "Endra kategoriar"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
@@ -474,40 +476,40 @@ msgstr "Legg til"
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
 msgid "Security Warning"
-msgstr ""
+msgstr "Tryggleiksåtvaring"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "PHP-utgåva di er sårbar for NULL-byteåtaket (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "Ver venleg og oppdater PHP-installasjonen din så han køyrer ownCloud på ein trygg måte."
 
 #: templates/installation.php:32
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Ingen tilgjengeleg tilfeldig nummer-generator, ver venleg og aktiver OpenSSL-utvidinga i PHP."
 
 #: templates/installation.php:33
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr ""
+msgstr "Utan ein trygg tilfeldig nummer-generator er det enklare for ein åtakar å gjetta seg fram til passordnullstillingskodar og dimed ta over kontoen din."
 
 #: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "Datamappa og filene dine er sannsynlegvis tilgjengelege frå Internett sidan .htaccess-fila ikkje fungerer."
 
 #: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Ver venleg og les <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">dokumentasjonen</a> for å læra korleis du set opp tenaren din på rett måte."
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
@@ -521,77 +523,82 @@ msgstr "Avansert"
 msgid "Data folder"
 msgstr "Datamappe"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Konfigurer databasen"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "vil bli nytta"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Databasebrukar"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Databasepassord"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Databasenamn"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
-msgstr ""
+msgstr "Tabellnamnrom for database"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Databasetenar"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Fullfør oppsettet"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "Vev tjenester under din kontroll"
+msgstr "Vevtenester under din kontroll"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr "%s er tilgjengeleg. Få meir informasjon om korleis du oppdaterer."
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "Logg ut"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
-msgstr ""
+msgstr "Automatisk innlogging avvist!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
-msgstr ""
+msgstr "Viss du ikkje endra passordet ditt nyleg, så kan kontoen din vera kompromittert!"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
-msgstr ""
+msgstr "Ver venleg og endra passordet for å gjera kontoen din trygg igjen."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Gløymt passordet?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "hugs"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Logg inn"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
-msgstr ""
+msgstr "Alternative innloggingar"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
@@ -604,4 +611,4 @@ msgstr "neste"
 #: templates/update.php:3
 #, php-format
 msgid "Updating ownCloud to version %s, this may take a while."
-msgstr ""
+msgstr "Oppdaterer ownCloud til utgåve %s, dette kan ta ei stund."

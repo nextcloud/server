@@ -3,17 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2012
-# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2012-2013
-# tt yn <tetuyano+transi@gmail.com>, 2012
-# tt yn <tetuyano+transi@gmail.com>, 2012
-# tt yn <tetuyano+transi@gmail.com>, 2013
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-18 02:04+0200\n"
-"PO-Revision-Date: 2013-04-17 08:10+0000\n"
+"POT-Creation-Date: 2013-05-01 02:00+0200\n"
+"PO-Revision-Date: 2013-04-30 04:50+0000\n"
 "Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -26,12 +22,16 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "アプリストアからリストをロードできません"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
 msgstr "認証エラー"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr "表示名を変更しました。"
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr "表示名を変更できません"
 
@@ -69,7 +69,7 @@ msgstr "言語が変更されました"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "無効なリクエストです"
+msgstr "不正なリクエスト"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -99,7 +99,7 @@ msgstr "無効"
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "有効"
+msgstr "有効化"
 
 #: js/apps.js:55
 msgid "Please wait...."
@@ -121,7 +121,7 @@ msgstr "アプリの更新中にエラーが発生"
 msgid "Updated"
 msgstr "更新済み"
 
-#: js/personal.js:109
+#: js/personal.js:118
 msgid "Saving..."
 msgstr "保存中..."
 
@@ -137,16 +137,16 @@ msgstr "元に戻す"
 msgid "Unable to remove user"
 msgstr "ユーザを削除出来ません"
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:88 templates/users.php:26 templates/users.php:78
+#: templates/users.php:103
 msgid "Groups"
 msgstr "グループ"
 
-#: js/users.js:91 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
 msgstr "グループ管理者"
 
-#: js/users.js:111 templates/users.php:161
+#: js/users.js:111 templates/users.php:155
 msgid "Delete"
 msgstr "削除"
 
@@ -166,7 +166,7 @@ msgstr "ユーザ作成エラー"
 msgid "A valid password must be provided"
 msgstr "有効なパスワードを指定する必要があります"
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
 msgstr "Japanese (日本語)"
 
@@ -325,11 +325,11 @@ msgstr "もっと見る"
 msgid "Less"
 msgstr "閉じる"
 
-#: templates/admin.php:235 templates/personal.php:102
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
 msgstr "バージョン"
 
-#: templates/admin.php:238 templates/personal.php:105
+#: templates/admin.php:237 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -400,7 +400,7 @@ msgstr "ファイルを同期するためのアプリを取得"
 msgid "Show First Run Wizard again"
 msgstr "初回ウィザードを再表示する"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "パスワード"
 
@@ -414,92 +414,80 @@ msgstr "パスワードを変更することができません"
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr "現在のパスワード"
+msgstr "Current password"
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr "新しいパスワード"
+msgstr "新しいパスワードを入力"
 
 #: templates/personal.php:44
 msgid "Change password"
 msgstr "パスワードを変更"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
 msgstr "表示名"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr "あなたの表示名を変更しました"
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr "あなたの表示名を変更できません"
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr "表示名を変更"
+#: templates/personal.php:68
+msgid "Email"
+msgstr "メール"
 
 #: templates/personal.php:70
-msgid "Email"
-msgstr "Email"
-
-#: templates/personal.php:72
 msgid "Your email address"
 msgstr "あなたのメールアドレス"
 
-#: templates/personal.php:73
+#: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
 msgstr "※パスワード回復を有効にするにはメールアドレスの入力が必要です"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
 msgstr "言語"
 
-#: templates/personal.php:86
+#: templates/personal.php:89
 msgid "Help translate"
 msgstr "翻訳に協力する"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:93
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "ファイルマネージャでownCloudに接続する際はこのアドレスを利用してください"
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
 msgstr "ログイン名"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "作成"
 
-#: templates/users.php:35
+#: templates/users.php:33
 msgid "Default Storage"
 msgstr "デフォルトストレージ"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
 msgstr "無制限"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:57 templates/users.php:148
 msgid "Other"
 msgstr "その他"
 
-#: templates/users.php:84
+#: templates/users.php:82
 msgid "Storage"
 msgstr "ストレージ"
 
-#: templates/users.php:95
+#: templates/users.php:93
 msgid "change display name"
 msgstr "表示名を変更"
 
-#: templates/users.php:99
+#: templates/users.php:97
 msgid "set new password"
 msgstr "新しいパスワードを設定"
 
-#: templates/users.php:134
+#: templates/users.php:128
 msgid "Default"
 msgstr "デフォルト"
