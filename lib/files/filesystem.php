@@ -199,7 +199,7 @@ class Filesystem {
 	 * @return Mount\Mount[]
 	 */
 	public static function getMountByNumericId($id) {
-		return self::$mounts->findByStorageId($id);
+		return self::$mounts->findByNumericId($id);
 	}
 
 	/**

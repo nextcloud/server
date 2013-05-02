@@ -72,8 +72,8 @@ class Shared extends \OC\Files\Storage\Common {
 			if (!isset($source['fullPath'])) {
 				\OC\Files\Filesystem::initMountPoints($source['fileOwner']);
 				$mount = \OC\Files\Filesystem::getMountByNumericId($source['storage']);
-				if ($mount) {
-					$this->files[$target]['fullPath'] = $mount->getMountPoint().$source['path'];
+				if (is_array($mount)) {
+					$this->files[$target]['fullPath'] = $mount[key($mount)]->getMountPoint().$source['path'];
 				} else {
 					$this->files[$target]['fullPath'] = false;
 				}
