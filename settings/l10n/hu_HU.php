@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nem tölthető le a lista az App Store-ból",
 "Authentication error" => "Azonosítási hiba",
+"Your display name has been changed." => "Az Ön megjelenítési neve megváltozott.",
 "Unable to change display name" => "Nem sikerült megváltoztatni a megjelenítési nevet",
 "Group already exists" => "A csoport már létezik",
 "Unable to add group" => "A csoport nem hozható létre",

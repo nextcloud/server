@@ -125,6 +125,7 @@
 "Database host" => "Хост базы данных",
 "Finish setup" => "Завершить установку",
 "web services under your control" => "веб-сервисы под вашим управлением",
+"%s is available. Get more information on how to update." => "%s доступно. Получить дополнительную информацию о порядке обновления.",
 "Log out" => "Выйти",
 "Automatic logon rejected!" => "Автоматический вход в систему отключен!",
 "If you did not change your password recently, your account may be compromised!" => "Если Вы недавно не меняли свой пароль, то Ваша учетная запись может быть скомпрометирована!",
