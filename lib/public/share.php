@@ -960,6 +960,10 @@ class Share {
 				$queryArgs = array($itemType);
 			}
 		}
+		if (\OC_Appconfig::getValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+			$where .= ' AND `share_type` != ?';
+			$queryArgs[] = self::SHARE_TYPE_LINK;
+		}
 		if (isset($shareType)) {
 			// Include all user and group items
 			if ($shareType == self::$shareTypeUserAndGroups && isset($shareWith)) {
