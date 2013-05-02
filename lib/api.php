@@ -111,10 +111,11 @@ class OC_API {
 		}
 		$response = self::mergeResponses($responses);
 		$formats = array('json', 'xml');
+
 		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
 		OC_User::logout();
-		
-		self::respond($response);
+
+		self::respond($response, $format);
 	}
 	
 	/**
