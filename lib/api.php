@@ -111,9 +111,11 @@ class OC_API {
 		}
 		$response = self::mergeResponses($responses);
 		$formats = array('json', 'xml');
+
 		$format = !empty($_GET['format']) && in_array($_GET['format'], $formats) ? $_GET['format'] : 'xml';
-		self::respond($response);
 		OC_User::logout();
+
+		self::respond($response, $format);
 	}
 	
 	/**
@@ -147,6 +149,7 @@ class OC_API {
 				}
 			}
 		}
+
 		// Remove any error responses if there is one shipped response that succeeded
 		if(!empty($shipped['succeeded'])) {
 			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
@@ -157,14 +160,17 @@ class OC_API {
 			// Maybe any that are not OC_API::RESPOND_SERVER_ERROR
 			$response = reset($shipped['failed']);
 			return $response;
-		} else {
+		} elseif(!empty($thirdparty['failed'])) {
 			// Return the third party failure result
 			$response = reset($thirdparty['failed']);
 			return $response;
+		} else {
+			$responses = array_merge($shipped['succeeded'], $thirdparty['succeeded']);
 		}
 		// Merge the successful responses
 		$meta = array();
 		$data = array();
+
 		foreach($responses as $app => $response) {
 			if(OC_App::isShipped($app)) {
 				$data = array_merge_recursive($response->getData(), $data);
