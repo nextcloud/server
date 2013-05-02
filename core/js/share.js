@@ -209,6 +209,7 @@ OC.Share={
 					linksAllowed = true;
 				}
 			}});
+			if (link && linksAllowed) {
 				html += '<div id="link">';
 				html += '<input type="checkbox" name="linkCheckbox" id="linkCheckbox" value="1" /><label for="linkCheckbox">'+t('core', 'Share with link')+'</label>';
 				html += '<br />';
