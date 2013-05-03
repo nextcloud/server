@@ -73,8 +73,12 @@ class Trashbin {
 		if ( $trashbinSize === false || $trashbinSize < 0 ) {
 			$trashbinSize = self::calculateSize(new \OC\Files\View('/'. $user.'/files_trashbin'));
 		}
-		
+
+		// disable proxy to prevent recursive calls
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
 		$sizeOfAddedFiles = self::copy_recursive($file_path, 'files_trashbin/files/'.$filename.'.d'.$timestamp, $view);
+		\OC_FileProxy::$enabled = $proxyStatus;
 
 		if ( $view->file_exists('files_trashbin/files/'.$filename.'.d'.$timestamp) ) {
 			$trashbinSize += $sizeOfAddedFiles;
