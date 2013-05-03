@@ -21,7 +21,7 @@
  */
 
 /**
- * Public interface of ownCloud forbackground jobs.
+ * Public interface of ownCloud for background jobs.
  */
 
 // use OCP namespace for all classes that are considered public.
@@ -83,7 +83,7 @@ class BackgroundJob {
 	 * @return true
 	 */
 	public static function addRegularTask($klass, $method) {
-		self::registerJob('RegularLegacyJob', array($klass, $method));
+		self::registerJob('OC\BackgroundJob\Legacy\RegularJob', array($klass, $method));
 		return true;
 	}
 
@@ -169,7 +169,7 @@ class BackgroundJob {
 	 * @return int id of task
 	 */
 	public static function addQueuedTask($app, $class, $method, $parameters) {
-		self::registerJob('QueuedLegacyJob', array('app' => $app, 'klass' => $class, 'method' => $method, 'parameters' => $parameters));
+		self::registerJob('OC\BackgroundJob\Legacy\QueuedJob', array('app' => $app, 'klass' => $class, 'method' => $method, 'parameters' => $parameters));
 		return true;
 	}
 
@@ -187,23 +187,5 @@ class BackgroundJob {
 		if ($job) {
 			$jobList->remove($job);
 		}
-	}
-}
-
-/**
- * Wrappers to support old versions of the BackgroundJob api
- */
-class RegularLegacyJob extends \OC\BackgroundJob\Job {
-	public function run($argument) {
-		call_user_func($argument);
-	}
-}
-
-class QueuedLegacyJob extends \OC\BackgroundJob\QueuedJob {
-	public function run($argument) {
-		$class = $argument['klass'];
-		$method = $argument['method'];
-		$parameters = $argument['parameters'];
-		call_user_func(array($class, $method), $parameters);
 	}
 }
