@@ -29,6 +29,17 @@ class Trashbin {
 	// unit: percentage; 50% of available disk space/quota
 	const DEFAULTMAXSIZE=50;
 
+	public static function getUidAndFilename($filename) {
+		$uid = \OC\Files\Filesystem::getOwner($filename);
+		\OC\Files\Filesystem::initMountPoints($uid);
+		if ( $uid != \OCP\User::getUser() ) {
+			$info = \OC\Files\Filesystem::getFileInfo($filename);
+			$ownerView = new \OC\Files\View('/'.$uid.'/files');
+			$filename = $ownerView->getPath($info['fileid']);
+		}
+		return array($uid, $filename);
+	}
+
 	/**
 	 * move file to the trash bin
 	 *
@@ -143,35 +154,38 @@ class Trashbin {
 		if (\OCP\App::isEnabled('files_encryption')) {
 
 			$user = \OCP\User::getUser();
+			$rootView = new \OC\Files\View('/');
+
+			list($owner, $ownerPath) = self::getUidAndFilename($file_path);
+
 
             // disable proxy to prevent recursive calls
             $proxyStatus = \OC_FileProxy::$enabled;
             \OC_FileProxy::$enabled = false;
 
             // retain key files
-			$keyfile = \OC\Files\Filesystem::normalizePath('files_encryption/keyfiles/' . $file_path);
+			$keyfile = \OC\Files\Filesystem::normalizePath($owner.'/files_encryption/keyfiles/' . $ownerPath);
 
-            if ($view->is_dir($keyfile) || $view->file_exists($keyfile . '.key')) {
-            	$user = \OCP\User::getUser();
+            if ($rootView->is_dir($keyfile) || $rootView->file_exists($keyfile . '.key')) {
                 // move keyfiles
-			    if ($view->is_dir($keyfile)) {
-                    $size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $keyfile));
-					$view->rename($keyfile, 'files_trashbin/keyfiles/' . $filename . '.d' . $timestamp);
+			    if ($rootView->is_dir($keyfile)) {
+                    $size += self::calculateSize(new \OC\Files\View($keyfile));
+					$rootView->rename($keyfile, $user.'/files_trashbin/keyfiles/' . $filename . '.d' . $timestamp);
 				} else {
-					$size += $view->filesize($keyfile . '.key');
-            		$view->rename($keyfile . '.key', 'files_trashbin/keyfiles/' . $filename . '.key.d' . $timestamp);
+					$size += $rootView->filesize($keyfile . '.key');
+            		$rootView->rename($keyfile . '.key', $user.'/files_trashbin/keyfiles/' . $filename . '.key.d' . $timestamp);
 				}
 			}
 
             // retain share keys
-			$sharekeys = \OC\Files\Filesystem::normalizePath('files_encryption/share-keys/' . $file_path);
+			$sharekeys = \OC\Files\Filesystem::normalizePath($owner.'/files_encryption/share-keys/' . $ownerPath);
 
-			if ($view->is_dir($sharekeys)) {
-				$size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $sharekeys));
-				$view->rename($sharekeys, 'files_trashbin/share-keys/' . $filename . '.d' . $timestamp);
+			if ($rootView->is_dir($sharekeys)) {
+				$size += self::calculateSize(new \OC\Files\View($sharekeys));
+				$rootView->rename($sharekeys, $user.'/files_trashbin/share-keys/' . $filename . '.d' . $timestamp);
 			} else {
                 // get local path to share-keys
-                $localShareKeysPath = $view->getLocalFile($sharekeys);
+                $localShareKeysPath = $rootView->getLocalFile($sharekeys);
 
                 // handle share-keys
                 $matches = glob(preg_quote($localShareKeysPath).'*.shareKey');
@@ -186,10 +200,10 @@ class Trashbin {
                     if($pathinfo['basename'] == $ownerShareKey) {
 
                         // calculate size
-                        $size += $view->filesize($sharekeys. '.' . $user. '.shareKey');
+                        $size += $rootView->filesize($sharekeys. '.' . $user. '.shareKey');
 
                         // move file
-                        $view->rename($sharekeys. '.' . $user. '.shareKey', 'files_trashbin/share-keys/' . $ownerShareKey . '.d' . $timestamp);
+                        $rootView->rename($sharekeys. '.' . $user. '.shareKey', $user.'/files_trashbin/share-keys/' . $ownerShareKey . '.d' . $timestamp);
                     } else {
 
                         // calculate size
@@ -220,6 +234,7 @@ class Trashbin {
 
         $user = \OCP\User::getUser();
 		$view = new \OC\Files\View('/'.$user);
+		$rootView = new \OC\Files\View('/');
 		
 		$trashbinSize = self::getTrashbinSize($user);
 		if ( $trashbinSize === false || $trashbinSize < 0 ) {
