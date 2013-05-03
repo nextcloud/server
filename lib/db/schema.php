@@ -80,7 +80,7 @@ class OC_DB_Schema {
 		$sm = $conn->getSchemaManager();
 		$fromSchema = $sm->createSchema();
 		$toSchema = clone $fromSchema;
-		$toSchema->dropTable('user');
+		$toSchema->dropTable($tableName);
 		$sql = $fromSchema->getMigrateToSql($toSchema, $conn->getDatabasePlatform());
 		$conn->execute($sql);
 	}
