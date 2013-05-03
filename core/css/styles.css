@@ -500,12 +500,6 @@ div.crumb:active {
 /* special rules for first-level entries and folders */
 #app-navigation > ul > li {
 	background-color: #eee;
-	border-top: 1px solid #fff;
-	border-bottom: 1px solid #ddd;
-}
-#app-navigation > ul > .active {
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
 }
 
 #app-navigation .with-icon a {
@@ -526,10 +520,6 @@ div.crumb:active {
 }
 #app-navigation li:hover > a {
 	background-color: #ddd;
-}
-#app-navigation > ul > li:hover {
-	border-top: 1px solid #ccc;
-	border-bottom: 1px solid #ccc;
 }
 
 #app-navigation .collapse {
@@ -592,7 +582,6 @@ div.crumb:active {
 
 #app-navigation > ul .open:hover {
 	-moz-box-shadow: inset 0 0 3px #ccc; -webkit-box-shadow: inset 0 0 3px #ccc; box-shadow: inset 0 0 3px #ccc;
-	border-top: 1px solid #ccc;
 }
 
 #app-navigation > ul .open ul {
