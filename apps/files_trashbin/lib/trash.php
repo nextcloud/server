@@ -496,7 +496,25 @@ class Trashbin {
 			$file = $filename;
 		}
 
+		$size += self::deleteVersions($view, $file, $filename, $timestamp);
+		$size += self::deleteEncryptionKeys($view, $file, $filename, $timestamp);
+	
+		if ($view->is_dir('/files_trashbin/files/'.$file)) {
+			$size += self::calculateSize(new \OC\Files\View('/'.$user.'/files_trashbin/files/'.$file));
+		} else {
+			$size += $view->filesize('/files_trashbin/files/'.$file);
+		}
+		$view->unlink('/files_trashbin/files/'.$file);
+		$trashbinSize -= $size;
+		self::setTrashbinSize($user, $trashbinSize);
+		
+		return $size;
+	}
+
+	private static function deleteVersions($view, $file, $filename, $timestamp) {
+		$size = 0;
 		if ( \OCP\App::isEnabled('files_versions') ) {
+			$user = \OCP\User::getUser();
 			if ($view->is_dir('files_trashbin/versions/'.$file)) {
 				$size += self::calculateSize(new \OC\Files\view('/'.$user.'/files_trashbin/versions/'.$file));
 				$view->unlink('files_trashbin/versions/'.$file);
@@ -512,35 +530,37 @@ class Trashbin {
 				}
 			}
 		}
-		
-		// Take care of encryption keys
-		$parts = pathinfo($file);
-		if ( $view->is_dir('/files_trashbin/files/'.$file) ) {
-			$keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/'.$filename);
-		} else {
-			$keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/'.$filename.'.key');
-		}
-		if ($timestamp) {
-			$keyfile .= '.d'.$timestamp;
-		}
-		if ( \OCP\App::isEnabled('files_encryption') && $view->file_exists($keyfile) ) {
-			if ( $view->is_dir($keyfile) ) {
-				$size += self::calculateSize(new \OC\Files\View('/'.$user.'/'.$keyfile));
+		return $size;
+	}
+
+	private static function deleteEncryptionKeys($view, $file, $filename, $timestamp) {
+		$size = 0;
+		if (\OCP\App::isEnabled('files_encryption')) {
+			$user = \OCP\User::getUser();
+
+			if ($view->is_dir('/files_trashbin/files/' . $file)) {
+				$keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/' . $filename);
+				$sharekeys =  \OC\Files\Filesystem::normalizePath('files_trashbin/share-keys/' . $filename);
 			} else {
-				$size += $view->filesize($keyfile);
+				$keyfile = \OC\Files\Filesystem::normalizePath('files_trashbin/keyfiles/' . $filename . '.key');
+				$sharekeys =  \OC\Files\Filesystem::normalizePath('files_trashbin/share-keys/' . $filename . '.' . $user . '.shareKey');
 			}
-			$view->unlink($keyfile);
+			if ($timestamp) {
+				$keyfile .= '.d' . $timestamp;
+				$sharekeys .= '.d' . $timestamp;
+			}
+			if ($view->file_exists($keyfile)) {
+				if ($view->is_dir($keyfile)) {
+					$size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $keyfile));
+					$size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . $sharekeys));
+				} else {
+					$size += $view->filesize($keyfile);
+					$size += $view->filesize($sharekeys);
+				}
+				$view->unlink($keyfile);
+				$view->unlink($sharekeys);
+			}
 		}
-	
-		if ($view->is_dir('/files_trashbin/files/'.$file)) {
-			$size += self::calculateSize(new \OC\Files\View('/'.$user.'/files_trashbin/files/'.$file));
-		} else {
-			$size += $view->filesize('/files_trashbin/files/'.$file);
-		}
-		$view->unlink('/files_trashbin/files/'.$file);
-		$trashbinSize -= $size;
-		self::setTrashbinSize($user, $trashbinSize);
-		
 		return $size;
 	}
 
