@@ -1031,7 +1031,7 @@ abstract class Access {
 	 */
 	private function setPagedResultCookie($base, $filter, $limit, $offset, $cookie) {
 		if(!empty($cookie)) {
-			$cachekey = 'lc' . dechex(crc32($base)) . '-' . dechex(crc32($filter)) . '-' .$limit . '-' . $offset;
+			$cachekey = 'lc' . crc32($base) . '-' . crc32($filter) . '-' .$limit . '-' . $offset;
 			$cookie = $this->connection->writeToCache($cachekey, $cookie);
 		}
 	}
