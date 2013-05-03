@@ -125,13 +125,17 @@ class Trashbin {
             \OC_FileProxy::$enabled = false;
 
             $user = \OCP\User::getUser();
-			if ($view->is_dir('files_versions/' . $file_path)) {
-                $size += self::calculateSize(new \OC\Files\View('/' . $user . '/files_versions/' . $file_path));
-                $view->rename('files_versions/' . $file_path, 'files_trashbin/versions/' . $filename . '.d' . $timestamp);
-			} else if ($versions = \OCA\Files_Versions\Storage::getVersions($user, $file_path)) {
+			$rootView = new \OC\Files\View('/');
+
+			list($owner, $ownerPath) = self::getUidAndFilename($file_path);
+
+			if ($rootView->is_dir($owner.'/files_versions/' . $ownerPath)) {
+                $size += self::calculateSize(new \OC\Files\View('/' . $owner . '/files_versions/' . $ownerPath));
+                $rootView->rename($owner.'/files_versions/' . $ownerPath, $user.'/files_trashbin/versions/' . $filename . '.d' . $timestamp);
+			} else if ($versions = \OCA\Files_Versions\Storage::getVersions($owner, $ownerPath)) {
                 foreach ($versions as $v) {
-					$size += $view->filesize('files_versions' . $v['path'] . '.v' . $v['version']);
-                	$view->rename('files_versions' . $v['path'] . '.v' . $v['version'], 'files_trashbin/versions/' . $filename . '.v' . $v['version'] . '.d' . $timestamp);
+					$size += $rootView->filesize($owner.'/files_versions' . $v['path'] . '.v' . $v['version']);
+                	$rootView->rename($owner.'/files_versions' . $v['path'] . '.v' . $v['version'], $user.'/files_trashbin/versions/' . $filename . '.v' . $v['version'] . '.d' . $timestamp);
 				}
 			}
 
@@ -336,6 +340,12 @@ class Trashbin {
             \OC_FileProxy::$enabled = false;
 
             $user = \OCP\User::getUser();
+			$rootView = new \OC\Files\View('/');
+
+			$target = \OC\Files\Filesystem::normalizePath('/'.$location.'/'.$filename.$ext);
+
+			list($owner, $ownerPath) = self::getUidAndFilename($target);
+
 			if ($timestamp) {
 				$versionedFile = $filename;
 			} else {
@@ -344,15 +354,15 @@ class Trashbin {
 
             if ($view->is_dir('/files_trashbin/versions/'.$file)) {
 				$size += self::calculateSize(new \OC\Files\View('/' . $user . '/' . 'files_trashbin/versions/' . $file));
-            	$view->rename(\OC\Files\Filesystem::normalizePath('files_trashbin/versions/' . $file), \OC\Files\Filesystem::normalizePath('files_versions/' . $location . '/' . $filename . $ext));
+            	$rootView->rename(\OC\Files\Filesystem::normalizePath($user.'/files_trashbin/versions/' . $file), \OC\Files\Filesystem::normalizePath($owner.'/files_versions/' . $ownerPath));
 			} else if ($versions = self::getVersionsFromTrash($versionedFile, $timestamp)) {
                 foreach ($versions as $v) {
             		if ($timestamp) {
             			$size += $view->filesize('files_trashbin/versions/' . $versionedFile . '.v' . $v . '.d' . $timestamp);
-                        $view->rename('files_trashbin/versions/' . $versionedFile . '.v' . $v . '.d' . $timestamp, 'files_versions/' . $location . '/' . $filename . $ext . '.v' . $v);
+                        $rootView->rename($user.'/files_trashbin/versions/' . $versionedFile . '.v' . $v . '.d' . $timestamp, $owner.'/files_versions/' . $ownerPath . '.v' . $v);
 					} else {
             			$size += $view->filesize('files_trashbin/versions/' . $versionedFile . '.v' . $v);
-						$view->rename('files_trashbin/versions/' . $versionedFile . '.v' . $v, 'files_versions/' . $location . '/' . $filename . $ext . '.v' . $v);
+						$rootView->rename($user.'/files_trashbin/versions/' . $versionedFile . '.v' . $v, $owner.'/files_versions/' . $ownerPath . '.v' . $v);
 					}
 				}
 			}
