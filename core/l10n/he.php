@@ -105,6 +105,7 @@
 "Edit categories" => "ערוך קטגוריות",
 "Add" => "הוספה",
 "Security Warning" => "אזהרת אבטחה",
+"Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)" => "גרסת ה־PHP פגיעה בפני התקפת בית NULL/ריק (CVE-2006-7243)",
 "No secure random number generator is available, please enable the PHP OpenSSL extension." => "אין מחולל מספרים אקראיים מאובטח, נא להפעיל את ההרחבה OpenSSL ב־PHP.",
 "Without a secure random number generator an attacker may be able to predict password reset tokens and take over your account." => "ללא מחולל מספרים אקראיים מאובטח תוקף יכול לנבא את מחרוזות איפוס הססמה ולהשתלט על החשבון שלך.",
 "Your data directory and files are probably accessible from the internet because the .htaccess file does not work." => "תיקיית וקבצי המידע שלך כנראה נגישים מהאינטרנט מכיוון שקובץ ה.htaccess לא עובד.",

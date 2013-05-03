@@ -1,5 +1,13 @@
 <?php $TRANSLATIONS = array(
 "Deletion failed" => "מחיקה נכשלה",
+"Keep settings?" => "האם לשמור את ההגדרות?",
+"Cannot add server configuration" => "לא ניתן להוסיף את הגדרות השרת",
+"Connection test succeeded" => "בדיקת החיבור עברה בהצלחה",
+"Connection test failed" => "בדיקת החיבור נכשלה",
+"Do you really want to delete the current Server Configuration?" => "האם אכן למחוק את הגדרות השרת הנוכחיות?",
+"Confirm Deletion" => "אישור המחיקה",
+"Server configuration" => "הגדרות השרת",
+"Add Server Configuration" => "הוספת הגדרות השרת",
 "Host" => "מארח",
 "User DN" => "DN משתמש",
 "Password" => "סיסמא",
