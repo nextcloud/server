@@ -1028,4 +1028,23 @@ class Util {
 		return $result;
 	}
 
+    /**
+     * @brief get shares parent.
+     * @param int $Id of the current share
+     * @return array of the parent
+     */
+    public static function getShareParent($Id) {
+
+        $query = \OC_DB::prepare( 'SELECT `file_target`, `item_type`'
+            .' FROM `*PREFIX*share`'
+            .' WHERE `id` = ?' );
+
+        $result = $query->execute( array( $Id ) );
+
+        $row = $result->fetchRow();
+
+        return $row;
+
+    }
+
 }

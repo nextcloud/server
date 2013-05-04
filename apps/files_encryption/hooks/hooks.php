@@ -200,16 +200,57 @@ class Hooks {
 			$util = new Util($view, $userId);
 			$path = $util->fileIdToPath($params['itemSource']);
 
-            //check if this is a reshare action, that's true if the item source is already shared with me
-			$sharedItem = \OCP\Share::getItemSharedWithBySource($params['itemType'], $params['fileSource']);
-			if ($sharedItem) {
-				// if it is a re-share than the file is located in my Shared folder
-				$path = '/Shared'.$sharedItem['file_target'];
-			} else {
-				$path = $util->fileIdToPath($params['fileSource']);
-			}
+            //if parent is set, then this is a re-share action
+            if($params['parent']) {
 
-			$sharingEnabled = \OCP\Share::isEnabled();
+                // get the parent from current share
+                $parent = $util->getShareParent($params['parent']);
+
+                // if parent is file the it is an 1:1 share
+                if($parent['item_type'] === 'file') {
+
+                    // prefix path with Shared
+                    $path = '/Shared'.$parent['file_target'];
+
+                } else {
+                    // parent is folder but shared was a file!
+                    // we try to rebuild the missing path
+                    // some examples we face here
+                    // user1 share folder1 with user2 folder1 has the following structure /folder1/subfolder1/subsubfolder1/somefile.txt
+                    // user2 re-share subfolder2 with user3
+                    // user3 re-share somefile.txt user4
+                    // so our path should be /Shared/subfolder1/subsubfolder1/somefile.txt while user3 is sharing
+                    if($params['itemType'] === 'file') {
+                        // get target path
+                        $targetPath = $util->fileIdToPath($params['fileSource']);
+                        $targetPathSplit = array_reverse(explode('/', $targetPath));
+
+                        // init values
+                        $path = '';
+                        $sharedPart = ltrim( $parent['file_target'], '/' );
+
+                        // rebuild path
+                        foreach ($targetPathSplit as $pathPart) {
+                            if($pathPart !== $sharedPart) {
+                                $path = '/'.$pathPart.$path;
+                            } else {
+                                break;
+                            }
+                        }
+
+                        // prefix path with Shared
+                        $path = '/Shared'.$parent['file_target'].$path;
+
+                    } else {
+
+                        // prefix path with Shared
+                        $path = '/Shared'.$parent['file_target'];
+                    }
+                }
+
+            }
+
+           	$sharingEnabled = \OCP\Share::isEnabled();
 
 			// if a folder was shared, get a list if all (sub-)folders
 			if ($params['itemType'] === 'folder') {
@@ -274,13 +315,14 @@ class Hooks {
 				$allFiles = array($path);
 			}
 
-			
+
 			foreach ( $allFiles as $path ) {
 
 				// check if the user still has access to the file, otherwise delete share key
 				$sharingUsers = $util->getSharingUsersArray(true, $path);
 
-				// Unshare every user who no longer has access to the file
+                // Unshare every user who no longer has access to the file
+                //TODO: does not work properly atm
 				$delUsers = array_diff($userIds, $sharingUsers);
 				if ( ! Keymanager::delShareKey( $view, $delUsers, $path ) ) {
 				
