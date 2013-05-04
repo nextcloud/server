@@ -25,11 +25,13 @@ $user = \OCP\USER::getUser();
 $view = new \OC_FilesystemView( '/' );
 $util = new \OCA\Encryption\Util( $view, $user );
 
+$recoveryAdminEnabled = OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminEnabled' );
 $recoveryEnabledForUser = $util->recoveryEnabledForUser();
 
 \OCP\Util::addscript( 'files_encryption', 'settings-personal' );
 
-$tmpl->assign( 'recoveryEnabled', $recoveryEnabledForUser );
+$tmpl->assign( 'recoveryEnabled', $recoveryAdminEnabled );
+$tmpl->assign( 'recoveryEnabledForUser', $recoveryEnabledForUser );
 $tmpl->assign( 'blacklist', $blackList );
 
 return $tmpl->fetchPage();

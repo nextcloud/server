@@ -18,8 +18,17 @@
 			</select>
 		</p>
 		<p>
-			<?php p($l->t( "Enable encryption passwords recovery account (allow sharing to recovery account):" )); ?>
+			<strong>
+				<?php p($l->t( "Enable encryption passwords recovery account (allow sharing to recovery account):" )); ?>
 			<br />
+			</strong>
+			<?php p($l->t( "To perform a recovery log in using the 'recoveryAdmin' account and the specified password" )); ?>
+			<br />
+			<?php if ( empty( $_['recoveryAdminUid'] ) ): ?>
+				<input type="password" name="recoveryPassword" id="recoveryPassword" />
+				<label for="recoveryPassword">Recovery account password</label>
+				<br />
+			<?php endif; ?>
 			<input 
 			type='radio'
 			name='adminEnableRecovery'

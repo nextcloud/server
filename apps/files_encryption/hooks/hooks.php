@@ -69,43 +69,52 @@ class Hooks {
 		$session = new Session( $view );
 		
 		$session->setPrivateKey( $privateKey, $params['uid'] );
-
-        //FIXME: disabled because it gets called each time a user do an operation on iPhone
-        //FIXME: we need a better place doing this and maybe only one time or by user
-		/*$view1 = new \OC_FilesystemView( '/' . $params['uid'] );
 		
-		// Set legacy encryption key if it exists, to support 
-		// depreciated encryption system
-		if ( 
-			$view1->file_exists( 'encryption.key' )
-			&& $encLegacyKey = $view1->file_get_contents( 'encryption.key' ) 
-		) {
+		// Check if first-run file migration has already been performed
+		$migrationCompleted = $util->getMigrationStatus();
 		
-			$plainLegacyKey = Crypt::legacyDecrypt( $encLegacyKey, $params['password'] );
+		// If migration not yet done
+		if ( ! $migrationCompleted ) {
+		
+			$view1 = new \OC_FilesystemView( '/' . $params['uid'] );
 			
-			$session->setLegacyKey( $plainLegacyKey );
+			// Set legacy encryption key if it exists, to support 
+			// depreciated encryption system
+			if ( 
+				$view1->file_exists( 'encryption.key' )
+				&& $encLegacyKey = $view1->file_get_contents( 'encryption.key' ) 
+			) {
+			
+				$plainLegacyKey = Crypt::legacyDecrypt( $encLegacyKey, $params['password'] );
+				
+				$session->setLegacyKey( $plainLegacyKey );
+			
+			}
+			
+			\OC_FileProxy::$enabled = false;
+			
+			$publicKey = Keymanager::getPublicKey( $view, $params['uid'] );
+			
+			\OC_FileProxy::$enabled = false;
+			
+			// Encrypt existing user files:
+			// This serves to upgrade old versions of the encryption
+			// app (see appinfo/spec.txt)
+			if (
+				$util->encryptAll( $publicKey,  '/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password'] )
+			) {
+				
+				\OC_Log::write( 
+					'Encryption library', 'Encryption of existing files belonging to "' . $params['uid'] . '" completed'
+					, \OC_Log::INFO 
+				);
+			
+			}
+			
+			// Register successful migration in DB
+			$util->setMigrationStatus( 1 );
 		
 		}
-		
-		\OC_FileProxy::$enabled = false;
-		
-		$publicKey = Keymanager::getPublicKey( $view, $params['uid'] );
-		
-		\OC_FileProxy::$enabled = false;*/
-		
-		// Encrypt existing user files:
-		// This serves to upgrade old versions of the encryption
-		// app (see appinfo/spec.txt)
-		/*if (
-			$util->encryptAll( $publicKey,  '/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password'] )
-		) {
-			
-			\OC_Log::write( 
-				'Encryption library', 'Encryption of existing files belonging to "' . $params['uid'] . '" started at login'
-				, \OC_Log::INFO 
-			);
-		
-		}*/
 
 		return true;
 

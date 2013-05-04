@@ -34,6 +34,9 @@ if (
 		// Create new recoveryAdmin user
 		\OC_User::createUser( $recoveryAdminUid, $_POST['recoveryPassword'] );
 		
+		// Make recovery user an administrator
+		\OC_Group::addToGroup ( $recoveryAdminUid, 'admin' );
+		
 		$doSetup = true;
 		
 	} else {

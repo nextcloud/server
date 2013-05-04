@@ -19,14 +19,24 @@ $(document).ready(function(){
 		function() {
 			
 			var recoveryStatus = $( this ).val();
+			var recoveryPassword = $( '#recoveryPassword' ).val();
 			
-			$.post( 
-				OC.filePath( 'files_encryption', 'ajax', 'adminrecovery.php' )
-				, { adminEnableRecovery: recoveryStatus, recoveryPassword: 'password' }
-				,  function( data ) {
-					alert( data );
-				}
-			);
+			if ( '' == recoveryPassword ) {
+				
+				// FIXME: add proper OC notification
+				alert( 'You  must set a recovery account password first' );
+				
+			} else {
+			
+				$.post( 
+					OC.filePath( 'files_encryption', 'ajax', 'adminrecovery.php' )
+					, { adminEnableRecovery: recoveryStatus, recoveryPassword: recoveryPassword }
+					,  function( data ) {
+						alert( data );
+					}
+				);
+			
+			}
 		}
 	);
 	

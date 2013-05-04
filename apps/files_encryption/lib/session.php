@@ -57,23 +57,23 @@ class Session {
 			// our app.php is being executed 18 times per page load
 			// , causing 18 new keypairs and huge performance hit.
 			
-			$keypair = Crypt::createKeypair();
-			
-			\OC_FileProxy::$enabled = false;
-			
-			// Save public key
-
-			if (!$view->is_dir('/public-keys')) {
-				$view->mkdir('/public-keys');
-			}
-
-			$this->view->file_put_contents( '/public-keys/owncloud.public.key', $keypair['publicKey'] );
-			
-			// Encrypt private key empthy passphrase
-			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], '' );
-			
-			// Save private key
-			$this->view->file_put_contents( '/owncloud_private_key/owncloud.private.key', $encryptedPrivateKey );
+// 			$keypair = Crypt::createKeypair();
+// 			
+// 			\OC_FileProxy::$enabled = false;
+// 			
+// 			// Save public key
+// 
+// 			if (!$view->is_dir('/public-keys')) {
+// 				$view->mkdir('/public-keys');
+// 			}
+// 
+// 			$this->view->file_put_contents( '/public-keys/owncloud.public.key', $keypair['publicKey'] );
+// 			
+// 			// Encrypt private key empthy passphrase
+// 			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], '' );
+// 			
+// 			// Save private key
+// 			$this->view->file_put_contents( '/owncloud_private_key/owncloud.private.key', $encryptedPrivateKey );
 			
 			\OC_FileProxy::$enabled = true;
 			

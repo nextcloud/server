@@ -859,8 +859,6 @@ class Util {
 		// Make sure users are capable of sharing
 		$filteredUids = $this->filterShareReadyUsers( $users );
 		
-// 		trigger_error( print_r($filteredUids, 1) );
-		
 		if ( ! empty( $filteredUids['unready'] ) ) {
 		
 			// Notify user of unready userDir
@@ -913,10 +911,21 @@ class Util {
 	public function getSharingUsersArray( $sharingEnabled, $filePath, $currentUserId = false ) {
 
 		// Check if key recovery is enabled
-		$recoveryEnabled = $this->recoveryEnabledForUser();
+		if (
+			\OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminEnabled' )
+			&& $this->recoveryEnabledForUser()
+		) {
+		
+			$recoveryEnabled = true;
+			
+		} else {
+		
+			$recoveryEnabled = false;
+			
+		}
 		
 		// Make sure that a share key is generated for the owner too
-		list($owner, $ownerPath) = $this->getUidAndFilename($filePath);
+		list( $owner, $ownerPath ) = $this->getUidAndFilename( $filePath );
 
 		if ( $sharingEnabled ) {
 		
@@ -928,24 +937,98 @@ class Util {
 		// If recovery is enabled, add the 
 		// Admin UID to list of users to share to
 		if ( $recoveryEnabled ) {
-		
-			// FIXME: Create a separate admin user purely for recovery, and create method in util for fetching this id from DB?
-			$adminUid = 'recoveryAdmin';
-		
-			$userIds[] = $adminUid;
+			
+			// Find recoveryAdmin user ID
+			$recoveryAdminUid = \OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminUid' );
+			
+			// Add recoveryAdmin to list of users sharing
+			$userIds[] = $recoveryAdminUid;
 			
 		}
 
-        // add current user if given
-        if($currentUserId != false) {
-            $userIds[] = $currentUserId;
-        }
+		// add current user if given
+		if ( $currentUserId != false ) {
+		
+		$userIds[] = $currentUserId;
+		
+		}
 
 		// Remove duplicate UIDs
 		$uniqueUserIds = array_unique ( $userIds );
 		
 		return $uniqueUserIds;
 
+	}
+	
+	/**
+	 * @brief Set file migration status for user
+	 */
+	public function setMigrationStatus( $status ) {
+	
+		$sql = 'UPDATE 
+				*PREFIX*encryption 
+			SET 
+				migrationStatus = ? 
+			WHERE 
+				uid = ?';
+		
+		$args = array( $status, $this->userId );
+		
+		$query = \OCP\DB::prepare( $sql );
+		
+		if ( $query->execute( $args ) ) {
+		
+			return true;
+			
+		} else {
+		
+			return false;
+			
+		}
+	
+	}
+	
+	/**
+	 * @brief Check whether pwd recovery is enabled for a given user
+	 * @return 1 = yes, 0 = no, false = no record
+	 * @note If records are not being returned, check for a hidden space 
+	 *       at the start of the uid in db
+	 */
+	public function getMigrationStatus() {
+	
+		$sql = 'SELECT 
+				migrationStatus 
+			FROM 
+				`*PREFIX*encryption` 
+			WHERE 
+				uid = ?';
+				
+		$args = array( $this->userId );
+
+		$query = \OCP\DB::prepare( $sql );
+		
+		$result = $query->execute( $args );
+		
+		$migrationStatus = array();
+		
+		while( $row = $result->fetchRow() ) {
+		
+			$migrationStatus[] = $row['migrationStatus'];
+			
+		}
+		
+		// If no record is found
+		if ( empty( $migrationStatus ) ) {
+		
+			return false;
+		
+		// If a record is found
+		} else {
+		
+			return $migrationStatus[0];
+			
+		}
+	
 	}
 		
 	/**

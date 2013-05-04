@@ -21,6 +21,7 @@ $recoveryAdminUid = OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminUi
 $tmpl->assign( 'blacklist', $blackList );
 $tmpl->assign( 'encryption_mode', \OC_Appconfig::getValue( 'files_encryption', 'mode', 'none' ) );
 $tmpl->assign( 'recoveryEnabled', $recoveryAdminEnabled );
+$tmpl->assign( 'recoveryAdminUid', $recoveryAdminUid );
 
 \OCP\Util::addscript( 'files_encryption', 'settings-admin' );
 \OCP\Util::addscript( 'core', 'multiselect' );
