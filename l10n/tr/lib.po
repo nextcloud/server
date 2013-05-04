@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# ismail yenigül <ismail.yenigul@surgate.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-28 01:57+0200\n"
-"PO-Revision-Date: 2013-04-27 23:57+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-04 01:59+0200\n"
+"PO-Revision-Date: 2013-05-03 12:40+0000\n"
+"Last-Translator: ismail yenigül <ismail.yenigul@surgate.com>\n"
 "Language-Team: Turkish (http://www.transifex.com/projects/p/owncloud/language/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -41,19 +42,19 @@ msgstr "Uygulamalar"
 msgid "Admin"
 msgstr "Yönetici"
 
-#: files.php:209
+#: files.php:207
 msgid "ZIP download is turned off."
 msgstr "ZIP indirmeleri kapatılmıştır."
 
-#: files.php:210
+#: files.php:208
 msgid "Files need to be downloaded one by one."
 msgstr "Dosyaların birer birer indirilmesi gerekmektedir."
 
-#: files.php:211 files.php:244
+#: files.php:209 files.php:242
 msgid "Back to Files"
 msgstr "Dosyalara dön"
 
-#: files.php:241
+#: files.php:239
 msgid "Selected files too large to generate zip file."
 msgstr "Seçilen dosyalar bir zip dosyası oluşturmak için fazla büyüktür."
 
@@ -96,22 +97,22 @@ msgstr "Parola yonetici birlemek. "
 #: setup.php:55
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "%s veritabanı kullanıcı adını gir."
 
 #: setup.php:58
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "%s veritabanı adını gir."
 
 #: setup.php:61
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s veritabanı adında nokta kullanamayabilirsiniz"
 
 #: setup.php:64
 #, php-format
 msgid "%s set the database host."
-msgstr ""
+msgstr "%s veritabanı sunucu adını tanımla"
 
 #: setup.php:132 setup.php:325 setup.php:370
 msgid "PostgreSQL username and/or password not valid"
@@ -127,7 +128,7 @@ msgstr "Adi klullanici ve/veya parola Oracle mantikli değildir. "
 
 #: setup.php:233
 msgid "MySQL username and/or password not valid"
-msgstr ""
+msgstr "MySQL kullanıcı adı ve/veya parolası geçerli değil"
 
 #: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
 #: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
@@ -160,17 +161,17 @@ msgstr "MySQL kullanici '%s @ % % zaten var (zaten yazili)"
 
 #: setup.php:311
 msgid "Drop this user from MySQL."
-msgstr ""
+msgstr "Bu kulanıcıyı MySQL veritabanından kaldır"
 
 #: setup.php:584 setup.php:616
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "Hatalı komut: \"%s\", ad: %s, parola: %s"
 
 #: setup.php:636
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "MS SQL kullanıcı adı ve/veya parolası geçersiz: %s"
 
 #: setup.php:858
 msgid ""
