@@ -31,6 +31,12 @@ OCP\JSON::checkLoggedIn();
 OCP\JSON::checkAppEnabled('bookmarks');
 OCP\JSON::callCheck();
 
+// Check if it is a valid URL
+if (filter_var($_POST['url'], FILTER_VALIDATE_URL) === FALSE) {
+ OC_JSON::error();
+ exit();
+}
+
 $CONFIG_DBTYPE = OCP\Config::getSystemValue( "dbtype", "sqlite" );
 if( $CONFIG_DBTYPE == 'sqlite' or $CONFIG_DBTYPE == 'sqlite3' ){
 	$_ut = "strftime('%s','now')";
