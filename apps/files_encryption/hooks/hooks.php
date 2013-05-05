@@ -23,10 +23,11 @@
 
 namespace OCA\Encryption;
 
+use OC\Files\Filesystem;
+
 /**
  * Class for hook specific logic
  */
-
 class Hooks {
 
 	// TODO: use passphrase for encrypting private key that is separate to 
@@ -253,10 +254,9 @@ class Hooks {
                     } else {
 
                         // prefix path with Shared
-                        $path = '/Shared'.$parent['file_target'];
+                        $path = '/Shared'.$parent['file_target'].$params['fileTarget'];
                     }
                 }
-
             }
 
            	$sharingEnabled = \OCP\Share::isEnabled();
@@ -282,10 +282,8 @@ class Hooks {
 
 			// If no attempts to set keyfiles failed
 			if (empty($failed)) {
-
 				return true;
 			} else {
-
 				return false;
 			}
 		}
@@ -294,73 +292,91 @@ class Hooks {
 	/**
 	 * @brief 
 	 */
-	public static function postUnshare( $params ) {
-		
-		// NOTE: $params has keys:
-		// [itemType] => file
-		// [itemSource] => 13
-		// [shareType] => 0
-		// [shareWith] => test1
-	
-		if ( $params['itemType'] === 'file' ||  $params['itemType'] === 'folder' ) {
-		
-			$view = new \OC_FilesystemView( '/' );
-			$session = new Session($view);
-			$userId = \OCP\User::getUser();
-			$util = new Util( $view, $userId );
-			$path = $util->fileIdToPath( $params['itemSource'] );
+    public static function postUnshare($params)
+    {
 
-			// for group shares get a list of the group members
-			if ($params['shareType'] == \OCP\Share::SHARE_TYPE_GROUP) {
-				$userIds = \OC_Group::usersInGroup($params['shareWith']);
-			} else {
-				$userIds = array($params['shareWith']);
-			}
+        // NOTE: $params has keys:
+        // [itemType] => file
+        // [itemSource] => 13
+        // [shareType] => 0
+        // [shareWith] => test1
+        // [itemParent] =>
 
-			// if we unshare a folder we need a list of all (sub-)files
-			if ($params['itemType'] === 'folder') {
-				$allFiles = $util->getAllFiles($path);
-			} else {
-				$allFiles = array($path);
-			}
+        if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
 
+            $view = new \OC_FilesystemView('/');
+            $userId = \OCP\User::getUser();
+            $util = new Util($view, $userId);
+            $path = $util->fileIdToPath($params['itemSource']);
 
-			foreach ( $allFiles as $path ) {
+            // check if this is a re-share
+            if ($params['itemParent']) {
 
-				// check if the user still has access to the file, otherwise delete share key
-				$sharingUsers = $util->getSharingUsersArray(true, $path);
+                // get the parent from current share
+                $parent = $util->getShareParent($params['itemParent']);
+
+                // get target path
+                $targetPath = $util->fileIdToPath($params['itemSource']);
+                $targetPathSplit = array_reverse(explode('/', $targetPath));
+
+                // init values
+                $path = '';
+                $sharedPart = ltrim($parent['file_target'], '/');
+
+                // rebuild path
+                foreach ($targetPathSplit as $pathPart) {
+                    if ($pathPart !== $sharedPart) {
+                        $path = '/' . $pathPart . $path;
+                    } else {
+                        break;
+                    }
+                }
+
+                // prefix path with Shared
+                $path = '/Shared' . $parent['file_target'] . $path;
+            }
+
+            // for group shares get a list of the group members
+            if ($params['shareType'] == \OCP\Share::SHARE_TYPE_GROUP) {
+                $userIds = \OC_Group::usersInGroup($params['shareWith']);
+            } else {
+                $userIds = array($params['shareWith']);
+            }
+
+            // if we unshare a folder we need a list of all (sub-)files
+            if ($params['itemType'] === 'folder') {
+                $allFiles = $util->getAllFiles($path);
+            } else {
+                $allFiles = array($path);
+            }
+
+            foreach ($allFiles as $path) {
+
+                // check if the user still has access to the file, otherwise delete share key
+                $sharingUsers = $util->getSharingUsersArray(true, $path);
 
                 // Unshare every user who no longer has access to the file
-                //TODO: does not work properly atm
-				$delUsers = array_diff($userIds, $sharingUsers);
-				if ( ! Keymanager::delShareKey( $view, $delUsers, $path ) ) {
-				
-					$failed[] = $path;
-					
-				}
-				
-			}
-			
-			// If no attempts to set keyfiles failed
-			if ( empty( $failed ) ) {
-			
-				return true;
-				
-			} else {
-			
-				return false;
-				
-			}
+                $delUsers = array_diff($userIds, $sharingUsers);
+                if (!Keymanager::delShareKey($view, $delUsers, $path)) {
+                    $failed[] = $path;
+                }
 
-		}
+            }
 
-	}
+            // If no attempts to set keyfiles failed
+            if (empty($failed)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 	
 	/**
 	 * @brief 
 	 */
 	public static function postUnshareAll( $params ) {
-	
+
 		// NOTE: It appears that this is never called for files, so 
 		// we may not need to implement it
 		

@@ -1102,10 +1102,26 @@ class Util {
         }
 
 		foreach ($content as $c) {
+            $sharedPart = $path_split[sizeof($path_split)-1];
+            $targetPathSplit = array_reverse(explode('/', $c['path']));
+
+            $path = '';
+
+            // rebuild path
+            foreach ($targetPathSplit as $pathPart) {
+                if($pathPart !== $sharedPart) {
+                    $path = '/'.$pathPart.$path;
+                } else {
+                    break;
+                }
+            }
+
+            $path = $dir.$path;
+
 			if ($c['type'] === "dir" ) {
-                $result = array_merge($result, $this->getAllFiles($shared.substr($c['path'],5)));
+                $result = array_merge($result, $this->getAllFiles($path));
 			} else {
-                $result[] = $shared.substr($c['path'], 5);
+                $result[] = $path;
 			}
 		}
 		return $result;
@@ -1128,6 +1144,34 @@ class Util {
 
         return $row;
 
+    }
+
+    /**
+     * @brief get owner of the shared files.
+     * @param int $Id of a share
+     * @return owner
+     */
+    public function getOwnerFromSharedFile($id) {
+        $query = \OC_DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
+        $source = $query->execute(array($id))->fetchRow();
+
+        if (isset($source['parent'])) {
+            $parent = $source['parent'];
+            while (isset($parent)) {
+                $query = \OC_DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
+                $item = $query->execute(array($parent))->fetchRow();
+                if (isset($item['parent'])) {
+                    $parent = $item['parent'];
+                } else {
+                    $fileOwner = $item['uid_owner'];
+                    break;
+                }
+            }
+        } else {
+            $fileOwner = $source['uid_owner'];
+        }
+
+        return $fileOwner;
     }
 
 }
