@@ -514,6 +514,7 @@ class Share {
 				'fileSource' => $item['file_source'],
 				'shareType' => $shareType,
 				'shareWith' => $shareWith,
+                'itemParent' => $item['parent'],
 			));
 			self::delete($item['id']);
 			\OC_Hook::emit('OCP\Share', 'post_unshare', array(
@@ -521,6 +522,7 @@ class Share {
 					'itemSource' => $itemSource,
 					'shareType' => $shareType,
 					'shareWith' => $shareWith,
+                    'itemParent' => $item['parent'],
 			));
 			return true;
 		}
