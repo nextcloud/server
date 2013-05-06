@@ -1,28 +1,40 @@
 <?php
 
-// Init owncloud
+/**
+ * ownCloud - Core
+ *
+ * @author Morris Jobke
+ * @copyright 2013 Morris Jobke morris.jobke@gmail.com
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
+require_once realpath( dirname(__FILE__).'/../lib/files.php' );
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
-// Get data
-$dir = stripslashes($_GET["dir"]);
-$file = stripslashes($_GET["file"]);
-$newname = stripslashes($_GET["newname"]);
+$files = new \OCA\Files\Files();
+$result = $files->rename(
+	stripslashes($_GET["dir"]),
+	stripslashes($_GET["file"]),
+	stripslashes($_GET["newname"])
+);
 
-$l = OC_L10N::get('files');
-
-if ( $newname !== '.' and ($dir !== '/' || $file !== 'Shared') and ($dir !== '/' || $newname !== 'Shared') ) {
-	$targetFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $newname);
-	$sourceFile = \OC\Files\Filesystem::normalizePath($dir . '/' . $file);
-	if(\OC\Files\Filesystem::rename($sourceFile, $targetFile)) {
-		OCP\JSON::success(array("data" => array( "dir" => $dir, "file" => $file, "newname" => $newname )));
-	} else {
-		OCP\JSON::error(array("data" => array( "message" => $l->t("Unable to rename file") )));
-	}
-} elseif( $dir === '/' and $newname === 'Shared' ) {
-	OCP\JSON::error(array("data" => array( "message" => $l->t("Invalid folder name. Usage of 'Shared' is reserved by Owncloud") )));
+if($result['success'] === true){
+	OCP\JSON::success(array('data' => $result['data']));
 } else {
-	OCP\JSON::error(array("data" => array( "message" => $l->t("Unable to rename file") )));
+	OCP\JSON::error(array('data' => $result['data']));
 }
