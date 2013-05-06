@@ -45,16 +45,16 @@ class Files {
 			'data'		=> NULL
 		);
 
-		// rename to "Shared" in root directory denied
+		// rename to "/Shared" is denied
 		if( $dir === '/' and $newname === 'Shared' ) {
 			$result['data'] = array(
-				'message'	=> $this->t("Invalid folder name. Usage of 'Shared' is reserved by Owncloud")
+				'message'	=> $this->l10n->t("Invalid folder name. Usage of 'Shared' is reserved by Owncloud")
 			);
 		} elseif(
 			// rename to "." is denied
 			$newname !== '.' and
-			// rename to  "Shared" inside the root directory is denied
-			!($dir === '/' and $file === 'Shared') and
+			// rename of  "/Shared" is denied
+			!($dir === '/' and $oldname === 'Shared') and
 			// THEN try to rename
 			\OC\Files\Filesystem::rename(
 				\OC\Files\Filesystem::normalizePath($dir . '/' . $oldname),
@@ -71,7 +71,7 @@ class Files {
 		} else {
 			// rename failed
 			$result['data'] = array(
-				'message'	=> $this->t('Unable to rename file')
+				'message'	=> $this->l10n->t('Unable to rename file')
 			);
 		}
 		return $result;
