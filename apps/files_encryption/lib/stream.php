@@ -512,7 +512,19 @@ class Stream {
             // Re-enable proxy - our work is done
             \OC_FileProxy::$enabled = $proxyStatus;
 
-			\OC\Files\Filesystem::putFileInfo( $this->relPath, array( 'encrypted' => 1, 'size' => $this->size, 'unencrypted_size' => $this->unencryptedSize ), '' );
+            // get file info
+            $fileInfo = \OC\Files\Filesystem::getFileInfo($this->rawPath);
+            if(!is_array($fileInfo)) {
+                $fileInfo = array();
+            }
+
+            // set encryption data
+            $fileInfo['encrypted'] = 1;
+            $fileInfo['size'] = $this->size;
+            $fileInfo['unencrypted_size'] = $this->unencryptedSize;
+
+            // set fileinfo
+			\OC\Files\Filesystem::putFileInfo( $this->rawPath, $fileInfo);
 		}
 
 		return fclose( $this->handle );
