@@ -22,7 +22,7 @@ $result = array();
 if ($dir) {
 	$dirlisting = true;
 	$fullpath = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath($dir);
-	$dirContent = opendir($fullpath);
+	$dirContent = $view->opendir($fullpath);
 	$i = 0;
 	while($entryName = readdir($dirContent)) {
 		if ( $entryName != '.' && $entryName != '..' ) {
