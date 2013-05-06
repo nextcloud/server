@@ -21,8 +21,7 @@ $dir = isset($_GET['dir']) ? stripslashes($_GET['dir']) : '';
 $result = array();
 if ($dir) {
 	$dirlisting = true;
-	$fullpath = \OCP\Config::getSystemValue('datadirectory').$view->getAbsolutePath($dir);
-	$dirContent = opendir($fullpath);
+	$dirContent = $view->opendir($dir);
 	$i = 0;
 	while($entryName = readdir($dirContent)) {
 		if ( $entryName != '.' && $entryName != '..' ) {
