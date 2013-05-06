@@ -28,9 +28,9 @@ OCP\JSON::callCheck();
 
 $files = new \OCA\Files\Files();
 $result = $files->rename(
-	stripslashes($_GET["dir"]),
-	stripslashes($_GET["file"]),
-	stripslashes($_GET["newname"])
+	$_GET["dir"],
+	$_GET["file"],
+	$_GET["newname"]
 );
 
 if($result['success'] === true){
