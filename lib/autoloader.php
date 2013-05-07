@@ -11,18 +11,18 @@ namespace OC;
 class Autoloader {
 	private $useGlobalClassPath = true;
 
-	private $namespacePaths = array();
+	private $prefixPaths = array();
 
 	private $classPaths = array();
 
 	/**
-	 * Add a custom namespace to the autoloader
+	 * Add a custom prefix to the autoloader
 	 *
-	 * @param string $namespace
+	 * @param string $prefix
 	 * @param string $path
 	 */
-	public function registerNamespace($namespace, $path) {
-		$this->namespacePaths[$namespace] = $path;
+	public function registerPrefix($prefix, $path) {
+		$this->prefixPaths[$prefix] = $path;
 	}
 
 	/**
@@ -81,24 +81,23 @@ class Autoloader {
 			$paths[] = 'public/' . strtolower(str_replace('\\', '/', substr($class, 3)) . '.php');
 		} elseif (strpos($class, 'OCA\\') === 0) {
 			foreach (\OC::$APPSROOTS as $appDir) {
-				$paths[] = $appDir['path'] . '/' . strtolower(str_replace('\\', '/', substr($class, 4)) . '.php');
-				// If not found in the root of the app directory, insert '/lib' after app id and try again.
-				$paths[] = $appDir['path'] . '/lib/' . strtolower(str_replace('\\', '/', substr($class, 4)) . '.php');
+				list(, $app,) = explode('\\', $class);
+				if (stream_resolve_include_path($appDir['path'] . '/' . strtolower($app))) {
+					$paths[] = $appDir['path'] . '/' . strtolower(str_replace('\\', '/', substr($class, 4)) . '.php');
+					// If not found in the root of the app directory, insert '/lib' after app id and try again.
+					$paths[] = $appDir['path'] . '/lib/' . strtolower(str_replace('\\', '/', substr($class, 4)) . '.php');
+				}
 			}
-		} elseif (strpos($class, 'Sabre_') === 0) {
-			$paths[] = str_replace('_', '/', $class) . '.php';
-		} elseif (strpos($class, 'Symfony\\Component\\Routing\\') === 0) {
-			$paths[] = 'symfony/routing/' . str_replace('\\', '/', $class) . '.php';
-		} elseif (strpos($class, 'Sabre\\VObject') === 0) {
-			$paths[] = str_replace('\\', '/', $class) . '.php';
 		} elseif (strpos($class, 'Test_') === 0) {
 			$paths[] = 'tests/lib/' . strtolower(str_replace('_', '/', substr($class, 5)) . '.php');
 		} elseif (strpos($class, 'Test\\') === 0) {
 			$paths[] = 'tests/lib/' . strtolower(str_replace('\\', '/', substr($class, 5)) . '.php');
 		} else {
-			foreach ($this->namespacePaths as $namespace => $dir) {
-				if (0 === strpos($class, $namespace)) {
-					$paths[] = $dir . '/' . str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
+			foreach ($this->prefixPaths as $prefix => $dir) {
+				if (0 === strpos($class, $prefix)) {
+					$path = str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
+					$path = str_replace('_', DIRECTORY_SEPARATOR, $path);
+					$paths[] = $dir . '/' . $path;
 				}
 			}
 		}
