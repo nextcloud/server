@@ -9,6 +9,8 @@
 namespace OC;
 
 class Autoloader {
+	private $useGlobalClassPath = true;
+
 	private $classPaths = array();
 
 	/**
@@ -19,6 +21,20 @@ class Autoloader {
 	 */
 	public function registerClass($class, $path) {
 		$this->classPaths[$class] = $path;
+	}
+
+	/**
+	 * disable the usage of the global classpath \OC::$CLASSPATH
+	 */
+	public function disableGlobalClassPath() {
+		$this->useGlobalClassPath = false;
+	}
+
+	/**
+	 * enable the usage of the global classpath \OC::$CLASSPATH
+	 */
+	public function enableGlobalClassPath() {
+		$this->useGlobalClassPath = true;
 	}
 
 	/**
@@ -33,15 +49,15 @@ class Autoloader {
 		$paths = array();
 		if (array_key_exists($class, $this->classPaths)) {
 			$paths[] = $this->classPaths[$class];
-		} else if (array_key_exists($class, \OC::$CLASSPATH)) {
+		} else if ($this->useGlobalClassPath and array_key_exists($class, \OC::$CLASSPATH)) {
 			$paths[] = \OC::$CLASSPATH[$class];
 			/**
 			 * @TODO: Remove this when necessary
 			 * Remove "apps/" from inclusion path for smooth migration to mutli app dir
 			 */
-			if (strpos($path, 'apps/') === 0) {
+			if (strpos(\OC::$CLASSPATH[$class], 'apps/') === 0) {
 				\OC_Log::write('core', 'include path for class "' . $class . '" starts with "apps/"', \OC_Log::DEBUG);
-				$path = str_replace('apps/', '', $path);
+				$path = str_replace('apps/', '', \OC::$CLASSPATH[$class]);
 			}
 		} elseif (strpos($class, 'OC_') === 0) {
 			$paths[] = strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
