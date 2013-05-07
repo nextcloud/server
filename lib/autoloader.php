@@ -78,14 +78,15 @@ class Autoloader {
 		} elseif (strpos($class, 'OC\\') === 0) {
 			$paths[] = strtolower(str_replace('\\', '/', substr($class, 3)) . '.php');
 		} elseif (strpos($class, 'OCP\\') === 0) {
-			$paths[] = 'public/' . strtolower(str_replace('\\', '/', substr($class, 3)) . '.php');
+			$paths[] = 'public/' . strtolower(str_replace('\\', '/', substr($class, 4)) . '.php');
 		} elseif (strpos($class, 'OCA\\') === 0) {
+			list(, $app, $rest) = explode('\\', $class, 3);
+			$app = strtolower($app);
 			foreach (\OC::$APPSROOTS as $appDir) {
-				list(, $app,) = explode('\\', $class);
-				if (stream_resolve_include_path($appDir['path'] . '/' . strtolower($app))) {
-					$paths[] = $appDir['path'] . '/' . strtolower(str_replace('\\', '/', substr($class, 4)) . '.php');
+				if (stream_resolve_include_path($appDir['path'] . '/' . $app)) {
+					$paths[] = $appDir['path'] . '/' . $app . '/' . strtolower(str_replace('\\', '/', $rest) . '.php');
 					// If not found in the root of the app directory, insert '/lib' after app id and try again.
-					$paths[] = $appDir['path'] . '/lib/' . strtolower(str_replace('\\', '/', substr($class, 4)) . '.php');
+					$paths[] = $appDir['path'] . '/' . $app . '/lib/' . strtolower(str_replace('\\', '/', $rest) . '.php');
 				}
 			}
 		} elseif (strpos($class, 'Test_') === 0) {
