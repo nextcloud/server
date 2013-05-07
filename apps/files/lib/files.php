@@ -27,8 +27,9 @@ namespace OCA\Files;
 class Files {
 	private $l10n;
 
-	public function __construct() {
-		$this->l10n = \OC_L10n::get('files');
+	public function __construct($view, $l10n) {
+		$this->view = $view;
+		$this->l10n = $l10n;
 	}
 
 	/**
@@ -56,10 +57,7 @@ class Files {
 			// rename of  "/Shared" is denied
 			!($dir === '/' and $oldname === 'Shared') and
 			// THEN try to rename
-			\OC\Files\Filesystem::rename(
-				\OC\Files\Filesystem::normalizePath($dir . '/' . $oldname),
-				\OC\Files\Filesystem::normalizePath($dir . '/' . $newname)
-			)
+			$this->view->rename($dir . '/' . $oldname, $dir . '/' . $newname)
 		) {
 			// successful rename
 			$result['success'] = true;

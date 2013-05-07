@@ -26,7 +26,10 @@ require_once realpath( dirname(__FILE__).'/../lib/files.php' );
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
-$files = new \OCA\Files\Files();
+$files = new \OCA\Files\Files(
+	\OC\Files\Filesystem::getView(),
+	\OC_L10n::get('files')
+);
 $result = $files->rename(
 	$_GET["dir"],
 	$_GET["file"],
