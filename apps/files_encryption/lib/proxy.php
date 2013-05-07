@@ -433,6 +433,11 @@ class Proxy extends \OC_FileProxy {
         $path_split = explode('/', $path);
         $path_f = implode('/', array_slice($path_split, 3));
 
+        // if path is empty we cannot resolve anything
+        if(empty($path_f)) {
+            return $size;
+        }
+
         // get file info from database/cache
         $fileInfo = \OC\Files\Filesystem::getFileInfo($path_f);
 
