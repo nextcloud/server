@@ -38,12 +38,12 @@ class Autoloader {
 	}
 
 	/**
-	 * Load the specified class
+	 * get the possible paths for a class
 	 *
 	 * @param string $class
-	 * @return bool
+	 * @return array|bool an array of possible paths or false if the class is not part of ownCloud
 	 */
-	public function load($class) {
+	public function findClass($class) {
 		$class = trim($class, '\\');
 
 		$paths = array();
@@ -57,7 +57,7 @@ class Autoloader {
 			 */
 			if (strpos(\OC::$CLASSPATH[$class], 'apps/') === 0) {
 				\OC_Log::write('core', 'include path for class "' . $class . '" starts with "apps/"', \OC_Log::DEBUG);
-				$path = str_replace('apps/', '', \OC::$CLASSPATH[$class]);
+				$paths[] = str_replace('apps/', '', \OC::$CLASSPATH[$class]);
 			}
 		} elseif (strpos($class, 'OC_') === 0) {
 			$paths[] = strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
@@ -84,10 +84,23 @@ class Autoloader {
 		} else {
 			return false;
 		}
+		return $paths;
+	}
 
-		foreach ($paths as $path) {
-			if ($fullPath = stream_resolve_include_path($path)) {
-				require_once $fullPath;
+	/**
+	 * Load the specified class
+	 *
+	 * @param string $class
+	 * @return bool
+	 */
+	public function load($class) {
+		$paths = $this->findClass($class);
+
+		if (is_array($paths)) {
+			foreach ($paths as $path) {
+				if ($fullPath = stream_resolve_include_path($path)) {
+					require_once $fullPath;
+				}
 			}
 		}
 		return false;
