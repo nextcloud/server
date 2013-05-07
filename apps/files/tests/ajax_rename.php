@@ -22,7 +22,7 @@
  */
 
 
-require_once realpath( dirname(__FILE__).'/../lib/files.php' );
+require_once dirname(__FILE__).'/../lib/files.php';
 
 class Test_Ajax_Rename extends \PHPUnit_Framework_TestCase {
 
