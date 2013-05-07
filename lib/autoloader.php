@@ -11,7 +11,19 @@ namespace OC;
 class Autoloader {
 	private $useGlobalClassPath = true;
 
+	private $namespacePaths = array();
+
 	private $classPaths = array();
+
+	/**
+	 * Add a custom namespace to the autoloader
+	 *
+	 * @param string $namespace
+	 * @param string $path
+	 */
+	public function registerNamespace($namespace, $path) {
+		$this->namespacePaths[$namespace] = $path;
+	}
 
 	/**
 	 * Add a custom classpath to the autoloader
@@ -60,6 +72,8 @@ class Autoloader {
 				$paths[] = str_replace('apps/', '', \OC::$CLASSPATH[$class]);
 			}
 		} elseif (strpos($class, 'OC_') === 0) {
+			// first check for legacy classes if underscores are used
+			$paths[] = 'legacy/' . strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
 			$paths[] = strtolower(str_replace('_', '/', substr($class, 3)) . '.php');
 		} elseif (strpos($class, 'OC\\') === 0) {
 			$paths[] = strtolower(str_replace('\\', '/', substr($class, 3)) . '.php');
@@ -82,7 +96,11 @@ class Autoloader {
 		} elseif (strpos($class, 'Test\\') === 0) {
 			$paths[] = 'tests/lib/' . strtolower(str_replace('\\', '/', substr($class, 5)) . '.php');
 		} else {
-			return false;
+			foreach ($this->namespacePaths as $namespace => $dir) {
+				if (0 === strpos($class, $namespace)) {
+					$paths[] = $dir . '/' . str_replace('\\', DIRECTORY_SEPARATOR, $class) . '.php';
+				}
+			}
 		}
 		return $paths;
 	}
