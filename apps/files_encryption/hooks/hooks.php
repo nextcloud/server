@@ -183,7 +183,7 @@ class Hooks {
 	/**
 	 * @brief 
 	 */
-	public static function postShared($params) {
+	public static function postShared( $params ) {
 
 		// NOTE: $params has keys:
 		// [itemType] => file
@@ -202,89 +202,109 @@ class Hooks {
 		// [id] => 10
 		// [token] =>
 		// TODO: Should other kinds of item be encrypted too?
-		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
+		
+		if ( $params['itemType'] === 'file' || $params['itemType'] === 'folder' ) {
 
-			$view = new \OC_FilesystemView('/');
+			$view = new \OC_FilesystemView( '/' );
 			$session = new Session($view);
 			$userId = \OCP\User::getUser();
 			$util = new Util($view, $userId);
-			$path = $util->fileIdToPath($params['itemSource']);
+			$path = $util->fileIdToPath( $params['itemSource'] );
 
-            //if parent is set, then this is a re-share action
-            if($params['parent']) {
+			//if parent is set, then this is a re-share action
+			if( $params['parent'] ) {
 
-                // get the parent from current share
-                $parent = $util->getShareParent($params['parent']);
+				// get the parent from current share
+				$parent = $util->getShareParent( $params['parent'] );
 
-                // if parent is file the it is an 1:1 share
-                if($parent['item_type'] === 'file') {
+				// if parent is file the it is an 1:1 share
+				if($parent['item_type'] === 'file') {
 
-                    // prefix path with Shared
-                    $path = '/Shared'.$parent['file_target'];
+				// prefix path with Shared
+				$path = '/Shared'.$parent['file_target'];
 
-                } else {
-                    // parent is folder but shared was a file!
-                    // we try to rebuild the missing path
-                    // some examples we face here
-                    // user1 share folder1 with user2 folder1 has the following structure /folder1/subfolder1/subsubfolder1/somefile.txt
-                    // user2 re-share subfolder2 with user3
-                    // user3 re-share somefile.txt user4
-                    // so our path should be /Shared/subfolder1/subsubfolder1/somefile.txt while user3 is sharing
-                    if($params['itemType'] === 'file') {
-                        // get target path
-                        $targetPath = $util->fileIdToPath($params['fileSource']);
-                        $targetPathSplit = array_reverse(explode('/', $targetPath));
+				} else {
+				
+					// NOTE: parent is folder but shared was a file!
+					// we try to rebuild the missing path
+					// some examples we face here
+					// user1 share folder1 with user2 folder1 has 
+					// the following structure 
+					// /folder1/subfolder1/subsubfolder1/somefile.txt
+					// user2 re-share subfolder2 with user3
+					// user3 re-share somefile.txt user4
+					// so our path should be 
+					// /Shared/subfolder1/subsubfolder1/somefile.txt 
+					// while user3 is sharing
+					
+					if ( $params['itemType'] === 'file' ) {
+						// get target path
+						$targetPath = $util->fileIdToPath( $params['fileSource'] );
+						$targetPathSplit = array_reverse( explode( '/', $targetPath ) );
 
-                        // init values
-                        $path = '';
-                        $sharedPart = ltrim( $parent['file_target'], '/' );
+						// init values
+						$path = '';
+						$sharedPart = ltrim( $parent['file_target'], '/' );
 
-                        // rebuild path
-                        foreach ($targetPathSplit as $pathPart) {
-                            if($pathPart !== $sharedPart) {
-                                $path = '/'.$pathPart.$path;
-                            } else {
-                                break;
-                            }
-                        }
+						// rebuild path
+						foreach ( $targetPathSplit as $pathPart ) {
+						
+							if( $pathPart !== $sharedPart ) {
+								
+								$path = '/' . $pathPart . $path;
+								
+							} else {
+							
+								break;
+								
+							}
+							
+						}
 
-                        // prefix path with Shared
-                        $path = '/Shared'.$parent['file_target'].$path;
+						// prefix path with Shared
+						$path = '/Shared'.$parent['file_target'].$path;
 
-                    } else {
+					} else {
 
-                        // prefix path with Shared
-                        $path = '/Shared'.$parent['file_target'].$params['fileTarget'];
-                    }
-                }
-            }
-
-           	$sharingEnabled = \OCP\Share::isEnabled();
-
-			// if a folder was shared, get a list if all (sub-)folders
-			if ($params['itemType'] === 'folder') {
-				$allFiles = $util->getAllFiles($path);
-			} else {
-				$allFiles = array($path);
+						// prefix path with Shared
+						$path = '/Shared'.$parent['file_target'].$params['fileTarget'];
+					}
+				}
 			}
 
-			foreach ($allFiles as $path) {
-				$usersSharing = $util->getSharingUsersArray($sharingEnabled, $path);
+			$sharingEnabled = \OCP\Share::isEnabled();
+
+			// if a folder was shared, get a list if all (sub-)folders
+			if ( $params['itemType'] === 'folder' ) {
+				$allFiles = $util->getAllFiles($path);
+			} else {
+			
+				$allFiles = array( $path );
+				
+			}
+
+			foreach ( $allFiles as $path ) {
+			
+				$usersSharing = $util->getSharingUsersArray( $sharingEnabled, $path );
 
 				$failed = array();
 
 				// Attempt to set shareKey
- 				if (!$util->setSharedFileKeyfiles($session, $usersSharing, $path)) {
+ 				if ( !$util->setSharedFileKeyfiles( $session, $usersSharing, $path ) ) {
 
 					$failed[] = $path;
 				}
 			}
 
 			// If no attempts to set keyfiles failed
-			if (empty($failed)) {
+			if ( empty( $failed ) ) {
+			
 				return true;
+				
 			} else {
+			
 				return false;
+				
 			}
 		}
 	}
@@ -292,85 +312,104 @@ class Hooks {
 	/**
 	 * @brief 
 	 */
-    public static function postUnshare($params)
-    {
+	public static function postUnshare( $params ) {
 
-        // NOTE: $params has keys:
-        // [itemType] => file
-        // [itemSource] => 13
-        // [shareType] => 0
-        // [shareWith] => test1
-        // [itemParent] =>
+		// NOTE: $params has keys:
+		// [itemType] => file
+		// [itemSource] => 13
+		// [shareType] => 0
+		// [shareWith] => test1
+		// [itemParent] =>
 
-        if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
+		if ( $params['itemType'] === 'file' || $params['itemType'] === 'folder' ) {
 
-            $view = new \OC_FilesystemView('/');
-            $userId = \OCP\User::getUser();
-            $util = new Util($view, $userId);
-            $path = $util->fileIdToPath($params['itemSource']);
+			$view = new \OC_FilesystemView( '/' );
+			$userId = \OCP\User::getUser();
+			$util = new Util( $view, $userId);
+			$path = $util->fileIdToPath( $params['itemSource'] );
 
-            // check if this is a re-share
-            if ($params['itemParent']) {
+			// check if this is a re-share
+			if ( $params['itemParent'] ) {
 
-                // get the parent from current share
-                $parent = $util->getShareParent($params['itemParent']);
+				// get the parent from current share
+				$parent = $util->getShareParent( $params['itemParent'] );
 
-                // get target path
-                $targetPath = $util->fileIdToPath($params['itemSource']);
-                $targetPathSplit = array_reverse(explode('/', $targetPath));
+				// get target path
+				$targetPath = $util->fileIdToPath( $params['itemSource'] );
+				$targetPathSplit = array_reverse( explode( '/', $targetPath ) );
 
-                // init values
-                $path = '';
-                $sharedPart = ltrim($parent['file_target'], '/');
+				// init values
+				$path = '';
+				$sharedPart = ltrim( $parent['file_target'], '/' );
 
-                // rebuild path
-                foreach ($targetPathSplit as $pathPart) {
-                    if ($pathPart !== $sharedPart) {
-                        $path = '/' . $pathPart . $path;
-                    } else {
-                        break;
-                    }
-                }
+				// rebuild path
+				foreach ( $targetPathSplit as $pathPart ) {
+				
+					if ( $pathPart !== $sharedPart ) {
+					
+						$path = '/' . $pathPart . $path;
+						
+					} else {
+					
+						break;
+						
+					}
+					
+				}
 
-                // prefix path with Shared
-                $path = '/Shared' . $parent['file_target'] . $path;
-            }
+				// prefix path with Shared
+				$path = '/Shared' . $parent['file_target'] . $path;
+			}
 
-            // for group shares get a list of the group members
-            if ($params['shareType'] == \OCP\Share::SHARE_TYPE_GROUP) {
-                $userIds = \OC_Group::usersInGroup($params['shareWith']);
-            } else {
-                $userIds = array($params['shareWith']);
-            }
+			// for group shares get a list of the group members
+			if ( $params['shareType'] == \OCP\Share::SHARE_TYPE_GROUP ) {
+			
+				$userIds = \OC_Group::usersInGroup($params['shareWith']);
+				
+			} else {
+			
+				$userIds = array( $params['shareWith'] );
+				
+			}
 
-            // if we unshare a folder we need a list of all (sub-)files
-            if ($params['itemType'] === 'folder') {
-                $allFiles = $util->getAllFiles($path);
-            } else {
-                $allFiles = array($path);
-            }
+			// if we unshare a folder we need a list of all (sub-)files
+			if ( $params['itemType'] === 'folder' ) {
+			
+				$allFiles = $util->getAllFiles( $path );
+				
+			} else {
+			
+				$allFiles = array( $path );
+			}
 
-            foreach ($allFiles as $path) {
+			foreach ( $allFiles as $path ) {
 
-                // check if the user still has access to the file, otherwise delete share key
-                $sharingUsers = $util->getSharingUsersArray(true, $path);
+				// check if the user still has access to the file, otherwise delete share key
+				$sharingUsers = $util->getSharingUsersArray( true, $path );
 
-                // Unshare every user who no longer has access to the file
-                $delUsers = array_diff($userIds, $sharingUsers);
-                if (!Keymanager::delShareKey($view, $delUsers, $path)) {
-                    $failed[] = $path;
-                }
+				// Unshare every user who no longer has access to the file
+				$delUsers = array_diff( $userIds, $sharingUsers);
+				
+				if ( !Keymanager::delShareKey( $view, $delUsers, $path ) ) {
+				
+					$failed[] = $path;
+				
+				}
 
-            }
+			}
 
-            // If no attempts to set keyfiles failed
-            if (empty($failed)) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-    }
+			// If no attempts to set keyfiles failed
+			if ( empty( $failed ) ) {
+			
+				return true;
+				
+			} else {
+			
+				return false;
+				
+			}
+		}
+	}
 	
 	/**
 	 * @brief 
