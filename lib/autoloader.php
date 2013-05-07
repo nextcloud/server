@@ -9,13 +9,34 @@
 namespace OC;
 
 class Autoloader {
+	private $classPaths = array();
+
+	/**
+	 * Add a custom classpath to the autoloader
+	 *
+	 * @param string $class
+	 * @param string $path
+	 */
+	public function registerClass($class, $path) {
+		$this->classPaths[$class] = $path;
+	}
+
+	/**
+	 * Load the specified class
+	 *
+	 * @param string $class
+	 * @return bool
+	 */
 	public function load($class) {
 		$class = trim($class, '\\');
 
-		if (array_key_exists($class, \OC::$CLASSPATH)) {
+		if (array_key_exists($class, $this->classPaths)) {
+			$path = $this->classPaths[$class];
+		} else if (array_key_exists($class, \OC::$CLASSPATH)) {
 			$path = \OC::$CLASSPATH[$class];
-			/** @TODO: Remove this when necessary
-			Remove "apps/" from inclusion path for smooth migration to mutli app dir
+			/**
+			 * @TODO: Remove this when necessary
+			 * Remove "apps/" from inclusion path for smooth migration to mutli app dir
 			 */
 			if (strpos($path, 'apps/') === 0) {
 				\OC_Log::write('core', 'include path for class "' . $class . '" starts with "apps/"', \OC_Log::DEBUG);
