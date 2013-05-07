@@ -30,10 +30,11 @@ use OCA\Encryption;
  * load order Pear errors.
  */
 
-class Test_Share extends \PHPUnit_Framework_TestCase {
+class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 	
 	function setUp() {
         // reset backend
+        \OC_User::clearBackends();
         \OC_User::useBackend('database');
 
         $this->dataShort = 'hats';
@@ -43,7 +44,18 @@ class Test_Share extends \PHPUnit_Framework_TestCase {
         $this->dataDir = str_replace('/admin', '', $userHome);
 
         OC_Appconfig::setValue('core', 'shareapi_allow_resharing', 'yes');
-	}
+
+        // Sharing-related hooks
+        OCP\Util::connectHook( 'OCP\Share', 'post_shared', 'OCA\Encryption\Hooks', 'postShared' );
+        OCP\Util::connectHook( 'OCP\Share', 'post_unshare', 'OCA\Encryption\Hooks', 'postUnshare' );
+        OCP\Util::connectHook( 'OCP\Share', 'post_unshareAll', 'OCA\Encryption\Hooks', 'postUnshareAll' );
+
+        OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
+
+        OC_FileProxy::register( new OCA\Encryption\Proxy() );
+
+        OC::registerShareHooks();
+    }
 	
 	function tearDown() {
 
@@ -56,7 +68,7 @@ class Test_Share extends \PHPUnit_Framework_TestCase {
         // login as admin
         $this->loginHelper('admin');
 
-        $filename = 'tmp-'.time().'.test';
+        $filename = 'share-tmp-'.time().'.test';
 
         $cryptedFile = file_put_contents( 'crypt://' . $filename, $this->dataShort );
 
@@ -81,7 +93,7 @@ class Test_Share extends \PHPUnit_Framework_TestCase {
         // share the file
         \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, 'user1', OCP\PERMISSION_READ);
 
-        $this->loginHelper('admin', false);
+        $this->loginHelper('admin');
 
         // check if share key exists
         $this->assertTrue($this->view->file_exists('/admin/files_encryption/share-keys/'.$filename.'.user1.shareKey'));
@@ -89,8 +101,9 @@ class Test_Share extends \PHPUnit_Framework_TestCase {
         // login as user1
         $this->loginHelper('user1');
 
+        $view = new \OC\Files\View('/user1/files/');
         // Get file contents without using any wrapper to get it's actual contents on disk
-        $retreivedCryptedFile = $this->view->file_get_contents('/user1/files/Shared/' . $filename);
+        $retreivedCryptedFile = $view->file_get_contents('Shared/' . $filename);
 
         // check if data is the same
         $this->assertEquals($this->dataShort, $retreivedCryptedFile);
@@ -101,12 +114,9 @@ class Test_Share extends \PHPUnit_Framework_TestCase {
             \OC_User::createUser($user, $user);
         }
 
+        \OC_User::setUserId('');
+        \OC_Util::setupFS($user);
         \OC_User::setUserId($user);
-
-        \OC\Files\Filesystem::mount( '\OC\Files\Storage\Shared', array('sharedFolder' => '/Shared'), '/'.$user.'/files/Shared/' );
-        \OC\Files\Filesystem::mount( '\OC\Files\Storage\Shared', array('sharedFolder' => '/Shared'), 'Shared/' );
-
-        \OC\Files\Filesystem::init($user, '/'.$user.'/files');
 
         $params['uid'] = $user;
         $params['password'] = $user;
