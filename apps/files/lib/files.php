@@ -49,7 +49,7 @@ class Files {
 		// rename to "/Shared" is denied
 		if( $dir === '/' and $newname === 'Shared' ) {
 			$result['data'] = array(
-				'message'	=> $this->l10n->t("Invalid folder name. Usage of 'Shared' is reserved by Owncloud")
+				'message'	=> $this->l10n->t("Invalid folder name. Usage of 'Shared' is reserved by ownCloud")
 			);
 		} elseif(
 			// rename to "." is denied
