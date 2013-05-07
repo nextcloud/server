@@ -9,15 +9,52 @@ $(document).ready(function(){
 	$( 'input:radio[name="userEnableRecovery"]' ).change( 
 		function() {
 			
+			// Hide feedback messages in case they're already visible
+			$('#recoveryEnabledSuccess').hide();
+			$('#recoveryEnabledError').hide();
+			
 			var recoveryStatus = $( this ).val();
 			
 			$.post( 
 				OC.filePath( 'files_encryption', 'ajax', 'userrecovery.php' )
 				, { userEnableRecovery: recoveryStatus }
 				,  function( data ) {
-					alert( data );
+					if ( data.status == "success" ) {
+						$('#recoveryEnabledSuccess').show();
+					} else {
+						$('#recoveryEnabledError').show();
+					}
 				}
 			);
+			// Ensure page is not reloaded on form submit
+			return false;
 		}
+	);
+	
+	$("#encryptAll").click( 
+		function(){
+			
+			// Hide feedback messages in case they're already visible
+			$('#encryptAllSuccess').hide();
+			$('#encryptAllError').hide();
+			
+			var userPassword = $( '#userPassword' ).val();
+			var encryptAll = $( '#encryptAll' ).val();
+
+			$.post( 
+				OC.filePath( 'files_encryption', 'ajax', 'encryptall.php' )
+				, { encryptAll: encryptAll, userPassword: userPassword }
+				,  function( data ) {
+					if ( data.status == "success" ) {
+						$('#encryptAllSuccess').show();
+					} else {
+						$('#encryptAllError').show();
+					}
+				}
+			);
+			// Ensure page is not reloaded on form submit
+			return false;
+		}
+		
 	);
 })

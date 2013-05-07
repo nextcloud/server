@@ -6,6 +6,9 @@
  * See the COPYING-README file.
  */
 
+// Add CSS stylesheet
+\OC_Util::addStyle( 'files_encryption', 'settings-personal' );
+ 
 $tmpl = new OCP\Template( 'files_encryption', 'settings-personal');
 
 $blackList = explode( ',', \OCP\Config::getAppValue( 'files_encryption', 'type_blacklist', '' ) );

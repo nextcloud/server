@@ -1,5 +1,3 @@
-setValue( $app, $key, $value )
-
 <?php
 /**
  * Copyright (c) 2013, Sam Tuke <samtuke@owncloud.com>
@@ -91,4 +89,5 @@ if (
 
 }
 
-($return) ? OC_JSON::success() : OC_JSON::error();
+// Return success or failure
+( $return ) ? \OCP\JSON::success() : \OCP\JSON::error();

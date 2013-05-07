@@ -1,5 +1,3 @@
-setValue( $app, $key, $value )
-
 <?php
 /**
  * Copyright (c) 2013, Sam Tuke <samtuke@owncloud.com>
@@ -13,6 +11,7 @@ use OCA\Encryption;
 
 \OCP\JSON::checkLoggedIn();
 \OCP\JSON::checkAppEnabled( 'files_encryption' );
+\OCP\JSON::callCheck();
 
 if ( 
 	isset( $_POST['userEnableRecovery'] ) 
@@ -24,16 +23,13 @@ if (
 	$util = new \OCA\Encryption\Util( $view, $userId );
 	
 	// Save recovery preference to DB
-	$result = $util->setRecoveryForUser( $_POST['userEnableRecovery'] );
+	$return = $util->setRecoveryForUser( $_POST['userEnableRecovery'] );
 	
-	if ( $result ) {
-	
-		\OCP\JSON::success();
-		
-	} else {
-	
-		\OCP\JSON::error();
-		
-	}
+} else {
+
+	$return = false;
 	
 }
+
+// Return success or failure
+( $return ) ? \OCP\JSON::success() : \OCP\JSON::error();
