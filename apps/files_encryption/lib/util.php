@@ -1040,7 +1040,8 @@ class Util {
 	 */
 	public function getUidAndFilename( $path ) {
 
-		$fileOwnerUid = \OC\Files\Filesystem::getOwner( $path );
+        $view = new \OC\Files\View($this->userFilesDir);
+		$fileOwnerUid = $view->getOwner( $path );
 		
 		// Check that UID is valid
 		if ( ! \OCP\User::userExists( $fileOwnerUid ) ) {
@@ -1060,7 +1061,7 @@ class Util {
 			
 		} else {
 		
-			$info = \OC\Files\Filesystem::getFileInfo( $path );
+			$info = $view->getFileInfo( $path );
 			$ownerView = new \OC\Files\View( '/' . $fileOwnerUid . '/files' );
 			
 			// Fetch real file path from DB
@@ -1069,7 +1070,7 @@ class Util {
 		}
 		
 		// Make path relative for use by $view
-		$relpath = $fileOwnerUid . '/' . $this->fileFolderName . '/' . $filename;
+		$relpath = \OC\Files\Filesystem::normalizePath($fileOwnerUid . '/' . $this->fileFolderName . '/' . $filename);
 		
 		// Check that the filename we're using is working
 		if ( $this->view->file_exists( $relpath ) ) {

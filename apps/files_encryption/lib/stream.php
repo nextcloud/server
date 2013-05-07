@@ -513,7 +513,7 @@ class Stream {
             \OC_FileProxy::$enabled = $proxyStatus;
 
             // get file info
-            $fileInfo = \OC\Files\Filesystem::getFileInfo($this->rawPath);
+            $fileInfo = $view->getFileInfo($this->rawPath);
             if(!is_array($fileInfo)) {
                 $fileInfo = array();
             }
@@ -524,7 +524,7 @@ class Stream {
             $fileInfo['unencrypted_size'] = $this->unencryptedSize;
 
             // set fileinfo
-			\OC\Files\Filesystem::putFileInfo( $this->rawPath, $fileInfo);
+            $view->putFileInfo( $this->rawPath, $fileInfo);
 		}
 
 		return fclose( $this->handle );
