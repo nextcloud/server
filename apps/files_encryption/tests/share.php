@@ -43,8 +43,9 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
         $userHome = \OC_User::getHome('admin');
         $this->dataDir = str_replace('/admin', '', $userHome);
 
-        OC_Appconfig::setValue('core', 'shareapi_allow_resharing', 'yes');
+        \OC_Appconfig::setValue('core', 'shareapi_allow_resharing', 'yes');
 
+        OC_Hook::clear('OCP\\Share');
         // Sharing-related hooks
         OCP\Util::connectHook( 'OCP\Share', 'post_shared', 'OCA\Encryption\Hooks', 'postShared' );
         OCP\Util::connectHook( 'OCP\Share', 'post_unshare', 'OCA\Encryption\Hooks', 'postUnshare' );
@@ -61,14 +62,14 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
 	}
 
-    function testShareFile() {
+    function testShareFile($withTeardown = true) {
         // create user1
         $this->loginHelper('user1', true);
 
         // login as admin
         $this->loginHelper('admin');
 
-        $filename = 'share-tmp-'.time().'.test';
+        $filename = 'share-tmp.test';
 
         $cryptedFile = file_put_contents( 'crypt://' . $filename, $this->dataShort );
 
@@ -91,7 +92,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
         \OC_FileProxy::$enabled = $proxyStatus;
 
         // share the file
-        \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, 'user1', OCP\PERMISSION_READ);
+        \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, 'user1', OCP\PERMISSION_ALL);
 
         $this->loginHelper('admin');
 
@@ -101,12 +102,73 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
         // login as user1
         $this->loginHelper('user1');
 
-        $view = new \OC\Files\View('/user1/files/');
         // Get file contents without using any wrapper to get it's actual contents on disk
-        $retreivedCryptedFile = $view->file_get_contents('Shared/' . $filename);
+        $retreivedCryptedFile = $this->view->file_get_contents('/user1/files/Shared/' . $filename);
 
         // check if data is the same
         $this->assertEquals($this->dataShort, $retreivedCryptedFile);
+
+        if($withTeardown) {
+            // login as admin
+            $this->loginHelper('admin');
+
+            // share the file
+            \OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, 'user1');
+
+            // check if share key not exists
+            $this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/'.$filename.'.user1.shareKey'));
+
+            // tear down
+            \OC_User::deleteUser('user1');
+        }
+    }
+
+    function testReShareFile($withTeardown = true) {
+        $this->testShareFile(false);
+
+        // create user2
+        $this->loginHelper('user2', true);
+
+        // login as user1
+        $this->loginHelper('user1');
+
+        $filename = 'share-tmp.test';
+
+        // get the file info
+        $fileInfo = $this->view->getFileInfo('/user1/files/Shared/'.$filename);
+
+        // share the file
+        \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, 'user2', OCP\PERMISSION_ALL);
+
+        $this->loginHelper('admin');
+
+        // check if share key exists
+        $this->assertTrue($this->view->file_exists('/admin/files_encryption/share-keys/'.$filename.'.user2.shareKey'));
+
+        // login as user2
+        $this->loginHelper('user2');
+
+        // Get file contents without using any wrapper to get it's actual contents on disk
+        $retreivedCryptedFile = $this->view->file_get_contents('/user2/files/Shared/' . $filename);
+
+        // check if data is the same
+        $this->assertEquals($this->dataShort, $retreivedCryptedFile);
+
+        if($withTeardown) {
+            // login as admin
+            $this->loginHelper('user1');
+
+            // share the file
+            \OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_USER, 'user2');
+
+            $this->loginHelper('admin');
+
+            // check if share key not exists
+            $this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/'.$filename.'.user2.shareKey'));
+
+            // tear down
+            \OC_User::deleteUser('user2');
+        }
     }
 
     function loginHelper($user, $create=false) {
@@ -114,6 +176,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
             \OC_User::createUser($user, $user);
         }
 
+        \OC_Util::tearDownFS();
         \OC_User::setUserId('');
         \OC_Util::setupFS($user);
         \OC_User::setUserId($user);
