@@ -24,7 +24,7 @@
 
 require_once dirname(__FILE__).'/../lib/files.php';
 
-class Test_Ajax_Rename extends \PHPUnit_Framework_TestCase {
+class Test_OC_Files_Files_Rename extends \PHPUnit_Framework_TestCase {
 
 	function setUp() {
 		// mock OC_L10n
@@ -92,6 +92,27 @@ class Test_Ajax_Rename extends \PHPUnit_Framework_TestCase {
 		$expected = array(
 			'success'	=> false,
 			'data'		=> array('message' => "Invalid folder name. Usage of 'Shared' is reserved by Owncloud")
+		);
+
+		$this->assertEquals($expected, $result);
+	}
+
+	/**
+	 * @brief test rename of file/folder
+	 */
+	function testRenameFolder() {
+		$dir = '/';
+		$oldname = 'oldname';
+		$newname = 'newname';
+
+		$result = $this->files->rename($dir, $oldname, $newname);
+		$expected = array(
+			'success'	=> true,
+			'data'		=> array(
+				'dir'		=> $dir,
+				'file'		=> $oldname,
+				'newname'	=> $newname
+			)
 		);
 
 		$this->assertEquals($expected, $result);
