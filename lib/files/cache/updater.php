@@ -116,7 +116,14 @@ class Updater {
 	 * @param array $params
 	 */
 	static public function touchHook($params) {
-		self::writeUpdate($params['path']);
+		$path = $params['path'];
+		list($storage, $internalPath) = self::resolvePath($path);
+		$cache = $storage->getCache();
+		$id = $cache->getId($internalPath);
+		if ($id !== -1) {
+			$cache->update($id, array('etag' => $storage->getETag($internalPath)));
+		}
+		self::writeUpdate($path);
 	}
 
 	/**
