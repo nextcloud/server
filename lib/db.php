@@ -273,12 +273,12 @@ class OC_DB {
 					break;
 				case 'oci':
 					$dsn = array(
-							'phptype'  => 'oci8',
-							'username' => $user,
-							'password' => $pass,
-							'service'  => $name,
-							'hostspec' => $host,
-							'charset' => 'AL32UTF8',
+						'phptype'  => 'oci8',
+						'username' => $user,
+						'password' => $pass,
+						'service'  => $name,
+						'hostspec' => $host,
+						'charset' => 'AL32UTF8',
 					);
 					break;
 				case 'mssql':
