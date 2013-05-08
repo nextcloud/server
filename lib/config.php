@@ -44,15 +44,15 @@ class Config {
 	// associative array key => value
 	protected $cache = array();
 
-	protected $config_dir;
-	protected $config_filename;
+	protected $configDir;
+	protected $configFilename;
 
-	protected $debug_mode;
+	protected $debugMode;
 
-	public function __construct($config_dir, $debug_mode) {
-		$this->config_dir = $config_dir;
-		$this->debug_mode = $debug_mode;
-		$this->config_filename = $this->config_dir.'config.php';
+	public function __construct($configDir, $debugMode) {
+		$this->configDir = $configDir;
+		$this->debugMode = $debugMode;
+		$this->configFilename = $this->configDir.'config.php';
 		$this->readData();
 	}
 	/**
@@ -123,19 +123,19 @@ class Config {
 	 */
 	private function readData() {
 		// read all file in config dir ending by config.php
-		$config_files = glob( $this->config_dir.'*.config.php');
+		$configFiles = glob( $this->configDir.'*.config.php');
 
 		//Filter only regular files
-		$config_files = array_filter($config_files, 'is_file');
+		$configFiles = array_filter($configFiles, 'is_file');
 
 		//Sort array naturally :
-		natsort($config_files);
+		natsort($configFiles);
 
 		// Add default config
-		array_unshift($config_files, $this->config_filename);
+		array_unshift($configFiles, $this->configFilename);
 
 		//Include file and merge config
-		foreach($config_files as $file) {
+		foreach($configFiles as $file) {
 			if( !file_exists( $file) ) {
 				continue;
 			}
@@ -156,16 +156,15 @@ class Config {
 	private function writeData() {
 		// Create a php file ...
 		$content = "<?php\n";
-		if ($this->debug_mode) {
+		if ($this->debugMode) {
 			$content .= "define('DEBUG',true);\n";
 		}
 		$content .= '$CONFIG = ';
 		$content .= var_export($this->cache, true);
 		$content .= ";\n";
-		//var_dump($content, $this);
 
 		// Write the file
-		$result=@file_put_contents( $this->config_filename, $content );
+		$result=@file_put_contents( $this->configFilename, $content );
 		if(!$result) {
 			throw new HintException(
 				"Can't write into config directory 'config'",
@@ -173,6 +172,6 @@ class Config {
 					.' to the config directory in owncloud');
 		}
 		// Prevent others not to read the config
-		@chmod($this->config_filename, 0640);
+		@chmod($this->configFilename, 0640);
 	}
 }
