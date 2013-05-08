@@ -456,7 +456,7 @@ class OC_Setup {
 		} else {
 			$easy_connect_string = '//'.$e_host.'/'.$e_dbname;
 		}
-		\OC_Log::write('setup oracle', 'connect string: '.$easy_connect_string, \OC_Log::DEBUG);
+		\OC_Log::write('setup oracle', 'connect string: ' . $easy_connect_string, \OC_Log::DEBUG);
 		$connection = @oci_connect($dbuser, $dbpass, $easy_connect_string);
 		if(!$connection) {
 			$e = oci_error();
