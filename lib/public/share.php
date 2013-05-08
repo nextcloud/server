@@ -1223,42 +1223,12 @@ class Share {
 			} else {
 				$groupFileTarget = null;
 			}
-			$query->execute(array($itemType, $itemSource, $groupItemTarget, $parent, $shareType,
-				$shareWith['group'], $uidOwner, $permissions, time(), $fileSource, $groupFileTarget, $token));
-			// Save this id, any extra rows for this group share will need to reference it
-			$parent = \OC_DB::insertid('*PREFIX*share');
-			// Loop through all users of this group in case we need to add an extra row
-			foreach ($shareWith['users'] as $uid) {
-				$itemTarget = self::generateTarget($itemType, $itemSource, self::SHARE_TYPE_USER, $uid,
-					$uidOwner, $suggestedItemTarget, $parent);
-				if (isset($fileSource)) {
-					if ($parentFolder) {
-						if ($parentFolder === true) {
-							$fileTarget = self::generateTarget('file', $filePath, self::SHARE_TYPE_USER, $uid,
-								$uidOwner, $suggestedFileTarget, $parent);
-							if ($fileTarget != $groupFileTarget) {
-								$parentFolders[$uid]['folder'] = $fileTarget;
-							}
-						} else if (isset($parentFolder[$uid])) {
-							$fileTarget = $parentFolder[$uid]['folder'].$itemSource;
-							$parent = $parentFolder[$uid]['id'];
-						}
-					} else {
-						$fileTarget = self::generateTarget('file', $filePath, self::SHARE_TYPE_USER,
-							$uid, $uidOwner, $suggestedFileTarget, $parent);
-					}
-				} else {
-					$fileTarget = null;
-				}
-				// Insert an extra row for the group share if the item or file target is unique for this user
-				if ($itemTarget != $groupItemTarget || (isset($fileSource) && $fileTarget != $groupFileTarget)) {
-					$query->execute(array($itemType, $itemSource, $itemTarget, $parent,
-						self::$shareTypeGroupUserUnique, $uid, $uidOwner, $permissions, time(),
-							$fileSource, $fileTarget, $token));
-					$id = \OC_DB::insertid('*PREFIX*share');
-				}
-			}
-			\OC_Hook::emit('OCP\Share', 'post_shared', array(
+			// Trigger hooks before the share is added to DB
+			// Set flag indicating if execution should continue. 
+			// Use an object as workaround for pass by reference issues
+			$run = new \stdClass();
+			$run->run = true;
+			$params = array(
 				'itemType' => $itemType,
 				'itemSource' => $itemSource,
 				'itemTarget' => $groupItemTarget,
@@ -1270,11 +1240,73 @@ class Share {
 				'fileSource' => $fileSource,
 				'fileTarget' => $groupFileTarget,
 				'id' => $parent,
-				'token' => $token
-			));
-			if ($parentFolder === true) {
-				// Return parent folders to preserve file target paths for potential children
-				return $parentFolders;
+				'token' => $token, 
+				'run' => $run
+			);
+			$run = \OC_Hook::emit(
+				'OCP\Share'
+				, 'pre_shared'
+				, $params
+			);
+			// If hook execution didn't encounter errors
+			if ( ! $run->run ) {
+				$message = 'Sharing '.$itemSource.' failed, because pre share hooks failed';
+				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+				return false;
+			} else {
+				$query->execute(array($itemType, $itemSource, $groupItemTarget, $parent, $shareType,
+					$shareWith['group'], $uidOwner, $permissions, time(), $fileSource, $groupFileTarget, $token));
+				// Save this id, any extra rows for this group share will need to reference it
+				$parent = \OC_DB::insertid('*PREFIX*share');
+				// Loop through all users of this group in case we need to add an extra row
+				foreach ($shareWith['users'] as $uid) {
+					$itemTarget = self::generateTarget($itemType, $itemSource, self::SHARE_TYPE_USER, $uid,
+						$uidOwner, $suggestedItemTarget, $parent);
+					if (isset($fileSource)) {
+						if ($parentFolder) {
+							if ($parentFolder === true) {
+								$fileTarget = self::generateTarget('file', $filePath, self::SHARE_TYPE_USER, $uid,
+									$uidOwner, $suggestedFileTarget, $parent);
+								if ($fileTarget != $groupFileTarget) {
+									$parentFolders[$uid]['folder'] = $fileTarget;
+								}
+							} else if (isset($parentFolder[$uid])) {
+								$fileTarget = $parentFolder[$uid]['folder'].$itemSource;
+								$parent = $parentFolder[$uid]['id'];
+							}
+						} else {
+							$fileTarget = self::generateTarget('file', $filePath, self::SHARE_TYPE_USER,
+								$uid, $uidOwner, $suggestedFileTarget, $parent);
+						}
+					} else {
+						$fileTarget = null;
+					}
+					// Insert an extra row for the group share if the item or file target is unique for this user
+					if ($itemTarget != $groupItemTarget || (isset($fileSource) && $fileTarget != $groupFileTarget)) {
+						$query->execute(array($itemType, $itemSource, $itemTarget, $parent,
+							self::$shareTypeGroupUserUnique, $uid, $uidOwner, $permissions, time(),
+								$fileSource, $fileTarget, $token));
+						$id = \OC_DB::insertid('*PREFIX*share');
+					}
+				}
+				\OC_Hook::emit('OCP\Share', 'post_shared', array(
+					'itemType' => $itemType,
+					'itemSource' => $itemSource,
+					'itemTarget' => $groupItemTarget,
+					'parent' => $parent,
+					'shareType' => $shareType,
+					'shareWith' => $shareWith['group'],
+					'uidOwner' => $uidOwner,
+					'permissions' => $permissions,
+					'fileSource' => $fileSource,
+					'fileTarget' => $groupFileTarget,
+					'id' => $parent,
+					'token' => $token
+				));
+				if ($parentFolder === true) {
+					// Return parent folders to preserve file target paths for potential children
+					return $parentFolders;
+				}
 			}
 		} else {
 			$itemTarget = self::generateTarget($itemType, $itemSource, $shareType, $shareWith, $uidOwner,
@@ -1296,10 +1328,14 @@ class Share {
 			} else {
 				$fileTarget = null;
 			}
-			$query->execute(array($itemType, $itemSource, $itemTarget, $parent, $shareType, $shareWith, $uidOwner,
-				$permissions, time(), $fileSource, $fileTarget, $token));
-			$id = \OC_DB::insertid('*PREFIX*share');
-			\OC_Hook::emit('OCP\Share', 'post_shared', array(
+			// Trigger hooks before the share is added to DB
+			// Set flag indicating if execution should continue. 
+			// Use an object as workaround for pass by reference issues
+			$run = new \stdClass();
+			$run->run = true;
+			// NOTE: [id] isn't included as it's not yet available 
+			// (hasn't been inserted)
+			$params = array(
 				'itemType' => $itemType,
 				'itemSource' => $itemSource,
 				'itemTarget' => $itemTarget,
@@ -1310,13 +1346,42 @@ class Share {
 				'permissions' => $permissions,
 				'fileSource' => $fileSource,
 				'fileTarget' => $fileTarget,
-				'id' => $id,
-				'token' => $token
-			));
-			if ($parentFolder === true) {
-				$parentFolders['id'] = $id;
-				// Return parent folder to preserve file target paths for potential children
-				return $parentFolders;
+				'token' => $token, 
+				'run' => $run
+			);
+			\OC_Hook::emit(
+				'OCP\Share'
+				, 'pre_shared'
+				, $params
+			);
+			// If hook execution didn't encounter errors
+			if ( ! $run->run ) {
+				$message = 'Sharing '.$itemSource.' failed, because pre share hooks failed';
+				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
+				return false;
+			} else {
+				$query->execute(array($itemType, $itemSource, $itemTarget, $parent, $shareType, $shareWith, $uidOwner,
+					$permissions, time(), $fileSource, $fileTarget, $token));
+				$id = \OC_DB::insertid('*PREFIX*share');
+				\OC_Hook::emit('OCP\Share', 'post_shared', array(
+					'itemType' => $itemType,
+					'itemSource' => $itemSource,
+					'itemTarget' => $itemTarget,
+					'parent' => $parent,
+					'shareType' => $shareType,
+					'shareWith' => $shareWith,
+					'uidOwner' => $uidOwner,
+					'permissions' => $permissions,
+					'fileSource' => $fileSource,
+					'fileTarget' => $fileTarget,
+					'id' => $id,
+					'token' => $token
+				));
+				if ($parentFolder === true) {
+					$parentFolders['id'] = $id;
+					// Return parent folder to preserve file target paths for potential children
+					return $parentFolders;
+				}
 			}
 		}
 		return true;

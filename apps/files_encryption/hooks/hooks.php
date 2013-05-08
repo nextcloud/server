@@ -183,7 +183,7 @@ class Hooks {
 	/**
 	 * @brief 
 	 */
-	public static function postShared( $params ) {
+	public static function preShared( $params ) {
 
 		// NOTE: $params has keys:
 		// [itemType] => file
@@ -201,6 +201,7 @@ class Hooks {
 		// [fileTarget] => /test8
 		// [id] => 10
 		// [token] =>
+		// [run] => whether emitting script should continue to run
 		// TODO: Should other kinds of item be encrypted too?
 		
 		if ( $params['itemType'] === 'file' || $params['itemType'] === 'folder' ) {
@@ -249,7 +250,7 @@ class Hooks {
 						// rebuild path
 						foreach ( $targetPathSplit as $pathPart ) {
 						
-							if( $pathPart !== $sharedPart ) {
+							if ( $pathPart !== $sharedPart ) {
 								
 								$path = '/' . $pathPart . $path;
 								
@@ -295,15 +296,13 @@ class Hooks {
 					$failed[] = $path;
 				}
 			}
-
-			// If no attempts to set keyfiles failed
-			if ( empty( $failed ) ) {
 			
-				return true;
+			// If some attempts to set keyfiles failed
+			if ( ! empty( $failed ) ) {
 				
-			} else {
-			
-				return false;
+				// Set flag var 'run' to notify emitting 
+				// script that hook execution failed
+				$params['run']->run = false;
 				
 			}
 		}

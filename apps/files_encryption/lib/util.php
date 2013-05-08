@@ -146,7 +146,7 @@ class Util {
 			return false;
 			
 		} else {
-		
+			
 			return true;
 			
 		}
@@ -855,15 +855,14 @@ class Util {
 	 * @param string $filePath path of the file to be shared
 	 */
 	public function setSharedFileKeyfiles( Session $session, array $users, $filePath ) {
-	
+		
 		// Make sure users are capable of sharing
 		$filteredUids = $this->filterShareReadyUsers( $users );
 		
 		if ( ! empty( $filteredUids['unready'] ) ) {
 		
-			// Notify user of unready userDir
-			// TODO: Move this out of here; it belongs somewhere else
-			\OCP\JSON::error();
+			// TODO: Notify user of unready userDir
+			\OC_Log::write( 'Encryption library', 'Sharing to these user(s) failed as they are unready for encryption:"'.print_r( $filteredUids['unready'], 1 ), \OC_Log::WARN );
 			
 		}
 		
