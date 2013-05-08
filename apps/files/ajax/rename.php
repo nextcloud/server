@@ -21,12 +21,12 @@
  *
  */
 
-require_once realpath( dirname(__FILE__).'/../lib/files.php' );
+require_once realpath( dirname(__FILE__).'/../lib/app.php' );
 
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 
-$files = new \OCA\Files\Files(
+$files = new \OCA\Files\App(
 	\OC\Files\Filesystem::getView(),
 	\OC_L10n::get('files')
 );

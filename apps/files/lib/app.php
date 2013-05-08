@@ -24,7 +24,7 @@
 
 namespace OCA\Files;
 
-class Files {
+class App {
 	private $l10n;
 
 	public function __construct($view, $l10n) {

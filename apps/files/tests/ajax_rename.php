@@ -22,9 +22,9 @@
  */
 
 
-require_once dirname(__FILE__).'/../lib/files.php';
+require_once dirname(__FILE__).'/../lib/app.php';
 
-class Test_OC_Files_Files_Rename extends \PHPUnit_Framework_TestCase {
+class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 
 	function setUp() {
 		// mock OC_L10n
@@ -39,7 +39,7 @@ class Test_OC_Files_Files_Rename extends \PHPUnit_Framework_TestCase {
 		$viewMock->expects($this->any())
 			->method('rename')
 			->will($this->returnValue(true));
-		$this->files = new \OCA\Files\Files($viewMock, $l10nMock);
+		$this->files = new \OCA\Files\App($viewMock, $l10nMock);
 	}
 
 	/**
@@ -91,7 +91,7 @@ class Test_OC_Files_Files_Rename extends \PHPUnit_Framework_TestCase {
 		$result = $this->files->rename($dir, $oldname, $newname);
 		$expected = array(
 			'success'	=> false,
-			'data'		=> array('message' => "Invalid folder name. Usage of 'Shared' is reserved by Owncloud")
+			'data'		=> array('message' => "Invalid folder name. Usage of 'Shared' is reserved by ownCloud")
 		);
 
 		$this->assertEquals($expected, $result);
