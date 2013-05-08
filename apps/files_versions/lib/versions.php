@@ -200,7 +200,7 @@ class Storage {
 			}
 
 			// rollback
-			if( @$users_view->copy('files_versions'.$filename.'.v'.$revision, 'files'.$filename) ) {
+			if( @$users_view->rename('files_versions'.$filename.'.v'.$revision, 'files'.$filename) ) {
 				$files_view->touch($file, $revision);
 				Storage::expire($file);
 				return true;
