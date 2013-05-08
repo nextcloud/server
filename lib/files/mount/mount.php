@@ -23,6 +23,11 @@ class Mount {
 	private $mountPoint;
 
 	/**
+	 * @var callable[] $storageWrappers
+	 */
+	private $storageWrappers = array();
+
+	/**
 	 * @param string|\OC\Files\Storage\Storage $storage
 	 * @param string $mountpoint
 	 * @param array $arguments (optional)
@@ -62,7 +67,7 @@ class Mount {
 	private function createStorage() {
 		if (class_exists($this->class)) {
 			try {
-				return new $this->class($this->arguments);
+				return $this->loadStorage($this->class, $this->arguments);
 			} catch (\Exception $exception) {
 				\OC_Log::write('core', $exception->getMessage(), \OC_Log::ERROR);
 				return null;
@@ -71,6 +76,25 @@ class Mount {
 			\OC_Log::write('core', 'storage backend ' . $this->class . ' not found', \OC_Log::ERROR);
 			return null;
 		}
+	}
+
+	/**
+	 * allow modifier storage behaviour by adding wrappers around storages
+	 *
+	 * $callback should be a function of type (string $mountPoint, Storage $storage) => Storage
+	 *
+	 * @param callable $callback
+	 */
+	public function addStorageWrapper($callback) {
+		$this->storageWrappers[] = $callback;
+	}
+
+	private function loadStorage($class, $arguments) {
+		$storage = new $class($arguments);
+		foreach ($this->storageWrappers as $wrapper) {
+			$storage = $wrapper($this->mountPoint, $storage);
+		}
+		return $storage;
 	}
 
 	/**
