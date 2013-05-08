@@ -122,7 +122,6 @@ class Updater {
 		$id = $cache->getId($internalPath);
 		if ($id !== -1) {
 			$cache->update($id, array('etag' => $storage->getETag($internalPath)));
-			self::correctFolder($parent, $time);
 		}
 		self::writeUpdate($path);
 	}
