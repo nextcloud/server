@@ -317,7 +317,19 @@ abstract class Access {
 			}
 			$ldapname = $ldapname[0];
 		}
-		$intname = $isUser ? $this->sanitizeUsername($uuid) : $ldapname;
+
+		if($isUser) {
+			$usernameAttribute = $this->connection->ldapExpertUsernameAttr;
+			if(!emptY($usernameAttribute)) {
+				$username = $this->readAttribute($dn, $usernameAttribute);
+				$username = $username[0];
+			} else {
+				$username = $uuid;
+			}
+			$intname = $this->sanitizeUsername($username);
+		} else {
+			$intname = $ldapname;
+		}
 
 		//a new user/group! Add it only if it doesn't conflict with other backend's users or existing groups
 		//disabling Cache is required to avoid that the new user is cached as not-existing in fooExists check
@@ -894,6 +906,12 @@ abstract class Access {
 	 */
 	private function detectUuidAttribute($dn, $force = false) {
 		if(($this->connection->ldapUuidAttribute != 'auto') && !$force) {
+			return true;
+		}
+
+		$fixedAttribute = $this->connection->ldapExpertUUIDAttr;
+		if(!empty($fixedAttribute)) {
+			$this->connection->ldapUuidAttribute = $fixedAttribute;
 			return true;
 		}
 
