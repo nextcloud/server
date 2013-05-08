@@ -176,5 +176,3 @@ class Config {
 		@chmod($this->config_filename, 0640);
 	}
 }
-
-require_once __DIR__.'/legacy/'.basename(__FILE__);
