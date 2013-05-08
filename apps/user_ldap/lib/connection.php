@@ -65,6 +65,8 @@ class Connection {
 		'ldapAttributesForGroupSearch' => null,
 		'homeFolderNamingRule' => null,
 		'hasPagedResultSupport' => false,
+		'ldapExpertUidAttr' => null,
+		'ldapExpertUUIDAttr' => null,
 	);
 
 	/**
@@ -265,6 +267,10 @@ class Connection {
 				= preg_split('/\r\n|\r|\n/', $this->$v('ldap_attributes_for_user_search'));
 			$this->config['ldapAttributesForGroupSearch']
 				= preg_split('/\r\n|\r|\n/', $this->$v('ldap_attributes_for_group_search'));
+			$this->config['ldapExpertUidAttr']
+				= $this->$v('ldap_expert_uid_attr');
+			$this->config['ldapExpertUUIDAttr']
+				= $this->$v('ldap_expert_uuid_attr');
 
 			$this->configured = $this->validateConfiguration();
 		}
@@ -290,7 +296,6 @@ class Connection {
 			'ldap_group_filter'=>'ldapGroupFilter',
 			'ldap_display_name'=>'ldapUserDisplayName',
 			'ldap_group_display_name'=>'ldapGroupDisplayName',
-
 			'ldap_tls'=>'ldapTLS',
 			'ldap_nocase'=>'ldapNoCase',
 			'ldap_quota_def'=>'ldapQuotaDefault',
@@ -302,7 +307,9 @@ class Connection {
 			'ldap_turn_off_cert_check' => 'turnOffCertCheck',
 			'ldap_configuration_active' => 'ldapConfigurationActive',
 			'ldap_attributes_for_user_search' => 'ldapAttributesForUserSearch',
-			'ldap_attributes_for_group_search' => 'ldapAttributesForGroupSearch'
+			'ldap_attributes_for_group_search' => 'ldapAttributesForGroupSearch',
+			'ldap_expert_uid_attr' => 'ldapExpertUidAttr',
+			'ldap_expert_uuid_attr' => 'ldapExpertUUIDAttr',
 		);
 		return $array;
 	}
@@ -543,6 +550,8 @@ class Connection {
 			'ldap_configuration_active'			=> 1,
 			'ldap_attributes_for_user_search'	=> '',
 			'ldap_attributes_for_group_search'	=> '',
+			'ldap_expert_uid_attr'              => '',
+			'ldap_expert_uuid_attr'             => '',
 		);
 	}
 
