@@ -67,6 +67,7 @@ class OC_Util {
 	public static function tearDownFS() {
 		\OC\Files\Filesystem::tearDown();
 		self::$fsSetup=false;
+        self::$rootMounted=false;
 	}
 
 	/**
