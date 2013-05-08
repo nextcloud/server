@@ -154,5 +154,3 @@ class Log {
 		\OC_Log::write($app, $message, $level);
 	}
 }
-
-require_once __DIR__.'/legacy/'.basename(__FILE__);
