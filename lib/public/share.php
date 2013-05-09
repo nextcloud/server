@@ -1249,7 +1249,7 @@ class Share {
 				, $params
 			);
 			// If hook execution didn't encounter errors
-			if ( ! $run->run ) {
+			if ( $run !== false && !$run->run ) {
 				$message = 'Sharing '.$itemSource.' failed, because pre share hooks failed';
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				return false;
