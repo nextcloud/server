@@ -6,7 +6,7 @@
  * later.
  * See the COPYING-README file.
  */
-if(!is_null(shell_exec('ffmpeg'))){
+if(!is_null(shell_exec('ffmpeg -version'))){
 
 	class OC_Preview_Movie extends OC_Preview_Provider{
 
@@ -14,7 +14,7 @@ if(!is_null(shell_exec('ffmpeg'))){
 			return '/video\/.*/';
 		}
 		
-		public static function getThumbnail($path,$maxX,$maxY,$scalingup) {
+		public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
 				$thumbnails_view = new \OC_FilesystemView('/'.\OCP\User::getUser() .'/'.OC_Preview::THUMBNAILS_FOLDER);
 
 				// is a preview already in the cache?

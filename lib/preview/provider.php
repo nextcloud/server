@@ -16,5 +16,5 @@ abstract class OC_Preview_Provider{
 	 * @param string $query
 	 * @return
 	 */
-	abstract public function getThumbnail($path, $maxX, $maxY, $scalingup);
+	abstract public function getThumbnail($path, $maxX, $maxY, $scalingup,$fileview);
 }

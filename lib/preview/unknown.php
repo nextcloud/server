@@ -12,7 +12,7 @@ class OC_Preview_Unknown extends OC_Preview_Provider{
 		return '/.*/';
 	}
 
-	public static function getThumbnail($maxX,$maxY) {	
+	public function getThumbnail($path, $maxX, $maxY, $scalingup,$fileview) {	
 		// check if GD is installed
 		if(!extension_loaded('gd') || !function_exists('gd_info')) {
 			OC_Log::write('preview', __METHOD__.'(): GD module not installed', OC_Log::ERROR);
