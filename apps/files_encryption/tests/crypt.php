@@ -15,6 +15,7 @@ require_once realpath( dirname(__FILE__).'/../lib/keymanager.php' );
 require_once realpath( dirname(__FILE__).'/../lib/proxy.php' );
 require_once realpath( dirname(__FILE__).'/../lib/stream.php' );
 require_once realpath( dirname(__FILE__).'/../lib/util.php' );
+require_once realpath( dirname(__FILE__).'/../lib/helper.php' );
 require_once realpath( dirname(__FILE__).'/../appinfo/app.php' );
 
 use OCA\Encryption;
