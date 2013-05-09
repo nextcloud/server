@@ -305,7 +305,6 @@ class Util {
 	 * @brief Find all files and their encryption status within a directory
 	 * @param string $directory The path of the parent directory to search
 	 * @return mixed false if 0 found, array on success. Keys: name, path
-	 
 	 * @note $directory needs to be a path relative to OC data dir. e.g.
 	 *       /admin/files NOT /backup OR /home/www/oc/data/admin/files
 	 */
@@ -444,10 +443,10 @@ class Util {
 		return $text;
 	}
 	
-    /**
-     * @brief Check if a given path identifies an encrypted file
-     * @return true / false
-     */
+	/**
+	* @brief Check if a given path identifies an encrypted file
+	* @return true / false
+	*/
 	public function isEncryptedPath( $path ) {
 	
 		// Disable encryption proxy so data retreived is in its 
@@ -462,89 +461,94 @@ class Util {
 	
 	}
 
-    /**
-     * @brief get the file size of the unencrypted file
-     * @param $path absolute path
-     * @return bool
-     */
+	/**
+	* @brief get the file size of the unencrypted file
+	* @param $path absolute path
+	* @return bool
+	*/
 
-    public function getFileSize($path) {
-        $result = 0;
+	public function getFileSize( $path ) {
+	
+		$result = 0;
 
-        // Disable encryption proxy to prevent recursive calls
-        $proxyStatus = \OC_FileProxy::$enabled;
-        \OC_FileProxy::$enabled = false;
+		// Disable encryption proxy to prevent recursive calls
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
 
-        // Reformat path for use with OC_FSV
-        $pathSplit = explode( '/', $path );
-        $pathRelative = implode( '/', array_slice( $pathSplit, 3 ) );
+		// Reformat path for use with OC_FSV
+		$pathSplit = explode( '/', $path );
+		$pathRelative = implode( '/', array_slice( $pathSplit, 3 ) );
 
-        if ($pathSplit[2] == 'files' && $this->view->file_exists($path) && $this->isEncryptedPath($path)) {
+		if ($pathSplit[2] == 'files' && $this->view->file_exists($path) && $this->isEncryptedPath($path)) {
 
-            // get the size from filesystem
-            $fullPath = $this->view->getLocalFile($path);
-            $size = filesize($fullPath);
+			// get the size from filesystem
+			$fullPath = $this->view->getLocalFile($path);
+			$size = filesize($fullPath);
 
-            // calculate last chunk nr
-            $lastChunckNr = floor($size / 8192);
+			// calculate last chunk nr
+			$lastChunckNr = floor($size / 8192);
 
-            // open stream
-            $stream = fopen('crypt://' . $pathRelative, "r");
+			// open stream
+			$stream = fopen('crypt://' . $pathRelative, "r");
 
-            if(is_resource($stream)) {
-                // calculate last chunk position
-                $lastChunckPos = ($lastChunckNr * 8192);
+			if(is_resource($stream)) {
+				// calculate last chunk position
+				$lastChunckPos = ($lastChunckNr * 8192);
 
-                // seek to end
-                fseek($stream, $lastChunckPos);
+				// seek to end
+				fseek($stream, $lastChunckPos);
 
-                // get the content of the last chunk
-                $lastChunkContent = fread($stream, 8192);
+				// get the content of the last chunk
+				$lastChunkContent = fread($stream, 8192);
 
-                // calc the real file size with the size of the last chunk
-                $realSize = (($lastChunckNr * 6126) + strlen($lastChunkContent));
+				// calc the real file size with the size of the last chunk
+				$realSize = (($lastChunckNr * 6126) + strlen($lastChunkContent));
 
-                // store file size
-                $result = $realSize;
-            }
-        }
+				// store file size
+				$result = $realSize;
+			}
+		}
 
-        \OC_FileProxy::$enabled = $proxyStatus;
+		\OC_FileProxy::$enabled = $proxyStatus;
 
-        return $result;
-    }
-    /**
-     * @brief fix the file size of the encrypted file
-     *
-     * @param $path absolute path
-     * @return true / false if file is encrypted
-     */
+		return $result;
+	}
+    
+	/**
+	 * @brief fix the file size of the encrypted file
+	 * @param $path absolute path
+	 * @return true / false if file is encrypted
+	 */
 
-    public function fixFileSize($path) {
-        $result = false;
+	public function fixFileSize( $path ) {
+	
+		$result = false;
 
-        // Disable encryption proxy to prevent recursive calls
-        $proxyStatus = \OC_FileProxy::$enabled;
-        \OC_FileProxy::$enabled = false;
+		// Disable encryption proxy to prevent recursive calls
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
 
-        $realSize = $this->getFileSize($path);
-        if($realSize > 0) {
-            $cached = $this->view->getFileInfo($path);
-            $cached['encrypted'] = 1;
+		$realSize = $this->getFileSize( $path );
+		
+		if ( $realSize > 0 ) {
+		
+			$cached = $this->view->getFileInfo( $path );
+			$cached['encrypted'] = 1;
 
-            // set the size
-            $cached['unencrypted_size'] = $realSize;
+			// set the size
+			$cached['unencrypted_size'] = $realSize;
 
-            // put file info
-            $this->view->putFileInfo( $path, $cached );
+			// put file info
+			$this->view->putFileInfo( $path, $cached );
 
-            $result = true;
-        }
+			$result = true;
+			
+		}
 
-        \OC_FileProxy::$enabled = $proxyStatus;
+		\OC_FileProxy::$enabled = $proxyStatus;
 
-        return $result;
-    }
+		return $result;
+	}
 
 	/**
 	 * @brief Format a path to be relative to the /user/files/ directory
@@ -640,7 +644,7 @@ class Util {
 				stream_copy_to_stream( $plainHandle1, $plainHandle2 );
 				
 				// Close access to original file
-// 				$this->view->fclose( $plainHandle1 ); // not implemented in view{}
+				// $this->view->fclose( $plainHandle1 ); // not implemented in view{}
 				
 				// Delete original plain file so we can rename enc file later
 				$this->view->unlink( $rawPath );
@@ -1156,64 +1160,65 @@ class Util {
 	
 	}
 
-    /**
-     * @brief get shares parent.
-     * @param int $id of the current share
-     * @return array of the parent
-     */
-    public static function getShareParent( $id ) {
+	/**
+	 * @brief get shares parent.
+	 * @param int $id of the current share
+	 * @return array of the parent
+	 */
+	public static function getShareParent( $id ) {
 
-        $query = \OC_DB::prepare( 'SELECT `file_target`, `item_type`'
-            .' FROM `*PREFIX*share`'
-            .' WHERE `id` = ?' );
+		$query = \OC_DB::prepare( 'SELECT `file_target`, `item_type`'
+		.' FROM `*PREFIX*share`'
+		.' WHERE `id` = ?' );
 
-        $result = $query->execute( array( $id ) );
+		$result = $query->execute( array( $id ) );
 
-        $row = $result->fetchRow();
+		$row = $result->fetchRow();
 
-        return $row;
+		return $row;
 
-    }
-
-    /**
-     * @brief get owner of the shared files.
-     * @param int $Id of a share
-     * @return owner
-     */
-    public function getOwnerFromSharedFile($id) {
-    
-        $query = \OC_DB::prepare( 'SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1 );
-        $source = $query->execute( array( $id ) )->fetchRow();
-
-	if ( isset($source['parent'] ) ) {
-	
-		$parent = $source['parent'];
-		
-		while ( isset( $parent ) ) {
-		
-			$query = \OC_DB::prepare( 'SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1 );
-			$item = $query->execute( array( $parent ) )->fetchRow();
-			
-			if ( isset( $item['parent'] ) ) {
-			
-				$parent = $item['parent'];
-			
-			} else {
-			
-				$fileOwner = $item['uid_owner'];
-				
-				break;
-			
-			}
-		}
-		
-	} else {
-		
-		$fileOwner = $source['uid_owner'];
-		
 	}
 
+	/**
+	 * @brief get owner of the shared files.
+	 * @param int $Id of a share
+	 * @return owner
+	 */
+	public function getOwnerFromSharedFile( $id ) {
+	
+		$query = \OC_DB::prepare( 'SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1 );
+		$source = $query->execute( array( $id ) )->fetchRow();
+
+		if ( isset($source['parent'] ) ) {
+		
+			$parent = $source['parent'];
+			
+			while ( isset( $parent ) ) {
+			
+				$query = \OC_DB::prepare( 'SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1 );
+				$item = $query->execute( array( $parent ) )->fetchRow();
+				
+				if ( isset( $item['parent'] ) ) {
+				
+					$parent = $item['parent'];
+				
+				} else {
+				
+					$fileOwner = $item['uid_owner'];
+					
+					break;
+				
+				}
+			}
+			
+		} else {
+			
+			$fileOwner = $source['uid_owner'];
+			
+		}
+
 		return $fileOwner;
+		
 	}
 
 }
