@@ -1,13 +1,25 @@
 <?php
 /**
- * Copyright (c) 2012 Sam Tuke <samtuke@owncloud.com>, and
- * Robin Appelman <icewind@owncloud.com>
- * This file is licensed under the Affero General Public License version 3 or
- * later.
- * See the COPYING-README file.
+ * ownCloud
+ *
+ * @author Florin Peter
+ * @copyright 2013 Florin Peter <owncloud@florin-peter.de>
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
+ * License as published by the Free Software Foundation; either
+ * version 3 of the License, or any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU AFFERO GENERAL PUBLIC LICENSE for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public
+ * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
+ *
  */
 
-//require_once "PHPUnit/Framework/TestCase.php";
 require_once realpath( dirname(__FILE__).'/../../../3rdparty/Crypt_Blowfish/Blowfish.php' );
 require_once realpath( dirname(__FILE__).'/../../../lib/base.php' );
 require_once realpath( dirname(__FILE__).'/../lib/crypt.php' );
@@ -15,20 +27,10 @@ require_once realpath( dirname(__FILE__).'/../lib/keymanager.php' );
 require_once realpath( dirname(__FILE__).'/../lib/proxy.php' );
 require_once realpath( dirname(__FILE__).'/../lib/stream.php' );
 require_once realpath( dirname(__FILE__).'/../lib/util.php' );
+require_once realpath( dirname(__FILE__).'/../lib/helper.php' );
 require_once realpath( dirname(__FILE__).'/../appinfo/app.php' );
 
 use OCA\Encryption;
-
-// This has to go here because otherwise session errors arise, and the private 
-// encryption key needs to be saved in the session
-
-/**
- * @note It would be better to use Mockery here for mocking out the session 
- * handling process, and isolate calls to session class and data from the unit 
- * tests relating to them (stream etc.). However getting mockery to work and 
- * overload classes whilst also using the OC autoloader is difficult due to 
- * load order Pear errors.
- */
 
 class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 	
@@ -46,20 +48,30 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
         \OC_Appconfig::setValue('core', 'shareapi_allow_resharing', 'yes');
 
         OC_Hook::clear('OCP\\Share');
-        // Sharing-related hooks
-        OCP\Util::connectHook( 'OCP\Share', 'post_shared', 'OCA\Encryption\Hooks', 'postShared' );
-        OCP\Util::connectHook( 'OCP\Share', 'post_unshare', 'OCA\Encryption\Hooks', 'postUnshare' );
-        OCP\Util::connectHook( 'OCP\Share', 'post_unshareAll', 'OCA\Encryption\Hooks', 'postUnshareAll' );
 
-        OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
+        // Sharing related hooks
+        OCA\Encryption\Helper::registerShareHooks();
+
+        // Filesystem related hooks
+        OCA\Encryption\Helper::registerFilesystemHooks();
 
         OC_FileProxy::register( new OCA\Encryption\Proxy() );
 
         OC::registerShareHooks();
+
+        // remember files_trashbin state
+        $this->stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
+
+        // we don't want to tests with app files_trashbin
+        OC_App::disable('files_trashbin');
     }
 	
 	function tearDown() {
-
+        if($this->stateFilesTrashbin) {
+            OC_App::enable('files_trashbin');
+        } else {
+            OC_App::disable('files_trashbin');
+        }
 	}
 
     function testShareFile($withTeardown = true) {
@@ -120,6 +132,12 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
             // tear down
             \OC_User::deleteUser('user1');
+
+            // cleanup
+            $this->view->unlink('/admin/files/'.$filename);
+
+            // check if share key not exists
+            $this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/'.$filename.'.admin.shareKey'));
         }
     }
 
@@ -175,6 +193,12 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
             // tear down
             \OC_User::deleteUser('user2');
             \OC_User::deleteUser('user1');
+
+            // cleanup
+            $this->view->unlink('/admin/files/'.$filename);
+
+            // check if share key not exists
+            $this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/'.$filename.'.admin.shareKey'));
         }
     }
 
@@ -238,6 +262,12 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
             // check if share key not exists
             $this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys'.$folder1.$subfolder.$subsubfolder.'/'.$filename.'.user1.shareKey'));
+
+            // cleanup
+            $this->view->unlink('/admin/files'.$folder1.$subfolder.$subsubfolder.'/'.$filename);
+
+            // check if share key not exists
+            $this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys'.$folder1.$subfolder.$subsubfolder.'/'.$filename.'.admin.shareKey'));
 
             // tear down
             \OC_User::deleteUser('user1');
