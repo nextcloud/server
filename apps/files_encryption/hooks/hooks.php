@@ -277,21 +277,28 @@ class Hooks {
 
 			// if a folder was shared, get a list if all (sub-)folders
 			if ( $params['itemType'] === 'folder' ) {
-				$allFiles = $util->getAllFiles($path);
+			
+				$allFiles = $util->getAllFiles( $path );
+				
 			} else {
 			
 				$allFiles = array( $path );
 				
 			}
+			
+			// Set array for collecting paths which can't be shared
+			$failed = array();
 
 			foreach ( $allFiles as $path ) {
 			
 				$usersSharing = $util->getSharingUsersArray( $sharingEnabled, $path );
-
-				$failed = array();
+				
+				// Because this is a pre_share hook, the user 
+				// being shared to is not yet included; add them
+				$usersSharing[] = $params['shareWith'];
 
 				// Attempt to set shareKey
- 				if ( !$util->setSharedFileKeyfiles( $session, $usersSharing, $path ) ) {
+ 				if ( ! $util->setSharedFileKeyfiles( $session, $usersSharing, $path ) ) {
 
 					$failed[] = $path;
 				}
@@ -303,6 +310,9 @@ class Hooks {
 				// Set flag var 'run' to notify emitting 
 				// script that hook execution failed
 				$params['run']->run = false;
+				
+				// TODO: Make sure files_sharing provides user 
+				// feedback on failed share
 				
 			}
 		}

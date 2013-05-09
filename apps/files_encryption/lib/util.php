@@ -3,8 +3,8 @@
  * ownCloud
  *
  * @author Sam Tuke, Frank Karlitschek
- * @copyright 2012 Sam Tuke samtuke@owncloud.com, 
- * Frank Karlitschek frank@owncloud.org
+ * @copyright 2012 Sam Tuke <samtuke@owncloud.com>, 
+ * Frank Karlitschek <frank@owncloud.org>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU AFFERO GENERAL PUBLIC LICENSE
@@ -88,14 +88,7 @@ class Util {
 	
 	//// TODO: add support for optional recovery in case of lost passphrase / keys
 	//// TODO: add admin optional required long passphrase for users
-	//// TODO: add UI buttons for encrypt / decrypt everything
 	//// TODO: implement flag system to allow user to specify encryption by folder, subfolder, etc.
-	
-	
-	// Sharing:
-	
-	//// TODO: add support for encrypting to multiple public keys
-	//// TODO: add support for decrypting to multiple private keys
 	
 	
 	// Integration testing:
@@ -136,11 +129,11 @@ class Util {
 	public function ready() {
 		
 		if( 
-		!$this->view->file_exists( $this->encryptionDir )
-		or !$this->view->file_exists( $this->keyfilesPath )
-		or !$this->view->file_exists( $this->shareKeysPath )
-		or !$this->view->file_exists( $this->publicKeyPath )
-		or !$this->view->file_exists( $this->privateKeyPath ) 
+		! $this->view->file_exists( $this->encryptionDir )
+		or ! $this->view->file_exists( $this->keyfilesPath )
+		or ! $this->view->file_exists( $this->shareKeysPath )
+		or ! $this->view->file_exists( $this->publicKeyPath )
+		or ! $this->view->file_exists( $this->privateKeyPath ) 
 		) {
 		
 			return false;
@@ -471,9 +464,8 @@ class Util {
 
     /**
      * @brief get the file size of the unencrypted file
-     *
      * @param $path absolute path
-     * @return true / false if file is encrypted
+     * @return bool
      */
 
     public function getFileSize($path) {
@@ -768,7 +760,7 @@ class Util {
 	 * @return multi-dimensional array. keys: ready, unready
 	 */
 	public function filterShareReadyUsers( $unfilteredUsers ) {
-	
+		
 		// This array will collect the filtered IDs
 		$readyIds = $unreadyIds = array();
 	
@@ -780,8 +772,8 @@ class Util {
 			// Check that the user is encryption capable, or is the
 			// public system user 'ownCloud' (for public shares)
 			if ( 
-				$util->ready() 
-				or $user == 'owncloud'
+				$user == 'owncloud' 
+				or $util->ready() 
 			) {
 			
 				// Construct array of ready UIDs for Keymanager{}
@@ -853,22 +845,27 @@ class Util {
 	 * @brief Encrypt keyfile to multiple users
 	 * @param array $users list of users which should be able to access the file
 	 * @param string $filePath path of the file to be shared
+	 * @return bool 
 	 */
 	public function setSharedFileKeyfiles( Session $session, array $users, $filePath ) {
 		
 		// Make sure users are capable of sharing
 		$filteredUids = $this->filterShareReadyUsers( $users );
 		
+		// If we're attempting to share to unready users
 		if ( ! empty( $filteredUids['unready'] ) ) {
-		
-			// TODO: Notify user of unready userDir
+			
 			\OC_Log::write( 'Encryption library', 'Sharing to these user(s) failed as they are unready for encryption:"'.print_r( $filteredUids['unready'], 1 ), \OC_Log::WARN );
+			
+			return false;
 			
 		}
 		
 		// Get public keys for each user, ready for generating sharekeys
 		$userPubKeys = Keymanager::getPublicKeys( $this->view, $filteredUids['ready'] );
-
+		
+		// Note proxy status then disable it
+		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
 		// Get the current users's private key for decrypting existing keyfile
@@ -884,21 +881,19 @@ class Util {
 		
 		// Save the recrypted key to it's owner's keyfiles directory
 		// Save new sharekeys to all necessary user directory
-		// TODO: Reuse the keyfile, it it exists, instead of making a new one
 		if ( 
 			! Keymanager::setFileKey( $this->view, $filePath, $fileOwner, $multiEncKey['data'] )
 			|| ! Keymanager::setShareKeys( $this->view, $filePath, $multiEncKey['keys'] ) 
 		) {
 
-			trigger_error( "SET Share keys failed" );
+			\OC_Log::write( 'Encryption library', 'Keyfiles could not be saved for users sharing ' . $filePath, \OC_Log::ERROR );
+			
+			return false;
 
 		}
-
-		// Delete existing keyfile
-		// Do this last to ensure file is recoverable in case of error
-		// Keymanager::deleteFileKey( $this->view, $this->userId, $params['fileTarget'] );
-	
-		\OC_FileProxy::$enabled = true;
+		
+		// Return proxy to original status
+		\OC_FileProxy::$enabled = $proxyStatus;
 
 		return true;
 	}
@@ -948,7 +943,7 @@ class Util {
 		// add current user if given
 		if ( $currentUserId != false ) {
 		
-		$userIds[] = $currentUserId;
+			$userIds[] = $currentUserId;
 		
 		}
 
@@ -961,6 +956,7 @@ class Util {
 	
 	/**
 	 * @brief Set file migration status for user
+	 * @return bool
 	 */
 	public function setMigrationStatus( $status ) {
 	
@@ -1089,42 +1085,59 @@ class Util {
 	 * @param type $dir relative to the users files folder
 	 * @return array with list of files relative to the users files folder
 	 */
-	public function getAllFiles($dir) {
+	public function getAllFiles( $dir ) {
+	
 		$result = array();
 
-        $content = $this->view->getDirectoryContent($this->userFilesDir.$dir);
+		$content = $this->view->getDirectoryContent( $this->userFilesDir . $dir );
 
-        // handling for re shared folders
-        $path_split = explode( '/', $dir );
-        $shared = '';
-        if($path_split[1] === 'Shared') {
-            $shared = '/Shared';
-        }
+		// handling for re shared folders
+		$path_split = explode( '/', $dir );
+		$shared = '';
+		
+		if( $path_split[1] === 'Shared' ) {
+		
+			$shared = '/Shared';
+			
+		}
 
-		foreach ($content as $c) {
-            $sharedPart = $path_split[sizeof($path_split)-1];
-            $targetPathSplit = array_reverse(explode('/', $c['path']));
+		foreach ( $content as $c ) {
+		
+			$sharedPart = $path_split[sizeof( $path_split )-1];
+			$targetPathSplit = array_reverse( explode( '/', $c['path'] ) );
 
-            $path = '';
+			$path = '';
 
-            // rebuild path
-            foreach ($targetPathSplit as $pathPart) {
-                if($pathPart !== $sharedPart) {
-                    $path = '/'.$pathPart.$path;
-                } else {
-                    break;
-                }
-            }
+			// rebuild path
+			foreach ( $targetPathSplit as $pathPart ) {
+			
+				if ( $pathPart !== $sharedPart ) {
+				
+					$path = '/' . $pathPart . $path;
+				
+				} else {
+				
+					break;
+				
+				}
+				
+			}
 
-            $path = $dir.$path;
+			$path = $dir.$path;
 
 			if ($c['type'] === "dir" ) {
-                $result = array_merge($result, $this->getAllFiles($path));
+				
+				$result = array_merge( $result, $this->getAllFiles( $path ) );
+			
 			} else {
-                $result[] = $path;
+			
+				$result[] = $path;
+			
 			}
 		}
+		
 		return $result;
+	
 	}
 
     /**
@@ -1132,7 +1145,7 @@ class Util {
      * @param int $Id of the current share
      * @return array of the parent
      */
-    public static function getShareParent($Id) {
+    public static function getShareParent( $Id ) {
 
         $query = \OC_DB::prepare( 'SELECT `file_target`, `item_type`'
             .' FROM `*PREFIX*share`'
@@ -1152,26 +1165,39 @@ class Util {
      * @return owner
      */
     public function getOwnerFromSharedFile($id) {
-        $query = \OC_DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
-        $source = $query->execute(array($id))->fetchRow();
+    
+        $query = \OC_DB::prepare( 'SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1 );
+        $source = $query->execute( array( $id ) )->fetchRow();
 
-        if (isset($source['parent'])) {
-            $parent = $source['parent'];
-            while (isset($parent)) {
-                $query = \OC_DB::prepare('SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1);
-                $item = $query->execute(array($parent))->fetchRow();
-                if (isset($item['parent'])) {
-                    $parent = $item['parent'];
-                } else {
-                    $fileOwner = $item['uid_owner'];
-                    break;
-                }
-            }
-        } else {
-            $fileOwner = $source['uid_owner'];
-        }
+	if ( isset($source['parent'] ) ) {
+	
+		$parent = $source['parent'];
+		
+		while ( isset( $parent ) ) {
+		
+			$query = \OC_DB::prepare( 'SELECT `parent`, `uid_owner` FROM `*PREFIX*share` WHERE `id` = ?', 1 );
+			$item = $query->execute( array( $parent ) )->fetchRow();
+			
+			if ( isset( $item['parent'] ) ) {
+			
+				$parent = $item['parent'];
+			
+			} else {
+			
+				$fileOwner = $item['uid_owner'];
+				
+				break;
+			
+			}
+		}
+		
+	} else {
+		
+		$fileOwner = $source['uid_owner'];
+		
+	}
 
-        return $fileOwner;
-    }
+		return $fileOwner;
+	}
 
 }
