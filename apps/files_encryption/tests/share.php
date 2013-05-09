@@ -50,20 +50,27 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
         OC_Hook::clear('OCP\\Share');
 
         // Sharing related hooks
-        OCA\Encryption\Helper::registerShareHooks();
+        \OCA\Encryption\Helper::registerShareHooks();
 
         // Filesystem related hooks
-        OCA\Encryption\Helper::registerFilesystemHooks();
+        \OCA\Encryption\Helper::registerFilesystemHooks();
 
-        OC_FileProxy::register( new OCA\Encryption\Proxy() );
+        \OC_FileProxy::register( new OCA\Encryption\Proxy() );
 
-        OC::registerShareHooks();
+        \OC::registerShareHooks();
+
+        OCP\Util::connectHook('OC_Filesystem', 'setup', '\OC\Files\Storage\Shared', 'setup');
 
         // remember files_trashbin state
         $this->stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
 
         // we don't want to tests with app files_trashbin
-        OC_App::disable('files_trashbin');
+        \OC_App::disable('files_trashbin');
+
+        $this->loginHelper('user1', true);
+        $this->loginHelper('user2', true);
+        $this->loginHelper('user3', true);
+        $this->loginHelper('user4', true);
     }
 	
 	function tearDown() {
@@ -72,12 +79,14 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
         } else {
             OC_App::disable('files_trashbin');
         }
+
+        \OC_User::deleteUser('user1');
+        \OC_User::deleteUser('user2');
+        \OC_User::deleteUser('user3');
+        \OC_User::deleteUser('user4');
 	}
 
     function testShareFile($withTeardown = true) {
-        // create user1
-        $this->loginHelper('user1', true);
-
         // login as admin
         $this->loginHelper('admin');
 
@@ -130,9 +139,6 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
             // check if share key not exists
             $this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/'.$filename.'.user1.shareKey'));
 
-            // tear down
-            \OC_User::deleteUser('user1');
-
             // cleanup
             $this->view->unlink('/admin/files/'.$filename);
 
@@ -143,9 +149,6 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
     function testReShareFile($withTeardown = true) {
         $this->testShareFile(false);
-
-        // create user2
-        $this->loginHelper('user2', true);
 
         // login as user1
         $this->loginHelper('user1');
@@ -190,10 +193,6 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
             // check if share key not exists
             $this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/'.$filename.'.user1.shareKey'));
 
-            // tear down
-            \OC_User::deleteUser('user2');
-            \OC_User::deleteUser('user1');
-
             // cleanup
             $this->view->unlink('/admin/files/'.$filename);
 
@@ -204,7 +203,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
     function testShareFolder($withTeardown = true) {
         // create user1
-        $this->loginHelper('user1', true);
+        $this->loginHelper('user1');
 
         // login as admin
         $this->loginHelper('admin');
@@ -268,9 +267,6 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase {
 
             // check if share key not exists
             $this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys'.$folder1.$subfolder.$subsubfolder.'/'.$filename.'.admin.shareKey'));
-
-            // tear down
-            \OC_User::deleteUser('user1');
         }
     }
 
