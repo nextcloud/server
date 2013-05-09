@@ -153,7 +153,7 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 			throw new EmittedException;
 		};
 		$this->emitter->listen('Test', 'test', $listener);
-		$this->emitter->remoteListener('Test', 'test', $listener);
+		$this->emitter->removeListener('Test', 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
 	}
 
@@ -166,7 +166,7 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 		};
 		$this->emitter->listen('Test', 'test', $listener1);
 		$this->emitter->listen('Test', 'test', $listener2);
-		$this->emitter->remoteListener('Test', 'test');
+		$this->emitter->removeListener('Test', 'test');
 		$this->emitter->emitEvent('Test', 'test');
 	}
 
@@ -176,7 +176,7 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 		};
 		$this->emitter->listen('Test', 'test', $listener);
 		$this->emitter->listen('Test', 'foo', $listener);
-		$this->emitter->remoteListener('Test', null, $listener);
+		$this->emitter->removeListener('Test', null, $listener);
 		$this->emitter->emitEvent('Test', 'test');
 		$this->emitter->emitEvent('Test', 'foo');
 	}
@@ -187,7 +187,7 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 		};
 		$this->emitter->listen('Test', 'test', $listener);
 		$this->emitter->listen('Bar', 'test', $listener);
-		$this->emitter->remoteListener(null, 'test', $listener);
+		$this->emitter->removeListener(null, 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
 		$this->emitter->emitEvent('Bar', 'test');
 	}
@@ -199,7 +199,7 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 		$this->emitter->listen('Test', 'test', $listener);
 		$this->emitter->listen('Test', 'foo', $listener);
 		$this->emitter->listen('Bar', 'foo', $listener);
-		$this->emitter->remoteListener(null, null, $listener);
+		$this->emitter->removeListener(null, null, $listener);
 		$this->emitter->emitEvent('Test', 'test');
 		$this->emitter->emitEvent('Test', 'foo');
 		$this->emitter->emitEvent('Bar', 'foo');
@@ -217,7 +217,7 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 		};
 		$this->emitter->listen('Test', 'test', $listener1);
 		$this->emitter->listen('Test', 'test', $listener2);
-		$this->emitter->remoteListener('Test', 'test', $listener1);
+		$this->emitter->removeListener('Test', 'test', $listener1);
 		$this->emitter->emitEvent('Test', 'test');
 	}
 
@@ -230,7 +230,7 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 		};
 		$this->emitter->listen('Test', 'test', $listener);
 		$this->emitter->listen('Test', 'foo', $listener);
-		$this->emitter->remoteListener('Test', 'foo', $listener);
+		$this->emitter->removeListener('Test', 'foo', $listener);
 		$this->emitter->emitEvent('Test', 'test');
 	}
 
@@ -243,7 +243,7 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 		};
 		$this->emitter->listen('Test', 'test', $listener);
 		$this->emitter->listen('Bar', 'test', $listener);
-		$this->emitter->remoteListener('Bar', 'test', $listener);
+		$this->emitter->removeListener('Bar', 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
 	}
 
@@ -255,7 +255,7 @@ class BasicEmitter extends \PHPUnit_Framework_TestCase {
 			throw new EmittedException;
 		};
 		$this->emitter->listen('Test', 'test', $listener);
-		$this->emitter->remoteListener('Bar', 'test', $listener);
+		$this->emitter->removeListener('Bar', 'test', $listener);
 		$this->emitter->emitEvent('Test', 'test');
 	}
 }

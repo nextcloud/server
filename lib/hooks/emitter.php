@@ -28,5 +28,5 @@ interface Emitter {
 	 * @param string $method optional
 	 * @param callable $callback optional
 	 */
-	public function remoteListener($scope = null, $method = null, $callback = null);
+	public function removeListener($scope = null, $method = null, $callback = null);
 }

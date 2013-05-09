@@ -35,7 +35,7 @@ abstract class BasicEmitter implements Emitter {
 	 * @param string $method optional
 	 * @param callable $callback optional
 	 */
-	public function remoteListener($scope = null, $method = null, $callback = null) {
+	public function removeListener($scope = null, $method = null, $callback = null) {
 		$names = array();
 		$allNames = array_keys($this->listeners);
 		if ($scope and $method) {
