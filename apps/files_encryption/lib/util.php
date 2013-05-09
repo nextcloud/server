@@ -548,12 +548,28 @@ class Util {
 
 	/**
 	 * @brief Format a path to be relative to the /user/files/ directory
+	 * @note e.g. turns '/admin/files/test.txt' into 'test.txt'
 	 */
 	public function stripUserFilesPath( $path ) {
 	
 		$trimmed = ltrim( $path, '/' );
 		$split = explode( '/', $trimmed );
 		$sliced = array_slice( $split, 2 );
+		$relPath = implode( '/', $sliced );
+		
+		return $relPath;
+	
+	}
+	
+	/**
+	 * @brief Format a path to be relative to the /user directory
+	 * @note e.g. turns '/admin/files/test.txt' into 'files/test.txt'
+	 */
+	public function stripFilesPath( $path ) {
+	
+		$trimmed = ltrim( $path, '/' );
+		$split = explode( '/', $trimmed );
+		$sliced = array_slice( $split, 1 );
 		$relPath = implode( '/', $sliced );
 		
 		return $relPath;
@@ -1142,16 +1158,16 @@ class Util {
 
     /**
      * @brief get shares parent.
-     * @param int $Id of the current share
+     * @param int $id of the current share
      * @return array of the parent
      */
-    public static function getShareParent( $Id ) {
+    public static function getShareParent( $id ) {
 
         $query = \OC_DB::prepare( 'SELECT `file_target`, `item_type`'
             .' FROM `*PREFIX*share`'
             .' WHERE `id` = ?' );
 
-        $result = $query->execute( array( $Id ) );
+        $result = $query->execute( array( $id ) );
 
         $row = $result->fetchRow();
 

@@ -93,29 +93,29 @@ class Proxy extends \OC_FileProxy {
 	
 	public function preFile_put_contents( $path, &$data ) {
 
-        if ( self::shouldEncrypt( $path ) ) {
+		if ( self::shouldEncrypt( $path ) ) {
 
-        	// Stream put contents should have been converted to fopen
+			// Stream put contents should have been converted to fopen
 			if ( !is_resource( $data ) ) {
 
-                $userId = \OCP\USER::getUser();
-				$rootView = new \OC_FilesystemView( '/' );
-				$util = new Util( $rootView, $userId );
-				$session = new Session( $rootView );
+				$userId = \OCP\USER::getUser();
+				$view = new \OC_FilesystemView( '/' );
+				$util = new Util( $view, $userId );
+				$session = new Session( $view );
 				$privateKey = $session->getPrivateKey();
 				$filePath = $util->stripUserFilesPath( $path );
 				// Set the filesize for userland, before encrypting
 				$size = strlen( $data );
-				
+					
 				// Disable encryption proxy to prevent recursive calls
-                $proxyStatus = \OC_FileProxy::$enabled;
-                \OC_FileProxy::$enabled = false;
-				
+				$proxyStatus = \OC_FileProxy::$enabled;
+				\OC_FileProxy::$enabled = false;
+					
 				// Check if there is an existing key we can reuse
-				if ( $encKeyfile = Keymanager::getFileKey( $rootView, $userId, $filePath ) ) {
+				if ( $encKeyfile = Keymanager::getFileKey( $view, $userId, $filePath ) ) {
 					
 					// Fetch shareKey
-					$shareKey = Keymanager::getShareKey( $rootView, $userId, $filePath );
+					$shareKey = Keymanager::getShareKey( $view, $userId, $filePath );
 					
 					// Decrypt the keyfile
 					$plainKey = Crypt::multiKeyDecrypt( $encKeyfile, $shareKey, $privateKey );
@@ -124,7 +124,7 @@ class Proxy extends \OC_FileProxy {
 				
 					// Make a new key
 					$plainKey = Crypt::generateKey();
-				
+					
 				}
 				
 				// Encrypt data
@@ -134,34 +134,73 @@ class Proxy extends \OC_FileProxy {
 				
 				$uniqueUserIds = $util->getSharingUsersArray( $sharingEnabled, $filePath, $userId );
 
-                // Fetch public keys for all users who will share the file
-				$publicKeys = Keymanager::getPublicKeys( $rootView, $uniqueUserIds );
+				// Fetch public keys for all users who will share the file
+				$publicKeys = Keymanager::getPublicKeys( $view, $uniqueUserIds );
 
-                // Encrypt plain keyfile to multiple sharefiles
+				// Encrypt plain keyfile to multiple sharefiles
 				$multiEncrypted = Crypt::multiKeyEncrypt( $plainKey, $publicKeys );
 				
 				// Save sharekeys to user folders
-				Keymanager::setShareKeys( $rootView, $filePath, $multiEncrypted['keys'] );
+				Keymanager::setShareKeys( $view, $filePath, $multiEncrypted['keys'] );
 				
 				// Set encrypted keyfile as common varname
 				$encKey = $multiEncrypted['data'];
 				
 				// Save keyfile for newly encrypted file in parallel directory tree
-				Keymanager::setFileKey( $rootView, $filePath, $userId, $encKey );
+				Keymanager::setFileKey( $view, $filePath, $userId, $encKey );
 
 				// Replace plain content with encrypted content by reference
 				$data = $encData;
-				
+					
 				// Update the file cache with file info
-                \OC\Files\Filesystem::putFileInfo( $filePath, array( 'encrypted'=>true, 'size' => strlen($size), 'unencrypted_size' => $size), '' );
+				\OC\Files\Filesystem::putFileInfo( $filePath, array( 'encrypted'=>true, 'size' => strlen($size), 'unencrypted_size' => $size), '' );
 
-                // Re-enable proxy - our work is done
+				// Re-enable proxy - our work is done
 				\OC_FileProxy::$enabled = $proxyStatus;
 				
 			}
 		}
 
-        return true;
+		return true;
+		
+	}
+	
+	public function postFile_put_contents( $path, $length ) {
+	
+		$userId = \OCP\USER::getUser();
+		$view = new \OC_FilesystemView( '/' );
+		$util = new Util( $view, $userId );
+	
+		// Check if recoveryAdmin is enabled for system and user
+		// TODO: Consider storing recoveryAdmin status for user in session
+		if ( 
+			\OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminEnabled' )
+			&& $util->recoveryEnabledForUser()
+		) {
+			
+			// Get owner UID and filepath
+			list( $owner, $ownerPath ) = $util->getUidAndFilename( $path );
+		
+			$recoveryAdminUid = \OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminEnabled' );
+			$usersSharing = \OCP\Share::getUsersSharingFile( $ownerPath, $owner,true, true, true );
+		
+			// Check if file is already shared to recoveryAdmin
+			if ( ! in_array( $recoveryAdminUid, $usersSharing ) ) {
+
+				$relPath = $util->stripFilesPath( $path );
+
+				// Get file info from filecache
+				$fileInfo = \OC\Files\Filesystem::getFileInfo( $path );
+				
+				// Register share to recoveryAdmin with share API
+				// FIXME: Some of these vars aren't set
+				// FIXME: What should the permission number be to grant all rights?
+// 				\OCP\Share::shareItem( $itemType, $itemSource, 0, $recoveryAdminUid, 17 ); 
+			
+			}
+		
+		}
+		
 	}
 	
 	/**
