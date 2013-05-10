@@ -1243,13 +1243,14 @@ class Share {
 				'token' => $token, 
 				'run' => $run
 			);
+
 			$run = \OC_Hook::emit(
 				'OCP\Share'
 				, 'pre_shared'
 				, $params
 			);
 			// If hook execution didn't encounter errors
-			if ( $run !== false && !$run->run ) {
+			if ( isset($run->run) && !$run->run ) {
 				$message = 'Sharing '.$itemSource.' failed, because pre share hooks failed';
 				\OC_Log::write('OCP\Share', $message, \OC_Log::ERROR);
 				return false;
