@@ -296,6 +296,9 @@ class Hooks {
                 // check if we share to a group
                 if($params['shareType'] === \OCP\Share::SHARE_TYPE_GROUP) {
                     $usersSharing[] = reset(\OC_Group::usersInGroup($params['shareWith']));
+                // check if we share with link
+                } else if($params['shareType'] === \OCP\Share::SHARE_TYPE_LINK) {
+                    $usersSharing[] = 'owncloud';
                 } else {
                     // Because this is a pre_share hook, the user
                     // being shared to is not yet included; add them
