@@ -350,7 +350,7 @@ class View {
 				return false;
 			}
 			$run = true;
-			if ($this->fakeRoot == Filesystem::getRoot()) {
+			if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path1)) {
 				\OC_Hook::emit(
 					Filesystem::CLASSNAME, Filesystem::signal_rename,
 					array(
@@ -378,7 +378,7 @@ class View {
 					list($storage1, $internalPath1) = Filesystem::resolvePath($absolutePath1 . $postFix1);
 					$storage1->unlink($internalPath1);
 				}
-				if ($this->fakeRoot == Filesystem::getRoot()) {
+				if ($this->fakeRoot == Filesystem::getRoot() && !Cache\Scanner::isPartialFile($path1)) {
 					\OC_Hook::emit(
 						Filesystem::CLASSNAME,
 						Filesystem::signal_post_rename,
