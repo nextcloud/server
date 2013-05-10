@@ -292,10 +292,16 @@ class Hooks {
 			foreach ( $allFiles as $path ) {
 			
 				$usersSharing = $util->getSharingUsersArray( $sharingEnabled, $path );
-				
-				// Because this is a pre_share hook, the user 
-				// being shared to is not yet included; add them
-				$usersSharing[] = $params['shareWith'];
+
+                // check if we share to a group
+                if($params['shareType'] === \OCP\Share::SHARE_TYPE_GROUP) {
+                    $usersSharing[] = reset(\OC_Group::usersInGroup($params['shareWith']));
+                } else {
+                    // Because this is a pre_share hook, the user
+                    // being shared to is not yet included; add them
+                    $usersSharing[] = $params['shareWith'];
+                }
+
 
 				// Attempt to set shareKey
  				if ( ! $util->setSharedFileKeyfiles( $session, $usersSharing, $path ) ) {
@@ -310,8 +316,7 @@ class Hooks {
 				// Set flag var 'run' to notify emitting 
 				// script that hook execution failed
 				$params['run']->run = false;
-				
-				// TODO: Make sure files_sharing provides user 
+                // TODO: Make sure files_sharing provides user
 				// feedback on failed share
 				
 			}
