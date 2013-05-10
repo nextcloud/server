@@ -621,9 +621,26 @@ class OC_Helper {
 	 * remove all files in PHP /oc-noclean temp dir
 	 */
 	public static function cleanTmpNoClean() {
-		$tmpDirNoCleanFile=get_temp_dir().'/oc-noclean/';
-		if(file_exists($tmpDirNoCleanFile)) {
-			self::rmdirr($tmpDirNoCleanFile);
+		$tmpDirNoCleanName=get_temp_dir().'/oc-noclean/';
+		if(file_exists($tmpDirNoCleanName) && is_dir($tmpDirNoCleanName)) {
+			$files=scandir($tmpDirNoCleanName);
+			foreach($files as $file) {
+				$fileName = $tmpDirNoCleanName . $file;
+				if (!\OC\Files\Filesystem::isIgnoredDir($file) && filemtime($fileName) + 600 < time()) {
+					unlink($fileName);
+				}
+			}
+			// if oc-noclean is empty delete it
+			$isTmpDirNoCleanEmpty = true;
+			$tmpDirNoClean = opendir($tmpDirNoCleanName);
+			while (false !== ($file = readdir($tmpDirNoClean))) {
+				if (!\OC\Files\Filesystem::isIgnoredDir($file)) {
+					$isTmpDirNoCleanEmpty = false;
+				}
+			}
+			if ($isTmpDirNoCleanEmpty) {
+				rmdir($tmpDirNoCleanName);
+			}
 		}
 	}
 
