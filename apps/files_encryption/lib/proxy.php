@@ -492,7 +492,7 @@ class Proxy extends \OC_FileProxy {
                 if($fixSize > 0) {
                     $size = $fixSize;
 
-                    $fileInfo['encrypted'] = 1;
+                    $fileInfo['encrypted'] = true;
                     $fileInfo['unencrypted_size'] = $size;
 
                     // put file info

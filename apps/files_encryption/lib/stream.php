@@ -519,7 +519,7 @@ class Stream {
             }
 
             // set encryption data
-            $fileInfo['encrypted'] = 1;
+            $fileInfo['encrypted'] = true;
             $fileInfo['size'] = $this->size;
             $fileInfo['unencrypted_size'] = $this->unencryptedSize;
 

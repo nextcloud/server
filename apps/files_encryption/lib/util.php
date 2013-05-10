@@ -94,7 +94,7 @@ class Util {
 	// Integration testing:
 	
 	//// TODO: test new encryption with versioning
-	//// TODO: test new encryption with sharing
+	//// DONE: test new encryption with sharing
 	//// TODO: test new encryption with proxies
 	
 	
@@ -533,7 +533,7 @@ class Util {
 		if ( $realSize > 0 ) {
 		
 			$cached = $this->view->getFileInfo( $path );
-			$cached['encrypted'] = 1;
+			$cached['encrypted'] = true;
 
 			// set the size
 			$cached['unencrypted_size'] = $realSize;
