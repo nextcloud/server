@@ -52,9 +52,6 @@ class Trashbin {
 		if (!$view->is_dir('files_trashbin/share-keys')) {
 			$view->mkdir('files_trashbin/share-keys');
 		}
-		if (!$view->is_dir('files_trashbin/files')) {
-			$view->mkdir('files_trashbin/files');
-		}
 		$path_parts = pathinfo($file_path);
 
 		$filename = $path_parts['basename'];
