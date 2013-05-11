@@ -172,13 +172,21 @@ class Mapper
 
 		$pathElements = explode('/', $path);
 		$sluggedElements = array();
-
-		// rip off the extension ext from last element
+		
 		$last= end($pathElements);
 		$parts = pathinfo($last);
-		$filename = $parts['filename'];
-		array_pop($pathElements);
-		array_push($pathElements, $filename);
+		
+		if ((preg_match('~[-\w]+~', $parts['filename'])) && (preg_match('~[-\w]+~', $parts['extension']))){
+			
+			// rip off the extension ext from last element
+			$filename = $parts['filename'];
+			array_pop($pathElements);
+			array_push($pathElements, $filename);
+			
+		} else {
+			
+			unset($parts['extension']);
+		} 
 
 		foreach ($pathElements as $pathElement) {
 			// remove empty elements
@@ -213,8 +221,8 @@ class Mapper
 	 */
 	private function slugify($text)
 	{
-		// replace non letter or digits by -
-		$text = preg_replace('~[^\\pL\d]+~u', '-', $text);
+		// replace non letter or digits or dots by -
+		$text = preg_replace('~[^\\pL\d\.]+~u', '-', $text);
 
 		// trim
 		$text = trim($text, '-');
@@ -228,7 +236,10 @@ class Mapper
 		$text = strtolower($text);
 
 		// remove unwanted characters
-		$text = preg_replace('~[^-\w]+~', '', $text);
+		$text = preg_replace('~[^-\w\.]+~', '', $text);
+		
+		// trim ending dots (for security reasons and win compatibility)
+		$text = preg_replace('~\.+$~', '', $text);
 
 		if (empty($text)) {
 			return uniqid();
