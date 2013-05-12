@@ -3,13 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Sungjin Gang <potopro@gmail.com>, 2013
+# Sungjin Gang <potopro@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:27+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-12 02:01+0200\n"
+"PO-Revision-Date: 2013-05-08 15:50+0000\n"
+"Last-Translator: Sungjin Gang <potopro@gmail.com>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -68,7 +70,7 @@ msgstr "디스크에 쓰지 못했습니다"
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
-msgstr ""
+msgstr "저장소가 용량이 충분하지 않습니다."
 
 #: ajax/upload.php:83
 msgid "Invalid directory."
@@ -84,9 +86,9 @@ msgstr "공유"
 
 #: js/fileactions.js:126
 msgid "Delete permanently"
-msgstr ""
+msgstr "영원히 삭제"
 
-#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
 msgid "Delete"
 msgstr "삭제"
 
@@ -124,7 +126,7 @@ msgstr "되돌리기"
 
 #: js/filelist.js:324
 msgid "perform delete operation"
-msgstr ""
+msgstr "삭제 작업중"
 
 #: js/filelist.js:406
 msgid "1 file uploading"
@@ -132,7 +134,7 @@ msgstr "파일 1개 업로드 중"
 
 #: js/filelist.js:409 js/filelist.js:463
 msgid "files uploading"
-msgstr ""
+msgstr "파일 업로드중"
 
 #: js/files.js:52
 msgid "'.' is an invalid file name."
@@ -156,66 +158,66 @@ msgstr "저장 공간이 가득 찼습니다. 파일을 업데이트하거나 �
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "저장 공간이 거의 가득 찼습니다 ({usedSpacePercent}%)"
 
-#: js/files.js:226
+#: js/files.js:231
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "다운로드가 준비 중입니다. 파일 크기가 크다면 시간이 오래 걸릴 수도 있습니다."
 
-#: js/files.js:259
+#: js/files.js:264
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
 msgstr "디렉터리 및 빈 파일은 업로드할 수 없습니다"
 
-#: js/files.js:272
+#: js/files.js:277
 msgid "Not enough space available"
 msgstr "여유 공간이 부족합니다"
 
-#: js/files.js:312
+#: js/files.js:317
 msgid "Upload cancelled."
 msgstr "업로드가 취소되었습니다."
 
-#: js/files.js:408
+#: js/files.js:413
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "파일 업로드가 진행 중입니다. 이 페이지를 벗어나면 업로드가 취소됩니다."
 
-#: js/files.js:481
+#: js/files.js:486
 msgid "URL cannot be empty."
 msgstr "URL을 입력해야 합니다."
 
-#: js/files.js:486
+#: js/files.js:491
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "폴더 이름이 유효하지 않습니다. "
 
-#: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
+#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
 msgid "Error"
 msgstr "오류"
 
-#: js/files.js:872 templates/index.php:70
+#: js/files.js:877 templates/index.php:69
 msgid "Name"
 msgstr "이름"
 
-#: js/files.js:873 templates/index.php:81
+#: js/files.js:878 templates/index.php:80
 msgid "Size"
 msgstr "크기"
 
-#: js/files.js:874 templates/index.php:83
+#: js/files.js:879 templates/index.php:82
 msgid "Modified"
 msgstr "수정됨"
 
-#: js/files.js:893
+#: js/files.js:898
 msgid "1 folder"
 msgstr "폴더 1개"
 
-#: js/files.js:895
+#: js/files.js:900
 msgid "{count} folders"
 msgstr "폴더 {count}개"
 
-#: js/files.js:903
+#: js/files.js:908
 msgid "1 file"
 msgstr "파일 1개"
 
-#: js/files.js:905
+#: js/files.js:910
 msgid "{count} files"
 msgstr "파일 {count}개"
 
@@ -273,43 +275,43 @@ msgstr "링크에서"
 
 #: templates/index.php:42
 msgid "Deleted files"
-msgstr ""
+msgstr "파일 삭제됨"
 
 #: templates/index.php:48
 msgid "Cancel upload"
 msgstr "업로드 취소"
 
-#: templates/index.php:55
+#: templates/index.php:54
 msgid "You don’t have write permissions here."
-msgstr ""
+msgstr "당신은 여기에 쓰기를 할 수 있는 권한이 없습니다."
 
-#: templates/index.php:62
+#: templates/index.php:61
 msgid "Nothing in here. Upload something!"
 msgstr "내용이 없습니다. 업로드할 수 있습니다!"
 
-#: templates/index.php:76
+#: templates/index.php:75
 msgid "Download"
 msgstr "다운로드"
 
-#: templates/index.php:88 templates/index.php:89
+#: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
 msgstr "공유 해제"
 
-#: templates/index.php:108
+#: templates/index.php:107
 msgid "Upload too large"
 msgstr "업로드한 파일이 너무 큼"
 
-#: templates/index.php:110
+#: templates/index.php:109
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "이 파일이 서버에서 허용하는 최대 업로드 가능 용량보다 큽니다."
 
-#: templates/index.php:115
+#: templates/index.php:114
 msgid "Files are being scanned, please wait."
 msgstr "파일을 검색하고 있습니다. 기다려 주십시오."
 
-#: templates/index.php:118
+#: templates/index.php:117
 msgid "Current scanning"
 msgstr "현재 검색"
 

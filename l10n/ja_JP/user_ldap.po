@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:31+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-12 02:01+0200\n"
+"PO-Revision-Date: 2013-05-08 13:50+0000\n"
+"Last-Translator: Daisuke Deguchi <ddeguchi@nagoya-u.jp>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -326,7 +327,7 @@ msgstr "ユーザ名を空のままにしてください（デフォルト）。
 
 #: templates/settings.php:99
 msgid "Test Configuration"
-msgstr "テスト設定"
+msgstr "設定をテスト"
 
 #: templates/settings.php:99
 msgid "Help"

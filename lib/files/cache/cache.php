@@ -318,19 +318,22 @@ class Cache {
 	 * @param string $target
 	 */
 	public function move($source, $target) {
-		$sourceId = $this->getId($source);
+		$sourceData = $this->get($source);
+		$sourceId = $sourceData['fileid'];
 		$newParentId = $this->getParentId($target);
 
-		//find all child entries
-		$query = \OC_DB::prepare('SELECT `path`, `fileid` FROM `*PREFIX*filecache` WHERE `path` LIKE ?');
-		$result = $query->execute(array($source . '/%'));
-		$childEntries = $result->fetchAll();
-		$sourceLength = strlen($source);
-		$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET `path` = ?, `path_hash` = ? WHERE `fileid` = ?');
+		if ($sourceData['mimetype'] === 'httpd/unix-directory') {
+			//find all child entries
+			$query = \OC_DB::prepare('SELECT `path`, `fileid` FROM `*PREFIX*filecache` WHERE `path` LIKE ?');
+			$result = $query->execute(array($source . '/%'));
+			$childEntries = $result->fetchAll();
+			$sourceLength = strlen($source);
+			$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET `path` = ?, `path_hash` = ? WHERE `fileid` = ?');
 
-		foreach ($childEntries as $child) {
-			$targetPath = $target . substr($child['path'], $sourceLength);
-			$query->execute(array($targetPath, md5($targetPath), $child['fileid']));
+			foreach ($childEntries as $child) {
+				$targetPath = $target . substr($child['path'], $sourceLength);
+				$query->execute(array($targetPath, md5($targetPath), $child['fileid']));
+			}
 		}
 
 		$query = \OC_DB::prepare('UPDATE `*PREFIX*filecache` SET `path` = ?, `path_hash` = ?, `name` = ?, `parent` =?'

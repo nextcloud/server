@@ -22,11 +22,7 @@ if(($username == '' && !OC_User::isAdminUser(OC_User::getUser()))
 $quota=$_POST["quota"];
 if($quota!='none' and $quota!='default') {
 	$quota= OC_Helper::computerFileSize($quota);
-	if($quota==0) {
-		$quota='default';
-	}else{
-		$quota=OC_Helper::humanFileSize($quota);
-	}
+	$quota=OC_Helper::humanFileSize($quota);
 }
 
 // Return Success story
