@@ -21,8 +21,6 @@
  *
  */
 
-require_once realpath( dirname(__FILE__).'/../lib/app.php' );
-
 OCP\JSON::checkLoggedIn();
 OCP\JSON::callCheck();
 

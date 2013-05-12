@@ -21,18 +21,15 @@
  *
  */
 
-
-require_once dirname(__FILE__).'/../lib/app.php';
-
 class Test_OC_Files_App_Rename extends \PHPUnit_Framework_TestCase {
 
 	function setUp() {
 		// mock OC_L10n
-		$l10nMock = $this->getMock('\OC_L10N', array('t'));
+		$l10nMock = $this->getMock('\OC_L10N', array('t'), array(), '', false);
 		$l10nMock->expects($this->any())
 			->method('t')
 			->will($this->returnArgument(0));
-		$viewMock = $this->getMock('\OC\Files\View', array('rename', 'normalizePath'));
+		$viewMock = $this->getMock('\OC\Files\View', array('rename', 'normalizePath'), array(), '', false);
 		$viewMock->expects($this->any())
 			->method('normalizePath')
 			->will($this->returnArgument(0));
