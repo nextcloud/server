@@ -7,10 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-02 02:14+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Uighur (http://www.transifex.com/projects/p/owncloud/language/ug/)\n"
+"POT-Creation-Date: 2013-05-12 02:01+0200\n"
+"PO-Revision-Date: 2013-05-04 11:50+0000\n"
+"Last-Translator: Abduqadir Abliz <sahran.ug@gmail.com>\n"
+"Language-Team: Uighur <uqkun@outlook.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -63,19 +63,19 @@ msgstr ""
 
 #: templates/settings.php:9 templates/settings.php:28
 msgid "Folder name"
-msgstr ""
+msgstr "قىسقۇچ ئاتى"
 
 #: templates/settings.php:10
 msgid "External storage"
-msgstr ""
+msgstr "سىرتقى ساقلىغۇچ"
 
 #: templates/settings.php:11
 msgid "Configuration"
-msgstr ""
+msgstr "سەپلىمە"
 
 #: templates/settings.php:12
 msgid "Options"
-msgstr ""
+msgstr "تاللانما"
 
 #: templates/settings.php:13
 msgid "Applicable"
@@ -95,16 +95,16 @@ msgstr ""
 
 #: templates/settings.php:92
 msgid "Groups"
-msgstr ""
+msgstr "گۇرۇپپا"
 
 #: templates/settings.php:100
 msgid "Users"
-msgstr ""
+msgstr "ئىشلەتكۈچىلەر"
 
 #: templates/settings.php:113 templates/settings.php:114
 #: templates/settings.php:149 templates/settings.php:150
 msgid "Delete"
-msgstr ""
+msgstr "ئۆچۈر"
 
 #: templates/settings.php:129
 msgid "Enable User External Storage"

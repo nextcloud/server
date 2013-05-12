@@ -52,7 +52,7 @@
 "Maximum upload size" => "Tamaño máximo do envío",
 "max. possible: " => "máx. posíbel: ",
 "Needed for multi-file and folder downloads." => "Precísase para a descarga de varios ficheiros e cartafoles.",
-"Enable ZIP-download" => "Habilitar a descarga-ZIP",
+"Enable ZIP-download" => "Activar a descarga ZIP",
 "0 is unlimited" => "0 significa ilimitado",
 "Maximum input size for ZIP files" => "Tamaño máximo de descarga para os ficheiros ZIP",
 "Save" => "Gardar",

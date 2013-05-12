@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# xtdv <truong.tx8@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-30 01:57+0200\n"
-"PO-Revision-Date: 2013-04-29 23:57+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-12 02:01+0200\n"
+"PO-Revision-Date: 2013-05-04 17:50+0000\n"
+"Last-Translator: xtdv <truong.tx8@gmail.com>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -401,11 +402,11 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr ""
+msgstr "Liên kết tạo lại mật khẩu đã được gửi tới hộp thư của bạn.<br>Nếu bạn không thấy nó sau một khoảng thời gian, vui lòng kiểm tra trong thư mục Spam/Rác.<br>Nếu vẫn không thấy, vui lòng hỏi người quản trị hệ thống."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr ""
+msgstr "Yêu cầu thất bại!<br>Bạn có chắc là email/tên đăng nhập của bạn chính xác?"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
@@ -479,11 +480,11 @@ msgstr "Cảnh bảo bảo mật"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "Phiên bản PHP của bạn có lỗ hổng NULL Byte attack (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "Vui lòng cập nhật bản cài đặt PHP để sử dụng ownCloud một cách an toàn."
 
 #: templates/installation.php:32
 msgid ""
@@ -563,7 +564,7 @@ msgstr "dịch vụ web dưới sự kiểm soát của bạn"
 #: templates/layout.user.php:36
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr ""
+msgstr "%s còn trống. Xem thêm thông tin cách cập nhật."
 
 #: templates/layout.user.php:61
 msgid "Log out"

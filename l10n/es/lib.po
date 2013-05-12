@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-28 01:57+0200\n"
-"PO-Revision-Date: 2013-04-27 23:57+0000\n"
+"POT-Creation-Date: 2013-05-12 02:02+0200\n"
+"PO-Revision-Date: 2013-05-04 16:20+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
@@ -41,19 +41,19 @@ msgstr "Aplicaciones"
 msgid "Admin"
 msgstr "Administración"
 
-#: files.php:209
+#: files.php:207
 msgid "ZIP download is turned off."
 msgstr "La descarga en ZIP está desactivada."
 
-#: files.php:210
+#: files.php:208
 msgid "Files need to be downloaded one by one."
 msgstr "Los archivos deben ser descargados uno por uno."
 
-#: files.php:211 files.php:244
+#: files.php:209 files.php:242
 msgid "Back to Files"
 msgstr "Volver a Archivos"
 
-#: files.php:241
+#: files.php:239
 msgid "Selected files too large to generate zip file."
 msgstr "Los archivos seleccionados son demasiado grandes para generar el archivo zip."
 

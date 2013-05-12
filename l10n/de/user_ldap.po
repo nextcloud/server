@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Marcel Kühlhorn <susefan93@gmx.de>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-27 02:16+0200\n"
-"PO-Revision-Date: 2013-04-26 08:31+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-12 02:01+0200\n"
+"PO-Revision-Date: 2013-05-09 19:40+0000\n"
+"Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,19 +24,19 @@ msgstr "Löschen der Serverkonfiguration fehlgeschlagen"
 
 #: ajax/testConfiguration.php:36
 msgid "The configuration is valid and the connection could be established!"
-msgstr "Die Konfiguration war erfolgreich, die Verbindung konnte hergestellt werden!"
+msgstr "Die Konfiguration ist gültig und die Verbindung konnte hergestellt werden!"
 
 #: ajax/testConfiguration.php:39
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr "Die Konfiguration ist gültig aber die Verbindung ist fehlgeschlagen. Bitte überprüfen Sie die Servereinstellungen und die Anmeldeinformationen."
+msgstr "Die Konfiguration ist gültig aber die Verbindung ist fehlgeschlagen. Bitte überprüfe die Servereinstellungen und Anmeldeinformationen."
 
 #: ajax/testConfiguration.php:43
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr "Die Konfiguration ist ungültig, bitte sehen Sie für weitere Details im ownCloud Log nach"
+msgstr "Die Konfiguration ist ungültig, sieh für weitere Details bitte im ownCloud Log nach"
 
 #: js/settings.js:66
 msgid "Deletion failed"
@@ -51,7 +52,7 @@ msgstr "Einstellungen beibehalten?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr "Serverkonfiguration konnte nicht hinzugefügt werden."
+msgstr "Das Hinzufügen der Serverkonfiguration schlug fehl"
 
 #: js/settings.js:121
 msgid "Connection test succeeded"
@@ -63,7 +64,7 @@ msgstr "Verbindungstest fehlgeschlagen"
 
 #: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr "Wollen Sie die aktuelle Serverkonfiguration wirklich löschen?"
+msgstr "Möchtest Du die aktuelle Serverkonfiguration wirklich löschen?"
 
 #: js/settings.js:137
 msgid "Confirm Deletion"
@@ -74,7 +75,7 @@ msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behaviour. Please ask your system administrator to "
 "disable one of them."
-msgstr "<b>Warnung:</b> Die Anwendungen user_ldap und user_webdavauth sind inkompatibel. Es kann demzufolge zu unerwarteten Verhalten kommen. Bitte Deinen Systemadministator eine der beiden Anwendungen zu deaktivieren."
+msgstr "<b>Warnung:</b> Die Anwendungen user_ldap und user_webdavauth sind inkompatibel. Es kann demzufolge zu unerwartetem Verhalten kommen. Bitte Deinen Systemadministator eine der beiden Anwendungen zu deaktivieren."
 
 #: templates/settings.php:11
 msgid ""
@@ -105,7 +106,7 @@ msgstr "Basis-DN"
 
 #: templates/settings.php:40
 msgid "One Base DN per line"
-msgstr "Ein Base DN pro Zeile"
+msgstr "Ein Basis-DN pro Zeile"
 
 #: templates/settings.php:41
 msgid "You can specify Base DN for users and groups in the Advanced tab"
@@ -128,7 +129,7 @@ msgstr "Passwort"
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
-msgstr "Lasse die Felder von DN und Passwort für anonymen Zugang leer."
+msgstr "Lasse die Felder DN und Passwort für anonymen Zugang leer."
 
 #: templates/settings.php:50
 msgid "User Login Filter"
@@ -139,7 +140,7 @@ msgstr "Benutzer-Login-Filter"
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr "Bestimmt den angewendeten Filter, wenn eine Anmeldung versucht wird. %%uid ersetzt den Benutzernamen bei dem Anmeldeversuch."
+msgstr "Bestimmt den angewendeten Filter, wenn eine Anmeldung versucht wird. %%uid ersetzt den Benutzernamen beim Anmeldeversuch."
 
 #: templates/settings.php:54
 #, php-format
@@ -260,7 +261,7 @@ msgstr "Basis-Benutzerbaum"
 
 #: templates/settings.php:83
 msgid "One User Base DN per line"
-msgstr "Ein Benutzer Base DN pro Zeile"
+msgstr "Ein Benutzer Basis-DN pro Zeile"
 
 #: templates/settings.php:84
 msgid "User Search Attributes"
@@ -268,7 +269,7 @@ msgstr "Benutzersucheigenschaften"
 
 #: templates/settings.php:84 templates/settings.php:87
 msgid "Optional; one attribute per line"
-msgstr "Optional; eine Eigenschaft pro Zeile"
+msgstr "Optional; ein Attribut pro Zeile"
 
 #: templates/settings.php:85
 msgid "Group Display Name Field"
@@ -284,7 +285,7 @@ msgstr "Basis-Gruppenbaum"
 
 #: templates/settings.php:86
 msgid "One Group Base DN per line"
-msgstr "Ein Gruppen Base DN pro Zeile"
+msgstr "Ein Gruppen Basis-DN pro Zeile"
 
 #: templates/settings.php:87
 msgid "Group Search Attributes"
