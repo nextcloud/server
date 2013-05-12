@@ -176,16 +176,22 @@ class Mapper
 		$last= end($pathElements);
 		$parts = pathinfo($last);
 		
-		if ((preg_match('~[-\w]+~', $parts['filename'])) && (preg_match('~[-\w]+~', $parts['extension']))){
+		$filename = $parts['filename'];
+		$extension = $parts['extension'];
+
 			
-			// rip off the extension ext from last element
-			$filename = $parts['filename'];
-			array_pop($pathElements);
-			array_push($pathElements, $filename);
+		if ((preg_match('~[-\w]+~', $filename)) && (preg_match('~[-\w]+~', $extension))){
+			
+		// rip off the extension ext from last element
+		array_pop($pathElements);
+		array_push($pathElements, $filename);
 			
 		} else {
 			
-			unset($parts['extension']);
+			if (isset($parts['extension'])) {
+				unset($parts['extension']);
+				}
+      
 		} 
 
 		foreach ($pathElements as $pathElement) {
