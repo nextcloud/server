@@ -128,6 +128,25 @@ class Hooks {
     }
 
     /**
+     * @brief cleanup encryption backend upon user deleted
+     * @note This method should never be called for users using client side encryption
+     */
+    public static function postDeleteUser( $params ) {
+        $view = new \OC_FilesystemView( '/' );
+
+        // cleanup public key
+        $publicKey = '/public-keys/' . $params['uid'] . '.public.key';
+
+        // Disable encryption proxy to prevent recursive calls
+        $proxyStatus = \OC_FileProxy::$enabled;
+        \OC_FileProxy::$enabled = false;
+
+        $view->unlink($publicKey);
+
+        \OC_FileProxy::$enabled = $proxyStatus;
+    }
+
+    /**
 	 * @brief Change a user's encryption passphrase
 	 * @param array $params keys: uid, password
 	 */
