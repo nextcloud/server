@@ -96,7 +96,7 @@ class Helper {
 			return false;
 		}
 
-		if($res->numRows() == 0) {
+		if($res->numRows() === 0) {
 			return false;
 		}
 

@@ -3,14 +3,15 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# uqkun <uqkun@outlook.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-02 02:14+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Uighur (http://www.transifex.com/projects/p/owncloud/language/ug/)\n"
+"POT-Creation-Date: 2013-05-12 02:01+0200\n"
+"PO-Revision-Date: 2013-05-08 15:21+0000\n"
+"Last-Translator: uqkun <uqkun@outlook.com>\n"
+"Language-Team: Uighur <uqkun@outlook.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,11 +20,11 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "Password"
-msgstr ""
+msgstr "ئىم"
 
 #: templates/authenticate.php:6
 msgid "Submit"
-msgstr ""
+msgstr "تاپشۇر"
 
 #: templates/public.php:10
 #, php-format
@@ -37,7 +38,7 @@ msgstr ""
 
 #: templates/public.php:19 templates/public.php:43
 msgid "Download"
-msgstr ""
+msgstr "چۈشۈر"
 
 #: templates/public.php:40
 msgid "No preview available for"

@@ -24,7 +24,7 @@
 OCP\App::registerAdmin('user_ldap', 'settings');
 
 $configPrefixes = OCA\user_ldap\lib\Helper::getServerConfigurationPrefixes(true);
-if(count($configPrefixes) == 1) {
+if(count($configPrefixes) === 1) {
 	$connector = new OCA\user_ldap\lib\Connection($configPrefixes[0]);
 	$userBackend  = new OCA\user_ldap\USER_LDAP();
 	$userBackend->setConnector($connector);

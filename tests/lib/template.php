@@ -20,9 +20,12 @@
 *
 */
 
-OC::autoload('OC_Template');
-
 class Test_TemplateFunctions extends PHPUnit_Framework_TestCase {
+
+	public function setUp() {
+		$loader = new \OC\Autoloader();
+		$loader->load('OC_Template');
+	}
 
 	public function testP() {
 		// FIXME: do we need more testcases?

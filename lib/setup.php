@@ -811,6 +811,7 @@ class OC_Setup {
 		$content.= "php_value upload_max_filesize 512M\n";//upload limit
 		$content.= "php_value post_max_size 512M\n";
 		$content.= "php_value memory_limit 512M\n";
+		$content.= "php_value mbstring.func_overload 0\n";
 		$content.= "<IfModule env_module>\n";
 		$content.= "  SetEnv htaccessWorking true\n";
 		$content.= "</IfModule>\n";
