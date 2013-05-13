@@ -47,17 +47,11 @@ class Hooks {
 		$view = new \OC_FilesystemView( '/' );
 
 		$util = new Util( $view, $params['uid'] );
-		
-		// Check files_encryption infrastructure is ready for action
-		if ( ! $util->ready() ) {
-			
-			\OC_Log::write( 'Encryption library', 'User account "' . $params['uid'] . '" is not ready for encryption; configuration started', \OC_Log::DEBUG );
-			
-			if(!$util->setupServerSide( $params['password'] )) {
-                return false;
-            }
 
-		}
+        // setup user, if user not ready force relogin
+		if(Helper::setupUser($util, $params['password']) === false) {
+            return false;
+        }
 	
 		\OC_FileProxy::$enabled = false;
 		
@@ -120,8 +114,20 @@ class Hooks {
 		return true;
 
 	}
-	
-	/**
+
+    /**
+     * @brief setup encryption backend upon user created
+     * @note This method should never be called for users using client side encryption
+     */
+    public static function postCreateUser( $params ) {
+        $view = new \OC_FilesystemView( '/' );
+
+        $util = new Util( $view, $params['uid'] );
+
+        Helper::setupUser($util, $params['password']);
+    }
+
+    /**
 	 * @brief Change a user's encryption passphrase
 	 * @param array $params keys: uid, password
 	 */

@@ -48,6 +48,7 @@ class Helper {
 
         \OCP\Util::connectHook( 'OC_User', 'post_login', 'OCA\Encryption\Hooks', 'login' );
         \OCP\Util::connectHook( 'OC_User', 'pre_setPassword', 'OCA\Encryption\Hooks', 'setPassphrase' );
+        \OCP\Util::connectHook( 'OC_User', 'post_createUser', 'OCA\Encryption\Hooks', 'postCreateUser' );
     }
 
     /**
@@ -68,5 +69,24 @@ class Helper {
         \OCP\Util::connectHook('OC_Filesystem', 'post_rename', 'OCA\Encryption\Hooks', 'postRename');
     }
 
+    /**
+     * @brief setup user for files_encryption
+     *
+     * @param Util $util
+     * @param string $password
+     * @return bool
+     */
+    public static function setupUser($util, $password) {
+        // Check files_encryption infrastructure is ready for action
+        if ( ! $util->ready() ) {
 
+            \OC_Log::write( 'Encryption library', 'User account "' . $util->getUserId() . '" is not ready for encryption; configuration started', \OC_Log::DEBUG );
+
+            if(!$util->setupServerSide( $password )) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
