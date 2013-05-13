@@ -19,12 +19,6 @@ namespace OC;
  */
 
 class Log {
-	const DEBUG=0;
-	const INFO=1;
-	const WARN=2;
-	const ERROR=3;
-	const FATAL=4;
-
 	const NOTICE=5;
 	const CRITICAL=6;
 	const ALERT=7;
@@ -37,7 +31,7 @@ class Log {
 	 * @return null
 	 */
 	public function emergency($message, array $context = array()) {
-		$this->log(self::FATAL, $message, $context);
+		$this->log(\OC_Log::FATAL, $message, $context);
 	}
 
 	/**
@@ -76,7 +70,7 @@ class Log {
 	 * @return null
 	 */
 	public function error($message, array $context = array()) {
-		$this->log(self::ERROR, $message, $context);
+		$this->log(\OC_Log::ERROR, $message, $context);
 	}
 
 	/**
@@ -90,7 +84,7 @@ class Log {
 	 * @return null
 	 */
 	public function warning($message, array $context = array()) {
-		$this->log(self::WARN, $message, $context);
+		$this->log(\OC_Log::WARN, $message, $context);
 	}
 
 	/**
@@ -114,7 +108,7 @@ class Log {
 	 * @return null
 	 */
 	public function info($message, array $context = array()) {
-		$this->log(self::INFO, $message, $context);
+		$this->log(\OC_Log::INFO, $message, $context);
 	}
 
 	/**
@@ -125,7 +119,7 @@ class Log {
 	 * @return null
 	 */
 	public function debug($message, array $context = array()) {
-		$this->log(self::DEBUG, $message, $context);
+		$this->log(\OC_Log::DEBUG, $message, $context);
 	}
 
 	/**
