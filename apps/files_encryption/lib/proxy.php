@@ -164,45 +164,7 @@ class Proxy extends \OC_FileProxy {
 		return true;
 		
 	}
-	
-	public function postFile_put_contents( $path, $length ) {
-	
-		$userId = \OCP\USER::getUser();
-		$view = new \OC_FilesystemView( '/' );
-		$util = new Util( $view, $userId );
-	
-		// Check if recoveryAdmin is enabled for system and user
-		// TODO: Consider storing recoveryAdmin status for user in session
-		if ( 
-			\OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminEnabled' )
-			&& $util->recoveryEnabledForUser()
-		) {
-			
-			// Get owner UID and filepath
-			list( $owner, $ownerPath ) = $util->getUidAndFilename( $path );
 		
-			$recoveryAdminUid = \OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminEnabled' );
-			$usersSharing = \OCP\Share::getUsersSharingFile( $ownerPath, $owner,true, true, true );
-		
-			// Check if file is already shared to recoveryAdmin
-			if ( ! in_array( $recoveryAdminUid, $usersSharing ) ) {
-
-				$relPath = $util->stripFilesPath( $path );
-
-				// Get file info from filecache
-				$fileInfo = \OC\Files\Filesystem::getFileInfo( $path );
-				
-				// Register share to recoveryAdmin with share API
-				// FIXME: Some of these vars aren't set
-				// FIXME: What should the permission number be to grant all rights?
-// 				\OCP\Share::shareItem( $itemType, $itemSource, 0, $recoveryAdminUid, 17 ); 
-			
-			}
-		
-		}
-		
-	}
-	
 	/**
 	 * @param string $path Path of file from which has been read
 	 * @param string $data Data that has been read from file

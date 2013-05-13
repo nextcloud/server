@@ -179,11 +179,40 @@ class Hooks {
 		}
 		
 	}
-	
+
+	/*
+	 * @brief check if files can be encrypted to every user.
+	 */
+	public static function preShared($params) {
+
+		$users = array();
+		$view = new \OC\Files\View('/public-keys/');
+
+		switch ($params['shareType']) {
+			case \OCP\Share::SHARE_TYPE_USER:
+				$users[] = $params['shareWith'];
+				break;
+			case \OCP\Share::SHARE_TYPE_GROUP:
+				$users = \OC_Group::usersInGroup($params['shareWith']);
+				break;
+		}
+
+		foreach ($users as $user) {
+			if (!$view->file_exists($user . '.public.key')) {
+				// Set flag var 'run' to notify emitting
+				// script that hook execution failed
+				$params['run']->run = false;
+				// TODO: Make sure files_sharing provides user
+				// feedback on failed share
+				break;
+			}
+		}
+	}
+
 	/**
 	 * @brief 
 	 */
-	public static function preShared( $params ) {
+	public static function postShared($params) {
 
 		// NOTE: $params has keys:
 		// [itemType] => file
@@ -203,29 +232,28 @@ class Hooks {
 		// [token] =>
 		// [run] => whether emitting script should continue to run
 		// TODO: Should other kinds of item be encrypted too?
-		
-		if ( $params['itemType'] === 'file' || $params['itemType'] === 'folder' ) {
 
-			$view = new \OC_FilesystemView( '/' );
+		if ($params['itemType'] === 'file' || $params['itemType'] === 'folder') {
+
+			$view = new \OC_FilesystemView('/');
 			$session = new Session($view);
 			$userId = \OCP\User::getUser();
 			$util = new Util($view, $userId);
-			$path = $util->fileIdToPath( $params['itemSource'] );
+			$path = $util->fileIdToPath($params['itemSource']);
 
 			//if parent is set, then this is a re-share action
-			if( $params['parent'] ) {
+			if ($params['parent']) {
 
 				// get the parent from current share
-				$parent = $util->getShareParent( $params['parent'] );
+				$parent = $util->getShareParent($params['parent']);
 
 				// if parent is file the it is an 1:1 share
-				if($parent['item_type'] === 'file') {
+				if ($parent['item_type'] === 'file') {
 
-				// prefix path with Shared
-				$path = '/Shared'.$parent['file_target'];
-
+					// prefix path with Shared
+					$path = '/Shared' . $parent['file_target'];
 				} else {
-				
+
 					// NOTE: parent is folder but shared was a file!
 					// we try to rebuild the missing path
 					// some examples we face here
@@ -237,38 +265,29 @@ class Hooks {
 					// so our path should be 
 					// /Shared/subfolder1/subsubfolder1/somefile.txt 
 					// while user3 is sharing
-					
-					if ( $params['itemType'] === 'file' ) {
+
+					if ($params['itemType'] === 'file') {
 						// get target path
-						$targetPath = $util->fileIdToPath( $params['fileSource'] );
-						$targetPathSplit = array_reverse( explode( '/', $targetPath ) );
+						$targetPath = $util->fileIdToPath($params['fileSource']);
+						$targetPathSplit = array_reverse(explode('/', $targetPath));
 
 						// init values
 						$path = '';
-						$sharedPart = ltrim( $parent['file_target'], '/' );
+						$sharedPart = ltrim($parent['file_target'], '/');
 
 						// rebuild path
-						foreach ( $targetPathSplit as $pathPart ) {
-						
-							if ( $pathPart !== $sharedPart ) {
-								
+						foreach ($targetPathSplit as $pathPart) {
+							if ($pathPart !== $sharedPart) {
 								$path = '/' . $pathPart . $path;
-								
 							} else {
-							
 								break;
-								
 							}
-							
 						}
-
 						// prefix path with Shared
-						$path = '/Shared'.$parent['file_target'].$path;
-
+						$path = '/Shared' . $parent['file_target'] . $path;
 					} else {
-
 						// prefix path with Shared
-						$path = '/Shared'.$parent['file_target'].$params['fileTarget'];
+						$path = '/Shared' . $parent['file_target'] . $params['fileTarget'];
 					}
 				}
 			}
@@ -276,52 +295,15 @@ class Hooks {
 			$sharingEnabled = \OCP\Share::isEnabled();
 
 			// if a folder was shared, get a list if all (sub-)folders
-			if ( $params['itemType'] === 'folder' ) {
-			
-				$allFiles = $util->getAllFiles( $path );
-				
+			if ($params['itemType'] === 'folder') {
+				$allFiles = $util->getAllFiles($path);
 			} else {
-			
-				$allFiles = array( $path );
-				
+				$allFiles = array($path);
 			}
-			
-			// Set array for collecting paths which can't be shared
-			$failed = array();
 
-			foreach ( $allFiles as $path ) {
-			
-				$usersSharing = $util->getSharingUsersArray( $sharingEnabled, $path );
-
-                // check if we share to a group
-                if($params['shareType'] === \OCP\Share::SHARE_TYPE_GROUP) {
-                    $usersSharing[] = reset(\OC_Group::usersInGroup($params['shareWith']));
-                // check if we share with link
-                } else if($params['shareType'] === \OCP\Share::SHARE_TYPE_LINK) {
-                    $usersSharing[] = 'owncloud';
-                } else {
-                    // Because this is a pre_share hook, the user
-                    // being shared to is not yet included; add them
-                    $usersSharing[] = $params['shareWith'];
-                }
-
-
-				// Attempt to set shareKey
- 				if ( ! $util->setSharedFileKeyfiles( $session, $usersSharing, $path ) ) {
-
-					$failed[] = $path;
-				}
-			}
-			
-			// If some attempts to set keyfiles failed
-			if ( ! empty( $failed ) ) {
-				
-				// Set flag var 'run' to notify emitting 
-				// script that hook execution failed
-				$params['run']->run = false;
-                // TODO: Make sure files_sharing provides user
-				// feedback on failed share
-				
+			foreach ($allFiles as $path) {
+				$usersSharing = $util->getSharingUsersArray($sharingEnabled, $path);
+				$util->setSharedFileKeyfiles( $session, $usersSharing, $path );
 			}
 		}
 	}

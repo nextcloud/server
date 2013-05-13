@@ -35,6 +35,7 @@ class Helper {
 	public static function registerShareHooks() {
 
         \OCP\Util::connectHook( 'OCP\Share', 'pre_shared', 'OCA\Encryption\Hooks', 'preShared' );
+		\OCP\Util::connectHook( 'OCP\Share', 'post_shared', 'OCA\Encryption\Hooks', 'postShared' );
         \OCP\Util::connectHook( 'OCP\Share', 'post_unshare', 'OCA\Encryption\Hooks', 'postUnshare' );
         \OCP\Util::connectHook( 'OCP\Share', 'post_unshareAll', 'OCA\Encryption\Hooks', 'postUnshareAll' );
 	}
