@@ -365,9 +365,9 @@ class Hooks {
 			
 				$userIds = \OC_Group::usersInGroup($params['shareWith']);
 				
-			} else {
+			} else if ( $params['shareType'] == \OCP\Share::SHARE_TYPE_LINK ){
 			
-				$userIds = array( $params['shareWith'] );
+				$userIds = array( $util->getPublicShareKeyId() );
 				
 			}
 

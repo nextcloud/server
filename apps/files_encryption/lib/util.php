@@ -108,6 +108,7 @@ class Util {
 	private $shareKeysPath; // Dir containing env keys for shared files
 	private $publicKeyPath; // Path to user's public key
 	private $privateKeyPath; // Path to user's private key
+	private $publicShareKeyId;
 
 	public function __construct( \OC_FilesystemView $view, $userId, $client = false ) {
 	
@@ -123,7 +124,7 @@ class Util {
 		$this->shareKeysPath = $this->encryptionDir . '/' . 'share-keys';
 		$this->publicKeyPath = $this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
 		$this->privateKeyPath = $this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
-		
+		$this->publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
 	}
 	
 	public function ready() {
@@ -210,6 +211,10 @@ class Util {
 		
 		return true;
 	
+	}
+
+	public function getPublicShareKeyId() {
+		return $this->publicShareKeyId;
 	}
 	
 	/**
@@ -792,7 +797,7 @@ class Util {
 			// Check that the user is encryption capable, or is the
 			// public system user 'ownCloud' (for public shares)
 			if ( 
-				$user == 'owncloud' 
+				$user == $this->publicShareKeyId
 				or $util->ready() 
 			) {
 			

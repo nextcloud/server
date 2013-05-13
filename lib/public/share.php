@@ -133,17 +133,17 @@ class Share {
 	* @note $path needs to be relative to user data dir, e.g. 'file.txt' 
 	*       not '/admin/data/file.txt'
 	*/
-	public static function getUsersSharingFile( $path, $user, $includeOwner = false, $removeDuplicates = true ) {
+	public static function getUsersSharingFile($path, $user, $includeOwner = false, $removeDuplicates = true) {
 
 		$path_parts = explode(DIRECTORY_SEPARATOR, trim($path, DIRECTORY_SEPARATOR));
 		$path = '';
 		$shares = array();
-		$view = new \OC\Files\View('/'.$user.'/files/');
+		$view = new \OC\Files\View('/' . $user . '/files/');
 		foreach ($path_parts as $p) {
-			$path .= '/'.$p;
+			$path .= '/' . $p;
 			$meta = $view->getFileInfo(\OC_Filesystem::normalizePath($path));
 			$source = $meta['fileid'];
-			
+
 			// Fetch all shares of this file path from DB
 			$query = \OC_DB::prepare(
 					'SELECT share_with
@@ -152,14 +152,14 @@ class Share {
 					WHERE
 					item_source = ? AND share_type = ?'
 			);
-			
-			$result = $query->execute( array( $source,  self::SHARE_TYPE_USER ) );
 
-			if ( \OC_DB::isError( $result ) ) {
-				\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR );
+			$result = $query->execute(array($source, self::SHARE_TYPE_USER));
+
+			if (\OC_DB::isError($result)) {
+				\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
 			}
 
-			while( $row = $result->fetchRow() ) {
+			while ($row = $result->fetchRow()) {
 				$shares[] = $row['share_with'];
 			}
 
@@ -172,44 +172,47 @@ class Share {
 					WHERE
 					item_source = ? AND share_type = ?'
 			);
-			
-			$result = $query->execute( array( $source, self::SHARE_TYPE_GROUP ) );
 
-			if ( \OC_DB::isError( $result ) ) {
-				\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR );
+			$result = $query->execute(array($source, self::SHARE_TYPE_GROUP));
+
+			if (\OC_DB::isError($result)) {
+				\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
 			}
 
-			while( $row = $result->fetchRow() ) {
+			while ($row = $result->fetchRow()) {
 				$usersInGroup = \OC_Group::usersInGroup($row['share_with']);
 				$shares = array_merge($shares, $usersInGroup);
 			}
-			
-			//check for public link shares
-			$query = \OC_DB::prepare(
-					'SELECT share_with
+
+			$publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
+
+			if ($publicShareKeyId) {
+				//check for public link shares
+				$query = \OC_DB::prepare(
+						'SELECT share_with
 					FROM
 					`*PREFIX*share`
 					WHERE
 					item_source = ? AND share_type = ?'
-			);
-			
-			$result = $query->execute( array( $source, self::SHARE_TYPE_LINK ) );
-			
-			if ( \OC_DB::isError( $result ) ) {
-				\OC_Log::write( 'OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR );
-			}
-			
-			if ($result->fetchRow()) {
-				$shares[] = "owncloud";
+				);
+
+				$result = $query->execute(array($source, self::SHARE_TYPE_LINK));
+
+				if (\OC_DB::isError($result)) {
+					\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+				}
+
+				if ($result->fetchRow()) {
+					$shares[] = $publicShareKeyId;
+				}
 			}
 		}
 		// Include owner in list of users, if requested
-		if ( $includeOwner ) {
+		if ($includeOwner) {
 			$shares[] = $user;
 		}
-		
-	return array_unique($shares);
 
+		return array_unique($shares);
 	}
 
 	/**

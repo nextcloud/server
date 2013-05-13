@@ -45,10 +45,17 @@ class Session {
 			$this->view->mkdir( 'owncloud_private_key' );
 			
 		}
+
+		$publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
+
+		if ($publicShareKeyId === null) {
+			$publicShareKeyId = substr(md5(time()),0,8);
+			\OC_Appconfig::setValue('files_encryption', 'publicShareKeyId', $publicShareKeyId);
+		}
 		
 		if ( 
-			! $this->view->file_exists( "/public-keys/owncloud.public.key" ) 
-			|| ! $this->view->file_exists( "/owncloud_private_key/owncloud.private.key" ) 
+			! $this->view->file_exists( "/public-keys/".$publicShareKeyId.".public.key" )
+			|| ! $this->view->file_exists( "/owncloud_private_key/".$publicShareKeyId.".private.key" )
 		) {
 		
 			//FIXME: Bug: for some reason file_exists is returning 
@@ -57,23 +64,23 @@ class Session {
 			// our app.php is being executed 18 times per page load
 			// , causing 18 new keypairs and huge performance hit.
 			
-// 			$keypair = Crypt::createKeypair();
-// 			
-// 			\OC_FileProxy::$enabled = false;
-// 			
-// 			// Save public key
-// 
-// 			if (!$view->is_dir('/public-keys')) {
-// 				$view->mkdir('/public-keys');
-// 			}
-// 
-// 			$this->view->file_put_contents( '/public-keys/owncloud.public.key', $keypair['publicKey'] );
-// 			
-// 			// Encrypt private key empthy passphrase
-// 			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], '' );
-// 			
-// 			// Save private key
-// 			$this->view->file_put_contents( '/owncloud_private_key/owncloud.private.key', $encryptedPrivateKey );
+ 			$keypair = Crypt::createKeypair();
+ 			
+ 			\OC_FileProxy::$enabled = false;
+ 			
+ 			// Save public key
+ 
+ 			if (!$view->is_dir('/public-keys')) {
+ 				$view->mkdir('/public-keys');
+ 			}
+ 
+ 			$this->view->file_put_contents( '/public-keys/'.$publicShareKeyId.'.public.key', $keypair['publicKey'] );
+ 			
+ 			// Encrypt private key empthy passphrase
+ 			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], '' );
+ 			
+ 			// Save private key
+ 			$this->view->file_put_contents( '/owncloud_private_key/'.$publicShareKeyId.'.private.key', $encryptedPrivateKey );
 			
 			\OC_FileProxy::$enabled = true;
 			
