@@ -28,7 +28,6 @@ class Log {
 	 *
 	 * @param string $message
 	 * @param array $context
-	 * @return null
 	 */
 	public function emergency($message, array $context = array()) {
 		$this->log(\OC_Log::FATAL, $message, $context);
@@ -42,7 +41,6 @@ class Log {
 	 *
 	 * @param string $message
 	 * @param array $context
-	 * @return null
 	 */
 	public function alert($message, array $context = array()) {
 		$this->log(self::ALERT, $message, $context);
@@ -55,7 +53,6 @@ class Log {
 	 *
 	 * @param string $message
 	 * @param array $context
-	 * @return null
 	 */
 	public function critical($message, array $context = array()) {
 		$this->log(self::CRITICAL, $message, $context);
@@ -67,7 +64,6 @@ class Log {
 	 *
 	 * @param string $message
 	 * @param array $context
-	 * @return null
 	 */
 	public function error($message, array $context = array()) {
 		$this->log(\OC_Log::ERROR, $message, $context);
@@ -81,7 +77,6 @@ class Log {
 	 *
 	 * @param string $message
 	 * @param array $context
-	 * @return null
 	 */
 	public function warning($message, array $context = array()) {
 		$this->log(\OC_Log::WARN, $message, $context);
@@ -92,7 +87,6 @@ class Log {
 	 *
 	 * @param string $message
 	 * @param array $context
-	 * @return null
 	 */
 	public function notice($message, array $context = array()) {
 		$this->log(self::NOTICE, $message, $context);
@@ -105,7 +99,6 @@ class Log {
 	 *
 	 * @param string $message
 	 * @param array $context
-	 * @return null
 	 */
 	public function info($message, array $context = array()) {
 		$this->log(\OC_Log::INFO, $message, $context);
@@ -116,7 +109,6 @@ class Log {
 	 *
 	 * @param string $message
 	 * @param array $context
-	 * @return null
 	 */
 	public function debug($message, array $context = array()) {
 		$this->log(\OC_Log::DEBUG, $message, $context);
@@ -128,7 +120,6 @@ class Log {
 	 * @param mixed $level
 	 * @param string $message
 	 * @param array $context
-	 * @return null
 	 */
 	protected function log($level, $message, array $context = array()) {
 		if (isset($context['app'])) {
