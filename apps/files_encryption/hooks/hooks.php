@@ -362,13 +362,11 @@ class Hooks {
 
 			// for group shares get a list of the group members
 			if ( $params['shareType'] == \OCP\Share::SHARE_TYPE_GROUP ) {
-			
 				$userIds = \OC_Group::usersInGroup($params['shareWith']);
-				
 			} else if ( $params['shareType'] == \OCP\Share::SHARE_TYPE_LINK ){
-			
 				$userIds = array( $util->getPublicShareKeyId() );
-				
+			} else {
+				$userIds = array( $params['shareWith'] );
 			}
 
 			// if we unshare a folder we need a list of all (sub-)files
