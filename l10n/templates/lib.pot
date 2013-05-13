@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud Core 5.0.0\n"
 "Report-Msgid-Bugs-To: translations@owncloud.org\n"
-"POT-Creation-Date: 2013-05-04 01:59+0200\n"
+"POT-Creation-Date: 2013-05-13 02:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -172,13 +172,13 @@ msgstr ""
 msgid "MS SQL username and/or password not valid: %s"
 msgstr ""
 
-#: setup.php:858
+#: setup.php:859
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr ""
 
-#: setup.php:859
+#: setup.php:860
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr ""

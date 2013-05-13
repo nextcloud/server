@@ -7,10 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-02 02:14+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Uighur (http://www.transifex.com/projects/p/owncloud/language/ug/)\n"
+"POT-Creation-Date: 2013-05-12 02:01+0200\n"
+"PO-Revision-Date: 2013-05-04 11:40+0000\n"
+"Last-Translator: Abduqadir Abliz <sahran.ug@gmail.com>\n"
+"Language-Team: Uighur <uqkun@outlook.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,20 +20,20 @@ msgstr ""
 #: ajax/rollbackVersion.php:15
 #, php-format
 msgid "Could not revert: %s"
-msgstr ""
+msgstr "ئەسلىگە قايتۇرالمايدۇ: %s"
 
 #: history.php:40
 msgid "success"
-msgstr ""
+msgstr "مۇۋەپپەقىيەتلىك"
 
 #: history.php:42
 #, php-format
 msgid "File %s was reverted to version %s"
-msgstr ""
+msgstr "ھۆججەت %s نى %s نەشرىگە ئەسلىگە قايتۇردى"
 
 #: history.php:49
 msgid "failure"
-msgstr ""
+msgstr "مەغلۇپ بولدى"
 
 #: history.php:51
 #, php-format
@@ -42,15 +42,15 @@ msgstr ""
 
 #: history.php:69
 msgid "No old versions available"
-msgstr ""
+msgstr "كونا نەشرى يوق"
 
 #: history.php:74
 msgid "No path specified"
-msgstr ""
+msgstr "يول بەلگىلەنمىگەن"
 
 #: js/versions.js:6
 msgid "Versions"
-msgstr ""
+msgstr "نەشرى"
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"

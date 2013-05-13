@@ -62,7 +62,9 @@ class Scanner {
 	 * @return array with metadata of the scanned file
 	 */
 	public function scanFile($file, $checkExisting = false) {
-		if (!self::isIgnoredFile($file)) {
+		if ( ! self::isPartialFile($file)
+			and ! \OC\Files\Filesystem::isFileBlacklisted($file)
+		) {
 			\OC_Hook::emit('\OC\Files\Cache\Scanner', 'scan_file', array('path' => $file, 'storage' => $this->storageId));
 			$data = $this->getData($file);
 			if ($data) {
@@ -166,10 +168,8 @@ class Scanner {
 	 * @param String $file
 	 * @return boolean
 	 */
-	public static function isIgnoredFile($file) {
-		if (pathinfo($file, PATHINFO_EXTENSION) === 'part'
-			|| \OC\Files\Filesystem::isFileBlacklisted($file)
-		) {
+	public static function isPartialFile($file) {
+		if (pathinfo($file, PATHINFO_EXTENSION) === 'part') {
 			return true;
 		}
 		return false;
