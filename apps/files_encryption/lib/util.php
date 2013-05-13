@@ -110,23 +110,47 @@ class Util {
 	private $privateKeyPath; // Path to user's private key
 	private $publicShareKeyId;
 	private $recoveryKeyId;
+    private $isPublic;
 
 	public function __construct( \OC_FilesystemView $view, $userId, $client = false ) {
-	
+
 		$this->view = $view;
 		$this->userId = $userId;
 		$this->client = $client;
-		$this->userDir =  '/' . $this->userId;
-		$this->fileFolderName = 'files';
-		$this->userFilesDir =  '/' . $this->userId . '/' . $this->fileFolderName; // TODO: Does this need to be user configurable?
-		$this->publicKeyDir =  '/' . 'public-keys';
-		$this->encryptionDir =  '/' . $this->userId . '/' . 'files_encryption';
-		$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
-		$this->shareKeysPath = $this->encryptionDir . '/' . 'share-keys';
-		$this->publicKeyPath = $this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
-		$this->privateKeyPath = $this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
-		$this->publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
-		$this->recoveryKeyId = \OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
+        $this->isPublic = false;
+
+        $this->publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
+        $this->recoveryKeyId = \OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
+
+        // if we are anonymous/public
+        if($this->userId === false) {
+            $this->userId = $this->publicShareKeyId;
+
+            // only handle for files_sharing app
+            if($GLOBALS['app'] === 'files_sharing') {
+                $this->userDir =  '/' . $GLOBALS['fileOwner'];
+                $this->fileFolderName = 'files';
+                $this->userFilesDir =  '/' . $GLOBALS['fileOwner'] . '/' . $this->fileFolderName; // TODO: Does this need to be user configurable?
+                $this->publicKeyDir =  '/' . 'public-keys';
+                $this->encryptionDir =  '/' . $GLOBALS['fileOwner'] . '/' . 'files_encryption';
+                $this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
+                $this->shareKeysPath = $this->encryptionDir . '/' . 'share-keys';
+                $this->publicKeyPath = $this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
+                $this->privateKeyPath = '/owncloud_private_key/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
+                $this->isPublic = true;
+            }
+
+        } else {
+            $this->userDir =  '/' . $this->userId;
+            $this->fileFolderName = 'files';
+            $this->userFilesDir =  '/' . $this->userId . '/' . $this->fileFolderName; // TODO: Does this need to be user configurable?
+            $this->publicKeyDir =  '/' . 'public-keys';
+            $this->encryptionDir =  '/' . $this->userId . '/' . 'files_encryption';
+            $this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
+            $this->shareKeysPath = $this->encryptionDir . '/' . 'share-keys';
+            $this->publicKeyPath = $this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
+            $this->privateKeyPath = $this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
+        }
 	}
 	
 	public function ready() {
@@ -1069,46 +1093,54 @@ class Util {
 
         $view = new \OC\Files\View($this->userFilesDir);
 		$fileOwnerUid = $view->getOwner( $path );
-		
-		// Check that UID is valid
-		if ( ! \OCP\User::userExists( $fileOwnerUid ) ) {
-		
-			throw new \Exception( 'Could not find owner (UID = "' . var_export( $fileOwnerUid, 1 ) . '") of file "' . $path . '"' );
-			
-		}
 
-		// NOTE: Bah, this dependency should be elsewhere
-		\OC\Files\Filesystem::initMountPoints( $fileOwnerUid );
-		
-		// If the file owner is the currently logged in user
-		if ( $fileOwnerUid == $this->userId ) {
-		
-			// Assume the path supplied is correct
-			$filename = $path;
-			
-		} else {
-		
-			$info = $view->getFileInfo( $path );
-			$ownerView = new \OC\Files\View( '/' . $fileOwnerUid . '/files' );
-			
-			// Fetch real file path from DB
-			$filename = $ownerView->getPath( $info['fileid'] ); // TODO: Check that this returns a path without including the user data dir
-		
-		}
-		
-		// Make path relative for use by $view
-		$relpath = \OC\Files\Filesystem::normalizePath($fileOwnerUid . '/' . $this->fileFolderName . '/' . $filename);
-		
-		// Check that the filename we're using is working
-		if ( $this->view->file_exists( $relpath ) ) {
-		
-			return array ( $fileOwnerUid, $filename );
-			
-		} else {
-		
-			return false;
-			
-		}
+        // handle public access
+        if($fileOwnerUid === false && $this->isPublic) {
+            $filename = $view->getPath( $GLOBALS['fileSource'] );
+            $fileOwnerUid = $GLOBALS['fileOwner'];
+
+            return array ( $fileOwnerUid, $filename );
+        } else {
+
+            // Check that UID is valid
+            if ( ! \OCP\User::userExists( $fileOwnerUid ) ) {
+                throw new \Exception( 'Could not find owner (UID = "' . var_export( $fileOwnerUid, 1 ) . '") of file "' . $path . '"' );
+            }
+
+            // NOTE: Bah, this dependency should be elsewhere
+            \OC\Files\Filesystem::initMountPoints( $fileOwnerUid );
+
+            // If the file owner is the currently logged in user
+            if ( $fileOwnerUid == $this->userId ) {
+
+                // Assume the path supplied is correct
+                $filename = $path;
+
+            } else {
+
+                $info = $view->getFileInfo( $path );
+                $ownerView = new \OC\Files\View( '/' . $fileOwnerUid . '/files' );
+
+                // Fetch real file path from DB
+                $filename = $ownerView->getPath( $info['fileid'] ); // TODO: Check that this returns a path without including the user data dir
+
+            }
+
+            // Make path relative for use by $view
+            $relpath = \OC\Files\Filesystem::normalizePath($fileOwnerUid . '/' . $this->fileFolderName . '/' . $filename);
+
+            // Check that the filename we're using is working
+            if ( $this->view->file_exists( $relpath ) ) {
+
+                return array ( $fileOwnerUid, $filename );
+
+            } else {
+
+                return false;
+
+            }
+        }
+
 		
 	}
 
@@ -1232,5 +1264,15 @@ class Util {
 		return $fileOwner;
 		
 	}
+
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    public function getUserFilesDir()
+    {
+        return $this->userFilesDir;
+    }
 
 }

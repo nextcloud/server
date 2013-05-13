@@ -455,7 +455,7 @@ class Keymanager {
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
 
-		$shareKeyPath = '/' . $owner . '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey';
+		$shareKeyPath = \OC\Files\Filesystem::normalizePath('/' . $owner . '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey');
 		if ( $view->file_exists( $shareKeyPath ) ) {
 			
 			$result = $view->file_get_contents( $shareKeyPath );

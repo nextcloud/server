@@ -72,20 +72,20 @@ class Stream {
 	private $rootView; // a fsview object set to '/'
 
 	public function stream_open( $path, $mode, $options, &$opened_path ) {
-		
-		$this->userId = \OCP\User::getUser();
-		
+
 		if ( ! isset( $this->rootView ) ) {
-
 			$this->rootView = new \OC_FilesystemView( '/' );
-
 		}
 
-		// Strip identifier text from path, this gives us the path relative to data/<user>/files
-		$this->relPath = str_replace( 'crypt://', '', $path );
+        $util = new Util( $this->rootView, \OCP\USER::getUser());
+
+        $this->userId = $util->getUserId();
+
+        // Strip identifier text from path, this gives us the path relative to data/<user>/files
+		$this->relPath = \OC\Files\Filesystem::normalizePath(str_replace( 'crypt://', '', $path ));
 		
 		// rawPath is relative to the data directory
-		$this->rawPath = $this->userId . '/files/' . $this->relPath;
+		$this->rawPath = $util->getUserFilesDir() . $this->relPath;
 		
 		if (
 		dirname( $this->rawPath ) == 'streams' 

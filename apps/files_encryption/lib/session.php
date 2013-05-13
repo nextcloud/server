@@ -59,9 +59,11 @@ class Session {
 		) {
 				
  			$keypair = Crypt::createKeypair();
- 			
- 			\OC_FileProxy::$enabled = false;
- 			
+
+            // Disable encryption proxy to prevent recursive calls
+            $proxyStatus = \OC_FileProxy::$enabled;
+            \OC_FileProxy::$enabled = false;
+
  			// Save public key
  
  			if (!$view->is_dir('/public-keys')) {
@@ -76,9 +78,21 @@ class Session {
  			// Save private key
  			$this->view->file_put_contents( '/owncloud_private_key/'.$publicShareKeyId.'.private.key', $encryptedPrivateKey );
 			
-			\OC_FileProxy::$enabled = true;
+			\OC_FileProxy::$enabled = $proxyStatus;
 			
 		}
+
+        if(\OCP\USER::getUser() === false) {
+            // Disable encryption proxy to prevent recursive calls
+            $proxyStatus = \OC_FileProxy::$enabled;
+            \OC_FileProxy::$enabled = false;
+
+            $encryptedKey = $this->view->file_get_contents( '/owncloud_private_key/'.$publicShareKeyId.'.private.key' );
+            $privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, '' );
+            $this->setPrivateKey($privateKey);
+
+            \OC_FileProxy::$enabled = $proxyStatus;
+        }
 	}
 
 	/**
