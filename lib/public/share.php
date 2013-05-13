@@ -138,6 +138,7 @@ class Share {
 		$path_parts = explode(DIRECTORY_SEPARATOR, trim($path, DIRECTORY_SEPARATOR));
 		$path = '';
 		$shares = array();
+		$publicShare = false;
 		$view = new \OC\Files\View('/' . $user . '/files/');
 		foreach ($path_parts as $p) {
 			$path .= '/' . $p;
@@ -184,27 +185,23 @@ class Share {
 				$shares = array_merge($shares, $usersInGroup);
 			}
 
-			$publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
-
-			if ($publicShareKeyId) {
-				//check for public link shares
-				$query = \OC_DB::prepare(
-						'SELECT share_with
+			//check for public link shares
+			$query = \OC_DB::prepare(
+					'SELECT share_with
 					FROM
 					`*PREFIX*share`
 					WHERE
 					item_source = ? AND share_type = ?'
-				);
+			);
 
-				$result = $query->execute(array($source, self::SHARE_TYPE_LINK));
+			$result = $query->execute(array($source, self::SHARE_TYPE_LINK));
 
-				if (\OC_DB::isError($result)) {
-					\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
-				}
+			if (\OC_DB::isError($result)) {
+				\OC_Log::write('OCP\Share', \OC_DB::getErrorMessage($result), \OC_Log::ERROR);
+			}
 
-				if ($result->fetchRow()) {
-					$shares[] = $publicShareKeyId;
-				}
+			if ($result->fetchRow()) {
+				$publicShare = true;
 			}
 		}
 		// Include owner in list of users, if requested
@@ -212,7 +209,7 @@ class Share {
 			$shares[] = $user;
 		}
 
-		return array_unique($shares);
+		return array("users" => array_unique($shares), "public" => $publicShare);
 	}
 
 	/**

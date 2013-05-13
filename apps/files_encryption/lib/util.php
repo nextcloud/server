@@ -109,6 +109,7 @@ class Util {
 	private $publicKeyPath; // Path to user's public key
 	private $privateKeyPath; // Path to user's private key
 	private $publicShareKeyId;
+	private $recoveryKeyId;
 
 	public function __construct( \OC_FilesystemView $view, $userId, $client = false ) {
 	
@@ -125,6 +126,7 @@ class Util {
 		$this->publicKeyPath = $this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
 		$this->privateKeyPath = $this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
 		$this->publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
+		$this->recoveryKeyId = \OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
 	}
 	
 	public function ready() {
@@ -798,6 +800,7 @@ class Util {
 			// public system user 'ownCloud' (for public shares)
 			if ( 
 				$user == $this->publicShareKeyId
+				or $user == $this->recoveryKeyId
 				or $util->ready() 
 			) {
 			
@@ -949,7 +952,11 @@ class Util {
 		if ( $sharingEnabled ) {
 		
 			// Find out who, if anyone, is sharing the file
-			$userIds = \OCP\Share::getUsersSharingFile( $ownerPath, $owner,true, true, true );
+			$result = \OCP\Share::getUsersSharingFile( $ownerPath, $owner,true, true, true );
+			$userIds = $result['users'];
+			if ( $result['public'] ) {
+				$userIds[] = $this->publicShareKeyId;
+			}
 		
 		}
 		
