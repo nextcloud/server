@@ -7,13 +7,6 @@
 
 
 $(document).ready(function(){
-	// Trigger ajax on filetype blacklist change
-	$('#encryption_blacklist').multiSelect({
-		oncheck:blackListChange,
-		onuncheck:blackListChange,
-		createText:'...'
-	});
-	
 	// Trigger ajax on recoveryAdmin status change
 	$( 'input:radio[name="adminEnableRecovery"]' ).change( 
 		function() {
@@ -24,7 +17,7 @@ $(document).ready(function(){
 			if ( '' == recoveryPassword ) {
 				
 				// FIXME: add proper OC notification
-				alert( 'You  must set a recovery account password first' );
+				alert( 'You must set a recovery account password first' );
 				
 			} else {
 			

@@ -958,10 +958,10 @@ class Util {
 		if ( $recoveryEnabled ) {
 			
 			// Find recoveryAdmin user ID
-			$recoveryAdminUid = \OC_Appconfig::getValue( 'files_encryption', 'recoveryAdminUid' );
+			$recoveryKeyId = \OC_Appconfig::getValue( 'files_encryption', 'recoveryKeyId' );
 			
 			// Add recoveryAdmin to list of users sharing
-			$userIds[] = $recoveryAdminUid;
+			$userIds[] = $recoveryKeyId;
 			
 		}
 

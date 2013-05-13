@@ -49,7 +49,7 @@ class Session {
 		$publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
 
 		if ($publicShareKeyId === null) {
-			$publicShareKeyId = substr(md5(time()),0,8);
+			$publicShareKeyId = 'pubShare_'.substr(md5(time()),0,8);
 			\OC_Appconfig::setValue('files_encryption', 'publicShareKeyId', $publicShareKeyId);
 		}
 		
@@ -57,13 +57,7 @@ class Session {
 			! $this->view->file_exists( "/public-keys/".$publicShareKeyId.".public.key" )
 			|| ! $this->view->file_exists( "/owncloud_private_key/".$publicShareKeyId.".private.key" )
 		) {
-		
-			//FIXME: Bug: for some reason file_exists is returning 
-			// false in above if statement, and causing new keys 
-			// to be generated on each page load. At last check 
-			// our app.php is being executed 18 times per page load
-			// , causing 18 new keypairs and huge performance hit.
-			
+				
  			$keypair = Crypt::createKeypair();
  			
  			\OC_FileProxy::$enabled = false;
