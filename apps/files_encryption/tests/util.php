@@ -172,7 +172,7 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 		
 		$files = $util->findEncFiles( '/', 'encrypted' );
 		
-		var_dump( $files );
+		//var_dump( $files );
 		
 		# TODO: Add more tests here to check that if any of the dirs are 
 		# then false will be returned. Use strict ordering?
