@@ -136,10 +136,10 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
         $this->loginHelper('user1');
 
         // get file contents
-        $retreivedCryptedFile = $this->view->file_get_contents('/user1/files/Shared/' . $this->filename);
+        $retrievedCryptedFile = $this->view->file_get_contents('/user1/files/Shared/' . $this->filename);
 
         // check if data is the same as we previously written
-        $this->assertEquals($this->dataShort, $retreivedCryptedFile);
+        $this->assertEquals($this->dataShort, $retrievedCryptedFile);
 
         // cleanup
         if ($withTeardown) {
@@ -184,10 +184,10 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
         $this->loginHelper('user2');
 
         // get file contents
-        $retreivedCryptedFile = $this->view->file_get_contents('/user2/files/Shared/' . $this->filename);
+        $retrievedCryptedFile = $this->view->file_get_contents('/user2/files/Shared/' . $this->filename);
 
         // check if data is the same as previously written
-        $this->assertEquals($this->dataShort, $retreivedCryptedFile);
+        $this->assertEquals($this->dataShort, $retrievedCryptedFile);
 
         // cleanup
         if ($withTeardown) {
@@ -260,10 +260,10 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
         $this->loginHelper('user1');
 
         // get file contents
-        $retreivedCryptedFile = $this->view->file_get_contents('/user1/files/Shared' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/' . $this->filename);
+        $retrievedCryptedFile = $this->view->file_get_contents('/user1/files/Shared' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/' . $this->filename);
 
         // check if data is the same
-        $this->assertEquals($this->dataShort, $retreivedCryptedFile);
+        $this->assertEquals($this->dataShort, $retrievedCryptedFile);
 
         // cleanup
         if ($withTeardown) {
@@ -320,10 +320,10 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
         $this->loginHelper('user2');
 
         // get file contents
-        $retreivedCryptedFile = $this->view->file_get_contents('/user2/files/Shared' . $this->subfolder . $this->subsubfolder . '/' . $this->filename);
+        $retrievedCryptedFile = $this->view->file_get_contents('/user2/files/Shared' . $this->subfolder . $this->subsubfolder . '/' . $this->filename);
 
         // check if data is the same
-        $this->assertEquals($this->dataShort, $retreivedCryptedFile);
+        $this->assertEquals($this->dataShort, $retrievedCryptedFile);
 
         // get the file info
         $fileInfo = $this->view->getFileInfo('/user2/files/Shared' . $this->subfolder . $this->subsubfolder . '/' . $this->filename);
@@ -344,10 +344,10 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
         $this->loginHelper('user3');
 
         // get file contents
-        $retreivedCryptedFile = $this->view->file_get_contents('/user3/files/Shared/' . $this->filename);
+        $retrievedCryptedFile = $this->view->file_get_contents('/user3/files/Shared/' . $this->filename);
 
         // check if data is the same
-        $this->assertEquals($this->dataShort, $retreivedCryptedFile);
+        $this->assertEquals($this->dataShort, $retrievedCryptedFile);
 
         // cleanup
         if ($withTeardown) {
@@ -385,6 +385,74 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
             // check if share key not exists
             $this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys' . $this->folder1 . $this->subfolder . $this->subsubfolder . '/' . $this->filename . '.admin.shareKey'));
         }
+    }
+
+    function testPublicShareFile()
+    {
+        // login as admin
+        $this->loginHelper('admin');
+
+        // save file with content
+        $cryptedFile = file_put_contents('crypt://' . $this->filename, $this->dataShort);
+
+        // test that data was successfully written
+        $this->assertTrue(is_int($cryptedFile));
+
+        // disable encryption proxy to prevent recursive calls
+        $proxyStatus = \OC_FileProxy::$enabled;
+        \OC_FileProxy::$enabled = false;
+
+        // get the file info from previous created file
+        $fileInfo = $this->view->getFileInfo('/admin/files/' . $this->filename);
+
+        // check if we have a valid file info
+        $this->assertTrue(is_array($fileInfo));
+
+        // check if the unencrypted file size is stored
+        $this->assertGreaterThan(0, $fileInfo['unencrypted_size']);
+
+        // re-enable the file proxy
+        \OC_FileProxy::$enabled = $proxyStatus;
+
+        // share the file
+        \OCP\Share::shareItem('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null, false);
+
+        // login as admin
+        $this->loginHelper('admin');
+
+        $publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
+
+        // check if share key for public exists
+        $this->assertTrue($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->filename . '.' . $publicShareKeyId . '.shareKey'));
+
+        // some hacking to simulate public link
+        $GLOBALS['app'] = 'files_sharing';
+        $GLOBALS['fileOwner'] = 'admin';
+        $GLOBALS['fileSource'] = $fileInfo['fileid'];
+        \OC_User::setUserId('');
+
+        // get file contents
+        $retrievedCryptedFile = file_get_contents('crypt://' . $this->filename);
+
+        // check if data is the same as we previously written
+        $this->assertEquals($this->dataShort, $retrievedCryptedFile);
+
+        // tear down
+
+        // login as admin
+        $this->loginHelper('admin');
+
+        // unshare the file
+        \OCP\Share::unshare('file', $fileInfo['fileid'], \OCP\Share::SHARE_TYPE_LINK, null);
+
+        // check if share key not exists
+        $this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->filename . '.' . $publicShareKeyId . '.shareKey'));
+
+        // cleanup
+        $this->view->unlink('/admin/files/' . $this->filename);
+
+        // check if share key not exists
+        $this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->filename . '.admin.shareKey'));
     }
 
     function loginHelper($user, $create = false)
