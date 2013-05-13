@@ -266,7 +266,10 @@ class Trashbin {
 
         // handle the restore result
         if( $restoreResult ) {
-        	$view->touch($target.$ext, $mtime);
+			$fakeRoot = $view->getRoot();
+			$view->chroot('/'.$user.'/files');
+			$view->touch('/'.$location.'/'.$filename.$ext, $mtime);
+			$view->chroot($fakeRoot);
 			\OCP\Util::emitHook('\OCA\Files_Trashbin\Trashbin', 'post_restore', 
 					array('filePath' => \OC\Files\Filesystem::normalizePath('/'.$location.'/'.$filename.$ext),
 							'trashPath' => \OC\Files\Filesystem::normalizePath($file)));
