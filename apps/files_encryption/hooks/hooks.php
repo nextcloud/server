@@ -462,8 +462,8 @@ class Hooks {
         $util = new Util( $view, $userId );
 
         // Format paths to be relative to user files dir
-        $oldKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $params['oldpath'];
-        $newKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $params['newpath'];
+        $oldKeyfilePath = \OC\Files\Filesystem::normalizePath($userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $params['oldpath']);
+        $newKeyfilePath = \OC\Files\Filesystem::normalizePath($userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $params['newpath']);
 
         // add key ext if this is not an folder
         if (!$view->is_dir($oldKeyfilePath)) {
@@ -474,19 +474,37 @@ class Hooks {
             $localKeyPath = $view->getLocalFile($userId.'/files_encryption/share-keys/'.$params['oldpath']);
             $matches = glob(preg_quote($localKeyPath).'*.shareKey');
             foreach ($matches as $src) {
-                $dst = str_replace($params['oldpath'], $params['newpath'], $src);
+                $dst = \OC\Files\Filesystem::normalizePath(str_replace($params['oldpath'], $params['newpath'], $src));
+
+                // create destination folder if not exists
+                if(!file_exists(dirname($dst))) {
+                    mkdir(dirname($dst), 0750, true);
+                }
+
                 rename($src, $dst);
             }
 
         } else {
             // handle share-keys folders
-            $oldShareKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $params['oldpath'];
-            $newShareKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $params['newpath'];
+            $oldShareKeyfilePath = \OC\Files\Filesystem::normalizePath($userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $params['oldpath']);
+            $newShareKeyfilePath = \OC\Files\Filesystem::normalizePath($userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $params['newpath']);
+
+            // create destination folder if not exists
+            if(!$view->file_exists(dirname($newShareKeyfilePath))) {
+                $view->mkdir(dirname($newShareKeyfilePath), 0750, true);
+            }
+
             $view->rename($oldShareKeyfilePath, $newShareKeyfilePath);
         }
 
         // Rename keyfile so it isn't orphaned
         if($view->file_exists($oldKeyfilePath)) {
+
+            // create destination folder if not exists
+            if(!$view->file_exists(dirname($newKeyfilePath))) {
+                $view->mkdir(dirname($newKeyfilePath), 0750, true);
+            }
+
             $view->rename($oldKeyfilePath, $newKeyfilePath);
         }
 
