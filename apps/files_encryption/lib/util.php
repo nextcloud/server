@@ -480,13 +480,20 @@ class Util {
 	*/
 	public function isEncryptedPath( $path ) {
 	
-		// Disable encryption proxy so data retreived is in its 
+		// Disable encryption proxy so data retrieved is in its
 		// original form
+        $proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
-	
-		$data = $this->view->file_get_contents( $path );
-		
-		\OC_FileProxy::$enabled = true;
+
+        // we only need 24 byte from the last chunk
+        $data = '';
+		$handle = $this->view->fopen( $path, 'r' );
+        if(!fseek($handle, -24, SEEK_END)) {
+            $data = fgets($handle);
+        }
+
+        // re-enable proxy
+		\OC_FileProxy::$enabled = $proxyStatus;
 		
 		return Crypt::isCatfileContent( $data );
 	
