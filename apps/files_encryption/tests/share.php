@@ -428,7 +428,6 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
         // some hacking to simulate public link
         $GLOBALS['app'] = 'files_sharing';
         $GLOBALS['fileOwner'] = 'admin';
-        $GLOBALS['fileSource'] = $fileInfo['fileid'];
         \OC_User::setUserId('');
 
         // get file contents

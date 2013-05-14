@@ -1096,7 +1096,7 @@ class Util {
 
         // handle public access
         if($fileOwnerUid === false && $this->isPublic) {
-            $filename = $this->fileIdToPath( $GLOBALS['fileSource'] );
+            $filename = $path;
             $fileOwnerUid = $GLOBALS['fileOwner'];
 
             return array ( $fileOwnerUid, $filename );
