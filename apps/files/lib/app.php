@@ -26,6 +26,7 @@ namespace OCA\Files;
 
 class App {
 	private $l10n;
+	private $view;
 
 	public function __construct($view, $l10n) {
 		$this->view = $view;
