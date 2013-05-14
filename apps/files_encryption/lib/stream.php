@@ -477,9 +477,9 @@ class Stream {
 		
 		if ( 
 		$this->meta['mode']!='r' 
-		and $this->meta['mode']!='rb' 
+		and $this->meta['mode']!='rb'
+        and $this->size > 0
 		) {
-
             // Disable encryption proxy to prevent recursive calls
             $proxyStatus = \OC_FileProxy::$enabled;
             \OC_FileProxy::$enabled = false;
