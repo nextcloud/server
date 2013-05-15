@@ -52,16 +52,11 @@ class Hooks {
 		if(Helper::setupUser($util, $params['password']) === false) {
             return false;
         }
-	
-		\OC_FileProxy::$enabled = false;
-		
+
 		$encryptedKey = Keymanager::getPrivateKey( $view, $params['uid'] );
 		
-		\OC_FileProxy::$enabled = true;
-		
-		//$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
-		$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, "helloworld" );
-		
+		$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
+
 		$session = new Session( $view );
 		
 		$session->setPrivateKey( $privateKey, $params['uid'] );
@@ -86,12 +81,8 @@ class Hooks {
 				$session->setLegacyKey( $plainLegacyKey );
 			
 			}
-			
-			\OC_FileProxy::$enabled = false;
-			
+
 			$publicKey = Keymanager::getPublicKey( $view, $params['uid'] );
-			
-			\OC_FileProxy::$enabled = false;
 			
 			// Encrypt existing user files:
 			// This serves to upgrade old versions of the encryption
