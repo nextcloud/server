@@ -210,7 +210,7 @@ class Filesystem {
 		return true;
 	}
 
-	/**
+    /**
 	 * Initialize system and personal mount points for a user
 	 *
 	 * @param string $user
@@ -305,6 +305,14 @@ class Filesystem {
 	static public function getView() {
 		return self::$defaultInstance;
 	}
+
+    /**
+     * set the default filesystem view
+     *
+     */
+    static public function setView($view) {
+        self::$defaultInstance = $view;
+    }
 
 	/**
 	 * tear down the filesystem, removing all storage providers
