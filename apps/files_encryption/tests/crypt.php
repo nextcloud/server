@@ -788,7 +788,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$view->unlink( $filename );
 	}
 
-	function testTouchFile() {
+	function testTouchExistingFile() {
 		$filename = '/tmp-'.time();
 		$view = new \OC\Files\View('/' . $this->userId . '/files');
 
@@ -799,6 +799,27 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue( is_int( $cryptedFile ) );
 
 		$view->touch($filename);
+
+		// Get file decrypted contents
+		$decrypt = $view->file_get_contents( $filename );
+
+		$this->assertEquals( $this->dataShort, $decrypt );
+
+		// tear down
+		$view->unlink( $filename );
+	}
+
+	function testTouchFile() {
+		$filename = '/tmp-'.time();
+		$view = new \OC\Files\View('/' . $this->userId . '/files');
+
+		$view->touch($filename);
+
+		// Save short data as encrypted file using stream wrapper
+		$cryptedFile = $view->file_put_contents( $filename, $this->dataShort );
+
+		// Test that data was successfully written
+		$this->assertTrue( is_int( $cryptedFile ) );
 
 		// Get file decrypted contents
 		$decrypt = $view->file_get_contents( $filename );
