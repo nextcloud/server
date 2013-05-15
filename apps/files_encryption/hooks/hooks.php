@@ -231,8 +231,9 @@ class Hooks {
 			$util = new Util($view, $userId);
 			$path = $util->fileIdToPath($params['itemSource']);
 
+			$share = $util->getParentFromShare($params['id']);
 			//if parent is set, then this is a re-share action
-			if ($params['parent']) {
+			if ($share['parent'] != null) {
 
 				// get the parent from current share
 				$parent = $util->getShareParent($params['parent']);

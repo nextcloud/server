@@ -1133,19 +1133,7 @@ class Util {
 
             }
 
-            // Make path relative for use by $view
-            $relpath = \OC\Files\Filesystem::normalizePath($fileOwnerUid . '/' . $this->fileFolderName . '/' . $filename);
-
-            // Check that the filename we're using is working
-            if ( $this->view->file_exists( $relpath ) ) {
-
-                return array ( $fileOwnerUid, $filename );
-
-            } else {
-
-                return false;
-
-            }
+            return array ( $fileOwnerUid, $filename );
         }
 
 		
@@ -1221,6 +1209,25 @@ class Util {
 		$query = \OC_DB::prepare( 'SELECT `file_target`, `item_type`'
 		.' FROM `*PREFIX*share`'
 		.' WHERE `id` = ?' );
+
+		$result = $query->execute( array( $id ) );
+
+		$row = $result->fetchRow();
+
+		return $row;
+
+	}
+
+	/**
+	 * @brief get shares parent.
+	 * @param int $id of the current share
+	 * @return array of the parent
+	 */
+	public static function getParentFromShare( $id ) {
+
+		$query = \OC_DB::prepare( 'SELECT `parent`'
+			.' FROM `*PREFIX*share`'
+			.' WHERE `id` = ?' );
 
 		$result = $query->execute( array( $id ) );
 
