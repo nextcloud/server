@@ -509,14 +509,14 @@ class Stream {
             // Save the sharekeys
             Keymanager::setShareKeys( $view, $this->relPath, $this->encKeyfiles['keys'] );
 
-            // Re-enable proxy - our work is done
-            \OC_FileProxy::$enabled = $proxyStatus;
-
             // get file info
             $fileInfo = $view->getFileInfo($this->rawPath);
             if(!is_array($fileInfo)) {
                 $fileInfo = array();
             }
+
+            // Re-enable proxy - our work is done
+            \OC_FileProxy::$enabled = $proxyStatus;
 
             // set encryption data
             $fileInfo['encrypted'] = true;
