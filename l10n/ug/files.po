@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-12 02:01+0200\n"
-"PO-Revision-Date: 2013-05-04 12:00+0000\n"
-"Last-Translator: Abduqadir Abliz <sahran.ug@gmail.com>\n"
+"POT-Creation-Date: 2013-05-15 01:59+0200\n"
+"PO-Revision-Date: 2013-05-15 00:00+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Uighur <uqkun@outlook.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -26,10 +26,6 @@ msgstr ""
 #, php-format
 msgid "Could not move %s"
 msgstr "%s يۆتكىيەلمەيدۇ"
-
-#: ajax/rename.php:22 ajax/rename.php:25
-msgid "Unable to rename file"
-msgstr "ھۆججەت ئاتىنى ئۆزگەرتكىلى بولمايدۇ"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -94,43 +90,43 @@ msgstr "ئۆچۈر"
 msgid "Rename"
 msgstr "ئات ئۆزگەرت"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:421
 msgid "Pending"
 msgstr "كۈتۈۋاتىدۇ"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "{new_name} already exists"
 msgstr "{new_name} مەۋجۇت"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "replace"
 msgstr "ئالماشتۇر"
 
-#: js/filelist.js:252
+#: js/filelist.js:259
 msgid "suggest name"
 msgstr "تەۋسىيە ئات"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "cancel"
 msgstr "ۋاز كەچ"
 
-#: js/filelist.js:299
+#: js/filelist.js:306
 msgid "replaced {new_name} with {old_name}"
 msgstr ""
 
-#: js/filelist.js:299
+#: js/filelist.js:306
 msgid "undo"
 msgstr "يېنىۋال"
 
-#: js/filelist.js:324
+#: js/filelist.js:331
 msgid "perform delete operation"
 msgstr ""
 
-#: js/filelist.js:406
+#: js/filelist.js:413
 msgid "1 file uploading"
 msgstr "1 ھۆججەت يۈكلىنىۋاتىدۇ"
 
-#: js/filelist.js:409 js/filelist.js:463
+#: js/filelist.js:416 js/filelist.js:470
 msgid "files uploading"
 msgstr "ھۆججەت يۈكلىنىۋاتىدۇ"
 
@@ -218,6 +214,14 @@ msgstr "1 ھۆججەت"
 #: js/files.js:910
 msgid "{count} files"
 msgstr "{count} ھۆججەت"
+
+#: lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgstr ""
+
+#: lib/app.php:73
+msgid "Unable to rename file"
+msgstr "ھۆججەت ئاتىنى ئۆزگەرتكىلى بولمايدۇ"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"

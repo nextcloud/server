@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s áthelyezése nem sikerült - már létezik másik fájl ezzel a névvel",
 "Could not move %s" => "Nem sikerült %s áthelyezése",
-"Unable to rename file" => "Nem lehet átnevezni a fájlt",
 "No file was uploaded. Unknown error" => "Nem történt feltöltés. Ismeretlen hiba",
 "There is no error, the file uploaded with success" => "A fájlt sikerült feltölteni",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "A feltöltött fájl mérete meghaladja a php.ini állományban megadott upload_max_filesize paraméter értékét.",
@@ -47,6 +46,7 @@
 "{count} folders" => "{count} mappa",
 "1 file" => "1 fájl",
 "{count} files" => "{count} fájl",
+"Unable to rename file" => "Nem lehet átnevezni a fájlt",
 "Upload" => "Feltöltés",
 "File handling" => "Fájlkezelés",
 "Maximum upload size" => "Maximális feltölthető fájlméret",

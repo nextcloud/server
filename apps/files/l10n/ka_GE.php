@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s –ის გადატანა ვერ მოხერხდა – ფაილი ამ სახელით უკვე არსებობს",
 "Could not move %s" => "%s –ის გადატანა ვერ მოხერხდა",
-"Unable to rename file" => "ფაილის სახელის გადარქმევა ვერ მოხერხდა",
 "No file was uploaded. Unknown error" => "ფაილი არ აიტვირთა. უცნობი შეცდომა",
 "There is no error, the file uploaded with success" => "ჭოცდომა არ დაფიქსირდა, ფაილი წარმატებით აიტვირთა",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "ატვირთული ფაილი აჭარბებს upload_max_filesize დირექტივას php.ini ფაილში",
@@ -47,6 +46,7 @@
 "{count} folders" => "{count} საქაღალდე",
 "1 file" => "1 ფაილი",
 "{count} files" => "{count} ფაილი",
+"Unable to rename file" => "ფაილის სახელის გადარქმევა ვერ მოხერხდა",
 "Upload" => "ატვირთვა",
 "File handling" => "ფაილის დამუშავება",
 "Maximum upload size" => "მაქსიმუმ ატვირთის ზომა",

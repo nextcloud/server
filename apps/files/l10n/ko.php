@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "%s 항목을 이동시키지 못하였음 - 파일 이름이 이미 존재함",
 "Could not move %s" => "%s 항목을 이딩시키지 못하였음",
-"Unable to rename file" => "파일 이름바꾸기 할 수 없음",
 "No file was uploaded. Unknown error" => "파일이 업로드되지 않았습니다. 알 수 없는 오류입니다",
 "There is no error, the file uploaded with success" => "파일 업로드에 성공하였습니다.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "업로드한 파일이 php.ini의 upload_max_filesize보다 큽니다:",
@@ -47,6 +46,7 @@
 "{count} folders" => "폴더 {count}개",
 "1 file" => "파일 1개",
 "{count} files" => "파일 {count}개",
+"Unable to rename file" => "파일 이름바꾸기 할 수 없음",
 "Upload" => "업로드",
 "File handling" => "파일 처리",
 "Maximum upload size" => "최대 업로드 크기",

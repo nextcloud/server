@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-12 02:01+0200\n"
-"PO-Revision-Date: 2013-05-09 20:00+0000\n"
-"Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
+"POT-Creation-Date: 2013-05-15 01:59+0200\n"
+"PO-Revision-Date: 2013-05-15 00:00+0000\n"
+"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -28,10 +28,6 @@ msgstr "Konnte %s nicht verschieben. Eine Datei mit diesem Namen existiert berei
 #, php-format
 msgid "Could not move %s"
 msgstr "Konnte %s nicht verschieben"
-
-#: ajax/rename.php:22 ajax/rename.php:25
-msgid "Unable to rename file"
-msgstr "Konnte Datei nicht umbenennen"
 
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
@@ -96,43 +92,43 @@ msgstr "Löschen"
 msgid "Rename"
 msgstr "Umbenennen"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:421
 msgid "Pending"
 msgstr "Ausstehend"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "{new_name} already exists"
 msgstr "{new_name} existiert bereits"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "replace"
 msgstr "ersetzen"
 
-#: js/filelist.js:252
+#: js/filelist.js:259
 msgid "suggest name"
 msgstr "Namen vorschlagen"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "cancel"
 msgstr "abbrechen"
 
-#: js/filelist.js:299
+#: js/filelist.js:306
 msgid "replaced {new_name} with {old_name}"
 msgstr "{old_name} wurde ersetzt durch {new_name}"
 
-#: js/filelist.js:299
+#: js/filelist.js:306
 msgid "undo"
 msgstr "rückgängig machen"
 
-#: js/filelist.js:324
+#: js/filelist.js:331
 msgid "perform delete operation"
 msgstr "Löschvorgang ausführen"
 
-#: js/filelist.js:406
+#: js/filelist.js:413
 msgid "1 file uploading"
 msgstr "1 Datei wird hochgeladen"
 
-#: js/filelist.js:409 js/filelist.js:463
+#: js/filelist.js:416 js/filelist.js:470
 msgid "files uploading"
 msgstr "Dateien werden hoch geladen"
 
@@ -220,6 +216,14 @@ msgstr "1 Datei"
 #: js/files.js:910
 msgid "{count} files"
 msgstr "{count} Dateien"
+
+#: lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgstr ""
+
+#: lib/app.php:73
+msgid "Unable to rename file"
+msgstr "Konnte Datei nicht umbenennen"
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"

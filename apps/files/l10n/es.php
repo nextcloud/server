@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "No se puede mover %s - Ya existe un archivo con ese nombre",
 "Could not move %s" => "No se puede mover %s",
-"Unable to rename file" => "No se puede renombrar el archivo",
 "No file was uploaded. Unknown error" => "No se subió ningún archivo. Error desconocido",
 "There is no error, the file uploaded with success" => "No hay ningún error, el archivo se ha subido con éxito",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "El archivo que intentas subir sobrepasa el tamaño definido por la variable upload_max_filesize en php.ini",
@@ -47,6 +46,7 @@
 "{count} folders" => "{count} carpetas",
 "1 file" => "1 archivo",
 "{count} files" => "{count} archivos",
+"Unable to rename file" => "No se puede renombrar el archivo",
 "Upload" => "Subir",
 "File handling" => "Tratamiento de archivos",
 "Maximum upload size" => "Tamaño máximo de subida",
