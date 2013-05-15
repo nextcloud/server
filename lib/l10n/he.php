@@ -27,8 +27,5 @@
 "%d months ago" => "לפני %d חודשים",
 "last year" => "שנה שעברה",
 "years ago" => "שנים",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s זמין. קבלת <a href=\"%s\">מידע נוסף</a>",
-"up to date" => "עדכני",
-"updates check is disabled" => "בדיקת עדכונים מנוטרלת",
 "Could not find category \"%s\"" => "לא ניתן למצוא את הקטגוריה „%s“"
 );

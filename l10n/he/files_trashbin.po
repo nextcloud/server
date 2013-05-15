@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
@@ -20,64 +20,64 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "בלתי אפשרי למחוק את %s לצמיתות"
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "בלתי אפשרי לשחזר את %s"
 
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
-msgstr ""
+msgstr "בצע פעולת שחזור"
 
 #: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
 msgid "Error"
-msgstr ""
+msgstr "שגיאה"
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr ""
+msgstr "מחק קובץ לצמיתות"
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr ""
+msgstr "מחק לצמיתות"
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 #: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
-msgstr ""
+msgstr "נמחק"
 
 #: js/trash.js:184
 msgid "1 folder"
-msgstr ""
+msgstr "תיקייה אחת"
 
 #: js/trash.js:186
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} תיקיות"
 
 #: js/trash.js:194
 msgid "1 file"
-msgstr ""
+msgstr "קובץ אחד"
 
 #: js/trash.js:196
 msgid "{count} files"
-msgstr ""
+msgstr "{count} קבצים"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "שום דבר כאן. סל המחזור שלך ריק!"
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr ""
+msgstr "שחזר"
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
-msgstr ""
+msgstr "מחיקה"
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"

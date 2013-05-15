@@ -36,8 +36,8 @@
 "MS SQL username and/or password not valid: %s" => "Uživatelské jméno, či heslo MSSQL není platné: %s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Váš webový server není správně nastaven pro umožnění synchronizace, protože rozhraní WebDAV je rozbité.",
 "Please double check the <a href='%s'>installation guides</a>." => "Zkonzultujte, prosím, <a href='%s'>průvodce instalací</a>.",
-"seconds ago" => "před vteřinami",
-"1 minute ago" => "před 1 minutou",
+"seconds ago" => "před pár vteřinami",
+"1 minute ago" => "před minutou",
 "%d minutes ago" => "před %d minutami",
 "1 hour ago" => "před hodinou",
 "%d hours ago" => "před %d hodinami",
@@ -46,10 +46,7 @@
 "%d days ago" => "před %d dny",
 "last month" => "minulý měsíc",
 "%d months ago" => "Před %d měsíci",
-"last year" => "loni",
+"last year" => "minulý rok",
 "years ago" => "před lety",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s je dostupná. Získat <a href=\"%s\">více informací</a>",
-"up to date" => "aktuální",
-"updates check is disabled" => "kontrola aktualizací je vypnuta",
 "Could not find category \"%s\"" => "Nelze nalézt kategorii \"%s\""
 );

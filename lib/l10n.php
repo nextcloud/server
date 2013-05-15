@@ -122,9 +122,21 @@ class OC_L10N{
 				)
 				&& file_exists($i18ndir.$lang.'.php')) {
 				// Include the file, save the data from $CONFIG
-				include strip_tags($i18ndir).strip_tags($lang).'.php';
+				$transFile = strip_tags($i18ndir).strip_tags($lang).'.php';
+				include $transFile;
 				if(isset($TRANSLATIONS) && is_array($TRANSLATIONS)) {
 					$this->translations = $TRANSLATIONS;
+					//merge with translations from theme
+					$theme = OC_Config::getValue( "theme" );
+					if (!is_null($theme)) {
+						$transFile = OC::$SERVERROOT.'/themes/'.$theme.substr($transFile, strlen(OC::$SERVERROOT));
+						if (file_exists($transFile)) {
+							include $transFile;
+							if (isset($TRANSLATIONS) && is_array($TRANSLATIONS)) {
+								$this->translations = array_merge($this->translations, $TRANSLATIONS);
+							}
+						}
+					}
 				}
 			}
 

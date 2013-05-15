@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:02+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -20,38 +20,38 @@ msgstr ""
 #: ajax/rollbackVersion.php:15
 #, php-format
 msgid "Could not revert: %s"
-msgstr ""
+msgstr "Impossible de restaurer %s"
 
 #: history.php:40
 msgid "success"
-msgstr ""
+msgstr "succès"
 
 #: history.php:42
 #, php-format
 msgid "File %s was reverted to version %s"
-msgstr ""
+msgstr "Le fichier %s a été restauré dans sa version %s"
 
 #: history.php:49
 msgid "failure"
-msgstr ""
+msgstr "échec"
 
 #: history.php:51
 #, php-format
 msgid "File %s could not be reverted to version %s"
-msgstr ""
+msgstr "Le fichier %s ne peut être restauré dans sa version %s"
 
 #: history.php:69
 msgid "No old versions available"
-msgstr ""
+msgstr "Aucune ancienne version n'est disponible"
 
 #: history.php:74
 msgid "No path specified"
-msgstr ""
+msgstr "Aucun chemin spécifié"
 
 #: js/versions.js:6
 msgid "Versions"
-msgstr ""
+msgstr "Versions"
 
 #: templates/history.php:20
 msgid "Revert a file to a previous version by clicking on its revert button"
-msgstr ""
+msgstr "Restaurez un fichier dans une version antérieure en cliquant sur son bouton de restauration"

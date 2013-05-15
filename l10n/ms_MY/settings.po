@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-27 02:17+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Malay (Malaysia) (http://www.transifex.com/projects/p/owncloud/language/ms_MY/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr ""
+msgstr "Ralat pengesahan"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
@@ -48,11 +48,11 @@ msgstr ""
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr ""
+msgstr "Emel disimpan"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr ""
+msgstr "Emel tidak sah"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
@@ -64,11 +64,11 @@ msgstr ""
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr ""
+msgstr "Bahasa diubah"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr ""
+msgstr "Permintaan tidak sah"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -94,11 +94,11 @@ msgstr ""
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr ""
+msgstr "Nyahaktif"
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr ""
+msgstr "Aktif"
 
 #: js/apps.js:55
 msgid "Please wait...."
@@ -106,7 +106,7 @@ msgstr ""
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
-msgstr ""
+msgstr "Ralat"
 
 #: js/apps.js:90
 msgid "Updating...."
@@ -120,13 +120,13 @@ msgstr ""
 msgid "Updated"
 msgstr ""
 
-#: js/personal.js:115
+#: js/personal.js:118
 msgid "Saving..."
-msgstr ""
+msgstr "Simpan..."
 
 #: js/users.js:43
 msgid "deleted"
-msgstr ""
+msgstr "dihapus"
 
 #: js/users.js:43
 msgid "undo"
@@ -139,7 +139,7 @@ msgstr ""
 #: js/users.js:88 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
 msgid "Groups"
-msgstr ""
+msgstr "Kumpulan"
 
 #: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
@@ -147,7 +147,7 @@ msgstr ""
 
 #: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr ""
+msgstr "Padam"
 
 #: js/users.js:262
 msgid "add group"
@@ -165,13 +165,13 @@ msgstr ""
 msgid "A valid password must be provided"
 msgstr ""
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
-msgstr ""
+msgstr "_nama_bahasa_"
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr ""
+msgstr "Amaran keselamatan"
 
 #: templates/admin.php:18
 msgid ""
@@ -310,25 +310,25 @@ msgstr ""
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: templates/admin.php:196
 msgid "Log level"
-msgstr ""
+msgstr "Tahap Log"
 
 #: templates/admin.php:227
 msgid "More"
-msgstr ""
+msgstr "Lanjutan"
 
 #: templates/admin.php:228
 msgid "Less"
 msgstr ""
 
-#: templates/admin.php:235 templates/personal.php:100
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
 msgstr ""
 
-#: templates/admin.php:238 templates/personal.php:103
+#: templates/admin.php:238 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -340,7 +340,7 @@ msgstr ""
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr ""
+msgstr "Tambah apps anda"
 
 #: templates/apps.php:12
 msgid "More Apps"
@@ -348,11 +348,11 @@ msgstr ""
 
 #: templates/apps.php:28
 msgid "Select an App"
-msgstr ""
+msgstr "Pilih aplikasi"
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Lihat halaman applikasi di apps.owncloud.com"
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
@@ -360,7 +360,7 @@ msgstr ""
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr ""
+msgstr "Kemaskini"
 
 #: templates/help.php:4
 msgid "User Documentation"
@@ -401,7 +401,7 @@ msgstr ""
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr ""
+msgstr "Kata laluan"
 
 #: templates/personal.php:38
 msgid "Your password was changed"
@@ -409,19 +409,19 @@ msgstr ""
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr ""
+msgstr "Gagal mengubah kata laluan anda "
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr ""
+msgstr "Kata laluan semasa"
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr ""
+msgstr "Kata laluan baru"
 
 #: templates/personal.php:44
 msgid "Change password"
-msgstr ""
+msgstr "Ubah kata laluan"
 
 #: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
@@ -429,29 +429,29 @@ msgstr ""
 
 #: templates/personal.php:68
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: templates/personal.php:70
 msgid "Your email address"
-msgstr ""
+msgstr "Alamat emel anda"
 
 #: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Isi alamat emel anda untuk membolehkan pemulihan kata laluan"
 
 #: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
-msgstr ""
-
-#: templates/personal.php:84
-msgid "Help translate"
-msgstr ""
+msgstr "Bahasa"
 
 #: templates/personal.php:89
+msgid "Help translate"
+msgstr "Bantu terjemah"
+
+#: templates/personal.php:94
 msgid "WebDAV"
 msgstr ""
 
-#: templates/personal.php:91
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr ""
 
@@ -461,7 +461,7 @@ msgstr ""
 
 #: templates/users.php:30
 msgid "Create"
-msgstr ""
+msgstr "Buat"
 
 #: templates/users.php:33
 msgid "Default Storage"
@@ -473,7 +473,7 @@ msgstr ""
 
 #: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr ""
+msgstr "Lain"
 
 #: templates/users.php:82
 msgid "Storage"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (http://www.transifex.com/projects/p/owncloud/language/ka/)\n"
 "MIME-Version: 1.0\n"
@@ -162,11 +162,11 @@ msgstr ""
 
 #: js/js.js:718
 msgid "seconds ago"
-msgstr ""
+msgstr "წამის წინ"
 
 #: js/js.js:719
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 წუთის წინ"
 
 #: js/js.js:720
 msgid "{minutes} minutes ago"
@@ -174,7 +174,7 @@ msgstr ""
 
 #: js/js.js:721
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 საათის წინ"
 
 #: js/js.js:722
 msgid "{hours} hours ago"
@@ -182,11 +182,11 @@ msgstr ""
 
 #: js/js.js:723
 msgid "today"
-msgstr ""
+msgstr "დღეს"
 
 #: js/js.js:724
 msgid "yesterday"
-msgstr ""
+msgstr "გუშინ"
 
 #: js/js.js:725
 msgid "{days} days ago"
@@ -295,7 +295,7 @@ msgstr ""
 
 #: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr ""
+msgstr "პაროლი"
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -396,24 +396,27 @@ msgstr ""
 msgid "Use the following link to reset your password: {link}"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr ""
 
@@ -435,11 +438,11 @@ msgstr ""
 
 #: strings.php:5
 msgid "Personal"
-msgstr ""
+msgstr "პერსონა"
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "მომხმარებლები"
 
 #: strings.php:7
 msgid "Apps"
@@ -447,11 +450,11 @@ msgstr ""
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "ადმინისტრატორი"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "შველა"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -557,7 +560,12 @@ msgstr ""
 msgid "web services under your control"
 msgstr ""
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr ""
 

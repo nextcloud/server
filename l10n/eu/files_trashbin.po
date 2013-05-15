@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -20,65 +20,65 @@ msgstr ""
 #: ajax/delete.php:42
 #, php-format
 msgid "Couldn't delete %s permanently"
-msgstr ""
+msgstr "Ezin izan da %s betirako ezabatu"
 
 #: ajax/undelete.php:42
 #, php-format
 msgid "Couldn't restore %s"
-msgstr ""
+msgstr "Ezin izan da %s berreskuratu"
 
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
-msgstr ""
+msgstr "berreskuratu"
 
 #: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
 msgid "Error"
-msgstr ""
+msgstr "Errorea"
 
 #: js/trash.js:34
 msgid "delete file permanently"
-msgstr ""
+msgstr "ezabatu fitxategia betirako"
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr ""
+msgstr "Ezabatu betirako"
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
-msgstr ""
+msgstr "Izena"
 
 #: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
-msgstr ""
+msgstr "Ezabatuta"
 
 #: js/trash.js:184
 msgid "1 folder"
-msgstr ""
+msgstr "karpeta bat"
 
 #: js/trash.js:186
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} karpeta"
 
 #: js/trash.js:194
 msgid "1 file"
-msgstr ""
+msgstr "fitxategi bat"
 
 #: js/trash.js:196
 msgid "{count} files"
-msgstr ""
+msgstr "{count} fitxategi"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "Ez dago ezer ez. Zure zakarrontzia hutsik dago!"
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr ""
+msgstr "Berrezarri"
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
-msgstr ""
+msgstr "Ezabatu"
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr ""
+msgstr "Ezabatutako Fitxategiak"

@@ -57,7 +57,7 @@
 "Access forbidden" => "Access net erlaabt",
 "Cloud not found" => "Cloud net fonnt",
 "Edit categories" => "Kategorien editéieren",
-"Add" => "Bäisetzen",
+"Add" => "Dobäisetzen",
 "Security Warning" => "Sécherheets Warnung",
 "Create an <strong>admin account</strong>" => "En <strong>Admin Account</strong> uleeën",
 "Advanced" => "Avancéiert",

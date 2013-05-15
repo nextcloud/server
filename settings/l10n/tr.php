@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "App Store'dan liste yüklenemiyor",
-"Authentication error" => "Eşleşme hata",
+"Authentication error" => "Kimlik doğrulama hatası",
+"Your display name has been changed." => "Görüntülenen isminiz değiştirildi.",
 "Unable to change display name" => "Ekran adı değiştirilemiyor",
 "Group already exists" => "Grup zaten mevcut",
 "Unable to add group" => "Gruba eklenemiyor",
@@ -17,7 +18,7 @@
 "Couldn't update app." => "Uygulama güncellenemedi.",
 "Update to {appversion}" => "{appversion} Güncelle",
 "Disable" => "Etkin değil",
-"Enable" => "Etkin",
+"Enable" => "Etkinleştir",
 "Please wait...." => "Lütfen bekleyin....",
 "Error" => "Hata",
 "Updating...." => "Güncelleniyor....",

@@ -3,12 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Rivo Zängov <eraser@eraser.ee>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -19,115 +20,115 @@ msgstr ""
 
 #: app.php:349
 msgid "Help"
-msgstr ""
+msgstr "Abiinfo"
 
 #: app.php:362
 msgid "Personal"
-msgstr ""
+msgstr "Isiklik"
 
 #: app.php:373
 msgid "Settings"
-msgstr ""
+msgstr "Seaded"
 
 #: app.php:385
 msgid "Users"
-msgstr ""
+msgstr "Kasutajad"
 
 #: app.php:398
 msgid "Apps"
-msgstr ""
+msgstr "Rakendused"
 
 #: app.php:406
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: files.php:209
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "ZIP-ina allalaadimine on välja lülitatud."
 
 #: files.php:210
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "Failid tuleb alla laadida ükshaaval."
 
 #: files.php:211 files.php:244
 msgid "Back to Files"
-msgstr ""
+msgstr "Tagasi failide juurde"
 
 #: files.php:241
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "Valitud failid on ZIP-faili loomiseks liiga suured."
 
 #: helper.php:228
 msgid "couldn't be determined"
-msgstr ""
+msgstr "Ei suuda tuvastada"
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "Rakendus pole sisse lülitatud"
 
 #: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
-msgstr ""
+msgstr "Autentimise viga"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "Kontrollkood aegus. Paelun lae leht uuesti."
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
-msgstr ""
+msgstr "Failid"
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr ""
+msgstr "Tekst"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "Pildid"
 
 #: setup.php:34
 msgid "Set an admin username."
-msgstr ""
+msgstr "Määra admin kasutajanimi."
 
 #: setup.php:37
 msgid "Set an admin password."
-msgstr ""
+msgstr "Määra admini parool."
 
 #: setup.php:55
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "%s sisesta andmebaasi kasutajatunnus."
 
 #: setup.php:58
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "%s sisesta andmebaasi nimi."
 
 #: setup.php:61
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s punktide kasutamine andmebaasi nimes pole lubatud"
 
 #: setup.php:64
 #, php-format
 msgid "%s set the database host."
-msgstr ""
+msgstr "%s määra andmebaasi server."
 
 #: setup.php:132 setup.php:325 setup.php:370
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "PostgreSQL kasutajatunnus ja/või parool pole õiged"
 
 #: setup.php:133 setup.php:156 setup.php:234
 msgid "You need to enter either an existing account or the administrator."
-msgstr ""
+msgstr "Sisesta kas juba olemasolev konto või administrator."
 
 #: setup.php:155 setup.php:458 setup.php:525
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Oracle kasutajatunnus ja/või parool pole õiged"
 
 #: setup.php:233
 msgid "MySQL username and/or password not valid"
-msgstr ""
+msgstr "MySQL kasutajatunnus ja/või parool pole õiged"
 
 #: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
 #: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
@@ -135,120 +136,107 @@ msgstr ""
 #: setup.php:615
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "Andmebaasi viga: \"%s\""
 
 #: setup.php:288 setup.php:392 setup.php:401 setup.php:419 setup.php:429
 #: setup.php:438 setup.php:467 setup.php:533 setup.php:559 setup.php:566
 #: setup.php:577 setup.php:593 setup.php:601 setup.php:610
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "Tõrkuv käsk oli: \"%s\""
 
 #: setup.php:304
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "MySQL kasutaja '%s'@'localhost' on juba olemas."
 
 #: setup.php:305
 msgid "Drop this user from MySQL"
-msgstr ""
+msgstr "Kustuta see kasutaja MySQL-ist"
 
 #: setup.php:310
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
-msgstr ""
+msgstr "MySQL kasutaja '%s'@'%%' on juba olemas"
 
 #: setup.php:311
 msgid "Drop this user from MySQL."
-msgstr ""
+msgstr "Kustuta see kasutaja MySQL-ist."
 
 #: setup.php:584 setup.php:616
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "Tõrkuv käsk oli: \"%s\", nimi: %s, parool: %s"
 
 #: setup.php:636
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "MS SQL kasutajatunnus ja/või parool pole õiged: %s"
 
 #: setup.php:858
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Veebiserveri ei ole veel korralikult seadistatud võimaldamaks failide sünkroniseerimist, kuna WebDAV liides näib olevat mittetoimiv."
 
 #: setup.php:859
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Palun tutvu veelkord <a href='%s'>paigalduse juhenditega</a>."
 
 #: template.php:113
 msgid "seconds ago"
-msgstr ""
+msgstr "sekundit tagasi"
 
 #: template.php:114
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 minut tagasi"
 
 #: template.php:115
 #, php-format
 msgid "%d minutes ago"
-msgstr ""
+msgstr "%d minutit tagasi"
 
 #: template.php:116
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 tund tagasi"
 
 #: template.php:117
 #, php-format
 msgid "%d hours ago"
-msgstr ""
+msgstr "%d tundi tagasi"
 
 #: template.php:118
 msgid "today"
-msgstr ""
+msgstr "täna"
 
 #: template.php:119
 msgid "yesterday"
-msgstr ""
+msgstr "eile"
 
 #: template.php:120
 #, php-format
 msgid "%d days ago"
-msgstr ""
+msgstr "%d päeva tagasi"
 
 #: template.php:121
 msgid "last month"
-msgstr ""
+msgstr "viimasel kuul"
 
 #: template.php:122
 #, php-format
 msgid "%d months ago"
-msgstr ""
+msgstr "%d kuud tagasi"
 
 #: template.php:123
 msgid "last year"
-msgstr ""
+msgstr "viimasel aastal"
 
 #: template.php:124
 msgid "years ago"
-msgstr ""
-
-#: updater.php:78
-#, php-format
-msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
-
-#: updater.php:81
-msgid "up to date"
-msgstr ""
-
-#: updater.php:84
-msgid "updates check is disabled"
-msgstr ""
+msgstr "aastat tagasi"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "Ei leia kategooriat \"%s\""

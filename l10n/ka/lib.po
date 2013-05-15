@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Georgian (http://www.transifex.com/projects/p/owncloud/language/ka/)\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,11 @@ msgstr ""
 
 #: app.php:349
 msgid "Help"
-msgstr ""
+msgstr "შველა"
 
 #: app.php:362
 msgid "Personal"
-msgstr ""
+msgstr "პერსონა"
 
 #: app.php:373
 msgid "Settings"
@@ -31,7 +31,7 @@ msgstr ""
 
 #: app.php:385
 msgid "Users"
-msgstr ""
+msgstr "მომხმარებლები"
 
 #: app.php:398
 msgid "Apps"
@@ -39,11 +39,11 @@ msgstr ""
 
 #: app.php:406
 msgid "Admin"
-msgstr ""
+msgstr "ადმინისტრატორი"
 
 #: files.php:209
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "ZIP გადმოწერა გამორთულია"
 
 #: files.php:210
 msgid "Files need to be downloaded one by one."
@@ -75,7 +75,7 @@ msgstr ""
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
-msgstr ""
+msgstr "ფაილები"
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
@@ -185,20 +185,20 @@ msgstr ""
 
 #: template.php:113
 msgid "seconds ago"
-msgstr ""
+msgstr "წამის წინ"
 
 #: template.php:114
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 წუთის წინ"
 
 #: template.php:115
 #, php-format
 msgid "%d minutes ago"
-msgstr ""
+msgstr "%d წუთის წინ"
 
 #: template.php:116
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 საათის წინ"
 
 #: template.php:117
 #, php-format
@@ -207,16 +207,16 @@ msgstr ""
 
 #: template.php:118
 msgid "today"
-msgstr ""
+msgstr "დღეს"
 
 #: template.php:119
 msgid "yesterday"
-msgstr ""
+msgstr "გუშინ"
 
 #: template.php:120
 #, php-format
 msgid "%d days ago"
-msgstr ""
+msgstr "%d დღის წინ"
 
 #: template.php:121
 msgid "last month"
@@ -233,19 +233,6 @@ msgstr ""
 
 #: template.php:124
 msgid "years ago"
-msgstr ""
-
-#: updater.php:78
-#, php-format
-msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
-
-#: updater.php:81
-msgid "up to date"
-msgstr ""
-
-#: updater.php:84
-msgid "updates check is disabled"
 msgstr ""
 
 #: vcategories.php:188 vcategories.php:249

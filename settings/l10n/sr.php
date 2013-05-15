@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Грешка приликом учитавања списка из Складишта Програма",
-"Authentication error" => "Грешка при аутентификацији",
+"Authentication error" => "Грешка при провери идентитета",
 "Unable to change display name" => "Не могу да променим име за приказ",
 "Group already exists" => "Група већ постоји",
 "Unable to add group" => "Не могу да додам групу",
@@ -17,7 +17,7 @@
 "Couldn't update app." => "Не могу да ажурирам апликацију.",
 "Update to {appversion}" => "Ажурирај на {appversion}",
 "Disable" => "Искључи",
-"Enable" => "Укључи",
+"Enable" => "Омогући",
 "Please wait...." => "Сачекајте…",
 "Error" => "Грешка",
 "Updating...." => "Ажурирам…",

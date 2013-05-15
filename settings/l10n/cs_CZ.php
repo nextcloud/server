@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Nelze načíst seznam z App Store",
 "Authentication error" => "Chyba ověření",
+"Your display name has been changed." => "Vaše zobrazované jméno bylo změněno.",
 "Unable to change display name" => "Nelze změnit zobrazované jméno",
 "Group already exists" => "Skupina již existuje",
 "Unable to add group" => "Nelze přidat skupinu",
@@ -102,7 +103,7 @@
 "Create" => "Vytvořit",
 "Default Storage" => "Výchozí úložiště",
 "Unlimited" => "Neomezeně",
-"Other" => "Jiná",
+"Other" => "Jiný",
 "Storage" => "Úložiště",
 "change display name" => "změnit zobrazované jméno",
 "set new password" => "nastavit nové heslo",

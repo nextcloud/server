@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "Non foi posíbel cargar a lista desde a App Store",
 "Authentication error" => "Produciuse un erro de autenticación",
+"Your display name has been changed." => "O seu nome visíbel foi cambiado",
 "Unable to change display name" => "Non é posíbel cambiar o nome visíbel",
 "Group already exists" => "O grupo xa existe",
 "Unable to add group" => "Non é posíbel engadir o grupo",
@@ -49,7 +50,7 @@
 "Cron" => "Cron",
 "Execute one task with each page loaded" => "Executar unha tarefa con cada páxina cargada",
 "cron.php is registered at a webcron service. Call the cron.php page in the owncloud root once a minute over http." => "cron.php está rexistrado nun servizo de WebCron. Chame á página cron.php na raíz ownCloud unha vez por minuto a través de HTTP.",
-"Use systems cron service. Call the cron.php file in the owncloud folder via a system cronjob once a minute." => "Use o servizo de sistema cron. Chame ao ficheiro cron.php no catfaol owncloud a través dun sistema de cronjob unna vez por minuto.",
+"Use systems cron service. Call the cron.php file in the owncloud folder via a system cronjob once a minute." => "Use o servizo de sistema cron. Chame ao ficheiro cron.php no cartafol owncloud a través dun sistema de cronjob unha vez por minuto.",
 "Sharing" => "Compartindo",
 "Enable Share API" => "Activar o API para compartir",
 "Allow apps to use the Share API" => "Permitir que os aplicativos empreguen o API para compartir",

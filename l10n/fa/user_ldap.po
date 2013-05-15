@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:02+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,11 @@ msgstr ""
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr ""
+msgstr "عملیات حذف پیکربندی سرور ناموفق ماند"
 
 #: ajax/testConfiguration.php:36
 msgid "The configuration is valid and the connection could be established!"
-msgstr ""
+msgstr "پیکربندی معتبر است و ارتباط می تواند برقرار شود"
 
 #: ajax/testConfiguration.php:39
 msgid ""
@@ -39,7 +39,7 @@ msgstr ""
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr ""
+msgstr "حذف کردن انجام نشد"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
@@ -47,7 +47,7 @@ msgstr ""
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr ""
+msgstr "آیا تنظیمات ذخیره شود ؟"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
@@ -55,19 +55,19 @@ msgstr ""
 
 #: js/settings.js:121
 msgid "Connection test succeeded"
-msgstr ""
+msgstr "تست اتصال با موفقیت انجام گردید"
 
 #: js/settings.js:126
 msgid "Connection test failed"
-msgstr ""
+msgstr "تست اتصال ناموفق بود"
 
 #: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "آیا واقعا می خواهید پیکربندی کنونی سرور را حذف کنید؟"
 
 #: js/settings.js:137
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "تایید حذف"
 
 #: templates/settings.php:8
 msgid ""
@@ -84,15 +84,15 @@ msgstr ""
 
 #: templates/settings.php:15
 msgid "Server configuration"
-msgstr ""
+msgstr "پیکربندی سرور"
 
 #: templates/settings.php:31
 msgid "Add Server Configuration"
-msgstr ""
+msgstr "افزودن پیکربندی سرور"
 
 #: templates/settings.php:36
 msgid "Host"
-msgstr ""
+msgstr "میزبانی"
 
 #: templates/settings.php:38
 msgid ""
@@ -124,7 +124,7 @@ msgstr ""
 
 #: templates/settings.php:46
 msgid "Password"
-msgstr ""
+msgstr "گذرواژه"
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
@@ -160,7 +160,7 @@ msgstr ""
 
 #: templates/settings.php:60
 msgid "Group Filter"
-msgstr ""
+msgstr "فیلتر گروه"
 
 #: templates/settings.php:63
 msgid "Defines the filter to apply, when retrieving groups."
@@ -184,7 +184,7 @@ msgstr ""
 
 #: templates/settings.php:71
 msgid "Port"
-msgstr ""
+msgstr "درگاه"
 
 #: templates/settings.php:72
 msgid "Backup (Replica) Host"
@@ -308,7 +308,7 @@ msgstr ""
 
 #: templates/settings.php:93
 msgid "in bytes"
-msgstr ""
+msgstr "در بایت"
 
 #: templates/settings.php:94
 msgid "Email Field"
@@ -330,4 +330,4 @@ msgstr ""
 
 #: templates/settings.php:99
 msgid "Help"
-msgstr ""
+msgstr "راه‌نما"

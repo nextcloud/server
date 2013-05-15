@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-05-15 01:59+0200\n"
+"PO-Revision-Date: 2013-05-15 00:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Tamil (Sri-Lanka) (http://www.transifex.com/projects/p/owncloud/language/ta_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -27,17 +27,13 @@ msgstr ""
 msgid "Could not move %s"
 msgstr ""
 
-#: ajax/rename.php:22 ajax/rename.php:25
-msgid "Unable to rename file"
-msgstr ""
-
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
-msgstr ""
+msgstr "ஒரு கோப்பும் பதிவேற்றப்படவில்லை. அறியப்படாத வழு"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr ""
+msgstr "இங்கு வழு இல்லை, கோப்பு வெற்றிகரமாக பதிவேற்றப்பட்டது"
 
 #: ajax/upload.php:27
 msgid ""
@@ -48,23 +44,23 @@ msgstr ""
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr ""
+msgstr "பதிவேற்றப்பட்ட கோப்பானது HTML  படிவத்தில் குறிப்பிடப்பட்டுள்ள MAX_FILE_SIZE  directive ஐ விட கூடியது"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "பதிவேற்றப்பட்ட கோப்பானது பகுதியாக மட்டுமே பதிவேற்றப்பட்டுள்ளது"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr ""
+msgstr "எந்த கோப்பும் பதிவேற்றப்படவில்லை"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "ஒரு தற்காலிகமான கோப்புறையை காணவில்லை"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
-msgstr ""
+msgstr "வட்டில் எழுத முடியவில்லை"
 
 #: ajax/upload.php:51
 msgid "Not enough storage available"
@@ -76,61 +72,61 @@ msgstr ""
 
 #: appinfo/app.php:12
 msgid "Files"
-msgstr ""
+msgstr "கோப்புகள்"
 
 #: js/fileactions.js:116
 msgid "Share"
-msgstr ""
+msgstr "பகிர்வு"
 
 #: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr ""
 
-#: js/fileactions.js:128 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
 msgid "Delete"
-msgstr ""
+msgstr "நீக்குக"
 
 #: js/fileactions.js:194
 msgid "Rename"
-msgstr ""
+msgstr "பெயர்மாற்றம்"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:421
 msgid "Pending"
-msgstr ""
+msgstr "நிலுவையிலுள்ள"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "{new_name} already exists"
-msgstr ""
+msgstr "{new_name} ஏற்கனவே உள்ளது"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "replace"
-msgstr ""
+msgstr "மாற்றிடுக"
 
-#: js/filelist.js:252
+#: js/filelist.js:259
 msgid "suggest name"
-msgstr ""
+msgstr "பெயரை பரிந்துரைக்க"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "cancel"
-msgstr ""
+msgstr "இரத்து செய்க"
 
-#: js/filelist.js:299
+#: js/filelist.js:306
 msgid "replaced {new_name} with {old_name}"
-msgstr ""
+msgstr "{new_name} ஆனது {old_name} இனால் மாற்றப்பட்டது"
 
-#: js/filelist.js:299
+#: js/filelist.js:306
 msgid "undo"
-msgstr ""
+msgstr "முன் செயல் நீக்கம் "
 
-#: js/filelist.js:324
+#: js/filelist.js:331
 msgid "perform delete operation"
 msgstr ""
 
-#: js/filelist.js:406
+#: js/filelist.js:413
 msgid "1 file uploading"
-msgstr ""
+msgstr "1 கோப்பு பதிவேற்றப்படுகிறது"
 
-#: js/filelist.js:409 js/filelist.js:463
+#: js/filelist.js:416 js/filelist.js:470
 msgid "files uploading"
 msgstr ""
 
@@ -146,7 +142,7 @@ msgstr ""
 msgid ""
 "Invalid name, '\\', '/', '<', '>', ':', '\"', '|', '?' and '*' are not "
 "allowed."
-msgstr ""
+msgstr "செல்லுபடியற்ற பெயர்,'\\', '/', '<', '>', ':', '\"', '|', '?' மற்றும் '*' ஆகியன அனுமதிக்கப்படமாட்டாது."
 
 #: js/files.js:78
 msgid "Your storage is full, files can not be updated or synced anymore!"
@@ -156,120 +152,128 @@ msgstr ""
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr ""
 
-#: js/files.js:226
+#: js/files.js:231
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr ""
 
-#: js/files.js:259
+#: js/files.js:264
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr ""
+msgstr "அடைவு அல்லது 0 bytes ஐ கொண்டுள்ளதால் உங்களுடைய கோப்பை பதிவேற்ற முடியவில்லை"
 
-#: js/files.js:272
+#: js/files.js:277
 msgid "Not enough space available"
 msgstr ""
 
-#: js/files.js:312
+#: js/files.js:317
 msgid "Upload cancelled."
-msgstr ""
+msgstr "பதிவேற்றல் இரத்து செய்யப்பட்டுள்ளது"
 
-#: js/files.js:408
+#: js/files.js:413
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
-msgstr ""
-
-#: js/files.js:481
-msgid "URL cannot be empty."
-msgstr ""
+msgstr "கோப்பு பதிவேற்றம் செயல்பாட்டில் உள்ளது. இந்தப் பக்கத்திலிருந்து வெறியேறுவதானது பதிவேற்றலை இரத்து செய்யும்."
 
 #: js/files.js:486
+msgid "URL cannot be empty."
+msgstr "URL  வெறுமையாக இருக்கமுடியாது."
+
+#: js/files.js:491
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr ""
 
-#: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
+#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
 msgid "Error"
-msgstr ""
+msgstr "வழு"
 
-#: js/files.js:872 templates/index.php:70
+#: js/files.js:877 templates/index.php:69
 msgid "Name"
-msgstr ""
+msgstr "பெயர்"
 
-#: js/files.js:873 templates/index.php:81
+#: js/files.js:878 templates/index.php:80
 msgid "Size"
-msgstr ""
+msgstr "அளவு"
 
-#: js/files.js:874 templates/index.php:83
+#: js/files.js:879 templates/index.php:82
 msgid "Modified"
-msgstr ""
+msgstr "மாற்றப்பட்டது"
 
-#: js/files.js:893
+#: js/files.js:898
 msgid "1 folder"
-msgstr ""
+msgstr "1 கோப்புறை"
 
-#: js/files.js:895
+#: js/files.js:900
 msgid "{count} folders"
-msgstr ""
+msgstr "{எண்ணிக்கை} கோப்புறைகள்"
 
-#: js/files.js:903
+#: js/files.js:908
 msgid "1 file"
+msgstr "1 கோப்பு"
+
+#: js/files.js:910
+msgid "{count} files"
+msgstr "{எண்ணிக்கை} கோப்புகள்"
+
+#: lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
 msgstr ""
 
-#: js/files.js:905
-msgid "{count} files"
+#: lib/app.php:73
+msgid "Unable to rename file"
 msgstr ""
 
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr ""
+msgstr "பதிவேற்றுக"
 
 #: templates/admin.php:5
 msgid "File handling"
-msgstr ""
+msgstr "கோப்பு கையாளுதல்"
 
 #: templates/admin.php:7
 msgid "Maximum upload size"
-msgstr ""
+msgstr "பதிவேற்றக்கூடிய ஆகக்கூடிய அளவு "
 
 #: templates/admin.php:10
 msgid "max. possible: "
-msgstr ""
+msgstr "ஆகக் கூடியது:"
 
 #: templates/admin.php:15
 msgid "Needed for multi-file and folder downloads."
-msgstr ""
+msgstr "பல்வேறுப்பட்ட கோப்பு மற்றும் கோப்புறைகளை பதிவிறக்க தேவையானது."
 
 #: templates/admin.php:17
 msgid "Enable ZIP-download"
-msgstr ""
+msgstr "ZIP பதிவிறக்கலை இயலுமைப்படுத்துக"
 
 #: templates/admin.php:20
 msgid "0 is unlimited"
-msgstr ""
+msgstr "0 ஆனது எல்லையற்றது"
 
 #: templates/admin.php:22
 msgid "Maximum input size for ZIP files"
-msgstr ""
+msgstr "ZIP கோப்புகளுக்கான ஆகக்கூடிய உள்ளீட்டு அளவு"
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr ""
+msgstr "சேமிக்க "
 
 #: templates/index.php:7
 msgid "New"
-msgstr ""
+msgstr "புதிய"
 
 #: templates/index.php:10
 msgid "Text file"
-msgstr ""
+msgstr "கோப்பு உரை"
 
 #: templates/index.php:12
 msgid "Folder"
-msgstr ""
+msgstr "கோப்புறை"
 
 #: templates/index.php:14
 msgid "From link"
-msgstr ""
+msgstr "இணைப்பிலிருந்து"
 
 #: templates/index.php:42
 msgid "Deleted files"
@@ -277,41 +281,41 @@ msgstr ""
 
 #: templates/index.php:48
 msgid "Cancel upload"
-msgstr ""
+msgstr "பதிவேற்றலை இரத்து செய்க"
 
-#: templates/index.php:55
+#: templates/index.php:54
 msgid "You don’t have write permissions here."
 msgstr ""
 
-#: templates/index.php:62
+#: templates/index.php:61
 msgid "Nothing in here. Upload something!"
-msgstr ""
+msgstr "இங்கு ஒன்றும் இல்லை. ஏதாவது பதிவேற்றுக!"
 
-#: templates/index.php:76
+#: templates/index.php:75
 msgid "Download"
-msgstr ""
+msgstr "பதிவிறக்குக"
 
-#: templates/index.php:88 templates/index.php:89
+#: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
-msgstr ""
+msgstr "பகிரப்படாதது"
 
-#: templates/index.php:108
+#: templates/index.php:107
 msgid "Upload too large"
-msgstr ""
+msgstr "பதிவேற்றல் மிகப்பெரியது"
 
-#: templates/index.php:110
+#: templates/index.php:109
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
-msgstr ""
+msgstr "நீங்கள் பதிவேற்ற முயற்சிக்கும் கோப்புகளானது இந்த சேவையகத்தில் கோப்பு பதிவேற்றக்கூடிய ஆகக்கூடிய அளவிலும் கூடியது."
 
-#: templates/index.php:115
+#: templates/index.php:114
 msgid "Files are being scanned, please wait."
-msgstr ""
+msgstr "கோப்புகள் வருடப்படுகின்றன, தயவுசெய்து காத்திருங்கள்."
 
-#: templates/index.php:118
+#: templates/index.php:117
 msgid "Current scanning"
-msgstr ""
+msgstr "தற்போது வருடப்படுபவை"
 
 #: templates/upgrade.php:2
 msgid "Upgrading filesystem cache..."

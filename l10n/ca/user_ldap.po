@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:02+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Catalan (http://www.transifex.com/projects/p/owncloud/language/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -19,315 +19,315 @@ msgstr ""
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr ""
+msgstr "Ha fallat en eliminar la configuració del servidor"
 
 #: ajax/testConfiguration.php:36
 msgid "The configuration is valid and the connection could be established!"
-msgstr ""
+msgstr "La configuració és vàlida i s'ha pogut establir la comunicació!"
 
 #: ajax/testConfiguration.php:39
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr ""
+msgstr "La configuració és vàlida, però ha fallat el Bind. Comproveu les credencials i l'arranjament del servidor."
 
 #: ajax/testConfiguration.php:43
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr ""
+msgstr "La configuració no és vàlida. Per més detalls mireu al registre d'ownCloud."
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr ""
+msgstr "Eliminació fallida"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr ""
+msgstr "Voleu prendre l'arranjament de la configuració actual del servidor?"
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr ""
+msgstr "Voleu mantenir la configuració?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "No es pot afegir la configuració del servidor"
 
 #: js/settings.js:121
 msgid "Connection test succeeded"
-msgstr ""
+msgstr "La prova de connexió ha reeixit"
 
 #: js/settings.js:126
 msgid "Connection test failed"
-msgstr ""
+msgstr "La prova de connexió ha fallat"
 
 #: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "Voleu eliminar la configuració actual del servidor?"
 
 #: js/settings.js:137
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "Confirma l'eliminació"
 
 #: templates/settings.php:8
 msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behaviour. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>Avís:</b> Les aplicacions user_ldap i user_webdavauth són incompatibles. Podeu experimentar comportaments no desitjats. Demaneu a l'administrador del sistema que en desactivi una."
 
 #: templates/settings.php:11
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Avís:</b> El mòdul PHP LDAP no està instal·lat, el dorsal no funcionarà. Demaneu a l'administrador del sistema que l'instal·li."
 
 #: templates/settings.php:15
 msgid "Server configuration"
-msgstr ""
+msgstr "Configuració del servidor"
 
 #: templates/settings.php:31
 msgid "Add Server Configuration"
-msgstr ""
+msgstr "Afegeix la configuració del servidor"
 
 #: templates/settings.php:36
 msgid "Host"
-msgstr ""
+msgstr "Equip remot"
 
 #: templates/settings.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "Podeu ometre el protocol, excepte si requeriu SSL. Llavors comenceu amb ldaps://"
 
 #: templates/settings.php:39
 msgid "Base DN"
-msgstr ""
+msgstr "DN Base"
 
 #: templates/settings.php:40
 msgid "One Base DN per line"
-msgstr ""
+msgstr "Una DN Base per línia"
 
 #: templates/settings.php:41
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr ""
+msgstr "Podeu especificar DN Base per usuaris i grups a la pestanya Avançat"
 
 #: templates/settings.php:43
 msgid "User DN"
-msgstr ""
+msgstr "DN Usuari"
 
 #: templates/settings.php:45
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr ""
+msgstr "La DN de l'usuari client amb la que s'haurà de fer, per exemple uid=agent,dc=exemple,dc=com. Per un accés anònim, deixeu la DN i la contrasenya en blanc."
 
 #: templates/settings.php:46
 msgid "Password"
-msgstr ""
+msgstr "Contrasenya"
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "Per un accés anònim, deixeu la DN i la contrasenya en blanc."
 
 #: templates/settings.php:50
 msgid "User Login Filter"
-msgstr ""
+msgstr "Filtre d'inici de sessió d'usuari"
 
 #: templates/settings.php:53
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "Defineix el filtre a aplicar quan s'intenta l'inici de sessió. %%uid reemplaça el nom d'usuari en l'acció d'inici de sessió."
 
 #: templates/settings.php:54
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr ""
+msgstr "useu el paràmetre de substitució %%uid, per exemple \"uid=%%uid\""
 
 #: templates/settings.php:55
 msgid "User List Filter"
-msgstr ""
+msgstr "Llista de filtres d'usuari"
 
 #: templates/settings.php:58
 msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
+msgstr "Defineix el filtre a aplicar quan es mostren usuaris"
 
 #: templates/settings.php:59
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
+msgstr "sense cap paràmetre de substitució, per exemple \"objectClass=persona\""
 
 #: templates/settings.php:60
 msgid "Group Filter"
-msgstr ""
+msgstr "Filtre de grup"
 
 #: templates/settings.php:63
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
+msgstr "Defineix el filtre a aplicar quan es mostren grups."
 
 #: templates/settings.php:64
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "sense cap paràmetre de substitució, per exemple \"objectClass=grupPosix\"."
 
 #: templates/settings.php:68
 msgid "Connection Settings"
-msgstr ""
+msgstr "Arranjaments de connexió"
 
 #: templates/settings.php:70
 msgid "Configuration Active"
-msgstr ""
+msgstr "Configuració activa"
 
 #: templates/settings.php:70
 msgid "When unchecked, this configuration will be skipped."
-msgstr ""
+msgstr "Si està desmarcat, aquesta configuració s'ometrà."
 
 #: templates/settings.php:71
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: templates/settings.php:72
 msgid "Backup (Replica) Host"
-msgstr ""
+msgstr "Màquina de còpia de serguretat (rèplica)"
 
 #: templates/settings.php:72
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr ""
+msgstr "Afegiu una màquina de còpia de seguretat opcional. Ha de ser una rèplica del servidor LDAP/AD principal."
 
 #: templates/settings.php:73
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "Port de la còpia de seguretat (rèplica)"
 
 #: templates/settings.php:74
 msgid "Disable Main Server"
-msgstr ""
+msgstr "Desactiva el servidor principal"
 
 #: templates/settings.php:74
 msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr ""
+msgstr "Quan està connectat, ownCloud només es connecta al servidor de la rèplica."
 
 #: templates/settings.php:75
 msgid "Use TLS"
-msgstr ""
+msgstr "Usa TLS"
 
 #: templates/settings.php:75
 msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr ""
+msgstr "No ho useu adicionalment per a conexions LDAPS, fallarà."
 
 #: templates/settings.php:76
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "Servidor LDAP sense distinció entre majúscules i minúscules (Windows)"
 
 #: templates/settings.php:77
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "Desactiva la validació de certificat SSL."
 
 #: templates/settings.php:77
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr ""
+msgstr "Si la connexió només funciona amb aquesta opció, importeu el certificat SSL del servidor LDAP en el vostre servidor ownCloud."
 
 #: templates/settings.php:77
 msgid "Not recommended, use for testing only."
-msgstr ""
+msgstr "No recomanat, ús només per proves."
 
 #: templates/settings.php:78
 msgid "Cache Time-To-Live"
-msgstr ""
+msgstr "Memòria de cau Time-To-Live"
 
 #: templates/settings.php:78
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "en segons. Un canvi buidarà la memòria de cau."
 
 #: templates/settings.php:80
 msgid "Directory Settings"
-msgstr ""
+msgstr "Arranjaments de carpetes"
 
 #: templates/settings.php:82
 msgid "User Display Name Field"
-msgstr ""
+msgstr "Camp per mostrar el nom d'usuari"
 
 #: templates/settings.php:82
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr ""
+msgstr "Atribut LDAP a usar per generar el nom d'usuari ownCloud."
 
 #: templates/settings.php:83
 msgid "Base User Tree"
-msgstr ""
+msgstr "Arbre base d'usuaris"
 
 #: templates/settings.php:83
 msgid "One User Base DN per line"
-msgstr ""
+msgstr "Una DN Base d'Usuari per línia"
 
 #: templates/settings.php:84
 msgid "User Search Attributes"
-msgstr ""
+msgstr "Atributs de cerca d'usuari"
 
 #: templates/settings.php:84 templates/settings.php:87
 msgid "Optional; one attribute per line"
-msgstr ""
+msgstr "Opcional; Un atribut per línia"
 
 #: templates/settings.php:85
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "Camp per mostrar el nom del grup"
 
 #: templates/settings.php:85
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr ""
+msgstr "Atribut LDAP a usar per generar el nom de grup ownCloud."
 
 #: templates/settings.php:86
 msgid "Base Group Tree"
-msgstr ""
+msgstr "Arbre base de grups"
 
 #: templates/settings.php:86
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "Una DN Base de Grup per línia"
 
 #: templates/settings.php:87
 msgid "Group Search Attributes"
-msgstr ""
+msgstr "Atributs de cerca de grup"
 
 #: templates/settings.php:88
 msgid "Group-Member association"
-msgstr ""
+msgstr "Associació membres-grup"
 
 #: templates/settings.php:90
 msgid "Special Attributes"
-msgstr ""
+msgstr "Atributs especials"
 
 #: templates/settings.php:92
 msgid "Quota Field"
-msgstr ""
+msgstr "Camp de quota"
 
 #: templates/settings.php:93
 msgid "Quota Default"
-msgstr ""
+msgstr "Quota per defecte"
 
 #: templates/settings.php:93
 msgid "in bytes"
-msgstr ""
+msgstr "en bytes"
 
 #: templates/settings.php:94
 msgid "Email Field"
-msgstr ""
+msgstr "Camp de correu electrònic"
 
 #: templates/settings.php:95
 msgid "User Home Folder Naming Rule"
-msgstr ""
+msgstr "Norma per anomenar la carpeta arrel d'usuari"
 
 #: templates/settings.php:95
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr ""
+msgstr "Deixeu-ho buit pel nom d'usuari (per defecte). Altrament, especifiqueu un atribut LDAP/AD."
 
 #: templates/settings.php:99
 msgid "Test Configuration"
-msgstr ""
+msgstr "Comprovació de la configuració"
 
 #: templates/settings.php:99
 msgid "Help"
-msgstr ""
+msgstr "Ajuda"

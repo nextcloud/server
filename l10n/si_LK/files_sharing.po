@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Sinhala (Sri Lanka) (http://www.transifex.com/projects/p/owncloud/language/si_LK/)\n"
 "MIME-Version: 1.0\n"
@@ -19,30 +19,30 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "Password"
-msgstr ""
+msgstr "මුර පදය"
 
 #: templates/authenticate.php:6
 msgid "Submit"
-msgstr ""
+msgstr "යොමු කරන්න"
 
 #: templates/public.php:10
 #, php-format
 msgid "%s shared the folder %s with you"
-msgstr ""
+msgstr "%s ඔබව %s ෆෝල්ඩරයට හවුල් කරගත්තේය"
 
 #: templates/public.php:13
 #, php-format
 msgid "%s shared the file %s with you"
-msgstr ""
+msgstr "%s ඔබ සමඟ %s ගොනුව බෙදාහදාගත්තේය"
 
 #: templates/public.php:19 templates/public.php:43
 msgid "Download"
-msgstr ""
+msgstr "බාන්න"
 
 #: templates/public.php:40
 msgid "No preview available for"
-msgstr ""
+msgstr "පූර්වදර්ශනයක් නොමැත"
 
 #: templates/public.php:50
 msgid "web services under your control"
-msgstr ""
+msgstr "ඔබට පාලනය කළ හැකි වෙබ් සේවාවන්"

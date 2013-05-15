@@ -3,7 +3,7 @@
 "The configuration is valid and the connection could be established!" => "A configuración é correcta e pode estabelecerse a conexión.",
 "The configuration is valid, but the Bind failed. Please check the server settings and credentials." => "A configuración é correcta, mais a ligazón non. Comprobe a configuración do servidor e as credenciais.",
 "The configuration is invalid. Please look in the ownCloud log for further details." => "A configuración non é correcta. Vexa o rexistro de ownCloud para máis detalles",
-"Deletion failed" => "Fallou o borrado",
+"Deletion failed" => "Produciuse un fallo ao eliminar",
 "Take over settings from recent server configuration?" => "Tomar os recentes axustes de configuración do servidor?",
 "Keep settings?" => "Manter os axustes?",
 "Cannot add server configuration" => "Non é posíbel engadir a configuración do servidor",

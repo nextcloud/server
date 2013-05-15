@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bulgarian (Bulgaria) (http://www.transifex.com/projects/p/owncloud/language/bg_BG/)\n"
 "MIME-Version: 1.0\n"
@@ -19,94 +19,94 @@ msgstr ""
 
 #: app.php:349
 msgid "Help"
-msgstr ""
+msgstr "Помощ"
 
 #: app.php:362
 msgid "Personal"
-msgstr ""
+msgstr "Лични"
 
 #: app.php:373
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 #: app.php:385
 msgid "Users"
-msgstr ""
+msgstr "Потребители"
 
 #: app.php:398
 msgid "Apps"
-msgstr ""
+msgstr "Приложения"
 
 #: app.php:406
 msgid "Admin"
-msgstr ""
+msgstr "Админ"
 
 #: files.php:209
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "Изтеглянето като ZIP е изключено."
 
 #: files.php:210
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "Файловете трябва да се изтеглят един по един."
 
 #: files.php:211 files.php:244
 msgid "Back to Files"
-msgstr ""
+msgstr "Назад към файловете"
 
 #: files.php:241
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "Избраните файлове са прекалено големи за генерирането на ZIP архив."
 
 #: helper.php:228
 msgid "couldn't be determined"
-msgstr ""
+msgstr "не може да се определи"
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "Приложението не е включено."
 
 #: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
-msgstr ""
+msgstr "Възникна проблем с идентификацията"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "Ключът е изтекъл, моля презаредете страницата"
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
-msgstr ""
+msgstr "Файлове"
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr ""
+msgstr "Текст"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "Снимки"
 
 #: setup.php:34
 msgid "Set an admin username."
-msgstr ""
+msgstr "Въведете потребителско име за администратор."
 
 #: setup.php:37
 msgid "Set an admin password."
-msgstr ""
+msgstr "Въведете парола за администратор."
 
 #: setup.php:55
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "%s въведете потребителско име за базата с данни."
 
 #: setup.php:58
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "%s въведете име на базата с данни."
 
 #: setup.php:61
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s, не можете да ползвате точки в името на базата от данни"
 
 #: setup.php:64
 #, php-format
@@ -115,19 +115,19 @@ msgstr ""
 
 #: setup.php:132 setup.php:325 setup.php:370
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "Невалидно PostgreSQL потребителско име и/или парола"
 
 #: setup.php:133 setup.php:156 setup.php:234
 msgid "You need to enter either an existing account or the administrator."
-msgstr ""
+msgstr "Необходимо е да влезете в всъществуващ акаунт или като администратора"
 
 #: setup.php:155 setup.php:458 setup.php:525
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Невалидно Oracle потребителско име и/или парола"
 
 #: setup.php:233
 msgid "MySQL username and/or password not valid"
-msgstr ""
+msgstr "Невалидно MySQL потребителско име и/или парола"
 
 #: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
 #: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
@@ -135,7 +135,7 @@ msgstr ""
 #: setup.php:615
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "Грешка в базата от данни: \"%s\""
 
 #: setup.php:288 setup.php:392 setup.php:401 setup.php:419 setup.php:429
 #: setup.php:438 setup.php:467 setup.php:533 setup.php:559 setup.php:566
@@ -147,20 +147,20 @@ msgstr ""
 #: setup.php:304
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "MySQL потребителят '%s'@'localhost' вече съществува"
 
 #: setup.php:305
 msgid "Drop this user from MySQL"
-msgstr ""
+msgstr "Изтриване на потребителя от MySQL"
 
 #: setup.php:310
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
-msgstr ""
+msgstr "MySQL потребителят  '%s'@'%%' вече съществува."
 
 #: setup.php:311
 msgid "Drop this user from MySQL."
-msgstr ""
+msgstr "Изтриване на потребителя от MySQL."
 
 #: setup.php:584 setup.php:616
 #, php-format
@@ -170,7 +170,7 @@ msgstr ""
 #: setup.php:636
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "Невалидно MS SQL потребителско име и/или парола: %s"
 
 #: setup.php:858
 msgid ""
@@ -181,74 +181,61 @@ msgstr ""
 #: setup.php:859
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Моля направете повторна справка с <a href='%s'>ръководството за инсталиране</a>."
 
 #: template.php:113
 msgid "seconds ago"
-msgstr ""
+msgstr "преди секунди"
 
 #: template.php:114
 msgid "1 minute ago"
-msgstr ""
+msgstr "преди 1 минута"
 
 #: template.php:115
 #, php-format
 msgid "%d minutes ago"
-msgstr ""
+msgstr "преди %d минути"
 
 #: template.php:116
 msgid "1 hour ago"
-msgstr ""
+msgstr "преди 1 час"
 
 #: template.php:117
 #, php-format
 msgid "%d hours ago"
-msgstr ""
+msgstr "преди %d часа"
 
 #: template.php:118
 msgid "today"
-msgstr ""
+msgstr "днес"
 
 #: template.php:119
 msgid "yesterday"
-msgstr ""
+msgstr "вчера"
 
 #: template.php:120
 #, php-format
 msgid "%d days ago"
-msgstr ""
+msgstr "преди %d дни"
 
 #: template.php:121
 msgid "last month"
-msgstr ""
+msgstr "последният месец"
 
 #: template.php:122
 #, php-format
 msgid "%d months ago"
-msgstr ""
+msgstr "преди %d месеца"
 
 #: template.php:123
 msgid "last year"
-msgstr ""
+msgstr "последната година"
 
 #: template.php:124
 msgid "years ago"
-msgstr ""
-
-#: updater.php:78
-#, php-format
-msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
-
-#: updater.php:81
-msgid "up to date"
-msgstr ""
-
-#: updater.php:84
-msgid "updates check is disabled"
-msgstr ""
+msgstr "последните години"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "Невъзможно откриване на категорията \"%s\""

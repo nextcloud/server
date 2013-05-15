@@ -10,7 +10,7 @@
 "Unable to delete group" => "Nevar izdzēst grupu",
 "Unable to delete user" => "Nevar izdzēst lietotāju",
 "Language changed" => "Valoda tika nomainīta",
-"Invalid request" => "Nederīgs pieprasījums",
+"Invalid request" => "Nederīgs vaicājums",
 "Admins can't remove themself from the admin group" => "Administratori nevar izņemt paši sevi no administratoru grupas",
 "Unable to add user to group %s" => "Nevar pievienot lietotāju grupai %s",
 "Unable to remove user from group %s" => "Nevar izņemt lietotāju no grupas %s",

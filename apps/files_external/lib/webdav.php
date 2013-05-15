@@ -73,8 +73,6 @@ class DAV extends \OC\Files\Storage\Common{
 				$this->client->addTrustedCertificates($certPath);
 			}
 		}
-		//create the root folder if necessary
-		$this->mkdir('');
 	}
 
 	public function getId(){

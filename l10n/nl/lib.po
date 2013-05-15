@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -19,115 +19,115 @@ msgstr ""
 
 #: app.php:349
 msgid "Help"
-msgstr ""
+msgstr "Help"
 
 #: app.php:362
 msgid "Personal"
-msgstr ""
+msgstr "Persoonlijk"
 
 #: app.php:373
 msgid "Settings"
-msgstr ""
+msgstr "Instellingen"
 
 #: app.php:385
 msgid "Users"
-msgstr ""
+msgstr "Gebruikers"
 
 #: app.php:398
 msgid "Apps"
-msgstr ""
+msgstr "Apps"
 
 #: app.php:406
 msgid "Admin"
-msgstr ""
+msgstr "Beheerder"
 
 #: files.php:209
 msgid "ZIP download is turned off."
-msgstr ""
+msgstr "ZIP download is uitgeschakeld."
 
 #: files.php:210
 msgid "Files need to be downloaded one by one."
-msgstr ""
+msgstr "Bestanden moeten één voor één worden gedownload."
 
 #: files.php:211 files.php:244
 msgid "Back to Files"
-msgstr ""
+msgstr "Terug naar bestanden"
 
 #: files.php:241
 msgid "Selected files too large to generate zip file."
-msgstr ""
+msgstr "De geselecteerde bestanden zijn te groot om een zip bestand te maken."
 
 #: helper.php:228
 msgid "couldn't be determined"
-msgstr ""
+msgstr "kon niet worden vastgesteld"
 
 #: json.php:28
 msgid "Application is not enabled"
-msgstr ""
+msgstr "De applicatie is niet actief"
 
 #: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
-msgstr ""
+msgstr "Authenticatie fout"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
-msgstr ""
+msgstr "Token verlopen.  Herlaad de pagina."
 
 #: search/provider/file.php:17 search/provider/file.php:35
 msgid "Files"
-msgstr ""
+msgstr "Bestanden"
 
 #: search/provider/file.php:26 search/provider/file.php:33
 msgid "Text"
-msgstr ""
+msgstr "Tekst"
 
 #: search/provider/file.php:29
 msgid "Images"
-msgstr ""
+msgstr "Afbeeldingen"
 
 #: setup.php:34
 msgid "Set an admin username."
-msgstr ""
+msgstr "Stel de gebruikersnaam van de beheerder in."
 
 #: setup.php:37
 msgid "Set an admin password."
-msgstr ""
+msgstr "Stel een beheerderswachtwoord in."
 
 #: setup.php:55
 #, php-format
 msgid "%s enter the database username."
-msgstr ""
+msgstr "%s opgeven database gebruikersnaam."
 
 #: setup.php:58
 #, php-format
 msgid "%s enter the database name."
-msgstr ""
+msgstr "%s opgeven databasenaam."
 
 #: setup.php:61
 #, php-format
 msgid "%s you may not use dots in the database name"
-msgstr ""
+msgstr "%s er mogen geen puntjes in de databasenaam voorkomen"
 
 #: setup.php:64
 #, php-format
 msgid "%s set the database host."
-msgstr ""
+msgstr "%s instellen databaseservernaam."
 
 #: setup.php:132 setup.php:325 setup.php:370
 msgid "PostgreSQL username and/or password not valid"
-msgstr ""
+msgstr "PostgreSQL gebruikersnaam en/of wachtwoord ongeldig"
 
 #: setup.php:133 setup.php:156 setup.php:234
 msgid "You need to enter either an existing account or the administrator."
-msgstr ""
+msgstr "Geef of een bestaand account op of het beheerdersaccount."
 
 #: setup.php:155 setup.php:458 setup.php:525
 msgid "Oracle username and/or password not valid"
-msgstr ""
+msgstr "Oracle gebruikersnaam en/of wachtwoord ongeldig"
 
 #: setup.php:233
 msgid "MySQL username and/or password not valid"
-msgstr ""
+msgstr "MySQL gebruikersnaam en/of wachtwoord ongeldig"
 
 #: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
 #: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
@@ -135,120 +135,107 @@ msgstr ""
 #: setup.php:615
 #, php-format
 msgid "DB Error: \"%s\""
-msgstr ""
+msgstr "DB Fout: \"%s\""
 
 #: setup.php:288 setup.php:392 setup.php:401 setup.php:419 setup.php:429
 #: setup.php:438 setup.php:467 setup.php:533 setup.php:559 setup.php:566
 #: setup.php:577 setup.php:593 setup.php:601 setup.php:610
 #, php-format
 msgid "Offending command was: \"%s\""
-msgstr ""
+msgstr "Onjuiste commande was: \"%s\""
 
 #: setup.php:304
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
-msgstr ""
+msgstr "MySQL gebruiker '%s'@'localhost' bestaat al."
 
 #: setup.php:305
 msgid "Drop this user from MySQL"
-msgstr ""
+msgstr "Verwijder deze gebruiker uit MySQL"
 
 #: setup.php:310
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
-msgstr ""
+msgstr "MySQL gebruiker '%s'@'%%' bestaat al"
 
 #: setup.php:311
 msgid "Drop this user from MySQL."
-msgstr ""
+msgstr "Verwijder deze gebruiker uit MySQL."
 
 #: setup.php:584 setup.php:616
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
-msgstr ""
+msgstr "Onjuiste commando was: \"%s\", naam: %s, wachtwoord: %s"
 
 #: setup.php:636
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
-msgstr ""
+msgstr "MS SQL gebruikersnaam en/of wachtwoord niet geldig: %s"
 
 #: setup.php:858
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Uw webserver is nog niet goed ingesteld voor bestandssynchronisatie omdat de WebDAV interface verbroken lijkt."
 
 #: setup.php:859
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Controleer de <a href='%s'>installatiehandleiding</a> goed."
 
 #: template.php:113
 msgid "seconds ago"
-msgstr ""
+msgstr "seconden geleden"
 
 #: template.php:114
 msgid "1 minute ago"
-msgstr ""
+msgstr "1 minuut geleden"
 
 #: template.php:115
 #, php-format
 msgid "%d minutes ago"
-msgstr ""
+msgstr "%d minuten geleden"
 
 #: template.php:116
 msgid "1 hour ago"
-msgstr ""
+msgstr "1 uur geleden"
 
 #: template.php:117
 #, php-format
 msgid "%d hours ago"
-msgstr ""
+msgstr "%d uren geleden"
 
 #: template.php:118
 msgid "today"
-msgstr ""
+msgstr "vandaag"
 
 #: template.php:119
 msgid "yesterday"
-msgstr ""
+msgstr "gisteren"
 
 #: template.php:120
 #, php-format
 msgid "%d days ago"
-msgstr ""
+msgstr "%d dagen geleden"
 
 #: template.php:121
 msgid "last month"
-msgstr ""
+msgstr "vorige maand"
 
 #: template.php:122
 #, php-format
 msgid "%d months ago"
-msgstr ""
+msgstr "%d maanden geleden"
 
 #: template.php:123
 msgid "last year"
-msgstr ""
+msgstr "vorig jaar"
 
 #: template.php:124
 msgid "years ago"
-msgstr ""
-
-#: updater.php:78
-#, php-format
-msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr ""
-
-#: updater.php:81
-msgid "up to date"
-msgstr ""
-
-#: updater.php:84
-msgid "updates check is disabled"
-msgstr ""
+msgstr "jaar geleden"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format
 msgid "Could not find category \"%s\""
-msgstr ""
+msgstr "Kon categorie \"%s\" niet vinden"

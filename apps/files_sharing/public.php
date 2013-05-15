@@ -3,6 +3,13 @@ $RUNTIME_NOSETUPFS = true;
 // Load other apps for file previews
 OC_App::loadApps();
 
+if (\OC_Appconfig::getValue('core', 'shareapi_allow_links', 'yes') !== 'yes') {
+	header('HTTP/1.0 404 Not Found');
+	$tmpl = new OCP\Template('', '404', 'guest');
+	$tmpl->printPage();
+	exit();
+}
+
 function fileCmp($a, $b) {
 	if ($a['type'] == 'dir' and $b['type'] != 'dir') {
 		return -1;

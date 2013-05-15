@@ -1,6 +1,6 @@
 <?php $TRANSLATIONS = array(
-"Size" => "Dydis",
-"Modified" => "Pakeista",
-"Delete all" => "Ištrinti viską",
-"Delete" => "Ištrinti"
+"Password" => "Slaptažodis",
+"Submit" => "Išsaugoti",
+"Download" => "Atsisiųsti",
+"web services under your control" => "jūsų valdomos web paslaugos"
 );

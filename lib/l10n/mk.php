@@ -1,7 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Help" => "Помош",
 "Personal" => "Лично",
-"Settings" => "Параметри",
+"Settings" => "Подесувања",
 "Users" => "Корисници",
 "Apps" => "Аппликации",
 "Admin" => "Админ",
@@ -27,8 +27,5 @@
 "%d months ago" => "пред %d месеци",
 "last year" => "минатата година",
 "years ago" => "пред години",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s е достапно. Земи <a href=\"%s\">повеќе информации</a>",
-"up to date" => "ажурно",
-"updates check is disabled" => "проверката за ажурирања е оневозможена",
 "Could not find category \"%s\"" => "Не можам да најдам категорија „%s“"
 );

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:02+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Serbian (http://www.transifex.com/projects/p/owncloud/language/sr/)\n"
 "MIME-Version: 1.0\n"
@@ -39,7 +39,7 @@ msgstr ""
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr ""
+msgstr "Брисање није успело"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
@@ -92,16 +92,16 @@ msgstr ""
 
 #: templates/settings.php:36
 msgid "Host"
-msgstr ""
+msgstr "Домаћин"
 
 #: templates/settings.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "Можете да изоставите протокол, осим ако захтевате SSL. У том случају почните са ldaps://."
 
 #: templates/settings.php:39
 msgid "Base DN"
-msgstr ""
+msgstr "База DN"
 
 #: templates/settings.php:40
 msgid "One Base DN per line"
@@ -113,62 +113,62 @@ msgstr ""
 
 #: templates/settings.php:43
 msgid "User DN"
-msgstr ""
+msgstr "Корисник DN"
 
 #: templates/settings.php:45
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr ""
+msgstr "DN корисника клијента са којим треба да се успостави веза, нпр. uid=agent,dc=example,dc=com. За анониман приступ, оставите поља DN и лозинка празним."
 
 #: templates/settings.php:46
 msgid "Password"
-msgstr ""
+msgstr "Лозинка"
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "За анониман приступ, оставите поља DN и лозинка празним."
 
 #: templates/settings.php:50
 msgid "User Login Filter"
-msgstr ""
+msgstr "Филтер за пријаву корисника"
 
 #: templates/settings.php:53
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "Одређује филтер за примењивање при покушају пријаве. %%uid замењује корисничко име."
 
 #: templates/settings.php:54
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr ""
+msgstr "користите чувар места %%uid, нпр. „uid=%%uid\""
 
 #: templates/settings.php:55
 msgid "User List Filter"
-msgstr ""
+msgstr "Филтер за списак корисника"
 
 #: templates/settings.php:58
 msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
+msgstr "Одређује филтер за примењивање при прибављању корисника."
 
 #: templates/settings.php:59
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
+msgstr "без икаквог чувара места, нпр. „objectClass=person“."
 
 #: templates/settings.php:60
 msgid "Group Filter"
-msgstr ""
+msgstr "Филтер групе"
 
 #: templates/settings.php:63
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
+msgstr "Одређује филтер за примењивање при прибављању група."
 
 #: templates/settings.php:64
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "без икаквог чувара места, нпр. „objectClass=posixGroup“."
 
 #: templates/settings.php:68
 msgid "Connection Settings"
@@ -184,7 +184,7 @@ msgstr ""
 
 #: templates/settings.php:71
 msgid "Port"
-msgstr ""
+msgstr "Порт"
 
 #: templates/settings.php:72
 msgid "Backup (Replica) Host"
@@ -210,7 +210,7 @@ msgstr ""
 
 #: templates/settings.php:75
 msgid "Use TLS"
-msgstr ""
+msgstr "Користи TLS"
 
 #: templates/settings.php:75
 msgid "Do not use it additionally for LDAPS connections, it will fail."
@@ -218,21 +218,21 @@ msgstr ""
 
 #: templates/settings.php:76
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "LDAP сервер осетљив на велика и мала слова (Windows)"
 
 #: templates/settings.php:77
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "Искључите потврду SSL сертификата."
 
 #: templates/settings.php:77
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr ""
+msgstr "Увезите SSL сертификат LDAP сервера у свој ownCloud ако веза ради само са овом опцијом."
 
 #: templates/settings.php:77
 msgid "Not recommended, use for testing only."
-msgstr ""
+msgstr "Не препоручује се; користите само за тестирање."
 
 #: templates/settings.php:78
 msgid "Cache Time-To-Live"
@@ -240,7 +240,7 @@ msgstr ""
 
 #: templates/settings.php:78
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "у секундама. Промена испражњава кеш меморију."
 
 #: templates/settings.php:80
 msgid "Directory Settings"
@@ -248,15 +248,15 @@ msgstr ""
 
 #: templates/settings.php:82
 msgid "User Display Name Field"
-msgstr ""
+msgstr "Име приказа корисника"
 
 #: templates/settings.php:82
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr ""
+msgstr "LDAP атрибут за стварање имена ownCloud-а корисника."
 
 #: templates/settings.php:83
 msgid "Base User Tree"
-msgstr ""
+msgstr "Основно стабло корисника"
 
 #: templates/settings.php:83
 msgid "One User Base DN per line"
@@ -272,15 +272,15 @@ msgstr ""
 
 #: templates/settings.php:85
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "Име приказа групе"
 
 #: templates/settings.php:85
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr ""
+msgstr "LDAP атрибут за стварање имена ownCloud-а групе."
 
 #: templates/settings.php:86
 msgid "Base Group Tree"
-msgstr ""
+msgstr "Основна стабло група"
 
 #: templates/settings.php:86
 msgid "One Group Base DN per line"
@@ -292,7 +292,7 @@ msgstr ""
 
 #: templates/settings.php:88
 msgid "Group-Member association"
-msgstr ""
+msgstr "Придруживање чланова у групу"
 
 #: templates/settings.php:90
 msgid "Special Attributes"
@@ -308,7 +308,7 @@ msgstr ""
 
 #: templates/settings.php:93
 msgid "in bytes"
-msgstr ""
+msgstr "у бајтовима"
 
 #: templates/settings.php:94
 msgid "Email Field"
@@ -330,4 +330,4 @@ msgstr ""
 
 #: templates/settings.php:99
 msgid "Help"
-msgstr ""
+msgstr "Помоћ"

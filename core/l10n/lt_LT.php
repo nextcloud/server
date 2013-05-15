@@ -1,4 +1,6 @@
 <?php $TRANSLATIONS = array(
+"User %s shared a file with you" => "Vartotojas %s pasidalino su jumis failu",
+"User %s shared a folder with you" => "Vartotojas %s su jumis pasidalino aplanku",
 "No category to add?" => "Nepridėsite jokios kategorijos?",
 "No categories selected for deletion." => "Trynimui nepasirinkta jokia kategorija.",
 "Sunday" => "Sekmadienis",
@@ -53,7 +55,7 @@
 "No people found" => "Žmonių nerasta",
 "Resharing is not allowed" => "Dalijinasis išnaujo negalimas",
 "Shared in {item} with {user}" => "Pasidalino {item} su {user}",
-"Unshare" => "Nesidalinti",
+"Unshare" => "Nebesidalinti",
 "can edit" => "gali redaguoti",
 "access control" => "priėjimo kontrolė",
 "create" => "sukurti",

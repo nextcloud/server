@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-27 02:17+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -19,12 +19,12 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Не вдалося завантажити список з App Store"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr ""
+msgstr "Помилка автентифікації"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
@@ -32,146 +32,146 @@ msgstr ""
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
-msgstr ""
+msgstr "Не вдалося змінити зображене ім'я"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr ""
+msgstr "Група вже існує"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr ""
+msgstr "Не вдалося додати групу"
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr ""
+msgstr "Не вдалося активувати програму. "
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr ""
+msgstr "Адресу збережено"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr ""
+msgstr "Невірна адреса"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "Не вдалося видалити групу"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr ""
+msgstr "Не вдалося видалити користувача"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr ""
+msgstr "Мова змінена"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr ""
+msgstr "Некоректний запит"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "Адміністратор не може видалити себе з групи адмінів"
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "Не вдалося додати користувача у групу %s"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "Не вдалося видалити користувача із групи %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "Не вдалося оновити програму. "
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Оновити до {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr ""
+msgstr "Вимкнути"
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr ""
+msgstr "Включити"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "Зачекайте, будь ласка..."
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
-msgstr ""
+msgstr "Помилка"
 
 #: js/apps.js:90
 msgid "Updating...."
-msgstr ""
+msgstr "Оновлюється..."
 
 #: js/apps.js:93
 msgid "Error while updating app"
-msgstr ""
+msgstr "Помилка при оновленні програми"
 
 #: js/apps.js:96
 msgid "Updated"
-msgstr ""
+msgstr "Оновлено"
 
-#: js/personal.js:115
+#: js/personal.js:118
 msgid "Saving..."
-msgstr ""
+msgstr "Зберігаю..."
 
 #: js/users.js:43
 msgid "deleted"
-msgstr ""
+msgstr "видалені"
 
 #: js/users.js:43
 msgid "undo"
-msgstr ""
+msgstr "відмінити"
 
 #: js/users.js:75
 msgid "Unable to remove user"
-msgstr ""
+msgstr "Неможливо видалити користувача"
 
 #: js/users.js:88 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
 msgid "Groups"
-msgstr ""
+msgstr "Групи"
 
 #: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
-msgstr ""
+msgstr "Адміністратор групи"
 
 #: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr ""
+msgstr "Видалити"
 
 #: js/users.js:262
 msgid "add group"
-msgstr ""
+msgstr "додати групу"
 
 #: js/users.js:414
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Потрібно задати вірне ім'я користувача"
 
 #: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
-msgstr ""
+msgstr "Помилка при створенні користувача"
 
 #: js/users.js:420
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Потрібно задати вірний пароль"
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
-msgstr ""
+msgstr "__language_name__"
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr ""
+msgstr "Попередження про небезпеку"
 
 #: templates/admin.php:18
 msgid ""
@@ -180,36 +180,36 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Ваш каталог з даними та Ваші файли можливо доступні з Інтернету. Файл .htaccess, наданий з ownCloud, не працює. Ми наполегливо рекомендуємо Вам налаштувати свій веб-сервер таким чином, щоб каталог data більше не був доступний, або перемістити каталог data за межі кореневого каталогу документів веб-сервера."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "Попередження при Налаштуванні"
 
 #: templates/admin.php:32
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Ваш Web-сервер ще не налаштований належним чином для того, щоб дозволити синхронізацію файлів, через те що інтерфейс WebDAV, здається, зламаний."
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Будь ласка, перевірте <a href='%s'>інструкції по встановленню</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "Модуль 'fileinfo' відсутній"
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "PHP модуль 'fileinfo' відсутній. Ми наполегливо рекомендуємо увімкнути цей модуль, щоб отримати кращі результати при виявленні MIME-типів."
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "Локалізація не працює"
 
 #: templates/admin.php:63
 #, php-format
@@ -217,11 +217,11 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "Цей сервер ownCloud не може встановити мову системи %s. Це означає, що можуть бути проблеми з деякими символами в іменах файлів. Ми наполегливо рекомендуємо встановити необхідні пакети у вашій системі для підтримки %s."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Інтернет-з'єднання не працює"
 
 #: templates/admin.php:78
 msgid ""
@@ -231,104 +231,104 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "Цей сервер ownCloud не має під'єднання до Інтернету. Це означає, що деякі функції, такі як монтування зовнішніх накопичувачів, повідомлення про оновлення або встановлення допоміжних програм не працюють. Доступ до файлів ​​віддалено та відправка повідомлень електронною поштою також може не працювати. Ми пропонуємо увімкнути під'єднання до Інтернету для даного сервера, якщо ви хочете мати всі можливості ownCloud."
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Виконати одне завдання для кожної завантаженої сторінки "
 
 #: templates/admin.php:111
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php зареєстрований в службі webcron. Викликає cron.php сторінку в кореневому каталозі owncloud кожну хвилину по http."
 
 #: templates/admin.php:121
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Використовується системний cron сервіс. Виклик cron.php файла з owncloud теки за допомогою системного cronjob раз на хвилину."
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr ""
+msgstr "Спільний доступ"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr ""
+msgstr "Увімкнути API спільного доступу"
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Дозволити програмам використовувати API спільного доступу"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "Дозволити посилання"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Дозволити користувачам відкривати спільний доступ до елементів за допомогою посилань"
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr ""
+msgstr "Дозволити перевідкривати спільний доступ"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Дозволити користувачам знову відкривати спільний доступ до елементів, які вже відкриті для доступу"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Дозволити користувачам відкривати спільний доступ для всіх"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Дозволити користувачам відкривати спільний доступ лише для користувачів з їхньої групи"
 
 #: templates/admin.php:168
 msgid "Security"
-msgstr ""
+msgstr "Безпека"
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Примусове застосування HTTPS"
 
 #: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Зобов'язати клієнтів під'єднуватись до ownCloud через шифроване з'єднання."
 
 #: templates/admin.php:185
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "Будь ласка, під'єднайтесь до цього ownCloud за допомогою HTTPS, щоб увімкнути або вимкнути використання SSL."
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr ""
+msgstr "Протокол"
 
 #: templates/admin.php:196
 msgid "Log level"
-msgstr ""
+msgstr "Рівень протоколювання"
 
 #: templates/admin.php:227
 msgid "More"
-msgstr ""
+msgstr "Більше"
 
 #: templates/admin.php:228
 msgid "Less"
-msgstr ""
+msgstr "Менше"
 
-#: templates/admin.php:235 templates/personal.php:100
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
-msgstr ""
+msgstr "Версія"
 
-#: templates/admin.php:238 templates/personal.php:103
+#: templates/admin.php:238 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -336,157 +336,157 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "Розроблено <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud громадою</a>, <a href=\"https://github.com/owncloud\" target=\"_blank\">вихідний код</a> має ліцензію <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr ""
+msgstr "Додати свою програму"
 
 #: templates/apps.php:12
 msgid "More Apps"
-msgstr ""
+msgstr "Більше програм"
 
 #: templates/apps.php:28
 msgid "Select an App"
-msgstr ""
+msgstr "Вибрати додаток"
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Перегляньте сторінку програм на apps.owncloud.com"
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr ""
+msgstr "Оновити"
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr ""
+msgstr "Документація Користувача"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Документація Адміністратора"
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr ""
+msgstr "Он-Лайн Документація"
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr ""
+msgstr "Форум"
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr ""
+msgstr "БагТрекер"
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr ""
+msgstr "Комерційна підтримка"
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Ви використали <strong>%s</strong> із доступних <strong>%s</strong>"
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Отримати додатки для синхронізації ваших файлів"
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
-msgstr ""
+msgstr "Показувати Майстер Налаштувань знову"
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr ""
+msgstr "Пароль"
 
 #: templates/personal.php:38
 msgid "Your password was changed"
-msgstr ""
+msgstr "Ваш пароль змінено"
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr ""
+msgstr "Не вдалося змінити Ваш пароль"
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr ""
+msgstr "Поточний пароль"
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr ""
+msgstr "Новий пароль"
 
 #: templates/personal.php:44
 msgid "Change password"
-msgstr ""
+msgstr "Змінити пароль"
 
 #: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
-msgstr ""
+msgstr "Показати Ім'я"
 
 #: templates/personal.php:68
 msgid "Email"
-msgstr ""
+msgstr "Ел.пошта"
 
 #: templates/personal.php:70
 msgid "Your email address"
-msgstr ""
+msgstr "Ваша адреса електронної пошти"
 
 #: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Введіть адресу електронної пошти для відновлення паролю"
 
 #: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
-msgstr ""
-
-#: templates/personal.php:84
-msgid "Help translate"
-msgstr ""
+msgstr "Мова"
 
 #: templates/personal.php:89
-msgid "WebDAV"
-msgstr ""
+msgid "Help translate"
+msgstr "Допомогти з перекладом"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
+msgid "WebDAV"
+msgstr "WebDAV"
+
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Використовуйте цю адресу для під'єднання до вашого ownCloud у вашому файловому менеджері"
 
 #: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
-msgstr ""
+msgstr "Ім'я Логіну"
 
 #: templates/users.php:30
 msgid "Create"
-msgstr ""
+msgstr "Створити"
 
 #: templates/users.php:33
 msgid "Default Storage"
-msgstr ""
+msgstr "сховище за замовчуванням"
 
 #: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
-msgstr ""
+msgstr "Необмежено"
 
 #: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr ""
+msgstr "Інше"
 
 #: templates/users.php:82
 msgid "Storage"
-msgstr ""
+msgstr "Сховище"
 
 #: templates/users.php:93
 msgid "change display name"
-msgstr ""
+msgstr "змінити зображене ім'я"
 
 #: templates/users.php:97
 msgid "set new password"
-msgstr ""
+msgstr "встановити новий пароль"
 
 #: templates/users.php:128
 msgid "Default"
-msgstr ""
+msgstr "За замовчуванням"

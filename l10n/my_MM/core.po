@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Burmese (Myanmar) (http://www.transifex.com/projects/p/owncloud/language/my_MM/)\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +47,7 @@ msgstr ""
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
-msgstr ""
+msgstr "ထည့်ရန်ခေါင်းစဉ်မရှိဘူးလား"
 
 #: ajax/vcategories/add.php:37
 #, php-format
@@ -73,7 +73,7 @@ msgstr ""
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr ""
+msgstr "ဖျက်ရန်အတွက်ခေါင်းစဉ်မရွေးထားပါ"
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -110,51 +110,51 @@ msgstr ""
 
 #: js/config.php:45
 msgid "January"
-msgstr ""
+msgstr "ဇန်နဝါရီ"
 
 #: js/config.php:46
 msgid "February"
-msgstr ""
+msgstr "ဖေဖော်ဝါရီ"
 
 #: js/config.php:47
 msgid "March"
-msgstr ""
+msgstr "မတ်"
 
 #: js/config.php:48
 msgid "April"
-msgstr ""
+msgstr "ဧပြီ"
 
 #: js/config.php:49
 msgid "May"
-msgstr ""
+msgstr "မေ"
 
 #: js/config.php:50
 msgid "June"
-msgstr ""
+msgstr "ဇွန်"
 
 #: js/config.php:51
 msgid "July"
-msgstr ""
+msgstr "ဇူလိုင်"
 
 #: js/config.php:52
 msgid "August"
-msgstr ""
+msgstr "ဩဂုတ်"
 
 #: js/config.php:53
 msgid "September"
-msgstr ""
+msgstr "စက်တင်ဘာ"
 
 #: js/config.php:54
 msgid "October"
-msgstr ""
+msgstr "အောက်တိုဘာ"
 
 #: js/config.php:55
 msgid "November"
-msgstr ""
+msgstr "နိုဝင်ဘာ"
 
 #: js/config.php:56
 msgid "December"
-msgstr ""
+msgstr "ဒီဇင်ဘာ"
 
 #: js/js.js:286
 msgid "Settings"
@@ -162,11 +162,11 @@ msgstr ""
 
 #: js/js.js:718
 msgid "seconds ago"
-msgstr ""
+msgstr "စက္ကန့်အနည်းငယ်က"
 
 #: js/js.js:719
 msgid "1 minute ago"
-msgstr ""
+msgstr "၁ မိနစ်အရင်က"
 
 #: js/js.js:720
 msgid "{minutes} minutes ago"
@@ -174,7 +174,7 @@ msgstr ""
 
 #: js/js.js:721
 msgid "1 hour ago"
-msgstr ""
+msgstr "၁ နာရီ အရင်က"
 
 #: js/js.js:722
 msgid "{hours} hours ago"
@@ -182,11 +182,11 @@ msgstr ""
 
 #: js/js.js:723
 msgid "today"
-msgstr ""
+msgstr "ယနေ့"
 
 #: js/js.js:724
 msgid "yesterday"
-msgstr ""
+msgstr "မနေ့က"
 
 #: js/js.js:725
 msgid "{days} days ago"
@@ -194,7 +194,7 @@ msgstr ""
 
 #: js/js.js:726
 msgid "last month"
-msgstr ""
+msgstr "ပြီးခဲ့သောလ"
 
 #: js/js.js:727
 msgid "{months} months ago"
@@ -206,31 +206,31 @@ msgstr ""
 
 #: js/js.js:729
 msgid "last year"
-msgstr ""
+msgstr "မနှစ်က"
 
 #: js/js.js:730
 msgid "years ago"
-msgstr ""
+msgstr "နှစ် အရင်က"
 
 #: js/oc-dialogs.js:117 js/oc-dialogs.js:247
 msgid "Ok"
-msgstr ""
+msgstr "အိုကေ"
 
 #: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
-msgstr ""
+msgstr "ပယ်ဖျက်မည်"
 
 #: js/oc-dialogs.js:185
 msgid "Choose"
-msgstr ""
+msgstr "ရွေးချယ်"
 
 #: js/oc-dialogs.js:215
 msgid "Yes"
-msgstr ""
+msgstr "ဟုတ်"
 
 #: js/oc-dialogs.js:222
 msgid "No"
-msgstr ""
+msgstr "မဟုတ်ဘူး"
 
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
@@ -295,7 +295,7 @@ msgstr ""
 
 #: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr ""
+msgstr "စကားဝှက်"
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -307,15 +307,15 @@ msgstr ""
 
 #: js/share.js:178
 msgid "Set expiration date"
-msgstr ""
+msgstr "သက်တမ်းကုန်ဆုံးမည့်ရက်သတ်မှတ်မည်"
 
 #: js/share.js:179
 msgid "Expiration date"
-msgstr ""
+msgstr "သက်တမ်းကုန်ဆုံးမည့်ရက်"
 
 #: js/share.js:211
 msgid "Share via email:"
-msgstr ""
+msgstr "အီးမေးလ်ဖြင့်ဝေမျှမည် -"
 
 #: js/share.js:213
 msgid "No people found"
@@ -323,7 +323,7 @@ msgstr ""
 
 #: js/share.js:251
 msgid "Resharing is not allowed"
-msgstr ""
+msgstr "ပြန်လည်ဝေမျှခြင်းခွင့်မပြုပါ"
 
 #: js/share.js:287
 msgid "Shared in {item} with {user}"
@@ -335,7 +335,7 @@ msgstr ""
 
 #: js/share.js:320
 msgid "can edit"
-msgstr ""
+msgstr "ပြင်ဆင်နိုင်"
 
 #: js/share.js:322
 msgid "access control"
@@ -343,7 +343,7 @@ msgstr ""
 
 #: js/share.js:325
 msgid "create"
-msgstr ""
+msgstr "ဖန်တီးမည်"
 
 #: js/share.js:328
 msgid "update"
@@ -351,15 +351,15 @@ msgstr ""
 
 #: js/share.js:331
 msgid "delete"
-msgstr ""
+msgstr "ဖျက်မည်"
 
 #: js/share.js:334
 msgid "share"
-msgstr ""
+msgstr "ဝေမျှမည်"
 
 #: js/share.js:368 js/share.js:564
 msgid "Password protected"
-msgstr ""
+msgstr "စကားဝှက်ဖြင့်ကာကွယ်ထားသည်"
 
 #: js/share.js:577
 msgid "Error unsetting expiration date"
@@ -396,38 +396,41 @@ msgstr ""
 msgid "Use the following link to reset your password: {link}"
 msgstr ""
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
-msgstr ""
+msgstr "အီးမေးလ်မှတစ်ဆင့် သင်၏စကားဝှက်ကို ပြန်ဖော်ရန်အတွက် Link တစ်ခုလက်ခံရရှိပါလိမ့်မယ်။"
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
 msgid "Username"
-msgstr ""
+msgstr "သုံးစွဲသူအမည်"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr ""
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr ""
+msgstr "သင်၏စကားဝှက်ကိုပြန်ဖော်ပြီးပါပြီ။"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
-msgstr ""
+msgstr "ဝင်ရောက်သည့်စာမျက်နှာသို့"
 
 #: lostpassword/templates/resetpassword.php:8
 msgid "New password"
-msgstr ""
+msgstr "စကားဝှက်အသစ်"
 
 #: lostpassword/templates/resetpassword.php:11
 msgid "Reset password"
@@ -439,19 +442,19 @@ msgstr ""
 
 #: strings.php:6
 msgid "Users"
-msgstr ""
+msgstr "သုံးစွဲသူ"
 
 #: strings.php:7
 msgid "Apps"
-msgstr ""
+msgstr "Apps"
 
 #: strings.php:8
 msgid "Admin"
-msgstr ""
+msgstr "အက်ဒမင်"
 
 #: strings.php:9
 msgid "Help"
-msgstr ""
+msgstr "အကူအညီ"
 
 #: templates/403.php:12
 msgid "Access forbidden"
@@ -459,7 +462,7 @@ msgstr ""
 
 #: templates/404.php:12
 msgid "Cloud not found"
-msgstr ""
+msgstr "မတွေ့ရှိမိပါ"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
@@ -467,12 +470,12 @@ msgstr ""
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr ""
+msgstr "ပေါင်းထည့်"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
 msgid "Security Warning"
-msgstr ""
+msgstr "လုံခြုံရေးသတိပေးချက်"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
@@ -509,15 +512,15 @@ msgstr ""
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
-msgstr ""
+msgstr "<strong>အက်ဒမင်အကောင့်</strong>တစ်ခုဖန်တီးမည်"
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr ""
+msgstr "အဆင့်မြင့်"
 
 #: templates/installation.php:64
 msgid "Data folder"
-msgstr ""
+msgstr "အချက်အလက်ဖိုလ်ဒါလ်"
 
 #: templates/installation.php:74
 msgid "Configure the database"
@@ -531,15 +534,15 @@ msgstr ""
 
 #: templates/installation.php:137
 msgid "Database user"
-msgstr ""
+msgstr "Database သုံးစွဲသူ"
 
 #: templates/installation.php:144
 msgid "Database password"
-msgstr ""
+msgstr "Database စကားဝှက်"
 
 #: templates/installation.php:149
 msgid "Database name"
-msgstr ""
+msgstr "Database အမည်"
 
 #: templates/installation.php:159
 msgid "Database tablespace"
@@ -551,13 +554,18 @@ msgstr ""
 
 #: templates/installation.php:172
 msgid "Finish setup"
-msgstr ""
+msgstr "တပ်ဆင်ခြင်းပြီးပါပြီ။"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
+msgstr "သင်၏ထိန်းချုပ်မှု့အောက်တွင်ရှိသော Web services"
+
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
 msgstr ""
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr ""
 
@@ -577,15 +585,15 @@ msgstr ""
 
 #: templates/login.php:34
 msgid "Lost your password?"
-msgstr ""
+msgstr "သင်၏စကားဝှက်ပျောက်သွားပြီလား။"
 
 #: templates/login.php:39
 msgid "remember"
-msgstr ""
+msgstr "မှတ်မိစေသည်"
 
 #: templates/login.php:41
 msgid "Log in"
-msgstr ""
+msgstr "ဝင်ရောက်ရန်"
 
 #: templates/login.php:47
 msgid "Alternative Logins"
@@ -593,11 +601,11 @@ msgstr ""
 
 #: templates/part.pagenavi.php:3
 msgid "prev"
-msgstr ""
+msgstr "ယခင်"
 
 #: templates/part.pagenavi.php:20
 msgid "next"
-msgstr ""
+msgstr "နောက်သို့"
 
 #: templates/update.php:3
 #, php-format

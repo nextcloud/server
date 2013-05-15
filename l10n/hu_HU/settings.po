@@ -3,13 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Laszlo Tornoci <torlasz@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-02 02:15+0200\n"
+"PO-Revision-Date: 2013-05-01 16:10+0000\n"
+"Last-Translator: Laszlo Tornoci <torlasz@gmail.com>\n"
 "Language-Team: Hungarian (Hungary) (http://www.transifex.com/projects/p/owncloud/language/hu_HU/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -19,159 +20,159 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "Nem tölthető le a lista az App Store-ból"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr ""
+msgstr "Azonosítási hiba"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
-msgstr ""
+msgstr "Az Ön megjelenítési neve megváltozott."
 
 #: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
-msgstr ""
+msgstr "Nem sikerült megváltoztatni a megjelenítési nevet"
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr ""
+msgstr "A csoport már létezik"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr ""
+msgstr "A csoport nem hozható létre"
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr ""
+msgstr "A program nem aktiválható."
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr ""
+msgstr "Email mentve"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr ""
+msgstr "Hibás email"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "A csoport nem törölhető"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr ""
+msgstr "A felhasználó nem törölhető"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr ""
+msgstr "A nyelv megváltozott"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr ""
+msgstr "Érvénytelen kérés"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "Adminisztrátorok nem távolíthatják el magukat az admin csoportból."
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "A felhasználó nem adható hozzá ehhez a csoporthoz: %s"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "A felhasználó nem távolítható el ebből a csoportból: %s"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "A program frissítése nem sikerült."
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "Frissítés erre a verzióra: {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr ""
+msgstr "Letiltás"
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr ""
+msgstr "engedélyezve"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "Kérem várjon..."
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
-msgstr ""
+msgstr "Hiba"
 
 #: js/apps.js:90
 msgid "Updating...."
-msgstr ""
+msgstr "Frissítés folyamatban..."
 
 #: js/apps.js:93
 msgid "Error while updating app"
-msgstr ""
+msgstr "Hiba történt a programfrissítés közben"
 
 #: js/apps.js:96
 msgid "Updated"
-msgstr ""
+msgstr "Frissítve"
 
-#: js/personal.js:115
+#: js/personal.js:118
 msgid "Saving..."
-msgstr ""
+msgstr "Mentés..."
 
 #: js/users.js:43
 msgid "deleted"
-msgstr ""
+msgstr "törölve"
 
 #: js/users.js:43
 msgid "undo"
-msgstr ""
+msgstr "visszavonás"
 
 #: js/users.js:75
 msgid "Unable to remove user"
-msgstr ""
+msgstr "A felhasználót nem sikerült eltávolítáni"
 
 #: js/users.js:88 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
 msgid "Groups"
-msgstr ""
+msgstr "Csoportok"
 
 #: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
-msgstr ""
+msgstr "Csoportadminisztrátor"
 
 #: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr ""
+msgstr "Törlés"
 
 #: js/users.js:262
 msgid "add group"
-msgstr ""
+msgstr "csoport hozzáadása"
 
 #: js/users.js:414
 msgid "A valid username must be provided"
-msgstr ""
+msgstr "Érvényes felhasználónevet kell megadnia"
 
 #: js/users.js:415 js/users.js:421 js/users.js:436
 msgid "Error creating user"
-msgstr ""
+msgstr "A felhasználó nem hozható létre"
 
 #: js/users.js:420
 msgid "A valid password must be provided"
-msgstr ""
+msgstr "Érvényes jelszót kell megadnia"
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
-msgstr ""
+msgstr "__language_name__"
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr ""
+msgstr "Biztonsági figyelmeztetés"
 
 #: templates/admin.php:18
 msgid ""
@@ -180,36 +181,36 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "Az adatkönytára és az itt levő fájlok valószínűleg elérhetők az internetről. Az ownCloud által beillesztett .htaccess fájl nem működik. Nagyon fontos, hogy a webszervert úgy konfigurálja, hogy az adatkönyvtár nem legyen közvetlenül kívülről elérhető, vagy az adatkönyvtárt tegye a webszerver dokumentumfáján kívülre."
 
 #: templates/admin.php:29
 msgid "Setup Warning"
-msgstr ""
+msgstr "A beállítással kapcsolatos figyelmeztetés"
 
 #: templates/admin.php:32
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
-msgstr ""
+msgstr "Az Ön webkiszolgálója nincs megfelelően beállítva az állományok szinkronizálásához, mert a WebDAV-elérés úgy tűnik, nem működik."
 
 #: templates/admin.php:33
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
-msgstr ""
+msgstr "Kérjük tüzetesen tanulmányozza át a <a href='%s'>telepítési útmutatót</a>."
 
 #: templates/admin.php:44
 msgid "Module 'fileinfo' missing"
-msgstr ""
+msgstr "A 'fileinfo' modul hiányzik"
 
 #: templates/admin.php:47
 msgid ""
 "The PHP module 'fileinfo' is missing. We strongly recommend to enable this "
 "module to get best results with mime-type detection."
-msgstr ""
+msgstr "A 'fileinfo' PHP modul hiányzik. Erősen javasolt ennek a modulnak az telepítése, ha az ember jó eredményt szeretne a MIME-típusok felismerésében."
 
 #: templates/admin.php:58
 msgid "Locale not working"
-msgstr ""
+msgstr "A nyelvi lokalizáció nem működik"
 
 #: templates/admin.php:63
 #, php-format
@@ -217,11 +218,11 @@ msgid ""
 "This ownCloud server can't set system locale to %s. This means that there "
 "might be problems with certain characters in file names. We strongly suggest"
 " to install the required packages on your system to support %s."
-msgstr ""
+msgstr "Ezen az ownCloud kiszolgálón nem használható a %s nyelvi beállítás. Ez azt jelenti, hogy a fájlnevekben gond lehet bizonyos karakterekkel. Nyomatékosan ajánlott, hogy telepítse a szükséges csomagokat annak érdekében, hogy a rendszer támogassa a %s beállítást."
 
 #: templates/admin.php:75
 msgid "Internet connection not working"
-msgstr ""
+msgstr "Az internet kapcsolat nem működik"
 
 #: templates/admin.php:78
 msgid ""
@@ -231,104 +232,104 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr ""
+msgstr "Az ownCloud kiszolgálónak nincs internet kapcsolata. Ez azt jelenti, hogy bizonyos dolgok nem fognak működni, pl. külső tárolók csatolása, programfrissítésekről való értesítések, vagy külső fejlesztői modulok telepítése. Lehet, hogy az állományok távolról történő elérése, ill. az email értesítések sem fog működni. Javasoljuk, hogy engedélyezze az internet kapcsolatot a kiszolgáló számára, ha az ownCloud összes szolgáltatását szeretné használni."
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr ""
+msgstr "Ütemezett feladatok"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Egy-egy feladat végrehajtása minden alkalommal, amikor egy weboldalt letöltenek"
 
 #: templates/admin.php:111
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "A cron.php webcron szolgáltatásként van regisztrálva. Hívja meg az owncloud könyvtárban levő cron.php állományt http-n keresztül percenként egyszer."
 
 #: templates/admin.php:121
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "A rendszer cron szolgáltatásának használata. Hívja meg az owncloud könyvtárban levő  cron.php állományt percenként egyszer a rendszer cron szolgáltatásának segítségével."
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr ""
+msgstr "Megosztás"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr ""
+msgstr "A megosztás API-jának engedélyezése"
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Lehetővé teszi, hogy a programmodulok is használhassák a megosztást"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "Linkek engedélyezése"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Lehetővé teszi, hogy a felhasználók linkek segítségével külsősökkel is megoszthassák az adataikat"
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr ""
+msgstr "A továbbosztás engedélyezése"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Lehetővé teszi, hogy a felhasználók a velük megosztott állományokat megosszák egy további, harmadik féllel"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "A felhasználók bárkivel megoszthatják állományaikat"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "A felhasználók csak olyanokkal oszthatják meg állományaikat, akikkel közös csoportban vannak"
 
 #: templates/admin.php:168
 msgid "Security"
-msgstr ""
+msgstr "Biztonság"
 
 #: templates/admin.php:181
 msgid "Enforce HTTPS"
-msgstr ""
+msgstr "Kötelező HTTPS"
 
 #: templates/admin.php:182
 msgid ""
 "Enforces the clients to connect to ownCloud via an encrypted connection."
-msgstr ""
+msgstr "Kötelezővé teszi, hogy a böngészőprogramok titkosított csatornán kapcsolódjanak az ownCloud szolgáltatáshoz."
 
 #: templates/admin.php:185
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr ""
+msgstr "Kérjük, hogy HTTPS protokollt használjon, ha be vagy ki  akarja kapcsolni a kötelező SSL beállítást."
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr ""
+msgstr "Naplózás"
 
 #: templates/admin.php:196
 msgid "Log level"
-msgstr ""
+msgstr "Naplózási szint"
 
 #: templates/admin.php:227
 msgid "More"
-msgstr ""
+msgstr "Több"
 
 #: templates/admin.php:228
 msgid "Less"
-msgstr ""
+msgstr "Kevesebb"
 
-#: templates/admin.php:235 templates/personal.php:100
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
-msgstr ""
+msgstr "Verzió"
 
-#: templates/admin.php:238 templates/personal.php:103
+#: templates/admin.php:237 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -336,157 +337,157 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "A programot az <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ownCloud közösség</a> fejleszti. A <a href=\"https://github.com/owncloud\" target=\"_blank\">forráskód</a> az <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a> feltételei mellett használható föl."
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr ""
+msgstr "Az alkalmazás hozzáadása"
 
 #: templates/apps.php:12
 msgid "More Apps"
-msgstr ""
+msgstr "További alkalmazások"
 
 #: templates/apps.php:28
 msgid "Select an App"
-msgstr ""
+msgstr "Válasszon egy alkalmazást"
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "Lásd apps.owncloud.com, alkalmazások oldal"
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-a jogtuladonos <span class=\"author\"></span>"
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr ""
+msgstr "Frissítés"
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr ""
+msgstr "Felhasználói leírás"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "Üzemeltetői leírás"
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr ""
+msgstr "Online leírás"
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr ""
+msgstr "Fórum"
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr ""
+msgstr "Hibabejelentések"
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr ""
+msgstr "Megvásárolható támogatás"
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "Az Ön tárterület-felhasználása jelenleg: <strong>%s</strong>. Maximálisan ennyi áll rendelkezésére: <strong>%s</strong>"
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
-msgstr ""
+msgstr "Töltse le az állományok szinkronizációjához szükséges programokat"
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
-msgstr ""
+msgstr "Nézzük meg újra az első bejelentkezéskori segítséget!"
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr ""
+msgstr "Jelszó"
 
 #: templates/personal.php:38
 msgid "Your password was changed"
-msgstr ""
+msgstr "A jelszava megváltozott"
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr ""
+msgstr "A jelszó nem változtatható meg"
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr ""
+msgstr "A jelenlegi jelszó"
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr ""
+msgstr "Az új jelszó"
 
 #: templates/personal.php:44
 msgid "Change password"
-msgstr ""
+msgstr "A jelszó megváltoztatása"
 
 #: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
-msgstr ""
+msgstr "A megjelenített név"
 
 #: templates/personal.php:68
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: templates/personal.php:70
 msgid "Your email address"
-msgstr ""
+msgstr "Az Ön email címe"
 
 #: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "Adja meg az email címét, hogy jelszó-emlékeztetőt kérhessen, ha elfelejtette a jelszavát!"
 
 #: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
-msgstr ""
-
-#: templates/personal.php:84
-msgid "Help translate"
-msgstr ""
+msgstr "Nyelv"
 
 #: templates/personal.php:89
-msgid "WebDAV"
-msgstr ""
+msgid "Help translate"
+msgstr "Segítsen a fordításban!"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
+msgid "WebDAV"
+msgstr "WebDAV"
+
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "Ennek a címnek a megadásával a WebDAV-protokollon keresztül saját gépének fájlkezelőjével is is elérheti az állományait."
 
 #: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
-msgstr ""
+msgstr "Bejelentkezési név"
 
 #: templates/users.php:30
 msgid "Create"
-msgstr ""
+msgstr "Létrehozás"
 
 #: templates/users.php:33
 msgid "Default Storage"
-msgstr ""
+msgstr "Alapértelmezett tárhely"
 
 #: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
-msgstr ""
+msgstr "Korlátlan"
 
 #: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr ""
+msgstr "Más"
 
 #: templates/users.php:82
 msgid "Storage"
-msgstr ""
+msgstr "Tárhely"
 
 #: templates/users.php:93
 msgid "change display name"
-msgstr ""
+msgstr "a megjelenített név módosítása"
 
 #: templates/users.php:97
 msgid "set new password"
-msgstr ""
+msgstr "új jelszó beállítása"
 
 #: templates/users.php:128
 msgid "Default"
-msgstr ""
+msgstr "Alapértelmezett"

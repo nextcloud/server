@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:01+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -29,11 +29,11 @@ msgstr ""
 
 #: js/trash.js:7 js/trash.js:96
 msgid "perform restore operation"
-msgstr ""
+msgstr "ดำเนินการคืนค่า"
 
 #: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
 msgid "Error"
-msgstr ""
+msgstr "ข้อผิดพลาด"
 
 #: js/trash.js:34
 msgid "delete file permanently"
@@ -45,40 +45,40 @@ msgstr ""
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
-msgstr ""
+msgstr "ชื่อ"
 
 #: js/trash.js:175 templates/index.php:27
 msgid "Deleted"
-msgstr ""
+msgstr "ลบแล้ว"
 
 #: js/trash.js:184
 msgid "1 folder"
-msgstr ""
+msgstr "1 โฟลเดอร์"
 
 #: js/trash.js:186
 msgid "{count} folders"
-msgstr ""
+msgstr "{count} โฟลเดอร์"
 
 #: js/trash.js:194
 msgid "1 file"
-msgstr ""
+msgstr "1 ไฟล์"
 
 #: js/trash.js:196
 msgid "{count} files"
-msgstr ""
+msgstr "{count} ไฟล์"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"
-msgstr ""
+msgstr "ไม่มีอะไรอยู่ในนี้ ถังขยะของคุณยังว่างอยู่"
 
 #: templates/index.php:20 templates/index.php:22
 msgid "Restore"
-msgstr ""
+msgstr "คืนค่า"
 
 #: templates/index.php:30 templates/index.php:31
 msgid "Delete"
-msgstr ""
+msgstr "ลบ"
 
 #: templates/part.breadcrumb.php:9
 msgid "Deleted Files"
-msgstr ""
+msgstr "ไฟล์ที่ลบทิ้ง"

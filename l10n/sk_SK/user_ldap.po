@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:02+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
@@ -19,315 +19,315 @@ msgstr ""
 
 #: ajax/deleteConfiguration.php:34
 msgid "Failed to delete the server configuration"
-msgstr ""
+msgstr "Zlyhalo zmazanie nastavenia servera."
 
 #: ajax/testConfiguration.php:36
 msgid "The configuration is valid and the connection could be established!"
-msgstr ""
+msgstr "Nastavenie je v poriadku a pripojenie je stabilné."
 
 #: ajax/testConfiguration.php:39
 msgid ""
 "The configuration is valid, but the Bind failed. Please check the server "
 "settings and credentials."
-msgstr ""
+msgstr "Nastavenie je v poriadku, ale pripojenie zlyhalo. Skontrolujte nastavenia servera a prihlasovacie údaje."
 
 #: ajax/testConfiguration.php:43
 msgid ""
 "The configuration is invalid. Please look in the ownCloud log for further "
 "details."
-msgstr ""
+msgstr "Nastavenia sú neplatné. Podrobnosti hľadajte v logu ownCloud."
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr ""
+msgstr "Odstránenie zlyhalo"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
-msgstr ""
+msgstr "Prebrať nastavenia z nedávneho nastavenia servera?"
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr ""
+msgstr "Ponechať nastavenia?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "Nemožno pridať nastavenie servera"
 
 #: js/settings.js:121
 msgid "Connection test succeeded"
-msgstr ""
+msgstr "Test pripojenia bol úspešný"
 
 #: js/settings.js:126
 msgid "Connection test failed"
-msgstr ""
+msgstr "Test pripojenia zlyhal"
 
 #: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "Naozaj chcete zmazať súčasné nastavenie servera?"
 
 #: js/settings.js:137
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "Potvrdiť vymazanie"
 
 #: templates/settings.php:8
 msgid ""
 "<b>Warning:</b> Apps user_ldap and user_webdavauth are incompatible. You may"
 " experience unexpected behaviour. Please ask your system administrator to "
 "disable one of them."
-msgstr ""
+msgstr "<b>Upozornenie:</b> Aplikácie user_ldap a user_webdavauth nie sú kompatibilné. Môže nastávať neočakávané správanie. Požiadajte administrátora systému aby jednu z nich zakázal."
 
 #: templates/settings.php:11
 msgid ""
 "<b>Warning:</b> The PHP LDAP module is not installed, the backend will not "
 "work. Please ask your system administrator to install it."
-msgstr ""
+msgstr "<b>Upozornenie:</b> nie je nainštalovaný LDAP modul pre PHP, backend vrstva nebude fungovať. Požádejte administrátora systému aby ho nainštaloval."
 
 #: templates/settings.php:15
 msgid "Server configuration"
-msgstr ""
+msgstr "Nastavenia servera"
 
 #: templates/settings.php:31
 msgid "Add Server Configuration"
-msgstr ""
+msgstr "Pridať nastavenia servera."
 
 #: templates/settings.php:36
 msgid "Host"
-msgstr ""
+msgstr "Hostiteľ"
 
 #: templates/settings.php:38
 msgid ""
 "You can omit the protocol, except you require SSL. Then start with ldaps://"
-msgstr ""
+msgstr "Môžete vynechať protokol, s výnimkou požadovania SSL. Vtedy začnite s ldaps://"
 
 #: templates/settings.php:39
 msgid "Base DN"
-msgstr ""
+msgstr "Základné DN"
 
 #: templates/settings.php:40
 msgid "One Base DN per line"
-msgstr ""
+msgstr "Jedno základné DN na riadok"
 
 #: templates/settings.php:41
 msgid "You can specify Base DN for users and groups in the Advanced tab"
-msgstr ""
+msgstr "V rozšírenom nastavení môžete zadať základné DN pre používateľov a skupiny"
 
 #: templates/settings.php:43
 msgid "User DN"
-msgstr ""
+msgstr "Používateľské DN"
 
 #: templates/settings.php:45
 msgid ""
 "The DN of the client user with which the bind shall be done, e.g. "
 "uid=agent,dc=example,dc=com. For anonymous access, leave DN and Password "
 "empty."
-msgstr ""
+msgstr "DN klientského používateľa, ku ktorému tvoríte väzbu, napr. uid=agent,dc=example,dc=com. Pre anonymný prístup ponechajte údaje DN a Heslo prázdne."
 
 #: templates/settings.php:46
 msgid "Password"
-msgstr ""
+msgstr "Heslo"
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
-msgstr ""
+msgstr "Pre anonymný prístup ponechajte údaje DN a Heslo prázdne."
 
 #: templates/settings.php:50
 msgid "User Login Filter"
-msgstr ""
+msgstr "Filter prihlásenia používateľov"
 
 #: templates/settings.php:53
 #, php-format
 msgid ""
 "Defines the filter to apply, when login is attempted. %%uid replaces the "
 "username in the login action."
-msgstr ""
+msgstr "Určuje použitý filter, pri pokuse o prihlásenie. %%uid nahradzuje používateľské meno v činnosti prihlásenia."
 
 #: templates/settings.php:54
 #, php-format
 msgid "use %%uid placeholder, e.g. \"uid=%%uid\""
-msgstr ""
+msgstr "použite zástupný vzor %%uid, napr. \\\"uid=%%uid\\\""
 
 #: templates/settings.php:55
 msgid "User List Filter"
-msgstr ""
+msgstr "Filter zoznamov používateľov"
 
 #: templates/settings.php:58
 msgid "Defines the filter to apply, when retrieving users."
-msgstr ""
+msgstr "Definuje použitý filter, pre získanie používateľov."
 
 #: templates/settings.php:59
 msgid "without any placeholder, e.g. \"objectClass=person\"."
-msgstr ""
+msgstr "bez zástupných znakov, napr. \"objectClass=person\""
 
 #: templates/settings.php:60
 msgid "Group Filter"
-msgstr ""
+msgstr "Filter skupiny"
 
 #: templates/settings.php:63
 msgid "Defines the filter to apply, when retrieving groups."
-msgstr ""
+msgstr "Definuje použitý filter, pre získanie skupín."
 
 #: templates/settings.php:64
 msgid "without any placeholder, e.g. \"objectClass=posixGroup\"."
-msgstr ""
+msgstr "bez zástupných znakov, napr. \"objectClass=posixGroup\""
 
 #: templates/settings.php:68
 msgid "Connection Settings"
-msgstr ""
+msgstr "Nastavenie pripojenia"
 
 #: templates/settings.php:70
 msgid "Configuration Active"
-msgstr ""
+msgstr "Nastavenia sú aktívne "
 
 #: templates/settings.php:70
 msgid "When unchecked, this configuration will be skipped."
-msgstr ""
+msgstr "Ak nie je zaškrtnuté, nastavenie bude preskočené."
 
 #: templates/settings.php:71
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: templates/settings.php:72
 msgid "Backup (Replica) Host"
-msgstr ""
+msgstr "Záložný server (kópia) hosť"
 
 #: templates/settings.php:72
 msgid ""
 "Give an optional backup host. It must be a replica of the main LDAP/AD "
 "server."
-msgstr ""
+msgstr "Zadajte záložný LDAP/AD. Musí to byť kópia hlavného LDAP/AD servera."
 
 #: templates/settings.php:73
 msgid "Backup (Replica) Port"
-msgstr ""
+msgstr "Záložný server (kópia) port"
 
 #: templates/settings.php:74
 msgid "Disable Main Server"
-msgstr ""
+msgstr "Zakázať hlavný server"
 
 #: templates/settings.php:74
 msgid "When switched on, ownCloud will only connect to the replica server."
-msgstr ""
+msgstr "Pri zapnutí sa ownCloud pripojí len k záložnému serveru."
 
 #: templates/settings.php:75
 msgid "Use TLS"
-msgstr ""
+msgstr "Použi TLS"
 
 #: templates/settings.php:75
 msgid "Do not use it additionally for LDAPS connections, it will fail."
-msgstr ""
+msgstr "Nepoužívajte pre pripojenie LDAPS, zlyhá."
 
 #: templates/settings.php:76
 msgid "Case insensitve LDAP server (Windows)"
-msgstr ""
+msgstr "LDAP server nerozlišuje veľkosť znakov (Windows)"
 
 #: templates/settings.php:77
 msgid "Turn off SSL certificate validation."
-msgstr ""
+msgstr "Vypnúť overovanie SSL certifikátu."
 
 #: templates/settings.php:77
 msgid ""
 "If connection only works with this option, import the LDAP server's SSL "
 "certificate in your ownCloud server."
-msgstr ""
+msgstr "Ak pripojenie pracuje len s touto možnosťou, tak importujte SSL certifikát LDAP serveru do vášho servera ownCloud."
 
 #: templates/settings.php:77
 msgid "Not recommended, use for testing only."
-msgstr ""
+msgstr "Nie je doporučované, len pre testovacie účely."
 
 #: templates/settings.php:78
 msgid "Cache Time-To-Live"
-msgstr ""
+msgstr "Životnosť objektov v cache"
 
 #: templates/settings.php:78
 msgid "in seconds. A change empties the cache."
-msgstr ""
+msgstr "v sekundách. Zmena vyprázdni vyrovnávaciu pamäť."
 
 #: templates/settings.php:80
 msgid "Directory Settings"
-msgstr ""
+msgstr "Nastavenie priečinka"
 
 #: templates/settings.php:82
 msgid "User Display Name Field"
-msgstr ""
+msgstr "Pole pre zobrazenia mena používateľa"
 
 #: templates/settings.php:82
 msgid "The LDAP attribute to use to generate the user`s ownCloud name."
-msgstr ""
+msgstr "Atribút LDAP použitý na vygenerovanie mena používateľa ownCloud "
 
 #: templates/settings.php:83
 msgid "Base User Tree"
-msgstr ""
+msgstr "Základný používateľský strom"
 
 #: templates/settings.php:83
 msgid "One User Base DN per line"
-msgstr ""
+msgstr "Jedna používateľská základná DN na riadok"
 
 #: templates/settings.php:84
 msgid "User Search Attributes"
-msgstr ""
+msgstr "Atribúty vyhľadávania používateľov"
 
 #: templates/settings.php:84 templates/settings.php:87
 msgid "Optional; one attribute per line"
-msgstr ""
+msgstr "Voliteľné, jeden atribút na jeden riadok"
 
 #: templates/settings.php:85
 msgid "Group Display Name Field"
-msgstr ""
+msgstr "Pole pre zobrazenie mena skupiny"
 
 #: templates/settings.php:85
 msgid "The LDAP attribute to use to generate the groups`s ownCloud name."
-msgstr ""
+msgstr "Atribút LDAP použitý na vygenerovanie mena skupiny ownCloud "
 
 #: templates/settings.php:86
 msgid "Base Group Tree"
-msgstr ""
+msgstr "Základný skupinový strom"
 
 #: templates/settings.php:86
 msgid "One Group Base DN per line"
-msgstr ""
+msgstr "Jedna skupinová základná DN na riadok"
 
 #: templates/settings.php:87
 msgid "Group Search Attributes"
-msgstr ""
+msgstr "Atribúty vyhľadávania skupín"
 
 #: templates/settings.php:88
 msgid "Group-Member association"
-msgstr ""
+msgstr "Priradenie člena skupiny"
 
 #: templates/settings.php:90
 msgid "Special Attributes"
-msgstr ""
+msgstr "Špeciálne atribúty"
 
 #: templates/settings.php:92
 msgid "Quota Field"
-msgstr ""
+msgstr "Pole kvóty"
 
 #: templates/settings.php:93
 msgid "Quota Default"
-msgstr ""
+msgstr "Predvolená kvóta"
 
 #: templates/settings.php:93
 msgid "in bytes"
-msgstr ""
+msgstr "v bajtoch"
 
 #: templates/settings.php:94
 msgid "Email Field"
-msgstr ""
+msgstr "Pole email"
 
 #: templates/settings.php:95
 msgid "User Home Folder Naming Rule"
-msgstr ""
+msgstr "Pravidlo pre nastavenie mena používateľského priečinka dát"
 
 #: templates/settings.php:95
 msgid ""
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD "
 "attribute."
-msgstr ""
+msgstr "Nechajte prázdne pre používateľské meno (predvolené). Inak uveďte atribút LDAP/AD."
 
 #: templates/settings.php:99
 msgid "Test Configuration"
-msgstr ""
+msgstr "Test nastavenia"
 
 #: templates/settings.php:99
 msgid "Help"
-msgstr ""
+msgstr "Pomoc"

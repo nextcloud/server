@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-26 10:00+0200\n"
-"PO-Revision-Date: 2013-04-26 08:00+0000\n"
+"POT-Creation-Date: 2013-04-27 02:17+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Thai (Thailand) (http://www.transifex.com/projects/p/owncloud/language/th_TH/)\n"
 "MIME-Version: 1.0\n"
@@ -19,12 +19,12 @@ msgstr ""
 
 #: ajax/apps/ocs.php:20
 msgid "Unable to load list from App Store"
-msgstr ""
+msgstr "ไม่สามารถโหลดรายการจาก App Store ได้"
 
 #: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในสิทธิ์การเข้าใช้งาน"
 
 #: ajax/changedisplayname.php:31
 msgid "Your display name has been changed."
@@ -36,101 +36,101 @@ msgstr ""
 
 #: ajax/creategroup.php:10
 msgid "Group already exists"
-msgstr ""
+msgstr "มีกลุ่มดังกล่าวอยู่ในระบบอยู่แล้ว"
 
 #: ajax/creategroup.php:19
 msgid "Unable to add group"
-msgstr ""
+msgstr "ไม่สามารถเพิ่มกลุ่มได้"
 
 #: ajax/enableapp.php:11
 msgid "Could not enable app. "
-msgstr ""
+msgstr "ไม่สามารถเปิดใช้งานแอปได้"
 
 #: ajax/lostpassword.php:12
 msgid "Email saved"
-msgstr ""
+msgstr "อีเมลถูกบันทึกแล้ว"
 
 #: ajax/lostpassword.php:14
 msgid "Invalid email"
-msgstr ""
+msgstr "อีเมลไม่ถูกต้อง"
 
 #: ajax/removegroup.php:13
 msgid "Unable to delete group"
-msgstr ""
+msgstr "ไม่สามารถลบกลุ่มได้"
 
 #: ajax/removeuser.php:24
 msgid "Unable to delete user"
-msgstr ""
+msgstr "ไม่สามารถลบผู้ใช้งานได้"
 
 #: ajax/setlanguage.php:15
 msgid "Language changed"
-msgstr ""
+msgstr "เปลี่ยนภาษาเรียบร้อยแล้ว"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr ""
+msgstr "คำร้องขอไม่ถูกต้อง"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
-msgstr ""
+msgstr "ผู้ดูแลระบบไม่สามารถลบตัวเองออกจากกลุ่มผู้ดูแลได้"
 
 #: ajax/togglegroups.php:30
 #, php-format
 msgid "Unable to add user to group %s"
-msgstr ""
+msgstr "ไม่สามารถเพิ่มผู้ใช้งานเข้าไปที่กลุ่ม %s ได้"
 
 #: ajax/togglegroups.php:36
 #, php-format
 msgid "Unable to remove user from group %s"
-msgstr ""
+msgstr "ไม่สามารถลบผู้ใช้งานออกจากกลุ่ม %s ได้"
 
 #: ajax/updateapp.php:14
 msgid "Couldn't update app."
-msgstr ""
+msgstr "ไม่สามารถอัพเดทแอปฯ"
 
 #: js/apps.js:30
 msgid "Update to {appversion}"
-msgstr ""
+msgstr "อัพเดทไปเป็นรุ่น {appversion}"
 
 #: js/apps.js:36 js/apps.js:76
 msgid "Disable"
-msgstr ""
+msgstr "ปิดใช้งาน"
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr ""
+msgstr "เปิดใช้งาน"
 
 #: js/apps.js:55
 msgid "Please wait...."
-msgstr ""
+msgstr "กรุณารอสักครู่..."
 
 #: js/apps.js:59 js/apps.js:71 js/apps.js:80 js/apps.js:93
 msgid "Error"
-msgstr ""
+msgstr "ข้อผิดพลาด"
 
 #: js/apps.js:90
 msgid "Updating...."
-msgstr ""
+msgstr "กำลังอัพเดทข้อมูล..."
 
 #: js/apps.js:93
 msgid "Error while updating app"
-msgstr ""
+msgstr "เกิดข้อผิดพลาดในระหว่างการอัพเดทแอปฯ"
 
 #: js/apps.js:96
 msgid "Updated"
-msgstr ""
+msgstr "อัพเดทแล้ว"
 
-#: js/personal.js:115
+#: js/personal.js:118
 msgid "Saving..."
-msgstr ""
+msgstr "กำลังบันทึกข้อมูล..."
 
 #: js/users.js:43
 msgid "deleted"
-msgstr ""
+msgstr "ลบแล้ว"
 
 #: js/users.js:43
 msgid "undo"
-msgstr ""
+msgstr "เลิกทำ"
 
 #: js/users.js:75
 msgid "Unable to remove user"
@@ -139,15 +139,15 @@ msgstr ""
 #: js/users.js:88 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
 msgid "Groups"
-msgstr ""
+msgstr "กลุ่ม"
 
 #: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
-msgstr ""
+msgstr "ผู้ดูแลกลุ่ม"
 
 #: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr ""
+msgstr "ลบ"
 
 #: js/users.js:262
 msgid "add group"
@@ -165,13 +165,13 @@ msgstr ""
 msgid "A valid password must be provided"
 msgstr ""
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
-msgstr ""
+msgstr "ภาษาไทย"
 
 #: templates/admin.php:15
 msgid "Security Warning"
-msgstr ""
+msgstr "คำเตือนเกี่ยวกับความปลอดภัย"
 
 #: templates/admin.php:18
 msgid ""
@@ -180,7 +180,7 @@ msgid ""
 "strongly suggest that you configure your webserver in a way that the data "
 "directory is no longer accessible or you move the data directory outside the"
 " webserver document root."
-msgstr ""
+msgstr "ไดเร็กทอรี่ข้อมูลและไฟล์ของคุณสามารถเข้าถึงได้จากอินเทอร์เน็ต ไฟล์ .htaccess ที่ ownCloud มีให้ไม่สามารถทำงานได้อย่างเหมาะสม เราขอแนะนำให้คุณกำหนดค่าเว็บเซิร์ฟเวอร์ใหม่ในรูปแบบที่ไดเร็กทอรี่เก็บข้อมูลไม่สามารถเข้าถึงได้อีกต่อไป หรือคุณได้ย้ายไดเร็กทอรี่ที่ใช้เก็บข้อมูลไปอยู่ภายนอกตำแหน่ง root ของเว็บเซิร์ฟเวอร์แล้ว"
 
 #: templates/admin.php:29
 msgid "Setup Warning"
@@ -235,59 +235,59 @@ msgstr ""
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "ประมวลคำสั่งหนึ่งงานในแต่ละครั้งที่มีการโหลดหน้าเว็บ"
 
 #: templates/admin.php:111
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php ได้รับการลงทะเบียนแล้วกับเว็บผู้ให้บริการ webcron เรียกหน้าเว็บ cron.php ที่ตำแหน่ง root ของ owncloud หลังจากนี้สักครู่ผ่านทาง http"
 
 #: templates/admin.php:121
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "ใช้บริการ cron จากระบบ เรียกไฟล์ cron.php ในโฟลเดอร์ owncloud ผ่านทาง cronjob ของระบบหลังจากนี้สักครู่"
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr ""
+msgstr "การแชร์ข้อมูล"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr ""
+msgstr "เปิดใช้งาน API สำหรับคุณสมบัติแชร์ข้อมูล"
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "อนุญาตให้แอปฯสามารถใช้ API สำหรับแชร์ข้อมูลได้"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "อนุญาตให้ใช้งานลิงก์ได้"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "อนุญาตให้ผู้ใช้งานสามารถแชร์ข้อมูลรายการต่างๆไปให้สาธารณะชนเป็นลิงก์ได้"
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr ""
+msgstr "อนุญาตให้แชร์ข้อมูลซ้ำใหม่ได้"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "อนุญาตให้ผู้ใช้งานแชร์ข้อมูลรายการต่างๆที่ถูกแชร์มาให้ตัวผู้ใช้งานได้เท่านั้น"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "อนุญาตให้ผู้ใช้งานแชร์ข้อมูลถึงใครก็ได้"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "อนุญาตให้ผู้ใช้งานแชร์ข้อมูลได้เฉพาะกับผู้ใช้งานที่อยู่ในกลุ่มเดียวกันเท่านั้น"
 
 #: templates/admin.php:168
 msgid "Security"
@@ -310,25 +310,25 @@ msgstr ""
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr ""
+msgstr "บันทึกการเปลี่ยนแปลง"
 
 #: templates/admin.php:196
 msgid "Log level"
-msgstr ""
+msgstr "ระดับการเก็บบันทึก log"
 
 #: templates/admin.php:227
 msgid "More"
-msgstr ""
+msgstr "มาก"
 
 #: templates/admin.php:228
 msgid "Less"
-msgstr ""
+msgstr "น้อย"
 
-#: templates/admin.php:235 templates/personal.php:100
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
-msgstr ""
+msgstr "รุ่น"
 
-#: templates/admin.php:238 templates/personal.php:103
+#: templates/admin.php:238 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -336,60 +336,60 @@ msgid ""
 "licensed under the <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" "
 "target=\"_blank\"><abbr title=\"Affero General Public "
 "License\">AGPL</abbr></a>."
-msgstr ""
+msgstr "พัฒนาโดย the <a href=\"http://ownCloud.org/contact\" target=\"_blank\">ชุมชนผู้ใช้งาน ownCloud</a>, the <a href=\"https://github.com/owncloud\" target=\"_blank\">ซอร์สโค้ด</a>อยู่ภายใต้สัญญาอนุญาตของ <a href=\"http://www.gnu.org/licenses/agpl-3.0.html\" target=\"_blank\"><abbr title=\"Affero General Public License\">AGPL</abbr></a>."
 
 #: templates/apps.php:11
 msgid "Add your App"
-msgstr ""
+msgstr "เพิ่มแอปของคุณ"
 
 #: templates/apps.php:12
 msgid "More Apps"
-msgstr ""
+msgstr "แอปฯอื่นเพิ่มเติม"
 
 #: templates/apps.php:28
 msgid "Select an App"
-msgstr ""
+msgstr "เลือก App"
 
 #: templates/apps.php:34
 msgid "See application page at apps.owncloud.com"
-msgstr ""
+msgstr "ดูหน้าแอพพลิเคชั่นที่ apps.owncloud.com"
 
 #: templates/apps.php:36
 msgid "<span class=\"licence\"></span>-licensed by <span class=\"author\"></span>"
-msgstr ""
+msgstr "<span class=\"licence\"></span>-ลิขสิทธิ์การใช้งานโดย <span class=\"author\"></span>"
 
 #: templates/apps.php:38
 msgid "Update"
-msgstr ""
+msgstr "อัพเดท"
 
 #: templates/help.php:4
 msgid "User Documentation"
-msgstr ""
+msgstr "เอกสารคู่มือการใช้งานสำหรับผู้ใช้งาน"
 
 #: templates/help.php:6
 msgid "Administrator Documentation"
-msgstr ""
+msgstr "เอกสารคู่มือการใช้งานสำหรับผู้ดูแลระบบ"
 
 #: templates/help.php:9
 msgid "Online Documentation"
-msgstr ""
+msgstr "เอกสารคู่มือการใช้งานออนไลน์"
 
 #: templates/help.php:11
 msgid "Forum"
-msgstr ""
+msgstr "กระดานสนทนา"
 
 #: templates/help.php:14
 msgid "Bugtracker"
-msgstr ""
+msgstr "Bugtracker"
 
 #: templates/help.php:17
 msgid "Commercial Support"
-msgstr ""
+msgstr "บริการลูกค้าแบบเสียค่าใช้จ่าย"
 
 #: templates/personal.php:8
 #, php-format
 msgid "You have used <strong>%s</strong> of the available <strong>%s</strong>"
-msgstr ""
+msgstr "คุณได้ใช้งานไปแล้ว <strong>%s</strong> จากจำนวนที่สามารถใช้ได้ <strong>%s</strong>"
 
 #: templates/personal.php:15
 msgid "Get the apps to sync your files"
@@ -397,96 +397,96 @@ msgstr ""
 
 #: templates/personal.php:26
 msgid "Show First Run Wizard again"
-msgstr ""
+msgstr "แสดงหน้าจอวิซาร์ดนำทางครั้งแรกอีกครั้ง"
 
 #: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
-msgstr ""
+msgstr "รหัสผ่าน"
 
 #: templates/personal.php:38
 msgid "Your password was changed"
-msgstr ""
+msgstr "รหัสผ่านของคุณถูกเปลี่ยนแล้ว"
 
 #: templates/personal.php:39
 msgid "Unable to change your password"
-msgstr ""
+msgstr "ไม่สามารถเปลี่ยนรหัสผ่านของคุณได้"
 
 #: templates/personal.php:40
 msgid "Current password"
-msgstr ""
+msgstr "รหัสผ่านปัจจุบัน"
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr ""
+msgstr "รหัสผ่านใหม่"
 
 #: templates/personal.php:44
 msgid "Change password"
-msgstr ""
+msgstr "เปลี่ยนรหัสผ่าน"
 
 #: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
-msgstr ""
+msgstr "ชื่อที่ต้องการแสดง"
 
 #: templates/personal.php:68
 msgid "Email"
-msgstr ""
+msgstr "อีเมล"
 
 #: templates/personal.php:70
 msgid "Your email address"
-msgstr ""
+msgstr "ที่อยู่อีเมล์ของคุณ"
 
 #: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
-msgstr ""
+msgstr "กรอกที่อยู่อีเมล์ของคุณเพื่อเปิดให้มีการกู้คืนรหัสผ่านได้"
 
 #: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
-msgstr ""
-
-#: templates/personal.php:84
-msgid "Help translate"
-msgstr ""
+msgstr "ภาษา"
 
 #: templates/personal.php:89
-msgid "WebDAV"
-msgstr ""
+msgid "Help translate"
+msgstr "ช่วยกันแปล"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
+msgid "WebDAV"
+msgstr "WebDAV"
+
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
-msgstr ""
+msgstr "ใช้ที่อยู่นี้เพื่อเชื่อมต่อกับ ownCloud ในโปรแกรมจัดการไฟล์ของคุณ"
 
 #: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
-msgstr ""
+msgstr "ชื่อที่ใช้สำหรับเข้าสู่ระบบ"
 
 #: templates/users.php:30
 msgid "Create"
-msgstr ""
+msgstr "สร้าง"
 
 #: templates/users.php:33
 msgid "Default Storage"
-msgstr ""
+msgstr "พื้นที่จำกัดข้อมูลเริ่มต้น"
 
 #: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
-msgstr ""
+msgstr "ไม่จำกัดจำนวน"
 
 #: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr ""
+msgstr "อื่นๆ"
 
 #: templates/users.php:82
 msgid "Storage"
-msgstr ""
+msgstr "พื้นที่จัดเก็บข้อมูล"
 
 #: templates/users.php:93
 msgid "change display name"
-msgstr ""
+msgstr "เปลี่ยนชื่อที่ต้องการให้แสดง"
 
 #: templates/users.php:97
 msgid "set new password"
-msgstr ""
+msgstr "ตั้งค่ารหัสผ่านใหม่"
 
 #: templates/users.php:128
 msgid "Default"
-msgstr ""
+msgstr "ค่าเริ่มต้น"

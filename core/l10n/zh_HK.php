@@ -55,8 +55,6 @@
 "The update was successful. Redirecting you to ownCloud now." => "更新成功, 正",
 "Use the following link to reset your password: {link}" => "請用以下連結重設你的密碼: {link}",
 "You will receive a link to reset your password via Email." => "你將收到一封電郵",
-"Reset email send." => "重設密碼郵件已傳",
-"Request failed!" => "請求失敗",
 "Username" => "用戶名稱",
 "Request reset" => "重設",
 "Your password was reset" => "你的密碼已被重設",
