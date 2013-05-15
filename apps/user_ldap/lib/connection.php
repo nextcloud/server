@@ -99,7 +99,7 @@ class Connection {
 	public function __set($name, $value) {
 		$changed = false;
 		//only few options are writable
-		if($name == 'ldapUuidAttribute') {
+		if($name === 'ldapUuidAttribute') {
 			\OCP\Util::writeLog('user_ldap', 'Set config ldapUuidAttribute to  '.$value, \OCP\Util::DEBUG);
 			$this->config[$name] = $value;
 			if(!empty($this->configID)) {
@@ -321,9 +321,9 @@ class Connection {
 		$params = $this->getConfigTranslationArray();
 
 		foreach($config as $parameter => $value) {
-			if(($parameter == 'homeFolderNamingRule'
+			if(($parameter === 'homeFolderNamingRule'
 				|| (isset($params[$parameter])
-					&& $params[$parameter] == 'homeFolderNamingRule'))
+					&& $params[$parameter] === 'homeFolderNamingRule'))
 				&& !empty($value)) {
 				$value = 'attr:'.$value;
 			}
@@ -389,7 +389,7 @@ class Connection {
 		$trans = $this->getConfigTranslationArray();
 		$config = array();
 		foreach($trans as $dbKey => $classKey) {
-			if($classKey == 'homeFolderNamingRule') {
+			if($classKey === 'homeFolderNamingRule') {
 				if(strpos($this->config[$classKey], 'attr:') === 0) {
 					$config[$dbKey] = substr($this->config[$classKey], 5);
 				} else {
@@ -427,7 +427,9 @@ class Connection {
 				'No group filter is specified, LDAP group feature will not be used.',
 				\OCP\Util::INFO);
 		}
-		if(!in_array($this->config['ldapUuidAttribute'], array('auto', 'entryuuid', 'nsuniqueid', 'objectguid'))
+		$uuidAttributes = array(
+			'auto', 'entryuuid', 'nsuniqueid', 'objectguid', 'guid');
+		if(!in_array($this->config['ldapUuidAttribute'], $uuidAttributes)
 			&& (!is_null($this->configID))) {
 			\OCP\Config::setAppValue($this->configID, $this->configPrefix.'ldap_uuid_attribute', 'auto');
 			\OCP\Util::writeLog('user_ldap',
@@ -440,7 +442,7 @@ class Connection {
 		}
 		foreach(array('ldapAttributesForUserSearch', 'ldapAttributesForGroupSearch') as $key) {
 			if(is_array($this->config[$key])
-				&& count($this->config[$key]) == 1
+				&& count($this->config[$key]) === 1
 				&& empty($this->config[$key][0])) {
 				$this->config[$key] = array();
 			}
@@ -588,12 +590,12 @@ class Connection {
 
 			$error = null;
 			//if LDAP server is not reachable, try the Backup (Replica!) Server
-			if((!$bindStatus && ($error == -1))
+			if((!$bindStatus && ($error === -1))
 				|| $this->config['ldapOverrideMainServer']
 				|| $this->getFromCache('overrideMainServer')) {
 					$this->doConnect($this->config['ldapBackupHost'], $this->config['ldapBackupPort']);
 					$bindStatus = $this->bind();
-					if($bindStatus && $error == -1) {
+					if($bindStatus && $error === -1) {
 						//when bind to backup server succeeded and failed to main server,
 						//skip contacting him until next cache refresh
 						$this->writeToCache('overrideMainServer', true);

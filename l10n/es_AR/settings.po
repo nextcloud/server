@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Agustin Ferrario <agustin.ferrario@hotmail.com.ar>, 2012.
-# CJTess <claudio.tessone@gmail.com>, 2013.
-#   <claudio.tessone@gmail.com>, 2012.
-# Javier Victor Mariano Bruno <koryyyy@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:17+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Spanish (Argentina) (http://www.transifex.com/projects/p/owncloud/language/es_AR/)\n"
 "MIME-Version: 1.0\n"
@@ -25,12 +21,16 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Imposible cargar la lista desde el App Store"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
 msgstr "Error al autenticar"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr ""
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr "No fue posible cambiar el nombre mostrado"
 
@@ -68,7 +68,7 @@ msgstr "Idioma cambiado"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "Solicitud no válida"
+msgstr "Pedido no válido"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -120,7 +120,7 @@ msgstr "Error al actualizar"
 msgid "Updated"
 msgstr "Actualizado"
 
-#: js/personal.js:109
+#: js/personal.js:118
 msgid "Saving..."
 msgstr "Guardando..."
 
@@ -136,16 +136,16 @@ msgstr "deshacer"
 msgid "Unable to remove user"
 msgstr "Imposible remover usuario"
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:88 templates/users.php:26 templates/users.php:78
+#: templates/users.php:103
 msgid "Groups"
 msgstr "Grupos"
 
-#: js/users.js:91 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
 msgstr "Grupo Administrador"
 
-#: js/users.js:111 templates/users.php:161
+#: js/users.js:111 templates/users.php:155
 msgid "Delete"
 msgstr "Borrar"
 
@@ -165,7 +165,7 @@ msgstr "Error creando usuario"
 msgid "A valid password must be provided"
 msgstr "Debe ingresar una contraseña válida"
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
 msgstr "Castellano (Argentina)"
 
@@ -316,19 +316,19 @@ msgstr "Log"
 msgid "Log level"
 msgstr "Nivel de Log"
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "Más"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Less"
 msgstr "Menos"
 
-#: templates/admin.php:231 templates/personal.php:102
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
 msgstr "Versión"
 
-#: templates/admin.php:234 templates/personal.php:105
+#: templates/admin.php:238 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -399,7 +399,7 @@ msgstr "Obtené aplicaciones para sincronizar tus archivos"
 msgid "Show First Run Wizard again"
 msgstr "Mostrar de nuevo el asistente de primera ejecución"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Contraseña"
 
@@ -423,82 +423,70 @@ msgstr "Nueva contraseña:"
 msgid "Change password"
 msgstr "Cambiar contraseña"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
 msgstr "Nombre a mostrar"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr "El nombre mostrado fue cambiado"
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr "No fue posible cambiar tu nombre"
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr "Cambiar nombre"
+#: templates/personal.php:68
+msgid "Email"
+msgstr "Correo Electrónico"
 
 #: templates/personal.php:70
-msgid "Email"
-msgstr "Correo electrónico"
-
-#: templates/personal.php:72
 msgid "Your email address"
 msgstr "Tu dirección de e-mail"
 
-#: templates/personal.php:73
+#: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
 msgstr "Escribí una dirección de correo electrónico para restablecer la contraseña"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
 msgstr "Idioma"
 
-#: templates/personal.php:86
+#: templates/personal.php:89
 msgid "Help translate"
 msgstr "Ayudanos a traducir"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:93
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Utiliza esta dirección para conectarte con ownCloud en tu Administrador de Archivos"
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
 msgstr "Nombre de "
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "Crear"
 
-#: templates/users.php:35
+#: templates/users.php:33
 msgid "Default Storage"
 msgstr "Almacenamiento Predeterminado"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
 msgstr "Ilimitado"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr "Otro"
+msgstr "Otros"
 
-#: templates/users.php:84
+#: templates/users.php:82
 msgid "Storage"
 msgstr "Almacenamiento"
 
-#: templates/users.php:95
+#: templates/users.php:93
 msgid "change display name"
 msgstr "Cambiar el nombre que se muestra"
 
-#: templates/users.php:99
+#: templates/users.php:97
 msgid "set new password"
 msgstr "Configurar nueva contraseña"
 
-#: templates/users.php:134
+#: templates/users.php:128
 msgid "Default"
 msgstr "Predeterminado"

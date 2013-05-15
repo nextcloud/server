@@ -34,6 +34,11 @@ const FREE_SPACE_UNKNOWN = -2;
 const FREE_SPACE_UNLIMITED = -3;
 
 class Filesystem {
+	/**
+	 * @var Mount\Manager $mounts
+	 */
+	private static $mounts;
+
 	public static $loaded = false;
 	/**
 	 * @var \OC\Files\View $defaultInstance
@@ -147,7 +152,7 @@ class Filesystem {
 	 * @return string
 	 */
 	static public function getMountPoint($path) {
-		$mount = Mount::find($path);
+		$mount = self::$mounts->find($path);
 		if ($mount) {
 			return $mount->getMountPoint();
 		} else {
@@ -163,7 +168,7 @@ class Filesystem {
 	 */
 	static public function getMountPoints($path) {
 		$result = array();
-		$mounts = Mount::findIn($path);
+		$mounts = self::$mounts->findIn($path);
 		foreach ($mounts as $mount) {
 			$result[] = $mount->getMountPoint();
 		}
@@ -177,8 +182,24 @@ class Filesystem {
 	 * @return \OC\Files\Storage\Storage
 	 */
 	public static function getStorage($mountPoint) {
-		$mount = Mount::find($mountPoint);
+		$mount = self::$mounts->find($mountPoint);
 		return $mount->getStorage();
+	}
+
+	/**
+	 * @param $id
+	 * @return Mount\Mount[]
+	 */
+	public static function getMountByStorageId($id) {
+		return self::$mounts->findByStorageId($id);
+	}
+
+	/**
+	 * @param $id
+	 * @return Mount\Mount[]
+	 */
+	public static function getMountByNumericId($id) {
+		return self::$mounts->findByNumericId($id);
 	}
 
 	/**
@@ -188,7 +209,7 @@ class Filesystem {
 	 * @return array consisting of the storage and the internal path
 	 */
 	static public function resolvePath($path) {
-		$mount = Mount::find($path);
+		$mount = self::$mounts->find($path);
 		if ($mount) {
 			return array($mount->getStorage(), $mount->getInternalPath($path));
 		} else {
@@ -202,6 +223,10 @@ class Filesystem {
 		}
 		self::$defaultInstance = new View($root);
 
+		if(!self::$mounts) {
+			self::$mounts = new Mount\Manager();
+		}
+
 		//load custom mount config
 		self::initMountPoints($user);
 
@@ -210,7 +235,11 @@ class Filesystem {
 		return true;
 	}
 
-    /**
+	static public function initMounts(){
+		self::$mounts = new Mount\Manager();
+	}
+
+	/**
 	 * Initialize system and personal mount points for a user
 	 *
 	 * @param string $user
@@ -287,9 +316,9 @@ class Filesystem {
 	}
 
 	/**
-	 * fill in the correct values for $user, and $password placeholders
+	 * fill in the correct values for $user
 	 *
-	 * @param string $input
+	 * @param string $user
 	 * @param string $input
 	 * @return string
 	 */
@@ -306,19 +335,12 @@ class Filesystem {
 		return self::$defaultInstance;
 	}
 
-    /**
-     * set the default filesystem view
-     *
-     */
-    static public function setView($view) {
-        self::$defaultInstance = $view;
-    }
-
 	/**
 	 * tear down the filesystem, removing all storage providers
 	 */
 	static public function tearDown() {
 		self::clearMounts();
+		self::$defaultInstance = null;
 	}
 
 	/**
@@ -335,7 +357,7 @@ class Filesystem {
 	 * clear all mounts and storage backends
 	 */
 	public static function clearMounts() {
-		Mount::clear();
+		self::$mounts->clear();
 	}
 
 	/**
@@ -346,7 +368,8 @@ class Filesystem {
 	 * @param string $mountpoint
 	 */
 	static public function mount($class, $arguments, $mountpoint) {
-		new Mount($class, $mountpoint, $arguments);
+		$mount = new Mount\Mount($class, $mountpoint, $arguments);
+		self::$mounts->addMount($mount);
 	}
 
 	/**

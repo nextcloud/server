@@ -14,7 +14,7 @@
 	<fieldset id="ldapSettings-1">
 		<p><label for="ldap_serverconfig_chooser"><?php p($l->t('Server configuration'));?></label>
 		<select id="ldap_serverconfig_chooser" name="ldap_serverconfig_chooser">
-		<?php if(count($_['serverConfigurationPrefixes']) == 0 ) {
+		<?php if(count($_['serverConfigurationPrefixes']) === 0 ) {
 			?>
 				<option value="" selected>1. Server</option>');
 			<?php
@@ -85,7 +85,7 @@
 				<p><label for="ldap_group_display_name"><?php p($l->t('Group Display Name Field'));?></label><input type="text" id="ldap_group_display_name" name="ldap_group_display_name" data-default="<?php p($_['ldap_group_display_name_default']); ?>" title="<?php p($l->t('The LDAP attribute to use to generate the groups`s ownCloud name.'));?>" /></p>
 				<p><label for="ldap_base_groups"><?php p($l->t('Base Group Tree'));?></label><textarea id="ldap_base_groups" name="ldap_base_groups" placeholder="<?php p($l->t('One Group Base DN per line'));?>" data-default="<?php p($_['ldap_base_groups_default']); ?>" title="<?php p($l->t('Base Group Tree'));?>"></textarea></p>
 				<p><label for="ldap_attributes_for_group_search"><?php p($l->t('Group Search Attributes'));?></label><textarea id="ldap_attributes_for_group_search" name="ldap_attributes_for_group_search" placeholder="<?php p($l->t('Optional; one attribute per line'));?>" data-default="<?php p($_['ldap_attributes_for_group_search_default']); ?>" title="<?php p($l->t('Group Search Attributes'));?>"></textarea></p>
-				<p><label for="ldap_group_member_assoc_attribute"><?php p($l->t('Group-Member association'));?></label><select id="ldap_group_member_assoc_attribute" name="ldap_group_member_assoc_attribute" data-default="<?php p($_['ldap_group_member_assoc_attribute_default']); ?>" ><option value="uniqueMember"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] == 'uniqueMember')) p(' selected'); ?>>uniqueMember</option><option value="memberUid"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] == 'memberUid')) p(' selected'); ?>>memberUid</option><option value="member"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] == 'member')) p(' selected'); ?>>member (AD)</option></select></p>
+				<p><label for="ldap_group_member_assoc_attribute"><?php p($l->t('Group-Member association'));?></label><select id="ldap_group_member_assoc_attribute" name="ldap_group_member_assoc_attribute" data-default="<?php p($_['ldap_group_member_assoc_attribute_default']); ?>" ><option value="uniqueMember"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] === 'uniqueMember')) p(' selected'); ?>>uniqueMember</option><option value="memberUid"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] === 'memberUid')) p(' selected'); ?>>memberUid</option><option value="member"<?php if (isset($_['ldap_group_member_assoc_attribute']) && ($_['ldap_group_member_assoc_attribute'] === 'member')) p(' selected'); ?>>member (AD)</option></select></p>
 			</div>
 			<h3><?php p($l->t('Special Attributes'));?></h3>
 			<div>

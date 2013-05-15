@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#  <romihardiyanto@gmail.com>, 2013.
-# Widya Walesa <walecha99@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -35,7 +33,7 @@ msgstr "jalankan operasi pemulihan"
 
 #: js/trash.js:19 js/trash.js:46 js/trash.js:114 js/trash.js:139
 msgid "Error"
-msgstr "kesalahan"
+msgstr "Galat"
 
 #: js/trash.js:34
 msgid "delete file permanently"
@@ -43,7 +41,7 @@ msgstr "hapus berkas secara permanen"
 
 #: js/trash.js:121
 msgid "Delete permanently"
-msgstr "hapus secara permanen"
+msgstr "Hapus secara permanen"
 
 #: js/trash.js:174 templates/index.php:17
 msgid "Name"
@@ -55,11 +53,11 @@ msgstr "Dihapus"
 
 #: js/trash.js:184
 msgid "1 folder"
-msgstr "1 map"
+msgstr "1 folder"
 
 #: js/trash.js:186
 msgid "{count} folders"
-msgstr "{count} map"
+msgstr "{count} folder"
 
 #: js/trash.js:194
 msgid "1 file"

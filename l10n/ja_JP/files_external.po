@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Daisuke Deguchi <ddeguchi@is.nagoya-u.ac.jp>, 2012.
-# Daisuke Deguchi <ddeguchi@nagoya-u.jp>, 2012.
-# YANO Tetsu <tetuyano+transi@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Japanese (Japan) (http://www.transifex.com/projects/p/owncloud/language/ja_JP/)\n"
 "MIME-Version: 1.0\n"
@@ -40,18 +37,25 @@ msgstr "有効なDropboxアプリのキーとパスワードを入力して下�
 msgid "Error configuring Google Drive storage"
 msgstr "Googleドライブストレージの設定エラー"
 
-#: lib/config.php:424
+#: lib/config.php:431
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>警告:</b> \"smbclient\" はインストールされていません。CIFS/SMB 共有のマウントはできません。システム管理者にインストールをお願いして下さい。"
 
-#: lib/config.php:427
+#: lib/config.php:434
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>警告:</b> PHPのFTPサポートは無効もしくはインストールされていません。FTP共有のマウントはできません。システム管理者にインストールをお願いして下さい。"
+
+#: lib/config.php:437
+msgid ""
+"<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
+"Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
+"your system administrator to install it."
+msgstr "<b>警告:</b> PHP の Curl サポートは無効もしくはインストールされていません。ownCloud / WebDAV もしくは GoogleDrive のマウントはできません。システム管理者にインストールをお願いして下さい。"
 
 #: templates/settings.php:3
 msgid "External Storage"

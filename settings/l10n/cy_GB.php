@@ -2,6 +2,7 @@
 "Authentication error" => "Gwall dilysu",
 "Invalid request" => "Cais annilys",
 "Error" => "Gwall",
+"Saving..." => "Yn cadw...",
 "undo" => "dadwneud",
 "Groups" => "Grwpiau",
 "Delete" => "Dileu",

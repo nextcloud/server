@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Gilad Naaman <gilad.doom@gmail.com>, 2013.
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:23+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-05-03 02:02+0200\n"
+"PO-Revision-Date: 2013-05-02 13:50+0000\n"
+"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew (http://www.transifex.com/projects/p/owncloud/language/he/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -48,27 +48,27 @@ msgstr ""
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr ""
+msgstr "האם לשמור את ההגדרות?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
-msgstr ""
+msgstr "לא ניתן להוסיף את הגדרות השרת"
 
 #: js/settings.js:121
 msgid "Connection test succeeded"
-msgstr ""
+msgstr "בדיקת החיבור עברה בהצלחה"
 
 #: js/settings.js:126
 msgid "Connection test failed"
-msgstr ""
+msgstr "בדיקת החיבור נכשלה"
 
 #: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"
-msgstr ""
+msgstr "האם אכן למחוק את הגדרות השרת הנוכחיות?"
 
 #: js/settings.js:137
 msgid "Confirm Deletion"
-msgstr ""
+msgstr "אישור המחיקה"
 
 #: templates/settings.php:8
 msgid ""
@@ -85,11 +85,11 @@ msgstr ""
 
 #: templates/settings.php:15
 msgid "Server configuration"
-msgstr ""
+msgstr "הגדרות השרת"
 
 #: templates/settings.php:31
 msgid "Add Server Configuration"
-msgstr ""
+msgstr "הוספת הגדרות השרת"
 
 #: templates/settings.php:36
 msgid "Host"

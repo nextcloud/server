@@ -64,7 +64,7 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 
         \OC_Util::tearDownFS();
         \OC_User::setUserId('');
-        \OC\Files\Filesystem::setView(false);
+        \OC\Files\Filesystem::tearDown();
         \OC_Util::setupFS($this->userId);
         \OC_User::setUserId($this->userId);
 

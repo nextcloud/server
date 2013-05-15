@@ -3,18 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Amir Reza Asadi <amirreza.asadi@live.com>, 2013.
-#   <basir.jafarzadeh@gmail.com>, 2012.
-# Hossein nag <h.sname@yahoo.com>, 2012.
-# mahdi Kereshteh <miki_mika1362@yahoo.com>, 2013.
-#   <tamass4116@gmail.com>, 2012.
-# vahid chakoshy <vchakoshy@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:17+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Persian (http://www.transifex.com/projects/p/owncloud/language/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -27,12 +21,16 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "قادر به بارگذاری لیست از فروشگاه اپ نیستم"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
 msgstr "خطا در اعتبار سنجی"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr ""
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr "امکان تغییر نام نمایشی شما وجود ندارد"
 
@@ -70,7 +68,7 @@ msgstr "زبان تغییر کرد"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "درخواست غیر قابل قبول"
+msgstr "درخواست نامعتبر"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -122,9 +120,9 @@ msgstr "خطا در هنگام بهنگام سازی برنامه"
 msgid "Updated"
 msgstr "بروز رسانی انجام شد"
 
-#: js/personal.js:109
+#: js/personal.js:118
 msgid "Saving..."
-msgstr "درحال ذخیره ..."
+msgstr "در حال ذخیره سازی..."
 
 #: js/users.js:43
 msgid "deleted"
@@ -138,18 +136,18 @@ msgstr "بازگشت"
 msgid "Unable to remove user"
 msgstr "حذف کاربر امکان پذیر نیست"
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:88 templates/users.php:26 templates/users.php:78
+#: templates/users.php:103
 msgid "Groups"
 msgstr "گروه ها"
 
-#: js/users.js:91 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
 msgstr "گروه مدیران"
 
-#: js/users.js:111 templates/users.php:161
+#: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr "پاک کردن"
+msgstr "حذف"
 
 #: js/users.js:262
 msgid "add group"
@@ -167,7 +165,7 @@ msgstr "خطا در ایجاد کاربر"
 msgid "A valid password must be provided"
 msgstr "رمز عبور صحیح باید وارد شود"
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
 msgstr "__language_name__"
 
@@ -312,25 +310,25 @@ msgstr ""
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr ""
+msgstr "کارنامه"
 
 #: templates/admin.php:196
 msgid "Log level"
 msgstr ""
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "بیش‌تر"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Less"
 msgstr "کم‌تر"
 
-#: templates/admin.php:231 templates/personal.php:102
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
 msgstr "نسخه"
 
-#: templates/admin.php:234 templates/personal.php:105
+#: templates/admin.php:238 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -401,7 +399,7 @@ msgstr "برنامه ها را دریافت کنید تا فایل هایتان 
 msgid "Show First Run Wizard again"
 msgstr "راهبری کمکی اجرای اول را دوباره نمایش بده"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "گذرواژه"
 
@@ -425,82 +423,70 @@ msgstr "گذرواژه جدید"
 msgid "Change password"
 msgstr "تغییر گذر واژه"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
 msgstr "نام نمایشی"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr "نام نمایشی شما تغییر یافت"
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr "امکان تغییر نام نمایشی شما وجود ندارد"
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr "تغییر نام نمایشی"
+#: templates/personal.php:68
+msgid "Email"
+msgstr "ایمیل"
 
 #: templates/personal.php:70
-msgid "Email"
-msgstr "پست الکترونیکی"
-
-#: templates/personal.php:72
 msgid "Your email address"
 msgstr "پست الکترونیکی شما"
 
-#: templates/personal.php:73
+#: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
 msgstr "پست الکترونیکی را پرکنید  تا بازیابی گذرواژه فعال شود"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
 msgstr "زبان"
 
-#: templates/personal.php:86
+#: templates/personal.php:89
 msgid "Help translate"
 msgstr "به ترجمه آن کمک کنید"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
 msgid "WebDAV"
 msgstr ""
 
-#: templates/personal.php:93
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "از این نشانی برای اتصال به ownCloud خودتان در بخش مدیریت فایل خودتان استفاده کنید"
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
 msgstr "نام کاربری"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "ایجاد کردن"
 
-#: templates/users.php:35
+#: templates/users.php:33
 msgid "Default Storage"
 msgstr "ذخیره سازی پیش فرض"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
 msgstr "نامحدود"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr "سایر"
+msgstr "دیگر"
 
-#: templates/users.php:84
+#: templates/users.php:82
 msgid "Storage"
 msgstr "حافظه"
 
-#: templates/users.php:95
+#: templates/users.php:93
 msgid "change display name"
 msgstr "تغییر نام نمایشی"
 
-#: templates/users.php:99
+#: templates/users.php:97
 msgid "set new password"
 msgstr "تنظیم کلمه عبور جدید"
 
-#: templates/users.php:134
+#: templates/users.php:128
 msgid "Default"
 msgstr "پیش فرض"

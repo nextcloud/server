@@ -3,17 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Dimitris M. <monopatis@gmail.com>, 2013
-# Efstathios Iosifidis <iefstathios@gmail.com>, 2013
-# Efstathios Iosifidis <iosifidis@opensuse.org>, 2012
-# xneo1 <vagelis@cyberdest.com>, 2013
-# Wasilis <m.wasilis@yahoo.de>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-18 02:04+0200\n"
-"PO-Revision-Date: 2013-04-18 00:05+0000\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -118,72 +113,72 @@ msgstr "%s μάλλον δεν χρησιμοποιείτε τελείες στ�
 msgid "%s set the database host."
 msgstr "%s ρυθμίση του κεντρικόυ υπολογιστή βάσης δεδομένων. "
 
-#: setup.php:132 setup.php:324 setup.php:369
+#: setup.php:132 setup.php:325 setup.php:370
 msgid "PostgreSQL username and/or password not valid"
 msgstr "Μη έγκυρος χρήστης και/ή συνθηματικό της PostgreSQL"
 
-#: setup.php:133 setup.php:156 setup.php:233
+#: setup.php:133 setup.php:156 setup.php:234
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Χρειάζεται να εισάγετε είτε έναν υπάρχον λογαριασμό ή του διαχειριστή."
 
-#: setup.php:155 setup.php:457 setup.php:524
+#: setup.php:155 setup.php:458 setup.php:525
 msgid "Oracle username and/or password not valid"
 msgstr "Μη έγκυρος χρήστης και/ή συνθηματικό της Oracle"
 
-#: setup.php:232
+#: setup.php:233
 msgid "MySQL username and/or password not valid"
 msgstr "Μη έγκυρος χρήστης και/ή συνθηματικό της MySQL"
 
-#: setup.php:286 setup.php:390 setup.php:399 setup.php:417 setup.php:427
-#: setup.php:436 setup.php:465 setup.php:531 setup.php:557 setup.php:564
-#: setup.php:575 setup.php:582 setup.php:591 setup.php:599 setup.php:608
-#: setup.php:614
+#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
+#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
+#: setup.php:576 setup.php:583 setup.php:592 setup.php:600 setup.php:609
+#: setup.php:615
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "Σφάλμα Βάσης Δεδομένων: \"%s\""
 
-#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
-#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
-#: setup.php:576 setup.php:592 setup.php:600 setup.php:609
+#: setup.php:288 setup.php:392 setup.php:401 setup.php:419 setup.php:429
+#: setup.php:438 setup.php:467 setup.php:533 setup.php:559 setup.php:566
+#: setup.php:577 setup.php:593 setup.php:601 setup.php:610
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "Η εντολη παραβατικοτητας ηταν: \"%s\""
 
-#: setup.php:303
+#: setup.php:304
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr "Υπάρχει ήδη ο χρήστης '%s'@'localhost' της MySQL."
 
-#: setup.php:304
+#: setup.php:305
 msgid "Drop this user from MySQL"
 msgstr "Απόρριψη αυτού του χρήστη από την MySQL"
 
-#: setup.php:309
+#: setup.php:310
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr "Ο χρήστης '%s'@'%%' της MySQL υπάρχει ήδη"
 
-#: setup.php:310
+#: setup.php:311
 msgid "Drop this user from MySQL."
 msgstr "Απόρριψη αυτού του χρήστη από την MySQL"
 
-#: setup.php:583 setup.php:615
+#: setup.php:584 setup.php:616
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Η εντολη παραβατικοτητας ηταν: \"%s\", ονομα: %s, κωδικος: %s"
 
-#: setup.php:635
+#: setup.php:636
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
 msgstr "Το όνομα χρήστη και/ή ο κωδικός της MS SQL δεν είναι έγκυρα: %s"
 
-#: setup.php:853
+#: setup.php:858
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Ο διακομιστής σας δεν έχει ρυθμιστεί κατάλληλα ώστε να επιτρέπει τον συγχρονισμό αρχείων γιατί η διεπαφή WebDAV πιθανόν να είναι κατεστραμμένη."
 
-#: setup.php:854
+#: setup.php:859
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Ελέγξτε ξανά τις <a href='%s'>οδηγίες εγκατάστασης</a>."
@@ -216,7 +211,7 @@ msgstr "σήμερα"
 
 #: template.php:119
 msgid "yesterday"
-msgstr "χθές"
+msgstr "χτες"
 
 #: template.php:120
 #, php-format
@@ -225,7 +220,7 @@ msgstr "%d ημέρες πριν"
 
 #: template.php:121
 msgid "last month"
-msgstr "τον προηγούμενο μήνα"
+msgstr "τελευταίο μήνα"
 
 #: template.php:122
 #, php-format
@@ -234,24 +229,11 @@ msgstr "%d μήνες πριν"
 
 #: template.php:123
 msgid "last year"
-msgstr "τον προηγούμενο χρόνο"
+msgstr "τελευταίο χρόνο"
 
 #: template.php:124
 msgid "years ago"
 msgstr "χρόνια πριν"
-
-#: updater.php:78
-#, php-format
-msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr "%s είναι διαθέσιμο. Δείτε <a href=\"%s\">περισσότερες πληροφορίες</a>"
-
-#: updater.php:81
-msgid "up to date"
-msgstr "ενημερωμένο"
-
-#: updater.php:84
-msgid "updates check is disabled"
-msgstr "ο έλεγχος ενημερώσεων είναι απενεργοποιημένος"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

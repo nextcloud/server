@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#  <rapid_odeen@zoho.com>, 2013.
+# Odeen <rapid_odeen@zoho.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Albanian (http://www.transifex.com/projects/p/owncloud/language/sq/)\n"
 "MIME-Version: 1.0\n"
@@ -159,7 +159,7 @@ msgstr "Dhjetor"
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "Parametrat"
+msgstr "Parametra"
 
 #: js/js.js:718
 msgid "seconds ago"
@@ -294,7 +294,7 @@ msgstr "Nda me lidhje"
 msgid "Password protect"
 msgstr "Mbro me kod"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Kodi"
 
@@ -397,24 +397,27 @@ msgstr "Rivendosja e kodit të ownCloud-it"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Përdorni lidhjen në vijim për të rivendosur kodin: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr "Lidhja për rivendosjen e kodit tuaj u dërgua tek email-i juaj.<br>Nëqoftëse nuk e merrni brenda një kohe të arsyeshme, kontrolloni dosjet e postës së padëshirueshme (spam).<br>Nëqoftëse nuk është as aty, pyesni administratorin tuaj lokal."
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr "Kërkesa dështoi!<br>A u siguruat që email-i/përdoruesi juaj ishte i saktë?"
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Do t'iu vijë një email që përmban një lidhje për ta rivendosur kodin."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "Emaili i rivendosjes u dërgua."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "Kërkesa dështoi!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "Përdoruesi"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Bëj kërkesë për rivendosjen"
 
@@ -520,37 +523,37 @@ msgstr "Të përparuara"
 msgid "Data folder"
 msgstr "Emri i dosjes"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Konfiguro database-in"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "do të përdoret"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Përdoruesi i database-it"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Kodi i database-it"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Emri i database-it"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Tablespace-i i database-it"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Pozicioni (host) i database-it"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Mbaro setup-in"
 
@@ -558,37 +561,42 @@ msgstr "Mbaro setup-in"
 msgid "web services under your control"
 msgstr "shërbime web nën kontrollin tënd"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "Dalje"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Hyrja automatike u refuzua!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Nqse nuk keni ndryshuar kodin kohët e fundit, llogaria juaj mund të jetë komprometuar."
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Ju lutemi, ndryshoni kodin për ta siguruar përsëri llogarinë tuaj."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Ke humbur kodin?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "kujto"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Hyrje"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Hyrje alternative"
 

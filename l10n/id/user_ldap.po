@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <mr.pige_ina@yahoo.co.id>, 2012.
-#  <romihardiyanto@gmail.com>, 2013.
-# Widya Walesa <walecha99@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -42,7 +39,7 @@ msgstr "Konfigurasi salah. Silakan lihat log ownCloud untuk lengkapnya."
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr "penghapusan gagal"
+msgstr "Penghapusan gagal"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
@@ -95,7 +92,7 @@ msgstr "Tambah Konfigurasi Server"
 
 #: templates/settings.php:36
 msgid "Host"
-msgstr "host"
+msgstr "Host"
 
 #: templates/settings.php:38
 msgid ""
@@ -127,7 +124,7 @@ msgstr "DN dari klien pengguna yang dengannya tautan akan diterapkan, mis. uid=a
 
 #: templates/settings.php:46
 msgid "Password"
-msgstr "kata kunci"
+msgstr "Sandi"
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
@@ -333,4 +330,4 @@ msgstr "Uji Konfigurasi"
 
 #: templates/settings.php:99
 msgid "Help"
-msgstr "bantuan"
+msgstr "Bantuan"

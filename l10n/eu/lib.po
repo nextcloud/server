@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# asieriko <asieriko@gmail.com>, 2013
-# asieriko <asieriko@gmail.com>, 2012
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-18 02:04+0200\n"
-"PO-Revision-Date: 2013-04-18 00:05+0000\n"
+"POT-Creation-Date: 2013-04-28 01:57+0200\n"
+"PO-Revision-Date: 2013-04-27 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -69,7 +67,7 @@ msgstr "Aplikazioa ez dago gaituta"
 
 #: json.php:39 json.php:62 json.php:73
 msgid "Authentication error"
-msgstr "Autentikazio errorea"
+msgstr "Autentifikazio errorea"
 
 #: json.php:51
 msgid "Token expired. Please reload page."
@@ -115,79 +113,79 @@ msgstr "%s ezin duzu punturik erabili datu basearen izenean."
 msgid "%s set the database host."
 msgstr "%s sartu datu basearen hostalaria."
 
-#: setup.php:132 setup.php:324 setup.php:369
+#: setup.php:132 setup.php:325 setup.php:370
 msgid "PostgreSQL username and/or password not valid"
 msgstr "PostgreSQL erabiltzaile edota pasahitza ez dira egokiak."
 
-#: setup.php:133 setup.php:156 setup.php:233
+#: setup.php:133 setup.php:156 setup.php:234
 msgid "You need to enter either an existing account or the administrator."
 msgstr "Existitzen den kontu bat edo administradorearena jarri behar duzu."
 
-#: setup.php:155 setup.php:457 setup.php:524
+#: setup.php:155 setup.php:458 setup.php:525
 msgid "Oracle username and/or password not valid"
 msgstr "Oracle erabiltzaile edota pasahitza ez dira egokiak."
 
-#: setup.php:232
+#: setup.php:233
 msgid "MySQL username and/or password not valid"
 msgstr "MySQL erabiltzaile edota pasahitza ez dira egokiak."
 
-#: setup.php:286 setup.php:390 setup.php:399 setup.php:417 setup.php:427
-#: setup.php:436 setup.php:465 setup.php:531 setup.php:557 setup.php:564
-#: setup.php:575 setup.php:582 setup.php:591 setup.php:599 setup.php:608
-#: setup.php:614
+#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
+#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
+#: setup.php:576 setup.php:583 setup.php:592 setup.php:600 setup.php:609
+#: setup.php:615
 #, php-format
 msgid "DB Error: \"%s\""
 msgstr "DB errorea: \"%s\""
 
-#: setup.php:287 setup.php:391 setup.php:400 setup.php:418 setup.php:428
-#: setup.php:437 setup.php:466 setup.php:532 setup.php:558 setup.php:565
-#: setup.php:576 setup.php:592 setup.php:600 setup.php:609
+#: setup.php:288 setup.php:392 setup.php:401 setup.php:419 setup.php:429
+#: setup.php:438 setup.php:467 setup.php:533 setup.php:559 setup.php:566
+#: setup.php:577 setup.php:593 setup.php:601 setup.php:610
 #, php-format
 msgid "Offending command was: \"%s\""
 msgstr "Errorea komando honek sortu du: \"%s\""
 
-#: setup.php:303
+#: setup.php:304
 #, php-format
 msgid "MySQL user '%s'@'localhost' exists already."
 msgstr "MySQL '%s'@'localhost' erabiltzailea dagoeneko existitzen da."
 
-#: setup.php:304
+#: setup.php:305
 msgid "Drop this user from MySQL"
 msgstr "Ezabatu erabiltzaile hau MySQLtik"
 
-#: setup.php:309
+#: setup.php:310
 #, php-format
 msgid "MySQL user '%s'@'%%' already exists"
 msgstr "MySQL '%s'@'%%' erabiltzailea dagoeneko existitzen da"
 
-#: setup.php:310
+#: setup.php:311
 msgid "Drop this user from MySQL."
 msgstr "Ezabatu erabiltzaile hau MySQLtik."
 
-#: setup.php:583 setup.php:615
+#: setup.php:584 setup.php:616
 #, php-format
 msgid "Offending command was: \"%s\", name: %s, password: %s"
 msgstr "Errorea komando honek sortu du: \"%s\", izena: %s, pasahitza: %s"
 
-#: setup.php:635
+#: setup.php:636
 #, php-format
 msgid "MS SQL username and/or password not valid: %s"
 msgstr "MS SQL erabiltzaile izena edota pasahitza ez dira egokiak: %s"
 
-#: setup.php:853
+#: setup.php:858
 msgid ""
 "Your web server is not yet properly setup to allow files synchronization "
 "because the WebDAV interface seems to be broken."
 msgstr "Zure web zerbitzaria ez dago oraindik ongi konfiguratuta fitxategien sinkronizazioa egiteko, WebDAV interfazea ongi ez dagoela dirudi."
 
-#: setup.php:854
+#: setup.php:859
 #, php-format
 msgid "Please double check the <a href='%s'>installation guides</a>."
 msgstr "Mesedez begiratu <a href='%s'>instalazio gidak</a>."
 
 #: template.php:113
 msgid "seconds ago"
-msgstr "orain dela segundu batzuk"
+msgstr "segundu"
 
 #: template.php:114
 msgid "1 minute ago"
@@ -222,7 +220,7 @@ msgstr "orain dela %d egun"
 
 #: template.php:121
 msgid "last month"
-msgstr "joan den hilabetea"
+msgstr "joan den hilabetean"
 
 #: template.php:122
 #, php-format
@@ -231,24 +229,11 @@ msgstr "orain dela %d hilabete"
 
 #: template.php:123
 msgid "last year"
-msgstr "joan den urtea"
+msgstr "joan den urtean"
 
 #: template.php:124
 msgid "years ago"
-msgstr "orain dela urte batzuk"
-
-#: updater.php:78
-#, php-format
-msgid "%s is available. Get <a href=\"%s\">more information</a>"
-msgstr "%s eskuragarri dago. Lortu <a href=\"%s\">informazio gehiago</a>"
-
-#: updater.php:81
-msgid "up to date"
-msgstr "eguneratuta"
-
-#: updater.php:84
-msgid "updates check is disabled"
-msgstr "eguneraketen egiaztapena ez dago gaituta"
+msgstr "urte"
 
 #: vcategories.php:188 vcategories.php:249
 #, php-format

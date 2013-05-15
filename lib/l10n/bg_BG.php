@@ -44,8 +44,5 @@
 "%d months ago" => "преди %d месеца",
 "last year" => "последната година",
 "years ago" => "последните години",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s е налична. Получете <a href=\"%s\">повече информация</a>",
-"up to date" => "е актуална",
-"updates check is disabled" => "проверката за обновления е изключена",
 "Could not find category \"%s\"" => "Невъзможно откриване на категорията \"%s\""
 );

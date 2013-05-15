@@ -26,26 +26,26 @@ OCA\Encryption\Helper::registerFilesystemHooks();
 
 stream_wrapper_register( 'crypt', 'OCA\Encryption\Stream' );
 
-$view = new \OC\Files\View( '/' );
+$view = new OC_FilesystemView( '/' );
 
-$session = new OCA\Encryption\Session( $view );
-
-if ( 
-	! $session->getPrivateKey( \OCP\USER::getUser() )
-	&& OCP\User::isLoggedIn() 
-	&& OCA\Encryption\Crypt::mode() == 'server' 
-) {
-
-	// Force the user to log-in again if the encryption key isn't unlocked 
-	// (happens when a user is logged in before the encryption app is 
-	// enabled)
-	OCP\User::logout();
-	
-	header( "Location: " . OC::$WEBROOT.'/' );
-	
-	exit();
-
-}
+//$session = new \OCA\Encryption\Session( $view );
+//
+//if (
+//	! $session->getPrivateKey( \OCP\USER::getUser() )
+//	&& OCP\User::isLoggedIn()
+//	&& OCA\Encryption\Crypt::mode() == 'server'
+//) {
+//
+//	// Force the user to log-in again if the encryption key isn't unlocked
+//	// (happens when a user is logged in before the encryption app is
+//	// enabled)
+//	OCP\User::logout();
+//
+//	header( "Location: " . OC::$WEBROOT.'/' );
+//
+//	exit();
+//
+//}
 
 // Register settings scripts
 OCP\App::registerAdmin( 'files_encryption', 'settings-admin' );

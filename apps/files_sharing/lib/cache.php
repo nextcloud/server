@@ -44,9 +44,9 @@ class Shared_Cache extends Cache {
 		$source = \OC_Share_Backend_File::getSource($target);
 		if (isset($source['path']) && isset($source['fileOwner'])) {
 			\OC\Files\Filesystem::initMountPoints($source['fileOwner']);
-			$mount = \OC\Files\Mount::findByNumericId($source['storage']);
-			if ($mount) {
-				$fullPath = $mount->getMountPoint().$source['path'];
+			$mount = \OC\Files\Filesystem::getMountByNumericId($source['storage']);
+			if (is_array($mount)) {
+				$fullPath = $mount[key($mount)]->getMountPoint().$source['path'];
 				list($storage, $internalPath) = \OC\Files\Filesystem::resolvePath($fullPath);
 				if ($storage) {
 					$this->files[$target] = $internalPath;
@@ -58,6 +58,14 @@ class Shared_Cache extends Cache {
 			}
 		}
 		return false;
+	}
+
+	public function getNumericStorageId() {
+		if (isset($this->numericId)) {
+			return $this->numericId;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -182,12 +190,10 @@ class Shared_Cache extends Cache {
 	 */
 	public function move($source, $target) {
 		if ($cache = $this->getSourceCache($source)) {
-			$targetPath = \OC_Share_Backend_File::getSourcePath(dirname($target));
-			if ($targetPath) {
-				$targetPath .= '/' . basename($target);
-				$cache->move($this->files[$source], $targetPath);
+			$file = \OC_Share_Backend_File::getSource($target);
+			if ($file && isset($file['path'])) {
+				$cache->move($this->files[$source], $file['path']);
 			}
-
 		}
 	}
 
@@ -267,6 +273,19 @@ class Shared_Cache extends Cache {
 	 */
 	public function getAll() {
 		return \OCP\Share::getItemsSharedWith('file', \OC_Share_Backend_File::FORMAT_GET_ALL);
+	}
+
+	/**
+	 * find a folder in the cache which has not been fully scanned
+	 *
+	 * If multiply incomplete folders are in the cache, the one with the highest id will be returned,
+	 * use the one with the highest id gives the best result with the background scanner, since that is most
+	 * likely the folder where we stopped scanning previously
+	 *
+	 * @return string|bool the path of the folder or false when no folder matched
+	 */
+	public function getIncomplete() {
+		return false;
 	}
 
 }

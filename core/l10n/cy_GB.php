@@ -91,8 +91,6 @@
 "The link to reset your password has been sent to your email.<br>If you do not receive it within a reasonable amount of time, check your spam/junk folders.<br>If it is not there ask your local administrator ." => "Anfonwyd y ddolen i ailosod eich cyfrinair i'ch cyfeiriad ebost.<br>Os nad yw'n cyrraedd o fewn amser rhesymol gwiriwch eich plygell spam/sothach.<br>Os nad yw yno, cysylltwch â'ch gweinyddwr lleol.",
 "Request failed!<br>Did you make sure your email/username was right?" => "Methodd y cais!<br>Gwiriwch eich enw defnyddiwr ac ebost.",
 "You will receive a link to reset your password via Email." => "Byddwch yn derbyn dolen drwy e-bost i ailosod eich cyfrinair.",
-"Reset email send." => "Ailosod anfon e-bost.",
-"Request failed!" => "Methodd y cais!",
 "Username" => "Enw defnyddiwr",
 "Request reset" => "Gwneud cais i ailosod",
 "Your password was reset" => "Ailosodwyd eich cyfrinair",

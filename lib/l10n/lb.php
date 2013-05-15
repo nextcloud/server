@@ -2,6 +2,8 @@
 "Help" => "Hëllef",
 "Personal" => "Perséinlech",
 "Settings" => "Astellungen",
+"Users" => "Benotzer",
+"Apps" => "Applicatiounen",
 "Admin" => "Admin",
 "Authentication error" => "Authentifikatioun's Fehler",
 "Files" => "Dateien",

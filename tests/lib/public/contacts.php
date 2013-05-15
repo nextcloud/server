@@ -19,8 +19,6 @@
  * License along with this library.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-OC::autoload('OCP\Contacts');
-
 class Test_Contacts extends PHPUnit_Framework_TestCase
 {
 

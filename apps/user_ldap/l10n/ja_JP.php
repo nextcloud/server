@@ -70,6 +70,6 @@
 "Email Field" => "メールフィールド",
 "User Home Folder Naming Rule" => "ユーザのホームフォルダ命名規則",
 "Leave empty for user name (default). Otherwise, specify an LDAP/AD attribute." => "ユーザ名を空のままにしてください（デフォルト）。そうでない場合は、LDAPもしくはADの属性を指定してください。",
-"Test Configuration" => "テスト設定",
+"Test Configuration" => "設定をテスト",
 "Help" => "ヘルプ"
 );

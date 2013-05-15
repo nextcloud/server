@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Davor Kustec <dkustec@gmail.com>, 2011, 2012.
-# Domagoj Delimar <transifex.net@domdelimar.com>, 2012.
-#   <franz@franz-net.info>, 2012.
-# Thomas Silađi <thomas.siladi@net.hr>, 2011, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -77,7 +73,7 @@ msgstr ""
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "Nema odabranih kategorija za brisanje."
+msgstr "Niti jedna kategorija nije odabrana za brisanje."
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -247,7 +243,7 @@ msgstr ""
 #: js/oc-vcategories.js:199 js/share.js:136 js/share.js:143 js/share.js:577
 #: js/share.js:589
 msgid "Error"
-msgstr "Pogreška"
+msgstr "Greška"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
@@ -297,7 +293,7 @@ msgstr "Djeli preko link-a"
 msgid "Password protect"
 msgstr "Zaštiti lozinkom"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Lozinka"
 
@@ -400,24 +396,27 @@ msgstr "ownCloud resetiranje lozinke"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Koristite ovaj link da biste poništili lozinku: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Primit ćete link kako biste poništili zaporku putem e-maila."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr ""
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "Korisničko ime"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Zahtjev za resetiranjem"
 
@@ -517,43 +516,43 @@ msgstr "Stvori <strong>administratorski račun</strong>"
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr "Dodatno"
+msgstr "Napredno"
 
 #: templates/installation.php:64
 msgid "Data folder"
 msgstr "Mapa baze podataka"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Konfiguriraj bazu podataka"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "će se koristiti"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Korisnik baze podataka"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Lozinka baze podataka"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Ime baze podataka"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Database tablespace"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Poslužitelj baze podataka"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Završi postavljanje"
 
@@ -561,37 +560,42 @@ msgstr "Završi postavljanje"
 msgid "web services under your control"
 msgstr "web usluge pod vašom kontrolom"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "Odjava"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr ""
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr ""
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr ""
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Izgubili ste lozinku?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "zapamtiti"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Prijava"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr ""
 

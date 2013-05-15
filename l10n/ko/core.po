@@ -3,17 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <aoiob4305@gmail.com>, 2013.
-# 남자사람  <cessnagi@gmail.com>, 2012.
-#   <limonade83@gmail.com>, 2012.
-# Park Shinjo <kde@peremen.name>, 2013.
-# Shinjo Park <kde@peremen.name>, 2012.
+# Shinjo Park <kde@peremen.name>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Korean (http://www.transifex.com/projects/p/owncloud/language/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -57,7 +53,7 @@ msgstr "추가할 분류가 없습니까?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "분류가 이미 존재합니다: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -78,7 +74,7 @@ msgstr "책갈피에 %s을(를) 추가할 수 없었습니다."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "삭제할 분류를 선택하지 않았습니다."
+msgstr "삭제할 분류를 선택하지 않았습니다. "
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -298,7 +294,7 @@ msgstr "URL 링크로 공유"
 msgid "Password protect"
 msgstr "암호 보호"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "암호"
 
@@ -348,7 +344,7 @@ msgstr "접근 제어"
 
 #: js/share.js:325
 msgid "create"
-msgstr "만들기"
+msgstr "생성"
 
 #: js/share.js:328
 msgid "update"
@@ -401,24 +397,27 @@ msgstr "ownCloud 암호 재설정"
 msgid "Use the following link to reset your password: {link}"
 msgstr "다음 링크를 사용하여 암호를 재설정할 수 있습니다: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "이메일로 암호 재설정 링크를 보냈습니다."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "초기화 이메일을 보냈습니다."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "요청이 실패했습니다!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "사용자 이름"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "요청 초기화"
 
@@ -468,7 +467,7 @@ msgstr "클라우드를 찾을 수 없습니다"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "분류 편집"
+msgstr "분류 수정"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
@@ -481,11 +480,11 @@ msgstr "보안 경고"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "사용 중인 PHP 버전이 NULL 바이트 공격에 취약합니다 (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "ownCloud의 보안을 위하여 PHP 버전을 업데이트하십시오."
 
 #: templates/installation.php:32
 msgid ""
@@ -503,14 +502,14 @@ msgstr "안전한 난수 생성기를 사용하지 않으면 공격자가 암호
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr ".htaccess 파일이 처리되지 않아서 데이터 디렉터리와 파일을 인터넷에서 접근할 수 없을 수도 있습니다."
 
 #: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "서버를 올바르게 설정하는 방법을 알아보려면 <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">문서</a>를 참고하십시오.."
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
@@ -524,37 +523,37 @@ msgstr "고급"
 msgid "Data folder"
 msgstr "데이터 폴더"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "데이터베이스 설정"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "사용될 예정"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "데이터베이스 사용자"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "데이터베이스 암호"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "데이터베이스 이름"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "데이터베이스 테이블 공간"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "데이터베이스 호스트"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "설치 완료"
 
@@ -562,39 +561,44 @@ msgstr "설치 완료"
 msgid "web services under your control"
 msgstr "내가 관리하는 웹 서비스"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "로그아웃"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "자동 로그인이 거부되었습니다!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "최근에 암호를 변경하지 않았다면 계정이 탈취되었을 수도 있습니다!"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "계정의 안전을 위하여 암호를 변경하십시오."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "암호를 잊으셨습니까?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "기억하기"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "로그인"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
-msgstr ""
+msgstr "대체 "
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

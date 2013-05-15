@@ -48,8 +48,5 @@
 "%d months ago" => "%d თვის წინ",
 "last year" => "ბოლო წელს",
 "years ago" => "წლის წინ",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s ხელმისაწვდომია. მიიღეთ <a href=\"%s\">უფრო მეტი ინფორმაცია</a>",
-"up to date" => "განახლებულია",
-"updates check is disabled" => "განახლების ძებნა გათიშულია",
 "Could not find category \"%s\"" => "\"%s\" კატეგორიის მოძებნა ვერ მოხერხდა"
 );

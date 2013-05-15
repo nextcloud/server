@@ -3,16 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Jesse Jaara <jesse.jaara@gmail.com>, 2012.
-# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012-2013.
-#   <tehoratopato@gmail.com>, 2012.
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-27 02:17+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
+"Last-Translator: Jiri Grönroos <jiri.gronroos@iki.fi>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -24,12 +22,16 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Ei pystytä lataamaan listaa sovellusvarastosta (App Store)"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "Todennusvirhe"
+msgstr "Tunnistautumisvirhe"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr "Näyttönimesi on muutettu."
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr "Näyttönimen muuttaminen epäonnistui"
 
@@ -119,7 +121,7 @@ msgstr "Virhe sovellusta päivittäessä"
 msgid "Updated"
 msgstr "Päivitetty"
 
-#: js/personal.js:109
+#: js/personal.js:118
 msgid "Saving..."
 msgstr "Tallennetaan..."
 
@@ -135,16 +137,16 @@ msgstr "kumoa"
 msgid "Unable to remove user"
 msgstr "Käyttäjän poistaminen ei onnistunut"
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:88 templates/users.php:26 templates/users.php:78
+#: templates/users.php:103
 msgid "Groups"
 msgstr "Ryhmät"
 
-#: js/users.js:91 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
 msgstr "Ryhmän ylläpitäjä"
 
-#: js/users.js:111 templates/users.php:161
+#: js/users.js:111 templates/users.php:155
 msgid "Delete"
 msgstr "Poista"
 
@@ -164,7 +166,7 @@ msgstr "Virhe käyttäjää luotaessa"
 msgid "A valid password must be provided"
 msgstr ""
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
 msgstr "_kielen_nimi_"
 
@@ -315,19 +317,19 @@ msgstr "Loki"
 msgid "Log level"
 msgstr "Lokitaso"
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "Enemmän"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Less"
 msgstr "Vähemmän"
 
-#: templates/admin.php:231 templates/personal.php:102
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
 msgstr "Versio"
 
-#: templates/admin.php:234 templates/personal.php:105
+#: templates/admin.php:238 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -398,7 +400,7 @@ msgstr ""
 msgid "Show First Run Wizard again"
 msgstr "Näytä ensimmäisen käyttökerran avustaja uudelleen"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Salasana"
 
@@ -422,82 +424,70 @@ msgstr "Uusi salasana"
 msgid "Change password"
 msgstr "Vaihda salasana"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
 msgstr "Näyttönimi"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr "Näyttönimesi muutettiin"
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr "Näyttönimen muuttaminen epäonnistui"
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr "Muuta näyttönimeä"
+#: templates/personal.php:68
+msgid "Email"
+msgstr "Sähköpostiosoite"
 
 #: templates/personal.php:70
-msgid "Email"
-msgstr "Sähköposti"
-
-#: templates/personal.php:72
 msgid "Your email address"
 msgstr "Sähköpostiosoitteesi"
 
-#: templates/personal.php:73
+#: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
 msgstr "Anna sähköpostiosoitteesi, jotta unohdettu salasana on mahdollista palauttaa"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
 msgstr "Kieli"
 
-#: templates/personal.php:86
+#: templates/personal.php:89
 msgid "Help translate"
 msgstr "Auta kääntämisessä"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:93
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Käytä tätä osoitetta yhdistäessäsi ownCloudiisi tiedostonhallintaa käyttäen"
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
 msgstr "Kirjautumisnimi"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "Luo"
 
-#: templates/users.php:35
+#: templates/users.php:33
 msgid "Default Storage"
 msgstr "Oletustallennustila"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
 msgstr "Rajoittamaton"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:57 templates/users.php:148
 msgid "Other"
 msgstr "Muu"
 
-#: templates/users.php:84
+#: templates/users.php:82
 msgid "Storage"
 msgstr "Tallennustila"
 
-#: templates/users.php:95
+#: templates/users.php:93
 msgid "change display name"
 msgstr "vaihda näyttönimi"
 
-#: templates/users.php:99
+#: templates/users.php:97
 msgid "set new password"
 msgstr "aseta uusi salasana"
 
-#: templates/users.php:134
+#: templates/users.php:128
 msgid "Default"
 msgstr "Oletus"

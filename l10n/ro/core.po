@@ -3,18 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Claudiu  <claudiu@tanaselia.ro>, 2011, 2012.
-# Dimon Pockemon <>, 2012.
-# Dumitru Ursu <>, 2013.
-# Eugen Mihalache <eugemjj@gmail.com>, 2012.
-#   <g.ciprian@osn.ro>, 2012.
-#   <laur.cristescu@gmail.com>, 2012.
+# ripkid666 <ripkid666@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Romanian (http://www.transifex.com/projects/p/owncloud/language/ro/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +53,7 @@ msgstr "Nici o categorie de adăugat?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr ""
+msgstr "Această categorie deja există: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
@@ -164,7 +159,7 @@ msgstr "Decembrie"
 
 #: js/js.js:286
 msgid "Settings"
-msgstr "Configurări"
+msgstr "Setări"
 
 #: js/js.js:718
 msgid "seconds ago"
@@ -261,7 +256,7 @@ msgstr "Fișierul obligatoriu {file} nu este instalat!"
 
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
-msgstr ""
+msgstr "Partajat"
 
 #: js/share.js:90
 msgid "Share"
@@ -299,9 +294,9 @@ msgstr "Partajare cu legătură"
 msgid "Password protect"
 msgstr "Protejare cu parolă"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
-msgstr "Parola"
+msgstr "Parolă"
 
 #: js/share.js:173
 msgid "Email link to person"
@@ -388,11 +383,11 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr ""
+msgstr "Modernizarea a eșuat! <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">Te rugam sa raportezi problema aici.</a>."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
-msgstr ""
+msgstr "Modernizare reusita! Vei fii redirectionat!"
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
@@ -402,24 +397,27 @@ msgstr "Resetarea parolei ownCloud "
 msgid "Use the following link to reset your password: {link}"
 msgstr "Folosește următorul link pentru a reseta parola: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr "Linkul pentru resetarea parolei tale a fost trimis pe email. <br>Daca nu ai primit email-ul intr-un timp rezonabil, verifica folderul spam/junk. <br>Daca nu sunt acolo intreaba administratorul local."
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr "Cerere esuata!<br>Esti sigur ca email-ul/numele de utilizator sunt corecte?"
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Vei primi un mesaj prin care vei putea reseta parola via email"
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "Resetarea emailu-lui trimisa."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "Solicitarea nu a reusit"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
-msgstr "Utilizator"
+msgstr "Nume utilizator"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Cerere trimisă"
 
@@ -453,7 +451,7 @@ msgstr "Aplicații"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Administrator"
+msgstr "Admin"
 
 #: strings.php:9
 msgid "Help"
@@ -469,7 +467,7 @@ msgstr "Nu s-a găsit"
 
 #: templates/edit_categories_dialog.php:4
 msgid "Edit categories"
-msgstr "Editează categoriile"
+msgstr "Editează categorii"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
@@ -482,11 +480,11 @@ msgstr "Avertisment de securitate"
 
 #: templates/installation.php:25
 msgid "Your PHP version is vulnerable to the NULL Byte attack (CVE-2006-7243)"
-msgstr ""
+msgstr "Versiunea dvs. PHP este vulnerabil la acest atac un octet null  (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr ""
+msgstr "Vă rugăm să actualizați instalarea dvs. PHP pentru a utiliza ownCloud in siguranță."
 
 #: templates/installation.php:32
 msgid ""
@@ -504,14 +502,14 @@ msgstr "Fara generatorul pentru numere de securitate , un atacator poate afla pa
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr ""
+msgstr "Directorul de date și fișiere sunt, probabil, accesibile de pe Internet, deoarece .htaccess nu funcționează."
 
 #: templates/installation.php:40
 msgid ""
 "For information how to properly configure your server, please see the <a "
 "href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" "
 "target=\"_blank\">documentation</a>."
-msgstr ""
+msgstr "Pentru informatii despre configurarea corecta a serverului accesati pagina <a href=\"http://doc.owncloud.org/server/5.0/admin_manual/installation.html\" target=\"_blank\">Documentare</a>."
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
@@ -525,37 +523,37 @@ msgstr "Avansat"
 msgid "Data folder"
 msgstr "Director date"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Configurează baza de date"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "vor fi folosite"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Utilizatorul bazei de date"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Parola bazei de date"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Numele bazei de date"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Tabela de spațiu a bazei de date"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Bază date"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Finalizează instalarea"
 
@@ -563,39 +561,44 @@ msgstr "Finalizează instalarea"
 msgid "web services under your control"
 msgstr "servicii web controlate de tine"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "Ieșire"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Logare automata respinsa"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Daca nu schimbi parola cand de curand , contul tau poate fi conpromis"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Te rog schimba parola pentru ca, contul tau sa fie securizat din nou."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Ai uitat parola?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "amintește"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Autentificare"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
-msgstr ""
+msgstr "Conectări alternative"
 
 #: templates/part.pagenavi.php:3
 msgid "prev"

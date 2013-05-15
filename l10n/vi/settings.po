@@ -3,19 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <khanhnd@kenhgiaiphap.vn>, 2012.
-#   <mattheu.9x@gmail.com>, 2012.
-#   <mattheu_9x@yahoo.com>, 2012.
-# sao sang <saosangmo@yahoo.com>, 2013.
-# Son Nguyen <sonnghit@gmail.com>, 2012.
-# Sơn Nguyễn <sonnghit@gmail.com>, 2012.
-#   <vlinhd11@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:17+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Vietnamese (http://www.transifex.com/projects/p/owncloud/language/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -28,12 +21,16 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Không thể tải danh sách ứng dụng từ App Store"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
 msgstr "Lỗi xác thực"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr ""
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr "Không thể thay đổi tên hiển thị"
 
@@ -123,9 +120,9 @@ msgstr "Lỗi khi cập nhật ứng dụng"
 msgid "Updated"
 msgstr "Đã cập nhật"
 
-#: js/personal.js:109
+#: js/personal.js:118
 msgid "Saving..."
-msgstr "Đang tiến hành lưu ..."
+msgstr "Đang lưu..."
 
 #: js/users.js:43
 msgid "deleted"
@@ -139,16 +136,16 @@ msgstr "lùi lại"
 msgid "Unable to remove user"
 msgstr ""
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:88 templates/users.php:26 templates/users.php:78
+#: templates/users.php:103
 msgid "Groups"
 msgstr "Nhóm"
 
-#: js/users.js:91 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
 msgstr "Nhóm quản trị"
 
-#: js/users.js:111 templates/users.php:161
+#: js/users.js:111 templates/users.php:155
 msgid "Delete"
 msgstr "Xóa"
 
@@ -168,7 +165,7 @@ msgstr ""
 msgid "A valid password must be provided"
 msgstr ""
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
 msgstr "__Ngôn ngữ___"
 
@@ -238,59 +235,59 @@ msgstr ""
 
 #: templates/admin.php:92
 msgid "Cron"
-msgstr ""
+msgstr "Cron"
 
 #: templates/admin.php:101
 msgid "Execute one task with each page loaded"
-msgstr ""
+msgstr "Thực thi tác vụ mỗi khi trang được tải"
 
 #: templates/admin.php:111
 msgid ""
 "cron.php is registered at a webcron service. Call the cron.php page in the "
 "owncloud root once a minute over http."
-msgstr ""
+msgstr "cron.php đã được đăng ký tại một dịch vụ webcron. Gọi trang cron.php mỗi phút một lần thông qua giao thức http."
 
 #: templates/admin.php:121
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr ""
+msgstr "Sử dụng dịch vụ cron của hệ thống. Gọi tệp tin cron.php mỗi phút một lần."
 
 #: templates/admin.php:128
 msgid "Sharing"
-msgstr ""
+msgstr "Chia sẻ"
 
 #: templates/admin.php:134
 msgid "Enable Share API"
-msgstr ""
+msgstr "Bật chia sẻ API"
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr ""
+msgstr "Cho phép các ứng dụng sử dụng chia sẻ API"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr ""
+msgstr "Cho phép liên kết"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr ""
+msgstr "Cho phép người dùng chia sẻ công khai các mục bằng các liên kết"
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr ""
+msgstr "Cho phép chia sẻ lại"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr ""
+msgstr "Cho phép người dùng chia sẻ lại những mục đã được chia sẻ"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr ""
+msgstr "Cho phép người dùng chia sẻ với bất cứ ai"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr ""
+msgstr "Chỉ cho phép người dùng chia sẻ với những người dùng trong nhóm của họ"
 
 #: templates/admin.php:168
 msgid "Security"
@@ -313,25 +310,25 @@ msgstr ""
 
 #: templates/admin.php:195
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: templates/admin.php:196
 msgid "Log level"
 msgstr ""
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "hơn"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Less"
 msgstr "ít"
 
-#: templates/admin.php:231 templates/personal.php:102
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
 msgstr "Phiên bản"
 
-#: templates/admin.php:234 templates/personal.php:105
+#: templates/admin.php:238 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -402,7 +399,7 @@ msgstr "Nhận ứng dụng để đồng bộ file của bạn"
 msgid "Show First Run Wizard again"
 msgstr "Hiện lại việc chạy đồ thuật khởi đầu"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Mật khẩu"
 
@@ -420,88 +417,76 @@ msgstr "Mật khẩu cũ"
 
 #: templates/personal.php:42
 msgid "New password"
-msgstr "Mật khẩu mới "
+msgstr "Mật khẩu mới"
 
 #: templates/personal.php:44
 msgid "Change password"
 msgstr "Đổi mật khẩu"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
 msgstr "Tên hiển thị"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr "Tên hiển thị của bạn đã được thay đổi"
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr "Không thể thay đổi tên hiển thị của bạn"
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr "Thay đổi tên hiển thị"
-
-#: templates/personal.php:70
+#: templates/personal.php:68
 msgid "Email"
 msgstr "Email"
 
-#: templates/personal.php:72
+#: templates/personal.php:70
 msgid "Your email address"
 msgstr "Email của bạn"
 
-#: templates/personal.php:73
+#: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
 msgstr "Nhập địa chỉ email của bạn để khôi phục lại mật khẩu"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
 msgstr "Ngôn ngữ"
 
-#: templates/personal.php:86
+#: templates/personal.php:89
 msgid "Help translate"
 msgstr "Hỗ trợ dịch thuật"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:93
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Sử dụng địa chỉ này để kết nối ownCloud của bạn trong trình quản lý file của bạn"
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
 msgstr "Tên đăng nhập"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "Tạo"
 
-#: templates/users.php:35
+#: templates/users.php:33
 msgid "Default Storage"
 msgstr "Bộ nhớ mặc định"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
 msgstr "Không giới hạn"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:57 templates/users.php:148
 msgid "Other"
 msgstr "Khác"
 
-#: templates/users.php:84
+#: templates/users.php:82
 msgid "Storage"
 msgstr "Bộ nhớ"
 
-#: templates/users.php:95
+#: templates/users.php:93
 msgid "change display name"
 msgstr "Thay đổi tên hiển thị"
 
-#: templates/users.php:99
+#: templates/users.php:97
 msgid "set new password"
 msgstr "đặt mật khẩu mới"
 
-#: templates/users.php:134
+#: templates/users.php:128
 msgid "Default"
 msgstr "Mặc định"

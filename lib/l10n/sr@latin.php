@@ -3,6 +3,7 @@
 "Personal" => "Lično",
 "Settings" => "Podešavanja",
 "Users" => "Korisnici",
+"Apps" => "Programi",
 "Admin" => "Adninistracija",
 "Authentication error" => "Greška pri autentifikaciji",
 "Files" => "Fajlovi",

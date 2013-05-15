@@ -3,15 +3,16 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# ggam <ggam@brainleakage.com>, 2013
 # msoko <sokolovitch@yahoo.com>, 2013
 # iGerli <stefano@aerosoles.net>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-01 01:59+0200\n"
-"PO-Revision-Date: 2013-04-30 11:30+0000\n"
-"Last-Translator: iGerli <stefano@aerosoles.net>\n"
+"POT-Creation-Date: 2013-05-12 02:01+0200\n"
+"PO-Revision-Date: 2013-05-04 16:30+0000\n"
+"Last-Translator: ggam <ggam@brainleakage.com>\n"
 "Language-Team: Spanish (http://www.transifex.com/projects/p/owncloud/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,7 +46,7 @@ msgstr "El usuario %s ha compartido la carpeta \"%s\" contigo. Puedes descargarl
 
 #: ajax/vcategories/add.php:26 ajax/vcategories/edit.php:25
 msgid "Category type not provided."
-msgstr "Tipo de categoria no proporcionado."
+msgstr "Tipo de categoría no proporcionado."
 
 #: ajax/vcategories/add.php:30
 msgid "No category to add?"
@@ -54,19 +55,19 @@ msgstr "¿Ninguna categoría para añadir?"
 #: ajax/vcategories/add.php:37
 #, php-format
 msgid "This category already exists: %s"
-msgstr "Esta categoria ya existe: %s"
+msgstr "Ya existe esta categoría: %s"
 
 #: ajax/vcategories/addToFavorites.php:26 ajax/vcategories/delete.php:27
 #: ajax/vcategories/favorites.php:24
 #: ajax/vcategories/removeFromFavorites.php:26
 msgid "Object type not provided."
-msgstr "ipo de objeto no proporcionado."
+msgstr "Tipo de objeto no proporcionado."
 
 #: ajax/vcategories/addToFavorites.php:30
 #: ajax/vcategories/removeFromFavorites.php:30
 #, php-format
 msgid "%s ID not provided."
-msgstr "%s ID no proporcionado."
+msgstr "ID de %s no proporcionado."
 
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
@@ -196,7 +197,7 @@ msgstr "hace {days} días"
 
 #: js/js.js:726
 msgid "last month"
-msgstr "mes pasado"
+msgstr "el mes pasado"
 
 #: js/js.js:727
 msgid "{months} months ago"
@@ -208,7 +209,7 @@ msgstr "hace meses"
 
 #: js/js.js:729
 msgid "last year"
-msgstr "año pasado"
+msgstr "el año pasado"
 
 #: js/js.js:730
 msgid "years ago"
@@ -237,7 +238,7 @@ msgstr "No"
 #: js/oc-vcategories.js:5 js/oc-vcategories.js:85 js/oc-vcategories.js:102
 #: js/oc-vcategories.js:117 js/oc-vcategories.js:132 js/oc-vcategories.js:162
 msgid "The object type is not specified."
-msgstr "El tipo de objeto no se ha especificado."
+msgstr "No se ha especificado el tipo de objeto"
 
 #: js/oc-vcategories.js:14 js/oc-vcategories.js:80 js/oc-vcategories.js:95
 #: js/oc-vcategories.js:110 js/oc-vcategories.js:125 js/oc-vcategories.js:136
@@ -249,11 +250,11 @@ msgstr "Error"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr "El nombre de la app no se ha especificado."
+msgstr "No se ha especificado el nombre de la aplicación."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
-msgstr "El fichero  {file} requerido, no está instalado."
+msgstr "¡El fichero requerido {file} no está instalado!"
 
 #: js/share.js:30 js/share.js:45 js/share.js:87
 msgid "Shared"
@@ -317,7 +318,7 @@ msgstr "Fecha de caducidad"
 
 #: js/share.js:211
 msgid "Share via email:"
-msgstr "compartido via e-mail:"
+msgstr "Compartido por correo electrónico:"
 
 #: js/share.js:213
 msgid "No people found"
@@ -333,7 +334,7 @@ msgstr "Compartido en {item} con {user}"
 
 #: js/share.js:308
 msgid "Unshare"
-msgstr "No compartir"
+msgstr "Dejar de compartir"
 
 #: js/share.js:320
 msgid "can edit"
@@ -349,7 +350,7 @@ msgstr "crear"
 
 #: js/share.js:328
 msgid "update"
-msgstr "modificar"
+msgstr "actualizar"
 
 #: js/share.js:331
 msgid "delete"
@@ -384,7 +385,7 @@ msgid ""
 "The update was unsuccessful. Please report this issue to the <a "
 "href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">ownCloud "
 "community</a>."
-msgstr "La actualización ha fracasado. Por favor, informe este problema a la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">Comunidad de ownCloud</ a>."
+msgstr "La actualización ha fracasado. Por favor, informe de este problema a la <a href=\"https://github.com/owncloud/core/issues\" target=\"_blank\">Comunidad de ownCloud</ a>."
 
 #: js/update.js:18
 msgid "The update was successful. Redirecting you to ownCloud now."
@@ -392,7 +393,7 @@ msgstr "La actualización se ha realizado correctamente. Redireccionando a ownCl
 
 #: lostpassword/controller.php:48
 msgid "ownCloud password reset"
-msgstr "Reiniciar contraseña de ownCloud"
+msgstr "Restablecer contraseña de ownCloud"
 
 #: lostpassword/templates/email.php:2
 msgid "Use the following link to reset your password: {link}"
@@ -403,15 +404,15 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr "El enlace para restablecer la contraseña ha sido enviada a su correo electrónico. <br> Si no lo recibe en un plazo razonable de tiempo, revise su spam / carpetas no deseados. <br> Si no está allí pregunte a su administrador local."
+msgstr "El enlace para restablecer la contraseña ha sido enviada a su correo electrónico. <br> Si no lo recibe en un plazo razonable de tiempo, revise su carpeta de spam / correo no deseado. <br> Si no está allí, pregunte a su administrador local."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
-msgstr "Petición ha fallado! <br> ¿Usted asegúrese que su dirección de correo electrónico / nombre de usuario estaba justo?"
+msgstr "La petición ha fallado! <br> ¿Está seguro de que su dirección de correo electrónico o nombre de usuario era correcto?"
 
 #: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
-msgstr "Recibirás un enlace por correo electrónico para restablecer tu contraseña"
+msgstr "Recibirá un enlace por correo electrónico para restablecer su contraseña"
 
 #: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
 #: templates/login.php:19
@@ -424,7 +425,7 @@ msgstr "Solicitar restablecimiento"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
-msgstr "Tu contraseña se ha restablecido"
+msgstr "Su contraseña ha sido establecida"
 
 #: lostpassword/templates/resetpassword.php:5
 msgid "To login page"
@@ -485,7 +486,7 @@ msgstr "La versión de PHP es vulnerable al ataque de Byte NULL (CVE-2006-7243)"
 
 #: templates/installation.php:26
 msgid "Please update your PHP installation to use ownCloud securely."
-msgstr "Por favor, actualice su instalación de PHP para utilizar ownCloud en forma segura."
+msgstr "Por favor, actualice su instalación de PHP para utilizar ownCloud de manera segura."
 
 #: templates/installation.php:32
 msgid ""
@@ -497,13 +498,13 @@ msgstr "No está disponible un generador de números aleatorios seguro, por favo
 msgid ""
 "Without a secure random number generator an attacker may be able to predict "
 "password reset tokens and take over your account."
-msgstr "Sin un generador de números aleatorios seguro un atacante podría predecir los tokens de reinicio de su contraseña y tomar control de su cuenta."
+msgstr "Sin un generador de números aleatorios seguro, un atacante podría predecir los tokens de restablecimiento de contraseñas y tomar el control de su cuenta."
 
 #: templates/installation.php:39
 msgid ""
 "Your data directory and files are probably accessible from the internet "
 "because the .htaccess file does not work."
-msgstr "Su directorio de datos y sus archivos están probablemente accesibles a través de internet ya que el archivo .htaccess no está funcionando."
+msgstr "Probablemente su directorio de datos y sus archivos sean accesibles a través de internet ya que el archivo .htaccess no funciona."
 
 #: templates/installation.php:40
 msgid ""
@@ -514,7 +515,7 @@ msgstr "Para información sobre cómo configurar adecuadamente su servidor, por 
 
 #: templates/installation.php:44
 msgid "Create an <strong>admin account</strong>"
-msgstr "Crea una <strong>cuenta de administrador</strong>"
+msgstr "Crear una <strong>cuenta de administrador</strong>"
 
 #: templates/installation.php:62
 msgid "Advanced"
@@ -565,7 +566,7 @@ msgstr "Servicios web bajo su control"
 #: templates/layout.user.php:36
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr "%s esta disponible. Obtén mas información de como actualizar."
+msgstr "%s esta disponible. Obtener mas información de como actualizar."
 
 #: templates/layout.user.php:61
 msgid "Log out"
@@ -587,11 +588,11 @@ msgstr "Por favor cambie su contraseña para asegurar su cuenta nuevamente."
 
 #: templates/login.php:34
 msgid "Lost your password?"
-msgstr "¿Has perdido tu contraseña?"
+msgstr "¿Ha perdido su contraseña?"
 
 #: templates/login.php:39
 msgid "remember"
-msgstr "recuérdame"
+msgstr "recordarme"
 
 #: templates/login.php:41
 msgid "Log in"

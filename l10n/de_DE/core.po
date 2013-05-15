@@ -4,14 +4,16 @@
 # 
 # Translators:
 # arkascha <foss@christian-reiner.info>, 2013
+# Marcel Kühlhorn <susefan93@gmx.de>, 2013
 # traductor <transifex-2.7.mensaje@spamgourmet.com>, 2013
+# Mirodin <blobbyjj@ymail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-01 01:59+0200\n"
-"PO-Revision-Date: 2013-04-30 16:00+0000\n"
-"Last-Translator: traductor <transifex-2.7.mensaje@spamgourmet.com>\n"
+"POT-Creation-Date: 2013-05-12 02:01+0200\n"
+"PO-Revision-Date: 2013-05-11 17:20+0000\n"
+"Last-Translator: Marcel Kühlhorn <susefan93@gmx.de>\n"
 "Language-Team: German (Germany) <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -212,7 +214,7 @@ msgstr "Letztes Jahr"
 
 #: js/js.js:730
 msgid "years ago"
-msgstr "Vor  Jahren"
+msgstr "Vor Jahren"
 
 #: js/oc-dialogs.js:117 js/oc-dialogs.js:247
 msgid "Ok"
@@ -269,7 +271,7 @@ msgstr "Fehler beim Teilen"
 
 #: js/share.js:136
 msgid "Error while unsharing"
-msgstr "Fehler bei der Aufhebung der Teilung"
+msgstr "Fehler beim Aufheben der Freigabe"
 
 #: js/share.js:143
 msgid "Error while changing permissions"
@@ -403,7 +405,7 @@ msgid ""
 "The link to reset your password has been sent to your email.<br>If you do "
 "not receive it within a reasonable amount of time, check your spam/junk "
 "folders.<br>If it is not there ask your local administrator ."
-msgstr "Der Link zum Rücksetzen Ihres Passworts ist an Ihre E-Mail-Adresse gesendet worde.<br>Wenn Sie ihn nicht innerhalb einer sinnvollen Zeitspanne erhalten prüfen Sie bitte Ihre Spam-Verzeichnisse.<br>Wenn er nicht dort ist fragen Sie Ihren lokalen Administrator."
+msgstr "Der Link zum Rücksetzen Ihres Passworts ist an Ihre E-Mail-Adresse gesendet worde.<br>Wenn Sie ihn nicht innerhalb einer vernünftigen Zeitspanne erhalten, prüfen Sie bitte Ihre Spam-Verzeichnisse.<br>Wenn er nicht dort ist, fragen Sie Ihren lokalen Administrator."
 
 #: lostpassword/templates/lostpassword.php:12
 msgid "Request failed!<br>Did you make sure your email/username was right?"
@@ -420,7 +422,7 @@ msgstr "Benutzername"
 
 #: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
-msgstr "Zurücksetzung beantragen"
+msgstr "Zurücksetzung anfordern"
 
 #: lostpassword/templates/resetpassword.php:4
 msgid "Your password was reset"
@@ -565,7 +567,7 @@ msgstr "Web-Services unter Ihrer Kontrolle"
 #: templates/layout.user.php:36
 #, php-format
 msgid "%s is available. Get more information on how to update."
-msgstr "%s ist nicht verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein."
+msgstr "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein."
 
 #: templates/layout.user.php:61
 msgid "Log out"
@@ -573,7 +575,7 @@ msgstr "Abmelden"
 
 #: templates/login.php:9
 msgid "Automatic logon rejected!"
-msgstr "Automatische Anmeldung verweigert."
+msgstr "Automatische Anmeldung verweigert!"
 
 #: templates/login.php:10
 msgid ""

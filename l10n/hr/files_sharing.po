@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Croatian (http://www.transifex.com/projects/p/owncloud/language/hr/)\n"
 "MIME-Version: 1.0\n"
@@ -19,11 +19,11 @@ msgstr ""
 
 #: templates/authenticate.php:4
 msgid "Password"
-msgstr ""
+msgstr "Lozinka"
 
 #: templates/authenticate.php:6
 msgid "Submit"
-msgstr ""
+msgstr "Pošalji"
 
 #: templates/public.php:10
 #, php-format
@@ -37,7 +37,7 @@ msgstr ""
 
 #: templates/public.php:19 templates/public.php:43
 msgid "Download"
-msgstr ""
+msgstr "Preuzimanje"
 
 #: templates/public.php:40
 msgid "No preview available for"
@@ -45,4 +45,4 @@ msgstr ""
 
 #: templates/public.php:50
 msgid "web services under your control"
-msgstr ""
+msgstr "web usluge pod vašom kontrolom"

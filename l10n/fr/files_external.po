@@ -3,15 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <nicolas@shivaserv.fr>, 2012.
-# Romain DEP. <rom1dep@gmail.com>, 2012.
-#  <zrk951@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:29+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/owncloud/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -40,18 +37,25 @@ msgstr "Veuillez fournir une clé d'application (app key) ainsi qu'un mot de pas
 msgid "Error configuring Google Drive storage"
 msgstr "Erreur lors de la configuration du support de stockage Google Drive"
 
-#: lib/config.php:424
+#: lib/config.php:431
 msgid ""
 "<b>Warning:</b> \"smbclient\" is not installed. Mounting of CIFS/SMB shares "
 "is not possible. Please ask your system administrator to install it."
 msgstr "<b>Attention : </b> \"smbclient\" n'est pas installé. Le montage des partages CIFS/SMB n'est pas disponible. Contactez votre administrateur système pour l'installer."
 
-#: lib/config.php:427
+#: lib/config.php:434
 msgid ""
 "<b>Warning:</b> The FTP support in PHP is not enabled or installed. Mounting"
 " of FTP shares is not possible. Please ask your system administrator to "
 "install it."
 msgstr "<b>Attention : </b> Le support FTP de PHP n'est pas activé ou installé. Le montage des partages FTP n'est pas disponible. Contactez votre administrateur système pour l'installer."
+
+#: lib/config.php:437
+msgid ""
+"<b>Warning:</b> The Curl support in PHP is not enabled or installed. "
+"Mounting of ownCloud / WebDAV or GoogleDrive is not possible. Please ask "
+"your system administrator to install it."
+msgstr "<b>Attention :</b> Le support de Curl n'est pas activé ou installé dans PHP. Le montage de ownCloud / WebDAV ou GoogleDrive n'est pas possible. Contactez votre administrateur système pour l'installer."
 
 #: templates/settings.php:3
 msgid "External Storage"
