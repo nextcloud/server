@@ -222,7 +222,10 @@ class Filesystem {
 			return false;
 		}
 		self::$defaultInstance = new View($root);
-		self::$mounts = new Mount\Manager();
+
+		if(!self::$mounts) {
+			self::$mounts = new Mount\Manager();
+		}
 
 		//load custom mount config
 		self::initMountPoints($user);
