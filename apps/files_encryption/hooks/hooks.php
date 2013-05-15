@@ -169,33 +169,6 @@ class Hooks {
 		}
 	
 	}
-	
-	/**
-	 * @brief update the encryption key of the file uploaded by the client
-	 */
-	public static function updateKeyfile( $params ) {
-	
-		if ( Crypt::mode() == 'client' ) {
-			
-			if ( isset( $params['properties']['key'] ) ) {
-				
-				$view = new \OC_FilesystemView( '/' );
-				$userId = \OCP\User::getUser();
-				
-				Keymanager::setFileKey( $view, $params['path'], $userId, $params['properties']['key'] );
-				
-			} else {
-				
-				\OC_Log::write( 
-					'Encryption library', "Client side encryption is enabled but the client doesn't provide a encryption key for the file!"
-					, \OC_Log::ERROR 
-				);
-				
-			}
-			
-		}
-		
-	}
 
 	/*
 	 * @brief check if files can be encrypted to every user.
@@ -426,17 +399,6 @@ class Hooks {
 	}
 	
 	/**
-	 * @brief 
-	 */
-	public static function postUnshareAll( $params ) {
-
-		// NOTE: It appears that this is never called for files, so 
-		// we may not need to implement it
-		
-	}
-
-
-    /**
      * @brief after a file is renamed, rename its keyfile and share-keys also fix the file size and fix also the sharing
      * @param array with oldpath and newpath
      *
