@@ -48,6 +48,7 @@
 			</p>
 		<?php endif; ?>
 		<br />
+<!--
 		<p>
 				<label for="encryptAll"><?php p( $l->t( "Scan for unencrypted files and encrypt them" ) ); ?></label>
 				<br />
@@ -59,6 +60,6 @@
 				<div id="encryptAllSuccess"><?php p( $l->t( 'Scan complete' ) );?></div>
 				<div id="encryptAllError"><?php p( $l->t( 'Unable to scan and encrypt files' ) );?></div>
 		</p>
-		
+-->
 	</fieldset>
 </form>

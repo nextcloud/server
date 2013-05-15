@@ -1310,4 +1310,38 @@ class Util {
 		return $this->recoveryKeyId;
 	}
 
+	/**
+	 * @brief add recovery key to all encrypted files
+	 */
+	public function addRecoveryKeys($path = '/') {
+		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath.$path);
+		foreach ($dirContent as $item) {
+			$filePath = substr($item['path'], 25);
+			if ($item['type'] == 'dir') {
+				$this->addRecoveryKey($filePath.'/');
+			} else {
+				$session = new Session(new \OC_FilesystemView('/'));
+				$sharingEnabled = \OCP\Share::isEnabled();
+				$file = substr($filePath, 0, -4);
+				$usersSharing = $this->getSharingUsersArray($sharingEnabled, $file);
+				$this->setSharedFileKeyfiles( $session, $usersSharing, $file );
+			}
+		}
+	}
+
+		/**
+	 * @brief remove recovery key to all encrypted files
+	 */
+	public function removeRecoveryKeys($path = '/') {
+		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath.$path);
+		foreach ($dirContent as $item) {
+			$filePath = substr($item['path'], 25);
+			if ($item['type'] == 'dir') {
+				$this->removeRecoveryKeys($filePath.'/');
+			} else {
+				$file = substr($filePath, 0, -4);
+				$this->view->unlink($this->shareKeysPath.'/'.$file.'.'.$this->recoveryKeyId.'.shareKey');
+			}
+		}
+	}
 }

@@ -24,6 +24,12 @@ if (
 	
 	// Save recovery preference to DB
 	$return = $util->setRecoveryForUser( $_POST['userEnableRecovery'] );
+
+	if ($_POST['userEnableRecovery'] == "1") {
+		$util->addRecoveryKeys();
+	} else {
+		$util->removeRecoveryKeys();
+	}
 	
 } else {
 
