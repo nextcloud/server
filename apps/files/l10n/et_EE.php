@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Ei saa liigutada faili %s - samanimeline fail on juba olemas",
 "Could not move %s" => "%s liigutamine ebaõnnestus",
-"Unable to rename file" => "Faili ümbernimetamine ebaõnnestus",
 "No file was uploaded. Unknown error" => "Ühtegi faili ei laetud üles. Tundmatu viga",
 "There is no error, the file uploaded with success" => "Ühtegi tõrget polnud, fail on üles laetud",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Üleslaetava faili suurus ületab php.ini poolt määratud upload_max_filesize suuruse",
@@ -47,6 +46,7 @@
 "{count} folders" => "{count} kausta",
 "1 file" => "1 fail",
 "{count} files" => "{count} faili",
+"Unable to rename file" => "Faili ümbernimetamine ebaõnnestus",
 "Upload" => "Lae üles",
 "File handling" => "Failide käsitlemine",
 "Maximum upload size" => "Maksimaalne üleslaadimise suurus",

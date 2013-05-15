@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-29 01:58+0200\n"
-"PO-Revision-Date: 2013-04-28 09:00+0000\n"
+"POT-Creation-Date: 2013-05-12 02:02+0200\n"
+"PO-Revision-Date: 2013-05-11 20:00+0000\n"
 "Last-Translator: mbouzada <mbouzada@gmail.com>\n"
 "Language-Team: Galician (http://www.transifex.com/projects/p/owncloud/language/gl/)\n"
 "MIME-Version: 1.0\n"
@@ -125,44 +125,44 @@ msgstr "Actualizado"
 msgid "Saving..."
 msgstr "Gardando..."
 
-#: js/users.js:43
+#: js/users.js:47
 msgid "deleted"
 msgstr "eliminado"
 
-#: js/users.js:43
+#: js/users.js:47
 msgid "undo"
 msgstr "desfacer"
 
-#: js/users.js:75
+#: js/users.js:79
 msgid "Unable to remove user"
 msgstr "Non é posíbel retirar o usuario"
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:78
+#: js/users.js:92 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
 msgid "Groups"
 msgstr "Grupos"
 
-#: js/users.js:91 templates/users.php:80 templates/users.php:115
+#: js/users.js:95 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
 msgstr "Grupo Admin"
 
-#: js/users.js:111 templates/users.php:155
+#: js/users.js:115 templates/users.php:155
 msgid "Delete"
 msgstr "Eliminar"
 
-#: js/users.js:262
+#: js/users.js:269
 msgid "add group"
 msgstr "engadir un grupo"
 
-#: js/users.js:414
+#: js/users.js:420
 msgid "A valid username must be provided"
 msgstr "Debe fornecer un nome de usuario"
 
-#: js/users.js:415 js/users.js:421 js/users.js:436
+#: js/users.js:421 js/users.js:427 js/users.js:442
 msgid "Error creating user"
 msgstr "Produciuse un erro ao crear o usuario"
 
-#: js/users.js:420
+#: js/users.js:426
 msgid "A valid password must be provided"
 msgstr "Debe fornecer un contrasinal"
 
@@ -252,7 +252,7 @@ msgstr "cron.php está rexistrado nun servizo de WebCron. Chame á página cron.
 msgid ""
 "Use systems cron service. Call the cron.php file in the owncloud folder via "
 "a system cronjob once a minute."
-msgstr "Use o servizo de sistema cron. Chame ao ficheiro cron.php no catfaol owncloud a través dun sistema de cronjob unna vez por minuto."
+msgstr "Use o servizo de sistema cron. Chame ao ficheiro cron.php no cartafol owncloud a través dun sistema de cronjob unha vez por minuto."
 
 #: templates/admin.php:128
 msgid "Sharing"

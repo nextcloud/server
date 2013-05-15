@@ -29,8 +29,7 @@ $commonlangcodes = array(
 
 $languageNames=include 'languageCodes.php';
 $languages=array();
-// Initialize array, so we can substitue later with our in $commonlangcodes specified order
-$commonlanguages = array_fill(0, count($commonlangcodes), "");
+$commonlanguages = array();
 foreach($languageCodes as $lang) {
 	$l=OC_L10N::get('settings', $lang);
 	if(substr($l->t('__language_name__'), 0, 1)!='_') {//first check if the language name is in the translation file
@@ -51,6 +50,8 @@ foreach($languageCodes as $lang) {
 		$languages[]=$ln;
 	}
 }
+
+ksort($commonlanguages);
 
 // sort now by displayed language not the iso-code
 usort( $languages, function ($a, $b) {

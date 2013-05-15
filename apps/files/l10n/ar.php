@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "فشل في نقل الملف %s - يوجد ملف بنفس هذا الاسم",
 "Could not move %s" => "فشل في نقل %s",
-"Unable to rename file" => "فشل في اعادة تسمية الملف",
 "No file was uploaded. Unknown error" => "لم يتم رفع أي ملف , خطأ غير معروف",
 "There is no error, the file uploaded with success" => "تم ترفيع الملفات بنجاح.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "حجم الملف المرفوع تجاوز قيمة  upload_max_filesize الموجودة في ملف php.ini ",
@@ -45,6 +44,7 @@
 "{count} folders" => "{count} مجلدات",
 "1 file" => "ملف واحد",
 "{count} files" => "{count} ملفات",
+"Unable to rename file" => "فشل في اعادة تسمية الملف",
 "Upload" => "رفع",
 "File handling" => "التعامل مع الملف",
 "Maximum upload size" => "الحد الأقصى لحجم الملفات التي يمكن رفعها",

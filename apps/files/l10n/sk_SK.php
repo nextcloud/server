@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nie je možné presunúť %s - súbor s týmto menom už existuje",
 "Could not move %s" => "Nie je možné presunúť %s",
-"Unable to rename file" => "Nemožno premenovať súbor",
 "No file was uploaded. Unknown error" => "Žiaden súbor nebol odoslaný. Neznáma chyba",
 "There is no error, the file uploaded with success" => "Nenastala žiadna chyba, súbor bol úspešne nahraný",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Nahraný súbor predčil  konfiguračnú direktívu upload_max_filesize v súbore php.ini:",
@@ -47,6 +46,7 @@
 "{count} folders" => "{count} priečinkov",
 "1 file" => "1 súbor",
 "{count} files" => "{count} súborov",
+"Unable to rename file" => "Nemožno premenovať súbor",
 "Upload" => "Odoslať",
 "File handling" => "Nastavenie správania sa k súborom",
 "Maximum upload size" => "Maximálna veľkosť odosielaného súboru",

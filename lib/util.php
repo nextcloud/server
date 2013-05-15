@@ -67,6 +67,7 @@ class OC_Util {
 	public static function tearDownFS() {
 		\OC\Files\Filesystem::tearDown();
 		self::$fsSetup=false;
+        self::$rootMounted=false;
 	}
 
 	/**
@@ -248,7 +249,7 @@ class OC_Util {
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart=true;
 		}
-		if(!function_exists('imagepng')) {
+		if(!extension_loaded('gd') || !function_exists('gd_info')) {
 			$errors[]=array('error'=>'PHP module GD is not installed.',
 				'hint'=>'Please ask your server administrator to install the module.');
 			$web_server_restart=true;

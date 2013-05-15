@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Не могу да преместим %s – датотека с овим именом већ постоји",
 "Could not move %s" => "Не могу да преместим %s",
-"Unable to rename file" => "Не могу да преименујем датотеку",
 "No file was uploaded. Unknown error" => "Ниједна датотека није отпремљена услед непознате грешке",
 "There is no error, the file uploaded with success" => "Није дошло до грешке. Датотека је успешно отпремљена.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Отпремљена датотека прелази смерницу upload_max_filesize у датотеци php.ini:",
@@ -47,6 +46,7 @@
 "{count} folders" => "{count} фасцикле/и",
 "1 file" => "1 датотека",
 "{count} files" => "{count} датотеке/а",
+"Unable to rename file" => "Не могу да преименујем датотеку",
 "Upload" => "Отпреми",
 "File handling" => "Управљање датотекама",
 "Maximum upload size" => "Највећа величина датотеке",

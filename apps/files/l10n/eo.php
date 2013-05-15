@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Ne eblis movi %s: dosiero kun ĉi tiu nomo jam ekzistas",
 "Could not move %s" => "Ne eblis movi %s",
-"Unable to rename file" => "Ne eblis alinomigi dosieron",
 "No file was uploaded. Unknown error" => "Neniu dosiero alŝutiĝis. Nekonata eraro.",
 "There is no error, the file uploaded with success" => "Ne estas eraro, la dosiero alŝutiĝis sukcese.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "La dosiero alŝutita superas la regulon upload_max_filesize el php.ini: ",
@@ -42,6 +41,7 @@
 "{count} folders" => "{count} dosierujoj",
 "1 file" => "1 dosiero",
 "{count} files" => "{count} dosierujoj",
+"Unable to rename file" => "Ne eblis alinomigi dosieron",
 "Upload" => "Alŝuti",
 "File handling" => "Dosieradministro",
 "Maximum upload size" => "Maksimuma alŝutogrando",

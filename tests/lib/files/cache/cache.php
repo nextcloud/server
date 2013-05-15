@@ -162,10 +162,11 @@ class Cache extends \PHPUnit_Framework_TestCase {
 		$file4 = 'folder/foo/1';
 		$file5 = 'folder/foo/2';
 		$data = array('size' => 100, 'mtime' => 50, 'mimetype' => 'foo/bar');
+		$folderData = array('size' => 100, 'mtime' => 50, 'mimetype' => 'httpd/unix-directory');
 
-		$this->cache->put($file1, $data);
-		$this->cache->put($file2, $data);
-		$this->cache->put($file3, $data);
+		$this->cache->put($file1, $folderData);
+		$this->cache->put($file2, $folderData);
+		$this->cache->put($file3, $folderData);
 		$this->cache->put($file4, $data);
 		$this->cache->put($file5, $data);
 
