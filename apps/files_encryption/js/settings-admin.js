@@ -5,6 +5,27 @@
  * See the COPYING-README file.
  */
 
+OC.msg={
+	startSaving:function(selector){
+		$(selector)
+			.html( t('settings', 'Saving...') )
+			.removeClass('success')
+			.removeClass('error')
+			.stop(true, true)
+			.show();
+	},
+	finishedSaving:function(selector, data){
+		if( data.status === "success" ){
+			 $(selector).html( data.data.message )
+				.addClass('success')
+				.stop(true, true)
+				.delay(3000)
+				.fadeOut(900);
+		}else{
+			$(selector).html( data.data.message ).addClass('error');
+		}
+	}
+};
 
 $(document).ready(function(){
 	// Trigger ajax on recoveryAdmin status change
@@ -34,10 +55,48 @@ $(document).ready(function(){
 					if (data.status == "error") {
 						alert("Couldn't switch recovery key mode, please check your recovery key password!");
 						$('input:radio[name="adminEnableRecovery"][value="'+oldStatus.toString()+'"]').attr("checked", "true");
+					} else {
+						if (recoveryStatus == "0") {
+							$('button:button[name="submitChangeRecoveryKey"]').attr("disabled", "true");
+							$('input:password[name="changeRecoveryPassword"]').attr("disabled", "true");
+							$('input:password[name="changeRecoveryPassword"]').val("");
+						} else {
+							$('input:password[name="changeRecoveryPassword"]').removeAttr("disabled");
+						}
 					}
 				}
 			);
 		}
 	);
+
+	// change password
+
+	$('input:password[name="changeRecoveryPassword"]').keyup(function(event) {
+		var oldRecoveryPassword = $('input:password[id="oldRecoveryPassword"]').val();
+		var newRecoveryPassword = $('input:password[id="newRecoveryPassword"]').val();
+		if (newRecoveryPassword != '' && oldRecoveryPassword != '' ) {
+			$('button:button[name="submitChangeRecoveryKey"]').removeAttr("disabled");
+		} else {
+			$('button:button[name="submitChangeRecoveryKey"]').attr("disabled", "true");
+		}
+	});
+
+
+	$('button:button[name="submitChangeRecoveryKey"]').click(function() {
+		var oldRecoveryPassword = $('input:password[id="oldRecoveryPassword"]').val();
+		var newRecoveryPassword = $('input:password[id="newRecoveryPassword"]').val();
+		OC.msg.startSaving('#encryption .msg');
+		$.post(
+		OC.filePath( 'files_encryption', 'ajax', 'changeRecoveryPassword.php' )
+			, { oldPassword: oldRecoveryPassword, newPassword: newRecoveryPassword }
+			,  function( data ) {
+				if (data.status == "error") {
+					OC.msg.finishedSaving('#encryption .msg', data);
+				} else {
+					OC.msg.finishedSaving('#encryption .msg', data);
+				}
+			}
+		);
+	});
 	
 })

@@ -1282,4 +1282,32 @@ class Util {
         return $this->userFilesDir;
     }
 
+	public function checkRecoveryPassword($password) {
+
+		$pathKey = '/owncloud_private_key/' . $this->recoveryKeyId . ".private.key";
+		$pathControlData = '/control-file/controlfile.enc';
+
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		$recoveryKey = $this->view->file_get_contents($pathKey);
+
+		$decryptedRecoveryKey = Crypt::symmetricDecryptFileContent($recoveryKey, $password);
+
+		$controlData = $this->view->file_get_contents($pathControlData);
+		$decryptedControlData = Crypt::keyDecrypt($controlData, $decryptedRecoveryKey);
+
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+		if ($decryptedControlData === 'ownCloud') {
+			return true;
+		} 
+		
+		return false;
+	}
+
+	public function getRecoveryKeyId() {
+		return $this->recoveryKeyId;
+	}
+
 }

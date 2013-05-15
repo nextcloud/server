@@ -32,6 +32,7 @@ $recoveryAdminEnabled = OC_Appconfig::getValue( 'files_encryption', 'recoveryAdm
 $recoveryEnabledForUser = $util->recoveryEnabledForUser();
 
 \OCP\Util::addscript( 'files_encryption', 'settings-personal' );
+\OCP\Util::addScript( 'settings', 'personal' );
 
 $tmpl->assign( 'recoveryEnabled', $recoveryAdminEnabled );
 $tmpl->assign( 'recoveryEnabledForUser', $recoveryEnabledForUser );
