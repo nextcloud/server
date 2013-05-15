@@ -131,8 +131,13 @@ class Proxy extends \OC_FileProxy {
 				$encData = Crypt::symmetricEncryptFileContent( $data, $plainKey );
 				
 				$sharingEnabled = \OCP\Share::isEnabled();
-				
-				$uniqueUserIds = $util->getSharingUsersArray( $sharingEnabled, $filePath, $userId );
+
+				// if file exists try to get sharing users
+				if($view->file_exists($path)) {
+					$uniqueUserIds = $util->getSharingUsersArray( $sharingEnabled, $filePath, $userId );
+				} else {
+					$uniqueUserIds[] = $userId;
+				}
 
 				// Fetch public keys for all users who will share the file
 				$publicKeys = Keymanager::getPublicKeys( $view, $uniqueUserIds );
