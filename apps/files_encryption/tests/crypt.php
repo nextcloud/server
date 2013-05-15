@@ -690,6 +690,38 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
         $view->unlink( $newFolder );
     }
 
+	function testRenameFolder() {
+
+		$filename = '/tmp-'.time();
+
+		$folder = '/folder';
+		$newFolder = '/newfolder';
+		$view = new \OC\Files\View('/' . $this->userId . '/files');
+		$view->mkdir($folder);
+
+		// Save long data as encrypted file using stream wrapper
+		$cryptedFile = file_put_contents( 'crypt://' . $folder . $filename, $this->dataLong );
+
+		// Test that data was successfully written
+		$this->assertTrue( is_int( $cryptedFile ) );
+
+		// Get file decrypted contents
+		$decrypt = file_get_contents( 'crypt://' . $folder . $filename );
+
+		$this->assertEquals( $this->dataLong, $decrypt );
+
+		// rename folder
+		$view->rename($folder, $newFolder);
+
+		// Get file decrypted contents
+		$newDecrypt = file_get_contents( 'crypt://' . $newFolder . $filename );
+
+		$this->assertEquals( $this->dataLong, $newDecrypt );
+
+		// tear down
+		$view->unlink( $newFolder );
+	}
+
 	function testChangePassphrase() {
 
 		$filename = 'tmp-'.time();
@@ -706,7 +738,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( $this->dataLong, $decrypt );
 
 		// change password
-		\OC_User::setPassword('admin', 'test');
+		\OC_User::setPassword($this->userId, 'test');
 
 		// relogin
 		$params['uid'] = $this->userId;
@@ -720,7 +752,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 
 		// tear down
 		// change password back
-		\OC_User::setPassword('admin', 'admin');
+		\OC_User::setPassword($this->userId, $this->pass);
 		$view = new \OC\Files\View('/' . $this->userId . '/files');
 		$view->unlink( $filename );
 	}
