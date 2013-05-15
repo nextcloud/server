@@ -90,7 +90,12 @@ function execute_tests {
 	rm -rf coverage-html-$1
 	mkdir coverage-html-$1
 	php -f enable_all.php
-	phpunit --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml --coverage-clover autotest-clover-$1.xml --coverage-html coverage-html-$1
+	if [ "$1" == "pgsql" ] ; then
+		# no coverage with pg - causes segfault on ci.tmit.eu - reason unknown
+		phpunit --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml
+	else
+		phpunit --configuration phpunit-autotest.xml --log-junit autotest-results-$1.xml --coverage-clover autotest-clover-$1.xml --coverage-html coverage-html-$1
+	fi
 }
 
 #

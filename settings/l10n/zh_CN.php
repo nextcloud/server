@@ -1,6 +1,7 @@
 <?php $TRANSLATIONS = array(
 "Unable to load list from App Store" => "无法从应用商店载入列表",
 "Authentication error" => "认证出错",
+"Your display name has been changed." => "您的显示名字已经改变",
 "Unable to change display name" => "无法修改显示名称",
 "Group already exists" => "已存在该组",
 "Unable to add group" => "无法添加组",

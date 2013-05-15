@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Kunde inte flytta %s - Det finns redan en fil med detta namn",
 "Could not move %s" => "Kan inte flytta %s",
-"Unable to rename file" => "Kan inte byta namn på filen",
 "No file was uploaded. Unknown error" => "Ingen fil uppladdad. Okänt fel",
 "There is no error, the file uploaded with success" => "Inga fel uppstod. Filen laddades upp utan problem.",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Den uppladdade filen överskrider upload_max_filesize direktivet php.ini:",
@@ -47,6 +46,7 @@
 "{count} folders" => "{count} mappar",
 "1 file" => "1 fil",
 "{count} files" => "{count} filer",
+"Unable to rename file" => "Kan inte byta namn på filen",
 "Upload" => "Ladda upp",
 "File handling" => "Filhantering",
 "Maximum upload size" => "Maximal storlek att ladda upp",

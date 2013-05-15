@@ -7,10 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-02 02:14+0200\n"
-"PO-Revision-Date: 2013-04-26 08:02+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: Uighur (http://www.transifex.com/projects/p/owncloud/language/ug/)\n"
+"POT-Creation-Date: 2013-05-12 02:01+0200\n"
+"PO-Revision-Date: 2013-05-04 11:50+0000\n"
+"Last-Translator: Abduqadir Abliz <sahran.ug@gmail.com>\n"
+"Language-Team: Uighur <uqkun@outlook.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -39,7 +39,7 @@ msgstr ""
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr ""
+msgstr "ئۆچۈرۈش مەغلۇپ بولدى"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"
@@ -92,7 +92,7 @@ msgstr ""
 
 #: templates/settings.php:36
 msgid "Host"
-msgstr ""
+msgstr "باش ئاپپارات"
 
 #: templates/settings.php:38
 msgid ""
@@ -124,7 +124,7 @@ msgstr ""
 
 #: templates/settings.php:46
 msgid "Password"
-msgstr ""
+msgstr "ئىم"
 
 #: templates/settings.php:49
 msgid "For anonymous access, leave DN and Password empty."
@@ -132,7 +132,7 @@ msgstr ""
 
 #: templates/settings.php:50
 msgid "User Login Filter"
-msgstr ""
+msgstr "ئىشلەتكۈچى تىزىمغا كىرىش سۈزگۈچى"
 
 #: templates/settings.php:53
 #, php-format
@@ -148,7 +148,7 @@ msgstr ""
 
 #: templates/settings.php:55
 msgid "User List Filter"
-msgstr ""
+msgstr "ئىشلەتكۈچى تىزىم سۈزگۈچى"
 
 #: templates/settings.php:58
 msgid "Defines the filter to apply, when retrieving users."
@@ -160,7 +160,7 @@ msgstr ""
 
 #: templates/settings.php:60
 msgid "Group Filter"
-msgstr ""
+msgstr "گۇرۇپپا سۈزگۈچ"
 
 #: templates/settings.php:63
 msgid "Defines the filter to apply, when retrieving groups."
@@ -172,11 +172,11 @@ msgstr ""
 
 #: templates/settings.php:68
 msgid "Connection Settings"
-msgstr ""
+msgstr "باغلىنىش تەڭشىكى"
 
 #: templates/settings.php:70
 msgid "Configuration Active"
-msgstr ""
+msgstr "سەپلىمە ئاكتىپ"
 
 #: templates/settings.php:70
 msgid "When unchecked, this configuration will be skipped."
@@ -184,7 +184,7 @@ msgstr ""
 
 #: templates/settings.php:71
 msgid "Port"
-msgstr ""
+msgstr "ئېغىز"
 
 #: templates/settings.php:72
 msgid "Backup (Replica) Host"
@@ -210,7 +210,7 @@ msgstr ""
 
 #: templates/settings.php:75
 msgid "Use TLS"
-msgstr ""
+msgstr "TLS ئىشلەت"
 
 #: templates/settings.php:75
 msgid "Do not use it additionally for LDAPS connections, it will fail."
@@ -330,4 +330,4 @@ msgstr ""
 
 #: templates/settings.php:99
 msgid "Help"
-msgstr ""
+msgstr "ياردەم"

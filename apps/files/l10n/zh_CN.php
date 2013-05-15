@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "无法移动 %s - 同名文件已存在",
 "Could not move %s" => "无法移动 %s",
-"Unable to rename file" => "无法重命名文件",
 "No file was uploaded. Unknown error" => "没有文件被上传。未知错误",
 "There is no error, the file uploaded with success" => "文件上传成功，没有错误发生",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "上传文件大小已超过php.ini中upload_max_filesize所规定的值",
@@ -47,6 +46,7 @@
 "{count} folders" => "{count} 个文件夹",
 "1 file" => "1 个文件",
 "{count} files" => "{count} 个文件",
+"Unable to rename file" => "无法重命名文件",
 "Upload" => "上传",
 "File handling" => "文件处理",
 "Maximum upload size" => "最大上传大小",

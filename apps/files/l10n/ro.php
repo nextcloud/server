@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Nu se poate de mutat %s - Fișier cu acest nume deja există",
 "Could not move %s" => "Nu s-a putut muta %s",
-"Unable to rename file" => "Nu s-a putut redenumi fișierul",
 "No file was uploaded. Unknown error" => "Nici un fișier nu a fost încărcat. Eroare necunoscută",
 "There is no error, the file uploaded with success" => "Nu a apărut nici o eroare, fișierul a fost încărcat cu succes",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Fisierul incarcat depaseste upload_max_filesize permisi in php.ini: ",
@@ -47,6 +46,7 @@
 "{count} folders" => "{count} foldare",
 "1 file" => "1 fisier",
 "{count} files" => "{count} fisiere",
+"Unable to rename file" => "Nu s-a putut redenumi fișierul",
 "Upload" => "Încărcare",
 "File handling" => "Manipulare fișiere",
 "Maximum upload size" => "Dimensiune maximă admisă la încărcare",

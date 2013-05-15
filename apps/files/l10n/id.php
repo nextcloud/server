@@ -1,7 +1,6 @@
 <?php $TRANSLATIONS = array(
 "Could not move %s - File with this name already exists" => "Tidak dapat memindahkan %s - Berkas dengan nama ini sudah ada",
 "Could not move %s" => "Tidak dapat memindahkan %s",
-"Unable to rename file" => "Tidak dapat mengubah nama berkas",
 "No file was uploaded. Unknown error" => "Tidak ada berkas yang diunggah. Galat tidak dikenal.",
 "There is no error, the file uploaded with success" => "Tidak ada galat, berkas sukses diunggah",
 "The uploaded file exceeds the upload_max_filesize directive in php.ini: " => "Berkas yang diunggah melampaui direktif upload_max_filesize pada php.ini",
@@ -47,6 +46,7 @@
 "{count} folders" => "{count} folder",
 "1 file" => "1 berkas",
 "{count} files" => "{count} berkas",
+"Unable to rename file" => "Tidak dapat mengubah nama berkas",
 "Upload" => "Unggah",
 "File handling" => "Penanganan berkas",
 "Maximum upload size" => "Ukuran pengunggahan maksimum",

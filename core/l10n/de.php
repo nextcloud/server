@@ -125,6 +125,7 @@
 "Database host" => "Datenbank-Host",
 "Finish setup" => "Installation abschließen",
 "web services under your control" => "Web-Services unter Deiner Kontrolle",
+"%s is available. Get more information on how to update." => "%s ist verfügbar. Holen Sie weitere Informationen zu Aktualisierungen ein.",
 "Log out" => "Abmelden",
 "Automatic logon rejected!" => "Automatischer Login zurückgewiesen!",
 "If you did not change your password recently, your account may be compromised!" => "Wenn Du Dein Passwort nicht vor kurzem geändert hast, könnte Dein\nAccount kompromittiert sein!",

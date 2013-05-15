@@ -4,13 +4,14 @@
 # 
 # Translators:
 # arkascha <foss@christian-reiner.info>, 2013
+# Mirodin <blobbyjj@ymail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-29 01:58+0200\n"
-"PO-Revision-Date: 2013-04-28 06:30+0000\n"
-"Last-Translator: arkascha <foss@christian-reiner.info>\n"
+"POT-Creation-Date: 2013-05-12 02:02+0200\n"
+"PO-Revision-Date: 2013-05-06 22:00+0000\n"
+"Last-Translator: Mirodin <blobbyjj@ymail.com>\n"
 "Language-Team: German <translations@owncloud.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -125,44 +126,44 @@ msgstr "Aktualisiert"
 msgid "Saving..."
 msgstr "Speichern..."
 
-#: js/users.js:43
+#: js/users.js:47
 msgid "deleted"
 msgstr "gelöscht"
 
-#: js/users.js:43
+#: js/users.js:47
 msgid "undo"
 msgstr "rückgängig machen"
 
-#: js/users.js:75
+#: js/users.js:79
 msgid "Unable to remove user"
 msgstr "Benutzer konnte nicht entfernt werden."
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:78
+#: js/users.js:92 templates/users.php:26 templates/users.php:78
 #: templates/users.php:103
 msgid "Groups"
 msgstr "Gruppen"
 
-#: js/users.js:91 templates/users.php:80 templates/users.php:115
+#: js/users.js:95 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
 msgstr "Gruppenadministrator"
 
-#: js/users.js:111 templates/users.php:155
+#: js/users.js:115 templates/users.php:155
 msgid "Delete"
 msgstr "Löschen"
 
-#: js/users.js:262
+#: js/users.js:269
 msgid "add group"
 msgstr "Gruppe hinzufügen"
 
-#: js/users.js:414
+#: js/users.js:420
 msgid "A valid username must be provided"
 msgstr "Es muss ein gültiger Benutzername angegeben werden"
 
-#: js/users.js:415 js/users.js:421 js/users.js:436
+#: js/users.js:421 js/users.js:427 js/users.js:442
 msgid "Error creating user"
 msgstr "Beim Anlegen des Benutzers ist ein Fehler aufgetreten"
 
-#: js/users.js:420
+#: js/users.js:426
 msgid "A valid password must be provided"
 msgstr "Es muss ein gültiges Passwort angegeben werden"
 
@@ -232,7 +233,7 @@ msgid ""
 "remote and sending of notification emails might also not work. We suggest to"
 " enable internet connection for this server if you want to have all features"
 " of ownCloud."
-msgstr "Dieser ownCloud Server hat keine funktionierende Netzwerkverbindung. Dies bedeutet das einige Funktionen wie das Einbinden von externen Speichern, Update-Benachrichtigungen oder die Installation von Drittanbieter-Apps nicht funktionieren. Der Fernzugriff auf Dateien und das Senden von Benachrichtigungsmails funktioniert eventuell ebenfalls nicht. Wir empfehlen die Netzwerkverbindung für diesen Server zu aktivieren wenn Du alle Funktionen von ownCloud nutzen möchtest."
+msgstr "Dieser ownCloud Server hat keine funktionierende Netzwerkverbindung. Dies bedeutet das einige Funktionen wie das Einbinden von externen Speichern, Update-Benachrichtigungen oder die Installation von Drittanbieter-Apps nicht funktionieren. Der Fernzugriff auf Dateien und das Senden von Benachrichtigungsmails funktioniert eventuell ebenfalls nicht. Wir empfehlen die Netzwerkverbindung für diesen Server zu aktivieren, wenn Du alle Funktionen von ownCloud nutzen möchtest."
 
 #: templates/admin.php:92
 msgid "Cron"
@@ -264,31 +265,31 @@ msgstr "Aktiviere Sharing-API"
 
 #: templates/admin.php:135
 msgid "Allow apps to use the Share API"
-msgstr "Erlaube Apps die Nutzung der Share-API"
+msgstr "Erlaubt Apps die Nutzung der Share-API"
 
 #: templates/admin.php:142
 msgid "Allow links"
-msgstr "Erlaube Links"
+msgstr "Erlaubt Links"
 
 #: templates/admin.php:143
 msgid "Allow users to share items to the public with links"
-msgstr "Erlaube Benutzern, Inhalte über öffentliche Links zu teilen"
+msgstr "Erlaubt Benutzern, Inhalte über öffentliche Links zu teilen"
 
 #: templates/admin.php:150
 msgid "Allow resharing"
-msgstr "Erlaube erneutes Teilen"
+msgstr "Erlaubt erneutes Teilen"
 
 #: templates/admin.php:151
 msgid "Allow users to share items shared with them again"
-msgstr "Erlaube Benutzern, mit ihnen geteilte Inhalte erneut zu teilen"
+msgstr "Erlaubt Benutzern, mit ihnen geteilte Inhalte erneut zu teilen"
 
 #: templates/admin.php:158
 msgid "Allow users to share with anyone"
-msgstr "Erlaube Benutzern, mit jedem zu teilen"
+msgstr "Erlaubt Benutzern, mit jedem zu teilen"
 
 #: templates/admin.php:161
 msgid "Allow users to only share with users in their groups"
-msgstr "Erlaube Benutzern, nur mit Benutzern ihrer Gruppe zu teilen"
+msgstr "Erlaubt Benutzern, nur mit Benutzern ihrer Gruppe zu teilen"
 
 #: templates/admin.php:168
 msgid "Security"
@@ -307,7 +308,7 @@ msgstr "Erzwingt die Verwendung einer verschlüsselten Verbindung"
 msgid ""
 "Please connect to this ownCloud instance via HTTPS to enable or disable the "
 "SSL enforcement."
-msgstr "Bitte verbinden Sie sich über eine HTTPS Verbindung mit diesem ownCloud Server um diese Einstellung zu ändern"
+msgstr "Bitte verbinde Dich über eine HTTPS Verbindung mit diesem ownCloud Server um diese Einstellung zu ändern"
 
 #: templates/admin.php:195
 msgid "Log"
