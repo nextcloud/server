@@ -59,7 +59,8 @@ class Hooks {
 		
 		\OC_FileProxy::$enabled = true;
 		
-		$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
+		//$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, $params['password'] );
+		$privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, "helloworld" );
 		
 		$session = new Session( $view );
 		

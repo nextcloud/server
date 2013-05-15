@@ -217,7 +217,7 @@ class Crypt {
          * @returns decrypted file
          */
 	public static function decrypt( $encryptedContent, $iv, $passphrase ) {
-	
+		
 		if ( $plainContent = openssl_decrypt( $encryptedContent, 'AES-128-CFB', $passphrase, false, $iv ) ) {
 
 			return $plainContent;
@@ -463,9 +463,13 @@ class Crypt {
          */
 	public static function keyDecrypt( $encryptedContent, $privatekey ) {
 	
-		openssl_private_decrypt( $encryptedContent, $plainContent, $privatekey );
+		$result = @openssl_private_decrypt( $encryptedContent, $plainContent, $privatekey );
 		
-		return $plainContent;
+		if ( $result ) {
+			return $plainContent;
+		}
+
+		return $result;
 	
 	}
 

@@ -15,16 +15,37 @@ use OCA\Encryption;
 
 $return = false;
 
+function checkPassword($view, $password, $recoveryKeyId) {
+	$pathKey = '/owncloud_private_key/'. $recoveryKeyId . ".private.key";
+	$pathControlData = '/control-file/controlfile.enc';
+
+	$proxyStatus = \OC_FileProxy::$enabled;
+    \OC_FileProxy::$enabled = false;
+
+	$recoveryKey = $view->file_get_contents( $pathKey );
+
+	$decryptedRecoveryKey = \OCA\Encryption\Crypt::symmetricDecryptFileContent($recoveryKey, $password);
+
+	$controlData = $view->file_get_contents($pathControlData);
+	$decryptedControlData = \OCA\Encryption\Crypt::keyDecrypt($controlData, $decryptedRecoveryKey);
+
+	\OC_FileProxy::$enabled = $proxyStatus;
+
+	if ($decryptedControlData === 'ownCloud') {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+
 // Enable recoveryAdmin
 
-if (
-	isset($_POST['adminEnableRecovery'])
-	&& 1 == $_POST['adminEnableRecovery']
-) {
+$recoveryKeyId = OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
+
+if (isset($_POST['adminEnableRecovery']) && $_POST['adminEnableRecovery'] == 1){
 
 	$view = new \OC\Files\View('/');
-
-	$recoveryKeyId = OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
 
 	if ($recoveryKeyId === null) {
 		$recoveryKeyId = 'recovery_' . substr(md5(time()), 0, 8);
@@ -38,8 +59,6 @@ if (
 	if (
 		(!$view->file_exists("/public-keys/" . $recoveryKeyId . ".public.key")
 		|| !$view->file_exists("/owncloud_private_key/" . $recoveryKeyId . ".private.key"))
-		&& isset($_POST['recoveryPassword'])
-		&& !empty($_POST['recoveryPassword'])
 	) {
 
 		$keypair = \OCA\Encryption\Crypt::createKeypair();
@@ -60,25 +79,39 @@ if (
 		// Save private key
 		$view->file_put_contents('/owncloud_private_key/' . $recoveryKeyId . '.private.key', $encryptedPrivateKey);
 
+		// create control file which let us check later on if the entered password was correct.
+		$encryptedControlData =  \OCA\Encryption\Crypt::keyEncrypt("ownCloud", $keypair['publicKey']);
+		if (!$view->is_dir('/control-file')) {
+			$view->mkdir('/control-file');
+		}
+		$view->file_put_contents('/control-file/controlfile.enc', $encryptedControlData);
+
 		\OC_FileProxy::$enabled = true;
 
+		// Set recoveryAdmin as enabled
+		OC_Appconfig::setValue('files_encryption', 'recoveryAdminEnabled', 1);
+
+		$return = true;
+
+	} else { // get recovery key and check the password
+		$return = checkPassword($view, $_POST['recoveryPassword'] ,$recoveryKeyId);
+		if ($return) {
+			OC_Appconfig::setValue('files_encryption', 'recoveryAdminEnabled', 1);
+		} 
 	}
-
-	// Set recoveryAdmin as enabled
-	OC_Appconfig::setValue('files_encryption', 'recoveryAdminEnabled', 1);
-
-	$return = true;
 
 // Disable recoveryAdmin
 } elseif (
 	isset($_POST['adminEnableRecovery'])
 	&& 0 == $_POST['adminEnableRecovery']
 ) {
+	$view = new \OC\Files\View('/');
+	$return = checkPassword($view, $_POST['recoveryPassword'], $recoveryKeyId);
 
-	// Set recoveryAdmin as enabled
+	if ($return) {
+	// Set recoveryAdmin as disabled
 	OC_Appconfig::setValue('files_encryption', 'recoveryAdminEnabled', 0);
-
-	$return = true;
+	}
 }
 
 // Return success or failure

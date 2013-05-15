@@ -77,3 +77,4 @@ data-autotest
 /tests/coverage*
 /tests/autoconfig*
 /tests/autotest*
+/l10n/.tx/

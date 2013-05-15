@@ -25,12 +25,16 @@ $(document).ready(function(){
 		function() {
 			
 			var recoveryStatus = $( this ).val();
+			var oldStatus = (1+parseInt(recoveryStatus)) % 2;
 			var recoveryPassword = $( '#recoveryPassword' ).val();
 			$.post(
 				OC.filePath( 'files_encryption', 'ajax', 'adminrecovery.php' )
 				, { adminEnableRecovery: recoveryStatus, recoveryPassword: recoveryPassword }
 				,  function( data ) {
-					alert( data );
+					if (data.status == "error") {
+						alert("Couldn't switch recovery key mode, please check your recovery key password!");
+						$('input:radio[name="adminEnableRecovery"][value="'+oldStatus.toString()+'"]').attr("checked", "true");
+					}
 				}
 			);
 		}
