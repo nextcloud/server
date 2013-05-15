@@ -8,33 +8,32 @@
 
 $(document).ready(function(){
 	// Trigger ajax on recoveryAdmin status change
+	var enabledStatus = $('#adminEnableRecovery').val();
+
+	$('input:password[name="recoveryPassword"]').keyup(function(event) {
+		var recoveryPassword = $( '#recoveryPassword' ).val();
+		var checkedButton = $('input:radio[name="adminEnableRecovery"]:checked').val();
+		var uncheckedValue = (1+parseInt(checkedButton)) % 2;
+		if (recoveryPassword != '' ) {
+			$('input:radio[name="adminEnableRecovery"][value="'+uncheckedValue.toString()+'"]').removeAttr("disabled");
+		} else {
+			$('input:radio[name="adminEnableRecovery"][value="'+uncheckedValue.toString()+'"]').attr("disabled", "true");
+		}
+	});
+
 	$( 'input:radio[name="adminEnableRecovery"]' ).change( 
 		function() {
 			
 			var recoveryStatus = $( this ).val();
 			var recoveryPassword = $( '#recoveryPassword' ).val();
-			
-			if ( '' == recoveryPassword ) {
-				
-				// FIXME: add proper OC notification
-				alert( 'You must set a recovery account password first' );
-				
-			} else {
-			
-				$.post( 
-					OC.filePath( 'files_encryption', 'ajax', 'adminrecovery.php' )
-					, { adminEnableRecovery: recoveryStatus, recoveryPassword: recoveryPassword }
-					,  function( data ) {
-						alert( data );
-					}
-				);
-			
-			}
+			$.post(
+				OC.filePath( 'files_encryption', 'ajax', 'adminrecovery.php' )
+				, { adminEnableRecovery: recoveryStatus, recoveryPassword: recoveryPassword }
+				,  function( data ) {
+					alert( data );
+				}
+			);
 		}
 	);
 	
-	function blackListChange(){
-		var blackList=$( '#encryption_blacklist' ).val().join( ',' );
-		OC.AppConfig.setValue( 'files_encryption', 'type_blacklist', blackList );
-	}
 })
