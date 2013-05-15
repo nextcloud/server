@@ -219,7 +219,7 @@ var OCdialogs = {
 		var entry_template = '<div data-entryname="*ENTRYNAME*" data-dcid="'+dialog_content_id+'" data="*ENTRYTYPE*"><img src="*MIMETYPEICON*" style="margin-right:1em;"><span class="filename">*NAME*</span><div style="float:right;margin-right:1em;">*LASTMODDATE*</div></div>';
 		var names = '';
 		$.each(r.data, function(index, a) {
-			names += entry_template.replace('*LASTMODDATE*', OC.mtime2date(a.mtime)).replace('*NAME*', a.name).replace('*MIMETYPEICON*', a.mimetype_icon).replace('*ENTRYNAME*', a.name).replace('*ENTRYTYPE*', a.type);
+			names += entry_template.replace('*LASTMODDATE*', OC.mtime2date(a.mtime)).replace('*NAME*', escapeHTML(a.name)).replace('*MIMETYPEICON*', a.mimetype_icon).replace('*ENTRYNAME*', escapeHTML(a.name)).replace('*ENTRYTYPE*', escapeHTML(a.type));
 		});
 		
 		$(dialog_content_id + ' #filelist').html(names).on('click', '[data="file"]', function() {
