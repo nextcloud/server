@@ -35,6 +35,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
 	function setUp() {
         // reset backend
+        \OC_User::clearBackends();
         \OC_User::useBackend('database');
 
         // set content for encrypting / decrypting in tests
@@ -58,17 +59,26 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
         $userHome = \OC_User::getHome($this->userId);
         $this->dataDir = str_replace('/'.$this->userId, '', $userHome);
 
-        \OC\Files\Filesystem::init($this->userId, '/');
-        \OC\Files\Filesystem::mount( 'OC_Filestorage_Local', array('datadir' => $this->dataDir), '/' );
+        // Filesystem related hooks
+        \OCA\Encryption\Helper::registerFilesystemHooks();
+
+        \OC_FileProxy::register(new OCA\Encryption\Proxy());
+
+        \OC_Util::tearDownFS();
+        \OC_User::setUserId('');
+        \OC\Files\Filesystem::setView(false);
+        \OC_Util::setupFS($this->userId);
+        \OC_User::setUserId($this->userId);
 
         $params['uid'] = $this->userId;
         $params['password'] = $this->pass;
         OCA\Encryption\Hooks::login($params);
+
 	}
 	
 	function tearDown() {
 
-	}
+    }
 
     function testGenerateKey() {
 	
@@ -272,7 +282,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals( $this->dataShort, $manualDecrypt );
 
         // Teardown
-        $this->view->unlink( $filename );
+        $this->view->unlink( $this->userId . '/files/' . $filename );
 
         Encryption\Keymanager::deleteFileKey( $this->view, $this->userId, $filename );
 	}
@@ -350,7 +360,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		// Teardown
 		
-		$this->view->unlink( $filename );
+		$this->view->unlink( $this->userId . '/files/' . $filename );
 		
 		Encryption\Keymanager::deleteFileKey( $this->view, $this->userId, $filename );
 		
@@ -368,15 +378,14 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		// Test that data was successfully written
 		$this->assertTrue( is_int( $cryptedFile ) );
-		
-		
-		// Get file contents without using any wrapper to get it's actual contents on disk
-		$retreivedCryptedFile = $this->view->file_get_contents( $this->userId . '/files/' . $filename );
-		
-		$decrypt = file_get_contents( 'crypt://' . $filename );
+
+        // Get file decrypted contents
+        $decrypt = file_get_contents( 'crypt://' . $filename );
 		
 		$this->assertEquals( $this->dataShort, $decrypt );
-		
+
+        // tear down
+        $this->view->unlink( $this->userId . '/files/' . $filename );
 	}
 	
 	function testSymmetricStreamDecryptLongFileContent() {
@@ -388,15 +397,14 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		// Test that data was successfully written
 		$this->assertTrue( is_int( $cryptedFile ) );
-		
-		
-		// Get file contents without using any wrapper to get it's actual contents on disk
-		$retreivedCryptedFile = $this->view->file_get_contents( $this->userId . '/files/' . $filename );
-		
+
+        // Get file decrypted contents
 		$decrypt = file_get_contents( 'crypt://' . $filename );
-		
+
 		$this->assertEquals( $this->dataLong, $decrypt );
-		
+
+        // tear down
+        $this->view->unlink( $this->userId . '/files/' . $filename );
 	}
 	
 	// Is this test still necessary?
@@ -622,6 +630,65 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		# genuine transformation
 		
 	}
+
+    function testRenameFile() {
+
+        $filename = 'tmp-'.time();
+
+        // Save long data as encrypted file using stream wrapper
+        $cryptedFile = file_put_contents( 'crypt://' . $filename, $this->dataLong );
+
+        // Test that data was successfully written
+        $this->assertTrue( is_int( $cryptedFile ) );
+
+        // Get file decrypted contents
+        $decrypt = file_get_contents( 'crypt://' . $filename );
+
+        $this->assertEquals( $this->dataLong, $decrypt );
+
+        $newFilename = 'tmp-new-'.time();
+        $view = new \OC\Files\View('/' . $this->userId . '/files');
+        $view->rename( $filename, $newFilename );
+
+        // Get file decrypted contents
+        $newDecrypt = file_get_contents( 'crypt://' . $newFilename );
+
+        $this->assertEquals( $this->dataLong, $newDecrypt );
+
+        // tear down
+        $view->unlink( $newFilename );
+    }
+
+    function testMoveFileIntoFolder() {
+
+        $filename = 'tmp-'.time();
+
+        // Save long data as encrypted file using stream wrapper
+        $cryptedFile = file_put_contents( 'crypt://' . $filename, $this->dataLong );
+
+        // Test that data was successfully written
+        $this->assertTrue( is_int( $cryptedFile ) );
+
+        // Get file decrypted contents
+        $decrypt = file_get_contents( 'crypt://' . $filename );
+
+        $this->assertEquals( $this->dataLong, $decrypt );
+
+        $newFolder = '/newfolder1';
+        $newFilename = 'tmp-new-'.time();
+        $view = new \OC\Files\View('/' . $this->userId . '/files');
+        $view->mkdir($newFolder);
+        $view->rename( $filename, $newFolder . '/' . $newFilename );
+
+        // Get file decrypted contents
+        $newDecrypt = file_get_contents( 'crypt://' . $newFolder . '/' . $newFilename );
+
+        $this->assertEquals( $this->dataLong, $newDecrypt );
+
+        // tear down
+        $view->unlink( $newFolder . '/' . $newFilename );
+        $view->unlink( $newFolder );
+    }
 
 // 	function testEncryption(){
 // 	

@@ -26,6 +26,7 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 	
 	function setUp() {
         // reset backend
+        \OC_User::clearBackends();
         \OC_User::useBackend('database');
 
 		\OC_FileProxy::$enabled = false;
@@ -41,18 +42,26 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 		$keypair = Encryption\Crypt::createKeypair();
 		$this->genPublicKey =  $keypair['publicKey'];
 		$this->genPrivateKey = $keypair['privateKey'];
-		
-		$this->view = new \OC_FilesystemView( '/' );
-		
-		\OC_User::setUserId( 'admin' );
-		$this->userId = 'admin';
-		$this->pass = 'admin';
+
+        $this->view = new \OC_FilesystemView( '/' );
+
+        \OC_User::setUserId( 'admin' );
+        $this->userId = 'admin';
+        $this->pass = 'admin';
 
         $userHome = \OC_User::getHome($this->userId);
         $this->dataDir = str_replace('/'.$this->userId, '', $userHome);
 
-        \OC\Files\Filesystem::init( $this->userId, '/' );
-        \OC\Files\Filesystem::mount( 'OC_Filestorage_Local', array('datadir' => $this->dataDir), '/' );
+        // Filesystem related hooks
+        \OCA\Encryption\Helper::registerFilesystemHooks();
+
+        \OC_FileProxy::register(new OCA\Encryption\Proxy());
+
+        \OC_Util::tearDownFS();
+        \OC_User::setUserId('');
+        \OC\Files\Filesystem::setView(false);
+        \OC_Util::setupFS($this->userId);
+        \OC_User::setUserId($this->userId);
 
         $params['uid'] = $this->userId;
         $params['password'] = $this->pass;

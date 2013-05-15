@@ -51,14 +51,22 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 		$this->keyfilesPath = $this->encryptionDir . '/' . 'keyfiles';
 		$this->publicKeyPath = $this->publicKeyDir . '/' . $this->userId . '.public.key'; // e.g. data/public-keys/admin.public.key
 		$this->privateKeyPath = $this->encryptionDir . '/' . $this->userId . '.private.key'; // e.g. data/admin/admin.private.key
-		
-		$this->view = new \OC_FilesystemView( '/' );
+
+        $this->view = new \OC_FilesystemView( '/' );
 
         $userHome = \OC_User::getHome($this->userId);
         $this->dataDir = str_replace('/'.$this->userId, '', $userHome);
 
-        \OC\Files\Filesystem::init( $this->userId, '/' );
-        \OC\Files\Filesystem::mount( 'OC_Filestorage_Local', array('datadir' => $this->dataDir), '/' );
+        // Filesystem related hooks
+        \OCA\Encryption\Helper::registerFilesystemHooks();
+
+        \OC_FileProxy::register(new OCA\Encryption\Proxy());
+
+        \OC_Util::tearDownFS();
+        \OC_User::setUserId('');
+        \OC\Files\Filesystem::setView(false);
+        \OC_Util::setupFS($this->userId);
+        \OC_User::setUserId($this->userId);
 
         $params['uid'] = $this->userId;
         $params['password'] = $this->pass;
@@ -170,7 +178,7 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 
 		$util = new Encryption\Util( $this->view, $this->userId );
 		
-		$files = $util->findEncFiles( '/', 'encrypted' );
+		$files = $util->findEncFiles( '/'.$this->userId.'/');
 		
 		//var_dump( $files );
 		

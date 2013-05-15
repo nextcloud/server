@@ -462,6 +462,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 
         \OC_Util::tearDownFS();
         \OC_User::setUserId('');
+        \OC\Files\Filesystem::setView(false);
         \OC_Util::setupFS($user);
         \OC_User::setUserId($user);
 
