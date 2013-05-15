@@ -77,7 +77,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	}
 	
 	function tearDown() {
-
+		\OC_FileProxy::clearProxies();
     }
 
     function testGenerateKey() {
@@ -754,6 +754,79 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		// change password back
 		\OC_User::setPassword($this->userId, $this->pass);
 		$view = new \OC\Files\View('/' . $this->userId . '/files');
+		$view->unlink( $filename );
+	}
+
+	function testViewFilePutAndGetContents() {
+
+		$filename = '/tmp-'.time();
+		$view = new \OC\Files\View('/' . $this->userId . '/files');
+
+		// Save short data as encrypted file using stream wrapper
+		$cryptedFile = $view->file_put_contents( $filename, $this->dataShort );
+
+		// Test that data was successfully written
+		$this->assertTrue( is_int( $cryptedFile ) );
+
+		// Get file decrypted contents
+		$decrypt = $view->file_get_contents( $filename );
+
+		$this->assertEquals( $this->dataShort, $decrypt );
+
+		// Save long data as encrypted file using stream wrapper
+		$cryptedFileLong = $view->file_put_contents( $filename, $this->dataLong );
+
+		// Test that data was successfully written
+		$this->assertTrue( is_int( $cryptedFileLong ) );
+
+		// Get file decrypted contents
+		$decryptLong = $view->file_get_contents( $filename );
+
+		$this->assertEquals( $this->dataLong, $decryptLong );
+
+		// tear down
+		$view->unlink( $filename );
+	}
+
+	function testTouchFile() {
+		$filename = '/tmp-'.time();
+		$view = new \OC\Files\View('/' . $this->userId . '/files');
+
+		// Save short data as encrypted file using stream wrapper
+		$cryptedFile = $view->file_put_contents( $filename, $this->dataShort );
+
+		// Test that data was successfully written
+		$this->assertTrue( is_int( $cryptedFile ) );
+
+		$view->touch($filename);
+
+		// Get file decrypted contents
+		$decrypt = $view->file_get_contents( $filename );
+
+		$this->assertEquals( $this->dataShort, $decrypt );
+
+		// tear down
+		$view->unlink( $filename );
+	}
+
+	function testFopenFile() {
+		$filename = '/tmp-'.time();
+		$view = new \OC\Files\View('/' . $this->userId . '/files');
+
+		// Save short data as encrypted file using stream wrapper
+		$cryptedFile = $view->file_put_contents( $filename, $this->dataShort );
+
+		// Test that data was successfully written
+		$this->assertTrue( is_int( $cryptedFile ) );
+
+		$handle = $view->fopen($filename, 'r');
+
+		// Get file decrypted contents
+		$decrypt = fgets($handle);
+
+		$this->assertEquals( $this->dataShort, $decrypt );
+
+		// tear down
 		$view->unlink( $filename );
 	}
 // 	function testEncryption(){

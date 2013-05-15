@@ -71,7 +71,7 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 	function tearDown(){
 	
 		\OC_FileProxy::$enabled = true;
-		
+		\OC_FileProxy::clearProxies();
 	}
 
 	function testGetPrivateKey() {

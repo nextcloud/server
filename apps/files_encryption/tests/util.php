@@ -80,7 +80,7 @@ class Test_Enc_Util extends \PHPUnit_Framework_TestCase {
 	function tearDown(){
 	
 		m::close();
-	
+		\OC_FileProxy::clearProxies();
 	}
 	
 	/**
