@@ -690,6 +690,40 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
         $view->unlink( $newFolder );
     }
 
+	function testChangePassphrase() {
+
+		$filename = 'tmp-'.time();
+
+		// Save long data as encrypted file using stream wrapper
+		$cryptedFile = file_put_contents( 'crypt://' . $filename, $this->dataLong );
+
+		// Test that data was successfully written
+		$this->assertTrue( is_int( $cryptedFile ) );
+
+		// Get file decrypted contents
+		$decrypt = file_get_contents( 'crypt://' . $filename );
+
+		$this->assertEquals( $this->dataLong, $decrypt );
+
+		// change password
+		\OC_User::setPassword('admin', 'test');
+
+		// relogin
+		$params['uid'] = $this->userId;
+		$params['password'] = 'test';
+		OCA\Encryption\Hooks::login($params);
+
+		// Get file decrypted contents
+		$newDecrypt = file_get_contents( 'crypt://' . $filename );
+
+		$this->assertEquals( $this->dataLong, $newDecrypt );
+
+		// tear down
+		// change password back
+		\OC_User::setPassword('admin', 'admin');
+		$view = new \OC\Files\View('/' . $this->userId . '/files');
+		$view->unlink( $filename );
+	}
 // 	function testEncryption(){
 // 	
 // 		$key=uniqid();
