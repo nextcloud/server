@@ -1,5 +1,3 @@
-setValue( $app, $key, $value )
-
 <?php
 /**
  * Copyright (c) 2013, Sam Tuke <samtuke@owncloud.com>
@@ -17,26 +15,21 @@ use OCA\Encryption;
 
 if ( 
 	isset( $_POST['userEnableRecovery'] ) 
+	&& ( 0 == $_POST['userEnableRecovery'] || 1 == $_POST['userEnableRecovery'] )
 ) {
-
-	// Ensure preference is an integer
-	$recoveryEnabled = intval( $_POST['userEnableRecovery'] );
 
 	$userId = \OCP\USER::getUser();
 	$view = new \OC_FilesystemView( '/' );
-	$util = new Util( $view, $userId );
+	$util = new \OCA\Encryption\Util( $view, $userId );
 	
 	// Save recovery preference to DB
-	$result = $util->setRecovery( $recoveryEnabled );
+	$return = $util->setRecoveryForUser( $_POST['userEnableRecovery'] );
 	
-	if ( $result ) {
-	
-		\OCP\JSON::success();
-		
-	} else {
-	
-		\OCP\JSON::error();
-		
-	}
+} else {
+
+	$return = false;
 	
 }
+
+// Return success or failure
+( $return ) ? \OCP\JSON::success() : \OCP\JSON::error();

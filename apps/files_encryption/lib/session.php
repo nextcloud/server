@@ -35,43 +35,64 @@ class Session {
 	 * 
 	 * The ownCloud key pair is used to allow public link sharing even if encryption is enabled
 	 */
-	public function __construct( \OC_FilesystemView $view ) {
+	public function __construct( $view ) {
 		
 		$this->view = $view;
 
 
 		if ( ! $this->view->is_dir( 'owncloud_private_key' ) ) {
 		
-			$this->view->mkdir('owncloud_private_key');
+			$this->view->mkdir( 'owncloud_private_key' );
+			
 		}
-		
+
+		$publicShareKeyId = \OC_Appconfig::getValue('files_encryption', 'publicShareKeyId');
+
+		if ($publicShareKeyId === null) {
+			$publicShareKeyId = 'pubShare_'.substr(md5(time()),0,8);
+			\OC_Appconfig::setValue('files_encryption', 'publicShareKeyId', $publicShareKeyId);
+		}
 		
 		if ( 
-			! $this->view->file_exists("/public-keys/owncloud.public.key") 
-			|| ! $this->view->file_exists("/owncloud_private_key/owncloud.private.key" ) 
+			! $this->view->file_exists( "/public-keys/".$publicShareKeyId.".public.key" )
+			|| ! $this->view->file_exists( "/owncloud_private_key/".$publicShareKeyId.".private.key" )
 		) {
+				
+ 			$keypair = Crypt::createKeypair();
 
-			$keypair = Crypt::createKeypair();
-			
-			\OC_FileProxy::$enabled = false;
-			
-			// Save public key
+            // Disable encryption proxy to prevent recursive calls
+            $proxyStatus = \OC_FileProxy::$enabled;
+            \OC_FileProxy::$enabled = false;
 
-			if (!$view->is_dir('/public-keys')) {
-				$view->mkdir('/public-keys');
-			}
-
-			$this->view->file_put_contents( '/public-keys/owncloud.public.key', $keypair['publicKey'] );
+ 			// Save public key
+ 
+ 			if (!$view->is_dir('/public-keys')) {
+ 				$view->mkdir('/public-keys');
+ 			}
+ 
+ 			$this->view->file_put_contents( '/public-keys/'.$publicShareKeyId.'.public.key', $keypair['publicKey'] );
+ 			
+ 			// Encrypt private key empthy passphrase
+ 			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], '' );
+ 			
+ 			// Save private key
+ 			$this->view->file_put_contents( '/owncloud_private_key/'.$publicShareKeyId.'.private.key', $encryptedPrivateKey );
 			
-			// Encrypt private key empthy passphrase
-			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], '' );
-			
-			// Save private key
-			$this->view->file_put_contents( '/owncloud_private_key/owncloud.private.key', $encryptedPrivateKey );
-			
-			\OC_FileProxy::$enabled = true;
+			\OC_FileProxy::$enabled = $proxyStatus;
 			
 		}
+
+        if(\OCP\USER::getUser() === false) {
+            // Disable encryption proxy to prevent recursive calls
+            $proxyStatus = \OC_FileProxy::$enabled;
+            \OC_FileProxy::$enabled = false;
+
+            $encryptedKey = $this->view->file_get_contents( '/owncloud_private_key/'.$publicShareKeyId.'.private.key' );
+            $privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, '' );
+            $this->setPrivateKey($privateKey);
+
+            \OC_FileProxy::$enabled = $proxyStatus;
+        }
 	}
 
 	/**

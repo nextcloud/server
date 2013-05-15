@@ -93,29 +93,29 @@ class Proxy extends \OC_FileProxy {
 	
 	public function preFile_put_contents( $path, &$data ) {
 
-        if ( self::shouldEncrypt( $path ) ) {
+		if ( self::shouldEncrypt( $path ) ) {
 
-        	// Stream put contents should have been converted to fopen
+			// Stream put contents should have been converted to fopen
 			if ( !is_resource( $data ) ) {
 
-                $userId = \OCP\USER::getUser();
-				$rootView = new \OC_FilesystemView( '/' );
-				$util = new Util( $rootView, $userId );
-				$session = new Session( $rootView );
+				$userId = \OCP\USER::getUser();
+				$view = new \OC_FilesystemView( '/' );
+				$util = new Util( $view, $userId );
+				$session = new Session( $view );
 				$privateKey = $session->getPrivateKey();
 				$filePath = $util->stripUserFilesPath( $path );
 				// Set the filesize for userland, before encrypting
 				$size = strlen( $data );
-				
+					
 				// Disable encryption proxy to prevent recursive calls
-                $proxyStatus = \OC_FileProxy::$enabled;
-                \OC_FileProxy::$enabled = false;
-				
+				$proxyStatus = \OC_FileProxy::$enabled;
+				\OC_FileProxy::$enabled = false;
+					
 				// Check if there is an existing key we can reuse
-				if ( $encKeyfile = Keymanager::getFileKey( $rootView, $userId, $filePath ) ) {
+				if ( $encKeyfile = Keymanager::getFileKey( $view, $userId, $filePath ) ) {
 					
 					// Fetch shareKey
-					$shareKey = Keymanager::getShareKey( $rootView, $userId, $filePath );
+					$shareKey = Keymanager::getShareKey( $view, $userId, $filePath );
 					
 					// Decrypt the keyfile
 					$plainKey = Crypt::multiKeyDecrypt( $encKeyfile, $shareKey, $privateKey );
@@ -124,7 +124,7 @@ class Proxy extends \OC_FileProxy {
 				
 					// Make a new key
 					$plainKey = Crypt::generateKey();
-				
+					
 				}
 				
 				// Encrypt data
@@ -134,36 +134,37 @@ class Proxy extends \OC_FileProxy {
 				
 				$uniqueUserIds = $util->getSharingUsersArray( $sharingEnabled, $filePath, $userId );
 
-                // Fetch public keys for all users who will share the file
-				$publicKeys = Keymanager::getPublicKeys( $rootView, $uniqueUserIds );
+				// Fetch public keys for all users who will share the file
+				$publicKeys = Keymanager::getPublicKeys( $view, $uniqueUserIds );
 
-                // Encrypt plain keyfile to multiple sharefiles
+				// Encrypt plain keyfile to multiple sharefiles
 				$multiEncrypted = Crypt::multiKeyEncrypt( $plainKey, $publicKeys );
 				
 				// Save sharekeys to user folders
-				Keymanager::setShareKeys( $rootView, $filePath, $multiEncrypted['keys'] );
+				Keymanager::setShareKeys( $view, $filePath, $multiEncrypted['keys'] );
 				
 				// Set encrypted keyfile as common varname
 				$encKey = $multiEncrypted['data'];
 				
 				// Save keyfile for newly encrypted file in parallel directory tree
-				Keymanager::setFileKey( $rootView, $filePath, $userId, $encKey );
+				Keymanager::setFileKey( $view, $filePath, $userId, $encKey );
 
 				// Replace plain content with encrypted content by reference
 				$data = $encData;
-				
+					
 				// Update the file cache with file info
-				\OC\Files\Filesystem::putFileInfo( $path, array( 'encrypted'=>true, 'size' => $size ), '' );
-				
+				\OC\Files\Filesystem::putFileInfo( $filePath, array( 'encrypted'=>true, 'size' => strlen($size), 'unencrypted_size' => $size), '' );
+
 				// Re-enable proxy - our work is done
 				\OC_FileProxy::$enabled = $proxyStatus;
 				
 			}
 		}
 
-        return true;
+		return true;
+		
 	}
-	
+		
 	/**
 	 * @param string $path Path of file from which has been read
 	 * @param string $data Data that has been read from file
@@ -273,136 +274,22 @@ class Proxy extends \OC_FileProxy {
 	}
 
 	/**
-	 * @brief When a file is renamed, rename its keyfile also
-	 * @return bool Result of rename()
-	 * @note This is pre rather than post because using post didn't work
-	 */
-	public function preRename( $oldPath, $newPath )
-    {
-
-        // Disable encryption proxy to prevent recursive calls
-        $proxyStatus = \OC_FileProxy::$enabled;
-        \OC_FileProxy::$enabled = false;
-
-        $view = new \OC_FilesystemView('/');
-
-        $userId = \OCP\USER::getUser();
-
-        // Format paths to be relative to user files dir
-        $oldTrimmed = ltrim($oldPath, '/');
-        $oldSplit = explode('/', $oldTrimmed);
-        $oldSliced = array_slice($oldSplit, 2);
-        $oldRelPath = implode('/', $oldSliced);
-        $oldKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $oldRelPath;
-
-        $newTrimmed = ltrim($newPath, '/');
-        $newSplit = explode('/', $newTrimmed);
-        $newSliced = array_slice($newSplit, 2);
-        $newRelPath = implode('/', $newSliced);
-        $newKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'keyfiles' . '/' . $newRelPath;
-
-        // add key ext if this is not an folder
-        if (!$view->is_dir($oldKeyfilePath)) {
-            $oldKeyfilePath .= '.key';
-            $newKeyfilePath .= '.key';
-
-            // handle share-keys
-            $localKeyPath = $view->getLocalFile($userId.'/files_encryption/share-keys/'.$oldRelPath);
-            $matches = glob(preg_quote($localKeyPath).'*.shareKey');
-            foreach ($matches as $src) {
-                $dst = str_replace($oldRelPath, $newRelPath, $src);
-                rename($src, $dst);
-            }
-
-        } else {
-            // handle share-keys folders
-            $oldShareKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $oldRelPath;
-            $newShareKeyfilePath = $userId . '/' . 'files_encryption' . '/' . 'share-keys' . '/' . $newRelPath;
-            $view->rename($oldShareKeyfilePath, $newShareKeyfilePath);
-        }
-
-        // Rename keyfile so it isn't orphaned
-        $result = $view->rename($oldKeyfilePath, $newKeyfilePath);
-
-        \OC_FileProxy::$enabled = $proxyStatus;
-
-        return $result;
-
-    }
-
-    /**
      * @brief When a file is renamed, rename its keyfile also
      * @return bool Result of rename()
      * @note This is pre rather than post because using post didn't work
      */
-    public function postRename( $oldPath, $newPath )
+    public function postWrite( $path )
     {
-
-        // Disable encryption proxy to prevent recursive calls
-        $proxyStatus = \OC_FileProxy::$enabled;
-        \OC_FileProxy::$enabled = false;
-
-        $view = new \OC_FilesystemView('/');
-        $session = new Session($view);
-        $userId = \OCP\User::getUser();
-        $util = new Util( $view, $userId );
-
-        // Reformat path for use with OC_FSV
-        $newPathSplit = explode( '/', $newPath );
-        $newPathRelative = implode( '/', array_slice( $newPathSplit, 3 ) );
-
-        // get file info from database/cache
-        //$newFileInfo = \OC\Files\Filesystem::getFileInfo($newPathRelative);
-
-        if ($util->isEncryptedPath($newPath)) {
-            $cached = $view->getFileInfo($newPath);
-            $cached['encrypted'] = 1;
-
-            // get the size from filesystem
-            $size = $view->filesize($newPath);
-
-            // calculate last chunk nr
-            $lastChunckNr = floor($size / 8192);
-
-            // open stream
-            $result = fopen('crypt://' . $newPathRelative, "r");
-
-            if(is_resource($result)) {
-                // calculate last chunk position
-                $lastChunckPos = ($lastChunckNr * 8192);
-
-                // seek to end
-                fseek($result, $lastChunckPos);
-
-                // get the content of the last chunck
-                $lastChunkContent = fread($result, 8192);
-
-                // calc the real file size with the size of the last chunk
-                $realSize = (($lastChunckNr * 6126) + strlen($lastChunkContent));
-
-                // set the size
-                $cached['unencrypted_size'] = $realSize;
-            }
-
-            $view->putFileInfo( $newPath, $cached );
-
-            // get sharing app state
-            $sharingEnabled = \OCP\Share::isEnabled();
-
-            // get users
-            $usersSharing = $util->getSharingUsersArray($sharingEnabled, $newPathRelative);
-
-            // update sharing-keys
-            $util->setSharedFileKeyfiles($session, $usersSharing, $newPathRelative);
-        }
-
-
-
-
-        \OC_FileProxy::$enabled = $proxyStatus;
+        $this->handleFile($path);
 
         return true;
+    }
 
+    public function postTouch( $path )
+    {
+        $this->handleFile($path);
+
+        return true;
     }
 
     public function postFopen( $path, &$result ){
@@ -518,25 +405,28 @@ class Proxy extends \OC_FileProxy {
         return $data;
     }
 
-	public function postStat( $path, $data ) {
+    public function postStat($path, $data)
+    {
+        // check if file is encrypted
+        if (Crypt::isCatfileContent($path)) {
 
-        if ( Crypt::isCatfileContent( $path ) ) {
-		
-			$cached = \OC\Files\Filesystem::getFileInfo( $path, '' );
-			
-			$data['size'] = $cached['unencrypted_size'];
-			
-		}
-		
-		return $data;
-	}
+            // get file info from cache
+            $cached = \OC\Files\Filesystem::getFileInfo($path, '');
 
-	public function postFileSize( $path, $size ) {
+            // set the real file size
+            $data['size'] = $cached['unencrypted_size'];
+        }
 
-        $view = new \OC_FilesystemView( '/' );
+        return $data;
+    }
+
+    public function postFileSize($path, $size)
+    {
+
+        $view = new \OC_FilesystemView('/');
 
         // if path is a folder do nothing
-        if($view->is_dir($path)) {
+        if ($view->is_dir($path)) {
             return $size;
         }
 
@@ -544,14 +434,65 @@ class Proxy extends \OC_FileProxy {
         $path_split = explode('/', $path);
         $path_f = implode('/', array_slice($path_split, 3));
 
+        // if path is empty we cannot resolve anything
+        if(empty($path_f)) {
+            return $size;
+        }
+
         // get file info from database/cache
         $fileInfo = \OC\Files\Filesystem::getFileInfo($path_f);
 
         // if file is encrypted return real file size
-        if(is_array($fileInfo) && $fileInfo['encrypted'] == 1) {
-            return $fileInfo['unencrypted_size'];
+        if (is_array($fileInfo) && $fileInfo['encrypted'] === true) {
+            $size = $fileInfo['unencrypted_size'];
         } else {
-            return $size;
+            // self healing if file was removed from file cache
+            if(is_array($fileInfo)) {
+                $userId = \OCP\User::getUser();
+                $util = new Util( $view, $userId );
+                $fixSize = $util->getFileSize($path);
+                if($fixSize > 0) {
+                    $size = $fixSize;
+
+                    $fileInfo['encrypted'] = true;
+                    $fileInfo['unencrypted_size'] = $size;
+
+                    // put file info
+                    $view->putFileInfo( $path_f, $fileInfo );
+                }
+            }
         }
-	}
-}
+        return $size;
+    }
+
+    public function handleFile($path) {
+
+        // Disable encryption proxy to prevent recursive calls
+        $proxyStatus = \OC_FileProxy::$enabled;
+        \OC_FileProxy::$enabled = false;
+
+        $view = new \OC_FilesystemView('/');
+        $session = new Session($view);
+        $userId = \OCP\User::getUser();
+        $util = new Util( $view, $userId );
+
+        // Reformat path for use with OC_FSV
+        $path_split = explode( '/', $path );
+        $path_f = implode( '/', array_slice( $path_split, 3 ) );
+
+        // only if file is on 'files' folder fix file size and sharing
+        if($path_split[2] == 'files' && $util->fixFileSize($path)) {
+
+            // get sharing app state
+            $sharingEnabled = \OCP\Share::isEnabled();
+
+            // get users
+            $usersSharing = $util->getSharingUsersArray($sharingEnabled, $path_f);
+
+            // update sharing-keys
+            $util->setSharedFileKeyfiles($session, $usersSharing, $path_f);
+        }
+
+        \OC_FileProxy::$enabled = $proxyStatus;
+    }
+ }

@@ -13,18 +13,22 @@ require_once realpath( dirname(__FILE__).'/../lib/keymanager.php' );
 require_once realpath( dirname(__FILE__).'/../lib/proxy.php' );
 require_once realpath( dirname(__FILE__).'/../lib/stream.php' );
 require_once realpath( dirname(__FILE__).'/../lib/util.php' );
+require_once realpath( dirname(__FILE__).'/../lib/helper.php' );
 require_once realpath( dirname(__FILE__).'/../appinfo/app.php' );
 
 use OCA\Encryption;
 
 // This has to go here because otherwise session errors arise, and the private 
 // encryption key needs to be saved in the session
-\OC_User::login( 'admin', 'admin' );
+//\OC_User::login( 'admin', 'admin' );
 
 class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 	
 	function setUp() {
-		
+        // reset backend
+        \OC_User::clearBackends();
+        \OC_User::useBackend('database');
+
 		\OC_FileProxy::$enabled = false;
 		
 		// set content for encrypting / decrypting in tests
@@ -38,16 +42,30 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 		$keypair = Encryption\Crypt::createKeypair();
 		$this->genPublicKey =  $keypair['publicKey'];
 		$this->genPrivateKey = $keypair['privateKey'];
-		
-		$this->view = new \OC_FilesystemView( '/' );
-		
-		\OC_User::setUserId( 'admin' );
-		$this->userId = 'admin';
-		$this->pass = 'admin';
-		
-		\OC_Filesystem::init( '/' );
-		\OC_Filesystem::mount( 'OC_Filestorage_Local', array('datadir' => \OC_User::getHome($this->userId)), '/' );
-	
+
+        $this->view = new \OC_FilesystemView( '/' );
+
+        \OC_User::setUserId( 'admin' );
+        $this->userId = 'admin';
+        $this->pass = 'admin';
+
+        $userHome = \OC_User::getHome($this->userId);
+        $this->dataDir = str_replace('/'.$this->userId, '', $userHome);
+
+        // Filesystem related hooks
+        \OCA\Encryption\Helper::registerFilesystemHooks();
+
+        \OC_FileProxy::register(new OCA\Encryption\Proxy());
+
+        \OC_Util::tearDownFS();
+        \OC_User::setUserId('');
+        \OC\Files\Filesystem::setView(false);
+        \OC_Util::setupFS($this->userId);
+        \OC_User::setUserId($this->userId);
+
+        $params['uid'] = $this->userId;
+        $params['password'] = $this->pass;
+        OCA\Encryption\Hooks::login($params);
 	}
 	
 	function tearDown(){
@@ -59,9 +77,13 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 	function testGetPrivateKey() {
 	
 		$key = Encryption\Keymanager::getPrivateKey( $this->view, $this->userId );
-		 
+
+        $privateKey = Encryption\Crypt::symmetricDecryptFileContent( $key, $this->pass);
+
 		// Will this length vary? Perhaps we should use a range instead
-		$this->assertEquals( 2296, strlen( $key ) );
+		$this->assertGreaterThan( 27, strlen( $privateKey ) );
+
+        $this->assertEquals( '-----BEGIN PRIVATE KEY-----', substr( $privateKey, 0, 27 ) );
 	
 	}
 	
@@ -69,7 +91,7 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		$key = Encryption\Keymanager::getPublicKey( $this->view, $this->userId );
 		
-		$this->assertEquals( 451, strlen( $key ) );
+		$this->assertGreaterThan( 26, strlen( $key ) );
 		
 		$this->assertEquals( '-----BEGIN PUBLIC KEY-----', substr( $key, 0, 26 ) );
 	}
@@ -81,11 +103,19 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 	
 		$key = Encryption\Crypt::symmetricEncryptFileContentKeyfile( $this->randomKey, 'hat' );
 		
-		$path = 'unittest-'.time().'txt';
-		
+		$file = 'unittest-'.time().'.txt';
+
+        // Disable encryption proxy to prevent recursive calls
+        $proxyStatus = \OC_FileProxy::$enabled;
+        \OC_FileProxy::$enabled = false;
+
+        $this->view->file_put_contents($this->userId . '/files/' . $file, $key['encrypted']);
+
+        // Re-enable proxy - our work is done
+        \OC_FileProxy::$enabled = $proxyStatus;
+
 		//$view = new \OC_FilesystemView( '/' . $this->userId . '/files_encryption/keyfiles' );
-		
-		Encryption\Keymanager::setFileKey( $this->view, $path, $this->userId, $key['key'] );
+		Encryption\Keymanager::setFileKey( $this->view, $file, $this->userId, $key['key'] );
 	
 	}
 	
@@ -109,9 +139,15 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 	
 		$keys = Encryption\Keymanager::getUserKeys( $this->view, $this->userId );
 		
-		$this->assertEquals( 451, strlen( $keys['publicKey'] ) );
+		$this->assertGreaterThan( 26, strlen( $keys['publicKey'] ) );
+
 		$this->assertEquals( '-----BEGIN PUBLIC KEY-----', substr( $keys['publicKey'], 0, 26 ) );
-		$this->assertEquals( 2296, strlen( $keys['privateKey'] ) );
+
+        $privateKey = Encryption\Crypt::symmetricDecryptFileContent( $keys['privateKey'], $this->pass);
+
+        $this->assertGreaterThan( 27, strlen( $keys['privateKey'] ) );
+
+        $this->assertEquals( '-----BEGIN PRIVATE KEY-----', substr( $privateKey, 0, 27 ) );
 	
 	}
 	

@@ -32,15 +32,20 @@ class Keymanager {
 	/**
 	 * @brief retrieve the ENCRYPTED private key from a user
 	 * 
-	 * @return string private key or false
+	 * @return string private key or false (hopefully)
 	 * @note the key returned by this method must be decrypted before use
 	 */
 	public static function getPrivateKey( \OC_FilesystemView $view, $user ) {
 	
 		$path =  '/' . $user . '/' . 'files_encryption' . '/' . $user.'.private.key';
-		
+
+        $proxyStatus = \OC_FileProxy::$enabled;
+        \OC_FileProxy::$enabled = false;
+
 		$key = $view->file_get_contents( $path );
-		
+
+        \OC_FileProxy::$enabled = $proxyStatus;
+        
 		return $key;
 	}
 
@@ -113,8 +118,8 @@ class Keymanager {
 		\OC_FileProxy::$enabled = false;
 
 		//here we need the currently logged in user, while userId can be a different user
-		$util = new Util($view, \OCP\User::getUser());
-		list($owner, $filename) = $util->getUidAndFilename($path);
+		$util = new Util( $view, \OCP\User::getUser() );
+		list( $owner, $filename ) = $util->getUidAndFilename( $path );
 
 		$basePath = '/' . $owner . '/files_encryption/keyfiles';
 		
@@ -123,22 +128,74 @@ class Keymanager {
 		if ( !$view->is_dir( $basePath . '/' . $targetPath ) ) {
 
 			// create all parent folders
-			$info=pathinfo($basePath . '/' . $targetPath);
-			$keyfileFolderName=$view->getLocalFolder($info['dirname']);
-			if(!file_exists($keyfileFolderName)) {
-				mkdir($keyfileFolderName, 0750, true);
+			$info = pathinfo( $basePath . '/' . $targetPath );
+			$keyfileFolderName = $view->getLocalFolder( $info['dirname'] );
+			
+			if ( ! file_exists( $keyfileFolderName ) ) {
+				
+				mkdir( $keyfileFolderName, 0750, true );
+			
 			}
 		}
+
+		// try reusing key file if part file
+		if ( self::isPartialFilePath( $targetPath ) ) {
 		
-		$result = $view->file_put_contents( $basePath . '/' . $targetPath . '.key', $catfile );
+			$result = $view->file_put_contents( $basePath . '/' . self::fixPartialFilePath( $targetPath ) . '.key', $catfile );
+			
+		} else {
 		
+			$result = $view->file_put_contents( $basePath . '/' . $targetPath . '.key', $catfile );
+			
+		}
 		
 		\OC_FileProxy::$enabled = $proxyStatus;
 		
 		return $result;
 		
 	}
+
+	/**
+	 * @brief Remove .path extension from a file path
+	 * @param string $path Path that may identify a .part file
+	 * @return string File path without .part extension
+	 * @note this is needed for reusing keys
+	 */
+	public static function fixPartialFilePath( $path ) {
 	
+		if (preg_match('/\.part$/', $path)) {
+
+			$newLength = strlen($path) - 5;
+			$fPath = substr($path, 0, $newLength);
+
+			return $fPath;
+			
+		} else {
+
+			return $path;
+
+		}
+
+	}
+
+	/**
+	 * @brief Check if a path is a .part file
+	 * @param string $path Path that may identify a .part file
+	 * @return bool
+	 */
+	public static function isPartialFilePath( $path ) {
+		
+		if ( preg_match('/\.part$/', $path ) ) {
+		
+			return true;
+		
+		} else {
+			
+			return false;
+		
+		}
+
+	}
 	/**
 	 * @brief retrieve keyfile for an encrypted file
 	 * @param \OC_FilesystemView $view
@@ -150,14 +207,27 @@ class Keymanager {
 	 * of the keyfile must be performed by client code
 	 */
 	public static function getFileKey( \OC_FilesystemView $view, $userId, $filePath ) {
+
+		// try reusing key file if part file
+		if ( self::isPartialFilePath( $filePath ) ) {
 		
+			$result = self::getFileKey( $view, $userId, self::fixPartialFilePath( $filePath ) );
+		
+			if ( $result ) {
+			
+				return $result;
+				
+			}
+	
+		}
+
 		$util = new Util($view, \OCP\User::getUser());
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
 		$filePath_f = ltrim( $filename, '/' );
-		
+
 		$keyfilePath = '/' . $owner . '/files_encryption/keyfiles/' . $filePath_f . '.key';
 
-        $proxyStatus = \OC_FileProxy::$enabled;
+		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 		
 		if ( $view->file_exists( $keyfilePath ) ) {
@@ -226,7 +296,7 @@ class Keymanager {
 		
 		$view = new \OC_FilesystemView( '/' . $user . '/files_encryption' );
 
-        $proxyStatus = \OC_FileProxy::$enabled;
+		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 		
 		if ( !$view->file_exists( '' ) ) $view->mkdir( '' );
@@ -235,7 +305,8 @@ class Keymanager {
 		
 		\OC_FileProxy::$enabled = $proxyStatus;
 
-        return $result;
+		return $result;
+		
 	}
 	
 	/**
@@ -261,7 +332,7 @@ class Keymanager {
 		
 		$view = new \OC_FilesystemView( '/public-keys' );
 
-        $proxyStatus = \OC_FileProxy::$enabled;
+		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 		
 		if ( !$view->file_exists( '' ) ) $view->mkdir( '' );
@@ -270,7 +341,7 @@ class Keymanager {
 		
 		\OC_FileProxy::$enabled = $proxyStatus;
 
-        return $result;
+		return $result;
 		
 	}
 	
@@ -287,23 +358,32 @@ class Keymanager {
 	 */
 	public static function setShareKey( \OC_FilesystemView $view, $path, $userId, $shareKey ) {
 
-		//here we need the currently logged in user, while userId can be a different user
+		// Here we need the currently logged in user, while userId can be a different user
 		$util = new Util( $view, \OCP\User::getUser() );
 
-		list($owner, $filename) = $util->getUidAndFilename($path);
+		list( $owner, $filename ) = $util->getUidAndFilename( $path );
 
 		$basePath = '/' . $owner . '/files_encryption/share-keys';
 		
 		$shareKeyPath = self::keySetPreparation( $view, $filename, $basePath, $owner );
-		
-		$writePath = $basePath . '/' . $shareKeyPath . '.' . $userId . '.shareKey';
 
-        $proxyStatus = \OC_FileProxy::$enabled;
+		// try reusing key file if part file
+		if(self::isPartialFilePath($shareKeyPath)) {
+		
+			$writePath = $basePath . '/' . self::fixPartialFilePath($shareKeyPath) . '.' . $userId . '.shareKey';
+			
+		} else {
+		
+			$writePath = $basePath . '/' . $shareKeyPath . '.' . $userId . '.shareKey';
+			
+		}
+
+		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
 		$result = $view->file_put_contents( $writePath, $shareKey );
 
-        \OC_FileProxy::$enabled = $proxyStatus;
+		\OC_FileProxy::$enabled = $proxyStatus;
 
 		if ( 
 			is_int( $result ) 
@@ -359,7 +439,20 @@ class Keymanager {
 	 */
 	public static function getShareKey( \OC_FilesystemView $view, $userId, $filePath ) {
 
-        $proxyStatus = \OC_FileProxy::$enabled;
+		// try reusing key file if part file
+		if(self::isPartialFilePath($filePath)) {
+		
+			$result = self::getShareKey($view, $userId, self::fixPartialFilePath($filePath));
+			
+			if($result) {
+			
+				return $result;
+				
+			}
+			
+		}
+
+		$proxyStatus = \OC_FileProxy::$enabled;
 		\OC_FileProxy::$enabled = false;
 
 		//here we need the currently logged in user, while userId can be a different user
@@ -367,7 +460,7 @@ class Keymanager {
 
 		list($owner, $filename) = $util->getUidAndFilename($filePath);
 
-		$shareKeyPath = '/' . $owner . '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey';
+		$shareKeyPath = \OC\Files\Filesystem::normalizePath('/' . $owner . '/files_encryption/share-keys/' . $filename . '.' . $userId . '.shareKey');
 		if ( $view->file_exists( $shareKeyPath ) ) {
 			
 			$result = $view->file_get_contents( $shareKeyPath );
