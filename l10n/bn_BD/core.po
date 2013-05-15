@@ -3,14 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#  <paul_shubhra@yahoo.com>, 2013.
-# Shubhra Paul <paul_shubhra@yahoo.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Bengali (Bangladesh) (http://www.transifex.com/projects/p/owncloud/language/bn_BD/)\n"
 "MIME-Version: 1.0\n"
@@ -75,7 +73,7 @@ msgstr "প্রিয়তে %s যোগ করতে সমস্যা দ�
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
-msgstr "মুছে ফেলার জন্য কোন ক্যাটেগরি নির্বাচন করা হয় নি ।"
+msgstr "মুছে ফেলার জন্য কনো ক্যাটেগরি নির্বাচন করা হয় নি।"
 
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
@@ -100,7 +98,7 @@ msgstr "বুধবার"
 
 #: js/config.php:38
 msgid "Thursday"
-msgstr "বৃহষ্পতিবার"
+msgstr "বৃহস্পতিবার"
 
 #: js/config.php:39
 msgid "Friday"
@@ -168,7 +166,7 @@ msgstr "সেকেন্ড পূর্বে"
 
 #: js/js.js:719
 msgid "1 minute ago"
-msgstr "1 মিনিট পূর্বে"
+msgstr "১ মিনিট পূর্বে"
 
 #: js/js.js:720
 msgid "{minutes} minutes ago"
@@ -196,7 +194,7 @@ msgstr "{days} দিন পূর্বে"
 
 #: js/js.js:726
 msgid "last month"
-msgstr "গতমাস"
+msgstr "গত মাস"
 
 #: js/js.js:727
 msgid "{months} months ago"
@@ -295,7 +293,7 @@ msgstr "লিংকের সাথে ভাগাভাগি কর"
 msgid "Password protect"
 msgstr "কূটশব্দ সুরক্ষিত"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "কূটশব্দ"
 
@@ -333,7 +331,7 @@ msgstr "{user} এর সাথে {item} ভাগাভাগি করা হ
 
 #: js/share.js:308
 msgid "Unshare"
-msgstr "ভাগাভাগি বাতিল কর"
+msgstr "ভাগাভাগি বাতিল "
 
 #: js/share.js:320
 msgid "can edit"
@@ -398,24 +396,27 @@ msgstr "ownCloud কূটশব্দ পূনঃনির্ধারণ"
 msgid "Use the following link to reset your password: {link}"
 msgstr "আপনার কূটশব্দটি পূনঃনির্ধারণ  করার জন্য নিম্নোক্ত লিংকটি ব্যবহার করুনঃ {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "কূটশব্দ পূনঃনির্ধারণের জন্য একটি টূনঃনির্ধারণ লিংকটি আপনাকে ই-মেইলে পাঠানো হয়েছে ।"
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "পূনঃনির্ধারণ ই-মেইল পাঠানো হয়েছে।"
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "অনুরোধ ব্যর্থ !"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "ব্যবহারকারী"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "অনুরোধ পূনঃনির্ধারণ"
 
@@ -445,7 +446,7 @@ msgstr "ব্যবহারকারী"
 
 #: strings.php:7
 msgid "Apps"
-msgstr "অ্যাপস"
+msgstr "অ্যাপ"
 
 #: strings.php:8
 msgid "Admin"
@@ -521,75 +522,80 @@ msgstr "সুচারু"
 msgid "Data folder"
 msgstr "ডাটা ফোল্ডার "
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "ডাটাবেচ কনফিগার করুন"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "ব্যবহৃত হবে"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "ডাটাবেজ ব্যবহারকারী"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "ডাটাবেজ কূটশব্দ"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "ডাটাবেজের নাম"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "ডাটাবেজ টেবলস্পেস"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "ডাটাবেজ হোস্ট"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "সেটআপ সুসম্পন্ন কর"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "ওয়েব সার্ভিসের নিয়ন্ত্রণ আপনার হাতের মুঠোয়"
+msgstr "ওয়েব সার্ভিস আপনার হাতের মুঠোয়"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "প্রস্থান"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr ""
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr ""
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr ""
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "কূটশব্দ হারিয়েছেন?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "মনে রাখ"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "প্রবেশ"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr ""
 

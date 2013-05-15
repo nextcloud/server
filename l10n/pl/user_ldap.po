@@ -3,17 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Cyryl Sochacki <>, 2012.
-# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013.
-# Maciej Tarmas <maciej@tarmas.com>, 2013.
-# Marcin Małecki <gerber@tkdami.net>, 2012.
-# Paweł Ciecierski <pciecierski@gmail.com>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:23+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:31+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -44,7 +39,7 @@ msgstr "Konfiguracja jest nieprawidłowa. Proszę przejrzeć logi dziennika ownC
 
 #: js/settings.js:66
 msgid "Deletion failed"
-msgstr "Skasowanie nie powiodło się"
+msgstr "Usunięcie nie powiodło się"
 
 #: js/settings.js:82
 msgid "Take over settings from recent server configuration?"

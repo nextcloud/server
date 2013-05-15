@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Cyryl Sochacki <cyrylsochacki@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:22+0000\n"
+"POT-Creation-Date: 2013-04-27 02:16+0200\n"
+"PO-Revision-Date: 2013-04-26 08:30+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Polish (http://www.transifex.com/projects/p/owncloud/language/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -58,7 +57,7 @@ msgstr "1 folder"
 
 #: js/trash.js:186
 msgid "{count} folders"
-msgstr "{count} foldery"
+msgstr "Ilość folderów: {count}"
 
 #: js/trash.js:194
 msgid "1 file"
@@ -66,7 +65,7 @@ msgstr "1 plik"
 
 #: js/trash.js:196
 msgid "{count} files"
-msgstr "{count} pliki"
+msgstr "Ilość plików: {count}"
 
 #: templates/index.php:9
 msgid "Nothing in here. Your trash bin is empty!"

@@ -1,8 +1,13 @@
 <?php $TRANSLATIONS = array(
+"There is no error, the file uploaded with success" => "Файлът е качен успешно",
+"The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form" => "Файлът който се опитвате да качите надвишава стойностите в MAX_FILE_SIZE в HTML формата.",
+"The uploaded file was only partially uploaded" => "Файлът е качен частично",
+"No file was uploaded" => "Фахлът не бе качен",
 "Missing a temporary folder" => "Липсва временна папка",
 "Failed to write to disk" => "Възникна проблем при запис в диска",
 "Invalid directory." => "Невалидна директория.",
 "Files" => "Файлове",
+"Share" => "Споделяне",
 "Delete permanently" => "Изтриване завинаги",
 "Delete" => "Изтриване",
 "Rename" => "Преименуване",
@@ -29,5 +34,7 @@
 "Cancel upload" => "Спри качването",
 "Nothing in here. Upload something!" => "Няма нищо тук. Качете нещо.",
 "Download" => "Изтегляне",
-"Upload too large" => "Файлът който сте избрали за качване е прекалено голям"
+"Upload too large" => "Файлът който сте избрали за качване е прекалено голям",
+"The files you are trying to upload exceed the maximum size for file uploads on this server." => "Файловете които се опитвате да качите са по-големи от позволеното за сървъра.",
+"Files are being scanned, please wait." => "Файловете се претърсват, изчакайте."
 );

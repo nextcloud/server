@@ -1,9 +1,12 @@
 <?php $TRANSLATIONS = array(
 "Language changed" => "Linguage cambiate",
 "Invalid request" => "Requesta invalide",
+"Error" => "Error",
 "Groups" => "Gruppos",
 "Delete" => "Deler",
 "__language_name__" => "Interlingua",
+"Log" => "Registro",
+"More" => "Plus",
 "Add your App" => "Adder tu application",
 "Select an App" => "Selectionar un app",
 "Update" => "Actualisar",

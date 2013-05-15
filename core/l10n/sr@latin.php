@@ -27,7 +27,7 @@
 "Your password was reset" => "Vaša lozinka je resetovana",
 "New password" => "Nova lozinka",
 "Reset password" => "Resetuj lozinku",
-"Personal" => "Lična",
+"Personal" => "Lično",
 "Users" => "Korisnici",
 "Apps" => "Programi",
 "Admin" => "Adninistracija",

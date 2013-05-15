@@ -11,7 +11,7 @@
 "Selected files too large to generate zip file." => "A kiválasztott fájlok túl nagyok a zip tömörítéshez.",
 "couldn't be determined" => "nem határozható meg",
 "Application is not enabled" => "Az alkalmazás nincs engedélyezve",
-"Authentication error" => "Hitelesítési hiba",
+"Authentication error" => "Azonosítási hiba",
 "Token expired. Please reload page." => "A token lejárt. Frissítse az oldalt.",
 "Files" => "Fájlok",
 "Text" => "Szöveg",
@@ -36,7 +36,7 @@
 "MS SQL username and/or password not valid: %s" => "Az MS SQL felhasználónév és/vagy jelszó érvénytelen: %s",
 "Your web server is not yet properly setup to allow files synchronization because the WebDAV interface seems to be broken." => "Az Ön webkiszolgálója nincs megfelelően beállítva az állományok szinkronizálásához, mert a WebDAV-elérés úgy tűnik, nem működik.",
 "Please double check the <a href='%s'>installation guides</a>." => "Kérjük tüzetesen tanulmányozza át a <a href='%s'>telepítési útmutatót</a>.",
-"seconds ago" => "másodperce",
+"seconds ago" => "pár másodperce",
 "1 minute ago" => "1 perce",
 "%d minutes ago" => "%d perce",
 "1 hour ago" => "1 órája",
@@ -47,9 +47,6 @@
 "last month" => "múlt hónapban",
 "%d months ago" => "%d hónapja",
 "last year" => "tavaly",
-"years ago" => "éve",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s elérhető. <a href=\"%s\">További információ</a>.",
-"up to date" => "a legfrissebb változat",
-"updates check is disabled" => "A frissitések ellenőrzése nincs engedélyezve.",
+"years ago" => "több éve",
 "Could not find category \"%s\"" => "Ez a kategória nem található: \"%s\""
 );

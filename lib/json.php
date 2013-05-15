@@ -14,7 +14,7 @@ class OC_JSON{
 	public static function setContentTypeHeader($type='application/json') {
 		if (!self::$send_content_type_header) {
 			// We send json data
-			header( 'Content-Type: '.$type );
+			header( 'Content-Type: '.$type . '; charset=utf-8');
 			self::$send_content_type_header = true;
 		}
 	}

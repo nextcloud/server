@@ -3,19 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <ari.takalo@iki.fi>, 2012.
-# Jesse Jaara <jesse.jaara@gmail.com>, 2012.
-# Jiri Grönroos <jiri.gronroos@iki.fi>, 2012-2013.
-# Johannes Korpela <>, 2012.
-# Pekka Sutela <pekka.sutela@gmail.com>, 2012.
-#   <tehoratopato@gmail.com>, 2012.
-#   <tscooter@hotmail.com>, 2012.
+# Jiri Grönroos <jiri.gronroos@iki.fi>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Finnish (Finland) (http://www.transifex.com/projects/p/owncloud/language/fi_FI/)\n"
 "MIME-Version: 1.0\n"
@@ -89,79 +83,79 @@ msgstr "Virhe poistaessa kohdetta %s suosikeista."
 
 #: js/config.php:34
 msgid "Sunday"
-msgstr "Sunnuntai"
+msgstr "sunnuntai"
 
 #: js/config.php:35
 msgid "Monday"
-msgstr "Maanantai"
+msgstr "maanantai"
 
 #: js/config.php:36
 msgid "Tuesday"
-msgstr "Tiistai"
+msgstr "tiistai"
 
 #: js/config.php:37
 msgid "Wednesday"
-msgstr "Keskiviikko"
+msgstr "keskiviikko"
 
 #: js/config.php:38
 msgid "Thursday"
-msgstr "Torstai"
+msgstr "torstai"
 
 #: js/config.php:39
 msgid "Friday"
-msgstr "Perjantai"
+msgstr "perjantai"
 
 #: js/config.php:40
 msgid "Saturday"
-msgstr "Lauantai"
+msgstr "lauantai"
 
 #: js/config.php:45
 msgid "January"
-msgstr "Tammikuu"
+msgstr "tammikuu"
 
 #: js/config.php:46
 msgid "February"
-msgstr "Helmikuu"
+msgstr "helmikuu"
 
 #: js/config.php:47
 msgid "March"
-msgstr "Maaliskuu"
+msgstr "maaliskuu"
 
 #: js/config.php:48
 msgid "April"
-msgstr "Huhtikuu"
+msgstr "huhtikuu"
 
 #: js/config.php:49
 msgid "May"
-msgstr "Toukokuu"
+msgstr "toukokuu"
 
 #: js/config.php:50
 msgid "June"
-msgstr "Kesäkuu"
+msgstr "kesäkuu"
 
 #: js/config.php:51
 msgid "July"
-msgstr "Heinäkuu"
+msgstr "heinäkuu"
 
 #: js/config.php:52
 msgid "August"
-msgstr "Elokuu"
+msgstr "elokuu"
 
 #: js/config.php:53
 msgid "September"
-msgstr "Syyskuu"
+msgstr "syyskuu"
 
 #: js/config.php:54
 msgid "October"
-msgstr "Lokakuu"
+msgstr "lokakuu"
 
 #: js/config.php:55
 msgid "November"
-msgstr "Marraskuu"
+msgstr "marraskuu"
 
 #: js/config.php:56
 msgid "December"
-msgstr "Joulukuu"
+msgstr "joulukuu"
 
 #: js/js.js:286
 msgid "Settings"
@@ -300,7 +294,7 @@ msgstr "Jaa linkillä"
 msgid "Password protect"
 msgstr "Suojaa salasanalla"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Salasana"
 
@@ -403,24 +397,27 @@ msgstr "ownCloud-salasanan nollaus"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Voit palauttaa salasanasi seuraavassa osoitteessa: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Saat sähköpostitse linkin nollataksesi salasanan."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "Salasanan nollausviesti lähetetty."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "Pyyntö epäonnistui!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "Käyttäjätunnus"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Tilaus lähetetty"
 
@@ -442,7 +439,7 @@ msgstr "Palauta salasana"
 
 #: strings.php:5
 msgid "Personal"
-msgstr "Henkilökohtaiset"
+msgstr "Henkilökohtainen"
 
 #: strings.php:6
 msgid "Users"
@@ -454,7 +451,7 @@ msgstr "Sovellukset"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Hallinta"
+msgstr "Ylläpitäjä"
 
 #: strings.php:9
 msgid "Help"
@@ -493,7 +490,7 @@ msgstr "Päivitä PHP-asennuksesi käyttääksesi ownCloudia turvallisesti."
 msgid ""
 "No secure random number generator is available, please enable the PHP "
 "OpenSSL extension."
-msgstr ""
+msgstr "Turvallista satunnaislukugeneraattoria ei ole käytettävissä, ota käyttöön PHP:n OpenSSL-laajennus"
 
 #: templates/installation.php:33
 msgid ""
@@ -526,37 +523,37 @@ msgstr "Lisäasetukset"
 msgid "Data folder"
 msgstr "Datakansio"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Muokkaa tietokantaa"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "käytetään"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Tietokannan käyttäjä"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Tietokannan salasana"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Tietokannan nimi"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Tietokannan taulukkotila"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Tietokantapalvelin"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Viimeistele asennus"
 
@@ -564,37 +561,42 @@ msgstr "Viimeistele asennus"
 msgid "web services under your control"
 msgstr "verkkopalvelut hallinnassasi"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "Kirjaudu ulos"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Automaattinen sisäänkirjautuminen hylättiin!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Jos et vaihtanut salasanaasi äskettäin, tilisi saattaa olla murrettu."
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Vaihda salasanasi suojataksesi tilisi uudelleen."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Unohditko salasanasi?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "muista"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Kirjaudu sisään"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Vaihtoehtoiset kirjautumiset"
 

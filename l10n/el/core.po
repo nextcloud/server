@@ -3,22 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# axil Pι <axilleas@archlinux.gr>, 2012.
-# Dimitris M. <monopatis@gmail.com>, 2012-2013.
-# Efstathios Iosifidis <diamond_gr@freemail.gr>, 2012.
-# Efstathios Iosifidis <iefstathios@gmail.com>, 2013.
-# Efstathios Iosifidis <iosifidis@opensuse.org>, 2012.
-# Marios Bekatoros <>, 2012.
-#   <petros.kyladitis@gmail.com>, 2011.
-# Petros Kyladitis <petros.kyladitis@gmail.com>, 2011-2012.
-#  <vagelis@cyberdest.com>, 2013.
-# Wasilis Mandratzis <m.wasilis@yahoo.de>, 2013.
+# Wasilis <m.wasilis@yahoo.de>, 2013
+# KAT.RAT12 <spanish.katerina@gmail.com>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Greek (http://www.transifex.com/projects/p/owncloud/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -303,7 +295,7 @@ msgstr "Διαμοιρασμός με σύνδεσμο"
 msgid "Password protect"
 msgstr "Προστασία συνθηματικού"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Συνθηματικό"
 
@@ -406,24 +398,27 @@ msgstr "Επαναφορά συνθηματικού ownCloud"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Χρησιμοποιήστε τον ακόλουθο σύνδεσμο για να επανεκδόσετε τον κωδικό: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr "Ο σύνδεσμος για να επανακτήσετε τον κωδικό σας έχει σταλεί στο email <br>αν δεν το λάβετε μέσα σε ορισμένο διάστημα, ελέγξετε τους φακελλους σας spam/junk <br> αν δεν είναι εκεί ρωτήστε τον τοπικό σας διαχειριστή "
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr "Η αίτηση απέτυχε! Βεβαιωθηκατε ότι το email σας / username ειναι σωστο? "
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Θα λάβετε ένα σύνδεσμο για να επαναφέρετε τον κωδικό πρόσβασής σας μέσω ηλεκτρονικού ταχυδρομείου."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "Η επαναφορά του email στάλθηκε."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "Η αίτηση απέτυχε!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
-msgstr "Όνομα Χρήστη"
+msgstr "Όνομα χρήστη"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Επαναφορά αίτησης"
 
@@ -529,75 +524,80 @@ msgstr "Για προχωρημένους"
 msgid "Data folder"
 msgstr "Φάκελος δεδομένων"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Ρύθμιση της βάσης δεδομένων"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "θα χρησιμοποιηθούν"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Χρήστης της βάσης δεδομένων"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Συνθηματικό βάσης δεδομένων"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Όνομα βάσης δεδομένων"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Κενά Πινάκων Βάσης Δεδομένων"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Διακομιστής βάσης δεδομένων"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Ολοκλήρωση εγκατάστασης"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "Υπηρεσίες web υπό τον έλεγχό σας"
+msgstr "υπηρεσίες δικτύου υπό τον έλεγχό σας"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "Αποσύνδεση"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Απορρίφθηκε η αυτόματη σύνδεση!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Εάν δεν αλλάξατε το συνθηματικό σας προσφάτως, ο λογαριασμός μπορεί να έχει διαρρεύσει!"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Παρακαλώ αλλάξτε το συνθηματικό σας για να ασφαλίσετε πάλι τον λογαριασμό σας."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Ξεχάσατε το συνθηματικό σας;"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "απομνημόνευση"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Είσοδος"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Εναλλακτικές Συνδέσεις"
 

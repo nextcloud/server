@@ -3,24 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# André Koot <meneer@tken.net>, 2012-2013.
-#   <bart.formosus@gmail.com>, 2011.
-#   <bartv@thisnet.nl>, 2011.
-#   <didi.debian@cknow.org>, 2012.
-# Erik Bent <hj.bent.60@gmail.com>, 2012.
-#   <icewind1991@gmail.com>, 2011.
-#   <jos@gelauff.net>, 2012.
-#   <koen@vervloesem.eu>, 2011.
-#   <lenny@weijl.org>, 2012.
-#   <pietje8501@gmail.com>, 2012.
-# Richard Bos <radoeka@gmail.com>, 2012.
-# Wilfred Dijksman <info@wdijksman.nl>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-05-15 01:59+0200\n"
+"PO-Revision-Date: 2013-05-15 00:00+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Dutch (http://www.transifex.com/projects/p/owncloud/language/nl/)\n"
 "MIME-Version: 1.0\n"
@@ -39,17 +27,13 @@ msgstr "Kon %s niet verplaatsen - Er bestaat al een bestand met deze naam"
 msgid "Could not move %s"
 msgstr "Kon %s niet verplaatsen"
 
-#: ajax/rename.php:22 ajax/rename.php:25
-msgid "Unable to rename file"
-msgstr "Kan bestand niet hernoemen"
-
 #: ajax/upload.php:19
 msgid "No file was uploaded. Unknown error"
 msgstr "Er was geen bestand geladen.  Onbekende fout"
 
 #: ajax/upload.php:26
 msgid "There is no error, the file uploaded with success"
-msgstr "Geen fout opgetreden, bestand successvol geupload."
+msgstr "De upload van het bestand is goedgegaan."
 
 #: ajax/upload.php:27
 msgid ""
@@ -60,19 +44,19 @@ msgstr "Het geüploade bestand overscheidt de upload_max_filesize optie in php.i
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
-msgstr "Het geüploade bestand is groter dan de MAX_FILE_SIZE richtlijn die is opgegeven in de HTML-formulier"
+msgstr "Het bestand overschrijdt de MAX_FILE_SIZE instelling dat is opgegeven in het HTML formulier"
 
 #: ajax/upload.php:30
 msgid "The uploaded file was only partially uploaded"
-msgstr "Het bestand is slechts gedeeltelijk geupload"
+msgstr "Het bestand is gedeeltelijk geüpload"
 
 #: ajax/upload.php:31
 msgid "No file was uploaded"
-msgstr "Geen bestand geüpload"
+msgstr "Er is geen bestand geüpload"
 
 #: ajax/upload.php:32
 msgid "Missing a temporary folder"
-msgstr "Een tijdelijke map mist"
+msgstr "Er ontbreekt een tijdelijke map"
 
 #: ajax/upload.php:33
 msgid "Failed to write to disk"
@@ -90,55 +74,59 @@ msgstr "Ongeldige directory."
 msgid "Files"
 msgstr "Bestanden"
 
-#: js/fileactions.js:125
+#: js/fileactions.js:116
+msgid "Share"
+msgstr "Delen"
+
+#: js/fileactions.js:126
 msgid "Delete permanently"
 msgstr "Verwijder definitief"
 
-#: js/fileactions.js:127 templates/index.php:94 templates/index.php:95
+#: js/fileactions.js:128 templates/index.php:93 templates/index.php:94
 msgid "Delete"
 msgstr "Verwijder"
 
-#: js/fileactions.js:193
+#: js/fileactions.js:194
 msgid "Rename"
 msgstr "Hernoem"
 
-#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:414
+#: js/filelist.js:49 js/filelist.js:52 js/filelist.js:421
 msgid "Pending"
-msgstr "Wachten"
+msgstr "In behandeling"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "{new_name} already exists"
 msgstr "{new_name} bestaat al"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "replace"
 msgstr "vervang"
 
-#: js/filelist.js:252
+#: js/filelist.js:259
 msgid "suggest name"
 msgstr "Stel een naam voor"
 
-#: js/filelist.js:252 js/filelist.js:254
+#: js/filelist.js:259 js/filelist.js:261
 msgid "cancel"
 msgstr "annuleren"
 
-#: js/filelist.js:299
+#: js/filelist.js:306
 msgid "replaced {new_name} with {old_name}"
 msgstr "verving {new_name} met {old_name}"
 
-#: js/filelist.js:299
+#: js/filelist.js:306
 msgid "undo"
 msgstr "ongedaan maken"
 
-#: js/filelist.js:324
+#: js/filelist.js:331
 msgid "perform delete operation"
 msgstr "uitvoeren verwijderactie"
 
-#: js/filelist.js:406
+#: js/filelist.js:413
 msgid "1 file uploading"
 msgstr "1 bestand wordt ge-upload"
 
-#: js/filelist.js:409 js/filelist.js:463
+#: js/filelist.js:416 js/filelist.js:470
 msgid "files uploading"
 msgstr "bestanden aan het uploaden"
 
@@ -164,72 +152,80 @@ msgstr "Uw opslagruimte zit vol, Bestanden kunnen niet meer worden ge-upload of 
 msgid "Your storage is almost full ({usedSpacePercent}%)"
 msgstr "Uw opslagruimte zit bijna vol ({usedSpacePercent}%)"
 
-#: js/files.js:226
+#: js/files.js:231
 msgid ""
 "Your download is being prepared. This might take some time if the files are "
 "big."
 msgstr "Uw download wordt voorbereid. Dit kan enige tijd duren bij grote bestanden."
 
-#: js/files.js:259
+#: js/files.js:264
 msgid "Unable to upload your file as it is a directory or has 0 bytes"
-msgstr "uploaden van de file mislukt, het is of een directory of de bestandsgrootte is 0 bytes"
+msgstr "Het lukt niet om uw bestand te uploaded, omdat het een folder of 0 bytes is"
 
-#: js/files.js:272
+#: js/files.js:277
 msgid "Not enough space available"
 msgstr "Niet genoeg ruimte beschikbaar"
 
-#: js/files.js:312
+#: js/files.js:317
 msgid "Upload cancelled."
 msgstr "Uploaden geannuleerd."
 
-#: js/files.js:408
+#: js/files.js:413
 msgid ""
 "File upload is in progress. Leaving the page now will cancel the upload."
 msgstr "Bestandsupload is bezig. Wanneer de pagina nu verlaten wordt, stopt de upload."
 
-#: js/files.js:481
+#: js/files.js:486
 msgid "URL cannot be empty."
 msgstr "URL kan niet leeg zijn."
 
-#: js/files.js:486
+#: js/files.js:491
 msgid "Invalid folder name. Usage of 'Shared' is reserved by Owncloud"
 msgstr "Ongeldige mapnaam. Gebruik van'Gedeeld' is voorbehouden aan Owncloud"
 
-#: js/files.js:515 js/files.js:531 js/files.js:821 js/files.js:859
+#: js/files.js:520 js/files.js:536 js/files.js:826 js/files.js:864
 msgid "Error"
 msgstr "Fout"
 
-#: js/files.js:872 templates/index.php:70
+#: js/files.js:877 templates/index.php:69
 msgid "Name"
 msgstr "Naam"
 
-#: js/files.js:873 templates/index.php:81
+#: js/files.js:878 templates/index.php:80
 msgid "Size"
-msgstr "Bestandsgrootte"
+msgstr "Grootte"
 
-#: js/files.js:874 templates/index.php:83
+#: js/files.js:879 templates/index.php:82
 msgid "Modified"
-msgstr "Laatst aangepast"
+msgstr "Aangepast"
 
-#: js/files.js:893
+#: js/files.js:898
 msgid "1 folder"
 msgstr "1 map"
 
-#: js/files.js:895
+#: js/files.js:900
 msgid "{count} folders"
 msgstr "{count} mappen"
 
-#: js/files.js:903
+#: js/files.js:908
 msgid "1 file"
 msgstr "1 bestand"
 
-#: js/files.js:905
+#: js/files.js:910
 msgid "{count} files"
 msgstr "{count} bestanden"
 
+#: lib/app.php:53
+msgid "Invalid folder name. Usage of 'Shared' is reserved by ownCloud"
+msgstr ""
+
+#: lib/app.php:73
+msgid "Unable to rename file"
+msgstr "Kan bestand niet hernoemen"
+
 #: lib/helper.php:11 templates/index.php:18
 msgid "Upload"
-msgstr "Upload"
+msgstr "Uploaden"
 
 #: templates/admin.php:5
 msgid "File handling"
@@ -261,7 +257,7 @@ msgstr "Maximale grootte voor ZIP bestanden"
 
 #: templates/admin.php:26
 msgid "Save"
-msgstr "Opslaan"
+msgstr "Bewaren"
 
 #: templates/index.php:7
 msgid "New"
@@ -287,37 +283,37 @@ msgstr "Verwijderde bestanden"
 msgid "Cancel upload"
 msgstr "Upload afbreken"
 
-#: templates/index.php:55
+#: templates/index.php:54
 msgid "You don’t have write permissions here."
 msgstr "U hebt hier geen schrijfpermissies."
 
-#: templates/index.php:62
+#: templates/index.php:61
 msgid "Nothing in here. Upload something!"
 msgstr "Er bevindt zich hier niets. Upload een bestand!"
 
-#: templates/index.php:76
+#: templates/index.php:75
 msgid "Download"
-msgstr "Download"
+msgstr "Downloaden"
 
-#: templates/index.php:88 templates/index.php:89
+#: templates/index.php:87 templates/index.php:88
 msgid "Unshare"
-msgstr "Stop delen"
+msgstr "Stop met delen"
 
-#: templates/index.php:108
+#: templates/index.php:107
 msgid "Upload too large"
-msgstr "Bestanden te groot"
+msgstr "Upload is te groot"
 
-#: templates/index.php:110
+#: templates/index.php:109
 msgid ""
 "The files you are trying to upload exceed the maximum size for file uploads "
 "on this server."
 msgstr "De bestanden die u probeert te uploaden zijn groter dan de maximaal toegestane  bestandsgrootte voor deze server."
 
-#: templates/index.php:115
+#: templates/index.php:114
 msgid "Files are being scanned, please wait."
 msgstr "Bestanden worden gescand, even wachten."
 
-#: templates/index.php:118
+#: templates/index.php:117
 msgid "Current scanning"
 msgstr "Er wordt gescand"
 

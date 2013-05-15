@@ -3,19 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <intense.feel@gmail.com>, 2011, 2012.
-# Marián Hvolka <marian.hvolka@stuba.sk>, 2013.
-#   <martin.babik@gmail.com>, 2012.
-# Roman Priesol <roman@priesol.net>, 2012.
-#   <typhoon@zoznam.sk>, 2012.
-#   <zatroch.martin@gmail.com>, 2012.
+# mhh <marian.hvolka@stuba.sk>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
-"Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
+"POT-Creation-Date: 2013-04-29 01:58+0200\n"
+"PO-Revision-Date: 2013-04-28 18:50+0000\n"
+"Last-Translator: mhh <marian.hvolka@stuba.sk>\n"
 "Language-Team: Slovak (Slovakia) (http://www.transifex.com/projects/p/owncloud/language/sk_SK/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -27,12 +22,16 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Nie je možné nahrať zoznam z App Store"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
-msgstr "Chyba pri autentifikácii"
+msgstr "Chyba autentifikácie"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr "Vaše zobrazované meno bolo zmenené."
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr "Nemožno zmeniť zobrazované meno"
 
@@ -100,7 +99,7 @@ msgstr "Zakázať"
 
 #: js/apps.js:36 js/apps.js:64 js/apps.js:83
 msgid "Enable"
-msgstr "Povoliť"
+msgstr "Zapnúť"
 
 #: js/apps.js:55
 msgid "Please wait...."
@@ -122,7 +121,7 @@ msgstr "chyba pri aktualizácii aplikácie"
 msgid "Updated"
 msgstr "Aktualizované"
 
-#: js/personal.js:109
+#: js/personal.js:118
 msgid "Saving..."
 msgstr "Ukladám..."
 
@@ -138,18 +137,18 @@ msgstr "vrátiť"
 msgid "Unable to remove user"
 msgstr "Nemožno odobrať používateľa"
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:88 templates/users.php:26 templates/users.php:78
+#: templates/users.php:103
 msgid "Groups"
 msgstr "Skupiny"
 
-#: js/users.js:91 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
 msgstr "Správca skupiny"
 
-#: js/users.js:111 templates/users.php:161
+#: js/users.js:111 templates/users.php:155
 msgid "Delete"
-msgstr "Odstrániť"
+msgstr "Zmazať"
 
 #: js/users.js:262
 msgid "add group"
@@ -167,7 +166,7 @@ msgstr "Chyba pri vytváraní používateľa"
 msgid "A valid password must be provided"
 msgstr "Musíte zadať platné heslo"
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
 msgstr "Slovensky"
 
@@ -318,19 +317,19 @@ msgstr "Záznam"
 msgid "Log level"
 msgstr "Úroveň záznamu"
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "Viac"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Less"
 msgstr "Menej"
 
-#: templates/admin.php:231 templates/personal.php:102
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
 msgstr "Verzia"
 
-#: templates/admin.php:234 templates/personal.php:105
+#: templates/admin.php:237 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -401,7 +400,7 @@ msgstr "Získať aplikácie na synchronizáciu Vašich súborov"
 msgid "Show First Run Wizard again"
 msgstr "Znovu zobraziť sprievodcu prvým spustením"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Heslo"
 
@@ -425,82 +424,70 @@ msgstr "Nové heslo"
 msgid "Change password"
 msgstr "Zmeniť heslo"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
 msgstr "Zobrazované meno"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr "Vaše zobrazované meno bolo zmenené"
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr "Nemožno zmeniť Vaše zobrazované meno"
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr "Zmeniť zobrazované meno"
-
-#: templates/personal.php:70
+#: templates/personal.php:68
 msgid "Email"
 msgstr "Email"
 
-#: templates/personal.php:72
+#: templates/personal.php:70
 msgid "Your email address"
 msgstr "Vaša emailová adresa"
 
-#: templates/personal.php:73
+#: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
 msgstr "Vyplňte emailovú adresu pre aktivovanie obnovy hesla"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
 msgstr "Jazyk"
 
-#: templates/personal.php:86
+#: templates/personal.php:89
 msgid "Help translate"
 msgstr "Pomôcť s prekladom"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:93
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Použite túto adresu pre pripojenie vášho ownCloud k súborovému správcovi"
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
 msgstr "Prihlasovacie meno"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "Vytvoriť"
 
-#: templates/users.php:35
+#: templates/users.php:33
 msgid "Default Storage"
 msgstr "Predvolené úložisko"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
 msgstr "Nelimitované"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:57 templates/users.php:148
 msgid "Other"
 msgstr "Iné"
 
-#: templates/users.php:84
+#: templates/users.php:82
 msgid "Storage"
 msgstr "Úložisko"
 
-#: templates/users.php:95
+#: templates/users.php:93
 msgid "change display name"
 msgstr "zmeniť zobrazované meno"
 
-#: templates/users.php:99
+#: templates/users.php:97
 msgid "set new password"
 msgstr "nastaviť nové heslo"
 
-#: templates/users.php:134
+#: templates/users.php:128
 msgid "Default"
 msgstr "Predvolené"

@@ -3,19 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#  <evanlimanto@gmail.com>, 2013.
-#   <mr.pige_ina@yahoo.co.id>, 2012.
-# Muhammad Fauzan <yosanpro@gmail.com>, 2012.
-# Muhammad Panji <sumodirjo@gmail.com>, 2012.
-# Muhammad Radifar <m_radifar05@yahoo.com>, 2011.
-#  <romihardiyanto@gmail.com>, 2013.
-# Widya Walesa <walecha99@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Indonesian (http://www.transifex.com/projects/p/owncloud/language/id/)\n"
 "MIME-Version: 1.0\n"
@@ -225,7 +218,7 @@ msgstr "Oke"
 
 #: js/oc-dialogs.js:121 js/oc-dialogs.js:189 js/oc-dialogs.js:240
 msgid "Cancel"
-msgstr "Batalkan"
+msgstr "Batal"
 
 #: js/oc-dialogs.js:185
 msgid "Choose"
@@ -300,7 +293,7 @@ msgstr "Bagikan lewat tautan"
 msgid "Password protect"
 msgstr "Lindungi dengan sandi"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Sandi"
 
@@ -403,24 +396,27 @@ msgstr "Setel ulang sandi ownCloud"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Gunakan tautan berikut untuk menyetel ulang sandi Anda: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Anda akan menerima tautan penyetelan ulang sandi lewat Email."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "Email penyetelan ulang dikirim."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "Permintaan gagal!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
-msgstr "Nama Pengguna"
+msgstr "Nama pengguna"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Ajukan penyetelan ulang"
 
@@ -474,7 +470,7 @@ msgstr "Edit kategori"
 
 #: templates/edit_categories_dialog.php:16
 msgid "Add"
-msgstr "Tambahkan"
+msgstr "Tambah"
 
 #: templates/installation.php:24 templates/installation.php:31
 #: templates/installation.php:38
@@ -520,43 +516,43 @@ msgstr "Buat sebuah <strong>akun admin</strong>"
 
 #: templates/installation.php:62
 msgid "Advanced"
-msgstr "Tingkat Lanjut"
+msgstr "Lanjutan"
 
 #: templates/installation.php:64
 msgid "Data folder"
 msgstr "Folder data"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Konfigurasikan basis data"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "akan digunakan"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Pengguna basis data"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Sandi basis data"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Nama basis data"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Tablespace basis data"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Host basis data"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Selesaikan instalasi"
 
@@ -564,37 +560,42 @@ msgstr "Selesaikan instalasi"
 msgid "web services under your control"
 msgstr "layanan web dalam kontrol Anda"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "Keluar"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Masuk otomatis ditolak!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Jika tidak pernah mengubah sandi Anda baru-baru ini, akun Anda mungkin dalam bahaya!"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Mohon ubah sandi Anda untuk mengamankan kembali akun Anda."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Lupa sandi?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "selalu masuk"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Masuk"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Cara Alternatif untuk Masuk"
 

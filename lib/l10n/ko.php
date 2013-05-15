@@ -28,8 +28,5 @@
 "%d months ago" => "%d개월 전",
 "last year" => "작년",
 "years ago" => "년 전",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s을(를) 사용할 수 있습니다. <a href=\"%s\">자세한 정보 보기</a>",
-"up to date" => "최신",
-"updates check is disabled" => "업데이트 확인이 비활성화됨",
 "Could not find category \"%s\"" => "분류 \"%s\"을(를) 찾을 수 없습니다."
 );

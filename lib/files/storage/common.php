@@ -25,6 +25,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	private $scanner;
 	private $permissioncache;
 	private $watcher;
+	private $storageCache;
 
 	public function __construct($parameters) {
 	}
@@ -300,6 +301,13 @@ abstract class Common implements \OC\Files\Storage\Storage {
 		return $this->watcher;
 	}
 
+	public function getStorageCache(){
+		if (!isset($this->storageCache)) {
+			$this->storageCache = new \OC\Files\Cache\Storage($this);
+		}
+		return $this->storageCache;
+	}
+
 	/**
 	 * get the owner of a path
 	 *
@@ -361,7 +369,7 @@ abstract class Common implements \OC\Files\Storage\Storage {
 	 * get the free space in the storage
 	 *
 	 * @param $path
-	 * return int
+	 * @return int
 	 */
 	public function free_space($path) {
 		return \OC\Files\FREE_SPACE_UNKNOWN;

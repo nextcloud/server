@@ -3,16 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#  <asieriko@gmail.com>, 2013.
-#   <asieriko@gmail.com>, 2012.
-# Asier Urio Larrea <asieriko@gmail.com>, 2011.
-# Piarres Beobide <pi@beobide.net>, 2012.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:21+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-27 02:17+0200\n"
+"PO-Revision-Date: 2013-04-26 16:22+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Basque (http://www.transifex.com/projects/p/owncloud/language/eu/)\n"
 "MIME-Version: 1.0\n"
@@ -25,12 +21,16 @@ msgstr ""
 msgid "Unable to load list from App Store"
 msgstr "Ezin izan da App Dendatik zerrenda kargatu"
 
-#: ajax/changedisplayname.php:23 ajax/removeuser.php:15 ajax/setquota.php:17
+#: ajax/changedisplayname.php:25 ajax/removeuser.php:15 ajax/setquota.php:17
 #: ajax/togglegroups.php:20
 msgid "Authentication error"
 msgstr "Autentifikazio errorea"
 
-#: ajax/changedisplayname.php:32
+#: ajax/changedisplayname.php:31
+msgid "Your display name has been changed."
+msgstr ""
+
+#: ajax/changedisplayname.php:34
 msgid "Unable to change display name"
 msgstr "Ezin izan da bistaratze izena aldatu"
 
@@ -68,7 +68,7 @@ msgstr "Hizkuntza aldatuta"
 
 #: ajax/setlanguage.php:17 ajax/setlanguage.php:20
 msgid "Invalid request"
-msgstr "Baliogabeko eskaria"
+msgstr "Baliogabeko eskaera"
 
 #: ajax/togglegroups.php:12
 msgid "Admins can't remove themself from the admin group"
@@ -120,7 +120,7 @@ msgstr "Errorea aplikazioa eguneratzen zen bitartean"
 msgid "Updated"
 msgstr "Eguneratuta"
 
-#: js/personal.js:109
+#: js/personal.js:118
 msgid "Saving..."
 msgstr "Gordetzen..."
 
@@ -136,16 +136,16 @@ msgstr "desegin"
 msgid "Unable to remove user"
 msgstr "Ezin izan da erabiltzailea aldatu"
 
-#: js/users.js:88 templates/users.php:26 templates/users.php:80
-#: templates/users.php:105
+#: js/users.js:88 templates/users.php:26 templates/users.php:78
+#: templates/users.php:103
 msgid "Groups"
 msgstr "Taldeak"
 
-#: js/users.js:91 templates/users.php:82 templates/users.php:119
+#: js/users.js:91 templates/users.php:80 templates/users.php:115
 msgid "Group Admin"
 msgstr "Talde administradorea"
 
-#: js/users.js:111 templates/users.php:161
+#: js/users.js:111 templates/users.php:155
 msgid "Delete"
 msgstr "Ezabatu"
 
@@ -165,7 +165,7 @@ msgstr "Errore bat egon da erabiltzailea sortzean"
 msgid "A valid password must be provided"
 msgstr "Baliozko pasahitza eman behar da"
 
-#: personal.php:29 personal.php:30
+#: personal.php:35 personal.php:36
 msgid "__language_name__"
 msgstr "Euskera"
 
@@ -316,19 +316,19 @@ msgstr "Egunkaria"
 msgid "Log level"
 msgstr "Erregistro maila"
 
-#: templates/admin.php:223
+#: templates/admin.php:227
 msgid "More"
 msgstr "Gehiago"
 
-#: templates/admin.php:224
+#: templates/admin.php:228
 msgid "Less"
 msgstr "Gutxiago"
 
-#: templates/admin.php:231 templates/personal.php:102
+#: templates/admin.php:235 templates/personal.php:105
 msgid "Version"
 msgstr "Bertsioa"
 
-#: templates/admin.php:234 templates/personal.php:105
+#: templates/admin.php:238 templates/personal.php:108
 msgid ""
 "Developed by the <a href=\"http://ownCloud.org/contact\" "
 "target=\"_blank\">ownCloud community</a>, the <a "
@@ -399,7 +399,7 @@ msgstr "Lortu aplikazioak zure fitxategiak sinkronizatzeko"
 msgid "Show First Run Wizard again"
 msgstr "Erakutsi berriz Lehenengo Aldiko Morroia"
 
-#: templates/personal.php:37 templates/users.php:23 templates/users.php:79
+#: templates/personal.php:37 templates/users.php:23 templates/users.php:77
 msgid "Password"
 msgstr "Pasahitza"
 
@@ -423,82 +423,70 @@ msgstr "Pasahitz berria"
 msgid "Change password"
 msgstr "Aldatu pasahitza"
 
-#: templates/personal.php:56 templates/users.php:78
+#: templates/personal.php:56 templates/users.php:76
 msgid "Display Name"
 msgstr "Bistaratze Izena"
 
-#: templates/personal.php:57
-msgid "Your display name was changed"
-msgstr "Zure bistaratze izena aldatu da"
-
-#: templates/personal.php:58
-msgid "Unable to change your display name"
-msgstr "Ezin izan da zure bistaratze izena aldatu"
-
-#: templates/personal.php:61
-msgid "Change display name"
-msgstr "Aldatu bistaratze izena"
+#: templates/personal.php:68
+msgid "Email"
+msgstr "E-posta"
 
 #: templates/personal.php:70
-msgid "Email"
-msgstr "E-Posta"
-
-#: templates/personal.php:72
 msgid "Your email address"
 msgstr "Zure e-posta"
 
-#: templates/personal.php:73
+#: templates/personal.php:71
 msgid "Fill in an email address to enable password recovery"
 msgstr "Idatz ezazu e-posta bat pasahitza berreskuratu ahal izateko"
 
-#: templates/personal.php:79 templates/personal.php:80
+#: templates/personal.php:77 templates/personal.php:78
 msgid "Language"
 msgstr "Hizkuntza"
 
-#: templates/personal.php:86
+#: templates/personal.php:89
 msgid "Help translate"
 msgstr "Lagundu itzultzen"
 
-#: templates/personal.php:91
+#: templates/personal.php:94
 msgid "WebDAV"
 msgstr "WebDAV"
 
-#: templates/personal.php:93
+#: templates/personal.php:96
 msgid "Use this address to connect to your ownCloud in your file manager"
 msgstr "Erabili helbide hau zure fitxategi kudeatzailean zure ownCloudera konektatzeko"
 
-#: templates/users.php:21 templates/users.php:77
+#: templates/users.php:21 templates/users.php:75
 msgid "Login Name"
 msgstr "Sarrera Izena"
 
-#: templates/users.php:32
+#: templates/users.php:30
 msgid "Create"
 msgstr "Sortu"
 
-#: templates/users.php:35
+#: templates/users.php:33
 msgid "Default Storage"
 msgstr "Lehenetsitako Biltegiratzea"
 
-#: templates/users.php:41 templates/users.php:139
+#: templates/users.php:39 templates/users.php:133
 msgid "Unlimited"
 msgstr "Mugarik gabe"
 
-#: templates/users.php:59 templates/users.php:154
+#: templates/users.php:57 templates/users.php:148
 msgid "Other"
-msgstr "Besteak"
+msgstr "Bestelakoa"
 
-#: templates/users.php:84
+#: templates/users.php:82
 msgid "Storage"
 msgstr "Biltegiratzea"
 
-#: templates/users.php:95
+#: templates/users.php:93
 msgid "change display name"
 msgstr "aldatu bistaratze izena"
 
-#: templates/users.php:99
+#: templates/users.php:97
 msgid "set new password"
 msgstr "ezarri pasahitz berria"
 
-#: templates/users.php:134
+#: templates/users.php:128
 msgid "Default"
 msgstr "Lehenetsia"

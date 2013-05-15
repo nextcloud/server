@@ -159,7 +159,7 @@ class OC_Helper {
 	 */
 	public static function imagePath( $app, $image ) {
 		// Read the selected theme from the config file
-		$theme=OC_Config::getValue( "theme" );
+		$theme = OC_Util::getTheme();
 
 		// Check if the app is in the app folder
 		if( file_exists( OC::$SERVERROOT."/themes/$theme/apps/$app/img/$image" )) {
@@ -541,13 +541,15 @@ class OC_Helper {
 	}
 
 	/**
-	 * create a temporary file with an unique filename. It will not be deleted
-	 * automatically
-	 * @param string $postfix
-	 * @return string
+	 * move a file to oc-noclean temp dir
+	 * @param string $filename
+	 * @return mixed
 	 *
 	 */
-	public static function tmpFileNoClean($postfix='') {
+	public static function moveToNoClean($filename='') {
+		if ($filename == '') {
+			return false;
+		}
 		$tmpDirNoClean=get_temp_dir().'/oc-noclean/';
 		if (!file_exists($tmpDirNoClean) || !is_dir($tmpDirNoClean)) {
 			if (file_exists($tmpDirNoClean)) {
@@ -555,10 +557,12 @@ class OC_Helper {
 			}
 			mkdir($tmpDirNoClean);
 		}
-		$file=$tmpDirNoClean.md5(time().rand()).$postfix;
-		$fh=fopen($file, 'w');
-		fclose($fh);
-		return $file;
+		$newname=$tmpDirNoClean.basename($filename);
+		if (rename($filename, $newname)) {
+			return $newname;
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -597,7 +601,7 @@ class OC_Helper {
 	}
 
 	/**
-	 * remove all files created by self::tmpFileNoClean
+	 * remove all files in PHP /oc-noclean temp dir 
 	 */
 	public static function cleanTmpNoClean() {
 		$tmpDirNoCleanFile=get_temp_dir().'/oc-noclean/';

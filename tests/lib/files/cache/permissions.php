@@ -14,8 +14,8 @@ class Permissions extends \PHPUnit_Framework_TestCase {
 	 */
 	private $permissionsCache;
 
-	function setUp(){
-		$this->permissionsCache=new \OC\Files\Cache\Permissions('dummy');
+	function setUp() {
+		$this->permissionsCache = new \OC\Files\Cache\Permissions('dummy');
 	}
 
 	function testSimple() {
@@ -23,8 +23,10 @@ class Permissions extends \PHPUnit_Framework_TestCase {
 		$user = uniqid();
 
 		$this->assertEquals(-1, $this->permissionsCache->get(1, $user));
+		$this->assertNotContains($user, $this->permissionsCache->getUsers(1));
 		$this->permissionsCache->set(1, $user, 1);
 		$this->assertEquals(1, $this->permissionsCache->get(1, $user));
+		$this->assertContains($user, $this->permissionsCache->getUsers(1));
 		$this->assertEquals(-1, $this->permissionsCache->get(2, $user));
 		$this->assertEquals(-1, $this->permissionsCache->get(1, $user . '2'));
 

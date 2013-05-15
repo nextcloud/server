@@ -3,18 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-#   <dzubchikd@gmail.com>, 2012.
-#   <skoptev@ukr.net>, 2012.
-# Soul Kim <warlock.rf@gmail.com>, 2012.
-#   <victor.dubiniuk@gmail.com>, 2012.
-#   <volodya327@gmail.com>, 2013.
-# пан Володимир <volodya327@gmail.com>, 2013.
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-04-17 02:20+0200\n"
-"PO-Revision-Date: 2013-04-17 00:21+0000\n"
+"POT-Creation-Date: 2013-04-30 01:57+0200\n"
+"PO-Revision-Date: 2013-04-29 23:57+0000\n"
 "Last-Translator: I Robot <owncloud-bot@tmit.eu>\n"
 "Language-Team: Ukrainian (http://www.transifex.com/projects/p/owncloud/language/uk/)\n"
 "MIME-Version: 1.0\n"
@@ -299,7 +293,7 @@ msgstr "Опублікувати через посилання"
 msgid "Password protect"
 msgstr "Захистити паролем"
 
-#: js/share.js:169 templates/installation.php:54 templates/login.php:35
+#: js/share.js:169 templates/installation.php:54 templates/login.php:26
 msgid "Password"
 msgstr "Пароль"
 
@@ -337,7 +331,7 @@ msgstr "Опубліковано {item} для {user}"
 
 #: js/share.js:308
 msgid "Unshare"
-msgstr "Заборонити доступ"
+msgstr "Закрити доступ"
 
 #: js/share.js:320
 msgid "can edit"
@@ -402,24 +396,27 @@ msgstr "скидання пароля ownCloud"
 msgid "Use the following link to reset your password: {link}"
 msgstr "Використовуйте наступне посилання для скидання пароля: {link}"
 
-#: lostpassword/templates/lostpassword.php:3
+#: lostpassword/templates/lostpassword.php:4
+msgid ""
+"The link to reset your password has been sent to your email.<br>If you do "
+"not receive it within a reasonable amount of time, check your spam/junk "
+"folders.<br>If it is not there ask your local administrator ."
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:12
+msgid "Request failed!<br>Did you make sure your email/username was right?"
+msgstr ""
+
+#: lostpassword/templates/lostpassword.php:15
 msgid "You will receive a link to reset your password via Email."
 msgstr "Ви отримаєте посилання для скидання вашого паролю на Ел. пошту."
 
-#: lostpassword/templates/lostpassword.php:5
-msgid "Reset email send."
-msgstr "Лист скидання відправлено."
-
-#: lostpassword/templates/lostpassword.php:8
-msgid "Request failed!"
-msgstr "Невдалий запит!"
-
-#: lostpassword/templates/lostpassword.php:11 templates/installation.php:48
-#: templates/login.php:28
+#: lostpassword/templates/lostpassword.php:18 templates/installation.php:48
+#: templates/login.php:19
 msgid "Username"
 msgstr "Ім'я користувача"
 
-#: lostpassword/templates/lostpassword.php:14
+#: lostpassword/templates/lostpassword.php:21
 msgid "Request reset"
 msgstr "Запит скидання"
 
@@ -453,7 +450,7 @@ msgstr "Додатки"
 
 #: strings.php:8
 msgid "Admin"
-msgstr "Адміністратор"
+msgstr "Адмін"
 
 #: strings.php:9
 msgid "Help"
@@ -525,75 +522,80 @@ msgstr "Додатково"
 msgid "Data folder"
 msgstr "Каталог даних"
 
-#: templates/installation.php:73
+#: templates/installation.php:74
 msgid "Configure the database"
 msgstr "Налаштування бази даних"
 
-#: templates/installation.php:78 templates/installation.php:90
-#: templates/installation.php:101 templates/installation.php:112
-#: templates/installation.php:124
+#: templates/installation.php:79 templates/installation.php:91
+#: templates/installation.php:102 templates/installation.php:113
+#: templates/installation.php:125
 msgid "will be used"
 msgstr "буде використано"
 
-#: templates/installation.php:136
+#: templates/installation.php:137
 msgid "Database user"
 msgstr "Користувач бази даних"
 
-#: templates/installation.php:143
+#: templates/installation.php:144
 msgid "Database password"
 msgstr "Пароль для бази даних"
 
-#: templates/installation.php:148
+#: templates/installation.php:149
 msgid "Database name"
 msgstr "Назва бази даних"
 
-#: templates/installation.php:158
+#: templates/installation.php:159
 msgid "Database tablespace"
 msgstr "Таблиця бази даних"
 
-#: templates/installation.php:165
+#: templates/installation.php:166
 msgid "Database host"
 msgstr "Хост бази даних"
 
-#: templates/installation.php:171
+#: templates/installation.php:172
 msgid "Finish setup"
 msgstr "Завершити налаштування"
 
 #: templates/layout.guest.php:40
 msgid "web services under your control"
-msgstr "веб-сервіс під вашим контролем"
+msgstr "підконтрольні Вам веб-сервіси"
 
-#: templates/layout.user.php:58
+#: templates/layout.user.php:36
+#, php-format
+msgid "%s is available. Get more information on how to update."
+msgstr ""
+
+#: templates/layout.user.php:61
 msgid "Log out"
 msgstr "Вихід"
 
-#: templates/login.php:10
+#: templates/login.php:9
 msgid "Automatic logon rejected!"
 msgstr "Автоматичний вхід в систему відхилений!"
 
-#: templates/login.php:11
+#: templates/login.php:10
 msgid ""
 "If you did not change your password recently, your account may be "
 "compromised!"
 msgstr "Якщо Ви не міняли пароль останнім часом, Ваш обліковий запис може бути скомпрометованим!"
 
-#: templates/login.php:13
+#: templates/login.php:12
 msgid "Please change your password to secure your account again."
 msgstr "Будь ласка, змініть свій пароль, щоб знову захистити Ваш обліковий запис."
 
-#: templates/login.php:19
+#: templates/login.php:34
 msgid "Lost your password?"
 msgstr "Забули пароль?"
 
-#: templates/login.php:41
+#: templates/login.php:39
 msgid "remember"
 msgstr "запам'ятати"
 
-#: templates/login.php:43
+#: templates/login.php:41
 msgid "Log in"
 msgstr "Вхід"
 
-#: templates/login.php:49
+#: templates/login.php:47
 msgid "Alternative Logins"
 msgstr "Альтернативні Логіни"
 

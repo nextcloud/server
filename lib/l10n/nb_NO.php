@@ -10,7 +10,7 @@
 "Back to Files" => "Tilbake til filer",
 "Selected files too large to generate zip file." => "De valgte filene er for store til å kunne generere ZIP-fil",
 "Application is not enabled" => "Applikasjon er ikke påslått",
-"Authentication error" => "Autentiseringsfeil",
+"Authentication error" => "Autentikasjonsfeil",
 "Token expired. Please reload page." => "Symbol utløpt. Vennligst last inn siden på nytt.",
 "Files" => "Filer",
 "Text" => "Tekst",
@@ -25,10 +25,7 @@
 "%d days ago" => "%d dager siden",
 "last month" => "forrige måned",
 "%d months ago" => "%d måneder siden",
-"last year" => "i fjor",
+"last year" => "forrige år",
 "years ago" => "år siden",
-"%s is available. Get <a href=\"%s\">more information</a>" => "%s er tilgjengelig. Få  <a href=\"%s\">mer informasjon</a>",
-"up to date" => "oppdatert",
-"updates check is disabled" => "versjonssjekk er avslått",
 "Could not find category \"%s\"" => "Kunne ikke finne kategori \"%s\""
 );

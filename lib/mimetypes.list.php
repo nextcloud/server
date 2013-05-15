@@ -86,11 +86,11 @@ return array(
 	'vcf' => 'text/vcard',
 	'vcard' => 'text/vcard',
 	'doc'=>'application/msword',
-	'docx'=>'application/msword',
+	'docx'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
 	'xls'=>'application/msexcel',
-	'xlsx'=>'application/msexcel',
+	'xlsx'=>'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
 	'ppt'=>'application/mspowerpoint',
-	'pptx'=>'application/mspowerpoint',
+	'pptx'=>'application/vnd.openxmlformats-officedocument.presentationml.presentation',
 	'sgf' => 'application/sgf',
 	'cdr' => 'application/coreldraw',
 	'impress' => 'text/impress',
@@ -98,5 +98,9 @@ return array(
 	'epub' => 'application/epub+zip',
 	'mobi' => 'application/x-mobipocket-ebook',
 	'exe' => 'application',
-	'msi' => 'application'
+	'msi' => 'application',
+	'md' => 'text/markdown',
+	'markdown' => 'text/markdown',
+	'mdown' => 'text/markdown',
+	'mdwn' => 'text/markdown'
 );
