@@ -30,7 +30,7 @@ if(is_null($userstatus)) {
 
 $util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), \OCP\User::getUser());
 if ( $recoveryPassword && ! $util->checkRecoveryPassword($recoveryPassword) ) {
-	OC_JSON::error(array("data" => array( "message" => "Wrong recovery admin password. Please check the password and try again." )));
+	OC_JSON::error(array("data" => array( "message" => "Wrong admin recovery password. Please check the password and try again." )));
 }elseif(!is_null($password) && OC_User::setPassword( $username, $password, $recoveryPassword )) {
 	OC_JSON::success(array("data" => array( "username" => $username )));
 }
