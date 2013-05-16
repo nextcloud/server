@@ -46,6 +46,7 @@
 "{count} folders" => "{count} 个文件夹",
 "1 file" => "1 个文件",
 "{count} files" => "{count} 个文件",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "无效的文件夹名。”Shared“ 是 Owncloud 预留的文件夹",
 "Unable to rename file" => "无法重命名文件",
 "Upload" => "上传",
 "File handling" => "文件处理",

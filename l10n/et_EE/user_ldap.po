@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-01 01:59+0200\n"
-"PO-Revision-Date: 2013-04-30 09:30+0000\n"
+"POT-Creation-Date: 2013-05-16 01:58+0200\n"
+"PO-Revision-Date: 2013-05-15 08:51+0000\n"
 "Last-Translator: Rivo Zängov <eraser@eraser.ee>\n"
 "Language-Team: Estonian (Estonia) (http://www.transifex.com/projects/p/owncloud/language/et_EE/)\n"
 "MIME-Version: 1.0\n"
@@ -48,7 +48,7 @@ msgstr "Võta sätted viimasest serveri seadistusest?"
 
 #: js/settings.js:83
 msgid "Keep settings?"
-msgstr "Säilitada seadistus?"
+msgstr "Säilitada seadistused?"
 
 #: js/settings.js:97
 msgid "Cannot add server configuration"
@@ -56,11 +56,11 @@ msgstr "Ei suuda lisada serveri seadistust"
 
 #: js/settings.js:121
 msgid "Connection test succeeded"
-msgstr "Test ühendus õnnestus"
+msgstr "Ühenduse testimine õnnestus"
 
 #: js/settings.js:126
 msgid "Connection test failed"
-msgstr "Test ühendus ebaõnnestus"
+msgstr "Ühenduse testimine ebaõnnestus"
 
 #: js/settings.js:136
 msgid "Do you really want to delete the current Server Configuration?"

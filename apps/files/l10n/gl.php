@@ -46,6 +46,7 @@
 "{count} folders" => "{count} cartafoles",
 "1 file" => "1 ficheiro",
 "{count} files" => "{count} ficheiros",
+"Invalid folder name. Usage of 'Shared' is reserved by ownCloud" => "Nome de cartafol incorrecto. O uso de «Compartido» e «Shared» está reservado para o ownClod",
 "Unable to rename file" => "Non é posíbel renomear o ficheiro",
 "Upload" => "Enviar",
 "File handling" => "Manexo de ficheiro",
