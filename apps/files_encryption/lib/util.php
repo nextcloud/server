@@ -929,7 +929,7 @@ class Util {
 
 		// Get the current users's private key for decrypting existing keyfile
 		$privateKey = $session->getPrivateKey();
-		
+
 		$fileOwner = \OC\Files\Filesystem::getOwner( $filePath );
 		
 		// Decrypt keyfile
@@ -1336,7 +1336,7 @@ class Util {
 		}
 	}
 
-		/**
+	/**
 	 * @brief remove recovery key to all encrypted files
 	 */
 	public function removeRecoveryKeys($path = '/') {
@@ -1350,5 +1350,85 @@ class Util {
 				$this->view->unlink($this->shareKeysPath.'/'.$file.'.'.$this->recoveryKeyId.'.shareKey');
 			}
 		}
+	}
+
+	/**
+	 * @brief decrypt given file with recovery key and encrypt it again to the owner and his new key
+	 * @param type $file
+	 * @param type $privateKey recovery key to decrypt the file
+	 */
+	private function recoverFile($file, $privateKey) {
+
+		$sharingEnabled = \OCP\Share::isEnabled();
+
+		// Find out who, if anyone, is sharing the file
+		if ($sharingEnabled) {
+			$result = \OCP\Share::getUsersSharingFile($file, $this->userId, true, true, true);
+			$userIds = $result['users'];
+			$userIds[] = $this->recoveryKeyId;
+			if ($result['public']) {
+				$userIds[] = $this->publicShareKeyId;
+			}
+		} else {
+			$userIds = array($this->userId, $this->recoveryKeyId);
+		}
+		$filteredUids = $this->filterShareReadyUsers($userIds);
+
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		//decrypt file key
+		$encKeyfile = $this->view->file_get_contents($this->keyfilesPath.$file.".key");
+		$shareKey = $this->view->file_get_contents($this->shareKeysPath.$file.".".$this->recoveryKeyId.".shareKey");
+		$plainKeyfile = Crypt::multiKeyDecrypt($encKeyfile, $shareKey, $privateKey);
+		// encrypt file key again to all users, this time with the new public key for the recovered use
+		$userPubKeys = Keymanager::getPublicKeys($this->view, $filteredUids['ready']);
+		$multiEncKey = Crypt::multiKeyEncrypt($plainKeyfile, $userPubKeys);
+
+		// write new keys to filesystem TDOO!
+		$this->view->file_put_contents($this->keyfilesPath.$file.'.key', $multiEncKey['data']);
+		foreach ($multiEncKey['keys'] as $userId => $shareKey) {
+			$shareKeyPath = $this->shareKeysPath.$file.'.'.$userId.'.shareKey';
+			$this->view->file_put_contents($shareKeyPath, $shareKey);
+		}
+
+		// Return proxy to original status
+		\OC_FileProxy::$enabled = $proxyStatus;
+	}
+
+	/**
+	 * @brief collect all files and recover them one by one
+	 * @param type $path to look for files keys
+	 * @param type $privateKey private recovery key which is used to decrypt the files
+	 */
+	private function recoverAllFiles($path, $privateKey) {
+		$dirContent = $this->view->getDirectoryContent($this->keyfilesPath . $path);
+		foreach ($dirContent as $item) {
+			$filePath = substr($item['path'], 25);
+			if ($item['type'] == 'dir') {
+				$this->addRecoveryKey($filePath . '/', $privateKey);
+			} else {
+				$file = substr($filePath, 0, -4);
+				$this->recoverFile($file, $privateKey);
+			}
+		}
+	}
+
+	/**
+	 * @brief recover users files in case of password lost
+	 * @param type $recoveryPassword
+	 */
+	public function recoverUsersFiles($recoveryPassword) {
+
+		// Disable encryption proxy to prevent recursive calls
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		$encryptedKey = $this->view->file_get_contents( '/owncloud_private_key/'.$this->recoveryKeyId.'.private.key' );
+        $privateKey = Crypt::symmetricDecryptFileContent( $encryptedKey, $recoveryPassword );
+
+		\OC_FileProxy::$enabled = $proxyStatus;
+
+		$this->recoverAllFiles('/', $privateKey);
 	}
 }

@@ -142,32 +142,67 @@ class Hooks {
 	 * @brief Change a user's encryption passphrase
 	 * @param array $params keys: uid, password
 	 */
-	public static function setPassphrase( $params ) {
-		
+	public static function setPassphrase($params) {
+
 		// Only attempt to change passphrase if server-side encryption
 		// is in use (client-side encryption does not have access to 
 		// the necessary keys)
-		if ( Crypt::mode() == 'server' ) {
+		if (Crypt::mode() == 'server') {
 
-            $view = new \OC_FilesystemView( '/' );
+			if ($params['uid'] == \OCP\User::getUser()) {
 
-			$session = new Session($view);
+				$view = new \OC_FilesystemView('/');
+
+				$session = new Session($view);
+
+				// Get existing decrypted private key
+				$privateKey = $session->getPrivateKey();
+
+				// Encrypt private key with new user pwd as passphrase
+				$encryptedPrivateKey = Crypt::symmetricEncryptFileContent($privateKey, $params['password']);
+
+				// Save private key
+				Keymanager::setPrivateKey($encryptedPrivateKey);
+
+				// NOTE: Session does not need to be updated as the
+				// private key has not changed, only the passphrase
+				// used to decrypt it has changed
 			
-			// Get existing decrypted private key
-			$privateKey = $session->getPrivateKey();
-			
-			// Encrypt private key with new user pwd as passphrase
-			$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $privateKey, $params['password'] );
-			
-			// Save private key
-			Keymanager::setPrivateKey( $encryptedPrivateKey );
-			
-			// NOTE: Session does not need to be updated as the 
-			// private key has not changed, only the passphrase 
-			// used to decrypt it has changed
-			
+				
+			} else { // admin changed the password for a different user, create new keys and reencrypt file keys
+				
+				$user = $params['uid'];
+				$recoveryPassword = $params['recoveryPassword'];
+				$newUserPassword = $params['password'];
+
+				$view = new \OC_FilesystemView('/');
+
+				// make sure that the users home is mounted
+				\OC\Files\Filesystem::initMountPoints($user);
+
+				$keypair = Crypt::createKeypair();
+				
+				// Disable encryption proxy to prevent recursive calls
+				$proxyStatus = \OC_FileProxy::$enabled;
+				\OC_FileProxy::$enabled = false;
+
+				// Save public key
+				$view->file_put_contents( '/public-keys/'.$user.'.public.key', $keypair['publicKey'] );
+
+				// Encrypt private key empthy passphrase
+				$encryptedPrivateKey = Crypt::symmetricEncryptFileContent( $keypair['privateKey'], $newUserPassword );
+
+				// Save private key
+				$view->file_put_contents( '/'.$user.'/files_encryption/'.$user.'.private.key', $encryptedPrivateKey );
+
+				if ( $recoveryPassword ) { // if recovery key is set we can re-encrypt the key files
+					$util = new Util($view, $user);
+					$util->recoverUsersFiles($recoveryPassword);
+				}
+
+				\OC_FileProxy::$enabled = $proxyStatus;
+			}
 		}
-	
 	}
 
 	/*

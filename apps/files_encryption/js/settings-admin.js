@@ -69,7 +69,7 @@ $(document).ready(function(){
 		}
 	);
 
-	// change password
+	// change recovery password
 
 	$('input:password[name="changeRecoveryPassword"]').keyup(function(event) {
 		var oldRecoveryPassword = $('input:password[id="oldRecoveryPassword"]').val();

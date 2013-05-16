@@ -351,9 +351,11 @@ $(document).ready(function () {
 		input.keypress(function (event) {
 			if (event.keyCode == 13) {
 				if ($(this).val().length > 0) {
+		var recoveryPasswordVal = $('input:password[id="recoveryPassword"]').val();
+		console.log("RECOVERY PASSWD: " + recoveryPasswordVal);
 					$.post(
 						OC.filePath('settings', 'ajax', 'changepassword.php'),
-						{username: uid, password: $(this).val()},
+						{username: uid, password: $(this).val(), recoveryPassword: recoveryPasswordVal},
 						function (result) {
 						}
 					);
