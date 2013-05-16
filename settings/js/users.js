@@ -357,6 +357,10 @@ $(document).ready(function () {
 						OC.filePath('settings', 'ajax', 'changepassword.php'),
 						{username: uid, password: $(this).val(), recoveryPassword: recoveryPasswordVal},
 						function (result) {
+							if (result.status != 'success') {
+								OC.dialogs.alert(result.data.message,
+									t('settings', 'Error changing password'));
+							}
 						}
 					);
 					input.blur();
