@@ -1541,34 +1541,31 @@ class Share {
 	}
 
 	public static function post_addToGroup($arguments) {
-		
-		if(\OC_Config::getValue('installed')) {
-			// Find the group shares and check if the user needs a unique target
-			$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `share_type` = ? AND `share_with` = ?');
-			$result = $query->execute(array(self::SHARE_TYPE_GROUP, $arguments['gid']));
-			$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`item_type`, `item_source`,'
-				.' `item_target`, `parent`, `share_type`, `share_with`, `uid_owner`, `permissions`,'
-				.' `stime`, `file_source`, `file_target`) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
-			while ($item = $result->fetchRow()) {
-				if ($item['item_type'] == 'file' || $item['item_type'] == 'file') {
-					$itemTarget = null;
-				} else {
-					$itemTarget = self::generateTarget($item['item_type'], $item['item_source'], self::SHARE_TYPE_USER,
-						$arguments['uid'], $item['uid_owner'], $item['item_target'], $item['id']);
-				}
-				if (isset($item['file_source'])) {
-					$fileTarget = self::generateTarget($item['item_type'], $item['item_source'], self::SHARE_TYPE_USER,
-						$arguments['uid'], $item['uid_owner'], $item['file_target'], $item['id']);
-				} else {
-					$fileTarget = null;
-				}
-				// Insert an extra row for the group share if the item or file target is unique for this user
-				if ($itemTarget != $item['item_target'] || $fileTarget != $item['file_target']) {
-					$query->execute(array($item['item_type'], $item['item_source'], $itemTarget, $item['id'],
-						self::$shareTypeGroupUserUnique, $arguments['uid'], $item['uid_owner'], $item['permissions'],
-						$item['stime'], $item['file_source'], $fileTarget));
-					\OC_DB::insertid('*PREFIX*share');
-				}
+		// Find the group shares and check if the user needs a unique target
+		$query = \OC_DB::prepare('SELECT * FROM `*PREFIX*share` WHERE `share_type` = ? AND `share_with` = ?');
+		$result = $query->execute(array(self::SHARE_TYPE_GROUP, $arguments['gid']));
+		$query = \OC_DB::prepare('INSERT INTO `*PREFIX*share` (`item_type`, `item_source`,'
+			.' `item_target`, `parent`, `share_type`, `share_with`, `uid_owner`, `permissions`,'
+			.' `stime`, `file_source`, `file_target`) VALUES (?,?,?,?,?,?,?,?,?,?,?)');
+		while ($item = $result->fetchRow()) {
+			if ($item['item_type'] == 'file' || $item['item_type'] == 'file') {
+				$itemTarget = null;
+			} else {
+				$itemTarget = self::generateTarget($item['item_type'], $item['item_source'], self::SHARE_TYPE_USER,
+					$arguments['uid'], $item['uid_owner'], $item['item_target'], $item['id']);
+			}
+			if (isset($item['file_source'])) {
+				$fileTarget = self::generateTarget($item['item_type'], $item['item_source'], self::SHARE_TYPE_USER,
+					$arguments['uid'], $item['uid_owner'], $item['file_target'], $item['id']);
+			} else {
+				$fileTarget = null;
+			}
+			// Insert an extra row for the group share if the item or file target is unique for this user
+			if ($itemTarget != $item['item_target'] || $fileTarget != $item['file_target']) {
+				$query->execute(array($item['item_type'], $item['item_source'], $itemTarget, $item['id'],
+					self::$shareTypeGroupUserUnique, $arguments['uid'], $item['uid_owner'], $item['permissions'],
+					$item['stime'], $item['file_source'], $fileTarget));
+				\OC_DB::insertid('*PREFIX*share');
 			}
 		}
 	}
