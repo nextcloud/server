@@ -528,11 +528,151 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
 
 	}
 
-    function loginHelper($user, $create = false)
+	function testRecoveryFile()
+	{
+		// login as admin
+		$this->loginHelper('admin');
+
+		\OCA\Encryption\Helper::adminEnableRecovery(null, 'test123');
+		$recoveryKeyId = OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
+
+		// check if control file created
+		$this->assertTrue($this->view->file_exists('/control-file/controlfile.enc'));
+
+		$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), 'admin');
+
+		// check if recovery password match
+		$this->assertTrue($util->checkRecoveryPassword('test123'));
+
+		// enable recovery for admin
+		$this->assertTrue($util->setRecoveryForUser(true));
+
+		// create folder structure
+		$this->view->mkdir('/admin/files' . $this->folder1);
+		$this->view->mkdir('/admin/files' . $this->folder1 . $this->subfolder);
+		$this->view->mkdir('/admin/files' . $this->folder1 . $this->subfolder . $this->subsubfolder);
+
+		// save file with content
+		$cryptedFile1 = file_put_contents('crypt://' . $this->filename, $this->dataShort);
+		$cryptedFile2 = file_put_contents('crypt://' . $this->folder1 . $this->subfolder . $this->subsubfolder .'/'. $this->filename, $this->dataShort);
+
+		// test that data was successfully written
+		$this->assertTrue(is_int($cryptedFile1));
+		$this->assertTrue(is_int($cryptedFile2));
+
+		// check if share key for admin and recovery exists
+		$this->assertTrue($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->filename . '.admin.shareKey'));
+		$this->assertTrue($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->filename . '.'.$recoveryKeyId.'.shareKey'));
+		$this->assertTrue($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->folder1 . $this->subfolder . $this->subsubfolder .'/'. $this->filename . '.admin.shareKey'));
+		$this->assertTrue($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->folder1 . $this->subfolder . $this->subsubfolder .'/'. $this->filename . '.'.$recoveryKeyId.'.shareKey'));
+
+		// disable recovery for admin
+		$this->assertTrue($util->setRecoveryForUser(false));
+
+		// remove all recovery keys
+		$util->removeRecoveryKeys('/');
+
+		// check if share key for recovery not exists
+		$this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->filename . '.'.$recoveryKeyId.'.shareKey'));
+		$this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->folder1 . $this->subfolder . $this->subsubfolder .'/'. $this->filename . '.'.$recoveryKeyId.'.shareKey'));
+
+		// enable recovery for admin
+		$this->assertTrue($util->setRecoveryForUser(true));
+
+		// remove all recovery keys
+		$util->addRecoveryKeys('/');
+
+		// check if share key for admin and recovery exists
+		$this->assertTrue($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->filename . '.'.$recoveryKeyId.'.shareKey'));
+		$this->assertTrue($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->folder1 . $this->subfolder . $this->subsubfolder .'/'. $this->filename . '.'.$recoveryKeyId.'.shareKey'));
+
+		// cleanup
+		$this->view->unlink('/admin/files/' . $this->filename);
+		$this->view->unlink('/admin/files/' . $this->folder1 . $this->subfolder . $this->subsubfolder .'/'. $this->filename);
+
+		// check if share key for recovery not exists
+		$this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->filename . '.'.$recoveryKeyId.'.shareKey'));
+		$this->assertFalse($this->view->file_exists('/admin/files_encryption/share-keys/' . $this->folder1 . $this->subfolder . $this->subsubfolder .'/'. $this->filename . '.'.$recoveryKeyId.'.shareKey'));
+	}
+
+	function testRecoveryForUser()
+	{
+		// login as admin
+		$this->loginHelper('admin');
+
+		\OCA\Encryption\Helper::adminEnableRecovery(null, 'test123');
+		$recoveryKeyId = OC_Appconfig::getValue('files_encryption', 'recoveryKeyId');
+
+		// check if control file created
+		$this->assertTrue($this->view->file_exists('/control-file/controlfile.enc'));
+
+		// login as user1
+		$this->loginHelper('user1');
+
+		$util = new \OCA\Encryption\Util(new \OC_FilesystemView('/'), 'user1');
+
+		// enable recovery for admin
+		$this->assertTrue($util->setRecoveryForUser(true));
+
+		// create folder structure
+		$this->view->mkdir('/user1/files' . $this->folder1);
+		$this->view->mkdir('/user1/files' . $this->folder1 . $this->subfolder);
+		$this->view->mkdir('/user1/files' . $this->folder1 . $this->subfolder . $this->subsubfolder);
+
+		// save file with content
+		$cryptedFile1 = file_put_contents('crypt://' . $this->filename, $this->dataShort);
+		$cryptedFile2 = file_put_contents('crypt://' . $this->folder1 . $this->subfolder . $this->subsubfolder .'/'. $this->filename, $this->dataShort);
+
+		// test that data was successfully written
+		$this->assertTrue(is_int($cryptedFile1));
+		$this->assertTrue(is_int($cryptedFile2));
+
+		// check if share key for user and recovery exists
+		$this->assertTrue($this->view->file_exists('/user1/files_encryption/share-keys/' . $this->filename . '.user1.shareKey'));
+		$this->assertTrue($this->view->file_exists('/user1/files_encryption/share-keys/' . $this->filename . '.'.$recoveryKeyId.'.shareKey'));
+		$this->assertTrue($this->view->file_exists('/user1/files_encryption/share-keys/' . $this->folder1 . $this->subfolder . $this->subsubfolder .'/'. $this->filename . '.user1.shareKey'));
+		$this->assertTrue($this->view->file_exists('/user1/files_encryption/share-keys/' . $this->folder1 . $this->subfolder . $this->subsubfolder .'/'. $this->filename . '.'.$recoveryKeyId.'.shareKey'));
+
+		// login as admin
+		$this->loginHelper('admin');
+
+		// change password
+		\OC_User::setPassword('user1', 'test', 'test123');
+
+		// login as user1
+		$this->loginHelper('user1', false, 'test');
+
+		// get file contents
+		$retrievedCryptedFile1 = file_get_contents('crypt://' . $this->filename);
+		$retrievedCryptedFile2 = file_get_contents('crypt://' . $this->folder1 . $this->subfolder . $this->subsubfolder .'/'. $this->filename);
+
+		// check if data is the same as we previously written
+		$this->assertEquals($this->dataShort, $retrievedCryptedFile1);
+		$this->assertEquals($this->dataShort, $retrievedCryptedFile2);
+
+		// cleanup
+		$this->view->unlink('/user1/files' . $this->folder1);
+		$this->view->unlink('/user1/files' . $this->filename);
+
+		// check if share key for user and recovery exists
+		$this->assertFalse($this->view->file_exists('/user1/files_encryption/share-keys/' . $this->filename . '.user1.shareKey'));
+		$this->assertFalse($this->view->file_exists('/user1/files_encryption/share-keys/' . $this->filename . '.'.$recoveryKeyId.'.shareKey'));
+		$this->assertFalse($this->view->file_exists('/user1/files_encryption/share-keys/' . $this->folder1 . $this->subfolder . $this->subsubfolder .'/'. $this->filename . '.user1.shareKey'));
+		$this->assertFalse($this->view->file_exists('/user1/files_encryption/share-keys/' . $this->folder1 . $this->subfolder . $this->subsubfolder .'/'. $this->filename . '.'.$recoveryKeyId.'.shareKey'));
+
+		// enable recovery for admin
+		$this->assertTrue($util->setRecoveryForUser(false));
+	}
+
+	function loginHelper($user, $create = false, $password = false)
     {
         if ($create) {
             \OC_User::createUser($user, $user);
         }
+
+		if($password === false) {
+			$password = $user;
+		}
 
         \OC_Util::tearDownFS();
         \OC_User::setUserId('');
@@ -541,7 +681,7 @@ class Test_Encryption_Share extends \PHPUnit_Framework_TestCase
         \OC_User::setUserId($user);
 
         $params['uid'] = $user;
-        $params['password'] = $user;
+        $params['password'] = $password;
         OCA\Encryption\Hooks::login($params);
     }
 }
