@@ -62,7 +62,16 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
         // Filesystem related hooks
         \OCA\Encryption\Helper::registerFilesystemHooks();
 
+		// Filesystem related hooks
+		\OCA\Encryption\Helper::registerUserHooks();
+
         \OC_FileProxy::register(new OCA\Encryption\Proxy());
+
+		// remember files_trashbin state
+		$this->stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
+
+		// we don't want to tests with app files_trashbin enabled
+		\OC_App::disable('files_trashbin');
 
         \OC_Util::tearDownFS();
         \OC_User::setUserId('');
@@ -78,6 +87,13 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 	
 	function tearDown() {
 		\OC_FileProxy::clearProxies();
+
+		// reset app files_trashbin
+		if ($this->stateFilesTrashbin) {
+			OC_App::enable('files_trashbin');
+		} else {
+			OC_App::disable('files_trashbin');
+		}
     }
 
     function testGenerateKey() {
@@ -686,7 +702,6 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
         $this->assertEquals( $this->dataLong, $newDecrypt );
 
         // tear down
-        $view->unlink( $newFolder . '/' . $newFilename );
         $view->unlink( $newFolder );
     }
 

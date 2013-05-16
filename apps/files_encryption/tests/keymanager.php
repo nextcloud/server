@@ -57,6 +57,12 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 
         \OC_FileProxy::register(new OCA\Encryption\Proxy());
 
+		// remember files_trashbin state
+		$this->stateFilesTrashbin = OC_App::isEnabled('files_trashbin');
+
+		// we don't want to tests with app files_trashbin enabled
+		\OC_App::disable('files_trashbin');
+
         \OC_Util::tearDownFS();
         \OC_User::setUserId('');
         \OC\Files\Filesystem::tearDown();
@@ -72,6 +78,13 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 	
 		\OC_FileProxy::$enabled = true;
 		\OC_FileProxy::clearProxies();
+
+		// reset app files_trashbin
+		if ($this->stateFilesTrashbin) {
+			OC_App::enable('files_trashbin');
+		} else {
+			OC_App::disable('files_trashbin');
+		}
 	}
 
 	function testGetPrivateKey() {
@@ -116,6 +129,16 @@ class Test_Keymanager extends \PHPUnit_Framework_TestCase {
 
 		//$view = new \OC_FilesystemView( '/' . $this->userId . '/files_encryption/keyfiles' );
 		Encryption\Keymanager::setFileKey( $this->view, $file, $this->userId, $key['key'] );
+
+		// Disable encryption proxy to prevent recursive calls
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = true;
+
+		// cleanup
+		$this->view->unlink('/'.$this->userId . '/files/' . $file);
+
+		// Re-enable proxy - our work is done
+		\OC_FileProxy::$enabled = $proxyStatus;
 	
 	}
 	
