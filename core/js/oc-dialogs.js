@@ -1,7 +1,7 @@
 /**
  * ownCloud
  *
- * @author Bartek Przybylski,Christopher Schäpers, Thomas Tanghus
+ * @author Bartek Przybylski, Christopher Schäpers, Thomas Tanghus
  * @copyright 2012 Bartek Przybylski bartek@alefzero.eu
  *
  * This library is free software; you can redistribute it and/or
@@ -396,7 +396,8 @@ var OCdialogs = {
 	 * handle selection made in the tree list
 	*/
 	handleTreeListSelect:function(event) {
-		if ($('option:selected', this).html().indexOf('/') !== -1) { // if there's a slash in the selected path, don't append it
+		// if there's a slash in the selected path, don't append it
+		if ($('option:selected', this).html().indexOf('/') !== -1) {
 			$(event.data.dcid).data('path', $('option:selected', this).html());
 		} else {
 			$(event.data.dcid).data('path', $(event.data.dcid).data('path') + $('option:selected', this).html() + '/');
