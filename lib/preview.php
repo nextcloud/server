@@ -53,7 +53,7 @@ class OC_Preview {
 	 *					false if thumbnail does not exist
 	 *					path to thumbnail if thumbnail exists
 	*/
-	public function __construct($user = null, $root = '', $file = '', $maxX = 0, $maxY = 0, $scalingup = false){
+	public function __construct($user = null, $root = '', $file = '', $maxX = 0, $maxY = 0, $scalingup = true){
 		//set config
 		$this->max_x = OC_Config::getValue('preview_max_x', null);
 		$this->max_y = OC_Config::getValue('preview_max_y', null);
@@ -493,7 +493,7 @@ class OC_Preview {
 		 * use: ?scalingup=0 / ?scalingup = 1
 		 * do not use ?scalingup=false / ?scalingup = true as these will always be true
 		 */
-		$scalingup = false;
+		$scalingup = true;
 		
 		if(array_key_exists('file', $_GET)) $file = (string) urldecode($_GET['file']);
 		if(array_key_exists('x', $_GET)) $maxX = (int) $_GET['x'];
@@ -517,7 +517,7 @@ class OC_Preview {
 		$file = '';
 		$maxX = 0;
 		$maxY = 0;
-		$scalingup = false;
+		$scalingup = true;
 		$token = '';
 		
 		$user = null;
