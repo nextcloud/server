@@ -3,7 +3,7 @@
 "Personal" => "Personleg",
 "Settings" => "Innstillingar",
 "Users" => "Brukarar",
-"Apps" => "Applikasjonar",
+"Apps" => "Program",
 "Admin" => "Administrer",
 "Authentication error" => "Feil i autentisering",
 "Files" => "Filer",

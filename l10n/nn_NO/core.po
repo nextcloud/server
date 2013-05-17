@@ -4,12 +4,13 @@
 # 
 # Translators:
 # unhammer <unhammer+dill@mm.st>, 2013
+# unhammer <unhammer+dill@mm.st>, 2013
 msgid ""
 msgstr ""
 "Project-Id-Version: ownCloud\n"
 "Report-Msgid-Bugs-To: http://bugs.owncloud.org/\n"
-"POT-Creation-Date: 2013-05-12 02:01+0200\n"
-"PO-Revision-Date: 2013-05-07 18:40+0000\n"
+"POT-Creation-Date: 2013-05-17 02:03+0200\n"
+"PO-Revision-Date: 2013-05-16 09:30+0000\n"
 "Last-Translator: unhammer <unhammer+dill@mm.st>\n"
 "Language-Team: Norwegian Nynorsk (Norway) (http://www.transifex.com/projects/p/owncloud/language/nn_NO/)\n"
 "MIME-Version: 1.0\n"
@@ -70,7 +71,7 @@ msgstr "Ingen %s-ID."
 #: ajax/vcategories/addToFavorites.php:35
 #, php-format
 msgid "Error adding %s to favorites."
-msgstr "Klarte ikkje å leggja til %s i favorittar."
+msgstr "Klarte ikkje leggja til %s i favorittar."
 
 #: ajax/vcategories/delete.php:35 js/oc-vcategories.js:136
 msgid "No categories selected for deletion."
@@ -79,7 +80,7 @@ msgstr "Ingen kategoriar valt for sletting."
 #: ajax/vcategories/removeFromFavorites.php:35
 #, php-format
 msgid "Error removing %s from favorites."
-msgstr "Klarte ikkje å fjerna %s frå favorittar."
+msgstr "Klarte ikkje fjerna %s frå favorittar."
 
 #: js/config.php:34
 msgid "Sunday"
@@ -199,11 +200,11 @@ msgstr "førre månad"
 
 #: js/js.js:727
 msgid "{months} months ago"
-msgstr "{months) månader sidan"
+msgstr "{months} månadar sidan"
 
 #: js/js.js:728
 msgid "months ago"
-msgstr "månader sidan"
+msgstr "månadar sidan"
 
 #: js/js.js:729
 msgid "last year"
@@ -248,7 +249,7 @@ msgstr "Feil"
 
 #: js/oc-vcategories.js:179
 msgid "The app name is not specified."
-msgstr "App-namnet er ikkje spesifisert."
+msgstr "Programnamnet er ikkje spesifisert."
 
 #: js/oc-vcategories.js:194
 msgid "The required file {file} is not installed!"
@@ -308,11 +309,11 @@ msgstr "Send"
 
 #: js/share.js:178
 msgid "Set expiration date"
-msgstr "Set utlaupsdato"
+msgstr "Set utløpsdato"
 
 #: js/share.js:179
 msgid "Expiration date"
-msgstr "Utlaupsdato"
+msgstr "Utløpsdato"
 
 #: js/share.js:211
 msgid "Share via email:"
@@ -364,11 +365,11 @@ msgstr "Passordverna"
 
 #: js/share.js:577
 msgid "Error unsetting expiration date"
-msgstr "Klarte ikkje å fjerna utlaupsdato"
+msgstr "Klarte ikkje fjerna utløpsdato"
 
 #: js/share.js:589
 msgid "Error setting expiration date"
-msgstr "Klarte ikkje å setja utlaupsdato"
+msgstr "Klarte ikkje setja utløpsdato"
 
 #: js/share.js:604
 msgid "Sending ..."
@@ -447,7 +448,7 @@ msgstr "Brukarar"
 
 #: strings.php:7
 msgid "Apps"
-msgstr "Applikasjonar"
+msgstr "Program"
 
 #: strings.php:8
 msgid "Admin"
@@ -525,13 +526,13 @@ msgstr "Datamappe"
 
 #: templates/installation.php:74
 msgid "Configure the database"
-msgstr "Konfigurer databasen"
+msgstr "Set opp databasen"
 
 #: templates/installation.php:79 templates/installation.php:91
 #: templates/installation.php:102 templates/installation.php:113
 #: templates/installation.php:125
 msgid "will be used"
-msgstr "vil bli nytta"
+msgstr "vil verta nytta"
 
 #: templates/installation.php:137
 msgid "Database user"
