@@ -97,9 +97,10 @@ class Hooks {
 				);
 			
 			}
-			
+
+			// DISABLED JUST FOR TESTING PURPOSE, ACTIVATE AGAIN!
 			// Register successful migration in DB
-			$util->setMigrationStatus( 1 );
+			//$util->setMigrationStatus( 1 );
 		
 		}
 

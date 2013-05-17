@@ -714,16 +714,19 @@ class Util {
 				
 					// Fetch data from file
 					$legacyData = $this->view->file_get_contents( $legacyFile['path'] );
-				
+
 					// Recrypt data, generate catfile
-					$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKey, $newPassphrase );
+					$recrypted = Crypt::legacyKeyRecryptKeyfile( $legacyData, $legacyPassphrase, $publicKey, $newPassphrase, $legacyFile['path'] );
 					
-					$relPath = $legacyFile['path'];
-					$rawPath = $this->userId . '/files/' .  $plainFile['path'];
+					$rawPath = $legacyFile['path'];
+					$relPath = $this->stripUserFilesPath($rawPath);
 					
 					// Save keyfile
-					Keymanager::setFileKey( $this->view, $relPath, $this->userId, $recrypted['key'] );
-					
+					Keymanager::setFileKey( $this->view, $relPath, $this->userId, $recrypted['filekey'] );
+
+					// Save sharekeys to user folders
+					Keymanager::setShareKeys( $this->view, $relPath, $recrypted['sharekeys'] );
+
 					// Overwrite the existing file with the encrypted one
 					$this->view->file_put_contents( $rawPath, $recrypted['data'] );
 					
