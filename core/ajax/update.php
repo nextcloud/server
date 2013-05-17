@@ -6,6 +6,8 @@ require_once '../../lib/base.php';
 if (OC::checkUpgrade(false)) {
 	\OC_DB::enableCaching(false);
 	OC_Config::setValue('maintenance', true);
+	$installedVersion = OC_Config::getValue('version', '0.0.0');
+	$currentVersion = implode('.', OC_Util::getVersion());
 	OC_Log::write('core', 'starting upgrade from ' . $installedVersion . ' to ' . $currentVersion, OC_Log::WARN);
 	$updateEventSource = new OC_EventSource();
 	$watcher = new UpdateWatcher($updateEventSource);
