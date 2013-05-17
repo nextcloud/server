@@ -20,7 +20,7 @@ require_once('preview/unknown.php');
 class OC_Preview {
 	//the thumbnail  folder
 	const THUMBNAILS_FOLDER = 'thumbnails';
-	
+
 	//config
 	private $max_scale_factor;
 	private $max_x;
@@ -35,7 +35,7 @@ class OC_Preview {
 	private $maxX;
 	private $maxY;
 	private $scalingup;
-	
+
 	private $preview;
 
 	//preview providers
@@ -58,7 +58,7 @@ class OC_Preview {
 		$this->max_x = OC_Config::getValue('preview_max_x', null);
 		$this->max_y = OC_Config::getValue('preview_max_y', null);
 		$this->max_scale_factor = OC_Config::getValue('preview_max_scale_factor', 10);
-		
+
 		//save parameters
 		$this->file = $file;
 		$this->maxX = $maxX;
@@ -112,7 +112,7 @@ class OC_Preview {
 			throw new Exception('Height and/or width set to 0');
 		}
 	}
-	
+
 	/**
 	 * @brief returns the path of the file you want a thumbnail from
 	 * @return string
@@ -120,7 +120,7 @@ class OC_Preview {
 	public function	getFile(){
 		return $this->file;
 	}
-	
+
 	/**
 	 * @brief returns the max width of the preview
 	 * @return integer
@@ -136,7 +136,7 @@ class OC_Preview {
 	public function getMaxY(){
 		return $this->maxY;
 	}
-	
+
 	/**
 	 * @brief returns whether or not scalingup is enabled
 	 * @return bool
@@ -144,7 +144,7 @@ class OC_Preview {
 	public function getScalingup(){
 		return $this->scalingup;
 	}
-	
+
 	/**
 	 * @brief returns the name of the thumbnailfolder
 	 * @return string
@@ -176,7 +176,7 @@ class OC_Preview {
 	public function getConfigMaxY(){
 		return $this->max_y;
 	}
-	
+
 	/**
 	 * @brief deletes previews of a file with specific x and y
 	 * @return bool
@@ -303,27 +303,27 @@ class OC_Preview {
 			$this->preview = $image;
 		}else{
 			$mimetype = $this->fileview->getMimeType($file);
-	
+
 			$preview;
-	
+
 			foreach(self::$providers as $supportedmimetype => $provider){
 				if(!preg_match($supportedmimetype, $mimetype)){
 					continue;
 				}
-	
+
 				$preview = $provider->getThumbnail($file, $maxX, $maxY, $scalingup, $this->fileview);
 	
 				if(!$preview){
 					continue;
 				}
-	
+
 				if(!($preview instanceof \OC_Image)){
 					$preview = @new \OC_Image($preview);
 				}
-	
+
 				//cache thumbnail
 				$preview->save($this->userview->getLocalFile(self::THUMBNAILS_FOLDER . '/' . $fileid . '/' . $maxX . '-' . $maxY . '.png'));
-	
+
 				break;
 			}
 			$this->preview = $preview;
@@ -396,12 +396,12 @@ class OC_Preview {
 
 		// resize
 		$image->preciseResize($newXsize, $newYsize);
-		
+
 		if($newXsize === $x && $newYsize === $y){
 			$this->preview = $image;
 			return;
 		}
-		
+
 		if($newXsize >= $x && $newYsize >= $y){
 			$cropX = floor(abs($x - $newXsize) * 0.5);
 			$cropY = floor(abs($y - $newYsize) * 0.5);
@@ -411,38 +411,38 @@ class OC_Preview {
 			$this->preview = $image;
 			return;
 		}
-		
+
 		if($newXsize < $x || $newYsize < $y){
 			if($newXsize > $x){
 				$cropX = floor(($newXsize - $x) * 0.5);
 				$image->crop($cropX, 0, $x, $newYsize);
 			}
-			
+
 			if($newYsize > $y){
 				$cropY = floor(($newYsize - $y) * 0.5);
 				$image->crop(0, $cropY, $newXsize, $y);
 			}
-			
+
 			$newXsize = (int) $image->width();
 			$newYsize = (int) $image->height();
-			
+
 			//create transparent background layer
 			$backgroundlayer = imagecreatetruecolor($x, $y);
 			$white = imagecolorallocate($backgroundlayer, 255, 255, 255);
 			imagefill($backgroundlayer, 0, 0, $white);
-			
+
 			$image = $image->resource();
-			
+
 			$mergeX = floor(abs($x - $newXsize) * 0.5);
 			$mergeY = floor(abs($y - $newYsize) * 0.5);
-			
+
 			imagecopy($backgroundlayer, $image, $mergeX, $mergeY, 0, 0, $newXsize, $newYsize);
-			
+
 			//$black = imagecolorallocate(0,0,0);
 			//imagecolortransparent($transparentlayer, $black);
-			
+
 			$image = new \OC_Image($backgroundlayer);
-			
+
 			$this->preview = $image;
 			return;
 		}
@@ -465,27 +465,27 @@ class OC_Preview {
 		if(count(self::$providers)>0) {
 			return;
 		}
-		
+
 		foreach(self::$registeredProviders as $provider) {
 			$class=$provider['class'];
 			$options=$provider['options'];
-			
+
 			$object = new $class($options);
-			
+
 			self::$providers[$object->getMimeType()] = $object;
 		}
-		
+
 		$keys = array_map('strlen', array_keys(self::$providers));
 		array_multisort($keys, SORT_DESC, self::$providers);
 	}
-	
+
 	/**
 	 * @brief method that handles preview requests from users that are logged in
 	 * @return void
 	*/
 	public static function previewRouter($params){
 		OC_Util::checkLoggedIn();
-		
+
 		$file = '';
 		$maxX = 0;
 		$maxY = 0;
@@ -494,12 +494,12 @@ class OC_Preview {
 		 * do not use ?scalingup=false / ?scalingup = true as these will always be true
 		 */
 		$scalingup = true;
-		
+
 		if(array_key_exists('file', $_GET)) $file = (string) urldecode($_GET['file']);
 		if(array_key_exists('x', $_GET)) $maxX = (int) $_GET['x'];
 		if(array_key_exists('y', $_GET)) $maxY = (int) $_GET['y'];
 		if(array_key_exists('scalingup', $_GET)) $scalingup = (bool) $_GET['scalingup'];
-		
+
 		if($file !== '' && $maxX !== 0 && $maxY !== 0){
 			$preview = new OC_Preview(OC_User::getUser(), 'files', $file,  $maxX, $maxY, $scalingup);
 			$preview->showPreview();
@@ -508,7 +508,7 @@ class OC_Preview {
 			exit;
 		}
 	}
-	
+
 	/**
 	 * @brief method that handles preview requests from users that are not logged in / view shared folders that are public
 	 * @return void
@@ -519,23 +519,23 @@ class OC_Preview {
 		$maxY = 0;
 		$scalingup = true;
 		$token = '';
-		
+
 		$user = null;
 		$path = null;
-		
+
 		if(array_key_exists('file', $_GET)) $file = (string) urldecode($_GET['file']);
 		if(array_key_exists('x', $_GET)) $maxX = (int) $_GET['x'];
 		if(array_key_exists('y', $_GET)) $maxY = (int) $_GET['y'];
 		if(array_key_exists('scalingup', $_GET)) $scalingup = (bool) $_GET['scalingup'];
 		if(array_key_exists('t', $_GET)) $token = (string) $_GET['t'];
-		
+
 		$linkItem = OCP\Share::getShareByToken($token);
 		if (is_array($linkItem) && isset($linkItem['uid_owner']) && isset($linkItem['file_source'])) {
 			$userid = $linkItem['uid_owner'];
 			OC_Util::setupFS($fileOwner);
 			$path = $linkItem['file_source'];
 		}
-		
+
 		if($user !== null && $path !== null){
 			$preview = new OC_Preview($userid, $path, $file, $maxX, $maxY, $scalingup);
 			$preview->showPreview();
@@ -543,6 +543,5 @@ class OC_Preview {
 			OC_Response::setStatus(404);
 			exit;
 		}
-		
 	}
 }

@@ -8,7 +8,7 @@ abstract class OC_Preview_Provider{
 	public function __construct($options) {
 		$this->options=$options;
 	}
-	
+
 	abstract public function getMimeType();
 
 	/**

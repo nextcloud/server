@@ -12,23 +12,12 @@ class OC_Preview_Unknown extends OC_Preview_Provider{
 		return '/.*/';
 	}
 
-	public function getThumbnail($path, $maxX, $maxY, $scalingup,$fileview) {	
-		// check if GD is installed
-		if(!extension_loaded('gd') || !function_exists('gd_info')) {
-			OC_Log::write('preview', __METHOD__.'(): GD module not installed', OC_Log::ERROR);
-			return false;
-		}
-	
-		// create a white image
-		$image = imagecreatetruecolor($maxX, $maxY);
-		$color = imagecolorallocate($image, 255, 255, 255);
-		imagefill($image, 0, 0, $color);
-	
-		// output the image
-		imagepng($image);
-		imagedestroy($image);
-	}
+	public function getThumbnail($path, $maxX, $maxY, $scalingup,$fileview) {
 
+
+		$mimetype = $this->fileview->getMimeType($file);
+		return new \OC_Image();
+	}
 }
 
 OC_Preview::registerProvider('OC_Preview_Unknown');

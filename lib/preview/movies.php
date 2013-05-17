@@ -12,18 +12,18 @@ if(!is_null(shell_exec('ffmpeg -version'))){
 		public function getMimeType(){
 			return '/video\/.*/';
 		}
-		
+
 		public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
 			$abspath = $fileview->getLocalfile($path);
-			
+
 			$tmppath = OC_Helper::tmpFile();
-			
+
 			$cmd = 'ffmpeg -y  -i ' . escapeshellarg($abspath) . ' -f mjpeg -vframes 1 -ss 1 -s ' . escapeshellarg($maxX) . 'x' . escapeshellarg($maxY) . ' ' . $tmppath;
 			shell_exec($cmd);
-			
+
 			$image = new \OC_Image($tmppath);
 			if (!$image->valid()) return false;
-			
+
 			return $image;
 		}
 	}

@@ -15,7 +15,7 @@ class OC_Preview_PDF extends OC_Preview_Provider{
 		//create imagick object from pdf
 		$pdf = new imagick($fileview->getLocalFile($path) . '[0]');
 		$pdf->setImageFormat('jpg');
-		
+
 		//new image object
 		$image = new \OC_Image($pdf);
 		//check if image object is valid

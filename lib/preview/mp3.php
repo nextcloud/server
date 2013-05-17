@@ -25,7 +25,7 @@ class OC_Preview_MP3 extends OC_Preview_Provider{
 		
 		return $image;
 	}
-	
+
 	public function getNoCoverThumbnail($maxX, $maxY){
 		$image = new \OC_Image();
 		return $image;

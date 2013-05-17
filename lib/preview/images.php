@@ -11,7 +11,7 @@ class OC_Preview_Image extends OC_Preview_Provider{
 	public function getMimeType(){
 		return '/image\/.*/';
 	}
-	
+
 	public function getThumbnail($path,$maxX,$maxY,$scalingup,$fileview) {
 		//new image object
 		$image = new \OC_Image();
