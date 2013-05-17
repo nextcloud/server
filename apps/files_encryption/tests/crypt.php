@@ -340,7 +340,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		//print_r($r);
 		
 		// Join IVs and their respective data chunks
-		$e = array( $r[0].$r[1], $r[2].$r[3], $r[4].$r[5], $r[6].$r[7], $r[8].$r[9], $r[10].$r[11], $r[12].$r[13] );//.$r[11], $r[12].$r[13], $r[14] );
+		$e = array( $r[0].$r[1], $r[2].$r[3], $r[4].$r[5], $r[6].$r[7], $r[8].$r[9], $r[10].$r[11]);//.$r[11], $r[12].$r[13], $r[14] );
 		
 		//print_r($e);
 
@@ -394,6 +394,14 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
 		
 		// Test that data was successfully written
 		$this->assertTrue( is_int( $cryptedFile ) );
+
+		// Disable encryption proxy to prevent recursive calls
+		$proxyStatus = \OC_FileProxy::$enabled;
+		\OC_FileProxy::$enabled = false;
+
+		$this->assertTrue(Encryption\Crypt::isEncryptedMeta($filename));
+
+		\OC_FileProxy::$enabled = $proxyStatus;
 
         // Get file decrypted contents
         $decrypt = file_get_contents( 'crypt://' . $filename );
@@ -616,7 +624,7 @@ class Test_Crypt extends \PHPUnit_Framework_TestCase {
         // Test that data was successfully written
         $this->assertTrue( is_int( $cryptedFile ) );
 
-        // Get file decrypted contents
+		// Get file decrypted contents
         $decrypt = file_get_contents( 'crypt://' . $filename );
 
         $this->assertEquals( $this->dataLong, $decrypt );
