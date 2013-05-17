@@ -169,7 +169,7 @@ class Crypt {
          * @return true / false
          */
 	public static function isLegacyEncryptedContent( $data, $relPath ) {
-	
+
 		// Fetch all file metadata from DB
 		$metadata = \OC\Files\Filesystem::getFileInfo( $relPath, '' );
 		
@@ -683,15 +683,26 @@ class Crypt {
 		
 		$decrypted = $bf->decrypt( $content );
 		
-		$trimmed = rtrim( $decrypted, "\0" );
+		return $decrypted;
 		
-		return $trimmed;
-		
+	}
+
+	private static function legacyBlockDecrypt($data, $key='',$maxLength=0) {
+		$result = '';
+		while (strlen($data)) {
+			$result.=self::legacyDecrypt(substr($data, 0, 8192), $key);
+			$data = substr($data, 8192);
+		}
+		if ($maxLength > 0) {
+			return substr($result, 0, $maxLength);
+		} else {
+			return rtrim($result, "\0");
+		}
 	}
 	
 	public static function legacyKeyRecryptKeyfile( $legacyEncryptedContent, $legacyPassphrase, $publicKeys, $newPassphrase, $path ) {
 	
-		$decrypted = self::legacyDecrypt( $legacyEncryptedContent, $legacyPassphrase );
+		$decrypted = self::legacyBlockDecrypt( $legacyEncryptedContent, $legacyPassphrase );
 
 		// Encrypt plain data, generate keyfile & encrypted file
 		$cryptedData = self::symmetricEncryptFileContentKeyfile( $decrypted );

@@ -88,7 +88,7 @@ class Hooks {
 			// This serves to upgrade old versions of the encryption
 			// app (see appinfo/spec.txt)
 			if (
-				$util->encryptAll( $publicKey,  '/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password'] )
+				$util->encryptAll( '/' . $params['uid'] . '/' . 'files', $session->getLegacyKey(), $params['password'] )
 			) {
 				
 				\OC_Log::write( 

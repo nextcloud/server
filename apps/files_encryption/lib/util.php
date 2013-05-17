@@ -652,11 +652,10 @@ class Util {
 	
 	/**
 	 * @brief Encrypt all files in a directory
-	 * @param string $publicKey the public key to encrypt files with
 	 * @param string $dirPath the directory whose files will be encrypted
 	 * @note Encryption is recursive
 	 */
-	public function encryptAll($publicKey, $dirPath, $legacyPassphrase = null, $newPassphrase = null) {
+	public function encryptAll($dirPath, $legacyPassphrase = null, $newPassphrase = null) {
 
 		if ($found = $this->findEncFiles($dirPath)) {
 
