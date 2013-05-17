@@ -58,45 +58,6 @@ var OCdialogs = {
 	confirm:function(text, title, callback, modal) {
 		this.message(text, title, 'notice', OCdialogs.YES_NO_BUTTONS, callback, modal);
 	},
-	_getFilePickerTemplate: function() {
-		var defer = $.Deferred();
-		if(!this.$filePickerTemplate) {
-			var self = this;
-			$.get(OC.filePath('core', 'templates', 'filepicker.html'), function(tmpl) {
-				self.$filePickerTemplate = $(tmpl);
-				self.$listTmpl = self.$filePickerTemplate.find('.filelist li:first-child').detach();
-				defer.resolve(self.$filePickerTemplate);
-			})
-			.fail(function() {
-				defer.reject();
-			});
-		} else {
-			defer.resolve(this.$filePickerTemplate);
-		}
-		return defer.promise();
-	},
-	_getMessageTemplate: function() {
-		var defer = $.Deferred();
-		if(!this.$messageTemplate) {
-			var self = this;
-			$.get(OC.filePath('core', 'templates', 'message.html'), function(tmpl) {
-				self.$messageTemplate = $(tmpl);
-				defer.resolve(self.$messageTemplate);
-			})
-			.fail(function() {
-				defer.reject();
-			});
-		} else {
-			defer.resolve(this.$messageTemplate);
-		}
-		return defer.promise();
-	},
-	_getFileList: function(dir, mimeType) {
-		return $.getJSON(
-			OC.filePath('files', 'ajax', 'rawlist.php'),
-			{dir: dir, mimetype: mimeType}
-		);
-	},
 	/**
 	 * show a file picker to pick a file from
 	 * @param title dialog title
@@ -128,11 +89,11 @@ var OCdialogs = {
 			self.$filePicker.ready(function() {
 				self.$filelist = self.$filePicker.find('.filelist');
 				self.$dirTree = self.$filePicker.find('.dirtree');
-				self.$dirTree.on('click', 'span:not(:last-child)', self, self.handleTreeListSelect);
+				self.$dirTree.on('click', 'span:not(:last-child)', self, self._handleTreeListSelect);
 				self.$filelist.on('click', 'li', function(event) {
-					self.handlePickerClick(event, $(this));
+					self._handlePickerClick(event, $(this));
 				});
-				self.fillFilePicker('');
+				self._fillFilePicker('');
 			}).data('multiselect', multiselect).data('mimetype',mimetype_filter);
 
 			// build buttons
@@ -219,7 +180,7 @@ var OCdialogs = {
 								text: t('core', 'Cancel'),
 								click: function() { $(dialog_id).dialog('close'); }
 							};
-							functionToCall = function() { OCdialogs.prompt_ok_handler(callback, dialog_id); };
+							functionToCall = function() { OCdialogs._promptOkHandler(callback, dialog_id); };
 						break;
 						default:
 							functionToCall = function() {
@@ -246,7 +207,46 @@ var OCdialogs = {
 			alert(t('core', 'Error loading file picker template'));
 		});
 	},
-	determineValue: function(element) {
+	_getFilePickerTemplate: function() {
+		var defer = $.Deferred();
+		if(!this.$filePickerTemplate) {
+			var self = this;
+			$.get(OC.filePath('core', 'templates', 'filepicker.html'), function(tmpl) {
+				self.$filePickerTemplate = $(tmpl);
+				self.$listTmpl = self.$filePickerTemplate.find('.filelist li:first-child').detach();
+				defer.resolve(self.$filePickerTemplate);
+			})
+			.fail(function() {
+				defer.reject();
+			});
+		} else {
+			defer.resolve(this.$filePickerTemplate);
+		}
+		return defer.promise();
+	},
+	_getMessageTemplate: function() {
+		var defer = $.Deferred();
+		if(!this.$messageTemplate) {
+			var self = this;
+			$.get(OC.filePath('core', 'templates', 'message.html'), function(tmpl) {
+				self.$messageTemplate = $(tmpl);
+				defer.resolve(self.$messageTemplate);
+			})
+			.fail(function() {
+				defer.reject();
+			});
+		} else {
+			defer.resolve(this.$messageTemplate);
+		}
+		return defer.promise();
+	},
+	_getFileList: function(dir, mimeType) {
+		return $.getJSON(
+			OC.filePath('files', 'ajax', 'rawlist.php'),
+			{dir: dir, mimetype: mimeType}
+		);
+	},
+	_determineValue: function(element) {
 		if ( $(element).attr('type') === 'checkbox' ) {
 			return element.checked;
 		} else {
@@ -254,27 +254,14 @@ var OCdialogs = {
 		}
 	},
 
-	prompt_ok_handler: function(callback, dialog_id) {
+	_promptOkHandler: function(callback, dialog_id) {
 		$(dialog_id).dialog('close');
 		if (callback !== undefined) { callback($(dialog_id + ' input#oc-dialog-prompt-input').val()) };
-	},
-
-	form_ok_handler: function(callback, dialog_id) {
-		if (callback !== undefined) {
-			var valuelist = [];
-			$(dialog_id + ' input, ' + dialog_id + ' select').each(function(index, element) {
-				valuelist[index] = { name: $(element).attr('name'), value: OCdialogs.determineValue(element) };
-			});
-			$(dialog_id).dialog('close');
-			callback(valuelist);
-		} else {
-			$(dialog_id).dialog('close');
-		}
 	},
 	/**
 	 * fills the filepicker with files
 	*/
-	fillFilePicker:function(dir) {
+	_fillFilePicker:function(dir) {
 		var dirs = [];
 		var others = [];
 		var self = this;
@@ -289,7 +276,7 @@ var OCdialogs = {
 				}
 			});
 
-			self.fillSlug();
+			self._fillSlug();
 			var sorted = dirs.concat(others);
 
 			$.each(sorted, function(idx, entry) {
@@ -309,7 +296,7 @@ var OCdialogs = {
 	/**
 	 * fills the tree list with directories
 	*/
-	fillSlug: function() {
+	_fillSlug: function() {
 		this.$dirTree.empty();
 		var self = this
 		var path = this.$filePicker.data('path');
@@ -335,15 +322,15 @@ var OCdialogs = {
 	/**
 	 * handle selection made in the tree list
 	*/
-	handleTreeListSelect:function(event) {
+	_handleTreeListSelect:function(event) {
 		var self = event.data;
 		var dir = $(event.target).data('dir');
-		self.fillFilePicker(dir);
+		self._fillFilePicker(dir);
 	},
 	/**
 	 * handle clicks made in the filepicker
 	*/
-	handlePickerClick:function(event, $element) {
+	_handlePickerClick:function(event, $element) {
 		if ($element.data('type') === 'file') {
 			if (this.$filePicker.data('multiselect') !== true || !event.ctrlKey) {
 				this.$filelist.find('.filepicker_element_selected').removeClass('filepicker_element_selected');
@@ -351,7 +338,7 @@ var OCdialogs = {
 			$element.toggleClass('filepicker_element_selected');
 			return;
 		} else if ( $element.data('type') === 'dir' ) {
-			this.fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'))
+			this._fillFilePicker(this.$filePicker.data('path') + '/' + $element.data('entryname'))
 		}
 	}
 };
