@@ -1328,7 +1328,7 @@ class Util {
 		foreach ($dirContent as $item) {
 			$filePath = substr($item['path'], 25);
 			if ($item['type'] == 'dir') {
-				$this->addRecoveryKey($filePath.'/');
+				$this->addRecoveryKeys($filePath.'/');
 			} else {
 				$session = new Session(new \OC_FilesystemView('/'));
 				$sharingEnabled = \OCP\Share::isEnabled();
@@ -1409,7 +1409,7 @@ class Util {
 		foreach ($dirContent as $item) {
 			$filePath = substr($item['path'], 25);
 			if ($item['type'] == 'dir') {
-				$this->addRecoveryKey($filePath . '/', $privateKey);
+				$this->recoverAllFiles($filePath . '/', $privateKey);
 			} else {
 				$file = substr($filePath, 0, -4);
 				$this->recoverFile($file, $privateKey);
