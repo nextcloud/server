@@ -382,7 +382,6 @@ a.bookmarklet { background-color:#ddd; border:1px solid #ccc; padding:5px;paddin
 .ui-datepicker-prev,.ui-datepicker-next{ border:1px solid #ddd; background:#fff; }
 
 /* ---- DIALOGS ---- */
-#oc-dialog-filepicker-content .dirup {width:4%; font-weight: bold;}
 #oc-dialog-filepicker-content .dirtree {width:92%; overflow:hidden; }
 #oc-dialog-filepicker-content .dirtree span:not(:last-child) { cursor: pointer; }
 #oc-dialog-filepicker-content .dirtree span:last-child { font-weight: bold; }

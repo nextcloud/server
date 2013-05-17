@@ -196,10 +196,8 @@ var OCdialogs = {
 
 			self.$filePicker.ready(function() {
 				self.$filelist = self.$filePicker.find('.filelist');
-				self.$dirUp = self.$filePicker.find('.dirup');
 				self.$dirTree = self.$filePicker.find('.dirtree');
 				self.$dirTree.on('click', 'span:not(:last-child)', self, self.handleTreeListSelect);
-				self.$dirUp.click(self, self.filepickerDirUp);
 				self.$filelist.on('click', 'li', function(event) {
 					self.handlePickerClick(event, $(this));
 				});
@@ -416,18 +414,6 @@ var OCdialogs = {
 		var self = event.data;
 		var dir = $(event.target).data('dir');
 		self.fillFilePicker(dir);
-	},
-	/**
-	 * go one directory up
-	*/
-	filepickerDirUp:function(event) {
-		var self = event.data;
-		var old_path = self.$filePicker.data('path');
-		if (old_path !== '') {
-			var splitted_path = old_path.split('/');
-			splitted_path.pop();
-			self.fillFilePicker(splitted_path.join('/'));
-		}
 	},
 	/**
 	 * handle clicks made in the filepicker
