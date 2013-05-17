@@ -248,7 +248,13 @@ class Google extends \OC\Files\Storage\Common {
 			if ($this->filetype($path) === 'dir') {
 				$stat['size'] = 0;
 			} else {
-				$stat['size'] = $file->getFileSize();
+				// Check if this is a Google Doc
+				if ($this->getMimeType($path) !== $file->getMimeType()) {
+					// Return unknown file size
+					$stat['size'] = \OC\Files\Filesystem::FREE_SPACE_UNKNOWN;
+				} else {
+					$stat['size'] = $file->getFileSize();
+				}
 			}
 			$stat['atime'] = strtotime($file->getLastViewedByMeDate());
 			$stat['mtime'] = strtotime($file->getModifiedDate());
