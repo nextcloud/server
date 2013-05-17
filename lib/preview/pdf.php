@@ -14,11 +14,10 @@ class OC_Preview_PDF extends OC_Preview_Provider{
 	public function getThumbnail($path, $maxX, $maxY, $scalingup,$fileview) {	
 		//create imagick object from pdf
 		$pdf = new imagick($fileview->getLocalFile($path) . '[0]');
-		$pdf->setImageFormat('png');
-
+		$pdf->setImageFormat('jpg');
+		
 		//new image object
-		$image = new \OC_Image();
-		$image->loadFromFile($fileview->getLocalFile($path));
+		$image = new \OC_Image($pdf);
 		//check if image object is valid
 		if (!$image->valid()) return false;
 
